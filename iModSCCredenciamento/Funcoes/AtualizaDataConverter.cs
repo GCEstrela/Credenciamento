@@ -8,8 +8,9 @@ namespace iModSCCredenciamento.Funcoes
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         { 
+            //Isso foi um teste
             try
-            {
+            { 
                 string _data0 = (string)values[0];
                 string _data1 = (string)values[1];
 
