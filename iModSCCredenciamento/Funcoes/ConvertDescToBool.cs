@@ -12,7 +12,7 @@ namespace iModSCCredenciamento.Funcoes
     { 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            //comentario
+            //comentarios
             if (value != null)
             {
                 string desc = (string)value;
