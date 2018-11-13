@@ -7,10 +7,10 @@ namespace iModSCCredenciamento.Funcoes
     class AtualizaDataConverter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
-        { 
-            //Isso foi um teste
+        {
+            //Isso foi um teste (Github)
             try
-            { 
+            {
                 string _data0 = (string)values[0];
                 string _data1 = (string)values[1];
 
