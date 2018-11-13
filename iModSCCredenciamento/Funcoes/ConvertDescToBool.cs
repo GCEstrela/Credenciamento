@@ -10,11 +10,13 @@ namespace iModSCCredenciamento.Funcoes
 {
     public class ConvertDescToBool : IValueConverter
     {
+   
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
 
             if (value != null)
             {
+               //Esse trecho de codigo converte uma descrição para boleano
                 string desc = (string)value;
 
                 if (desc == "ATIVA")
