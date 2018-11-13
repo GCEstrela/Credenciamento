@@ -1,19 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Data;
 
 namespace iModSCCredenciamento.Funcoes
 {
-    class AtualizaDataConverter : IMultiValueConverter 
+    class AtualizaDataConverter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
-        {
+        { 
+            //Isso foi um teste
             try
-            {
+            { 
                 string _data0 = (string)values[0];
                 string _data1 = (string)values[1];
 
