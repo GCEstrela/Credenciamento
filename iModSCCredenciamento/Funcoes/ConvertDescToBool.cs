@@ -17,7 +17,8 @@ namespace iModSCCredenciamento.Funcoes
  
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-
+            //comentarios
+            //Mais uma modificação
             if (value != null)
             {
                //Esse trecho de codigo converte uma descrição para boleano
