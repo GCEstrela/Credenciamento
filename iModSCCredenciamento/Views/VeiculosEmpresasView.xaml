@@ -1,0 +1,121 @@
+﻿<UserControl x:Class="iModSCCredenciamento.Views.VeiculosEmpresasView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:iModSCCredenciamento.Views"
+             xmlns:vm="clr-namespace:iModSCCredenciamento.ViewModels"
+             xmlns:data="clr-namespace:Singulink.Windows.Data"
+             xmlns:i="clr-namespace:iModSCCredenciamento.Funcoes"
+             mc:Ignorable="d"  Loaded="UserControl_Loaded" 
+            >
+    <Grid >
+        <StackPanel >
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition x:Name="Linha0_sp1" />
+                    <RowDefinition Height="180"  />
+                </Grid.RowDefinitions>
+
+                <StackPanel x:Name="Linha0_sp" Grid.Row="0"  >
+                    <!--IsEnabled="{Binding Path=HabilitaEdicao, Mode=TwoWay}"-->
+                    <Grid>
+                        <StackPanel  Margin="0,0,0,0">
+                            <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}"    x:Name="Informacoes_gb" Header="Informações do Vínculo"  Margin="10,10,8,10" VerticalAlignment="Stretch"  Height="145" >
+                                <StackPanel x:Name="Informacoes_sp" Orientation="Horizontal" Margin="0,10,10,0">
+                                    <StackPanel>
+
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0" >
+                                            <Label Content="Razão Social da Empresa:" Height="28" Width="150" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                                            <ComboBox  x:Name="EmpresaRazaoSocial_cb"  Width="300" VerticalContentAlignment="Center" HorizontalContentAlignment="Left"
+                                              ItemsSource="{Binding Empresas}" DisplayMemberPath="Nome"  SelectedValue="{Binding SelectedItem.EmpresaID, ElementName=ListaVeiculosEmpresas_lv, UpdateSourceTrigger=PropertyChanged}" 
+                                              SelectedValuePath="EmpresaID"  SelectionChanged="{data:MethodBinding  CarregaColecaoContratos, {Binding SelectedItem.EmpresaID, ElementName=EmpresaRazaoSocial_cb}}"  />
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0" >
+
+                                            <Label Content="Contrato:" Height="28" Width="150" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                                            <ComboBox  x:Name="Contrato_cb"  Width="300" VerticalContentAlignment="Center" HorizontalContentAlignment="Left"
+                                              ItemsSource="{Binding Contratos}" DisplayMemberPath="Descricao"  SelectedValue="{Binding SelectedItem.EmpresaContratoID, ElementName=ListaVeiculosEmpresas_lv, UpdateSourceTrigger=PropertyChanged}" 
+                                              SelectedValuePath="EmpresaContratoID"  />
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,0,0,5">
+                                            <CheckBox x:Name="Ativo_cb" FlowDirection="RightToLeft" Margin="0,15,0,0" VerticalContentAlignment="Center" Height="28" Width="170"  HorizontalContentAlignment="Left"  Foreground="#FFD0D0D0" 
+                                               IsChecked="{Binding SelectedItem.Ativo, ElementName=ListaVeiculosEmpresas_lv, UpdateSourceTrigger=PropertyChanged}">
+                                                <TextBlock Text=":Vínculo Ativo" Margin="0,-15,0,0"/>
+                                            </CheckBox>
+                                        </StackPanel>
+                                    </StackPanel>
+
+                                    <StackPanel>
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0" >
+                                            <Label Content="Patrimônio:" Height="28" Width="100" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                                            <TextBox  x:Name="Matricula_tb" MaxLength="15" CharacterCasing="Upper" Text="{Binding SelectedItem.Matricula, ElementName=ListaVeiculosEmpresas_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="100"/>
+                                        </StackPanel>
+
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0" Visibility="Hidden">
+                                            <Label Content="Cargo:" Height="28" Width="100" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                                            <TextBox  x:Name="Cargo_tb" MaxLength="30" CharacterCasing="Upper" Text="{Binding SelectedItem.Cargo, ElementName=ListaVeiculosEmpresas_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="150"/>
+                                        </StackPanel>
+
+                                    </StackPanel>
+
+                                </StackPanel>
+                            </GroupBox>
+
+                        </StackPanel>
+                    </Grid>
+                    <!--IsEnabled="{Binding Path=HabilitaEdicao, Mode=TwoWay}"-->
+
+                </StackPanel>
+                <Grid Grid.Row="1" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1000*" />
+                        <ColumnDefinition Width="168"  />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Margin="0,0,0,0" Grid.Column="0">
+                        <ListView x:Name="ListaVeiculosEmpresas_lv" Margin="0,0,0,0" Height="180"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                                      ItemsSource="{Binding VeiculosEmpresas, Mode=TwoWay}" SelectedIndex="{Binding Path=SelectedIndex, Mode=TwoWay}" 
+                                      SelectedItem="{Binding Path = VeiculoEmpresaSelecionado, Mode=TwoWay}" SelectionChanged="ListaVeiculosEmpresas_lv_SelectionChanged" >
+                            <!--ScrollViewer.CanContentScroll="True" MaxHeight="150"  Visibility="Visible" SelectionMode="Single"  Background="#FF4E4E4E" Foreground="White" HorizontalAlignment="Left" SelectionChanged="ListaEmpresas_lv_SelectionChanged"-->
+                            <ListView.View>
+                                <GridView FrameworkElement.FlowDirection="RightToLeft">
+                                    <GridViewColumn Width="50" Header="Ativo"  >
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <CheckBox  IsChecked="{Binding Ativo}" IsHitTestVisible="False" />
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Width="400" Header="Empresa"  DisplayMemberBinding="{Binding EmpresaNome}"/>
+                                    <GridViewColumn Width="100" Header="Matricula"  DisplayMemberBinding="{Binding Matricula}"/>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+
+                    </StackPanel>
+                    <Canvas x:Name="Botoes_ca"  Grid.Column="1"  HorizontalAlignment="Right" Width="158"  >
+                        <StackPanel x:Name="Botoes_Principais_sp" >
+                            <Button x:Name="Pesquisar_bt" Content="Pesquisar"  Height="40" Width="148"  Click="Pesquisar_bt_Click" Margin="0,0,0,7" />
+                            <Button x:Name="Editar_bt" Content="Editar"  Height="40" Width="148"  Click="Editar_bt_Click" Margin="0,0,0,7"  />
+                            <Button x:Name="Adicionar_bt" Content="Adicionar"  Height="40" Width="148" Click="Adicionar_bt_Click" Margin="0,0,0,7"  />
+                            <Button x:Name="Excluir_bt" Content="Excluir"  Height="40" Width="148"  Click="Excluir_bt_Click" Margin="0,0,0,7"  />
+                        </StackPanel>
+                        <StackPanel x:Name="Botoes_Pesquisar_sp" Visibility="Hidden" >
+                            <Button x:Name="ExecutarPesquisa_bt" Content="Executar Pequisa"  Height="40" Width="148"  Click="ExecutarPesquisa_bt_Click" Margin="0,0,0,7" Background="Green" />
+                            <Button x:Name="CancelarPesquisa_bt" Content="Cancelar Pesquisa"  Height="40" Width="148"  Click="CancelarPesquisa_bt_Click" Margin="0,0,0,7" Background="Red"  />
+                        </StackPanel>
+                        <StackPanel x:Name="Botoes_Editar_sp" Visibility="Hidden"  >
+                            <Button x:Name="CancelarEdicao_bt" Content="Cancelar Edição"  Height="40" Width="148"  Click="CancelarEdicao_bt_Click" Margin="0,0,0,7" Background="Red"   />
+                            <Button x:Name="SalvarEdicao_bt" Content="Salvar"  Height="40" Width="148"  Click="SalvarEdicao_bt_Click" Margin="0,0,0,7" Background="Green"   />
+                        </StackPanel>
+                        <StackPanel x:Name="Botoes_Adicionar_sp" Visibility="Hidden"  >
+                            <Button x:Name="CancelarAdicao_bt" Content="Cancelar Adição"  Height="40" Width="148" Click="CancelarAdicao_bt_Click" Margin="0,0,0,7" Background="Red"   />
+                            <Button x:Name="SalvarAdicao_bt" Content="Salvar"  Height="40" Width="148"  Click="SalvarAdicao_bt_Click" Margin="0,0,0,7"  Background="Green"   />
+                        </StackPanel>
+
+                    </Canvas>
+                </Grid>
+            </Grid>
+        </StackPanel>
+    </Grid>
+</UserControl>

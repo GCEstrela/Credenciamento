@@ -1,0 +1,691 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{974F5875-4CFB-4926-8273-D1BF96AC8242}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>iModSCCredenciamento</RootNamespace>
+    <AssemblyName>iModSCCredenciamento</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.ReportSource, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.Shared, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CSharpControls.Wpf">
+      <HintPath>.\CSharpControls.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="Genetec.Sdk, Version=5.7.0.0, Culture=neutral, PublicKeyToken=a446968a32b751de, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\Genetec Security Center 5.7 SDK\Genetec.Sdk.dll</HintPath>
+    </Reference>
+    <Reference Include="Genetec.Sdk.Controls, Version=5.7.0.0, Culture=neutral, PublicKeyToken=a446968a32b751de, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\Genetec Security Center 5.7 SDK\Genetec.Sdk.Controls.dll</HintPath>
+    </Reference>
+    <Reference Include="Genetec.Sdk.Maps">
+      <HintPath>C:\Program Files (x86)\Genetec Security Center 5.7 SDK\Genetec.Sdk.Maps.dll</HintPath>
+    </Reference>
+    <Reference Include="Genetec.Sdk.Workspace, Version=5.7.0.0, Culture=neutral, PublicKeyToken=a446968a32b751de, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\Genetec Security Center 5.7 SDK\Genetec.Sdk.Workspace.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Expression.Encoder, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=x86">
+      <HintPath>..\packages\Microsoft.Expression.Encoder.4.0.4276.3\lib\net45\Microsoft.Expression.Encoder.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Expression.Interactions, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.WinForms, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="ReachFramework" />
+    <Reference Include="sapbusinessobjects.wpf.viewer, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="SAPBusinessObjects.WPF.ViewerShared, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Printing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity">
+      <HintPath>C:\Program Files (x86)\Microsoft SDKs\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UIAutomationProvider" />
+    <Reference Include="WebCam_Capture">
+      <HintPath>..\..\..\..\..\..\..\Temp\iModSCCredenciamento 1.0.0.2 - OK\iModSCCredenciamento\WebCam_Capture.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="WindowsFormsIntegration" />
+    <Reference Include="WpfAnimatedGif, Version=1.4.17.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\WpfAnimatedGif.1.4.17\lib\net\WpfAnimatedGif.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Crachas\CrachaModelo - Motorista.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CrachaModelo - Motorista.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Crachas\CrachaModelo.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CrachaModelo.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Crachas\CrachaTemporarioModelo1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CrachaTemporarioModelo.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Funcoes\AtualizaDataConverter.cs" />
+    <Compile Include="Funcoes\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Funcoes\CheckTeste.cs" />
+    <Compile Include="Funcoes\ChildControls.cs" />
+    <Compile Include="Funcoes\Conversores.cs" />
+    <Compile Include="Funcoes\ConvertBoolToImage.cs" />
+    <Compile Include="Funcoes\ConvertDescToBool.cs" />
+    <Compile Include="Funcoes\DispatchService.cs" />
+    <Compile Include="Funcoes\FormateTel.cs" />
+    <Compile Include="Funcoes\Global.cs" />
+    <Compile Include="Funcoes\Helper.cs" />
+    <Compile Include="Funcoes\MethodBindingExtension.cs" />
+    <Compile Include="Funcoes\SCManager.cs" />
+    <Compile Include="Funcoes\Check1Converter.cs" />
+    <Compile Include="Funcoes\StringToImageConverter.cs" />
+    <Compile Include="Funcoes\StringWriterWithEncoding.cs" />
+    <Compile Include="Funcoes\Util.cs" />
+    <Compile Include="Funcoes\WebCam.cs" />
+    <Compile Include="Main.cs" />
+    <Compile Include="Models\ClasseAreasAcessos.cs" />
+    <Compile Include="Models\ClasseClaboradoresPrivilegios.cs" />
+    <Compile Include="Models\ClasseColaboradores.cs" />
+    <Compile Include="Models\ClasseColaboradoresAnexos.cs" />
+    <Compile Include="Models\ClasseColaboradoresCredenciais.cs" />
+    <Compile Include="Models\ClasseColaboradoresCursos.cs" />
+    <Compile Include="Models\ClasseColaboradoresEmpresas.cs" />
+    <Compile Include="Models\ClasseCredenciaisMotivos.cs" />
+    <Compile Include="Models\ClasseCredenciaisStatus.cs" />
+    <Compile Include="Models\ClasseCredencial.cs" />
+    <Compile Include="Models\ClasseCursos.cs" />
+    <Compile Include="Models\ClasseEmpresas.cs" />
+    <Compile Include="Models\ClasseEmpresasAnexos.cs" />
+    <Compile Include="Models\ClasseEmpresasAreasAcessos.cs" />
+    <Compile Include="Models\ClasseEmpresasContratos.cs" />
+    <Compile Include="Models\ClasseEmpresasEquipamentos.cs" />
+    <Compile Include="Models\ClasseEmpresasLayoutsCrachas.cs" />
+    <Compile Include="Models\ClasseEmpresasSeguros.cs" />
+    <Compile Include="Models\ClasseEmpresasSignatarios.cs" />
+    <Compile Include="Models\ClasseEmpresasTiposAtividades.cs" />
+    <Compile Include="Models\ClasseEmpresasVeiculos.cs" />
+    <Compile Include="Models\ClasseEstados.cs" />
+    <Compile Include="Models\ClasseLayoutsCrachas.cs" />
+    <Compile Include="Models\ClasseMunicipios.cs" />
+    <Compile Include="Models\ClassePendencias.cs" />
+    <Compile Include="Models\ClasseRelatorios.cs" />
+    <Compile Include="Models\ClasseRelatoriosGerenciais.cs" />
+    <Compile Include="Models\ClasseStatus.cs" />
+    <Compile Include="Models\ClasseTecnologiasCredenciais.cs" />
+    <Compile Include="Models\ClasseTiposAcessos.cs" />
+    <Compile Include="Models\ClasseTiposAtividades.cs" />
+    <Compile Include="Models\ClasseTiposCobrancas.cs" />
+    <Compile Include="Models\ClasseTiposCredenciais.cs" />
+    <Compile Include="Models\ClasseTiposEmpresas.cs" />
+    <Compile Include="Models\ClasseTiposEquipamento.cs" />
+    <Compile Include="Models\ClasseTiposPendencias.cs" />
+    <Compile Include="Models\ClasseTiposVeiculo.cs" />
+    <Compile Include="Models\ClasseVeiculos.cs" />
+    <Compile Include="Models\ClasseVeiculosCredenciais.cs" />
+    <Compile Include="Models\ClasseVeiculosEmpresas.cs" />
+    <Compile Include="Models\ClasseVeiculosSeguros.cs" />
+    <Compile Include="Models\ClasseVinculos.cs" />
+    <Compile Include="Models\ClasseFormatosCredenciais.cs" />
+    <Compile Include="Models\Colaborador.cs" />
+    <Compile Include="PagePrincipal\MenuPrincipal.xaml.cs">
+      <DependentUpon>MenuPrincipal.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PagePrincipal\PagePrincipal.cs" />
+    <Compile Include="PagePrincipal\PagePrincipalView.xaml.cs">
+      <DependentUpon>PagePrincipalView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Regras\CnpjValida.cs" />
+    <Compile Include="Regras\CpfValida.cs" />
+    <Compile Include="Regras\RazaoSocial.cs" />
+    <Compile Include="ViewModels\ColaboradoresAnexosViewModel.cs" />
+    <Compile Include="ViewModels\ColaboradoresCredenciaisViewModel.cs" />
+    <Compile Include="ViewModels\ColaboradoresCursosViewModel.cs" />
+    <Compile Include="ViewModels\ColaboradoresEmpresasViewModel.cs" />
+    <Compile Include="ViewModels\ColaboradorViewModel.cs" />
+    <Compile Include="ViewModels\ConfiguracoesViewModel.cs" />
+    <Compile Include="ViewModels\EmpresasAnexosViewModel.cs" />
+    <Compile Include="ViewModels\EmpresasContratosViewModel.cs" />
+    <Compile Include="ViewModels\EmpresasEquipamentosViewModel.cs" />
+    <Compile Include="ViewModels\EmpresasSegurosViewModel.cs" />
+    <Compile Include="ViewModels\EmpresasSignatariosViewModel.cs" />
+    <Compile Include="ViewModels\EmpresasVeiculosViewModel.cs" />
+    <Compile Include="ViewModels\EmpresaViewModel.cs" />
+    <Compile Include="ViewModels\PopupPendenciasViewModel.cs" />
+    <Compile Include="ViewModels\RelatoriosViewModel.cs" />
+    <Compile Include="ViewModels\TermosViewModel.cs" />
+    <Compile Include="ViewModels\VeiculosCredenciaisViewModel.cs" />
+    <Compile Include="ViewModels\VeiculosEmpresasViewModel.cs" />
+    <Compile Include="ViewModels\VeiculosSegurosViewModel.cs" />
+    <Compile Include="ViewModels\VeiculoViewModel.cs" />
+    <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Compile Include="Views\ColaboradoresCredenciaisView.xaml.cs">
+      <DependentUpon>ColaboradoresCredenciaisView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ColaboradoresAnexosView.xaml.cs">
+      <DependentUpon>ColaboradoresAnexosView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ColaboradoresCursosView.xaml.cs">
+      <DependentUpon>ColaboradoresCursosView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ColaboradoresEmpresasView.xaml.cs">
+      <DependentUpon>ColaboradoresEmpresasView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ColaboradorView.xaml.cs">
+      <DependentUpon>ColaboradorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ConfiguracoesView.xaml.cs">
+      <DependentUpon>ConfiguracoesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EmpresasAnexosView.xaml.cs">
+      <DependentUpon>EmpresasAnexosView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EmpresasContratosView.xaml.cs">
+      <DependentUpon>EmpresasContratosView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EmpresasEquipamentosView.xaml.cs">
+      <DependentUpon>EmpresasEquipamentosView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EmpresasSignatariosView.xaml.cs">
+      <DependentUpon>EmpresasSignatariosView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EmpresasSegurosView.xaml.cs">
+      <DependentUpon>EmpresasSegurosView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EmpresasVeiculosView.xaml.cs">
+      <DependentUpon>EmpresasVeiculosView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EmpresaView.xaml.cs">
+      <DependentUpon>EmpresaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RelatoriosView.xaml.cs">
+      <DependentUpon>RelatoriosView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TermosView.xaml.cs">
+      <DependentUpon>TermosView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\VeiculosCredenciaisView.xaml.cs">
+      <DependentUpon>VeiculosCredenciaisView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\VeiculosEmpresasView.xaml.cs">
+      <DependentUpon>VeiculosEmpresasView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\VeiculosSegurosView.xaml.cs">
+      <DependentUpon>VeiculosSegurosView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\VeiculoView.xaml.cs">
+      <DependentUpon>VeiculoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\PopupCredencial.xaml.cs">
+      <DependentUpon>PopupCredencial.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\PopUpFiltrosAutorizacoes.xaml.cs">
+      <DependentUpon>PopUpFiltrosAutorizacoes.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\PopUpFiltrosAutorizacoesInvalidas.xaml.cs">
+      <DependentUpon>PopUpFiltrosAutorizacoesInvalidas.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\PopUpFiltrosCredenciais.xaml.cs">
+      <DependentUpon>PopUpFiltrosCredenciais.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\PopUpFiltrosCredenciaisInvalidas.xaml.cs">
+      <DependentUpon>PopUpFiltrosCredenciaisInvalidas.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\PopUpFiltrosCredenciaisPorArea.xaml.cs">
+      <DependentUpon>PopUpFiltrosCredenciaisPorArea.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\PopUpFiltrosCredenciaisPorEmpresa.xaml.cs">
+      <DependentUpon>PopUpFiltrosCredenciaisPorEmpresa.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\PopUpFiltrosCredenciaisViasAdicionais.xaml.cs">
+      <DependentUpon>PopUpFiltrosCredenciaisViasAdicionais.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\PopUpFiltrosImpressoes.xaml.cs">
+      <DependentUpon>PopUpFiltrosImpressoes.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\PopupFiltrosTermos.xaml.cs">
+      <DependentUpon>PopupFiltrosTermos.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\PopupPdfViewer.xaml.cs">
+      <DependentUpon>PopupPdfViewer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\PopupPendencias.xaml.cs">
+      <DependentUpon>PopupPendencias.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\PopupBox.xaml.cs">
+      <DependentUpon>PopupBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\PopupColaboradoresRelatorios.xaml.cs">
+      <DependentUpon>PopupColaboradoresRelatorios.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\PopupContratosRelatorios.xaml.cs">
+      <DependentUpon>PopupContratosRelatorios.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\PopupEmpresasRelatorios.xaml.cs">
+      <DependentUpon>PopupEmpresasRelatorios.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\PopupEquipamentosRelatorios.xaml.cs">
+      <DependentUpon>PopupEquipamentosRelatorios.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\PopupPesquisaColaboradoresCredenciais.xaml.cs">
+      <DependentUpon>PopupPesquisaColaboradoresCredenciais.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\PopupPesquisaEmpresasAnexos.xaml.cs">
+      <DependentUpon>PopupPesquisaEmpresasAnexos.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\PopupPesquisaColaborador.xaml.cs">
+      <DependentUpon>PopupPesquisaColaborador.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\PopupPesquisaColaboradorAnexo.xaml.cs">
+      <DependentUpon>PopupPesquisaColaboradorAnexo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\PopupPesquisaColaboradorCurso.xaml.cs">
+      <DependentUpon>PopupPesquisaColaboradorCurso.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\PopupPesquisaColaboradoresEmpresas.xaml.cs">
+      <DependentUpon>PopupPesquisaColaboradoresEmpresas.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\PopupPesquisaContrato.xaml.cs">
+      <DependentUpon>PopupPesquisaContrato.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\PopUpPesquisaEmpresa.xaml.cs">
+      <DependentUpon>PopUpPesquisaEmpresa.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\PopupMensagem .xaml.cs">
+      <DependentUpon>PopupMensagem .xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\PopupPesquisaEquipamentos.xaml.cs">
+      <DependentUpon>PopupPesquisaEquipamentos.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\PopupPesquisaSeguro.xaml.cs">
+      <DependentUpon>PopupPesquisaSeguro.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\PopupPesquisaEmpresasVeiculos.xaml.cs">
+      <DependentUpon>PopupPesquisaEmpresasVeiculos.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\PopupPesquisaSignatarios.xaml.cs">
+      <DependentUpon>PopupPesquisaSignatarios.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\PopupPesquisaVeiculos.xaml.cs">
+      <DependentUpon>PopupPesquisaVeiculos.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\PopupPesquisaVeiculosCredenciais.xaml.cs">
+      <DependentUpon>PopupPesquisaVeiculosCredenciais.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\PopupRelatorio.xaml.cs">
+      <DependentUpon>PopupRelatorio.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\PopupVeiculosRelatorios.xaml.cs">
+      <DependentUpon>PopupVeiculosRelatorios.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\PopupWebCam.xaml.cs">
+      <DependentUpon>PopupWebCam.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Fechar2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="PagePrincipal\MenuPrincipal.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PagePrincipal\PagePrincipalView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ColaboradoresCredenciaisView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ColaboradoresAnexosView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ColaboradoresCursosView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ColaboradoresEmpresasView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ColaboradorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ConfiguracoesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\EmpresasAnexosView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\EmpresasContratosView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\EmpresasEquipamentosView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\EmpresasSignatariosView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\EmpresasSegurosView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\EmpresasVeiculosView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\EmpresaView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RelatoriosView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\TermosView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\VeiculosCredenciaisView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\VeiculosEmpresasView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\VeiculosSegurosView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\VeiculoView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\PopupCredencial.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\PopUpFiltrosAutorizacoes.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\PopUpFiltrosAutorizacoesInvalidas.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\PopUpFiltrosCredenciais.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\PopUpFiltrosCredenciaisInvalidas.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\PopUpFiltrosCredenciaisPorArea.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\PopUpFiltrosCredenciaisPorEmpresa.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\PopUpFiltrosCredenciaisViasAdicionais.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\PopUpFiltrosImpressoes.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\PopupFiltrosTermos.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\PopupPdfViewer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\PopupPendencias.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\PopupBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\PopupColaboradoresRelatorios.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\PopupContratosRelatorios.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\PopupEmpresasRelatorios.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\PopupEquipamentosRelatorios.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\PopupPesquisaColaboradoresCredenciais.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\PopupPesquisaEmpresasAnexos.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\PopupPesquisaColaborador.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\PopupPesquisaColaboradorAnexo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\PopupPesquisaColaboradorCurso.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\PopupPesquisaColaboradoresEmpresas.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\PopupPesquisaContrato.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\PopUpPesquisaEmpresa.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\PopupMensagem .xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\PopupPesquisaEquipamentos.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\PopupPesquisaSeguro.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\PopupPesquisaEmpresasVeiculos.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\PopupPesquisaSignatarios.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\PopupPesquisaVeiculos.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\PopupPesquisaVeiculosCredenciais.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\PopupRelatorio.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\PopupVeiculosRelatorios.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\PopupWebCam.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Colaboradores.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Companhia.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Cracha.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Cracha.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Engrenagem.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Olho.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Pasta.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Relatorio.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Certificates\iModSCCredenciamento.PagePrincipal.PagePrincipal - Cópia .cert">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Certificates\iModSCCredenciamento.PagePrincipal.PagePrincipal.cert">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+    <None Include="RegisterModule.bat" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\CardPrinterAmarelo.png" />
+    <Resource Include="Resources\Rotate.png" />
+    <Resource Include="Resources\CardPrinter.png" />
+    <Resource Include="Resources\Termo.png" />
+    <Resource Include="Resources\CardPrinterAzul.png" />
+    <Resource Include="Resources\CardPrinterVermelho.png" />
+    <Resource Include="Resources\Trator.png" />
+    <Resource Include="Resources\UnderConstruction.png" />
+    <Resource Include="Resources\Veiculo.png" />
+    <Resource Include="Resources\Contrato.jpg" />
+    <Resource Include="Resources\Waitng.gif" />
+    <Resource Include="Resources\Carregando.png" />
+    <Resource Include="Resources\Exclamacao.ico" />
+    <Resource Include="Resources\Informacao.ico" />
+    <Resource Include="Resources\Interrogacao.ico" />
+    <Resource Include="Resources\Proibido.ico" />
+    <Resource Include="Resources\Pasta2.ico" />
+    <Resource Include="Resources\WebCam.ico" />
+    <Content Include="CSharpControls.Wpf.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="iModSCCredenciamento.privileges.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="iModSCCredenciamento_Config.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
+    <Resource Include="Resources\Interrogacao.png" />
+    <Resource Include="Resources\Ok.ico" />
+    <Resource Include="Resources\Pendencia.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Crachas\CrachaModelo - Motorista.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CrachaModelo - Motorista.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Crachas\CrachaModelo.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CrachaModelo.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Crachas\CrachaTemporarioModelo.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CrachaTemporarioModelo1.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
