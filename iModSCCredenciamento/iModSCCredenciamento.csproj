@@ -642,7 +642,6 @@
     </Resource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="Certificates\iModSCCredenciamento.PagePrincipal.PagePrincipal - Cópia .cert">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
