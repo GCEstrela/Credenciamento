@@ -640,19 +640,6 @@
     </Resource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
-    <None Include="app.Credenciamento.config">
-      <DependentUpon>app.config</DependentUpon>
-    </None>
-    <None Include="app.Debug.config">
-      <DependentUpon>app.config</DependentUpon>
-    </None>
-    <None Include="app.Debug2.config">
-      <DependentUpon>app.config</DependentUpon>
-    </None>
-    <None Include="app.Release.config">
-      <DependentUpon>app.config</DependentUpon>
-    </None>
     <None Include="Certificates\iModSCCredenciamento.PagePrincipal.PagePrincipal - Cópia .cert">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
