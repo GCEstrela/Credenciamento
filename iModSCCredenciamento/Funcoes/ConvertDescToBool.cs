@@ -10,8 +10,10 @@ namespace iModSCCredenciamento.Funcoes
 {
     public class ConvertDescToBool : IValueConverter
  
+    { 
  
-    {   
+    
+   
  
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
