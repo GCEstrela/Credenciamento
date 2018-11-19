@@ -761,7 +761,10 @@ namespace iModSCCredenciamento.Funcoes
         #endregion
 
         #region Funções XML
+        public static void Maximo()
+        {
 
+        }
         /// <summary>
         ///     Serializa a classe passada para uma string no form
         /// </summary>
