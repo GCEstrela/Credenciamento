@@ -3,22 +3,10 @@ using iModSCCredenciamento.Models;
 using iModSCCredenciamento.ViewModels;
 using iModSCCredenciamento.Windows;
 using System;
-using System.Collections.Generic;
-using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Forms;
-using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using UserControl = System.Windows.Controls.UserControl;
 namespace iModSCCredenciamento.Views
 {
@@ -66,11 +54,11 @@ namespace iModSCCredenciamento.Views
 
             }
         }
-        private void BuscarArquivoAnexo_bt_Click(object sender, RoutedEventArgs e)
-        {
-            ((VeiculoViewModel)this.DataContext).OnBuscarArquivoCommand();
-            Arquivo_tb.Text = ((VeiculoViewModel)this.DataContext).Veiculos[0].NomeArquivoAnexo;
-        }
+        //private void BuscarArquivoAnexo_bt_Click(object sender, RoutedEventArgs e)
+        //{
+        //    ((VeiculoViewModel)this.DataContext).OnBuscarArquivoCommand();
+        //    Arquivo_tb.Text = ((VeiculoViewModel)this.DataContext).Veiculos[0].NomeArquivoAnexo;
+        //}
 
         private void AbrirArquivoAnexo_bt_Click(object sender, RoutedEventArgs e)
         {
@@ -281,7 +269,7 @@ namespace iModSCCredenciamento.Views
                 TabGeral_tc.IsEnabled = true;
                 Editar_bt.IsEnabled = true;
                 Excluir_bt.IsEnabled = true;
-                AbrirArquivoAnexo_bt.IsHitTestVisible = true;
+                //AbrirArquivoAnexo_bt.IsHitTestVisible = true;
             }
         }
 
