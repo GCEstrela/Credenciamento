@@ -678,6 +678,14 @@
     <Content Include="CSharpControls.Wpf.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Dlls\Genetec.Sdk.Controls.dll" />
+    <Content Include="Dlls\Genetec.Sdk.dll" />
+    <Content Include="Dlls\Genetec.Sdk.Maps.dll" />
+    <Content Include="Dlls\Genetec.Sdk.Workspace.dll" />
+    <Content Include="Dlls\Genetec.Themes.dll" />
+    <Content Include="Dlls\Microsoft.Expression.Encoder.dll" />
+    <Content Include="Dlls\WebCam_Capture.dll" />
+    <Content Include="Dlls\WpfAnimatedGif.dll" />
     <Content Include="iModSCCredenciamento.privileges.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
