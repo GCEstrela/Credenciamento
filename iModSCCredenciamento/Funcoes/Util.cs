@@ -897,7 +897,7 @@ namespace iModSCCredenciamento.Funcoes
             return xmlString.ToString();
         }
 
-        #endregion
+        #endregion 
 
     }
 
