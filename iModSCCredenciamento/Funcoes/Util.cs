@@ -40,7 +40,11 @@ namespace iModSCCredenciamento.Funcoes
             try
             {
                 var num = decimal.Parse(str);
-                if (string.IsNullOrWhiteSpace(str.RetirarCaracteresEspeciais())) return "";
+                if (string.IsNullOrWhiteSpace(str.RetirarCaracteresEspeciais()))
+                {
+                    return "";
+                }
+
                 var currency = Convert.ToDecimal(str);
                 return string.Format("{0:N}", currency);
             }
@@ -59,7 +63,11 @@ namespace iModSCCredenciamento.Funcoes
         /// <returns></returns>
         public static string Truncate(this string value, int maxLength)
         {
-            if (string.IsNullOrEmpty(value)) return value;
+            if (string.IsNullOrEmpty(value))
+            {
+                return value;
+            }
+
             return value.Length <= maxLength ? value : value.Substring(0, maxLength);
         }
 
@@ -81,7 +89,10 @@ namespace iModSCCredenciamento.Funcoes
         public static string TransformarEncodingUtf8(this string input)
         {
             if (string.IsNullOrEmpty(input))
+            {
                 return string.Empty;
+            }
+
             byte[] bytes = Encoding.GetEncoding("iso-8859-8").GetBytes(input);
             return Encoding.UTF8.GetString(bytes);
         }
@@ -122,7 +133,11 @@ namespace iModSCCredenciamento.Funcoes
         /// <returns></returns>
         public static bool TemCaracterEspecial(this string str)
         {
-            if (string.IsNullOrWhiteSpace(str)) return false;
+            if (string.IsNullOrWhiteSpace(str))
+            {
+                return false;
+            }
+
             var r = new Regex("[^0-9a-zA-Z\\s]+",
                     RegexOptions.IgnorePatternWhitespace | RegexOptions.CultureInvariant | RegexOptions.Compiled);
             return r.IsMatch(str);
@@ -136,7 +151,10 @@ namespace iModSCCredenciamento.Funcoes
         public static bool IsValidCnpj(this string cnpj)
         {
             if (string.IsNullOrWhiteSpace(cnpj))
+            {
                 return false;
+            }
+
             var valida = true;
             var multiplicador1 = new int[12] { 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2 };
             var multiplicador2 = new int[13] { 6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2 };
@@ -151,7 +169,9 @@ namespace iModSCCredenciamento.Funcoes
                 var soma = 0;
 
                 for (var i = 0; i < 12; i++)
+                {
                     soma = soma + int.Parse(tempCnpj[i].ToString()) * multiplicador1[i];
+                }
 
                 var resto = soma % 11;
                 resto = resto < 2 ? resto = 0 : resto = 11 - resto;
@@ -162,7 +182,9 @@ namespace iModSCCredenciamento.Funcoes
 
                 soma = 0;
                 for (var i = 0; i < 13; i++)
+                {
                     soma = soma + int.Parse(tempCnpj[i].ToString()) * multiplicador2[i];
+                }
 
                 resto = soma % 11;
                 resto = resto < 2 ? resto = 0 : resto = 11 - resto;
@@ -170,7 +192,9 @@ namespace iModSCCredenciamento.Funcoes
                 digito = digito + resto;
 
                 if (digito != verifica)
+                {
                     valida = false;
+                }
 
                 // verifica valores fixos
                 if (cnpj == "00000000000000" || cnpj == "1111111111111" ||
@@ -178,7 +202,9 @@ namespace iModSCCredenciamento.Funcoes
                     cnpj == "44444444444444" || cnpj == "5555555555555" ||
                     cnpj == "66666666666666" || cnpj == "7777777777777" ||
                     cnpj == "88888888888888" || cnpj == "9999999999999")
+                {
                     valida = false;
+                }
             }
             else
             {
@@ -195,7 +221,10 @@ namespace iModSCCredenciamento.Funcoes
         public static bool IsValidCpf(this string cpf)
         {
             if (string.IsNullOrWhiteSpace(cpf))
+            {
                 return false;
+            }
+
             var retorno = false;
             var multiplicador1 = new int[9] { 10, 9, 8, 7, 6, 5, 4, 3, 2 };
             var multiplicador2 = new int[10] { 11, 10, 9, 8, 7, 6, 5, 4, 3, 2 };
@@ -213,23 +242,33 @@ namespace iModSCCredenciamento.Funcoes
                 cpf == "44444444444" || cpf == "55555555555" ||
                 cpf == "66666666666" || cpf == "77777777777" ||
                 cpf == "88888888888" || cpf == "99999999999")
+            {
                 return false;
+            }
 
             if (cpf.Length != 11)
+            {
                 return false;
+            }
 
             // calcula primeiro digito
             tempCpf = cpf.Substring(0, 9);
             soma = 0;
 
             for (var i = 0; i < 9; i++)
+            {
                 soma += int.Parse(tempCpf[i].ToString()) * multiplicador1[i];
+            }
 
             resto = soma % 11;
             if (resto < 2)
+            {
                 resto = 0;
+            }
             else
+            {
                 resto = 11 - resto;
+            }
 
             digito = resto.ToString();
             tempCpf = tempCpf + digito;
@@ -237,21 +276,31 @@ namespace iModSCCredenciamento.Funcoes
             // calcula segundo digito
             soma = 0;
             for (var i = 0; i < 10; i++)
+            {
                 soma += int.Parse(tempCpf[i].ToString()) * multiplicador2[i];
+            }
 
             resto = soma % 11;
             if (resto < 2)
+            {
                 resto = 0;
+            }
             else
+            {
                 resto = 11 - resto;
+            }
 
             digito = resto.ToString();
             tempCpf = tempCpf + digito;
 
             if (cpf == tempCpf)
+            {
                 retorno = true;
+            }
             else
+            {
                 retorno = false;
+            }
 
             return retorno;
         }
@@ -280,7 +329,10 @@ namespace iModSCCredenciamento.Funcoes
         /// <returns>text encrypted</returns>
         public static string EncryptAes(string text)
         {
-            if (string.IsNullOrEmpty(text)) return "";
+            if (string.IsNullOrEmpty(text))
+            {
+                return "";
+            }
 
             string outStr = null; // Encrypted string to return
             RijndaelManaged aesAlg = null; // RijndaelManaged object used to encrypt the data.
@@ -314,7 +366,9 @@ namespace iModSCCredenciamento.Funcoes
             {
                 // Clear the RijndaelManaged object.
                 if (aesAlg != null)
+                {
                     aesAlg.Clear();
+                }
             }
 
             // Return the encrypted bytes from the memory stream.
@@ -329,7 +383,10 @@ namespace iModSCCredenciamento.Funcoes
         /// <returns>an string decrypt</returns>
         public static string DecryptAes(string cipherText)
         {
-            if (string.IsNullOrEmpty(cipherText)) return "";
+            if (string.IsNullOrEmpty(cipherText))
+            {
+                return "";
+            }
 
             // Declare the RijndaelManaged object
             // used to decrypt the data.
@@ -364,7 +421,7 @@ namespace iModSCCredenciamento.Funcoes
                     //
                 }
             }
-            catch (InvalidOperationException ex)
+            catch (InvalidOperationException)
             {
                 return "";
             }
@@ -373,7 +430,9 @@ namespace iModSCCredenciamento.Funcoes
             {
                 // Clear the RijndaelManaged object.
                 if (aesAlg != null)
+                {
                     aesAlg.Clear();
+                }
             }
 
             return text;
@@ -384,7 +443,10 @@ namespace iModSCCredenciamento.Funcoes
             var qtdeBytesEncriptados = conteudo.Length / 2;
             var arrayConteudoEncriptado = new byte[qtdeBytesEncriptados];
             for (var i = 0; i < qtdeBytesEncriptados; i++)
+            {
                 arrayConteudoEncriptado[i] = Convert.ToByte(conteudo.Substring(i * 2, 2), 16);
+            }
+
             return arrayConteudoEncriptado;
         }
 
@@ -410,7 +472,11 @@ namespace iModSCCredenciamento.Funcoes
         /// <returns>Imagem redimensionada</returns>
         public static Image ResizeImage(Image image, int maxWidth, int maxHeight)
         {
-            if (image == null) return null;
+            if (image == null)
+            {
+                return null;
+            }
+
             var ratioX = (double)maxWidth / image.Width;
             var ratioY = (double)maxHeight / image.Height;
             var ratio = Math.Min(ratioX, ratioY);
@@ -430,7 +496,10 @@ namespace iModSCCredenciamento.Funcoes
         /// <returns>Uma Imagem</returns>
         public static Image ObterImageDeArrayBytes(byte[] pbyteImage)
         {
-            if (pbyteImage == null) return null;
+            if (pbyteImage == null)
+            {
+                return null;
+            }
             // try
             //{
             if (pbyteImage.Length != 0)
@@ -454,7 +523,11 @@ namespace iModSCCredenciamento.Funcoes
         /// <returns>Um array de bytes</returns>
         public static byte[] ObterArrayDeUmaImagem(Image img)
         {
-            if (img == null) return null;
+            if (img == null)
+            {
+                return null;
+            }
+
             var ms = new MemoryStream();
             // if (picBox.Image != null)
             // {
@@ -471,7 +544,11 @@ namespace iModSCCredenciamento.Funcoes
         /// <returns></returns>
         public static decimal EvalJavaScript(string equacao)
         {
-            if (string.IsNullOrWhiteSpace(equacao)) return 0;
+            if (string.IsNullOrWhiteSpace(equacao))
+            {
+                return 0;
+            }
+
             var scriptType = Type.GetTypeFromCLSID(Guid.Parse("0E59F1D5-1FBE-11D0-8FF2-00A0D10038BC"));
             dynamic obj = Activator.CreateInstance(scriptType, false);
             obj.Language = "javascript";
@@ -487,7 +564,11 @@ namespace iModSCCredenciamento.Funcoes
         /// <returns></returns>
         public static string RetirarCaracteresEspeciais(this string str)
         {
-            if (string.IsNullOrWhiteSpace(str)) return "";
+            if (string.IsNullOrWhiteSpace(str))
+            {
+                return "";
+            }
+
             var novastring = new Regex("(?:[^a-z0-9 ]|(?<=['\"])s)",
                     RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.Compiled);
             return novastring.Replace(str, string.Empty);
@@ -500,9 +581,17 @@ namespace iModSCCredenciamento.Funcoes
         /// <returns></returns>
         public static string FormatarCnpj(this string str)
         {
-            if (string.IsNullOrWhiteSpace(str)) return "";
+            if (string.IsNullOrWhiteSpace(str))
+            {
+                return "";
+            }
+
             var str2 = str.RetirarCaracteresEspeciais();
-            if (string.IsNullOrWhiteSpace(str2)) return "";
+            if (string.IsNullOrWhiteSpace(str2))
+            {
+                return "";
+            }
+
             return Convert.ToUInt64(str2).ToString(@"00\.000\.000\/0000\-00");
         }
         /// <summary>
@@ -512,9 +601,17 @@ namespace iModSCCredenciamento.Funcoes
         /// <returns></returns>
         public static string FormatarCpf(this string str)
         {
-            if (string.IsNullOrWhiteSpace(str)) return "";
+            if (string.IsNullOrWhiteSpace(str))
+            {
+                return "";
+            }
+
             var str2 = str.RetirarCaracteresEspeciais();
-            if (string.IsNullOrWhiteSpace(str2)) return "";
+            if (string.IsNullOrWhiteSpace(str2))
+            {
+                return "";
+            }
+
             return Convert.ToUInt64(str2).ToString(@"000\.000\.000\-00");
         }
 
@@ -536,7 +633,10 @@ namespace iModSCCredenciamento.Funcoes
         /// <returns></returns>
         public static void CriarPastaSeNaoExistir(string caminho)
         {
-            if (!ExisteDiretorio(caminho)) CriarPasta(caminho);
+            if (!ExisteDiretorio(caminho))
+            {
+                CriarPasta(caminho);
+            }
         }
 
         /// <summary>
@@ -548,7 +648,10 @@ namespace iModSCCredenciamento.Funcoes
         {
             // Determinar se o diretorio existe
             if (Directory.Exists(caminho))
+            {
                 return true;
+            }
+
             return false;
         }
 
@@ -561,7 +664,9 @@ namespace iModSCCredenciamento.Funcoes
             //Deletar todos os arquivos se houver.... 
             var diretorio = new DirectoryInfo(caminho);
             foreach (var file in diretorio.GetFiles())
+            {
                 file.Delete();
+            }
         }
 
         /// <summary>
@@ -584,11 +689,20 @@ namespace iModSCCredenciamento.Funcoes
         public static Task EscreverArquivoAsync(string caminho, string nomeArquivo, string conteudo)
         {
             if (caminho == null)
+            {
                 throw new ArgumentNullException(nameof(caminho), "O caminho do arquivo deve ser informado");
+            }
+
             if (nomeArquivo == null)
+            {
                 throw new ArgumentNullException(nameof(nomeArquivo), "O nome do arquivo deve ser informado");
+            }
+
             if (conteudo == null)
+            {
                 throw new ArgumentNullException(nameof(conteudo), "O conteúdo do arquivo deve ser informado");
+            }
+
             return Task.Factory.StartNew(() =>
             {
                 CriarPastaSeNaoExistir(caminho);
@@ -631,7 +745,9 @@ namespace iModSCCredenciamento.Funcoes
             var c1 = Path.Combine(caminho, nomeArquivo); //Combina caminho do arquivo como nome do arquivo
 
             if (File.Exists(c1) == false)
+            {
                 throw new FileNotFoundException("Arquivo não encontrado");
+            }
             //Lendo arquivo
             using (var sourceStream = new FileStream(c1, FileMode.Open, FileAccess.Read, FileShare.Read,
                     4096, true))
@@ -660,7 +776,9 @@ namespace iModSCCredenciamento.Funcoes
             var c1 = Path.Combine(caminho, nomeArquivo); //Combina caminho do arquivo como nome do arquivo
 
             if (File.Exists(c1) == false)
+            {
                 throw new FileNotFoundException("Arquivo não encontrado");
+            }
             //Lendo arquivo
             using (var sourceStream = new FileStream(c1, FileMode.Open, FileAccess.Read, FileShare.Read,
                     4096, true))
@@ -690,7 +808,9 @@ namespace iModSCCredenciamento.Funcoes
             var c1 = Path.Combine(caminho, nomeArquivo); //Combina caminho do arquivo como nome do arquivo
 
             if (File.Exists(c1) == false)
+            {
                 throw new FileNotFoundException("Arquivo não encontrado");
+            }
             //Lendo arquivo
             byte[] stream;
             using (var sourceStream = new FileStream(c1, FileMode.Open, FileAccess.Read, FileShare.Read,
@@ -712,7 +832,11 @@ namespace iModSCCredenciamento.Funcoes
             Uri uriResult;
             var result = Uri.TryCreate(nomeservico, UriKind.Absolute, out uriResult) &&
                          (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
-            if (!result) throw new InvalidOperationException("Url Inválida");
+            if (!result)
+            {
+                throw new InvalidOperationException("Url Inválida");
+            }
+
             return uriResult.ToString();
         }
 
@@ -723,7 +847,11 @@ namespace iModSCCredenciamento.Funcoes
         /// <returns></returns>
         public static string PrimeiroCaracterMaiuscula(this string str)
         {
-            if (string.IsNullOrEmpty(str)) return "";
+            if (string.IsNullOrEmpty(str))
+            {
+                return "";
+            }
+
             var array = str.ToCharArray();
             // Handle the first letter in the string.
             if (array.Length >= 1)
@@ -763,6 +891,11 @@ namespace iModSCCredenciamento.Funcoes
 
         #region Funções XML
         public static void Maximo()
+        {
+
+        }
+
+        public static void Mihai()
         {
 
         }
@@ -818,7 +951,9 @@ namespace iModSCCredenciamento.Funcoes
         public static T ArquivoXmlParaClasse<T>(string arquivo) where T : class
         {
             if (!File.Exists(arquivo))
+            {
                 throw new FileNotFoundException("Arquivo " + arquivo + " não encontrado!");
+            }
 
             var serializador = new XmlSerializer(typeof(T));
             var stream = new FileStream(arquivo, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
@@ -844,7 +979,9 @@ namespace iModSCCredenciamento.Funcoes
         {
             var dir = Path.GetDirectoryName(caminho);
             if (dir != null && !Directory.Exists(dir))
+            {
                 throw new DirectoryNotFoundException("Diretório " + dir + " não encontrado!");
+            }
 
             var xml = ClasseParaXmlString(objeto);
             try
@@ -877,7 +1014,10 @@ namespace iModSCCredenciamento.Funcoes
                              select d).FirstOrDefault();
 
             if (xmlString == null)
+            {
                 throw new Exception($"Nenhum objeto {nomeDoNode} encontrado no arquivo {arquivoXml}!");
+            }
+
             return xmlString.ToString();
         }
 
@@ -897,7 +1037,10 @@ namespace iModSCCredenciamento.Funcoes
                              select d).FirstOrDefault();
 
             if (xmlString == null)
+            {
                 throw new Exception(string.Format("Nenhum objeto {0} encontrado no xml!", nomeDoNode));
+            }
+
             return xmlString.ToString();
         }
 
