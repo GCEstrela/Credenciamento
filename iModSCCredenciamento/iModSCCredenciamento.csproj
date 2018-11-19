@@ -187,7 +187,7 @@
       <DependentUpon>PagePrincipalView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-	<Compile Include="Properties\Resources.Designer.cs">
+    <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
@@ -196,7 +196,8 @@
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
-    </Compile>    <Compile Include="Regras\CnpjValida.cs" />
+    </Compile>
+    <Compile Include="Regras\CnpjValida.cs" />
     <Compile Include="Regras\CpfValida.cs" />
     <Compile Include="Regras\RazaoSocial.cs" />
     <Compile Include="ViewModels\ColaboradoresAnexosViewModel.cs" />
@@ -709,6 +710,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Dlls\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
