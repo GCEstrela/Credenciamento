@@ -685,6 +685,7 @@
     <Content Include="Dlls\Genetec.Sdk.Workspace.dll" />
     <Content Include="Dlls\Genetec.Themes.dll" />
     <Content Include="Dlls\Microsoft.Expression.Encoder.dll" />
+    <Content Include="Dlls\Microsoft.ReportViewer.WinForms.dll" />
     <Content Include="Dlls\WebCam_Capture.dll" />
     <Content Include="Dlls\WpfAnimatedGif.dll" />
     <Content Include="iModSCCredenciamento.privileges.xml">
@@ -718,6 +719,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <UsingTask TaskName="TransformXml" AssemblyFile="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Web\Microsoft.Web.Publishing.Tasks.dll" />
