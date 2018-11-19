@@ -26,8 +26,13 @@ namespace iModSCCredenciamento.Funcoes
     {
         private static readonly string _caminhoErrorLog = Path.Combine(Environment.CurrentDirectory, "ErrorLog");
         private static readonly string _nomeArqErrorLog = "IMOD_ErrorLog";
-
+       
         #region Diversos
+
+        private static void Valnei()
+        {
+
+        }
 
         /// <summary>
         /// Format Currency
@@ -761,7 +766,10 @@ namespace iModSCCredenciamento.Funcoes
         #endregion
 
         #region Funções XML
+        public static void Maximo()
+        {
 
+        }
         /// <summary>
         ///     Serializa a classe passada para uma string no form
         /// </summary>
@@ -897,7 +905,7 @@ namespace iModSCCredenciamento.Funcoes
             return xmlString.ToString();
         }
 
-        #endregion
+        #endregion 
 
     }
 
