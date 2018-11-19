@@ -55,7 +55,7 @@ namespace iModSCCredenciamento.Funcoes
 
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Log("Não foi possível carregar o arquivo iMod_Config.xml");
             }
@@ -224,22 +224,38 @@ namespace iModSCCredenciamento.Funcoes
                 tempdigito = cnpj.Substring(12, 2);
                 soma = 0;
                 for (int i = 0; i < 12; i++)
+                {
                     soma += int.Parse(tempCnpj[i].ToString()) * multiplicador1[i];
+                }
+
                 resto = (soma % 11);
                 if (resto < 2)
+                {
                     resto = 0;
+                }
                 else
+                {
                     resto = 11 - resto;
+                }
+
                 digito = resto.ToString();
                 tempCnpj = tempCnpj + digito;
                 soma = 0;
                 for (int i = 0; i < 13; i++)
+                {
                     soma += int.Parse(tempCnpj[i].ToString()) * multiplicador2[i];
+                }
+
                 resto = (soma % 11);
                 if (resto < 2)
+                {
                     resto = 0;
+                }
                 else
+                {
                     resto = 11 - resto;
+                }
+
                 digito = digito + resto.ToString();
                 if (digito == tempdigito)
                 {
@@ -253,7 +269,7 @@ namespace iModSCCredenciamento.Funcoes
                 //return cnpj.EndsWith(digito);
             }
 
-            catch (Exception ex)
+            catch (Exception)
             {
                 //PopupBox("CNPJ Inválido (pressione [Esc] para cancelar)", 1);
                 return false;
@@ -295,18 +311,20 @@ namespace iModSCCredenciamento.Funcoes
                 soma = 0;
 
                 for (int i = 0; i < 9; i++)
-
+                {
                     soma += int.Parse(tempCpf[i].ToString()) * multiplicador1[i];
+                }
 
                 resto = soma % 11;
 
                 if (resto < 2)
-
+                {
                     resto = 0;
-
+                }
                 else
-
+                {
                     resto = 11 - resto;
+                }
 
                 digito = resto.ToString();
 
@@ -315,18 +333,20 @@ namespace iModSCCredenciamento.Funcoes
                 soma = 0;
 
                 for (int i = 0; i < 10; i++)
-
+                {
                     soma += int.Parse(tempCpf[i].ToString()) * multiplicador2[i];
+                }
 
                 resto = soma % 11;
 
                 if (resto < 2)
-
+                {
                     resto = 0;
-
+                }
                 else
-
+                {
                     resto = 11 - resto;
+                }
 
                 digito = digito + resto.ToString();
                 if (digito == tempdigito)
@@ -340,7 +360,7 @@ namespace iModSCCredenciamento.Funcoes
                 }
                 //return cpf.EndsWith(digito);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //PopupBox("CPF Inválido (pressione [Esc] para cancelar)", 1);
                 return false;
