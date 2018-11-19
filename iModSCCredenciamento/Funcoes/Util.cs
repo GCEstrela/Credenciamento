@@ -29,6 +29,11 @@ namespace iModSCCredenciamento.Funcoes
 
         #region Diversos
 
+        private static void Valnei()
+        {
+
+        }
+
         /// <summary>
         /// Format Currency
         /// </summary>
