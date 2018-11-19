@@ -679,15 +679,33 @@
     <Content Include="CSharpControls.Wpf.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Dlls\Genetec.Sdk.Controls.dll" />
-    <Content Include="Dlls\Genetec.Sdk.dll" />
-    <Content Include="Dlls\Genetec.Sdk.Maps.dll" />
-    <Content Include="Dlls\Genetec.Sdk.Workspace.dll" />
-    <Content Include="Dlls\Genetec.Themes.dll" />
-    <Content Include="Dlls\Microsoft.Expression.Encoder.dll" />
-    <Content Include="Dlls\Microsoft.ReportViewer.WinForms.dll" />
-    <Content Include="Dlls\WebCam_Capture.dll" />
-    <Content Include="Dlls\WpfAnimatedGif.dll" />
+    <Content Include="Dlls\Genetec.Sdk.Controls.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Dlls\Genetec.Sdk.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Dlls\Genetec.Sdk.Maps.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Dlls\Genetec.Sdk.Workspace.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Dlls\Genetec.Themes.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Dlls\Microsoft.Expression.Encoder.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Dlls\Microsoft.ReportViewer.WinForms.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Dlls\WebCam_Capture.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Dlls\WpfAnimatedGif.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="iModSCCredenciamento.privileges.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
