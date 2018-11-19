@@ -30,11 +30,12 @@ namespace iModSCCredenciamento.Views
         {
             InitializeComponent();
             this.DataContext = new VeiculosCredenciaisViewModel();
+            ImprimirCredencial_bt.IsHitTestVisible = true;
         }
         #endregion
 
         #region Vinculo do UserControl
-        static int _veiculoIDFisrt = 0;
+        static int _colaboradorIDFisrt = 0;
         public int VeiculoSelecionadoIDView
         {
             get { return (int)GetValue(VeiculoSelecionadoIDViewProperty); }
@@ -45,11 +46,11 @@ namespace iModSCCredenciamento.Views
             DependencyProperty.Register("VeiculoSelecionadoIDView", typeof(int), typeof(VeiculosCredenciaisView), new PropertyMetadata(0, PropertyChanged));
         private static void PropertyChanged(DependencyObject source, DependencyPropertyChangedEventArgs e)
         {
-            int _veiculoID = Convert.ToInt32(e.NewValue);
-            if (_veiculoID != _veiculoIDFisrt && _veiculoID != 0)
+            int _colaboradorID = Convert.ToInt32(e.NewValue);
+            if (_colaboradorID != _colaboradorIDFisrt && _colaboradorID != 0)
             {
-                ((iModSCCredenciamento.ViewModels.VeiculosCredenciaisViewModel)((System.Windows.FrameworkElement)source).DataContext).OnAtualizaCommand(_veiculoID);
-                _veiculoIDFisrt = _veiculoID;
+                ((iModSCCredenciamento.ViewModels.VeiculosCredenciaisViewModel)((System.Windows.FrameworkElement)source).DataContext).OnAtualizaCommand(_colaboradorID);
+                _colaboradorIDFisrt = _colaboradorID;
             }
         }
 
@@ -71,25 +72,14 @@ namespace iModSCCredenciamento.Views
         #endregion
 
         #region Comando dos Botoes
+        //private void BuscarApoliceArquivo_bt_Click(object sender, RoutedEventArgs e)
+        //{
+        //    ((VeiculosCredenciaisViewModel)this.DataContext).OnBuscarArquivoCommand();
+        //}
 
         private void Pesquisar_bt_Click(object sender, RoutedEventArgs e)
         {
             ((VeiculosCredenciaisViewModel)this.DataContext).OnPesquisarCommand();
-        }
-        private void VincularCredencial_bt_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                //string _credencialInfo = ModeloCredencial_tb.SelectedValue.ToString() + (char)(20) + FC_tb.Text +
-                //    (char)(20) + NumeroCredencial_tb.Text + (char)(20) + FormatoCredencial_cb.Text + (char)(20) + Validade_tb.Text;
-
-                //((VeiculosCredenciaisViewModel)this.DataContext).OnVincularCommand();
-            }
-            catch (Exception ex)
-            {
-
-            }
-
         }
 
         private void BuscarValidade_bt_Click(object sender, RoutedEventArgs e)
@@ -170,6 +160,7 @@ namespace iModSCCredenciamento.Views
             Botoes_Editar_sp.Visibility = Visibility.Hidden;
             ListaVeiculosCredenciais_lv.IsHitTestVisible = true;
             Global.SetReadonly(Linha0_sp, true);
+            ImprimirCredencial_bt.IsHitTestVisible = true;
             ((VeiculosCredenciaisViewModel)this.DataContext).OnCancelarEdicaoCommand();
 
         }
@@ -187,10 +178,11 @@ namespace iModSCCredenciamento.Views
             }
             EmpresaVinculo_cb.IsEnabled = true;
             Editando = true; Botoes_Principais_sp.Visibility = Visibility.Visible;
-            ((VeiculosCredenciaisViewModel)this.DataContext).OnSalvarEdicaoCommand();
+            ((VeiculosCredenciaisViewModel)this.DataContext).OnSalvarAdicaoCommand();
             Botoes_Editar_sp.Visibility = Visibility.Hidden;
             ListaVeiculosCredenciais_lv.IsHitTestVisible = true;
             Global.SetReadonly(Linha0_sp, true);
+            ImprimirCredencial_bt.IsHitTestVisible = true;
             Editando = true;
 
         }
@@ -202,6 +194,7 @@ namespace iModSCCredenciamento.Views
             ((VeiculosCredenciaisViewModel)this.DataContext).OnCancelarAdicaoCommand();
             Botoes_Adicionar_sp.Visibility = Visibility.Hidden;
             Global.SetReadonly(Linha0_sp, true);
+            ImprimirCredencial_bt.IsHitTestVisible = true;
 
         }
 
@@ -220,6 +213,7 @@ namespace iModSCCredenciamento.Views
             ((VeiculosCredenciaisViewModel)this.DataContext).OnSalvarAdicaoCommand();
             Botoes_Adicionar_sp.Visibility = Visibility.Hidden;
             Global.SetReadonly(Linha0_sp, true);
+            ImprimirCredencial_bt.IsHitTestVisible = true;
             Editando = true;
 
         }
@@ -253,7 +247,26 @@ namespace iModSCCredenciamento.Views
             ListaVeiculosCredenciais_lv.SelectedIndex = -1;
             Linha0_sp.IsEnabled = false;
             Editar_bt.IsEnabled = false;
+            ImprimirCredencial_bt.IsHitTestVisible = true;
+
         }
 
+        private void StatusCredencial_tb_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.AddedItems.Count > 0)
+            {
+                if (((iModSCCredenciamento.Models.ClasseCredenciaisStatus.CredencialStatus)((object[])e.AddedItems)[0]).CredencialStatusID == 1)
+                {
+                    Ativa_tw.IsChecked = true;
+                    ((VeiculosCredenciaisViewModel)this.DataContext).CarregaColecaoCredenciaisMotivos(1);
+                }
+                else
+                {
+                    Ativa_tw.IsChecked = false;
+                    ((VeiculosCredenciaisViewModel)this.DataContext).CarregaColecaoCredenciaisMotivos(2);
+                }
+            }
+
+        }
     }
 }

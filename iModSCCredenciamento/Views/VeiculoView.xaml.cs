@@ -69,7 +69,7 @@ namespace iModSCCredenciamento.Views
         private void BuscarArquivoAnexo_bt_Click(object sender, RoutedEventArgs e)
         {
             ((VeiculoViewModel)this.DataContext).OnBuscarArquivoCommand();
-            Arquivo_tb.Text = ((VeiculoViewModel)this.DataContext).Veiculos[0].NomeArquivoAnexo;
+            //Arquivo_tb.Text = ((VeiculoViewModel)this.DataContext).Veiculos[0].NomeArquivoAnexo;
         }
 
         private void AbrirArquivoAnexo_bt_Click(object sender, RoutedEventArgs e)
@@ -281,7 +281,7 @@ namespace iModSCCredenciamento.Views
                 TabGeral_tc.IsEnabled = true;
                 Editar_bt.IsEnabled = true;
                 Excluir_bt.IsEnabled = true;
-                AbrirArquivoAnexo_bt.IsHitTestVisible = true;
+                //AbrirArquivoAnexo_bt.IsHitTestVisible = true;
             }
         }
 

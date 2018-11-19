@@ -34,6 +34,7 @@ namespace iModSCCredenciamento.ViewModels
         {
             CarregaColecaoVeiculos();
             CarregaColeçãoEstados();
+            CarregaColecaoTiposCombustiveis();
             //CarregaColecaoTiposAtividades();
             //CarregaColecaoAreasAcessos();
             //CarregaColecaoLayoutsCrachas();
@@ -41,6 +42,7 @@ namespace iModSCCredenciamento.ViewModels
         #endregion
 
         #region Variaveis Privadas
+        private ObservableCollection<ClasseTiposCombustiveis.TipoCombustivel> _TiposCombustiveis;
 
         private ObservableCollection<ClasseVeiculos.Veiculo> _Veiculos;
 
@@ -77,6 +79,23 @@ namespace iModSCCredenciamento.ViewModels
         #endregion
 
         #region Contrutores
+        public ObservableCollection<ClasseTiposCombustiveis.TipoCombustivel> TiposCombustiveis
+        {
+            get
+            {
+                return _TiposCombustiveis;
+            }
+
+            set
+            {
+                if (_TiposCombustiveis != value)
+                {
+                    _TiposCombustiveis = value;
+                    OnPropertyChanged();
+
+                }
+            }
+        }
         public ObservableCollection<ClasseVeiculos.Veiculo> Veiculos
         {
             get
@@ -557,7 +576,7 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                PopupPendencias popupPendencias = new PopupPendencias(3, ((System.Windows.FrameworkElement)e.OriginalSource).Tag, VeiculoSelecionado.VeiculoID, VeiculoSelecionado.Placa);
+                PopupPendencias popupPendencias = new PopupPendencias(3, ((System.Windows.FrameworkElement)e.OriginalSource).Tag, VeiculoSelecionado.VeiculoID, VeiculoSelecionado.Placa_Identificador);
                 popupPendencias.ShowDialog();
                 popupPendencias = null;
                 CarregaColecaoVeiculos(VeiculoSelecionado.VeiculoID);
@@ -579,24 +598,45 @@ namespace iModSCCredenciamento.ViewModels
             {
                 string _xml = RequisitaVeiculos(_VeiculoID, _nome, _apelido, _cpf);
 
-                XmlSerializer deserializer = new XmlSerializer(typeof(ClasseVeiculos));
+                XmlSerializer deserializer = new XmlSerializer(typeof(List<ClasseVeiculos>));
 
                 XmlDocument xmldocument = new XmlDocument();
                 xmldocument.LoadXml(_xml);
 
                 TextReader reader = new StringReader(_xml);
-                ClasseVeiculos classeVeiculos = new ClasseVeiculos();
-                classeVeiculos = (ClasseVeiculos)deserializer.Deserialize(reader);
+                //ClasseVeiculos classeVeiculos = new ClasseVeiculos();
+                var classeVeiculos = (List<ClasseVeiculos>)deserializer.Deserialize(reader);
                 Veiculos = new ObservableCollection<ClasseVeiculos.Veiculo>();
-                Veiculos = classeVeiculos.Veiculos;
-                SelectedIndex = 0;
+                //Veiculos = classeVeiculos.Veiculos;
+                //SelectedIndex = 0;
             }
             catch (Exception ex)
             {
                 //Global.Log("Erro void CarregaColecaoEmpresas ex: " + ex.Message);
             }
         }
+        private void CarregaColecaoTiposCombustiveis()
+        {
+            try
+            {
+                string _xml = RequisitaTiposCombustiveis();
 
+                XmlSerializer deserializer = new XmlSerializer(typeof(ClasseTiposCombustiveis));
+
+                XmlDocument xmldocument = new XmlDocument();
+                xmldocument.LoadXml(_xml);
+
+                TextReader reader = new StringReader(_xml);
+                ClasseTiposCombustiveis classeTiposCombustiveis = new ClasseTiposCombustiveis();
+                classeTiposCombustiveis = (ClasseTiposCombustiveis)deserializer.Deserialize(reader);
+                TiposCombustiveis = new ObservableCollection<ClasseTiposCombustiveis.TipoCombustivel>();
+                TiposCombustiveis = classeTiposCombustiveis.TiposCombustiveis;
+            }
+            catch (Exception ex)
+            {
+                //Global.Log("Erro void CarregaColecaoEmpresas ex: " + ex.Message);
+            }
+        }
         private void CarregaColeçãoEstados()
         {
             try
@@ -714,7 +754,7 @@ namespace iModSCCredenciamento.ViewModels
         #endregion
 
         #region Data Access
-        private string RequisitaVeiculos(int _veiculoID = 0, string _placa = "", string _renavam = "", string _descricao = "", int _excluida = 0, string _quantidaderegistro = "500")
+        private string RequisitaVeiculos(int _veiculoID = 0, string _Placa_Identificador = "", string _renavam = "", string _descricao = "", int _excluida = 0, string _quantidaderegistro = "500")
         {
             try
             {
@@ -732,16 +772,52 @@ namespace iModSCCredenciamento.ViewModels
 
                 SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
 
+                
                 string _veiculoIDSTR = "";
 
                 _veiculoIDSTR = _veiculoID == 0 ? "" : " AND VeiculoID = " + _veiculoID;
-                _placa = _placa == "" ? "" : " AND Placa like '%" + _placa + "%' ";
+                _Placa_Identificador = _Placa_Identificador == "" ? "" : " AND Placa_Identificador like '%" + _Placa_Identificador + "%' ";
                 _renavam = _renavam == "" ? "" : "AND Renavam like '%" + _renavam + "%' ";
                 _descricao = _descricao == "" ? "" : " AND Descricao like '%" + _descricao + "%'";
 
-                _strSql = "VeiculoID,Descricao,Tipo,Marca,Modelo,Ano,Cor,Placa,Renavam,EstadoID,MunicipioID,Foto,Excluida," +
-                    "StatusID,TipoAcessoID,DescricaoAnexo,NomeArquivoAnexo,Pendente31,Pendente32,Pendente33,Pendente34 " +
-                     "from Veiculos where Excluida  = " + _excluida + _veiculoIDSTR + _placa + _renavam + _descricao + " order by VeiculoID desc";
+                ////////////////////////////////////////////
+                //string ArquivoXML = "C:\\temp\\ArquivoXMLGerado.xml";
+
+                _strSql = "VeiculoID,Descricao,Placa_Identificador,Frota,Patrimonio,Marca,Modelo,Tipo,Cor,Ano,EstadoID,MunicipioID,Serie_Chassi," +
+                    "CombustivelID,Altura,Comprimento,Largura,Foto,Excluida,StatusID,TipoAcessoID,DescricaoAnexo,NomeArquivoAnexo,Pendente31,Pendente32,Pendente33,Pendente34 " +
+                     "from Veiculos where Excluida  = " + _excluida + _veiculoIDSTR + _Placa_Identificador + _renavam + _descricao + " order by VeiculoID desc";
+
+                if (_quantidaderegistro == "0")
+                {
+                    _strSql = "Select " + _strSql;
+                }
+                else
+                {
+                    _strSql = "select Top " + _quantidaderegistro + " " + _strSql;
+                }
+
+                SqlDataAdapter da = new SqlDataAdapter(_strSql, _Con);
+
+                //definindo o dataset
+                DataSet ds = new DataSet();
+                //da.Fill(ds,"table");
+                //var t = ds.GetXml();
+                da.Fill(ds, "Veiculo");
+                //preenchendo o dataset
+
+                //ds.WriteXml (ArquivoXML);
+                //string _xml2 = ds.GetXml();
+                return ds.GetXml();
+                ///////////////////////////////////////////
+                //_strSql = "VeiculoID,Descricao,Tipo,Marca,Modelo,Ano,Cor,Placa_Identificador,Renavam,EstadoID,MunicipioID,Foto,Excluida," +
+                //    "StatusID,TipoAcessoID,DescricaoAnexo,NomeArquivoAnexo,Pendente31,Pendente32,Pendente33,Pendente34 " +
+                //     "from Veiculos where Excluida  = " + _excluida + _veiculoIDSTR + _Placa_Identificador + _renavam + _descricao + " order by VeiculoID desc";
+
+
+                _strSql = "VeiculoID,Descricao,Placa_Identificador,Frota,Patrimonio,Marca,Modelo,Tipo,Cor,Ano,EstadoID,MunicipioID,Serie_Chassi," +
+                    "CombustivelID,Altura,Comprimento,Largura,Foto,Excluida,StatusID,TipoAcessoID,DescricaoAnexo,NomeArquivoAnexo,Pendente31,Pendente32,Pendente33,Pendente34 " +
+                     "from Veiculos where Excluida  = " + _excluida + _veiculoIDSTR + _Placa_Identificador + _renavam + _descricao + " order by VeiculoID desc";
+
 
                 if (_quantidaderegistro == "0")
                 {
@@ -773,57 +849,82 @@ namespace iModSCCredenciamento.ViewModels
                     _Node2.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Descricao"].ToString())));
                     _Veiculo.AppendChild(_Node2);
 
-                    XmlNode _Node3 = _xmlDocument.CreateElement("Tipo");
-                    _Node3.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Tipo"].ToString())));
+                    XmlNode _Node3 = _xmlDocument.CreateElement("Placa_Identificador");
+                    _Node3.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Placa_Identificador"].ToString())));
                     _Veiculo.AppendChild(_Node3);
 
-                    XmlNode _Node4 = _xmlDocument.CreateElement("Marca");
-                    _Node4.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Marca"].ToString())));
+                    XmlNode _Node4 = _xmlDocument.CreateElement("Frota");
+                    _Node4.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Frota"].ToString())));
                     _Veiculo.AppendChild(_Node4);
 
-                    XmlNode _Node5 = _xmlDocument.CreateElement("Modelo");
-                    _Node5.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Modelo"].ToString())));
+                    XmlNode _Node5 = _xmlDocument.CreateElement("Patrimonio");
+                    _Node5.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Patrimonio"].ToString())));
                     _Veiculo.AppendChild(_Node5);
 
-                    XmlNode _Node6 = _xmlDocument.CreateElement("Ano");
-                    _Node6.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Ano"].ToString())));
+                    XmlNode _Node6 = _xmlDocument.CreateElement("Marca");
+                    _Node6.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Marca"].ToString())));
                     _Veiculo.AppendChild(_Node6);
 
-                    XmlNode _Node7 = _xmlDocument.CreateElement("Cor");
-                    _Node7.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Cor"].ToString())));
+                    XmlNode _Node7 = _xmlDocument.CreateElement("Modelo");
+                    _Node7.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Modelo"].ToString())));
                     _Veiculo.AppendChild(_Node7);
 
-                    XmlNode _Node8 = _xmlDocument.CreateElement("Placa");
-                    _Node8.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Placa"].ToString())));
+                    XmlNode _Node8 = _xmlDocument.CreateElement("Tipo");
+                    _Node8.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Tipo"].ToString())));
                     _Veiculo.AppendChild(_Node8);
 
-                    XmlNode _Node9 = _xmlDocument.CreateElement("Renavam");
-                    _Node9.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Renavam"].ToString())));
+                    XmlNode _Node9 = _xmlDocument.CreateElement("Cor");
+                    _Node9.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Cor"].ToString())));
                     _Veiculo.AppendChild(_Node9);
+                    
+                    XmlNode _Node10 = _xmlDocument.CreateElement("Ano");
+                    _Node10.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Ano"].ToString())));
+                    _Veiculo.AppendChild(_Node10);
 
-                    XmlNode _Node10 = _xmlDocument.CreateElement("EstadoID");
+                    XmlNode _Node11 = _xmlDocument.CreateElement("EstadoID");
                     _Node10.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["EstadoID"].ToString())));
                     _Veiculo.AppendChild(_Node10);
 
-                    XmlNode _Node11 = _xmlDocument.CreateElement("MunicipioID");
-                    _Node11.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["MunicipioID"].ToString())));
-                    _Veiculo.AppendChild(_Node11);
-
-                    XmlNode _Node12 = _xmlDocument.CreateElement("Foto");
-                    //_Node12.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Foto"].ToString())));
+                    XmlNode _Node12 = _xmlDocument.CreateElement("MunicipioID");
+                    _Node12.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["MunicipioID"].ToString())));
                     _Veiculo.AppendChild(_Node12);
-
-                    XmlNode _Node13 = _xmlDocument.CreateElement("Excluida");
-                    _Node13.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Excluida"].ToString())));
+                    
+                    XmlNode _Node13 = _xmlDocument.CreateElement("Serie_Chassi");
+                    _Node13.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Serie_Chassi"].ToString())));
                     _Veiculo.AppendChild(_Node13);
 
-                    XmlNode _Node15 = _xmlDocument.CreateElement("StatusID");
-                    _Node15.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["StatusID"].ToString())));
+                    XmlNode _Node14 = _xmlDocument.CreateElement("CombustivelID");
+                    _Node14.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["CombustivelID"].ToString())));
+                    _Veiculo.AppendChild(_Node14);
+
+                    XmlNode _Node15 = _xmlDocument.CreateElement("Altura");
+                    _Node15.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Altura"].ToString())));
                     _Veiculo.AppendChild(_Node15);
 
-                    XmlNode _Node16 = _xmlDocument.CreateElement("TipoAcessoID");
-                    _Node16.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["TipoAcessoID"].ToString())));
+                    XmlNode _Node16 = _xmlDocument.CreateElement("Comprimento");
+                    _Node16.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Comprimento"].ToString())));
                     _Veiculo.AppendChild(_Node16);
+
+                    XmlNode _Node17 = _xmlDocument.CreateElement("Largura");
+                    _Node17.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Largura"].ToString())));
+                    _Veiculo.AppendChild(_Node17);
+
+
+                    XmlNode _Node18 = _xmlDocument.CreateElement("Foto");
+                    //_Node12.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Foto"].ToString())));
+                    _Veiculo.AppendChild(_Node18);
+
+                    XmlNode _Node19 = _xmlDocument.CreateElement("Excluida");
+                    _Node19.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Excluida"].ToString())));
+                    _Veiculo.AppendChild(_Node19);
+
+                    XmlNode _Node20 = _xmlDocument.CreateElement("StatusID");
+                    _Node20.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["StatusID"].ToString())));
+                    _Veiculo.AppendChild(_Node20);
+
+                    XmlNode _Node21 = _xmlDocument.CreateElement("TipoAcessoID");
+                    _Node21.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["TipoAcessoID"].ToString())));
+                    _Veiculo.AppendChild(_Node21);
 
                     XmlNode _DescricaoAnexo = _xmlDocument.CreateElement("DescricaoAnexo");
                     _DescricaoAnexo.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["DescricaoAnexo"].ToString()).Trim()));
@@ -975,6 +1076,47 @@ namespace iModSCCredenciamento.ViewModels
             }
         }
 
+        private string RequisitaTiposCombustiveis()
+        {
+            try
+            {
+                XmlDocument _xmlDocument = new XmlDocument();
+                XmlNode _xmlNode = _xmlDocument.CreateXmlDeclaration("1.0", "UTF-8", null);
+
+                XmlNode _ClasseTiposCombustiveis = _xmlDocument.CreateElement("ClasseTiposCombustiveis");
+                _xmlDocument.AppendChild(_ClasseTiposCombustiveis);
+
+                XmlNode _TiposCombustiveis = _xmlDocument.CreateElement("TiposCombustiveis");
+                _ClasseTiposCombustiveis.AppendChild(_TiposCombustiveis);
+
+                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
+                SqlCommand _sqlcmd = new SqlCommand("select * from TipoCombustivel order by TipoCombustivelID", _Con);
+                SqlDataReader _sqldatareader = _sqlcmd.ExecuteReader();
+                while (_sqldatareader.Read())
+                {
+                    XmlNode _TipoCombustivel = _xmlDocument.CreateElement("TipoCombustivel");
+                    _TiposCombustiveis.AppendChild(_TipoCombustivel);
+
+                    XmlNode _TipoCombustivelID = _xmlDocument.CreateElement("TipoCombustivelID");
+                    _TipoCombustivelID.AppendChild(_xmlDocument.CreateTextNode((_sqldatareader["TipoCombustivelID"].ToString())));
+                    _TipoCombustivel.AppendChild(_TipoCombustivelID);
+
+                    XmlNode _Descricao = _xmlDocument.CreateElement("Descricao");
+                    _Descricao.AppendChild(_xmlDocument.CreateTextNode((_sqldatareader["Descricao"].ToString())));
+                    _TipoCombustivel.AppendChild(_Descricao);
+
+                }
+                _sqldatareader.Close();
+                _Con.Close();
+                return _xmlDocument.InnerXml;
+            }
+            catch (Exception ex)
+            {
+                Global.Log("Erro na void RequisitaTiposAtividades ex: " + ex);
+
+                return null;
+            }
+        }
         private int InsereVeiculosBD(string xmlString)
         {
             try
@@ -991,15 +1133,24 @@ namespace iModSCCredenciamento.ViewModels
                 int i = 0;
                 _Veiculo.VeiculoID = Convert.ToInt32(_xmlDoc.GetElementsByTagName("VeiculoID")[i].InnerText);
                 _Veiculo.Descricao = _xmlDoc.GetElementsByTagName("Descricao")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Descricao")[i].InnerText;
-                _Veiculo.Tipo = _xmlDoc.GetElementsByTagName("Tipo")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Tipo")[i].InnerText;
+                _Veiculo.Placa_Identificador = _xmlDoc.GetElementsByTagName("Placa_Identificador")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Placa_Identificador")[i].InnerText;
+                _Veiculo.Frota = _xmlDoc.GetElementsByTagName("Frota")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Frota")[i].InnerText;
+                _Veiculo.Patrimonio = _xmlDoc.GetElementsByTagName("Patrimonio")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Patrimonio")[i].InnerText;
                 _Veiculo.Marca = _xmlDoc.GetElementsByTagName("Marca")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Marca")[i].InnerText;
                 _Veiculo.Modelo = _xmlDoc.GetElementsByTagName("Modelo")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Modelo")[i].InnerText;
-                _Veiculo.Ano = _xmlDoc.GetElementsByTagName("Ano")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Ano")[i].InnerText;
+                _Veiculo.Tipo = _xmlDoc.GetElementsByTagName("Tipo")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Tipo")[i].InnerText;
                 _Veiculo.Cor = _xmlDoc.GetElementsByTagName("Cor")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Cor")[i].InnerText;
-                _Veiculo.Placa = _xmlDoc.GetElementsByTagName("Placa")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Placa")[i].InnerText;
-                _Veiculo.Renavam = _xmlDoc.GetElementsByTagName("Renavam")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Renavam")[i].InnerText;
+                _Veiculo.Ano = _xmlDoc.GetElementsByTagName("Ano")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Ano")[i].InnerText;
+                //_Veiculo.Renavam = _xmlDoc.GetElementsByTagName("Renavam")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Renavam")[i].InnerText;
                 _Veiculo.EstadoID = _xmlDoc.GetElementsByTagName("EstadoID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("EstadoID")[i].InnerText);
                 _Veiculo.MunicipioID = _xmlDoc.GetElementsByTagName("MunicipioID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("MunicipioID")[i].InnerText);
+
+                _Veiculo.Serie_Chassi = _xmlDoc.GetElementsByTagName("Serie_Chassi")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Serie_Chassi")[i].InnerText;
+                _Veiculo.CombustivelID = _xmlDoc.GetElementsByTagName("CombustivelID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("CombustivelID")[i].InnerText);
+                _Veiculo.Altura = _xmlDoc.GetElementsByTagName("Altura")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Altura")[i].InnerText;
+                _Veiculo.Comprimento = _xmlDoc.GetElementsByTagName("Comprimento")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Comprimento")[i].InnerText;
+                _Veiculo.Largura = _xmlDoc.GetElementsByTagName("Largura")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Largura")[i].InnerText;
+
 
                 _Veiculo.Foto = _xmlDoc.GetElementsByTagName("Foto")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Foto")[i].InnerText;
                 _Veiculo.Excluida = _xmlDoc.GetElementsByTagName("Excluida")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("Excluida")[i].InnerText);
@@ -1024,11 +1175,11 @@ namespace iModSCCredenciamento.ViewModels
                 SqlCommand _sqlCmd;
                 if (_Veiculo.VeiculoID == 0)
                 {
-                    _sqlCmd = new SqlCommand("Insert into Veiculos(Descricao,Tipo,Marca,Modelo,Ano,Cor,Placa,Renavam," +
+                    _sqlCmd = new SqlCommand("Insert into Veiculos(Descricao,Tipo,Marca,Modelo,Ano,Cor,Placa_Identificador," +
                         "EstadoID,MunicipioID,Foto,Excluida,StatusID,TipoAcessoID,NomeArquivoAnexo,DescricaoAnexo,ArquivoAnexo," +
-                        "Pendente31,Pendente32,Pendente33,Pendente34) " +
-                        " values (@v1,@v2,@v3,@v4,@v5,@v6,@v7,@v8,@v9,@v10,@v11,@v12,@v13,@v14,@v15" +
-                         ",@v16,@v17,@v18,@v19,@v20,@v21);SELECT SCOPE_IDENTITY();", _Con);
+                        "Pendente31,Pendente32,Pendente33,Pendente34,Frota,Patrimonio,Serie_Chassi,CombustivelID,Altura,Comprimento,Largura) " +
+                        " values (@v1,@v2,@v3,@v4,@v5,@v6,@v7,@v9,@v10,@v11,@v12,@v13,@v14,@v15" +
+                         ",@v16,@v17,@v18,@v19,@v20,@v21,@v22,@v23,@v24,@v25,@v26,@v27,@v28);SELECT SCOPE_IDENTITY();", _Con);
 
                     _sqlCmd.Parameters.Add("@v1", SqlDbType.VarChar).Value = _Veiculo.Descricao;
                     _sqlCmd.Parameters.Add("@v2", SqlDbType.VarChar).Value = _Veiculo.Tipo;
@@ -1036,8 +1187,8 @@ namespace iModSCCredenciamento.ViewModels
                     _sqlCmd.Parameters.Add("@v4", SqlDbType.VarChar).Value = _Veiculo.Modelo;
                     _sqlCmd.Parameters.Add("@v5", SqlDbType.VarChar).Value = _Veiculo.Ano;
                     _sqlCmd.Parameters.Add("@v6", SqlDbType.VarChar).Value = _Veiculo.Cor;
-                    _sqlCmd.Parameters.Add("@v7", SqlDbType.VarChar).Value = _Veiculo.Placa;
-                    _sqlCmd.Parameters.Add("@v8", SqlDbType.VarChar).Value = _Veiculo.Renavam;
+                    _sqlCmd.Parameters.Add("@v7", SqlDbType.VarChar).Value = _Veiculo.Placa_Identificador;
+                    //_sqlCmd.Parameters.Add("@v8", SqlDbType.VarChar).Value = _Veiculo.Renavam;
                     _sqlCmd.Parameters.Add("@v9", SqlDbType.Int).Value = _Veiculo.EstadoID;
                     _sqlCmd.Parameters.Add("@v10", SqlDbType.Int).Value = _Veiculo.MunicipioID;
                     _sqlCmd.Parameters.Add("@v11", SqlDbType.VarChar).Value = _Veiculo.Foto;
@@ -1052,6 +1203,14 @@ namespace iModSCCredenciamento.ViewModels
                     _sqlCmd.Parameters.Add("@v20", SqlDbType.Bit).Value = _controlado3;
                     _sqlCmd.Parameters.Add("@v21", SqlDbType.Bit).Value = _controlado4;
 
+                    _sqlCmd.Parameters.Add("@v22", SqlDbType.VarChar).Value = _Veiculo.Frota;
+                    _sqlCmd.Parameters.Add("@v23", SqlDbType.VarChar).Value = _Veiculo.Patrimonio;
+                    _sqlCmd.Parameters.Add("@v24", SqlDbType.VarChar).Value = _Veiculo.Serie_Chassi;
+                    _sqlCmd.Parameters.Add("@v25", SqlDbType.Int).Value = _Veiculo.CombustivelID;
+                    _sqlCmd.Parameters.Add("@v26", SqlDbType.VarChar).Value = _Veiculo.Altura;
+                    _sqlCmd.Parameters.Add("@v27", SqlDbType.VarChar).Value = _Veiculo.Comprimento;
+                    _sqlCmd.Parameters.Add("@v28", SqlDbType.VarChar).Value = _Veiculo.Largura;
+                    
                     _novID = Convert.ToInt32(_sqlCmd.ExecuteScalar());
                     _Con.Close();
 
@@ -1084,15 +1243,24 @@ namespace iModSCCredenciamento.ViewModels
 
                 _Veiculo.VeiculoID = Convert.ToInt32(_xmlDoc.GetElementsByTagName("VeiculoID")[i].InnerText);
                 _Veiculo.Descricao = _xmlDoc.GetElementsByTagName("Descricao")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Descricao")[i].InnerText;
-                _Veiculo.Tipo = _xmlDoc.GetElementsByTagName("Tipo")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Tipo")[i].InnerText;
+                _Veiculo.Placa_Identificador = _xmlDoc.GetElementsByTagName("Placa_Identificador")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Placa_Identificador")[i].InnerText;
+                _Veiculo.Frota = _xmlDoc.GetElementsByTagName("Frota")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Frota")[i].InnerText;
+                _Veiculo.Patrimonio = _xmlDoc.GetElementsByTagName("Patrimonio")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Patrimonio")[i].InnerText;
                 _Veiculo.Marca = _xmlDoc.GetElementsByTagName("Marca")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Marca")[i].InnerText;
                 _Veiculo.Modelo = _xmlDoc.GetElementsByTagName("Modelo")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Modelo")[i].InnerText;
-                _Veiculo.Ano = _xmlDoc.GetElementsByTagName("Ano")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Ano")[i].InnerText;
+                _Veiculo.Tipo = _xmlDoc.GetElementsByTagName("Tipo")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Tipo")[i].InnerText;
                 _Veiculo.Cor = _xmlDoc.GetElementsByTagName("Cor")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Cor")[i].InnerText;
-                _Veiculo.Placa = _xmlDoc.GetElementsByTagName("Placa")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Placa")[i].InnerText;
-                _Veiculo.Renavam = _xmlDoc.GetElementsByTagName("Renavam")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Renavam")[i].InnerText;
+                _Veiculo.Ano = _xmlDoc.GetElementsByTagName("Ano")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Ano")[i].InnerText;
+                //_Veiculo.Renavam = _xmlDoc.GetElementsByTagName("Renavam")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Renavam")[i].InnerText;
                 _Veiculo.EstadoID = _xmlDoc.GetElementsByTagName("EstadoID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("EstadoID")[i].InnerText);
                 _Veiculo.MunicipioID = _xmlDoc.GetElementsByTagName("MunicipioID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("MunicipioID")[i].InnerText);
+
+                _Veiculo.Serie_Chassi = _xmlDoc.GetElementsByTagName("Serie_Chassi")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Serie_Chassi")[i].InnerText;
+                _Veiculo.CombustivelID = _xmlDoc.GetElementsByTagName("CombustivelID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("CombustivelID")[i].InnerText);
+                _Veiculo.Altura = _xmlDoc.GetElementsByTagName("Altura")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Altura")[i].InnerText;
+                _Veiculo.Comprimento = _xmlDoc.GetElementsByTagName("Comprimento")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Comprimento")[i].InnerText;
+                _Veiculo.Largura = _xmlDoc.GetElementsByTagName("Largura")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Largura")[i].InnerText;
+
 
                 _Veiculo.Foto = _xmlDoc.GetElementsByTagName("Foto")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Foto")[i].InnerText;
                 _Veiculo.Excluida = _xmlDoc.GetElementsByTagName("Excluida")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("Excluida")[i].InnerText);
@@ -1122,8 +1290,8 @@ namespace iModSCCredenciamento.ViewModels
                         ",Modelo= @v4" +
                         ",Ano= @v5" +
                         ",Cor= @v6" +
-                        ",Placa= @v7" +
-                        ",Renavam= @v8" +
+                        ",Placa_Identificador= @v7" +
+                        //",Renavam= @v8" +
                         ",EstadoID= @v9" +
                         ",MunicipioID= @v10" +
                         ",Foto= @v11" +
@@ -1137,17 +1305,24 @@ namespace iModSCCredenciamento.ViewModels
                         ",Pendente32= @v19" +
                         ",Pendente33= @v20" +
                         ",Pendente34= @v21" +
+                        ",Frota= @v22" +
+                        ",Patrimonio= @v23" +
+                        ",Serie_Chassi= @v24" +
+                        ",CombustivelID= @v25" +
+                        ",Altura= @v26" +
+                        ",Comprimento= @v27" +
+                        ",Largura= @v28" +
                         " Where VeiculoID = @v0", _Con);
-
-                    _sqlCmd.Parameters.Add("@v0", SqlDbType.Int).Value = _Veiculo.VeiculoID;
+                    //,,,,,,
+                    _sqlCmd.Parameters.Add("@v0", SqlDbType.VarChar).Value = _Veiculo.VeiculoID;
                     _sqlCmd.Parameters.Add("@v1", SqlDbType.VarChar).Value = _Veiculo.Descricao;
                     _sqlCmd.Parameters.Add("@v2", SqlDbType.VarChar).Value = _Veiculo.Tipo;
                     _sqlCmd.Parameters.Add("@v3", SqlDbType.VarChar).Value = _Veiculo.Marca;
                     _sqlCmd.Parameters.Add("@v4", SqlDbType.VarChar).Value = _Veiculo.Modelo;
                     _sqlCmd.Parameters.Add("@v5", SqlDbType.VarChar).Value = _Veiculo.Ano;
                     _sqlCmd.Parameters.Add("@v6", SqlDbType.VarChar).Value = _Veiculo.Cor;
-                    _sqlCmd.Parameters.Add("@v7", SqlDbType.VarChar).Value = _Veiculo.Placa;
-                    _sqlCmd.Parameters.Add("@v8", SqlDbType.VarChar).Value = _Veiculo.Renavam;
+                    _sqlCmd.Parameters.Add("@v7", SqlDbType.VarChar).Value = _Veiculo.Placa_Identificador;
+                    //_sqlCmd.Parameters.Add("@v8", SqlDbType.VarChar).Value = _Veiculo.Renavam;
                     _sqlCmd.Parameters.Add("@v9", SqlDbType.Int).Value = _Veiculo.EstadoID;
                     _sqlCmd.Parameters.Add("@v10", SqlDbType.Int).Value = _Veiculo.MunicipioID;
                     _sqlCmd.Parameters.Add("@v11", SqlDbType.VarChar).Value = _Veiculo.Foto;
@@ -1161,6 +1336,14 @@ namespace iModSCCredenciamento.ViewModels
                     _sqlCmd.Parameters.Add("@v19", SqlDbType.Bit).Value = _controlado2;
                     _sqlCmd.Parameters.Add("@v20", SqlDbType.Bit).Value = _controlado3;
                     _sqlCmd.Parameters.Add("@v21", SqlDbType.Bit).Value = _controlado4;
+
+                    _sqlCmd.Parameters.Add("@v22", SqlDbType.VarChar).Value = _Veiculo.Frota;
+                    _sqlCmd.Parameters.Add("@v23", SqlDbType.VarChar).Value = _Veiculo.Patrimonio;
+                    _sqlCmd.Parameters.Add("@v24", SqlDbType.VarChar).Value = _Veiculo.Serie_Chassi;
+                    _sqlCmd.Parameters.Add("@v25", SqlDbType.Int).Value = _Veiculo.CombustivelID;
+                    _sqlCmd.Parameters.Add("@v26", SqlDbType.VarChar).Value = _Veiculo.Altura;
+                    _sqlCmd.Parameters.Add("@v27", SqlDbType.VarChar).Value = _Veiculo.Comprimento;
+                    _sqlCmd.Parameters.Add("@v28", SqlDbType.VarChar).Value = _Veiculo.Largura;
 
                     _sqlCmd.ExecuteNonQuery();
                     _Con.Close();

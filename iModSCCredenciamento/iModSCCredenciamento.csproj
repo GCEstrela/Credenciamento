@@ -173,6 +173,7 @@
     <Compile Include="Models\ClasseTiposPendencias.cs" />
     <Compile Include="Models\ClasseTiposVeiculo.cs" />
     <Compile Include="Models\ClasseVeiculos.cs" />
+    <Compile Include="Models\ClasseVeiculosAnexos.cs" />
     <Compile Include="Models\ClasseVeiculosCredenciais.cs" />
     <Compile Include="Models\ClasseVeiculosEmpresas.cs" />
     <Compile Include="Models\ClasseVeiculosSeguros.cs" />
@@ -216,6 +217,7 @@
     <Compile Include="ViewModels\PopupPendenciasViewModel.cs" />
     <Compile Include="ViewModels\RelatoriosViewModel.cs" />
     <Compile Include="ViewModels\TermosViewModel.cs" />
+    <Compile Include="ViewModels\VeiculosAnexosViewModel.cs" />
     <Compile Include="ViewModels\VeiculosCredenciaisViewModel.cs" />
     <Compile Include="ViewModels\VeiculosEmpresasViewModel.cs" />
     <Compile Include="ViewModels\VeiculosSegurosViewModel.cs" />
@@ -265,6 +267,9 @@
     </Compile>
     <Compile Include="Views\TermosView.xaml.cs">
       <DependentUpon>TermosView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\VeiculosAnexosView.xaml.cs">
+      <DependentUpon>VeiculosAnexosView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\VeiculosCredenciaisView.xaml.cs">
       <DependentUpon>VeiculosCredenciaisView.xaml</DependentUpon>
@@ -457,6 +462,10 @@
     <Page Include="Views\TermosView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\VeiculosAnexosView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\VeiculosCredenciaisView.xaml">
       <SubType>Designer</SubType>
@@ -711,5 +720,6 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
