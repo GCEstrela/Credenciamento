@@ -15,7 +15,7 @@ namespace iModSCCredenciamento.Models
         {
 
 
-            public int VeiculoID { get; set; }
+            public int EquipamentoVeiculoID { get; set; }
             public string Descricao { get; set; }
             public string Placa_Identificador { get; set; }
             public string Frota { get; set; }
@@ -33,7 +33,7 @@ namespace iModSCCredenciamento.Models
             public string Altura { get; set; }
             public string Comprimento { get; set; }
             public string Largura { get; set; }
-
+            public int TipoEquipamentoVeiculoID { get; set; }
             public string Foto { get; set; }
             public int Excluida { get; set; }
             public int StatusID { get; set; }

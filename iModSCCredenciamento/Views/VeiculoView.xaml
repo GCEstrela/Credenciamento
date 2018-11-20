@@ -195,7 +195,7 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn Width="80" Header="Código"  DisplayMemberBinding="{Binding VeiculoID}"/>
+                            <GridViewColumn Width="80" Header="Código"  DisplayMemberBinding="{Binding EquipamentoVeiculoID}"/>
                             <GridViewColumn Width="150" Header="Placa"  DisplayMemberBinding="{Binding Placa_Identificador}"/>
                             <!--<GridViewColumn Width="200"  Header="Renavan" DisplayMemberBinding="{Binding Renavam}"/>-->
                             <GridViewColumn Width="350"  Header="Descrição" DisplayMemberBinding="{Binding Descricao}"/>
@@ -250,12 +250,14 @@
 
                             <!--#region Grid 0 -->
                             <Label Content="Tipo:" HorizontalContentAlignment="Left"   Grid.Row="0" Grid.Column="0" Height="26" Width="36"/>
-                            <ComboBox  x:Name="Tipo_cb"  MinWidth="50" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2"/>
+                            <ComboBox  x:Name="Tipo_cb" ItemsSource="{Binding TiposEquipamentoVeiculo}" 
+                                       SelectedValue="{Binding SelectedItem.TipoEquipamentoVeiculoID, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                       SelectedValuePath="TipoEquipamentoViculoID" DisplayMemberPath="Descricao" MinWidth="50" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2"/>
                             <!--#endregion-->
 
                             <!--#region Grid 1 -->
                             <Label Content="Código:"   Grid.Row="1" Grid.Column="0" Margin="1,0,0,0" Height="26" Width="51" />
-                            <TextBox  x:Name="Codigo_tb" CharacterCasing="Upper" Grid.Row="1" Grid.Column="1" Text="{Binding SelectedItem.VeiculoID, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"/>
+                            <TextBox  x:Name="Codigo_tb" CharacterCasing="Upper" Grid.Row="1" Grid.Column="1" Text="{Binding SelectedItem.EquipamentoVeiculoID, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"/>
                             <Label Content="Placa/Ident.:"   Grid.Row="1" Grid.Column="2" Height="26" Width="67" Grid.ColumnSpan="2" />
                             <TextBox  x:Name="Placa_tb" MaxLength="8" Grid.Row="1" Grid.Column="3" CharacterCasing="Upper" Text="{Binding SelectedItem.Placa_Identificador, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True" Margin="0,0,17,0"/>
                             <Label Content="Frota:"   Grid.Column="4"  Grid.Row="1" Height="26" Width="40" />
@@ -299,7 +301,7 @@
                             <Label Content="Combustivel:"  Grid.Row="5" Grid.Column="3"   HorizontalAlignment="Right" Height="26" Width="78" Margin="0,0,17,0" />
                             <ComboBox  x:Name="Combustivel_cb" Grid.Row="5" Grid.Column="4" ItemsSource="{Binding TiposCombustiveis}" 
                                        SelectedValue="{Binding SelectedItem.CombustivelID, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
-                                       SelectedValuePath="TipoCombustivelID" Height="28" DisplayMemberPath="Descricao" Grid.ColumnSpan="2"/>
+                                       SelectedValuePath="TipoCombustivelID"  DisplayMemberPath="Descricao" Height="28" Grid.ColumnSpan="2"/>
                             <!--#endregion-->
 
                             <!--#region Grid 6 -->
@@ -329,8 +331,8 @@
 
                             <Label x:Name="label1" Content="Serviço" Grid.Column="6"     Grid.Row="4" Height="26" Width="48"/>
                             <ListBox x:Name="listBox" Grid.Column="6"   Grid.Row="5" Grid.RowSpan="2"  Margin="48,0,0,0" Grid.ColumnSpan="2" />
-                            <ComboBox x:Name="comboBox" Grid.Column="6" Grid.Row="4" Margin="48,0,0,0" Grid.ColumnSpan="2"/>
-                            <Button x:Name="IncluirServ_bt"   Content="Incluir" Width="87" Grid.Column="8" HorizontalAlignment="Left" Margin="10,10,0,5" Grid.Row="5" Height="Auto"/>
+                            <ComboBox x:Name="TipoServico_cb" ItemsSource="{Binding TiposServico}" SelectedValuePath="TipoServicoID"  DisplayMemberPath="Descricao" Grid.Column="6" Grid.Row="4" Margin="48,0,0,0" Grid.ColumnSpan="2" />
+                            <Button x:Name="IncluirServ_bt"   Content="Incluir" Width="87" Grid.Column="8" HorizontalAlignment="Left" Margin="10,10,0,5" Grid.Row="5" Height="Auto" Click="IncluirServ_bt_Click"/>
                             <Button x:Name="ExcluirServ_bt"   Content="Excluir" Width="87" Grid.Column="8" HorizontalAlignment="Left" Margin="10,10,0,5" Grid.Row="6" Height="Auto"/>
 
                             <!--#endregion-->
@@ -357,7 +359,7 @@
                 </TabItem.Header>
                 <ScrollViewer Grid.Row="0"   VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" >
                     <Grid >
-                        <local:VeiculosEmpresasView VeiculoSelecionadoIDView="{Binding SelectedItem.VeiculoID, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"
+                        <local:VeiculosEmpresasView VeiculoSelecionadoIDView="{Binding SelectedItem.EquipamentoVeiculoID, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"
                                                        Editando="{Binding IsEnabled, ElementName=ListaVeiculos_sp, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="3" Margin="0,0,0,10"  />
                     </Grid>
                 </ScrollViewer>
@@ -379,7 +381,7 @@
                 </TabItem.Header>
                 <ScrollViewer Grid.Row="0"   VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" >
                     <Grid >
-                        <local:VeiculosSegurosView VeiculoSelecionadaIDView="{Binding SelectedItem.VeiculoID, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"
+                        <local:VeiculosSegurosView VeiculoSelecionadaIDView="{Binding SelectedItem.EquipamentoVeiculoID, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"
                                                     Editando="{Binding IsEnabled, ElementName=ListaVeiculos_sp, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="3" Margin="0,0,0,10" />
                     </Grid>
                 </ScrollViewer>
@@ -404,7 +406,7 @@
                             <ColumnDefinition Width="665*"/>
                             <ColumnDefinition Width="333*"/>
                         </Grid.ColumnDefinitions>
-                        <local:VeiculosAnexosView VeiculoSelecionadoIDView="{Binding SelectedItem.VeiculoID, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"
+                        <local:VeiculosAnexosView VeiculoSelecionadoIDView="{Binding SelectedItem.EquipamentoVeiculoID, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"
                                                     Editando="{Binding IsEnabled, ElementName=ListaVeiculos_sp, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="2" Margin="0,0,0,10" />
                     </Grid>
                 </ScrollViewer>
@@ -425,7 +427,7 @@
                 </TabItem.Header>
                 <ScrollViewer Grid.Row="0"   VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" >
                     <Grid >
-                        <local:VeiculosCredenciaisView VeiculoSelecionadoIDView="{Binding SelectedItem.VeiculoID, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"
+                        <local:VeiculosCredenciaisView VeiculoSelecionadoIDView="{Binding SelectedItem.EquipamentoVeiculoID, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"
                                                     Editando="{Binding IsEnabled, ElementName=ListaVeiculos_sp, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="3" Margin="0,0,0,10" />
                     </Grid>
                 </ScrollViewer>

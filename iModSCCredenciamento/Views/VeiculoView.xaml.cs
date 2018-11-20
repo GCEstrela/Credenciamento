@@ -309,5 +309,16 @@ namespace iModSCCredenciamento.Views
 
             }
         }
+        
+        private void IncluirServ_bt_Click(object sender, RoutedEventArgs e)
+        {
+            if (TipoServico_cb.Text != "" & TipoServico_cb.Text != "N/D")
+            {
+
+                ((VeiculoViewModel)this.DataContext).OnInserirServicoCommand(TipoServico_cb.SelectedValue.ToString(), TipoServico_cb.Text);
+                //TipoAtividade_cb.SelectedIndex = 0;
+                TipoServico_cb.Text = "";
+            }
+        }
     }
 }
