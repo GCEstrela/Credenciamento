@@ -7,11 +7,11 @@
 #region
 
 using System.Data;
-using Infra.Ado.Interfaces.ParamSql;
+using IMOD.Infra.Ado.Interfaces.ParamSql;
 
 #endregion
 
-namespace Infra.Ado.Interfaces
+namespace IMOD.Infra.Ado.Interfaces
 {
     /// <summary>
     ///     Tipo de Base de Dados

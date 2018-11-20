@@ -10,7 +10,7 @@ using System;
 
 #endregion
 
-namespace Domain.Entities
+namespace IMOD.Domain.Entities
 {
     public class Vinculo
     {

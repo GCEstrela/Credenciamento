@@ -10,13 +10,13 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using CrossCutting;
-using Infra.Ado.Interfaces;
-using Infra.Ado.Interfaces.ParamSql;
+using IMOD.CrossCutting;
+using IMOD.Infra.Ado.Interfaces;
+using IMOD.Infra.Ado.Interfaces.ParamSql;
 
 #endregion
 
-namespace Infra.Ado.SQLServer
+namespace IMOD.Infra.Ado.SQLServer
 {
     public class SqlServerDataBase : IDataBaseAdo
     {

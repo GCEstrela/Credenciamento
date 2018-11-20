@@ -10,7 +10,7 @@ using System.Data;
 
 #endregion
 
-namespace Infra.Ado.Interfaces.ParamSql
+namespace IMOD.Infra.Ado.Interfaces.ParamSql
 {
     /// <summary>
     ///     Interface serve de modelo para criação de parametros relacionados a montagem de instrução SQL nativa

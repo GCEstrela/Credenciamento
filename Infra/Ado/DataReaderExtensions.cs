@@ -1,5 +1,5 @@
 ﻿// ***********************************************************************
-// Project: Infra
+// Project: IMOD.Infra
 // Crafted by: Grupo Estrela by Genetec
 // Date:  11 - 20 - 2018
 // ***********************************************************************
@@ -9,13 +9,12 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Common;
 using System.Linq;
 using System.Reflection;
 
 #endregion
 
-namespace Infra.Ado
+namespace IMOD.Infra.Ado
 {
     public static class DataReaderExtensions
     {
@@ -39,26 +38,26 @@ namespace Infra.Ado
                 if (dr != null)
                 {
                     retVal = new List<T>();
-                    var props = entity.GetProperties(BindingFlags.Instance | BindingFlags.Public);
-                    propDict = props.ToDictionary(p => p.Name.ToUpper(), p => p);
+                    var props = entity.GetProperties (BindingFlags.Instance | BindingFlags.Public);
+                    propDict = props.ToDictionary (p => p.Name.ToUpper(), p => p);
                     while (dr.Read())
                     {
                         var newObject = new T();
                         for (var index = 0; index < dr.FieldCount; index++)
                         {
-                            if (propDict.ContainsKey(dr.GetName(index).ToUpper()))
+                            if (propDict.ContainsKey (dr.GetName (index).ToUpper()))
                             {
-                                var info = propDict[dr.GetName(index).ToUpper()];
+                                var info = propDict[dr.GetName (index).ToUpper()];
                                 nomeCampo = info.Name;
                                 if ((info != null) && info.CanWrite)
                                 {
-                                    var val = dr.GetValue(index);
+                                    var val = dr.GetValue (index);
                                     valorCampo = val.ToString();
-                                    info.SetValue(newObject, val == DBNull.Value ? null : val, null);
+                                    info.SetValue (newObject, val == DBNull.Value ? null : val, null);
                                 }
                             }
                         }
-                        retVal.Add(newObject);
+                        retVal.Add (newObject);
                     }
                 }
             }
@@ -82,20 +81,20 @@ namespace Infra.Ado
             var propDict = new Dictionary<string, PropertyInfo>();
             try
             {
-                if (dr != null  )
+                if (dr != null)
                 {
-                    var props = entity.GetProperties(BindingFlags.Instance | BindingFlags.Public);
-                    propDict = props.ToDictionary(p => p.Name.ToUpper(), p => p);
+                    var props = entity.GetProperties (BindingFlags.Instance | BindingFlags.Public);
+                    propDict = props.ToDictionary (p => p.Name.ToUpper(), p => p);
                     dr.Read();
                     for (var index = 0; index < dr.FieldCount; index++)
                     {
-                        if (propDict.ContainsKey(dr.GetName(index).ToUpper()))
+                        if (propDict.ContainsKey (dr.GetName (index).ToUpper()))
                         {
-                            var info = propDict[dr.GetName(index).ToUpper()];
+                            var info = propDict[dr.GetName (index).ToUpper()];
                             if ((info != null) && info.CanWrite)
                             {
-                                var val = dr.GetValue(index);
-                                info.SetValue(retVal, val == DBNull.Value ? null : val, null);
+                                var val = dr.GetValue (index);
+                                info.SetValue (retVal, val == DBNull.Value ? null : val, null);
                             }
                         }
                     }

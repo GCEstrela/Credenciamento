@@ -10,7 +10,7 @@ using System.Collections.Generic;
 
 #endregion
 
-namespace Domain.Interfaces
+namespace IMOD.Domain.Interfaces
 {
     public interface IRepositorioBaseAdoNet<TEntity> where TEntity : class
     {

@@ -1,5 +1,5 @@
 ﻿// ***********************************************************************
-// Project: Infra
+// Project: IMOD.Infra
 // Crafted by: Grupo Estrela by Genetec
 // Date:  11 - 20 - 2018
 // ***********************************************************************
@@ -11,7 +11,7 @@ using System.ComponentModel;
 
 #endregion
 
-namespace Infra.Ado
+namespace IMOD.Infra.Ado
 {
     public static class Converter
     {
@@ -19,13 +19,13 @@ namespace Infra.Ado
 
         public static T ChangeType<T>(object value)
         {
-            return (T) ChangeType(typeof(T), value);
+            return (T) ChangeType (typeof(T), value);
         }
 
         public static object ChangeType(Type t, object value)
         {
-            var tc = TypeDescriptor.GetConverter(t);
-            return tc.ConvertFrom(value);
+            var tc = TypeDescriptor.GetConverter (t);
+            return tc.ConvertFrom (value);
         }
 
         #endregion

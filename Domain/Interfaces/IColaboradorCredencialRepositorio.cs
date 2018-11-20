@@ -7,12 +7,12 @@
 #region
 
 using System.Collections.Generic;
-using Domain.Entities;
-using Domain.EntitiesCustom;
+using IMOD.Domain.Entities;
+using IMOD.Domain.EntitiesCustom;
 
 #endregion
 
-namespace Domain.Interfaces
+namespace IMOD.Domain.Interfaces
 {
     public interface IColaboradorCredencialRepositorio : IRepositorioBaseAdoNet<ColaboradorCredencial>
     {

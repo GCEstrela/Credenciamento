@@ -1,20 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿// ***********************************************************************
+// Project: IMOD.Infra
+// Crafted by: Grupo Estrela by Genetec
+// Date:  11 - 20 - 2018
+// ***********************************************************************
 
-namespace Infra.Ado
+#region
+
+using System.Configuration;
+
+#endregion
+
+namespace IMOD.Infra.Ado
 {
     /// <summary>
-    /// Obtem configurações correntes
+    ///     Obtem configurações correntes
     /// </summary>
     public static class CurrentConfig
     {
+        #region  Propriedades
+
         /// <summary>
-        /// String de conexao com o banco de dados
+        ///     String de conexao com o banco de dados
         /// </summary>
         public static string ConexaoString => ConfigurationManager.ConnectionStrings["Credenciamento"].ConnectionString;
+
+        #endregion
     }
 }

@@ -11,7 +11,7 @@ using System.Data;
 
 #endregion
 
-namespace Infra.Ado.Interfaces.ParamSql
+namespace IMOD.Infra.Ado.Interfaces.ParamSql
 {
     /// <summary>
     ///     Define o tipo do parametro

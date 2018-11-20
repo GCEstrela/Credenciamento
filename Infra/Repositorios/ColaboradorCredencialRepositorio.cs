@@ -10,17 +10,17 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using CrossCutting;
-using Domain.Entities;
-using Domain.EntitiesCustom;
-using Domain.Interfaces;
-using Infra.Ado;
-using Infra.Ado.Interfaces;
-using Infra.Ado.Interfaces.ParamSql;
+using IMOD.CrossCutting;
+using IMOD.Domain.Entities;
+using IMOD.Domain.EntitiesCustom;
+using IMOD.Domain.Interfaces;
+using IMOD.Infra.Ado;
+using IMOD.Infra.Ado.Interfaces;
+using IMOD.Infra.Ado.Interfaces.ParamSql;
 
 #endregion
 
-namespace Infra.Repositorios
+namespace IMOD.Infra.Repositorios
 {
     public class ColaboradorCredencialRepositorio : IColaboradorCredencialRepositorio
     {

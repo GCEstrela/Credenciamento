@@ -4,7 +4,7 @@
 // Date:  11 - 19 - 2018
 // ***********************************************************************
 
-namespace Infra.Ado.Interfaces
+namespace IMOD.Infra.Ado.Interfaces
 {
     public interface IDataWorkerFactory
     {

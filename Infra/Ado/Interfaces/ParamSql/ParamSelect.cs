@@ -10,7 +10,7 @@ using System.Data;
 
 #endregion
 
-namespace Infra.Ado.Interfaces.ParamSql
+namespace IMOD.Infra.Ado.Interfaces.ParamSql
 {
     /// <summary>
     ///     Classe usada para receber e tratar parametros adequados a instruçao Select

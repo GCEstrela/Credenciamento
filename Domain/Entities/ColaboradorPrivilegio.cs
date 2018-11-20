@@ -4,7 +4,7 @@
 // Date:  11 - 19 - 2018
 // ***********************************************************************
 
-namespace Domain.Entities
+namespace IMOD.Domain.Entities
 {
     public class ColaboradorPrivilegio
     {

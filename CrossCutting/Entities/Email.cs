@@ -10,7 +10,7 @@ using System.Collections.Generic;
 
 #endregion
 
-namespace CrossCutting.Entities
+namespace IMOD.CrossCutting.Entities
 {
     public class Email
     {

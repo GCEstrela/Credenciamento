@@ -1,6 +1,6 @@
 ﻿using System;
-using Domain.Entities;
-using Infra.Repositorios;
+using IMOD.Domain.Entities;
+using IMOD.Infra.Repositorios;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTestImod

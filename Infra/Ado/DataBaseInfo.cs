@@ -1,10 +1,10 @@
 ﻿// ***********************************************************************
-// Project: Infra
+// Project: IMOD.Infra
 // Crafted by: Grupo Estrela by Genetec
 // Date:  11 - 19 - 2018
 // ***********************************************************************
 
-namespace Infra.Ado
+namespace IMOD.Infra.Ado
 {
     public class DataBaseInfo
     {

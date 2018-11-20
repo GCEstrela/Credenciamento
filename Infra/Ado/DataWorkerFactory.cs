@@ -1,5 +1,5 @@
 ﻿// ***********************************************************************
-// Project: Infra
+// Project: IMOD.Infra
 // Crafted by: Grupo Estrela by Genetec
 // Date:  11 - 19 - 2018
 // ***********************************************************************
@@ -7,12 +7,12 @@
 #region
 
 using System;
-using Infra.Ado.Interfaces;
-using Infra.Ado.SQLServer;
+using IMOD.Infra.Ado.Interfaces;
+using IMOD.Infra.Ado.SQLServer;
 
 #endregion
 
-namespace Infra.Ado
+namespace IMOD.Infra.Ado
 {
     public class DataWorkerFactory : IDataWorkerFactory
     {
@@ -20,6 +20,8 @@ namespace Infra.Ado
         ///     Retorna instancia do banco de dados
         /// </summary>
         private static IDataBaseAdo _instanciaSqlServer;
+
+        #region  Metodos
 
         /// <summary>
         ///     Retorna instancia do banco de dados
@@ -46,8 +48,10 @@ namespace Infra.Ado
                     _instanciaSqlServer.Connectionstring = conectionstring;
                     return _instanciaSqlServer;
                 default:
-                    throw new Exception("Não foi encontrado um tipo de banco de dados");
+                    throw new Exception ("Não foi encontrado um tipo de banco de dados");
             }
         }
+
+        #endregion
     }
 }

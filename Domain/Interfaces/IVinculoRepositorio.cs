@@ -6,11 +6,11 @@
 
 #region
 
-using Domain.Entities;
+using IMOD.Domain.Entities;
 
 #endregion
 
-namespace Domain.Interfaces
+namespace IMOD.Domain.Interfaces
 {
     public interface IVinculoRepositorio : IRepositorioBaseAdoNet<Vinculo>
     {

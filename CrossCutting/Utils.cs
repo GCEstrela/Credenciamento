@@ -23,12 +23,12 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using System.Xml.Serialization;
-using CrossCutting.Entities;
+using IMOD.CrossCutting.Entities;
 using Newtonsoft.Json;
 
 #endregion
 
-namespace CrossCutting
+namespace IMOD.CrossCutting
 {
     /// <summary>
     ///     Contém Helpers para auxiliar ou extender funcionalidades
