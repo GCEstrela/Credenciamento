@@ -7,8 +7,8 @@
     <ProjectGuid>{0B4AD570-EFA6-4207-B4C1-3E95050452AC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Infra</RootNamespace>
-    <AssemblyName>Infra</AssemblyName>
+    <RootNamespace>IMOD.Infra</RootNamespace>
+    <AssemblyName>IMOD.Infra</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -84,13 +84,13 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\CrossCutting\CrossCutting.csproj">
+    <ProjectReference Include="..\CrossCutting\IMOD.CrossCutting.csproj">
       <Project>{4279ABF8-7C1B-497F-90BD-E533B0E6A417}</Project>
-      <Name>CrossCutting</Name>
+      <Name>IMOD.CrossCutting</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Domain\Domain.csproj">
+    <ProjectReference Include="..\Domain\IMOD.Domain.csproj">
       <Project>{F7DC651F-CB04-40CA-AC1B-C2355B474CF3}</Project>
-      <Name>Domain</Name>
+      <Name>IMOD.Domain</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

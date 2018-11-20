@@ -55,17 +55,17 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CrossCutting\CrossCutting.csproj">
+    <ProjectReference Include="..\CrossCutting\IMOD.CrossCutting.csproj">
       <Project>{4279abf8-7c1b-497f-90bd-e533b0e6a417}</Project>
-      <Name>CrossCutting</Name>
+      <Name>IMOD.CrossCutting</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Domain\Domain.csproj">
+    <ProjectReference Include="..\Domain\IMOD.Domain.csproj">
       <Project>{f7dc651f-cb04-40ca-ac1b-c2355b474cf3}</Project>
-      <Name>Domain</Name>
+      <Name>IMOD.Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Infra\Infra.csproj">
+    <ProjectReference Include="..\Infra\IMOD.Infra.csproj">
       <Project>{0b4ad570-efa6-4207-b4c1-3e95050452ac}</Project>
-      <Name>Infra</Name>
+      <Name>IMOD.Infra</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

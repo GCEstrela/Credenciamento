@@ -4,14 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F7DC651F-CB04-40CA-AC1B-C2355B474CF3}</ProjectGuid>
+    <ProjectGuid>{B7BD6687-CB39-45A0-9B21-67125DA69A2E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Domain</RootNamespace>
-    <AssemblyName>Domain</AssemblyName>
+    <RootNamespace>IMOD.Application</RootNamespace>
+    <AssemblyName>IMOD.Application</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -41,38 +40,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EntitiesCustom\ColaboradoresCredenciaisView.cs" />
-    <Compile Include="Entities\AreaAcesso.cs" />
-    <Compile Include="Entities\ColaboradorCredencial.cs" />
-    <Compile Include="Entities\ColaboradorEmpresa.cs" />
-    <Compile Include="Entities\ColaboradorPrivilegio.cs" />
-    <Compile Include="Entities\CredencialMotivo.cs" />
-    <Compile Include="Entities\CredencialStatus.cs" />
-    <Compile Include="Entities\Empresa.cs" />
-    <Compile Include="Entities\EmpresaContrato.cs" />
-    <Compile Include="Entities\EmpresaLayoutCracha.cs" />
-    <Compile Include="Entities\FormatoCredencial.cs" />
-    <Compile Include="Entities\IAreaAcesso.cs" />
-    <Compile Include="Entities\TecnologiaCredencial.cs" />
-    <Compile Include="Entities\TipoCredencial.cs" />
-    <Compile Include="Entities\Vinculo.cs" />
-    <Compile Include="Interfaces\IAreaAcesso.cs" />
-    <Compile Include="Interfaces\IColaboradorCredencialRepositorio.cs" />
-    <Compile Include="Interfaces\IColaboradorEmpresaRepositorio.cs" />
-    <Compile Include="Interfaces\IColaboradorPrivilegioRepositorio.cs" />
-    <Compile Include="Interfaces\ITecnologiaCredencialRepositorio.cs" />
-    <Compile Include="Interfaces\ICredencialMotivoRepositorio.cs" />
-    <Compile Include="Interfaces\ICredencialStatusRepositorio.cs" />
-    <Compile Include="Interfaces\IEmpresaRepositorio.cs" />
-    <Compile Include="Interfaces\IEmpresaContratoRepositorio.cs" />
-    <Compile Include="Interfaces\IEmpresaLayoutCrachaRepositorio.cs" />
-    <Compile Include="Interfaces\IFormatoCredencialRepositorio.cs" />
-    <Compile Include="Interfaces\IRepositorioBaseAdoNet.cs" />
-    <Compile Include="Interfaces\ITipoCredencialRepositorio.cs" />
-    <Compile Include="Interfaces\IVinculoRepositorio.cs" />
+    <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Interfaces\" />
+    <Folder Include="Service\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
