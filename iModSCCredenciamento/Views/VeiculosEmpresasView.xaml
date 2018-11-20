@@ -147,74 +147,74 @@
     </UserControl.Resources>
     <!--End Styles-->
 
-    <!--Main Grid -->      
+    <!--Main Grid -->
 
 
-        <!-- Grid 0 -->
-    <Grid Grid.Row="0" Margin="0,0,0,10" >
+    <!-- Grid 0 -->
+    <Grid Grid.Row="0" Margin="0,0,0,-10" >
         <Grid.RowDefinitions>
             <RowDefinition x:Name="Linha0_sp1" />
             <RowDefinition Height="226"  />
         </Grid.RowDefinitions>
 
         <StackPanel x:Name="Linha0_sp" Grid.Row="0"  >
-            
+
             <!--IsEnabled="{Binding Path=HabilitaEdicao, Mode=TwoWay}"-->
-        <Grid  VerticalAlignment="Top" Height="165">
-            <!--GROUPBOX TOP-->
-            <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}"    x:Name="Informacoes_gb" Header="Informações do Vínculo"  Margin="10" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="145" >
-                <Grid HorizontalAlignment="Stretch" Margin="1"   ScrollViewer.VerticalScrollBarVisibility="Visible" VerticalAlignment="Stretch">
-                    <Grid.RowDefinitions >
-                        <RowDefinition Height="40"/>
-                        <RowDefinition Height="40"/>
-                        <RowDefinition Height="40"/>
-                        <RowDefinition Height="40"/>
-                        
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="150"/>
-                        <ColumnDefinition Width="100"/>
-                        <ColumnDefinition Width="100"/>
-                        <ColumnDefinition Width="100"/>
-                        <ColumnDefinition Width="130"/>
-                        <ColumnDefinition Width="73*"/>
-                    </Grid.ColumnDefinitions>
+            <Grid  VerticalAlignment="Top" Height="188">
+                <!--GROUPBOX TOP-->
+                <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}"    x:Name="Informacoes_gb" Header="Informações do Vínculo"  Margin="10" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="165" >
+                    <Grid HorizontalAlignment="Stretch" Margin="1,1,1,0"   ScrollViewer.VerticalScrollBarVisibility="Visible" VerticalAlignment="Top" Height="121">
+                        <Grid.RowDefinitions >
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="40"/>
+
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="140"/>
+                            <ColumnDefinition Width="73*"/>
+                        </Grid.ColumnDefinitions>
 
 
-                    <!--#region Grid 0 -->
+                        <!--#region Grid 0 -->
 
-                    <Label Content="Razão Social da Empresa:" Height="28" Width="150" Margin="0,0,5,0" HorizontalContentAlignment="Right" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1" />
-                    <ComboBox  x:Name="EmpresaRazaoSocial_cb" Height="28" MinWidth="50" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3"
+                        <Label Content="Razão Social da Empresa:" Height="28" Width="150" Margin="0,0,5,0" HorizontalContentAlignment="Right" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1" />
+                        <ComboBox  x:Name="EmpresaRazaoSocial_cb" Height="28" MinWidth="50" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3"
                                               ItemsSource="{Binding Empresas}" DisplayMemberPath="Nome"  SelectedValue="{Binding SelectedItem.EmpresaID, ElementName=ListaVeiculosEmpresas_lv, UpdateSourceTrigger=PropertyChanged}" 
                                               SelectedValuePath="EmpresaID"  SelectionChanged="{data:MethodBinding  CarregaColecaoContratos, {Binding SelectedItem.EmpresaID, ElementName=EmpresaRazaoSocial_cb}}"  />
 
-                    <Label Content="RENAVAM/Patrimônio:" Height="28" Width="130" Margin="0,0,5,0" HorizontalContentAlignment="Right" Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="1" />
-                    <TextBox  x:Name="Matricula_tb" MaxLength="15" CharacterCasing="Upper" Text="{Binding SelectedItem.Matricula, ElementName=ListaVeiculosEmpresas_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="28"  MaxWidth="200" Grid.Row="0" Grid.Column="5" Grid.ColumnSpan="1" HorizontalAlignment="Left" Width="150"/>
-                    <!--#endregion Grid 0 -->
+                        <Label Content="RENAVAM/Patrimônio:" Height="28" Width="140" HorizontalContentAlignment="Right" Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="1" />
+                        <TextBox  x:Name="Matricula_tb" MaxLength="15" CharacterCasing="Upper" Text="{Binding SelectedItem.Matricula, ElementName=ListaVeiculosEmpresas_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="28"  MaxWidth="200" Grid.Row="0" Grid.Column="5" Grid.ColumnSpan="1" HorizontalAlignment="Left" Width="150"/>
+                        <!--#endregion Grid 0 -->
 
-                    <!--#region Grid 1 -->
-                    <Label Content="Contrato:" Height="28" Width="150" Margin="0,0,5,0" HorizontalContentAlignment="Right" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="1"  />
-                    <ComboBox  x:Name="Contrato_cb" Height="28" MinWidth="50" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
+                        <!--#region Grid 1 -->
+                        <Label Content="Contrato:" Height="28" Width="150" Margin="0,0,5,0" HorizontalContentAlignment="Right" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="1"  />
+                        <ComboBox  x:Name="Contrato_cb" Height="28" MinWidth="50" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
                                               ItemsSource="{Binding Contratos}" DisplayMemberPath="Descricao"  SelectedValue="{Binding SelectedItem.EmpresaContratoID, ElementName=ListaVeiculosEmpresas_lv, UpdateSourceTrigger=PropertyChanged}" 
                                               SelectedValuePath="EmpresaContratoID"  />
-                    <!--#endregion Grid 1 -->
+                        <!--#endregion Grid 1 -->
 
 
-                    <!--#region Grid 2 -->
-                    <Label Content="Vínculo Ativo:" Height="28" Width="150" Margin="0,0,5,0" HorizontalContentAlignment="Right" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="1"  />
+                        <!--#region Grid 2 -->
+                        <Label Content="Vínculo Ativo:" Height="28" Width="150" Margin="0,0,5,0" HorizontalContentAlignment="Right" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="1"  />
 
-                    <CheckBox x:Name="Ativo_cb" FlowDirection="RightToLeft" Margin="1,10,0,0" VerticalAlignment="Center" HorizontalAlignment="Left" 
+                        <CheckBox x:Name="Ativo_cb" FlowDirection="RightToLeft" Margin="1,10,0,0" VerticalAlignment="Center" HorizontalAlignment="Left" 
                                                IsChecked="{Binding SelectedItem.Ativo, ElementName=ListaVeiculosEmpresas_lv, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.Column="1" />
 
 
-                    <!--#endregion Grid 2 -->
+                        <!--#endregion Grid 2 -->
 
 
-                </Grid>
-            </GroupBox>
-            <!--/GROUPBOX TOP-->
-        
-        </Grid>
+                    </Grid>
+                </GroupBox>
+                <!--/GROUPBOX TOP-->
+
+            </Grid>
         </StackPanel>
         <!--IsEnabled="{Binding Path=HabilitaEdicao, Mode=TwoWay}"-->
 

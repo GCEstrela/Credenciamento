@@ -23,7 +23,7 @@ namespace iModSCCredenciamento.Funcoes
 
         //public static SqlConnection _Con = new SqlConnection("Data Source=WDPOA-006100\\SQLEXPRESS;Initial Catalog=iModCredenciamento;User ID=imod;Password=imod;Min Pool Size=5;Max Pool Size=15;Connection Reset=True;Connection Lifetime=600;Trusted_Connection=no;MultipleActiveResultSets=True");
         //public static SqlConnection _Con = new SqlConnection("Data Source=LUIZHENRIQUE\\SQLEXPRESS;Initial Catalog=iModCredenciamento;User ID=imod;Password=imod;Min Pool Size=5;Max Pool Size=15;Connection Reset=True;Connection Lifetime=600;Trusted_Connection=no;MultipleActiveResultSets=True");
-        public static string _connectionString = "Data Source=LUIZHENRIQUE\\SQLEXPRESS;Initial Catalog=D_iModCredenciamento;User ID=imod;Password=imod;Min Pool Size=5;Max Pool Size=15;Connection Reset=True;Connection Lifetime=600;Trusted_Connection=no;MultipleActiveResultSets=True";
+        public static string _connectionString = "Data Source=172.16.190.108\\SQLEXPRESS;Initial Catalog=D_iModCredenciamento;User ID=imod;Password=imod;Min Pool Size=5;Max Pool Size=15;Connection Reset=True;Connection Lifetime=600;Trusted_Connection=no;MultipleActiveResultSets=True";
 
         public static void AbreConfig()
         {
