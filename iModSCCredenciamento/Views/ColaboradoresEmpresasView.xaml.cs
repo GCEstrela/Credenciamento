@@ -1,20 +1,10 @@
 ﻿using iModSCCredenciamento.Funcoes;
 using iModSCCredenciamento.ViewModels;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Forms;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using UserControl = System.Windows.Controls.UserControl;
 
 namespace iModSCCredenciamento.Views
@@ -103,13 +93,13 @@ namespace iModSCCredenciamento.Views
 
         private void Excluir_bt_Click(object sender, RoutedEventArgs e)
         {
-            Editando = true;Botoes_Principais_sp.Visibility = Visibility.Visible;
+            Editando = true; Botoes_Principais_sp.Visibility = Visibility.Visible;
             ((ColaboradoresEmpresasViewModel)this.DataContext).OnExcluirCommand();
         }
 
         private void ExecutarPesquisa_bt_Click(object sender, RoutedEventArgs e)
         {
-            Editando = true;Botoes_Principais_sp.Visibility = Visibility.Visible;
+            Editando = true; Botoes_Principais_sp.Visibility = Visibility.Visible;
             //Criterios_tb.Text = PesquisaCodigo_tb.Text + (char)(20) + PesquisaNome_tb.Text + (char)(20) + PesquisaCNPJ_tb.Text;
             Editando = false; Botoes_Principais_sp.Visibility = Visibility.Hidden;
             //((EmpresasSegurosViewModel)this.DataContext).ExecutarPesquisaCommand();
@@ -117,7 +107,7 @@ namespace iModSCCredenciamento.Views
 
         private void CancelarPesquisa_bt_Click(object sender, RoutedEventArgs e)
         {
-            Editando = true;Botoes_Principais_sp.Visibility = Visibility.Visible;
+            Editando = true; Botoes_Principais_sp.Visibility = Visibility.Visible;
             Botoes_Pesquisar_sp.Visibility = Visibility.Hidden;
 
         }
@@ -148,7 +138,7 @@ namespace iModSCCredenciamento.Views
                 return;
             }
             EmpresaRazaoSocial_cb.IsEnabled = true;
-            Editando = true;Botoes_Principais_sp.Visibility = Visibility.Visible;
+            Editando = true; Botoes_Principais_sp.Visibility = Visibility.Visible;
             ((ColaboradoresEmpresasViewModel)this.DataContext).OnSalvarEdicaoCommand();
             Botoes_Editar_sp.Visibility = Visibility.Hidden;
             ListaColaboradoresEmpresas_lv.IsHitTestVisible = true;
@@ -159,7 +149,7 @@ namespace iModSCCredenciamento.Views
         private void CancelarAdicao_bt_Click(object sender, RoutedEventArgs e)
         {
             Editando = true;
-            Editando = true;Botoes_Principais_sp.Visibility = Visibility.Visible;
+            Editando = true; Botoes_Principais_sp.Visibility = Visibility.Visible;
             ((ColaboradoresEmpresasViewModel)this.DataContext).OnCancelarAdicaoCommand();
             Botoes_Adicionar_sp.Visibility = Visibility.Hidden;
             Global.SetReadonly(Linha0_sp, true);
@@ -176,7 +166,7 @@ namespace iModSCCredenciamento.Views
             {
                 return;
             }
-            Editando = true;Botoes_Principais_sp.Visibility = Visibility.Visible;
+            Editando = true; Botoes_Principais_sp.Visibility = Visibility.Visible;
             ((ColaboradoresEmpresasViewModel)this.DataContext).OnSalvarAdicaoCommand();
             Botoes_Adicionar_sp.Visibility = Visibility.Hidden;
             Global.SetReadonly(Linha0_sp, true);
@@ -214,13 +204,13 @@ namespace iModSCCredenciamento.Views
 
         //private void Contrato_cb_SelectionChanged(object sender, SelectionChangedEventArgs e)
         //{
-            
+
         //    if (((ColaboradoresEmpresasViewModel)this.DataContext).VerificaVinculo() && !Editando)
         //    {
         //        SalvarEdicao_bt.IsEnabled = false;
         //        SalvarAdicao_bt.IsEnabled = false;
         //        Global.PopupBox("Este colaborador já possui vínculo ativo com este contrato!", 1);
-                
+
         //    }
         //    else
         //    {
@@ -228,7 +218,7 @@ namespace iModSCCredenciamento.Views
         //        SalvarAdicao_bt.IsEnabled = true;
         //    }
 
-            
+
 
         //}
 
@@ -277,12 +267,22 @@ namespace iModSCCredenciamento.Views
         {
             if (!Editando)
             {
-                if (!Global.PopupBox("Todas as credenciais deste colaborador serão canceladas! Confirma desligamento?",2))
+                if (!Global.PopupBox("Todas as credenciais deste colaborador serão canceladas! Confirma desligamento?", 2))
                 {
                     Ativo_cb.IsChecked = true;
                 }
                 return;
             }
+        }
+
+
+        private void EmpresaRazaoSocial_DropDownClosed(object sender, EventArgs e)
+        {
+            var display = EmpresaRazaoSocial_cb.Text;
+            var data1 = ((ColaboradoresEmpresasViewModel)this.DataContext).ColaboradoresEmpresas;
+            data1.FirstOrDefault().EmpresaNome = display;
+            ListaColaboradoresEmpresas_lv.ItemsSource = data1;
+            ListaColaboradoresEmpresas_lv.Items.Refresh();
         }
 
         //private void EmpresaRazaoSocial_cb_SelectionChanged(object sender, SelectionChangedEventArgs e)

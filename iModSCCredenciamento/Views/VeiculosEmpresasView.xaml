@@ -13,6 +13,7 @@
     <UserControl.Resources>
         <i:StringToImageConverter x:Key="Convert64ToImage"/>
         <Style TargetType="{x:Type Label}">
+            <Setter Property="Foreground" Value="#FFD0D0D0"/>
             <Setter Property="VerticalAlignment" Value="Bottom"></Setter>
             <Setter Property="HorizontalAlignment" Value="Left"></Setter>
         </Style>

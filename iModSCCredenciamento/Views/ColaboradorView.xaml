@@ -3,12 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:wpf="clr-namespace:CSharpControls.Wpf;assembly=CSharpControls.Wpf"
              xmlns:local="clr-namespace:iModSCCredenciamento.Views"
              xmlns:i="clr-namespace:iModSCCredenciamento.Funcoes"
              xmlns:data="clr-namespace:Singulink.Windows.Data"
              xmlns:gif="http://wpfanimatedgif.codeplex.com"
-              xmlns:z="clr-namespace:iModSCCredenciamento.Regras"
-              mc:Ignorable="d" >
+             xmlns:z="clr-namespace:iModSCCredenciamento.Regras"
+             mc:Ignorable="d" >
     <UserControl.Resources>
         <ControlTemplate x:Key="validationErrorTemplate">
             <DockPanel>
@@ -28,25 +29,13 @@
                 <AdornedElementPlaceholder x:Name="ErrorAdorner" ></AdornedElementPlaceholder>
             </DockPanel>
         </ControlTemplate>
-        <Style x:Key="MenuStyle" TargetType="{x:Type Button}">
-            <Setter Property="Background" Value="{x:Null}" />
-            <Setter Property="BorderBrush" Value="{x:Null}" />
-            <Setter Property="Width" Value="16" />
-            <Setter Property="Height" Value="16" />
-            <Setter Property="Cursor" Value="Hand" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <Border CornerRadius="0" Background="{TemplateBinding Background}">
-                            <Grid>
-                                <ContentPresenter x:Name="MyContentPresenter" Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" />
-                            </Grid>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
 
+        <i:StringToImageConverter x:Key="Convert64ToImage"/>
+        <Style TargetType="{x:Type Label}">
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Right"></Setter>
+            <Setter Property="Foreground" Value="#FFD0D0D0"/>
+        </Style>
         <Style TargetType="{x:Type DatePickerTextBox}">
             <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" />
             <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />
@@ -142,6 +131,26 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
+        <Style x:Key="MenuStyle" TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="{x:Null}" />
+            <Setter Property="BorderBrush" Value="{x:Null}" />
+            <Setter Property="Width" Value="16" />
+            <Setter Property="Height" Value="16" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border CornerRadius="0" Background="{TemplateBinding Background}">
+                            <Grid>
+                                <ContentPresenter x:Name="MyContentPresenter" Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" />
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
         <i:FormateTel x:Key="FormateTel" />
     </UserControl.Resources>
     <Grid Margin="5,5">
@@ -232,113 +241,174 @@
                     <StackPanel x:Name="Geral_sp" IsHitTestVisible="False" >
                         <Grid>
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="28"/>
+                                <RowDefinition Height="19.333"/>
+                                <RowDefinition Height="250.667"/>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="400*"/>
-                                <ColumnDefinition Width="400*" />
+                                <ColumnDefinition Width="216*"/>
+                                <ColumnDefinition Width="391*"/>
+                                <ColumnDefinition Width="1036*" />
                             </Grid.ColumnDefinitions>
 
-                            <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}"    Grid.Row="0" Grid.Column="0"  Header="Identificação"  Margin="10,10,10,10" VerticalAlignment="Stretch" >
-                                <StackPanel Orientation="Horizontal">
-                                    <StackPanel.Resources>
-                                        <i:StringToImageConverter x:Key="StringToImageConverter" />
-                                    </StackPanel.Resources>
-                                    <StackPanel Margin="10,10,0,0">
-                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,10,0,10" >
-                                            <Label Content="Código:" Height="28" Width="100" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                            <TextBox  x:Name="Codigo_tb" MaxLength="5" CharacterCasing="Upper" Text="{Binding SelectedItem.ColaboradorID, ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"  Height="24"  Width="50"/>
-                                            <Label Content="CPF:" Height="28" Width="62" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                            <TextBox  x:Name="CPF_tb"  MaxLength="14"  CharacterCasing="Upper"
-                                                               IsEnabled="True"  Height="24"  Width="120"  Foreground="White" 
-                                                               VerticalContentAlignment="Center" HorizontalContentAlignment="Center" LostFocus="OnConsultarCpf_LostFocus"  Validation.ErrorTemplate="{StaticResource validationErrorTemplate}">
-                                                <TextBox.Text>
-                                                    <Binding Path="SelectedItem.CPF" ValidatesOnDataErrors="False"  Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"  ElementName="ListaColaboradores_lv">
-                                                        <Binding.ValidationRules>
-                                                            <z:CpfValida></z:CpfValida>
-                                                        </Binding.ValidationRules>
-                                                    </Binding>
-                                                </TextBox.Text>
-                                            </TextBox>
+                            <!--GroupBox1-->
+                            <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" Foreground="#FFD0D0D0"   Grid.Row="0" Grid.Column="0"  Header="Identificação"  Margin="10" VerticalAlignment="Stretch" Grid.ColumnSpan="2" Grid.RowSpan="3" >
+                                <Grid HorizontalAlignment="Stretch" Margin="1"   ScrollViewer.VerticalScrollBarVisibility="Visible" VerticalAlignment="Stretch">
+                                    <Grid.RowDefinitions >
+                                        <RowDefinition Height="42" />
+                                        <RowDefinition Height="42"/>
+                                        <RowDefinition Height="42"/>
+                                        <RowDefinition Height="42"/>
+                                        <RowDefinition Height="42"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="100"/>
+                                        <ColumnDefinition Width="62"/>
+                                        <ColumnDefinition Width="68"/>
+                                        <ColumnDefinition Width="62"/>
+                                        <ColumnDefinition Width="120"/>
+                                        <ColumnDefinition Width="65*"/>
+                                    </Grid.ColumnDefinitions>
 
-                                        </StackPanel>
-                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,10" >
-                                            <Label Content="Nome:" Height="28" Width="100" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                            <TextBox  x:Name="Nome_tb" MaxLength="50" CharacterCasing="Upper" Text="{Binding SelectedItem.Nome, ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="300"/>
-                                        </StackPanel>
-                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,10" >
-                                            <Label Content="Apelido:" Height="28" Width="100" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                            <TextBox  x:Name="Apelido_tb" MaxLength="30"  CharacterCasing="Upper" Text="{Binding SelectedItem.Apelido, ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="200"/>
-                                        </StackPanel>
-                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,10" >
-                                            <Label Content="Nome do Pai:" Height="28" Width="100" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                            <TextBox  x:Name="NomePai_tb" MaxLength="50" CharacterCasing="Upper" Text="{Binding SelectedItem.NomePai, ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="300"/>
-                                        </StackPanel>
-                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,10" >
-                                            <Label Content="Nome da Mãe:" Height="28" Width="100" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                            <TextBox  x:Name="NomeMae_tb" MaxLength="50" CharacterCasing="Upper" Text="{Binding SelectedItem.NomeMae, ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="300"/>
-                                        </StackPanel>
-                                    </StackPanel>
-                                    <StackPanel VerticalAlignment="Center" Margin="20,0" >
-                                        <Border  CornerRadius="3"  BorderThickness="1" Grid.Column="0" Width ="120" Height="120" Margin="0,5,0,5" HorizontalAlignment="Left" BorderBrush="#FF686868"  >
+                                    <!--#region Grid 0 -->
+                                    <Label Content="Código:" Height="28" Margin="0,0,5,0" HorizontalContentAlignment="Right" Grid.Row="0" Grid.Column="0" />
+                                    <TextBox  x:Name="Codigo_tb" MaxLength="5" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="1" CharacterCasing="Upper" Text="{Binding SelectedItem.ColaboradorID, ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"  Height="24"  Width="50" Margin="0,10,12,9"/>
+
+                                    <Label Content="CPF:" Height="24" Width="62" Margin="0,0,5,0" HorizontalContentAlignment="Right" Grid.Row="0" Grid.Column="2"/>
+
+                                    <TextBox  x:Name="CPF_tb"  MaxLength="14"  CharacterCasing="Upper" Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="2"
+                                                               IsEnabled="True"  Height="24" Width="182"  HorizontalAlignment="Center"
+                                                               HorizontalContentAlignment="Center" LostFocus="OnConsultarCpf_LostFocus"  Validation.ErrorTemplate="{StaticResource validationErrorTemplate}" >
+                                        <TextBox.Text>
+                                            <Binding Path="SelectedItem.CPF" ValidatesOnDataErrors="False"  Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"  ElementName="ListaColaboradores_lv">
+                                                <Binding.ValidationRules>
+                                                    <z:CpfValida></z:CpfValida>
+                                                </Binding.ValidationRules>
+                                            </Binding>
+                                        </TextBox.Text>
+                                    </TextBox>
+
+                                    <StackPanel HorizontalAlignment="Right" Grid.Row="0" Grid.Column="5" Grid.RowSpan="4">
+                                        <StackPanel.Resources>
+                                            <i:StringToImageConverter x:Key="StringToImageConverter" />
+                                        </StackPanel.Resources>
+
+                                        <Border  CornerRadius="3"  BorderThickness="1" Grid.Column="5" Grid.RowSpan="4" Width ="120"  Margin="5,14,10,5" HorizontalAlignment="Left" BorderBrush="#FF686868"  >
                                             <!--<Image x:Name="Foto_im" Stretch="Fill"  Width ="124" Height="124" Source="{Binding ElementName=ListaColaboradores_lv, Path=SelectedItem.Foto,
                                         Converter={StaticResource StringToImageConverter},UpdateSourceTrigger=Explicit, Mode=TwoWay}"  gif:ImageBehavior.AnimatedSource="{Binding Waiting}"  />-->
                                             <!--<Image x:Name="Foto_im" Stretch="Fill"  Width ="124" Height="124"  gif:ImageBehavior.AnimatedSource="/iModSCCredenciamento;component/Resources/Waitng.gif" />-->
-                                            <Image x:Name="Foto_im" Stretch="Fill"  Width ="124" Height="124" Source="{Binding SelectedItem.Foto, ElementName=ListaColaboradores_lv,
-                                        Converter={StaticResource StringToImageConverter},UpdateSourceTrigger=Explicit, Mode=TwoWay}"   />
+                                            <Image x:Name="Foto_im" Stretch="Fill"  Width ="124" Height="126" Source="{Binding SelectedItem.Foto, ElementName=ListaColaboradores_lv,
+                                        Converter={StaticResource StringToImageConverter},UpdateSourceTrigger=Explicit, Mode=TwoWay}" Margin="0,0,-6,0"   />
                                         </Border>
-                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                            <Button x:Name="BuscarContratoArquivo_bt" Height="36" Margin="0,0,0,0" VerticalAlignment="Center" Width="36" Click="SelecionarFoto_bt_Click" >
-                                                <StackPanel>
-                                                    <Image Source="/iModSCCredenciamento;component/Resources/Pasta2.ico"/>
-                                                </StackPanel>
-                                            </Button>
-                                            <Button x:Name="AbrirContratoArquivo_bt" Height="36" Margin="15,0,0,0" VerticalAlignment="Center" Width="36" Click="CapturarFoto_bt_Click" >
-                                                <StackPanel>
-                                                    <Image Source="/iModSCCredenciamento;component/Resources/WebCam.ico"/>
-                                                </StackPanel>
-                                            </Button>
+                                    </StackPanel>
+
+                                    <Button x:Name="BuscarContratoArquivo_bt" Height="36" Margin="40,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left" Width="36" Click="SelecionarFoto_bt_Click" Grid.Row="3" Grid.Column="5" Grid.RowSpan="2">
+                                        <StackPanel>
+                                            <Image Source="/iModSCCredenciamento;component/Resources/Pasta2.ico"/>
                                         </StackPanel>
+                                    </Button>
+                                    <Button x:Name="AbrirContratoArquivo_bt" Height="36" Margin="15,0,20,0" VerticalAlignment="Center" HorizontalAlignment="Right" Width="36" Click="CapturarFoto_bt_Click" Grid.Row="3" Grid.Column="5" Grid.RowSpan="2">
+                                        <StackPanel>
+                                            <Image Source="/iModSCCredenciamento;component/Resources/WebCam.ico"/>
+                                        </StackPanel>
+                                    </Button>
+                                    <!--#endregion Grid 0-->
+
+                                    <!--#region Grid 1 -->
+                                    <Label Content="Nome:" Height="28" Margin="0,0,5,0" HorizontalContentAlignment="Right" Grid.Row="1" Grid.Column="0" />
+                                    <TextBox  x:Name="Nome_tb" MaxLength="50" CharacterCasing="Upper" Text="{Binding SelectedItem.Nome, ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4"/>
+                                    <!--#endregion Grid 1 -->
+
+                                    <!--#region Grid 2 -->
+                                    <Label Content="Apelido:" Height="28" Margin="0,0,5,0" HorizontalContentAlignment="Right" Grid.Row="2" Grid.Column="0" />
+                                    <TextBox  x:Name="Apelido_tb" MaxLength="30"  CharacterCasing="Upper" Text="{Binding SelectedItem.Apelido, ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3"/>
+                                    <!--#region Grid 2 -->
 
 
-                                    </StackPanel>
-                                </StackPanel>
+                                    <!--#region Grid 3 -->
+                                    <Label Content="Nome do Pai:" Height="28" Margin="0,0,5,0" HorizontalContentAlignment="Right" Grid.Row="3" Grid.Column="0" />
+                                    <TextBox  x:Name="NomePai_tb" MaxLength="50" CharacterCasing="Upper" Text="{Binding SelectedItem.NomePai, ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="4"/>
+                                    <!--#endregion Grid 3 -->
 
+
+                                    <!--#region Grid 4 -->
+                                    <Label Content="Nome da Mãe:" Height="28" Width="100" Margin="0,0,5,0" HorizontalContentAlignment="Right" Grid.Row="4" Grid.Column="0"  />
+                                    <TextBox  x:Name="NomeMae_tb" MaxLength="50" CharacterCasing="Upper" Text="{Binding SelectedItem.NomeMae, ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="4"/>
+                                    <!--#endregion Grid 4 -->
+                                </Grid>
                             </GroupBox>
+                            <!--GroupBox1-->
 
-                            <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}"    Grid.Row="1" Grid.Column="0"  IsEnabled="{Binding Path=Habilitado, Mode=TwoWay}" Header="Endereço"  Margin="10,10,10,10" VerticalAlignment="Stretch"  >
+
+                            <!--GroupBox2-->
+                            <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" Foreground="#FFD0D0D0" Grid.Row="3" Grid.Column="0"  IsEnabled="{Binding Path=Habilitado, Mode=TwoWay}" Header="Endereço"  Margin="10,10,10,10" VerticalAlignment="Stretch" Grid.ColumnSpan="2"  >
                                 <StackPanel Margin="10,10,0,10">
-                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,10" >
-                                        <Label Content="Logradouro:" Height="28" Width="100" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                        <TextBox  x:Name="Endereco_tb" MaxLength="50" CharacterCasing="Upper" Text="{Binding SelectedItem.Endereco, ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}"    IsEnabled="True"  Height="24"  Width="458"/>
-                                    </StackPanel>
-                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,10" >
-                                        <Label Content="No.:" Height="28" Width="100" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                        <TextBox  x:Name="Numero_tb" MaxLength="5" CharacterCasing="Upper" Text="{Binding SelectedItem.Numero, ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="50"/>
-                                        <Label Content="Complemento:" Height="28" Width="100" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                        <TextBox  x:Name="Complemento_tb" MaxLength="30" CharacterCasing="Upper" Text="{Binding SelectedItem.Complemento, ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="136"/>
-                                        <Label Content="CEP:" Height="28" Width="30" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                        <TextBox Foreground="#FFD0D0D0" Background="#FF1E2022" x:Name="Cep_tb" MaxLength="10" Text="{Binding SelectedItem.Cep, ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="131"/>
 
-                                    </StackPanel>
-                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,10" >
-                                        <Label Content="Bairro:" Height="28" Width="100" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                        <TextBox  x:Name="Bairro_tb" MaxLength="30" CharacterCasing="Upper" Text="{Binding SelectedItem.Bairro, ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="150"/>
-                                        <Label Content="UF:" Height="28" Width="30" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                        <ComboBox x:Name="Estado_cb" MinWidth="50" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
+                                    <Grid HorizontalAlignment="Stretch" Margin="1"   ScrollViewer.VerticalScrollBarVisibility="Visible" VerticalAlignment="Stretch">
+                                        <Grid.RowDefinitions >
+                                            <RowDefinition Height="42" />
+                                            <RowDefinition Height="42"/>
+                                            <RowDefinition Height="42"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="75"/>
+                                            <ColumnDefinition Width="100"/>
+                                            <ColumnDefinition Width="100"/>
+                                            <ColumnDefinition Width="150"/>
+                                            <ColumnDefinition Width="150"/>
+                                        </Grid.ColumnDefinitions>
+
+
+                                        <!--#region Grid 0 -->
+                                        <Label Content="Logradouro:" Height="28" Width="100" Margin="0,0,0,0" HorizontalContentAlignment="Right" Grid.Row="0" Grid.Column="0" />
+                                        <TextBox  x:Name="Endereco_tb" MaxLength="50" HorizontalAlignment="Left" CharacterCasing="Upper" Text="{Binding SelectedItem.Endereco, ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}"    IsEnabled="True"  Height="24"  Width="498" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="4" Margin="0,9"/>
+                                        <!--#endregion Grid 0-->
+
+
+                                        <!--#region Grid 1 -->
+                                        <Label Content="Número:" Height="28" Width="100" Margin="0,0,0,0" HorizontalContentAlignment="Right" Grid.Row="1" Grid.Column="0"/>
+                                        <TextBox  x:Name="Numero_tb" MaxLength="5" CharacterCasing="Upper" Text="{Binding SelectedItem.Numero, ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" IsEnabled="True"  Height="24"  Width="50" Grid.Row="1" Grid.Column="1"/>
+                                        <Label Content="Complemento:" Height="28" HorizontalAlignment="Left" Width="100" Margin="0,0,0,7" HorizontalContentAlignment="Right" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" VerticalAlignment="Bottom" />
+                                        <TextBox  x:Name="Complemento_tb" MaxLength="30" CharacterCasing="Upper" Text="{Binding SelectedItem.Complemento, ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="136" Grid.Row="1" Grid.Column="3" Margin="0,9,14,9"/>
+                                        <Label Content="CEP:" Height="28" Width="32" Margin="0,0,0,0" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="4" />
+                                        <TextBox Foreground="#FFD0D0D0" Background="#FF1E2022" x:Name="Cep_tb" MaxLength="10" Text="{Binding SelectedItem.Cep, ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}"  HorizontalAlignment="Right" IsEnabled="True"  Height="24"  Width="116" Grid.Row="1" Grid.Column="4" Margin="0,9,2,9"/>
+                                        <!--#endregion Grid 1 -->
+
+                                        <!--#region Grid 2 -->
+                                        <Label Content="Bairro:" Height="28" Width="100" Margin="0,0,5,0" HorizontalContentAlignment="Right" Grid.Row="2" Grid.Column="0"/>
+                                        <TextBox  x:Name="Bairro_tb" MaxLength="30" HorizontalAlignment="Left" CharacterCasing="Upper" Text="{Binding SelectedItem.Bairro, ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="150" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2"/>
+                                        <Label Content="UF:" Height="28" Width="30" Margin="0,0,0,0" HorizontalAlignment="Right" Grid.Row="2" Grid.Column="2" />
+                                        <ComboBox x:Name="Estado_cb" MinWidth="50" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Grid.Row="2" Grid.Column="3" 
                                               ItemsSource="{Binding Estados}" DisplayMemberPath="UF"   SelectedValue="{Binding SelectedItem.EstadoID, ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}" 
-                                              SelectedValuePath="EstadoID"  SelectionChanged="{data:MethodBinding  CarregaColeçãoMunicipios, {Binding SelectedItem.UF, ElementName=Estado_cb}}"/>
-                                        <Label Content="Cidade:" Height="28" Width="50" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                        <ComboBox x:Name="Cidade_cb"  MinWidth="50" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
+                                              SelectedValuePath="EstadoID"  SelectionChanged="{data:MethodBinding  CarregaColeçãoMunicipios, {Binding SelectedItem.UF, ElementName=Estado_cb}}" Margin="0,6,60,6"/>
+                                        <Label Content="Cidade:" Height="28" Width="50" Margin="0,0,0,0" HorizontalAlignment="Right" Grid.Row="2" Grid.Column="3" />
+                                        <ComboBox x:Name="Cidade_cb"  MinWidth="50" Height="30" Margin="0,6,2,6" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Grid.Row="2" Grid.Column="4"
                                                 ItemsSource="{Binding Municipios}" DisplayMemberPath="Nome"  SelectedValue="{Binding SelectedItem.MunicipioID, ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}" 
-                                              SelectedValuePath="MunicipioID" Width="167" />
-                                    </StackPanel>
+                                              SelectedValuePath="MunicipioID" />
+
+
+
+
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,10" >
+
+
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,10" >
+
+                                        </StackPanel>
+                                    </Grid>
                                 </StackPanel>
+
                             </GroupBox>
-                            <StackPanel Grid.Row="0" Grid.Column="1" >
+
+                            <!--GroupBox2-->
+
+
+
+                            <StackPanel Grid.Row="0" Grid.Column="2" Grid.RowSpan="3" >
                                 <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}"    x:Name="Contato_gb"  Grid.Row="0" Grid.Column="1"  Header="Contato " Margin="10,10,10,0" VerticalAlignment="Stretch" >
                                     <StackPanel Margin="10,10,0,10">
                                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,10,0,10" >
@@ -405,7 +475,7 @@
 
                                 </GroupBox>
                             </StackPanel>
-                            <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}"    x:Name="Registro_gb"  Grid.Row="1" Grid.Column="1"  Header="Registro " Margin="10,10,10,10" VerticalAlignment="Stretch"  >
+                            <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}"    x:Name="Registro_gb"  Grid.Row="3" Grid.Column="2"  Header="Registro " Margin="10,10,10,10" VerticalAlignment="Stretch"  >
                                 <StackPanel Margin="10,10,0,10">
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,10" >
                                         <Label Content="Data de Nascimento:" Height="28" Width="124" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
@@ -456,7 +526,7 @@
             </TabItem>
 
 
-            <TabItem x:Name="VinculoEmpresa_ti"    Width="200" >
+            <TabItem x:Name="VinculoEmpresa_ti"    Width="200" Height="22" Margin="0,-2,0,0" VerticalAlignment="Top" >
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="Contratos_bt" Tag="22" IsEnabled="{Binding IsSelected, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type TabItem }}}"  Click="Button_Click" Style="{StaticResource MenuStyle}" >
@@ -470,15 +540,15 @@
                         </StackPanel>
                     </StackPanel>
                 </TabItem.Header>
-                    <ScrollViewer Grid.Row="0"   VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" >
-                <Grid >
-                    <local:ColaboradoresEmpresasView ColaboradorSelecionadoIDView="{Binding SelectedItem.ColaboradorID, ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}"
+                <ScrollViewer Grid.Row="0"   VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" >
+                    <Grid >
+                        <local:ColaboradoresEmpresasView ColaboradorSelecionadoIDView="{Binding SelectedItem.ColaboradorID, ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}"
                                                        Editando="{Binding IsEnabled, ElementName=ListaColaboradores_sp, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="3" Margin="0,0,0,10"  />
-                </Grid>
-            </ScrollViewer>
+                    </Grid>
+                </ScrollViewer>
             </TabItem>
 
-                <TabItem x:Name="Cursos_ti"  Width="200" Background="{x:Null}"  >
+            <TabItem x:Name="Cursos_ti"  Width="200" Background="{x:Null}"  >
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="Cursos_bt" Tag="23" IsEnabled="{Binding IsSelected, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type TabItem }}}"  Click="Button_Click" Style="{StaticResource MenuStyle}" >
