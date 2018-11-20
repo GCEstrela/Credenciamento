@@ -107,7 +107,7 @@ namespace Infra.Ado.Interfaces.ParamSql
         /// </param>
         public ParamSelect(string campo, DbType tipo, object o)
         {
-            SetDados(campo, tipo, null);
+            SetDados(campo, tipo,o, null);
         }
 
         /// <summary>

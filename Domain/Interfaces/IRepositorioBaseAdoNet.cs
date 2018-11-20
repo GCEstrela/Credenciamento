@@ -34,7 +34,7 @@ namespace Domain.Interfaces
         ///     Listar
         /// </summary>
         /// <returns></returns>
-        IEnumerable<TEntity> Listar(params object[] objects);
+        ICollection<TEntity> Listar(params object[] objects);
 
         /// <summary>
         ///     Alterar registro

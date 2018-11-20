@@ -50,22 +50,24 @@
     </Reference>
     <Reference Include="Genetec.Sdk, Version=5.7.0.0, Culture=neutral, PublicKeyToken=a446968a32b751de, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files (x86)\Genetec Security Center 5.7 SDK\Genetec.Sdk.dll</HintPath>
+      <HintPath>..\iModSCCredenciamento\Dlls\Genetec.Sdk.dll</HintPath>
     </Reference>
-    <Reference Include="Genetec.Sdk.Controls">
-      <HintPath>C:\Program Files (x86)\Genetec Security Center 5.7 SDK\Genetec.Sdk.Controls.dll</HintPath>
-    </Reference>
-    <Reference Include="Genetec.Sdk.Maps">
-      <HintPath>C:\Program Files (x86)\Genetec Security Center 5.7 SDK\Genetec.Sdk.Maps.dll</HintPath>
+    <Reference Include="Genetec.Sdk.Maps, Version=5.7.0.0, Culture=neutral, PublicKeyToken=a446968a32b751de, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Genetec Security Center 5.7\Genetec.Sdk.Maps.dll</HintPath>
     </Reference>
     <Reference Include="Genetec.Sdk.Workspace, Version=5.7.0.0, Culture=neutral, PublicKeyToken=a446968a32b751de, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files (x86)\Genetec Security Center 5.7 SDK\Genetec.Sdk.Workspace.dll</HintPath>
+      <HintPath>..\iModSCCredenciamento\Dlls\Genetec.Sdk.Workspace.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Expression.Encoder, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=x86">
       <HintPath>..\packages\Microsoft.Expression.Encoder.4.0.4276.3\lib\net45\Microsoft.Expression.Encoder.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Expression.Interactions, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.ReportViewer.WinForms, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\iModSCCredenciamento\Dlls\Microsoft.ReportViewer.WinForms.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
