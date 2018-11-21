@@ -43,6 +43,8 @@
   <ItemGroup>
     <Compile Include="EntitiesCustom\ColaboradoresCredenciaisView.cs" />
     <Compile Include="Entities\AreaAcesso.cs" />
+    <Compile Include="Entities\Colaborador.cs" />
+    <Compile Include="Entities\ColaboradorAnexo.cs" />
     <Compile Include="Entities\ColaboradorCredencial.cs" />
     <Compile Include="Entities\ColaboradorEmpresa.cs" />
     <Compile Include="Entities\ColaboradorPrivilegio.cs" />
@@ -57,6 +59,8 @@
     <Compile Include="Entities\TipoCredencial.cs" />
     <Compile Include="Entities\Vinculo.cs" />
     <Compile Include="Interfaces\IAreaAcesso.cs" />
+    <Compile Include="Interfaces\IColaboradorAnexoRepositorio.cs" />
+    <Compile Include="Interfaces\IColaboradorRepositorio.cs" />
     <Compile Include="Interfaces\IColaboradorCredencialRepositorio.cs" />
     <Compile Include="Interfaces\IColaboradorEmpresaRepositorio.cs" />
     <Compile Include="Interfaces\IColaboradorPrivilegioRepositorio.cs" />

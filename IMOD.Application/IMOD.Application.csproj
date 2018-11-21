@@ -40,12 +40,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="Interfaces\IColaboradorAnexoService.cs" />
+    <Compile Include="Interfaces\IColaboradorService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\ColaboradorAnexoService.cs" />
+    <Compile Include="Service\ColaboradorService.cs" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Interfaces\" />
-    <Folder Include="Service\" />
+    <ProjectReference Include="..\CrossCutting\IMOD.CrossCutting.csproj">
+      <Project>{4279abf8-7c1b-497f-90bd-e533b0e6a417}</Project>
+      <Name>IMOD.CrossCutting</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain\IMOD.Domain.csproj">
+      <Project>{f7dc651f-cb04-40ca-ac1b-c2355b474cf3}</Project>
+      <Name>IMOD.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infra\IMOD.Infra.csproj">
+      <Project>{0b4ad570-efa6-4207-b4c1-3e95050452ac}</Project>
+      <Name>IMOD.Infra</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

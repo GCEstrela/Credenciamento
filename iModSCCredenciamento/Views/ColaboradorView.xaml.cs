@@ -19,6 +19,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using IMOD.Application.Service;
 using UserControl = System.Windows.Controls.UserControl;
 
 namespace iModSCCredenciamento.Views
@@ -131,6 +132,7 @@ namespace iModSCCredenciamento.Views
             Geral_sp.IsHitTestVisible = true;
             Geral_bt.Visibility = Visibility.Hidden;
             ((ColaboradorViewModel)this.DataContext).OnAdicionarCommand();
+            
         }
 
         private void Excluir_bt_Click(object sender, RoutedEventArgs e)
@@ -168,6 +170,61 @@ namespace iModSCCredenciamento.Views
             Credenciais_ti.Visibility = Visibility.Visible;
         }
 
+        private void OnSalvarEdicao2_Click(object sender, RoutedEventArgs e)
+        {
+            //if (CPF_tb.Text.Length == 0)
+            //{
+            //    Global.PopupBox("Insira o CPF!", 4);
+            //    CPF_tb.Focus();
+            //    return;
+            //}
+            //if (Nome_tb.Text.Length == 0)
+            //{
+            //    Global.PopupBox("Insira um Nome!", 4);
+            //    Nome_tb.Focus();
+            //    return;
+            //}
+
+            try
+            {
+                CheckCPF();
+
+                if (Validation.GetHasError(CPF_tb))
+                {
+                    Global.PopupBox("Corrija o Campo CPF!", 4);
+                    CPF_tb.Focus();
+                    return;
+                }
+                var model = ((ColaboradorViewModel)this.DataContext);
+                var entity = model.ColaboradorSelecionado;
+                model.ValidarEdicao(entity);
+
+                if (!Global.PopupBox("Tem certeza que deseja salvar?", 2))
+                {
+                    return;
+                }
+
+                Botoes_Principais_sp.Visibility = Visibility.Visible;
+                //model.SalvarEdicao();
+                model.OnSalvarEdicaoCommand2();
+                //((ColaboradorViewModel)this.DataContext).OnSalvarEdicaoCommandAsync();
+                Botoes_Editar_sp.Visibility = Visibility.Hidden;
+                ListaColaboradores_lv.IsHitTestVisible = true;
+                Geral_sp.IsHitTestVisible = false;
+
+                VinculoEmpresa_ti.Visibility = Visibility.Visible;
+                Cursos_ti.Visibility = Visibility.Visible;
+                Anexos_ti.Visibility = Visibility.Visible;
+                Credenciais_ti.Visibility = Visibility.Visible;
+            }
+            catch (Exception ex)
+            {
+
+                Global.PopupBox(ex.Message, 4);
+            }
+
+
+        }
         private void SalvarEdicao_bt_Click(object sender, RoutedEventArgs e)
         {
             //if (CPF_tb.Text.Length == 0)
@@ -203,7 +260,7 @@ namespace iModSCCredenciamento.Views
                 }
 
                 Botoes_Principais_sp.Visibility = Visibility.Visible;
-                model.SalvarEdicao();
+                model.SalvarEdicao(); 
                 //((ColaboradorViewModel)this.DataContext).OnSalvarEdicaoCommandAsync();
                 Botoes_Editar_sp.Visibility = Visibility.Hidden;
                 ListaColaboradores_lv.IsHitTestVisible = true;
@@ -272,7 +329,7 @@ namespace iModSCCredenciamento.Views
         //}
         private void SalvarAdicao_bt_Click(object sender, RoutedEventArgs e)
         {
-
+           
             #region Opcao 1
             try
             {

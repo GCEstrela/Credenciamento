@@ -70,7 +70,10 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Repositorios\ColaboradorAnexoRepositorio.cs" />
     <Compile Include="Repositorios\ColaboradorCredencialRepositorio.cs" />
+    <Compile Include="Repositorios\ColaboradorEmpresaRepositorio.cs" />
+    <Compile Include="Repositorios\ColaboradorRepositorio.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config">
@@ -82,7 +85,9 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CrossCutting\IMOD.CrossCutting.csproj">
       <Project>{4279ABF8-7C1B-497F-90BD-E533B0E6A417}</Project>
@@ -92,6 +97,9 @@
       <Project>{F7DC651F-CB04-40CA-AC1B-C2355B474CF3}</Project>
       <Name>IMOD.Domain</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Repositorios\Template\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

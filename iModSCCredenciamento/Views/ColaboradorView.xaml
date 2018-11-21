@@ -171,7 +171,7 @@
                 </StackPanel>
                 <StackPanel x:Name="Botoes_Editar_sp" Visibility="Hidden"  >
                     <Button x:Name="CancelarEdicao_bt" Content="Cancelar Edição"  Height="40" Width="148"  Click="CancelarEdicao_bt_Click" Margin="0,0,0,7" Background="Red"   />
-                    <Button x:Name="SalvarEdicao_bt" Content="Salvar"  Height="40" Width="148"  Click="SalvarEdicao_bt_Click" Margin="0,0,0,7" Background="Green"   />
+                    <Button x:Name="SalvarEdicao_bt" Content="Salvar"  Height="40" Width="148"  Click="OnSalvarEdicao2_Click" Margin="0,0,0,7" Background="Green"   />
                 </StackPanel>
                 <StackPanel x:Name="Botoes_Adicionar_sp" Visibility="Hidden"  >
                     <Button x:Name="CancelarAdicao_bt" Content="Cancelar Adição"  Height="40" Width="148" Click="CancelarAdicao_bt_Click" Margin="0,0,0,7" Background="Red"   />

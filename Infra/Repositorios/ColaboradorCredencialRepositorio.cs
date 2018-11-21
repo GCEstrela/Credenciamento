@@ -43,12 +43,12 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                var trans = conn.BeginTransaction();
+                
                 using (var cmd = _dataBase.UpdateText ("ColaboradoresCredenciais", conn))
                 {
                     try
                     {
-                        cmd.Transaction = trans;
+                        
 
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("ColaboradorCredencialID", entity.ColaboradorCredencialId, true)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("ColaboradorEmpresaID", DbType.Int32, entity.ColaboradorEmpresaId, false)));
@@ -72,11 +72,11 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Impressa", entity.Impressa, false)));
 
                         cmd.ExecuteNonQuery();
-                        trans.Commit();
+                        
                     }
                     catch (Exception ex)
                     {
-                        trans.Rollback();
+                        
                         Utils.TraceException (ex);
                         throw;
                     }
@@ -119,18 +119,17 @@ namespace IMOD.Infra.Repositorios
         ///     Criar registro
         /// </summary>
         /// <param name="entity">Entidade</param>
-        /// <param name="key">Primary key gerada no banco de dados</param>
-        public void Criar(ColaboradorCredencial entity, out int key)
+        public void Criar(ColaboradorCredencial entity)
         {
-            key = 0;
+           
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                var trans = conn.BeginTransaction();
+                
                 using (var cmd = _dataBase.InsertText ("ColaboradoresCredenciais", conn))
                 {
                     try
                     {
-                        cmd.Transaction = trans;
+                        
 
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("ColaboradorCredencialID", entity.ColaboradorCredencialId, true)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("ColaboradorEmpresaID", DbType.Int32, entity.ColaboradorEmpresaId, false)));
@@ -153,13 +152,13 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Baixa", DbType.DateTime, entity.Baixa, false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Impressa", false, false)));
 
-                        key = Convert.ToInt32 (cmd.ExecuteScalar());
-                        trans.Commit();
+                        var key = Convert.ToInt32 (cmd.ExecuteScalar());
+                        
                         entity.ColaboradorCredencialId = key;
                     }
                     catch (Exception ex)
                     {
-                        trans.Rollback();
+                        
                         Utils.TraceException (ex);
                         throw;
                     }
@@ -205,23 +204,23 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                var trans = conn.BeginTransaction();
+                
                 using (var cmd = _dataBase.DeleteText ("ColaboradoresCredenciais", conn))
                 {
                     try
                     {
-                        cmd.Transaction = trans;
+                        
 
                         cmd.Parameters.Add (
                             _dataBase.CreateParameter (new ParamDelete ("ColaboradorCredencialID",
                                 entity.ColaboradorCredencialId)));
 
                         cmd.ExecuteNonQuery();
-                        trans.Commit();
+                        
                     }
                     catch (Exception ex)
                     {
-                        trans.Rollback();
+                        
                         Utils.TraceException (ex);
                     }
                 }
@@ -242,7 +241,11 @@ namespace IMOD.Infra.Repositorios
                     try
                     {
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("ColaboradorCredencialID", DbType.Int32, o, 0).Igual()));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("CPF", DbType.Int32, o, 1).Igual()));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("EmpresaNome", DbType.String, o, 1).Like()));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("TipoCredencialID", DbType.String, o, 2).Igual()));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("CredencialStatusID", DbType.String, o, 3).Igual()));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("ColaboradorID", DbType.Int32, o, 4).Igual()));
+
                         var reader = cmd.ExecuteReader();
                         var d1 = reader.MapToList<ColaboradoresCredenciaisView>();
                         return d1;

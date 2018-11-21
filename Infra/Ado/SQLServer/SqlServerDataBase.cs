@@ -51,6 +51,9 @@ namespace IMOD.Infra.Ado.SQLServer
         private static readonly Dictionary<DbType, SqlDbType> DbTypeParaSqlDbTypes = new Dictionary<DbType, SqlDbType>
         {
             {DbType.Byte, SqlDbType.Binary},
+            {DbType.DateTime2, SqlDbType.DateTime2},
+            {DbType.Guid, SqlDbType.VarChar},
+            {DbType.Currency, SqlDbType.Money},
             {DbType.Int16, SqlDbType.SmallInt},
             {DbType.Int32, SqlDbType.Int},
             {DbType.Int64, SqlDbType.BigInt},
@@ -64,6 +67,7 @@ namespace IMOD.Infra.Ado.SQLServer
             {DbType.String, SqlDbType.NText},
             {DbType.StringFixedLength, SqlDbType.NChar},
             {DbType.DateTime, SqlDbType.DateTime},
+            {DbType.Date, SqlDbType.Date},
             {DbType.DateTimeOffset, SqlDbType.DateTimeOffset},
             {DbType.Binary, SqlDbType.VarBinary}
         };

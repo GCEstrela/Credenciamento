@@ -20,8 +20,7 @@ namespace IMOD.Domain.Interfaces
         ///     Criar registro
         /// </summary>
         /// <param name="entity">Entidade</param>
-        /// <param name="key">Primary key gerada no banco de dados</param>
-        void Criar(TEntity entity, out int key);
+        void Criar(TEntity entity);
 
         /// <summary>
         ///     Buscar pela chave primaria

@@ -17,14 +17,30 @@ using System.Linq;
 using iModSCCredenciamento.Views;
 using System.Threading.Tasks;
 using System.Windows;
+using AutoMapper;
+using IMOD.Application.Interfaces;
+using IMOD.Application.Service;
+
+//using IMOD.Application.Service;
 
 namespace iModSCCredenciamento.ViewModels
 {
     public class ColaboradorViewModel : ViewModelBase
     {
+        private IColaboradorService _colaboradorService = new ColaboradorService();
+        public IMOD.Domain.Entities.Colaborador Colaborador { get; set; }
+
+
+
+
+
+
+
         #region Inicializacao
         public ColaboradorViewModel()
         {
+
+            
             //CarregaUI();
             Thread CarregaUI_thr = new Thread(() => CarregaUI());
             CarregaUI_thr.Start();
@@ -40,6 +56,8 @@ namespace iModSCCredenciamento.ViewModels
         }
         #endregion
 
+
+
         #region Variaveis Privadas
 
         private ObservableCollection<ClasseColaboradores.Colaborador> _Colaboradores;
@@ -52,7 +70,7 @@ namespace iModSCCredenciamento.ViewModels
 
         private ObservableCollection<ClasseEstados.Estado> _Estados;
 
-        private ObservableCollection<ClasseMunicipios.Municipio> _Municipios;
+        private ObservableCollection<ClasseMunicipios.Municipio> _municipios;
 
         PopupPesquisaColaborador popupPesquisaColaborador;
 
@@ -215,14 +233,14 @@ namespace iModSCCredenciamento.ViewModels
         {
             get
             {
-                return _Municipios;
+                return _municipios;
             }
 
             set
             {
-                if (_Municipios != value)
+                if (_municipios != value)
                 {
-                    _Municipios = value;
+                    _municipios = value;
                     OnPropertyChanged();
 
                 }
@@ -367,6 +385,12 @@ namespace iModSCCredenciamento.ViewModels
                 }
 
             }
+        }
+
+        public void OnSalvarEdicaoCommand2()
+        {
+             var colab = Mapper.Map<IMOD.Domain.Entities.Colaborador>(ColaboradorSelecionado);
+            _colaboradorService.Alterar(colab);
         }
 
         public void OnAdicionarCommand()
