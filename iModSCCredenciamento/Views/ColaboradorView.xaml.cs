@@ -50,11 +50,11 @@ namespace iModSCCredenciamento.Views
                 if (openFileDialog.ShowDialog() == true)
                 {
                     BitmapImage _img = new BitmapImage(new Uri(openFileDialog.FileName));
-                    
+
                     string _imgstr = Conversores.IMGtoSTR(_img);
 
                     var fileLength = new FileInfo(openFileDialog.FileName).Length; //limitar o tamanho futuro
-                 
+
                     Foto_im.Source = _img;
                     ((ClasseColaboradores.Colaborador)ListaColaboradores_lv.SelectedItem).Foto = _imgstr; //Conversores.IMGtoSTR(new BitmapImage(new Uri(arquivoLogo.FileName)));
                     //ListaEmpresas_lv.Items.Refresh();
@@ -85,7 +85,7 @@ namespace iModSCCredenciamento.Views
                 {
                     string _imgstr = Conversores.IMGtoSTR(_img);
                     Foto_im.Source = _img;
-                    ((ClasseColaboradores.Colaborador)ListaColaboradores_lv.SelectedItem).Foto = _imgstr; 
+                    ((ClasseColaboradores.Colaborador)ListaColaboradores_lv.SelectedItem).Foto = _imgstr;
 
                 }
             }
@@ -341,7 +341,7 @@ namespace iModSCCredenciamento.Views
 
         private void CNHValidade_tb_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
-            Global.CheckField(sender,false);
+            Global.CheckField(sender, false);
         }
 
         private void DataNascimento_tb_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
@@ -366,7 +366,7 @@ namespace iModSCCredenciamento.Views
         //}
         private void CheckCPF()
         {
-            
+
             var cpfAnterior = Global.CpfEdicao.RetirarCaracteresEspeciais();
             var cpfjAtual = CPF_tb.Text.RetirarCaracteresEspeciais();
 
@@ -446,6 +446,11 @@ namespace iModSCCredenciamento.Views
             {
 
             }
+        }
+
+        private void Motorista_cb_Checked(object sender, RoutedEventArgs e)
+        {
+
         }
 
 
