@@ -11,11 +11,17 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Serialization;
+//using IMOD.Application.Interfaces;
+//using IMOD.Application.Service;
 
 namespace iModSCCredenciamento.ViewModels
 {
    public class ColaboradoresAnexosViewModel : ViewModelBase
     {
+        //public IMOD.Domain.Entities.ColaboradorAnexo Anexo { get; set; }
+        //private IColaboradorAnexoService _colaboradorService = new  ColaboradorAnexoService();
+
+
         #region Inicializacao
         public ColaboradoresAnexosViewModel()
         {
@@ -308,6 +314,11 @@ namespace iModSCCredenciamento.ViewModels
                 //Global.Log("Erro void CarregaColecaoEmpresas ex: " + ex.Message);
             }
         }
+
+       public void OnSalvarAdicaoCommand2()
+       {
+            //_colaboradorService.Criar(Anexo);
+       }
 
         public void OnSalvarAdicaoCommand()
         {

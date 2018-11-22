@@ -17,6 +17,7 @@ using System.Data.SqlClient;
 using System.Xml.Serialization;
 using System.Collections.ObjectModel;
 using System.Xml;
+using AutoMapper;
 using Genetec.Sdk.Queries;
 
 namespace iModSCCredenciamento
@@ -40,7 +41,7 @@ namespace iModSCCredenciamento
         {
             try
             {
-
+                AutoMapperConfig.RegisterMappings();
                 //iModSCCredenciamentoIcon = new BitmapImage(new Uri(@"iModSCCredenciamento.Resources.Cracha.png", UriKind.RelativeOrAbsolute));
                 iModSCCredenciamentoIcon = new BitmapImage(new Uri(@"pack://application:,,,/iModSCCredenciamento;Component/Resources/Cracha.png", UriKind.RelativeOrAbsolute));
                 Global.AbreConfig();
@@ -537,4 +538,26 @@ namespace iModSCCredenciamento
         }
         #endregion
     }
+
+    public class AutoMapperConfig
+    {
+
+        public static void RegisterMappings()
+        {
+            Mapper.Initialize(
+                    m =>
+                    {
+
+
+                        m.CreateMap<Colaborador, ClasseColaboradores.Colaborador>().ReverseMap();
+
+
+                    });
+        }
+
+
+    }
+
+
+
 }
