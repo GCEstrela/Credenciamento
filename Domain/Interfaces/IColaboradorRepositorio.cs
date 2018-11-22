@@ -15,18 +15,22 @@ namespace IMOD.Domain.Interfaces
 {
     public interface IColaboradorRepositorio : IRepositorioBaseAdoNet<Colaborador>
     {
+        #region  Metodos
+
         /// <summary>
-        ///  Criar colaboradore e anexo
+        ///     Criar colaboradore e anexo
         /// </summary>
         /// <param name="colaborador">Colaborador</param>
         /// <param name="anexos">Anexos</param>
         void CriarAnexos(Colaborador colaborador, IList<ColaboradorAnexo> anexos);
-        
+
         /// <summary>
-        /// Listar Colaborador por status
+        ///     Listar Colaborador por status
         /// </summary>
         /// <param name="idStatus"></param>
         /// <returns></returns>
         ICollection<Colaborador> ListarPorStatus(int idStatus);
+
+        #endregion
     }
 }

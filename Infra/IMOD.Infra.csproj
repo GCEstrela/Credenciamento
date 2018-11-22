@@ -71,23 +71,25 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Repositorios\AreaAcessoRepositorio.cs" />
     <Compile Include="Repositorios\ColaboradorAnexoRepositorio.cs" />
+    <Compile Include="Repositorios\ColaboradorCredencialimpresssaoRepositorio.cs" />
     <Compile Include="Repositorios\ColaboradorCredencialRepositorio.cs" />
+    <Compile Include="Repositorios\ColaboradorCursoRepositorio.cs" />
     <Compile Include="Repositorios\ColaboradorEmpresaRepositorio.cs" />
+    <Compile Include="Repositorios\ColaboradorPrivilegioRepositorio.cs" />
     <Compile Include="Repositorios\ColaboradorRepositorio.cs" />
-    <Compile Include="Repositorios\Template\Repositorio.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Repositorio.tt</DependentUpon>
-    </Compile>
+    <Compile Include="Repositorios\CredencialMotivoRepositorio.cs" />
+    <Compile Include="Repositorios\CredencialStatusRepositorio.cs" />
+    <Compile Include="Repositorios\CursoRepositorio.cs" />
+    <Compile Include="Repositorios\EmpresaAreaAcessoRepositorio.cs" />
+    <Compile Include="Repositorios\EmpresaContratoRepositorio.cs" />
+    <Compile Include="Repositorios\EmpresaEquipamentoRepositorio.cs" />
+    <Compile Include="Repositorios\EmpresaLayoutCrachaRepositorio.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Repositorios\Template\Repositorio.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Repositorio.cs</LastGenOutput>
     </Content>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -108,7 +110,9 @@
       <Name>IMOD.Domain</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Repositorios\Template\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
