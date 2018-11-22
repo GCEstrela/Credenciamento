@@ -165,6 +165,7 @@
     <Compile Include="Models\ClasseEmpresasSignatarios.cs" />
     <Compile Include="Models\ClasseEmpresasTiposAtividades.cs" />
     <Compile Include="Models\ClasseEmpresasVeiculos.cs" />
+    <Compile Include="Models\ClasseEquipamentoVeiculoTiposServicos.cs" />
     <Compile Include="Models\ClasseEstados.cs" />
     <Compile Include="Models\ClasseLayoutsCrachas.cs" />
     <Compile Include="Models\ClasseMunicipios.cs" />
@@ -173,17 +174,22 @@
     <Compile Include="Models\ClasseRelatoriosGerenciais.cs" />
     <Compile Include="Models\ClasseStatus.cs" />
     <Compile Include="Models\ClasseTecnologiasCredenciais.cs" />
+    <Compile Include="Models\ClasseTipoEquipamentoVeiculo.cs" />
     <Compile Include="Models\ClasseTiposAcessos.cs" />
     <Compile Include="Models\ClasseTiposAtividades.cs" />
     <Compile Include="Models\ClasseTiposCobrancas.cs" />
+    <Compile Include="Models\ClasseTiposCombustiveis.cs" />
     <Compile Include="Models\ClasseTiposCredenciais.cs" />
     <Compile Include="Models\ClasseTiposEmpresas.cs" />
     <Compile Include="Models\ClasseTiposEquipamento.cs" />
+    <Compile Include="Models\ClasseTiposServicos.cs" />
     <Compile Include="Models\ClasseTiposPendencias.cs" />
     <Compile Include="Models\ClasseTiposVeiculo.cs" />
     <Compile Include="Models\ClasseVeiculos.cs" />
+    <Compile Include="Models\ClasseVeiculosAnexos.cs" />
     <Compile Include="Models\ClasseVeiculosCredenciais.cs" />
     <Compile Include="Models\ClasseVeiculosEmpresas.cs" />
+    <Compile Include="Models\ClasseVeiculosPrivilegios.cs" />
     <Compile Include="Models\ClasseVeiculosSeguros.cs" />
     <Compile Include="Models\ClasseVinculos.cs" />
     <Compile Include="Models\ClasseFormatosCredenciais.cs" />
@@ -225,6 +231,7 @@
     <Compile Include="ViewModels\PopupPendenciasViewModel.cs" />
     <Compile Include="ViewModels\RelatoriosViewModel.cs" />
     <Compile Include="ViewModels\TermosViewModel.cs" />
+    <Compile Include="ViewModels\VeiculosAnexosViewModel.cs" />
     <Compile Include="ViewModels\VeiculosCredenciaisViewModel.cs" />
     <Compile Include="ViewModels\VeiculosEmpresasViewModel.cs" />
     <Compile Include="ViewModels\VeiculosSegurosViewModel.cs" />
@@ -274,6 +281,9 @@
     </Compile>
     <Compile Include="Views\TermosView.xaml.cs">
       <DependentUpon>TermosView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\VeiculosAnexosView.xaml.cs">
+      <DependentUpon>VeiculosAnexosView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\VeiculosCredenciaisView.xaml.cs">
       <DependentUpon>VeiculosCredenciaisView.xaml</DependentUpon>
@@ -377,6 +387,9 @@
     <Compile Include="Windows\PopupPesquisaSignatarios.xaml.cs">
       <DependentUpon>PopupPesquisaSignatarios.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\PopupPesquisaVeiculoAnexo.xaml.cs">
+      <DependentUpon>PopupPesquisaVeiculoAnexo.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\PopupPesquisaVeiculos.xaml.cs">
       <DependentUpon>PopupPesquisaVeiculos.xaml</DependentUpon>
     </Compile>
@@ -466,6 +479,10 @@
     <Page Include="Views\TermosView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\VeiculosAnexosView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\VeiculosCredenciaisView.xaml">
       <SubType>Designer</SubType>
@@ -600,6 +617,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Windows\PopupPesquisaSignatarios.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\PopupPesquisaVeiculoAnexo.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -747,24 +768,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\CrossCutting\IMOD.CrossCutting.csproj">
-      <Project>{4279abf8-7c1b-497f-90bd-e533b0e6a417}</Project>
-      <Name>IMOD.CrossCutting</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Domain\IMOD.Domain.csproj">
-      <Project>{f7dc651f-cb04-40ca-ac1b-c2355b474cf3}</Project>
-      <Name>IMOD.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\IMOD.Application\IMOD.Application.csproj">
-      <Project>{b7bd6687-cb39-45a0-9b21-67125da69a2e}</Project>
-      <Name>IMOD.Application</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Infra\IMOD.Infra.csproj">
-      <Project>{0b4ad570-efa6-4207-b4c1-3e95050452ac}</Project>
-      <Name>IMOD.Infra</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <UsingTask TaskName="TransformXml" AssemblyFile="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Web\Microsoft.Web.Publishing.Tasks.dll" />
