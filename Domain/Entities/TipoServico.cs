@@ -1,16 +1,16 @@
-﻿// ***********************************************************************
+// ***********************************************************************
 // Project: IMOD.Domain
 // Crafted by: Grupo Estrela by Genetec
-// Date:  11 - 19 - 2018
+// Date:  11 - 22 - 2018
 // ***********************************************************************
 
 namespace IMOD.Domain.Entities
 {
-    public class ColaboradorPrivilegio
+    public class TipoServico
     {
         #region  Propriedades
 
-        public int ColaboradorPrivilegioId { get; set; }
+        public int TipoServicoId { get; set; }
         public string Descricao { get; set; }
 
         #endregion

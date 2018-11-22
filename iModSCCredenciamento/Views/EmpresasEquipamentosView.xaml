@@ -4,9 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:iModSCCredenciamento.Views"
-             xmlns:vm="clr-namespace:iModSCCredenciamento.ViewModels"
-             xmlns:in="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-             xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+             xmlns:vm="clr-namespace:iModSCCredenciamento.ViewModels" 
              mc:Ignorable="d"  Loaded="UserControl_Loaded" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
@@ -138,11 +136,11 @@
                                     <Label Content="Ano:" Height="28" Width="62" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
                                     <TextBox x:Name="Ano_tb" MaxLength="4"   CharacterCasing="Upper" Text="{Binding SelectedItem.Ano, ElementName=ListaEquipamentos_lv, UpdateSourceTrigger=PropertyChanged}"
                                              IsEnabled="True"  Height="24"  Width="58">
-                                        <in:Interaction.Triggers>
+                                        <!--<in:Interaction.Triggers>
                                             <in:EventTrigger EventName="PreviewTextInput" >
                                                 <ei:CallMethodAction TargetObject="{Binding}" MethodName="NumberOnly"  />
                                             </in:EventTrigger>
-                                        </in:Interaction.Triggers>
+                                        </in:Interaction.Triggers>-->
 
                                     </TextBox>
 

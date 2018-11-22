@@ -4,8 +4,11 @@
 // Date:  11 - 21 - 2018
 // ***********************************************************************
 
+#region
+
 using System;
-using System.Collections.Generic;
+
+#endregion
 
 namespace IMOD.Domain.Entities
 {
@@ -59,8 +62,6 @@ namespace IMOD.Domain.Entities
         public bool Pendente23 { get; set; }
         public bool Pendente24 { get; set; }
         public bool Pendente25 { get; set; }
-
-        //public  ICollection<ColaboradorAnexo> Anexos { get; set; }
 
         #endregion
     }

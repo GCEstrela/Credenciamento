@@ -189,7 +189,7 @@ namespace IMOD.Infra.Repositorios
 						//Informe demais parametros se existir...
                         //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("CampoA",o, 1).Igual()));
                         //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("CampoB", DbType.Int32, o, 2).Igual()));
-                        var reader = cmd.ExecuteReader();
+                        var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<<#= nomeEntidade #>>();
 
                         return d1;
@@ -218,7 +218,7 @@ namespace IMOD.Infra.Repositorios
                     {                      
 
                         cmd.Parameters.Add (
-                            _dataBase.CreateParameter (new ParamDelete ("<#= nomePk #>", entity.<#= nomePk #>)));
+                            _dataBase.CreateParameter (new ParamDelete ("<#= nomePk #>", entity.<#= nomePk #>).Igual()));
 
                         cmd.ExecuteNonQuery();
                        

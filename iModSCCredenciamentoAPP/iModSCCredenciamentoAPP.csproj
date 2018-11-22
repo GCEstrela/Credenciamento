@@ -63,7 +63,6 @@
     <Reference Include="Microsoft.Expression.Encoder, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=x86">
       <HintPath>..\packages\Microsoft.Expression.Encoder.4.0.4276.3\lib\net45\Microsoft.Expression.Encoder.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Expression.Interactions, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.ReportViewer.WinForms, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\iModSCCredenciamento\Dlls\Microsoft.ReportViewer.WinForms.dll</HintPath>
@@ -72,10 +71,6 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files (x86)\Microsoft SDKs\System.Windows.Interactivity.dll</HintPath>
-    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -130,7 +125,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="App.config" />
+    <Content Include="App.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -138,9 +135,25 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CrossCutting\IMOD.CrossCutting.csproj">
+      <Project>{4279abf8-7c1b-497f-90bd-e533b0e6a417}</Project>
+      <Name>IMOD.CrossCutting</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain\IMOD.Domain.csproj">
+      <Project>{f7dc651f-cb04-40ca-ac1b-c2355b474cf3}</Project>
+      <Name>IMOD.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IMOD.Application\IMOD.Application.csproj">
+      <Project>{b7bd6687-cb39-45a0-9b21-67125da69a2e}</Project>
+      <Name>IMOD.Application</Name>
+    </ProjectReference>
     <ProjectReference Include="..\iModSCCredenciamento\iModSCCredenciamento.csproj">
       <Project>{974F5875-4CFB-4926-8273-D1BF96AC8242}</Project>
       <Name>iModSCCredenciamento</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infra\IMOD.Infra.csproj">
+      <Project>{0b4ad570-efa6-4207-b4c1-3e95050452ac}</Project>
+      <Name>IMOD.Infra</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
