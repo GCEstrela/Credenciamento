@@ -47,7 +47,6 @@
     <Compile Include="Service\ColaboradorAnexoService.cs" />
     <Compile Include="Service\ColaboradorService.cs" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\CrossCutting\IMOD.CrossCutting.csproj">
       <Project>{4279abf8-7c1b-497f-90bd-e533b0e6a417}</Project>
@@ -61,6 +60,12 @@
       <Project>{0b4ad570-efa6-4207-b4c1-3e95050452ac}</Project>
       <Name>IMOD.Infra</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Service\Template\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

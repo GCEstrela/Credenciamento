@@ -75,10 +75,19 @@
     <Compile Include="Repositorios\ColaboradorCredencialRepositorio.cs" />
     <Compile Include="Repositorios\ColaboradorEmpresaRepositorio.cs" />
     <Compile Include="Repositorios\ColaboradorRepositorio.cs" />
+    <Compile Include="Repositorios\Template\Repositorio.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Repositorio.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Repositorios\Template\Repositorio.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Repositorio.cs</LastGenOutput>
     </Content>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -99,9 +108,7 @@
       <Name>IMOD.Domain</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Repositorios\Template\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

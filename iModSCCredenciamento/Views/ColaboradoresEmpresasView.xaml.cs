@@ -103,13 +103,13 @@ namespace iModSCCredenciamento.Views
 
         private void Excluir_bt_Click(object sender, RoutedEventArgs e)
         {
-            Editando = true;Botoes_Principais_sp.Visibility = Visibility.Visible;
+            Editando = true; Botoes_Principais_sp.Visibility = Visibility.Visible;
             ((ColaboradoresEmpresasViewModel)this.DataContext).OnExcluirCommand();
         }
 
         private void ExecutarPesquisa_bt_Click(object sender, RoutedEventArgs e)
         {
-            Editando = true;Botoes_Principais_sp.Visibility = Visibility.Visible;
+            Editando = true; Botoes_Principais_sp.Visibility = Visibility.Visible;
             //Criterios_tb.Text = PesquisaCodigo_tb.Text + (char)(20) + PesquisaNome_tb.Text + (char)(20) + PesquisaCNPJ_tb.Text;
             Editando = false; Botoes_Principais_sp.Visibility = Visibility.Hidden;
             //((EmpresasSegurosViewModel)this.DataContext).ExecutarPesquisaCommand();
@@ -117,7 +117,7 @@ namespace iModSCCredenciamento.Views
 
         private void CancelarPesquisa_bt_Click(object sender, RoutedEventArgs e)
         {
-            Editando = true;Botoes_Principais_sp.Visibility = Visibility.Visible;
+            Editando = true; Botoes_Principais_sp.Visibility = Visibility.Visible;
             Botoes_Pesquisar_sp.Visibility = Visibility.Hidden;
 
         }
@@ -148,7 +148,7 @@ namespace iModSCCredenciamento.Views
                 return;
             }
             EmpresaRazaoSocial_cb.IsEnabled = true;
-            Editando = true;Botoes_Principais_sp.Visibility = Visibility.Visible;
+            Editando = true; Botoes_Principais_sp.Visibility = Visibility.Visible;
             ((ColaboradoresEmpresasViewModel)this.DataContext).OnSalvarEdicaoCommand();
             Botoes_Editar_sp.Visibility = Visibility.Hidden;
             ListaColaboradoresEmpresas_lv.IsHitTestVisible = true;
@@ -159,7 +159,7 @@ namespace iModSCCredenciamento.Views
         private void CancelarAdicao_bt_Click(object sender, RoutedEventArgs e)
         {
             Editando = true;
-            Editando = true;Botoes_Principais_sp.Visibility = Visibility.Visible;
+            Editando = true; Botoes_Principais_sp.Visibility = Visibility.Visible;
             ((ColaboradoresEmpresasViewModel)this.DataContext).OnCancelarAdicaoCommand();
             Botoes_Adicionar_sp.Visibility = Visibility.Hidden;
             Global.SetReadonly(Linha0_sp, true);
@@ -176,7 +176,7 @@ namespace iModSCCredenciamento.Views
             {
                 return;
             }
-            Editando = true;Botoes_Principais_sp.Visibility = Visibility.Visible;
+            Editando = true; Botoes_Principais_sp.Visibility = Visibility.Visible;
             ((ColaboradoresEmpresasViewModel)this.DataContext).OnSalvarAdicaoCommand();
             Botoes_Adicionar_sp.Visibility = Visibility.Hidden;
             Global.SetReadonly(Linha0_sp, true);
@@ -214,13 +214,13 @@ namespace iModSCCredenciamento.Views
 
         //private void Contrato_cb_SelectionChanged(object sender, SelectionChangedEventArgs e)
         //{
-            
+
         //    if (((ColaboradoresEmpresasViewModel)this.DataContext).VerificaVinculo() && !Editando)
         //    {
         //        SalvarEdicao_bt.IsEnabled = false;
         //        SalvarAdicao_bt.IsEnabled = false;
         //        Global.PopupBox("Este colaborador já possui vínculo ativo com este contrato!", 1);
-                
+
         //    }
         //    else
         //    {
@@ -228,7 +228,7 @@ namespace iModSCCredenciamento.Views
         //        SalvarAdicao_bt.IsEnabled = true;
         //    }
 
-            
+
 
         //}
 
@@ -277,7 +277,7 @@ namespace iModSCCredenciamento.Views
         {
             if (!Editando)
             {
-                if (!Global.PopupBox("Todas as credenciais deste colaborador serão canceladas! Confirma desligamento?",2))
+                if (!Global.PopupBox("Todas as credenciais deste colaborador serão canceladas! Confirma desligamento?", 2))
                 {
                     Ativo_cb.IsChecked = true;
                 }

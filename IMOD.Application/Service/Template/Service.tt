@@ -1,0 +1,125 @@
+﻿<#@ template debug="false"  hostspecific="true" language="C#" #>
+<#@ include file="Manager.ttinclude"#>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".cs" #>
+
+<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+
+<#
+var manager = Manager.Create(Host, GenerationEnvironment);
+
+							var listaClasses = new List<string[]>();
+							//listaClasses.Add(new []{"{Entidade}","{Interface}"});
+
+							listaClasses.Add(new []{"ContaBancaria","IContaBancariaRepositorio"});
+							listaClasses.Add(new []{"CondicaoPgto","ICondicaoPgtoRepositorio"});
+							listaClasses.Add(new []{"FormaPgto","IFormaPgtoRepositorio"});
+							 
+
+ #>
+ <#
+ 
+		foreach(var item in listaClasses) {
+		var nomeClass = item[0] + "Service.cs";
+
+		manager.StartNewFile(nomeClass);
+
+		#>
+using System.Collections.Generic;
+using IMOD.Application.Interfaces;
+using IMOD.Domain.Entities;
+using IMOD.Domain.EntitiesCustom;
+using IMOD.Domain.Interfaces;
+using IMOD.Infra.Repositorios;
+
+
+
+namespace IMOD.Application.Service
+{
+    public class <#= item[0] #>Service :<#= item[1] #> 
+    {
+	#region Variaveis Globais
+
+        private readonly <#= item[1] #> _repositorio = new <#= item[0] #>Repositorio();
+
+        #endregion
+
+        #region Construtor
+
+        public  <#= item[0] #>Service()
+        {
+          
+        }
+
+        #endregion
+
+        #region Metodos
+
+        /// <summary>
+        ///     Criar registro
+        /// </summary>
+        /// <param name="entity"></param>
+        public void Criar(<#= item[0] #> entity)
+        {
+            _repositorio.Criar(entity);
+        }
+
+        /// <summary>
+        ///     Buscar pela chave primaria
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public <#= item[0] #> BuscarPelaChave(int id)
+        {
+            return _repositorio.BuscarPelaChave(id);
+        }
+
+        /// <summary>
+        ///     Listar
+        /// </summary>
+        /// <param name="predicate">Expressão de consulta</param>
+        /// <returns></returns>
+        public ICollection<<#= item[0] #>> Listar(params object[] objects)
+        {
+            return _repositorio.Listar(objects);
+        }
+
+        /// <summary>
+        ///     Alterar registro
+        /// </summary>
+        /// <param name="entity"></param>
+        public void Alterar(<#= item[0] #> entity)
+        {
+            _repositorio.Alterar(entity);
+        }
+
+        /// <summary>
+        ///     Deletar registro
+        /// </summary>
+        /// <param name="predicate"></param>
+        public void Remover(<#= item[0] #> entity)
+        {
+            _repositorio.Remover(predicate);
+        }
+
+        
+        #endregion
+    }
+}
+
+ <#
+ manager.EndBlock();
+ }
+ #>
+
+ <#
+  manager.Process(true);	
+ #>
+
