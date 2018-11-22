@@ -50,7 +50,10 @@
     </Reference>
     <Reference Include="Genetec.Sdk, Version=5.7.0.0, Culture=neutral, PublicKeyToken=a446968a32b751de, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\iModSCCredenciamento\Dlls\Genetec.Sdk.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Genetec Security Center 5.7\Genetec.Sdk.dll</HintPath>
+    </Reference>
+    <Reference Include="Genetec.Sdk.Controls">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Genetec Security Center 5.7\Genetec.Sdk.Controls.dll</HintPath>
     </Reference>
     <Reference Include="Genetec.Sdk.Maps, Version=5.7.0.0, Culture=neutral, PublicKeyToken=a446968a32b751de, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -58,24 +61,20 @@
     </Reference>
     <Reference Include="Genetec.Sdk.Workspace, Version=5.7.0.0, Culture=neutral, PublicKeyToken=a446968a32b751de, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\iModSCCredenciamento\Dlls\Genetec.Sdk.Workspace.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Genetec Security Center 5.7\Genetec.Sdk.Workspace.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Expression.Encoder, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=x86">
       <HintPath>..\packages\Microsoft.Expression.Encoder.4.0.4276.3\lib\net45\Microsoft.Expression.Encoder.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Expression.Interactions, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.ReportViewer.WinForms, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\iModSCCredenciamento\Dlls\Microsoft.ReportViewer.WinForms.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files (x86)\Microsoft SDKs\System.Windows.Interactivity.dll</HintPath>
-    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -130,7 +129,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="App.config" />
+    <Content Include="App.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -139,7 +140,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\iModSCCredenciamento\iModSCCredenciamento.csproj">
-      <Project>{974F5875-4CFB-4926-8273-D1BF96AC8242}</Project>
+      <Project>{974f5875-4cfb-4926-8273-d1bf96ac8242}</Project>
       <Name>iModSCCredenciamento</Name>
     </ProjectReference>
   </ItemGroup>

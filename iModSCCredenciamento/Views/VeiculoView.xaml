@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:iModSCCredenciamento.Views"
              xmlns:i="clr-namespace:iModSCCredenciamento.Funcoes"
              xmlns:data="clr-namespace:Singulink.Windows.Data"
-             xmlns:gif="http://wpfanimatedgif.codeplex.com"             
+                  
              mc:Ignorable="d" >
     <UserControl.Resources>
         <i:StringToImageConverter x:Key="Convert64ToImage"/>
@@ -317,8 +317,9 @@
                             <!--#region Image -->
 
                             <Border BorderBrush="Beige" Grid.Column="9" CornerRadius="3"  BorderThickness="1" Margin="10" Grid.RowSpan="4">
-                                <Image x:Name="Foto_im"  Grid.Column="8" Grid.Row="4"  Source= "{Binding SelectedItem.Foto, Converter={StaticResource Convert64ToImage}, ElementName=ListaVeiculos_lv, Mode=TwoWay, UpdateSourceTrigger=Explicit}" 
-                                   gif:ImageBehavior.AnimatedSource="{Binding Waiting}" Margin="10" Grid.RowSpan="3"   />
+                                <!--<Image x:Name="Foto_im"  Grid.Column="8" Grid.Row="4"  Source= "{Binding SelectedItem.Foto, Converter={StaticResource Convert64ToImage}, ElementName=ListaVeiculos_lv, Mode=TwoWay, UpdateSourceTrigger=Explicit}" 
+                                   gif:ImageBehavior.AnimatedSource="{Binding Waiting}" Margin="10" Grid.RowSpan="3"   />-->
+                                    <Image x:Name="Foto_im"  Grid.Column="8" Grid.Row="4"  Source= "{Binding SelectedItem.Foto, Converter={StaticResource Convert64ToImage}, ElementName=ListaVeiculos_lv, Mode=TwoWay, UpdateSourceTrigger=Explicit}" Margin="10" Grid.RowSpan="3"   />
                             </Border>
                             <Button  x:Name="BuscarContratoArquivo_bt" Click="SelecionarFoto_bt_Click" BorderBrush="Transparent" Background="White" Grid.Column="9" HorizontalAlignment="Left" Margin="10,3,0,0" Grid.Row="4" VerticalAlignment="Top" Width="37" Height="28">
                                 <!--<Image Source="pack://application:/Resources/folder.png"/>-->
