@@ -154,7 +154,7 @@
                     <!-- Grid 0 -->
                     <Grid Grid.Row="0" VerticalAlignment="Top">
 
-                        <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" Foreground="#FFD0D0D0" x:Name="InformacoesSeguro_gb"  Header="Informações de Cursos" Margin="10,10,0,10" VerticalAlignment="Stretch" >
+                        <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" Foreground="#FFD0D0D0" x:Name="InformacoesSeguro_gb"  Header=" Cursos e Treinamentos " Margin="10" VerticalAlignment="Stretch" >
                             <StackPanel x:Name="InformacoesSeguro_sp" Margin="0,10,10,10">
                                 <Grid HorizontalAlignment="Stretch" Margin="1,1,1,16"   ScrollViewer.VerticalScrollBarVisibility="Visible">
                                     <Grid.RowDefinitions >
@@ -219,7 +219,7 @@
                         <ColumnDefinition Width="168"  />
                     </Grid.ColumnDefinitions>
                     <StackPanel Margin="0,0,0,0" Grid.Column="0">
-                        <ListView x:Name="ListaColaboradoresCursos_lv" Margin="0,0,0,0" Height="180"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                        <ListView x:Name="ListaColaboradoresCursos_lv" Margin="10,0,0,0" Height="180"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
                                       ItemsSource="{Binding ColaboradoresCursos, Mode=TwoWay}" SelectedIndex="{Binding Path=SelectedIndex, Mode=TwoWay}" 
                                       SelectedItem="{Binding Path = ColaboradorCursoSelecionado, Mode=TwoWay}" ScrollViewer.CanContentScroll="True" SelectionChanged="ListaColaboradoresCursos_lv_SelectionChanged">
                             <!--ScrollViewer.CanContentScroll="True" MaxHeight="150"  Visibility="Visible" SelectionMode="Single"  Background="#FF4E4E4E" Foreground="White" HorizontalAlignment="Left" SelectionChanged="ListaEmpresas_lv_SelectionChanged">-->
@@ -234,9 +234,9 @@
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
-                                    <GridViewColumn Width="200" Header="Validade"  DisplayMemberBinding="{Binding Validade, StringFormat='dd/MM/yyyy'}"/>
-                                    <GridViewColumn Width="400" Header="Curso"    DisplayMemberBinding="{Binding CursoNome}"/>
-                                    <GridViewColumn Width="200" Header="Arquivo"  DisplayMemberBinding="{Binding NomeArquivo}"/>
+                                    <GridViewColumn Width="100" Header="Validade"  DisplayMemberBinding="{Binding Validade, StringFormat='dd/MM/yyyy'}"/>
+                                    <GridViewColumn Width="335" Header="Curso"    DisplayMemberBinding="{Binding CursoNome}"/>
+                                    <GridViewColumn Width="377" Header="Arquivo"  DisplayMemberBinding="{Binding NomeArquivo}"/>
 
                                     <!--<GridViewColumn Width="150"  Header="Valor da Cobertura" DisplayMemberBinding="{Binding ValorCobertura}"/>
                                     <GridViewColumn Width="200"  Header="Apólice" DisplayMemberBinding="{Binding NomeArquivo}"/>-->
