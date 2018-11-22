@@ -46,7 +46,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Cargo", entity.Cargo, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Matricula", entity.Matricula, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Ativo", entity.Ativo, false)));
-                       
+
                         cmd.ExecuteNonQuery();
 
                     }
@@ -73,7 +73,7 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        
+
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("ColaboradorEmpresaId", DbType.Int32, id).Igual()));
                         var reader = cmd.ExecuteReader();
                         var d1 = reader.MapToList<ColaboradorEmpresa>();
@@ -95,7 +95,7 @@ namespace IMOD.Infra.Repositorios
         /// <param name="entity">Entidade</param>
         public void Criar(ColaboradorEmpresa entity)
         {
-           
+
             using (var conn = _dataBase.CreateOpenConnection())
             {
 
@@ -104,7 +104,7 @@ namespace IMOD.Infra.Repositorios
                     try
                     {
 
-             
+
 
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("ColaboradorEmpresaId", entity.ColaboradorEmpresaId, true)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("ColaboradorId", entity.ColaboradorId, false)));
@@ -173,7 +173,7 @@ namespace IMOD.Infra.Repositorios
                     {
 
                         cmd.Parameters.Add(
-                            _dataBase.CreateParameter(new ParamDelete("ColaboradorEmpresaId", entity.ColaboradorEmpresaId)));
+                            _dataBase.CreateParameter(new ParamDelete("ColaboradorEmpresaId", entity.ColaboradorEmpresaId).Igual()));
 
                         cmd.ExecuteNonQuery();
 
