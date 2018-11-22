@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Ado\CommandExtensions.cs" />
     <Compile Include="Ado\CurrentConfig.cs" />
     <Compile Include="Ado\DataReaderExtensions.cs" />
     <Compile Include="Ado\DataWorkerFactory.cs" />

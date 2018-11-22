@@ -212,8 +212,7 @@ namespace IMOD.Infra.Repositorios
                         
 
                         cmd.Parameters.Add (
-                            _dataBase.CreateParameter (new ParamDelete ("ColaboradorCredencialID",
-                                entity.ColaboradorCredencialId)));
+                            _dataBase.CreateParameter (new ParamDelete ("ColaboradorCredencialID",entity.ColaboradorCredencialId).Igual()));
 
                         cmd.ExecuteNonQuery();
                         
@@ -246,7 +245,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("CredencialStatusID", DbType.String, o, 3).Igual()));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("ColaboradorID", DbType.Int32, o, 4).Igual()));
 
-                        var reader = cmd.ExecuteReader();
+                        var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<ColaboradoresCredenciaisView>();
                         return d1;
                     }

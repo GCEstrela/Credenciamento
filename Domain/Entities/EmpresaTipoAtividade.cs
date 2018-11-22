@@ -1,18 +1,18 @@
-﻿// ***********************************************************************
+// ***********************************************************************
 // Project: IMOD.Domain
 // Crafted by: Grupo Estrela by Genetec
-// Date:  11 - 19 - 2018
+// Date:  11 - 22 - 2018
 // ***********************************************************************
 
 namespace IMOD.Domain.Entities
 {
-    public class EmpresaLayoutCracha
+    public class EmpresaTipoAtividade
     {
         #region  Propriedades
 
-        public int EmpresaLayoutCrachaId { get; set; }
+        public int EmpresaTipoAtividadeId { get; set; }
         public int EmpresaId { get; set; }
-        public int? LayoutCrachaId { get; set; }
+        public int TipoAtividadeId { get; set; }
 
         #endregion
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using IMOD.Domain.Entities;
 using IMOD.Infra.Repositorios;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -52,7 +53,8 @@ namespace UnitTestImod
         public void Cadastrar_ColaboradorEanexos_com_sucesso()
         {
             var repositorio = new ColaboradorRepositorio();
-            var d1 = repositorio.BuscarPelaChave(9);
+            var d1 = repositorio.Listar().FirstOrDefault();
+            if (d1 == null) return;
             d1.Nome = "Alexandre Unit Teste";
             var anexos = new List<ColaboradorAnexo>();
             anexos.Add(new ColaboradorAnexo
@@ -88,11 +90,11 @@ namespace UnitTestImod
         public void Colabororador_Buscar_Criar_Alterar_com_sucesso()
         {
             var repositorio = new ColaboradorRepositorio();
-            var d1 = repositorio.BuscarPelaChave (9);
+            var d1 = repositorio.Listar().FirstOrDefault();
+            if (d1 == null) return;
             d1.Nome = "Valnei Batista Filho";
             repositorio.Alterar(d1);
-            d1.Nome = "José Dirceu";
-            int key;
+            d1.Nome = "José Dirceu"; 
             repositorio.Criar(d1);
         }
 

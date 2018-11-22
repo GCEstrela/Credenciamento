@@ -263,10 +263,10 @@ namespace IMOD.Infra.Repositorios
                     try
                     {
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("ColaboradorCredencialID", DbType.Int32, o, 0).Igual()));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("Cpf", o, 1).Igual()));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("Nome", o, 2).Like()));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("Cpf",DbType.String, o, 1).Igual()));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("Nome", DbType.String, o, 2).Like()));
 
-                        var reader = cmd.ExecuteReader();
+                        var reader = cmd.ExecuteReaderSelect();  
                         var d1 = reader.MapToList<Colaborador>();
 
                         return d1;
@@ -292,7 +292,7 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamDelete ("ColaboradorId", entity.ColaboradorId)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamDelete ("ColaboradorId",DbType.Int32, entity.ColaboradorId).Igual()));
                         cmd.ExecuteNonQuery();
                     }
                     catch (Exception ex)
