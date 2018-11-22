@@ -14,6 +14,5 @@ namespace IMOD.Domain.Interfaces
 {
     public interface IColaboradorAnexoRepositorio : IRepositorioBaseAdoNet<ColaboradorAnexo>
     {
-
     }
 }

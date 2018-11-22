@@ -90,11 +90,11 @@
     <Compile Include="Interfaces\IAreaAcesso.cs" />
     <Compile Include="Interfaces\IColaboradorAnexoRepositorio.cs" />
     <Compile Include="Interfaces\IColaboradorCredencialimpresssaoRepositorio.cs" />
-    <Compile Include="Interfaces\IColaboradorCursoRepositorio.cs" />
-    <Compile Include="Interfaces\IColaboradorRepositorio.cs" />
     <Compile Include="Interfaces\IColaboradorCredencialRepositorio.cs" />
+    <Compile Include="Interfaces\IColaboradorCursoRepositorio.cs" />
     <Compile Include="Interfaces\IColaboradorEmpresaRepositorio.cs" />
     <Compile Include="Interfaces\IColaboradorPrivilegioRepositorio.cs" />
+    <Compile Include="Interfaces\IColaboradorRepositorio.cs" />
     <Compile Include="Interfaces\ICursoRepositorio.cs" />
     <Compile Include="Interfaces\IEmpresaAreaAcessoRepositorio.cs" />
     <Compile Include="Interfaces\IEmpresaEquipamentoRepositorio.cs" />

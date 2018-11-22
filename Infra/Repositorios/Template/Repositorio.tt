@@ -18,9 +18,21 @@ var manager = Manager.Create(Host, GenerationEnvironment);
 							var listaClasses = new List<string[]>();
 							//listaClasses.Add(new []{"{Entidade}","{Interface}","{PrimaryKey}");
 
-							listaClasses.Add(new []{"Veiculos","IVeiculoRepositorio","EquipamentoVeiculoId"});
-							listaClasses.Add(new []{"TipoAcesso","ITipoAcessoRepositorio","TipoAcessoId"});
-							listaClasses.Add(new []{"VeiculoAnexo","IVeiculoAnexoRepositorio","VeiculoAnexoId"});
+							listaClasses.Add(new []{"AreaAcesso","IAreaAcesso","AreaAcessoId"});
+
+							listaClasses.Add(new []{"ColaboradorCredencialimpresssao","IColaboradorCredencialimpresssaoRepositorio","CredencialImpressaoId"});
+							listaClasses.Add(new []{"ColaboradorCurso","IColaboradorCursoRepositorio","ColaboradorCursoId"});
+
+							listaClasses.Add(new []{"ColaboradorPrivilegio","IColaboradorPrivilegioRepositorio","ColaboradorPrivilegioId"});
+							listaClasses.Add(new []{"CredencialMotivo","ICredencialMotivoRepositorio","CredencialMotivoId"});
+							listaClasses.Add(new []{"CredencialStatus","ICredencialStatusRepositorio","CredencialStatusId"});
+							listaClasses.Add(new []{"Curso","ICursoRepositorio","CursoId"});
+							listaClasses.Add(new []{"EmpresaAreaAcesso","IEmpresaAreaAcessoRepositorio","EmpresaAreaAcessoId"});
+							listaClasses.Add(new []{"EmpresaContrato","IEmpresaContratoRepositorio","EmpresaContratoId"});
+							listaClasses.Add(new []{"EmpresaEquipamento","IEmpresaEquipamentoRepositorio","EmpresaEquipamentoId"});
+							listaClasses.Add(new []{"EmpresaLayoutCracha","IEmpresaLayoutCrachaRepositorio","EmpresaLayoutCrachaId"});
+					 
+							
 
 							
 							 
