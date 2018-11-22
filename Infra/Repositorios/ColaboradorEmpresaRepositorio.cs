@@ -141,10 +141,8 @@ namespace IMOD.Infra.Repositorios
                     try
                     {
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("ColaboradorCredencialID", DbType.Int32, o, 0).Igual()));
-                        //Informe demais parametros se existir...
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("CampoA",o, 1).Igual()));
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("CampoB", DbType.Int32, o, 2).Igual()));
-                        var reader = cmd.ExecuteReader();
+                        
+                        var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<ColaboradorEmpresa>();
 
                         return d1;
