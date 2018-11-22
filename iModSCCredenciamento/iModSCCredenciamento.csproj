@@ -32,6 +32,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=7.0.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.7.0.1\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="CrystalDecisions.CrystalReports.Engine">
       <HintPath>..\..\..\..\..\..\program files (x86)\sap businessobjects\crystal reports for .net framework 4.0\common\sap businessobjects enterprise xi 4.0\win32_x86\dotnet\CrystalDecisions.CrystalReports.Engine.dll</HintPath>
     </Reference>
@@ -75,6 +79,11 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Printing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity">
@@ -156,7 +165,6 @@
     <Compile Include="Models\ClasseEmpresasSignatarios.cs" />
     <Compile Include="Models\ClasseEmpresasTiposAtividades.cs" />
     <Compile Include="Models\ClasseEmpresasVeiculos.cs" />
-    <Compile Include="Models\ClasseEquipamentoVeiculoTiposServicos.cs" />
     <Compile Include="Models\ClasseEstados.cs" />
     <Compile Include="Models\ClasseLayoutsCrachas.cs" />
     <Compile Include="Models\ClasseMunicipios.cs" />
@@ -165,22 +173,17 @@
     <Compile Include="Models\ClasseRelatoriosGerenciais.cs" />
     <Compile Include="Models\ClasseStatus.cs" />
     <Compile Include="Models\ClasseTecnologiasCredenciais.cs" />
-    <Compile Include="Models\ClasseTipoEquipamentoVeiculo.cs" />
     <Compile Include="Models\ClasseTiposAcessos.cs" />
     <Compile Include="Models\ClasseTiposAtividades.cs" />
     <Compile Include="Models\ClasseTiposCobrancas.cs" />
-    <Compile Include="Models\ClasseTiposCombustiveis.cs" />
     <Compile Include="Models\ClasseTiposCredenciais.cs" />
     <Compile Include="Models\ClasseTiposEmpresas.cs" />
     <Compile Include="Models\ClasseTiposEquipamento.cs" />
-    <Compile Include="Models\ClasseTiposServicos.cs" />
     <Compile Include="Models\ClasseTiposPendencias.cs" />
     <Compile Include="Models\ClasseTiposVeiculo.cs" />
     <Compile Include="Models\ClasseVeiculos.cs" />
-    <Compile Include="Models\ClasseVeiculosAnexos.cs" />
     <Compile Include="Models\ClasseVeiculosCredenciais.cs" />
     <Compile Include="Models\ClasseVeiculosEmpresas.cs" />
-    <Compile Include="Models\ClasseVeiculosPrivilegios.cs" />
     <Compile Include="Models\ClasseVeiculosSeguros.cs" />
     <Compile Include="Models\ClasseVinculos.cs" />
     <Compile Include="Models\ClasseFormatosCredenciais.cs" />
@@ -222,7 +225,6 @@
     <Compile Include="ViewModels\PopupPendenciasViewModel.cs" />
     <Compile Include="ViewModels\RelatoriosViewModel.cs" />
     <Compile Include="ViewModels\TermosViewModel.cs" />
-    <Compile Include="ViewModels\VeiculosAnexosViewModel.cs" />
     <Compile Include="ViewModels\VeiculosCredenciaisViewModel.cs" />
     <Compile Include="ViewModels\VeiculosEmpresasViewModel.cs" />
     <Compile Include="ViewModels\VeiculosSegurosViewModel.cs" />
@@ -272,9 +274,6 @@
     </Compile>
     <Compile Include="Views\TermosView.xaml.cs">
       <DependentUpon>TermosView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\VeiculosAnexosView.xaml.cs">
-      <DependentUpon>VeiculosAnexosView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\VeiculosCredenciaisView.xaml.cs">
       <DependentUpon>VeiculosCredenciaisView.xaml</DependentUpon>
@@ -378,9 +377,6 @@
     <Compile Include="Windows\PopupPesquisaSignatarios.xaml.cs">
       <DependentUpon>PopupPesquisaSignatarios.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\PopupPesquisaVeiculoAnexo.xaml.cs">
-      <DependentUpon>PopupPesquisaVeiculoAnexo.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Windows\PopupPesquisaVeiculos.xaml.cs">
       <DependentUpon>PopupPesquisaVeiculos.xaml</DependentUpon>
     </Compile>
@@ -470,10 +466,6 @@
     <Page Include="Views\TermosView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\VeiculosAnexosView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\VeiculosCredenciaisView.xaml">
       <SubType>Designer</SubType>
@@ -611,10 +603,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Windows\PopupPesquisaVeiculoAnexo.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Windows\PopupPesquisaVeiculos.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -663,6 +651,7 @@
     </Resource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
     <None Include="Certificates\iModSCCredenciamento.PagePrincipal.PagePrincipal - Cópia .cert">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
@@ -700,6 +689,33 @@
     <Content Include="CSharpControls.Wpf.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Dlls\Genetec.Sdk.Controls.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Dlls\Genetec.Sdk.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Dlls\Genetec.Sdk.Maps.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Dlls\Genetec.Sdk.Workspace.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Dlls\Genetec.Themes.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Dlls\Microsoft.Expression.Encoder.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Dlls\Microsoft.ReportViewer.WinForms.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Dlls\WebCam_Capture.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Dlls\WpfAnimatedGif.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="iModSCCredenciamento.privileges.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -732,6 +748,43 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\CrossCutting\IMOD.CrossCutting.csproj">
+      <Project>{4279abf8-7c1b-497f-90bd-e533b0e6a417}</Project>
+      <Name>IMOD.CrossCutting</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain\IMOD.Domain.csproj">
+      <Project>{f7dc651f-cb04-40ca-ac1b-c2355b474cf3}</Project>
+      <Name>IMOD.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IMOD.Application\IMOD.Application.csproj">
+      <Project>{b7bd6687-cb39-45a0-9b21-67125da69a2e}</Project>
+      <Name>IMOD.Application</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infra\IMOD.Infra.csproj">
+      <Project>{0b4ad570-efa6-4207-b4c1-3e95050452ac}</Project>
+      <Name>IMOD.Infra</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <UsingTask TaskName="TransformXml" AssemblyFile="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Web\Microsoft.Web.Publishing.Tasks.dll" />
+  <Target Name="app_config_AfterCompile" AfterTargets="AfterCompile" Condition="Exists('app.$(Configuration).config')">
+    <!--Generate transformed app config in the intermediate directory-->
+    <TransformXml Source="app.config" Destination="$(IntermediateOutputPath)$(TargetFileName).config" Transform="app.$(Configuration).config" />
+    <!--Force build process to use the transformed configuration file from now on.-->
+    <ItemGroup>
+      <AppConfigWithTargetPath Remove="App.config" />
+      <AppConfigWithTargetPath Include="$(IntermediateOutputPath)$(TargetFileName).config">
+        <TargetPath>$(TargetFileName).config</TargetPath>
+      </AppConfigWithTargetPath>
+    </ItemGroup>
+  </Target>
+  <!--Override After Publish to support ClickOnce AfterPublish. Target replaces the untransformed config file copied to the deployment directory with the transformed one.-->
+  <Target Name="app_config_AfterPublish" AfterTargets="AfterPublish" Condition="Exists('app.$(Configuration).config')">
+    <PropertyGroup>
+      <DeployedConfig>$(_DeploymentApplicationDir)$(TargetName)$(TargetExt).config$(_DeploymentFileMappingExtension)</DeployedConfig>
+    </PropertyGroup>
+    <!--Publish copies the untransformed App.config to deployment directory so overwrite it-->
+    <Copy Condition="Exists('$(DeployedConfig)')" SourceFiles="$(IntermediateOutputPath)$(TargetFileName).config" DestinationFiles="$(DeployedConfig)" />
+  </Target>
 </Project>

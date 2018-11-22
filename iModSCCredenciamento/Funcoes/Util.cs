@@ -26,8 +26,9 @@ namespace iModSCCredenciamento.Funcoes
     {
         private static readonly string _caminhoErrorLog = Path.Combine(Environment.CurrentDirectory, "ErrorLog");
         private static readonly string _nomeArqErrorLog = "IMOD_ErrorLog";
-       
+
         #region Diversos
+
 
         /// <summary>
         /// Format Currency

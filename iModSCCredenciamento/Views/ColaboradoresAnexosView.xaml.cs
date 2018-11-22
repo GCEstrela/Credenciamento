@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using iModSCCredenciamento.Funcoes;
 using iModSCCredenciamento.ViewModels;
+//using IMOD.Application.Service;
 using UserControl = System.Windows.Controls.UserControl;
 
 namespace iModSCCredenciamento.Views
@@ -24,6 +25,7 @@ namespace iModSCCredenciamento.Views
     /// </summary>
     public partial class ColaboradoresAnexosView : UserControl
     {
+      
         #region Inicializacao
         public ColaboradoresAnexosView()
         {

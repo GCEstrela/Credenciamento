@@ -2,16 +2,9 @@
 using iModSCCredenciamento.Windows;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Forms;
 using System.Windows.Media;
 using System.Xml;
 
@@ -21,7 +14,7 @@ namespace iModSCCredenciamento.Funcoes
     {
         public static string _cnpjEdicao = "";
         public static string CpfEdicao { get; set; }
-        
+
         public static Boolean Privilegio_Salvar = true;
         //public static Boolean _escape = false;
         public static string _instancia;
@@ -47,8 +40,8 @@ namespace iModSCCredenciamento.Funcoes
                 oNoLista = xmlConfig.SelectNodes("/CONFIG/BancoDeDados");
                 foreach (XmlNode oNo in oNoLista)
                 {
-                     _instancia = oNo.ChildNodes[0].InnerText.Trim();
-                    _bancoDados= oNo.ChildNodes[1].InnerText.Trim();
+                    _instancia = oNo.ChildNodes[0].InnerText.Trim();
+                    _bancoDados = oNo.ChildNodes[1].InnerText.Trim();
                     _usuario = oNo.ChildNodes[2].InnerText.Trim();
                     _senha = oNo.ChildNodes[3].InnerText.Trim();
 
@@ -56,9 +49,9 @@ namespace iModSCCredenciamento.Funcoes
                 _connectionString = "Data Source=" + _instancia + ";Initial Catalog=" + _bancoDados +
                 ";User ID=" + _usuario + ";Password=" + _senha +
                 ";Min Pool Size=5;Max Pool Size=15;Connection Reset=True;Connection Lifetime=600;Trusted_Connection=no;MultipleActiveResultSets=True";
-//                _connectionString = "Data Source=" + oNo.ChildNodes[0].InnerText.Trim() + ";Initial Catalog=" + oNo.ChildNodes[1].InnerText.Trim() +
-//";User ID=" + oNo.ChildNodes[2].InnerText.Trim() + ";Password=" + oNo.ChildNodes[3].InnerText.Trim() +
-//";Min Pool Size=5;Max Pool Size=15;Connection Reset=True;Connection Lifetime=600;Trusted_Connection=no;MultipleActiveResultSets=True";
+                //                _connectionString = "Data Source=" + oNo.ChildNodes[0].InnerText.Trim() + ";Initial Catalog=" + oNo.ChildNodes[1].InnerText.Trim() +
+                //";User ID=" + oNo.ChildNodes[2].InnerText.Trim() + ";Password=" + oNo.ChildNodes[3].InnerText.Trim() +
+                //";Min Pool Size=5;Max Pool Size=15;Connection Reset=True;Connection Lifetime=600;Trusted_Connection=no;MultipleActiveResultSets=True";
 
 
             }
@@ -165,7 +158,7 @@ namespace iModSCCredenciamento.Funcoes
 
         public static void PopupPDF(string _arquivoSTRPdf, bool dialog = true)
         {
-           
+
             PopupPdfViewer _popupPDF = new PopupPdfViewer(_arquivoSTRPdf);
             if (dialog)
             {
@@ -175,7 +168,7 @@ namespace iModSCCredenciamento.Funcoes
             {
                 _popupPDF.Show();
             }
-            
+
         }
 
         public static bool CheckDate(String date, bool _proibeBranco = true)
@@ -368,19 +361,19 @@ namespace iModSCCredenciamento.Funcoes
                     case ("00/00/0000"):
                         //if (!_escape)
                         //{
-                            if (!CheckDate(_textBox.Text, _proibeBranco))
+                        if (!CheckDate(_textBox.Text, _proibeBranco))
+                        {
+                            if (PopupBox("Data Inválida (pressione [Esc] para cancelar)", 1))
                             {
-                               if( PopupBox("Data Inválida (pressione [Esc] para cancelar)", 1))
-                                {
-                                    _textBox.Focus();
-                                }
-                                else
-                                {
-                                    _textBox.Text = "";
-                                }
-
-
+                                _textBox.Focus();
                             }
+                            else
+                            {
+                                _textBox.Text = "";
+                            }
+
+
+                        }
                         //}
                         //else
                         //{
@@ -395,14 +388,14 @@ namespace iModSCCredenciamento.Funcoes
                         //{
                         if (!ValidaCPF(_textBox.Text))
                         {
-                                if (PopupBox("CPF Inválido (pressione [Esc] para cancelar)", 1))
-                                {
-                                    _textBox.Focus();
-                                }
-                                else
-                                {
-                                    _textBox.Text = "";
-                                }
+                            if (PopupBox("CPF Inválido (pressione [Esc] para cancelar)", 1))
+                            {
+                                _textBox.Focus();
+                            }
+                            else
+                            {
+                                _textBox.Text = "";
+                            }
                         }
                         //}
                         //else
@@ -459,12 +452,12 @@ namespace iModSCCredenciamento.Funcoes
 
         public static void SetReadonly(object controls, bool Valor)
         {
-           //System.Windows.DependencyObject control;
-            
+            //System.Windows.DependencyObject control;
+
             switch (((System.Windows.DependencyObject)controls).DependencyObjectType.Name)
             {
                 case "StackPanel":
-                     controls = (System.Windows.Controls.StackPanel)controls;
+                    controls = (System.Windows.Controls.StackPanel)controls;
                     break;
                 case "GroupBox":
                     controls = (System.Windows.Controls.GroupBox)controls;
@@ -491,7 +484,7 @@ namespace iModSCCredenciamento.Funcoes
             {
                 tb.IsHitTestVisible = !Valor;
             }
-            
+
         }
 
         private static IEnumerable<T> FindVisualChildren<T>(DependencyObject depObj) where T : DependencyObject
