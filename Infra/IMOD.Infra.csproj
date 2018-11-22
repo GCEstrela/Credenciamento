@@ -80,15 +80,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Repositorio.tt</DependentUpon>
     </Compile>
-    <Compile Include="Repositorios\Template\TipoAcessoRepositorio.cs">
-      <DependentUpon>Repositorio.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Repositorios\Template\VeiculoAnexoRepositorio.cs">
-      <DependentUpon>Repositorio.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Repositorios\Template\VeiculosRepositorio.cs">
-      <DependentUpon>Repositorio.tt</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config">
