@@ -86,6 +86,17 @@
     <Compile Include="Repositorios\EmpresaContratoRepositorio.cs" />
     <Compile Include="Repositorios\EmpresaEquipamentoRepositorio.cs" />
     <Compile Include="Repositorios\EmpresaLayoutCrachaRepositorio.cs" />
+    <Compile Include="Repositorios\EmpresaRepositorio.cs" />
+    <Compile Include="Repositorios\EmpresaSeguroRepositorio.cs" />
+    <Compile Include="Repositorios\EmpresaSignatarioRepositorio.cs" />
+    <Compile Include="Repositorios\EmpresaTipoAtividadeRepositorio.cs" />
+    <Compile Include="Repositorios\EmpresaVeiculoRepositorio.cs" />
+    <Compile Include="Repositorios\EquipamentoVeiculoTipoServicoRepositorio.cs" />
+    <Compile Include="Repositorios\EstadosRepositorio.cs" />
+    <Compile Include="Repositorios\FormatoCredencialRepositorio.cs" />
+    <Compile Include="Repositorios\LayoutCrachaRepositorio.cs" />
+    <Compile Include="Repositorios\MunicipioRepositorio.cs" />
+    <Compile Include="Repositorios\PendenciaRepositorio.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config">
