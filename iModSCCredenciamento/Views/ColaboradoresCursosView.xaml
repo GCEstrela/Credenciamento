@@ -181,17 +181,17 @@
                                     <Label Content="Curso:" Height="28" Width="50" Margin="0,7" HorizontalContentAlignment="Right" Grid.Row="0" Grid.Column="2"/>
                                     <ComboBox  x:Name="Curso_cb"  MinWidth="50" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="3"
                                                 ItemsSource="{Binding Cursos}" DisplayMemberPath="Descricao"  SelectedValue="{Binding SelectedItem.CursoID, ElementName=ListaColaboradoresCursos_lv, UpdateSourceTrigger=PropertyChanged}" 
-                                              SelectedValuePath="CursoID" Margin="50,7,33,5" />
+                                              SelectedValuePath="CursoID" Margin="50,7,5,5" />
                                     <Label Content="Data de Validade:" Height="28" Width="110" Margin="0,7" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Grid.Row="0" Grid.Column="5"/>
                                     <DatePicker x:Name="DataValidade_dp" SelectedDate="{Binding SelectedItem.Validade, ElementName=ListaColaboradoresCursos_lv, UpdateSourceTrigger=PropertyChanged}" Foreground="White" Background="{x:Null}" HorizontalAlignment="Left" Grid.Row="0" Grid.Column="6" Margin="1,7,0,7" Height="Auto" />
                                     <Label Content="Nome do Arquivo:" Height="28" Width="124" Margin="0,7" HorizontalContentAlignment="Right" Grid.Row="1" Grid.Column="0" />
-                                    <TextBox  x:Name="ApoliceArquivo_tb"   CharacterCasing="Upper" Text="{Binding SelectedItem.NomeArquivo, ElementName=ListaColaboradoresCursos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" Margin="0,10,0,8"/>
-                                    <Button x:Name="BuscarCursoArquivo_bt" Height="24"  VerticalAlignment="Center" HorizontalAlignment="Left" Width="24" Click="BuscarApoliceArquivo_bt_Click" Grid.Row="1" Grid.Column="4" Margin="15,11,0,7" >
+                                    <TextBox  x:Name="ApoliceArquivo_tb"   CharacterCasing="Upper" Text="{Binding SelectedItem.NomeArquivo, ElementName=ListaColaboradoresCursos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4" Margin="0,10,64,8"/>
+                                    <Button x:Name="BuscarCursoArquivo_bt" Height="24"  VerticalAlignment="Center" HorizontalAlignment="Left" Width="24" Click="BuscarApoliceArquivo_bt_Click" Grid.Row="1" Grid.Column="4" Margin="52,10,0,8" >
                                         <StackPanel>
                                             <Image Source="/iModSCCredenciamento;component/Resources/Pasta.ico"/>
                                         </StackPanel>
                                     </Button>
-                                    <Button x:Name="AbrirCursoArquivo_bt" Height="24" Margin="54,11,33,7" VerticalAlignment="Center" Click="AbrirApoliceArquivo_bt_Click" Grid.Row="1" Grid.Column="4">
+                                    <Button x:Name="AbrirCursoArquivo_bt" Height="24" Margin="82,10,5,8" VerticalAlignment="Center" Click="AbrirApoliceArquivo_bt_Click" Grid.Row="1" Grid.Column="4">
                                         <StackPanel>
                                             <Image Source="/iModSCCredenciamento;component/Resources/Olho.png"/>
                                         </StackPanel>

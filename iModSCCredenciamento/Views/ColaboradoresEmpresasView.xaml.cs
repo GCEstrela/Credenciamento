@@ -1,10 +1,20 @@
 ﻿using iModSCCredenciamento.Funcoes;
 using iModSCCredenciamento.ViewModels;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Forms;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
 using UserControl = System.Windows.Controls.UserControl;
 
 namespace iModSCCredenciamento.Views
@@ -273,16 +283,6 @@ namespace iModSCCredenciamento.Views
                 }
                 return;
             }
-        }
-
-
-        private void EmpresaRazaoSocial_DropDownClosed(object sender, EventArgs e)
-        {
-            var display = EmpresaRazaoSocial_cb.Text;
-            var data1 = ((ColaboradoresEmpresasViewModel)this.DataContext).ColaboradoresEmpresas;
-            data1.FirstOrDefault().EmpresaNome = display;
-            ListaColaboradoresEmpresas_lv.ItemsSource = data1;
-            ListaColaboradoresEmpresas_lv.Items.Refresh();
         }
 
         //private void EmpresaRazaoSocial_cb_SelectionChanged(object sender, SelectionChangedEventArgs e)
