@@ -86,6 +86,25 @@
     <Compile Include="Repositorios\EmpresaContratoRepositorio.cs" />
     <Compile Include="Repositorios\EmpresaEquipamentoRepositorio.cs" />
     <Compile Include="Repositorios\EmpresaLayoutCrachaRepositorio.cs" />
+    <Compile Include="Repositorios\RelatoriosGerenciaisRepositorio.cs" />
+    <Compile Include="Repositorios\RelatoriosRepositorio.cs" />
+    <Compile Include="Repositorios\StatusRepositorio.cs" />
+    <Compile Include="Repositorios\TecnologiaCredencialRepositorio.cs" />
+    <Compile Include="Repositorios\TipoAcessoRepositorio.cs" />
+    <Compile Include="Repositorios\TipoAtividadeRepositorio.cs" />
+    <Compile Include="Repositorios\TipoCobrancaRepositorio.cs" />
+    <Compile Include="Repositorios\TipoCombustivelRepositorio.cs" />
+    <Compile Include="Repositorios\TipoCredencialRepositorio.cs" />
+    <Compile Include="Repositorios\TipoEquipamentoRepositorio.cs" />
+    <Compile Include="Repositorios\TipoEquipamentoVeiculoRepositorio.cs" />
+    <Compile Include="Repositorios\TipoServicoRepositorio.cs" />
+    <Compile Include="Repositorios\VeiculoAnexoRepositorio.cs" />
+    <Compile Include="Repositorios\VeiculoCredencialimpressaoRepositorio.cs" />
+    <Compile Include="Repositorios\VeiculoCredencialRepositorio.cs" />
+    <Compile Include="Repositorios\VeiculoEmpresaRepositorio.cs" />
+    <Compile Include="Repositorios\VeiculoEquipTipoServicoRepositorio.cs" />
+    <Compile Include="Repositorios\VeiculoSeguroRepositorio.cs" />
+    <Compile Include="Repositorios\VeiculosRepositorio.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config">

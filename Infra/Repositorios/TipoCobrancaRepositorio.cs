@@ -17,17 +17,17 @@ using IMOD.Infra.Ado.Interfaces.ParamSql;
 
 namespace IMOD.Infra.Repositorios
 {
-    public class ColaboradorPrivilegioRepositorio :IColaboradorPrivilegioRepositorio 
+    public class TipoCobrancaRepositorio : ITipoCobrancaRepositorio
     {
-	    private readonly string _connection = CurrentConfig.ConexaoString;
+        private readonly string _connection = CurrentConfig.ConexaoString;
         private readonly IDataBaseAdo _dataBase;
         private readonly IDataWorkerFactory _dataWorkerFactory = new DataWorkerFactory();
 
         #region Construtor
 
-        public  ColaboradorPrivilegioRepositorio()
+        public TipoCobrancaRepositorio()
         {
-          _dataBase = _dataWorkerFactory.ObterDataBaseSingleton (TipoDataBase.SqlServer, _connection);
+            _dataBase = _dataWorkerFactory.ObterDataBaseSingleton(TipoDataBase.SqlServer, _connection);
         }
 
         #endregion
@@ -38,11 +38,11 @@ namespace IMOD.Infra.Repositorios
         ///     Criar registro
         /// </summary>
         /// <param name="entity"></param>
-        public void Criar(ColaboradorPrivilegio entity)
+        public void Criar(TipoCobranca entity)
         {
-             using (var conn = _dataBase.CreateOpenConnection())
+            using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.InsertText ("ColaboradorPrivilegio", conn))
+                using (var cmd = _dataBase.InsertText("TipoCobranca", conn))
                 {
                     try
                     {
@@ -52,13 +52,13 @@ namespace IMOD.Infra.Repositorios
                         //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("ColaboradorID", entity.ColaboradorId, false)));
                         //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Arquivo", entity.Arquivo, false)));
 
-                        var key = Convert.ToInt32 (cmd.ExecuteScalar());
+                        var key = Convert.ToInt32(cmd.ExecuteScalar());
 
-                        entity.ColaboradorPrivilegioId = key;
+                        entity.TipoCobrancaId = key;
                     }
                     catch (Exception ex)
                     {
-                        Utils.TraceException (ex);
+                        Utils.TraceException(ex);
                         throw;
                     }
                 }
@@ -70,24 +70,24 @@ namespace IMOD.Infra.Repositorios
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public ColaboradorPrivilegio BuscarPelaChave(int id)
+        public TipoCobranca BuscarPelaChave(int id)
         {
-           using (var conn = _dataBase.CreateOpenConnection())
+            using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText ("ColaboradorPrivilegio", conn))
+                using (var cmd = _dataBase.SelectText("TipoCobranca", conn))
 
                 {
                     try
                     {
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("ColaboradorPrivilegioId", DbType.Int32, id).Igual()));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("TipoCobrancaId", DbType.Int32, id).Igual()));
                         var reader = cmd.ExecuteReader();
-                        var d1 = reader.MapToList<ColaboradorPrivilegio>();
+                        var d1 = reader.MapToList<TipoCobranca>();
 
                         return d1.FirstOrDefault();
                     }
                     catch (Exception ex)
                     {
-                        Utils.TraceException (ex);
+                        Utils.TraceException(ex);
                         throw;
                     }
                 }
@@ -99,11 +99,11 @@ namespace IMOD.Infra.Repositorios
         /// </summary>
         /// <param name="predicate">Expressão de consulta</param>
         /// <returns></returns>
-        public ICollection<ColaboradorPrivilegio> Listar(params object[] objects)
+        public ICollection<TipoCobranca> Listar(params object[] objects)
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText ("ColaboradorPrivilegio", conn))
+                using (var cmd = _dataBase.SelectText("TipoCobranca", conn))
 
                 {
                     try
@@ -112,13 +112,13 @@ namespace IMOD.Infra.Repositorios
                         //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("ColaboradorID", o, 1).Igual()));
 
                         var reader = cmd.ExecuteReaderSelect();
-                        var d1 = reader.MapToList<ColaboradorPrivilegio>();
+                        var d1 = reader.MapToList<TipoCobranca>();
 
                         return d1;
                     }
                     catch (Exception ex)
                     {
-                        Utils.TraceException (ex);
+                        Utils.TraceException(ex);
                         throw;
                     }
                 }
@@ -129,15 +129,15 @@ namespace IMOD.Infra.Repositorios
         ///     Alterar registro
         /// </summary>
         /// <param name="entity"></param>
-        public void Alterar(ColaboradorPrivilegio entity)
+        public void Alterar(TipoCobranca entity)
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.UpdateText ("ColaboradorPrivilegio", conn))
+                using (var cmd = _dataBase.UpdateText("TipoCobranca", conn))
                 {
                     try
                     {
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("ColaboradorPrivilegioId", entity.ColaboradorPrivilegioId, true)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("TipoCobrancaId", entity.TipoCobrancaId, true)));
                         //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Descricao", entity.Descricao, false)));
                         //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("NomeArquivo", entity.NomeArquivo, false)));
                         //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("ColaboradorID", entity.ColaboradorId, false)));
@@ -147,7 +147,7 @@ namespace IMOD.Infra.Repositorios
                     }
                     catch (Exception ex)
                     {
-                        Utils.TraceException (ex);
+                        Utils.TraceException(ex);
                         throw;
                     }
                 }
@@ -158,29 +158,28 @@ namespace IMOD.Infra.Repositorios
         ///     Deletar registro
         /// </summary>
         /// <param name="predicate"></param>
-        public void Remover(ColaboradorPrivilegio entity)
+        public void Remover(TipoCobranca entity)
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.DeleteText ("ColaboradorPrivilegio", conn))
+                using (var cmd = _dataBase.DeleteText("TipoCobranca", conn))
                 {
                     try
                     {
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamDelete ("ColaboradorPrivilegioId", entity.ColaboradorPrivilegioId).Igual()));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamDelete("TipoCobrancaId", entity.TipoCobrancaId).Igual()));
 
                         cmd.ExecuteNonQuery();
                     }
                     catch (Exception ex)
                     {
-                        Utils.TraceException (ex);
+                        Utils.TraceException(ex);
                     }
                 }
             }
         }
 
-        
+
         #endregion
     }
 }
 
- 

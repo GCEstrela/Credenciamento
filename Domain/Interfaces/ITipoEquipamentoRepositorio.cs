@@ -12,7 +12,7 @@ using IMOD.Domain.Entities;
 
 namespace IMOD.Domain.Interfaces
 {
-    public interface ITipoEquipamentoRepositorio : IRepositorioBaseAdoNet<TipoEquipamentoVeiculo>
+    public interface ITipoEquipamentoRepositorio : IRepositorioBaseAdoNet<TipoEquipamento>
     {
     }
 }

@@ -1,65 +1,3 @@
-﻿<#@ template debug="false"  hostspecific="true" language="C#" #>
-<#@ include file="Manager.ttinclude"#>
-<#@ assembly name="System.Core" #>
-<#@ import namespace="System.Linq" #>
-<#@ import namespace="System.Text" #>
-<#@ import namespace="System.Collections.Generic" #>
-<#@ output extension=".cs" #>
-
-<#@ template language="C#" #>
-<#@ assembly name="System.Core" #>
-<#@ import namespace="System.Linq" #>
-<#@ import namespace="System.Text" #>
-<#@ import namespace="System.Collections.Generic" #>
-
-<#
-var manager = Manager.Create(Host, GenerationEnvironment);
-
-							var listaClasses = new List<string[]>();
-							//listaClasses.Add(new []{"{Entidade}","{Interface}","{PrimaryKey}");
-
-							listaClasses.Add(new []{"RelatoriosGerenciais","IRelatoriosGerenciaisRepositorio","RelatorioId"});
-							listaClasses.Add(new []{"Relatorios","IRelatoriosRepositorio","RelatorioId"});
-
-							listaClasses.Add(new []{"Status","IStatusRepositorio","StatusId"});
-
-							listaClasses.Add(new []{"TecnologiaCredencial","ITecnologiaCredencialRepositorio","CredencialImpressaoId"});
-
-							listaClasses.Add(new []{"TipoAcesso","ITipoAcessoRepositorio","TipoAcessoId"});
-							listaClasses.Add(new []{"TipoAtividade","ITipoAtividadeRepositorio","TipoAtividadeId"});
-							listaClasses.Add(new []{"TipoCobranca","ITipoCobrancaRepositorio","TipoCobrancaId"});
-
-							listaClasses.Add(new []{"TipoCombustivel","ITipoCombustivelRepositorio","TipoCombustivelId"});
-							listaClasses.Add(new []{"TipoCredencial","ITipoCredencialRepositorio","TipoCredencialId"});
-							listaClasses.Add(new []{"TipoEquipamento","ITipoEquipamentoRepositorio","TipoEquipamentoId"});
-							listaClasses.Add(new []{"TipoEquipamentoVeiculo","ITipoEquipamentoVeiculoRepositorio","TipoEquipamentoViculoId"});
-
-
-							listaClasses.Add(new []{"TipoServico","ITipoServicoRepositorio","TipoServicoId"});
-
-							listaClasses.Add(new []{"VeiculoAnexo","IVeiculoAnexoRepositorio","VeiculoAnexoId"});
-							listaClasses.Add(new []{"VeiculoCredencialimpressao","IVeiculoCredencialimpressaoRepositorio","CredencialImpressaoId"});
-							listaClasses.Add(new []{"VeiculoCredencial","IVeiculoCredencialRepositorio","VeiculoCredencialId"});
-
-							listaClasses.Add(new []{"VeiculoEmpresa","IVeiculoEmpresaRepositorio","VeiculoEmpresaId"});
-							listaClasses.Add(new []{"VeiculoEquipTipoServico","IVeiculoEquipTipoServicoRepositorio","VeiculoTipoServicoId"});
-							listaClasses.Add(new []{"VeiculoSeguro","IVeiculoSeguroRepositorio","VeiculoSeguroId"});
-							listaClasses.Add(new []{"Veiculos","IVeiculosRepositorio","EquipamentoVeiculoId"});
-					 
-							
-
-							
-							 
-
- #>
- <#
- 
-		foreach(var item in listaClasses) {
-		var nomeClass = item[0] + "Repositorio.cs";
-
-		manager.StartNewFile(nomeClass);
-
-		#>
 
 #region
 
@@ -79,7 +17,7 @@ using IMOD.Infra.Ado.Interfaces.ParamSql;
 
 namespace IMOD.Infra.Repositorios
 {
-    public class <#= item[0] #>Repositorio :<#= item[1] #> 
+    public class VeiculoCredencialRepositorio :IVeiculoCredencialRepositorio 
     {
 	    private readonly string _connection = CurrentConfig.ConexaoString;
         private readonly IDataBaseAdo _dataBase;
@@ -87,7 +25,7 @@ namespace IMOD.Infra.Repositorios
 
         #region Construtor
 
-        public  <#= item[0] #>Repositorio()
+        public  VeiculoCredencialRepositorio()
         {
           _dataBase = _dataWorkerFactory.ObterDataBaseSingleton (TipoDataBase.SqlServer, _connection);
         }
@@ -100,11 +38,11 @@ namespace IMOD.Infra.Repositorios
         ///     Criar registro
         /// </summary>
         /// <param name="entity"></param>
-        public void Criar(<#= item[0] #> entity)
+        public void Criar(VeiculoCredencial entity)
         {
              using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.InsertText ("<#= item[0] #>", conn))
+                using (var cmd = _dataBase.InsertText ("VeiculoCredencial", conn))
                 {
                     try
                     {
@@ -116,7 +54,7 @@ namespace IMOD.Infra.Repositorios
 
                         var key = Convert.ToInt32 (cmd.ExecuteScalar());
 
-                        entity.<#= item[2] #> = key;
+                        entity.VeiculoCredencialId = key;
                     }
                     catch (Exception ex)
                     {
@@ -132,18 +70,18 @@ namespace IMOD.Infra.Repositorios
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public <#= item[0] #> BuscarPelaChave(int id)
+        public VeiculoCredencial BuscarPelaChave(int id)
         {
            using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText ("<#= item[0] #>", conn))
+                using (var cmd = _dataBase.SelectText ("VeiculoCredencial", conn))
 
                 {
                     try
                     {
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("<#= item[2] #>", DbType.Int32, id).Igual()));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("VeiculoCredencialId", DbType.Int32, id).Igual()));
                         var reader = cmd.ExecuteReader();
-                        var d1 = reader.MapToList<<#= item[0] #>>();
+                        var d1 = reader.MapToList<VeiculoCredencial>();
 
                         return d1.FirstOrDefault();
                     }
@@ -161,11 +99,11 @@ namespace IMOD.Infra.Repositorios
         /// </summary>
         /// <param name="predicate">Expressão de consulta</param>
         /// <returns></returns>
-        public ICollection<<#= item[0] #>> Listar(params object[] objects)
+        public ICollection<VeiculoCredencial> Listar(params object[] objects)
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText ("<#= item[0] #>", conn))
+                using (var cmd = _dataBase.SelectText ("VeiculoCredencial", conn))
 
                 {
                     try
@@ -174,7 +112,7 @@ namespace IMOD.Infra.Repositorios
                         //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("ColaboradorID", o, 1).Igual()));
 
                         var reader = cmd.ExecuteReaderSelect();
-                        var d1 = reader.MapToList<<#= item[0] #>>();
+                        var d1 = reader.MapToList<VeiculoCredencial>();
 
                         return d1;
                     }
@@ -191,15 +129,15 @@ namespace IMOD.Infra.Repositorios
         ///     Alterar registro
         /// </summary>
         /// <param name="entity"></param>
-        public void Alterar(<#= item[0] #> entity)
+        public void Alterar(VeiculoCredencial entity)
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.UpdateText ("<#= item[0] #>", conn))
+                using (var cmd = _dataBase.UpdateText ("VeiculoCredencial", conn))
                 {
                     try
                     {
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("<#= item[2] #>", entity.<#= item[2] #>, true)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("VeiculoCredencialId", entity.VeiculoCredencialId, true)));
                         //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Descricao", entity.Descricao, false)));
                         //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("NomeArquivo", entity.NomeArquivo, false)));
                         //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("ColaboradorID", entity.ColaboradorId, false)));
@@ -220,15 +158,15 @@ namespace IMOD.Infra.Repositorios
         ///     Deletar registro
         /// </summary>
         /// <param name="predicate"></param>
-        public void Remover(<#= item[0] #> entity)
+        public void Remover(VeiculoCredencial entity)
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.DeleteText ("<#= item[0] #>", conn))
+                using (var cmd = _dataBase.DeleteText ("VeiculoCredencial", conn))
                 {
                     try
                     {
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamDelete ("<#= item[2] #>", entity.<#= item[2] #>).Igual()));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamDelete ("VeiculoCredencialId", entity.VeiculoCredencialId).Igual()));
 
                         cmd.ExecuteNonQuery();
                     }
@@ -245,12 +183,4 @@ namespace IMOD.Infra.Repositorios
     }
 }
 
- <#
- manager.EndBlock();
- }
- #>
-
- <#
-  manager.Process(true);	
- #>
-
+ 
