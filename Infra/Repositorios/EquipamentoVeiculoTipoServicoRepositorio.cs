@@ -19,7 +19,7 @@ namespace IMOD.Infra.Repositorios
 {
     public class EquipamentoVeiculoTipoServicoRepositorio :IEquipamentoVeiculoTipoServicoRepositorio 
     {
-	    private readonly string _connection = CurrentConfig.ConexaoString;
+	    private readonly string  _connection = CurrentConfig.ConexaoString;
         private readonly IDataBaseAdo _dataBase;
         private readonly IDataWorkerFactory _dataWorkerFactory = new DataWorkerFactory();
 
