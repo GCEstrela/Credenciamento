@@ -86,6 +86,10 @@
     <Compile Include="Repositorios\EmpresaContratoRepositorio.cs" />
     <Compile Include="Repositorios\EmpresaEquipamentoRepositorio.cs" />
     <Compile Include="Repositorios\EmpresaLayoutCrachaRepositorio.cs" />
+    <Compile Include="Repositorios\EmpresaSeguroRepositorio.cs" />
+    <Compile Include="Repositorios\LayoutCrachaRepositorio.cs" />
+    <Compile Include="Repositorios\MunicipioRepositorio.cs" />
+    <Compile Include="Repositorios\PendenciaRepositorio.cs" />
     <Compile Include="Repositorios\RelatoriosGerenciaisRepositorio.cs" />
     <Compile Include="Repositorios\RelatoriosRepositorio.cs" />
     <Compile Include="Repositorios\StatusRepositorio.cs" />
@@ -94,9 +98,7 @@
     <Compile Include="Repositorios\TipoAtividadeRepositorio.cs" />
     <Compile Include="Repositorios\TipoCobrancaRepositorio.cs" />
     <Compile Include="Repositorios\TipoCombustivelRepositorio.cs" />
-    <Compile Include="Repositorios\TipoCredencialRepositorio.cs" />
     <Compile Include="Repositorios\TipoEquipamentoRepositorio.cs" />
-    <Compile Include="Repositorios\TipoEquipamentoVeiculoRepositorio.cs" />
     <Compile Include="Repositorios\TipoServicoRepositorio.cs" />
     <Compile Include="Repositorios\VeiculoAnexoRepositorio.cs" />
     <Compile Include="Repositorios\VeiculoCredencialimpressaoRepositorio.cs" />
