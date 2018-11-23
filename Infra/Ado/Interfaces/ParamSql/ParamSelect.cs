@@ -7,6 +7,7 @@
 #region
 
 using System.Data;
+using System.Linq;
 
 #endregion
 
@@ -173,6 +174,15 @@ namespace IMOD.Infra.Ado.Interfaces.ParamSql
                 Tipo = ParamType.ObterTipo(Valor);
             }
             Order = order;
+
+
+            //Campo = campo;
+            //Order = order;
+
+            //if (o == null) return;
+            //Valor = o;
+            //Tipo = ParamType.ObterTipo(Valor);
+
         }
 
         /// <summary>
@@ -191,6 +201,13 @@ namespace IMOD.Infra.Ado.Interfaces.ParamSql
                 Tipo = tipo;
             }
             Order = order;
+            //Campo = campo;
+            //Order = order;
+
+            //if (o == null) return;
+            //Valor = o;
+            //Tipo = tipo;
+
         }
 
         /// <summary>
@@ -211,6 +228,15 @@ namespace IMOD.Infra.Ado.Interfaces.ParamSql
                     Tipo = ParamType.ObterTipo(Valor);
                 }
             Order = order;
+
+            //Campo = campo;
+            //Order = order;
+
+            //if (o == null) return;
+            //if (o.Count() -1 < idx) return;
+            //Valor = o.GetValue(idx);
+            //Tipo = ParamType.ObterTipo(Valor);
+
         }
 
         /// <summary>
@@ -229,6 +255,14 @@ namespace IMOD.Infra.Ado.Interfaces.ParamSql
                 if (o.Length > idx)
                     Valor = o.GetValue(idx);
             Order = order;
+            //Campo = campo;
+            //Order = order;
+
+            //if (o == null) return;
+            //if (o.Count() - 1 < idx) return;
+            //Tipo = tipo;
+            //Valor = o.GetValue(idx);
+
         }
 
         /// <summary>
