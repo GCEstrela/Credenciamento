@@ -368,5 +368,107 @@ namespace UnitTestImod
 
         }
 
+        [TestMethod]
+        public void VeiculoEmpresa_Cadastrar_Alterar_Listar_Remover_com_sucesso()
+        {
+            var repositorio = new VeiculoEmpresaRepositorio();
+
+            for (int i = 0; i < 2; i++)
+            {
+                var d1 = new VeiculoEmpresa
+                {
+                    VeiculoId = 1,
+                    EmpresaId = 1,
+                    EmpresaContratoId = 1,
+                    Cargo = "CARGO 1",
+                    Matricula = "MATRICULA1",
+                    Ativo = true
+                };
+
+                //Criar registro
+                repositorio.Criar(d1);
+
+                d1.Cargo = "CARGO 2";
+                d1.Matricula = "MATRICULA1222";
+
+                //Alterar registro
+                repositorio.Alterar(d1);
+
+            }
+
+            //Listar todos
+            var list0 = repositorio.Listar().ToList();
+
+            //Listar Filtrando parâmetros
+            var list1 = repositorio.Listar(4, 0).ToList();
+
+            //Listar pela chave
+            var primeiroDaLIsta = list0.FirstOrDefault();
+            if (primeiroDaLIsta == null) return;
+            var veiculoempresa = repositorio.BuscarPelaChave(primeiroDaLIsta.VeiculoEmpresaId);
+
+            //Remover passando objeto como parâmetro
+            repositorio.Remover(veiculoempresa);
+
+        }
+
+        public void VeiculoCredencial_Cadastrar_Alterar_Listar_Remover_com_sucesso()
+        {
+            var repositorio = new VeiculoCredencialRepositorio();
+
+            for (int i = 0; i < 2; i++)
+            {
+                var d1 = new VeiculoCredencial
+                {
+                    VeiculoEmpresaId = 1,
+                    TecnologiaCredencialId = 1,
+                    TipoCredencialId = 1,
+                    LayoutCrachaId = 1,
+                    FormatoCredencialId = 1,
+                    NumeroCredencial = "CREDENCIAL " + i,
+                    Fc = 111,
+                    Emissao = DateTime.Now,
+                    Validade = DateTime.Now,
+                    CredencialStatusId = 1,
+                    CardHolderGuid = null,
+                    CredencialGuid = null,
+                    VeiculoPrivilegio1Id = 1,
+                    VeiculoPrivilegio2Id = 1,
+                    Ativa = true,
+                    Colete = "COLETE " + i,
+                    CredencialmotivoId = 1,
+                    Baixa = DateTime.Now,
+                    Impressa = true
+
+                };
+
+                //Criar registro
+                repositorio.Criar(d1);
+
+                d1.NumeroCredencial = "CARGO " + (i * 2);
+                d1.Colete = "MATRICULA " + (i * 2);
+
+                //Alterar registro
+                repositorio.Alterar(d1);
+
+            }
+
+            //Listar todos
+            var list0 = repositorio.Listar().ToList();
+
+            //Listar Filtrando parâmetros
+            var list1 = repositorio.Listar(4, 0).ToList();
+
+            //Listar pela chave
+            var primeiroDaLIsta = list0.FirstOrDefault();
+            if (primeiroDaLIsta == null) return;
+            var veiculocredencial = repositorio.BuscarPelaChave(primeiroDaLIsta.VeiculoCredencialId);
+
+            //Remover passando objeto como parâmetro
+            repositorio.Remover(veiculocredencial);
+
+        }
+
+
     }
 }
