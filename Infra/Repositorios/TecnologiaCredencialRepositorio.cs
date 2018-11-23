@@ -19,7 +19,7 @@ namespace IMOD.Infra.Repositorios
 {
     public class EmpresaContratoRepositorio :IEmpresaContratoRepositorio 
     {
-        private readonly string _connection = CurrentConfig.ConexaoString;
+	    private readonly string _connection = CurrentConfig.ConexaoString;
         private readonly IDataBaseAdo _dataBase;
         private readonly IDataWorkerFactory _dataWorkerFactory = new DataWorkerFactory();
 
