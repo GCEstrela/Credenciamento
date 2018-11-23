@@ -75,6 +75,27 @@ namespace UnitTestImod
         }
 
         [TestMethod]
+        public void ColaboradorCredencialimpresssao_com_sucesso()
+        {
+            var repositorio = new ColaboradorCredencialimpresssaoRepositorio();
+            for (int i = 0; i < 30; i++)
+            {
+                var d1 = new ColaboradorCredencialimpresssao
+                {
+                    Cobrar = true,
+                    DataImpressao = DateTime.Now
+
+
+                };
+                repositorio.Criar(d1);
+
+                d1.Cobrar = false;
+                repositorio.Alterar(d1);
+            }
+
+        }
+
+        [TestMethod]
         public void ColabororadorEnpresa_Buscar_Criar_Alterar_com_sucesso()
         {
             var repositorio = new ColaboradorEmpresaRepositorio();
