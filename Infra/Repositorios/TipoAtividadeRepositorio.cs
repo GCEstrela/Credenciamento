@@ -17,7 +17,7 @@ using IMOD.Infra.Ado.Interfaces.ParamSql;
 
 namespace IMOD.Infra.Repositorios
 {
-    public class TipoAtividadeRepositorio : ITipoAtividadeRepositorio
+    public class EmpresaLayoutCrachaRepositorio :IEmpresaLayoutCrachaRepositorio 
     {
         private readonly string _connection = CurrentConfig.ConexaoString;
         private readonly IDataBaseAdo _dataBase;
@@ -25,7 +25,7 @@ namespace IMOD.Infra.Repositorios
 
         #region Construtor
 
-        public TipoAtividadeRepositorio()
+        public  EmpresaLayoutCrachaRepositorio()
         {
             _dataBase = _dataWorkerFactory.ObterDataBaseSingleton(TipoDataBase.SqlServer, _connection);
         }
@@ -38,11 +38,11 @@ namespace IMOD.Infra.Repositorios
         ///     Criar registro
         /// </summary>
         /// <param name="entity"></param>
-        public void Criar(TipoAtividade entity)
+        public void Criar(EmpresaLayoutCracha entity)
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.InsertText("TipoAtividade", conn))
+                using (var cmd = _dataBase.InsertText ("EmpresaLayoutCracha", conn))
                 {
                     try
                     {
@@ -54,7 +54,7 @@ namespace IMOD.Infra.Repositorios
 
                         var key = Convert.ToInt32(cmd.ExecuteScalar());
 
-                        entity.TipoAtividadeId = key;
+                        entity.EmpresaLayoutCrachaId = key;
                     }
                     catch (Exception ex)
                     {
@@ -70,18 +70,18 @@ namespace IMOD.Infra.Repositorios
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public TipoAtividade BuscarPelaChave(int id)
+        public EmpresaLayoutCracha BuscarPelaChave(int id)
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText("TipoAtividade", conn))
+                using (var cmd = _dataBase.SelectText ("EmpresaLayoutCracha", conn))
 
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("TipoAtividadeId", DbType.Int32, id).Igual()));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("EmpresaLayoutCrachaId", DbType.Int32, id).Igual()));
                         var reader = cmd.ExecuteReader();
-                        var d1 = reader.MapToList<TipoAtividade>();
+                        var d1 = reader.MapToList<EmpresaLayoutCracha>();
 
                         return d1.FirstOrDefault();
                     }
@@ -99,11 +99,11 @@ namespace IMOD.Infra.Repositorios
         /// </summary>
         /// <param name="predicate">Expressão de consulta</param>
         /// <returns></returns>
-        public ICollection<TipoAtividade> Listar(params object[] objects)
+        public ICollection<EmpresaLayoutCracha> Listar(params object[] objects)
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText("TipoAtividade", conn))
+                using (var cmd = _dataBase.SelectText ("EmpresaLayoutCracha", conn))
 
                 {
                     try
@@ -112,7 +112,7 @@ namespace IMOD.Infra.Repositorios
                         //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("ColaboradorID", o, 1).Igual()));
 
                         var reader = cmd.ExecuteReaderSelect();
-                        var d1 = reader.MapToList<TipoAtividade>();
+                        var d1 = reader.MapToList<EmpresaLayoutCracha>();
 
                         return d1;
                     }
@@ -129,15 +129,15 @@ namespace IMOD.Infra.Repositorios
         ///     Alterar registro
         /// </summary>
         /// <param name="entity"></param>
-        public void Alterar(TipoAtividade entity)
+        public void Alterar(EmpresaLayoutCracha entity)
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.UpdateText("TipoAtividade", conn))
+                using (var cmd = _dataBase.UpdateText ("EmpresaLayoutCracha", conn))
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("TipoAtividadeId", entity.TipoAtividadeId, true)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("EmpresaLayoutCrachaId", entity.EmpresaLayoutCrachaId, true)));
                         //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Descricao", entity.Descricao, false)));
                         //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("NomeArquivo", entity.NomeArquivo, false)));
                         //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("ColaboradorID", entity.ColaboradorId, false)));
@@ -158,15 +158,15 @@ namespace IMOD.Infra.Repositorios
         ///     Deletar registro
         /// </summary>
         /// <param name="predicate"></param>
-        public void Remover(TipoAtividade entity)
+        public void Remover(EmpresaLayoutCracha entity)
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.DeleteText("TipoAtividade", conn))
+                using (var cmd = _dataBase.DeleteText ("EmpresaLayoutCracha", conn))
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamDelete("TipoAtividadeId", entity.TipoAtividadeId).Igual()));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamDelete ("EmpresaLayoutCrachaId", entity.EmpresaLayoutCrachaId).Igual()));
 
                         cmd.ExecuteNonQuery();
                     }

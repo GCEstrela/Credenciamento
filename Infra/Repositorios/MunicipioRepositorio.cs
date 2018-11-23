@@ -17,17 +17,17 @@ using IMOD.Infra.Ado.Interfaces.ParamSql;
 
 namespace IMOD.Infra.Repositorios
 {
-    public class TipoEquipamentoVeiculoRepositorio : ITipoEquipamentoVeiculoRepositorio
+    public class MunicipioRepositorio :IMunicipioRepositorio 
     {
-        private readonly string _connection = CurrentConfig.ConexaoString;
+	    private readonly string _connection = CurrentConfig.ConexaoString;
         private readonly IDataBaseAdo _dataBase;
         private readonly IDataWorkerFactory _dataWorkerFactory = new DataWorkerFactory();
 
         #region Construtor
 
-        public TipoEquipamentoVeiculoRepositorio()
+        public  MunicipioRepositorio()
         {
-            _dataBase = _dataWorkerFactory.ObterDataBaseSingleton(TipoDataBase.SqlServer, _connection);
+          _dataBase = _dataWorkerFactory.ObterDataBaseSingleton (TipoDataBase.SqlServer, _connection);
         }
 
         #endregion
@@ -38,11 +38,11 @@ namespace IMOD.Infra.Repositorios
         ///     Criar registro
         /// </summary>
         /// <param name="entity"></param>
-        public void Criar(TipoEquipamentoVeiculo entity)
+        public void Criar(Municipio entity)
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.InsertText("TipoEquipamentoVeiculo", conn))
+                using (var cmd = _dataBase.InsertText ("Municipio", conn))
                 {
                     try
                     {
@@ -52,13 +52,13 @@ namespace IMOD.Infra.Repositorios
                         //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("ColaboradorID", entity.ColaboradorId, false)));
                         //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Arquivo", entity.Arquivo, false)));
 
-                        var key = Convert.ToInt32(cmd.ExecuteScalar());
+                        var key = Convert.ToInt32 (cmd.ExecuteScalar());
 
-                        entity.TipoEquipamentoViculoId = key;
+                        entity.MunicipioId = key;
                     }
                     catch (Exception ex)
                     {
-                        Utils.TraceException(ex);
+                        Utils.TraceException (ex);
                         throw;
                     }
                 }
@@ -70,24 +70,24 @@ namespace IMOD.Infra.Repositorios
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public TipoEquipamentoVeiculo BuscarPelaChave(int id)
+        public Municipio BuscarPelaChave(int id)
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+           using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText("TipoEquipamentoVeiculo", conn))
+                using (var cmd = _dataBase.SelectText ("Municipio", conn))
 
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("TipoEquipamentoViculoId", DbType.Int32, id).Igual()));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("MunicipioId", DbType.Int32, id).Igual()));
                         var reader = cmd.ExecuteReader();
-                        var d1 = reader.MapToList<TipoEquipamentoVeiculo>();
+                        var d1 = reader.MapToList<Municipio>();
 
                         return d1.FirstOrDefault();
                     }
                     catch (Exception ex)
                     {
-                        Utils.TraceException(ex);
+                        Utils.TraceException (ex);
                         throw;
                     }
                 }
@@ -99,11 +99,11 @@ namespace IMOD.Infra.Repositorios
         /// </summary>
         /// <param name="predicate">Expressão de consulta</param>
         /// <returns></returns>
-        public ICollection<TipoEquipamentoVeiculo> Listar(params object[] objects)
+        public ICollection<Municipio> Listar(params object[] objects)
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText("TipoEquipamentoVeiculo", conn))
+                using (var cmd = _dataBase.SelectText ("Municipio", conn))
 
                 {
                     try
@@ -112,13 +112,13 @@ namespace IMOD.Infra.Repositorios
                         //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("ColaboradorID", o, 1).Igual()));
 
                         var reader = cmd.ExecuteReaderSelect();
-                        var d1 = reader.MapToList<TipoEquipamentoVeiculo>();
+                        var d1 = reader.MapToList<Municipio>();
 
                         return d1;
                     }
                     catch (Exception ex)
                     {
-                        Utils.TraceException(ex);
+                        Utils.TraceException (ex);
                         throw;
                     }
                 }
@@ -129,15 +129,15 @@ namespace IMOD.Infra.Repositorios
         ///     Alterar registro
         /// </summary>
         /// <param name="entity"></param>
-        public void Alterar(TipoEquipamentoVeiculo entity)
+        public void Alterar(Municipio entity)
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.UpdateText("TipoEquipamentoVeiculo", conn))
+                using (var cmd = _dataBase.UpdateText ("Municipio", conn))
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("TipoEquipamentoViculoId", entity.TipoEquipamentoViculoId, true)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("MunicipioId", entity.MunicipioId, true)));
                         //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Descricao", entity.Descricao, false)));
                         //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("NomeArquivo", entity.NomeArquivo, false)));
                         //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("ColaboradorID", entity.ColaboradorId, false)));
@@ -147,7 +147,7 @@ namespace IMOD.Infra.Repositorios
                     }
                     catch (Exception ex)
                     {
-                        Utils.TraceException(ex);
+                        Utils.TraceException (ex);
                         throw;
                     }
                 }
@@ -158,28 +158,29 @@ namespace IMOD.Infra.Repositorios
         ///     Deletar registro
         /// </summary>
         /// <param name="predicate"></param>
-        public void Remover(TipoEquipamentoVeiculo entity)
+        public void Remover(Municipio entity)
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.DeleteText("TipoEquipamentoVeiculo", conn))
+                using (var cmd = _dataBase.DeleteText ("Municipio", conn))
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamDelete("TipoEquipamentoViculoId", entity.TipoEquipamentoViculoId).Igual()));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamDelete ("MunicipioId", entity.MunicipioId).Igual()));
 
                         cmd.ExecuteNonQuery();
                     }
                     catch (Exception ex)
                     {
-                        Utils.TraceException(ex);
+                        Utils.TraceException (ex);
                     }
                 }
             }
         }
 
-
+        
         #endregion
     }
 }
 
+ 

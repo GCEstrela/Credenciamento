@@ -105,6 +105,7 @@ namespace UnitTestImod
             int key;
             var colaborador = new ColaboradorCredencial
             {
+                
                 Ativa = true,
                 Baixa = DateTime.Now,
                 CardHolderGuid = "000000",
