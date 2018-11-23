@@ -17,15 +17,15 @@ using IMOD.Infra.Ado.Interfaces.ParamSql;
 
 namespace IMOD.Infra.Repositorios
 {
-    public class EmpresaContratoRepositorio :IEmpresaContratoRepositorio 
+    public class TecnologiaCredencialRepositorio : ITecnologiaCredencialRepositorio
     {
-	    private readonly string _connection = CurrentConfig.ConexaoString;
+        private readonly string _connection = CurrentConfig.ConexaoString;
         private readonly IDataBaseAdo _dataBase;
         private readonly IDataWorkerFactory _dataWorkerFactory = new DataWorkerFactory();
 
         #region Construtor
 
-        public  EmpresaContratoRepositorio()
+        public TecnologiaCredencialRepositorio()
         {
             _dataBase = _dataWorkerFactory.ObterDataBaseSingleton(TipoDataBase.SqlServer, _connection);
         }
@@ -42,7 +42,7 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.InsertText ("EmpresaContrato", conn))
+                using (var cmd = _dataBase.InsertText("EmpresaContrato", conn))
                 {
                     try
                     {
@@ -74,12 +74,12 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText ("EmpresaContrato", conn))
+                using (var cmd = _dataBase.SelectText("EmpresaContrato", conn))
 
                 {
                     try
                     {
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("EmpresaContratoId", DbType.Int32, id).Igual()));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("EmpresaContratoId", DbType.Int32, id).Igual()));
                         var reader = cmd.ExecuteReader();
                         var d1 = reader.MapToList<EmpresaContrato>();
 
@@ -103,7 +103,7 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText ("EmpresaContrato", conn))
+                using (var cmd = _dataBase.SelectText("EmpresaContrato", conn))
 
                 {
                     try
@@ -133,11 +133,11 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.UpdateText ("EmpresaContrato", conn))
+                using (var cmd = _dataBase.UpdateText("EmpresaContrato", conn))
                 {
                     try
                     {
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("EmpresaContratoId", entity.EmpresaContratoId, true)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("EmpresaContratoId", entity.EmpresaContratoId, true)));
                         //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Descricao", entity.Descricao, false)));
                         //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("NomeArquivo", entity.NomeArquivo, false)));
                         //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("ColaboradorID", entity.ColaboradorId, false)));
@@ -162,11 +162,11 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.DeleteText ("EmpresaContrato", conn))
+                using (var cmd = _dataBase.DeleteText("EmpresaContrato", conn))
                 {
                     try
                     {
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamDelete ("EmpresaContratoId", entity.EmpresaContratoId).Igual()));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamDelete("EmpresaContratoId", entity.EmpresaContratoId).Igual()));
 
                         cmd.ExecuteNonQuery();
                     }
@@ -176,6 +176,31 @@ namespace IMOD.Infra.Repositorios
                     }
                 }
             }
+        }
+
+        public void Criar(TecnologiaCredencial entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        TecnologiaCredencial IRepositorioBaseAdoNet<TecnologiaCredencial>.BuscarPelaChave(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        ICollection<TecnologiaCredencial> IRepositorioBaseAdoNet<TecnologiaCredencial>.Listar(params object[] objects)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Alterar(TecnologiaCredencial entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Remover(TecnologiaCredencial entity)
+        {
+            throw new NotImplementedException();
         }
 
 

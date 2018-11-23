@@ -71,25 +71,10 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Repositorios\AreaAcessoRepositorio.cs" />
     <Compile Include="Repositorios\ColaboradorAnexoRepositorio.cs" />
-    <Compile Include="Repositorios\ColaboradorCredencialimpresssaoRepositorio.cs" />
     <Compile Include="Repositorios\ColaboradorCredencialRepositorio.cs" />
-    <Compile Include="Repositorios\ColaboradorCursoRepositorio.cs" />
     <Compile Include="Repositorios\ColaboradorEmpresaRepositorio.cs" />
-    <Compile Include="Repositorios\ColaboradorPrivilegioRepositorio.cs" />
     <Compile Include="Repositorios\ColaboradorRepositorio.cs" />
-    <Compile Include="Repositorios\CredencialMotivoRepositorio.cs" />
-    <Compile Include="Repositorios\CredencialStatusRepositorio.cs" />
-    <Compile Include="Repositorios\CursoRepositorio.cs" />
-    <Compile Include="Repositorios\EmpresaAreaAcessoRepositorio.cs" />
-    <Compile Include="Repositorios\EmpresaContratoRepositorio.cs" />
-    <Compile Include="Repositorios\EmpresaEquipamentoRepositorio.cs" />
-    <Compile Include="Repositorios\EmpresaLayoutCrachaRepositorio.cs" />
-    <Compile Include="Repositorios\EmpresaSeguroRepositorio.cs" />
-    <Compile Include="Repositorios\LayoutCrachaRepositorio.cs" />
-    <Compile Include="Repositorios\MunicipioRepositorio.cs" />
-    <Compile Include="Repositorios\PendenciaRepositorio.cs" />
     <Compile Include="Repositorios\RelatoriosGerenciaisRepositorio.cs" />
     <Compile Include="Repositorios\RelatoriosRepositorio.cs" />
     <Compile Include="Repositorios\StatusRepositorio.cs" />

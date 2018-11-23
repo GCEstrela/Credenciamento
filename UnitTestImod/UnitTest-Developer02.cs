@@ -67,12 +67,32 @@ namespace UnitTestImod
 
         }
 
-        [TestMethod]
-        public void ColabororadorCredencial_Remove_com_sucesso()
-        {
 
+        //[TestMethod]
+        //public void VeiculoSeguroCadastrar_com_sucesso()
+        //{
 
-        }
+        //    var repositorio = new VeiculoSeguroRepositorio();
+
+        //    for (int i = 0; i < 30; i++)
+        //    {
+        //        var d1 = new VeiculoSeguro
+        //        {
+
+        //            Arquivo = "",
+        //            Emissao = DateTime.Now,
+        //            NomeArquivo = "Nome arquivo",
+        //            NumeroApolice = "Numero apolice",
+        //            NomeSeguradora = "Nome seguro",
+        //            Validade = DateTime.Now,
+
+        //            ValorCobertura = 1
+
+        //        };
+        //        repositorio.Criar(d1);
+        //    }
+
+        //}
 
         [TestMethod]
         public void ColabororadorEnpresa_Buscar_Criar_Alterar_com_sucesso()
@@ -102,10 +122,10 @@ namespace UnitTestImod
         public void ColabororadorCredencial_Cadastrar_com_sucesso()
         {
             var repositorio = new ColaboradorCredencialRepositorio();
-            int key;
+
             var colaborador = new ColaboradorCredencial
             {
-                
+
                 Ativa = true,
                 Baixa = DateTime.Now,
                 CardHolderGuid = "000000",
@@ -188,6 +208,164 @@ namespace UnitTestImod
 
                 repositorio.Criar(colaborador);
             }
+        }
+
+        [TestMethod]
+        public void Veiculo_Cadastrar_Alterar_Listar_Remover_com_sucesso()
+        {
+            var repositorio = new VeiculosRepositorio();
+
+            for (int i = 0; i < 5; i++)
+            {
+                var d1 = new Veiculos
+                {
+                    Descricao = "SANDERO (" + i + ")",
+                    PlacaIdentificador = "HSH-" + i + "00" + i,
+                    Frota = "A" + i,
+                    Patrimonio = "PAT-" + i + "00" + i,
+                    Marca = "Renault",
+                    Modelo = "STEPWAY Hi-Flex 1.6 16V 5p",
+                    Tipo = "UTILITARIO " + i,
+                    Cor = "Amarelo",
+                    Ano = "201" + i,
+                    EstadoId = 1,
+                    MunicipioId = 1,
+                    SerieChassi = "",
+                    CombustivelId = 1,
+                    Altura = "1.669 mm",
+                    Comprimento = "4.152 mm",
+                    Largura = "1.768 mm",
+                    TipoEquipamentoVeiculoId = 1,
+                    Renavam = "9773970473" + i,
+                    Foto = "",
+                    Excluida = 1,
+                    StatusId = 1,
+                    TipoAcessoId = 1,
+                    DescricaoAnexo = "ANEXO " + i,
+                    NomeArquivoAnexo = "ANEXO " + i,
+                    ArquivoAnexo = "ANEXO " + i,
+                    Pendente31 = false,
+                    Pendente32 = false,
+                    Pendente33 = false,
+                    Pendente34 = false
+
+                };
+
+                repositorio.Criar(d1);
+
+                d1.Descricao = "SANDERO ALTERADO(" + i + 1 + ")";
+                d1.Cor = "White";
+
+                repositorio.Alterar(d1);
+            }
+
+            //Listar todos
+            var list0 = repositorio.Listar().ToList();
+
+            //Listar Filtrando parâmetro(s)
+            var list1 = repositorio.Listar(0, "%STEP" + "%").ToList();
+
+            //Listar filtrando resultado de lista (LINQ)
+            //var list2 = list1.Where(n => n.Marca.Contains("au")).ToList();
+            //var list3 = list2.Where(n => n.Patrimonio == "PAT-4004").ToList();
+
+            //Listar pela chave
+            var primeiroDaLIsta = list0.FirstOrDefault();
+            if (primeiroDaLIsta == null) return;
+
+            var veiculo = repositorio.BuscarPelaChave(primeiroDaLIsta.EquipamentoVeiculoId);
+
+            //Remover passando objeto como parâmetro
+            repositorio.Remover(veiculo);
+
+        }
+
+        [TestMethod]
+        public void VeiculoSeguros_Cadastrar_Alterar_Listar_Remover_com_sucesso()
+        {
+            var repositorio = new VeiculoSeguroRepositorio();
+
+            for (int i = 0; i < 2; i++)
+            {
+                var d1 = new VeiculoSeguro
+                {
+                    NomeSeguradora = "SEGURADORA " + (i + 1),
+                    NumeroApolice = "APÓLICE " + (i + 1),
+                    ValorCobertura = i * 1000,
+                    VeiculoId = 1,
+                    Arquivo = "ARQUIVO " + (i + 1),
+                    NomeArquivo = "ARQUIVO " + (i + 1),
+                    Emissao = DateTime.Now,
+                    Validade = DateTime.Today.AddYears(i + 1)
+                };
+
+                //Criar registro
+                repositorio.Criar(d1);
+
+                d1.NomeSeguradora = "SEGURADORA ALTERADO(" + (i + 1) + ")";
+                d1.ValorCobertura = 420;
+
+                //Alterar registro
+                repositorio.Alterar(d1);
+
+            }
+
+            //Listar todos
+            var list0 = repositorio.Listar().ToList();
+
+            //Listar Filtrando parâmetros
+            var list1 = repositorio.Listar("%0" + "%", 0).ToList();
+
+            //Listar pela chave
+            var primeiroDaLIsta = list0.FirstOrDefault();
+            if (primeiroDaLIsta == null) return;
+            var veiculoseguro = repositorio.BuscarPelaChave(primeiroDaLIsta.VeiculoSeguroId);
+
+            //Remover passando objeto como parâmetro
+            repositorio.Remover(veiculoseguro);
+
+
+        }
+
+        [TestMethod]
+        public void VeiculoEquipTipoServico_Cadastrar_Alterar_Listar_Remover_com_sucesso()
+        {
+            var repositorio = new VeiculoEquipTipoServicoRepositorio();
+
+            for (int i = 0; i < 2; i++)
+            {
+                var d1 = new VeiculoEquipTipoServico
+                {
+                    VeiculoTipoServicoId = 1,
+                    VeiculoId = i + 1,
+                    TipoServicoId = i + 1
+                };
+
+                //Criar registro
+                repositorio.Criar(d1);
+
+                d1.VeiculoId = (i + 1) * 2;
+                d1.TipoServicoId = (i + 1) * 2;
+
+                //Alterar registro
+                repositorio.Alterar(d1);
+
+            }
+
+            //Listar todos
+            var list0 = repositorio.Listar().ToList();
+
+            //Listar Filtrando parâmetros
+            var list1 = repositorio.Listar(4, 0).ToList();
+
+            //Listar pela chave
+            var primeiroDaLIsta = list0.FirstOrDefault();
+            if (primeiroDaLIsta == null) return;
+            var veiculoequiptipservico = repositorio.BuscarPelaChave(primeiroDaLIsta.VeiculoId);
+
+            //Remover passando objeto como parâmetro
+            repositorio.Remover(veiculoequiptipservico);
+
         }
 
     }

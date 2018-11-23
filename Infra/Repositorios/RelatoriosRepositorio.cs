@@ -17,7 +17,7 @@ using IMOD.Infra.Ado.Interfaces.ParamSql;
 
 namespace IMOD.Infra.Repositorios
 {
-    public class ColaboradorCursoRepositorio :IColaboradorCursoRepositorio 
+    public class RelatoriosRepositorio : IRelatoriosRepositorio
     {
         private readonly string _connection = CurrentConfig.ConexaoString;
         private readonly IDataBaseAdo _dataBase;
@@ -25,7 +25,7 @@ namespace IMOD.Infra.Repositorios
 
         #region Construtor
 
-        public  ColaboradorCursoRepositorio()
+        public RelatoriosRepositorio()
         {
             _dataBase = _dataWorkerFactory.ObterDataBaseSingleton(TipoDataBase.SqlServer, _connection);
         }
@@ -42,7 +42,7 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.InsertText ("ColaboradorCurso", conn))
+                using (var cmd = _dataBase.InsertText("ColaboradorCurso", conn))
                 {
                     try
                     {
@@ -74,12 +74,12 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText ("ColaboradorCurso", conn))
+                using (var cmd = _dataBase.SelectText("ColaboradorCurso", conn))
 
                 {
                     try
                     {
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("ColaboradorCursoId", DbType.Int32, id).Igual()));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("ColaboradorCursoId", DbType.Int32, id).Igual()));
                         var reader = cmd.ExecuteReader();
                         var d1 = reader.MapToList<ColaboradorCurso>();
 
@@ -103,7 +103,7 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText ("ColaboradorCurso", conn))
+                using (var cmd = _dataBase.SelectText("ColaboradorCurso", conn))
 
                 {
                     try
@@ -133,11 +133,11 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.UpdateText ("ColaboradorCurso", conn))
+                using (var cmd = _dataBase.UpdateText("ColaboradorCurso", conn))
                 {
                     try
                     {
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("ColaboradorCursoId", entity.ColaboradorCursoId, true)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("ColaboradorCursoId", entity.ColaboradorCursoId, true)));
                         //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Descricao", entity.Descricao, false)));
                         //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("NomeArquivo", entity.NomeArquivo, false)));
                         //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("ColaboradorID", entity.ColaboradorId, false)));
@@ -162,11 +162,11 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.DeleteText ("ColaboradorCurso", conn))
+                using (var cmd = _dataBase.DeleteText("ColaboradorCurso", conn))
                 {
                     try
                     {
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamDelete ("ColaboradorCursoId", entity.ColaboradorCursoId).Igual()));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamDelete("ColaboradorCursoId", entity.ColaboradorCursoId).Igual()));
 
                         cmd.ExecuteNonQuery();
                     }
@@ -176,6 +176,31 @@ namespace IMOD.Infra.Repositorios
                     }
                 }
             }
+        }
+
+        public void Criar(Relatorios entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        Relatorios IRepositorioBaseAdoNet<Relatorios>.BuscarPelaChave(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        ICollection<Relatorios> IRepositorioBaseAdoNet<Relatorios>.Listar(params object[] objects)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Alterar(Relatorios entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Remover(Relatorios entity)
+        {
+            throw new NotImplementedException();
         }
 
 

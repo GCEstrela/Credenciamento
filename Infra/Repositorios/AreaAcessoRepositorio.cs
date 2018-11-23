@@ -21,7 +21,7 @@ using IMOD.Infra.Ado.Interfaces.ParamSql;
 
 namespace IMOD.Infra.Repositorios
 {
-    public class AreaAcessoRepositorio : IAreaAcesso
+    public class AreaAcessoRepositorio : IAreaAcessoRepositorio
     {
         private readonly string _connection = CurrentConfig.ConexaoString;
         private readonly IDataBaseAdo _dataBase;
