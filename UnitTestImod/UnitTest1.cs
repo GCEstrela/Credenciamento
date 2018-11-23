@@ -251,7 +251,7 @@ namespace UnitTestImod
                 repositorio.Alterar(d1);
 
             }
-            var list = repositorio.Listar();    //EmpresaEquipamentoRepositorio
+            var list = repositorio.Listar();    //
         }
 
         [TestMethod]
@@ -289,6 +289,108 @@ namespace UnitTestImod
             }
             var list = repositorio.Listar();    //
         }
+
+        [TestMethod]
+        public void EmpresaLayoutCrachaRepositorio_com_sucesso()
+        {
+            var repositorio = new EmpresaLayoutCrachaRepositorio();
+            for (int i = 12; i < 30; i++)
+            {
+                var d1 = new EmpresaLayoutCracha
+                {
+                    EmpresaId=1,
+                    EmpresaLayoutCrachaId=i,
+                    LayoutCrachaId=1
+
+                };
+                repositorio.Criar(d1);
+
+                d1.LayoutCrachaId = 2;
+                repositorio.Alterar(d1);
+
+            }
+            var list = repositorio.Listar();    //
+        }
+
+        [TestMethod]
+        public void EmpresaSeguroRepositorio_com_sucesso()
+        {
+            var repositorio = new EmpresaSeguroRepositorio();
+            for (int i = 12; i < 30; i++)
+            {
+                var d1 = new EmpresaSeguro
+                {
+                    EmpresaSeguroId=i,
+                    NomeSeguradora = "NomeSeguradora"+i,
+                    NumeroApolice = "5888" +i,
+                    ValorCobertura = "100"+i,
+                    EmpresaId = 1,
+                    Arquivo = "Arquivo"+i,
+                    NomeArquivo ="",
+                    Emissao = DateTime.Now,
+                    Validade = DateTime.Now
+
+                };
+                repositorio.Criar(d1);
+
+                d1.NomeSeguradora = "NomeSeguradora alterado" + i;
+                repositorio.Alterar(d1);
+
+            }
+            var list = repositorio.Listar();    //
+        }
+
+        [TestMethod]
+        public void LayoutCrachaRepositorio_com_sucesso()
+        {
+            var repositorio = new LayoutCrachaRepositorio();
+            for (int i = 12; i < 30; i++)
+            {
+                var d1 = new LayoutCracha
+                {
+                    LayoutCrachaId=i,
+                    Nome = "Nome do cracha" +i,
+                    LayoutCrachaGuid = "",
+                    Valor = i,
+
+
+                };
+                repositorio.Criar(d1);
+
+                d1.Nome = "Nome do cracha alterado" + i;
+                repositorio.Alterar(d1);
+
+            }
+            var list = repositorio.Listar();    //
+        }
+
+        [TestMethod]
+        public void PendenciaRepositorio_com_sucesso()
+        {
+            var repositorio = new PendenciaRepositorio();
+            for (int i = 12; i < 30; i++)
+            {
+                var d1 = new Pendencia
+                {
+                    PendenciaId=i,
+                    TipoPendenciaId = 1,
+                    Descricao = "Descrição Pendencias",
+                    DataLimite = DateTime.Now,
+                    Impeditivo = true,
+                    ColaboradorId = 1,
+                    EmpresaId = i,
+                    VeiculoId = i,
+
+                };
+                repositorio.Criar(d1);
+
+                d1.Descricao = "Aleração Descrição Pendencias" + i;
+                repositorio.Alterar(d1);
+
+            }
+            var list = repositorio.Listar();    //PendenciaRepositorio
+        }
+
         [TestMethod]
         public void ColabororadorEnpresa_Buscar_Criar_Alterar_com_sucesso()
         {
