@@ -46,15 +46,12 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.InsertText ("CredencialStatus", conn))
+                using (var cmd = _dataBase.InsertText ("CredenciaisStatus", conn))
                 {
                     try
                     {
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("ColaboradorAnexoId", entity.ColaboradorAnexoId, true)));
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Descricao", entity.Descricao, false)));
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("NomeArquivo", entity.NomeArquivo, false)));
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("ColaboradorID", entity.ColaboradorId, false)));
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Arquivo", entity.Arquivo, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("CredencialStatusId", entity.CredencialStatusId, true)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Descricao", entity.Descricao, false)));
 
                         var key = Convert.ToInt32 (cmd.ExecuteScalar());
 
@@ -78,7 +75,7 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText ("CredencialStatus", conn))
+                using (var cmd = _dataBase.SelectText ("CredenciaisStatus", conn))
 
                 {
                     try
@@ -107,13 +104,16 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText ("CredencialStatus", conn))
+                using (var cmd = _dataBase.SelectText ("CredenciaisStatus", conn))
 
                 {
                     try
                     {
                         //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("NomeArquivo", o, 0).Like()));
                         //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("ColaboradorID", o, 1).Igual()));
+
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("CredencialStatusId",DbType.Int32, objects, 0)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("Descricao",DbType.String, objects, 1)));
 
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<CredencialStatus>();
@@ -137,15 +137,13 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.UpdateText ("CredencialStatus", conn))
+                using (var cmd = _dataBase.UpdateText ("CredenciaisStatus", conn))
                 {
                     try
                     {
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("CredencialStatusId", entity.CredencialStatusId, true)));
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Descricao", entity.Descricao, false)));
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("NomeArquivo", entity.NomeArquivo, false)));
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("ColaboradorID", entity.ColaboradorId, false)));
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Arquivo", entity.Arquivo, false)));
+
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("CredencialStatusId", entity.CredencialStatusId, true)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Descricao", entity.Descricao, false)));
 
                         cmd.ExecuteNonQuery();
                     }
@@ -166,7 +164,7 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.DeleteText ("CredencialStatus", conn))
+                using (var cmd = _dataBase.DeleteText ("CredenciaisStatus", conn))
                 {
                     try
                     {

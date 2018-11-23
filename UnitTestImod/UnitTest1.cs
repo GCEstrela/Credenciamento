@@ -91,10 +91,204 @@ namespace UnitTestImod
 
                 d1.Cobrar = false;
                 repositorio.Alterar(d1);
-            }
 
+            }
+            var list = repositorio.Listar();
         }
 
+        [TestMethod]
+        public void ColaboradorCursos_com_sucesso()
+        {
+            var repositorio = new ColaboradorCursoRepositorio ();
+            for (int i = 0; i < 30; i++)
+            {
+                var d1 = new ColaboradorCurso
+                {
+                    Arquivo = "",
+                    ColaboradorId = i,
+                    Controlado=true,
+                    CursoId=i,
+                    NomeArquivo="Nome do arquivo" +i,
+                    Validade=DateTime.Now 
+                };
+                repositorio.Criar(d1);
+
+                d1.Arquivo="Alquivo alterado" +i;
+                repositorio.Alterar(d1);
+
+            }
+            var list = repositorio.Listar();    //
+        }
+
+        [TestMethod]
+        public void CredencialMotivo_com_sucesso()
+        {
+            var repositorio = new CredencialMotivoRepositorio();
+            for (int i = 11; i < 30; i++)
+            {
+                var d1 = new CredencialMotivo
+                {
+                    CredencialMotivoId=i,
+                    Descricao="Descrição Motivo" +i,
+                    Tipo=1
+
+                };
+                repositorio.Criar(d1);
+
+                d1.Descricao = "Descrição Motivo alterado" + i;
+                repositorio.Alterar(d1);
+
+            }
+            var list = repositorio.Listar();    //
+        }
+
+        [TestMethod]
+        public void CredencialStatusRepositorio_com_sucesso()
+        {
+            var repositorio = new CredencialStatusRepositorio();
+            for (int i = 6; i < 30; i++)
+            {
+                var d1 = new CredencialStatus
+                {
+                    CredencialStatusId=i,
+                    Descricao="Descricao status"+i
+
+                };
+                repositorio.Criar(d1);
+
+                d1.Descricao = "Descrição Motivo alterado" + i;
+                repositorio.Alterar(d1);
+
+            }
+            var list = repositorio.Listar();    //CursoRepositorio
+        }
+
+        [TestMethod]
+        public void CursoRepositorio_com_sucesso()
+        {
+            var repositorio = new CursoRepositorio();
+            for (int i = 15; i < 30; i++)
+            {
+                var d1 = new Curso
+                {
+                    CursoId=i,
+                    Descricao = "Descricao curso" + i
+
+                };
+                repositorio.Criar(d1);
+
+                d1.Descricao = "Descricao curso alterado" + i;
+                repositorio.Alterar(d1);
+
+            }
+            var list = repositorio.Listar();    //
+        }
+
+        [TestMethod]
+        public void EmpresaAreaAcessoRepositorio_com_sucesso()
+        {
+            var repositorio = new EmpresaAreaAcessoRepositorio();
+            for (int i = 15; i < 30; i++)
+            {
+                var d1 = new EmpresaAreaAcesso
+                {
+                   AreaAcessoId=i,
+                   EmpresaAreaAcessoId=2,
+                   EmpresaId=3
+
+
+                };
+                repositorio.Criar(d1);
+
+                d1.EmpresaAreaAcessoId = 2;
+                repositorio.Alterar(d1);
+
+            }
+            var list = repositorio.Listar();    //
+        }
+
+        [TestMethod]
+        public void EmpresaContratoRepositorio_com_sucesso()
+        {
+            var repositorio = new EmpresaContratoRepositorio();
+            for (int i = 8; i < 30; i++)
+            {
+                var d1 = new EmpresaContrato
+                {
+                    EmpresaContratoId=i,
+                    EmpresaId=1,
+                    NumeroContrato = "11111111" +i,
+                    Descricao = "",
+                    Emissao = DateTime.Now,
+                    Validade = DateTime.Now,
+                    Terceirizada = "",
+                    Contratante = "",
+                    IsencaoCobranca = "",
+                    TipoCobrancaId = 1,
+                    CobrancaEmpresaId = 1,
+                    Cep = "",
+                    Endereco = "",
+                    Complemento = "",
+                    Numero = "",
+                    Bairro = "",
+                    MunicipioId=5,
+                    EstadoId=1,
+                    NomeResp = "",
+                    TelefoneResp = "",
+                    CelularResp = "",
+                    EmailResp = "",
+                    StatusId=1,
+                    Arquivo = "",
+                    TipoAcessoId=1,
+                    NomeArquivo=""
+
+
+
+                };
+                repositorio.Criar(d1);
+
+                d1.NumeroContrato = "Contrato alterado 11111111" +i;
+                repositorio.Alterar(d1);
+
+            }
+            var list = repositorio.Listar();    //EmpresaEquipamentoRepositorio
+        }
+
+        [TestMethod]
+        public void EmpresaEquipamentoRepositorio_com_sucesso()
+        {
+            var repositorio = new EmpresaEquipamentoRepositorio();
+            for (int i = 0; i < 30; i++)
+            {
+                var d1 = new EmpresaEquipamento
+                {
+                    EmpresaEquipamentoId=i,
+                    EmpresaId = 1,
+                    Descricao = "Descrição " + i,
+                    Marca = "Marca " + i,
+                    Modelo = "Modelo" + i,
+                    Ano = "2018",
+                    Patrimonio = "",
+                    Seguro = "",
+                    ApoliceSeguro ="",
+                    ApoliceValor = "",
+                    ApoliceVigencia = "",
+                    DataEmissao = DateTime.Now,
+                    DataValidade = DateTime.Now,
+                    Excluido = "",
+                    TipoEquipamentoId  = i,
+                    StatusId = i,
+                    TipoAcessoId = i
+
+                };
+                repositorio.Criar(d1);
+
+                d1.Descricao = "Descrição alterada" + i;
+                repositorio.Alterar(d1);
+
+            }
+            var list = repositorio.Listar();    //
+        }
         [TestMethod]
         public void ColabororadorEnpresa_Buscar_Criar_Alterar_com_sucesso()
         {
