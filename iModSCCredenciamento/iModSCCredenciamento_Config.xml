@@ -4,6 +4,6 @@
     <Instancia>172.16.190.108\SQLEXPRESS</Instancia>
     <Banco>D_iModCredenciamento</Banco>
     <Usuario>imod</Usuario>
-    <Senha>imod</Senha>
+    <Senha>imod</Senha>ss
   </BancoDeDados>
 </CONFIG>

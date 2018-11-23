@@ -1123,13 +1123,23 @@ namespace iModSCCredenciamento.ViewModels
                     _Descricao.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Descricao"].ToString())));
                     _EmpresaContrato.AppendChild(_Descricao);
 
-                    XmlNode _Emissao = _xmlDocument.CreateElement("Emissao");
-                    _Emissao.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Emissao"].ToString())));
-                    _EmpresaContrato.AppendChild(_Emissao);
+                    var dateStr = (_sqlreader["Emissao"].ToString());
+                    if (!string.IsNullOrWhiteSpace(dateStr))
+                    {
+                        var dt2 = Convert.ToDateTime(dateStr);
+                        XmlNode _Emissao = _xmlDocument.CreateElement("Emissao");
+                        _Emissao.AppendChild(_xmlDocument.CreateTextNode(dt2.ToString("yyyy-MM-ddTHH:mm:ss")));
+                        _EmpresaContrato.AppendChild(_Emissao);
+                    }
 
-                    XmlNode _Validade = _xmlDocument.CreateElement("Validade");
-                    _Validade.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Validade"].ToString())));
-                    _EmpresaContrato.AppendChild(_Validade);
+                    dateStr = (_sqlreader["Validade"].ToString());
+                    if (!string.IsNullOrWhiteSpace(dateStr))
+                    {
+                        var dt2 = Convert.ToDateTime(dateStr);
+                        XmlNode _Validade = _xmlDocument.CreateElement("Validade");
+                        _Validade.AppendChild(_xmlDocument.CreateTextNode(dt2.ToString("yyyy-MM-ddTHH:mm:ss")));
+                        _EmpresaContrato.AppendChild(_Validade);
+                    }
 
                     XmlNode _Terceirizada = _xmlDocument.CreateElement("Terceirizada");
                     _Terceirizada.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Terceirizada"].ToString())));

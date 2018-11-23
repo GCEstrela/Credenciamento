@@ -16,9 +16,7 @@ namespace iModSCCredenciamento.Models
 
             public int VeiculoCredencialID { get; set; }
             public int VeiculoEmpresaID { get; set; }
-            public int VeiculoID { get; set; }
-            //public int EmpresaID { get; set; }
-            //public int EmpresaContratoID { get; set; }
+            public int VeiculoID { get; set; }            
             public string ContratoDescricao { get; set; }
             public string EmpresaNome { get; set; }
             public string VeiculoNome { get; set; }
@@ -27,6 +25,9 @@ namespace iModSCCredenciamento.Models
             public int TipoCredencialID { get; set; }
             public string TipoCredencialDescricao { get; set; }
             public int LayoutCrachaID { get; set; }
+
+            public int EmpresaLayoutCrachaID { get; set; }
+
             public string LayoutCrachaNome { get; set; }
             public int FormatoCredencialID { get; set; }
             public string FormatoCredencialDescricao { get; set; }
@@ -38,16 +39,27 @@ namespace iModSCCredenciamento.Models
             public string CredencialStatusDescricao { get; set; }
             public Guid? CredencialGuid { get; set; }
             public Guid? CardHolderGuid { get; set; }
-
-
+            public int VeiculoPrivilegio1ID { get; set; }
+            public int VeiculoPrivilegio2ID { get; set; }
+            public string PrivilegioDescricao1 { get; set; }
+            public string PrivilegioDescricao2 { get; set; }
+            public bool Ativa { get; set; }
+            public string ColaboradorApelido { get; set; }
+            public bool Motorista { get; set; }
             public string Placa { get; set; }
             public string VeiculoFoto { get; set; }
+            public string EmpresaLogo { get; set; }
             public int EmpresaID { get; set; }
             public string EmpresaApelido { get; set; }
             public string CNPJ { get; set; }
             public string Cargo { get; set; }
             public string LayoutCrachaGUID { get; set; }
             public string FormatIDGUID { get; set; }
+            public string Colete { get; set; }
+            public string EmpresaSigla { get; set; }
+            public int CredencialMotivoID { get; set; }
+            public bool Impressa { get; set; }
+            public DateTime? Baixa { get; set; }
 
             public VeiculoCredencial CriaCopia(VeiculoCredencial _VeiculosCredenciais)
             {

@@ -17,7 +17,7 @@ using IMOD.Infra.Ado.Interfaces.ParamSql;
 
 namespace IMOD.Infra.Repositorios
 {
-    public class TecnologiaCredencialRepositorio : ITecnologiaCredencialRepositorio
+    public class EmpresaContratoRepositorio :IEmpresaContratoRepositorio 
     {
         private readonly string _connection = CurrentConfig.ConexaoString;
         private readonly IDataBaseAdo _dataBase;
@@ -25,7 +25,7 @@ namespace IMOD.Infra.Repositorios
 
         #region Construtor
 
-        public TecnologiaCredencialRepositorio()
+        public  EmpresaContratoRepositorio()
         {
             _dataBase = _dataWorkerFactory.ObterDataBaseSingleton(TipoDataBase.SqlServer, _connection);
         }
@@ -38,11 +38,11 @@ namespace IMOD.Infra.Repositorios
         ///     Criar registro
         /// </summary>
         /// <param name="entity"></param>
-        public void Criar(TecnologiaCredencial entity)
+        public void Criar(EmpresaContrato entity)
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.InsertText("TecnologiaCredencial", conn))
+                using (var cmd = _dataBase.InsertText ("EmpresaContrato", conn))
                 {
                     try
                     {
@@ -54,7 +54,7 @@ namespace IMOD.Infra.Repositorios
 
                         var key = Convert.ToInt32(cmd.ExecuteScalar());
 
-                        entity.TecnologiaCredencialId = key;
+                        entity.EmpresaContratoId = key;
                     }
                     catch (Exception ex)
                     {
@@ -70,18 +70,18 @@ namespace IMOD.Infra.Repositorios
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public TecnologiaCredencial BuscarPelaChave(int id)
+        public EmpresaContrato BuscarPelaChave(int id)
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText("TecnologiaCredencial", conn))
+                using (var cmd = _dataBase.SelectText ("EmpresaContrato", conn))
 
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("TecnologiaCredencialId", DbType.Int32, id).Igual()));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("EmpresaContratoId", DbType.Int32, id).Igual()));
                         var reader = cmd.ExecuteReader();
-                        var d1 = reader.MapToList<TecnologiaCredencial>();
+                        var d1 = reader.MapToList<EmpresaContrato>();
 
                         return d1.FirstOrDefault();
                     }
@@ -99,11 +99,11 @@ namespace IMOD.Infra.Repositorios
         /// </summary>
         /// <param name="predicate">Expressão de consulta</param>
         /// <returns></returns>
-        public ICollection<TecnologiaCredencial> Listar(params object[] objects)
+        public ICollection<EmpresaContrato> Listar(params object[] objects)
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText("TecnologiaCredencial", conn))
+                using (var cmd = _dataBase.SelectText ("EmpresaContrato", conn))
 
                 {
                     try
@@ -112,7 +112,7 @@ namespace IMOD.Infra.Repositorios
                         //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("ColaboradorID", o, 1).Igual()));
 
                         var reader = cmd.ExecuteReaderSelect();
-                        var d1 = reader.MapToList<TecnologiaCredencial>();
+                        var d1 = reader.MapToList<EmpresaContrato>();
 
                         return d1;
                     }
@@ -129,15 +129,15 @@ namespace IMOD.Infra.Repositorios
         ///     Alterar registro
         /// </summary>
         /// <param name="entity"></param>
-        public void Alterar(TecnologiaCredencial entity)
+        public void Alterar(EmpresaContrato entity)
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.UpdateText("TecnologiaCredencial", conn))
+                using (var cmd = _dataBase.UpdateText ("EmpresaContrato", conn))
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("TecnologiaCredencialId", entity.TecnologiaCredencialId, true)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("EmpresaContratoId", entity.EmpresaContratoId, true)));
                         //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Descricao", entity.Descricao, false)));
                         //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("NomeArquivo", entity.NomeArquivo, false)));
                         //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("ColaboradorID", entity.ColaboradorId, false)));
@@ -158,15 +158,15 @@ namespace IMOD.Infra.Repositorios
         ///     Deletar registro
         /// </summary>
         /// <param name="predicate"></param>
-        public void Remover(TecnologiaCredencial entity)
+        public void Remover(EmpresaContrato entity)
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.DeleteText("TecnologiaCredencial", conn))
+                using (var cmd = _dataBase.DeleteText ("EmpresaContrato", conn))
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamDelete("TecnologiaCredencialId", entity.TecnologiaCredencialId).Igual()));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamDelete ("EmpresaContratoId", entity.EmpresaContratoId).Igual()));
 
                         cmd.ExecuteNonQuery();
                     }

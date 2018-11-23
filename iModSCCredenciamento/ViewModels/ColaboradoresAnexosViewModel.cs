@@ -1,4 +1,6 @@
-﻿using iModSCCredenciamento.Funcoes;
+﻿
+using IMOD.Application.Service;
+using iModSCCredenciamento.Funcoes;
 using iModSCCredenciamento.Models;
 using iModSCCredenciamento.Windows;
 using System;
@@ -11,16 +13,16 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Serialization;
-//using IMOD.Application.Interfaces;
-//using IMOD.Application.Service;
+using IMOD.Application.Interfaces;
+using IMOD.Application.Service;
 
 namespace iModSCCredenciamento.ViewModels
 {
    public class ColaboradoresAnexosViewModel : ViewModelBase
     {
-        //public IMOD.Domain.Entities.ColaboradorAnexo Anexo { get; set; }
-        //private IColaboradorAnexoService _colaboradorService = new  ColaboradorAnexoService();
 
+        //private IColaboradorAnexoService _colaboradorAnexoService = new ColaboradorAnexoService();
+        //public IMOD.Domain.Entities.ColaboradorAnexo Anexo { get; set; }
 
         #region Inicializacao
         public ColaboradoresAnexosViewModel()
