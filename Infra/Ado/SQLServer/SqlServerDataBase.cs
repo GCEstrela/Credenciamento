@@ -64,7 +64,8 @@ namespace IMOD.Infra.Ado.SQLServer
             {DbType.Decimal, SqlDbType.Decimal},
             {DbType.Boolean, SqlDbType.Bit},
             {DbType.Xml, SqlDbType.Xml},
-            {DbType.String, SqlDbType.NText},
+            {DbType.String, SqlDbType.VarChar},
+            {DbType.AnsiString, SqlDbType.VarChar},
             {DbType.StringFixedLength, SqlDbType.NChar},
             {DbType.DateTime, SqlDbType.DateTime},
             {DbType.Date, SqlDbType.Date},
@@ -349,6 +350,7 @@ namespace IMOD.Infra.Ado.SQLServer
         public IDbDataParameter CreateParameter(ParamSelect oParam)
         {
             //Se não houver valor informado nao criar parametro de entrada, nem clausula where na sintaxe
+            if (string.IsNullOrWhiteSpace (oParam.Valor?.ToString())) return null;
             //Descartar valor nulo
             if (oParam.Valor != null)
             {
@@ -499,5 +501,7 @@ namespace IMOD.Infra.Ado.SQLServer
 
             return dados;
         }
+
+
     }
 }

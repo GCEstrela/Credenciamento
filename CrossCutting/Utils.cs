@@ -339,8 +339,8 @@ namespace IMOD.CrossCutting
         /// <returns></returns>
         private static Rijndael InstanceRijndael()
         {
-            var IV = "UPGHJWHBSOO2RTHG";
-            var sharedSecret = "UJHSSWIYH29N3DGT";
+            var IV = "UPGHJWHBSOO2RTHGA";
+            var sharedSecret = "UJHSSWIYH29N3DGTA";
             var aesAlg = Rijndael.Create();
             aesAlg.Key = Encoding.ASCII.GetBytes(sharedSecret); //key.GetBytes(aesAlg.KeySize / 8); 
             aesAlg.IV = Encoding.ASCII.GetBytes(IV);

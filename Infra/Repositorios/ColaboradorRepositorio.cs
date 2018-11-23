@@ -100,7 +100,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Nacionalidade", entity.Nacionalidade, false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Foto", entity.Foto, false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("EstadoCivil", entity.EstadoCivil, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("CPF", entity.Cpf, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("CPF", entity.Cpf.RetirarCaracteresEspeciais(), false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("RG", entity.Rg, false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("RGEmissao", DbType.Date, entity.RgEmissao, false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("RGOrgLocal", entity.RgOrgLocal, false)));
@@ -199,7 +199,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Nacionalidade", entity.Nacionalidade, false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Foto", entity.Foto, false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("EstadoCivil", entity.EstadoCivil, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("CPF", entity.Cpf, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("CPF", entity.Cpf.RetirarCaracteresEspeciais(), false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("RG", entity.Rg, false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("RGEmissao", DbType.Date, entity.RgEmissao, false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("RGOrgLocal", entity.RgOrgLocal, false)));
@@ -262,9 +262,17 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("ColaboradorCredencialID", DbType.Int32, o, 0).Igual()));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("Cpf",DbType.String, o, 1).Igual()));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("Nome", DbType.String, o, 2).Like()));
+                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("ColaboradorID",DbType.Int32, o, 0).Igual()));
+                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("Cpf",DbType.String, o, 1).Igual()));
+                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("Nome", DbType.String, o, 2).Like()));
+
+
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter (new ParamSelect ("ColaboradorID", DbType.Int32, o, 0).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Cpf", DbType.String, o, 1).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Nome", DbType.String, o, 2).Like()));
+
+
+
 
                         var reader = cmd.ExecuteReaderSelect();  
                         var d1 = reader.MapToList<Colaborador>();
