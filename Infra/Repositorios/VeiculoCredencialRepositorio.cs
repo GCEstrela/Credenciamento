@@ -55,8 +55,8 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("FormatoCredencialID", entity.FormatoCredencialId, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("NumeroCredencial", entity.NumeroCredencial, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("FC", entity.Fc, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Emissao", entity.Emissao, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Validade", entity.Validade, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Emissao", DbType.Date, entity.Emissao, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Validade", DbType.Date, entity.Validade, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("CredencialStatusID", entity.CredencialStatusId, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("CardHolderGUID", entity.CardHolderGuid, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("CredencialGUID", entity.CredencialGuid, false)));
@@ -65,7 +65,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Ativa", entity.Ativa, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Colete", entity.Colete, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("CredencialmotivoID", entity.CredencialmotivoId, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Baixa", entity.Baixa, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Baixa", DbType.Date, entity.Baixa, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Impressa", entity.Impressa, false)));
 
 
@@ -126,7 +126,7 @@ namespace IMOD.Infra.Repositorios
                     try
                     {
 
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("NumeroCredencial", objects, 0).Like()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("NumeroCredencial", objects, 0).Like()));
 
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<VeiculoCredencial>();

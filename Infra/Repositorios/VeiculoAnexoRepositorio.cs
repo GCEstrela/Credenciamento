@@ -35,22 +35,23 @@ namespace IMOD.Infra.Repositorios
         #region Metodos
 
         /// <summary>
-        ///     Criar registro
+        ///     Criar registro VeiculoAnexo
         /// </summary>
         /// <param name="entity"></param>
         public void Criar(VeiculoAnexo entity)
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.InsertText("VeiculoAnexo", conn))
+                using (var cmd = _dataBase.InsertText("VeiculosAnexos", conn))
                 {
                     try
                     {
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("ColaboradorAnexoId", entity.ColaboradorAnexoId, true)));
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Descricao", entity.Descricao, false)));
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("NomeArquivo", entity.NomeArquivo, false)));
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("ColaboradorID", entity.ColaboradorId, false)));
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Arquivo", entity.Arquivo, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("VeiculoAnexoID", entity.VeiculoAnexoId, true)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("VeiculoID", entity.VeiculoId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Descricao", entity.Descricao, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("NomeArquivo", entity.NomeArquivo, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Arquivo", entity.Arquivo, false)));
+
 
                         var key = Convert.ToInt32(cmd.ExecuteScalar());
 
@@ -66,7 +67,7 @@ namespace IMOD.Infra.Repositorios
         }
 
         /// <summary>
-        ///     Buscar pela chave primaria
+        ///     Buscar pela chave primaria VeiculoAnexo
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -74,7 +75,7 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText("VeiculoAnexo", conn))
+                using (var cmd = _dataBase.SelectText("VeiculosAnexos", conn))
 
                 {
                     try
@@ -95,7 +96,7 @@ namespace IMOD.Infra.Repositorios
         }
 
         /// <summary>
-        ///     Listar
+        ///     Listar VeiculoAnexo
         /// </summary>
         /// <param name="predicate">Expressão de consulta</param>
         /// <returns></returns>
@@ -103,13 +104,12 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText("VeiculoAnexo", conn))
+                using (var cmd = _dataBase.SelectText("VeiculosAnexos", conn))
 
                 {
                     try
                     {
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("NomeArquivo", o, 0).Like()));
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("ColaboradorID", o, 1).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Descricao", objects, 0).Like()));
 
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<VeiculoAnexo>();
@@ -126,22 +126,22 @@ namespace IMOD.Infra.Repositorios
         }
 
         /// <summary>
-        ///     Alterar registro
+        ///     Alterar registro VeiculoAnexo
         /// </summary>
         /// <param name="entity"></param>
         public void Alterar(VeiculoAnexo entity)
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.UpdateText("VeiculoAnexo", conn))
+                using (var cmd = _dataBase.UpdateText("VeiculosAnexos", conn))
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("VeiculoAnexoId", entity.VeiculoAnexoId, true)));
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Descricao", entity.Descricao, false)));
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("NomeArquivo", entity.NomeArquivo, false)));
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("ColaboradorID", entity.ColaboradorId, false)));
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Arquivo", entity.Arquivo, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("VeiculoAnexoID", entity.VeiculoAnexoId, true)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("VeiculoID", entity.VeiculoId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Descricao", entity.Descricao, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("NomeArquivo", entity.NomeArquivo, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Arquivo", entity.Arquivo, false)));
 
                         cmd.ExecuteNonQuery();
                     }
@@ -162,7 +162,7 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.DeleteText("VeiculoAnexo", conn))
+                using (var cmd = _dataBase.DeleteText("VeiculosAnexos", conn))
                 {
                     try
                     {

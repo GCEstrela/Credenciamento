@@ -165,16 +165,16 @@ namespace UnitTestImod
                 Pendente25 = false
             });
             #endregion
-            
+
             var list1 = repositorio.Listar(0, "");//Listar todos
             Assert.IsNotNull(list1);
-                var list2 = repositorio.Listar();//Listar todos
+            var list2 = repositorio.Listar();//Listar todos
             Assert.IsNotNull(list2);
-                var list3 = repositorio.Listar(null);//Listar todos
+            var list3 = repositorio.Listar(null);//Listar todos
             Assert.IsNotNull(list3);
-                var list4 = repositorio.Listar(null, cpf, null); //Listar por cpf
+            var list4 = repositorio.Listar(null, cpf, null); //Listar por cpf
             Assert.IsNotNull(list4);
-                var list5 = repositorio.Listar(null, null, "Suzuki"); //Listar por nome
+            var list5 = repositorio.Listar(null, null, "Suzuki"); //Listar por nome
             Assert.IsNotNull(list5);
 
         }
@@ -271,6 +271,8 @@ namespace UnitTestImod
             }
         }
 
+        #region Test Methods Mihai
+
         [TestMethod]
         public void Veiculo_Cadastrar_Alterar_Listar_Remover_com_sucesso()
         {
@@ -337,7 +339,7 @@ namespace UnitTestImod
             var veiculo = repositorio.BuscarPelaChave(primeiroDaLIsta.EquipamentoVeiculoId);
 
             //Remover passando objeto como parâmetro
-            repositorio.Remover(veiculo);
+            //repositorio.Remover(veiculo);
 
         }
 
@@ -383,7 +385,7 @@ namespace UnitTestImod
             var veiculoseguro = repositorio.BuscarPelaChave(primeiroDaLIsta.VeiculoSeguroId);
 
             //Remover passando objeto como parâmetro
-            repositorio.Remover(veiculoseguro);
+            //repositorio.Remover(veiculoseguro);
 
 
         }
@@ -425,7 +427,7 @@ namespace UnitTestImod
             var veiculoequiptipservico = repositorio.BuscarPelaChave(primeiroDaLIsta.VeiculoId);
 
             //Remover passando objeto como parâmetro
-            repositorio.Remover(veiculoequiptipservico);
+            //repositorio.Remover(veiculoequiptipservico);
 
         }
 
@@ -469,10 +471,12 @@ namespace UnitTestImod
             var veiculoempresa = repositorio.BuscarPelaChave(primeiroDaLIsta.VeiculoEmpresaId);
 
             //Remover passando objeto como parâmetro
-            repositorio.Remover(veiculoempresa);
+            //repositorio.Remover(veiculoempresa);
 
         }
 
+
+        [TestMethod]
         public void VeiculoCredencial_Cadastrar_Alterar_Listar_Remover_com_sucesso()
         {
             var repositorio = new VeiculoCredencialRepositorio();
@@ -491,23 +495,22 @@ namespace UnitTestImod
                     Emissao = DateTime.Now,
                     Validade = DateTime.Now,
                     CredencialStatusId = 1,
-                    CardHolderGuid = null,
-                    CredencialGuid = null,
+                    CardHolderGuid = "",
+                    CredencialGuid = "",
                     VeiculoPrivilegio1Id = 1,
                     VeiculoPrivilegio2Id = 1,
                     Ativa = true,
-                    Colete = "COLETE " + i,
+                    Colete = "Cl.1",
                     CredencialmotivoId = 1,
                     Baixa = DateTime.Now,
                     Impressa = true
-
                 };
 
                 //Criar registro
                 repositorio.Criar(d1);
 
                 d1.NumeroCredencial = "CARGO " + (i * 2);
-                d1.Colete = "MATRICULA " + (i * 2);
+                d1.Colete = "Cl.1";
 
                 //Alterar registro
                 repositorio.Alterar(d1);
@@ -518,17 +521,489 @@ namespace UnitTestImod
             var list0 = repositorio.Listar().ToList();
 
             //Listar Filtrando parâmetros
-            var list1 = repositorio.Listar(4, 0).ToList();
+            var list1 = repositorio.Listar("%4%", 0).ToList();
 
-            //Listar pela chave
+            ////Listar pela chave
             var primeiroDaLIsta = list0.FirstOrDefault();
             if (primeiroDaLIsta == null) return;
             var veiculocredencial = repositorio.BuscarPelaChave(primeiroDaLIsta.VeiculoCredencialId);
 
             //Remover passando objeto como parâmetro
-            repositorio.Remover(veiculocredencial);
+            //repositorio.Remover(veiculocredencial);
 
         }
+
+        [TestMethod]
+        public void VeiculoCredencialimpressao_Cadastrar_Alterar_Listar_Remover_com_sucesso()
+        {
+            var repositorio = new VeiculoCredencialimpressaoRepositorio();
+
+            for (int i = 0; i < 3; i++)
+            {
+                var d1 = new VeiculoCredencialimpressao
+                {
+                    VeiculoCredencialId = i + 100,
+                    DataImpressao = DateTime.Now,
+                    Cobrar = true
+                };
+
+                //Criar registro
+                repositorio.Criar(d1);
+
+                d1.DataImpressao = DateTime.Today.AddDays(i + 1);
+
+                //Alterar registro
+                repositorio.Alterar(d1);
+
+            }
+
+            //Listar todos
+            var list0 = repositorio.Listar().ToList();
+
+            //Listar Filtrando parâmetros
+            var list1 = repositorio.Listar(1).ToList();
+
+            ////Listar pela chave
+            var primeiroDaLIsta = list0.FirstOrDefault();
+            if (primeiroDaLIsta == null) return;
+            var veiculocredencialimpressao = repositorio.BuscarPelaChave(primeiroDaLIsta.CredencialImpressaoId);
+
+            //Remover passando objeto como parâmetro
+            //repositorio.Remover(veiculocredencialimpressao);
+
+        }
+
+        [TestMethod]
+        public void VeiculoAnexo_Cadastrar_Alterar_Listar_Remover_com_sucesso()
+        {
+            var repositorio = new VeiculoAnexoRepositorio();
+
+            for (int i = 0; i < 3; i++)
+            {
+                var d1 = new VeiculoAnexo
+                {
+                    VeiculoId = i + 100,
+                    Descricao = "ANEXO" + i,
+                    NomeArquivo = "ANEXO" + i,
+                    Arquivo = "arquivo" + i + ".file"
+                };
+
+                //Criar registro
+                repositorio.Criar(d1);
+
+                d1.Descricao = "Anexo Alterado.";
+
+                //Alterar registro
+                repositorio.Alterar(d1);
+
+            }
+
+            //Listar todos
+            var list0 = repositorio.Listar().ToList();
+
+            //Listar Filtrando parâmetros
+            var list1 = repositorio.Listar("%XI%").ToList();
+
+            ////Listar pela chave
+            var primeiroDaLIsta = list0.FirstOrDefault();
+            if (primeiroDaLIsta == null) return;
+            var veiculoanexo = repositorio.BuscarPelaChave(primeiroDaLIsta.VeiculoAnexoId);
+
+            //Remover passando objeto como parâmetro
+            //repositorio.Remover(veiculoanexo);
+
+        }
+
+        [TestMethod]
+        public void TipoServico_Cadastrar_Alterar_Listar_Remover_com_sucesso()
+        {
+            var repositorio = new TipoServicoRepositorio();
+
+            for (int i = 0; i < 3; i++)
+            {
+                var d1 = new TipoServico
+                {
+                    Descricao = "TIPO SERVIÇO " + (i + 1)
+                };
+
+                //Criar registro
+                repositorio.Criar(d1);
+
+                d1.Descricao = "TIPO SERVIÇO Alterado.";
+
+                //Alterar registro
+                repositorio.Alterar(d1);
+
+            }
+
+            //Listar todos
+            var list0 = repositorio.Listar().ToList();
+
+            //Listar Filtrando parâmetros
+            var list1 = repositorio.Listar("%Ç%").ToList();
+
+            ////Listar pela chave
+            var primeiroDaLIsta = list0.FirstOrDefault();
+            if (primeiroDaLIsta == null) return;
+            var tiposervico = repositorio.BuscarPelaChave(primeiroDaLIsta.TipoServicoId);
+
+            //Remover passando objeto como parâmetro
+            //repositorio.Remover(tiposervico);
+
+        }
+
+        [TestMethod]
+        public void TipoEquipamento_Cadastrar_Alterar_Listar_Remover_com_sucesso()
+        {
+            var repositorio = new TipoEquipamentoRepositorio();
+
+            for (int i = 0; i < 3; i++)
+            {
+                var d1 = new TipoEquipamento
+                {
+                    Descricao = "TIPO EQUIPAMENTO " + (i + 1)
+                };
+
+                //Criar registro
+                repositorio.Criar(d1);
+
+                d1.Descricao = "TIPO EQUIPAMENTO Alterado.";
+
+                //Alterar registro
+                repositorio.Alterar(d1);
+
+            }
+
+            //Listar todos
+            var list0 = repositorio.Listar().ToList();
+
+            //Listar Filtrando parâmetros
+            var list1 = repositorio.Listar("%O%").ToList();
+
+            ////Listar pela chave
+            var primeiroDaLIsta = list0.FirstOrDefault();
+            if (primeiroDaLIsta == null) return;
+            var tipoequipamento = repositorio.BuscarPelaChave(primeiroDaLIsta.TipoEquipamentoId);
+
+            //Remover passando objeto como parâmetro
+            //repositorio.Remover(tipoequipamento);
+
+        }
+
+        [TestMethod]
+        public void TipoCombustivel_Cadastrar_Alterar_Listar_Remover_com_sucesso()
+        {
+            var repositorio = new TipoCombustivelRepositorio();
+
+            for (int i = 0; i < 3; i++)
+            {
+                var d1 = new TipoCombustivel
+                {
+                    Descricao = "TIPO COMBUSTÍVEL " + (i + 1)
+                };
+
+                //Criar registro
+                repositorio.Criar(d1);
+
+                d1.Descricao = "TIPO COMBUSTÍVEL Alterado.";
+
+                //Alterar registro
+                repositorio.Alterar(d1);
+
+            }
+
+            //Listar todos
+            var list0 = repositorio.Listar().ToList();
+
+            //Listar Filtrando parâmetros
+            var list1 = repositorio.Listar("%O%").ToList();
+
+            ////Listar pela chave
+            var primeiroDaLIsta = list0.FirstOrDefault();
+            if (primeiroDaLIsta == null) return;
+            var tipocombustivel = repositorio.BuscarPelaChave(primeiroDaLIsta.TipoCombustivelId);
+
+            //Remover passando objeto como parâmetro
+            //repositorio.Remover(tipocombustivel);
+
+        }
+
+        [TestMethod]
+        public void TipoCobranca_Cadastrar_Alterar_Listar_Remover_com_sucesso()
+        {
+            var repositorio = new TipoCobrancaRepositorio();
+
+            for (int i = 0; i < 3; i++)
+            {
+                var d1 = new TipoCobranca
+                {
+                    Descricao = "TIPO COBRANÇA " + (i + 1)
+                };
+
+                //Criar registro
+                repositorio.Criar(d1);
+
+                d1.Descricao = "TIPO COBRANÇA Alterado.";
+
+                //Alterar registro
+                repositorio.Alterar(d1);
+
+            }
+
+            //Listar todos
+            var list0 = repositorio.Listar().ToList();
+
+            //Listar Filtrando parâmetros
+            var list1 = repositorio.Listar("%Ç%").ToList();
+
+            ////Listar pela chave
+            var primeiroDaLIsta = list0.FirstOrDefault();
+            if (primeiroDaLIsta == null) return;
+            var tipocobranca = repositorio.BuscarPelaChave(primeiroDaLIsta.TipoCobrancaId);
+
+            //Remover passando objeto como parâmetro
+            //repositorio.Remover(tipocobranca);
+
+        }
+
+        [TestMethod]
+        public void TipoAtividade_Cadastrar_Alterar_Listar_Remover_com_sucesso()
+        {
+            var repositorio = new TipoAtividadeRepositorio();
+
+            for (int i = 0; i < 3; i++)
+            {
+                var d1 = new TipoAtividade
+                {
+                    Descricao = "TIPO ATIVIDADE " + (i + 1)
+                };
+
+                //Criar registro
+                repositorio.Criar(d1);
+
+                d1.Descricao = "TIPO ATIVIDADE Alterado.";
+
+                //Alterar registro
+                repositorio.Alterar(d1);
+
+            }
+
+            //Listar todos
+            var list0 = repositorio.Listar().ToList();
+
+            //Listar Filtrando parâmetros
+            var list1 = repositorio.Listar("%Ç%").ToList();
+
+            ////Listar pela chave
+            var primeiroDaLIsta = list0.FirstOrDefault();
+            if (primeiroDaLIsta == null) return;
+            var tipoatividade = repositorio.BuscarPelaChave(primeiroDaLIsta.TipoAtividadeId);
+
+            //Remover passando objeto como parâmetro
+            //repositorio.Remover(tipoatividade);
+
+        }
+
+
+        [TestMethod]
+        public void TipoAcesso_Cadastrar_Alterar_Listar_Remover_com_sucesso()
+        {
+            var repositorio = new TipoAcessoRepositorio();
+
+            for (int i = 0; i < 3; i++)
+            {
+                var d1 = new TipoAcesso
+                {
+                    Descricao = "TIPO ACESSO " + (i + 1)
+                };
+
+                //Criar registro
+                repositorio.Criar(d1);
+
+                d1.Descricao = "TIPO ACESSO Alterado.";
+
+                //Alterar registro
+                repositorio.Alterar(d1);
+
+            }
+
+            //Listar todos
+            var list0 = repositorio.Listar().ToList();
+
+            //Listar Filtrando parâmetros
+            var list1 = repositorio.Listar("%/%").ToList();
+
+            ////Listar pela chave
+            var primeiroDaLIsta = list0.FirstOrDefault();
+            if (primeiroDaLIsta == null) return;
+            var tipoacesso = repositorio.BuscarPelaChave(primeiroDaLIsta.TipoAcessoId);
+
+            //Remover passando objeto como parâmetro
+            //repositorio.Remover(tipoacesso);
+
+        }
+
+        [TestMethod]
+        public void TecnologiaCredencial_Cadastrar_Alterar_Listar_Remover_com_sucesso()
+        {
+            var repositorio = new TecnologiaCredencialRepositorio();
+
+            for (int i = 0; i < 3; i++)
+            {
+                var d1 = new TecnologiaCredencial
+                {
+                    Descricao = "TECNOLOGIA CREDENCIAL " + (i + 1)
+                };
+
+                //Criar registro
+                repositorio.Criar(d1);
+
+                d1.Descricao = "TECNOLOGIA CREDENCIAL Alterado.";
+
+                //Alterar registro
+                repositorio.Alterar(d1);
+
+            }
+
+            //Listar todos
+            var list0 = repositorio.Listar().ToList();
+
+            //Listar Filtrando parâmetros
+            var list1 = repositorio.Listar("%a%").ToList();
+
+            ////Listar pela chave
+            var primeiroDaLIsta = list0.FirstOrDefault();
+            if (primeiroDaLIsta == null) return;
+            var tecnologiacredencial = repositorio.BuscarPelaChave(primeiroDaLIsta.TecnologiaCredencialId);
+
+            //Remover passando objeto como parâmetro
+            //repositorio.Remover(tecnologiacredencial);
+
+        }
+
+        [TestMethod]
+        public void Status_Cadastrar_Alterar_Listar_Remover_com_sucesso()
+        {
+            var repositorio = new StatusRepositorio();
+
+            for (int i = 0; i < 3; i++)
+            {
+                var d1 = new Status
+                {
+                    Descricao = "Status " + (i + 1)
+                };
+
+                //Criar registro
+                repositorio.Criar(d1);
+
+                d1.Descricao = "Status Alterado.";
+
+                //Alterar registro
+                repositorio.Alterar(d1);
+
+            }
+
+            //Listar todos
+            var list0 = repositorio.Listar().ToList();
+
+            //Listar Filtrando parâmetros
+            var list1 = repositorio.Listar("%a%").ToList();
+
+            ////Listar pela chave
+            var primeiroDaLIsta = list0.FirstOrDefault();
+            if (primeiroDaLIsta == null) return;
+            var status = repositorio.BuscarPelaChave(primeiroDaLIsta.StatusId);
+
+            //Remover passando objeto como parâmetro
+            //repositorio.Remover(status);
+
+        }
+
+
+        [TestMethod]
+        public void Relatorios_Cadastrar_Alterar_Listar_Remover_com_sucesso()
+        {
+            var repositorio = new RelatoriosRepositorio();
+
+            for (int i = 0; i < 3; i++)
+            {
+                var d1 = new Relatorios
+                {
+                    Nome = "Relatorio " + (i + 1),
+                    NomeArquivoRpt = "file.rpt",
+                    ArquivoRpt = "file.txt",
+                    Ativo = true
+                };
+
+                //Criar registro
+                repositorio.Criar(d1);
+
+                d1.Nome = "Relatorio Alterado." + (i * 2);
+
+                //Alterar registro
+                repositorio.Alterar(d1);
+
+            }
+
+            //Listar todos
+            var list0 = repositorio.Listar().ToList();
+
+            //Listar Filtrando parâmetros
+            var list1 = repositorio.Listar("%a%").ToList();
+
+            ////Listar pela chave
+            var primeiroDaLIsta = list0.FirstOrDefault();
+            if (primeiroDaLIsta == null) return;
+            var relatorios = repositorio.BuscarPelaChave(primeiroDaLIsta.RelatorioId);
+
+            //Remover passando objeto como parâmetro
+            //repositorio.Remover(relatorios);
+
+        }
+
+        [TestMethod]
+        public void RelatoriosGerenciais_Cadastrar_Alterar_Listar_Remover_com_sucesso()
+        {
+            var repositorio = new RelatoriosGerenciaisRepositorio();
+
+            for (int i = 0; i < 3; i++)
+            {
+                var d1 = new RelatoriosGerenciais
+                {
+                    Nome = "Relatorio Gerencial" + (i + 1),
+                    NomeArquivoRpt = "file.rpt",
+                    ArquivoRpt = "file.txt",
+                    Ativo = true
+                };
+
+                //Criar registro
+                repositorio.Criar(d1);
+
+                d1.Nome = "Relatorio Gerencial Alterado." + (i * 2);
+
+                //Alterar registro
+                repositorio.Alterar(d1);
+
+            }
+
+            //Listar todos
+            var list0 = repositorio.Listar().ToList();
+
+            //Listar Filtrando parâmetros
+            var list1 = repositorio.Listar("%a%").ToList();
+
+            ////Listar pela chave
+            var primeiroDaLIsta = list0.FirstOrDefault();
+            if (primeiroDaLIsta == null) return;
+            var relatoriosgerenciais = repositorio.BuscarPelaChave(primeiroDaLIsta.RelatorioId);
+
+            //Remover passando objeto como parâmetro
+            //repositorio.Remover(relatoriosgerenciais);
+
+        }
+
+
+        #endregion
 
 
     }

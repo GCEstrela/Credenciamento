@@ -38,23 +38,20 @@ namespace IMOD.Infra.Repositorios
         ///     Criar registro
         /// </summary>
         /// <param name="entity"></param>
-        public void Criar(EmpresaContrato entity)
+        public void Criar(TecnologiaCredencial entity)
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.InsertText("EmpresaContrato", conn))
+                using (var cmd = _dataBase.InsertText("TecnologiasCredenciais", conn))
                 {
                     try
                     {
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("ColaboradorAnexoId", entity.ColaboradorAnexoId, true)));
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Descricao", entity.Descricao, false)));
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("NomeArquivo", entity.NomeArquivo, false)));
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("ColaboradorID", entity.ColaboradorId, false)));
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Arquivo", entity.Arquivo, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("TecnologiaCredencialID", entity.TecnologiaCredencialId, true)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Descricao", entity.Descricao, false)));
 
                         var key = Convert.ToInt32(cmd.ExecuteScalar());
 
-                        entity.EmpresaContratoId = key;
+                        entity.TecnologiaCredencialId = key;
                     }
                     catch (Exception ex)
                     {
@@ -70,18 +67,18 @@ namespace IMOD.Infra.Repositorios
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public EmpresaContrato BuscarPelaChave(int id)
+        public TecnologiaCredencial BuscarPelaChave(int id)
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText("EmpresaContrato", conn))
+                using (var cmd = _dataBase.SelectText("TecnologiasCredenciais", conn))
 
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("EmpresaContratoId", DbType.Int32, id).Igual()));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("TecnologiaCredencialId", DbType.Int32, id).Igual()));
                         var reader = cmd.ExecuteReader();
-                        var d1 = reader.MapToList<EmpresaContrato>();
+                        var d1 = reader.MapToList<TecnologiaCredencial>();
 
                         return d1.FirstOrDefault();
                     }
@@ -99,20 +96,19 @@ namespace IMOD.Infra.Repositorios
         /// </summary>
         /// <param name="predicate">Expressão de consulta</param>
         /// <returns></returns>
-        public ICollection<EmpresaContrato> Listar(params object[] objects)
+        public ICollection<TecnologiaCredencial> Listar(params object[] objects)
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText("EmpresaContrato", conn))
+                using (var cmd = _dataBase.SelectText("TecnologiasCredenciais", conn))
 
                 {
                     try
                     {
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("NomeArquivo", o, 0).Like()));
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("ColaboradorID", o, 1).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Descricao", objects, 0).Like()));
 
                         var reader = cmd.ExecuteReaderSelect();
-                        var d1 = reader.MapToList<EmpresaContrato>();
+                        var d1 = reader.MapToList<TecnologiaCredencial>();
 
                         return d1;
                     }
@@ -129,19 +125,16 @@ namespace IMOD.Infra.Repositorios
         ///     Alterar registro
         /// </summary>
         /// <param name="entity"></param>
-        public void Alterar(EmpresaContrato entity)
+        public void Alterar(TecnologiaCredencial entity)
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.UpdateText("EmpresaContrato", conn))
+                using (var cmd = _dataBase.UpdateText("TecnologiasCredenciais", conn))
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("EmpresaContratoId", entity.EmpresaContratoId, true)));
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Descricao", entity.Descricao, false)));
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("NomeArquivo", entity.NomeArquivo, false)));
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("ColaboradorID", entity.ColaboradorId, false)));
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Arquivo", entity.Arquivo, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("TecnologiaCredencialID", entity.TecnologiaCredencialId, true)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Descricao", entity.Descricao, false)));
 
                         cmd.ExecuteNonQuery();
                     }
@@ -158,15 +151,15 @@ namespace IMOD.Infra.Repositorios
         ///     Deletar registro
         /// </summary>
         /// <param name="predicate"></param>
-        public void Remover(EmpresaContrato entity)
+        public void Remover(TecnologiaCredencial entity)
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.DeleteText("EmpresaContrato", conn))
+                using (var cmd = _dataBase.DeleteText("TecnologiasCredenciais", conn))
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamDelete("EmpresaContratoId", entity.EmpresaContratoId).Igual()));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamDelete("TecnologiaCredencialID", entity.TecnologiaCredencialId).Igual()));
 
                         cmd.ExecuteNonQuery();
                     }
@@ -177,32 +170,6 @@ namespace IMOD.Infra.Repositorios
                 }
             }
         }
-
-        public void Criar(TecnologiaCredencial entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        TecnologiaCredencial IRepositorioBaseAdoNet<TecnologiaCredencial>.BuscarPelaChave(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        ICollection<TecnologiaCredencial> IRepositorioBaseAdoNet<TecnologiaCredencial>.Listar(params object[] objects)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Alterar(TecnologiaCredencial entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Remover(TecnologiaCredencial entity)
-        {
-            throw new NotImplementedException();
-        }
-
 
         #endregion
     }

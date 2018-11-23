@@ -42,15 +42,13 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.InsertText("TipoCobranca", conn))
+                using (var cmd = _dataBase.InsertText("TiposCobrancas", conn))
                 {
                     try
                     {
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("ColaboradorAnexoId", entity.ColaboradorAnexoId, true)));
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Descricao", entity.Descricao, false)));
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("NomeArquivo", entity.NomeArquivo, false)));
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("ColaboradorID", entity.ColaboradorId, false)));
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Arquivo", entity.Arquivo, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("TipoCobrancaId", entity.TipoCobrancaId, true)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Descricao", entity.Descricao, false)));
+
 
                         var key = Convert.ToInt32(cmd.ExecuteScalar());
 
@@ -74,7 +72,7 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText("TipoCobranca", conn))
+                using (var cmd = _dataBase.SelectText("TiposCobrancas", conn))
 
                 {
                     try
@@ -103,13 +101,12 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText("TipoCobranca", conn))
+                using (var cmd = _dataBase.SelectText("TiposCobrancas", conn))
 
                 {
                     try
                     {
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("NomeArquivo", o, 0).Like()));
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("ColaboradorID", o, 1).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Descricao", objects, 0).Like()));
 
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<TipoCobranca>();
@@ -133,15 +130,12 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.UpdateText("TipoCobranca", conn))
+                using (var cmd = _dataBase.UpdateText("TiposCobrancas", conn))
                 {
                     try
                     {
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("TipoCobrancaId", entity.TipoCobrancaId, true)));
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Descricao", entity.Descricao, false)));
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("NomeArquivo", entity.NomeArquivo, false)));
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("ColaboradorID", entity.ColaboradorId, false)));
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Arquivo", entity.Arquivo, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Descricao", entity.Descricao, false)));
 
                         cmd.ExecuteNonQuery();
                     }
@@ -162,7 +156,7 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.DeleteText("TipoCobranca", conn))
+                using (var cmd = _dataBase.DeleteText("TiposCobrancas", conn))
                 {
                     try
                     {

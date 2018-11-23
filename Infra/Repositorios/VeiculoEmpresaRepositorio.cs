@@ -110,8 +110,8 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("Cargo", objects, 0).Like()));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("Matricula", objects, 1).Like()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Cargo", objects, 0).Like()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Matricula", objects, 1).Like()));
 
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<VeiculoEmpresa>();

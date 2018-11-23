@@ -106,8 +106,8 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("VeiculoID", DbType.Int32, objects, 0).Igual()));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("TipoServicoID", DbType.Int32, objects, 1).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("VeiculoID", DbType.Int32, objects, 0).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("TipoServicoID", DbType.Int32, objects, 1).Igual()));
 
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<VeiculoEquipTipoServico>();
