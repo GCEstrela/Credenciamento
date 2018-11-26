@@ -10,6 +10,8 @@
 
 #endregion
 
+using System.Configuration;
+
 namespace IMOD.Infra.Ado
 {
     /// <summary>
@@ -23,6 +25,16 @@ namespace IMOD.Infra.Ado
         ///     String de conexao com o banco de dados
         /// </summary>
         public static string ConexaoString => "Data Source=172.16.190.108\\SQLEXPRESS;Initial Catalog=D_iModCredenciamento;User ID=imod;Password=imod;Min Pool Size=5;Max Pool Size=15;Connection Reset=True;Connection Lifetime=600;Trusted_Connection=no;MultipleActiveResultSets=True";
+        //public static string ConexaoString
+        //{
+        //    get
+        //    {
+        //        //return ConfigurationManager.ConnectionStrings["Credenciamento"].ConnectionString;
+        //        //return ConfigurationManager.ConnectionStrings["Credenciamento"].ConnectionString;
+        //        //return ConfigurationManager.ConnectionStrings["Credenciamento"].ConnectionString;
+        //    }
+        //}
+
 
         #endregion
     }
