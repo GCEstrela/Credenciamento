@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using IMOD.Domain.Entities;
 using IMOD.Infra.Repositorios;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -405,15 +406,75 @@ namespace UnitTestImod
         }
 
         [TestMethod]
-        public void Colabororador_Buscar_Criar_Alterar_com_sucesso()
+        public void Colabororador_Criar_Listar_com_sucesso()
         {
             var repositorio = new ColaboradorRepositorio();
-            var d1 = repositorio.Listar().FirstOrDefault();
-            if (d1 == null) return;
-            d1.Nome = "Valnei Batista Filho";
-            repositorio.Alterar(d1);
-            d1.Nome = "José Dirceu";
-            repositorio.Criar(d1);
+
+            //Criar Colaborador
+            var cpf = "69885625898";
+            var nome = "Valnei Filho";
+            #region Cadastrar Colaborador
+            repositorio.Criar(new Colaborador
+            {
+                Nome = nome,
+                Apelido = "Marinpietri",
+                DataNascimento = DateTime.Today.AddYears(-26),
+                NomePai = "Valnei",
+                NomeMae = "Veronice",
+                Nacionalidade = "Brasil",
+                Foto = null,
+                EstadoCivil = "Solteiro",
+                Cpf = cpf,
+                Rg = "44.644.119-3",
+                RgEmissao = DateTime.Today.AddYears(-10),
+                RgOrgLocal = "SSP",
+                RgOrgUf = "BA",
+                Passaporte = "PJ8830202",
+                PassaporteValidade = DateTime.Today.AddYears(3),
+                Rne = "RN4493",
+                TelefoneFixo = "(71) 3581-4913",
+                TelefoneCelular = "(71) 98879-2442",
+                Email = "grupoestrela@grupoestrela.com.br",
+                ContatoEmergencia = "523696565",
+                TelefoneEmergencia = "56233363",
+                Cep = "41925-580",
+                Endereco = "Rua Baixa da Paz",
+                Numero = "947",
+                Complemento = "AP01",
+                Bairro = "Santa Cruz",
+                MunicipioId = 1,
+                EstadoId = 1,
+                Motorista = true,
+                CnhCategoria = "AB",
+                Cnh = "563232",
+                CnhValidade = DateTime.Now,
+                CnhEmissor = "",
+                Cnhuf = "",
+                Bagagem = "Não",
+                DataEmissao = DateTime.Today.AddYears(-1),
+                DataValidade = DateTime.Today.AddYears(2),
+                Excluida = 0,
+                StatusId = 1,
+                TipoAcessoId = 1,
+                Pendente21 = false,
+                Pendente22 = false,
+                Pendente23 = false,
+                Pendente24 = false,
+                Pendente25 = false
+            });
+            #endregion
+            
+            var list1 = repositorio.Listar(0, "");//Listar todos
+            Assert.IsNotNull(list1);
+                var list2 = repositorio.Listar();//Listar todos
+            Assert.IsNotNull(list2);
+                var list3 = repositorio.Listar(null);//Listar todos
+            Assert.IsNotNull(list3);
+                var list4 = repositorio.Listar(null, cpf, null); //Listar por cpf
+            Assert.IsNotNull(list4);
+                var list5 = repositorio.Listar(null, null, "Suzuki"); //Listar por nome
+            Assert.IsNotNull(list5);
+
         }
 
         [TestMethod]

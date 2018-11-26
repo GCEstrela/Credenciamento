@@ -19,9 +19,16 @@ namespace IMOD.Infra.Ado
         {
             //Verificar se clausula Where SQL após montada possui algum parametro,
             //caso contrário descartar todos os command parâmetros
-            if(!cmd.CommandText.Contains("where")) cmd.Parameters.Clear();
+            if (!cmd.CommandText.Contains("where")) cmd.Parameters.Clear();
 
             return cmd.ExecuteReader();
+        }
+
+        public static void CreateParameterSelect(this IDbCommand cmd, IDbDataParameter parameter)
+        {
+            if (string.IsNullOrWhiteSpace(parameter?.Value?.ToString())) return;
+
+            cmd.Parameters.Add(parameter);
         }
 
 
