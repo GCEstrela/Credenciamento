@@ -1,4 +1,4 @@
-// ***********************************************************************
+﻿// ***********************************************************************
 // Project: IMOD.Infra
 // Crafted by: Grupo Estrela by Genetec
 // Date:  11 - 22 - 2018
@@ -50,10 +50,9 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("CredencialmotivoID", entity.CredencialMotivoId, true)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Descricao", entity.Descricao, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Tipo", entity.Tipo, false)));
-
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("CredencialmotivoID", entity.CredencialMotivoId, true)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Descricao", entity.Descricao, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Tipo", entity.Tipo, false)));
 
                         var key = Convert.ToInt32 (cmd.ExecuteScalar());
 
@@ -100,7 +99,7 @@ namespace IMOD.Infra.Repositorios
         /// <summary>
         ///     Listar
         /// </summary>
-        /// <param name="predicate">Expressão de consulta</param>
+        /// <param name="objects">Expressão de consulta</param>
         /// <returns></returns>
         public ICollection<CredencialMotivo> Listar(params object[] objects)
         {
@@ -111,9 +110,9 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("CredencialmotivoID",DbType.Int16, objects, 0).Igual()));
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Descricao", DbType.String, objects, 1).Like()));
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Tipo", DbType.Int16, objects, 2).Igual()));
+                        cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("CredencialmotivoID", DbType.Int16, objects, 0).Igual()));
+                        cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("Descricao", DbType.String, objects, 1).Like()));
+                        cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("Tipo", DbType.Int16, objects, 2).Igual()));
 
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<CredencialMotivo>();
@@ -141,9 +140,9 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("CredencialmotivoID", entity.CredencialMotivoId, true)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Descricao", entity.Descricao, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Tipo", entity.Tipo, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("CredencialmotivoID", entity.CredencialMotivoId, true)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Descricao", entity.Descricao, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Tipo", entity.Tipo, false)));
                         cmd.ExecuteNonQuery();
                     }
                     catch (Exception ex)
@@ -158,7 +157,7 @@ namespace IMOD.Infra.Repositorios
         /// <summary>
         ///     Deletar registro
         /// </summary>
-        /// <param name="predicate"></param>
+        /// <param name="objects"></param>
         public void Remover(CredencialMotivo entity)
         {
             using (var conn = _dataBase.CreateOpenConnection())

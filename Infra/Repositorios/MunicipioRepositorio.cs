@@ -1,3 +1,8 @@
+﻿// ***********************************************************************
+// Project: IMOD.Infra
+// Crafted by: Grupo Estrela by Genetec
+// Date:  11 - 26 - 2018
+// ***********************************************************************
 
 #region
 
@@ -14,25 +19,24 @@ using IMOD.Infra.Ado.Interfaces.ParamSql;
 
 #endregion
 
-
 namespace IMOD.Infra.Repositorios
 {
-    public class MunicipioRepositorio :IMunicipioRepositorio 
+    public class MunicipioRepositorio : IMunicipioRepositorio
     {
-	    private readonly string _connection = CurrentConfig.ConexaoString;
+        private readonly string _connection = CurrentConfig.ConexaoString;
         private readonly IDataBaseAdo _dataBase;
         private readonly IDataWorkerFactory _dataWorkerFactory = new DataWorkerFactory();
 
         #region Construtor
 
-        public  MunicipioRepositorio()
+        public MunicipioRepositorio()
         {
-          _dataBase = _dataWorkerFactory.ObterDataBaseSingleton (TipoDataBase.SqlServer, _connection);
+            _dataBase = _dataWorkerFactory.ObterDataBaseSingleton (TipoDataBase.SqlServer, _connection);
         }
 
         #endregion
 
-        #region Metodos
+        #region  Metodos
 
         /// <summary>
         ///     Buscar pela chave primaria
@@ -41,7 +45,7 @@ namespace IMOD.Infra.Repositorios
         /// <returns></returns>
         public Municipio BuscarPelaChave(int id)
         {
-           using (var conn = _dataBase.CreateOpenConnection())
+            using (var conn = _dataBase.CreateOpenConnection())
             {
                 using (var cmd = _dataBase.SelectText ("Municipios", conn))
 
@@ -66,7 +70,7 @@ namespace IMOD.Infra.Repositorios
         /// <summary>
         ///     Listar
         /// </summary>
-        /// <param name="predicate">Expressão de consulta</param>
+        /// <param name="objects">Expressão de consulta</param>
         /// <returns></returns>
         public ICollection<Municipio> Listar(params object[] objects)
         {
@@ -79,7 +83,7 @@ namespace IMOD.Infra.Repositorios
                     {
                         //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("NomeArquivo", o, 0).Like()));
                         //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("ColaboradorID", o, 1).Igual()));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("Nome", objects, 0).Igual()));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("Nome", objects, 0).Igual()));
 
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<Municipio>();
@@ -98,5 +102,3 @@ namespace IMOD.Infra.Repositorios
         #endregion
     }
 }
-
- 

@@ -51,7 +51,7 @@ namespace IMOD.Infra.Repositorios
         }
 
         /// <summary>
-        /// Listar Colaborador por status
+        ///     Listar Colaborador por status
         /// </summary>
         /// <param name="idStatus"></param>
         /// <returns></returns>
@@ -59,12 +59,12 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText("Colaboradores", conn))
+                using (var cmd = _dataBase.SelectText ("Colaboradores", conn))
 
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("StatusID", DbType.Int32, idStatus).Igual()));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("StatusID", DbType.Int32, idStatus).Igual()));
                         var reader = cmd.ExecuteReader();
                         var d1 = reader.MapToList<Colaborador>();
 
@@ -72,7 +72,7 @@ namespace IMOD.Infra.Repositorios
                     }
                     catch (Exception ex)
                     {
-                        Utils.TraceException(ex);
+                        Utils.TraceException (ex);
                         throw;
                     }
                 }
@@ -266,15 +266,11 @@ namespace IMOD.Infra.Repositorios
                         //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("Cpf",DbType.String, o, 1).Igual()));
                         //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("Nome", DbType.String, o, 2).Like()));
 
+                        cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("ColaboradorID", DbType.Int32, o, 0).Igual()));
+                        cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("Cpf", DbType.String, o, 1).Igual()));
+                        cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("Nome", DbType.String, o, 2).Like()));
 
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter (new ParamSelect ("ColaboradorID", DbType.Int32, o, 0).Igual()));
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Cpf", DbType.String, o, 1).Igual()));
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Nome", DbType.String, o, 2).Like()));
-
-
-
-
-                        var reader = cmd.ExecuteReaderSelect();  
+                        var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<Colaborador>();
 
                         return d1;
@@ -300,7 +296,7 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamDelete ("ColaboradorId",DbType.Int32, entity.ColaboradorId).Igual()));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamDelete ("ColaboradorId", DbType.Int32, entity.ColaboradorId).Igual()));
                         cmd.ExecuteNonQuery();
                     }
                     catch (Exception ex)

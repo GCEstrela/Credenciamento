@@ -20,12 +20,7 @@ namespace IMOD.Application.Service
     public class ColaboradorAnexoService : IColaboradorAnexoService
     {
         private readonly IColaboradorAnexoRepositorio _repositorio;
-
-        public ColaboradorAnexoService()
-        {
-            _repositorio=new ColaboradorAnexoRepositorio();
-        }
-
+ 
         #region  Metodos
 
         public ColaboradorAnexoService()
@@ -40,7 +35,7 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public ICollection<ColaboradorAnexo> ListarPorNome(string nomeArquivo)
         {
-            return _colaboradorAnexoService.Listar ("%" + nomeArquivo + "%", 0);
+            return _repositorio.Listar ("%" + nomeArquivo + "%", 0);
         }
 
         /// <summary>
@@ -50,7 +45,7 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public ICollection<ColaboradorAnexo> ListarPorColaborador(int colaboradorId)
         {
-            return _colaboradorAnexoService.Listar ("", colaboradorId);
+            return _repositorio.Listar ("", colaboradorId);
         }
 
         /// <summary>
@@ -59,7 +54,7 @@ namespace IMOD.Application.Service
         /// <param name="entity">Entidade</param>
         public void Criar(ColaboradorAnexo entity)
         {
-            _colaboradorAnexoService.Criar (entity);
+            _repositorio.Criar (entity);
         }
 
         /// <summary>
@@ -69,7 +64,7 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public ColaboradorAnexo BuscarPelaChave(int id)
         {
-            return _colaboradorAnexoService.BuscarPelaChave (id);
+            return _repositorio.BuscarPelaChave (id);
         }
 
         /// <summary>
@@ -78,7 +73,7 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public ICollection<ColaboradorAnexo> Listar(params object[] objects)
         {
-            return _colaboradorAnexoService.Listar (objects);
+            return _repositorio.Listar (objects);
         }
 
         /// <summary>

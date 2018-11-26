@@ -1,3 +1,8 @@
+﻿// ***********************************************************************
+// Project: IMOD.Infra
+// Crafted by: Grupo Estrela by Genetec
+// Date:  11 - 26 - 2018
+// ***********************************************************************
 
 #region
 
@@ -14,7 +19,6 @@ using IMOD.Infra.Ado.Interfaces.ParamSql;
 
 #endregion
 
-
 namespace IMOD.Infra.Repositorios
 {
     public class TipoCobrancaRepositorio : ITipoCobrancaRepositorio
@@ -27,12 +31,12 @@ namespace IMOD.Infra.Repositorios
 
         public TipoCobrancaRepositorio()
         {
-            _dataBase = _dataWorkerFactory.ObterDataBaseSingleton(TipoDataBase.SqlServer, _connection);
+            _dataBase = _dataWorkerFactory.ObterDataBaseSingleton (TipoDataBase.SqlServer, _connection);
         }
 
         #endregion
 
-        #region Metodos
+        #region  Metodos
 
         /// <summary>
         ///     Criar registro
@@ -42,21 +46,20 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.InsertText("TiposCobrancas", conn))
+                using (var cmd = _dataBase.InsertText ("TiposCobrancas", conn))
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("TipoCobrancaId", entity.TipoCobrancaId, true)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Descricao", entity.Descricao, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("TipoCobrancaId", entity.TipoCobrancaId, true)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Descricao", entity.Descricao, false)));
 
-
-                        var key = Convert.ToInt32(cmd.ExecuteScalar());
+                        var key = Convert.ToInt32 (cmd.ExecuteScalar());
 
                         entity.TipoCobrancaId = key;
                     }
                     catch (Exception ex)
                     {
-                        Utils.TraceException(ex);
+                        Utils.TraceException (ex);
                         throw;
                     }
                 }
@@ -72,12 +75,12 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText("TiposCobrancas", conn))
+                using (var cmd = _dataBase.SelectText ("TiposCobrancas", conn))
 
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("TipoCobrancaId", DbType.Int32, id).Igual()));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("TipoCobrancaId", DbType.Int32, id).Igual()));
                         var reader = cmd.ExecuteReader();
                         var d1 = reader.MapToList<TipoCobranca>();
 
@@ -85,7 +88,7 @@ namespace IMOD.Infra.Repositorios
                     }
                     catch (Exception ex)
                     {
-                        Utils.TraceException(ex);
+                        Utils.TraceException (ex);
                         throw;
                     }
                 }
@@ -95,18 +98,18 @@ namespace IMOD.Infra.Repositorios
         /// <summary>
         ///     Listar
         /// </summary>
-        /// <param name="predicate">Expressão de consulta</param>
+        /// <param name="objects">Expressão de consulta</param>
         /// <returns></returns>
         public ICollection<TipoCobranca> Listar(params object[] objects)
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText("TiposCobrancas", conn))
+                using (var cmd = _dataBase.SelectText ("TiposCobrancas", conn))
 
                 {
                     try
                     {
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Descricao", objects, 0).Like()));
+                        cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("Descricao", objects, 0).Like()));
 
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<TipoCobranca>();
@@ -115,7 +118,7 @@ namespace IMOD.Infra.Repositorios
                     }
                     catch (Exception ex)
                     {
-                        Utils.TraceException(ex);
+                        Utils.TraceException (ex);
                         throw;
                     }
                 }
@@ -130,18 +133,18 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.UpdateText("TiposCobrancas", conn))
+                using (var cmd = _dataBase.UpdateText ("TiposCobrancas", conn))
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("TipoCobrancaId", entity.TipoCobrancaId, true)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Descricao", entity.Descricao, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("TipoCobrancaId", entity.TipoCobrancaId, true)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Descricao", entity.Descricao, false)));
 
                         cmd.ExecuteNonQuery();
                     }
                     catch (Exception ex)
                     {
-                        Utils.TraceException(ex);
+                        Utils.TraceException (ex);
                         throw;
                     }
                 }
@@ -151,29 +154,27 @@ namespace IMOD.Infra.Repositorios
         /// <summary>
         ///     Deletar registro
         /// </summary>
-        /// <param name="predicate"></param>
+        /// <param name="objects"></param>
         public void Remover(TipoCobranca entity)
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.DeleteText("TiposCobrancas", conn))
+                using (var cmd = _dataBase.DeleteText ("TiposCobrancas", conn))
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamDelete("TipoCobrancaId", entity.TipoCobrancaId).Igual()));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamDelete ("TipoCobrancaId", entity.TipoCobrancaId).Igual()));
 
                         cmd.ExecuteNonQuery();
                     }
                     catch (Exception ex)
                     {
-                        Utils.TraceException(ex);
+                        Utils.TraceException (ex);
                     }
                 }
             }
         }
 
-
         #endregion
     }
 }
-

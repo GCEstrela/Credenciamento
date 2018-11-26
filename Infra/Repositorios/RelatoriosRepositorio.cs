@@ -1,3 +1,8 @@
+﻿// ***********************************************************************
+// Project: IMOD.Infra
+// Crafted by: Grupo Estrela by Genetec
+// Date:  11 - 26 - 2018
+// ***********************************************************************
 
 #region
 
@@ -14,7 +19,6 @@ using IMOD.Infra.Ado.Interfaces.ParamSql;
 
 #endregion
 
-
 namespace IMOD.Infra.Repositorios
 {
     public class RelatoriosRepositorio : IRelatoriosRepositorio
@@ -27,12 +31,12 @@ namespace IMOD.Infra.Repositorios
 
         public RelatoriosRepositorio()
         {
-            _dataBase = _dataWorkerFactory.ObterDataBaseSingleton(TipoDataBase.SqlServer, _connection);
+            _dataBase = _dataWorkerFactory.ObterDataBaseSingleton (TipoDataBase.SqlServer, _connection);
         }
 
         #endregion
 
-        #region Metodos
+        #region  Metodos
 
         /// <summary>
         ///     Criar registro
@@ -42,24 +46,23 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.InsertText("Relatorios", conn))
+                using (var cmd = _dataBase.InsertText ("Relatorios", conn))
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("RelatorioID", entity.RelatorioId, true)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Nome", entity.Nome, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("NomeArquivoRPT", entity.NomeArquivoRpt, true)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("ArquivoRPT", entity.ArquivoRpt, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Ativo", entity.Ativo, true)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("RelatorioID", entity.RelatorioId, true)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Nome", entity.Nome, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("NomeArquivoRPT", entity.NomeArquivoRpt, true)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("ArquivoRPT", entity.ArquivoRpt, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Ativo", entity.Ativo, true)));
 
-
-                        var key = Convert.ToInt32(cmd.ExecuteScalar());
+                        var key = Convert.ToInt32 (cmd.ExecuteScalar());
 
                         entity.RelatorioId = key;
                     }
                     catch (Exception ex)
                     {
-                        Utils.TraceException(ex);
+                        Utils.TraceException (ex);
                         throw;
                     }
                 }
@@ -75,12 +78,12 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText("Relatorios", conn))
+                using (var cmd = _dataBase.SelectText ("Relatorios", conn))
 
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("RelatorioId", DbType.Int32, id).Igual()));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("RelatorioId", DbType.Int32, id).Igual()));
                         var reader = cmd.ExecuteReader();
                         var d1 = reader.MapToList<Relatorios>();
 
@@ -88,7 +91,7 @@ namespace IMOD.Infra.Repositorios
                     }
                     catch (Exception ex)
                     {
-                        Utils.TraceException(ex);
+                        Utils.TraceException (ex);
                         throw;
                     }
                 }
@@ -98,13 +101,13 @@ namespace IMOD.Infra.Repositorios
         /// <summary>
         ///     Listar
         /// </summary>
-        /// <param name="predicate">Expressão de consulta</param>
+        /// <param name="objects">Expressão de consulta</param>
         /// <returns></returns>
         public ICollection<Relatorios> Listar(params object[] objects)
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText("Relatorios", conn))
+                using (var cmd = _dataBase.SelectText ("Relatorios", conn))
 
                 {
                     try
@@ -119,7 +122,7 @@ namespace IMOD.Infra.Repositorios
                     }
                     catch (Exception ex)
                     {
-                        Utils.TraceException(ex);
+                        Utils.TraceException (ex);
                         throw;
                     }
                 }
@@ -134,21 +137,21 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.UpdateText("Relatorios", conn))
+                using (var cmd = _dataBase.UpdateText ("Relatorios", conn))
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("RelatorioID", entity.RelatorioId, true)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Nome", entity.Nome, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("NomeArquivoRPT", entity.NomeArquivoRpt, true)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("ArquivoRPT", entity.ArquivoRpt, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Ativo", entity.Ativo, true)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("RelatorioID", entity.RelatorioId, true)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Nome", entity.Nome, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("NomeArquivoRPT", entity.NomeArquivoRpt, true)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("ArquivoRPT", entity.ArquivoRpt, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Ativo", entity.Ativo, true)));
 
                         cmd.ExecuteNonQuery();
                     }
                     catch (Exception ex)
                     {
-                        Utils.TraceException(ex);
+                        Utils.TraceException (ex);
                         throw;
                     }
                 }
@@ -158,29 +161,27 @@ namespace IMOD.Infra.Repositorios
         /// <summary>
         ///     Deletar registro
         /// </summary>
-        /// <param name="predicate"></param>
+        /// <param name="objects"></param>
         public void Remover(Relatorios entity)
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.DeleteText("Relatorios", conn))
+                using (var cmd = _dataBase.DeleteText ("Relatorios", conn))
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamDelete("RelatorioID", entity.RelatorioId).Igual()));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamDelete ("RelatorioID", entity.RelatorioId).Igual()));
 
                         cmd.ExecuteNonQuery();
                     }
                     catch (Exception ex)
                     {
-                        Utils.TraceException(ex);
+                        Utils.TraceException (ex);
                     }
                 }
             }
         }
 
-
         #endregion
     }
 }
-

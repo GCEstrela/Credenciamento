@@ -1,4 +1,4 @@
-// ***********************************************************************
+﻿// ***********************************************************************
 // Project: IMOD.Infra
 // Crafted by: Grupo Estrela by Genetec
 // Date:  11 - 22 - 2018
@@ -50,8 +50,8 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("CursoID", entity.CursoId, true)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Descricao", entity.Descricao, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("CursoID", entity.CursoId, true)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Descricao", entity.Descricao, false)));
 
                         var key = Convert.ToInt32 (cmd.ExecuteScalar());
 
@@ -98,7 +98,7 @@ namespace IMOD.Infra.Repositorios
         /// <summary>
         ///     Listar
         /// </summary>
-        /// <param name="predicate">Expressão de consulta</param>
+        /// <param name="objects">Expressão de consulta</param>
         /// <returns></returns>
         public ICollection<Curso> Listar(params object[] objects)
         {
@@ -109,8 +109,8 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("CursoID",DbType.Int32, objects, 0).Igual()));
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Descricao",DbType.String, objects, 1).Like()));
+                        cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("CursoID", DbType.Int32, objects, 0).Igual()));
+                        cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("Descricao", DbType.String, objects, 1).Like()));
 
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<Curso>();
@@ -138,9 +138,8 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("CursoID", entity.CursoId, true)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Descricao", entity.Descricao, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("CursoID", entity.CursoId, true)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Descricao", entity.Descricao, false)));
 
                         cmd.ExecuteNonQuery();
                     }
@@ -156,7 +155,7 @@ namespace IMOD.Infra.Repositorios
         /// <summary>
         ///     Deletar registro
         /// </summary>
-        /// <param name="predicate"></param>
+        /// <param name="objects"></param>
         public void Remover(Curso entity)
         {
             using (var conn = _dataBase.CreateOpenConnection())

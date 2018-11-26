@@ -1,5 +1,5 @@
 ﻿// ***********************************************************************
-// Project: Infra
+// Project: IMOD.Infra
 // Crafted by: Grupo Estrela by Genetec
 // Date:  11 - 19 - 2018
 // ***********************************************************************
@@ -43,13 +43,10 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                
                 using (var cmd = _dataBase.UpdateText ("ColaboradoresCredenciais", conn))
                 {
                     try
                     {
-                        
-
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("ColaboradorCredencialID", entity.ColaboradorCredencialId, true)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("ColaboradorEmpresaID", DbType.Int32, entity.ColaboradorEmpresaId, false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("TecnologiaCredencialID", DbType.Int32, entity.TecnologiaCredencialId, false)));
@@ -72,11 +69,9 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Impressa", entity.Impressa, false)));
 
                         cmd.ExecuteNonQuery();
-                        
                     }
                     catch (Exception ex)
                     {
-                        
                         Utils.TraceException (ex);
                         throw;
                     }
@@ -121,16 +116,12 @@ namespace IMOD.Infra.Repositorios
         /// <param name="entity">Entidade</param>
         public void Criar(ColaboradorCredencial entity)
         {
-           
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                
                 using (var cmd = _dataBase.InsertText ("ColaboradoresCredenciais", conn))
                 {
                     try
                     {
-                        
-
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("ColaboradorCredencialID", entity.ColaboradorCredencialId, true)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("ColaboradorEmpresaID", DbType.Int32, entity.ColaboradorEmpresaId, false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("TecnologiaCredencialID", DbType.Int32, entity.TecnologiaCredencialId, false)));
@@ -153,12 +144,11 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Impressa", false, false)));
 
                         var key = Convert.ToInt32 (cmd.ExecuteScalar());
-                        
+
                         entity.ColaboradorCredencialId = key;
                     }
                     catch (Exception ex)
                     {
-                        
                         Utils.TraceException (ex);
                         throw;
                     }
@@ -179,9 +169,9 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter (new ParamSelect ("ColaboradorCredencialID", DbType.Int32, o, 0).Igual()));
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter (new ParamSelect ("CredencialStatusID", DbType.Int32, o, 1).Igual()));
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter (new ParamSelect ("FormatoCredencialID", DbType.Int32, o, 2).Igual()));
+                        cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("ColaboradorCredencialID", DbType.Int32, o, 0).Igual()));
+                        cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("CredencialStatusID", DbType.Int32, o, 1).Igual()));
+                        cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("FormatoCredencialID", DbType.Int32, o, 2).Igual()));
 
                         var reader = cmd.ExecuteReader();
                         var d1 = reader.MapToList<ColaboradorCredencial>();
@@ -205,22 +195,17 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                
                 using (var cmd = _dataBase.DeleteText ("ColaboradoresCredenciais", conn))
                 {
                     try
                     {
-                        
-
                         cmd.Parameters.Add (
-                            _dataBase.CreateParameter (new ParamDelete ("ColaboradorCredencialID",entity.ColaboradorCredencialId).Igual()));
+                            _dataBase.CreateParameter (new ParamDelete ("ColaboradorCredencialID", entity.ColaboradorCredencialId).Igual()));
 
                         cmd.ExecuteNonQuery();
-                        
                     }
                     catch (Exception ex)
                     {
-                        
                         Utils.TraceException (ex);
                     }
                 }
@@ -240,11 +225,11 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter (new ParamSelect ("ColaboradorCredencialID", DbType.Int32, o, 0).Igual()));
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter (new ParamSelect ("EmpresaNome", DbType.String, o, 1).Like()));
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("TipoCredencialID", DbType.String, o, 2).Igual()));
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("CredencialStatusID", DbType.String, o, 3).Igual()));
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("ColaboradorID", DbType.Int32, o, 4).Igual()));
+                        cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("ColaboradorCredencialID", DbType.Int32, o, 0).Igual()));
+                        cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("EmpresaNome", DbType.String, o, 1).Like()));
+                        cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("TipoCredencialID", DbType.String, o, 2).Igual()));
+                        cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("CredencialStatusID", DbType.String, o, 3).Igual()));
+                        cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("ColaboradorID", DbType.Int32, o, 4).Igual()));
 
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<ColaboradoresCredenciaisView>();

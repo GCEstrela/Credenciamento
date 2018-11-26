@@ -1,3 +1,8 @@
+﻿// ***********************************************************************
+// Project: IMOD.Infra
+// Crafted by: Grupo Estrela by Genetec
+// Date:  11 - 26 - 2018
+// ***********************************************************************
 
 #region
 
@@ -14,25 +19,24 @@ using IMOD.Infra.Ado.Interfaces.ParamSql;
 
 #endregion
 
-
 namespace IMOD.Infra.Repositorios
 {
-    public class EquipamentoVeiculoTipoServicoRepositorio :IEquipamentoVeiculoTipoServicoRepositorio 
+    public class EquipamentoVeiculoTipoServicoRepositorio : IEquipamentoVeiculoTipoServicoRepositorio
     {
-	    private readonly string  _connection = CurrentConfig.ConexaoString;
+        private readonly string _connection = CurrentConfig.ConexaoString;
         private readonly IDataBaseAdo _dataBase;
         private readonly IDataWorkerFactory _dataWorkerFactory = new DataWorkerFactory();
 
         #region Construtor
 
-        public  EquipamentoVeiculoTipoServicoRepositorio()
+        public EquipamentoVeiculoTipoServicoRepositorio()
         {
-          _dataBase = _dataWorkerFactory.ObterDataBaseSingleton (TipoDataBase.SqlServer, _connection);
+            _dataBase = _dataWorkerFactory.ObterDataBaseSingleton (TipoDataBase.SqlServer, _connection);
         }
 
         #endregion
 
-        #region Metodos
+        #region  Metodos
 
         /// <summary>
         ///     Criar registro
@@ -40,15 +44,15 @@ namespace IMOD.Infra.Repositorios
         /// <param name="entity"></param>
         public void Criar(EquipamentoVeiculoTipoServico entity)
         {
-             using (var conn = _dataBase.CreateOpenConnection())
+            using (var conn = _dataBase.CreateOpenConnection())
             {
                 using (var cmd = _dataBase.InsertText ("EquipamentoVeiculoTiposServicos", conn))
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("EquipamentoVeiculoTipoServicoID", entity.EquipamentoVeiculoTipoServicoId, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("EquipamentoVeiculoID", entity.EquipamentoVeiculoId, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("TipoServicoID", entity.TipoServicoId, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("EquipamentoVeiculoTipoServicoID", entity.EquipamentoVeiculoTipoServicoId, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("EquipamentoVeiculoID", entity.EquipamentoVeiculoId, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("TipoServicoID", entity.TipoServicoId, false)));
 
                         var key = Convert.ToInt32 (cmd.ExecuteScalar());
 
@@ -70,7 +74,7 @@ namespace IMOD.Infra.Repositorios
         /// <returns></returns>
         public EquipamentoVeiculoTipoServico BuscarPelaChave(int id)
         {
-           using (var conn = _dataBase.CreateOpenConnection())
+            using (var conn = _dataBase.CreateOpenConnection())
             {
                 using (var cmd = _dataBase.SelectText ("EquipamentoVeiculoTiposServicos", conn))
 
@@ -95,7 +99,7 @@ namespace IMOD.Infra.Repositorios
         /// <summary>
         ///     Listar
         /// </summary>
-        /// <param name="predicate">Expressão de consulta</param>
+        /// <param name="objects">Expressão de consulta</param>
         /// <returns></returns>
         public ICollection<EquipamentoVeiculoTipoServico> Listar(params object[] objects)
         {
@@ -106,10 +110,9 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EquipamentoVeiculoTipoServicoID",DbType.Int32, objects, 0).Igual()));
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EquipamentoVeiculoID", DbType.String, objects, 1).Like()));
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("TipoServicoID", DbType.Int32, objects, 2).Igual()));
-
+                        cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("EquipamentoVeiculoTipoServicoID", DbType.Int32, objects, 0).Igual()));
+                        cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("EquipamentoVeiculoID", DbType.String, objects, 1).Like()));
+                        cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("TipoServicoID", DbType.Int32, objects, 2).Igual()));
 
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<EquipamentoVeiculoTipoServico>();
@@ -137,9 +140,9 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("EquipamentoVeiculoTipoServicoID", entity.EquipamentoVeiculoTipoServicoId, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("EquipamentoVeiculoID", entity.EquipamentoVeiculoId, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("TipoServicoID", entity.TipoServicoId, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("EquipamentoVeiculoTipoServicoID", entity.EquipamentoVeiculoTipoServicoId, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("EquipamentoVeiculoID", entity.EquipamentoVeiculoId, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("TipoServicoID", entity.TipoServicoId, false)));
 
                         cmd.ExecuteNonQuery();
                     }
@@ -155,7 +158,7 @@ namespace IMOD.Infra.Repositorios
         /// <summary>
         ///     Deletar registro
         /// </summary>
-        /// <param name="predicate"></param>
+        /// <param name="objects"></param>
         public void Remover(EquipamentoVeiculoTipoServico entity)
         {
             using (var conn = _dataBase.CreateOpenConnection())
@@ -176,9 +179,6 @@ namespace IMOD.Infra.Repositorios
             }
         }
 
-        
         #endregion
     }
 }
-
- 

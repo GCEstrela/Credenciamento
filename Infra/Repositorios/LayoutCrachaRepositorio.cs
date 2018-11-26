@@ -1,3 +1,8 @@
+﻿// ***********************************************************************
+// Project: IMOD.Infra
+// Crafted by: Grupo Estrela by Genetec
+// Date:  11 - 26 - 2018
+// ***********************************************************************
 
 #region
 
@@ -14,25 +19,24 @@ using IMOD.Infra.Ado.Interfaces.ParamSql;
 
 #endregion
 
-
 namespace IMOD.Infra.Repositorios
 {
-    public class LayoutCrachaRepositorio :ILayoutCrachaRepositorio 
+    public class LayoutCrachaRepositorio : ILayoutCrachaRepositorio
     {
-	    private readonly string _connection = CurrentConfig.ConexaoString;
+        private readonly string _connection = CurrentConfig.ConexaoString;
         private readonly IDataBaseAdo _dataBase;
         private readonly IDataWorkerFactory _dataWorkerFactory = new DataWorkerFactory();
 
         #region Construtor
 
-        public  LayoutCrachaRepositorio()
+        public LayoutCrachaRepositorio()
         {
-          _dataBase = _dataWorkerFactory.ObterDataBaseSingleton (TipoDataBase.SqlServer, _connection);
+            _dataBase = _dataWorkerFactory.ObterDataBaseSingleton (TipoDataBase.SqlServer, _connection);
         }
 
         #endregion
 
-        #region Metodos
+        #region  Metodos
 
         /// <summary>
         ///     Criar registro
@@ -40,17 +44,16 @@ namespace IMOD.Infra.Repositorios
         /// <param name="entity"></param>
         public void Criar(LayoutCracha entity)
         {
-             using (var conn = _dataBase.CreateOpenConnection())
+            using (var conn = _dataBase.CreateOpenConnection())
             {
                 using (var cmd = _dataBase.InsertText ("LayoutsCrachas", conn))
                 {
                     try
                     {
-
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("LayoutCrachaID", entity.LayoutCrachaId, true)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Nome", entity.Nome, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("LayoutCrachaGUID", entity.LayoutCrachaGuid, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Valor", entity.Valor, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("LayoutCrachaID", entity.LayoutCrachaId, true)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Nome", entity.Nome, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("LayoutCrachaGUID", entity.LayoutCrachaGuid, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Valor", entity.Valor, false)));
 
                         var key = Convert.ToInt32 (cmd.ExecuteScalar());
 
@@ -72,7 +75,7 @@ namespace IMOD.Infra.Repositorios
         /// <returns></returns>
         public LayoutCracha BuscarPelaChave(int id)
         {
-           using (var conn = _dataBase.CreateOpenConnection())
+            using (var conn = _dataBase.CreateOpenConnection())
             {
                 using (var cmd = _dataBase.SelectText ("LayoutsCrachas", conn))
 
@@ -97,7 +100,7 @@ namespace IMOD.Infra.Repositorios
         /// <summary>
         ///     Listar
         /// </summary>
-        /// <param name="predicate">Expressão de consulta</param>
+        /// <param name="objects">Expressão de consulta</param>
         /// <returns></returns>
         public ICollection<LayoutCracha> Listar(params object[] objects)
         {
@@ -108,8 +111,8 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Nome",DbType.String , objects, 0).Igual()));
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Valor", DbType.String, objects, 1).Like()));
+                        cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("Nome", DbType.String, objects, 0).Igual()));
+                        cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("Valor", DbType.String, objects, 1).Like()));
 
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<LayoutCracha>();
@@ -137,11 +140,10 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("LayoutCrachaID", entity.LayoutCrachaId, true)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Nome", entity.Nome, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("LayoutCrachaGUID", entity.LayoutCrachaGuid, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Valor", entity.Valor, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("LayoutCrachaID", entity.LayoutCrachaId, true)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Nome", entity.Nome, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("LayoutCrachaGUID", entity.LayoutCrachaGuid, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Valor", entity.Valor, false)));
 
                         cmd.ExecuteNonQuery();
                     }
@@ -157,7 +159,7 @@ namespace IMOD.Infra.Repositorios
         /// <summary>
         ///     Deletar registro
         /// </summary>
-        /// <param name="predicate"></param>
+        /// <param name="objects"></param>
         public void Remover(LayoutCracha entity)
         {
             using (var conn = _dataBase.CreateOpenConnection())
@@ -178,9 +180,6 @@ namespace IMOD.Infra.Repositorios
             }
         }
 
-        
         #endregion
     }
 }
-
- 

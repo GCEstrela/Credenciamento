@@ -1,4 +1,4 @@
-// ***********************************************************************
+﻿// ***********************************************************************
 // Project: IMOD.Infra
 // Crafted by: Grupo Estrela by Genetec
 // Date:  11 - 22 - 2018
@@ -50,11 +50,10 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("CredencialImpressaoID", DbType.Int32, entity.CredencialImpressaoId, true)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("ColaboradorCredencialID", DbType.Int32, entity.ColaboradorCredencialId, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("DataImpressao", DbType.Date, entity.DataImpressao, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Cobrar", DbType.Boolean, entity.Cobrar, false)));
-
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("CredencialImpressaoID", DbType.Int32, entity.CredencialImpressaoId, true)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("ColaboradorCredencialID", DbType.Int32, entity.ColaboradorCredencialId, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("DataImpressao", DbType.Date, entity.DataImpressao, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Cobrar", DbType.Boolean, entity.Cobrar, false)));
 
                         var key = Convert.ToInt32 (cmd.ExecuteScalar());
 
@@ -101,7 +100,7 @@ namespace IMOD.Infra.Repositorios
         /// <summary>
         ///     Listar
         /// </summary>
-        /// <param name="predicate">Expressão de consulta</param>
+        /// <param name="objects">Expressão de consulta</param>
         /// <returns></returns>
         public ICollection<ColaboradorCredencialimpresssao> Listar(params object[] objects)
         {
@@ -112,9 +111,9 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("ColaboradorCredencialID", DbType.Int32, objects, 0).Igual()));
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("DataImpressao", DbType.Date, objects, 1).Igual()));
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Cobrar", DbType.Boolean, objects, 2).Igual()));
+                        cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("ColaboradorCredencialID", DbType.Int32, objects, 0).Igual()));
+                        cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("DataImpressao", DbType.Date, objects, 1).Igual()));
+                        cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("Cobrar", DbType.Boolean, objects, 2).Igual()));
 
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<ColaboradorCredencialimpresssao>();
@@ -142,10 +141,10 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("CredencialImpressaoID", DbType.Int32, entity.CredencialImpressaoId, true)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("ColaboradorCredencialID", DbType.Int32, entity.ColaboradorCredencialId, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("DataImpressao", DbType.Date, entity.DataImpressao, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Cobrar", DbType.Boolean, entity.Cobrar, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("CredencialImpressaoID", DbType.Int32, entity.CredencialImpressaoId, true)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("ColaboradorCredencialID", DbType.Int32, entity.ColaboradorCredencialId, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("DataImpressao", DbType.Date, entity.DataImpressao, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Cobrar", DbType.Boolean, entity.Cobrar, false)));
 
                         cmd.ExecuteNonQuery();
                     }
@@ -161,7 +160,7 @@ namespace IMOD.Infra.Repositorios
         /// <summary>
         ///     Deletar registro
         /// </summary>
-        /// <param name="predicate"></param>
+        /// <param name="objects"></param>
         public void Remover(ColaboradorCredencialimpresssao entity)
         {
             using (var conn = _dataBase.CreateOpenConnection())
