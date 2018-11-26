@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
+using iModSCCredenciamento.ViewModels;
 using IMOD.Domain.Entities;
 using IMOD.Infra.Repositorios;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -14,6 +15,11 @@ namespace UnitTestImod
         [TestMethod]
         public void ColabororadorCredencial_Alterar_com_sucesso()
         {
+
+
+            //var rep = new ColaboradoresAnexosViewModel();
+           
+
             var repositorio = new ColaboradorCredencialRepositorio();
             repositorio.Alterar(new ColaboradorCredencial
             {

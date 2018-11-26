@@ -10,6 +10,8 @@ using System;
 using System.Collections.Generic;
 using IMOD.Application.Interfaces;
 using IMOD.Domain.Entities;
+using IMOD.Domain.Interfaces;
+using IMOD.Infra.Repositorios;
 
 #endregion
 
@@ -17,7 +19,12 @@ namespace IMOD.Application.Service
 {
     public class ColaboradorAnexoService : IColaboradorAnexoService
     {
-        private readonly IColaboradorAnexoService _colaboradorAnexoService = new ColaboradorAnexoService();
+        private readonly IColaboradorAnexoRepositorio _repositorio;
+
+        public ColaboradorAnexoService()
+        {
+            _repositorio=new ColaboradorAnexoRepositorio();
+        }
 
         #region  Metodos
 
@@ -28,7 +35,7 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public ICollection<ColaboradorAnexo> ListarPorNome(string nomeArquivo)
         {
-            return _colaboradorAnexoService.Listar ("%" + nomeArquivo + "%", 0);
+            return _repositorio.Listar ("%" + nomeArquivo + "%", 0);
         }
 
         /// <summary>
@@ -38,7 +45,7 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public ICollection<ColaboradorAnexo> ListarPorColaborador(int colaboradorId)
         {
-            return _colaboradorAnexoService.Listar ("", colaboradorId);
+            return _repositorio.Listar ("", colaboradorId);
         }
 
         /// <summary>
@@ -47,7 +54,7 @@ namespace IMOD.Application.Service
         /// <param name="entity">Entidade</param>
         public void Criar(ColaboradorAnexo entity)
         {
-            _colaboradorAnexoService.Criar (entity);
+            _repositorio.Criar (entity);
         }
 
         /// <summary>
@@ -57,7 +64,7 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public ColaboradorAnexo BuscarPelaChave(int id)
         {
-            return _colaboradorAnexoService.BuscarPelaChave (id);
+            return _repositorio.BuscarPelaChave (id);
         }
 
         /// <summary>
@@ -66,7 +73,7 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public ICollection<ColaboradorAnexo> Listar(params object[] objects)
         {
-            return _colaboradorAnexoService.Listar (objects);
+            return _repositorio.Listar (objects);
         }
 
         /// <summary>
@@ -75,7 +82,7 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void Alterar(ColaboradorAnexo entity)
         {
-            _colaboradorAnexoService.Alterar(entity);
+            _repositorio.Alterar(entity);
         }
 
         /// <summary>
@@ -84,7 +91,7 @@ namespace IMOD.Application.Service
         /// <param name="entity">Entidade</param>
         public void Remover(ColaboradorAnexo entity)
         {
-            _colaboradorAnexoService.Remover(entity);
+            _repositorio.Remover(entity);
         }
 
         #endregion

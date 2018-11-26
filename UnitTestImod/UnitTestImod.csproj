@@ -63,6 +63,10 @@
       <Project>{f7dc651f-cb04-40ca-ac1b-c2355b474cf3}</Project>
       <Name>IMOD.Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\iModSCCredenciamento\iModSCCredenciamento.csproj">
+      <Project>{974f5875-4cfb-4926-8273-d1bf96ac8242}</Project>
+      <Name>iModSCCredenciamento</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Infra\IMOD.Infra.csproj">
       <Project>{0b4ad570-efa6-4207-b4c1-3e95050452ac}</Project>
       <Name>IMOD.Infra</Name>
