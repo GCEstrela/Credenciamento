@@ -114,10 +114,10 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("NomeSeguradora",DbType.String , objects, 0)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("NumeroApolice", DbType.String, objects, 1)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("Emissao", DbType.Date, objects, 2)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("Validade", DbType.Date, objects, 3)));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("NomeSeguradora",DbType.String , objects, 0).Like()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("NumeroApolice", DbType.String, objects, 1).Like()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Emissao", DbType.Date, objects, 2).Like()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Validade", DbType.Date, objects, 3).Like()));
 
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<EmpresaSeguro>();

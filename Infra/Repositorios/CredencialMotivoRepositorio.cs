@@ -111,9 +111,9 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("CredencialmotivoID",DbType.Int16, objects, 0)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("Descricao", DbType.String, objects, 1)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("Tipo", DbType.Int16, objects, 2)));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("CredencialmotivoID",DbType.Int16, objects, 0).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Descricao", DbType.String, objects, 1).Like()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Tipo", DbType.Int16, objects, 2).Igual()));
 
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<CredencialMotivo>();

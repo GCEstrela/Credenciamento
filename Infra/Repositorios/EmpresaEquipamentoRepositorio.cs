@@ -126,11 +126,11 @@ namespace IMOD.Infra.Repositorios
                     try
                     {
 
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("Descricao",DbType.String, objects, 0)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("Marca", DbType.String, objects, 1)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("Modelo", DbType.String, objects, 2)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("Ano", DbType.String, objects, 3)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("Patrimonio", DbType.String, objects, 4)));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Descricao",DbType.String, objects, 0).Like()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Marca", DbType.String, objects, 1).Like()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Modelo", DbType.String, objects, 2).Like()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Ano", DbType.String, objects, 3).Like()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Patrimonio", DbType.String, objects, 4).Like()));
 
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<EmpresaEquipamento>();

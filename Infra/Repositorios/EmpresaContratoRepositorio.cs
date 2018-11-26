@@ -136,13 +136,13 @@ namespace IMOD.Infra.Repositorios
                         //cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("NomeArquivo", o, 0).Like()));
                         //cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("ColaboradorID", o, 1).Igual()));
 
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("NumeroContrato",DbType.Int32, objects, 0)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("Descricao", DbType.String, objects, 1)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("Emissao", DbType.Date, objects, 2)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("Validade", DbType.Date, objects, 3)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("Contratante", DbType.String, objects, 4)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("TipoCobrancaID", DbType.Int32, objects, 5)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("EmailResp", DbType.String, objects, 6)));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("NumeroContrato",DbType.Int32, objects, 0).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Descricao", DbType.String, objects, 1).Like()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Emissao", DbType.Date, objects, 2).Like()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Validade", DbType.Date, objects, 3).Like()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Contratante", DbType.String, objects, 4).Like()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("TipoCobrancaID", DbType.Int32, objects, 5).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmailResp", DbType.String, objects, 6).Like()));
 
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<EmpresaContrato>();

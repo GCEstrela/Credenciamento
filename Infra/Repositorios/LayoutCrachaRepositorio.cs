@@ -108,8 +108,8 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("Nome",DbType.String , objects, 0)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("Valor", DbType.String, objects, 1)));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Nome",DbType.String , objects, 0).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Valor", DbType.String, objects, 1).Like()));
 
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<LayoutCracha>();

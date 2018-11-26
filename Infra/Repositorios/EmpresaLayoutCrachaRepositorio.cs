@@ -114,9 +114,9 @@ namespace IMOD.Infra.Repositorios
                         //cmd.CreateParameterSelect(_dataBase.CreateParameter (new ParamSelect ("NomeArquivo", o, 0).Like()));
                         //cmd.CreateParameterSelect(_dataBase.CreateParameter (new ParamSelect ("ColaboradorID", o, 1).Igual()));
 
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("EmpresaLayoutCrachaID",DbType.Int32, objects, 0)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("EmpresaID", DbType.Int32, objects, 1)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("LayoutCrachaID", DbType.Int32, objects, 2)));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmpresaLayoutCrachaID",DbType.Int32, objects, 0).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmpresaID", DbType.Int32, objects, 1).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("LayoutCrachaID", DbType.Int32, objects, 2).Igual()));
 
 
                         var reader = cmd.ExecuteReaderSelect();
