@@ -133,13 +133,14 @@ namespace UnitTestImod
                     Tipo=1
 
                 };
-                repositorio.Criar(d1);
+                //repositorio.Criar(d1);
 
                 d1.Descricao = "Descrição Motivo alterado" + i;
-                repositorio.Alterar(d1);
+                //repositorio.Alterar(d1);
 
             }
-            var list = repositorio.Listar();    //
+            //var list = repositorio.Listar();    //
+            var list1 = repositorio.Listar(0,"%DESLIGA%",0).ToList();
         }
 
         [TestMethod]
