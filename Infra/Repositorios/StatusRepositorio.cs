@@ -17,17 +17,17 @@ using IMOD.Infra.Ado.Interfaces.ParamSql;
 
 namespace IMOD.Infra.Repositorios
 {
-    public class EstadosRepositorio :IEstadosRepositorio 
+    public class StatusRepositorio : IStatusRepositorio
     {
-	    private readonly string _connection = CurrentConfig.ConexaoString;
+        private readonly string _connection = CurrentConfig.ConexaoString;
         private readonly IDataBaseAdo _dataBase;
         private readonly IDataWorkerFactory _dataWorkerFactory = new DataWorkerFactory();
 
         #region Construtor
 
-        public  EstadosRepositorio()
+        public StatusRepositorio()
         {
-          _dataBase = _dataWorkerFactory.ObterDataBaseSingleton (TipoDataBase.SqlServer, _connection);
+            _dataBase = _dataWorkerFactory.ObterDataBaseSingleton(TipoDataBase.SqlServer, _connection);
         }
 
         #endregion
@@ -38,26 +38,26 @@ namespace IMOD.Infra.Repositorios
         ///     Criar registro
         /// </summary>
         /// <param name="entity"></param>
-        public void Criar(Estados entity)
+        public void Criar(Status entity)
         {
-             using (var conn = _dataBase.CreateOpenConnection())
+            using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.InsertText ("Estados", conn))
+                using (var cmd = _dataBase.InsertText("Status", conn))
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("EstadoID", entity.EstadoId, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Nome", entity.Nome, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("UF", entity.Uf, false)));
+
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("StatusID", entity.StatusId, true)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Descricao", entity.Descricao, false)));
 
 
-                        var key = Convert.ToInt32 (cmd.ExecuteScalar());
+                        var key = Convert.ToInt32(cmd.ExecuteScalar());
 
-                        entity.EstadoId = key;
+                        entity.StatusId = key;
                     }
                     catch (Exception ex)
                     {
-                        Utils.TraceException (ex);
+                        Utils.TraceException(ex);
                         throw;
                     }
                 }
@@ -69,24 +69,24 @@ namespace IMOD.Infra.Repositorios
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public Estados BuscarPelaChave(int id)
+        public Status BuscarPelaChave(int id)
         {
-           using (var conn = _dataBase.CreateOpenConnection())
+            using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText ("Estados", conn))
+                using (var cmd = _dataBase.SelectText("Status", conn))
 
                 {
                     try
                     {
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("EstadoId", DbType.Int32, id).Igual()));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("StatusId", DbType.Int32, id).Igual()));
                         var reader = cmd.ExecuteReader();
-                        var d1 = reader.MapToList<Estados>();
+                        var d1 = reader.MapToList<Status>();
 
                         return d1.FirstOrDefault();
                     }
                     catch (Exception ex)
                     {
-                        Utils.TraceException (ex);
+                        Utils.TraceException(ex);
                         throw;
                     }
                 }
@@ -98,27 +98,25 @@ namespace IMOD.Infra.Repositorios
         /// </summary>
         /// <param name="predicate">Expressão de consulta</param>
         /// <returns></returns>
-        public ICollection<Estados> Listar(params object[] objects)
+        public ICollection<Status> Listar(params object[] objects)
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText ("Estados", conn))
+                using (var cmd = _dataBase.SelectText("Status", conn))
 
                 {
                     try
                     {
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EstadoID", DbType.Int32, objects, 0).Igual()));
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Nome", DbType.String, objects, 1).Like()));
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("UF",DbType.String, objects, 2).Like()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Descricao", objects, 0).Like()));
 
                         var reader = cmd.ExecuteReaderSelect();
-                        var d1 = reader.MapToList<Estados>();
+                        var d1 = reader.MapToList<Status>();
 
                         return d1;
                     }
                     catch (Exception ex)
                     {
-                        Utils.TraceException (ex);
+                        Utils.TraceException(ex);
                         throw;
                     }
                 }
@@ -129,23 +127,22 @@ namespace IMOD.Infra.Repositorios
         ///     Alterar registro
         /// </summary>
         /// <param name="entity"></param>
-        public void Alterar(Estados entity)
+        public void Alterar(Status entity)
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.UpdateText ("Estados", conn))
+                using (var cmd = _dataBase.UpdateText("Status", conn))
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("EstadoID", entity.EstadoId, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Nome", entity.Nome, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("UF", entity.Uf, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("StatusID", entity.StatusId, true)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Descricao", entity.Descricao, false)));
 
                         cmd.ExecuteNonQuery();
                     }
                     catch (Exception ex)
                     {
-                        Utils.TraceException (ex);
+                        Utils.TraceException(ex);
                         throw;
                     }
                 }
@@ -156,29 +153,30 @@ namespace IMOD.Infra.Repositorios
         ///     Deletar registro
         /// </summary>
         /// <param name="predicate"></param>
-        public void Remover(Estados entity)
+        public void Remover(Status entity)
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.DeleteText ("Estados", conn))
+                using (var cmd = _dataBase.DeleteText("Status", conn))
                 {
                     try
                     {
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamDelete ("EstadoId", entity.EstadoId).Igual()));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamDelete("StatusId", entity.StatusId).Igual()));
 
                         cmd.ExecuteNonQuery();
                     }
                     catch (Exception ex)
                     {
-                        Utils.TraceException (ex);
+                        Utils.TraceException(ex);
                     }
                 }
             }
         }
 
-        
+
+
+
         #endregion
     }
 }
 
- 

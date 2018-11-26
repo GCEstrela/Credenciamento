@@ -1,8 +1,3 @@
-// ***********************************************************************
-// Project: IMOD.Infra
-// Crafted by: Grupo Estrela by Genetec
-// Date:  11 - 22 - 2018
-// ***********************************************************************
 
 #region
 
@@ -19,9 +14,10 @@ using IMOD.Infra.Ado.Interfaces.ParamSql;
 
 #endregion
 
+
 namespace IMOD.Infra.Repositorios
 {
-    public class AreaAcessoRepositorio : IAreaAcessoRepositorio
+    public class RelatoriosGerenciaisRepositorio : IRelatoriosGerenciaisRepositorio
     {
         private readonly string _connection = CurrentConfig.ConexaoString;
         private readonly IDataBaseAdo _dataBase;
@@ -29,36 +25,37 @@ namespace IMOD.Infra.Repositorios
 
         #region Construtor
 
-        public AreaAcessoRepositorio()
+        public RelatoriosGerenciaisRepositorio()
         {
             _dataBase = _dataWorkerFactory.ObterDataBaseSingleton(TipoDataBase.SqlServer, _connection);
         }
 
         #endregion
 
-        #region  Metodos
+        #region Metodos
 
         /// <summary>
         ///     Criar registro
         /// </summary>
-        /// <param name=" entity"></param>
-        public void Criar(AreaAcesso entity)
+        /// <param name="entity"></param>
+        public void Criar(RelatoriosGerenciais entity)
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.InsertText("AreaAcesso", conn))
+                using (var cmd = _dataBase.InsertText("RelatoriosGerenciais", conn))
                 {
                     try
                     {
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("ColaboradorAnexoId", entity.ColaboradorAnexoId, true)));
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Descricao", entity.Descricao, false)));
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("NomeArquivo", entity.NomeArquivo, false)));
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("ColaboradorID", entity.ColaboradorId, false)));
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Arquivo", entity.Arquivo, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("RelatorioID", entity.RelatorioId, true)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Nome", entity.Nome, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("NomeArquivoRPT", entity.NomeArquivoRpt, true)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("ArquivoRPT", entity.ArquivoRpt, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Ativo", entity.Ativo, true)));
+
 
                         var key = Convert.ToInt32(cmd.ExecuteScalar());
 
-                        entity.AreaAcessoId = key;
+                        entity.RelatorioId = key;
                     }
                     catch (Exception ex)
                     {
@@ -74,18 +71,18 @@ namespace IMOD.Infra.Repositorios
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public AreaAcesso BuscarPelaChave(int id)
+        public RelatoriosGerenciais BuscarPelaChave(int id)
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText("AreaAcesso", conn))
+                using (var cmd = _dataBase.SelectText("RelatoriosGerenciais", conn))
 
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("AreaAcessoId", DbType.Int32, id).Igual()));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("RelatorioId", DbType.Int32, id).Igual()));
                         var reader = cmd.ExecuteReader();
-                        var d1 = reader.MapToList<AreaAcesso>();
+                        var d1 = reader.MapToList<RelatoriosGerenciais>();
 
                         return d1.FirstOrDefault();
                     }
@@ -103,20 +100,19 @@ namespace IMOD.Infra.Repositorios
         /// </summary>
         /// <param name="predicate">Expressão de consulta</param>
         /// <returns></returns>
-        public ICollection<AreaAcesso> Listar(params object[] objects)
+        public ICollection<RelatoriosGerenciais> Listar(params object[] objects)
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText("AreaAcesso", conn))
+                using (var cmd = _dataBase.SelectText("RelatoriosGerenciais", conn))
 
                 {
                     try
                     {
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("NomeArquivo", o, 0).Like()));
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("ColaboradorID", o, 1).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Nome", objects, 0).Like()));
 
                         var reader = cmd.ExecuteReaderSelect();
-                        var d1 = reader.MapToList<AreaAcesso>();
+                        var d1 = reader.MapToList<RelatoriosGerenciais>();
 
                         return d1;
                     }
@@ -133,19 +129,19 @@ namespace IMOD.Infra.Repositorios
         ///     Alterar registro
         /// </summary>
         /// <param name="entity"></param>
-        public void Alterar(AreaAcesso entity)
+        public void Alterar(RelatoriosGerenciais entity)
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.UpdateText("AreaAcesso", conn))
+                using (var cmd = _dataBase.UpdateText("RelatoriosGerenciais", conn))
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("AreaAcessoId", entity.AreaAcessoId, true)));
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Descricao", entity.Descricao, false)));
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("NomeArquivo", entity.NomeArquivo, false)));
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("ColaboradorID", entity.ColaboradorId, false)));
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Arquivo", entity.Arquivo, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("RelatorioID", entity.RelatorioId, true)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Nome", entity.Nome, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("NomeArquivoRPT", entity.NomeArquivoRpt, true)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("ArquivoRPT", entity.ArquivoRpt, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Ativo", entity.Ativo, true)));
 
                         cmd.ExecuteNonQuery();
                     }
@@ -162,15 +158,15 @@ namespace IMOD.Infra.Repositorios
         ///     Deletar registro
         /// </summary>
         /// <param name="predicate"></param>
-        public void Remover(AreaAcesso entity)
+        public void Remover(RelatoriosGerenciais entity)
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.DeleteText("AreaAcesso", conn))
+                using (var cmd = _dataBase.DeleteText("RelatoriosGerenciais", conn))
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamDelete("AreaAcessoId", entity.AreaAcessoId).Igual()));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamDelete("RelatorioID", entity.RelatorioId).Igual()));
 
                         cmd.ExecuteNonQuery();
                     }
@@ -182,6 +178,10 @@ namespace IMOD.Infra.Repositorios
             }
         }
 
+
+
+
         #endregion
     }
 }
+
