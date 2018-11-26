@@ -42,15 +42,18 @@ namespace IMOD.Infra.Repositorios
         {
              using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.InsertText ("Pendencia", conn))
+                using (var cmd = _dataBase.InsertText ("Pendencias", conn))
                 {
                     try
                     {
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("ColaboradorAnexoId", entity.ColaboradorAnexoId, true)));
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Descricao", entity.Descricao, false)));
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("NomeArquivo", entity.NomeArquivo, false)));
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("ColaboradorID", entity.ColaboradorId, false)));
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Arquivo", entity.Arquivo, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("PendenciaID", entity.PendenciaId, true)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("TipoPendenciaID", entity.TipoPendenciaId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Descricao", entity.Descricao, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("DataLimite", entity.DataLimite, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Impeditivo", entity.Impeditivo, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("ColaboradorID", entity.ColaboradorId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("EmpresaID", entity.EmpresaId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("VeiculoID", entity.VeiculoId, false)));
 
                         var key = Convert.ToInt32 (cmd.ExecuteScalar());
 
@@ -74,7 +77,7 @@ namespace IMOD.Infra.Repositorios
         {
            using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText ("Pendencia", conn))
+                using (var cmd = _dataBase.SelectText ("Pendencias", conn))
 
                 {
                     try
@@ -103,13 +106,14 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText ("Pendencia", conn))
+                using (var cmd = _dataBase.SelectText ("Pendencias", conn))
 
                 {
                     try
                     {
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("NomeArquivo", o, 0).Like()));
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("ColaboradorID", o, 1).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Descricao",DbType.String, objects, 0).Like()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("DataLimite",DbType.Date, objects, 1).Like()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Impeditivo",DbType.Boolean, objects, 2).Igual()));
 
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<Pendencia>();
@@ -133,15 +137,19 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.UpdateText ("Pendencia", conn))
+                using (var cmd = _dataBase.UpdateText ("Pendencias", conn))
                 {
                     try
                     {
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("PendenciaId", entity.PendenciaId, true)));
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Descricao", entity.Descricao, false)));
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("NomeArquivo", entity.NomeArquivo, false)));
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("ColaboradorID", entity.ColaboradorId, false)));
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Arquivo", entity.Arquivo, false)));
+
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("PendenciaID", entity.PendenciaId, true)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("TipoPendenciaID", entity.TipoPendenciaId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Descricao", entity.Descricao, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("DataLimite", entity.DataLimite, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Impeditivo", entity.Impeditivo, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("ColaboradorID", entity.ColaboradorId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("EmpresaID", entity.EmpresaId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("VeiculoID", entity.VeiculoId, false)));
 
                         cmd.ExecuteNonQuery();
                     }
@@ -162,7 +170,7 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.DeleteText ("Pendencia", conn))
+                using (var cmd = _dataBase.DeleteText ("Pendencias", conn))
                 {
                     try
                     {

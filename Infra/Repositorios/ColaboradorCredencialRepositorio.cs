@@ -179,9 +179,10 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("ColaboradorCredencialID", DbType.Int32, o, 0).Igual()));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("CredencialStatusID", DbType.Int32, o, 1).Igual()));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("FormatoCredencialID", DbType.Int32, o, 2).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter (new ParamSelect ("ColaboradorCredencialID", DbType.Int32, o, 0).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter (new ParamSelect ("CredencialStatusID", DbType.Int32, o, 1).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter (new ParamSelect ("FormatoCredencialID", DbType.Int32, o, 2).Igual()));
+
                         var reader = cmd.ExecuteReader();
                         var d1 = reader.MapToList<ColaboradorCredencial>();
 
@@ -239,11 +240,11 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("ColaboradorCredencialID", DbType.Int32, o, 0).Igual()));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("EmpresaNome", DbType.String, o, 1).Like()));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("TipoCredencialID", DbType.String, o, 2).Igual()));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("CredencialStatusID", DbType.String, o, 3).Igual()));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("ColaboradorID", DbType.Int32, o, 4).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter (new ParamSelect ("ColaboradorCredencialID", DbType.Int32, o, 0).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter (new ParamSelect ("EmpresaNome", DbType.String, o, 1).Like()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("TipoCredencialID", DbType.String, o, 2).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("CredencialStatusID", DbType.String, o, 3).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("ColaboradorID", DbType.Int32, o, 4).Igual()));
 
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<ColaboradoresCredenciaisView>();

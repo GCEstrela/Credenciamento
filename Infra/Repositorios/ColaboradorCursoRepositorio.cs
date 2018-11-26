@@ -46,15 +46,17 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.InsertText ("ColaboradorCurso", conn))
+                using (var cmd = _dataBase.InsertText ("ColaboradoresCursos", conn))
                 {
                     try
                     {
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("ColaboradorAnexoId", entity.ColaboradorAnexoId, true)));
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Descricao", entity.Descricao, false)));
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("NomeArquivo", entity.NomeArquivo, false)));
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("ColaboradorID", entity.ColaboradorId, false)));
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Arquivo", entity.Arquivo, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("ColaboradorCursoID", entity.ColaboradorCursoId, true)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("ColaboradorID", entity.ColaboradorId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("CursoID", entity.CursoId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("NomeArquivo", entity.NomeArquivo, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Arquivo", entity.Arquivo, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Validade", entity.Validade, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Controlado", entity.Controlado, false)));
 
                         var key = Convert.ToInt32 (cmd.ExecuteScalar());
 
@@ -107,13 +109,19 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText ("ColaboradorCurso", conn))
+                using (var cmd = _dataBase.SelectText ("ColaboradoresCursos", conn))
 
                 {
                     try
                     {
                         //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("NomeArquivo", o, 0).Like()));
                         //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("ColaboradorID", o, 1).Igual()));
+
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("ColaboradorID", DbType.Int32, objects, 0).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("CursoID", DbType.Int32, objects, 1).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("NomeArquivo", DbType.String, objects, 2).Like()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Validade", DbType.DateTime, objects, 3).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Controlado", DbType.Boolean, objects, 4).Igual()));
 
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<ColaboradorCurso>();
@@ -137,15 +145,19 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.UpdateText ("ColaboradorCurso", conn))
+                using (var cmd = _dataBase.UpdateText ("ColaboradoresCursos", conn))
                 {
                     try
                     {
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("ColaboradorCursoId", entity.ColaboradorCursoId, true)));
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Descricao", entity.Descricao, false)));
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("NomeArquivo", entity.NomeArquivo, false)));
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("ColaboradorID", entity.ColaboradorId, false)));
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Arquivo", entity.Arquivo, false)));
+
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("ColaboradorCursoID", entity.ColaboradorCursoId, true)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("ColaboradorID", entity.ColaboradorId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("CursoID", entity.CursoId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("NomeArquivo", entity.NomeArquivo, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Arquivo", entity.Arquivo, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Validade", entity.Validade, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Controlado", entity.Controlado, false)));
+
 
                         cmd.ExecuteNonQuery();
                     }

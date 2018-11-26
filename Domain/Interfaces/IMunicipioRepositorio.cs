@@ -7,12 +7,27 @@
 #region
 
 using IMOD.Domain.Entities;
+using System.Collections.Generic;
 
 #endregion
 
 namespace IMOD.Domain.Interfaces
 {
-    public interface IMunicipioRepositorio : IRepositorioBaseAdoNet<Municipio>
+    public interface IMunicipioRepositorio //: IRepositorioBaseAdoNet<Municipio>
     {
+        /// <summary>
+        ///     Buscar pela chave primaria
+        /// </summary>
+        /// <param name="id">Primary key</param>
+        /// <returns></returns>
+        Municipio BuscarPelaChave(int id);
+
+        /// <summary>
+        ///     Listar
+        /// </summary>
+        /// <returns></returns>
+        ICollection<Municipio> Listar(params object[] objects);
+
+    
     }
 }
