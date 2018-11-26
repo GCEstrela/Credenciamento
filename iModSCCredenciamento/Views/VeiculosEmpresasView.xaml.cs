@@ -33,7 +33,7 @@ namespace iModSCCredenciamento.Views
         #endregion
 
         #region Vinculo do UserControl
-        static int _veiculoIDFisrt = 0;
+        static int _EquipamentoVeiculoIDFisrt = 0;
         public int VeiculoSelecionadoIDView
         {
             get { return (int)GetValue(VeiculoSelecionadoIDViewProperty); }
@@ -44,11 +44,11 @@ namespace iModSCCredenciamento.Views
             DependencyProperty.Register("VeiculoSelecionadoIDView", typeof(int), typeof(VeiculosEmpresasView), new PropertyMetadata(0, PropertyChanged));
         private static void PropertyChanged(DependencyObject source, DependencyPropertyChangedEventArgs e)
         {
-            int _veiculoID = Convert.ToInt32(e.NewValue);
-            if (_veiculoID != _veiculoIDFisrt && _veiculoID != 0)
+            int _EquipamentoVeiculoID = Convert.ToInt32(e.NewValue);
+            if (_EquipamentoVeiculoID != _EquipamentoVeiculoIDFisrt && _EquipamentoVeiculoID != 0)
             {
-                ((iModSCCredenciamento.ViewModels.VeiculosEmpresasViewModel)((System.Windows.FrameworkElement)source).DataContext).OnAtualizaCommand(_veiculoID);
-                _veiculoIDFisrt = _veiculoID;
+                ((iModSCCredenciamento.ViewModels.VeiculosEmpresasViewModel)((System.Windows.FrameworkElement)source).DataContext).OnAtualizaCommand(_EquipamentoVeiculoID);
+                _EquipamentoVeiculoIDFisrt = _EquipamentoVeiculoID;
             }
         }
 

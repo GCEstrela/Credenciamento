@@ -5,7 +5,7 @@
 // ***********************************************************************
 
 #region
- 
+
 using System.Collections.Generic;
 using IMOD.Application.Interfaces;
 using IMOD.Domain.Entities;
@@ -21,7 +21,7 @@ namespace IMOD.Application.Service
     {
         private readonly IColaboradorRepositorio _repositorio = new ColaboradorRepositorio();
         private readonly IColaboradorCredencialRepositorio _repositorioCredencial = new ColaboradorCredencialRepositorio();
-        
+
         #region  Metodos
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public ICollection<Colaborador> ListarColaboradorPorCredencial(int colaboradorCredencialId)
         {
-            return _repositorio.Listar (colaboradorCredencialId, "", "");
+            return _repositorio.Listar(colaboradorCredencialId, "", "");
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public ICollection<Colaborador> ListarPorColaboradorPorCpf(string cpf)
         {
-            return _repositorio.Listar (0, cpf, 0);
+            return _repositorio.Listar(0, cpf, 0);
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public ICollection<Colaborador> ListarColaboradorPorNome(string nome)
         {
-            return _repositorio.Listar (0, "", "%" + nome + "%");
+            return _repositorio.Listar(0, "", "%" + nome + "%");
         }
 
         /// <summary>
@@ -61,19 +61,19 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public bool ExisteColaborador(int idcolaborador)
         {
-            var d1 = BuscarPelaChave (idcolaborador);
+            var d1 = BuscarPelaChave(idcolaborador);
             return d1 != null;
         }
 
 
- 
+
         /// <summary>
         ///     Criar registro
         /// </summary>
         /// <param name="entity">Entidade</param>
         public void Criar(Colaborador entity)
         {
-            _repositorio.Criar (entity);
+            _repositorio.Criar(entity);
         }
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public Colaborador BuscarPelaChave(int id)
         {
-            return _repositorio.BuscarPelaChave (id);
+            return _repositorio.BuscarPelaChave(id);
         }
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public ICollection<Colaborador> Listar(params object[] objects)
         {
-            return _repositorio.Listar (objects);
+            return _repositorio.Listar(objects);
         }
 
         /// <summary>
@@ -101,7 +101,7 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void Alterar(Colaborador entity)
         {
-            _repositorio.Alterar (entity);
+            _repositorio.Alterar(entity);
         }
 
         /// <summary>
@@ -110,7 +110,7 @@ namespace IMOD.Application.Service
         /// <param name="entity">Entidade</param>
         public void Remover(Colaborador entity)
         {
-            _repositorio.Remover (entity);
+            _repositorio.Remover(entity);
         }
 
         /// <summary>
@@ -120,7 +120,7 @@ namespace IMOD.Application.Service
         /// <param name="anexos">Anexos</param>
         public void CriarAnexos(Colaborador colaborador, IList<ColaboradorAnexo> anexos)
         {
-            _repositorio.CriarAnexos (colaborador, anexos);
+            _repositorio.CriarAnexos(colaborador, anexos);
         }
 
         /// <summary>
@@ -134,7 +134,7 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public ICollection<ColaboradoresCredenciaisView> ListarColaboradores(int colaboradorCredencialId, string nomeEmpresa = "", int tipoCredencialId = 0, int statusCredencialId = 0, int colaboradorId = 0)
         {
-            return _repositorioCredencial.ListarView (colaboradorCredencialId, nomeEmpresa, tipoCredencialId, statusCredencialId, colaboradorId);
+            return _repositorioCredencial.ListarView(colaboradorCredencialId, nomeEmpresa, tipoCredencialId, statusCredencialId, colaboradorId);
         }
 
         /// <summary>
@@ -144,7 +144,7 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public ICollection<Colaborador> ListarPorStatus(int idStatus)
         {
-            return _repositorio.ListarPorStatus (idStatus);
+            return _repositorio.ListarPorStatus(idStatus);
         }
 
         #endregion

@@ -17,7 +17,7 @@ using IMOD.Infra.Ado.Interfaces.ParamSql;
 
 namespace IMOD.Infra.Repositorios
 {
-    public class ColaboradorCursoRepositorio :IColaboradorCursoRepositorio 
+    public class EmpresaTipoAtividadeRepositorio :IEmpresaTipoAtividadeRepositorio 
     {
 	    private readonly string _connection = CurrentConfig.ConexaoString;
         private readonly IDataBaseAdo _dataBase;
@@ -25,7 +25,7 @@ namespace IMOD.Infra.Repositorios
 
         #region Construtor
 
-        public  ColaboradorCursoRepositorio()
+        public  EmpresaTipoAtividadeRepositorio()
         {
           _dataBase = _dataWorkerFactory.ObterDataBaseSingleton (TipoDataBase.SqlServer, _connection);
         }
@@ -38,23 +38,23 @@ namespace IMOD.Infra.Repositorios
         ///     Criar registro
         /// </summary>
         /// <param name="entity"></param>
-        public void Criar(ColaboradorCurso entity)
+        public void Criar(EmpresaTipoAtividade entity)
         {
              using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.InsertText ("ColaboradorCurso", conn))
+                using (var cmd = _dataBase.InsertText ("EmpresasTiposAtividades", conn))
                 {
                     try
                     {
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("ColaboradorAnexoId", entity.ColaboradorAnexoId, true)));
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Descricao", entity.Descricao, false)));
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("NomeArquivo", entity.NomeArquivo, false)));
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("ColaboradorID", entity.ColaboradorId, false)));
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Arquivo", entity.Arquivo, false)));
+
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("EmpresaTipoAtividadeID", entity.EmpresaTipoAtividadeId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("EmpresaID", entity.EmpresaId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("TipoAtividadeID", entity.TipoAtividadeId, false)));
+
 
                         var key = Convert.ToInt32 (cmd.ExecuteScalar());
 
-                        entity.ColaboradorCursoId = key;
+                        entity.EmpresaTipoAtividadeId = key;
                     }
                     catch (Exception ex)
                     {
@@ -70,18 +70,18 @@ namespace IMOD.Infra.Repositorios
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public ColaboradorCurso BuscarPelaChave(int id)
+        public EmpresaTipoAtividade BuscarPelaChave(int id)
         {
            using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText ("ColaboradorCurso", conn))
+                using (var cmd = _dataBase.SelectText ("EmpresasTiposAtividades", conn))
 
                 {
                     try
                     {
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("ColaboradorCursoId", DbType.Int32, id).Igual()));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("EmpresaTipoAtividadeId", DbType.Int32, id).Igual()));
                         var reader = cmd.ExecuteReader();
-                        var d1 = reader.MapToList<ColaboradorCurso>();
+                        var d1 = reader.MapToList<EmpresaTipoAtividade>();
 
                         return d1.FirstOrDefault();
                     }
@@ -99,20 +99,21 @@ namespace IMOD.Infra.Repositorios
         /// </summary>
         /// <param name="predicate">Expressão de consulta</param>
         /// <returns></returns>
-        public ICollection<ColaboradorCurso> Listar(params object[] objects)
+        public ICollection<EmpresaTipoAtividade> Listar(params object[] objects)
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText ("ColaboradorCurso", conn))
+                using (var cmd = _dataBase.SelectText ("EmpresasTiposAtividades", conn))
 
                 {
                     try
                     {
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("NomeArquivo", o, 0).Like()));
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("ColaboradorID", o, 1).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmpresaTipoAtividadeID",DbType.Int16, objects, 0).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmpresaID", DbType.Int16, objects, 1).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("TipoAtividadeID", DbType.Int16, objects, 2).Igual()));
 
                         var reader = cmd.ExecuteReaderSelect();
-                        var d1 = reader.MapToList<ColaboradorCurso>();
+                        var d1 = reader.MapToList<EmpresaTipoAtividade>();
 
                         return d1;
                     }
@@ -129,19 +130,17 @@ namespace IMOD.Infra.Repositorios
         ///     Alterar registro
         /// </summary>
         /// <param name="entity"></param>
-        public void Alterar(ColaboradorCurso entity)
+        public void Alterar(EmpresaTipoAtividade entity)
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.UpdateText ("ColaboradorCurso", conn))
+                using (var cmd = _dataBase.UpdateText ("EmpresasTiposAtividades", conn))
                 {
                     try
                     {
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("ColaboradorCursoId", entity.ColaboradorCursoId, true)));
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Descricao", entity.Descricao, false)));
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("NomeArquivo", entity.NomeArquivo, false)));
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("ColaboradorID", entity.ColaboradorId, false)));
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Arquivo", entity.Arquivo, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("EmpresaTipoAtividadeID", entity.EmpresaTipoAtividadeId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("EmpresaID", entity.EmpresaId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("TipoAtividadeID", entity.TipoAtividadeId, false)));
 
                         cmd.ExecuteNonQuery();
                     }
@@ -158,15 +157,15 @@ namespace IMOD.Infra.Repositorios
         ///     Deletar registro
         /// </summary>
         /// <param name="predicate"></param>
-        public void Remover(ColaboradorCurso entity)
+        public void Remover(EmpresaTipoAtividade entity)
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.DeleteText ("ColaboradorCurso", conn))
+                using (var cmd = _dataBase.DeleteText ("EmpresasTiposAtividades", conn))
                 {
                     try
                     {
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamDelete ("ColaboradorCursoId", entity.ColaboradorCursoId).Igual()));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamDelete ("EmpresaTipoAtividadeId", entity.EmpresaTipoAtividadeId).Igual()));
 
                         cmd.ExecuteNonQuery();
                     }

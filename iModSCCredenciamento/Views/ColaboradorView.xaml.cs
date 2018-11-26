@@ -19,7 +19,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using IMOD.Application.Service;
+//using IMOD.Application.Service;
 using UserControl = System.Windows.Controls.UserControl;
 
 namespace iModSCCredenciamento.Views
@@ -138,7 +138,7 @@ namespace iModSCCredenciamento.Views
         private void Excluir_bt_Click(object sender, RoutedEventArgs e)
         {
             Botoes_Principais_sp.Visibility = Visibility.Visible;
-            ((ColaboradorViewModel)this.DataContext).OnExcluirCommand();
+            ((ColaboradorViewModel)this.DataContext).OnExcluirCommand2();
         }
 
         private void ExecutarPesquisa_bt_Click(object sender, RoutedEventArgs e)
@@ -338,7 +338,8 @@ namespace iModSCCredenciamento.Views
                 model.ValidarAdicao(entity);
 
                 Botoes_Principais_sp.Visibility = Visibility.Visible;
-                model.SalvarAdicao();
+                //model.SalvarAdicao();
+                model.SalvarAdicao2();
                 Botoes_Adicionar_sp.Visibility = Visibility.Hidden;
                 Geral_sp.IsHitTestVisible = false;
                 VinculoEmpresa_ti.Visibility = Visibility.Visible;

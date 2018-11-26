@@ -18,19 +18,33 @@ var manager = Manager.Create(Host, GenerationEnvironment);
 							var listaClasses = new List<string[]>();
 							//listaClasses.Add(new []{"{Entidade}","{Interface}","{PrimaryKey}");
 
-							listaClasses.Add(new []{"AreaAcesso","IAreaAcesso","AreaAcessoId"});
+							listaClasses.Add(new []{"RelatoriosGerenciais","IRelatoriosGerenciaisRepositorio","RelatorioId"});
+							listaClasses.Add(new []{"Relatorios","IRelatoriosRepositorio","RelatorioId"});
 
-							listaClasses.Add(new []{"ColaboradorCredencialimpresssao","IColaboradorCredencialimpresssaoRepositorio","CredencialImpressaoId"});
-							listaClasses.Add(new []{"ColaboradorCurso","IColaboradorCursoRepositorio","ColaboradorCursoId"});
+							listaClasses.Add(new []{"Status","IStatusRepositorio","StatusId"});
 
-							listaClasses.Add(new []{"ColaboradorPrivilegio","IColaboradorPrivilegioRepositorio","ColaboradorPrivilegioId"});
-							listaClasses.Add(new []{"CredencialMotivo","ICredencialMotivoRepositorio","CredencialMotivoId"});
-							listaClasses.Add(new []{"CredencialStatus","ICredencialStatusRepositorio","CredencialStatusId"});
-							listaClasses.Add(new []{"Curso","ICursoRepositorio","CursoId"});
-							listaClasses.Add(new []{"EmpresaAreaAcesso","IEmpresaAreaAcessoRepositorio","EmpresaAreaAcessoId"});
-							listaClasses.Add(new []{"EmpresaContrato","IEmpresaContratoRepositorio","EmpresaContratoId"});
-							listaClasses.Add(new []{"EmpresaEquipamento","IEmpresaEquipamentoRepositorio","EmpresaEquipamentoId"});
-							listaClasses.Add(new []{"EmpresaLayoutCracha","IEmpresaLayoutCrachaRepositorio","EmpresaLayoutCrachaId"});
+							listaClasses.Add(new []{"TecnologiaCredencial","ITecnologiaCredencialRepositorio","CredencialImpressaoId"});
+
+							listaClasses.Add(new []{"TipoAcesso","ITipoAcessoRepositorio","TipoAcessoId"});
+							listaClasses.Add(new []{"TipoAtividade","ITipoAtividadeRepositorio","TipoAtividadeId"});
+							listaClasses.Add(new []{"TipoCobranca","ITipoCobrancaRepositorio","TipoCobrancaId"});
+
+							listaClasses.Add(new []{"TipoCombustivel","ITipoCombustivelRepositorio","TipoCombustivelId"});
+							listaClasses.Add(new []{"TipoCredencial","ITipoCredencialRepositorio","TipoCredencialId"});
+							listaClasses.Add(new []{"TipoEquipamento","ITipoEquipamentoRepositorio","TipoEquipamentoId"});
+							listaClasses.Add(new []{"TipoEquipamentoVeiculo","ITipoEquipamentoVeiculoRepositorio","TipoEquipamentoViculoId"});
+
+
+							listaClasses.Add(new []{"TipoServico","ITipoServicoRepositorio","TipoServicoId"});
+
+							listaClasses.Add(new []{"VeiculoAnexo","IVeiculoAnexoRepositorio","VeiculoAnexoId"});
+							listaClasses.Add(new []{"VeiculoCredencialimpressao","IVeiculoCredencialimpressaoRepositorio","CredencialImpressaoId"});
+							listaClasses.Add(new []{"VeiculoCredencial","IVeiculoCredencialRepositorio","VeiculoCredencialId"});
+
+							listaClasses.Add(new []{"VeiculoEmpresa","IVeiculoEmpresaRepositorio","VeiculoEmpresaId"});
+							listaClasses.Add(new []{"VeiculoEquipTipoServico","IVeiculoEquipTipoServicoRepositorio","VeiculoTipoServicoId"});
+							listaClasses.Add(new []{"VeiculoSeguro","IVeiculoSeguroRepositorio","VeiculoSeguroId"});
+							listaClasses.Add(new []{"Veiculos","IVeiculosRepositorio","EquipamentoVeiculoId"});
 					 
 							
 

@@ -21,12 +21,12 @@ namespace IMOD.Application.Service
     {
         private readonly IColaboradorAnexoRepositorio _repositorio;
 
+        #region  Metodos
+
         public ColaboradorAnexoService()
         {
-            _repositorio=new ColaboradorAnexoRepositorio();
+            _repositorio = new ColaboradorAnexoRepositorio();
         }
-
-        #region  Metodos
 
         /// <summary>
         ///     Listar anexo por nome
@@ -35,7 +35,7 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public ICollection<ColaboradorAnexo> ListarPorNome(string nomeArquivo)
         {
-            return _repositorio.Listar ("%" + nomeArquivo + "%", 0);
+            return _repositorio.Listar("%" + nomeArquivo + "%", 0);
         }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public ICollection<ColaboradorAnexo> ListarPorColaborador(int colaboradorId)
         {
-            return _repositorio.Listar ("", colaboradorId);
+            return _repositorio.Listar("", colaboradorId);
         }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace IMOD.Application.Service
         /// <param name="entity">Entidade</param>
         public void Criar(ColaboradorAnexo entity)
         {
-            _repositorio.Criar (entity);
+            _repositorio.Criar(entity);
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public ColaboradorAnexo BuscarPelaChave(int id)
         {
-            return _repositorio.BuscarPelaChave (id);
+            return _repositorio.BuscarPelaChave(id);
         }
 
         /// <summary>
@@ -73,7 +73,7 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public ICollection<ColaboradorAnexo> Listar(params object[] objects)
         {
-            return _repositorio.Listar (objects);
+            return _repositorio.Listar(objects);
         }
 
         /// <summary>

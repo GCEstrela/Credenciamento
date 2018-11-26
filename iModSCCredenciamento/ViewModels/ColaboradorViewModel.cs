@@ -19,7 +19,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using AutoMapper;
 using IMOD.Application.Interfaces;
-using IMOD.Application.Service;
+//using IMOD.Application.Service;
 
 //using IMOD.Application.Service;
 
@@ -27,7 +27,7 @@ namespace iModSCCredenciamento.ViewModels
 {
     public class ColaboradorViewModel : ViewModelBase
     {
-        private IColaboradorService _colaboradorService = new ColaboradorService();
+        //private IColaboradorService _colaboradorService = new ColaboradorService();
         public IMOD.Domain.Entities.Colaborador Colaborador { get; set; }
 
 
@@ -389,8 +389,8 @@ namespace iModSCCredenciamento.ViewModels
 
         public void OnSalvarEdicaoCommand2()
         {
-             var colab = Mapper.Map<IMOD.Domain.Entities.Colaborador>(ColaboradorSelecionado);
-            _colaboradorService.Alterar(colab);
+             //var colab = Mapper.Map<IMOD.Domain.Entities.Colaborador>(ColaboradorSelecionado);
+            //_colaboradorService.Alterar(colab);
         }
 
         public void OnAdicionarCommand()
@@ -438,6 +438,20 @@ namespace iModSCCredenciamento.ViewModels
             }
         }
 
+        public void OnExcluirCommand2()
+        {
+            try
+            {
+
+                //var colab = Mapper.Map<IMOD.Domain.Entities.Colaborador>(ColaboradorSelecionado);
+                //_colaboradorService.Remover(colab);
+
+            }
+            catch (Exception ex)
+            {
+            }
+
+        }
         public void OnExcluirCommand()
         {
             try
@@ -1889,6 +1903,73 @@ namespace iModSCCredenciamento.ViewModels
 
         #region Metodos privados
 
+        internal void SalvarAdicao2()
+        {
+            try
+            {
+
+                HabilitaEdicao = false;
+
+
+                //var colab = Mapper.Map<IMOD.Domain.Entities.Colaborador>(ColaboradorSelecionado);
+                //_colaboradorService.Criar(colab);
+
+                //System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(ClasseColaboradores));
+
+                //ObservableCollection<ClasseColaboradores.Colaborador> _ColaboradoresPro = new ObservableCollection<ClasseColaboradores.Colaborador>();
+                //ClasseColaboradores _ClasseColaboradoresTemp = new ClasseColaboradores();
+                //ColaboradorSelecionado.Pendente = true;
+                //ColaboradorSelecionado.Pendente21 = true;
+                //ColaboradorSelecionado.Pendente22 = true;
+                //ColaboradorSelecionado.Pendente23 = true;
+                //ColaboradorSelecionado.Pendente24 = true;
+                //ColaboradorSelecionado.Pendente25 = true;
+
+
+                //_ColaboradoresPro.Add(ColaboradorSelecionado);
+                //_ClasseColaboradoresTemp.Colaboradores = _ColaboradoresPro;
+
+                //string xmlString;
+
+                //using (StringWriterWithEncoding sw = new StringWriterWithEncoding(System.Text.Encoding.UTF8))
+                //{
+
+                //    using (XmlTextWriter xw = new XmlTextWriter(sw))
+                //    {
+                //        xw.Formatting = Formatting.Indented;
+                //        serializer.Serialize(xw, _ClasseColaboradoresTemp);
+                //        xmlString = sw.ToString();
+                //    }
+
+                //}
+
+                //int _novoColaboradorID = InsereColaboradoresBD(xmlString);
+
+                //AtualizaPendencias(_novoColaboradorID);
+
+                //ColaboradorSelecionado.ColaboradorID = _novoColaboradorID;
+
+                //_ColaboradoresTemp.Clear();
+
+                //_ColaboradoresTemp.Add(ColaboradorSelecionado);
+                //Colaboradores = null;
+                //Colaboradores = new ObservableCollection<ClasseColaboradores.Colaborador>(_ColaboradoresTemp);
+                //SelectedIndex = 0;
+                //_ColaboradoresTemp.Clear();
+                //_ColaboradoresPro.Clear();
+
+                //_ClasseColaboradoresTemp = null;
+
+                ////this._ColaboradoresTemp.Clear();
+                ////_colaboradorTemp = null;
+
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
         internal void SalvarAdicao()
         {
             try

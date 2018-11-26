@@ -73,6 +73,7 @@
     <Reference Include="sapbusinessobjects.wpf.viewer, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
     <Reference Include="SAPBusinessObjects.WPF.ViewerShared, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Printing" />
@@ -97,7 +98,8 @@
     <Reference Include="WindowsBase" />
     <Reference Include="WindowsFormsIntegration" />
     <Reference Include="WpfAnimatedGif, Version=1.4.17.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\WpfAnimatedGif.1.4.17\lib\net\WpfAnimatedGif.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Dlls\WpfAnimatedGif.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -159,6 +161,7 @@
     <Compile Include="Models\ClasseEmpresasSignatarios.cs" />
     <Compile Include="Models\ClasseEmpresasTiposAtividades.cs" />
     <Compile Include="Models\ClasseEmpresasVeiculos.cs" />
+    <Compile Include="Models\ClasseEquipamentoVeiculoTiposServicos.cs" />
     <Compile Include="Models\ClasseEstados.cs" />
     <Compile Include="Models\ClasseLayoutsCrachas.cs" />
     <Compile Include="Models\ClasseMunicipios.cs" />
@@ -167,17 +170,22 @@
     <Compile Include="Models\ClasseRelatoriosGerenciais.cs" />
     <Compile Include="Models\ClasseStatus.cs" />
     <Compile Include="Models\ClasseTecnologiasCredenciais.cs" />
+    <Compile Include="Models\ClasseTipoEquipamentoVeiculo.cs" />
     <Compile Include="Models\ClasseTiposAcessos.cs" />
     <Compile Include="Models\ClasseTiposAtividades.cs" />
     <Compile Include="Models\ClasseTiposCobrancas.cs" />
+    <Compile Include="Models\ClasseTiposCombustiveis.cs" />
     <Compile Include="Models\ClasseTiposCredenciais.cs" />
     <Compile Include="Models\ClasseTiposEmpresas.cs" />
     <Compile Include="Models\ClasseTiposEquipamento.cs" />
+    <Compile Include="Models\ClasseTiposServicos.cs" />
     <Compile Include="Models\ClasseTiposPendencias.cs" />
     <Compile Include="Models\ClasseTiposVeiculo.cs" />
     <Compile Include="Models\ClasseVeiculos.cs" />
+    <Compile Include="Models\ClasseVeiculosAnexos.cs" />
     <Compile Include="Models\ClasseVeiculosCredenciais.cs" />
     <Compile Include="Models\ClasseVeiculosEmpresas.cs" />
+    <Compile Include="Models\ClasseVeiculosPrivilegios.cs" />
     <Compile Include="Models\ClasseVeiculosSeguros.cs" />
     <Compile Include="Models\ClasseVinculos.cs" />
     <Compile Include="Models\ClasseFormatosCredenciais.cs" />
@@ -219,6 +227,7 @@
     <Compile Include="ViewModels\PopupPendenciasViewModel.cs" />
     <Compile Include="ViewModels\RelatoriosViewModel.cs" />
     <Compile Include="ViewModels\TermosViewModel.cs" />
+    <Compile Include="ViewModels\VeiculosAnexosViewModel.cs" />
     <Compile Include="ViewModels\VeiculosCredenciaisViewModel.cs" />
     <Compile Include="ViewModels\VeiculosEmpresasViewModel.cs" />
     <Compile Include="ViewModels\VeiculosSegurosViewModel.cs" />
@@ -268,6 +277,9 @@
     </Compile>
     <Compile Include="Views\TermosView.xaml.cs">
       <DependentUpon>TermosView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\VeiculosAnexosView.xaml.cs">
+      <DependentUpon>VeiculosAnexosView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\VeiculosCredenciaisView.xaml.cs">
       <DependentUpon>VeiculosCredenciaisView.xaml</DependentUpon>
@@ -371,6 +383,9 @@
     <Compile Include="Windows\PopupPesquisaSignatarios.xaml.cs">
       <DependentUpon>PopupPesquisaSignatarios.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\PopupPesquisaVeiculoAnexo.xaml.cs">
+      <DependentUpon>PopupPesquisaVeiculoAnexo.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\PopupPesquisaVeiculos.xaml.cs">
       <DependentUpon>PopupPesquisaVeiculos.xaml</DependentUpon>
     </Compile>
@@ -460,6 +475,10 @@
     <Page Include="Views\TermosView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\VeiculosAnexosView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\VeiculosCredenciaisView.xaml">
       <SubType>Designer</SubType>
@@ -594,6 +613,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Windows\PopupPesquisaSignatarios.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\PopupPesquisaVeiculoAnexo.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -754,7 +777,7 @@
       <Name>IMOD.Domain</Name>
     </ProjectReference>
     <ProjectReference Include="..\IMOD.Application\IMOD.Application.csproj">
-      <Project>{b7bd6687-cb39-45a0-9b21-67125da69a2e}</Project>
+      <Project>{B7BD6687-CB39-45A0-9B21-67125DA69A2E}</Project>
       <Name>IMOD.Application</Name>
     </ProjectReference>
     <ProjectReference Include="..\Infra\IMOD.Infra.csproj">
