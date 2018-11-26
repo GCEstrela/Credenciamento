@@ -19,7 +19,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using AutoMapper;
 using IMOD.Application.Interfaces;
-using IMOD.Application.Service;
+//using IMOD.Application.Service;
 
 //using IMOD.Application.Service;
 
@@ -27,7 +27,7 @@ namespace iModSCCredenciamento.ViewModels
 {
     public class ColaboradorViewModel : ViewModelBase
     {
-        private IColaboradorService _colaboradorService = new ColaboradorService();
+        //private IColaboradorService _colaboradorService = new ColaboradorService();
         public IMOD.Domain.Entities.Colaborador Colaborador { get; set; }
 
 
@@ -389,8 +389,8 @@ namespace iModSCCredenciamento.ViewModels
 
         public void OnSalvarEdicaoCommand2()
         {
-             var colab = Mapper.Map<IMOD.Domain.Entities.Colaborador>(ColaboradorSelecionado);
-            _colaboradorService.Alterar(colab);
+             //var colab = Mapper.Map<IMOD.Domain.Entities.Colaborador>(ColaboradorSelecionado);
+            //_colaboradorService.Alterar(colab);
         }
 
         public void OnAdicionarCommand()
@@ -443,8 +443,8 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
 
-                var colab = Mapper.Map<IMOD.Domain.Entities.Colaborador>(ColaboradorSelecionado);
-                _colaboradorService.Remover(colab);
+                //var colab = Mapper.Map<IMOD.Domain.Entities.Colaborador>(ColaboradorSelecionado);
+                //_colaboradorService.Remover(colab);
 
             }
             catch (Exception ex)
@@ -1911,8 +1911,8 @@ namespace iModSCCredenciamento.ViewModels
                 HabilitaEdicao = false;
 
 
-                var colab = Mapper.Map<IMOD.Domain.Entities.Colaborador>(ColaboradorSelecionado);
-                _colaboradorService.Criar(colab);
+                //var colab = Mapper.Map<IMOD.Domain.Entities.Colaborador>(ColaboradorSelecionado);
+                //_colaboradorService.Criar(colab);
 
                 //System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(ClasseColaboradores));
 
