@@ -137,6 +137,8 @@ namespace IMOD.Application.Service
             return _repositorioCredencial.ListarView(colaboradorCredencialId, nomeEmpresa, tipoCredencialId, statusCredencialId, colaboradorId);
         }
 
+
+
         /// <summary>
         /// Listar Colaborador por status
         /// </summary>

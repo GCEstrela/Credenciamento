@@ -674,7 +674,7 @@ namespace UnitTestImod
             //Listar pela chave
             var primeiroDaLIsta = list0.FirstOrDefault();
             if (primeiroDaLIsta == null) return;
-            var veiculoequiptipservico = repositorio.BuscarPelaChave (primeiroDaLIsta.VeiculoId);
+            var veiculoequiptipservico = repositorio.BuscarPelaChave (primeiroDaLIsta.VeiculoTipoServicoId);
             Assert.IsNotNull (veiculoequiptipservico);
         }
 

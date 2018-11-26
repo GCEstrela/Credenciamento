@@ -103,6 +103,7 @@
     <Compile Include="Repositorios\TipoAtividadeRepositorio.cs" />
     <Compile Include="Repositorios\TipoCobrancaRepositorio.cs" />
     <Compile Include="Repositorios\TipoCombustivelRepositorio.cs" />
+    <Compile Include="Repositorios\TipoCredencialRepositorio.cs" />
     <Compile Include="Repositorios\TipoEquipamentoRepositorio.cs" />
     <Compile Include="Repositorios\TipoServicoRepositorio.cs" />
     <Compile Include="Repositorios\VeiculoAnexoRepositorio.cs" />

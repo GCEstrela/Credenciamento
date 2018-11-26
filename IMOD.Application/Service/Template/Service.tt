@@ -28,7 +28,7 @@ var manager = Manager.Create(Host, GenerationEnvironment);
 							listaClasses.Add(new []{"TipoCombustivel","ITipoCombustivelRepositorio","TipoCombustivelId"});
 							listaClasses.Add(new []{"TipoCredencial","ITipoCredencialRepositorio","TipoCredencialId"});
 							listaClasses.Add(new []{"TipoEquipamento","ITipoEquipamentoRepositorio","TipoEquipamentoId"});
-							listaClasses.Add(new []{"TipoEquipamentoVeiculo","ITipoEquipamentoVeiculoRepositorio","TipoEquipamentoViculoId"});
+							listaClasses.Add(new []{"TipoEquipamento","ITipoEquipamentoVeiculo","TipoEquipamentoViculoId"});
 							listaClasses.Add(new []{"TipoServico","ITipoServicoRepositorio","TipoServicoId"});
 							listaClasses.Add(new []{"VeiculoAnexo","IVeiculoAnexoRepositorio","VeiculoAnexoId"});
 							listaClasses.Add(new []{"VeiculoCredencialimpressao","IVeiculoCredencialimpressaoRepositorio","CredencialImpressaoId"});
@@ -44,7 +44,7 @@ var manager = Manager.Create(Host, GenerationEnvironment);
 							listaClasses.Add(new []{"EmpresaTipoAtividade","IEmpresaTipoAtividadeRepositorio","EmpresaTipoAtividadeId"});
 							listaClasses.Add(new []{"EmpresaVeiculo","IEmpresaVeiculoRepositorio","EmpresaVeiculoId"});
 							listaClasses.Add(new []{"EquipamentoVeiculoTipoServico","IEquipamentoVeiculoTipoServicoRepositorio","EquipamentoVeiculoTipoServicoId"});
-							listaClasses.Add(new []{"Estados","IEstadosRepositorio","EstadoId"});
+							//listaClasses.Add(new []{"Estados","IEstadosRepositorio","EstadoId"});
 							listaClasses.Add(new []{"FormatoCredencial","IFormatoCredencialRepositorio","FormatoCredencialId"});
 							listaClasses.Add(new []{"LayoutCracha","ILayoutCrachaRepositorio","LayoutCrachaId"});
 							listaClasses.Add(new []{"Municipio","IMunicipioRepositorio","MunicipioId"});
@@ -112,7 +112,7 @@ namespace IMOD.Application.Service
         /// <summary>
         ///     Listar
         /// </summary>
-        /// <param name="predicate">Expressão de consulta</param>
+        /// <param name="objects">Expressão de consulta</param>
         /// <returns></returns>
         public ICollection<<#= item[0] #>> Listar(params object[] objects)
         {
@@ -131,10 +131,10 @@ namespace IMOD.Application.Service
         /// <summary>
         ///     Deletar registro
         /// </summary>
-        /// <param name="predicate"></param>
+        /// <param name="entity"></param>
         public void Remover(<#= item[0] #> entity)
         {
-            _repositorio.Remover(predicate);
+            _repositorio.Remover(entity);
         }
 
         

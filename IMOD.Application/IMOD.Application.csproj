@@ -46,6 +46,34 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\ColaboradorAnexoService.cs" />
     <Compile Include="Service\ColaboradorService.cs" />
+    <Compile Include="Service\EmpresaSeguroService.cs" />
+    <Compile Include="Service\EmpresaService.cs" />
+    <Compile Include="Service\EmpresaSignatarioService.cs" />
+    <Compile Include="Service\EmpresaTipoAtividadeService.cs" />
+    <Compile Include="Service\EmpresaVeiculoService.cs" />
+    <Compile Include="Service\EquipamentoVeiculoTipoServicoService.cs" />
+    <Compile Include="Service\FormatoCredencialService.cs" />
+    <Compile Include="Service\LayoutCrachaService.cs" />
+    <Compile Include="Service\MunicipioService.cs" />
+    <Compile Include="Service\PendenciaService.cs" />
+    <Compile Include="Service\RelatoriosGerenciaisService.cs" />
+    <Compile Include="Service\RelatoriosService.cs" />
+    <Compile Include="Service\StatusService.cs" />
+    <Compile Include="Service\TecnologiaCredencialService.cs" />
+    <Compile Include="Service\TipoAcessoService.cs" />
+    <Compile Include="Service\TipoAtividadeService.cs" />
+    <Compile Include="Service\TipoCobrancaService.cs" />
+    <Compile Include="Service\TipoCombustivelService.cs" />
+    <Compile Include="Service\TipoCredencialService.cs" />
+    <Compile Include="Service\TipoEquipamentoService.cs" />
+    <Compile Include="Service\TipoServicoService.cs" />
+    <Compile Include="Service\VeiculoAnexoService.cs" />
+    <Compile Include="Service\VeiculoCredencialimpressaoService.cs" />
+    <Compile Include="Service\VeiculoCredencialService.cs" />
+    <Compile Include="Service\VeiculoEmpresaService.cs" />
+    <Compile Include="Service\VeiculoEquipTipoServicoService.cs" />
+    <Compile Include="Service\VeiculoSeguroService.cs" />
+    <Compile Include="Service\VeiculosService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CrossCutting\IMOD.CrossCutting.csproj">

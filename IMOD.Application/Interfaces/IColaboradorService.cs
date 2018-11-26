@@ -29,6 +29,7 @@ namespace IMOD.Application.Interfaces
         /// <returns></returns>
         ICollection<ColaboradoresCredenciaisView> ListarColaboradores(int colaboradorCredencialId, string nomeEmpresa = "", int tipoCredencialId = 0, int statusCredencialId = 0, int colaboradorId = 0);
 
+        
         #endregion
     }
 }

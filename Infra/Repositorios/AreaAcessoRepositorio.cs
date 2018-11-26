@@ -50,7 +50,7 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("AreaAcessoID", entity.AreaAcessoId, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("AreaAcessoID", entity.AreaAcessoId, true)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Descricao", entity.Descricao, false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Identificacao", entity.Identificacao, false)));
 
@@ -139,7 +139,7 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("AreaAcessoID", entity.AreaAcessoId, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("AreaAcessoID", entity.AreaAcessoId, true)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Descricao", entity.Descricao, false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Identificacao", entity.Identificacao, false)));
 
