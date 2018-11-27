@@ -50,12 +50,9 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("EmpresaTipoAtividadeID",
-                            entity.EmpresaTipoAtividadeId, false)));
-                        cmd.Parameters.Add(
-                            _dataBase.CreateParameter(new ParamInsert("EmpresaID", entity.EmpresaId, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("TipoAtividadeID",
-                            entity.TipoAtividadeId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("EmpresaTipoAtividadeID", entity.EmpresaTipoAtividadeId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("EmpresaID", entity.EmpresaId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("TipoAtividadeID", entity.TipoAtividadeId, false)));
 
                         var key = Convert.ToInt32(cmd.ExecuteScalar());
 
@@ -84,9 +81,7 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        cmd.Parameters.Add(
-                            _dataBase.CreateParameter(
-                                new ParamSelect("EmpresaTipoAtividadeId", DbType.Int32, id).Igual()));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("EmpresaTipoAtividadeId", DbType.Int32, id).Igual()));
                         var reader = cmd.ExecuteReader();
                         var d1 = reader.MapToList<EmpresaTipoAtividade>();
 
@@ -115,13 +110,9 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(
-                            new ParamSelect("EmpresaTipoAtividadeID", DbType.Int16, objects, 0).Igual()));
-                        cmd.CreateParameterSelect(
-                            _dataBase.CreateParameter(new ParamSelect("EmpresaID", DbType.Int16, objects, 1).Igual()));
-                        cmd.CreateParameterSelect(
-                            _dataBase.CreateParameter(
-                                new ParamSelect("TipoAtividadeID", DbType.Int16, objects, 2).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmpresaTipoAtividadeID", DbType.Int16, objects, 0).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmpresaID", DbType.Int16, objects, 1).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("TipoAtividadeID", DbType.Int16, objects, 2).Igual()));
 
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<EmpresaTipoAtividade>();
@@ -149,12 +140,9 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("EmpresaTipoAtividadeID",
-                            entity.EmpresaTipoAtividadeId, false)));
-                        cmd.Parameters.Add(
-                            _dataBase.CreateParameter(new ParamUpdate("EmpresaID", entity.EmpresaId, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("TipoAtividadeID",
-                            entity.TipoAtividadeId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("EmpresaTipoAtividadeID", entity.EmpresaTipoAtividadeId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("EmpresaID", entity.EmpresaId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("TipoAtividadeID", entity.TipoAtividadeId, false)));
 
                         cmd.ExecuteNonQuery();
                     }
@@ -179,8 +167,7 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(
-                            new ParamDelete("EmpresaTipoAtividadeId", entity.EmpresaTipoAtividadeId).Igual()));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamDelete("EmpresaTipoAtividadeId", entity.EmpresaTipoAtividadeId).Igual()));
 
                         cmd.ExecuteNonQuery();
                     }

@@ -50,12 +50,9 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("FormatoCredencialID",
-                            entity.FormatoCredencialId, false)));
-                        cmd.Parameters.Add(
-                            _dataBase.CreateParameter(new ParamInsert("Descricao", entity.Descricao, false)));
-                        cmd.Parameters.Add(
-                            _dataBase.CreateParameter(new ParamInsert("FormatIDGUID", entity.FormatIdguid, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("FormatoCredencialID", entity.FormatoCredencialId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Descricao", entity.Descricao, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("FormatIDGUID", entity.FormatIdguid, false)));
 
                         var key = Convert.ToInt32(cmd.ExecuteScalar());
 
@@ -84,9 +81,7 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        cmd.Parameters.Add(
-                            _dataBase.CreateParameter(new ParamSelect("FormatoCredencialId", DbType.Int32, id)
-                                .Igual()));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("FormatoCredencialId", DbType.Int32, id).Igual()));
                         var reader = cmd.ExecuteReader();
                         var d1 = reader.MapToList<FormatoCredencial>();
 
@@ -115,8 +110,7 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        cmd.CreateParameterSelect(
-                            _dataBase.CreateParameter(new ParamSelect("Descricao", DbType.String, objects, 0).Like()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Descricao", DbType.String, objects, 0).Like()));
 
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<FormatoCredencial>();
@@ -144,12 +138,10 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("FormatoCredencialID",
-                            entity.FormatoCredencialId, false)));
-                        cmd.Parameters.Add(
-                            _dataBase.CreateParameter(new ParamInsert("Descricao", entity.Descricao, false)));
-                        cmd.Parameters.Add(
-                            _dataBase.CreateParameter(new ParamInsert("FormatIDGUID", entity.FormatIdguid, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("FormatoCredencialID", entity.FormatoCredencialId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Descricao", entity.Descricao, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("FormatIDGUID", entity.FormatIdguid, false)));
+
                         cmd.ExecuteNonQuery();
                     }
                     catch (Exception ex)
@@ -173,8 +165,7 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(
-                            new ParamDelete("FormatoCredencialId", entity.FormatoCredencialId).Igual()));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamDelete("FormatoCredencialId", entity.FormatoCredencialId).Igual()));
 
                         cmd.ExecuteNonQuery();
                     }

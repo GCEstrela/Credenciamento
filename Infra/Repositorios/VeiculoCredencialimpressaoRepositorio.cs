@@ -50,12 +50,9 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("CredencialImpressaoID",
-                            entity.CredencialImpressaoId, true)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("VeiculoCredencialID",
-                            entity.VeiculoCredencialId, false)));
-                        cmd.Parameters.Add(
-                            _dataBase.CreateParameter(new ParamInsert("DataImpressao", entity.DataImpressao, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("CredencialImpressaoID", entity.CredencialImpressaoId, true)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("VeiculoCredencialID", entity.VeiculoCredencialId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("DataImpressao", entity.DataImpressao, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Cobrar", entity.Cobrar, false)));
 
                         var key = Convert.ToInt32(cmd.ExecuteScalar());
@@ -85,9 +82,8 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        cmd.Parameters.Add(
-                            _dataBase.CreateParameter(
-                                new ParamSelect("CredencialImpressaoId", DbType.Int32, id).Igual()));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("CredencialImpressaoId", DbType.Int32, id).Igual()));
+
                         var reader = cmd.ExecuteReader();
                         var d1 = reader.MapToList<VeiculoCredencialimpressao>();
 
@@ -116,8 +112,7 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        cmd.CreateParameterSelect(
-                            _dataBase.CreateParameter(new ParamSelect("VeiculoCredencialID", objects, 0).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("VeiculoCredencialID", objects, 0).Igual()));
 
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<VeiculoCredencialimpressao>();
@@ -145,12 +140,9 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("CredencialImpressaoID",
-                            entity.CredencialImpressaoId, true)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("VeiculoCredencialID",
-                            entity.VeiculoCredencialId, false)));
-                        cmd.Parameters.Add(
-                            _dataBase.CreateParameter(new ParamUpdate("DataImpressao", entity.DataImpressao, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("CredencialImpressaoID", entity.CredencialImpressaoId, true)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("VeiculoCredencialID", entity.VeiculoCredencialId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("DataImpressao", entity.DataImpressao, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Cobrar", entity.Cobrar, false)));
 
                         cmd.ExecuteNonQuery();
@@ -176,8 +168,7 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(
-                            new ParamDelete("CredencialImpressaoId", entity.CredencialImpressaoId).Igual()));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamDelete("CredencialImpressaoId", entity.CredencialImpressaoId).Igual()));
 
                         cmd.ExecuteNonQuery();
                     }

@@ -52,8 +52,7 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        cmd.Parameters.Add(
-                            _dataBase.CreateParameter(new ParamSelect("MunicipioId", DbType.Int32, id).Igual()));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("MunicipioId", DbType.Int32, id).Igual()));
                         var reader = cmd.ExecuteReader();
                         var d1 = reader.MapToList<Municipio>();
 
@@ -82,8 +81,6 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("NomeArquivo", o, 0).Like()));
-                        //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("ColaboradorID", o, 1).Igual()));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("Nome", objects, 0).Igual()));
 
                         var reader = cmd.ExecuteReaderSelect();

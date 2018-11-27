@@ -50,12 +50,9 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("VeiculoTipoServicoId",
-                            DbType.Int32, entity.VeiculoTipoServicoId, true)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("VeiculoId", DbType.Int32,
-                            entity.VeiculoId, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("TipoServicoId", DbType.Int32,
-                            entity.TipoServicoId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("VeiculoTipoServicoId", DbType.Int32, entity.VeiculoTipoServicoId, true)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("VeiculoId", DbType.Int32, entity.VeiculoId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("TipoServicoId", DbType.Int32, entity.TipoServicoId, false)));
 
                         var key = Convert.ToInt32(cmd.ExecuteScalar());
 
@@ -84,9 +81,8 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        cmd.CreateParameterSelect(
-                            _dataBase.CreateParameter(new ParamSelect("VeiculoTipoServicoId", DbType.Int32, id)
-                                .Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("VeiculoTipoServicoId", DbType.Int32, id)
+                            .Igual()));
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<VeiculoEquipTipoServico>();
 
@@ -115,11 +111,8 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        cmd.CreateParameterSelect(
-                            _dataBase.CreateParameter(new ParamSelect("VeiculoID", DbType.Int32, objects, 0).Igual()));
-                        cmd.CreateParameterSelect(
-                            _dataBase.CreateParameter(
-                                new ParamSelect("TipoServicoID", DbType.Int32, objects, 1).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("VeiculoID", DbType.Int32, objects, 0).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("TipoServicoID", DbType.Int32, objects, 1).Igual()));
 
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<VeiculoEquipTipoServico>();
@@ -147,12 +140,9 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("VeiculoTipoServicoId",
-                            entity.VeiculoTipoServicoId, true)));
-                        cmd.Parameters.Add(
-                            _dataBase.CreateParameter(new ParamUpdate("VeiculoID", entity.VeiculoId, false)));
-                        cmd.Parameters.Add(
-                            _dataBase.CreateParameter(new ParamUpdate("TipoServicoID", entity.TipoServicoId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("VeiculoTipoServicoId", entity.VeiculoTipoServicoId, true)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("VeiculoID", entity.VeiculoId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("TipoServicoID", entity.TipoServicoId, false)));
 
                         cmd.ExecuteNonQuery();
                     }
@@ -177,8 +167,8 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(
-                            new ParamDelete("VeiculoTipoServicoId", entity.VeiculoTipoServicoId).Igual()));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamDelete("VeiculoTipoServicoId", entity.VeiculoTipoServicoId).Igual()));
+
                         cmd.ExecuteNonQuery();
                     }
                     catch (Exception ex)
