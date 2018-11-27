@@ -267,6 +267,7 @@
     <Compile Include="Views\ConfiguracoesView.xaml.cs">
       <DependentUpon>ConfiguracoesView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Comportamento\ConfiguracaoBotaoBasico.cs" />
     <Compile Include="Views\EmpresasAnexosView.xaml.cs">
       <DependentUpon>EmpresasAnexosView.xaml</DependentUpon>
     </Compile>
@@ -288,6 +289,7 @@
     <Compile Include="Views\EmpresaView.xaml.cs">
       <DependentUpon>EmpresaView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Comportamento\IConfiguracaoBotaoBasico.cs" />
     <Compile Include="Views\RelatoriosView.xaml.cs">
       <DependentUpon>RelatoriosView.xaml</DependentUpon>
     </Compile>

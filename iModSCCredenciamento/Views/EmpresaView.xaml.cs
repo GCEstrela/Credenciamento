@@ -17,13 +17,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using iModSCCredenciamento.Views.Comportamento;
 using UserControl = System.Windows.Controls.UserControl;
 
 
 namespace iModSCCredenciamento.Views
 {
 
-    public partial class EmpresaView : UserControl
+    public partial class EmpresaView : UserControl,IConfiguracaoBotaoBasico
     {
         #region Inicializacao
         private bool _cnpjVerificar = false;
@@ -111,22 +112,22 @@ namespace iModSCCredenciamento.Views
 
         private void Excluir_bt_Click(object sender, RoutedEventArgs e)
         {
-           Botoes_Principais_sp.Visibility = Visibility.Visible;
-            ((EmpresaViewModel)this.DataContext).OnExcluirCommand();
+           //Botoes_Principais_sp.Visibility = Visibility.Visible;
+           // ((EmpresaViewModel)this.DataContext).OnExcluirCommand();
         }
 
         private void ExecutarPesquisa_bt_Click(object sender, RoutedEventArgs e)
         {
-            Botoes_Principais_sp.Visibility = Visibility.Visible;
-            //Criterios_tb.Text = PesquisaCodigo_tb.Text + (char)(20) + PesquisaNome_tb.Text + (char)(20) + PesquisaCNPJ_tb.Text;
-            Botoes_Principais_sp.Visibility = Visibility.Hidden;
-            //((EmpresaViewModel)this.DataContext).ExecutarPesquisaCommand();
+            //Botoes_Principais_sp.Visibility = Visibility.Visible;
+            ////Criterios_tb.Text = PesquisaCodigo_tb.Text + (char)(20) + PesquisaNome_tb.Text + (char)(20) + PesquisaCNPJ_tb.Text;
+            //Botoes_Principais_sp.Visibility = Visibility.Hidden;
+            ////((EmpresaViewModel)this.DataContext).ExecutarPesquisaCommand();
         }
 
         private void CancelarPesquisa_bt_Click(object sender, RoutedEventArgs e)
         {
-            Botoes_Principais_sp.Visibility = Visibility.Visible;
-            Botoes_Pesquisar_sp.Visibility = Visibility.Hidden;
+            //Botoes_Principais_sp.Visibility = Visibility.Visible;
+            //Botoes_Pesquisar_sp.Visibility = Visibility.Hidden;
             //Geral_sp.IsHitTestVisible = false;
         }
 
@@ -182,15 +183,15 @@ namespace iModSCCredenciamento.Views
 
             //        }
             //    }
-                Botoes_Principais_sp.Visibility = Visibility.Visible;
+                //Botoes_Principais_sp.Visibility = Visibility.Visible;
                 //////Optional - first test if the DataContext is not a MyViewModel
                 ////if (!(DataContext is EmpresaViewModel)) return;
                 //////Optional - check the CanExecute
                 ////if (!((EmpresaViewModel)this.DataContext).Botao5Command.CanExecute(null)) return;
                 //Execute the command
-                ((EmpresaViewModel)this.DataContext).OnSalvarEdicaoCommand();
-                Botoes_Editar_sp.Visibility = Visibility.Hidden;
-                ListaEmpresas_lv.IsHitTestVisible = true;
+                //((EmpresaViewModel)this.DataContext).OnSalvarEdicaoCommand();
+                //Botoes_Editar_sp.Visibility = Visibility.Hidden;
+                //ListaEmpresas_lv.IsHitTestVisible = true;
                 //Geral_sp.IsHitTestVisible = false;
 
                 //Signatarios_ti.Visibility = Visibility.Visible;
@@ -392,16 +393,16 @@ namespace iModSCCredenciamento.Views
         #region Metodos Privados
         private void OnTabSelected(object sender, RoutedEventArgs e)
         {
-            Thickness marginThickness = ListaEmpresas_sp.Margin;
-            ListaEmpresas_sp.Margin = new Thickness(marginThickness.Left, marginThickness.Top, 170, marginThickness.Bottom);
-            Botoes_ca.Visibility = Visibility.Visible;
+            //Thickness marginThickness = ListaEmpresas_sp.Margin;
+            //ListaEmpresas_sp.Margin = new Thickness(marginThickness.Left, marginThickness.Top, 170, marginThickness.Bottom);
+            //Botoes_ca.Visibility = Visibility.Visible;
         }
 
         private void OnTabUnSelected(object sender, RoutedEventArgs e)
         {
-            Thickness marginThickness = ListaEmpresas_sp.Margin;
-            ListaEmpresas_sp.Margin = new Thickness(marginThickness.Left, marginThickness.Top, 0, marginThickness.Bottom);
-            Botoes_ca.Visibility = Visibility.Hidden;
+            //Thickness marginThickness = ListaEmpresas_sp.Margin;
+            //ListaEmpresas_sp.Margin = new Thickness(marginThickness.Left, marginThickness.Top, 0, marginThickness.Bottom);
+            //Botoes_ca.Visibility = Visibility.Hidden;
         }
 
         #endregion
@@ -509,6 +510,75 @@ namespace iModSCCredenciamento.Views
         //        _cnpjVerificar = false;
         //    }
         //}
+        /// <summary>
+        /// Editar
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void OnEditar_Click(object sender, RoutedEventArgs e)
+        {
+            //throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Adicionar
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void OnAdicionar_Click(object sender, RoutedEventArgs e)
+        {
+            //throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Excluir
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void OnExcluir_Click(object sender, RoutedEventArgs e)
+        {
+            //throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Pesquisar
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void OnPesquisar_Click(object sender, RoutedEventArgs e)
+        {
+            //throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Cancelar
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void OnCancelar_Click(object sender, RoutedEventArgs e)
+        {
+            //throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Salvar Edição
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void OnSalvarEditar(object sender, RoutedEventArgs e)
+        {
+            //throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Salvar Adição
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void OnSalvarAdicionar(object sender, RoutedEventArgs e)
+        {
+            //throw new NotImplementedException();
+        }
     }
 
 }
