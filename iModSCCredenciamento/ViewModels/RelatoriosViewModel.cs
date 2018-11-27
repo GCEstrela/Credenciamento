@@ -587,7 +587,7 @@ namespace iModSCCredenciamento.ViewModels
 
         #region Comandos dos Botoes (RELATÓRIOS GERENCIAIS)
 
-        //TODO: Mihai (31-10-2018)
+      
         public void OnFiltroRelatorioCredencialCommand(bool _tipo, string _dataIni, string _dataFim)
         {
             try
@@ -778,7 +778,7 @@ namespace iModSCCredenciamento.ViewModels
             }
         }
 
-        //TODO: Mihai (31-10-2018)
+      
         public void OnRelatorioCredenciaisInvalidasFiltroCommand(int _status, string _dataIni, string _dataFim)
         {
             string _xmlstring;
@@ -1011,7 +1011,7 @@ namespace iModSCCredenciamento.ViewModels
             }
         }
 
-        //TODO: Mihai (31-10-2018)
+      
         public void OnRelatorioFiltroPorAreaCommand(string _area, bool _check)
         {
             string _xmlstring;
@@ -1318,7 +1318,7 @@ namespace iModSCCredenciamento.ViewModels
             }
         }
 
-        //TODO: Mihai (31-10-2018)
+   
         public void OnFiltroCredencialViasAdicionaisCommand(int _tipo, string _dataIni, string _dataFim)
         {
             try

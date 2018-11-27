@@ -147,7 +147,7 @@ namespace iModSCCredenciamento.Views
             }
 
         }
-        //TODO: Mihai (30-10-2018)
+  
         private void ButtonTermoConcessaoCredenciaisClick(object sender, RoutedEventArgs e)
         {
 

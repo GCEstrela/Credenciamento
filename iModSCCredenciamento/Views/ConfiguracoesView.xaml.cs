@@ -47,7 +47,8 @@ namespace iModSCCredenciamento.Views
         }
         #endregion
 
-        IEngine _sdk = Main.engine;
+        //IEngine _sdk = ModuloCredenciamento.Engine;
+        IEngine _sdk = Main.Engine;
         private void Carregar_bt_Click(object sender, RoutedEventArgs e)
         {
             try

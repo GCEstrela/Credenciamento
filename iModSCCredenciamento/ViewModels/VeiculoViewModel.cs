@@ -239,18 +239,6 @@ namespace iModSCCredenciamento.ViewModels
         //}
 
 
-        public string Criterios
-        {
-            get
-            {
-                return this._Criterios;
-            }
-            set
-            {
-                this._Criterios = value;
-                base.OnPropertyChanged();
-            }
-        }
 
         public ObservableCollection<ClasseEstados.Estado> Estados
         {

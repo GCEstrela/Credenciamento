@@ -6,7 +6,9 @@
 
 #region
 
+using System;
 using System.Collections.Generic;
+using IMOD.Application.Interfaces;
 using IMOD.Domain.Entities;
 using IMOD.Domain.Interfaces;
 using IMOD.Infra.Repositorios;
@@ -15,7 +17,7 @@ using IMOD.Infra.Repositorios;
 
 namespace IMOD.Application.Service
 {
-    public class VeiculosService : IVeiculosRepositorio
+    public class VeiculosService : IVeiculoService
     {
         #region Variaveis Globais
 
@@ -74,6 +76,14 @@ namespace IMOD.Application.Service
         public void Remover(Veiculos entity)
         {
             _repositorio.Remover (entity);
+        }
+
+        public bool Validar(object entity)
+        {
+            var d1 = (Veiculos) entity;
+            if (d1 == null) return false; //throw  new ArgumentNullException(nameof(entity));
+            if (string.IsNullOrWhiteSpace (d1.Descricao)) return false; 
+            return true;
         }
 
         #endregion

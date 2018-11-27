@@ -1,38 +1,30 @@
-﻿using Genetec.Sdk.Workspace.Pages;
-using iModSCCredenciamento.Funcoes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using iModSCCredenciamento.Modulo;
+﻿// ***********************************************************************
+// Project: iModSCCredenciamento
+// Crafted by: Grupo Estrela by Genetec
+// Date:  11 - 27 - 2018
+// ***********************************************************************
 
-namespace iModSCCredenciamento.PagePrincipal
+#region
+ 
+using Genetec.Sdk.Workspace.Pages; 
+
+#endregion
+
+namespace iModSCCredenciamento.Modulo
 {
-
     [Page(typeof(ModuloDescritor))]
-    public class PagePrincipal : Page
+    public class ModuloPage : Page
     {
-        #region Constants
+        
+        #region  Metodos
 
-        private readonly PagePrincipalView m_view = new PagePrincipalView();
-        //private readonly MenuPrincipalView m_view = new MenuPrincipalView();
-
-        #endregion
-
-        #region Constructors
-
-        public PagePrincipal()
+        private MenuPrincipalView _view;
+        public ModuloPage()
         {
-            View = m_view;
+            _view= new MenuPrincipalView();
+            this.View = _view;
+
         }
-
-        #endregion
-
-        #region Protected Methods
-
         /// <summary>
         /// Deserializes the data contained by the specified byte array.
         /// </summary>
@@ -46,8 +38,9 @@ namespace iModSCCredenciamento.PagePrincipal
         /// </summary>
         /// <remarks>At this step, the <see cref="Genetec.Sdk.Workspace.Workspace"/> is available.</remarks>
         protected override void Initialize()
-        {
-            m_view.Initialize(Workspace);
+        { 
+            _view.Initialize(Workspace);
+            
         }
 
         /// <summary>
@@ -59,7 +52,7 @@ namespace iModSCCredenciamento.PagePrincipal
             return null;
         }
 
+
         #endregion
     }
-    
 }

@@ -22,139 +22,141 @@ using iModSCCredenciamento.Models;
 using System.Xml.Serialization;
 using System.Collections.ObjectModel;
 using System.Xml;
-using System.Windows.Media.Imaging;
-using iModSCCredenciamento.PagePrincipal;
+using System.Windows.Media.Imaging; 
 using Genetec.Sdk.Entities.CustomFields;
 
 namespace iModSCCredenciamento.Funcoes
 {
     public class SCManager
     {
-       static IEngine _sdk = Main.engine;
+        //static IEngine _sdk = ModuloCredenciamento.Engine;
+        static IEngine _sdk = Main.Engine;
         public static bool ImprimirCredencial(ClasseColaboradoresCredenciais.ColaboradorCredencial colaboradorCredencial)
         {
-            try
-            {
+            return true;
+            //try
+            //{
 
-                //IEngine _sdk = Main.engine;
+            //    //IEngine _sdk = Main.engine;
 
-                Workspace m_workspace = PagePrincipalView.Workspace;
+            //    //Workspace m_workspace = PagePrincipal.Workspace;
 
-                bool _deletaCredencial = false;
+            //    bool _deletaCredencial = false;
 
-                Cardholder _cardholder = _sdk.GetEntity((Guid)colaboradorCredencial.CardHolderGuid) as Cardholder;
+            //    Cardholder _cardholder = _sdk.GetEntity((Guid)colaboradorCredencial.CardHolderGuid) as Cardholder;
 
-                if (_cardholder == null)
-                {
-                    return false;
-                }
+            //    if (_cardholder == null)
+            //    {
+            //        return false;
+            //    }
 
-                Credential _credencial = _sdk.GetEntity((Guid)colaboradorCredencial.CredencialGuid) as Credential;
+            //    Credential _credencial = _sdk.GetEntity((Guid)colaboradorCredencial.CredencialGuid) as Credential;
 
-                if (_credencial == null)
-                {
-                    _credencial =  CriarCredencialProvisoria(_cardholder, colaboradorCredencial.Validade, new Guid(colaboradorCredencial.LayoutCrachaGUID));
-                    _deletaCredencial = true;
-                }
+            //    if (_credencial == null)
+            //    {
+            //        _credencial =  CriarCredencialProvisoria(_cardholder, colaboradorCredencial.Validade, new Guid(colaboradorCredencial.LayoutCrachaGUID));
+            //        _deletaCredencial = true;
+            //    }
 
-                Guid _CrachaGUID = new Guid(colaboradorCredencial.LayoutCrachaGUID);
-                Guid _CHGUID = _credencial.CardholderGuid; // new Guid("227ee2c9-371f-408f-bf91-07cfb7ac8a74");
+            //    Guid _CrachaGUID = new Guid(colaboradorCredencial.LayoutCrachaGUID);
+            //    Guid _CHGUID = _credencial.CardholderGuid; // new Guid("227ee2c9-371f-408f-bf91-07cfb7ac8a74");
 
-                System.Windows.Application.Current.Dispatcher.Invoke(new Action(() =>
-                {
-                    PrintQueue printQueue = GetPrintQueue();
-                    if (printQueue != null)
-                    {
+            //    System.Windows.Application.Current.Dispatcher.Invoke(new Action(() =>
+            //    {
+            //        PrintQueue printQueue = GetPrintQueue();
+            //        if (printQueue != null)
+            //        {
 
-                        IBadgeService badgeService = m_workspace.Services.Get<IBadgeService>();
-                        if (badgeService != null)
-                        {
+            //            IBadgeService badgeService = m_workspace.Services.Get<IBadgeService>();
+            //            if (badgeService != null)
+            //            {
 
-                            BadgeInformation info = new BadgeInformation(_CrachaGUID, _credencial.Guid);
-                            badgeService.BeginPrint(info, printQueue, OnBadgePrinted, null);
+            //                BadgeInformation info = new BadgeInformation(_CrachaGUID, _credencial.Guid);
+            //                badgeService.BeginPrint(info, printQueue, OnBadgePrinted, null);
 
-                        }
-                    }
-                }));
+            //            }
+            //        }
+            //    }));
 
-                if (_deletaCredencial)
-                {
-                    _sdk.DeleteEntity(_credencial);
-                }
-
-
-                return true;
+            //    if (_deletaCredencial)
+            //    {
+            //        _sdk.DeleteEntity(_credencial);
+            //    }
 
 
+            //    return true;
 
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
+
+
+            //}
+            //catch (Exception ex)
+            //{
+            //    return false;
+            //}
         }
 
         public static bool ImprimirCredencialVeiculo(ClasseVeiculosCredenciais.VeiculoCredencial veiculoCredencial)
         {
-            try
-            {
+            return true;
+            //try
+            //{
 
-                //IEngine _sdk = Main.engine;
+            //    //IEngine _sdk = Main.engine;
 
-                Workspace m_workspace = PagePrincipalView.Workspace;
+            //    Workspace m_workspace = PagePrincipal.Workspace;
 
-                bool _deletaCredencial = false;
+            //    bool _deletaCredencial = false;
 
-                Cardholder _cardholder = _sdk.GetEntity((Guid)veiculoCredencial.CardHolderGuid) as Cardholder;
+            //    Cardholder _cardholder = _sdk.GetEntity((Guid)veiculoCredencial.CardHolderGuid) as Cardholder;
 
-                if (_cardholder == null)
-                {
-                    return false;
-                }
+            //    if (_cardholder == null)
+            //    {
+            //        return false;
+            //    }
 
-                Credential _credencial = _sdk.GetEntity((Guid)veiculoCredencial.CredencialGuid) as Credential;
+            //    Credential _credencial = _sdk.GetEntity((Guid)veiculoCredencial.CredencialGuid) as Credential;
 
-                if (_credencial == null)
-                {
-                    _credencial = CriarCredencialProvisoria(_cardholder, veiculoCredencial.Validade, new Guid(veiculoCredencial.LayoutCrachaGUID));
-                    _deletaCredencial = true;
-                }
+            //    if (_credencial == null)
+            //    {
+            //        _credencial = CriarCredencialProvisoria(_cardholder, veiculoCredencial.Validade, new Guid(veiculoCredencial.LayoutCrachaGUID));
+            //        _deletaCredencial = true;
+            //    }
 
-                Guid _CrachaGUID = new Guid(veiculoCredencial.LayoutCrachaGUID);
-                Guid _CHGUID = _credencial.CardholderGuid; // new Guid("227ee2c9-371f-408f-bf91-07cfb7ac8a74");
+            //    Guid _CrachaGUID = new Guid(veiculoCredencial.LayoutCrachaGUID);
+            //    Guid _CHGUID = _credencial.CardholderGuid; // new Guid("227ee2c9-371f-408f-bf91-07cfb7ac8a74");
 
-                System.Windows.Application.Current.Dispatcher.Invoke(new Action(() =>
-                {
-                    PrintQueue printQueue = GetPrintQueue();
-                    if (printQueue != null)
-                    {
+            //    System.Windows.Application.Current.Dispatcher.Invoke(new Action(() =>
+            //    {
+            //        PrintQueue printQueue = GetPrintQueue();
+            //        if (printQueue != null)
+            //        {
 
-                        IBadgeService badgeService = m_workspace.Services.Get<IBadgeService>();
-                        if (badgeService != null)
-                        {
+            //            IBadgeService badgeService = m_workspace.Services.Get<IBadgeService>();
+            //            if (badgeService != null)
+            //            {
 
-                            BadgeInformation info = new BadgeInformation(_CrachaGUID, _credencial.Guid);
-                            badgeService.BeginPrint(info, printQueue, OnBadgePrinted, null);
+            //                BadgeInformation info = new BadgeInformation(_CrachaGUID, _credencial.Guid);
+            //                badgeService.BeginPrint(info, printQueue, OnBadgePrinted, null);
 
-                        }
-                    }
-                }));
+            //            }
+            //        }
+            //    }));
 
-                if (_deletaCredencial)
-                {
-                    _sdk.DeleteEntity(_credencial);
-                }
-
-
-                return true;
+            //    if (_deletaCredencial)
+            //    {
+            //        _sdk.DeleteEntity(_credencial);
+            //    }
 
 
+            //    return true;
 
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
+
+
+            //}
+            //catch (Exception ex)
+            //{
+            //    return false;
+            //}
         }
 
         private static Credential CriarCredencialProvisoria(Cardholder cardholder, DateTime? validade, Guid layoutCracha)

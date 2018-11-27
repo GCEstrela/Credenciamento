@@ -5,8 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:iModSCCredenciamento.Views"
              xmlns:i="clr-namespace:iModSCCredenciamento.Funcoes"
-             xmlns:data="clr-namespace:Singulink.Windows.Data"                     
-             mc:Ignorable="d" >
+             xmlns:data="clr-namespace:Singulink.Windows.Data"  
+             mc:Ignorable="d" d:DesignHeight="495" >
 
     <!--Begin Styles-->
     <UserControl.Resources>
@@ -16,8 +16,8 @@
             <Setter Property="HorizontalAlignment" Value="Left"></Setter>
         </Style>-->
         
-        <Style TargetType="TextBox">
-            <!--<Setter Property="Height" Value="25"/>-->
+        <Style TargetType="TextBox" >
+            <Setter Property="Height" Value="25"/>
             <!--<Setter Property="VerticalAlignment" Value="Bottom"/>
             <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
             <Setter Property="CharacterCasing" Value="Upper"/>-->
@@ -25,8 +25,8 @@
         <!--<Style TargetType="ComboBox">
             <Setter Property="Height" Value="25"/>
             <Setter Property="VerticalAlignment" Value="Bottom"/>
-        </Style>-->
-        <!--<Style TargetType="Button">
+        </Style>
+        <Style TargetType="Button">
             <Setter Property="Height" Value="25"></Setter>
         </Style>-->
 
@@ -148,7 +148,7 @@
         </Style>
     </UserControl.Resources>
     <!--End Styles-->
-    
+
     <!--Main Grid -->
     <Grid Margin="5,5">
 
@@ -222,7 +222,7 @@
         </Grid>
         <!--/Grid 0 -->
 
-        <TabControl x:Name="TabGeral_tc" Grid.Row="1"  VerticalAlignment="Stretch" Grid.Column="0" Margin="0,10,0,0" IsSynchronizedWithCurrentItem="True" TabStripPlacement="Top" SelectionChanged="TabGeral_tc_SelectionChanged"  >
+        <TabControl x:Name="TabGeral_tc" Grid.Row="1"  VerticalAlignment="Stretch" Grid.Column="0" Margin="0,10,0,-125" IsSynchronizedWithCurrentItem="True" TabStripPlacement="Top" SelectionChanged="TabGeral_tc_SelectionChanged"  >
             <TabItem x:Name="Geral_ti" Width="200" Background="{x:Null}"  Selector.Selected="OnTabSelected" Selector.Unselected="OnTabUnSelected">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
@@ -237,14 +237,14 @@
                         </StackPanel>
                     </StackPanel>
                 </TabItem.Header>
-                
-                
+
+
                 <StackPanel x:Name="Geral_sp" IsHitTestVisible="False" VerticalAlignment="Stretch" >
-                    
+
                     <!--Main GroupBox-->
                     <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}"  Header="Identificação"  Margin="10" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-
                         <Grid HorizontalAlignment="Stretch" Margin="1" ScrollViewer.VerticalScrollBarVisibility="Visible" VerticalAlignment="Stretch">
+
                             <Grid.RowDefinitions >
                                 <RowDefinition Height="40"/>
                                 <RowDefinition Height="40"/>
@@ -276,17 +276,17 @@
 
                             <!--#region Grid 1 -->
                             <Label Content="Código:"   Grid.Row="1" Grid.Column="0" Margin="1,0,0,0" />
-                           
-                                <TextBox  x:Name="Codigo_tb" CharacterCasing="Upper" Grid.Row="1" Grid.Column="1" Text="{Binding SelectedItem.VeiculoID, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"/>
 
-                             
-                             
+                            <TextBox  x:Name="Codigo_tb" CharacterCasing="Upper" Grid.Row="1" Grid.Column="1" Text="{Binding SelectedItem.VeiculoID, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"/>
+
+
+
                             <Label Content="Placa/Ident.:"   Grid.Row="1" Grid.Column="2" />
-                            
-                                <TextBox  x:Name="Placa_tb" MaxLength="8" Grid.Row="1" Grid.Column="3" CharacterCasing="Upper" Text="{Binding SelectedItem.Placa_Identificador, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True" Grid.ColumnSpan="2"/>
 
-                            
-                            
+                            <TextBox  x:Name="Placa_tb" MaxLength="8"  Grid.Row="1" Grid.Column="3" CharacterCasing="Upper" Text="{Binding SelectedItem.Placa_Identificador, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True" Grid.ColumnSpan="2"/>
+
+
+
                             <Label Content="Frota:"   Grid.Column="5"  Grid.Row="1" />
                             <TextBox  x:Name="frota_tb" MaxLength="8" Grid.Row="1" Grid.Column="6" CharacterCasing="Upper" Text="{Binding SelectedItem.Frota, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"/>
                             <Label Content="Patrimônio:"   Grid.Column="7" Grid.Row="1" Margin="0,0,0,39" Grid.RowSpan="2" />
@@ -354,17 +354,20 @@
                             <Label x:Name="label1" Content="Tipo Serviço" Grid.Column="6"     Grid.Row="4" Margin="21,0,0,0"/>
                             <ListBox x:Name="listBox" Grid.Column="7"   Grid.Row="5" Grid.RowSpan="2" Grid.ColumnSpan="2"  Margin="11,0,0,0" />
                             <ComboBox x:Name="comboBox" Grid.Column="7" Grid.Row="4" Grid.ColumnSpan="2" Margin="11,0,0,0"/>
-                            <Button x:Name="IncluirServ_bt"   Content="Incluir" Width="87" Grid.Column="9" HorizontalAlignment="Left" Margin="10,10,0,5" Grid.Row="5"/>
+                            <!--<Button x:Name="IncluirServ_bt"    Content="Incluir" Width="87" Grid.Column="9" HorizontalAlignment="Left" Margin="10,10,0,5" Grid.Row="5"/>-->
+                            <Button x:Name="btnCriar"  Command="{Binding CriarCommand}"  Content="Incluir" Width="87" Grid.Column="9" HorizontalAlignment="Left" Margin="10,10,0,5" Grid.Row="5"/>
                             <Button x:Name="ExcluirServ_bt"   Content="Excluir" Width="87" Grid.Column="9" HorizontalAlignment="Left" Margin="10,10,0,5" Grid.Row="6"/>
 
                             <!--#endregion-->
 
                         </Grid>
+
                     </GroupBox>
+                    
                     <!--Main GroupBox-->
                 </StackPanel>
-                
-                
+
+
             </TabItem>
 
             <TabItem x:Name="VinculoEmpresa_ti"    Width="200" >

@@ -8,9 +8,7 @@ using System.Threading.Tasks;
 
 namespace iModSCCredenciamento.ViewModels
 {
-    /// <summary>
-    /// Provides common functionality for ViewModel classes
-    /// </summary>
+  
     public abstract class ViewModelBase : INotifyPropertyChanged
     {
         #region INotifyPropertyChanged implementation
@@ -20,30 +18,6 @@ namespace iModSCCredenciamento.ViewModels
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
-        //protected bool SetProperty<T>(ref T field, T value, [CallerMemberName]string name = null)
-        //{
-        //    if (Equals(field, value))
-        //    {
-        //        return false;
-        //    }
-        //    field = value;
-        //    this.OnPropertyChanged(name);
-        //    return true;
-        //}
-
-
-        ////public event PropertyChangedEventHandler PropertyChanged;
-
-        ////protected void OnPropertyChanged(string propertyName)
-        ////{
-        ////    PropertyChangedEventHandler handler = PropertyChanged;
-
-        ////    if (handler != null)
-        ////    {
-        ////        handler(this, new PropertyChangedEventArgs(propertyName));
-        ////    }
-        ////}
 
         #endregion 
 

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace iModSCCredenciamento.Properties
+namespace iModSCCredenciamentoAPP.Properties
 {
 
 

@@ -214,7 +214,7 @@ namespace iModSCCredenciamento.ViewModels
 
 
 
-        //TODO: Mihai (01-11-2018)
+       
         public void OnFiltrosTermosCommand(int _report, int _status, int _periodo, string _dataIni, string _dataFim)
         {
             string _xmlstring;
