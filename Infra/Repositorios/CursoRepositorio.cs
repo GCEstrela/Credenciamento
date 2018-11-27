@@ -31,7 +31,7 @@ namespace IMOD.Infra.Repositorios
 
         public CursoRepositorio()
         {
-            _dataBase = _dataWorkerFactory.ObterDataBaseSingleton (TipoDataBase.SqlServer, _connection);
+            _dataBase = _dataWorkerFactory.ObterDataBaseSingleton(TipoDataBase.SqlServer, _connection);
         }
 
         #endregion
@@ -46,20 +46,21 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.InsertText ("Cursos", conn))
+                using (var cmd = _dataBase.InsertText("Cursos", conn))
                 {
                     try
                     {
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("CursoID", entity.CursoId, true)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Descricao", entity.Descricao, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("CursoID", entity.CursoId, true)));
+                        cmd.Parameters.Add(
+                            _dataBase.CreateParameter(new ParamInsert("Descricao", entity.Descricao, false)));
 
-                        var key = Convert.ToInt32 (cmd.ExecuteScalar());
+                        var key = Convert.ToInt32(cmd.ExecuteScalar());
 
                         entity.CursoId = key;
                     }
                     catch (Exception ex)
                     {
-                        Utils.TraceException (ex);
+                        Utils.TraceException(ex);
                         throw;
                     }
                 }
@@ -75,12 +76,13 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText ("Cursos", conn))
+                using (var cmd = _dataBase.SelectText("Cursos", conn))
 
                 {
                     try
                     {
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("CursoId", DbType.Int32, id).Igual()));
+                        cmd.Parameters.Add(
+                            _dataBase.CreateParameter(new ParamSelect("CursoId", DbType.Int32, id).Igual()));
                         var reader = cmd.ExecuteReader();
                         var d1 = reader.MapToList<Curso>();
 
@@ -88,7 +90,7 @@ namespace IMOD.Infra.Repositorios
                     }
                     catch (Exception ex)
                     {
-                        Utils.TraceException (ex);
+                        Utils.TraceException(ex);
                         throw;
                     }
                 }
@@ -104,13 +106,15 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText ("Cursos", conn))
+                using (var cmd = _dataBase.SelectText("Cursos", conn))
 
                 {
                     try
                     {
-                        cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("CursoID", DbType.Int32, objects, 0).Igual()));
-                        cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("Descricao", DbType.String, objects, 1).Like()));
+                        cmd.CreateParameterSelect(
+                            _dataBase.CreateParameter(new ParamSelect("CursoID", DbType.Int32, objects, 0).Igual()));
+                        cmd.CreateParameterSelect(
+                            _dataBase.CreateParameter(new ParamSelect("Descricao", DbType.String, objects, 1).Like()));
 
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<Curso>();
@@ -119,7 +123,7 @@ namespace IMOD.Infra.Repositorios
                     }
                     catch (Exception ex)
                     {
-                        Utils.TraceException (ex);
+                        Utils.TraceException(ex);
                         throw;
                     }
                 }
@@ -134,18 +138,19 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.UpdateText ("Cursos", conn))
+                using (var cmd = _dataBase.UpdateText("Cursos", conn))
                 {
                     try
                     {
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("CursoID", entity.CursoId, true)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Descricao", entity.Descricao, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("CursoID", entity.CursoId, true)));
+                        cmd.Parameters.Add(
+                            _dataBase.CreateParameter(new ParamUpdate("Descricao", entity.Descricao, false)));
 
                         cmd.ExecuteNonQuery();
                     }
                     catch (Exception ex)
                     {
-                        Utils.TraceException (ex);
+                        Utils.TraceException(ex);
                         throw;
                     }
                 }
@@ -160,17 +165,18 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.DeleteText ("Cursos", conn))
+                using (var cmd = _dataBase.DeleteText("Cursos", conn))
                 {
                     try
                     {
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamDelete ("CursoId", entity.CursoId).Igual()));
+                        cmd.Parameters.Add(
+                            _dataBase.CreateParameter(new ParamDelete("CursoId", entity.CursoId).Igual()));
 
                         cmd.ExecuteNonQuery();
                     }
                     catch (Exception ex)
                     {
-                        Utils.TraceException (ex);
+                        Utils.TraceException(ex);
                     }
                 }
             }

@@ -31,7 +31,7 @@ namespace IMOD.Infra.Repositorios
 
         public RelatoriosGerenciaisRepositorio()
         {
-            _dataBase = _dataWorkerFactory.ObterDataBaseSingleton (TipoDataBase.SqlServer, _connection);
+            _dataBase = _dataWorkerFactory.ObterDataBaseSingleton(TipoDataBase.SqlServer, _connection);
         }
 
         #endregion
@@ -46,23 +46,26 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.InsertText ("RelatoriosGerenciais", conn))
+                using (var cmd = _dataBase.InsertText("RelatoriosGerenciais", conn))
                 {
                     try
                     {
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("RelatorioID", entity.RelatorioId, true)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Nome", entity.Nome, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("NomeArquivoRPT", entity.NomeArquivoRpt, true)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("ArquivoRPT", entity.ArquivoRpt, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Ativo", entity.Ativo, true)));
+                        cmd.Parameters.Add(
+                            _dataBase.CreateParameter(new ParamInsert("RelatorioID", entity.RelatorioId, true)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Nome", entity.Nome, false)));
+                        cmd.Parameters.Add(
+                            _dataBase.CreateParameter(new ParamInsert("NomeArquivoRPT", entity.NomeArquivoRpt, true)));
+                        cmd.Parameters.Add(
+                            _dataBase.CreateParameter(new ParamInsert("ArquivoRPT", entity.ArquivoRpt, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Ativo", entity.Ativo, true)));
 
-                        var key = Convert.ToInt32 (cmd.ExecuteScalar());
+                        var key = Convert.ToInt32(cmd.ExecuteScalar());
 
                         entity.RelatorioId = key;
                     }
                     catch (Exception ex)
                     {
-                        Utils.TraceException (ex);
+                        Utils.TraceException(ex);
                         throw;
                     }
                 }
@@ -78,12 +81,13 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText ("RelatoriosGerenciais", conn))
+                using (var cmd = _dataBase.SelectText("RelatoriosGerenciais", conn))
 
                 {
                     try
                     {
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("RelatorioId", DbType.Int32, id).Igual()));
+                        cmd.Parameters.Add(
+                            _dataBase.CreateParameter(new ParamSelect("RelatorioId", DbType.Int32, id).Igual()));
                         var reader = cmd.ExecuteReader();
                         var d1 = reader.MapToList<RelatoriosGerenciais>();
 
@@ -91,7 +95,7 @@ namespace IMOD.Infra.Repositorios
                     }
                     catch (Exception ex)
                     {
-                        Utils.TraceException (ex);
+                        Utils.TraceException(ex);
                         throw;
                     }
                 }
@@ -107,12 +111,13 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText ("RelatoriosGerenciais", conn))
+                using (var cmd = _dataBase.SelectText("RelatoriosGerenciais", conn))
 
                 {
                     try
                     {
-                        cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("Nome", objects, 0).Like()));
+                        cmd.CreateParameterSelect(
+                            _dataBase.CreateParameter(new ParamSelect("Nome", objects, 0).Like()));
 
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<RelatoriosGerenciais>();
@@ -121,7 +126,7 @@ namespace IMOD.Infra.Repositorios
                     }
                     catch (Exception ex)
                     {
-                        Utils.TraceException (ex);
+                        Utils.TraceException(ex);
                         throw;
                     }
                 }
@@ -136,21 +141,24 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.UpdateText ("RelatoriosGerenciais", conn))
+                using (var cmd = _dataBase.UpdateText("RelatoriosGerenciais", conn))
                 {
                     try
                     {
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("RelatorioID", entity.RelatorioId, true)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Nome", entity.Nome, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("NomeArquivoRPT", entity.NomeArquivoRpt, true)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("ArquivoRPT", entity.ArquivoRpt, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Ativo", entity.Ativo, true)));
+                        cmd.Parameters.Add(
+                            _dataBase.CreateParameter(new ParamUpdate("RelatorioID", entity.RelatorioId, true)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Nome", entity.Nome, false)));
+                        cmd.Parameters.Add(
+                            _dataBase.CreateParameter(new ParamUpdate("NomeArquivoRPT", entity.NomeArquivoRpt, true)));
+                        cmd.Parameters.Add(
+                            _dataBase.CreateParameter(new ParamUpdate("ArquivoRPT", entity.ArquivoRpt, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Ativo", entity.Ativo, true)));
 
                         cmd.ExecuteNonQuery();
                     }
                     catch (Exception ex)
                     {
-                        Utils.TraceException (ex);
+                        Utils.TraceException(ex);
                         throw;
                     }
                 }
@@ -165,17 +173,18 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.DeleteText ("RelatoriosGerenciais", conn))
+                using (var cmd = _dataBase.DeleteText("RelatoriosGerenciais", conn))
                 {
                     try
                     {
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamDelete ("RelatorioID", entity.RelatorioId).Igual()));
+                        cmd.Parameters.Add(
+                            _dataBase.CreateParameter(new ParamDelete("RelatorioID", entity.RelatorioId).Igual()));
 
                         cmd.ExecuteNonQuery();
                     }
                     catch (Exception ex)
                     {
-                        Utils.TraceException (ex);
+                        Utils.TraceException(ex);
                     }
                 }
             }

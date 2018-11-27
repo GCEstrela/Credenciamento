@@ -31,7 +31,7 @@ namespace IMOD.Infra.Repositorios
 
         public VeiculoSeguroRepositorio()
         {
-            _dataBase = _dataWorkerFactory.ObterDataBaseSingleton (TipoDataBase.SqlServer, _connection);
+            _dataBase = _dataWorkerFactory.ObterDataBaseSingleton(TipoDataBase.SqlServer, _connection);
         }
 
         #endregion
@@ -46,27 +46,36 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.InsertText ("VeiculosSeguros", conn))
+                using (var cmd = _dataBase.InsertText("VeiculosSeguros", conn))
                 {
                     try
                     {
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("VeiculoSeguroID", entity.VeiculoSeguroId, true)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("NomeSeguradora", entity.NomeSeguradora, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("NumeroApolice", entity.NumeroApolice, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("ValorCobertura", entity.ValorCobertura, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("VeiculoID", entity.VeiculoId, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Arquivo", entity.Arquivo, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("NomeArquivo", entity.NomeArquivo, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Emissao", entity.Emissao, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Validade", entity.Validade, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("VeiculoSeguroID",
+                            entity.VeiculoSeguroId, true)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("NomeSeguradora",
+                            entity.NomeSeguradora, false)));
+                        cmd.Parameters.Add(
+                            _dataBase.CreateParameter(new ParamInsert("NumeroApolice", entity.NumeroApolice, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("ValorCobertura",
+                            entity.ValorCobertura, false)));
+                        cmd.Parameters.Add(
+                            _dataBase.CreateParameter(new ParamInsert("VeiculoID", entity.VeiculoId, false)));
+                        cmd.Parameters.Add(
+                            _dataBase.CreateParameter(new ParamInsert("Arquivo", entity.Arquivo, false)));
+                        cmd.Parameters.Add(
+                            _dataBase.CreateParameter(new ParamInsert("NomeArquivo", entity.NomeArquivo, false)));
+                        cmd.Parameters.Add(
+                            _dataBase.CreateParameter(new ParamInsert("Emissao", entity.Emissao, false)));
+                        cmd.Parameters.Add(
+                            _dataBase.CreateParameter(new ParamInsert("Validade", entity.Validade, false)));
 
-                        var key = Convert.ToInt32 (cmd.ExecuteScalar());
+                        var key = Convert.ToInt32(cmd.ExecuteScalar());
 
                         entity.VeiculoSeguroId = key;
                     }
                     catch (Exception ex)
                     {
-                        Utils.TraceException (ex);
+                        Utils.TraceException(ex);
                         throw;
                     }
                 }
@@ -82,12 +91,13 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText ("VeiculosSeguros", conn))
+                using (var cmd = _dataBase.SelectText("VeiculosSeguros", conn))
 
                 {
                     try
                     {
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("VeiculoSeguroId", DbType.Int32, id).Igual()));
+                        cmd.Parameters.Add(
+                            _dataBase.CreateParameter(new ParamSelect("VeiculoSeguroId", DbType.Int32, id).Igual()));
                         var reader = cmd.ExecuteReader();
                         var d1 = reader.MapToList<VeiculoSeguro>();
 
@@ -95,7 +105,7 @@ namespace IMOD.Infra.Repositorios
                     }
                     catch (Exception ex)
                     {
-                        Utils.TraceException (ex);
+                        Utils.TraceException(ex);
                         throw;
                     }
                 }
@@ -111,13 +121,17 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText ("VeiculosSeguros", conn))
+                using (var cmd = _dataBase.SelectText("VeiculosSeguros", conn))
 
                 {
                     try
                     {
-                        cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("NomeSeguradora", DbType.String, objects, 0).Like()));
-                        cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("NumeroApolice", DbType.String, objects, 1).Igual()));
+                        cmd.CreateParameterSelect(
+                            _dataBase.CreateParameter(
+                                new ParamSelect("NomeSeguradora", DbType.String, objects, 0).Like()));
+                        cmd.CreateParameterSelect(
+                            _dataBase.CreateParameter(
+                                new ParamSelect("NumeroApolice", DbType.String, objects, 1).Igual()));
 
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<VeiculoSeguro>();
@@ -126,7 +140,7 @@ namespace IMOD.Infra.Repositorios
                     }
                     catch (Exception ex)
                     {
-                        Utils.TraceException (ex);
+                        Utils.TraceException(ex);
                         throw;
                     }
                 }
@@ -141,25 +155,34 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.UpdateText ("VeiculosSeguros", conn))
+                using (var cmd = _dataBase.UpdateText("VeiculosSeguros", conn))
                 {
                     try
                     {
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("VeiculoSeguroID", entity.VeiculoSeguroId, true)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("NomeSeguradora", entity.NomeSeguradora, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("NumeroApolice", entity.NumeroApolice, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("ValorCobertura", entity.ValorCobertura, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("VeiculoID", entity.VeiculoId, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Arquivo", entity.Arquivo, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("NomeArquivo", entity.NomeArquivo, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Emissao", entity.Emissao, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Validade", entity.Validade, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("VeiculoSeguroID",
+                            entity.VeiculoSeguroId, true)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("NomeSeguradora",
+                            entity.NomeSeguradora, false)));
+                        cmd.Parameters.Add(
+                            _dataBase.CreateParameter(new ParamUpdate("NumeroApolice", entity.NumeroApolice, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("ValorCobertura",
+                            entity.ValorCobertura, false)));
+                        cmd.Parameters.Add(
+                            _dataBase.CreateParameter(new ParamUpdate("VeiculoID", entity.VeiculoId, false)));
+                        cmd.Parameters.Add(
+                            _dataBase.CreateParameter(new ParamUpdate("Arquivo", entity.Arquivo, false)));
+                        cmd.Parameters.Add(
+                            _dataBase.CreateParameter(new ParamUpdate("NomeArquivo", entity.NomeArquivo, false)));
+                        cmd.Parameters.Add(
+                            _dataBase.CreateParameter(new ParamUpdate("Emissao", entity.Emissao, false)));
+                        cmd.Parameters.Add(
+                            _dataBase.CreateParameter(new ParamUpdate("Validade", entity.Validade, false)));
 
                         cmd.ExecuteNonQuery();
                     }
                     catch (Exception ex)
                     {
-                        Utils.TraceException (ex);
+                        Utils.TraceException(ex);
                         throw;
                     }
                 }
@@ -174,16 +197,18 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.DeleteText ("VeiculosSeguros", conn))
+                using (var cmd = _dataBase.DeleteText("VeiculosSeguros", conn))
                 {
                     try
                     {
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamDelete ("VeiculoSeguroId", entity.VeiculoSeguroId).Igual()));
+                        cmd.Parameters.Add(
+                            _dataBase.CreateParameter(
+                                new ParamDelete("VeiculoSeguroId", entity.VeiculoSeguroId).Igual()));
                         cmd.ExecuteNonQuery();
                     }
                     catch (Exception ex)
                     {
-                        Utils.TraceException (ex);
+                        Utils.TraceException(ex);
                     }
                 }
             }

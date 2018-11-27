@@ -19,13 +19,13 @@ namespace IMOD.Infra.Ado
 
         public static T ChangeType<T>(object value)
         {
-            return (T) ChangeType (typeof(T), value);
+            return (T) ChangeType(typeof(T), value);
         }
 
         public static object ChangeType(Type t, object value)
         {
-            var tc = TypeDescriptor.GetConverter (t);
-            return tc.ConvertFrom (value);
+            var tc = TypeDescriptor.GetConverter(t);
+            return tc.ConvertFrom(value);
         }
 
         #endregion

@@ -19,8 +19,8 @@ namespace IMOD.Infra.Ado.Interfaces
     public enum TipoDataBase
     {
         //PostgreSql,
-        SqlServer,
-       // Oracle
+        SqlServer
+        // Oracle
     }
 
     public enum TipoInstrucao
@@ -43,6 +43,7 @@ namespace IMOD.Infra.Ado.Interfaces
         ///     <para>Para instruções InsertText,DeleteText,UpdateText,SelectText </para>
         /// </summary>
         TipoInstrucao SqlText { get; }
+
         /// <summary>
         ///     Cria uma conexção com o banco de dados
         /// </summary>

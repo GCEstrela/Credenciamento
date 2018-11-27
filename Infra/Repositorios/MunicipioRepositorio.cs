@@ -31,7 +31,7 @@ namespace IMOD.Infra.Repositorios
 
         public MunicipioRepositorio()
         {
-            _dataBase = _dataWorkerFactory.ObterDataBaseSingleton (TipoDataBase.SqlServer, _connection);
+            _dataBase = _dataWorkerFactory.ObterDataBaseSingleton(TipoDataBase.SqlServer, _connection);
         }
 
         #endregion
@@ -47,12 +47,13 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText ("Municipios", conn))
+                using (var cmd = _dataBase.SelectText("Municipios", conn))
 
                 {
                     try
                     {
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("MunicipioId", DbType.Int32, id).Igual()));
+                        cmd.Parameters.Add(
+                            _dataBase.CreateParameter(new ParamSelect("MunicipioId", DbType.Int32, id).Igual()));
                         var reader = cmd.ExecuteReader();
                         var d1 = reader.MapToList<Municipio>();
 
@@ -60,7 +61,7 @@ namespace IMOD.Infra.Repositorios
                     }
                     catch (Exception ex)
                     {
-                        Utils.TraceException (ex);
+                        Utils.TraceException(ex);
                         throw;
                     }
                 }
@@ -76,14 +77,14 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText ("Municipios", conn))
+                using (var cmd = _dataBase.SelectText("Municipios", conn))
 
                 {
                     try
                     {
                         //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("NomeArquivo", o, 0).Like()));
                         //cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("ColaboradorID", o, 1).Igual()));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("Nome", objects, 0).Igual()));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("Nome", objects, 0).Igual()));
 
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<Municipio>();
@@ -92,7 +93,7 @@ namespace IMOD.Infra.Repositorios
                     }
                     catch (Exception ex)
                     {
-                        Utils.TraceException (ex);
+                        Utils.TraceException(ex);
                         throw;
                     }
                 }
