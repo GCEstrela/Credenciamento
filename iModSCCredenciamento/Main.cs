@@ -19,13 +19,18 @@ using System.Collections.ObjectModel;
 using System.Xml;
 using AutoMapper;
 using Genetec.Sdk.Queries;
+using IMOD.Domain.Entities;
+using IMOD.Infra.Repositorios;
+using Colaborador = IMOD.Domain.Entities.Colaborador;
+
+//using Colaborador = IMOD.Domain.Entities.Colaborador;
 
 namespace iModSCCredenciamento
 {
     public class Main : Module
     {
         #region Constants
-        
+
 
         public static readonly Guid iModSCCredenciamentoId = new Guid("{2ACE4CD0-7E9C-FAFA-B8A6-24FD71D6DD59}");
 
@@ -51,9 +56,9 @@ namespace iModSCCredenciamento
             catch (Exception)
             {
             }
-           
 
-            
+
+
         }
         #endregion
 
@@ -146,7 +151,7 @@ namespace iModSCCredenciamento
             Task task = new CreatePageTask<PagePrincipal.PagePrincipal>(true);
             task.Initialize(Workspace);
             m_tasks.Add(task);
-            
+
             foreach (Task pageExtension in m_tasks)
             {
                 Workspace.Tasks.Register(pageExtension);
@@ -158,7 +163,7 @@ namespace iModSCCredenciamento
 
         private void OnLoggedOn(object sender, LoggedOnEventArgs e)
         {
-            
+
             try
             {
                 Schedule agenda = engine.GetEntity(new Guid("00000000-0000-0000-0000-000000000006")) as Schedule;
@@ -177,7 +182,7 @@ namespace iModSCCredenciamento
             {
                 Global.AbreConfig();
             }
-           // CarregaLayoutCracha();
+            // CarregaLayoutCracha();
             RegisterTaskExtensions();
         }
 
@@ -516,7 +521,7 @@ namespace iModSCCredenciamento
             //    {
             //        return;
             //    }
-                
+
             //     SqlConnection _Con = new SqlConnection(Global._connectionString);_Con.Open();
             //    SqlCommand _sqlCmd;
             //    _sqlCmd = new SqlCommand("Delete from LayoutsCrachas where LayoutCrachaGUID='" + _xmlDoc.GetElementsByTagName("LayoutCrachaGUID")[0].InnerText + "'", _Con);
@@ -532,7 +537,7 @@ namespace iModSCCredenciamento
             //catch (Exception ex)
             //{
             //    Global.Log("Erro na void ExcluiLayoutCrachaBD ex: " + ex);
-                
+
 
             //}
         }
@@ -547,10 +552,16 @@ namespace iModSCCredenciamento
             Mapper.Initialize(
                     m =>
                     {
-
-
                         m.CreateMap<Colaborador, ClasseColaboradores.Colaborador>().ReverseMap();
+                        m.CreateMap<Empresa, ClasseEmpresas.Empresa>()
+                            .IgnoreAllSourcePropertiesWithAnInaccessibleSetter()
+                            .ReverseMap();
 
+                        m.CreateMap<Estados, ClasseEstados.Estado>().ReverseMap();
+                        m.CreateMap<TipoAtividade, ClasseTiposAtividades.TipoAtividade>().ReverseMap();
+                        m.CreateMap<EmpresaTipoAtividade, ClasseEmpresasTiposAtividades.EmpresaTipoAtividade>().ReverseMap();
+                        m.CreateMap<AreaAcesso, ClasseAreasAcessos.AreaAcesso>().ReverseMap();
+                        m.CreateMap<LayoutCracha, ClasseLayoutsCrachas.LayoutCracha>().ReverseMap();
 
                     });
         }

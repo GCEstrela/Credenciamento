@@ -486,6 +486,11 @@ namespace iModSCCredenciamento.Views
             //((EmpresaViewModel)this.DataContext).CarregaColecoesIniciais();
         }
 
+        private void Estado_cb_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
 
 
 
