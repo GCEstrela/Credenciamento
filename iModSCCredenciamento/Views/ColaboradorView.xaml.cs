@@ -338,8 +338,8 @@ namespace iModSCCredenciamento.Views
                 model.ValidarAdicao(entity);
 
                 Botoes_Principais_sp.Visibility = Visibility.Visible;
-                //model.SalvarAdicao();
-                model.SalvarAdicao2();
+                model.SalvarAdicao();
+                //model.SalvarAdicao2();
                 Botoes_Adicionar_sp.Visibility = Visibility.Hidden;
                 Geral_sp.IsHitTestVisible = false;
                 VinculoEmpresa_ti.Visibility = Visibility.Visible;

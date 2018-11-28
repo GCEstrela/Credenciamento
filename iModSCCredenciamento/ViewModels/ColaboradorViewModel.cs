@@ -19,6 +19,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using AutoMapper;
 using IMOD.Application.Interfaces;
+using System.Reflection;
+using System.Collections;
 //using IMOD.Application.Service;
 
 //using IMOD.Application.Service;
@@ -1970,6 +1972,97 @@ namespace iModSCCredenciamento.ViewModels
 
             }
         }
+
+        //public void PrintProperties(object obj, int indent, object obj2)
+        //{
+        //    if (obj == null) return;
+        //    string indentString = new string(' ', indent);
+        //    Type objType = obj.GetType();
+        //    Type objType2 = obj2.GetType();
+        //    PropertyInfo[] properties = objType.GetProperties(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static);
+        //    PropertyInfo[] properties2 = objType2.GetProperties(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.GetProperty);
+        //    foreach (PropertyInfo property in properties)
+        //    {
+        //        object propValue = property.GetValue(obj, null);
+        //        //object propValue2 = property.GetValue(obj2, null);
+        //        var elems = propValue as IList;
+        //        if (elems != null)
+        //        {
+        //            foreach (var item in elems)
+        //            {
+        //                PrintProperties(item, indent + 3,item);
+        //            }
+        //        }
+        //        else
+        //        {
+        //            if (property.PropertyType.Assembly == objType.Assembly)
+        //            {
+        //                Console.WriteLine("{0}{1}:", indentString, property.Name);
+
+        //                PrintProperties(propValue, indent + 2, propValue);
+        //            }
+        //            else
+        //            {
+                        
+        //                Console.WriteLine("{0}{1}: {2}", indentString, property.Name, propValue);
+        //                foreach (PropertyInfo property2 in properties2)
+        //                {
+        //                    var nome1 = property.Name.ToUpper();
+        //                    var nome2 = property2.Name.ToUpper();
+
+        //                    //Console.WriteLine("{0}{1}: {2}", indentString, property2.Name.ToUpper(), property.Name.ToUpper());
+        //                    object propValue2 = property2.GetValue(obj2, null);
+        //                    if (nome1 == nome2)
+        //                    {
+        //                        property2.SetValue(obj2, propValue);
+        //                        Console.WriteLine("{0}{1}: {2}", indentString, property2.Name, propValue2);
+        //                        break;
+
+        //                    }
+
+                            
+        //                }
+
+
+        //                }
+        //        }
+        //    }
+        //}
+        public void TranportarDados(object obj_Origem, int indent, object obj_Destino)//Tranporta os dados de uma Classe para a outra
+        {
+            try
+            {
+                if (obj_Origem == null) return;
+                string indentString = new string(' ', indent);
+                Type objType = obj_Origem.GetType();
+                Type objType2 = obj_Destino.GetType();
+                PropertyInfo[] properties = objType.GetProperties(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static);
+                PropertyInfo[] properties2 = objType2.GetProperties(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.GetProperty);
+
+                foreach (PropertyInfo property in properties)
+                {
+                    object propValue = property.GetValue(obj_Origem, null);
+                    var nomeOrigem = property.Name.ToUpper();
+                    foreach (PropertyInfo property2 in properties2)
+                    {
+                        var nomeDestino = property2.Name.ToUpper();
+                        object propValue2 = property2.GetValue(obj_Destino, null);
+                        if (nomeOrigem == nomeDestino)
+                        {
+                            property2.SetValue(obj_Destino, propValue);                        
+                            break;
+
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+
         internal void SalvarAdicao()
         {
             try
@@ -1978,6 +2071,7 @@ namespace iModSCCredenciamento.ViewModels
                 HabilitaEdicao = false;
                 System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(ClasseColaboradores));
 
+                //ObservableCollection<ClasseColaboradores.Colaborador> _ColaboradoresPro = new ObservableCollection<ClasseColaboradores.Colaborador>();
                 ObservableCollection<ClasseColaboradores.Colaborador> _ColaboradoresPro = new ObservableCollection<ClasseColaboradores.Colaborador>();
                 ClasseColaboradores _ClasseColaboradoresTemp = new ClasseColaboradores();
                 ColaboradorSelecionado.Pendente = true;
@@ -1986,30 +2080,44 @@ namespace iModSCCredenciamento.ViewModels
                 ColaboradorSelecionado.Pendente23 = true;
                 ColaboradorSelecionado.Pendente24 = true;
                 ColaboradorSelecionado.Pendente25 = true;
-
+                IMOD.Domain.Entities.Colaborador colaboradorEnty = new IMOD.Domain.Entities.Colaborador();
 
                 _ColaboradoresPro.Add(ColaboradorSelecionado);
                 _ClasseColaboradoresTemp.Colaboradores = _ColaboradoresPro;
 
-                string xmlString;
+                TranportarDados(ColaboradorSelecionado,1, colaboradorEnty);
+                var repo = new IMOD.Infra.Repositorios.ColaboradorRepositorio();
+                repo.Criar(colaboradorEnty);
 
-                using (StringWriterWithEncoding sw = new StringWriterWithEncoding(System.Text.Encoding.UTF8))
-                {
+                ////PrintProperties(colaboradorEnty, 1, ColaboradorSelecionado);
+                ////ClasseColaboradores p = new ClasseColaboradores();
 
-                    using (XmlTextWriter xw = new XmlTextWriter(sw))
-                    {
-                        xw.Formatting = Formatting.Indented;
-                        serializer.Serialize(xw, _ClasseColaboradoresTemp);
-                        xmlString = sw.ToString();
-                    }
+                ////PropertyInfo[] properties = p.GetType().GetProperties();
+                ////foreach (PropertyInfo property in properties)
+                ////{
+                ////    object propertyValue = property.GetValue(p, null);
+                ////    Console.WriteLine(property.Name + ": " + Convert.ToString(propertyValue));
+                ////}
 
-                }
+                //string xmlString;
 
-                int _novoColaboradorID = InsereColaboradoresBD(xmlString);
+                //using (StringWriterWithEncoding sw = new StringWriterWithEncoding(System.Text.Encoding.UTF8))
+                //{
 
-                AtualizaPendencias(_novoColaboradorID);
+                //    using (XmlTextWriter xw = new XmlTextWriter(sw))
+                //    {
+                //        xw.Formatting = Formatting.Indented;
+                //        serializer.Serialize(xw, _ClasseColaboradoresTemp);
+                //        xmlString = sw.ToString();
+                //    }
 
-                ColaboradorSelecionado.ColaboradorID = _novoColaboradorID;
+                //}
+
+                //int _novoColaboradorID = InsereColaboradoresBD(xmlString);
+                var id = colaboradorEnty.ColaboradorId;
+                AtualizaPendencias(id);
+
+                ColaboradorSelecionado.ColaboradorID = id;
 
                 _ColaboradoresTemp.Clear();
 
