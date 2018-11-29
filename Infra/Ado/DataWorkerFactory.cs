@@ -48,7 +48,7 @@ namespace IMOD.Infra.Ado
                     _instanciaSqlServer.Connectionstring = conectionstring;
                     return _instanciaSqlServer;
                 default:
-                    throw new Exception ("Não foi encontrado um tipo de banco de dados");
+                    throw new Exception("Não foi encontrado um tipo de banco de dados");
             }
         }
 

@@ -8,6 +8,24 @@ namespace IMOD.Infra.Ado
 {
     public class DataBaseInfo
     {
+        #region Construtor
+
+        /// <summary>
+        ///     Banco de dados
+        /// </summary>
+        //public Tipos Database { get; set; }
+
+        #region Construtor
+
+        public DataBaseInfo()
+        {
+            ConnexaoEstabelecida = false;
+        }
+
+        #endregion
+
+        #endregion
+
         #region  Propriedades
 
         /// <summary>
@@ -44,23 +62,6 @@ namespace IMOD.Infra.Ado
         ///     True, conexao estabelecida
         /// </summary>
         public bool ConnexaoEstabelecida { get; set; }
-
-        #endregion
-
-        #region Construtor
-
-        /// <summary>
-        ///     Banco de dados
-        /// </summary>
-        //public Tipos Database { get; set; }
-
-        #region Construtor
-        public DataBaseInfo()
-        {
-            ConnexaoEstabelecida = false;
-        }
-
-        #endregion
 
         #endregion
     }

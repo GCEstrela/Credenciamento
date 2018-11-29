@@ -33,38 +33,31 @@ namespace IMOD.Infra.Ado
             var propDict = new Dictionary<string, PropertyInfo>();
             string nomeCampo;
             string valorCampo;
-            try
+            if (dr != null)
             {
-                if (dr != null)
+                retVal = new List<T>();
+                var props = entity.GetProperties(BindingFlags.Instance | BindingFlags.Public);
+                propDict = props.ToDictionary(p => p.Name.ToUpper(), p => p);
+                while (dr.Read())
                 {
-                    retVal = new List<T>();
-                    var props = entity.GetProperties (BindingFlags.Instance | BindingFlags.Public);
-                    propDict = props.ToDictionary (p => p.Name.ToUpper(), p => p);
-                    while (dr.Read())
-                    {
-                        var newObject = new T();
-                        for (var index = 0; index < dr.FieldCount; index++)
+                    var newObject = new T();
+                    for (var index = 0; index < dr.FieldCount; index++)
+                        if (propDict.ContainsKey(dr.GetName(index).ToUpper()))
                         {
-                            if (propDict.ContainsKey (dr.GetName (index).ToUpper()))
+                            var info = propDict[dr.GetName(index).ToUpper()];
+                            nomeCampo = info.Name;
+                            if (info != null && info.CanWrite)
                             {
-                                var info = propDict[dr.GetName (index).ToUpper()];
-                                nomeCampo = info.Name;
-                                if ((info != null) && info.CanWrite)
-                                {
-                                    var val = dr.GetValue (index);
-                                    valorCampo = val.ToString();
-                                    info.SetValue (newObject, val == DBNull.Value ? null : val, null);
-                                }
+                                var val = dr.GetValue(index);
+                                valorCampo = val.ToString();
+                                info.SetValue(newObject, val == DBNull.Value ? null : val, null);
                             }
                         }
-                        retVal.Add (newObject);
-                    }
+
+                    retVal.Add(newObject);
                 }
             }
-            catch (Exception)
-            {
-                throw;
-            }
+
             return retVal;
         }
 
@@ -79,31 +72,23 @@ namespace IMOD.Infra.Ado
             var retVal = new T();
             var entity = typeof(T);
             var propDict = new Dictionary<string, PropertyInfo>();
-            try
+            if (dr != null)
             {
-                if (dr != null)
-                {
-                    var props = entity.GetProperties (BindingFlags.Instance | BindingFlags.Public);
-                    propDict = props.ToDictionary (p => p.Name.ToUpper(), p => p);
-                    dr.Read();
-                    for (var index = 0; index < dr.FieldCount; index++)
+                var props = entity.GetProperties(BindingFlags.Instance | BindingFlags.Public);
+                propDict = props.ToDictionary(p => p.Name.ToUpper(), p => p);
+                dr.Read();
+                for (var index = 0; index < dr.FieldCount; index++)
+                    if (propDict.ContainsKey(dr.GetName(index).ToUpper()))
                     {
-                        if (propDict.ContainsKey (dr.GetName (index).ToUpper()))
+                        var info = propDict[dr.GetName(index).ToUpper()];
+                        if (info != null && info.CanWrite)
                         {
-                            var info = propDict[dr.GetName (index).ToUpper()];
-                            if ((info != null) && info.CanWrite)
-                            {
-                                var val = dr.GetValue (index);
-                                info.SetValue (retVal, val == DBNull.Value ? null : val, null);
-                            }
+                            var val = dr.GetValue(index);
+                            info.SetValue(retVal, val == DBNull.Value ? null : val, null);
                         }
                     }
-                }
             }
-            catch (Exception)
-            {
-                throw;
-            }
+
             return retVal;
         }
 

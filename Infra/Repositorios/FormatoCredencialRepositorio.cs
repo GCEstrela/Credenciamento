@@ -31,7 +31,7 @@ namespace IMOD.Infra.Repositorios
 
         public FormatoCredencialRepositorio()
         {
-            _dataBase = _dataWorkerFactory.ObterDataBaseSingleton (TipoDataBase.SqlServer, _connection);
+            _dataBase = _dataWorkerFactory.ObterDataBaseSingleton(TipoDataBase.SqlServer, _connection);
         }
 
         #endregion
@@ -46,21 +46,21 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.InsertText ("FormatosCredenciais", conn))
+                using (var cmd = _dataBase.InsertText("FormatosCredenciais", conn))
                 {
                     try
                     {
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("FormatoCredencialID", entity.FormatoCredencialId, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Descricao", entity.Descricao, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("FormatIDGUID", entity.FormatIdguid, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("FormatoCredencialID", entity.FormatoCredencialId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Descricao", entity.Descricao, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("FormatIDGUID", entity.FormatIdguid, false)));
 
-                        var key = Convert.ToInt32 (cmd.ExecuteScalar());
+                        var key = Convert.ToInt32(cmd.ExecuteScalar());
 
                         entity.FormatoCredencialId = key;
                     }
                     catch (Exception ex)
                     {
-                        Utils.TraceException (ex);
+                        Utils.TraceException(ex);
                         throw;
                     }
                 }
@@ -76,12 +76,12 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText ("FormatosCredenciais", conn))
+                using (var cmd = _dataBase.SelectText("FormatosCredenciais", conn))
 
                 {
                     try
                     {
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("FormatoCredencialId", DbType.Int32, id).Igual()));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("FormatoCredencialId", DbType.Int32, id).Igual()));
                         var reader = cmd.ExecuteReader();
                         var d1 = reader.MapToList<FormatoCredencial>();
 
@@ -89,7 +89,7 @@ namespace IMOD.Infra.Repositorios
                     }
                     catch (Exception ex)
                     {
-                        Utils.TraceException (ex);
+                        Utils.TraceException(ex);
                         throw;
                     }
                 }
@@ -105,12 +105,12 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText ("FormatosCredenciais", conn))
+                using (var cmd = _dataBase.SelectText("FormatosCredenciais", conn))
 
                 {
                     try
                     {
-                        cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("Descricao", DbType.String, objects, 0).Like()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Descricao", DbType.String, objects, 0).Like()));
 
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<FormatoCredencial>();
@@ -119,7 +119,7 @@ namespace IMOD.Infra.Repositorios
                     }
                     catch (Exception ex)
                     {
-                        Utils.TraceException (ex);
+                        Utils.TraceException(ex);
                         throw;
                     }
                 }
@@ -134,18 +134,19 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.UpdateText ("FormatosCredenciais", conn))
+                using (var cmd = _dataBase.UpdateText("FormatosCredenciais", conn))
                 {
                     try
                     {
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("FormatoCredencialID", entity.FormatoCredencialId, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Descricao", entity.Descricao, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("FormatIDGUID", entity.FormatIdguid, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("FormatoCredencialID", entity.FormatoCredencialId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Descricao", entity.Descricao, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("FormatIDGUID", entity.FormatIdguid, false)));
+
                         cmd.ExecuteNonQuery();
                     }
                     catch (Exception ex)
                     {
-                        Utils.TraceException (ex);
+                        Utils.TraceException(ex);
                         throw;
                     }
                 }
@@ -160,17 +161,17 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.DeleteText ("FormatosCredenciais", conn))
+                using (var cmd = _dataBase.DeleteText("FormatosCredenciais", conn))
                 {
                     try
                     {
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamDelete ("FormatoCredencialId", entity.FormatoCredencialId).Igual()));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamDelete("FormatoCredencialId", entity.FormatoCredencialId).Igual()));
 
                         cmd.ExecuteNonQuery();
                     }
                     catch (Exception ex)
                     {
-                        Utils.TraceException (ex);
+                        Utils.TraceException(ex);
                     }
                 }
             }
