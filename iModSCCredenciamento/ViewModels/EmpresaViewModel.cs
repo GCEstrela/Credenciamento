@@ -823,6 +823,7 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
+                ExcluiEmpresaLayoutCrachaBD(EmpresaSelecionada.EmpresaID);
                 EmpresasLayoutsCrachas.Remove(EmpresaLayoutCrachaSelecionada);
             }
             catch (Exception ex)
@@ -839,10 +840,37 @@ namespace iModSCCredenciamento.ViewModels
                 _EmpresaLayoutCracha.EmpresaID = EmpresaSelecionada.EmpresaID;
                 _EmpresaLayoutCracha.LayoutCrachaID = _LayoutCrachaID;
                 _EmpresaLayoutCracha.Nome = _Nome;
-                EmpresasLayoutsCrachas.Add(_EmpresaLayoutCracha);
+
+                //EmpresasLayoutsCrachas.Add(_EmpresaLayoutCracha);
+
 
                 //EmpresasLayoutsCrachas.Add();
+
+                //var service = new IMOD.Application.Service.EmpresaLayoutCrachaService();
+                //var list1 = service.Listar();
+
+                //var list2 = Mapper.Map<List<ClasseEmpresasLayoutsCrachas.EmpresaLayoutCracha>>(list1);
+
+                //var observer = new ObservableCollection<ClasseEmpresasLayoutsCrachas.EmpresaLayoutCracha>();
+                //list2.ForEach(n =>
+                //{
+                //    observer.Add(n);
+                //});
+
+                //this.Estados = observer;
+
+                IMOD.Domain.Entities.EmpresaLayoutCracha EmpresaLayoutCracha = new IMOD.Domain.Entities.EmpresaLayoutCracha();
+                g.TranportarDados(_EmpresaLayoutCracha, 1, EmpresaLayoutCracha);
+
+                var repositorio = new IMOD.Infra.Repositorios.EmpresaLayoutCrachaRepositorio();
+                repositorio.Criar(EmpresaLayoutCracha);
+
+                CarregaColeçãoEmpresasLayoutsCrachas(EmpresaSelecionada.EmpresaID);
             }
+
+
+
+
             catch (Exception ex)
             {
                 Global.Log("Erro void OnInserirCrachaCommand ex: " + ex.Message);
@@ -1125,7 +1153,9 @@ namespace iModSCCredenciamento.ViewModels
 
 
                 var service = new IMOD.Application.Service.TipoAtividadeService();
+
                 var list1 = service.Listar();
+
                 var list2 = Mapper.Map<List<ClasseTiposAtividades.TipoAtividade>>(list1);
 
                 var observer = new ObservableCollection<ClasseTiposAtividades.TipoAtividade>();
@@ -1316,7 +1346,7 @@ namespace iModSCCredenciamento.ViewModels
                 //this.Dispatcher.Invoke(new Action(() => { LoadingAdorner.IsAdornerVisible = false; }));
 
                 var service = new IMOD.Application.Service.EmpresaLayoutCrachaService();
-                var list1 = service.Listar();
+                var list1 = service.Listar(null, _empresaID, null, null);
 
                 var list2 = Mapper.Map<List<ClasseEmpresasLayoutsCrachas.EmpresaLayoutCracha>>(list1);
 
@@ -1327,10 +1357,11 @@ namespace iModSCCredenciamento.ViewModels
                 });
 
                 this.EmpresasLayoutsCrachas = observer;
+
             }
             catch (Exception ex)
             {
-                Global.Log("Erro na void CarregaColeçãoMunicipios ex: " + ex);
+                Global.Log("Erro na void CarregaColeçãoEmpresasLayoutsCrachas ex: " + ex);
             }
         }
 
@@ -1410,6 +1441,21 @@ namespace iModSCCredenciamento.ViewModels
                 Global.Log("Erro na void ExcluiEmpresaBD ex: " + ex);
 
 
+            }
+        }
+
+        private void ExcluiEmpresaLayoutCrachaBD(int _EmpresaID)
+        {
+            try
+            {
+                var service = new IMOD.Application.Service.EmpresaLayoutCrachaService();
+                var elc = service.BuscarPelaChave(_EmpresaID);
+                service.Remover(elc);
+            }
+
+            catch (Exception ex)
+            {
+                Global.Log("Erro na void ExcluiEmpresaLayoutCrachaBD ex: " + ex);
             }
         }
 

@@ -580,7 +580,7 @@ namespace iModSCCredenciamento.ViewModels
             }
         }
 
-        
+
 
 
         public ClasseTiposAcessos.TipoAcesso TipoAcessoSelecionado
@@ -1211,7 +1211,7 @@ namespace iModSCCredenciamento.ViewModels
                 reportDocument.Load(_ArquivoRPT);
                 crConnectionInfo.ServerName = Global._instancia; // "(localdb)\\SQLEXPRESS";
                 crConnectionInfo.DatabaseName = Global._bancoDados; // "D_iModCredenciamento";
-                crConnectionInfo.UserID =  Global._usuario;
+                crConnectionInfo.UserID = Global._usuario;
                 crConnectionInfo.Password = Global._senha;
                 CrTables = reportDocument.Database.Tables;
                 foreach (CrystalDecisions.CrystalReports.Engine.Table CrTable in CrTables)
@@ -1318,7 +1318,7 @@ namespace iModSCCredenciamento.ViewModels
                 if (Global.PopupBox("Tem certeza que deseja excluir?", 2))
                 {
 
-                    ExcluiTipoAtividadeBD(TipoAtividadeSelecionada.TipoAtividadeID);
+                    ExcluiTipoAtividadeBD(TipoAtividadeSelecionada.TipoAtividadeId);
                     //TiposAtividade.Remove(AtividadeSelecionada);
                     CarregaColecaoTiposAtividades();
 
@@ -2550,25 +2550,25 @@ namespace iModSCCredenciamento.ViewModels
                 ClasseTiposAtividades.TipoAtividade _atividade = new ClasseTiposAtividades.TipoAtividade();
                 int i = 0;
 
-                _atividade.TipoAtividadeID = Convert.ToInt32(_xmlDoc.GetElementsByTagName("TipoAtividadeID")[i].InnerText);
+                //_atividade.TipoAtividadeID = Convert.ToInt32(_xmlDoc.GetElementsByTagName("TipoAtividadeID")[i].InnerText);
                 _atividade.Descricao = _xmlDoc.GetElementsByTagName("Descricao")[i] == null ? "" : (_xmlDoc.GetElementsByTagName("Descricao")[i].InnerText);
 
                 SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
 
                 SqlCommand _sqlCmd;
-                if (_atividade.TipoAtividadeID != 0)
-                {
-                    _sqlCmd = new SqlCommand("Update TiposAtividades Set" +
-                        " Descricao= '" + _atividade.Descricao + "'" +
-                        " Where TipoAtividadeID = " + _atividade.TipoAtividadeID + "", _Con);
-                }
-                else
-                {
-                    _sqlCmd = new SqlCommand("Insert into TiposAtividades(Descricao) values ('" + _atividade.Descricao + "')", _Con);
+                //if (_atividade.TipoAtividadeID != 0)
+                //{
+                //    _sqlCmd = new SqlCommand("Update TiposAtividades Set" +
+                //        " Descricao= '" + _atividade.Descricao + "'" +
+                //        " Where TipoAtividadeID = " + _atividade.TipoAtividadeID + "", _Con);
+                //}
+                //else
+                //{
+                //    _sqlCmd = new SqlCommand("Insert into TiposAtividades(Descricao) values ('" + _atividade.Descricao + "')", _Con);
 
-                }
+                //}
 
-                _sqlCmd.ExecuteNonQuery();
+                //_sqlCmd.ExecuteNonQuery();
                 _Con.Close();
             }
             catch (Exception ex)

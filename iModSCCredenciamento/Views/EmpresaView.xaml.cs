@@ -52,8 +52,8 @@ namespace iModSCCredenciamento.Views
                 Microsoft.Win32.OpenFileDialog openFileDialog = new Microsoft.Win32.OpenFileDialog();
                 openFileDialog.Multiselect = false;
                 openFileDialog.Filter = "Images (*.BMP;*.JPG;*.GIF,*.PNG,*.TIFF)|*.BMP;*.JPG;*.GIF;*.PNG;*.TIFF|" + "All files (*.*)|*.*";
-                
-                       openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+
+                openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
                 if (openFileDialog.ShowDialog() == true)
                 {
                     BitmapImage _img = new BitmapImage(new Uri(openFileDialog.FileName));
@@ -111,7 +111,7 @@ namespace iModSCCredenciamento.Views
 
         private void Excluir_bt_Click(object sender, RoutedEventArgs e)
         {
-           Botoes_Principais_sp.Visibility = Visibility.Visible;
+            Botoes_Principais_sp.Visibility = Visibility.Visible;
             ((EmpresaViewModel)this.DataContext).OnExcluirCommand();
         }
 
@@ -255,10 +255,10 @@ namespace iModSCCredenciamento.Views
             var cnpjAnterior = Global._cnpjEdicao.RetirarCaracteresEspeciais();
             var cnpjAtual = CNPJ_tb.Text.RetirarCaracteresEspeciais();
             if (!cnpjAtual.IsValidCnpj()) { throw new InvalidOperationException("CNPJ inválido!"); }
-           
+
             //if (string.IsNullOrWhiteSpace(cnpjAnterior)) //Então a operação é de adição, logo verificar se ha CNPJ apenas no ação de salvar...
-           if (cnpjAnterior == "00.000.000/0000-00") //Então a operação é de adição, logo verificar se ha CNPJ apenas no ação de salvar...
-           {
+            if (cnpjAnterior == "00.000.000/0000-00") //Então a operação é de adição, logo verificar se ha CNPJ apenas no ação de salvar...
+            {
                 var c1 = ((EmpresaViewModel)this.DataContext).ConsultaCNPJ(cnpjAtual);
                 if (c1) throw new InvalidOperationException("CNPJ já cadastrado, impossível inclusão!");
             }
@@ -351,14 +351,14 @@ namespace iModSCCredenciamento.Views
 
         private void IncluirAcesso_bt_Click(object sender, RoutedEventArgs e)
         {
-            if (AreaAcesso_cb.Text != "" & AreaAcesso_cb.Text != "N/D")
-            {
+            //if (AreaAcesso_cb.Text != "" & AreaAcesso_cb.Text != "N/D")
+            //{
 
-                ((EmpresaViewModel)this.DataContext).OnInserirAcessoCommand(AreaAcesso_cb.SelectedItem);
-                //((EmpresaViewModel)this.DataContext).OnInserirAcessoCommand(AreaAcesso_cb.SelectedValue.ToString(), AreaAcesso_cb.Text);
-                //AreaAcesso_cb.SelectedIndex = 0;
-                AreaAcesso_cb.Text = "";
-            }
+            //    ((EmpresaViewModel)this.DataContext).OnInserirAcessoCommand(AreaAcesso_cb.SelectedItem);
+            //    //((EmpresaViewModel)this.DataContext).OnInserirAcessoCommand(AreaAcesso_cb.SelectedValue.ToString(), AreaAcesso_cb.Text);
+            //    //AreaAcesso_cb.SelectedIndex = 0;
+            //    AreaAcesso_cb.Text = "";
+            //}
 
         }
 
@@ -385,7 +385,7 @@ namespace iModSCCredenciamento.Views
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            ((EmpresaViewModel)this.DataContext).OnAbrirPendencias( sender,  e);
+            ((EmpresaViewModel)this.DataContext).OnAbrirPendencias(sender, e);
         }
         #endregion
 
@@ -406,13 +406,13 @@ namespace iModSCCredenciamento.Views
 
         #endregion
 
- 
+
 
         private void CNPJ_tb_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
             CNPJ_tb.Text = CNPJ_tb.Text.FormatarCnpj();
 
-            Global.CheckField(sender,true,"","CNPJ");
+            Global.CheckField(sender, true, "", "CNPJ");
             if (Global._cnpjEdicao == null)
             {
                 return;
@@ -478,7 +478,7 @@ namespace iModSCCredenciamento.Views
         private void CNPJ_tb_LostFocus(object sender, RoutedEventArgs e)
         {
 
-            
+
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)

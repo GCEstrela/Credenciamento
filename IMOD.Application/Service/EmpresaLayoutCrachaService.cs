@@ -24,6 +24,15 @@ namespace IMOD.Application.Service
         #region  Metodos
 
         /// <summary>
+        ///     Criar registro
+        /// </summary>
+        /// <param name="entity"></param>
+        public void Criar(EmpresaLayoutCracha entity)
+        {
+            _repositorio.Criar(entity);
+        }
+
+        /// <summary>
         ///     Buscar pela chave primaria
         /// </summary>
         /// <param name="id"></param>
@@ -41,6 +50,24 @@ namespace IMOD.Application.Service
         public ICollection<EmpresaLayoutCracha> Listar(params object[] objects)
         {
             return _repositorio.Listar(objects);
+        }
+
+        /// <summary>
+        ///     Alterar registro
+        /// </summary>
+        /// <param name="entity"></param>
+        public void Alterar(EmpresaLayoutCracha entity)
+        {
+            _repositorio.Alterar(entity);
+        }
+
+        /// <summary>
+        ///     Deletar registro
+        /// </summary>
+        /// <param name="entity">Entidade</param>
+        public void Remover(EmpresaLayoutCracha entity)
+        {
+            _repositorio.Remover(entity);
         }
 
         #endregion
