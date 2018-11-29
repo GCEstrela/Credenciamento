@@ -15,7 +15,8 @@
                     <ControlTemplate TargetType="Button">
                         <Border CornerRadius="0" Background="{TemplateBinding Background}">
                             <Grid>
-                                <ContentPresenter x:Name="MyContentPresenter" Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5" />
+                                <ContentPresenter x:Name="MyContentPresenter" Content="{TemplateBinding Content}"
+                                                  HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5" />
                             </Grid>
                         </Border>
 
@@ -40,34 +41,23 @@
         </Style>
     </UserControl.Resources>
     <Grid>
-        <Grid.ColumnDefinitions>
+        <!--<Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>-->
 
 
-        <Grid Grid.Row="0" Grid.Column="0">
-            
-            <!--#region Borda Grid -->
-            <Border BorderThickness="0,0,0,1">
-                <Border.BorderBrush>
-                    <RadialGradientBrush Center="0.5,1">
-                        <GradientStop Color="Black" />
-                        <GradientStop Color="Black" Offset="1" />
-                        <GradientStop Color="#FF007ACC" Offset="0.5" />
-                    </RadialGradientBrush>
-                </Border.BorderBrush>
-            </Border>
-            <!--#endregion -->
+       <DockPanel>
 
             <!--#region StackPanel -->
-            <StackPanel Orientation="Horizontal" Height="60" VerticalAlignment="Top" HorizontalAlignment="Center">
+            <StackPanel Orientation="Horizontal" Height="60" VerticalAlignment="Top" HorizontalAlignment="Center" DockPanel.Dock="Top">
 
                 <!--#region Empresa -->
-                <Button x:Name="EmpresasBt" Height="60" VerticalAlignment="Top" Width="115" Click="OpenEmpresa_Click">
+                <Button x:Name="EmpresasBt" Height="60" VerticalAlignment="Top" Width="115"
+                        Click="OpenEmpresaView_Click">
 
                     <DockPanel>
                         <Label HorizontalContentAlignment="Center"
@@ -80,7 +70,7 @@
 
                 <!--#region Colaboradores -->
                 <Button x:Name="ColaboradoresBt" HorizontalAlignment="Left" Height="60" VerticalAlignment="Top"
-                        Width="115">
+                        Width="115" Click="OpenColaboradoresView_Click">
 
                     <DockPanel>
                         <Label HorizontalContentAlignment="Center"
@@ -146,15 +136,34 @@
             <!--#endregion -->
 
 
-        </Grid>
+            <!--#region Conteudo frame -->
+
+            <ContentControl Content="{Binding}" />
+
+            <!--#endregion -->
+
+           
+        </DockPanel>
+
+            <!--#region Borda Grid -->
+            <!--<Border BorderThickness="0,0,0,1">
+                <Border.BorderBrush>
+                    <RadialGradientBrush Center="0.5,1">
+                        <GradientStop Color="Black" />
+                        <GradientStop Color="Black" Offset="1" />
+                        <GradientStop Color="#FF007ACC" Offset="0.5" />
+                    </RadialGradientBrush>
+                </Border.BorderBrush>
+            </Border>-->
+            <!--#endregion -->
+
+          
 
 
-        <!--#region Conteudo frame -->
+      
 
-        <ContentControl Content="{Binding}" Grid.Row="1" Grid.Column="0" HorizontalContentAlignment="Center"  />
 
-        <!--#endregion -->
-
+      
 
     </Grid>
 </UserControl>

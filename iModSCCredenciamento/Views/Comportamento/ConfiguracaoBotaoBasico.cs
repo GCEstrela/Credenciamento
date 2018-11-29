@@ -4,7 +4,7 @@ using System.Windows.Controls;
 
 namespace iModSCCredenciamento.Views.Comportamento
 {
-    public   class ConfiguracaoBotaoBasico
+    public  class ConfiguracaoBotaoBasico
     {
 
         private enum Estado

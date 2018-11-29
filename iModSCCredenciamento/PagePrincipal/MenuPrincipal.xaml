@@ -53,7 +53,7 @@
             </Border.BorderBrush>
         </Border>
         <StackPanel Orientation="Horizontal" Height="60"  VerticalAlignment="Top" HorizontalAlignment="Center">
-            <Button x:Name="Empresas_bt"  Style="{StaticResource MenuStyle}" Height="60" VerticalAlignment="Top"  Width="115" Click="OnButtonEmpresas_bt" >
+            <Button x:Name="EmpresasBt"  Style="{StaticResource MenuStyle}" Height="60" VerticalAlignment="Top"  Width="115" Click="OnButtonEmpresas_bt" >
                 <DockPanel>
                     <Label HorizontalContentAlignment="Center"
                     DockPanel.Dock="Bottom"
@@ -61,7 +61,7 @@
                     <Image Source="/iModSCCredenciamento;component/Resources/Companhia.png" Height="24" Width="24" />
                 </DockPanel>
             </Button>
-            <Button x:Name="Colaboradores_bt" Style="{StaticResource MenuStyle}" HorizontalAlignment="Left" Height="60" VerticalAlignment="Top" Width="115" Click="OnButtonColaboradores_bt" >
+            <Button x:Name="ColaboradoresBt" Style="{StaticResource MenuStyle}" HorizontalAlignment="Left" Height="60" VerticalAlignment="Top" Width="115" Click="OnButtonColaboradores_bt" >
                 <DockPanel>
                     <Label HorizontalContentAlignment="Center"
                     DockPanel.Dock="Bottom"
@@ -69,7 +69,7 @@
                     <Image Source="/iModSCCredenciamento;component/Resources/Colaboradores.png" Height="24" Width="24" />
                 </DockPanel>
             </Button>
-            <Button x:Name="Veiculos_bt" Style="{StaticResource MenuStyle}" HorizontalAlignment="Left" Height="60" VerticalAlignment="Top" Width="115" Click="OnButtonVeiculos_bt" >
+            <Button x:Name="VeiculosBt" Style="{StaticResource MenuStyle}" HorizontalAlignment="Left" Height="60" VerticalAlignment="Top" Width="115" Click="OnButtonVeiculos_bt" >
                 <DockPanel>
                     <Label HorizontalContentAlignment="Center"
                     DockPanel.Dock="Bottom"
@@ -78,7 +78,7 @@
                 </DockPanel>
             </Button>
 
-            <Button x:Name="Configuracoes_bt" Style="{StaticResource MenuStyle}" HorizontalAlignment="Left" Height="60" VerticalAlignment="Top" Width="115" Click="OnButtonConfiguracoes_bt">
+            <Button x:Name="ConfiguracoesBt" Style="{StaticResource MenuStyle}" HorizontalAlignment="Left" Height="60" VerticalAlignment="Top" Width="115" Click="OnButtonConfiguracoes_bt">
                 <DockPanel>
                     <Label HorizontalContentAlignment="Center"
                         DockPanel.Dock="Bottom"
@@ -87,7 +87,7 @@
                 </DockPanel>
             </Button>
 
-            <Button x:Name="Relatorios_bt" Style="{StaticResource MenuStyle}" HorizontalAlignment="Left" Height="60" VerticalAlignment="Top" Width="115" Click="OnButtonRelatorios_bt">
+            <Button x:Name="RelatoriosBt" Style="{StaticResource MenuStyle}" HorizontalAlignment="Left" Height="60" VerticalAlignment="Top" Width="115" Click="OnButtonRelatorios_bt">
                 <DockPanel>
                     <Label HorizontalContentAlignment="Center"
                         DockPanel.Dock="Bottom"
@@ -97,7 +97,7 @@
             </Button>
 
 
-            <Button x:Name="Termos_bt" Style="{StaticResource MenuStyle}" HorizontalAlignment="Left" Height="60" VerticalAlignment="Top" Width="115" Click="OnButtonTermos_bt">
+            <Button x:Name="TermosBt" Style="{StaticResource MenuStyle}" HorizontalAlignment="Left" Height="60" VerticalAlignment="Top" Width="115" Click="OnButtonTermos_bt">
                 <DockPanel>
                     <Label HorizontalContentAlignment="Center"
                         DockPanel.Dock="Bottom"

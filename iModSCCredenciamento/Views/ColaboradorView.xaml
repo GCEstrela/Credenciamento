@@ -53,7 +53,7 @@
                             <Grid.Resources>
                                 <SolidColorBrush x:Key="WatermarkBrush" Color="#FFAAAAAA"/>
                             </Grid.Resources>
-                            <VisualStateManager.VisualStateGroups>
+                            <!--<VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup Name="CommonStates">
                                     <VisualStateGroup.Transitions>
                                         <VisualTransition GeneratedDuration="0" />
@@ -90,7 +90,7 @@
                                         </Storyboard>
                                     </VisualState>
                                 </VisualStateGroup>
-                            </VisualStateManager.VisualStateGroups>
+                            </VisualStateManager.VisualStateGroups>-->
 
 
                             <Border x:Name="Border" VerticalAlignment="Center"
@@ -100,7 +100,8 @@
                             Padding="{TemplateBinding Padding}"
                             CornerRadius="1" 
                             Opacity="1">
-                                <Grid x:Name="WatermarkContent" 
+                                
+                                <!--<Grid x:Name="WatermarkContent" 
                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                               VerticalAlignment="Center">
                                     <Border x:Name="ContentElement" BorderThickness="1">
@@ -129,7 +130,8 @@
                                           HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                           VerticalContentAlignment= "Center" />
                                     <Border x:Name="FocusVisual" VerticalAlignment="Center" BorderBrush="#FF45D6FA" CornerRadius="1" Opacity="0" IsHitTestVisible="False"/>
-                                </Grid>
+                                </Grid>-->
+                                
                             </Border>
                         </Grid>
                     </ControlTemplate>
@@ -193,6 +195,9 @@
                 </StackPanel>
 
             </Canvas>
+            
+            
+            
             <StackPanel x:Name="ListaColaboradores_sp" Margin="0,0,170,0" Grid.Column="0" Grid.ColumnSpan="2">
                 <ListView x:Name="ListaColaboradores_lv" Margin="0,0,0,0" Height="180" ItemsSource="{Binding Colaboradores, Mode=TwoWay}" SelectedIndex="{Binding Path=SelectedIndex, Mode=TwoWay}"
                            SelectedItem="{Binding Path = ColaboradorSelecionado, Mode=TwoWay}" SelectionChanged="ListaColaboradores_lv_SelectionChanged"    >

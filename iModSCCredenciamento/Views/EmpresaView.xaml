@@ -4,11 +4,22 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:iModSCCredenciamento.Views"
+              xmlns:viewModel="clr-namespace:iModSCCredenciamento.ViewModels"
              xmlns:i="clr-namespace:iModSCCredenciamento.Funcoes"
-             mc:Ignorable="d"
-             Loaded="UserControl_Loaded">
+             xmlns:data="clr-namespace:Singulink.Windows.Data"
+             mc:Ignorable="d" d:DesignWidth="1200" d:DesignHeight="900"
+             Loaded="Form_Loaded">
+   
     <UserControl.Resources>
-        <ControlTemplate x:Key="validationErrorTemplate">
+        
+        
+        <Image x:Key="imgAdd" Source="../Resources/add.png"  />
+        <Image x:Key="imgEdit" Source="../Resources/edit.png"  />
+        <Image x:Key="imgRemove" Source="../Resources/remove.png"  />
+        <Image x:Key="imgSave" Source="../Resources/save.png"  />
+        <Image x:Key="imgUpload" Source="../Resources/"  />
+
+        <ControlTemplate x:Key="ValidationErrorTemplate">
             <DockPanel>
                 <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
                     <Grid Width="12" Height="12">
@@ -28,13 +39,15 @@
             </DockPanel>
         </ControlTemplate>
 
-        <Style x:Key="MenuStyle" TargetType="{x:Type Button}">
-            <Setter Property="Background" Value="{x:Null}" />
+        <!--<Style x:Key="MenuStyle" TargetType="{x:Type Button}">
+            -->
+        <!--<Setter Property="Background" Value="{x:Null}" />
             <Setter Property="BorderBrush" Value="{x:Null}" />
             <Setter Property="Width" Value="16" />
             <Setter Property="Height" Value="16" />
-            <Setter Property="Cursor" Value="Hand" />
-            <Setter Property="Template">
+            <Setter Property="Cursor" Value="Hand" />-->
+
+        <!--<Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Border CornerRadius="0" Background="{TemplateBinding Background}">
@@ -46,30 +59,44 @@
                         </Border>
                     </ControlTemplate>
                 </Setter.Value>
-            </Setter>
-        </Style>
+            </Setter>-->
+        <!--
+        </Style>-->
         <i:FormateTel x:Key="FormateTel" />
     </UserControl.Resources>
-    <Grid Margin="10" ShowGridLines="True">
-
+    <Grid Margin="10" ShowGridLines="True" >
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
-
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition/>
+            <ColumnDefinition Width="120"  />
         </Grid.ColumnDefinitions>
+    
+        <!--#region Painel Pesquisa-->
+       
+        <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Margin="10">
+            <Label Content="Pesquisar" Foreground="#FFD0D0D0" VerticalContentAlignment="Center" Margin="0,0,5,0"/>
+            <TextBox Width="200" VerticalContentAlignment="Center" Name="txtPesquisar" PreviewKeyDown="OnPesquisar_KeyDown" Text="{Binding ConteudoPesquisa}" >
+            </TextBox>
+            <RadioButton Name="rdRazaoSocial" GroupName="grpPesquisa" IsChecked="True" Style="{ Styles {x:Static RadioButtonStyles.Default}}" VerticalContentAlignment="Center" Margin="10,0,0,0">Razão Social</RadioButton>
+            <RadioButton Name ="rdCodigo"  GroupName="grpPesquisa" Style="{ Styles {x:Static RadioButtonStyles.Default}}" VerticalContentAlignment="Center" Margin="10,0,0,0">Código</RadioButton>
+            <RadioButton Name="rdCnpj" GroupName="grpPesquisa" Style="{ Styles {x:Static RadioButtonStyles.Default}}" VerticalContentAlignment="Center" Margin="10,0,0,0">CNPJ</RadioButton>
+        </StackPanel>
+        
+        <!--#endregion-->
 
-
-        <StackPanel x:Name="ListaEmpresas_sp" Margin="10" Grid.Column="0" Grid.Row="0" Orientation="Horizontal">
-            <ListView x:Name="ListaEmpresas_lv" ItemsSource="{Binding Empresas, Mode=TwoWay}"
+        <!--#region Painel ListView-->
+        <StackPanel x:Name="ListaEmpresasSp" Orientation="Horizontal" Grid.Row="1" Grid.Column="0"  >
+            <ListView x:Name="ListaEmpresasLv" ItemsSource="{Binding Empresas, Mode=TwoWay}"
                       SelectedIndex="{Binding Path=SelectedIndex, Mode=TwoWay}"
                       SelectedItem="{Binding Path = EmpresaSelecionada, Mode=TwoWay}"
-                      SelectionChanged="ListaEmpresas_lv_SelectionChanged" HorizontalAlignment="Left" Width="800">
+                      SelectionChanged="ListaEmpresas_lv_SelectionChanged" Margin="10" Width="1040">
                 <ListView.View>
-                    <GridView FrameworkElement.FlowDirection="RightToLeft">
+                    <GridView >
                         <GridViewColumn>
                             <!--<GridViewColumn.CellTemplate>
                                 <DataTemplate>
@@ -80,35 +107,417 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>-->
                         </GridViewColumn>
-                        <GridViewColumn Width="80" Header="Código" DisplayMemberBinding="{Binding EmpresaID}" />
-                        <GridViewColumn Width="150" Header="CNPJ" DisplayMemberBinding="{Binding CNPJ}" />
-                        <GridViewColumn Width="200" Header="Nome" DisplayMemberBinding="{Binding Apelido}" />
-                        <GridViewColumn Width="450" Header="Razão Social" DisplayMemberBinding="{Binding Nome}" />
-                        <GridViewColumn Width="200" Header="Telefone 1" DisplayMemberBinding="{Binding Telefone1}" />
-                        <GridViewColumn Width="200" Header="Celular 1" DisplayMemberBinding="{Binding Celular1}" />
-                        <GridViewColumn Width="200" Header="E-Mail 1" DisplayMemberBinding="{Binding Email1}" />
+                        <GridViewColumn Width="40" Header="Código" DisplayMemberBinding="{Binding EmpresaID}" />
+                        <GridViewColumn Width="100" Header="CNPJ" DisplayMemberBinding="{Binding CNPJ}" />
+                        <GridViewColumn Width="300" Header="Razão Social" DisplayMemberBinding="{Binding Nome}" />
+                        <GridViewColumn Width="100" Header="Telefone 1" DisplayMemberBinding="{Binding Telefone1}" />
+                        <GridViewColumn Width="100" Header="Celular 1" DisplayMemberBinding="{Binding Celular1}" />
                     </GridView>
                 </ListView.View>
             </ListView>
-
-            <StackPanel x:Name="Botoes_Principais_sp" Orientation="Vertical" HorizontalAlignment="Left" Margin="5,0,5,0" Grid.Row="0">
-                <Button x:Name="Pesquisar_bt" Content="Pesquisar" Width="100" Margin="5" />
-                <Button x:Name="Adicionar_bt" Content="Adicionar" Width="100" Margin="5" />
-                <Button x:Name="Editar_bt" Content="Editar" Width="100" Margin="5" />
-                <Button x:Name="Excluir_bt" Content="Excluir" Width="100" Margin="5" />
-                <Button x:Name="Salva_bt" Content="Salvar" Width="100" Margin="5" />
-                <Button x:Name="Cancelar_bt" Content="Cancelar" Width="100" Margin="5" />
-            </StackPanel>
         </StackPanel>
+        <!--#endregion-->
         
-        <!--#region Menu-->
+        <!--#region Painel Botoes-->
+       
+        <StackPanel x:Name="BotaoPrincipal" Orientation="Vertical" Grid.Row="1" Grid.Column="1" Margin="5" >
+            <Button x:Name="BtnPesquisar" Style="{Styles {x:Static ButtonStyles.Round}}" Content="Pesquisar" Width="100" Margin="5"   />
+            <Button x:Name="BtnAdicionar" Style="{Styles {x:Static ButtonStyles.Round}}" Content="Adicionar" Width="100" Margin="5"/>
+            <Button x:Name="BtnEditar" Style="{Styles {x:Static ButtonStyles.Round}}" Content="Editar" Width="100" Margin="5" />
+            <Button x:Name="BtnExcluir" Style="{Styles {x:Static ButtonStyles.Round}}" Content="Excluir" Width="100" Margin="5" />
+            <Button x:Name="BtnSalvar"   Style="{Styles {x:Static ButtonStyles.Round}}" Content="Salvar" Width="100" Margin="5" />
+            <Button x:Name="BtnCancelar" Style="{Styles {x:Static ButtonStyles.Round}}" Content="Cancelar" Width="100" Margin="5" />
+        </StackPanel>
+       
+        <!--#endregion-->
 
-        <!--#region TextBlock -->
-        <Border CornerRadius="3" BorderThickness="1" Grid.Row="1" BorderBrush="White" Margin="10,5,10,5" Height="25"   >
-            <TextBlock Text="{Binding SelectedItem.Nome, ElementName=ListaEmpresas_lv}" TextWrapping="Wrap"  HorizontalAlignment="Stretch"  Margin="10,2,10,2" FontSize="14" VerticalAlignment="Center"/>
+        <!--#region Painel Info -->
+        <Border CornerRadius="3"  BorderThickness="1" Grid.Row="2" Grid.Column="0" BorderBrush="#FFD0D0D0" Margin="10,5,10,5" Height="25"   >
+            <Label Style="{Styles {x:Static LabelStyles.Info}}" Content="{Binding  SelectedItem.Nome , StringFormat='$Razão Social: {0}' , ElementName=ListaEmpresasLv}"      HorizontalAlignment="Stretch"  Margin="10,2,10,2"  VerticalAlignment="Center"/>
         </Border>
         <!--#endregion-->
 
+        <!--#region TabControl-->
+        <TabControl x:Name="TabGeral" Grid.Row="3"  Grid.ColumnSpan="2" Grid.Column="0" Margin="10" Background="Transparent"  >
+
+            <!--#region Painel Geral-->
+            <TabItem x:Name="GeralTi"   Selector.Selected="OnTabSelected" Selector.Unselected="OnTabUnSelected">
+
+                <!--#region Header Geral-->
+                <TabItem.Header  >
+                    <StackPanel Orientation="Horizontal">
+                        <Button x:Name="BtnGeral" Width="40" Background="Transparent" Tag="31">
+                            <!--<StackPanel>
+                                <Image Source="{Binding ElementName=ListaVeiculos_lv, Path=SelectedItem.Pendente31,
+                                        Converter={StaticResource ConvertBoolToImage},UpdateSourceTrigger=Explicit, Mode=TwoWay}"  Width="16"  Height="16" />
+                            </StackPanel>-->
+                        </Button>
+                        <StackPanel Width="100">
+                            <TextBlock Text="Geral" HorizontalAlignment="Left"/>
+                        </StackPanel>
+                    </StackPanel>
+                </TabItem.Header>
+                <!--#endregion-->
+
+                <!--#region Form Geral-->
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Margin="5" >
+                   
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Button Style="{Styles {x:Static ButtonStyles.Round}}" Width="25" Margin="0,0,5,0" Content="{StaticResource imgAdd}" ToolTip="Adicionar"/>
+                            <Button Style="{Styles {x:Static ButtonStyles.Round}}" Width="25" Margin="0,0,5,0" Content="{StaticResource imgEdit}" ToolTip="Editar"/>
+                            <Button Style="{Styles {x:Static ButtonStyles.Round}}" Width="25" Margin="0,0,5,0" Content="{StaticResource imgRemove}" ToolTip="Remover"/>
+                            <Button Style="{Styles {x:Static ButtonStyles.Round}}" Width="25" Margin="0,0,5,0" Content="{StaticResource imgSave}" ToolTip="Salvar"/>
+                        </StackPanel>
+                        <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" Header="Identificação" Foreground="#FFD0D0D0" Margin="5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                           
+                            <StackPanel Orientation="Horizontal">
+                               
+                                <StackPanel.Resources>
+                                    <i:StringToImageConverter x:Key="StringToImageConverter" />
+                                </StackPanel.Resources>
+                                <StackPanel  Orientation="Vertical">
+                                    <StackPanel Orientation="Horizontal" Margin="5">
+                                        <Label Content="Código:" Height="28" Width="100" Margin="0,0,5,0"  Foreground="#FFD0D0D0" />
+                                        <TextBox CharacterCasing="Upper"  x:Name="CodigoTb"    MaxLength="50" Text="{Binding SelectedItem.EmpresaID, ElementName=ListaEmpresasLv, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"  Height="24"  Width="90"/>
+                                        <Label Content="CNPJ:" Height="28" Width="70" Margin="0,0,5,0" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
+                                        <TextBox  x:Name="CnpjTb"  MaxLength="20" IsEnabled="True"  Height="24"  Width="138"  Foreground="White" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" LostFocus="OnConsultarCnpj_LostFocus" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}">
+
+                                            <TextBox.Text>
+                                                <Binding Path="SelectedItem.CNPJ" ValidatesOnDataErrors="True"  Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"  ElementName="ListaEmpresasLv">
+                                                    <!--<Binding.ValidationRules>
+                                                    <z:CnpjValida></z:CnpjValida>
+                                                </Binding.ValidationRules>-->
+                                                </Binding>
+                                            </TextBox.Text>
+
+
+                                        </TextBox>
+
+
+                                    </StackPanel>
+
+                                    <StackPanel Margin="5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Orientation="Horizontal" >
+                                        <Label Content="Razão Social:" Height="28" Width="100" Margin="0,0,5,0" Foreground="#FFD0D0D0" />
+                                        <TextBox CharacterCasing="Upper"  x:Name="TxtNome"   MaxLength="50"   IsEnabled="True"  Height="24"    Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" Width="241">
+                                            <TextBox.Text>
+                                                <Binding Path="SelectedItem.Nome" ValidatesOnDataErrors="True"  Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"  ElementName="ListaEmpresasLv">
+                                                    <!--<Binding.ValidationRules>
+                                                    <z:RazaoSocial></z:RazaoSocial>
+                                                </Binding.ValidationRules>-->
+                                                </Binding>
+                                            </TextBox.Text>
+                                        </TextBox>
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="5" >
+                                        <Label Content="Nome Fantasia:" Height="28" Width="100" Margin="0,0,5,0" Foreground="#FFD0D0D0" />
+                                        <TextBox CharacterCasing="Upper"  x:Name="TxtApelido"    MaxLength="50" Text="{Binding SelectedItem.Apelido, ElementName=ListaEmpresasLv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="200"/>
+
+                                        <Label Content="Sigla:" Height="28" Width="53" Margin="0,0,5,0" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
+                                        <TextBox CharacterCasing="Upper"  x:Name="TxtSigla"    MaxLength="3" Text="{Binding SelectedItem.Sigla, ElementName=ListaEmpresasLv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="43"/>
+
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="5" >
+                                        <Label Content="Insc. Estadual:" Height="28" Width="100"  Margin="0,0,5,0" Foreground="#FFD0D0D0" />
+                                        <TextBox CharacterCasing="Upper"  x:Name="TxtIe"   MaxLength="50" Text="{Binding SelectedItem.InsEst, ElementName=ListaEmpresasLv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="100"/>
+                                        <Label Content="Insc. Municipal:" Height="28" Width="100" Margin="0,0,5,0" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
+                                        <TextBox CharacterCasing="Upper"  x:Name="TxtIm"   MaxLength="50" Text="{Binding SelectedItem.InsMun, ElementName=ListaEmpresasLv, UpdateSourceTrigger=PropertyChanged,  StringFormat=\{0:d\}}"  IsEnabled="True"  Height="24"  Width="96"/>
+                                    </StackPanel>
+
+                                </StackPanel>
+
+                                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Right" Margin="100,0,0,0">
+                                    <Border  CornerRadius="10"  BorderThickness="1" Grid.Column="0" Width ="130" Height="130" Margin="0,0,0,5" HorizontalAlignment="Left" BorderBrush="#FF686868" >
+                                        <Image x:Name="LogoIm" Stretch="Uniform"  Width ="124" Height="124" Source="{Binding ElementName=ListaEmpresasLv, Path=SelectedItem.Logo,
+                                        Converter={StaticResource StringToImageConverter},UpdateSourceTrigger=Explicit, Mode=TwoWay}"   />
+                                    </Border>
+                                    <Button x:Name="Button1"  Style="{Styles {x:Static ButtonStyles.Round}}" Content="Logo..." HorizontalAlignment="Left"  HorizontalContentAlignment="Left" Height="24"  Click="SelecionarLogo_bt_Click"   />
+                                </StackPanel>
+                            </StackPanel>
+
+                        </GroupBox>
+                        
+                        <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" Foreground="#FFD0D0D0"  Header="Endereço"   Margin="5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                            <StackPanel Orientation="Horizontal">
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="5" >
+                                        <Label Content="Logradouro:" Height="28" Width="100" Margin="0,0,5,0"  Foreground="#FFD0D0D0" />
+                                        <TextBox CharacterCasing="Upper"  x:Name="EnderecoTb"   MaxLength="50" Text="{Binding SelectedItem.Endereco, ElementName=ListaEmpresas_lv, UpdateSourceTrigger=PropertyChanged}"    IsEnabled="True"  Height="24"  Width="458"/>
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="5" >
+                                        <Label Content="No.:" Height="28" Width="100" Margin="0,0,5,0"  Foreground="#FFD0D0D0" />
+                                        <TextBox CharacterCasing="Upper"  x:Name="NumeroTb"   MaxLength="50" Text="{Binding SelectedItem.Numero, ElementName=ListaEmpresas_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="50"/>
+                                        <Label Content="Complemento:" Height="28" Width="100" Margin="0,0,5,0"   Foreground="#FFD0D0D0" />
+                                        <TextBox CharacterCasing="Upper"  x:Name="ComplementoTb"   MaxLength="50" Text="{Binding SelectedItem.Complemento, ElementName=ListaEmpresas_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="136"/>
+                                        <Label Content="CEP:" Height="28" Width="30" Margin="0,0,5,0"  Foreground="#FFD0D0D0" />
+                                        <TextBox CharacterCasing="Upper"  x:Name="CepTb"   MaxLength="50" Text="{Binding SelectedItem.CEP, ElementName=ListaEmpresas_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="131"/>
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="5" >
+                                        <Label Content="Bairro:" Height="28" Width="100" Margin="0,0,5,0"   Foreground="#FFD0D0D0" />
+                                        <TextBox CharacterCasing="Upper"  x:Name="BairroTb"   MaxLength="50" Text="{Binding SelectedItem.Bairro, ElementName=ListaEmpresas_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="150"/>
+                                        <Label Content="UF:" Height="28" Width="30" Margin="0,0,5,0"  Foreground="#FFD0D0D0" />
+                                        <ComboBox x:Name="EstadoCb" MinWidth="50" Height="24" ItemsSource="{Binding Estados}" DisplayMemberPath="UF"   SelectedValue="{Binding SelectedItem.EstadoID, ElementName=ListaEmpresas_lv, UpdateSourceTrigger=PropertyChanged}" 
+                                              SelectedValuePath="EstadoID"  SelectionChanged="{data:MethodBinding CarregaColeçãoMunicipios, {Binding SelectedItem.UF, ElementName=EstadoCb}}"/>
+                                        <Label Content="Cidade:" Height="28" Width="50" Margin="0,0,5,0" Foreground="#FFD0D0D0" />
+                                        <ComboBox x:Name="CidadeCb"  MinWidth="50" Height="24" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
+                                                ItemsSource="{Binding Municipios}" DisplayMemberPath="Nome"  SelectedValue="{Binding SelectedItem.MunicipioID, ElementName=ListaEmpresas_lv, UpdateSourceTrigger=PropertyChanged}" 
+                                              SelectedValuePath="MunicipioID" Width="170" />
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="5"  >
+                                        <Label Content="Contato (1):" Height="28" Width="100 " Margin="0,0,5,0"   Foreground="#FFD0D0D0" />
+                                        <TextBox CharacterCasing="Upper"  x:Name="Contato1Tb"   MaxLength="50" Text="{Binding SelectedItem.Contato1, ElementName=ListaEmpresas_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="250"/>
+                                        <Label Content="Tel (1). Fixo:" Height="28" Width="70" Margin="0,0,5,0"   Foreground="#FFD0D0D0" />
+                                        <TextBox Foreground="#FFD0D0D0"   CharacterCasing="Upper"  x:Name="Tel1Tb"   MaxLength="15"
+                                                     Text="{Binding SelectedItem.Telefone1, Converter={StaticResource FormateTel}, ElementName=ListaEmpresas_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="100"  />
+                                        <Label Content="E-Mail (1):" Height="28" Width="100" Margin="0,0,5,0"   Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
+                                        <TextBox CharacterCasing="Lower"  x:Name="Email1Tb"   MaxLength="50" Text="{Binding SelectedItem.Email1, ElementName=ListaEmpresas_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="250"/>
+                                        <Label Content="Tel (1). Celular:" Height="28" Width="70" Margin="0,0,5,0"   Foreground="#FFD0D0D0" />
+                                        <TextBox  Foreground="#FFD0D0D0"  CharacterCasing="Upper"  x:Name="Cel1Tb"   MaxLength="16"
+                                                      Text="{Binding SelectedItem.Celular1, Converter={StaticResource FormateTel}, ElementName=ListaEmpresas_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="100"  />
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="5"  >
+                                        <Label Content="Contato (2):" Height="28" Width="100" Margin="0,0,5,0" Foreground="#FFD0D0D0" />
+                                        <TextBox CharacterCasing="Upper"  x:Name="Contato2Tb"   MaxLength="50" Text="{Binding SelectedItem.Contato2, ElementName=ListaEmpresas_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="250"/>
+
+                                        <Label Content="Tel (2). Fixo:" Height="28" Width="70" Margin="0,0,5,0" Foreground="#FFD0D0D0" />
+                                        <TextBox Foreground="#FFD0D0D0"   CharacterCasing="Upper"  x:Name="Tel2Tb"   MaxLength="15"
+                                                     Text="{Binding SelectedItem.Telefone2, Converter={StaticResource FormateTel}, ElementName=ListaEmpresas_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="100" />
+
+                                        <Label Content="E-Mail (2):" Height="28" Width="100" Margin="0,0,5,0" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
+                                        <TextBox CharacterCasing="Lower"  x:Name="Email2Tb"   MaxLength="50" Text="{Binding SelectedItem.Email2, ElementName=ListaEmpresas_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="250"/>
+                                        <Label Content="Tel (2). Celular:" Height="28" Width="70" Margin="0,0,5,0" Foreground="#FFD0D0D0" />
+                                        <TextBox Foreground="#FFD0D0D0"   CharacterCasing="Upper"  x:Name="Cel2Tb"   MaxLength="16"
+                                                     Text="{Binding SelectedItem.Celular2, Converter={StaticResource FormateTel}, ElementName=ListaEmpresas_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="100"  />
+                                    </StackPanel>
+                                </StackPanel>
+
+                            </StackPanel>
+
+                        </GroupBox>
+
+
+
+                    </StackPanel>
+
+                </ScrollViewer>
+                <!--#endregion-->
+
+            </TabItem>
+            <!--#endregion-->
+            
+            <!--#region Painel Representantes-->
+            <TabItem Name="Representante">
+                
+                <!--#region Header Representante-->
+                <TabItem.Header  >
+                    <StackPanel Orientation="Horizontal">
+                        <Button x:Name="BtnRepresentante" Width="40" Background="Transparent" Tag="31">
+                            <!--<StackPanel>
+                                <Image Source="{Binding ElementName=ListaVeiculos_lv, Path=SelectedItem.Pendente31,
+                                        Converter={StaticResource ConvertBoolToImage},UpdateSourceTrigger=Explicit, Mode=TwoWay}"  Width="16"  Height="16" />
+                            </StackPanel>-->
+                        </Button>
+                        <StackPanel Width="100">
+                            <TextBlock Text="Representantes" HorizontalAlignment="Left"/>
+                        </StackPanel>
+                    </StackPanel>
+                </TabItem.Header>
+                <!--#endregion-->
+                
+                <!--#region Form Representantes-->
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Margin="5" >
+
+                    <StackPanel>
+                        <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" Foreground="#FFD0D0D0"  Header="Dados"   Margin="5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <Label Content="Nome:" Height="28" Width="100" Margin="0,0,5,0" Foreground="#FFD0D0D0" />
+                                    <TextBox  x:Name="Nome_tb" MaxLength="50" CharacterCasing="Upper" Text="{Binding SelectedItem.Nome, ElementName=ListaSegnatarios_lv, UpdateSourceTrigger=PropertyChanged}"  Height="24"  Width="456"/>
+                                    <Label Content="CPF:" Height="28" Width="100" Margin="0,0,5,0"  Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
+                                    <TextBox x:Name="CPF_tb" MaxLength="15" CharacterCasing="Upper"  Text="{Binding SelectedItem.CPF, ElementName=ListaSegnatarios_lv, UpdateSourceTrigger=PropertyChanged}"  Height="24"  Width="120" />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                    <Label Content="E-Mail:" Height="28" Width="100" Margin="0,0,5,0" Foreground="#FFD0D0D0" />
+                                    <TextBox  x:Name="Email_tb" MaxLength="50" CharacterCasing="Lower"  Text="{Binding SelectedItem.Email, ElementName=ListaSegnatarios_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="301"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <Label Content="Telefone:" Height="28" Width="100" Margin="0,0,5,0" Foreground="#FFD0D0D0" />
+                                    <TextBox x:Name="Telefone_tb" MaxLength="15"  CharacterCasing="Upper"
+                                             Text="{Binding SelectedItem.Telefone, ElementName=ListaSegnatarios_lv,Converter={ StaticResource FormateTel}, UpdateSourceTrigger=PropertyChanged}"  HorizontalContentAlignment="Center" IsEnabled="True"  Height="24"  Width="100"/>
+                                    <Label Content="Celular:" Height="28" Width="100" Margin="0,0,5,0" Foreground="#FFD0D0D0"  />
+                                    <TextBox  Foreground="#FFD0D0D0" x:Name="Celular_tb"  CharacterCasing="Upper"
+                                              Text="{Binding SelectedItem.Celular, ElementName=ListaSegnatarios_lv,Converter={ StaticResource FormateTel}, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"   Height="24"  Width="96"/>
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal">
+                                    <Label Content="Ficha Cadastral:" Height="28" Width="100" Margin="0,0,5,0" Foreground="#FFD0D0D0" />
+                                    <Button Style="{Styles {x:Static ButtonStyles.Round}}" Width="25" Margin="0,0,5,0" Content="UpLoad Ficha Cadastral ..."/>
+                                    <Button Style="{Styles {x:Static ButtonStyles.Round}}" Width="25" Margin="0,0,5,0" Content="UpLoad Ficha Cadastral ..."/>
+                                    <!--<wpf:ToggleSwitch x:Name="Principal_tw"  HeaderHorizontalAlignment="Stretch" Width="225" HorizontalAlignment="Right"
+                                                         SwitchContentPlacement="Right"  Content="Representante Principal:" CheckedText="Sim" UncheckedText="Não"
+                                                         IsChecked="{Binding SelectedItem.Principal, ElementName=ListaSegnatarios_lv,
+                                                            UpdateSourceTrigger=PropertyChanged, ConverterParameter='Principal_tw'}"
+                                                              Foreground="#FFD0D0BE" UncheckedBackground="Gray" UncheckedBorderBrush="Gray" UncheckedForeground="#FFAEAEAE" 
+                                                         />-->
+                                    <!--<StackPanel VerticalAlignment="Center" Orientation="Horizontal" Margin="40,0" >
+                                        
+
+                                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal" Margin="0,10" >
+                                            <Button x:Name="BuscarArquivo_bt" Height="24" Margin="10,0,0,0" VerticalAlignment="Center" Width="24" >
+                                                <StackPanel>
+                                                    <Image Source="/iModSCCredenciamento;component/Resources/Pasta.ico"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="AbrirArquivo_bt" Height="24" Margin="10,0,0,0" VerticalAlignment="Center" Width="24">
+                                                <StackPanel>
+                                                    <Image Source="/iModSCCredenciamento;component/Resources/Olho.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                        </StackPanel>
+                                    </StackPanel>-->
+                                </StackPanel>
+
+                            </StackPanel>
+
+                        </GroupBox>
+
+
+                    </StackPanel>
+
+
+
+
+
+
+                </ScrollViewer>
+                    <!--#endregion-->
+                
+            </TabItem>
+            <!--#endregion-->
+
+            <!--#region Painel Contratos-->
+            <TabItem Name="Contratos">
+
+                <!--#region Header Contratos-->
+                <TabItem.Header  >
+                    <StackPanel Orientation="Horizontal">
+                        <Button x:Name="BtnContratos" Width="40" Background="Transparent" Tag="31">
+                            <!--<StackPanel>
+                                <Image Source="{Binding ElementName=ListaVeiculos_lv, Path=SelectedItem.Pendente31,
+                                        Converter={StaticResource ConvertBoolToImage},UpdateSourceTrigger=Explicit, Mode=TwoWay}"  Width="16"  Height="16" />
+                            </StackPanel>-->
+                        </Button>
+                        <StackPanel Width="100">
+                            <TextBlock Text="Contratos" HorizontalAlignment="Left"/>
+                        </StackPanel>
+                    </StackPanel>
+                </TabItem.Header>
+                <!--#endregion-->
+
+                <!--#region Form Contratos-->
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Margin="5" >
+
+                </ScrollViewer>
+                <!--#endregion-->
+
+            </TabItem>
+            <!--#endregion-->
+
+            <!--#region Painel Anexos-->
+            <TabItem Name="Anexos">
+
+                <!--#region Header Anexos-->
+                <TabItem.Header  >
+                    <StackPanel Orientation="Horizontal">
+                        <Button x:Name="BtnAnexos" Width="40" Background="Transparent" Tag="31">
+                            <!--<StackPanel>
+                                <Image Source="{Binding ElementName=ListaVeiculos_lv, Path=SelectedItem.Pendente31,
+                                        Converter={StaticResource ConvertBoolToImage},UpdateSourceTrigger=Explicit, Mode=TwoWay}"  Width="16"  Height="16" />
+                            </StackPanel>-->
+                        </Button>
+                        <StackPanel Width="100">
+                            <TextBlock Text="Anexos" HorizontalAlignment="Left"/>
+                        </StackPanel>
+                    </StackPanel>
+                </TabItem.Header>
+                <!--#endregion-->
+
+                <!--#region Form Anexos-->
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Margin="5" >
+
+                </ScrollViewer>
+                <!--#endregion-->
+
+            </TabItem>
+            <!--#endregion-->
+
+            <!--#region Painel TipoAtividades-->
+            <TabItem Name="TipoAtividades">
+
+                <!--#region Header TipoAtividades-->
+                <TabItem.Header  >
+                    <StackPanel Orientation="Horizontal">
+                        <Button x:Name="BtnTipoAtividades" Width="40" Background="Transparent" Tag="31">
+                            <!--<StackPanel>
+                                <Image Source="{Binding ElementName=ListaVeiculos_lv, Path=SelectedItem.Pendente31,
+                                        Converter={StaticResource ConvertBoolToImage},UpdateSourceTrigger=Explicit, Mode=TwoWay}"  Width="16"  Height="16" />
+                            </StackPanel>-->
+                        </Button>
+                        <StackPanel Width="100">
+                            <TextBlock Text="TipoAtividades" HorizontalAlignment="Left"/>
+                        </StackPanel>
+                    </StackPanel>
+                </TabItem.Header>
+                <!--#endregion-->
+
+                <!--#region Form TipoAtividades-->
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Margin="5" >
+
+                </ScrollViewer>
+                <!--#endregion-->
+
+            </TabItem>
+            <!--#endregion-->
+
+            <!--#region Painel ModelosCracha-->
+            <TabItem Name="ModelosCracha">
+
+                <!--#region Header ModelosCracha-->
+                <TabItem.Header  >
+                    <StackPanel Orientation="Horizontal">
+                        <Button x:Name="BtnModelosCracha" Width="40" Background="Transparent" Tag="31">
+                            <!--<StackPanel>
+                                <Image Source="{Binding ElementName=ListaVeiculos_lv, Path=SelectedItem.Pendente31,
+                                        Converter={StaticResource ConvertBoolToImage},UpdateSourceTrigger=Explicit, Mode=TwoWay}"  Width="16"  Height="16" />
+                            </StackPanel>-->
+                        </Button>
+                        <StackPanel Width="100">
+                            <TextBlock Text="Modelos Cracha" HorizontalAlignment="Left"/>
+                        </StackPanel>
+                    </StackPanel>
+                </TabItem.Header>
+                <!--#endregion-->
+
+                <!--#region Form ModelosCracha-->
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Margin="5" >
+
+                </ScrollViewer>
+                <!--#endregion-->
+
+            </TabItem>
+            <!--#endregion-->
+
+
+
+
+        </TabControl>
+        <!--#endregion-->
 
     </Grid>
 </UserControl>

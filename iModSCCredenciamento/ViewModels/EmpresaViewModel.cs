@@ -23,6 +23,9 @@ namespace iModSCCredenciamento.ViewModels
 {
     public class EmpresaViewModel : ViewModelBase
     {
+
+        public string ConteudoPesquisa { get; set; }
+
         #region Inicializacao
         public EmpresaViewModel()
         {

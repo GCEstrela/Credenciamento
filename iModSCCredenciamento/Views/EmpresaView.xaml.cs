@@ -27,11 +27,17 @@ namespace iModSCCredenciamento.Views
     public partial class EmpresaView : UserControl,IConfiguracaoBotaoBasico
     {
         #region Inicializacao
+
+        private ConfiguracaoBotaoBasico _configBasicoBotao;
+
+
+
         private bool _cnpjVerificar = false;
         public EmpresaView()
         {
             InitializeComponent();
             this.DataContext = new EmpresaViewModel();
+            _configBasicoBotao = new ConfiguracaoBotaoBasico(BtnPesquisar, BtnAdicionar, BtnEditar, BtnExcluir,BtnSalvar, BtnCancelar, this);
             //this.PreviewKeyDown += (ss, ee) =>
             //{
             //    if (ee.Key == Key.Escape)
@@ -61,7 +67,7 @@ namespace iModSCCredenciamento.Views
 
                     string _imgstr = Conversores.IMGtoSTR(_img);
                     //Logo_im.Source = _img;
-                    ((ClasseEmpresas.Empresa)ListaEmpresas_lv.SelectedItem).Logo = _imgstr; //Conversores.IMGtoSTR(new BitmapImage(new Uri(arquivoLogo.FileName)));
+                    ((ClasseEmpresas.Empresa)ListaEmpresasLv.SelectedItem).Logo = _imgstr; //Conversores.IMGtoSTR(new BitmapImage(new Uri(arquivoLogo.FileName)));
                     //ListaEmpresas_lv.Items.Refresh();
 
                     //BindingExpression be = BindingOperations.GetBindingExpression(Logo_im, Image.SourceProperty);
@@ -517,7 +523,7 @@ namespace iModSCCredenciamento.Views
         /// <param name="e"></param>
         public void OnEditar_Click(object sender, RoutedEventArgs e)
         {
-            //throw new NotImplementedException();
+            _configBasicoBotao.EstadoEditar();
         }
 
         /// <summary>
@@ -527,7 +533,7 @@ namespace iModSCCredenciamento.Views
         /// <param name="e"></param>
         public void OnAdicionar_Click(object sender, RoutedEventArgs e)
         {
-            //throw new NotImplementedException();
+            _configBasicoBotao.EstadoAdicionar();
         }
 
         /// <summary>
@@ -537,7 +543,7 @@ namespace iModSCCredenciamento.Views
         /// <param name="e"></param>
         public void OnExcluir_Click(object sender, RoutedEventArgs e)
         {
-            //throw new NotImplementedException();
+            _configBasicoBotao.EstadoExcluir();
         }
 
         /// <summary>
@@ -547,7 +553,7 @@ namespace iModSCCredenciamento.Views
         /// <param name="e"></param>
         public void OnPesquisar_Click(object sender, RoutedEventArgs e)
         {
-            //throw new NotImplementedException();
+            _configBasicoBotao.EstadoPesquisar();
         }
 
         /// <summary>
@@ -557,7 +563,7 @@ namespace iModSCCredenciamento.Views
         /// <param name="e"></param>
         public void OnCancelar_Click(object sender, RoutedEventArgs e)
         {
-            //throw new NotImplementedException();
+            _configBasicoBotao.EstadoCancelar();
         }
 
         /// <summary>
@@ -567,7 +573,8 @@ namespace iModSCCredenciamento.Views
         /// <param name="e"></param>
         public void OnSalvarEditar(object sender, RoutedEventArgs e)
         {
-            //throw new NotImplementedException();
+            System.Windows.MessageBox.Show("Edição concluida com sucesso");
+            _configBasicoBotao.EstadoPronto();
         }
 
         /// <summary>
@@ -577,7 +584,21 @@ namespace iModSCCredenciamento.Views
         /// <param name="e"></param>
         public void OnSalvarAdicionar(object sender, RoutedEventArgs e)
         {
-            //throw new NotImplementedException();
+            System.Windows.MessageBox.Show("Adição concluida com sucesso");
+            _configBasicoBotao.EstadoPronto();
+        }
+
+        private void OnPesquisar_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key != Key.Enter) return;
+            OnPesquisar_Click(sender,new RoutedEventArgs());
+        }
+
+        private void Form_Loaded(object sender, RoutedEventArgs e)
+        {
+            //Set cursor na caixa de pesquisa
+            txtPesquisar.Focus();
+
         }
     }
 
