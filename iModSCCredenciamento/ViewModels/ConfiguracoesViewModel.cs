@@ -1318,7 +1318,7 @@ namespace iModSCCredenciamento.ViewModels
                 if (Global.PopupBox("Tem certeza que deseja excluir?", 2))
                 {
 
-                    ExcluiTipoAtividadeBD(TipoAtividadeSelecionada.TipoAtividadeId);
+                    ExcluiTipoAtividadeBD(TipoAtividadeSelecionada.TipoAtividadeID);
                     //TiposAtividade.Remove(AtividadeSelecionada);
                     CarregaColecaoTiposAtividades();
 

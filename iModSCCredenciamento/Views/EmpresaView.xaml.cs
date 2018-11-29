@@ -340,6 +340,7 @@ namespace iModSCCredenciamento.Views
                 ((EmpresaViewModel)this.DataContext).OnInserirAtividadeCommand(TipoAtividade_cb.SelectedValue.ToString(), TipoAtividade_cb.Text);
                 //TipoAtividade_cb.SelectedIndex = 0;
                 TipoAtividade_cb.Text = "";
+
             }
 
         }

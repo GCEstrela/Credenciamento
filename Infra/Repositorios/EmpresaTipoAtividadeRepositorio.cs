@@ -50,7 +50,7 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("EmpresaTipoAtividadeID", entity.EmpresaTipoAtividadeId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("EmpresaTipoAtividadeID", entity.EmpresaTipoAtividadeId, true)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("EmpresaID", entity.EmpresaId, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("TipoAtividadeID", entity.TipoAtividadeId, false)));
 
@@ -140,7 +140,7 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("EmpresaTipoAtividadeID", entity.EmpresaTipoAtividadeId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("EmpresaTipoAtividadeID", entity.EmpresaTipoAtividadeId, true)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("EmpresaID", entity.EmpresaId, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("TipoAtividadeID", entity.TipoAtividadeId, false)));
 

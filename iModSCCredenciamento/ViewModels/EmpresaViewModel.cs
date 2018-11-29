@@ -773,6 +773,16 @@ namespace iModSCCredenciamento.ViewModels
                 EmpresasTiposAtividades.Add(_EmpresaTipoAtividade);
 
                 //EmpresasTiposAtividades.Add();
+
+                IMOD.Domain.Entities.EmpresaTipoAtividade EmpresaTipoAtividadeEntity = new IMOD.Domain.Entities.EmpresaTipoAtividade();
+                g.TranportarDados(_EmpresaTipoAtividade, 1, EmpresaTipoAtividadeEntity);
+
+                var repositorio = new IMOD.Infra.Repositorios.EmpresaTipoAtividadeRepositorio();
+                repositorio.Criar(EmpresaTipoAtividadeEntity);
+
+                CarregaColeçãoEmpresasTiposAtividades(EmpresaSelecionada.EmpresaID);
+
+
             }
             catch (Exception ex)
             {
@@ -839,7 +849,7 @@ namespace iModSCCredenciamento.ViewModels
                 ClasseEmpresasLayoutsCrachas.EmpresaLayoutCracha _EmpresaLayoutCracha = new ClasseEmpresasLayoutsCrachas.EmpresaLayoutCracha();
                 _EmpresaLayoutCracha.EmpresaID = EmpresaSelecionada.EmpresaID;
                 _EmpresaLayoutCracha.LayoutCrachaID = _LayoutCrachaID;
-                _EmpresaLayoutCracha.Nome = _Nome;
+                //_EmpresaLayoutCracha.Nome = _Nome;
 
                 //EmpresasLayoutsCrachas.Add(_EmpresaLayoutCracha);
 
@@ -1193,7 +1203,7 @@ namespace iModSCCredenciamento.ViewModels
                 //this.Dispatcher.Invoke(new Action(() => { LoadingAdorner.IsAdornerVisible = false; }));
 
                 var service = new IMOD.Application.Service.EmpresaTipoAtividadeService();
-                var list1 = service.Listar();
+                var list1 = service.Listar(null, _empresaID, null);
 
                 var list2 = Mapper.Map<List<ClasseEmpresasTiposAtividades.EmpresaTipoAtividade>>(list1);
 
@@ -1345,8 +1355,9 @@ namespace iModSCCredenciamento.ViewModels
 
                 //this.Dispatcher.Invoke(new Action(() => { LoadingAdorner.IsAdornerVisible = false; }));
 
-                var service = new IMOD.Application.Service.EmpresaLayoutCrachaService();
-                var list1 = service.Listar(null, _empresaID, null, null);
+                var service = new IMOD.Application.Service.LayoutCrachaService();
+                //var list1 = service.Listar(null, _empresaID, null, null);
+                var list1 = service.ListarLayoutCrachaPorEmpresaView(_empresaID);
 
                 var list2 = Mapper.Map<List<ClasseEmpresasLayoutsCrachas.EmpresaLayoutCracha>>(list1);
 

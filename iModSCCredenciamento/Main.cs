@@ -20,6 +20,7 @@ using System.Xml;
 using AutoMapper;
 using Genetec.Sdk.Queries;
 using IMOD.Domain.Entities;
+using IMOD.Domain.EntitiesCustom;
 using IMOD.Infra.Repositorios;
 using Colaborador = IMOD.Domain.Entities.Colaborador;
 
@@ -565,6 +566,7 @@ namespace iModSCCredenciamento
 
                         m.CreateMap<AreaAcesso, ClasseAreasAcessos.AreaAcesso>().ReverseMap();
                         m.CreateMap<LayoutCracha, ClasseLayoutsCrachas.LayoutCracha>().ReverseMap();
+                        m.CreateMap<EmpresaLayoutCrachaView, ClasseEmpresasLayoutsCrachas.EmpresaLayoutCracha>().ReverseMap();
 
                     });
         }
