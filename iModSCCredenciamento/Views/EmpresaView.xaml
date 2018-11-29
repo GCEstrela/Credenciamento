@@ -29,9 +29,10 @@
                 <AdornedElementPlaceholder x:Name="ErrorAdorner" ></AdornedElementPlaceholder>
             </DockPanel>
         </ControlTemplate>
+        <!--Begin Styles-->
         <Style x:Key="MenuStyle" TargetType="{x:Type Button}">
-            <Setter Property="Background" Value="{x:Null}" />
-            <Setter Property="BorderBrush" Value="{x:Null}" />
+            <!--<Setter Property="Background" Value="{x:Null}" />-->
+            <!--<Setter Property="BorderBrush" Value="{x:Null}" />-->
             <Setter Property="Width" Value="16" />
             <Setter Property="Height" Value="16" />
             <Setter Property="Cursor" Value="Hand" />
@@ -47,6 +48,8 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
+        <!--End Styles-->
         <i:FormateTel x:Key="FormateTel" />
     </UserControl.Resources>
     <Grid Margin="5,5">
@@ -297,6 +300,7 @@
                             </GroupBox>
 
                             <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}"    x:Name="Caracteristicas_gb"  Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Header="Características " Margin="10,10,10,0" VerticalAlignment="Stretch" >
+
                                 <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
                                     <StackPanel Margin="0,10,0,0">
                                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0" >
@@ -313,7 +317,8 @@
                                         </StackPanel>
                                     </StackPanel>
                                     <StackPanel Visibility="Collapsed" Margin="0,10,0,0">
-                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0" >
+
+                                        <!--<StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0" >
                                             <Label Content="Área de Acesso:" Height="28" Width="120" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
                                             <ComboBox  x:Name="AreaAcesso_cb"   IsEnabled="True"  Height="24"  Width="300"  ItemsSource="{Binding AreasAcessos}" SelectedValuePath="AreaAcessoID">
                                                 <ComboBox.ItemTemplate>
@@ -331,8 +336,9 @@
 
                                             </ComboBox>
                                             <Button x:Name="IncluirAcesso_bt" Content="Incluir" Margin="10,0,0,0" Width="80" Click="IncluirAcesso_bt_Click"  />
-                                        </StackPanel>
-                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="125,5,0,0" >
+                                        </StackPanel>-->
+
+                                        <!--<StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="125,5,0,0" >
                                             <ListBox  x:Name="AreaAcesso_lb" ScrollViewer.HorizontalScrollBarVisibility="Hidden"  IsEnabled="True"  Height="120"  Width="300" ItemsSource="{Binding EmpresasAreasAcessos, Mode=TwoWay}"
                                                         SelectedItem="{Binding Path = EmpresaAreaAcessoSelecionada, Mode=TwoWay}">
                                                 <ListBox.ItemTemplate>
@@ -349,7 +355,7 @@
                                                 </ListBox.ItemTemplate>
                                             </ListBox>
                                             <Button x:Name="ExcluirAcesso_bt" Content="Excluir" Margin="10,0,0,0" Width="80" Height="28" VerticalAlignment="Top" Click="ExcluirAcesso_bt_Click" />
-                                        </StackPanel>
+                                        </StackPanel>-->
                                     </StackPanel>
                                     <StackPanel Margin="0,10,0,0">
                                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0" >

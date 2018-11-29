@@ -28,6 +28,6 @@ namespace IMOD.Domain.Interfaces
         /// <returns></returns>
         ICollection<Municipio> Listar(params object[] objects);
 
-    
+
     }
 }

@@ -14,13 +14,16 @@ using System.Windows.Forms;
 using iModSCCredenciamento.Windows;
 using System.Threading;
 using System.Linq;
+using System.Reflection;
 using iModSCCredenciamento.Views;
 using System.Threading.Tasks;
 using System.Windows;
 using AutoMapper;
 using IMOD.Application.Interfaces;
-using System.Reflection;
-using System.Collections;
+using IMOD.Domain.Entities;
+using IMOD.Infra.Repositorios;
+using MessageBox = System.Windows.MessageBox;
+
 //using IMOD.Application.Service;
 
 //using IMOD.Application.Service;
@@ -42,7 +45,7 @@ namespace iModSCCredenciamento.ViewModels
         public ColaboradorViewModel()
         {
 
-            
+
             //CarregaUI();
             Thread CarregaUI_thr = new Thread(() => CarregaUI());
             CarregaUI_thr.Start();
@@ -391,7 +394,7 @@ namespace iModSCCredenciamento.ViewModels
 
         public void OnSalvarEdicaoCommand2()
         {
-             //var colab = Mapper.Map<IMOD.Domain.Entities.Colaborador>(ColaboradorSelecionado);
+            //var colab = Mapper.Map<IMOD.Domain.Entities.Colaborador>(ColaboradorSelecionado);
             //_colaboradorService.Alterar(colab);
         }
 
@@ -1457,122 +1460,185 @@ namespace iModSCCredenciamento.ViewModels
                 Boolean.TryParse(_xmlDoc.GetElementsByTagName("Pendente27")[i].InnerText, out _controlado7);
 
 
-                //_Con.Close();
-                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
+                IMOD.Domain.Entities.Colaborador _ColaboradorEntity = new IMOD.Domain.Entities.Colaborador();
 
-                SqlCommand _sqlCmd;
-                if (_Colaborador.ColaboradorID == 0)
-                {
-                    _sqlCmd = new SqlCommand("Insert into Colaboradores(Nome,Apelido,DataNascimento,NomePai" +
-                                                                        ",NomeMae,Nacionalidade,Foto,EstadoCivil" +
-                                                                        ",CPF,RG,RGEmissao,RGOrgLocal" +
-                                                                        ",RGOrgUF,Passaporte,PassaporteValidade,RNE,TelefoneFixo" +
-                                                                        ",TelefoneCelular,Email,ContatoEmergencia,TelefoneEmergencia" +
-                                                                        ",Cep,Endereco,Numero,Complemento" +
-                                                                        ",Bairro,MunicipioID,EstadoID,Motorista" +
-                                                                        ",CNH,CNHValidade,CNHEmissor,CNHUF" +
-                                                                        ",Bagagem,DataEmissao,DataValidade,Excluida" +
-                                                                        ",StatusID,TipoAcessoID,CNHCategoria) " +
-                                                                        " values (@v1,@v2,@v3,@v4,@v5,@v6,@v7,@v8,@v9,@v10,@v11,@v12,@v13,@v14,@v15" +
-                                                                        ",@v16,@v17,@v18,@v19,@v20,@v21,@v22,@v23,@v24,@v25,@v26,@v27,@v28,@v29,@v30" +
-                                                                        ",@v31,@v32,@v33,@v34,@v35,@v36,@v37,@v38,@v39,@v40)" +
-                                                                        ";SELECT SCOPE_IDENTITY();", _Con);
+                _ColaboradorEntity.ColaboradorId = _xmlDoc.GetElementsByTagName("ColaboradorID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("ColaboradorID")[i].InnerText);
+                _ColaboradorEntity.Nome = _xmlDoc.GetElementsByTagName("Nome")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Nome")[i].InnerText;
+                _ColaboradorEntity.Apelido = _xmlDoc.GetElementsByTagName("Apelido")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Apelido")[i].InnerText;
+                _ColaboradorEntity.DataNascimento = _xmlDoc.GetElementsByTagName("DataNascimento")[i].InnerText == "" ? null : (DateTime?)Convert.ToDateTime(_xmlDoc.GetElementsByTagName("DataNascimento")[i].InnerText);
+                _ColaboradorEntity.NomePai = _xmlDoc.GetElementsByTagName("NomePai")[i] == null ? "" : _xmlDoc.GetElementsByTagName("NomePai")[i].InnerText;
+                _ColaboradorEntity.NomeMae = _xmlDoc.GetElementsByTagName("NomeMae")[i] == null ? "" : _xmlDoc.GetElementsByTagName("NomeMae")[i].InnerText;
+                _ColaboradorEntity.Nacionalidade = _xmlDoc.GetElementsByTagName("Nacionalidade")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Nacionalidade")[i].InnerText;
+                _ColaboradorEntity.Foto = _xmlDoc.GetElementsByTagName("Foto")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Foto")[i].InnerText;
+                _ColaboradorEntity.EstadoCivil = _xmlDoc.GetElementsByTagName("EstadoCivil")[i] == null ? "" : _xmlDoc.GetElementsByTagName("EstadoCivil")[i].InnerText;
+                _ColaboradorEntity.Cpf = _xmlDoc.GetElementsByTagName("CPF")[i] == null ? "" : _xmlDoc.GetElementsByTagName("CPF")[i].InnerText;
+                _ColaboradorEntity.Rg = _xmlDoc.GetElementsByTagName("RG")[i] == null ? "" : _xmlDoc.GetElementsByTagName("RG")[i].InnerText;
+                _ColaboradorEntity.RgEmissao = _xmlDoc.GetElementsByTagName("RGEmissao")[i].InnerText == "" ? null : (DateTime?)Convert.ToDateTime(_xmlDoc.GetElementsByTagName("RGEmissao")[i].InnerText);
+                _ColaboradorEntity.RgOrgLocal = _xmlDoc.GetElementsByTagName("RGOrgLocal")[i] == null ? "" : _xmlDoc.GetElementsByTagName("RGOrgLocal")[i].InnerText;
+                _ColaboradorEntity.RgOrgUf = _xmlDoc.GetElementsByTagName("RGOrgUF")[i] == null ? "" : _xmlDoc.GetElementsByTagName("RGOrgUF")[i].InnerText;
+                _ColaboradorEntity.Passaporte = _xmlDoc.GetElementsByTagName("Passaporte")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Passaporte")[i].InnerText;
+                _ColaboradorEntity.PassaporteValidade = _xmlDoc.GetElementsByTagName("PassaporteValidade")[i].InnerText == "" ? null : (DateTime?)Convert.ToDateTime(_xmlDoc.GetElementsByTagName("PassaporteValidade")[i].InnerText);
+                _ColaboradorEntity.Rne = _xmlDoc.GetElementsByTagName("RNE")[i] == null ? "" : _xmlDoc.GetElementsByTagName("RNE")[i].InnerText;
+                _ColaboradorEntity.TelefoneFixo = _xmlDoc.GetElementsByTagName("TelefoneFixo")[i] == null ? "" : _xmlDoc.GetElementsByTagName("TelefoneFixo")[i].InnerText;
+                _ColaboradorEntity.TelefoneCelular = _xmlDoc.GetElementsByTagName("TelefoneCelular")[i] == null ? "" : _xmlDoc.GetElementsByTagName("TelefoneCelular")[i].InnerText;
+                _ColaboradorEntity.Email = _xmlDoc.GetElementsByTagName("Email")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Email")[i].InnerText;
+                _ColaboradorEntity.ContatoEmergencia = _xmlDoc.GetElementsByTagName("ContatoEmergencia")[i] == null ? "" : _xmlDoc.GetElementsByTagName("ContatoEmergencia")[i].InnerText;
+                _ColaboradorEntity.TelefoneEmergencia = _xmlDoc.GetElementsByTagName("TelefoneEmergencia")[i] == null ? "" : _xmlDoc.GetElementsByTagName("TelefoneEmergencia")[i].InnerText;
+
+                _ColaboradorEntity.Cep = _xmlDoc.GetElementsByTagName("Cep")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Cep")[i].InnerText;
+                _ColaboradorEntity.Endereco = _xmlDoc.GetElementsByTagName("Endereco")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Endereco")[i].InnerText;
+                _ColaboradorEntity.Numero = _xmlDoc.GetElementsByTagName("Numero")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Numero")[i].InnerText;
+                _ColaboradorEntity.Complemento = _xmlDoc.GetElementsByTagName("Complemento")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Complemento")[i].InnerText;
+                _ColaboradorEntity.Bairro = _xmlDoc.GetElementsByTagName("Bairro")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Bairro")[i].InnerText;
+                _ColaboradorEntity.MunicipioId = _xmlDoc.GetElementsByTagName("MunicipioID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("MunicipioID")[i].InnerText);
+                _ColaboradorEntity.EstadoId = _xmlDoc.GetElementsByTagName("EstadoID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("EstadoID")[i].InnerText);
+
+                ////bool _motorista;
+                Boolean.TryParse(_xmlDoc.GetElementsByTagName("Motorista")[i].InnerText, out _motorista);
+                _ColaboradorEntity.Motorista = _xmlDoc.GetElementsByTagName("Motorista")[i] == null ? false : _motorista;
+                _ColaboradorEntity.CnhCategoria = _xmlDoc.GetElementsByTagName("CNHCategoria")[i] == null ? "" : _xmlDoc.GetElementsByTagName("CNHCategoria")[i].InnerText;
+
+                _ColaboradorEntity.Cnh = _xmlDoc.GetElementsByTagName("CNH")[i] == null ? "" : _xmlDoc.GetElementsByTagName("CNH")[i].InnerText;
+                _ColaboradorEntity.CnhValidade = _xmlDoc.GetElementsByTagName("CNHValidade")[i].InnerText == "" ? null : (DateTime?)Convert.ToDateTime(_xmlDoc.GetElementsByTagName("CNHValidade")[i].InnerText);
+                _ColaboradorEntity.CnhEmissor = _xmlDoc.GetElementsByTagName("CNHEmissor")[i] == null ? "" : _xmlDoc.GetElementsByTagName("CNHEmissor")[i].InnerText;
+                _ColaboradorEntity.Cnhuf = _xmlDoc.GetElementsByTagName("CNHUF")[i] == null ? "" : _xmlDoc.GetElementsByTagName("CNHUF")[i].InnerText;
+                _ColaboradorEntity.Bagagem = _xmlDoc.GetElementsByTagName("Bagagem")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Bagagem")[i].InnerText;
+                _ColaboradorEntity.DataEmissao = _xmlDoc.GetElementsByTagName("DataEmissao")[i].InnerText == "" ? null : (DateTime?)Convert.ToDateTime(_xmlDoc.GetElementsByTagName("DataEmissao")[i].InnerText);
+                _ColaboradorEntity.DataValidade = _xmlDoc.GetElementsByTagName("DataValidade")[i].InnerText == "" ? null : (DateTime?)Convert.ToDateTime(_xmlDoc.GetElementsByTagName("DataValidade")[i].InnerText);
+                _ColaboradorEntity.Excluida = _xmlDoc.GetElementsByTagName("Excluida")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("Excluida")[i].InnerText);
+                _ColaboradorEntity.StatusId = _xmlDoc.GetElementsByTagName("StatusID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("StatusID")[i].InnerText);
+                _ColaboradorEntity.TipoAcessoId = _xmlDoc.GetElementsByTagName("TipoAcessoID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("StatusID")[i].InnerText);
+
+                //bool _controlado1, _controlado2, _controlado3, _controlado4, _controlado5, _controlado6, _controlado7;
+                Boolean.TryParse(_xmlDoc.GetElementsByTagName("Pendente21")[i].InnerText, out _controlado1);
+                Boolean.TryParse(_xmlDoc.GetElementsByTagName("Pendente22")[i].InnerText, out _controlado2);
+                Boolean.TryParse(_xmlDoc.GetElementsByTagName("Pendente23")[i].InnerText, out _controlado3);
+                Boolean.TryParse(_xmlDoc.GetElementsByTagName("Pendente24")[i].InnerText, out _controlado4);
+                Boolean.TryParse(_xmlDoc.GetElementsByTagName("Pendente25")[i].InnerText, out _controlado5);
+                Boolean.TryParse(_xmlDoc.GetElementsByTagName("Pendente26")[i].InnerText, out _controlado6);
+                Boolean.TryParse(_xmlDoc.GetElementsByTagName("Pendente27")[i].InnerText, out _controlado7);
+
+                var repositorio = new ColaboradorRepositorio();
+
+                repositorio.Criar(_ColaboradorEntity);
 
 
+                ////_Con.Close();
+                //SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
 
-                    _sqlCmd.Parameters.Add("@v1", SqlDbType.VarChar).Value = _Colaborador.Nome;
-                    _sqlCmd.Parameters.Add("@v2", SqlDbType.VarChar).Value = _Colaborador.Apelido;
-                    if (_Colaborador.DataNascimento == null)
-                    {
-                        _sqlCmd.Parameters.Add("@v3", SqlDbType.DateTime).Value = DBNull.Value;
-                    }
-                    else
-                    {
-                        _sqlCmd.Parameters.Add("@v3", SqlDbType.DateTime).Value = _Colaborador.DataNascimento;
-                    }
-                    _sqlCmd.Parameters.Add("@v4", SqlDbType.VarChar).Value = _Colaborador.NomePai;
-                    _sqlCmd.Parameters.Add("@v5", SqlDbType.VarChar).Value = _Colaborador.NomeMae;
-                    _sqlCmd.Parameters.Add("@v6", SqlDbType.VarChar).Value = _Colaborador.Nacionalidade;
-                    _sqlCmd.Parameters.Add("@v7", SqlDbType.VarChar).Value = _Colaborador.Foto;
-                    _sqlCmd.Parameters.Add("@v8", SqlDbType.VarChar).Value = _Colaborador.EstadoCivil;
-                    _sqlCmd.Parameters.Add("@v9", SqlDbType.VarChar).Value = _Colaborador.CPF.RetirarCaracteresEspeciais();
-                    _sqlCmd.Parameters.Add("@v10", SqlDbType.VarChar).Value = _Colaborador.RG;
-                    if (_Colaborador.RGEmissao == null)
-                    {
-                        _sqlCmd.Parameters.Add("@v11", SqlDbType.DateTime).Value = DBNull.Value;
-                    }
-                    else
-                    {
-                        _sqlCmd.Parameters.Add("@v11", SqlDbType.DateTime).Value = _Colaborador.RGEmissao;
-                    }
-
-                    _sqlCmd.Parameters.Add("@v12", SqlDbType.VarChar).Value = _Colaborador.RGOrgLocal;
-                    _sqlCmd.Parameters.Add("@v13", SqlDbType.VarChar).Value = _Colaborador.RGOrgUF;
-                    _sqlCmd.Parameters.Add("@v14", SqlDbType.VarChar).Value = _Colaborador.Passaporte;
-                    if (_Colaborador.PassaporteValidade == null)
-                    {
-                        _sqlCmd.Parameters.Add("@v15", SqlDbType.DateTime).Value = DBNull.Value;
-                    }
-                    else
-                    {
-                        _sqlCmd.Parameters.Add("@v15", SqlDbType.DateTime).Value = _Colaborador.PassaporteValidade;
-                    }
-                    _sqlCmd.Parameters.Add("@v16", SqlDbType.VarChar).Value = _Colaborador.RNE;
-                    _sqlCmd.Parameters.Add("@v17", SqlDbType.VarChar).Value = _Colaborador.TelefoneFixo;
-                    _sqlCmd.Parameters.Add("@v18", SqlDbType.VarChar).Value = _Colaborador.TelefoneCelular;
-                    _sqlCmd.Parameters.Add("@v19", SqlDbType.VarChar).Value = _Colaborador.Email;
-                    _sqlCmd.Parameters.Add("@v20", SqlDbType.VarChar).Value = _Colaborador.ContatoEmergencia;
-                    _sqlCmd.Parameters.Add("@v21", SqlDbType.VarChar).Value = _Colaborador.TelefoneEmergencia;
-                    _sqlCmd.Parameters.Add("@v22", SqlDbType.VarChar).Value = _Colaborador.Cep;
-                    _sqlCmd.Parameters.Add("@v23", SqlDbType.VarChar).Value = _Colaborador.Endereco;
-                    _sqlCmd.Parameters.Add("@v24", SqlDbType.VarChar).Value = _Colaborador.Numero;
-                    _sqlCmd.Parameters.Add("@v25", SqlDbType.VarChar).Value = _Colaborador.Complemento;
-                    _sqlCmd.Parameters.Add("@v26", SqlDbType.VarChar).Value = _Colaborador.Bairro;
-                    _sqlCmd.Parameters.Add("@v27", SqlDbType.Int).Value = _Colaborador.MunicipioID;
-                    _sqlCmd.Parameters.Add("@v28", SqlDbType.Int).Value = _Colaborador.EstadoID;
-                    _sqlCmd.Parameters.Add("@v29", SqlDbType.VarChar).Value = _Colaborador.Motorista;
-                    _sqlCmd.Parameters.Add("@v30", SqlDbType.VarChar).Value = _Colaborador.CNH;
-
-                    if (_Colaborador.CNHValidade == null)
-                    {
-                        _sqlCmd.Parameters.Add("@v31", SqlDbType.DateTime).Value = DBNull.Value;
-                    }
-                    else
-                    {
-                        _sqlCmd.Parameters.Add("@v31", SqlDbType.DateTime).Value = _Colaborador.CNHValidade;
-                    }
-                    _sqlCmd.Parameters.Add("@v32", SqlDbType.VarChar).Value = _Colaborador.CNHEmissor;
-                    _sqlCmd.Parameters.Add("@v33", SqlDbType.VarChar).Value = _Colaborador.CNHUF;
-                    _sqlCmd.Parameters.Add("@v34", SqlDbType.VarChar).Value = _Colaborador.Bagagem;
-
-                    if (_Colaborador.DataEmissao == null)
-                    {
-                        _sqlCmd.Parameters.Add("@v35", SqlDbType.DateTime).Value = DBNull.Value;
-                    }
-                    else
-                    {
-                        _sqlCmd.Parameters.Add("@v35", SqlDbType.DateTime).Value = _Colaborador.DataEmissao;
-                    }
-
-                    if (_Colaborador.DataValidade == null)
-                    {
-                        _sqlCmd.Parameters.Add("@v36", SqlDbType.DateTime).Value = DBNull.Value;
-                    }
-                    else
-                    {
-                        _sqlCmd.Parameters.Add("@v36", SqlDbType.DateTime).Value = _Colaborador.DataValidade;
-                    }
-                    _sqlCmd.Parameters.Add("@v37", SqlDbType.Int).Value = _Colaborador.Excluida;
-                    _sqlCmd.Parameters.Add("@v38", SqlDbType.Int).Value = _Colaborador.StatusID;
-                    _sqlCmd.Parameters.Add("@v39", SqlDbType.Int).Value = _Colaborador.TipoAcessoID;
-                    _sqlCmd.Parameters.Add("@v40", SqlDbType.VarChar).Value = _Colaborador.CNHCategoria;
+                //SqlCommand _sqlCmd;
+                //if (_Colaborador.ColaboradorID == 0)
+                //{
+                //    _sqlCmd = new SqlCommand("Insert into Colaboradores(Nome,Apelido,DataNascimento,NomePai" +
+                //                                                        ",NomeMae,Nacionalidade,Foto,EstadoCivil" +
+                //                                                        ",CPF,RG,RGEmissao,RGOrgLocal" +
+                //                                                        ",RGOrgUF,Passaporte,PassaporteValidade,RNE,TelefoneFixo" +
+                //                                                        ",TelefoneCelular,Email,ContatoEmergencia,TelefoneEmergencia" +
+                //                                                        ",Cep,Endereco,Numero,Complemento" +
+                //                                                        ",Bairro,MunicipioID,EstadoID,Motorista" +
+                //                                                        ",CNH,CNHValidade,CNHEmissor,CNHUF" +
+                //                                                        ",Bagagem,DataEmissao,DataValidade,Excluida" +
+                //                                                        ",StatusID,TipoAcessoID,CNHCategoria) " +
+                //                                                        " values (@v1,@v2,@v3,@v4,@v5,@v6,@v7,@v8,@v9,@v10,@v11,@v12,@v13,@v14,@v15" +
+                //                                                        ",@v16,@v17,@v18,@v19,@v20,@v21,@v22,@v23,@v24,@v25,@v26,@v27,@v28,@v29,@v30" +
+                //                                                        ",@v31,@v32,@v33,@v34,@v35,@v36,@v37,@v38,@v39,@v40)" +
+                //                                                        ";SELECT SCOPE_IDENTITY();", _Con);
 
 
 
-                    _novID = Convert.ToInt32(_sqlCmd.ExecuteScalar());
-                    _Con.Close();
+                //    _sqlCmd.Parameters.Add("@v1", SqlDbType.VarChar).Value = _Colaborador.Nome;
+                //    _sqlCmd.Parameters.Add("@v2", SqlDbType.VarChar).Value = _Colaborador.Apelido;
+                //    if (_Colaborador.DataNascimento == null)
+                //    {
+                //        _sqlCmd.Parameters.Add("@v3", SqlDbType.DateTime).Value = DBNull.Value;
+                //    }
+                //    else
+                //    {
+                //        _sqlCmd.Parameters.Add("@v3", SqlDbType.DateTime).Value = _Colaborador.DataNascimento;
+                //    }
+                //    _sqlCmd.Parameters.Add("@v4", SqlDbType.VarChar).Value = _Colaborador.NomePai;
+                //    _sqlCmd.Parameters.Add("@v5", SqlDbType.VarChar).Value = _Colaborador.NomeMae;
+                //    _sqlCmd.Parameters.Add("@v6", SqlDbType.VarChar).Value = _Colaborador.Nacionalidade;
+                //    _sqlCmd.Parameters.Add("@v7", SqlDbType.VarChar).Value = _Colaborador.Foto;
+                //    _sqlCmd.Parameters.Add("@v8", SqlDbType.VarChar).Value = _Colaborador.EstadoCivil;
+                //    _sqlCmd.Parameters.Add("@v9", SqlDbType.VarChar).Value = _Colaborador.CPF.RetirarCaracteresEspeciais();
+                //    _sqlCmd.Parameters.Add("@v10", SqlDbType.VarChar).Value = _Colaborador.RG;
+                //    if (_Colaborador.RGEmissao == null)
+                //    {
+                //        _sqlCmd.Parameters.Add("@v11", SqlDbType.DateTime).Value = DBNull.Value;
+                //    }
+                //    else
+                //    {
+                //        _sqlCmd.Parameters.Add("@v11", SqlDbType.DateTime).Value = _Colaborador.RGEmissao;
+                //    }
 
-                }
+                //    _sqlCmd.Parameters.Add("@v12", SqlDbType.VarChar).Value = _Colaborador.RGOrgLocal;
+                //    _sqlCmd.Parameters.Add("@v13", SqlDbType.VarChar).Value = _Colaborador.RGOrgUF;
+                //    _sqlCmd.Parameters.Add("@v14", SqlDbType.VarChar).Value = _Colaborador.Passaporte;
+                //    if (_Colaborador.PassaporteValidade == null)
+                //    {
+                //        _sqlCmd.Parameters.Add("@v15", SqlDbType.DateTime).Value = DBNull.Value;
+                //    }
+                //    else
+                //    {
+                //        _sqlCmd.Parameters.Add("@v15", SqlDbType.DateTime).Value = _Colaborador.PassaporteValidade;
+                //    }
+                //    _sqlCmd.Parameters.Add("@v16", SqlDbType.VarChar).Value = _Colaborador.RNE;
+                //    _sqlCmd.Parameters.Add("@v17", SqlDbType.VarChar).Value = _Colaborador.TelefoneFixo;
+                //    _sqlCmd.Parameters.Add("@v18", SqlDbType.VarChar).Value = _Colaborador.TelefoneCelular;
+                //    _sqlCmd.Parameters.Add("@v19", SqlDbType.VarChar).Value = _Colaborador.Email;
+                //    _sqlCmd.Parameters.Add("@v20", SqlDbType.VarChar).Value = _Colaborador.ContatoEmergencia;
+                //    _sqlCmd.Parameters.Add("@v21", SqlDbType.VarChar).Value = _Colaborador.TelefoneEmergencia;
+                //    _sqlCmd.Parameters.Add("@v22", SqlDbType.VarChar).Value = _Colaborador.Cep;
+                //    _sqlCmd.Parameters.Add("@v23", SqlDbType.VarChar).Value = _Colaborador.Endereco;
+                //    _sqlCmd.Parameters.Add("@v24", SqlDbType.VarChar).Value = _Colaborador.Numero;
+                //    _sqlCmd.Parameters.Add("@v25", SqlDbType.VarChar).Value = _Colaborador.Complemento;
+                //    _sqlCmd.Parameters.Add("@v26", SqlDbType.VarChar).Value = _Colaborador.Bairro;
+                //    _sqlCmd.Parameters.Add("@v27", SqlDbType.Int).Value = _Colaborador.MunicipioID;
+                //    _sqlCmd.Parameters.Add("@v28", SqlDbType.Int).Value = _Colaborador.EstadoID;
+                //    _sqlCmd.Parameters.Add("@v29", SqlDbType.VarChar).Value = _Colaborador.Motorista;
+                //    _sqlCmd.Parameters.Add("@v30", SqlDbType.VarChar).Value = _Colaborador.CNH;
+
+                //    if (_Colaborador.CNHValidade == null)
+                //    {
+                //        _sqlCmd.Parameters.Add("@v31", SqlDbType.DateTime).Value = DBNull.Value;
+                //    }
+                //    else
+                //    {
+                //        _sqlCmd.Parameters.Add("@v31", SqlDbType.DateTime).Value = _Colaborador.CNHValidade;
+                //    }
+                //    _sqlCmd.Parameters.Add("@v32", SqlDbType.VarChar).Value = _Colaborador.CNHEmissor;
+                //    _sqlCmd.Parameters.Add("@v33", SqlDbType.VarChar).Value = _Colaborador.CNHUF;
+                //    _sqlCmd.Parameters.Add("@v34", SqlDbType.VarChar).Value = _Colaborador.Bagagem;
+
+                //    if (_Colaborador.DataEmissao == null)
+                //    {
+                //        _sqlCmd.Parameters.Add("@v35", SqlDbType.DateTime).Value = DBNull.Value;
+                //    }
+                //    else
+                //    {
+                //        _sqlCmd.Parameters.Add("@v35", SqlDbType.DateTime).Value = _Colaborador.DataEmissao;
+                //    }
+
+                //    if (_Colaborador.DataValidade == null)
+                //    {
+                //        _sqlCmd.Parameters.Add("@v36", SqlDbType.DateTime).Value = DBNull.Value;
+                //    }
+                //    else
+                //    {
+                //        _sqlCmd.Parameters.Add("@v36", SqlDbType.DateTime).Value = _Colaborador.DataValidade;
+                //    }
+                //    _sqlCmd.Parameters.Add("@v37", SqlDbType.Int).Value = _Colaborador.Excluida;
+                //    _sqlCmd.Parameters.Add("@v38", SqlDbType.Int).Value = _Colaborador.StatusID;
+                //    _sqlCmd.Parameters.Add("@v39", SqlDbType.Int).Value = _Colaborador.TipoAcessoID;
+                //    _sqlCmd.Parameters.Add("@v40", SqlDbType.VarChar).Value = _Colaborador.CNHCategoria;
+
+
+
+                //    _novID = Convert.ToInt32(_sqlCmd.ExecuteScalar());
+                //    _Con.Close();
+
+                //}
 
                 return _novID;
             }
@@ -1686,7 +1752,7 @@ namespace iModSCCredenciamento.ViewModels
                         ",Bairro= @v26" +
                         ",MunicipioID= @v27" +
                         ",EstadoID= @v28" +
-                        ",Motorista= @v29" +                        
+                        ",Motorista= @v29" +
                         ",CNH= @v30" +
                         ",CNHValidade= @v31" +
                         ",CNHEmissor= @v32" +
@@ -1973,95 +2039,40 @@ namespace iModSCCredenciamento.ViewModels
             }
         }
 
-        //public void PrintProperties(object obj, int indent, object obj2)
+        //public void TranportarDados(object obj_Origem, int indent, object obj_Destino)//Tranporta os dados de uma Classe para a outra
         //{
-        //    if (obj == null) return;
-        //    string indentString = new string(' ', indent);
-        //    Type objType = obj.GetType();
-        //    Type objType2 = obj2.GetType();
-        //    PropertyInfo[] properties = objType.GetProperties(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static);
-        //    PropertyInfo[] properties2 = objType2.GetProperties(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.GetProperty);
-        //    foreach (PropertyInfo property in properties)
+        //    try
         //    {
-        //        object propValue = property.GetValue(obj, null);
-        //        //object propValue2 = property.GetValue(obj2, null);
-        //        var elems = propValue as IList;
-        //        if (elems != null)
-        //        {
-        //            foreach (var item in elems)
-        //            {
-        //                PrintProperties(item, indent + 3,item);
-        //            }
-        //        }
-        //        else
-        //        {
-        //            if (property.PropertyType.Assembly == objType.Assembly)
-        //            {
-        //                Console.WriteLine("{0}{1}:", indentString, property.Name);
+        //        if (obj_Origem == null) return;
+        //        string indentString = new string(' ', indent);
+        //        Type objType = obj_Origem.GetType();
+        //        Type objType2 = obj_Destino.GetType();
+        //        PropertyInfo[] properties = objType.GetProperties(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static);
+        //        PropertyInfo[] properties2 = objType2.GetProperties(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.GetProperty);
 
-        //                PrintProperties(propValue, indent + 2, propValue);
-        //            }
-        //            else
+        //        foreach (PropertyInfo property in properties)
+        //        {
+        //            object propValue = property.GetValue(obj_Origem, null);
+        //            var nomeOrigem = property.Name.ToUpper();
+        //            foreach (PropertyInfo property2 in properties2)
         //            {
-                        
-        //                Console.WriteLine("{0}{1}: {2}", indentString, property.Name, propValue);
-        //                foreach (PropertyInfo property2 in properties2)
+        //                var nomeDestino = property2.Name.ToUpper();
+        //                object propValue2 = property2.GetValue(obj_Destino, null);
+        //                if (nomeOrigem == nomeDestino)
         //                {
-        //                    var nome1 = property.Name.ToUpper();
-        //                    var nome2 = property2.Name.ToUpper();
-
-        //                    //Console.WriteLine("{0}{1}: {2}", indentString, property2.Name.ToUpper(), property.Name.ToUpper());
-        //                    object propValue2 = property2.GetValue(obj2, null);
-        //                    if (nome1 == nome2)
-        //                    {
-        //                        property2.SetValue(obj2, propValue);
-        //                        Console.WriteLine("{0}{1}: {2}", indentString, property2.Name, propValue2);
-        //                        break;
-
-        //                    }
-
-                            
-        //                }
-
+        //                    property2.SetValue(obj_Destino, propValue);
+        //                    break;
 
         //                }
+        //            }
         //        }
         //    }
+        //    catch (Exception ex)
+        //    {
+
+        //    }
         //}
-        public void TranportarDados(object obj_Origem, int indent, object obj_Destino)//Tranporta os dados de uma Classe para a outra
-        {
-            try
-            {
-                if (obj_Origem == null) return;
-                string indentString = new string(' ', indent);
-                Type objType = obj_Origem.GetType();
-                Type objType2 = obj_Destino.GetType();
-                PropertyInfo[] properties = objType.GetProperties(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static);
-                PropertyInfo[] properties2 = objType2.GetProperties(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.GetProperty);
-
-                foreach (PropertyInfo property in properties)
-                {
-                    object propValue = property.GetValue(obj_Origem, null);
-                    var nomeOrigem = property.Name.ToUpper();
-                    foreach (PropertyInfo property2 in properties2)
-                    {
-                        var nomeDestino = property2.Name.ToUpper();
-                        object propValue2 = property2.GetValue(obj_Destino, null);
-                        if (nomeOrigem == nomeDestino)
-                        {
-                            property2.SetValue(obj_Destino, propValue);                        
-                            break;
-
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-
-            }
-        }
-
+        Global g = new Global();
 
         internal void SalvarAdicao()
         {
@@ -2071,7 +2082,6 @@ namespace iModSCCredenciamento.ViewModels
                 HabilitaEdicao = false;
                 System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(ClasseColaboradores));
 
-                //ObservableCollection<ClasseColaboradores.Colaborador> _ColaboradoresPro = new ObservableCollection<ClasseColaboradores.Colaborador>();
                 ObservableCollection<ClasseColaboradores.Colaborador> _ColaboradoresPro = new ObservableCollection<ClasseColaboradores.Colaborador>();
                 ClasseColaboradores _ClasseColaboradoresTemp = new ClasseColaboradores();
                 ColaboradorSelecionado.Pendente = true;
@@ -2080,41 +2090,19 @@ namespace iModSCCredenciamento.ViewModels
                 ColaboradorSelecionado.Pendente23 = true;
                 ColaboradorSelecionado.Pendente24 = true;
                 ColaboradorSelecionado.Pendente25 = true;
-                IMOD.Domain.Entities.Colaborador colaboradorEnty = new IMOD.Domain.Entities.Colaborador();
+
 
                 _ColaboradoresPro.Add(ColaboradorSelecionado);
                 _ClasseColaboradoresTemp.Colaboradores = _ColaboradoresPro;
 
-                TranportarDados(ColaboradorSelecionado,1, colaboradorEnty);
-                var repo = new IMOD.Infra.Repositorios.ColaboradorRepositorio();
-                repo.Criar(colaboradorEnty);
+                IMOD.Domain.Entities.Colaborador ColaboradorEntity = new IMOD.Domain.Entities.Colaborador();
+                g.TranportarDados(ColaboradorSelecionado, 1, ColaboradorEntity);
 
-                ////PrintProperties(colaboradorEnty, 1, ColaboradorSelecionado);
-                ////ClasseColaboradores p = new ClasseColaboradores();
+                var repositorio = new IMOD.Infra.Repositorios.ColaboradorRepositorio();
+                repositorio.Criar(ColaboradorEntity);
 
-                ////PropertyInfo[] properties = p.GetType().GetProperties();
-                ////foreach (PropertyInfo property in properties)
-                ////{
-                ////    object propertyValue = property.GetValue(p, null);
-                ////    Console.WriteLine(property.Name + ": " + Convert.ToString(propertyValue));
-                ////}
 
-                //string xmlString;
-
-                //using (StringWriterWithEncoding sw = new StringWriterWithEncoding(System.Text.Encoding.UTF8))
-                //{
-
-                //    using (XmlTextWriter xw = new XmlTextWriter(sw))
-                //    {
-                //        xw.Formatting = Formatting.Indented;
-                //        serializer.Serialize(xw, _ClasseColaboradoresTemp);
-                //        xmlString = sw.ToString();
-                //    }
-
-                //}
-
-                //int _novoColaboradorID = InsereColaboradoresBD(xmlString);
-                var id = colaboradorEnty.ColaboradorId;
+                var id = ColaboradorEntity.ColaboradorId;
                 AtualizaPendencias(id);
 
                 ColaboradorSelecionado.ColaboradorID = id;
@@ -2141,11 +2129,14 @@ namespace iModSCCredenciamento.ViewModels
             }
         }
 
+        /// <summary>
+        /// Alteração iniciada por Mihai & Máximo (28/11/2018)
+        /// TranportarDados
+        /// </summary>
         internal void SalvarEdicao()
         {
             try
             {
-
                 HabilitaEdicao = false;
                 System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(ClasseColaboradores));
 
@@ -2154,21 +2145,11 @@ namespace iModSCCredenciamento.ViewModels
                 _ColaboradoresTemp.Add(ColaboradorSelecionado);
                 _ClasseColaboradoresTemp.Colaboradores = _ColaboradoresTemp;
 
-                string xmlString;
+                IMOD.Domain.Entities.Colaborador ColaboradorEntity = new IMOD.Domain.Entities.Colaborador();
+                g.TranportarDados(ColaboradorSelecionado, 1, ColaboradorEntity);
 
-                using (StringWriterWithEncoding sw = new StringWriterWithEncoding(System.Text.Encoding.UTF8))
-                {
-
-                    using (XmlTextWriter xw = new XmlTextWriter(sw))
-                    {
-                        xw.Formatting = Formatting.Indented;
-                        serializer.Serialize(xw, _ClasseColaboradoresTemp);
-                        xmlString = sw.ToString();
-                    }
-
-                }
-
-                AtualizaColaboradoresBD(xmlString);
+                var repositorio = new IMOD.Infra.Repositorios.ColaboradorRepositorio();
+                repositorio.Alterar(ColaboradorEntity);
 
                 _ClasseColaboradoresTemp = null;
 

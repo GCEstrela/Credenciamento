@@ -132,7 +132,7 @@ namespace iModSCCredenciamento.Views
             Geral_sp.IsHitTestVisible = true;
             Geral_bt.Visibility = Visibility.Hidden;
             ((ColaboradorViewModel)this.DataContext).OnAdicionarCommand();
-            
+
         }
 
         private void Excluir_bt_Click(object sender, RoutedEventArgs e)
@@ -205,8 +205,8 @@ namespace iModSCCredenciamento.Views
                 }
 
                 Botoes_Principais_sp.Visibility = Visibility.Visible;
-                //model.SalvarEdicao();
-                model.OnSalvarEdicaoCommand2();
+                model.SalvarEdicao();
+                //model.OnSalvarEdicaoCommand2();
                 //((ColaboradorViewModel)this.DataContext).OnSalvarEdicaoCommandAsync();
                 Botoes_Editar_sp.Visibility = Visibility.Hidden;
                 ListaColaboradores_lv.IsHitTestVisible = true;
@@ -260,7 +260,7 @@ namespace iModSCCredenciamento.Views
                 }
 
                 Botoes_Principais_sp.Visibility = Visibility.Visible;
-                model.SalvarEdicao(); 
+                model.SalvarEdicao();
                 //((ColaboradorViewModel)this.DataContext).OnSalvarEdicaoCommandAsync();
                 Botoes_Editar_sp.Visibility = Visibility.Hidden;
                 ListaColaboradores_lv.IsHitTestVisible = true;
@@ -329,7 +329,7 @@ namespace iModSCCredenciamento.Views
         //}
         private void SalvarAdicao_bt_Click(object sender, RoutedEventArgs e)
         {
-           
+
             #region Opcao 1
             try
             {
@@ -507,6 +507,11 @@ namespace iModSCCredenciamento.Views
         }
 
         private void Motorista_cb_Checked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void OnSalvarEdicao_Click(object sender, RoutedEventArgs e)
         {
 
         }

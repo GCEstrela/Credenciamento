@@ -297,5 +297,10 @@ namespace iModSCCredenciamento.Views
 
             }
         }
+
+        private void BuscarArquivoAnexo_bt_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

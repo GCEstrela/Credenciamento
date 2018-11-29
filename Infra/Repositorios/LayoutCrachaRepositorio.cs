@@ -12,6 +12,7 @@ using System.Data;
 using System.Linq;
 using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
+using IMOD.Domain.EntitiesCustom;
 using IMOD.Domain.Interfaces;
 using IMOD.Infra.Ado;
 using IMOD.Infra.Ado.Interfaces;
@@ -178,6 +179,39 @@ namespace IMOD.Infra.Repositorios
                     }
                 }
             }
+        }
+
+        public ICollection<EmpresaLayoutCrachaView> ListarLayoutCrachaView(params object[] objects)
+        {
+            using (var conn = _dataBase.CreateOpenConnection())
+            {
+                using (var cmd = _dataBase.SelectText("LayoutCrachaView", conn))
+                {
+                    try
+                    {
+
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmpresaID", DbType.String, objects, 0).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("LayoutCrachaID", DbType.String, objects, 1).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Nome", DbType.String, objects, 2).Like()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("LayoutCrachaGUID", DbType.Int32, objects, 3).Igual()));
+
+
+                        var reader = cmd.ExecuteReaderSelect();
+                        var d1 = reader.MapToList<EmpresaLayoutCrachaView>();
+                        return d1;
+                    }
+                    catch (Exception ex)
+                    {
+                        Utils.TraceException(ex);
+                        throw;
+                    }
+                }
+            }
+        }
+
+        public ICollection<EmpresaLayoutCrachaView> ListarLayoutCrachaPorEmpresaView(int idEmpresa)
+        {
+            return ListarLayoutCrachaView(idEmpresa, null, null, null);
         }
 
         #endregion

@@ -15,7 +15,7 @@ namespace iModSCCredenciamento.Models
             public int EmpresaLayoutCrachaID { get; set; }
             public int EmpresaID { get; set; }
             public int LayoutCrachaID { get; set; }
-            public string LayoutCrachaGUID { get; set; }
+            //public string LayoutCrachaGUID { get; set; }
             public string Nome { get; set; }
 
             public EmpresaLayoutCracha CriaCopia(EmpresaLayoutCracha empresaLayoutsCrachas)

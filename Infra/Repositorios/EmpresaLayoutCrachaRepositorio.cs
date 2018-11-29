@@ -168,7 +168,6 @@ namespace IMOD.Infra.Repositorios
                     try
                     {
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamDelete("EmpresaLayoutCrachaId", entity.EmpresaLayoutCrachaId).Igual()));
-
                         cmd.ExecuteNonQuery();
                     }
                     catch (Exception ex)

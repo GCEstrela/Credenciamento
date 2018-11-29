@@ -1,10 +1,8 @@
 ﻿// ***********************************************************************
 // Project: IMOD.Infra
-// Crafted by: Grupo Estrela by Genetec
-// Date:  11 - 26 - 2018
+// Crafted by: Mihai
+// Date:  11 - 28 - 2018
 // ***********************************************************************
-
-#region
 
 using System;
 using System.Collections.Generic;
@@ -17,11 +15,9 @@ using IMOD.Infra.Ado;
 using IMOD.Infra.Ado.Interfaces;
 using IMOD.Infra.Ado.Interfaces.ParamSql;
 
-#endregion
-
 namespace IMOD.Infra.Repositorios
 {
-    public class MunicipioRepositorio : IMunicipioRepositorio
+    public class EstadoRepositorio : IEstadosRepositorio
     {
         private readonly string _connection = CurrentConfig.ConexaoString;
         private readonly IDataBaseAdo _dataBase;
@@ -29,7 +25,7 @@ namespace IMOD.Infra.Repositorios
 
         #region Construtor
 
-        public MunicipioRepositorio()
+        public EstadoRepositorio()
         {
             _dataBase = _dataWorkerFactory.ObterDataBaseSingleton(TipoDataBase.SqlServer, _connection);
         }
@@ -43,18 +39,18 @@ namespace IMOD.Infra.Repositorios
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public Municipio BuscarPelaChave(int id)
+        public Estados BuscarPelaChave(int id)
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText("Municipios", conn))
+                using (var cmd = _dataBase.SelectText("Estados", conn))
 
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("MunicipioId", DbType.Int32, id).Igual()));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("EstadoID", DbType.Int32, id).Igual()));
                         var reader = cmd.ExecuteReader();
-                        var d1 = reader.MapToList<Municipio>();
+                        var d1 = reader.MapToList<Estados>();
 
                         return d1.FirstOrDefault();
                     }
@@ -72,11 +68,11 @@ namespace IMOD.Infra.Repositorios
         /// </summary>
         /// <param name="objects">Expressão de consulta</param>
         /// <returns></returns>
-        public ICollection<Municipio> Listar(params object[] objects)
+        public ICollection<Estados> Listar(params object[] objects)
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText("Municipios", conn))
+                using (var cmd = _dataBase.SelectText("Estados", conn))
 
                 {
                     try
@@ -84,7 +80,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("UF", objects, 0).Like()));
 
                         var reader = cmd.ExecuteReaderSelect();
-                        var d1 = reader.MapToList<Municipio>();
+                        var d1 = reader.MapToList<Estados>();
 
                         return d1;
                     }

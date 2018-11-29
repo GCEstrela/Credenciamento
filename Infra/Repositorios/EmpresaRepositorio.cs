@@ -50,7 +50,7 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("EmpresaID", entity.EmpresaId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("EmpresaID", entity.EmpresaId, true)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Nome", entity.Nome, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Apelido", entity.Apelido, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Sigla", entity.Sigla, false)));
@@ -107,7 +107,7 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText("Empresa", conn))
+                using (var cmd = _dataBase.SelectText("Empresas", conn))
 
                 {
                     try
@@ -136,16 +136,15 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText("Empresa", conn))
+                using (var cmd = _dataBase.SelectText("Empresas", conn))
 
                 {
                     try
                     {
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Nome", DbType.String, objects, 0)));
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Apelido", DbType.String, objects, 1)));
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Sigla", DbType.String, objects, 2)));
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("CNPJ", DbType.String, objects, 3)));
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Email2", DbType.String, objects, 4)));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmpresaId", DbType.Int32, objects, 0).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Nome", DbType.String, objects, 1).Like()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Apelido", DbType.String, objects, 2).Like()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("CNPJ", DbType.String, objects, 3).Like()));
 
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<Empresa>();
@@ -169,11 +168,11 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.UpdateText("Empresa", conn))
+                using (var cmd = _dataBase.UpdateText("Empresas", conn))
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("EmpresaID", entity.EmpresaId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("EmpresaID", entity.EmpresaId, true)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Nome", entity.Nome, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Apelido", entity.Apelido, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Sigla", entity.Sigla, false)));
@@ -227,7 +226,7 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.DeleteText("Empresa", conn))
+                using (var cmd = _dataBase.DeleteText("Empresas", conn))
                 {
                     try
                     {

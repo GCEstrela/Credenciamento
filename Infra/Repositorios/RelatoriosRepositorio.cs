@@ -52,9 +52,9 @@ namespace IMOD.Infra.Repositorios
                     {
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("RelatorioID", entity.RelatorioId, true)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Nome", entity.Nome, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("NomeArquivoRPT", entity.NomeArquivoRpt, true)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("NomeArquivoRPT", entity.NomeArquivoRpt, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("ArquivoRPT", entity.ArquivoRpt, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Ativo", entity.Ativo, true)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Ativo", entity.Ativo, false)));
 
                         var key = Convert.ToInt32(cmd.ExecuteScalar());
 
@@ -83,7 +83,7 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("RelatorioId", DbType.Int32, id).Igual()));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("RelatorioID", DbType.Int32, id).Igual()));
 
                         var reader = cmd.ExecuteReader();
                         var d1 = reader.MapToList<Relatorios>();
@@ -113,8 +113,8 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamDelete("RelatorioId", DbType.Int32, objects).Igual()));
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamDelete("Nome", DbType.String, objects).Like()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("RelatorioID", DbType.Int64, objects,0).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Nome", DbType.String, objects,1).Like()));
 
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<Relatorios>();
@@ -144,9 +144,9 @@ namespace IMOD.Infra.Repositorios
                     {
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("RelatorioID", entity.RelatorioId, true)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Nome", entity.Nome, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("NomeArquivoRPT", entity.NomeArquivoRpt, true)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("NomeArquivoRPT", entity.NomeArquivoRpt, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("ArquivoRPT", entity.ArquivoRpt, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Ativo", entity.Ativo, true)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Ativo", entity.Ativo, false)));
 
                         cmd.ExecuteNonQuery();
                     }
