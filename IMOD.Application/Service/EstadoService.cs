@@ -10,6 +10,8 @@ using System.Collections.Generic;
 using IMOD.Application.Interfaces;
 using IMOD.Domain.Entities;
 using IMOD.Domain.EntitiesCustom;
+using IMOD.Domain.Interfaces;
+using IMOD.Infra.Repositorios;
 
 #endregion
 
@@ -17,7 +19,7 @@ namespace IMOD.Application.Service
 {
     public class EstadoService : IEstadoService
     {
-        private readonly IEstadoService _repositorio = new EstadoService();
+        private readonly IEstadosRepositorio _repositorio = new EstadoRepositorio();
 
         #region  Metodos
 
