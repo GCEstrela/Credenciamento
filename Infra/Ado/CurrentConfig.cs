@@ -6,9 +6,9 @@
 
 #region
 
-
-
 #endregion
+
+using IMOD.Infra.Properties;
 
 namespace IMOD.Infra.Ado
 {
@@ -22,7 +22,7 @@ namespace IMOD.Infra.Ado
         /// <summary>
         ///     String de conexao com o banco de dados
         /// </summary>
-        public static string ConexaoString => Properties.Settings.Default.Credenciamento;
+        public static string ConexaoString => Settings.Default.Credenciamento;
 
         #endregion
     }

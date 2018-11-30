@@ -25,13 +25,15 @@ namespace UnitTestImod
         [TestMethod]
         public void ColabororadorCredencial_Alterar_com_sucesso()
         {
-            //var rep = new ColaboradoresAnexosViewModel();
-
             var repositorio = new ColaboradorCredencialRepositorio();
-            repositorio.Alterar (new ColaboradorCredencial
+            repositorio.Alterar(new ColaboradorCredencial
             {
                 ColaboradorCredencialId = 1,
-                NumeroCredencial = "Valnei Filho"
+                Fc = 420,
+                Emissao = DateTime.Now,
+                Validade = DateTime.Now,
+                NumeroCredencial = "CR3D3NC1@L @LT3R@D@",
+                Baixa = DateTime.Now
             });
         }
 
@@ -39,26 +41,44 @@ namespace UnitTestImod
         public void ColabororadorCredencial_Buscar_com_sucesso()
         {
             var repositorio = new ColaboradorCredencialRepositorio();
-            var d1 = repositorio.BuscarPelaChave (12);
-            Assert.IsNotNull (d1);
+            var d1 = repositorio.Listar().FirstOrDefault();
+            var d2 = repositorio.BuscarPelaChave(d1.ColaboradorCredencialId);
+            Assert.IsNotNull(d2);
         }
 
         [TestMethod]
         public void ColabororadorCredencial_ListarColaboradorCredeniasView_com_sucesso()
         {
             var repositorio = new ColaboradorCredencialRepositorio();
-            var d2 = repositorio.Listar (0, 0, 0);
+
+            //ColaboradorCredencialID
+            var d2 = repositorio.Listar(1, 0, 0);
+            //CredencialStatusID
+            var d3 = repositorio.Listar(0, 2, 0);
+            //FormatoCredencialID
+            var d4 = repositorio.Listar(0, 0, 7);
+
+            Assert.IsNotNull(d2);
+            Assert.IsNotNull(d3);
+            Assert.IsNotNull(d4);
         }
 
         [TestMethod]
         public void ColabororadorAnexo_Buscar_Criar_Alterar_com_sucesso()
         {
             var repositorio = new ColaboradorAnexoRepositorio();
-            var d1 = repositorio.BuscarPelaChave (3);
-            d1.NomeArquivo = "Novo nome arquivo";
-            repositorio.Alterar (d1);
-            d1.Descricao = "Descricao Alterada";
-            repositorio.Criar (d1);
+
+            var d0 = repositorio.Listar().FirstOrDefault();
+            var d1 = repositorio.BuscarPelaChave(d0.ColaboradorAnexoId);
+
+            var list0 = repositorio.Listar("%arq%", 0).ToList();
+            var list1 = repositorio.Listar(0, d0.ColaboradorId).ToList();
+
+
+            d1.NomeArquivo = "Novo Nome arquivo";
+            repositorio.Alterar(d1);
+            d1.Descricao = "Descrição Alterada";
+            repositorio.Criar(d1);
         }
 
         [TestMethod]
@@ -68,94 +88,105 @@ namespace UnitTestImod
             var d1 = repositorio.Listar().FirstOrDefault();
             if (d1 == null) return;
             d1.Nome = "Alexandre Unit Teste";
+
             var anexos = new List<ColaboradorAnexo>();
-            anexos.Add (new ColaboradorAnexo
+            anexos.Add(new ColaboradorAnexo
             {
                 NomeArquivo = "Arquivo Unit Test",
                 Descricao = "Descricao",
                 Arquivo = "Arquivo"
             });
-            repositorio.CriarAnexos (d1, anexos);
+
+            repositorio.CriarAnexos(d1, anexos);
         }
 
         [TestMethod]
         public void ColaboradorCredencialimpresssao_com_sucesso()
         {
             var repositorio = new ColaboradorCredencialimpresssaoRepositorio();
-            for (var i = 0; i < 30; i++)
+            for (var i = 0; i < 3; i++)
             {
                 var d1 = new ColaboradorCredencialimpresssao
                 {
                     Cobrar = true,
+                    ColaboradorCredencialId = 1 + i,
                     DataImpressao = DateTime.Now
                 };
-                repositorio.Criar (d1);
+                repositorio.Criar(d1);
 
                 d1.Cobrar = false;
-                repositorio.Alterar (d1);
+                repositorio.Alterar(d1);
             }
             var list = repositorio.Listar();
+            Assert.IsNotNull(list);
         }
 
         [TestMethod]
         public void ColaboradorCursos_com_sucesso()
         {
             var repositorio = new ColaboradorCursoRepositorio();
-            for (var i = 0; i < 30; i++)
+            for (var i = 0; i < 3; i++)
             {
                 var d1 = new ColaboradorCurso
                 {
-                    Arquivo = "",
+                    Arquivo = "Arquivo" + i,
                     ColaboradorId = i,
                     Controlado = true,
                     CursoId = i,
-                    NomeArquivo = "Nome do arquivo" + i,
-                    Validade = DateTime.Now
+                    NomeArquivo = "file" + i + ".arq",
+                    Validade = DateTime.Today.AddYears(i),
                 };
-                repositorio.Criar (d1);
+                repositorio.Criar(d1);
 
-                d1.Arquivo = "Alquivo alterado" + i;
-                repositorio.Alterar (d1);
+                d1.Arquivo = "Arquivo" + i + " alterado!";
+                repositorio.Alterar(d1);
             }
-            var list = repositorio.Listar(); //
+            var list0 = repositorio.Listar(0, 0, "%2%", null, 0).ToList();
+            var list1 = repositorio.Listar();
+
+            Assert.IsNotNull(list0);
+            Assert.IsNotNull(list1);
         }
 
         [TestMethod]
         public void CredencialMotivo_com_sucesso()
         {
             var repositorio = new CredencialMotivoRepositorio();
-            for (var i = 11; i < 30; i++)
+            for (var i = 0; i < 3; i++)
             {
                 var d1 = new CredencialMotivo
                 {
                     CredencialMotivoId = i,
-                    Descricao = "Descrição Motivo" + i,
-                    Tipo = 1
+                    Descricao = "Descrição Motivo " + i,
+                    Tipo = 1 + i
                 };
-                //repositorio.Criar(d1);
+                repositorio.Criar(d1);
 
-                d1.Descricao = "Descrição Motivo alterado" + i;
-                //repositorio.Alterar(d1);
+                d1.Descricao = "Descrição Motivo " + i + "  alterado" + i;
+                repositorio.Alterar(d1);
             }
-            //var list = repositorio.Listar();    //
-            var list1 = repositorio.Listar (0, "%DESLIGA%", 0).ToList();
+            var list0 = repositorio.Listar();
+            var list1 = repositorio.Listar(0, "%ADA%", 0).ToList();
+
+            Assert.IsNotNull(list0);
+            Assert.IsNotNull(list1);
         }
 
         [TestMethod]
         public void CredencialStatusRepositorio_com_sucesso()
         {
             var repositorio = new CredencialStatusRepositorio();
-            for (var i = 6; i < 30; i++)
+            for (var i = 0; i < 3; i++)
             {
                 var d1 = new CredencialStatus
                 {
                     CredencialStatusId = i,
-                    Descricao = "Descricao status" + i
+                    Descricao = "Credencial status " + i
                 };
-                repositorio.Criar (d1);
+                repositorio.Criar(d1);
 
-                d1.Descricao = "Descrição Motivo alterado" + i;
-                repositorio.Alterar (d1);
+                d1.Descricao = "Credencial status alterado" + i;
+                repositorio.Alterar(d1);
             }
             var list = repositorio.Listar(); //CursoRepositorio
         }
@@ -164,89 +195,109 @@ namespace UnitTestImod
         public void CursoRepositorio_com_sucesso()
         {
             var repositorio = new CursoRepositorio();
-            for (var i = 15; i < 30; i++)
+            for (var i = 0; i < 3; i++)
             {
                 var d1 = new Curso
                 {
                     CursoId = i,
-                    Descricao = "Descricao curso" + i
+                    Descricao = "Descrição curso " + i
                 };
-                repositorio.Criar (d1);
+                repositorio.Criar(d1);
 
-                d1.Descricao = "Descricao curso alterado" + i;
-                repositorio.Alterar (d1);
+                d1.Descricao = "Descrição curso " + i + " alterado";
+                repositorio.Alterar(d1);
             }
-            var list = repositorio.Listar(); //
+            var list0 = repositorio.Listar();
+            var list1 = repositorio.Listar(0, "%AVSEC%").ToList();
+
+            Assert.IsNotNull(list0);
+            Assert.IsNotNull(list1);
         }
 
         [TestMethod]
         public void EmpresaAreaAcessoRepositorio_com_sucesso()
         {
             var repositorio = new EmpresaAreaAcessoRepositorio();
-            for (var i = 15; i < 30; i++)
+            for (var i = 0; i < 3; i++)
             {
                 var d1 = new EmpresaAreaAcesso
                 {
-                    AreaAcessoId = i,
-                    EmpresaAreaAcessoId = 2,
-                    EmpresaId = 3
+                    AreaAcessoId = i + 1,
+                    EmpresaId = i + 1,
                 };
-                repositorio.Criar (d1);
+                repositorio.Criar(d1);
 
                 d1.EmpresaAreaAcessoId = 2;
-                repositorio.Alterar (d1);
+                repositorio.Alterar(d1);
             }
-            var list = repositorio.Listar(); //
+            var list0 = repositorio.Listar();
+
+            var frst = list0.FirstOrDefault();
+
+            //EmpresaAreaAcessoID
+            var d2 = repositorio.Listar(frst.EmpresaAreaAcessoId, 5, 1);
+            //EmpresaID
+            var d3 = repositorio.Listar(0, frst.EmpresaId, 0);
+            //AreaAcessoID
+            var d4 = repositorio.Listar(0, 0, frst.AreaAcessoId);
+
+            Assert.IsNotNull(d2);
+            Assert.IsNotNull(d3);
+            Assert.IsNotNull(d4);
         }
 
         [TestMethod]
         public void EmpresaContratoRepositorio_com_sucesso()
         {
             var repositorio = new EmpresaContratoRepositorio();
-            for (var i = 8; i < 30; i++)
+            for (var i = 0; i < 3; i++)
             {
                 var d1 = new EmpresaContrato
                 {
-                    EmpresaContratoId = i,
-                    EmpresaId = 1,
-                    NumeroContrato = "11111111" + i,
-                    Descricao = "",
+                    EmpresaId = i,
+                    NumeroContrato = "10" + i,
+                    Descricao = "CONTRATO " + (i + 1),
                     Emissao = DateTime.Now,
                     Validade = DateTime.Now,
-                    Terceirizada = "",
-                    Contratante = "",
-                    IsencaoCobranca = "",
-                    TipoCobrancaId = 1,
-                    CobrancaEmpresaId = 1,
-                    Cep = "",
-                    Endereco = "",
-                    Complemento = "",
-                    Numero = "",
-                    Bairro = "",
-                    MunicipioId = 5,
-                    EstadoId = 1,
-                    NomeResp = "",
-                    TelefoneResp = "",
-                    CelularResp = "",
-                    EmailResp = "",
+                    Terceirizada = "3",
+                    Contratante = "CONTRATANTE " + (i + 1),
+                    IsencaoCobranca = "I",
+                    TipoCobrancaId = i,
+                    CobrancaEmpresaId = i,
+                    Cep = "427900-" + i + "00",
+                    Endereco = "END. " + (i + 1),
+                    Complemento = "COMPL. " + (i + 1),
+                    Numero = "# " + (i + 1),
+                    Bairro = "BAIRRO " + (i + 1),
+                    MunicipioId = i,
+                    EstadoId = i,
+                    NomeResp = "RESP. " + (i + 1),
+                    TelefoneResp = "(71) 4477-000" + i,
+                    CelularResp = "(71) 99283-000" + i,
+                    EmailResp = "email" + i + "@email.com",
                     StatusId = 1,
-                    Arquivo = "",
+                    Arquivo = "ARQUIVOS " + (i + 1),
                     TipoAcessoId = 1,
-                    NomeArquivo = ""
+                    NomeArquivo = "arquivo.exe"
                 };
-                repositorio.Criar (d1);
+                repositorio.Criar(d1);
 
-                d1.NumeroContrato = "Contrato alterado 11111111" + i;
-                repositorio.Alterar (d1);
+                d1.NumeroContrato = "Contrato Alterado para 99" + i;
+                repositorio.Alterar(d1);
             }
-            var list = repositorio.Listar(); //
+            var list0 = repositorio.Listar();
+
+            var list1 = repositorio.Listar(null, "%CONTR%", null, null, null, null, null).ToList();
+
+            Assert.IsNotNull(list0);
+            Assert.IsNotNull(list1);
         }
 
         [TestMethod]
         public void EmpresaEquipamentoRepositorio_com_sucesso()
         {
             var repositorio = new EmpresaEquipamentoRepositorio();
-            for (var i = 0; i < 30; i++)
+            for (var i = 0; i < 3; i++)
             {
                 var d1 = new EmpresaEquipamento
                 {
@@ -268,19 +319,23 @@ namespace UnitTestImod
                     StatusId = i,
                     TipoAcessoId = i
                 };
-                repositorio.Criar (d1);
+                repositorio.Criar(d1);
 
                 d1.Descricao = "Descrição alterada" + i;
-                repositorio.Alterar (d1);
+                repositorio.Alterar(d1);
             }
-            var list = repositorio.Listar(); //
+            var list0 = repositorio.Listar();
+            var list1 = repositorio.Listar("%1%", null, null, null, null).ToList();
+
+            Assert.IsNotNull(list0);
+            Assert.IsNotNull(list1);
         }
 
         [TestMethod]
         public void EmpresaLayoutCrachaRepositorio_com_sucesso()
         {
             var repositorio = new EmpresaLayoutCrachaRepositorio();
-            for (var i = 12; i < 30; i++)
+            for (var i = 0; i < 3; i++)
             {
                 var d1 = new EmpresaLayoutCracha
                 {
@@ -288,19 +343,30 @@ namespace UnitTestImod
                     EmpresaLayoutCrachaId = i,
                     LayoutCrachaId = 1
                 };
-                repositorio.Criar (d1);
+                repositorio.Criar(d1);
 
                 d1.LayoutCrachaId = 2;
-                repositorio.Alterar (d1);
+                repositorio.Alterar(d1);
             }
-            var list = repositorio.Listar(); //
+            var list = repositorio.Listar();
+
+            //EmpresaLayoutCrachaID
+            var d2 = repositorio.Listar(1, 0, 0);
+            //EmpresaID
+            var d3 = repositorio.Listar(0, 1, 0);
+            //LayoutCrachaID
+            var d4 = repositorio.Listar(0, 0, 2);
+
+            Assert.IsNotNull(d2);
+            Assert.IsNotNull(d3);
+            Assert.IsNotNull(d4);
         }
 
         [TestMethod]
         public void EmpresaSeguroRepositorio_com_sucesso()
         {
             var repositorio = new EmpresaSeguroRepositorio();
-            for (var i = 12; i < 30; i++)
+            for (var i = 0; i < 3; i++)
             {
                 var d1 = new EmpresaSeguro
                 {
@@ -314,19 +380,23 @@ namespace UnitTestImod
                     Emissao = DateTime.Now,
                     Validade = DateTime.Now
                 };
-                repositorio.Criar (d1);
+                repositorio.Criar(d1);
 
                 d1.NomeSeguradora = "NomeSeguradora alterado" + i;
-                repositorio.Alterar (d1);
+                repositorio.Alterar(d1);
             }
-            var list = repositorio.Listar(); //
+            var list0 = repositorio.Listar();
+            var list1 = repositorio.Listar("%2%", null, null, null).ToList();
+
+            Assert.IsNotNull(list0);
+            Assert.IsNotNull(list1);
         }
 
         [TestMethod]
         public void LayoutCrachaRepositorio_com_sucesso()
         {
             var repositorio = new LayoutCrachaRepositorio();
-            for (var i = 12; i < 30; i++)
+            for (var i = 0; i < 3; i++)
             {
                 var d1 = new LayoutCracha
                 {
@@ -335,19 +405,23 @@ namespace UnitTestImod
                     LayoutCrachaGuid = "",
                     Valor = i
                 };
-                repositorio.Criar (d1);
+                repositorio.Criar(d1);
 
                 d1.Nome = "Nome do cracha alterado" + i;
-                repositorio.Alterar (d1);
+                repositorio.Alterar(d1);
             }
-            var list = repositorio.Listar(); //
+            var list0 = repositorio.Listar();
+            var list1 = repositorio.Listar("%#%", null).ToList();
+
+            Assert.IsNotNull(list0);
+            Assert.IsNotNull(list1);
         }
 
         [TestMethod]
         public void PendenciaRepositorio_com_sucesso()
         {
             var repositorio = new PendenciaRepositorio();
-            for (var i = 12; i < 30; i++)
+            for (var i = 0; i < 3; i++)
             {
                 var d1 = new Pendencia
                 {
@@ -360,24 +434,42 @@ namespace UnitTestImod
                     EmpresaId = i,
                     VeiculoId = i
                 };
-                repositorio.Criar (d1);
+                repositorio.Criar(d1);
 
                 d1.Descricao = "Aleração Descrição Pendencias" + i;
-                repositorio.Alterar (d1);
+                repositorio.Alterar(d1);
             }
-            var list = repositorio.Listar(); //PendenciaRepositorio
+            var list0 = repositorio.Listar();
+            var list1 = repositorio.Listar("%!%", null, null).ToList();
+
+            Assert.IsNotNull(list0);
+            Assert.IsNotNull(list1);
+
         }
 
         [TestMethod]
         public void ColabororadorEnpresa_Buscar_Criar_Alterar_com_sucesso()
         {
             var repositorio = new ColaboradorEmpresaRepositorio();
-            var d1 = repositorio.BuscarPelaChave (8);
-            d1.Cargo = "Cargo X";
-            repositorio.Alterar (d1);
-            d1.Matricula = "0001";
-            int key;
-            repositorio.Criar (d1);
+            for (var i = 0; i < 3; i++)
+            {
+                var d1 = repositorio.BuscarPelaChave(8);
+                d1.Cargo = "Cargo " + i;
+
+                repositorio.Alterar(d1);
+                d1.Matricula = "0000" + i;
+
+                repositorio.Criar(d1);
+            }
+
+            var list0 = repositorio.Listar();
+            var list1 = repositorio.Listar(1, null, null).ToList();
+            var list2 = repositorio.Listar(null, "%X%", null).ToList();
+            var list3 = repositorio.Listar(null, null, "%-%").ToList();
+
+            Assert.IsNotNull(list0);
+            Assert.IsNotNull(list1);
+
         }
 
         [TestMethod]
@@ -391,11 +483,11 @@ namespace UnitTestImod
 
             #region Cadastrar Colaborador
 
-            repositorio.Criar (new Colaborador
+            repositorio.Criar(new Colaborador
             {
                 Nome = nome,
                 Apelido = "Marinpietri",
-                DataNascimento = DateTime.Today.AddYears (-26),
+                DataNascimento = DateTime.Today.AddYears(-26),
                 NomePai = "Valnei",
                 NomeMae = "Veronice",
                 Nacionalidade = "Brasil",
@@ -403,11 +495,11 @@ namespace UnitTestImod
                 EstadoCivil = "Solteiro",
                 Cpf = cpf,
                 Rg = "44.644.119-3",
-                RgEmissao = DateTime.Today.AddYears (-10),
+                RgEmissao = DateTime.Today.AddYears(-10),
                 RgOrgLocal = "SSP",
                 RgOrgUf = "BA",
                 Passaporte = "PJ8830202",
-                PassaporteValidade = DateTime.Today.AddYears (3),
+                PassaporteValidade = DateTime.Today.AddYears(3),
                 Rne = "RN4493",
                 TelefoneFixo = "(71) 3581-4913",
                 TelefoneCelular = "(71) 98879-2442",
@@ -428,8 +520,8 @@ namespace UnitTestImod
                 CnhEmissor = "",
                 Cnhuf = "",
                 Bagagem = "Não",
-                DataEmissao = DateTime.Today.AddYears (-1),
-                DataValidade = DateTime.Today.AddYears (2),
+                DataEmissao = DateTime.Today.AddYears(-1),
+                DataValidade = DateTime.Today.AddYears(2),
                 Excluida = 0,
                 StatusId = 1,
                 TipoAcessoId = 1,
@@ -442,16 +534,16 @@ namespace UnitTestImod
 
             #endregion
 
-            var list1 = repositorio.Listar (0, ""); //Listar todos
-            Assert.IsNotNull (list1);
+            var list1 = repositorio.Listar(0, ""); //Listar todos
+            Assert.IsNotNull(list1);
             var list2 = repositorio.Listar(); //Listar todos
-            Assert.IsNotNull (list2);
-            var list3 = repositorio.Listar (null); //Listar todos
-            Assert.IsNotNull (list3);
-            var list4 = repositorio.Listar (null, cpf, null); //Listar por cpf
-            Assert.IsNotNull (list4);
-            var list5 = repositorio.Listar (null, null, "Suzuki"); //Listar por nome
-            Assert.IsNotNull (list5);
+            Assert.IsNotNull(list2);
+            var list3 = repositorio.Listar(null); //Listar todos
+            Assert.IsNotNull(list3);
+            var list4 = repositorio.Listar(null, cpf, null); //Listar por cpf
+            Assert.IsNotNull(list4);
+            var list5 = repositorio.Listar(null, null, "Suzuki"); //Listar por nome
+            Assert.IsNotNull(list5);
         }
 
         [TestMethod]
@@ -481,7 +573,7 @@ namespace UnitTestImod
                 LayoutCrachaId = 2
             };
 
-            repositorio.Criar (colaborador);
+            repositorio.Criar(colaborador);
         }
 
         [TestMethod]
@@ -489,13 +581,13 @@ namespace UnitTestImod
         {
             var repositorio = new ColaboradorRepositorio();
 
-            for (var i = 0; i < 30; i++)
+            for (var i = 0; i < 3; i++)
             {
                 var colaborador = new Colaborador
                 {
                     Nome = "Colaborador " + (i + 1),
                     Apelido = "Collab " + (i + 1),
-                    DataNascimento = DateTime.Today.AddYears (-26),
+                    DataNascimento = DateTime.Today.AddYears(-26),
                     NomePai = "NomePai " + (i + 1),
                     NomeMae = "NomeMae " + (i + 1),
                     Nacionalidade = "Nacionalidade" + (i + 1),
@@ -503,11 +595,11 @@ namespace UnitTestImod
                     EstadoCivil = "SOLTEIRO",
                     Cpf = "818.033.740-55",
                     Rg = "44.644.119-3",
-                    RgEmissao = DateTime.Today.AddYears (-10),
+                    RgEmissao = DateTime.Today.AddYears(-10),
                     RgOrgLocal = "SSP",
                     RgOrgUf = "BA",
                     Passaporte = "PJ8830202",
-                    PassaporteValidade = DateTime.Today.AddYears (3),
+                    PassaporteValidade = DateTime.Today.AddYears(3),
                     Rne = "RN4493",
                     TelefoneFixo = "(71) 3581-4913",
                     TelefoneCelular = "(71) 98879-2442",
@@ -528,8 +620,8 @@ namespace UnitTestImod
                     CnhEmissor = "",
                     Cnhuf = "",
                     Bagagem = "Não",
-                    DataEmissao = DateTime.Today.AddYears (-1),
-                    DataValidade = DateTime.Today.AddYears (2),
+                    DataEmissao = DateTime.Today.AddYears(-1),
+                    DataValidade = DateTime.Today.AddYears(2),
                     Excluida = 0,
                     StatusId = 1,
                     TipoAcessoId = 1,
@@ -540,7 +632,7 @@ namespace UnitTestImod
                     Pendente25 = false
                 };
 
-                repositorio.Criar (colaborador);
+                repositorio.Criar(colaborador);
             }
         }
 
@@ -549,16 +641,16 @@ namespace UnitTestImod
         {
             var repositorio = new VeiculosRepositorio();
 
-            for (var i = 0; i < 5; i++)
+            for (var i = 0; i < 3; i++)
             {
                 var d1 = new Veiculos
                 {
-                    Descricao = "SANDERO (" + i + ")",
+                    Descricao = "VEÍCULO (" + i + ")",
                     PlacaIdentificador = "HSH-" + i + "00" + i,
                     Frota = "A" + i,
                     Patrimonio = "PAT-" + i + "00" + i,
                     Marca = "Renault",
-                    Modelo = "STEPWAY Hi-Flex 1.6 16V 5p",
+                    Modelo = "Hi-Flex 1.6 16V 5p",
                     Tipo = "UTILITARIO " + i,
                     Cor = "Amarelo",
                     Ano = "201" + i,
@@ -584,20 +676,20 @@ namespace UnitTestImod
                     Pendente34 = false
                 };
 
-                repositorio.Criar (d1);
+                repositorio.Criar(d1);
 
-                d1.Descricao = "SANDERO ALTERADO(" + i + 1 + ")";
-                d1.Cor = "White";
+                d1.Descricao = "VEÍCULO ALTERADO(" + i + 1 + ")";
+                d1.Cor = "6LACK";
 
-                repositorio.Alterar (d1);
+                repositorio.Alterar(d1);
             }
 
             //Listar todos
             var list0 = repositorio.Listar().ToList();
-
+            Assert.IsNotNull(list0);
             //Listar Filtrando parâmetro(s)
-            var list1 = repositorio.Listar (0, "%STEP" + "%").ToList();
-            Assert.IsNotNull (list1);
+            var list1 = repositorio.Listar(0, "%CULO%" + "%").ToList();
+            Assert.IsNotNull(list1);
             //Listar pela chave
             var primeiroDaLIsta = list0.FirstOrDefault();
             if (primeiroDaLIsta == null) return;
@@ -614,34 +706,35 @@ namespace UnitTestImod
                 {
                     NomeSeguradora = "SEGURADORA " + (i + 1),
                     NumeroApolice = "APÓLICE " + (i + 1),
-                    ValorCobertura = i*1000,
+                    ValorCobertura = i * 1000,
                     VeiculoId = 1,
                     Arquivo = "ARQUIVO " + (i + 1),
                     NomeArquivo = "ARQUIVO " + (i + 1),
                     Emissao = DateTime.Now,
-                    Validade = DateTime.Today.AddYears (i + 1)
+                    Validade = DateTime.Today.AddYears(i + 1)
                 };
 
                 //Criar registro
-                repositorio.Criar (d1);
+                repositorio.Criar(d1);
 
                 d1.NomeSeguradora = "SEGURADORA ALTERADO(" + (i + 1) + ")";
                 d1.ValorCobertura = 420;
 
                 //Alterar registro
-                repositorio.Alterar (d1);
+                repositorio.Alterar(d1);
             }
 
             //Listar todos
             var list0 = repositorio.Listar().ToList();
-
+            Assert.IsNotNull(list0);
             //Listar Filtrando parâmetros
-            var list1 = repositorio.Listar ("%0" + "%", 0).ToList();
-
+            var list1 = repositorio.Listar("%0" + "%", 0).ToList();
+            Assert.IsNotNull(list1);
             //Listar pela chave
             var primeiroDaLIsta = list0.FirstOrDefault();
             if (primeiroDaLIsta == null) return;
-            var veiculoseguro = repositorio.BuscarPelaChave (primeiroDaLIsta.VeiculoSeguroId);
+            var veiculoseguro = repositorio.BuscarPelaChave(primeiroDaLIsta.VeiculoSeguroId);
+            Assert.IsNotNull(veiculoseguro);
         }
 
         [TestMethod]
@@ -659,23 +752,23 @@ namespace UnitTestImod
                 };
 
                 //Criar registro
-                repositorio.Criar (d1);
+                repositorio.Criar(d1);
 
-                d1.VeiculoId = (i + 1)*2;
-                d1.TipoServicoId = (i + 1)*2;
+                d1.VeiculoId = (i + 1) * 2;
+                d1.TipoServicoId = (i + 1) * 2;
 
                 //Alterar registro
-                repositorio.Alterar (d1);
+                repositorio.Alterar(d1);
             }
 
             //Listar todos
             var list0 = repositorio.Listar().ToList();
-
+            Assert.IsNotNull(list0);
             //Listar pela chave
             var primeiroDaLIsta = list0.FirstOrDefault();
             if (primeiroDaLIsta == null) return;
-            var veiculoequiptipservico = repositorio.BuscarPelaChave (primeiroDaLIsta.VeiculoTipoServicoId);
-            Assert.IsNotNull (veiculoequiptipservico);
+            var veiculoequiptipservico = repositorio.BuscarPelaChave(primeiroDaLIsta.VeiculoTipoServicoId);
+            Assert.IsNotNull(veiculoequiptipservico);
         }
 
         [TestMethod]
@@ -696,18 +789,22 @@ namespace UnitTestImod
                 };
 
                 //Criar registro
-                repositorio.Criar (d1);
+                repositorio.Criar(d1);
 
-                d1.Cargo = "CARGO 2";
-                d1.Matricula = "MATRICULA1222";
+                d1.Cargo = "CARGO EDITED";
+                d1.Matricula = "MATRICULA EDITED";
 
                 //Alterar registro
-                repositorio.Alterar (d1);
+                repositorio.Alterar(d1);
             }
 
             //Listar todos
             var list0 = repositorio.Listar().ToList();
-            Assert.IsNotNull (list0);
+            Assert.IsNotNull(list0);
+
+            //Listar Filtrando parâmetros
+            var list1 = repositorio.Listar("%CAR%", null).ToList();
+            Assert.IsNotNull(list1);
         }
 
         [TestMethod]
@@ -741,26 +838,28 @@ namespace UnitTestImod
                 };
 
                 //Criar registro
-                repositorio.Criar (d1);
+                repositorio.Criar(d1);
 
-                d1.NumeroCredencial = "CARGO " + i*2;
+                d1.NumeroCredencial = "CARGO " + i * 2;
                 d1.Colete = "Cl.1";
 
                 //Alterar registro
-                repositorio.Alterar (d1);
+                repositorio.Alterar(d1);
             }
 
             //Listar todos
             var list0 = repositorio.Listar().ToList();
+            Assert.IsNotNull(list0);
 
             //Listar Filtrando parâmetros
-            var list1 = repositorio.Listar ("%4%", 0).ToList();
+            var list1 = repositorio.Listar("%4%", 0).ToList();
+            Assert.IsNotNull(list1);
 
             ////Listar pela chave
             var primeiroDaLIsta = list0.FirstOrDefault();
             if (primeiroDaLIsta == null) return;
-            var d2 = repositorio.BuscarPelaChave (primeiroDaLIsta.VeiculoCredencialId);
-            Assert.IsNotNull (d2);
+            var d2 = repositorio.BuscarPelaChave(primeiroDaLIsta.VeiculoCredencialId);
+            Assert.IsNotNull(d2);
         }
 
         [TestMethod]
@@ -778,25 +877,27 @@ namespace UnitTestImod
                 };
 
                 //Criar registro
-                repositorio.Criar (d1);
+                repositorio.Criar(d1);
 
-                d1.DataImpressao = DateTime.Today.AddDays (i + 1);
+                d1.DataImpressao = DateTime.Today.AddDays(i + 1);
 
                 //Alterar registro
-                repositorio.Alterar (d1);
+                repositorio.Alterar(d1);
             }
 
             //Listar todos
             var list0 = repositorio.Listar().ToList();
+            Assert.IsNotNull(list0);
 
             //Listar Filtrando parâmetros
-            var list1 = repositorio.Listar (1).ToList();
+            var list1 = repositorio.Listar(1).ToList();
+            Assert.IsNotNull(list1);
 
             ////Listar pela chave
             var primeiroDaLIsta = list0.FirstOrDefault();
             if (primeiroDaLIsta == null) return;
-            var d3 = repositorio.BuscarPelaChave (primeiroDaLIsta.CredencialImpressaoId);
-            Assert.IsNotNull (d3);
+            var d3 = repositorio.BuscarPelaChave(primeiroDaLIsta.CredencialImpressaoId);
+            Assert.IsNotNull(d3);
         }
 
         [TestMethod]
@@ -815,25 +916,27 @@ namespace UnitTestImod
                 };
 
                 //Criar registro
-                repositorio.Criar (d1);
+                repositorio.Criar(d1);
 
                 d1.Descricao = "Anexo Alterado.";
 
                 //Alterar registro
-                repositorio.Alterar (d1);
+                repositorio.Alterar(d1);
             }
 
             //Listar todos
             var list0 = repositorio.Listar().ToList();
+            Assert.IsNotNull(list0);
 
             //Listar Filtrando parâmetros
-            var list1 = repositorio.Listar ("%XI%").ToList();
+            var list1 = repositorio.Listar("%XI%").ToList();
+            Assert.IsNotNull(list1);
 
             ////Listar pela chave
             var primeiroDaLIsta = list0.FirstOrDefault();
             if (primeiroDaLIsta == null) return;
-            var d3 = repositorio.BuscarPelaChave (primeiroDaLIsta.VeiculoAnexoId);
-            Assert.IsNotNull (d3);
+            var d3 = repositorio.BuscarPelaChave(primeiroDaLIsta.VeiculoAnexoId);
+            Assert.IsNotNull(d3);
         }
 
         [TestMethod]
@@ -849,25 +952,27 @@ namespace UnitTestImod
                 };
 
                 //Criar registro
-                repositorio.Criar (d1);
+                repositorio.Criar(d1);
 
                 d1.Descricao = "TIPO SERVIÇO Alterado.";
 
                 //Alterar registro
-                repositorio.Alterar (d1);
+                repositorio.Alterar(d1);
             }
 
             //Listar todos
             var list0 = repositorio.Listar().ToList();
+            Assert.IsNotNull(list0);
 
             //Listar Filtrando parâmetros
-            var list1 = repositorio.Listar ("%Ç%").ToList();
+            var list1 = repositorio.Listar("%Ç%").ToList();
+            Assert.IsNotNull(list1);
 
             ////Listar pela chave
             var primeiroDaLIsta = list0.FirstOrDefault();
             if (primeiroDaLIsta == null) return;
-            var d3 = repositorio.BuscarPelaChave (primeiroDaLIsta.TipoServicoId);
-            Assert.IsNotNull (d3);
+            var d3 = repositorio.BuscarPelaChave(primeiroDaLIsta.TipoServicoId);
+            Assert.IsNotNull(d3);
         }
 
         [TestMethod]
@@ -883,25 +988,27 @@ namespace UnitTestImod
                 };
 
                 //Criar registro
-                repositorio.Criar (d1);
+                repositorio.Criar(d1);
 
                 d1.Descricao = "TIPO EQUIPAMENTO Alterado.";
 
                 //Alterar registro
-                repositorio.Alterar (d1);
+                repositorio.Alterar(d1);
             }
 
             //Listar todos
             var list0 = repositorio.Listar().ToList();
+            Assert.IsNotNull(list0);
 
             //Listar Filtrando parâmetros
-            var list1 = repositorio.Listar ("%O%").ToList();
+            var list1 = repositorio.Listar("%O%").ToList();
+            Assert.IsNotNull(list1);
 
             ////Listar pela chave
             var primeiroDaLIsta = list0.FirstOrDefault();
             if (primeiroDaLIsta == null) return;
-            var d2 = repositorio.BuscarPelaChave (primeiroDaLIsta.TipoEquipamentoId);
-            Assert.IsNotNull (d2);
+            var d2 = repositorio.BuscarPelaChave(primeiroDaLIsta.TipoEquipamentoId);
+            Assert.IsNotNull(d2);
         }
 
         [TestMethod]
@@ -917,25 +1024,27 @@ namespace UnitTestImod
                 };
 
                 //Criar registro
-                repositorio.Criar (d1);
+                repositorio.Criar(d1);
 
                 d1.Descricao = "TIPO COMBUSTÍVEL Alterado.";
 
                 //Alterar registro
-                repositorio.Alterar (d1);
+                repositorio.Alterar(d1);
             }
 
             //Listar todos
             var list0 = repositorio.Listar().ToList();
+            Assert.IsNotNull(list0);
 
             //Listar Filtrando parâmetros
-            var list1 = repositorio.Listar ("%O%").ToList();
+            var list1 = repositorio.Listar("%O%").ToList();
+            Assert.IsNotNull(list1);
 
             ////Listar pela chave
             var primeiroDaLIsta = list0.FirstOrDefault();
             if (primeiroDaLIsta == null) return;
-            var d2 = repositorio.BuscarPelaChave (primeiroDaLIsta.TipoCombustivelId);
-            Assert.IsNotNull (d2);
+            var d2 = repositorio.BuscarPelaChave(primeiroDaLIsta.TipoCombustivelId);
+            Assert.IsNotNull(d2);
         }
 
         [TestMethod]
@@ -951,25 +1060,27 @@ namespace UnitTestImod
                 };
 
                 //Criar registro
-                repositorio.Criar (d1);
+                repositorio.Criar(d1);
 
                 d1.Descricao = "TIPO COBRANÇA Alterado.";
 
                 //Alterar registro
-                repositorio.Alterar (d1);
+                repositorio.Alterar(d1);
             }
 
             //Listar todos
             var list0 = repositorio.Listar().ToList();
+            Assert.IsNotNull(list0);
 
             //Listar Filtrando parâmetros
-            var list1 = repositorio.Listar ("%Ç%").ToList();
+            var list1 = repositorio.Listar("%Ç%").ToList();
+            Assert.IsNotNull(list0);
 
             ////Listar pela chave
             var primeiroDaLIsta = list0.FirstOrDefault();
             if (primeiroDaLIsta == null) return;
-            var d2 = repositorio.BuscarPelaChave (primeiroDaLIsta.TipoCobrancaId);
-            Assert.IsNotNull (d2);
+            var d2 = repositorio.BuscarPelaChave(primeiroDaLIsta.TipoCobrancaId);
+            Assert.IsNotNull(d2);
         }
 
         [TestMethod]
@@ -985,25 +1096,27 @@ namespace UnitTestImod
                 };
 
                 //Criar registro
-                repositorio.Criar (d1);
+                repositorio.Criar(d1);
 
                 d1.Descricao = "TIPO ATIVIDADE Alterado.";
 
                 //Alterar registro
-                repositorio.Alterar (d1);
+                repositorio.Alterar(d1);
             }
 
             //Listar todos
             var list0 = repositorio.Listar().ToList();
+            Assert.IsNotNull(list0);
 
             //Listar Filtrando parâmetros
-            var list1 = repositorio.Listar ("%Ç%").ToList();
+            var list1 = repositorio.Listar("%Ç%").ToList();
+            Assert.IsNotNull(list1);
 
             ////Listar pela chave
             var primeiroDaLIsta = list0.FirstOrDefault();
             if (primeiroDaLIsta == null) return;
-            var d2 = repositorio.BuscarPelaChave (primeiroDaLIsta.TipoAtividadeId);
-            Assert.IsNotNull (d2);
+            var d2 = repositorio.BuscarPelaChave(primeiroDaLIsta.TipoAtividadeId);
+            Assert.IsNotNull(d2);
         }
 
         [TestMethod]
@@ -1019,25 +1132,27 @@ namespace UnitTestImod
                 };
 
                 //Criar registro
-                repositorio.Criar (d1);
+                repositorio.Criar(d1);
 
                 d1.Descricao = "TIPO ACESSO Alterado.";
 
                 //Alterar registro
-                repositorio.Alterar (d1);
+                repositorio.Alterar(d1);
             }
 
             //Listar todos
             var list0 = repositorio.Listar().ToList();
+            Assert.IsNotNull(list0);
 
             //Listar Filtrando parâmetros
-            var list1 = repositorio.Listar ("%/%").ToList();
+            var list1 = repositorio.Listar("%/%").ToList();
+            Assert.IsNotNull(list1);
 
             ////Listar pela chave
             var primeiroDaLIsta = list0.FirstOrDefault();
             if (primeiroDaLIsta == null) return;
-            var d2 = repositorio.BuscarPelaChave (primeiroDaLIsta.TipoAcessoId);
-            Assert.IsNotNull (d2);
+            var d2 = repositorio.BuscarPelaChave(primeiroDaLIsta.TipoAcessoId);
+            Assert.IsNotNull(d2);
         }
 
         [TestMethod]
@@ -1053,25 +1168,27 @@ namespace UnitTestImod
                 };
 
                 //Criar registro
-                repositorio.Criar (d1);
+                repositorio.Criar(d1);
 
                 d1.Descricao = "TECNOLOGIA CREDENCIAL Alterado.";
 
                 //Alterar registro
-                repositorio.Alterar (d1);
+                repositorio.Alterar(d1);
             }
 
             //Listar todos
             var list0 = repositorio.Listar().ToList();
+            Assert.IsNotNull(list0);
 
             //Listar Filtrando parâmetros
-            var list1 = repositorio.Listar ("%a%").ToList();
+            var list1 = repositorio.Listar("%a%").ToList();
+            Assert.IsNotNull(list1);
 
             ////Listar pela chave
             var primeiroDaLIsta = list0.FirstOrDefault();
             if (primeiroDaLIsta == null) return;
-            var d2 = repositorio.BuscarPelaChave (primeiroDaLIsta.TecnologiaCredencialId);
-            Assert.IsNotNull (d2);
+            var d2 = repositorio.BuscarPelaChave(primeiroDaLIsta.TecnologiaCredencialId);
+            Assert.IsNotNull(d2);
         }
 
         [TestMethod]
@@ -1087,25 +1204,27 @@ namespace UnitTestImod
                 };
 
                 //Criar registro
-                repositorio.Criar (d1);
+                repositorio.Criar(d1);
 
                 d1.Descricao = "Status Alterado.";
 
                 //Alterar registro
-                repositorio.Alterar (d1);
+                repositorio.Alterar(d1);
             }
 
             //Listar todos
             var list0 = repositorio.Listar().ToList();
+            Assert.IsNotNull(list0);
 
             //Listar Filtrando parâmetros
-            var list1 = repositorio.Listar ("%a%").ToList();
+            var list1 = repositorio.Listar("%a%").ToList();
+            Assert.IsNotNull(list1);
 
             ////Listar pela chave
             var primeiroDaLIsta = list0.FirstOrDefault();
             if (primeiroDaLIsta == null) return;
-            var d2 = repositorio.BuscarPelaChave (primeiroDaLIsta.StatusId);
-            Assert.IsNotNull (d2);
+            var d2 = repositorio.BuscarPelaChave(primeiroDaLIsta.StatusId);
+            Assert.IsNotNull(d2);
         }
 
         [TestMethod]
@@ -1124,25 +1243,27 @@ namespace UnitTestImod
                 };
 
                 //Criar registro
-                repositorio.Criar (d1);
+                repositorio.Criar(d1);
 
-                d1.Nome = "Relatorio Alterado." + i*2;
+                d1.Nome = "Relatorio Alterado." + i * 2;
 
                 //Alterar registro
-                repositorio.Alterar (d1);
+                repositorio.Alterar(d1);
             }
 
             //Listar todos
-            var list0 = repositorio.Listar().ToList();
+            //var list0 = repositorio.Listar(null).ToList();
+            //Assert.IsNotNull(list0);
 
             //Listar Filtrando parâmetros
-            var list1 = repositorio.Listar ("%a%").ToList();
+            var list1 = repositorio.Listar(0, "%A%").ToList();
+            Assert.IsNotNull(list1);
 
             ////Listar pela chave
-            var primeiroDaLIsta = list0.FirstOrDefault();
-            if (primeiroDaLIsta == null) return;
-            var d2 = repositorio.BuscarPelaChave (primeiroDaLIsta.RelatorioId);
-            Assert.IsNotNull (d2);
+            //var primeiroDaLIsta = list0.FirstOrDefault();
+            //if (primeiroDaLIsta == null) return;
+            //var d2 = repositorio.BuscarPelaChave(primeiroDaLIsta.RelatorioId);
+            //Assert.IsNotNull(d2);
         }
 
         [TestMethod]
@@ -1161,25 +1282,27 @@ namespace UnitTestImod
                 };
 
                 //Criar registro
-                repositorio.Criar (d1);
+                repositorio.Criar(d1);
 
-                d1.Nome = "Relatorio Gerencial Alterado." + i*2;
+                d1.Nome = "Relatorio Gerencial Alterado." + i * 2;
 
                 //Alterar registro
-                repositorio.Alterar (d1);
+                repositorio.Alterar(d1);
             }
 
             //Listar todos
             var list0 = repositorio.Listar().ToList();
+            Assert.IsNotNull(list0);
 
             //Listar Filtrando parâmetros
-            var list1 = repositorio.Listar ("%a%").ToList();
+            var list1 = repositorio.Listar("%a%").ToList();
+            Assert.IsNotNull(list1);
 
             ////Listar pela chave
             var primeiroDaLIsta = list0.FirstOrDefault();
             if (primeiroDaLIsta == null) return;
-            var d2 = repositorio.BuscarPelaChave (primeiroDaLIsta.RelatorioId);
-            Assert.IsNotNull (d2);
+            var d2 = repositorio.BuscarPelaChave(primeiroDaLIsta.RelatorioId);
+            Assert.IsNotNull(d2);
         }
 
         #endregion

@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data;
 
 namespace IMOD.Infra.Ado
 {
     public static class CommandExtensions
     {
         /// <summary>
-        /// Executa um comando SQL, retirando parametros que não possuem clausula [where]
-        /// <para>Para situações onde há parâmetros criados com o comando cmd.Parameters.Add (...), mas que na montagem da clausula Where, não não parametros informados</para>
+        ///     Executa um comando SQL, retirando parametros que não possuem clausula [where]
+        ///     <para>
+        ///         Para situações onde há parâmetros criados com o comando cmd.Parameters.Add (...), mas que na montagem da
+        ///         clausula Where, não não parametros informados
+        ///     </para>
         /// </summary>
         /// <param name="cmd"></param>
         /// <returns></returns>
@@ -30,7 +28,5 @@ namespace IMOD.Infra.Ado
 
             cmd.Parameters.Add(parameter);
         }
-
-
     }
 }

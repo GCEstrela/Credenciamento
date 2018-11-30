@@ -66,7 +66,8 @@ namespace IMOD.Infra.Ado.Interfaces.ParamSql
         ///     Parametro de dados para auxiliar na montagem de uma instruçao SQL Insert nativa
         /// </summary>
         /// <param name="campo">Nome do campo</param>
-        /// <param name="valor">Valor do campo
+        /// <param name="valor">
+        ///     Valor do campo
         ///     <para>O tipo será definido automaticamente</para>
         /// </param>
         /// <param name="key">True, o campo é uma primary key</param>
