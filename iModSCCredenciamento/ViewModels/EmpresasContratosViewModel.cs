@@ -116,13 +116,19 @@ namespace iModSCCredenciamento.ViewModels
 
         private void CarregarDadosComunsEmMemoria()
         {
-            //Estados
-            var e1 = _serviceEstado.Listar();
-            ListEstados = Mapper.Map<List<ClasseEstados.Estado>>(e1);
-            //Municipios
-            var list = _serviceMunicipio.Listar();
-            ListMunicipios = Mapper.Map<List<ClasseMunicipios.Municipio>>(list);
-
+            try
+            {
+                //Estados
+                var e1 = _serviceEstado.Listar();
+                ListEstados = Mapper.Map<List<ClasseEstados.Estado>>(e1);
+                //Municipios
+                var list = _serviceMunicipio.Listar();
+                ListMunicipios = Mapper.Map<List<ClasseMunicipios.Municipio>>(list);
+            }
+            catch (Exception ex)
+            {
+                //Global.Log("Erro void CarregaColecaoEmpresas ex: " + ex.Message);
+            }
         }
 
         #endregion

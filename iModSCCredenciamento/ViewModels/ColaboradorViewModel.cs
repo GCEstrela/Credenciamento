@@ -34,13 +34,7 @@ namespace iModSCCredenciamento.ViewModels
     {
         //private IColaboradorService _colaboradorService = new ColaboradorService();
         public IMOD.Domain.Entities.Colaborador Colaborador { get; set; }
-
-
-
-
-
-
-
+        
         #region Inicializacao
         public ColaboradorViewModel()
         {

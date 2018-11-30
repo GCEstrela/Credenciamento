@@ -33,32 +33,32 @@ namespace iModSCCredenciamento
     }
 
 
-    //public class AutoMapperConfig
-    //{
+    public class AutoMapperConfig
+    {
 
-    //    public static void RegisterMappings()
-    //    {
-    //        Mapper.Initialize(
-    //            m =>
-    //            {
-    //                m.CreateMap<Colaborador, ClasseColaboradores.Colaborador>().ReverseMap();
-    //                m.CreateMap<Empresa, ClasseEmpresas.Empresa>()
-    //                    .IgnoreAllSourcePropertiesWithAnInaccessibleSetter()
-    //                    .ReverseMap();
+        public static void RegisterMappings()
+        {
+            Mapper.Initialize(
+                m =>
+                {
+                    m.CreateMap<Colaborador, ClasseColaboradores.Colaborador>().ReverseMap();
+                    m.CreateMap<Empresa, ClasseEmpresas.Empresa>()
+                        .IgnoreAllSourcePropertiesWithAnInaccessibleSetter()
+                        .ReverseMap();
 
-    //                m.CreateMap<Estados, ClasseEstados.Estado>().ReverseMap();
+                    m.CreateMap<Estados, ClasseEstados.Estado>().ReverseMap();
 
-    //                m.CreateMap<TipoAtividade, ClasseTiposAtividades.TipoAtividade>().ReverseMap();
+                    m.CreateMap<TipoAtividade, ClasseTiposAtividades.TipoAtividade>().ReverseMap();
 
-    //                m.CreateMap<EmpresaTipoAtividade, ClasseEmpresasTiposAtividades.EmpresaTipoAtividade>().ReverseMap();
+                    m.CreateMap<EmpresaTipoAtividade, ClasseEmpresasTiposAtividades.EmpresaTipoAtividade>().ReverseMap();
 
-    //                m.CreateMap<AreaAcesso, ClasseAreasAcessos.AreaAcesso>().ReverseMap();
-    //                m.CreateMap<LayoutCracha, ClasseLayoutsCrachas.LayoutCracha>().ReverseMap();
-    //                m.CreateMap<EmpresaLayoutCrachaView, ClasseEmpresasLayoutsCrachas.EmpresaLayoutCracha>().ReverseMap();
+                    m.CreateMap<AreaAcesso, ClasseAreasAcessos.AreaAcesso>().ReverseMap();
+                    m.CreateMap<LayoutCracha, ClasseLayoutsCrachas.LayoutCracha>().ReverseMap();
+                    m.CreateMap<EmpresaLayoutCrachaView, ClasseEmpresasLayoutsCrachas.EmpresaLayoutCracha>().ReverseMap();
 
-    //            });
-    //    }
+                });
+        }
 
 
-    //}
+    }
 }
