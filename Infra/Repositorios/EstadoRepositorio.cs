@@ -1,8 +1,10 @@
 ﻿// ***********************************************************************
 // Project: IMOD.Infra
-// Crafted by: Mihai
-// Date:  11 - 28 - 2018
+// Crafted by: Grupo Estrela by Genetec
+// Date:  11 - 30 - 2018
 // ***********************************************************************
+
+#region
 
 using System;
 using System.Collections.Generic;
@@ -10,10 +12,13 @@ using System.Data;
 using System.Linq;
 using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
+using IMOD.Domain.EntitiesCustom;
 using IMOD.Domain.Interfaces;
 using IMOD.Infra.Ado;
 using IMOD.Infra.Ado.Interfaces;
 using IMOD.Infra.Ado.Interfaces.ParamSql;
+
+#endregion
 
 namespace IMOD.Infra.Repositorios
 {
@@ -23,62 +28,26 @@ namespace IMOD.Infra.Repositorios
         private readonly IDataBaseAdo _dataBase;
         private readonly IDataWorkerFactory _dataWorkerFactory = new DataWorkerFactory();
 
-        #region Construtor
-
         public EstadoRepositorio()
         {
-            _dataBase = _dataWorkerFactory.ObterDataBaseSingleton(TipoDataBase.SqlServer, _connection);
+            _dataBase = _dataWorkerFactory.ObterDataBaseSingleton (TipoDataBase.SqlServer, _connection);
         }
-
-        #endregion
 
         #region  Metodos
 
         /// <summary>
-        ///     Buscar pela chave primaria
+        ///     Listar Estados
         /// </summary>
-        /// <param name="id"></param>
         /// <returns></returns>
-        public Estados BuscarPelaChave(int id)
+        public ICollection<Estados> Listar()
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText("Estados", conn))
+                using (var cmd = _dataBase.SelectText ("Estados", conn))
 
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("EstadoID", DbType.Int32, id).Igual()));
-                        var reader = cmd.ExecuteReader();
-                        var d1 = reader.MapToList<Estados>();
-
-                        return d1.FirstOrDefault();
-                    }
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException(ex);
-                        throw;
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        ///     Listar
-        /// </summary>
-        /// <param name="objects">Expressão de consulta</param>
-        /// <returns></returns>
-        public ICollection<Estados> Listar(params object[] objects)
-        {
-            using (var conn = _dataBase.CreateOpenConnection())
-            {
-                using (var cmd = _dataBase.SelectText("Estados", conn))
-
-                {
-                    try
-                    {
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("UF", objects, 0).Like()));
-
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<Estados>();
 
@@ -86,11 +55,60 @@ namespace IMOD.Infra.Repositorios
                     }
                     catch (Exception ex)
                     {
-                        Utils.TraceException(ex);
+                        Utils.TraceException (ex);
                         throw;
                     }
                 }
             }
+        }
+
+        /// <summary>
+        ///     Buscar Estado por UF
+        /// </summary>
+        /// <param name="uf"></param>
+        /// <returns></returns>
+        public Estados BuscarEstadoPorUf(string uf)
+        {
+            using (var conn = _dataBase.CreateOpenConnection())
+            {
+                using (var cmd = _dataBase.SelectText ("Estados", conn))
+
+                {
+                    try
+                    {
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("Uf", DbType.String, uf).Igual()));
+                        var reader = cmd.ExecuteReader();
+                        var d1 = reader.MapToList<Estados>();
+
+                        return d1.FirstOrDefault();
+                    }
+                    catch (Exception ex)
+                    {
+                        Utils.TraceException (ex);
+                        throw;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        ///     Buscar municipios por UF
+        /// </summary>
+        /// <param name="uf"></param>
+        /// <returns></returns>
+        public EstadoView BuscarEstadoMunicipiosPorUf(string uf)
+        {
+            var municipioRepositorio = new MunicipioRepositorio();
+            var est = BuscarEstadoPorUf (uf); //Obter Estado
+            var listMun = municipioRepositorio.Listar ("", uf); //Listar municipios por Uf
+            var result = new EstadoView
+            {
+                Nome = est.Nome,
+                EstadoId = est.EstadoId,
+                Uf = est.Uf,
+                Municipios = listMun
+            };
+            return result;
         }
 
         #endregion

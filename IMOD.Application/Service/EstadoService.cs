@@ -1,46 +1,53 @@
-﻿using System;
+﻿// ***********************************************************************
+// Project: IMOD.Application
+// Crafted by: Grupo Estrela by Genetec
+// Date:  11 - 30 - 2018
+// ***********************************************************************
+
+#region
+
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using IMOD.Application.Interfaces;
 using IMOD.Domain.Entities;
-using IMOD.Domain.Interfaces;
-using IMOD.Infra.Repositorios;
+using IMOD.Domain.EntitiesCustom;
+
+#endregion
 
 namespace IMOD.Application.Service
 {
-    public class EstadoService : IEstadosRepositorio
+    public class EstadoService : IEstadoService
     {
-        #region Variaveis Globais
-
-        private readonly IEstadosRepositorio _repositorio = new EstadoRepositorio();
-
-        #endregion
-
-        #region Construtor
-
-        #endregion
+        private readonly IEstadoService _repositorio = new EstadoService();
 
         #region  Metodos
 
         /// <summary>
-        ///     Buscar pela chave primaria
+        ///     Listar Estados
         /// </summary>
-        /// <param name="id"></param>
         /// <returns></returns>
-        public Estados BuscarPelaChave(int id)
+        public ICollection<Estados> Listar()
         {
-            return _repositorio.BuscarPelaChave(id);
+            return _repositorio.Listar();
         }
 
         /// <summary>
-        ///     Listar
+        ///     Buscar Estado por UF
         /// </summary>
-        /// <param name="objects">Expressão de consulta</param>
+        /// <param name="uf"></param>
         /// <returns></returns>
-        public ICollection<Estados> Listar(params object[] objects)
+        public Estados BuscarEstadoPorUf(string uf)
         {
-            return _repositorio.Listar(objects);
+            return _repositorio.BuscarEstadoPorUf (uf);
+        }
+
+        /// <summary>
+        ///     Buscar municipios por UF
+        /// </summary>
+        /// <param name="uf"></param>
+        /// <returns></returns>
+        public EstadoView BuscarEstadoMunicipiosPorUf(string uf)
+        {
+            return _repositorio.BuscarEstadoMunicipiosPorUf (uf);
         }
 
         #endregion
