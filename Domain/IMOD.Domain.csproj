@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="EntitiesCustom\ColaboradoresCredenciaisView.cs" />
     <Compile Include="EntitiesCustom\EmpresaLayoutCrachaView.cs" />
+    <Compile Include="EntitiesCustom\EstadoView.cs" />
     <Compile Include="Entities\AreaAcesso.cs" />
     <Compile Include="Entities\Colaborador.cs" />
     <Compile Include="Entities\ColaboradorAnexo.cs" />
