@@ -151,7 +151,7 @@
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,5,17,10">
                                     <Label Content="Status:" Height="28" Width="100" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
                                     <ComboBox x:Name="Status_cb"  MinWidth="50" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
-                                                ItemsSource="{Binding Statuss}" DisplayMemberPath="Descricao"  SelectedValue="{Binding SelectedItem.StatusID, ElementName=ListaContratos_lv, UpdateSourceTrigger=PropertyChanged}" 
+                                                ItemsSource="{Binding Status}" DisplayMemberPath="Descricao"  SelectedValue="{Binding SelectedItem.StatusID, ElementName=ListaContratos_lv, UpdateSourceTrigger=PropertyChanged}" 
                                               SelectedValuePath="StatusID" Width="140" />
 
                                     <Label Visibility="Hidden" Content="Tipo de Acesso:" Height="28" Width="100" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
