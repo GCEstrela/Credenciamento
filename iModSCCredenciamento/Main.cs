@@ -559,6 +559,7 @@ namespace iModSCCredenciamento
                             .ReverseMap();
 
                         m.CreateMap<Estados, ClasseEstados.Estado>().ReverseMap();
+                        m.CreateMap<Municipio, ClasseMunicipios.Municipio>().ReverseMap();
 
                         m.CreateMap<TipoAtividade, ClasseTiposAtividades.TipoAtividade>().ReverseMap();
 

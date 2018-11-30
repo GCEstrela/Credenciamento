@@ -48,6 +48,7 @@
     <Compile Include="Interfaces\IEmpresaService.cs" />
     <Compile Include="Interfaces\IEstadoService.cs" />
     <Compile Include="Interfaces\ILayoutCrachaService.cs" />
+    <Compile Include="Interfaces\IMunicipioService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\AreaAcessoService.cs" />
     <Compile Include="Service\ColaboradorAnexoService.cs" />

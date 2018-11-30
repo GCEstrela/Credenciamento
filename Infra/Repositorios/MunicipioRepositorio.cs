@@ -81,8 +81,8 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("Nome", objects, 0).Like()));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("Uf",DbType.String, objects, 1).Igual()));
+                        cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("Nome", objects, 0).Like()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Uf",DbType.String, objects, 1).Igual()));
 
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<Municipio>();
