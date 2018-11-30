@@ -1,7 +1,7 @@
 ﻿// ***********************************************************************
 // Project: IMOD.Infra
 // Crafted by: Grupo Estrela by Genetec
-// Date:  11 - 22 - 2018
+// Date:  11 - 30 - 2018
 // ***********************************************************************
 
 #region
@@ -133,9 +133,6 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        //cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("NomeArquivo", o, 0).Like()));
-                        //cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("ColaboradorID", o, 1).Igual()));
-
                         cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("NumeroContrato", DbType.Int32, objects, 0).Igual()));
                         cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("Descricao", DbType.String, objects, 1).Like()));
                         cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("Emissao", DbType.Date, objects, 2).Like()));
@@ -211,7 +208,7 @@ namespace IMOD.Infra.Repositorios
         /// <summary>
         ///     Deletar registro
         /// </summary>
-        /// <param name="objects"></param>
+        /// <param name="entity"></param>
         public void Remover(EmpresaContrato entity)
         {
             using (var conn = _dataBase.CreateOpenConnection())

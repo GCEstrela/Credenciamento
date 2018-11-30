@@ -43,15 +43,19 @@
   <ItemGroup>
     <Compile Include="Interfaces\IColaboradorAnexoService.cs" />
     <Compile Include="Interfaces\IColaboradorService.cs" />
+    <Compile Include="Interfaces\IEmpresaContratosService.cs" />
+    <Compile Include="Interfaces\IEstadoService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\ColaboradorAnexoService.cs" />
     <Compile Include="Service\ColaboradorService.cs" />
+    <Compile Include="Service\EmpresaContratoService.cs" />
     <Compile Include="Service\EmpresaSeguroService.cs" />
     <Compile Include="Service\EmpresaService.cs" />
     <Compile Include="Service\EmpresaSignatarioService.cs" />
     <Compile Include="Service\EmpresaTipoAtividadeService.cs" />
     <Compile Include="Service\EmpresaVeiculoService.cs" />
     <Compile Include="Service\EquipamentoVeiculoTipoServicoService.cs" />
+    <Compile Include="Service\EstadoService.cs" />
     <Compile Include="Service\FormatoCredencialService.cs" />
     <Compile Include="Service\LayoutCrachaService.cs" />
     <Compile Include="Service\MunicipioService.cs" />

@@ -91,6 +91,7 @@
     <Compile Include="Repositorios\EmpresaTipoAtividadeRepositorio.cs" />
     <Compile Include="Repositorios\EmpresaVeiculoRepositorio.cs" />
     <Compile Include="Repositorios\EquipamentoVeiculoTipoServicoRepositorio.cs" />
+    <Compile Include="Repositorios\EstadoRepositorio.cs" />
     <Compile Include="Repositorios\FormatoCredencialRepositorio.cs" />
     <Compile Include="Repositorios\LayoutCrachaRepositorio.cs" />
     <Compile Include="Repositorios\MunicipioRepositorio.cs" />
