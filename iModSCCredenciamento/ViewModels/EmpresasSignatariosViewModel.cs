@@ -551,22 +551,28 @@ namespace iModSCCredenciamento.ViewModels
         #endregion
 
         #region Carregamento das Colecoes
-        private void CarregaColecaoEmpresasSignatarios(int empresaID, string nome="")
+        private void CarregaColecaoEmpresasSignatarios(int empresaID, string nome = "")
         {
             try
             {
-                string _xml = RequisitaEmpresasSignatarios(empresaID, nome);
 
-                XmlSerializer deserializer = new XmlSerializer(typeof(ClasseEmpresasSignatarios));
 
-                XmlDocument xmldocument = new XmlDocument();
-                xmldocument.LoadXml(_xml);
 
-                TextReader reader = new StringReader(_xml);
-                ClasseEmpresasSignatarios classeEmpresaSignatarios = new ClasseEmpresasSignatarios();
-                classeEmpresaSignatarios = (ClasseEmpresasSignatarios)deserializer.Deserialize(reader);
-                Signatarios = new ObservableCollection<ClasseEmpresasSignatarios.EmpresaSignatario>();
-                Signatarios = classeEmpresaSignatarios.EmpresasSignatarios;
+
+                //string _xml = RequisitaEmpresasSignatarios(empresaID, nome);
+
+                //XmlSerializer deserializer = new XmlSerializer(typeof(ClasseEmpresasSignatarios));
+
+                //XmlDocument xmldocument = new XmlDocument();
+                //xmldocument.LoadXml(_xml);
+
+                //TextReader reader = new StringReader(_xml);
+                //ClasseEmpresasSignatarios classeEmpresaSignatarios = new ClasseEmpresasSignatarios();
+                //classeEmpresaSignatarios = (ClasseEmpresasSignatarios)deserializer.Deserialize(reader);
+                //Signatarios = new ObservableCollection<ClasseEmpresasSignatarios.EmpresaSignatario>();
+                //Signatarios = classeEmpresaSignatarios.EmpresasSignatarios;
+
+                //Mihai(30/11/2018 - 13:54)
                 SelectedIndex = -1;
             }
             catch (Exception ex)
@@ -577,7 +583,7 @@ namespace iModSCCredenciamento.ViewModels
         #endregion
 
         #region Data Access
-        private string RequisitaEmpresasSignatarios(int _empresaID,  string _nome = "")
+        private string RequisitaEmpresasSignatarios(int _empresaID, string _nome = "")
         {
             try
             {
@@ -592,7 +598,7 @@ namespace iModSCCredenciamento.ViewModels
 
                 string _strSql;
 
-                 SqlConnection _Con = new SqlConnection(Global._connectionString);_Con.Open();
+                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
 
 
                 _nome = "%" + _nome + "%";
@@ -656,7 +662,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception er)
             {
-                 
+
                 return null;
             }
 
@@ -692,9 +698,9 @@ namespace iModSCCredenciamento.ViewModels
                 _EmpresaSignatario.Assinatura = _signatarioTemp.Assinatura == null ? "" : _signatarioTemp.Assinatura;
 
 
-                SqlConnection _Con = new SqlConnection(Global._connectionString);_Con.Open();
+                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
                 //_Con.Close();
-                
+
 
                 SqlCommand _sqlCmd;
                 if (_EmpresaSignatario.EmpresaSignatarioID != 0)
@@ -740,9 +746,9 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
 
-                 SqlConnection _Con = new SqlConnection(Global._connectionString);_Con.Open();
+                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
                 //_Con.Close();
-                
+
 
                 SqlCommand _sqlCmd;
                 _sqlCmd = new SqlCommand("Delete from EmpresasSignatarios where EmpresaSignatarioID=" + _EmpresaSignatarioID, _Con);
