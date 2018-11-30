@@ -42,12 +42,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Interfaces\IColaboradorAnexoService.cs" />
+    <Compile Include="Interfaces\IColaboradorEmpresaService.cs" />
     <Compile Include="Interfaces\IColaboradorService.cs" />
     <Compile Include="Interfaces\IEmpresaService.cs" />
     <Compile Include="Interfaces\ILayoutCrachaService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\AreaAcessoService.cs" />
     <Compile Include="Service\ColaboradorAnexoService.cs" />
+    <Compile Include="Service\ColaboradorEmpresaService.cs" />
     <Compile Include="Service\ColaboradorService.cs" />
     <Compile Include="Service\EmpresaAreaAcessoService.cs" />
     <Compile Include="Service\EmpresaLayoutCrachaService.cs" />
