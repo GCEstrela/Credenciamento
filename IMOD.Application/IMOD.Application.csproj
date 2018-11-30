@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Interfaces\IColaboradorAnexoService.cs" />
     <Compile Include="Interfaces\IColaboradorService.cs" />
+    <Compile Include="Interfaces\IEmpresaAnexoService.cs" />
     <Compile Include="Interfaces\IEmpresaContratosService.cs" />
     <Compile Include="Interfaces\IEmpresaLayoutCrachaService.cs" />
     <Compile Include="Interfaces\IEmpresaService.cs" />
@@ -54,6 +55,7 @@
     <Compile Include="Service\AreaAcessoService.cs" />
     <Compile Include="Service\ColaboradorAnexoService.cs" />
     <Compile Include="Service\ColaboradorService.cs" />
+    <Compile Include="Service\EmpresaAnexoService.cs" />
     <Compile Include="Service\EmpresaAreaAcessoService.cs" />
     <Compile Include="Service\EmpresaContratoService.cs" />
     <Compile Include="Service\EmpresaLayoutCrachaService.cs" />

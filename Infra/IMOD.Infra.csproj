@@ -81,6 +81,7 @@
     <Compile Include="Repositorios\CredencialMotivoRepositorio.cs" />
     <Compile Include="Repositorios\CredencialStatusRepositorio.cs" />
     <Compile Include="Repositorios\CursoRepositorio.cs" />
+    <Compile Include="Repositorios\EmpresaAnexoRepositorio.cs" />
     <Compile Include="Repositorios\EmpresaAreaAcessoRepositorio.cs" />
     <Compile Include="Repositorios\EmpresaContratoRepositorio.cs" />
     <Compile Include="Repositorios\EmpresaEquipamentoRepositorio.cs" />

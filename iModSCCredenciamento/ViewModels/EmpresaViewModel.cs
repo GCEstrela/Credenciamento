@@ -498,7 +498,7 @@ namespace iModSCCredenciamento.ViewModels
                 repositorio.Alterar(EmpresaEntity);
 
                 /////////////////////////////////////////
-                /// 
+
                 string xmlString;
 
                 serializer = new System.Xml.Serialization.XmlSerializer(typeof(ClasseEmpresasTiposAtividades));
@@ -575,7 +575,6 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 Global._cnpjEdicao = "";
-                System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(ClasseEmpresas));
 
                 ObservableCollection<ClasseEmpresas.Empresa> _EmpresasPro = new ObservableCollection<ClasseEmpresas.Empresa>();
                 ClasseEmpresas _ClasseEmpresasTemp = new ClasseEmpresas();
@@ -599,11 +598,11 @@ namespace iModSCCredenciamento.ViewModels
 
 
                 int _novoEmpresaID = EmpresaEntity.EmpresaId;
-
                 AtualizaPendencias(_novoEmpresaID);
-
                 EmpresaSelecionada.EmpresaID = _novoEmpresaID;
 
+                Thread CarregaColecaoEmpresasSignatarios_thr = new Thread(() => CarregaColecaoEmpresas());
+                CarregaColecaoEmpresasSignatarios_thr.Start();
 
 
             }
