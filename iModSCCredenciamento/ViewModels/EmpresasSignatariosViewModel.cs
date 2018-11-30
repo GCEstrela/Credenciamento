@@ -14,6 +14,7 @@ using System.Xml.Serialization;
 using iModSCCredenciamento.Funcoes;
 using iModSCCredenciamento.Models;
 using iModSCCredenciamento.Windows;
+using AutoMapper;
 
 namespace iModSCCredenciamento.ViewModels
 {
@@ -551,11 +552,23 @@ namespace iModSCCredenciamento.ViewModels
         #endregion
 
         #region Carregamento das Colecoes
-        private void CarregaColecaoEmpresasSignatarios(int empresaID, string nome = "")
+        private void CarregaColecaoEmpresasSignatarios(int? empresaID = null, string nome = null)
         {
             try
             {
+                //var service = new IMOD.Application.Service.EmpresaSignatarioService();
+                //if (!string.IsNullOrWhiteSpace(nome)) nome = $"%{nome}%";
 
+                //var list1 = service.Listar(idEmpresa, nome, apelido, cnpj);
+                //var list2 = Mapper.Map<List<ClasseEmpresasSignatarios.EmpresaSignatario>(list1);
+
+                //var observer = new ObservableCollection<ClasseEmpresasSignatarios.EmpresaSignatario>();
+                //list2.ForEach(n =>
+                //{
+                //    observer.Add(n);
+                //});
+
+                //this.Signatarios = observer;
 
 
 

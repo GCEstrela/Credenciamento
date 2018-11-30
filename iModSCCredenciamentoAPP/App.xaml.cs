@@ -6,12 +6,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace iModSCCredenciamento
+namespace IMOD.Wpf2
 {
     /// <summary>
     /// Interação lógica para App.xaml
     /// </summary>
-    public partial class App : Application
+    public partial class App : System.Windows.Application
     {
     }
 }

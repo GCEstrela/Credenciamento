@@ -5,7 +5,7 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iModSCCredenciamento", "iModSCCredenciamento\iModSCCredenciamento.csproj", "{974F5875-4CFB-4926-8273-D1BF96AC8242}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iModSCCredenciamentoAPP", "iModSCCredenciamentoAPP\iModSCCredenciamentoAPP.csproj", "{FDF601A5-33E0-417A-8C59-53811776C553}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IMOD.Wpf2", "iModSCCredenciamentoAPP\IMOD.Wpf2.csproj", "{FDF601A5-33E0-417A-8C59-53811776C553}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3 - Domain", "3 - Domain", "{AE5F79FC-E612-49F0-9F0D-D9D64D72F54F}"
 EndProject
