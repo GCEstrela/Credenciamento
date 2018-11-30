@@ -1,0 +1,148 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F7DC651F-CB04-40CA-AC1B-C2355B474CF3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>IMOD.Domain</RootNamespace>
+    <AssemblyName>IMOD.Domain</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="EntitiesCustom\ColaboradoresCredenciaisView.cs" />
+    <Compile Include="EntitiesCustom\EmpresaLayoutCrachaView.cs" />
+    <Compile Include="Entities\AreaAcesso.cs" />
+    <Compile Include="Entities\Colaborador.cs" />
+    <Compile Include="Entities\ColaboradorAnexo.cs" />
+    <Compile Include="Entities\ColaboradorCredencial.cs" />
+    <Compile Include="Entities\ColaboradorCredencialimpresssao.cs" />
+    <Compile Include="Entities\ColaboradorCurso.cs" />
+    <Compile Include="Entities\ColaboradorEmpresa.cs" />
+    <Compile Include="Entities\ColaboradorPrivilegio.cs" />
+    <Compile Include="Entities\CredencialMotivo.cs" />
+    <Compile Include="Entities\CredencialStatus.cs" />
+    <Compile Include="Entities\Curso.cs" />
+    <Compile Include="Entities\Empresa.cs" />
+    <Compile Include="Entities\EmpresaContrato.cs" />
+    <Compile Include="Entities\EmpresaLayoutCracha.cs" />
+    <Compile Include="Entities\EmpresaAreaAcesso.cs" />
+    <Compile Include="Entities\EmpresaEquipamento.cs" />
+    <Compile Include="Entities\EmpresaSeguro.cs" />
+    <Compile Include="Entities\EmpresaSignatario.cs" />
+    <Compile Include="Entities\EmpresaTipoAtividade.cs" />
+    <Compile Include="Entities\EmpresaVeiculo.cs" />
+    <Compile Include="Entities\EquipamentoVeiculoTipoServico.cs" />
+    <Compile Include="Entities\Estados.cs" />
+    <Compile Include="Entities\FormatoCredencial.cs" />
+    <Compile Include="Entities\LayoutCracha.cs" />
+    <Compile Include="Entities\Municipio.cs" />
+    <Compile Include="Entities\Pendencia.cs" />
+    <Compile Include="Entities\Relatorios.cs" />
+    <Compile Include="Entities\RelatoriosGerenciais.cs" />
+    <Compile Include="Entities\Status.cs" />
+    <Compile Include="Entities\TecnologiaCredencial.cs" />
+    <Compile Include="Entities\TipoCombustivel.cs" />
+    <Compile Include="Entities\TipoCredencial.cs" />
+    <Compile Include="Entities\TipoEquipamentoVeiculo.cs" />
+    <Compile Include="Entities\TipoAcesso.cs" />
+    <Compile Include="Entities\TipoAtividade.cs" />
+    <Compile Include="Entities\TipoCobranca.cs" />
+    <Compile Include="Entities\TipoEquipamento.cs" />
+    <Compile Include="Entities\TipoServico.cs" />
+    <Compile Include="Entities\VeiculoEquipTipoServico.cs" />
+    <Compile Include="Entities\Veiculos.cs" />
+    <Compile Include="Entities\VeiculoAnexo.cs" />
+    <Compile Include="Entities\VeiculoCredencial.cs" />
+    <Compile Include="Entities\VeiculoCredencialimpressao.cs" />
+    <Compile Include="Entities\VeiculoEmpresa.cs" />
+    <Compile Include="Entities\VeiculoSeguro.cs" />
+    <Compile Include="Interfaces\IAreaAcessoRepositorio.cs" />
+    <Compile Include="Interfaces\IColaboradorAnexoRepositorio.cs" />
+    <Compile Include="Interfaces\IColaboradorCredencialimpresssaoRepositorio.cs" />
+    <Compile Include="Interfaces\IColaboradorCredencialRepositorio.cs" />
+    <Compile Include="Interfaces\IColaboradorCursoRepositorio.cs" />
+    <Compile Include="Interfaces\IColaboradorEmpresaRepositorio.cs" />
+    <Compile Include="Interfaces\IColaboradorPrivilegioRepositorio.cs" />
+    <Compile Include="Interfaces\IColaboradorRepositorio.cs" />
+    <Compile Include="Interfaces\ICursoRepositorio.cs" />
+    <Compile Include="Interfaces\IEmpresaAreaAcessoRepositorio.cs" />
+    <Compile Include="Interfaces\IEmpresaEquipamentoRepositorio.cs" />
+    <Compile Include="Interfaces\IEmpresaSeguroRepositorio.cs" />
+    <Compile Include="Interfaces\IEmpresaSignatarioRepositorio.cs" />
+    <Compile Include="Interfaces\IEmpresaTipoAtividadeRepositorio.cs" />
+    <Compile Include="Interfaces\IEmpresaVeiculoRepositorio.cs" />
+    <Compile Include="Interfaces\IEquipamentoVeiculoTipoServicoRepositorio.cs" />
+    <Compile Include="Interfaces\IEstadosRepositorio.cs" />
+    <Compile Include="Interfaces\ILayoutCrachaRepositorio.cs" />
+    <Compile Include="Interfaces\IMunicipioRepositorio.cs" />
+    <Compile Include="Interfaces\IPendenciaRepositorio.cs" />
+    <Compile Include="Interfaces\IRelatoriosGerenciaisRepositorio.cs" />
+    <Compile Include="Interfaces\IRelatoriosRepositorio.cs" />
+    <Compile Include="Interfaces\IStatusRepositorio.cs" />
+    <Compile Include="Interfaces\ITecnologiaCredencialRepositorio.cs" />
+    <Compile Include="Interfaces\ICredencialMotivoRepositorio.cs" />
+    <Compile Include="Interfaces\ICredencialStatusRepositorio.cs" />
+    <Compile Include="Interfaces\IEmpresaRepositorio.cs" />
+    <Compile Include="Interfaces\IEmpresaContratoRepositorio.cs" />
+    <Compile Include="Interfaces\IEmpresaLayoutCrachaRepositorio.cs" />
+    <Compile Include="Interfaces\IFormatoCredencialRepositorio.cs" />
+    <Compile Include="Interfaces\IRepositorioBaseAdoNet.cs" />
+    <Compile Include="Interfaces\ITipoAcessoRepositorio.cs" />
+    <Compile Include="Interfaces\ITipoAtividadeRepositorio.cs" />
+    <Compile Include="Interfaces\ITipoCobrancaRepositorio.cs" />
+    <Compile Include="Interfaces\ITipoCombustivelRepositorio.cs" />
+    <Compile Include="Interfaces\ITipoCredencialRepositorio.cs" />
+    <Compile Include="Interfaces\ITipoEquipamentoRepositorio.cs" />
+    <Compile Include="Interfaces\ITipoEquipamentoVeiculoRepositorio.cs" />
+    <Compile Include="Interfaces\ITipoServicoRepositorio.cs" />
+    <Compile Include="Interfaces\IVeiculoAnexoRepositorio.cs" />
+    <Compile Include="Interfaces\IVeiculoCredencialimpressaoRepositorio.cs" />
+    <Compile Include="Interfaces\IVeiculoCredencialRepositorio.cs" />
+    <Compile Include="Interfaces\IVeiculoEmpresaRepositorio.cs" />
+    <Compile Include="Interfaces\IVeiculoEquipTipoServicoRepositorio.cs" />
+    <Compile Include="Interfaces\IVeiculoSeguroRepositorio.cs" />
+    <Compile Include="Interfaces\IVeiculosRepositorio.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

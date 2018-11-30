@@ -1,0 +1,462 @@
+﻿<UserControl x:Class="iModSCCredenciamento.Views.ConfiguracoesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:iModSCCredenciamento.Views"
+             mc:Ignorable="d" 
+              MinWidth="1258" >
+    <Grid Margin="5,5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1" />
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="168"  />
+            </Grid.ColumnDefinitions>
+
+        </Grid>
+
+        <TabControl x:Name="TabGeral_tc" Grid.Row="1" Grid.Column="0" Margin="0,10,0,0" IsSynchronizedWithCurrentItem="True" TabStripPlacement="Top" >
+            <TabItem x:Name="TabelasAuxiliares_ti" Header="Tabelas Auxiliares" Width="200" Background="{x:Null}" >
+
+                <ScrollViewer   VerticalScrollBarVisibility="Auto"  HorizontalScrollBarVisibility="Auto"  >
+                    <StackPanel  >
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <GroupBox     Grid.Row="0" Grid.Column="0"  Header=" Tipos de Equipamentos "  Margin="10,10,10,10" VerticalAlignment="Stretch"  >
+                                <StackPanel Margin="0,10,0,0">
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0" >
+
+                                        <Label Content="Código:" Height="28" Width="53"  Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                                        <TextBox CharacterCasing="Upper"  x:Name="CodigoEquipamento_tb"  Text="{Binding SelectedItem.TipoEquipamentoID, ElementName=ListaTipoEquipamento_lv, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"  Height="24"  Width="50"/>
+                                        <Label Content="Tipos de Equip:" Height="28" Width="113"   Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                                        <TextBox CharacterCasing="Upper"  x:Name="DescricaoEquipamento_tb"  Text="{Binding SelectedItem.Descricao, ElementName=ListaTipoEquipamento_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="334"/>
+
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0">
+                                        <ListView x:Name="ListaTipoEquipamento_lv" Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding TiposEquipamentos, Mode=TwoWay}" 
+                                                          SelectedItem="{Binding Path = TipoEquipamentoSelecionado, Mode=TwoWay}" Height="167" Width="560"
+                                                   SelectedIndex="{Binding Path=TipoEquipamentoSelectedIndex, Mode=TwoWay}" >
+                                            <ListView.View>
+                                                <GridView FrameworkElement.FlowDirection="RightToLeft">
+                                                    <GridViewColumn Width="50" Header="Cód."  DisplayMemberBinding="{Binding TipoEquipamentoID}"/>
+                                                    <GridViewColumn Width="500" Header="Tipos de Equipamento"  DisplayMemberBinding="{Binding Descricao}"/>
+                                                </GridView>
+                                            </ListView.View>
+                                        </ListView>
+                                    </StackPanel>
+                                    <Grid>
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0" >
+                                            <Button x:Name="NovoEquipamento_bt" Content="Novo"  Height="30" Width="148" Margin="10,0,0,0" Click="NovoEquipamento_bt_Click"/>
+                                            <Button x:Name="SalvarEquipamento_bt" Content="Salvar"  Height="30" Width="148" Margin="10,0,0,0" Click="SalvarEquipamento_bt_Click" />
+                                            <Button x:Name="DeletarSalvarEquipamento_bt" Content="Excluir"  Height="30" Width="148" Margin="10,0,0,0" Click="DeletarSalvarEquipamento_bt_Click"/>
+                                            <!--<Button x:Name="AbrirContratoArquivo_bt" Height="24" Margin="10,0,0,0" VerticalAlignment="Center" Width="24" />-->
+                                        </StackPanel>
+                                    </Grid>
+                                </StackPanel>
+                            </GroupBox>
+
+                            <GroupBox      x:Name="TiposAtividades_gb"  Grid.Row="1" Grid.Column="0"  Header=" Atividades " Margin="10,10,10,10" VerticalAlignment="Stretch" >
+                                <StackPanel Margin="0,10,0,0">
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0" >
+                                        <Label Content="Código:" Height="28" Width="53"  Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                                        <TextBox CharacterCasing="Upper"  x:Name="CodigoAtividades_tb"  Text="{Binding SelectedItem.TipoAtividadeID, ElementName=ListaTiposAtividades_lv, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"  Height="24"  Width="50"/>
+                                        <Label Content="Atividades:" Height="28" Width="112"   Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                                        <TextBox CharacterCasing="Upper"  x:Name="DescricaoAtividades_tb"  Text="{Binding SelectedItem.Descricao, ElementName=ListaTiposAtividades_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="334"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0">
+                                        <ListView x:Name="ListaTiposAtividades_lv" Margin="0,0,0,0"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding TiposAtividades, Mode=TwoWay}" 
+                                                        SelectedItem="{Binding Path = TipoAtividadeSelecionada, Mode=TwoWay}"  Height="167" Width="560"
+                                                   SelectedIndex="{Binding Path=TipoAtividadeSelectedIndex, Mode=TwoWay}" >
+                                            <ListView.View>
+                                                <GridView FrameworkElement.FlowDirection="RightToLeft">
+                                                    <GridViewColumn Width="50" Header="Cod."  DisplayMemberBinding="{Binding TipoAtividadeID}"/>
+                                                    <GridViewColumn Width="500" Header="Atividades"  DisplayMemberBinding="{Binding Descricao}"/>
+                                                </GridView>
+                                            </ListView.View>
+                                        </ListView>
+                                    </StackPanel>
+                                    <Grid>
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0" >
+                                            <Button x:Name="NovoTipoAtividade_bt" Content="Novo"  Height="30" Width="148" Margin="10,0,0,0" Click="NovoTipoAtividade_bt_Click"/>
+                                            <Button x:Name="SalvarTipoAtividade_bt" Content="Salvar"  Height="30" Width="148" Margin="10,0,0,0" Click="SalvarTipoAtividade_bt_Click"/>
+                                            <Button x:Name="DeletarTipoAtividade_bt" Content="Excluir"  Height="30" Width="148" Margin="10,0,0,0" Click="DeletarTipoAtividade_bt_Click"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </StackPanel>
+                            </GroupBox>
+
+                            <GroupBox      x:Name="TiposCobrancas_gb"  Grid.Row="2" Grid.Column="0"  Header=" Tipos de Cobranças " Margin="10,10,10,10" VerticalAlignment="Stretch" >
+                                <StackPanel Margin="0,10,0,0">
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0" >
+
+                                        <Label Content="Código:" Height="28" Width="53"  Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                                        <TextBox CharacterCasing="Upper"  x:Name="CodigoCobrancas_tb"  Text="{Binding SelectedItem.TipoCobrancaID, ElementName=ListaTiposCobrancas_lv, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"  Height="24"  Width="50"/>
+                                        <Label Content="Tipo de Cobrança:" Height="28" Width="112"   Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                                        <TextBox CharacterCasing="Upper"  x:Name="DescricaoCobrancas_tb"  Text="{Binding SelectedItem.Descricao, ElementName=ListaTiposCobrancas_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="334"/>
+
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0">
+                                        <ListView x:Name="ListaTiposCobrancas_lv" Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding TiposCobrancas, Mode=TwoWay}" 
+                                                          SelectedItem="{Binding Path = TipoCobrancaSelecionado, Mode=TwoWay}" Height="167" Width="560"
+                                                   SelectedIndex="{Binding Path=TipoCobrancaSelectedIndex, Mode=TwoWay}" >
+                                            <ListView.View>
+                                                <GridView FrameworkElement.FlowDirection="RightToLeft">
+                                                    <GridViewColumn Width="50" Header="Cod."  DisplayMemberBinding="{Binding TipoCobrancaID}"/>
+                                                    <GridViewColumn Width="500" Header="Tipo de Cobrança"  DisplayMemberBinding="{Binding Descricao}"/>
+                                                </GridView>
+                                            </ListView.View>
+                                        </ListView>
+                                    </StackPanel>
+                                    <Grid>
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0" >
+                                            <Button x:Name="NovoTiposCobranca_bt" Content="Novo"  Height="30" Width="148" Margin="10,0,0,0" Click="NovoTiposCobranca_bt_Click"/>
+                                            <Button x:Name="SalvarTiposCobranca_bt" Content="Salvar"  Height="30" Width="148" Margin="10,0,0,0" Click="SalvarTiposCobranca_bt_Click"/>
+                                            <Button x:Name="DeletarTiposCobranca_bt" Content="Excluir"  Height="30" Width="148" Margin="10,0,0,0" Click="DeletarTiposCobranca_bt_Click"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </StackPanel>
+                            </GroupBox>
+
+                            <GroupBox      x:Name="TiposAcessos_gb"  Grid.Row="0" Grid.Column="1"  Header=" Tipos de Acessos " Margin="10,10,10,10" VerticalAlignment="Stretch" >
+                                <StackPanel Margin="0,10,0,0">
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0" >
+
+                                        <Label Content="Código:" Height="28" Width="53"  Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                                        <TextBox CharacterCasing="Upper"  x:Name="CodigoAcessos_tb"  Text="{Binding SelectedItem.TipoAcessoID, ElementName=ListaTiposAcessos_lv, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"  Height="24"  Width="50"/>
+                                        <Label Content="Tipo de Acesso:" Height="28" Width="112"   Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                                        <TextBox CharacterCasing="Upper"  x:Name="DescricaoAcessos_tb"  Text="{Binding SelectedItem.Descricao, ElementName=ListaTiposAcessos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="334"/>
+
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0">
+                                        <ListView x:Name="ListaTiposAcessos_lv" Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding TiposAcessos, Mode=TwoWay}" 
+                                                          SelectedItem="{Binding Path = TipoAcessoSelecionado, Mode=TwoWay}"  Height="167" Width="560" 
+                                                   SelectedIndex="{Binding Path=TipoAcessoSelectedIndex, Mode=TwoWay}" >
+                                            <ListView.View>
+                                                <GridView FrameworkElement.FlowDirection="RightToLeft">
+                                                    <GridViewColumn Width="50" Header="Cod."  DisplayMemberBinding="{Binding TipoAcessoID}"/>
+                                                    <GridViewColumn Width="500" Header="Tipo de Acesso"  DisplayMemberBinding="{Binding Descricao}"/>
+                                                </GridView>
+                                            </ListView.View>
+                                        </ListView>
+                                    </StackPanel>
+                                    <Grid>
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="0,5,0,0" >
+                                            <Button x:Name="NovoTiposAcesso_bt" Content="Novo"  Height="30" Width="148" Margin="10,0,0,0" Click="NovoTiposAcesso_bt_Click"/>
+                                            <Button x:Name="SalvarTiposAcesso_bt" Content="Salvar"  Height="30" Width="148" Margin="10,0,0,0" Click="SalvarTiposAcesso_bt_Click"/>
+                                            <Button x:Name="DeletarTiposAcesso_bt" Content="Excluir"  Height="30" Width="148" Margin="10,0,0,0" Click="DeletarTiposAcesso_bt_Click"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </StackPanel>
+                            </GroupBox>
+
+                            <GroupBox      x:Name="TiposStatus_gb"  Grid.Row="1" Grid.Column="1"  Header=" Status " Margin="10,10,10,10" VerticalAlignment="Stretch" >
+                                <StackPanel Margin="0,10,0,0">
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0" >
+                                        <Label Content="Código:" Height="28" Width="53"  Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                                        <TextBox CharacterCasing="Upper"  x:Name="CodigoStatus_tb"  Text="{Binding SelectedItem.StatusID, ElementName=ListaTiposStatus_lv, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"  Height="24"  Width="50"/>
+                                        <Label Content="Status:" Height="28" Width="65"   Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                                        <TextBox CharacterCasing="Upper"  x:Name="DescricaoStatus_tb"  Text="{Binding SelectedItem.Descricao, ElementName=ListaTiposStatus_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="334"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0">
+                                        <ListView x:Name="ListaTiposStatus_lv" Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding TiposStatus, Mode=TwoWay}" 
+                                                          SelectedItem="{Binding Path = TipoStatusSelecionado, Mode=TwoWay}"  Height="167" Width="560"
+                                                   SelectedIndex="{Binding Path=TipoStatusSelectedIndex, Mode=TwoWay}" >
+                                            <ListView.View>
+                                                <GridView FrameworkElement.FlowDirection="RightToLeft">
+                                                    <GridViewColumn Width="50" Header="Cod."  DisplayMemberBinding="{Binding StatusID}"/>
+                                                    <GridViewColumn Width="500" Header="Status"  DisplayMemberBinding="{Binding Descricao}"/>
+                                                </GridView>
+                                            </ListView.View>
+                                        </ListView>
+                                    </StackPanel>
+                                    <Grid>
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="0,5,0,0" >
+                                            <Button x:Name="NovoTiposStatus_bt" Content="Novo"  Height="30" Width="148" Margin="10,0,0,0" Click="NovoTiposStatus_bt_Click"/>
+                                            <Button x:Name="SalvarTiposStatus_bt" Content="Salvar"  Height="30" Width="148" Margin="10,0,0,0" Click="SalvarTiposStatus_bt_Click"/>
+                                            <Button x:Name="DeletarTiposStatus_bt" Content="Excluir"  Height="30" Width="148" Margin="10,0,0,0" Click="DeletarTiposStatus_bt_Click"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </StackPanel>
+                            </GroupBox>
+
+                            <GroupBox      x:Name="TiposCursos_gb"  Grid.Row="2" Grid.Column="1"  Header=" Treinamentos e Certificações " Margin="10,10,10,10" VerticalAlignment="Stretch" >
+                                <StackPanel Margin="0,10,0,0">
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0" >
+                                        <Label Content="Código:" Height="28" Width="54"  Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                                        <TextBox CharacterCasing="Upper"  x:Name="CodigoCursos_tb"  Text="{Binding SelectedItem.CursoID, ElementName=ListaTiposCursos_lv, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"  Height="24"  Width="50"/>
+                                        <Label Content="Treinam./Certif." Height="28" Width="112"   Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                                        <TextBox CharacterCasing="Upper"  x:Name="DescricaoCursos_tb"  Text="{Binding SelectedItem.Descricao, ElementName=ListaTiposCursos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="334"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0">
+                                        <ListView x:Name="ListaTiposCursos_lv" Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding Cursos, Mode=TwoWay}" 
+                                                          SelectedItem="{Binding Path = CursoSelecionado, Mode=TwoWay}"  Height="167" Width="560"
+                                                   SelectedIndex="{Binding Path=CursoSelectedIndex, Mode=TwoWay}" >
+                                            <ListView.View>
+                                                <GridView FrameworkElement.FlowDirection="RightToLeft">
+                                                    <GridViewColumn Width="50" Header="Cod."  DisplayMemberBinding="{Binding CursoID}"/>
+                                                    <GridViewColumn Width="500" Header="Treinamento/Certificação"  DisplayMemberBinding="{Binding Descricao}"/>
+                                                </GridView>
+                                            </ListView.View>
+                                        </ListView>
+                                    </StackPanel>
+                                    <Grid>
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="0,5,0,0" >
+                                            <Button x:Name="NovoTiposCursos_bt" Content="Novo"  Height="30" Width="148" Margin="10,0,0,0" Click="NovoTiposCursos_bt_Click"/>
+                                            <Button x:Name="SalvarTiposCursos_bt" Content="Salvar"  Height="30" Width="148" Margin="10,0,0,0" Click="SalvarTiposCursos_bt_Click"/>
+                                            <Button x:Name="DeletarTiposCursos_bt" Content="Excluir"  Height="30" Width="148" Margin="10,0,0,0" Click="DeletarTiposCursos_bt_Click" />
+                                        </StackPanel>
+                                    </Grid>
+                                </StackPanel>
+                            </GroupBox>
+
+                            <GroupBox      x:Name="TiposAreasAcessos_gb"  Grid.Row="0" Grid.Column="2"  Header="Áreas de Acesso " Margin="10,10,10,10" VerticalAlignment="Stretch" >
+                                <StackPanel Margin="0,10,0,0">
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0" >
+
+                                        <Label Content="Código:" Height="28" Width="53"  Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                                        <TextBox CharacterCasing="Upper"  x:Name="CodigoAreasAcessos_tb"  Text="{Binding SelectedItem.AreaAcessoID, ElementName=ListaTiposAreasAcessos_lv, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"  Height="24"  Width="40"/>
+                                        <Label Content="Área de Acesso:" Height="28" Width="101"   Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                                        <TextBox CharacterCasing="Upper"  x:Name="DescricaoAreasAcessos_tb"  Text="{Binding SelectedItem.Descricao, ElementName=ListaTiposAreasAcessos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="355"/>
+
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0">
+                                        <ListView x:Name="ListaTiposAreasAcessos_lv" Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding AreasAcessos, Mode=TwoWay}" 
+                                                          SelectedItem="{Binding Path = AreaAcessoSelecionada, Mode=TwoWay}"  Height="167" Width="560" 
+                                                   SelectedIndex="{Binding Path=AreaAcessoSelectedIndex, Mode=TwoWay}" >
+                                            
+                                            <ListView.View>
+                                                <GridView FrameworkElement.FlowDirection="RightToLeft">
+                                                    <GridViewColumn Width="50" Header="Cód."  DisplayMemberBinding="{Binding AreaAcessoID}"/>
+                                                    <GridViewColumn Width="500" Header="Área de Acesso"  DisplayMemberBinding="{Binding Descricao}"/>
+                                                </GridView>
+                                            </ListView.View>
+                                        </ListView>
+                                    </StackPanel>
+                                    <Grid>
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="0,5,0,0" >
+                                            <Button x:Name="NovoTiposAreasAcessos_bt" Content="Novo"  Height="30" Width="148" Margin="10,0,0,0" Click="NovoTiposAreasAcessos_bt_Click"/>
+                                            <Button x:Name="SalvarTiposAreasAcessos_bt" Content="Salvar"  Height="30" Width="148" Margin="10,0,0,0" Click="SalvarTiposAreasAcessos_bt_Click"/>
+                                            <Button x:Name="DeletarTiposAreasAcessos_bt" Content="Excluir"  Height="30" Width="148" Margin="10,0,0,0" Click="DeletarTiposAreasAcessos_bt_Click"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </StackPanel>
+                            </GroupBox>
+
+                        </Grid>
+                    </StackPanel>
+                </ScrollViewer>
+
+            </TabItem>
+
+
+            <TabItem x:Name="Relatorios_ti"  Width="200"  Header="Relatórios"  >
+
+                <ScrollViewer   VerticalScrollBarVisibility="Auto"  HorizontalScrollBarVisibility="Auto"  >
+                    <StackPanel  >
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <GroupBox x:Name="Relatórios_gb"  Grid.Row="0" Grid.Column="0"  Header=" Relatórios " Margin="10,10,10,10" VerticalAlignment="Stretch" >
+                                <StackPanel Margin="0,10,0,0">
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0" Width="556" >
+
+                                        <Label Content="Código:" Height="28"  Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                                        <TextBox CharacterCasing="Upper"  x:Name="CodigoRelatorio_tb"  Text="{Binding SelectedItem.RelatorioID, ElementName=ListaRelatorios_lv, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"  Height="24"  Width="30"/>
+                                        <Label Content="Relatório:" Height="28" Width="65"   Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                                        <TextBox CharacterCasing="Upper"  x:Name="DescricaoRelatorio_tb"  Text="{Binding SelectedItem.Nome, ElementName=ListaRelatorios_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="273"/>
+                                        <Button x:Name="BuscarRelatorio_bt" Height="24" Margin="10,0,0,0" IsEnabled="False" VerticalAlignment="Center" Width="24" Click="BuscarRelatorio_bt_Click">
+                                            <StackPanel>
+                                                <Image Source="/iModSCCredenciamento;component/Resources/Pasta.ico"/>
+                                            </StackPanel>
+                                        </Button>
+                                        <Button x:Name="AbrirRelatorio_bt" Height="24" Margin="10,0,0,0" VerticalAlignment="Center" Width="24" Click="AbrirRelatorio_bt_Click" >
+                                            <StackPanel>
+                                                <Image Source="/iModSCCredenciamento;component/Resources/Olho.png"/>
+                                            </StackPanel>
+                                        </Button>
+
+                                        <CheckBox x:Name="Ativo_cb"  Content=":Ativo" FlowDirection="RightToLeft" VerticalContentAlignment="Center" Height="28" Width="55"  HorizontalContentAlignment="Left"  Foreground="#FFD0D0D0" 
+                                               IsChecked="{Binding SelectedItem.Ativo, ElementName=ListaRelatorios_lv, UpdateSourceTrigger=PropertyChanged}"/>
+
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0">
+                                        <ListView x:Name="ListaRelatorios_lv" Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding Relatorios, Mode=TwoWay}" 
+                                                          SelectedItem="{Binding Path = RelatorioSelecionado, Mode=TwoWay}"  Height="167" Width="560" SelectedIndex="{Binding Path=RelatorioSelectedIndex, Mode=TwoWay}"  >
+                                            <ListView.ItemContainerStyle>
+                                                <Style TargetType="ListViewItem">
+                                                    <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
+                                                    <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+                                                </Style>
+                                            </ListView.ItemContainerStyle>
+                                            <ListView.View>
+                                                <GridView FrameworkElement.FlowDirection="RightToLeft">
+                                                    <GridViewColumn Width="50" Header="Cód."  DisplayMemberBinding="{Binding RelatorioID}"/>
+                                                    <GridViewColumn Width="40" Header="Ativo"  >
+                                                        <GridViewColumn.CellTemplate>
+                                                            <DataTemplate>
+                                                                <CheckBox  IsChecked="{Binding Ativo}" IsHitTestVisible="False" />
+                                                            </DataTemplate>
+                                                        </GridViewColumn.CellTemplate>
+                                                    </GridViewColumn>
+                                                    <GridViewColumn Width="400" Header="Relatório"  DisplayMemberBinding="{Binding Nome}"/>
+                                                </GridView>
+                                            </ListView.View>
+                                        </ListView>
+                                    </StackPanel>
+                                    <Grid>
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="0,5,0,0" >
+                                            <Button x:Name="NovoRelatorio_bt" Content="Novo"  Height="30" Width="148" Margin="10,0,0,0" Click="NovoRelatorio_bt_Click"/>
+                                            <Button x:Name="SalvarRelatorio_bt" Content="Salvar"  Height="30" Width="148" Margin="10,0,0,0" Click="SalvarRelatorio_bt_Click"/>
+                                            <Button x:Name="ExcluirRelatorio_bt" Content="Excluir"  Height="30" Width="148" Margin="10,0,0,0" Click="ExcluirRelatorio_bt_Click"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </StackPanel>
+
+                            </GroupBox>
+                            
+                            <GroupBox x:Name="RelatóriosGerenciais_gb"  Grid.Row="0" Grid.Column="1"  Header=" Relatórios Gerenciais (Internos) " Margin="10,10,10,10" VerticalAlignment="Stretch" >
+                                <StackPanel Margin="0,10,0,0">
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0" Width="556" >
+
+                                        <Label Content="Código:" Height="28"  Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                                        <TextBox CharacterCasing="Upper"  x:Name="CodigoRelatorioGerencial_tb"  Text="{Binding SelectedItem.RelatorioID, ElementName=ListaRelatoriosGerenciais_lv, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"  Height="24"  Width="30"/>
+                                        <Label Content="Relatório:" Height="28" Width="65"   Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                                        <TextBox CharacterCasing="Upper"  x:Name="DescricaoRelatorioGerencial_tb"  Text="{Binding SelectedItem.Nome, ElementName=ListaRelatoriosGerenciais_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="273"/>
+                                        <Button x:Name="BuscarRelatorioGerencial_bt" Height="24" Margin="10,0,0,0" VerticalAlignment="Center" Width="24" Click="BuscarRelatorioGerencial_bt_Click">
+                                            <StackPanel>
+                                                <Image Source="/iModSCCredenciamento;component/Resources/Pasta.ico"/>
+                                            </StackPanel>
+                                        </Button>
+                                        <Button x:Name="AbrirRelatorioGerencial_bt" Height="24" Margin="10,0,0,0" VerticalAlignment="Center" Width="24" Click="AbrirRelatorioGerencial_bt_Click" >
+                                            <StackPanel>
+                                                <Image Source="/iModSCCredenciamento;component/Resources/Olho.png"/>
+                                            </StackPanel>
+                                        </Button>
+
+                                        <CheckBox x:Name="AtivoRelatorioGerencial_cb"  Content=":Ativo" FlowDirection="RightToLeft" VerticalContentAlignment="Center" Height="28" Width="55"  HorizontalContentAlignment="Left"  Foreground="#FFD0D0D0" 
+                                               IsChecked="{Binding SelectedItem.Ativo, ElementName=ListaRelatoriosGerenciais_lv, UpdateSourceTrigger=PropertyChanged}"/>
+
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0">
+                                        <ListView x:Name="ListaRelatoriosGerenciais_lv" Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding RelatoriosGerenciais, Mode=TwoWay}" 
+                                                          SelectedItem="{Binding Path = RelatorioGerencialSelecionado, Mode=TwoWay}"  Height="167" Width="560" SelectedIndex="{Binding Path=RelatorioGerencialSelectedIndex, Mode=TwoWay}"  >
+                                            <ListView.ItemContainerStyle>
+                                                <Style TargetType="ListViewItem">
+                                                    <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
+                                                    <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+                                                </Style>
+                                            </ListView.ItemContainerStyle>
+                                            <ListView.View>
+                                                <GridView FrameworkElement.FlowDirection="RightToLeft">
+                                                    <GridViewColumn Width="50" Header="Cód."  DisplayMemberBinding="{Binding RelatorioID}"/>
+                                                    <GridViewColumn Width="40" Header="Ativo"  >
+                                                        <GridViewColumn.CellTemplate>
+                                                            <DataTemplate>
+                                                                <CheckBox  IsChecked="{Binding Ativo}" IsHitTestVisible="False" />
+                                                            </DataTemplate>
+                                                        </GridViewColumn.CellTemplate>
+                                                    </GridViewColumn>
+                                                    <GridViewColumn Width="400" Header="Relatório Gerencial"  DisplayMemberBinding="{Binding Nome}"/>
+                                                </GridView>
+                                            </ListView.View>
+                                        </ListView>
+                                    </StackPanel>
+                                    <Grid>
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="0,5,0,0" >
+                                            <Button x:Name="NovoRelatorioGerencial_bt" Content="Novo"  Height="30" Width="148" Margin="10,0,0,0" Click="NovoRelatorioGerencial_bt_Click"/>
+                                            <Button x:Name="SalvarRelatorioGerencial_bt" Content="Salvar"  Height="30" Width="148" Margin="10,0,0,0" Click="SalvarRelatorioGerencial_bt_Click"/>
+                                            <Button x:Name="ExcluirRelatorioGerencial_bt" Content="Excluir"  Height="30" Width="148" Margin="10,0,0,0" Click="ExcluirRelatorioGerencial_bt_Click"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </StackPanel>
+                            </GroupBox>
+                            
+                            <GroupBox x:Name="Crachas_gb"  Grid.Row="0" Grid.Column="2"  Header=" Crachás (rpt) " Margin="10,10,10,10" VerticalAlignment="Stretch" >
+                                <StackPanel Margin="0,10,0,0">
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0" Width="556" >
+
+                                        <Label Content="Código:" Height="28"  Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                                        <TextBox CharacterCasing="Upper"  x:Name="CodigoCracha_tb"  Text="{Binding SelectedItem.LayoutCrachaID, ElementName=ListaLayoutsCrachas_lv, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"  Height="24"  Width="30"/>
+                                        <Label Content="Relatório:" Height="28" Width="65"   Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                                        <TextBox CharacterCasing="Upper"  x:Name="Nome_tb"  Text="{Binding SelectedItem.Nome, ElementName=ListaLayoutsCrachas_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="273"/>
+                                        <Button x:Name="BuscarCracha_bt" Height="24" Margin="10,0,0,0" VerticalAlignment="Center" Width="24" Click="BuscarCracha_bt_Click">
+                                            <StackPanel>
+                                                <Image Source="/iModSCCredenciamento;component/Resources/Pasta.ico"/>
+                                            </StackPanel>
+                                        </Button>
+                                        <Button x:Name="AbrirCracha_bt" Height="24" Margin="10,0,0,0" VerticalAlignment="Center" Width="24" Click="AbrirCracha_bt_Click" >
+                                            <StackPanel>
+                                                <Image Source="/iModSCCredenciamento;component/Resources/Olho.png"/>
+                                            </StackPanel>
+                                        </Button>
+
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0">
+                                        <ListView x:Name="ListaLayoutsCrachas_lv" Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding LayoutsCrachas, Mode=TwoWay}" 
+                                                          SelectedItem="{Binding Path = LayoutCrachaSelecionado, Mode=TwoWay}"  Height="167" Width="560"  SelectedIndex="{Binding Path=LayoutCrachaSelectedIndex, Mode=TwoWay}" >
+                                            <ListView.ItemContainerStyle>
+                                                <Style TargetType="ListViewItem">
+                                                    <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
+                                                    <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+                                                </Style>
+                                            </ListView.ItemContainerStyle>
+                                            <ListView.View>
+                                                <GridView FrameworkElement.FlowDirection="RightToLeft">
+                                                    <GridViewColumn Width="50" Header="Cód."  DisplayMemberBinding="{Binding LayoutCrachaID}"/>
+                                                    <GridViewColumn Width="400" Header="Nome"  DisplayMemberBinding="{Binding Nome}"/>
+                                                </GridView>
+                                            </ListView.View>
+                                        </ListView>
+                                    </StackPanel>
+                                    <Grid>
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="0,5,0,0" >
+                                            <Button x:Name="NovoCracha_bt" Content="Novo"  Height="30" Width="148" Margin="10,0,0,0" Click="NovoCracha_bt_Click"/>
+                                            <Button x:Name="SalvarCracha_bt" Content="Salvar"  Height="30" Width="148" Margin="10,0,0,0" Click="SalvarCracha_bt_Click"/>
+                                            <Button x:Name="ExcluirCracha_bt" Content="Excluir"  Height="30" Width="148" Margin="10,0,0,0" Click="ExcluirCracha_bt_Click"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </StackPanel>
+                            </GroupBox>
+
+                        </Grid>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+
+
+
+        </TabControl>
+
+
+    </Grid>
+</UserControl>
