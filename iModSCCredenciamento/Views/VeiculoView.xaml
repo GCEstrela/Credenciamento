@@ -267,7 +267,7 @@
                                         Converter={StaticResource StringToImageConverter},UpdateSourceTrigger=Explicit, Mode=TwoWay}"  gif:ImageBehavior.AnimatedSource="{Binding Waiting}"  />-->
                                             <!--<Image x:Name="Foto_im" Stretch="Fill"  Width ="124" Height="124"  gif:ImageBehavior.AnimatedSource="/iModSCCredenciamento;component/Resources/Waitng.gif" />-->
                                             <Image x:Name="Foto_im" Stretch="Fill"  Width ="124" Height="124" Source="{Binding SelectedItem.Foto, ElementName=ListaVeiculos_lv,
-                                        Converter={StaticResource StringToImageConverter},UpdateSourceTrigger=Explicit, Mode=TwoWay}"    gif:ImageBehavior.AnimatedSource="{Binding Waiting}"   />
+                                        Converter={StaticResource StringToImageConverter},UpdateSourceTrigger=Explicit, Mode=TwoWay}" />
                                         </Border>
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                             <Button x:Name="BuscarContratoArquivobt" Height="36" Margin="0,0,0,0" VerticalAlignment="Center" Width="36" Click="SelecionarFoto_bt_Click" >
