@@ -12,6 +12,7 @@ using System.Data;
 using System.Linq;
 using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
+using IMOD.Domain.EntitiesCustom;
 using IMOD.Domain.Interfaces;
 using IMOD.Infra.Ado;
 using IMOD.Infra.Ado.Interfaces;
@@ -174,6 +175,34 @@ namespace IMOD.Infra.Repositorios
                     catch (Exception ex)
                     {
                         Utils.TraceException(ex);
+                    }
+                }
+            }
+        }
+
+        public ICollection<EmpresaTipoAtividadeView> ListarEmpresaTipoAtividadeView(params object[] objects)
+        {
+            using (var conn = _dataBase.CreateOpenConnection())
+            {
+                using (var cmd = _dataBase.SelectText("EmpresaTipoAtividadeView", conn))
+                {
+                    try
+                    {
+
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmpresaTipoAtividadeID", DbType.Int32, objects, 0).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmpresaID", DbType.Int32, objects, 1).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("TipoAtividadeID", DbType.String, objects, 2).Like()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Descricao", DbType.String, objects, 3).Igual()));
+
+
+                        var reader = cmd.ExecuteReaderSelect();
+                        var d1 = reader.MapToList<EmpresaTipoAtividadeView>();
+                        return d1;
+                    }
+                    catch (Exception ex)
+                    {
+                        Utils.TraceException(ex);
+                        throw;
                     }
                 }
             }

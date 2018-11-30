@@ -753,6 +753,10 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
+                var service = new IMOD.Application.Service.EmpresaTipoAtividadeService();
+                var elc = service.BuscarPelaChave(EmpresaTipoAtividadeSelecionada.EmpresaTipoAtividadeID);
+                service.Remover(elc);
+
                 EmpresasTiposAtividades.Remove(EmpresaTipoAtividadeSelecionada);
             }
             catch (Exception ex)
@@ -780,7 +784,7 @@ namespace iModSCCredenciamento.ViewModels
                 var repositorio = new IMOD.Infra.Repositorios.EmpresaTipoAtividadeRepositorio();
                 repositorio.Criar(EmpresaTipoAtividadeEntity);
 
-                CarregaColeçãoEmpresasTiposAtividades(EmpresaSelecionada.EmpresaID);
+                CarregaColecaoEmpresasTiposAtividades(EmpresaSelecionada.EmpresaID);
 
 
             }
@@ -833,7 +837,10 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                ExcluiEmpresaLayoutCrachaBD(EmpresaSelecionada.EmpresaID);
+                var service = new IMOD.Application.Service.EmpresaLayoutCrachaService();
+                var elc = service.BuscarPelaChave(EmpresaLayoutCrachaSelecionada.EmpresaLayoutCrachaID);
+                service.Remover(elc);
+
                 EmpresasLayoutsCrachas.Remove(EmpresaLayoutCrachaSelecionada);
             }
             catch (Exception ex)
@@ -1013,7 +1020,7 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
 
-                CarregaColeçãoEmpresasTiposAtividades(EmpresaSelecionada.EmpresaID);
+                CarregaColecaoEmpresasTiposAtividades(EmpresaSelecionada.EmpresaID);
                 CarregaColeçãoEmpresasAreasAcessos(EmpresaSelecionada.EmpresaID);
                 CarregaColeçãoEmpresasLayoutsCrachas(EmpresaSelecionada.EmpresaID);
                 CarregaColecaoLayoutsCrachas();
@@ -1039,7 +1046,7 @@ namespace iModSCCredenciamento.ViewModels
         private void CarregaUI()
         {
             CarregaColecaoEmpresas();
-            CarregaColeçãoEstados();
+            CarregaColecaoEstados();
             CarregaColecaoTiposAtividades();
             CarregaColecaoAreasAcessos();
             CarregaColecaoLayoutsCrachas();
@@ -1053,9 +1060,9 @@ namespace iModSCCredenciamento.ViewModels
                 var service = new IMOD.Application.Service.EmpresaService();
                 if (!string.IsNullOrWhiteSpace(nome)) nome = $"%{nome}%";
                 if (!string.IsNullOrWhiteSpace(apelido)) apelido = $"%{apelido}%";
-                if (!string.IsNullOrWhiteSpace(apelido)) apelido = $"%{cnpj}%";
-                var list1 = service.Listar(idEmpresa, nome, apelido, cnpj);
+                if (!string.IsNullOrWhiteSpace(cnpj)) cnpj = $"%{cnpj}%";
 
+                var list1 = service.Listar(idEmpresa, nome, apelido, cnpj);
                 var list2 = Mapper.Map<List<ClasseEmpresas.Empresa>>(list1);
 
                 var observer = new ObservableCollection<ClasseEmpresas.Empresa>();
@@ -1074,26 +1081,14 @@ namespace iModSCCredenciamento.ViewModels
             }
         }
 
-        private void CarregaColeçãoEstados()
+        private void CarregaColecaoEstados()
         {
             try
             {
-                //string _xml = RequisitaEstados();
-
-                //XmlSerializer deserializer = new XmlSerializer(typeof(ClasseEstados));
-                //XmlDocument xmldocument = new XmlDocument();
-                //xmldocument.LoadXml(_xml);
-                //TextReader reader = new StringReader(_xml);
-                //ClasseEstados classeEstados = new ClasseEstados();
-                //classeEstados = (ClasseEstados)deserializer.Deserialize(reader);
-                //Estados = new ObservableCollection<ClasseEstados.Estado>();
-                //Estados = classeEstados.Estados;
-
                 var service = new IMOD.Application.Service.EstadoService();
+
                 var list1 = service.Listar();
-
                 var list2 = Mapper.Map<List<ClasseEstados.Estado>>(list1);
-
                 var observer = new ObservableCollection<ClasseEstados.Estado>();
                 list2.ForEach(n =>
                 {
@@ -1109,26 +1104,15 @@ namespace iModSCCredenciamento.ViewModels
             }
         }
 
-        public void CarregaColeçãoMunicipios(string _EstadoUF = null)
+        public void CarregaColecaoMunicipios(string _EstadoUF = null)
         {
             try
             {
-                //string _xml = RequisitaMunicipios(_EstadoUF);
-                //XmlSerializer deserializer = new XmlSerializer(typeof(ClasseMunicipios));
-                //XmlDocument DataFile = new XmlDocument();
-                //DataFile.LoadXml(_xml);
-                //TextReader reader = new StringReader(_xml);
-                //ClasseMunicipios classeMunicipios = new ClasseMunicipios();
-                //classeMunicipios = (ClasseMunicipios)deserializer.Deserialize(reader);
-                //Municipios = new ObservableCollection<ClasseMunicipios.Municipio>();
-                //Municipios = classeMunicipios.Municipios;
-
                 var service = new IMOD.Application.Service.MunicipioService();
                 if (!string.IsNullOrWhiteSpace(_EstadoUF)) _EstadoUF = $"%{_EstadoUF}%";
                 var list1 = service.Listar(_EstadoUF);
 
                 var list2 = Mapper.Map<List<ClasseMunicipios.Municipio>>(list1);
-
                 var observer = new ObservableCollection<ClasseMunicipios.Municipio>();
                 list2.ForEach(n =>
                 {
@@ -1148,24 +1132,9 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                //string _xml = RequisitaTiposAtividades();
-
-                //XmlSerializer deserializer = new XmlSerializer(typeof(ClasseTiposAtividades));
-
-                //XmlDocument xmldocument = new XmlDocument();
-                //xmldocument.LoadXml(_xml);
-
-                //TextReader reader = new StringReader(_xml);
-                //ClasseTiposAtividades classeTiposAtividades = new ClasseTiposAtividades();
-                //classeTiposAtividades = (ClasseTiposAtividades)deserializer.Deserialize(reader);
-                //TiposAtividades = new ObservableCollection<ClasseTiposAtividades.TipoAtividade>();
-                //TiposAtividades = classeTiposAtividades.TiposAtividades;
-
-
                 var service = new IMOD.Application.Service.TipoAtividadeService();
 
                 var list1 = service.Listar();
-
                 var list2 = Mapper.Map<List<ClasseTiposAtividades.TipoAtividade>>(list1);
 
                 var observer = new ObservableCollection<ClasseTiposAtividades.TipoAtividade>();
@@ -1184,27 +1153,13 @@ namespace iModSCCredenciamento.ViewModels
             }
         }
 
-        public void CarregaColeçãoEmpresasTiposAtividades(int _empresaID = 0)
+        public void CarregaColecaoEmpresasTiposAtividades(int _empresaID = 0)
         {
             try
             {
-                //this.Dispatcher.Invoke(new Action(() => { LoadingAdorner.IsAdornerVisible = true; }));
-
-                //string _xml = RequisitaEmpresasTiposAtividades(_empresaID);
-
-                //XmlSerializer deserializer = new XmlSerializer(typeof(ClasseEmpresasTiposAtividades));
-                //XmlDocument DataFile = new XmlDocument();
-                //DataFile.LoadXml(_xml);
-                //TextReader reader = new StringReader(_xml);
-                //ClasseEmpresasTiposAtividades classeEmpresasTiposAtividades = new ClasseEmpresasTiposAtividades();
-                //classeEmpresasTiposAtividades = (ClasseEmpresasTiposAtividades)deserializer.Deserialize(reader);
-                //EmpresasTiposAtividades = new ObservableCollection<ClasseEmpresasTiposAtividades.EmpresaTipoAtividade>();
-                //EmpresasTiposAtividades = classeEmpresasTiposAtividades.EmpresasTiposAtividades;
-                //this.Dispatcher.Invoke(new Action(() => { LoadingAdorner.IsAdornerVisible = false; }));
-
                 var service = new IMOD.Application.Service.EmpresaTipoAtividadeService();
-                var list1 = service.Listar(null, _empresaID, null);
 
+                var list1 = service.ListarEmpresaTipoAtividadeView(null, _empresaID, null, null);
                 var list2 = Mapper.Map<List<ClasseEmpresasTiposAtividades.EmpresaTipoAtividade>>(list1);
 
                 var observer = new ObservableCollection<ClasseEmpresasTiposAtividades.EmpresaTipoAtividade>();
@@ -1218,7 +1173,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log("Erro na void CarregaColeçãoEmpresasTiposAtividades ex: " + ex);
+                Global.Log("Erro na void CarregaColecaoEmpresasTiposAtividades ex: " + ex);
             }
         }
 
@@ -1226,22 +1181,9 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                //string _xml = RequisitaAreasAcessos();
-
-                //XmlSerializer deserializer = new XmlSerializer(typeof(ClasseAreasAcessos));
-
-                //XmlDocument xmldocument = new XmlDocument();
-                //xmldocument.LoadXml(_xml);
-
-                //TextReader reader = new StringReader(_xml);
-                //ClasseAreasAcessos classeAreasAcessos = new ClasseAreasAcessos();
-                //classeAreasAcessos = (ClasseAreasAcessos)deserializer.Deserialize(reader);
-                //AreasAcessos = new ObservableCollection<ClasseAreasAcessos.AreaAcesso>();
-                //AreasAcessos = classeAreasAcessos.AreasAcessos;
-
                 var service = new IMOD.Application.Service.AreaAcessoService();
-                var list1 = service.Listar();
 
+                var list1 = service.Listar();
                 var list2 = Mapper.Map<List<ClasseAreasAcessos.AreaAcesso>>(list1);
 
                 var observer = new ObservableCollection<ClasseAreasAcessos.AreaAcesso>();
@@ -1263,24 +1205,9 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                //this.Dispatcher.Invoke(new Action(() => { LoadingAdorner.IsAdornerVisible = true; }));
-
-                //string _xml = RequisitaEmpresasAreasAcessos(_empresaID);
-
-                //XmlSerializer deserializer = new XmlSerializer(typeof(ClasseEmpresasAreasAcessos));
-                //XmlDocument DataFile = new XmlDocument();
-                //DataFile.LoadXml(_xml);
-                //TextReader reader = new StringReader(_xml);
-                //ClasseEmpresasAreasAcessos classeEmpresasAreasAcessos = new ClasseEmpresasAreasAcessos();
-                //classeEmpresasAreasAcessos = (ClasseEmpresasAreasAcessos)deserializer.Deserialize(reader);
-                //EmpresasAreasAcessos = new ObservableCollection<ClasseEmpresasAreasAcessos.EmpresaAreaAcesso>();
-                //EmpresasAreasAcessos = classeEmpresasAreasAcessos.EmpresasAreasAcessos;
-
-                //this.Dispatcher.Invoke(new Action(() => { LoadingAdorner.IsAdornerVisible = false; }));
-
                 var service = new IMOD.Application.Service.EmpresaAreaAcessoService();
-                var list1 = service.Listar(null, _empresaID, null);
 
+                var list1 = service.Listar(null, _empresaID, null);
                 var list2 = Mapper.Map<List<ClasseEmpresasAreasAcessos.EmpresaAreaAcesso>>(list1);
 
                 var observer = new ObservableCollection<ClasseEmpresasAreasAcessos.EmpresaAreaAcesso>();
@@ -1302,19 +1229,6 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                //string _xml = RequisitaLayoutsCrachas();
-
-                //XmlSerializer deserializer = new XmlSerializer(typeof(ClasseLayoutsCrachas));
-
-                //XmlDocument xmldocument = new XmlDocument();
-                //xmldocument.LoadXml(_xml);
-
-                //TextReader reader = new StringReader(_xml);
-                //ClasseLayoutsCrachas classeLayoutsCrachas = new ClasseLayoutsCrachas();
-                //classeLayoutsCrachas = (ClasseLayoutsCrachas)deserializer.Deserialize(reader);
-                //LayoutsCrachas = new ObservableCollection<ClasseLayoutsCrachas.LayoutCracha>();
-                //LayoutsCrachas = classeLayoutsCrachas.LayoutsCrachas;
-
                 var service = new IMOD.Application.Service.LayoutCrachaService();
                 var list1 = service.Listar();
 
@@ -1355,7 +1269,7 @@ namespace iModSCCredenciamento.ViewModels
 
                 //this.Dispatcher.Invoke(new Action(() => { LoadingAdorner.IsAdornerVisible = false; }));
 
-                var service = new IMOD.Application.Service.LayoutCrachaService();
+                var service = new IMOD.Application.Service.EmpresaLayoutCrachaService();
                 //var list1 = service.Listar(null, _empresaID, null, null);
                 var list1 = service.ListarLayoutCrachaPorEmpresaView(_empresaID);
 
@@ -1454,22 +1368,6 @@ namespace iModSCCredenciamento.ViewModels
 
             }
         }
-
-        private void ExcluiEmpresaLayoutCrachaBD(int _EmpresaID)
-        {
-            try
-            {
-                var service = new IMOD.Application.Service.EmpresaLayoutCrachaService();
-                var elc = service.BuscarPelaChave(_EmpresaID);
-                service.Remover(elc);
-            }
-
-            catch (Exception ex)
-            {
-                Global.Log("Erro na void ExcluiEmpresaLayoutCrachaBD ex: " + ex);
-            }
-        }
-
 
         private void AtualizaEmpresasTiposAtividadesBD(string xmlString)
         {

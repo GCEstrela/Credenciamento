@@ -7,7 +7,7 @@ using IMOD.Domain.Interfaces;
 
 namespace IMOD.Application.Interfaces
 {
-    public interface IEmpresaService : IEmpresaRepositorio
+    public interface IEmpresaLayoutCrachaService : IEmpresaLayoutCrachaRepositorio
     {
     }
 }
