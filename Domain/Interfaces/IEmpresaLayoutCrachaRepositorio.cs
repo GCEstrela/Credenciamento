@@ -16,7 +16,18 @@ namespace IMOD.Domain.Interfaces
 {
     public interface IEmpresaLayoutCrachaRepositorio : IRepositorioBaseAdoNet<EmpresaLayoutCracha>
     {
+        /// <summary>
+        /// Listar layout Crachas
+        /// </summary>
+        /// <param name="objects"></param>
+        /// <returns></returns>
+        ICollection<EmpresaLayoutCrachaView> ListarLayoutCrachaView(params object[] objects);
 
-         
-    } 
+        /// <summary>
+        /// Listar layout Cracha por empresa
+        /// </summary>
+        /// <param name="idEmpresa"></param>
+        /// <returns></returns>
+        ICollection<EmpresaLayoutCrachaView> ListarLayoutCrachaPorEmpresaView(int idEmpresa);
+    }
 }

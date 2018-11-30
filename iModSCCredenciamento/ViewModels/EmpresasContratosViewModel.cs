@@ -18,11 +18,19 @@ using System.Windows.Input;
 using System.Xml;
 using System.Xml.Serialization;
 using iModSCCredenciamento.Windows;
+using IMOD.Application.Interfaces;
+using IMOD.Application.Service;
 
 namespace iModSCCredenciamento.ViewModels
 {
     public class EmpresasContratosViewModel : ViewModelBase
     {
+
+
+        private IEmpresaContratosService _service = new EmpresaContratoService();  
+        private  IEstadoService _serviceEstado = new EstadoService();
+
+
         #region Inicializacao
         public EmpresasContratosViewModel()
         {
@@ -589,24 +597,33 @@ namespace iModSCCredenciamento.ViewModels
 
         private void CarregaColecaoEstados()
         {
+
+            
+
             try
             {
 
-                string _xml = RequisitaEstados();
+                //string _xml = RequisitaEstados();
+                //XmlSerializer deserializer = new XmlSerializer(typeof(ClasseEstados));
+                //XmlDocument xmldocument = new XmlDocument();
+                //xmldocument.LoadXml(_xml);
+                //TextReader reader = new StringReader(_xml);
+                //ClasseEstados classeEstados = new ClasseEstados();
+                //classeEstados = (ClasseEstados)deserializer.Deserialize(reader);
+                //Estados = new ObservableCollection<ClasseEstados.Estado>();
+                //Estados = classeEstados.Estados;
+                var list = _serviceEstado.Listar();
+                //Converter
 
-                XmlSerializer deserializer = new XmlSerializer(typeof(ClasseEstados));
-                XmlDocument xmldocument = new XmlDocument();
-                xmldocument.LoadXml(_xml);
-                TextReader reader = new StringReader(_xml);
-                ClasseEstados classeEstados = new ClasseEstados();
-                classeEstados = (ClasseEstados)deserializer.Deserialize(reader);
-                Estados = new ObservableCollection<ClasseEstados.Estado>();
-                Estados = classeEstados.Estados;
+
+
+
+
 
             }
             catch (Exception ex)
             {
-                Global.Log("Erro na void CarregaColeçãoEstados ex: " + ex);
+                IMOD.CrossCutting.Utils.TraceException(ex);
             }
         }
 
@@ -630,7 +647,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log("Erro na void CarregaColeçãoMunicipios ex: " + ex);
+                IMOD.CrossCutting.Utils.TraceException(ex);
             }
         }
 
