@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.136
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iModSCCredenciamento", "iModSCCredenciamento\iModSCCredenciamento.csproj", "{974F5875-4CFB-4926-8273-D1BF96AC8242}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IMOD.ImodApp", "iModSCCredenciamentoAPP\IMOD.ImodApp.csproj", "{FDF601A5-33E0-417A-8C59-53811776C553}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3 - Domain", "3 - Domain", "{AE5F79FC-E612-49F0-9F0D-D9D64D72F54F}"
 EndProject
@@ -35,6 +37,10 @@ Global
 		{974F5875-4CFB-4926-8273-D1BF96AC8242}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{974F5875-4CFB-4926-8273-D1BF96AC8242}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{974F5875-4CFB-4926-8273-D1BF96AC8242}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDF601A5-33E0-417A-8C59-53811776C553}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDF601A5-33E0-417A-8C59-53811776C553}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDF601A5-33E0-417A-8C59-53811776C553}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDF601A5-33E0-417A-8C59-53811776C553}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F7DC651F-CB04-40CA-AC1B-C2355B474CF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F7DC651F-CB04-40CA-AC1B-C2355B474CF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F7DC651F-CB04-40CA-AC1B-C2355B474CF3}.Release|Any CPU.ActiveCfg = Release|Any CPU

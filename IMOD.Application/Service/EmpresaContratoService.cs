@@ -19,7 +19,7 @@ namespace IMOD.Application.Service
     public class EmpresaContratoService : IEmpresaContratosService
     {
         private readonly IEmpresaContratoRepositorio _repositorio = new EmpresaContratoRepositorio();
-        private readonly IEstadoService _repositorioEstado = new EstadoService();
+     
 
         #region  Metodos
 
@@ -70,5 +70,35 @@ namespace IMOD.Application.Service
         }
 
         #endregion
+
+        /// <summary>
+        ///     Listar contratos por número
+        /// </summary>
+        /// <param name="numContrato"></param>
+        /// <returns></returns>
+        public ICollection<EmpresaContrato> ListarPorNumeroContrato(string numContrato)
+        {
+            return _repositorio.ListarPorNumeroContrato (numContrato);
+        }
+
+        /// <summary>
+        ///     Listar contratos por descrição
+        /// </summary>
+        /// <param name="desc"></param>
+        /// <returns></returns>
+        public ICollection<EmpresaContrato> ListarPorDescricao(string desc)
+        {
+            return _repositorio.ListarPorDescricao (desc);
+        }
+
+        /// <summary>
+        ///     Listar contratos por empresa
+        /// </summary>
+        /// <param name="empresaId"></param>
+        /// <returns></returns>
+        public ICollection<EmpresaContrato> ListarPorEmpresa(int empresaId)
+        {
+            return _repositorio.ListarPorEmpresa (empresaId);
+        }
     }
 }

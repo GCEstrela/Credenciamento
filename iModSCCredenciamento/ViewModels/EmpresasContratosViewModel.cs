@@ -24,6 +24,7 @@ using iModSCCredenciamento.Models;
 using iModSCCredenciamento.Windows;
 using IMOD.Application.Interfaces;
 using IMOD.Application.Service;
+using IMOD.Domain.Entities;
 using Utils = IMOD.CrossCutting.Utils;
 
 #endregion
@@ -32,17 +33,30 @@ namespace iModSCCredenciamento.ViewModels
 {
     public class EmpresasContratosViewModel : ViewModelBase
     {
-        private IEmpresaContratosService _service = new EmpresaContratoService();
-        private readonly IEstadoService _serviceEstado = new EstadoService();
-        private  readonly  IMunicipioService _serviceMunicipio = new MunicipioService();
+        private IEmpresaContratosService _empresaContratosService = new EmpresaContratoService(); 
+        private  readonly  IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
         /// <summary>
         /// Lista de municipios
         /// </summary>
-        public List<ClasseMunicipios.Municipio> ListMunicipios { get; private set; }
+        public List<ClasseMunicipios.Municipio> ObterListaListaMunicipios { get; private set; }
         /// <summary>
         /// Lista de estados
         /// </summary>
-        public List<ClasseEstados.Estado> ListEstados { get; private set; }
+        public List<ClasseEstados.Estado> ObterListaEstadosFederacao { get; private set; }
+        /// <summary>
+        /// Lista de sattus
+        /// </summary>
+        public List<ClasseStatus.Status> ObterListaStatus { get; private set; }
+
+        /// <summary>
+        /// Lista de tipos de cobrança
+        /// </summary>
+        public List<ClasseTiposCobrancas.TipoCobranca> ObterListaTiposCobranca { get; private set; }
+
+        /// <summary>
+        /// Lista de tipos de acessos
+        /// </summary>
+        public List<ClasseTiposAcessos.TipoAcesso> ObterListaTipoAcessos { get; private set; }
         #region  Metodos
 
         private string CriaXmlImagem(int empresaContratoID)
@@ -109,26 +123,30 @@ namespace iModSCCredenciamento.ViewModels
             CarregarDadosComunsEmMemoria();
 
             CarregaColecaoEstados();
-            CarregaColecaoStatuss();
+            CarregaColecaoStatus();
             CarregaColeçãoTiposAcessos();
             CarregaColeçãoTiposCobrancas();
         }
 
         private void CarregarDadosComunsEmMemoria()
         {
-            try
-            {
-                //Estados
-                var e1 = _serviceEstado.Listar();
-                ListEstados = Mapper.Map<List<ClasseEstados.Estado>>(e1);
-                //Municipios
-                var list = _serviceMunicipio.Listar();
-                ListMunicipios = Mapper.Map<List<ClasseMunicipios.Municipio>>(list);
-            }
-            catch (Exception ex)
-            {
-                //Global.Log("Erro void CarregaColecaoEmpresas ex: " + ex.Message);
-            }
+            //Estados
+            var e1 = _auxiliaresService.ListarEstadosFederacao(); 
+            ObterListaEstadosFederacao = Mapper.Map<List<ClasseEstados.Estado>>(e1);
+            //Municipios
+            var list = _auxiliaresService.ListarMunicipios(); 
+            ObterListaListaMunicipios = Mapper.Map<List<ClasseMunicipios.Municipio>>(list);
+            //Status
+            var e3 = _auxiliaresService.ListarStatus(); 
+            ObterListaStatus = Mapper.Map<List<ClasseStatus.Status>>(e3);
+            //Tipos Cobrança
+            var e4 = _auxiliaresService.ListarTiposCobranca();
+            ObterListaTiposCobranca = Mapper.Map<List<ClasseTiposCobrancas.TipoCobranca>>(e4);
+            //Tipo de Acesso
+            var e5 = _auxiliaresService.ListarTiposAcessos();
+             ObterListaTipoAcessos = Mapper.Map<List<ClasseTiposAcessos.TipoAcesso>>(e5);
+             
+
         }
 
         #endregion
@@ -167,7 +185,7 @@ namespace iModSCCredenciamento.ViewModels
 
         #endregion
 
-        #region Contrutores
+       
 
         public ObservableCollection<ClasseEmpresasContratos.EmpresaContrato> Contratos
         {
@@ -211,7 +229,7 @@ namespace iModSCCredenciamento.ViewModels
             }
         }
 
-        public ObservableCollection<ClasseStatus.Status> Statuss
+        public ObservableCollection<ClasseStatus.Status> Status
         {
             get { return _Statuss; }
 
@@ -311,15 +329,17 @@ namespace iModSCCredenciamento.ViewModels
             }
         }
 
-        #endregion
+        
 
         #region Comandos dos Botoes
 
         public void OnAtualizaCommand(object empresaID)
         {
             EmpresaSelecionadaID = Convert.ToInt32 (empresaID);
-            var CarregaColecaoContratos_thr = new Thread (() => CarregaColecaoContratos (Convert.ToInt32 (empresaID)));
-            CarregaColecaoContratos_thr.Start();
+            ObterContratos (EmpresaSelecionadaID,"","");
+            //CarregaColecaoContratos (EmpresaSelecionadaID);
+            //var CarregaColecaoContratos_thr = new Thread (() => CarregaColecaoContratos (Convert.ToInt32 (empresaID)));
+            //CarregaColecaoContratos_thr.Start();
             //CarregaColecaoContratos(Convert.ToInt32(empresaID));
         }
 
@@ -513,8 +533,12 @@ namespace iModSCCredenciamento.ViewModels
                 }
 
                 InsereContratoBD (xmlString);
-                var CarregaColecaoContratos_thr = new Thread (() => CarregaColecaoContratos (ContratoSelecionado.EmpresaID));
-                CarregaColecaoContratos_thr.Start();
+                ObterContratos(ContratoSelecionado.EmpresaID, "", "");
+
+
+
+                //var CarregaColecaoContratos_thr = new Thread (() => CarregaColecaoContratos (ContratoSelecionado.EmpresaID));
+                //CarregaColecaoContratos_thr.Start();
                 //_ContratosTemp.Add(ContratoSelecionado);
                 //Contratos = null;
                 //Contratos = new ObservableCollection<ClasseEmpresasContratos.EmpresaContrato>(_ContratosTemp);
@@ -589,46 +613,61 @@ namespace iModSCCredenciamento.ViewModels
         public void On_EfetuarProcura(object sender, EventArgs e)
         {
             object vetor = popupPesquisaContrato.Criterio.Split ((char) 20);
-            var _empresaID = EmpresaSelecionadaID;
-            var _descricao = ((string[]) vetor)[0];
-            var _numerocontrato = ((string[]) vetor)[1];
-            CarregaColecaoContratos (_empresaID, _descricao, _numerocontrato);
+            //var empresaId = EmpresaSelecionadaID;
+            var descricao = ((string[]) vetor)[0];
+            var numContrato = ((string[]) vetor)[1];
+            //CarregaColecaoContratos (_empresaID, _descricao, _numerocontrato);
+            ObterContratos (0, descricao, numContrato);
             SelectedIndex = 0;
         }
 
         #endregion
 
-        #region Carregamento das Colecoes
+        #region Dados Auxiliares
 
-        private void CarregaColecaoContratos(int empresaID, string _seguradora = "", string _numeroapolice = "")
-        {
-            try
-            {
-                var _xml = RequisitaContratos (empresaID, _seguradora, _numeroapolice);
+        //private void CarregaColecaoContratos(int empresaId, string descricao = "")
+        //{
+        //    try
+        //    {
+        //        //var _xml = RequisitaContratos (empresaID, _seguradora, _numeroapolice);
 
-                var deserializer = new XmlSerializer (typeof(ClasseEmpresasContratos));
+        //        //var deserializer = new XmlSerializer (typeof(ClasseEmpresasContratos));
 
-                var xmldocument = new XmlDocument();
-                xmldocument.LoadXml (_xml);
+        //        //var xmldocument = new XmlDocument();
+        //        //xmldocument.LoadXml (_xml);
 
-                TextReader reader = new StringReader (_xml);
-                var classeContratosEmpresa = new ClasseEmpresasContratos();
-                classeContratosEmpresa = (ClasseEmpresasContratos) deserializer.Deserialize (reader);
-                Contratos = new ObservableCollection<ClasseEmpresasContratos.EmpresaContrato>();
-                Contratos = classeContratosEmpresa.EmpresasContratos;
-                SelectedIndex = -1;
-            }
-            catch (Exception ex)
-            {
-                //Global.Log("Erro void CarregaColecaoEmpresas ex: " + ex.Message);
-            }
-        }
+        //        //TextReader reader = new StringReader (_xml);
+        //        //var classeContratosEmpresa = new ClasseEmpresasContratos();
+        //        //classeContratosEmpresa = (ClasseEmpresasContratos) deserializer.Deserialize (reader);
+        //        //Contratos = new ObservableCollection<ClasseEmpresasContratos.EmpresaContrato>();
+        //        //Contratos = classeContratosEmpresa.EmpresasContratos;
+        //        //SelectedIndex = -1;
+
+        //        var _xml = RequisitaContratos(empresaId, descricao, numApolice);
+
+        //        var deserializer = new XmlSerializer(typeof(ClasseEmpresasContratos));
+
+        //        var xmldocument = new XmlDocument();
+        //        xmldocument.LoadXml(_xml);
+
+        //        TextReader reader = new StringReader(_xml);
+        //        var classeContratosEmpresa = new ClasseEmpresasContratos();
+        //        classeContratosEmpresa = (ClasseEmpresasContratos)deserializer.Deserialize(reader);
+        //        Contratos = new ObservableCollection<ClasseEmpresasContratos.EmpresaContrato>();
+        //        Contratos = classeContratosEmpresa.EmpresasContratos;
+        //        SelectedIndex = -1;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //       Utils.TraceException(ex);
+        //    }
+        //}
 
         private void CarregaColecaoEstados()
         {
             try
             {
-                var convert = Mapper.Map<List<ClasseEstados.Estado>> (ListEstados);
+                var convert = Mapper.Map<List<ClasseEstados.Estado>> (ObterListaEstadosFederacao);
                 Estados = new ObservableCollection<ClasseEstados.Estado>();
                 convert.ForEach (n => { Estados.Add (n); });
             }
@@ -642,7 +681,7 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                var list = ListMunicipios.Where (n => n.UF == uf).ToList();
+                var list = ObterListaListaMunicipios.Where (n => n.UF == uf).ToList();
                 Municipios = new ObservableCollection<ClasseMunicipios.Municipio>();
                 list.ForEach(n=>Municipios.Add(n));
 
@@ -653,24 +692,18 @@ namespace iModSCCredenciamento.ViewModels
             }
         }
 
-        private void CarregaColecaoStatuss()
+        private void CarregaColecaoStatus()
         {
             try
             {
-                var _xml = RequisitaStatuss();
+               
+                Status = new ObservableCollection<ClasseStatus.Status>();
+                ObterListaStatus.ForEach(n=> {Status.Add(n);});
 
-                var deserializer = new XmlSerializer (typeof(ClasseStatus));
-                var xmldocument = new XmlDocument();
-                xmldocument.LoadXml (_xml);
-                TextReader reader = new StringReader (_xml);
-                var classeStatus = new ClasseStatus();
-                classeStatus = (ClasseStatus) deserializer.Deserialize (reader);
-                Statuss = new ObservableCollection<ClasseStatus.Status>();
-                Statuss = classeStatus.Statuss;
             }
             catch (Exception ex)
             {
-                Global.Log ("Erro na void CarregaColeçãoStatuss ex: " + ex);
+                Utils.TraceException(ex);
             }
         }
 
@@ -678,20 +711,12 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                var _xml = RequisitaTiposAcessos();
-
-                var deserializer = new XmlSerializer (typeof(ClasseTiposAcessos));
-                var xmldocument = new XmlDocument();
-                xmldocument.LoadXml (_xml);
-                TextReader reader = new StringReader (_xml);
-                var classeTiposAcessos = new ClasseTiposAcessos();
-                classeTiposAcessos = (ClasseTiposAcessos) deserializer.Deserialize (reader);
                 TiposAcessos = new ObservableCollection<ClasseTiposAcessos.TipoAcesso>();
-                TiposAcessos = classeTiposAcessos.TiposAcessos;
+                ObterListaTipoAcessos.ForEach(n => { TiposAcessos.Add(n); });
             }
             catch (Exception ex)
             {
-                Global.Log ("Erro na void CarregaColeçãoTiposAcessos ex: " + ex);
+               Utils.TraceException(ex);
             }
         }
 
@@ -699,20 +724,12 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                var _xml = RequisitaTiposCobrancas();
-
-                var deserializer = new XmlSerializer (typeof(ClasseTiposCobrancas));
-                var xmldocument = new XmlDocument();
-                xmldocument.LoadXml (_xml);
-                TextReader reader = new StringReader (_xml);
-                var classeTiposCobrancas = new ClasseTiposCobrancas();
-                classeTiposCobrancas = (ClasseTiposCobrancas) deserializer.Deserialize (reader);
                 TiposCobrancas = new ObservableCollection<ClasseTiposCobrancas.TipoCobranca>();
-                TiposCobrancas = classeTiposCobrancas.TiposCobrancas;
+                ObterListaTiposCobranca.ForEach(n => { TiposCobrancas.Add(n); });
             }
             catch (Exception ex)
             {
-                Global.Log ("Erro na void CarregaColeçãoTiposCobrancas ex: " + ex);
+                Utils.TraceException(ex);
             }
         }
 
@@ -720,164 +737,204 @@ namespace iModSCCredenciamento.ViewModels
 
         #region Data Access
 
-        private string RequisitaContratos(int _empresaID, string _descricao = "", string _numerocontrato = "")
+        private void ObterContratos(int empresaId, string descricao, string  numContrato)
         {
             try
             {
-                var _xmlDocument = new XmlDocument();
-                XmlNode _xmlNode = _xmlDocument.CreateXmlDeclaration ("1.0", "UTF-8", null);
+                
+                Contratos = new ObservableCollection<ClasseEmpresasContratos.EmpresaContrato>();
+                ICollection<EmpresaContrato> p1;
 
-                XmlNode _ClasseContratosEmpresas = _xmlDocument.CreateElement ("ClasseEmpresasContratos");
-                _xmlDocument.AppendChild (_ClasseContratosEmpresas);
-
-                XmlNode _EmpresasContratos = _xmlDocument.CreateElement ("EmpresasContratos");
-                _ClasseContratosEmpresas.AppendChild (_EmpresasContratos);
-
-                string _strSql;
-
-                var _Con = new SqlConnection (Global._connectionString);
-                _Con.Open();
-
-                _descricao = "%" + _descricao + "%";
-                _numerocontrato = "%" + _numerocontrato + "%";
-
-                _strSql = "select * from EmpresasContratos where EmpresaID = " + _empresaID + " and Descricao Like '" +
-                          _descricao + "' and NumeroContrato Like '" + _numerocontrato + "'  order by EmpresaContratoID desc";
-
-                var _sqlcmd = new SqlCommand (_strSql, _Con);
-                var _sqlreader = _sqlcmd.ExecuteReader (CommandBehavior.Default);
-                while (_sqlreader.Read())
+                if (empresaId != 0)
                 {
-                    XmlNode _EmpresaContrato = _xmlDocument.CreateElement ("EmpresaContrato");
-                    _EmpresasContratos.AppendChild (_EmpresaContrato);
+                    p1 = _empresaContratosService.ListarPorEmpresa(empresaId);
+                    var convert = Mapper.Map<List<ClasseEmpresasContratos.EmpresaContrato>>(p1);
+                    convert.ForEach(n=> { Contratos.Add(n);});
+                    return;
 
-                    XmlNode _EmpresaContratoID = _xmlDocument.CreateElement ("EmpresaContratoID");
-                    _EmpresaContratoID.AppendChild (_xmlDocument.CreateTextNode (_sqlreader["EmpresaContratoID"].ToString()));
-                    _EmpresaContrato.AppendChild (_EmpresaContratoID);
-
-                    XmlNode _EmpresaID = _xmlDocument.CreateElement ("EmpresaID");
-                    _EmpresaID.AppendChild (_xmlDocument.CreateTextNode (_sqlreader["EmpresaID"].ToString()));
-                    _EmpresaContrato.AppendChild (_EmpresaID);
-
-                    XmlNode _NumeroContrato = _xmlDocument.CreateElement ("NumeroContrato");
-                    _NumeroContrato.AppendChild (_xmlDocument.CreateTextNode (_sqlreader["NumeroContrato"].ToString()));
-                    _EmpresaContrato.AppendChild (_NumeroContrato);
-
-                    XmlNode _Descricao = _xmlDocument.CreateElement ("Descricao");
-                    _Descricao.AppendChild (_xmlDocument.CreateTextNode (_sqlreader["Descricao"].ToString()));
-                    _EmpresaContrato.AppendChild (_Descricao);
-
-                    var dateStr = _sqlreader["Emissao"].ToString();
-                    if (!string.IsNullOrWhiteSpace (dateStr))
-                    {
-                        var dt2 = Convert.ToDateTime (dateStr);
-                        XmlNode _Emissao = _xmlDocument.CreateElement ("Emissao");
-                        _Emissao.AppendChild (_xmlDocument.CreateTextNode (dt2.ToString ("yyyy-MM-ddTHH:mm:ss")));
-                        _EmpresaContrato.AppendChild (_Emissao);
-                    }
-
-                    dateStr = _sqlreader["Validade"].ToString();
-                    if (!string.IsNullOrWhiteSpace (dateStr))
-                    {
-                        var dt2 = Convert.ToDateTime (dateStr);
-                        XmlNode _Validade = _xmlDocument.CreateElement ("Validade");
-                        _Validade.AppendChild (_xmlDocument.CreateTextNode (dt2.ToString ("yyyy-MM-ddTHH:mm:ss")));
-                        _EmpresaContrato.AppendChild (_Validade);
-                    }
-
-                    XmlNode _Terceirizada = _xmlDocument.CreateElement ("Terceirizada");
-                    _Terceirizada.AppendChild (_xmlDocument.CreateTextNode (_sqlreader["Terceirizada"].ToString()));
-                    _EmpresaContrato.AppendChild (_Terceirizada);
-
-                    XmlNode _Contratante = _xmlDocument.CreateElement ("Contratante");
-                    _Contratante.AppendChild (_xmlDocument.CreateTextNode (_sqlreader["Contratante"].ToString()));
-                    _EmpresaContrato.AppendChild (_Contratante);
-
-                    XmlNode _IsencaoCobranca = _xmlDocument.CreateElement ("IsencaoCobranca");
-                    _IsencaoCobranca.AppendChild (_xmlDocument.CreateTextNode (_sqlreader["IsencaoCobranca"].ToString()));
-                    _EmpresaContrato.AppendChild (_IsencaoCobranca);
-
-                    XmlNode _TipoCobrancaID = _xmlDocument.CreateElement ("TipoCobrancaID");
-                    _TipoCobrancaID.AppendChild (_xmlDocument.CreateTextNode (_sqlreader["TipoCobrancaID"].ToString()));
-                    _EmpresaContrato.AppendChild (_TipoCobrancaID);
-
-                    XmlNode _CobrancaEmpresaID = _xmlDocument.CreateElement ("CobrancaEmpresaID");
-                    _CobrancaEmpresaID.AppendChild (_xmlDocument.CreateTextNode (_sqlreader["CobrancaEmpresaID"].ToString()));
-                    _EmpresaContrato.AppendChild (_CobrancaEmpresaID);
-
-                    XmlNode _CEP = _xmlDocument.CreateElement ("CEP");
-                    _CEP.AppendChild (_xmlDocument.CreateTextNode (_sqlreader["CEP"].ToString()));
-                    _EmpresaContrato.AppendChild (_CEP);
-
-                    XmlNode _Endereco = _xmlDocument.CreateElement ("Endereco");
-                    _Endereco.AppendChild (_xmlDocument.CreateTextNode (_sqlreader["Endereco"].ToString()));
-                    _EmpresaContrato.AppendChild (_Endereco);
-
-                    XmlNode _Complemento = _xmlDocument.CreateElement ("Complemento");
-                    _Complemento.AppendChild (_xmlDocument.CreateTextNode (_sqlreader["Complemento"].ToString()));
-                    _EmpresaContrato.AppendChild (_Complemento);
-
-                    XmlNode _Bairro = _xmlDocument.CreateElement ("Bairro");
-                    _Bairro.AppendChild (_xmlDocument.CreateTextNode (_sqlreader["Bairro"].ToString()));
-                    _EmpresaContrato.AppendChild (_Bairro);
-
-                    XmlNode _MunicipioID = _xmlDocument.CreateElement ("MunicipioID");
-                    _MunicipioID.AppendChild (_xmlDocument.CreateTextNode (_sqlreader["MunicipioID"].ToString()));
-                    _EmpresaContrato.AppendChild (_MunicipioID);
-
-                    XmlNode _EstadoID = _xmlDocument.CreateElement ("EstadoID");
-                    _EstadoID.AppendChild (_xmlDocument.CreateTextNode (_sqlreader["EstadoID"].ToString()));
-                    _EmpresaContrato.AppendChild (_EstadoID);
-
-                    XmlNode _NomeResp = _xmlDocument.CreateElement ("NomeResp");
-                    _NomeResp.AppendChild (_xmlDocument.CreateTextNode (_sqlreader["NomeResp"].ToString()));
-                    _EmpresaContrato.AppendChild (_NomeResp);
-
-                    XmlNode _TelefoneResp = _xmlDocument.CreateElement ("TelefoneResp");
-                    _TelefoneResp.AppendChild (_xmlDocument.CreateTextNode (_sqlreader["TelefoneResp"].ToString()));
-                    _EmpresaContrato.AppendChild (_TelefoneResp);
-
-                    XmlNode _CelularResp = _xmlDocument.CreateElement ("CelularResp");
-                    _CelularResp.AppendChild (_xmlDocument.CreateTextNode (_sqlreader["CelularResp"].ToString()));
-                    _EmpresaContrato.AppendChild (_CelularResp);
-
-                    XmlNode _EmailResp = _xmlDocument.CreateElement ("EmailResp");
-                    _EmailResp.AppendChild (_xmlDocument.CreateTextNode (_sqlreader["EmailResp"].ToString()));
-                    _EmpresaContrato.AppendChild (_EmailResp);
-
-                    XmlNode _Numero = _xmlDocument.CreateElement ("Numero");
-                    _Numero.AppendChild (_xmlDocument.CreateTextNode (_sqlreader["Numero"].ToString()));
-                    _EmpresaContrato.AppendChild (_Numero);
-
-                    XmlNode _StatusID = _xmlDocument.CreateElement ("StatusID");
-                    _StatusID.AppendChild (_xmlDocument.CreateTextNode (_sqlreader["StatusID"].ToString()));
-                    _EmpresaContrato.AppendChild (_StatusID);
-
-                    XmlNode _TipoAcessoID = _xmlDocument.CreateElement ("TipoAcessoID");
-                    _TipoAcessoID.AppendChild (_xmlDocument.CreateTextNode (_sqlreader["TipoAcessoID"].ToString()));
-                    _EmpresaContrato.AppendChild (_TipoAcessoID);
-
-                    XmlNode _NomeArquivo = _xmlDocument.CreateElement ("NomeArquivo");
-                    _NomeArquivo.AppendChild (_xmlDocument.CreateTextNode (_sqlreader["NomeArquivo"].ToString()));
-                    _EmpresaContrato.AppendChild (_NomeArquivo);
-
-                    XmlNode _Arquivo = _xmlDocument.CreateElement ("Arquivo");
-                    //_Arquivo.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Arquivo"].ToString())));
-                    _EmpresaContrato.AppendChild (_Arquivo);
                 }
 
-                _sqlreader.Close();
+                if (!string.IsNullOrWhiteSpace(descricao))
+                {
+                    p1 = _empresaContratosService.ListarPorDescricao(descricao);
+                    var convert = Mapper.Map<List<ClasseEmpresasContratos.EmpresaContrato>>(p1);
+                    convert.ForEach(n => { Contratos.Add(n); });
+                    return;
 
-                _Con.Close();
-                var _xml = _xmlDocument.InnerXml;
-                _xmlDocument = null;
-                return _xml;
+                }
+
+
+                if (!string.IsNullOrWhiteSpace(numContrato))
+                {
+                    p1 = _empresaContratosService.ListarPorNumeroContrato(numContrato);
+                    var convert = Mapper.Map<List<ClasseEmpresasContratos.EmpresaContrato>>(p1);
+                    convert.ForEach(n => { Contratos.Add(n); });
+                    return;
+
+                }
+                
+                SelectedIndex = -1;
             }
-            catch
+            catch (Exception ex)
             {
-                return null;
+                  Utils.TraceException(ex);
             }
-            return null;
+            //try
+            //{
+            //    var _xmlDocument = new XmlDocument();
+            //    XmlNode _xmlNode = _xmlDocument.CreateXmlDeclaration ("1.0", "UTF-8", null);
+
+            //    XmlNode _ClasseContratosEmpresas = _xmlDocument.CreateElement ("ClasseEmpresasContratos");
+            //    _xmlDocument.AppendChild (_ClasseContratosEmpresas);
+
+            //    XmlNode _EmpresasContratos = _xmlDocument.CreateElement ("EmpresasContratos");
+            //    _ClasseContratosEmpresas.AppendChild (_EmpresasContratos);
+
+            //    string _strSql;
+
+            //    var _Con = new SqlConnection (Global._connectionString);
+            //    _Con.Open();
+
+            //    _descricao = "%" + _descricao + "%";
+            //    _numerocontrato = "%" + _numerocontrato + "%";
+
+            //    _strSql = "select * from EmpresasContratos where EmpresaID = " + empresaId + " and Descricao Like '" +
+            //              _descricao + "' and NumeroContrato Like '" + _numerocontrato + "'  order by EmpresaContratoID desc";
+
+            //    var _sqlcmd = new SqlCommand (_strSql, _Con);
+            //    var _sqlreader = _sqlcmd.ExecuteReader (CommandBehavior.Default);
+            //    while (_sqlreader.Read())
+            //    {
+            //        XmlNode _EmpresaContrato = _xmlDocument.CreateElement ("EmpresaContrato");
+            //        _EmpresasContratos.AppendChild (_EmpresaContrato);
+
+            //        XmlNode _EmpresaContratoID = _xmlDocument.CreateElement ("EmpresaContratoID");
+            //        _EmpresaContratoID.AppendChild (_xmlDocument.CreateTextNode (_sqlreader["EmpresaContratoID"].ToString()));
+            //        _EmpresaContrato.AppendChild (_EmpresaContratoID);
+
+            //        XmlNode _EmpresaID = _xmlDocument.CreateElement ("EmpresaID");
+            //        _EmpresaID.AppendChild (_xmlDocument.CreateTextNode (_sqlreader["EmpresaID"].ToString()));
+            //        _EmpresaContrato.AppendChild (_EmpresaID);
+
+            //        XmlNode _NumeroContrato = _xmlDocument.CreateElement ("NumeroContrato");
+            //        _NumeroContrato.AppendChild (_xmlDocument.CreateTextNode (_sqlreader["NumeroContrato"].ToString()));
+            //        _EmpresaContrato.AppendChild (_NumeroContrato);
+
+            //        XmlNode _Descricao = _xmlDocument.CreateElement ("Descricao");
+            //        _Descricao.AppendChild (_xmlDocument.CreateTextNode (_sqlreader["Descricao"].ToString()));
+            //        _EmpresaContrato.AppendChild (_Descricao);
+
+            //        var dateStr = _sqlreader["Emissao"].ToString();
+            //        if (!string.IsNullOrWhiteSpace (dateStr))
+            //        {
+            //            var dt2 = Convert.ToDateTime (dateStr);
+            //            XmlNode _Emissao = _xmlDocument.CreateElement ("Emissao");
+            //            _Emissao.AppendChild (_xmlDocument.CreateTextNode (dt2.ToString ("yyyy-MM-ddTHH:mm:ss")));
+            //            _EmpresaContrato.AppendChild (_Emissao);
+            //        }
+
+            //        dateStr = _sqlreader["Validade"].ToString();
+            //        if (!string.IsNullOrWhiteSpace (dateStr))
+            //        {
+            //            var dt2 = Convert.ToDateTime (dateStr);
+            //            XmlNode _Validade = _xmlDocument.CreateElement ("Validade");
+            //            _Validade.AppendChild (_xmlDocument.CreateTextNode (dt2.ToString ("yyyy-MM-ddTHH:mm:ss")));
+            //            _EmpresaContrato.AppendChild (_Validade);
+            //        }
+
+            //        XmlNode _Terceirizada = _xmlDocument.CreateElement ("Terceirizada");
+            //        _Terceirizada.AppendChild (_xmlDocument.CreateTextNode (_sqlreader["Terceirizada"].ToString()));
+            //        _EmpresaContrato.AppendChild (_Terceirizada);
+
+            //        XmlNode _Contratante = _xmlDocument.CreateElement ("Contratante");
+            //        _Contratante.AppendChild (_xmlDocument.CreateTextNode (_sqlreader["Contratante"].ToString()));
+            //        _EmpresaContrato.AppendChild (_Contratante);
+
+            //        XmlNode _IsencaoCobranca = _xmlDocument.CreateElement ("IsencaoCobranca");
+            //        _IsencaoCobranca.AppendChild (_xmlDocument.CreateTextNode (_sqlreader["IsencaoCobranca"].ToString()));
+            //        _EmpresaContrato.AppendChild (_IsencaoCobranca);
+
+            //        XmlNode _TipoCobrancaID = _xmlDocument.CreateElement ("TipoCobrancaID");
+            //        _TipoCobrancaID.AppendChild (_xmlDocument.CreateTextNode (_sqlreader["TipoCobrancaID"].ToString()));
+            //        _EmpresaContrato.AppendChild (_TipoCobrancaID);
+
+            //        XmlNode _CobrancaEmpresaID = _xmlDocument.CreateElement ("CobrancaEmpresaID");
+            //        _CobrancaEmpresaID.AppendChild (_xmlDocument.CreateTextNode (_sqlreader["CobrancaEmpresaID"].ToString()));
+            //        _EmpresaContrato.AppendChild (_CobrancaEmpresaID);
+
+            //        XmlNode _CEP = _xmlDocument.CreateElement ("CEP");
+            //        _CEP.AppendChild (_xmlDocument.CreateTextNode (_sqlreader["CEP"].ToString()));
+            //        _EmpresaContrato.AppendChild (_CEP);
+
+            //        XmlNode _Endereco = _xmlDocument.CreateElement ("Endereco");
+            //        _Endereco.AppendChild (_xmlDocument.CreateTextNode (_sqlreader["Endereco"].ToString()));
+            //        _EmpresaContrato.AppendChild (_Endereco);
+
+            //        XmlNode _Complemento = _xmlDocument.CreateElement ("Complemento");
+            //        _Complemento.AppendChild (_xmlDocument.CreateTextNode (_sqlreader["Complemento"].ToString()));
+            //        _EmpresaContrato.AppendChild (_Complemento);
+
+            //        XmlNode _Bairro = _xmlDocument.CreateElement ("Bairro");
+            //        _Bairro.AppendChild (_xmlDocument.CreateTextNode (_sqlreader["Bairro"].ToString()));
+            //        _EmpresaContrato.AppendChild (_Bairro);
+
+            //        XmlNode _MunicipioID = _xmlDocument.CreateElement ("MunicipioID");
+            //        _MunicipioID.AppendChild (_xmlDocument.CreateTextNode (_sqlreader["MunicipioID"].ToString()));
+            //        _EmpresaContrato.AppendChild (_MunicipioID);
+
+            //        XmlNode _EstadoID = _xmlDocument.CreateElement ("EstadoID");
+            //        _EstadoID.AppendChild (_xmlDocument.CreateTextNode (_sqlreader["EstadoID"].ToString()));
+            //        _EmpresaContrato.AppendChild (_EstadoID);
+
+            //        XmlNode _NomeResp = _xmlDocument.CreateElement ("NomeResp");
+            //        _NomeResp.AppendChild (_xmlDocument.CreateTextNode (_sqlreader["NomeResp"].ToString()));
+            //        _EmpresaContrato.AppendChild (_NomeResp);
+
+            //        XmlNode _TelefoneResp = _xmlDocument.CreateElement ("TelefoneResp");
+            //        _TelefoneResp.AppendChild (_xmlDocument.CreateTextNode (_sqlreader["TelefoneResp"].ToString()));
+            //        _EmpresaContrato.AppendChild (_TelefoneResp);
+
+            //        XmlNode _CelularResp = _xmlDocument.CreateElement ("CelularResp");
+            //        _CelularResp.AppendChild (_xmlDocument.CreateTextNode (_sqlreader["CelularResp"].ToString()));
+            //        _EmpresaContrato.AppendChild (_CelularResp);
+
+            //        XmlNode _EmailResp = _xmlDocument.CreateElement ("EmailResp");
+            //        _EmailResp.AppendChild (_xmlDocument.CreateTextNode (_sqlreader["EmailResp"].ToString()));
+            //        _EmpresaContrato.AppendChild (_EmailResp);
+
+            //        XmlNode _Numero = _xmlDocument.CreateElement ("Numero");
+            //        _Numero.AppendChild (_xmlDocument.CreateTextNode (_sqlreader["Numero"].ToString()));
+            //        _EmpresaContrato.AppendChild (_Numero);
+
+            //        XmlNode _StatusID = _xmlDocument.CreateElement ("StatusID");
+            //        _StatusID.AppendChild (_xmlDocument.CreateTextNode (_sqlreader["StatusID"].ToString()));
+            //        _EmpresaContrato.AppendChild (_StatusID);
+
+            //        XmlNode _TipoAcessoID = _xmlDocument.CreateElement ("TipoAcessoID");
+            //        _TipoAcessoID.AppendChild (_xmlDocument.CreateTextNode (_sqlreader["TipoAcessoID"].ToString()));
+            //        _EmpresaContrato.AppendChild (_TipoAcessoID);
+
+            //        XmlNode _NomeArquivo = _xmlDocument.CreateElement ("NomeArquivo");
+            //        _NomeArquivo.AppendChild (_xmlDocument.CreateTextNode (_sqlreader["NomeArquivo"].ToString()));
+            //        _EmpresaContrato.AppendChild (_NomeArquivo);
+
+            //        XmlNode _Arquivo = _xmlDocument.CreateElement ("Arquivo");
+            //        //_Arquivo.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Arquivo"].ToString())));
+            //        _EmpresaContrato.AppendChild (_Arquivo);
+            //    }
+
+            //    _sqlreader.Close();
+
+            //    _Con.Close();
+            //    var _xml = _xmlDocument.InnerXml;
+            //    _xmlDocument = null;
+            //    return _xml;
+            //}
+            //catch
+            //{
+            //    return null;
+            //}
+            //return null;
         }
 
         //private string RequisitaContratos(int _empresaID, string _descricao = "", string _numerocontrato = "")
