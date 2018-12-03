@@ -12,6 +12,7 @@ using System.IO;
 using System.Threading;
 using System.Xml;
 using System.Xml.Serialization;
+using AutoMapper;
 
 namespace iModSCCredenciamento.ViewModels
 {
@@ -632,40 +633,7 @@ namespace iModSCCredenciamento.ViewModels
         #region Comandos dos Botoes
 
         #region Comandos dos Botoes TiposEquipamentos
-        public void OnSalvarEdicaoCommand_TiposEquipamentos()
-        {
-            try
-            {
-                //HabilitaEdicao = false;
-                System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(ClasseTiposEquipamento));
 
-                ObservableCollection<ClasseTiposEquipamento.TipoEquipamento> _TiposEquipamentoTemp = new ObservableCollection<ClasseTiposEquipamento.TipoEquipamento>();
-                ClasseTiposEquipamento _ClasseEquipamentoTemp = new ClasseTiposEquipamento();
-                _TiposEquipamentoTemp.Add(TipoEquipamentoSelecionado);
-                _ClasseEquipamentoTemp.TiposEquipamentos = _TiposEquipamentoTemp;
-
-                string xmlString;
-
-                using (StringWriterWithEncoding sw = new StringWriterWithEncoding(System.Text.Encoding.UTF8))
-                {
-
-                    using (XmlTextWriter xw = new XmlTextWriter(sw))
-                    {
-                        xw.Formatting = Formatting.Indented;
-                        serializer.Serialize(xw, _ClasseEquipamentoTemp);
-                        xmlString = sw.ToString();
-                    }
-
-                }
-
-                InsereTipoEquipamentoBD(xmlString);
-
-                CarregaColecaoTiposEquipamentos();
-            }
-            catch (Exception ex)
-            {
-            }
-        }
         public void OnAdicionarCommand_TiposEquipamentos()
         {
             try
@@ -679,7 +647,6 @@ namespace iModSCCredenciamento.ViewModels
                 TiposEquipamentos.Clear();
                 ClasseTiposEquipamento.TipoEquipamento _tipoEquipamento = new ClasseTiposEquipamento.TipoEquipamento();
                 TiposEquipamentos.Add(_tipoEquipamento);
-
                 TipoEquipamentoSelectedIndex = 0;
 
             }
@@ -687,6 +654,58 @@ namespace iModSCCredenciamento.ViewModels
             {
             }
 
+        }
+        //TODO: [Mihai - 03/12/2018] ConfiguraçõesViewModel (TiposEquipamentos)
+        public void OnSalvarEdicaoCommand_TiposEquipamentos()
+        {
+            try
+            {
+                //HabilitaEdicao = false;
+
+                //System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(ClasseTiposEquipamento));
+
+                ObservableCollection<ClasseTiposEquipamento.TipoEquipamento> _TiposEquipamentoTemp = new ObservableCollection<ClasseTiposEquipamento.TipoEquipamento>();
+                ClasseTiposEquipamento _ClasseEquipamentoTemp = new ClasseTiposEquipamento();
+                _TiposEquipamentoTemp.Add(TipoEquipamentoSelecionado);
+                _ClasseEquipamentoTemp.TiposEquipamentos = _TiposEquipamentoTemp;
+
+                IMOD.Domain.Entities.TipoEquipamento TipoEquipamentoEntity = new IMOD.Domain.Entities.TipoEquipamento();
+                g.TranportarDados(TipoEquipamentoSelecionado, 1, TipoEquipamentoEntity);
+
+                if (TipoEquipamentoSelecionado.TipoEquipamentoID != 0)
+                {
+                    var repositorio = new IMOD.Infra.Repositorios.TipoEquipamentoRepositorio();
+                    repositorio.Alterar(TipoEquipamentoEntity);
+                }
+                else
+                {
+                    var repositorio = new IMOD.Infra.Repositorios.TipoEquipamentoRepositorio();
+                    repositorio.Criar(TipoEquipamentoEntity);
+                }
+
+
+
+                //string xmlString;
+
+                //using (StringWriterWithEncoding sw = new StringWriterWithEncoding(System.Text.Encoding.UTF8))
+                //{
+
+                //    using (XmlTextWriter xw = new XmlTextWriter(sw))
+                //    {
+                //        xw.Formatting = Formatting.Indented;
+                //        serializer.Serialize(xw, _ClasseEquipamentoTemp);
+                //        xmlString = sw.ToString();
+                //    }
+
+                //}
+
+                //InsereTipoEquipamentoBD(xmlString);
+
+                CarregaColecaoTiposEquipamentos();
+            }
+            catch (Exception ex)
+            {
+            }
         }
         public void OnExcluirCommand_TiposEquipamentos()
         {
@@ -1776,23 +1795,37 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                string _xml = RequisitaTiposEquipamentos();
+                //string _xml = RequisitaTiposEquipamentos();
 
-                XmlSerializer deserializer = new XmlSerializer(typeof(ClasseTiposEquipamento));
+                //XmlSerializer deserializer = new XmlSerializer(typeof(ClasseTiposEquipamento));
 
-                XmlDocument xmldocument = new XmlDocument();
-                xmldocument.LoadXml(_xml);
+                //XmlDocument xmldocument = new XmlDocument();
+                //xmldocument.LoadXml(_xml);
 
-                TextReader reader = new StringReader(_xml);
-                ClasseTiposEquipamento classeTiposEquipamentos = new ClasseTiposEquipamento();
-                classeTiposEquipamentos = (ClasseTiposEquipamento)deserializer.Deserialize(reader);
-                TiposEquipamentos = new ObservableCollection<ClasseTiposEquipamento.TipoEquipamento>();
-                TiposEquipamentos = classeTiposEquipamentos.TiposEquipamentos;
+                //TextReader reader = new StringReader(_xml);
+                //ClasseTiposEquipamento classeTiposEquipamentos = new ClasseTiposEquipamento();
+                //classeTiposEquipamentos = (ClasseTiposEquipamento)deserializer.Deserialize(reader);
+                //TiposEquipamentos = new ObservableCollection<ClasseTiposEquipamento.TipoEquipamento>();
+                //TiposEquipamentos = classeTiposEquipamentos.TiposEquipamentos;
+
+
+                var service = new IMOD.Application.Service.TipoEquipamentoService();
+
+                var list1 = service.Listar();
+                var list2 = Mapper.Map<List<ClasseTiposEquipamento.TipoEquipamento>>(list1);
+
+                var observer = new ObservableCollection<ClasseTiposEquipamento.TipoEquipamento>();
+                list2.ForEach(n =>
+                {
+                    observer.Add(n);
+                });
+
+                this.TiposEquipamentos = observer;
 
             }
             catch (Exception ex)
             {
-                //Global.Log("Erro void CarregaColecaoEmpresas ex: " + ex.Message);
+                Global.Log("Erro void CarregaColecaoEmpresas ex: " + ex.Message);
             }
         }
 
@@ -3186,6 +3219,12 @@ namespace iModSCCredenciamento.ViewModels
                 return null;
             }
         }
+        #endregion
+
+        #region Métodos Públicos
+
+        Global g = new Global();
+
         #endregion
 
     }
