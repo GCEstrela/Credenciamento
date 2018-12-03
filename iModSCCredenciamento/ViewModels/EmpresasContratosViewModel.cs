@@ -145,6 +145,7 @@ namespace iModSCCredenciamento.ViewModels
             //Tipo de Acesso
             var e5 = _auxiliaresService.ListarTiposAcessos();
              ObterListaTipoAcessos = Mapper.Map<List<ClasseTiposAcessos.TipoAcesso>>(e5);
+             
 
         }
 

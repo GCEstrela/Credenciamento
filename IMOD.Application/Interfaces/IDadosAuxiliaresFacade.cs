@@ -56,6 +56,8 @@ namespace IMOD.Application.Interfaces
         /// <returns></returns>
         ICollection<TipoCobranca> ListarTiposCobranca();
 
+        ITipoEquipamentoService EquipamentoService();
+
         #endregion
     }
 }
