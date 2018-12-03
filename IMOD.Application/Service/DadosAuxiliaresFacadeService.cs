@@ -6,6 +6,7 @@
 
 #region
 
+using System;
 using System.Collections.Generic;
 using IMOD.Application.Interfaces;
 using IMOD.Domain.Entities;
@@ -24,7 +25,7 @@ namespace IMOD.Application.Service
         private readonly IStatusService _statusService = new StatusService();
 
         #region  Metodos
- 
+
 
         /// <summary>
         ///     Listar Estados
@@ -51,7 +52,7 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public EstadoView BuscarEstadoMunicipiosPorUf(string uf)
         {
-            return _serviceEstado.BuscarEstadoMunicipiosPorUf (uf);
+            return _serviceEstado.BuscarEstadoMunicipiosPorUf(uf);
         }
 
         /// <summary>
@@ -81,9 +82,59 @@ namespace IMOD.Application.Service
             return _cobrancaService.Listar();
         }
 
-        public ITipoEquipamentoService EquipamentoService()
+        public ITipoEquipamentoService TipoEquipamentoService()
         {
-            return  new TipoEquipamentoService();
+            return new TipoEquipamentoService();
+        }
+
+        public IColaboradorAnexoService ColaboradorAnexoService()
+        {
+            return new ColaboradorAnexoService();
+        }
+
+        public IRelatorioService RelatorioService()
+        {
+            return new RelatoriosService();
+        }
+
+        public IRelatorioGerencialService RelatorioGerencialService()
+        {
+            return new RelatoriosGerenciaisService();
+        }
+
+        public ILayoutCrachaService LayoutCrachaService()
+        {
+            return new LayoutCrachaService();
+        }
+
+        public ITipoAtividadeService TipoAtividadeService()
+        {
+            return new TipoAtividadeService();
+        }
+
+        public ITipoCobrancaService TipoCobrancaService()
+        {
+            return new TipoCobrancaService();
+        }
+
+        public ITiposAcessoService TiposAcessoService()
+        {
+            return new TipoAcessoService();
+        }
+
+        public IStatusService TipoStatusService()
+        {
+            return new StatusService();
+        }
+
+        public ICursoService CursoService()
+        {
+            return new CursoService();
+        }
+
+        public IAreaAcessoService AreaAcessoService()
+        {
+            return new AreaAcessoService();
         }
 
         #endregion
