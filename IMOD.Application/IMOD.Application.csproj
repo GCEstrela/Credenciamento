@@ -44,9 +44,11 @@
     <Compile Include="Interfaces\IColaboradorAnexoService.cs" />
     <Compile Include="Interfaces\IColaboradorService.cs" />
     <Compile Include="Interfaces\IDadosAuxiliaresFacade.cs" />
+    <Compile Include="Interfaces\IEmpresaAnexoService.cs" />
     <Compile Include="Interfaces\IEmpresaContratosService.cs" />
     <Compile Include="Interfaces\IEmpresaLayoutCrachaService.cs" />
     <Compile Include="Interfaces\IEmpresaService.cs" />
+    <Compile Include="Interfaces\IEmpresaSignatarioService.cs" />
     <Compile Include="Interfaces\IEstadoService.cs" />
     <Compile Include="Interfaces\ILayoutCrachaService.cs" />
     <Compile Include="Interfaces\IMunicipioService.cs" />
@@ -58,6 +60,7 @@
     <Compile Include="Service\ColaboradorAnexoService.cs" />
     <Compile Include="Service\ColaboradorService.cs" />
     <Compile Include="Service\DadosAuxiliaresFacadeService.cs" />
+    <Compile Include="Service\EmpresaAnexoService.cs" />
     <Compile Include="Service\EmpresaAreaAcessoService.cs" />
     <Compile Include="Service\EmpresaContratoService.cs" />
     <Compile Include="Service\EmpresaLayoutCrachaService.cs" />
