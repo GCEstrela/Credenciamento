@@ -71,7 +71,7 @@ namespace UnitTestImod
             var d0 = repositorio.Listar().FirstOrDefault();
             var d1 = repositorio.BuscarPelaChave(d0.ColaboradorAnexoId);
 
-            var list0 = repositorio.Listar("%arq%", 0).ToList();
+            var list0 = repositorio.Listar(0,"%arq%").ToList();
             var list1 = repositorio.Listar(0, d0.ColaboradorId).ToList();
 
 

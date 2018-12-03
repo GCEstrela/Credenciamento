@@ -174,7 +174,7 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.DeleteText("ColaboradorCurso", conn))
+                using (var cmd = _dataBase.DeleteText("ColaboradoresCursos", conn))
                 {
                     try
                     {

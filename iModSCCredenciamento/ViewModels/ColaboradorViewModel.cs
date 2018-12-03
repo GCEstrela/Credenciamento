@@ -34,13 +34,7 @@ namespace iModSCCredenciamento.ViewModels
     {
         //private IColaboradorService _colaboradorService = new ColaboradorService();
         public IMOD.Domain.Entities.Colaborador Colaborador { get; set; }
-
-
-
-
-
-
-
+        
         #region Inicializacao
         public ColaboradorViewModel()
         {
@@ -540,22 +534,39 @@ namespace iModSCCredenciamento.ViewModels
 
         #region Carregamento das Colecoes
 
-        private void CarregaColecaoColaboradores(int _ColaboradorID = 0, string _nome = "", string _apelido = "", string _cpf = "", string _quantidaderegistro = "500")
+        private void CarregaColecaoColaboradores(int? _ColaboradorID = 0, string nome = "", string apelido = "", string cpf = "", string _quantidaderegistro = "500")
         {
             try
             {
-                string _xml = RequisitaColaboradores(_ColaboradorID, _nome, _apelido, _cpf);
+                //string _xml = RequisitaColaboradores(_ColaboradorID, _nome, _apelido, _cpf);
 
-                XmlSerializer deserializer = new XmlSerializer(typeof(ClasseColaboradores));
+                //XmlSerializer deserializer = new XmlSerializer(typeof(ClasseColaboradores));
 
-                XmlDocument xmldocument = new XmlDocument();
-                xmldocument.LoadXml(_xml);
+                //XmlDocument xmldocument = new XmlDocument();
+                //xmldocument.LoadXml(_xml);
 
-                TextReader reader = new StringReader(_xml);
-                ClasseColaboradores classeColaboradores = new ClasseColaboradores();
-                classeColaboradores = (ClasseColaboradores)deserializer.Deserialize(reader);
-                Colaboradores = new ObservableCollection<ClasseColaboradores.Colaborador>();
-                Colaboradores = classeColaboradores.Colaboradores;
+                //TextReader reader = new StringReader(_xml);
+                //ClasseColaboradores classeColaboradores = new ClasseColaboradores();
+                //classeColaboradores = (ClasseColaboradores)deserializer.Deserialize(reader);
+                //Colaboradores = new ObservableCollection<ClasseColaboradores.Colaborador>();
+                //Colaboradores = classeColaboradores.Colaboradores;
+                //SelectedIndex = 0;
+                //////////////////////////////////////////////////////////////////
+                var service = new IMOD.Application.Service.ColaboradorService();
+                if (!string.IsNullOrWhiteSpace(nome)) nome = $"%{nome}%";
+                if (!string.IsNullOrWhiteSpace(apelido)) apelido = $"%{apelido}%";
+                if (!string.IsNullOrWhiteSpace(apelido)) apelido = $"%{cpf}%";
+                var list1 = service.Listar(_ColaboradorID, nome, apelido, cpf);
+
+                var list2 = Mapper.Map<List<ClasseColaboradores.Colaborador>>(list1);
+
+                var observer = new ObservableCollection<ClasseColaboradores.Colaborador>();
+                list2.ForEach(n =>
+                {
+                    observer.Add(n);
+                });
+
+                this.Colaboradores = observer;
                 SelectedIndex = 0;
             }
             catch (Exception ex)

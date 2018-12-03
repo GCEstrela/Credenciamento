@@ -516,6 +516,11 @@ namespace iModSCCredenciamento.Views
 
         }
 
+        private void Estado_cb_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
 
 
         //private void VinculoEmpresa_ti_PreviewLostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)

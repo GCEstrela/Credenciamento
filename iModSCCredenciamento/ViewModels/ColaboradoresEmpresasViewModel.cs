@@ -17,11 +17,13 @@ using System.Windows.Forms;
 using System.Windows.Media.Imaging;
 using System.Xml;
 using System.Xml.Serialization;
+using AutoMapper;
 
 namespace iModSCCredenciamento.ViewModels
 {
     public class ColaboradoresEmpresasViewModel : ViewModelBase
     {
+        Global g = new Global();
         #region Inicializacao
         public ColaboradoresEmpresasViewModel()
         {
@@ -390,24 +392,18 @@ namespace iModSCCredenciamento.ViewModels
                 _ColaboradorEmpresaPro.Add(ColaboradorEmpresaSelecionado);
                 _ClasseColaboradorerEmpresasPro.ColaboradoresEmpresas = _ColaboradorEmpresaPro;
 
-                string xmlString;
+                IMOD.Domain.Entities.ColaboradorEmpresa ColaboradorEmpresaEntity = new IMOD.Domain.Entities.ColaboradorEmpresa();
+                g.TranportarDados(ColaboradorEmpresaSelecionado, 1, ColaboradorEmpresaEntity);
 
-                using (StringWriterWithEncoding sw = new StringWriterWithEncoding(System.Text.Encoding.UTF8))
-                {
+                var repositorio = new IMOD.Infra.Repositorios.ColaboradorEmpresaRepositorio();
+                repositorio.Criar(ColaboradorEmpresaEntity);
+                var id = ColaboradorEmpresaEntity.ColaboradorEmpresaId;
 
-                    using (XmlTextWriter xw = new XmlTextWriter(sw))
-                    {
-                        xw.Formatting = Formatting.Indented;
-                        serializer.Serialize(xw, _ClasseColaboradorerEmpresasPro);
-                        xmlString = sw.ToString();
-                    }
 
-                }
 
-                int _colaboradorEmpresaID = InsereColaboradorEmpresaBD(xmlString);
                 ClasseColaboradoresEmpresas.ColaboradorEmpresa _ColaboradorEmpresaSelecionadoPro = new ClasseColaboradoresEmpresas.ColaboradorEmpresa();
                 _ColaboradorEmpresaSelecionadoPro = ColaboradorEmpresaSelecionado;
-                _ColaboradorEmpresaSelecionadoPro.ColaboradorEmpresaID = _colaboradorEmpresaID;
+                _ColaboradorEmpresaSelecionadoPro.ColaboradorEmpresaID = id;
                 ColaboradoresEmpresas = new ObservableCollection<ClasseColaboradoresEmpresas.ColaboradorEmpresa>(_ColaboradoresEmpresasTemp);
                 ColaboradoresEmpresas.Add(_ColaboradorEmpresaSelecionadoPro);
 
@@ -432,30 +428,39 @@ namespace iModSCCredenciamento.ViewModels
                 _ColaboradorEmpresaTemp.Add(ColaboradorEmpresaSelecionado);
                 _ClasseColaboradorerEmpresasTemp.ColaboradoresEmpresas = _ColaboradorEmpresaTemp;
 
-                string xmlString;
 
-                using (StringWriterWithEncoding sw = new StringWriterWithEncoding(System.Text.Encoding.UTF8))
-                {
+                IMOD.Domain.Entities.ColaboradorEmpresa ColaboradorEmpresaEntity = new IMOD.Domain.Entities.ColaboradorEmpresa();
+                g.TranportarDados(ColaboradorEmpresaSelecionado, 1, ColaboradorEmpresaEntity);
 
-                    using (XmlTextWriter xw = new XmlTextWriter(sw))
-                    {
-                        xw.Formatting = Formatting.Indented;
-                        serializer.Serialize(xw, _ClasseColaboradorerEmpresasTemp);
-                        xmlString = sw.ToString();
-                    }
+                var repositorio = new IMOD.Infra.Repositorios.ColaboradorEmpresaRepositorio();
+                repositorio.Alterar(ColaboradorEmpresaEntity);
+                var id = ColaboradorEmpresaEntity.ColaboradorEmpresaId;
+                AtualizaCredenciais(id);
 
-                }
+                //string xmlString;
 
-                InsereColaboradorEmpresaBD(xmlString);
-                if (!ColaboradorEmpresaSelecionado.Ativo)
-                {
-                    AtualizaCredenciais(ColaboradorEmpresaSelecionado.ColaboradorEmpresaID);
-                }
+                //using (StringWriterWithEncoding sw = new StringWriterWithEncoding(System.Text.Encoding.UTF8))
+                //{
+
+                //    using (XmlTextWriter xw = new XmlTextWriter(sw))
+                //    {
+                //        xw.Formatting = Formatting.Indented;
+                //        serializer.Serialize(xw, _ClasseColaboradorerEmpresasTemp);
+                //        xmlString = sw.ToString();
+                //    }
+
+                //}
+
+                //InsereColaboradorEmpresaBD(xmlString);
+                //if (!ColaboradorEmpresaSelecionado.Ativo)
+                //{
+                //    AtualizaCredenciais(ColaboradorEmpresaSelecionado.ColaboradorEmpresaID);
+                //}
 
 
 
 
-               // ColaboradoresEmpresas[_selectedIndexTemp] = ColaboradorEmpresaSelecionado;
+                // ColaboradoresEmpresas[_selectedIndexTemp] = ColaboradorEmpresaSelecionado;
 
                 //Thread CarregaColecaoColaboradoresEmpresas_thr = new Thread(() => CarregaColecaoColaboradoresEmpresas(ColaboradorEmpresaSelecionado.ColaboradorID));
                 //CarregaColecaoColaboradoresEmpresas_thr.Start();
@@ -552,6 +557,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
+
             }
 
         }
@@ -566,6 +572,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
+
             }
         }
 
@@ -597,19 +604,34 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                string _xml = RequisitaColaboradoresEmpresas(_colaboradorID, _empresaNome, _cargo, _matricula, _ativo);
+                //string _xml = RequisitaColaboradoresEmpresas(_colaboradorID, _empresaNome, _cargo, _matricula, _ativo);
 
-                XmlSerializer deserializer = new XmlSerializer(typeof(ClasseColaboradoresEmpresas));
+                //XmlSerializer deserializer = new XmlSerializer(typeof(ClasseColaboradoresEmpresas));
 
-                XmlDocument xmldocument = new XmlDocument();
-                xmldocument.LoadXml(_xml);
+                //XmlDocument xmldocument = new XmlDocument();
+                //xmldocument.LoadXml(_xml);
 
-                TextReader reader = new StringReader(_xml);
-                ClasseColaboradoresEmpresas classeColaboradoresEmpresas = new ClasseColaboradoresEmpresas();
-                classeColaboradoresEmpresas = (ClasseColaboradoresEmpresas)deserializer.Deserialize(reader);
-                ColaboradoresEmpresas = new ObservableCollection<ClasseColaboradoresEmpresas.ColaboradorEmpresa>();
-                ColaboradoresEmpresas = classeColaboradoresEmpresas.ColaboradoresEmpresas;
-                SelectedIndex = -1;
+                //TextReader reader = new StringReader(_xml);
+                //ClasseColaboradoresEmpresas classeColaboradoresEmpresas = new ClasseColaboradoresEmpresas();
+                //classeColaboradoresEmpresas = (ClasseColaboradoresEmpresas)deserializer.Deserialize(reader);
+                //ColaboradoresEmpresas = new ObservableCollection<ClasseColaboradoresEmpresas.ColaboradorEmpresa>();
+                //ColaboradoresEmpresas = classeColaboradoresEmpresas.ColaboradoresEmpresas;
+                //SelectedIndex = -1;
+                //////////////////////////////////////////////////////////////
+                var service = new IMOD.Application.Service.ColaboradorEmpresaService();
+                if (!string.IsNullOrWhiteSpace(_cargo)) _cargo = $"%{_cargo}%";
+                if (!string.IsNullOrWhiteSpace(_matricula)) _matricula = $"%{_matricula}%";
+                var list1 = service.Listar(_colaboradorID, _cargo, _matricula);
+
+                var list2 = Mapper.Map<List<ClasseColaboradoresEmpresas.ColaboradorEmpresa>>(list1);
+
+                var observer = new ObservableCollection<ClasseColaboradoresEmpresas.ColaboradorEmpresa>();
+                list2.ForEach(n =>
+                {
+                    observer.Add(n);
+                });
+
+                this.ColaboradoresEmpresas = observer;
             }
             catch (Exception ex)
             {
@@ -633,6 +655,11 @@ namespace iModSCCredenciamento.ViewModels
                 classeEmpresas = (ClasseEmpresas)deserializer.Deserialize(reader);
                 Empresas = new ObservableCollection<ClasseEmpresas.Empresa>();
                 Empresas = classeEmpresas.Empresas;
+
+                
+
+
+
             }
             catch (Exception ex)
             {
