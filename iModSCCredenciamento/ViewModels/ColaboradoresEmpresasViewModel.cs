@@ -17,6 +17,7 @@ using System.Windows.Forms;
 using System.Windows.Media.Imaging;
 using System.Xml;
 using System.Xml.Serialization;
+using AutoMapper;
 
 namespace iModSCCredenciamento.ViewModels
 {
@@ -556,6 +557,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
+
             }
 
         }
@@ -570,6 +572,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
+
             }
         }
 
@@ -601,19 +604,34 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                string _xml = RequisitaColaboradoresEmpresas(_colaboradorID, _empresaNome, _cargo, _matricula, _ativo);
+                //string _xml = RequisitaColaboradoresEmpresas(_colaboradorID, _empresaNome, _cargo, _matricula, _ativo);
 
-                XmlSerializer deserializer = new XmlSerializer(typeof(ClasseColaboradoresEmpresas));
+                //XmlSerializer deserializer = new XmlSerializer(typeof(ClasseColaboradoresEmpresas));
 
-                XmlDocument xmldocument = new XmlDocument();
-                xmldocument.LoadXml(_xml);
+                //XmlDocument xmldocument = new XmlDocument();
+                //xmldocument.LoadXml(_xml);
 
-                TextReader reader = new StringReader(_xml);
-                ClasseColaboradoresEmpresas classeColaboradoresEmpresas = new ClasseColaboradoresEmpresas();
-                classeColaboradoresEmpresas = (ClasseColaboradoresEmpresas)deserializer.Deserialize(reader);
-                ColaboradoresEmpresas = new ObservableCollection<ClasseColaboradoresEmpresas.ColaboradorEmpresa>();
-                ColaboradoresEmpresas = classeColaboradoresEmpresas.ColaboradoresEmpresas;
-                SelectedIndex = -1;
+                //TextReader reader = new StringReader(_xml);
+                //ClasseColaboradoresEmpresas classeColaboradoresEmpresas = new ClasseColaboradoresEmpresas();
+                //classeColaboradoresEmpresas = (ClasseColaboradoresEmpresas)deserializer.Deserialize(reader);
+                //ColaboradoresEmpresas = new ObservableCollection<ClasseColaboradoresEmpresas.ColaboradorEmpresa>();
+                //ColaboradoresEmpresas = classeColaboradoresEmpresas.ColaboradoresEmpresas;
+                //SelectedIndex = -1;
+                //////////////////////////////////////////////////////////////
+                var service = new IMOD.Application.Service.ColaboradorEmpresaService();
+                if (!string.IsNullOrWhiteSpace(_cargo)) _cargo = $"%{_cargo}%";
+                if (!string.IsNullOrWhiteSpace(_matricula)) _matricula = $"%{_matricula}%";
+                var list1 = service.Listar(_colaboradorID, _cargo, _matricula);
+
+                var list2 = Mapper.Map<List<ClasseColaboradoresEmpresas.ColaboradorEmpresa>>(list1);
+
+                var observer = new ObservableCollection<ClasseColaboradoresEmpresas.ColaboradorEmpresa>();
+                list2.ForEach(n =>
+                {
+                    observer.Add(n);
+                });
+
+                this.ColaboradoresEmpresas = observer;
             }
             catch (Exception ex)
             {
@@ -638,21 +656,7 @@ namespace iModSCCredenciamento.ViewModels
                 Empresas = new ObservableCollection<ClasseEmpresas.Empresa>();
                 Empresas = classeEmpresas.Empresas;
 
-                //var service = new IMOD.Application.Service.ColaboradorService();
-                //if (!string.IsNullOrWhiteSpace(nome)) nome = $"%{nome}%";
-                //if (!string.IsNullOrWhiteSpace(apelido)) apelido = $"%{apelido}%";
-                //if (!string.IsNullOrWhiteSpace(apelido)) apelido = $"%{cpf}%";
-                //var list1 = service.Listar(_ColaboradorID, nome, apelido, cpf);
-
-                //var list2 = Mapper.Map<List<ClasseColaboradores.Colaborador>>(list1);
-
-                //var observer = new ObservableCollection<ClasseColaboradores.Colaborador>();
-                //list2.ForEach(n =>
-                //{
-                //    observer.Add(n);
-                //});
-
-                //this.Colaboradores = observer;
+                
 
 
 

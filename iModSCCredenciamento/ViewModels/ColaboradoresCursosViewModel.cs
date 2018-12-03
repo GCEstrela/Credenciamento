@@ -498,35 +498,22 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                string _xml = RequisitaColaboradoresCursos(Convert.ToString(_colaboradorID), _descricao, _curso);
+                
+                var service = new IMOD.Application.Service.ColaboradorCursosService();
+                if (!string.IsNullOrWhiteSpace(_descricao)) _descricao = $"%{_descricao}%";
+                if (!string.IsNullOrWhiteSpace(_curso)) _curso = $"%{_curso}%";
+                var list1 = service.Listar(_colaboradorID, _descricao, _curso);
 
-                XmlSerializer deserializer = new XmlSerializer(typeof(ClasseColaboradoresCursos));
+                var list2 = Mapper.Map<List<ClasseColaboradoresCursos.ColaboradorCurso>>(list1);
 
-                XmlDocument xmldocument = new XmlDocument();
-                xmldocument.LoadXml(_xml);
+                var observer = new ObservableCollection<ClasseColaboradoresCursos.ColaboradorCurso>();
+                list2.ForEach(n =>
+                {
+                    observer.Add(n);
+                });
 
-                TextReader reader = new StringReader(_xml);
-                ClasseColaboradoresCursos classeClasseColaboradoresCursos = new ClasseColaboradoresCursos();
-                classeClasseColaboradoresCursos = (ClasseColaboradoresCursos)deserializer.Deserialize(reader);
-                ColaboradoresCursos = new ObservableCollection<ClasseColaboradoresCursos.ColaboradorCurso>();
-                ColaboradoresCursos = classeClasseColaboradoresCursos.ColaboradoresCursos;
+                this.ColaboradoresCursos = observer;
                 SelectedIndex = 0;
-                /////////////////////////////////////////
-                //var service = new IMOD.Application.Service.ColaboradorCursosService();
-                //if (!string.IsNullOrWhiteSpace(_descricao)) _descricao = $"%{_descricao}%";
-                //if (!string.IsNullOrWhiteSpace(_curso)) _curso = $"%{_curso}%";
-                //var list1 = service.Listar(_colaboradorID, _descricao, _curso);
-
-                //var list2 = Mapper.Map<List<ClasseColaboradoresCursos.ColaboradorCurso>>(list1);
-
-                //var observer = new ObservableCollection<ClasseColaboradoresCursos.ColaboradorCurso>();
-                //list2.ForEach(n =>
-                //{
-                //    observer.Add(n);
-                //});
-
-                //this.ColaboradoresCursos = observer;
-                //SelectedIndex = 0;
             }
             catch (Exception ex)
             {
@@ -551,7 +538,23 @@ namespace iModSCCredenciamento.ViewModels
                 Cursos = classeCursos.Cursos;
                 SelectedIndex = -1;
 
-                
+                /////////////////////////////////////////////
+                //var service = new IMOD.Application.Service.ColaboradorCursosService();
+                //if (!string.IsNullOrWhiteSpace(_descricao)) _descricao = $"%{_descricao}%";
+                //if (!string.IsNullOrWhiteSpace(_curso)) _curso = $"%{_curso}%";
+                //var list1 = service.Listar(_colaboradorID, _descricao, _curso);
+
+                //var list2 = Mapper.Map<List<ClasseColaboradoresCursos.ColaboradorCurso>>(list1);
+
+                //var observer = new ObservableCollection<ClasseColaboradoresCursos.ColaboradorCurso>();
+                //list2.ForEach(n =>
+                //{
+                //    observer.Add(n);
+                //});
+
+                //this.ColaboradoresCursos = observer;
+                //SelectedIndex = 0;
+                /////////////////////////////////////////////
             }
             catch (Exception ex)
             {

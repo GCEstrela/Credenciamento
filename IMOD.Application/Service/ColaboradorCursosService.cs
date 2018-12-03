@@ -1,5 +1,4 @@
-﻿using IMOD.Application.Interfaces;
-using IMOD.Domain.Entities;
+﻿using IMOD.Domain.Entities;
 using IMOD.Domain.Interfaces;
 using IMOD.Infra.Repositorios;
 using System;
@@ -10,13 +9,11 @@ using System.Threading.Tasks;
 
 namespace IMOD.Application.Service
 {
-    public class ColaboradorEmpresaService : IColaboradorEmpresaService
+    public class ColaboradorCursosService : IColaboradorCursoRepositorio
     {
-
-
         #region Variaveis Globais
 
-        private readonly IColaboradorEmpresaRepositorio _repositorio = new ColaboradorEmpresaRepositorio();
+        private readonly IColaboradorCursoRepositorio _repositorio = new ColaboradorCursoRepositorio();
 
         #endregion
 
@@ -29,7 +26,7 @@ namespace IMOD.Application.Service
         ///     Criar registro
         /// </summary>
         /// <param name="entity">Entidade</param>
-        public void Criar(ColaboradorEmpresa entity)
+        public void Criar(ColaboradorCurso entity)
         {
             _repositorio.Criar(entity);
         }
@@ -39,7 +36,7 @@ namespace IMOD.Application.Service
         /// </summary>
         /// <param name="id">Primary key</param>
         /// <returns></returns>
-        public ColaboradorEmpresa BuscarPelaChave(int id)
+        public ColaboradorCurso BuscarPelaChave(int id)
         {
             return _repositorio.BuscarPelaChave(id);
         }
@@ -48,7 +45,7 @@ namespace IMOD.Application.Service
         ///     Listar
         /// </summary>
         /// <returns></returns>
-        public ICollection<ColaboradorEmpresa> Listar(params object[] objects)
+        public ICollection<ColaboradorCurso> Listar(params object[] objects)
         {
             return _repositorio.Listar(objects);
         }
@@ -57,7 +54,7 @@ namespace IMOD.Application.Service
         ///     Alterar registro
         /// </summary>
         /// <param name="entity"></param>
-        public void Alterar(ColaboradorEmpresa entity)
+        public void Alterar(ColaboradorCurso entity)
         {
             _repositorio.Alterar(entity);
         }
@@ -66,11 +63,12 @@ namespace IMOD.Application.Service
         ///     Deletar registro
         /// </summary>
         /// <param name="entity">Entidade</param>
-        public void Remover(ColaboradorEmpresa entity)
+        public void Remover(ColaboradorCurso entity)
         {
             _repositorio.Remover(entity);
         }
 
         #endregion
+
     }
 }
