@@ -133,13 +133,14 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("NumeroContrato", DbType.Int32, objects, 0).Igual()));
+                        cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("NumeroContrato", DbType.String, objects, 0).Igual()));
                         cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("Descricao", DbType.String, objects, 1).Like()));
                         cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("Emissao", DbType.Date, objects, 2).Like()));
                         cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("Validade", DbType.Date, objects, 3).Like()));
                         cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("Contratante", DbType.String, objects, 4).Like()));
                         cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("TipoCobrancaID", DbType.Int32, objects, 5).Igual()));
                         cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("EmailResp", DbType.String, objects, 6).Like()));
+                        cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("EmpresaID", DbType.Int32, objects, 7).Igual()));
 
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<EmpresaContrato>();
@@ -227,6 +228,37 @@ namespace IMOD.Infra.Repositorios
                     }
                 }
             }
+        }
+
+        /// <summary>
+        ///     Listar contratos por número
+        /// </summary>
+        /// <param name="numContrato"></param>
+        /// <returns></returns>
+        public ICollection<EmpresaContrato> ListarPorNumeroContrato(string numContrato)
+        {
+            return Listar (numContrato, null, null, null, null, null, null);
+        }
+
+        /// <summary>
+        ///     Listar contratos por descrição
+        /// </summary>
+        /// <param name="desc"></param>
+        /// <returns></returns>
+        public ICollection<EmpresaContrato> ListarPorDescricao(string desc)
+        {
+            return Listar (null, $"%{desc}%", null, null, null, null, null);
+        }
+
+
+        /// <summary>
+        ///     Listar contratos por empresa
+        /// </summary>
+        /// <param name="empresaId"></param>
+        /// <returns></returns>
+        public ICollection<EmpresaContrato> ListarPorEmpresa(int empresaId)
+        {
+            return Listar(null, null, null, null, null, null, null,null,empresaId);
         }
 
         #endregion
