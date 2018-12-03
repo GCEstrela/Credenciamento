@@ -81,6 +81,11 @@ namespace IMOD.Application.Service
             return _cobrancaService.Listar();
         }
 
+        public ITipoEquipamentoService EquipamentoService()
+        {
+            return  new TipoEquipamentoService();
+        }
+
         #endregion
     }
 }

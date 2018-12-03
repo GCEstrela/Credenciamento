@@ -534,27 +534,26 @@ namespace iModSCCredenciamento
 
         public static void RegisterMappings()
         {
-            Mapper.Initialize (
-                m =>
-                {
-                    //*******Valnei Filho
-                    m.CreateMap<Colaborador, ClasseColaboradores.Colaborador>().ReverseMap();
-                    m.CreateMap<Empresa, ClasseEmpresas.Empresa>()
-                        .IgnoreAllSourcePropertiesWithAnInaccessibleSetter()
-                        .ReverseMap();
-                    m.CreateMap<Estados, ClasseEstados.Estado>().ReverseMap();
-                    m.CreateMap<Municipio, ClasseMunicipios.Municipio>().ReverseMap();
-                    m.CreateMap<TipoAtividade, ClasseTiposAtividades.TipoAtividade>().ReverseMap();
-                    m.CreateMap<TipoAcesso, ClasseTiposAcessos.TipoAcesso>().ReverseMap();
-                    m.CreateMap<Status, ClasseStatus.Status>().ReverseMap();
-                    m.CreateMap<EmpresaTipoAtividade, ClasseEmpresasTiposAtividades.EmpresaTipoAtividade>().ReverseMap();
-                    m.CreateMap<AreaAcesso, ClasseAreasAcessos.AreaAcesso>().ReverseMap();
-                    m.CreateMap<LayoutCracha, ClasseLayoutsCrachas.LayoutCracha>().ReverseMap();
-                    m.CreateMap<EmpresaLayoutCrachaView, ClasseEmpresasLayoutsCrachas.EmpresaLayoutCracha>().ReverseMap();
-                    m.CreateMap<TipoCobranca, ClasseTiposCobrancas.TipoCobranca>().ReverseMap();
-                    m.CreateMap<EmpresaContrato, ClasseEmpresasContratos.EmpresaContrato>().ReverseMap();
-                    //*******Valnei Filho
-                });
+            Mapper.Initialize(
+                    m =>
+                    {
+                        m.CreateMap<Colaborador, ClasseColaboradores.Colaborador>().ReverseMap();
+                        m.CreateMap<Empresa, ClasseEmpresas.Empresa>()
+                            .IgnoreAllSourcePropertiesWithAnInaccessibleSetter()
+                            .ReverseMap();
+
+                        m.CreateMap<Estados, ClasseEstados.Estado>().ReverseMap();
+                        m.CreateMap<Municipio, ClasseMunicipios.Municipio>().ReverseMap();
+                        m.CreateMap<EmpresaSignatario, ClasseEmpresasSignatarios.EmpresaSignatario>().ReverseMap();
+                        m.CreateMap<TipoAtividade, ClasseTiposAtividades.TipoAtividade>().ReverseMap();
+
+                        m.CreateMap<EmpresaTipoAtividade, ClasseEmpresasTiposAtividades.EmpresaTipoAtividade>().ReverseMap();
+
+                        m.CreateMap<AreaAcesso, ClasseAreasAcessos.AreaAcesso>().ReverseMap();
+                        m.CreateMap<LayoutCracha, ClasseLayoutsCrachas.LayoutCracha>().ReverseMap();
+                        m.CreateMap<EmpresaLayoutCrachaView, ClasseEmpresasLayoutsCrachas.EmpresaLayoutCracha>().ReverseMap();
+
+                    });
         }
 
         #endregion

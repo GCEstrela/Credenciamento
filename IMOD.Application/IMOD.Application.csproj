@@ -54,6 +54,7 @@
     <Compile Include="Interfaces\IMunicipioService.cs" />
     <Compile Include="Interfaces\IStatusService.cs" />
     <Compile Include="Interfaces\ITipoCobrancaService.cs" />
+    <Compile Include="Interfaces\ITipoEquipamentoService.cs" />
     <Compile Include="Interfaces\ITiposAcessoService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\AreaAcessoService.cs" />
