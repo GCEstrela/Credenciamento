@@ -39,7 +39,7 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public Estados BuscarEstadoPorUf(string uf)
         {
-            return _repositorio.BuscarEstadoPorUf (uf);
+            return _repositorio.BuscarEstadoPorUf(uf);
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public EstadoView BuscarEstadoMunicipiosPorUf(string uf)
         {
-            return _repositorio.BuscarEstadoMunicipiosPorUf (uf);
+            return _repositorio.BuscarEstadoMunicipiosPorUf(uf);
         }
 
         #endregion

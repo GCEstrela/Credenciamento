@@ -368,8 +368,6 @@ namespace iModSCCredenciamento.ViewModels
                 base.OnPropertyChanged("SelectedItem");
                 if (EmpresaSelecionada != null)
                 {
-
-                    //OnEmpresaSelecionada();
                     if (!_atualizandoLogo)
                     {
                         Thread OnEmpresaSelecionada_thr = new Thread(() => OnEmpresaSelecionada());
@@ -499,34 +497,9 @@ namespace iModSCCredenciamento.ViewModels
                 var repositorio = new IMOD.Infra.Repositorios.EmpresaRepositorio();
                 repositorio.Alterar(EmpresaEntity);
 
-                string xmlString;
-
-                //using (StringWriterWithEncoding sw = new StringWriterWithEncoding(System.Text.Encoding.UTF8))
-                //{
-
-                //    using (XmlTextWriter xw = new XmlTextWriter(sw))
-                //    {
-                //        xw.Formatting = Formatting.Indented;
-                //        serializer.Serialize(xw, _ClasseEmpresasTemp);
-                //        xmlString = sw.ToString();
-                //    }
-
-                //}
-
-                //AtualizaEmpresaBD(xmlString);
-
-                //if (EmpresaSelecionada.EmpresaID == 0)
-                //{
-                //    //string _xml = RequisitaEmpresas("", Nome_tb.Text, CNPJ_tb.Text, "1");
-                //    //XmlDocument _xmldocument = new XmlDocument();
-                //    //_xmldocument.LoadXml(_xml);
-                //    //Codigo_tb.Text = _xmldocument.GetElementsByTagName("EmpresaID")[0].InnerText;
-                //    //ListaEmpresas_lv.IsEnabled = true;
-                //    //_Novo = false;
-                //}
-                //_ClasseEmpresasTemp = null;
-
                 /////////////////////////////////////////
+
+                string xmlString;
 
                 serializer = new System.Xml.Serialization.XmlSerializer(typeof(ClasseEmpresasTiposAtividades));
 
@@ -535,8 +508,6 @@ namespace iModSCCredenciamento.ViewModels
 
                 using (StringWriterWithEncoding sw = new StringWriterWithEncoding(System.Text.Encoding.UTF8))
                 {
-
-
                     using (XmlTextWriter xw = new XmlTextWriter(sw))
                     {
                         xw.Formatting = Formatting.Indented;
@@ -604,7 +575,6 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 Global._cnpjEdicao = "";
-                System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(ClasseEmpresas));
 
                 ObservableCollection<ClasseEmpresas.Empresa> _EmpresasPro = new ObservableCollection<ClasseEmpresas.Empresa>();
                 ClasseEmpresas _ClasseEmpresasTemp = new ClasseEmpresas();
@@ -626,39 +596,13 @@ namespace iModSCCredenciamento.ViewModels
                 var repositorio = new IMOD.Infra.Repositorios.EmpresaRepositorio();
                 repositorio.Criar(EmpresaEntity);
 
-                //string xmlString;
-
-                //using (StringWriterWithEncoding sw = new StringWriterWithEncoding(System.Text.Encoding.UTF8))
-                //{
-
-                //    using (XmlTextWriter xw = new XmlTextWriter(sw))
-                //    {
-                //        xw.Formatting = Formatting.Indented;
-                //        serializer.Serialize(xw, _ClasseEmpresasTemp);
-                //        xmlString = sw.ToString();
-                //    }
-
-                //}
 
                 int _novoEmpresaID = EmpresaEntity.EmpresaId;
-
                 AtualizaPendencias(_novoEmpresaID);
-
                 EmpresaSelecionada.EmpresaID = _novoEmpresaID;
 
-                //_EmpresasTemp.Clear();
-
-                //_EmpresasTemp.Add(EmpresaSelecionada);
-                //Empresas = null;
-                //Empresas = new ObservableCollection<ClasseEmpresas.Empresa>(_EmpresasTemp);
-                //SelectedIndex = 0;
-                //_EmpresasTemp.Clear();
-
-                //_EmpresasPro.Clear();
-                ////_EmpresasPro = null;
-
-                ////_EmpresasTemp = null;
-                //_ClasseEmpresasTemp = null;
+                Thread CarregaColecaoEmpresasSignatarios_thr = new Thread(() => CarregaColecaoEmpresas());
+                CarregaColecaoEmpresasSignatarios_thr.Start();
 
 
             }
@@ -720,7 +664,11 @@ namespace iModSCCredenciamento.ViewModels
                     {
                         if (Global.PopupBox("Você realmente tem certeza desta operação?", 2))
                         {
-                            ExcluiEmpresaBD(EmpresaSelecionada.EmpresaID);
+
+                            var service = new IMOD.Application.Service.EmpresaService();
+                            var emp = service.BuscarPelaChave(EmpresaSelecionada.EmpresaID);
+                            service.Remover(emp);
+
                             Empresas.Remove(EmpresaSelecionada);
 
                         }
@@ -776,7 +724,6 @@ namespace iModSCCredenciamento.ViewModels
                 _EmpresaTipoAtividade.Descricao = _Descricao;
                 EmpresasTiposAtividades.Add(_EmpresaTipoAtividade);
 
-                //EmpresasTiposAtividades.Add();
 
                 IMOD.Domain.Entities.EmpresaTipoAtividade EmpresaTipoAtividadeEntity = new IMOD.Domain.Entities.EmpresaTipoAtividade();
                 g.TranportarDados(_EmpresaTipoAtividade, 1, EmpresaTipoAtividadeEntity);
@@ -856,25 +803,6 @@ namespace iModSCCredenciamento.ViewModels
                 ClasseEmpresasLayoutsCrachas.EmpresaLayoutCracha _EmpresaLayoutCracha = new ClasseEmpresasLayoutsCrachas.EmpresaLayoutCracha();
                 _EmpresaLayoutCracha.EmpresaID = EmpresaSelecionada.EmpresaID;
                 _EmpresaLayoutCracha.LayoutCrachaID = _LayoutCrachaID;
-                //_EmpresaLayoutCracha.Nome = _Nome;
-
-                //EmpresasLayoutsCrachas.Add(_EmpresaLayoutCracha);
-
-
-                //EmpresasLayoutsCrachas.Add();
-
-                //var service = new IMOD.Application.Service.EmpresaLayoutCrachaService();
-                //var list1 = service.Listar();
-
-                //var list2 = Mapper.Map<List<ClasseEmpresasLayoutsCrachas.EmpresaLayoutCracha>>(list1);
-
-                //var observer = new ObservableCollection<ClasseEmpresasLayoutsCrachas.EmpresaLayoutCracha>();
-                //list2.ForEach(n =>
-                //{
-                //    observer.Add(n);
-                //});
-
-                //this.Estados = observer;
 
                 IMOD.Domain.Entities.EmpresaLayoutCracha EmpresaLayoutCracha = new IMOD.Domain.Entities.EmpresaLayoutCracha();
                 g.TranportarDados(_EmpresaLayoutCracha, 1, EmpresaLayoutCracha);
@@ -882,11 +810,8 @@ namespace iModSCCredenciamento.ViewModels
                 var repositorio = new IMOD.Infra.Repositorios.EmpresaLayoutCrachaRepositorio();
                 repositorio.Criar(EmpresaLayoutCracha);
 
-                CarregaColeçãoEmpresasLayoutsCrachas(EmpresaSelecionada.EmpresaID);
+                CarregaColecaoEmpresasLayoutsCrachas(EmpresaSelecionada.EmpresaID);
             }
-
-
-
 
             catch (Exception ex)
             {
@@ -1021,8 +946,8 @@ namespace iModSCCredenciamento.ViewModels
             {
 
                 CarregaColecaoEmpresasTiposAtividades(EmpresaSelecionada.EmpresaID);
-                CarregaColeçãoEmpresasAreasAcessos(EmpresaSelecionada.EmpresaID);
-                CarregaColeçãoEmpresasLayoutsCrachas(EmpresaSelecionada.EmpresaID);
+                CarregaColecaoEmpresasAreasAcessos(EmpresaSelecionada.EmpresaID);
+                CarregaColecaoEmpresasLayoutsCrachas(EmpresaSelecionada.EmpresaID);
                 CarregaColecaoLayoutsCrachas();
 
             }
@@ -1201,7 +1126,7 @@ namespace iModSCCredenciamento.ViewModels
             }
         }
 
-        public void CarregaColeçãoEmpresasAreasAcessos(int _empresaID = 0)
+        public void CarregaColecaoEmpresasAreasAcessos(int _empresaID = 0)
         {
             try
             {
@@ -1221,7 +1146,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log("Erro na void CarregaColeçãoEmpresasAreasAcessos ex: " + ex);
+                Global.Log("Erro na void CarregaColecaoEmpresasAreasAcessos ex: " + ex);
             }
         }
 
@@ -1249,30 +1174,14 @@ namespace iModSCCredenciamento.ViewModels
             }
         }
 
-        public void CarregaColeçãoEmpresasLayoutsCrachas(int _empresaID = 0)
+        public void CarregaColecaoEmpresasLayoutsCrachas(int _empresaID = 0)
         {
 
             try
             {
-                //this.Dispatcher.Invoke(new Action(() => { LoadingAdorner.IsAdornerVisible = true; }));
-
-                //string _xml = RequisitaEmpresasLayoutsCrachas(_empresaID);
-
-                //XmlSerializer deserializer = new XmlSerializer(typeof(ClasseEmpresasLayoutsCrachas));
-                //XmlDocument DataFile = new XmlDocument();
-                //DataFile.LoadXml(_xml);
-                //TextReader reader = new StringReader(_xml);
-                //ClasseEmpresasLayoutsCrachas classeEmpresasLayoutsCrachas = new ClasseEmpresasLayoutsCrachas();
-                //classeEmpresasLayoutsCrachas = (ClasseEmpresasLayoutsCrachas)deserializer.Deserialize(reader);
-                //EmpresasLayoutsCrachas = new ObservableCollection<ClasseEmpresasLayoutsCrachas.EmpresaLayoutCracha>();
-                //EmpresasLayoutsCrachas = classeEmpresasLayoutsCrachas.EmpresasLayoutsCrachas;
-
-                //this.Dispatcher.Invoke(new Action(() => { LoadingAdorner.IsAdornerVisible = false; }));
-
                 var service = new IMOD.Application.Service.EmpresaLayoutCrachaService();
-                //var list1 = service.Listar(null, _empresaID, null, null);
-                var list1 = service.ListarLayoutCrachaPorEmpresaView(_empresaID);
 
+                var list1 = service.ListarLayoutCrachaPorEmpresaView(_empresaID);
                 var list2 = Mapper.Map<List<ClasseEmpresasLayoutsCrachas.EmpresaLayoutCracha>>(list1);
 
                 var observer = new ObservableCollection<ClasseEmpresasLayoutsCrachas.EmpresaLayoutCracha>();
@@ -1286,7 +1195,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log("Erro na void CarregaColeçãoEmpresasLayoutsCrachas ex: " + ex);
+                Global.Log("Erro na void CarregaColecaoEmpresasLayoutsCrachas ex: " + ex);
             }
         }
 
@@ -1344,30 +1253,6 @@ namespace iModSCCredenciamento.ViewModels
 
         #region Data Access
 
-        private void ExcluiEmpresaBD(int _EmpresaID)
-        {
-            try
-            {
-                //_Con.Close();
-                //SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
-                //SqlCommand _sqlCmd;
-                //_sqlCmd = new SqlCommand("Delete from Empresas where EmpresaID=" + _EmpresaID, _Con);
-                //_sqlCmd.ExecuteNonQuery();
-                //_Con.Close();
-
-                var service = new IMOD.Application.Service.EmpresaService();
-                var emp = service.BuscarPelaChave(_EmpresaID);
-                service.Remover(emp);
-            }
-
-
-            catch (Exception ex)
-            {
-                Global.Log("Erro na void ExcluiEmpresaBD ex: " + ex);
-
-
-            }
-        }
 
         private void AtualizaEmpresasTiposAtividadesBD(string xmlString)
         {

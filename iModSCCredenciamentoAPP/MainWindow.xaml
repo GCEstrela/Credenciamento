@@ -3,8 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:iModSCCredenciamento"
-        xmlns:PagePrincipal="clr-namespace:iModSCCredenciamento.PagePrincipal;assembly=iModSCCredenciamento" x:Class="iModSCCredenciamento.MainWindow"
+         xmlns:PagePrincipal="clr-namespace:iModSCCredenciamento.PagePrincipal;assembly=iModSCCredenciamento" x:Class="iModSCCredenciamento.MainWindow"
         mc:Ignorable="d"
         Title="MainWindow" Background="{x:Null}" d:DesignWidth="1000.343" d:DesignHeight="888.1" WindowState="Maximized" >
 
