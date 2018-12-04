@@ -39,8 +39,8 @@ namespace IMOD.CrossCutting
     /// </summary>
     public static class Utils
     {
-        //TODO:Refazer o caminho
-        private static readonly string CaminhoLog = Path.Combine(@"C:\ImodCredenciamento", "Log");
+        //Salvar dados de log no caminho de arquivos temporários
+        private static readonly string CaminhoLog = Path.Combine(Path.GetTempPath(), "Credenciamento\\Log");
         private static readonly string NomeArqErrorLog = "Error.log";
 
         #region  Metodos
