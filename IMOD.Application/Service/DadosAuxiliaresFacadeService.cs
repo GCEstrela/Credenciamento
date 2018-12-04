@@ -26,115 +26,125 @@ namespace IMOD.Application.Service
 
         #region  Metodos
 
-
         /// <summary>
-        ///     Listar Estados
+        ///     CRUD Completo Estados
         /// </summary>
         /// <returns></returns>
-        public ICollection<Estados> ListarEstadosFederacao()
+        public IEstadoService EstadoService
         {
-            return _serviceEstado.Listar();
+            get { return new EstadoService(); }
         }
-
         /// <summary>
-        ///     Listar Municipios
+        ///     CRUD Completo Municipios
         /// </summary>
         /// <returns></returns>
-        public ICollection<Municipio> ListarMunicipios()
+        public IMunicipioService MunicipioService
         {
-            return _serviceMunicipio.Listar();
+            get { return new MunicipioService(); }
         }
-
         /// <summary>
-        ///     Buscar municipios por UF
+        ///  CRUD Completo Tipo de Equipamento
         /// </summary>
-        /// <param name="uf"></param>
         /// <returns></returns>
-        public EstadoView BuscarEstadoMunicipiosPorUf(string uf)
+        public ITipoEquipamentoService TipoEquipamentoService
         {
-            return _serviceEstado.BuscarEstadoMunicipiosPorUf(uf);
+            get { return new TipoEquipamentoService(); }
         }
 
         /// <summary>
-        ///     Listar Status
+        /// CRUD Completo ColaboradorAnexo
         /// </summary>
         /// <returns></returns>
-        public ICollection<Status> ListarStatus()
+        public IColaboradorAnexoService ColaboradorAnexoService
         {
-            return _statusService.Listar();
+            get { return new ColaboradorAnexoService(); }
         }
-
         /// <summary>
-        ///     Listar Tipos de Acessos
+        /// CRUD Completo Relatorio
         /// </summary>
         /// <returns></returns>
-        public ICollection<TipoAcesso> ListarTiposAcessos()
+        public IRelatorioService RelatorioService
         {
-            return _acessoService.Listar();
+            get { return new RelatoriosService(); }
         }
-
         /// <summary>
-        ///     Listar Tipo de Cobrança
+        /// CRUD Completo RelatorioGerencial
         /// </summary>
         /// <returns></returns>
-        public ICollection<TipoCobranca> ListarTiposCobranca()
+        public IRelatorioGerencialService RelatorioGerencialService
         {
-            return _cobrancaService.Listar();
+            get { return new RelatoriosGerenciaisService(); }
         }
-
-        public ITipoEquipamentoService TipoEquipamentoService()
+        /// <summary>
+        /// CRUD Completo LayoutCracha
+        /// </summary>
+        /// <returns></returns>
+        public ILayoutCrachaService LayoutCrachaService
         {
-            return new TipoEquipamentoService();
+            get { return new LayoutCrachaService(); }
         }
-
-        public IColaboradorAnexoService ColaboradorAnexoService()
+        /// <summary>
+        /// CRUD Completo TipoAtividade
+        /// </summary>
+        /// <returns></returns>
+        public ITipoAtividadeService TipoAtividadeService
         {
-            return new ColaboradorAnexoService();
+            get { return new TipoAtividadeService(); }
         }
-
-        public IRelatorioService RelatorioService()
+        /// <summary>
+        /// CRUD Completo TipoCobranca
+        /// </summary>
+        /// <returns></returns>
+        public ITipoCobrancaService TipoCobrancaService
         {
-            return new RelatoriosService();
+            get { return new TipoCobrancaService(); }
         }
-
-        public IRelatorioGerencialService RelatorioGerencialService()
+        /// <summary>
+        /// CRUD Completo TiposAcesso
+        /// </summary>
+        /// <returns></returns>
+        public ITiposAcessoService TiposAcessoService
         {
-            return new RelatoriosGerenciaisService();
+            get { return new TipoAcessoService(); }
         }
-
-        public ILayoutCrachaService LayoutCrachaService()
+        /// <summary>
+        /// CRUD Completo TipoStatus
+        /// </summary>
+        /// <returns></returns>
+        public IStatusService TipoStatusService
         {
-            return new LayoutCrachaService();
+            get { return new StatusService(); }
         }
-
-        public ITipoAtividadeService TipoAtividadeService()
+        /// <summary>
+        /// CRUD Completo Curso
+        /// </summary>
+        /// <returns></returns>
+        public ICursoService CursoService
         {
-            return new TipoAtividadeService();
+            get { return new CursoService(); }
         }
-
-        public ITipoCobrancaService TipoCobrancaService()
+        /// <summary>
+        /// CRUD Completo AreaAcesso
+        /// </summary>
+        /// <returns></returns>
+        public IAreaAcessoService AreaAcessoService
         {
-            return new TipoCobrancaService();
+            get { return new AreaAcessoService(); }
         }
-
-        public ITiposAcessoService TiposAcessoService()
+        /// <summary>
+        /// CRUD Completo EmpresaLayoutCracha
+        /// </summary>
+        /// <returns></returns>
+        public IEmpresaLayoutCrachaService EmpresaLayoutCrachaService
         {
-            return new TipoAcessoService();
+            get { return new EmpresaLayoutCrachaService(); }
         }
-
-        public IStatusService TipoStatusService()
+        /// <summary>
+        /// CRUD Completo Empresa Tipo Atividade 
+        /// </summary>
+        public IEmpresaTipoAtividadeService EmpresaTipoAtividadeService
         {
-            return new StatusService();
-        }
-
-        public ICursoService CursoService()
-        {
-            return new CursoService();
-        }
-
-        public IAreaAcessoService AreaAcessoService()
-        {
-            return new AreaAcessoService();
+            get { return new EmpresaTipoAtividadeService(); }
         }
 
         #endregion

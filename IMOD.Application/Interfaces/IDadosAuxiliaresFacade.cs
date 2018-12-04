@@ -20,108 +20,94 @@ namespace IMOD.Application.Interfaces
 
 
         /// <summary>
-        ///     Listar Estados
+        ///     CRUD Completo Estados
         /// </summary>
         /// <returns></returns>
-        ICollection<Estados> ListarEstadosFederacao();
+        IEstadoService EstadoService { get; }
 
         /// <summary>
-        ///     Listar Municipios
+        ///     CRUD Completo Municipios
         /// </summary>
         /// <returns></returns>
-        ICollection<Municipio> ListarMunicipios();
-
+        IMunicipioService MunicipioService { get; }
         /// <summary>
-        ///     Buscar municipios por UF
-        /// </summary>
-        /// <param name="uf"></param>
-        /// <returns></returns>
-        EstadoView BuscarEstadoMunicipiosPorUf(string uf);
-
-        /// <summary>
-        ///     Listar Status
+        /// CRUD Completo Tipo de Equipamento
         /// </summary>
         /// <returns></returns>
-        ICollection<Status> ListarStatus();
-
-        /// <summary>
-        ///     Listar Tipos de Acessos
-        /// </summary>
-        /// <returns></returns>
-        ICollection<TipoAcesso> ListarTiposAcessos();
-
-        /// <summary>
-        ///     Listar Tipo de Cobrança
-        /// </summary>
-        /// <returns></returns>
-        ICollection<TipoCobranca> ListarTiposCobranca();
-
-        /// <summary>
-        /// Criar, Alterar, Listar e Remover Tipo de Equipamento
-        /// </summary>
-        /// <returns></returns>
-        ITipoEquipamentoService TipoEquipamentoService();
+        ITipoEquipamentoService TipoEquipamentoService { get; }
 
         /// <summary>
         /// CRUD Completo ColaboradorAnexo
         /// </summary>
         /// <returns></returns>
-        IColaboradorAnexoService ColaboradorAnexoService();
+        IColaboradorAnexoService ColaboradorAnexoService { get; }
 
         /// <summary>
         /// CRUD Completo Relatorio
         /// </summary>
         /// <returns></returns>
-        IRelatorioService RelatorioService();
-
+        IRelatorioService RelatorioService { get; }
 
         /// <summary>
         /// CRUD Completo RelatorioGerencial
         /// </summary>
         /// <returns></returns>
-        IRelatorioGerencialService RelatorioGerencialService();
+        IRelatorioGerencialService RelatorioGerencialService { get; }
 
         /// <summary>
         /// CRUD Completo LayoutCracha
         /// </summary>
         /// <returns></returns>
-        ILayoutCrachaService LayoutCrachaService();
+        ILayoutCrachaService LayoutCrachaService { get; }
 
         /// <summary>
         /// CRUD Completo TipoAtividade
         /// </summary>
         /// <returns></returns>
-        ITipoAtividadeService TipoAtividadeService();
+        ITipoAtividadeService TipoAtividadeService { get; }
 
         /// <summary>
         /// CRUD Completo TipoCobranca
         /// </summary>
         /// <returns></returns>
-        ITipoCobrancaService TipoCobrancaService();
+        ITipoCobrancaService TipoCobrancaService { get; }
 
         /// <summary>
         /// CRUD Completo TiposAcesso
         /// </summary>
         /// <returns></returns>
-        ITiposAcessoService TiposAcessoService();
+        ITiposAcessoService TiposAcessoService { get; }
 
         /// <summary>
         /// CRUD Completo TipoStatus
         /// </summary>
         /// <returns></returns>
-        IStatusService TipoStatusService();
+        IStatusService TipoStatusService { get; }
 
         /// <summary>
         /// CRUD Completo Curso
         /// </summary>
         /// <returns></returns>
-        ICursoService CursoService();
+        ICursoService CursoService { get; }
 
         /// <summary>
         /// CRUD Completo AreaAcesso
         /// </summary>
         /// <returns></returns>
-        IAreaAcessoService AreaAcessoService();
+        IAreaAcessoService AreaAcessoService { get; }
+
+        /// <summary>
+        /// CRUD Completo EmpresaLayoutCracha
+        /// </summary>
+        /// <returns></returns>
+        IEmpresaLayoutCrachaService EmpresaLayoutCrachaService { get; }
+
+        /// <summary>
+        /// CRUD Completo Empresa Tipo Atividade 
+        /// </summary>
+        IEmpresaTipoAtividadeService EmpresaTipoAtividadeService { get; }
+
+
 
         #endregion
     }

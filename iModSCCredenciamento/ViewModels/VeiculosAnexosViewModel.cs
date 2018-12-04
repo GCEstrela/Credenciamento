@@ -38,9 +38,6 @@ namespace iModSCCredenciamento.ViewModels
 
         private List<ClasseVeiculosAnexos.VeiculoAnexo> _VeiculosAnexosTemp = new List<ClasseVeiculosAnexos.VeiculoAnexo>();
 
-        /// <summary>
-        /// TODO: MIHAI (06-11 09:26)
-        /// </summary>
         PopupPesquisaVeiculoAnexo popupPesquisaVeiculoAnexo;
 
         private int _selectedIndex;

@@ -20,6 +20,9 @@ using System.Xml;
 using System.Xml.Serialization;
 using AutoMapper;
 using Genetec.Sdk.Entities;
+using IMOD.Application.Interfaces;
+using IMOD.Application.Service;
+using IMOD.Domain.Entities;
 
 namespace iModSCCredenciamento.ViewModels
 {
@@ -98,7 +101,7 @@ namespace iModSCCredenciamento.ViewModels
 
         private int _selectedIndexTemp = 0;
 
-
+        private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
 
         #endregion
 
@@ -447,6 +450,9 @@ namespace iModSCCredenciamento.ViewModels
         #endregion
 
         #region Comandos dos Botoes
+
+
+        #region Empresa
         public void OnEditarCommand()
         {
             try
@@ -491,11 +497,11 @@ namespace iModSCCredenciamento.ViewModels
                 _EmpresasTemp.Add(EmpresaSelecionada);
                 _ClasseEmpresasTemp.Empresas = _EmpresasTemp;
 
-                IMOD.Domain.Entities.Empresa EmpresaEntity = new IMOD.Domain.Entities.Empresa();
-                g.TranportarDados(EmpresaSelecionada, 1, EmpresaEntity);
+                var service = new IMOD.Application.Service.EmpresaService();
+                var entity = EmpresaSelecionada;
+                var entityConv = Mapper.Map<Empresa>(entity);
 
-                var repositorio = new IMOD.Infra.Repositorios.EmpresaRepositorio();
-                repositorio.Alterar(EmpresaEntity);
+                service.Alterar(entityConv);
 
                 /////////////////////////////////////////
 
@@ -590,25 +596,25 @@ namespace iModSCCredenciamento.ViewModels
                 _EmpresasPro.Add(EmpresaSelecionada);
                 _ClasseEmpresasTemp.Empresas = _EmpresasPro;
 
-                IMOD.Domain.Entities.Empresa EmpresaEntity = new IMOD.Domain.Entities.Empresa();
-                g.TranportarDados(EmpresaSelecionada, 1, EmpresaEntity);
+                var service = new IMOD.Application.Service.EmpresaService();
+                var entity = EmpresaSelecionada;
+                var entityConv = Mapper.Map<Empresa>(entity);
 
-                var repositorio = new IMOD.Infra.Repositorios.EmpresaRepositorio();
-                repositorio.Criar(EmpresaEntity);
+                service.Criar(entityConv);
 
-
-                int _novoEmpresaID = EmpresaEntity.EmpresaId;
+                int _novoEmpresaID = entityConv.EmpresaId;
                 AtualizaPendencias(_novoEmpresaID);
                 EmpresaSelecionada.EmpresaID = _novoEmpresaID;
 
                 Thread CarregaColecaoEmpresasSignatarios_thr = new Thread(() => CarregaColecaoEmpresas());
                 CarregaColecaoEmpresasSignatarios_thr.Start();
 
-
             }
             catch (Exception ex)
             {
                 Global.Log("Erro void OnSalvarAdicaoCommand ex: " + ex.Message);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
         }
 
@@ -697,22 +703,9 @@ namespace iModSCCredenciamento.ViewModels
             }
         }
 
-        public void OnExcluirAtividadeCommand()
-        {
-            try
-            {
-                var service = new IMOD.Application.Service.EmpresaTipoAtividadeService();
-                var elc = service.BuscarPelaChave(EmpresaTipoAtividadeSelecionada.EmpresaTipoAtividadeID);
-                service.Remover(elc);
+        #endregion
 
-                EmpresasTiposAtividades.Remove(EmpresaTipoAtividadeSelecionada);
-            }
-            catch (Exception ex)
-            {
-                Global.Log("Erro void OnExcluirAtividadeCommand ex: " + ex.Message);
-            }
-        }
-
+        #region Tipo Atividade
         public void OnInserirAtividadeCommand(string _TipoAtividadeIDstr, string _Descricao)
         {
             try
@@ -722,37 +715,50 @@ namespace iModSCCredenciamento.ViewModels
                 _EmpresaTipoAtividade.EmpresaID = EmpresaSelecionada.EmpresaID;
                 _EmpresaTipoAtividade.TipoAtividadeID = _TipoAtividadeID;
                 _EmpresaTipoAtividade.Descricao = _Descricao;
-                EmpresasTiposAtividades.Add(_EmpresaTipoAtividade);
 
+                var entity = _EmpresaTipoAtividade;
+                var entityConv = Mapper.Map<EmpresaTipoAtividade>(entity);
 
-                IMOD.Domain.Entities.EmpresaTipoAtividade EmpresaTipoAtividadeEntity = new IMOD.Domain.Entities.EmpresaTipoAtividade();
-                g.TranportarDados(_EmpresaTipoAtividade, 1, EmpresaTipoAtividadeEntity);
+                _auxiliaresService.EmpresaTipoAtividadeService.Criar(entityConv);
 
-                var repositorio = new IMOD.Infra.Repositorios.EmpresaTipoAtividadeRepositorio();
-                repositorio.Criar(EmpresaTipoAtividadeEntity);
-
-                CarregaColecaoEmpresasTiposAtividades(EmpresaSelecionada.EmpresaID);
-
+                CarregaColecaoEmpresasTiposAtividades(_EmpresaTipoAtividade.EmpresaID);
 
             }
             catch (Exception ex)
             {
                 Global.Log("Erro void OnInserirAtividadeCommand ex: " + ex.Message);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
         }
 
-        public void OnExcluirAcessoCommand()
+        public void OnExcluirAtividadeCommand()
         {
             try
             {
-                EmpresasAreasAcessos.Remove(EmpresaAreaAcessoSelecionada);
+                if (Global.PopupBox("Tem certeza que deseja excluir?", 2))
+                {
+                    var entity = EmpresaTipoAtividadeSelecionada;
+                    var entityConv = Mapper.Map<EmpresaTipoAtividade>(entity);
+                    _auxiliaresService.EmpresaTipoAtividadeService.Remover(entityConv);
+
+                    EmpresasTiposAtividades.Remove(EmpresaTipoAtividadeSelecionada);
+
+                    CarregaColecaoEmpresasTiposAtividades();
+                }
             }
+
             catch (Exception ex)
             {
-                Global.Log("Erro void OnExcluirAcessoCommand ex: " + ex.Message);
+                Global.Log("Erro void OnExcluirAtividadeCommand ex: " + ex.Message);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
         }
+        #endregion
 
+
+        #region Area Acesso
         public void OnInserirAcessoCommand(object areaAcesso)
         {
             try
@@ -780,22 +786,20 @@ namespace iModSCCredenciamento.ViewModels
             }
         }
 
-        public void OnExcluirCrachaCommand()
+        public void OnExcluirAcessoCommand()
         {
             try
             {
-                var service = new IMOD.Application.Service.EmpresaLayoutCrachaService();
-                var elc = service.BuscarPelaChave(EmpresaLayoutCrachaSelecionada.EmpresaLayoutCrachaID);
-                service.Remover(elc);
-
-                EmpresasLayoutsCrachas.Remove(EmpresaLayoutCrachaSelecionada);
+                EmpresasAreasAcessos.Remove(EmpresaAreaAcessoSelecionada);
             }
             catch (Exception ex)
             {
-                Global.Log("Erro void OnExcluirCrachaCommand ex: " + ex.Message);
+                Global.Log("Erro void OnExcluirAcessoCommand ex: " + ex.Message);
             }
         }
+        #endregion
 
+        #region Empresa Layout Crachas
         public void OnInserirCrachaCommand(int _LayoutCrachaID, string _Nome)
         {
             try
@@ -804,20 +808,46 @@ namespace iModSCCredenciamento.ViewModels
                 _EmpresaLayoutCracha.EmpresaID = EmpresaSelecionada.EmpresaID;
                 _EmpresaLayoutCracha.LayoutCrachaID = _LayoutCrachaID;
 
-                IMOD.Domain.Entities.EmpresaLayoutCracha EmpresaLayoutCracha = new IMOD.Domain.Entities.EmpresaLayoutCracha();
-                g.TranportarDados(_EmpresaLayoutCracha, 1, EmpresaLayoutCracha);
+                var entity = _EmpresaLayoutCracha;
+                var entityConv = Mapper.Map<EmpresaLayoutCracha>(entity);
 
-                var repositorio = new IMOD.Infra.Repositorios.EmpresaLayoutCrachaRepositorio();
-                repositorio.Criar(EmpresaLayoutCracha);
+                _auxiliaresService.EmpresaLayoutCrachaService.Criar(entityConv);
 
-                CarregaColecaoEmpresasLayoutsCrachas(EmpresaSelecionada.EmpresaID);
+                CarregaColecaoEmpresasLayoutsCrachas(_EmpresaLayoutCracha.EmpresaID);
             }
 
             catch (Exception ex)
             {
                 Global.Log("Erro void OnInserirCrachaCommand ex: " + ex.Message);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
         }
+
+        public void OnExcluirCrachaCommand()
+        {
+            try
+            {
+                if (Global.PopupBox("Tem certeza que deseja excluir?", 2))
+                {
+                    var entity = EmpresaLayoutCrachaSelecionada;
+                    var entityConv = Mapper.Map<EmpresaLayoutCracha>(entity);
+                    _auxiliaresService.EmpresaLayoutCrachaService.Remover(entityConv);
+
+                    EmpresasLayoutsCrachas.Remove(EmpresaLayoutCrachaSelecionada);
+
+                    CarregaColecaoEmpresasTiposAtividades();
+                }
+            }
+            catch (Exception ex)
+            {
+                Global.Log("Erro void OnExcluirCrachaCommand ex: " + ex.Message);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
+            }
+        }
+
+        #endregion
 
         public void On_EfetuarProcura(object sender, EventArgs e)
         {
@@ -864,6 +894,7 @@ namespace iModSCCredenciamento.ViewModels
                 Global.Log("Erro void OnAbrirPendencias ex: " + ex.Message);
             }
         }
+
         #endregion
 
         #region Metodos Publicos
@@ -1083,22 +1114,22 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 var service = new IMOD.Application.Service.EmpresaTipoAtividadeService();
-
                 var list1 = service.ListarEmpresaTipoAtividadeView(null, _empresaID, null, null);
-                var list2 = Mapper.Map<List<ClasseEmpresasTiposAtividades.EmpresaTipoAtividade>>(list1);
 
+                var list2 = Mapper.Map<List<ClasseEmpresasTiposAtividades.EmpresaTipoAtividade>>(list1);
                 var observer = new ObservableCollection<ClasseEmpresasTiposAtividades.EmpresaTipoAtividade>();
                 list2.ForEach(n =>
                 {
                     observer.Add(n);
                 });
-
                 this.EmpresasTiposAtividades = observer;
 
             }
             catch (Exception ex)
             {
                 Global.Log("Erro na void CarregaColecaoEmpresasTiposAtividades ex: " + ex);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
         }
 
@@ -1176,14 +1207,12 @@ namespace iModSCCredenciamento.ViewModels
 
         public void CarregaColecaoEmpresasLayoutsCrachas(int _empresaID = 0)
         {
-
             try
             {
                 var service = new IMOD.Application.Service.EmpresaLayoutCrachaService();
-
                 var list1 = service.ListarLayoutCrachaPorEmpresaView(_empresaID);
-                var list2 = Mapper.Map<List<ClasseEmpresasLayoutsCrachas.EmpresaLayoutCracha>>(list1);
 
+                var list2 = Mapper.Map<List<ClasseEmpresasLayoutsCrachas.EmpresaLayoutCracha>>(list1);
                 var observer = new ObservableCollection<ClasseEmpresasLayoutsCrachas.EmpresaLayoutCracha>();
                 list2.ForEach(n =>
                 {
@@ -1191,14 +1220,14 @@ namespace iModSCCredenciamento.ViewModels
                 });
 
                 this.EmpresasLayoutsCrachas = observer;
-
             }
             catch (Exception ex)
             {
                 Global.Log("Erro na void CarregaColecaoEmpresasLayoutsCrachas ex: " + ex);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
         }
-
 
         private void CarregaLogo(int _EmpresaID)
         {
@@ -1251,8 +1280,8 @@ namespace iModSCCredenciamento.ViewModels
         }
         #endregion
 
-        #region Data Access
 
+        #region Data Access
 
         private void AtualizaEmpresasTiposAtividadesBD(string xmlString)
         {
@@ -1477,88 +1506,6 @@ namespace iModSCCredenciamento.ViewModels
         }
         #endregion
 
-        #region Testes
-
-
-
-        //protected bool CanExecute
-        //{
-        //    get
-        //    {
-        //        return this.EmpresaSelecionada != null;
-        //    }
-        //}
-
-        //private void Teste()
-        //{
-        //    MessageBox.Show(this.EmpresaSelecionada.CNPJ);
-        //    HabilitaEdicao = false;
-        //}
-        //private List<BadgeTemplate> _badges = new List<BadgeTemplate>();
-        //public void BuscaBadges()
-        //{
-
-        //    try
-        //    {
-        //        EntityConfigurationQuery query = iModSCCredenciamento.engine.ReportManager.CreateReportQuery(ReportType.EntityConfiguration) as EntityConfigurationQuery;
-        //        query.EntityTypeFilter.Add(EntityType.Badge);
-        //        //query.Name = "a";
-        //        //query.NameSearchMode = StringSearchMode.StartsWith;
-        //        QueryCompletedEventArgs result = query.Query();
-
-        //        if (result.Success)
-        //        {
-        //            foreach (DataRow dr in result.Data.Rows)
-        //            {
-        //                BadgeTemplate badge = iModSCCredenciamento.engine.GetEntity((Guid)dr[0]) as BadgeTemplate;
-        //                _badges.Add(badge);
-        //                //BadgePrinter instance = new BadgePrinter;
-        //                //Guid credential = new Guid("");
-        //                //instance.Print(credential, badge.Guid);
-        //                //bool value;
-
-        //                //value = instance.Print(credential, badge.Guid);
-
-        //            }
-        //        }
-        //        else
-        //        {
-
-        //        }
-        //        var credential = iModSCCredenciamento.engine.GetEntity(new Guid("d7a7061b-01ca-4d0f-8f3f-d93eb2ab9af7")) as Credential;
-        //        var credRequest = new CredentialBadgeRequest();
-        //        credRequest.BadgeTemplate = _badges[0].Guid;
-
-        //        if (credential != null)
-        //        {
-        //            iModSCCredenciamento.engine.TransactionManager.CreateTransaction();
-        //            CredencialManager credencialManager = new CredencialManager();
-        //            //GetCredentialBuilder()
-        //            credencialManager.Build();
-        //            credencialManager.SetCredentialRequest(credRequest);
-
-        //            ////Genetec.Sdk.Engine EntityManager = new;
-        //            //iModSCCredenciamento.engine.
-        //            //Genetec.Sdk.Workflows.EntityManager.IEntityManager GetCredentialBuilder;
-        //            //Genetec.Sdk.Entities.Builders.ICredentialBuilder SetCardholder;
-        //            //Genetec.Sdk.Entities.Builders.ICredentialBuilder SetCredentialRequest;
-        //            //Genetec.Sdk.Entities.Builders.ICredentialBuilder SetFormat;
-        //            //Genetec.Sdk.Credentials CardRequestCredentialFormat;
-
-
-
-        //            //credRequest= iModSCCredenciamento.engine.
-        //            //credential.RequestCredential(credRequest); // This sets the credential request to the credential 
-        //            iModSCCredenciamento.engine.TransactionManager.CommitTransaction();
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //    }
-
-
-        //}
-        #endregion
 
     }
 }

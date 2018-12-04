@@ -52,6 +52,7 @@
     <Compile Include="Interfaces\IEmpresaLayoutCrachaService.cs" />
     <Compile Include="Interfaces\IEmpresaService.cs" />
     <Compile Include="Interfaces\IEmpresaSignatarioService.cs" />
+    <Compile Include="Interfaces\IEmpresaTipoAtividadeService.cs" />
     <Compile Include="Interfaces\IEstadoService.cs" />
     <Compile Include="Interfaces\ILayoutCrachaService.cs" />
     <Compile Include="Interfaces\IMunicipioService.cs" />

@@ -15,6 +15,7 @@ using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Serialization;
 using AutoMapper;
+using IMOD.Domain.Entities;
 
 namespace iModSCCredenciamento.ViewModels
 {
@@ -272,17 +273,21 @@ namespace iModSCCredenciamento.ViewModels
             {
                 HabilitaEdicao = false;
 
-                IMOD.Domain.Entities.EmpresaAnexo EmpresaAnexoEntity = new IMOD.Domain.Entities.EmpresaAnexo();
-                g.TranportarDados(AnexoSelecionado, 1, EmpresaAnexoEntity);
+                var service = new IMOD.Application.Service.EmpresaAnexoService();
+                var entity = AnexoSelecionado;
+                var entityConv = Mapper.Map<EmpresaAnexo>(entity);
 
-                var repositorio = new IMOD.Infra.Repositorios.EmpresaAnexoRepositorio();
-                repositorio.Alterar(EmpresaAnexoEntity);
+                service.Alterar(entityConv);
 
+                Thread CarregaColecaoAnexosSignatarios_thr = new Thread(() => CarregaColecaoAnexos(AnexoSelecionado.EmpresaID));
+                CarregaColecaoAnexosSignatarios_thr.Start();
 
             }
             catch (Exception ex)
             {
                 Global.Log("Erro void OnSalvarEdicaoCommand ex: " + ex.Message);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
         }
 
@@ -324,12 +329,11 @@ namespace iModSCCredenciamento.ViewModels
                 _EmpresasAnexosPro.Add(AnexoSelecionado);
                 _ClasseEmpresasAnexosTemp.EmpresasAnexos = _EmpresasAnexosPro;
 
-                IMOD.Domain.Entities.EmpresaAnexo EmpresaAnexoEntity = new IMOD.Domain.Entities.EmpresaAnexo();
-                g.TranportarDados(AnexoSelecionado, 1, EmpresaAnexoEntity);
+                var service = new IMOD.Application.Service.EmpresaAnexoService();
+                var entity = AnexoSelecionado;
+                var entityConv = Mapper.Map<EmpresaAnexo>(entity);
 
-                var repositorio = new IMOD.Infra.Repositorios.EmpresaAnexoRepositorio();
-                repositorio.Criar(EmpresaAnexoEntity);
-
+                service.Criar(entityConv);
 
                 Thread CarregaColecaoAnexosSignatarios_thr = new Thread(() => CarregaColecaoAnexos(AnexoSelecionado.EmpresaID));
                 CarregaColecaoAnexosSignatarios_thr.Start();
@@ -338,6 +342,8 @@ namespace iModSCCredenciamento.ViewModels
             catch (Exception ex)
             {
                 Global.Log("Erro void OnSalvarAdicaoCommand ex: " + ex.Message);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
         }
         public void OnCancelarAdicaoCommand()

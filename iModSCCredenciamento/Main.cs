@@ -23,7 +23,6 @@ using Colaborador = IMOD.Domain.Entities.Colaborador;
 
 #endregion
 
-//using Colaborador = IMOD.Domain.Entities.Colaborador;
 
 namespace iModSCCredenciamento
 {
@@ -43,6 +42,7 @@ namespace iModSCCredenciamento
 
             catch (Exception)
             {
+
             }
         }
 

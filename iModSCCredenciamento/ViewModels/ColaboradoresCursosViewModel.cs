@@ -13,6 +13,7 @@ using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Serialization;
 using AutoMapper;
+using IMOD.Domain.Entities;
 
 namespace iModSCCredenciamento.ViewModels
 {
@@ -169,7 +170,7 @@ namespace iModSCCredenciamento.ViewModels
         public void OnAtualizaCommand(object _colaboradorCursoID)
         {
 
-                ColaboradorCursoSelecionadaID = Convert.ToInt32(_colaboradorCursoID);
+            ColaboradorCursoSelecionadaID = Convert.ToInt32(_colaboradorCursoID);
             Thread CarregaColecaoColaboradorerCursos_thr = new Thread(() => CarregaColecaoColaboradorerCursos(Convert.ToInt32(_colaboradorCursoID)));
             CarregaColecaoColaboradorerCursos_thr.Start();
             //CarregaColecaoColaboradorerCursos(Convert.ToInt32(_colaboradorCursoID));
@@ -181,7 +182,7 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 System.Windows.Forms.OpenFileDialog _arquivoPDF = new System.Windows.Forms.OpenFileDialog();
-               
+
                 string _nomecompletodoarquivo;
                 string _arquivoSTR;
                 _arquivoPDF.InitialDirectory = "c:\\\\";
@@ -292,48 +293,26 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 HabilitaEdicao = false;
-                System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(ClasseColaboradoresCursos));
 
-                ObservableCollection<ClasseColaboradoresCursos.ColaboradorCurso> _ColaboradoresCursosTemp = new ObservableCollection<ClasseColaboradoresCursos.ColaboradorCurso>();
-                ClasseColaboradoresCursos _ClasseColaboradoresCursosTemp = new ClasseColaboradoresCursos();
-                _ColaboradoresCursosTemp.Add(ColaboradorCursoSelecionado);
-                _ClasseColaboradoresCursosTemp.ColaboradoresCursos = _ColaboradoresCursosTemp;
+                var service = new IMOD.Application.Service.ColaboradorCursosService();
+                var entity = ColaboradorCursoSelecionado;
+                var entityConv = Mapper.Map<ColaboradorCurso>(entity);
 
-                //string xmlString;
+                service.Alterar(entityConv);
 
-                //using (StringWriterWithEncoding sw = new StringWriterWithEncoding(System.Text.Encoding.UTF8))
-                //{
-
-                //    using (XmlTextWriter xw = new XmlTextWriter(sw))
-                //    {
-                //        xw.Formatting = Formatting.Indented;
-                //        serializer.Serialize(xw, _ClasseColaboradoresCursosTemp);
-                //        xmlString = sw.ToString();
-                //    }
-
-                //}
-
-                //InsereColaboradorCursoBD(xmlString);
-
-                IMOD.Domain.Entities.ColaboradorCurso ColaboradorCursoEntity = new IMOD.Domain.Entities.ColaboradorCurso();
-                g.TranportarDados(ColaboradorCursoSelecionado, 1, ColaboradorCursoEntity);
-
-                var repositorio = new IMOD.Infra.Repositorios.ColaboradorCursoRepositorio();
-                repositorio.Alterar(ColaboradorCursoEntity);
                 var id = ColaboradorCursoSelecionado.ColaboradorID;
-
-                Thread CarregaColecaoColaboradorerCursos_thr = new Thread(() => CarregaColecaoColaboradorerCursos(id));
-                CarregaColecaoColaboradorerCursos_thr.Start();
 
                 _ColaboradoresCursosTemp = null;
 
-                //_ColaboradoresCursosTemp.Clear();
-                //_ColaboradorCursoTemp = null;
+                Thread CarregaColecaoColaboradorerCursos_thr = new Thread(() => CarregaColecaoColaboradorerCursos(id, null, null));
+                CarregaColecaoColaboradorerCursos_thr.Start();
 
             }
             catch (Exception ex)
             {
-                //Global.Log("Erro void CarregaColecaoEmpresas ex: " + ex.Message);
+                Global.Log("Erro na void OnSalvarEdicaoCommand ex: " + ex);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
         }
 
@@ -342,55 +321,25 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 HabilitaEdicao = false;
-                System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(ClasseColaboradoresCursos));
 
-                ObservableCollection<ClasseColaboradoresCursos.ColaboradorCurso> _ColaboradoresCursosPro = new ObservableCollection<ClasseColaboradoresCursos.ColaboradorCurso>();
-                ClasseColaboradoresCursos _ClasseColaboradoresCursosPro = new ClasseColaboradoresCursos();
-                _ColaboradoresCursosPro.Add(ColaboradorCursoSelecionado);
-                _ClasseColaboradoresCursosPro.ColaboradoresCursos = _ColaboradoresCursosPro;
+                var service = new IMOD.Application.Service.ColaboradorCursosService();
+                var entity = ColaboradorCursoSelecionado;
+                var entityConv = Mapper.Map<ColaboradorCurso>(entity);
 
-                //string xmlString;
-
-                //using (StringWriterWithEncoding sw = new StringWriterWithEncoding(System.Text.Encoding.UTF8))
-                //{
-
-                //    using (XmlTextWriter xw = new XmlTextWriter(sw))
-                //    {
-                //        xw.Formatting = Formatting.Indented;
-                //        serializer.Serialize(xw, _ClasseColaboradoresCursosPro);
-                //        xmlString = sw.ToString();
-                //    }
-
-                //}
-
-                //InsereColaboradorCursoBD(xmlString);
-
-                IMOD.Domain.Entities.ColaboradorCurso ColaboradorCursoEntity = new IMOD.Domain.Entities.ColaboradorCurso();
-                g.TranportarDados(ColaboradorCursoSelecionado, 1, ColaboradorCursoEntity);
-
-                var repositorio = new IMOD.Infra.Repositorios.ColaboradorCursoRepositorio();
-                repositorio.Criar(ColaboradorCursoEntity);
+                service.Criar(entityConv);
                 var id = ColaboradorCursoSelecionado.ColaboradorID;
 
-                Thread CarregaColecaoColaboradorerCursos_thr = new Thread(() => CarregaColecaoColaboradorerCursos(id));
-                CarregaColecaoColaboradorerCursos_thr.Start();
-                //_ColaboradoresCursosTemp.Add(ColaboradorCursoSelecionado);
-                //ColaboradoresCursos = null;
-                //ColaboradoresCursos = new ObservableCollection<ClasseColaboradoresCursos.ColaboradorCurso>(_ColaboradoresCursosTemp);
-                //SelectedIndex = _selectedIndexTemp;
-                //_ColaboradoresCursosTemp.Clear();
+                Thread CarregaColecaoColaboradoresCursos_thr = new Thread(() => CarregaColecaoColaboradorerCursos(id, null, null));
+                CarregaColecaoColaboradoresCursos_thr.Start();
 
-                _ColaboradoresCursosPro = null;
-
-                //_ColaboradoresCursosPro.Clear();
                 _ColaboradorCursoTemp = null;
-
-
 
             }
             catch (Exception ex)
             {
-                //Global.Log("Erro void CarregaColecaoEmpresas ex: " + ex.Message);
+                Global.Log("Erro na void OnSalvarAdicaoCommand ex: " + ex);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
         }
 
@@ -437,28 +386,16 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                //if (MessageBox.Show("Tem certeza que deseja excluir este curso?", "Excluir Curso", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                //{
-                //    if (MessageBox.Show("Você perderá todos os dados deste curso, inclusive histórico. Confirma exclusão?", "Excluir Curso", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                //    {
-
-                //        ExcluiColaboradorCursoBD(ColaboradorCursoSelecionado.ColaboradorCursoID);
-
-                //        ColaboradoresCursos.Remove(ColaboradorCursoSelecionado);
-
-                //    }
-                //}
                 if (Global.PopupBox("Tem certeza que deseja excluir?", 2))
                 {
                     if (Global.PopupBox("Você perderá todos os dados, inclusive histórico. Confirma exclusão?", 2))
                     {
+                        var service = new IMOD.Application.Service.ColaboradorCursosService();
+                        var emp = service.BuscarPelaChave(ColaboradorCursoSelecionado.ColaboradorCursoID);
+                        service.Remover(emp);
 
-                        IMOD.Domain.Entities.ColaboradorCurso ColaboradorCursoEntity = new IMOD.Domain.Entities.ColaboradorCurso();
-                        g.TranportarDados(ColaboradorCursoSelecionado, 1, ColaboradorCursoEntity);
+                        CarregaColecaoColaboradorerCursos(ColaboradorCursoSelecionado.ColaboradorID, null, null);
 
-                        var repositorio = new IMOD.Infra.Repositorios.ColaboradorCursoRepositorio();
-                        repositorio.Remover(ColaboradorCursoEntity);
-                       
                         ColaboradoresCursos.Remove(ColaboradorCursoSelecionado);
                     }
                 }
@@ -466,6 +403,9 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
+                Global.Log("Erro na void OnExcluirCommand ex: " + ex);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
 
         }
@@ -498,7 +438,7 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                
+
                 var service = new IMOD.Application.Service.ColaboradorCursosService();
                 if (!string.IsNullOrWhiteSpace(_descricao)) _descricao = $"%{_descricao}%";
                 if (!string.IsNullOrWhiteSpace(_curso)) _curso = $"%{_curso}%";
@@ -579,8 +519,8 @@ namespace iModSCCredenciamento.ViewModels
 
                 string _strSql;
 
-                
-                 SqlConnection _Con = new SqlConnection(Global._connectionString);_Con.Open();
+
+                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
 
                 _curso = "%" + _curso + "%";
                 _descricao = "%" + _descricao + "%";
@@ -651,7 +591,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                
+
                 return null;
             }
         }
@@ -668,7 +608,7 @@ namespace iModSCCredenciamento.ViewModels
                 XmlNode _sCursos = _xmlDocument.CreateElement("Cursos");
                 _ClassesCursos.AppendChild(_sCursos);
 
-                 SqlConnection _Con = new SqlConnection(Global._connectionString);_Con.Open();
+                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
                 SqlCommand _sqlcmd = new SqlCommand("select * from Cursos ", _Con);
                 SqlDataReader _sqldatareader = _sqlcmd.ExecuteReader();
                 while (_sqldatareader.Read())
@@ -692,7 +632,7 @@ namespace iModSCCredenciamento.ViewModels
             catch (Exception ex)
             {
                 Global.Log("Erro na void RequisitaCursos ex: " + ex);
-                
+
                 return null;
 
             }
@@ -725,9 +665,9 @@ namespace iModSCCredenciamento.ViewModels
                 _ColaboradorCurso.NomeArquivo = _ColaboradorCursoTemp.NomeArquivo == null ? "" : _ColaboradorCursoTemp.NomeArquivo;
                 _ColaboradorCurso.Arquivo = _ColaboradorCursoTemp.Arquivo == null ? "" : _ColaboradorCursoTemp.Arquivo;
 
-                
+
                 //_Con.Close();
-                 SqlConnection _Con = new SqlConnection(Global._connectionString);_Con.Open();
+                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
 
                 SqlCommand _sqlCmd;
                 if (_ColaboradorCurso.ColaboradorCursoID != 0)
@@ -783,18 +723,18 @@ namespace iModSCCredenciamento.ViewModels
 
                     _sqlCmd = new SqlCommand("SELECT dbo.Colaboradores.ColaboradorID, dbo.Colaboradores.Nome, dbo.ColaboradoresEmpresas.Ativo, dbo.ColaboradoresEmpresas.Validade " +
                         "FROM dbo.Colaboradores INNER JOIN dbo.ColaboradoresEmpresas ON dbo.Colaboradores.ColaboradorID = dbo.ColaboradoresEmpresas.ColaboradorID " +
-                        "WHERE(dbo.Colaboradores.ColaboradorID = " + _ColaboradorCurso.ColaboradorID + " ) AND(dbo.ColaboradoresEmpresas.Ativo = 1)",_Con);
+                        "WHERE(dbo.Colaboradores.ColaboradorID = " + _ColaboradorCurso.ColaboradorID + " ) AND(dbo.ColaboradoresEmpresas.Ativo = 1)", _Con);
 
                     SqlDataReader _sqlreader = _sqlCmd.ExecuteReader(CommandBehavior.Default);
                     while (_sqlreader.Read())
                     {
                         string _dataTeste = _sqlreader["Validade"].ToString().Trim();
 
-                        if ((_dataTeste != null || _dataTeste=="") && _ColaboradorCurso.Validade != null)
+                        if ((_dataTeste != null || _dataTeste == "") && _ColaboradorCurso.Validade != null)
                         {
                             if (Convert.ToDateTime(_sqlreader["Validade"].ToString()) > Convert.ToDateTime(_ColaboradorCurso.Validade))
                             {
-                                Global.PopupBox("O colaborador [" + _sqlreader["Nome"].ToString() + "] está inativo devido a data de validade!",4);
+                                Global.PopupBox("O colaborador [" + _sqlreader["Nome"].ToString() + "] está inativo devido a data de validade!", 4);
                                 SqlConnection _Con2 = new SqlConnection(Global._connectionString); _Con2.Open();
                                 SqlCommand _sqlCmd2 = new SqlCommand("Update ColaboradoresEmpresas Set Validade = '" + _ColaboradorCurso.Validade + "'" +
                                 " Where ColaboradorID = " + _ColaboradorCurso.ColaboradorID + " AND Ativo = 1", _Con2);
@@ -803,7 +743,7 @@ namespace iModSCCredenciamento.ViewModels
                             }
                         }
 
-                        
+
 
                     }
                     _sqlreader.Close();
@@ -818,7 +758,7 @@ namespace iModSCCredenciamento.ViewModels
             catch (Exception ex)
             {
                 Global.Log("Erro na void InsereColaboradorCursoBD ex: " + ex);
-                
+
 
             }
         }
@@ -828,9 +768,9 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
 
-                
+
                 //_Con.Close();
-                 SqlConnection _Con = new SqlConnection(Global._connectionString);_Con.Open();
+                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
 
                 SqlCommand _sqlCmd;
                 _sqlCmd = new SqlCommand("Delete from ColaboradoresCursos where ColaboradorCursoID=" + _ColaboradorCursoID, _Con);
@@ -841,7 +781,7 @@ namespace iModSCCredenciamento.ViewModels
             catch (Exception ex)
             {
                 Global.Log("Erro na void ExcluiColaboradorCursoBD ex: " + ex);
-                
+
 
             }
         }
@@ -861,8 +801,8 @@ namespace iModSCCredenciamento.ViewModels
                 XmlNode _ArquivosImagens = _xmlDocument.CreateElement("ArquivosImagens");
                 _ClasseArquivosImagens.AppendChild(_ArquivosImagens);
 
-                
-                 SqlConnection _Con = new SqlConnection(Global._connectionString);_Con.Open();
+
+                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
 
                 SqlCommand SQCMDXML = new SqlCommand("Select * From ColaboradoresCursos Where ColaboradorCursoID = " + colaboradorCursoID + "", _Con);
                 SqlDataReader SQDR_XML;
@@ -907,7 +847,7 @@ namespace iModSCCredenciamento.ViewModels
 
                     if (Convert.ToDateTime(_sqlreader["ValidadeCurso"].ToString()) < DateTime.Now)
                     {
-                        Global.PopupBox("Data de validade do curso do colaborador [ " + _sqlreader["Nome"].ToString() + " ] vencida!",  4);
+                        Global.PopupBox("Data de validade do curso do colaborador [ " + _sqlreader["Nome"].ToString() + " ] vencida!", 4);
                     }
 
                 }

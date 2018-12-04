@@ -671,11 +671,11 @@ namespace iModSCCredenciamento.ViewModels
 
                 if (TipoEquipamentoSelecionado.TipoEquipamentoID != 0)
                 {
-                    _auxiliaresService.TipoEquipamentoService().Alterar(entityConv);
+                    _auxiliaresService.TipoEquipamentoService.Alterar(entityConv);
                 }
                 else
                 {
-                    _auxiliaresService.TipoEquipamentoService().Criar(entityConv);
+                    _auxiliaresService.TipoEquipamentoService.Criar(entityConv);
                 }
 
                 CarregaColecaoTiposEquipamentos();
@@ -695,7 +695,7 @@ namespace iModSCCredenciamento.ViewModels
                     {
                         var entity = TipoEquipamentoSelecionado;
                         var entityConv = Mapper.Map<TipoEquipamento>(entity);
-                        _auxiliaresService.TipoEquipamentoService().Remover(entityConv);
+                        _auxiliaresService.TipoEquipamentoService.Remover(entityConv);
 
                         TiposEquipamentos.Remove(TipoEquipamentoSelecionado);
                     }
@@ -715,7 +715,6 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-
                 foreach (var x in Relatorios)
                 {
                     _RelatoriosTemp.Add(x);
@@ -748,11 +747,11 @@ namespace iModSCCredenciamento.ViewModels
 
                 if (RelatorioSelecionado.RelatorioID != 0)
                 {
-                    _auxiliaresService.RelatorioService().Alterar(entityConv);
+                    _auxiliaresService.RelatorioService.Alterar(entityConv);
                 }
                 else
                 {
-                    _auxiliaresService.RelatorioService().Criar(entityConv);
+                    _auxiliaresService.RelatorioService.Criar(entityConv);
                 }
 
                 CarregaColecaoRelatorios();
@@ -772,7 +771,7 @@ namespace iModSCCredenciamento.ViewModels
                 {
                     var entity = RelatorioSelecionado;
                     var entityConv = Mapper.Map<Relatorios>(entity);
-                    _auxiliaresService.RelatorioService().Remover(entityConv);
+                    _auxiliaresService.RelatorioService.Remover(entityConv);
 
                     Relatorios.Remove(RelatorioSelecionado);
                 }
@@ -927,11 +926,11 @@ namespace iModSCCredenciamento.ViewModels
 
                 if (RelatorioGerencialSelecionado.RelatorioID != 0)
                 {
-                    _auxiliaresService.RelatorioGerencialService().Alterar(entityConv);
+                    _auxiliaresService.RelatorioGerencialService.Alterar(entityConv);
                 }
                 else
                 {
-                    _auxiliaresService.RelatorioGerencialService().Criar(entityConv);
+                    _auxiliaresService.RelatorioGerencialService.Criar(entityConv);
                 }
                 CarregaColecaoRelatoriosGerenciais();
             }
@@ -950,7 +949,7 @@ namespace iModSCCredenciamento.ViewModels
                 {
                     var entity = RelatorioGerencialSelecionado;
                     var entityConv = Mapper.Map<RelatoriosGerenciais>(entity);
-                    _auxiliaresService.RelatorioGerencialService().Remover(entityConv);
+                    _auxiliaresService.RelatorioGerencialService.Remover(entityConv);
 
                     RelatoriosGerenciais.Remove(RelatorioGerencialSelecionado);
                 }
@@ -1096,11 +1095,11 @@ namespace iModSCCredenciamento.ViewModels
 
                 if (LayoutCrachaSelecionado.LayoutCrachaID != 0)
                 {
-                    _auxiliaresService.LayoutCrachaService().Alterar(entityConv);
+                    _auxiliaresService.LayoutCrachaService.Alterar(entityConv);
                 }
                 else
                 {
-                    _auxiliaresService.LayoutCrachaService().Criar(entityConv);
+                    _auxiliaresService.LayoutCrachaService.Criar(entityConv);
                 }
 
                 CarregaColecaoLayoutsCrachas();
@@ -1121,7 +1120,7 @@ namespace iModSCCredenciamento.ViewModels
 
                     var entity = LayoutCrachaSelecionado;
                     var entityConv = Mapper.Map<LayoutCracha>(entity);
-                    _auxiliaresService.LayoutCrachaService().Remover(entityConv);
+                    _auxiliaresService.LayoutCrachaService.Remover(entityConv);
                     LayoutsCrachas.Remove(LayoutCrachaSelecionado);
                 }
             }
@@ -1264,11 +1263,11 @@ namespace iModSCCredenciamento.ViewModels
 
                 if (TipoAtividadeSelecionada.TipoAtividadeID != 0)
                 {
-                    _auxiliaresService.TipoAtividadeService().Alterar(entityConv);
+                    _auxiliaresService.TipoAtividadeService.Alterar(entityConv);
                 }
                 else
                 {
-                    _auxiliaresService.TipoAtividadeService().Criar(entityConv);
+                    _auxiliaresService.TipoAtividadeService.Criar(entityConv);
                 }
 
                 CarregaColecaoTiposAtividades();
@@ -1288,7 +1287,7 @@ namespace iModSCCredenciamento.ViewModels
                 {
                     var entity = TipoAtividadeSelecionada;
                     var entityConv = Mapper.Map<TipoAtividade>(entity);
-                    _auxiliaresService.TipoAtividadeService().Remover(entityConv);
+                    _auxiliaresService.TipoAtividadeService.Remover(entityConv);
 
                     TiposAtividades.Remove(TipoAtividadeSelecionada);
                     CarregaColecaoTiposAtividades();
@@ -1339,11 +1338,11 @@ namespace iModSCCredenciamento.ViewModels
 
                 if (TipoCobrancaSelecionado.TipoCobrancaID != 0)
                 {
-                    _auxiliaresService.TipoCobrancaService().Alterar(entityConv);
+                    _auxiliaresService.TipoCobrancaService.Alterar(entityConv);
                 }
                 else
                 {
-                    _auxiliaresService.TipoCobrancaService().Criar(entityConv);
+                    _auxiliaresService.TipoCobrancaService.Criar(entityConv);
                 }
 
                 CarregaColecaoTiposCobrancas();
@@ -1364,7 +1363,7 @@ namespace iModSCCredenciamento.ViewModels
                 {
                     var entity = TipoCobrancaSelecionado;
                     var entityConv = Mapper.Map<TipoCobranca>(entity);
-                    _auxiliaresService.TipoCobrancaService().Remover(entityConv);
+                    _auxiliaresService.TipoCobrancaService.Remover(entityConv);
 
                     TiposCobrancas.Remove(TipoCobrancaSelecionado);
 
@@ -1416,11 +1415,11 @@ namespace iModSCCredenciamento.ViewModels
 
                 if (TipoAcessoSelecionado.TipoAcessoID != 0)
                 {
-                    _auxiliaresService.TiposAcessoService().Alterar(entityConv);
+                    _auxiliaresService.TiposAcessoService.Alterar(entityConv);
                 }
                 else
                 {
-                    _auxiliaresService.TiposAcessoService().Criar(entityConv);
+                    _auxiliaresService.TiposAcessoService.Criar(entityConv);
                 }
 
                 CarregaColecaoTiposAcessos();
@@ -1442,7 +1441,7 @@ namespace iModSCCredenciamento.ViewModels
                 {
                     var entity = TipoAcessoSelecionado;
                     var entityConv = Mapper.Map<TipoAcesso>(entity);
-                    _auxiliaresService.TiposAcessoService().Remover(entityConv);
+                    _auxiliaresService.TiposAcessoService.Remover(entityConv);
 
                     CarregaColecaoTiposAcessos();
                 }
@@ -1492,11 +1491,11 @@ namespace iModSCCredenciamento.ViewModels
 
                 if (TipoStatusSelecionado.StatusID != 0)
                 {
-                    _auxiliaresService.TipoStatusService().Alterar(entityConv);
+                    _auxiliaresService.TipoStatusService.Alterar(entityConv);
                 }
                 else
                 {
-                    _auxiliaresService.TipoStatusService().Criar(entityConv);
+                    _auxiliaresService.TipoStatusService.Criar(entityConv);
                 }
 
                 CarregaColecaoStatus();
@@ -1517,7 +1516,7 @@ namespace iModSCCredenciamento.ViewModels
                 {
                     var entity = TipoStatusSelecionado;
                     var entityConv = Mapper.Map<Status>(entity);
-                    _auxiliaresService.TipoStatusService().Remover(entityConv);
+                    _auxiliaresService.TipoStatusService.Remover(entityConv);
 
                     TiposStatus.Remove(TipoStatusSelecionado);
 
@@ -1569,11 +1568,11 @@ namespace iModSCCredenciamento.ViewModels
 
                 if (CursoSelecionado.CursoID != 0)
                 {
-                    _auxiliaresService.CursoService().Alterar(entityConv);
+                    _auxiliaresService.CursoService.Alterar(entityConv);
                 }
                 else
                 {
-                    _auxiliaresService.CursoService().Criar(entityConv);
+                    _auxiliaresService.CursoService.Criar(entityConv);
                 }
 
 
@@ -1596,7 +1595,7 @@ namespace iModSCCredenciamento.ViewModels
                 {
                     var entity = CursoSelecionado;
                     var entityConv = Mapper.Map<Curso>(entity);
-                    _auxiliaresService.CursoService().Remover(entityConv);
+                    _auxiliaresService.CursoService.Remover(entityConv);
                     Cursos.Remove(CursoSelecionado);
 
                     CarregaColecaoCursos();
@@ -1646,11 +1645,11 @@ namespace iModSCCredenciamento.ViewModels
 
                 if (AreaAcessoSelecionada.AreaAcessoID != 0)
                 {
-                    _auxiliaresService.AreaAcessoService().Alterar(entityConv);
+                    _auxiliaresService.AreaAcessoService.Alterar(entityConv);
                 }
                 else
                 {
-                    _auxiliaresService.AreaAcessoService().Criar(entityConv);
+                    _auxiliaresService.AreaAcessoService.Criar(entityConv);
                 }
 
                 CarregaColecaoAreasAcessos();
@@ -1671,7 +1670,7 @@ namespace iModSCCredenciamento.ViewModels
                 {
                     var entity = AreaAcessoSelecionada;
                     var entityConv = Mapper.Map<AreaAcesso>(entity);
-                    _auxiliaresService.AreaAcessoService().Remover(entityConv);
+                    _auxiliaresService.AreaAcessoService.Remover(entityConv);
 
                     AreasAcessos.Remove(AreaAcessoSelecionada);
 

@@ -33,8 +33,8 @@ namespace iModSCCredenciamento.ViewModels
 {
     public class EmpresasContratosViewModel : ViewModelBase
     {
-        private IEmpresaContratosService _empresaContratosService = new EmpresaContratoService(); 
-        private  readonly  IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
+        private IEmpresaContratosService _empresaContratosService = new EmpresaContratoService();
+        private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
         /// <summary>
         /// Lista de municipios
         /// </summary>
@@ -64,32 +64,32 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 var _xmlDocument = new XmlDocument();
-                XmlNode _xmlNode = _xmlDocument.CreateXmlDeclaration ("1.0", "UTF-8", null);
+                XmlNode _xmlNode = _xmlDocument.CreateXmlDeclaration("1.0", "UTF-8", null);
 
-                XmlNode _ClasseArquivosImagens = _xmlDocument.CreateElement ("ClasseArquivosImagens");
-                _xmlDocument.AppendChild (_ClasseArquivosImagens);
+                XmlNode _ClasseArquivosImagens = _xmlDocument.CreateElement("ClasseArquivosImagens");
+                _xmlDocument.AppendChild(_ClasseArquivosImagens);
 
-                XmlNode _ArquivosImagens = _xmlDocument.CreateElement ("ArquivosImagens");
-                _ClasseArquivosImagens.AppendChild (_ArquivosImagens);
+                XmlNode _ArquivosImagens = _xmlDocument.CreateElement("ArquivosImagens");
+                _ClasseArquivosImagens.AppendChild(_ArquivosImagens);
 
-                var _Con = new SqlConnection (Global._connectionString);
+                var _Con = new SqlConnection(Global._connectionString);
                 _Con.Open();
 
-                var SQCMDXML = new SqlCommand ("Select * From EmpresasContratos Where EmpresaContratoID = " + empresaContratoID + "", _Con);
+                var SQCMDXML = new SqlCommand("Select * From EmpresasContratos Where EmpresaContratoID = " + empresaContratoID + "", _Con);
                 SqlDataReader SQDR_XML;
-                SQDR_XML = SQCMDXML.ExecuteReader (CommandBehavior.Default);
+                SQDR_XML = SQCMDXML.ExecuteReader(CommandBehavior.Default);
                 while (SQDR_XML.Read())
                 {
-                    XmlNode _ArquivoImagem = _xmlDocument.CreateElement ("ArquivoImagem");
-                    _ArquivosImagens.AppendChild (_ArquivoImagem);
+                    XmlNode _ArquivoImagem = _xmlDocument.CreateElement("ArquivoImagem");
+                    _ArquivosImagens.AppendChild(_ArquivoImagem);
 
                     //XmlNode _ArquivoImagemID = _xmlDocument.CreateElement("ArquivoImagemID");
                     //_ArquivoImagemID.AppendChild(_xmlDocument.CreateTextNode((SQDR_XML["EmpresaContratoID"].ToString())));
                     //_ArquivoImagem.AppendChild(_ArquivoImagemID);
 
-                    XmlNode _Arquivo = _xmlDocument.CreateElement ("Arquivo");
-                    _Arquivo.AppendChild (_xmlDocument.CreateTextNode (SQDR_XML["Arquivo"].ToString()));
-                    _ArquivoImagem.AppendChild (_Arquivo);
+                    XmlNode _Arquivo = _xmlDocument.CreateElement("Arquivo");
+                    _Arquivo.AppendChild(_xmlDocument.CreateTextNode(SQDR_XML["Arquivo"].ToString()));
+                    _ArquivoImagem.AppendChild(_Arquivo);
                 }
                 SQDR_XML.Close();
 
@@ -98,7 +98,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log ("Erro na void CriaXmlImagem ex: " + ex);
+                Global.Log("Erro na void CriaXmlImagem ex: " + ex);
                 return null;
             }
         }
@@ -131,21 +131,21 @@ namespace iModSCCredenciamento.ViewModels
         private void CarregarDadosComunsEmMemoria()
         {
             //Estados
-            var e1 = _auxiliaresService.ListarEstadosFederacao(); 
+            var e1 = _auxiliaresService.EstadoService.Listar();
             ObterListaEstadosFederacao = Mapper.Map<List<ClasseEstados.Estado>>(e1);
             //Municipios
-            var list = _auxiliaresService.ListarMunicipios(); 
+            var list = _auxiliaresService.MunicipioService.Listar();
             ObterListaListaMunicipios = Mapper.Map<List<ClasseMunicipios.Municipio>>(list);
             //Status
-            var e3 = _auxiliaresService.ListarStatus(); 
+            var e3 = _auxiliaresService.TipoStatusService.Listar();
             ObterListaStatus = Mapper.Map<List<ClasseStatus.Status>>(e3);
             //Tipos Cobrança
-            var e4 = _auxiliaresService.ListarTiposCobranca();
+            var e4 = _auxiliaresService.TipoCobrancaService.Listar();
             ObterListaTiposCobranca = Mapper.Map<List<ClasseTiposCobrancas.TipoCobranca>>(e4);
             //Tipo de Acesso
-            var e5 = _auxiliaresService.ListarTiposAcessos();
-             ObterListaTipoAcessos = Mapper.Map<List<ClasseTiposAcessos.TipoAcesso>>(e5);
-             
+            var e5 = _auxiliaresService.TiposAcessoService.Listar();
+            ObterListaTipoAcessos = Mapper.Map<List<ClasseTiposAcessos.TipoAcesso>>(e5);
+
 
         }
 
@@ -185,7 +185,7 @@ namespace iModSCCredenciamento.ViewModels
 
         #endregion
 
-       
+
 
         public ObservableCollection<ClasseEmpresasContratos.EmpresaContrato> Contratos
         {
@@ -277,7 +277,7 @@ namespace iModSCCredenciamento.ViewModels
             set
             {
                 _ContratoSelecionado = value;
-                OnPropertyChanged ("SelectedItem");
+                OnPropertyChanged("SelectedItem");
                 if (ContratoSelecionado != null)
                 {
                     OnContratoSelecionado();
@@ -305,7 +305,7 @@ namespace iModSCCredenciamento.ViewModels
             set
             {
                 _selectedIndex = value;
-                OnPropertyChanged ("SelectedIndex");
+                OnPropertyChanged("SelectedIndex");
             }
         }
 
@@ -329,14 +329,14 @@ namespace iModSCCredenciamento.ViewModels
             }
         }
 
-        
+
 
         #region Comandos dos Botoes
 
         public void OnAtualizaCommand(object empresaID)
         {
-            EmpresaSelecionadaID = Convert.ToInt32 (empresaID);
-            ObterContratos (EmpresaSelecionadaID,"","");
+            EmpresaSelecionadaID = Convert.ToInt32(empresaID);
+            ObterContratos(EmpresaSelecionadaID, "", "");
             //CarregaColecaoContratos (EmpresaSelecionadaID);
             //var CarregaColecaoContratos_thr = new Thread (() => CarregaColecaoContratos (Convert.ToInt32 (empresaID)));
             //CarregaColecaoContratos_thr.Start();
@@ -357,7 +357,7 @@ namespace iModSCCredenciamento.ViewModels
                 _arquivoPDF.ShowDialog();
 
                 _nomecompletodoarquivo = _arquivoPDF.SafeFileName;
-                _arquivoSTR = Conversores.PDFtoString (_arquivoPDF.FileName);
+                _arquivoSTR = Conversores.PDFtoString(_arquivoPDF.FileName);
                 _contratoTemp.NomeArquivo = _nomecompletodoarquivo;
                 _contratoTemp.Arquivo = _arquivoSTR;
 
@@ -387,16 +387,16 @@ namespace iModSCCredenciamento.ViewModels
                     }
                     if (_ArquivoPDF == null)
                     {
-                        var _xmlstring = CriaXmlImagem (ContratoSelecionado.EmpresaContratoID);
+                        var _xmlstring = CriaXmlImagem(ContratoSelecionado.EmpresaContratoID);
 
                         var xmldocument = new XmlDocument();
-                        xmldocument.LoadXml (_xmlstring);
+                        xmldocument.LoadXml(_xmlstring);
                         XmlNode node = xmldocument.DocumentElement;
-                        var arquivoNode = node.SelectSingleNode ("ArquivosImagens/ArquivoImagem/Arquivo");
+                        var arquivoNode = node.SelectSingleNode("ArquivosImagens/ArquivoImagem/Arquivo");
 
                         _ArquivoPDF = arquivoNode.FirstChild.Value;
                     }
-                    Global.PopupPDF (_ArquivoPDF);
+                    Global.PopupPDF(_ArquivoPDF);
                     //byte[] buffer = Conversores.StringToPDF(_ArquivoPDF);
                     //_ArquivoPDF = System.IO.Path.GetTempFileName();
                     //_ArquivoPDF = System.IO.Path.GetRandomFileName();
@@ -412,7 +412,7 @@ namespace iModSCCredenciamento.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    Global.Log ("Erro na void ListaARQColaboradorAnexo_lv_PreviewMouseDoubleClick ex: " + ex);
+                    Global.Log("Erro na void ListaARQColaboradorAnexo_lv_PreviewMouseDoubleClick ex: " + ex);
                 }
             }
             catch (Exception ex)
@@ -425,7 +425,7 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 //BuscaBadges();
-                _contratoTemp = ContratoSelecionado.CriaCopia (ContratoSelecionado);
+                _contratoTemp = ContratoSelecionado.CriaCopia(ContratoSelecionado);
                 _selectedIndexTemp = SelectedIndex;
                 HabilitaEdicao = true;
             }
@@ -452,26 +452,26 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 HabilitaEdicao = false;
-                var serializer = new XmlSerializer (typeof(ClasseEmpresasContratos));
+                var serializer = new XmlSerializer(typeof(ClasseEmpresasContratos));
 
                 var _EmpresasContratosTemp = new ObservableCollection<ClasseEmpresasContratos.EmpresaContrato>();
                 var _ClasseEmpresasContratosTemp = new ClasseEmpresasContratos();
-                _EmpresasContratosTemp.Add (ContratoSelecionado);
+                _EmpresasContratosTemp.Add(ContratoSelecionado);
                 _ClasseEmpresasContratosTemp.EmpresasContratos = _EmpresasContratosTemp;
 
                 string xmlString;
 
-                using (var sw = new StringWriterWithEncoding (Encoding.UTF8))
+                using (var sw = new StringWriterWithEncoding(Encoding.UTF8))
                 {
-                    using (var xw = new XmlTextWriter (sw))
+                    using (var xw = new XmlTextWriter(sw))
                     {
                         xw.Formatting = Formatting.Indented;
-                        serializer.Serialize (xw, _ClasseEmpresasContratosTemp);
+                        serializer.Serialize(xw, _ClasseEmpresasContratosTemp);
                         xmlString = sw.ToString();
                     }
                 }
 
-                InsereContratoBD (xmlString);
+                InsereContratoBD(xmlString);
 
                 _ClasseEmpresasContratosTemp = null;
 
@@ -489,7 +489,7 @@ namespace iModSCCredenciamento.ViewModels
             {
                 foreach (var x in Contratos)
                 {
-                    _ContratosTemp.Add (x);
+                    _ContratosTemp.Add(x);
                 }
 
                 _selectedIndexTemp = SelectedIndex;
@@ -499,7 +499,7 @@ namespace iModSCCredenciamento.ViewModels
                 //Contratos.Add(_contrato);
                 _contratoTemp = new ClasseEmpresasContratos.EmpresaContrato();
                 _contratoTemp.EmpresaID = EmpresaSelecionadaID;
-                Contratos.Add (_contratoTemp);
+                Contratos.Add(_contratoTemp);
                 SelectedIndex = 0;
                 HabilitaEdicao = true;
             }
@@ -513,26 +513,26 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 HabilitaEdicao = false;
-                var serializer = new XmlSerializer (typeof(ClasseEmpresasContratos));
+                var serializer = new XmlSerializer(typeof(ClasseEmpresasContratos));
 
                 var _EmpresasContratosPro = new ObservableCollection<ClasseEmpresasContratos.EmpresaContrato>();
                 var _ClasseEmpresasContratosPro = new ClasseEmpresasContratos();
-                _EmpresasContratosPro.Add (ContratoSelecionado);
+                _EmpresasContratosPro.Add(ContratoSelecionado);
                 _ClasseEmpresasContratosPro.EmpresasContratos = _EmpresasContratosPro;
 
                 string xmlString;
 
-                using (var sw = new StringWriterWithEncoding (Encoding.UTF8))
+                using (var sw = new StringWriterWithEncoding(Encoding.UTF8))
                 {
-                    using (var xw = new XmlTextWriter (sw))
+                    using (var xw = new XmlTextWriter(sw))
                     {
                         xw.Formatting = Formatting.Indented;
-                        serializer.Serialize (xw, _ClasseEmpresasContratosPro);
+                        serializer.Serialize(xw, _ClasseEmpresasContratosPro);
                         xmlString = sw.ToString();
                     }
                 }
 
-                InsereContratoBD (xmlString);
+                InsereContratoBD(xmlString);
                 ObterContratos(ContratoSelecionado.EmpresaID, "", "");
 
 
@@ -559,7 +559,7 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 Contratos = null;
-                Contratos = new ObservableCollection<ClasseEmpresasContratos.EmpresaContrato> (_ContratosTemp);
+                Contratos = new ObservableCollection<ClasseEmpresasContratos.EmpresaContrato>(_ContratosTemp);
                 SelectedIndex = _selectedIndexTemp;
                 _ContratosTemp.Clear();
                 HabilitaEdicao = false;
@@ -583,12 +583,12 @@ namespace iModSCCredenciamento.ViewModels
                 //    }
                 //}
 
-                if (Global.PopupBox ("Tem certeza que deseja excluir?", 2))
+                if (Global.PopupBox("Tem certeza que deseja excluir?", 2))
                 {
-                    if (Global.PopupBox ("Você perderá todos os dados, inclusive histórico. Confirma exclusão?", 2))
+                    if (Global.PopupBox("Você perderá todos os dados, inclusive histórico. Confirma exclusão?", 2))
                     {
-                        ExcluiContratoBD (ContratoSelecionado.EmpresaContratoID);
-                        Contratos.Remove (ContratoSelecionado);
+                        ExcluiContratoBD(ContratoSelecionado.EmpresaContratoID);
+                        Contratos.Remove(ContratoSelecionado);
                     }
                 }
             }
@@ -612,12 +612,12 @@ namespace iModSCCredenciamento.ViewModels
 
         public void On_EfetuarProcura(object sender, EventArgs e)
         {
-            object vetor = popupPesquisaContrato.Criterio.Split ((char) 20);
+            object vetor = popupPesquisaContrato.Criterio.Split((char)20);
             //var empresaId = EmpresaSelecionadaID;
-            var descricao = ((string[]) vetor)[0];
-            var numContrato = ((string[]) vetor)[1];
+            var descricao = ((string[])vetor)[0];
+            var numContrato = ((string[])vetor)[1];
             //CarregaColecaoContratos (_empresaID, _descricao, _numerocontrato);
-            ObterContratos (0, descricao, numContrato);
+            ObterContratos(0, descricao, numContrato);
             SelectedIndex = 0;
         }
 
@@ -667,13 +667,13 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                var convert = Mapper.Map<List<ClasseEstados.Estado>> (ObterListaEstadosFederacao);
+                var convert = Mapper.Map<List<ClasseEstados.Estado>>(ObterListaEstadosFederacao);
                 Estados = new ObservableCollection<ClasseEstados.Estado>();
-                convert.ForEach (n => { Estados.Add (n); });
+                convert.ForEach(n => { Estados.Add(n); });
             }
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
+                Utils.TraceException(ex);
             }
         }
 
@@ -681,9 +681,9 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                var list = ObterListaListaMunicipios.Where (n => n.UF == uf).ToList();
+                var list = ObterListaListaMunicipios.Where(n => n.UF == uf).ToList();
                 Municipios = new ObservableCollection<ClasseMunicipios.Municipio>();
-                list.ForEach(n=>Municipios.Add(n));
+                list.ForEach(n => Municipios.Add(n));
 
             }
             catch (Exception ex)
@@ -696,9 +696,9 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-               
+
                 Status = new ObservableCollection<ClasseStatus.Status>();
-                ObterListaStatus.ForEach(n=> {Status.Add(n);});
+                ObterListaStatus.ForEach(n => { Status.Add(n); });
 
             }
             catch (Exception ex)
@@ -716,7 +716,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-               Utils.TraceException(ex);
+                Utils.TraceException(ex);
             }
         }
 
@@ -737,11 +737,11 @@ namespace iModSCCredenciamento.ViewModels
 
         #region Data Access
 
-        private void ObterContratos(int empresaId, string descricao, string  numContrato)
+        private void ObterContratos(int empresaId, string descricao, string numContrato)
         {
             try
             {
-                
+
                 Contratos = new ObservableCollection<ClasseEmpresasContratos.EmpresaContrato>();
                 ICollection<EmpresaContrato> p1;
 
@@ -749,7 +749,7 @@ namespace iModSCCredenciamento.ViewModels
                 {
                     p1 = _empresaContratosService.ListarPorEmpresa(empresaId);
                     var convert = Mapper.Map<List<ClasseEmpresasContratos.EmpresaContrato>>(p1);
-                    convert.ForEach(n=> { Contratos.Add(n);});
+                    convert.ForEach(n => { Contratos.Add(n); });
                     return;
 
                 }
@@ -772,12 +772,12 @@ namespace iModSCCredenciamento.ViewModels
                     return;
 
                 }
-                
+
                 SelectedIndex = -1;
             }
             catch (Exception ex)
             {
-                  Utils.TraceException(ex);
+                Utils.TraceException(ex);
             }
             //try
             //{
@@ -1094,34 +1094,34 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 var _xmlDocument = new XmlDocument();
-                XmlNode _xmlNode = _xmlDocument.CreateXmlDeclaration ("1.0", "UTF-8", null);
+                XmlNode _xmlNode = _xmlDocument.CreateXmlDeclaration("1.0", "UTF-8", null);
 
-                XmlNode _ClasseEstados = _xmlDocument.CreateElement ("ClasseEstados");
-                _xmlDocument.AppendChild (_ClasseEstados);
+                XmlNode _ClasseEstados = _xmlDocument.CreateElement("ClasseEstados");
+                _xmlDocument.AppendChild(_ClasseEstados);
 
-                XmlNode _Estados = _xmlDocument.CreateElement ("Estados");
-                _ClasseEstados.AppendChild (_Estados);
+                XmlNode _Estados = _xmlDocument.CreateElement("Estados");
+                _ClasseEstados.AppendChild(_Estados);
 
-                var _Con = new SqlConnection (Global._connectionString);
+                var _Con = new SqlConnection(Global._connectionString);
                 _Con.Open();
-                var _sqlcmd = new SqlCommand ("select * from Estados", _Con);
+                var _sqlcmd = new SqlCommand("select * from Estados", _Con);
                 var _sqldatareader = _sqlcmd.ExecuteReader();
                 while (_sqldatareader.Read())
                 {
-                    XmlNode _Estado = _xmlDocument.CreateElement ("Estado");
-                    _Estados.AppendChild (_Estado);
+                    XmlNode _Estado = _xmlDocument.CreateElement("Estado");
+                    _Estados.AppendChild(_Estado);
 
-                    XmlNode _EstadoID = _xmlDocument.CreateElement ("EstadoID");
-                    _EstadoID.AppendChild (_xmlDocument.CreateTextNode (_sqldatareader["EstadoID"].ToString()));
-                    _Estado.AppendChild (_EstadoID);
+                    XmlNode _EstadoID = _xmlDocument.CreateElement("EstadoID");
+                    _EstadoID.AppendChild(_xmlDocument.CreateTextNode(_sqldatareader["EstadoID"].ToString()));
+                    _Estado.AppendChild(_EstadoID);
 
-                    XmlNode _Nome = _xmlDocument.CreateElement ("Nome");
-                    _Nome.AppendChild (_xmlDocument.CreateTextNode (_sqldatareader["Nome"].ToString()));
-                    _Estado.AppendChild (_Nome);
+                    XmlNode _Nome = _xmlDocument.CreateElement("Nome");
+                    _Nome.AppendChild(_xmlDocument.CreateTextNode(_sqldatareader["Nome"].ToString()));
+                    _Estado.AppendChild(_Nome);
 
-                    XmlNode _UF = _xmlDocument.CreateElement ("UF");
-                    _UF.AppendChild (_xmlDocument.CreateTextNode (_sqldatareader["UF"].ToString()));
-                    _Estado.AppendChild (_UF);
+                    XmlNode _UF = _xmlDocument.CreateElement("UF");
+                    _UF.AppendChild(_xmlDocument.CreateTextNode(_sqldatareader["UF"].ToString()));
+                    _Estado.AppendChild(_UF);
                 }
                 _sqldatareader.Close();
                 _Con.Close();
@@ -1129,7 +1129,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log ("Erro na void RequisitaEstados ex: " + ex);
+                Global.Log("Erro na void RequisitaEstados ex: " + ex);
 
                 return null;
             }
@@ -1140,34 +1140,34 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 var _xmlDocument = new XmlDocument();
-                XmlNode _xmlNode = _xmlDocument.CreateXmlDeclaration ("1.0", "UTF-8", null);
+                XmlNode _xmlNode = _xmlDocument.CreateXmlDeclaration("1.0", "UTF-8", null);
 
-                XmlNode _ClasseMunicipios = _xmlDocument.CreateElement ("ClasseMunicipios");
-                _xmlDocument.AppendChild (_ClasseMunicipios);
+                XmlNode _ClasseMunicipios = _xmlDocument.CreateElement("ClasseMunicipios");
+                _xmlDocument.AppendChild(_ClasseMunicipios);
 
-                XmlNode _Municipios = _xmlDocument.CreateElement ("Municipios");
-                _ClasseMunicipios.AppendChild (_Municipios);
+                XmlNode _Municipios = _xmlDocument.CreateElement("Municipios");
+                _ClasseMunicipios.AppendChild(_Municipios);
 
-                var _Con = new SqlConnection (Global._connectionString);
+                var _Con = new SqlConnection(Global._connectionString);
                 _Con.Open();
-                var _sqlcmd = new SqlCommand ("select * from Municipios where UF Like '" + _EstadoUF + "'", _Con);
+                var _sqlcmd = new SqlCommand("select * from Municipios where UF Like '" + _EstadoUF + "'", _Con);
                 var _sqldatareader = _sqlcmd.ExecuteReader();
                 while (_sqldatareader.Read())
                 {
-                    XmlNode _Municipio = _xmlDocument.CreateElement ("Municipio");
-                    _Municipios.AppendChild (_Municipio);
+                    XmlNode _Municipio = _xmlDocument.CreateElement("Municipio");
+                    _Municipios.AppendChild(_Municipio);
 
-                    XmlNode _MunicipioID = _xmlDocument.CreateElement ("MunicipioID");
-                    _MunicipioID.AppendChild (_xmlDocument.CreateTextNode (_sqldatareader["MunicipioID"].ToString()));
-                    _Municipio.AppendChild (_MunicipioID);
+                    XmlNode _MunicipioID = _xmlDocument.CreateElement("MunicipioID");
+                    _MunicipioID.AppendChild(_xmlDocument.CreateTextNode(_sqldatareader["MunicipioID"].ToString()));
+                    _Municipio.AppendChild(_MunicipioID);
 
-                    XmlNode _Nome = _xmlDocument.CreateElement ("Nome");
-                    _Nome.AppendChild (_xmlDocument.CreateTextNode (_sqldatareader["Nome"].ToString()));
-                    _Municipio.AppendChild (_Nome);
+                    XmlNode _Nome = _xmlDocument.CreateElement("Nome");
+                    _Nome.AppendChild(_xmlDocument.CreateTextNode(_sqldatareader["Nome"].ToString()));
+                    _Municipio.AppendChild(_Nome);
 
-                    XmlNode _UF = _xmlDocument.CreateElement ("UF");
-                    _UF.AppendChild (_xmlDocument.CreateTextNode (_sqldatareader["UF"].ToString()));
-                    _Municipio.AppendChild (_UF);
+                    XmlNode _UF = _xmlDocument.CreateElement("UF");
+                    _UF.AppendChild(_xmlDocument.CreateTextNode(_sqldatareader["UF"].ToString()));
+                    _Municipio.AppendChild(_UF);
                 }
                 _sqldatareader.Close();
                 _Con.Close();
@@ -1175,7 +1175,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log ("Erro na void RequisitaMunicipios ex: " + ex);
+                Global.Log("Erro na void RequisitaMunicipios ex: " + ex);
 
                 return null;
             }
@@ -1186,30 +1186,30 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 var _xmlDocument = new XmlDocument();
-                XmlNode _xmlNode = _xmlDocument.CreateXmlDeclaration ("1.0", "UTF-8", null);
+                XmlNode _xmlNode = _xmlDocument.CreateXmlDeclaration("1.0", "UTF-8", null);
 
-                XmlNode _ClasseStatus = _xmlDocument.CreateElement ("ClasseStatus");
-                _xmlDocument.AppendChild (_ClasseStatus);
+                XmlNode _ClasseStatus = _xmlDocument.CreateElement("ClasseStatus");
+                _xmlDocument.AppendChild(_ClasseStatus);
 
-                XmlNode _Statuss = _xmlDocument.CreateElement ("Statuss");
-                _ClasseStatus.AppendChild (_Statuss);
+                XmlNode _Statuss = _xmlDocument.CreateElement("Statuss");
+                _ClasseStatus.AppendChild(_Statuss);
 
-                var _Con = new SqlConnection (Global._connectionString);
+                var _Con = new SqlConnection(Global._connectionString);
                 _Con.Open();
-                var _sqlcmd = new SqlCommand ("select * from Status", _Con);
+                var _sqlcmd = new SqlCommand("select * from Status", _Con);
                 var _sqldatareader = _sqlcmd.ExecuteReader();
                 while (_sqldatareader.Read())
                 {
-                    XmlNode _Status = _xmlDocument.CreateElement ("Status");
-                    _Statuss.AppendChild (_Status);
+                    XmlNode _Status = _xmlDocument.CreateElement("Status");
+                    _Statuss.AppendChild(_Status);
 
-                    XmlNode _StatusID = _xmlDocument.CreateElement ("StatusID");
-                    _StatusID.AppendChild (_xmlDocument.CreateTextNode (_sqldatareader["StatusID"].ToString()));
-                    _Status.AppendChild (_StatusID);
+                    XmlNode _StatusID = _xmlDocument.CreateElement("StatusID");
+                    _StatusID.AppendChild(_xmlDocument.CreateTextNode(_sqldatareader["StatusID"].ToString()));
+                    _Status.AppendChild(_StatusID);
 
-                    XmlNode _Descricao = _xmlDocument.CreateElement ("Descricao");
-                    _Descricao.AppendChild (_xmlDocument.CreateTextNode (_sqldatareader["Descricao"].ToString()));
-                    _Status.AppendChild (_Descricao);
+                    XmlNode _Descricao = _xmlDocument.CreateElement("Descricao");
+                    _Descricao.AppendChild(_xmlDocument.CreateTextNode(_sqldatareader["Descricao"].ToString()));
+                    _Status.AppendChild(_Descricao);
                 }
                 _sqldatareader.Close();
                 _Con.Close();
@@ -1217,7 +1217,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log ("Erro na void RequisitaStatus ex: " + ex);
+                Global.Log("Erro na void RequisitaStatus ex: " + ex);
 
                 return null;
             }
@@ -1228,30 +1228,30 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 var _xmlDocument = new XmlDocument();
-                XmlNode _xmlNode = _xmlDocument.CreateXmlDeclaration ("1.0", "UTF-8", null);
+                XmlNode _xmlNode = _xmlDocument.CreateXmlDeclaration("1.0", "UTF-8", null);
 
-                XmlNode _ClasseTiposAcessos = _xmlDocument.CreateElement ("ClasseTiposAcessos");
-                _xmlDocument.AppendChild (_ClasseTiposAcessos);
+                XmlNode _ClasseTiposAcessos = _xmlDocument.CreateElement("ClasseTiposAcessos");
+                _xmlDocument.AppendChild(_ClasseTiposAcessos);
 
-                XmlNode _TiposAcessos = _xmlDocument.CreateElement ("TiposAcessos");
-                _ClasseTiposAcessos.AppendChild (_TiposAcessos);
+                XmlNode _TiposAcessos = _xmlDocument.CreateElement("TiposAcessos");
+                _ClasseTiposAcessos.AppendChild(_TiposAcessos);
 
-                var _Con = new SqlConnection (Global._connectionString);
+                var _Con = new SqlConnection(Global._connectionString);
                 _Con.Open();
-                var _sqlcmd = new SqlCommand ("select * from TiposAcessos", _Con);
+                var _sqlcmd = new SqlCommand("select * from TiposAcessos", _Con);
                 var _sqldatareader = _sqlcmd.ExecuteReader();
                 while (_sqldatareader.Read())
                 {
-                    XmlNode _TipoAcesso = _xmlDocument.CreateElement ("TipoAcesso");
-                    _TiposAcessos.AppendChild (_TipoAcesso);
+                    XmlNode _TipoAcesso = _xmlDocument.CreateElement("TipoAcesso");
+                    _TiposAcessos.AppendChild(_TipoAcesso);
 
-                    XmlNode _TipoAcessoID = _xmlDocument.CreateElement ("TipoAcessoID");
-                    _TipoAcessoID.AppendChild (_xmlDocument.CreateTextNode (_sqldatareader["TipoAcessoID"].ToString()));
-                    _TipoAcesso.AppendChild (_TipoAcessoID);
+                    XmlNode _TipoAcessoID = _xmlDocument.CreateElement("TipoAcessoID");
+                    _TipoAcessoID.AppendChild(_xmlDocument.CreateTextNode(_sqldatareader["TipoAcessoID"].ToString()));
+                    _TipoAcesso.AppendChild(_TipoAcessoID);
 
-                    XmlNode _Descricao = _xmlDocument.CreateElement ("Descricao");
-                    _Descricao.AppendChild (_xmlDocument.CreateTextNode (_sqldatareader["Descricao"].ToString()));
-                    _TipoAcesso.AppendChild (_Descricao);
+                    XmlNode _Descricao = _xmlDocument.CreateElement("Descricao");
+                    _Descricao.AppendChild(_xmlDocument.CreateTextNode(_sqldatareader["Descricao"].ToString()));
+                    _TipoAcesso.AppendChild(_Descricao);
                 }
                 _sqldatareader.Close();
                 _Con.Close();
@@ -1259,7 +1259,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log ("Erro na void RequisitaTipoAcesso ex: " + ex);
+                Global.Log("Erro na void RequisitaTipoAcesso ex: " + ex);
 
                 return null;
             }
@@ -1270,30 +1270,30 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 var _xmlDocument = new XmlDocument();
-                XmlNode _xmlNode = _xmlDocument.CreateXmlDeclaration ("1.0", "UTF-8", null);
+                XmlNode _xmlNode = _xmlDocument.CreateXmlDeclaration("1.0", "UTF-8", null);
 
-                XmlNode _ClasseTiposCobrancas = _xmlDocument.CreateElement ("ClasseTiposCobrancas");
-                _xmlDocument.AppendChild (_ClasseTiposCobrancas);
+                XmlNode _ClasseTiposCobrancas = _xmlDocument.CreateElement("ClasseTiposCobrancas");
+                _xmlDocument.AppendChild(_ClasseTiposCobrancas);
 
-                XmlNode _TiposCobrancas = _xmlDocument.CreateElement ("TiposCobrancas");
-                _ClasseTiposCobrancas.AppendChild (_TiposCobrancas);
+                XmlNode _TiposCobrancas = _xmlDocument.CreateElement("TiposCobrancas");
+                _ClasseTiposCobrancas.AppendChild(_TiposCobrancas);
 
-                var _Con = new SqlConnection (Global._connectionString);
+                var _Con = new SqlConnection(Global._connectionString);
                 _Con.Open();
-                var _sqlcmd = new SqlCommand ("select * from TiposCobrancas", _Con);
+                var _sqlcmd = new SqlCommand("select * from TiposCobrancas", _Con);
                 var _sqldatareader = _sqlcmd.ExecuteReader();
                 while (_sqldatareader.Read())
                 {
-                    XmlNode _TipoCobranca = _xmlDocument.CreateElement ("TipoCobranca");
-                    _TiposCobrancas.AppendChild (_TipoCobranca);
+                    XmlNode _TipoCobranca = _xmlDocument.CreateElement("TipoCobranca");
+                    _TiposCobrancas.AppendChild(_TipoCobranca);
 
-                    XmlNode _TipoCobrancaID = _xmlDocument.CreateElement ("TipoCobrancaID");
-                    _TipoCobrancaID.AppendChild (_xmlDocument.CreateTextNode (_sqldatareader["TipoCobrancaID"].ToString()));
-                    _TipoCobranca.AppendChild (_TipoCobrancaID);
+                    XmlNode _TipoCobrancaID = _xmlDocument.CreateElement("TipoCobrancaID");
+                    _TipoCobrancaID.AppendChild(_xmlDocument.CreateTextNode(_sqldatareader["TipoCobrancaID"].ToString()));
+                    _TipoCobranca.AppendChild(_TipoCobrancaID);
 
-                    XmlNode _Descricao = _xmlDocument.CreateElement ("Descricao");
-                    _Descricao.AppendChild (_xmlDocument.CreateTextNode (_sqldatareader["Descricao"].ToString()));
-                    _TipoCobranca.AppendChild (_Descricao);
+                    XmlNode _Descricao = _xmlDocument.CreateElement("Descricao");
+                    _Descricao.AppendChild(_xmlDocument.CreateTextNode(_sqldatareader["Descricao"].ToString()));
+                    _TipoCobranca.AppendChild(_Descricao);
                 }
                 _sqldatareader.Close();
                 _Con.Close();
@@ -1301,7 +1301,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log ("Erro na void RequisitaTipoCobranca ex: " + ex);
+                Global.Log("Erro na void RequisitaTipoCobranca ex: " + ex);
 
                 return null;
             }
@@ -1313,57 +1313,57 @@ namespace iModSCCredenciamento.ViewModels
             {
                 var _xmlDoc = new XmlDocument();
 
-                _xmlDoc.LoadXml (xmlString);
+                _xmlDoc.LoadXml(xmlString);
                 // SqlConnection _Con = new SqlConnection(Global._connectionString);_Con.Open();
                 var _empresaContrato = new ClasseEmpresasContratos.EmpresaContrato();
                 //for (int i = 0; i <= _xmlDoc.GetElementsByTagName("EmpresaID").Count - 1; i++)
                 //{
                 var i = 0;
-                _empresaContrato.EmpresaContratoID = Convert.ToInt32 (_xmlDoc.GetElementsByTagName ("EmpresaContratoID")[i].InnerText);
-                _empresaContrato.EmpresaID = Convert.ToInt32 (_xmlDoc.GetElementsByTagName ("EmpresaID")[i].InnerText);
+                _empresaContrato.EmpresaContratoID = Convert.ToInt32(_xmlDoc.GetElementsByTagName("EmpresaContratoID")[i].InnerText);
+                _empresaContrato.EmpresaID = Convert.ToInt32(_xmlDoc.GetElementsByTagName("EmpresaID")[i].InnerText);
 
-                _empresaContrato.NumeroContrato = _xmlDoc.GetElementsByTagName ("NumeroContrato")[i] == null ? "" : _xmlDoc.GetElementsByTagName ("NumeroContrato")[i].InnerText;
-                _empresaContrato.Descricao = _xmlDoc.GetElementsByTagName ("Descricao")[i] == null ? "" : _xmlDoc.GetElementsByTagName ("Descricao")[i].InnerText;
-                _empresaContrato.Emissao = _xmlDoc.GetElementsByTagName ("Emissao")[i].InnerText == "" ? null : (DateTime?) Convert.ToDateTime (_xmlDoc.GetElementsByTagName ("Emissao")[i].InnerText);
-                _empresaContrato.Validade = _xmlDoc.GetElementsByTagName ("Validade")[i].InnerText == "" ? null : (DateTime?) Convert.ToDateTime (_xmlDoc.GetElementsByTagName ("Validade")[i].InnerText);
-                _empresaContrato.Terceirizada = _xmlDoc.GetElementsByTagName ("Terceirizada")[i] == null ? "" : _xmlDoc.GetElementsByTagName ("Terceirizada")[i].InnerText;
-                _empresaContrato.Contratante = _xmlDoc.GetElementsByTagName ("Contratante")[i] == null ? "" : _xmlDoc.GetElementsByTagName ("Contratante")[i].InnerText;
-                _empresaContrato.IsencaoCobranca = _xmlDoc.GetElementsByTagName ("IsencaoCobranca")[i] == null ? "" : _xmlDoc.GetElementsByTagName ("IsencaoCobranca")[i].InnerText;
+                _empresaContrato.NumeroContrato = _xmlDoc.GetElementsByTagName("NumeroContrato")[i] == null ? "" : _xmlDoc.GetElementsByTagName("NumeroContrato")[i].InnerText;
+                _empresaContrato.Descricao = _xmlDoc.GetElementsByTagName("Descricao")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Descricao")[i].InnerText;
+                _empresaContrato.Emissao = _xmlDoc.GetElementsByTagName("Emissao")[i].InnerText == "" ? null : (DateTime?)Convert.ToDateTime(_xmlDoc.GetElementsByTagName("Emissao")[i].InnerText);
+                _empresaContrato.Validade = _xmlDoc.GetElementsByTagName("Validade")[i].InnerText == "" ? null : (DateTime?)Convert.ToDateTime(_xmlDoc.GetElementsByTagName("Validade")[i].InnerText);
+                _empresaContrato.Terceirizada = _xmlDoc.GetElementsByTagName("Terceirizada")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Terceirizada")[i].InnerText;
+                _empresaContrato.Contratante = _xmlDoc.GetElementsByTagName("Contratante")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Contratante")[i].InnerText;
+                _empresaContrato.IsencaoCobranca = _xmlDoc.GetElementsByTagName("IsencaoCobranca")[i] == null ? "" : _xmlDoc.GetElementsByTagName("IsencaoCobranca")[i].InnerText;
 
                 //'obs'
-                _empresaContrato.TipoCobrancaID = Convert.ToInt32 (_xmlDoc.GetElementsByTagName ("TipoCobrancaID")[i].InnerText); // == null ? "" : _xmlDoc.GetElementsByTagName("TipoCobrancaID")[i].InnerText;
-                _empresaContrato.CobrancaEmpresaID = Convert.ToInt32 (_xmlDoc.GetElementsByTagName ("CobrancaEmpresaID")[i].InnerText); // == null ? "" : _xmlDoc.GetElementsByTagName("CobrancaEmpresaID")[i].InnerText;
+                _empresaContrato.TipoCobrancaID = Convert.ToInt32(_xmlDoc.GetElementsByTagName("TipoCobrancaID")[i].InnerText); // == null ? "" : _xmlDoc.GetElementsByTagName("TipoCobrancaID")[i].InnerText;
+                _empresaContrato.CobrancaEmpresaID = Convert.ToInt32(_xmlDoc.GetElementsByTagName("CobrancaEmpresaID")[i].InnerText); // == null ? "" : _xmlDoc.GetElementsByTagName("CobrancaEmpresaID")[i].InnerText;
 
-                _empresaContrato.CEP = _xmlDoc.GetElementsByTagName ("CEP")[i] == null ? "" : _xmlDoc.GetElementsByTagName ("CEP")[i].InnerText;
-                _empresaContrato.Endereco = _xmlDoc.GetElementsByTagName ("Endereco")[i] == null ? "" : _xmlDoc.GetElementsByTagName ("Endereco")[i].InnerText;
-                _empresaContrato.Complemento = _xmlDoc.GetElementsByTagName ("Complemento")[i] == null ? "" : _xmlDoc.GetElementsByTagName ("Complemento")[i].InnerText;
-                _empresaContrato.Numero = _xmlDoc.GetElementsByTagName ("Numero")[i] == null ? "" : _xmlDoc.GetElementsByTagName ("Numero")[i].InnerText;
-                _empresaContrato.Bairro = _xmlDoc.GetElementsByTagName ("Bairro")[i] == null ? "" : _xmlDoc.GetElementsByTagName ("Bairro")[i].InnerText;
+                _empresaContrato.CEP = _xmlDoc.GetElementsByTagName("CEP")[i] == null ? "" : _xmlDoc.GetElementsByTagName("CEP")[i].InnerText;
+                _empresaContrato.Endereco = _xmlDoc.GetElementsByTagName("Endereco")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Endereco")[i].InnerText;
+                _empresaContrato.Complemento = _xmlDoc.GetElementsByTagName("Complemento")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Complemento")[i].InnerText;
+                _empresaContrato.Numero = _xmlDoc.GetElementsByTagName("Numero")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Numero")[i].InnerText;
+                _empresaContrato.Bairro = _xmlDoc.GetElementsByTagName("Bairro")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Bairro")[i].InnerText;
 
-                _empresaContrato.MunicipioID = Convert.ToInt32 (_xmlDoc.GetElementsByTagName ("MunicipioID")[i].InnerText);
-                _empresaContrato.EstadoID = Convert.ToInt32 (_xmlDoc.GetElementsByTagName ("EstadoID")[i].InnerText);
+                _empresaContrato.MunicipioID = Convert.ToInt32(_xmlDoc.GetElementsByTagName("MunicipioID")[i].InnerText);
+                _empresaContrato.EstadoID = Convert.ToInt32(_xmlDoc.GetElementsByTagName("EstadoID")[i].InnerText);
 
-                _empresaContrato.NomeResp = _xmlDoc.GetElementsByTagName ("NomeResp")[i] == null ? "" : _xmlDoc.GetElementsByTagName ("NomeResp")[i].InnerText;
-                _empresaContrato.TelefoneResp = _xmlDoc.GetElementsByTagName ("TelefoneResp")[i] == null ? "" : _xmlDoc.GetElementsByTagName ("TelefoneResp")[i].InnerText;
-                _empresaContrato.CelularResp = _xmlDoc.GetElementsByTagName ("CelularResp")[i] == null ? "" : _xmlDoc.GetElementsByTagName ("CelularResp")[i].InnerText;
+                _empresaContrato.NomeResp = _xmlDoc.GetElementsByTagName("NomeResp")[i] == null ? "" : _xmlDoc.GetElementsByTagName("NomeResp")[i].InnerText;
+                _empresaContrato.TelefoneResp = _xmlDoc.GetElementsByTagName("TelefoneResp")[i] == null ? "" : _xmlDoc.GetElementsByTagName("TelefoneResp")[i].InnerText;
+                _empresaContrato.CelularResp = _xmlDoc.GetElementsByTagName("CelularResp")[i] == null ? "" : _xmlDoc.GetElementsByTagName("CelularResp")[i].InnerText;
 
-                _empresaContrato.EmailResp = _xmlDoc.GetElementsByTagName ("EmailResp")[i] == null ? "" : _xmlDoc.GetElementsByTagName ("EmailResp")[i].InnerText;
-                _empresaContrato.StatusID = Convert.ToInt32 (_xmlDoc.GetElementsByTagName ("StatusID")[i].InnerText); //null ? "" : Convert.ToInt32(_xmlDoc.GetElementsByTagName("StatusID")[i].InnerText);
+                _empresaContrato.EmailResp = _xmlDoc.GetElementsByTagName("EmailResp")[i] == null ? "" : _xmlDoc.GetElementsByTagName("EmailResp")[i].InnerText;
+                _empresaContrato.StatusID = Convert.ToInt32(_xmlDoc.GetElementsByTagName("StatusID")[i].InnerText); //null ? "" : Convert.ToInt32(_xmlDoc.GetElementsByTagName("StatusID")[i].InnerText);
                 //_empresaContrato.NomeArquivo = _xmlDoc.GetElementsByTagName("NomeArquivo")[i].InnerText == null ? "" : _xmlDoc.GetElementsByTagName("NomeArquivo")[i].InnerText;
                 //_empresaContrato.Arquivo = _xmlDoc.GetElementsByTagName("Arquivo")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Arquivo")[i].InnerText;
                 _empresaContrato.NomeArquivo = _contratoTemp.NomeArquivo == null ? "" : _contratoTemp.NomeArquivo;
                 _empresaContrato.Arquivo = _contratoTemp.Arquivo == null ? "" : _contratoTemp.Arquivo;
 
-                _empresaContrato.TipoAcessoID = Convert.ToInt32 (_xmlDoc.GetElementsByTagName ("TipoAcessoID")[i].InnerText);
+                _empresaContrato.TipoAcessoID = Convert.ToInt32(_xmlDoc.GetElementsByTagName("TipoAcessoID")[i].InnerText);
 
                 //_Con.Close();
-                var _Con = new SqlConnection (Global._connectionString);
+                var _Con = new SqlConnection(Global._connectionString);
                 _Con.Open();
 
                 SqlCommand _sqlCmd;
                 if (_empresaContrato.EmpresaContratoID != 0)
                 {
-                    _sqlCmd = new SqlCommand ("Update EmpresasContratos Set" +
+                    _sqlCmd = new SqlCommand("Update EmpresasContratos Set" +
                                               " EmpresaID=@v1" +
                                               ",NumeroContrato=@v2" +
                                               ",Descricao=@v3" +
@@ -1391,97 +1391,97 @@ namespace iModSCCredenciamento.ViewModels
                                               ",TipoAcessoID=@v25" +
                                               " Where EmpresaContratoID = @v0", _Con);
 
-                    _sqlCmd.Parameters.Add ("@V0", SqlDbType.Int).Value = _empresaContrato.EmpresaContratoID;
-                    _sqlCmd.Parameters.Add ("@V1", SqlDbType.Int).Value = _empresaContrato.EmpresaID;
-                    _sqlCmd.Parameters.Add ("@V2", SqlDbType.VarChar).Value = _empresaContrato.NumeroContrato;
-                    _sqlCmd.Parameters.Add ("@V3", SqlDbType.VarChar).Value = _empresaContrato.Descricao;
+                    _sqlCmd.Parameters.Add("@V0", SqlDbType.Int).Value = _empresaContrato.EmpresaContratoID;
+                    _sqlCmd.Parameters.Add("@V1", SqlDbType.Int).Value = _empresaContrato.EmpresaID;
+                    _sqlCmd.Parameters.Add("@V2", SqlDbType.VarChar).Value = _empresaContrato.NumeroContrato;
+                    _sqlCmd.Parameters.Add("@V3", SqlDbType.VarChar).Value = _empresaContrato.Descricao;
 
                     if (_empresaContrato.Emissao == null)
                     {
-                        _sqlCmd.Parameters.Add ("@V4", SqlDbType.DateTime).Value = DBNull.Value;
+                        _sqlCmd.Parameters.Add("@V4", SqlDbType.DateTime).Value = DBNull.Value;
                     }
                     else
                     {
-                        _sqlCmd.Parameters.Add ("@V4", SqlDbType.DateTime).Value = _empresaContrato.Emissao;
+                        _sqlCmd.Parameters.Add("@V4", SqlDbType.DateTime).Value = _empresaContrato.Emissao;
                     }
 
                     if (_empresaContrato.Validade == null)
                     {
-                        _sqlCmd.Parameters.Add ("@V5", SqlDbType.DateTime).Value = DBNull.Value;
+                        _sqlCmd.Parameters.Add("@V5", SqlDbType.DateTime).Value = DBNull.Value;
                     }
                     else
                     {
-                        _sqlCmd.Parameters.Add ("@V5", SqlDbType.DateTime).Value = _empresaContrato.Validade;
+                        _sqlCmd.Parameters.Add("@V5", SqlDbType.DateTime).Value = _empresaContrato.Validade;
                     }
-                    _sqlCmd.Parameters.Add ("@V6", SqlDbType.VarChar).Value = _empresaContrato.Terceirizada;
-                    _sqlCmd.Parameters.Add ("@V7", SqlDbType.VarChar).Value = _empresaContrato.Contratante;
-                    _sqlCmd.Parameters.Add ("@V8", SqlDbType.VarChar).Value = _empresaContrato.IsencaoCobranca;
-                    _sqlCmd.Parameters.Add ("@V9", SqlDbType.Int).Value = _empresaContrato.TipoCobrancaID;
-                    _sqlCmd.Parameters.Add ("@V10", SqlDbType.Int).Value = _empresaContrato.CobrancaEmpresaID;
-                    _sqlCmd.Parameters.Add ("@V11", SqlDbType.VarChar).Value = _empresaContrato.CEP;
-                    _sqlCmd.Parameters.Add ("@V12", SqlDbType.VarChar).Value = _empresaContrato.Endereco;
-                    _sqlCmd.Parameters.Add ("@V13", SqlDbType.VarChar).Value = _empresaContrato.Complemento;
-                    _sqlCmd.Parameters.Add ("@V14", SqlDbType.VarChar).Value = _empresaContrato.Numero;
-                    _sqlCmd.Parameters.Add ("@V15", SqlDbType.VarChar).Value = _empresaContrato.Bairro;
-                    _sqlCmd.Parameters.Add ("@V16", SqlDbType.VarChar).Value = _empresaContrato.MunicipioID;
-                    _sqlCmd.Parameters.Add ("@V17", SqlDbType.VarChar).Value = _empresaContrato.EstadoID;
-                    _sqlCmd.Parameters.Add ("@V18", SqlDbType.VarChar).Value = _empresaContrato.NomeResp;
-                    _sqlCmd.Parameters.Add ("@V19", SqlDbType.VarChar).Value = _empresaContrato.TelefoneResp.RetirarCaracteresEspeciais();
-                    _sqlCmd.Parameters.Add ("@V20", SqlDbType.VarChar).Value = _empresaContrato.CelularResp.RetirarCaracteresEspeciais();
-                    _sqlCmd.Parameters.Add ("@V21", SqlDbType.VarChar).Value = _empresaContrato.EmailResp;
-                    _sqlCmd.Parameters.Add ("@V22", SqlDbType.Int).Value = _empresaContrato.StatusID;
-                    _sqlCmd.Parameters.Add ("@V23", SqlDbType.VarChar).Value = _empresaContrato.NomeArquivo;
-                    _sqlCmd.Parameters.Add ("@V24", SqlDbType.VarChar).Value = _empresaContrato.Arquivo;
-                    _sqlCmd.Parameters.Add ("@V25", SqlDbType.Int).Value = _empresaContrato.TipoAcessoID;
+                    _sqlCmd.Parameters.Add("@V6", SqlDbType.VarChar).Value = _empresaContrato.Terceirizada;
+                    _sqlCmd.Parameters.Add("@V7", SqlDbType.VarChar).Value = _empresaContrato.Contratante;
+                    _sqlCmd.Parameters.Add("@V8", SqlDbType.VarChar).Value = _empresaContrato.IsencaoCobranca;
+                    _sqlCmd.Parameters.Add("@V9", SqlDbType.Int).Value = _empresaContrato.TipoCobrancaID;
+                    _sqlCmd.Parameters.Add("@V10", SqlDbType.Int).Value = _empresaContrato.CobrancaEmpresaID;
+                    _sqlCmd.Parameters.Add("@V11", SqlDbType.VarChar).Value = _empresaContrato.CEP;
+                    _sqlCmd.Parameters.Add("@V12", SqlDbType.VarChar).Value = _empresaContrato.Endereco;
+                    _sqlCmd.Parameters.Add("@V13", SqlDbType.VarChar).Value = _empresaContrato.Complemento;
+                    _sqlCmd.Parameters.Add("@V14", SqlDbType.VarChar).Value = _empresaContrato.Numero;
+                    _sqlCmd.Parameters.Add("@V15", SqlDbType.VarChar).Value = _empresaContrato.Bairro;
+                    _sqlCmd.Parameters.Add("@V16", SqlDbType.VarChar).Value = _empresaContrato.MunicipioID;
+                    _sqlCmd.Parameters.Add("@V17", SqlDbType.VarChar).Value = _empresaContrato.EstadoID;
+                    _sqlCmd.Parameters.Add("@V18", SqlDbType.VarChar).Value = _empresaContrato.NomeResp;
+                    _sqlCmd.Parameters.Add("@V19", SqlDbType.VarChar).Value = _empresaContrato.TelefoneResp.RetirarCaracteresEspeciais();
+                    _sqlCmd.Parameters.Add("@V20", SqlDbType.VarChar).Value = _empresaContrato.CelularResp.RetirarCaracteresEspeciais();
+                    _sqlCmd.Parameters.Add("@V21", SqlDbType.VarChar).Value = _empresaContrato.EmailResp;
+                    _sqlCmd.Parameters.Add("@V22", SqlDbType.Int).Value = _empresaContrato.StatusID;
+                    _sqlCmd.Parameters.Add("@V23", SqlDbType.VarChar).Value = _empresaContrato.NomeArquivo;
+                    _sqlCmd.Parameters.Add("@V24", SqlDbType.VarChar).Value = _empresaContrato.Arquivo;
+                    _sqlCmd.Parameters.Add("@V25", SqlDbType.Int).Value = _empresaContrato.TipoAcessoID;
                 }
                 else
                 {
-                    _sqlCmd = new SqlCommand ("Insert into EmpresasContratos(EmpresaID,NumeroContrato,Descricao,Emissao,Validade,Terceirizada,Contratante,IsencaoCobranca" +
+                    _sqlCmd = new SqlCommand("Insert into EmpresasContratos(EmpresaID,NumeroContrato,Descricao,Emissao,Validade,Terceirizada,Contratante,IsencaoCobranca" +
                                               ",TipoCobrancaID,CobrancaEmpresaID,CEP,Endereco,Complemento,Numero,Bairro" +
                                               ",MunicipioID,EstadoID,NomeResp,TelefoneResp,CelularResp,EmailResp,StatusID,NomeArquivo,Arquivo,TipoAcessoID) " +
                                               "values (@v1,@v2,@v3,@v4,@v5,@v6,@v7,@v8,@v9,@v10,@v11,@v12,@v13,@v14,@v15,@v16,@v17,@v18,@v19,@v20,@v21,@v22,@v23,@v24,@v25)", _Con);
 
-                    _sqlCmd.Parameters.Add ("@V1", SqlDbType.Int).Value = _empresaContrato.EmpresaID;
-                    _sqlCmd.Parameters.Add ("@V2", SqlDbType.VarChar).Value = _empresaContrato.NumeroContrato;
-                    _sqlCmd.Parameters.Add ("@V3", SqlDbType.VarChar).Value = _empresaContrato.Descricao;
+                    _sqlCmd.Parameters.Add("@V1", SqlDbType.Int).Value = _empresaContrato.EmpresaID;
+                    _sqlCmd.Parameters.Add("@V2", SqlDbType.VarChar).Value = _empresaContrato.NumeroContrato;
+                    _sqlCmd.Parameters.Add("@V3", SqlDbType.VarChar).Value = _empresaContrato.Descricao;
 
                     if (_empresaContrato.Emissao == null)
                     {
-                        _sqlCmd.Parameters.Add ("@V4", SqlDbType.DateTime).Value = DBNull.Value;
+                        _sqlCmd.Parameters.Add("@V4", SqlDbType.DateTime).Value = DBNull.Value;
                     }
                     else
                     {
-                        _sqlCmd.Parameters.Add ("@V4", SqlDbType.DateTime).Value = _empresaContrato.Emissao;
+                        _sqlCmd.Parameters.Add("@V4", SqlDbType.DateTime).Value = _empresaContrato.Emissao;
                     }
 
                     if (_empresaContrato.Validade == null)
                     {
-                        _sqlCmd.Parameters.Add ("@V5", SqlDbType.DateTime).Value = DBNull.Value;
+                        _sqlCmd.Parameters.Add("@V5", SqlDbType.DateTime).Value = DBNull.Value;
                     }
                     else
                     {
-                        _sqlCmd.Parameters.Add ("@V5", SqlDbType.DateTime).Value = _empresaContrato.Validade;
+                        _sqlCmd.Parameters.Add("@V5", SqlDbType.DateTime).Value = _empresaContrato.Validade;
                     }
-                    _sqlCmd.Parameters.Add ("@V6", SqlDbType.VarChar).Value = _empresaContrato.Terceirizada;
-                    _sqlCmd.Parameters.Add ("@V7", SqlDbType.VarChar).Value = _empresaContrato.Contratante;
-                    _sqlCmd.Parameters.Add ("@V8", SqlDbType.VarChar).Value = _empresaContrato.IsencaoCobranca;
-                    _sqlCmd.Parameters.Add ("@V9", SqlDbType.Int).Value = _empresaContrato.TipoCobrancaID;
-                    _sqlCmd.Parameters.Add ("@V10", SqlDbType.Int).Value = _empresaContrato.CobrancaEmpresaID;
-                    _sqlCmd.Parameters.Add ("@V11", SqlDbType.VarChar).Value = _empresaContrato.CEP;
-                    _sqlCmd.Parameters.Add ("@V12", SqlDbType.VarChar).Value = _empresaContrato.Endereco;
-                    _sqlCmd.Parameters.Add ("@V13", SqlDbType.VarChar).Value = _empresaContrato.Complemento;
-                    _sqlCmd.Parameters.Add ("@V14", SqlDbType.VarChar).Value = _empresaContrato.Numero;
-                    _sqlCmd.Parameters.Add ("@V15", SqlDbType.VarChar).Value = _empresaContrato.Bairro;
-                    _sqlCmd.Parameters.Add ("@V16", SqlDbType.VarChar).Value = _empresaContrato.MunicipioID;
-                    _sqlCmd.Parameters.Add ("@V17", SqlDbType.VarChar).Value = _empresaContrato.EstadoID;
-                    _sqlCmd.Parameters.Add ("@V18", SqlDbType.VarChar).Value = _empresaContrato.NomeResp;
-                    _sqlCmd.Parameters.Add ("@V19", SqlDbType.VarChar).Value = _empresaContrato.TelefoneResp.RetirarCaracteresEspeciais();
-                    _sqlCmd.Parameters.Add ("@V20", SqlDbType.VarChar).Value = _empresaContrato.CelularResp.RetirarCaracteresEspeciais();
-                    _sqlCmd.Parameters.Add ("@V21", SqlDbType.VarChar).Value = _empresaContrato.EmailResp;
-                    _sqlCmd.Parameters.Add ("@V22", SqlDbType.Int).Value = _empresaContrato.StatusID;
-                    _sqlCmd.Parameters.Add ("@V23", SqlDbType.VarChar).Value = _empresaContrato.NomeArquivo;
-                    _sqlCmd.Parameters.Add ("@V24", SqlDbType.VarChar).Value = _empresaContrato.Arquivo;
-                    _sqlCmd.Parameters.Add ("@V25", SqlDbType.Int).Value = _empresaContrato.TipoAcessoID;
+                    _sqlCmd.Parameters.Add("@V6", SqlDbType.VarChar).Value = _empresaContrato.Terceirizada;
+                    _sqlCmd.Parameters.Add("@V7", SqlDbType.VarChar).Value = _empresaContrato.Contratante;
+                    _sqlCmd.Parameters.Add("@V8", SqlDbType.VarChar).Value = _empresaContrato.IsencaoCobranca;
+                    _sqlCmd.Parameters.Add("@V9", SqlDbType.Int).Value = _empresaContrato.TipoCobrancaID;
+                    _sqlCmd.Parameters.Add("@V10", SqlDbType.Int).Value = _empresaContrato.CobrancaEmpresaID;
+                    _sqlCmd.Parameters.Add("@V11", SqlDbType.VarChar).Value = _empresaContrato.CEP;
+                    _sqlCmd.Parameters.Add("@V12", SqlDbType.VarChar).Value = _empresaContrato.Endereco;
+                    _sqlCmd.Parameters.Add("@V13", SqlDbType.VarChar).Value = _empresaContrato.Complemento;
+                    _sqlCmd.Parameters.Add("@V14", SqlDbType.VarChar).Value = _empresaContrato.Numero;
+                    _sqlCmd.Parameters.Add("@V15", SqlDbType.VarChar).Value = _empresaContrato.Bairro;
+                    _sqlCmd.Parameters.Add("@V16", SqlDbType.VarChar).Value = _empresaContrato.MunicipioID;
+                    _sqlCmd.Parameters.Add("@V17", SqlDbType.VarChar).Value = _empresaContrato.EstadoID;
+                    _sqlCmd.Parameters.Add("@V18", SqlDbType.VarChar).Value = _empresaContrato.NomeResp;
+                    _sqlCmd.Parameters.Add("@V19", SqlDbType.VarChar).Value = _empresaContrato.TelefoneResp.RetirarCaracteresEspeciais();
+                    _sqlCmd.Parameters.Add("@V20", SqlDbType.VarChar).Value = _empresaContrato.CelularResp.RetirarCaracteresEspeciais();
+                    _sqlCmd.Parameters.Add("@V21", SqlDbType.VarChar).Value = _empresaContrato.EmailResp;
+                    _sqlCmd.Parameters.Add("@V22", SqlDbType.Int).Value = _empresaContrato.StatusID;
+                    _sqlCmd.Parameters.Add("@V23", SqlDbType.VarChar).Value = _empresaContrato.NomeArquivo;
+                    _sqlCmd.Parameters.Add("@V24", SqlDbType.VarChar).Value = _empresaContrato.Arquivo;
+                    _sqlCmd.Parameters.Add("@V25", SqlDbType.Int).Value = _empresaContrato.TipoAcessoID;
                 }
 
                 _sqlCmd.ExecuteNonQuery();
@@ -1489,7 +1489,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log ("Erro na void InsereEmpresaBD ex: " + ex);
+                Global.Log("Erro na void InsereEmpresaBD ex: " + ex);
             }
         }
 
@@ -1605,18 +1605,18 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 //_Con.Close();
-                var _Con = new SqlConnection (Global._connectionString);
+                var _Con = new SqlConnection(Global._connectionString);
                 _Con.Open();
 
                 SqlCommand _sqlCmd;
-                _sqlCmd = new SqlCommand ("Delete from EmpresasContratos where EmpresaContratoID=" + _EmpresaContratoID, _Con);
+                _sqlCmd = new SqlCommand("Delete from EmpresasContratos where EmpresaContratoID=" + _EmpresaContratoID, _Con);
                 _sqlCmd.ExecuteNonQuery();
 
                 _Con.Close();
             }
             catch (Exception ex)
             {
-                Global.Log ("Erro na void ExcluiContratoBD ex: " + ex);
+                Global.Log("Erro na void ExcluiContratoBD ex: " + ex);
             }
         }
 
