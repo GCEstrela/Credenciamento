@@ -49,7 +49,11 @@ namespace IMOD.Application.Interfaces
         /// </summary>
         /// <returns></returns>
         ICollection<TipoAcesso> ListarTiposAcessos();
-
+        /// <summary>
+        ///     Listar Tipos de Cursos
+        /// </summary>
+        /// <returns></returns>
+        ICollection<Curso> ListarCursos();
         /// <summary>
         ///     Listar Tipo de Cobrança
         /// </summary>
@@ -58,6 +62,7 @@ namespace IMOD.Application.Interfaces
 
         ITipoEquipamentoService EquipamentoService();
 
+        
         #endregion
     }
 }

@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.IO;
 using System.Reflection;
 using System.Windows;
@@ -577,6 +579,39 @@ namespace iModSCCredenciamento.Funcoes
             {
 
             }
+            
         }
+        //public static Image ResizeImagem(Image imgFoto, int percentual)
+        //{
+        //    float nPorcentagem = ((float)percentual / 100);
+
+        //    int fonteLargura = imgFoto.Width;     //armazena a largura original da imagem origem
+        //    int fonteAltura = imgFoto.Height;   //armazena a altura original da imagem origem
+        //    int origemX = 0;        //eixo x da imagem origem
+        //    int origemY = 0;        //eixo y da imagem origem
+
+        //    int destX = 0;          //eixo x da imagem destino
+        //    int destY = 0;          //eixo y da imagem destino
+        //                            //Calcula a altura e largura da imagem redimensionada
+        //    int destWidth = (int)(fonteLargura * nPorcentagem);
+        //    int destHeight = (int)(fonteAltura * nPorcentagem);
+
+        //    //Cria um novo objeto bitmap
+        //    Bitmap bmImagem = new Bitmap(destWidth, destHeight, PixelFormat.Format24bppRgb);
+        //    //Define a resolu~ção do bitmap.
+        //    bmImagem.SetResolution(imgFoto.HorizontalResolution, imgFoto.VerticalResolution);
+        //    //Crima um objeto graphics e defina a qualidade
+        //    Graphics grImagem = Graphics.FromImage(bmImagem);
+        //    grImagem.InterpolationMode = InterpolationMode.HighQualityBicubic;
+
+        //    //Desenha a imge usando o método DrawImage() da classe grafica
+        //    grImagem.DrawImage(imgFoto,
+        //        new Rectangle(destX, destY, destWidth, destHeight),
+        //        new Rectangle(origemX, origemY, fonteLargura, fonteAltura),
+        //        GraphicsUnit.Pixel);
+
+        //    grImagem.Dispose();  //libera o objeto grafico
+        //    return bmImagem;
+        //}
     }
 }

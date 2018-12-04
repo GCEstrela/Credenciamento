@@ -30,7 +30,8 @@ namespace iModSCCredenciamento.ViewModels
         }
         private void CarregaUI()
         {
-            //CarregaColecaoColaboradorerAnexos();
+            CarregaColecaoColaboradoresAnexos();
+            
             //CarregaColecaoAnexos();
         }
         #endregion
@@ -344,7 +345,7 @@ namespace iModSCCredenciamento.ViewModels
                 IMOD.Domain.Entities.ColaboradorAnexo ColaboradorAnexoEntity = new IMOD.Domain.Entities.ColaboradorAnexo();
                 g.TranportarDados(ColaboradorAnexoSelecionado, 1, ColaboradorAnexoEntity);
 
-                var repositorio = new IMOD.Infra.Repositorios.ColaboradorAnexoRepositorio();
+                var repositorio = new ColaboradorAnexoService();
                 repositorio.Criar(ColaboradorAnexoEntity);
                 var id = ColaboradorAnexoEntity.ColaboradorAnexoId;
 
@@ -488,7 +489,7 @@ namespace iModSCCredenciamento.ViewModels
         #endregion
 
         #region Carregamento das Colecoes
-        public void CarregaColecaoColaboradoresAnexos(int _colaboradorID, string _nome = "")
+        public void CarregaColecaoColaboradoresAnexos(int _colaboradorID = 0, string _nome = "")
         {
             try
             {

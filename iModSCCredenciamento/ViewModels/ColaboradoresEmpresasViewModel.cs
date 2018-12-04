@@ -382,15 +382,15 @@ namespace iModSCCredenciamento.ViewModels
 
 
 
-                HabilitaEdicao = false;
-                System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(ClasseColaboradoresEmpresas));
+                //HabilitaEdicao = false;
+                //System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(ClasseColaboradoresEmpresas));
 
-                //ColaboradorEmpresaSelecionado.Matricula = string.Format("{0:#,##0}", Global.GerarID()) + "-" + String.Format("{0:yy}", DateTime.Now);
+                ////ColaboradorEmpresaSelecionado.Matricula = string.Format("{0:#,##0}", Global.GerarID()) + "-" + String.Format("{0:yy}", DateTime.Now);
 
-                ObservableCollection<ClasseColaboradoresEmpresas.ColaboradorEmpresa> _ColaboradorEmpresaPro = new ObservableCollection<ClasseColaboradoresEmpresas.ColaboradorEmpresa>();
-                ClasseColaboradoresEmpresas _ClasseColaboradorerEmpresasPro = new ClasseColaboradoresEmpresas();
-                _ColaboradorEmpresaPro.Add(ColaboradorEmpresaSelecionado);
-                _ClasseColaboradorerEmpresasPro.ColaboradoresEmpresas = _ColaboradorEmpresaPro;
+                //ObservableCollection<ClasseColaboradoresEmpresas.ColaboradorEmpresa> _ColaboradorEmpresaPro = new ObservableCollection<ClasseColaboradoresEmpresas.ColaboradorEmpresa>();
+                //ClasseColaboradoresEmpresas _ClasseColaboradorerEmpresasPro = new ClasseColaboradoresEmpresas();
+                //_ColaboradorEmpresaPro.Add(ColaboradorEmpresaSelecionado);
+                //_ClasseColaboradorerEmpresasPro.ColaboradoresEmpresas = _ColaboradorEmpresaPro;
 
                 IMOD.Domain.Entities.ColaboradorEmpresa ColaboradorEmpresaEntity = new IMOD.Domain.Entities.ColaboradorEmpresa();
                 g.TranportarDados(ColaboradorEmpresaSelecionado, 1, ColaboradorEmpresaEntity);
@@ -420,13 +420,13 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                HabilitaEdicao = false;
-                System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(ClasseColaboradoresEmpresas));
+                //HabilitaEdicao = false;
+                //System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(ClasseColaboradoresEmpresas));
 
-                ObservableCollection<ClasseColaboradoresEmpresas.ColaboradorEmpresa> _ColaboradorEmpresaTemp = new ObservableCollection<ClasseColaboradoresEmpresas.ColaboradorEmpresa>();
-                ClasseColaboradoresEmpresas _ClasseColaboradorerEmpresasTemp = new ClasseColaboradoresEmpresas();
-                _ColaboradorEmpresaTemp.Add(ColaboradorEmpresaSelecionado);
-                _ClasseColaboradorerEmpresasTemp.ColaboradoresEmpresas = _ColaboradorEmpresaTemp;
+                //ObservableCollection<ClasseColaboradoresEmpresas.ColaboradorEmpresa> _ColaboradorEmpresaTemp = new ObservableCollection<ClasseColaboradoresEmpresas.ColaboradorEmpresa>();
+                //ClasseColaboradoresEmpresas _ClasseColaboradorerEmpresasTemp = new ClasseColaboradoresEmpresas();
+                //_ColaboradorEmpresaTemp.Add(ColaboradorEmpresaSelecionado);
+                //_ClasseColaboradorerEmpresasTemp.ColaboradoresEmpresas = _ColaboradorEmpresaTemp;
 
 
                 IMOD.Domain.Entities.ColaboradorEmpresa ColaboradorEmpresaEntity = new IMOD.Domain.Entities.ColaboradorEmpresa();
@@ -643,21 +643,23 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                string _xml = RequisitaEmpresas();
-
-                XmlSerializer deserializer = new XmlSerializer(typeof(ClasseEmpresas));
-
-                XmlDocument xmldocument = new XmlDocument();
-                xmldocument.LoadXml(_xml);
-
-                TextReader reader = new StringReader(_xml);
-                ClasseEmpresas classeEmpresas = new ClasseEmpresas();
-                classeEmpresas = (ClasseEmpresas)deserializer.Deserialize(reader);
-                Empresas = new ObservableCollection<ClasseEmpresas.Empresa>();
-                Empresas = classeEmpresas.Empresas;
-
                 
+                var service = new IMOD.Application.Service.EmpresaService();
+                if (!string.IsNullOrWhiteSpace(_nome)) _nome = $"%{_nome}%";
+                if (!string.IsNullOrWhiteSpace(_apelido)) _apelido = $"%{_apelido}%";
+                if (!string.IsNullOrWhiteSpace(_cNPJ)) _cNPJ = $"%{_cNPJ}%";
 
+                var list1 = service.Listar(_empresaID, _nome, _apelido, _cNPJ);
+                var list2 = Mapper.Map<List<ClasseEmpresas.Empresa>>(list1);
+
+                var observer = new ObservableCollection<ClasseEmpresas.Empresa>();
+                list2.ForEach(n =>
+                {
+                    observer.Add(n);
+                });
+
+                this.Empresas = observer;
+                SelectedIndex = 0;
 
 
             }
@@ -751,18 +753,37 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 
-                string _xml = RequisitaContratos(empresaID);
+                //string _xml = RequisitaContratos(empresaID);
 
-                XmlSerializer deserializer = new XmlSerializer(typeof(ClasseEmpresasContratos));
+                //XmlSerializer deserializer = new XmlSerializer(typeof(ClasseEmpresasContratos));
 
-                XmlDocument xmldocument = new XmlDocument();
-                xmldocument.LoadXml(_xml);
+                //XmlDocument xmldocument = new XmlDocument();
+                //xmldocument.LoadXml(_xml);
 
-                TextReader reader = new StringReader(_xml);
-                ClasseEmpresasContratos classeContratosEmpresa = new ClasseEmpresasContratos();
-                classeContratosEmpresa = (ClasseEmpresasContratos)deserializer.Deserialize(reader);
-                Contratos = new ObservableCollection<ClasseEmpresasContratos.EmpresaContrato>();
-                Contratos = classeContratosEmpresa.EmpresasContratos;
+                //TextReader reader = new StringReader(_xml);
+                //ClasseEmpresasContratos classeContratosEmpresa = new ClasseEmpresasContratos();
+                //classeContratosEmpresa = (ClasseEmpresasContratos)deserializer.Deserialize(reader);
+                //Contratos = new ObservableCollection<ClasseEmpresasContratos.EmpresaContrato>();
+                //Contratos = classeContratosEmpresa.EmpresasContratos;
+
+
+                var service = new IMOD.Application.Service.EmpresaContratoService();
+                //if (!string.IsNullOrWhiteSpace(nome)) nome = $"%{nome}%";
+                //if (!string.IsNullOrWhiteSpace(apelido)) apelido = $"%{apelido}%";
+                //if (!string.IsNullOrWhiteSpace(cpf)) cpf = $"%{cpf}%";
+                var list1 = service.Listar();
+
+                var list2 = Mapper.Map<List<ClasseEmpresasContratos.EmpresaContrato>>(list1.OrderBy(n => n.EmpresaId));
+
+                var observer = new ObservableCollection<ClasseEmpresasContratos.EmpresaContrato>();
+                list2.ForEach(n =>
+                {
+                    observer.Add(n);
+                });
+
+                this.Contratos = observer;
+
+
                 //SelectedIndex = 0;
             }
             catch (Exception ex)

@@ -83,6 +83,7 @@
     <Compile Include="Entities\TipoAtividade.cs" />
     <Compile Include="Entities\TipoCobranca.cs" />
     <Compile Include="Entities\TipoEquipamento.cs" />
+    <Compile Include="Entities\TipoEstadoCivil.cs" />
     <Compile Include="Entities\TipoServico.cs" />
     <Compile Include="Entities\VeiculoEquipTipoServico.cs" />
     <Compile Include="Entities\Veiculos.cs" />

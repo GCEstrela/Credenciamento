@@ -13,19 +13,30 @@ using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Serialization;
 using AutoMapper;
+using IMOD.Application.Service;
+using IMOD.Application.Interfaces;
 
 namespace iModSCCredenciamento.ViewModels
 {
     public class ColaboradoresCursosViewModel : ViewModelBase
     {
         Global g = new Global();
+        private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
+        public List<ClasseCursos.Curso> ObterListaListaCursos { get; private set; }
         #region Inicializacao
         public ColaboradoresCursosViewModel()
         {
-            Thread CarregaColecaoCursos_thr = new Thread(() => CarregaColecaoCursos());
-            CarregaColecaoCursos_thr.Start();
-            //CarregaColecaoCursos();
+            CarregarDadosComunsEmMemoria();
+
+            //Thread CarregaColecaoCursos_thr = new Thread(() => CarregaColecaoCursos());
+            //CarregaColecaoCursos_thr.Start();
+
+            CarregaColecaoCursos();
+            
+            //Thread CarregaUI_thr = new Thread(() => CarregaUI());
+            //CarregaUI_thr.Start();
         }
+       
 
         #endregion
 
@@ -494,6 +505,13 @@ namespace iModSCCredenciamento.ViewModels
         #endregion
 
         #region Carregamento das Colecoes
+        private void CarregarDadosComunsEmMemoria()
+        {
+            //Cursos
+            var e1 = _auxiliaresService.ListarCursos();
+            ObterListaListaCursos = Mapper.Map<List<ClasseCursos.Curso>>(e1);            
+
+        }
         public void CarregaColecaoColaboradorerCursos(int _colaboradorID, string _descricao = "", string _curso = "")
         {
             try
@@ -517,48 +535,24 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                //Global.Log("Erro void CarregaColecaoEmpresas ex: " + ex.Message);
+                IMOD.CrossCutting.Utils.TraceException(ex);
             }
         }
         public void CarregaColecaoCursos()
         {
             try
             {
-                string _xml = RequisitaCursos();
+                
 
-                XmlSerializer deserializer = new XmlSerializer(typeof(ClasseCursos));
-
-                XmlDocument xmldocument = new XmlDocument();
-                xmldocument.LoadXml(_xml);
-
-                TextReader reader = new StringReader(_xml);
-                ClasseCursos classeCursos = new ClasseCursos();
-                classeCursos = (ClasseCursos)deserializer.Deserialize(reader);
+                var convert = Mapper.Map<List<ClasseCursos.Curso>>(ObterListaListaCursos);
                 Cursos = new ObservableCollection<ClasseCursos.Curso>();
-                Cursos = classeCursos.Cursos;
-                SelectedIndex = -1;
+                convert.ForEach(n => { Cursos.Add(n); });
 
-                /////////////////////////////////////////////
-                //var service = new IMOD.Application.Service.ColaboradorCursosService();
-                //if (!string.IsNullOrWhiteSpace(_descricao)) _descricao = $"%{_descricao}%";
-                //if (!string.IsNullOrWhiteSpace(_curso)) _curso = $"%{_curso}%";
-                //var list1 = service.Listar(_colaboradorID, _descricao, _curso);
 
-                //var list2 = Mapper.Map<List<ClasseColaboradoresCursos.ColaboradorCurso>>(list1);
-
-                //var observer = new ObservableCollection<ClasseColaboradoresCursos.ColaboradorCurso>();
-                //list2.ForEach(n =>
-                //{
-                //    observer.Add(n);
-                //});
-
-                //this.ColaboradoresCursos = observer;
-                //SelectedIndex = 0;
-                /////////////////////////////////////////////
             }
             catch (Exception ex)
             {
-                //Global.Log("Erro void CarregaColecaoEmpresas ex: " + ex.Message);
+                IMOD.CrossCutting.Utils.TraceException(ex);
             }
         }
         #endregion

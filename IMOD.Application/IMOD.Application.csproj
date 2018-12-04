@@ -42,8 +42,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Interfaces\IColaboradorAnexoService.cs" />
+    <Compile Include="Interfaces\IColaboradorCredencialService.cs" />
     <Compile Include="Interfaces\IColaboradorEmpresaService.cs" />
     <Compile Include="Interfaces\IColaboradorService.cs" />
+    <Compile Include="Interfaces\ICursoService.cs" />
     <Compile Include="Interfaces\IDadosAuxiliaresFacade.cs" />
     <Compile Include="Interfaces\IEmpresaAnexoService.cs" />
     <Compile Include="Interfaces\IEmpresaContratosService.cs" />
@@ -60,9 +62,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\AreaAcessoService.cs" />
     <Compile Include="Service\ColaboradorAnexoService.cs" />
+    <Compile Include="Service\ColaboradorCredencialService.cs" />
     <Compile Include="Service\ColaboradorCursosService.cs" />
     <Compile Include="Service\ColaboradorEmpresaService.cs" />
     <Compile Include="Service\ColaboradorService.cs" />
+    <Compile Include="Service\CursoService.cs" />
     <Compile Include="Service\DadosAuxiliaresFacadeService.cs" />
     <Compile Include="Service\EmpresaAnexoService.cs" />
     <Compile Include="Service\EmpresaAreaAcessoService.cs" />

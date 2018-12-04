@@ -539,7 +539,10 @@ namespace iModSCCredenciamento
                     {
                         m.CreateMap<Colaborador, ClasseColaboradores.Colaborador>().ReverseMap();
                         m.CreateMap<ColaboradorCurso, ClasseColaboradoresCursos.ColaboradorCurso>().ReverseMap();
-                        m.CreateMap<ColaboradorEmpresa, ClasseColaboradoresEmpresas.ColaboradorEmpresa>().ReverseMap();
+                        m.CreateMap<ClasseColaboradoresCredenciais, ClasseColaboradoresCredenciais.ColaboradorCredencial>().ReverseMap();
+                        m.CreateMap<ColaboradoresCredenciaisView, ClasseColaboradoresCredenciais.ColaboradorCredencial>().ReverseMap();
+
+                        m.CreateMap<ColaboradorEmpresa, ClasseColaboradoresEmpresas.ColaboradorEmpresa>().ReverseMap();                       
                         m.CreateMap<Empresa, ClasseEmpresas.Empresa>()
                             .IgnoreAllSourcePropertiesWithAnInaccessibleSetter()
                             .ReverseMap();

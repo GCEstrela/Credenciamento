@@ -22,6 +22,8 @@ namespace IMOD.Application.Service
         private readonly IColaboradorRepositorio _repositorio = new ColaboradorRepositorio();
         private readonly IColaboradorCredencialRepositorio _repositorioCredencial = new ColaboradorCredencialRepositorio();
 
+        public IColaboradorCredencialService Credencial => new ColaboradorCredencialService();
+
         #region  Metodos
 
         /// <summary>

@@ -28,7 +28,10 @@ namespace IMOD.Application.Interfaces
         /// <param name="tipoCredencialId">Identificador da credencial</param>
         /// <returns></returns>
         ICollection<ColaboradoresCredenciaisView> ListarColaboradores(int colaboradorCredencialId, string nomeEmpresa = "", int tipoCredencialId = 0, int statusCredencialId = 0, int colaboradorId = 0);
-
+        /// <summary>
+        /// Serviços de credenciais
+        /// </summary>
+        IColaboradorCredencialService Credencial { get; }
         
         #endregion
     }
