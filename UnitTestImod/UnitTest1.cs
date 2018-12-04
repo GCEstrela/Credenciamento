@@ -71,7 +71,7 @@ namespace UnitTestImod
             var d0 = repositorio.Listar().FirstOrDefault();
             var d1 = repositorio.BuscarPelaChave(d0.ColaboradorAnexoId);
 
-            var list0 = repositorio.Listar(0,"%arq%").ToList();
+            var list0 = repositorio.Listar(0, "%arq%").ToList();
             var list1 = repositorio.Listar(0, d0.ColaboradorId).ToList();
 
 
@@ -453,7 +453,7 @@ namespace UnitTestImod
             var repositorio = new ColaboradorEmpresaRepositorio();
             for (var i = 0; i < 3; i++)
             {
-                var d1 = repositorio.BuscarPelaChave(8);
+                var d1 = repositorio.BuscarPelaChave(5);
                 d1.Cargo = "Cargo " + i;
 
                 repositorio.Alterar(d1);
@@ -646,7 +646,7 @@ namespace UnitTestImod
                 var d1 = new Veiculos
                 {
                     Descricao = "VEÍCULO (" + i + ")",
-                    PlacaIdentificador = "HSH-" + i + "00" + i,
+                    Placa_Identificador = "HSH-" + i + "00" + i,
                     Frota = "A" + i,
                     Patrimonio = "PAT-" + i + "00" + i,
                     Marca = "Renault",
@@ -654,19 +654,19 @@ namespace UnitTestImod
                     Tipo = "UTILITARIO " + i,
                     Cor = "Amarelo",
                     Ano = "201" + i,
-                    EstadoId = 1,
-                    MunicipioId = 1,
-                    SerieChassi = "",
-                    CombustivelId = 1,
+                    EstadoID = 1,
+                    MunicipioID = 1,
+                    Serie_Chassi = "",
+                    CombustivelID = 1,
                     Altura = "1.669 mm",
                     Comprimento = "4.152 mm",
                     Largura = "1.768 mm",
-                    TipoEquipamentoVeiculoId = 1,
+                    TipoEquipamentoVeiculoID = 1,
                     Renavam = "9773970473" + i,
                     Foto = "",
                     Excluida = 1,
-                    StatusId = 1,
-                    TipoAcessoId = 1,
+                    StatusID = 1,
+                    TipoAcessoID = 1,
                     DescricaoAnexo = "ANEXO " + i,
                     NomeArquivoAnexo = "ANEXO " + i,
                     ArquivoAnexo = "ANEXO " + i,

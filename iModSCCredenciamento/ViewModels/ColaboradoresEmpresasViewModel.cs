@@ -18,7 +18,9 @@ using System.Windows.Media.Imaging;
 using System.Xml;
 using System.Xml.Serialization;
 using AutoMapper;
+using IMOD.Application.Service;
 using IMOD.Domain.Entities;
+using IMOD.Application.Interfaces;
 
 namespace iModSCCredenciamento.ViewModels
 {
@@ -74,6 +76,8 @@ namespace iModSCCredenciamento.ViewModels
         private int _selectedIndexTemp = 0;
 
         private string _Validade;
+
+        private readonly IColaboradorEmpresaService _service = new ColaboradorEmpresaService();
 
         #endregion
 
@@ -300,7 +304,6 @@ namespace iModSCCredenciamento.ViewModels
                 Thread CarregaColecaoColaboradoresEmpresas_thr = new Thread(() => CarregaColecaoColaboradoresEmpresas(Convert.ToInt32(_ColaboradorID)));
                 CarregaColecaoColaboradoresEmpresas_thr.Start();
                 //CarregaColecaoColaboradoresEmpresas(Convert.ToInt32(_ColaboradorID));
-
             }
             catch (Exception ex)
             {
@@ -382,16 +385,9 @@ namespace iModSCCredenciamento.ViewModels
             {
                 HabilitaEdicao = false;
 
-                //IMOD.Domain.Entities.ColaboradorEmpresa ColaboradorEmpresaEntity = new IMOD.Domain.Entities.ColaboradorEmpresa();
-                //g.TranportarDados(ColaboradorEmpresaSelecionado, 1, ColaboradorEmpresaEntity);
-
-                //var repositorio = new IMOD.Infra.Repositorios.ColaboradorEmpresaRepositorio();
-                //repositorio.Criar(ColaboradorEmpresaEntity);
-
-                var service = new IMOD.Application.Service.ColaboradorEmpresaService();
                 var entity = ColaboradorEmpresaSelecionado;
                 var entityConv = Mapper.Map<ColaboradorEmpresa>(entity);
-                service.Criar(entityConv);
+                _service.Criar(entityConv);
 
                 var id = entityConv.ColaboradorEmpresaId;
 
@@ -415,10 +411,9 @@ namespace iModSCCredenciamento.ViewModels
             {
                 HabilitaEdicao = false;
 
-                var service = new IMOD.Application.Service.ColaboradorEmpresaService();
                 var entity = ColaboradorEmpresaSelecionado;
                 var entityConv = Mapper.Map<ColaboradorEmpresa>(entity);
-                service.Alterar(entityConv);
+                _service.Alterar(entityConv);
 
                 var id = entityConv.ColaboradorEmpresaId;
                 AtualizaCredenciais(id);
@@ -434,7 +429,6 @@ namespace iModSCCredenciamento.ViewModels
                 throw;
             }
         }
-
 
         public void OnAdicionarCommand()
         {
@@ -554,24 +548,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                //string _xml = RequisitaColaboradoresEmpresas(_colaboradorID, _empresaNome, _cargo, _matricula, _ativo);
 
-                //XmlSerializer deserializer = new XmlSerializer(typeof(ClasseColaboradoresEmpresas));
 
-                //XmlDocument xmldocument = new XmlDocument();
-                //xmldocument.LoadXml(_xml);
-
-                //TextReader reader = new StringReader(_xml);
-                //ClasseColaboradoresEmpresas classeColaboradoresEmpresas = new ClasseColaboradoresEmpresas();
-                //classeColaboradoresEmpresas = (ClasseColaboradoresEmpresas)deserializer.Deserialize(reader);
-                //ColaboradoresEmpresas = new ObservableCollection<ClasseColaboradoresEmpresas.ColaboradorEmpresa>();
-                //ColaboradoresEmpresas = classeColaboradoresEmpresas.ColaboradoresEmpresas;
-                //SelectedIndex = -1;
-                //////////////////////////////////////////////////////////////
-                var service = new IMOD.Application.Service.ColaboradorEmpresaService();
                 if (!string.IsNullOrWhiteSpace(_cargo)) _cargo = $"%{_cargo}%";
                 if (!string.IsNullOrWhiteSpace(_matricula)) _matricula = $"%{_matricula}%";
-                var list1 = service.Listar(_colaboradorID, _cargo, _matricula);
+                var list1 = _service.Listar(_colaboradorID, _cargo, _matricula);
 
                 var list2 = Mapper.Map<List<ClasseColaboradoresEmpresas.ColaboradorEmpresa>>(list1);
 
@@ -585,7 +566,9 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                //Global.Log("Erro void CarregaColecaoEmpresas ex: " + ex.Message);
+                Global.Log("Erro na void CarregaColecaoColaboradoresEmpresas ex: " + ex);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
         }
 

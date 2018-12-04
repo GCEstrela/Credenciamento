@@ -172,10 +172,13 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn Width="80" Header="Código"  DisplayMemberBinding="{Binding VeiculoID}"/>
-                            <GridViewColumn Width="150" Header="Placa"  DisplayMemberBinding="{Binding Placa}"/>
-                            <GridViewColumn Width="200"  Header="Renavan" DisplayMemberBinding="{Binding Renavam}"/>
+                            <GridViewColumn Width="80" Header="Código"  DisplayMemberBinding="{Binding EquipamentoVeiculoID}"/>
+                            <GridViewColumn Width="150" Header="Placa/Identificador"  DisplayMemberBinding="{Binding Placa_Identificador}"/>
+                            <GridViewColumn Width="150"  Header="Renavam" DisplayMemberBinding="{Binding Renavam}"/>
                             <GridViewColumn Width="350"  Header="Descrição" DisplayMemberBinding="{Binding Descricao}"/>
+                            <GridViewColumn Width="150"  Header="Marca" DisplayMemberBinding="{Binding Marca}"/>
+                            <GridViewColumn Width="200"  Header="Modelo" DisplayMemberBinding="{Binding Modelo}"/>
+                            <GridViewColumn Width="100"  Header="Cor" DisplayMemberBinding="{Binding Cor}"/>
                         </GridView>
                     </ListView.View>
                 </ListView>
@@ -221,13 +224,13 @@
                                     <StackPanel Margin="10,10,0,0">
                                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0" >
                                             <Label Content="Código:" Height="28" Width="80" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                            <TextBox  x:Name="Codigo_tb" CharacterCasing="Upper" Text="{Binding SelectedItem.VeiculoID, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"  Height="24"  Width="50"/>
+                                            <TextBox  x:Name="Codigo_tb" CharacterCasing="Upper" Text="{Binding SelectedItem.EquipamentoVeiculoID, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"  Height="24"  Width="50"/>
                                             <Label Content="Tipo:" Height="28" Width="40" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
                                             <TextBox  x:Name="Tipo_tb" CharacterCasing="Upper" MaxLength="50" Text="{Binding SelectedItem.Tipo, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="280"/>
                                         </StackPanel>
                                         <StackPanel Orientation="Horizontal"  VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0">
                                             <Label Content="Placa:" Height="28" Width="80" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                            <TextBox  x:Name="Placa_tb" MaxLength="8" CharacterCasing="Upper" Text="{Binding SelectedItem.Placa, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="57"/>
+                                            <TextBox  x:Name="Placa_tb" MaxLength="8" CharacterCasing="Upper" Text="{Binding SelectedItem.Placa_Identificador, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="57"/>
                                             <Label Content="Renavam:" Height="28" Width="80" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
                                             <TextBox  x:Name="Renavan_tb" MaxLength="11"  Text="{Binding SelectedItem.Renavam, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="147"/>
                                             <Label Content="Ano:" Height="28" Width="40" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />

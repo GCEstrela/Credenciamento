@@ -313,6 +313,9 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
+                Global.Log("Erro void OnSalvarEdicaoCommand ex: " + ex.Message);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
 
         }

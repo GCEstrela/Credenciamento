@@ -557,7 +557,7 @@ namespace iModSCCredenciamento.ViewModels
                 if (!string.IsNullOrWhiteSpace(apelido)) apelido = $"%{cpf}%";
                 var list1 = service.Listar(_ColaboradorID, nome, apelido, cpf);
 
-                var list2 = Mapper.Map<List<ClasseColaboradores.Colaborador>>(list1);
+                var list2 = Mapper.Map<List<ClasseColaboradores.Colaborador>>(list1.OrderByDescending(a => a.ColaboradorId));
 
                 var observer = new ObservableCollection<ClasseColaboradores.Colaborador>();
                 list2.ForEach(n =>

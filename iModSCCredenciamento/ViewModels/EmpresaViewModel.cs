@@ -582,8 +582,9 @@ namespace iModSCCredenciamento.ViewModels
             {
                 Global._cnpjEdicao = "";
 
-                ObservableCollection<ClasseEmpresas.Empresa> _EmpresasPro = new ObservableCollection<ClasseEmpresas.Empresa>();
-                ClasseEmpresas _ClasseEmpresasTemp = new ClasseEmpresas();
+                //ObservableCollection<ClasseEmpresas.Empresa> _EmpresasPro = new ObservableCollection<ClasseEmpresas.Empresa>();
+                //ClasseEmpresas _ClasseEmpresasTemp = new ClasseEmpresas();
+
                 EmpresaSelecionada.Pendente = true;
                 EmpresaSelecionada.Pendente11 = true;
                 EmpresaSelecionada.Pendente12 = true;
@@ -593,8 +594,8 @@ namespace iModSCCredenciamento.ViewModels
                 EmpresaSelecionada.Pendente16 = false;
                 EmpresaSelecionada.Pendente17 = true;
 
-                _EmpresasPro.Add(EmpresaSelecionada);
-                _ClasseEmpresasTemp.Empresas = _EmpresasPro;
+                //_EmpresasPro.Add(EmpresaSelecionada);
+                //_ClasseEmpresasTemp.Empresas = _EmpresasPro;
 
                 var service = new IMOD.Application.Service.EmpresaService();
                 var entity = EmpresaSelecionada;
@@ -1019,7 +1020,7 @@ namespace iModSCCredenciamento.ViewModels
                 if (!string.IsNullOrWhiteSpace(cnpj)) cnpj = $"%{cnpj}%";
 
                 var list1 = service.Listar(idEmpresa, nome, apelido, cnpj);
-                var list2 = Mapper.Map<List<ClasseEmpresas.Empresa>>(list1);
+                var list2 = Mapper.Map<List<ClasseEmpresas.Empresa>>(list1.OrderByDescending(a => a.EmpresaId));
 
                 var observer = new ObservableCollection<ClasseEmpresas.Empresa>();
                 list2.ForEach(n =>
