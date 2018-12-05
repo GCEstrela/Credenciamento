@@ -59,7 +59,7 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public IRelatorioService RelatorioService
         {
-            get { return new RelatoriosService(); }
+            get { return new RelatorioService(); }
         }
         /// <summary>
         /// CRUD Completo RelatorioGerencial
@@ -67,7 +67,7 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public IRelatorioGerencialService RelatorioGerencialService
         {
-            get { return new RelatoriosGerenciaisService(); }
+            get { return new RelatorioGerencialService(); }
         }
         /// <summary>
         /// CRUD Completo LayoutCracha

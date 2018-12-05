@@ -548,10 +548,10 @@ namespace iModSCCredenciamento.ViewModels
         private void CarregarDadosComunsEmMemoria()
         {
             //Estados
-            var e1 = _auxiliaresService.ListarEstadosFederacao();
+            var e1 = _auxiliaresService.EstadoService.Listar();
             ObterListaEstadosFederacao = Mapper.Map<List<ClasseEstados.Estado>>(e1);
             //Municipios
-            var list = _auxiliaresService.ListarMunicipios();
+            var list = _auxiliaresService.MunicipioService.Listar();
             ObterListaListaMunicipios = Mapper.Map<List<ClasseMunicipios.Municipio>>(list);
             ////Status
             //var e3 = _auxiliaresService.ListarStatus();

@@ -450,7 +450,7 @@ namespace iModSCCredenciamento.ViewModels
         private void CarregarDadosComunsEmMemoria()
         {
             //Cursos
-            var e1 = _auxiliaresService.ListarCursos();
+            var e1 = _auxiliaresService.CursoService.Listar();
             ObterListaListaCursos = Mapper.Map<List<ClasseCursos.Curso>>(e1);            
 
         }
