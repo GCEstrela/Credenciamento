@@ -7,6 +7,7 @@
 #region
 
 using System.Collections.Generic;
+using IMOD.Application.Interfaces;
 using IMOD.Domain.Entities;
 using IMOD.Domain.EntitiesCustom;
 using IMOD.Domain.Interfaces;
@@ -16,7 +17,7 @@ using IMOD.Infra.Repositorios;
 
 namespace IMOD.Application.Service
 {
-    public class EmpresaTipoAtividadeService : IEmpresaTipoAtividadeRepositorio
+    public class EmpresaTipoAtividadeService : IEmpresaTipoAtividadeService
     {
         #region Variaveis Globais
 

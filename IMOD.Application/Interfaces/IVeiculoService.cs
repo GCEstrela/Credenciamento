@@ -7,7 +7,7 @@ using IMOD.Domain.Interfaces;
 
 namespace IMOD.Application.Interfaces
 {
-    public interface ICursoService : ICursoRepositorio
+    public interface IVeiculoService : IVeiculoRepositorio
     {
     }
 }

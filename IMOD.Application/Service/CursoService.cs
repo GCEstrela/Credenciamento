@@ -1,68 +1,59 @@
-﻿using IMOD.Application.Interfaces;
-using IMOD.Domain.Entities;
-using IMOD.Domain.Interfaces;
-using IMOD.Infra.Repositorios;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using IMOD.Application.Interfaces;
+using IMOD.Domain.Entities;
+using IMOD.Domain.Interfaces;
+using IMOD.Infra.Repositorios;
 
 namespace IMOD.Application.Service
 {
     public class CursoService : ICursoService
     {
+
         private readonly ICursoRepositorio _repositorio = new CursoRepositorio();
 
-        #region  Metodos
-
         /// <summary>
-        ///     Criar registro
+        ///     Criar Cursos 
         /// </summary>
-        /// <param name="entity"></param>
+        /// <returns></returns>
         public void Criar(Curso entity)
         {
             _repositorio.Criar(entity);
         }
-
         /// <summary>
-        ///     Buscar pela chave primaria
+        ///     Buscar Cursos pela chave
         /// </summary>
-        /// <param name="id"></param>
         /// <returns></returns>
         public Curso BuscarPelaChave(int id)
         {
             return _repositorio.BuscarPelaChave(id);
         }
-
         /// <summary>
-        ///     Listar
+        ///     Listar Cursos
         /// </summary>
-        /// <param name="objects">Expressão de consulta</param>
         /// <returns></returns>
         public ICollection<Curso> Listar(params object[] objects)
         {
             return _repositorio.Listar(objects);
         }
-
         /// <summary>
-        ///     Alterar registro
+        ///     Alterar Cursos
         /// </summary>
-        /// <param name="entity"></param>
+        /// <returns></returns>
         public void Alterar(Curso entity)
         {
             _repositorio.Alterar(entity);
         }
-
         /// <summary>
-        ///     Deletar registro
+        ///     Remover Cursos
         /// </summary>
-        /// <param name="entity"></param>
+        /// <returns></returns>
         public void Remover(Curso entity)
         {
             _repositorio.Remover(entity);
         }
-
-        #endregion
     }
 }

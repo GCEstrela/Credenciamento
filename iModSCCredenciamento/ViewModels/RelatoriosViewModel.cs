@@ -8,11 +8,13 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Data.SqlClient;
-using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Windows.Media.Imaging;
 using System.Xml;
-using System.Xml.Serialization;
+using AutoMapper;
+using IMOD.Application.Interfaces;
+using IMOD.Application.Service;
 
 namespace iModSCCredenciamento.ViewModels
 {
@@ -23,13 +25,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             Thread CarregaUI_thr = new Thread(() => CarregaUI());
             CarregaUI_thr.Start();
-
-            //CarregaUI();
         }
 
         private void CarregaUI()
         {
-            CarregaColeçãoRelatorios();
+            CarregaColecaoRelatorios();
             CarregaColecaoEmpresas();
             CarregaColecaoAreasAcessos();
         }
@@ -62,6 +62,10 @@ namespace iModSCCredenciamento.ViewModels
         private BitmapImage _Waiting;
         private string formula;
 
+        private readonly IRelatorioService _service = new RelatorioService();
+        private readonly IEmpresaService _empresaService = new EmpresaService();
+        private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
+
         #endregion
 
         #region Contrutores
@@ -83,7 +87,6 @@ namespace iModSCCredenciamento.ViewModels
                 }
             }
         }
-
         public ObservableCollection<ClasseEmpresas.Empresa> Empresas
 
         {
@@ -124,7 +127,6 @@ namespace iModSCCredenciamento.ViewModels
         {
             get
             {
-
                 return this._RelatorioSelecionado;
             }
             set
@@ -147,26 +149,6 @@ namespace iModSCCredenciamento.ViewModels
 
             }
         }
-
-
-        //public int EmpresaSelecionadaID
-        //{
-        //    get
-        //    {
-        //        return this._EmpresaSelecionadaID;
-        //    }
-        //    set
-        //    {
-        //        this._EmpresaSelecionadaID = value;
-        //        base.OnPropertyChanged();
-        //        if (EmpresaSelecionadaID != null)
-        //        {
-        //            // OnEmpresaSelecionada();
-        //        }
-
-        //    }
-        //}
-
 
         public int SelectedIndex
         {
@@ -193,31 +175,30 @@ namespace iModSCCredenciamento.ViewModels
                 base.OnPropertyChanged();
             }
         }
+
         #endregion
 
         #region Carregamento das Colecoes
-        private void CarregaColeçãoRelatorios()
+        private void CarregaColecaoRelatorios()
         {
-
             try
             {
+                var list1 = _service.Listar();
 
-                string _xml = RequisitaRelatorios();
+                var list2 = Mapper.Map<List<ClasseRelatorios.Relatorio>>(list1);
+                var observer = new ObservableCollection<ClasseRelatorios.Relatorio>();
+                list2.ForEach(n =>
+                {
+                    observer.Add(n);
+                });
 
-                XmlSerializer deserializer = new XmlSerializer(typeof(ClasseRelatorios));
-                XmlDocument xmldocument = new XmlDocument();
-                xmldocument.LoadXml(_xml);
-                TextReader reader = new StringReader(_xml);
-                ClasseRelatorios classeRelatorios = new ClasseRelatorios();
-                classeRelatorios = (ClasseRelatorios)deserializer.Deserialize(reader);
-                Relatorios = new ObservableCollection<ClasseRelatorios.Relatorio>();
-                Relatorios = classeRelatorios.Relatorios;
-
-
+                this.Relatorios = observer;
             }
+
             catch (Exception ex)
             {
-                Global.Log("Erro na void CarregaColeçãoRelatorios ex: " + ex);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
         }
 
@@ -225,369 +206,122 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                string _xml = RequisitaAreasAcessos();
+                var list1 = _auxiliaresService.AreaAcessoService.Listar();
 
-                XmlSerializer deserializer = new XmlSerializer(typeof(ClasseAreasAcessos));
+                var list2 = Mapper.Map<List<ClasseAreasAcessos.AreaAcesso>>(list1);
+                var observer = new ObservableCollection<ClasseAreasAcessos.AreaAcesso>();
+                list2.ForEach(n =>
+                {
+                    observer.Add(n);
+                });
 
-                XmlDocument xmldocument = new XmlDocument();
-                xmldocument.LoadXml(_xml);
-
-                TextReader reader = new StringReader(_xml);
-                ClasseAreasAcessos classeAreasAcessos = new ClasseAreasAcessos();
-                classeAreasAcessos = (ClasseAreasAcessos)deserializer.Deserialize(reader);
-                AreasAcessos = new ObservableCollection<ClasseAreasAcessos.AreaAcesso>();
-                AreasAcessos = classeAreasAcessos.AreasAcessos;
+                this.AreasAcessos = observer;
             }
             catch (Exception ex)
             {
-                Global.Log("Erro void CarregaColecaoAreasAcessos ex: " + ex.Message);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
         }
 
-
-        private void CarregaColecaoEmpresas(string _empresaID = "", string _nome = "", string _apelido = "", string _cNPJ = "", string _quantidaderegistro = "500")
-        {
-
-            try
-            {
-                string _xml = RequisitaEmpresas(_empresaID, _nome, _apelido, _cNPJ);
-
-                XmlSerializer deserializer = new XmlSerializer(typeof(ClasseEmpresas));
-
-                XmlDocument xmldocument = new XmlDocument();
-                xmldocument.LoadXml(_xml);
-
-                TextReader reader = new StringReader(_xml);
-                ClasseEmpresas classeEmpresas = new ClasseEmpresas();
-                classeEmpresas = (ClasseEmpresas)deserializer.Deserialize(reader);
-                Empresas = new ObservableCollection<ClasseEmpresas.Empresa>();
-                Empresas = classeEmpresas.Empresas;
-            }
-            catch (Exception)
-            {
-                //Global.Log("Erro void CarregaColecaoEmpresas ex: " + ex.Message);
-            }
-        }
-
-
-
-
-        private string RequisitaEmpresas(string _empresaID = "", string _nome = "", string _apelido = "", string _cNPJ = "", int _excluida = 0, string _quantidaderegistro = "500")
+        private void CarregaColecaoEmpresas(int? idEmpresa = null, string nome = null, string apelido = null, string cnpj = null)
         {
             try
             {
-                XmlDocument _xmlDocument = new XmlDocument();
-                XmlNode _xmlNode = _xmlDocument.CreateXmlDeclaration("1.0", "UTF-8", null);
+                if (!string.IsNullOrWhiteSpace(nome)) nome = $"%{nome}%";
+                if (!string.IsNullOrWhiteSpace(apelido)) apelido = $"%{apelido}%";
+                if (!string.IsNullOrWhiteSpace(cnpj)) cnpj = $"%{cnpj}%";
 
-                XmlNode _ClasseEmpresas = _xmlDocument.CreateElement("ClasseEmpresas");
-                _xmlDocument.AppendChild(_ClasseEmpresas);
+                var list1 = _empresaService.Listar(idEmpresa, nome, apelido, cnpj);
+                var list2 = Mapper.Map<List<ClasseEmpresas.Empresa>>(list1.OrderByDescending(a => a.EmpresaId));
 
-                XmlNode _Empresas = _xmlDocument.CreateElement("Empresas");
-                _ClasseEmpresas.AppendChild(_Empresas);
-
-                string _strSql = " [EmpresaID],[Nome]";
-
-                //            string _strSql = " [EmpresaID],[Nome],[Apelido],[CNPJ],[CEP],[Endereco]," +
-                //"[Numero],[Complemento],[Bairro],[MunicipioID],[EstadoID],[Telefone],[Contato]," +
-                //"[Celular],[Email],[Obs],[Responsavel],[InsEst],[InsMun],[Excluida]";
-
-                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
-
-                _empresaID = "%" + _empresaID + "%";
-                _nome = "%" + _nome + "%";
-                _apelido = "%" + _apelido + "%";
-                _cNPJ = "%" + _cNPJ + "%";
-
-                if (_quantidaderegistro == "0")
+                var observer = new ObservableCollection<ClasseEmpresas.Empresa>();
+                list2.ForEach(n =>
                 {
-                    _strSql = "select " + _strSql + " from Empresas where EmpresaID like '" + _empresaID + "' and EmpresaNome like '" + _nome + "' and Apelido like '" + _apelido + "' and CNPJ like '" + _cNPJ + "' and Excluida  = " + _excluida + " order by EmpresaID desc";
-                }
-                else
-                {
-                    _strSql = "select Top " + _quantidaderegistro + _strSql + "  from Empresas where EmpresaID like '" + _empresaID + "' and Nome like '" + _nome + "' and Apelido like '" + _apelido + "' and CNPJ like '" + _cNPJ + "' and Excluida  = " + _excluida + " order by EmpresaID desc";
-                }
+                    observer.Add(n);
+                });
 
-
-                SqlCommand _sqlcmd = new SqlCommand(_strSql, _Con);
-                SqlDataReader _sqlreader = _sqlcmd.ExecuteReader(CommandBehavior.Default);
-                while (_sqlreader.Read())
-                {
-
-                    XmlNode _Empresa = _xmlDocument.CreateElement("Empresa");
-                    _Empresas.AppendChild(_Empresa);
-
-                    XmlNode _EmpresaID = _xmlDocument.CreateElement("EmpresaID");
-                    _EmpresaID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["EmpresaID"].ToString())));
-                    _Empresa.AppendChild(_EmpresaID);
-
-                    XmlNode _Nome = _xmlDocument.CreateElement("Nome");
-                    _Nome.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Nome"].ToString())));
-                    _Empresa.AppendChild(_Nome);
-
-                    //XmlNode _Apelido = _xmlDocument.CreateElement("Apelido");
-                    //_Apelido.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Apelido"].ToString())));
-                    //_Empresa.AppendChild(_Apelido);
-
-                    //XmlNode _CNPJ = _xmlDocument.CreateElement("CNPJ");
-                    //_CNPJ.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["CNPJ"].ToString())));
-                    //_Empresa.AppendChild(_CNPJ);
-
-                    //XmlNode _InsEst = _xmlDocument.CreateElement("InsEst");
-                    //_InsEst.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["InsEst"].ToString())));
-                    //_Empresa.AppendChild(_InsEst);
-
-                    //XmlNode _InsMun = _xmlDocument.CreateElement("InsMun");
-                    //_InsMun.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["InsMun"].ToString())));
-                    //_Empresa.AppendChild(_InsMun);
-
-                    //XmlNode _Responsavel = _xmlDocument.CreateElement("Responsavel");
-                    //_Responsavel.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Responsavel"].ToString())));
-                    //_Empresa.AppendChild(_Responsavel);
-
-                    //XmlNode _CEP = _xmlDocument.CreateElement("CEP");
-                    //_CEP.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["CEP"].ToString())));
-                    //_Empresa.AppendChild(_CEP);
-
-                    //XmlNode _Endereco = _xmlDocument.CreateElement("Endereco");
-                    //_Endereco.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Endereco"].ToString())));
-                    //_Empresa.AppendChild(_Endereco);
-
-                    //XmlNode _Numero = _xmlDocument.CreateElement("Numero");
-                    //_Numero.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Numero"].ToString())));
-                    //_Empresa.AppendChild(_Numero);
-
-                    //XmlNode _Complemento = _xmlDocument.CreateElement("Complemento");
-                    //_Complemento.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Complemento"].ToString())));
-                    //_Empresa.AppendChild(_Complemento);
-
-                    //XmlNode _Bairro = _xmlDocument.CreateElement("Bairro");
-                    //_Bairro.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Bairro"].ToString())));
-                    //_Empresa.AppendChild(_Bairro);
-
-                    //XmlNode _EstadoID = _xmlDocument.CreateElement("EstadoID");
-                    //_EstadoID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["EstadoID"].ToString())));
-                    //_Empresa.AppendChild(_EstadoID);
-
-                    //XmlNode _MunicipioID = _xmlDocument.CreateElement("MunicipioID");
-                    //_MunicipioID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["MunicipioID"].ToString())));
-                    //_Empresa.AppendChild(_MunicipioID);
-
-                    //XmlNode _Tel = _xmlDocument.CreateElement("Telefone");
-                    //_Tel.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Telefone"].ToString())));
-                    //_Empresa.AppendChild(_Tel);
-
-                    //XmlNode _Cel = _xmlDocument.CreateElement("Celular");
-                    //_Cel.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Celular"].ToString())));
-                    //_Empresa.AppendChild(_Cel);
-
-                    //XmlNode _Contato = _xmlDocument.CreateElement("Contato");
-                    //_Contato.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Contato"].ToString())));
-                    //_Empresa.AppendChild(_Contato);
-
-                    //XmlNode _Email = _xmlDocument.CreateElement("Email");
-                    //_Email.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Email"].ToString())));
-                    //_Empresa.AppendChild(_Email);
-
-                    //XmlNode _Obs = _xmlDocument.CreateElement("Obs");
-                    //_Obs.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Obs"].ToString())));
-                    //_Empresa.AppendChild(_Obs);
-
-                    //XmlNode _Logo = _xmlDocument.CreateElement("Logo");
-                    ////_Logo.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Logo"].ToString())));
-                    //_Empresa.AppendChild(_Logo);
-
-                    //XmlNode _Excluida = _xmlDocument.CreateElement("Excluida");
-                    //_Excluida.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Excluida"].ToString())));
-                    //_Empresa.AppendChild(_Excluida);
-
-
-                }
-
-                _sqlreader.Close();
-
-                _Con.Close();
-                string _xml = _xmlDocument.InnerXml;
-                _xmlDocument = null;
-                return _xml;
+                this.Empresas = observer;
+                SelectedIndex = 0;
             }
-            catch (Exception)
+
+            catch (Exception ex)
             {
-
-                return null;
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
-            return null;
         }
-
-
 
         #endregion
 
-        #region Data Access
-        private string RequisitaAreasAcessos()
-        {
-            try
-            {
-                XmlDocument _xmlDocument = new XmlDocument();
-                XmlNode _xmlNode = _xmlDocument.CreateXmlDeclaration("1.0", "UTF-8", null);
-
-                XmlNode _ClasseAreasAcessos = _xmlDocument.CreateElement("ClasseAreasAcessos");
-                _xmlDocument.AppendChild(_ClasseAreasAcessos);
-
-                XmlNode _AreasAcessos = _xmlDocument.CreateElement("AreasAcessos");
-                _ClasseAreasAcessos.AppendChild(_AreasAcessos);
-
-                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
-                SqlCommand _sqlcmd = new SqlCommand("select * from AreasAcessos order by AreaAcessoID", _Con);
-                SqlDataReader _sqldatareader = _sqlcmd.ExecuteReader();
-                while (_sqldatareader.Read())
-                {
-                    XmlNode _AreaAcesso = _xmlDocument.CreateElement("AreaAcesso");
-                    _AreasAcessos.AppendChild(_AreaAcesso);
-
-                    XmlNode _AreaAcessoID = _xmlDocument.CreateElement("AreaAcessoID");
-                    _AreaAcessoID.AppendChild(_xmlDocument.CreateTextNode((_sqldatareader["AreaAcessoID"].ToString())));
-                    _AreaAcesso.AppendChild(_AreaAcessoID);
-
-                    XmlNode _Descricao = _xmlDocument.CreateElement("Descricao");
-                    _Descricao.AppendChild(_xmlDocument.CreateTextNode((_sqldatareader["Descricao"].ToString())));
-                    _AreaAcesso.AppendChild(_Descricao);
-
-                }
-                _sqldatareader.Close();
-                _Con.Close();
-                return _xmlDocument.InnerXml;
-            }
-            catch (Exception ex)
-            {
-                Global.Log("Erro na void RequisitaAreasAcessos ex: " + ex);
-
-                return null;
-            }
-        }
-        private string RequisitaRelatorios()
-        {
-            try
-            {
-                XmlDocument _xmlDocument = new XmlDocument();
-                XmlNode _xmlNode = _xmlDocument.CreateXmlDeclaration("1.0", "UTF-8", null);
-
-                XmlNode _ClasseRelatorios = _xmlDocument.CreateElement("ClasseRelatorios");
-                _xmlDocument.AppendChild(_ClasseRelatorios);
-
-                XmlNode _Relatorios = _xmlDocument.CreateElement("Relatorios");
-                _ClasseRelatorios.AppendChild(_Relatorios);
-
-                string _strSql;
+        #region Data Access (Vazia)
 
 
-                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
-
-
-                _strSql = "Select [RelatorioID]" +
-                          ",[Nome]" +
-                          ",[NomeArquivoRPT], [Ativo]" +
-                          "from Relatorios order by RelatorioID ASC";
-
-                SqlCommand _sqlcmd = new SqlCommand(_strSql, _Con);
-
-                SqlDataReader _sqlreader = _sqlcmd.ExecuteReader(CommandBehavior.Default);
-
-
-                while (_sqlreader.Read())
-                {
-
-                    XmlNode _Relatorio = _xmlDocument.CreateElement("Relatorio");
-                    _Relatorios.AppendChild(_Relatorio);
-
-                    XmlNode _RelatorioID = _xmlDocument.CreateElement("RelatorioID");
-                    _RelatorioID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["RelatorioID"].ToString())));
-                    _Relatorio.AppendChild(_RelatorioID);
-
-                    XmlNode _Nome = _xmlDocument.CreateElement("Nome");
-                    _Nome.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Nome"].ToString())));
-                    _Relatorio.AppendChild(_Nome);
-
-                    XmlNode _NomeArquivoRPT = _xmlDocument.CreateElement("NomeArquivoRPT");
-                    _NomeArquivoRPT.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["NomeArquivoRPT"].ToString())));
-                    _Relatorio.AppendChild(_NomeArquivoRPT);
-
-
-                    XmlNode _Ativo = _xmlDocument.CreateElement("Ativo");
-                    _Ativo.AppendChild(_xmlDocument.CreateTextNode((Convert.ToInt32((bool)_sqlreader["Ativo"])).ToString()));
-                    _Relatorio.AppendChild(_Ativo);
-
-
-                    XmlNode _ArquivoRPT = _xmlDocument.CreateElement("ArquivoRPT");
-                    //_ArquivoRPT.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["ArquivoRPT""].ToString())));
-                    _Relatorio.AppendChild(_ArquivoRPT);
-
-
-                }
-
-                _sqlreader.Close();
-
-                _Con.Close();
-                string _xml = _xmlDocument.InnerXml;
-                _xmlDocument = null;
-                //InsereRelatoriosBD("");
-
-                return _xml;
-            }
-            catch (Exception)
-            {
-
-                return null;
-            }
-            return null;
-        }
-
-        private string BuscaFoto(int relatorioID)
-        {
-            try
-            {
-                XmlDocument _xmlDocument = new XmlDocument();
-                XmlNode _xmlNode = _xmlDocument.CreateXmlDeclaration("1.0", "UTF-8", null);
-
-                XmlNode _ClasseArquivosImagens = _xmlDocument.CreateElement("ClasseArquivosImagens");
-                _xmlDocument.AppendChild(_ClasseArquivosImagens);
-
-                XmlNode _ArquivosImagens = _xmlDocument.CreateElement("ArquivosImagens");
-                _ClasseArquivosImagens.AppendChild(_ArquivosImagens);
-
-
-                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
-
-                SqlCommand SQCMDXML = new SqlCommand("Select * From Relatorios Where RelatorioID = " + relatorioID, _Con);
-                SqlDataReader SQDR_XML;
-                SQDR_XML = SQCMDXML.ExecuteReader(CommandBehavior.Default);
-                while (SQDR_XML.Read())
-                {
-                    XmlNode _ArquivoImagem = _xmlDocument.CreateElement("ArquivoImagem");
-                    _ArquivosImagens.AppendChild(_ArquivoImagem);
-
-                    XmlNode _Arquivo = _xmlDocument.CreateElement("Arquivo");
-                    _Arquivo.AppendChild(_xmlDocument.CreateTextNode((SQDR_XML["Foto"].ToString())));
-                    _ArquivoImagem.AppendChild(_Arquivo);
-
-                }
-                SQDR_XML.Close();
-
-                _Con.Close();
-                return _xmlDocument.InnerXml;
-            }
-            catch (Exception ex)
-            {
-                Global.Log("Erro na void CriaXmlImagem ex: " + ex);
-                return null;
-            }
-        }
         #endregion
 
         #region Comandos dos Botoes
 
+        public void OnAbrirRelatorioCommand(string _Tag)
+        {
+            try
+            {
+                string _xmlstring = CriaXmlRelatorio(Convert.ToInt32(_Tag));
+
+                XmlDocument xmldocument = new XmlDocument();
+                xmldocument.LoadXml(_xmlstring);
+                XmlNode node = xmldocument.DocumentElement;
+                XmlNode arquivoNode = node.SelectSingleNode("ArquivosImagens/ArquivoImagem/Arquivo");
+
+                string _ArquivoRPT = arquivoNode.FirstChild.Value;
+                byte[] buffer = Convert.FromBase64String(_ArquivoRPT);
+                _ArquivoRPT = System.IO.Path.GetTempFileName();
+                _ArquivoRPT = System.IO.Path.GetRandomFileName();
+                _ArquivoRPT = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\" + _ArquivoRPT;
+                _ArquivoRPT = System.IO.Path.ChangeExtension(_ArquivoRPT, ".rpt");
+                System.IO.File.WriteAllBytes(_ArquivoRPT, buffer);
+
+                ReportDocument reportDocument = new ReportDocument();
+                TableLogOnInfos crtableLogoninfos = new TableLogOnInfos();
+                TableLogOnInfo crtableLogoninfo = new TableLogOnInfo();
+                ConnectionInfo crConnectionInfo = new ConnectionInfo();
+                Tables CrTables;
+
+                reportDocument.Load(_ArquivoRPT);
+                crConnectionInfo.ServerName = Global._instancia;
+                crConnectionInfo.DatabaseName = Global._bancoDados;
+                crConnectionInfo.UserID = Global._usuario;
+                crConnectionInfo.Password = Global._senha;
+
+                CrTables = reportDocument.Database.Tables;
+                foreach (CrystalDecisions.CrystalReports.Engine.Table CrTable in CrTables)
+                {
+                    crtableLogoninfo = CrTable.LogOnInfo;
+                    crtableLogoninfo.ConnectionInfo = crConnectionInfo;
+                    CrTable.ApplyLogOnInfo(crtableLogoninfo);
+                }
+                Thread CarregaRel_thr = new Thread(() =>
+                {
+
+                    System.Windows.Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        PopupRelatorio _popupRelatorio = new PopupRelatorio(reportDocument);
+                        _popupRelatorio.Show();
+                    });
+
+                });
+
+                CarregaRel_thr.Start();
+
+            }
+            catch (Exception ex)
+            {
+                Global.Log("Erro na void OnAbrirArquivoCommand ex: " + ex);
+            }
+
+        }
+
         #region Comandos dos Botoes (RELATÓRIOS GERENCIAIS)
 
-        //TODO: Mihai (31-10-2018)
         public void OnFiltroRelatorioCredencialCommand(bool _tipo, string _dataIni, string _dataFim)
         {
             try
@@ -596,12 +330,10 @@ namespace iModSCCredenciamento.ViewModels
 
                 if (_tipo)
                 {
-                    //1_Relatório_CredenciaisPermanentes.rpt
                     _xmlstring = CriaXmlRelatoriosGerenciais(1);
                 }
                 else
                 {
-                    //5_Relatório_CredenciaisTemporarias.rpt
                     _xmlstring = CriaXmlRelatoriosGerenciais(5);
                 }
 
@@ -624,21 +356,23 @@ namespace iModSCCredenciamento.ViewModels
                 System.IO.File.WriteAllBytes(_ArquivoRPT, buffer);
 
                 ReportDocument reportDocument = new ReportDocument();
-                //Esse ponto de implementação para a alteração da instancia do SQL, banco, usuário e senha
                 TableLogOnInfos crtableLogoninfos = new TableLogOnInfos();
                 TableLogOnInfo crtableLogoninfo = new TableLogOnInfo();
                 ConnectionInfo crConnectionInfo = new ConnectionInfo();
                 Tables CrTables;
 
+
+                //Permanentes
                 if (_tipo)
                 {
                     if (_dataIni == "" || _dataFim == "")
                     {
-                        //TODAS AS CREDENCIAIS PERMANENTES E ATIVAS
-                        formula = " {TiposCredenciais.TipoCredencialID} = 1 and {CredenciaisStatus.CredencialStatusID} = 1 ";
+                        //Filtra todas Credenciais Permanentes e Ativas
+                        formula = " {TiposCredenciais.TipoCredencialID} = 1 " +
+                                  " and {CredenciaisStatus.CredencialStatusID} = 1 ";
                     }
                     else
-                    {
+                    {   //Filtra todas Credenciais Permanentes e Ativas (Período)
                         formula = " {TiposCredenciais.TipoCredencialID} = 1 " +
                                   " and {CredenciaisStatus.CredencialStatusID} = 1 " +
                                   " AND ({ColaboradoresCredenciais.Emissao} <= CDate ('" + _dataFim + "')" +
@@ -646,15 +380,17 @@ namespace iModSCCredenciamento.ViewModels
                     }
 
                 }
+                //Temporárias
                 else
                 {
                     if (_dataIni == "" || _dataFim == "")
                     {
-                        //TODAS AS CREDENCIAIS TEMPORÁRIAS E ATIVAS
-                        formula = " {TiposCredenciais.TipoCredencialID} = 2 and {CredenciaisStatus.CredencialStatusID} = 1 ";
+                        //Filtra todas Credenciais Temporárias e Ativas
+                        formula = " {TiposCredenciais.TipoCredencialID} = 2 " +
+                                  " and {CredenciaisStatus.CredencialStatusID} = 1 ";
                     }
                     else
-                    {
+                    {   //Filtra todas Credenciais Permanentes e Ativas (Período)
                         formula = " {TiposCredenciais.TipoCredencialID} = 2 " +
                                   " and {CredenciaisStatus.CredencialStatusID} = 1 " +
                                   " AND ({ColaboradoresCredenciais.Emissao} <= CDate ('" + _dataFim + "')" +
@@ -681,28 +417,22 @@ namespace iModSCCredenciamento.ViewModels
 
                 Thread CarregaRel_thr = new Thread(() =>
                 {
-
                     System.Windows.Application.Current.Dispatcher.Invoke(() =>
                     {
-
                         reportDocument.RecordSelectionFormula = formula;
 
                         PopupRelatorio _popupRelatorio = new PopupRelatorio(reportDocument);
                         _popupRelatorio.Show();
                     });
-
-                }
-
-                );
+                });
 
                 CarregaRel_thr.Start();
 
             }
             catch (Exception ex)
             {
-
-                Global.Log("Erro na void OnFiltroRelatorioCredencialCommand ex: " + ex);
-
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
         }
 
@@ -710,7 +440,6 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                //2_Relatório_AutorizacoesPermanentes.rpt
                 string _xmlstring = CriaXmlRelatoriosGerenciais(2);
 
                 XmlDocument xmldocument = new XmlDocument();
@@ -729,7 +458,6 @@ namespace iModSCCredenciamento.ViewModels
                 System.IO.File.WriteAllBytes(_ArquivoRPT, buffer);
 
                 ReportDocument reportDocument = new ReportDocument();
-                //Esse ponto de implementação para a alteração da instancia do SQL, banco, usuário e senha
                 TableLogOnInfos crtableLogoninfos = new TableLogOnInfos();
                 TableLogOnInfo crtableLogoninfo = new TableLogOnInfo();
                 ConnectionInfo crConnectionInfo = new ConnectionInfo();
@@ -766,25 +494,24 @@ namespace iModSCCredenciamento.ViewModels
                         PopupRelatorio _popupRelatorio = new PopupRelatorio(reportDocument);
                         _popupRelatorio.Show();
                     });
-                }
-                );
-                CarregaRel_thr.Start();
+                });
 
+                CarregaRel_thr.Start();
             }
             catch (Exception ex)
             {
                 Global.Log("Erro na void OnFiltroRelatorioAutorizacoesCommand ex: " + ex);
-
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
         }
 
-        //TODO: Mihai (31-10-2018)
         public void OnRelatorioCredenciaisInvalidasFiltroCommand(int _status, string _dataIni, string _dataFim)
         {
             string _xmlstring;
 
             try
-            {    //3_Relatório_CredenciaisInvalidas.rpt
+            {
                 _xmlstring = CriaXmlRelatoriosGerenciais(3);
 
                 XmlDocument xmldocument = new XmlDocument();
@@ -803,7 +530,6 @@ namespace iModSCCredenciamento.ViewModels
                 System.IO.File.WriteAllBytes(_ArquivoRPT, buffer);
 
                 ReportDocument reportDocument = new ReportDocument();
-                //Esse ponto de implementação para a alteração da instancia do SQL, banco, usuário e senha
                 TableLogOnInfos crtableLogoninfos = new TableLogOnInfos();
                 TableLogOnInfo crtableLogoninfo = new TableLogOnInfo();
                 ConnectionInfo crConnectionInfo = new ConnectionInfo();
@@ -866,7 +592,6 @@ namespace iModSCCredenciamento.ViewModels
                                   " AND ({ColaboradoresCredenciais.Baixa} <= CDate ('" + _dataFim + "')" +
                                   " AND {ColaboradoresCredenciais.Baixa} >= CDate ('" + _dataIni + "') ) ";
                     }
-
                 }
 
                 reportDocument.Load(_ArquivoRPT);
@@ -885,21 +610,14 @@ namespace iModSCCredenciamento.ViewModels
 
                 Thread CarregaRel_thr = new Thread(() =>
                 {
-
                     System.Windows.Application.Current.Dispatcher.Invoke(() =>
                     {
-
-
                         reportDocument.RecordSelectionFormula = formula;
-
                         PopupRelatorio _popupRelatorio = new PopupRelatorio(reportDocument);
                         _popupRelatorio.Show();
                     });
+                });
 
-                }
-
-                );
-                //CarregaRel_thr.SetApartmentState(ApartmentState.STA);
                 CarregaRel_thr.Start();
 
             }
@@ -907,6 +625,8 @@ namespace iModSCCredenciamento.ViewModels
             catch (Exception ex)
             {
                 Global.Log("Erro na void OnRelatorioCredenciaisInvalidasFiltroCommand ex: " + ex);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
 
             }
         }
@@ -1011,7 +731,6 @@ namespace iModSCCredenciamento.ViewModels
             }
         }
 
-        //TODO: Mihai (31-10-2018)
         public void OnRelatorioFiltroPorAreaCommand(string _area, bool _check)
         {
             string _xmlstring;
@@ -1101,7 +820,6 @@ namespace iModSCCredenciamento.ViewModels
 
         public void OnRelatorioFiltroPorEmpresaCommand(string empresa, bool _check, string _dataIni, string _dataFim)
         {
-
             string _xmlstring;
 
             try
@@ -1128,15 +846,10 @@ namespace iModSCCredenciamento.ViewModels
                 _ArquivoRPT = System.IO.Path.GetRandomFileName();
                 _ArquivoRPT = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\" + _ArquivoRPT;
 
-                //ReportDocument reportDocument = new ReportDocument();
-
-
-                //File.Move(_caminhoArquivoPDF, Path.ChangeExtension(_caminhoArquivoPDF, ".pdf"));
                 _ArquivoRPT = System.IO.Path.ChangeExtension(_ArquivoRPT, ".rpt");
                 System.IO.File.WriteAllBytes(_ArquivoRPT, buffer);
 
                 ReportDocument reportDocument = new ReportDocument();
-                //Esse ponto de implementação para a alteração da instancia do SQL, banco, usuário e senha
                 TableLogOnInfos crtableLogoninfos = new TableLogOnInfos();
                 TableLogOnInfo crtableLogoninfo = new TableLogOnInfo();
                 ConnectionInfo crConnectionInfo = new ConnectionInfo();
@@ -1203,10 +916,7 @@ namespace iModSCCredenciamento.ViewModels
                         _popupRelatorio.Show();
                     });
 
-                }
-
-                );
-                //CarregaRel_thr.SetApartmentState(ApartmentState.STA);
+                });
                 CarregaRel_thr.Start();
 
             }
@@ -1245,15 +955,10 @@ namespace iModSCCredenciamento.ViewModels
                 _ArquivoRPT = System.IO.Path.GetRandomFileName();
                 _ArquivoRPT = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\" + _ArquivoRPT;
 
-                //ReportDocument reportDocument = new ReportDocument();
-
-
-                //File.Move(_caminhoArquivoPDF, Path.ChangeExtension(_caminhoArquivoPDF, ".pdf"));
                 _ArquivoRPT = System.IO.Path.ChangeExtension(_ArquivoRPT, ".rpt");
                 System.IO.File.WriteAllBytes(_ArquivoRPT, buffer);
 
                 ReportDocument reportDocument = new ReportDocument();
-                //Esse ponto de implementação para a alteração da instancia do SQL, banco, usuário e senha
                 TableLogOnInfos crtableLogoninfos = new TableLogOnInfos();
                 TableLogOnInfo crtableLogoninfo = new TableLogOnInfo();
                 ConnectionInfo crConnectionInfo = new ConnectionInfo();
@@ -1304,10 +1009,8 @@ namespace iModSCCredenciamento.ViewModels
                         _popupRelatorio.Show();
                     });
 
-                }
+                });
 
-                );
-                //CarregaRel_thr.SetApartmentState(ApartmentState.STA);
                 CarregaRel_thr.Start();
 
             }
@@ -1318,7 +1021,6 @@ namespace iModSCCredenciamento.ViewModels
             }
         }
 
-        //TODO: Mihai (31-10-2018)
         public void OnFiltroCredencialViasAdicionaisCommand(int _tipo, string _dataIni, string _dataFim)
         {
             try
@@ -1346,7 +1048,6 @@ namespace iModSCCredenciamento.ViewModels
                 System.IO.File.WriteAllBytes(_ArquivoRPT, buffer);
 
                 ReportDocument reportDocument = new ReportDocument();
-                //Esse ponto de implementação para a alteração da instancia do SQL, banco, usuário e senha
                 TableLogOnInfos crtableLogoninfos = new TableLogOnInfos();
                 TableLogOnInfo crtableLogoninfo = new TableLogOnInfo();
                 ConnectionInfo crConnectionInfo = new ConnectionInfo();
@@ -1411,88 +1112,21 @@ namespace iModSCCredenciamento.ViewModels
                         _popupRelatorio.Show();
                     });
 
-                }
-
-                );
+                });
 
                 CarregaRel_thr.Start();
 
             }
             catch (Exception ex)
             {
-
                 Global.Log("Erro na void OnFiltroRelatorioCredencialCommand ex: " + ex);
-
             }
         }
 
         #endregion
 
-        public void OnAbrirRelatorioCommand(string _Tag)
-        {
-
-            try
-            {
-                string _xmlstring = CriaXmlRelatorio(Convert.ToInt32(_Tag));
-
-                XmlDocument xmldocument = new XmlDocument();
-                xmldocument.LoadXml(_xmlstring);
-                XmlNode node = xmldocument.DocumentElement;
-                XmlNode arquivoNode = node.SelectSingleNode("ArquivosImagens/ArquivoImagem/Arquivo");
-
-                string _ArquivoRPT = arquivoNode.FirstChild.Value;
-                byte[] buffer = Convert.FromBase64String(_ArquivoRPT);
-                _ArquivoRPT = System.IO.Path.GetTempFileName();
-                _ArquivoRPT = System.IO.Path.GetRandomFileName();
-                _ArquivoRPT = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\" + _ArquivoRPT;
-                _ArquivoRPT = System.IO.Path.ChangeExtension(_ArquivoRPT, ".rpt");
-                System.IO.File.WriteAllBytes(_ArquivoRPT, buffer);
-
-                ReportDocument reportDocument = new ReportDocument();
-                //Esse ponto de implementação para a alteração da instancia do SQL, banco, usuário e senha
-                TableLogOnInfos crtableLogoninfos = new TableLogOnInfos();
-                TableLogOnInfo crtableLogoninfo = new TableLogOnInfo();
-                ConnectionInfo crConnectionInfo = new ConnectionInfo();
-                Tables CrTables;
-
-                reportDocument.Load(_ArquivoRPT);
-                crConnectionInfo.ServerName = Global._instancia;
-                crConnectionInfo.DatabaseName = Global._bancoDados;
-                crConnectionInfo.UserID = Global._usuario;
-                crConnectionInfo.Password = Global._senha;
-
-                CrTables = reportDocument.Database.Tables;
-                foreach (CrystalDecisions.CrystalReports.Engine.Table CrTable in CrTables)
-                {
-                    crtableLogoninfo = CrTable.LogOnInfo;
-                    crtableLogoninfo.ConnectionInfo = crConnectionInfo;
-                    CrTable.ApplyLogOnInfo(crtableLogoninfo);
-                }
-                Thread CarregaRel_thr = new Thread(() =>
-                {
-
-                    System.Windows.Application.Current.Dispatcher.Invoke(() =>
-                    {
-                        PopupRelatorio _popupRelatorio = new PopupRelatorio(reportDocument);
-                        _popupRelatorio.Show();
-                    });
-
-                }
-
-                );
-                //CarregaRel_thr.SetApartmentState(ApartmentState.STA);
-                CarregaRel_thr.Start();
-
-            }
-            catch (Exception ex)
-            {
-                Global.Log("Erro na void OnAbrirArquivoCommand ex: " + ex);
-            }
-
-        }
 
         #endregion
-
 
         #region Metodos privados
         private string CriaXmlRelatorio(int relatorioID)

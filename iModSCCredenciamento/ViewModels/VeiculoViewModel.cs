@@ -17,6 +17,10 @@ using System.Linq;
 using iModSCCredenciamento.Views;
 using System.Threading.Tasks;
 using System.Windows;
+using AutoMapper;
+using IMOD.Application.Interfaces;
+using IMOD.Domain.Entities;
+using IMOD.Application.Service;
 
 namespace iModSCCredenciamento.ViewModels
 {
@@ -80,6 +84,8 @@ namespace iModSCCredenciamento.ViewModels
         private BitmapImage _Waiting;
 
         //private bool _EditandoUserControl;
+
+        private readonly IVeiculoService _service = new VeiculoService();
 
         #endregion
 
@@ -571,21 +577,14 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                //if (MessageBox.Show("Tem certeza que deseja excluir este veiculo?", "Excluir Veiculo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                //{
-                //    if (MessageBox.Show("Você perderá todos os dados deste veiculo, inclusive histórico. Confirma exclusão?", "Excluir Veiculo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                //    {
-                //        ExcluiVeiculoBD(VeiculoSelecionado.VeiculoID);
-                //        Veiculos.Remove(VeiculoSelecionado);
-
-                //    }
-                //}
-
                 if (Global.PopupBox("Tem certeza que deseja excluir?", 2))
                 {
                     if (Global.PopupBox("Você perderá todos os dados, inclusive histórico. Confirma exclusão?", 2))
                     {
-                        ExcluiVeiculoBD(VeiculoSelecionado.EquipamentoVeiculoID);
+                        var service = new IMOD.Application.Service.VeiculoService();
+                        var emp = service.BuscarPelaChave(VeiculoSelecionado.EquipamentoVeiculoID);
+                        service.Remover(emp);
+
                         Veiculos.Remove(VeiculoSelecionado);
                     }
                 }
@@ -649,7 +648,7 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                
+
                 int _TipoServicoID = Convert.ToInt32(_TipoServicoIDstr);
                 ClasseEquipamentoVeiculoTiposServicos.EquipamentoVeiculoServico _EquipamentoVeiculoTipoServicos = new ClasseEquipamentoVeiculoTiposServicos.EquipamentoVeiculoServico();
                 _EquipamentoVeiculoTipoServicos.EquipamentoVeiculoID = VeiculoSelecionado.EquipamentoVeiculoID;
@@ -667,27 +666,33 @@ namespace iModSCCredenciamento.ViewModels
 
         #region Carregamento das Colecoes
 
-        private void CarregaColecaoVeiculos(int _VeiculoID = 0, string _nome = "", string _apelido = "", string _cpf = "", string _quantidaderegistro = "500")
+        private void CarregaColecaoVeiculos(int VeiculoID = 0, string nome = "", string apelido = "", string cpf = "")
         {
             try
             {
-                string _xml = RequisitaVeiculos(_VeiculoID, _nome, _apelido, _cpf);
+                var service = new IMOD.Application.Service.VeiculoService();
+                if (!string.IsNullOrWhiteSpace(nome)) nome = $"%{nome}%";
+                if (!string.IsNullOrWhiteSpace(apelido)) apelido = $"%{apelido}%";
+                if (!string.IsNullOrWhiteSpace(cpf)) cpf = $"%{cpf}%";
 
-                XmlSerializer deserializer = new XmlSerializer(typeof(ClasseVeiculos));
+                var list1 = service.Listar(VeiculoID, nome, apelido, cpf);
+                var list2 = Mapper.Map<List<ClasseVeiculos.Veiculo>>(list1.OrderByDescending(a => a.EquipamentoVeiculoId));
 
-                XmlDocument xmldocument = new XmlDocument();
-                xmldocument.LoadXml(_xml);
+                var observer = new ObservableCollection<ClasseVeiculos.Veiculo>();
+                list2.ForEach(n =>
+                {
+                    observer.Add(n);
+                });
 
-                TextReader reader = new StringReader(_xml);
-                ClasseVeiculos classeVeiculos = new ClasseVeiculos();
-                classeVeiculos = (ClasseVeiculos)deserializer.Deserialize(reader);
-                Veiculos = new ObservableCollection<ClasseVeiculos.Veiculo>();
-                Veiculos = classeVeiculos.Veiculos;
+                this.Veiculos = observer;
+
                 SelectedIndex = 0;
             }
             catch (Exception ex)
             {
-                //Global.Log("Erro void CarregaColecaoEmpresas ex: " + ex.Message);
+                Global.Log("Erro na void CarregaColecaoVeiculos ex: " + ex);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
         }
         private void CarregaColecaoTiposServicos()
@@ -722,7 +727,7 @@ namespace iModSCCredenciamento.ViewModels
 
                 XmlDocument xmldocument = new XmlDocument();
                 xmldocument.LoadXml(_xml);
-                
+
                 TextReader reader = new StringReader(_xml);
                 ClasseTiposEquipamentoVeiculo classeTiposEquipamentoVeiculo = new ClasseTiposEquipamentoVeiculo();
                 classeTiposEquipamentoVeiculo = (ClasseTiposEquipamentoVeiculo)deserializer.Deserialize(reader);
@@ -778,7 +783,6 @@ namespace iModSCCredenciamento.ViewModels
                 Global.Log("Erro na void CarregaColeçãoEstados ex: " + ex);
             }
         }
-
         public void CarregaColeçãoMunicipios(string _EstadoUF = "%")
         {
 
@@ -802,7 +806,6 @@ namespace iModSCCredenciamento.ViewModels
                 Global.Log("Erro na void CarregaColeçãoMunicipios ex: " + ex);
             }
         }
-
         private void CarregaFoto(int _VeiculoID)
         {
             try
@@ -891,7 +894,7 @@ namespace iModSCCredenciamento.ViewModels
 
                 SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
 
-                
+
                 string _veiculoIDSTR = "";
 
                 _veiculoIDSTR = _veiculoID == 0 ? "" : " AND EquipamentoVeiculoID = " + _veiculoID;
@@ -995,7 +998,7 @@ namespace iModSCCredenciamento.ViewModels
                     XmlNode _Node9 = _xmlDocument.CreateElement("Cor");
                     _Node9.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Cor"].ToString())));
                     _Veiculo.AppendChild(_Node9);
-                    
+
                     XmlNode _Node10 = _xmlDocument.CreateElement("Ano");
                     _Node10.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Ano"].ToString())));
                     _Veiculo.AppendChild(_Node10);
@@ -1007,7 +1010,7 @@ namespace iModSCCredenciamento.ViewModels
                     XmlNode _Node12 = _xmlDocument.CreateElement("MunicipioID");
                     _Node12.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["MunicipioID"].ToString())));
                     _Veiculo.AppendChild(_Node12);
-                    
+
                     XmlNode _Node13 = _xmlDocument.CreateElement("Serie_Chassi");
                     _Node13.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Serie_Chassi"].ToString())));
                     _Veiculo.AppendChild(_Node13);
@@ -1107,7 +1110,6 @@ namespace iModSCCredenciamento.ViewModels
             }
             return null;
         }
-
         private string RequisitaEstados()
         {
             try
@@ -1152,7 +1154,6 @@ namespace iModSCCredenciamento.ViewModels
                 return null;
             }
         }
-
         private string RequisitaMunicipios(string _EstadoUF = "%")
         {
             try
@@ -1321,274 +1322,274 @@ namespace iModSCCredenciamento.ViewModels
                 return null;
             }
         }
-        private int InsereVeiculosBD(string xmlString)
-        {
-            try
-            {
-                int _novID = 0;
+        //private int InsereVeiculosBD(string xmlString)
+        //{
+        //    try
+        //    {
+        //        int _novID = 0;
 
-                System.Xml.XmlDocument _xmlDoc = new System.Xml.XmlDocument();
+        //        System.Xml.XmlDocument _xmlDoc = new System.Xml.XmlDocument();
 
-                _xmlDoc.LoadXml(xmlString);
-                // SqlConnection _Con = new SqlConnection(Global._connectionString);_Con.Open();
-                ClasseVeiculos.Veiculo _Veiculo = new ClasseVeiculos.Veiculo();
-                //for (int i = 0; i <= _xmlDoc.GetElementsByTagName("EmpresaID").Count - 1; i++)
-                //{
-                int i = 0;
-                _Veiculo.EquipamentoVeiculoID = Convert.ToInt32(_xmlDoc.GetElementsByTagName("EquipamentoVeiculoID")[i].InnerText);
-                _Veiculo.Descricao = _xmlDoc.GetElementsByTagName("Descricao")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Descricao")[i].InnerText;
-                _Veiculo.Placa_Identificador = _xmlDoc.GetElementsByTagName("Placa_Identificador")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Placa_Identificador")[i].InnerText;
-                _Veiculo.Frota = _xmlDoc.GetElementsByTagName("Frota")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Frota")[i].InnerText;
-                _Veiculo.Patrimonio = _xmlDoc.GetElementsByTagName("Patrimonio")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Patrimonio")[i].InnerText;
-                _Veiculo.Marca = _xmlDoc.GetElementsByTagName("Marca")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Marca")[i].InnerText;
-                _Veiculo.Modelo = _xmlDoc.GetElementsByTagName("Modelo")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Modelo")[i].InnerText;
-                _Veiculo.Tipo = _xmlDoc.GetElementsByTagName("Tipo")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Tipo")[i].InnerText;
-                _Veiculo.Cor = _xmlDoc.GetElementsByTagName("Cor")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Cor")[i].InnerText;
-                _Veiculo.Ano = _xmlDoc.GetElementsByTagName("Ano")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Ano")[i].InnerText;
-                //_Veiculo.Renavam = _xmlDoc.GetElementsByTagName("Renavam")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Renavam")[i].InnerText;
-                _Veiculo.EstadoID = _xmlDoc.GetElementsByTagName("EstadoID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("EstadoID")[i].InnerText);
-                _Veiculo.MunicipioID = _xmlDoc.GetElementsByTagName("MunicipioID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("MunicipioID")[i].InnerText);
+        //        _xmlDoc.LoadXml(xmlString);
+        //        // SqlConnection _Con = new SqlConnection(Global._connectionString);_Con.Open();
+        //        ClasseVeiculos.Veiculo _Veiculo = new ClasseVeiculos.Veiculo();
+        //        //for (int i = 0; i <= _xmlDoc.GetElementsByTagName("EmpresaID").Count - 1; i++)
+        //        //{
+        //        int i = 0;
+        //        _Veiculo.EquipamentoVeiculoID = Convert.ToInt32(_xmlDoc.GetElementsByTagName("EquipamentoVeiculoID")[i].InnerText);
+        //        _Veiculo.Descricao = _xmlDoc.GetElementsByTagName("Descricao")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Descricao")[i].InnerText;
+        //        _Veiculo.Placa_Identificador = _xmlDoc.GetElementsByTagName("Placa_Identificador")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Placa_Identificador")[i].InnerText;
+        //        _Veiculo.Frota = _xmlDoc.GetElementsByTagName("Frota")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Frota")[i].InnerText;
+        //        _Veiculo.Patrimonio = _xmlDoc.GetElementsByTagName("Patrimonio")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Patrimonio")[i].InnerText;
+        //        _Veiculo.Marca = _xmlDoc.GetElementsByTagName("Marca")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Marca")[i].InnerText;
+        //        _Veiculo.Modelo = _xmlDoc.GetElementsByTagName("Modelo")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Modelo")[i].InnerText;
+        //        _Veiculo.Tipo = _xmlDoc.GetElementsByTagName("Tipo")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Tipo")[i].InnerText;
+        //        _Veiculo.Cor = _xmlDoc.GetElementsByTagName("Cor")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Cor")[i].InnerText;
+        //        _Veiculo.Ano = _xmlDoc.GetElementsByTagName("Ano")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Ano")[i].InnerText;
+        //        //_Veiculo.Renavam = _xmlDoc.GetElementsByTagName("Renavam")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Renavam")[i].InnerText;
+        //        _Veiculo.EstadoID = _xmlDoc.GetElementsByTagName("EstadoID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("EstadoID")[i].InnerText);
+        //        _Veiculo.MunicipioID = _xmlDoc.GetElementsByTagName("MunicipioID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("MunicipioID")[i].InnerText);
 
-                _Veiculo.Serie_Chassi = _xmlDoc.GetElementsByTagName("Serie_Chassi")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Serie_Chassi")[i].InnerText;
-                _Veiculo.CombustivelID = _xmlDoc.GetElementsByTagName("CombustivelID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("CombustivelID")[i].InnerText);
-                _Veiculo.Altura = _xmlDoc.GetElementsByTagName("Altura")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Altura")[i].InnerText;
-                _Veiculo.Comprimento = _xmlDoc.GetElementsByTagName("Comprimento")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Comprimento")[i].InnerText;
-                _Veiculo.Largura = _xmlDoc.GetElementsByTagName("Largura")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Largura")[i].InnerText;
-
-
-                _Veiculo.Foto = _xmlDoc.GetElementsByTagName("Foto")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Foto")[i].InnerText;
-                _Veiculo.Excluida = _xmlDoc.GetElementsByTagName("Excluida")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("Excluida")[i].InnerText);
-                _Veiculo.StatusID = _xmlDoc.GetElementsByTagName("StatusID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("StatusID")[i].InnerText);
-                _Veiculo.TipoAcessoID = _xmlDoc.GetElementsByTagName("TipoAcessoID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("StatusID")[i].InnerText);
-
-                _Veiculo.NomeArquivoAnexo = _xmlDoc.GetElementsByTagName("NomeArquivoAnexo")[i] == null ? "" : _xmlDoc.GetElementsByTagName("NomeArquivoAnexo")[i].InnerText;
-                _Veiculo.DescricaoAnexo = _xmlDoc.GetElementsByTagName("DescricaoAnexo")[i] == null ? "" : _xmlDoc.GetElementsByTagName("DescricaoAnexo")[i].InnerText;
-                _Veiculo.ArquivoAnexo = _veiculoTemp.ArquivoAnexo == null ? "" : _veiculoTemp.ArquivoAnexo;
-                _Veiculo.TipoEquipamentoVeiculoID = _xmlDoc.GetElementsByTagName("TipoEquipamentoVeiculoID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("TipoEquipamentoVeiculoID")[i].InnerText);
+        //        _Veiculo.Serie_Chassi = _xmlDoc.GetElementsByTagName("Serie_Chassi")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Serie_Chassi")[i].InnerText;
+        //        _Veiculo.CombustivelID = _xmlDoc.GetElementsByTagName("CombustivelID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("CombustivelID")[i].InnerText);
+        //        _Veiculo.Altura = _xmlDoc.GetElementsByTagName("Altura")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Altura")[i].InnerText;
+        //        _Veiculo.Comprimento = _xmlDoc.GetElementsByTagName("Comprimento")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Comprimento")[i].InnerText;
+        //        _Veiculo.Largura = _xmlDoc.GetElementsByTagName("Largura")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Largura")[i].InnerText;
 
 
-                bool _controlado1, _controlado2, _controlado3, _controlado4;
-                Boolean.TryParse(_xmlDoc.GetElementsByTagName("Pendente31")[i].InnerText, out _controlado1);
-                Boolean.TryParse(_xmlDoc.GetElementsByTagName("Pendente32")[i].InnerText, out _controlado2);
-                Boolean.TryParse(_xmlDoc.GetElementsByTagName("Pendente33")[i].InnerText, out _controlado3);
-                Boolean.TryParse(_xmlDoc.GetElementsByTagName("Pendente34")[i].InnerText, out _controlado4);
+        //        _Veiculo.Foto = _xmlDoc.GetElementsByTagName("Foto")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Foto")[i].InnerText;
+        //        _Veiculo.Excluida = _xmlDoc.GetElementsByTagName("Excluida")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("Excluida")[i].InnerText);
+        //        _Veiculo.StatusID = _xmlDoc.GetElementsByTagName("StatusID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("StatusID")[i].InnerText);
+        //        _Veiculo.TipoAcessoID = _xmlDoc.GetElementsByTagName("TipoAcessoID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("StatusID")[i].InnerText);
+
+        //        _Veiculo.NomeArquivoAnexo = _xmlDoc.GetElementsByTagName("NomeArquivoAnexo")[i] == null ? "" : _xmlDoc.GetElementsByTagName("NomeArquivoAnexo")[i].InnerText;
+        //        _Veiculo.DescricaoAnexo = _xmlDoc.GetElementsByTagName("DescricaoAnexo")[i] == null ? "" : _xmlDoc.GetElementsByTagName("DescricaoAnexo")[i].InnerText;
+        //        _Veiculo.ArquivoAnexo = _veiculoTemp.ArquivoAnexo == null ? "" : _veiculoTemp.ArquivoAnexo;
+        //        _Veiculo.TipoEquipamentoVeiculoID = _xmlDoc.GetElementsByTagName("TipoEquipamentoVeiculoID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("TipoEquipamentoVeiculoID")[i].InnerText);
+
+
+        //        bool _controlado1, _controlado2, _controlado3, _controlado4;
+        //        Boolean.TryParse(_xmlDoc.GetElementsByTagName("Pendente31")[i].InnerText, out _controlado1);
+        //        Boolean.TryParse(_xmlDoc.GetElementsByTagName("Pendente32")[i].InnerText, out _controlado2);
+        //        Boolean.TryParse(_xmlDoc.GetElementsByTagName("Pendente33")[i].InnerText, out _controlado3);
+        //        Boolean.TryParse(_xmlDoc.GetElementsByTagName("Pendente34")[i].InnerText, out _controlado4);
 
 
 
-                //_Con.Close();
-                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
+        //        //_Con.Close();
+        //        SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
 
-                SqlCommand _sqlCmd;
-                if (_Veiculo.EquipamentoVeiculoID == 0)
-                {
-                    _sqlCmd = new SqlCommand("Insert into Veiculos(Descricao,Tipo,Marca,Modelo,Ano,Cor,Placa_Identificador," +
-                        "EstadoID,MunicipioID,Foto,Excluida,StatusID,TipoAcessoID,NomeArquivoAnexo,DescricaoAnexo,ArquivoAnexo," +
-                        "Pendente31,Pendente32,Pendente33,Pendente34,Frota,Patrimonio,Serie_Chassi,CombustivelID,Altura,Comprimento,Largura,TipoEquipamentoVeiculoID) " +
-                        " values (@v1,@v2,@v3,@v4,@v5,@v6,@v7,@v9,@v10,@v11,@v12,@v13,@v14,@v15" +
-                         ",@v16,@v17,@v18,@v19,@v20,@v21,@v22,@v23,@v24,@v25,@v26,@v27,@v28,@v29);SELECT SCOPE_IDENTITY();", _Con);
+        //        SqlCommand _sqlCmd;
+        //        if (_Veiculo.EquipamentoVeiculoID == 0)
+        //        {
+        //            _sqlCmd = new SqlCommand("Insert into Veiculos(Descricao,Tipo,Marca,Modelo,Ano,Cor,Placa_Identificador," +
+        //                "EstadoID,MunicipioID,Foto,Excluida,StatusID,TipoAcessoID,NomeArquivoAnexo,DescricaoAnexo,ArquivoAnexo," +
+        //                "Pendente31,Pendente32,Pendente33,Pendente34,Frota,Patrimonio,Serie_Chassi,CombustivelID,Altura,Comprimento,Largura,TipoEquipamentoVeiculoID) " +
+        //                " values (@v1,@v2,@v3,@v4,@v5,@v6,@v7,@v9,@v10,@v11,@v12,@v13,@v14,@v15" +
+        //                 ",@v16,@v17,@v18,@v19,@v20,@v21,@v22,@v23,@v24,@v25,@v26,@v27,@v28,@v29);SELECT SCOPE_IDENTITY();", _Con);
 
-                    _sqlCmd.Parameters.Add("@v1", SqlDbType.VarChar).Value = _Veiculo.Descricao;
-                    _sqlCmd.Parameters.Add("@v2", SqlDbType.VarChar).Value = _Veiculo.Tipo;
-                    _sqlCmd.Parameters.Add("@v3", SqlDbType.VarChar).Value = _Veiculo.Marca;
-                    _sqlCmd.Parameters.Add("@v4", SqlDbType.VarChar).Value = _Veiculo.Modelo;
-                    _sqlCmd.Parameters.Add("@v5", SqlDbType.VarChar).Value = _Veiculo.Ano;
-                    _sqlCmd.Parameters.Add("@v6", SqlDbType.VarChar).Value = _Veiculo.Cor;
-                    _sqlCmd.Parameters.Add("@v7", SqlDbType.VarChar).Value = _Veiculo.Placa_Identificador;
-                    //_sqlCmd.Parameters.Add("@v8", SqlDbType.VarChar).Value = _Veiculo.Renavam;
-                    _sqlCmd.Parameters.Add("@v9", SqlDbType.Int).Value = _Veiculo.EstadoID;
-                    _sqlCmd.Parameters.Add("@v10", SqlDbType.Int).Value = _Veiculo.MunicipioID;
-                    _sqlCmd.Parameters.Add("@v11", SqlDbType.VarChar).Value = _Veiculo.Foto;
-                    _sqlCmd.Parameters.Add("@v12", SqlDbType.Int).Value = _Veiculo.Excluida;
-                    _sqlCmd.Parameters.Add("@v13", SqlDbType.Int).Value = _Veiculo.StatusID;
-                    _sqlCmd.Parameters.Add("@v14", SqlDbType.Int).Value = _Veiculo.TipoAcessoID;
-                    _sqlCmd.Parameters.Add("@v15", SqlDbType.VarChar).Value = _Veiculo.NomeArquivoAnexo;
-                    _sqlCmd.Parameters.Add("@v16", SqlDbType.VarChar).Value = _Veiculo.DescricaoAnexo;
-                    _sqlCmd.Parameters.Add("@v17", SqlDbType.VarChar).Value = _Veiculo.ArquivoAnexo;
-                    _sqlCmd.Parameters.Add("@v18", SqlDbType.Bit).Value = _controlado1;
-                    _sqlCmd.Parameters.Add("@v19", SqlDbType.Bit).Value = _controlado2;
-                    _sqlCmd.Parameters.Add("@v20", SqlDbType.Bit).Value = _controlado3;
-                    _sqlCmd.Parameters.Add("@v21", SqlDbType.Bit).Value = _controlado4;
+        //            _sqlCmd.Parameters.Add("@v1", SqlDbType.VarChar).Value = _Veiculo.Descricao;
+        //            _sqlCmd.Parameters.Add("@v2", SqlDbType.VarChar).Value = _Veiculo.Tipo;
+        //            _sqlCmd.Parameters.Add("@v3", SqlDbType.VarChar).Value = _Veiculo.Marca;
+        //            _sqlCmd.Parameters.Add("@v4", SqlDbType.VarChar).Value = _Veiculo.Modelo;
+        //            _sqlCmd.Parameters.Add("@v5", SqlDbType.VarChar).Value = _Veiculo.Ano;
+        //            _sqlCmd.Parameters.Add("@v6", SqlDbType.VarChar).Value = _Veiculo.Cor;
+        //            _sqlCmd.Parameters.Add("@v7", SqlDbType.VarChar).Value = _Veiculo.Placa_Identificador;
+        //            //_sqlCmd.Parameters.Add("@v8", SqlDbType.VarChar).Value = _Veiculo.Renavam;
+        //            _sqlCmd.Parameters.Add("@v9", SqlDbType.Int).Value = _Veiculo.EstadoID;
+        //            _sqlCmd.Parameters.Add("@v10", SqlDbType.Int).Value = _Veiculo.MunicipioID;
+        //            _sqlCmd.Parameters.Add("@v11", SqlDbType.VarChar).Value = _Veiculo.Foto;
+        //            _sqlCmd.Parameters.Add("@v12", SqlDbType.Int).Value = _Veiculo.Excluida;
+        //            _sqlCmd.Parameters.Add("@v13", SqlDbType.Int).Value = _Veiculo.StatusID;
+        //            _sqlCmd.Parameters.Add("@v14", SqlDbType.Int).Value = _Veiculo.TipoAcessoID;
+        //            _sqlCmd.Parameters.Add("@v15", SqlDbType.VarChar).Value = _Veiculo.NomeArquivoAnexo;
+        //            _sqlCmd.Parameters.Add("@v16", SqlDbType.VarChar).Value = _Veiculo.DescricaoAnexo;
+        //            _sqlCmd.Parameters.Add("@v17", SqlDbType.VarChar).Value = _Veiculo.ArquivoAnexo;
+        //            _sqlCmd.Parameters.Add("@v18", SqlDbType.Bit).Value = _controlado1;
+        //            _sqlCmd.Parameters.Add("@v19", SqlDbType.Bit).Value = _controlado2;
+        //            _sqlCmd.Parameters.Add("@v20", SqlDbType.Bit).Value = _controlado3;
+        //            _sqlCmd.Parameters.Add("@v21", SqlDbType.Bit).Value = _controlado4;
 
-                    _sqlCmd.Parameters.Add("@v22", SqlDbType.VarChar).Value = _Veiculo.Frota;
-                    _sqlCmd.Parameters.Add("@v23", SqlDbType.VarChar).Value = _Veiculo.Patrimonio;
-                    _sqlCmd.Parameters.Add("@v24", SqlDbType.VarChar).Value = _Veiculo.Serie_Chassi;
-                    _sqlCmd.Parameters.Add("@v25", SqlDbType.Int).Value = _Veiculo.CombustivelID;
-                    _sqlCmd.Parameters.Add("@v26", SqlDbType.VarChar).Value = _Veiculo.Altura;
-                    _sqlCmd.Parameters.Add("@v27", SqlDbType.VarChar).Value = _Veiculo.Comprimento;
-                    _sqlCmd.Parameters.Add("@v28", SqlDbType.VarChar).Value = _Veiculo.Largura;
-                    _sqlCmd.Parameters.Add("@v29", SqlDbType.Int).Value = _Veiculo.TipoEquipamentoVeiculoID;
+        //            _sqlCmd.Parameters.Add("@v22", SqlDbType.VarChar).Value = _Veiculo.Frota;
+        //            _sqlCmd.Parameters.Add("@v23", SqlDbType.VarChar).Value = _Veiculo.Patrimonio;
+        //            _sqlCmd.Parameters.Add("@v24", SqlDbType.VarChar).Value = _Veiculo.Serie_Chassi;
+        //            _sqlCmd.Parameters.Add("@v25", SqlDbType.Int).Value = _Veiculo.CombustivelID;
+        //            _sqlCmd.Parameters.Add("@v26", SqlDbType.VarChar).Value = _Veiculo.Altura;
+        //            _sqlCmd.Parameters.Add("@v27", SqlDbType.VarChar).Value = _Veiculo.Comprimento;
+        //            _sqlCmd.Parameters.Add("@v28", SqlDbType.VarChar).Value = _Veiculo.Largura;
+        //            _sqlCmd.Parameters.Add("@v29", SqlDbType.Int).Value = _Veiculo.TipoEquipamentoVeiculoID;
 
-                    _novID = Convert.ToInt32(_sqlCmd.ExecuteScalar());
-                    _Con.Close();
+        //            _novID = Convert.ToInt32(_sqlCmd.ExecuteScalar());
+        //            _Con.Close();
 
-                }
+        //        }
 
-                return _novID;
-            }
-            catch (Exception ex)
-            {
-                Global.Log("Erro na void InsereVeiculosBD ex: " + ex);
-                return 0;
+        //        return _novID;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Global.Log("Erro na void InsereVeiculosBD ex: " + ex);
+        //        return 0;
 
-            }
-        }
+        //    }
+        //}
 
-        private void AtualizaVeiculosBD(string xmlString)
-        {
-            try
-            {
-
-
-                System.Xml.XmlDocument _xmlDoc = new System.Xml.XmlDocument();
-
-                _xmlDoc.LoadXml(xmlString);
-                // SqlConnection _Con = new SqlConnection(Global._connectionString);_Con.Open();
-                ClasseVeiculos.Veiculo _Veiculo = new ClasseVeiculos.Veiculo();
-                //for (int i = 0; i <= _xmlDoc.GetElementsByTagName("EmpresaID").Count - 1; i++)
-                //{
-                int i = 0;
-
-                _Veiculo.EquipamentoVeiculoID = Convert.ToInt32(_xmlDoc.GetElementsByTagName("EquipamentoVeiculoID")[i].InnerText);
-                _Veiculo.Descricao = _xmlDoc.GetElementsByTagName("Descricao")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Descricao")[i].InnerText;
-                _Veiculo.Placa_Identificador = _xmlDoc.GetElementsByTagName("Placa_Identificador")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Placa_Identificador")[i].InnerText;
-                _Veiculo.Frota = _xmlDoc.GetElementsByTagName("Frota")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Frota")[i].InnerText;
-                _Veiculo.Patrimonio = _xmlDoc.GetElementsByTagName("Patrimonio")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Patrimonio")[i].InnerText;
-                _Veiculo.Marca = _xmlDoc.GetElementsByTagName("Marca")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Marca")[i].InnerText;
-                _Veiculo.Modelo = _xmlDoc.GetElementsByTagName("Modelo")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Modelo")[i].InnerText;
-                _Veiculo.Tipo = _xmlDoc.GetElementsByTagName("Tipo")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Tipo")[i].InnerText;
-                _Veiculo.Cor = _xmlDoc.GetElementsByTagName("Cor")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Cor")[i].InnerText;
-                _Veiculo.Ano = _xmlDoc.GetElementsByTagName("Ano")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Ano")[i].InnerText;
-                //_Veiculo.Renavam = _xmlDoc.GetElementsByTagName("Renavam")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Renavam")[i].InnerText;
-                _Veiculo.EstadoID = _xmlDoc.GetElementsByTagName("EstadoID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("EstadoID")[i].InnerText);
-                _Veiculo.MunicipioID = _xmlDoc.GetElementsByTagName("MunicipioID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("MunicipioID")[i].InnerText);
-
-                _Veiculo.Serie_Chassi = _xmlDoc.GetElementsByTagName("Serie_Chassi")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Serie_Chassi")[i].InnerText;
-                _Veiculo.CombustivelID = _xmlDoc.GetElementsByTagName("CombustivelID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("CombustivelID")[i].InnerText);
-                _Veiculo.Altura = _xmlDoc.GetElementsByTagName("Altura")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Altura")[i].InnerText;
-                _Veiculo.Comprimento = _xmlDoc.GetElementsByTagName("Comprimento")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Comprimento")[i].InnerText;
-                _Veiculo.Largura = _xmlDoc.GetElementsByTagName("Largura")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Largura")[i].InnerText;
-                _Veiculo.TipoEquipamentoVeiculoID = _xmlDoc.GetElementsByTagName("TipoEquipamentoVeiculoID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("TipoEquipamentoVeiculoID")[i].InnerText);
-
-                _Veiculo.Foto = _xmlDoc.GetElementsByTagName("Foto")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Foto")[i].InnerText;
-                _Veiculo.Excluida = _xmlDoc.GetElementsByTagName("Excluida")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("Excluida")[i].InnerText);
-                _Veiculo.StatusID = _xmlDoc.GetElementsByTagName("StatusID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("StatusID")[i].InnerText);
-                _Veiculo.TipoAcessoID = _xmlDoc.GetElementsByTagName("TipoAcessoID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("StatusID")[i].InnerText);
-
-                _Veiculo.NomeArquivoAnexo = _xmlDoc.GetElementsByTagName("NomeArquivoAnexo")[i] == null ? "" : _xmlDoc.GetElementsByTagName("NomeArquivoAnexo")[i].InnerText;
-                _Veiculo.DescricaoAnexo = _xmlDoc.GetElementsByTagName("DescricaoAnexo")[i] == null ? "" : _xmlDoc.GetElementsByTagName("DescricaoAnexo")[i].InnerText;
-                _Veiculo.ArquivoAnexo = _veiculoTemp.ArquivoAnexo == null ? "" : _veiculoTemp.ArquivoAnexo;
-
-                bool _controlado1, _controlado2, _controlado3, _controlado4;
-                Boolean.TryParse(_xmlDoc.GetElementsByTagName("Pendente31")[i].InnerText, out _controlado1);
-                Boolean.TryParse(_xmlDoc.GetElementsByTagName("Pendente32")[i].InnerText, out _controlado2);
-                Boolean.TryParse(_xmlDoc.GetElementsByTagName("Pendente33")[i].InnerText, out _controlado3);
-                Boolean.TryParse(_xmlDoc.GetElementsByTagName("Pendente34")[i].InnerText, out _controlado4);
+        //private void AtualizaVeiculosBD(string xmlString)
+        //{
+        //    try
+        //    {
 
 
-                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
+        //        System.Xml.XmlDocument _xmlDoc = new System.Xml.XmlDocument();
 
-                SqlCommand _sqlCmd;
-                if (_Veiculo.EquipamentoVeiculoID != 0)
-                {
-                    _sqlCmd = new SqlCommand("Update Veiculos Set" +
-                        " Descricao= @v1" +
-                        ",Tipo= @v2" +
-                        ",Marca= @v3" +
-                        ",Modelo= @v4" +
-                        ",Ano= @v5" +
-                        ",Cor= @v6" +
-                        ",Placa_Identificador= @v7" +
-                        //",Renavam= @v8" +
-                        ",EstadoID= @v9" +
-                        ",MunicipioID= @v10" +
-                        ",Foto= @v11" +
-                        ",Excluida= @v12" +
-                        ",StatusID= @v13" +
-                        ",TipoAcessoID= @v14" +
-                        ",NomeArquivoAnexo= @v15" +
-                        ",DescricaoAnexo= @v16" +
-                        ",ArquivoAnexo= @v17" +
-                        ",Pendente31= @v18" +
-                        ",Pendente32= @v19" +
-                        ",Pendente33= @v20" +
-                        ",Pendente34= @v21" +
-                        ",Frota= @v22" +
-                        ",Patrimonio= @v23" +
-                        ",Serie_Chassi= @v24" +
-                        ",CombustivelID= @v25" +
-                        ",Altura= @v26" +
-                        ",Comprimento= @v27" +
-                        ",Largura= @v28" +
-                        ",TipoEquipamentoVeiculoID= @v29" +
-                        " Where EquipamentoVeiculoID = @v0", _Con);
-                    //,,,,,,
-                    _sqlCmd.Parameters.Add("@v0", SqlDbType.VarChar).Value = _Veiculo.EquipamentoVeiculoID;
-                    _sqlCmd.Parameters.Add("@v1", SqlDbType.VarChar).Value = _Veiculo.Descricao;
-                    _sqlCmd.Parameters.Add("@v2", SqlDbType.VarChar).Value = _Veiculo.Tipo;
-                    _sqlCmd.Parameters.Add("@v3", SqlDbType.VarChar).Value = _Veiculo.Marca;
-                    _sqlCmd.Parameters.Add("@v4", SqlDbType.VarChar).Value = _Veiculo.Modelo;
-                    _sqlCmd.Parameters.Add("@v5", SqlDbType.VarChar).Value = _Veiculo.Ano;
-                    _sqlCmd.Parameters.Add("@v6", SqlDbType.VarChar).Value = _Veiculo.Cor;
-                    _sqlCmd.Parameters.Add("@v7", SqlDbType.VarChar).Value = _Veiculo.Placa_Identificador;
-                    //_sqlCmd.Parameters.Add("@v8", SqlDbType.VarChar).Value = _Veiculo.Renavam;
-                    _sqlCmd.Parameters.Add("@v9", SqlDbType.Int).Value = _Veiculo.EstadoID;
-                    _sqlCmd.Parameters.Add("@v10", SqlDbType.Int).Value = _Veiculo.MunicipioID;
-                    _sqlCmd.Parameters.Add("@v11", SqlDbType.VarChar).Value = _Veiculo.Foto;
-                    _sqlCmd.Parameters.Add("@v12", SqlDbType.Int).Value = _Veiculo.Excluida;
-                    _sqlCmd.Parameters.Add("@v13", SqlDbType.Int).Value = _Veiculo.StatusID;
-                    _sqlCmd.Parameters.Add("@v14", SqlDbType.Int).Value = _Veiculo.TipoAcessoID;
-                    _sqlCmd.Parameters.Add("@v15", SqlDbType.VarChar).Value = _Veiculo.NomeArquivoAnexo;
-                    _sqlCmd.Parameters.Add("@v16", SqlDbType.VarChar).Value = _Veiculo.DescricaoAnexo;
-                    _sqlCmd.Parameters.Add("@v17", SqlDbType.VarChar).Value = _Veiculo.ArquivoAnexo;
-                    _sqlCmd.Parameters.Add("@v18", SqlDbType.Bit).Value = _controlado1;
-                    _sqlCmd.Parameters.Add("@v19", SqlDbType.Bit).Value = _controlado2;
-                    _sqlCmd.Parameters.Add("@v20", SqlDbType.Bit).Value = _controlado3;
-                    _sqlCmd.Parameters.Add("@v21", SqlDbType.Bit).Value = _controlado4;
+        //        _xmlDoc.LoadXml(xmlString);
+        //        // SqlConnection _Con = new SqlConnection(Global._connectionString);_Con.Open();
+        //        ClasseVeiculos.Veiculo _Veiculo = new ClasseVeiculos.Veiculo();
+        //        //for (int i = 0; i <= _xmlDoc.GetElementsByTagName("EmpresaID").Count - 1; i++)
+        //        //{
+        //        int i = 0;
 
-                    _sqlCmd.Parameters.Add("@v22", SqlDbType.VarChar).Value = _Veiculo.Frota;
-                    _sqlCmd.Parameters.Add("@v23", SqlDbType.VarChar).Value = _Veiculo.Patrimonio;
-                    _sqlCmd.Parameters.Add("@v24", SqlDbType.VarChar).Value = _Veiculo.Serie_Chassi;
-                    _sqlCmd.Parameters.Add("@v25", SqlDbType.Int).Value = _Veiculo.CombustivelID;
-                    _sqlCmd.Parameters.Add("@v26", SqlDbType.VarChar).Value = _Veiculo.Altura;
-                    _sqlCmd.Parameters.Add("@v27", SqlDbType.VarChar).Value = _Veiculo.Comprimento;
-                    _sqlCmd.Parameters.Add("@v28", SqlDbType.VarChar).Value = _Veiculo.Largura;
-                    _sqlCmd.Parameters.Add("@v29", SqlDbType.Int).Value = _Veiculo.TipoEquipamentoVeiculoID;
+        //        _Veiculo.EquipamentoVeiculoID = Convert.ToInt32(_xmlDoc.GetElementsByTagName("EquipamentoVeiculoID")[i].InnerText);
+        //        _Veiculo.Descricao = _xmlDoc.GetElementsByTagName("Descricao")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Descricao")[i].InnerText;
+        //        _Veiculo.Placa_Identificador = _xmlDoc.GetElementsByTagName("Placa_Identificador")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Placa_Identificador")[i].InnerText;
+        //        _Veiculo.Frota = _xmlDoc.GetElementsByTagName("Frota")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Frota")[i].InnerText;
+        //        _Veiculo.Patrimonio = _xmlDoc.GetElementsByTagName("Patrimonio")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Patrimonio")[i].InnerText;
+        //        _Veiculo.Marca = _xmlDoc.GetElementsByTagName("Marca")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Marca")[i].InnerText;
+        //        _Veiculo.Modelo = _xmlDoc.GetElementsByTagName("Modelo")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Modelo")[i].InnerText;
+        //        _Veiculo.Tipo = _xmlDoc.GetElementsByTagName("Tipo")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Tipo")[i].InnerText;
+        //        _Veiculo.Cor = _xmlDoc.GetElementsByTagName("Cor")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Cor")[i].InnerText;
+        //        _Veiculo.Ano = _xmlDoc.GetElementsByTagName("Ano")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Ano")[i].InnerText;
+        //        //_Veiculo.Renavam = _xmlDoc.GetElementsByTagName("Renavam")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Renavam")[i].InnerText;
+        //        _Veiculo.EstadoID = _xmlDoc.GetElementsByTagName("EstadoID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("EstadoID")[i].InnerText);
+        //        _Veiculo.MunicipioID = _xmlDoc.GetElementsByTagName("MunicipioID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("MunicipioID")[i].InnerText);
 
-                    _sqlCmd.ExecuteNonQuery();
-                    _Con.Close();
-                }
-            }
-            catch (Exception ex)
-            {
-                Global.Log("Erro na void AtualizaVeiculoBD ex: " + ex);
+        //        _Veiculo.Serie_Chassi = _xmlDoc.GetElementsByTagName("Serie_Chassi")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Serie_Chassi")[i].InnerText;
+        //        _Veiculo.CombustivelID = _xmlDoc.GetElementsByTagName("CombustivelID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("CombustivelID")[i].InnerText);
+        //        _Veiculo.Altura = _xmlDoc.GetElementsByTagName("Altura")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Altura")[i].InnerText;
+        //        _Veiculo.Comprimento = _xmlDoc.GetElementsByTagName("Comprimento")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Comprimento")[i].InnerText;
+        //        _Veiculo.Largura = _xmlDoc.GetElementsByTagName("Largura")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Largura")[i].InnerText;
+        //        _Veiculo.TipoEquipamentoVeiculoID = _xmlDoc.GetElementsByTagName("TipoEquipamentoVeiculoID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("TipoEquipamentoVeiculoID")[i].InnerText);
+
+        //        _Veiculo.Foto = _xmlDoc.GetElementsByTagName("Foto")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Foto")[i].InnerText;
+        //        _Veiculo.Excluida = _xmlDoc.GetElementsByTagName("Excluida")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("Excluida")[i].InnerText);
+        //        _Veiculo.StatusID = _xmlDoc.GetElementsByTagName("StatusID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("StatusID")[i].InnerText);
+        //        _Veiculo.TipoAcessoID = _xmlDoc.GetElementsByTagName("TipoAcessoID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("StatusID")[i].InnerText);
+
+        //        _Veiculo.NomeArquivoAnexo = _xmlDoc.GetElementsByTagName("NomeArquivoAnexo")[i] == null ? "" : _xmlDoc.GetElementsByTagName("NomeArquivoAnexo")[i].InnerText;
+        //        _Veiculo.DescricaoAnexo = _xmlDoc.GetElementsByTagName("DescricaoAnexo")[i] == null ? "" : _xmlDoc.GetElementsByTagName("DescricaoAnexo")[i].InnerText;
+        //        _Veiculo.ArquivoAnexo = _veiculoTemp.ArquivoAnexo == null ? "" : _veiculoTemp.ArquivoAnexo;
+
+        //        bool _controlado1, _controlado2, _controlado3, _controlado4;
+        //        Boolean.TryParse(_xmlDoc.GetElementsByTagName("Pendente31")[i].InnerText, out _controlado1);
+        //        Boolean.TryParse(_xmlDoc.GetElementsByTagName("Pendente32")[i].InnerText, out _controlado2);
+        //        Boolean.TryParse(_xmlDoc.GetElementsByTagName("Pendente33")[i].InnerText, out _controlado3);
+        //        Boolean.TryParse(_xmlDoc.GetElementsByTagName("Pendente34")[i].InnerText, out _controlado4);
 
 
-            }
-        }
+        //        SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
+
+        //        SqlCommand _sqlCmd;
+        //        if (_Veiculo.EquipamentoVeiculoID != 0)
+        //        {
+        //            _sqlCmd = new SqlCommand("Update Veiculos Set" +
+        //                " Descricao= @v1" +
+        //                ",Tipo= @v2" +
+        //                ",Marca= @v3" +
+        //                ",Modelo= @v4" +
+        //                ",Ano= @v5" +
+        //                ",Cor= @v6" +
+        //                ",Placa_Identificador= @v7" +
+        //                //",Renavam= @v8" +
+        //                ",EstadoID= @v9" +
+        //                ",MunicipioID= @v10" +
+        //                ",Foto= @v11" +
+        //                ",Excluida= @v12" +
+        //                ",StatusID= @v13" +
+        //                ",TipoAcessoID= @v14" +
+        //                ",NomeArquivoAnexo= @v15" +
+        //                ",DescricaoAnexo= @v16" +
+        //                ",ArquivoAnexo= @v17" +
+        //                ",Pendente31= @v18" +
+        //                ",Pendente32= @v19" +
+        //                ",Pendente33= @v20" +
+        //                ",Pendente34= @v21" +
+        //                ",Frota= @v22" +
+        //                ",Patrimonio= @v23" +
+        //                ",Serie_Chassi= @v24" +
+        //                ",CombustivelID= @v25" +
+        //                ",Altura= @v26" +
+        //                ",Comprimento= @v27" +
+        //                ",Largura= @v28" +
+        //                ",TipoEquipamentoVeiculoID= @v29" +
+        //                " Where EquipamentoVeiculoID = @v0", _Con);
+        //            //,,,,,,
+        //            _sqlCmd.Parameters.Add("@v0", SqlDbType.VarChar).Value = _Veiculo.EquipamentoVeiculoID;
+        //            _sqlCmd.Parameters.Add("@v1", SqlDbType.VarChar).Value = _Veiculo.Descricao;
+        //            _sqlCmd.Parameters.Add("@v2", SqlDbType.VarChar).Value = _Veiculo.Tipo;
+        //            _sqlCmd.Parameters.Add("@v3", SqlDbType.VarChar).Value = _Veiculo.Marca;
+        //            _sqlCmd.Parameters.Add("@v4", SqlDbType.VarChar).Value = _Veiculo.Modelo;
+        //            _sqlCmd.Parameters.Add("@v5", SqlDbType.VarChar).Value = _Veiculo.Ano;
+        //            _sqlCmd.Parameters.Add("@v6", SqlDbType.VarChar).Value = _Veiculo.Cor;
+        //            _sqlCmd.Parameters.Add("@v7", SqlDbType.VarChar).Value = _Veiculo.Placa_Identificador;
+        //            //_sqlCmd.Parameters.Add("@v8", SqlDbType.VarChar).Value = _Veiculo.Renavam;
+        //            _sqlCmd.Parameters.Add("@v9", SqlDbType.Int).Value = _Veiculo.EstadoID;
+        //            _sqlCmd.Parameters.Add("@v10", SqlDbType.Int).Value = _Veiculo.MunicipioID;
+        //            _sqlCmd.Parameters.Add("@v11", SqlDbType.VarChar).Value = _Veiculo.Foto;
+        //            _sqlCmd.Parameters.Add("@v12", SqlDbType.Int).Value = _Veiculo.Excluida;
+        //            _sqlCmd.Parameters.Add("@v13", SqlDbType.Int).Value = _Veiculo.StatusID;
+        //            _sqlCmd.Parameters.Add("@v14", SqlDbType.Int).Value = _Veiculo.TipoAcessoID;
+        //            _sqlCmd.Parameters.Add("@v15", SqlDbType.VarChar).Value = _Veiculo.NomeArquivoAnexo;
+        //            _sqlCmd.Parameters.Add("@v16", SqlDbType.VarChar).Value = _Veiculo.DescricaoAnexo;
+        //            _sqlCmd.Parameters.Add("@v17", SqlDbType.VarChar).Value = _Veiculo.ArquivoAnexo;
+        //            _sqlCmd.Parameters.Add("@v18", SqlDbType.Bit).Value = _controlado1;
+        //            _sqlCmd.Parameters.Add("@v19", SqlDbType.Bit).Value = _controlado2;
+        //            _sqlCmd.Parameters.Add("@v20", SqlDbType.Bit).Value = _controlado3;
+        //            _sqlCmd.Parameters.Add("@v21", SqlDbType.Bit).Value = _controlado4;
+
+        //            _sqlCmd.Parameters.Add("@v22", SqlDbType.VarChar).Value = _Veiculo.Frota;
+        //            _sqlCmd.Parameters.Add("@v23", SqlDbType.VarChar).Value = _Veiculo.Patrimonio;
+        //            _sqlCmd.Parameters.Add("@v24", SqlDbType.VarChar).Value = _Veiculo.Serie_Chassi;
+        //            _sqlCmd.Parameters.Add("@v25", SqlDbType.Int).Value = _Veiculo.CombustivelID;
+        //            _sqlCmd.Parameters.Add("@v26", SqlDbType.VarChar).Value = _Veiculo.Altura;
+        //            _sqlCmd.Parameters.Add("@v27", SqlDbType.VarChar).Value = _Veiculo.Comprimento;
+        //            _sqlCmd.Parameters.Add("@v28", SqlDbType.VarChar).Value = _Veiculo.Largura;
+        //            _sqlCmd.Parameters.Add("@v29", SqlDbType.Int).Value = _Veiculo.TipoEquipamentoVeiculoID;
+
+        //            _sqlCmd.ExecuteNonQuery();
+        //            _Con.Close();
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Global.Log("Erro na void AtualizaVeiculoBD ex: " + ex);
 
 
-        private void ExcluiVeiculoBD(int _VeiculoID) // alterar para xml
-        {
-            try
-            {
+        //    }
+        //}
 
 
-                //_Con.Close();
-                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
-
-                SqlCommand _sqlCmd;
-                _sqlCmd = new SqlCommand("Delete from Veiculos where VeiculoID=" + _VeiculoID, _Con);
-                _sqlCmd.ExecuteNonQuery();
-
-                _Con.Close();
-            }
-            catch (Exception ex)
-            {
-                Global.Log("Erro na void ExcluiSeguroBD ex: " + ex);
+        //private void ExcluiVeiculoBD(int _VeiculoID) // alterar para xml
+        //{
+        //    try
+        //    {
 
 
-            }
-        }
+        //        //_Con.Close();
+        //        SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
+
+        //        SqlCommand _sqlCmd;
+        //        _sqlCmd = new SqlCommand("Delete from Veiculos where VeiculoID=" + _VeiculoID, _Con);
+        //        _sqlCmd.ExecuteNonQuery();
+
+        //        _Con.Close();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Global.Log("Erro na void ExcluiSeguroBD ex: " + ex);
+
+
+        //    }
+        //}
 
         private string BuscaFoto(int veiculoID)
         {
@@ -1632,42 +1633,42 @@ namespace iModSCCredenciamento.ViewModels
         }
 
 
-        private void AtualizaPendencias(int _VeiculoID)
-        {
-            try
-            {
+        //private void AtualizaPendencias(int _VeiculoID)
+        //{
+        //    try
+        //    {
 
-                if (_VeiculoID == 0)
-                {
-                    return;
-                }
+        //        if (_VeiculoID == 0)
+        //        {
+        //            return;
+        //        }
 
-                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
-                SqlCommand _sqlCmd;
-                for (int i = 31; i < 35; i++)
-                {
-                    _sqlCmd = new SqlCommand("Insert into Pendencias (TipoPendenciaID,Descricao,DataLimite ,Impeditivo,VeiculoID) values (" +
-                                                      "@v1,@v2, @v3,@v4,@v5)", _Con);
+        //        SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
+        //        SqlCommand _sqlCmd;
+        //        for (int i = 31; i < 35; i++)
+        //        {
+        //            _sqlCmd = new SqlCommand("Insert into Pendencias (TipoPendenciaID,Descricao,DataLimite ,Impeditivo,VeiculoID) values (" +
+        //                                              "@v1,@v2, @v3,@v4,@v5)", _Con);
 
-                    _sqlCmd.Parameters.Add("@v1", SqlDbType.Int).Value = i;
-                    _sqlCmd.Parameters.Add("@v2", SqlDbType.VarChar).Value = "Cadastro novo!";
-                    _sqlCmd.Parameters.Add("@v3", SqlDbType.DateTime).Value = DateTime.Now;
-                    _sqlCmd.Parameters.Add("@v4", SqlDbType.Bit).Value = 1;
-                    _sqlCmd.Parameters.Add("@v5", SqlDbType.Int).Value = _VeiculoID;
-                    _sqlCmd.ExecuteNonQuery();
-                    //Thread.Sleep(200);
-                }
+        //            _sqlCmd.Parameters.Add("@v1", SqlDbType.Int).Value = i;
+        //            _sqlCmd.Parameters.Add("@v2", SqlDbType.VarChar).Value = "Cadastro novo!";
+        //            _sqlCmd.Parameters.Add("@v3", SqlDbType.DateTime).Value = DateTime.Now;
+        //            _sqlCmd.Parameters.Add("@v4", SqlDbType.Bit).Value = 1;
+        //            _sqlCmd.Parameters.Add("@v5", SqlDbType.Int).Value = _VeiculoID;
+        //            _sqlCmd.ExecuteNonQuery();
+        //            //Thread.Sleep(200);
+        //        }
 
-                _Con.Close();
-            }
-            catch (Exception ex)
-            {
-                Global.Log("Erro na void AtualizaPendencias ex: " + ex);
+        //        _Con.Close();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Global.Log("Erro na void AtualizaPendencias ex: " + ex);
 
 
-            }
+        //    }
 
-        }
+        //}
         #endregion
 
         #region Metodos privados
@@ -1688,7 +1689,7 @@ namespace iModSCCredenciamento.ViewModels
 
                 SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
 
-                SqlCommand SQCMDXML = new SqlCommand("Select * From Veiculos Where VeiculoID = " + veiculoID , _Con);
+                SqlCommand SQCMDXML = new SqlCommand("Select * From Veiculos Where VeiculoID = " + veiculoID, _Con);
                 SqlDataReader SQDR_XML;
                 SQDR_XML = SQCMDXML.ExecuteReader(CommandBehavior.Default);
                 while (SQDR_XML.Read())
@@ -1717,60 +1718,30 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-
                 HabilitaEdicao = false;
-                System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(ClasseVeiculos));
 
-                ObservableCollection<ClasseVeiculos.Veiculo> _VeiculosPro = new ObservableCollection<ClasseVeiculos.Veiculo>();
-                ClasseVeiculos _ClasseVeiculosTemp = new ClasseVeiculos();
-                VeiculoSelecionado.Pendente = true;
                 VeiculoSelecionado.Pendente31 = true;
                 VeiculoSelecionado.Pendente32 = true;
                 VeiculoSelecionado.Pendente33 = true;
                 VeiculoSelecionado.Pendente34 = true;
 
-                _VeiculosPro.Add(VeiculoSelecionado);
-                _ClasseVeiculosTemp.Veiculos = _VeiculosPro;
+                var service = new IMOD.Application.Service.VeiculoService();
+                var entity = VeiculoSelecionado;
+                var entityConv = Mapper.Map<Veiculo>(entity);
 
-                string xmlString;
-
-                using (StringWriterWithEncoding sw = new StringWriterWithEncoding(System.Text.Encoding.UTF8))
-                {
-
-                    using (XmlTextWriter xw = new XmlTextWriter(sw))
-                    {
-                        xw.Formatting = Formatting.Indented;
-                        serializer.Serialize(xw, _ClasseVeiculosTemp);
-                        xmlString = sw.ToString();
-                    }
-
-                }
-
-                int _novoVeiculoID = InsereVeiculosBD(xmlString);
-
-                AtualizaPendencias(_novoVeiculoID);
-
-                VeiculoSelecionado.EquipamentoVeiculoID = _novoVeiculoID;
+                service.Criar(entityConv);
 
                 _VeiculosTemp.Clear();
-
-                _VeiculosTemp.Add(VeiculoSelecionado);
-                Veiculos = null;
-                Veiculos = new ObservableCollection<ClasseVeiculos.Veiculo>(_VeiculosTemp);
-                SelectedIndex = 0;
-                _VeiculosTemp.Clear();
-                _VeiculosPro.Clear();
                 _veiculoTemp = null;
-                _ClasseVeiculosTemp = null;
 
-                //this._VeiculosTemp.Clear();
-                //_veiculoTemp = null;
-
-
+                Thread CarregaColecaoVeiculos_thr = new Thread(() => CarregaColecaoVeiculos());
+                CarregaColecaoVeiculos_thr.Start();
             }
             catch (Exception ex)
             {
-
+                Global.Log("Erro void SalvarAdicao ex: " + ex.Message);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
         }
 
@@ -1778,41 +1749,30 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-
                 HabilitaEdicao = false;
-                System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(ClasseVeiculos));
 
-                ObservableCollection<ClasseVeiculos.Veiculo> _VeiculosTemp = new ObservableCollection<ClasseVeiculos.Veiculo>();
-                ClasseVeiculos _ClasseVeiculosTemp = new ClasseVeiculos();
-                _VeiculosTemp.Add(VeiculoSelecionado);
-                _ClasseVeiculosTemp.Veiculos = _VeiculosTemp;
+                VeiculoSelecionado.Pendente31 = true;
+                VeiculoSelecionado.Pendente32 = true;
+                VeiculoSelecionado.Pendente33 = true;
+                VeiculoSelecionado.Pendente34 = true;
 
-                string xmlString;
+                var service = new IMOD.Application.Service.VeiculoService();
+                var entity = VeiculoSelecionado;
+                var entityConv = Mapper.Map<Veiculo>(entity);
 
-                using (StringWriterWithEncoding sw = new StringWriterWithEncoding(System.Text.Encoding.UTF8))
-                {
+                service.Alterar(entityConv);
 
-                    using (XmlTextWriter xw = new XmlTextWriter(sw))
-                    {
-                        xw.Formatting = Formatting.Indented;
-                        serializer.Serialize(xw, _ClasseVeiculosTemp);
-                        xmlString = sw.ToString();
-                    }
-
-                }
-
-                AtualizaVeiculosBD(xmlString);
-
-                _ClasseVeiculosTemp = null;
-
-                this._VeiculosTemp.Clear();
+                _VeiculosTemp.Clear();
                 _veiculoTemp = null;
 
-
+                Thread CarregaColecaoVeiculos_thr = new Thread(() => CarregaColecaoVeiculos());
+                CarregaColecaoVeiculos_thr.Start();
             }
             catch (Exception ex)
             {
-
+                Global.Log("Erro void SalvarAdicao ex: " + ex.Message);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
         }
 

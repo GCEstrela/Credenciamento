@@ -114,7 +114,7 @@
     <Compile Include="Repositorios\VeiculoEmpresaRepositorio.cs" />
     <Compile Include="Repositorios\VeiculoEquipTipoServicoRepositorio.cs" />
     <Compile Include="Repositorios\VeiculoSeguroRepositorio.cs" />
-    <Compile Include="Repositorios\VeiculosRepositorio.cs" />
+    <Compile Include="Repositorios\VeiculoRepositorio.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config">

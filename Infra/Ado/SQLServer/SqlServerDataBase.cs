@@ -50,6 +50,11 @@ namespace IMOD.Infra.Ado.SQLServer
                 connection.Open();
                 return connection;
             }
+            catch (SqlException ex)
+            {
+                Utils.TraceException(ex);
+                throw  new Exception($"Ocorreu uma falha ao conectar com o banco de dados\nRazão:\n{ex.Message}");
+            }
             catch (Exception ex)
             {
                 Utils.TraceException(ex);
@@ -64,9 +69,23 @@ namespace IMOD.Infra.Ado.SQLServer
         /// <returns>Um objeto Connection</returns>
         public IDbConnection CreateOpenConnection(string connectionstring)
         {
-            var connection = new SqlConnection(connectionstring);
-            connection.Open();
-            return connection;
+            try
+            {
+                var connection = new SqlConnection(connectionstring);
+                connection.Open();
+                return connection;
+            }
+            catch (SqlException ex)
+            {
+                Utils.TraceException(ex);
+                throw new Exception($"Ocorreu uma falha ao conectar com o banco de dados\nRazão:\n{ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+                return null;
+            }
+          
         }
 
         /// <summary>

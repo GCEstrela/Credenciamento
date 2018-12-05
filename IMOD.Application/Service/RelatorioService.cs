@@ -7,6 +7,7 @@
 #region
 
 using System.Collections.Generic;
+using IMOD.Application.Interfaces;
 using IMOD.Domain.Entities;
 using IMOD.Domain.Interfaces;
 using IMOD.Infra.Repositorios;
@@ -15,11 +16,11 @@ using IMOD.Infra.Repositorios;
 
 namespace IMOD.Application.Service
 {
-    public class VeiculosService : IVeiculosRepositorio
+    public class RelatorioService : IRelatorioService
     {
         #region Variaveis Globais
 
-        private readonly IVeiculosRepositorio _repositorio = new VeiculosRepositorio();
+        private readonly IRelatoriosRepositorio _repositorio = new RelatoriosRepositorio();
 
         #endregion
 
@@ -33,9 +34,9 @@ namespace IMOD.Application.Service
         ///     Criar registro
         /// </summary>
         /// <param name="entity"></param>
-        public void Criar(Veiculos entity)
+        public void Criar(Relatorios entity)
         {
-            _repositorio.Criar (entity);
+            _repositorio.Criar(entity);
         }
 
         /// <summary>
@@ -43,9 +44,9 @@ namespace IMOD.Application.Service
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public Veiculos BuscarPelaChave(int id)
+        public Relatorios BuscarPelaChave(int id)
         {
-            return _repositorio.BuscarPelaChave (id);
+            return _repositorio.BuscarPelaChave(id);
         }
 
         /// <summary>
@@ -53,27 +54,27 @@ namespace IMOD.Application.Service
         /// </summary>
         /// <param name="objects">Expressão de consulta</param>
         /// <returns></returns>
-        public ICollection<Veiculos> Listar(params object[] objects)
+        public ICollection<Relatorios> Listar(params object[] objects)
         {
-            return _repositorio.Listar (objects);
+            return _repositorio.Listar(objects);
         }
 
         /// <summary>
         ///     Alterar registro
         /// </summary>
         /// <param name="entity"></param>
-        public void Alterar(Veiculos entity)
+        public void Alterar(Relatorios entity)
         {
-            _repositorio.Alterar (entity);
+            _repositorio.Alterar(entity);
         }
 
         /// <summary>
         ///     Deletar registro
         /// </summary>
         /// <param name="entity"></param>
-        public void Remover(Veiculos entity)
+        public void Remover(Relatorios entity)
         {
-            _repositorio.Remover (entity);
+            _repositorio.Remover(entity);
         }
 
         #endregion

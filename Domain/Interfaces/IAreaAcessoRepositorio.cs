@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace IMOD.Domain.Interfaces
 {
-    public interface IAreaAcessoRepositorio //: IRepositorioBaseAdoNet<AreaAcesso>
+    public interface IAreaAcessoRepositorio : IRepositorioBaseAdoNet<AreaAcesso>
     {
         /// <summary>
         ///     Buscar pela chave primaria

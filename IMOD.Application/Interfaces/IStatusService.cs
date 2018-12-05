@@ -8,7 +8,7 @@ using IMOD.Domain.Interfaces;
 
 namespace IMOD.Application.Interfaces
 {
-    public interface IStatusService:IStatusRepositorio
+    public interface IStatusService : IStatusRepositorio
     {
 
     }

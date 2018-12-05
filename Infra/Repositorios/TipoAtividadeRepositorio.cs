@@ -105,7 +105,6 @@ namespace IMOD.Infra.Repositorios
             using (var conn = _dataBase.CreateOpenConnection())
             {
                 using (var cmd = _dataBase.SelectText("TiposAtividades", conn))
-
                 {
                     try
                     {

@@ -21,7 +21,7 @@ using IMOD.Infra.Ado.Interfaces.ParamSql;
 
 namespace IMOD.Infra.Repositorios
 {
-    public class VeiculosRepositorio : IVeiculosRepositorio
+    public class VeiculoRepositorio : IVeiculoRepositorio
     {
         private readonly string _connection = CurrentConfig.ConexaoString;
         private readonly IDataBaseAdo _dataBase;
@@ -29,7 +29,7 @@ namespace IMOD.Infra.Repositorios
 
         #region Construtor
 
-        public VeiculosRepositorio()
+        public VeiculoRepositorio()
         {
             _dataBase = _dataWorkerFactory.ObterDataBaseSingleton(TipoDataBase.SqlServer, _connection);
         }
@@ -42,7 +42,7 @@ namespace IMOD.Infra.Repositorios
         ///     Criar registro de Veículo
         /// </summary>
         /// <param name="entity"></param>
-        public void Criar(Veiculos entity)
+        public void Criar(Veiculo entity)
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
@@ -99,7 +99,7 @@ namespace IMOD.Infra.Repositorios
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public Veiculos BuscarPelaChave(int id)
+        public Veiculo BuscarPelaChave(int id)
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
@@ -108,10 +108,10 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("EquipamentoVeiculoId", DbType.Int32, id).Igual()));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("EquipamentoVeiculoID", DbType.Int32, id).Igual()));
 
                         var reader = cmd.ExecuteReader();
-                        var d1 = reader.MapToList<Veiculos>();
+                        var d1 = reader.MapToList<Veiculo>();
 
                         return d1.FirstOrDefault();
                     }
@@ -129,7 +129,7 @@ namespace IMOD.Infra.Repositorios
         /// </summary>
         /// <param name="objects">Expressão de consulta</param>
         /// <returns></returns>
-        public ICollection<Veiculos> Listar(params object[] objects)
+        public ICollection<Veiculo> Listar(params object[] objects)
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
@@ -142,7 +142,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Modelo", DbType.String, objects, 1).Like()));
 
                         var reader = cmd.ExecuteReaderSelect();
-                        var d1 = reader.MapToList<Veiculos>();
+                        var d1 = reader.MapToList<Veiculo>();
 
                         return d1;
                     }
@@ -159,7 +159,7 @@ namespace IMOD.Infra.Repositorios
         ///     Alterar registro de Veículo
         /// </summary>
         /// <param name="entity"></param>
-        public void Alterar(Veiculos entity)
+        public void Alterar(Veiculo entity)
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
@@ -213,7 +213,7 @@ namespace IMOD.Infra.Repositorios
         ///     Deletar registro de Veículo
         /// </summary>
         /// <param name="objects"></param>
-        public void Remover(Veiculos entity)
+        public void Remover(Veiculo entity)
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
@@ -221,7 +221,7 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamDelete("EquipamentoVeiculoId", entity.EquipamentoVeiculoId).Igual()));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamDelete("EquipamentoVeiculoID", entity.EquipamentoVeiculoId).Igual()));
                         cmd.ExecuteNonQuery();
                     }
                     catch (Exception ex)

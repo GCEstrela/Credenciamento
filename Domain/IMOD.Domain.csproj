@@ -86,7 +86,7 @@
     <Compile Include="Entities\TipoEstadoCivil.cs" />
     <Compile Include="Entities\TipoServico.cs" />
     <Compile Include="Entities\VeiculoEquipTipoServico.cs" />
-    <Compile Include="Entities\Veiculos.cs" />
+    <Compile Include="Entities\Veiculo.cs" />
     <Compile Include="Entities\VeiculoAnexo.cs" />
     <Compile Include="Entities\VeiculoCredencial.cs" />
     <Compile Include="Entities\VeiculoCredencialimpressao.cs" />
@@ -138,7 +138,7 @@
     <Compile Include="Interfaces\IVeiculoEmpresaRepositorio.cs" />
     <Compile Include="Interfaces\IVeiculoEquipTipoServicoRepositorio.cs" />
     <Compile Include="Interfaces\IVeiculoSeguroRepositorio.cs" />
-    <Compile Include="Interfaces\IVeiculosRepositorio.cs" />
+    <Compile Include="Interfaces\IVeiculoRepositorio.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
