@@ -132,6 +132,12 @@ namespace IMOD.Application.Service
         {
             get { return new AreaAcessoService(); }
         }
+
+        public ICollection<TipoAcesso> ListarTiposAcessos()
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         ///     Listar Tipos de Cursos
         /// </summary>

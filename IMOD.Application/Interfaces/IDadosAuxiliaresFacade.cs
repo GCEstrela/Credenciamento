@@ -18,7 +18,6 @@ namespace IMOD.Application.Interfaces
     {
         #region  Metodos
 
-
         /// <summary>
         ///     CRUD Completo Estados
         /// </summary>
@@ -90,6 +89,7 @@ namespace IMOD.Application.Interfaces
         /// <returns></returns>
         ICursoService CursoService { get; }
 
+
         /// <summary>
         /// CRUD Completo AreaAcesso
         /// </summary>
@@ -100,6 +100,13 @@ namespace IMOD.Application.Interfaces
         /// </summary>
         /// <returns></returns>
         ICollection<Curso> ListarCursos();
+
+
+        /// <summary>
+        /// CRUD Completo AreaAcesso
+        /// </summary>
+        /// <returns></returns>
+        IAreaAcessoService AreaAcessoService { get; }
         /// <summary>
         /// CRUD Completo EmpresaLayoutCracha
         /// </summary>
@@ -113,7 +120,6 @@ namespace IMOD.Application.Interfaces
 
 
 
-        
         #endregion
     }
 }

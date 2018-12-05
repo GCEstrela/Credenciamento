@@ -971,12 +971,10 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-
                 CarregaColecaoEmpresasTiposAtividades(EmpresaSelecionada.EmpresaID);
                 CarregaColecaoEmpresasAreasAcessos(EmpresaSelecionada.EmpresaID);
                 CarregaColecaoEmpresasLayoutsCrachas(EmpresaSelecionada.EmpresaID);
                 CarregaColecaoLayoutsCrachas();
-
             }
             catch (Exception ex)
             {
@@ -1003,7 +1001,6 @@ namespace iModSCCredenciamento.ViewModels
             CarregaColecaoAreasAcessos();
             CarregaColecaoLayoutsCrachas();
         }
-
 
         private void CarregaColecaoEmpresas(int? idEmpresa = null, string nome = null, string apelido = null, string cnpj = null)
         {
