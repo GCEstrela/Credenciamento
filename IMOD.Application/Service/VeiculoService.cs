@@ -16,11 +16,11 @@ using IMOD.Infra.Repositorios;
 
 namespace IMOD.Application.Service
 {
-    public class RelatoriosService : IRelatorioService
+    public class VeiculoService : IVeiculoService
     {
         #region Variaveis Globais
 
-        private readonly IRelatoriosRepositorio _repositorio = new RelatoriosRepositorio();
+        private readonly IVeiculoRepositorio _repositorio = new VeiculoRepositorio();
 
         #endregion
 
@@ -34,7 +34,7 @@ namespace IMOD.Application.Service
         ///     Criar registro
         /// </summary>
         /// <param name="entity"></param>
-        public void Criar(Relatorios entity)
+        public void Criar(Veiculo entity)
         {
             _repositorio.Criar(entity);
         }
@@ -44,7 +44,7 @@ namespace IMOD.Application.Service
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public Relatorios BuscarPelaChave(int id)
+        public Veiculo BuscarPelaChave(int id)
         {
             return _repositorio.BuscarPelaChave(id);
         }
@@ -54,7 +54,7 @@ namespace IMOD.Application.Service
         /// </summary>
         /// <param name="objects">Expressão de consulta</param>
         /// <returns></returns>
-        public ICollection<Relatorios> Listar(params object[] objects)
+        public ICollection<Veiculo> Listar(params object[] objects)
         {
             return _repositorio.Listar(objects);
         }
@@ -63,7 +63,7 @@ namespace IMOD.Application.Service
         ///     Alterar registro
         /// </summary>
         /// <param name="entity"></param>
-        public void Alterar(Relatorios entity)
+        public void Alterar(Veiculo entity)
         {
             _repositorio.Alterar(entity);
         }
@@ -72,7 +72,7 @@ namespace IMOD.Application.Service
         ///     Deletar registro
         /// </summary>
         /// <param name="entity"></param>
-        public void Remover(Relatorios entity)
+        public void Remover(Veiculo entity)
         {
             _repositorio.Remover(entity);
         }

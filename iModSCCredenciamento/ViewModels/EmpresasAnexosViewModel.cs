@@ -9,6 +9,8 @@ using System.Data.SqlClient;
 using System.Threading;
 using System.Xml;
 using AutoMapper;
+using IMOD.Application.Interfaces;
+using IMOD.Application.Service;
 using IMOD.Domain.Entities;
 
 namespace iModSCCredenciamento.ViewModels
@@ -44,6 +46,8 @@ namespace iModSCCredenciamento.ViewModels
         private string _Criterios = "";
 
         private int _selectedIndexTemp = 0;
+
+        private readonly IEmpresaAnexoService _service = new EmpresaAnexoService();
 
         #endregion
 
@@ -267,11 +271,10 @@ namespace iModSCCredenciamento.ViewModels
             {
                 HabilitaEdicao = false;
 
-                var service = new IMOD.Application.Service.EmpresaAnexoService();
                 var entity = AnexoSelecionado;
                 var entityConv = Mapper.Map<EmpresaAnexo>(entity);
 
-                service.Alterar(entityConv);
+                _service.Alterar(entityConv);
 
                 Thread CarregaColecaoAnexosSignatarios_thr = new Thread(() => CarregaColecaoAnexos(AnexoSelecionado.EmpresaID));
                 CarregaColecaoAnexosSignatarios_thr.Start();
@@ -326,11 +329,10 @@ namespace iModSCCredenciamento.ViewModels
                 _EmpresasAnexosPro.Add(AnexoSelecionado);
                 _ClasseEmpresasAnexosTemp.EmpresasAnexos = _EmpresasAnexosPro;
 
-                var service = new IMOD.Application.Service.EmpresaAnexoService();
                 var entity = AnexoSelecionado;
                 var entityConv = Mapper.Map<EmpresaAnexo>(entity);
 
-                service.Criar(entityConv);
+                _service.Criar(entityConv);
 
                 Thread CarregaColecaoAnexosSignatarios_thr = new Thread(() => CarregaColecaoAnexos(AnexoSelecionado.EmpresaID));
                 CarregaColecaoAnexosSignatarios_thr.Start();
@@ -366,9 +368,8 @@ namespace iModSCCredenciamento.ViewModels
                 {
                     if (Global.PopupBox("Você perderá todos os dados, inclusive histórico. Confirma exclusão?", 2))
                     {
-                        var service = new IMOD.Application.Service.EmpresaAnexoService();
-                        var emp = service.BuscarPelaChave(AnexoSelecionado.EmpresaAnexoID);
-                        service.Remover(emp);
+                        var emp = _service.BuscarPelaChave(AnexoSelecionado.EmpresaAnexoID);
+                        _service.Remover(emp);
                         Anexos.Remove(AnexoSelecionado);
                     }
                 }
@@ -408,12 +409,9 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                var service = new IMOD.Application.Service.EmpresaAnexoService();
                 if (!string.IsNullOrWhiteSpace(_descricao)) _descricao = $"%{_descricao}%";
 
-
-
-                var list1 = service.Listar(empresaID, _descricao, null, null, null, null);
+                var list1 = _service.Listar(empresaID, _descricao, null, null, null, null);
                 var list2 = Mapper.Map<List<ClasseEmpresasAnexos.EmpresaAnexo>>(list1);
 
                 var observer = new ObservableCollection<ClasseEmpresasAnexos.EmpresaAnexo>();

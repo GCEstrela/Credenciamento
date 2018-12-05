@@ -18,7 +18,6 @@ namespace IMOD.Application.Interfaces
     {
         #region  Metodos
 
-
         /// <summary>
         ///     CRUD Completo Estados
         /// </summary>

@@ -50,8 +50,15 @@ namespace iModSCCredenciamento.Views
                 openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
                 if (openFileDialog.ShowDialog() == true)
                 {
-                    BitmapImage _img = new BitmapImage(new Uri(openFileDialog.FileName));
+                    long tamanho = new System.IO.FileInfo(openFileDialog.FileName).Length;
+                    if (tamanho > 200)
+                    {
+                        System.Windows.MessageBox.Show("Tamanho ( " + tamanho.ToString() + " ) inválido, só é permitido arquivo com o máximo de 200");
+                        return; 
+                    }
 
+                    BitmapImage _img = new BitmapImage(new Uri(openFileDialog.FileName));
+                    
                     string _imgstr = Conversores.IMGtoSTR(_img);
 
                     var fileLength = new FileInfo(openFileDialog.FileName).Length; //limitar o tamanho futuro
@@ -138,7 +145,7 @@ namespace iModSCCredenciamento.Views
         private void Excluir_bt_Click(object sender, RoutedEventArgs e)
         {
             Botoes_Principais_sp.Visibility = Visibility.Visible;
-            ((ColaboradorViewModel)this.DataContext).OnExcluirCommand2();
+            ((ColaboradorViewModel)this.DataContext).OnExcluirCommand();
         }
 
         private void ExecutarPesquisa_bt_Click(object sender, RoutedEventArgs e)

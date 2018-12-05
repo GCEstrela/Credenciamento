@@ -18,7 +18,9 @@ using iModSCCredenciamento.Views;
 using System.Threading.Tasks;
 using System.Windows;
 using AutoMapper;
+using IMOD.Application.Interfaces;
 using IMOD.Domain.Entities;
+using IMOD.Application.Service;
 
 namespace iModSCCredenciamento.ViewModels
 {
@@ -82,6 +84,8 @@ namespace iModSCCredenciamento.ViewModels
         private BitmapImage _Waiting;
 
         //private bool _EditandoUserControl;
+
+        private readonly IVeiculoService _service = new VeiculoService();
 
         #endregion
 
@@ -577,7 +581,7 @@ namespace iModSCCredenciamento.ViewModels
                 {
                     if (Global.PopupBox("Você perderá todos os dados, inclusive histórico. Confirma exclusão?", 2))
                     {
-                        var service = new IMOD.Application.Service.VeiculosService();
+                        var service = new IMOD.Application.Service.VeiculoService();
                         var emp = service.BuscarPelaChave(VeiculoSelecionado.EquipamentoVeiculoID);
                         service.Remover(emp);
 
@@ -666,7 +670,7 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                var service = new IMOD.Application.Service.VeiculosService();
+                var service = new IMOD.Application.Service.VeiculoService();
                 if (!string.IsNullOrWhiteSpace(nome)) nome = $"%{nome}%";
                 if (!string.IsNullOrWhiteSpace(apelido)) apelido = $"%{apelido}%";
                 if (!string.IsNullOrWhiteSpace(cpf)) cpf = $"%{cpf}%";
@@ -1721,7 +1725,7 @@ namespace iModSCCredenciamento.ViewModels
                 VeiculoSelecionado.Pendente33 = true;
                 VeiculoSelecionado.Pendente34 = true;
 
-                var service = new IMOD.Application.Service.VeiculosService();
+                var service = new IMOD.Application.Service.VeiculoService();
                 var entity = VeiculoSelecionado;
                 var entityConv = Mapper.Map<Veiculo>(entity);
 
@@ -1752,7 +1756,7 @@ namespace iModSCCredenciamento.ViewModels
                 VeiculoSelecionado.Pendente33 = true;
                 VeiculoSelecionado.Pendente34 = true;
 
-                var service = new IMOD.Application.Service.VeiculosService();
+                var service = new IMOD.Application.Service.VeiculoService();
                 var entity = VeiculoSelecionado;
                 var entityConv = Mapper.Map<Veiculo>(entity);
 

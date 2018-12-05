@@ -15,6 +15,8 @@ using iModSCCredenciamento.Funcoes;
 using iModSCCredenciamento.Models;
 using iModSCCredenciamento.Windows;
 using AutoMapper;
+using IMOD.Application.Interfaces;
+using IMOD.Application.Service;
 using IMOD.Domain.Entities;
 
 namespace iModSCCredenciamento.ViewModels
@@ -46,6 +48,9 @@ namespace iModSCCredenciamento.ViewModels
         //private ObservableCollection<ClasseTiposAcessos.TipoAcesso> _TiposAcessos;
 
         //private ObservableCollection<ClasseTiposCobrancas.TipoCobranca> _TiposCobrancas;
+
+
+        private readonly IEmpresaSignatarioService _service = new EmpresaSignatarioService();
 
         PopupPesquisaContrato PopupPesquisaSignatarios;
 
@@ -366,11 +371,10 @@ namespace iModSCCredenciamento.ViewModels
             {
                 HabilitaEdicao = false;
 
-                var service = new IMOD.Application.Service.EmpresaSignatarioService();
                 var entity = SignatarioSelecionado;
                 var entityConv = Mapper.Map<EmpresaSignatario>(entity);
 
-                service.Alterar(entityConv);
+                _service.Alterar(entityConv);
 
                 Thread CarregaColecaoEmpresasSignatarios_thr = new Thread(() => CarregaColecaoEmpresasSignatarios(SignatarioSelecionado.EmpresaId, null));
                 CarregaColecaoEmpresasSignatarios_thr.Start();
@@ -416,11 +420,10 @@ namespace iModSCCredenciamento.ViewModels
             {
                 HabilitaEdicao = false;
 
-                var service = new IMOD.Application.Service.EmpresaSignatarioService();
                 var entity = SignatarioSelecionado;
                 var entityConv = Mapper.Map<EmpresaSignatario>(entity);
 
-                service.Criar(entityConv);
+                _service.Criar(entityConv);
 
                 Thread CarregaColecaoEmpresasSignatarios_thr = new Thread(() => CarregaColecaoEmpresasSignatarios(SignatarioSelecionado.EmpresaId));
                 CarregaColecaoEmpresasSignatarios_thr.Start();
@@ -457,9 +460,8 @@ namespace iModSCCredenciamento.ViewModels
                 {
                     if (Global.PopupBox("Você perderá todos os dados, inclusive histórico. Confirma exclusão?", 2))
                     {
-                        var service = new IMOD.Application.Service.EmpresaSignatarioService();
-                        var emp = service.BuscarPelaChave(SignatarioSelecionado.EmpresaSignatarioID);
-                        service.Remover(emp);
+                        var emp = _service.BuscarPelaChave(SignatarioSelecionado.EmpresaSignatarioID);
+                        _service.Remover(emp);
 
                         Signatarios.Remove(SignatarioSelecionado);
                     }
@@ -501,10 +503,9 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                var service = new IMOD.Application.Service.EmpresaSignatarioService();
                 if (!string.IsNullOrWhiteSpace(nome)) nome = $"%{nome}%";
 
-                var list1 = service.Listar(empresaID, nome, null, null, null, null);
+                var list1 = _service.Listar(empresaID, nome, null, null, null, null);
                 var list2 = Mapper.Map<List<ClasseEmpresasSignatarios.EmpresaSignatario>>(list1);
 
                 var observer = new ObservableCollection<ClasseEmpresasSignatarios.EmpresaSignatario>();

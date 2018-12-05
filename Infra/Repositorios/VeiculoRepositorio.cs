@@ -21,7 +21,7 @@ using IMOD.Infra.Ado.Interfaces.ParamSql;
 
 namespace IMOD.Infra.Repositorios
 {
-    public class VeiculosRepositorio : IVeiculosRepositorio
+    public class VeiculoRepositorio : IVeiculoRepositorio
     {
         private readonly string _connection = CurrentConfig.ConexaoString;
         private readonly IDataBaseAdo _dataBase;
@@ -29,7 +29,7 @@ namespace IMOD.Infra.Repositorios
 
         #region Construtor
 
-        public VeiculosRepositorio()
+        public VeiculoRepositorio()
         {
             _dataBase = _dataWorkerFactory.ObterDataBaseSingleton(TipoDataBase.SqlServer, _connection);
         }
