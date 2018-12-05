@@ -453,13 +453,17 @@ namespace UnitTestImod
             var repositorio = new ColaboradorEmpresaRepositorio();
             for (var i = 0; i < 3; i++)
             {
-                var d1 = repositorio.BuscarPelaChave(8);
+                var d1 = repositorio.BuscarPelaChave(1);
                 d1.Cargo = "Cargo " + i;
-
-                repositorio.Alterar(d1);
                 d1.Matricula = "0000" + i;
-
                 repositorio.Criar(d1);
+                
+               
+                
+                repositorio.Alterar(d1);
+                
+
+               
             }
 
             var list0 = repositorio.Listar();
