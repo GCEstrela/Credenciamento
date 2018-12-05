@@ -20,13 +20,10 @@ namespace iModSCCredenciamento.ViewModels
 {
     public class ColaboradoresAnexosViewModel : ViewModelBase
     {
-        Global g = new Global();
-        private IColaboradorAnexoService _colaboradorAnexoService;
 
         #region Inicializacao
         public ColaboradoresAnexosViewModel()
         {
-            _colaboradorAnexoService = new ColaboradorAnexoService();
             CarregaUI();
         }
         private void CarregaUI()
@@ -57,6 +54,8 @@ namespace iModSCCredenciamento.ViewModels
         private string _Criterios = "";
 
         private int _selectedIndexTemp = 0;
+
+        private readonly IColaboradorAnexoService _service = new ColaboradorAnexoService();
 
         private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
 
@@ -280,11 +279,10 @@ namespace iModSCCredenciamento.ViewModels
             {
                 HabilitaEdicao = false;
 
-                var service = new IMOD.Application.Service.ColaboradorAnexoService();
                 var entity = ColaboradorAnexoSelecionado;
                 var entityConv = Mapper.Map<ColaboradorAnexo>(entity);
 
-                service.Alterar(entityConv);
+                _service.Alterar(entityConv);
 
                 var id = ColaboradorAnexoSelecionado.ColaboradorID;
 
@@ -307,11 +305,10 @@ namespace iModSCCredenciamento.ViewModels
             {
                 HabilitaEdicao = false;
 
-                var service = new IMOD.Application.Service.ColaboradorAnexoService();
                 var entity = ColaboradorAnexoSelecionado;
                 var entityConv = Mapper.Map<ColaboradorAnexo>(entity);
 
-                service.Criar(entityConv);
+                _service.Criar(entityConv);
                 var id = ColaboradorAnexoSelecionado.ColaboradorID;
 
                 Thread CarregaColecaoColaboradoresAnexos_thr = new Thread(() => CarregaColecaoColaboradoresAnexos(id, null));
@@ -371,9 +368,8 @@ namespace iModSCCredenciamento.ViewModels
                 {
                     if (Global.PopupBox("Você perderá todos os dados, inclusive histórico. Confirma exclusão?", 2))
                     {
-                        var service = new IMOD.Application.Service.ColaboradorAnexoService();
-                        var emp = service.BuscarPelaChave(ColaboradorAnexoSelecionado.ColaboradorAnexoID);
-                        service.Remover(emp);
+                        var emp = _service.BuscarPelaChave(ColaboradorAnexoSelecionado.ColaboradorAnexoID);
+                        _service.Remover(emp);
 
                         CarregaColecaoColaboradoresAnexos(ColaboradorAnexoSelecionado.ColaboradorID, null);
 
@@ -421,9 +417,8 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                var service = new IMOD.Application.Service.ColaboradorAnexoService();
                 if (!string.IsNullOrWhiteSpace(_nome)) _nome = $"%{_nome}%";
-                var list1 = service.Listar(_colaboradorID, _nome);
+                var list1 = _service.Listar(_colaboradorID, _nome);
 
                 var list2 = Mapper.Map<List<ClasseColaboradoresAnexos.ColaboradorAnexo>>(list1);
 

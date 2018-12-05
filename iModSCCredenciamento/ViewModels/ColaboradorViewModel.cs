@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using AutoMapper;
 using IMOD.Application.Interfaces;
+using IMOD.Application.Service;
 using IMOD.Domain.Entities;
 using IMOD.Infra.Repositorios;
 using MessageBox = System.Windows.MessageBox;
@@ -32,9 +33,6 @@ namespace iModSCCredenciamento.ViewModels
 {
     public class ColaboradorViewModel : ViewModelBase
     {
-        //private IColaboradorService _colaboradorService = new ColaboradorService();
-        public IMOD.Domain.Entities.Colaborador Colaborador { get; set; }
-
         #region Inicializacao
         public ColaboradorViewModel()
         {
@@ -90,6 +88,8 @@ namespace iModSCCredenciamento.ViewModels
         private BitmapImage _Waiting;
 
         //private bool _EditandoUserControl;
+
+        private readonly IColaboradorService _service = new ColaboradorService();
 
         #endregion
 
@@ -551,11 +551,12 @@ namespace iModSCCredenciamento.ViewModels
                 //Colaboradores = classeColaboradores.Colaboradores;
                 //SelectedIndex = 0;
                 //////////////////////////////////////////////////////////////////
-                var service = new IMOD.Application.Service.ColaboradorService();
+
+
                 if (!string.IsNullOrWhiteSpace(nome)) nome = $"%{nome}%";
                 if (!string.IsNullOrWhiteSpace(apelido)) apelido = $"%{apelido}%";
                 if (!string.IsNullOrWhiteSpace(apelido)) apelido = $"%{cpf}%";
-                var list1 = service.Listar(_ColaboradorID, nome, apelido, cpf);
+                var list1 = _service.Listar(_ColaboradorID, nome, apelido, cpf);
 
                 var list2 = Mapper.Map<List<ClasseColaboradores.Colaborador>>(list1.OrderByDescending(a => a.ColaboradorId));
 
@@ -935,11 +936,11 @@ namespace iModSCCredenciamento.ViewModels
                 ColaboradorSelecionado.Pendente24 = true;
                 ColaboradorSelecionado.Pendente25 = true;
 
-                var service = new IMOD.Application.Service.ColaboradorService();
+
                 var entity = ColaboradorSelecionado;
                 var entityConv = Mapper.Map<IMOD.Domain.Entities.Colaborador>(entity);
 
-                service.Criar(entityConv);
+                _service.Criar(entityConv);
 
                 var id = ColaboradorSelecionado.ColaboradorID;
 
@@ -967,11 +968,10 @@ namespace iModSCCredenciamento.ViewModels
             {
                 HabilitaEdicao = false;
 
-                var service = new IMOD.Application.Service.ColaboradorService();
                 var entity = ColaboradorSelecionado;
                 var entityConv = Mapper.Map<IMOD.Domain.Entities.Colaborador>(entity);
 
-                service.Alterar(entityConv);
+                _service.Alterar(entityConv);
 
                 var id = ColaboradorSelecionado.ColaboradorID;
 

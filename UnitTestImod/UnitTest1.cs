@@ -639,11 +639,11 @@ namespace UnitTestImod
         [TestMethod]
         public void Veiculo_Cadastrar_Alterar_Listar_Remover_com_sucesso()
         {
-            var repositorio = new VeiculosRepositorio();
+            var repositorio = new VeiculoRepositorio();
 
             for (var i = 0; i < 3; i++)
             {
-                var d1 = new Veiculos
+                var d1 = new Veiculo
                 {
                     Descricao = "VEÍCULO (" + i + ")",
                     Placa_Identificador = "HSH-" + i + "00" + i,

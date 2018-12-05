@@ -6,7 +6,7 @@
 
 namespace IMOD.Domain.Entities
 {
-    public class Veiculos
+    public class Veiculo
     {
         #region  Propriedades
 

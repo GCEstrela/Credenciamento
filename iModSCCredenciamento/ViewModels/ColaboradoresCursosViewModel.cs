@@ -19,7 +19,6 @@ namespace iModSCCredenciamento.ViewModels
 {
     public class ColaboradoresCursosViewModel : ViewModelBase
     {
-        Global g = new Global();
         #region Inicializacao
         public ColaboradoresCursosViewModel()
         {

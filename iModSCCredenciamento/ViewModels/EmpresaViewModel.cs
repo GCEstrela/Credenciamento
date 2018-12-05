@@ -101,6 +101,8 @@ namespace iModSCCredenciamento.ViewModels
 
         private int _selectedIndexTemp = 0;
 
+        private readonly IEmpresaService _service = new EmpresaService();
+
         private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
 
         #endregion
@@ -497,11 +499,10 @@ namespace iModSCCredenciamento.ViewModels
                 _EmpresasTemp.Add(EmpresaSelecionada);
                 _ClasseEmpresasTemp.Empresas = _EmpresasTemp;
 
-                var service = new IMOD.Application.Service.EmpresaService();
                 var entity = EmpresaSelecionada;
                 var entityConv = Mapper.Map<Empresa>(entity);
 
-                service.Alterar(entityConv);
+                _service.Alterar(entityConv);
 
                 /////////////////////////////////////////
 
@@ -594,14 +595,10 @@ namespace iModSCCredenciamento.ViewModels
                 EmpresaSelecionada.Pendente16 = false;
                 EmpresaSelecionada.Pendente17 = true;
 
-                //_EmpresasPro.Add(EmpresaSelecionada);
-                //_ClasseEmpresasTemp.Empresas = _EmpresasPro;
-
-                var service = new IMOD.Application.Service.EmpresaService();
                 var entity = EmpresaSelecionada;
                 var entityConv = Mapper.Map<Empresa>(entity);
 
-                service.Criar(entityConv);
+                _service.Criar(entityConv);
 
                 int _novoEmpresaID = entityConv.EmpresaId;
                 AtualizaPendencias(_novoEmpresaID);
@@ -671,10 +668,8 @@ namespace iModSCCredenciamento.ViewModels
                     {
                         if (Global.PopupBox("Você realmente tem certeza desta operação?", 2))
                         {
-
-                            var service = new IMOD.Application.Service.EmpresaService();
-                            var emp = service.BuscarPelaChave(EmpresaSelecionada.EmpresaID);
-                            service.Remover(emp);
+                            var emp = _service.BuscarPelaChave(EmpresaSelecionada.EmpresaID);
+                            _service.Remover(emp);
 
                             Empresas.Remove(EmpresaSelecionada);
 
@@ -1014,12 +1009,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                var service = new IMOD.Application.Service.EmpresaService();
                 if (!string.IsNullOrWhiteSpace(nome)) nome = $"%{nome}%";
                 if (!string.IsNullOrWhiteSpace(apelido)) apelido = $"%{apelido}%";
                 if (!string.IsNullOrWhiteSpace(cnpj)) cnpj = $"%{cnpj}%";
 
-                var list1 = service.Listar(idEmpresa, nome, apelido, cnpj);
+                var list1 = _service.Listar(idEmpresa, nome, apelido, cnpj);
                 var list2 = Mapper.Map<List<ClasseEmpresas.Empresa>>(list1.OrderByDescending(a => a.EmpresaId));
 
                 var observer = new ObservableCollection<ClasseEmpresas.Empresa>();
