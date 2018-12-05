@@ -29,7 +29,7 @@ namespace UnitTestImod
         {
             var repositorio = new EmpresaContratoRepositorio();
             //Obter array de bytes do arquivo teste
-            var arrayByte = File.ReadAllBytes ("Arquivos/contrato.pdf");
+            var arrayByte = File.ReadAllBytes("Arquivos/contrato.pdf");
             //Transformar numa string Base64
             var strBase64 = Convert.ToBase64String(arrayByte);
             for (var i = 0; i < 50; i++)
@@ -52,7 +52,7 @@ namespace UnitTestImod
                     NomeArquivo = "contrato.pdf",
                     ArquivoBlob = arrayByte
                 };
-                repositorio.Criar (d1);//Criar dados
+                repositorio.Criar(d1);//Criar dados
 
             }
 
@@ -110,7 +110,7 @@ namespace UnitTestImod
             var d0 = repositorio.Listar().FirstOrDefault();
             var d1 = repositorio.BuscarPelaChave(d0.ColaboradorAnexoId);
 
-            var list0 = repositorio.Listar(0,"%arq%").ToList();
+            var list0 = repositorio.Listar(0, "%arq%").ToList();
             var list1 = repositorio.Listar(0, d0.ColaboradorId).ToList();
 
 
@@ -492,7 +492,7 @@ namespace UnitTestImod
             var repositorio = new ColaboradorEmpresaRepositorio();
             var d1 = repositorio.Listar().FirstOrDefault();
             if (d1 == null) return;
-           
+
             for (var i = 0; i < 3; i++)
             {
                 var entity = repositorio.BuscarPelaChave(d1.ColaboradorEmpresaId);
@@ -676,11 +676,11 @@ namespace UnitTestImod
         [TestMethod]
         public void Veiculo_Cadastrar_Alterar_Listar_Remover_com_sucesso()
         {
-            var repositorio = new VeiculosRepositorio();
+            var repositorio = new VeiculoRepositorio();
 
             for (var i = 0; i < 3; i++)
             {
-                var d1 = new Veiculos
+                var d1 = new Veiculo
                 {
                     Descricao = "VEÍCULO (" + i + ")",
                     PlacaIdentificador = "HSH-" + i + "00" + i,

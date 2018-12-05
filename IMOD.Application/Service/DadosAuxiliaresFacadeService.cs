@@ -18,11 +18,7 @@ namespace IMOD.Application.Service
 {
     public class DadosAuxiliaresFacadeService : IDadosAuxiliaresFacade
     {
-        private readonly ITiposAcessoService _acessoService = new TipoAcessoService();
-        private readonly ITipoCobrancaService _cobrancaService = new TipoCobrancaService();
-        private readonly IEstadoService _serviceEstado = new EstadoService();
-        private readonly IMunicipioService _serviceMunicipio = new MunicipioService();
-        private readonly IStatusService _statusService = new StatusService();
+
         private readonly ICursoService _cursosService = new CursoService();
 
         #region  Metodos

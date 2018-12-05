@@ -89,24 +89,12 @@ namespace IMOD.Application.Interfaces
         /// <returns></returns>
         ICursoService CursoService { get; }
 
-
-        /// <summary>
-        /// CRUD Completo AreaAcesso
-        /// </summary>
-        /// <returns></returns>
-        ICollection<TipoAcesso> ListarTiposAcessos();
-        /// <summary>
-        ///     Listar Tipos de Cursos
-        /// </summary>
-        /// <returns></returns>
-        ICollection<Curso> ListarCursos();
-
-
         /// <summary>
         /// CRUD Completo AreaAcesso
         /// </summary>
         /// <returns></returns>
         IAreaAcessoService AreaAcessoService { get; }
+
         /// <summary>
         /// CRUD Completo EmpresaLayoutCracha
         /// </summary>

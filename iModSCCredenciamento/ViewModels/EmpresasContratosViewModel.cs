@@ -148,7 +148,7 @@ namespace iModSCCredenciamento.ViewModels
             set
             {
                 _contratoSelecionado = value;
-                OnPropertyChanged ("SelectedItem");
+                OnPropertyChanged("SelectedItem");
             }
         }
 
@@ -172,7 +172,7 @@ namespace iModSCCredenciamento.ViewModels
             set
             {
                 _selectedIndex = value;
-                OnPropertyChanged ("SelectedIndex");
+                OnPropertyChanged("SelectedIndex");
             }
         }
 
@@ -211,25 +211,25 @@ namespace iModSCCredenciamento.ViewModels
 
                 if (empresaId != 0)
                 {
-                    p1 = _empresaContratosService.ListarPorEmpresa (empresaId);
-                    var convert = Mapper.Map<List<ClasseEmpresasContratos.EmpresaContrato>> (p1);
-                    convert.ForEach (n => { Contratos.Add (n); });
+                    p1 = _empresaContratosService.ListarPorEmpresa(empresaId);
+                    var convert = Mapper.Map<List<ClasseEmpresasContratos.EmpresaContrato>>(p1);
+                    convert.ForEach(n => { Contratos.Add(n); });
                     return;
                 }
 
-                if (!string.IsNullOrWhiteSpace (descricao))
+                if (!string.IsNullOrWhiteSpace(descricao))
                 {
-                    p1 = _empresaContratosService.ListarPorDescricao (descricao);
-                    var convert = Mapper.Map<List<ClasseEmpresasContratos.EmpresaContrato>> (p1);
-                    convert.ForEach (n => { Contratos.Add (n); });
+                    p1 = _empresaContratosService.ListarPorDescricao(descricao);
+                    var convert = Mapper.Map<List<ClasseEmpresasContratos.EmpresaContrato>>(p1);
+                    convert.ForEach(n => { Contratos.Add(n); });
                     return;
                 }
 
-                if (!string.IsNullOrWhiteSpace (numContrato))
+                if (!string.IsNullOrWhiteSpace(numContrato))
                 {
-                    p1 = _empresaContratosService.ListarPorNumeroContrato (numContrato);
-                    var convert = Mapper.Map<List<ClasseEmpresasContratos.EmpresaContrato>> (p1);
-                    convert.ForEach (n => { Contratos.Add (n); });
+                    p1 = _empresaContratosService.ListarPorNumeroContrato(numContrato);
+                    var convert = Mapper.Map<List<ClasseEmpresasContratos.EmpresaContrato>>(p1);
+                    convert.ForEach(n => { Contratos.Add(n); });
                     return;
                 }
 
@@ -237,7 +237,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
+                Utils.TraceException(ex);
             }
             //try
             //{
@@ -1111,20 +1111,20 @@ namespace iModSCCredenciamento.ViewModels
         private void CarregarDadosComunsEmMemoria()
         {
             //Estados
-            var e1 = _auxiliaresService.ListarEstadosFederacao();
-            ObterListaEstadosFederacao = Mapper.Map<List<ClasseEstados.Estado>> (e1);
+            var e1 = _auxiliaresService.EstadoService.Listar();
+            ObterListaEstadosFederacao = Mapper.Map<List<ClasseEstados.Estado>>(e1);
             //Municipios
-            var list = _auxiliaresService.ListarMunicipios();
-            ObterListaListaMunicipios = Mapper.Map<List<ClasseMunicipios.Municipio>> (list);
+            var list = _auxiliaresService.MunicipioService.Listar();
+            ObterListaListaMunicipios = Mapper.Map<List<ClasseMunicipios.Municipio>>(list);
             //Status
-            var e3 = _auxiliaresService.ListarStatus();
-            ObterListaStatus = Mapper.Map<List<ClasseStatus.Status>> (e3);
+            var e3 = _auxiliaresService.TipoStatusService.Listar();
+            ObterListaStatus = Mapper.Map<List<ClasseStatus.Status>>(e3);
             //Tipos Cobrança
-            var e4 = _auxiliaresService.ListarTiposCobranca();
-            ObterListaTiposCobranca = Mapper.Map<List<ClasseTiposCobrancas.TipoCobranca>> (e4);
+            var e4 = _auxiliaresService.TipoCobrancaService.Listar();
+            ObterListaTiposCobranca = Mapper.Map<List<ClasseTiposCobrancas.TipoCobranca>>(e4);
             //Tipo de Acesso
-            var e5 = _auxiliaresService.ListarTiposAcessos();
-            ObterListaTipoAcessos = Mapper.Map<List<ClasseTiposAcessos.TipoAcesso>> (e5);
+            var e5 = _auxiliaresService.TiposAcessoService.Listar();
+            ObterListaTipoAcessos = Mapper.Map<List<ClasseTiposAcessos.TipoAcesso>>(e5);
         }
 
         #endregion
@@ -1167,8 +1167,8 @@ namespace iModSCCredenciamento.ViewModels
 
         public void OnAtualizaCommand(object idEmpresa)
         {
-            EmpresaSelecionadaId = Convert.ToInt32 (idEmpresa);
-            ObterContratos (EmpresaSelecionadaId, "", "");
+            EmpresaSelecionadaId = Convert.ToInt32(idEmpresa);
+            ObterContratos(EmpresaSelecionadaId, "", "");
             //CarregaColecaoContratos (EmpresaSelecionadaID);
             //var CarregaColecaoContratos_thr = new Thread (() => CarregaColecaoContratos (Convert.ToInt32 (empresaID)));
             //CarregaColecaoContratos_thr.Start();
@@ -1189,7 +1189,7 @@ namespace iModSCCredenciamento.ViewModels
                 arquivoPdf.ShowDialog();
 
                 nomecompletodoarquivo = arquivoPdf.SafeFileName;
-                arquivoStr = Conversores.PDFtoString (arquivoPdf.FileName);
+                arquivoStr = Conversores.PDFtoString(arquivoPdf.FileName);
                 _contratoTemp.NomeArquivo = nomecompletodoarquivo;
                 _contratoTemp.Arquivo = arquivoStr;
 
@@ -1200,7 +1200,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
+                Utils.TraceException(ex);
             }
         }
 
@@ -1211,11 +1211,11 @@ namespace iModSCCredenciamento.ViewModels
                 var arquivoStr = ContratoSelecionado.Arquivo;
                 var nomeArquivo = ContratoSelecionado.NomeArquivo;
                 var arrBytes = Convert.FromBase64String(arquivoStr);
-                WpfHelp.SalvarArquivoDialog(nomeArquivo, arrBytes); 
+                WpfHelp.SalvarArquivoDialog(nomeArquivo, arrBytes);
             }
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
+                Utils.TraceException(ex);
             }
         }
 
@@ -1224,13 +1224,13 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 //BuscaBadges();
-                _contratoTemp = ContratoSelecionado.CriaCopia (ContratoSelecionado);
+                _contratoTemp = ContratoSelecionado.CriaCopia(ContratoSelecionado);
                 _selectedIndexTemp = SelectedIndex;
                 HabilitaEdicao = true;
             }
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
+                Utils.TraceException(ex);
             }
         }
 
@@ -1240,19 +1240,19 @@ namespace iModSCCredenciamento.ViewModels
             {
                 foreach (var x in Contratos)
                 {
-                    _contratosTemp.Add (x);
+                    _contratosTemp.Add(x);
                 }
 
                 _selectedIndexTemp = SelectedIndex;
                 Contratos.Clear();
-                _contratoTemp = new ClasseEmpresasContratos.EmpresaContrato {EmpresaID = EmpresaSelecionadaId};
-                Contratos.Add (_contratoTemp);
+                _contratoTemp = new ClasseEmpresasContratos.EmpresaContrato { EmpresaID = EmpresaSelecionadaId };
+                Contratos.Add(_contratoTemp);
                 SelectedIndex = 0;
                 HabilitaEdicao = true;
             }
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
+                Utils.TraceException(ex);
             }
         }
 
@@ -1266,7 +1266,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
+                Utils.TraceException(ex);
             }
         }
 
@@ -1274,15 +1274,15 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                var entity = Mapper.Map<EmpresaContrato> (ContratoSelecionado);
-                _empresaContratosService.Alterar (entity);
+                var entity = Mapper.Map<EmpresaContrato>(ContratoSelecionado);
+                _empresaContratosService.Alterar(entity);
 
                 _contratosTemp.Clear();
                 _contratoTemp = null;
             }
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
+                Utils.TraceException(ex);
             }
 
             //try
@@ -1324,15 +1324,15 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                var entity = Mapper.Map<EmpresaContrato> (ContratoSelecionado);
-                _empresaContratosService.Criar (entity);
+                var entity = Mapper.Map<EmpresaContrato>(ContratoSelecionado);
+                _empresaContratosService.Criar(entity);
 
                 _contratosTemp.Clear();
                 _contratoTemp = null;
             }
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
+                Utils.TraceException(ex);
             }
             //try
             //{
@@ -1382,14 +1382,14 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 Contratos = null;
-                Contratos = new ObservableCollection<ClasseEmpresasContratos.EmpresaContrato> (_contratosTemp);
+                Contratos = new ObservableCollection<ClasseEmpresasContratos.EmpresaContrato>(_contratosTemp);
                 SelectedIndex = _selectedIndexTemp;
                 _contratosTemp.Clear();
                 HabilitaEdicao = false;
             }
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
+                Utils.TraceException(ex);
             }
         }
 
@@ -1407,21 +1407,21 @@ namespace iModSCCredenciamento.ViewModels
                 //    }
                 //}
 
-                if (Global.PopupBox ("Tem certeza que deseja excluir?", 2))
+                if (Global.PopupBox("Tem certeza que deseja excluir?", 2))
                 {
-                    if (Global.PopupBox ("Você perderá todos os dados, inclusive histórico. Confirma exclusão?", 2))
+                    if (Global.PopupBox("Você perderá todos os dados, inclusive histórico. Confirma exclusão?", 2))
                     {
                         //ExcluiContratoBD (ContratoSelecionado.EmpresaContratoID);
-                        var entity = Mapper.Map<EmpresaContrato> (ContratoSelecionado);
-                        _empresaContratosService.Remover (entity);
+                        var entity = Mapper.Map<EmpresaContrato>(ContratoSelecionado);
+                        _empresaContratosService.Remover(entity);
 
-                        Contratos.Remove (ContratoSelecionado);
+                        Contratos.Remove(ContratoSelecionado);
                     }
                 }
             }
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
+                Utils.TraceException(ex);
             }
         }
 
@@ -1435,16 +1435,16 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
+                Utils.TraceException(ex);
             }
         }
 
         public void On_EfetuarProcura(object sender, EventArgs e)
         {
-            object vetor = _popupPesquisaContrato.Criterio.Split ((char) 20);
-            var descricao = ((string[]) vetor)[0];
-            var numContrato = ((string[]) vetor)[1];
-            ObterContratos (0, descricao, numContrato);
+            object vetor = _popupPesquisaContrato.Criterio.Split((char)20);
+            var descricao = ((string[])vetor)[0];
+            var numContrato = ((string[])vetor)[1];
+            ObterContratos(0, descricao, numContrato);
             SelectedIndex = 0;
         }
 
@@ -1494,13 +1494,13 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                var convert = Mapper.Map<List<ClasseEstados.Estado>> (ObterListaEstadosFederacao);
+                var convert = Mapper.Map<List<ClasseEstados.Estado>>(ObterListaEstadosFederacao);
                 Estados = new ObservableCollection<ClasseEstados.Estado>();
-                convert.ForEach (n => { Estados.Add (n); });
+                convert.ForEach(n => { Estados.Add(n); });
             }
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
+                Utils.TraceException(ex);
             }
         }
 
@@ -1508,13 +1508,13 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                var list = ObterListaListaMunicipios.Where (n => n.UF == uf).ToList();
+                var list = ObterListaListaMunicipios.Where(n => n.UF == uf).ToList();
                 Municipios = new ObservableCollection<ClasseMunicipios.Municipio>();
-                list.ForEach (n => Municipios.Add (n));
+                list.ForEach(n => Municipios.Add(n));
             }
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
+                Utils.TraceException(ex);
             }
         }
 
@@ -1523,11 +1523,11 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 Status = new ObservableCollection<ClasseStatus.Status>();
-                ObterListaStatus.ForEach (n => { Status.Add (n); });
+                ObterListaStatus.ForEach(n => { Status.Add(n); });
             }
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
+                Utils.TraceException(ex);
             }
         }
 
@@ -1536,11 +1536,11 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 TiposAcessos = new ObservableCollection<ClasseTiposAcessos.TipoAcesso>();
-                ObterListaTipoAcessos.ForEach (n => { TiposAcessos.Add (n); });
+                ObterListaTipoAcessos.ForEach(n => { TiposAcessos.Add(n); });
             }
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
+                Utils.TraceException(ex);
             }
         }
 
@@ -1549,11 +1549,11 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 TiposCobrancas = new ObservableCollection<ClasseTiposCobrancas.TipoCobranca>();
-                ObterListaTiposCobranca.ForEach (n => { TiposCobrancas.Add (n); });
+                ObterListaTiposCobranca.ForEach(n => { TiposCobrancas.Add(n); });
             }
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
+                Utils.TraceException(ex);
             }
         }
 
