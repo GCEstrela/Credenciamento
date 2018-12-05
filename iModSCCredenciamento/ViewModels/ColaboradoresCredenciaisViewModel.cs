@@ -27,7 +27,7 @@ namespace iModSCCredenciamento.ViewModels
 {
     public class ColaboradoresCredenciaisViewModel : ViewModelBase
     {
-        
+
         private readonly IColaboradorService _repositorio = new ColaboradorService();
         //private readonly ColaboradoresCredenciaisView _repositorio = new ColaboradoresCredenciaisViewService();
         Global g = new Global();
@@ -290,7 +290,7 @@ namespace iModSCCredenciamento.ViewModels
         }
 
         public ObservableCollection<ClasseCredenciaisMotivos.CredencialMotivo> CredenciaisMotivos
-        { 
+        {
             get
             {
                 return this._CredenciaisMotivos;
@@ -530,7 +530,7 @@ namespace iModSCCredenciamento.ViewModels
 
                 _ColaboradorCredencialTemp = ColaboradorCredencialSelecionado.CriaCopia(ColaboradorCredencialSelecionado);
                 _selectedIndexTemp = SelectedIndex;
-                
+
                 //OnAtualizaCommand(ColaboradorSelecionadaID);
                 //CarregaColecaoContratos(_ColaboradorCredencialTemp.EmpresaID);
 
@@ -545,7 +545,7 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                
+
                 ColaboradoresCredenciais[_selectedIndexTemp] = _ColaboradorCredencialTemp;
                 SelectedIndex = _selectedIndexTemp;
                 HabilitaEdicao = false;
@@ -600,7 +600,7 @@ namespace iModSCCredenciamento.ViewModels
                 SelectedIndex = 0;
                 ColaboradorCredencialSelecionado.Emissao = DateTime.Now;
                 HabilitaEdicao = true;
-               // SelectedIndex = 0;
+                // SelectedIndex = 0;
             }
             catch (Exception ex)
             {
@@ -673,130 +673,7 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
 
-                //string _xml = RequisitaColaboradoresCredenciaisNovos(ColaboradorCredencialSelecionado.ColaboradorEmpresaID);
 
-                //XmlSerializer deserializer = new XmlSerializer(typeof(ClasseColaboradoresCredenciais));
-
-                //XmlDocument xmldocument = new XmlDocument();
-                //xmldocument.LoadXml(_xml);
-
-                //TextReader reader = new StringReader(_xml);
-                //ClasseColaboradoresCredenciais classeColaboradoresCredenciais = new ClasseColaboradoresCredenciais();
-                //classeColaboradoresCredenciais = (ClasseColaboradoresCredenciais)deserializer.Deserialize(reader);
-                //ColaboradorCredencialSelecionado.Cargo = classeColaboradoresCredenciais.ColaboradoresCredenciais[0].Cargo;
-                //ColaboradorCredencialSelecionado.CNPJ = classeColaboradoresCredenciais.ColaboradoresCredenciais[0].CNPJ;
-                //ColaboradorCredencialSelecionado.ColaboradorApelido = classeColaboradoresCredenciais.ColaboradoresCredenciais[0].ColaboradorApelido;
-                //ColaboradorCredencialSelecionado.ColaboradorEmpresaID = classeColaboradoresCredenciais.ColaboradoresCredenciais[0].ColaboradorEmpresaID;
-                //ColaboradorCredencialSelecionado.ColaboradorFoto = classeColaboradoresCredenciais.ColaboradoresCredenciais[0].ColaboradorFoto;
-                //ColaboradorCredencialSelecionado.ColaboradorID = classeColaboradoresCredenciais.ColaboradoresCredenciais[0].ColaboradorID;
-                //ColaboradorCredencialSelecionado.ColaboradorNome = classeColaboradoresCredenciais.ColaboradoresCredenciais[0].ColaboradorNome;
-                //ColaboradorCredencialSelecionado.ContratoDescricao = classeColaboradoresCredenciais.ColaboradoresCredenciais[0].ContratoDescricao;
-                //ColaboradorCredencialSelecionado.CPF = classeColaboradoresCredenciais.ColaboradoresCredenciais[0].CPF;
-                //ColaboradorCredencialSelecionado.EmpresaApelido = classeColaboradoresCredenciais.ColaboradoresCredenciais[0].EmpresaApelido;
-                //ColaboradorCredencialSelecionado.EmpresaID = classeColaboradoresCredenciais.ColaboradoresCredenciais[0].EmpresaID;
-                //ColaboradorCredencialSelecionado.EmpresaLogo = classeColaboradoresCredenciais.ColaboradoresCredenciais[0].EmpresaLogo;
-                //ColaboradorCredencialSelecionado.EmpresaNome = classeColaboradoresCredenciais.ColaboradoresCredenciais[0].EmpresaNome;
-                //ColaboradorCredencialSelecionado.Motorista = classeColaboradoresCredenciais.ColaboradoresCredenciais[0].Motorista;
-
-                //ColaboradorCredencialSelecionado.FormatoCredencialDescricao = FormatosCredenciais.First(i => i.FormatoCredencialID == ColaboradorCredencialSelecionado.FormatoCredencialID).Descricao;
-                //ColaboradorCredencialSelecionado.FormatIDGUID = FormatosCredenciais.First(i => i.FormatoCredencialID == ColaboradorCredencialSelecionado.FormatoCredencialID).FormatIDGUID.ToString();
-
-                ////ColaboradorCredencialSelecionado.LayoutCrachaGUID = EmpresasLayoutsCrachas.First(i => i.LayoutCrachaID == ColaboradorCredencialSelecionado.LayoutCrachaID).LayoutCrachaGUID;
-
-                //ColaboradorCredencialSelecionado.PrivilegioDescricao1 = ColaboradoresPrivilegios.First(i => i.ColaboradorPrivilegioID == ColaboradorCredencialSelecionado.ColaboradorPrivilegio1ID).Descricao;
-                //ColaboradorCredencialSelecionado.PrivilegioDescricao2 = ColaboradoresPrivilegios.First(i => i.ColaboradorPrivilegioID == ColaboradorCredencialSelecionado.ColaboradorPrivilegio2ID).Descricao;
-
-
-
-                //ColaboradorCredencialSelecionado.Validade = (DateTime?)VerificarMenorData(ColaboradorCredencialSelecionado.ColaboradorID);
-
-                //var _index = SelectedIndex;
-
-                //bool _resposta = SCManager.Vincular(ColaboradorCredencialSelecionado);
-
-
-                //if (!ColaboradorCredencialSelecionado.Ativa)
-                //{
-                //    ColaboradorCredencialSelecionado.Baixa = DateTime.Now;
-                //}
-                //else
-                //{
-                //    ColaboradorCredencialSelecionado.Baixa = null;
-                //}
-
-
-                //HabilitaEdicao = false;
-                //System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(ClasseColaboradoresCredenciais));
-
-                //ObservableCollection<ClasseColaboradoresCredenciais.ColaboradorCredencial> _ColaboradorCredencialPro = new ObservableCollection<ClasseColaboradoresCredenciais.ColaboradorCredencial>();
-                //ClasseColaboradoresCredenciais _ClasseColaboradorerEmpresasPro = new ClasseColaboradoresCredenciais();
-                //_ColaboradorCredencialPro.Add(ColaboradorCredencialSelecionado);
-                //_ClasseColaboradorerEmpresasPro.ColaboradoresCredenciais = _ColaboradorCredencialPro;
-
-
-                //IMOD.Domain.EntitiesCustom.ColaboradoresCredenciaisView ColaboradorEntity = new IMOD.Domain.EntitiesCustom.ColaboradoresCredenciaisView();
-                IMOD.Domain.Entities.ColaboradorCredencial ColaboradorEntity = new IMOD.Domain.Entities.ColaboradorCredencial();
-                g.TranportarDados(ColaboradorCredencialSelecionado, 1, ColaboradorEntity);
-
-                if (ColaboradorCredencialSelecionado.ColaboradorCredencialID == 0)
-                {
-                    _repositorio.Credencial.Criar(ColaboradorEntity);
-                }
-                else
-                {
-                    _repositorio.Credencial.Alterar(ColaboradorEntity);
-                }
-                
-                var id = ColaboradorCredencialSelecionado.ColaboradorID;
-                //string xmlString;
-
-                //using (StringWriterWithEncoding sw = new StringWriterWithEncoding(System.Text.Encoding.UTF8))
-                //{
-
-                //    using (XmlTextWriter xw = new XmlTextWriter(sw))
-                //    {
-                //        xw.Formatting = Formatting.Indented;
-                //        serializer.Serialize(xw, _ClasseColaboradorerEmpresasPro);
-                //        xmlString = sw.ToString();
-                //    }
-
-                //}
-                ////int _colaboradorCredencialID = InsereColaboradorCredencialBD(xmlString);
-
-                //int _colaboradorCredencialID = InsereColaboradorCredencialBD(xmlString);
-
-                CarregaColecaoColaboradoresCredenciais(id);
-
-                //SelectedIndex = _index;
-
-                ColaboradoresEmpresas = new ObservableCollection<ClasseColaboradoresEmpresas.ColaboradorEmpresa>(_ColaboradoresEmpresasTemp);
-
-
-                //if (ColaboradorCredencialSelecionado.CredencialStatusID == 1)
-                //{
-
-                //    ColaboradorCredencialSelecionado.Validade = (DateTime?)VerificarMenorData(ColaboradorCredencialSelecionado.ColaboradorID);
-                //    bool _resposta = SCManager.Vincular(ColaboradorCredencialSelecionado);
-
-                //}
-
-                //Thread CarregaColecaoColaboradoresCredenciais_thr = new Thread(() =>
-                //{
-                //    //CarregaColecaoColaboradoresCredenciais(ColaboradorSelecionadaID);
-
-                //    //System.Windows.Application.Current.Dispatcher.Invoke((Action)(() => { SelectedIndex = 0; }));
-
-
-                //    if (ColaboradorCredencialSelecionado.CredencialStatusID == 1)
-                //    {
-
-
-                //        bool _resposta = SCManager.Vincular(ColaboradorCredencialSelecionado);
-
-                //    }
-
-                //});
-                //CarregaColecaoColaboradoresCredenciais_thr.Start();
 
 
 
@@ -826,36 +703,6 @@ namespace iModSCCredenciamento.ViewModels
 
         public void OnExcluirCommand()
         {
-            try
-            {
-
-                if (Global.PopupBox("Tem certeza que deseja excluir?", 2))
-                {
-                    if (Global.PopupBox("Você perderá todos os dados, inclusive histórico. Confirma exclusão?", 2))
-                    {
-                        if (SCManager.ExcluirCredencial(ColaboradorCredencialSelecionado.CredencialGuid))
-                        {
-                            //ExcluiColaboradorCredencialBD(ColaboradorCredencialSelecionado.ColaboradorCredencialID);
-                            IMOD.Domain.Entities.ColaboradorCredencial ColaboradorEntity = new IMOD.Domain.Entities.ColaboradorCredencial();
-                            g.TranportarDados(ColaboradorCredencialSelecionado.ColaboradorID, 1, ColaboradorEntity);
-
-                            var repositorio = new IMOD.Infra.Repositorios.ColaboradorCredencialRepositorio();
-                            repositorio.Remover(ColaboradorEntity);
-
-                            ColaboradoresCredenciais.Remove(ColaboradorCredencialSelecionado);
-                        }
-                        else
-                        {
-                            Global.PopupBox("Não foi possível excluir esta credencial. Verifique no Gerenciador de Credenciais do Controle de Acesso.",4);
-                        }
-
-                    }
-                }
-
-            }
-            catch (Exception ex)
-            {
-            }
 
         }
 
@@ -912,7 +759,7 @@ namespace iModSCCredenciamento.ViewModels
 
 
 
-        private void CarregaColecaoColaboradoresCredenciais(int colaboradorID, string _empresaNome = "",  int _tipoCredencialID = 0,int _credencialStatusID = 0)
+        private void CarregaColecaoColaboradoresCredenciais(int colaboradorID, string _empresaNome = "", int _tipoCredencialID = 0, int _credencialStatusID = 0)
         {
             try
             {
@@ -941,9 +788,9 @@ namespace iModSCCredenciamento.ViewModels
 
                 //var list2 = Mapper.Map<List<ClasseColaboradoresCredenciais.ColaboradorCredencial>>(list1.OrderBy(n => n.ColaboradorId));
                 //var list2 = Mapper.Map<List<ClasseColaboradores.Colaborador>>(list1.OrderBy(n => n.ColaboradorId));
-                
-                var list = _repositorio.ListarColaboradores(0,"",0,0,colaboradorID).ToList();
-                var list2 = Mapper.Map<List<ClasseColaboradoresCredenciais.ColaboradorCredencial>>(list.OrderBy(n=>n.ColaboradorId));
+
+                var list = _repositorio.ListarColaboradores(0, "", 0, 0, colaboradorID).ToList();
+                var list2 = Mapper.Map<List<ClasseColaboradoresCredenciais.ColaboradorCredencial>>(list.OrderBy(n => n.ColaboradorId));
                 var observer = new ObservableCollection<ClasseColaboradoresCredenciais.ColaboradorCredencial>();
 
                 list2.ForEach(n =>
@@ -968,7 +815,7 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 ColaboradoresPrivilegios = new ObservableCollection<ClasseClaboradoresPrivilegios.ColaboradorPrivilegio>();
-                foreach(ClasseAreasAcessos.AreaAcesso _areaaAcesso in AreasAcessos)
+                foreach (ClasseAreasAcessos.AreaAcesso _areaaAcesso in AreasAcessos)
                 {
                     ColaboradoresPrivilegios.Add(new ClasseClaboradoresPrivilegios.ColaboradorPrivilegio() { ColaboradorPrivilegioID = _areaaAcesso.AreaAcessoID, Descricao = _areaaAcesso.Identificacao });
 
@@ -1308,7 +1155,7 @@ namespace iModSCCredenciamento.ViewModels
 
 
                 string _strSql;
-                
+
                 SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
 
                 _strSql = "SELECT dbo.ColaboradoresCredenciais.ColaboradorCredencialID, dbo.ColaboradoresCredenciais.Colete, dbo.ColaboradoresCredenciais.Emissao," +
@@ -1451,7 +1298,7 @@ namespace iModSCCredenciamento.ViewModels
 
                 return null;
             }
-            
+
         }
 
         private string RequisitaColaboradoresCredenciais(int _colaboradorID, string _empresaNome = "", int _tipoCredencialID = 0, int _credencialStatusID = 0)//Possibilidade de criar a pesquisa por Matriculatambem
@@ -1474,7 +1321,7 @@ namespace iModSCCredenciamento.ViewModels
                 SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
 
                 _empresaNome = _empresaNome == "" ? "" : " AND dbo.Empresas.Nome like '%" + _empresaNome + "%' ";
-                _credencialStatusSTR = _credencialStatusID == 0 ? "" : " AND CredencialStatusID = " + _credencialStatusID ;
+                _credencialStatusSTR = _credencialStatusID == 0 ? "" : " AND CredencialStatusID = " + _credencialStatusID;
                 _tipoCredencialIDSTR = _tipoCredencialID == 0 ? "" : " AND TipoCredencialID = " + _tipoCredencialID;
 
                 //_validade = _validade == "" ? "" : " AND _validade like '%" + _validade + "%'";
@@ -1703,11 +1550,11 @@ namespace iModSCCredenciamento.ViewModels
                 }
                 _sqlreader.Close();
 
-                    _Con.Close();
-                    string _xml = _xmlDocument.InnerXml;
-                    _xmlDocument = null;
-                    return _xml;
-                }
+                _Con.Close();
+                string _xml = _xmlDocument.InnerXml;
+                _xmlDocument = null;
+                return _xml;
+            }
 
             catch (Exception ex)
             {
@@ -2414,7 +2261,7 @@ namespace iModSCCredenciamento.ViewModels
                     " dbo.LayoutsCrachas.Nome, dbo.EmpresasLayoutsCrachas.LayoutCrachaID" +
                     " FROM dbo.LayoutsCrachas INNER JOIN dbo.EmpresasLayoutsCrachas ON dbo.LayoutsCrachas.LayoutCrachaID = dbo.EmpresasLayoutsCrachas.LayoutCrachaID INNER JOIN" +
                     " dbo.ColaboradoresEmpresas ON dbo.EmpresasLayoutsCrachas.EmpresaID = dbo.ColaboradoresEmpresas.EmpresaID " +
-                    "WHERE dbo.ColaboradoresEmpresas.ColaboradorEmpresaID = " + _colaboradorEmpresaID ;
+                    "WHERE dbo.ColaboradoresEmpresas.ColaboradorEmpresaID = " + _colaboradorEmpresaID;
 
                 SqlCommand _sqlcmd = new SqlCommand(_SQL, _Con);
                 SqlDataReader _sqldatareader = _sqlcmd.ExecuteReader();
@@ -2655,7 +2502,7 @@ namespace iModSCCredenciamento.ViewModels
                     " dbo.ColaboradoresEmpresas.Ativo, dbo.EmpresasContratos.Descricao, dbo.ColaboradoresEmpresas.EmpresaContratoID FROM dbo.ColaboradoresEmpresas INNER JOIN dbo.Empresas" +
                     " ON dbo.ColaboradoresEmpresas.EmpresaID = dbo.Empresas.EmpresaID INNER JOIN dbo.EmpresasContratos ON" +
                     " dbo.ColaboradoresEmpresas.EmpresaContratoID = dbo.EmpresasContratos.EmpresaContratoID WHERE(dbo.ColaboradoresEmpresas.Ativo = 1)" +
-                    " AND(dbo.ColaboradoresEmpresas.ColaboradorID =" + ColaboradorSelecionadaID +")AND (dbo.ColaboradoresEmpresas.EmpresaID =" + _empresaID + ")";
+                    " AND(dbo.ColaboradoresEmpresas.ColaboradorID =" + ColaboradorSelecionadaID + ")AND (dbo.ColaboradoresEmpresas.EmpresaID =" + _empresaID + ")";
 
 
                 SqlCommand _sqlcmd = new SqlCommand(_strSql, _Con);
@@ -2682,7 +2529,7 @@ namespace iModSCCredenciamento.ViewModels
                     _Descricao.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Descricao"].ToString())));
                     _EmpresaContrato.AppendChild(_Descricao);
 
-                  
+
                 }
 
                 _sqlreader.Close();
@@ -2751,7 +2598,7 @@ namespace iModSCCredenciamento.ViewModels
 
                 return null;
             }
-            
+
         }
 
         private string RequisitaTecnologiasCredenciais()
@@ -2834,7 +2681,7 @@ namespace iModSCCredenciamento.ViewModels
                 {
                     _strSql = "select * from CredenciaisMotivos where Tipo= " + tipo;
                 }
-                
+
 
                 SqlCommand _sqlcmd = new SqlCommand(_strSql, _Con);
                 SqlDataReader _sqlreader = _sqlcmd.ExecuteReader(CommandBehavior.Default);
@@ -3472,10 +3319,10 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                if (ColaboradorCredencialSelecionado.Validade == null || !ColaboradorCredencialSelecionado.Ativa  ||
-                    ColaboradorCredencialSelecionado.LayoutCrachaID == 0 )
+                if (ColaboradorCredencialSelecionado.Validade == null || !ColaboradorCredencialSelecionado.Ativa ||
+                    ColaboradorCredencialSelecionado.LayoutCrachaID == 0)
                 {
-                    Global.PopupBox("Não é possível imprimir esta credencial!" , 4);
+                    Global.PopupBox("Não é possível imprimir esta credencial!", 4);
                     return;
                 }
 
@@ -3518,7 +3365,7 @@ namespace iModSCCredenciamento.ViewModels
                 //    System.Windows.Application.Current.Dispatcher.Invoke(() =>
                 //    {
 
-                        PopupCredencial _popupCredencial = new PopupCredencial(reportDocument);
+                PopupCredencial _popupCredencial = new PopupCredencial(reportDocument);
                 _popupCredencial.ShowDialog();
 
                 bool _result = _popupCredencial.Result;
@@ -3540,12 +3387,12 @@ namespace iModSCCredenciamento.ViewModels
                 if (_result)
                 {
 
-                        InsereImpressaoDB(ColaboradorCredencialSelecionado.ColaboradorCredencialID);
-                       // Global.PopupBox("Impressão Efetuada com Sucesso!", 1);
-                        ColaboradorCredencialSelecionado.Impressa = true;
-                        int _selectindex = SelectedIndex;
-                        CarregaColecaoColaboradoresCredenciais(ColaboradorCredencialSelecionado.ColaboradorID); //revisar a necessidade do carregamento
-                        SelectedIndex = _selectindex;
+                    InsereImpressaoDB(ColaboradorCredencialSelecionado.ColaboradorCredencialID);
+                    // Global.PopupBox("Impressão Efetuada com Sucesso!", 1);
+                    ColaboradorCredencialSelecionado.Impressa = true;
+                    int _selectindex = SelectedIndex;
+                    CarregaColecaoColaboradoresCredenciais(ColaboradorCredencialSelecionado.ColaboradorID); //revisar a necessidade do carregamento
+                    SelectedIndex = _selectindex;
                 }
                 System.IO.File.Delete(_ArquivoRPT);
                 //}
@@ -3563,7 +3410,7 @@ namespace iModSCCredenciamento.ViewModels
 
                 SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
 
-   
+
                 // Dim _dataValidade As DateTime = Date.Now
                 DateTime _menorData = DateTime.Now;
                 // Dim _menorDataContrato As String = ""
@@ -3573,7 +3420,7 @@ namespace iModSCCredenciamento.ViewModels
                        FROM dbo.Colaboradores INNER JOIN
                          dbo.ColaboradoresCursos ON dbo.Colaboradores.ColaboradorID = dbo.ColaboradoresCursos.ColaboradorID
                        WHERE (dbo.Colaboradores.ColaboradorID = " + _colaborador + ") And (dbo.ColaboradoresCursos.Controlado = 1)";
-                int idx=0;
+                int idx = 0;
                 // ---------------------------------------------------
                 SqlCommand sqlcmd = new SqlCommand(sqlSelectCurso, _Con);
                 SqlDataReader _sqlreader = sqlcmd.ExecuteReader(CommandBehavior.Default);
@@ -3616,7 +3463,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                
+
             }
 
             return DateTime.Now;

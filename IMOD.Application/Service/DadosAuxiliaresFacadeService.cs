@@ -18,7 +18,7 @@ namespace IMOD.Application.Service
 {
     public class DadosAuxiliaresFacadeService : IDadosAuxiliaresFacade
     {
-        
+
 
         #region  Metodos
 
@@ -87,14 +87,7 @@ namespace IMOD.Application.Service
         {
             get { return new TipoAtividadeService(); }
         }
-        /// <summary>
-        /// CRUD Completo TipoCobranca
-        /// </summary>
-        /// <returns></returns>
-        public ICollection<Estados> ListarEstadosFederacao()
-        {
-            return _serviceEstado.Listar();
-        }
+
         /// <summary>
         /// CRUD Completo TipoCobranca
         /// </summary>
@@ -136,10 +129,7 @@ namespace IMOD.Application.Service
             get { return new AreaAcessoService(); }
         }
 
-        public ICollection<TipoAcesso> ListarTiposAcessos()
-        {
-            return _acessoService.Listar();
-        }
+
         /// <summary>
         ///     Listar Tipo de Cobrança
         /// </summary>
