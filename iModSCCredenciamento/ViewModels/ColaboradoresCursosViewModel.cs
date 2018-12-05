@@ -13,30 +13,20 @@ using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Serialization;
 using AutoMapper;
-using IMOD.Application.Service;
-using IMOD.Application.Interfaces;
+using IMOD.Domain.Entities;
 
 namespace iModSCCredenciamento.ViewModels
 {
     public class ColaboradoresCursosViewModel : ViewModelBase
     {
-
-        private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
-        public List<ClasseCursos.Curso> ObterListaListaCursos { get; private set; }
+        Global g = new Global();
         #region Inicializacao
         public ColaboradoresCursosViewModel()
         {
-            CarregarDadosComunsEmMemoria();
-
-            //Thread CarregaColecaoCursos_thr = new Thread(() => CarregaColecaoCursos());
-            //CarregaColecaoCursos_thr.Start();
-
-            CarregaColecaoCursos();
-
-            //Thread CarregaUI_thr = new Thread(() => CarregaUI());
-            //CarregaUI_thr.Start();
+            Thread CarregaColecaoCursos_thr = new Thread(() => CarregaColecaoCursos());
+            CarregaColecaoCursos_thr.Start();
+            //CarregaColecaoCursos();
         }
-
 
         #endregion
 
@@ -201,16 +191,6 @@ namespace iModSCCredenciamento.ViewModels
                 _arquivoPDF.ShowDialog();
 
                 _nomecompletodoarquivo = _arquivoPDF.SafeFileName;
-
-                long tamanho = new System.IO.FileInfo(_arquivoPDF.FileName).Length;
-                if (tamanho > 200)
-                {
-                    System.Windows.MessageBox.Show("Tamanho ( " + tamanho.ToString() + " ) inválido, só é permitido arquivo com o máximo de 200");
-                    return;
-                }
-
-
-
                 _arquivoSTR = Conversores.PDFtoString(_arquivoPDF.FileName);
 
                 _ColaboradorCursoTemp.NomeArquivo = _nomecompletodoarquivo;
@@ -314,22 +294,25 @@ namespace iModSCCredenciamento.ViewModels
             {
                 HabilitaEdicao = false;
 
+                var service = new IMOD.Application.Service.ColaboradorCursosService();
+                var entity = ColaboradorCursoSelecionado;
+                var entityConv = Mapper.Map<ColaboradorCurso>(entity);
 
-                var entity = Mapper.Map<IMOD.Domain.Entities.ColaboradorCurso>(ColaboradorCursoSelecionado);
-                var repositorio = new IMOD.Application.Service.ColaboradorCursosService();
-                repositorio.Alterar(entity);
+                service.Alterar(entityConv);
+
                 var id = ColaboradorCursoSelecionado.ColaboradorID;
 
-                Thread CarregaColecaoColaboradorerCursos_thr = new Thread(() => CarregaColecaoColaboradorerCursos(id));
+                _ColaboradoresCursosTemp = null;
+
+                Thread CarregaColecaoColaboradorerCursos_thr = new Thread(() => CarregaColecaoColaboradorerCursos(id, null, null));
                 CarregaColecaoColaboradorerCursos_thr.Start();
-
-                _ColaboradorCursoTemp = null;
-
 
             }
             catch (Exception ex)
             {
-                //Global.Log("Erro void CarregaColecaoEmpresas ex: " + ex.Message);
+                Global.Log("Erro na void OnSalvarEdicaoCommand ex: " + ex);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
         }
 
@@ -339,23 +322,24 @@ namespace iModSCCredenciamento.ViewModels
             {
                 HabilitaEdicao = false;
 
+                var service = new IMOD.Application.Service.ColaboradorCursosService();
+                var entity = ColaboradorCursoSelecionado;
+                var entityConv = Mapper.Map<ColaboradorCurso>(entity);
 
-                var entity = Mapper.Map<IMOD.Domain.Entities.ColaboradorCurso>(ColaboradorCursoSelecionado);
-                var repositorio = new IMOD.Application.Service.ColaboradorCursosService();
-                repositorio.Criar(entity);
+                service.Criar(entityConv);
                 var id = ColaboradorCursoSelecionado.ColaboradorID;
 
-                Thread CarregaColecaoColaboradorerCursos_thr = new Thread(() => CarregaColecaoColaboradorerCursos(id));
-                CarregaColecaoColaboradorerCursos_thr.Start();
+                Thread CarregaColecaoColaboradoresCursos_thr = new Thread(() => CarregaColecaoColaboradorerCursos(id, null, null));
+                CarregaColecaoColaboradoresCursos_thr.Start();
 
                 _ColaboradorCursoTemp = null;
-
-
 
             }
             catch (Exception ex)
             {
-                //Global.Log("Erro void CarregaColecaoEmpresas ex: " + ex.Message);
+                Global.Log("Erro na void OnSalvarAdicaoCommand ex: " + ex);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
         }
 
@@ -402,15 +386,15 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-
                 if (Global.PopupBox("Tem certeza que deseja excluir?", 2))
                 {
                     if (Global.PopupBox("Você perderá todos os dados, inclusive histórico. Confirma exclusão?", 2))
                     {
+                        var service = new IMOD.Application.Service.ColaboradorCursosService();
+                        var emp = service.BuscarPelaChave(ColaboradorCursoSelecionado.ColaboradorCursoID);
+                        service.Remover(emp);
 
-                        var entity = Mapper.Map<IMOD.Domain.Entities.ColaboradorCurso>(ColaboradorCursoSelecionado);
-                        var repositorio = new IMOD.Application.Service.ColaboradorCursosService();
-                        repositorio.Remover(entity);
+                        CarregaColecaoColaboradorerCursos(ColaboradorCursoSelecionado.ColaboradorID, null, null);
 
                         ColaboradoresCursos.Remove(ColaboradorCursoSelecionado);
                     }
@@ -419,6 +403,9 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
+                Global.Log("Erro na void OnExcluirCommand ex: " + ex);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
 
         }
@@ -447,13 +434,6 @@ namespace iModSCCredenciamento.ViewModels
         #endregion
 
         #region Carregamento das Colecoes
-        private void CarregarDadosComunsEmMemoria()
-        {
-            //Cursos
-            var e1 = _auxiliaresService.CursoService.Listar();
-            ObterListaListaCursos = Mapper.Map<List<ClasseCursos.Curso>>(e1);
-
-        }
         public void CarregaColecaoColaboradorerCursos(int _colaboradorID, string _descricao = "", string _curso = "")
         {
             try
@@ -477,24 +457,332 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                IMOD.CrossCutting.Utils.TraceException(ex);
+                //Global.Log("Erro void CarregaColecaoEmpresas ex: " + ex.Message);
             }
         }
         public void CarregaColecaoCursos()
         {
             try
             {
+                string _xml = RequisitaCursos();
 
+                XmlSerializer deserializer = new XmlSerializer(typeof(ClasseCursos));
 
-                var convert = Mapper.Map<List<ClasseCursos.Curso>>(ObterListaListaCursos);
+                XmlDocument xmldocument = new XmlDocument();
+                xmldocument.LoadXml(_xml);
+
+                TextReader reader = new StringReader(_xml);
+                ClasseCursos classeCursos = new ClasseCursos();
+                classeCursos = (ClasseCursos)deserializer.Deserialize(reader);
                 Cursos = new ObservableCollection<ClasseCursos.Curso>();
-                convert.ForEach(n => { Cursos.Add(n); });
+                Cursos = classeCursos.Cursos;
+                SelectedIndex = -1;
+
+                /////////////////////////////////////////////
+                //var service = new IMOD.Application.Service.ColaboradorCursosService();
+                //if (!string.IsNullOrWhiteSpace(_descricao)) _descricao = $"%{_descricao}%";
+                //if (!string.IsNullOrWhiteSpace(_curso)) _curso = $"%{_curso}%";
+                //var list1 = service.Listar(_colaboradorID, _descricao, _curso);
+
+                //var list2 = Mapper.Map<List<ClasseColaboradoresCursos.ColaboradorCurso>>(list1);
+
+                //var observer = new ObservableCollection<ClasseColaboradoresCursos.ColaboradorCurso>();
+                //list2.ForEach(n =>
+                //{
+                //    observer.Add(n);
+                //});
+
+                //this.ColaboradoresCursos = observer;
+                //SelectedIndex = 0;
+                /////////////////////////////////////////////
+            }
+            catch (Exception ex)
+            {
+                //Global.Log("Erro void CarregaColecaoEmpresas ex: " + ex.Message);
+            }
+        }
+        #endregion
+
+        #region Data Access
+        private string RequisitaColaboradoresCursos(string _colaboradorID, string _descricao = "", string _curso = "")
+        {
+            try
+            {
+                XmlDocument _xmlDocument = new XmlDocument();
+                XmlNode _xmlNode = _xmlDocument.CreateXmlDeclaration("1.0", "UTF-8", null);
+
+                XmlNode _ClasseColaboradoresCursos = _xmlDocument.CreateElement("ClasseColaboradoresCursos");
+                _xmlDocument.AppendChild(_ClasseColaboradoresCursos);
+
+                XmlNode _ColaboradoresCursos = _xmlDocument.CreateElement("ColaboradoresCursos");
+                _ClasseColaboradoresCursos.AppendChild(_ColaboradoresCursos);
+
+                string _strSql;
+
+
+                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
+
+                _curso = "%" + _curso + "%";
+                _descricao = "%" + _descricao + "%";
+                _strSql = "SELECT dbo.ColaboradoresCursos.ColaboradorCursoID, dbo.ColaboradoresCursos.ColaboradorID, dbo.ColaboradoresCursos.CursoID," +
+                    " dbo.ColaboradoresCursos.NomeArquivo, dbo.ColaboradoresCursos.Validade, dbo.ColaboradoresCursos.Controlado, dbo.Cursos.Descricao " +
+                    "FROM dbo.ColaboradoresCursos INNER JOIN dbo.Cursos ON dbo.ColaboradoresCursos.CursoID = dbo.Cursos.CursoID where ColaboradorID = " +
+                    _colaboradorID + " and NomeArquivo Like '" + _descricao + "' order by ColaboradorCursoID desc"; // and NumeroApolice Like '" + _numeroapolice + "'
+                //_strSql = "select * from ColaboradoresCursos where ColaboradorID = " + _colaboradorID + "";
+
+                SqlCommand _sqlcmd = new SqlCommand(_strSql, _Con);
+                SqlDataReader _sqlreader = _sqlcmd.ExecuteReader(CommandBehavior.Default);
+                while (_sqlreader.Read())
+                {
+
+                    XmlNode _ColaboradorCurso = _xmlDocument.CreateElement("ColaboradorCurso");
+                    _ColaboradoresCursos.AppendChild(_ColaboradorCurso);
+
+                    XmlNode _ColaboradorCursoID = _xmlDocument.CreateElement("ColaboradorCursoID");
+                    _ColaboradorCursoID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["ColaboradorCursoID"].ToString())));
+                    _ColaboradorCurso.AppendChild(_ColaboradorCursoID);
+
+                    XmlNode _ColaboradorID = _xmlDocument.CreateElement("ColaboradorID");
+                    _ColaboradorID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["ColaboradorID"].ToString())));
+                    _ColaboradorCurso.AppendChild(_ColaboradorID);
+
+                    XmlNode _CursoID = _xmlDocument.CreateElement("CursoID");
+                    _CursoID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["CursoID"].ToString())));
+                    _ColaboradorCurso.AppendChild(_CursoID);
+
+                    XmlNode _CursoNome = _xmlDocument.CreateElement("CursoNome");
+                    _CursoNome.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Descricao"].ToString()).Trim()));
+                    _ColaboradorCurso.AppendChild(_CursoNome);
+
+                    XmlNode _NomeArquivo = _xmlDocument.CreateElement("NomeArquivo");
+                    _NomeArquivo.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["NomeArquivo"].ToString()).Trim()));
+                    _ColaboradorCurso.AppendChild(_NomeArquivo);
+
+                    //XmlNode _Validade = _xmlDocument.CreateElement("Validade");
+                    //_Validade.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Validade"].ToString()).Trim()));
+                    //_ColaboradorCurso.AppendChild(_Validade);
+
+                    var dt1 = (_sqlreader["Validade"].ToString());
+                    if (!string.IsNullOrWhiteSpace(dt1))
+                    {
+                        var dt2 = Convert.ToDateTime(dt1);
+                        XmlNode _Validade = _xmlDocument.CreateElement("Validade");
+                        //format valid for XML W3C yyyy-MM-ddTHH:mm:ss
+                        _Validade.AppendChild(_xmlDocument.CreateTextNode(dt2.ToString("yyyy-MM-ddTHH:mm:ss")));
+                        _ColaboradorCurso.AppendChild(_Validade);
+                    }
+
+                    XmlNode _Arquivo = _xmlDocument.CreateElement("Arquivo");
+                    //_Arquivo.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Arquivo"].ToString())));
+                    _ColaboradorCurso.AppendChild(_Arquivo);
+
+                    XmlNode _Controlado = _xmlDocument.CreateElement("Controlado");
+                    _Controlado.AppendChild(_xmlDocument.CreateTextNode((Convert.ToInt32((bool)_sqlreader["Controlado"])).ToString()));
+                    _ColaboradorCurso.AppendChild(_Controlado);
+
+                }
+
+                _sqlreader.Close();
+
+                _Con.Close();
+                string _xml = _xmlDocument.InnerXml;
+                _xmlDocument = null;
+                return _xml;
+            }
+            catch (Exception ex)
+            {
+
+                return null;
+            }
+        }
+        private string RequisitaCursos()
+        {
+            try
+            {
+                XmlDocument _xmlDocument = new XmlDocument();
+                XmlNode _xmlNode = _xmlDocument.CreateXmlDeclaration("1.0", "UTF-8", null);
+
+                XmlNode _ClassesCursos = _xmlDocument.CreateElement("ClasseCursos");
+                _xmlDocument.AppendChild(_ClassesCursos);
+
+                XmlNode _sCursos = _xmlDocument.CreateElement("Cursos");
+                _ClassesCursos.AppendChild(_sCursos);
+
+                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
+                SqlCommand _sqlcmd = new SqlCommand("select * from Cursos ", _Con);
+                SqlDataReader _sqldatareader = _sqlcmd.ExecuteReader();
+                while (_sqldatareader.Read())
+                {
+                    XmlNode _Curso = _xmlDocument.CreateElement("Curso");
+                    _sCursos.AppendChild(_Curso);
+
+                    XmlNode _CursoID = _xmlDocument.CreateElement("CursoID");
+                    _CursoID.AppendChild(_xmlDocument.CreateTextNode((_sqldatareader["CursoID"].ToString())));
+                    _Curso.AppendChild(_CursoID);
+
+                    XmlNode _Descricao = _xmlDocument.CreateElement("Descricao");
+                    _Descricao.AppendChild(_xmlDocument.CreateTextNode((_sqldatareader["Descricao"].ToString())));
+                    _Curso.AppendChild(_Descricao);
+
+                }
+                _sqldatareader.Close();
+                _Con.Close();
+                return _xmlDocument.InnerXml;
+            }
+            catch (Exception ex)
+            {
+                Global.Log("Erro na void RequisitaCursos ex: " + ex);
+
+                return null;
+
+            }
+        }
+        private void InsereColaboradorCursoBD(string xmlString)
+        {
+            try
+            {
+
+
+                System.Xml.XmlDocument _xmlDoc = new System.Xml.XmlDocument();
+                _xmlDoc.LoadXml(xmlString);
+
+                ClasseColaboradoresCursos.ColaboradorCurso _ColaboradorCurso = new ClasseColaboradoresCursos.ColaboradorCurso();
+
+                int i = 0;
+
+                _ColaboradorCurso.ColaboradorCursoID = _xmlDoc.GetElementsByTagName("ColaboradorCursoID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("ColaboradorCursoID")[i].InnerText);
+                _ColaboradorCurso.ColaboradorID = _xmlDoc.GetElementsByTagName("ColaboradorID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("ColaboradorID")[i].InnerText);
+                _ColaboradorCurso.CursoID = _xmlDoc.GetElementsByTagName("CursoID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("CursoID")[i].InnerText);
+                _ColaboradorCurso.NomeArquivo = _xmlDoc.GetElementsByTagName("NomeArquivo")[i] == null ? "" : _xmlDoc.GetElementsByTagName("NomeArquivo")[i].InnerText;
+
+                _ColaboradorCurso.Validade = _xmlDoc.GetElementsByTagName("Validade")[i].InnerText == "" ? null : (DateTime?)Convert.ToDateTime(_xmlDoc.GetElementsByTagName("Validade")[i].InnerText);
+
+                bool _controlado;
+                Boolean.TryParse(_xmlDoc.GetElementsByTagName("Controlado")[i].InnerText, out _controlado);
+
+                _ColaboradorCurso.Controlado = _xmlDoc.GetElementsByTagName("Controlado")[i] == null ? false : _controlado;
+
+                _ColaboradorCurso.NomeArquivo = _ColaboradorCursoTemp.NomeArquivo == null ? "" : _ColaboradorCursoTemp.NomeArquivo;
+                _ColaboradorCurso.Arquivo = _ColaboradorCursoTemp.Arquivo == null ? "" : _ColaboradorCursoTemp.Arquivo;
+
+
+                //_Con.Close();
+                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
+
+                SqlCommand _sqlCmd;
+                if (_ColaboradorCurso.ColaboradorCursoID != 0)
+                {
+                    _sqlCmd = new SqlCommand("Update ColaboradoresCursos Set " +
+                        "ColaboradorID=@V0,CursoID= @V1,NomeArquivo=@V2 ,Validade=@V3,Arquivo= @V4,Controlado=@V5 " +
+                        " Where ColaboradorCursoID = @V6", _Con);
+
+                    _sqlCmd.Parameters.Add("@V0", SqlDbType.Int).Value = _ColaboradorCurso.ColaboradorID;
+                    _sqlCmd.Parameters.Add("@V1", SqlDbType.Int).Value = _ColaboradorCurso.CursoID;
+                    _sqlCmd.Parameters.Add("@V2", SqlDbType.VarChar).Value = _ColaboradorCurso.NomeArquivo;
+                    if (_ColaboradorCurso.Validade == null)
+                    {
+                        _sqlCmd.Parameters.Add("@V3", SqlDbType.DateTime).Value = DBNull.Value;
+                    }
+                    else
+                    {
+                        _sqlCmd.Parameters.Add("@V3", SqlDbType.DateTime).Value = _ColaboradorCurso.Validade;
+                    }
+
+                    _sqlCmd.Parameters.Add("@V4", SqlDbType.VarChar).Value = _ColaboradorCurso.Arquivo;
+                    _sqlCmd.Parameters.Add("@V5", SqlDbType.Bit).Value = _ColaboradorCurso.Controlado;
+                    _sqlCmd.Parameters.Add("@V6", SqlDbType.Int).Value = _ColaboradorCurso.ColaboradorCursoID;
+
+                }
+                else
+                {
+                    _sqlCmd = new SqlCommand("Insert into ColaboradoresCursos (ColaboradorID  ,CursoID  ,NomeArquivo ,Validade,Arquivo,Controlado)" +
+                        " values (@V0,@v1,@v2,@v3,@v4,@v5)", _Con);
+
+                    _sqlCmd.Parameters.Add("@V0", SqlDbType.Int).Value = _ColaboradorCurso.ColaboradorID;
+                    _sqlCmd.Parameters.Add("@V1", SqlDbType.Int).Value = _ColaboradorCurso.CursoID;
+                    _sqlCmd.Parameters.Add("@V2", SqlDbType.VarChar).Value = _ColaboradorCurso.NomeArquivo;
+                    if (_ColaboradorCurso.Validade == null)
+                    {
+                        _sqlCmd.Parameters.Add("@V3", SqlDbType.DateTime).Value = DBNull.Value;
+                    }
+                    else
+                    {
+                        _sqlCmd.Parameters.Add("@V3", SqlDbType.DateTime).Value = _ColaboradorCurso.Validade;
+                    }
+                    _sqlCmd.Parameters.Add("@V4", SqlDbType.VarChar).Value = _ColaboradorCurso.Arquivo;
+                    _sqlCmd.Parameters.Add("@V5", SqlDbType.Bit).Value = _ColaboradorCurso.Controlado;
+
+                }
+
+                _sqlCmd.ExecuteNonQuery();
+                _Con.Close();
+
+                if (_controlado)
+                {
+                    _Con = new SqlConnection(Global._connectionString); _Con.Open();
+
+                    _sqlCmd = new SqlCommand("SELECT dbo.Colaboradores.ColaboradorID, dbo.Colaboradores.Nome, dbo.ColaboradoresEmpresas.Ativo, dbo.ColaboradoresEmpresas.Validade " +
+                        "FROM dbo.Colaboradores INNER JOIN dbo.ColaboradoresEmpresas ON dbo.Colaboradores.ColaboradorID = dbo.ColaboradoresEmpresas.ColaboradorID " +
+                        "WHERE(dbo.Colaboradores.ColaboradorID = " + _ColaboradorCurso.ColaboradorID + " ) AND(dbo.ColaboradoresEmpresas.Ativo = 1)", _Con);
+
+                    SqlDataReader _sqlreader = _sqlCmd.ExecuteReader(CommandBehavior.Default);
+                    while (_sqlreader.Read())
+                    {
+                        string _dataTeste = _sqlreader["Validade"].ToString().Trim();
+
+                        if ((_dataTeste != null || _dataTeste == "") && _ColaboradorCurso.Validade != null)
+                        {
+                            if (Convert.ToDateTime(_sqlreader["Validade"].ToString()) > Convert.ToDateTime(_ColaboradorCurso.Validade))
+                            {
+                                Global.PopupBox("O colaborador [" + _sqlreader["Nome"].ToString() + "] está inativo devido a data de validade!", 4);
+                                SqlConnection _Con2 = new SqlConnection(Global._connectionString); _Con2.Open();
+                                SqlCommand _sqlCmd2 = new SqlCommand("Update ColaboradoresEmpresas Set Validade = '" + _ColaboradorCurso.Validade + "'" +
+                                " Where ColaboradorID = " + _ColaboradorCurso.ColaboradorID + " AND Ativo = 1", _Con2);
+                                _sqlCmd2.ExecuteNonQuery();
+                                _Con2.Close();
+                            }
+                        }
+
+
+
+                    }
+                    _sqlreader.Close();
+
+                    _Con.Close();
+                }
+
+
 
 
             }
             catch (Exception ex)
             {
-                IMOD.CrossCutting.Utils.TraceException(ex);
+                Global.Log("Erro na void InsereColaboradorCursoBD ex: " + ex);
+
+
+            }
+        }
+
+        private void ExcluiColaboradorCursoBD(int _ColaboradorCursoID) // alterar para xml
+        {
+            try
+            {
+
+
+                //_Con.Close();
+                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
+
+                SqlCommand _sqlCmd;
+                _sqlCmd = new SqlCommand("Delete from ColaboradoresCursos where ColaboradorCursoID=" + _ColaboradorCursoID, _Con);
+                _sqlCmd.ExecuteNonQuery();
+
+                _Con.Close();
+            }
+            catch (Exception ex)
+            {
+                Global.Log("Erro na void ExcluiColaboradorCursoBD ex: " + ex);
+
+
             }
         }
         #endregion

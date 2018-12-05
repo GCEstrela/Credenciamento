@@ -18,8 +18,7 @@ namespace IMOD.Application.Service
 {
     public class DadosAuxiliaresFacadeService : IDadosAuxiliaresFacade
     {
-
-        private readonly ICursoService _cursosService = new CursoService();
+        
 
         #region  Metodos
 
@@ -92,6 +91,14 @@ namespace IMOD.Application.Service
         /// CRUD Completo TipoCobranca
         /// </summary>
         /// <returns></returns>
+        public ICollection<Estados> ListarEstadosFederacao()
+        {
+            return _serviceEstado.Listar();
+        }
+        /// <summary>
+        /// CRUD Completo TipoCobranca
+        /// </summary>
+        /// <returns></returns>
         public ITipoCobrancaService TipoCobrancaService
         {
             get { return new TipoCobrancaService(); }
@@ -131,19 +138,10 @@ namespace IMOD.Application.Service
 
         public ICollection<TipoAcesso> ListarTiposAcessos()
         {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        ///     Listar Tipos de Cursos
-        /// </summary>
-        /// <returns></returns>
-        public ICollection<Curso> ListarCursos()
-        {
-            return _cursosService.Listar();
+            return _acessoService.Listar();
         }
         /// <summary>
-        /// CRUD Completo EmpresaLayoutCracha
+        ///     Listar Tipo de Cobrança
         /// </summary>
         /// <returns></returns>
         public IEmpresaLayoutCrachaService EmpresaLayoutCrachaService
