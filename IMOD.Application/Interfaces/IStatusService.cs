@@ -10,5 +10,6 @@ namespace IMOD.Application.Interfaces
 {
     public interface IStatusService : IStatusRepositorio
     {
+
     }
 }

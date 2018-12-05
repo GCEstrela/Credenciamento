@@ -5,248 +5,64 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:iModSCCredenciamento.Views"
              xmlns:vm="clr-namespace:iModSCCredenciamento.ViewModels"
-             xmlns:wpf="clr-namespace:CSharpControls.Wpf;assembly=CSharpControls.Wpf"
-             mc:Ignorable="d"  Loaded="UserControl_Loaded" >
-
-    <!--Begin Styles-->
-    <UserControl.Resources>
-        <Style TargetType="{x:Type Label}">
-            <Setter Property="Foreground" Value="#FFD0D0D0"/>
-            <Setter Property="VerticalAlignment" Value="Center"></Setter>
-            <Setter Property="HorizontalAlignment" Value="Left"></Setter>
-            <Setter Property="HorizontalAlignment" Value="Left"></Setter>
-        </Style>
-
-        <Style TargetType="{x:Type DatePicker}">
-            <Setter Property="Width" Value="100" />
-            <Setter Property="Height" Value="28" />
-        </Style>
-
-        <Style TargetType="{x:Type DatePickerTextBox}">
-            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" />
-            <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />
-            <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst"/>
-            <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="DatePickerTextBox">
-                        <Grid >
-                            <Grid.Resources>
-                                <SolidColorBrush x:Key="WatermarkBrush" Color="#FFAAAAAA"/>
-                            </Grid.Resources>
-                            <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroup Name="CommonStates">
-                                    <VisualStateGroup.Transitions>
-                                        <VisualTransition GeneratedDuration="0" />
-                                        <VisualTransition To="MouseOver" GeneratedDuration="0:0:0.1" />
-                                    </VisualStateGroup.Transitions>
-                                    <VisualState Name="Normal" />
-                                    <VisualState Name="MouseOver">
-                                        <Storyboard>
-                                            <ColorAnimation Storyboard.TargetName="ContentElement" Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)" To="#FF99C1E2" Duration="0"/>
-                                            <ColorAnimation Storyboard.TargetName="watermark_decorator" Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)" To="#FF99C1E2" Duration="0"/>
-                                        </Storyboard>
-                                    </VisualState>
-                                </VisualStateGroup>
-                                <VisualStateGroup Name="WatermarkStates">
-                                    <VisualStateGroup.Transitions>
-                                        <VisualTransition GeneratedDuration="0" />
-                                    </VisualStateGroup.Transitions>
-                                    <VisualState Name="Unwatermarked" />
-                                    <VisualState Name="Watermarked">
-                                        <Storyboard>
-                                            <DoubleAnimation Storyboard.TargetName="ContentElement" Storyboard.TargetProperty="Opacity" To="0" Duration="0" />
-                                            <DoubleAnimation Storyboard.TargetName="PART_Watermark" Storyboard.TargetProperty="Opacity" To="1" Duration="0" />
-                                        </Storyboard>
-                                    </VisualState>
-                                </VisualStateGroup>
-                                <VisualStateGroup Name="FocusStates">
-                                    <VisualStateGroup.Transitions>
-                                        <VisualTransition GeneratedDuration="0" />
-                                    </VisualStateGroup.Transitions>
-                                    <VisualState Name="Unfocused" />
-                                    <VisualState Name="Focused">
-                                        <Storyboard>
-                                            <DoubleAnimation Storyboard.TargetName="FocusVisual" Storyboard.TargetProperty="Opacity" To="1" Duration="0" />
-                                        </Storyboard>
-                                    </VisualState>
-                                </VisualStateGroup>
-                            </VisualStateManager.VisualStateGroups>
-
-
-                            <Border x:Name="Border" VerticalAlignment="Center"
-                            Background="Transparent" 
-                            BorderBrush="Transparent" 
-                            BorderThickness="0"
-                            Padding="{TemplateBinding Padding}"
-                            CornerRadius="1" 
-                            Opacity="1">
-                                <Grid x:Name="WatermarkContent" 
-                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                              VerticalAlignment="Center">
-                                    <Border x:Name="ContentElement" BorderThickness="1">
-                                        <Border.BorderBrush>
-                                            <SolidColorBrush Color="Transparent"/>
-                                        </Border.BorderBrush>
-                                    </Border>
-                                    <Border x:Name="watermark_decorator" BorderThickness="1" VerticalAlignment="Stretch">
-                                        <Border.BorderBrush>
-                                            <SolidColorBrush Color="Transparent"/>
-                                        </Border.BorderBrush>
-                                        <ContentControl x:Name="PART_Watermark"
-                                                    Opacity="0"
-                                                    Focusable="False"
-                                                    IsHitTestVisible="False"
-                                                    Padding="2" VerticalContentAlignment="Stretch">
-                                            <ContentControl.Template>
-                                                <ControlTemplate>
-                                                    <TextBlock  VerticalAlignment="Center" Text="//"/>
-                                                </ControlTemplate>
-                                            </ContentControl.Template>
-                                        </ContentControl>
-                                    </Border>
-                                    <ScrollViewer x:Name="PART_ContentHost" 
-                                          Margin="0"
-                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                          VerticalContentAlignment= "Center" />
-                                    <Border x:Name="FocusVisual" VerticalAlignment="Center" BorderBrush="#FF45D6FA" CornerRadius="1" Opacity="0" IsHitTestVisible="False"/>
-                                </Grid>
-                            </Border>
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <Style x:Key="MenuStyle" TargetType="{x:Type Button}">
-            <Setter Property="Background" Value="{x:Null}" />
-            <Setter Property="BorderBrush" Value="{x:Null}" />
-            <Setter Property="Width" Value="16" />
-            <Setter Property="Height" Value="16" />
-            <Setter Property="Cursor" Value="Hand" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <Border CornerRadius="0" Background="{TemplateBinding Background}">
-                            <Grid>
-                                <ContentPresenter x:Name="MyContentPresenter" Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" />
-                            </Grid>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-    </UserControl.Resources>
-    <!--End Styles-->
-
-    <!-- Main Grid -->
-    <Grid Grid.Row="0" Margin="0,0,0,-10">
+             mc:Ignorable="d"  Loaded="UserControl_Loaded" 
+            >
+    <Grid >
         <StackPanel >
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition x:Name="Linha0_sp1" />
+                    <RowDefinition  />
                     <RowDefinition Height="180"  />
                 </Grid.RowDefinitions>
 
-                <StackPanel x:Name="Linha0_sp" Grid.Row="0" >
-                    <!-- Grid 0 -->
-                    <Grid Grid.Row="0" VerticalAlignment="Top">
+                <StackPanel x:Name="Linha0_sp" Grid.Row="0"   >
+                    <!--IsEnabled="{Binding Path=HabilitaEdicao, Mode=TwoWay}"-->
+                    <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="809*"/>
                             <ColumnDefinition Width="169*" />
                         </Grid.ColumnDefinitions>
-
-                        <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}"  Foreground="#FFD0D0D0"  x:Name="InformacoesSeguro_gb"  Header=" Anexos " Grid.Column="0" Margin="0,10" HorizontalAlignment="Left" VerticalAlignment="Stretch"  Width="809">
+                        <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}"    x:Name="InformacoesSeguro_gb"  Header="Informações do Seguro" Grid.Column="0" Margin="10,10,0,10" HorizontalAlignment="Left" VerticalAlignment="Stretch"  Width="789">
                             <StackPanel x:Name="InformacoesSeguro_sp" Margin="0,10,10,10">
-                                <Grid HorizontalAlignment="Stretch" Margin="1,1,1,16"   ScrollViewer.VerticalScrollBarVisibility="Visible">
-                                    <Grid.RowDefinitions >
-                                        <RowDefinition Height="42"/>
-                                        <RowDefinition Height="42"/>
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,10" >
+                                    <Label Content="ID:" Height="28" Width="150" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                                    <TextBox  x:Name="ID_tb"  IsEnabled="False" CharacterCasing="Upper" Text="{Binding SelectedItem.ColaboradorAnexoID, ElementName=ListaColaboradoresAnexos_lv, UpdateSourceTrigger=PropertyChanged}" Height="24"  Width="43"/>
+                                    <Label Content="Descrição:" Height="28" Width="67" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                                    <TextBox  x:Name="Descricao_tb"  CharacterCasing="Upper" Text="{Binding SelectedItem.Descricao, ElementName=ListaColaboradoresAnexos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="298"/>
+                                </StackPanel>
 
-                                    </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="125"/>
-                                        <ColumnDefinition Width="50"/>
-                                        <ColumnDefinition Width="70"/>
-                                        <ColumnDefinition Width="130"/>
-                                        <ColumnDefinition Width="110"/>
-                                        <ColumnDefinition Width="90"/>
-                                        <ColumnDefinition/>
-                                    </Grid.ColumnDefinitions>
-
-
-                                    <!--#region Grid 0 -->
-
-                                    <Label Content="ID:" Height="28" Margin="0,7" HorizontalAlignment="Right" HorizontalContentAlignment="Right"  Grid.Row="0" Grid.Column="0" />
-                                    <TextBox  x:Name="ID_tb"  IsEnabled="False" CharacterCasing="Upper" Text="{Binding SelectedItem.ColaboradorAnexoID, ElementName=ListaColaboradoresAnexos_lv, UpdateSourceTrigger=PropertyChanged}" Height="24"  Width="42" Grid.Row="0" Grid.Column="1" />
-                                    <Label Content="Descrição:" Height="28" Width="67" Margin="0,0,5,0" HorizontalContentAlignment="Right" Grid.Row="0" Grid.Column="2" />
-                                    <TextBox  x:Name="Descricao_tb"  CharacterCasing="Upper" Text="{Binding SelectedItem.Descricao, ElementName=ListaColaboradoresAnexos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24" Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="3" HorizontalAlignment="Left" Margin="0,9" Width="330" />
-
-                                    <!--#endregion Grid 0 -->
-
-                                    <!--#region Grid 1 -->
-
-                                    <Label Content="Arquivo:" Height="28" HorizontalContentAlignment="Right" HorizontalAlignment="Right" Grid.Row="1" Grid.Column="0"/>
-                                    <TextBox x:Name="Arquivo_tb" CharacterCasing="Upper" Text="{Binding SelectedItem.NomeArquivo, ElementName=ListaColaboradoresAnexos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="5" Margin="0,9,59,9" />
-                                    <Button x:Name="BuscarContratoArquivo_bt" Height="24" Margin="36,9,30,9" VerticalAlignment="Center" Width="24" Click="BuscarApoliceArquivo_bt_Click" Grid.Row="1" Grid.Column="5" >
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0" >
+                                    <Label Content="Arquivo:" Height="28" Width="150" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                                    <TextBox  x:Name="Arquivo_tb"   CharacterCasing="Upper" Text="{Binding SelectedItem.NomeArquivo, ElementName=ListaColaboradoresAnexos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="415"/>
+                                    <Button x:Name="BuscarContratoArquivo_bt" Height="24" Margin="10,0,0,0" VerticalAlignment="Center" Width="24" Click="BuscarApoliceArquivo_bt_Click" >
                                         <StackPanel>
                                             <Image Source="/iModSCCredenciamento;component/Resources/Pasta.ico"/>
                                         </StackPanel>
                                     </Button>
-                                    <Button x:Name="AbrirContratoArquivo_bt" Height="24" Margin="66,9,0,9" VerticalAlignment="Center" Width="24" Click="AbrirApoliceArquivo_bt_Click" Grid.Row="1" Grid.Column="5" >
+                                    <Button x:Name="AbrirContratoArquivo_bt" Height="24" Margin="10,0,0,0" VerticalAlignment="Center" Width="24" Click="AbrirApoliceArquivo_bt_Click" >
                                         <StackPanel>
                                             <Image Source="/iModSCCredenciamento;component/Resources/Olho.png"/>
                                         </StackPanel>
                                     </Button>
-
-                                    <!--#endregion Grid 0 -->
-
-
-                                </Grid>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="20,5,0,0" >
+                                </StackPanel>
                             </StackPanel>
                         </GroupBox>
 
                     </Grid>
 
                 </StackPanel>
-                <Grid Grid.Row="1" Margin="0,0,0,0" >
+                <Grid Grid.Row="1" >
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="1000*" />
                         <ColumnDefinition Width="168"  />
                     </Grid.ColumnDefinitions>
                     <StackPanel Margin="0,0,0,0" Grid.Column="0">
                         <ListView x:Name="ListaColaboradoresAnexos_lv" Margin="0,0,0,0" Height="180"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
                                       ItemsSource="{Binding ColaboradoresAnexos, Mode=TwoWay}" SelectedIndex="{Binding Path=SelectedIndex, Mode=TwoWay}" 
-                                      SelectedItem="{Binding Path = ColaboradorAnexoSelecionado, Mode=TwoWay}" ScrollViewer.CanContentScroll="True" >
-                            <!--ScrollViewer.CanContentScroll="True" MaxHeight="150"  Visibility="Visible" SelectionMode="Single"  Background="#FF4E4E4E" Foreground="White" HorizontalAlignment="Left" SelectionChanged="ListaEmpresas_lv_SelectionChanged">-->
-                            <ListView.View>
-                                <GridView FrameworkElement.FlowDirection="RightToLeft">
-
-                                    <GridViewColumn Width="0" Header=""  >
-                                        <GridViewColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <!--<CheckBox  IsChecked="{Binding Ativa}" IsHitTestVisible="False" />-->
-                                                <wpf:ToggleSwitch HeaderHorizontalAlignment="Stretch" Width="100" HorizontalAlignment="Right" SwitchContentPlacement="Right" IsHitTestVisible="False"
-                                                                  Visibility="Hidden" IsChecked="{Binding Controlado}"  Foreground="#FFD0D0BE" UncheckedBackground="Gray" UncheckedBorderBrush="Gray" UncheckedForeground="#FFAEAEAE" UncheckedText="" CheckedText="" SwitchWidth="44" />
-                                            </DataTemplate>
-                                        </GridViewColumn.CellTemplate>
-                                    </GridViewColumn>
-                                    <GridViewColumn Width="80" Header="Cód. Anexo"  DisplayMemberBinding="{Binding ColaboradorAnexoID}"/>
-                                    <GridViewColumn Width="330" Header="Descrição do Aqruivo"  DisplayMemberBinding="{Binding Descricao}"/>
-                                    <GridViewColumn Width="390" Header="Nome do Arquivo"  DisplayMemberBinding="{Binding NomeArquivo}"/>
-
-                                    <!--<GridViewColumn Width="150"  Header="Valor da Cobertura" DisplayMemberBinding="{Binding ValorCobertura}"/>
-                                    <GridViewColumn Width="200"  Header="Apólice" DisplayMemberBinding="{Binding NomeArquivo}"/>-->
-                                </GridView>
-                            </ListView.View>
-                        </ListView>
-                        <!--<ListView x:Name="ListaColaboradoresAnexos_lv" Margin="0,0,0,0" Height="180"  HorizontalAlignment="Right" VerticalAlignment="Stretch" 
-                                      ItemsSource="{Binding ColaboradoresAnexos, Mode=TwoWay}" SelectedIndex="{Binding Path=SelectedIndex, Mode=TwoWay}" 
-                                      SelectedItem="{Binding Path = ColaboradorAnexoSelecionado, Mode=TwoWay}" SelectionChanged="ListaColaboradoresAnexos_lv_SelectionChanged" Width="621" >
-                            -->
-                        <!--ScrollViewer.CanContentScroll="True" MaxHeight="150"  Visibility="Visible" SelectionMode="Single"  Background="#FF4E4E4E" Foreground="White" HorizontalAlignment="Left" SelectionChanged="ListaEmpresas_lv_SelectionChanged"-->
-                        <!--
+                                      SelectedItem="{Binding Path = ColaboradorAnexoSelecionado, Mode=TwoWay}" SelectionChanged="ListaColaboradoresAnexos_lv_SelectionChanged" >
+                            <!--ScrollViewer.CanContentScroll="True" MaxHeight="150"  Visibility="Visible" SelectionMode="Single"  Background="#FF4E4E4E" Foreground="White" HorizontalAlignment="Left" SelectionChanged="ListaEmpresas_lv_SelectionChanged"-->
                             <ListView.View>
                                 <GridView FrameworkElement.FlowDirection="RightToLeft">
                                     <GridViewColumn Width="50" Header="ID"  DisplayMemberBinding="{Binding ColaboradorAnexoID}"/>
@@ -254,11 +70,11 @@
                                     <GridViewColumn Width="200" Header="Arquivo"  DisplayMemberBinding="{Binding NomeArquivo}"/>
                                 </GridView>
                             </ListView.View>
-                        </ListView>-->
+                        </ListView>
 
                     </StackPanel>
                     <Canvas x:Name="Botoes_ca"  Grid.Column="1"  HorizontalAlignment="Right" Width="158"  >
-                        <StackPanel x:Name="Botoes_Principais_sp" Width="158" >
+                        <StackPanel x:Name="Botoes_Principais_sp" >
                             <Button x:Name="Pesquisar_bt" Content="Pesquisar"  Height="40" Width="148"  Click="Pesquisar_bt_Click" Margin="0,0,0,7" />
                             <Button x:Name="Editar_bt" Content="Editar"  Height="40" Width="148"  Click="Editar_bt_Click" Margin="0,0,0,7"  />
                             <Button x:Name="Adicionar_bt" Content="Adicionar"  Height="40" Width="148" Click="Adicionar_bt_Click" Margin="0,0,0,7"  />

@@ -23,6 +23,7 @@ namespace IMOD.Application.Service
         private readonly IEstadoService _serviceEstado = new EstadoService();
         private readonly IMunicipioService _serviceMunicipio = new MunicipioService();
         private readonly IStatusService _statusService = new StatusService();
+        private readonly ICursoService _cursosService = new CursoService();
 
         #region  Metodos
 
@@ -130,6 +131,14 @@ namespace IMOD.Application.Service
         public IAreaAcessoService AreaAcessoService
         {
             get { return new AreaAcessoService(); }
+        }
+        /// <summary>
+        ///     Listar Tipos de Cursos
+        /// </summary>
+        /// <returns></returns>
+        public ICollection<Curso> ListarCursos()
+        {
+            return _cursosService.Listar();
         }
         /// <summary>
         /// CRUD Completo EmpresaLayoutCracha

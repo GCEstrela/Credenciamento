@@ -18,11 +18,20 @@ using System.Windows.Media.Imaging;
 using System.Xml;
 using System.Xml.Serialization;
 using CrystalDecisions.CrystalReports.Engine;
+using IMOD.Application.Service;
+using IMOD.Application.Interfaces;
+using IMOD.Domain.EntitiesCustom;
+using AutoMapper;
 
 namespace iModSCCredenciamento.ViewModels
 {
     public class ColaboradoresCredenciaisViewModel : ViewModelBase
     {
+
+        private readonly IColaboradorService _repositorio = new ColaboradorService(); 
+        //private readonly IColaboradorCredencialService _repositorio = new ColaboradorCredencialService();
+        Global g = new Global();
+
         #region Inicializacao
         public ColaboradoresCredenciaisViewModel()
         {
@@ -664,88 +673,101 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
 
-                string _xml = RequisitaColaboradoresCredenciaisNovos(ColaboradorCredencialSelecionado.ColaboradorEmpresaID);
+                //string _xml = RequisitaColaboradoresCredenciaisNovos(ColaboradorCredencialSelecionado.ColaboradorEmpresaID);
 
-                XmlSerializer deserializer = new XmlSerializer(typeof(ClasseColaboradoresCredenciais));
+                //XmlSerializer deserializer = new XmlSerializer(typeof(ClasseColaboradoresCredenciais));
 
-                XmlDocument xmldocument = new XmlDocument();
-                xmldocument.LoadXml(_xml);
+                //XmlDocument xmldocument = new XmlDocument();
+                //xmldocument.LoadXml(_xml);
 
-                TextReader reader = new StringReader(_xml);
-                ClasseColaboradoresCredenciais classeColaboradoresCredenciais = new ClasseColaboradoresCredenciais();
-                classeColaboradoresCredenciais = (ClasseColaboradoresCredenciais)deserializer.Deserialize(reader);
-                ColaboradorCredencialSelecionado.Cargo = classeColaboradoresCredenciais.ColaboradoresCredenciais[0].Cargo;
-                ColaboradorCredencialSelecionado.CNPJ = classeColaboradoresCredenciais.ColaboradoresCredenciais[0].CNPJ;
-                ColaboradorCredencialSelecionado.ColaboradorApelido = classeColaboradoresCredenciais.ColaboradoresCredenciais[0].ColaboradorApelido;
-                ColaboradorCredencialSelecionado.ColaboradorEmpresaID = classeColaboradoresCredenciais.ColaboradoresCredenciais[0].ColaboradorEmpresaID;
-                ColaboradorCredencialSelecionado.ColaboradorFoto = classeColaboradoresCredenciais.ColaboradoresCredenciais[0].ColaboradorFoto;
-                ColaboradorCredencialSelecionado.ColaboradorID = classeColaboradoresCredenciais.ColaboradoresCredenciais[0].ColaboradorID;
-                ColaboradorCredencialSelecionado.ColaboradorNome = classeColaboradoresCredenciais.ColaboradoresCredenciais[0].ColaboradorNome;
-                ColaboradorCredencialSelecionado.ContratoDescricao = classeColaboradoresCredenciais.ColaboradoresCredenciais[0].ContratoDescricao;
-                ColaboradorCredencialSelecionado.CPF = classeColaboradoresCredenciais.ColaboradoresCredenciais[0].CPF;
-                ColaboradorCredencialSelecionado.EmpresaApelido = classeColaboradoresCredenciais.ColaboradoresCredenciais[0].EmpresaApelido;
-                ColaboradorCredencialSelecionado.EmpresaID = classeColaboradoresCredenciais.ColaboradoresCredenciais[0].EmpresaID;
-                ColaboradorCredencialSelecionado.EmpresaLogo = classeColaboradoresCredenciais.ColaboradoresCredenciais[0].EmpresaLogo;
-                ColaboradorCredencialSelecionado.EmpresaNome = classeColaboradoresCredenciais.ColaboradoresCredenciais[0].EmpresaNome;
-                ColaboradorCredencialSelecionado.Motorista = classeColaboradoresCredenciais.ColaboradoresCredenciais[0].Motorista;
+                //TextReader reader = new StringReader(_xml);
+                //ClasseColaboradoresCredenciais classeColaboradoresCredenciais = new ClasseColaboradoresCredenciais();
+                //classeColaboradoresCredenciais = (ClasseColaboradoresCredenciais)deserializer.Deserialize(reader);
+                //ColaboradorCredencialSelecionado.Cargo = classeColaboradoresCredenciais.ColaboradoresCredenciais[0].Cargo;
+                //ColaboradorCredencialSelecionado.CNPJ = classeColaboradoresCredenciais.ColaboradoresCredenciais[0].CNPJ;
+                //ColaboradorCredencialSelecionado.ColaboradorApelido = classeColaboradoresCredenciais.ColaboradoresCredenciais[0].ColaboradorApelido;
+                //ColaboradorCredencialSelecionado.ColaboradorEmpresaID = classeColaboradoresCredenciais.ColaboradoresCredenciais[0].ColaboradorEmpresaID;
+                //ColaboradorCredencialSelecionado.ColaboradorFoto = classeColaboradoresCredenciais.ColaboradoresCredenciais[0].ColaboradorFoto;
+                //ColaboradorCredencialSelecionado.ColaboradorID = classeColaboradoresCredenciais.ColaboradoresCredenciais[0].ColaboradorID;
+                //ColaboradorCredencialSelecionado.ColaboradorNome = classeColaboradoresCredenciais.ColaboradoresCredenciais[0].ColaboradorNome;
+                //ColaboradorCredencialSelecionado.ContratoDescricao = classeColaboradoresCredenciais.ColaboradoresCredenciais[0].ContratoDescricao;
+                //ColaboradorCredencialSelecionado.CPF = classeColaboradoresCredenciais.ColaboradoresCredenciais[0].CPF;
+                //ColaboradorCredencialSelecionado.EmpresaApelido = classeColaboradoresCredenciais.ColaboradoresCredenciais[0].EmpresaApelido;
+                //ColaboradorCredencialSelecionado.EmpresaID = classeColaboradoresCredenciais.ColaboradoresCredenciais[0].EmpresaID;
+                //ColaboradorCredencialSelecionado.EmpresaLogo = classeColaboradoresCredenciais.ColaboradoresCredenciais[0].EmpresaLogo;
+                //ColaboradorCredencialSelecionado.EmpresaNome = classeColaboradoresCredenciais.ColaboradoresCredenciais[0].EmpresaNome;
+                //ColaboradorCredencialSelecionado.Motorista = classeColaboradoresCredenciais.ColaboradoresCredenciais[0].Motorista;
 
-                ColaboradorCredencialSelecionado.FormatoCredencialDescricao = FormatosCredenciais.First(i => i.FormatoCredencialID == ColaboradorCredencialSelecionado.FormatoCredencialID).Descricao;
-                ColaboradorCredencialSelecionado.FormatIDGUID = FormatosCredenciais.First(i => i.FormatoCredencialID == ColaboradorCredencialSelecionado.FormatoCredencialID).FormatIDGUID.ToString();
+                //ColaboradorCredencialSelecionado.FormatoCredencialDescricao = FormatosCredenciais.First(i => i.FormatoCredencialID == ColaboradorCredencialSelecionado.FormatoCredencialID).Descricao;
+                //ColaboradorCredencialSelecionado.FormatIDGUID = FormatosCredenciais.First(i => i.FormatoCredencialID == ColaboradorCredencialSelecionado.FormatoCredencialID).FormatIDGUID.ToString();
 
-                //ColaboradorCredencialSelecionado.LayoutCrachaGUID = EmpresasLayoutsCrachas.First(i => i.LayoutCrachaID == ColaboradorCredencialSelecionado.LayoutCrachaID).LayoutCrachaGUID;
+                ////ColaboradorCredencialSelecionado.LayoutCrachaGUID = EmpresasLayoutsCrachas.First(i => i.LayoutCrachaID == ColaboradorCredencialSelecionado.LayoutCrachaID).LayoutCrachaGUID;
 
-                ColaboradorCredencialSelecionado.PrivilegioDescricao1 = ColaboradoresPrivilegios.First(i => i.ColaboradorPrivilegioID == ColaboradorCredencialSelecionado.ColaboradorPrivilegio1ID).Descricao;
-                ColaboradorCredencialSelecionado.PrivilegioDescricao2 = ColaboradoresPrivilegios.First(i => i.ColaboradorPrivilegioID == ColaboradorCredencialSelecionado.ColaboradorPrivilegio2ID).Descricao;
-
-
-
-                ColaboradorCredencialSelecionado.Validade = (DateTime?)VerificarMenorData(ColaboradorCredencialSelecionado.ColaboradorID);
-
-                var _index = SelectedIndex;
-
-                bool _resposta = SCManager.Vincular(ColaboradorCredencialSelecionado);
+                //ColaboradorCredencialSelecionado.PrivilegioDescricao1 = ColaboradoresPrivilegios.First(i => i.ColaboradorPrivilegioID == ColaboradorCredencialSelecionado.ColaboradorPrivilegio1ID).Descricao;
+                //ColaboradorCredencialSelecionado.PrivilegioDescricao2 = ColaboradoresPrivilegios.First(i => i.ColaboradorPrivilegioID == ColaboradorCredencialSelecionado.ColaboradorPrivilegio2ID).Descricao;
 
 
-                if (!ColaboradorCredencialSelecionado.Ativa)
+
+                //ColaboradorCredencialSelecionado.Validade = (DateTime?)VerificarMenorData(ColaboradorCredencialSelecionado.ColaboradorID);
+
+                //var _index = SelectedIndex;
+
+                //bool _resposta = SCManager.Vincular(ColaboradorCredencialSelecionado);
+
+
+                //if (!ColaboradorCredencialSelecionado.Ativa)
+                //{
+                //    ColaboradorCredencialSelecionado.Baixa = DateTime.Now;
+                //}
+                //else
+                //{
+                //    ColaboradorCredencialSelecionado.Baixa = null;
+                //}
+
+
+                //HabilitaEdicao = false;
+                //System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(ClasseColaboradoresCredenciais));
+
+                //ObservableCollection<ClasseColaboradoresCredenciais.ColaboradorCredencial> _ColaboradorCredencialPro = new ObservableCollection<ClasseColaboradoresCredenciais.ColaboradorCredencial>();
+                //ClasseColaboradoresCredenciais _ClasseColaboradorerEmpresasPro = new ClasseColaboradoresCredenciais();
+                //_ColaboradorCredencialPro.Add(ColaboradorCredencialSelecionado);
+                //_ClasseColaboradorerEmpresasPro.ColaboradoresCredenciais = _ColaboradorCredencialPro;
+
+
+                //IMOD.Domain.EntitiesCustom.ColaboradoresCredenciaisView ColaboradorEntity = new IMOD.Domain.EntitiesCustom.ColaboradoresCredenciaisView();
+                IMOD.Domain.Entities.ColaboradorCredencial ColaboradorEntity = new IMOD.Domain.Entities.ColaboradorCredencial();
+                g.TranportarDados(ColaboradorCredencialSelecionado, 1, ColaboradorEntity);
+
+                if (ColaboradorCredencialSelecionado.ColaboradorCredencialID == 0)
                 {
-                    ColaboradorCredencialSelecionado.Baixa = DateTime.Now;
+                    _repositorio.Credencial.Criar(ColaboradorEntity);
                 }
                 else
                 {
-                    ColaboradorCredencialSelecionado.Baixa = null;
+                    _repositorio.Credencial.Alterar(ColaboradorEntity);
                 }
+                
+                var id = ColaboradorCredencialSelecionado.ColaboradorID;
+                //string xmlString;
 
+                //using (StringWriterWithEncoding sw = new StringWriterWithEncoding(System.Text.Encoding.UTF8))
+                //{
 
-                HabilitaEdicao = false;
-                System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(ClasseColaboradoresCredenciais));
+                //    using (XmlTextWriter xw = new XmlTextWriter(sw))
+                //    {
+                //        xw.Formatting = Formatting.Indented;
+                //        serializer.Serialize(xw, _ClasseColaboradorerEmpresasPro);
+                //        xmlString = sw.ToString();
+                //    }
 
-                ObservableCollection<ClasseColaboradoresCredenciais.ColaboradorCredencial> _ColaboradorCredencialPro = new ObservableCollection<ClasseColaboradoresCredenciais.ColaboradorCredencial>();
-                ClasseColaboradoresCredenciais _ClasseColaboradorerEmpresasPro = new ClasseColaboradoresCredenciais();
-                _ColaboradorCredencialPro.Add(ColaboradorCredencialSelecionado);
-                _ClasseColaboradorerEmpresasPro.ColaboradoresCredenciais = _ColaboradorCredencialPro;
+                //}
+                ////int _colaboradorCredencialID = InsereColaboradorCredencialBD(xmlString);
 
-            
-
-                string xmlString;
-
-                using (StringWriterWithEncoding sw = new StringWriterWithEncoding(System.Text.Encoding.UTF8))
-                {
-
-                    using (XmlTextWriter xw = new XmlTextWriter(sw))
-                    {
-                        xw.Formatting = Formatting.Indented;
-                        serializer.Serialize(xw, _ClasseColaboradorerEmpresasPro);
-                        xmlString = sw.ToString();
-                    }
-
-                }
                 //int _colaboradorCredencialID = InsereColaboradorCredencialBD(xmlString);
 
-                int _colaboradorCredencialID = InsereColaboradorCredencialBD(xmlString);
+                CarregaColecaoColaboradoresCredenciais(id);
 
-                CarregaColecaoColaboradoresCredenciais(ColaboradorSelecionadaID);
-
-                SelectedIndex = _index;
+                //SelectedIndex = _index;
 
                 ColaboradoresEmpresas = new ObservableCollection<ClasseColaboradoresEmpresas.ColaboradorEmpresa>(_ColaboradoresEmpresasTemp);
 
@@ -813,7 +835,13 @@ namespace iModSCCredenciamento.ViewModels
                     {
                         if (SCManager.ExcluirCredencial(ColaboradorCredencialSelecionado.CredencialGuid))
                         {
-                            ExcluiColaboradorCredencialBD(ColaboradorCredencialSelecionado.ColaboradorCredencialID);
+                            //ExcluiColaboradorCredencialBD(ColaboradorCredencialSelecionado.ColaboradorCredencialID);
+                            IMOD.Domain.Entities.ColaboradorCredencial ColaboradorEntity = new IMOD.Domain.Entities.ColaboradorCredencial();
+                            g.TranportarDados(ColaboradorCredencialSelecionado.ColaboradorID, 1, ColaboradorEntity);
+
+                            var repositorio = new IMOD.Infra.Repositorios.ColaboradorCredencialRepositorio();
+                            repositorio.Remover(ColaboradorEntity);
+
                             ColaboradoresCredenciais.Remove(ColaboradorCredencialSelecionado);
                         }
                         else
@@ -881,27 +909,57 @@ namespace iModSCCredenciamento.ViewModels
         #endregion
 
         #region Carregamento das Colecoes
-        private void CarregaColecaoColaboradoresCredenciais(int _colaboradorID, string _empresaNome = "",  int _tipoCredencialID = 0,int _credencialStatusID = 0)
+
+
+
+        private void CarregaColecaoColaboradoresCredenciais(int colaboradorID, string _empresaNome = "",  int _tipoCredencialID = 0,int _credencialStatusID = 0)
         {
             try
             {
-                string _xml = RequisitaColaboradoresCredenciais(_colaboradorID, _empresaNome, _tipoCredencialID, _credencialStatusID);
+                //string _xml = RequisitaColaboradoresCredenciais(_colaboradorID, _empresaNome, _tipoCredencialID, _credencialStatusID);
 
-                XmlSerializer deserializer = new XmlSerializer(typeof(ClasseColaboradoresCredenciais));
+                //XmlSerializer deserializer = new XmlSerializer(typeof(ClasseColaboradoresCredenciais));
 
-                XmlDocument xmldocument = new XmlDocument();
-                xmldocument.LoadXml(_xml);
+                //XmlDocument xmldocument = new XmlDocument();
+                //xmldocument.LoadXml(_xml);
 
-                TextReader reader = new StringReader(_xml);
-                ClasseColaboradoresCredenciais classeColaboradoresCredenciais = new ClasseColaboradoresCredenciais();
-                classeColaboradoresCredenciais = (ClasseColaboradoresCredenciais)deserializer.Deserialize(reader);
-                ColaboradoresCredenciais = new ObservableCollection<ClasseColaboradoresCredenciais.ColaboradorCredencial>();
-                ColaboradoresCredenciais = classeColaboradoresCredenciais.ColaboradoresCredenciais;
-                SelectedIndex = -1;
+                //TextReader reader = new StringReader(_xml);
+                //ClasseColaboradoresCredenciais classeColaboradoresCredenciais = new ClasseColaboradoresCredenciais();
+                //classeColaboradoresCredenciais = (ClasseColaboradoresCredenciais)deserializer.Deserialize(reader);
+                //ColaboradoresCredenciais = new ObservableCollection<ClasseColaboradoresCredenciais.ColaboradorCredencial>();
+                //ColaboradoresCredenciais = classeColaboradoresCredenciais.ColaboradoresCredenciais;
+                //SelectedIndex = -1;
+
+                ////_repositorio.Credencial.
+                ///////////////////////////////////////////////////////
+
+                //var service = new ColaboradorService();
+                //if (!string.IsNullOrWhiteSpace(nome)) nome = $"%{nome}%";
+                //if (!string.IsNullOrWhiteSpace(apelido)) apelido = $"%{apelido}%";
+                //if (!string.IsNullOrWhiteSpace(cpf)) cpf = $"%{cpf}%";
+                //var list1 = service.Listar(_colaboradorID); //, nome, apelido, cpf);
+
+                //var list2 = Mapper.Map<List<ClasseColaboradoresCredenciais.ColaboradorCredencial>>(list1.OrderBy(n => n.ColaboradorId));
+                //var list2 = Mapper.Map<List<ClasseColaboradores.Colaborador>>(list1.OrderBy(n => n.ColaboradorId));
+
+                var list = _repositorio.ListarColaboradores(0,"",0,0,colaboradorID).ToList();
+                var list2 = Mapper.Map<List<ClasseColaboradoresCredenciais.ColaboradorCredencial>>(list.OrderBy(n=>n.ColaboradorId));
+                var observer = new ObservableCollection<ClasseColaboradoresCredenciais.ColaboradorCredencial>();
+
+                list2.ForEach(n =>
+                {
+                    observer.Add(n);
+                });
+
+                this.ColaboradoresCredenciais = observer;
+                SelectedIndex = 0;
+
+
+
             }
             catch (Exception ex)
             {
-                //Global.Log("Erro void CarregaColecaoEmpresas ex: " + ex.Message);
+                IMOD.CrossCutting.Utils.TraceException(ex);
             }
         }
 

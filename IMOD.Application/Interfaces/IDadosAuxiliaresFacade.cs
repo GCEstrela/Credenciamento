@@ -94,8 +94,12 @@ namespace IMOD.Application.Interfaces
         /// CRUD Completo AreaAcesso
         /// </summary>
         /// <returns></returns>
-        IAreaAcessoService AreaAcessoService { get; }
-
+        ICollection<TipoAcesso> ListarTiposAcessos();
+        /// <summary>
+        ///     Listar Tipos de Cursos
+        /// </summary>
+        /// <returns></returns>
+        ICollection<Curso> ListarCursos();
         /// <summary>
         /// CRUD Completo EmpresaLayoutCracha
         /// </summary>
@@ -109,6 +113,7 @@ namespace IMOD.Application.Interfaces
 
 
 
+        
         #endregion
     }
 }

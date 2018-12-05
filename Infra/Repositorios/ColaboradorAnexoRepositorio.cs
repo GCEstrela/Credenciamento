@@ -136,8 +136,9 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("ColaboradorID", o, 0).Igual()));
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("NomeArquivo", o, 1).Like()));
+                        
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("ColaboradorID", DbType.Int32, o, 0).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("NomeArquivo", DbType.String, o, 1).Like()));
 
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<ColaboradorAnexo>();
@@ -165,7 +166,8 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamDelete("ColaboradorAnexoId", entity.ColaboradorAnexoId).Igual()));
+                        cmd.Parameters.Add(
+                            _dataBase.CreateParameter(new ParamDelete("ColaboradorAnexoId", entity.ColaboradorAnexoId).Igual()));
 
                         cmd.ExecuteNonQuery();
                     }
