@@ -20,7 +20,7 @@ namespace iModSCCredenciamento.ViewModels
 {
     public class ColaboradoresCursosViewModel : ViewModelBase
     {
-       
+
         private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
         public List<ClasseCursos.Curso> ObterListaListaCursos { get; private set; }
         #region Inicializacao
@@ -32,11 +32,11 @@ namespace iModSCCredenciamento.ViewModels
             //CarregaColecaoCursos_thr.Start();
 
             CarregaColecaoCursos();
-            
+
             //Thread CarregaUI_thr = new Thread(() => CarregaUI());
             //CarregaUI_thr.Start();
         }
-       
+
 
         #endregion
 
@@ -180,7 +180,7 @@ namespace iModSCCredenciamento.ViewModels
         public void OnAtualizaCommand(object _colaboradorCursoID)
         {
 
-                ColaboradorCursoSelecionadaID = Convert.ToInt32(_colaboradorCursoID);
+            ColaboradorCursoSelecionadaID = Convert.ToInt32(_colaboradorCursoID);
             Thread CarregaColecaoColaboradorerCursos_thr = new Thread(() => CarregaColecaoColaboradorerCursos(Convert.ToInt32(_colaboradorCursoID)));
             CarregaColecaoColaboradorerCursos_thr.Start();
             //CarregaColecaoColaboradorerCursos(Convert.ToInt32(_colaboradorCursoID));
@@ -192,7 +192,7 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 System.Windows.Forms.OpenFileDialog _arquivoPDF = new System.Windows.Forms.OpenFileDialog();
-               
+
                 string _nomecompletodoarquivo;
                 string _arquivoSTR;
                 _arquivoPDF.InitialDirectory = "c:\\\\";
@@ -313,7 +313,7 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 HabilitaEdicao = false;
-                
+
 
                 var entity = Mapper.Map<IMOD.Domain.Entities.ColaboradorCurso>(ColaboradorCursoSelecionado);
                 var repositorio = new IMOD.Application.Service.ColaboradorCursosService();
@@ -338,7 +338,7 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 HabilitaEdicao = false;
-               
+
 
                 var entity = Mapper.Map<IMOD.Domain.Entities.ColaboradorCurso>(ColaboradorCursoSelecionado);
                 var repositorio = new IMOD.Application.Service.ColaboradorCursosService();
@@ -347,7 +347,7 @@ namespace iModSCCredenciamento.ViewModels
 
                 Thread CarregaColecaoColaboradorerCursos_thr = new Thread(() => CarregaColecaoColaboradorerCursos(id));
                 CarregaColecaoColaboradorerCursos_thr.Start();
-               
+
                 _ColaboradorCursoTemp = null;
 
 
@@ -411,7 +411,7 @@ namespace iModSCCredenciamento.ViewModels
                         var entity = Mapper.Map<IMOD.Domain.Entities.ColaboradorCurso>(ColaboradorCursoSelecionado);
                         var repositorio = new IMOD.Application.Service.ColaboradorCursosService();
                         repositorio.Remover(entity);
-                       
+
                         ColaboradoresCursos.Remove(ColaboradorCursoSelecionado);
                     }
                 }
@@ -450,15 +450,15 @@ namespace iModSCCredenciamento.ViewModels
         private void CarregarDadosComunsEmMemoria()
         {
             //Cursos
-            var e1 = _auxiliaresService.ListarCursos();
-            ObterListaListaCursos = Mapper.Map<List<ClasseCursos.Curso>>(e1);            
+            var e1 = _auxiliaresService.CursoService.Listar();
+            ObterListaListaCursos = Mapper.Map<List<ClasseCursos.Curso>>(e1);
 
         }
         public void CarregaColecaoColaboradorerCursos(int _colaboradorID, string _descricao = "", string _curso = "")
         {
             try
             {
-                
+
                 var service = new IMOD.Application.Service.ColaboradorCursosService();
                 if (!string.IsNullOrWhiteSpace(_descricao)) _descricao = $"%{_descricao}%";
                 if (!string.IsNullOrWhiteSpace(_curso)) _curso = $"%{_curso}%";
@@ -484,7 +484,7 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                
+
 
                 var convert = Mapper.Map<List<ClasseCursos.Curso>>(ObterListaListaCursos);
                 Cursos = new ObservableCollection<ClasseCursos.Curso>();
@@ -513,8 +513,8 @@ namespace iModSCCredenciamento.ViewModels
                 XmlNode _ArquivosImagens = _xmlDocument.CreateElement("ArquivosImagens");
                 _ClasseArquivosImagens.AppendChild(_ArquivosImagens);
 
-                
-                 SqlConnection _Con = new SqlConnection(Global._connectionString);_Con.Open();
+
+                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
 
                 SqlCommand SQCMDXML = new SqlCommand("Select * From ColaboradoresCursos Where ColaboradorCursoID = " + colaboradorCursoID + "", _Con);
                 SqlDataReader SQDR_XML;
@@ -559,7 +559,7 @@ namespace iModSCCredenciamento.ViewModels
 
                     if (Convert.ToDateTime(_sqlreader["ValidadeCurso"].ToString()) < DateTime.Now)
                     {
-                        Global.PopupBox("Data de validade do curso do colaborador [ " + _sqlreader["Nome"].ToString() + " ] vencida!",  4);
+                        Global.PopupBox("Data de validade do curso do colaborador [ " + _sqlreader["Nome"].ToString() + " ] vencida!", 4);
                     }
 
                 }

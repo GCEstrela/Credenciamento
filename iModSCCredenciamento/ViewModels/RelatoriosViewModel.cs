@@ -13,8 +13,10 @@ using System.Threading;
 using System.Windows.Media.Imaging;
 using System.Xml;
 using AutoMapper;
+using iModSCCredenciamento.Helpers;
 using IMOD.Application.Interfaces;
 using IMOD.Application.Service;
+using Utils = IMOD.CrossCutting.Utils;
 
 namespace iModSCCredenciamento.ViewModels
 {
@@ -62,7 +64,8 @@ namespace iModSCCredenciamento.ViewModels
         private BitmapImage _Waiting;
         private string formula;
 
-        private readonly IRelatorioService _service = new RelatorioService();
+        private readonly IRelatorioService _relatorioService = new RelatorioService();
+        private readonly IRelatorioGerencialService _relatorioGerencialServiceService = new RelatorioGerencialService();
         private readonly IEmpresaService _empresaService = new EmpresaService();
         private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
 
@@ -183,7 +186,7 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                var list1 = _service.Listar();
+                var list1 = _relatorioService.Listar();
 
                 var list2 = Mapper.Map<List<ClasseRelatorios.Relatorio>>(list1);
                 var observer = new ObservableCollection<ClasseRelatorios.Relatorio>();
@@ -326,40 +329,40 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                string _xmlstring;
 
-                if (_tipo)
-                {
-                    _xmlstring = CriaXmlRelatoriosGerenciais(1);
-                }
-                else
-                {
-                    _xmlstring = CriaXmlRelatoriosGerenciais(5);
-                }
+                //string _xmlstring;
+
+                //if (_tipo)
+                //{
+                //_xmlstring = CriaXmlRelatoriosGerenciais(1);
+                //}
+                //else
+                //{
+                //    _xmlstring = CriaXmlRelatoriosGerenciais(5);
+                //}
 
 
+                //XmlDocument xmldocument = new XmlDocument();
+                //xmldocument.LoadXml(_xmlstring);
 
-                XmlDocument xmldocument = new XmlDocument();
-                xmldocument.LoadXml(_xmlstring);
+                //XmlNode node = xmldocument.DocumentElement;
+                //XmlNode arquivoNode = node.SelectSingleNode("ArquivosImagens/ArquivoImagem/Arquivo");
 
-                XmlNode node = xmldocument.DocumentElement;
-                XmlNode arquivoNode = node.SelectSingleNode("ArquivosImagens/ArquivoImagem/Arquivo");
+                //string _ArquivoRPT = arquivoNode.FirstChild.Value;
+                //byte[] buffer = Convert.FromBase64String(_ArquivoRPT);
 
-                string _ArquivoRPT = arquivoNode.FirstChild.Value;
-                byte[] buffer = Convert.FromBase64String(_ArquivoRPT);
+                //_ArquivoRPT = System.IO.Path.GetTempFileName();
+                //_ArquivoRPT = System.IO.Path.GetRandomFileName();
+                //_ArquivoRPT = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\" + _ArquivoRPT;
 
-                _ArquivoRPT = System.IO.Path.GetTempFileName();
-                _ArquivoRPT = System.IO.Path.GetRandomFileName();
-                _ArquivoRPT = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\" + _ArquivoRPT;
+                //_ArquivoRPT = System.IO.Path.ChangeExtension(_ArquivoRPT, ".rpt");
+                //System.IO.File.WriteAllBytes(_ArquivoRPT, buffer);
 
-                _ArquivoRPT = System.IO.Path.ChangeExtension(_ArquivoRPT, ".rpt");
-                System.IO.File.WriteAllBytes(_ArquivoRPT, buffer);
-
-                ReportDocument reportDocument = new ReportDocument();
-                TableLogOnInfos crtableLogoninfos = new TableLogOnInfos();
-                TableLogOnInfo crtableLogoninfo = new TableLogOnInfo();
-                ConnectionInfo crConnectionInfo = new ConnectionInfo();
-                Tables CrTables;
+                //ReportDocument reportDocument = new ReportDocument();
+                //TableLogOnInfos crtableLogoninfos = new TableLogOnInfos();
+                //TableLogOnInfo crtableLogoninfo = new TableLogOnInfo();
+                //ConnectionInfo crConnectionInfo = new ConnectionInfo();
+                //Tables CrTables;
 
 
                 //Permanentes
@@ -375,8 +378,8 @@ namespace iModSCCredenciamento.ViewModels
                     {   //Filtra todas Credenciais Permanentes e Ativas (Período)
                         formula = " {TiposCredenciais.TipoCredencialID} = 1 " +
                                   " and {CredenciaisStatus.CredencialStatusID} = 1 " +
-                                  " AND ({ColaboradoresCredenciais.Emissao} <= CDate ('" + _dataFim + "')" +
-                                  " AND {ColaboradoresCredenciais.Emissao} >= CDate ('" + _dataIni + "') ) ";
+                                  " and ({ColaboradoresCredenciais.Emissao} <= CDate ('" + _dataFim + "')" +
+                                  " and {ColaboradoresCredenciais.Emissao} >= CDate ('" + _dataIni + "') ) ";
                     }
 
                 }
@@ -393,46 +396,51 @@ namespace iModSCCredenciamento.ViewModels
                     {   //Filtra todas Credenciais Permanentes e Ativas (Período)
                         formula = " {TiposCredenciais.TipoCredencialID} = 2 " +
                                   " and {CredenciaisStatus.CredencialStatusID} = 1 " +
-                                  " AND ({ColaboradoresCredenciais.Emissao} <= CDate ('" + _dataFim + "')" +
-                                  " AND {ColaboradoresCredenciais.Emissao} >= CDate ('" + _dataIni + "') ) ";
+                                  " and ({ColaboradoresCredenciais.Emissao} <= CDate ('" + _dataFim + "')" +
+                                  " and {ColaboradoresCredenciais.Emissao} >= CDate ('" + _dataIni + "') ) ";
                     }
 
                 }
 
-                reportDocument.Load(_ArquivoRPT);
+                //reportDocument.Load(_ArquivoRPT);
 
-                crConnectionInfo.ServerName = Global._instancia;
-                crConnectionInfo.DatabaseName = Global._bancoDados;
-                crConnectionInfo.UserID = Global._usuario;
-                crConnectionInfo.Password = Global._senha;
+                //crConnectionInfo.ServerName = Global._instancia;
+                //crConnectionInfo.DatabaseName = Global._bancoDados;
+                //crConnectionInfo.UserID = Global._usuario;
+                //crConnectionInfo.Password = Global._senha;
 
-                CrTables = reportDocument.Database.Tables;
-                foreach (CrystalDecisions.CrystalReports.Engine.Table CrTable in CrTables)
-                {
-                    crtableLogoninfo = CrTable.LogOnInfo;
-                    crtableLogoninfo.ConnectionInfo = crConnectionInfo;
-                    CrTable.ApplyLogOnInfo(crtableLogoninfo);
-                }
+                //CrTables = reportDocument.Database.Tables;
+                //foreach (CrystalDecisions.CrystalReports.Engine.Table CrTable in CrTables)
+                //{
+                //    crtableLogoninfo = CrTable.LogOnInfo;
+                //    crtableLogoninfo.ConnectionInfo = crConnectionInfo;
+                //    CrTable.ApplyLogOnInfo(crtableLogoninfo);
+                //}
 
 
-                Thread CarregaRel_thr = new Thread(() =>
-                {
-                    System.Windows.Application.Current.Dispatcher.Invoke(() =>
-                    {
-                        reportDocument.RecordSelectionFormula = formula;
+                //Thread CarregaRel_thr = new Thread(() =>
+                //{
+                //    System.Windows.Application.Current.Dispatcher.Invoke(() =>
+                //    {
+                //        reportDocument.RecordSelectionFormula = formula;
 
-                        PopupRelatorio _popupRelatorio = new PopupRelatorio(reportDocument);
-                        _popupRelatorio.Show();
-                    });
-                });
+                //        PopupRelatorio _popupRelatorio = new PopupRelatorio(reportDocument);
+                //        _popupRelatorio.Show();
+                //    });
+                //});
 
-                CarregaRel_thr.Start();
+                //CarregaRel_thr.Start();
+
+
+                var entity = _relatorioGerencialServiceService.BuscarPelaChave(1);
+                var arrayFile = Convert.FromBase64String(entity.ArquivoRpt);
+
+                WpfHelp.ShowRelatorio(arrayFile, "ARQUIVÃO", formula);
 
             }
             catch (Exception ex)
             {
-                IMOD.CrossCutting.Utils.TraceException(ex);
-                throw;
+                Utils.TraceException(ex);
             }
         }
 
