@@ -10,9 +10,9 @@ namespace IMOD.Domain.Entities
     {
         #region  Propriedades
 
-        public int EquipamentoVeiculoId { get; set; }
+        public int EquipamentoVeiculoID { get; set; }
         public string Descricao { get; set; }
-        public string PlacaIdentificador { get; set; }
+        public string Placa_Identificador { get; set; }
         public string Frota { get; set; }
         public string Patrimonio { get; set; }
         public string Marca { get; set; }
@@ -20,19 +20,19 @@ namespace IMOD.Domain.Entities
         public string Tipo { get; set; }
         public string Cor { get; set; }
         public string Ano { get; set; }
-        public int? EstadoId { get; set; }
-        public int? MunicipioId { get; set; }
-        public string SerieChassi { get; set; }
-        public int? CombustivelId { get; set; }
+        public int? EstadoID { get; set; }
+        public int? MunicipioID { get; set; }
+        public string Serie_Chassi { get; set; }
+        public int? CombustivelID { get; set; }
         public string Altura { get; set; }
         public string Comprimento { get; set; }
         public string Largura { get; set; }
-        public int? TipoEquipamentoVeiculoId { get; set; }
+        public int? TipoEquipamentoVeiculoID { get; set; }
         public string Renavam { get; set; }
         public string Foto { get; set; }
         public int? Excluida { get; set; }
-        public int? StatusId { get; set; }
-        public int? TipoAcessoId { get; set; }
+        public int? StatusID { get; set; }
+        public int? TipoAcessoID { get; set; }
         public string DescricaoAnexo { get; set; }
         public string NomeArquivoAnexo { get; set; }
         public string ArquivoAnexo { get; set; }

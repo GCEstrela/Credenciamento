@@ -542,41 +542,5 @@ namespace iModSCCredenciamento.Funcoes
             int uniqueId = (int)(zeroDate.Ticks / 100000);
             return uniqueId;
         }
-
-        //Tranporta os dados de uma Classe para a outra
-        //Máximo (28/11/2018)
-        public void TranportarDados(object obj_Origem, int indent, object obj_Destino)
-        {
-            try
-            {
-                if (obj_Origem == null) return;
-                string indentString = new string(' ', indent);
-                Type objType = obj_Origem.GetType();
-                Type objType2 = obj_Destino.GetType();
-                PropertyInfo[] properties = objType.GetProperties(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static);
-                PropertyInfo[] properties2 = objType2.GetProperties(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.GetProperty);
-
-                foreach (PropertyInfo property in properties)
-                {
-                    object propValue = property.GetValue(obj_Origem, null);
-                    var nomeOrigem = property.Name.ToUpper();
-                    foreach (PropertyInfo property2 in properties2)
-                    {
-                        var nomeDestino = property2.Name.ToUpper();
-                        object propValue2 = property2.GetValue(obj_Destino, null);
-                        if (nomeOrigem == nomeDestino)
-                        {
-                            property2.SetValue(obj_Destino, propValue);
-                            break;
-
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-
-            }
-        }
     }
 }

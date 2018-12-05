@@ -18,6 +18,9 @@ using System.Windows.Media.Imaging;
 using System.Xml;
 using System.Xml.Serialization;
 using AutoMapper;
+using IMOD.Application.Service;
+using IMOD.Domain.Entities;
+using IMOD.Application.Interfaces;
 
 namespace iModSCCredenciamento.ViewModels
 {
@@ -73,6 +76,8 @@ namespace iModSCCredenciamento.ViewModels
         private int _selectedIndexTemp = 0;
 
         private string _Validade;
+
+        private readonly IColaboradorEmpresaService _service = new ColaboradorEmpresaService();
 
         #endregion
 
@@ -299,7 +304,6 @@ namespace iModSCCredenciamento.ViewModels
                 Thread CarregaColecaoColaboradoresEmpresas_thr = new Thread(() => CarregaColecaoColaboradoresEmpresas(Convert.ToInt32(_ColaboradorID)));
                 CarregaColecaoColaboradoresEmpresas_thr.Start();
                 //CarregaColecaoColaboradoresEmpresas(Convert.ToInt32(_ColaboradorID));
-
             }
             catch (Exception ex)
             {
@@ -379,40 +383,25 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-
-
-
                 HabilitaEdicao = false;
-                System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(ClasseColaboradoresEmpresas));
 
-                //ColaboradorEmpresaSelecionado.Matricula = string.Format("{0:#,##0}", Global.GerarID()) + "-" + String.Format("{0:yy}", DateTime.Now);
+                var entity = ColaboradorEmpresaSelecionado;
+                var entityConv = Mapper.Map<ColaboradorEmpresa>(entity);
+                _service.Criar(entityConv);
 
-                ObservableCollection<ClasseColaboradoresEmpresas.ColaboradorEmpresa> _ColaboradorEmpresaPro = new ObservableCollection<ClasseColaboradoresEmpresas.ColaboradorEmpresa>();
-                ClasseColaboradoresEmpresas _ClasseColaboradorerEmpresasPro = new ClasseColaboradoresEmpresas();
-                _ColaboradorEmpresaPro.Add(ColaboradorEmpresaSelecionado);
-                _ClasseColaboradorerEmpresasPro.ColaboradoresEmpresas = _ColaboradorEmpresaPro;
+                var id = entityConv.ColaboradorEmpresaId;
 
-                IMOD.Domain.Entities.ColaboradorEmpresa ColaboradorEmpresaEntity = new IMOD.Domain.Entities.ColaboradorEmpresa();
-                g.TranportarDados(ColaboradorEmpresaSelecionado, 1, ColaboradorEmpresaEntity);
+                Thread CarregaColecaoColaboradoresEmpresas_thr = new Thread(() => CarregaColecaoColaboradoresEmpresas(entityConv.ColaboradorId));
+                CarregaColecaoColaboradoresEmpresas_thr.Start();
 
-                var repositorio = new IMOD.Infra.Repositorios.ColaboradorEmpresaRepositorio();
-                repositorio.Criar(ColaboradorEmpresaEntity);
-                var id = ColaboradorEmpresaEntity.ColaboradorEmpresaId;
-
-
-
-                ClasseColaboradoresEmpresas.ColaboradorEmpresa _ColaboradorEmpresaSelecionadoPro = new ClasseColaboradoresEmpresas.ColaboradorEmpresa();
-                _ColaboradorEmpresaSelecionadoPro = ColaboradorEmpresaSelecionado;
-                _ColaboradorEmpresaSelecionadoPro.ColaboradorEmpresaID = id;
-                ColaboradoresEmpresas = new ObservableCollection<ClasseColaboradoresEmpresas.ColaboradorEmpresa>(_ColaboradoresEmpresasTemp);
-                ColaboradoresEmpresas.Add(_ColaboradorEmpresaSelecionadoPro);
-
-                //Thread CarregaColecaoColaboradoresEmpresas_thr = new Thread(() => CarregaColecaoColaboradoresEmpresas(ColaboradorEmpresaSelecionado.ColaboradorID));
-                //CarregaColecaoColaboradoresEmpresas_thr.Start();
+                _ColaboradorEmpresaTemp = null;
 
             }
             catch (Exception ex)
             {
+                Global.Log("Erro na void OnSalvarAdicaoCommand ex: " + ex);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
         }
 
@@ -421,62 +410,25 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 HabilitaEdicao = false;
-                System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(ClasseColaboradoresEmpresas));
 
-                ObservableCollection<ClasseColaboradoresEmpresas.ColaboradorEmpresa> _ColaboradorEmpresaTemp = new ObservableCollection<ClasseColaboradoresEmpresas.ColaboradorEmpresa>();
-                ClasseColaboradoresEmpresas _ClasseColaboradorerEmpresasTemp = new ClasseColaboradoresEmpresas();
-                _ColaboradorEmpresaTemp.Add(ColaboradorEmpresaSelecionado);
-                _ClasseColaboradorerEmpresasTemp.ColaboradoresEmpresas = _ColaboradorEmpresaTemp;
+                var entity = ColaboradorEmpresaSelecionado;
+                var entityConv = Mapper.Map<ColaboradorEmpresa>(entity);
+                _service.Alterar(entityConv);
 
-
-                IMOD.Domain.Entities.ColaboradorEmpresa ColaboradorEmpresaEntity = new IMOD.Domain.Entities.ColaboradorEmpresa();
-                g.TranportarDados(ColaboradorEmpresaSelecionado, 1, ColaboradorEmpresaEntity);
-
-                var repositorio = new IMOD.Infra.Repositorios.ColaboradorEmpresaRepositorio();
-                repositorio.Alterar(ColaboradorEmpresaEntity);
-                var id = ColaboradorEmpresaEntity.ColaboradorEmpresaId;
+                var id = entityConv.ColaboradorEmpresaId;
                 AtualizaCredenciais(id);
 
-                //string xmlString;
-
-                //using (StringWriterWithEncoding sw = new StringWriterWithEncoding(System.Text.Encoding.UTF8))
-                //{
-
-                //    using (XmlTextWriter xw = new XmlTextWriter(sw))
-                //    {
-                //        xw.Formatting = Formatting.Indented;
-                //        serializer.Serialize(xw, _ClasseColaboradorerEmpresasTemp);
-                //        xmlString = sw.ToString();
-                //    }
-
-                //}
-
-                //InsereColaboradorEmpresaBD(xmlString);
-                //if (!ColaboradorEmpresaSelecionado.Ativo)
-                //{
-                //    AtualizaCredenciais(ColaboradorEmpresaSelecionado.ColaboradorEmpresaID);
-                //}
-
-
-
-
-                // ColaboradoresEmpresas[_selectedIndexTemp] = ColaboradorEmpresaSelecionado;
-
-                //Thread CarregaColecaoColaboradoresEmpresas_thr = new Thread(() => CarregaColecaoColaboradoresEmpresas(ColaboradorEmpresaSelecionado.ColaboradorID));
-                //CarregaColecaoColaboradoresEmpresas_thr.Start();
-
-                //_ClasseEmpresasSegurosTemp = null;
-
-                //_SegurosTemp.Clear();
-                //_seguroTemp = null;
-
+                Thread CarregaColecaoColaboradoresEmpresas_thr = new Thread(() => CarregaColecaoColaboradoresEmpresas(id, null, null));
+                CarregaColecaoColaboradoresEmpresas_thr.Start();
 
             }
             catch (Exception ex)
             {
+                Global.Log("Erro na void OnSalvarEdicaoCommand ex: " + ex);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
         }
-
 
         public void OnAdicionarCommand()
         {
@@ -510,11 +462,6 @@ namespace iModSCCredenciamento.ViewModels
             }
 
         }
-        //public void OnSelecionaEmpresaCommand(int _empresaID)
-        //{
-        //    CarregaColecaoContratos(_empresaID);
-        //}
-
 
         public void OnCancelarAdicaoCommand()
         {
@@ -535,21 +482,16 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                //if (MessageBox.Show("Tem certeza que deseja excluir este vínculo?", "Excluir Vínculo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                //{
-                //    if (MessageBox.Show("Você perderá todos os dados deste vínculo, inclusive histórico. Confirma exclusão?", "Excluir Vínculo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                //    {
-                //        //ExcluiSeguroBD(ColaboradorEmpresaSelecionado.ColaboradorID);
-
-                //        ExcluiColaboradorEmpresaBD(ColaboradorEmpresaSelecionado.ColaboradorEmpresaID);
-                //        ColaboradoresEmpresas.Remove(ColaboradorEmpresaSelecionado);
-                //    }
-                //}
                 if (Global.PopupBox("Tem certeza que deseja excluir?", 2))
                 {
                     if (Global.PopupBox("Você perderá todos os dados, inclusive histórico. Confirma exclusão?", 2))
                     {
-                        ExcluiColaboradorEmpresaBD(ColaboradorEmpresaSelecionado.ColaboradorEmpresaID);
+                        var service = new IMOD.Application.Service.ColaboradorEmpresaService();
+                        var emp = service.BuscarPelaChave(ColaboradorEmpresaSelecionado.ColaboradorEmpresaID);
+                        service.Remover(emp);
+
+                        CarregaColecaoColaboradoresEmpresas(ColaboradorEmpresaSelecionado.ColaboradorID, null, null, null, 0);
+
                         ColaboradoresEmpresas.Remove(ColaboradorEmpresaSelecionado);
                     }
                 }
@@ -557,7 +499,9 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-
+                Global.Log("Erro na void OnExcluirCommand ex: " + ex);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
 
         }
@@ -587,7 +531,7 @@ namespace iModSCCredenciamento.ViewModels
                 string _cargo = ((string[])vetor)[2];
                 int _ativo = Convert.ToInt32(((string[])vetor)[3]);
 
-                CarregaColecaoColaboradoresEmpresas(_colaboradorID, _empresaNome,_cargo, _matricula, _ativo);
+                CarregaColecaoColaboradoresEmpresas(_colaboradorID, _empresaNome, _cargo, _matricula, _ativo);
                 SelectedIndex = 0;
             }
             catch (Exception ex)
@@ -604,24 +548,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                //string _xml = RequisitaColaboradoresEmpresas(_colaboradorID, _empresaNome, _cargo, _matricula, _ativo);
 
-                //XmlSerializer deserializer = new XmlSerializer(typeof(ClasseColaboradoresEmpresas));
 
-                //XmlDocument xmldocument = new XmlDocument();
-                //xmldocument.LoadXml(_xml);
-
-                //TextReader reader = new StringReader(_xml);
-                //ClasseColaboradoresEmpresas classeColaboradoresEmpresas = new ClasseColaboradoresEmpresas();
-                //classeColaboradoresEmpresas = (ClasseColaboradoresEmpresas)deserializer.Deserialize(reader);
-                //ColaboradoresEmpresas = new ObservableCollection<ClasseColaboradoresEmpresas.ColaboradorEmpresa>();
-                //ColaboradoresEmpresas = classeColaboradoresEmpresas.ColaboradoresEmpresas;
-                //SelectedIndex = -1;
-                //////////////////////////////////////////////////////////////
-                var service = new IMOD.Application.Service.ColaboradorEmpresaService();
                 if (!string.IsNullOrWhiteSpace(_cargo)) _cargo = $"%{_cargo}%";
                 if (!string.IsNullOrWhiteSpace(_matricula)) _matricula = $"%{_matricula}%";
-                var list1 = service.Listar(_colaboradorID, _cargo, _matricula);
+                var list1 = _service.Listar(_colaboradorID, _cargo, _matricula);
 
                 var list2 = Mapper.Map<List<ClasseColaboradoresEmpresas.ColaboradorEmpresa>>(list1);
 
@@ -635,7 +566,9 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                //Global.Log("Erro void CarregaColecaoEmpresas ex: " + ex.Message);
+                Global.Log("Erro na void CarregaColecaoColaboradoresEmpresas ex: " + ex);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
         }
 
@@ -656,7 +589,7 @@ namespace iModSCCredenciamento.ViewModels
                 Empresas = new ObservableCollection<ClasseEmpresas.Empresa>();
                 Empresas = classeEmpresas.Empresas;
 
-                
+
 
 
 
@@ -747,10 +680,10 @@ namespace iModSCCredenciamento.ViewModels
 
         public void CarregaColecaoContratos(int empresaID = 0)
         {
-            
+
             try
             {
-                
+
                 string _xml = RequisitaContratos(empresaID);
 
                 XmlSerializer deserializer = new XmlSerializer(typeof(ClasseEmpresasContratos));
@@ -797,13 +730,13 @@ namespace iModSCCredenciamento.ViewModels
                 string _ativoStr = _ativo == 2 ? "" : " AND dbo.ColaboradoresEmpresas.Ativo = " + _ativo;
 
 
-                    _strSql = "SELECT dbo.ColaboradoresEmpresas.Ativo, dbo.ColaboradoresEmpresas.ColaboradorEmpresaID, dbo.ColaboradoresEmpresas.EmpresaContratoID," +
-    " dbo.ColaboradoresEmpresas.Cargo, dbo.ColaboradoresEmpresas.Matricula, dbo.ColaboradoresEmpresas.ColaboradorID, dbo.Empresas.Nome, " +
-    "dbo.Empresas.EmpresaID, dbo.EmpresasContratos.Descricao" +
-    " FROM dbo.ColaboradoresEmpresas INNER JOIN dbo.Empresas ON dbo.ColaboradoresEmpresas.EmpresaID = dbo.Empresas.EmpresaID INNER JOIN" +
-    " dbo.EmpresasContratos ON dbo.ColaboradoresEmpresas.EmpresaContratoID = dbo.EmpresasContratos.EmpresaContratoID " +
-    "WHERE dbo.ColaboradoresEmpresas.ColaboradorID =  " + _colaboradorID + _ativoStr + _empresaNome + _cargo + _matricula;
-           
+                _strSql = "SELECT dbo.ColaboradoresEmpresas.Ativo, dbo.ColaboradoresEmpresas.ColaboradorEmpresaID, dbo.ColaboradoresEmpresas.EmpresaContratoID," +
+" dbo.ColaboradoresEmpresas.Cargo, dbo.ColaboradoresEmpresas.Matricula, dbo.ColaboradoresEmpresas.ColaboradorID, dbo.Empresas.Nome, " +
+"dbo.Empresas.EmpresaID, dbo.EmpresasContratos.Descricao" +
+" FROM dbo.ColaboradoresEmpresas INNER JOIN dbo.Empresas ON dbo.ColaboradoresEmpresas.EmpresaID = dbo.Empresas.EmpresaID INNER JOIN" +
+" dbo.EmpresasContratos ON dbo.ColaboradoresEmpresas.EmpresaContratoID = dbo.EmpresasContratos.EmpresaContratoID " +
+"WHERE dbo.ColaboradoresEmpresas.ColaboradorID =  " + _colaboradorID + _ativoStr + _empresaNome + _cargo + _matricula;
+
 
 
                 SqlCommand _sqlcmd = new SqlCommand(_strSql, _Con);
@@ -1355,28 +1288,7 @@ namespace iModSCCredenciamento.ViewModels
             return _novID;
         }
 
-        private void ExcluiColaboradorEmpresaBD(int _ColaboradorEmpresaID) // alterar para xml
-        {
-            try
-            {
 
-
-                //_Con.Close();
-                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
-
-                SqlCommand _sqlCmd;
-                _sqlCmd = new SqlCommand("Delete from ColaboradoresEmpresas where ColaboradorEmpresaID=" + _ColaboradorEmpresaID, _Con);
-                _sqlCmd.ExecuteNonQuery();
-
-                _Con.Close();
-            }
-            catch (Exception ex)
-            {
-                Global.Log("Erro na void ExcluiColaboradorEmpresaBD ex: " + ex);
-
-
-            }
-        }
 
         private DateTime validadeCursoContrato(int _colaborador = 0)
         {
@@ -1457,13 +1369,13 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                if( _ColaboradoresEmpresasTemp.Where(x =>
+                if (_ColaboradoresEmpresasTemp.Where(x =>
                 (x.EmpresaContratoID == ColaboradorEmpresaSelecionado.EmpresaContratoID && x.Ativo)
-                && (x.ColaboradorEmpresaID!= ColaboradorEmpresaSelecionado.ColaboradorEmpresaID)).Count() > 0)
+                && (x.ColaboradorEmpresaID != ColaboradorEmpresaSelecionado.ColaboradorEmpresaID)).Count() > 0)
                 {
                     return true;
                 }
-                
+
             }
             catch (Exception ex)
             {
@@ -1484,12 +1396,12 @@ namespace iModSCCredenciamento.ViewModels
 
                 SqlCommand _sqlCmd;
 
-                    _sqlCmd = new SqlCommand("Update ColaboradoresCredenciais Set " +
-                            "CredencialStatusID=@v1" +
-                            ",CredencialMotivoID=@v2" +
-                            ",Baixa=@v3" +
-                            ",Ativa=@v4" +
-                            " Where ColaboradorEmpresaID = @v0 AND CredencialStatusID = 1", _Con);
+                _sqlCmd = new SqlCommand("Update ColaboradoresCredenciais Set " +
+                        "CredencialStatusID=@v1" +
+                        ",CredencialMotivoID=@v2" +
+                        ",Baixa=@v3" +
+                        ",Ativa=@v4" +
+                        " Where ColaboradorEmpresaID = @v0 AND CredencialStatusID = 1", _Con);
 
                 _sqlCmd.Parameters.Add("@V0", SqlDbType.Int).Value = colaboradorEmpresaID;
                 _sqlCmd.Parameters.Add("@V1", SqlDbType.Int).Value = 2;
@@ -1507,7 +1419,7 @@ namespace iModSCCredenciamento.ViewModels
             catch (Exception ex)
             {
 
-                
+
             }
         }
 

@@ -101,7 +101,6 @@ namespace iModSCCredenciamento.Views
 
         private void Adicionar_bt_Click(object sender, RoutedEventArgs e)
         {
-
             Editando = false; Botoes_Principais_sp.Visibility = Visibility.Hidden;
             Botoes_Adicionar_sp.Visibility = Visibility.Visible;
             Global.SetReadonly(Linha0_sp, false);

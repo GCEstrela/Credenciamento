@@ -13,6 +13,11 @@ using System.Threading;
 using System.Xml;
 using System.Xml.Serialization;
 using AutoMapper;
+using Genetec.Sdk.Entities;
+using IMOD.Domain.Entities;
+using IMOD.Application.Interfaces;
+using IMOD.Application.Service;
+using IMOD.CrossCutting;
 
 namespace iModSCCredenciamento.ViewModels
 {
@@ -113,6 +118,8 @@ namespace iModSCCredenciamento.ViewModels
         private ClasseLayoutsCrachas.LayoutCracha _LayoutCrachaSelecionado;
         private ObservableCollection<ClasseLayoutsCrachas.LayoutCracha> _LayoutsCrachas;
         private int _LayoutCrachaSelectedIndex;
+
+        private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
 
 
         #endregion
@@ -295,7 +302,7 @@ namespace iModSCCredenciamento.ViewModels
             set
             {
                 _LayoutCrachaSelectedIndex = value;
-                OnPropertyChanged("RelatorioSelectedIndex");
+                OnPropertyChanged("LayoutCrachaSelectedIndex");
             }
         }
 
@@ -655,83 +662,48 @@ namespace iModSCCredenciamento.ViewModels
             }
 
         }
-        //TODO: [Mihai - 03/12/2018] ConfiguraçõesViewModel (TiposEquipamentos)
         public void OnSalvarEdicaoCommand_TiposEquipamentos()
         {
             try
             {
-                //HabilitaEdicao = false;
-
-                //System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(ClasseTiposEquipamento));
-
-                ObservableCollection<ClasseTiposEquipamento.TipoEquipamento> _TiposEquipamentoTemp = new ObservableCollection<ClasseTiposEquipamento.TipoEquipamento>();
-                ClasseTiposEquipamento _ClasseEquipamentoTemp = new ClasseTiposEquipamento();
-                _TiposEquipamentoTemp.Add(TipoEquipamentoSelecionado);
-                _ClasseEquipamentoTemp.TiposEquipamentos = _TiposEquipamentoTemp;
-
-                IMOD.Domain.Entities.TipoEquipamento TipoEquipamentoEntity = new IMOD.Domain.Entities.TipoEquipamento();
-                g.TranportarDados(TipoEquipamentoSelecionado, 1, TipoEquipamentoEntity);
+                var entity = TipoEquipamentoSelecionado;
+                var entityConv = Mapper.Map<TipoEquipamento>(entity);
 
                 if (TipoEquipamentoSelecionado.TipoEquipamentoID != 0)
                 {
-                    var repositorio = new IMOD.Infra.Repositorios.TipoEquipamentoRepositorio();
-                    repositorio.Alterar(TipoEquipamentoEntity);
+                    _auxiliaresService.TipoEquipamentoService.Alterar(entityConv);
                 }
                 else
                 {
-                    var repositorio = new IMOD.Infra.Repositorios.TipoEquipamentoRepositorio();
-                    repositorio.Criar(TipoEquipamentoEntity);
+                    _auxiliaresService.TipoEquipamentoService.Criar(entityConv);
                 }
-
-
-
-                //string xmlString;
-
-                //using (StringWriterWithEncoding sw = new StringWriterWithEncoding(System.Text.Encoding.UTF8))
-                //{
-
-                //    using (XmlTextWriter xw = new XmlTextWriter(sw))
-                //    {
-                //        xw.Formatting = Formatting.Indented;
-                //        serializer.Serialize(xw, _ClasseEquipamentoTemp);
-                //        xmlString = sw.ToString();
-                //    }
-
-                //}
-
-                //InsereTipoEquipamentoBD(xmlString);
 
                 CarregaColecaoTiposEquipamentos();
             }
             catch (Exception ex)
             {
+                Global.Log("Erro na void OnSalvarEdicaoCommand_TiposEquipamentos ex: " + ex);
             }
         }
         public void OnExcluirCommand_TiposEquipamentos()
         {
             try
             {
-                //if (MessageBox.Show("Tem certeza que deseja excluir este tipo de equipamento?", "Excluir tipo de equipamento", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                //{
-
-                //    ExcluiTipoEquipamentoBD(TipoEquipamentoSelecionado.TipoEquipamentoID);
-
-                //    TiposEquipamentos.Remove(TipoEquipamentoSelecionado);
-                //}
                 if (Global.PopupBox("Tem certeza que deseja excluir?", 2))
                 {
                     if (Global.PopupBox("Você perderá todos os dados, inclusive histórico. Confirma exclusão?", 2))
                     {
-                        ExcluiTipoEquipamentoBD(TipoEquipamentoSelecionado.TipoEquipamentoID);
+                        var entity = TipoEquipamentoSelecionado;
+                        var entityConv = Mapper.Map<TipoEquipamento>(entity);
+                        _auxiliaresService.TipoEquipamentoService.Remover(entityConv);
 
                         TiposEquipamentos.Remove(TipoEquipamentoSelecionado);
                     }
                 }
-
-
             }
             catch (Exception ex)
             {
+                Global.Log("Erro na void OnExcluirCommand_TiposEquipamentos ex: " + ex);
             }
 
         }
@@ -739,45 +711,10 @@ namespace iModSCCredenciamento.ViewModels
 
         #region Comandos dos Botoes Relatorios
 
-        public void OnSalvarRelatorioCommand()
-        {
-            try
-            {
-                //HabilitaEdicao = false;
-                System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(ClasseRelatorios));
-
-                ObservableCollection<ClasseRelatorios.Relatorio> _RelatorioPro = new ObservableCollection<ClasseRelatorios.Relatorio>();
-                ClasseRelatorios _ClasseRelatoriosPro = new ClasseRelatorios();
-                _RelatorioPro.Add(RelatorioSelecionado);
-                _ClasseRelatoriosPro.Relatorios = _RelatorioPro;
-
-                string xmlString;
-
-                using (StringWriterWithEncoding sw = new StringWriterWithEncoding(System.Text.Encoding.UTF8))
-                {
-
-                    using (XmlTextWriter xw = new XmlTextWriter(sw))
-                    {
-                        xw.Formatting = Formatting.Indented;
-                        serializer.Serialize(xw, _ClasseRelatoriosPro);
-                        xmlString = sw.ToString();
-                    }
-
-                }
-
-                InsereRelatoriosBD(xmlString);
-
-                CarregaColecaoRelatorios();
-            }
-            catch (Exception ex)
-            {
-            }
-        }
         public void OnAdicionarRelatorioCommand()
         {
             try
             {
-
                 foreach (var x in Relatorios)
                 {
                     _RelatoriosTemp.Add(x);
@@ -795,31 +732,55 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
+                Global.Log("Erro na void OnAdicionarRelatorioCommand ex: " + ex);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
 
+        }
+        public void OnSalvarRelatorioCommand()
+        {
+            try
+            {
+                var entity = RelatorioSelecionado;
+                var entityConv = Mapper.Map<Relatorios>(entity);
+
+                if (RelatorioSelecionado.RelatorioID != 0)
+                {
+                    _auxiliaresService.RelatorioService.Alterar(entityConv);
+                }
+                else
+                {
+                    _auxiliaresService.RelatorioService.Criar(entityConv);
+                }
+
+                CarregaColecaoRelatorios();
+            }
+            catch (Exception ex)
+            {
+                Global.Log("Erro na void OnSalvarRelatorioCommand ex: " + ex);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
+            }
         }
         public void OnExcluirRelatorioCommand()
         {
             try
             {
-                //if (MessageBox.Show("Tem certeza que deseja excluir este relatório?", "Excluir Relatório", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                //{
-
-                //    ExcluiRelatorioBD(RelatorioSelecionado.RelatorioID);
-
-                //    Relatorios.Remove(RelatorioSelecionado);
-                //}
                 if (Global.PopupBox("Tem certeza que deseja excluir?", 2))
                 {
-
-                    ExcluiRelatorioBD(RelatorioSelecionado.RelatorioID);
+                    var entity = RelatorioSelecionado;
+                    var entityConv = Mapper.Map<Relatorios>(entity);
+                    _auxiliaresService.RelatorioService.Remover(entityConv);
 
                     Relatorios.Remove(RelatorioSelecionado);
-
                 }
             }
             catch (Exception ex)
             {
+                Global.Log("Erro na void OnExcluirRelatorioCommand ex: " + ex);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
 
         }
@@ -850,7 +811,9 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-
+                Global.Log("Erro na void OnBuscarRelatorioCommand ex: " + ex);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
         }
         public void OnAbrirRelatorioCommand()
@@ -885,10 +848,10 @@ namespace iModSCCredenciamento.ViewModels
                 Tables CrTables;
 
                 reportDocument.Load(_ArquivoRPT);
-                crConnectionInfo.ServerName = "(localdb)\\SQLEXPRESS";
-                crConnectionInfo.DatabaseName = "D_iModCredenciamento";
-                crConnectionInfo.UserID = "imod"; // Global._usuario;
-                crConnectionInfo.Password = "imod"; //Global._senha;
+                crConnectionInfo.ServerName = Global._instancia;
+                crConnectionInfo.DatabaseName = Global._bancoDados;
+                crConnectionInfo.UserID = Global._usuario;
+                crConnectionInfo.Password = Global._senha;
                 CrTables = reportDocument.Database.Tables;
                 foreach (CrystalDecisions.CrystalReports.Engine.Table CrTable in CrTables)
                 {
@@ -915,7 +878,9 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log("Erro na void OnAbrirArquivoCommand ex: " + ex);
+                Global.Log("Erro na void OnAbrirRelatorioCommand ex: " + ex);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
 
             }
 
@@ -925,40 +890,6 @@ namespace iModSCCredenciamento.ViewModels
 
         #region Comandos dos Botoes Relatorios Gerenciais
 
-        public void OnSalvarRelatorioGerencialCommand()
-        {
-            try
-            {
-                //HabilitaEdicao = false;
-                System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(ClasseRelatoriosGerenciais));
-
-                ObservableCollection<ClasseRelatoriosGerenciais.RelatorioGerencial> _RelatorioPro = new ObservableCollection<ClasseRelatoriosGerenciais.RelatorioGerencial>();
-                ClasseRelatoriosGerenciais _ClasseRelatoriosGerenciaisPro = new ClasseRelatoriosGerenciais();
-                _RelatorioPro.Add(RelatorioGerencialSelecionado);
-                _ClasseRelatoriosGerenciaisPro.RelatoriosGerenciais = _RelatorioPro;
-
-                string xmlString;
-
-                using (StringWriterWithEncoding sw = new StringWriterWithEncoding(System.Text.Encoding.UTF8))
-                {
-
-                    using (XmlTextWriter xw = new XmlTextWriter(sw))
-                    {
-                        xw.Formatting = Formatting.Indented;
-                        serializer.Serialize(xw, _ClasseRelatoriosGerenciaisPro);
-                        xmlString = sw.ToString();
-                    }
-
-                }
-
-                InsereRelatoriosGerenciaisBD(xmlString);
-
-                CarregaColecaoRelatoriosGerenciais();
-            }
-            catch (Exception ex)
-            {
-            }
-        }
         public void OnAdicionarRelatorioGerencialCommand()
         {
             try
@@ -980,9 +911,35 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-
+                Global.Log("Erro na void OnAdicionarRelatorioGerencialCommand ex: " + ex);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
 
+        }
+        public void OnSalvarRelatorioGerencialCommand()
+        {
+            try
+            {
+                var entity = RelatorioGerencialSelecionado;
+                var entityConv = Mapper.Map<RelatoriosGerenciais>(entity);
+
+                if (RelatorioGerencialSelecionado.RelatorioID != 0)
+                {
+                    _auxiliaresService.RelatorioGerencialService.Alterar(entityConv);
+                }
+                else
+                {
+                    _auxiliaresService.RelatorioGerencialService.Criar(entityConv);
+                }
+                CarregaColecaoRelatoriosGerenciais();
+            }
+            catch (Exception ex)
+            {
+                Global.Log("Erro na void OnSalvarRelatorioGerencialCommand ex: " + ex);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
+            }
         }
         public void OnExcluirRelatorioGerencialCommand()
         {
@@ -990,15 +947,18 @@ namespace iModSCCredenciamento.ViewModels
             {
                 if (Global.PopupBox("Tem certeza que deseja excluir?", 2))
                 {
-
-                    ExcluiRelatorioGerencialBD(RelatorioGerencialSelecionado.RelatorioID);
+                    var entity = RelatorioGerencialSelecionado;
+                    var entityConv = Mapper.Map<RelatoriosGerenciais>(entity);
+                    _auxiliaresService.RelatorioGerencialService.Remover(entityConv);
 
                     RelatoriosGerenciais.Remove(RelatorioGerencialSelecionado);
-
                 }
             }
             catch (Exception ex)
             {
+                Global.Log("Erro na void OnExcluirRelatorioGerencialCommand ex: " + ex);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
 
         }
@@ -1025,7 +985,9 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-
+                Global.Log("Erro na void OnBuscarRelatorioGerencialCommand ex: " + ex);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
         }
         public void OnAbrirRelatorioGerencialCommand()
@@ -1057,10 +1019,10 @@ namespace iModSCCredenciamento.ViewModels
                 Tables CrTables;
 
                 reportDocument.Load(_ArquivoRPT);
-                crConnectionInfo.ServerName = "(localdb)\\SQLEXPRESS";
-                crConnectionInfo.DatabaseName = "D_iModCredenciamento";
-                crConnectionInfo.UserID = "imod"; // Global._usuario;
-                crConnectionInfo.Password = "imod"; //Global._senha;
+                crConnectionInfo.ServerName = Global._instancia;
+                crConnectionInfo.DatabaseName = Global._bancoDados;
+                crConnectionInfo.UserID = Global._usuario;
+                crConnectionInfo.Password = Global._senha;
                 CrTables = reportDocument.Database.Tables;
                 foreach (CrystalDecisions.CrystalReports.Engine.Table CrTable in CrTables)
                 {
@@ -1088,7 +1050,8 @@ namespace iModSCCredenciamento.ViewModels
             catch (Exception ex)
             {
                 Global.Log("Erro na void OnAbrirArquivoCommand ex: " + ex);
-
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
 
         }
@@ -1097,44 +1060,10 @@ namespace iModSCCredenciamento.ViewModels
 
         #region Comandos dos Botoes LayoutCrachas
 
-        public void OnSalvarLayoutCrachaCommand()
-        {
-            try
-            {
-                System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(ClasseLayoutsCrachas));
-
-                ObservableCollection<ClasseLayoutsCrachas.LayoutCracha> _LayoutCrachaPro = new ObservableCollection<ClasseLayoutsCrachas.LayoutCracha>();
-                ClasseLayoutsCrachas _ClasseLayoutsCrachasPro = new ClasseLayoutsCrachas();
-                _LayoutCrachaPro.Add(LayoutCrachaSelecionado);
-                _ClasseLayoutsCrachasPro.LayoutsCrachas = _LayoutCrachaPro;
-
-                string xmlString;
-
-                using (StringWriterWithEncoding sw = new StringWriterWithEncoding(System.Text.Encoding.UTF8))
-                {
-
-                    using (XmlTextWriter xw = new XmlTextWriter(sw))
-                    {
-                        xw.Formatting = Formatting.Indented;
-                        serializer.Serialize(xw, _ClasseLayoutsCrachasPro);
-                        xmlString = sw.ToString();
-                    }
-
-                }
-
-                InsereLayoutsCrachasBD(xmlString);
-
-                CarregaColecaoLayoutsCrachas();
-            }
-            catch (Exception ex)
-            {
-            }
-        }
         public void OnAdicionarLayoutCrachaCommand()
         {
             try
             {
-
                 foreach (var x in LayoutsCrachas)
                 {
                     _LayoutsCrachasTemp.Add(x);
@@ -1151,9 +1080,36 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-
+                Global.Log("Erro na void OnAdicionarLayoutCrachaCommand ex: " + ex);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
 
+        }
+        public void OnSalvarLayoutCrachaCommand()
+        {
+            try
+            {
+                var entity = LayoutCrachaSelecionado;
+                var entityConv = Mapper.Map<LayoutCracha>(entity);
+
+                if (LayoutCrachaSelecionado.LayoutCrachaID != 0)
+                {
+                    _auxiliaresService.LayoutCrachaService.Alterar(entityConv);
+                }
+                else
+                {
+                    _auxiliaresService.LayoutCrachaService.Criar(entityConv);
+                }
+
+                CarregaColecaoLayoutsCrachas();
+            }
+            catch (Exception ex)
+            {
+                Global.Log("Erro na void OnSalvarLayoutCrachaCommand ex: " + ex);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
+            }
         }
         public void OnExcluirLayoutCrachaCommand()
         {
@@ -1162,14 +1118,17 @@ namespace iModSCCredenciamento.ViewModels
                 if (Global.PopupBox("Tem certeza que deseja excluir?", 2))
                 {
 
-                    ExcluiLayoutCrachaBD(LayoutCrachaSelecionado.LayoutCrachaID);
-
+                    var entity = LayoutCrachaSelecionado;
+                    var entityConv = Mapper.Map<LayoutCracha>(entity);
+                    _auxiliaresService.LayoutCrachaService.Remover(entityConv);
                     LayoutsCrachas.Remove(LayoutCrachaSelecionado);
-
                 }
             }
             catch (Exception ex)
             {
+                Global.Log("Erro na void OnSalvarLayoutCrachaCommand ex: " + ex);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
 
         }
@@ -1196,7 +1155,9 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-
+                Global.Log("Erro na void OnAdicionarLayoutCrachaCommand ex: " + ex);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
         }
         public void OnAbrirLayoutCrachaCommand()
@@ -1259,7 +1220,8 @@ namespace iModSCCredenciamento.ViewModels
             catch (Exception ex)
             {
                 Global.Log("Erro na void OnAbrirArquivoCommand ex: " + ex);
-
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
 
         }
@@ -1286,7 +1248,9 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-
+                Global.Log("Erro na void OnAdicionarCommand_TiposAtividades ex: " + ex);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
 
         }
@@ -1294,57 +1258,46 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                //HabilitaEdicao = false;
-                System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(ClasseTiposAtividades));
+                var entity = TipoAtividadeSelecionada;
+                var entityConv = Mapper.Map<TipoAtividade>(entity);
 
-                ObservableCollection<ClasseTiposAtividades.TipoAtividade> _TiposAtividadesTemp = new ObservableCollection<ClasseTiposAtividades.TipoAtividade>();
-                ClasseTiposAtividades _ClasseAtividadeTemp = new ClasseTiposAtividades();
-                _TiposAtividadesTemp.Add(TipoAtividadeSelecionada);
-                _ClasseAtividadeTemp.TiposAtividades = _TiposAtividadesTemp;
-
-                string xmlString;
-
-                using (StringWriterWithEncoding sw = new StringWriterWithEncoding(System.Text.Encoding.UTF8))
+                if (TipoAtividadeSelecionada.TipoAtividadeID != 0)
                 {
-
-                    using (XmlTextWriter xw = new XmlTextWriter(sw))
-                    {
-                        xw.Formatting = Formatting.Indented;
-                        serializer.Serialize(xw, _ClasseAtividadeTemp);
-                        xmlString = sw.ToString();
-                    }
-
+                    _auxiliaresService.TipoAtividadeService.Alterar(entityConv);
+                }
+                else
+                {
+                    _auxiliaresService.TipoAtividadeService.Criar(entityConv);
                 }
 
-                InsereTipoAtividadeBD(xmlString);
                 CarregaColecaoTiposAtividades();
             }
             catch (Exception ex)
             {
+                Global.Log("Erro na void OnExcluirCommand_TiposAtividades ex: " + ex);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
         }
         public void OnExcluirCommand_TiposAtividades()
         {
             try
             {
-                //if (MessageBox.Show("Tem certeza que deseja excluir este tipo de atividade?", "Excluir tipo de atividade", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                //{
-
-                //    ExcluiTipoAtividadeBD(TipoAtividadeSelecionada.TipoAtividadeID);
-                //    //TiposAtividade.Remove(AtividadeSelecionada);
-                //    CarregaColecaoTiposAtividades();
-                //}
                 if (Global.PopupBox("Tem certeza que deseja excluir?", 2))
                 {
+                    var entity = TipoAtividadeSelecionada;
+                    var entityConv = Mapper.Map<TipoAtividade>(entity);
+                    _auxiliaresService.TipoAtividadeService.Remover(entityConv);
 
-                    ExcluiTipoAtividadeBD(TipoAtividadeSelecionada.TipoAtividadeID);
-                    //TiposAtividade.Remove(AtividadeSelecionada);
+                    TiposAtividades.Remove(TipoAtividadeSelecionada);
                     CarregaColecaoTiposAtividades();
-
                 }
             }
             catch (Exception ex)
             {
+                Global.Log("Erro na void OnExcluirCommand_TiposAtividades ex: " + ex);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
 
         }
@@ -1370,7 +1323,9 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-
+                Global.Log("Erro na void OnAdicionarCommand_TiposCobrancas ex: " + ex);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
 
         }
@@ -1378,61 +1333,48 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                //HabilitaEdicao = false;
-                System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(ClasseTiposCobrancas));
+                var entity = TipoCobrancaSelecionado;
+                var entityConv = Mapper.Map<TipoCobranca>(entity);
 
-                ObservableCollection<ClasseTiposCobrancas.TipoCobranca> _TiposCobrancaTemp = new ObservableCollection<ClasseTiposCobrancas.TipoCobranca>();
-                ClasseTiposCobrancas _ClasseAtividadeTemp = new ClasseTiposCobrancas();
-                _TiposCobrancaTemp.Add(TipoCobrancaSelecionado);
-                _ClasseAtividadeTemp.TiposCobrancas = _TiposCobrancaTemp;
-
-                string xmlString;
-
-                using (StringWriterWithEncoding sw = new StringWriterWithEncoding(System.Text.Encoding.UTF8))
+                if (TipoCobrancaSelecionado.TipoCobrancaID != 0)
                 {
-
-                    using (XmlTextWriter xw = new XmlTextWriter(sw))
-                    {
-                        xw.Formatting = Formatting.Indented;
-                        serializer.Serialize(xw, _ClasseAtividadeTemp);
-                        xmlString = sw.ToString();
-                    }
-
+                    _auxiliaresService.TipoCobrancaService.Alterar(entityConv);
+                }
+                else
+                {
+                    _auxiliaresService.TipoCobrancaService.Criar(entityConv);
                 }
 
-                InsereTiposCobrancasBD(xmlString);
                 CarregaColecaoTiposCobrancas();
-
 
             }
             catch (Exception ex)
             {
+                Global.Log("Erro na void OnSalvarEdicaoCommand_TiposCobrancas ex: " + ex);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
         }
         public void OnExcluirCommand_TiposCobrancas()
         {
             try
             {
-                //if (MessageBox.Show("Tem certeza que deseja excluir este tipo de cobrança?", "Excluir tipo de cobrança", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                //{
-
-                //    ExcluiTiposCobrancasBD(TipoCobrancaSelecionado.TipoCobrancaID);
-                //    //TiposAtividade.Remove(AtividadeSelecionada);
-                //    CarregaColecaoTiposCobrancas();
-
-                //}
                 if (Global.PopupBox("Tem certeza que deseja excluir?", 2))
                 {
+                    var entity = TipoCobrancaSelecionado;
+                    var entityConv = Mapper.Map<TipoCobranca>(entity);
+                    _auxiliaresService.TipoCobrancaService.Remover(entityConv);
 
-                    ExcluiTiposCobrancasBD(TipoCobrancaSelecionado.TipoCobrancaID);
-                    //TiposAtividade.Remove(AtividadeSelecionada);
+                    TiposCobrancas.Remove(TipoCobrancaSelecionado);
+
                     CarregaColecaoTiposCobrancas();
-
                 }
-
             }
             catch (Exception ex)
             {
+                Global.Log("Erro na void OnExcluirCommand_TiposCobrancas ex: " + ex);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
 
         }
@@ -1458,7 +1400,9 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-
+                Global.Log("Erro na void OnExcluirCommand_TiposCobrancas ex: " + ex);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
 
         }
@@ -1466,60 +1410,47 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                //HabilitaEdicao = false;
-                System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(ClasseTiposAcessos));
+                var entity = TipoAcessoSelecionado;
+                var entityConv = Mapper.Map<TipoAcesso>(entity);
 
-                ObservableCollection<ClasseTiposAcessos.TipoAcesso> _TiposAcessoTemp = new ObservableCollection<ClasseTiposAcessos.TipoAcesso>();
-                ClasseTiposAcessos _ClasseAcessoTemp = new ClasseTiposAcessos();
-                _TiposAcessoTemp.Add(TipoAcessoSelecionado);
-                _ClasseAcessoTemp.TiposAcessos = _TiposAcessoTemp;
-
-                string xmlString;
-
-                using (StringWriterWithEncoding sw = new StringWriterWithEncoding(System.Text.Encoding.UTF8))
+                if (TipoAcessoSelecionado.TipoAcessoID != 0)
                 {
-
-                    using (XmlTextWriter xw = new XmlTextWriter(sw))
-                    {
-                        xw.Formatting = Formatting.Indented;
-                        serializer.Serialize(xw, _ClasseAcessoTemp);
-                        xmlString = sw.ToString();
-                    }
-
+                    _auxiliaresService.TiposAcessoService.Alterar(entityConv);
+                }
+                else
+                {
+                    _auxiliaresService.TiposAcessoService.Criar(entityConv);
                 }
 
-                InsereTiposAcessosBD(xmlString);
                 CarregaColecaoTiposAcessos();
 
 
             }
             catch (Exception ex)
             {
+                Global.Log("Erro na void OnExcluirCommand_TiposCobrancas ex: " + ex);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
         }
         public void OnExcluirCommand_TiposAcesso()
         {
             try
             {
-                //if (MessageBox.Show("Tem certeza que deseja excluir este tipo de acesso?", "Excluir tipo de acesso", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                //{
-
-                //    ExcluiTiposAcessosBD(TipoAcessoSelecionado.TipoAcessoID);
-                //    //TiposAtividade.Remove(AtividadeSelecionada);
-                //    CarregaColecaoTiposAcessos();
-
-                //}
                 if (Global.PopupBox("Tem certeza que deseja excluir?", 2))
                 {
+                    var entity = TipoAcessoSelecionado;
+                    var entityConv = Mapper.Map<TipoAcesso>(entity);
+                    _auxiliaresService.TiposAcessoService.Remover(entityConv);
 
-                    ExcluiTiposAcessosBD(TipoAcessoSelecionado.TipoAcessoID);
-                    //TiposAtividade.Remove(AtividadeSelecionada);
                     CarregaColecaoTiposAcessos();
-
                 }
             }
             catch (Exception ex)
             {
+                Global.Log("Erro na void OnExcluirCommand_TiposCobrancas ex: " + ex);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
 
         }
@@ -1545,7 +1476,9 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-
+                Global.Log("Erro na void OnAdicionarCommand_TiposStatus ex: " + ex);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
 
         }
@@ -1553,60 +1486,48 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                //HabilitaEdicao = false;
-                System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(ClasseStatus));
+                var entity = TipoStatusSelecionado;
+                var entityConv = Mapper.Map<Status>(entity);
 
-                ObservableCollection<ClasseStatus.Status> _StatusTemp = new ObservableCollection<ClasseStatus.Status>();
-                ClasseStatus _ClasseStatusTemp = new ClasseStatus();
-                _StatusTemp.Add(TipoStatusSelecionado);
-                _ClasseStatusTemp.Statuss = _StatusTemp;
-
-                string xmlString;
-
-                using (StringWriterWithEncoding sw = new StringWriterWithEncoding(System.Text.Encoding.UTF8))
+                if (TipoStatusSelecionado.StatusID != 0)
                 {
-
-                    using (XmlTextWriter xw = new XmlTextWriter(sw))
-                    {
-                        xw.Formatting = Formatting.Indented;
-                        serializer.Serialize(xw, _ClasseStatusTemp);
-                        xmlString = sw.ToString();
-                    }
-
+                    _auxiliaresService.TipoStatusService.Alterar(entityConv);
+                }
+                else
+                {
+                    _auxiliaresService.TipoStatusService.Criar(entityConv);
                 }
 
-                InsereStatusBD(xmlString);
                 CarregaColecaoStatus();
-
 
             }
             catch (Exception ex)
             {
+                Global.Log("Erro na void OnSalvarEdicaoCommand_TiposStatus ex: " + ex);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
         }
         public void OnExcluirCommand_TiposStatus()
         {
             try
             {
-                //if (MessageBox.Show("Tem certeza que deseja excluir este tipo de status?", "Excluir tipo de status", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                //{
-
-                //    ExcluiStatusBD(TipoStatusSelecionado.StatusID);
-                //    //TiposAtividade.Remove(AtividadeSelecionada);
-                //    CarregaColecaoStatus();
-
-                //}
                 if (Global.PopupBox("Tem certeza que deseja excluir?", 2))
                 {
+                    var entity = TipoStatusSelecionado;
+                    var entityConv = Mapper.Map<Status>(entity);
+                    _auxiliaresService.TipoStatusService.Remover(entityConv);
 
-                    ExcluiStatusBD(TipoStatusSelecionado.StatusID);
-                    //TiposAtividade.Remove(AtividadeSelecionada);
+                    TiposStatus.Remove(TipoStatusSelecionado);
+
                     CarregaColecaoStatus();
-
                 }
             }
             catch (Exception ex)
             {
+                Global.Log("Erro na void OnExcluirCommand_TiposStatus ex: " + ex);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
 
         }
@@ -1632,7 +1553,9 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-
+                Global.Log("Erro na void OnAdicionarCommand_TiposCursos ex: " + ex);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
 
         }
@@ -1640,63 +1563,50 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                //HabilitaEdicao = false;Curso
-                System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(ClasseCursos));
+                var entity = CursoSelecionado;
+                var entityConv = Mapper.Map<Curso>(entity);
 
-                ObservableCollection<ClasseCursos.Curso> _CursosTemp = new ObservableCollection<ClasseCursos.Curso>();
-                ClasseCursos _ClasseCursosTemp = new ClasseCursos();
-                _CursosTemp.Add(CursoSelecionado);
-                _ClasseCursosTemp.Cursos = _CursosTemp;
-
-                string xmlString;
-
-                using (StringWriterWithEncoding sw = new StringWriterWithEncoding(System.Text.Encoding.UTF8))
+                if (CursoSelecionado.CursoID != 0)
                 {
-
-                    using (XmlTextWriter xw = new XmlTextWriter(sw))
-                    {
-                        xw.Formatting = Formatting.Indented;
-                        serializer.Serialize(xw, _ClasseCursosTemp);
-                        xmlString = sw.ToString();
-                    }
-
+                    _auxiliaresService.CursoService.Alterar(entityConv);
+                }
+                else
+                {
+                    _auxiliaresService.CursoService.Criar(entityConv);
                 }
 
-                InsereCursosBD(xmlString);
+
                 CarregaColecaoCursos();
 
 
             }
             catch (Exception ex)
             {
+                Global.Log("Erro na void OnSalvarEdicaoCommand_TiposCursos ex: " + ex);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
         }
         public void OnExcluirCommand_TiposCursos()
         {
             try
             {
-                //if (MessageBox.Show("Tem certeza que deseja excluir este tipo de curso?", "Excluir tipo de curso", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                //{
-
-                //    ExcluiCursosBD(CursoSelecionado.CursoID);
-                //    //TiposAtividade.Remove(AtividadeSelecionada);
-                //    CarregaColecaoCursos();
-
-                //}
                 if (Global.PopupBox("Tem certeza que deseja excluir?", 2))
                 {
+                    var entity = CursoSelecionado;
+                    var entityConv = Mapper.Map<Curso>(entity);
+                    _auxiliaresService.CursoService.Remover(entityConv);
+                    Cursos.Remove(CursoSelecionado);
 
-                    ExcluiCursosBD(CursoSelecionado.CursoID);
-                    //TiposAtividade.Remove(AtividadeSelecionada);
                     CarregaColecaoCursos();
-
                 }
-
             }
             catch (Exception ex)
             {
+                Global.Log("Erro na void OnSalvarEdicaoCommand_TiposCursos ex: " + ex);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
-
         }
         #endregion
 
@@ -1720,7 +1630,9 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-
+                Global.Log("Erro na void OnAdicionarCommand_AreaAcesso ex: " + ex);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
 
         }
@@ -1728,61 +1640,48 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                //HabilitaEdicao = false;Curso
-                System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(ClasseAreasAcessos));
+                var entity = AreaAcessoSelecionada;
+                var entityConv = Mapper.Map<AreaAcesso>(entity);
 
-                ObservableCollection<ClasseAreasAcessos.AreaAcesso> _AreaAcessoTemp = new ObservableCollection<ClasseAreasAcessos.AreaAcesso>();
-                ClasseAreasAcessos _ClasseAreaAcessoTemp = new ClasseAreasAcessos();
-                _AreaAcessoTemp.Add(AreaAcessoSelecionada);
-                _ClasseAreaAcessoTemp.AreasAcessos = _AreaAcessoTemp;
-
-                string xmlString;
-
-                using (StringWriterWithEncoding sw = new StringWriterWithEncoding(System.Text.Encoding.UTF8))
+                if (AreaAcessoSelecionada.AreaAcessoID != 0)
                 {
-
-                    using (XmlTextWriter xw = new XmlTextWriter(sw))
-                    {
-                        xw.Formatting = Formatting.Indented;
-                        serializer.Serialize(xw, _ClasseAreaAcessoTemp);
-                        xmlString = sw.ToString();
-                    }
-
+                    _auxiliaresService.AreaAcessoService.Alterar(entityConv);
+                }
+                else
+                {
+                    _auxiliaresService.AreaAcessoService.Criar(entityConv);
                 }
 
-                InsereAreasAcessosBD(xmlString);
                 CarregaColecaoAreasAcessos();
-
 
             }
             catch (Exception ex)
             {
+                Global.Log("Erro na void OnAdicionarCommand_AreaAcesso ex: " + ex);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
         }
         public void OnExcluirCommand_AreaAcesso()
         {
             try
             {
-                //if (MessageBox.Show("Tem certeza que deseja excluir este tipo de área de acesso?", "Excluir tipo de área de acesso", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                //{
-
-                //    ExcluiAreasAcessosBD(AreaAcessoSelecionada.AreaAcessoID);
-                //    //TiposAtividade.Remove(AtividadeSelecionada);
-                //    CarregaColecaoAreasAcessos();
-
-                //}
                 if (Global.PopupBox("Tem certeza que deseja excluir?", 2))
                 {
+                    var entity = AreaAcessoSelecionada;
+                    var entityConv = Mapper.Map<AreaAcesso>(entity);
+                    _auxiliaresService.AreaAcessoService.Remover(entityConv);
 
-                    ExcluiAreasAcessosBD(AreaAcessoSelecionada.AreaAcessoID);
-                    //TiposAtividade.Remove(AtividadeSelecionada);
+                    AreasAcessos.Remove(AreaAcessoSelecionada);
+
                     CarregaColecaoAreasAcessos();
-
                 }
-
             }
             catch (Exception ex)
             {
+                Global.Log("Erro na void OnAdicionarCommand_AreaAcesso ex: " + ex);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
 
         }
@@ -1795,25 +1694,10 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                //string _xml = RequisitaTiposEquipamentos();
-
-                //XmlSerializer deserializer = new XmlSerializer(typeof(ClasseTiposEquipamento));
-
-                //XmlDocument xmldocument = new XmlDocument();
-                //xmldocument.LoadXml(_xml);
-
-                //TextReader reader = new StringReader(_xml);
-                //ClasseTiposEquipamento classeTiposEquipamentos = new ClasseTiposEquipamento();
-                //classeTiposEquipamentos = (ClasseTiposEquipamento)deserializer.Deserialize(reader);
-                //TiposEquipamentos = new ObservableCollection<ClasseTiposEquipamento.TipoEquipamento>();
-                //TiposEquipamentos = classeTiposEquipamentos.TiposEquipamentos;
-
-
                 var service = new IMOD.Application.Service.TipoEquipamentoService();
-
                 var list1 = service.Listar();
-                var list2 = Mapper.Map<List<ClasseTiposEquipamento.TipoEquipamento>>(list1);
 
+                var list2 = Mapper.Map<List<ClasseTiposEquipamento.TipoEquipamento>>(list1);
                 var observer = new ObservableCollection<ClasseTiposEquipamento.TipoEquipamento>();
                 list2.ForEach(n =>
                 {
@@ -1821,11 +1705,12 @@ namespace iModSCCredenciamento.ViewModels
                 });
 
                 this.TiposEquipamentos = observer;
-
             }
             catch (Exception ex)
             {
                 Global.Log("Erro void CarregaColecaoEmpresas ex: " + ex.Message);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
         }
 
@@ -1833,22 +1718,24 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                string _xml = RequisitaTiposAtividades();
+                var service = new IMOD.Application.Service.TipoAtividadeService();
+                var list1 = service.Listar();
 
-                XmlSerializer deserializer = new XmlSerializer(typeof(ClasseTiposAtividades));
+                var list2 = Mapper.Map<List<ClasseTiposAtividades.TipoAtividade>>(list1);
+                var observer = new ObservableCollection<ClasseTiposAtividades.TipoAtividade>();
+                list2.ForEach(n =>
+                {
+                    observer.Add(n);
+                });
 
-                XmlDocument xmldocument = new XmlDocument();
-                xmldocument.LoadXml(_xml);
+                this.TiposAtividades = observer;
 
-                TextReader reader = new StringReader(_xml);
-                ClasseTiposAtividades classeTiposAtividades = new ClasseTiposAtividades();
-                classeTiposAtividades = (ClasseTiposAtividades)deserializer.Deserialize(reader);
-                TiposAtividades = new ObservableCollection<ClasseTiposAtividades.TipoAtividade>();
-                TiposAtividades = classeTiposAtividades.TiposAtividades;
             }
             catch (Exception ex)
             {
-                //Global.Log("Erro void CarregaColecaoEmpresas ex: " + ex.Message);
+                Global.Log("Erro void CarregaColecaoTiposAtividades ex: " + ex.Message);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
         }
 
@@ -1856,22 +1743,24 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
+                var service = new IMOD.Application.Service.TipoCobrancaService();
+                var list1 = service.Listar();
 
-                string _xml = RequisitaTiposCobrancas();
+                var list2 = Mapper.Map<List<ClasseTiposCobrancas.TipoCobranca>>(list1);
+                var observer = new ObservableCollection<ClasseTiposCobrancas.TipoCobranca>();
+                list2.ForEach(n =>
+                {
+                    observer.Add(n);
+                });
 
-                XmlSerializer deserializer = new XmlSerializer(typeof(ClasseTiposCobrancas));
-                XmlDocument xmldocument = new XmlDocument();
-                xmldocument.LoadXml(_xml);
-                TextReader reader = new StringReader(_xml);
-                ClasseTiposCobrancas classeTiposCobrancas = new ClasseTiposCobrancas();
-                classeTiposCobrancas = (ClasseTiposCobrancas)deserializer.Deserialize(reader);
-                TiposCobrancas = new ObservableCollection<ClasseTiposCobrancas.TipoCobranca>();
-                TiposCobrancas = classeTiposCobrancas.TiposCobrancas;
+                this.TiposCobrancas = observer;
 
             }
             catch (Exception ex)
             {
                 Global.Log("Erro na void CarregaColeçãoTiposCobrancas ex: " + ex);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
         }
 
@@ -1879,22 +1768,23 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                string _xml = RequisitaAreasAcessos();
+                var service = new IMOD.Application.Service.AreaAcessoService();
+                var list1 = service.Listar();
 
-                XmlSerializer deserializer = new XmlSerializer(typeof(ClasseAreasAcessos));
+                var list2 = Mapper.Map<List<ClasseAreasAcessos.AreaAcesso>>(list1);
+                var observer = new ObservableCollection<ClasseAreasAcessos.AreaAcesso>();
+                list2.ForEach(n =>
+                {
+                    observer.Add(n);
+                });
 
-                XmlDocument xmldocument = new XmlDocument();
-                xmldocument.LoadXml(_xml);
-
-                TextReader reader = new StringReader(_xml);
-                ClasseAreasAcessos classeAreasAcessos = new ClasseAreasAcessos();
-                classeAreasAcessos = (ClasseAreasAcessos)deserializer.Deserialize(reader);
-                AreasAcessos = new ObservableCollection<ClasseAreasAcessos.AreaAcesso>();
-                AreasAcessos = classeAreasAcessos.AreasAcessos;
+                this.AreasAcessos = observer;
             }
             catch (Exception ex)
             {
-                //Global.Log("Erro void CarregaColecaoEmpresas ex: " + ex.Message);
+                Global.Log("Erro void CarregaColecaoAreasAcessos ex: " + ex.Message);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
         }
 
@@ -1902,23 +1792,24 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                string _xml = RequisitaTiposStatus();
+                var service = new IMOD.Application.Service.StatusService();
+                var list1 = service.Listar();
 
-                XmlSerializer deserializer = new XmlSerializer(typeof(ClasseStatus));
+                var list2 = Mapper.Map<List<ClasseStatus.Status>>(list1);
+                var observer = new ObservableCollection<ClasseStatus.Status>();
+                list2.ForEach(n =>
+                {
+                    observer.Add(n);
+                });
 
-                XmlDocument xmldocument = new XmlDocument();
-                xmldocument.LoadXml(_xml);
-
-                TextReader reader = new StringReader(_xml);
-                ClasseStatus classeTiposStatus = new ClasseStatus();
-                classeTiposStatus = (ClasseStatus)deserializer.Deserialize(reader);
-                TiposStatus = new ObservableCollection<ClasseStatus.Status>();
-                TiposStatus = classeTiposStatus.Statuss;
+                this.TiposStatus = observer;
 
             }
             catch (Exception ex)
             {
-                //Global.Log("Erro void CarregaColecaoEmpresas ex: " + ex.Message);
+                Global.Log("Erro na void CarregaColecaoStatus ex: " + ex);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
         }
 
@@ -1926,23 +1817,23 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                string _xml = RequisitaCursos();
+                var service = new IMOD.Application.Service.CursoService();
+                var list1 = service.Listar();
 
-                XmlSerializer deserializer = new XmlSerializer(typeof(ClasseCursos));
+                var list2 = Mapper.Map<List<ClasseCursos.Curso>>(list1);
+                var observer = new ObservableCollection<ClasseCursos.Curso>();
+                list2.ForEach(n =>
+                {
+                    observer.Add(n);
+                });
 
-                XmlDocument xmldocument = new XmlDocument();
-                xmldocument.LoadXml(_xml);
-
-                TextReader reader = new StringReader(_xml);
-                ClasseCursos classeCursos = new ClasseCursos();
-                classeCursos = (ClasseCursos)deserializer.Deserialize(reader);
-                Cursos = new ObservableCollection<ClasseCursos.Curso>();
-                Cursos = classeCursos.Cursos;
-                //SelectedIndex = 0;
+                this.Cursos = observer;
             }
             catch (Exception ex)
             {
-                //Global.Log("Erro void CarregaColecaoEmpresas ex: " + ex.Message);
+                Global.Log("Erro na void CarregaColecaoCursos ex: " + ex);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
         }
 
@@ -1950,46 +1841,50 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                string _xml = RequisitaLayoutsCrachas();
+                var service = new IMOD.Application.Service.LayoutCrachaService();
+                var list1 = service.Listar();
 
-                XmlSerializer deserializer = new XmlSerializer(typeof(ClasseLayoutsCrachas));
+                var list2 = Mapper.Map<List<ClasseLayoutsCrachas.LayoutCracha>>(list1);
+                var observer = new ObservableCollection<ClasseLayoutsCrachas.LayoutCracha>();
+                list2.ForEach(n =>
+                {
+                    observer.Add(n);
+                });
 
-                XmlDocument xmldocument = new XmlDocument();
-                xmldocument.LoadXml(_xml);
+                this.LayoutsCrachas = observer;
 
-                TextReader reader = new StringReader(_xml);
-                ClasseLayoutsCrachas classeLayoutsCrachas = new ClasseLayoutsCrachas();
-                classeLayoutsCrachas = (ClasseLayoutsCrachas)deserializer.Deserialize(reader);
-                LayoutsCrachas = new ObservableCollection<ClasseLayoutsCrachas.LayoutCracha>();
-                LayoutsCrachas = classeLayoutsCrachas.LayoutsCrachas;
-                //SelectedIndex = 0;
             }
             catch (Exception ex)
             {
-                //Global.Log("Erro void CarregaColecaoEmpresas ex: " + ex.Message);
+                Global.Log("Erro na void CarregaColecaoLayoutsCrachas ex: " + ex);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
+
         }
 
         private void CarregaColecaoTiposAcessos()
         {
             try
             {
+                var service = new IMOD.Application.Service.TipoAcessoService();
+                var list1 = service.Listar();
 
-                string _xml = RequisitaTiposAcessos();
+                var list2 = Mapper.Map<List<ClasseTiposAcessos.TipoAcesso>>(list1);
+                var observer = new ObservableCollection<ClasseTiposAcessos.TipoAcesso>();
+                list2.ForEach(n =>
+                {
+                    observer.Add(n);
+                });
 
-                XmlSerializer deserializer = new XmlSerializer(typeof(ClasseTiposAcessos));
-                XmlDocument xmldocument = new XmlDocument();
-                xmldocument.LoadXml(_xml);
-                TextReader reader = new StringReader(_xml);
-                ClasseTiposAcessos classeTiposAcessos = new ClasseTiposAcessos();
-                classeTiposAcessos = (ClasseTiposAcessos)deserializer.Deserialize(reader);
-                TiposAcessos = new ObservableCollection<ClasseTiposAcessos.TipoAcesso>();
-                TiposAcessos = classeTiposAcessos.TiposAcessos;
+                this.TiposAcessos = observer;
 
             }
             catch (Exception ex)
             {
                 Global.Log("Erro na void CarregaColeçãoTiposAcessos ex: " + ex);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
         }
 
@@ -1997,23 +1892,24 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
+                var service = new IMOD.Application.Service.RelatoriosService();
+                var list1 = service.Listar();
 
-                string _xml = RequisitaRelatorios();
+                var list2 = Mapper.Map<List<ClasseRelatorios.Relatorio>>(list1);
+                var observer = new ObservableCollection<ClasseRelatorios.Relatorio>();
+                list2.ForEach(n =>
+                {
+                    observer.Add(n);
+                });
 
-                XmlSerializer deserializer = new XmlSerializer(typeof(ClasseRelatorios));
-                XmlDocument xmldocument = new XmlDocument();
-                xmldocument.LoadXml(_xml);
-                TextReader reader = new StringReader(_xml);
-
-                ClasseRelatorios classeRelatorios = new ClasseRelatorios();
-                classeRelatorios = (ClasseRelatorios)deserializer.Deserialize(reader);
-                Relatorios = new ObservableCollection<ClasseRelatorios.Relatorio>();
-                Relatorios = classeRelatorios.Relatorios;
+                this.Relatorios = observer;
 
             }
             catch (Exception ex)
             {
                 Global.Log("Erro na void CarregaColecaoRelatorios ex: " + ex);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
         }
 
@@ -2021,1119 +1917,27 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
+                var service = new IMOD.Application.Service.RelatoriosGerenciaisService();
+                var list1 = service.Listar();
 
-                string _xml = RequisitaRelatoriosGerenciais();
-
-                XmlSerializer deserializer = new XmlSerializer(typeof(ClasseRelatoriosGerenciais));
-                XmlDocument xmldocument = new XmlDocument();
-                xmldocument.LoadXml(_xml);
-                TextReader reader = new StringReader(_xml);
-
-                ClasseRelatoriosGerenciais classeRelatoriosGerenciais = new ClasseRelatoriosGerenciais();
-                classeRelatoriosGerenciais = (ClasseRelatoriosGerenciais)deserializer.Deserialize(reader);
-                RelatoriosGerenciais = new ObservableCollection<ClasseRelatoriosGerenciais.RelatorioGerencial>();
-                RelatoriosGerenciais = classeRelatoriosGerenciais.RelatoriosGerenciais;
-
-            }
-            catch (Exception ex)
-            {
-                Global.Log("Erro na void CarregaColecaoRelatoriosGerenciais ex: " + ex);
-            }
-        }
-
-
-        #endregion
-
-        #region Data Access
-        private string RequisitaTiposEquipamentos()
-        {
-            try
-            {
-                XmlDocument _xmlDocument = new XmlDocument();
-                XmlNode _xmlNode = _xmlDocument.CreateXmlDeclaration("1.0", "UTF-8", null);
-
-                XmlNode _ClasseTiposEquipamento = _xmlDocument.CreateElement("ClasseTiposEquipamento");
-                _xmlDocument.AppendChild(_ClasseTiposEquipamento);
-
-                XmlNode _TiposEquipamentos = _xmlDocument.CreateElement("TiposEquipamentos");
-                _ClasseTiposEquipamento.AppendChild(_TiposEquipamentos);
-
-                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
-
-                SqlCommand _sqlcmd = new SqlCommand("select * from TiposEquipamentos order by TipoEquipamentoID", _Con);
-                SqlDataReader _sqldatareader = _sqlcmd.ExecuteReader();
-                while (_sqldatareader.Read())
+                var list2 = Mapper.Map<List<ClasseRelatoriosGerenciais.RelatorioGerencial>>(list1);
+                var observer = new ObservableCollection<ClasseRelatoriosGerenciais.RelatorioGerencial>();
+                list2.ForEach(n =>
                 {
-                    XmlNode _TipoEquipamento = _xmlDocument.CreateElement("TipoEquipamento");
-                    _TiposEquipamentos.AppendChild(_TipoEquipamento);
+                    observer.Add(n);
+                });
 
-                    XmlNode _TipoEquipamentoID = _xmlDocument.CreateElement("TipoEquipamentoID");
-                    _TipoEquipamentoID.AppendChild(_xmlDocument.CreateTextNode((_sqldatareader["TipoEquipamentoID"].ToString())));
-                    _TipoEquipamento.AppendChild(_TipoEquipamentoID);
+                this.RelatoriosGerenciais = observer;
 
-                    XmlNode _Descricao = _xmlDocument.CreateElement("Descricao");
-                    _Descricao.AppendChild(_xmlDocument.CreateTextNode((_sqldatareader["Descricao"].ToString())));
-                    _TipoEquipamento.AppendChild(_Descricao);
-
-                }
-                _sqldatareader.Close();
-                _Con.Close();
-                return _xmlDocument.InnerXml;
             }
             catch (Exception ex)
             {
-                Global.Log("Erro na void RequisitaTiposAtividades ex: " + ex);
-
-                return null;
+                Global.Log("Erro na void CarregaColecaoRelatorios ex: " + ex);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
         }
 
-        private string RequisitaTiposAtividades()
-        {
-            try
-            {
-                XmlDocument _xmlDocument = new XmlDocument();
-                XmlNode _xmlNode = _xmlDocument.CreateXmlDeclaration("1.0", "UTF-8", null);
-
-                XmlNode _ClasseTiposAtividades = _xmlDocument.CreateElement("ClasseTiposAtividades");
-                _xmlDocument.AppendChild(_ClasseTiposAtividades);
-
-                XmlNode _TiposAtividades = _xmlDocument.CreateElement("TiposAtividades");
-                _ClasseTiposAtividades.AppendChild(_TiposAtividades);
-
-                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
-                SqlCommand _sqlcmd = new SqlCommand("select * from TiposAtividades order by TipoAtividadeID", _Con);
-                SqlDataReader _sqldatareader = _sqlcmd.ExecuteReader();
-                while (_sqldatareader.Read())
-                {
-                    XmlNode _TipoAtividade = _xmlDocument.CreateElement("TipoAtividade");
-                    _TiposAtividades.AppendChild(_TipoAtividade);
-
-                    XmlNode _TipoAtividadeID = _xmlDocument.CreateElement("TipoAtividadeID");
-                    _TipoAtividadeID.AppendChild(_xmlDocument.CreateTextNode((_sqldatareader["TipoAtividadeID"].ToString())));
-                    _TipoAtividade.AppendChild(_TipoAtividadeID);
-
-                    XmlNode _Descricao = _xmlDocument.CreateElement("Descricao");
-                    _Descricao.AppendChild(_xmlDocument.CreateTextNode((_sqldatareader["Descricao"].ToString())));
-                    _TipoAtividade.AppendChild(_Descricao);
-
-                }
-                _sqldatareader.Close();
-                _Con.Close();
-                return _xmlDocument.InnerXml;
-            }
-            catch (Exception ex)
-            {
-                Global.Log("Erro na void RequisitaTiposAtividades ex: " + ex);
-
-                return null;
-            }
-        }
-
-        private string RequisitaTiposCobrancas()
-        {
-            try
-            {
-                XmlDocument _xmlDocument = new XmlDocument();
-                XmlNode _xmlNode = _xmlDocument.CreateXmlDeclaration("1.0", "UTF-8", null);
-
-                XmlNode _ClasseTiposCobrancas = _xmlDocument.CreateElement("ClasseTiposCobrancas");
-                _xmlDocument.AppendChild(_ClasseTiposCobrancas);
-
-                XmlNode _TiposCobrancas = _xmlDocument.CreateElement("TiposCobrancas");
-                _ClasseTiposCobrancas.AppendChild(_TiposCobrancas);
-
-
-                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
-                SqlCommand _sqlcmd = new SqlCommand("select * from TiposCobrancas", _Con);
-                SqlDataReader _sqldatareader = _sqlcmd.ExecuteReader();
-                while (_sqldatareader.Read())
-                {
-                    XmlNode _TipoCobranca = _xmlDocument.CreateElement("TipoCobranca");
-                    _TiposCobrancas.AppendChild(_TipoCobranca);
-
-                    XmlNode _TipoCobrancaID = _xmlDocument.CreateElement("TipoCobrancaID");
-                    _TipoCobrancaID.AppendChild(_xmlDocument.CreateTextNode((_sqldatareader["TipoCobrancaID"].ToString())));
-                    _TipoCobranca.AppendChild(_TipoCobrancaID);
-
-                    XmlNode _Descricao = _xmlDocument.CreateElement("Descricao");
-                    _Descricao.AppendChild(_xmlDocument.CreateTextNode((_sqldatareader["Descricao"].ToString())));
-                    _TipoCobranca.AppendChild(_Descricao);
-                }
-                _sqldatareader.Close();
-                _Con.Close();
-                return _xmlDocument.InnerXml;
-            }
-            catch (Exception ex)
-            {
-                Global.Log("Erro na void RequisitaTipoCobranca ex: " + ex);
-
-                return null;
-            }
-        }
-
-        private string RequisitaAreasAcessos()
-        {
-            try
-            {
-                XmlDocument _xmlDocument = new XmlDocument();
-                XmlNode _xmlNode = _xmlDocument.CreateXmlDeclaration("1.0", "UTF-8", null);
-
-                XmlNode _ClasseAreasAcessos = _xmlDocument.CreateElement("ClasseAreasAcessos");
-                _xmlDocument.AppendChild(_ClasseAreasAcessos);
-
-                XmlNode _AreasAcessos = _xmlDocument.CreateElement("AreasAcessos");
-                _ClasseAreasAcessos.AppendChild(_AreasAcessos);
-
-                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
-                SqlCommand _sqlcmd = new SqlCommand("select * from AreasAcessos order by AreaAcessoID", _Con);
-                SqlDataReader _sqldatareader = _sqlcmd.ExecuteReader();
-                while (_sqldatareader.Read())
-                {
-                    XmlNode _AreaAcesso = _xmlDocument.CreateElement("AreaAcesso");
-                    _AreasAcessos.AppendChild(_AreaAcesso);
-
-                    XmlNode _AreaAcessoID = _xmlDocument.CreateElement("AreaAcessoID");
-                    _AreaAcessoID.AppendChild(_xmlDocument.CreateTextNode((_sqldatareader["AreaAcessoID"].ToString())));
-                    _AreaAcesso.AppendChild(_AreaAcessoID);
-
-                    XmlNode _Descricao = _xmlDocument.CreateElement("Descricao");
-                    _Descricao.AppendChild(_xmlDocument.CreateTextNode((_sqldatareader["Descricao"].ToString())));
-                    _AreaAcesso.AppendChild(_Descricao);
-
-                }
-                _sqldatareader.Close();
-                _Con.Close();
-                return _xmlDocument.InnerXml;
-            }
-            catch (Exception ex)
-            {
-                Global.Log("Erro na void RequisitaAreasAcessos ex: " + ex);
-
-                return null;
-            }
-        }
-
-        private string RequisitaTiposStatus()
-        {
-            try
-            {
-                XmlDocument _xmlDocument = new XmlDocument();
-                XmlNode _xmlNode = _xmlDocument.CreateXmlDeclaration("1.0", "UTF-8", null);
-
-                XmlNode _ClasseStatus = _xmlDocument.CreateElement("ClasseStatus");
-                _xmlDocument.AppendChild(_ClasseStatus);
-
-                XmlNode _Status = _xmlDocument.CreateElement("Statuss");
-                _ClasseStatus.AppendChild(_Status);
-
-                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
-
-                SqlCommand _sqlcmd = new SqlCommand("select * from Status order by StatusID", _Con);
-                SqlDataReader _sqldatareader = _sqlcmd.ExecuteReader();
-                while (_sqldatareader.Read())
-                {
-                    XmlNode _Statu = _xmlDocument.CreateElement("Status");
-                    _Status.AppendChild(_Statu);
-
-                    XmlNode _StatusID = _xmlDocument.CreateElement("StatusID");
-                    _StatusID.AppendChild(_xmlDocument.CreateTextNode((_sqldatareader["StatusID"].ToString())));
-                    _Statu.AppendChild(_StatusID);
-
-                    XmlNode _Descricao = _xmlDocument.CreateElement("Descricao");
-                    _Descricao.AppendChild(_xmlDocument.CreateTextNode((_sqldatareader["Descricao"].ToString())));
-                    _Statu.AppendChild(_Descricao);
-
-                }
-                _sqldatareader.Close();
-                _Con.Close();
-                return _xmlDocument.InnerXml;
-            }
-            catch (Exception ex)
-            {
-                Global.Log("Erro na void RequisitaTiposAtividades ex: " + ex);
-
-                return null;
-            }
-        }
-
-        private string RequisitaCursos()
-        {
-            try
-            {
-                XmlDocument _xmlDocument = new XmlDocument();
-                XmlNode _xmlNode = _xmlDocument.CreateXmlDeclaration("1.0", "UTF-8", null);
-
-                XmlNode _ClassesCursos = _xmlDocument.CreateElement("ClasseCursos");
-                _xmlDocument.AppendChild(_ClassesCursos);
-
-                XmlNode _sCursos = _xmlDocument.CreateElement("Cursos");
-                _ClassesCursos.AppendChild(_sCursos);
-
-                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
-                SqlCommand _sqlcmd = new SqlCommand("select * from Cursos ", _Con);
-                SqlDataReader _sqldatareader = _sqlcmd.ExecuteReader();
-                while (_sqldatareader.Read())
-                {
-                    XmlNode _Curso = _xmlDocument.CreateElement("Curso");
-                    _sCursos.AppendChild(_Curso);
-
-                    XmlNode _CursoID = _xmlDocument.CreateElement("CursoID");
-                    _CursoID.AppendChild(_xmlDocument.CreateTextNode((_sqldatareader["CursoID"].ToString())));
-                    _Curso.AppendChild(_CursoID);
-
-                    XmlNode _Descricao = _xmlDocument.CreateElement("Descricao");
-                    _Descricao.AppendChild(_xmlDocument.CreateTextNode((_sqldatareader["Descricao"].ToString())));
-                    _Curso.AppendChild(_Descricao);
-
-                }
-                _sqldatareader.Close();
-                _Con.Close();
-                return _xmlDocument.InnerXml;
-            }
-            catch (Exception ex)
-            {
-                Global.Log("Erro na void RequisitaCursos ex: " + ex);
-
-                return null;
-
-            }
-        }
-
-        private string RequisitaLayoutsCrachas()
-        {
-            try
-            {
-                XmlDocument _xmlDocument = new XmlDocument();
-                XmlNode _xmlNode = _xmlDocument.CreateXmlDeclaration("1.0", "UTF-8", null);
-
-                XmlNode _ClassesLayoutsCrachas = _xmlDocument.CreateElement("ClasseLayoutsCrachas");
-                _xmlDocument.AppendChild(_ClassesLayoutsCrachas);
-
-                XmlNode _sLayoutsCrachas = _xmlDocument.CreateElement("LayoutsCrachas");
-                _ClassesLayoutsCrachas.AppendChild(_sLayoutsCrachas);
-
-                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
-                SqlCommand _sqlcmd = new SqlCommand("select * from LayoutsCrachas ", _Con);
-                SqlDataReader _sqldatareader = _sqlcmd.ExecuteReader();
-                while (_sqldatareader.Read())
-                {
-                    XmlNode _LayoutCracha = _xmlDocument.CreateElement("LayoutCracha");
-                    _sLayoutsCrachas.AppendChild(_LayoutCracha);
-
-                    XmlNode _LayoutCrachaID = _xmlDocument.CreateElement("LayoutCrachaID");
-                    _LayoutCrachaID.AppendChild(_xmlDocument.CreateTextNode((_sqldatareader["LayoutCrachaID"].ToString().Trim())));
-                    _LayoutCracha.AppendChild(_LayoutCrachaID);
-
-                    XmlNode _Nome = _xmlDocument.CreateElement("Nome");
-                    _Nome.AppendChild(_xmlDocument.CreateTextNode((_sqldatareader["Nome"].ToString().Trim())));
-                    _LayoutCracha.AppendChild(_Nome);
-
-                    XmlNode _LayoutCrachaGUID = _xmlDocument.CreateElement("LayoutCrachaGUID");
-                    _LayoutCrachaGUID.AppendChild(_xmlDocument.CreateTextNode((_sqldatareader["LayoutCrachaGUID"].ToString().Trim())));
-                    _LayoutCracha.AppendChild(_LayoutCrachaGUID);
-
-                    XmlNode _LayoutRPT = _xmlDocument.CreateElement("LayoutRPT");
-                    _LayoutRPT.AppendChild(_xmlDocument.CreateTextNode((_sqldatareader["LayoutRPT"].ToString().Trim())));
-                    _LayoutCracha.AppendChild(_LayoutRPT);
-
-                }
-                _sqldatareader.Close();
-                _Con.Close();
-                return _xmlDocument.InnerXml;
-            }
-            catch (Exception ex)
-            {
-                Global.Log("Erro na void RequisitaLayoutsCrachas ex: " + ex);
-
-                return null;
-
-            }
-        }
-
-        private string RequisitaTiposAcessos()
-        {
-            try
-            {
-                XmlDocument _xmlDocument = new XmlDocument();
-                XmlNode _xmlNode = _xmlDocument.CreateXmlDeclaration("1.0", "UTF-8", null);
-
-                XmlNode _ClasseTiposAcessos = _xmlDocument.CreateElement("ClasseTiposAcessos");
-                _xmlDocument.AppendChild(_ClasseTiposAcessos);
-
-                XmlNode _TiposAcessos = _xmlDocument.CreateElement("TiposAcessos");
-                _ClasseTiposAcessos.AppendChild(_TiposAcessos);
-
-
-                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
-                SqlCommand _sqlcmd = new SqlCommand("select * from TiposAcessos", _Con);
-                SqlDataReader _sqldatareader = _sqlcmd.ExecuteReader();
-                while (_sqldatareader.Read())
-                {
-                    XmlNode _TipoAcesso = _xmlDocument.CreateElement("TipoAcesso");
-                    _TiposAcessos.AppendChild(_TipoAcesso);
-
-                    XmlNode _TipoAcessoID = _xmlDocument.CreateElement("TipoAcessoID");
-                    _TipoAcessoID.AppendChild(_xmlDocument.CreateTextNode((_sqldatareader["TipoAcessoID"].ToString())));
-                    _TipoAcesso.AppendChild(_TipoAcessoID);
-
-                    XmlNode _Descricao = _xmlDocument.CreateElement("Descricao");
-                    _Descricao.AppendChild(_xmlDocument.CreateTextNode((_sqldatareader["Descricao"].ToString())));
-                    _TipoAcesso.AppendChild(_Descricao);
-                }
-                _sqldatareader.Close();
-                _Con.Close();
-                return _xmlDocument.InnerXml;
-            }
-            catch (Exception ex)
-            {
-                Global.Log("Erro na void RequisitaTipoAcesso ex: " + ex);
-
-                return null;
-            }
-        }
-
-        private string RequisitaRelatorios()
-        {
-            try
-            {
-                XmlDocument _xmlDocument = new XmlDocument();
-                XmlNode _xmlNode = _xmlDocument.CreateXmlDeclaration("1.0", "UTF-8", null);
-
-                XmlNode _ClasseRelatorios = _xmlDocument.CreateElement("ClasseRelatorios");
-                _xmlDocument.AppendChild(_ClasseRelatorios);
-
-                XmlNode _Relatorios = _xmlDocument.CreateElement("Relatorios");
-                _ClasseRelatorios.AppendChild(_Relatorios);
-
-                string _strSql = " [RelatorioID],[Nome],[NomeArquivoRPT],[Ativo]";
-
-
-                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
-
-                _strSql = "select " + _strSql + " from Relatorios order by RelatorioID ASC";
-
-                SqlCommand _sqlcmd = new SqlCommand(_strSql, _Con);
-                SqlDataReader _sqlreader = _sqlcmd.ExecuteReader(CommandBehavior.Default);
-                while (_sqlreader.Read())
-                {
-
-                    XmlNode _Relatorio = _xmlDocument.CreateElement("Relatorio");
-                    _Relatorios.AppendChild(_Relatorio);
-
-                    XmlNode _RelatorioID = _xmlDocument.CreateElement("RelatorioID");
-                    _RelatorioID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["RelatorioID"].ToString())));
-                    _Relatorio.AppendChild(_RelatorioID);
-
-                    XmlNode _Nome = _xmlDocument.CreateElement("Nome");
-                    _Nome.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Nome"].ToString())));
-                    _Relatorio.AppendChild(_Nome);
-
-                    XmlNode _NomeArquivoRPT = _xmlDocument.CreateElement("NomeArquivoRPT");
-                    _NomeArquivoRPT.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["NomeArquivoRPT"].ToString())));
-                    _Relatorio.AppendChild(_NomeArquivoRPT);
-
-                    XmlNode _ArquivoRPT = _xmlDocument.CreateElement("ArquivoRPT");
-                    //_ArquivoRPT.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["ArquivoRPT"].ToString())));
-                    _Relatorio.AppendChild(_ArquivoRPT);
-
-                    XmlNode _Ativo = _xmlDocument.CreateElement("Ativo");
-                    _Ativo.AppendChild(_xmlDocument.CreateTextNode((Convert.ToInt32((bool)_sqlreader["Ativo"])).ToString()));
-                    _Relatorio.AppendChild(_Ativo);
-                }
-
-                _sqlreader.Close();
-
-                _Con.Close();
-                string _xml = _xmlDocument.InnerXml;
-                _xmlDocument = null;
-                return _xml;
-            }
-            catch (Exception ex)
-            {
-
-                return null;
-            }
-            return null;
-        }
-
-
-        private string RequisitaRelatoriosGerenciais()
-        {
-            try
-            {
-                XmlDocument _xmlDocument = new XmlDocument();
-                XmlNode _xmlNode = _xmlDocument.CreateXmlDeclaration("1.0", "UTF-8", null);
-
-                XmlNode _ClasseRelatorios = _xmlDocument.CreateElement("ClasseRelatoriosGerenciais");
-                _xmlDocument.AppendChild(_ClasseRelatorios);
-
-                XmlNode _Relatorios = _xmlDocument.CreateElement("RelatoriosGerenciais");
-                _ClasseRelatorios.AppendChild(_Relatorios);
-
-                string _strSql = " [RelatorioID],[Nome],[NomeArquivoRPT],[Ativo]";
-
-
-                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
-
-                _strSql = "select " + _strSql + " from RelatoriosGerenciais order by RelatorioID ASC";
-
-                SqlCommand _sqlcmd = new SqlCommand(_strSql, _Con);
-                SqlDataReader _sqlreader = _sqlcmd.ExecuteReader(CommandBehavior.Default);
-                while (_sqlreader.Read())
-                {
-
-                    XmlNode _Relatorio = _xmlDocument.CreateElement("RelatorioGerencial");
-                    _Relatorios.AppendChild(_Relatorio);
-
-                    XmlNode _RelatorioID = _xmlDocument.CreateElement("RelatorioID");
-                    _RelatorioID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["RelatorioID"].ToString())));
-                    _Relatorio.AppendChild(_RelatorioID);
-
-                    XmlNode _Nome = _xmlDocument.CreateElement("Nome");
-                    _Nome.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Nome"].ToString())));
-                    _Relatorio.AppendChild(_Nome);
-
-                    XmlNode _NomeArquivoRPT = _xmlDocument.CreateElement("NomeArquivoRPT");
-                    _NomeArquivoRPT.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["NomeArquivoRPT"].ToString())));
-                    _Relatorio.AppendChild(_NomeArquivoRPT);
-
-                    XmlNode _ArquivoRPT = _xmlDocument.CreateElement("ArquivoRPT");
-                    //_ArquivoRPT.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["ArquivoRPT"].ToString())));
-                    _Relatorio.AppendChild(_ArquivoRPT);
-
-                    XmlNode _Ativo = _xmlDocument.CreateElement("Ativo");
-                    _Ativo.AppendChild(_xmlDocument.CreateTextNode((Convert.ToInt32((bool)_sqlreader["Ativo"])).ToString()));
-                    _Relatorio.AppendChild(_Ativo);
-                }
-
-                _sqlreader.Close();
-
-                _Con.Close();
-                string _xml = _xmlDocument.InnerXml;
-                _xmlDocument = null;
-                return _xml;
-            }
-            catch (Exception ex)
-            {
-
-                return null;
-            }
-            return null;
-        }
-
-
-
-        private void InsereTipoEquipamentoBD(string xmlString)
-        {
-            try
-            {
-
-
-                System.Xml.XmlDocument _xmlDoc = new System.Xml.XmlDocument();
-
-                _xmlDoc.LoadXml(xmlString);
-                // SqlConnection _Con = new SqlConnection(Global._connectionString);_Con.Open();
-                ClasseTiposEquipamento.TipoEquipamento _equipamento = new ClasseTiposEquipamento.TipoEquipamento();
-                //for (int i = 0; i <= _xmlDoc.GetElementsByTagName("EmpresaID").Count - 1; i++)
-                //{
-                int i = 0;
-
-                _equipamento.TipoEquipamentoID = Convert.ToInt32(_xmlDoc.GetElementsByTagName("TipoEquipamentoID")[i].InnerText);
-                _equipamento.Descricao = _xmlDoc.GetElementsByTagName("Descricao")[i] == null ? "" : (_xmlDoc.GetElementsByTagName("Descricao")[i].InnerText);
-
-                //_Con.Close();
-                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
-
-                SqlCommand _sqlCmd;
-                if (_equipamento.TipoEquipamentoID != 0)
-                {
-                    _sqlCmd = new SqlCommand("Update TiposEquipamentos Set" +
-                        " Descricao= '" + _equipamento.Descricao + "'" +
-                        " Where TipoEquipamentoID = " + _equipamento.TipoEquipamentoID + "", _Con);
-                }
-                else
-                {
-                    _sqlCmd = new SqlCommand("Insert into TiposEquipamentos(Descricao) values ('" + _equipamento.Descricao + "')", _Con);
-
-                }
-
-                _sqlCmd.ExecuteNonQuery();
-                _Con.Close();
-            }
-            catch (Exception ex)
-            {
-                Global.Log("Erro na void InsereTipoEquipamentoBD ex: " + ex);
-
-
-            }
-
-        }
-
-        private void InsereTipoAtividadeBD(string xmlString)
-        {
-            try
-            {
-
-
-                System.Xml.XmlDocument _xmlDoc = new System.Xml.XmlDocument();
-
-                _xmlDoc.LoadXml(xmlString);
-
-                ClasseTiposAtividades.TipoAtividade _atividade = new ClasseTiposAtividades.TipoAtividade();
-                int i = 0;
-
-                //_atividade.TipoAtividadeID = Convert.ToInt32(_xmlDoc.GetElementsByTagName("TipoAtividadeID")[i].InnerText);
-                _atividade.Descricao = _xmlDoc.GetElementsByTagName("Descricao")[i] == null ? "" : (_xmlDoc.GetElementsByTagName("Descricao")[i].InnerText);
-
-                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
-
-                SqlCommand _sqlCmd;
-                //if (_atividade.TipoAtividadeID != 0)
-                //{
-                //    _sqlCmd = new SqlCommand("Update TiposAtividades Set" +
-                //        " Descricao= '" + _atividade.Descricao + "'" +
-                //        " Where TipoAtividadeID = " + _atividade.TipoAtividadeID + "", _Con);
-                //}
-                //else
-                //{
-                //    _sqlCmd = new SqlCommand("Insert into TiposAtividades(Descricao) values ('" + _atividade.Descricao + "')", _Con);
-
-                //}
-
-                //_sqlCmd.ExecuteNonQuery();
-                _Con.Close();
-            }
-            catch (Exception ex)
-            {
-                Global.Log("Erro na void InsereTipoEquipamentoBD ex: " + ex);
-
-
-            }
-
-        }
-
-        private void InsereTiposCobrancasBD(string xmlString)
-        {
-            try
-            {
-
-
-                System.Xml.XmlDocument _xmlDoc = new System.Xml.XmlDocument();
-
-                _xmlDoc.LoadXml(xmlString);
-                ClasseTiposCobrancas.TipoCobranca _cobranca = new ClasseTiposCobrancas.TipoCobranca();
-                int i = 0;
-
-                _cobranca.TipoCobrancaID = Convert.ToInt32(_xmlDoc.GetElementsByTagName("TipoCobrancaID")[i].InnerText);
-                _cobranca.Descricao = _xmlDoc.GetElementsByTagName("Descricao")[i] == null ? "" : (_xmlDoc.GetElementsByTagName("Descricao")[i].InnerText);
-
-                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
-
-                SqlCommand _sqlCmd;
-                if (_cobranca.TipoCobrancaID != 0)
-                {
-                    _sqlCmd = new SqlCommand("Update TiposCobrancas Set" +
-                        " Descricao= '" + _cobranca.Descricao + "'" +
-                        " Where TipoCobrancaID = " + _cobranca.TipoCobrancaID + "", _Con);
-                }
-                else
-                {
-                    _sqlCmd = new SqlCommand("Insert into TiposCobrancas(Descricao) values ('" + _cobranca.Descricao + "')", _Con);
-
-                }
-
-                _sqlCmd.ExecuteNonQuery();
-                _Con.Close();
-            }
-            catch (Exception ex)
-            {
-                Global.Log("Erro na void InsereTiposCobrancasBD ex: " + ex);
-
-
-            }
-
-        }
-
-        private void InsereTiposAcessosBD(string xmlString)
-        {
-            try
-            {
-
-
-                System.Xml.XmlDocument _xmlDoc = new System.Xml.XmlDocument();
-
-                _xmlDoc.LoadXml(xmlString);
-                ClasseTiposAcessos.TipoAcesso _acesso = new ClasseTiposAcessos.TipoAcesso();
-                int i = 0;
-
-                _acesso.TipoAcessoID = Convert.ToInt32(_xmlDoc.GetElementsByTagName("TipoAcessoID")[i].InnerText);
-                _acesso.Descricao = _xmlDoc.GetElementsByTagName("Descricao")[i] == null ? "" : (_xmlDoc.GetElementsByTagName("Descricao")[i].InnerText);
-
-                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
-
-                SqlCommand _sqlCmd;
-                if (_acesso.TipoAcessoID != 0)
-                {
-                    _sqlCmd = new SqlCommand("Update TiposAcessos Set" +
-                        " Descricao= '" + _acesso.Descricao + "'" +
-                        " Where TipoAcessoID = " + _acesso.TipoAcessoID + "", _Con);
-                }
-                else
-                {
-                    _sqlCmd = new SqlCommand("Insert into TiposAcessos(Descricao) values ('" + _acesso.Descricao + "')", _Con);
-
-                }
-
-                _sqlCmd.ExecuteNonQuery();
-                _Con.Close();
-            }
-            catch (Exception ex)
-            {
-                Global.Log("Erro na void InsereTiposAcessosBD ex: " + ex);
-
-            }
-
-        }
-
-        private void InsereStatusBD(string xmlString)
-        {
-            try
-            {
-                System.Xml.XmlDocument _xmlDoc = new System.Xml.XmlDocument();
-
-                _xmlDoc.LoadXml(xmlString);
-                ClasseStatus.Status _status = new ClasseStatus.Status();
-
-                int i = 0;
-
-                _status.StatusID = Convert.ToInt32(_xmlDoc.GetElementsByTagName("StatusID")[i].InnerText);
-                _status.Descricao = _xmlDoc.GetElementsByTagName("Descricao")[i] == null ? "" : (_xmlDoc.GetElementsByTagName("Descricao")[i].InnerText);
-
-                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
-
-                SqlCommand _sqlCmd;
-                if (_status.StatusID != 0)
-                {
-                    _sqlCmd = new SqlCommand("Update Status Set" +
-                        " Descricao= '" + _status.Descricao + "'" +
-                        " Where StatusID = " + _status.StatusID + "", _Con);
-                }
-                else
-                {
-                    _sqlCmd = new SqlCommand("Insert into Status(Descricao) values ('" + _status.Descricao + "')", _Con);
-
-                }
-
-                _sqlCmd.ExecuteNonQuery();
-                _Con.Close();
-            }
-            catch (Exception ex)
-            {
-                Global.Log("Erro na void InsereStatusBD ex: " + ex);
-            }
-        }
-
-        private void InsereCursosBD(string xmlString)
-        {
-            try
-            {
-                System.Xml.XmlDocument _xmlDoc = new System.Xml.XmlDocument();
-
-                _xmlDoc.LoadXml(xmlString);
-                ClasseCursos.Curso _cursos = new ClasseCursos.Curso();
-
-                int i = 0;
-
-                _cursos.CursoID = Convert.ToInt32(_xmlDoc.GetElementsByTagName("CursoID")[i].InnerText);
-                _cursos.Descricao = _xmlDoc.GetElementsByTagName("Descricao")[i] == null ? "" : (_xmlDoc.GetElementsByTagName("Descricao")[i].InnerText);
-
-                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
-
-                SqlCommand _sqlCmd;
-                if (_cursos.CursoID != 0)
-                {
-                    _sqlCmd = new SqlCommand("Update Cursos Set" +
-                        " Descricao= '" + _cursos.Descricao + "'" +
-                        " Where CursoID = " + _cursos.CursoID + "", _Con);
-                }
-                else
-                {
-                    _sqlCmd = new SqlCommand("Insert into Cursos(Descricao) values ('" + _cursos.Descricao + "')", _Con);
-
-                }
-
-                _sqlCmd.ExecuteNonQuery();
-                _Con.Close();
-            }
-            catch (Exception ex)
-            {
-                Global.Log("Erro na void InsereCursosBD ex: " + ex);
-            }
-        }
-
-        private void InsereAreasAcessosBD(string xmlString)
-        {
-            try
-            {
-                System.Xml.XmlDocument _xmlDoc = new System.Xml.XmlDocument();
-
-                _xmlDoc.LoadXml(xmlString);
-                ClasseAreasAcessos.AreaAcesso _areaacesso = new ClasseAreasAcessos.AreaAcesso();
-
-                int i = 0;
-
-                _areaacesso.AreaAcessoID = Convert.ToInt32(_xmlDoc.GetElementsByTagName("AreaAcessoID")[i].InnerText);
-                _areaacesso.Descricao = _xmlDoc.GetElementsByTagName("Descricao")[i] == null ? "" : (_xmlDoc.GetElementsByTagName("Descricao")[i].InnerText);
-
-                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
-
-                SqlCommand _sqlCmd;
-                if (_areaacesso.AreaAcessoID != 0)
-                {
-                    _sqlCmd = new SqlCommand("Update AreasAcessos Set" +
-                        " Descricao= '" + _areaacesso.Descricao + "'" +
-                        " Where AreaAcessoID = " + _areaacesso.AreaAcessoID + "", _Con);
-                }
-                else
-                {
-                    _sqlCmd = new SqlCommand("Insert into AreasAcessos(Descricao) values ('" + _areaacesso.Descricao + "')", _Con);
-
-                }
-
-                _sqlCmd.ExecuteNonQuery();
-                _Con.Close();
-            }
-            catch (Exception ex)
-            {
-                Global.Log("Erro na void InsereAreasAcessosBD ex: " + ex);
-            }
-        }
-
-        private void InsereRelatoriosBD(string xmlString)
-        {
-            try
-            {
-                System.Xml.XmlDocument _xmlDoc = new System.Xml.XmlDocument();
-
-                _xmlDoc.LoadXml(xmlString);
-                ClasseRelatorios.Relatorio _relatorio = new ClasseRelatorios.Relatorio();
-
-                int i = 0;
-
-                _relatorio.RelatorioID = _xmlDoc.GetElementsByTagName("RelatorioID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("RelatorioID")[i].InnerText);
-                _relatorio.Nome = _xmlDoc.GetElementsByTagName("Nome")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Nome")[i].InnerText;
-                _relatorio.NomeArquivoRPT = _RelatorioTemp.NomeArquivoRPT == null ? "" : _RelatorioTemp.NomeArquivoRPT;
-                _relatorio.ArquivoRPT = _RelatorioTemp.ArquivoRPT == null ? "" : _RelatorioTemp.ArquivoRPT;
-                bool _ativo;
-                Boolean.TryParse(_xmlDoc.GetElementsByTagName("Ativo")[i].InnerText, out _ativo);
-
-                _relatorio.Ativo = _xmlDoc.GetElementsByTagName("Ativo")[i] == null ? false : _ativo;
-
-                //_Con.Close();
-                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
-
-                SqlCommand _sqlCmd;
-                if (_relatorio.RelatorioID != 0)
-                {
-                    _sqlCmd = new SqlCommand("Update Relatorios Set " +
-                        "Nome= '" + _relatorio.Nome + "'" +
-                        ",NomeArquivoRPT= '" + _relatorio.NomeArquivoRPT + "'" +
-                        ",ArquivoRPT= '" + _relatorio.ArquivoRPT + "'" +
-                        ",Ativo= '" + _relatorio.Ativo + "'" +
-                        " Where RelatorioID = " + _relatorio.RelatorioID + "", _Con);
-                }
-                else
-                {
-                    _sqlCmd = new SqlCommand("Insert into Relatorios (Nome  ,NomeArquivoRPT ,ArquivoRPT,Ativo) values ('" +
-                        _relatorio.Nome + "','" + _relatorio.NomeArquivoRPT + "','" + _relatorio.ArquivoRPT + "','" + _relatorio.Ativo + "')", _Con);
-
-                }
-
-
-                _sqlCmd.ExecuteNonQuery();
-                _Con.Close();
-            }
-            catch (Exception ex)
-            {
-                Global.Log("Erro na void InsereRelatoriosBD ex: " + ex);
-            }
-        }
-
-        private void InsereRelatoriosGerenciaisBD(string xmlString)
-        {
-            try
-            {
-                System.Xml.XmlDocument _xmlDoc = new System.Xml.XmlDocument();
-
-                _xmlDoc.LoadXml(xmlString);
-                ClasseRelatoriosGerenciais.RelatorioGerencial _relatorioGerencial = new ClasseRelatoriosGerenciais.RelatorioGerencial();
-
-                int i = 0;
-
-                _relatorioGerencial.RelatorioID = _xmlDoc.GetElementsByTagName("RelatorioID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("RelatorioID")[i].InnerText);
-                _relatorioGerencial.Nome = _xmlDoc.GetElementsByTagName("Nome")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Nome")[i].InnerText;
-                _relatorioGerencial.NomeArquivoRPT = _RelatorioGerencialTemp.NomeArquivoRPT == null ? "" : _RelatorioGerencialTemp.NomeArquivoRPT;
-                _relatorioGerencial.ArquivoRPT = _RelatorioGerencialTemp.ArquivoRPT == null ? "" : _RelatorioGerencialTemp.ArquivoRPT;
-                bool _ativo;
-
-                Boolean.TryParse(_xmlDoc.GetElementsByTagName("Ativo")[i].InnerText, out _ativo);
-
-                _relatorioGerencial.Ativo = _xmlDoc.GetElementsByTagName("Ativo")[i] == null ? false : _ativo;
-
-                //_Con.Close();
-                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
-
-                SqlCommand _sqlCmd;
-                if (_relatorioGerencial.RelatorioID != 0)
-                {
-                    _sqlCmd = new SqlCommand("Update RelatoriosGerenciais Set " +
-                        "Nome= '" + _relatorioGerencial.Nome + "'" +
-                        ",NomeArquivoRPT= '" + _relatorioGerencial.NomeArquivoRPT + "'" +
-                        ",ArquivoRPT= '" + _relatorioGerencial.ArquivoRPT + "'" +
-                        ",Ativo= '" + _relatorioGerencial.Ativo + "'" +
-                        " Where RelatorioID = " + _relatorioGerencial.RelatorioID + "", _Con);
-                }
-                else
-                {
-                    _sqlCmd = new SqlCommand("Insert into RelatoriosGerenciais (Nome  ,NomeArquivoRPT ,ArquivoRPT,Ativo) values ('" +
-                        _relatorioGerencial.Nome + "','" + _relatorioGerencial.NomeArquivoRPT + "','" + _relatorioGerencial.ArquivoRPT + "','" + _relatorioGerencial.Ativo + "')", _Con);
-
-                }
-
-
-                _sqlCmd.ExecuteNonQuery();
-                _Con.Close();
-            }
-            catch (Exception ex)
-            {
-                Global.Log("Erro na void InsereRelatoriosGerenciaisBD ex: " + ex);
-            }
-        }
-
-        private void InsereLayoutsCrachasBD(string xmlString)
-        {
-            try
-            {
-                System.Xml.XmlDocument _xmlDoc = new System.Xml.XmlDocument();
-
-                _xmlDoc.LoadXml(xmlString);
-                ClasseLayoutsCrachas.LayoutCracha _layoutCracha = new ClasseLayoutsCrachas.LayoutCracha();
-
-                int i = 0;
-
-                _layoutCracha.LayoutCrachaID = _xmlDoc.GetElementsByTagName("LayoutCrachaID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("LayoutCrachaID")[i].InnerText);
-                _layoutCracha.Nome = _LayoutCrachaTemp.Nome == null ? "" : _LayoutCrachaTemp.Nome;
-                _layoutCracha.LayoutRPT = _LayoutCrachaTemp.LayoutRPT == null ? "" : _LayoutCrachaTemp.LayoutRPT;
-
-                //_Con.Close();
-                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
-
-                SqlCommand _sqlCmd;
-                if (_layoutCracha.LayoutCrachaID != 0)
-                {
-                    _sqlCmd = new SqlCommand("Update LayoutsCrachas Set " +
-                        "Nome= '" + _layoutCracha.Nome + "'" +
-                        ",LayoutRPT= '" + _layoutCracha.LayoutRPT + "'" +
-                        " Where LayoutCrachaID = " + _layoutCracha.LayoutCrachaID + "", _Con);
-                }
-                else
-                {
-                    _sqlCmd = new SqlCommand("Insert into LayoutsCrachas (Nome  ,LayoutRPT ) values ('" +
-                        _layoutCracha.Nome + "','" + _layoutCracha.LayoutRPT + "')", _Con);
-
-                }
-
-
-                _sqlCmd.ExecuteNonQuery();
-                _Con.Close();
-            }
-            catch (Exception ex)
-            {
-                Global.Log("Erro na void InsereLayoutsCrachasBD ex: " + ex);
-            }
-        }
-
-
-        private void ExcluiTipoEquipamentoBD(int _TipoEquipamentoID)
-        {
-            try
-            {
-                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
-
-                SqlCommand _sqlCmd;
-                _sqlCmd = new SqlCommand("Delete from TiposEquipamentos where TipoEquipamentoID=" + _TipoEquipamentoID, _Con);
-                _sqlCmd.ExecuteNonQuery();
-
-                _Con.Close();
-            }
-            catch (Exception ex)
-            {
-                Global.Log("Erro na void ExcluiSeguroBD ex: " + ex);
-            }
-        }
-
-        private void ExcluiTipoAtividadeBD(int _TipoAtividadeID)
-        {
-            try
-            {
-                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
-
-                SqlCommand _sqlCmd;
-                _sqlCmd = new SqlCommand("Delete from TiposAtividades where TipoAtividadeID=" + _TipoAtividadeID, _Con);
-                _sqlCmd.ExecuteNonQuery();
-
-                _Con.Close();
-            }
-            catch (Exception ex)
-            {
-                Global.Log("Erro na void ExcluiSeguroBD ex: " + ex);
-            }
-        }
-
-        private void ExcluiTiposCobrancasBD(int _TipoCobrancaID)
-        {
-            try
-            {
-                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
-
-                SqlCommand _sqlCmd;
-                _sqlCmd = new SqlCommand("Delete from TiposCobrancas where TipoCobrancaID=" + _TipoCobrancaID, _Con);
-                _sqlCmd.ExecuteNonQuery();
-
-                _Con.Close();
-            }
-            catch (Exception ex)
-            {
-                Global.Log("Erro na void ExcluiSeguroBD ex: " + ex);
-            }
-        }
-
-        private void ExcluiTiposAcessosBD(int _TipoAcessoID)
-        {
-            try
-            {
-                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
-
-                SqlCommand _sqlCmd;
-                _sqlCmd = new SqlCommand("Delete from TiposAcessos where TipoAcessoID=" + _TipoAcessoID, _Con);
-                _sqlCmd.ExecuteNonQuery();
-
-                _Con.Close();
-            }
-            catch (Exception ex)
-            {
-                Global.Log("Erro na void ExcluiTiposAcessosBD ex: " + ex);
-            }
-        }
-
-        private void ExcluiStatusBD(int _StatusID)
-        {
-            try
-            {
-                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
-
-                SqlCommand _sqlCmd;
-                _sqlCmd = new SqlCommand("Delete from Status where StatusID=" + _StatusID, _Con);
-                _sqlCmd.ExecuteNonQuery();
-
-                _Con.Close();
-            }
-            catch (Exception ex)
-            {
-                Global.Log("Erro na void ExcluiStatusBD ex: " + ex);
-            }
-        }
-
-        private void ExcluiCursosBD(int _CursoID)
-        {
-            try
-            {
-                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
-
-                SqlCommand _sqlCmd;
-                _sqlCmd = new SqlCommand("Delete from Cursos where CursoID=" + _CursoID, _Con);
-                _sqlCmd.ExecuteNonQuery();
-
-                _Con.Close();
-            }
-            catch (Exception ex)
-            {
-                Global.Log("Erro na void ExcluiCursosBD ex: " + ex);
-            }
-        }
-
-        private void ExcluiAreasAcessosBD(int _AreaAcessoID)
-        {
-            try
-            {
-                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
-
-                SqlCommand _sqlCmd;
-                _sqlCmd = new SqlCommand("Delete from AreasAcessos where AreaAcessoID=" + _AreaAcessoID, _Con);
-                _sqlCmd.ExecuteNonQuery();
-
-                _Con.Close();
-            }
-            catch (Exception ex)
-            {
-                Global.Log("Erro na void ExcluiAreasAcessosBD ex: " + ex);
-            }
-        }
-
-        private void ExcluiRelatorioBD(int _RelatorioID)
-        {
-            try
-            {
-                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
-
-                SqlCommand _sqlCmd;
-                _sqlCmd = new SqlCommand("Delete from Relatorios where RelatorioID=" + _RelatorioID, _Con);
-                _sqlCmd.ExecuteNonQuery();
-
-                _Con.Close();
-            }
-            catch (Exception ex)
-            {
-                Global.Log("Erro na void ExcluiRelatorioBD ex: " + ex);
-            }
-        }
-
-        private void ExcluiRelatorioGerencialBD(int _RelatorioID)
-        {
-            try
-            {
-                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
-
-                SqlCommand _sqlCmd;
-                _sqlCmd = new SqlCommand("Delete from RelatoriosGerenciais where RelatorioID=" + _RelatorioID, _Con);
-                _sqlCmd.ExecuteNonQuery();
-
-                _Con.Close();
-            }
-            catch (Exception ex)
-            {
-                Global.Log("Erro na void ExcluiRelatorioGerencialBD ex: " + ex);
-            }
-        }
-
-        private void ExcluiLayoutCrachaBD(int _LayoutCrachaID)
-        {
-            try
-            {
-                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
-
-                SqlCommand _sqlCmd;
-                _sqlCmd = new SqlCommand("Delete from LayoutsCrachas where LayoutCrachaID=" + _LayoutCrachaID, _Con);
-                _sqlCmd.ExecuteNonQuery();
-
-                _Con.Close();
-            }
-            catch (Exception ex)
-            {
-                Global.Log("Erro na void ExcluiLayoutCrachaBD ex: " + ex);
-            }
-        }
 
         #endregion
 

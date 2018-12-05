@@ -15,6 +15,7 @@ using iModSCCredenciamento.Funcoes;
 using iModSCCredenciamento.Models;
 using iModSCCredenciamento.Windows;
 using AutoMapper;
+using IMOD.Domain.Entities;
 
 namespace iModSCCredenciamento.ViewModels
 {
@@ -365,17 +366,21 @@ namespace iModSCCredenciamento.ViewModels
             {
                 HabilitaEdicao = false;
 
-                IMOD.Domain.Entities.EmpresaSignatario EmpresaSignatarioEntity = new IMOD.Domain.Entities.EmpresaSignatario();
-                g.TranportarDados(SignatarioSelecionado, 1, EmpresaSignatarioEntity);
+                var service = new IMOD.Application.Service.EmpresaSignatarioService();
+                var entity = SignatarioSelecionado;
+                var entityConv = Mapper.Map<EmpresaSignatario>(entity);
 
-                var repositorio = new IMOD.Infra.Repositorios.EmpresaSignatarioRepositorio();
-                repositorio.Alterar(EmpresaSignatarioEntity);
+                service.Alterar(entityConv);
 
+                Thread CarregaColecaoEmpresasSignatarios_thr = new Thread(() => CarregaColecaoEmpresasSignatarios(SignatarioSelecionado.EmpresaId, null));
+                CarregaColecaoEmpresasSignatarios_thr.Start();
 
             }
             catch (Exception ex)
             {
                 Global.Log("Erro void OnSalvarEdicaoCommand ex: " + ex.Message);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
         }
 
@@ -411,19 +416,11 @@ namespace iModSCCredenciamento.ViewModels
             {
                 HabilitaEdicao = false;
 
-                ObservableCollection<ClasseEmpresasSignatarios.EmpresaSignatario> _EmpresasSignatariosPro = new ObservableCollection<ClasseEmpresasSignatarios.EmpresaSignatario>();
-                ClasseEmpresasSignatarios _ClasseEmpresasSignatariosTemp = new ClasseEmpresasSignatarios();
+                var service = new IMOD.Application.Service.EmpresaSignatarioService();
+                var entity = SignatarioSelecionado;
+                var entityConv = Mapper.Map<EmpresaSignatario>(entity);
 
-                _EmpresasSignatariosPro.Add(SignatarioSelecionado);
-                _ClasseEmpresasSignatariosTemp.EmpresasSignatarios = _EmpresasSignatariosPro;
-
-
-                IMOD.Domain.Entities.EmpresaSignatario EmpresaSignatarioEntity = new IMOD.Domain.Entities.EmpresaSignatario();
-                g.TranportarDados(SignatarioSelecionado, 1, EmpresaSignatarioEntity);
-
-                var repositorio = new IMOD.Infra.Repositorios.EmpresaSignatarioRepositorio();
-                repositorio.Criar(EmpresaSignatarioEntity);
-
+                service.Criar(entityConv);
 
                 Thread CarregaColecaoEmpresasSignatarios_thr = new Thread(() => CarregaColecaoEmpresasSignatarios(SignatarioSelecionado.EmpresaId));
                 CarregaColecaoEmpresasSignatarios_thr.Start();
@@ -432,6 +429,8 @@ namespace iModSCCredenciamento.ViewModels
             catch (Exception ex)
             {
                 Global.Log("Erro void OnSalvarAdicaoCommand ex: " + ex.Message);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
         }
 

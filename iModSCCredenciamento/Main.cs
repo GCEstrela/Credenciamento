@@ -23,7 +23,6 @@ using Colaborador = IMOD.Domain.Entities.Colaborador;
 
 #endregion
 
-//using Colaborador = IMOD.Domain.Entities.Colaborador;
 
 namespace iModSCCredenciamento
 {
@@ -37,12 +36,13 @@ namespace iModSCCredenciamento
             {
                 AutoMapperConfig.RegisterMappings();
                 //iModSCCredenciamentoIcon = new BitmapImage(new Uri(@"iModSCCredenciamento.Resources.Cracha.png", UriKind.RelativeOrAbsolute));
-                iModSCCredenciamentoIcon = new BitmapImage (new Uri (@"pack://application:,,,/iModSCCredenciamento;Component/Resources/Cracha.png", UriKind.RelativeOrAbsolute));
+                iModSCCredenciamentoIcon = new BitmapImage(new Uri(@"pack://application:,,,/iModSCCredenciamento;Component/Resources/Cracha.png", UriKind.RelativeOrAbsolute));
                 Global.AbreConfig();
             }
 
             catch (Exception)
             {
+
             }
         }
 
@@ -50,7 +50,7 @@ namespace iModSCCredenciamento
 
         #region Constants
 
-        public static readonly Guid iModSCCredenciamentoId = new Guid ("{2ACE4CD0-7E9C-FAFA-B8A6-24FD71D6DD59}");
+        public static readonly Guid iModSCCredenciamentoId = new Guid("{2ACE4CD0-7E9C-FAFA-B8A6-24FD71D6DD59}");
 
         public static IEngine engine;
 
@@ -66,7 +66,7 @@ namespace iModSCCredenciamento
         {
             engine = Workspace.Sdk;
 
-            SubscribeToSdkEvents (engine);
+            SubscribeToSdkEvents(engine);
 
             SubscribeToWorkspaceEvents();
 
@@ -81,7 +81,7 @@ namespace iModSCCredenciamento
 
                 UnsubscribeFromWorkspaceEvents();
 
-                UnsubscribeFromSdkEvents (Workspace.Sdk);
+                UnsubscribeFromSdkEvents(Workspace.Sdk);
             }
         }
 
@@ -121,7 +121,7 @@ namespace iModSCCredenciamento
             // Register them to the workspace
             foreach (var task in m_tasks)
             {
-                Workspace.Tasks.Unregister (task);
+                Workspace.Tasks.Unregister(task);
             }
 
             m_tasks.Clear();
@@ -145,17 +145,17 @@ namespace iModSCCredenciamento
 
         private void RegisterTaskExtensions()
         {
-            var taskGroup = new TaskGroup (iModSCCredenciamentoId, Guid.Empty, "Módulo de Credenciamento", iModSCCredenciamentoIcon, 1500);
-            taskGroup.Initialize (Workspace);
-            m_tasks.Add (taskGroup);
+            var taskGroup = new TaskGroup(iModSCCredenciamentoId, Guid.Empty, "Módulo de Credenciamento", iModSCCredenciamentoIcon, 1500);
+            taskGroup.Initialize(Workspace);
+            m_tasks.Add(taskGroup);
 
-            Task task = new CreatePageTask<PagePrincipal.PagePrincipal> (true);
-            task.Initialize (Workspace);
-            m_tasks.Add (task);
+            Task task = new CreatePageTask<PagePrincipal.PagePrincipal>(true);
+            task.Initialize(Workspace);
+            m_tasks.Add(task);
 
             foreach (var pageExtension in m_tasks)
             {
-                Workspace.Tasks.Register (pageExtension);
+                Workspace.Tasks.Register(pageExtension);
             }
         }
 
@@ -167,13 +167,13 @@ namespace iModSCCredenciamento
         {
             try
             {
-                var agenda = engine.GetEntity (new Guid ("00000000-0000-0000-0000-000000000006")) as Schedule;
-                var systemConfiguration = engine.GetEntity (SdkGuids.SystemConfiguration) as SystemConfiguration;
+                var agenda = engine.GetEntity(new Guid("00000000-0000-0000-0000-000000000006")) as Schedule;
+                var systemConfiguration = engine.GetEntity(SdkGuids.SystemConfiguration) as SystemConfiguration;
                 var service = systemConfiguration.CustomFieldService;
-                Global._instancia = service.GetValue<string> ("Instância", agenda.Guid);
-                Global._bancoDados = service.GetValue<string> ("Banco de Dados", agenda.Guid);
-                Global._usuario = service.GetValue<string> ("Usuário", agenda.Guid);
-                Global._senha = service.GetValue<string> ("Senha", agenda.Guid);
+                Global._instancia = service.GetValue<string>("Instância", agenda.Guid);
+                Global._bancoDados = service.GetValue<string>("Banco de Dados", agenda.Guid);
+                Global._usuario = service.GetValue<string>("Usuário", agenda.Guid);
+                Global._senha = service.GetValue<string>("Senha", agenda.Guid);
 
                 Global._connectionString = "Data Source=" + Global._instancia + "; Initial Catalog=" + Global._bancoDados + "; User ID=" + Global._usuario + "; Password=" + Global._senha +
                                            "; Min Pool Size=5;Max Pool Size=15;Connection Reset=True;Connection Lifetime=600;Trusted_Connection=no;MultipleActiveResultSets=True";
@@ -188,7 +188,7 @@ namespace iModSCCredenciamento
 
         private void OnEventReceived(object sender, EventReceivedEventArgs e)
         {
-            var entity = engine.GetEntity (e.SourceGuid);
+            var entity = engine.GetEntity(e.SourceGuid);
             if (entity != null)
             {
             }
@@ -537,19 +537,26 @@ namespace iModSCCredenciamento
             Mapper.Initialize(
                     m =>
                     {
+                        //--Mihai--//
                         m.CreateMap<Colaborador, ClasseColaboradores.Colaborador>().ReverseMap();
                         m.CreateMap<ColaboradorCurso, ClasseColaboradoresCursos.ColaboradorCurso>().ReverseMap();
                         m.CreateMap<ColaboradorEmpresa, ClasseColaboradoresEmpresas.ColaboradorEmpresa>().ReverseMap();
-                        m.CreateMap<Empresa, ClasseEmpresas.Empresa>().IgnoreAllSourcePropertiesWithAnInaccessibleSetter().ReverseMap();
+                        m.CreateMap<Empresa, ClasseEmpresas.Empresa>()
+                            .IgnoreAllSourcePropertiesWithAnInaccessibleSetter()
+                            .ReverseMap();
+
                         m.CreateMap<Estados, ClasseEstados.Estado>().ReverseMap();
                         m.CreateMap<Municipio, ClasseMunicipios.Municipio>().ReverseMap();
                         m.CreateMap<EmpresaSignatario, ClasseEmpresasSignatarios.EmpresaSignatario>().ReverseMap();
                         m.CreateMap<TipoAtividade, ClasseTiposAtividades.TipoAtividade>().ReverseMap();
+                        m.CreateMap<TipoEquipamento, ClasseTiposEquipamento.TipoEquipamento>().ReverseMap();
+
                         m.CreateMap<EmpresaTipoAtividade, ClasseEmpresasTiposAtividades.EmpresaTipoAtividade>().ReverseMap();
+
                         m.CreateMap<AreaAcesso, ClasseAreasAcessos.AreaAcesso>().ReverseMap();
                         m.CreateMap<LayoutCracha, ClasseLayoutsCrachas.LayoutCracha>().ReverseMap();
                         m.CreateMap<EmpresaLayoutCrachaView, ClasseEmpresasLayoutsCrachas.EmpresaLayoutCracha>().ReverseMap();
-                        m.CreateMap<EmpresaContrato,ClasseEmpresasContratos.EmpresaContrato>().ReverseMap();
+                        //--Mihai--//
 
                     });
         }

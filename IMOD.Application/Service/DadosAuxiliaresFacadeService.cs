@@ -6,6 +6,7 @@
 
 #region
 
+using System;
 using System.Collections.Generic;
 using IMOD.Application.Interfaces;
 using IMOD.Domain.Entities;
@@ -24,66 +25,126 @@ namespace IMOD.Application.Service
         private readonly IStatusService _statusService = new StatusService();
 
         #region  Metodos
- 
 
         /// <summary>
-        ///     Listar Estados
+        ///     CRUD Completo Estados
         /// </summary>
         /// <returns></returns>
-        public ICollection<Estados> ListarEstadosFederacao()
+        public IEstadoService EstadoService
         {
-            return _serviceEstado.Listar();
+            get { return new EstadoService(); }
+        }
+        /// <summary>
+        ///     CRUD Completo Municipios
+        /// </summary>
+        /// <returns></returns>
+        public IMunicipioService MunicipioService
+        {
+            get { return new MunicipioService(); }
+        }
+        /// <summary>
+        ///  CRUD Completo Tipo de Equipamento
+        /// </summary>
+        /// <returns></returns>
+        public ITipoEquipamentoService TipoEquipamentoService
+        {
+            get { return new TipoEquipamentoService(); }
         }
 
         /// <summary>
-        ///     Listar Municipios
+        /// CRUD Completo ColaboradorAnexo
         /// </summary>
         /// <returns></returns>
-        public ICollection<Municipio> ListarMunicipios()
+        public IColaboradorAnexoService ColaboradorAnexoService
         {
-            return _serviceMunicipio.Listar();
+            get { return new ColaboradorAnexoService(); }
         }
-
         /// <summary>
-        ///     Buscar municipios por UF
+        /// CRUD Completo Relatorio
         /// </summary>
-        /// <param name="uf"></param>
         /// <returns></returns>
-        public EstadoView BuscarEstadoMunicipiosPorUf(string uf)
+        public IRelatorioService RelatorioService
         {
-            return _serviceEstado.BuscarEstadoMunicipiosPorUf (uf);
+            get { return new RelatoriosService(); }
         }
-
         /// <summary>
-        ///     Listar Status
+        /// CRUD Completo RelatorioGerencial
         /// </summary>
         /// <returns></returns>
-        public ICollection<Status> ListarStatus()
+        public IRelatorioGerencialService RelatorioGerencialService
         {
-            return _statusService.Listar();
+            get { return new RelatoriosGerenciaisService(); }
         }
-
         /// <summary>
-        ///     Listar Tipos de Acessos
+        /// CRUD Completo LayoutCracha
         /// </summary>
         /// <returns></returns>
-        public ICollection<TipoAcesso> ListarTiposAcessos()
+        public ILayoutCrachaService LayoutCrachaService
         {
-            return _acessoService.Listar();
+            get { return new LayoutCrachaService(); }
         }
-
         /// <summary>
-        ///     Listar Tipo de Cobrança
+        /// CRUD Completo TipoAtividade
         /// </summary>
         /// <returns></returns>
-        public ICollection<TipoCobranca> ListarTiposCobranca()
+        public ITipoAtividadeService TipoAtividadeService
         {
-            return _cobrancaService.Listar();
+            get { return new TipoAtividadeService(); }
         }
-
-        public ITipoEquipamentoService EquipamentoService()
+        /// <summary>
+        /// CRUD Completo TipoCobranca
+        /// </summary>
+        /// <returns></returns>
+        public ITipoCobrancaService TipoCobrancaService
         {
-            return  new TipoEquipamentoService();
+            get { return new TipoCobrancaService(); }
+        }
+        /// <summary>
+        /// CRUD Completo TiposAcesso
+        /// </summary>
+        /// <returns></returns>
+        public ITiposAcessoService TiposAcessoService
+        {
+            get { return new TipoAcessoService(); }
+        }
+        /// <summary>
+        /// CRUD Completo TipoStatus
+        /// </summary>
+        /// <returns></returns>
+        public IStatusService TipoStatusService
+        {
+            get { return new StatusService(); }
+        }
+        /// <summary>
+        /// CRUD Completo Curso
+        /// </summary>
+        /// <returns></returns>
+        public ICursoService CursoService
+        {
+            get { return new CursoService(); }
+        }
+        /// <summary>
+        /// CRUD Completo AreaAcesso
+        /// </summary>
+        /// <returns></returns>
+        public IAreaAcessoService AreaAcessoService
+        {
+            get { return new AreaAcessoService(); }
+        }
+        /// <summary>
+        /// CRUD Completo EmpresaLayoutCracha
+        /// </summary>
+        /// <returns></returns>
+        public IEmpresaLayoutCrachaService EmpresaLayoutCrachaService
+        {
+            get { return new EmpresaLayoutCrachaService(); }
+        }
+        /// <summary>
+        /// CRUD Completo Empresa Tipo Atividade 
+        /// </summary>
+        public IEmpresaTipoAtividadeService EmpresaTipoAtividadeService
+        {
+            get { return new EmpresaTipoAtividadeService(); }
         }
 
         #endregion

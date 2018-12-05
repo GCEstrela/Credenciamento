@@ -188,7 +188,6 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmpresaTipoAtividadeID", DbType.Int32, objects, 0).Igual()));
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmpresaID", DbType.Int32, objects, 1).Igual()));
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("TipoAtividadeID", DbType.String, objects, 2).Like()));

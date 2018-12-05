@@ -10,55 +10,50 @@ using IMOD.Infra.Repositorios;
 
 namespace IMOD.Application.Service
 {
-    public class AreaAcessoService : IAreaAcessoService
+    public class CursoService : ICursoService
     {
-        #region Variaveis Globais
 
-        private readonly IAreaAcessoRepositorio _repositorio = new AreaAcessoRepositorio();
+        private readonly ICursoRepositorio _repositorio = new CursoRepositorio();
 
-        #endregion
-
-        #region Construtor
-
-        #endregion
-
-        #region  Metodos
-
-        public void Criar(AreaAcesso entity)
+        /// <summary>
+        ///     Criar Cursos 
+        /// </summary>
+        /// <returns></returns>
+        public void Criar(Curso entity)
         {
             _repositorio.Criar(entity);
         }
-
         /// <summary>
-        ///     Buscar pela chave primaria
+        ///     Buscar Cursos pela chave
         /// </summary>
-        /// <param name="id"></param>
         /// <returns></returns>
-        public AreaAcesso BuscarPelaChave(int id)
+        public Curso BuscarPelaChave(int id)
         {
             return _repositorio.BuscarPelaChave(id);
         }
-
         /// <summary>
-        ///     Listar
+        ///     Listar Cursos
         /// </summary>
-        /// <param name="objects">Expressão de consulta</param>
         /// <returns></returns>
-        public ICollection<AreaAcesso> Listar(params object[] objects)
+        public ICollection<Curso> Listar(params object[] objects)
         {
             return _repositorio.Listar(objects);
         }
-
-        public void Alterar(AreaAcesso entity)
+        /// <summary>
+        ///     Alterar Cursos
+        /// </summary>
+        /// <returns></returns>
+        public void Alterar(Curso entity)
         {
             _repositorio.Alterar(entity);
         }
-
-        public void Remover(AreaAcesso entity)
+        /// <summary>
+        ///     Remover Cursos
+        /// </summary>
+        /// <returns></returns>
+        public void Remover(Curso entity)
         {
             _repositorio.Remover(entity);
         }
-
-        #endregion
     }
 }

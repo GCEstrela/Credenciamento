@@ -17,46 +17,97 @@ namespace IMOD.Application.Interfaces
     public interface IDadosAuxiliaresFacade
     {
         #region  Metodos
- 
+
 
         /// <summary>
-        ///     Listar Estados
+        ///     CRUD Completo Estados
         /// </summary>
         /// <returns></returns>
-        ICollection<Estados> ListarEstadosFederacao();
+        IEstadoService EstadoService { get; }
 
         /// <summary>
-        ///     Listar Municipios
+        ///     CRUD Completo Municipios
         /// </summary>
         /// <returns></returns>
-        ICollection<Municipio> ListarMunicipios();
+        IMunicipioService MunicipioService { get; }
+        /// <summary>
+        /// CRUD Completo Tipo de Equipamento
+        /// </summary>
+        /// <returns></returns>
+        ITipoEquipamentoService TipoEquipamentoService { get; }
 
         /// <summary>
-        ///     Buscar municipios por UF
+        /// CRUD Completo ColaboradorAnexo
         /// </summary>
-        /// <param name="uf"></param>
         /// <returns></returns>
-        EstadoView BuscarEstadoMunicipiosPorUf(string uf);
+        IColaboradorAnexoService ColaboradorAnexoService { get; }
 
         /// <summary>
-        ///     Listar Status
+        /// CRUD Completo Relatorio
         /// </summary>
         /// <returns></returns>
-        ICollection<Status> ListarStatus();
+        IRelatorioService RelatorioService { get; }
 
         /// <summary>
-        ///     Listar Tipos de Acessos
+        /// CRUD Completo RelatorioGerencial
         /// </summary>
         /// <returns></returns>
-        ICollection<TipoAcesso> ListarTiposAcessos();
+        IRelatorioGerencialService RelatorioGerencialService { get; }
 
         /// <summary>
-        ///     Listar Tipo de Cobrança
+        /// CRUD Completo LayoutCracha
         /// </summary>
         /// <returns></returns>
-        ICollection<TipoCobranca> ListarTiposCobranca();
+        ILayoutCrachaService LayoutCrachaService { get; }
 
-        ITipoEquipamentoService EquipamentoService();
+        /// <summary>
+        /// CRUD Completo TipoAtividade
+        /// </summary>
+        /// <returns></returns>
+        ITipoAtividadeService TipoAtividadeService { get; }
+
+        /// <summary>
+        /// CRUD Completo TipoCobranca
+        /// </summary>
+        /// <returns></returns>
+        ITipoCobrancaService TipoCobrancaService { get; }
+
+        /// <summary>
+        /// CRUD Completo TiposAcesso
+        /// </summary>
+        /// <returns></returns>
+        ITiposAcessoService TiposAcessoService { get; }
+
+        /// <summary>
+        /// CRUD Completo TipoStatus
+        /// </summary>
+        /// <returns></returns>
+        IStatusService TipoStatusService { get; }
+
+        /// <summary>
+        /// CRUD Completo Curso
+        /// </summary>
+        /// <returns></returns>
+        ICursoService CursoService { get; }
+
+        /// <summary>
+        /// CRUD Completo AreaAcesso
+        /// </summary>
+        /// <returns></returns>
+        IAreaAcessoService AreaAcessoService { get; }
+
+        /// <summary>
+        /// CRUD Completo EmpresaLayoutCracha
+        /// </summary>
+        /// <returns></returns>
+        IEmpresaLayoutCrachaService EmpresaLayoutCrachaService { get; }
+
+        /// <summary>
+        /// CRUD Completo Empresa Tipo Atividade 
+        /// </summary>
+        IEmpresaTipoAtividadeService EmpresaTipoAtividadeService { get; }
+
+
 
         #endregion
     }

@@ -29,7 +29,7 @@ namespace iModSCCredenciamento.ViewModels
 
         private void CarregaUI()
         {
-            CarregaColeçãoRelatorios();
+            CarregaColecaoRelatorios();
             CarregaColecaoEmpresas();
             CarregaColecaoAreasAcessos();
         }
@@ -196,7 +196,7 @@ namespace iModSCCredenciamento.ViewModels
         #endregion
 
         #region Carregamento das Colecoes
-        private void CarregaColeçãoRelatorios()
+        private void CarregaColecaoRelatorios()
         {
 
             try
@@ -244,7 +244,6 @@ namespace iModSCCredenciamento.ViewModels
             }
         }
 
-
         private void CarregaColecaoEmpresas(string _empresaID = "", string _nome = "", string _apelido = "", string _cNPJ = "", string _quantidaderegistro = "500")
         {
 
@@ -268,9 +267,6 @@ namespace iModSCCredenciamento.ViewModels
                 //Global.Log("Erro void CarregaColecaoEmpresas ex: " + ex.Message);
             }
         }
-
-
-
 
         private string RequisitaEmpresas(string _empresaID = "", string _nome = "", string _apelido = "", string _cNPJ = "", int _excluida = 0, string _quantidaderegistro = "500")
         {
@@ -417,8 +413,6 @@ namespace iModSCCredenciamento.ViewModels
             }
             return null;
         }
-
-
 
         #endregion
 
@@ -587,7 +581,6 @@ namespace iModSCCredenciamento.ViewModels
 
         #region Comandos dos Botoes (RELATÓRIOS GERENCIAIS)
 
-        //TODO: Mihai (31-10-2018)
         public void OnFiltroRelatorioCredencialCommand(bool _tipo, string _dataIni, string _dataFim)
         {
             try
@@ -596,12 +589,10 @@ namespace iModSCCredenciamento.ViewModels
 
                 if (_tipo)
                 {
-                    //1_Relatório_CredenciaisPermanentes.rpt
                     _xmlstring = CriaXmlRelatoriosGerenciais(1);
                 }
                 else
                 {
-                    //5_Relatório_CredenciaisTemporarias.rpt
                     _xmlstring = CriaXmlRelatoriosGerenciais(5);
                 }
 
@@ -624,7 +615,6 @@ namespace iModSCCredenciamento.ViewModels
                 System.IO.File.WriteAllBytes(_ArquivoRPT, buffer);
 
                 ReportDocument reportDocument = new ReportDocument();
-                //Esse ponto de implementação para a alteração da instancia do SQL, banco, usuário e senha
                 TableLogOnInfos crtableLogoninfos = new TableLogOnInfos();
                 TableLogOnInfo crtableLogoninfo = new TableLogOnInfo();
                 ConnectionInfo crConnectionInfo = new ConnectionInfo();
@@ -681,28 +671,23 @@ namespace iModSCCredenciamento.ViewModels
 
                 Thread CarregaRel_thr = new Thread(() =>
                 {
-
                     System.Windows.Application.Current.Dispatcher.Invoke(() =>
                     {
-
                         reportDocument.RecordSelectionFormula = formula;
 
                         PopupRelatorio _popupRelatorio = new PopupRelatorio(reportDocument);
                         _popupRelatorio.Show();
                     });
-
-                }
-
-                );
+                });
 
                 CarregaRel_thr.Start();
 
             }
             catch (Exception ex)
             {
-
                 Global.Log("Erro na void OnFiltroRelatorioCredencialCommand ex: " + ex);
-
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
         }
 
@@ -710,7 +695,6 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                //2_Relatório_AutorizacoesPermanentes.rpt
                 string _xmlstring = CriaXmlRelatoriosGerenciais(2);
 
                 XmlDocument xmldocument = new XmlDocument();
@@ -729,7 +713,6 @@ namespace iModSCCredenciamento.ViewModels
                 System.IO.File.WriteAllBytes(_ArquivoRPT, buffer);
 
                 ReportDocument reportDocument = new ReportDocument();
-                //Esse ponto de implementação para a alteração da instancia do SQL, banco, usuário e senha
                 TableLogOnInfos crtableLogoninfos = new TableLogOnInfos();
                 TableLogOnInfo crtableLogoninfo = new TableLogOnInfo();
                 ConnectionInfo crConnectionInfo = new ConnectionInfo();
@@ -766,25 +749,24 @@ namespace iModSCCredenciamento.ViewModels
                         PopupRelatorio _popupRelatorio = new PopupRelatorio(reportDocument);
                         _popupRelatorio.Show();
                     });
-                }
-                );
-                CarregaRel_thr.Start();
+                });
 
+                CarregaRel_thr.Start();
             }
             catch (Exception ex)
             {
                 Global.Log("Erro na void OnFiltroRelatorioAutorizacoesCommand ex: " + ex);
-
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
         }
 
-        //TODO: Mihai (31-10-2018)
         public void OnRelatorioCredenciaisInvalidasFiltroCommand(int _status, string _dataIni, string _dataFim)
         {
             string _xmlstring;
 
             try
-            {    //3_Relatório_CredenciaisInvalidas.rpt
+            {
                 _xmlstring = CriaXmlRelatoriosGerenciais(3);
 
                 XmlDocument xmldocument = new XmlDocument();
@@ -803,7 +785,6 @@ namespace iModSCCredenciamento.ViewModels
                 System.IO.File.WriteAllBytes(_ArquivoRPT, buffer);
 
                 ReportDocument reportDocument = new ReportDocument();
-                //Esse ponto de implementação para a alteração da instancia do SQL, banco, usuário e senha
                 TableLogOnInfos crtableLogoninfos = new TableLogOnInfos();
                 TableLogOnInfo crtableLogoninfo = new TableLogOnInfo();
                 ConnectionInfo crConnectionInfo = new ConnectionInfo();
@@ -866,7 +847,6 @@ namespace iModSCCredenciamento.ViewModels
                                   " AND ({ColaboradoresCredenciais.Baixa} <= CDate ('" + _dataFim + "')" +
                                   " AND {ColaboradoresCredenciais.Baixa} >= CDate ('" + _dataIni + "') ) ";
                     }
-
                 }
 
                 reportDocument.Load(_ArquivoRPT);
@@ -885,21 +865,14 @@ namespace iModSCCredenciamento.ViewModels
 
                 Thread CarregaRel_thr = new Thread(() =>
                 {
-
                     System.Windows.Application.Current.Dispatcher.Invoke(() =>
                     {
-
-
                         reportDocument.RecordSelectionFormula = formula;
-
                         PopupRelatorio _popupRelatorio = new PopupRelatorio(reportDocument);
                         _popupRelatorio.Show();
                     });
+                });
 
-                }
-
-                );
-                //CarregaRel_thr.SetApartmentState(ApartmentState.STA);
                 CarregaRel_thr.Start();
 
             }
@@ -907,6 +880,8 @@ namespace iModSCCredenciamento.ViewModels
             catch (Exception ex)
             {
                 Global.Log("Erro na void OnRelatorioCredenciaisInvalidasFiltroCommand ex: " + ex);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
 
             }
         }
@@ -1011,7 +986,6 @@ namespace iModSCCredenciamento.ViewModels
             }
         }
 
-        //TODO: Mihai (31-10-2018)
         public void OnRelatorioFiltroPorAreaCommand(string _area, bool _check)
         {
             string _xmlstring;
@@ -1101,7 +1075,6 @@ namespace iModSCCredenciamento.ViewModels
 
         public void OnRelatorioFiltroPorEmpresaCommand(string empresa, bool _check, string _dataIni, string _dataFim)
         {
-
             string _xmlstring;
 
             try
@@ -1128,15 +1101,10 @@ namespace iModSCCredenciamento.ViewModels
                 _ArquivoRPT = System.IO.Path.GetRandomFileName();
                 _ArquivoRPT = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\" + _ArquivoRPT;
 
-                //ReportDocument reportDocument = new ReportDocument();
-
-
-                //File.Move(_caminhoArquivoPDF, Path.ChangeExtension(_caminhoArquivoPDF, ".pdf"));
                 _ArquivoRPT = System.IO.Path.ChangeExtension(_ArquivoRPT, ".rpt");
                 System.IO.File.WriteAllBytes(_ArquivoRPT, buffer);
 
                 ReportDocument reportDocument = new ReportDocument();
-                //Esse ponto de implementação para a alteração da instancia do SQL, banco, usuário e senha
                 TableLogOnInfos crtableLogoninfos = new TableLogOnInfos();
                 TableLogOnInfo crtableLogoninfo = new TableLogOnInfo();
                 ConnectionInfo crConnectionInfo = new ConnectionInfo();
@@ -1203,10 +1171,7 @@ namespace iModSCCredenciamento.ViewModels
                         _popupRelatorio.Show();
                     });
 
-                }
-
-                );
-                //CarregaRel_thr.SetApartmentState(ApartmentState.STA);
+                });
                 CarregaRel_thr.Start();
 
             }
@@ -1245,15 +1210,10 @@ namespace iModSCCredenciamento.ViewModels
                 _ArquivoRPT = System.IO.Path.GetRandomFileName();
                 _ArquivoRPT = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\" + _ArquivoRPT;
 
-                //ReportDocument reportDocument = new ReportDocument();
-
-
-                //File.Move(_caminhoArquivoPDF, Path.ChangeExtension(_caminhoArquivoPDF, ".pdf"));
                 _ArquivoRPT = System.IO.Path.ChangeExtension(_ArquivoRPT, ".rpt");
                 System.IO.File.WriteAllBytes(_ArquivoRPT, buffer);
 
                 ReportDocument reportDocument = new ReportDocument();
-                //Esse ponto de implementação para a alteração da instancia do SQL, banco, usuário e senha
                 TableLogOnInfos crtableLogoninfos = new TableLogOnInfos();
                 TableLogOnInfo crtableLogoninfo = new TableLogOnInfo();
                 ConnectionInfo crConnectionInfo = new ConnectionInfo();
@@ -1304,10 +1264,8 @@ namespace iModSCCredenciamento.ViewModels
                         _popupRelatorio.Show();
                     });
 
-                }
+                });
 
-                );
-                //CarregaRel_thr.SetApartmentState(ApartmentState.STA);
                 CarregaRel_thr.Start();
 
             }
@@ -1318,7 +1276,6 @@ namespace iModSCCredenciamento.ViewModels
             }
         }
 
-        //TODO: Mihai (31-10-2018)
         public void OnFiltroCredencialViasAdicionaisCommand(int _tipo, string _dataIni, string _dataFim)
         {
             try
@@ -1346,7 +1303,6 @@ namespace iModSCCredenciamento.ViewModels
                 System.IO.File.WriteAllBytes(_ArquivoRPT, buffer);
 
                 ReportDocument reportDocument = new ReportDocument();
-                //Esse ponto de implementação para a alteração da instancia do SQL, banco, usuário e senha
                 TableLogOnInfos crtableLogoninfos = new TableLogOnInfos();
                 TableLogOnInfo crtableLogoninfo = new TableLogOnInfo();
                 ConnectionInfo crConnectionInfo = new ConnectionInfo();
@@ -1411,18 +1367,14 @@ namespace iModSCCredenciamento.ViewModels
                         _popupRelatorio.Show();
                     });
 
-                }
-
-                );
+                });
 
                 CarregaRel_thr.Start();
 
             }
             catch (Exception ex)
             {
-
                 Global.Log("Erro na void OnFiltroRelatorioCredencialCommand ex: " + ex);
-
             }
         }
 
@@ -1449,7 +1401,6 @@ namespace iModSCCredenciamento.ViewModels
                 System.IO.File.WriteAllBytes(_ArquivoRPT, buffer);
 
                 ReportDocument reportDocument = new ReportDocument();
-                //Esse ponto de implementação para a alteração da instancia do SQL, banco, usuário e senha
                 TableLogOnInfos crtableLogoninfos = new TableLogOnInfos();
                 TableLogOnInfo crtableLogoninfo = new TableLogOnInfo();
                 ConnectionInfo crConnectionInfo = new ConnectionInfo();
@@ -1477,10 +1428,8 @@ namespace iModSCCredenciamento.ViewModels
                         _popupRelatorio.Show();
                     });
 
-                }
+                });
 
-                );
-                //CarregaRel_thr.SetApartmentState(ApartmentState.STA);
                 CarregaRel_thr.Start();
 
             }
