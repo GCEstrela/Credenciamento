@@ -16,7 +16,7 @@ using IMOD.Infra.Repositorios;
 
 namespace IMOD.Application.Service
 {
-    public class RelatoriosService : IRelatorioService
+    public class RelatorioService : IRelatorioService
     {
         #region Variaveis Globais
 

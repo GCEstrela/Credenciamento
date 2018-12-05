@@ -1892,7 +1892,7 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                var service = new IMOD.Application.Service.RelatoriosService();
+                var service = new IMOD.Application.Service.RelatorioService();
                 var list1 = service.Listar();
 
                 var list2 = Mapper.Map<List<ClasseRelatorios.Relatorio>>(list1);
@@ -1917,7 +1917,7 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                var service = new IMOD.Application.Service.RelatoriosGerenciaisService();
+                var service = new IMOD.Application.Service.RelatorioGerencialService();
                 var list1 = service.Listar();
 
                 var list2 = Mapper.Map<List<ClasseRelatoriosGerenciais.RelatorioGerencial>>(list1);

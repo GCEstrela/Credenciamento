@@ -87,8 +87,8 @@
     <Compile Include="Service\LayoutCrachaService.cs" />
     <Compile Include="Service\MunicipioService.cs" />
     <Compile Include="Service\PendenciaService.cs" />
-    <Compile Include="Service\RelatoriosGerenciaisService.cs" />
-    <Compile Include="Service\RelatoriosService.cs" />
+    <Compile Include="Service\RelatorioGerencialService.cs" />
+    <Compile Include="Service\RelatorioService.cs" />
     <Compile Include="Service\StatusService.cs" />
     <Compile Include="Service\TecnologiaCredencialService.cs" />
     <Compile Include="Service\TipoAcessoService.cs" />
