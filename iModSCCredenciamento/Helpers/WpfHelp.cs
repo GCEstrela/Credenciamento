@@ -61,11 +61,10 @@ namespace iModSCCredenciamento.Helpers
         /// <param name="nomeArquivo">Nome do arquivo</param>
         /// <param name="arrayBytes">Array de Bytes relativo ao arquivo</param>
         /// <param name="formula">Formula do relatório</param>
-        public static void ShowRelatorio(byte[] arrayBytes, string nomeArquivo, string formula)
+        public static void ShowRelatorio(byte[] arrayBytes, string nomeArquivo, string formula, string mensagem)
         {
             try
             {
-                //Parâmetros necessários a execução do metodo
                 if (string.IsNullOrWhiteSpace(nomeArquivo)) return;
                 if (arrayBytes == null) return;
 
@@ -80,16 +79,14 @@ namespace iModSCCredenciamento.Helpers
                 var reportDoc = new ReportDocument();
                 reportDoc.Load(fileName, OpenReportMethod.OpenReportByTempCopy);
 
-                //reportDoc.SetDatabaseLogon(Global._usuario, Global._senha, Global._instancia, Global._bancoDados);
-
                 TableLogOnInfo crtableLogoninfo = new TableLogOnInfo();
                 ConnectionInfo crConnectionInfo = new ConnectionInfo();
                 Tables CrTables;
 
-                crConnectionInfo.ServerName = Global._instancia;
-                crConnectionInfo.DatabaseName = Global._bancoDados;
-                crConnectionInfo.UserID = Global._usuario;
-                crConnectionInfo.Password = Global._senha;
+                crConnectionInfo.ServerName = "172.16.190.108\\SQLEXPRESS";
+                crConnectionInfo.DatabaseName = "D_iModCredenciamento";
+                crConnectionInfo.UserID = "imod";
+                crConnectionInfo.Password = "imod";
 
                 CrTables = reportDoc.Database.Tables;
                 foreach (Table CrTable in CrTables)
@@ -107,6 +104,11 @@ namespace iModSCCredenciamento.Helpers
                         if (!string.IsNullOrWhiteSpace(formula))
                         {
                             reportDoc.RecordSelectionFormula = formula;
+                        }
+                        if (!string.IsNullOrWhiteSpace(mensagem))
+                        {
+                            TextObject txt = (TextObject)reportDoc.ReportDefinition.ReportObjects["TextoPrincipal"];
+                            txt.Text = mensagem;
                         }
 
                         var _popupRelatorio = new PopupRelatorio(reportDoc);
