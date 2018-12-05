@@ -18,8 +18,6 @@ namespace IMOD.Application.Service
 {
     public class DadosAuxiliaresFacadeService : IDadosAuxiliaresFacade
     {
-
-
         #region  Metodos
 
         /// <summary>
@@ -87,7 +85,6 @@ namespace IMOD.Application.Service
         {
             get { return new TipoAtividadeService(); }
         }
-
         /// <summary>
         /// CRUD Completo TipoCobranca
         /// </summary>
@@ -128,10 +125,8 @@ namespace IMOD.Application.Service
         {
             get { return new AreaAcessoService(); }
         }
-
-
         /// <summary>
-        ///     Listar Tipo de Cobrança
+        /// CRUD Completo EmpresaLayoutCracha
         /// </summary>
         /// <returns></returns>
         public IEmpresaLayoutCrachaService EmpresaLayoutCrachaService
