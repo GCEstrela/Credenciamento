@@ -51,6 +51,11 @@ namespace iModSCCredenciamento.Views
                 if (openFileDialog.ShowDialog() == true)
                 {
                     long tamanho = new System.IO.FileInfo(openFileDialog.FileName).Length;
+                    if (tamanho > 200)
+                    {
+                        System.Windows.MessageBox.Show("Tamanho ( " + tamanho.ToString() + " ) inválido, só é permitido arquivo com o máximo de 200");
+                        return; 
+                    }
 
                     BitmapImage _img = new BitmapImage(new Uri(openFileDialog.FileName));
                     

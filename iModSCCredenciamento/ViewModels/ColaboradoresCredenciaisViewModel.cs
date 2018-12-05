@@ -27,9 +27,9 @@ namespace iModSCCredenciamento.ViewModels
 {
     public class ColaboradoresCredenciaisViewModel : ViewModelBase
     {
-
-        private readonly IColaboradorService _repositorio = new ColaboradorService(); 
-        //private readonly IColaboradorCredencialService _repositorio = new ColaboradorCredencialService();
+        
+        private readonly IColaboradorService _repositorio = new ColaboradorService();
+        //private readonly ColaboradoresCredenciaisView _repositorio = new ColaboradoresCredenciaisViewService();
         Global g = new Global();
 
         #region Inicializacao
@@ -941,7 +941,7 @@ namespace iModSCCredenciamento.ViewModels
 
                 //var list2 = Mapper.Map<List<ClasseColaboradoresCredenciais.ColaboradorCredencial>>(list1.OrderBy(n => n.ColaboradorId));
                 //var list2 = Mapper.Map<List<ClasseColaboradores.Colaborador>>(list1.OrderBy(n => n.ColaboradorId));
-
+                
                 var list = _repositorio.ListarColaboradores(0,"",0,0,colaboradorID).ToList();
                 var list2 = Mapper.Map<List<ClasseColaboradoresCredenciais.ColaboradorCredencial>>(list.OrderBy(n=>n.ColaboradorId));
                 var observer = new ObservableCollection<ClasseColaboradoresCredenciais.ColaboradorCredencial>();
@@ -1020,23 +1020,45 @@ namespace iModSCCredenciamento.ViewModels
                 //Global.Log("Erro void CarregaColecaoEmpresas ex: " + ex.Message);
             }
         }
-        private void CarregaColecaoEmpresas(int _empresaID = 0, string _nome = "", string _apelido = "", string _cNPJ = "", string _quantidaderegistro = "500")
+        private void CarregaColecaoEmpresas(int? idEmpresa = null, string nome = null, string apelido = null, string cnpj = null, string _quantidaderegistro = "500")
         {
             try
             {
-                string _xml = RequisitaEmpresas(_empresaID, _nome, _apelido, _cNPJ);
+                //string _xml = RequisitaEmpresas(_empresaID, _nome, _apelido, _cNPJ);
 
-                XmlSerializer deserializer = new XmlSerializer(typeof(ClasseEmpresas));
+                //XmlSerializer deserializer = new XmlSerializer(typeof(ClasseEmpresas));
 
-                XmlDocument xmldocument = new XmlDocument();
-                xmldocument.LoadXml(_xml);
+                //XmlDocument xmldocument = new XmlDocument();
+                //xmldocument.LoadXml(_xml);
 
-                TextReader reader = new StringReader(_xml);
-                ClasseEmpresas classeEmpresas = new ClasseEmpresas();
-                classeEmpresas = (ClasseEmpresas)deserializer.Deserialize(reader);
-                Empresas = new ObservableCollection<ClasseEmpresas.Empresa>();
-                Empresas = classeEmpresas.Empresas;
+                //TextReader reader = new StringReader(_xml);
+                //ClasseEmpresas classeEmpresas = new ClasseEmpresas();
+                //classeEmpresas = (ClasseEmpresas)deserializer.Deserialize(reader);
+                //Empresas = new ObservableCollection<ClasseEmpresas.Empresa>();
+                //Empresas = classeEmpresas.Empresas;
+                //SelectedIndex = 0;
+
+
+
+                var service = new IMOD.Application.Service.EmpresaService();
+                if (!string.IsNullOrWhiteSpace(nome)) nome = $"%{nome}%";
+                if (!string.IsNullOrWhiteSpace(apelido)) apelido = $"%{apelido}%";
+                if (!string.IsNullOrWhiteSpace(cnpj)) cnpj = $"%{cnpj}%";
+
+                var list1 = service.Listar(idEmpresa, nome, apelido, cnpj);
+                var list2 = Mapper.Map<List<ClasseEmpresas.Empresa>>(list1);
+
+                var observer = new ObservableCollection<ClasseEmpresas.Empresa>();
+                list2.ForEach(n =>
+                {
+                    observer.Add(n);
+                });
+
+                this.Empresas = observer;
                 SelectedIndex = 0;
+
+
+
             }
             catch (Exception ex)
             {
