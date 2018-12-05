@@ -8,11 +8,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Data.SqlClient;
-using System.IO;
 using System.Threading;
 using System.Windows.Media.Imaging;
 using System.Xml;
-using System.Xml.Serialization;
 
 namespace iModSCCredenciamento.ViewModels
 {
@@ -163,17 +161,18 @@ namespace iModSCCredenciamento.ViewModels
                 //Filtro Hoje
                 if (_periodo == 1)
                 {
-                    //Termo de Vias Adicionais
+                    //Termos com status Vias Adicionais (1)
                     if (_report == 20 && _status == 1)
                     {
                         formula = " {ColaboradoresCredenciais.Emissao} = CurrentDate " +
                                   " and {CredenciaisMotivos.CredencialmotivoID} in [2,3]";
 
-                        _mensagem = "Na data " + DateTime.Now.ToShortDateString() + " este setor de credenciamento do AEROPORTO INTERNACIONAL DE PORTO ALEGRE, "
-                        + verbo + " as seguintes vias adicionais de credenciais:";
+                        _mensagem = "Na data " + DateTime.Now.ToShortDateString() + " " +
+                                    "este setor de credenciamento do AEROPORTO INTERNACIONAL " +
+                                    "DE PORTO ALEGRE, " + verbo + " as seguintes vias adicionais de credenciais:";
                     }
 
-                    //Outros termos (Concedidas/Indeferidas/Canceladas/Destruidas)
+                    //Outros status (Concedidas/Indeferidas/Canceladas/Destruidas)
                     else
                     {
                         ///Concedidas
@@ -189,9 +188,9 @@ namespace iModSCCredenciamento.ViewModels
                         }
 
 
-                        _mensagem = "Na data " + DateTime.Now.ToShortDateString() + " este setor de credenciamento do AEROPORTO INTERNACIONAL DE PORTO ALEGRE, "
-                        + verbo + " as seguintes credenciais:";
-
+                        _mensagem = "Na data " + DateTime.Now.ToShortDateString() + " " +
+                                    "este setor de credenciamento do AEROPORTO INTERNACIONAL " +
+                                    "DE PORTO ALEGRE, " + verbo + " as seguintes credenciais:";
                     }
 
                     reportDocument.Load(_ArquivoRPT);
@@ -206,8 +205,9 @@ namespace iModSCCredenciamento.ViewModels
                                   " and {ColaboradoresCredenciais.Emissao} <= CurrentDate " +
                                   " and {CredenciaisMotivos.CredencialmotivoID} in [2,3]";
 
-                        _mensagem = "Durante o período de " + DateTime.Now.AddDays(-7).ToShortDateString() + " a " + DateTime.Now.ToShortDateString() + " esse setor de credenciamento do AEROPORTO INTERNACIONAL DE PORTO ALEGRE, "
-                        + verbo + " as seguintes vias adicionais de credenciais:";
+                        _mensagem = "Durante o período de " + DateTime.Now.AddDays(-7).ToShortDateString() + " " +
+                                    "a " + DateTime.Now.ToShortDateString() + " esse setor de credenciamento do " +
+                                    "AEROPORTO INTERNACIONAL DE PORTO ALEGRE, " + verbo + " as seguintes vias adicionais de credenciais:";
                     }
 
                     //Outros termos (Concedidas/Indeferidas/Canceladas/Destruidas)
@@ -227,8 +227,9 @@ namespace iModSCCredenciamento.ViewModels
                                       " and {ColaboradoresCredenciais.CredencialStatusID} = " + _status;
                         }
 
-                        _mensagem = "Durante o período de " + DateTime.Now.AddDays(-7).ToShortDateString() + " a " + DateTime.Now.ToShortDateString() + " esse setor de credenciamento do AEROPORTO INTERNACIONAL DE PORTO ALEGRE, "
-                        + verbo + " as seguintes vias adicionais de credenciais:";
+                        _mensagem = "Durante o período de " + DateTime.Now.AddDays(-7).ToShortDateString() + " " +
+                                    "a " + DateTime.Now.ToShortDateString() + " esse setor de credenciamento do " +
+                                    "AEROPORTO INTERNACIONAL DE PORTO ALEGRE, " + verbo + " as seguintes vias adicionais de credenciais:";
                     }
 
                     reportDocument.Load(_ArquivoRPT);
@@ -243,8 +244,9 @@ namespace iModSCCredenciamento.ViewModels
                                   " and {ColaboradoresCredenciais.Emissao} <= CurrentDate " +
                                   " and {CredenciaisMotivos.CredencialmotivoID} in [2,3]";
 
-                        _mensagem = "Durante o período de " + DateTime.Now.AddDays(-30).ToShortDateString() + " a " + DateTime.Now.ToShortDateString() + " esse setor de credenciamento do AEROPORTO INTERNACIONAL DE PORTO ALEGRE, "
-                        + verbo + " as seguintes vias adicionais de credenciais:";
+                        _mensagem = "Durante o período de " + DateTime.Now.AddDays(-30).ToShortDateString() + " " +
+                                    "a " + DateTime.Now.ToShortDateString() + " esse setor de credenciamento do " +
+                                    "AEROPORTO INTERNACIONAL DE PORTO ALEGRE, " + verbo + " as seguintes vias adicionais de credenciais:";
                     }
 
                     //Outros termos (Concedidas/Indeferidas/Canceladas/Destruidas)
@@ -264,8 +266,9 @@ namespace iModSCCredenciamento.ViewModels
                                       " and {ColaboradoresCredenciais.CredencialStatusID} = " + _status;
                         }
 
-                        _mensagem = "Durante o período de " + DateTime.Now.AddDays(-30).ToShortDateString() + " a " + DateTime.Now.ToShortDateString() + " esse setor de credenciamento do AEROPORTO INTERNACIONAL DE PORTO ALEGRE, "
-                        + verbo + " as seguintes vias adicionais de credenciais:";
+                        _mensagem = "Durante o período de " + DateTime.Now.AddDays(-30).ToShortDateString() + " " +
+                                    "a " + DateTime.Now.ToShortDateString() + " esse setor de credenciamento do " +
+                                    "AEROPORTO INTERNACIONAL DE PORTO ALEGRE, " + verbo + " as seguintes vias adicionais de credenciais:";
                     }
 
                     reportDocument.Load(_ArquivoRPT);
@@ -282,7 +285,8 @@ namespace iModSCCredenciamento.ViewModels
 
 
                         _mensagem = "Durante o período de " + _dataIni + " a " + _dataFim + " " +
-                                    "esse setor de credenciamento do AEROPORTO INTERNACIONAL DE PORTO ALEGRE, " + verbo + " as seguintes vias adicionais de credenciais:";
+                                    "esse setor de credenciamento do AEROPORTO INTERNACIONAL DE PORTO ALEGRE, " +
+                                    "" + verbo + " as seguintes vias adicionais de credenciais:";
                     }
 
                     //Outros termos (Concedidas/Indeferidas/Canceladas/Destruidas)
@@ -303,7 +307,8 @@ namespace iModSCCredenciamento.ViewModels
                         }
 
                         _mensagem = "Durante o período de " + _dataIni + " a " + _dataFim + " " +
-                                    "esse setor de credenciamento do AEROPORTO INTERNACIONAL DE PORTO ALEGRE, " + verbo + " as seguintes credenciais:";
+                                    "esse setor de credenciamento do AEROPORTO INTERNACIONAL DE PORTO ALEGRE, " +
+                                    "" + verbo + " as seguintes credenciais:";
                     }
 
                     reportDocument.Load(_ArquivoRPT);
@@ -364,31 +369,24 @@ namespace iModSCCredenciamento.ViewModels
                 XmlDocument _xmlDocument = new XmlDocument();
                 XmlNode _xmlNode = _xmlDocument.CreateXmlDeclaration("1.0", "UTF-8", null);
 
-                XmlNode _ClasseArquivosImagens = _xmlDocument.CreateElement("ClasseArquivosImagens");
-                _xmlDocument.AppendChild(_ClasseArquivosImagens);
+                XmlNode _ClasseRelatoriosGerenciais = _xmlDocument.CreateElement("ClasseRelatoriosGerenciais");
+                _xmlDocument.AppendChild(_ClasseRelatoriosGerenciais);
 
-                XmlNode _ArquivosImagens = _xmlDocument.CreateElement("ArquivosImagens");
-                _ClasseArquivosImagens.AppendChild(_ArquivosImagens);
-
+                XmlNode _RelatoriosGerenciais = _xmlDocument.CreateElement("RelatoriosGerenciais");
+                _ClasseRelatoriosGerenciais.AppendChild(_RelatoriosGerenciais);
 
                 SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
-
-
                 SqlCommand SQCMDXML = new SqlCommand("Select * From RelatoriosGerenciais Where RelatorioID = " + relatorioID, _Con);
                 SqlDataReader SQDR_XML;
 
                 SQDR_XML = SQCMDXML.ExecuteReader(CommandBehavior.Default);
                 while (SQDR_XML.Read())
                 {
-                    XmlNode _ArquivoImagem = _xmlDocument.CreateElement("ArquivoImagem");
-                    _ArquivosImagens.AppendChild(_ArquivoImagem);
-
+                    XmlNode _ArquivoImagem = _xmlDocument.CreateElement("ArquivoRelatorio");
+                    _RelatoriosGerenciais.AppendChild(_ArquivoImagem);
                     XmlNode _Arquivo = _xmlDocument.CreateElement("Arquivo");
-
                     _Arquivo.AppendChild(_xmlDocument.CreateTextNode((SQDR_XML["ArquivoRPT"].ToString())));
-
                     _ArquivoImagem.AppendChild(_Arquivo);
-
                 }
                 SQDR_XML.Close();
 
@@ -398,8 +396,8 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log("Erro na void CriaXmlRelatorio ex: " + ex);
-                return null;
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
         }
         #endregion

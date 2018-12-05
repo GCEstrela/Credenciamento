@@ -8,16 +8,13 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Data.SqlClient;
-using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Windows.Media.Imaging;
 using System.Xml;
-using System.Xml.Serialization;
 using AutoMapper;
 using IMOD.Application.Interfaces;
 using IMOD.Application.Service;
-using IMOD.CrossCutting;
 
 namespace iModSCCredenciamento.ViewModels
 {
@@ -364,15 +361,18 @@ namespace iModSCCredenciamento.ViewModels
                 ConnectionInfo crConnectionInfo = new ConnectionInfo();
                 Tables CrTables;
 
+
+                //Permanentes
                 if (_tipo)
                 {
                     if (_dataIni == "" || _dataFim == "")
                     {
-                        //TODAS AS CREDENCIAIS PERMANENTES E ATIVAS
-                        formula = " {TiposCredenciais.TipoCredencialID} = 1 and {CredenciaisStatus.CredencialStatusID} = 1 ";
+                        //Filtra todas Credenciais Permanentes e Ativas
+                        formula = " {TiposCredenciais.TipoCredencialID} = 1 " +
+                                  " and {CredenciaisStatus.CredencialStatusID} = 1 ";
                     }
                     else
-                    {
+                    {   //Filtra todas Credenciais Permanentes e Ativas (Período)
                         formula = " {TiposCredenciais.TipoCredencialID} = 1 " +
                                   " and {CredenciaisStatus.CredencialStatusID} = 1 " +
                                   " AND ({ColaboradoresCredenciais.Emissao} <= CDate ('" + _dataFim + "')" +
@@ -380,15 +380,17 @@ namespace iModSCCredenciamento.ViewModels
                     }
 
                 }
+                //Temporárias
                 else
                 {
                     if (_dataIni == "" || _dataFim == "")
                     {
-                        //TODAS AS CREDENCIAIS TEMPORÁRIAS E ATIVAS
-                        formula = " {TiposCredenciais.TipoCredencialID} = 2 and {CredenciaisStatus.CredencialStatusID} = 1 ";
+                        //Filtra todas Credenciais Temporárias e Ativas
+                        formula = " {TiposCredenciais.TipoCredencialID} = 2 " +
+                                  " and {CredenciaisStatus.CredencialStatusID} = 1 ";
                     }
                     else
-                    {
+                    {   //Filtra todas Credenciais Permanentes e Ativas (Período)
                         formula = " {TiposCredenciais.TipoCredencialID} = 2 " +
                                   " and {CredenciaisStatus.CredencialStatusID} = 1 " +
                                   " AND ({ColaboradoresCredenciais.Emissao} <= CDate ('" + _dataFim + "')" +
