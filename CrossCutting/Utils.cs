@@ -39,7 +39,8 @@ namespace IMOD.CrossCutting
     /// </summary>
     public static class Utils
     {
-        private static readonly string CaminhoLog = Path.Combine(@"C:\ImodCredenciamento", "Log");
+        //Salvar dados de log no caminho de arquivos temporários
+        private static readonly string CaminhoLog = Path.Combine(Path.GetTempPath(), "Credenciamento\\Log");
         private static readonly string NomeArqErrorLog = "Error.log";
 
         #region  Metodos
@@ -215,8 +216,8 @@ namespace IMOD.CrossCutting
             if (string.IsNullOrWhiteSpace(cnpj))
                 return false;
             var valida = true;
-            var multiplicador1 = new[] { 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2 };
-            var multiplicador2 = new[] { 6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2 };
+            var multiplicador1 = new[] {5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2};
+            var multiplicador2 = new[] {6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2};
 
             cnpj = cnpj.Trim();
             cnpj = cnpj.Replace("/", "").Replace(".", "").Replace("-", "");
@@ -228,9 +229,9 @@ namespace IMOD.CrossCutting
                 var soma = 0;
 
                 for (var i = 0; i < 12; i++)
-                    soma = soma + int.Parse(tempCnpj[i].ToString()) * multiplicador1[i];
+                    soma = soma + int.Parse(tempCnpj[i].ToString())*multiplicador1[i];
 
-                var resto = soma % 11;
+                var resto = soma%11;
                 resto = resto < 2 ? 0 : 11 - resto;
 
                 var digito = resto.ToString();
@@ -239,9 +240,9 @@ namespace IMOD.CrossCutting
 
                 soma = 0;
                 for (var i = 0; i < 13; i++)
-                    soma = soma + int.Parse(tempCnpj[i].ToString()) * multiplicador2[i];
+                    soma = soma + int.Parse(tempCnpj[i].ToString())*multiplicador2[i];
 
-                resto = soma % 11;
+                resto = soma%11;
                 resto = resto < 2 ? 0 : 11 - resto;
 
                 digito = digito + resto;
@@ -274,8 +275,8 @@ namespace IMOD.CrossCutting
             if (string.IsNullOrWhiteSpace(cpf))
                 return false;
             bool retorno;
-            var multiplicador1 = new[] { 10, 9, 8, 7, 6, 5, 4, 3, 2 };
-            var multiplicador2 = new[] { 11, 10, 9, 8, 7, 6, 5, 4, 3, 2 };
+            var multiplicador1 = new[] {10, 9, 8, 7, 6, 5, 4, 3, 2};
+            var multiplicador2 = new[] {11, 10, 9, 8, 7, 6, 5, 4, 3, 2};
             string tempCpf;
             string digito;
             int soma;
@@ -300,9 +301,9 @@ namespace IMOD.CrossCutting
             soma = 0;
 
             for (var i = 0; i < 9; i++)
-                soma += int.Parse(tempCpf[i].ToString()) * multiplicador1[i];
+                soma += int.Parse(tempCpf[i].ToString())*multiplicador1[i];
 
-            resto = soma % 11;
+            resto = soma%11;
             if (resto < 2)
                 resto = 0;
             else
@@ -314,9 +315,9 @@ namespace IMOD.CrossCutting
             // calcula segundo digito
             soma = 0;
             for (var i = 0; i < 10; i++)
-                soma += int.Parse(tempCpf[i].ToString()) * multiplicador2[i];
+                soma += int.Parse(tempCpf[i].ToString())*multiplicador2[i];
 
-            resto = soma % 11;
+            resto = soma%11;
             if (resto < 2)
                 resto = 0;
             else
@@ -463,10 +464,10 @@ namespace IMOD.CrossCutting
 
         private static byte[] HexStringToArrayBytes(string conteudo)
         {
-            var qtdeBytesEncriptados = conteudo.Length / 2;
+            var qtdeBytesEncriptados = conteudo.Length/2;
             var arrayConteudoEncriptado = new byte[qtdeBytesEncriptados];
             for (var i = 0; i < qtdeBytesEncriptados; i++)
-                arrayConteudoEncriptado[i] = Convert.ToByte(conteudo.Substring(i * 2, 2), 16);
+                arrayConteudoEncriptado[i] = Convert.ToByte(conteudo.Substring(i*2, 2), 16);
             return arrayConteudoEncriptado;
         }
 
@@ -493,12 +494,12 @@ namespace IMOD.CrossCutting
         public static Image ResizeImage(Image image, int maxWidth, int maxHeight)
         {
             if (image == null) return null;
-            var ratioX = (double)maxWidth / image.Width;
-            var ratioY = (double)maxHeight / image.Height;
+            var ratioX = (double) maxWidth/image.Width;
+            var ratioY = (double) maxHeight/image.Height;
             var ratio = Math.Min(ratioX, ratioY);
 
-            var newWidth = (int)(image.Width * ratio);
-            var newHeight = (int)(image.Height * ratio);
+            var newWidth = (int) (image.Width*ratio);
+            var newHeight = (int) (image.Height*ratio);
 
             var newImage = new Bitmap(newWidth, newHeight);
             Graphics.FromImage(newImage).DrawImage(image, 0, 0, newWidth, newHeight);
@@ -863,7 +864,7 @@ namespace IMOD.CrossCutting
             {
                 var lst = new List<ErrorTrace>();
                 var c1 = LerArquivo(CaminhoLog, NomeArqErrorLog);
-                var d1 = c1.Split(new[] { "?" }, StringSplitOptions.RemoveEmptyEntries);
+                var d1 = c1.Split(new[] {"?"}, StringSplitOptions.RemoveEmptyEntries);
 
                 foreach (var item in d1)
                 {
@@ -938,7 +939,7 @@ namespace IMOD.CrossCutting
 
             using (var sr = new StringReader(input))
             {
-                return (T)ser.Deserialize(sr);
+                return (T) ser.Deserialize(sr);
             }
         }
 
@@ -958,7 +959,7 @@ namespace IMOD.CrossCutting
             var stream = new FileStream(arquivo, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
             try
             {
-                return (T)serializador.Deserialize(stream);
+                return (T) serializador.Deserialize(stream);
             }
             finally
             {
@@ -1007,8 +1008,8 @@ namespace IMOD.CrossCutting
         {
             var xmlDoc = XDocument.Load(arquivoXml);
             var xmlString = (from d in xmlDoc.Descendants()
-                             where d.Name.LocalName == nomeDoNode
-                             select d).FirstOrDefault();
+                where d.Name.LocalName == nomeDoNode
+                select d).FirstOrDefault();
 
             if (xmlString == null)
                 throw new Exception($"Nenhum objeto {nomeDoNode} encontrado no arquivo {arquivoXml}!");
@@ -1027,8 +1028,8 @@ namespace IMOD.CrossCutting
             var s = stringXml;
             var xmlDoc = XDocument.Parse(s);
             var xmlString = (from d in xmlDoc.Descendants()
-                             where d.Name.LocalName == nomeDoNode
-                             select d).FirstOrDefault();
+                where d.Name.LocalName == nomeDoNode
+                select d).FirstOrDefault();
 
             if (xmlString == null)
                 throw new Exception(string.Format("Nenhum objeto {0} encontrado no xml!", nomeDoNode));
@@ -1077,12 +1078,9 @@ namespace IMOD.CrossCutting
         /// </summary>
         public enum Juros
         {
-            [Description("Nenhum")]
-            Nenhum = 0,
-            [Description("Simples")]
-            Simples = 1,
-            [Description("Compostos")]
-            Compostos = 2
+            [Description("Nenhum")] Nenhum = 0,
+            [Description("Simples")] Simples = 1,
+            [Description("Compostos")] Compostos = 2
         }
 
         /// <summary>
@@ -1097,7 +1095,7 @@ namespace IMOD.CrossCutting
             var type = value.GetType();
             var memberInfo = type.GetMember(value.ToString());
             var attributes = memberInfo[0].GetCustomAttributes(typeof(T), false);
-            return (T)attributes[0];
+            return (T) attributes[0];
         }
 
         /// <summary>

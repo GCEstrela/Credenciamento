@@ -42,6 +42,7 @@ namespace IMOD.Domain.Entities
         public string Arquivo { get; set; }
         public int? TipoAcessoId { get; set; }
         public string NomeArquivo { get; set; }
+        public  byte [] ArquivoBlob { get; set; }
 
         #endregion
     }

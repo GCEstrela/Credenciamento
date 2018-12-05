@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using IMOD.Domain.Entities;
 using IMOD.Infra.Repositorios;
@@ -21,6 +22,44 @@ namespace UnitTestImod
     public class UnitTest1
     {
         #region  Metodos
+
+
+        [TestMethod]
+        public void EmpresaContrato_insere_listar_arquivo_dados_filestream_com_sucesso()
+        {
+            var repositorio = new EmpresaContratoRepositorio();
+            //Obter array de bytes do arquivo teste
+            var arrayByte = File.ReadAllBytes ("Arquivos/contrato.pdf");
+            //Transformar numa string Base64
+            var strBase64 = Convert.ToBase64String(arrayByte);
+            for (var i = 0; i < 50; i++)
+            {
+                var d1 = new EmpresaContrato
+                {
+                    EmpresaId = i,
+                    NumeroContrato = "10" + i,
+                    Descricao = "Teste de Unidade " + (i + 1),
+                    Emissao = DateTime.Now,
+                    Validade = DateTime.Now,
+                    Terceirizada = "3",
+                    Contratante = "CONTRATANTE " + (i + 1),
+                    IsencaoCobranca = "I",
+                    TipoCobrancaId = i,
+                    CobrancaEmpresaId = i,
+                    StatusId = 1,
+                    Arquivo = strBase64,
+                    TipoAcessoId = 1,
+                    NomeArquivo = "contrato.pdf",
+                    ArquivoBlob = arrayByte
+                };
+                repositorio.Criar (d1);//Criar dados
+
+            }
+
+            //ler dados
+            var list = repositorio.Listar();
+            Assert.IsNotNull(list.FirstOrDefault().ArquivoBlob);
+        }
 
         [TestMethod]
         public void ColabororadorCredencial_Alterar_com_sucesso()
@@ -71,7 +110,7 @@ namespace UnitTestImod
             var d0 = repositorio.Listar().FirstOrDefault();
             var d1 = repositorio.BuscarPelaChave(d0.ColaboradorAnexoId);
 
-            var list0 = repositorio.Listar(0, "%arq%").ToList();
+            var list0 = repositorio.Listar(0,"%arq%").ToList();
             var list1 = repositorio.Listar(0, d0.ColaboradorId).ToList();
 
 
@@ -451,22 +490,20 @@ namespace UnitTestImod
         public void ColabororadorEnpresa_Buscar_Criar_Alterar_com_sucesso()
         {
             var repositorio = new ColaboradorEmpresaRepositorio();
+            var d1 = repositorio.Listar().FirstOrDefault();
+            if (d1 == null) return;
+           
             for (var i = 0; i < 3; i++)
             {
-                var d1 = repositorio.BuscarPelaChave(5);
-                d1.Cargo = "Cargo " + i;
-
+                var entity = repositorio.BuscarPelaChave(d1.ColaboradorEmpresaId);
+                entity.Cargo = "Cargo " + i;
                 repositorio.Alterar(d1);
-                d1.Matricula = "0000" + i;
-
+                entity.Matricula = "0000" + i;
                 repositorio.Criar(d1);
             }
 
             var list0 = repositorio.Listar();
             var list1 = repositorio.Listar(1, null, null).ToList();
-            var list2 = repositorio.Listar(null, "%X%", null).ToList();
-            var list3 = repositorio.Listar(null, null, "%-%").ToList();
-
             Assert.IsNotNull(list0);
             Assert.IsNotNull(list1);
 
@@ -639,14 +676,14 @@ namespace UnitTestImod
         [TestMethod]
         public void Veiculo_Cadastrar_Alterar_Listar_Remover_com_sucesso()
         {
-            var repositorio = new VeiculoRepositorio();
+            var repositorio = new VeiculosRepositorio();
 
             for (var i = 0; i < 3; i++)
             {
-                var d1 = new Veiculo
+                var d1 = new Veiculos
                 {
                     Descricao = "VEÍCULO (" + i + ")",
-                    Placa_Identificador = "HSH-" + i + "00" + i,
+                    PlacaIdentificador = "HSH-" + i + "00" + i,
                     Frota = "A" + i,
                     Patrimonio = "PAT-" + i + "00" + i,
                     Marca = "Renault",
@@ -654,19 +691,19 @@ namespace UnitTestImod
                     Tipo = "UTILITARIO " + i,
                     Cor = "Amarelo",
                     Ano = "201" + i,
-                    EstadoID = 1,
-                    MunicipioID = 1,
-                    Serie_Chassi = "",
-                    CombustivelID = 1,
+                    EstadoId = 1,
+                    MunicipioId = 1,
+                    SerieChassi = "",
+                    CombustivelId = 1,
                     Altura = "1.669 mm",
                     Comprimento = "4.152 mm",
                     Largura = "1.768 mm",
-                    TipoEquipamentoVeiculoID = 1,
+                    TipoEquipamentoVeiculoId = 1,
                     Renavam = "9773970473" + i,
                     Foto = "",
                     Excluida = 1,
-                    StatusID = 1,
-                    TipoAcessoID = 1,
+                    StatusId = 1,
+                    TipoAcessoId = 1,
                     DescricaoAnexo = "ANEXO " + i,
                     NomeArquivoAnexo = "ANEXO " + i,
                     ArquivoAnexo = "ANEXO " + i,

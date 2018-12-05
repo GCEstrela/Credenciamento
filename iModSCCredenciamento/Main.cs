@@ -35,7 +35,6 @@ namespace iModSCCredenciamento
             try
             {
                 AutoMapperConfig.RegisterMappings();
-                //iModSCCredenciamentoIcon = new BitmapImage(new Uri(@"iModSCCredenciamento.Resources.Cracha.png", UriKind.RelativeOrAbsolute));
                 iModSCCredenciamentoIcon = new BitmapImage(new Uri(@"pack://application:,,,/iModSCCredenciamento;Component/Resources/Cracha.png", UriKind.RelativeOrAbsolute));
                 Global.AbreConfig();
             }
@@ -196,162 +195,17 @@ namespace iModSCCredenciamento
 
         private void OnEntitiesInvalidated(object sender, EntitiesInvalidatedEventArgs e)
         {
-            //foreach (Guid entityGuid in e.Entities.Select((info => info.EntityGuid)))
-            //{
-            //    Entity entity = engine.GetEntity(entityGuid);
-
-            //    if (entity != null)
-            //    {
-            //        if (entity.EntityType == EntityType.Badge)
-            //        {
-            //            try
-            //            {
-            //                ClasseLayoutsCrachas.LayoutCracha layoutCracha = new ClasseLayoutsCrachas.LayoutCracha();
-            //                layoutCracha.LayoutCrachaGUID = entity.Guid.ToString();
-            //                layoutCracha.Nome = entity.Name;
-
-            //                XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(ClasseLayoutsCrachas));
-
-            //                ObservableCollection<ClasseLayoutsCrachas.LayoutCracha> _LayoutsCrachasTemp = new ObservableCollection<ClasseLayoutsCrachas.LayoutCracha>();
-            //                ClasseLayoutsCrachas _ClasseLayoutsCrachasTemp = new ClasseLayoutsCrachas();
-            //                _LayoutsCrachasTemp.Add(layoutCracha);
-            //                _ClasseLayoutsCrachasTemp.LayoutsCrachas = _LayoutsCrachasTemp;
-
-            //                string xmlString;
-            //                using (StringWriterWithEncoding sw = new StringWriterWithEncoding(System.Text.Encoding.UTF8))
-            //                {
-
-            //                    using (XmlTextWriter xw = new XmlTextWriter(sw))
-            //                    {
-            //                        xw.Formatting = Formatting.Indented;
-            //                        serializer.Serialize(xw, _ClasseLayoutsCrachasTemp);
-            //                        xmlString = sw.ToString();
-            //                    }
-
-            //                }
-            //                AtualizaLayoutCrachaBD(xmlString);
-
-            //                _LayoutsCrachasTemp = null;
-            //                layoutCracha = null;
-
-            //                //EmpresasLayoutsCrachas.Add();
-            //            }
-            //            catch (Exception ex)
-            //            {
-            //            }
-
-            //        }
-
-            //    }
-
-            //}
+             
         }
 
         private void OnEntitiesAdded(object sender, EntitiesAddedEventArgs e)
         {
-            //try
-            //{
-            //    foreach (Guid entityGuid in e.Entities.Select((info => info.EntityGuid)))
-            //    {
-            //        Entity entity = engine.GetEntity(entityGuid);
-
-            //        if (entity != null)
-            //        {
-            //            if (entity.EntityType == EntityType.Badge)
-            //            {
-            //                try
-            //                {
-            //                    ClasseLayoutsCrachas.LayoutCracha layoutCracha = new ClasseLayoutsCrachas.LayoutCracha();
-            //                    layoutCracha.LayoutCrachaGUID = entity.Guid.ToString();
-            //                    layoutCracha.Nome = entity.Name;
-
-            //                    XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(ClasseLayoutsCrachas));
-
-            //                    ObservableCollection<ClasseLayoutsCrachas.LayoutCracha> _LayoutsCrachasTemp = new ObservableCollection<ClasseLayoutsCrachas.LayoutCracha>();
-            //                    ClasseLayoutsCrachas _ClasseLayoutsCrachasTemp = new ClasseLayoutsCrachas();
-            //                    _LayoutsCrachasTemp.Add(layoutCracha);
-            //                    _ClasseLayoutsCrachasTemp.LayoutsCrachas = _LayoutsCrachasTemp;
-
-            //                    string xmlString;
-            //                    using (StringWriterWithEncoding sw = new StringWriterWithEncoding(System.Text.Encoding.UTF8))
-            //                    {
-
-            //                        using (XmlTextWriter xw = new XmlTextWriter(sw))
-            //                        {
-            //                            xw.Formatting = Formatting.Indented;
-            //                            serializer.Serialize(xw, _ClasseLayoutsCrachasTemp);
-            //                            xmlString = sw.ToString();
-            //                        }
-
-            //                    }
-            //                    AtualizaLayoutCrachaBD(xmlString);
-
-            //                    _LayoutsCrachasTemp = null;
-            //                    layoutCracha = null;
-
-            //                    //EmpresasLayoutsCrachas.Add();
-            //                }
-            //                catch (Exception ex)
-            //                {
-            //                }
-
-            //            }
-
-            //        }
-
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-
-            //}
+             
         }
 
         private void OnEntitiesRemoved(object sender, EntitiesRemovedEventArgs e)
         {
-            //foreach (EntityUpdateInfo info in e.Entities)
-            //{
-
-            //    if (info.EntityType == EntityType.Badge)
-            //    {
-            //        try
-            //        {
-            //            ClasseLayoutsCrachas.LayoutCracha layoutCracha = new ClasseLayoutsCrachas.LayoutCracha();
-            //            layoutCracha.LayoutCrachaGUID = info.EntityGuid.ToString();
-            //            layoutCracha.Nome = "";
-
-            //            XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(ClasseLayoutsCrachas));
-
-            //            ObservableCollection<ClasseLayoutsCrachas.LayoutCracha> _LayoutsCrachasTemp = new ObservableCollection<ClasseLayoutsCrachas.LayoutCracha>();
-            //            ClasseLayoutsCrachas _ClasseLayoutsCrachasTemp = new ClasseLayoutsCrachas();
-            //            _LayoutsCrachasTemp.Add(layoutCracha);
-            //            _ClasseLayoutsCrachasTemp.LayoutsCrachas = _LayoutsCrachasTemp;
-
-            //            string xmlString;
-            //            using (StringWriterWithEncoding sw = new StringWriterWithEncoding(System.Text.Encoding.UTF8))
-            //            {
-
-            //                using (XmlTextWriter xw = new XmlTextWriter(sw))
-            //                {
-            //                    xw.Formatting = Formatting.Indented;
-            //                    serializer.Serialize(xw, _ClasseLayoutsCrachasTemp);
-            //                    xmlString = sw.ToString();
-            //                }
-
-            //            }
-            //            ExcluiLayoutCrachaBD(xmlString);
-
-            //            _LayoutsCrachasTemp = null;
-            //            layoutCracha = null;
-
-            //            //EmpresasLayoutsCrachas.Add();
-            //        }
-            //        catch (Exception ex)
-            //        {
-            //        }
-
-            //    }
-            //}
+             
         }
 
         private void OnWorkspaceInitialized(object sender, InitializedEventArgs e)
@@ -364,165 +218,17 @@ namespace iModSCCredenciamento
 
         private void CarregaLayoutCracha()
         {
-            //try
-            //{
-
-            //    XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(ClasseLayoutsCrachas));
-
-            //    ObservableCollection<ClasseLayoutsCrachas.LayoutCracha> _LayoutsCrachasTemp = new ObservableCollection<ClasseLayoutsCrachas.LayoutCracha>();
-
-            //    ClasseLayoutsCrachas _ClasseLayoutsCrachasTemp = new ClasseLayoutsCrachas();
-
-            //    EntityConfigurationQuery query;
-
-            //    QueryCompletedEventArgs result;
-
-            //    query = engine.ReportManager.CreateReportQuery(ReportType.EntityConfiguration) as EntityConfigurationQuery;
-
-            //    query.EntityTypeFilter.Add(EntityType.Badge);
-
-            //    query.NameSearchMode = StringSearchMode.StartsWith;
-
-            //    result = query.Query();
-
-            //    if (result.Success)
-            //    {
-            //        foreach (DataRow dr in result.Data.Rows)
-            //        {
-            //            Entity _Badge = engine.GetEntity((Guid)dr[0]) as Entity;
-
-            //            ClasseLayoutsCrachas.LayoutCracha layoutCracha = new ClasseLayoutsCrachas.LayoutCracha();
-
-            //            layoutCracha.LayoutCrachaGUID = _Badge.Guid.ToString();
-
-            //            layoutCracha.Nome = _Badge.Name;
-
-            //            _LayoutsCrachasTemp.Add(layoutCracha);
-            //        }
-
-            //    }
-
-            //    _ClasseLayoutsCrachasTemp.LayoutsCrachas = _LayoutsCrachasTemp;
-
-            //    string xmlString;
-            //    using (StringWriterWithEncoding sw = new StringWriterWithEncoding(System.Text.Encoding.UTF8))
-            //    {
-
-            //        using (XmlTextWriter xw = new XmlTextWriter(sw))
-            //        {
-            //            xw.Formatting = Formatting.Indented;
-            //            serializer.Serialize(xw, _ClasseLayoutsCrachasTemp);
-            //            xmlString = sw.ToString();
-            //        }
-
-            //    }
-            //    AtualizaLayoutCrachaBD(xmlString);
-
-            //    _LayoutsCrachasTemp = null;
-            //    //layoutCracha = null;
-
-            //    //EmpresasLayoutsCrachas.Add();
-            //}
-            //catch (Exception ex)
-            //{
-            //}
+             
         }
 
         private void AtualizaLayoutCrachaBD(string xmlString)
         {
-            //try
-            //{
-
-            //    System.Xml.XmlDocument _xmlDoc = new System.Xml.XmlDocument();
-
-            //    _xmlDoc.LoadXml(xmlString);
-
-            //    ClasseLayoutsCrachas.LayoutCracha _LayoutCracha = new ClasseLayoutsCrachas.LayoutCracha();
-
-            //    if (_xmlDoc.GetElementsByTagName("LayoutCrachaGUID").Count == 0)
-            //    {
-            //        return;
-            //    }
-
-            //    SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
-
-            //    for (int x = 0; x < _xmlDoc.GetElementsByTagName("LayoutCrachaGUID").Count; x++)
-            //    {
-
-            //        string _strSql = "Select * from LayoutsCrachas where LayoutCrachaGUID='" + _xmlDoc.GetElementsByTagName("LayoutCrachaGUID")[x].InnerText + "'";
-            //        SqlCommand _sqlcmd = new SqlCommand(_strSql, _Con);
-            //        SqlDataReader _sqlreader = _sqlcmd.ExecuteReader(CommandBehavior.Default);
-            //        if (_sqlreader.Read())
-            //        {
-            //            SqlCommand _sqlCmd;
-
-            //                _LayoutCracha.Nome = _xmlDoc.GetElementsByTagName("Nome")[x].InnerText;
-
-            //                _sqlCmd = new SqlCommand("Update LayoutsCrachas Set Nome='" + _LayoutCracha.Nome +
-            //                    "' Where LayoutCrachaGUID='" + _xmlDoc.GetElementsByTagName("LayoutCrachaGUID")[x].InnerText + "'", _Con);
-
-            //                _sqlCmd.ExecuteNonQuery();
-
-            //        }
-            //        else
-            //        {
-            //            SqlCommand _sqlCmd;
-
-            //                _LayoutCracha.LayoutCrachaGUID = _xmlDoc.GetElementsByTagName("LayoutCrachaGUID")[x].InnerText;
-
-            //                _LayoutCracha.Nome = _xmlDoc.GetElementsByTagName("Nome")[x].InnerText;
-
-            //                _sqlCmd = new SqlCommand("Insert into LayoutsCrachas(LayoutCrachaGUID,Nome) values ('" + _LayoutCracha.LayoutCrachaGUID + "','" + _LayoutCracha.Nome + "')", _Con);
-
-            //                _sqlCmd.ExecuteNonQuery();
-
-            //        }
-
-            //    }
-
-            //    _Con.Close();
-
-            //}
-            //catch (Exception ex)
-            //{
-            //    Global.Log("Erro na void AtualizaLayoutCrachaBD ex: " + ex);
-
-            //}
+             
         }
 
         private void ExcluiLayoutCrachaBD(string xmlString)
         {
-            //try
-            //{
-
-            //    System.Xml.XmlDocument _xmlDoc = new System.Xml.XmlDocument();
-
-            //    _xmlDoc.LoadXml(xmlString);
-
-            //    ClasseLayoutsCrachas.LayoutCracha _LayoutCracha = new ClasseLayoutsCrachas.LayoutCracha();
-
-            //    if (_xmlDoc.GetElementsByTagName("LayoutCrachaGUID").Count == 0)
-            //    {
-            //        return;
-            //    }
-
-            //     SqlConnection _Con = new SqlConnection(Global._connectionString);_Con.Open();
-            //    SqlCommand _sqlCmd;
-            //    _sqlCmd = new SqlCommand("Delete from LayoutsCrachas where LayoutCrachaGUID='" + _xmlDoc.GetElementsByTagName("LayoutCrachaGUID")[0].InnerText + "'", _Con);
-
-            //    _sqlCmd.ExecuteNonQuery();
-
-            //    _sqlCmd = new SqlCommand("Delete from EmpresasLayoutsCrachas where LayoutCrachaGUID='" + _xmlDoc.GetElementsByTagName("LayoutCrachaGUID")[0].InnerText + "'", _Con);
-
-            //    _sqlCmd.ExecuteNonQuery();
-
-            //    _Con.Close();
-            //}
-            //catch (Exception ex)
-            //{
-            //    Global.Log("Erro na void ExcluiLayoutCrachaBD ex: " + ex);
-
-            //}
+             
         }
 
         #endregion
@@ -537,16 +243,12 @@ namespace iModSCCredenciamento
             Mapper.Initialize(
                     m =>
                     {
-                        //--Mihai--//
                         m.CreateMap<Colaborador, ClasseColaboradores.Colaborador>().ReverseMap();
                         m.CreateMap<ColaboradorCurso, ClasseColaboradoresCursos.ColaboradorCurso>().ReverseMap();
                         m.CreateMap<ClasseColaboradoresCredenciais, ClasseColaboradoresCredenciais.ColaboradorCredencial>().ReverseMap();
                         m.CreateMap<ColaboradoresCredenciaisView, ClasseColaboradoresCredenciais.ColaboradorCredencial>().ReverseMap();
-
-                        m.CreateMap<ColaboradorEmpresa, ClasseColaboradoresEmpresas.ColaboradorEmpresa>().ReverseMap();                       
-                        m.CreateMap<Empresa, ClasseEmpresas.Empresa>()
-                            .IgnoreAllSourcePropertiesWithAnInaccessibleSetter()
-                            .ReverseMap();
+                        m.CreateMap<ColaboradorEmpresa, ClasseColaboradoresEmpresas.ColaboradorEmpresa>().ReverseMap();
+                        m.CreateMap<Empresa, ClasseEmpresas.Empresa>().ReverseMap();
 
                         m.CreateMap<Estados, ClasseEstados.Estado>().ReverseMap();
                         m.CreateMap<Municipio, ClasseMunicipios.Municipio>().ReverseMap();
@@ -555,11 +257,10 @@ namespace iModSCCredenciamento
                         m.CreateMap<TipoEquipamento, ClasseTiposEquipamento.TipoEquipamento>().ReverseMap();
 
                         m.CreateMap<EmpresaTipoAtividade, ClasseEmpresasTiposAtividades.EmpresaTipoAtividade>().ReverseMap();
-
                         m.CreateMap<AreaAcesso, ClasseAreasAcessos.AreaAcesso>().ReverseMap();
                         m.CreateMap<LayoutCracha, ClasseLayoutsCrachas.LayoutCracha>().ReverseMap();
                         m.CreateMap<EmpresaLayoutCrachaView, ClasseEmpresasLayoutsCrachas.EmpresaLayoutCracha>().ReverseMap();
-                        //--Mihai--//
+                        m.CreateMap<EmpresaContrato,ClasseEmpresasContratos.EmpresaContrato>().ReverseMap();
 
                     });
         }
