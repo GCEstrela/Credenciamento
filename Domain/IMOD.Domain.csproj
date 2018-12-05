@@ -85,7 +85,7 @@
     <Compile Include="Entities\TipoEquipamento.cs" />
     <Compile Include="Entities\TipoServico.cs" />
     <Compile Include="Entities\VeiculoEquipTipoServico.cs" />
-    <Compile Include="Entities\Veiculos.cs" />
+    <Compile Include="Entities\Veiculo.cs" />
     <Compile Include="Entities\VeiculoAnexo.cs" />
     <Compile Include="Entities\VeiculoCredencial.cs" />
     <Compile Include="Entities\VeiculoCredencialimpressao.cs" />

@@ -680,7 +680,7 @@ namespace UnitTestImod
 
             for (var i = 0; i < 3; i++)
             {
-                var d1 = new Veiculos
+                var d1 = new Veiculo
                 {
                     Descricao = "VEÍCULO (" + i + ")",
                     PlacaIdentificador = "HSH-" + i + "00" + i,

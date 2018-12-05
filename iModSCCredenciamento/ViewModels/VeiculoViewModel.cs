@@ -672,7 +672,7 @@ namespace iModSCCredenciamento.ViewModels
                 if (!string.IsNullOrWhiteSpace(cpf)) cpf = $"%{cpf}%";
 
                 var list1 = service.Listar(VeiculoID, nome, apelido, cpf);
-                var list2 = Mapper.Map<List<ClasseVeiculos.Veiculo>>(list1.OrderByDescending(a => a.EquipamentoVeiculoID));
+                var list2 = Mapper.Map<List<ClasseVeiculos.Veiculo>>(list1.OrderByDescending(a => a.EquipamentoVeiculoId));
 
                 var observer = new ObservableCollection<ClasseVeiculos.Veiculo>();
                 list2.ForEach(n =>
@@ -1723,7 +1723,7 @@ namespace iModSCCredenciamento.ViewModels
 
                 var service = new IMOD.Application.Service.VeiculosService();
                 var entity = VeiculoSelecionado;
-                var entityConv = Mapper.Map<Veiculos>(entity);
+                var entityConv = Mapper.Map<Veiculo>(entity);
 
                 service.Criar(entityConv);
 
@@ -1754,7 +1754,7 @@ namespace iModSCCredenciamento.ViewModels
 
                 var service = new IMOD.Application.Service.VeiculosService();
                 var entity = VeiculoSelecionado;
-                var entityConv = Mapper.Map<Veiculos>(entity);
+                var entityConv = Mapper.Map<Veiculo>(entity);
 
                 service.Alterar(entityConv);
 
