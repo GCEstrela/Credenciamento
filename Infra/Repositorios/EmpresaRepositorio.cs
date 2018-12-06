@@ -54,7 +54,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Nome", entity.Nome, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Apelido", entity.Apelido, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Sigla", entity.Sigla, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("CNPJ", entity.Cnpj, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("CNPJ", entity.Cnpj.RetirarCaracteresEspeciais(), false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("CEP", entity.Cep, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Endereco", entity.Endereco, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Numero", entity.Numero, false)));
@@ -176,7 +176,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Nome", entity.Nome, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Apelido", entity.Apelido, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Sigla", entity.Sigla, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("CNPJ", entity.Cnpj, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("CNPJ", entity.Cnpj.RetirarCaracteresEspeciais(), false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("CEP", entity.Cep, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Endereco", entity.Endereco, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Numero", entity.Numero, false)));
@@ -237,6 +237,36 @@ namespace IMOD.Infra.Repositorios
                     catch (Exception ex)
                     {
                         Utils.TraceException(ex);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Buscar empresa por CNPJ
+        /// </summary>
+        /// <param name="cnpj"></param>
+        /// <returns></returns>
+        public Empresa BuscarEmpresaPorCnpj(string cnpj)
+        {
+            if (string.IsNullOrWhiteSpace (cnpj)) return null;
+            using (var conn = _dataBase.CreateOpenConnection())
+            {
+                using (var cmd = _dataBase.SelectText("Empresas", conn))
+
+                {
+                    try
+                    {
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("CNPJ", DbType.String, cnpj.RetirarCaracteresEspeciais()).Igual()));
+                        var reader = cmd.ExecuteReader();
+                        var d1 = reader.MapToList<Empresa>();
+
+                        return d1.FirstOrDefault();
+                    }
+                    catch (Exception ex)
+                    {
+                        Utils.TraceException(ex);
+                        throw;
                     }
                 }
             }
