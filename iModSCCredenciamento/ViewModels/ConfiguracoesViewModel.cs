@@ -119,6 +119,7 @@ namespace iModSCCredenciamento.ViewModels
 
         private Relatorios relatorio = new Relatorios();
         private RelatoriosGerenciais relatorioGerencial = new RelatoriosGerenciais();
+        private LayoutCracha layoutCracha = new LayoutCracha();
 
 
         #endregion
@@ -1016,11 +1017,12 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                var id = RelatorioGerencialSelecionado.RelatorioID;
-                relatorioGerencial = _relatorioGerencialService.BuscarPelaChave(id);
+                var id = LayoutCrachaSelecionado.LayoutCrachaID;
 
-                var arrayFile = Convert.FromBase64String(relatorioGerencial.ArquivoRpt);
-                WpfHelp.ShowRelatorio(arrayFile, "RelatorioGerencial " + id, "", "");
+                layoutCracha = _auxiliaresService.LayoutCrachaService.BuscarPelaChave(id);
+
+                var arrayFile = Convert.FromBase64String(layoutCracha.LayoutRpt);
+                WpfHelp.ShowRelatorio(arrayFile, "LayoutCracha " + id, "", "");
 
             }
             catch (Exception ex)

@@ -753,14 +753,14 @@ namespace UnitTestImod
             {
                 var d1 = new Veiculo
                 {
-                    Descricao = "VEÍCULO (" + i + ")",
-                    PlacaIdentificador = "HSH-" + i + "00" + i,
+                    Descricao = "VEÍCULO #" + i + "#",
+                    PlacaIdentificador = "KXK-" + i + "00" + i,
                     Frota = "A" + i,
-                    Patrimonio = "PAT-" + i + "00" + i,
-                    Marca = "Renault",
-                    Modelo = "Hi-Flex 1.6 16V 5p",
-                    Tipo = "UTILITARIO " + i,
-                    Cor = "Amarelo",
+                    Patrimonio = "PPT-" + i + "00" + i,
+                    Marca = "Hyundai",
+                    Modelo = "H1 Starex SVX 2.6 85cv Diesel",
+                    Tipo = "VEICULO",
+                    Cor = "Cinza",
                     Ano = "201" + i,
                     EstadoId = 1,
                     MunicipioId = 1,
@@ -770,7 +770,7 @@ namespace UnitTestImod
                     Comprimento = "4.152 mm",
                     Largura = "1.768 mm",
                     TipoEquipamentoVeiculoId = 1,
-                    Renavam = "9773970473" + i,
+                    Renavam = "28671439987" + i,
                     Foto = "",
                     Excluida = 1,
                     StatusId = 1,
@@ -786,8 +786,8 @@ namespace UnitTestImod
 
                 repositorio.Criar(d1);
 
-                d1.Descricao = "VEÍCULO ALTERADO(" + i + 1 + ")";
-                d1.Cor = "6LACK";
+                d1.Descricao = "VEÍCULO #100" + i + "#";
+                d1.Cor = "GRAY";
 
                 repositorio.Alterar(d1);
             }
