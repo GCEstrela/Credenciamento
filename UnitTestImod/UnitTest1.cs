@@ -9,7 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq; 
+using System.Linq;
 using IMOD.Application.Service;
 using IMOD.Domain.Entities;
 using IMOD.Infra.Repositorios;
@@ -77,10 +77,10 @@ namespace UnitTestImod
             {
                 Nome = "Nome",
                 Cpf = "277.854.155-10",
-               Celular = "7188455562",
-               Email = "email@email.com",
-               Principal = true,
-               Telefone = "719985665"
+                Celular = "7188455562",
+                Email = "email@email.com",
+                Principal = true,
+                Telefone = "719985665"
             };
 
             #endregion
@@ -94,7 +94,7 @@ namespace UnitTestImod
                 Cep = "40000",
                 CelularResp = "719985623",
                 Complemento = "Complemento",
-                Descricao="Descricao",
+                Descricao = "Descricao",
                 Endereco = "Endereco",
                 Contratante = "Contrato",
                 EmailResp = "email@email",
@@ -127,7 +127,7 @@ namespace UnitTestImod
 
 
         #region  Metodos
- 
+
 
         [Priority(1)]
         [TestMethod]
@@ -139,7 +139,7 @@ namespace UnitTestImod
             #region Cadastrar Caracterisitcas
             var serviceAuxiliar = new DadosAuxiliaresFacadeService();
             //Tipo de Atividade
-            serviceAuxiliar.TipoAtividadeService.Criar (new TipoAtividade
+            serviceAuxiliar.TipoAtividadeService.Criar(new TipoAtividade
             {
                 Descricao = "Descricao"
             });
@@ -154,8 +154,8 @@ namespace UnitTestImod
 
             #region Cadastro de Empresa
             //Já existindo empresa, então nao cadastrar novamente, pois não é possivel haver 2 CNPJ iguais
-            var empresa = service.BuscarEmpresaPorCnpj (_empresa.Cnpj);
-            if (empresa==null)
+            var empresa = service.BuscarEmpresaPorCnpj(_empresa.Cnpj);
+            if (empresa == null)
             {
                 service.Criar(_empresa);
             }
@@ -164,7 +164,7 @@ namespace UnitTestImod
                 //Então use esse registro, caso exista
                 _empresa = empresa;
             }
-            
+
 
             service.TipoAtividadeService.Criar(new EmpresaTipoAtividade
             {
@@ -188,7 +188,7 @@ namespace UnitTestImod
                 _empresaSignatario.EmpresaId = _empresa.EmpresaId;
                 service.SignatarioService.Criar(_empresaSignatario);
             }
-           
+
             #endregion
 
             #region Contrato
@@ -212,7 +212,7 @@ namespace UnitTestImod
             #endregion
 
 
-            }
+        }
 
 
         [TestMethod]
@@ -946,7 +946,7 @@ namespace UnitTestImod
                 var d1 = new Veiculo
                 {
                     Descricao = "VEÍCULO #" + i + "#",
-                    PlacaIdentificador = "KXK-" + i + "00" + i,
+                    Placa_Identificador = "KXK-" + i + "00" + i,
                     Frota = "A" + i,
                     Patrimonio = "PPT-" + i + "00" + i,
                     Marca = "Hyundai",
@@ -956,7 +956,7 @@ namespace UnitTestImod
                     Ano = "201" + i,
                     EstadoId = 1,
                     MunicipioId = 1,
-                    SerieChassi = "",
+                    Serie_Chassi = "",
                     CombustivelId = 1,
                     Altura = "1.669 mm",
                     Comprimento = "4.152 mm",
