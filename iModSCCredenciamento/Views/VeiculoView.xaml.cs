@@ -41,11 +41,7 @@ namespace iModSCCredenciamento.Views
 
                     Foto_im.Source = _img;
                     ((ClasseVeiculos.Veiculo)ListaVeiculos_lv.SelectedItem).Foto = _imgstr; //Conversores.IMGtoSTR(new BitmapImage(new Uri(arquivoLogo.FileName)));
-                    //ListaEmpresas_lv.Items.Refresh();
-
-                    //BindingExpression be = BindingOperations.GetBindingExpression(Logo_im, Image.SourceProperty);
-                    //be.UpdateTarget();
-                    //_imgstr = null;
+                   
                 }
 
             }
@@ -54,11 +50,6 @@ namespace iModSCCredenciamento.Views
 
             }
         }
-        //private void BuscarArquivoAnexo_bt_Click(object sender, RoutedEventArgs e)
-        //{
-        //    ((VeiculoViewModel)this.DataContext).OnBuscarArquivoCommand();
-        //    Arquivo_tb.Text = ((VeiculoViewModel)this.DataContext).Veiculos[0].NomeArquivoAnexo;
-        //}
 
         private void AbrirArquivoAnexo_bt_Click(object sender, RoutedEventArgs e)
         {
@@ -87,11 +78,7 @@ namespace iModSCCredenciamento.Views
 
             }
         }
-
-        private void BuscarApoliceArquivo_bt_Click(object sender, RoutedEventArgs e)
-        {
-            ((VeiculoViewModel)this.DataContext).OnBuscarArquivoCommand();
-        }
+ 
 
         private void Pesquisar_bt_Click(object sender, RoutedEventArgs e)
         {

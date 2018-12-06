@@ -13,8 +13,10 @@ using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Serialization;
 using AutoMapper;
+using iModSCCredenciamento.Helpers;
 using IMOD.Application.Service;
 using IMOD.Application.Interfaces;
+using IMOD.CrossCutting;
 
 namespace iModSCCredenciamento.ViewModels
 {
@@ -191,40 +193,21 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                System.Windows.Forms.OpenFileDialog _arquivoPDF = new System.Windows.Forms.OpenFileDialog();
-               
-                string _nomecompletodoarquivo;
-                string _arquivoSTR;
-                _arquivoPDF.InitialDirectory = "c:\\\\";
-                _arquivoPDF.Filter = "Imagem files (*.pdf)|*.pdf|All Files (*.*)|*.*";
-                _arquivoPDF.RestoreDirectory = true;
-                _arquivoPDF.ShowDialog();
-
-                _nomecompletodoarquivo = _arquivoPDF.SafeFileName;
-
-                long tamanho = new System.IO.FileInfo(_arquivoPDF.FileName).Length;
-                if (tamanho > 200)
-                {
-                    System.Windows.MessageBox.Show("Tamanho ( " + tamanho.ToString() + " ) inválido, só é permitido arquivo com o máximo de 200");
-                    return;
-                }
-
-
-
-                _arquivoSTR = Conversores.PDFtoString(_arquivoPDF.FileName);
-
-                _ColaboradorCursoTemp.NomeArquivo = _nomecompletodoarquivo;
-                _ColaboradorCursoTemp.Arquivo = _arquivoSTR;
-
+                var filtro = "Imagem files (*.pdf)|*.pdf|All Files (*.*)|*.*";
+                var arq = WpfHelp.UpLoadArquivoDialog(filtro, 700);
+                if (arq == null) return;
+                _ColaboradorCursoTemp.NomeArquivo = arq.Nome;
+                _ColaboradorCursoTemp.Arquivo = arq.FormatoBase64;
                 if (ColaboradoresCursos != null)
-                {
-                    ColaboradoresCursos[0].NomeArquivo = _nomecompletodoarquivo;
-                }
+                    ColaboradoresCursos[0].NomeArquivo = arq.Nome;
+
             }
             catch (Exception ex)
             {
-
+                WpfHelp.Mbox(ex.Message);
+                Utils.TraceException(ex);
             }
+             
         }
 
         public void OnAbrirArquivoCommand()

@@ -18,6 +18,7 @@ using System.Windows.Media.Imaging;
 using System.Xml;
 using System.Xml.Serialization;
 using CrystalDecisions.CrystalReports.Engine;
+using IMOD.CrossCutting;
 
 namespace iModSCCredenciamento.ViewModels
 {

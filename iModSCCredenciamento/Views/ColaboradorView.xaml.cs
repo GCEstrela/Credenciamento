@@ -19,6 +19,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using IMOD.CrossCutting;
 //using IMOD.Application.Service;
 using UserControl = System.Windows.Controls.UserControl;
 
@@ -102,11 +103,7 @@ namespace iModSCCredenciamento.Views
 
             }
         }
-
-        private void BuscarApoliceArquivo_bt_Click(object sender, RoutedEventArgs e)
-        {
-            ((ColaboradorViewModel)this.DataContext).OnBuscarArquivoCommand();
-        }
+ 
 
         private void Pesquisar_bt_Click(object sender, RoutedEventArgs e)
         {
@@ -437,7 +434,7 @@ namespace iModSCCredenciamento.Views
 
             var model = (ColaboradorViewModel)this.DataContext;
 
-            if (!cpfjAtual.IsValidCpf()) { throw new InvalidOperationException("CPF inválido!"); }
+            if (!Utils.IsValidCpf(cpfjAtual)) { throw new InvalidOperationException("CPF inválido!"); }
 
             if (cpfAnterior == "000.000.000-00") //Então a operação é de adição, logo verificar se ha CNPJ apenas no ação de salvar...
             {

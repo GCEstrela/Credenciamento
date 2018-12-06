@@ -22,6 +22,7 @@ using AutoMapper;
 using Genetec.Sdk.Entities;
 using IMOD.Application.Interfaces;
 using IMOD.Application.Service;
+using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
 
 namespace iModSCCredenciamento.ViewModels
@@ -928,7 +929,7 @@ namespace iModSCCredenciamento.ViewModels
         public void ValidarEdicao(ClasseEmpresas.Empresa entity)
         {
             if (string.IsNullOrWhiteSpace(entity.CNPJ)) throw new InvalidOperationException("Informe CNPJ");
-            if (!entity.CNPJ.IsValidCnpj()) throw new InvalidOperationException("CNPJ inválido");
+            if (!Utils.IsValidCnpj(entity.CNPJ)) throw new InvalidOperationException("CNPJ inválido");
             //if (ConsultarCpf(entity.CPF)) throw new InvalidOperationException("CPF já cadastrado");
             if (string.IsNullOrWhiteSpace(entity.Nome)) throw new InvalidOperationException("Informe a Razão Social");
 

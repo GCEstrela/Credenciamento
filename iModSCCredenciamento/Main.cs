@@ -17,6 +17,7 @@ using Genetec.Sdk.Workspace.Modules;
 using Genetec.Sdk.Workspace.Tasks;
 using iModSCCredenciamento.Funcoes;
 using iModSCCredenciamento.Models;
+using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
 using IMOD.Domain.EntitiesCustom;
 using Colaborador = IMOD.Domain.Entities.Colaborador;
@@ -214,13 +215,15 @@ namespace iModSCCredenciamento
             Mapper.Initialize(
                     m =>
                     {
-                       
-                        m.CreateMap<Colaborador, ClasseColaboradores.Colaborador>().ReverseMap();
+                        //  .ForMember(n=>n.CNPJ,opt=>opt.MapFrom(n=>n.Cnpj.FormatarCnpj()))
+                        m.CreateMap<Colaborador, ClasseColaboradores.Colaborador>()
+                        .ForMember(k=>k.CPF, opt=>opt.MapFrom(k=>k.Cpf.FormatarCpf())).ReverseMap();
                         m.CreateMap<ColaboradorCurso, ClasseColaboradoresCursos.ColaboradorCurso>().ReverseMap();
                         m.CreateMap<ClasseColaboradoresCredenciais, ClasseColaboradoresCredenciais.ColaboradorCredencial>().ReverseMap();
                         m.CreateMap<ColaboradoresCredenciaisView, ClasseColaboradoresCredenciais.ColaboradorCredencial>().ReverseMap();
                         m.CreateMap<ColaboradorEmpresa, ClasseColaboradoresEmpresas.ColaboradorEmpresa>().ReverseMap();
-                        m.CreateMap<Empresa, ClasseEmpresas.Empresa>().ReverseMap();
+                        m.CreateMap<Empresa, ClasseEmpresas.Empresa>()
+                       .ForMember(k => k.CNPJ, opt => opt.MapFrom(k => k.Cnpj.FormatarCnpj())).ReverseMap();
                         m.CreateMap<LayoutCracha, ClasseEmpresasLayoutsCrachas.EmpresaLayoutCracha>().ReverseMap();
 
                         m.CreateMap<Estados, ClasseEstados.Estado>().ReverseMap();
