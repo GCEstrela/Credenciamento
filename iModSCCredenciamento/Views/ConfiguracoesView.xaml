@@ -289,7 +289,7 @@
                                         <Label Content="Código:" Height="28"  Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
                                         <TextBox CharacterCasing="Upper"  x:Name="CodigoRelatorio_tb"  Text="{Binding SelectedItem.RelatorioID, ElementName=ListaRelatorios_lv, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"  Height="24"  Width="30"/>
                                         <Label Content="Relatório:" Height="28" Width="65"   Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                        <TextBox CharacterCasing="Upper"  x:Name="DescricaoRelatorio_tb"  Text="{Binding SelectedItem.Nome, ElementName=ListaRelatorios_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="273"/>
+                                        <TextBox CharacterCasing="Upper"  x:Name="DescricaoRelatorio_tb"  Text="{Binding SelectedItem.NomeArquivoRPT, ElementName=ListaRelatorios_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="273"/>
                                         <Button x:Name="BuscarRelatorio_bt" Height="24" Margin="10,0,0,0" IsEnabled="False" VerticalAlignment="Center" Width="24" Click="BuscarRelatorio_bt_Click">
                                             <StackPanel>
                                                 <Image Source="/iModSCCredenciamento;component/Resources/Pasta.ico"/>
@@ -325,7 +325,7 @@
                                                             </DataTemplate>
                                                         </GridViewColumn.CellTemplate>
                                                     </GridViewColumn>
-                                                    <GridViewColumn Width="400" Header="Relatório"  DisplayMemberBinding="{Binding Nome}"/>
+                                                    <GridViewColumn Width="400" Header="Relatório"  DisplayMemberBinding="{Binding NomeArquivoRPT}"/>
                                                 </GridView>
                                             </ListView.View>
                                         </ListView>

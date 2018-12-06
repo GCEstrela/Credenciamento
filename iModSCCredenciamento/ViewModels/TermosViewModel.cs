@@ -28,10 +28,6 @@ namespace iModSCCredenciamento.ViewModels
 
         private ClasseRelatorios.Relatorio _RelatorioSelecionado;
 
-        private ClasseRelatorios.Relatorio _relatorioTemp = new ClasseRelatorios.Relatorio();
-
-        private List<ClasseRelatorios.Relatorio> _RelatoriosTemp = new List<ClasseRelatorios.Relatorio>();
-
         PopupMensagem _PopupSalvando;
 
         private int _selectedIndex;
@@ -52,68 +48,23 @@ namespace iModSCCredenciamento.ViewModels
 
         #endregion
 
-        #region Contrutores
-
-        public ObservableCollection<ClasseRelatorios.Relatorio> Relatorios
-        {
-            get
-            {
-                return _Relatorios;
-            }
-
-            set
-            {
-                if (_Relatorios != value)
-                {
-                    _Relatorios = value;
-                    OnPropertyChanged();
-
-                }
-            }
-        }
-
-        public ClasseRelatorios.Relatorio RelatorioSelecionado
-        {
-            get
-            {
-
-                return this._RelatorioSelecionado;
-            }
-            set
-            {
-                this._RelatorioSelecionado = value;
-                base.OnPropertyChanged("SelectedItem");
-                if (RelatorioSelecionado != null)
-                {
-                    //    //BitmapImage _img = new BitmapImage(new Uri("pack://application:,,,/iModSCCredenciamento;component/Resources/Carregando.png", UriKind.Absolute));
-                    //    //string _imgstr = Conversores.IMGtoSTR(_img);
-                    //    //ColaboradorSelecionado.Foto = _imgstr;
-                    //    if (!_atualizandoFoto)
-                    //    {
-                    //        Thread CarregaRelatorio_thr = new Thread(() => CarregaRelatorio(RelatorioSelecionado.RelatorioID));
-                    //        CarregaRelatorio_thr.Start();
-                    //    }
-
-                    //    //CarregaFoto(ColaboradorSelecionado.ColaboradorID);
-                }
-
-            }
-        }
+        #region Contrutores (Vazia)
 
         #endregion
 
-        #region Carregamento das Colecoes
+        #region Carregamento das Colecoes (Vazia)
 
 
         #endregion
 
-        #region Data Access
+        #region Data Access (Vazia)
 
 
         #endregion
 
         #region Comandos dos Botoes 
 
+        //TODO: OnFiltrosTermosCommand (Ajustar fórmulas) - Mihai (06/12/2018)
         public void OnFiltrosTermosCommand(int _report, int _status, int _periodo, string _dataIni, string _dataFim)
         {
             string _xmlstring;
@@ -292,13 +243,9 @@ namespace iModSCCredenciamento.ViewModels
                                     "" + verbo + " as seguintes credenciais:";
                     }
 
-                    //TextObject txt = (TextObject)reportDocument.ReportDefinition.ReportObjects["TextoPrincipal"];
-                    //txt.Text = _mensagem;
-                    //System.Drawing.Font fonte = new System.Drawing.Font("Verdana", 9, FontStyle.Bold);
-                    //txt.ApplyFont(fonte);
                 }
                 var arrayFile = Convert.FromBase64String(termo.ArquivoRpt);
-                WpfHelp.ShowRelatorio(arrayFile, "Termo ", formula, _mensagem);
+                WpfHelp.ShowRelatorio(arrayFile, "Termo ", "", _mensagem);
             }
 
             catch (Exception ex)

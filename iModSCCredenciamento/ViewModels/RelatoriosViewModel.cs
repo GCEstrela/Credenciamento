@@ -201,12 +201,11 @@ namespace iModSCCredenciamento.ViewModels
                 });
 
                 this.Relatorios = observer;
-            }
 
+            }
             catch (Exception ex)
             {
-                IMOD.CrossCutting.Utils.TraceException(ex);
-                throw;
+                Utils.TraceException(ex);
             }
         }
 
@@ -227,8 +226,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                IMOD.CrossCutting.Utils.TraceException(ex);
-                throw;
+                Utils.TraceException(ex);
             }
         }
 
@@ -255,8 +253,7 @@ namespace iModSCCredenciamento.ViewModels
 
             catch (Exception ex)
             {
-                IMOD.CrossCutting.Utils.TraceException(ex);
-                throw;
+                Utils.TraceException(ex);
             }
         }
 
