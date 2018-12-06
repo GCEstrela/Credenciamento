@@ -272,7 +272,7 @@ namespace iModSCCredenciamento.ViewModels
             {
                 relatorio = _relatorioService.BuscarPelaChave(Convert.ToInt32(_Tag));
 
-                var arrayFile = Convert.FromBase64String(relatorioGerencial.ArquivoRpt);
+                var arrayFile = Convert.FromBase64String(relatorio.ArquivoRpt);
                 WpfHelp.ShowRelatorio(arrayFile, "Relatorio " + _Tag, formula, "");
 
             }
