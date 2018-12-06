@@ -106,7 +106,30 @@ namespace IMOD.Application.Interfaces
         /// </summary>
         IEmpresaTipoAtividadeService EmpresaTipoAtividadeService { get; }
 
+        /// <summary>
+        /// CRUD Completo CredenciaisMotivosService 
+        /// </summary>
+        ICredencialMotivoService CredencialMotivoService { get; }
 
+        /// <summary>
+        /// CRUD Completo CredenciaisStatusService
+        /// </summary>
+        ICredencialStatusService CredencialStatusService { get; }
+
+        /// <summary>
+        /// CRUD Completo Tecnologias Credenciais
+        /// </summary>
+        ITecnologiaCredencialService TecnologiaCredencialService { get; }
+
+        /// <summary>
+        /// CRUD Completo Tipo Credenciais
+        /// </summary>
+        ITipoCredencialService TipoCredencialService { get; }
+
+        /// <summary>
+        /// CRUD Completo Tipo Credenciais
+        /// </summary>
+        IFormatoCredencialService FormatoCredencialService { get; }
 
         #endregion
     }

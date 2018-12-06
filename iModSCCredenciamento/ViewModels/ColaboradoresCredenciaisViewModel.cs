@@ -29,6 +29,7 @@ namespace iModSCCredenciamento.ViewModels
     {
         
         private readonly IColaboradorService _repositorio = new ColaboradorService();
+        private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
         //private readonly ColaboradoresCredenciaisView _repositorio = new ColaboradoresCredenciaisViewService();
         Global g = new Global();
 
@@ -44,12 +45,14 @@ namespace iModSCCredenciamento.ViewModels
         {
             //CarregaColecaoEmpresas();
             CarregaColecaoAreasAcessos();
-            CarregaColeçãoFormatosCredenciais();
-            CarregaColecaoTiposCredenciais();
             CarregaColecaoCredenciaisStatus();
+            CarregaColecaoTiposCredenciais();
             CarregaColecaoTecnologiasCredenciais();
-            CarregaColecaoColaboradoresPrivilegios();
+            CarregaColeçãoFormatosCredenciais();
             CarregaColecaoCredenciaisMotivos();
+
+            CarregaColecaoColaboradoresPrivilegios();
+
         }
         #endregion
 
@@ -734,17 +737,19 @@ namespace iModSCCredenciamento.ViewModels
                 //_ClasseColaboradorerEmpresasPro.ColaboradoresCredenciais = _ColaboradorCredencialPro;
 
 
-                //IMOD.Domain.EntitiesCustom.ColaboradoresCredenciaisView ColaboradorEntity = new IMOD.Domain.EntitiesCustom.ColaboradoresCredenciaisView();
-                IMOD.Domain.Entities.ColaboradorCredencial ColaboradorEntity = new IMOD.Domain.Entities.ColaboradorCredencial();
-                g.TranportarDados(ColaboradorCredencialSelecionado, 1, ColaboradorEntity);
+                
+                //IMOD.Domain.Entities.ColaboradorCredencial ColaboradorEntity = new IMOD.Domain.Entities.ColaboradorCredencial();
+                //g.TranportarDados(ColaboradorCredencialSelecionado, 1, ColaboradorEntity);
 
+                var entity = Mapper.Map<IMOD.Domain.Entities.ColaboradorCredencial>(ColaboradorCredencialSelecionado);
+                var repositorio = new IMOD.Application.Service.ColaboradorCredencialService();
                 if (ColaboradorCredencialSelecionado.ColaboradorCredencialID == 0)
                 {
-                    _repositorio.Credencial.Criar(ColaboradorEntity);
+                    _repositorio.Credencial.Criar(entity);
                 }
                 else
                 {
-                    _repositorio.Credencial.Alterar(ColaboradorEntity);
+                    _repositorio.Credencial.Alterar(entity);
                 }
                 
                 var id = ColaboradorCredencialSelecionado.ColaboradorID;
@@ -835,12 +840,10 @@ namespace iModSCCredenciamento.ViewModels
                     {
                         if (SCManager.ExcluirCredencial(ColaboradorCredencialSelecionado.CredencialGuid))
                         {
-                            //ExcluiColaboradorCredencialBD(ColaboradorCredencialSelecionado.ColaboradorCredencialID);
-                            IMOD.Domain.Entities.ColaboradorCredencial ColaboradorEntity = new IMOD.Domain.Entities.ColaboradorCredencial();
-                            g.TranportarDados(ColaboradorCredencialSelecionado.ColaboradorID, 1, ColaboradorEntity);
-
-                            var repositorio = new IMOD.Infra.Repositorios.ColaboradorCredencialRepositorio();
-                            repositorio.Remover(ColaboradorEntity);
+                           
+                            var entity = Mapper.Map<IMOD.Domain.Entities.ColaboradorCredencial>(ColaboradorCredencialSelecionado);
+                            var repositorio = new IMOD.Application.Service.ColaboradorCredencialService();
+                            repositorio.Remover(entity);
 
                             ColaboradoresCredenciais.Remove(ColaboradorCredencialSelecionado);
                         }
@@ -1001,18 +1004,19 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                string _xml = RequisitaAreasAcessos();
+                
+                var list1 = _auxiliaresService.AreaAcessoService.Listar();
+                var list2 = Mapper.Map<List<ClasseAreasAcessos.AreaAcesso>>(list1);
 
-                XmlSerializer deserializer = new XmlSerializer(typeof(ClasseAreasAcessos));
+                var observer = new ObservableCollection<ClasseAreasAcessos.AreaAcesso>();
+                list2.ForEach(n =>
+                {
+                    observer.Add(n);
+                });
 
-                XmlDocument xmldocument = new XmlDocument();
-                xmldocument.LoadXml(_xml);
+                this.AreasAcessos = observer;
+                SelectedIndex = 0;
 
-                TextReader reader = new StringReader(_xml);
-                ClasseAreasAcessos classeAreasAcessos = new ClasseAreasAcessos();
-                classeAreasAcessos = (ClasseAreasAcessos)deserializer.Deserialize(reader);
-                AreasAcessos = new ObservableCollection<ClasseAreasAcessos.AreaAcesso>();
-                AreasAcessos = classeAreasAcessos.AreasAcessos;
 
             }
             catch (Exception ex)
@@ -1024,22 +1028,7 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                //string _xml = RequisitaEmpresas(_empresaID, _nome, _apelido, _cNPJ);
-
-                //XmlSerializer deserializer = new XmlSerializer(typeof(ClasseEmpresas));
-
-                //XmlDocument xmldocument = new XmlDocument();
-                //xmldocument.LoadXml(_xml);
-
-                //TextReader reader = new StringReader(_xml);
-                //ClasseEmpresas classeEmpresas = new ClasseEmpresas();
-                //classeEmpresas = (ClasseEmpresas)deserializer.Deserialize(reader);
-                //Empresas = new ObservableCollection<ClasseEmpresas.Empresa>();
-                //Empresas = classeEmpresas.Empresas;
-                //SelectedIndex = 0;
-
-
-
+               
                 var service = new IMOD.Application.Service.EmpresaService();
                 if (!string.IsNullOrWhiteSpace(nome)) nome = $"%{nome}%";
                 if (!string.IsNullOrWhiteSpace(apelido)) apelido = $"%{apelido}%";
@@ -1084,6 +1073,23 @@ namespace iModSCCredenciamento.ViewModels
                 ColaboradoresEmpresas = classeColaboradoresEmpresas.ColaboradoresEmpresas;
                 SelectedIndex = -1;
                 //CarregaColeçãoEmpresasLayoutsCrachas(empresaID);
+
+                //var service = new IMOD.Application.Service.ColaboradorEmpresaService();
+                ////if (!string.IsNullOrWhiteSpace(_cargo)) _cargo = $"%{_cargo}%";
+                ////if (!string.IsNullOrWhiteSpace(_matricula)) _matricula = $"%{_matricula}%";
+                //var list1 = service.Listar(_colaboradorID, _ativo);
+
+                //var list2 = Mapper.Map<List<ClasseColaboradoresEmpresas.ColaboradorEmpresa>>(list1);
+
+                //var observer = new ObservableCollection<ClasseColaboradoresEmpresas.ColaboradorEmpresa>();
+                //list2.ForEach(n =>
+                //{
+                //    observer.Add(n);
+                //});
+
+                //this.ColaboradoresEmpresas = observer;
+
+
             }
             catch (Exception ex)
             {
@@ -1096,20 +1102,18 @@ namespace iModSCCredenciamento.ViewModels
 
             try
             {
-                //this.Dispatcher.Invoke(new Action(() => { LoadingAdorner.IsAdornerVisible = true; }));
 
-                string _xml = RequisitaEmpresasLayoutsCrachas(_colaboradorEmpresaID);
+                var list1 = _auxiliaresService.LayoutCrachaService.Listar();
+                var list2 = Mapper.Map<List<ClasseEmpresasLayoutsCrachas.EmpresaLayoutCracha>>(list1);
 
-                XmlSerializer deserializer = new XmlSerializer(typeof(ClasseEmpresasLayoutsCrachas));
-                XmlDocument DataFile = new XmlDocument();
-                DataFile.LoadXml(_xml);
-                TextReader reader = new StringReader(_xml);
-                ClasseEmpresasLayoutsCrachas classeEmpresasLayoutsCrachas = new ClasseEmpresasLayoutsCrachas();
-                classeEmpresasLayoutsCrachas = (ClasseEmpresasLayoutsCrachas)deserializer.Deserialize(reader);
-                EmpresasLayoutsCrachas = new ObservableCollection<ClasseEmpresasLayoutsCrachas.EmpresaLayoutCracha>();
-                EmpresasLayoutsCrachas = classeEmpresasLayoutsCrachas.EmpresasLayoutsCrachas;
+                var observer = new ObservableCollection<ClasseEmpresasLayoutsCrachas.EmpresaLayoutCracha>();
+                list2.ForEach(n =>
+                {
+                    observer.Add(n);
+                });
 
-                //this.Dispatcher.Invoke(new Action(() => { LoadingAdorner.IsAdornerVisible = false; }));
+                this.EmpresasLayoutsCrachas = observer;
+                SelectedIndex = 0;
             }
             catch (Exception ex)
             {
@@ -1122,20 +1126,35 @@ namespace iModSCCredenciamento.ViewModels
 
             try
             {
-                //this.Dispatcher.Invoke(new Action(() => { LoadingAdorner.IsAdornerVisible = true; }));
+                ////this.Dispatcher.Invoke(new Action(() => { LoadingAdorner.IsAdornerVisible = true; }));
 
-                string _xml = RequisitaFormatosCredenciais();
+                //string _xml = RequisitaFormatosCredenciais();
 
-                XmlSerializer deserializer = new XmlSerializer(typeof(ClasseFormatosCredenciais));
-                XmlDocument DataFile = new XmlDocument();
-                DataFile.LoadXml(_xml);
-                TextReader reader = new StringReader(_xml);
-                ClasseFormatosCredenciais classeFormatosCredenciais = new ClasseFormatosCredenciais();
-                classeFormatosCredenciais = (ClasseFormatosCredenciais)deserializer.Deserialize(reader);
-                FormatosCredenciais = new ObservableCollection<ClasseFormatosCredenciais.FormatoCredencial>();
-                FormatosCredenciais = classeFormatosCredenciais.FormatosCredenciais;
+                //XmlSerializer deserializer = new XmlSerializer(typeof(ClasseFormatosCredenciais));
+                //XmlDocument DataFile = new XmlDocument();
+                //DataFile.LoadXml(_xml);
+                //TextReader reader = new StringReader(_xml);
+                //ClasseFormatosCredenciais classeFormatosCredenciais = new ClasseFormatosCredenciais();
+                //classeFormatosCredenciais = (ClasseFormatosCredenciais)deserializer.Deserialize(reader);
+                //FormatosCredenciais = new ObservableCollection<ClasseFormatosCredenciais.FormatoCredencial>();
+                //FormatosCredenciais = classeFormatosCredenciais.FormatosCredenciais;
+                
+                ////this.Dispatcher.Invoke(new Action(() => { LoadingAdorner.IsAdornerVisible = false; }));
 
-                //this.Dispatcher.Invoke(new Action(() => { LoadingAdorner.IsAdornerVisible = false; }));
+
+                var list1 = _auxiliaresService.FormatoCredencialService.Listar();
+                var list2 = Mapper.Map<List<ClasseFormatosCredenciais.FormatoCredencial>>(list1);
+
+                var observer = new ObservableCollection<ClasseFormatosCredenciais.FormatoCredencial>();
+                list2.ForEach(n =>
+                {
+                    observer.Add(n);
+                });
+
+                this.FormatosCredenciais = observer;
+                SelectedIndex = 0;
+
+                
             }
             catch (Exception ex)
             {
@@ -1202,16 +1221,28 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
 
-                string _xml = RequisitaTiposCredenciais();
+                //string _xml = RequisitaTiposCredenciais();
 
-                XmlSerializer deserializer = new XmlSerializer(typeof(ClasseTiposCredenciais));
-                XmlDocument xmldocument = new XmlDocument();
-                xmldocument.LoadXml(_xml);
-                TextReader reader = new StringReader(_xml);
-                ClasseTiposCredenciais classeTiposCredenciais = new ClasseTiposCredenciais();
-                classeTiposCredenciais = (ClasseTiposCredenciais)deserializer.Deserialize(reader);
-                TiposCredenciais = new ObservableCollection<ClasseTiposCredenciais.TipoCredencial>();
-                TiposCredenciais = classeTiposCredenciais.TiposCredenciais;
+                //XmlSerializer deserializer = new XmlSerializer(typeof(ClasseTiposCredenciais));
+                //XmlDocument xmldocument = new XmlDocument();
+                //xmldocument.LoadXml(_xml);
+                //TextReader reader = new StringReader(_xml);
+                //ClasseTiposCredenciais classeTiposCredenciais = new ClasseTiposCredenciais();
+                //classeTiposCredenciais = (ClasseTiposCredenciais)deserializer.Deserialize(reader);
+                //TiposCredenciais = new ObservableCollection<ClasseTiposCredenciais.TipoCredencial>();
+                //TiposCredenciais = classeTiposCredenciais.TiposCredenciais;
+
+                var list1 = _auxiliaresService.TipoCredencialService.Listar();
+                var list2 = Mapper.Map<List<ClasseTiposCredenciais.TipoCredencial>>(list1);
+
+                var observer = new ObservableCollection<ClasseTiposCredenciais.TipoCredencial>();
+                list2.ForEach(n =>
+                {
+                    observer.Add(n);
+                });
+
+                this.TiposCredenciais = observer;
+                SelectedIndex = 0;
 
             }
             catch (Exception ex)
@@ -1226,16 +1257,28 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
 
-                string _xml = RequisitaTecnologiasCredenciais();
+                //string _xml = RequisitaTecnologiasCredenciais();
 
-                XmlSerializer deserializer = new XmlSerializer(typeof(ClasseTecnologiasCredenciais));
-                XmlDocument xmldocument = new XmlDocument();
-                xmldocument.LoadXml(_xml);
-                TextReader reader = new StringReader(_xml);
-                ClasseTecnologiasCredenciais classeTecnologiasCredenciais = new ClasseTecnologiasCredenciais();
-                classeTecnologiasCredenciais = (ClasseTecnologiasCredenciais)deserializer.Deserialize(reader);
-                TecnologiasCredenciais = new ObservableCollection<ClasseTecnologiasCredenciais.TecnologiaCredencial>();
-                TecnologiasCredenciais = classeTecnologiasCredenciais.TecnologiasCredenciais;
+                //XmlSerializer deserializer = new XmlSerializer(typeof(ClasseTecnologiasCredenciais));
+                //XmlDocument xmldocument = new XmlDocument();
+                //xmldocument.LoadXml(_xml);
+                //TextReader reader = new StringReader(_xml);
+                //ClasseTecnologiasCredenciais classeTecnologiasCredenciais = new ClasseTecnologiasCredenciais();
+                //classeTecnologiasCredenciais = (ClasseTecnologiasCredenciais)deserializer.Deserialize(reader);
+                //TecnologiasCredenciais = new ObservableCollection<ClasseTecnologiasCredenciais.TecnologiaCredencial>();
+                //TecnologiasCredenciais = classeTecnologiasCredenciais.TecnologiasCredenciais;
+
+                var list1 = _auxiliaresService.TecnologiaCredencialService.Listar();
+                var list2 = Mapper.Map<List<ClasseTecnologiasCredenciais.TecnologiaCredencial>>(list1);
+
+                var observer = new ObservableCollection<ClasseTecnologiasCredenciais.TecnologiaCredencial>();
+                list2.ForEach(n =>
+                {
+                    observer.Add(n);
+                });
+
+                this.TecnologiasCredenciais = observer;
+                SelectedIndex = 0;
 
             }
             catch (Exception ex)
@@ -1250,16 +1293,18 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
 
-                string _xml = RequisitaCredenciaisStatus();
+                
+                var list1 = _auxiliaresService.CredencialStatusService.Listar();
+                var list2 = Mapper.Map<List<ClasseCredenciaisStatus.CredencialStatus>>(list1);
 
-                XmlSerializer deserializer = new XmlSerializer(typeof(ClasseCredenciaisStatus));
-                XmlDocument xmldocument = new XmlDocument();
-                xmldocument.LoadXml(_xml);
-                TextReader reader = new StringReader(_xml);
-                ClasseCredenciaisStatus classeCredenciaisStatus = new ClasseCredenciaisStatus();
-                classeCredenciaisStatus = (ClasseCredenciaisStatus)deserializer.Deserialize(reader);
-                CredenciaisStatus = new ObservableCollection<ClasseCredenciaisStatus.CredencialStatus>();
-                CredenciaisStatus = classeCredenciaisStatus.CredenciaisStatus;
+                var observer = new ObservableCollection<ClasseCredenciaisStatus.CredencialStatus>();
+                list2.ForEach(n =>
+                {
+                    observer.Add(n);
+                });
+
+                this.CredenciaisStatus = observer;
+                SelectedIndex = 0;
 
             }
             catch (Exception ex)
@@ -1272,18 +1317,19 @@ namespace iModSCCredenciamento.ViewModels
         public void CarregaColecaoCredenciaisMotivos(int tipo = 0)
         {
             try
-            {
+            {                
 
-                string _xml = RequisitaCredenciaisMotivos(tipo);
+                var list1 = _auxiliaresService.CredencialMotivoService.Listar();
+                var list2 = Mapper.Map<List<ClasseCredenciaisMotivos.CredencialMotivo>>(list1);
 
-                XmlSerializer deserializer = new XmlSerializer(typeof(ClasseCredenciaisMotivos));
-                XmlDocument xmldocument = new XmlDocument();
-                xmldocument.LoadXml(_xml);
-                TextReader reader = new StringReader(_xml);
-                ClasseCredenciaisMotivos classeCredenciaisMotivos = new ClasseCredenciaisMotivos();
-                classeCredenciaisMotivos = (ClasseCredenciaisMotivos)deserializer.Deserialize(reader);
-                CredenciaisMotivos = new ObservableCollection<ClasseCredenciaisMotivos.CredencialMotivo>();
-                CredenciaisMotivos = classeCredenciaisMotivos.CredenciaisMotivos;
+                var observer = new ObservableCollection<ClasseCredenciaisMotivos.CredencialMotivo>();
+                list2.ForEach(n =>
+                {
+                    observer.Add(n);
+                });
+
+                this.CredenciaisMotivos = observer;
+                SelectedIndex = 0;
 
             }
             catch (Exception ex)

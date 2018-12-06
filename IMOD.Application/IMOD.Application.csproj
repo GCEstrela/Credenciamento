@@ -46,6 +46,8 @@
     <Compile Include="Interfaces\IColaboradorCredencialService.cs" />
     <Compile Include="Interfaces\IColaboradorEmpresaService.cs" />
     <Compile Include="Interfaces\IColaboradorService.cs" />
+    <Compile Include="Interfaces\ICredencialMotivoService.cs" />
+    <Compile Include="Interfaces\ICredencialStatusService.cs" />
     <Compile Include="Interfaces\ICursoService.cs" />
     <Compile Include="Interfaces\IDadosAuxiliaresFacade.cs" />
     <Compile Include="Interfaces\IEmpresaAnexoService.cs" />
@@ -55,13 +57,16 @@
     <Compile Include="Interfaces\IEmpresaSignatarioService.cs" />
     <Compile Include="Interfaces\IEmpresaTipoAtividadeService.cs" />
     <Compile Include="Interfaces\IEstadoService.cs" />
+    <Compile Include="Interfaces\IFormatoCredencialService.cs" />
     <Compile Include="Interfaces\ILayoutCrachaService.cs" />
     <Compile Include="Interfaces\IMunicipioService.cs" />
     <Compile Include="Interfaces\IRelatorioGerencialService.cs" />
     <Compile Include="Interfaces\IRelatorioService.cs" />
     <Compile Include="Interfaces\IStatusService.cs" />
+    <Compile Include="Interfaces\ITecnologiaCredencialService.cs" />
     <Compile Include="Interfaces\ITipoAtividadeService.cs" />
     <Compile Include="Interfaces\ITipoCobrancaService.cs" />
+    <Compile Include="Interfaces\ITipoCredencialService.cs" />
     <Compile Include="Interfaces\ITipoEquipamentoService.cs" />
     <Compile Include="Interfaces\ITiposAcessoService.cs" />
     <Compile Include="Interfaces\IVeiculoService.cs" />
@@ -72,6 +77,8 @@
     <Compile Include="Service\ColaboradorCursosService.cs" />
     <Compile Include="Service\ColaboradorEmpresaService.cs" />
     <Compile Include="Service\ColaboradorService.cs" />
+    <Compile Include="Service\CredencialMotivoService.cs" />
+    <Compile Include="Service\CredencialStatusService.cs" />
     <Compile Include="Service\CursoService.cs" />
     <Compile Include="Service\DadosAuxiliaresFacadeService.cs" />
     <Compile Include="Service\EmpresaAnexoService.cs" />
