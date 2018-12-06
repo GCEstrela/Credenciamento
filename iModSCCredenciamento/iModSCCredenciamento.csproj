@@ -675,6 +675,9 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\IMOD.Domain.Entities.Colaborador.datasource" />
+    <None Include="Properties\DataSources\IMOD.Domain.Entities.Empresa.datasource" />
+    <None Include="Properties\DataSources\iModSCCredenciamento.Models.ClasseColaboradoresAnexos+ColaboradorAnexo.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

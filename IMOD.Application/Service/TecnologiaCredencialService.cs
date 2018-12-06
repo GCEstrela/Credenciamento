@@ -7,6 +7,7 @@
 #region
 
 using System.Collections.Generic;
+using IMOD.Application.Interfaces;
 using IMOD.Domain.Entities;
 using IMOD.Domain.Interfaces;
 using IMOD.Infra.Repositorios;
@@ -15,7 +16,7 @@ using IMOD.Infra.Repositorios;
 
 namespace IMOD.Application.Service
 {
-    public class TecnologiaCredencialService : ITecnologiaCredencialRepositorio
+    public class TecnologiaCredencialService : ITecnologiaCredencialService
     {
         #region Variaveis Globais
 

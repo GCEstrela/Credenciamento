@@ -63,6 +63,10 @@
       <Project>{f7dc651f-cb04-40ca-ac1b-c2355b474cf3}</Project>
       <Name>IMOD.Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\IMOD.Application\IMOD.Application.csproj">
+      <Project>{b7bd6687-cb39-45a0-9b21-67125da69a2e}</Project>
+      <Name>IMOD.Application</Name>
+    </ProjectReference>
     <ProjectReference Include="..\iModSCCredenciamento\iModSCCredenciamento.csproj">
       <Project>{974f5875-4cfb-4926-8273-d1bf96ac8242}</Project>
       <Name>iModSCCredenciamento</Name>
@@ -73,6 +77,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Arquivos\logo.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="App.config" />
     <Content Include="Arquivos\contrato.pdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

@@ -125,22 +125,45 @@ namespace IMOD.Application.Service
         {
             get { return new AreaAcessoService(); }
         }
+
+       
         /// <summary>
-        /// CRUD Completo EmpresaLayoutCracha
+        /// CRUD Completo Credencial Motivo 
         /// </summary>
-        /// <returns></returns>
-        public IEmpresaLayoutCrachaService EmpresaLayoutCrachaService
+        public ICredencialMotivoService CredencialMotivoService
         {
-            get { return new EmpresaLayoutCrachaService(); }
+            get { return new CredencialMotivoService(); }
         }
         /// <summary>
-        /// CRUD Completo Empresa Tipo Atividade 
+        /// CRUD Completo Credencial Motivo 
         /// </summary>
-        public IEmpresaTipoAtividadeService EmpresaTipoAtividadeService
+        public ICredencialStatusService CredencialStatusService
         {
-            get { return new EmpresaTipoAtividadeService(); }
+            get { return new CredencialStatusService(); }
+        }
+        /// <summary>
+        /// CRUD Completo TecnologiaCredencial 
+        /// </summary>
+        public ITecnologiaCredencialService TecnologiaCredencialService
+        {
+            get { return new TecnologiaCredencialService(); }
         }
 
+        /// <summary>
+        /// CRUD Completo Tipo Credencial 
+        /// </summary>
+        public ITipoCredencialService TipoCredencialService
+        {
+            get { return new TipoCredencialService(); }
+        }
+        
+        /// <summary>
+        /// CRUD Completo Tipo Credencial 
+        /// </summary>
+        public IFormatoCredencialService FormatoCredencialService
+        {
+            get { return new FormatoCredencialService(); }
+        }
         #endregion
     }
 }

@@ -77,6 +77,41 @@ namespace IMOD.Application.Service
             _repositorio.Remover(entity);
         }
 
+        /// <summary>
+        /// Buscar empresa por CNPJ
+        /// </summary>
+        /// <param name="cnpj"></param>
+        /// <returns></returns>
+        public Empresa BuscarEmpresaPorCnpj(string cnpj)
+        {
+          return  _repositorio.BuscarEmpresaPorCnpj (cnpj);
+        }
+
         #endregion
+
+        /// <summary>
+        ///     Signatário serviços
+        /// </summary>
+        public IEmpresaSignatarioService SignatarioService { get {return new EmpresaSignatarioService();} }
+
+        /// <summary>
+        ///     Contrato serviços
+        /// </summary>
+        public IEmpresaContratosService ContratoService { get {return new EmpresaContratoService();} }
+
+        /// <summary>
+        ///     Anexo serviços
+        /// </summary>
+        public IEmpresaAnexoService AnexoService { get {return new EmpresaAnexoService();} }
+
+        /// <summary>
+        /// Atividade serviços
+        /// </summary>
+        public IEmpresaTipoAtividadeService TipoAtividadeService { get {return new EmpresaTipoAtividadeService();} }
+
+        /// <summary>
+        /// Crachá serviços
+        /// </summary>
+        public IEmpresaLayoutCrachaService CrachaService { get {return new EmpresaLayoutCrachaService();} }
     }
 }

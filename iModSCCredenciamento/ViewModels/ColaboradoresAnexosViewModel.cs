@@ -290,19 +290,7 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 HabilitaEdicao = false;
-                //System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(ClasseColaboradoresAnexos));
-
-                //ObservableCollection<ClasseColaboradoresAnexos.ColaboradorAnexo> _ColaboradoresAnexosTemp = new ObservableCollection<ClasseColaboradoresAnexos.ColaboradorAnexo>();
-                //ClasseColaboradoresAnexos _ClasseColaboradoresAnexosTemp = new ClasseColaboradoresAnexos();
-                //_ColaboradoresAnexosTemp.Add(ColaboradorAnexoSelecionado);
-                //_ClasseColaboradoresAnexosTemp.ColaboradoresAnexos = _ColaboradoresAnexosTemp;
-
-
-                //IMOD.Domain.Entities.ColaboradorAnexo ColaboradorAnexoEntity = new IMOD.Domain.Entities.ColaboradorAnexo();
-                //g.TranportarDados(ColaboradorAnexoSelecionado, 1, ColaboradorAnexoEntity);
-
-                //var repositorio = new IMOD.Infra.Repositorios.ColaboradorAnexoRepositorio();
-
+                
 
                 var entity = Mapper.Map<IMOD.Domain.Entities.ColaboradorAnexo>(ColaboradorAnexoSelecionado);
                 var repositorio = new IMOD.Application.Service.ColaboradorAnexoService();
@@ -312,21 +300,7 @@ namespace iModSCCredenciamento.ViewModels
 
                 var id = entity.ColaboradorId;
 
-                //string xmlString;
-
-                //using (StringWriterWithEncoding sw = new StringWriterWithEncoding(System.Text.Encoding.UTF8))
-                //{
-
-                //    using (XmlTextWriter xw = new XmlTextWriter(sw))
-                //    {
-                //        xw.Formatting = Formatting.Indented;
-                //        serializer.Serialize(xw, _ClasseColaboradoresAnexosTemp);
-                //        xmlString = sw.ToString();
-                //    }
-
-                //}
-
-                //InsereColaboradorAnexoBD(xmlString);
+               
 
                 _ColaboradoresAnexosTemp = null;
 
@@ -357,31 +331,11 @@ namespace iModSCCredenciamento.ViewModels
                 _ColaboradoresAnexosPro.Add(ColaboradorAnexoSelecionado);
                 _ClasseColaboradoresAnexosPro.ColaboradoresAnexos = _ColaboradoresAnexosPro;
 
-                //IMOD.Domain.Entities.ColaboradorAnexo ColaboradorAnexoEntity = new IMOD.Domain.Entities.ColaboradorAnexo();
-                //g.TranportarDados(ColaboradorAnexoSelecionado, 1, ColaboradorAnexoEntity);
-
 
                 var entity = Mapper.Map<IMOD.Domain.Entities.ColaboradorAnexo>(ColaboradorAnexoSelecionado);
                 var repositorio = new IMOD.Application.Service.ColaboradorAnexoService();
                 repositorio.Criar(entity);
                 var id = entity.ColaboradorId;
-
-                //string xmlString;
-
-                //using (StringWriterWithEncoding sw = new StringWriterWithEncoding(System.Text.Encoding.UTF8))
-                //{
-
-                //    using (XmlTextWriter xw = new XmlTextWriter(sw))
-                //    {
-                //        xw.Formatting = Formatting.Indented;
-                //        serializer.Serialize(xw, _ClasseColaboradoresAnexosPro);
-                //        xmlString = sw.ToString();
-                //    }
-
-                //}
-
-                //InsereColaboradorAnexoBD(xmlString);
-
 
 
                 Thread CarregaColecaoSeguros_thr = new Thread(() => CarregaColecaoColaboradoresAnexos(id));

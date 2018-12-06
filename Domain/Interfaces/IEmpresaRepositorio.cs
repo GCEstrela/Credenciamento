@@ -14,5 +14,11 @@ namespace IMOD.Domain.Interfaces
 {
     public interface IEmpresaRepositorio : IRepositorioBaseAdoNet<Empresa>
     {
+        /// <summary>
+        /// Buscar empresa por CNPJ
+        /// </summary>
+        /// <param name="cnpj"></param>
+        /// <returns></returns>
+        Empresa BuscarEmpresaPorCnpj(string cnpj);
     }
 }
