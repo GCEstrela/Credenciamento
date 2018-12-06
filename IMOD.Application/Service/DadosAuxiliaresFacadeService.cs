@@ -125,21 +125,6 @@ namespace IMOD.Application.Service
         {
             get { return new AreaAcessoService(); }
         }
-        /// <summary>
-        /// CRUD Completo EmpresaLayoutCracha
-        /// </summary>
-        /// <returns></returns>
-        public IEmpresaLayoutCrachaService EmpresaLayoutCrachaService
-        {
-            get { return new EmpresaLayoutCrachaService(); }
-        }
-        /// <summary>
-        /// CRUD Completo Empresa Tipo Atividade 
-        /// </summary>
-        public IEmpresaTipoAtividadeService EmpresaTipoAtividadeService
-        {
-            get { return new EmpresaTipoAtividadeService(); }
-        }
 
         #endregion
     }

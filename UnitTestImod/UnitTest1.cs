@@ -9,10 +9,12 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
+using System.Linq; 
+using IMOD.Application.Service;
 using IMOD.Domain.Entities;
 using IMOD.Infra.Repositorios;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Colaborador = IMOD.Domain.Entities.Colaborador;
 
 #endregion
 
@@ -21,7 +23,197 @@ namespace UnitTestImod
     [TestClass]
     public class UnitTest1
     {
+        private Empresa _empresa;
+        private EmpresaSignatario _empresaSignatario;
+        private EmpresaContrato _empresaContrato;
+        private EmpresaAnexo _empresaAnexo;
+
+
+        [TestInitialize]
+        public void Inicializa()
+        {
+            #region Dados de uma empresa
+            _empresa = new Empresa
+            {
+                Nome = "Empresa Unit Test",
+                Apelido = "Apelido",
+                Bairro = "Bairro",
+                Celular1 = "71 988569541",
+                Celular2 = "71 988569541",
+                Cep = "40000",
+                Complemento = "Complemento",
+                Cnpj = "21.877.574/0001-12",
+                Email1 = "email1@email.com",
+                Email2 = "email2@email.com",
+                Contato1 = "contato1",
+                Contato2 = "contato2",
+                Endereco = "Endereco",
+                Telefone1 = "30225487",
+                Telefone2 = "30225487",
+                Telefone = "719966652",
+                Numero = "1",
+                InsEst = "IE",
+                InsMun = "IM",
+                Obs = "Obs",
+                Pendente11 = false,
+                Pendente12 = true,
+                Pendente13 = true,
+                Pendente14 = false,
+                Pendente15 = false,
+                Pendente16 = false,
+                Pendente17 = true,
+                Logo = Convert.ToBase64String(File.ReadAllBytes("Arquivos/logo.png")),
+                Excluida = 0,
+                Responsavel = "Responsavel",
+                Sigla = "Sigla",
+                EstadoId = 1,
+                MunicipioId = 1
+            };
+            #endregion
+
+            #region Representante Signatário
+
+            _empresaSignatario = new EmpresaSignatario
+            {
+                Nome = "Nome",
+                Cpf = "277.854.155-10",
+               Celular = "7188455562",
+               Email = "email@email.com",
+               Principal = true,
+               Telefone = "719985665"
+            };
+
+            #endregion
+
+            #region Empresa Contrato
+
+            _empresaContrato = new EmpresaContrato
+            {
+                Arquivo = Convert.ToBase64String(File.ReadAllBytes("Arquivos/contrato.pdf")),
+                Bairro = "Bairro",
+                Cep = "40000",
+                CelularResp = "719985623",
+                Complemento = "Complemento",
+                Descricao="Descricao",
+                Endereco = "Endereco",
+                Contratante = "Contrato",
+                EmailResp = "email@email",
+                Emissao = DateTime.Now,
+                Numero = "21",
+                NomeResp = "Nome responsavel",
+                NomeArquivo = "Nome arquivo",
+                TelefoneResp = "711554212",
+                NumeroContrato = "1124122",
+                Terceirizada = "Terceirizada",
+                EstadoId = 1,
+                MunicipioId = 1,
+                Validade = DateTime.Now.AddDays(10)
+            };
+
+            #endregion
+
+            #region Empresa Anexo
+
+            _empresaAnexo = new EmpresaAnexo
+            {
+                Descricao = "Descricao",
+                Anexo = Convert.ToBase64String(File.ReadAllBytes("Arquivos/contrato.pdf")),
+                NomeAnexo = "Nome Anexo"
+            };
+
+            #endregion
+
+        }
+
+
         #region  Metodos
+ 
+
+        [Priority(1)]
+        [TestMethod]
+        [Description("Objetivo cadastrar dados de empresa e seus relacionamentos")]
+        public void Empresa_Cadastro_geral_com_Sucesso()
+        {
+            var service = new EmpresaService();
+
+            #region Cadastrar Caracterisitcas
+            var serviceAuxiliar = new DadosAuxiliaresFacadeService();
+            //Tipo de Atividade
+            serviceAuxiliar.TipoAtividadeService.Criar (new TipoAtividade
+            {
+                Descricao = "Descricao"
+            });
+            //Modelo de crachá
+            serviceAuxiliar.LayoutCrachaService.Criar(new LayoutCracha
+            {
+                Nome = "Modelo 1",
+                Valor = 54,
+                LayoutCrachaGuid = "0098787667676666"
+            });
+            #endregion
+
+            #region Cadastro de Empresa
+            //Já existindo empresa, então nao cadastrar novamente, pois não é possivel haver 2 CNPJ iguais
+            var empresa = service.BuscarEmpresaPorCnpj (_empresa.Cnpj);
+            if (empresa==null)
+            {
+                service.Criar(_empresa);
+            }
+            else
+            {
+                //Então use esse registro, caso exista
+                _empresa = empresa;
+            }
+            
+
+            service.TipoAtividadeService.Criar(new EmpresaTipoAtividade
+            {
+                Descricao = "Atividade 1",
+                EmpresaId = _empresa.EmpresaId,
+                TipoAtividadeId = serviceAuxiliar.TipoAtividadeService.Listar().FirstOrDefault().TipoAtividadeId,
+            });
+
+            service.CrachaService.Criar(new EmpresaLayoutCracha
+            {
+                Nome = "Nome",
+                EmpresaId = _empresa.EmpresaId,
+                LayoutCrachaId = serviceAuxiliar.LayoutCrachaService.Listar().FirstOrDefault().LayoutCrachaId
+            });
+            #endregion
+
+            #region Cadastro de Signatários
+            //Cadastrar 5 Signatario
+            for (int i = 0; i < 5; i++)
+            {
+                _empresaSignatario.EmpresaId = _empresa.EmpresaId;
+                service.SignatarioService.Criar(_empresaSignatario);
+            }
+           
+            #endregion
+
+            #region Contrato
+            //Cadastrar 5 contratos
+            for (int i = 0; i < 5; i++)
+            {
+                _empresaContrato.EmpresaId = _empresa.EmpresaId;
+                service.ContratoService.Criar(_empresaContrato);
+            }
+
+            #endregion
+
+            #region Anexos
+            //Cadastrar 5 anexos
+            for (int i = 0; i < 5; i++)
+            {
+                _empresaAnexo.EmpresaId = _empresa.EmpresaId;
+                service.AnexoService.Criar(_empresaAnexo);
+            }
+
+            #endregion
+
+
+            }
+
 
 
         [TestMethod]

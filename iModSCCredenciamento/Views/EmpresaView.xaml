@@ -31,8 +31,8 @@
         </ControlTemplate>
         <!--Begin Styles-->
         <Style x:Key="MenuStyle" TargetType="{x:Type Button}">
-            <!--<Setter Property="Background" Value="{x:Null}" />-->
-            <!--<Setter Property="BorderBrush" Value="{x:Null}" />-->
+            <Setter Property="Background" Value="{x:Null}" />
+            <Setter Property="BorderBrush" Value="{x:Null}" />
             <Setter Property="Width" Value="16" />
             <Setter Property="Height" Value="16" />
             <Setter Property="Cursor" Value="Hand" />
@@ -115,7 +115,7 @@
 
         </Grid>
 
-        <TabControl x:Name="TabGeral_tc" Grid.Row="1" Grid.Column="0" Margin="0,10,0,0" IsSynchronizedWithCurrentItem="True" TabStripPlacement="Top" SelectionChanged="TabGeral_tc_SelectionChanged"  >
+        <TabControl x:Name="TabGeral_tc" Grid.Row="1" Grid.Column="0" Margin="0,10,0,0" IsSynchronizedWithCurrentItem="True" TabStripPlacement="Top" SelectionChanged="TabGeral_tc_SelectionChanged"   Background="{x:Null}">
             <TabItem x:Name="Geral_ti" Width="200" Background="{x:Null}"  Selector.Selected="OnTabSelected" Selector.Unselected="OnTabUnSelected">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">

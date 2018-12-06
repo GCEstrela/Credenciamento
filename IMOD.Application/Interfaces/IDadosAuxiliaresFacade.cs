@@ -19,95 +19,82 @@ namespace IMOD.Application.Interfaces
         #region  Metodos
 
         /// <summary>
-        ///     CRUD Completo Estados
+        ///  Estados da Federação
         /// </summary>
         /// <returns></returns>
         IEstadoService EstadoService { get; }
 
         /// <summary>
-        ///     CRUD Completo Municipios
+        ///    Municipios
         /// </summary>
         /// <returns></returns>
         IMunicipioService MunicipioService { get; }
         /// <summary>
-        /// CRUD Completo Tipo de Equipamento
+        /// Tipos de Equipamentos
         /// </summary>
         /// <returns></returns>
         ITipoEquipamentoService TipoEquipamentoService { get; }
 
         /// <summary>
-        /// CRUD Completo ColaboradorAnexo
+        /// Anexos de Colaboradores
         /// </summary>
         /// <returns></returns>
         IColaboradorAnexoService ColaboradorAnexoService { get; }
 
         /// <summary>
-        /// CRUD Completo Relatorio
+        /// Relatorios
         /// </summary>
         /// <returns></returns>
         IRelatorioService RelatorioService { get; }
 
         /// <summary>
-        /// CRUD Completo RelatorioGerencial
+        /// Relatórios Gerenciais
         /// </summary>
         /// <returns></returns>
         IRelatorioGerencialService RelatorioGerencialService { get; }
 
         /// <summary>
-        /// CRUD Completo LayoutCracha
+        /// Modelos de Crachá
         /// </summary>
         /// <returns></returns>
         ILayoutCrachaService LayoutCrachaService { get; }
 
         /// <summary>
-        /// CRUD Completo TipoAtividade
+        /// Tipos de Atividade
         /// </summary>
         /// <returns></returns>
         ITipoAtividadeService TipoAtividadeService { get; }
 
         /// <summary>
-        /// CRUD Completo TipoCobranca
+        /// Tipos de Cobrança
         /// </summary>
         /// <returns></returns>
         ITipoCobrancaService TipoCobrancaService { get; }
 
         /// <summary>
-        /// CRUD Completo TiposAcesso
+        /// Tipos de Acesso
         /// </summary>
         /// <returns></returns>
         ITiposAcessoService TiposAcessoService { get; }
 
         /// <summary>
-        /// CRUD Completo TipoStatus
+        /// Tipos de Status
         /// </summary>
         /// <returns></returns>
         IStatusService TipoStatusService { get; }
 
         /// <summary>
-        /// CRUD Completo Curso
+        /// Cursos
         /// </summary>
         /// <returns></returns>
         ICursoService CursoService { get; }
 
         /// <summary>
-        /// CRUD Completo AreaAcesso
+        /// Àreas de acesso
         /// </summary>
         /// <returns></returns>
         IAreaAcessoService AreaAcessoService { get; }
-
-        /// <summary>
-        /// CRUD Completo EmpresaLayoutCracha
-        /// </summary>
-        /// <returns></returns>
-        IEmpresaLayoutCrachaService EmpresaLayoutCrachaService { get; }
-
-        /// <summary>
-        /// CRUD Completo Empresa Tipo Atividade 
-        /// </summary>
-        IEmpresaTipoAtividadeService EmpresaTipoAtividadeService { get; }
-
-
-
+        
         #endregion
     }
 }

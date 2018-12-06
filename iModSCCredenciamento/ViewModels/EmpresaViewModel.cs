@@ -714,9 +714,7 @@ namespace iModSCCredenciamento.ViewModels
 
                 var entity = _EmpresaTipoAtividade;
                 var entityConv = Mapper.Map<EmpresaTipoAtividade>(entity);
-
-                _auxiliaresService.EmpresaTipoAtividadeService.Criar(entityConv);
-
+                _service.TipoAtividadeService.Criar(entityConv);
                 CarregaColecaoEmpresasTiposAtividades(_EmpresaTipoAtividade.EmpresaID);
 
             }
@@ -736,7 +734,7 @@ namespace iModSCCredenciamento.ViewModels
                 {
                     var entity = EmpresaTipoAtividadeSelecionada;
                     var entityConv = Mapper.Map<EmpresaTipoAtividade>(entity);
-                    _auxiliaresService.EmpresaTipoAtividadeService.Remover(entityConv);
+                    _service.TipoAtividadeService.Remover(entityConv); 
 
                     EmpresasTiposAtividades.Remove(EmpresaTipoAtividadeSelecionada);
 
@@ -806,8 +804,7 @@ namespace iModSCCredenciamento.ViewModels
 
                 var entity = _EmpresaLayoutCracha;
                 var entityConv = Mapper.Map<EmpresaLayoutCracha>(entity);
-
-                _auxiliaresService.EmpresaLayoutCrachaService.Criar(entityConv);
+                _service.CrachaService.Criar(entityConv); 
 
                 CarregaColecaoEmpresasLayoutsCrachas(_EmpresaLayoutCracha.EmpresaID);
             }
@@ -828,8 +825,7 @@ namespace iModSCCredenciamento.ViewModels
                 {
                     var entity = EmpresaLayoutCrachaSelecionada;
                     var entityConv = Mapper.Map<EmpresaLayoutCracha>(entity);
-                    _auxiliaresService.EmpresaLayoutCrachaService.Remover(entityConv);
-
+                    _service.CrachaService.Remover(entityConv);
                     EmpresasLayoutsCrachas.Remove(EmpresaLayoutCrachaSelecionada);
 
                     CarregaColecaoEmpresasTiposAtividades();
