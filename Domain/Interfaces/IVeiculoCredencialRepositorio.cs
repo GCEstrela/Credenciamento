@@ -7,6 +7,8 @@
 #region
 
 using IMOD.Domain.Entities;
+using IMOD.Domain.EntitiesCustom;
+using System.Collections.Generic;
 
 #endregion
 
@@ -14,5 +16,15 @@ namespace IMOD.Domain.Interfaces
 {
     public interface IVeiculoCredencialRepositorio : IRepositorioBaseAdoNet<VeiculoCredencial>
     {
+        #region  Metodos
+
+        /// <summary>
+        ///     Listar Veículos e suas credenciais
+        /// </summary>
+        /// <param name="o">Arrays de Parametros</param>
+        /// <returns></returns>
+        ICollection<VeiculosCredenciaisView> ListarView(params object[] objects);
+
+        #endregion
     }
 }
