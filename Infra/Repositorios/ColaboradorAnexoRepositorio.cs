@@ -136,7 +136,7 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        
+
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("ColaboradorID", DbType.Int32, o, 0).Igual()));
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("NomeArquivo", DbType.String, o, 1).Like()));
 

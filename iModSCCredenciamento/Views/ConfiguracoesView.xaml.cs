@@ -65,6 +65,8 @@ namespace iModSCCredenciamento.Views
         private void BuscarRelatorio_bt_Click(object sender, RoutedEventArgs e)
         {
             ((ConfiguracoesViewModel)this.DataContext).OnBuscarRelatorioCommand();
+            CodigoRelatorio_tb.Text = ((ConfiguracoesViewModel)this.DataContext).Relatorios[0].RelatorioID.ToString();
+            DescricaoRelatorio_tb.Text = ((ConfiguracoesViewModel)this.DataContext).Relatorios[0].NomeArquivoRPT;
         }
         private void SalvarRelatorio_bt_Click(object sender, RoutedEventArgs e)
         {
@@ -164,6 +166,7 @@ namespace iModSCCredenciamento.Views
         private void BuscarRelatorioGerencial_bt_Click(object sender, RoutedEventArgs e)
         {
             ((ConfiguracoesViewModel)this.DataContext).OnBuscarRelatorioGerencialCommand();
+            CodigoRelatorioGerencial_tb.Text = ((ConfiguracoesViewModel)this.DataContext).RelatoriosGerenciais[0].RelatorioID.ToString();
             DescricaoRelatorioGerencial_tb.Text = ((ConfiguracoesViewModel)this.DataContext).RelatoriosGerenciais[0].NomeArquivoRPT;
         }
         private void AbrirRelatorioGerencial_bt_Click(object sender, RoutedEventArgs e)

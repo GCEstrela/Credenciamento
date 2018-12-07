@@ -8,8 +8,12 @@
 
 using System;
 using System.IO;
-using System.Windows.Forms;
+using CrystalDecisions.CrystalReports.Engine;
+using CrystalDecisions.Shared;
 using iModSCCredenciamento.Windows;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using IMOD.CrossCutting;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 
 #endregion
@@ -29,7 +33,7 @@ namespace iModSCCredenciamento.Helpers
         /// <param name="msg">Mensagem</param>
         public static void Mbox(string msg)
         {
-            Mbox (msg, MessageBoxIcon.Information);
+            Mbox(msg, MessageBoxIcon.Information);
         }
 
         /// <summary>
@@ -41,8 +45,8 @@ namespace iModSCCredenciamento.Helpers
             var innerMsg = "";
             if (ex.InnerException != null)
                 innerMsg = ex.InnerException.Message;
-            var detalhe = string.IsNullOrWhiteSpace (innerMsg) ? string.Empty : $"\nDetalhe: {innerMsg}";
-            Mbox ("Um erro ocorreu.\nRazão: " + ex.Message + detalhe, MessageBoxIcon.Error);
+            var detalhe = string.IsNullOrWhiteSpace(innerMsg) ? string.Empty : $"\nDetalhe: {innerMsg}";
+            Mbox("Um erro ocorreu.\nRazão: " + ex.Message + detalhe, MessageBoxIcon.Error);
         }
 
         /// <summary>
@@ -55,8 +59,8 @@ namespace iModSCCredenciamento.Helpers
             var innerMsg = "";
             if (ex.InnerException != null)
                 innerMsg = ex.InnerException.Message;
-            var detalhe = string.IsNullOrWhiteSpace (innerMsg) ? string.Empty : $"\nDetalhe: {innerMsg}";
-            Mbox (msg + "\nRazão: " + ex.Message + detalhe, MessageBoxIcon.Error);
+            var detalhe = string.IsNullOrWhiteSpace(innerMsg) ? string.Empty : $"\nDetalhe: {innerMsg}";
+            Mbox(msg + "\nRazão: " + ex.Message + detalhe, MessageBoxIcon.Error);
         }
 
         /// <summary>
@@ -66,7 +70,7 @@ namespace iModSCCredenciamento.Helpers
         /// <param name="pIcon">Um icone para apresentacao</param>
         public static void Mbox(string msg, MessageBoxIcon pIcon)
         {
-            MessageBox.Show (msg, Caption (pIcon), MessageBoxButtons.OK, pIcon, MessageBoxDefaultButton.Button1);
+            MessageBox.Show(msg, Caption(pIcon), MessageBoxButtons.OK, pIcon, MessageBoxDefaultButton.Button1);
         }
 
         /// <summary>
@@ -100,7 +104,7 @@ namespace iModSCCredenciamento.Helpers
         /// <returns></returns>
         public static bool PopupBox(string msg, int icone)
         {
-            var popupBox = new PopupBox (msg, icone);
+            var popupBox = new PopupBox(msg, icone);
             popupBox.ShowDialog();
             return popupBox.Result;
         }
@@ -117,12 +121,12 @@ namespace iModSCCredenciamento.Helpers
             var openFileDialog = new OpenFileDialog();
             openFileDialog.Multiselect = false;
             openFileDialog.Filter = filtro;
-            openFileDialog.InitialDirectory = Environment.GetFolderPath (Environment.SpecialFolder.MyDocuments);
+            openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             var result = openFileDialog.ShowDialog();
             if (result != true) return null;
 
             var path = openFileDialog.FileName;
-            var tam = new FileInfo (path).Length;
+            var tam = new FileInfo(path).Length;
             var arq = new ArquivoInfo
             {
                 Nome = openFileDialog.SafeFileName
@@ -130,14 +134,14 @@ namespace iModSCCredenciamento.Helpers
 
             if (tamMax == 0)
             {
-                arq.ArrayBytes = File.ReadAllBytes (path);
-                arq.FormatoBase64 = Convert.ToBase64String (arq.ArrayBytes);
+                arq.ArrayBytes = File.ReadAllBytes(path);
+                arq.FormatoBase64 = Convert.ToBase64String(arq.ArrayBytes);
                 return arq;
             }
-               
+
 
             if (tamMax < tam)
-                throw new Exception ($"{tamMax} Kbytes é o tamanho máximo permitido para upload.");
+                throw new Exception($"{tamMax} Kbytes é o tamanho máximo permitido para upload.");
 
             arq.ArrayBytes = File.ReadAllBytes(path);
             arq.FormatoBase64 = Convert.ToBase64String(arq.ArrayBytes);
@@ -155,23 +159,92 @@ namespace iModSCCredenciamento.Helpers
         public static void DownloadArquivoDialog(string nomeArquivo, byte[] arrayBytes)
         {
             //Parâmetros necessários a execução do metodo
-            if (string.IsNullOrWhiteSpace (nomeArquivo)) return;
+            if (string.IsNullOrWhiteSpace(nomeArquivo)) return;
             if (arrayBytes == null) return;
 
             var dlgSave = new SaveFileDialog();
             dlgSave.FileName = nomeArquivo; //Nome do arquivo
             //Obter extensão do arquivo, caso exista
-            var ext = string.IsNullOrWhiteSpace (nomeArquivo) ? "" : nomeArquivo;
-            if (ext.Contains ("."))
+            var ext = string.IsNullOrWhiteSpace(nomeArquivo) ? "" : nomeArquivo;
+            if (ext.Contains("."))
             {
-                ext = ext.Substring (ext.IndexOf (".", StringComparison.CurrentCulture));
+                ext = ext.Substring(ext.IndexOf(".", StringComparison.CurrentCulture));
                 dlgSave.DefaultExt = ext; //Extensão
                 dlgSave.Filter = $"documents ({ext})|*{ext}";
             }
             //Usuario decidindo salvar...
             if (dlgSave.ShowDialog() == DialogResult.OK)
-                File.WriteAllBytes (dlgSave.FileName, arrayBytes);
+                File.WriteAllBytes(dlgSave.FileName, arrayBytes);
         }
+
+        /// <summary>
+        /// Exibir o relatório
+        /// </summary>
+        /// <param name="nomeArquivo">Nome do arquivo</param>
+        /// <param name="arrayBytes">Array de Bytes relativo ao arquivo</param>
+        /// <param name="formula">Formula do relatório</param>
+        public static void ShowRelatorio(byte[] arrayBytes, string nomeArquivo, string formula, string mensagem)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(nomeArquivo)) return;
+                if (arrayBytes == null) return;
+
+                var tempArea = Path.GetTempPath();
+
+                var idx = nomeArquivo.IndexOf(".", StringComparison.Ordinal);
+                var nameFile = idx == -1 ? nomeArquivo : nomeArquivo.Substring(idx);
+
+                var fileName = Path.Combine(tempArea, $"{nameFile}.rpt");
+                File.WriteAllBytes(fileName, arrayBytes);//Save file on temp area
+
+                var reportDoc = new ReportDocument();
+                reportDoc.Load(fileName, OpenReportMethod.OpenReportByTempCopy);
+
+                TableLogOnInfo crtableLogoninfo = new TableLogOnInfo();
+                ConnectionInfo crConnectionInfo = new ConnectionInfo();
+                Tables CrTables;
+
+                crConnectionInfo.ServerName = "172.16.190.108\\SQLEXPRESS";
+                crConnectionInfo.DatabaseName = "D_iModCredenciamento";
+                crConnectionInfo.UserID = "imod";
+                crConnectionInfo.Password = "imod";
+
+                CrTables = reportDoc.Database.Tables;
+                foreach (Table CrTable in CrTables)
+                {
+                    crtableLogoninfo = CrTable.LogOnInfo;
+                    crtableLogoninfo.ConnectionInfo = crConnectionInfo;
+                    CrTable.ApplyLogOnInfo(crtableLogoninfo);
+                }
+
+                var tsk = Task.Factory.StartNew(() =>
+                {
+                    System.Windows.Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        //your code here, formulas...
+                        if (!string.IsNullOrWhiteSpace(formula))
+                        {
+                            reportDoc.RecordSelectionFormula = formula;
+                        }
+                        if (!string.IsNullOrWhiteSpace(mensagem))
+                        {
+                            TextObject txt = (TextObject)reportDoc.ReportDefinition.ReportObjects["TextoPrincipal"];
+                            txt.Text = mensagem;
+                        }
+
+                        var _popupRelatorio = new PopupRelatorio(reportDoc);
+                        _popupRelatorio.Show();
+                    });
+                });
+
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+            }
+        }
+
 
         #endregion
     }

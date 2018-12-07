@@ -14,10 +14,12 @@ using System.Xml;
 using System.Xml.Serialization;
 using AutoMapper;
 using Genetec.Sdk.Entities;
+using iModSCCredenciamento.Helpers;
 using IMOD.Domain.Entities;
 using IMOD.Application.Interfaces;
 using IMOD.Application.Service;
 using IMOD.CrossCutting;
+using Utils = IMOD.CrossCutting.Utils;
 
 namespace iModSCCredenciamento.ViewModels
 {
@@ -52,7 +54,6 @@ namespace iModSCCredenciamento.ViewModels
         private ObservableCollection<ClasseRelatoriosGerenciais.RelatorioGerencial> _RelatoriosGerenciais;
 
 
-
         private ClasseRelatorios.Relatorio _RelatorioTemp = new ClasseRelatorios.Relatorio();
         private List<ClasseRelatorios.Relatorio> _RelatoriosTemp = new List<ClasseRelatorios.Relatorio>();
 
@@ -69,26 +70,22 @@ namespace iModSCCredenciamento.ViewModels
         private int _relatorioSelectedIndex;
         private int _relatorioGerencialSelectedIndex;
 
-        //private ObservableCollection<ClasseTiposEquipamento.TipoEquipamento> _TiposEquipamento;
         private ObservableCollection<ClasseTiposEquipamento.TipoEquipamento> _TiposEquipamentos;
         private List<ClasseTiposEquipamento.TipoEquipamento> _TiposEquipamentosTemp = new List<ClasseTiposEquipamento.TipoEquipamento>();
         private ClasseTiposEquipamento.TipoEquipamento _TipoEquipamentoSelecionado;
         private int _tipoEquipamentoSelectedIndex;
 
         private ObservableCollection<ClasseTiposCobrancas.TipoCobranca> _TiposCobrancas;
-        //private ObservableCollection<ClasseTiposCobrancas.TipoCobranca> _TiposCobranca;
         private List<ClasseTiposCobrancas.TipoCobranca> _TiposCobrancasTemp = new List<ClasseTiposCobrancas.TipoCobranca>();
         private ClasseTiposCobrancas.TipoCobranca _CobrancaSelecionada;
         private int _tipoCobrancaSelectedIndex;
 
-        //private ObservableCollection<ClasseTiposAtividades.TipoAtividade> _TiposAtividades;
         private ObservableCollection<ClasseTiposAtividades.TipoAtividade> _TiposAtividade;
         private List<ClasseTiposAtividades.TipoAtividade> _TiposAtividadesTemp = new List<ClasseTiposAtividades.TipoAtividade>();
         private ClasseTiposAtividades.TipoAtividade _AtividadeSelecionada;
         private int _tipoAtividadeSelectedIndex;
 
         private ObservableCollection<ClasseCursos.Curso> _Cursos;
-        //private ObservableCollection<ClasseCursos.Curso> _TiposCurso;       
         private List<ClasseCursos.Curso> _cursosTemp = new List<ClasseCursos.Curso>();
         private ClasseCursos.Curso _CursosSelecionado;
         private int _cursoSelectedIndex;
@@ -103,9 +100,6 @@ namespace iModSCCredenciamento.ViewModels
         private List<ClasseTiposAcessos.TipoAcesso> _TiposAcessosTemp = new List<ClasseTiposAcessos.TipoAcesso>();
         private ClasseTiposAcessos.TipoAcesso _TiposAcessoSelecionado;
         private int _tipoAcessoSelectedIndex;
-        //private ObservableCollection<ClasseTiposAcessos.TipoAcesso> _TiposAcesso;
-
-
 
         private ObservableCollection<ClasseAreasAcessos.AreaAcesso> _AreaAcessos;
         private ClasseAreasAcessos.AreaAcesso _AcessoAreaSelecionada;
@@ -120,6 +114,12 @@ namespace iModSCCredenciamento.ViewModels
         private int _LayoutCrachaSelectedIndex;
 
         private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
+        private readonly IRelatorioService _relatorioService = new RelatorioService();
+        private readonly IRelatorioGerencialService _relatorioGerencialService = new RelatorioGerencialService();
+
+        private Relatorios relatorio = new Relatorios();
+        private RelatoriosGerenciais relatorioGerencial = new RelatoriosGerenciais();
+        private LayoutCracha layoutCracha = new LayoutCracha();
 
 
         #endregion
@@ -319,23 +319,6 @@ namespace iModSCCredenciamento.ViewModels
             }
         }
 
-        //public ObservableCollection<ClasseTiposAtividades.TipoAtividade> TiposAtividade
-        //{
-        //    get
-        //    {
-        //        return _TiposAtividade;
-        //    }
-
-        //    set
-        //    {
-        //        if (_TiposAtividade != value)
-        //        {
-        //            _TiposAtividade = value;
-        //            OnPropertyChanged();
-
-        //        }
-        //    }
-        //}
         public ObservableCollection<ClasseTiposAtividades.TipoAtividade> TiposAtividades
         {
             get
@@ -659,6 +642,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
+                Utils.TraceException(ex);
             }
 
         }
@@ -682,7 +666,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log("Erro na void OnSalvarEdicaoCommand_TiposEquipamentos ex: " + ex);
+                Utils.TraceException(ex);
             }
         }
         public void OnExcluirCommand_TiposEquipamentos()
@@ -703,7 +687,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log("Erro na void OnExcluirCommand_TiposEquipamentos ex: " + ex);
+                Utils.TraceException(ex);
             }
 
         }
@@ -728,13 +712,10 @@ namespace iModSCCredenciamento.ViewModels
 
                 RelatorioSelectedIndex = 0;
 
-
             }
             catch (Exception ex)
             {
-                Global.Log("Erro na void OnAdicionarRelatorioCommand ex: " + ex);
-                IMOD.CrossCutting.Utils.TraceException(ex);
-                throw;
+                Utils.TraceException(ex);
             }
 
         }
@@ -758,9 +739,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log("Erro na void OnSalvarRelatorioCommand ex: " + ex);
-                IMOD.CrossCutting.Utils.TraceException(ex);
-                throw;
+                Utils.TraceException(ex);
             }
         }
         public void OnExcluirRelatorioCommand()
@@ -778,9 +757,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log("Erro na void OnExcluirRelatorioCommand ex: " + ex);
-                IMOD.CrossCutting.Utils.TraceException(ex);
-                throw;
+                Utils.TraceException(ex);
             }
 
         }
@@ -796,92 +773,31 @@ namespace iModSCCredenciamento.ViewModels
                 _arquivoRPT.Filter = "Reports Files|*.rpt"; ;
                 _arquivoRPT.RestoreDirectory = true;
                 _arquivoRPT.ShowDialog();
-                //if (_arquivoPDF.ShowDialog()) //System.Windows.Forms.DialogResult.Yes
-                //{
+
                 _nomecompletodoarquivo = _arquivoRPT.SafeFileName;
                 _arquivoSTR = Conversores.PDFtoString(_arquivoRPT.FileName);
 
                 _RelatorioTemp.NomeArquivoRPT = _nomecompletodoarquivo;
                 _RelatorioTemp.ArquivoRPT = _arquivoSTR;
-                //InsereArquivoBD(Convert.ToInt32(empresaID), _nomecompletodoarquivo, _arquivoSTR);
-
-                //AtualizaListaAnexos(_resp);
-
-                //}
             }
             catch (Exception ex)
             {
-                Global.Log("Erro na void OnBuscarRelatorioCommand ex: " + ex);
-                IMOD.CrossCutting.Utils.TraceException(ex);
-                throw;
+                Utils.TraceException(ex);
             }
         }
         public void OnAbrirRelatorioCommand()
         {
             try
             {
-                string _xmlstring = CriaXmlRelatorio(RelatorioSelecionado.RelatorioID);
+                var id = RelatorioSelecionado.RelatorioID;
+                relatorio = _relatorioService.BuscarPelaChave(id);
 
-                XmlDocument xmldocument = new XmlDocument();
-                xmldocument.LoadXml(_xmlstring);
-                XmlNode node = (XmlNode)xmldocument.DocumentElement;
-                XmlNode arquivoNode = node.SelectSingleNode("ArquivosImagens/ArquivoImagem/Arquivo");
-
-                string _ArquivoRPT = arquivoNode.FirstChild.Value;
-                byte[] buffer = Convert.FromBase64String(_ArquivoRPT);
-                _ArquivoRPT = System.IO.Path.GetTempFileName();
-                _ArquivoRPT = System.IO.Path.GetRandomFileName();
-                _ArquivoRPT = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\" + _ArquivoRPT;
-
-                //ReportDocument reportDocument = new ReportDocument();
-
-
-                //File.Move(_caminhoArquivoPDF, Path.ChangeExtension(_caminhoArquivoPDF, ".pdf"));
-                _ArquivoRPT = System.IO.Path.ChangeExtension(_ArquivoRPT, ".rpt");
-                System.IO.File.WriteAllBytes(_ArquivoRPT, buffer);
-
-                ReportDocument reportDocument = new ReportDocument();
-                //Esse ponto de implementação para a alteração da instancia do SQL, banco, usuário e senha
-                TableLogOnInfos crtableLogoninfos = new TableLogOnInfos();
-                TableLogOnInfo crtableLogoninfo = new TableLogOnInfo();
-                ConnectionInfo crConnectionInfo = new ConnectionInfo();
-                Tables CrTables;
-
-                reportDocument.Load(_ArquivoRPT);
-                crConnectionInfo.ServerName = Global._instancia;
-                crConnectionInfo.DatabaseName = Global._bancoDados;
-                crConnectionInfo.UserID = Global._usuario;
-                crConnectionInfo.Password = Global._senha;
-                CrTables = reportDocument.Database.Tables;
-                foreach (CrystalDecisions.CrystalReports.Engine.Table CrTable in CrTables)
-                {
-                    crtableLogoninfo = CrTable.LogOnInfo;
-                    crtableLogoninfo.ConnectionInfo = crConnectionInfo;
-                    CrTable.ApplyLogOnInfo(crtableLogoninfo);
-                }
-
-                Thread CarregaRel_thr = new Thread(() =>
-                {
-
-                    System.Windows.Application.Current.Dispatcher.Invoke((Action)(() =>
-                    {
-                        PopupRelatorio _popupRelatorio = new PopupRelatorio(reportDocument);
-                        _popupRelatorio.Show();
-                    }));
-
-                }
-
-                );
-                //CarregaRel_thr.SetApartmentState(ApartmentState.STA);
-                CarregaRel_thr.Start();
-
+                var arrayFile = Convert.FromBase64String(relatorio.ArquivoRpt);
+                WpfHelp.ShowRelatorio(arrayFile, "Relatorio " + id, "", "");
             }
             catch (Exception ex)
             {
-                Global.Log("Erro na void OnAbrirRelatorioCommand ex: " + ex);
-                IMOD.CrossCutting.Utils.TraceException(ex);
-                throw;
-
+                Utils.TraceException(ex);
             }
 
         }
@@ -894,7 +810,6 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-
                 foreach (var x in RelatoriosGerenciais)
                 {
                     _RelatoriosGerenciaisTemp.Add(x);
@@ -911,9 +826,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log("Erro na void OnAdicionarRelatorioGerencialCommand ex: " + ex);
-                IMOD.CrossCutting.Utils.TraceException(ex);
-                throw;
+                Utils.TraceException(ex);
             }
 
         }
@@ -936,9 +849,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log("Erro na void OnSalvarRelatorioGerencialCommand ex: " + ex);
-                IMOD.CrossCutting.Utils.TraceException(ex);
-                throw;
+                Utils.TraceException(ex);
             }
         }
         public void OnExcluirRelatorioGerencialCommand()
@@ -956,9 +867,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log("Erro na void OnExcluirRelatorioGerencialCommand ex: " + ex);
-                IMOD.CrossCutting.Utils.TraceException(ex);
-                throw;
+                Utils.TraceException(ex);
             }
 
         }
@@ -985,73 +894,23 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log("Erro na void OnBuscarRelatorioGerencialCommand ex: " + ex);
-                IMOD.CrossCutting.Utils.TraceException(ex);
-                throw;
+                Utils.TraceException(ex);
             }
         }
         public void OnAbrirRelatorioGerencialCommand()
         {
             try
             {
-                string _xmlstring = CriaXmlRelatorioGerencial(RelatorioGerencialSelecionado.RelatorioID);
+                var id = RelatorioGerencialSelecionado.RelatorioID;
+                relatorioGerencial = _relatorioGerencialService.BuscarPelaChave(id);
 
-                XmlDocument xmldocument = new XmlDocument();
-                xmldocument.LoadXml(_xmlstring);
-                XmlNode node = (XmlNode)xmldocument.DocumentElement;
-                XmlNode arquivoNode = node.SelectSingleNode("ArquivosImagens/ArquivoImagem/Arquivo");
-
-                string _ArquivoRPT = arquivoNode.FirstChild.Value;
-                byte[] buffer = Convert.FromBase64String(_ArquivoRPT);
-                _ArquivoRPT = System.IO.Path.GetTempFileName();
-                _ArquivoRPT = System.IO.Path.GetRandomFileName();
-                _ArquivoRPT = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\" + _ArquivoRPT;
-
-
-                _ArquivoRPT = System.IO.Path.ChangeExtension(_ArquivoRPT, ".rpt");
-                System.IO.File.WriteAllBytes(_ArquivoRPT, buffer);
-
-                ReportDocument reportDocument = new ReportDocument();
-                //Esse ponto de implementação para a alteração da instancia do SQL, banco, usuário e senha
-                TableLogOnInfos crtableLogoninfos = new TableLogOnInfos();
-                TableLogOnInfo crtableLogoninfo = new TableLogOnInfo();
-                ConnectionInfo crConnectionInfo = new ConnectionInfo();
-                Tables CrTables;
-
-                reportDocument.Load(_ArquivoRPT);
-                crConnectionInfo.ServerName = Global._instancia;
-                crConnectionInfo.DatabaseName = Global._bancoDados;
-                crConnectionInfo.UserID = Global._usuario;
-                crConnectionInfo.Password = Global._senha;
-                CrTables = reportDocument.Database.Tables;
-                foreach (CrystalDecisions.CrystalReports.Engine.Table CrTable in CrTables)
-                {
-                    crtableLogoninfo = CrTable.LogOnInfo;
-                    crtableLogoninfo.ConnectionInfo = crConnectionInfo;
-                    CrTable.ApplyLogOnInfo(crtableLogoninfo);
-                }
-
-                Thread CarregaRel_thr = new Thread(() =>
-                {
-
-                    System.Windows.Application.Current.Dispatcher.Invoke((Action)(() =>
-                    {
-                        PopupRelatorio _popupRelatorio = new PopupRelatorio(reportDocument);
-                        _popupRelatorio.Show();
-                    }));
-
-                }
-
-                );
-                //CarregaRel_thr.SetApartmentState(ApartmentState.STA);
-                CarregaRel_thr.Start();
+                var arrayFile = Convert.FromBase64String(relatorioGerencial.ArquivoRpt);
+                WpfHelp.ShowRelatorio(arrayFile, "RelatorioGerencial " + id, "", "");
 
             }
             catch (Exception ex)
             {
-                Global.Log("Erro na void OnAbrirArquivoCommand ex: " + ex);
-                IMOD.CrossCutting.Utils.TraceException(ex);
-                throw;
+                Utils.TraceException(ex);
             }
 
         }
@@ -1080,9 +939,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log("Erro na void OnAdicionarLayoutCrachaCommand ex: " + ex);
-                IMOD.CrossCutting.Utils.TraceException(ex);
-                throw;
+                Utils.TraceException(ex);
             }
 
         }
@@ -1106,9 +963,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log("Erro na void OnSalvarLayoutCrachaCommand ex: " + ex);
-                IMOD.CrossCutting.Utils.TraceException(ex);
-                throw;
+                Utils.TraceException(ex);
             }
         }
         public void OnExcluirLayoutCrachaCommand()
@@ -1126,9 +981,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log("Erro na void OnSalvarLayoutCrachaCommand ex: " + ex);
-                IMOD.CrossCutting.Utils.TraceException(ex);
-                throw;
+                Utils.TraceException(ex);
             }
 
         }
@@ -1155,73 +1008,26 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log("Erro na void OnAdicionarLayoutCrachaCommand ex: " + ex);
-                IMOD.CrossCutting.Utils.TraceException(ex);
-                throw;
+                Utils.TraceException(ex);
             }
         }
+
+        //TODO: LayoutCracha (Falta LayoutRPT no banco) - Mihai (06/12/2018)
         public void OnAbrirLayoutCrachaCommand()
         {
             try
             {
-                string _xmlstring = CriaXmlRelatorioGerencial(RelatorioGerencialSelecionado.RelatorioID);
+                var id = LayoutCrachaSelecionado.LayoutCrachaID;
 
-                XmlDocument xmldocument = new XmlDocument();
-                xmldocument.LoadXml(_xmlstring);
-                XmlNode node = (XmlNode)xmldocument.DocumentElement;
-                XmlNode arquivoNode = node.SelectSingleNode("ArquivosImagens/ArquivoImagem/Arquivo");
+                layoutCracha = _auxiliaresService.LayoutCrachaService.BuscarPelaChave(id);
 
-                string _ArquivoRPT = arquivoNode.FirstChild.Value;
-                byte[] buffer = Convert.FromBase64String(_ArquivoRPT);
-                _ArquivoRPT = System.IO.Path.GetTempFileName();
-                _ArquivoRPT = System.IO.Path.GetRandomFileName();
-                _ArquivoRPT = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\" + _ArquivoRPT;
-
-
-                _ArquivoRPT = System.IO.Path.ChangeExtension(_ArquivoRPT, ".rpt");
-                System.IO.File.WriteAllBytes(_ArquivoRPT, buffer);
-
-                ReportDocument reportDocument = new ReportDocument();
-                //Esse ponto de implementação para a alteração da instancia do SQL, banco, usuário e senha
-                TableLogOnInfos crtableLogoninfos = new TableLogOnInfos();
-                TableLogOnInfo crtableLogoninfo = new TableLogOnInfo();
-                ConnectionInfo crConnectionInfo = new ConnectionInfo();
-                Tables CrTables;
-
-                reportDocument.Load(_ArquivoRPT);
-                crConnectionInfo.ServerName = Global._instancia; // "(localdb)\\SQLEXPRESS";
-                crConnectionInfo.DatabaseName = Global._bancoDados; // "D_iModCredenciamento";
-                crConnectionInfo.UserID = Global._usuario;
-                crConnectionInfo.Password = Global._senha;
-                CrTables = reportDocument.Database.Tables;
-                foreach (CrystalDecisions.CrystalReports.Engine.Table CrTable in CrTables)
-                {
-                    crtableLogoninfo = CrTable.LogOnInfo;
-                    crtableLogoninfo.ConnectionInfo = crConnectionInfo;
-                    CrTable.ApplyLogOnInfo(crtableLogoninfo);
-                }
-
-                Thread CarregaRel_thr = new Thread(() =>
-                {
-
-                    System.Windows.Application.Current.Dispatcher.Invoke((Action)(() =>
-                    {
-                        PopupRelatorio _popupRelatorio = new PopupRelatorio(reportDocument);
-                        _popupRelatorio.Show();
-                    }));
-
-                }
-
-                );
-                //CarregaRel_thr.SetApartmentState(ApartmentState.STA);
-                CarregaRel_thr.Start();
+                var arrayFile = Convert.FromBase64String(layoutCracha.LayoutRpt);
+                WpfHelp.ShowRelatorio(arrayFile, "LayoutCracha " + id, "", "");
 
             }
             catch (Exception ex)
             {
-                Global.Log("Erro na void OnAbrirArquivoCommand ex: " + ex);
-                IMOD.CrossCutting.Utils.TraceException(ex);
-                throw;
+                Utils.TraceException(ex);
             }
 
         }
@@ -1248,9 +1054,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log("Erro na void OnAdicionarCommand_TiposAtividades ex: " + ex);
-                IMOD.CrossCutting.Utils.TraceException(ex);
-                throw;
+                Utils.TraceException(ex);
             }
 
         }
@@ -1274,9 +1078,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log("Erro na void OnExcluirCommand_TiposAtividades ex: " + ex);
-                IMOD.CrossCutting.Utils.TraceException(ex);
-                throw;
+                Utils.TraceException(ex);
             }
         }
         public void OnExcluirCommand_TiposAtividades()
@@ -1295,9 +1097,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log("Erro na void OnExcluirCommand_TiposAtividades ex: " + ex);
-                IMOD.CrossCutting.Utils.TraceException(ex);
-                throw;
+                Utils.TraceException(ex);
             }
 
         }
@@ -1319,13 +1119,10 @@ namespace iModSCCredenciamento.ViewModels
                 TiposCobrancas.Add(_cobranca);
 
                 TipoCobrancaSelectedIndex = 0;
-                //CarregaColecaoTiposEquipamentos();
             }
             catch (Exception ex)
             {
-                Global.Log("Erro na void OnAdicionarCommand_TiposCobrancas ex: " + ex);
-                IMOD.CrossCutting.Utils.TraceException(ex);
-                throw;
+                Utils.TraceException(ex);
             }
 
         }
@@ -1350,9 +1147,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log("Erro na void OnSalvarEdicaoCommand_TiposCobrancas ex: " + ex);
-                IMOD.CrossCutting.Utils.TraceException(ex);
-                throw;
+                Utils.TraceException(ex);
             }
         }
         public void OnExcluirCommand_TiposCobrancas()
@@ -1372,9 +1167,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log("Erro na void OnExcluirCommand_TiposCobrancas ex: " + ex);
-                IMOD.CrossCutting.Utils.TraceException(ex);
-                throw;
+                Utils.TraceException(ex);
             }
 
         }
@@ -1396,13 +1189,10 @@ namespace iModSCCredenciamento.ViewModels
                 TiposAcessos.Add(_acesso);
 
                 TipoAcessoSelectedIndex = 0;
-                //CarregaColecaoTiposEquipamentos();
             }
             catch (Exception ex)
             {
-                Global.Log("Erro na void OnExcluirCommand_TiposCobrancas ex: " + ex);
-                IMOD.CrossCutting.Utils.TraceException(ex);
-                throw;
+                Utils.TraceException(ex);
             }
 
         }
@@ -1428,9 +1218,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log("Erro na void OnExcluirCommand_TiposCobrancas ex: " + ex);
-                IMOD.CrossCutting.Utils.TraceException(ex);
-                throw;
+                Utils.TraceException(ex);
             }
         }
         public void OnExcluirCommand_TiposAcesso()
@@ -1448,9 +1236,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log("Erro na void OnExcluirCommand_TiposCobrancas ex: " + ex);
-                IMOD.CrossCutting.Utils.TraceException(ex);
-                throw;
+                Utils.TraceException(ex);
             }
 
         }
@@ -1626,13 +1412,10 @@ namespace iModSCCredenciamento.ViewModels
                 AreasAcessos.Add(_areaAcesso);
 
                 AreaAcessoSelectedIndex = 0;
-                //CarregaColecaoTiposEquipamentos();
             }
             catch (Exception ex)
             {
-                Global.Log("Erro na void OnAdicionarCommand_AreaAcesso ex: " + ex);
-                IMOD.CrossCutting.Utils.TraceException(ex);
-                throw;
+                Utils.TraceException(ex);
             }
 
         }
@@ -1657,9 +1440,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log("Erro na void OnAdicionarCommand_AreaAcesso ex: " + ex);
-                IMOD.CrossCutting.Utils.TraceException(ex);
-                throw;
+                Utils.TraceException(ex);
             }
         }
         public void OnExcluirCommand_AreaAcesso()
@@ -1679,9 +1460,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log("Erro na void OnAdicionarCommand_AreaAcesso ex: " + ex);
-                IMOD.CrossCutting.Utils.TraceException(ex);
-                throw;
+                Utils.TraceException(ex);
             }
 
         }
@@ -1708,9 +1487,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log("Erro void CarregaColecaoEmpresas ex: " + ex.Message);
-                IMOD.CrossCutting.Utils.TraceException(ex);
-                throw;
+                Utils.TraceException(ex);
             }
         }
 
@@ -1733,9 +1510,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log("Erro void CarregaColecaoTiposAtividades ex: " + ex.Message);
-                IMOD.CrossCutting.Utils.TraceException(ex);
-                throw;
+                Utils.TraceException(ex);
             }
         }
 
@@ -1758,9 +1533,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log("Erro na void CarregaColeçãoTiposCobrancas ex: " + ex);
-                IMOD.CrossCutting.Utils.TraceException(ex);
-                throw;
+                Utils.TraceException(ex);
             }
         }
 
@@ -1782,9 +1555,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log("Erro void CarregaColecaoAreasAcessos ex: " + ex.Message);
-                IMOD.CrossCutting.Utils.TraceException(ex);
-                throw;
+                Utils.TraceException(ex);
             }
         }
 
@@ -1807,9 +1578,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log("Erro na void CarregaColecaoStatus ex: " + ex);
-                IMOD.CrossCutting.Utils.TraceException(ex);
-                throw;
+                Utils.TraceException(ex);
             }
         }
 
@@ -1831,9 +1600,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log("Erro na void CarregaColecaoCursos ex: " + ex);
-                IMOD.CrossCutting.Utils.TraceException(ex);
-                throw;
+                Utils.TraceException(ex);
             }
         }
 
@@ -1856,9 +1623,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log("Erro na void CarregaColecaoLayoutsCrachas ex: " + ex);
-                IMOD.CrossCutting.Utils.TraceException(ex);
-                throw;
+                Utils.TraceException(ex);
             }
 
         }
@@ -1882,9 +1647,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log("Erro na void CarregaColeçãoTiposAcessos ex: " + ex);
-                IMOD.CrossCutting.Utils.TraceException(ex);
-                throw;
+                Utils.TraceException(ex);
             }
         }
 
@@ -1907,9 +1670,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log("Erro na void CarregaColecaoRelatorios ex: " + ex);
-                IMOD.CrossCutting.Utils.TraceException(ex);
-                throw;
+                Utils.TraceException(ex);
             }
         }
 
@@ -1932,104 +1693,17 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log("Erro na void CarregaColecaoRelatorios ex: " + ex);
-                IMOD.CrossCutting.Utils.TraceException(ex);
-                throw;
+                Utils.TraceException(ex);
             }
         }
 
 
         #endregion
 
-        #region Metodos privados
-        private string CriaXmlRelatorio(int relatorioID)
-        {
-            try
-            {
-                XmlDocument _xmlDocument = new XmlDocument();
-                XmlNode _xmlNode = _xmlDocument.CreateXmlDeclaration("1.0", "UTF-8", null);
-
-                XmlNode _ClasseArquivosImagens = _xmlDocument.CreateElement("ClasseArquivosImagens");
-                _xmlDocument.AppendChild(_ClasseArquivosImagens);
-
-                XmlNode _ArquivosImagens = _xmlDocument.CreateElement("ArquivosImagens");
-                _ClasseArquivosImagens.AppendChild(_ArquivosImagens);
-
-
-                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
-
-                SqlCommand SQCMDXML = new SqlCommand("Select * From Relatorios Where RelatorioID = " + relatorioID, _Con);
-                SqlDataReader SQDR_XML;
-                SQDR_XML = SQCMDXML.ExecuteReader(CommandBehavior.Default);
-                while (SQDR_XML.Read())
-                {
-                    XmlNode _ArquivoImagem = _xmlDocument.CreateElement("ArquivoImagem");
-                    _ArquivosImagens.AppendChild(_ArquivoImagem);
-
-                    XmlNode _Arquivo = _xmlDocument.CreateElement("Arquivo");
-                    _Arquivo.AppendChild(_xmlDocument.CreateTextNode((SQDR_XML["ArquivoRPT"].ToString())));
-                    _ArquivoImagem.AppendChild(_Arquivo);
-
-                }
-                SQDR_XML.Close();
-
-                _Con.Close();
-                return _xmlDocument.InnerXml;
-            }
-            catch (Exception ex)
-            {
-                Global.Log("Erro na void CriaXmlRelatorio ex: " + ex);
-                return null;
-            }
-        }
-
-        private string CriaXmlRelatorioGerencial(int relatorioID)
-        {
-            try
-            {
-                XmlDocument _xmlDocument = new XmlDocument();
-                XmlNode _xmlNode = _xmlDocument.CreateXmlDeclaration("1.0", "UTF-8", null);
-
-                XmlNode _ClasseArquivosImagens = _xmlDocument.CreateElement("ClasseArquivosImagens");
-                _xmlDocument.AppendChild(_ClasseArquivosImagens);
-
-                XmlNode _ArquivosImagens = _xmlDocument.CreateElement("ArquivosImagens");
-                _ClasseArquivosImagens.AppendChild(_ArquivosImagens);
-
-
-                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
-
-                SqlCommand SQCMDXML = new SqlCommand("SELECT * FROM RelatoriosGerenciais WHERE RelatorioID = " + relatorioID, _Con);
-                SqlDataReader SQDR_XML;
-                SQDR_XML = SQCMDXML.ExecuteReader(CommandBehavior.Default);
-                while (SQDR_XML.Read())
-                {
-                    XmlNode _ArquivoImagem = _xmlDocument.CreateElement("ArquivoImagem");
-                    _ArquivosImagens.AppendChild(_ArquivoImagem);
-
-                    XmlNode _Arquivo = _xmlDocument.CreateElement("Arquivo");
-                    _Arquivo.AppendChild(_xmlDocument.CreateTextNode((SQDR_XML["ArquivoRPT"].ToString())));
-                    _ArquivoImagem.AppendChild(_Arquivo);
-
-                }
-                SQDR_XML.Close();
-
-                _Con.Close();
-                return _xmlDocument.InnerXml;
-            }
-            catch (Exception ex)
-            {
-                Global.Log("Erro na void CriaXmlRelatorioGerencial ex: " + ex);
-                return null;
-            }
-        }
-        #endregion
-
-        #region Métodos Públicos
-
-        Global g = new Global();
+        #region Metodos privados (vazia)
 
         #endregion
+
 
     }
 }

@@ -289,7 +289,7 @@
                                         <Label Content="Código:" Height="28"  Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
                                         <TextBox CharacterCasing="Upper"  x:Name="CodigoRelatorio_tb"  Text="{Binding SelectedItem.RelatorioID, ElementName=ListaRelatorios_lv, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"  Height="24"  Width="30"/>
                                         <Label Content="Relatório:" Height="28" Width="65"   Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                        <TextBox CharacterCasing="Upper"  x:Name="DescricaoRelatorio_tb"  Text="{Binding SelectedItem.Nome, ElementName=ListaRelatorios_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="273"/>
+                                        <TextBox CharacterCasing="Upper"  x:Name="DescricaoRelatorio_tb"  Text="{Binding SelectedItem.NomeArquivoRPT, ElementName=ListaRelatorios_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="273"/>
                                         <Button x:Name="BuscarRelatorio_bt" Height="24" Margin="10,0,0,0" IsEnabled="False" VerticalAlignment="Center" Width="24" Click="BuscarRelatorio_bt_Click">
                                             <StackPanel>
                                                 <Image Source="/iModSCCredenciamento;component/Resources/Pasta.ico"/>
@@ -309,12 +309,6 @@
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0">
                                         <ListView x:Name="ListaRelatorios_lv" Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding Relatorios, Mode=TwoWay}" 
                                                           SelectedItem="{Binding Path = RelatorioSelecionado, Mode=TwoWay}"  Height="167" Width="560" SelectedIndex="{Binding Path=RelatorioSelectedIndex, Mode=TwoWay}"  >
-                                            <ListView.ItemContainerStyle>
-                                                <Style TargetType="ListViewItem">
-                                                    <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
-                                                    <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
-                                                </Style>
-                                            </ListView.ItemContainerStyle>
                                             <ListView.View>
                                                 <GridView FrameworkElement.FlowDirection="RightToLeft">
                                                     <GridViewColumn Width="50" Header="Cód."  DisplayMemberBinding="{Binding RelatorioID}"/>
@@ -325,7 +319,7 @@
                                                             </DataTemplate>
                                                         </GridViewColumn.CellTemplate>
                                                     </GridViewColumn>
-                                                    <GridViewColumn Width="400" Header="Relatório"  DisplayMemberBinding="{Binding Nome}"/>
+                                                    <GridViewColumn Width="400" Header="Relatório"  DisplayMemberBinding="{Binding NomeArquivoRPT}"/>
                                                 </GridView>
                                             </ListView.View>
                                         </ListView>
@@ -368,12 +362,6 @@
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0">
                                         <ListView x:Name="ListaRelatoriosGerenciais_lv" Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding RelatoriosGerenciais, Mode=TwoWay}" 
                                                           SelectedItem="{Binding Path = RelatorioGerencialSelecionado, Mode=TwoWay}"  Height="167" Width="560" SelectedIndex="{Binding Path=RelatorioGerencialSelectedIndex, Mode=TwoWay}"  >
-                                            <ListView.ItemContainerStyle>
-                                                <Style TargetType="ListViewItem">
-                                                    <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
-                                                    <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
-                                                </Style>
-                                            </ListView.ItemContainerStyle>
                                             <ListView.View>
                                                 <GridView FrameworkElement.FlowDirection="RightToLeft">
                                                     <GridViewColumn Width="50" Header="Cód."  DisplayMemberBinding="{Binding RelatorioID}"/>
@@ -423,12 +411,6 @@
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0">
                                         <ListView x:Name="ListaLayoutsCrachas_lv" Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding LayoutsCrachas, Mode=TwoWay}" 
                                                           SelectedItem="{Binding Path = LayoutCrachaSelecionado, Mode=TwoWay}"  Height="167" Width="560"  SelectedIndex="{Binding Path=LayoutCrachaSelectedIndex, Mode=TwoWay}" >
-                                            <ListView.ItemContainerStyle>
-                                                <Style TargetType="ListViewItem">
-                                                    <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
-                                                    <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
-                                                </Style>
-                                            </ListView.ItemContainerStyle>
                                             <ListView.View>
                                                 <GridView FrameworkElement.FlowDirection="RightToLeft">
                                                     <GridViewColumn Width="50" Header="Cód."  DisplayMemberBinding="{Binding LayoutCrachaID}"/>

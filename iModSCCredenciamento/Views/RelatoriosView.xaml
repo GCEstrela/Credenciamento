@@ -178,25 +178,25 @@
                                                     <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom" Content ="Relatório de Vias Adicionais de Credenciais" Foreground="White" />
                                                 </StackPanel>
                                             </Button>
-                                        <Button x:Name="Botao2_bt"  Style="{StaticResource MenuStyle}" Margin="0,0,20,0" Height="50" VerticalAlignment="Top"  Width="300" 
-                                                       Click="Button_Click"   Tag="{Binding Relatorios[2].RelatorioID}" >
+                                        <Button x:Name="BotaoRelatorioViasAdicionaisCredenciaisss_bt"  Style="{StaticResource MenuStyle}" Margin="0,0,20,0" Height="50" VerticalAlignment="Top"  Width="300" 
+                                                       IsEnabled="False"  >
                                                 <StackPanel Orientation="Horizontal"  Width="260">
                                                     <Image Source="/iModSCCredenciamento;component/Resources/Contrato.jpg" Height="24" Width="24" Margin="0,0,5,0"/>
-                                                    <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom" Content ="{Binding Relatorios[2].Nome}" Foreground="White" />
+                                                    <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom" Foreground="White" />
                                                 </StackPanel>
                                             </Button>
-                                            <Button x:Name="Botao3_bt"  Style="{StaticResource MenuStyle}" Margin="0,0,20,0" Height="50" VerticalAlignment="Top"  Width="300" 
-                                                        Click="Button_Click"  Tag="{Binding Relatorios[14].RelatorioID}" >
+                                        <Button x:Name="BotaoRelatorioViasAdicionaisCredenciais_bst"  Style="{StaticResource MenuStyle}" Margin="0,0,20,0" Height="50" VerticalAlignment="Top"  Width="300" 
+                                                        IsEnabled="False"  >
                                                 <StackPanel Orientation="Horizontal"  Width="260">
                                                     <Image Source="/iModSCCredenciamento;component/Resources/Contrato.jpg" Height="24" Width="24" Margin="0,0,5,0"/>
-                                                    <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom" Content ="{Binding Relatorios[3].Nome}" Foreground="White" />
+                                                    <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom" Foreground="White" />
                                                 </StackPanel>
                                             </Button>
-                                            <Button x:Name="Botao4_bt"  Style="{StaticResource MenuStyle}" Margin="0,0,20,0" Height="50" VerticalAlignment="Top"  Width="300"
-                                                       Click="Button_Click"  Tag="{Binding Relatorios[15].RelatorioID}" >
+                                        <Button x:Name="BotaoRelatorioViasAdicionaisCredenciais_ssbt"  Style="{StaticResource MenuStyle}" Margin="0,0,20,0" Height="50" VerticalAlignment="Top"  Width="300"
+                                                       IsEnabled="False" >
                                                 <StackPanel Orientation="Horizontal"  Width="260">
                                                     <Image Source="/iModSCCredenciamento;component/Resources/Contrato.jpg" Height="24" Width="24" Margin="0,0,5,0"/>
-                                                    <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom" Content ="{Binding Relatorios[4].Nome}" Foreground="White" />
+                                                    <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom" Foreground="White" />
                                                 </StackPanel>
                                             </Button>
                                         </StackPanel>
@@ -204,7 +204,7 @@
                                 </StackPanel>
                                 
                             </GroupBox>
-                            <GroupBox      x:Name="Relatorios_gb" Header="Relatórios Futuros " Margin="0,20,0,0" Height="625"  >
+                            <GroupBox      x:Name="Relatorios_gb" Header="Relatórios" Margin="0,20,0,0" Height="625"  >
                                 <ScrollViewer  Margin="0,20,0,0">
                                     <StackPanel x:Name="Botoes_sp">
                                         <StackPanel.Resources >
@@ -223,192 +223,192 @@
 
                                         <StackPanel >
                                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="0,0,0,20" >
-                                                <Button x:Name="Botao5_bt" Style="{StaticResource MenuStyle}" Margin="20,0,20,0" Height="50" VerticalAlignment="Top"  Width="300"
-                                                       Click="Button_Click"  Visibility="{Binding Relatorios[5].Ativo, Converter={StaticResource BooleanToVisibilityConverter}}" Tag="{Binding Relatorios[16].RelatorioID}" >
+                                                <Button x:Name="Botao0_bt" Style="{StaticResource MenuStyle}" Margin="20,0,20,0" Height="50" VerticalAlignment="Top"  Width="300"
+                                                       Click="Button_Click"  Visibility="{Binding Relatorios[0].Ativo, Converter={StaticResource BooleanToVisibilityConverter}}" Tag="{Binding Relatorios[0].RelatorioID}" >
                                                     <StackPanel Orientation="Horizontal" Width="260">
+                                                        <Image Source="/iModSCCredenciamento;component/Resources/Contrato.jpg" Height="24" Width="24" Margin="0,0,5,0"/>
+                                                        <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom" Content ="{Binding Relatorios[0].Nome}" Foreground="White" />
+                                                    </StackPanel>
+                                                </Button>
+                                                <Button x:Name="Botao1_bt"  Style="{StaticResource MenuStyle}" Margin="0,0,20,0" Height="50" VerticalAlignment="Top"  Width="300" 
+                                                        Click="Button_Click"  Visibility="{Binding Relatorios[1].Ativo, Converter={StaticResource BooleanToVisibilityConverter}}" Tag="{Binding Relatorios[1].RelatorioID}" >
+                                                    <StackPanel Orientation="Horizontal"  Width="260">
+                                                        <Image Source="/iModSCCredenciamento;component/Resources/Contrato.jpg" Height="24" Width="24" Margin="0,0,5,0"/>
+                                                        <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom" Content ="{Binding Relatorios[1].Nome}" Foreground="White" />
+                                                    </StackPanel>
+                                                </Button>
+                                                <Button x:Name="Botao2_bt"  Style="{StaticResource MenuStyle}" Margin="0,0,20,0" Height="50" VerticalAlignment="Top"  Width="300" 
+                                                             Click="Button_Click"  Visibility="{Binding Relatorios[2].Ativo, Converter={StaticResource BooleanToVisibilityConverter}}" Tag="{Binding Relatorios[2].RelatorioID}" >
+                                                    <StackPanel Orientation="Horizontal"  Width="260">
+                                                        <Image Source="/iModSCCredenciamento;component/Resources/Contrato.jpg" Height="24" Width="24" Margin="0,0,5,0"/>
+                                                        <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom" Content ="{Binding Relatorios[2].Nome}" Foreground="White" />
+                                                    </StackPanel>
+                                                </Button>
+                                                <Button x:Name="Botao3_bt"  Style="{StaticResource MenuStyle}" Margin="0,0,20,0" Height="50" VerticalAlignment="Top"  Width="300" 
+                                                        Click="Button_Click"  Visibility="{Binding Relatorios[3].Ativo, Converter={StaticResource BooleanToVisibilityConverter}}" Tag="{Binding Relatorios[3].RelatorioID}" >
+                                                    <StackPanel Orientation="Horizontal"  Width="260">
+                                                        <Image Source="/iModSCCredenciamento;component/Resources/Contrato.jpg" Height="24" Width="24" Margin="0,0,5,0"/>
+                                                        <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom" Content ="{Binding Relatorios[3].Nome}" Foreground="White" />
+                                                    </StackPanel>
+                                                </Button>
+                                            </StackPanel>
+                                        </StackPanel>
+                                        <StackPanel >
+                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="0,0,0,20" >
+                                                <Button x:Name="Botao4_bt" Style="{StaticResource MenuStyle}" Margin="20,0,20,0" Height="50" VerticalAlignment="Top"  Width="300"
+                                                        Click="Button_Click"  Visibility="{Binding Relatorios[4].Ativo, Converter={StaticResource BooleanToVisibilityConverter}}" Tag="{Binding Relatorios[4].RelatorioID}" >
+                                                    <StackPanel Orientation="Horizontal" Width="260">
+                                                        <Image Source="/iModSCCredenciamento;component/Resources/Contrato.jpg" Height="24" Width="24" Margin="0,0,5,0"/>
+                                                        <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom" Content ="{Binding Relatorios[4].Nome}" Foreground="White" />
+                                                    </StackPanel>
+                                                </Button>
+                                                <Button x:Name="Botao5_bt"  Style="{StaticResource MenuStyle}" Margin="0,0,20,0" Height="50" VerticalAlignment="Top"  Width="300" 
+                                                        Click="Button_Click"  Visibility="{Binding Relatorios[5].Ativo, Converter={StaticResource BooleanToVisibilityConverter}}" Tag="{Binding Relatorios[5].RelatorioID}" >
+                                                    <StackPanel Orientation="Horizontal"  Width="260">
                                                         <Image Source="/iModSCCredenciamento;component/Resources/Contrato.jpg" Height="24" Width="24" Margin="0,0,5,0"/>
                                                         <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom" Content ="{Binding Relatorios[5].Nome}" Foreground="White" />
                                                     </StackPanel>
                                                 </Button>
-                                                <Button x:Name="Botao6_bt"  Style="{StaticResource MenuStyle}" Margin="0,0,20,0" Height="50" VerticalAlignment="Top"  Width="300" 
-                                                        Click="Button_Click"  Visibility="{Binding Relatorios[6].Ativo, Converter={StaticResource BooleanToVisibilityConverter}}" Tag="{Binding Relatorios[17].RelatorioID}" >
+                                                <Button x:Name="Botao6_bt"  Style="{StaticResource MenuStyle}" Margin="0,0,20,0" Height="50" VerticalAlignment="Top"  Width="300"
+                                                        Click="Button_Click"  Visibility="{Binding Relatorios[6].Ativo, Converter={StaticResource BooleanToVisibilityConverter}}" Tag="{Binding Relatorios[6].RelatorioID}" >
                                                     <StackPanel Orientation="Horizontal"  Width="260">
                                                         <Image Source="/iModSCCredenciamento;component/Resources/Contrato.jpg" Height="24" Width="24" Margin="0,0,5,0"/>
                                                         <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom" Content ="{Binding Relatorios[6].Nome}" Foreground="White" />
                                                     </StackPanel>
                                                 </Button>
                                                 <Button x:Name="Botao7_bt"  Style="{StaticResource MenuStyle}" Margin="0,0,20,0" Height="50" VerticalAlignment="Top"  Width="300" 
-                                                             Click="Button_Click"  Visibility="{Binding Relatorios[7].Ativo, Converter={StaticResource BooleanToVisibilityConverter}}" Tag="{Binding Relatorios[18].RelatorioID}" >
+                                                        Click="Button_Click"  Visibility="{Binding Relatorios[7].Ativo, Converter={StaticResource BooleanToVisibilityConverter}}" Tag="{Binding Relatorios[7].RelatorioID}" >
                                                     <StackPanel Orientation="Horizontal"  Width="260">
                                                         <Image Source="/iModSCCredenciamento;component/Resources/Contrato.jpg" Height="24" Width="24" Margin="0,0,5,0"/>
                                                         <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom" Content ="{Binding Relatorios[7].Nome}" Foreground="White" />
-                                                    </StackPanel>
-                                                </Button>
-                                                <Button x:Name="Botao8_bt"  Style="{StaticResource MenuStyle}" Margin="0,0,20,0" Height="50" VerticalAlignment="Top"  Width="300" 
-                                                        Click="Button_Click"  Visibility="{Binding Relatorios[8].Ativo, Converter={StaticResource BooleanToVisibilityConverter}}" Tag="{Binding Relatorios[19].RelatorioID}" >
-                                                    <StackPanel Orientation="Horizontal"  Width="260">
-                                                        <Image Source="/iModSCCredenciamento;component/Resources/Contrato.jpg" Height="24" Width="24" Margin="0,0,5,0"/>
-                                                        <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom" Content ="{Binding Relatorios[8].Nome}" Foreground="White" />
                                                     </StackPanel>
                                                 </Button>
                                             </StackPanel>
                                         </StackPanel>
                                         <StackPanel >
                                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="0,0,0,20" >
-                                                <Button x:Name="Botao9_bt" Style="{StaticResource MenuStyle}" Margin="20,0,20,0" Height="50" VerticalAlignment="Top"  Width="300"
-                                                        Click="Button_Click"  Visibility="{Binding Relatorios[9].Ativo, Converter={StaticResource BooleanToVisibilityConverter}}" Tag="{Binding Relatorios[20].RelatorioID}" >
+                                                <Button x:Name="Botao8_bt" Style="{StaticResource MenuStyle}" Margin="20,0,20,0" Height="50" VerticalAlignment="Top"  Width="300" 
+                                                       Click="Button_Click"  Visibility="{Binding Relatorios[8].Ativo, Converter={StaticResource BooleanToVisibilityConverter}}" Tag="{Binding Relatorios[8].RelatorioID}" >
                                                     <StackPanel Orientation="Horizontal" Width="260">
+                                                        <Image Source="/iModSCCredenciamento;component/Resources/Contrato.jpg" Height="24" Width="24" Margin="0,0,5,0"/>
+                                                        <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom" Content ="{Binding Relatorios[8].Nome}" Foreground="White" />
+                                                    </StackPanel>
+                                                </Button>
+                                                <Button x:Name="Botao9_bt"  Style="{StaticResource MenuStyle}" Margin="0,0,20,0" Height="50" VerticalAlignment="Top"  Width="300" 
+                                                        Click="Button_Click"  Visibility="{Binding Relatorios[9].Ativo, Converter={StaticResource BooleanToVisibilityConverter}}" Tag="{Binding Relatorios[9].RelatorioID}" >
+                                                    <StackPanel Orientation="Horizontal"  Width="260">
                                                         <Image Source="/iModSCCredenciamento;component/Resources/Contrato.jpg" Height="24" Width="24" Margin="0,0,5,0"/>
                                                         <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom" Content ="{Binding Relatorios[9].Nome}" Foreground="White" />
                                                     </StackPanel>
                                                 </Button>
                                                 <Button x:Name="Botao10_bt"  Style="{StaticResource MenuStyle}" Margin="0,0,20,0" Height="50" VerticalAlignment="Top"  Width="300" 
-                                                        Click="Button_Click"  Visibility="{Binding Relatorios[10].Ativo, Converter={StaticResource BooleanToVisibilityConverter}}" Tag="{Binding Relatorios[21].RelatorioID}" >
+                                                       Click="Button_Click"  Visibility="{Binding Relatorios[10].Ativo, Converter={StaticResource BooleanToVisibilityConverter}}" Tag="{Binding Relatorios[10].RelatorioID}" >
                                                     <StackPanel Orientation="Horizontal"  Width="260">
                                                         <Image Source="/iModSCCredenciamento;component/Resources/Contrato.jpg" Height="24" Width="24" Margin="0,0,5,0"/>
                                                         <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom" Content ="{Binding Relatorios[10].Nome}" Foreground="White" />
                                                     </StackPanel>
                                                 </Button>
                                                 <Button x:Name="Botao11_bt"  Style="{StaticResource MenuStyle}" Margin="0,0,20,0" Height="50" VerticalAlignment="Top"  Width="300"
-                                                        Click="Button_Click"  Visibility="{Binding Relatorios[11].Ativo, Converter={StaticResource BooleanToVisibilityConverter}}" Tag="{Binding Relatorios[22].RelatorioID}" >
+                                                        Click="Button_Click"  Visibility="{Binding Relatorios[11].Ativo, Converter={StaticResource BooleanToVisibilityConverter}}" Tag="{Binding Relatorios[11].RelatorioID}" >
                                                     <StackPanel Orientation="Horizontal"  Width="260">
                                                         <Image Source="/iModSCCredenciamento;component/Resources/Contrato.jpg" Height="24" Width="24" Margin="0,0,5,0"/>
                                                         <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom" Content ="{Binding Relatorios[11].Nome}" Foreground="White" />
                                                     </StackPanel>
                                                 </Button>
-                                                <Button x:Name="Botao12_bt"  Style="{StaticResource MenuStyle}" Margin="0,0,20,0" Height="50" VerticalAlignment="Top"  Width="300" 
-                                                        Click="Button_Click"  Visibility="{Binding Relatorios[12].Ativo, Converter={StaticResource BooleanToVisibilityConverter}}" Tag="{Binding Relatorios[23].RelatorioID}" >
-                                                    <StackPanel Orientation="Horizontal"  Width="260">
-                                                        <Image Source="/iModSCCredenciamento;component/Resources/Contrato.jpg" Height="24" Width="24" Margin="0,0,5,0"/>
-                                                        <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom" Content ="{Binding Relatorios[12].Nome}" Foreground="White" />
-                                                    </StackPanel>
-                                                </Button>
                                             </StackPanel>
                                         </StackPanel>
                                         <StackPanel >
                                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="0,0,0,20" >
-                                                <Button x:Name="Botao13_bt" Style="{StaticResource MenuStyle}" Margin="20,0,20,0" Height="50" VerticalAlignment="Top"  Width="300" 
-                                                       Click="Button_Click"  Visibility="{Binding Relatorios[13].Ativo, Converter={StaticResource BooleanToVisibilityConverter}}" Tag="{Binding Relatorios[24].RelatorioID}" >
+                                                <Button x:Name="Botao12_bt" Style="{StaticResource MenuStyle}" Margin="20,0,20,0" Height="50" VerticalAlignment="Top"  Width="300" 
+                                                      Click="Button_Click"  Visibility="{Binding Relatorios[12].Ativo, Converter={StaticResource BooleanToVisibilityConverter}}" Tag="{Binding Relatorios[12].RelatorioID}" >
                                                     <StackPanel Orientation="Horizontal" Width="260">
+                                                        <Image Source="/iModSCCredenciamento;component/Resources/Contrato.jpg" Height="24" Width="24" Margin="0,0,5,0"/>
+                                                        <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom" Content ="{Binding Relatorios[12].Nome}" Foreground="White" />
+                                                    </StackPanel>
+                                                </Button>
+                                                <Button x:Name="Botao13_bt"  Style="{StaticResource MenuStyle}" Margin="0,0,20,0" Height="50" VerticalAlignment="Top"  Width="300"
+                                                        Click="Button_Click"  Visibility="{Binding Relatorios[13].Ativo, Converter={StaticResource BooleanToVisibilityConverter}}" Tag="{Binding Relatorios[13].RelatorioID}" >
+                                                    <StackPanel Orientation="Horizontal"  Width="260">
                                                         <Image Source="/iModSCCredenciamento;component/Resources/Contrato.jpg" Height="24" Width="24" Margin="0,0,5,0"/>
                                                         <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom" Content ="{Binding Relatorios[13].Nome}" Foreground="White" />
                                                     </StackPanel>
                                                 </Button>
-                                                <Button x:Name="Botao14_bt"  Style="{StaticResource MenuStyle}" Margin="0,0,20,0" Height="50" VerticalAlignment="Top"  Width="300" 
-                                                        Click="Button_Click"  Visibility="{Binding Relatorios[14].Ativo, Converter={StaticResource BooleanToVisibilityConverter}}" Tag="{Binding Relatorios[25].RelatorioID}" >
+                                                <Button x:Name="Botao14_bt"  Style="{StaticResource MenuStyle}" Margin="0,0,20,0" Height="50" VerticalAlignment="Top"  Width="300"
+                                                      Click="Button_Click"  Visibility="{Binding Relatorios[14].Ativo, Converter={StaticResource BooleanToVisibilityConverter}}" Tag="{Binding Relatorios[14].RelatorioID}" >
                                                     <StackPanel Orientation="Horizontal"  Width="260">
                                                         <Image Source="/iModSCCredenciamento;component/Resources/Contrato.jpg" Height="24" Width="24" Margin="0,0,5,0"/>
                                                         <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom" Content ="{Binding Relatorios[14].Nome}" Foreground="White" />
                                                     </StackPanel>
                                                 </Button>
-                                                <Button x:Name="Botao15_bt"  Style="{StaticResource MenuStyle}" Margin="0,0,20,0" Height="50" VerticalAlignment="Top"  Width="300" 
-                                                       Click="Button_Click"  Visibility="{Binding Relatorios[15].Ativo, Converter={StaticResource BooleanToVisibilityConverter}}" Tag="{Binding Relatorios[26].RelatorioID}" >
+                                                <Button x:Name="Botao15_bt"  Style="{StaticResource MenuStyle}" Margin="0,0,20,0" Height="50" VerticalAlignment="Top"  Width="300"
+                                                        Click="Button_Click"  Visibility="{Binding Relatorios[15].Ativo, Converter={StaticResource BooleanToVisibilityConverter}}" Tag="{Binding Relatorios[15].RelatorioID}" >
                                                     <StackPanel Orientation="Horizontal"  Width="260">
                                                         <Image Source="/iModSCCredenciamento;component/Resources/Contrato.jpg" Height="24" Width="24" Margin="0,0,5,0"/>
                                                         <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom" Content ="{Binding Relatorios[15].Nome}" Foreground="White" />
-                                                    </StackPanel>
-                                                </Button>
-                                                <Button x:Name="Botao16_bt"  Style="{StaticResource MenuStyle}" Margin="0,0,20,0" Height="50" VerticalAlignment="Top"  Width="300"
-                                                        Click="Button_Click"  Visibility="{Binding Relatorios[16].Ativo, Converter={StaticResource BooleanToVisibilityConverter}}" Tag="{Binding Relatorios[27].RelatorioID}" >
-                                                    <StackPanel Orientation="Horizontal"  Width="260">
-                                                        <Image Source="/iModSCCredenciamento;component/Resources/Contrato.jpg" Height="24" Width="24" Margin="0,0,5,0"/>
-                                                        <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom" Content ="{Binding Relatorios[16].Nome}" Foreground="White" />
                                                     </StackPanel>
                                                 </Button>
                                             </StackPanel>
                                         </StackPanel>
                                         <StackPanel >
                                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="0,0,0,20" >
-                                                <Button x:Name="Botao17_bt" Style="{StaticResource MenuStyle}" Margin="20,0,20,0" Height="50" VerticalAlignment="Top"  Width="300" 
-                                                      Click="Button_Click"  Visibility="{Binding Relatorios[17].Ativo, Converter={StaticResource BooleanToVisibilityConverter}}" Tag="{Binding Relatorios[28].RelatorioID}" >
+                                                <Button x:Name="Botao16_bt" Style="{StaticResource MenuStyle}" Margin="20,0,20,0" Height="50" VerticalAlignment="Top"  Width="300" 
+                                                        Click="Button_Click"  Visibility="{Binding Relatorios[16].Ativo, Converter={StaticResource BooleanToVisibilityConverter}}" Tag="{Binding Relatorios[16].RelatorioID}" >
                                                     <StackPanel Orientation="Horizontal" Width="260">
+                                                        <Image Source="/iModSCCredenciamento;component/Resources/Contrato.jpg" Height="24" Width="24" Margin="0,0,5,0"/>
+                                                        <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom" Content ="{Binding Relatorios[16].Nome}" Foreground="White" />
+                                                    </StackPanel>
+                                                </Button>
+                                                <Button x:Name="Botao17_bt"  Style="{StaticResource MenuStyle}" Margin="0,0,20,0" Height="50" VerticalAlignment="Top"  Width="300" 
+                                                        Click="Button_Click"  Visibility="{Binding Relatorios[17].Ativo, Converter={StaticResource BooleanToVisibilityConverter}}" Tag="{Binding Relatorios[17].RelatorioID}" >
+                                                    <StackPanel Orientation="Horizontal"  Width="260">
                                                         <Image Source="/iModSCCredenciamento;component/Resources/Contrato.jpg" Height="24" Width="24" Margin="0,0,5,0"/>
                                                         <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom" Content ="{Binding Relatorios[17].Nome}" Foreground="White" />
                                                     </StackPanel>
                                                 </Button>
                                                 <Button x:Name="Botao18_bt"  Style="{StaticResource MenuStyle}" Margin="0,0,20,0" Height="50" VerticalAlignment="Top"  Width="300"
-                                                        Click="Button_Click"  Visibility="{Binding Relatorios[18].Ativo, Converter={StaticResource BooleanToVisibilityConverter}}" Tag="{Binding Relatorios[29].RelatorioID}" >
+                                                       Click="Button_Click"  Visibility="{Binding Relatorios[18].Ativo, Converter={StaticResource BooleanToVisibilityConverter}}" Tag="{Binding Relatorios[18].RelatorioID}" >
                                                     <StackPanel Orientation="Horizontal"  Width="260">
                                                         <Image Source="/iModSCCredenciamento;component/Resources/Contrato.jpg" Height="24" Width="24" Margin="0,0,5,0"/>
                                                         <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom" Content ="{Binding Relatorios[18].Nome}" Foreground="White" />
                                                     </StackPanel>
                                                 </Button>
                                                 <Button x:Name="Botao19_bt"  Style="{StaticResource MenuStyle}" Margin="0,0,20,0" Height="50" VerticalAlignment="Top"  Width="300"
-                                                      Click="Button_Click"  Visibility="{Binding Relatorios[19].Ativo, Converter={StaticResource BooleanToVisibilityConverter}}" Tag="{Binding Relatorios[30].RelatorioID}" >
+                                                        Click="Button_Click"  Visibility="{Binding Relatorios[19].Ativo, Converter={StaticResource BooleanToVisibilityConverter}}" Tag="{Binding Relatorios[19].RelatorioID}" >
                                                     <StackPanel Orientation="Horizontal"  Width="260">
                                                         <Image Source="/iModSCCredenciamento;component/Resources/Contrato.jpg" Height="24" Width="24" Margin="0,0,5,0"/>
                                                         <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom" Content ="{Binding Relatorios[19].Nome}" Foreground="White" />
-                                                    </StackPanel>
-                                                </Button>
-                                                <Button x:Name="Botao20_bt"  Style="{StaticResource MenuStyle}" Margin="0,0,20,0" Height="50" VerticalAlignment="Top"  Width="300"
-                                                        Click="Button_Click"  Visibility="{Binding Relatorios[20].Ativo, Converter={StaticResource BooleanToVisibilityConverter}}" Tag="{Binding Relatorios[31].RelatorioID}" >
-                                                    <StackPanel Orientation="Horizontal"  Width="260">
-                                                        <Image Source="/iModSCCredenciamento;component/Resources/Contrato.jpg" Height="24" Width="24" Margin="0,0,5,0"/>
-                                                        <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom" Content ="{Binding Relatorios[20].Nome}" Foreground="White" />
                                                     </StackPanel>
                                                 </Button>
                                             </StackPanel>
                                         </StackPanel>
                                         <StackPanel >
                                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="0,0,0,20" >
-                                                <Button x:Name="Botao21_bt" Style="{StaticResource MenuStyle}" Margin="20,0,20,0" Height="50" VerticalAlignment="Top"  Width="300" 
-                                                        Click="Button_Click"  Visibility="{Binding Relatorios[21].Ativo, Converter={StaticResource BooleanToVisibilityConverter}}" Tag="{Binding Relatorios[32].RelatorioID}" >
+                                                <Button x:Name="Botao20_bt" Style="{StaticResource MenuStyle}" Margin="20,0,20,0" Height="50" VerticalAlignment="Top"  Width="300" 
+                                                        Click="Button_Click"  Visibility="{Binding Relatorios[20].Ativo, Converter={StaticResource BooleanToVisibilityConverter}}" Tag="{Binding Relatorios[20].RelatorioID}" >
                                                     <StackPanel Orientation="Horizontal" Width="260">
+                                                        <Image Source="/iModSCCredenciamento;component/Resources/Contrato.jpg" Height="24" Width="24" Margin="0,0,5,0"/>
+                                                        <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom" Content ="{Binding Relatorios[20].Nome}" Foreground="White" />
+                                                    </StackPanel>
+                                                </Button>
+                                                <Button x:Name="Botao21_bt"  Style="{StaticResource MenuStyle}" Margin="0,0,20,0" Height="50" VerticalAlignment="Top"  Width="300" 
+                                                       Click="Button_Click"  Visibility="{Binding Relatorios[21].Ativo, Converter={StaticResource BooleanToVisibilityConverter}}" Tag="{Binding Relatorios[21].RelatorioID}" >
+                                                    <StackPanel Orientation="Horizontal"  Width="260">
                                                         <Image Source="/iModSCCredenciamento;component/Resources/Contrato.jpg" Height="24" Width="24" Margin="0,0,5,0"/>
                                                         <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom" Content ="{Binding Relatorios[21].Nome}" Foreground="White" />
                                                     </StackPanel>
                                                 </Button>
-                                                <Button x:Name="Botao22_bt"  Style="{StaticResource MenuStyle}" Margin="0,0,20,0" Height="50" VerticalAlignment="Top"  Width="300" 
-                                                        Click="Button_Click"  Visibility="{Binding Relatorios[22].Ativo, Converter={StaticResource BooleanToVisibilityConverter}}" Tag="{Binding Relatorios[33].RelatorioID}" >
+                                                <Button x:Name="Botao22_bt"  Style="{StaticResource MenuStyle}" Margin="0,0,20,0" Height="50" VerticalAlignment="Top"  Width="300"
+                                                        Click="Button_Click"  Visibility="{Binding Relatorios[22].Ativo, Converter={StaticResource BooleanToVisibilityConverter}}" Tag="{Binding Relatorios[22].RelatorioID}" >
                                                     <StackPanel Orientation="Horizontal"  Width="260">
                                                         <Image Source="/iModSCCredenciamento;component/Resources/Contrato.jpg" Height="24" Width="24" Margin="0,0,5,0"/>
                                                         <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom" Content ="{Binding Relatorios[22].Nome}" Foreground="White" />
                                                     </StackPanel>
                                                 </Button>
                                                 <Button x:Name="Botao23_bt"  Style="{StaticResource MenuStyle}" Margin="0,0,20,0" Height="50" VerticalAlignment="Top"  Width="300"
-                                                       Click="Button_Click"  Visibility="{Binding Relatorios[23].Ativo, Converter={StaticResource BooleanToVisibilityConverter}}" Tag="{Binding Relatorios[34].RelatorioID}" >
+                                                       Click="Button_Click"  Visibility="{Binding Relatorios[23].Ativo, Converter={StaticResource BooleanToVisibilityConverter}}" Tag="{Binding Relatorios[23].RelatorioID}" >
                                                     <StackPanel Orientation="Horizontal"  Width="260">
                                                         <Image Source="/iModSCCredenciamento;component/Resources/Contrato.jpg" Height="24" Width="24" Margin="0,0,5,0"/>
                                                         <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom" Content ="{Binding Relatorios[23].Nome}" Foreground="White" />
-                                                    </StackPanel>
-                                                </Button>
-                                                <Button x:Name="Botao24_bt"  Style="{StaticResource MenuStyle}" Margin="0,0,20,0" Height="50" VerticalAlignment="Top"  Width="300"
-                                                        Click="Button_Click"  Visibility="{Binding Relatorios[24].Ativo, Converter={StaticResource BooleanToVisibilityConverter}}" Tag="{Binding Relatorios[35].RelatorioID}" >
-                                                    <StackPanel Orientation="Horizontal"  Width="260">
-                                                        <Image Source="/iModSCCredenciamento;component/Resources/Contrato.jpg" Height="24" Width="24" Margin="0,0,5,0"/>
-                                                        <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom" Content ="{Binding Relatorios[24].Nome}" Foreground="White" />
-                                                    </StackPanel>
-                                                </Button>
-                                            </StackPanel>
-                                        </StackPanel>
-                                        <StackPanel >
-                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="0,0,0,20" >
-                                                <Button x:Name="Botao25_bt" Style="{StaticResource MenuStyle}" Margin="20,0,20,0" Height="50" VerticalAlignment="Top"  Width="300" 
-                                                        Click="Button_Click"  Visibility="{Binding Relatorios[25].Ativo, Converter={StaticResource BooleanToVisibilityConverter}}" Tag="{Binding Relatorios[36].RelatorioID}" >
-                                                    <StackPanel Orientation="Horizontal" Width="260">
-                                                        <Image Source="/iModSCCredenciamento;component/Resources/Contrato.jpg" Height="24" Width="24" Margin="0,0,5,0"/>
-                                                        <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom" Content ="{Binding Relatorios[25].Nome}" Foreground="White" />
-                                                    </StackPanel>
-                                                </Button>
-                                                <Button x:Name="Botao26_bt"  Style="{StaticResource MenuStyle}" Margin="0,0,20,0" Height="50" VerticalAlignment="Top"  Width="300" 
-                                                       Click="Button_Click"  Visibility="{Binding Relatorios[26].Ativo, Converter={StaticResource BooleanToVisibilityConverter}}" Tag="{Binding Relatorios[37].RelatorioID}" >
-                                                    <StackPanel Orientation="Horizontal"  Width="260">
-                                                        <Image Source="/iModSCCredenciamento;component/Resources/Contrato.jpg" Height="24" Width="24" Margin="0,0,5,0"/>
-                                                        <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom" Content ="{Binding Relatorios[26].Nome}" Foreground="White" />
-                                                    </StackPanel>
-                                                </Button>
-                                                <Button x:Name="Botao27_bt"  Style="{StaticResource MenuStyle}" Margin="0,0,20,0" Height="50" VerticalAlignment="Top"  Width="300"
-                                                        Click="Button_Click"  Visibility="{Binding Relatorios[27].Ativo, Converter={StaticResource BooleanToVisibilityConverter}}" Tag="{Binding Relatorios[38].RelatorioID}" >
-                                                    <StackPanel Orientation="Horizontal"  Width="260">
-                                                        <Image Source="/iModSCCredenciamento;component/Resources/Contrato.jpg" Height="24" Width="24" Margin="0,0,5,0"/>
-                                                        <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom" Content ="{Binding Relatorios[27].Nome}" Foreground="White" />
-                                                    </StackPanel>
-                                                </Button>
-                                                <Button x:Name="Botao28_bt"  Style="{StaticResource MenuStyle}" Margin="0,0,20,0" Height="50" VerticalAlignment="Top"  Width="300"
-                                                       Click="Button_Click"  Visibility="{Binding Relatorios[28].Ativo, Converter={StaticResource BooleanToVisibilityConverter}}" Tag="{Binding Relatorios[39].RelatorioID}" >
-                                                    <StackPanel Orientation="Horizontal"  Width="260">
-                                                        <Image Source="/iModSCCredenciamento;component/Resources/Contrato.jpg" Height="24" Width="24" Margin="0,0,5,0"/>
-                                                        <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom" Content ="{Binding Relatorios[28].Nome}" Foreground="White" />
                                                     </StackPanel>
                                                 </Button>
                                             </StackPanel>
