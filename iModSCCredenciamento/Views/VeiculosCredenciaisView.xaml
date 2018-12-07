@@ -135,7 +135,7 @@
                                 <GroupBox   x:Name="Vinculo_gb"  Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}"  Header="Informações do Vínculo" Grid.Column="0" Margin="10,18,8,0" VerticalAlignment="Stretch" Width="792" >
                                     <StackPanel x:Name="Vinculo_sp" Margin="0,10,10,0">
                                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,10" >
-                                            <Label Content="Vínculo Empregatício (Contrato):" Height="28" Width="237" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                                            <Label Content="Vínculo (Contrato):" Height="28" Width="237" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
                                             <ComboBox  x:Name="EmpresaVinculo_cb"  Width="500" VerticalContentAlignment="Center" HorizontalContentAlignment="Left"
                                               ItemsSource="{Binding VeiculosEmpresas}" SelectedValue="{Binding SelectedItem.VeiculoEmpresaID, ElementName=ListaVeiculosCredenciais_lv,
                                             UpdateSourceTrigger=PropertyChanged}" SelectedValuePath="VeiculoEmpresaID"   SelectionChanged="{data:MethodBinding  CarregaColeçãoEmpresasLayoutsCrachas,
@@ -157,11 +157,11 @@
                                         </StackPanel>
                                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="61,10,0,5" Width="681">
 
-                                            <wpf:ToggleSwitch x:Name="Ativa_tw"  HeaderHorizontalAlignment="Stretch" Width="187" HorizontalAlignment="Right"
+                                            <!--<wpf:ToggleSwitch x:Name="Ativa_tw"  HeaderHorizontalAlignment="Stretch" Width="187" HorizontalAlignment="Right"
                                                          SwitchContentPlacement="Right"  Content="Credencial Ativa:" CheckedText="Sim" UncheckedText="Não" IsHitTestVisible="False"
                                                          IsChecked="{Binding SelectedItem.Ativa, ElementName=ListaVeiculosCredenciais_lv, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                                              Foreground="#FFD0D0BE" UncheckedBackground="Maroon" UncheckedBorderBrush="Maroon" UncheckedForeground="#FFAEAEAE"/>
-                                            <Label Content="Status:" Height="28" Width="63" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                                                              Foreground="#FFD0D0BE" UncheckedBackground="Maroon" UncheckedBorderBrush="Maroon" UncheckedForeground="#FFAEAEAE"/>-->
+                                            <Label Content="Status:" Height="28" Width="178" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
                                             <ComboBox  x:Name="StatusCredencial_tb" Width="130" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" 
                                               ItemsSource="{Binding CredenciaisStatus, Mode=TwoWay}"  SelectedValue="{Binding SelectedItem.CredencialStatusID,
                                                 ElementName=ListaVeiculosCredenciais_lv, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedValuePath="CredencialStatusID" Height="28"
@@ -181,7 +181,7 @@
                                                     </DataTemplate>
                                                 </ComboBox.ItemTemplate>-->
                                             </ComboBox>
-                                            <Label Content="Motivo:" Height="28" Width="59" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                                            <Label Content="Motivo:" Height="28" Width="133" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
                                             <ComboBox  x:Name="Motivo_tb" Width="231" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" 
                                               ItemsSource="{Binding CredenciaisMotivos, Mode=TwoWay}"  SelectedValue="{Binding SelectedItem.CredencialMotivoID,
                                                 ElementName=ListaVeiculosCredenciais_lv, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedValuePath="CredencialMotivoID" Height="28"
@@ -191,26 +191,33 @@
                                         </StackPanel>
                                     </StackPanel>
                                 </GroupBox>
-                                <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}"    x:Name="Impressao_gb" Header="Impressão" Grid.Column="0" Margin="10,18,8,0" VerticalAlignment="Stretch" Width="449" >
+                                <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}"    x:Name="Impressao_gb" Header="Impressão" Grid.Column="0" Margin="10,10,8,0" VerticalAlignment="Stretch" Width="449" >
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
                                         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
                                             <Button x:Name="ImprimirCredencial_bt" Height="30" Width="150" Content="Imprimir"  Click="ImprimirCredencial_bt_Click">
                                                 <!--<Button.IsEnabled>
                                                     <MultiBinding Converter="{StaticResource Check}" ConverterParameter="Imprimir">
-                                                        <Binding ElementName="ListaVeiculosCredenciais_lv" Path="SelectedItem.Validade"/>
-                                                        <Binding ElementName="ListaVeiculosCredenciais_lv" Path="SelectedItem.CredencialStatusDescricao"/>
-                                                        <Binding ElementName="ListaVeiculosCredenciais_lv" Path="SelectedItem.LayoutCrachaID"/>
-                                                        <Binding ElementName="ListaVeiculosCredenciais_lv" Path="SelectedItem.FormatoCredencialID"/>
-                                                        <Binding ElementName="ListaVeiculosCredenciais_lv" Path="SelectedItem.NumeroCredencial"/>
+                                                        <Binding ElementName="ListaColaboradoresCredenciais_lv" Path="SelectedItem.Validade"/>
+                                                        <Binding ElementName="ListaColaboradoresCredenciais_lv" Path="SelectedItem.CredencialStatusDescricao"/>
+                                                        <Binding ElementName="ListaColaboradoresCredenciais_lv" Path="SelectedItem.LayoutCrachaID"/>
+                                                        <Binding ElementName="ListaColaboradoresCredenciais_lv" Path="SelectedItem.FormatoCredencialID"/>
+                                                        <Binding ElementName="ListaColaboradoresCredenciais_lv" Path="SelectedItem.NumeroCredencial"/>
                                                         <Binding ElementName="StatusCredencial_tb" Path="SelectedItem.Descricao"/>
-                                                        <Binding ElementName="ListaVeiculosCredenciais_lv" Path="SelectedItem.Ativa"/>
+                                                        <Binding ElementName="ListaColaboradoresCredenciais_lv" Path="SelectedItem.Ativa"/>
                                                         <Binding Path=""/>
                                                     </MultiBinding>
                                                 </Button.IsEnabled>-->
                                             </Button>
                                         </StackPanel>
                                         <StackPanel Margin="20" Width="48"  Height="48">
-                                            <Image  Source="{Binding SelectedItem.Impressa, ConverterParameter=Impressa, Converter={StaticResource ConvertBoolToImage}, ElementName=ListaVeiculosCredenciais_lv, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Width="48" Height="48"   >
+                                            <Image   Width="48" Height="48"   >
+                                                <Image.Source>
+                                                    <MultiBinding Converter="{StaticResource Check}" ConverterParameter="Impressa">
+                                                        <Binding ElementName="ListaColaboradoresCredenciais_lv" Path="SelectedItem.Impressa"/>
+                                                        <Binding ElementName="ListaColaboradoresCredenciais_lv" Path="SelectedItem.CredencialStatusID"/>
+                                                        <Binding Path=""/>
+                                                    </MultiBinding>
+                                                </Image.Source>
                                             </Image>
                                         </StackPanel>
                                     </StackPanel>

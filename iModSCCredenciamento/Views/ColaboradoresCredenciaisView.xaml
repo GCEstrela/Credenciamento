@@ -135,7 +135,7 @@
                                 <GroupBox   x:Name="Vinculo_gb"  Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}"  Header="Informações do Vínculo" Grid.Column="0" Margin="10,10,8,0" VerticalAlignment="Stretch" Width="792" >
                                     <StackPanel x:Name="Vinculo_sp" Margin="0,10,10,0">
                                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,10" >
-                                            <Label Content="Vínculo Empregatício (Contrato):" Height="28" Width="237" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                                            <Label Content="Vínculo  (Contrato):" Height="28" Width="237" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
                                             <ComboBox  x:Name="EmpresaVinculo_cb"  Width="500" VerticalContentAlignment="Center" HorizontalContentAlignment="Left"
                                               ItemsSource="{Binding ColaboradoresEmpresas}" SelectedValue="{Binding SelectedItem.ColaboradorEmpresaID, ElementName=ListaColaboradoresCredenciais_lv,
                                             UpdateSourceTrigger=PropertyChanged}" SelectedValuePath="ColaboradorEmpresaID"   SelectionChanged="{data:MethodBinding  CarregaColeçãoEmpresasLayoutsCrachas,
