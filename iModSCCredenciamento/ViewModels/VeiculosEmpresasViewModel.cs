@@ -305,35 +305,7 @@ namespace iModSCCredenciamento.ViewModels
 
         }
 
-        public void OnBuscarArquivoCommand()
-        {
-            try
-            {
-                //System.Windows.Forms.OpenFileDialog _arquivoPDF = new System.Windows.Forms.OpenFileDialog();
-                //string _sql;
-                //string _nomecompletodoarquivo;
-                //string _arquivoSTR;
-                //_arquivoPDF.InitialDirectory = "c:\\\\";
-                //_arquivoPDF.Filter = "Imagem files (*.pdf)|*.pdf|All Files (*.*)|*.*";
-                //_arquivoPDF.RestoreDirectory = true;
-                //_arquivoPDF.ShowDialog();
-                ////if (_arquivoPDF.ShowDialog()) //System.Windows.Forms.DialogResult.Yes
-                ////{
-                //_nomecompletodoarquivo = _arquivoPDF.SafeFileName;
-                //_arquivoSTR = Conversores.PDFtoString(_arquivoPDF.FileName);
-                //_VeiculoEmpresaTemp.Cargo = _nomecompletodoarquivo;
-                //_VeiculoEmpresaTemp.Arquivo = _arquivoSTR;
-                ////InsereArquivoBD(Convert.ToInt32(empresaID), _nomecompletodoarquivo, _arquivoSTR);
-
-                ////AtualizaListaAnexos(_resp);
-
-                ////}
-            }
-            catch (Exception ex)
-            {
-
-            }
-        }
+       
 
         public void OnEditarCommand()
         {

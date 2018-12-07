@@ -1110,6 +1110,82 @@ namespace IMOD.CrossCutting
             return attribute == null ? value.ToString() : attribute.Description;
         }
 
+        /// <summary>
+        /// Formatar Moeda
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public static string FormatarMoeda(this string str)
+        {
+            try
+            {
+                var num = decimal.Parse(str);
+                if (string.IsNullOrWhiteSpace(str.RetirarCaracteresEspeciais()))
+                {
+                    return "";
+                }
+
+                var currency = Convert.ToDecimal(str);
+                return string.Format("{0:N}", currency);
+            }
+            catch (Exception)
+            {
+                return "0";
+            }
+
+        }
+        /// <summary>
+        /// Permitir apenas números
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        public static bool ENumero(string text)
+        {
+            var regex = new Regex("[^0-9]+"); //regex that matches disallowed text
+            return !regex.IsMatch(text);
+        }
+
+        /// <summary>
+        /// Formatar string para CNPJ
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public static string FormatarCnpj(this string str)
+        {
+            if (string.IsNullOrWhiteSpace(str))
+            {
+                return "";
+            }
+
+            var str2 = str.RetirarCaracteresEspeciais();
+            if (string.IsNullOrWhiteSpace(str2))
+            {
+                return "";
+            }
+
+            return Convert.ToUInt64(str2).ToString(@"00\.000\.000\/0000\-00");
+        }
+        /// <summary>
+        /// Formatar string para CNPJ
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public static string FormatarCpf(this string str)
+        {
+            if (string.IsNullOrWhiteSpace(str))
+            {
+                return "";
+            }
+
+            var str2 = str.RetirarCaracteresEspeciais();
+            if (string.IsNullOrWhiteSpace(str2))
+            {
+                return "";
+            }
+
+            return Convert.ToUInt64(str2).ToString(@"000\.000\.000\-00");
+        }
+
         #endregion
     }
 }

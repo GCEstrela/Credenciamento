@@ -9,8 +9,10 @@ using System.Data.SqlClient;
 using System.Threading;
 using System.Xml;
 using AutoMapper;
+using iModSCCredenciamento.Helpers;
 using IMOD.Application.Interfaces;
 using IMOD.Application.Service;
+using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
 
 namespace iModSCCredenciamento.ViewModels
@@ -159,30 +161,21 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                System.Windows.Forms.OpenFileDialog _arquivoPDF = new System.Windows.Forms.OpenFileDialog();
-                string _sql;
-                string _nomecompletodoarquivo;
-                string _arquivoSTR;
-                _arquivoPDF.InitialDirectory = "c:\\\\";
-                _arquivoPDF.Filter = "(*.pdf)|*.pdf|All Files (*.*)|*.*";
-                _arquivoPDF.RestoreDirectory = true;
-                _arquivoPDF.ShowDialog();
-
-                _nomecompletodoarquivo = _arquivoPDF.SafeFileName;
-                _arquivoSTR = Conversores.PDFtoString(_arquivoPDF.FileName);
-                _anexoTemp.NomeAnexo = _nomecompletodoarquivo;
-                _anexoTemp.Anexo = _arquivoSTR;
-
+                var filtro = "Imagem files (*.pdf)|*.pdf|All Files (*.*)|*.*";
+                var arq = WpfHelp.UpLoadArquivoDialog(filtro, 700);
+                if (arq == null) return;
+                _anexoTemp.NomeAnexo = arq.Nome;
+                _anexoTemp.Anexo = arq.FormatoBase64;
                 if (Anexos != null)
-                {
-                    Anexos[0].NomeAnexo = _nomecompletodoarquivo;
-                }
+                    Anexos[0].NomeAnexo = arq.Nome;
 
             }
             catch (Exception ex)
             {
-
+                WpfHelp.Mbox(ex.Message);
+                Utils.TraceException(ex);
             }
+            
         }
 
         public void OnAbrirArquivoCommand()

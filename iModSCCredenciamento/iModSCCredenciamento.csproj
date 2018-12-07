@@ -131,8 +131,8 @@
     <Compile Include="Funcoes\Check1Converter.cs" />
     <Compile Include="Funcoes\StringToImageConverter.cs" />
     <Compile Include="Funcoes\StringWriterWithEncoding.cs" />
-    <Compile Include="Funcoes\Util.cs" />
     <Compile Include="Funcoes\WebCam.cs" />
+    <Compile Include="Helpers\ArquivoInfo.cs" />
     <Compile Include="Helpers\WpfHelp.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Models\ClasseAreasAcessos.cs" />
