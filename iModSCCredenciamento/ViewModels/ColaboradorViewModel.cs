@@ -282,35 +282,7 @@ namespace iModSCCredenciamento.ViewModels
             //CarregaColecaoSeguros_thr.Start();
             //CarregaColecaoSeguros(Convert.ToInt32(empresaID));
         }
-        public void OnBuscarArquivoCommand()
-        {
-            try
-            {
-                System.Windows.Forms.OpenFileDialog _arquivoPDF = new System.Windows.Forms.OpenFileDialog();
-                string _sql;
-                string _nomecompletodoarquivo;
-                string _arquivoSTR;
-                _arquivoPDF.InitialDirectory = "c:\\\\";
-                _arquivoPDF.Filter = "Imagem files (*.pdf)|*.pdf|All Files (*.*)|*.*";
-                _arquivoPDF.RestoreDirectory = true;
-                _arquivoPDF.ShowDialog();
-                //if (_arquivoPDF.ShowDialog()) //System.Windows.Forms.DialogResult.Yes
-                //{
-                _nomecompletodoarquivo = _arquivoPDF.SafeFileName;
-                _arquivoSTR = Conversores.PDFtoString(_arquivoPDF.FileName);
-                //_seguroTemp.NomeArquivo = _nomecompletodoarquivo;
-                //_seguroTemp.Arquivo = _arquivoSTR;
-                //InsereArquivoBD(Convert.ToInt32(empresaID), _nomecompletodoarquivo, _arquivoSTR);
-
-                //AtualizaListaAnexos(_resp);
-
-                //}
-            }
-            catch (Exception ex)
-            {
-
-            }
-        }
+        
 
         public void OnEditarCommand()
         {
@@ -898,7 +870,7 @@ namespace iModSCCredenciamento.ViewModels
         public void ValidarEdicao(ClasseColaboradores.Colaborador entity)
         {
             if (string.IsNullOrWhiteSpace(entity.CPF)) throw new InvalidOperationException("Informe CPF");
-            if (!entity.CPF.IsValidCpf()) throw new InvalidOperationException("CPF inválido");
+            if (!Utils.IsValidCpf(entity.CPF)) throw new InvalidOperationException("CPF inválido");
             //if (ConsultarCpf(entity.CPF)) throw new InvalidOperationException("CPF já cadastrado");
 
 

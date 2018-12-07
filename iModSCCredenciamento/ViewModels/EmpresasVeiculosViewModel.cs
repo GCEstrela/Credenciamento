@@ -274,17 +274,6 @@ namespace iModSCCredenciamento.ViewModels
 
         }
 
-        public void OnBuscarArquivoCommand()
-        {
-            try
-            {
-
-            }
-            catch (Exception ex)
-            {
-
-            }
-        }
 
         public void OnEditarCommand()
         {

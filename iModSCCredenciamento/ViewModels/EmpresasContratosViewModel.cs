@@ -1179,29 +1179,21 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                var arquivoPdf = new OpenFileDialog();
-
-                string nomecompletodoarquivo;
-                string arquivoStr;
-                arquivoPdf.InitialDirectory = "c:\\\\";
-                arquivoPdf.Filter = "Imagem files (*.pdf)|*.pdf|All Files (*.*)|*.*";
-                arquivoPdf.RestoreDirectory = true;
-                arquivoPdf.ShowDialog();
-
-                nomecompletodoarquivo = arquivoPdf.SafeFileName;
-                arquivoStr = Conversores.PDFtoString (arquivoPdf.FileName);
-                _contratoTemp.NomeArquivo = nomecompletodoarquivo;
-                _contratoTemp.Arquivo = arquivoStr;
-
+                var filtro = "Imagem files (*.pdf)|*.pdf|All Files (*.*)|*.*";
+                var arq = WpfHelp.UpLoadArquivoDialog(filtro, 700);
+                if (arq == null) return;
+                _contratoTemp.NomeArquivo = arq.Nome;
+                _contratoTemp.Arquivo = arq.FormatoBase64;
                 if (Contratos != null)
-                {
-                    Contratos[0].NomeArquivo = nomecompletodoarquivo;
-                }
+                    Contratos[0].NomeArquivo = arq.Nome;
+
             }
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
+                WpfHelp.Mbox(ex.Message);
+                Utils.TraceException(ex);
             }
+             
         }
 
         public void OnAbrirArquivoCommand()
@@ -1211,7 +1203,7 @@ namespace iModSCCredenciamento.ViewModels
                 var arquivoStr = ContratoSelecionado.Arquivo;
                 var nomeArquivo = ContratoSelecionado.NomeArquivo;
                 var arrBytes = Convert.FromBase64String(arquivoStr);
-                WpfHelp.SalvarArquivoDialog(nomeArquivo, arrBytes); 
+                WpfHelp.DownloadArquivoDialog(nomeArquivo, arrBytes); 
             }
             catch (Exception ex)
             {

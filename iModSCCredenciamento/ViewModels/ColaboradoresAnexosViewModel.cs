@@ -8,12 +8,15 @@ using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Threading;
-using System.Windows.Forms;
+using System.Windows;
+//using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Serialization;
 using IMOD.Application.Interfaces;
 using IMOD.Application.Service;
 using AutoMapper;
+using iModSCCredenciamento.Helpers;
+using IMOD.CrossCutting;
 
 namespace iModSCCredenciamento.ViewModels
 {
@@ -170,91 +173,86 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                System.Windows.Forms.OpenFileDialog _arquivoPDF = new System.Windows.Forms.OpenFileDialog();
-
-                string _nomecompletodoarquivo;
-                string _arquivoSTR;
-                _arquivoPDF.InitialDirectory = "c:\\\\";
-                _arquivoPDF.Filter = "Imagem files (*.pdf)|*.pdf|All Files (*.*)|*.*";
-                _arquivoPDF.RestoreDirectory = true;
-                _arquivoPDF.ShowDialog();
-
-                _nomecompletodoarquivo = _arquivoPDF.SafeFileName;
-
-                long tamanho = new System.IO.FileInfo(_arquivoPDF.FileName).Length;
-                if (tamanho > 200)
-                {
-                    System.Windows.MessageBox.Show("Tamanho ( " + tamanho.ToString() + " ) inválido, só é permitido arquivo com o máximo de 200");
-                    return;
-                }
-
-                _arquivoSTR = Conversores.PDFtoString(_arquivoPDF.FileName);
-
-                _ColaboradorAnexoTemp.NomeArquivo = _nomecompletodoarquivo;
-                _ColaboradorAnexoTemp.Arquivo = _arquivoSTR;
-
+                var filtro = "Imagem files (*.pdf)|*.pdf|All Files (*.*)|*.*";
+                var arq = WpfHelp.UpLoadArquivoDialog(filtro,700);
+                if (arq == null) return;
+                _ColaboradorAnexoTemp.NomeArquivo = arq.Nome;
+                _ColaboradorAnexoTemp.Arquivo = arq.FormatoBase64;
                 if (ColaboradoresAnexos != null)
-                {
-                    ColaboradoresAnexos[0].NomeArquivo = _nomecompletodoarquivo;
-                }
+                    ColaboradoresAnexos[0].NomeArquivo = arq.Nome;
+
             }
             catch (Exception ex)
             {
-
+                WpfHelp.Mbox(ex.Message);
+                Utils.TraceException(ex);
             }
         }
 
         public void OnAbrirArquivoCommand()
         {
+
+
             try
             {
-                try
-                {
-
-                    string _ArquivoPDF = null;
-                    if (_ColaboradorAnexoTemp != null)
-                    {
-                        if (_ColaboradorAnexoTemp.Arquivo != null && _ColaboradorAnexoTemp.ColaboradorAnexoID == ColaboradorAnexoSelecionado.ColaboradorAnexoID)
-                        {
-                            _ArquivoPDF = _ColaboradorAnexoTemp.Arquivo;
-
-                        }
-                    }
-                    if (_ArquivoPDF == null)
-                    {
-                        string _xmlstring = CriaXmlImagem( ColaboradorAnexoSelecionado.ColaboradorAnexoID);
-
-                        XmlDocument xmldocument = new XmlDocument();
-                        xmldocument.LoadXml(_xmlstring);
-                        XmlNode node = (XmlNode)xmldocument.DocumentElement;
-                        XmlNode arquivoNode = node.SelectSingleNode("ArquivosImagens/ArquivoImagem/Arquivo");
-
-                        _ArquivoPDF = arquivoNode.FirstChild.Value;
-                    }
-                    Global.PopupPDF(_ArquivoPDF);
-                    //byte[] buffer = Conversores.StringToPDF(_ArquivoPDF);
-                    //_ArquivoPDF = System.IO.Path.GetTempFileName();
-                    //_ArquivoPDF = System.IO.Path.GetRandomFileName();
-                    //_ArquivoPDF = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\" + _ArquivoPDF;
-
-                    ////File.Move(_caminhoArquivoPDF, Path.ChangeExtension(_caminhoArquivoPDF, ".pdf"));
-                    //_ArquivoPDF = System.IO.Path.ChangeExtension(_ArquivoPDF, ".pdf");
-                    //System.IO.File.WriteAllBytes(_ArquivoPDF, buffer);
-                    ////Action<string> act = new Action<string>(Global.AbrirArquivoPDF);
-                    ////act.BeginInvoke(_ArquivoPDF, null, null);
-                    //Global.PopupPDF(_ArquivoPDF);
-                    //System.IO.File.Delete(_ArquivoPDF);
-                }
-                catch (Exception ex)
-                {
-                    Global.Log("Erro na void OnAbrirArquivoCommand ex: " + ex);
-
-                }
+                var arquivoStr = ColaboradorAnexoSelecionado.Arquivo;
+                var nomeArquivo = ColaboradorAnexoSelecionado.NomeArquivo;
+                var arrBytes = Convert.FromBase64String(arquivoStr);
+                WpfHelp.DownloadArquivoDialog(nomeArquivo, arrBytes);
             }
             catch (Exception ex)
             {
-
+                Utils.TraceException(ex);
             }
+            //try
+            //{
+            //    try
+            //    {
+
+            //        string _ArquivoPDF = null;
+            //        if (_ColaboradorAnexoTemp != null)
+            //        {
+            //            if (_ColaboradorAnexoTemp.Arquivo != null && _ColaboradorAnexoTemp.ColaboradorAnexoID == ColaboradorAnexoSelecionado.ColaboradorAnexoID)
+            //            {
+            //                _ArquivoPDF = _ColaboradorAnexoTemp.Arquivo;
+
+            //            }
+            //        }
+            //        if (_ArquivoPDF == null)
+            //        {
+            //            string _xmlstring = CriaXmlImagem( ColaboradorAnexoSelecionado.ColaboradorAnexoID);
+
+            //            XmlDocument xmldocument = new XmlDocument();
+            //            xmldocument.LoadXml(_xmlstring);
+            //            XmlNode node = (XmlNode)xmldocument.DocumentElement;
+            //            XmlNode arquivoNode = node.SelectSingleNode("ArquivosImagens/ArquivoImagem/Arquivo");
+
+            //            _ArquivoPDF = arquivoNode.FirstChild.Value;
+            //        }
+            //        Global.PopupPDF(_ArquivoPDF);
+            //        //byte[] buffer = Conversores.StringToPDF(_ArquivoPDF);
+            //        //_ArquivoPDF = System.IO.Path.GetTempFileName();
+            //        //_ArquivoPDF = System.IO.Path.GetRandomFileName();
+            //        //_ArquivoPDF = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\" + _ArquivoPDF;
+
+            //        ////File.Move(_caminhoArquivoPDF, Path.ChangeExtension(_caminhoArquivoPDF, ".pdf"));
+            //        //_ArquivoPDF = System.IO.Path.ChangeExtension(_ArquivoPDF, ".pdf");
+            //        //System.IO.File.WriteAllBytes(_ArquivoPDF, buffer);
+            //        ////Action<string> act = new Action<string>(Global.AbrirArquivoPDF);
+            //        ////act.BeginInvoke(_ArquivoPDF, null, null);
+            //        //Global.PopupPDF(_ArquivoPDF);
+            //        //System.IO.File.Delete(_ArquivoPDF);
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        Global.Log("Erro na void OnAbrirArquivoCommand ex: " + ex);
+
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+
+            //}
         }
 
         public void OnEditarCommand()

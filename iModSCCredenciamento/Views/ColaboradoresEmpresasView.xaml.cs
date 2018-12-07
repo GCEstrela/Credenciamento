@@ -70,11 +70,7 @@ namespace iModSCCredenciamento.Views
 
         #endregion
 
-        #region Comando dos Botoes
-        private void BuscarApoliceArquivo_bt_Click(object sender, RoutedEventArgs e)
-        {
-            ((ColaboradoresEmpresasViewModel)this.DataContext).OnBuscarArquivoCommand();
-        }
+        #region Comando dos Botoes 
 
         private void Pesquisar_bt_Click(object sender, RoutedEventArgs e)
         {

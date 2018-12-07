@@ -17,7 +17,9 @@ using System.Windows.Forms;
 using System.Windows.Input;
 using System.Xml;
 using System.Xml.Serialization;
+using iModSCCredenciamento.Helpers;
 using iModSCCredenciamento.Windows;
+using IMOD.CrossCutting;
 
 namespace iModSCCredenciamento.ViewModels
 {
@@ -162,33 +164,21 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                System.Windows.Forms.OpenFileDialog _arquivoPDF = new System.Windows.Forms.OpenFileDialog();
-                string _sql;
-                string _nomecompletodoarquivo;
-                string _arquivoSTR;
-                _arquivoPDF.InitialDirectory = "c:\\\\";
-                _arquivoPDF.Filter = "(*.pdf)|*.pdf|All Files (*.*)|*.*";
-                _arquivoPDF.RestoreDirectory = true;
-                _arquivoPDF.ShowDialog();
-                //if (_arquivoPDF.ShowDialog()) //System.Windows.Forms.DialogResult.Yes
-                //{
-                    _nomecompletodoarquivo = _arquivoPDF.SafeFileName;
-                    _arquivoSTR = Conversores.PDFtoString(_arquivoPDF.FileName);
-                    _seguroTemp.NomeArquivo = _nomecompletodoarquivo;
-                    _seguroTemp.Arquivo = _arquivoSTR;
+                var filtro = "Imagem files (*.pdf)|*.pdf|All Files (*.*)|*.*";
+                var arq = WpfHelp.UpLoadArquivoDialog(filtro, 700);
+                if (arq == null) return;
+                _seguroTemp.NomeArquivo = arq.Nome;
+                _seguroTemp.Arquivo = arq.FormatoBase64;
+                if (_SegurosTemp != null)
+                    _SegurosTemp[0].NomeArquivo = arq.Nome;
 
-                if (Seguros != null)
-                    Seguros[0].NomeArquivo = _nomecompletodoarquivo;
-                //InsereArquivoBD(Convert.ToInt32(empresaID), _nomecompletodoarquivo, _arquivoSTR);
-
-                //AtualizaListaAnexos(_resp);
-
-                //}
             }
             catch (Exception ex)
             {
-
+                WpfHelp.Mbox(ex.Message);
+                Utils.TraceException(ex);
             }
+             
         }
 
         public void OnAbrirArquivoCommand()

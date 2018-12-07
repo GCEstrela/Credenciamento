@@ -17,6 +17,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using iModSCCredenciamento.Helpers;
+using IMOD.CrossCutting;
 using UserControl = System.Windows.Controls.UserControl;
 
 
@@ -31,14 +33,6 @@ namespace iModSCCredenciamento.Views
         {
             InitializeComponent();
             this.DataContext = new EmpresaViewModel();
-            //this.PreviewKeyDown += (ss, ee) =>
-            //{
-            //    if (ee.Key == Key.Escape)
-            //    {
-            //        //System.Windows.Forms.MessageBox.Show(ee.Key.ToString());
-            //        Global._escape = true;
-            //    }
-            //};
         }
 
         #endregion
@@ -48,30 +42,16 @@ namespace iModSCCredenciamento.Views
         {
             try
             {
-
-                Microsoft.Win32.OpenFileDialog openFileDialog = new Microsoft.Win32.OpenFileDialog();
-                openFileDialog.Multiselect = false;
-                openFileDialog.Filter = "Images (*.BMP;*.JPG;*.GIF,*.PNG,*.TIFF)|*.BMP;*.JPG;*.GIF;*.PNG;*.TIFF|" + "All files (*.*)|*.*";
-
-                openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
-                if (openFileDialog.ShowDialog() == true)
-                {
-                    BitmapImage _img = new BitmapImage(new Uri(openFileDialog.FileName));
-
-                    string _imgstr = Conversores.IMGtoSTR(_img);
-                    Logo_im.Source = _img;
-                    ((ClasseEmpresas.Empresa)ListaEmpresas_lv.SelectedItem).Logo = _imgstr; //Conversores.IMGtoSTR(new BitmapImage(new Uri(arquivoLogo.FileName)));
-                    //ListaEmpresas_lv.Items.Refresh();
-
-                    //BindingExpression be = BindingOperations.GetBindingExpression(Logo_im, Image.SourceProperty);
-                    //be.UpdateTarget();
-                    //_imgstr = null;
-                }
-
+                var filtro = "Images (*.BMP;*.JPG;*.GIF,*.PNG,*.TIFF)|*.BMP;*.JPG;*.GIF;*.PNG;*.TIFF|" + "All files (*.*)|*.*";
+                var arq = WpfHelp.UpLoadArquivoDialog (filtro);
+                if (arq == null) return;
+                ((ClasseEmpresas.Empresa) ListaEmpresas_lv.SelectedItem).Logo = arq.FormatoBase64;
+                 BindingExpression be = BindingOperations.GetBindingExpression(Logo_im, Image.SourceProperty);
+                 be.UpdateTarget();
             }
             catch (Exception ex)
             {
-
+                    Utils.TraceException(ex);
             }
         }
 
@@ -118,9 +98,7 @@ namespace iModSCCredenciamento.Views
         private void ExecutarPesquisa_bt_Click(object sender, RoutedEventArgs e)
         {
             Botoes_Principais_sp.Visibility = Visibility.Visible;
-            //Criterios_tb.Text = PesquisaCodigo_tb.Text + (char)(20) + PesquisaNome_tb.Text + (char)(20) + PesquisaCNPJ_tb.Text;
             Botoes_Principais_sp.Visibility = Visibility.Hidden;
-            //((EmpresaViewModel)this.DataContext).ExecutarPesquisaCommand();
         }
 
         private void CancelarPesquisa_bt_Click(object sender, RoutedEventArgs e)
@@ -146,20 +124,7 @@ namespace iModSCCredenciamento.Views
         }
 
         private void SalvarEdicao_bt_Click(object sender, RoutedEventArgs e)
-        {
-
-            //if (CNPJ_tb.Text.Length == 0)
-            //{
-            //    Global.PopupBox("Insira o CNPJ!", 4);
-            //    CNPJ_tb.Focus();
-            //    return;
-            //}
-            //if (Nome_tb.Text.Length == 0)
-            //{
-            //    Global.PopupBox("Insira a Razão Social!", 4);
-            //    Nome_tb.Focus();
-            //    return;
-            //}
+        { 
             try
             {
                 Check();
@@ -171,10 +136,6 @@ namespace iModSCCredenciamento.Views
                 {
                     if (((EmpresaViewModel)this.DataContext).ConsultaCNPJ(CNPJ_tb.Text))
                     {
-                        //if (System.Windows.Forms.MessageBox.Show("CNPJ já cadastrado, confirma alteração do registro?", "Informação", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
-                        //{
-                        //    return;
-                        //}
                         if (Global.PopupBox("CNPJ já cadastrado, impossível alteração!", 4))
                         {
                             return;
@@ -183,10 +144,6 @@ namespace iModSCCredenciamento.Views
                     }
                 }
                 Botoes_Principais_sp.Visibility = Visibility.Visible;
-                //////Optional - first test if the DataContext is not a MyViewModel
-                ////if (!(DataContext is EmpresaViewModel)) return;
-                //////Optional - check the CanExecute
-                ////if (!((EmpresaViewModel)this.DataContext).Botao5Command.CanExecute(null)) return;
                 //Execute the command
                 ((EmpresaViewModel)this.DataContext).OnSalvarEdicaoCommand();
                 Botoes_Editar_sp.Visibility = Visibility.Hidden;
@@ -254,9 +211,8 @@ namespace iModSCCredenciamento.Views
         {
             var cnpjAnterior = Global._cnpjEdicao.RetirarCaracteresEspeciais();
             var cnpjAtual = CNPJ_tb.Text.RetirarCaracteresEspeciais();
-            if (!cnpjAtual.IsValidCnpj()) { throw new InvalidOperationException("CNPJ inválido!"); }
-
-            //if (string.IsNullOrWhiteSpace(cnpjAnterior)) //Então a operação é de adição, logo verificar se ha CNPJ apenas no ação de salvar...
+            if (!Utils.IsValidCnpj(cnpjAtual)) { throw new InvalidOperationException("CNPJ inválido!"); }
+            
             if (cnpjAnterior == "00.000.000/0000-00") //Então a operação é de adição, logo verificar se ha CNPJ apenas no ação de salvar...
             {
                 var c1 = ((EmpresaViewModel)this.DataContext).ConsultaCNPJ(cnpjAtual);
@@ -270,6 +226,7 @@ namespace iModSCCredenciamento.Views
                 if (c1) throw new InvalidOperationException("CNPJ já cadastrado, impossível Edição!");
             }
         }
+
         private void OnConsultarCnpj_LostFocus(object sender, RoutedEventArgs e)
         {
             try
@@ -280,58 +237,13 @@ namespace iModSCCredenciamento.Views
             }
             catch (Exception ex)
             {
-
                 Global.PopupBox(ex.Message, 4);
             }
 
 
 
         }
-        //private void SalvarAdicao_bt_Click(object sender, RoutedEventArgs e)
-        //{
-        //    //if (CNPJ_tb.Text.Length == 0)
-        //    //{
-        //    //    Global.PopupBox("Insira o CNPJ!", 4);
-        //    //    CNPJ_tb.Focus();
-        //    //    return;
-        //    //}
-        //    //if (Nome_tb.Text.Length == 0)
-        //    //{
-        //    //    Global.PopupBox("Insira a Razão Social!", 4);
-        //    //    Nome_tb.Focus();
-        //    //    return;
-        //    //}
-
-
-        //    if (!Global.PopupBox("Tem certeza que deseja salvar?", 2))
-        //    {
-        //        return;
-        //    }
-
-        //    if (((EmpresaViewModel)this.DataContext).ConsultaCNPJ(CNPJ_tb.Text))
-        //    {
-        //        //if (System.Windows.Forms.MessageBox.Show("CNPJ já cadastrado, confirma alteração do registro?", "Informação", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
-        //        //{
-        //        //    return;
-        //        //}
-        //        if (Global.PopupBox("CNPJ já cadastrado, impossível inclusão!", 4))
-        //        {
-        //            return;
-        //        }
-
-        //    }
-        //    Botoes_Principais_sp.Visibility = Visibility.Visible;
-        //    ((EmpresaViewModel)this.DataContext).OnSalvarAdicaoCommand();
-        //    Botoes_Adicionar_sp.Visibility = Visibility.Hidden;
-        //    Geral_sp.IsHitTestVisible = false;
-
-        //    Signatarios_ti.Visibility = Visibility.Visible;
-        //    Contrato_ti.Visibility = Visibility.Visible;
-        //    Anexos_ti.Visibility = Visibility.Visible;
-        //    Caracteristicas_gb.Visibility = Visibility.Visible;
-        //    Geral_bt.Visibility = Visibility.Visible;
-        //}
-
+       
         private void IncluirAtividade_bt_Click(object sender, RoutedEventArgs e)
         {
             if (TipoAtividade_cb.Text != "" & TipoAtividade_cb.Text != "N/D")
@@ -348,19 +260,6 @@ namespace iModSCCredenciamento.Views
         private void ExcluirAtividade_bt_Click(object sender, RoutedEventArgs e)
         {
             ((EmpresaViewModel)this.DataContext).OnExcluirAtividadeCommand();
-        }
-
-        private void IncluirAcesso_bt_Click(object sender, RoutedEventArgs e)
-        {
-            //if (AreaAcesso_cb.Text != "" & AreaAcesso_cb.Text != "N/D")
-            //{
-
-            //    ((EmpresaViewModel)this.DataContext).OnInserirAcessoCommand(AreaAcesso_cb.SelectedItem);
-            //    //((EmpresaViewModel)this.DataContext).OnInserirAcessoCommand(AreaAcesso_cb.SelectedValue.ToString(), AreaAcesso_cb.Text);
-            //    //AreaAcesso_cb.SelectedIndex = 0;
-            //    AreaAcesso_cb.Text = "";
-            //}
-
         }
 
         private void ExcluirAcesso_bt_Click(object sender, RoutedEventArgs e)
@@ -407,35 +306,6 @@ namespace iModSCCredenciamento.Views
 
         #endregion
 
-
-
-        private void CNPJ_tb_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
-        {
-            CNPJ_tb.Text = CNPJ_tb.Text.FormatarCnpj();
-
-            Global.CheckField(sender, true, "", "CNPJ");
-            if (Global._cnpjEdicao == null)
-            {
-                return;
-            }
-            if (Global._cnpjEdicao.ToString() != CNPJ_tb.Text.ToString().Trim())
-            {
-                if (Global._cnpjEdicao.Length != 0)
-                {
-                    _cnpjVerificar = true;
-                }
-                else
-                {
-                    _cnpjVerificar = false;
-                }
-
-            }
-            else
-            {
-                _cnpjVerificar = false;
-            }
-        }
-
         private void ListaEmpresas_lv_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (ListaEmpresas_lv.SelectedIndex == -1)
@@ -476,45 +346,10 @@ namespace iModSCCredenciamento.Views
             }
         }
 
-        private void CNPJ_tb_LostFocus(object sender, RoutedEventArgs e)
-        {
-
-
-        }
-
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             //((EmpresaViewModel)this.DataContext).CarregaColecoesIniciais();
         }
-
-        private void Estado_cb_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
-
-
-
-
-        //private void CNPJ_tb_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
-        //{
-        //    if (Global._cnpjEdicao.ToString() != CNPJ_tb.Text.ToString().Trim())
-        //    {
-        //        if (Global._cnpjEdicao.Length != 0)
-        //        {
-        //            _cnpjVerificar = true;
-        //        }
-        //        else
-        //        {
-        //            _cnpjVerificar = false;
-        //        }
-
-        //    }
-        //    else
-        //    {
-        //        _cnpjVerificar = false;
-        //    }
-        //}
     }
 
 }

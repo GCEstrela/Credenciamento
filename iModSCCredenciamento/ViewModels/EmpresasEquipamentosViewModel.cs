@@ -14,6 +14,8 @@ using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Serialization;
 using System.Threading;
+using iModSCCredenciamento.Helpers;
+using IMOD.CrossCutting;
 
 namespace iModSCCredenciamento.ViewModels
 {
@@ -218,37 +220,7 @@ namespace iModSCCredenciamento.ViewModels
             CarregaColecaoEquipamentos_thr.Start();
             //CarregaColecaoEquipamentos(Convert.ToInt32(empresaID));
         }
-
-        public void OnBuscarArquivoCommand()
-        {
-            try
-            {
-                System.Windows.Forms.OpenFileDialog _arquivoPDF = new System.Windows.Forms.OpenFileDialog();
-                string _sql;
-                string _nomecompletodoarquivo;
-                string _arquivoSTR;
-                _arquivoPDF.InitialDirectory = "c:\\\\";
-                _arquivoPDF.Filter = "Imagem files (*.pdf)|*.pdf|All Files (*.*)|*.*";
-                _arquivoPDF.RestoreDirectory = true;
-                _arquivoPDF.ShowDialog();
-                //if (_arquivoPDF.ShowDialog()) //System.Windows.Forms.DialogResult.Yes
-                //{
-                _nomecompletodoarquivo = _arquivoPDF.SafeFileName;
-                _arquivoSTR = Conversores.PDFtoString(_arquivoPDF.FileName);
-                //_EmpresaEquipamentoTemp.NomeArquivo = _nomecompletodoarquivo;
-                //_EmpresaEquipamentoTemp.Arquivo = _arquivoSTR;
-
-                //InsereArquivoBD(Convert.ToInt32(empresaID), _nomecompletodoarquivo, _arquivoSTR);
-
-                //AtualizaListaAnexos(_resp);
-
-                //}
-            }
-            catch (Exception ex)
-            {
-
-            }
-        }
+         
 
         public void OnAbrirArquivoCommand()
         {
@@ -1234,11 +1206,7 @@ namespace iModSCCredenciamento.ViewModels
         #endregion
 
         #region Metodos privados
-
-        public void NumberOnly(object sender, System.Windows.Input.TextCompositionEventArgs e)
-        {
-            e.Handled = !Utils.IsTextAllowed(e.Text);
-        }
+         
 
         #endregion
     }

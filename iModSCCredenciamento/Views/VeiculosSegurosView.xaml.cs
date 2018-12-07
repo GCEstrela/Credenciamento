@@ -16,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using IMOD.CrossCutting;
 using UserControl = System.Windows.Controls.UserControl;
 
 namespace iModSCCredenciamento.Views
@@ -215,7 +216,7 @@ namespace iModSCCredenciamento.Views
 
         private void FormatCurrency(object sender, RoutedEventArgs e)
         {
-            ValorCobertura_tb.Text = ValorCobertura_tb.Text.FormatCurrency();
+            ValorCobertura_tb.Text = ValorCobertura_tb.Text.FormatarMoeda();
         }
 
     }
