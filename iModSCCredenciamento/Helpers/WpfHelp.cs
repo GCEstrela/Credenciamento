@@ -8,14 +8,13 @@
 
 using System;
 using System.IO;
-using System.Windows.Forms;
-using System.Xml;
 using CrystalDecisions.CrystalReports.Engine;
 using CrystalDecisions.Shared;
-using iModSCCredenciamento.Funcoes;
 using iModSCCredenciamento.Windows;
 using System.Threading.Tasks;
-using Utils = IMOD.CrossCutting.Utils;
+using System.Windows.Forms;
+using IMOD.CrossCutting;
+using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 
 #endregion
 
@@ -34,7 +33,7 @@ namespace iModSCCredenciamento.Helpers
         /// <param name="msg">Mensagem</param>
         public static void Mbox(string msg)
         {
-            Mbox (msg, MessageBoxIcon.Information);
+            Mbox(msg, MessageBoxIcon.Information);
         }
 
         /// <summary>
@@ -46,8 +45,8 @@ namespace iModSCCredenciamento.Helpers
             var innerMsg = "";
             if (ex.InnerException != null)
                 innerMsg = ex.InnerException.Message;
-            var detalhe = string.IsNullOrWhiteSpace (innerMsg) ? string.Empty : $"\nDetalhe: {innerMsg}";
-            Mbox ("Um erro ocorreu.\nRazão: " + ex.Message + detalhe, MessageBoxIcon.Error);
+            var detalhe = string.IsNullOrWhiteSpace(innerMsg) ? string.Empty : $"\nDetalhe: {innerMsg}";
+            Mbox("Um erro ocorreu.\nRazão: " + ex.Message + detalhe, MessageBoxIcon.Error);
         }
 
         /// <summary>
@@ -60,8 +59,8 @@ namespace iModSCCredenciamento.Helpers
             var innerMsg = "";
             if (ex.InnerException != null)
                 innerMsg = ex.InnerException.Message;
-            var detalhe = string.IsNullOrWhiteSpace (innerMsg) ? string.Empty : $"\nDetalhe: {innerMsg}";
-            Mbox (msg + "\nRazão: " + ex.Message + detalhe, MessageBoxIcon.Error);
+            var detalhe = string.IsNullOrWhiteSpace(innerMsg) ? string.Empty : $"\nDetalhe: {innerMsg}";
+            Mbox(msg + "\nRazão: " + ex.Message + detalhe, MessageBoxIcon.Error);
         }
 
         /// <summary>
@@ -71,7 +70,7 @@ namespace iModSCCredenciamento.Helpers
         /// <param name="pIcon">Um icone para apresentacao</param>
         public static void Mbox(string msg, MessageBoxIcon pIcon)
         {
-            MessageBox.Show (msg, Caption (pIcon), MessageBoxButtons.OK, pIcon, MessageBoxDefaultButton.Button1);
+            MessageBox.Show(msg, Caption(pIcon), MessageBoxButtons.OK, pIcon, MessageBoxDefaultButton.Button1);
         }
 
         /// <summary>
@@ -105,7 +104,7 @@ namespace iModSCCredenciamento.Helpers
         /// <returns></returns>
         public static bool PopupBox(string msg, int icone)
         {
-            var popupBox = new PopupBox (msg, icone);
+            var popupBox = new PopupBox(msg, icone);
             popupBox.ShowDialog();
             return popupBox.Result;
         }
@@ -122,12 +121,12 @@ namespace iModSCCredenciamento.Helpers
             var openFileDialog = new OpenFileDialog();
             openFileDialog.Multiselect = false;
             openFileDialog.Filter = filtro;
-            openFileDialog.InitialDirectory = Environment.GetFolderPath (Environment.SpecialFolder.MyDocuments);
+            openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             var result = openFileDialog.ShowDialog();
             if (result != true) return null;
 
             var path = openFileDialog.FileName;
-            var tam = new FileInfo (path).Length;
+            var tam = new FileInfo(path).Length;
             var arq = new ArquivoInfo
             {
                 Nome = openFileDialog.SafeFileName
@@ -135,14 +134,14 @@ namespace iModSCCredenciamento.Helpers
 
             if (tamMax == 0)
             {
-                arq.ArrayBytes = File.ReadAllBytes (path);
-                arq.FormatoBase64 = Convert.ToBase64String (arq.ArrayBytes);
+                arq.ArrayBytes = File.ReadAllBytes(path);
+                arq.FormatoBase64 = Convert.ToBase64String(arq.ArrayBytes);
                 return arq;
             }
-               
+
 
             if (tamMax < tam)
-                throw new Exception ($"{tamMax} Kbytes é o tamanho máximo permitido para upload.");
+                throw new Exception($"{tamMax} Kbytes é o tamanho máximo permitido para upload.");
 
             arq.ArrayBytes = File.ReadAllBytes(path);
             arq.FormatoBase64 = Convert.ToBase64String(arq.ArrayBytes);
