@@ -353,7 +353,7 @@
                 </TabItem.Header>
                 <ScrollViewer Grid.Row="0"   VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" >
                     <Grid >
-                        <local:VeiculosEmpresasView VeiculoSelecionadoIDView="{Binding SelectedItem.VeiculoID, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"
+                        <local:VeiculosEmpresasView VeiculoSelecionadoIDView="{Binding SelectedItem.EquipamentoVeiculoID, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"
                                                        Editando="{Binding IsEnabled, ElementName=ListaVeiculos_sp, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="3" Margin="0,0,0,10"  />
                     </Grid>
                 </ScrollViewer>
@@ -375,7 +375,7 @@
                 </TabItem.Header>
                 <ScrollViewer Grid.Row="0"   VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" >
                     <Grid >
-                        <local:VeiculosSegurosView VeiculoSelecionadaIDView="{Binding SelectedItem.VeiculoID, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"
+                        <local:VeiculosSegurosView VeiculoSelecionadaIDView="{Binding SelectedItem.EquipamentoVeiculoID, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"
                                                     Editando="{Binding IsEnabled, ElementName=ListaVeiculos_sp, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="3" Margin="0,0,0,10" />
                     </Grid>
                 </ScrollViewer>
@@ -400,7 +400,7 @@
                             <ColumnDefinition Width="665*"/>
                             <ColumnDefinition Width="333*"/>
                         </Grid.ColumnDefinitions>
-                        <local:VeiculosAnexosView VeiculoSelecionadoIDView="{Binding SelectedItem.VeiculoID, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"
+                        <local:VeiculosAnexosView VeiculoSelecionadoIDView="{Binding SelectedItem.EquipamentoVeiculoID, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"
                                                     Editando="{Binding IsEnabled, ElementName=ListaVeiculos_sp, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="2" Margin="0,0,0,10" />
                     </Grid>
                 </ScrollViewer>
@@ -427,7 +427,7 @@
                             <ColumnDefinition Width="480*"/>
                             <ColumnDefinition Width="480*"/>
                         </Grid.ColumnDefinitions>
-                        <local:VeiculosCredenciaisView VeiculoSelecionadoIDView="{Binding SelectedItem.VeiculoID, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"
+                        <local:VeiculosCredenciaisView VeiculoSelecionadoIDView="{Binding SelectedItem.EquipamentoVeiculoID, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"
                                                     Editando="{Binding IsEnabled, ElementName=ListaVeiculos_sp, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="4" Margin="0,0,0,10" />
                     </Grid>
                 </ScrollViewer>

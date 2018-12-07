@@ -49,7 +49,7 @@ namespace iModSCCredenciamento.ViewModels
 
             CarregaColecaoVeiculosPrivilegios();
 
-             CarregaColecaoVeiculosCredenciais(VeiculoSelecionadaID);
+             CarregaColecaoVeiculosCredenciais();
         }
         #endregion
 
@@ -770,19 +770,19 @@ namespace iModSCCredenciamento.ViewModels
 
                 if (Global.PopupBox("Tem certeza que deseja excluir?", 2))
                 {
-                    if (Global.PopupBox("Você perderá todos os dados, inclusive histórico. Confirma exclusão?", 2))
-                    {
-                        if (SCManager.ExcluirCredencial(VeiculoCredencialSelecionado.CredencialGuid))
-                        {
-                            ExcluiVeiculoCredencialBD(VeiculoCredencialSelecionado.VeiculoCredencialID);
-                            VeiculosCredenciais.Remove(VeiculoCredencialSelecionado);
-                        }
-                        else
-                        {
-                            Global.PopupBox("Não foi possível excluir esta credencial. Verifique no Gerenciador de Credenciais do Controle de Acesso.", 4);
-                        }
+                    //if (Global.PopupBox("Você perderá todos os dados, inclusive histórico. Confirma exclusão?", 2))
+                    //{
+                    //    if (SCManager.ExcluirCredencial(VeiculoCredencialSelecionado.CredencialGuid))
+                    //    {
+                    //        ExcluiVeiculoCredencialBD(VeiculoCredencialSelecionado.VeiculoCredencialID);
+                    //        VeiculosCredenciais.Remove(VeiculoCredencialSelecionado);
+                    //    }
+                    //    else
+                    //    {
+                    //        Global.PopupBox("Não foi possível excluir esta credencial. Verifique no Gerenciador de Credenciais do Controle de Acesso.", 4);
+                    //    }
 
-                    }
+                    //}
                 }
 
             }
@@ -842,28 +842,46 @@ namespace iModSCCredenciamento.ViewModels
         #endregion
 
         #region Carregamento das Colecoes
-        private void CarregaColecaoVeiculosCredenciais(int _veiculoID, string _empresaNome = "", int _status = 0, string _validade = "")
+        private void CarregaColecaoVeiculosCredenciais(int veiculoID = 0, string empresaNome = "", int status = 0, string _validade = "")
         {
-            //try
-            //{
-            //    string _xml = RequisitaVeiculosCredenciais(_veiculoID, _empresaNome, _status, _validade);
+            try
+            {
+                //string _xml = RequisitaVeiculosCredenciais(veiculoID, empresaNome, status, _validade);
 
-            //    XmlSerializer deserializer = new XmlSerializer(typeof(ClasseVeiculosCredenciais));
+                //XmlSerializer deserializer = new XmlSerializer(typeof(ClasseVeiculosCredenciais));
 
-            //    XmlDocument xmldocument = new XmlDocument();
-            //    xmldocument.LoadXml(_xml);
+                //XmlDocument xmldocument = new XmlDocument();
+                //xmldocument.LoadXml(_xml);
 
-            //    TextReader reader = new StringReader(_xml);
-            //    ClasseVeiculosCredenciais classeVeiculosCredenciais = new ClasseVeiculosCredenciais();
-            //    classeVeiculosCredenciais = (ClasseVeiculosCredenciais)deserializer.Deserialize(reader);
-            //    VeiculosCredenciais = new ObservableCollection<ClasseVeiculosCredenciais.VeiculoCredencial>();
-            //    VeiculosCredenciais = classeVeiculosCredenciais.VeiculosCredenciais;
-            //    SelectedIndex = -1;
-            //}
-            //catch (Exception ex)
-            //{
-            //    //Global.Log("Erro void CarregaColecaoEmpresas ex: " + ex.Message);
-            //}
+                //TextReader reader = new StringReader(_xml);
+                //ClasseVeiculosCredenciais classeVeiculosCredenciais = new ClasseVeiculosCredenciais();
+                //classeVeiculosCredenciais = (ClasseVeiculosCredenciais)deserializer.Deserialize(reader);
+                //VeiculosCredenciais = new ObservableCollection<ClasseVeiculosCredenciais.VeiculoCredencial>();
+                //VeiculosCredenciais = classeVeiculosCredenciais.VeiculosCredenciais;
+                //SelectedIndex = -1;
+
+                ////////////////////////////////////////
+
+                var service = new IMOD.Application.Service.VeiculoCredencialService();
+                if (!string.IsNullOrWhiteSpace(empresaNome)) empresaNome = $"%{empresaNome}%";
+                //if (!int.IsNullOrWhiteSpace(status)) status = $"%{status}%";
+                //if (!string.IsNullOrWhiteSpace(_validade)) _validade = $"%{_validade}%";
+                var list1 = service.Listar(veiculoID, 0, empresaNome, status, _validade);
+
+                var list2 = Mapper.Map<List<ClasseVeiculosCredenciais.VeiculoCredencial>>(list1);
+
+                var observer = new ObservableCollection<ClasseVeiculosCredenciais.VeiculoCredencial>();
+                list2.ForEach(n =>
+                {
+                    observer.Add(n);
+                });
+
+                this.VeiculosCredenciais = observer;
+            }
+            catch (Exception ex)
+            {
+                //Global.Log("Erro void CarregaColecaoEmpresas ex: " + ex.Message);
+            }
         }
         private void CarregaColecaoVeiculosPrivilegios()
         {
@@ -1175,7 +1193,7 @@ namespace iModSCCredenciamento.ViewModels
 
         }
 
-       
+
         #endregion
 
 
@@ -1338,272 +1356,272 @@ namespace iModSCCredenciamento.ViewModels
 
         //}
 
-        //private string RequisitaVeiculosCredenciais(int _veiculosID, string _empresaNome = "", int _status = 0, string _validade = "")//Possibilidade de criar a pesquisa por Matriculatambem
-        //{
-        //    try
-        //    {
-        //        XmlDocument _xmlDocument = new XmlDocument();
-        //        XmlNode _xmlNode = _xmlDocument.CreateXmlDeclaration("1.0", "UTF-8", null);
+        private string RequisitaVeiculosCredenciais(int _veiculosID, string _empresaNome = "", int _status = 0, string _validade = "")//Possibilidade de criar a pesquisa por Matriculatambem
+        {
+            try
+            {
+                XmlDocument _xmlDocument = new XmlDocument();
+                XmlNode _xmlNode = _xmlDocument.CreateXmlDeclaration("1.0", "UTF-8", null);
 
-        //        XmlNode _ClasseVeiculosCredenciais = _xmlDocument.CreateElement("ClasseVeiculosCredenciais");
-        //        _xmlDocument.AppendChild(_ClasseVeiculosCredenciais);
+                XmlNode _ClasseVeiculosCredenciais = _xmlDocument.CreateElement("ClasseVeiculosCredenciais");
+                _xmlDocument.AppendChild(_ClasseVeiculosCredenciais);
 
-        //        XmlNode _VeiculosCredenciais = _xmlDocument.CreateElement("VeiculosCredenciais");
-        //        _ClasseVeiculosCredenciais.AppendChild(_VeiculosCredenciais);
+                XmlNode _VeiculosCredenciais = _xmlDocument.CreateElement("VeiculosCredenciais");
+                _ClasseVeiculosCredenciais.AppendChild(_VeiculosCredenciais);
 
-        //        string _strSql;
-        //        string _statusSTR = "";
+                string _strSql;
+                string _statusSTR = "";
 
-        //        SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
+                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
 
-        //        _empresaNome = _empresaNome == "" ? "" : " AND Nome like '%" + _empresaNome + "%' ";
-        //        _statusSTR = _status == 0 ? "" : " AND CredencialStatusID = " + _status + "' ";
-        //        _validade = _validade == "" ? "" : " AND _validade like '%" + _validade + "%'";
-
-
-        //        _strSql = "SELECT dbo.LayoutsCrachas.Nome AS LayoutCrachaNome, dbo.FormatosCredenciais.Descricao AS FormatoCredencialDescricao, dbo.VeiculosCredenciais.NumeroCredencial, " +
-        //            "dbo.VeiculosCredenciais.FC, dbo.VeiculosCredenciais.Emissao, dbo.VeiculosCredenciais.Impressa, dbo.VeiculosCredenciais.Validade, dbo.VeiculosCredenciais.Baixa, " +
-        //            "dbo.VeiculosCredenciais.Ativa, dbo.VeiculosCredenciais.Colete, dbo.VeiculosCredenciais.CredencialmotivoID, dbo.VeiculosCredenciais.CredencialStatusID, " +
-        //            "dbo.VeiculosCredenciais.VeiculoEmpresaID, dbo.VeiculosCredenciais.TipoCredencialID, dbo.VeiculosCredenciais.TecnologiaCredencialID, dbo.VeiculosCredenciais.FormatoCredencialID, " +
-        //            "dbo.VeiculosCredenciais.LayoutCrachaID, dbo.VeiculosCredenciais.VeiculoCredencialID, dbo.Veiculos.Descricao AS VeiculoNome, dbo.Empresas.Nome AS EmpresaNome, " +
-        //            "dbo.EmpresasContratos.Descricao AS ContratoDescricao, dbo.VeiculosEmpresas.EmpresaID, dbo.VeiculosEmpresas.VeiculoID, dbo.VeiculosCredenciais.CardHolderGUID, " +
-        //            "dbo.VeiculosCredenciais.CredencialGUID, dbo.Veiculos.Foto AS VeiculoFoto, dbo.Veiculos.Placa_Identificador, dbo.LayoutsCrachas.LayoutCrachaGUID, dbo.FormatosCredenciais.FormatIDGUID, " +
-        //            "dbo.VeiculosCredenciais.VeiculoPrivilegio1ID, dbo.VeiculosCredenciais.VeiculoPrivilegio2ID, dbo.Empresas.Logo AS EmpresaLogo, dbo.Empresas.CNPJ, dbo.Empresas.Sigla AS EmpresaSigla, " +
-        //            "dbo.Empresas.Apelido AS EmpresaApelido FROM dbo.Empresas INNER JOIN dbo.VeiculosEmpresas ON dbo.Empresas.EmpresaID = dbo.VeiculosEmpresas.EmpresaID INNER JOIN dbo.EmpresasContratos " +
-        //            "ON dbo.VeiculosEmpresas.EmpresaContratoID = dbo.EmpresasContratos.EmpresaContratoID INNER JOIN dbo.VeiculosCredenciais INNER JOIN dbo.FormatosCredenciais ON " +
-        //            "dbo.VeiculosCredenciais.FormatoCredencialID = dbo.FormatosCredenciais.FormatoCredencialID ON dbo.VeiculosEmpresas.VeiculoEmpresaID = dbo.VeiculosCredenciais.VeiculoEmpresaID INNER JOIN " +
-        //            "dbo.Veiculos ON dbo.VeiculosEmpresas.VeiculoID = dbo.Veiculos.VeiculoID LEFT OUTER JOIN dbo.LayoutsCrachas ON dbo.VeiculosCredenciais.LayoutCrachaID = dbo.LayoutsCrachas.LayoutCrachaID " +
-        //            "WHERE dbo.VeiculosEmpresas.VeiculoID =" + _veiculosID + _statusSTR + _empresaNome + _validade +
-        //            " ORDER BY dbo.VeiculosCredenciais.VeiculoCredencialID DESC";
-
-        //        //_strSql = "SELECT dbo.LayoutsCrachas.Nome AS LayoutCrachaNome, dbo.FormatosCredenciais.Descricao AS FormatoCredencialDescricao, dbo.Empresas.Nome AS EmpresaNome, " +
-        //        //    " dbo.EmpresasContratos.Descricao AS ContratoDescricao, dbo.Empresas.Logo AS EmpresaLogo, dbo.Empresas.Sigla AS EmpresaSigla, dbo.Empresas.Apelido AS EmpresaApelido, " +
-        //        //    " dbo.LayoutsCrachas.LayoutCrachaGUID, dbo.Empresas.CNPJ, dbo.FormatosCredenciais.FormatIDGUID dbo.Empresas INNER JOIN" +
-        //        //    " dbo.VeiculosEmpresas ON dbo.Empresas.EmpresaID = dbo.VeiculosEmpresas.EmpresaID INNER JOIN dbo.EmpresasContratos ON " +
-        //        //    " dbo.VeiculosEmpresas.EmpresaContratoID = dbo.EmpresasContratos.EmpresaContratoID INNER JOIN dbo.VeiculosCredenciais INNER JOIN" +
-        //        //    " dbo.FormatosCredenciais ON dbo.VeiculosCredenciais.FormatoCredencialID = dbo.FormatosCredenciais.FormatoCredencialID ON" +
-        //        //    " dbo.VeiculosEmpresas.VeiculoEmpresaID = dbo.VeiculosCredenciais.VeiculoEmpresaID INNER JOIN dbo.Veiculos ON dbo.VeiculosEmpresas.VeiculoID = " +
-        //        //    " dbo.Veiculos.VeiculoID LEFT OUTER JOIN dbo.LayoutsCrachas ON dbo.VeiculosCredenciais.LayoutCrachaID = dbo.LayoutsCrachas.LayoutCrachaID " +
-        //        //    " WHERE dbo.VeiculosEmpresas.VeiculoID =" + _VeiculoID + _statusSTR + _empresaNome + _validade +
-        //        //    " ORDER BY dbo.VeiculosCredenciais.VeiculoCredencialID DESC";
+                _empresaNome = _empresaNome == "" ? "" : " AND Nome like '%" + _empresaNome + "%' ";
+                _statusSTR = _status == 0 ? "" : " AND CredencialStatusID = " + _status + "' ";
+                _validade = _validade == "" ? "" : " AND _validade like '%" + _validade + "%'";
 
 
+                _strSql = "SELECT dbo.LayoutsCrachas.Nome AS LayoutCrachaNome, dbo.FormatosCredenciais.Descricao AS FormatoCredencialDescricao, dbo.VeiculosCredenciais.NumeroCredencial, " +
+                    "dbo.VeiculosCredenciais.FC, dbo.VeiculosCredenciais.Emissao, dbo.VeiculosCredenciais.Impressa, dbo.VeiculosCredenciais.Validade, dbo.VeiculosCredenciais.Baixa, " +
+                    "dbo.VeiculosCredenciais.Ativa, dbo.VeiculosCredenciais.Colete, dbo.VeiculosCredenciais.CredencialmotivoID, dbo.VeiculosCredenciais.CredencialStatusID, " +
+                    "dbo.VeiculosCredenciais.VeiculoEmpresaID, dbo.VeiculosCredenciais.TipoCredencialID, dbo.VeiculosCredenciais.TecnologiaCredencialID, dbo.VeiculosCredenciais.FormatoCredencialID, " +
+                    "dbo.VeiculosCredenciais.LayoutCrachaID, dbo.VeiculosCredenciais.VeiculoCredencialID, dbo.Veiculos.Descricao AS VeiculoNome, dbo.Empresas.Nome AS EmpresaNome, " +
+                    "dbo.EmpresasContratos.Descricao AS ContratoDescricao, dbo.VeiculosEmpresas.EmpresaID, dbo.VeiculosEmpresas.VeiculoID, dbo.VeiculosCredenciais.CardHolderGUID, " +
+                    "dbo.VeiculosCredenciais.CredencialGUID, dbo.Veiculos.Foto AS VeiculoFoto, dbo.Veiculos.Placa_Identificador, dbo.LayoutsCrachas.LayoutCrachaGUID, dbo.FormatosCredenciais.FormatIDGUID, " +
+                    "dbo.VeiculosCredenciais.VeiculoPrivilegio1ID, dbo.VeiculosCredenciais.VeiculoPrivilegio2ID, dbo.Empresas.Logo AS EmpresaLogo, dbo.Empresas.CNPJ, dbo.Empresas.Sigla AS EmpresaSigla, " +
+                    "dbo.Empresas.Apelido AS EmpresaApelido FROM dbo.Empresas INNER JOIN dbo.VeiculosEmpresas ON dbo.Empresas.EmpresaID = dbo.VeiculosEmpresas.EmpresaID INNER JOIN dbo.EmpresasContratos " +
+                    "ON dbo.VeiculosEmpresas.EmpresaContratoID = dbo.EmpresasContratos.EmpresaContratoID INNER JOIN dbo.VeiculosCredenciais INNER JOIN dbo.FormatosCredenciais ON " +
+                    "dbo.VeiculosCredenciais.FormatoCredencialID = dbo.FormatosCredenciais.FormatoCredencialID ON dbo.VeiculosEmpresas.VeiculoEmpresaID = dbo.VeiculosCredenciais.VeiculoEmpresaID INNER JOIN " +
+                    "dbo.Veiculos ON dbo.VeiculosEmpresas.VeiculoID = dbo.Veiculos.EquipamentoVeiculoID LEFT OUTER JOIN dbo.LayoutsCrachas ON dbo.VeiculosCredenciais.LayoutCrachaID = dbo.LayoutsCrachas.LayoutCrachaID " +
+                    "WHERE dbo.VeiculosEmpresas.VeiculoID =" + _veiculosID + _statusSTR + _empresaNome + _validade +
+                    " ORDER BY dbo.VeiculosCredenciais.VeiculoCredencialID DESC";
+
+                //_strSql = "SELECT dbo.LayoutsCrachas.Nome AS LayoutCrachaNome, dbo.FormatosCredenciais.Descricao AS FormatoCredencialDescricao, dbo.Empresas.Nome AS EmpresaNome, " +
+                //    " dbo.EmpresasContratos.Descricao AS ContratoDescricao, dbo.Empresas.Logo AS EmpresaLogo, dbo.Empresas.Sigla AS EmpresaSigla, dbo.Empresas.Apelido AS EmpresaApelido, " +
+                //    " dbo.LayoutsCrachas.LayoutCrachaGUID, dbo.Empresas.CNPJ, dbo.FormatosCredenciais.FormatIDGUID dbo.Empresas INNER JOIN" +
+                //    " dbo.VeiculosEmpresas ON dbo.Empresas.EmpresaID = dbo.VeiculosEmpresas.EmpresaID INNER JOIN dbo.EmpresasContratos ON " +
+                //    " dbo.VeiculosEmpresas.EmpresaContratoID = dbo.EmpresasContratos.EmpresaContratoID INNER JOIN dbo.VeiculosCredenciais INNER JOIN" +
+                //    " dbo.FormatosCredenciais ON dbo.VeiculosCredenciais.FormatoCredencialID = dbo.FormatosCredenciais.FormatoCredencialID ON" +
+                //    " dbo.VeiculosEmpresas.VeiculoEmpresaID = dbo.VeiculosCredenciais.VeiculoEmpresaID INNER JOIN dbo.Veiculos ON dbo.VeiculosEmpresas.VeiculoID = " +
+                //    " dbo.Veiculos.VeiculoID LEFT OUTER JOIN dbo.LayoutsCrachas ON dbo.VeiculosCredenciais.LayoutCrachaID = dbo.LayoutsCrachas.LayoutCrachaID " +
+                //    " WHERE dbo.VeiculosEmpresas.VeiculoID =" + _VeiculoID + _statusSTR + _empresaNome + _validade +
+                //    " ORDER BY dbo.VeiculosCredenciais.VeiculoCredencialID DESC";
 
 
-        //        SqlCommand _sqlcmd = new SqlCommand(_strSql, _Con);
-        //        SqlDataReader _sqlreader = _sqlcmd.ExecuteReader(CommandBehavior.Default);
-        //        while (_sqlreader.Read())
-        //        {
-
-        //            XmlNode _VeiculoCredencial = _xmlDocument.CreateElement("VeiculoCredencial");
-        //            _VeiculosCredenciais.AppendChild(_VeiculoCredencial);
-
-        //            XmlNode _VeiculoCredencialID = _xmlDocument.CreateElement("VeiculoCredencialID");
-        //            _VeiculoCredencialID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["VeiculoCredencialID"].ToString())));
-        //            _VeiculoCredencial.AppendChild(_VeiculoCredencialID);
-
-        //            XmlNode _Ativa = _xmlDocument.CreateElement("Ativa");
-        //            _Ativa.AppendChild(_xmlDocument.CreateTextNode((Convert.ToInt32((bool)_sqlreader["Ativa"])).ToString()));
-        //            _VeiculoCredencial.AppendChild(_Ativa);
-
-        //            XmlNode VeiculoPrivilegio1ID = _xmlDocument.CreateElement("VeiculoPrivilegio1ID");
-        //            VeiculoPrivilegio1ID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["VeiculoPrivilegio1ID"].ToString())));
-        //            _VeiculoCredencial.AppendChild(VeiculoPrivilegio1ID);
-
-        //            XmlNode VeiculoPrivilegio2ID = _xmlDocument.CreateElement("VeiculoPrivilegio2ID");
-        //            VeiculoPrivilegio2ID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["VeiculoPrivilegio2ID"].ToString())));
-        //            _VeiculoCredencial.AppendChild(VeiculoPrivilegio2ID);
-
-        //            XmlNode _VeiculoEmpresaID = _xmlDocument.CreateElement("VeiculoEmpresaID");
-        //            _VeiculoEmpresaID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["VeiculoEmpresaID"].ToString())));
-        //            _VeiculoCredencial.AppendChild(_VeiculoEmpresaID);
-
-        //            XmlNode _VeiculoID = _xmlDocument.CreateElement("VeiculoID");
-        //            _VeiculoID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["VeiculoID"].ToString())));
-        //            _VeiculoCredencial.AppendChild(_VeiculoID);
-
-        //            XmlNode _CardHolderGUID = _xmlDocument.CreateElement("CardHolderGuid");
-        //            _CardHolderGUID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["CardHolderGuid"].ToString())));
-        //            _VeiculoCredencial.AppendChild(_CardHolderGUID);
-
-        //            XmlNode _CredencialGUID = _xmlDocument.CreateElement("CredencialGuid");
-        //            _CredencialGUID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["CredencialGuid"].ToString())));
-        //            _VeiculoCredencial.AppendChild(_CredencialGUID);
-
-        //            XmlNode _Descricao = _xmlDocument.CreateElement("ContratoDescricao");
-        //            _Descricao.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["ContratoDescricao"].ToString())));
-        //            _VeiculoCredencial.AppendChild(_Descricao);
-
-        //            XmlNode _Empresa = _xmlDocument.CreateElement("EmpresaNome");
-        //            _Empresa.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["EmpresaNome"].ToString())));
-        //            _VeiculoCredencial.AppendChild(_Empresa);
-
-        //            XmlNode _VeiculoNome = _xmlDocument.CreateElement("VeiculoNome");
-        //            _VeiculoNome.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["VeiculoNome"].ToString())));
-        //            _VeiculoCredencial.AppendChild(_VeiculoNome);
-
-        //            XmlNode _TecnologiaCredencialID = _xmlDocument.CreateElement("TecnologiaCredencialID");
-        //            _TecnologiaCredencialID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["TecnologiaCredencialID"].ToString())));
-        //            _VeiculoCredencial.AppendChild(_TecnologiaCredencialID);
-
-        //            XmlNode _TecnologiaCredencialDescricao = _xmlDocument.CreateElement("TecnologiaCredencialDescricao");
-        //            var _tec = TecnologiasCredenciais.FirstOrDefault(x => x.TecnologiaCredencialID == Convert.ToInt32(_sqlreader["TecnologiaCredencialID"].ToString()));
-        //            if (_tec != null)
-        //            {
-        //                _TecnologiaCredencialDescricao.AppendChild(_xmlDocument.CreateTextNode(_tec.Descricao.ToString()));
-        //                _VeiculoCredencial.AppendChild(_TecnologiaCredencialDescricao);
-        //            }
-
-        //            XmlNode _TipoCredencialID = _xmlDocument.CreateElement("TipoCredencialID");
-        //            _TipoCredencialID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["TipoCredencialID"].ToString())));
-        //            _VeiculoCredencial.AppendChild(_TipoCredencialID);
-
-        //            XmlNode _TipoCredencialDescricao = _xmlDocument.CreateElement("TipoCredencialDescricao");
-        //            var _tip = TiposCredenciais.FirstOrDefault(x => x.TipoCredencialID == Convert.ToInt32(_sqlreader["TipoCredencialID"].ToString()));
-        //            if (_tip != null)
-        //            {
-        //                _TipoCredencialDescricao.AppendChild(_xmlDocument.CreateTextNode(_tip.Descricao.ToString()));
-        //                _VeiculoCredencial.AppendChild(_TipoCredencialDescricao);
-        //            }
-
-        //            XmlNode _LayoutCrachaID = _xmlDocument.CreateElement("LayoutCrachaID");
-        //            _LayoutCrachaID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["LayoutCrachaID"].ToString())));
-        //            _VeiculoCredencial.AppendChild(_LayoutCrachaID);
-
-        //            XmlNode _LayoutCrachaNome = _xmlDocument.CreateElement("LayoutCrachaNome");
-        //            _LayoutCrachaNome.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["LayoutCrachaNome"].ToString())));
-        //            _VeiculoCredencial.AppendChild(_LayoutCrachaNome);
-
-        //            XmlNode _FormatoCredencialID = _xmlDocument.CreateElement("FormatoCredencialID");
-        //            _FormatoCredencialID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["FormatoCredencialID"].ToString())));
-        //            _VeiculoCredencial.AppendChild(_FormatoCredencialID);
-
-        //            XmlNode _FormatoCredencialDescricao = _xmlDocument.CreateElement("FormatoCredencialDescricao");
-        //            _FormatoCredencialDescricao.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["FormatoCredencialDescricao"].ToString())));
-        //            _VeiculoCredencial.AppendChild(_FormatoCredencialDescricao);
-
-        //            XmlNode _NumeroCredencial = _xmlDocument.CreateElement("NumeroCredencial");
-        //            _NumeroCredencial.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["NumeroCredencial"].ToString())));
-        //            _VeiculoCredencial.AppendChild(_NumeroCredencial);
-
-        //            XmlNode _FC = _xmlDocument.CreateElement("FC");
-        //            _FC.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["FC"].ToString())));
-        //            _VeiculoCredencial.AppendChild(_FC);
-
-        //            var dateStr = (_sqlreader["Emissao"].ToString());
-        //            if (!string.IsNullOrWhiteSpace(dateStr))
-        //            {
-        //                var dt2 = Convert.ToDateTime(dateStr);
-        //                XmlNode _Emissao = _xmlDocument.CreateElement("Emissao");
-        //                _Emissao.AppendChild(_xmlDocument.CreateTextNode(dt2.ToString("yyyy-MM-ddTHH:mm:ss")));
-        //                _VeiculoCredencial.AppendChild(_Emissao);
-        //            }
-
-        //            dateStr = (_sqlreader["Validade"].ToString());
-        //            if (!string.IsNullOrWhiteSpace(dateStr))
-        //            {
-        //                var dt2 = Convert.ToDateTime(dateStr);
-        //                XmlNode _Validade = _xmlDocument.CreateElement("Validade");
-        //                _Validade.AppendChild(_xmlDocument.CreateTextNode(dt2.ToString("yyyy-MM-ddTHH:mm:ss")));
-        //                _VeiculoCredencial.AppendChild(_Validade);
-        //            }
-
-        //            XmlNode _CredencialStatusID = _xmlDocument.CreateElement("CredencialStatusID");
-        //            _CredencialStatusID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["CredencialStatusID"].ToString())));
-        //            _VeiculoCredencial.AppendChild(_CredencialStatusID);
-
-        //            XmlNode _CredencialStatusDescricao = _xmlDocument.CreateElement("CredencialStatusDescricao");
-        //            var _sta = CredenciaisStatus.FirstOrDefault(x => x.CredencialStatusID == Convert.ToInt32(_sqlreader["CredencialStatusID"].ToString()));
-        //            if (_sta != null)
-        //            {
-        //                _CredencialStatusDescricao.AppendChild(_xmlDocument.CreateTextNode(_sta.Descricao.ToString()));
-        //                _VeiculoCredencial.AppendChild(_CredencialStatusDescricao);
-        //            }
 
 
-        //            XmlNode _Vinculo9 = _xmlDocument.CreateElement("Placa_Identificador");
-        //            _Vinculo9.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Placa_Identificador"].ToString().Trim())));
-        //            _VeiculoCredencial.AppendChild(_Vinculo9);
+                SqlCommand _sqlcmd = new SqlCommand(_strSql, _Con);
+                SqlDataReader _sqlreader = _sqlcmd.ExecuteReader(CommandBehavior.Default);
+                while (_sqlreader.Read())
+                {
 
-        //            //XmlNode _Vinculo22 = _xmlDocument.CreateElement("Motorista");
-        //            //_Vinculo22.AppendChild(_xmlDocument.CreateTextNode((Convert.ToInt32((bool)_sqlreader["Motorista"])).ToString()));
-        //            //_VeiculoCredencial.AppendChild(_Vinculo22);
+                    XmlNode _VeiculoCredencial = _xmlDocument.CreateElement("VeiculoCredencial");
+                    _VeiculosCredenciais.AppendChild(_VeiculoCredencial);
 
-        //            //XmlNode _Vinculo21 = _xmlDocument.CreateElement("VeiculoApelido");
-        //            //_Vinculo21.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["VeiculoApelido"].ToString().Trim())));
-        //            //_VeiculoCredencial.AppendChild(_Vinculo21);
+                    XmlNode _VeiculoCredencialID = _xmlDocument.CreateElement("VeiculoCredencialID");
+                    _VeiculoCredencialID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["VeiculoCredencialID"].ToString())));
+                    _VeiculoCredencial.AppendChild(_VeiculoCredencialID);
 
-        //            XmlNode _Vinculo11 = _xmlDocument.CreateElement("VeiculoFoto");
-        //            _Vinculo11.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["VeiculoFoto"].ToString())));
-        //            _VeiculoCredencial.AppendChild(_Vinculo11);
+                    XmlNode _Ativa = _xmlDocument.CreateElement("Ativa");
+                    _Ativa.AppendChild(_xmlDocument.CreateTextNode((Convert.ToInt32((bool)_sqlreader["Ativa"])).ToString()));
+                    _VeiculoCredencial.AppendChild(_Ativa);
+
+                    XmlNode VeiculoPrivilegio1ID = _xmlDocument.CreateElement("VeiculoPrivilegio1ID");
+                    VeiculoPrivilegio1ID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["VeiculoPrivilegio1ID"].ToString())));
+                    _VeiculoCredencial.AppendChild(VeiculoPrivilegio1ID);
+
+                    XmlNode VeiculoPrivilegio2ID = _xmlDocument.CreateElement("VeiculoPrivilegio2ID");
+                    VeiculoPrivilegio2ID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["VeiculoPrivilegio2ID"].ToString())));
+                    _VeiculoCredencial.AppendChild(VeiculoPrivilegio2ID);
+
+                    XmlNode _VeiculoEmpresaID = _xmlDocument.CreateElement("VeiculoEmpresaID");
+                    _VeiculoEmpresaID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["VeiculoEmpresaID"].ToString())));
+                    _VeiculoCredencial.AppendChild(_VeiculoEmpresaID);
+
+                    XmlNode _VeiculoID = _xmlDocument.CreateElement("VeiculoID");
+                    _VeiculoID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["VeiculoID"].ToString())));
+                    _VeiculoCredencial.AppendChild(_VeiculoID);
+
+                    XmlNode _CardHolderGUID = _xmlDocument.CreateElement("CardHolderGuid");
+                    _CardHolderGUID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["CardHolderGuid"].ToString())));
+                    _VeiculoCredencial.AppendChild(_CardHolderGUID);
+
+                    XmlNode _CredencialGUID = _xmlDocument.CreateElement("CredencialGuid");
+                    _CredencialGUID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["CredencialGuid"].ToString())));
+                    _VeiculoCredencial.AppendChild(_CredencialGUID);
+
+                    XmlNode _Descricao = _xmlDocument.CreateElement("ContratoDescricao");
+                    _Descricao.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["ContratoDescricao"].ToString())));
+                    _VeiculoCredencial.AppendChild(_Descricao);
+
+                    XmlNode _Empresa = _xmlDocument.CreateElement("EmpresaNome");
+                    _Empresa.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["EmpresaNome"].ToString())));
+                    _VeiculoCredencial.AppendChild(_Empresa);
+
+                    XmlNode _VeiculoNome = _xmlDocument.CreateElement("VeiculoNome");
+                    _VeiculoNome.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["VeiculoNome"].ToString())));
+                    _VeiculoCredencial.AppendChild(_VeiculoNome);
+
+                    XmlNode _TecnologiaCredencialID = _xmlDocument.CreateElement("TecnologiaCredencialID");
+                    _TecnologiaCredencialID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["TecnologiaCredencialID"].ToString())));
+                    _VeiculoCredencial.AppendChild(_TecnologiaCredencialID);
+
+                    XmlNode _TecnologiaCredencialDescricao = _xmlDocument.CreateElement("TecnologiaCredencialDescricao");
+                    var _tec = TecnologiasCredenciais.FirstOrDefault(x => x.TecnologiaCredencialID == Convert.ToInt32(_sqlreader["TecnologiaCredencialID"].ToString()));
+                    if (_tec != null)
+                    {
+                        _TecnologiaCredencialDescricao.AppendChild(_xmlDocument.CreateTextNode(_tec.Descricao.ToString()));
+                        _VeiculoCredencial.AppendChild(_TecnologiaCredencialDescricao);
+                    }
+
+                    XmlNode _TipoCredencialID = _xmlDocument.CreateElement("TipoCredencialID");
+                    _TipoCredencialID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["TipoCredencialID"].ToString())));
+                    _VeiculoCredencial.AppendChild(_TipoCredencialID);
+
+                    XmlNode _TipoCredencialDescricao = _xmlDocument.CreateElement("TipoCredencialDescricao");
+                    var _tip = TiposCredenciais.FirstOrDefault(x => x.TipoCredencialID == Convert.ToInt32(_sqlreader["TipoCredencialID"].ToString()));
+                    if (_tip != null)
+                    {
+                        _TipoCredencialDescricao.AppendChild(_xmlDocument.CreateTextNode(_tip.Descricao.ToString()));
+                        _VeiculoCredencial.AppendChild(_TipoCredencialDescricao);
+                    }
+
+                    XmlNode _LayoutCrachaID = _xmlDocument.CreateElement("LayoutCrachaID");
+                    _LayoutCrachaID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["LayoutCrachaID"].ToString())));
+                    _VeiculoCredencial.AppendChild(_LayoutCrachaID);
+
+                    XmlNode _LayoutCrachaNome = _xmlDocument.CreateElement("LayoutCrachaNome");
+                    _LayoutCrachaNome.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["LayoutCrachaNome"].ToString())));
+                    _VeiculoCredencial.AppendChild(_LayoutCrachaNome);
+
+                    XmlNode _FormatoCredencialID = _xmlDocument.CreateElement("FormatoCredencialID");
+                    _FormatoCredencialID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["FormatoCredencialID"].ToString())));
+                    _VeiculoCredencial.AppendChild(_FormatoCredencialID);
+
+                    XmlNode _FormatoCredencialDescricao = _xmlDocument.CreateElement("FormatoCredencialDescricao");
+                    _FormatoCredencialDescricao.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["FormatoCredencialDescricao"].ToString())));
+                    _VeiculoCredencial.AppendChild(_FormatoCredencialDescricao);
+
+                    XmlNode _NumeroCredencial = _xmlDocument.CreateElement("NumeroCredencial");
+                    _NumeroCredencial.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["NumeroCredencial"].ToString())));
+                    _VeiculoCredencial.AppendChild(_NumeroCredencial);
+
+                    XmlNode _FC = _xmlDocument.CreateElement("FC");
+                    _FC.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["FC"].ToString())));
+                    _VeiculoCredencial.AppendChild(_FC);
+
+                    var dateStr = (_sqlreader["Emissao"].ToString());
+                    if (!string.IsNullOrWhiteSpace(dateStr))
+                    {
+                        var dt2 = Convert.ToDateTime(dateStr);
+                        XmlNode _Emissao = _xmlDocument.CreateElement("Emissao");
+                        _Emissao.AppendChild(_xmlDocument.CreateTextNode(dt2.ToString("yyyy-MM-ddTHH:mm:ss")));
+                        _VeiculoCredencial.AppendChild(_Emissao);
+                    }
+
+                    dateStr = (_sqlreader["Validade"].ToString());
+                    if (!string.IsNullOrWhiteSpace(dateStr))
+                    {
+                        var dt2 = Convert.ToDateTime(dateStr);
+                        XmlNode _Validade = _xmlDocument.CreateElement("Validade");
+                        _Validade.AppendChild(_xmlDocument.CreateTextNode(dt2.ToString("yyyy-MM-ddTHH:mm:ss")));
+                        _VeiculoCredencial.AppendChild(_Validade);
+                    }
+
+                    XmlNode _CredencialStatusID = _xmlDocument.CreateElement("CredencialStatusID");
+                    _CredencialStatusID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["CredencialStatusID"].ToString())));
+                    _VeiculoCredencial.AppendChild(_CredencialStatusID);
+
+                    XmlNode _CredencialStatusDescricao = _xmlDocument.CreateElement("CredencialStatusDescricao");
+                    var _sta = CredenciaisStatus.FirstOrDefault(x => x.CredencialStatusID == Convert.ToInt32(_sqlreader["CredencialStatusID"].ToString()));
+                    if (_sta != null)
+                    {
+                        _CredencialStatusDescricao.AppendChild(_xmlDocument.CreateTextNode(_sta.Descricao.ToString()));
+                        _VeiculoCredencial.AppendChild(_CredencialStatusDescricao);
+                    }
 
 
-        //            XmlNode _Vinculo12 = _xmlDocument.CreateElement("EmpresaLogo");
-        //            _Vinculo12.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["EmpresaLogo"].ToString())));
-        //            _VeiculoCredencial.AppendChild(_Vinculo12);
+                    XmlNode _Vinculo9 = _xmlDocument.CreateElement("Placa_Identificador");
+                    _Vinculo9.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Placa_Identificador"].ToString().Trim())));
+                    _VeiculoCredencial.AppendChild(_Vinculo9);
 
-        //            XmlNode _Vinculo23 = _xmlDocument.CreateElement("EmpresaApelido");
-        //            _Vinculo23.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["EmpresaApelido"].ToString().Trim())));
-        //            _VeiculoCredencial.AppendChild(_Vinculo23);
+                    //XmlNode _Vinculo22 = _xmlDocument.CreateElement("Motorista");
+                    //_Vinculo22.AppendChild(_xmlDocument.CreateTextNode((Convert.ToInt32((bool)_sqlreader["Motorista"])).ToString()));
+                    //_VeiculoCredencial.AppendChild(_Vinculo22);
 
-        //            //XmlNode _Vinculo13 = _xmlDocument.CreateElement("Cargo");
-        //            //_Vinculo13.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Cargo"].ToString().Trim())));
-        //            //_VeiculoCredencial.AppendChild(_Vinculo13);
+                    //XmlNode _Vinculo21 = _xmlDocument.CreateElement("VeiculoApelido");
+                    //_Vinculo21.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["VeiculoApelido"].ToString().Trim())));
+                    //_VeiculoCredencial.AppendChild(_Vinculo21);
+
+                    XmlNode _Vinculo11 = _xmlDocument.CreateElement("VeiculoFoto");
+                    _Vinculo11.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["VeiculoFoto"].ToString())));
+                    _VeiculoCredencial.AppendChild(_Vinculo11);
 
 
-        //            XmlNode _Vinculo15 = _xmlDocument.CreateElement("LayoutCrachaGUID");
-        //            _Vinculo15.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["LayoutCrachaGUID"].ToString().Trim())));
-        //            _VeiculoCredencial.AppendChild(_Vinculo15);
+                    XmlNode _Vinculo12 = _xmlDocument.CreateElement("EmpresaLogo");
+                    _Vinculo12.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["EmpresaLogo"].ToString())));
+                    _VeiculoCredencial.AppendChild(_Vinculo12);
 
-        //            XmlNode _Vinculo19 = _xmlDocument.CreateElement("CNPJ");
-        //            _Vinculo19.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["CNPJ"].ToString().Trim())));
-        //            _VeiculoCredencial.AppendChild(_Vinculo19);
+                    XmlNode _Vinculo23 = _xmlDocument.CreateElement("EmpresaApelido");
+                    _Vinculo23.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["EmpresaApelido"].ToString().Trim())));
+                    _VeiculoCredencial.AppendChild(_Vinculo23);
 
-        //            XmlNode _Vinculo20 = _xmlDocument.CreateElement("FormatIDGUID");
-        //            _Vinculo20.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["FormatIDGUID"].ToString().Trim())));
-        //            _VeiculoCredencial.AppendChild(_Vinculo20);
+                    //XmlNode _Vinculo13 = _xmlDocument.CreateElement("Cargo");
+                    //_Vinculo13.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Cargo"].ToString().Trim())));
+                    //_VeiculoCredencial.AppendChild(_Vinculo13);
 
-        //            XmlNode _Colete = _xmlDocument.CreateElement("Colete");
-        //            _Colete.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Colete"].ToString().Trim())));
-        //            _VeiculoCredencial.AppendChild(_Colete);
 
-        //            XmlNode _EmpresaSigla = _xmlDocument.CreateElement("EmpresaSigla");
-        //            _EmpresaSigla.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["EmpresaSigla"].ToString().Trim())));
-        //            _VeiculoCredencial.AppendChild(_EmpresaSigla);
+                    XmlNode _Vinculo15 = _xmlDocument.CreateElement("LayoutCrachaGUID");
+                    _Vinculo15.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["LayoutCrachaGUID"].ToString().Trim())));
+                    _VeiculoCredencial.AppendChild(_Vinculo15);
 
-        //            XmlNode _CredencialMotivoID = _xmlDocument.CreateElement("CredencialMotivoID");
-        //            _CredencialMotivoID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["CredencialMotivoID"].ToString().Trim())));
-        //            _VeiculoCredencial.AppendChild(_CredencialMotivoID);
+                    XmlNode _Vinculo19 = _xmlDocument.CreateElement("CNPJ");
+                    _Vinculo19.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["CNPJ"].ToString().Trim())));
+                    _VeiculoCredencial.AppendChild(_Vinculo19);
 
-        //            dateStr = (_sqlreader["Baixa"].ToString());
-        //            if (!string.IsNullOrWhiteSpace(dateStr))
-        //            {
-        //                var dt2 = Convert.ToDateTime(dateStr);
-        //                XmlNode _Baixa = _xmlDocument.CreateElement("Baixa");
-        //                _Baixa.AppendChild(_xmlDocument.CreateTextNode(dt2.ToString("yyyy-MM-ddTHH:mm:ss")));
-        //                _VeiculoCredencial.AppendChild(_Baixa);
+                    XmlNode _Vinculo20 = _xmlDocument.CreateElement("FormatIDGUID");
+                    _Vinculo20.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["FormatIDGUID"].ToString().Trim())));
+                    _VeiculoCredencial.AppendChild(_Vinculo20);
 
-        //            }
+                    XmlNode _Colete = _xmlDocument.CreateElement("Colete");
+                    _Colete.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Colete"].ToString().Trim())));
+                    _VeiculoCredencial.AppendChild(_Colete);
 
-        //            XmlNode _Impressa = _xmlDocument.CreateElement("Impressa");
-        //            _Impressa.AppendChild(_xmlDocument.CreateTextNode((Convert.ToInt32((bool)_sqlreader["Impressa"])).ToString().Trim()));
-        //            _VeiculoCredencial.AppendChild(_Impressa);
-        //        }
-        //        _sqlreader.Close();
+                    XmlNode _EmpresaSigla = _xmlDocument.CreateElement("EmpresaSigla");
+                    _EmpresaSigla.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["EmpresaSigla"].ToString().Trim())));
+                    _VeiculoCredencial.AppendChild(_EmpresaSigla);
 
-        //        _Con.Close();
-        //        string _xml = _xmlDocument.InnerXml;
-        //        _xmlDocument = null;
-        //        return _xml;
-        //    }
+                    XmlNode _CredencialMotivoID = _xmlDocument.CreateElement("CredencialMotivoID");
+                    _CredencialMotivoID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["CredencialMotivoID"].ToString().Trim())));
+                    _VeiculoCredencial.AppendChild(_CredencialMotivoID);
 
-        //    catch (Exception ex)
-        //    {
+                    dateStr = (_sqlreader["Baixa"].ToString());
+                    if (!string.IsNullOrWhiteSpace(dateStr))
+                    {
+                        var dt2 = Convert.ToDateTime(dateStr);
+                        XmlNode _Baixa = _xmlDocument.CreateElement("Baixa");
+                        _Baixa.AppendChild(_xmlDocument.CreateTextNode(dt2.ToString("yyyy-MM-ddTHH:mm:ss")));
+                        _VeiculoCredencial.AppendChild(_Baixa);
 
-        //        return null;
-        //    }
-        //    return null;
-        //}
+                    }
+
+                    XmlNode _Impressa = _xmlDocument.CreateElement("Impressa");
+                    _Impressa.AppendChild(_xmlDocument.CreateTextNode((Convert.ToInt32((bool)_sqlreader["Impressa"])).ToString().Trim()));
+                    _VeiculoCredencial.AppendChild(_Impressa);
+                }
+                _sqlreader.Close();
+
+                _Con.Close();
+                string _xml = _xmlDocument.InnerXml;
+                _xmlDocument = null;
+                return _xml;
+            }
+
+            catch (Exception ex)
+            {
+
+                return null;
+            }
+            return null;
+        }
 
         //private string RequisitaVeiculosCredenciaisNovos(int _colaboradorEmpresaID)
         //{
@@ -1717,8 +1735,8 @@ namespace iModSCCredenciamento.ViewModels
         //    }
         //    return null;
         //}
- 
-   
+
+
 
         private string RequisitaVinculos(int _ColaboradorCredencialID = 0)
         {
@@ -1923,190 +1941,191 @@ namespace iModSCCredenciamento.ViewModels
 
         private int InsereVeiculoCredencialBD(string xmlString)
         {
-            int _novID = 0;
-            try
-            {
+            return 0;
+            //int _novID = 0;
+            //try
+            //{
 
 
-                System.Xml.XmlDocument _xmlDoc = new System.Xml.XmlDocument();
+            //    System.Xml.XmlDocument _xmlDoc = new System.Xml.XmlDocument();
 
-                _xmlDoc.LoadXml(xmlString);
-                // SqlConnection _Con = new SqlConnection(Global._connectionString);_Con.Open();
-                ClasseVeiculosCredenciais.VeiculoCredencial _VeiculoCredencial = new ClasseVeiculosCredenciais.VeiculoCredencial();
-                //for (int i = 0; i <= _xmlDoc.GetElementsByTagName("EmpresaID").Count - 1; i++)
-                //{
-                int i = 0;
+            //    _xmlDoc.LoadXml(xmlString);
+            //    // SqlConnection _Con = new SqlConnection(Global._connectionString);_Con.Open();
+            //    ClasseVeiculosCredenciais.VeiculoCredencial _VeiculoCredencial = new ClasseVeiculosCredenciais.VeiculoCredencial();
+            //    //for (int i = 0; i <= _xmlDoc.GetElementsByTagName("EmpresaID").Count - 1; i++)
+            //    //{
+            //    int i = 0;
 
-                _VeiculoCredencial.VeiculoCredencialID = _xmlDoc.GetElementsByTagName("VeiculoCredencialID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("VeiculoCredencialID")[i].InnerText);
-                //_ColaboradorCredencial.ColaboradorID = _xmlDoc.GetElementsByTagName("ColaboradorID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("ColaboradorID")[i].InnerText);
-                //_ColaboradorCredencial.EmpresaID = _xmlDoc.GetElementsByTagName("EmpresaID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("EmpresaID")[i].InnerText);
-                _VeiculoCredencial.VeiculoEmpresaID = _xmlDoc.GetElementsByTagName("VeiculoEmpresaID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("VeiculoEmpresaID")[i].InnerText);
-                //_ColaboradorCredencial.EmpresaContratoID = _xmlDoc.GetElementsByTagName("EmpresaContratoID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("EmpresaContratoID")[i].InnerText);
-                _VeiculoCredencial.TecnologiaCredencialID = _xmlDoc.GetElementsByTagName("TecnologiaCredencialID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("TecnologiaCredencialID")[i].InnerText);
-                _VeiculoCredencial.TipoCredencialID = _xmlDoc.GetElementsByTagName("TipoCredencialID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("TipoCredencialID")[i].InnerText);
-                _VeiculoCredencial.LayoutCrachaID = _xmlDoc.GetElementsByTagName("LayoutCrachaID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("LayoutCrachaID")[i].InnerText);
-                _VeiculoCredencial.FormatoCredencialID = _xmlDoc.GetElementsByTagName("FormatoCredencialID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("FormatoCredencialID")[i].InnerText);
-                _VeiculoCredencial.NumeroCredencial = _xmlDoc.GetElementsByTagName("NumeroCredencial")[i] == null ? "" : _xmlDoc.GetElementsByTagName("NumeroCredencial")[i].InnerText;
-                _VeiculoCredencial.FC = _xmlDoc.GetElementsByTagName("FC")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("FC")[i].InnerText);
-                //var teste = _xmlDoc.GetElementsByTagName("Emissao")[i].InnerText;
-                _VeiculoCredencial.Emissao = _xmlDoc.GetElementsByTagName("Emissao")[i].InnerText == "" ? null : (DateTime?)Convert.ToDateTime(_xmlDoc.GetElementsByTagName("Emissao")[i].InnerText);
-                _VeiculoCredencial.Validade = _xmlDoc.GetElementsByTagName("Validade")[i].InnerText == "" ? null : (DateTime?)Convert.ToDateTime(_xmlDoc.GetElementsByTagName("Validade")[i].InnerText);
-                _VeiculoCredencial.CredencialStatusID = _xmlDoc.GetElementsByTagName("CredencialStatusID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("CredencialStatusID")[i].InnerText);
-                _VeiculoCredencial.CardHolderGuid = _xmlDoc.GetElementsByTagName("CardHolderGuid")[i].InnerText == "" ? new Guid("00000000-0000-0000-0000-000000000000") : new Guid(_xmlDoc.GetElementsByTagName("CardHolderGuid")[i].InnerText);
-                _VeiculoCredencial.CredencialGuid = _xmlDoc.GetElementsByTagName("CredencialGuid")[i].InnerText == "" ? new Guid("00000000-0000-0000-0000-000000000000") : new Guid(_xmlDoc.GetElementsByTagName("CredencialGuid")[i].InnerText);
-                _VeiculoCredencial.VeiculoPrivilegio1ID = _xmlDoc.GetElementsByTagName("VeiculoPrivilegio1ID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("VeiculoPrivilegio1ID")[i].InnerText);
-                _VeiculoCredencial.VeiculoPrivilegio2ID = _xmlDoc.GetElementsByTagName("VeiculoPrivilegio2ID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("VeiculoPrivilegio2ID")[i].InnerText);
-                bool _ativa;
-                Boolean.TryParse(_xmlDoc.GetElementsByTagName("Ativa")[i].InnerText, out _ativa);
-                _VeiculoCredencial.Ativa = _xmlDoc.GetElementsByTagName("Ativa")[i] == null ? false : _ativa;
-                bool _Impressa;
-                Boolean.TryParse(_xmlDoc.GetElementsByTagName("Impressa")[i].InnerText, out _Impressa);
-                _VeiculoCredencial.Impressa = _xmlDoc.GetElementsByTagName("Impressa")[i] == null ? false : _Impressa;
-                _VeiculoCredencial.Colete = _xmlDoc.GetElementsByTagName("Colete")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Colete")[i].InnerText;
-                _VeiculoCredencial.CredencialMotivoID = _xmlDoc.GetElementsByTagName("CredencialMotivoID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("CredencialMotivoID")[i].InnerText);
-                _VeiculoCredencial.Baixa = _xmlDoc.GetElementsByTagName("Baixa")[i].InnerText == "" ? null : (DateTime?)Convert.ToDateTime(_xmlDoc.GetElementsByTagName("Baixa")[i].InnerText);
+            //    _VeiculoCredencial.VeiculoCredencialID = _xmlDoc.GetElementsByTagName("VeiculoCredencialID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("VeiculoCredencialID")[i].InnerText);
+            //    //_ColaboradorCredencial.ColaboradorID = _xmlDoc.GetElementsByTagName("ColaboradorID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("ColaboradorID")[i].InnerText);
+            //    //_ColaboradorCredencial.EmpresaID = _xmlDoc.GetElementsByTagName("EmpresaID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("EmpresaID")[i].InnerText);
+            //    _VeiculoCredencial.VeiculoEmpresaID = _xmlDoc.GetElementsByTagName("VeiculoEmpresaID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("VeiculoEmpresaID")[i].InnerText);
+            //    //_ColaboradorCredencial.EmpresaContratoID = _xmlDoc.GetElementsByTagName("EmpresaContratoID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("EmpresaContratoID")[i].InnerText);
+            //    _VeiculoCredencial.TecnologiaCredencialID = _xmlDoc.GetElementsByTagName("TecnologiaCredencialID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("TecnologiaCredencialID")[i].InnerText);
+            //    _VeiculoCredencial.TipoCredencialID = _xmlDoc.GetElementsByTagName("TipoCredencialID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("TipoCredencialID")[i].InnerText);
+            //    _VeiculoCredencial.LayoutCrachaID = _xmlDoc.GetElementsByTagName("LayoutCrachaID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("LayoutCrachaID")[i].InnerText);
+            //    _VeiculoCredencial.FormatoCredencialID = _xmlDoc.GetElementsByTagName("FormatoCredencialID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("FormatoCredencialID")[i].InnerText);
+            //    _VeiculoCredencial.NumeroCredencial = _xmlDoc.GetElementsByTagName("NumeroCredencial")[i] == null ? "" : _xmlDoc.GetElementsByTagName("NumeroCredencial")[i].InnerText;
+            //    _VeiculoCredencial.FC = _xmlDoc.GetElementsByTagName("FC")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("FC")[i].InnerText);
+            //    //var teste = _xmlDoc.GetElementsByTagName("Emissao")[i].InnerText;
+            //    _VeiculoCredencial.Emissao = _xmlDoc.GetElementsByTagName("Emissao")[i].InnerText == "" ? null : (DateTime?)Convert.ToDateTime(_xmlDoc.GetElementsByTagName("Emissao")[i].InnerText);
+            //    _VeiculoCredencial.Validade = _xmlDoc.GetElementsByTagName("Validade")[i].InnerText == "" ? null : (DateTime?)Convert.ToDateTime(_xmlDoc.GetElementsByTagName("Validade")[i].InnerText);
+            //    _VeiculoCredencial.CredencialStatusID = _xmlDoc.GetElementsByTagName("CredencialStatusID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("CredencialStatusID")[i].InnerText);
+            //    _VeiculoCredencial.CardHolderGuid = _xmlDoc.GetElementsByTagName("CardHolderGuid")[i].InnerText == "" ? new Guid("00000000-0000-0000-0000-000000000000") : new Guid(_xmlDoc.GetElementsByTagName("CardHolderGuid")[i].InnerText);
+            //    _VeiculoCredencial.CredencialGuid = _xmlDoc.GetElementsByTagName("CredencialGuid")[i].InnerText == "" ? new Guid("00000000-0000-0000-0000-000000000000") : new Guid(_xmlDoc.GetElementsByTagName("CredencialGuid")[i].InnerText);
+            //    _VeiculoCredencial.VeiculoPrivilegio1ID = _xmlDoc.GetElementsByTagName("VeiculoPrivilegio1ID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("VeiculoPrivilegio1ID")[i].InnerText);
+            //    _VeiculoCredencial.VeiculoPrivilegio2ID = _xmlDoc.GetElementsByTagName("VeiculoPrivilegio2ID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("VeiculoPrivilegio2ID")[i].InnerText);
+            //    bool _ativa;
+            //    Boolean.TryParse(_xmlDoc.GetElementsByTagName("Ativa")[i].InnerText, out _ativa);
+            //    _VeiculoCredencial.Ativa = _xmlDoc.GetElementsByTagName("Ativa")[i] == null ? false : _ativa;
+            //    bool _Impressa;
+            //    Boolean.TryParse(_xmlDoc.GetElementsByTagName("Impressa")[i].InnerText, out _Impressa);
+            //    _VeiculoCredencial.Impressa = _xmlDoc.GetElementsByTagName("Impressa")[i] == null ? false : _Impressa;
+            //    _VeiculoCredencial.Colete = _xmlDoc.GetElementsByTagName("Colete")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Colete")[i].InnerText;
+            //    _VeiculoCredencial.CredencialMotivoID = _xmlDoc.GetElementsByTagName("CredencialMotivoID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("CredencialMotivoID")[i].InnerText);
+            //    _VeiculoCredencial.Baixa = _xmlDoc.GetElementsByTagName("Baixa")[i].InnerText == "" ? null : (DateTime?)Convert.ToDateTime(_xmlDoc.GetElementsByTagName("Baixa")[i].InnerText);
 
-                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
+            //    SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
 
-                SqlCommand _sqlCmd;
-                if (_VeiculoCredencial.VeiculoCredencialID != 0)
-                {
+            //    SqlCommand _sqlCmd;
+            //    if (_VeiculoCredencial.VeiculoCredencialID != 0)
+            //    {
 
-                    _sqlCmd = new SqlCommand("Update VeiculosCredenciais Set " +
-                            " VeiculoPrivilegio1ID=@v1" +
-                            ",CardHolderGUID=@v2" +
-                            ",CredencialGUID=@v3" +
-                            ",TipoCredencialID=@v4" +
-                            ",TecnologiaCredencialID=@v5" +
-                            ",LayoutCrachaID=@v6" +
-                            ",FormatoCredencialID=@v7" +
-                            ",NumeroCredencial=@v8" +
-                            ",FC=@v9" +
-                            ",Emissao=@v10" +
-                            ",Validade=@v11" +
-                            ",CredencialStatusID=@v12" +
-                            ",VeiculoEmpresaID=@v13" +
-                            ",Ativa=@v14" +
-                            ",VeiculoPrivilegio2ID=@v15" +
-                            ",Colete=@v16" +
-                            ",CredencialMotivoID=@v17" +
-                            ",Baixa=@v18" +
-                            ",Impressa=@v19" +
-                            " Where VeiculoCredencialID = @v0", _Con);
+            //        _sqlCmd = new SqlCommand("Update VeiculosCredenciais Set " +
+            //                " VeiculoPrivilegio1ID=@v1" +
+            //                ",CardHolderGUID=@v2" +
+            //                ",CredencialGUID=@v3" +
+            //                ",TipoCredencialID=@v4" +
+            //                ",TecnologiaCredencialID=@v5" +
+            //                ",LayoutCrachaID=@v6" +
+            //                ",FormatoCredencialID=@v7" +
+            //                ",NumeroCredencial=@v8" +
+            //                ",FC=@v9" +
+            //                ",Emissao=@v10" +
+            //                ",Validade=@v11" +
+            //                ",CredencialStatusID=@v12" +
+            //                ",VeiculoEmpresaID=@v13" +
+            //                ",Ativa=@v14" +
+            //                ",VeiculoPrivilegio2ID=@v15" +
+            //                ",Colete=@v16" +
+            //                ",CredencialMotivoID=@v17" +
+            //                ",Baixa=@v18" +
+            //                ",Impressa=@v19" +
+            //                " Where VeiculoCredencialID = @v0", _Con);
 
-                    _sqlCmd.Parameters.Add("@V0", SqlDbType.Int).Value = _VeiculoCredencial.VeiculoCredencialID;
-                    _sqlCmd.Parameters.Add("@V1", SqlDbType.Int).Value = _VeiculoCredencial.VeiculoPrivilegio1ID;
-                    _sqlCmd.Parameters.Add("@V2", SqlDbType.UniqueIdentifier).Value = _VeiculoCredencial.CardHolderGuid;
-                    _sqlCmd.Parameters.Add("@V3", SqlDbType.UniqueIdentifier).Value = _VeiculoCredencial.CredencialGuid;
-                    _sqlCmd.Parameters.Add("@V4", SqlDbType.Int).Value = _VeiculoCredencial.TipoCredencialID;
-                    _sqlCmd.Parameters.Add("@V5", SqlDbType.Int).Value = _VeiculoCredencial.TecnologiaCredencialID;
-                    _sqlCmd.Parameters.Add("@V6", SqlDbType.Int).Value = _VeiculoCredencial.LayoutCrachaID;
-                    _sqlCmd.Parameters.Add("@V7", SqlDbType.Int).Value = _VeiculoCredencial.FormatoCredencialID;
-                    _sqlCmd.Parameters.Add("@V8", SqlDbType.VarChar).Value = _VeiculoCredencial.NumeroCredencial;
-                    _sqlCmd.Parameters.Add("@V9", SqlDbType.Int).Value = _VeiculoCredencial.FC;
-                    if (_VeiculoCredencial.Emissao == null)
-                    {
-                        _sqlCmd.Parameters.Add("@V10", SqlDbType.DateTime).Value = DBNull.Value;
-                    }
-                    else
-                    {
-                        _sqlCmd.Parameters.Add("@V10", SqlDbType.DateTime).Value = _VeiculoCredencial.Emissao;
-                    }
+            //        _sqlCmd.Parameters.Add("@V0", SqlDbType.Int).Value = _VeiculoCredencial.VeiculoCredencialID;
+            //        _sqlCmd.Parameters.Add("@V1", SqlDbType.Int).Value = _VeiculoCredencial.VeiculoPrivilegio1ID;
+            //        _sqlCmd.Parameters.Add("@V2", SqlDbType.UniqueIdentifier).Value = _VeiculoCredencial.CardHolderGuid;
+            //        _sqlCmd.Parameters.Add("@V3", SqlDbType.UniqueIdentifier).Value = _VeiculoCredencial.CredencialGuid;
+            //        _sqlCmd.Parameters.Add("@V4", SqlDbType.Int).Value = _VeiculoCredencial.TipoCredencialID;
+            //        _sqlCmd.Parameters.Add("@V5", SqlDbType.Int).Value = _VeiculoCredencial.TecnologiaCredencialID;
+            //        _sqlCmd.Parameters.Add("@V6", SqlDbType.Int).Value = _VeiculoCredencial.LayoutCrachaID;
+            //        _sqlCmd.Parameters.Add("@V7", SqlDbType.Int).Value = _VeiculoCredencial.FormatoCredencialID;
+            //        _sqlCmd.Parameters.Add("@V8", SqlDbType.VarChar).Value = _VeiculoCredencial.NumeroCredencial;
+            //        _sqlCmd.Parameters.Add("@V9", SqlDbType.Int).Value = _VeiculoCredencial.FC;
+            //        if (_VeiculoCredencial.Emissao == null)
+            //        {
+            //            _sqlCmd.Parameters.Add("@V10", SqlDbType.DateTime).Value = DBNull.Value;
+            //        }
+            //        else
+            //        {
+            //            _sqlCmd.Parameters.Add("@V10", SqlDbType.DateTime).Value = _VeiculoCredencial.Emissao;
+            //        }
 
-                    if (_VeiculoCredencial.Validade == null)
-                    {
-                        _sqlCmd.Parameters.Add("@V11", SqlDbType.DateTime).Value = DBNull.Value;
-                    }
-                    else
-                    {
-                        _sqlCmd.Parameters.Add("@V11", SqlDbType.DateTime).Value = _VeiculoCredencial.Validade;
-                    }
+            //        if (_VeiculoCredencial.Validade == null)
+            //        {
+            //            _sqlCmd.Parameters.Add("@V11", SqlDbType.DateTime).Value = DBNull.Value;
+            //        }
+            //        else
+            //        {
+            //            _sqlCmd.Parameters.Add("@V11", SqlDbType.DateTime).Value = _VeiculoCredencial.Validade;
+            //        }
 
-                    _sqlCmd.Parameters.Add("@V12", SqlDbType.Int).Value = _VeiculoCredencial.CredencialStatusID;
-                    _sqlCmd.Parameters.Add("@V13", SqlDbType.Int).Value = _VeiculoCredencial.VeiculoEmpresaID;
-                    _sqlCmd.Parameters.Add("@V14", SqlDbType.Bit).Value = _VeiculoCredencial.Ativa;
-                    _sqlCmd.Parameters.Add("@V15", SqlDbType.Int).Value = _VeiculoCredencial.VeiculoPrivilegio2ID;
-                    _sqlCmd.Parameters.Add("@V16", SqlDbType.NVarChar).Value = _VeiculoCredencial.Colete;
-                    _sqlCmd.Parameters.Add("@V17", SqlDbType.Int).Value = _VeiculoCredencial.CredencialMotivoID;
-                    if (_VeiculoCredencial.Baixa == null)
-                    {
-                        _sqlCmd.Parameters.Add("@V18", SqlDbType.DateTime).Value = DBNull.Value;
-                    }
-                    else
-                    {
-                        _sqlCmd.Parameters.Add("@V18", SqlDbType.DateTime).Value = _VeiculoCredencial.Baixa;
-                    }
-                    _sqlCmd.Parameters.Add("@V19", SqlDbType.Bit).Value = _VeiculoCredencial.Impressa;
+            //        _sqlCmd.Parameters.Add("@V12", SqlDbType.Int).Value = _VeiculoCredencial.CredencialStatusID;
+            //        _sqlCmd.Parameters.Add("@V13", SqlDbType.Int).Value = _VeiculoCredencial.VeiculoEmpresaID;
+            //        _sqlCmd.Parameters.Add("@V14", SqlDbType.Bit).Value = _VeiculoCredencial.Ativa;
+            //        _sqlCmd.Parameters.Add("@V15", SqlDbType.Int).Value = _VeiculoCredencial.VeiculoPrivilegio2ID;
+            //        _sqlCmd.Parameters.Add("@V16", SqlDbType.NVarChar).Value = _VeiculoCredencial.Colete;
+            //        _sqlCmd.Parameters.Add("@V17", SqlDbType.Int).Value = _VeiculoCredencial.CredencialMotivoID;
+            //        if (_VeiculoCredencial.Baixa == null)
+            //        {
+            //            _sqlCmd.Parameters.Add("@V18", SqlDbType.DateTime).Value = DBNull.Value;
+            //        }
+            //        else
+            //        {
+            //            _sqlCmd.Parameters.Add("@V18", SqlDbType.DateTime).Value = _VeiculoCredencial.Baixa;
+            //        }
+            //        _sqlCmd.Parameters.Add("@V19", SqlDbType.Bit).Value = _VeiculoCredencial.Impressa;
 
-                    _sqlCmd.ExecuteNonQuery();
-                    _novID = _VeiculoCredencial.VeiculoCredencialID;
-                }
-                else
-                {
-                    //ColaboradorID,EmpresaID,EmpresaContratoID,
-                    _sqlCmd = new SqlCommand("Insert into VeiculosCredenciais(VeiculoPrivilegio1ID,CardHolderGUID,CredencialGUID," +
-                        "TipoCredencialID,TecnologiaCredencialID,LayoutCrachaID,FormatoCredencialID,NumeroCredencial,FC," +
-                            "Emissao,Validade,CredencialStatusID,VeiculoEmpresaID,Ativa,VeiculoPrivilegio2ID," +
-                            "Colete,CredencialMotivoID,Baixa,Impressa) " +
-                            "values (@V1,@V2,@V3,@V4,@V5,@V6,@V7,@V8,@V9,@V10,@V11,@V12,@v13,@V14,@V15,@V16,@V17,@V18,@V19);SELECT SCOPE_IDENTITY();", _Con);
+            //        _sqlCmd.ExecuteNonQuery();
+            //        _novID = _VeiculoCredencial.VeiculoCredencialID;
+            //    }
+            //    else
+            //    {
+            //        //ColaboradorID,EmpresaID,EmpresaContratoID,
+            //        _sqlCmd = new SqlCommand("Insert into VeiculosCredenciais(VeiculoPrivilegio1ID,CardHolderGUID,CredencialGUID," +
+            //            "TipoCredencialID,TecnologiaCredencialID,LayoutCrachaID,FormatoCredencialID,NumeroCredencial,FC," +
+            //                "Emissao,Validade,CredencialStatusID,VeiculoEmpresaID,Ativa,VeiculoPrivilegio2ID," +
+            //                "Colete,CredencialMotivoID,Baixa,Impressa) " +
+            //                "values (@V1,@V2,@V3,@V4,@V5,@V6,@V7,@V8,@V9,@V10,@V11,@V12,@v13,@V14,@V15,@V16,@V17,@V18,@V19);SELECT SCOPE_IDENTITY();", _Con);
 
-                    _sqlCmd.Parameters.Add("@V1", SqlDbType.Int).Value = _VeiculoCredencial.VeiculoPrivilegio1ID;
-                    _sqlCmd.Parameters.Add("@V2", SqlDbType.UniqueIdentifier).Value = _VeiculoCredencial.CardHolderGuid;
-                    _sqlCmd.Parameters.Add("@V3", SqlDbType.UniqueIdentifier).Value = _VeiculoCredencial.CredencialGuid;
-                    _sqlCmd.Parameters.Add("@V4", SqlDbType.Int).Value = _VeiculoCredencial.TipoCredencialID;
-                    _sqlCmd.Parameters.Add("@V5", SqlDbType.Int).Value = _VeiculoCredencial.TecnologiaCredencialID;
-                    _sqlCmd.Parameters.Add("@V6", SqlDbType.Int).Value = _VeiculoCredencial.LayoutCrachaID;
-                    _sqlCmd.Parameters.Add("@V7", SqlDbType.Int).Value = _VeiculoCredencial.FormatoCredencialID;
-                    _sqlCmd.Parameters.Add("@V8", SqlDbType.VarChar).Value = _VeiculoCredencial.NumeroCredencial;
-                    _sqlCmd.Parameters.Add("@V9", SqlDbType.Int).Value = _VeiculoCredencial.FC;
-                    if (_VeiculoCredencial.Emissao == null)
-                    {
-                        _sqlCmd.Parameters.Add("@V10", SqlDbType.DateTime).Value = DBNull.Value;
-                    }
-                    else
-                    {
-                        _sqlCmd.Parameters.Add("@V10", SqlDbType.DateTime).Value = _VeiculoCredencial.Emissao;
-                    }
+            //        _sqlCmd.Parameters.Add("@V1", SqlDbType.Int).Value = _VeiculoCredencial.VeiculoPrivilegio1ID;
+            //        _sqlCmd.Parameters.Add("@V2", SqlDbType.UniqueIdentifier).Value = _VeiculoCredencial.CardHolderGuid;
+            //        _sqlCmd.Parameters.Add("@V3", SqlDbType.UniqueIdentifier).Value = _VeiculoCredencial.CredencialGuid;
+            //        _sqlCmd.Parameters.Add("@V4", SqlDbType.Int).Value = _VeiculoCredencial.TipoCredencialID;
+            //        _sqlCmd.Parameters.Add("@V5", SqlDbType.Int).Value = _VeiculoCredencial.TecnologiaCredencialID;
+            //        _sqlCmd.Parameters.Add("@V6", SqlDbType.Int).Value = _VeiculoCredencial.LayoutCrachaID;
+            //        _sqlCmd.Parameters.Add("@V7", SqlDbType.Int).Value = _VeiculoCredencial.FormatoCredencialID;
+            //        _sqlCmd.Parameters.Add("@V8", SqlDbType.VarChar).Value = _VeiculoCredencial.NumeroCredencial;
+            //        _sqlCmd.Parameters.Add("@V9", SqlDbType.Int).Value = _VeiculoCredencial.FC;
+            //        if (_VeiculoCredencial.Emissao == null)
+            //        {
+            //            _sqlCmd.Parameters.Add("@V10", SqlDbType.DateTime).Value = DBNull.Value;
+            //        }
+            //        else
+            //        {
+            //            _sqlCmd.Parameters.Add("@V10", SqlDbType.DateTime).Value = _VeiculoCredencial.Emissao;
+            //        }
 
-                    if (_VeiculoCredencial.Validade == null)
-                    {
-                        _sqlCmd.Parameters.Add("@V11", SqlDbType.DateTime).Value = DBNull.Value;
-                    }
-                    else
-                    {
-                        _sqlCmd.Parameters.Add("@V11", SqlDbType.DateTime).Value = _VeiculoCredencial.Validade;
-                    }
+            //        if (_VeiculoCredencial.Validade == null)
+            //        {
+            //            _sqlCmd.Parameters.Add("@V11", SqlDbType.DateTime).Value = DBNull.Value;
+            //        }
+            //        else
+            //        {
+            //            _sqlCmd.Parameters.Add("@V11", SqlDbType.DateTime).Value = _VeiculoCredencial.Validade;
+            //        }
 
-                    _sqlCmd.Parameters.Add("@V12", SqlDbType.Int).Value = _VeiculoCredencial.CredencialStatusID;
-                    _sqlCmd.Parameters.Add("@V13", SqlDbType.Int).Value = _VeiculoCredencial.VeiculoEmpresaID;
-                    _sqlCmd.Parameters.Add("@V14", SqlDbType.Bit).Value = _VeiculoCredencial.Ativa;
-                    _sqlCmd.Parameters.Add("@V15", SqlDbType.Int).Value = _VeiculoCredencial.VeiculoPrivilegio2ID;
-                    _sqlCmd.Parameters.Add("@V16", SqlDbType.VarChar).Value = _VeiculoCredencial.Colete;
-                    _sqlCmd.Parameters.Add("@V17", SqlDbType.Int).Value = _VeiculoCredencial.CredencialMotivoID;
+            //        _sqlCmd.Parameters.Add("@V12", SqlDbType.Int).Value = _VeiculoCredencial.CredencialStatusID;
+            //        _sqlCmd.Parameters.Add("@V13", SqlDbType.Int).Value = _VeiculoCredencial.VeiculoEmpresaID;
+            //        _sqlCmd.Parameters.Add("@V14", SqlDbType.Bit).Value = _VeiculoCredencial.Ativa;
+            //        _sqlCmd.Parameters.Add("@V15", SqlDbType.Int).Value = _VeiculoCredencial.VeiculoPrivilegio2ID;
+            //        _sqlCmd.Parameters.Add("@V16", SqlDbType.VarChar).Value = _VeiculoCredencial.Colete;
+            //        _sqlCmd.Parameters.Add("@V17", SqlDbType.Int).Value = _VeiculoCredencial.CredencialMotivoID;
 
-                    if (_VeiculoCredencial.Baixa == null)
-                    {
-                        _sqlCmd.Parameters.Add("@V18", SqlDbType.DateTime).Value = DBNull.Value;
-                    }
-                    else
-                    {
-                        _sqlCmd.Parameters.Add("@V18", SqlDbType.DateTime).Value = _VeiculoCredencial.Baixa;
-                    }
-                    _sqlCmd.Parameters.Add("@V19", SqlDbType.Bit).Value = _VeiculoCredencial.Impressa;
+            //        if (_VeiculoCredencial.Baixa == null)
+            //        {
+            //            _sqlCmd.Parameters.Add("@V18", SqlDbType.DateTime).Value = DBNull.Value;
+            //        }
+            //        else
+            //        {
+            //            _sqlCmd.Parameters.Add("@V18", SqlDbType.DateTime).Value = _VeiculoCredencial.Baixa;
+            //        }
+            //        _sqlCmd.Parameters.Add("@V19", SqlDbType.Bit).Value = _VeiculoCredencial.Impressa;
 
-                    _novID = Convert.ToInt32(_sqlCmd.ExecuteScalar());
-                }
+            //        _novID = Convert.ToInt32(_sqlCmd.ExecuteScalar());
+            //    }
 
-                _Con.Close();
+            //    _Con.Close();
 
 
-            }
-            catch (Exception ex)
-            {
-                Global.Log("Erro na void InsereColaboradorCredencialBD ex: " + ex);
-            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    Global.Log("Erro na void InsereColaboradorCredencialBD ex: " + ex);
+            //}
 
-            return _novID;
+            //return _novID;
         }
      
 

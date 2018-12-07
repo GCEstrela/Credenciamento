@@ -99,51 +99,51 @@ namespace iModSCCredenciamento.Funcoes
             try
             {
 
-                //IEngine _sdk = Main.engine;
+                ////IEngine _sdk = Main.engine;
 
-                Workspace m_workspace = PagePrincipalView.Workspace;
+                //Workspace m_workspace = PagePrincipalView.Workspace;
 
-                bool _deletaCredencial = false;
+                //bool _deletaCredencial = false;
 
-                Cardholder _cardholder = _sdk.GetEntity((Guid)veiculoCredencial.CardHolderGuid) as Cardholder;
+                //Cardholder _cardholder = _sdk.GetEntity((Guid)veiculoCredencial.CardHolderGuid) as Cardholder;
 
-                if (_cardholder == null)
-                {
-                    return false;
-                }
+                //if (_cardholder == null)
+                //{
+                //    return false;
+                //}
 
-                Credential _credencial = _sdk.GetEntity((Guid)veiculoCredencial.CredencialGuid) as Credential;
+                //Credential _credencial = _sdk.GetEntity((Guid)veiculoCredencial.CredencialGuid) as Credential;
 
-                if (_credencial == null)
-                {
-                    _credencial = CriarCredencialProvisoria(_cardholder, veiculoCredencial.Validade, new Guid(veiculoCredencial.LayoutCrachaGUID));
-                    _deletaCredencial = true;
-                }
+                //if (_credencial == null)
+                //{
+                //    _credencial = CriarCredencialProvisoria(_cardholder, veiculoCredencial.Validade, new Guid(veiculoCredencial.LayoutCrachaGUID));
+                //    _deletaCredencial = true;
+                //}
 
-                Guid _CrachaGUID = new Guid(veiculoCredencial.LayoutCrachaGUID);
-                Guid _CHGUID = _credencial.CardholderGuid; // new Guid("227ee2c9-371f-408f-bf91-07cfb7ac8a74");
+                //Guid _CrachaGUID = new Guid(veiculoCredencial.LayoutCrachaGUID);
+                //Guid _CHGUID = _credencial.CardholderGuid; // new Guid("227ee2c9-371f-408f-bf91-07cfb7ac8a74");
 
-                System.Windows.Application.Current.Dispatcher.Invoke(new Action(() =>
-                {
-                    PrintQueue printQueue = GetPrintQueue();
-                    if (printQueue != null)
-                    {
+                //System.Windows.Application.Current.Dispatcher.Invoke(new Action(() =>
+                //{
+                //    PrintQueue printQueue = GetPrintQueue();
+                //    if (printQueue != null)
+                //    {
 
-                        IBadgeService badgeService = m_workspace.Services.Get<IBadgeService>();
-                        if (badgeService != null)
-                        {
+                //        IBadgeService badgeService = m_workspace.Services.Get<IBadgeService>();
+                //        if (badgeService != null)
+                //        {
 
-                            BadgeInformation info = new BadgeInformation(_CrachaGUID, _credencial.Guid);
-                            badgeService.BeginPrint(info, printQueue, OnBadgePrinted, null);
+                //            BadgeInformation info = new BadgeInformation(_CrachaGUID, _credencial.Guid);
+                //            badgeService.BeginPrint(info, printQueue, OnBadgePrinted, null);
 
-                        }
-                    }
-                }));
+                //        }
+                //    }
+                //}));
 
-                if (_deletaCredencial)
-                {
-                    _sdk.DeleteEntity(_credencial);
-                }
+                //if (_deletaCredencial)
+                //{
+                //    _sdk.DeleteEntity(_credencial);
+                //}
 
 
                 return true;
@@ -531,256 +531,256 @@ namespace iModSCCredenciamento.Funcoes
         {
             try
             {
-                //IEngine _sdk = Main.engine;
-                Cardholder _cardholder;
-                string _firstname = "";
-                string _lastname = "";
-                ////// CardHolder
-                try
-                {
-                    _sdk.TransactionManager.CreateTransaction();
+                ////IEngine _sdk = Main.engine;
+                //Cardholder _cardholder;
+                //string _firstname = "";
+                //string _lastname = "";
+                //////// CardHolder
+                //try
+                //{
+                //    _sdk.TransactionManager.CreateTransaction();
 
-                    _cardholder = BuscarCardHolder(veiculoCredencial.Placa, veiculoCredencial.CNPJ);
+                //    _cardholder = BuscarCardHolder(veiculoCredencial.Placa, veiculoCredencial.CNPJ);
 
-                    string[] _nomeCompleto = veiculoCredencial.VeiculoNome.Split(' ');
+                //    string[] _nomeCompleto = veiculoCredencial.VeiculoNome.Split(' ');
 
-                    int _len = _nomeCompleto.Count();
+                //    int _len = _nomeCompleto.Count();
 
-                    if (_len > 1)
-                    {
-                        _lastname = _nomeCompleto[_len - 1];
+                //    if (_len > 1)
+                //    {
+                //        _lastname = _nomeCompleto[_len - 1];
 
-                        _firstname = _nomeCompleto[0];
-                    }
-                    else
-                    {
-                        _firstname = veiculoCredencial.VeiculoNome;
-                    }
+                //        _firstname = _nomeCompleto[0];
+                //    }
+                //    else
+                //    {
+                //        _firstname = veiculoCredencial.VeiculoNome;
+                //    }
 
-                    //DateTime _DataValidade;
+                //    //DateTime _DataValidade;
 
-                    //if (vinculo.Validade != null)
-                    //{
-                    //    _DataValidade = (DateTime)vinculo.Validade;
+                //    //if (vinculo.Validade != null)
+                //    //{
+                //    //    _DataValidade = (DateTime)vinculo.Validade;
 
-                    //    _DataValidade = _DataValidade.AddSeconds(86399);
+                //    //    _DataValidade = _DataValidade.AddSeconds(86399);
 
-                    //    _DataValidade = _DataValidade <= DateTime.Now ? DateTime.Now.AddSeconds(3) : _DataValidade;
-                    //}
-                    //else
-                    //{
-                    //    _DataValidade = DateTime.Now.AddSeconds(86399);
-                    //}
+                //    //    _DataValidade = _DataValidade <= DateTime.Now ? DateTime.Now.AddSeconds(3) : _DataValidade;
+                //    //}
+                //    //else
+                //    //{
+                //    //    _DataValidade = DateTime.Now.AddSeconds(86399);
+                //    //}
 
 
-                    CardholderGroup _cardholderGroup = _sdk.GetEntity(EntityType.CardholderGroup, 1) as CardholderGroup;
+                //    CardholderGroup _cardholderGroup = _sdk.GetEntity(EntityType.CardholderGroup, 1) as CardholderGroup;
 
-                    if (_cardholder == null)
-                    {
-                        _cardholder = _sdk.CreateEntity(veiculoCredencial.VeiculoNome, EntityType.Cardholder) as Cardholder;
-                    }
+                //    if (_cardholder == null)
+                //    {
+                //        _cardholder = _sdk.CreateEntity(veiculoCredencial.VeiculoNome, EntityType.Cardholder) as Cardholder;
+                //    }
 
-                    BitmapImage _img = Conversores.STRtoIMG(veiculoCredencial.VeiculoFoto) as BitmapImage;
+                //    BitmapImage _img = Conversores.STRtoIMG(veiculoCredencial.VeiculoFoto) as BitmapImage;
 
-                    Bitmap _Foto = Conversores.BitmapImageToBitmap(_img);
+                //    Bitmap _Foto = Conversores.BitmapImageToBitmap(_img);
 
 
-                    if (_Foto != null)
-                    {
-                        _cardholder.Picture = _Foto;
-                    }
+                //    if (_Foto != null)
+                //    {
+                //        _cardholder.Picture = _Foto;
+                //    }
 
-                    Bitmap _Motorista = null;
+                //    Bitmap _Motorista = null;
 
 
-                    _cardholder.SetCustomFieldAsync("No. do Veiculo", veiculoCredencial.VeiculoID);
+                //    _cardholder.SetCustomFieldAsync("No. do Veiculo", veiculoCredencial.VeiculoID);
 
-                    _cardholder.SetCustomFieldAsync("CPF", veiculoCredencial.Placa);
+                //    _cardholder.SetCustomFieldAsync("CPF", veiculoCredencial.Placa);
 
-                    _cardholder.SetCustomFieldAsync("Motorista", _img);
+                //    _cardholder.SetCustomFieldAsync("Motorista", _img);
 
-                    _cardholder.SetCustomFieldAsync("Empresa", veiculoCredencial.EmpresaNome);
+                //    _cardholder.SetCustomFieldAsync("Empresa", veiculoCredencial.EmpresaNome);
 
-                    _cardholder.SetCustomFieldAsync("Nome Fantasia", veiculoCredencial.EmpresaApelido);
+                //    _cardholder.SetCustomFieldAsync("Nome Fantasia", veiculoCredencial.EmpresaApelido);
 
-                    _cardholder.SetCustomFieldAsync("CNPJ", veiculoCredencial.CNPJ);
+                //    _cardholder.SetCustomFieldAsync("CNPJ", veiculoCredencial.CNPJ);
 
-                    _cardholder.SetCustomFieldAsync("Cargo", veiculoCredencial.Cargo);
+                //    _cardholder.SetCustomFieldAsync("Cargo", veiculoCredencial.Cargo);
 
-                    _cardholder.InsertIntoPartition(Partition.DefaultPartitionGuid);
+                //    _cardholder.InsertIntoPartition(Partition.DefaultPartitionGuid);
 
-                    if (_cardholder.Groups.Count == 0 && _cardholderGroup != null)
-                    {
-                        _cardholder.Groups.Add(_cardholderGroup.Guid);
-                    }
+                //    if (_cardholder.Groups.Count == 0 && _cardholderGroup != null)
+                //    {
+                //        _cardholder.Groups.Add(_cardholderGroup.Guid);
+                //    }
 
 
-                    _cardholder.FirstName = _firstname;
+                //    _cardholder.FirstName = _firstname;
 
-                    _cardholder.LastName = _lastname;
+                //    _cardholder.LastName = _lastname;
 
 
-                    //_cardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, _DataValidade);
+                //    //_cardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, _DataValidade);
 
-                    _sdk.TransactionManager.CommitTransaction();
+                //    _sdk.TransactionManager.CommitTransaction();
 
-                    veiculoCredencial.CardHolderGuid = _cardholder.Guid;
-                }
-                catch (Exception ex)
-                {
+                //    veiculoCredencial.CardHolderGuid = _cardholder.Guid;
+                //}
+                //catch (Exception ex)
+                //{
 
-                    return false;
-                }
+                //    return false;
+                //}
 
 
 
-                //// Credencial
-                ///
-                if (veiculoCredencial.FormatIDGUID != "00000000-0000-0000-0000-000000000000" && veiculoCredencial.NumeroCredencial != "")
-                {
+                ////// Credencial
+                /////
+                //if (veiculoCredencial.FormatIDGUID != "00000000-0000-0000-0000-000000000000" && veiculoCredencial.NumeroCredencial != "")
+                //{
 
-                    try
-                    {
+                //    try
+                //    {
 
-                        DateTime _DataValidade;
+                //        DateTime _DataValidade;
 
-                        if (veiculoCredencial.Validade != null)
-                        {
-                            _DataValidade = (DateTime)veiculoCredencial.Validade;
+                //        if (veiculoCredencial.Validade != null)
+                //        {
+                //            _DataValidade = (DateTime)veiculoCredencial.Validade;
 
-                            _DataValidade = _DataValidade.AddSeconds(86399);
+                //            _DataValidade = _DataValidade.AddSeconds(86399);
 
-                            _DataValidade = _DataValidade <= DateTime.Now ? DateTime.Now.AddSeconds(3) : _DataValidade;
-                        }
-                        else
-                        {
-                            _DataValidade = DateTime.Now.AddSeconds(86399);
-                        }
-
-                        Credential _credencial; // = _sdk.GetEntity((Guid)veiculoCredencial.CredencialGuid) as Credential;
-
-                        _credencial = BuscarCredencial(veiculoCredencial.NumeroCredencial, veiculoCredencial.FormatIDGUID, veiculoCredencial.FC);
-
+                //            _DataValidade = _DataValidade <= DateTime.Now ? DateTime.Now.AddSeconds(3) : _DataValidade;
+                //        }
+                //        else
+                //        {
+                //            _DataValidade = DateTime.Now.AddSeconds(86399);
+                //        }
+
+                //        Credential _credencial; // = _sdk.GetEntity((Guid)veiculoCredencial.CredencialGuid) as Credential;
+
+                //        _credencial = BuscarCredencial(veiculoCredencial.NumeroCredencial, veiculoCredencial.FormatIDGUID, veiculoCredencial.FC);
+
 
-                        if (_credencial != null)
-                        {
-                            if (_credencial.CardholderGuid != _cardholder.Guid)
-                            {
-                                //MessageBox.Show("Esta credencial pertence a outro usuário e não pode ser vinculada!", "Erro ao Vincular", MessageBoxButtons.OK,MessageBoxIcon.Exclamation);
-                                Global.PopupBox("Esta credencial já está associada a um usuário e não pode ser vinculada!", 4);
+                //        if (_credencial != null)
+                //        {
+                //            if (_credencial.CardholderGuid != _cardholder.Guid)
+                //            {
+                //                //MessageBox.Show("Esta credencial pertence a outro usuário e não pode ser vinculada!", "Erro ao Vincular", MessageBoxButtons.OK,MessageBoxIcon.Exclamation);
+                //                Global.PopupBox("Esta credencial já está associada a um usuário e não pode ser vinculada!", 4);
 
-                                return false;
-                            }
-                            else // atualizar credencial
-                            {
-                                if (veiculoCredencial.LayoutCrachaGUID != "")
-                                {
-                                    BadgeTemplate _BadgeTemplate = _sdk.GetEntity(new Guid(veiculoCredencial.LayoutCrachaGUID)) as BadgeTemplate;
-                                    _credencial.BadgeTemplate = _BadgeTemplate.Guid;
+                //                return false;
+                //            }
+                //            else // atualizar credencial
+                //            {
+                //                if (veiculoCredencial.LayoutCrachaGUID != "")
+                //                {
+                //                    BadgeTemplate _BadgeTemplate = _sdk.GetEntity(new Guid(veiculoCredencial.LayoutCrachaGUID)) as BadgeTemplate;
+                //                    _credencial.BadgeTemplate = _BadgeTemplate.Guid;
 
-                                    _credencial.ActivationMode = new SpecificActivationPeriod(DateTime.Now, _DataValidade);
-                                }
+                //                    _credencial.ActivationMode = new SpecificActivationPeriod(DateTime.Now, _DataValidade);
+                //                }
 
-                            }
-                        }
-                        else //criar nova credencial
-                        {
+                //            }
+                //        }
+                //        else //criar nova credencial
+                //        {
 
 
-                            _sdk.TransactionManager.CreateTransaction();
+                //            _sdk.TransactionManager.CreateTransaction();
 
-                            _credencial = _sdk.CreateEntity("Credencial de " + _firstname, EntityType.Credential) as Credential;
+                //            _credencial = _sdk.CreateEntity("Credencial de " + _firstname, EntityType.Credential) as Credential;
 
-                            _credencial.Name = veiculoCredencial.NumeroCredencial + " - " + _firstname + " " + _lastname;
+                //            _credencial.Name = veiculoCredencial.NumeroCredencial + " - " + _firstname + " " + _lastname;
 
-                            _credencial.ActivationMode = new SpecificActivationPeriod(DateTime.Now, _DataValidade);
+                //            _credencial.ActivationMode = new SpecificActivationPeriod(DateTime.Now, _DataValidade);
 
-                            if (veiculoCredencial.LayoutCrachaGUID != "")
-                            {
-                                BadgeTemplate _BadgeTemplate = _sdk.GetEntity(new Guid(veiculoCredencial.LayoutCrachaGUID)) as BadgeTemplate;
-                                _credencial.BadgeTemplate = _BadgeTemplate.Guid;
+                //            if (veiculoCredencial.LayoutCrachaGUID != "")
+                //            {
+                //                BadgeTemplate _BadgeTemplate = _sdk.GetEntity(new Guid(veiculoCredencial.LayoutCrachaGUID)) as BadgeTemplate;
+                //                _credencial.BadgeTemplate = _BadgeTemplate.Guid;
 
-                            }
+                //            }
 
-                            //0	N/D                           	00000000-0000-0000-0000-000000000000
-                            //1	Standard - 26 bits            	00000000-0000-0000-0000-000000000200
-                            //2	H10302 - 37 bits              	00000000-0000-0000-0000-000000000400
-                            //3	H10304 - 37 bits              	00000000-0000-0000-0000-000000000500
-                            //4	H10306 - 34 bits              	00000000-0000-0000-0000-000000000300
-                            //5	HID Corporate 1000 - 35 bits  	00000000-0000-0000-0000-000000000600
-                            //6	HID Corporate 1000 - 48 bits  	00000000-0000-0000-0000-000000000800
-                            //7	CSN                           	00000000-0000-0000-0000-000000000700
+                //            //0	N/D                           	00000000-0000-0000-0000-000000000000
+                //            //1	Standard - 26 bits            	00000000-0000-0000-0000-000000000200
+                //            //2	H10302 - 37 bits              	00000000-0000-0000-0000-000000000400
+                //            //3	H10304 - 37 bits              	00000000-0000-0000-0000-000000000500
+                //            //4	H10306 - 34 bits              	00000000-0000-0000-0000-000000000300
+                //            //5	HID Corporate 1000 - 35 bits  	00000000-0000-0000-0000-000000000600
+                //            //6	HID Corporate 1000 - 48 bits  	00000000-0000-0000-0000-000000000800
+                //            //7	CSN                           	00000000-0000-0000-0000-000000000700
 
 
-                            switch (veiculoCredencial.FormatIDGUID)
-                            {
-                                case "00000000-0000-0000-0000-000000000200":
-                                    _credencial.Format = new WiegandStandardCredentialFormat(Convert.ToInt32(veiculoCredencial.FC), Convert.ToInt32(veiculoCredencial.NumeroCredencial));
-                                    break;
-                                case "00000000-0000-0000-0000-000000000400":
-                                    _credencial.Format = new WiegandH10302CredentialFormat(Convert.ToInt32(veiculoCredencial.NumeroCredencial));
-                                    break;
-                                case "00000000-0000-0000-0000-000000000500":
-                                    _credencial.Format = new WiegandH10304CredentialFormat(Convert.ToInt32(veiculoCredencial.FC), Convert.ToInt32(veiculoCredencial.NumeroCredencial));
-                                    break;
-                                case "00000000-0000-0000-0000-000000000300":
-                                    _credencial.Format = new WiegandH10306CredentialFormat(Convert.ToInt32(veiculoCredencial.FC), Convert.ToInt32(veiculoCredencial.NumeroCredencial));
-                                    break;
-                                case "00000000-0000-0000-0000-000000000600":
-                                    _credencial.Format = new WiegandCorporate1000CredentialFormat(Convert.ToInt32(veiculoCredencial.FC), Convert.ToInt32(veiculoCredencial.NumeroCredencial));
-                                    break;
-                                case "00000000-0000-0000-0000-000000000800":
-                                    _credencial.Format = new Wiegand48BitCorporate1000CredentialFormat(Convert.ToInt32(veiculoCredencial.FC), Convert.ToInt32(veiculoCredencial.NumeroCredencial));
-                                    break;
+                //            switch (veiculoCredencial.FormatIDGUID)
+                //            {
+                //                case "00000000-0000-0000-0000-000000000200":
+                //                    _credencial.Format = new WiegandStandardCredentialFormat(Convert.ToInt32(veiculoCredencial.FC), Convert.ToInt32(veiculoCredencial.NumeroCredencial));
+                //                    break;
+                //                case "00000000-0000-0000-0000-000000000400":
+                //                    _credencial.Format = new WiegandH10302CredentialFormat(Convert.ToInt32(veiculoCredencial.NumeroCredencial));
+                //                    break;
+                //                case "00000000-0000-0000-0000-000000000500":
+                //                    _credencial.Format = new WiegandH10304CredentialFormat(Convert.ToInt32(veiculoCredencial.FC), Convert.ToInt32(veiculoCredencial.NumeroCredencial));
+                //                    break;
+                //                case "00000000-0000-0000-0000-000000000300":
+                //                    _credencial.Format = new WiegandH10306CredentialFormat(Convert.ToInt32(veiculoCredencial.FC), Convert.ToInt32(veiculoCredencial.NumeroCredencial));
+                //                    break;
+                //                case "00000000-0000-0000-0000-000000000600":
+                //                    _credencial.Format = new WiegandCorporate1000CredentialFormat(Convert.ToInt32(veiculoCredencial.FC), Convert.ToInt32(veiculoCredencial.NumeroCredencial));
+                //                    break;
+                //                case "00000000-0000-0000-0000-000000000800":
+                //                    _credencial.Format = new Wiegand48BitCorporate1000CredentialFormat(Convert.ToInt32(veiculoCredencial.FC), Convert.ToInt32(veiculoCredencial.NumeroCredencial));
+                //                    break;
 
-                                case "00000000-0000-0000-0000-000000000700":
-                                    CustomCredentialFormat mifareCSN;
+                //                case "00000000-0000-0000-0000-000000000700":
+                //                    CustomCredentialFormat mifareCSN;
 
-                                    SystemConfiguration sysConfig = _sdk.GetEntity(SdkGuids.SystemConfiguration) as SystemConfiguration;
+                //                    SystemConfiguration sysConfig = _sdk.GetEntity(SdkGuids.SystemConfiguration) as SystemConfiguration;
 
-                                    if (sysConfig != null)
-                                    {
+                //                    if (sysConfig != null)
+                //                    {
 
 
-                                        foreach (CredentialFormat cardFormat in sysConfig.CredentialFormats)
-                                        {
-                                            if (cardFormat.Name == "CSN")
-                                            {
-                                                mifareCSN = cardFormat as CustomCredentialFormat;
-                                                mifareCSN.SetValues(long.Parse(veiculoCredencial.NumeroCredencial));
-                                                _credencial.Format = mifareCSN;
-                                                break;
-                                            }
-                                            //
-                                        }
-                                    }
-                                    break;
-                            }
+                //                        foreach (CredentialFormat cardFormat in sysConfig.CredentialFormats)
+                //                        {
+                //                            if (cardFormat.Name == "CSN")
+                //                            {
+                //                                mifareCSN = cardFormat as CustomCredentialFormat;
+                //                                mifareCSN.SetValues(long.Parse(veiculoCredencial.NumeroCredencial));
+                //                                _credencial.Format = mifareCSN;
+                //                                break;
+                //                            }
+                //                            //
+                //                        }
+                //                    }
+                //                    break;
+                //            }
 
-                            //if (_credencial.Format != null)
-                            //{
+                //            //if (_credencial.Format != null)
+                //            //{
 
 
-                            _credencial.InsertIntoPartition(Partition.DefaultPartitionGuid);
+                //            _credencial.InsertIntoPartition(Partition.DefaultPartitionGuid);
 
-                            _cardholder.Credentials.Add(_credencial);
-                            //}
+                //            _cardholder.Credentials.Add(_credencial);
+                //            //}
 
 
-                            _sdk.TransactionManager.CommitTransaction();
+                //            _sdk.TransactionManager.CommitTransaction();
 
 
-                        }
+                //        }
 
-                        veiculoCredencial.CredencialGuid = _credencial.Guid;
+                //        veiculoCredencial.CredencialGuid = _credencial.Guid;
 
-                    }
-                    catch (Exception ex)
-                    {
+                //    }
+                //    catch (Exception ex)
+                //    {
 
-                        return false;
-                    }
-                }
+                //        return false;
+                //    }
+                //}
 
                 return true;
             }

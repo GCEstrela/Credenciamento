@@ -47,7 +47,7 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.InsertText("VeiculosCredenciais", conn))
+                using (var cmd = _dataBase.InsertText("VeiculosCredenciaisView", conn))
                 {
                     try
                     {
@@ -100,6 +100,9 @@ namespace IMOD.Infra.Repositorios
                     try
                     {
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("VeiculoCredencialId", DbType.Int32, id).Igual()));
+
+
+
                         var reader = cmd.ExecuteReader();
                         var d1 = reader.MapToList<VeiculoCredencial>();
 
@@ -123,12 +126,17 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText("VeiculosCredenciais", conn))
+                using (var cmd = _dataBase.SelectText("VeiculosCredenciaisView", conn))
 
                 {
                     try
                     {
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("NumeroCredencial", objects, 0).Like()));
+
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("VeiculoID", DbType.Int32, objects, 0).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("VeiculoCredencialID", DbType.Int32, objects, 1).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("CredencialStatusID", DbType.Int32, objects, 2).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("FormatoCredencialID", DbType.Int32, objects, 3).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("NumeroCredencial", objects, 4).Like()));
 
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<VeiculoCredencial>();
@@ -152,7 +160,7 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.UpdateText("VeiculosCredenciais", conn))
+                using (var cmd = _dataBase.UpdateText("VeiculosCredenciaisView", conn))
                 {
                     try
                     {
@@ -196,7 +204,7 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.DeleteText("VeiculosCredenciais", conn))
+                using (var cmd = _dataBase.DeleteText("VeiculosCredenciaisView", conn))
                 {
                     try
                     {
