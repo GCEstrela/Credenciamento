@@ -7,6 +7,7 @@
 #region
 
 using System;
+using System.Data.SqlClient;
 using System.IO;
 using CrystalDecisions.CrystalReports.Engine;
 using CrystalDecisions.Shared;
@@ -14,6 +15,7 @@ using iModSCCredenciamento.Windows;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using IMOD.CrossCutting;
+using IMOD.Infra.Ado;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 
 #endregion
@@ -26,6 +28,11 @@ namespace iModSCCredenciamento.Helpers
     internal static class WpfHelp
     {
         #region  Metodos
+
+        /// <summary>
+        /// ConnectionString
+        /// </summary>
+        public static SqlConnectionStringBuilder db = new SqlConnectionStringBuilder(CurrentConfig.ConexaoString);
 
         /// <summary>
         ///     Caixa de Menssagem Customizada
@@ -205,10 +212,10 @@ namespace iModSCCredenciamento.Helpers
                 ConnectionInfo crConnectionInfo = new ConnectionInfo();
                 Tables CrTables;
 
-                crConnectionInfo.ServerName = "172.16.190.108\\SQLEXPRESS";
-                crConnectionInfo.DatabaseName = "D_iModCredenciamento";
-                crConnectionInfo.UserID = "imod";
-                crConnectionInfo.Password = "imod";
+                crConnectionInfo.ServerName = db.DataSource;
+                crConnectionInfo.DatabaseName = db.InitialCatalog;
+                crConnectionInfo.UserID = db.UserID;
+                crConnectionInfo.Password = db.Password;
 
                 CrTables = reportDoc.Database.Tables;
                 foreach (Table CrTable in CrTables)
