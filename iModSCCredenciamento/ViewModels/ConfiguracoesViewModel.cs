@@ -765,23 +765,15 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                System.Windows.Forms.OpenFileDialog _arquivoRPT = new System.Windows.Forms.OpenFileDialog();
-
-                string _nomecompletodoarquivo;
-                string _arquivoSTR;
-                _arquivoRPT.InitialDirectory = "c:\\\\";
-                _arquivoRPT.Filter = "Reports Files|*.rpt"; ;
-                _arquivoRPT.RestoreDirectory = true;
-                _arquivoRPT.ShowDialog();
-
-                _nomecompletodoarquivo = _arquivoRPT.SafeFileName;
-                _arquivoSTR = Conversores.PDFtoString(_arquivoRPT.FileName);
-
-                _RelatorioTemp.NomeArquivoRPT = _nomecompletodoarquivo;
-                _RelatorioTemp.ArquivoRPT = _arquivoSTR;
+                var filtro = "Crystal Report Files|*.rpt";
+                var arq = WpfHelp.UpLoadArquivoDialog(filtro, 0);
+                if (arq == null) return;
+                _RelatorioTemp.NomeArquivoRPT = arq.Nome;
+                _RelatorioTemp.ArquivoRPT = arq.FormatoBase64;
             }
             catch (Exception ex)
             {
+                WpfHelp.Mbox(ex.Message);
                 Utils.TraceException(ex);
             }
         }
@@ -797,6 +789,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
+                WpfHelp.Mbox(ex.Message);
                 Utils.TraceException(ex);
             }
 
@@ -871,29 +864,21 @@ namespace iModSCCredenciamento.ViewModels
             }
 
         }
+        //TODO: OnBuscarRelatorioGerencialCommand(Binding Nome Arquivo .rpt) - Mihai (07/12/2018)
         public void OnBuscarRelatorioGerencialCommand()
         {
             try
             {
-                System.Windows.Forms.OpenFileDialog _arquivoRPT = new System.Windows.Forms.OpenFileDialog();
-
-                string _nomecompletodoarquivo;
-                string _arquivoSTR;
-
-                _arquivoRPT.InitialDirectory = "c:\\\\";
-                _arquivoRPT.Filter = "Reports Files|*.rpt"; ;
-                _arquivoRPT.RestoreDirectory = true;
-                _arquivoRPT.ShowDialog();
-
-                _nomecompletodoarquivo = _arquivoRPT.SafeFileName;
-                _arquivoSTR = Conversores.PDFtoString(_arquivoRPT.FileName);
-
-                _RelatorioGerencialTemp.NomeArquivoRPT = _nomecompletodoarquivo;
-                _RelatorioGerencialTemp.ArquivoRPT = _arquivoSTR;
-
+                var filtro = "Crystal Report Files|*.rpt";
+                var arq = WpfHelp.UpLoadArquivoDialog(filtro, 0);
+                if (arq == null) return;
+                _RelatorioGerencialTemp.Nome = arq.Nome;
+                _RelatorioGerencialTemp.ArquivoRPT = arq.FormatoBase64;
+                //RelatoriosGerenciais.Add(_RelatorioGerencialTemp);
             }
             catch (Exception ex)
             {
+                WpfHelp.Mbox(ex.Message);
                 Utils.TraceException(ex);
             }
         }
@@ -989,30 +974,18 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                System.Windows.Forms.OpenFileDialog _arquivoRPT = new System.Windows.Forms.OpenFileDialog();
-
-                string _nomecompletodoarquivo;
-                string _arquivoSTR;
-
-                _arquivoRPT.InitialDirectory = "c:\\\\";
-                _arquivoRPT.Filter = "Reports Files|*.rpt"; ;
-                _arquivoRPT.RestoreDirectory = true;
-                _arquivoRPT.ShowDialog();
-
-                _nomecompletodoarquivo = _arquivoRPT.SafeFileName;
-                _arquivoSTR = Conversores.PDFtoString(_arquivoRPT.FileName);
-
-                _LayoutCrachaTemp.Nome = _nomecompletodoarquivo;
-                _LayoutCrachaTemp.LayoutRPT = _arquivoSTR;
-
+                var filtro = "Crystal Report Files|*.rpt";
+                var arq = WpfHelp.UpLoadArquivoDialog(filtro, 0);
+                if (arq == null) return;
+                _LayoutCrachaTemp.Nome = arq.Nome;
+                _LayoutCrachaTemp.LayoutRPT = arq.FormatoBase64;
             }
             catch (Exception ex)
             {
+                WpfHelp.Mbox(ex.Message);
                 Utils.TraceException(ex);
             }
         }
-
-        //TODO: LayoutCracha (Falta LayoutRPT no banco) - Mihai (06/12/2018)
         public void OnAbrirLayoutCrachaCommand()
         {
             try

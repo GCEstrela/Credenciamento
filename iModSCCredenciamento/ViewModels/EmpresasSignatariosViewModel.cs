@@ -43,20 +43,20 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                if (!string.IsNullOrWhiteSpace (nome)) nome = $"%{nome}%";
+                if (!string.IsNullOrWhiteSpace(nome)) nome = $"%{nome}%";
 
-                var list1 = _service.Listar (empresaID, nome, null, null, null, null);
-                var list2 = Mapper.Map<List<ClasseEmpresasSignatarios.EmpresaSignatario>> (list1);
+                var list1 = _service.Listar(empresaID, nome, null, null, null, null);
+                var list2 = Mapper.Map<List<ClasseEmpresasSignatarios.EmpresaSignatario>>(list1);
 
                 var observer = new ObservableCollection<ClasseEmpresasSignatarios.EmpresaSignatario>();
-                list2.ForEach (n => { observer.Add (n); });
+                list2.ForEach(n => { observer.Add(n); });
 
                 Signatarios = observer;
                 SelectedIndex = -1;
             }
             catch (Exception ex)
             {
-                Global.Log ("Erro void CarregaColecaoEmpresasSignatarios ex: " + ex.Message);
+                Global.Log("Erro void CarregaColecaoEmpresasSignatarios ex: " + ex.Message);
             }
         }
 
@@ -67,32 +67,32 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 var _xmlDocument = new XmlDocument();
-                XmlNode _xmlNode = _xmlDocument.CreateXmlDeclaration ("1.0", "UTF-8", null);
+                XmlNode _xmlNode = _xmlDocument.CreateXmlDeclaration("1.0", "UTF-8", null);
 
-                XmlNode _ClasseArquivosImagens = _xmlDocument.CreateElement ("ClasseArquivosImagens");
-                _xmlDocument.AppendChild (_ClasseArquivosImagens);
+                XmlNode _ClasseArquivosImagens = _xmlDocument.CreateElement("ClasseArquivosImagens");
+                _xmlDocument.AppendChild(_ClasseArquivosImagens);
 
-                XmlNode _ArquivosImagens = _xmlDocument.CreateElement ("ArquivosImagens");
-                _ClasseArquivosImagens.AppendChild (_ArquivosImagens);
+                XmlNode _ArquivosImagens = _xmlDocument.CreateElement("ArquivosImagens");
+                _ClasseArquivosImagens.AppendChild(_ArquivosImagens);
 
-                var _Con = new SqlConnection (Global._connectionString);
+                var _Con = new SqlConnection(Global._connectionString);
                 _Con.Open();
 
-                var SQCMDXML = new SqlCommand ("Select * From EmpresasSignatarios Where EmpresaSignatarioID = " + empresaSignatarioID + "", _Con);
+                var SQCMDXML = new SqlCommand("Select * From EmpresasSignatarios Where EmpresaSignatarioID = " + empresaSignatarioID + "", _Con);
                 SqlDataReader SQDR_XML;
-                SQDR_XML = SQCMDXML.ExecuteReader (CommandBehavior.Default);
+                SQDR_XML = SQCMDXML.ExecuteReader(CommandBehavior.Default);
                 while (SQDR_XML.Read())
                 {
-                    XmlNode _ArquivoImagem = _xmlDocument.CreateElement ("ArquivoImagem");
-                    _ArquivosImagens.AppendChild (_ArquivoImagem);
+                    XmlNode _ArquivoImagem = _xmlDocument.CreateElement("ArquivoImagem");
+                    _ArquivosImagens.AppendChild(_ArquivoImagem);
 
                     //XmlNode _ArquivoImagemID = _xmlDocument.CreateElement("ArquivoImagemID");
                     //_ArquivoImagemID.AppendChild(_xmlDocument.CreateTextNode((SQDR_XML["EmpresaSeguroID"].ToString())));
                     //_ArquivoImagem.AppendChild(_ArquivoImagemID);
 
-                    XmlNode _Arquivo = _xmlDocument.CreateElement ("Arquivo");
-                    _Arquivo.AppendChild (_xmlDocument.CreateTextNode (SQDR_XML["Assinatura"].ToString()));
-                    _ArquivoImagem.AppendChild (_Arquivo);
+                    XmlNode _Arquivo = _xmlDocument.CreateElement("Arquivo");
+                    _Arquivo.AppendChild(_xmlDocument.CreateTextNode(SQDR_XML["Assinatura"].ToString()));
+                    _ArquivoImagem.AppendChild(_Arquivo);
                 }
                 SQDR_XML.Close();
 
@@ -101,7 +101,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log ("Erro na void CriaXmlImagem ex: " + ex);
+                Global.Log("Erro na void CriaXmlImagem ex: " + ex);
                 return null;
             }
         }
@@ -116,7 +116,7 @@ namespace iModSCCredenciamento.ViewModels
 
         private ClasseEmpresasSignatarios.EmpresaSignatario _signatarioTemp = new ClasseEmpresasSignatarios.EmpresaSignatario();
 
-        private readonly List<ClasseEmpresasSignatarios.EmpresaSignatario> _SignatarioTemp = new List<ClasseEmpresasSignatarios.EmpresaSignatario>(); 
+        private readonly List<ClasseEmpresasSignatarios.EmpresaSignatario> _SignatarioTemp = new List<ClasseEmpresasSignatarios.EmpresaSignatario>();
 
         private readonly IEmpresaSignatarioService _service = new EmpresaSignatarioService();
 
@@ -246,7 +246,7 @@ namespace iModSCCredenciamento.ViewModels
             set
             {
                 _SignatarioSelecionado = value;
-                OnPropertyChanged ("SelectedItem");
+                OnPropertyChanged("SelectedItem");
                 if (SignatarioSelecionado != null)
                 {
                     OnSignatarioSelecionado();
@@ -260,7 +260,7 @@ namespace iModSCCredenciamento.ViewModels
             {
             }
             catch (Exception ex)
-            { 
+            {
             }
         }
 
@@ -284,7 +284,7 @@ namespace iModSCCredenciamento.ViewModels
             set
             {
                 _selectedIndex = value;
-                OnPropertyChanged ("SelectedIndex");
+                OnPropertyChanged("SelectedIndex");
             }
         }
 
@@ -314,8 +314,8 @@ namespace iModSCCredenciamento.ViewModels
 
         public void OnAtualizaCommand(object empresaID)
         {
-            EmpresaSelecionadaID = Convert.ToInt32 (empresaID);
-            var CarregaColecaoEmpresasSignatarios_thr = new Thread (() => CarregaColecaoEmpresasSignatarios (Convert.ToInt32 (empresaID)));
+            EmpresaSelecionadaID = Convert.ToInt32(empresaID);
+            var CarregaColecaoEmpresasSignatarios_thr = new Thread(() => CarregaColecaoEmpresasSignatarios(Convert.ToInt32(empresaID)));
             CarregaColecaoEmpresasSignatarios_thr.Start();
         }
 
@@ -324,14 +324,14 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 var filtro = "Imagem files (*.pdf)|*.pdf|All Files (*.*)|*.*";
-                var arq = WpfHelp.UpLoadArquivoDialog (filtro, 700);
-                if(arq==null) return;
+                var arq = WpfHelp.UpLoadArquivoDialog(filtro, 700);
+                if (arq == null) return;
                 _signatarioTemp.Assinatura = arq.FormatoBase64;
             }
             catch (Exception ex)
             {
-                WpfHelp.Mbox (ex.Message);
-                Utils.TraceException (ex);
+                WpfHelp.Mbox(ex.Message);
+                Utils.TraceException(ex);
             }
         }
 
@@ -347,23 +347,23 @@ namespace iModSCCredenciamento.ViewModels
                         _ArquivoPDF = _signatarioTemp.Assinatura;
                     }
                 }
-                if (string.IsNullOrWhiteSpace (_ArquivoPDF))
+                if (string.IsNullOrWhiteSpace(_ArquivoPDF))
                 {
-                    var _xmlstring = CriaXmlImagem (SignatarioSelecionado.EmpresaSignatarioID);
+                    var _xmlstring = CriaXmlImagem(SignatarioSelecionado.EmpresaSignatarioID);
 
                     var xmldocument = new XmlDocument();
-                    xmldocument.LoadXml (_xmlstring);
+                    xmldocument.LoadXml(_xmlstring);
                     XmlNode node = xmldocument.DocumentElement;
-                    var arquivoNode = node.SelectSingleNode ("ArquivosImagens/ArquivoImagem/Arquivo");
+                    var arquivoNode = node.SelectSingleNode("ArquivosImagens/ArquivoImagem/Arquivo");
 
                     _ArquivoPDF = arquivoNode.FirstChild.Value;
                 }
 
-                Global.PopupPDF (_ArquivoPDF, false);
+                Global.PopupPDF(_ArquivoPDF, false);
             }
             catch (Exception ex)
             {
-                Global.Log ("Erro na void OnAbrirArquivoCommand ex: " + ex);
+                Global.Log("Erro na void OnAbrirArquivoCommand ex: " + ex);
             }
         }
 
@@ -372,13 +372,13 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 //BuscaBadges();
-                _signatarioTemp = SignatarioSelecionado.CriaCopia (SignatarioSelecionado);
+                _signatarioTemp = SignatarioSelecionado.CriaCopia(SignatarioSelecionado);
                 _selectedIndexTemp = SelectedIndex;
                 HabilitaEdicao = true;
             }
             catch (Exception ex)
             {
-                Global.Log ("Erro void OnEditarCommand ex: " + ex.Message);
+                Global.Log("Erro void OnEditarCommand ex: " + ex.Message);
             }
         }
 
@@ -392,7 +392,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log ("Erro void OnCancelarEdicaoCommand ex: " + ex.Message);
+                Global.Log("Erro void OnCancelarEdicaoCommand ex: " + ex.Message);
             }
         }
 
@@ -403,17 +403,17 @@ namespace iModSCCredenciamento.ViewModels
                 HabilitaEdicao = false;
 
                 var entity = SignatarioSelecionado;
-                var entityConv = Mapper.Map<EmpresaSignatario> (entity);
+                var entityConv = Mapper.Map<EmpresaSignatario>(entity);
 
-                _service.Alterar (entityConv);
+                _service.Alterar(entityConv);
 
-                var CarregaColecaoEmpresasSignatarios_thr = new Thread (() => CarregaColecaoEmpresasSignatarios (SignatarioSelecionado.EmpresaId, null));
+                var CarregaColecaoEmpresasSignatarios_thr = new Thread(() => CarregaColecaoEmpresasSignatarios(SignatarioSelecionado.EmpresaId, null));
                 CarregaColecaoEmpresasSignatarios_thr.Start();
             }
             catch (Exception ex)
             {
-                Global.Log ("Erro void OnSalvarEdicaoCommand ex: " + ex.Message);
-                Utils.TraceException (ex);
+                Global.Log("Erro void OnSalvarEdicaoCommand ex: " + ex.Message);
+                Utils.TraceException(ex);
                 throw;
             }
         }
@@ -424,7 +424,7 @@ namespace iModSCCredenciamento.ViewModels
             {
                 foreach (var x in Signatarios)
                 {
-                    _SignatarioTemp.Add (x);
+                    _SignatarioTemp.Add(x);
                 }
 
                 _selectedIndexTemp = SelectedIndex;
@@ -432,13 +432,13 @@ namespace iModSCCredenciamento.ViewModels
 
                 _signatarioTemp = new ClasseEmpresasSignatarios.EmpresaSignatario();
                 _signatarioTemp.EmpresaId = EmpresaSelecionadaID;
-                Signatarios.Add (_signatarioTemp);
+                Signatarios.Add(_signatarioTemp);
                 SelectedIndex = 0;
                 HabilitaEdicao = true;
             }
             catch (Exception ex)
             {
-                Global.Log ("Erro void OnAdicionarCommand ex: " + ex.Message);
+                Global.Log("Erro void OnAdicionarCommand ex: " + ex.Message);
             }
         }
 
@@ -449,17 +449,17 @@ namespace iModSCCredenciamento.ViewModels
                 HabilitaEdicao = false;
 
                 var entity = SignatarioSelecionado;
-                var entityConv = Mapper.Map<EmpresaSignatario> (entity);
+                var entityConv = Mapper.Map<EmpresaSignatario>(entity);
 
-                _service.Criar (entityConv);
+                _service.Criar(entityConv);
 
-                var CarregaColecaoEmpresasSignatarios_thr = new Thread (() => CarregaColecaoEmpresasSignatarios (SignatarioSelecionado.EmpresaId));
+                var CarregaColecaoEmpresasSignatarios_thr = new Thread(() => CarregaColecaoEmpresasSignatarios(SignatarioSelecionado.EmpresaId));
                 CarregaColecaoEmpresasSignatarios_thr.Start();
             }
             catch (Exception ex)
             {
-                Global.Log ("Erro void OnSalvarAdicaoCommand ex: " + ex.Message);
-                Utils.TraceException (ex);
+                Global.Log("Erro void OnSalvarAdicaoCommand ex: " + ex.Message);
+                Utils.TraceException(ex);
                 throw;
             }
         }
@@ -469,7 +469,7 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 Signatarios = null;
-                Signatarios = new ObservableCollection<ClasseEmpresasSignatarios.EmpresaSignatario> (_SignatarioTemp);
+                Signatarios = new ObservableCollection<ClasseEmpresasSignatarios.EmpresaSignatario>(_SignatarioTemp);
                 SelectedIndex = _selectedIndexTemp;
                 _SignatarioTemp.Clear();
                 HabilitaEdicao = false;
@@ -483,14 +483,14 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                if (Global.PopupBox ("Tem certeza que deseja excluir?", 2))
+                if (Global.PopupBox("Tem certeza que deseja excluir?", 2))
                 {
-                    if (Global.PopupBox ("Você perderá todos os dados, inclusive histórico. Confirma exclusão?", 2))
+                    if (Global.PopupBox("Você perderá todos os dados, inclusive histórico. Confirma exclusão?", 2))
                     {
-                        var emp = _service.BuscarPelaChave (SignatarioSelecionado.EmpresaSignatarioID);
-                        _service.Remover (emp);
+                        var emp = _service.BuscarPelaChave(SignatarioSelecionado.EmpresaSignatarioID);
+                        _service.Remover(emp);
 
-                        Signatarios.Remove (SignatarioSelecionado);
+                        Signatarios.Remove(SignatarioSelecionado);
                     }
                 }
             }
@@ -515,8 +515,8 @@ namespace iModSCCredenciamento.ViewModels
         public void On_EfetuarProcura(object sender, EventArgs e)
         {
             var _empresaID = EmpresaSelecionadaID;
-            var _nome = ((PopupPesquisaSignatarios) sender).Criterio.Trim();
-            CarregaColecaoEmpresasSignatarios (_empresaID, _nome);
+            var _nome = ((PopupPesquisaSignatarios)sender).Criterio.Trim();
+            CarregaColecaoEmpresasSignatarios(_empresaID, _nome);
             //CarregaColecaoContratos(_empresaID, _descricao, _numerocontrato);
             SelectedIndex = 0;
         }

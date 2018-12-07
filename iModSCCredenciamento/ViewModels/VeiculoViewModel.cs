@@ -327,14 +327,6 @@ namespace iModSCCredenciamento.ViewModels
         #endregion
 
         #region Comandos dos Botoes
-        public void OnAtualizaCommand(object veiculoID)
-        {
-            //EmpresaSelecionadaID = Convert.ToInt32(empresaID);
-            //Thread CarregaColecaoSeguros_thr = new Thread(() => CarregaColecaoSeguros(Convert.ToInt32(empresaID)));
-            //CarregaColecaoSeguros_thr.Start();
-            //CarregaColecaoSeguros(Convert.ToInt32(empresaID));
-        }
-        
 
         public void OnAbrirArquivoCommand()
         {
@@ -363,18 +355,6 @@ namespace iModSCCredenciamento.ViewModels
                         _ArquivoPDF = arquivoNode.FirstChild.Value;
                     }
                     Global.PopupPDF(_ArquivoPDF);
-                    //byte[] buffer = Conversores.StringToPDF(_ArquivoPDF);
-                    //_ArquivoPDF = System.IO.Path.GetTempFileName();
-                    //_ArquivoPDF = System.IO.Path.GetRandomFileName();
-                    //_ArquivoPDF = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\" + _ArquivoPDF;
-
-                    ////File.Move(_caminhoArquivoPDF, Path.ChangeExtension(_caminhoArquivoPDF, ".pdf"));
-                    //_ArquivoPDF = System.IO.Path.ChangeExtension(_ArquivoPDF, ".pdf");
-                    //System.IO.File.WriteAllBytes(_ArquivoPDF, buffer);
-                    ////Action<string> act = new Action<string>(Global.AbrirArquivoPDF);
-                    ////act.BeginInvoke(_ArquivoPDF, null, null);
-                    //Global.PopupPDF(_ArquivoPDF);
-                    //System.IO.File.Delete(_ArquivoPDF);
                 }
                 catch (Exception ex)
                 {
@@ -388,7 +368,7 @@ namespace iModSCCredenciamento.ViewModels
             }
         }
 
-        
+
         public void OnEditarCommand()
         {
             try

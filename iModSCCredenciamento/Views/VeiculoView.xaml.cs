@@ -7,6 +7,8 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
+using iModSCCredenciamento.Helpers;
+using IMOD.CrossCutting;
 using UserControl = System.Windows.Controls.UserControl;
 namespace iModSCCredenciamento.Views
 {
@@ -19,18 +21,22 @@ namespace iModSCCredenciamento.Views
         {
             InitializeComponent();
             this.DataContext = new VeiculoViewModel();
-
         }
         #region Comando dos Botoes
+        //TODO:SelecionarFoto_bt_Click (Carregar Foto Veículos) - Mihai 07/12/2018
         private void SelecionarFoto_bt_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-
                 Microsoft.Win32.OpenFileDialog openFileDialog = new Microsoft.Win32.OpenFileDialog();
                 openFileDialog.Multiselect = false;
                 openFileDialog.Filter = "Images (*.BMP;*.JPG;*.GIF,*.PNG,*.TIFF)|*.BMP;*.JPG;*.GIF;*.PNG;*.TIFF|" + "All files (*.*)|*.*";
                 openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+
+                //var filtro = "Aruivos de Imagem (*.BMP;*.JPG;*.GIF,*.PNG,*.TIFF)|*.BMP;*.JPG;*.GIF;*.PNG;*.TIFF|" + "All files (*.*)|*.*";
+                //var arq = WpfHelp.UpLoadArquivoDialog(filtro, 0);
+
+
                 if (openFileDialog.ShowDialog() == true)
                 {
                     BitmapImage _img = new BitmapImage(new Uri(openFileDialog.FileName));
@@ -41,13 +47,13 @@ namespace iModSCCredenciamento.Views
 
                     Foto_im.Source = _img;
                     ((ClasseVeiculos.Veiculo)ListaVeiculos_lv.SelectedItem).Foto = _imgstr; //Conversores.IMGtoSTR(new BitmapImage(new Uri(arquivoLogo.FileName)));
-                   
                 }
 
             }
             catch (Exception ex)
             {
-
+                WpfHelp.Mbox(ex.Message);
+                Utils.TraceException(ex);
             }
         }
 
@@ -78,7 +84,7 @@ namespace iModSCCredenciamento.Views
 
             }
         }
- 
+
 
         private void Pesquisar_bt_Click(object sender, RoutedEventArgs e)
         {
