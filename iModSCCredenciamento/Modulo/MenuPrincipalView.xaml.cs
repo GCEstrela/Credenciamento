@@ -30,6 +30,7 @@ namespace iModSCCredenciamento.Modulo
             if (wrk == null)
                 throw new ArgumentNullException(nameof(wrk));
             Workspace = wrk;
+           
             DataContext = null;//Iniciar sem conteudo na tela do frame
         }
 

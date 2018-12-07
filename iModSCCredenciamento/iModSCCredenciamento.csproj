@@ -243,6 +243,8 @@
     <Compile Include="Views\ColaboradorView.xaml.cs">
       <DependentUpon>ColaboradorView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Comportamento\ConfiguracaoBotaoBasico.cs" />
+    <Compile Include="Views\Comportamento\IConfiguracaoBotaoBasico.cs" />
     <Compile Include="Views\ConfiguracoesView.xaml.cs">
       <DependentUpon>ConfiguracoesView.xaml</DependentUpon>
     </Compile>

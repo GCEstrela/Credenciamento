@@ -5,8 +5,10 @@
 // ***********************************************************************
 
 #region
- 
-using Genetec.Sdk.Workspace.Pages; 
+
+using System.Web.UI;
+using Genetec.Sdk.Workspace.Pages;
+using Page = Genetec.Sdk.Workspace.Pages.Page;
 
 #endregion
 
@@ -23,6 +25,8 @@ namespace iModSCCredenciamento.Modulo
         {
             this.View = _view;
         }
+
+         
         /// <summary>
         /// Deserializes the data contained by the specified byte array.
         /// </summary>

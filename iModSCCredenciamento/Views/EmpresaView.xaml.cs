@@ -7,12 +7,14 @@
 #region
 
 using System;
+using System.Web.UI.WebControls;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using iModSCCredenciamento.Funcoes;
 using iModSCCredenciamento.Helpers;
 using iModSCCredenciamento.Models;
+using iModSCCredenciamento.Modulo;
 using iModSCCredenciamento.ViewModels;
 using IMOD.CrossCutting;
 
@@ -20,7 +22,7 @@ using IMOD.CrossCutting;
 
 namespace iModSCCredenciamento.Views
 {
-    public partial class EmpresaView : UserControl
+    public partial class EmpresaView :UserControl
     {
         private readonly bool _cnpjVerificar = false;
         private object _removed;
@@ -103,19 +105,33 @@ namespace iModSCCredenciamento.Views
 
         private void SelecionarLogo_bt_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                var filtro = "Images (*.BMP;*.JPG;*.GIF,*.PNG,*.TIFF)|*.BMP;*.JPG;*.GIF;*.PNG;*.TIFF|" + "All files (*.*)|*.*";
-                var arq = WpfHelp.UpLoadArquivoDialog (filtro);
-                if (arq == null) return;
-                ((ClasseEmpresas.Empresa) ListaEmpresas_lv.SelectedItem).Logo = arq.FormatoBase64;
-                var be = BindingOperations.GetBindingExpression (Logo_im, Image.SourceProperty);
-                be.UpdateTarget();
-            }
-            catch (Exception ex)
-            {
-                Utils.TraceException (ex);
-            }
+
+            //Window window = new Window
+            //{
+            //    Title = "My User Control Dialog",
+            //    Content = new EmpresasSignatariosView()
+            //};
+
+            //window.ShowDialog();
+           // var frm = new win2();
+            //frm.Show();
+             
+            
+
+
+            //try
+            //{
+            //    var filtro = "Images (*.BMP;*.JPG;*.GIF,*.PNG,*.TIFF)|*.BMP;*.JPG;*.GIF;*.PNG;*.TIFF|" + "All files (*.*)|*.*";
+            //    var arq = WpfHelp.UpLoadArquivoDialog (filtro);
+            //    if (arq == null) return;
+            //    ((ClasseEmpresas.Empresa) ListaEmpresas_lv.SelectedItem).Logo = arq.FormatoBase64;
+            //    var be = BindingOperations.GetBindingExpression (Logo_im, Image.SourceProperty);
+            //    be.UpdateTarget();
+            //}
+            //catch (Exception ex)
+            //{
+            //    Utils.TraceException (ex);
+            //}
         }
 
         private void Pesquisar_bt_Click(object sender, RoutedEventArgs e)
@@ -342,8 +358,12 @@ namespace iModSCCredenciamento.Views
             ((EmpresaViewModel) DataContext).OnAbrirPendencias (sender, e);
         }
 
+
         #endregion
 
-      
+        private void button_Click_1(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

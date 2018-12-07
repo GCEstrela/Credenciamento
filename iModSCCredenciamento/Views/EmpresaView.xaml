@@ -144,7 +144,7 @@
                                 <ColumnDefinition Width="620*" />
                             </Grid.ColumnDefinitions>
 
-                            <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}"      Grid.Row="0" Grid.Column="0"  Header="Identificação"  Margin="10,10,10,10" VerticalAlignment="Stretch">
+                            <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}"      Grid.Row="0" Grid.Column="0"  Header="Identificação"  Margin="10" VerticalAlignment="Stretch">
                                 <StackPanel Orientation="Horizontal">
                                     <StackPanel.Resources>
                                         <i:StringToImageConverter x:Key="StringToImageConverter" />
