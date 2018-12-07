@@ -191,6 +191,7 @@
     </Compile>
     <Compile Include="Modulo\ModuloDescritor.cs" />
     <Compile Include="Modulo\ModuloPage.cs" />
+    <Compile Include="Modulo\ViewSingleton.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -665,7 +666,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </None>
-    <None Include="Certificates\iModSCCredenciamento.PagePrincipal.PagePrincipal.cert">
+    <None Include="Certificates\iModSCCredenciamento.Modulo.ModuloPage.cert">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </None>
@@ -698,9 +699,6 @@
     <Resource Include="Resources\Proibido.ico" />
     <Resource Include="Resources\Pasta2.ico" />
     <Resource Include="Resources\WebCam.ico" />
-    <Content Include="CSharpControls.Wpf.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Dlls\Genetec.Sdk.Controls.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

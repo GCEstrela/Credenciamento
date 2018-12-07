@@ -18,12 +18,10 @@ namespace iModSCCredenciamento.Modulo
         
         #region  Metodos
 
-        private MenuPrincipalView _view;
+        private MenuPrincipalView _view= new MenuPrincipalView();
         public ModuloPage()
         {
-            _view= new MenuPrincipalView();
             this.View = _view;
-
         }
         /// <summary>
         /// Deserializes the data contained by the specified byte array.

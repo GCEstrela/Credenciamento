@@ -64,6 +64,30 @@ namespace iModSCCredenciamento.Helpers
         }
 
         /// <summary>
+        ///  Caixa de Menssagem Customizada
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <returns></returns>
+        public static bool PopUpBox(string msg)
+        {
+            var pop = new PopupBox(msg,1);
+            pop.ShowDialog();
+            return pop.Result;
+        }
+
+        /// <summary>
+        ///  Caixa de Menssagem Customizada Sim ou Não
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <returns></returns>
+        public static bool PopUpBoxSimNao(string msg)
+        {
+            var pop = new PopupBox(msg, 2);
+            pop.ShowDialog();
+            return pop.Result;
+        }
+
+        /// <summary>
         ///     Caixa de Menssagem Customizada
         /// </summary>
         /// <param name="msg">Mensagem</param>
@@ -94,19 +118,6 @@ namespace iModSCCredenciamento.Helpers
                     break;
             }
             return caption;
-        }
-
-        /// <summary>
-        ///     Mensagem por Popup
-        /// </summary>
-        /// <param name="msg">Mensagem a ser exibida</param>
-        /// <param name="icone">1-Informação, 2-Interrogação, 3-Exclamação, 4-Proibido</param>
-        /// <returns></returns>
-        public static bool PopupBox(string msg, int icone)
-        {
-            var popupBox = new PopupBox(msg, icone);
-            popupBox.ShowDialog();
-            return popupBox.Result;
         }
 
         /// <summary>

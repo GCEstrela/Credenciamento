@@ -29,8 +29,7 @@ namespace iModSCCredenciamento.Modulo
         public override bool HasPrivilege()
         {
             if (!m_sdk.IsConnected) return false;
-            Global.Privilegio_Salvar = m_sdk.SecurityManager.IsPrivilegeGranted (new Guid ("{D1EE90DF-88CC-4ABF-A92E-1B0F57F8CF79}"));
-            return m_sdk.SecurityManager.IsPrivilegeGranted (new Guid (Privilege));
+               return m_sdk.SecurityManager.IsPrivilegeGranted (new Guid (Privilege));
         }
 
         #endregion

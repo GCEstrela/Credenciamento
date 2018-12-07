@@ -9,7 +9,7 @@
              xmlns:z="clr-namespace:iModSCCredenciamento.Regras"
              xmlns:gif="http://wpfanimatedgif.codeplex.com"
              mc:Ignorable="d" 
-              MinWidth="1258" d:DesignHeight="948.666" Loaded="UserControl_Loaded"   >
+              MinWidth="1258" d:DesignHeight="948.666" Loaded="Form_Load"   >
     <UserControl.Resources>
         <ControlTemplate x:Key="validationErrorTemplate">
             <DockPanel>
@@ -89,7 +89,7 @@
 
             <StackPanel x:Name="ListaEmpresas_sp" Margin="0,0,170,0" Grid.Column="0" Grid.ColumnSpan="2">
                 <ListView x:Name="ListaEmpresas_lv" Margin="0,0,0,0" Height="180" ItemsSource="{Binding Empresas, Mode=TwoWay}" SelectedIndex="{Binding Path=SelectedIndex, Mode=TwoWay}"
-                           SelectedItem="{Binding Path = EmpresaSelecionada, Mode=TwoWay}" SelectionChanged="ListaEmpresas_lv_SelectionChanged"    >
+                            SelectionChanged="ListaEmpresas_lv_SelectionChanged"    >
                     <ListView.View>
                         <GridView FrameworkElement.FlowDirection="RightToLeft">
                             <GridViewColumn >
@@ -400,8 +400,6 @@
                             <ColumnDefinition Width="1091*"/>
                             <ColumnDefinition Width="514*"/>
                         </Grid.ColumnDefinitions>
-                        <local:EmpresasSignatariosView EmpresaSelecionadaIDView="{Binding SelectedItem.EmpresaID, ElementName=ListaEmpresas_lv, UpdateSourceTrigger=PropertyChanged}"
-                                                       Editando="{Binding IsEnabled, ElementName=ListaEmpresas_sp, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10" Grid.ColumnSpan="3" />
                     </Grid>
                 </ScrollViewer>
             </TabItem>
@@ -425,8 +423,6 @@
                             <ColumnDefinition Width="655*"/>
                             <ColumnDefinition Width="599*"/>
                         </Grid.ColumnDefinitions>
-                        <local:EmpresasContratosView EmpresaSelecionadaIDView="{Binding SelectedItem.EmpresaID, ElementName=ListaEmpresas_lv, UpdateSourceTrigger=PropertyChanged}"
-                                                       Editando="{Binding IsEnabled, ElementName=ListaEmpresas_sp, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10" Grid.ColumnSpan="2" />
                     </Grid>
                 </ScrollViewer>
             </TabItem>
@@ -445,10 +441,7 @@
                     </StackPanel>
                 </TabItem.Header>
                 <ScrollViewer Grid.Row="0"   VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" >
-                    <Grid >
-                        <local:EmpresasAnexosView EmpresaSelecionadaIDView="{Binding SelectedItem.EmpresaID, ElementName=ListaEmpresas_lv, UpdateSourceTrigger=PropertyChanged}"
-                                                       Editando="{Binding IsEnabled, ElementName=ListaEmpresas_sp, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10" Grid.ColumnSpan="2" />
-                    </Grid>
+                    <Grid />
                 </ScrollViewer>
             </TabItem>
 
