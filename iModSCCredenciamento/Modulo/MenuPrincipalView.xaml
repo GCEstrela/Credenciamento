@@ -1,0 +1,139 @@
+﻿<UserControl x:Class="iModSCCredenciamento.Modulo.MenuPrincipalView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d" HorizontalContentAlignment="Center">
+    <UserControl.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontFamily" Value="./#Segoe UI" />
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="0" Background="{TemplateBinding Background}">
+                            <Grid>
+                                <ContentPresenter x:Name="MyContentPresenter" Content="{TemplateBinding Content}"
+                                                  HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5" />
+                            </Grid>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="Gray" />
+                                <Setter Property="Foreground" Value="White" />
+                            </Trigger>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter Property="Background" Value="#FF007ACC" />
+                                <Setter Property="Foreground" Value="White" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#FF007ACC" />
+                                <Setter Property="Foreground" Value="White" />
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+       <DockPanel>
+
+            <!--#region StackPanel -->
+            <StackPanel Orientation="Horizontal" Height="60" VerticalAlignment="Top" HorizontalAlignment="Center" DockPanel.Dock="Top">
+
+                <!--#region Empresa -->
+                <Button x:Name="EmpresasBt" Height="60" VerticalAlignment="Top" Width="115"
+                        Click="OpenEmpresaView_Click">
+
+                    <DockPanel>
+                        <Label HorizontalContentAlignment="Center"
+                               DockPanel.Dock="Bottom"
+                               Content="Empresas" Foreground="White" />
+                        <Image Source="/iModSCCredenciamento;component/Resources/Companhia.png" Height="24" Width="24" />
+                    </DockPanel>
+                </Button>
+                <!--#endregion -->
+
+                <!--#region Colaboradores -->
+                <Button x:Name="ColaboradoresBt" HorizontalAlignment="Left" Height="60" VerticalAlignment="Top"
+                        Width="115" Click="OpenColaboradoresView_Click">
+
+                    <DockPanel>
+                        <Label HorizontalContentAlignment="Center"
+                               DockPanel.Dock="Bottom"
+                               Content="Colaboradores" Foreground="White" />
+                        <Image Source="/iModSCCredenciamento;component/Resources/Colaboradores.png" Height="24"
+                               Width="24" />
+                    </DockPanel>
+                </Button>
+                <!--#endregion -->
+
+                <!--#region Veiculos -->
+                <Button x:Name="VeiculosBt" HorizontalAlignment="Left" Height="60" VerticalAlignment="Top" Width="115">
+
+                    <DockPanel>
+                        <Label HorizontalContentAlignment="Center"
+                               DockPanel.Dock="Bottom"
+                               Content="Veículos" Foreground="White" />
+                        <Image Source="/iModSCCredenciamento;component/Resources/Veiculo.png" Height="24" Width="24" />
+                    </DockPanel>
+                </Button>
+                <!--#endregion -->
+
+                <!--#region Configurações -->
+                <Button x:Name="ConfiguracoesBt" HorizontalAlignment="Left" Height="60" VerticalAlignment="Top"
+                        Width="115">
+
+                    <DockPanel>
+                        <Label HorizontalContentAlignment="Center"
+                               DockPanel.Dock="Bottom"
+                               Content="Configurações" Foreground="White" />
+                        <Image Source="/iModSCCredenciamento;component/Resources/Engrenagem.ico" Height="24" Width="24" />
+                    </DockPanel>
+                </Button>
+                <!--#endregion -->
+
+                <!--#region Relatorio -->
+                <Button x:Name="RelatoriosBt" HorizontalAlignment="Left" Height="60" VerticalAlignment="Top"
+                        Width="115">
+                    <DockPanel>
+                        <Label HorizontalContentAlignment="Center"
+                               DockPanel.Dock="Bottom"
+                               Content="Relatórios" Foreground="White" />
+                        <Image Source="/iModSCCredenciamento;component/Resources/Relatorio.png" Height="24" Width="24" />
+                    </DockPanel>
+                </Button>
+                <!--#endregion -->
+
+                <!--#region Termos -->
+                <Button x:Name="TermosBt" HorizontalAlignment="Left" Height="60" VerticalAlignment="Top" Width="115">
+
+                    <DockPanel>
+                        <Label HorizontalContentAlignment="Center"
+                               DockPanel.Dock="Bottom"
+                               Content="Termos" Foreground="White" />
+                        <Image Source="/iModSCCredenciamento;component/Resources/Termo.png" Height="24" Width="24" />
+                    </DockPanel>
+                </Button>
+                <!--#endregion -->
+
+
+            </StackPanel>
+            <!--#endregion -->
+
+
+            <!--#region Conteudo frame -->
+
+            <ContentControl Content="{Binding}" />
+
+            <!--#endregion -->
+
+           
+        </DockPanel> 
+    </Grid>
+</UserControl>
