@@ -735,7 +735,7 @@ namespace iModSCCredenciamento.ViewModels
                 {
                     var entity = EmpresaTipoAtividadeSelecionada;
                     var entityConv = Mapper.Map<EmpresaTipoAtividade>(entity);
-                    _service.TipoAtividadeService.Remover(entityConv); 
+                    _service.TipoAtividadeService.Remover(entityConv);
 
                     EmpresasTiposAtividades.Remove(EmpresaTipoAtividadeSelecionada);
 
@@ -805,7 +805,7 @@ namespace iModSCCredenciamento.ViewModels
 
                 var entity = _EmpresaLayoutCracha;
                 var entityConv = Mapper.Map<EmpresaLayoutCracha>(entity);
-                _service.CrachaService.Criar(entityConv); 
+                _service.CrachaService.Criar(entityConv);
 
                 CarregaColecaoEmpresasLayoutsCrachas(_EmpresaLayoutCracha.EmpresaID);
             }

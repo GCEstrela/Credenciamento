@@ -8,7 +8,7 @@
              xmlns:data="clr-namespace:Singulink.Windows.Data"
              xmlns:gif="http://wpfanimatedgif.codeplex.com"
              
-             mc:Ignorable="d" >
+             mc:Ignorable="d" Height="699" >
     <UserControl.Resources>
         <i:StringToImageConverter x:Key="Convert64ToImage"/>
         <!--<Style TargetType="{x:Type Label}">
@@ -141,8 +141,8 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        
-        
+
+
 
     </UserControl.Resources>
 
@@ -225,129 +225,138 @@
                 </TabItem.Header>
                 <ScrollViewer Grid.Row="0"   VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" >
                     <StackPanel x:Name="Geral_sp" IsHitTestVisible="False" >
-                        <Grid>
+                        <Grid Height="399">
                             <Grid.RowDefinitions>
+                                <RowDefinition Height="182"/>
+                                <RowDefinition Height="203"/>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="*"/>
+                                <RowDefinition/>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="1058"/>
-                                <ColumnDefinition Width="0*" />
+                                <ColumnDefinition Width="750"/>
+                                <ColumnDefinition Width="300" />
                             </Grid.ColumnDefinitions>
 
-                            <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}"    Grid.Row="0" Grid.Column="0"  Header="Identificação"  Margin="10,10,10,10" VerticalAlignment="Stretch" >
+                            <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}"    Grid.Row="0" Grid.Column="0"  Header="Identificação"  Margin="10,10,10,-41" VerticalAlignment="Stretch" Grid.RowSpan="5" >
                                 <StackPanel Orientation="Horizontal">
                                     <StackPanel.Resources>
                                         <i:StringToImageConverter x:Key="StringToImageConverter" />
                                     </StackPanel.Resources>
-                                    <StackPanel Margin="10,10,0,0" Width="865">
-                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0" >
-                                            <Label Content="Tipo:" Height="28" Width="50" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                            <ComboBox  x:Name="Tipo_cb"  MinWidth="50" Text="{Binding SelectedItem.Tipo, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}" Height="24"  Width="280"/>
-                                            
-                                            
-                                            
+                                    <StackPanel Margin="10,10,0,0" Width="709">
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,5" >
+                                            <Label Content="Tipo:" Height="28" Width="72" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                                            <ComboBox  x:Name="Tipo_cb" Margin="12,0,0,0" MinWidth="50" Text="{Binding SelectedItem.Tipo, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}" Height="24"  Width="227" SelectionChanged="Tipo_cb_SelectionChanged">
+                                                <ComboBoxItem>EQUIPAMENTO</ComboBoxItem>
+                                                <ComboBoxItem>VEÍCULO</ComboBoxItem>
+                                            </ComboBox>
                                         </StackPanel>
 
                                         <StackPanel Orientation="Horizontal"  VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0">
-                                            <Label Content="Código:" Height="28" Width="50" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                            <TextBox  x:Name="Codigo_tb" CharacterCasing="Upper" Text="{Binding SelectedItem.EquipamentoVeiculoID, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"  Height="24"  Width="50"/>
+                                            <Label Content="Código:" Height="28" Width="72" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                                            <TextBox  x:Name="Codigo_tb" Margin="12,0,0,0" CharacterCasing="Upper" Text="{Binding SelectedItem.EquipamentoVeiculoID, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"  Height="24"  Width="50"/>
                                             <Label Content="Placa/ID:" Height="28" Width="60" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                            <TextBox  x:Name="Placa_tb" MaxLength="8" CharacterCasing="Upper" Text="{Binding SelectedItem.Placa_Identificador, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="57"/>
-                                            <Label Content="Frota:" Height="28" Width="50" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                            <TextBox  x:Name="frota_tb" MaxLength="8" CharacterCasing="Upper" Text="{Binding SelectedItem.Frota, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True" Height="24"  Width="57"/>
-                                            <Label Content="Patrimônio:" Height="28" Width="70" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0"  />
-                                            <TextBox  x:Name="patrimonio_tb" MaxLength="8" CharacterCasing="Upper" Text="{Binding SelectedItem.Patrimonio, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True" Height="24"  Width="57" />
-
-
-
-                                            
-
+                                            <TextBox  x:Name="Placa_tb" MaxLength="8" CharacterCasing="Upper" Text="{Binding SelectedItem.Placa_Identificador, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="112"/>
+                                            <Label Content="Frota:" Height="28" Width="60" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                                            <TextBox  x:Name="frota_tb" MaxLength="8" CharacterCasing="Upper" Text="{Binding SelectedItem.Frota, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True" Height="24"  Width="71"/>
+                                            <Label Content="Patrimônio:" Height="28" Width="72" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0"  />
+                                            <TextBox  x:Name="patrimonio_tb" MaxLength="8" CharacterCasing="Upper" Text="{Binding SelectedItem.Patrimonio, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True" Height="24"  Width="70" />
                                         </StackPanel>
 
                                         <StackPanel Orientation="Horizontal"  VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0">
-                                            <Label Content="Marca:" Height="28" Width="50" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                            <TextBox  x:Name="Marca_tb" MaxLength="50" CharacterCasing="Upper" Text="{Binding SelectedItem.Marca, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="80"/>
+                                            <Label Content="Marca:" Height="28" Width="72" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                                            <TextBox  x:Name="Marca_tb" Margin="12,0,0,0" MaxLength="50" CharacterCasing="Upper" Text="{Binding SelectedItem.Marca, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="80"/>
                                             <Label Content="Modelo:" Height="28" Width="60" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                            <TextBox  x:Name="Modelo_tb" MaxLength="50" CharacterCasing="Upper" Text="{Binding SelectedItem.Modelo, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="80"/>
+                                            <TextBox  x:Name="Modelo_tb" MaxLength="50" CharacterCasing="Upper" Text="{Binding SelectedItem.Modelo, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="82"/>
                                             <Label Content="Veiculo:"   Height="28" Width="60" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                            <TextBox  x:Name="Tipo_tb" CharacterCasing="Upper" MaxLength="50" Text="{Binding SelectedItem.Tipo, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True" Height="24"  Width="180"/>
+                                            <TextBox  x:Name="Tipo_tb" CharacterCasing="Upper" MaxLength="50" Text="{Binding SelectedItem.Tipo, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True" Height="24"  Width="218"/>
 
 
-                                            
+
                                         </StackPanel>
-
                                         <StackPanel Orientation="Horizontal"  VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0">
+                                            <Label Content="Cor:" Height="28" Width="72" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                                            <TextBox  x:Name="Cor_tb" MaxLength="50"  Margin="12,0,0,0" CharacterCasing="Upper" Text="{Binding SelectedItem.Cor, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="96"/>
 
-                                            <Label Content="Cor:" Height="28" Width="40" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                            <TextBox  x:Name="Cor_tb" MaxLength="50" CharacterCasing="Upper" Text="{Binding SelectedItem.Cor, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="104"/>
-
-                                            <Label Content="Ano:" Height="28" Width="40" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                            <TextBox  x:Name="Ano_tb" MaxLength="4"  Text="{Binding SelectedItem.Ano, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}" IsEnabled="True"  Height="24"  Width="41"/>
-
+                                            <Label Content="Ano:" Height="28" Width="44" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                                            <TextBox  x:Name="Ano_tb" MaxLength="4"  Text="{Binding SelectedItem.Ano, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}" IsEnabled="True"  Height="24"  Width="50"/>
 
 
-                                            <Label Content="Estado:" Height="28" Width="80" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+
+                                            <Label Content="UF:" Height="28" Width="90" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
                                             <ComboBox  x:Name="Estado_cb"   MinWidth="50" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
                                                        ItemsSource="{Binding Estados}" DisplayMemberPath="UF"   SelectedValue="{Binding SelectedItem.EstadoID, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}" 
                                                        SelectedValuePath="EstadoID"  SelectionChanged="{data:MethodBinding  CarregaColeçãoMunicipios, {Binding SelectedItem.UF, ElementName=Estado_cb}}"/>
-                                            <Label Content="Cidade:" Height="28" Width="80" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                                            <Label Content="Cidade:" Height="28" Width="49" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
                                             <ComboBox  x:Name="Municipio_cb"  MinWidth="50" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
                                                        ItemsSource="{Binding Municipios}" DisplayMemberPath="Nome"  SelectedValue="{Binding SelectedItem.MunicipioID, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}" 
-                                                       SelectedValuePath="MunicipioID" Width="240" />
+                                                       SelectedValuePath="MunicipioID" Width="218" />
                                         </StackPanel>
 
-
-
-                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0" >
-                                            <Label Content="Descrição:" Height="28" Width="65" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                            <TextBox  x:Name="Descricao_tb" MaxLength="50" CharacterCasing="Upper" Text="{Binding SelectedItem.Descricao, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="374"/>
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0" >
+                                            <Label Content="Descrição:" Height="28" Width="72" Margin="0,0,17,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                                            <TextBox  x:Name="Descricao_tb" MaxLength="50" CharacterCasing="Upper" Text="{Binding SelectedItem.Descricao, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="340"/>
                                         </StackPanel>
-
                                         <StackPanel Orientation="Horizontal"  VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0" >
-                                            <Label Content="Série/Chassi:"    Height="28" Width="75" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0"/>
-                                            <TextBox  x:Name="SeriaChassi_tb"  ToolTip="Série/Chassi" MaxLength="50" CharacterCasing="Upper" Text="{Binding SelectedItem.Serie_Chassi, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True" Height="28" Width="65" />
-                                            <Label Content="Combustível:" Height="28" Width="75" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0"/>
-                                            <ComboBox  x:Name="Combustivel_cb" Text="{Binding SelectedItem.Combustivel, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True" Height="28" Width="85" />
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="40"/>
+                                                    <RowDefinition Height="40"/>
+                                                    <RowDefinition Height="40"/>
+                                                    <RowDefinition Height="40"/>
+                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="80"/>
+                                                    <ColumnDefinition Width="100" />
+                                                    <ColumnDefinition Width="100" />
+                                                    <ColumnDefinition Width="150" />
+                                                </Grid.ColumnDefinitions>
+
+                                                <Label Grid.Column="0" Grid.Row="0" Content="Série/Chassi:"    Height="28" Margin="0,6,0,7" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0"/>
+                                                <TextBox  Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" x:Name="SeriaChassi_tb"  ToolTip="Série/Chassi" MaxLength="50" CharacterCasing="Upper" Text="{Binding SelectedItem.Serie_Chassi, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True" Height="28" Margin="10,6" />
+                                                <Label Grid.Column="0" Grid.Row="1" Content="Combustível:" Height="28" Margin="0,7,0,6" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0"/>
+                                                <ComboBox  Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" x:Name="Combustivel_cb" Text="{Binding SelectedItem.Combustivel, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True" Height="28" Margin="10,6" />
 
 
+                                                <Label Grid.Column="0" Grid.Row="2" Content="Altura:" Height="28" Margin="0,6,0,7" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0"/>
+                                                <TextBox  Grid.Column="1" Grid.Row="2" x:Name="Altura_tb"  MaxLength="50" CharacterCasing="Upper" Text="{Binding SelectedItem.Altura, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True" Height="28" Margin="10,6"/>
+                                                <Label Grid.Column="2" Grid.Row="3" Content="Comprimento:"   Height="28" Margin="10,7,0,6" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                                                <TextBox Grid.Column="3" Grid.Row="3" x:Name="Comprimento_tb"  MaxLength="50"   ToolTip="Comprimento" CharacterCasing="Upper" Text="{Binding SelectedItem.Comprimento, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True" Height="28" Margin="10,6"/>
+                                                <Label Grid.Column="0" Grid.Row="3" Content="Largura:" Height="28" Margin="0,7,0,6" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0"  />
+                                                <TextBox  Grid.Column="1" Grid.Row="3" x:Name="Largura_tb" MaxLength="50" CharacterCasing="Upper" Text="{Binding SelectedItem.Largura, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True" Height="28" Margin="10,6"/>
 
+                                                <Label Grid.Column="3" Grid.Row="0" x:Name="label1" Content="Tipo de Serviço:" HorizontalContentAlignment="Right" VerticalContentAlignment="Top" Foreground="#FFD0D0D0" Margin="0,7,-40,0"/>
+
+
+                                            </Grid>
+                                            <StackPanel  Height="200" Width="230" Margin="50,0,0,0" VerticalAlignment="Top" >
+
+                                                <ComboBox  x:Name="tipoServico_cb" Margin="10,10,10,1"  IsEnabled="True"  Height="24" ItemsSource="{Binding TiposServico}" DisplayMemberPath="Descricao"   
+                                                           SelectedValuePath="TipoServicoID"  />
+                                                <ListBox x:Name="tipoServico_lb" Height="86" Margin="10,1,10,1" ItemsSource="{Binding TiposServico, Mode=TwoWay}"
+                                                         SelectedItem="{Binding Path = VeiculoSelecionado, Mode=TwoWay}"  DisplayMemberPath="Descricao" />
+                                                <Button x:Name="IncluirServ_bt"   Content="Incluir" Width="87" HorizontalAlignment="Right" Margin="0,0,10,0"/>
+                                                <Button x:Name="ExcluirServ_bt"   Content="Excluir" Width="87" HorizontalAlignment="Right" Margin="0,1,10,0"/>
+                                            </StackPanel>
                                         </StackPanel>
-
-                                        <StackPanel Orientation="Horizontal"  VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0" >
-                                            <Label Content="Altura:" Height="28" Width="75" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0"/>
-                                            <TextBox  x:Name="Altura_tb"  MaxLength="50" CharacterCasing="Upper" Text="{Binding SelectedItem.Altura, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True" Height="28" Width="65"/>
-                                            <Label Content="Comprim.:"   Height="28" Width="75" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                            <TextBox  x:Name="Comprimento_tb"  MaxLength="50"   ToolTip="Comprimento" CharacterCasing="Upper" Text="{Binding SelectedItem.Comprimento, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True" Height="28" Width="85"/>
-                                            <Label Content="Largura:" Height="28" Width="75" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0"  />
-                                            <TextBox  x:Name="Largura_tb" MaxLength="50" CharacterCasing="Upper" Text="{Binding SelectedItem.Largura, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True" Height="28" Width="65"/>
-
-
-                                        </StackPanel>
-
-
-                                        </StackPanel>
-                                    <StackPanel VerticalAlignment="Center" Margin="20,0" >
-                                        <Border  CornerRadius="3"  BorderThickness="1" Grid.Column="0" Width ="120" Height="120" Margin="0,5,0,5" HorizontalAlignment="Left" BorderBrush="#FF686868"  >
-                                            <!--<Image x:Name="Foto_im" Stretch="Fill"  Width ="124" Height="124" Source="{Binding ElementName=ListaVeiculos_lv, Path=SelectedItem.Foto,
-                                        Converter={StaticResource StringToImageConverter},UpdateSourceTrigger=Explicit, Mode=TwoWay}"  gif:ImageBehavior.AnimatedSource="{Binding Waiting}"  />-->
-                                            <!--<Image x:Name="Foto_im" Stretch="Fill"  Width ="124" Height="124"  gif:ImageBehavior.AnimatedSource="/iModSCCredenciamento;component/Resources/Waitng.gif" />-->
-                                            <Image x:Name="Foto_im" Stretch="Fill"  Width ="124" Height="124" Source="{Binding SelectedItem.Foto, ElementName=ListaVeiculos_lv,
-                                        Converter={StaticResource StringToImageConverter},UpdateSourceTrigger=Explicit, Mode=TwoWay}" />
-                                        </Border>
-                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                            <Button x:Name="BuscarContratoArquivobt" Height="36" Margin="0,0,0,0" VerticalAlignment="Center" Width="36" Click="SelecionarFoto_bt_Click" >
-                                                <StackPanel>
-                                                    <Image Source="/iModSCCredenciamento;component/Resources/Pasta2.ico"/>
-                                                </StackPanel>
-                                            </Button>
-
-                                        </StackPanel>
-
-
                                     </StackPanel>
+                                </StackPanel>
+                            </GroupBox>
+
+                            <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}"    Grid.Row="0" Grid.Column="1"  Header="Imagem"  Margin="10,10,10,-41" VerticalAlignment="Stretch" Grid.RowSpan="5" >
+                                <StackPanel VerticalAlignment="Center" Margin="0,0" >
+                                    <StackPanel.Resources>
+                                        <i:StringToImageConverter x:Key="StringToImageConverter" />
+                                    </StackPanel.Resources>
+                                    <Border  CornerRadius="3"  BorderThickness="1" Width ="200" Height="200" Margin="0,5,0,5" HorizontalAlignment="Center" BorderBrush="#FF686868"  >
+                                        <Image x:Name="Foto_im" Stretch="Fill"  Width ="200" Height="200" Source="{Binding SelectedItem.Foto, ElementName=ListaVeiculos_lv,
+                                        Converter={StaticResource StringToImageConverter},UpdateSourceTrigger=Explicit, Mode=TwoWay}" />
+                                    </Border>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                        <Button x:Name="SelecionarFoto_bt" Content="Selecionar Imagem" HorizontalAlignment="Center"   Height="30" Width="110" Click="SelecionarFoto_bt_Click"   />
+                                    </StackPanel>
+
+
                                 </StackPanel>
 
                             </GroupBox>

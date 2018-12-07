@@ -29,10 +29,8 @@ namespace iModSCCredenciamento.ViewModels
         #region Inicializacao
         public VeiculoViewModel()
         {
-            //CarregaUI();
             Thread CarregaUI_thr = new Thread(() => CarregaUI());
             CarregaUI_thr.Start();
-            //CarregaColecaoVeiculos();
         }
         private void CarregaUI()
         {
@@ -41,9 +39,6 @@ namespace iModSCCredenciamento.ViewModels
             CarregaColecaoTiposCombustiveis();
             CarregaColecaoTiposEquipamentoVeiculo();
             CarregaColecaoTiposServicos();
-            //CarregaColecaoTiposAtividades();
-            //CarregaColecaoAreasAcessos();
-            //CarregaColecaoLayoutsCrachas(); _TiposEquipamentoVeiculo
         }
         #endregion
 
@@ -173,16 +168,14 @@ namespace iModSCCredenciamento.ViewModels
                 base.OnPropertyChanged("SelectedItem");
                 if (VeiculoSelecionado != null)
                 {
-                    //BitmapImage _img = new BitmapImage(new Uri("pack://application:,,,/iModSCCredenciamento;component/Resources/Carregando.png", UriKind.Absolute));
-                    //string _imgstr = Conversores.IMGtoSTR(_img);
-                    //VeiculoSelecionado.Foto = _imgstr;
                     if (!_atualizandoFoto)
                     {
+                        Thread OnEmpresaSelecionada_thr = new Thread(() => OnVeiculoEquipamentoSelecionado());
+                        OnEmpresaSelecionada_thr.Start();
                         Thread CarregaFoto_thr = new Thread(() => CarregaFoto(VeiculoSelecionado.EquipamentoVeiculoID));
                         CarregaFoto_thr.Start();
                     }
 
-                    //CarregaFoto(VeiculoSelecionado.VeiculoID);
                 }
 
             }
@@ -618,22 +611,23 @@ namespace iModSCCredenciamento.ViewModels
                 throw;
             }
         }
-        private void CarregaColecaoTiposServicos()
+        //TODO:CarregaColecaoTiposServicos (Carregar TiposServicos) - Mihai 07/12/2018
+        private void CarregaColecaoTiposServicos(int _VeiculoId = 0)
         {
             try
             {
-                string _xml = RequisitaTiposServicos();
+                var service = new TipoServicoService();
+                var list1 = service.Listar();
+                //var list1 = service.ListarVeiculoTipoServicoView(null, _VeiculoId, null, null);
 
-                XmlSerializer deserializer = new XmlSerializer(typeof(ClasseTiposServicos));
+                var list2 = Mapper.Map<List<ClasseTiposServicos.TipoServico>>(list1);
+                var observer = new ObservableCollection<ClasseTiposServicos.TipoServico>();
+                list2.ForEach(n =>
+                {
+                    observer.Add(n);
+                });
+                this.TiposServico = observer;
 
-                XmlDocument xmldocument = new XmlDocument();
-                xmldocument.LoadXml(_xml);
-
-                TextReader reader = new StringReader(_xml);
-                ClasseTiposServicos classeTiposServicos = new ClasseTiposServicos();
-                classeTiposServicos = (ClasseTiposServicos)deserializer.Deserialize(reader);
-                TiposServico = new ObservableCollection<ClasseTiposServicos.TipoServico>();
-                TiposServico = classeTiposServicos.TiposServicos;
             }
             catch (Exception ex)
             {
@@ -1713,6 +1707,21 @@ namespace iModSCCredenciamento.ViewModels
             }));
 
         }
+
+        private void OnVeiculoEquipamentoSelecionado()
+        {
+            try
+            {
+                CarregaColecaoTiposServicos(VeiculoSelecionado.EquipamentoVeiculoID);
+
+            }
+            catch (Exception ex)
+            {
+                Global.Log("Erro void OnEmpresaSelecionada ex: " + ex.Message);
+            }
+
+        }
+
 
         #endregion
 

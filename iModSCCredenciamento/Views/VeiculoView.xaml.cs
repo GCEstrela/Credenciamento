@@ -295,5 +295,21 @@ namespace iModSCCredenciamento.Views
         {
 
         }
+
+        private void Tipo_cb_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+
+        private void IncluirServ_bt_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ExcluirServ_bt_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
