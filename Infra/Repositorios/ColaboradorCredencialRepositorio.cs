@@ -210,7 +210,7 @@ namespace IMOD.Infra.Repositorios
         }
 
         /// <summary>
-        ///     Listar Colaboradores e suas credenciais
+        ///    Listar Veículos e suas credenciais
         /// </summary>
         /// <param name="o">Arrays de Parametros</param>
         /// <returns></returns>

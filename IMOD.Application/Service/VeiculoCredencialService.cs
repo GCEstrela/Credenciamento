@@ -7,7 +7,9 @@
 #region
 
 using System.Collections.Generic;
+using IMOD.Application.Interfaces;
 using IMOD.Domain.Entities;
+using IMOD.Domain.EntitiesCustom;
 using IMOD.Domain.Interfaces;
 using IMOD.Infra.Repositorios;
 
@@ -15,7 +17,7 @@ using IMOD.Infra.Repositorios;
 
 namespace IMOD.Application.Service
 {
-    public class VeiculoCredencialService : IVeiculoCredencialRepositorio
+    public class VeiculoCredencialService : IVeiculoCredencialService
     {
         #region Variaveis Globais
 
@@ -74,6 +76,16 @@ namespace IMOD.Application.Service
         public void Remover(VeiculoCredencial entity)
         {
             _repositorio.Remover (entity);
+        }
+
+        /// <summary>
+        /// Listar Veículos e suas credenciais
+        /// </summary>
+        /// <param name="objects"></param>
+        /// <returns></returns>
+        public ICollection<VeiculosCredenciaisView> ListarView(params object[] objects)
+        {
+            return _repositorio.ListarView(objects);
         }
 
         #endregion

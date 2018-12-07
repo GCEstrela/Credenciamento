@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace IMOD.Application.Interfaces
 {
-    public interface IColaboradorCredencialService : IColaboradorCredencialRepositorio
+    public interface IVeiculoCredencialService :IVeiculoCredencialRepositorio
     {
-       
+
     }
 }

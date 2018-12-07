@@ -257,12 +257,12 @@ namespace iModSCCredenciamento.Views
             {
                 if (((iModSCCredenciamento.Models.ClasseCredenciaisStatus.CredencialStatus)((object[])e.AddedItems)[0]).CredencialStatusID == 1)
                 {
-                    Ativa_tw.IsChecked = true;
+                    //Ativa_tw.IsChecked = true;
                     ((VeiculosCredenciaisViewModel)this.DataContext).CarregaColecaoCredenciaisMotivos(1);
                 }
                 else
                 {
-                    Ativa_tw.IsChecked = false;
+                    //Ativa_tw.IsChecked = false;
                     ((VeiculosCredenciaisViewModel)this.DataContext).CarregaColecaoCredenciaisMotivos(2);
                 }
             }

@@ -31,7 +31,7 @@ namespace iModSCCredenciamento.ViewModels
         private readonly IColaboradorService _repositorio = new ColaboradorService();
         private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
         //private readonly ColaboradoresCredenciaisView _repositorio = new ColaboradoresCredenciaisViewService();
-        Global g = new Global();
+        //Global g = new Global();
 
         #region Inicializacao
         public ColaboradoresCredenciaisViewModel()
@@ -918,32 +918,7 @@ namespace iModSCCredenciamento.ViewModels
         private void CarregaColecaoColaboradoresCredenciais(int colaboradorID, string _empresaNome = "",  int _tipoCredencialID = 0,int _credencialStatusID = 0)
         {
             try
-            {
-                //string _xml = RequisitaColaboradoresCredenciais(_colaboradorID, _empresaNome, _tipoCredencialID, _credencialStatusID);
-
-                //XmlSerializer deserializer = new XmlSerializer(typeof(ClasseColaboradoresCredenciais));
-
-                //XmlDocument xmldocument = new XmlDocument();
-                //xmldocument.LoadXml(_xml);
-
-                //TextReader reader = new StringReader(_xml);
-                //ClasseColaboradoresCredenciais classeColaboradoresCredenciais = new ClasseColaboradoresCredenciais();
-                //classeColaboradoresCredenciais = (ClasseColaboradoresCredenciais)deserializer.Deserialize(reader);
-                //ColaboradoresCredenciais = new ObservableCollection<ClasseColaboradoresCredenciais.ColaboradorCredencial>();
-                //ColaboradoresCredenciais = classeColaboradoresCredenciais.ColaboradoresCredenciais;
-                //SelectedIndex = -1;
-
-                ////_repositorio.Credencial.
-                ///////////////////////////////////////////////////////
-
-                //var service = new ColaboradorService();
-                //if (!string.IsNullOrWhiteSpace(nome)) nome = $"%{nome}%";
-                //if (!string.IsNullOrWhiteSpace(apelido)) apelido = $"%{apelido}%";
-                //if (!string.IsNullOrWhiteSpace(cpf)) cpf = $"%{cpf}%";
-                //var list1 = service.Listar(_colaboradorID); //, nome, apelido, cpf);
-
-                //var list2 = Mapper.Map<List<ClasseColaboradoresCredenciais.ColaboradorCredencial>>(list1.OrderBy(n => n.ColaboradorId));
-                //var list2 = Mapper.Map<List<ClasseColaboradores.Colaborador>>(list1.OrderBy(n => n.ColaboradorId));
+            {                
                 
                 var list = _repositorio.ListarColaboradores(0,"",0,0,colaboradorID).ToList();
                 var list2 = Mapper.Map<List<ClasseColaboradoresCredenciais.ColaboradorCredencial>>(list.OrderBy(n=>n.ColaboradorId));
@@ -1126,22 +1101,7 @@ namespace iModSCCredenciamento.ViewModels
 
             try
             {
-                ////this.Dispatcher.Invoke(new Action(() => { LoadingAdorner.IsAdornerVisible = true; }));
-
-                //string _xml = RequisitaFormatosCredenciais();
-
-                //XmlSerializer deserializer = new XmlSerializer(typeof(ClasseFormatosCredenciais));
-                //XmlDocument DataFile = new XmlDocument();
-                //DataFile.LoadXml(_xml);
-                //TextReader reader = new StringReader(_xml);
-                //ClasseFormatosCredenciais classeFormatosCredenciais = new ClasseFormatosCredenciais();
-                //classeFormatosCredenciais = (ClasseFormatosCredenciais)deserializer.Deserialize(reader);
-                //FormatosCredenciais = new ObservableCollection<ClasseFormatosCredenciais.FormatoCredencial>();
-                //FormatosCredenciais = classeFormatosCredenciais.FormatosCredenciais;
                 
-                ////this.Dispatcher.Invoke(new Action(() => { LoadingAdorner.IsAdornerVisible = false; }));
-
-
                 var list1 = _auxiliaresService.FormatoCredencialService.Listar();
                 var list2 = Mapper.Map<List<ClasseFormatosCredenciais.FormatoCredencial>>(list1);
 
@@ -1221,17 +1181,6 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
 
-                //string _xml = RequisitaTiposCredenciais();
-
-                //XmlSerializer deserializer = new XmlSerializer(typeof(ClasseTiposCredenciais));
-                //XmlDocument xmldocument = new XmlDocument();
-                //xmldocument.LoadXml(_xml);
-                //TextReader reader = new StringReader(_xml);
-                //ClasseTiposCredenciais classeTiposCredenciais = new ClasseTiposCredenciais();
-                //classeTiposCredenciais = (ClasseTiposCredenciais)deserializer.Deserialize(reader);
-                //TiposCredenciais = new ObservableCollection<ClasseTiposCredenciais.TipoCredencial>();
-                //TiposCredenciais = classeTiposCredenciais.TiposCredenciais;
-
                 var list1 = _auxiliaresService.TipoCredencialService.Listar();
                 var list2 = Mapper.Map<List<ClasseTiposCredenciais.TipoCredencial>>(list1);
 
@@ -1257,17 +1206,7 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
 
-                //string _xml = RequisitaTecnologiasCredenciais();
-
-                //XmlSerializer deserializer = new XmlSerializer(typeof(ClasseTecnologiasCredenciais));
-                //XmlDocument xmldocument = new XmlDocument();
-                //xmldocument.LoadXml(_xml);
-                //TextReader reader = new StringReader(_xml);
-                //ClasseTecnologiasCredenciais classeTecnologiasCredenciais = new ClasseTecnologiasCredenciais();
-                //classeTecnologiasCredenciais = (ClasseTecnologiasCredenciais)deserializer.Deserialize(reader);
-                //TecnologiasCredenciais = new ObservableCollection<ClasseTecnologiasCredenciais.TecnologiaCredencial>();
-                //TecnologiasCredenciais = classeTecnologiasCredenciais.TecnologiasCredenciais;
-
+               
                 var list1 = _auxiliaresService.TecnologiaCredencialService.Listar();
                 var list2 = Mapper.Map<List<ClasseTecnologiasCredenciais.TecnologiaCredencial>>(list1);
 
