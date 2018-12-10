@@ -1,15 +1,18 @@
 ﻿// ***********************************************************************
 // Project: IMOD.Infra
 // Crafted by: Grupo Estrela by Genetec
-// Date:  11 - 30 - 2018
+// Date:  12 - 07 - 2018
 // ***********************************************************************
 
 #region
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
 using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
 using IMOD.Domain.Interfaces;
@@ -76,7 +79,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Arquivo", entity.Arquivo, false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("TipoAcessoID", entity.TipoAcessoId, false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("NomeArquivo", entity.NomeArquivo, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter  (new ParamInsert("ArquivoBlob",DbType.Binary, entity.ArquivoBlob, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("ArquivoBlob", DbType.Binary, entity.ArquivoBlob, false)));
 
                         var key = Convert.ToInt32 (cmd.ExecuteScalar());
 
@@ -129,11 +132,13 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
+                
                 using (var cmd = _dataBase.SelectText ("EmpresasContratos", conn))
 
                 {
                     try
                     {
+                         
                         cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("NumeroContrato", DbType.String, objects, 0).Igual()));
                         cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("Descricao", DbType.String, objects, 1).Like()));
                         cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("Emissao", DbType.Date, objects, 2).Like()));
@@ -195,7 +200,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Arquivo", entity.Arquivo, false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("TipoAcessoID", entity.TipoAcessoId, false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("NomeArquivo", entity.NomeArquivo, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter  (new ParamUpdate("ArquivoBlob", DbType.Binary, entity.ArquivoBlob, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("ArquivoBlob", DbType.Binary, entity.ArquivoBlob, false)));
 
                         cmd.ExecuteNonQuery();
                     }
@@ -239,7 +244,7 @@ namespace IMOD.Infra.Repositorios
         /// <returns></returns>
         public ICollection<EmpresaContrato> ListarPorNumeroContrato(string numContrato)
         {
-            return Listar (numContrato, null, null, null, null, null, null);
+            return Listar (numContrato, null, null, null, null, null, null, null);
         }
 
         /// <summary>
@@ -249,9 +254,8 @@ namespace IMOD.Infra.Repositorios
         /// <returns></returns>
         public ICollection<EmpresaContrato> ListarPorDescricao(string desc)
         {
-            return Listar (null, $"%{desc}%", null, null, null, null, null);
+            return Listar (null, $"%{desc}%", null, null, null, null, null, null);
         }
-
 
         /// <summary>
         ///     Listar contratos por empresa
@@ -260,8 +264,9 @@ namespace IMOD.Infra.Repositorios
         /// <returns></returns>
         public ICollection<EmpresaContrato> ListarPorEmpresa(int empresaId)
         {
-            return Listar(null, null, null, null, null, null, null,null,empresaId);
+            return Listar (null, null, null, null, null, null, null, empresaId);
         }
+         
 
         #endregion
     }
