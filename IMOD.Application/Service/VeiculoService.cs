@@ -6,6 +6,7 @@
 
 #region
 
+using System;
 using System.Collections.Generic;
 using IMOD.Application.Interfaces;
 using IMOD.Domain.Entities;
@@ -75,6 +76,11 @@ namespace IMOD.Application.Service
         public void Remover(Veiculo entity)
         {
             _repositorio.Remover(entity);
+        }
+
+        public bool Validar(object entity)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion

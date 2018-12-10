@@ -12,7 +12,7 @@ using IMOD.Domain.Interfaces;
 
 namespace IMOD.Application.Interfaces
 {
-    public interface IVeiculoService: IVeiculosRepositorio 
+    public interface IVeiculoService: IVeiculoRepositorio 
     {
        bool Validar(object entity);
     }

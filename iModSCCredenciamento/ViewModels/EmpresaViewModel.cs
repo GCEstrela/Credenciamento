@@ -29,14 +29,26 @@ namespace iModSCCredenciamento.ViewModels
 {
     public class EmpresaViewModel : ViewModelBase
     {
+         
 
+        public bool PesquisarCnpj { get; set; }
+        public bool PesquisarCodigo { get; set; }
+        public bool PesquisarRazaoSocial { get; set; } 
         public string ConteudoPesquisa { get; set; }
+
+
+
+
+
+
+
 
         #region Inicializacao
         public EmpresaViewModel()
         {
             //CarregaColecoesIniciais();
-          
+            //PesquisarRazaoSocial = true; 
+            PesquisarRazaoSocial = true;
         }
 
 
@@ -103,6 +115,40 @@ namespace iModSCCredenciamento.ViewModels
         private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
 
         #endregion
+
+
+        public void Pesquisar()
+        {
+            var service = new EmpresaService();
+            if (PesquisarCnpj)
+            {
+                var d1 = service.BuscarEmpresaPorCnpj (ConteudoPesquisa); 
+                var d2 = Mapper.Map<ClasseEmpresas.Empresa>(d1);
+                var observer = new ObservableCollection<ClasseEmpresas.Empresa>();
+                observer.Add(d2);
+                this.Empresas = observer;
+            }
+
+            if (PesquisarCodigo)
+            {
+                var d1 = service.BuscarPelaChave(Convert.ToInt32(ConteudoPesquisa));
+                var d2 = Mapper.Map<ClasseEmpresas.Empresa>(d1);
+                var observer = new ObservableCollection<ClasseEmpresas.Empresa>();
+                observer.Add(d2);
+                this.Empresas = observer;
+            }
+
+            if (PesquisarRazaoSocial)
+            {
+                var d1 = service.Listar(null,$"%{ConteudoPesquisa}%",null,null);
+                var d2 = Mapper.Map<List<ClasseEmpresas.Empresa>>(d1);
+                var observer = new ObservableCollection<ClasseEmpresas.Empresa>();
+                d2.ForEach(n=> { observer.Add(n); }); 
+                this.Empresas = observer;
+            }
+
+        }
+
 
 
         public ObservableCollection<ClasseEmpresas.Empresa> Empresas

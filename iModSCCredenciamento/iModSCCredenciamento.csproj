@@ -110,7 +110,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AutoMapperConfig.cs" />
     <Compile Include="Crachas\CrachaModelo - Motorista.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -145,9 +144,11 @@
     <Compile Include="Funcoes\Check1Converter.cs" />
     <Compile Include="Funcoes\StringToImageConverter.cs" />
     <Compile Include="Funcoes\StringWriterWithEncoding.cs" />
-    <Compile Include="Funcoes\Util.cs" />
     <Compile Include="Funcoes\WebCam.cs" />
+    <Compile Include="Helpers\ArquivoInfo.cs" />
+    <Compile Include="Helpers\WpfHelp.cs" />
     <Compile Include="Main.cs" />
+    <Compile Include="Mapeamento\AutoMapperConfig.cs" />
     <Compile Include="Models\ClasseAreasAcessos.cs" />
     <Compile Include="Models\ClasseClaboradoresPrivilegios.cs" />
     <Compile Include="Models\ClasseColaboradores.cs" />
@@ -203,13 +204,7 @@
     </Compile>
     <Compile Include="Modulo\ModuloDescritor.cs" />
     <Compile Include="Modulo\ModuloPage.cs" />
-    <Compile Include="PagePrincipal\MenuPrincipal.xaml.cs">
-      <DependentUpon>MenuPrincipal.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="PagePrincipal\PagePrincipal.cs" />
-    <Compile Include="PagePrincipal\PagePrincipalView.xaml.cs">
-      <DependentUpon>PagePrincipalView.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="Modulo\ViewSingleton.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -429,14 +424,6 @@
     <Page Include="Modulo\MenuPrincipalView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="PagePrincipal\MenuPrincipal.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="PagePrincipal\PagePrincipalView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\ColaboradoresCredenciaisView.xaml">
       <SubType>Designer</SubType>
@@ -717,11 +704,10 @@
     <Resource Include="Resources\remove.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Content Include="Certificates\iModSCCredenciamento.Modulo.ModuloPage.cert">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="Certificates\iModSCCredenciamento.PagePrincipal.PagePrincipal - Cópia .cert">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Certificates\iModSCCredenciamento.PagePrincipal.PagePrincipal.cert">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </None>
@@ -753,9 +739,6 @@
     <Resource Include="Resources\Proibido.ico" />
     <Resource Include="Resources\Pasta2.ico" />
     <Resource Include="Resources\WebCam.ico" />
-    <Content Include="CSharpControls.Wpf.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Dlls\Genetec.Sdk.Controls.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

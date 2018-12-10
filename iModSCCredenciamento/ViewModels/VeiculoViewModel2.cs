@@ -18,12 +18,12 @@ namespace iModSCCredenciamento.ViewModels
 {
     public class VeiculoViewModel2 : BaseViewModel
     {
-        private readonly IVeiculoService _veiculoService = new VeiculosService();
+        private readonly IVeiculoService _veiculoService = new VeiculoService();
 
         #region  Propriedades
 
         public ObservableCollection<VeiculoViewModel2> Veiculos { get; set; }
-        public Veiculos Veiculo { get; set; }
+        public Veiculo Veiculo { get; set; }
 
         public ICommand CriarCommand
         {

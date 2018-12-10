@@ -67,7 +67,7 @@
     <Grid Margin="10" ShowGridLines="True" >
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="190" />
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
@@ -80,11 +80,11 @@
        
         <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Margin="10">
             <Label Content="Pesquisar" Foreground="#FFD0D0D0" VerticalContentAlignment="Center" Margin="0,0,5,0"/>
-            <TextBox Width="200" VerticalContentAlignment="Center" Name="txtPesquisar" PreviewKeyDown="OnPesquisar_KeyDown" Text="{Binding ConteudoPesquisa}" >
+            <TextBox Width="200" VerticalContentAlignment="Center" Name="txtPesquisar" PreviewKeyDown="OnPesquisar_KeyDown" Text="{Binding ConteudoPesquisa, Mode=TwoWay , UpdateSourceTrigger=PropertyChanged}" >
             </TextBox>
-            <RadioButton Name="rdRazaoSocial" GroupName="grpPesquisa" IsChecked="True" Style="{ Styles {x:Static RadioButtonStyles.Default}}" VerticalContentAlignment="Center" Margin="10,0,0,0">Razão Social</RadioButton>
-            <RadioButton Name ="rdCodigo"  GroupName="grpPesquisa" Style="{ Styles {x:Static RadioButtonStyles.Default}}" VerticalContentAlignment="Center" Margin="10,0,0,0">Código</RadioButton>
-            <RadioButton Name="rdCnpj" GroupName="grpPesquisa" Style="{ Styles {x:Static RadioButtonStyles.Default}}" VerticalContentAlignment="Center" Margin="10,0,0,0">CNPJ</RadioButton>
+            <RadioButton Name="rdRazaoSocial" GroupName="grpPesquisa" IsChecked="{Binding PesquisarRazaoSocial}" Style="{ Styles {x:Static RadioButtonStyles.Default}}" VerticalContentAlignment="Center" Margin="10,0,0,0">Razão Social</RadioButton>
+            <RadioButton Name ="rdCodigo"  GroupName="grpPesquisa" IsChecked="{Binding PesquisarCodigo}" Style="{ Styles {x:Static RadioButtonStyles.Default}}" VerticalContentAlignment="Center" Margin="10,0,0,0">Código</RadioButton>
+            <RadioButton Name="rdCnpj" GroupName="grpPesquisa" IsChecked="{Binding PesquisarCnpj}" Style="{ Styles {x:Static RadioButtonStyles.Default}}" VerticalContentAlignment="Center" Margin="10,0,0,0">CNPJ</RadioButton>
         </StackPanel>
         
         <!--#endregion-->

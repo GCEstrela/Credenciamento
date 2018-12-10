@@ -38,14 +38,7 @@ namespace iModSCCredenciamento.Views
             InitializeComponent();
             this.DataContext = new EmpresaViewModel();
             _configBasicoBotao = new ConfiguracaoBotaoBasico(BtnPesquisar, BtnAdicionar, BtnEditar, BtnExcluir,BtnSalvar, BtnCancelar, this);
-            //this.PreviewKeyDown += (ss, ee) =>
-            //{
-            //    if (ee.Key == Key.Escape)
-            //    {
-            //        //System.Windows.Forms.MessageBox.Show(ee.Key.ToString());
-            //        Global._escape = true;
-            //    }
-            //};
+       
         }
 
         #endregion
@@ -554,6 +547,7 @@ namespace iModSCCredenciamento.Views
         public void OnPesquisar_Click(object sender, RoutedEventArgs e)
         {
             _configBasicoBotao.EstadoPesquisar();
+            ((EmpresaViewModel)this.DataContext).Pesquisar();
         }
 
         /// <summary>
