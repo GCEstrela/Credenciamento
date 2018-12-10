@@ -1,26 +1,20 @@
-﻿using iModSCCredenciamento.Funcoes;
-using iModSCCredenciamento.Models;
-using iModSCCredenciamento.Windows;
-using iModSCCredenciamento.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Data.SqlClient;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.Windows.Media.Imaging;
 using System.Xml;
 using System.Xml.Serialization;
-using CrystalDecisions.CrystalReports.Engine;
+using AutoMapper;
+using iModSCCredenciamento.Funcoes;
+using iModSCCredenciamento.Models;
+using iModSCCredenciamento.Windows;
 using IMOD.Application.Interfaces;
 using IMOD.Application.Service;
-using AutoMapper;
 
 namespace iModSCCredenciamento.ViewModels
 {
@@ -82,11 +76,11 @@ namespace iModSCCredenciamento.ViewModels
 
         private int _VeiculoSelecionadaID;
 
-        private bool _HabilitaEdicao = false;
+        private bool _HabilitaEdicao;
 
         private string _Criterios = "";
 
-        private int _selectedIndexTemp = 0;
+        private int _selectedIndexTemp;
 
         private string _Validade;
 
@@ -125,7 +119,7 @@ namespace iModSCCredenciamento.ViewModels
         {
             get
             {
-                return this._CredenciaisMotivos;
+                return _CredenciaisMotivos;
             }
             set
             {
@@ -267,11 +261,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             get
             {
-                return this._VeiculoCredencialSelecionado;
+                return _VeiculoCredencialSelecionado;
             }
             set
             {
-                this._VeiculoCredencialSelecionado = value;
+                _VeiculoCredencialSelecionado = value;
                 //base.OnPropertyChanged("SelectedItem");
                 base.OnPropertyChanged();
                 if (VeiculoCredencialSelecionado != null)
@@ -359,12 +353,12 @@ namespace iModSCCredenciamento.ViewModels
         {
             get
             {
-                return this._VeiculoSelecionadaID;
+                return _VeiculoSelecionadaID;
 
             }
             set
             {
-                this._VeiculoSelecionadaID = value;
+                _VeiculoSelecionadaID = value;
                 base.OnPropertyChanged();
                 if (VeiculoSelecionadaID != null)
                 {
@@ -391,11 +385,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             get
             {
-                return this._HabilitaEdicao;
+                return _HabilitaEdicao;
             }
             set
             {
-                this._HabilitaEdicao = value;
+                _HabilitaEdicao = value;
                 base.OnPropertyChanged();
             }
         }
@@ -404,11 +398,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             get
             {
-                return this._Criterios;
+                return _Criterios;
             }
             set
             {
-                this._Criterios = value;
+                _Criterios = value;
                 base.OnPropertyChanged();
             }
         }
@@ -417,11 +411,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             get
             {
-                return this._Validade;
+                return _Validade;
             }
             set
             {
-                this._Validade = value;
+                _Validade = value;
                 base.OnPropertyChanged();
             }
         }
@@ -514,7 +508,7 @@ namespace iModSCCredenciamento.ViewModels
 
 
                 HabilitaEdicao = false;
-                System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(ClasseVeiculosCredenciais));
+                XmlSerializer serializer = new XmlSerializer(typeof(ClasseVeiculosCredenciais));
 
                 ObservableCollection<ClasseVeiculosCredenciais.VeiculoCredencial> _VeiculoCredencialTemp = new ObservableCollection<ClasseVeiculosCredenciais.VeiculoCredencial>();
                 ClasseVeiculosCredenciais _ClasseVeiculoerEmpresasTemp = new ClasseVeiculosCredenciais();
@@ -523,7 +517,7 @@ namespace iModSCCredenciamento.ViewModels
 
                 string xmlString;
 
-                using (StringWriterWithEncoding sw = new StringWriterWithEncoding(System.Text.Encoding.UTF8))
+                using (StringWriterWithEncoding sw = new StringWriterWithEncoding(Encoding.UTF8))
                 {
 
                     using (XmlTextWriter xw = new XmlTextWriter(sw))
@@ -696,7 +690,7 @@ namespace iModSCCredenciamento.ViewModels
                 }
 
                 HabilitaEdicao = false;
-                System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(ClasseVeiculosCredenciais));
+                XmlSerializer serializer = new XmlSerializer(typeof(ClasseVeiculosCredenciais));
 
                 ObservableCollection<ClasseVeiculosCredenciais.VeiculoCredencial> _VeiculoCredencialPro = new ObservableCollection<ClasseVeiculosCredenciais.VeiculoCredencial>();
                 ClasseVeiculosCredenciais _ClasseVeiculoerEmpresasPro = new ClasseVeiculosCredenciais();
@@ -705,7 +699,7 @@ namespace iModSCCredenciamento.ViewModels
 
                 string xmlString;
 
-                using (StringWriterWithEncoding sw = new StringWriterWithEncoding(System.Text.Encoding.UTF8))
+                using (StringWriterWithEncoding sw = new StringWriterWithEncoding(Encoding.UTF8))
                 {
 
                     using (XmlTextWriter xw = new XmlTextWriter(sw))
@@ -797,7 +791,7 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 popupPesquisaVeiculosCredenciais = new PopupPesquisaVeiculosCredenciais();
-                popupPesquisaVeiculosCredenciais.EfetuarProcura += new EventHandler(On_EfetuarProcura);
+                popupPesquisaVeiculosCredenciais.EfetuarProcura += On_EfetuarProcura;
                 popupPesquisaVeiculosCredenciais.ShowDialog();
             }
             catch (Exception ex)
@@ -872,7 +866,7 @@ namespace iModSCCredenciamento.ViewModels
                 VeiculosPrivilegios = new ObservableCollection<ClasseVeiculosPrivilegios.VeiculoPrivilegio>();
                 foreach (ClasseAreasAcessos.AreaAcesso _areaaAcesso in AreasAcessos)
                 {
-                    VeiculosPrivilegios.Add(new ClasseVeiculosPrivilegios.VeiculoPrivilegio() { VeiculoPrivilegioID = _areaaAcesso.AreaAcessoID, Descricao = _areaaAcesso.Identificacao });
+                    VeiculosPrivilegios.Add(new ClasseVeiculosPrivilegios.VeiculoPrivilegio { VeiculoPrivilegioID = _areaaAcesso.AreaAcessoID, Descricao = _areaaAcesso.Identificacao });
 
                 }
 
@@ -895,7 +889,7 @@ namespace iModSCCredenciamento.ViewModels
                     observer.Add(n);
                 });
 
-                this.AreasAcessos = observer;
+                AreasAcessos = observer;
                 SelectedIndex = 0;
 
             }
@@ -908,7 +902,7 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                var service = new IMOD.Application.Service.EmpresaService();
+                var service = new EmpresaService();
                 if (!string.IsNullOrWhiteSpace(nome)) nome = $"%{nome}%";
                 if (!string.IsNullOrWhiteSpace(apelido)) apelido = $"%{apelido}%";
                 if (!string.IsNullOrWhiteSpace(cnpj)) cnpj = $"%{cnpj}%";
@@ -922,7 +916,7 @@ namespace iModSCCredenciamento.ViewModels
                     observer.Add(n);
                 });
 
-                this.Empresas = observer;
+                Empresas = observer;
                 SelectedIndex = 0;
             }
             catch (Exception ex)
@@ -949,7 +943,7 @@ namespace iModSCCredenciamento.ViewModels
                 //SelectedIndex = -1;
                 ////CarregaColeçãoEmpresasLayoutsCrachas(empresaID);
 
-                var service = new IMOD.Application.Service.EmpresaService();
+                var service = new EmpresaService();
                 //if (!string.IsNullOrWhiteSpace(nome)) nome = $"%{nome}%";
                 //if (!string.IsNullOrWhiteSpace(apelido)) apelido = $"%{apelido}%";
                 //if (!string.IsNullOrWhiteSpace(cnpj)) cnpj = $"%{cnpj}%";
@@ -963,7 +957,7 @@ namespace iModSCCredenciamento.ViewModels
                     observer.Add(n);
                 });
 
-                this.VeiculosEmpresas = observer;
+                VeiculosEmpresas = observer;
                 SelectedIndex = 0;
 
 
@@ -988,7 +982,7 @@ namespace iModSCCredenciamento.ViewModels
                     observer.Add(n);
                 });
 
-                this.EmpresasLayoutsCrachas = observer;
+                EmpresasLayoutsCrachas = observer;
                 SelectedIndex = 0;
             }
             catch (Exception ex)
@@ -1011,7 +1005,7 @@ namespace iModSCCredenciamento.ViewModels
                     observer.Add(n);
                 });
 
-                this.FormatosCredenciais = observer;
+                FormatosCredenciais = observer;
                 SelectedIndex = 0;
 
             }
@@ -1089,7 +1083,7 @@ namespace iModSCCredenciamento.ViewModels
                     observer.Add(n);
                 });
 
-                this.TiposCredenciais = observer;
+                TiposCredenciais = observer;
                 SelectedIndex = 0;
 
             }
@@ -1114,7 +1108,7 @@ namespace iModSCCredenciamento.ViewModels
                     observer.Add(n);
                 });
 
-                this.TecnologiasCredenciais = observer;
+                TecnologiasCredenciais = observer;
                 SelectedIndex = 0;
 
             }
@@ -1139,7 +1133,7 @@ namespace iModSCCredenciamento.ViewModels
                     observer.Add(n);
                 });
 
-                this.CredenciaisStatus = observer;
+                CredenciaisStatus = observer;
                 SelectedIndex = 0;
 
             }
@@ -1164,7 +1158,7 @@ namespace iModSCCredenciamento.ViewModels
                     observer.Add(n);
                 });
 
-                this.CredenciaisMotivos = observer;
+                CredenciaisMotivos = observer;
                 SelectedIndex = 0;
 
             }
@@ -1928,7 +1922,7 @@ namespace iModSCCredenciamento.ViewModels
             {
 
 
-                System.Xml.XmlDocument _xmlDoc = new System.Xml.XmlDocument();
+                XmlDocument _xmlDoc = new XmlDocument();
 
                 _xmlDoc.LoadXml(xmlString);
                 // SqlConnection _Con = new SqlConnection(Global._connectionString);_Con.Open();
@@ -2375,7 +2369,7 @@ namespace iModSCCredenciamento.ViewModels
                 var list = new List<Colaborador>();
                 while (_sqlreader.Read()) // Popular dados
                 {
-                    list.Add(new Colaborador() { Id = idx, ColaboradorId = Convert.ToInt32(_sqlreader["ColaboradorID"].ToString()), DataValidade = Convert.ToDateTime(_sqlreader["Validade"].ToString()) });
+                    list.Add(new Colaborador { Id = idx, ColaboradorId = Convert.ToInt32(_sqlreader["ColaboradorID"].ToString()), DataValidade = Convert.ToDateTime(_sqlreader["Validade"].ToString()) });
                     idx = idx + 1;
                 }
 
@@ -2390,7 +2384,7 @@ namespace iModSCCredenciamento.ViewModels
                 SqlDataReader _sqlreader2 = sqlcmd2.ExecuteReader(CommandBehavior.Default);
                 while (_sqlreader2.Read()) // Popular dados
                 {
-                    list.Add(new Colaborador() { Id = idx, CredencialGuidId = _sqlreader2["CredencialGUID"].ToString(), ColaboradorId = Convert.ToInt32(_sqlreader2["ColaboradorID"].ToString()), DataValidade = Convert.ToDateTime(_sqlreader2["ValidadeContrato"].ToString()) });
+                    list.Add(new Colaborador { Id = idx, CredencialGuidId = _sqlreader2["CredencialGUID"].ToString(), ColaboradorId = Convert.ToInt32(_sqlreader2["ColaboradorID"].ToString()), DataValidade = Convert.ToDateTime(_sqlreader2["ValidadeContrato"].ToString()) });
                     idx = idx + 1;
                 }
 

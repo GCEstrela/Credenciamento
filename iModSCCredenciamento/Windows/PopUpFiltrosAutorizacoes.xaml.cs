@@ -1,6 +1,6 @@
-﻿using iModSCCredenciamento.ViewModels;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Input;
+using iModSCCredenciamento.ViewModels;
 
 namespace iModSCCredenciamento.Windows
 {
@@ -12,7 +12,7 @@ namespace iModSCCredenciamento.Windows
         public PopUpFiltrosAutorizacoes()
         {
             InitializeComponent();
-            this.DataContext = new RelatoriosViewModel();
+            DataContext = new RelatoriosViewModel();
             MouseDown += Window_MouseDown;
         }
 
@@ -24,7 +24,7 @@ namespace iModSCCredenciamento.Windows
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void button_ClickFiltrar(object sender, RoutedEventArgs e)
@@ -38,9 +38,9 @@ namespace iModSCCredenciamento.Windows
             else
                 check = false;
 
-            ((RelatoriosViewModel)this.DataContext).OnFiltroRelatorioAutorizacoesCommand(check);
+            ((RelatoriosViewModel)DataContext).OnFiltroRelatorioAutorizacoesCommand(check);
 
-            this.Close();
+            Close();
         }
     }
 }

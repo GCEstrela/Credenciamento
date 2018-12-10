@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 
 namespace iModSCCredenciamento.Models
 {
@@ -12,9 +7,9 @@ namespace iModSCCredenciamento.Models
         public ObservableCollection<EquipamentoVeiculoServico> EquipamentosVeiculosTiposServicos { get; set; }
         public class EquipamentoVeiculoServico
         {
-            public int EquipamentoVeiculoTipoServicoID { get; set; }
-            public int EquipamentoVeiculoID { get; set; }
-            public int TipoServicoID { get; set; }
+            public int EquipamentoVeiculoTipoServicoId { get; set; }
+            public int EquipamentoVeiculoId { get; set; }
+            public int? TipoServicoId { get; set; }
             public string Descricao { get; set; }
 
             public EquipamentoVeiculoServico CriaCopia(EquipamentoVeiculoServico equipamentoveiculoTiposServicos)

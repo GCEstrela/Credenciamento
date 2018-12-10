@@ -176,11 +176,11 @@ namespace IMOD.Infra.Repositorios
             }
         }
 
-        public ICollection<VeiculoTipoServicoView> ListarVeiculoTipoServicoView(params object[] objects)
+        public ICollection<EquipamentoVeiculoTipoServicoView> ListarEquipamentoVeiculoTipoServicoView(params object[] objects)
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText("VeiculoTipoServicoView", conn))
+                using (var cmd = _dataBase.SelectText("EquipamentoVeiculoTipoServicoView", conn))
                 {
                     try
                     {
@@ -191,7 +191,7 @@ namespace IMOD.Infra.Repositorios
 
 
                         var reader = cmd.ExecuteReaderSelect();
-                        var d1 = reader.MapToList<VeiculoTipoServicoView>();
+                        var d1 = reader.MapToList<EquipamentoVeiculoTipoServicoView>();
                         return d1;
                     }
                     catch (Exception ex)

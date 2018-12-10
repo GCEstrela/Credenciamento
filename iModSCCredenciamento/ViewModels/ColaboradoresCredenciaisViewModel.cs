@@ -1,28 +1,23 @@
-﻿using iModSCCredenciamento.Funcoes;
-using iModSCCredenciamento.Models;
-using iModSCCredenciamento.Windows;
-using iModSCCredenciamento.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Data.SqlClient;
-using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
-using IMOD.CrossCutting;
 using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.Windows.Media.Imaging;
 using System.Xml;
 using System.Xml.Serialization;
-using CrystalDecisions.CrystalReports.Engine;
-using IMOD.Application.Service;
-using IMOD.Application.Interfaces;
-using IMOD.Domain.EntitiesCustom;
 using AutoMapper;
+using CrystalDecisions.CrystalReports.Engine;
+using iModSCCredenciamento.Funcoes;
+using iModSCCredenciamento.Models;
+using iModSCCredenciamento.Windows;
+using IMOD.Application.Interfaces;
+using IMOD.Application.Service;
+using IMOD.CrossCutting;
+using IMOD.Domain.Entities;
+using Colaborador = iModSCCredenciamento.Models.Colaborador;
 
 namespace iModSCCredenciamento.ViewModels
 {
@@ -83,11 +78,11 @@ namespace iModSCCredenciamento.ViewModels
 
         private int _ColaboradorSelecionadaID;
 
-        private bool _HabilitaEdicao = false;
+        private bool _HabilitaEdicao;
 
         private string _Criterios = "";
 
-        private int _selectedIndexTemp = 0;
+        private int _selectedIndexTemp;
 
         private string _Validade;
 
@@ -277,11 +272,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             get
             {
-                return this._ColaboradorCredencialSelecionado;
+                return _ColaboradorCredencialSelecionado;
             }
             set
             {
-                this._ColaboradorCredencialSelecionado = value;
+                _ColaboradorCredencialSelecionado = value;
                 //base.OnPropertyChanged("SelectedItem");
                 base.OnPropertyChanged();
                 if (ColaboradorCredencialSelecionado != null)
@@ -297,7 +292,7 @@ namespace iModSCCredenciamento.ViewModels
         { 
             get
             {
-                return this._CredenciaisMotivos;
+                return _CredenciaisMotivos;
             }
             set
             {
@@ -370,12 +365,12 @@ namespace iModSCCredenciamento.ViewModels
         {
             get
             {
-                return this._ColaboradorSelecionadaID;
+                return _ColaboradorSelecionadaID;
 
             }
             set
             {
-                this._ColaboradorSelecionadaID = value;
+                _ColaboradorSelecionadaID = value;
                 base.OnPropertyChanged();
                 if (ColaboradorSelecionadaID != null)
                 {
@@ -402,11 +397,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             get
             {
-                return this._HabilitaEdicao;
+                return _HabilitaEdicao;
             }
             set
             {
-                this._HabilitaEdicao = value;
+                _HabilitaEdicao = value;
                 base.OnPropertyChanged();
             }
         }
@@ -415,11 +410,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             get
             {
-                return this._Criterios;
+                return _Criterios;
             }
             set
             {
-                this._Criterios = value;
+                _Criterios = value;
                 base.OnPropertyChanged();
             }
         }
@@ -428,11 +423,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             get
             {
-                return this._Validade;
+                return _Validade;
             }
             set
             {
-                this._Validade = value;
+                _Validade = value;
                 base.OnPropertyChanged();
             }
         }
@@ -585,7 +580,7 @@ namespace iModSCCredenciamento.ViewModels
                     _ColaboradoresEmpresasTemp.Add(y);
                 }
 
-                List<ClasseColaboradoresEmpresas.ColaboradorEmpresa> _Temp = ColaboradoresEmpresas.Where(x => x.Ativo == true).ToList();
+                List<ClasseColaboradoresEmpresas.ColaboradorEmpresa> _Temp = ColaboradoresEmpresas.Where(x => x.Ativo).ToList();
                 //foreach (var _member in toRemove)
                 //{
                 //    ColaboradoresEmpresas.Remove(_member);
@@ -742,8 +737,8 @@ namespace iModSCCredenciamento.ViewModels
                 //IMOD.Domain.Entities.ColaboradorCredencial ColaboradorEntity = new IMOD.Domain.Entities.ColaboradorCredencial();
                 //g.TranportarDados(ColaboradorCredencialSelecionado, 1, ColaboradorEntity);
 
-                var entity = Mapper.Map<IMOD.Domain.Entities.ColaboradorCredencial>(ColaboradorCredencialSelecionado);
-                var repositorio = new IMOD.Application.Service.ColaboradorCredencialService();
+                var entity = Mapper.Map<ColaboradorCredencial>(ColaboradorCredencialSelecionado);
+                var repositorio = new ColaboradorCredencialService();
                 if (ColaboradorCredencialSelecionado.ColaboradorCredencialID == 0)
                 {
                     _repositorio.Credencial.Criar(entity);
@@ -842,8 +837,8 @@ namespace iModSCCredenciamento.ViewModels
                         if (SCManager.ExcluirCredencial(ColaboradorCredencialSelecionado.CredencialGuid))
                         {
                            
-                            var entity = Mapper.Map<IMOD.Domain.Entities.ColaboradorCredencial>(ColaboradorCredencialSelecionado);
-                            var repositorio = new IMOD.Application.Service.ColaboradorCredencialService();
+                            var entity = Mapper.Map<ColaboradorCredencial>(ColaboradorCredencialSelecionado);
+                            var repositorio = new ColaboradorCredencialService();
                             repositorio.Remover(entity);
 
                             ColaboradoresCredenciais.Remove(ColaboradorCredencialSelecionado);
@@ -868,7 +863,7 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 popupPesquisaColaboradoresCredenciais = new PopupPesquisaColaboradoresCredenciais();
-                popupPesquisaColaboradoresCredenciais.EfetuarProcura += new EventHandler(On_EfetuarProcura);
+                popupPesquisaColaboradoresCredenciais.EfetuarProcura += On_EfetuarProcura;
                 popupPesquisaColaboradoresCredenciais.ShowDialog();
             }
             catch (Exception ex)
@@ -930,7 +925,7 @@ namespace iModSCCredenciamento.ViewModels
                     observer.Add(n);
                 });
 
-                this.ColaboradoresCredenciais = observer;
+                ColaboradoresCredenciais = observer;
                 SelectedIndex = 0;
 
 
@@ -938,7 +933,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                IMOD.CrossCutting.Utils.TraceException(ex);
+                Utils.TraceException(ex);
             }
         }
 
@@ -949,7 +944,7 @@ namespace iModSCCredenciamento.ViewModels
                 ColaboradoresPrivilegios = new ObservableCollection<ClasseClaboradoresPrivilegios.ColaboradorPrivilegio>();
                 foreach(ClasseAreasAcessos.AreaAcesso _areaaAcesso in AreasAcessos)
                 {
-                    ColaboradoresPrivilegios.Add(new ClasseClaboradoresPrivilegios.ColaboradorPrivilegio() { ColaboradorPrivilegioID = _areaaAcesso.AreaAcessoID, Descricao = _areaaAcesso.Identificacao });
+                    ColaboradoresPrivilegios.Add(new ClasseClaboradoresPrivilegios.ColaboradorPrivilegio { ColaboradorPrivilegioID = _areaaAcesso.AreaAcessoID, Descricao = _areaaAcesso.Identificacao });
 
                 }
 
@@ -990,7 +985,7 @@ namespace iModSCCredenciamento.ViewModels
                     observer.Add(n);
                 });
 
-                this.AreasAcessos = observer;
+                AreasAcessos = observer;
                 SelectedIndex = 0;
 
 
@@ -1005,7 +1000,7 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                
-                var service = new IMOD.Application.Service.EmpresaService();
+                var service = new EmpresaService();
                 if (!string.IsNullOrWhiteSpace(nome)) nome = $"%{nome}%";
                 if (!string.IsNullOrWhiteSpace(apelido)) apelido = $"%{apelido}%";
                 if (!string.IsNullOrWhiteSpace(cnpj)) cnpj = $"%{cnpj}%";
@@ -1019,7 +1014,7 @@ namespace iModSCCredenciamento.ViewModels
                     observer.Add(n);
                 });
 
-                this.Empresas = observer;
+                Empresas = observer;
                 SelectedIndex = 0;
 
 
@@ -1088,7 +1083,7 @@ namespace iModSCCredenciamento.ViewModels
                     observer.Add(n);
                 });
 
-                this.EmpresasLayoutsCrachas = observer;
+                EmpresasLayoutsCrachas = observer;
                 SelectedIndex = 0;
             }
             catch (Exception ex)
@@ -1112,7 +1107,7 @@ namespace iModSCCredenciamento.ViewModels
                     observer.Add(n);
                 });
 
-                this.FormatosCredenciais = observer;
+                FormatosCredenciais = observer;
                 SelectedIndex = 0;
 
                 
@@ -1191,7 +1186,7 @@ namespace iModSCCredenciamento.ViewModels
                     observer.Add(n);
                 });
 
-                this.TiposCredenciais = observer;
+                TiposCredenciais = observer;
                 SelectedIndex = 0;
 
             }
@@ -1217,7 +1212,7 @@ namespace iModSCCredenciamento.ViewModels
                     observer.Add(n);
                 });
 
-                this.TecnologiasCredenciais = observer;
+                TecnologiasCredenciais = observer;
                 SelectedIndex = 0;
 
             }
@@ -1243,7 +1238,7 @@ namespace iModSCCredenciamento.ViewModels
                     observer.Add(n);
                 });
 
-                this.CredenciaisStatus = observer;
+                CredenciaisStatus = observer;
                 SelectedIndex = 0;
 
             }
@@ -1268,7 +1263,7 @@ namespace iModSCCredenciamento.ViewModels
                     observer.Add(n);
                 });
 
-                this.CredenciaisMotivos = observer;
+                CredenciaisMotivos = observer;
                 SelectedIndex = 0;
 
             }
@@ -1548,7 +1543,7 @@ namespace iModSCCredenciamento.ViewModels
                     var _tec = TecnologiasCredenciais.FirstOrDefault(x => x.TecnologiaCredencialID == Convert.ToInt32(_sqlreader["TecnologiaCredencialID"].ToString()));
                     if (_tec != null)
                     {
-                        _TecnologiaCredencialDescricao.AppendChild(_xmlDocument.CreateTextNode(_tec.Descricao.ToString()));
+                        _TecnologiaCredencialDescricao.AppendChild(_xmlDocument.CreateTextNode(_tec.Descricao));
                         _ColaboradorCredencial.AppendChild(_TecnologiaCredencialDescricao);
                     }
 
@@ -1560,7 +1555,7 @@ namespace iModSCCredenciamento.ViewModels
                     var _tip = TiposCredenciais.FirstOrDefault(x => x.TipoCredencialID == Convert.ToInt32(_sqlreader["TipoCredencialID"].ToString()));
                     if (_tip != null)
                     {
-                        _TipoCredencialDescricao.AppendChild(_xmlDocument.CreateTextNode(_tip.Descricao.ToString()));
+                        _TipoCredencialDescricao.AppendChild(_xmlDocument.CreateTextNode(_tip.Descricao));
                         _ColaboradorCredencial.AppendChild(_TipoCredencialDescricao);
                     }
 
@@ -1614,7 +1609,7 @@ namespace iModSCCredenciamento.ViewModels
                     var _sta = CredenciaisStatus.FirstOrDefault(x => x.CredencialStatusID == Convert.ToInt32(_sqlreader["CredencialStatusID"].ToString()));
                     if (_sta != null)
                     {
-                        _CredencialStatusDescricao.AppendChild(_xmlDocument.CreateTextNode(_sta.Descricao.ToString()));
+                        _CredencialStatusDescricao.AppendChild(_xmlDocument.CreateTextNode(_sta.Descricao));
                         _ColaboradorCredencial.AppendChild(_CredencialStatusDescricao);
                     }
 
@@ -2967,7 +2962,7 @@ namespace iModSCCredenciamento.ViewModels
             {
 
 
-                System.Xml.XmlDocument _xmlDoc = new System.Xml.XmlDocument();
+                XmlDocument _xmlDoc = new XmlDocument();
 
                 _xmlDoc.LoadXml(xmlString);
                 // SqlConnection _Con = new SqlConnection(Global._connectionString);_Con.Open();
@@ -3482,12 +3477,12 @@ namespace iModSCCredenciamento.ViewModels
                 Credencial = (ClasseCredencial)deserializer.Deserialize(reader);
 
 
-                string _ArquivoRPT = System.IO.Path.GetRandomFileName();
+                string _ArquivoRPT = Path.GetRandomFileName();
                 _ArquivoRPT = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\" + _ArquivoRPT;
-                _ArquivoRPT = System.IO.Path.ChangeExtension(_ArquivoRPT, ".rpt");
+                _ArquivoRPT = Path.ChangeExtension(_ArquivoRPT, ".rpt");
                 byte[] buffer = Convert.FromBase64String(Credencial.LayoutRPT.Trim());
 
-                System.IO.File.WriteAllBytes(_ArquivoRPT, buffer);
+                File.WriteAllBytes(_ArquivoRPT, buffer);
 
                 ReportDocument reportDocument = new ReportDocument();
                 //reportDocument.Load("D:\\Meus Documentos\\CrachaModelo - Motorista.rpt");
@@ -3533,7 +3528,7 @@ namespace iModSCCredenciamento.ViewModels
                         CarregaColecaoColaboradoresCredenciais(ColaboradorCredencialSelecionado.ColaboradorID); //revisar a necessidade do carregamento
                         SelectedIndex = _selectindex;
                 }
-                System.IO.File.Delete(_ArquivoRPT);
+                File.Delete(_ArquivoRPT);
                 //}
 
             }
@@ -3566,7 +3561,7 @@ namespace iModSCCredenciamento.ViewModels
                 var list = new List<Colaborador>();
                 while (_sqlreader.Read()) // Popular dados
                 {
-                    list.Add(new Colaborador() { Id = idx, ColaboradorId = Convert.ToInt32(_sqlreader["ColaboradorID"].ToString()), DataValidade = Convert.ToDateTime(_sqlreader["Validade"].ToString()) });
+                    list.Add(new Colaborador { Id = idx, ColaboradorId = Convert.ToInt32(_sqlreader["ColaboradorID"].ToString()), DataValidade = Convert.ToDateTime(_sqlreader["Validade"].ToString()) });
                     idx = idx + 1;
                 }
 
@@ -3581,7 +3576,7 @@ namespace iModSCCredenciamento.ViewModels
                 SqlDataReader _sqlreader2 = sqlcmd2.ExecuteReader(CommandBehavior.Default);
                 while (_sqlreader2.Read()) // Popular dados
                 {
-                    list.Add(new Colaborador() { Id = idx, CredencialGuidId = _sqlreader2["CredencialGUID"].ToString(), ColaboradorId = Convert.ToInt32(_sqlreader2["ColaboradorID"].ToString()), DataValidade = Convert.ToDateTime(_sqlreader2["ValidadeContrato"].ToString()) });
+                    list.Add(new Colaborador { Id = idx, CredencialGuidId = _sqlreader2["CredencialGUID"].ToString(), ColaboradorId = Convert.ToInt32(_sqlreader2["ColaboradorID"].ToString()), DataValidade = Convert.ToDateTime(_sqlreader2["ValidadeContrato"].ToString()) });
                     idx = idx + 1;
                 }
 

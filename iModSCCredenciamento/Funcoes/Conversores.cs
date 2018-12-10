@@ -1,14 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Data;
-using System.Windows.Media.Imaging;
 using System.Drawing;
-using iModSCCredenciamento.Funcoes;
-
+using System.IO;
+using System.Windows.Media.Imaging;
 
 namespace iModSCCredenciamento.Funcoes
 {
@@ -18,7 +11,7 @@ namespace iModSCCredenciamento.Funcoes
         {
             try
             {
-                System.IO.MemoryStream o = new System.IO.MemoryStream(Convert.FromBase64String(str));
+                MemoryStream o = new MemoryStream(Convert.FromBase64String(str));
                 BitmapImage img = new BitmapImage();
                 img.BeginInit();
                 img.StreamSource = o;
@@ -41,7 +34,7 @@ namespace iModSCCredenciamento.Funcoes
             {
                 MemoryStream o = new MemoryStream();
                 PngBitmapEncoder png = new PngBitmapEncoder();
-                png.Frames.Add(System.Windows.Media.Imaging.BitmapFrame.Create(img));
+                png.Frames.Add(BitmapFrame.Create(img));
                 png.Save(o);
                 string str;
                 str = Convert.ToBase64String(o.GetBuffer());
@@ -66,7 +59,7 @@ namespace iModSCCredenciamento.Funcoes
                     BitmapEncoder enc = new BmpBitmapEncoder();
                     enc.Frames.Add(BitmapFrame.Create(bitmapImage));
                     enc.Save(outStream);
-                    System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(outStream);
+                    Bitmap bitmap = new Bitmap(outStream);
 
                     return new Bitmap(bitmap);
                 }
@@ -85,7 +78,7 @@ namespace iModSCCredenciamento.Funcoes
             {
                 byte[] _pdfBytes = File.ReadAllBytes(_arquivoPDF);
                 string _pdfBase64 = Convert.ToBase64String(_pdfBytes);
-                return _pdfBase64.ToString();
+                return _pdfBase64;
             }
             catch (Exception ex)
             {

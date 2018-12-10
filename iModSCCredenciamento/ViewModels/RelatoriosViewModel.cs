@@ -1,23 +1,17 @@
-﻿using CrystalDecisions.CrystalReports.Engine;
-using CrystalDecisions.Shared;
-using iModSCCredenciamento.Funcoes;
-using iModSCCredenciamento.Models;
-using iModSCCredenciamento.Windows;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Data;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Threading;
 using System.Windows.Media.Imaging;
-using System.Xml;
 using AutoMapper;
 using iModSCCredenciamento.Helpers;
+using iModSCCredenciamento.Models;
+using iModSCCredenciamento.Windows;
 using IMOD.Application.Interfaces;
 using IMOD.Application.Service;
+using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
-using Utils = IMOD.CrossCutting.Utils;
 
 namespace iModSCCredenciamento.ViewModels
 {
@@ -135,11 +129,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             get
             {
-                return this._RelatorioSelecionado;
+                return _RelatorioSelecionado;
             }
             set
             {
-                this._RelatorioSelecionado = value;
+                _RelatorioSelecionado = value;
                 base.OnPropertyChanged("SelectedItem");
                 if (RelatorioSelecionado != null)
                 {
@@ -175,11 +169,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             get
             {
-                return this._Waiting;
+                return _Waiting;
             }
             set
             {
-                this._Waiting = value;
+                _Waiting = value;
                 base.OnPropertyChanged();
             }
         }
@@ -200,7 +194,7 @@ namespace iModSCCredenciamento.ViewModels
                     observer.Add(n);
                 });
 
-                this.Relatorios = observer;
+                Relatorios = observer;
 
             }
             catch (Exception ex)
@@ -222,7 +216,7 @@ namespace iModSCCredenciamento.ViewModels
                     observer.Add(n);
                 });
 
-                this.AreasAcessos = observer;
+                AreasAcessos = observer;
             }
             catch (Exception ex)
             {
@@ -247,7 +241,7 @@ namespace iModSCCredenciamento.ViewModels
                     observer.Add(n);
                 });
 
-                this.Empresas = observer;
+                Empresas = observer;
                 SelectedIndex = 0;
             }
 

@@ -6,7 +6,9 @@
 
 #region
 
+using System.Collections.Generic;
 using IMOD.Domain.Entities;
+using IMOD.Domain.EntitiesCustom;
 
 #endregion
 
@@ -14,5 +16,6 @@ namespace IMOD.Domain.Interfaces
 {
     public interface IVeiculoEquipTipoServicoRepositorio : IRepositorioBaseAdoNet<VeiculoEquipTipoServico>
     {
+
     }
 }

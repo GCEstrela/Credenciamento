@@ -1,17 +1,7 @@
-﻿using iModSCCredenciamento.Funcoes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace iModSCCredenciamento.Windows
 {
@@ -24,12 +14,12 @@ namespace iModSCCredenciamento.Windows
         public PopupBox(string Texto, int Icone)
         {
             InitializeComponent();
-            this.PreviewKeyDown += (ss, ee) =>
+            PreviewKeyDown += (ss, ee) =>
             {
                 if (ee.Key == Key.Escape)
                 {
                     Result = false;
-                    this.Close();
+                    Close();
                 }
             };
 
@@ -76,19 +66,19 @@ namespace iModSCCredenciamento.Windows
         private void Ok_bt_Click(object sender, RoutedEventArgs e)
         {
             Result = true;
-            this.Close();
+            Close();
         }
 
         private void Sim_bt_Click(object sender, RoutedEventArgs e)
         {
             Result = true;
-            this.Close();
+            Close();
         }
 
         private void Nao_bt_Click(object sender, RoutedEventArgs e)
         {
             Result = false;
-            this.Close();
+            Close();
         }
     }
 }

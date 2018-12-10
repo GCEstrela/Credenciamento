@@ -34,11 +34,11 @@ namespace iModSCCredenciamento.Windows
         {
             Criterio = Nome_tb.Text;
             EfetuarProcura(this, new EventArgs());
-            this.DialogResult = true;
+            DialogResult = true;
         }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Close();
         }
     }
 }

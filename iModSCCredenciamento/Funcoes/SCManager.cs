@@ -1,30 +1,21 @@
-﻿using Genetec.Sdk;
-using Genetec.Sdk.Workflows.EntityManager;
+﻿using System;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Printing;
+using System.Windows.Controls;
+using System.Windows.Media.Imaging;
+using Genetec.Sdk;
 using Genetec.Sdk.Credentials;
 using Genetec.Sdk.Entities;
 using Genetec.Sdk.Entities.Activation;
-using Genetec.Sdk.Entities.Builders;
 using Genetec.Sdk.Queries;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Drawing;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Genetec.Sdk.Workspace.Components.BadgePrinter;
-using Genetec.Sdk.Workspace.Services;
 using Genetec.Sdk.Workspace;
-using System.Printing;
+using Genetec.Sdk.Workspace.Services;
 using iModSCCredenciamento.Models;
-using System.Xml.Serialization;
-using System.Collections.ObjectModel;
-using System.Xml;
-using System.Windows.Media.Imaging;
 using iModSCCredenciamento.PagePrincipal;
-using Genetec.Sdk.Entities.CustomFields;
+using Application = System.Windows.Application;
+using ValidationResult = System.Printing.ValidationResult;
 
 namespace iModSCCredenciamento.Funcoes
 {
@@ -60,7 +51,7 @@ namespace iModSCCredenciamento.Funcoes
                 Guid _CrachaGUID = new Guid(colaboradorCredencial.LayoutCrachaGUID);
                 Guid _CHGUID = _credencial.CardholderGuid; // new Guid("227ee2c9-371f-408f-bf91-07cfb7ac8a74");
 
-                System.Windows.Application.Current.Dispatcher.Invoke(new Action(() =>
+                Application.Current.Dispatcher.Invoke(() =>
                 {
                     PrintQueue printQueue = GetPrintQueue();
                     if (printQueue != null)
@@ -75,7 +66,7 @@ namespace iModSCCredenciamento.Funcoes
 
                         }
                     }
-                }));
+                });
 
                 if (_deletaCredencial)
                 {
@@ -123,7 +114,7 @@ namespace iModSCCredenciamento.Funcoes
                 Guid _CrachaGUID = new Guid(veiculoCredencial.LayoutCrachaGUID);
                 Guid _CHGUID = _credencial.CardholderGuid; // new Guid("227ee2c9-371f-408f-bf91-07cfb7ac8a74");
 
-                System.Windows.Application.Current.Dispatcher.Invoke(new Action(() =>
+                Application.Current.Dispatcher.Invoke(() =>
                 {
                     PrintQueue printQueue = GetPrintQueue();
                     if (printQueue != null)
@@ -138,7 +129,7 @@ namespace iModSCCredenciamento.Funcoes
 
                         }
                     }
-                }));
+                });
 
                 if (_deletaCredencial)
                 {
@@ -159,52 +150,42 @@ namespace iModSCCredenciamento.Funcoes
 
         private static Credential CriarCredencialProvisoria(Cardholder cardholder, DateTime? validade, Guid layoutCracha)
         {
-            try
+            DateTime _DataValidade;
+
+            if (validade != null)
             {
+                _DataValidade = (DateTime)validade;
 
-                DateTime _DataValidade;
+                _DataValidade = _DataValidade.AddSeconds(86399);
 
-                if (validade != null)
-                {
-                    _DataValidade = (DateTime)validade;
-
-                    _DataValidade = _DataValidade.AddSeconds(86399);
-
-                    _DataValidade = _DataValidade <= DateTime.Now ? DateTime.Now.AddSeconds(3) : _DataValidade;
-                }
-                else
-                {
-                    _DataValidade = DateTime.Now.AddSeconds(86399);
-                }
-
-                Credential _credencial;
-
-                    _sdk.TransactionManager.CreateTransaction();
-
-                    _credencial = _sdk.CreateEntity("Credencial de " + cardholder.FirstName, EntityType.Credential) as Credential;
-
-                    _credencial.Name = cardholder.FirstName + " " + cardholder.LastName;
-
-                    _credencial.ActivationMode = new SpecificActivationPeriod(DateTime.Now, _DataValidade);
-
-                    BadgeTemplate _BadgeTemplate = _sdk.GetEntity(layoutCracha) as BadgeTemplate;
-
-                    _credencial.BadgeTemplate = _BadgeTemplate.Guid;
-
-                    _credencial.InsertIntoPartition(Partition.DefaultPartitionGuid);
-
-                    cardholder.Credentials.Add(_credencial);
-
-                    _sdk.TransactionManager.CommitTransaction();
-
-                return _credencial;
-
+                _DataValidade = _DataValidade <= DateTime.Now ? DateTime.Now.AddSeconds(3) : _DataValidade;
             }
-            catch (Exception ex)
+            else
             {
-
-                throw;
+                _DataValidade = DateTime.Now.AddSeconds(86399);
             }
+
+            Credential _credencial;
+
+            _sdk.TransactionManager.CreateTransaction();
+
+            _credencial = _sdk.CreateEntity("Credencial de " + cardholder.FirstName, EntityType.Credential) as Credential;
+
+            _credencial.Name = cardholder.FirstName + " " + cardholder.LastName;
+
+            _credencial.ActivationMode = new SpecificActivationPeriod(DateTime.Now, _DataValidade);
+
+            BadgeTemplate _BadgeTemplate = _sdk.GetEntity(layoutCracha) as BadgeTemplate;
+
+            _credencial.BadgeTemplate = _BadgeTemplate.Guid;
+
+            _credencial.InsertIntoPartition(Partition.DefaultPartitionGuid);
+
+            cardholder.Credentials.Add(_credencial);
+
+            _sdk.TransactionManager.CommitTransaction();
+
+            return _credencial;
         }
 
         private static void OnBadgePrinted(IAsyncResult ar)
@@ -219,14 +200,14 @@ namespace iModSCCredenciamento.Funcoes
 
             //  window.Dispatcher.BeginInvoke(new Action(() =>
             // {
-            System.Windows.Controls.PrintDialog dlg = new System.Windows.Controls.PrintDialog();
+            PrintDialog dlg = new PrintDialog();
             bool? bPrint = dlg.ShowDialog();
             if (bPrint.GetValueOrDefault())
             {
                 printQueue = dlg.PrintQueue;
                 try
                 {
-                    System.Printing.ValidationResult result = printQueue.MergeAndValidatePrintTicket(printQueue.UserPrintTicket, dlg.PrintTicket);
+                    ValidationResult result = printQueue.MergeAndValidatePrintTicket(printQueue.UserPrintTicket, dlg.PrintTicket);
                     printQueue.UserPrintTicket = result.ValidatedPrintTicket;
                     printQueue.Commit();
                 }
@@ -408,20 +389,17 @@ namespace iModSCCredenciamento.Funcoes
 
                                 return false;
                             }
-                            else // atualizar credencial
+
+                            if (colaboradorCredencial.LayoutCrachaGUID != "")
                             {
-                                if (colaboradorCredencial.LayoutCrachaGUID != "")
-                                {
-                                    //BadgeTemplate _BadgeTemplate = _sdk.GetEntity(new Guid(colaboradorCredencial.LayoutCrachaGUID)) as BadgeTemplate;
-                                    //_credencial.BadgeTemplate = _BadgeTemplate.Guid;
+                                //BadgeTemplate _BadgeTemplate = _sdk.GetEntity(new Guid(colaboradorCredencial.LayoutCrachaGUID)) as BadgeTemplate;
+                                //_credencial.BadgeTemplate = _BadgeTemplate.Guid;
 
-                                    _credencial.ActivationMode = new SpecificActivationPeriod(DateTime.Now, _DataValidade);
+                                _credencial.ActivationMode = new SpecificActivationPeriod(DateTime.Now, _DataValidade);
 
-                                    _credencial.SetCustomFieldAsync("Privilégio #1", colaboradorCredencial.PrivilegioDescricao1);
+                                _credencial.SetCustomFieldAsync("Privilégio #1", colaboradorCredencial.PrivilegioDescricao1);
 
-                                    _credencial.SetCustomFieldAsync("Privilégio #2", colaboradorCredencial.PrivilegioDescricao2);
-                                }
-
+                                _credencial.SetCustomFieldAsync("Privilégio #2", colaboradorCredencial.PrivilegioDescricao2);
                             }
                         }
                         else //criar nova credencial
@@ -671,16 +649,13 @@ namespace iModSCCredenciamento.Funcoes
 
                                 return false;
                             }
-                            else // atualizar credencial
+
+                            if (veiculoCredencial.LayoutCrachaGUID != "")
                             {
-                                if (veiculoCredencial.LayoutCrachaGUID != "")
-                                {
-                                    BadgeTemplate _BadgeTemplate = _sdk.GetEntity(new Guid(veiculoCredencial.LayoutCrachaGUID)) as BadgeTemplate;
-                                    _credencial.BadgeTemplate = _BadgeTemplate.Guid;
+                                BadgeTemplate _BadgeTemplate = _sdk.GetEntity(new Guid(veiculoCredencial.LayoutCrachaGUID)) as BadgeTemplate;
+                                _credencial.BadgeTemplate = _BadgeTemplate.Guid;
 
-                                    _credencial.ActivationMode = new SpecificActivationPeriod(DateTime.Now, _DataValidade);
-                                }
-
+                                _credencial.ActivationMode = new SpecificActivationPeriod(DateTime.Now, _DataValidade);
                             }
                         }
                         else //criar nova credencial
@@ -887,9 +862,9 @@ namespace iModSCCredenciamento.Funcoes
                                 case "00000000-0000-0000-0000-000000000500":
                                 case "00000000-0000-0000-0000-000000000600":
                                 case "00000000-0000-0000-0000-000000000800":
-                                    _FCteste = ((Genetec.Sdk.Credentials.WiegandStandardCredentialFormat)_credencial.Format).Facility;
+                                    _FCteste = ((WiegandStandardCredentialFormat)_credencial.Format).Facility;
 
-                                    _NumeroCredencialteste = ((Genetec.Sdk.Credentials.WiegandCredentialFormat)_credencial.Format).CardId.ToString();
+                                    _NumeroCredencialteste = ((WiegandCredentialFormat)_credencial.Format).CardId.ToString();
 
                                     if (_FCteste == _FC && _NumeroCredencialteste == _NumeroCredencial)
                                     {
@@ -900,7 +875,7 @@ namespace iModSCCredenciamento.Funcoes
 
                                 case "00000000-0000-0000-0000-000000000400":
                                 case "00000000-0000-0000-0000-000000000700":
-                                    _NumeroCredencialteste = ((Genetec.Sdk.Credentials.WiegandCredentialFormat)_credencial.Format).CardId.ToString();
+                                    _NumeroCredencialteste = ((WiegandCredentialFormat)_credencial.Format).CardId.ToString();
                                     //_NumeroCredencialteste = long.Parse(_NumeroCredencialteste, System.Globalization.NumberStyles.HexNumber);
 
                                     if (_NumeroCredencialteste == _NumeroCredencial)
@@ -934,15 +909,12 @@ namespace iModSCCredenciamento.Funcoes
                 {
                     return true;
                 }
-                else
-                {
-                    Credential _Credencial = _sdk.GetEntity((Guid)_CredencialGuid) as Credential;
 
-                    if (_Credencial!= null)
-                    {
-                        _sdk.DeleteEntity(_Credencial);
-                    }
-                    
+                Credential _Credencial = _sdk.GetEntity((Guid)_CredencialGuid) as Credential;
+
+                if (_Credencial!= null)
+                {
+                    _sdk.DeleteEntity(_Credencial);
                 }
             }
             catch (Exception ex)

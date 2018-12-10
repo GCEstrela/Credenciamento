@@ -1,21 +1,16 @@
-﻿using iModSCCredenciamento.Funcoes;
-using iModSCCredenciamento.Models;
-using iModSCCredenciamento.Windows;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+using System.Threading;
 using System.Xml;
 using System.Xml.Serialization;
-using System.Threading;
-using iModSCCredenciamento.Helpers;
-using IMOD.CrossCutting;
+using iModSCCredenciamento.Funcoes;
+using iModSCCredenciamento.Models;
+using iModSCCredenciamento.Windows;
 
 namespace iModSCCredenciamento.ViewModels
 {
@@ -59,11 +54,11 @@ namespace iModSCCredenciamento.ViewModels
 
         private int _EmpresaSelecionadaID;
 
-        private bool _HabilitaEdicao = false;
+        private bool _HabilitaEdicao;
 
         private string _Criterios = "";
 
-        private int _selectedIndexTemp = 0;
+        private int _selectedIndexTemp;
 
         #endregion
 
@@ -89,11 +84,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             get
             {
-                return this._EmpresaEquipamentoSelecionado;
+                return _EmpresaEquipamentoSelecionado;
             }
             set
             {
-                this._EmpresaEquipamentoSelecionado = value;
+                _EmpresaEquipamentoSelecionado = value;
                 base.OnPropertyChanged("SelectedItem");
                 if (EmpresaEquipamentoSelecionado != null)
                 {
@@ -158,11 +153,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             get
             {
-                return this._EmpresaSelecionadaID;
+                return _EmpresaSelecionadaID;
             }
             set
             {
-                this._EmpresaSelecionadaID = value;
+                _EmpresaSelecionadaID = value;
                 base.OnPropertyChanged();
                 if (EmpresaSelecionadaID != null)
                 {
@@ -189,11 +184,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             get
             {
-                return this._HabilitaEdicao;
+                return _HabilitaEdicao;
             }
             set
             {
-                this._HabilitaEdicao = value;
+                _HabilitaEdicao = value;
                 base.OnPropertyChanged();
             }
         }
@@ -202,11 +197,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             get
             {
-                return this._Criterios;
+                return _Criterios;
             }
             set
             {
-                this._Criterios = value;
+                _Criterios = value;
                 base.OnPropertyChanged();
             }
         }
@@ -294,7 +289,7 @@ namespace iModSCCredenciamento.ViewModels
             {
 
                 HabilitaEdicao = false;
-                System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(ClasseEmpresasEquipamentos));
+                XmlSerializer serializer = new XmlSerializer(typeof(ClasseEmpresasEquipamentos));
 
                 ObservableCollection<ClasseEmpresasEquipamentos.EmpresaEquipamento> _EmpresasEquipamentosTemp = new ObservableCollection<ClasseEmpresasEquipamentos.EmpresaEquipamento>();
                 ClasseEmpresasEquipamentos _ClasseEmpresasEquipamentosTemp = new ClasseEmpresasEquipamentos();
@@ -303,7 +298,7 @@ namespace iModSCCredenciamento.ViewModels
 
                 string xmlString;
 
-                using (StringWriterWithEncoding sw = new StringWriterWithEncoding(System.Text.Encoding.UTF8))
+                using (StringWriterWithEncoding sw = new StringWriterWithEncoding(Encoding.UTF8))
                 {
 
                     using (XmlTextWriter xw = new XmlTextWriter(sw))
@@ -360,7 +355,7 @@ namespace iModSCCredenciamento.ViewModels
             {
 
                 HabilitaEdicao = false;
-                System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(ClasseEmpresasEquipamentos));
+                XmlSerializer serializer = new XmlSerializer(typeof(ClasseEmpresasEquipamentos));
 
                 ObservableCollection<ClasseEmpresasEquipamentos.EmpresaEquipamento> _EmpresasEquipamentosPro = new ObservableCollection<ClasseEmpresasEquipamentos.EmpresaEquipamento>();
                 ClasseEmpresasEquipamentos _ClasseEmpresasEquipamentosPro = new ClasseEmpresasEquipamentos();
@@ -369,7 +364,7 @@ namespace iModSCCredenciamento.ViewModels
 
                 string xmlString;
 
-                using (StringWriterWithEncoding sw = new StringWriterWithEncoding(System.Text.Encoding.UTF8))
+                using (StringWriterWithEncoding sw = new StringWriterWithEncoding(Encoding.UTF8))
                 {
 
                     using (XmlTextWriter xw = new XmlTextWriter(sw))
@@ -448,7 +443,7 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 PopupPesquisaEquipamentos popupPesquisaEquipamentos  = new PopupPesquisaEquipamentos();
-                popupPesquisaEquipamentos.EfetuarProcura += new EventHandler(On_EfetuarProcura);
+                popupPesquisaEquipamentos.EfetuarProcura += On_EfetuarProcura;
                 popupPesquisaEquipamentos.ShowDialog();
             }
             catch (Exception ex)
@@ -942,7 +937,7 @@ namespace iModSCCredenciamento.ViewModels
             {
 
 
-                System.Xml.XmlDocument _xmlDoc = new System.Xml.XmlDocument();
+                XmlDocument _xmlDoc = new XmlDocument();
 
                 _xmlDoc.LoadXml(xmlString);
                 //_Con.Open();

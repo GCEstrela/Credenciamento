@@ -14,7 +14,6 @@ using IMOD.Application.Service;
 using IMOD.Domain.Entities;
 using IMOD.Infra.Repositorios;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Colaborador = IMOD.Domain.Entities.Colaborador;
 
 #endregion
 
@@ -170,7 +169,7 @@ namespace UnitTestImod
             {
                 Descricao = "Atividade 1",
                 EmpresaId = _empresa.EmpresaId,
-                TipoAtividadeId = serviceAuxiliar.TipoAtividadeService.Listar().FirstOrDefault().TipoAtividadeId,
+                TipoAtividadeId = serviceAuxiliar.TipoAtividadeService.Listar().FirstOrDefault().TipoAtividadeId
             });
 
             service.CrachaService.Criar(new EmpresaLayoutCracha
@@ -259,7 +258,7 @@ namespace UnitTestImod
                     Pendente14 = true,
                     Pendente15 = true,
                     Pendente16 = true,
-                    Pendente17 = true,
+                    Pendente17 = true
                 };
 
                 repositorio.Criar(d1);
@@ -432,7 +431,7 @@ namespace UnitTestImod
                     Controlado = true,
                     CursoId = i,
                     NomeArquivo = "file" + i + ".arq",
-                    Validade = DateTime.Today.AddYears(i),
+                    Validade = DateTime.Today.AddYears(i)
                 };
                 repositorio.Criar(d1);
 
@@ -1046,15 +1045,15 @@ namespace UnitTestImod
             {
                 var d1 = new VeiculoEquipTipoServico
                 {
-                    VeiculoTipoServicoId = 1,
-                    VeiculoId = i + 1,
+                    EquipamentoVeiculoTipoServicoId = 1,
+                    EquipamentoVeiculoId = i + 1,
                     TipoServicoId = i + 1
                 };
 
                 //Criar registro
                 repositorio.Criar(d1);
 
-                d1.VeiculoId = (i + 1) * 2;
+                d1.EquipamentoVeiculoId = (i + 1) * 2;
                 d1.TipoServicoId = (i + 1) * 2;
 
                 //Alterar registro
@@ -1067,7 +1066,7 @@ namespace UnitTestImod
             //Listar pela chave
             var primeiroDaLIsta = list0.FirstOrDefault();
             if (primeiroDaLIsta == null) return;
-            var veiculoequiptipservico = repositorio.BuscarPelaChave(primeiroDaLIsta.VeiculoTipoServicoId);
+            var veiculoequiptipservico = repositorio.BuscarPelaChave(primeiroDaLIsta.EquipamentoVeiculoTipoServicoId);
             Assert.IsNotNull(veiculoequiptipservico);
         }
 

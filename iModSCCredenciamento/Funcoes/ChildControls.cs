@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Media;
 
 namespace iModSCCredenciamento.Funcoes
@@ -18,11 +15,11 @@ namespace iModSCCredenciamento.Funcoes
                 throw new ArgumentNullException("Element {0} is null!", p_vParent.ToString());
             }
 
-            this.lstChildren = new List<object>();
+            lstChildren = new List<object>();
 
-            this.GetChildControls(p_vParent, p_nLevel);
+            GetChildControls(p_vParent, p_nLevel);
 
-            return this.lstChildren;
+            return lstChildren;
 
         }
 
@@ -34,7 +31,7 @@ namespace iModSCCredenciamento.Funcoes
             {
                 Visual v = (Visual)VisualTreeHelper.GetChild(p_vParent, i);
 
-                lstChildren.Add((object)v);
+                lstChildren.Add(v);
 
                 if (VisualTreeHelper.GetChildrenCount(v) > 0)
                 {

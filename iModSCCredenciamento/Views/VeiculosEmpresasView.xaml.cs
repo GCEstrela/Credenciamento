@@ -1,21 +1,9 @@
-﻿using iModSCCredenciamento.Funcoes;
-using iModSCCredenciamento.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Forms;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using UserControl = System.Windows.Controls.UserControl;
+using iModSCCredenciamento.Funcoes;
+using iModSCCredenciamento.ViewModels;
 
 namespace iModSCCredenciamento.Views
 {
@@ -28,12 +16,12 @@ namespace iModSCCredenciamento.Views
         public VeiculosEmpresasView()
         {
             InitializeComponent();
-            this.DataContext = new VeiculosEmpresasViewModel();
+            DataContext = new VeiculosEmpresasViewModel();
         }
         #endregion
 
         #region Vinculo do UserControl
-        static int _EquipamentoVeiculoIDFisrt = 0;
+        static int _EquipamentoVeiculoIDFisrt;
         public int VeiculoSelecionadoIDView
         {
             get { return (int)GetValue(VeiculoSelecionadoIDViewProperty); }
@@ -47,7 +35,7 @@ namespace iModSCCredenciamento.Views
             int _EquipamentoVeiculoID = Convert.ToInt32(e.NewValue);
             if (_EquipamentoVeiculoID != _EquipamentoVeiculoIDFisrt && _EquipamentoVeiculoID != 0)
             {
-                ((iModSCCredenciamento.ViewModels.VeiculosEmpresasViewModel)((System.Windows.FrameworkElement)source).DataContext).OnAtualizaCommand(_EquipamentoVeiculoID);
+                ((VeiculosEmpresasViewModel)((FrameworkElement)source).DataContext).OnAtualizaCommand(_EquipamentoVeiculoID);
                 _EquipamentoVeiculoIDFisrt = _EquipamentoVeiculoID;
             }
         }
@@ -60,7 +48,7 @@ namespace iModSCCredenciamento.Views
 
         public static readonly DependencyProperty EditandoProperty =
             DependencyProperty.Register("Editando", typeof(bool), typeof(VeiculosEmpresasView), new FrameworkPropertyMetadata(true,
-                                                           FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, new PropertyChangedCallback(EditandoPropertyChanged)));
+                                                           FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, EditandoPropertyChanged));
 
         private static void EditandoPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -74,7 +62,7 @@ namespace iModSCCredenciamento.Views
 
         private void Pesquisar_bt_Click(object sender, RoutedEventArgs e)
         {
-            ((VeiculosEmpresasViewModel)this.DataContext).OnPesquisarCommand();
+            ((VeiculosEmpresasViewModel)DataContext).OnPesquisarCommand();
         }
 
         private void Editar_bt_Click(object sender, RoutedEventArgs e)
@@ -85,7 +73,7 @@ namespace iModSCCredenciamento.Views
             Botoes_Editar_sp.Visibility = Visibility.Visible;
             ListaVeiculosEmpresas_lv.IsHitTestVisible = false;
             Global.SetReadonly(Linha0_sp, false);
-            ((VeiculosEmpresasViewModel)this.DataContext).OnEditarCommand();
+            ((VeiculosEmpresasViewModel)DataContext).OnEditarCommand();
         }
 
         private void Adicionar_bt_Click(object sender, RoutedEventArgs e)
@@ -94,13 +82,13 @@ namespace iModSCCredenciamento.Views
             Editando = false; Botoes_Principais_sp.Visibility = Visibility.Hidden;
             Botoes_Adicionar_sp.Visibility = Visibility.Visible;
             Global.SetReadonly(Linha0_sp, false);
-            ((VeiculosEmpresasViewModel)this.DataContext).OnAdicionarCommand();
+            ((VeiculosEmpresasViewModel)DataContext).OnAdicionarCommand();
         }
 
         private void Excluir_bt_Click(object sender, RoutedEventArgs e)
         {
             Editando = true; Botoes_Principais_sp.Visibility = Visibility.Visible;
-            ((VeiculosEmpresasViewModel)this.DataContext).OnExcluirCommand();
+            ((VeiculosEmpresasViewModel)DataContext).OnExcluirCommand();
         }
 
         private void ExecutarPesquisa_bt_Click(object sender, RoutedEventArgs e)
@@ -126,7 +114,7 @@ namespace iModSCCredenciamento.Views
             Botoes_Editar_sp.Visibility = Visibility.Hidden;
             ListaVeiculosEmpresas_lv.IsHitTestVisible = true;
             Global.SetReadonly(Linha0_sp, true);
-            ((VeiculosEmpresasViewModel)this.DataContext).OnCancelarEdicaoCommand();
+            ((VeiculosEmpresasViewModel)DataContext).OnCancelarEdicaoCommand();
         }
 
         private void SalvarEdicao_bt_Click(object sender, RoutedEventArgs e)
@@ -142,7 +130,7 @@ namespace iModSCCredenciamento.Views
             }
             EmpresaRazaoSocial_cb.IsEnabled = true;
             Editando = true; Botoes_Principais_sp.Visibility = Visibility.Visible;
-            ((VeiculosEmpresasViewModel)this.DataContext).OnSalvarEdicaoCommand();
+            ((VeiculosEmpresasViewModel)DataContext).OnSalvarEdicaoCommand();
             Botoes_Editar_sp.Visibility = Visibility.Hidden;
             ListaVeiculosEmpresas_lv.IsHitTestVisible = true;
             Global.SetReadonly(Linha0_sp, true);
@@ -153,7 +141,7 @@ namespace iModSCCredenciamento.Views
         {
             Editando = true;
             Editando = true; Botoes_Principais_sp.Visibility = Visibility.Visible;
-            ((VeiculosEmpresasViewModel)this.DataContext).OnCancelarAdicaoCommand();
+            ((VeiculosEmpresasViewModel)DataContext).OnCancelarAdicaoCommand();
             Botoes_Adicionar_sp.Visibility = Visibility.Hidden;
             Global.SetReadonly(Linha0_sp, true);
         }
@@ -170,7 +158,7 @@ namespace iModSCCredenciamento.Views
                 return;
             }
             Editando = true; Botoes_Principais_sp.Visibility = Visibility.Visible;
-            ((VeiculosEmpresasViewModel)this.DataContext).OnSalvarAdicaoCommand();
+            ((VeiculosEmpresasViewModel)DataContext).OnSalvarAdicaoCommand();
             Botoes_Adicionar_sp.Visibility = Visibility.Hidden;
             Global.SetReadonly(Linha0_sp, true);
             Editando = true;

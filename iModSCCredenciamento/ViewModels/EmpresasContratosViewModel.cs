@@ -9,9 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
-using System.Windows.Forms;
 using AutoMapper;
 using iModSCCredenciamento.Funcoes;
 using iModSCCredenciamento.Helpers;
@@ -19,8 +17,8 @@ using iModSCCredenciamento.Models;
 using iModSCCredenciamento.Windows;
 using IMOD.Application.Interfaces;
 using IMOD.Application.Service;
+using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
-using Utils = IMOD.CrossCutting.Utils;
 
 #endregion
 

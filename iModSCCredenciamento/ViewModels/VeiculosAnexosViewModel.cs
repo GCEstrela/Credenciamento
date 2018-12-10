@@ -1,17 +1,21 @@
-﻿using iModSCCredenciamento.Funcoes;
-using iModSCCredenciamento.Models;
-using iModSCCredenciamento.Windows;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.IO;
+using System.Text;
 using System.Threading;
 using System.Xml;
 using System.Xml.Serialization;
+using AutoMapper;
+using iModSCCredenciamento.Funcoes;
 using iModSCCredenciamento.Helpers;
+using iModSCCredenciamento.Models;
+using iModSCCredenciamento.Windows;
+using IMOD.Application.Service;
 using IMOD.CrossCutting;
+using IMOD.Domain.Entities;
 
 namespace iModSCCredenciamento.ViewModels
 {
@@ -46,11 +50,11 @@ namespace iModSCCredenciamento.ViewModels
 
         private int _VeiculoAnexoSelecionadoID;
 
-        private bool _HabilitaEdicao = false;
+        private bool _HabilitaEdicao;
 
         private string _Criterios = "";
 
-        private int _selectedIndexTemp = 0;
+        private int _selectedIndexTemp;
 
         #endregion
 
@@ -78,11 +82,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             get
             {
-                return this._VeiculoAnexoSelecionado;
+                return _VeiculoAnexoSelecionado;
             }
             set
             {
-                this._VeiculoAnexoSelecionado = value;
+                _VeiculoAnexoSelecionado = value;
                 base.OnPropertyChanged("SelectedItem");
                 if (VeiculoAnexoSelecionado != null)
                 {
@@ -96,11 +100,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             get
             {
-                return this._VeiculoAnexoSelecionadoID;
+                return _VeiculoAnexoSelecionadoID;
             }
             set
             {
-                this._VeiculoAnexoSelecionadoID = value;
+                _VeiculoAnexoSelecionadoID = value;
                 base.OnPropertyChanged();
                 if (VeiculoAnexoSelecionadoID != null)
                 {
@@ -127,11 +131,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             get
             {
-                return this._HabilitaEdicao;
+                return _HabilitaEdicao;
             }
             set
             {
-                this._HabilitaEdicao = value;
+                _HabilitaEdicao = value;
                 base.OnPropertyChanged();
             }
         }
@@ -140,11 +144,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             get
             {
-                return this._Criterios;
+                return _Criterios;
             }
             set
             {
-                this._Criterios = value;
+                _Criterios = value;
                 base.OnPropertyChanged();
             }
         }
@@ -180,58 +184,21 @@ namespace iModSCCredenciamento.ViewModels
                 WpfHelp.Mbox(ex.Message);
                 Utils.TraceException(ex);
             }
-            
+
         }
 
         public void OnAbrirArquivoCommand()
         {
             try
             {
-                try
-                {
-
-                    string _ArquivoPDF = null;
-                    if (_VeiculoAnexoTemp != null)
-                    {
-                        if (_VeiculoAnexoTemp.Arquivo != null && _VeiculoAnexoTemp.VeiculoAnexoID == VeiculoAnexoSelecionado.VeiculoAnexoID)
-                        {
-                            _ArquivoPDF = _VeiculoAnexoTemp.Arquivo;
-
-                        }
-                    }
-                    if (_ArquivoPDF == null)
-                    {
-                        string _xmlstring = CriaXmlImagem(VeiculoAnexoSelecionado.VeiculoAnexoID);
-
-                        XmlDocument xmldocument = new XmlDocument();
-                        xmldocument.LoadXml(_xmlstring);
-                        XmlNode node = xmldocument.DocumentElement;
-                        XmlNode arquivoNode = node.SelectSingleNode("ArquivosImagens/ArquivoImagem/Arquivo");
-
-                        _ArquivoPDF = arquivoNode.FirstChild.Value;
-                    }
-
-                    byte[] buffer = Conversores.StringToPDF(_ArquivoPDF);
-                    _ArquivoPDF = System.IO.Path.GetTempFileName();
-                    _ArquivoPDF = System.IO.Path.GetRandomFileName();
-                    _ArquivoPDF = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\" + _ArquivoPDF;
-
-                    //File.Move(_caminhoArquivoPDF, Path.ChangeExtension(_caminhoArquivoPDF, ".pdf"));
-                    _ArquivoPDF = System.IO.Path.ChangeExtension(_ArquivoPDF, ".pdf");
-                    System.IO.File.WriteAllBytes(_ArquivoPDF, buffer);
-                    Action<string> act = new Action<string>(Global.AbrirArquivoPDF);
-                    act.BeginInvoke(_ArquivoPDF, null, null);
-                    //Global.AbrirArquivoPDF(_caminhoArquivoPDF);
-                }
-                catch (Exception ex)
-                {
-                    Global.Log("Erro na void OnAbrirArquivoCommand ex: " + ex);
-
-                }
+                var arquivoStr = VeiculoAnexoSelecionado.Arquivo;
+                var nomeArquivo = VeiculoAnexoSelecionado.NomeArquivo;
+                var arrBytes = Convert.FromBase64String(arquivoStr);
+                WpfHelp.DownloadArquivoDialog(nomeArquivo, arrBytes);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                Utils.TraceException(ex);
             }
         }
 
@@ -268,37 +235,19 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 HabilitaEdicao = false;
-                System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(ClasseVeiculosAnexos));
 
-                ObservableCollection<ClasseVeiculosAnexos.VeiculoAnexo> _VeiculosAnexosTemp = new ObservableCollection<ClasseVeiculosAnexos.VeiculoAnexo>();
-                ClasseVeiculosAnexos _ClasseVeiculosAnexosTemp = new ClasseVeiculosAnexos();
-                _VeiculosAnexosTemp.Add(VeiculoAnexoSelecionado);
-                _ClasseVeiculosAnexosTemp.VeiculosAnexos = _VeiculosAnexosTemp;
+                var entity = Mapper.Map<VeiculoAnexo>(VeiculoAnexoSelecionado);
+                var repositorio = new VeiculoAnexoService();
+                repositorio.Alterar(entity);
 
-                string xmlString;
+                var id = entity.VeiculoId;
 
-                using (StringWriterWithEncoding sw = new StringWriterWithEncoding(System.Text.Encoding.UTF8))
-                {
-
-                    using (XmlTextWriter xw = new XmlTextWriter(sw))
-                    {
-                        xw.Formatting = Formatting.Indented;
-                        serializer.Serialize(xw, _ClasseVeiculosAnexosTemp);
-                        xmlString = sw.ToString();
-                    }
-                }
-
-                InsereVeiculoAnexoBD(xmlString);
-
-                _VeiculosAnexosTemp = null;
-
-                _VeiculosAnexosTemp.Clear();
                 _VeiculoAnexoTemp = null;
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                //Global.Log("Erro void CarregaColecaoEmpresas ex: " + ex.Message);
+                Utils.TraceException(ex);
             }
         }
 
@@ -307,46 +256,18 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 HabilitaEdicao = false;
-                System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(ClasseVeiculosAnexos));
 
-                ObservableCollection<ClasseVeiculosAnexos.VeiculoAnexo> _VeiculosAnexosPro = new ObservableCollection<ClasseVeiculosAnexos.VeiculoAnexo>();
-                ClasseVeiculosAnexos _ClasseVeiculosAnexosPro = new ClasseVeiculosAnexos();
-                _VeiculosAnexosPro.Add(VeiculoAnexoSelecionado);
-                _ClasseVeiculosAnexosPro.VeiculosAnexos = _VeiculosAnexosPro;
+                var entity = Mapper.Map<VeiculoAnexo>(VeiculoAnexoSelecionado);
+                var repositorio = new VeiculoAnexoService();
+                repositorio.Criar(entity);
 
-                string xmlString;
-
-                using (StringWriterWithEncoding sw = new StringWriterWithEncoding(System.Text.Encoding.UTF8))
-                {
-
-                    using (XmlTextWriter xw = new XmlTextWriter(sw))
-                    {
-                        xw.Formatting = Formatting.Indented;
-                        serializer.Serialize(xw, _ClasseVeiculosAnexosPro);
-                        xmlString = sw.ToString();
-                    }
-
-                }
-
-                InsereVeiculoAnexoBD(xmlString);
-                Thread CarregaColecaoSeguros_thr = new Thread(() => CarregaColecaoVeiculosAnexos(VeiculoAnexoSelecionado.VeiculoID));
-                CarregaColecaoSeguros_thr.Start();
-                _VeiculosAnexosTemp.Add(VeiculoAnexoSelecionado);
-                VeiculosAnexos = null;
-                VeiculosAnexos = new ObservableCollection<ClasseVeiculosAnexos.VeiculoAnexo>(_VeiculosAnexosTemp);
-                SelectedIndex = _selectedIndexTemp;
-                _VeiculosAnexosTemp.Clear();
-
-
-                _VeiculosAnexosPro = null;
-
-                _VeiculosAnexosPro.Clear();
-                _VeiculoAnexoTemp = null;
+                Thread CarregaColecaoAnexos_thr = new Thread(() => CarregaColecaoVeiculosAnexos(VeiculoAnexoSelecionado.VeiculoID));
+                CarregaColecaoAnexos_thr.Start();
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                //Global.Log("Erro void CarregaColecaoEmpresas ex: " + ex.Message);
+                Utils.TraceException(ex);
             }
         }
 
@@ -362,17 +283,15 @@ namespace iModSCCredenciamento.ViewModels
 
                 _selectedIndexTemp = SelectedIndex;
                 VeiculosAnexos.Clear();
-                //ClasseEmpresasSeguros.EmpresaSeguro _seguro = new ClasseEmpresasSeguros.EmpresaSeguro();
-                //_seguro.EmpresaID = EmpresaSelecionadaID;
-                //Seguros.Add(_seguro);
                 _VeiculoAnexoTemp = new ClasseVeiculosAnexos.VeiculoAnexo();
                 _VeiculoAnexoTemp.VeiculoID = VeiculoAnexoSelecionadoID;
                 VeiculosAnexos.Add(_VeiculoAnexoTemp);
                 SelectedIndex = 0;
                 HabilitaEdicao = true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Utils.TraceException(ex);
             }
 
         }
@@ -399,15 +318,19 @@ namespace iModSCCredenciamento.ViewModels
                 {
                     if (Global.PopupBox("Você perderá todos os dados, inclusive histórico. Confirma exclusão?", 2))
                     {
-                        ExcluiVeiculoAnexoBD(VeiculoAnexoSelecionado.VeiculoAnexoID);
+
+                        var entity = Mapper.Map<VeiculoAnexo>(VeiculoAnexoSelecionado);
+                        var repositorio = new VeiculoAnexoService();
+                        repositorio.Remover(entity);
 
                         VeiculosAnexos.Remove(VeiculoAnexoSelecionado);
                     }
                 }
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Utils.TraceException(ex);
             }
 
         }
@@ -416,7 +339,7 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 popupPesquisaVeiculoAnexo = new PopupPesquisaVeiculoAnexo();
-                popupPesquisaVeiculoAnexo.EfetuarProcura += new EventHandler(On_EfetuarProcura);
+                popupPesquisaVeiculoAnexo.EfetuarProcura += On_EfetuarProcura;
                 popupPesquisaVeiculoAnexo.ShowDialog();
             }
             catch (Exception)
@@ -429,7 +352,7 @@ namespace iModSCCredenciamento.ViewModels
             int _VeiculoID = VeiculoAnexoSelecionadoID;
             string _id = ((string[])vetor)[0];
             string _numeroapolice = ((string[])vetor)[1];
-            CarregaColecaoVeiculosAnexos(Convert.ToInt32(_id), _numeroapolice);
+            CarregaColecaoVeiculosAnexos(_VeiculoID);
             SelectedIndex = 0;
         }
 
@@ -437,27 +360,28 @@ namespace iModSCCredenciamento.ViewModels
 
 
         #region Carregamento das Colecoes
-        public void CarregaColecaoVeiculosAnexos(int _veiculoID, string _descricao = "", string _curso = "")
+
+        public void CarregaColecaoVeiculosAnexos(int _veiculoID)
         {
             try
             {
-                string _xml = RequisitaVeiculosAnexos(Convert.ToString(_veiculoID), _descricao, _curso);
+                var service = new VeiculoAnexoService();
 
-                XmlSerializer deserializer = new XmlSerializer(typeof(ClasseVeiculosAnexos));
+                var list1 = service.Listar(_veiculoID, null, null);
 
-                XmlDocument xmldocument = new XmlDocument();
-                xmldocument.LoadXml(_xml);
+                var list2 = Mapper.Map<List<ClasseVeiculosAnexos.VeiculoAnexo>>(list1);
+                var observer = new ObservableCollection<ClasseVeiculosAnexos.VeiculoAnexo>();
+                list2.ForEach(n =>
+                {
+                    observer.Add(n);
+                });
 
-                TextReader reader = new StringReader(_xml);
-                ClasseVeiculosAnexos classeClasseVeiculosAnexos = new ClasseVeiculosAnexos();
-                classeClasseVeiculosAnexos = (ClasseVeiculosAnexos)deserializer.Deserialize(reader);
-                VeiculosAnexos = new ObservableCollection<ClasseVeiculosAnexos.VeiculoAnexo>();
-                VeiculosAnexos = classeClasseVeiculosAnexos.VeiculosAnexos;
-                SelectedIndex = -1;
+                VeiculosAnexos = observer;
+
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                //Global.Log("Erro void CarregaColecaoEmpresas ex: " + ex.Message);
+                Utils.TraceException(ex);
             }
         }
 
@@ -536,7 +460,7 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                System.Xml.XmlDocument _xmlDoc = new System.Xml.XmlDocument();
+                XmlDocument _xmlDoc = new XmlDocument();
                 _xmlDoc.LoadXml(xmlString);
 
                 ClasseVeiculosAnexos.VeiculoAnexo _VeiculoAnexo = new ClasseVeiculosAnexos.VeiculoAnexo();

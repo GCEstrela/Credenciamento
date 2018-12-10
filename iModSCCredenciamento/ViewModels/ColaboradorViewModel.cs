@@ -1,30 +1,22 @@
-﻿using iModSCCredenciamento.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Data.SqlClient;
-using System.Drawing;
-using System.IO;
-using System.Windows.Media.Imaging;
-using System.Xml;
-using System.Xml.Serialization;
-using iModSCCredenciamento.Funcoes;
-using System.Windows.Forms;
-using iModSCCredenciamento.Windows;
-using System.Threading;
 using System.Linq;
-using System.Reflection;
-using iModSCCredenciamento.Views;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media.Imaging;
+using System.Xml;
 using AutoMapper;
+using iModSCCredenciamento.Funcoes;
+using iModSCCredenciamento.Models;
+using iModSCCredenciamento.Windows;
 using IMOD.Application.Interfaces;
-using IMOD.Domain.Entities;
-using IMOD.Infra.Repositorios;
-using MessageBox = System.Windows.MessageBox;
 using IMOD.Application.Service;
 using IMOD.CrossCutting;
+using Colaborador = IMOD.Domain.Entities.Colaborador;
 
 //using IMOD.Application.Service;
 
@@ -44,7 +36,7 @@ namespace iModSCCredenciamento.ViewModels
         /// </summary>
         public List<ClasseEstados.Estado> ObterListaEstadosFederacao { get; private set; }
         //private IColaboradorService _colaboradorService = new ColaboradorService();
-        public IMOD.Domain.Entities.Colaborador Colaborador { get; set; }
+        public Colaborador Colaborador { get; set; }
         
         #region Inicializacao
         public ColaboradorViewModel()
@@ -92,13 +84,13 @@ namespace iModSCCredenciamento.ViewModels
 
         private int _EmpresaSelecionadaID;
 
-        private bool _HabilitaEdicao = false;
+        private bool _HabilitaEdicao;
 
         private string _Criterios = "";
 
-        private int _selectedIndexTemp = 0;
+        private int _selectedIndexTemp;
 
-        private bool _atualizandoFoto = false;
+        private bool _atualizandoFoto;
 
         private BitmapImage _Waiting;
 
@@ -130,11 +122,11 @@ namespace iModSCCredenciamento.ViewModels
             get
             {
 
-                return this._ColaboradorSelecionado;
+                return _ColaboradorSelecionado;
             }
             set
             {
-                this._ColaboradorSelecionado = value;
+                _ColaboradorSelecionado = value;
                 base.OnPropertyChanged("SelectedItem");
                 if (ColaboradorSelecionado != null)
                 {
@@ -157,11 +149,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             get
             {
-                return this._EmpresaSelecionadaID;
+                return _EmpresaSelecionadaID;
             }
             set
             {
-                this._EmpresaSelecionadaID = value;
+                _EmpresaSelecionadaID = value;
                 base.OnPropertyChanged();
                 if (EmpresaSelecionadaID != null)
                 {
@@ -188,11 +180,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             get
             {
-                return this._HabilitaEdicao;
+                return _HabilitaEdicao;
             }
             set
             {
-                this._HabilitaEdicao = value;
+                _HabilitaEdicao = value;
                 base.OnPropertyChanged();
             }
         }
@@ -214,11 +206,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             get
             {
-                return this._Criterios;
+                return _Criterios;
             }
             set
             {
-                this._Criterios = value;
+                _Criterios = value;
                 base.OnPropertyChanged();
             }
         }
@@ -263,11 +255,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             get
             {
-                return this._Waiting;
+                return _Waiting;
             }
             set
             {
-                this._Waiting = value;
+                _Waiting = value;
                 base.OnPropertyChanged();
             }
         }
@@ -450,8 +442,8 @@ namespace iModSCCredenciamento.ViewModels
 
                         //var repositorio = new IMOD.Infra.Repositorios.ColaboradorRepositorio();
 
-                        var entity = Mapper.Map<IMOD.Domain.Entities.Colaborador>(ColaboradorSelecionado);
-                        var repositorio = new IMOD.Application.Service.ColaboradorService();
+                        var entity = Mapper.Map<Colaborador>(ColaboradorSelecionado);
+                        var repositorio = new ColaboradorService();
                         repositorio.Remover(entity);
                        
                         Colaboradores.Remove(ColaboradorSelecionado);
@@ -471,7 +463,7 @@ namespace iModSCCredenciamento.ViewModels
             {
 
                 popupPesquisaColaborador = new PopupPesquisaColaborador();
-                popupPesquisaColaborador.EfetuarProcura += new EventHandler(On_EfetuarProcura);
+                popupPesquisaColaborador.EfetuarProcura += On_EfetuarProcura;
                 popupPesquisaColaborador.ShowDialog();
             }
             catch (Exception ex)
@@ -502,7 +494,7 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                PopupPendencias popupPendencias = new PopupPendencias(2, ((System.Windows.FrameworkElement)e.OriginalSource).Tag, ColaboradorSelecionado.ColaboradorID, ColaboradorSelecionado.Nome);
+                PopupPendencias popupPendencias = new PopupPendencias(2, ((FrameworkElement)e.OriginalSource).Tag, ColaboradorSelecionado.ColaboradorID, ColaboradorSelecionado.Nome);
                 popupPendencias.ShowDialog();
                 popupPendencias = null;
                 CarregaColecaoColaboradores(ColaboradorSelecionado.ColaboradorID);
@@ -544,7 +536,7 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
 
-                var service = new IMOD.Application.Service.ColaboradorService();
+                var service = new ColaboradorService();
                 if (!string.IsNullOrWhiteSpace(nome)) nome = $"%{nome}%";
                 if (!string.IsNullOrWhiteSpace(apelido)) apelido = $"%{apelido}%";
                 if (!string.IsNullOrWhiteSpace(cpf)) cpf = $"%{cpf}%";
@@ -558,12 +550,12 @@ namespace iModSCCredenciamento.ViewModels
                     observer.Add(n);
                 });
                                 
-                this.Colaboradores = observer;
+                Colaboradores = observer;
                 SelectedIndex = 0;
             }
             catch (Exception ex)
             {
-                IMOD.CrossCutting.Utils.TraceException(ex);
+                Utils.TraceException(ex);
             }
         }
 
@@ -579,7 +571,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                IMOD.CrossCutting.Utils.TraceException(ex);
+                Utils.TraceException(ex);
             }
         }
 
@@ -596,7 +588,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                IMOD.CrossCutting.Utils.TraceException(ex);
+                Utils.TraceException(ex);
             }
         }
 
@@ -624,28 +616,28 @@ namespace iModSCCredenciamento.ViewModels
 
                 //}));
 
-                System.Windows.Application.Current.Dispatcher.Invoke((Action)(() =>
+                Application.Current.Dispatcher.Invoke(() =>
                 {
                     Waiting = new BitmapImage(new Uri("pack://application:,,,/iModSCCredenciamento;component/Resources/Waitng.gif", UriKind.Absolute));
 
                     Waiting.Freeze();
-                }));
+                });
 
                 string _xmlstring = BuscaFoto(_ColaboradorID);
 
-                System.Windows.Application.Current.Dispatcher.Invoke((Action)(() => { Waiting = null; }));
+                Application.Current.Dispatcher.Invoke(() => { Waiting = null; });
 
                 XmlDocument xmldocument = new XmlDocument();
 
                 xmldocument.LoadXml(_xmlstring);
 
-                XmlNode node = (XmlNode)xmldocument.DocumentElement;
+                XmlNode node = xmldocument.DocumentElement;
 
                 XmlNode arquivoNode = node.SelectSingleNode("ArquivosImagens/ArquivoImagem/Arquivo");
 
                 if (arquivoNode.HasChildNodes)
                 {
-                    System.Windows.Application.Current.Dispatcher.Invoke((Action)(() =>
+                    Application.Current.Dispatcher.Invoke(() =>
                     {
                         _colaboradorTemp = ColaboradorSelecionado.CriaCopia(ColaboradorSelecionado);
 
@@ -657,7 +649,7 @@ namespace iModSCCredenciamento.ViewModels
 
                         SelectedIndex = _selectedIndexTemp;
 
-                    }));
+                    });
                 }
                 _atualizandoFoto = false;
 
@@ -766,8 +758,8 @@ namespace iModSCCredenciamento.ViewModels
                 ColaboradorSelecionado.Pendente25 = true;
 
 
-                var entity = Mapper.Map<IMOD.Domain.Entities.Colaborador>(ColaboradorSelecionado);
-                var repositorio = new IMOD.Application.Service.ColaboradorService();
+                var entity = Mapper.Map<Colaborador>(ColaboradorSelecionado);
+                var repositorio = new ColaboradorService();
                 repositorio.Criar(entity);
 
                 var id = entity.ColaboradorId;
@@ -799,13 +791,13 @@ namespace iModSCCredenciamento.ViewModels
             {
                 
 
-                var entity = Mapper.Map<IMOD.Domain.Entities.Colaborador>(ColaboradorSelecionado);
-                var repositorio = new IMOD.Application.Service.ColaboradorService();
+                var entity = Mapper.Map<Colaborador>(ColaboradorSelecionado);
+                var repositorio = new ColaboradorService();
                 repositorio.Alterar(entity);
 
                 //_ClasseColaboradoresTemp = null;
 
-                this._ColaboradoresTemp.Clear();
+                _ColaboradoresTemp.Clear();
                 _colaboradorTemp = null;
 
 
@@ -819,7 +811,7 @@ namespace iModSCCredenciamento.ViewModels
         internal void AbrePopupSalvando()
         {
 
-            System.Windows.Application.Current.Dispatcher.Invoke((Action)(() =>
+            Application.Current.Dispatcher.Invoke(() =>
             {
                 if (_PopupSalvando != null)
                 {
@@ -827,7 +819,7 @@ namespace iModSCCredenciamento.ViewModels
                 }
 
 
-            }));
+            });
 
         }
 

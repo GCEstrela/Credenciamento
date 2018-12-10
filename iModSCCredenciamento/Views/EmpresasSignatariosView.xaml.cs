@@ -1,12 +1,9 @@
-﻿using iModSCCredenciamento.Funcoes;
-using iModSCCredenciamento.Models;
-using iModSCCredenciamento.ViewModels;
-using System;
-using System.Linq;
+﻿using System;
 using System.Windows;
-using System.Windows.Forms;
+using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media.Imaging;
+using iModSCCredenciamento.Funcoes;
+using iModSCCredenciamento.ViewModels;
 using IMOD.CrossCutting;
 
 namespace iModSCCredenciamento.Views
@@ -14,12 +11,12 @@ namespace iModSCCredenciamento.Views
     /// <summary>
     /// Interação lógica para EmpresasSegnatariosView.xam
     /// </summary>
-    public partial class EmpresasSignatariosView : System.Windows.Controls.UserControl
+    public partial class EmpresasSignatariosView : UserControl
     {
         public EmpresasSignatariosView()
         {
             InitializeComponent();
-            this.DataContext = new EmpresasSignatariosViewModel();
+            DataContext = new EmpresasSignatariosViewModel();
 
             //this.PreviewKeyDown += (ss, ee) =>
             //{
@@ -31,7 +28,7 @@ namespace iModSCCredenciamento.Views
             //};
         }
         #region Vinculo do UserControl
-        static int _empresaIDFisrt = 0;
+        static int _empresaIDFisrt;
         public int EmpresaSelecionadaIDView
         {
             get { return (int)GetValue(EmpresaSelecionadaIDViewProperty); }
@@ -45,7 +42,7 @@ namespace iModSCCredenciamento.Views
             int _empresaID = Convert.ToInt32(e.NewValue);
             if (_empresaID != _empresaIDFisrt && _empresaID != 0)
             {
-                ((iModSCCredenciamento.ViewModels.EmpresasSignatariosViewModel)((System.Windows.FrameworkElement)source).DataContext).OnAtualizaCommand(_empresaID);
+                ((EmpresasSignatariosViewModel)((FrameworkElement)source).DataContext).OnAtualizaCommand(_empresaID);
             _empresaIDFisrt = _empresaID;
         }
     }
@@ -57,7 +54,7 @@ namespace iModSCCredenciamento.Views
 
         public static readonly DependencyProperty EditandoProperty =
             DependencyProperty.Register("Editando", typeof(bool), typeof(EmpresasSignatariosView), new FrameworkPropertyMetadata(true,
-                                                           FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, new PropertyChangedCallback(EditandoPropertyChanged)));
+                                                           FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, EditandoPropertyChanged));
 
         private static void EditandoPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -96,17 +93,17 @@ namespace iModSCCredenciamento.Views
 
         private void BuscarArquivo_bt_Click(object sender, RoutedEventArgs e)
         {
-            ((EmpresasSignatariosViewModel)this.DataContext).OnBuscarArquivoCommand();
+            ((EmpresasSignatariosViewModel)DataContext).OnBuscarArquivoCommand();
         }
 
         private void AbrirArquivo_bt_Click(object sender, RoutedEventArgs e)
         {
-            ((EmpresasSignatariosViewModel)this.DataContext).OnAbrirArquivoCommand();
+            ((EmpresasSignatariosViewModel)DataContext).OnAbrirArquivoCommand();
         }
 
         private void Pesquisar_bt_Click(object sender, RoutedEventArgs e)
         {
-            ((EmpresasSignatariosViewModel)this.DataContext).OnPesquisarCommand();
+            ((EmpresasSignatariosViewModel)DataContext).OnPesquisarCommand();
         }
 
         private void Editar_bt_Click(object sender, RoutedEventArgs e)
@@ -116,7 +113,7 @@ namespace iModSCCredenciamento.Views
             Botoes_Editar_sp.Visibility = Visibility.Visible;
             ListaSegnatarios_lv.IsHitTestVisible = false;
             Global.SetReadonly(Linha0_sp, false);
-            ((EmpresasSignatariosViewModel)this.DataContext).OnEditarCommand();
+            ((EmpresasSignatariosViewModel)DataContext).OnEditarCommand();
         }
 
         private void Adicionar_bt_Click(object sender, RoutedEventArgs e)
@@ -124,13 +121,13 @@ namespace iModSCCredenciamento.Views
             Editando = false; Botoes_Principais_sp.Visibility = Visibility.Hidden;
             Botoes_Adicionar_sp.Visibility = Visibility.Visible;
             Global.SetReadonly(Linha0_sp, false);
-            ((EmpresasSignatariosViewModel)this.DataContext).OnAdicionarCommand();
+            ((EmpresasSignatariosViewModel)DataContext).OnAdicionarCommand();
         }
 
         private void Excluir_bt_Click(object sender, RoutedEventArgs e)
         {
             Editando = true;Botoes_Principais_sp.Visibility = Visibility.Visible;
-            ((EmpresasSignatariosViewModel)this.DataContext).OnExcluirCommand();
+            ((EmpresasSignatariosViewModel)DataContext).OnExcluirCommand();
         }
 
         private void ExecutarPesquisa_bt_Click(object sender, RoutedEventArgs e)
@@ -154,7 +151,7 @@ namespace iModSCCredenciamento.Views
             Botoes_Editar_sp.Visibility = Visibility.Hidden;
             ListaSegnatarios_lv.IsHitTestVisible = true;
             Global.SetReadonly(Linha0_sp, true);
-            ((EmpresasSignatariosViewModel)this.DataContext).OnCancelarEdicaoCommand();
+            ((EmpresasSignatariosViewModel)DataContext).OnCancelarEdicaoCommand();
         }
 
         private void SalvarEdicao_bt_Click(object sender, RoutedEventArgs e)
@@ -170,7 +167,7 @@ namespace iModSCCredenciamento.Views
             }
 
             Editando = true;Botoes_Principais_sp.Visibility = Visibility.Visible;
-            ((EmpresasSignatariosViewModel)this.DataContext).OnSalvarEdicaoCommand();
+            ((EmpresasSignatariosViewModel)DataContext).OnSalvarEdicaoCommand();
             Botoes_Editar_sp.Visibility = Visibility.Hidden;
             ListaSegnatarios_lv.IsHitTestVisible = true;
             Global.SetReadonly(Linha0_sp, true);
@@ -179,7 +176,7 @@ namespace iModSCCredenciamento.Views
         private void CancelarAdicao_bt_Click(object sender, RoutedEventArgs e)
         {
             Editando = true;Botoes_Principais_sp.Visibility = Visibility.Visible;
-            ((EmpresasSignatariosViewModel)this.DataContext).OnCancelarAdicaoCommand();
+            ((EmpresasSignatariosViewModel)DataContext).OnCancelarAdicaoCommand();
             Botoes_Adicionar_sp.Visibility = Visibility.Hidden;
             Global.SetReadonly(Linha0_sp, true);
         }
@@ -197,7 +194,7 @@ namespace iModSCCredenciamento.Views
             }
 
             Editando = true;Botoes_Principais_sp.Visibility = Visibility.Visible;
-            ((EmpresasSignatariosViewModel)this.DataContext).OnSalvarAdicaoCommand();
+            ((EmpresasSignatariosViewModel)DataContext).OnSalvarAdicaoCommand();
             Botoes_Adicionar_sp.Visibility = Visibility.Hidden;
             Global.SetReadonly(Linha0_sp, true);
         }
@@ -206,12 +203,12 @@ namespace iModSCCredenciamento.Views
 
         #endregion
 
-        private void CPF_tb_LostKeyboardFocus(object sender, System.Windows.Input.KeyboardFocusChangedEventArgs e)
+        private void CPF_tb_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
             Global.CheckField(sender);
         }
 
-        private void ListaSegnatarios_lv_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        private void ListaSegnatarios_lv_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (ListaSegnatarios_lv.SelectedIndex == -1)
             {

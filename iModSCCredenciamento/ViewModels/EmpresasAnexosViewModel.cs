@@ -1,7 +1,4 @@
-﻿using iModSCCredenciamento.Funcoes;
-using iModSCCredenciamento.Models;
-using iModSCCredenciamento.Windows;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
@@ -9,7 +6,10 @@ using System.Data.SqlClient;
 using System.Threading;
 using System.Xml;
 using AutoMapper;
+using iModSCCredenciamento.Funcoes;
 using iModSCCredenciamento.Helpers;
+using iModSCCredenciamento.Models;
+using iModSCCredenciamento.Windows;
 using IMOD.Application.Interfaces;
 using IMOD.Application.Service;
 using IMOD.CrossCutting;
@@ -21,10 +21,7 @@ namespace iModSCCredenciamento.ViewModels
     {
 
         #region Inicializacao
-        public EmpresasAnexosViewModel()
-        {
 
-        }
         #endregion
 
         #region Variaveis Privadas
@@ -43,11 +40,11 @@ namespace iModSCCredenciamento.ViewModels
 
         private int _EmpresaSelecionadaID;
 
-        private bool _HabilitaEdicao = false;
+        private bool _HabilitaEdicao;
 
         private string _Criterios = "";
 
-        private int _selectedIndexTemp = 0;
+        private int _selectedIndexTemp;
 
         private readonly IEmpresaAnexoService _service = new EmpresaAnexoService();
 
@@ -76,11 +73,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             get
             {
-                return this._AnexoSelecionado;
+                return _AnexoSelecionado;
             }
             set
             {
-                this._AnexoSelecionado = value;
+                _AnexoSelecionado = value;
                 base.OnPropertyChanged("SelectedItem");
                 if (AnexoSelecionado != null)
                 {
@@ -94,11 +91,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             get
             {
-                return this._EmpresaSelecionadaID;
+                return _EmpresaSelecionadaID;
             }
             set
             {
-                this._EmpresaSelecionadaID = value;
+                _EmpresaSelecionadaID = value;
                 base.OnPropertyChanged();
                 if (EmpresaSelecionadaID != null)
                 {
@@ -125,11 +122,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             get
             {
-                return this._HabilitaEdicao;
+                return _HabilitaEdicao;
             }
             set
             {
-                this._HabilitaEdicao = value;
+                _HabilitaEdicao = value;
                 base.OnPropertyChanged();
             }
         }
@@ -138,11 +135,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             get
             {
-                return this._Criterios;
+                return _Criterios;
             }
             set
             {
-                this._Criterios = value;
+                _Criterios = value;
                 base.OnPropertyChanged();
             }
         }
@@ -175,7 +172,7 @@ namespace iModSCCredenciamento.ViewModels
                 WpfHelp.Mbox(ex.Message);
                 Utils.TraceException(ex);
             }
-            
+
         }
 
         public void OnAbrirArquivoCommand()
@@ -199,24 +196,12 @@ namespace iModSCCredenciamento.ViewModels
 
                         XmlDocument xmldocument = new XmlDocument();
                         xmldocument.LoadXml(_xmlstring);
-                        XmlNode node = (XmlNode)xmldocument.DocumentElement;
+                        XmlNode node = xmldocument.DocumentElement;
                         XmlNode arquivoNode = node.SelectSingleNode("ArquivosImagens/ArquivoImagem/Arquivo");
 
                         _ArquivoPDF = arquivoNode.FirstChild.Value;
                     }
                     Global.PopupPDF(_ArquivoPDF);
-                    //byte[] buffer = Conversores.StringToPDF(_ArquivoPDF);
-                    //_ArquivoPDF = System.IO.Path.GetTempFileName();
-                    //_ArquivoPDF = System.IO.Path.GetRandomFileName();
-                    //_ArquivoPDF = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\" + _ArquivoPDF;
-
-                    ////File.Move(_caminhoArquivoPDF, Path.ChangeExtension(_caminhoArquivoPDF, ".pdf"));
-                    //_ArquivoPDF = System.IO.Path.ChangeExtension(_ArquivoPDF, ".pdf");
-                    //System.IO.File.WriteAllBytes(_ArquivoPDF, buffer);
-                    ////Action<string> act = new Action<string>(Global.AbrirArquivoPDF);
-                    ////act.BeginInvoke(_ArquivoPDF, null, null);
-                    //Global.PopupPDF(_ArquivoPDF);
-                    //System.IO.File.Delete(_ArquivoPDF);
                 }
                 catch (Exception ex)
                 {
@@ -276,7 +261,7 @@ namespace iModSCCredenciamento.ViewModels
             catch (Exception ex)
             {
                 Global.Log("Erro void OnSalvarEdicaoCommand ex: " + ex.Message);
-                IMOD.CrossCutting.Utils.TraceException(ex);
+                Utils.TraceException(ex);
                 throw;
             }
         }
@@ -304,7 +289,7 @@ namespace iModSCCredenciamento.ViewModels
             catch (Exception ex)
             {
                 Global.Log("Erro void OnSalvarEdicaoCommand ex: " + ex.Message);
-                IMOD.CrossCutting.Utils.TraceException(ex);
+                Utils.TraceException(ex);
                 throw;
             }
 
@@ -334,7 +319,7 @@ namespace iModSCCredenciamento.ViewModels
             catch (Exception ex)
             {
                 Global.Log("Erro void OnSalvarAdicaoCommand ex: " + ex.Message);
-                IMOD.CrossCutting.Utils.TraceException(ex);
+                Utils.TraceException(ex);
                 throw;
             }
         }
@@ -378,7 +363,7 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 popupPesquisaEmpresasAnexos = new PopupPesquisaEmpresasAnexos();
-                popupPesquisaEmpresasAnexos.EfetuarProcura += new EventHandler(On_EfetuarProcura);
+                popupPesquisaEmpresasAnexos.EfetuarProcura += On_EfetuarProcura;
                 popupPesquisaEmpresasAnexos.ShowDialog();
             }
             catch (Exception ex)
@@ -413,7 +398,7 @@ namespace iModSCCredenciamento.ViewModels
                     observer.Add(n);
                 });
 
-                this.Anexos = observer;
+                Anexos = observer;
 
             }
             catch (Exception ex)
@@ -499,7 +484,7 @@ namespace iModSCCredenciamento.ViewModels
             {
 
 
-                System.Xml.XmlDocument _xmlDoc = new System.Xml.XmlDocument();
+                XmlDocument _xmlDoc = new XmlDocument();
 
                 _xmlDoc.LoadXml(xmlString);
                 //
@@ -510,14 +495,14 @@ namespace iModSCCredenciamento.ViewModels
 
                 _empresaAnexo.EmpresaAnexoID = Convert.ToInt32(_xmlDoc.GetElementsByTagName("EmpresaAnexoID")[i].InnerText);
                 _empresaAnexo.EmpresaID = Convert.ToInt32(_xmlDoc.GetElementsByTagName("EmpresaID")[i].InnerText);
-                _empresaAnexo.Descricao = _xmlDoc.GetElementsByTagName("Descricao")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Descricao")[i].InnerText.ToString().Trim();
+                _empresaAnexo.Descricao = _xmlDoc.GetElementsByTagName("Descricao")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Descricao")[i].InnerText.Trim();
                 //_empresaAnexo.NomeAnexo = _xmlDoc.GetElementsByTagName("NomeSeguradora")[i] == null ? "" : _xmlDoc.GetElementsByTagName("NomeSeguradora")[i].InnerText;
                 //_empresaAnexo.NumeroApolice = _xmlDoc.GetElementsByTagName("NumeroApolice")[i] == null ? "" : _xmlDoc.GetElementsByTagName("NumeroApolice")[i].InnerText;
                 //_empresaSeguro.ValorCobertura = _xmlDoc.GetElementsByTagName("ValorCobertura")[i] == null ? "" : _xmlDoc.GetElementsByTagName("ValorCobertura")[i].InnerText;
                 //_empresaSeguro.Arquivo = _xmlDoc.GetElementsByTagName("Arquivo")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Arquivo")[i].InnerText;
 
-                _empresaAnexo.NomeAnexo = _anexoTemp.NomeAnexo == null ? "" : _anexoTemp.NomeAnexo.ToString().Trim();
-                _empresaAnexo.Anexo = _anexoTemp.Anexo == null ? "" : _anexoTemp.Anexo.ToString().Trim();
+                _empresaAnexo.NomeAnexo = _anexoTemp.NomeAnexo == null ? "" : _anexoTemp.NomeAnexo.Trim();
+                _empresaAnexo.Anexo = _anexoTemp.Anexo == null ? "" : _anexoTemp.Anexo.Trim();
 
 
                 SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();

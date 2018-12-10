@@ -12,6 +12,7 @@ using System.Data;
 using System.Linq;
 using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
+using IMOD.Domain.EntitiesCustom;
 using IMOD.Domain.Interfaces;
 using IMOD.Infra.Ado;
 using IMOD.Infra.Ado.Interfaces;
@@ -50,7 +51,7 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("EquipamentoVeiculoTipoServicoID", entity.EquipamentoVeiculoTipoServicoId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("EquipamentoVeiculoTipoServicoID", entity.EquipamentoVeiculoTipoServicoId, true)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("EquipamentoVeiculoID", entity.EquipamentoVeiculoId, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("TipoServicoID", entity.TipoServicoId, false)));
 
@@ -140,7 +141,7 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("EquipamentoVeiculoTipoServicoID", entity.EquipamentoVeiculoTipoServicoId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("EquipamentoVeiculoTipoServicoID", entity.EquipamentoVeiculoTipoServicoId, true)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("EquipamentoVeiculoID", entity.EquipamentoVeiculoId, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("TipoServicoID", entity.TipoServicoId, false)));
 
@@ -174,6 +175,33 @@ namespace IMOD.Infra.Repositorios
                     catch (Exception ex)
                     {
                         Utils.TraceException(ex);
+                    }
+                }
+            }
+        }
+
+        public ICollection<EquipamentoVeiculoTipoServicoView> ListarEquipamentoVeiculoTipoServicoView(params object[] objects)
+        {
+            using (var conn = _dataBase.CreateOpenConnection())
+            {
+                using (var cmd = _dataBase.SelectText("EquipamentoVeiculoTipoServicoView", conn))
+                {
+                    try
+                    {
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EquipamentoVeiculoTipoServicoID", DbType.Int32, objects, 0).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EquipamentoVeiculoID", DbType.Int32, objects, 1).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("TipoServicoID", DbType.String, objects, 2).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Descricao", DbType.String, objects, 3).Like()));
+
+
+                        var reader = cmd.ExecuteReaderSelect();
+                        var d1 = reader.MapToList<EquipamentoVeiculoTipoServicoView>();
+                        return d1;
+                    }
+                    catch (Exception ex)
+                    {
+                        Utils.TraceException(ex);
+                        throw;
                     }
                 }
             }

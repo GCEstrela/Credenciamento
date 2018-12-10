@@ -1,17 +1,15 @@
-﻿using iModSCCredenciamento.Funcoes;
-using iModSCCredenciamento.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
+using iModSCCredenciamento.Funcoes;
+using iModSCCredenciamento.Models;
 
 namespace iModSCCredenciamento.ViewModels
 {
@@ -48,11 +46,11 @@ namespace iModSCCredenciamento.ViewModels
 
         private int _PendenciaSelecionadaID;
 
-        private bool _HabilitaEdicao = false;
+        private bool _HabilitaEdicao;
 
         private string _Criterios = "";
 
-        private int _selectedIndexTemp = 0;
+        private int _selectedIndexTemp;
 
         #endregion
 
@@ -98,11 +96,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             get
             {
-                return this._PendenciaSelecionada;
+                return _PendenciaSelecionada;
             }
             set
             {
-                this._PendenciaSelecionada = value;
+                _PendenciaSelecionada = value;
                 base.OnPropertyChanged("SelectedItem");
                 if (PendenciaSelecionada != null)
                 {
@@ -116,11 +114,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             get
             {
-                return this._PendenciaSelecionadaID;
+                return _PendenciaSelecionadaID;
             }
             set
             {
-                this._PendenciaSelecionadaID = value;
+                _PendenciaSelecionadaID = value;
                 base.OnPropertyChanged();
                 if (PendenciaSelecionadaID != null)
                 {
@@ -147,11 +145,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             get
             {
-                return this._HabilitaEdicao;
+                return _HabilitaEdicao;
             }
             set
             {
-                this._HabilitaEdicao = value;
+                _HabilitaEdicao = value;
                 base.OnPropertyChanged();
             }
         }
@@ -160,11 +158,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             get
             {
-                return this._Criterios;
+                return _Criterios;
             }
             set
             {
-                this._Criterios = value;
+                _Criterios = value;
                 base.OnPropertyChanged();
             }
         }
@@ -239,7 +237,7 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 HabilitaEdicao = false;
-                System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(ClassePendencias));
+                XmlSerializer serializer = new XmlSerializer(typeof(ClassePendencias));
 
                 ObservableCollection<ClassePendencias.Pendencia> _PendenciasTemp = new ObservableCollection<ClassePendencias.Pendencia>();
                 ClassePendencias _ClassePendenciasTemp = new ClassePendencias();
@@ -248,7 +246,7 @@ namespace iModSCCredenciamento.ViewModels
 
                 string xmlString;
 
-                using (StringWriterWithEncoding sw = new StringWriterWithEncoding(System.Text.Encoding.UTF8))
+                using (StringWriterWithEncoding sw = new StringWriterWithEncoding(Encoding.UTF8))
                 {
 
                     using (XmlTextWriter xw = new XmlTextWriter(sw))
@@ -279,7 +277,7 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 HabilitaEdicao = false;
-                System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(ClassePendencias));
+                XmlSerializer serializer = new XmlSerializer(typeof(ClassePendencias));
 
                 ObservableCollection<ClassePendencias.Pendencia> _PendenciasPro = new ObservableCollection<ClassePendencias.Pendencia>();
                 ClassePendencias _ClassePendenciasPro = new ClassePendencias();
@@ -288,7 +286,7 @@ namespace iModSCCredenciamento.ViewModels
 
                 string xmlString;
 
-                using (StringWriterWithEncoding sw = new StringWriterWithEncoding(System.Text.Encoding.UTF8))
+                using (StringWriterWithEncoding sw = new StringWriterWithEncoding(Encoding.UTF8))
                 {
 
                     using (XmlTextWriter xw = new XmlTextWriter(sw))
@@ -402,24 +400,24 @@ namespace iModSCCredenciamento.ViewModels
             {
 
                 TiposPendencias = new ObservableCollection<ClasseTiposPendencias.TipoPendencia>();
-                TiposPendencias.Add(new ClasseTiposPendencias.TipoPendencia() { TipoPendenciaID = 11, Tipo = "Geral" });
-                TiposPendencias.Add(new ClasseTiposPendencias.TipoPendencia() { TipoPendenciaID = 12, Tipo = "Signatários" });
-                TiposPendencias.Add(new ClasseTiposPendencias.TipoPendencia() { TipoPendenciaID = 13, Tipo = "Seguros" });
-                TiposPendencias.Add(new ClasseTiposPendencias.TipoPendencia() { TipoPendenciaID = 14, Tipo = "Contratos" });
-                TiposPendencias.Add(new ClasseTiposPendencias.TipoPendencia() { TipoPendenciaID = 15, Tipo = "Veículos" });
-                TiposPendencias.Add(new ClasseTiposPendencias.TipoPendencia() { TipoPendenciaID = 16, Tipo = "Equipamentos" });
-                TiposPendencias.Add(new ClasseTiposPendencias.TipoPendencia() { TipoPendenciaID = 17, Tipo = "Anexos" });
+                TiposPendencias.Add(new ClasseTiposPendencias.TipoPendencia { TipoPendenciaID = 11, Tipo = "Geral" });
+                TiposPendencias.Add(new ClasseTiposPendencias.TipoPendencia { TipoPendenciaID = 12, Tipo = "Signatários" });
+                TiposPendencias.Add(new ClasseTiposPendencias.TipoPendencia { TipoPendenciaID = 13, Tipo = "Seguros" });
+                TiposPendencias.Add(new ClasseTiposPendencias.TipoPendencia { TipoPendenciaID = 14, Tipo = "Contratos" });
+                TiposPendencias.Add(new ClasseTiposPendencias.TipoPendencia { TipoPendenciaID = 15, Tipo = "Veículos" });
+                TiposPendencias.Add(new ClasseTiposPendencias.TipoPendencia { TipoPendenciaID = 16, Tipo = "Equipamentos" });
+                TiposPendencias.Add(new ClasseTiposPendencias.TipoPendencia { TipoPendenciaID = 17, Tipo = "Anexos" });
 
-                TiposPendencias.Add(new ClasseTiposPendencias.TipoPendencia() { TipoPendenciaID = 21, Tipo = "Geral" });
-                TiposPendencias.Add(new ClasseTiposPendencias.TipoPendencia() { TipoPendenciaID = 22, Tipo = "Empresas Vínculo" });
-                TiposPendencias.Add(new ClasseTiposPendencias.TipoPendencia() { TipoPendenciaID = 23, Tipo = "Treinamentos e Certificações" });
-                TiposPendencias.Add(new ClasseTiposPendencias.TipoPendencia() { TipoPendenciaID = 24, Tipo = "Anexos" });
-                TiposPendencias.Add(new ClasseTiposPendencias.TipoPendencia() { TipoPendenciaID = 25, Tipo = "Credenciais" });
+                TiposPendencias.Add(new ClasseTiposPendencias.TipoPendencia { TipoPendenciaID = 21, Tipo = "Geral" });
+                TiposPendencias.Add(new ClasseTiposPendencias.TipoPendencia { TipoPendenciaID = 22, Tipo = "Empresas Vínculo" });
+                TiposPendencias.Add(new ClasseTiposPendencias.TipoPendencia { TipoPendenciaID = 23, Tipo = "Treinamentos e Certificações" });
+                TiposPendencias.Add(new ClasseTiposPendencias.TipoPendencia { TipoPendenciaID = 24, Tipo = "Anexos" });
+                TiposPendencias.Add(new ClasseTiposPendencias.TipoPendencia { TipoPendenciaID = 25, Tipo = "Credenciais" });
 
-                TiposPendencias.Add(new ClasseTiposPendencias.TipoPendencia() { TipoPendenciaID = 31, Tipo = "Geral" });
-                TiposPendencias.Add(new ClasseTiposPendencias.TipoPendencia() { TipoPendenciaID = 32, Tipo = "Empresas Vínculo" });
-                TiposPendencias.Add(new ClasseTiposPendencias.TipoPendencia() { TipoPendenciaID = 33, Tipo = "Seguros" });
-                TiposPendencias.Add(new ClasseTiposPendencias.TipoPendencia() { TipoPendenciaID = 34, Tipo = "Credenciais" });
+                TiposPendencias.Add(new ClasseTiposPendencias.TipoPendencia { TipoPendenciaID = 31, Tipo = "Geral" });
+                TiposPendencias.Add(new ClasseTiposPendencias.TipoPendencia { TipoPendenciaID = 32, Tipo = "Empresas Vínculo" });
+                TiposPendencias.Add(new ClasseTiposPendencias.TipoPendencia { TipoPendenciaID = 33, Tipo = "Seguros" });
+                TiposPendencias.Add(new ClasseTiposPendencias.TipoPendencia { TipoPendenciaID = 34, Tipo = "Credenciais" });
 
 
             }
@@ -560,7 +558,7 @@ namespace iModSCCredenciamento.ViewModels
             {
 
 
-                System.Xml.XmlDocument _xmlDoc = new System.Xml.XmlDocument();
+                XmlDocument _xmlDoc = new XmlDocument();
                 _xmlDoc.LoadXml(xmlString);
 
                 ClassePendencias.Pendencia _Pendencia = new ClassePendencias.Pendencia();

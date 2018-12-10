@@ -9,13 +9,14 @@
 using System;
 using System.Data.SqlClient;
 using System.IO;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 using CrystalDecisions.CrystalReports.Engine;
 using CrystalDecisions.Shared;
 using iModSCCredenciamento.Windows;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using IMOD.CrossCutting;
 using IMOD.Infra.Ado;
+using Application = System.Windows.Application;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 
 #endregion
@@ -227,7 +228,7 @@ namespace iModSCCredenciamento.Helpers
 
                 var tsk = Task.Factory.StartNew(() =>
                 {
-                    System.Windows.Application.Current.Dispatcher.Invoke(() =>
+                    Application.Current.Dispatcher.Invoke(() =>
                     {
                         //your code here, formulas...
                         if (!string.IsNullOrWhiteSpace(formula))

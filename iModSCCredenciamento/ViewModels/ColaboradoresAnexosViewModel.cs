@@ -1,40 +1,39 @@
-﻿using iModSCCredenciamento.Funcoes;
-using iModSCCredenciamento.Models;
-using iModSCCredenciamento.Windows;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Data.SqlClient;
-using System.IO;
 using System.Threading;
-using System.Windows;
-//using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Serialization;
+using AutoMapper;
+using iModSCCredenciamento.Funcoes;
+using iModSCCredenciamento.Helpers;
+using iModSCCredenciamento.Models;
+using iModSCCredenciamento.Windows;
 using IMOD.Application.Interfaces;
 using IMOD.Application.Service;
-using AutoMapper;
-using iModSCCredenciamento.Helpers;
 using IMOD.CrossCutting;
+using IMOD.Domain.Entities;
+//using System.Windows.Forms;
 
 namespace iModSCCredenciamento.ViewModels
 {
-   public class ColaboradoresAnexosViewModel : ViewModelBase
-   {
-       
+    public class ColaboradoresAnexosViewModel : ViewModelBase
+    {
+
         private IColaboradorAnexoService _colaboradorAnexoService;
-       
+
         #region Inicializacao
         public ColaboradoresAnexosViewModel()
         {
-            _colaboradorAnexoService=new ColaboradorAnexoService();
+            _colaboradorAnexoService = new ColaboradorAnexoService();
             CarregaUI();
         }
         private void CarregaUI()
         {
             CarregaColecaoColaboradoresAnexos();
-            
+
             //CarregaColecaoAnexos();
         }
         #endregion
@@ -55,11 +54,11 @@ namespace iModSCCredenciamento.ViewModels
 
         private int _ColaboradorAnexoSelecionadaID;
 
-        private bool _HabilitaEdicao = false;
+        private bool _HabilitaEdicao;
 
         private string _Criterios = "";
 
-        private int _selectedIndexTemp = 0;
+        private int _selectedIndexTemp;
 
         #endregion
 
@@ -86,11 +85,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             get
             {
-                return this._ColaboradorAnexoSelecionado;
+                return _ColaboradorAnexoSelecionado;
             }
             set
             {
-                this._ColaboradorAnexoSelecionado = value;
+                _ColaboradorAnexoSelecionado = value;
                 base.OnPropertyChanged("SelectedItem");
                 if (ColaboradorAnexoSelecionado != null)
                 {
@@ -104,11 +103,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             get
             {
-                return this._ColaboradorAnexoSelecionadaID;
+                return _ColaboradorAnexoSelecionadaID;
             }
             set
             {
-                this._ColaboradorAnexoSelecionadaID = value;
+                _ColaboradorAnexoSelecionadaID = value;
                 base.OnPropertyChanged();
                 if (ColaboradorAnexoSelecionadaID != null)
                 {
@@ -135,11 +134,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             get
             {
-                return this._HabilitaEdicao;
+                return _HabilitaEdicao;
             }
             set
             {
-                this._HabilitaEdicao = value;
+                _HabilitaEdicao = value;
                 base.OnPropertyChanged();
             }
         }
@@ -148,11 +147,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             get
             {
-                return this._Criterios;
+                return _Criterios;
             }
             set
             {
-                this._Criterios = value;
+                _Criterios = value;
                 base.OnPropertyChanged();
             }
         }
@@ -174,7 +173,7 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 var filtro = "Imagem files (*.pdf)|*.pdf|All Files (*.*)|*.*";
-                var arq = WpfHelp.UpLoadArquivoDialog(filtro,700);
+                var arq = WpfHelp.UpLoadArquivoDialog(filtro, 700);
                 if (arq == null) return;
                 _ColaboradorAnexoTemp.NomeArquivo = arq.Nome;
                 _ColaboradorAnexoTemp.Arquivo = arq.FormatoBase64;
@@ -288,17 +287,13 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 HabilitaEdicao = false;
-                
 
-                var entity = Mapper.Map<IMOD.Domain.Entities.ColaboradorAnexo>(ColaboradorAnexoSelecionado);
-                var repositorio = new IMOD.Application.Service.ColaboradorAnexoService();
+
+                var entity = Mapper.Map<ColaboradorAnexo>(ColaboradorAnexoSelecionado);
+                var repositorio = new ColaboradorAnexoService();
                 repositorio.Alterar(entity);
 
-
-
                 var id = entity.ColaboradorId;
-
-               
 
                 _ColaboradoresAnexosTemp = null;
 
@@ -308,21 +303,17 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                //Global.Log("Erro void CarregaColecaoEmpresas ex: " + ex.Message);
+                Utils.TraceException(ex);
             }
         }
 
-       public void OnSalvarAdicaoCommand2()
-       {
-            //_colaboradorService.Criar(Anexo);
-       }
 
         public void OnSalvarAdicaoCommand()
         {
             try
             {
                 HabilitaEdicao = false;
-                System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(ClasseColaboradoresAnexos));
+                XmlSerializer serializer = new XmlSerializer(typeof(ClasseColaboradoresAnexos));
 
                 ObservableCollection<ClasseColaboradoresAnexos.ColaboradorAnexo> _ColaboradoresAnexosPro = new ObservableCollection<ClasseColaboradoresAnexos.ColaboradorAnexo>();
                 ClasseColaboradoresAnexos _ClasseColaboradoresAnexosPro = new ClasseColaboradoresAnexos();
@@ -330,8 +321,8 @@ namespace iModSCCredenciamento.ViewModels
                 _ClasseColaboradoresAnexosPro.ColaboradoresAnexos = _ColaboradoresAnexosPro;
 
 
-                var entity = Mapper.Map<IMOD.Domain.Entities.ColaboradorAnexo>(ColaboradorAnexoSelecionado);
-                var repositorio = new IMOD.Application.Service.ColaboradorAnexoService();
+                var entity = Mapper.Map<ColaboradorAnexo>(ColaboradorAnexoSelecionado);
+                var repositorio = new ColaboradorAnexoService();
                 repositorio.Criar(entity);
                 var id = entity.ColaboradorId;
 
@@ -353,7 +344,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                //Global.Log("Erro void CarregaColecaoEmpresas ex: " + ex.Message);
+                Utils.TraceException(ex);
             }
         }
 
@@ -361,7 +352,7 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-    
+
                 foreach (var x in ColaboradoresAnexos)
                 {
                     _ColaboradoresAnexosTemp.Add(x);
@@ -380,6 +371,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
+                Utils.TraceException(ex);
             }
 
         }
@@ -396,23 +388,22 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
+                Utils.TraceException(ex);
             }
         }
         public void OnExcluirCommand()
         {
             try
             {
-                
+
                 if (Global.PopupBox("Tem certeza que deseja excluir?", 2))
                 {
                     if (Global.PopupBox("Você perderá todos os dados, inclusive histórico. Confirma exclusão?", 2))
                     {
-
-                       
-                        var entity = Mapper.Map<IMOD.Domain.Entities.ColaboradorAnexo>(ColaboradorAnexoSelecionado);
-                        var repositorio = new IMOD.Application.Service.ColaboradorAnexoService();
+                        var entity = Mapper.Map<ColaboradorAnexo>(ColaboradorAnexoSelecionado);
+                        var repositorio = new ColaboradorAnexoService();
                         repositorio.Remover(entity);
-                        
+
                         ColaboradoresAnexos.Remove(ColaboradorAnexoSelecionado);
                     }
                 }
@@ -420,6 +411,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
+                Utils.TraceException(ex);
             }
 
         }
@@ -428,11 +420,12 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 popupPesquisaColaboradorAnexo = new PopupPesquisaColaboradorAnexo();
-                popupPesquisaColaboradorAnexo.EfetuarProcura += new EventHandler(On_EfetuarProcura);
+                popupPesquisaColaboradorAnexo.EfetuarProcura += On_EfetuarProcura;
                 popupPesquisaColaboradorAnexo.ShowDialog();
             }
             catch (Exception ex)
             {
+                Utils.TraceException(ex);
             }
         }
         public void On_EfetuarProcura(object sender, EventArgs e)
@@ -451,34 +444,31 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                
-                var service = new IMOD.Application.Service.ColaboradorAnexoService();
+                var service = new ColaboradorAnexoService();
                 if (!string.IsNullOrWhiteSpace(_nome)) _nome = $"%{_nome}%";
                 var list1 = service.Listar(_colaboradorID, _nome);
-                //var list1 = service.Listar(_colaboradorID, _descricao);
 
                 var list2 = Mapper.Map<List<ClasseColaboradoresAnexos.ColaboradorAnexo>>(list1);
-
                 var observer = new ObservableCollection<ClasseColaboradoresAnexos.ColaboradorAnexo>();
                 list2.ForEach(n =>
                 {
                     observer.Add(n);
                 });
 
-                this.ColaboradoresAnexos = observer;
+                ColaboradoresAnexos = observer;
                 SelectedIndex = 0;
 
             }
             catch (Exception ex)
             {
-                //Global.Log("Erro void CarregaColecaoEmpresas ex: " + ex.Message);
+                Utils.TraceException(ex);
             }
         }
 
         #endregion
-       
+
         #region Metodos privados
-        private string CriaXmlImagem( int colaboradorAnexoID)
+        private string CriaXmlImagem(int colaboradorAnexoID)
         {
             try
             {
@@ -491,8 +481,8 @@ namespace iModSCCredenciamento.ViewModels
                 XmlNode _ArquivosImagens = _xmlDocument.CreateElement("ArquivosImagens");
                 _ClasseArquivosImagens.AppendChild(_ArquivosImagens);
 
-                
-                 SqlConnection _Con = new SqlConnection(Global._connectionString);_Con.Open();
+
+                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
 
                 SqlCommand SQCMDXML = new SqlCommand("Select * From ColaboradoresAnexos Where  ColaboradorAnexoID = " + colaboradorAnexoID + "", _Con);
                 SqlDataReader SQDR_XML;

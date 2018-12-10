@@ -1,22 +1,17 @@
-﻿using iModSCCredenciamento.Funcoes;
-using iModSCCredenciamento.Models;
-using iModSCCredenciamento.Windows;
-using iModSCCredenciamento.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Data.SqlClient;
-using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.Windows.Media.Imaging;
 using System.Xml;
 using System.Xml.Serialization;
+using iModSCCredenciamento.Funcoes;
+using iModSCCredenciamento.Models;
+using iModSCCredenciamento.Windows;
+
 namespace iModSCCredenciamento.ViewModels
 {
     public class VeiculosEmpresasViewModel : ViewModelBase
@@ -63,11 +58,11 @@ namespace iModSCCredenciamento.ViewModels
 
         private int _VeiculoSelecionadaID;
 
-        private bool _HabilitaEdicao = false;
+        private bool _HabilitaEdicao;
 
         private string _Criterios = "";
 
-        private int _selectedIndexTemp = 0;
+        private int _selectedIndexTemp;
 
         private string _Validade;
 
@@ -132,11 +127,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             get
             {
-                return this._VeiculoEmpresaSelecionado;
+                return _VeiculoEmpresaSelecionado;
             }
             set
             {
-                this._VeiculoEmpresaSelecionado = value;
+                _VeiculoEmpresaSelecionado = value;
                 //base.OnPropertyChanged("SelectedItem");
                 base.OnPropertyChanged();
                 if (VeiculoEmpresaSelecionado != null)
@@ -205,12 +200,12 @@ namespace iModSCCredenciamento.ViewModels
         {
             get
             {
-                return this._VeiculoSelecionadaID;
+                return _VeiculoSelecionadaID;
 
             }
             set
             {
-                this._VeiculoSelecionadaID = value;
+                _VeiculoSelecionadaID = value;
                 base.OnPropertyChanged();
                 if (VeiculoSelecionadaID != null)
                 {
@@ -237,11 +232,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             get
             {
-                return this._HabilitaEdicao;
+                return _HabilitaEdicao;
             }
             set
             {
-                this._HabilitaEdicao = value;
+                _HabilitaEdicao = value;
                 base.OnPropertyChanged();
             }
         }
@@ -250,11 +245,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             get
             {
-                return this._Criterios;
+                return _Criterios;
             }
             set
             {
-                this._Criterios = value;
+                _Criterios = value;
                 base.OnPropertyChanged();
             }
         }
@@ -263,11 +258,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             get
             {
-                return this._Validade;
+                return _Validade;
             }
             set
             {
-                this._Validade = value;
+                _Validade = value;
                 base.OnPropertyChanged();
             }
         }
@@ -343,7 +338,7 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 HabilitaEdicao = false;
-                System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(ClasseVeiculosEmpresas));
+                XmlSerializer serializer = new XmlSerializer(typeof(ClasseVeiculosEmpresas));
 
                 ObservableCollection<ClasseVeiculosEmpresas.VeiculoEmpresa> _VeiculoEmpresaTemp = new ObservableCollection<ClasseVeiculosEmpresas.VeiculoEmpresa>();
                 ClasseVeiculosEmpresas _ClasseVeiculoerEmpresasTemp = new ClasseVeiculosEmpresas();
@@ -352,7 +347,7 @@ namespace iModSCCredenciamento.ViewModels
 
                 string xmlString;
 
-                using (StringWriterWithEncoding sw = new StringWriterWithEncoding(System.Text.Encoding.UTF8))
+                using (StringWriterWithEncoding sw = new StringWriterWithEncoding(Encoding.UTF8))
                 {
 
                     using (XmlTextWriter xw = new XmlTextWriter(sw))
@@ -414,7 +409,7 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 HabilitaEdicao = false;
-                System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(ClasseVeiculosEmpresas));
+                XmlSerializer serializer = new XmlSerializer(typeof(ClasseVeiculosEmpresas));
 
                 ObservableCollection<ClasseVeiculosEmpresas.VeiculoEmpresa> _VeiculoEmpresaPro = new ObservableCollection<ClasseVeiculosEmpresas.VeiculoEmpresa>();
                 ClasseVeiculosEmpresas _ClasseVeiculoerEmpresasPro = new ClasseVeiculosEmpresas();
@@ -423,7 +418,7 @@ namespace iModSCCredenciamento.ViewModels
 
                 string xmlString;
 
-                using (StringWriterWithEncoding sw = new StringWriterWithEncoding(System.Text.Encoding.UTF8))
+                using (StringWriterWithEncoding sw = new StringWriterWithEncoding(Encoding.UTF8))
                 {
 
                     using (XmlTextWriter xw = new XmlTextWriter(sw))
@@ -508,7 +503,7 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 popupPesquisaVeiculos = new PopupPesquisaVeiculos();
-                popupPesquisaVeiculos.EfetuarProcura += new EventHandler(On_EfetuarProcura);
+                popupPesquisaVeiculos.EfetuarProcura += On_EfetuarProcura;
                 popupPesquisaVeiculos.ShowDialog();
             }
             catch (Exception ex)
@@ -1216,7 +1211,7 @@ namespace iModSCCredenciamento.ViewModels
             {
 
 
-                System.Xml.XmlDocument _xmlDoc = new System.Xml.XmlDocument();
+                XmlDocument _xmlDoc = new XmlDocument();
 
                 _xmlDoc.LoadXml(xmlString);
                 // SqlConnection _Con = new SqlConnection(Global._connectionString);_Con.Open();
