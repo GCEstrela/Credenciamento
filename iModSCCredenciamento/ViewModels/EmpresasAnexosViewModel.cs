@@ -6,14 +6,14 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Data.SqlClient;
-using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Xml;
-using System.Xml.Serialization;
+using AutoMapper;
+using iModSCCredenciamento.Helpers;
+using IMOD.Application.Interfaces;
+using IMOD.Application.Service;
+using IMOD.CrossCutting;
+using IMOD.Domain.Entities;
 
 namespace iModSCCredenciamento.ViewModels
 {
@@ -27,9 +27,8 @@ namespace iModSCCredenciamento.ViewModels
         }
         #endregion
 
-
         #region Variaveis Privadas
-        
+
         private ObservableCollection<ClasseEmpresasAnexos.EmpresaAnexo> _Anexos;
 
         private ClasseEmpresasAnexos.EmpresaAnexo _AnexoSelecionado;
@@ -50,6 +49,8 @@ namespace iModSCCredenciamento.ViewModels
 
         private int _selectedIndexTemp = 0;
 
+        private readonly IEmpresaAnexoService _service = new EmpresaAnexoService();
+
         #endregion
 
         #region Contrutores
@@ -59,7 +60,7 @@ namespace iModSCCredenciamento.ViewModels
             {
                 return _Anexos;
             }
-            
+
             set
             {
                 if (_Anexos != value)
@@ -160,30 +161,21 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                System.Windows.Forms.OpenFileDialog _arquivoPDF = new System.Windows.Forms.OpenFileDialog();
-                string _sql;
-                string _nomecompletodoarquivo;
-                string _arquivoSTR;
-                _arquivoPDF.InitialDirectory = "c:\\\\";
-                _arquivoPDF.Filter = "(*.pdf)|*.pdf|All Files (*.*)|*.*";
-                _arquivoPDF.RestoreDirectory = true;
-                _arquivoPDF.ShowDialog();
-
-                _nomecompletodoarquivo = _arquivoPDF.SafeFileName;
-                _arquivoSTR = Conversores.PDFtoString(_arquivoPDF.FileName);
-                _anexoTemp.NomeAnexo = _nomecompletodoarquivo;
-                _anexoTemp.Anexo = _arquivoSTR;
-
+                var filtro = "Imagem files (*.pdf)|*.pdf|All Files (*.*)|*.*";
+                var arq = WpfHelp.UpLoadArquivoDialog(filtro, 700);
+                if (arq == null) return;
+                _anexoTemp.NomeAnexo = arq.Nome;
+                _anexoTemp.Anexo = arq.FormatoBase64;
                 if (Anexos != null)
-                {
-                    Anexos[0].NomeAnexo = _nomecompletodoarquivo;
-                }
+                    Anexos[0].NomeAnexo = arq.Nome;
 
             }
             catch (Exception ex)
             {
-
+                WpfHelp.Mbox(ex.Message);
+                Utils.TraceException(ex);
             }
+            
         }
 
         public void OnAbrirArquivoCommand()
@@ -192,7 +184,7 @@ namespace iModSCCredenciamento.ViewModels
             {
                 try
                 {
-                    string _ArquivoPDF=null;
+                    string _ArquivoPDF = null;
                     if (_anexoTemp != null)
                     {
                         if (_anexoTemp.Anexo != null && _anexoTemp.EmpresaAnexoID == AnexoSelecionado.EmpresaAnexoID)
@@ -228,7 +220,7 @@ namespace iModSCCredenciamento.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    
+
 
                 }
             }
@@ -271,38 +263,21 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 HabilitaEdicao = false;
-                System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(ClasseEmpresasAnexos));
 
-                ObservableCollection<ClasseEmpresasAnexos.EmpresaAnexo> _EmpresasAnexosTemp = new ObservableCollection<ClasseEmpresasAnexos.EmpresaAnexo>();
-                ClasseEmpresasAnexos _ClasseEmpresasAnexosTemp = new ClasseEmpresasAnexos();
-                _EmpresasAnexosTemp.Add(AnexoSelecionado);
-                _ClasseEmpresasAnexosTemp.EmpresasAnexos = _EmpresasAnexosTemp;
+                var entity = AnexoSelecionado;
+                var entityConv = Mapper.Map<EmpresaAnexo>(entity);
 
-                string xmlString;
+                _service.Alterar(entityConv);
 
-                using (StringWriterWithEncoding sw = new StringWriterWithEncoding(System.Text.Encoding.UTF8))
-                {
-
-                    using (XmlTextWriter xw = new XmlTextWriter(sw))
-                    {
-                        xw.Formatting = Formatting.Indented;
-                        serializer.Serialize(xw, _ClasseEmpresasAnexosTemp);
-                        xmlString = sw.ToString();
-                    }
-
-                }
-
-                InsereAnexoBD(xmlString);
-
-                _ClasseEmpresasAnexosTemp = null;
-
-                _AnexosTemp.Clear();
-                _anexoTemp = null;
-
+                Thread CarregaColecaoAnexosSignatarios_thr = new Thread(() => CarregaColecaoAnexos(AnexoSelecionado.EmpresaID));
+                CarregaColecaoAnexosSignatarios_thr.Start();
 
             }
             catch (Exception ex)
             {
+                Global.Log("Erro void OnSalvarEdicaoCommand ex: " + ex.Message);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
         }
 
@@ -328,6 +303,9 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
+                Global.Log("Erro void OnSalvarEdicaoCommand ex: " + ex.Message);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
 
         }
@@ -337,45 +315,27 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 HabilitaEdicao = false;
-                System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(ClasseEmpresasAnexos));
 
                 ObservableCollection<ClasseEmpresasAnexos.EmpresaAnexo> _EmpresasAnexosPro = new ObservableCollection<ClasseEmpresasAnexos.EmpresaAnexo>();
-                ClasseEmpresasAnexos _ClasseEmpresasAnexosPro = new ClasseEmpresasAnexos();
+                ClasseEmpresasAnexos _ClasseEmpresasAnexosTemp = new ClasseEmpresasAnexos();
+
                 _EmpresasAnexosPro.Add(AnexoSelecionado);
-                _ClasseEmpresasAnexosPro.EmpresasAnexos = _EmpresasAnexosPro;
+                _ClasseEmpresasAnexosTemp.EmpresasAnexos = _EmpresasAnexosPro;
 
-                string xmlString;
+                var entity = AnexoSelecionado;
+                var entityConv = Mapper.Map<EmpresaAnexo>(entity);
 
-                using (StringWriterWithEncoding sw = new StringWriterWithEncoding(System.Text.Encoding.UTF8))
-                {
+                _service.Criar(entityConv);
 
-                    using (XmlTextWriter xw = new XmlTextWriter(sw))
-                    {
-                        xw.Formatting = Formatting.Indented;
-                        serializer.Serialize(xw, _ClasseEmpresasAnexosPro);
-                        xmlString = sw.ToString();
-                    }
-
-                }
-
-                InsereAnexoBD(xmlString);
-                int _empresaID = AnexoSelecionado.EmpresaID;
-                Thread CarregaColecaoAnexos_thr = new Thread(() => CarregaColecaoAnexos(_empresaID));
-                CarregaColecaoAnexos_thr.Start();
-                _AnexosTemp.Add(AnexoSelecionado);
-                Anexos = null;
-                Anexos = new ObservableCollection<ClasseEmpresasAnexos.EmpresaAnexo>(_AnexosTemp);
-                SelectedIndex = _selectedIndexTemp;
-                _AnexosTemp.Clear();
-                _ClasseEmpresasAnexosPro = null;
-
-                _AnexosTemp.Clear();
-                _anexoTemp = null;
-
+                Thread CarregaColecaoAnexosSignatarios_thr = new Thread(() => CarregaColecaoAnexos(AnexoSelecionado.EmpresaID));
+                CarregaColecaoAnexosSignatarios_thr.Start();
 
             }
             catch (Exception ex)
             {
+                Global.Log("Erro void OnSalvarAdicaoCommand ex: " + ex.Message);
+                IMOD.CrossCutting.Utils.TraceException(ex);
+                throw;
             }
         }
         public void OnCancelarAdicaoCommand()
@@ -397,20 +357,12 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                //if (MessageBox.Show("Tem certeza que deseja excluir esta apólice?", "Excluir Apólice", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                //{
-                //    if (MessageBox.Show("Você perderá todos os dados desta apólice, inclusive histórico. Confirma exclusão?", "Excluir Apólice", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                //    {
-                //        ExcluiSeguroBD(AnexoSelecionado.EmpresaAnexoID);
-                //        Anexos.Remove(AnexoSelecionado);
-
-                //    }
-                //}
                 if (Global.PopupBox("Tem certeza que deseja excluir?", 2))
                 {
                     if (Global.PopupBox("Você perderá todos os dados, inclusive histórico. Confirma exclusão?", 2))
                     {
-                        ExcluiSeguroBD(AnexoSelecionado.EmpresaAnexoID);
+                        var emp = _service.BuscarPelaChave(AnexoSelecionado.EmpresaAnexoID);
+                        _service.Remover(emp);
                         Anexos.Remove(AnexoSelecionado);
                     }
                 }
@@ -446,27 +398,27 @@ namespace iModSCCredenciamento.ViewModels
         #endregion
 
         #region Carregamento das Colecoes
-        private void CarregaColecaoAnexos(int empresaID, string _descricao = "")
+        private void CarregaColecaoAnexos(int? empresaID = null, string _descricao = null)
         {
             try
             {
-                string _xml = RequisitaAnexos(empresaID, _descricao);
+                if (!string.IsNullOrWhiteSpace(_descricao)) _descricao = $"%{_descricao}%";
 
-                XmlSerializer deserializer = new XmlSerializer(typeof(ClasseEmpresasAnexos));
+                var list1 = _service.Listar(empresaID, _descricao, null, null, null, null);
+                var list2 = Mapper.Map<List<ClasseEmpresasAnexos.EmpresaAnexo>>(list1);
 
-                XmlDocument xmldocument = new XmlDocument();
-                xmldocument.LoadXml(_xml);
+                var observer = new ObservableCollection<ClasseEmpresasAnexos.EmpresaAnexo>();
+                list2.ForEach(n =>
+                {
+                    observer.Add(n);
+                });
 
-                TextReader reader = new StringReader(_xml);
-                ClasseEmpresasAnexos classeAnexosEmpresa = new ClasseEmpresasAnexos();
-                classeAnexosEmpresa = (ClasseEmpresasAnexos)deserializer.Deserialize(reader);
-                Anexos = new ObservableCollection<ClasseEmpresasAnexos.EmpresaAnexo>();
-                Anexos = classeAnexosEmpresa.EmpresasAnexos;
-                SelectedIndex =-1;
+                this.Anexos = observer;
+
             }
             catch (Exception ex)
             {
-                //Global.Log("Erro void CarregaColecaoEmpresas ex: " + ex.Message);
+                Global.Log("Erro void CarregaColecaoEmpresas ex: " + ex.Message);
             }
         }
         #endregion
@@ -487,14 +439,14 @@ namespace iModSCCredenciamento.ViewModels
 
                 string _strSql;
 
-                 SqlConnection _Con = new SqlConnection(Global._connectionString);_Con.Open();
-                
+                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
+
 
                 _DescricaoAnexo = "%" + _DescricaoAnexo + "%";
 
                 _strSql = "select [EmpresaAnexoID],[EmpresaID],[Descricao],[NomeAnexo] " +
                     "from EmpresasAnexos where EmpresaID = " + _empresaID + " and Descricao Like '" +
-                    _DescricaoAnexo  + "' order by EmpresaAnexoID desc";
+                    _DescricaoAnexo + "' order by EmpresaAnexoID desc";
 
                 SqlCommand _sqlcmd = new SqlCommand(_strSql, _Con);
                 SqlDataReader _sqlreader = _sqlcmd.ExecuteReader(CommandBehavior.Default);
@@ -568,9 +520,9 @@ namespace iModSCCredenciamento.ViewModels
                 _empresaAnexo.Anexo = _anexoTemp.Anexo == null ? "" : _anexoTemp.Anexo.ToString().Trim();
 
 
-                 SqlConnection _Con = new SqlConnection(Global._connectionString);_Con.Open();
+                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
                 //_Con.Close();
-                
+
 
                 SqlCommand _sqlCmd;
                 if (_empresaAnexo.EmpresaAnexoID != 0)
@@ -607,9 +559,9 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
 
-                 SqlConnection _Con = new SqlConnection(Global._connectionString);_Con.Open();
+                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
                 //_Con.Close();
-                
+
 
                 SqlCommand _sqlCmd;
                 _sqlCmd = new SqlCommand("Delete from EmpresasAnexos where EmpresaAnexoID=" + _EmpresaAnexoID, _Con);
@@ -624,7 +576,13 @@ namespace iModSCCredenciamento.ViewModels
             }
         }
         #endregion
-        
+
+        #region Métodos Públicos
+
+        Global g = new Global();
+
+        #endregion
+
         #region Metodos privados
         private string CriaXmlImagem(int empresaAnexoID)
         {

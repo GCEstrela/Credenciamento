@@ -36,7 +36,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.configuration" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
@@ -81,6 +81,7 @@
     <Compile Include="Repositorios\CredencialMotivoRepositorio.cs" />
     <Compile Include="Repositorios\CredencialStatusRepositorio.cs" />
     <Compile Include="Repositorios\CursoRepositorio.cs" />
+    <Compile Include="Repositorios\EmpresaAnexoRepositorio.cs" />
     <Compile Include="Repositorios\EmpresaAreaAcessoRepositorio.cs" />
     <Compile Include="Repositorios\EmpresaContratoRepositorio.cs" />
     <Compile Include="Repositorios\EmpresaEquipamentoRepositorio.cs" />
@@ -91,6 +92,7 @@
     <Compile Include="Repositorios\EmpresaTipoAtividadeRepositorio.cs" />
     <Compile Include="Repositorios\EmpresaVeiculoRepositorio.cs" />
     <Compile Include="Repositorios\EquipamentoVeiculoTipoServicoRepositorio.cs" />
+    <Compile Include="Repositorios\EstadoRepositorio.cs" />
     <Compile Include="Repositorios\FormatoCredencialRepositorio.cs" />
     <Compile Include="Repositorios\LayoutCrachaRepositorio.cs" />
     <Compile Include="Repositorios\MunicipioRepositorio.cs" />
@@ -112,7 +114,7 @@
     <Compile Include="Repositorios\VeiculoEmpresaRepositorio.cs" />
     <Compile Include="Repositorios\VeiculoEquipTipoServicoRepositorio.cs" />
     <Compile Include="Repositorios\VeiculoSeguroRepositorio.cs" />
-    <Compile Include="Repositorios\VeiculosRepositorio.cs" />
+    <Compile Include="Repositorios\VeiculoRepositorio.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config">

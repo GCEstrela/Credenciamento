@@ -12,6 +12,7 @@ using System.Data;
 using System.Linq;
 using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
+using IMOD.Domain.EntitiesCustom;
 using IMOD.Domain.Interfaces;
 using IMOD.Infra.Ado;
 using IMOD.Infra.Ado.Interfaces;
@@ -31,7 +32,7 @@ namespace IMOD.Infra.Repositorios
 
         public EmpresaTipoAtividadeRepositorio()
         {
-            _dataBase = _dataWorkerFactory.ObterDataBaseSingleton (TipoDataBase.SqlServer, _connection);
+            _dataBase = _dataWorkerFactory.ObterDataBaseSingleton(TipoDataBase.SqlServer, _connection);
         }
 
         #endregion
@@ -46,21 +47,21 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.InsertText ("EmpresasTiposAtividades", conn))
+                using (var cmd = _dataBase.InsertText("EmpresasTiposAtividades", conn))
                 {
                     try
                     {
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("EmpresaTipoAtividadeID", entity.EmpresaTipoAtividadeId, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("EmpresaID", entity.EmpresaId, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("TipoAtividadeID", entity.TipoAtividadeId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("EmpresaTipoAtividadeID", entity.EmpresaTipoAtividadeId, true)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("EmpresaID", entity.EmpresaId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("TipoAtividadeID", entity.TipoAtividadeId, false)));
 
-                        var key = Convert.ToInt32 (cmd.ExecuteScalar());
+                        var key = Convert.ToInt32(cmd.ExecuteScalar());
 
                         entity.EmpresaTipoAtividadeId = key;
                     }
                     catch (Exception ex)
                     {
-                        Utils.TraceException (ex);
+                        Utils.TraceException(ex);
                         throw;
                     }
                 }
@@ -76,12 +77,12 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText ("EmpresasTiposAtividades", conn))
+                using (var cmd = _dataBase.SelectText("EmpresasTiposAtividades", conn))
 
                 {
                     try
                     {
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("EmpresaTipoAtividadeId", DbType.Int32, id).Igual()));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("EmpresaTipoAtividadeId", DbType.Int32, id).Igual()));
                         var reader = cmd.ExecuteReader();
                         var d1 = reader.MapToList<EmpresaTipoAtividade>();
 
@@ -89,7 +90,7 @@ namespace IMOD.Infra.Repositorios
                     }
                     catch (Exception ex)
                     {
-                        Utils.TraceException (ex);
+                        Utils.TraceException(ex);
                         throw;
                     }
                 }
@@ -105,14 +106,14 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText ("EmpresasTiposAtividades", conn))
+                using (var cmd = _dataBase.SelectText("EmpresasTiposAtividades", conn))
 
                 {
                     try
                     {
-                        cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("EmpresaTipoAtividadeID", DbType.Int16, objects, 0).Igual()));
-                        cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("EmpresaID", DbType.Int16, objects, 1).Igual()));
-                        cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("TipoAtividadeID", DbType.Int16, objects, 2).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmpresaTipoAtividadeID", DbType.Int16, objects, 0).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmpresaID", DbType.Int16, objects, 1).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("TipoAtividadeID", DbType.Int16, objects, 2).Igual()));
 
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<EmpresaTipoAtividade>();
@@ -121,7 +122,7 @@ namespace IMOD.Infra.Repositorios
                     }
                     catch (Exception ex)
                     {
-                        Utils.TraceException (ex);
+                        Utils.TraceException(ex);
                         throw;
                     }
                 }
@@ -136,19 +137,19 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.UpdateText ("EmpresasTiposAtividades", conn))
+                using (var cmd = _dataBase.UpdateText("EmpresasTiposAtividades", conn))
                 {
                     try
                     {
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("EmpresaTipoAtividadeID", entity.EmpresaTipoAtividadeId, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("EmpresaID", entity.EmpresaId, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("TipoAtividadeID", entity.TipoAtividadeId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("EmpresaTipoAtividadeID", entity.EmpresaTipoAtividadeId, true)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("EmpresaID", entity.EmpresaId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("TipoAtividadeID", entity.TipoAtividadeId, false)));
 
                         cmd.ExecuteNonQuery();
                     }
                     catch (Exception ex)
                     {
-                        Utils.TraceException (ex);
+                        Utils.TraceException(ex);
                         throw;
                     }
                 }
@@ -163,17 +164,44 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.DeleteText ("EmpresasTiposAtividades", conn))
+                using (var cmd = _dataBase.DeleteText("EmpresasTiposAtividades", conn))
                 {
                     try
                     {
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamDelete ("EmpresaTipoAtividadeId", entity.EmpresaTipoAtividadeId).Igual()));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamDelete("EmpresaTipoAtividadeId", entity.EmpresaTipoAtividadeId).Igual()));
 
                         cmd.ExecuteNonQuery();
                     }
                     catch (Exception ex)
                     {
-                        Utils.TraceException (ex);
+                        Utils.TraceException(ex);
+                    }
+                }
+            }
+        }
+
+        public ICollection<EmpresaTipoAtividadeView> ListarEmpresaTipoAtividadeView(params object[] objects)
+        {
+            using (var conn = _dataBase.CreateOpenConnection())
+            {
+                using (var cmd = _dataBase.SelectText("EmpresaTipoAtividadeView", conn))
+                {
+                    try
+                    {
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmpresaTipoAtividadeID", DbType.Int32, objects, 0).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmpresaID", DbType.Int32, objects, 1).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("TipoAtividadeID", DbType.String, objects, 2).Like()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Descricao", DbType.String, objects, 3).Igual()));
+
+
+                        var reader = cmd.ExecuteReaderSelect();
+                        var d1 = reader.MapToList<EmpresaTipoAtividadeView>();
+                        return d1;
+                    }
+                    catch (Exception ex)
+                    {
+                        Utils.TraceException(ex);
+                        throw;
                     }
                 }
             }

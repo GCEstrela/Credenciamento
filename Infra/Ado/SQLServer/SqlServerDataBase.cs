@@ -20,99 +20,6 @@ namespace IMOD.Infra.Ado.SQLServer
 {
     public class SqlServerDataBase : IDataBaseAdo
     {
-        #region Propriedades
-
-        private readonly List<string> _campoInsert = new List<string>(); //armazena um array de campos do insert
-        private readonly List<string> _campoUpdate = new List<string>(); //armazena um array de campos do update
-        private readonly List<string> _orderby = new List<string>(); //armazenas campos order by
-        private readonly List<string> _parameters = new List<string>(); //armazena parametros
-        private readonly List<string> _pksDelete = new List<string>(); //armazena um array de campos chaves do insert
-        private readonly List<string> _pksInsert = new List<string>(); //armazena um array de campos chaves do insert
-        private readonly List<string> _pksUpdate = new List<string>(); //armazena um array de campos chaves do update
-        private readonly List<string> _valorInsert = new List<string>(); //armazena um array de campos do insert
-
-        private IDbCommand _dbCommand;
-        private string _sintaxeSql;
-        private string _tabelaNome;
-        private string _whereUpdate;
-
-
-        /// <summary>
-        ///     String de conexão
-        /// </summary>
-        public string Connectionstring { get; set; }
-
-        /// <summary>
-        ///     Nome da instrução SQl executada no momento
-        ///     <para>Para instruções InsertText,DeleteText,UpdateText,SelectText </para>
-        /// </summary>
-        public TipoInstrucao SqlText { get; private set; }
-
-        private static readonly Dictionary<DbType, SqlDbType> DbTypeParaSqlDbTypes = new Dictionary<DbType, SqlDbType>
-        {
-            {DbType.Byte, SqlDbType.Binary},
-            {DbType.DateTime2, SqlDbType.DateTime2},
-            {DbType.Guid, SqlDbType.VarChar},
-            {DbType.Currency, SqlDbType.Money},
-            {DbType.Int16, SqlDbType.SmallInt},
-            {DbType.Int32, SqlDbType.Int},
-            {DbType.Int64, SqlDbType.BigInt},
-            {DbType.UInt64, SqlDbType.BigInt},
-            {DbType.AnsiStringFixedLength, SqlDbType.Char},
-            {DbType.Single, SqlDbType.Real},
-            {DbType.Double, SqlDbType.Float},
-            {DbType.Decimal, SqlDbType.Decimal},
-            {DbType.Boolean, SqlDbType.Bit},
-            {DbType.Xml, SqlDbType.Xml},
-            {DbType.String, SqlDbType.VarChar},
-            {DbType.AnsiString, SqlDbType.VarChar},
-            {DbType.StringFixedLength, SqlDbType.NChar},
-            {DbType.DateTime, SqlDbType.DateTime},
-            {DbType.Date, SqlDbType.Date},
-            {DbType.DateTimeOffset, SqlDbType.DateTimeOffset},
-            {DbType.Binary, SqlDbType.VarBinary}
-        };
-
-        #endregion
-
-        #region  Métodos
-
-        /// <summary>
-        ///     Inclui separador numa lista de string
-        ///     <para>ex: campo1,campo2, [ , ] virgula é um separador</para>
-        /// </summary>
-        /// <param name="separador">Tipo do separador</param>
-        /// <param name="campo">Lista contendo uma strings</param>
-        /// <returns></returns>
-        private static string JoinString(string separador, IEnumerable<string> campo)
-        {
-            return string.Join<string>(separador, campo);
-        }
-
-        /// <summary>
-        ///     Pesquisa se o objeto possui valor vazio ou 0 (zero)
-        /// </summary>
-        /// <param name="o">Um objeto</param>
-        /// <returns></returns>
-        private static bool IsEmptyOrZero(object o)
-        {
-            return o.Equals("") || o.Equals(0);
-        }
-
-        private void Clear()
-        {
-            _campoInsert.Clear(); //armazena um array de campos do insert
-            _campoUpdate.Clear(); //armazena um array de campos do update
-            _orderby.Clear(); //armazenas campos order by
-            _parameters.Clear(); //armazena parametros
-            _pksDelete.Clear(); //armazena um array de campos chaves do insert
-            _pksInsert.Clear(); //armazena um array de campos chaves do insert
-            _pksUpdate.Clear(); //armazena um array de campos chaves do update
-            _valorInsert.Clear(); //armazena um array de campos do insert
-        }
-
-        #endregion
-
         /// <summary>
         ///     Cria uma conexção com o banco de dados
         /// </summary>
@@ -139,9 +46,14 @@ namespace IMOD.Infra.Ado.SQLServer
         {
             try
             {
-                var connection = (SqlConnection)CreateConnection();
+                var connection = (SqlConnection) CreateConnection();
                 connection.Open();
                 return connection;
+            }
+            catch (SqlException ex)
+            {
+                Utils.TraceException(ex);
+                throw  new Exception($"Ocorreu uma falha ao conectar com o banco de dados\nRazão:\n{ex.Message}");
             }
             catch (Exception ex)
             {
@@ -157,9 +69,23 @@ namespace IMOD.Infra.Ado.SQLServer
         /// <returns>Um objeto Connection</returns>
         public IDbConnection CreateOpenConnection(string connectionstring)
         {
-            var connection = new SqlConnection(connectionstring);
-            connection.Open();
-            return connection;
+            try
+            {
+                var connection = new SqlConnection(connectionstring);
+                connection.Open();
+                return connection;
+            }
+            catch (SqlException ex)
+            {
+                Utils.TraceException(ex);
+                throw new Exception($"Ocorreu uma falha ao conectar com o banco de dados\nRazão:\n{ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+                return null;
+            }
+          
         }
 
         /// <summary>
@@ -170,9 +96,9 @@ namespace IMOD.Infra.Ado.SQLServer
         /// <returns>Um objeto command</returns>
         public IDbCommand CreateCommand(string commandText, IDbConnection connection)
         {
-            var command = (SqlCommand)CreateCommand();
+            var command = (SqlCommand) CreateCommand();
             command.CommandText = commandText;
-            command.Connection = (SqlConnection)connection;
+            command.Connection = (SqlConnection) connection;
             command.CommandType = CommandType.Text;
             //Set command
             _dbCommand = command;
@@ -187,9 +113,9 @@ namespace IMOD.Infra.Ado.SQLServer
         /// <returns>Um objeto Command</returns>
         public IDbCommand CreateStoredProcCommand(string procName, IDbConnection connection)
         {
-            var command = (SqlCommand)CreateCommand();
+            var command = (SqlCommand) CreateCommand();
             command.CommandText = procName;
-            command.Connection = (SqlConnection)connection;
+            command.Connection = (SqlConnection) connection;
             command.CommandType = CommandType.StoredProcedure;
             return command;
         }
@@ -208,7 +134,8 @@ namespace IMOD.Infra.Ado.SQLServer
         /// <param name="scale">Escala</param>
         /// <param name="sourceVersion">Versão</param>
         /// <returns>Um objeto DataParameter </returns>
-        public IDbDataParameter CreateParameter(string parameterName, DbType parameterType, ParameterDirection direction,
+        public IDbDataParameter CreateParameter(string parameterName, DbType parameterType,
+            ParameterDirection direction,
             object value, int size = 0, string sourceCollumn = "", bool isNullable = false, byte precision = 0,
             byte scale = 0, DataRowVersion sourceVersion = DataRowVersion.Current)
         {
@@ -350,7 +277,7 @@ namespace IMOD.Infra.Ado.SQLServer
         public IDbDataParameter CreateParameter(ParamSelect oParam)
         {
             //Se não houver valor informado nao criar parametro de entrada, nem clausula where na sintaxe
-            if (string.IsNullOrWhiteSpace (oParam.Valor?.ToString())) return null;
+            if (string.IsNullOrWhiteSpace(oParam.Valor?.ToString())) return null;
             //Descartar valor nulo
             if (oParam.Valor != null)
             {
@@ -496,12 +423,104 @@ namespace IMOD.Infra.Ado.SQLServer
                     dados.BaseDados = conn.Database;
                     dados.StringConexao = conn.ConnectionString;
                 }
+
                 conn.Close();
             }
 
             return dados;
         }
 
+        #region Propriedades
 
+        private readonly List<string> _campoInsert = new List<string>(); //armazena um array de campos do insert
+        private readonly List<string> _campoUpdate = new List<string>(); //armazena um array de campos do update
+        private readonly List<string> _orderby = new List<string>(); //armazenas campos order by
+        private readonly List<string> _parameters = new List<string>(); //armazena parametros
+        private readonly List<string> _pksDelete = new List<string>(); //armazena um array de campos chaves do insert
+        private readonly List<string> _pksInsert = new List<string>(); //armazena um array de campos chaves do insert
+        private readonly List<string> _pksUpdate = new List<string>(); //armazena um array de campos chaves do update
+        private readonly List<string> _valorInsert = new List<string>(); //armazena um array de campos do insert
+
+        private IDbCommand _dbCommand;
+        private string _sintaxeSql;
+        private string _tabelaNome;
+        private string _whereUpdate;
+
+
+        /// <summary>
+        ///     String de conexão
+        /// </summary>
+        public string Connectionstring { get; set; }
+
+        /// <summary>
+        ///     Nome da instrução SQl executada no momento
+        ///     <para>Para instruções InsertText,DeleteText,UpdateText,SelectText </para>
+        /// </summary>
+        public TipoInstrucao SqlText { get; private set; }
+
+        private static readonly Dictionary<DbType, SqlDbType> DbTypeParaSqlDbTypes = new Dictionary<DbType, SqlDbType>
+        {
+            {DbType.Byte, SqlDbType.Binary},
+            {DbType.DateTime2, SqlDbType.DateTime2},
+            {DbType.Guid, SqlDbType.VarChar},
+            {DbType.Currency, SqlDbType.Money},
+            {DbType.Int16, SqlDbType.SmallInt},
+            {DbType.Int32, SqlDbType.Int},
+            {DbType.Int64, SqlDbType.BigInt},
+            {DbType.UInt64, SqlDbType.BigInt},
+            {DbType.AnsiStringFixedLength, SqlDbType.Char},
+            {DbType.Single, SqlDbType.Real},
+            {DbType.Double, SqlDbType.Float},
+            {DbType.Decimal, SqlDbType.Decimal},
+            {DbType.Boolean, SqlDbType.Bit},
+            {DbType.Xml, SqlDbType.Xml},
+            {DbType.String, SqlDbType.VarChar},
+            {DbType.AnsiString, SqlDbType.VarChar},
+            {DbType.StringFixedLength, SqlDbType.NChar},
+            {DbType.DateTime, SqlDbType.DateTime},
+            {DbType.Date, SqlDbType.Date},
+            {DbType.DateTimeOffset, SqlDbType.DateTimeOffset},
+            {DbType.Binary, SqlDbType.VarBinary}
+        };
+
+        #endregion
+
+        #region  Métodos
+
+        /// <summary>
+        ///     Inclui separador numa lista de string
+        ///     <para>ex: campo1,campo2, [ , ] virgula é um separador</para>
+        /// </summary>
+        /// <param name="separador">Tipo do separador</param>
+        /// <param name="campo">Lista contendo uma strings</param>
+        /// <returns></returns>
+        private static string JoinString(string separador, IEnumerable<string> campo)
+        {
+            return string.Join<string>(separador, campo);
+        }
+
+        /// <summary>
+        ///     Pesquisa se o objeto possui valor vazio ou 0 (zero)
+        /// </summary>
+        /// <param name="o">Um objeto</param>
+        /// <returns></returns>
+        private static bool IsEmptyOrZero(object o)
+        {
+            return o.Equals("") || o.Equals(0);
+        }
+
+        private void Clear()
+        {
+            _campoInsert.Clear(); //armazena um array de campos do insert
+            _campoUpdate.Clear(); //armazena um array de campos do update
+            _orderby.Clear(); //armazenas campos order by
+            _parameters.Clear(); //armazena parametros
+            _pksDelete.Clear(); //armazena um array de campos chaves do insert
+            _pksInsert.Clear(); //armazena um array de campos chaves do insert
+            _pksUpdate.Clear(); //armazena um array de campos chaves do update
+            _valorInsert.Clear(); //armazena um array de campos do insert
+        }
+
+        #endregion
     }
 }

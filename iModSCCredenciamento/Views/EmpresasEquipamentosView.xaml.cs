@@ -16,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using IMOD.CrossCutting;
 using UserControl = System.Windows.Controls.UserControl;
 
 
@@ -69,10 +70,7 @@ namespace iModSCCredenciamento.Views
         }
         #endregion
         #region Comando dos Botoes
-        private void BuscarApoliceArquivo_bt_Click(object sender, RoutedEventArgs e)
-        {
-            ((EmpresasEquipamentosViewModel)this.DataContext).OnBuscarArquivoCommand();
-        }
+        
 
         private void AbrirApoliceArquivo_bt_Click(object sender, RoutedEventArgs e)
         {
@@ -208,7 +206,7 @@ namespace iModSCCredenciamento.Views
 
         private void FormatCurrency(object sender, RoutedEventArgs e)
         {
-            ApoliceValor_tb.Text = ApoliceValor_tb.Text.FormatCurrency();
+            ApoliceValor_tb.Text = ApoliceValor_tb.Text.FormatarMoeda();
         }
 
 

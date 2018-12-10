@@ -7,7 +7,9 @@
 #region
 
 using System.Collections.Generic;
+using IMOD.Application.Interfaces;
 using IMOD.Domain.Entities;
+using IMOD.Domain.EntitiesCustom;
 using IMOD.Domain.Interfaces;
 using IMOD.Infra.Repositorios;
 
@@ -15,7 +17,7 @@ using IMOD.Infra.Repositorios;
 
 namespace IMOD.Application.Service
 {
-    public class EmpresaTipoAtividadeService : IEmpresaTipoAtividadeRepositorio
+    public class EmpresaTipoAtividadeService : IEmpresaTipoAtividadeService
     {
         #region Variaveis Globais
 
@@ -35,7 +37,7 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void Criar(EmpresaTipoAtividade entity)
         {
-            _repositorio.Criar (entity);
+            _repositorio.Criar(entity);
         }
 
         /// <summary>
@@ -45,7 +47,7 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public EmpresaTipoAtividade BuscarPelaChave(int id)
         {
-            return _repositorio.BuscarPelaChave (id);
+            return _repositorio.BuscarPelaChave(id);
         }
 
         /// <summary>
@@ -55,7 +57,7 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public ICollection<EmpresaTipoAtividade> Listar(params object[] objects)
         {
-            return _repositorio.Listar (objects);
+            return _repositorio.Listar(objects);
         }
 
         /// <summary>
@@ -64,7 +66,7 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void Alterar(EmpresaTipoAtividade entity)
         {
-            _repositorio.Alterar (entity);
+            _repositorio.Alterar(entity);
         }
 
         /// <summary>
@@ -73,7 +75,12 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void Remover(EmpresaTipoAtividade entity)
         {
-            _repositorio.Remover (entity);
+            _repositorio.Remover(entity);
+        }
+
+        public ICollection<EmpresaTipoAtividadeView> ListarEmpresaTipoAtividadeView(params object[] objects)
+        {
+            return _repositorio.ListarEmpresaTipoAtividadeView(objects);
         }
 
         #endregion

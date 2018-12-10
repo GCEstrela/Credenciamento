@@ -42,7 +42,8 @@ namespace iModSCCredenciamento.Windows
             else
             {
                 tipo = false;
-            } ((RelatoriosViewModel)this.DataContext).OnFiltroRelatorioCredencialCommand(tipo, DataIni, DataFim);
+            }
+            ((RelatoriosViewModel)this.DataContext).OnFiltroRelatorioCredencialCommand(tipo, DataIni, DataFim);
 
             this.Close();
         }

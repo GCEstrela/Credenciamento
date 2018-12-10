@@ -1,0 +1,169 @@
+﻿// ***********************************************************************
+// Project: IMOD.Application
+// Crafted by: Grupo Estrela by Genetec
+// Date:  11 - 30 - 2018
+// ***********************************************************************
+
+#region
+
+using System;
+using System.Collections.Generic;
+using IMOD.Application.Interfaces;
+using IMOD.Domain.Entities;
+using IMOD.Domain.EntitiesCustom;
+
+#endregion
+
+namespace IMOD.Application.Service
+{
+    public class DadosAuxiliaresFacadeService : IDadosAuxiliaresFacade
+    {
+        #region  Metodos
+
+        /// <summary>
+        ///     CRUD Completo Estados
+        /// </summary>
+        /// <returns></returns>
+        public IEstadoService EstadoService
+        {
+            get { return new EstadoService(); }
+        }
+        /// <summary>
+        ///     CRUD Completo Municipios
+        /// </summary>
+        /// <returns></returns>
+        public IMunicipioService MunicipioService
+        {
+            get { return new MunicipioService(); }
+        }
+        /// <summary>
+        ///  CRUD Completo Tipo de Equipamento
+        /// </summary>
+        /// <returns></returns>
+        public ITipoEquipamentoService TipoEquipamentoService
+        {
+            get { return new TipoEquipamentoService(); }
+        }
+
+        /// <summary>
+        /// CRUD Completo ColaboradorAnexo
+        /// </summary>
+        /// <returns></returns>
+        public IColaboradorAnexoService ColaboradorAnexoService
+        {
+            get { return new ColaboradorAnexoService(); }
+        }
+        /// <summary>
+        /// CRUD Completo Relatorio
+        /// </summary>
+        /// <returns></returns>
+        public IRelatorioService RelatorioService
+        {
+            get { return new RelatorioService(); }
+        }
+        /// <summary>
+        /// CRUD Completo RelatorioGerencial
+        /// </summary>
+        /// <returns></returns>
+        public IRelatorioGerencialService RelatorioGerencialService
+        {
+            get { return new RelatorioGerencialService(); }
+        }
+        /// <summary>
+        /// CRUD Completo LayoutCracha
+        /// </summary>
+        /// <returns></returns>
+        public ILayoutCrachaService LayoutCrachaService
+        {
+            get { return new LayoutCrachaService(); }
+        }
+        /// <summary>
+        /// CRUD Completo TipoAtividade
+        /// </summary>
+        /// <returns></returns>
+        public ITipoAtividadeService TipoAtividadeService
+        {
+            get { return new TipoAtividadeService(); }
+        }
+        /// <summary>
+        /// CRUD Completo TipoCobranca
+        /// </summary>
+        /// <returns></returns>
+        public ITipoCobrancaService TipoCobrancaService
+        {
+            get { return new TipoCobrancaService(); }
+        }
+        /// <summary>
+        /// CRUD Completo TiposAcesso
+        /// </summary>
+        /// <returns></returns>
+        public ITiposAcessoService TiposAcessoService
+        {
+            get { return new TipoAcessoService(); }
+        }
+        /// <summary>
+        /// CRUD Completo TipoStatus
+        /// </summary>
+        /// <returns></returns>
+        public IStatusService TipoStatusService
+        {
+            get { return new StatusService(); }
+        }
+        /// <summary>
+        /// CRUD Completo Curso
+        /// </summary>
+        /// <returns></returns>
+        public ICursoService CursoService
+        {
+            get { return new CursoService(); }
+        }
+        /// <summary>
+        /// CRUD Completo AreaAcesso
+        /// </summary>
+        /// <returns></returns>
+        public IAreaAcessoService AreaAcessoService
+        {
+            get { return new AreaAcessoService(); }
+        }
+
+       
+        /// <summary>
+        /// CRUD Completo Credencial Motivo 
+        /// </summary>
+        public ICredencialMotivoService CredencialMotivoService
+        {
+            get { return new CredencialMotivoService(); }
+        }
+        /// <summary>
+        /// CRUD Completo Credencial Motivo 
+        /// </summary>
+        public ICredencialStatusService CredencialStatusService
+        {
+            get { return new CredencialStatusService(); }
+        }
+        /// <summary>
+        /// CRUD Completo TecnologiaCredencial 
+        /// </summary>
+        public ITecnologiaCredencialService TecnologiaCredencialService
+        {
+            get { return new TecnologiaCredencialService(); }
+        }
+
+        /// <summary>
+        /// CRUD Completo Tipo Credencial 
+        /// </summary>
+        public ITipoCredencialService TipoCredencialService
+        {
+            get { return new TipoCredencialService(); }
+        }
+        
+        /// <summary>
+        /// CRUD Completo Tipo Credencial 
+        /// </summary>
+        public IFormatoCredencialService FormatoCredencialService
+        {
+            get { return new FormatoCredencialService(); }
+        }
+        #endregion
+    }
+}

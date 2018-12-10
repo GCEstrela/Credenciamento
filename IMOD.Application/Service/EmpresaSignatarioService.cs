@@ -7,6 +7,7 @@
 #region
 
 using System.Collections.Generic;
+using IMOD.Application.Interfaces;
 using IMOD.Domain.Entities;
 using IMOD.Domain.Interfaces;
 using IMOD.Infra.Repositorios;
@@ -15,7 +16,7 @@ using IMOD.Infra.Repositorios;
 
 namespace IMOD.Application.Service
 {
-    public class EmpresaSignatarioService : IEmpresaSignatarioRepositorio
+    public class EmpresaSignatarioService : IEmpresaSignatarioService
     {
         #region Variaveis Globais
 
@@ -35,7 +36,7 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void Criar(EmpresaSignatario entity)
         {
-            _repositorio.Criar (entity);
+            _repositorio.Criar(entity);
         }
 
         /// <summary>
@@ -45,7 +46,7 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public EmpresaSignatario BuscarPelaChave(int id)
         {
-            return _repositorio.BuscarPelaChave (id);
+            return _repositorio.BuscarPelaChave(id);
         }
 
         /// <summary>
@@ -55,7 +56,7 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public ICollection<EmpresaSignatario> Listar(params object[] objects)
         {
-            return _repositorio.Listar (objects);
+            return _repositorio.Listar(objects);
         }
 
         /// <summary>
@@ -64,7 +65,7 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void Alterar(EmpresaSignatario entity)
         {
-            _repositorio.Alterar (entity);
+            _repositorio.Alterar(entity);
         }
 
         /// <summary>
@@ -73,7 +74,7 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void Remover(EmpresaSignatario entity)
         {
-            _repositorio.Remover (entity);
+            _repositorio.Remover(entity);
         }
 
         #endregion

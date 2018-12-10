@@ -19,6 +19,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using IMOD.CrossCutting;
 //using IMOD.Application.Service;
 using UserControl = System.Windows.Controls.UserControl;
 
@@ -50,8 +51,15 @@ namespace iModSCCredenciamento.Views
                 openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
                 if (openFileDialog.ShowDialog() == true)
                 {
-                    BitmapImage _img = new BitmapImage(new Uri(openFileDialog.FileName));
+                    long tamanho = new System.IO.FileInfo(openFileDialog.FileName).Length;
+                    if (tamanho > 200)
+                    {
+                        System.Windows.MessageBox.Show("Tamanho ( " + tamanho.ToString() + " ) inválido, só é permitido arquivo com o máximo de 200");
+                        return; 
+                    }
 
+                    BitmapImage _img = new BitmapImage(new Uri(openFileDialog.FileName));
+                    
                     string _imgstr = Conversores.IMGtoSTR(_img);
 
                     var fileLength = new FileInfo(openFileDialog.FileName).Length; //limitar o tamanho futuro
@@ -95,11 +103,7 @@ namespace iModSCCredenciamento.Views
 
             }
         }
-
-        private void BuscarApoliceArquivo_bt_Click(object sender, RoutedEventArgs e)
-        {
-            ((ColaboradorViewModel)this.DataContext).OnBuscarArquivoCommand();
-        }
+ 
 
         private void Pesquisar_bt_Click(object sender, RoutedEventArgs e)
         {
@@ -132,13 +136,13 @@ namespace iModSCCredenciamento.Views
             Geral_sp.IsHitTestVisible = true;
             Geral_bt.Visibility = Visibility.Hidden;
             ((ColaboradorViewModel)this.DataContext).OnAdicionarCommand();
-            
+
         }
 
         private void Excluir_bt_Click(object sender, RoutedEventArgs e)
         {
             Botoes_Principais_sp.Visibility = Visibility.Visible;
-            ((ColaboradorViewModel)this.DataContext).OnExcluirCommand2();
+            ((ColaboradorViewModel)this.DataContext).OnExcluirCommand();
         }
 
         private void ExecutarPesquisa_bt_Click(object sender, RoutedEventArgs e)
@@ -205,8 +209,8 @@ namespace iModSCCredenciamento.Views
                 }
 
                 Botoes_Principais_sp.Visibility = Visibility.Visible;
-                //model.SalvarEdicao();
-                model.OnSalvarEdicaoCommand2();
+                model.SalvarEdicao();
+                //model.OnSalvarEdicaoCommand2();
                 //((ColaboradorViewModel)this.DataContext).OnSalvarEdicaoCommandAsync();
                 Botoes_Editar_sp.Visibility = Visibility.Hidden;
                 ListaColaboradores_lv.IsHitTestVisible = true;
@@ -260,7 +264,7 @@ namespace iModSCCredenciamento.Views
                 }
 
                 Botoes_Principais_sp.Visibility = Visibility.Visible;
-                model.SalvarEdicao(); 
+                model.SalvarEdicao();
                 //((ColaboradorViewModel)this.DataContext).OnSalvarEdicaoCommandAsync();
                 Botoes_Editar_sp.Visibility = Visibility.Hidden;
                 ListaColaboradores_lv.IsHitTestVisible = true;
@@ -329,7 +333,7 @@ namespace iModSCCredenciamento.Views
         //}
         private void SalvarAdicao_bt_Click(object sender, RoutedEventArgs e)
         {
-           
+
             #region Opcao 1
             try
             {
@@ -338,8 +342,8 @@ namespace iModSCCredenciamento.Views
                 model.ValidarAdicao(entity);
 
                 Botoes_Principais_sp.Visibility = Visibility.Visible;
-                //model.SalvarAdicao();
-                model.SalvarAdicao2();
+                model.SalvarAdicao();
+                //model.SalvarAdicao2();
                 Botoes_Adicionar_sp.Visibility = Visibility.Hidden;
                 Geral_sp.IsHitTestVisible = false;
                 VinculoEmpresa_ti.Visibility = Visibility.Visible;
@@ -430,7 +434,7 @@ namespace iModSCCredenciamento.Views
 
             var model = (ColaboradorViewModel)this.DataContext;
 
-            if (!cpfjAtual.IsValidCpf()) { throw new InvalidOperationException("CPF inválido!"); }
+            if (!Utils.IsValidCpf(cpfjAtual)) { throw new InvalidOperationException("CPF inválido!"); }
 
             if (cpfAnterior == "000.000.000-00") //Então a operação é de adição, logo verificar se ha CNPJ apenas no ação de salvar...
             {
@@ -507,6 +511,16 @@ namespace iModSCCredenciamento.Views
         }
 
         private void Motorista_cb_Checked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void OnSalvarEdicao_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Estado_cb_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
         }

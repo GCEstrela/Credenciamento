@@ -14,5 +14,6 @@ namespace IMOD.Domain.Interfaces
 {
     public interface IStatusRepositorio : IRepositorioBaseAdoNet<Status>
     {
+
     }
 }

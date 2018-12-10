@@ -13,7 +13,7 @@ using System.Collections.Generic;
 
 namespace IMOD.Domain.Interfaces
 {
-    public interface IMunicipioRepositorio //: IRepositorioBaseAdoNet<Municipio>
+    public interface IMunicipioRepositorio
     {
         /// <summary>
         ///     Buscar pela chave primaria
@@ -28,6 +28,6 @@ namespace IMOD.Domain.Interfaces
         /// <returns></returns>
         ICollection<Municipio> Listar(params object[] objects);
 
-    
+
     }
 }

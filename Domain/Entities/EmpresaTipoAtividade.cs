@@ -13,6 +13,7 @@ namespace IMOD.Domain.Entities
         public int EmpresaTipoAtividadeId { get; set; }
         public int EmpresaId { get; set; }
         public int TipoAtividadeId { get; set; }
+        public string Descricao { get; set; }
 
         #endregion
     }

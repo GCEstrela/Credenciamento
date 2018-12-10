@@ -12,6 +12,7 @@ using System.Data;
 using System.Linq;
 using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
+using IMOD.Domain.EntitiesCustom;
 using IMOD.Domain.Interfaces;
 using IMOD.Infra.Ado;
 using IMOD.Infra.Ado.Interfaces;
@@ -31,7 +32,7 @@ namespace IMOD.Infra.Repositorios
 
         public VeiculoCredencialRepositorio()
         {
-            _dataBase = _dataWorkerFactory.ObterDataBaseSingleton (TipoDataBase.SqlServer, _connection);
+            _dataBase = _dataWorkerFactory.ObterDataBaseSingleton(TipoDataBase.SqlServer, _connection);
         }
 
         #endregion
@@ -46,38 +47,38 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.InsertText ("VeiculosCredenciais", conn))
+                using (var cmd = _dataBase.InsertText("VeiculosCredenciais", conn))
                 {
                     try
                     {
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("VeiculoCredencialID", entity.VeiculoCredencialId, true)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("VeiculoEmpresaID", entity.VeiculoEmpresaId, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("TecnologiaCredencialID", entity.TecnologiaCredencialId, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("TipoCredencialID", entity.TipoCredencialId, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("LayoutCrachaID", entity.LayoutCrachaId, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("FormatoCredencialID", entity.FormatoCredencialId, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("NumeroCredencial", entity.NumeroCredencial, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("FC", entity.Fc, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Emissao", DbType.Date, entity.Emissao, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Validade", DbType.Date, entity.Validade, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("CredencialStatusID", entity.CredencialStatusId, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("CardHolderGUID", entity.CardHolderGuid, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("CredencialGUID", entity.CredencialGuid, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("VeiculoPrivilegio1ID", entity.VeiculoPrivilegio1Id, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("VeiculoPrivilegio2ID", entity.VeiculoPrivilegio2Id, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Ativa", entity.Ativa, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Colete", entity.Colete, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("CredencialmotivoID", entity.CredencialmotivoId, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Baixa", DbType.Date, entity.Baixa, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Impressa", entity.Impressa, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("VeiculoCredencialID", entity.VeiculoCredencialId, true)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("VeiculoEmpresaID", entity.VeiculoEmpresaId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("TecnologiaCredencialID", entity.TecnologiaCredencialId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("TipoCredencialID", entity.TipoCredencialId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("LayoutCrachaID", entity.LayoutCrachaId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("FormatoCredencialID", entity.FormatoCredencialId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("NumeroCredencial", entity.NumeroCredencial, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("FC", entity.Fc, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Emissao", DbType.Date, entity.Emissao, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Validade", DbType.Date, entity.Validade, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("CredencialStatusID", entity.CredencialStatusId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("CardHolderGUID", entity.CardHolderGuid, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("CredencialGUID", entity.CredencialGuid, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("VeiculoPrivilegio1ID", entity.VeiculoPrivilegio1Id, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("VeiculoPrivilegio2ID", entity.VeiculoPrivilegio2Id, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Ativa", entity.Ativa, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Colete", entity.Colete, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("CredencialmotivoID", entity.CredencialmotivoId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Baixa", DbType.Date, entity.Baixa, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Impressa", entity.Impressa, false)));
 
-                        var key = Convert.ToInt32 (cmd.ExecuteScalar());
+                        var key = Convert.ToInt32(cmd.ExecuteScalar());
 
                         entity.VeiculoCredencialId = key;
                     }
                     catch (Exception ex)
                     {
-                        Utils.TraceException (ex);
+                        Utils.TraceException(ex);
                         throw;
                     }
                 }
@@ -93,12 +94,12 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText ("VeiculosCredenciais", conn))
+                using (var cmd = _dataBase.SelectText("VeiculosCredenciais", conn))
 
                 {
                     try
                     {
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("VeiculoCredencialId", DbType.Int32, id).Igual()));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("VeiculoCredencialId", DbType.Int32, id).Igual()));
                         var reader = cmd.ExecuteReader();
                         var d1 = reader.MapToList<VeiculoCredencial>();
 
@@ -106,7 +107,7 @@ namespace IMOD.Infra.Repositorios
                     }
                     catch (Exception ex)
                     {
-                        Utils.TraceException (ex);
+                        Utils.TraceException(ex);
                         throw;
                     }
                 }
@@ -122,12 +123,12 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText ("VeiculosCredenciais", conn))
+                using (var cmd = _dataBase.SelectText("VeiculosCredenciais", conn))
 
                 {
                     try
                     {
-                        cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("NumeroCredencial", objects, 0).Like()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("NumeroCredencial", objects, 0).Like()));
 
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<VeiculoCredencial>();
@@ -136,7 +137,7 @@ namespace IMOD.Infra.Repositorios
                     }
                     catch (Exception ex)
                     {
-                        Utils.TraceException (ex);
+                        Utils.TraceException(ex);
                         throw;
                     }
                 }
@@ -151,36 +152,36 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.UpdateText ("VeiculosCredenciais", conn))
+                using (var cmd = _dataBase.UpdateText("VeiculosCredenciais", conn))
                 {
                     try
                     {
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("VeiculoCredencialID", entity.VeiculoCredencialId, true)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("VeiculoEmpresaID", entity.VeiculoEmpresaId, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("TecnologiaCredencialID", entity.TecnologiaCredencialId, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("TipoCredencialID", entity.TipoCredencialId, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("LayoutCrachaID", entity.LayoutCrachaId, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("FormatoCredencialID", entity.FormatoCredencialId, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("NumeroCredencial", entity.NumeroCredencial, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("FC", entity.Fc, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Emissao", entity.Emissao, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Validade", entity.Validade, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("CredencialStatusID", entity.CredencialStatusId, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("CardHolderGUID", entity.CardHolderGuid, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("CredencialGUID", entity.CredencialGuid, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("VeiculoPrivilegio1ID", entity.VeiculoPrivilegio1Id, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("VeiculoPrivilegio2ID", entity.VeiculoPrivilegio2Id, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Ativa", entity.Ativa, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Colete", entity.Colete, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("CredencialmotivoID", entity.CredencialmotivoId, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Baixa", entity.Baixa, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Impressa", entity.Impressa, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("VeiculoCredencialID", entity.VeiculoCredencialId, true)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("VeiculoEmpresaID", entity.VeiculoEmpresaId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("TecnologiaCredencialID", entity.TecnologiaCredencialId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("TipoCredencialID", entity.TipoCredencialId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("LayoutCrachaID", entity.LayoutCrachaId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("FormatoCredencialID", entity.FormatoCredencialId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("NumeroCredencial", entity.NumeroCredencial, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("FC", entity.Fc, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Emissao", entity.Emissao, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Validade", entity.Validade, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("CredencialStatusID", entity.CredencialStatusId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("CardHolderGUID", entity.CardHolderGuid, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("CredencialGUID", entity.CredencialGuid, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("VeiculoPrivilegio1ID", entity.VeiculoPrivilegio1Id, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("VeiculoPrivilegio2ID", entity.VeiculoPrivilegio2Id, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Ativa", entity.Ativa, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Colete", entity.Colete, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("CredencialmotivoID", entity.CredencialmotivoId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Baixa", entity.Baixa, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Impressa", entity.Impressa, false)));
 
                         cmd.ExecuteNonQuery();
                     }
                     catch (Exception ex)
                     {
-                        Utils.TraceException (ex);
+                        Utils.TraceException(ex);
                         throw;
                     }
                 }
@@ -195,16 +196,45 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.DeleteText ("VeiculosCredenciais", conn))
+                using (var cmd = _dataBase.DeleteText("VeiculosCredenciais", conn))
                 {
                     try
                     {
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamDelete ("VeiculoCredencialId", entity.VeiculoCredencialId).Igual()));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamDelete("VeiculoCredencialId", entity.VeiculoCredencialId).Igual()));
                         cmd.ExecuteNonQuery();
                     }
                     catch (Exception ex)
                     {
-                        Utils.TraceException (ex);
+                        Utils.TraceException(ex);
+                    }
+                }
+            }
+        }
+
+        public ICollection<VeiculosCredenciaisView> ListarView(params object[] objects)
+        {
+            using (var conn = _dataBase.CreateOpenConnection())
+            {
+                using (var cmd = _dataBase.SelectText("VeiculosCredenciaisView", conn))
+
+                {
+                    try
+                    {
+                        //cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("ColaboradorCredencialID", DbType.Int32, o, 0).Igual()));
+                        //cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmpresaNome", DbType.String, o, 1).Like()));
+                        //cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("TipoCredencialID", DbType.String, o, 2).Igual()));
+                        //cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("CredencialStatusID", DbType.String, o, 3).Igual()));
+                        //cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("ColaboradorID", DbType.Int32, o, 4).Igual()));
+
+                        var reader = cmd.ExecuteReaderSelect();
+                        var d1 = reader.MapToList<VeiculosCredenciaisView>();
+
+                        return d1;
+                    }
+                    catch (Exception ex)
+                    {
+                        Utils.TraceException(ex);
+                        throw;
                     }
                 }
             }

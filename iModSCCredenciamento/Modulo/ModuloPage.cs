@@ -5,8 +5,10 @@
 // ***********************************************************************
 
 #region
- 
-using Genetec.Sdk.Workspace.Pages; 
+
+using System.Web.UI;
+using Genetec.Sdk.Workspace.Pages;
+using Page = Genetec.Sdk.Workspace.Pages.Page;
 
 #endregion
 
@@ -18,13 +20,13 @@ namespace iModSCCredenciamento.Modulo
         
         #region  Metodos
 
-        private MenuPrincipalView _view;
+        private MenuPrincipalView _view= new MenuPrincipalView();
         public ModuloPage()
         {
-            _view= new MenuPrincipalView();
             this.View = _view;
-
         }
+
+         
         /// <summary>
         /// Deserializes the data contained by the specified byte array.
         /// </summary>

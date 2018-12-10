@@ -42,6 +42,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EntitiesCustom\ColaboradoresCredenciaisView.cs" />
+    <Compile Include="EntitiesCustom\EmpresaLayoutCrachaView.cs" />
+    <Compile Include="EntitiesCustom\EmpresaTipoAtividadeView.cs" />
+    <Compile Include="EntitiesCustom\EstadoView.cs" />
+    <Compile Include="EntitiesCustom\VeiculosCredenciaisView.cs" />
     <Compile Include="Entities\AreaAcesso.cs" />
     <Compile Include="Entities\Colaborador.cs" />
     <Compile Include="Entities\ColaboradorAnexo.cs" />
@@ -54,6 +58,7 @@
     <Compile Include="Entities\CredencialStatus.cs" />
     <Compile Include="Entities\Curso.cs" />
     <Compile Include="Entities\Empresa.cs" />
+    <Compile Include="Entities\EmpresaAnexo.cs" />
     <Compile Include="Entities\EmpresaContrato.cs" />
     <Compile Include="Entities\EmpresaLayoutCracha.cs" />
     <Compile Include="Entities\EmpresaAreaAcesso.cs" />
@@ -79,9 +84,10 @@
     <Compile Include="Entities\TipoAtividade.cs" />
     <Compile Include="Entities\TipoCobranca.cs" />
     <Compile Include="Entities\TipoEquipamento.cs" />
+    <Compile Include="Entities\TipoEstadoCivil.cs" />
     <Compile Include="Entities\TipoServico.cs" />
     <Compile Include="Entities\VeiculoEquipTipoServico.cs" />
-    <Compile Include="Entities\Veiculos.cs" />
+    <Compile Include="Entities\Veiculo.cs" />
     <Compile Include="Entities\VeiculoAnexo.cs" />
     <Compile Include="Entities\VeiculoCredencial.cs" />
     <Compile Include="Entities\VeiculoCredencialimpressao.cs" />
@@ -96,6 +102,7 @@
     <Compile Include="Interfaces\IColaboradorPrivilegioRepositorio.cs" />
     <Compile Include="Interfaces\IColaboradorRepositorio.cs" />
     <Compile Include="Interfaces\ICursoRepositorio.cs" />
+    <Compile Include="Interfaces\IEmpresaAnexoRepositorio.cs" />
     <Compile Include="Interfaces\IEmpresaAreaAcessoRepositorio.cs" />
     <Compile Include="Interfaces\IEmpresaEquipamentoRepositorio.cs" />
     <Compile Include="Interfaces\IEmpresaSeguroRepositorio.cs" />
@@ -132,7 +139,7 @@
     <Compile Include="Interfaces\IVeiculoEmpresaRepositorio.cs" />
     <Compile Include="Interfaces\IVeiculoEquipTipoServicoRepositorio.cs" />
     <Compile Include="Interfaces\IVeiculoSeguroRepositorio.cs" />
-    <Compile Include="Interfaces\IVeiculosRepositorio.cs" />
+    <Compile Include="Interfaces\IVeiculoRepositorio.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

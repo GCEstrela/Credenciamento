@@ -14,6 +14,7 @@ namespace IMOD.Domain.Entities
         public string Nome { get; set; }
         public string LayoutCrachaGuid { get; set; }
         public decimal? Valor { get; set; }
+        public string LayoutRpt { get; set; }
 
         #endregion
     }

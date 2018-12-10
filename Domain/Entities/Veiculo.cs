@@ -6,13 +6,13 @@
 
 namespace IMOD.Domain.Entities
 {
-    public class Veiculos
+    public class Veiculo
     {
         #region  Propriedades
 
         public int EquipamentoVeiculoId { get; set; }
         public string Descricao { get; set; }
-        public string PlacaIdentificador { get; set; }
+        public string Placa_Identificador { get; set; }
         public string Frota { get; set; }
         public string Patrimonio { get; set; }
         public string Marca { get; set; }
@@ -22,7 +22,7 @@ namespace IMOD.Domain.Entities
         public string Ano { get; set; }
         public int? EstadoId { get; set; }
         public int? MunicipioId { get; set; }
-        public string SerieChassi { get; set; }
+        public string Serie_Chassi { get; set; }
         public int? CombustivelId { get; set; }
         public string Altura { get; set; }
         public string Comprimento { get; set; }

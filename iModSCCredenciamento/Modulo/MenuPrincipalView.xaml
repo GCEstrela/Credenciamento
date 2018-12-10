@@ -41,15 +41,6 @@
         </Style>
     </UserControl.Resources>
     <Grid>
-        <!--<Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>-->
-
-
        <DockPanel>
 
             <!--#region StackPanel -->
@@ -143,27 +134,6 @@
             <!--#endregion -->
 
            
-        </DockPanel>
-
-            <!--#region Borda Grid -->
-            <!--<Border BorderThickness="0,0,0,1">
-                <Border.BorderBrush>
-                    <RadialGradientBrush Center="0.5,1">
-                        <GradientStop Color="Black" />
-                        <GradientStop Color="Black" Offset="1" />
-                        <GradientStop Color="#FF007ACC" Offset="0.5" />
-                    </RadialGradientBrush>
-                </Border.BorderBrush>
-            </Border>-->
-            <!--#endregion -->
-
-          
-
-
-      
-
-
-      
-
+        </DockPanel> 
     </Grid>
 </UserControl>

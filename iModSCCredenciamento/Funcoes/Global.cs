@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Media;
 using System.Xml;
@@ -29,28 +30,28 @@ namespace iModSCCredenciamento.Funcoes
         {
             try
             {
-                XmlNodeList oNoLista;
-                XmlDocument xmlConfig = new XmlDocument();
-                StreamReader sr = new StreamReader("iModSCCredenciamento_Config.xml");
-                xmlConfig.Load(sr);
-                sr.Close();
-                sr.Dispose();
+                //XmlNodeList oNoLista;
+                //XmlDocument xmlConfig = new XmlDocument();
+                //StreamReader sr = new StreamReader("iModSCCredenciamento_Config.xml");
+                //xmlConfig.Load(sr);
+                //sr.Close();
+                //sr.Dispose();
 
-                oNoLista = xmlConfig.SelectNodes("/CONFIG/BancoDeDados");
-                foreach (XmlNode oNo in oNoLista)
-                {
-                    _instancia = oNo.ChildNodes[0].InnerText.Trim();
-                    _bancoDados = oNo.ChildNodes[1].InnerText.Trim();
-                    _usuario = oNo.ChildNodes[2].InnerText.Trim();
-                    _senha = oNo.ChildNodes[3].InnerText.Trim();
+                //oNoLista = xmlConfig.SelectNodes("/CONFIG/BancoDeDados");
+                //foreach (XmlNode oNo in oNoLista)
+                //{
+                //    _instancia = oNo.ChildNodes[0].InnerText.Trim();
+                //    _bancoDados = oNo.ChildNodes[1].InnerText.Trim();
+                //    _usuario = oNo.ChildNodes[2].InnerText.Trim();
+                //    _senha = oNo.ChildNodes[3].InnerText.Trim();
 
-                }
-                _connectionString = "Data Source=" + _instancia + ";Initial Catalog=" + _bancoDados +
-                ";User ID=" + _usuario + ";Password=" + _senha +
-                ";Min Pool Size=5;Max Pool Size=15;Connection Reset=True;Connection Lifetime=600;Trusted_Connection=no;MultipleActiveResultSets=True";
-                //                _connectionString = "Data Source=" + oNo.ChildNodes[0].InnerText.Trim() + ";Initial Catalog=" + oNo.ChildNodes[1].InnerText.Trim() +
-                //";User ID=" + oNo.ChildNodes[2].InnerText.Trim() + ";Password=" + oNo.ChildNodes[3].InnerText.Trim() +
+                //}
+                //_connectionString = "Data Source=" + _instancia + ";Initial Catalog=" + _bancoDados +
+                //";User ID=" + _usuario + ";Password=" + _senha +
                 //";Min Pool Size=5;Max Pool Size=15;Connection Reset=True;Connection Lifetime=600;Trusted_Connection=no;MultipleActiveResultSets=True";
+                ////                _connectionString = "Data Source=" + oNo.ChildNodes[0].InnerText.Trim() + ";Initial Catalog=" + oNo.ChildNodes[1].InnerText.Trim() +
+                ////";User ID=" + oNo.ChildNodes[2].InnerText.Trim() + ";Password=" + oNo.ChildNodes[3].InnerText.Trim() +
+                ////";Min Pool Size=5;Max Pool Size=15;Connection Reset=True;Connection Lifetime=600;Trusted_Connection=no;MultipleActiveResultSets=True";
 
 
             }

@@ -47,7 +47,7 @@ namespace iModSCCredenciamento.Views
         {
             int _colaboradorID = Convert.ToInt32(e.NewValue);
 
-            if (_colaboradorID!= _colaboradorIDFisrt && _colaboradorID !=0)
+            if (_colaboradorID != _colaboradorIDFisrt && _colaboradorID != 0)
             {
                 ((iModSCCredenciamento.ViewModels.ColaboradoresCursosViewModel)((System.Windows.FrameworkElement)source).DataContext).OnAtualizaCommand(_colaboradorID);
                 _colaboradorIDFisrt = _colaboradorID;
@@ -107,13 +107,13 @@ namespace iModSCCredenciamento.Views
 
         private void Excluir_bt_Click(object sender, RoutedEventArgs e)
         {
-            Editando = true;Botoes_Principais_sp.Visibility = Visibility.Visible;
+            Editando = true; Botoes_Principais_sp.Visibility = Visibility.Visible;
             ((ColaboradoresCursosViewModel)this.DataContext).OnExcluirCommand();
         }
 
         private void ExecutarPesquisa_bt_Click(object sender, RoutedEventArgs e)
         {
-            Editando = true;Botoes_Principais_sp.Visibility = Visibility.Visible;
+            Editando = true; Botoes_Principais_sp.Visibility = Visibility.Visible;
             //Criterios_tb.Text = PesquisaCodigo_tb.Text + (char)(20) + PesquisaNome_tb.Text + (char)(20) + PesquisaCNPJ_tb.Text;
             Editando = false; Botoes_Principais_sp.Visibility = Visibility.Hidden;
             //((EmpresasSegurosViewModel)this.DataContext).ExecutarPesquisaCommand();
@@ -121,14 +121,14 @@ namespace iModSCCredenciamento.Views
 
         private void CancelarPesquisa_bt_Click(object sender, RoutedEventArgs e)
         {
-            Editando = true;Botoes_Principais_sp.Visibility = Visibility.Visible;
+            Editando = true; Botoes_Principais_sp.Visibility = Visibility.Visible;
             Botoes_Pesquisar_sp.Visibility = Visibility.Hidden;
 
         }
 
         private void CancelarEdicao_bt_Click(object sender, RoutedEventArgs e)
         {
-            Editando = true;Botoes_Principais_sp.Visibility = Visibility.Visible;
+            Editando = true; Botoes_Principais_sp.Visibility = Visibility.Visible;
             Botoes_Editar_sp.Visibility = Visibility.Hidden;
             ListaColaboradoresCursos_lv.IsHitTestVisible = true;
             Global.SetReadonly(Linha0_sp, true);
@@ -147,7 +147,7 @@ namespace iModSCCredenciamento.Views
                 return;
             }
 
-            Editando = true;Botoes_Principais_sp.Visibility = Visibility.Visible;
+            Editando = true; Botoes_Principais_sp.Visibility = Visibility.Visible;
             ((ColaboradoresCursosViewModel)this.DataContext).OnSalvarEdicaoCommand();
             ICollectionView view = CollectionViewSource.GetDefaultView(ListaColaboradoresCursos_lv.ItemsSource);
             view.Refresh();
@@ -158,7 +158,7 @@ namespace iModSCCredenciamento.Views
 
         private void CancelarAdicao_bt_Click(object sender, RoutedEventArgs e)
         {
-            Editando = true;Botoes_Principais_sp.Visibility = Visibility.Visible;
+            Editando = true; Botoes_Principais_sp.Visibility = Visibility.Visible;
             ((ColaboradoresCursosViewModel)this.DataContext).OnCancelarAdicaoCommand();
             Botoes_Adicionar_sp.Visibility = Visibility.Hidden;
             Global.SetReadonly(Linha0_sp, true);
@@ -176,7 +176,7 @@ namespace iModSCCredenciamento.Views
                 return;
             }
 
-            Editando = true;Botoes_Principais_sp.Visibility = Visibility.Visible;
+            Editando = true; Botoes_Principais_sp.Visibility = Visibility.Visible;
             ((ColaboradoresCursosViewModel)this.DataContext).OnSalvarAdicaoCommand();
 
             Botoes_Adicionar_sp.Visibility = Visibility.Hidden;

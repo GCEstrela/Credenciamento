@@ -1,18 +1,15 @@
 ﻿// ***********************************************************************
-// Project: IMOD.Domain
+// Project: IMOD.Application
 // Crafted by: Grupo Estrela by Genetec
-// Date:  11 - 22 - 2018
+// Date:  11 - 30 - 2018
 // ***********************************************************************
 
-#region
+using IMOD.Domain.Interfaces;
 
-using IMOD.Domain.Entities;
-
-#endregion
-
-namespace IMOD.Domain.Interfaces
+namespace IMOD.Application.Interfaces
 {
-    public interface IVeiculosRepositorio : IRepositorioBaseAdoNet<Veiculos>
+    public interface IStatusService : IStatusRepositorio
     {
+
     }
 }

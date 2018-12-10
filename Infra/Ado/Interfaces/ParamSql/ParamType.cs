@@ -36,7 +36,7 @@ namespace IMOD.Infra.Ado.Interfaces.ParamSql
             if (tipo2 == typeof(string))
                 return DbType.String;
             if (tipo2 == typeof(bool))
-                return DbType.Boolean; 
+                return DbType.Boolean;
             if (tipo2 == typeof(DateTime))
                 return DbType.DateTime;
             if (tipo2 == typeof(byte[]))

@@ -8,7 +8,7 @@
              xmlns:i="clr-namespace:iModSCCredenciamento.Funcoes"
              mc:Ignorable="d" Loaded="UserControl_Loaded" >
     <UserControl.Resources>
-        <Style TargetType="{x:Type DatePickerTextBox}">
+        <!--<Style TargetType="{x:Type DatePickerTextBox}">
             <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" />
             <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />
             <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst"/>
@@ -102,7 +102,7 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-        </Style>
+        </Style>-->
         <i:FormateTel x:Key="FormateTel" />
     </UserControl.Resources>
     <Grid >
@@ -142,7 +142,8 @@
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,10">
                                     <Label Content="Data de Emissão:" Height="28" Width="100" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                    <DatePicker Margin="-10,3,0,0" x:Name="Emissao_tb" VerticalContentAlignment="Center" SelectedDate="{Binding SelectedItem.Emissao, ElementName=ListaContratos_lv, UpdateSourceTrigger=PropertyChanged}" Width="120" Foreground="White" Background="{x:Null}"/>
+                                    
+                                    <DatePicker Margin="-10,3,0,0" x:Name="Emissao_tb" VerticalContentAlignment="Center" SelectedDate="{Binding SelectedItem.Emissao, ElementName=ListaContratos_lv, UpdateSourceTrigger=PropertyChanged}" Width="120" Foreground="White" Background="{x:Null}" />
                                     <Label Content="Data de Validade:" Height="28" Width="112" Margin="25,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
                                     <DatePicker Margin="-10,3,0,0" x:Name="Validade_tb" VerticalContentAlignment="Center" SelectedDate="{Binding SelectedItem.Validade, ElementName=ListaContratos_lv, UpdateSourceTrigger=PropertyChanged}" Width="120" Foreground="White" Background="{x:Null}"/>
 
@@ -150,7 +151,7 @@
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,5,17,10">
                                     <Label Content="Status:" Height="28" Width="100" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
                                     <ComboBox x:Name="Status_cb"  MinWidth="50" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
-                                                ItemsSource="{Binding Statuss}" DisplayMemberPath="Descricao"  SelectedValue="{Binding SelectedItem.StatusID, ElementName=ListaContratos_lv, UpdateSourceTrigger=PropertyChanged}" 
+                                                ItemsSource="{Binding Status}" DisplayMemberPath="Descricao"  SelectedValue="{Binding SelectedItem.StatusID, ElementName=ListaContratos_lv, UpdateSourceTrigger=PropertyChanged}" 
                                               SelectedValuePath="StatusID" Width="140" />
 
                                     <Label Visibility="Hidden" Content="Tipo de Acesso:" Height="28" Width="100" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />

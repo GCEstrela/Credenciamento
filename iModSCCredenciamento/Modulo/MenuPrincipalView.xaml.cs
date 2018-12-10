@@ -30,6 +30,7 @@ namespace iModSCCredenciamento.Modulo
             if (wrk == null)
                 throw new ArgumentNullException(nameof(wrk));
             Workspace = wrk;
+           
             DataContext = null;//Iniciar sem conteudo na tela do frame
         }
 
@@ -43,7 +44,7 @@ namespace iModSCCredenciamento.Modulo
             //Relatorios_bt.Background = Brushes.Transparent;
             //Termos_bt.Background = Brushes.Transparent;
             //ButtonClick(sender, new RoutedEventArgs());
-            this.DataContext = new EmpresaView();
+            this.DataContext = new ViewSingleton().ObterInstanciaEmpresa;
         }
 
         private void OpenColaboradoresView_Click(object sender, RoutedEventArgs e)
@@ -55,7 +56,9 @@ namespace iModSCCredenciamento.Modulo
             //Relatorios_bt.Background = Brushes.Transparent;
             //Termos_bt.Background = Brushes.Transparent;
             //ButtonClick(sender, new RoutedEventArgs());
-            this.DataContext = new ColaboradorView();
+            // this.DataContext = new ColaboradorView();
+
+            this.DataContext = new ViewSingleton().ObterInstanciaColaborador;
         }
     }
 }
