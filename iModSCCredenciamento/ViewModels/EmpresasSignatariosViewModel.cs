@@ -320,9 +320,13 @@ namespace iModSCCredenciamento.ViewModels
                 Utils.TraceException(ex);
             }
         }
-
+        //Global g = new Global();
         public void OnAdicionarCommand()
         {
+            //if (g.iniciarFiljos = true)
+            //    {
+            //    return;
+            //}
             try
             {
                 foreach (var x in Signatarios)

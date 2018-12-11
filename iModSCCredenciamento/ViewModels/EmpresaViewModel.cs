@@ -24,6 +24,7 @@ namespace iModSCCredenciamento.ViewModels
 {
     public class EmpresaViewModel : ViewModelBase
     {
+        Global g = new Global();
         #region Inicializacao
         public EmpresaViewModel()
         {
@@ -34,7 +35,9 @@ namespace iModSCCredenciamento.ViewModels
             //// 
             // Thread CarregaUI_thr = new Thread(() => CarregaUI());
             // CarregaUI_thr.Start();
+            g.iniciarFiljos = false;
             CarregaColecoesIniciais();
+            g.iniciarFiljos = true;
             //CarregaUI();
         }
 
@@ -901,7 +904,7 @@ namespace iModSCCredenciamento.ViewModels
 
         //}
 
-        Global g = new Global();
+       // Global g = new Global();
 
         public void ValidarAdicao(ClasseEmpresas.Empresa entity)
         {

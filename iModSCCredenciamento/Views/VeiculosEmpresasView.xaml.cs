@@ -1,9 +1,21 @@
-﻿using System;
+﻿using iModSCCredenciamento.Funcoes;
+using iModSCCredenciamento.ViewModels;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Forms;
 using System.Windows.Input;
-using iModSCCredenciamento.Funcoes;
-using iModSCCredenciamento.ViewModels;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+using UserControl = System.Windows.Controls.UserControl;
 
 namespace iModSCCredenciamento.Views
 {
@@ -16,12 +28,12 @@ namespace iModSCCredenciamento.Views
         public VeiculosEmpresasView()
         {
             InitializeComponent();
-            DataContext = new VeiculosEmpresasViewModel();
+            this.DataContext = new VeiculosEmpresasViewModel();
         }
         #endregion
 
         #region Vinculo do UserControl
-        static int _EquipamentoVeiculoIDFisrt;
+        static int _veiculoIDFisrt = 0;
         public int VeiculoSelecionadoIDView
         {
             get { return (int)GetValue(VeiculoSelecionadoIDViewProperty); }
@@ -32,11 +44,11 @@ namespace iModSCCredenciamento.Views
             DependencyProperty.Register("VeiculoSelecionadoIDView", typeof(int), typeof(VeiculosEmpresasView), new PropertyMetadata(0, PropertyChanged));
         private static void PropertyChanged(DependencyObject source, DependencyPropertyChangedEventArgs e)
         {
-            int _EquipamentoVeiculoID = Convert.ToInt32(e.NewValue);
-            if (_EquipamentoVeiculoID != _EquipamentoVeiculoIDFisrt && _EquipamentoVeiculoID != 0)
+            int _veiculoID = Convert.ToInt32(e.NewValue);
+            if (_veiculoID != _veiculoIDFisrt && _veiculoID != 0)
             {
-                ((VeiculosEmpresasViewModel)((FrameworkElement)source).DataContext).OnAtualizaCommand(_EquipamentoVeiculoID);
-                _EquipamentoVeiculoIDFisrt = _EquipamentoVeiculoID;
+                ((iModSCCredenciamento.ViewModels.VeiculosEmpresasViewModel)((System.Windows.FrameworkElement)source).DataContext).OnAtualizaCommand(_veiculoID);
+                _veiculoIDFisrt = _veiculoID;
             }
         }
 
@@ -48,7 +60,7 @@ namespace iModSCCredenciamento.Views
 
         public static readonly DependencyProperty EditandoProperty =
             DependencyProperty.Register("Editando", typeof(bool), typeof(VeiculosEmpresasView), new FrameworkPropertyMetadata(true,
-                                                           FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, EditandoPropertyChanged));
+                                                           FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, new PropertyChangedCallback(EditandoPropertyChanged)));
 
         private static void EditandoPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -58,11 +70,14 @@ namespace iModSCCredenciamento.Views
         #endregion
 
         #region Comando dos Botoes
-        
+        private void BuscarApoliceArquivo_bt_Click(object sender, RoutedEventArgs e)
+        {
+            //((VeiculosEmpresasViewModel)this.DataContext).OnBuscarArquivoCommand();
+        }
 
         private void Pesquisar_bt_Click(object sender, RoutedEventArgs e)
         {
-            ((VeiculosEmpresasViewModel)DataContext).OnPesquisarCommand();
+            ((VeiculosEmpresasViewModel)this.DataContext).OnPesquisarCommand();
         }
 
         private void Editar_bt_Click(object sender, RoutedEventArgs e)
@@ -73,7 +88,7 @@ namespace iModSCCredenciamento.Views
             Botoes_Editar_sp.Visibility = Visibility.Visible;
             ListaVeiculosEmpresas_lv.IsHitTestVisible = false;
             Global.SetReadonly(Linha0_sp, false);
-            ((VeiculosEmpresasViewModel)DataContext).OnEditarCommand();
+            ((VeiculosEmpresasViewModel)this.DataContext).OnEditarCommand();
         }
 
         private void Adicionar_bt_Click(object sender, RoutedEventArgs e)
@@ -82,13 +97,13 @@ namespace iModSCCredenciamento.Views
             Editando = false; Botoes_Principais_sp.Visibility = Visibility.Hidden;
             Botoes_Adicionar_sp.Visibility = Visibility.Visible;
             Global.SetReadonly(Linha0_sp, false);
-            ((VeiculosEmpresasViewModel)DataContext).OnAdicionarCommand();
+            ((VeiculosEmpresasViewModel)this.DataContext).OnAdicionarCommand();
         }
 
         private void Excluir_bt_Click(object sender, RoutedEventArgs e)
         {
             Editando = true; Botoes_Principais_sp.Visibility = Visibility.Visible;
-            ((VeiculosEmpresasViewModel)DataContext).OnExcluirCommand();
+            ((VeiculosEmpresasViewModel)this.DataContext).OnExcluirCommand();
         }
 
         private void ExecutarPesquisa_bt_Click(object sender, RoutedEventArgs e)
@@ -114,7 +129,7 @@ namespace iModSCCredenciamento.Views
             Botoes_Editar_sp.Visibility = Visibility.Hidden;
             ListaVeiculosEmpresas_lv.IsHitTestVisible = true;
             Global.SetReadonly(Linha0_sp, true);
-            ((VeiculosEmpresasViewModel)DataContext).OnCancelarEdicaoCommand();
+            ((VeiculosEmpresasViewModel)this.DataContext).OnCancelarEdicaoCommand();
         }
 
         private void SalvarEdicao_bt_Click(object sender, RoutedEventArgs e)
@@ -130,7 +145,7 @@ namespace iModSCCredenciamento.Views
             }
             EmpresaRazaoSocial_cb.IsEnabled = true;
             Editando = true; Botoes_Principais_sp.Visibility = Visibility.Visible;
-            ((VeiculosEmpresasViewModel)DataContext).OnSalvarEdicaoCommand();
+            ((VeiculosEmpresasViewModel)this.DataContext).OnSalvarEdicaoCommand();
             Botoes_Editar_sp.Visibility = Visibility.Hidden;
             ListaVeiculosEmpresas_lv.IsHitTestVisible = true;
             Global.SetReadonly(Linha0_sp, true);
@@ -141,7 +156,7 @@ namespace iModSCCredenciamento.Views
         {
             Editando = true;
             Editando = true; Botoes_Principais_sp.Visibility = Visibility.Visible;
-            ((VeiculosEmpresasViewModel)DataContext).OnCancelarAdicaoCommand();
+            ((VeiculosEmpresasViewModel)this.DataContext).OnCancelarAdicaoCommand();
             Botoes_Adicionar_sp.Visibility = Visibility.Hidden;
             Global.SetReadonly(Linha0_sp, true);
         }
@@ -158,7 +173,7 @@ namespace iModSCCredenciamento.Views
                 return;
             }
             Editando = true; Botoes_Principais_sp.Visibility = Visibility.Visible;
-            ((VeiculosEmpresasViewModel)DataContext).OnSalvarAdicaoCommand();
+            ((VeiculosEmpresasViewModel)this.DataContext).OnSalvarAdicaoCommand();
             Botoes_Adicionar_sp.Visibility = Visibility.Hidden;
             Global.SetReadonly(Linha0_sp, true);
             Editando = true;
@@ -191,6 +206,57 @@ namespace iModSCCredenciamento.Views
             ListaVeiculosEmpresas_lv.SelectedIndex = -1;
             Linha0_sp.IsEnabled = false;
             Editar_bt.IsEnabled = false;
+        }
+
+        private void Ativo_cb_Checked(object sender, RoutedEventArgs e)
+        {
+            if (((VeiculosEmpresasViewModel)this.DataContext).VerificaVinculo() && !Editando)
+            {
+                SalvarEdicao_bt.IsEnabled = false;
+                SalvarAdicao_bt.IsEnabled = false;
+                Global.PopupBox("Este veiculo/equipamento já possui vínculo ativo com este contrato!", 1);
+
+            }
+            else
+            {
+                SalvarEdicao_bt.IsEnabled = true;
+                SalvarAdicao_bt.IsEnabled = true;
+            }
+        }
+
+        private void Ativo_cb_Unchecked(object sender, RoutedEventArgs e)
+        {
+            if (!Editando)
+            {
+                if (!Global.PopupBox("Todas as credenciais deste veiculo/equipamento serão canceladas! Confirma desligamento?", 2))
+                {
+                    Ativo_cb.IsChecked = true;
+                }
+                return;
+            }
+        }
+
+        private void Contrato_cb_DropDownClosed(object sender, EventArgs e)
+        {
+            if (((VeiculosEmpresasViewModel)this.DataContext).VerificaVinculo() && !Editando)
+            {
+                SalvarEdicao_bt.IsEnabled = false;
+                SalvarAdicao_bt.IsEnabled = false;
+                Global.PopupBox("Este veiculo/equipamento já possui vínculo ativo com este contrato!", 1);
+
+            }
+            else
+            {
+                SalvarEdicao_bt.IsEnabled = true;
+                SalvarAdicao_bt.IsEnabled = true;
+            }
+            var display1 = EmpresaRazaoSocial_cb.Text;
+            var display2 = Contrato_cb.Text;
+            var data1 = ((VeiculosEmpresasViewModel)this.DataContext).VeiculoEmpresaSelecionado;
+            data1.EmpresaNome = display1;
+            data1.Descricao = display2;
+            //ListaColaboradoresEmpresas_lv.ItemsSource = data1;
+            ListaVeiculosEmpresas_lv.Items.Refresh();
         }
     }
 }

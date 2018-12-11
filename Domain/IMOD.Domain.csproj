@@ -41,10 +41,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EntitiesCustom\ColaboradorEmpresaView.cs" />
     <Compile Include="EntitiesCustom\ColaboradoresCredenciaisView.cs" />
     <Compile Include="EntitiesCustom\EmpresaLayoutCrachaView.cs" />
     <Compile Include="EntitiesCustom\EmpresaTipoAtividadeView.cs" />
     <Compile Include="EntitiesCustom\EstadoView.cs" />
+    <Compile Include="EntitiesCustom\VeiculoEmpresaView.cs" />
     <Compile Include="EntitiesCustom\VeiculosCredenciaisView.cs" />
     <Compile Include="EntitiesCustom\VeiculoTipoServicoView.cs" />
     <Compile Include="Entities\AreaAcesso.cs" />
