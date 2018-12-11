@@ -55,8 +55,8 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("VeiculoID", entity.VeiculoId, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("EmpresaID", entity.EmpresaId, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("EmpresaContratoID", entity.EmpresaContratoId, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Descricao", entity.EmpresaContratoId, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("EmpresaNome", entity.EmpresaContratoId, false)));
+                        //cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Descricao", entity.EmpresaContratoId, false)));
+                        //cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("EmpresaNome", entity.EmpresaContratoId, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Cargo", entity.Cargo, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Matricula", entity.Matricula, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Ativo", entity.Ativo, false)));

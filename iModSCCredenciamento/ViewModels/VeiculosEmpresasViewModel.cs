@@ -504,8 +504,13 @@ namespace iModSCCredenciamento.ViewModels
                 {
                     if (Global.PopupBox("Você perderá todos os dados, inclusive histórico. Confirma exclusão?", 2))
                     {
-                        //ExcluiVeiculoEmpresaBD(VeiculoEmpresaSelecionado.VeiculoEmpresaID);
+
+                        var entity = Mapper.Map<IMOD.Domain.Entities.VeiculoEmpresa>(VeiculoEmpresaSelecionado);
+                        var repositorio = new IMOD.Application.Service.VeiculoEmpresaService();
+
+                        repositorio.Remover(entity);
                         VeiculosEmpresas.Remove(VeiculoEmpresaSelecionado);
+
                     }
                 }
 
@@ -736,7 +741,7 @@ namespace iModSCCredenciamento.ViewModels
                 //SelectedIndex = 0;
 
                 var service = new IMOD.Application.Service.EmpresaContratoService();
-                var list1 = service.Listar();
+                var list1 = service.Listar(empresaID);
 
                 var list2 = Mapper.Map<List<ClasseEmpresasContratos.EmpresaContrato>>(list1.OrderBy(n => n.EmpresaId));
 

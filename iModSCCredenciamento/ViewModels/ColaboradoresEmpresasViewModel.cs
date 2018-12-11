@@ -622,15 +622,26 @@ namespace iModSCCredenciamento.ViewModels
             
             try
             {
-                
+
+                //var service = new IMOD.Application.Service.EmpresaContratoService();
+                ////if (!string.IsNullOrWhiteSpace(nome)) nome = $"%{nome}%";
+                ////if (!string.IsNullOrWhiteSpace(apelido)) apelido = $"%{apelido}%";
+                ////if (!string.IsNullOrWhiteSpace(cpf)) cpf = $"%{cpf}%";
+                //var list1 = service.Listar();
+
+                //var list2 = Mapper.Map<List<ClasseEmpresasContratos.EmpresaContrato>>(list1.OrderBy(n => n.EmpresaId));
+
+                //var observer = new ObservableCollection<ClasseEmpresasContratos.EmpresaContrato>();
+                //list2.ForEach(n =>
+                //{
+                //    observer.Add(n);
+                //});
+
+                //this.Contratos = observer;
+
                 var service = new IMOD.Application.Service.EmpresaContratoService();
-                //if (!string.IsNullOrWhiteSpace(nome)) nome = $"%{nome}%";
-                //if (!string.IsNullOrWhiteSpace(apelido)) apelido = $"%{apelido}%";
-                //if (!string.IsNullOrWhiteSpace(cpf)) cpf = $"%{cpf}%";
-                var list1 = service.Listar();
-
+                var list1 = service.Listar(empresaID);
                 var list2 = Mapper.Map<List<ClasseEmpresasContratos.EmpresaContrato>>(list1.OrderBy(n => n.EmpresaId));
-
                 var observer = new ObservableCollection<ClasseEmpresasContratos.EmpresaContrato>();
                 list2.ForEach(n =>
                 {
@@ -638,7 +649,7 @@ namespace iModSCCredenciamento.ViewModels
                 });
 
                 this.Contratos = observer;
-
+                SelectedIndex = 0;
 
                 //SelectedIndex = 0;
             }
