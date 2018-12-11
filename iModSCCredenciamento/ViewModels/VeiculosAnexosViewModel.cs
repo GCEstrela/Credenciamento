@@ -211,8 +211,9 @@ namespace iModSCCredenciamento.ViewModels
                 _selectedIndexTemp = SelectedIndex;
                 HabilitaEdicao = true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Utils.TraceException(ex);
             }
         }
 
@@ -224,9 +225,9 @@ namespace iModSCCredenciamento.ViewModels
                 SelectedIndex = _selectedIndexTemp;
                 HabilitaEdicao = false;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                Utils.TraceException(ex);
             }
         }
 
@@ -275,7 +276,6 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-
                 foreach (var x in VeiculosAnexos)
                 {
                     _VeiculosAnexosTemp.Add(x);
@@ -306,8 +306,9 @@ namespace iModSCCredenciamento.ViewModels
                 _VeiculosAnexosTemp.Clear();
                 HabilitaEdicao = false;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Utils.TraceException(ex);
             }
         }
         public void OnExcluirCommand()
@@ -342,8 +343,9 @@ namespace iModSCCredenciamento.ViewModels
                 popupPesquisaVeiculoAnexo.EfetuarProcura += On_EfetuarProcura;
                 popupPesquisaVeiculoAnexo.ShowDialog();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Utils.TraceException(ex);
             }
         }
         public void On_EfetuarProcura(object sender, EventArgs e)

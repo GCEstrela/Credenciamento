@@ -29,12 +29,6 @@ namespace iModSCCredenciamento.ViewModels
 {
     public class EmpresasSignatariosViewModel : ViewModelBase
     {
-        #region Métodos Públicos
-
-        private Global g = new Global();
-
-        #endregion
-
         #region  Metodos
 
         #region Carregamento das Colecoes
@@ -150,96 +144,6 @@ namespace iModSCCredenciamento.ViewModels
             }
         }
 
-        //public ObservableCollection<ClasseEstados.Estado> Estados
-        //{
-        //    get
-        //    {
-        //        return _Estados;
-        //    }
-
-        //    set
-        //    {
-        //        if (_Estados != value)
-        //        {
-        //            _Estados = value;
-        //            OnPropertyChanged();
-
-        //        }
-        //    }
-        //}
-
-        //public ObservableCollection<ClasseMunicipios.Municipio> Municipios
-        //{
-        //    get
-        //    {
-        //        return _Municipios;
-        //    }
-
-        //    set
-        //    {
-        //        if (_Municipios != value)
-        //        {
-        //            _Municipios = value;
-        //            OnPropertyChanged();
-
-        //        }
-        //    }
-        //}
-
-        //public ObservableCollection<ClasseStatus.Status> Statuss
-        //{
-        //    get
-        //    {
-        //        return _Statuss;
-        //    }
-
-        //    set
-        //    {
-        //        if (_Statuss != value)
-        //        {
-        //            _Statuss = value;
-        //            OnPropertyChanged();
-
-        //        }
-        //    }
-        //}
-
-        //public ObservableCollection<ClasseTiposAcessos.TipoAcesso> TiposAcessos
-        //{
-        //    get
-        //    {
-        //        return _TiposAcessos;
-        //    }
-
-        //    set
-        //    {
-        //        if (_TiposAcessos != value)
-        //        {
-        //            _TiposAcessos = value;
-        //            OnPropertyChanged();
-
-        //        }
-        //    }
-        //}
-
-        //public ObservableCollection<ClasseTiposCobrancas.TipoCobranca> TiposCobrancas
-        //{
-        //    get
-        //    {
-        //        return _TiposCobrancas;
-        //    }
-
-        //    set
-        //    {
-        //        if (_TiposCobrancas != value)
-        //        {
-        //            _TiposCobrancas = value;
-        //            OnPropertyChanged();
-
-        //        }
-        //    }
-        //}
-
         public ClasseEmpresasSignatarios.EmpresaSignatario SignatarioSelecionado
         {
             get { return _SignatarioSelecionado; }
@@ -261,6 +165,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
+                Utils.TraceException(ex);
             }
         }
 
@@ -363,7 +268,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log("Erro na void OnAbrirArquivoCommand ex: " + ex);
+                Utils.TraceException(ex);
             }
         }
 
@@ -378,7 +283,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log("Erro void OnEditarCommand ex: " + ex.Message);
+                Utils.TraceException(ex);
             }
         }
 
@@ -392,7 +297,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log("Erro void OnCancelarEdicaoCommand ex: " + ex.Message);
+                Utils.TraceException(ex);
             }
         }
 
@@ -412,9 +317,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log("Erro void OnSalvarEdicaoCommand ex: " + ex.Message);
                 Utils.TraceException(ex);
-                throw;
             }
         }
 
@@ -438,7 +341,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log("Erro void OnAdicionarCommand ex: " + ex.Message);
+                Utils.TraceException(ex);
             }
         }
 
@@ -458,9 +361,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log("Erro void OnSalvarAdicaoCommand ex: " + ex.Message);
                 Utils.TraceException(ex);
-                throw;
             }
         }
 
@@ -476,6 +377,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
+                Utils.TraceException(ex);
             }
         }
 
@@ -496,6 +398,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
+                Utils.TraceException(ex);
             }
         }
 
@@ -509,6 +412,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
+                Utils.TraceException(ex);
             }
         }
 

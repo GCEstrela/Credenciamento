@@ -134,7 +134,8 @@ namespace iModSCCredenciamento.Helpers
             if (result != true) return null;
 
             var path = openFileDialog.FileName;
-            var tam = new FileInfo(path).Length;
+            var tamBytes = new FileInfo(path).Length;
+            var tam = decimal.Divide(tamBytes, 1000);
             var arq = new ArquivoInfo
             {
                 Nome = openFileDialog.SafeFileName

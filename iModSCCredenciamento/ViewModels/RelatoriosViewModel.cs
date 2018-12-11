@@ -253,11 +253,6 @@ namespace iModSCCredenciamento.ViewModels
 
         #endregion
 
-        #region Data Access (Vazia)
-
-
-        #endregion
-
         #region Comandos dos Botoes
 
         public void OnAbrirRelatorioCommand(string _Tag)
@@ -643,9 +638,7 @@ namespace iModSCCredenciamento.ViewModels
 
         #endregion
 
-        #region Metodos privados (Vazia)
 
-        #endregion
 
     }
 }

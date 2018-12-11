@@ -18,7 +18,6 @@ using IMOD.Application.Service;
 using IMOD.CrossCutting;
 using Colaborador = IMOD.Domain.Entities.Colaborador;
 
-//using IMOD.Application.Service;
 
 
 namespace iModSCCredenciamento.ViewModels
@@ -39,13 +38,9 @@ namespace iModSCCredenciamento.ViewModels
 
         #region Inicializacao
         public ColaboradorViewModel()
-        {
-
-
-            //CarregaUI();
+        {//CarregaUI();
             Thread CarregaUI_thr = new Thread(() => CarregaUI());
             CarregaUI_thr.Start();
-            //CarregaColecaoColaboradores();
         }
         private void CarregaUI()
         {
@@ -58,8 +53,6 @@ namespace iModSCCredenciamento.ViewModels
             //CarregaColecaoLayoutsCrachas();
         }
         #endregion
-
-
 
         #region Variaveis Privadas
 
@@ -328,7 +321,7 @@ namespace iModSCCredenciamento.ViewModels
                 {
                     _PopupSalvando.Close();
                 }
-
+                Utils.TraceException(ex);
             }
         }
 
@@ -357,14 +350,8 @@ namespace iModSCCredenciamento.ViewModels
                 {
                     _PopupSalvando.Close();
                 }
-
+                Utils.TraceException(ex);
             }
-        }
-
-        public void OnSalvarEdicaoCommand2()
-        {
-            //var colab = Mapper.Map<IMOD.Domain.Entities.Colaborador>(ColaboradorSelecionado);
-            //_colaboradorService.Alterar(colab);
         }
 
         public void OnAdicionarCommand()
@@ -378,9 +365,7 @@ namespace iModSCCredenciamento.ViewModels
                 Global.CpfEdicao = "000.000.000-00";
                 _selectedIndexTemp = SelectedIndex;
                 Colaboradores.Clear();
-                //ClasseEmpresasSeguros.EmpresaSeguro _seguro = new ClasseEmpresasSeguros.EmpresaSeguro();
-                //_seguro.EmpresaID = EmpresaSelecionadaID;
-                //Seguros.Add(_seguro);
+
                 _colaboradorTemp = new ClasseColaboradores.Colaborador();
                 ////////////////////////////////////////////////////////
                 _colaboradorTemp.ColaboradorID = EmpresaSelecionadaID;  //OBS
@@ -412,20 +397,6 @@ namespace iModSCCredenciamento.ViewModels
             }
         }
 
-        public void OnExcluirCommand2()
-        {
-            try
-            {
-
-                //var colab = Mapper.Map<IMOD.Domain.Entities.Colaborador>(ColaboradorSelecionado);
-                //_colaboradorService.Remover(colab);
-
-            }
-            catch (Exception ex)
-            {
-            }
-
-        }
         public void OnExcluirCommand()
         {
             try
@@ -435,11 +406,6 @@ namespace iModSCCredenciamento.ViewModels
                 {
                     if (Global.PopupBox("Você perderá todos os dados, inclusive histórico. Confirma exclusão?", 2))
                     {
-                        //IMOD.Domain.Entities.Colaborador ColaboradorEntity = new IMOD.Domain.Entities.Colaborador();
-                        //g.TranportarDados(ColaboradorSelecionado, 1, ColaboradorEntity);
-
-                        //var repositorio = new IMOD.Infra.Repositorios.ColaboradorRepositorio();
-
                         var entity = Mapper.Map<Colaborador>(ColaboradorSelecionado);
                         var repositorio = new ColaboradorService();
                         repositorio.Remover(entity);
@@ -451,6 +417,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
+                Utils.TraceException(ex);
             }
 
         }
@@ -459,13 +426,13 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-
                 popupPesquisaColaborador = new PopupPesquisaColaborador();
                 popupPesquisaColaborador.EfetuarProcura += On_EfetuarProcura;
                 popupPesquisaColaborador.ShowDialog();
             }
             catch (Exception ex)
             {
+                Utils.TraceException(ex);
             }
         }
 
@@ -497,10 +464,10 @@ namespace iModSCCredenciamento.ViewModels
                 popupPendencias = null;
                 CarregaColecaoColaboradores(ColaboradorSelecionado.ColaboradorID);
 
-
             }
             catch (Exception ex)
             {
+                Utils.TraceException(ex);
             }
         }
 
@@ -745,7 +712,6 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-
                 ColaboradorSelecionado.Pendente = true;
                 ColaboradorSelecionado.Pendente21 = true;
                 ColaboradorSelecionado.Pendente22 = true;
@@ -785,13 +751,10 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-
-
                 var entity = Mapper.Map<Colaborador>(ColaboradorSelecionado);
                 var repositorio = new ColaboradorService();
                 repositorio.Alterar(entity);
 
-                //_ClasseColaboradoresTemp = null;
 
                 _ColaboradoresTemp.Clear();
                 _colaboradorTemp = null;
@@ -800,7 +763,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-
+                Utils.TraceException(ex);
             }
         }
 
@@ -827,7 +790,6 @@ namespace iModSCCredenciamento.ViewModels
                 if (string.IsNullOrWhiteSpace(doc)) throw new ArgumentNullException("Informe um CPF para pesquisar");
                 //doc = doc.RetirarCaracteresEspeciais().Replace(" ", "");
 
-
                 SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
                 SqlCommand cmd = new SqlCommand("Select * From Colaboradores Where cpf = '" + doc + "'", _Con);
                 var reader = cmd.ExecuteReader(CommandBehavior.Default);
@@ -841,6 +803,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
+                Utils.TraceException(ex);
                 return false;
             }
         }

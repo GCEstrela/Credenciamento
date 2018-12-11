@@ -33,8 +33,6 @@ namespace iModSCCredenciamento.ViewModels
         private void CarregaUI()
         {
             CarregaColecaoColaboradoresAnexos();
-
-            //CarregaColecaoAnexos();
         }
         #endregion
 
@@ -164,7 +162,6 @@ namespace iModSCCredenciamento.ViewModels
             ColaboradorAnexoSelecionadaID = Convert.ToInt32(_colaboradorAnexoID);
             Thread CarregaColecaoColaboradoresAnexos_thr = new Thread(() => CarregaColecaoColaboradoresAnexos(Convert.ToInt32(_colaboradorAnexoID)));
             CarregaColecaoColaboradoresAnexos_thr.Start();
-            //CarregaColecaoColaboradorerAnexos(Convert.ToInt32(_colaboradorAnexoID));
 
         }
 
@@ -183,15 +180,12 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                WpfHelp.Mbox(ex.Message);
                 Utils.TraceException(ex);
             }
         }
 
         public void OnAbrirArquivoCommand()
         {
-
-
             try
             {
                 var arquivoStr = ColaboradorAnexoSelecionado.Arquivo;
@@ -203,55 +197,6 @@ namespace iModSCCredenciamento.ViewModels
             {
                 Utils.TraceException(ex);
             }
-            //try
-            //{
-            //    try
-            //    {
-
-            //        string _ArquivoPDF = null;
-            //        if (_ColaboradorAnexoTemp != null)
-            //        {
-            //            if (_ColaboradorAnexoTemp.Arquivo != null && _ColaboradorAnexoTemp.ColaboradorAnexoID == ColaboradorAnexoSelecionado.ColaboradorAnexoID)
-            //            {
-            //                _ArquivoPDF = _ColaboradorAnexoTemp.Arquivo;
-
-            //            }
-            //        }
-            //        if (_ArquivoPDF == null)
-            //        {
-            //            string _xmlstring = CriaXmlImagem( ColaboradorAnexoSelecionado.ColaboradorAnexoID);
-
-            //            XmlDocument xmldocument = new XmlDocument();
-            //            xmldocument.LoadXml(_xmlstring);
-            //            XmlNode node = (XmlNode)xmldocument.DocumentElement;
-            //            XmlNode arquivoNode = node.SelectSingleNode("ArquivosImagens/ArquivoImagem/Arquivo");
-
-            //            _ArquivoPDF = arquivoNode.FirstChild.Value;
-            //        }
-            //        Global.PopupPDF(_ArquivoPDF);
-            //        //byte[] buffer = Conversores.StringToPDF(_ArquivoPDF);
-            //        //_ArquivoPDF = System.IO.Path.GetTempFileName();
-            //        //_ArquivoPDF = System.IO.Path.GetRandomFileName();
-            //        //_ArquivoPDF = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\" + _ArquivoPDF;
-
-            //        ////File.Move(_caminhoArquivoPDF, Path.ChangeExtension(_caminhoArquivoPDF, ".pdf"));
-            //        //_ArquivoPDF = System.IO.Path.ChangeExtension(_ArquivoPDF, ".pdf");
-            //        //System.IO.File.WriteAllBytes(_ArquivoPDF, buffer);
-            //        ////Action<string> act = new Action<string>(Global.AbrirArquivoPDF);
-            //        ////act.BeginInvoke(_ArquivoPDF, null, null);
-            //        //Global.PopupPDF(_ArquivoPDF);
-            //        //System.IO.File.Delete(_ArquivoPDF);
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        Global.Log("Erro na void OnAbrirArquivoCommand ex: " + ex);
-
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-
-            //}
         }
 
         public void OnEditarCommand()
@@ -263,8 +208,9 @@ namespace iModSCCredenciamento.ViewModels
                 _selectedIndexTemp = SelectedIndex;
                 HabilitaEdicao = true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Utils.TraceException(ex);
             }
         }
 
@@ -278,7 +224,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-
+                Utils.TraceException(ex);
             }
         }
 
@@ -360,9 +306,7 @@ namespace iModSCCredenciamento.ViewModels
 
                 _selectedIndexTemp = SelectedIndex;
                 ColaboradoresAnexos.Clear();
-                //ClasseEmpresasSeguros.EmpresaSeguro _seguro = new ClasseEmpresasSeguros.EmpresaSeguro();
-                //_seguro.EmpresaID = EmpresaSelecionadaID;
-                //Seguros.Add(_seguro);
+
                 _ColaboradorAnexoTemp = new ClasseColaboradoresAnexos.ColaboradorAnexo();
                 _ColaboradorAnexoTemp.ColaboradorID = ColaboradorAnexoSelecionadaID;
                 ColaboradoresAnexos.Add(_ColaboradorAnexoTemp);
@@ -467,47 +411,5 @@ namespace iModSCCredenciamento.ViewModels
 
         #endregion
 
-        #region Metodos privados
-        private string CriaXmlImagem(int colaboradorAnexoID)
-        {
-            try
-            {
-                XmlDocument _xmlDocument = new XmlDocument();
-                XmlNode _xmlNode = _xmlDocument.CreateXmlDeclaration("1.0", "UTF-8", null);
-
-                XmlNode _ClasseArquivosImagens = _xmlDocument.CreateElement("ClasseArquivosImagens");
-                _xmlDocument.AppendChild(_ClasseArquivosImagens);
-
-                XmlNode _ArquivosImagens = _xmlDocument.CreateElement("ArquivosImagens");
-                _ClasseArquivosImagens.AppendChild(_ArquivosImagens);
-
-
-                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
-
-                SqlCommand SQCMDXML = new SqlCommand("Select * From ColaboradoresAnexos Where  ColaboradorAnexoID = " + colaboradorAnexoID + "", _Con);
-                SqlDataReader SQDR_XML;
-                SQDR_XML = SQCMDXML.ExecuteReader(CommandBehavior.Default);
-                while (SQDR_XML.Read())
-                {
-                    XmlNode _ArquivoImagem = _xmlDocument.CreateElement("ArquivoImagem");
-                    _ArquivosImagens.AppendChild(_ArquivoImagem);
-
-                    XmlNode _Arquivo = _xmlDocument.CreateElement("Arquivo");
-                    _Arquivo.AppendChild(_xmlDocument.CreateTextNode((SQDR_XML["Arquivo"].ToString())));
-                    _ArquivoImagem.AppendChild(_Arquivo);
-
-                }
-                SQDR_XML.Close();
-
-                _Con.Close();
-                return _xmlDocument.InnerXml;
-            }
-            catch (Exception ex)
-            {
-                Global.Log("Erro na void CriaXmlImagem ex: " + ex);
-                return null;
-            }
-        }
-        #endregion
     }
 }

@@ -40,23 +40,9 @@ namespace iModSCCredenciamento.ViewModels
 
         #endregion
 
-        #region Contrutores (Vazia)
-
-        #endregion
-
-        #region Carregamento das Colecoes (Vazia)
-
-
-        #endregion
-
-        #region Data Access (Vazia)
-
-
-        #endregion
-
         #region Comandos dos Botoes 
 
-        //TODO: OnFiltrosTermosCommand (Ajustar fórmulas) - Mihai (06/12/2018)
+        //TODO: OnFiltrosTermosCommand (Ajustar fórmulas/relatórios) - Mihai (06/12/2018)
         public void OnFiltrosTermosCommand(int _report, int _status, int _periodo, string _dataIni, string _dataFim)
         {
             string _xmlstring;
@@ -246,11 +232,6 @@ namespace iModSCCredenciamento.ViewModels
             }
         }
 
-
-        #endregion
-
-
-        #region Metodos privados (empty)
 
         #endregion
 

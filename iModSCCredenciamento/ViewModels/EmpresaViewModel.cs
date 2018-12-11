@@ -464,7 +464,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log("Erro void OnEditarCommand ex: " + ex.Message);
+                Utils.TraceException(ex);
             }
         }
 
@@ -479,7 +479,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log("Erro void OnCancelarEdicaoCommand ex: " + ex.Message);
+                Utils.TraceException(ex);
             }
         }
 
@@ -738,9 +738,7 @@ namespace iModSCCredenciamento.ViewModels
 
             catch (Exception ex)
             {
-                Global.Log("Erro void OnExcluirAtividadeCommand ex: " + ex.Message);
                 Utils.TraceException(ex);
-                throw;
             }
         }
         #endregion
@@ -770,7 +768,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log("Erro void OnInserirAcessoCommand ex: " + ex.Message);
+                Utils.TraceException(ex);
             }
         }
 
@@ -805,9 +803,7 @@ namespace iModSCCredenciamento.ViewModels
 
             catch (Exception ex)
             {
-                Global.Log("Erro void OnInserirCrachaCommand ex: " + ex.Message);
                 Utils.TraceException(ex);
-                throw;
             }
         }
 
@@ -827,9 +823,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log("Erro void OnExcluirCrachaCommand ex: " + ex.Message);
                 Utils.TraceException(ex);
-                throw;
             }
         }
 
@@ -859,7 +853,7 @@ namespace iModSCCredenciamento.ViewModels
 
             catch (Exception ex)
             {
-                Global.Log("Erro void On_EfetuarProcura ex: " + ex.Message);
+                Utils.TraceException(ex);
             }
 
         }
@@ -877,7 +871,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log("Erro void OnAbrirPendencias ex: " + ex.Message);
+                Utils.TraceException(ex);
             }
         }
 
@@ -968,7 +962,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log("Erro void OnEmpresaSelecionada ex: " + ex.Message);
+                Utils.TraceException(ex);
             }
 
         }
@@ -987,6 +981,7 @@ namespace iModSCCredenciamento.ViewModels
         {
             CarregaColecaoEmpresas();
             CarregaColecaoEstados();
+            CarregaColecaoMunicipios();
             CarregaColecaoTiposAtividades();
             CarregaColecaoAreasAcessos();
             CarregaColecaoLayoutsCrachas();
@@ -1015,7 +1010,7 @@ namespace iModSCCredenciamento.ViewModels
 
             catch (Exception ex)
             {
-                Global.Log("Erro void CarregaColecaoEmpresas ex: " + ex.Message);
+                Utils.TraceException(ex);
             }
         }
 
@@ -1038,7 +1033,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log("Erro na void CarregaColeçãoEstados ex: " + ex);
+                Utils.TraceException(ex);
             }
         }
 
@@ -1048,7 +1043,7 @@ namespace iModSCCredenciamento.ViewModels
             {
                 var service = new MunicipioService();
                 if (!string.IsNullOrWhiteSpace(_EstadoUF)) _EstadoUF = $"%{_EstadoUF}%";
-                var list1 = service.Listar(_EstadoUF);
+                var list1 = service.Listar(null,_EstadoUF);
 
                 var list2 = Mapper.Map<List<ClasseMunicipios.Municipio>>(list1);
                 var observer = new ObservableCollection<ClasseMunicipios.Municipio>();
@@ -1062,7 +1057,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log("Erro na void CarregaColeçãoMunicipios ex: " + ex);
+                Utils.TraceException(ex);
             }
         }
 
@@ -1087,7 +1082,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log("Erro void CarregaColecaoTiposAtividades ex: " + ex.Message);
+                Utils.TraceException(ex);
             }
         }
 
@@ -1109,9 +1104,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log("Erro na void CarregaColecaoEmpresasTiposAtividades ex: " + ex);
                 Utils.TraceException(ex);
-                throw;
             }
         }
 
@@ -1135,7 +1128,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log("Erro void CarregaColecaoAreasAcessos ex: " + ex.Message);
+                Utils.TraceException(ex);
             }
         }
 
@@ -1159,7 +1152,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log("Erro na void CarregaColecaoEmpresasAreasAcessos ex: " + ex);
+                Utils.TraceException(ex);
             }
         }
 
@@ -1183,7 +1176,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log("Erro void CarregaColecaoLayoutsCrachas ex: " + ex.Message);
+                Utils.TraceException(ex);
             }
         }
 
@@ -1205,9 +1198,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log("Erro na void CarregaColecaoEmpresasLayoutsCrachas ex: " + ex);
                 Utils.TraceException(ex);
-                throw;
             }
         }
 
@@ -1258,6 +1249,7 @@ namespace iModSCCredenciamento.ViewModels
             catch (Exception ex)
             {
                 _atualizandoLogo = true;
+                Utils.TraceException(ex);
             }
         }
         #endregion

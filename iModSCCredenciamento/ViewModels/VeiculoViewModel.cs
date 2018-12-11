@@ -425,7 +425,7 @@ namespace iModSCCredenciamento.ViewModels
                 {
                     _PopupSalvando.Close();
                 }
-
+                Utils.TraceException(ex);
             }
         }
 
@@ -453,6 +453,7 @@ namespace iModSCCredenciamento.ViewModels
                 {
                     _PopupSalvando.Close();
                 }
+                Utils.TraceException(ex);
 
             }
         }
@@ -499,6 +500,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
+                Utils.TraceException(ex);
             }
         }
 
@@ -521,6 +523,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
+                Utils.TraceException(ex);
             }
 
         }
@@ -536,6 +539,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
+                Utils.TraceException(ex);
             }
         }
 
@@ -565,11 +569,10 @@ namespace iModSCCredenciamento.ViewModels
                 popupPendencias.ShowDialog();
                 popupPendencias = null;
                 CarregaColecaoVeiculos(VeiculoSelecionado.EquipamentoVeiculoID);
-
-
             }
             catch (Exception ex)
             {
+                Utils.TraceException(ex);
             }
         }
 
@@ -1755,10 +1758,7 @@ namespace iModSCCredenciamento.ViewModels
                 {
                     _PopupSalvando.ShowDialog();
                 }
-
-
             });
-
         }
 
         private void OnVeiculoEquipamentoSelecionado()
@@ -1775,10 +1775,6 @@ namespace iModSCCredenciamento.ViewModels
 
         }
 
-
-        #endregion
-
-        #region Testes
 
         #endregion
     }

@@ -561,9 +561,6 @@ namespace iModSCCredenciamento.ViewModels
             }
         }
 
-
-
-
         public ClasseTiposAcessos.TipoAcesso TipoAcessoSelecionado
         {
             get
@@ -593,7 +590,6 @@ namespace iModSCCredenciamento.ViewModels
                 OnPropertyChanged("TipoAcessoSelectedIndex");
             }
         }
-
         public int SelectedIndex
         {
             get
@@ -606,7 +602,6 @@ namespace iModSCCredenciamento.ViewModels
                 OnPropertyChanged("SelectedIndex");
             }
         }
-
 
         #endregion
 

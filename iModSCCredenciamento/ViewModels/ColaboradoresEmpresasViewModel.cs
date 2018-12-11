@@ -16,7 +16,6 @@ namespace iModSCCredenciamento.ViewModels
 {
     public class ColaboradoresEmpresasViewModel : ViewModelBase
     {
-        //Global g = new Global();
         #region Inicializacao
         public ColaboradoresEmpresasViewModel()
         {
@@ -300,7 +299,7 @@ namespace iModSCCredenciamento.ViewModels
             }
 
         }
- 
+
         public void OnEditarCommand()
         {
             try
@@ -344,7 +343,7 @@ namespace iModSCCredenciamento.ViewModels
             {
 
                 HabilitaEdicao = false;
-                
+
 
                 //IMOD.Domain.Entities.ColaboradorEmpresa ColaboradorEmpresaEntity = new IMOD.Domain.Entities.ColaboradorEmpresa();
                 //g.TranportarDados(ColaboradorEmpresaSelecionado, 1, ColaboradorEmpresaEntity);
@@ -497,7 +496,7 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                
+
                 if (Global.PopupBox("Tem certeza que deseja excluir?", 2))
                 {
                     if (Global.PopupBox("Você perderá todos os dados, inclusive histórico. Confirma exclusão?", 2))
@@ -505,7 +504,7 @@ namespace iModSCCredenciamento.ViewModels
                         var entity = Mapper.Map<ColaboradorEmpresa>(ColaboradorEmpresaSelecionado);
                         var repositorio = new ColaboradorEmpresaService();
                         repositorio.Remover(entity);
-                        
+
                         ColaboradoresEmpresas.Remove(ColaboradorEmpresaSelecionado);
                     }
                 }
@@ -543,7 +542,7 @@ namespace iModSCCredenciamento.ViewModels
                 string _cargo = ((string[])vetor)[2];
                 int _ativo = Convert.ToInt32(((string[])vetor)[3]);
 
-                CarregaColecaoColaboradoresEmpresas(_colaboradorID, _empresaNome,_cargo, _matricula, _ativo);
+                CarregaColecaoColaboradoresEmpresas(_colaboradorID, _empresaNome, _cargo, _matricula, _ativo);
                 SelectedIndex = 0;
             }
             catch (Exception ex)
@@ -585,7 +584,7 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                
+
                 var service = new EmpresaService();
                 if (!string.IsNullOrWhiteSpace(_nome)) _nome = $"%{_nome}%";
                 if (!string.IsNullOrWhiteSpace(_apelido)) _apelido = $"%{_apelido}%";
@@ -609,13 +608,13 @@ namespace iModSCCredenciamento.ViewModels
             {
                 //Global.Log("Erro void CarregaColecaoEmpresas ex: " + ex.Message);
             }
-        }    
+        }
         public void CarregaColecaoContratos(int empresaID = 0)
         {
-            
+
             try
             {
-                
+
                 var service = new EmpresaContratoService();
                 //if (!string.IsNullOrWhiteSpace(nome)) nome = $"%{nome}%";
                 //if (!string.IsNullOrWhiteSpace(apelido)) apelido = $"%{apelido}%";
@@ -723,13 +722,13 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                if( _ColaboradoresEmpresasTemp.Where(x =>
+                if (_ColaboradoresEmpresasTemp.Where(x =>
                 (x.EmpresaContratoID == ColaboradorEmpresaSelecionado.EmpresaContratoID && x.Ativo)
-                && (x.ColaboradorEmpresaID!= ColaboradorEmpresaSelecionado.ColaboradorEmpresaID)).Count() > 0)
+                && (x.ColaboradorEmpresaID != ColaboradorEmpresaSelecionado.ColaboradorEmpresaID)).Count() > 0)
                 {
                     return true;
                 }
-                
+
             }
             catch (Exception ex)
             {
@@ -750,12 +749,12 @@ namespace iModSCCredenciamento.ViewModels
 
                 SqlCommand _sqlCmd;
 
-                    _sqlCmd = new SqlCommand("Update ColaboradoresCredenciais Set " +
-                            "CredencialStatusID=@v1" +
-                            ",CredencialMotivoID=@v2" +
-                            ",Baixa=@v3" +
-                            ",Ativa=@v4" +
-                            " Where ColaboradorEmpresaID = @v0 AND CredencialStatusID = 1", _Con);
+                _sqlCmd = new SqlCommand("Update ColaboradoresCredenciais Set " +
+                        "CredencialStatusID=@v1" +
+                        ",CredencialMotivoID=@v2" +
+                        ",Baixa=@v3" +
+                        ",Ativa=@v4" +
+                        " Where ColaboradorEmpresaID = @v0 AND CredencialStatusID = 1", _Con);
 
                 _sqlCmd.Parameters.Add("@V0", SqlDbType.Int).Value = colaboradorEmpresaID;
                 _sqlCmd.Parameters.Add("@V1", SqlDbType.Int).Value = 2;
@@ -773,7 +772,7 @@ namespace iModSCCredenciamento.ViewModels
             catch (Exception ex)
             {
 
-                
+
             }
         }
 

@@ -197,8 +197,9 @@ namespace iModSCCredenciamento.ViewModels
                 _selectedIndexTemp = SelectedIndex;
                 HabilitaEdicao = true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Utils.TraceException(ex);
             }
         }
 
@@ -367,56 +368,5 @@ namespace iModSCCredenciamento.ViewModels
         }
         #endregion
 
-        #region Data Access
-
-        #endregion
-
-        #region Metodos privados
-        private string CriaXmlImagem(int veiculoSeguroID)
-        {
-            try
-            {
-                XmlDocument _xmlDocument = new XmlDocument();
-                XmlNode _xmlNode = _xmlDocument.CreateXmlDeclaration("1.0", "UTF-8", null);
-
-                XmlNode _ClasseArquivosImagens = _xmlDocument.CreateElement("ClasseArquivosImagens");
-                _xmlDocument.AppendChild(_ClasseArquivosImagens);
-
-                XmlNode _ArquivosImagens = _xmlDocument.CreateElement("ArquivosImagens");
-                _ClasseArquivosImagens.AppendChild(_ArquivosImagens);
-
-
-                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
-
-                SqlCommand SQCMDXML = new SqlCommand("Select * From VeiculosSeguros Where VeiculoSeguroID = " + veiculoSeguroID + "", _Con);
-                SqlDataReader SQDR_XML;
-                SQDR_XML = SQCMDXML.ExecuteReader(CommandBehavior.Default);
-                while (SQDR_XML.Read())
-                {
-                    XmlNode _ArquivoImagem = _xmlDocument.CreateElement("ArquivoImagem");
-                    _ArquivosImagens.AppendChild(_ArquivoImagem);
-
-                    //XmlNode _ArquivoImagemID = _xmlDocument.CreateElement("ArquivoImagemID");
-                    //_ArquivoImagemID.AppendChild(_xmlDocument.CreateTextNode((SQDR_XML["VeiculoSeguroID"].ToString())));
-                    //_ArquivoImagem.AppendChild(_ArquivoImagemID);
-
-                    XmlNode _Arquivo = _xmlDocument.CreateElement("Arquivo");
-                    _Arquivo.AppendChild(_xmlDocument.CreateTextNode((SQDR_XML["Arquivo"].ToString())));
-                    _ArquivoImagem.AppendChild(_Arquivo);
-
-                }
-                SQDR_XML.Close();
-
-                _Con.Close();
-                return _xmlDocument.InnerXml;
-            }
-            catch (Exception ex)
-            {
-                Global.Log("Erro na void CriaXmlImagem ex: " + ex);
-                return null;
-            }
-        }
-
-        #endregion
     }
 }
