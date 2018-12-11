@@ -301,7 +301,7 @@ namespace iModSCCredenciamento.ViewModels
 
         }
 
-       
+
 
         public void OnEditarCommand()
         {
@@ -504,8 +504,13 @@ namespace iModSCCredenciamento.ViewModels
                 {
                     if (Global.PopupBox("Você perderá todos os dados, inclusive histórico. Confirma exclusão?", 2))
                     {
-                        //ExcluiVeiculoEmpresaBD(VeiculoEmpresaSelecionado.VeiculoEmpresaID);
+
+                        var entity = Mapper.Map<IMOD.Domain.Entities.VeiculoEmpresa>(VeiculoEmpresaSelecionado);
+                        var repositorio = new IMOD.Application.Service.VeiculoEmpresaService();
+
+                        repositorio.Remover(entity);
                         VeiculosEmpresas.Remove(VeiculoEmpresaSelecionado);
+
                     }
                 }
 
@@ -557,21 +562,6 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                //string _xml = RequisitaVeiculosEmpresas(_veiculoID, _empresaNome, _cargo, _matricula, _ativo);
-
-                //XmlSerializer deserializer = new XmlSerializer(typeof(ClasseVeiculosEmpresas));
-
-                //XmlDocument xmldocument = new XmlDocument();
-                //xmldocument.LoadXml(_xml);
-
-                //TextReader reader = new StringReader(_xml);
-                //ClasseVeiculosEmpresas classeVeiculosEmpresas = new ClasseVeiculosEmpresas();
-                //classeVeiculosEmpresas = (ClasseVeiculosEmpresas)deserializer.Deserialize(reader);
-                //VeiculosEmpresas = new ObservableCollection<ClasseVeiculosEmpresas.VeiculoEmpresa>();
-                //VeiculosEmpresas = classeVeiculosEmpresas.VeiculosEmpresas;
-                //SelectedIndex = -1;
-
-
                 var service = new IMOD.Application.Service.VeiculoEmpresaService();
                 if (!string.IsNullOrWhiteSpace(cargo)) cargo = $"%{cargo}%";
                 if (!string.IsNullOrWhiteSpace(matricula)) matricula = $"%{matricula}%";
@@ -736,7 +726,7 @@ namespace iModSCCredenciamento.ViewModels
                 //SelectedIndex = 0;
 
                 var service = new IMOD.Application.Service.EmpresaContratoService();
-                var list1 = service.Listar();
+                var list1 = service.Listar(empresaID);
 
                 var list2 = Mapper.Map<List<ClasseEmpresasContratos.EmpresaContrato>>(list1.OrderBy(n => n.EmpresaId));
 
