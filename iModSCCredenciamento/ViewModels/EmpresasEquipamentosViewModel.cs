@@ -327,9 +327,13 @@ namespace iModSCCredenciamento.ViewModels
             {
             }
         }
-
+        Global g = new Global();
         public void OnAdicionarCommand()
         {
+            //if (g.iniciarFiljos = true)
+            //    {
+            //    return;
+            //    }
             try
             {
                 foreach (var x in EmpresaEquipamentos)

@@ -226,6 +226,7 @@ namespace iModSCCredenciamento
                         m.CreateMap<VeiculoCredencial, ClasseVeiculosCredenciais.VeiculoCredencial>().ReverseMap();
                         m.CreateMap<VeiculosCredenciaisView, ClasseVeiculosCredenciais.VeiculoCredencial>().ReverseMap();
                         m.CreateMap<VeiculoEmpresa, ClasseVeiculosEmpresas.VeiculoEmpresa>().ReverseMap();
+                        m.CreateMap<VeiculoEmpresaView, ClasseVeiculosEmpresas.VeiculoEmpresa>().ReverseMap();
                         m.CreateMap<Empresa, ClasseEmpresas.Empresa>()
                        .ForMember(k => k.CNPJ, opt => opt.MapFrom(k => k.Cnpj.FormatarCnpj())).ReverseMap();
                         m.CreateMap<LayoutCracha, ClasseEmpresasLayoutsCrachas.EmpresaLayoutCracha>().ReverseMap();
@@ -239,8 +240,8 @@ namespace iModSCCredenciamento
                         m.CreateMap<AreaAcesso, ClasseAreasAcessos.AreaAcesso>().ReverseMap();
                         m.CreateMap<LayoutCracha, ClasseLayoutsCrachas.LayoutCracha>().ReverseMap();
                         m.CreateMap<EmpresaLayoutCrachaView, ClasseEmpresasLayoutsCrachas.EmpresaLayoutCracha>().ReverseMap();
-                      
 
+                        m.CreateMap<EmpresaContrato , ClasseEmpresasContratos.EmpresaContrato>().ReverseMap();
 
                     });
         }

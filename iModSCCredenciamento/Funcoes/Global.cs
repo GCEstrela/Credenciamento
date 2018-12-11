@@ -12,6 +12,8 @@ namespace iModSCCredenciamento.Funcoes
 {
     public class Global
     {
+
+        public Boolean iniciarFiljos = false;
         public static string _cnpjEdicao = "";
         public static string CpfEdicao { get; set; }
 

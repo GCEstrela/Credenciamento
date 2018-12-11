@@ -128,7 +128,6 @@ namespace iModSCCredenciamento.ViewModels
                 }
             }
         }
-
         public ObservableCollection<ClasseColaboradoresEmpresas.ColaboradorEmpresa> ColaboradoresEmpresas
         {
             get
@@ -146,7 +145,6 @@ namespace iModSCCredenciamento.ViewModels
                 }
             }
         }
-
         public ObservableCollection<ClasseClaboradoresPrivilegios.ColaboradorPrivilegio> ColaboradoresPrivilegios
         {
             get
@@ -164,7 +162,6 @@ namespace iModSCCredenciamento.ViewModels
                 }
             }
         }
-
         public ObservableCollection<ClasseTiposCredenciais.TipoCredencial> TiposCredenciais
         {
             get
@@ -182,7 +179,6 @@ namespace iModSCCredenciamento.ViewModels
                 }
             }
         }
-
         public ObservableCollection<ClasseCredenciaisStatus.CredencialStatus> CredenciaisStatus
         {
             get
@@ -200,7 +196,6 @@ namespace iModSCCredenciamento.ViewModels
                 }
             }
         }
-
         public ObservableCollection<ClasseTecnologiasCredenciais.TecnologiaCredencial> TecnologiasCredenciais
         {
             get
@@ -218,7 +213,6 @@ namespace iModSCCredenciamento.ViewModels
                 }
             }
         }
-
         public ObservableCollection<ClasseColaboradoresCredenciais.ColaboradorCredencial> ColaboradoresCredenciais
         {
             get
@@ -236,7 +230,6 @@ namespace iModSCCredenciamento.ViewModels
                 }
             }
         }
-
         public ObservableCollection<ClasseVinculos.Vinculo> Vinculos
         {
             get
@@ -254,7 +247,6 @@ namespace iModSCCredenciamento.ViewModels
                 }
             }
         }
-
         public ObservableCollection<ClasseEmpresasLayoutsCrachas.EmpresaLayoutCracha> EmpresasLayoutsCrachas
         {
             get
@@ -272,7 +264,6 @@ namespace iModSCCredenciamento.ViewModels
                 }
             }
         }
-
         public ClasseColaboradoresCredenciais.ColaboradorCredencial ColaboradorCredencialSelecionado
         {
             get
@@ -309,7 +300,6 @@ namespace iModSCCredenciamento.ViewModels
                 }
             }
         }
-
         public ObservableCollection<ClasseEmpresas.Empresa> Empresas
 
         {
@@ -328,7 +318,6 @@ namespace iModSCCredenciamento.ViewModels
                 }
             }
         }
-
         public ObservableCollection<ClasseFormatosCredenciais.FormatoCredencial> FormatosCredenciais
 
         {
@@ -347,7 +336,6 @@ namespace iModSCCredenciamento.ViewModels
                 }
             }
         }
-
         public ObservableCollection<ClasseEmpresasContratos.EmpresaContrato> Contratos
         {
             get
@@ -365,7 +353,6 @@ namespace iModSCCredenciamento.ViewModels
                 }
             }
         }
-
         public int ColaboradorSelecionadaID
         {
             get
@@ -384,7 +371,6 @@ namespace iModSCCredenciamento.ViewModels
 
             }
         }
-
         public int SelectedIndex
         {
             get
@@ -397,7 +383,6 @@ namespace iModSCCredenciamento.ViewModels
                 OnPropertyChanged("SelectedIndex");
             }
         }
-
         public bool HabilitaEdicao
         {
             get
@@ -410,7 +395,6 @@ namespace iModSCCredenciamento.ViewModels
                 base.OnPropertyChanged();
             }
         }
-
         public string Criterios
         {
             get
@@ -423,7 +407,6 @@ namespace iModSCCredenciamento.ViewModels
                 base.OnPropertyChanged();
             }
         }
-
         public string Validade
         {
             get
@@ -436,9 +419,6 @@ namespace iModSCCredenciamento.ViewModels
                 base.OnPropertyChanged();
             }
         }
-
-
-
         //public string ComboEmpresaSelecionado
         //{
         //    get
@@ -738,7 +718,7 @@ namespace iModSCCredenciamento.ViewModels
                 //_ClasseColaboradorerEmpresasPro.ColaboradoresCredenciais = _ColaboradorCredencialPro;
 
 
-                
+
                 //IMOD.Domain.Entities.ColaboradorCredencial ColaboradorEntity = new IMOD.Domain.Entities.ColaboradorCredencial();
                 //g.TranportarDados(ColaboradorCredencialSelecionado, 1, ColaboradorEntity);
 
@@ -1035,35 +1015,35 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                string _xml = RequisitaColaboradoresEmpresas(_colaboradorID, _ativo);
+                //string _xml = RequisitaColaboradoresEmpresas(_colaboradorID, _ativo);
 
-                XmlSerializer deserializer = new XmlSerializer(typeof(ClasseColaboradoresEmpresas));
+                //XmlSerializer deserializer = new XmlSerializer(typeof(ClasseColaboradoresEmpresas));
 
-                XmlDocument xmldocument = new XmlDocument();
-                xmldocument.LoadXml(_xml);
+                //XmlDocument xmldocument = new XmlDocument();
+                //xmldocument.LoadXml(_xml);
 
-                TextReader reader = new StringReader(_xml);
-                ClasseColaboradoresEmpresas classeColaboradoresEmpresas = new ClasseColaboradoresEmpresas();
-                classeColaboradoresEmpresas = (ClasseColaboradoresEmpresas)deserializer.Deserialize(reader);
-                ColaboradoresEmpresas = new ObservableCollection<ClasseColaboradoresEmpresas.ColaboradorEmpresa>();
-                ColaboradoresEmpresas = classeColaboradoresEmpresas.ColaboradoresEmpresas;
-                SelectedIndex = -1;
-                //CarregaColeçãoEmpresasLayoutsCrachas(empresaID);
+                //TextReader reader = new StringReader(_xml);
+                //ClasseColaboradoresEmpresas classeColaboradoresEmpresas = new ClasseColaboradoresEmpresas();
+                //classeColaboradoresEmpresas = (ClasseColaboradoresEmpresas)deserializer.Deserialize(reader);
+                //ColaboradoresEmpresas = new ObservableCollection<ClasseColaboradoresEmpresas.ColaboradorEmpresa>();
+                //ColaboradoresEmpresas = classeColaboradoresEmpresas.ColaboradoresEmpresas;
+                //SelectedIndex = -1;
+                ////CarregaColeçãoEmpresasLayoutsCrachas(empresaID);
 
-                //var service = new IMOD.Application.Service.ColaboradorEmpresaService();
-                ////if (!string.IsNullOrWhiteSpace(_cargo)) _cargo = $"%{_cargo}%";
-                ////if (!string.IsNullOrWhiteSpace(_matricula)) _matricula = $"%{_matricula}%";
-                //var list1 = service.Listar(_colaboradorID, _ativo);
+                var service = new IMOD.Application.Service.ColaboradorEmpresaService();
+                //if (!string.IsNullOrWhiteSpace(_cargo)) _cargo = $"%{_cargo}%";
+                //if (!string.IsNullOrWhiteSpace(_matricula)) _matricula = $"%{_matricula}%";
+                var list1 = service.ListarView(_colaboradorID, _ativo);                
 
-                //var list2 = Mapper.Map<List<ClasseColaboradoresEmpresas.ColaboradorEmpresa>>(list1);
+                var list2 = Mapper.Map<List<ClasseColaboradoresEmpresas.ColaboradorEmpresa>>(list1);
 
-                //var observer = new ObservableCollection<ClasseColaboradoresEmpresas.ColaboradorEmpresa>();
-                //list2.ForEach(n =>
-                //{
-                //    observer.Add(n);
-                //});
+                var observer = new ObservableCollection<ClasseColaboradoresEmpresas.ColaboradorEmpresa>();
+                list2.ForEach(n =>
+                {
+                    observer.Add(n);
+                });
 
-                //this.ColaboradoresEmpresas = observer;
+                this.ColaboradoresEmpresas = observer;
 
 
             }

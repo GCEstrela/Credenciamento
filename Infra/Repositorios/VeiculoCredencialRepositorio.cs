@@ -47,7 +47,7 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.InsertText("VeiculosCredenciaisView", conn))
+                using (var cmd = _dataBase.InsertText("VeiculosCredenciais", conn))
                 {
                     try
                     {
@@ -160,7 +160,7 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.UpdateText("VeiculosCredenciaisView", conn))
+                using (var cmd = _dataBase.UpdateText("VeiculosCredenciais", conn))
                 {
                     try
                     {
@@ -204,7 +204,7 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.DeleteText("VeiculosCredenciaisView", conn))
+                using (var cmd = _dataBase.DeleteText("VeiculosCredenciais", conn))
                 {
                     try
                     {
@@ -228,11 +228,11 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        //cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("ColaboradorCredencialID", DbType.Int32, o, 0).Igual()));
-                        //cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmpresaNome", DbType.String, o, 1).Like()));
-                        //cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("TipoCredencialID", DbType.String, o, 2).Igual()));
-                        //cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("CredencialStatusID", DbType.String, o, 3).Igual()));
-                        //cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("ColaboradorID", DbType.Int32, o, 4).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("VeiculoID", DbType.Int32, objects, 0).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("VeiculoCredencialID", DbType.Int32, objects, 1).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("CredencialStatusID", DbType.Int32, objects, 2).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("FormatoCredencialID", DbType.Int32, objects, 3).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("NumeroCredencial", objects, 4).Like()));
 
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<VeiculosCredenciaisView>();

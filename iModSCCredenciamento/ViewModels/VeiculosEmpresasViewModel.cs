@@ -418,12 +418,12 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 HabilitaEdicao = false;
-                System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(ClasseVeiculosEmpresas));
+                //System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(ClasseVeiculosEmpresas));
 
-                ObservableCollection<ClasseVeiculosEmpresas.VeiculoEmpresa> _VeiculoEmpresaPro = new ObservableCollection<ClasseVeiculosEmpresas.VeiculoEmpresa>();
-                ClasseVeiculosEmpresas _ClasseVeiculoerEmpresasPro = new ClasseVeiculosEmpresas();
-                _VeiculoEmpresaPro.Add(VeiculoEmpresaSelecionado);
-                _ClasseVeiculoerEmpresasPro.VeiculosEmpresas = _VeiculoEmpresaPro;
+                //ObservableCollection<ClasseVeiculosEmpresas.VeiculoEmpresa> _VeiculoEmpresaPro = new ObservableCollection<ClasseVeiculosEmpresas.VeiculoEmpresa>();
+                //ClasseVeiculosEmpresas _ClasseVeiculoerEmpresasPro = new ClasseVeiculosEmpresas();
+                //_VeiculoEmpresaPro.Add(VeiculoEmpresaSelecionado);
+                //_ClasseVeiculoerEmpresasPro.VeiculosEmpresas = _VeiculoEmpresaPro;
 
                 //string xmlString;
 

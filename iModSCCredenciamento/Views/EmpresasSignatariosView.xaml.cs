@@ -46,8 +46,8 @@ namespace iModSCCredenciamento.Views
             if (_empresaID != _empresaIDFisrt && _empresaID != 0)
             {
                 ((iModSCCredenciamento.ViewModels.EmpresasSignatariosViewModel)((System.Windows.FrameworkElement)source).DataContext).OnAtualizaCommand(_empresaID);
-            _empresaIDFisrt = _empresaID;
-        }
+                _empresaIDFisrt = _empresaID;
+            }
     }
         public bool Editando
         {

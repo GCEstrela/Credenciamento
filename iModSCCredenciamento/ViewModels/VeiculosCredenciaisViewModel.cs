@@ -154,7 +154,6 @@ namespace iModSCCredenciamento.ViewModels
                 }
             }
         }
-
         public ObservableCollection<ClasseTiposCredenciais.TipoCredencial> TiposCredenciais
         {
             get
@@ -172,7 +171,6 @@ namespace iModSCCredenciamento.ViewModels
                 }
             }
         }
-
         public ObservableCollection<ClasseCredenciaisStatus.CredencialStatus> CredenciaisStatus
         {
             get
@@ -190,7 +188,6 @@ namespace iModSCCredenciamento.ViewModels
                 }
             }
         }
-
         public ObservableCollection<ClasseTecnologiasCredenciais.TecnologiaCredencial> TecnologiasCredenciais
         {
             get
@@ -208,7 +205,6 @@ namespace iModSCCredenciamento.ViewModels
                 }
             }
         }
-
         public ObservableCollection<ClasseVeiculosCredenciais.VeiculoCredencial> VeiculosCredenciais
         {
             get
@@ -226,7 +222,6 @@ namespace iModSCCredenciamento.ViewModels
                 }
             }
         }
-
         public ObservableCollection<ClasseVinculos.Vinculo> Vinculos
         {
             get
@@ -244,7 +239,6 @@ namespace iModSCCredenciamento.ViewModels
                 }
             }
         }
-
         public ObservableCollection<ClasseEmpresasLayoutsCrachas.EmpresaLayoutCracha> EmpresasLayoutsCrachas
         {
             get
@@ -262,7 +256,6 @@ namespace iModSCCredenciamento.ViewModels
                 }
             }
         }
-
         public ClasseVeiculosCredenciais.VeiculoCredencial VeiculoCredencialSelecionado
         {
             get
@@ -276,13 +269,12 @@ namespace iModSCCredenciamento.ViewModels
                 base.OnPropertyChanged();
                 if (VeiculoCredencialSelecionado != null)
                 {
-                    CarregaColecaoVeiculosEmpresas(VeiculoCredencialSelecionado.VeiculoID);
-                    CarregaColeçãoEmpresasLayoutsCrachas(VeiculoCredencialSelecionado.EmpresaID);
+                    //CarregaColecaoVeiculosEmpresas(VeiculoCredencialSelecionado.VeiculoID);
+                    //CarregaColeçãoEmpresasLayoutsCrachas(VeiculoCredencialSelecionado.EmpresaID);
                 }
 
             }
         }
-
         public ObservableCollection<ClasseEmpresas.Empresa> Empresas
 
         {
@@ -301,7 +293,6 @@ namespace iModSCCredenciamento.ViewModels
                 }
             }
         }
-
         public ObservableCollection<ClasseFormatosCredenciais.FormatoCredencial> FormatosCredenciais
 
         {
@@ -354,7 +345,6 @@ namespace iModSCCredenciamento.ViewModels
                 }
             }
         }
-
         public int VeiculoSelecionadaID
         {
             get
@@ -373,7 +363,6 @@ namespace iModSCCredenciamento.ViewModels
 
             }
         }
-
         public int SelectedIndex
         {
             get
@@ -386,7 +375,6 @@ namespace iModSCCredenciamento.ViewModels
                 OnPropertyChanged("SelectedIndex");
             }
         }
-
         public bool HabilitaEdicao
         {
             get
@@ -399,7 +387,6 @@ namespace iModSCCredenciamento.ViewModels
                 base.OnPropertyChanged();
             }
         }
-
         public string Criterios
         {
             get
@@ -412,7 +399,6 @@ namespace iModSCCredenciamento.ViewModels
                 base.OnPropertyChanged();
             }
         }
-
         public string Validade
         {
             get
@@ -425,7 +411,6 @@ namespace iModSCCredenciamento.ViewModels
                 base.OnPropertyChanged();
             }
         }
-
         //public string ComboEmpresaSelecionado
         //{
         //    get
@@ -449,7 +434,8 @@ namespace iModSCCredenciamento.ViewModels
                 VeiculoSelecionadaID = Convert.ToInt32(_VeiculoID);
                 Thread CarregaColecaoVeiculosCredenciais_thr = new Thread(() =>
                 {
-                    CarregaColecaoEmpresas(VeiculoSelecionadaID);
+                    CarregaColecaoVeiculosEmpresas(VeiculoSelecionadaID);
+                    //CarregaColecaoEmpresas(VeiculoSelecionadaID);
                     // CarregaColeçãoEmpresasLayoutsCrachas(VeiculoCredencialSelecionado.EmpresaID);
                     CarregaColecaoVeiculosCredenciais(Convert.ToInt32(_VeiculoID));
                 });
@@ -514,29 +500,32 @@ namespace iModSCCredenciamento.ViewModels
 
 
                 HabilitaEdicao = false;
-                System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(ClasseVeiculosCredenciais));
+                //System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(ClasseVeiculosCredenciais));
 
-                ObservableCollection<ClasseVeiculosCredenciais.VeiculoCredencial> _VeiculoCredencialTemp = new ObservableCollection<ClasseVeiculosCredenciais.VeiculoCredencial>();
-                ClasseVeiculosCredenciais _ClasseVeiculoerEmpresasTemp = new ClasseVeiculosCredenciais();
-                _VeiculoCredencialTemp.Add(VeiculoCredencialSelecionado);
-                _ClasseVeiculoerEmpresasTemp.VeiculosCredenciais = _VeiculoCredencialTemp;
+                //ObservableCollection<ClasseVeiculosCredenciais.VeiculoCredencial> _VeiculoCredencialTemp = new ObservableCollection<ClasseVeiculosCredenciais.VeiculoCredencial>();
+                //ClasseVeiculosCredenciais _ClasseVeiculoerEmpresasTemp = new ClasseVeiculosCredenciais();
+                //_VeiculoCredencialTemp.Add(VeiculoCredencialSelecionado);
+                //_ClasseVeiculoerEmpresasTemp.VeiculosCredenciais = _VeiculoCredencialTemp;
 
-                string xmlString;
+                //string xmlString;
 
-                using (StringWriterWithEncoding sw = new StringWriterWithEncoding(System.Text.Encoding.UTF8))
-                {
+                //using (StringWriterWithEncoding sw = new StringWriterWithEncoding(System.Text.Encoding.UTF8))
+                //{
 
-                    using (XmlTextWriter xw = new XmlTextWriter(sw))
-                    {
-                        xw.Formatting = Formatting.Indented;
-                        serializer.Serialize(xw, _ClasseVeiculoerEmpresasTemp);
-                        xmlString = sw.ToString();
-                    }
+                //    using (XmlTextWriter xw = new XmlTextWriter(sw))
+                //    {
+                //        xw.Formatting = Formatting.Indented;
+                //        serializer.Serialize(xw, _ClasseVeiculoerEmpresasTemp);
+                //        xmlString = sw.ToString();
+                //    }
 
-                }
+                //}
 
-                InsereVeiculoCredencialBD(xmlString);
+                //InsereVeiculoCredencialBD(xmlString);
 
+                var entity = Mapper.Map<IMOD.Domain.Entities.VeiculoCredencial>(VeiculoCredencialSelecionado);
+                var repositorio = new IMOD.Application.Service.VeiculoCredencialService();
+                _repositorio.Alterar(entity);
 
                 Thread CarregaColecaoVeiculosCredenciais_thr = new Thread(() =>
                 {
@@ -695,33 +684,34 @@ namespace iModSCCredenciamento.ViewModels
                     //VeiculoCredencialSelecionado.CardHolderGuid = Vinculos[0].CardHolderGuid;
                 }
 
-                HabilitaEdicao = false;
-                System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(ClasseVeiculosCredenciais));
+                //HabilitaEdicao = false;
+                //System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(ClasseVeiculosCredenciais));
 
-                ObservableCollection<ClasseVeiculosCredenciais.VeiculoCredencial> _VeiculoCredencialPro = new ObservableCollection<ClasseVeiculosCredenciais.VeiculoCredencial>();
-                ClasseVeiculosCredenciais _ClasseVeiculoerEmpresasPro = new ClasseVeiculosCredenciais();
-                _VeiculoCredencialPro.Add(VeiculoCredencialSelecionado);
-                _ClasseVeiculoerEmpresasPro.VeiculosCredenciais = _VeiculoCredencialPro;
+                //ObservableCollection<ClasseVeiculosCredenciais.VeiculoCredencial> _VeiculoCredencialPro = new ObservableCollection<ClasseVeiculosCredenciais.VeiculoCredencial>();
+                //ClasseVeiculosCredenciais _ClasseVeiculoerEmpresasPro = new ClasseVeiculosCredenciais();
+                //_VeiculoCredencialPro.Add(VeiculoCredencialSelecionado);
+                //_ClasseVeiculoerEmpresasPro.VeiculosCredenciais = _VeiculoCredencialPro;
 
-                string xmlString;
+                //string xmlString;
 
-                using (StringWriterWithEncoding sw = new StringWriterWithEncoding(System.Text.Encoding.UTF8))
-                {
+                //using (StringWriterWithEncoding sw = new StringWriterWithEncoding(System.Text.Encoding.UTF8))
+                //{
 
-                    using (XmlTextWriter xw = new XmlTextWriter(sw))
-                    {
-                        xw.Formatting = Formatting.Indented;
-                        serializer.Serialize(xw, _ClasseVeiculoerEmpresasPro);
-                        xmlString = sw.ToString();
-                    }
+                //    using (XmlTextWriter xw = new XmlTextWriter(sw))
+                //    {
+                //        xw.Formatting = Formatting.Indented;
+                //        serializer.Serialize(xw, _ClasseVeiculoerEmpresasPro);
+                //        xmlString = sw.ToString();
+                //    }
 
-                }
+                //}
 
-                InsereVeiculoCredencialBD(xmlString);
-
-
+                //InsereVeiculoCredencialBD(xmlString);
 
 
+                var entity = Mapper.Map<IMOD.Domain.Entities.VeiculoCredencial>(VeiculoCredencialSelecionado);
+                var repositorio = new IMOD.Application.Service.VeiculoCredencialService();
+                _repositorio.Criar(entity);
 
                 Thread CarregaColecaoVeiculosCredenciais_thr = new Thread(() =>
                 {
@@ -783,6 +773,10 @@ namespace iModSCCredenciamento.ViewModels
                     //    }
 
                     //}
+                    var entity = Mapper.Map<IMOD.Domain.Entities.VeiculoCredencial>(VeiculoCredencialSelecionado);
+                    var repositorio = new IMOD.Application.Service.VeiculoCredencialService();
+                    _repositorio.Remover(entity);
+                    VeiculosCredenciais.Remove(VeiculoCredencialSelecionado);
                 }
 
             }
@@ -866,7 +860,7 @@ namespace iModSCCredenciamento.ViewModels
                 if (!string.IsNullOrWhiteSpace(empresaNome)) empresaNome = $"%{empresaNome}%";
                 //if (!int.IsNullOrWhiteSpace(status)) status = $"%{status}%";
                 //if (!string.IsNullOrWhiteSpace(_validade)) _validade = $"%{_validade}%";
-                var list1 = service.Listar(veiculoID, 0, empresaNome, status, _validade);
+                var list1 = service.ListarView(veiculoID, 0, empresaNome, status, _validade);
 
                 var list2 = Mapper.Map<List<ClasseVeiculosCredenciais.VeiculoCredencial>>(list1);
 
@@ -952,7 +946,7 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                //string _xml = RequisitaVeiculosEmpresas(_veiculoID);
+                //string _xml = RequisitaVeiculosEmpresas(veiculoID);
 
                 //XmlSerializer deserializer = new XmlSerializer(typeof(ClasseVeiculosEmpresas));
 
@@ -965,14 +959,14 @@ namespace iModSCCredenciamento.ViewModels
                 //VeiculosEmpresas = new ObservableCollection<ClasseVeiculosEmpresas.VeiculoEmpresa>();
                 //VeiculosEmpresas = classeVeiculosEmpresas.VeiculosEmpresas;
                 //SelectedIndex = -1;
-                ////CarregaColeçãoEmpresasLayoutsCrachas(empresaID);
+                ////////CarregaColeçãoEmpresasLayoutsCrachas(empresaID);
 
-                var service = new IMOD.Application.Service.EmpresaService();
+                var service = new IMOD.Application.Service.VeiculoEmpresaService();
                 //if (!string.IsNullOrWhiteSpace(nome)) nome = $"%{nome}%";
                 //if (!string.IsNullOrWhiteSpace(apelido)) apelido = $"%{apelido}%";
                 //if (!string.IsNullOrWhiteSpace(cnpj)) cnpj = $"%{cnpj}%";
 
-                var list1 = service.Listar(veiculoID);
+                var list1 = service.ListarContratoView(veiculoID);
                 var list2 = Mapper.Map<List<ClasseVeiculosEmpresas.VeiculoEmpresa>>(list1);
 
                 var observer = new ObservableCollection<ClasseVeiculosEmpresas.VeiculoEmpresa>();
@@ -1198,6 +1192,96 @@ namespace iModSCCredenciamento.ViewModels
 
 
         //#region Data Access
+        private string RequisitaVeiculosEmpresas(int _veiculoID, string _empresaNome = "", string _cargo = "", string _matricula = "", int _ativo = 2)//Possibilidade de criar a pesquisa por Matriculatambem
+        {
+            try
+            {
+                XmlDocument _xmlDocument = new XmlDocument();
+                XmlNode _xmlNode = _xmlDocument.CreateXmlDeclaration("1.0", "UTF-8", null);
+
+                XmlNode _ClasseVeiculosEmpresas = _xmlDocument.CreateElement("ClasseVeiculosEmpresas");
+                _xmlDocument.AppendChild(_ClasseVeiculosEmpresas);
+
+                XmlNode _VeiculosEmpresas = _xmlDocument.CreateElement("VeiculosEmpresas");
+                _ClasseVeiculosEmpresas.AppendChild(_VeiculosEmpresas);
+
+                string _strSql;
+
+
+                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
+
+                _empresaNome = _empresaNome == "" ? "" : " AND Nome like '%" + _empresaNome + "%' ";
+                _cargo = _cargo == "" ? "" : " AND Apelido like '%" + _cargo + "%' ";
+                _matricula = _matricula == "" ? "" : " AND CPF like '%" + _matricula + "%'";
+                string _ativoStr = _ativo == 2 ? "" : " AND dbo.VeiculosEmpresas.Ativo = " + _ativo;
+
+                _strSql = "SELECT dbo.VeiculosEmpresas.Ativo, dbo.VeiculosEmpresas.VeiculoEmpresaID, dbo.VeiculosEmpresas.EmpresaContratoID," +
+                    " dbo.VeiculosEmpresas.Cargo, dbo.VeiculosEmpresas.Matricula, dbo.VeiculosEmpresas.VeiculoID, dbo.Empresas.Nome, " +
+                    "dbo.Empresas.EmpresaID, dbo.EmpresasContratos.Descricao" +
+                    " FROM dbo.VeiculosEmpresas INNER JOIN dbo.Empresas ON dbo.VeiculosEmpresas.EmpresaID = dbo.Empresas.EmpresaID INNER JOIN" +
+                    " dbo.EmpresasContratos ON dbo.VeiculosEmpresas.EmpresaContratoID = dbo.EmpresasContratos.EmpresaContratoID " +
+                    "WHERE dbo.VeiculosEmpresas.VeiculoID =  " + _veiculoID + _ativoStr + _empresaNome + _cargo + _matricula;
+
+                SqlCommand _sqlcmd = new SqlCommand(_strSql, _Con);
+                SqlDataReader _sqlreader = _sqlcmd.ExecuteReader(CommandBehavior.Default);
+                while (_sqlreader.Read())
+                {
+
+                    XmlNode _VeiculoEmpresa = _xmlDocument.CreateElement("VeiculoEmpresa");
+                    _VeiculosEmpresas.AppendChild(_VeiculoEmpresa);
+
+                    XmlNode _VeiculoEmpresaID = _xmlDocument.CreateElement("VeiculoEmpresaID");
+                    _VeiculoEmpresaID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["VeiculoEmpresaID"].ToString())));
+                    _VeiculoEmpresa.AppendChild(_VeiculoEmpresaID);
+
+                    XmlNode _VeiculoID = _xmlDocument.CreateElement("VeiculoID");
+                    _VeiculoID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["VeiculoID"].ToString())));
+                    _VeiculoEmpresa.AppendChild(_VeiculoID);
+
+                    XmlNode _EmpresaID = _xmlDocument.CreateElement("EmpresaID");
+                    _EmpresaID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["EmpresaID"].ToString())));
+                    _VeiculoEmpresa.AppendChild(_EmpresaID);
+
+                    XmlNode _EmpresaContratoID = _xmlDocument.CreateElement("EmpresaContratoID");
+                    _EmpresaContratoID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["EmpresaContratoID"].ToString())));
+                    _VeiculoEmpresa.AppendChild(_EmpresaContratoID);
+
+                    XmlNode _Descricao = _xmlDocument.CreateElement("Descricao");
+                    _Descricao.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Descricao"].ToString())));
+                    _VeiculoEmpresa.AppendChild(_Descricao);
+
+                    XmlNode _Empresa = _xmlDocument.CreateElement("EmpresaNome");
+                    _Empresa.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Nome"].ToString())));
+                    _VeiculoEmpresa.AppendChild(_Empresa);
+
+                    XmlNode _Cargo = _xmlDocument.CreateElement("Cargo");
+                    _Cargo.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Cargo"].ToString())));
+                    _VeiculoEmpresa.AppendChild(_Cargo);
+
+                    XmlNode _Matricula = _xmlDocument.CreateElement("Matricula");
+                    _Matricula.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Matricula"].ToString())));
+                    _VeiculoEmpresa.AppendChild(_Matricula);
+
+                    XmlNode _Ativo = _xmlDocument.CreateElement("Ativo");
+                    _Ativo.AppendChild(_xmlDocument.CreateTextNode((Convert.ToInt32((bool)_sqlreader["Ativo"])).ToString()));
+                    _VeiculoEmpresa.AppendChild(_Ativo);
+
+                }
+
+                _sqlreader.Close();
+
+                _Con.Close();
+                string _xml = _xmlDocument.InnerXml;
+                _xmlDocument = null;
+                return _xml;
+            }
+            catch (Exception ex)
+            {
+
+                return null;
+            }
+            return null;
+        }
         //private string RequisitaCredencial(int _colaboradorCredencialID)
         //{
         //    try
@@ -1736,8 +1820,6 @@ namespace iModSCCredenciamento.ViewModels
         //    return null;
         //}
 
-
-
         private string RequisitaVinculos(int _ColaboradorCredencialID = 0)
         {
             try
@@ -1866,7 +1948,6 @@ namespace iModSCCredenciamento.ViewModels
                 return null;
             }
         }
-
         private string RequisitaContratos(int _empresaID)
         {
             try
@@ -1934,11 +2015,6 @@ namespace iModSCCredenciamento.ViewModels
             }
             return null;
         }
-
-       
- 
-   
-
         private int InsereVeiculoCredencialBD(string xmlString)
         {
             return 0;
@@ -2127,8 +2203,6 @@ namespace iModSCCredenciamento.ViewModels
 
             //return _novID;
         }
-     
-
         private void InsereImpressaoDB(int veiculoCredencialID)
         {
             try
@@ -2164,7 +2238,6 @@ namespace iModSCCredenciamento.ViewModels
                 Global.Log("Erro na void InsereImpressaoDB ex: " + ex);
             }
         }
-
         private void ExcluiVeiculoCredencialBD(int _VeiculoCredencialID) // alterar para xml
         {
             try
@@ -2187,7 +2260,6 @@ namespace iModSCCredenciamento.ViewModels
 
             }
         }
-
         private DateTime validadeCursoContrato(int _colaborador = 0)
         {
             try
@@ -2260,8 +2332,6 @@ namespace iModSCCredenciamento.ViewModels
                 return DateTime.Now;
             }
         }
-
-
        
         #region Metodos Privados
         public void OnVincularCommand()

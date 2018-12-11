@@ -758,6 +758,12 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
 
+                //HabilitaEdicao = false;
+                //System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(ClasseColaboradores));
+
+                //ObservableCollection<ClasseColaboradores.Colaborador> _ColaboradoresPro = new ObservableCollection<ClasseColaboradores.Colaborador>();
+                //ClasseColaboradores _ClasseColaboradoresTemp = new ClasseColaboradores();
+
                 ColaboradorSelecionado.Pendente = true;
                 ColaboradorSelecionado.Pendente21 = true;
                 ColaboradorSelecionado.Pendente22 = true;
