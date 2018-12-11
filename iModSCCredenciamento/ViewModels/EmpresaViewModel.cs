@@ -732,7 +732,7 @@ namespace iModSCCredenciamento.ViewModels
 
                     EmpresasTiposAtividades.Remove(EmpresaTipoAtividadeSelecionada);
 
-                    CarregaColecaoEmpresasTiposAtividades();
+                    CarregaColecaoEmpresasTiposAtividades(EmpresaSelecionada.EmpresaID);
                 }
             }
 
@@ -822,7 +822,7 @@ namespace iModSCCredenciamento.ViewModels
                     _service.CrachaService.Remover(entityConv);
                     EmpresasLayoutsCrachas.Remove(EmpresaLayoutCrachaSelecionada);
 
-                    CarregaColecaoEmpresasTiposAtividades();
+                    CarregaColecaoEmpresasTiposAtividades(EmpresaSelecionada.EmpresaID);
                 }
             }
             catch (Exception ex)

@@ -24,7 +24,6 @@ namespace iModSCCredenciamento.Views
             DataContext = new VeiculoViewModel();
         }
         #region Comando dos Botoes
-        //TODO:SelecionarFoto_bt_Click (Carregar Foto Veículos) - Mihai 07/12/2018
         private void SelecionarFoto_bt_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -33,10 +32,6 @@ namespace iModSCCredenciamento.Views
                 openFileDialog.Multiselect = false;
                 openFileDialog.Filter = "Images (*.BMP;*.JPG;*.GIF,*.PNG,*.TIFF)|*.BMP;*.JPG;*.GIF;*.PNG;*.TIFF|" + "All files (*.*)|*.*";
                 openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
-
-                //var filtro = "Aruivos de Imagem (*.BMP;*.JPG;*.GIF,*.PNG,*.TIFF)|*.BMP;*.JPG;*.GIF;*.PNG;*.TIFF|" + "All files (*.*)|*.*";
-                //var arq = WpfHelp.UpLoadArquivoDialog(filtro, 0);
-
 
                 if (openFileDialog.ShowDialog() == true)
                 {
@@ -82,7 +77,8 @@ namespace iModSCCredenciamento.Views
             }
             catch (Exception ex)
             {
-
+                WpfHelp.Mbox(ex.Message);
+                Utils.TraceException(ex);
             }
         }
 
@@ -241,7 +237,6 @@ namespace iModSCCredenciamento.Views
             ListaVeiculos_lv.Focus();
         }
 
-
         #endregion
 
         #region Testes
@@ -308,7 +303,6 @@ namespace iModSCCredenciamento.Views
             if (tipoServico_cb.Text != "" & tipoServico_cb.Text != "N/D")
             {
                 ((VeiculoViewModel)DataContext).OnInserirServicoCommand(tipoServico_cb.SelectedValue.ToString(), tipoServico_cb.Text);
-                //TipoAtividade_cb.SelectedIndex = 0;
                 tipoServico_cb.Text = "";
 
             }

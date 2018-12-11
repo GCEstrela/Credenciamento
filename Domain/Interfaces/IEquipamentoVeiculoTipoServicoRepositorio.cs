@@ -21,6 +21,6 @@ namespace IMOD.Domain.Interfaces
         /// </summary>
         /// <param name="objects"></param>
         /// <returns></returns>
-        ICollection<EquipamentoVeiculoTipoServicoView> ListarEquipamentoVeiculoTipoServicoView(params object[] objects);
+        ICollection<EquipamentoVeiculoTipoServicoView> ListarEquipamentoVeiculoTipoServicoView(int equipamentoVeiculoId);
     }
 }

@@ -36,17 +36,18 @@ namespace iModSCCredenciamento.ViewModels
             CarregaColecaoVeiculos();
             CarregaColeçãoEstados();
             CarregaColecaoTiposCombustiveis();
-            CarregaColecaoTiposEquipamentoVeiculo();
+            //CarregaColecaoTiposEquipamentoVeiculo();
             CarregaColecaoTiposServicos();
         }
         #endregion
 
         #region Variaveis Privadas
         private ObservableCollection<ClasseTiposCombustiveis.TipoCombustivel> _TiposCombustiveis;
+
         private ObservableCollection<ClasseTiposEquipamentoVeiculo.TipoEquipamentoVeiculo> _TiposEquipamentoVeiculo;
 
         private ObservableCollection<ClasseTiposServicos.TipoServico> _TiposServico;
-        //private ObservableCollection<ClasseVeiculoEquipTipoServico> _VeiculoEquipTipoServico;
+
         private ObservableCollection<ClasseEquipamentoVeiculoTiposServicos.EquipamentoVeiculoServico> _EquipamentosVeiculosTiposServicos;
 
         private ObservableCollection<ClasseVeiculos.Veiculo> _Veiculos;
@@ -69,7 +70,7 @@ namespace iModSCCredenciamento.ViewModels
 
         private int _EmpresaSelecionadaID;
 
-        private ClasseEquipamentoVeiculoTiposServicos.EquipamentoVeiculoServico _equipamentoVeiculoTipoServicoSelecionado;
+        private ClasseEquipamentoVeiculoTiposServicos.EquipamentoVeiculoServico _EquipamentoVeiculoTipoServicoSelecionado;
 
         private bool _HabilitaEdicao;
 
@@ -84,7 +85,6 @@ namespace iModSCCredenciamento.ViewModels
         //private bool _EditandoUserControl;
 
         private readonly IVeiculoService _veiculoService = new VeiculoService();
-
 
         private readonly IEquipamentoVeiculoTipoServicoService equipVeiculoService = new EquipamentoVeiculoTipoServicoService();
 
@@ -108,25 +108,6 @@ namespace iModSCCredenciamento.ViewModels
                 }
             }
         }
-        //
-
-        //public ObservableCollection<ClasseVeiculoEquipTipoServico.VeiculoEquipTipoServico> VeiculoEquipTipoServico
-        //{
-        //    get
-        //    {
-        //        return _VeiculoEquipTipoServico;
-        //    }
-
-        //    set
-        //    {
-        //        if (_VeiculoEquipTipoServico != value)
-        //        {
-        //            _VeiculoEquipTipoServico = value;
-        //            OnPropertyChanged();
-
-        //        }
-        //    }
-        //}
         public ObservableCollection<ClasseTiposServicos.TipoServico> TiposServico
         {
             get
@@ -178,7 +159,6 @@ namespace iModSCCredenciamento.ViewModels
                 }
             }
         }
-
         public ClasseVeiculos.Veiculo VeiculoSelecionado
         {
             get
@@ -204,7 +184,6 @@ namespace iModSCCredenciamento.ViewModels
 
             }
         }
-
         public int EmpresaSelecionadaID
         {
             get
@@ -222,29 +201,23 @@ namespace iModSCCredenciamento.ViewModels
 
             }
         }
-
-
         public ClasseEquipamentoVeiculoTiposServicos.EquipamentoVeiculoServico EquipamentoVeiculoTipoServicoSelecionado
         {
             get
             {
-                return _equipamentoVeiculoTipoServicoSelecionado;
+                return _EquipamentoVeiculoTipoServicoSelecionado;
             }
             set
             {
-                _equipamentoVeiculoTipoServicoSelecionado = value;
-                base.OnPropertyChanged();
-                if (_equipamentoVeiculoTipoServicoSelecionado != null)
+                _EquipamentoVeiculoTipoServicoSelecionado = value;
+                base.OnPropertyChanged("SelectedItem");
+                if (_EquipamentoVeiculoTipoServicoSelecionado != null)
                 {
                     // OnEmpresaSelecionada();
                 }
 
             }
         }
-
-
-
-
         public int SelectedIndex
         {
             get
@@ -257,7 +230,6 @@ namespace iModSCCredenciamento.ViewModels
                 OnPropertyChanged("SelectedIndex");
             }
         }
-
         public bool HabilitaEdicao
         {
             get
@@ -270,7 +242,6 @@ namespace iModSCCredenciamento.ViewModels
                 base.OnPropertyChanged();
             }
         }
-
         //public bool EditandoUserControl
         //{
         //    get
@@ -282,8 +253,6 @@ namespace iModSCCredenciamento.ViewModels
         //        SetProperty(ref _EditandoUserControl, value);
         //    }
         //}
-
-
         public string Criterios
         {
             get
@@ -296,7 +265,6 @@ namespace iModSCCredenciamento.ViewModels
                 base.OnPropertyChanged();
             }
         }
-
         public ObservableCollection<ClasseEstados.Estado> Estados
         {
             get
@@ -314,7 +282,6 @@ namespace iModSCCredenciamento.ViewModels
                 }
             }
         }
-
         public ObservableCollection<ClasseMunicipios.Municipio> Municipios
         {
             get
@@ -332,7 +299,6 @@ namespace iModSCCredenciamento.ViewModels
                 }
             }
         }
-
         public ObservableCollection<ClasseEquipamentoVeiculoTiposServicos.EquipamentoVeiculoServico> EquipamentosVeiculosTiposServicos
         {
             get
@@ -397,13 +363,13 @@ namespace iModSCCredenciamento.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    Global.Log("Erro na void OnAbrirArquivoCommand ex: " + ex);
+                    Utils.TraceException(ex);
 
                 }
             }
             catch (Exception ex)
             {
-
+                Utils.TraceException(ex);
             }
         }
 
@@ -416,8 +382,9 @@ namespace iModSCCredenciamento.ViewModels
                 _selectedIndexTemp = SelectedIndex;
                 HabilitaEdicao = true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Utils.TraceException(ex);
             }
         }
 
@@ -431,7 +398,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-
+                Utils.TraceException(ex);
             }
         }
 
@@ -501,19 +468,20 @@ namespace iModSCCredenciamento.ViewModels
 
                 _selectedIndexTemp = SelectedIndex;
                 Veiculos.Clear();
-                //ClasseEmpresasSeguros.EmpresaSeguro _seguro = new ClasseEmpresasSeguros.EmpresaSeguro();
-                //_seguro.EmpresaID = EmpresaSelecionadaID;
-                //Seguros.Add(_seguro);
+                EquipamentosVeiculosTiposServicos.Clear();
+
                 _veiculoTemp = new ClasseVeiculos.Veiculo();
-                ////////////////////////////////////////////////////////
+
                 _veiculoTemp.EquipamentoVeiculoID = EmpresaSelecionadaID;  //OBS
-                ////////////////////////////////////////////////////////
+
                 Veiculos.Add(_veiculoTemp);
+                Veiculos.Add(new ClasseVeiculos.Veiculo());
                 SelectedIndex = 0;
                 HabilitaEdicao = true;
             }
             catch (Exception ex)
             {
+                Utils.TraceException(ex);
             }
 
         }
@@ -611,7 +579,7 @@ namespace iModSCCredenciamento.ViewModels
             {
                 int _TipoServicoID = Convert.ToInt32(_TipoServicoIDstr);
                 ClasseEquipamentoVeiculoTiposServicos.EquipamentoVeiculoServico _EquipamentoVeiculoTiposServico = new ClasseEquipamentoVeiculoTiposServicos.EquipamentoVeiculoServico();
-                _EquipamentoVeiculoTiposServico.EquipamentoVeiculoId = _EquipamentoVeiculoTiposServico.EquipamentoVeiculoId;
+                _EquipamentoVeiculoTiposServico.EquipamentoVeiculoId = VeiculoSelecionado.EquipamentoVeiculoID;
                 _EquipamentoVeiculoTiposServico.TipoServicoId = _TipoServicoID;
                 _EquipamentoVeiculoTiposServico.Descricao = _Descricao;
 
@@ -629,7 +597,6 @@ namespace iModSCCredenciamento.ViewModels
             }
         }
 
-        //TODO: Excluir EquipamentoVeiculoTipoServico (BINDING)
         public void OnExcluirEquipamentoVeiculoTipoServicoCommand()
         {
             try
@@ -640,15 +607,13 @@ namespace iModSCCredenciamento.ViewModels
                     var entityConv = Mapper.Map<EquipamentoVeiculoTipoServico>(entity);
                     equipVeiculoService.Remover(entityConv);
 
-                    CarregaColecaoVeiculoEquipTipoServicos(EquipamentoVeiculoTipoServicoSelecionado.EquipamentoVeiculoId);
+                    CarregaColecaoVeiculoEquipTipoServicos(VeiculoSelecionado.EquipamentoVeiculoID);
                 }
             }
 
             catch (Exception ex)
             {
-                Global.Log("Erro void OnExcluirAtividadeCommand ex: " + ex.Message);
                 Utils.TraceException(ex);
-                throw;
             }
         }
         #endregion
@@ -679,11 +644,10 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log("Erro na void CarregaColecaoVeiculos ex: " + ex);
                 Utils.TraceException(ex);
-                throw;
             }
         }
+
         private void CarregaColecaoTiposServicos()
         {
             try
@@ -705,11 +669,12 @@ namespace iModSCCredenciamento.ViewModels
                 Utils.TraceException(ex);
             }
         }
+
         public void CarregaColecaoVeiculoEquipTipoServicos(int _VeiculoId = 0)
         {
             try
             {
-                var list1 = equipVeiculoService.ListarEquipamentoVeiculoTipoServicoView(null, _VeiculoId, null, null);
+                var list1 = equipVeiculoService.ListarEquipamentoVeiculoTipoServicoView(_VeiculoId);
 
                 var list2 = Mapper.Map<List<ClasseEquipamentoVeiculoTiposServicos.EquipamentoVeiculoServico>>(list1);
                 var observer = new ObservableCollection<ClasseEquipamentoVeiculoTiposServicos.EquipamentoVeiculoServico>();
@@ -725,31 +690,29 @@ namespace iModSCCredenciamento.ViewModels
                 Utils.TraceException(ex);
             }
         }
+        //private void CarregaColecaoTiposEquipamentoVeiculo()
+        //{
+        //    try
+        //    {
+        //        string _xml = RequisitaTiposEquipamentoVeiculo();
 
+        //        XmlSerializer deserializer = new XmlSerializer(typeof(ClasseTiposEquipamentoVeiculo));
 
+        //        XmlDocument xmldocument = new XmlDocument();
+        //        xmldocument.LoadXml(_xml);
 
-        private void CarregaColecaoTiposEquipamentoVeiculo()
-        {
-            try
-            {
-                string _xml = RequisitaTiposEquipamentoVeiculo();
+        //        TextReader reader = new StringReader(_xml);
+        //        ClasseTiposEquipamentoVeiculo classeTiposEquipamentoVeiculo = new ClasseTiposEquipamentoVeiculo();
+        //        classeTiposEquipamentoVeiculo = (ClasseTiposEquipamentoVeiculo)deserializer.Deserialize(reader);
+        //        TiposEquipamentoVeiculo = new ObservableCollection<ClasseTiposEquipamentoVeiculo.TipoEquipamentoVeiculo>();
+        //        TiposEquipamentoVeiculo = classeTiposEquipamentoVeiculo.TiposEquipamentoVeiculo;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        //Global.Log("Erro void CarregaColecaoEmpresas ex: " + ex.Message);
+        //    }
+        //}
 
-                XmlSerializer deserializer = new XmlSerializer(typeof(ClasseTiposEquipamentoVeiculo));
-
-                XmlDocument xmldocument = new XmlDocument();
-                xmldocument.LoadXml(_xml);
-
-                TextReader reader = new StringReader(_xml);
-                ClasseTiposEquipamentoVeiculo classeTiposEquipamentoVeiculo = new ClasseTiposEquipamentoVeiculo();
-                classeTiposEquipamentoVeiculo = (ClasseTiposEquipamentoVeiculo)deserializer.Deserialize(reader);
-                TiposEquipamentoVeiculo = new ObservableCollection<ClasseTiposEquipamentoVeiculo.TipoEquipamentoVeiculo>();
-                TiposEquipamentoVeiculo = classeTiposEquipamentoVeiculo.TiposEquipamentoVeiculo;
-            }
-            catch (Exception ex)
-            {
-                //Global.Log("Erro void CarregaColecaoEmpresas ex: " + ex.Message);
-            }
-        }
         private void CarregaColecaoTiposCombustiveis()
         {
             try
@@ -790,12 +753,12 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log("Erro na void CarregaColeçãoEstados ex: " + ex);
+                Utils.TraceException(ex);
             }
         }
+
         public void CarregaColeçãoMunicipios(string _EstadoUF = "%")
         {
-
             try
             {
 
@@ -813,7 +776,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log("Erro na void CarregaColeçãoMunicipios ex: " + ex);
+                Utils.TraceException(ex);
             }
         }
         private void CarregaFoto(int _VeiculoID)
@@ -881,6 +844,7 @@ namespace iModSCCredenciamento.ViewModels
             catch (Exception ex)
             {
                 _atualizandoFoto = false;
+                Utils.TraceException(ex);
             }
         }
         #endregion
@@ -1730,15 +1694,15 @@ namespace iModSCCredenciamento.ViewModels
             {
                 HabilitaEdicao = false;
 
+                var entity = VeiculoSelecionado;
+
                 VeiculoSelecionado.Pendente31 = true;
                 VeiculoSelecionado.Pendente32 = true;
                 VeiculoSelecionado.Pendente33 = true;
                 VeiculoSelecionado.Pendente34 = true;
 
-                var service = new VeiculoService();
-                var entity = VeiculoSelecionado;
                 var entityConv = Mapper.Map<Veiculo>(entity);
-
+                var service = new VeiculoService();
                 service.Criar(entityConv);
 
                 _VeiculosTemp.Clear();
@@ -1749,9 +1713,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log("Erro void SalvarAdicao ex: " + ex.Message);
                 Utils.TraceException(ex);
-                throw;
             }
         }
 
@@ -1780,9 +1742,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log("Erro void SalvarAdicao ex: " + ex.Message);
                 Utils.TraceException(ex);
-                throw;
             }
         }
 
@@ -1805,14 +1765,12 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                //CarregaColecaoTiposServicos(VeiculoSelecionado.EquipamentoVeiculoID);
                 CarregaColecaoVeiculoEquipTipoServicos(VeiculoSelecionado.EquipamentoVeiculoID);
-
 
             }
             catch (Exception ex)
             {
-                Global.Log("Erro void OnEmpresaSelecionada ex: " + ex.Message);
+                Utils.TraceException(ex);
             }
 
         }

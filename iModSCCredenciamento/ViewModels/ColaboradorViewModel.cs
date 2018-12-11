@@ -20,7 +20,6 @@ using Colaborador = IMOD.Domain.Entities.Colaborador;
 
 //using IMOD.Application.Service;
 
-//using IMOD.Application.Service;
 
 namespace iModSCCredenciamento.ViewModels
 {
@@ -37,7 +36,7 @@ namespace iModSCCredenciamento.ViewModels
         public List<ClasseEstados.Estado> ObterListaEstadosFederacao { get; private set; }
         //private IColaboradorService _colaboradorService = new ColaboradorService();
         public Colaborador Colaborador { get; set; }
-        
+
         #region Inicializacao
         public ColaboradorViewModel()
         {
@@ -274,7 +273,6 @@ namespace iModSCCredenciamento.ViewModels
             //CarregaColecaoSeguros_thr.Start();
             //CarregaColecaoSeguros(Convert.ToInt32(empresaID));
         }
-        
 
         public void OnEditarCommand()
         {
@@ -431,7 +429,7 @@ namespace iModSCCredenciamento.ViewModels
         public void OnExcluirCommand()
         {
             try
-            {                
+            {
 
                 if (Global.PopupBox("Tem certeza que deseja excluir?", 2))
                 {
@@ -445,7 +443,7 @@ namespace iModSCCredenciamento.ViewModels
                         var entity = Mapper.Map<Colaborador>(ColaboradorSelecionado);
                         var repositorio = new ColaboradorService();
                         repositorio.Remover(entity);
-                       
+
                         Colaboradores.Remove(ColaboradorSelecionado);
                     }
                 }
@@ -542,14 +540,14 @@ namespace iModSCCredenciamento.ViewModels
                 if (!string.IsNullOrWhiteSpace(cpf)) cpf = $"%{cpf}%";
                 var list1 = service.Listar(_ColaboradorID, nome, apelido, cpf);
 
-                var list2 = Mapper.Map<List<ClasseColaboradores.Colaborador>>(list1.OrderBy (n => n.ColaboradorId ));
+                var list2 = Mapper.Map<List<ClasseColaboradores.Colaborador>>(list1.OrderBy(n => n.ColaboradorId));
 
                 var observer = new ObservableCollection<ClasseColaboradores.Colaborador>();
                 list2.ForEach(n =>
                 {
                     observer.Add(n);
                 });
-                                
+
                 Colaboradores = observer;
                 SelectedIndex = 0;
             }
@@ -575,7 +573,7 @@ namespace iModSCCredenciamento.ViewModels
             }
         }
 
-        public void CarregaColeçãoMunicipios(string uf )
+        public void CarregaColeçãoMunicipios(string uf)
         {
 
             try
@@ -742,8 +740,6 @@ namespace iModSCCredenciamento.ViewModels
 
         #region Metodos privados
 
-        
-        //Global g = new Global();
 
         internal void SalvarAdicao()
         {
@@ -777,7 +773,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-
+                Utils.TraceException(ex);
             }
         }
 
@@ -789,7 +785,7 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                
+
 
                 var entity = Mapper.Map<Colaborador>(ColaboradorSelecionado);
                 var repositorio = new ColaboradorService();
@@ -830,7 +826,7 @@ namespace iModSCCredenciamento.ViewModels
             {
                 if (string.IsNullOrWhiteSpace(doc)) throw new ArgumentNullException("Informe um CPF para pesquisar");
                 //doc = doc.RetirarCaracteresEspeciais().Replace(" ", "");
-                
+
 
                 SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
                 SqlCommand cmd = new SqlCommand("Select * From Colaboradores Where cpf = '" + doc + "'", _Con);

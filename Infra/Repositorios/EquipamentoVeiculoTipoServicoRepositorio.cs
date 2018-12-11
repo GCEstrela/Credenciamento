@@ -180,7 +180,7 @@ namespace IMOD.Infra.Repositorios
             }
         }
 
-        public ICollection<EquipamentoVeiculoTipoServicoView> ListarEquipamentoVeiculoTipoServicoView(params object[] objects)
+        public ICollection<EquipamentoVeiculoTipoServicoView> ListarEquipamentoVeiculoTipoServicoView(int equipamentoVeiculoId)
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
@@ -188,15 +188,22 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EquipamentoVeiculoTipoServicoID", DbType.Int32, objects, 0).Igual()));
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EquipamentoVeiculoID", DbType.Int32, objects, 1).Igual()));
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("TipoServicoID", DbType.String, objects, 2).Igual()));
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Descricao", DbType.String, objects, 3).Like()));
+                        if (equipamentoVeiculoId != 0)
+                        {
+                            //cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EquipamentoVeiculoTipoServicoID", DbType.Int32, objects, 0).Igual()));
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EquipamentoVeiculoID", DbType.Int32, equipamentoVeiculoId, 0).Igual()));
+                            //cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("TipoServicoID", DbType.String, objects, 2).Igual()));
+                            //cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Descricao", DbType.String, objects, 3).Like()));
 
+                            var reader = cmd.ExecuteReaderSelect();
+                            var d1 = reader.MapToList<EquipamentoVeiculoTipoServicoView>();
+                            return d1;
+                        }
+                        else
+                        {
+                            return null;
+                        }
 
-                        var reader = cmd.ExecuteReaderSelect();
-                        var d1 = reader.MapToList<EquipamentoVeiculoTipoServicoView>();
-                        return d1;
                     }
                     catch (Exception ex)
                     {
@@ -209,4 +216,5 @@ namespace IMOD.Infra.Repositorios
 
         #endregion
     }
+
 }

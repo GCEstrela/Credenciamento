@@ -81,11 +81,12 @@ namespace IMOD.Application.Service
         /// <summary>
         /// Listar layout Cracha por empresa
         /// </summary>
+        /// <param name="id"></param>
         /// <param name="idEmpresa"></param>
         /// <returns></returns>
-        public ICollection<EquipamentoVeiculoTipoServicoView> ListarEquipamentoVeiculoTipoServicoView(params object[] objects)
+        public ICollection<EquipamentoVeiculoTipoServicoView> ListarEquipamentoVeiculoTipoServicoView(int id)
         {
-            return _repositorio.ListarEquipamentoVeiculoTipoServicoView(objects);
+            return _repositorio.ListarEquipamentoVeiculoTipoServicoView(id);
         }
 
         #endregion
