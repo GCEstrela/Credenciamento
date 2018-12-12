@@ -3,7 +3,6 @@ using iModSCCredenciamento.Windows;
 using System;
 using System.Windows;
 using System.Windows.Controls;
-using iModSCCredenciamento.Funcoes;
 
 namespace iModSCCredenciamento.Views
 {
@@ -35,6 +34,10 @@ namespace iModSCCredenciamento.Views
             ((RelatoriosViewModel)this.DataContext).OnAbrirRelatorioCommand(_botao.Tag.ToString());
         }
 
+
+        #endregion
+
+
         private void ButtonCredenciais_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -42,13 +45,12 @@ namespace iModSCCredenciamento.Views
                 popupFiltrosCredenciais = new PopUpFiltrosCredenciais();
                 popupFiltrosCredenciais.ShowDialog();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Global.Log("Erro na void ButtonCredenciais_Click ex: " + ex);
-                IMOD.CrossCutting.Utils.TraceException(ex);
-                throw;
+
             }
         }
+
         private void ButtonAutorizacoes_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -56,11 +58,9 @@ namespace iModSCCredenciamento.Views
                 PopUpFiltrosAutorizacoes = new PopUpFiltrosAutorizacoes();
                 PopUpFiltrosAutorizacoes.ShowDialog();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Global.Log("Erro na void ButtonAutorizacoes_Click ex: " + ex);
-                IMOD.CrossCutting.Utils.TraceException(ex);
-                throw;
+
             }
         }
 
@@ -72,11 +72,9 @@ namespace iModSCCredenciamento.Views
                 popupfiltroscredenciaisporempresa = new PopUpFiltrosCredenciaisPorEmpresa();
                 popupfiltroscredenciaisporempresa.ShowDialog();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Global.Log("Erro na void BotaoFiltroPorEmpresa_bt_Click ex: " + ex);
-                IMOD.CrossCutting.Utils.TraceException(ex);
-                throw;
+
             }
 
 
@@ -89,11 +87,9 @@ namespace iModSCCredenciamento.Views
                 popupfiltroscredenciaisporarea = new PopUpFiltrosCredenciaisPorArea();
                 popupfiltroscredenciaisporarea.ShowDialog();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Global.Log("Erro na void BotaoFiltroPorArea_bt_Click ex: " + ex);
-                IMOD.CrossCutting.Utils.TraceException(ex);
-                throw;
+
             }
         }
 
@@ -104,11 +100,9 @@ namespace iModSCCredenciamento.Views
                 popupfiltroscredenciaisinvalidas = new PopUpFiltrosCredenciaisInvalidas();
                 popupfiltroscredenciaisinvalidas.ShowDialog();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Global.Log("Erro na void BotaoCredenciaisInvalidasClick ex: " + ex);
-                IMOD.CrossCutting.Utils.TraceException(ex);
-                throw;
+
             }
         }
 
@@ -119,11 +113,9 @@ namespace iModSCCredenciamento.Views
                 popupfiltrosautorizacoesinvalidas = new PopUpFiltrosAutorizacoesInvalidas();
                 popupfiltrosautorizacoesinvalidas.ShowDialog();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Global.Log("Erro na void BotaoAutorizacoesInvalidasClick ex: " + ex);
-                IMOD.CrossCutting.Utils.TraceException(ex);
-                throw;
+
             }
         }
 
@@ -135,11 +127,9 @@ namespace iModSCCredenciamento.Views
                 popupfiltrosimpressoes = new PopUpFiltrosImpressoes();
                 popupfiltrosimpressoes.ShowDialog();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Global.Log("Erro na void BotaoImpressoesCredenciaisClick ex: " + ex);
-                IMOD.CrossCutting.Utils.TraceException(ex);
-                throw;
+
             }
         }
 
@@ -151,32 +141,99 @@ namespace iModSCCredenciamento.Views
                 popupfiltrosimpressoes = new PopUpFiltrosImpressoes();
                 popupfiltrosimpressoes.ShowDialog();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Global.Log("Erro na void BotaoImpressoesAutorizacoesClick ex: " + ex);
-                IMOD.CrossCutting.Utils.TraceException(ex);
-                throw;
+
             }
 
+        }
+  
+        private void ButtonTermoConcessaoCredenciaisClick(object sender, RoutedEventArgs e)
+        {
+
+            try
+            {
+                //12_TermoConcessaoCredencial.rpt
+                PopupFiltrosTermos = new PopupFiltrosTermos(12, 1);
+                PopupFiltrosTermos.ShowDialog();
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+
+        private void ButtonTermoIndeferimentoCredenciaisClick(object sender, RoutedEventArgs e)
+        {
+
+            try
+            {
+                //16_TermoIndeferimentoCredencial.rpt
+                PopupFiltrosTermos = new PopupFiltrosTermos(16, 5);
+                PopupFiltrosTermos.ShowDialog();
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+
+        private void ButtonTermoCancelamentoCredenciaisClick(object sender, RoutedEventArgs e)
+        {
+
+            try
+            {
+                //14_TermoCancelamentoCredencial.rpt
+                PopupFiltrosTermos = new PopupFiltrosTermos(14, 2);
+                PopupFiltrosTermos.ShowDialog();
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+
+        private void ButtonTermoDestruicaoCredenciaisClick(object sender, RoutedEventArgs e)
+        {
+
+            try
+            {
+                //18_TermoDestruicaoCredencial.rpt
+                PopupFiltrosTermos = new PopupFiltrosTermos(18, 3);
+                PopupFiltrosTermos.ShowDialog();
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+
+        private void ButtonTermoViasAdicionaisCredenciaisClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                //20_TermoViaAdicionalCredencial.rpt
+                PopupFiltrosTermos = new PopupFiltrosTermos(20, 1);
+                PopupFiltrosTermos.ShowDialog();
+            }
+            catch (Exception)
+            {
+
+            }
         }
 
         private void ButtonRelatorioViasAdicionaisCredenciaisClick(object sender, RoutedEventArgs e)
         {
             try
             {
+                //18_TermoDestruicaoCredencial.rpt
                 popupfiltroscredenciaisviasadicionais = new PopUpFiltrosCredenciaisViasAdicionais();
                 popupfiltroscredenciaisviasadicionais.ShowDialog();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Global.Log("Erro na void ButtonRelatorioViasAdicionaisCredenciaisClick ex: " + ex);
-                IMOD.CrossCutting.Utils.TraceException(ex);
-                throw;
+
             }
         }
-
-
-
-        #endregion
     }
 }

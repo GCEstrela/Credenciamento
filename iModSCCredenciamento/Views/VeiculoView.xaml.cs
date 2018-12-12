@@ -13,12 +13,12 @@ namespace iModSCCredenciamento.Views
     /// <summary>
     /// Interação lógica para VeiculoView.xam
     /// </summary>
-    public partial class VeiculoView : UserControl
+    public partial class VeiculoView// : UserControl
     {
         public VeiculoView()
         {
             InitializeComponent();
-            this.DataContext = new VeiculoViewModel();
+            this.DataContext = new VeiculoViewModel2();
 
         }
         #region Comando dos Botoes
@@ -39,9 +39,13 @@ namespace iModSCCredenciamento.Views
 
                     var fileLength = new FileInfo(openFileDialog.FileName).Length; //limitar o tamanho futuro
 
-                    Foto_im.Source = _img;
+                    //Foto_im.Source = _img;//TODO: Descomnetar
                     ((ClasseVeiculos.Veiculo)ListaVeiculos_lv.SelectedItem).Foto = _imgstr; //Conversores.IMGtoSTR(new BitmapImage(new Uri(arquivoLogo.FileName)));
-                   
+                    //ListaEmpresas_lv.Items.Refresh();
+
+                    //BindingExpression be = BindingOperations.GetBindingExpression(Logo_im, Image.SourceProperty);
+                    //be.UpdateTarget();
+                    //_imgstr = null;
                 }
 
             }
@@ -50,6 +54,11 @@ namespace iModSCCredenciamento.Views
 
             }
         }
+        //private void BuscarArquivoAnexo_bt_Click(object sender, RoutedEventArgs e)
+        //{
+        //    ((VeiculoViewModel)this.DataContext).OnBuscarArquivoCommand();
+        //    Arquivo_tb.Text = ((VeiculoViewModel)this.DataContext).Veiculos[0].NomeArquivoAnexo;
+        //}
 
         private void AbrirArquivoAnexo_bt_Click(object sender, RoutedEventArgs e)
         {
@@ -68,7 +77,7 @@ namespace iModSCCredenciamento.Views
                 if (_img != null)
                 {
                     string _imgstr = Conversores.IMGtoSTR(_img);
-                    Foto_im.Source = _img;
+                    //Foto_im.Source = _img;//TODO: Descomnetar
                     ((ClasseVeiculos.Veiculo)ListaVeiculos_lv.SelectedItem).Foto = _imgstr;
 
                 }
@@ -78,11 +87,15 @@ namespace iModSCCredenciamento.Views
 
             }
         }
- 
+
+        private void BuscarApoliceArquivo_bt_Click(object sender, RoutedEventArgs e)
+        {
+           // ((VeiculoViewModel)this.DataContext).OnBuscarArquivoCommand();
+        }
 
         private void Pesquisar_bt_Click(object sender, RoutedEventArgs e)
         {
-            ((VeiculoViewModel)this.DataContext).OnPesquisarCommand();
+           // ((VeiculoViewModel)this.DataContext).OnPesquisarCommand();
         }
 
         private void Editar_bt_Click(object sender, RoutedEventArgs e)
@@ -95,7 +108,7 @@ namespace iModSCCredenciamento.Views
             Botoes_Editar_sp.Visibility = Visibility.Visible;
             ListaVeiculos_lv.IsHitTestVisible = false;
             Geral_sp.IsHitTestVisible = true;
-            ((VeiculoViewModel)this.DataContext).OnEditarCommand();
+            //((VeiculoViewModel)this.DataContext).OnEditarCommand();
         }
 
         private void Adicionar_bt_Click(object sender, RoutedEventArgs e)
@@ -108,13 +121,13 @@ namespace iModSCCredenciamento.Views
             Botoes_Adicionar_sp.Visibility = Visibility.Visible;
             Geral_sp.IsHitTestVisible = true;
             Geral_bt.Visibility = Visibility.Hidden;
-            ((VeiculoViewModel)this.DataContext).OnAdicionarCommand();
+           // ((VeiculoViewModel)this.DataContext).OnAdicionarCommand();
         }
 
         private void Excluir_bt_Click(object sender, RoutedEventArgs e)
         {
             Botoes_Principais_sp.Visibility = Visibility.Visible;
-            ((VeiculoViewModel)this.DataContext).OnExcluirCommand();
+            //((VeiculoViewModel)this.DataContext).OnExcluirCommand();
         }
 
         private void ExecutarPesquisa_bt_Click(object sender, RoutedEventArgs e)
@@ -138,7 +151,7 @@ namespace iModSCCredenciamento.Views
             Botoes_Editar_sp.Visibility = Visibility.Hidden;
             ListaVeiculos_lv.IsHitTestVisible = true;
             Geral_sp.IsHitTestVisible = false;
-            ((VeiculoViewModel)this.DataContext).OnCancelarEdicaoCommand();
+           // ((VeiculoViewModel)this.DataContext).OnCancelarEdicaoCommand();
 
             VinculoEmpresa_ti.Visibility = Visibility.Visible;
             Seguros_ti.Visibility = Visibility.Visible;
@@ -147,12 +160,13 @@ namespace iModSCCredenciamento.Views
 
         private void SalvarEdicao_bt_Click(object sender, RoutedEventArgs e)
         {
-            if (Placa_tb.Text.Length == 0)
-            {
-                Global.PopupBox("Insira a Placa!", 4);
-                Placa_tb.Focus();
-                return;
-            }
+        
+            //if (Placa_tb.Text.Length == 0)
+            //{
+            //    Global.PopupBox("Insira a Placa!", 4);
+            //    Placa_tb.Focus();
+            //    return;
+            //}
 
             if (!Global.PopupBox("Tem certeza que deseja salvar?", 2))
             {
@@ -160,7 +174,7 @@ namespace iModSCCredenciamento.Views
             }
 
             Botoes_Principais_sp.Visibility = Visibility.Visible;
-            ((VeiculoViewModel)this.DataContext).SalvarEdicao();
+           // ((VeiculoViewModel)this.DataContext).SalvarEdicao();
             //((VeiculoViewModel)this.DataContext).OnSalvarEdicaoCommandAsync();
             Botoes_Editar_sp.Visibility = Visibility.Hidden;
             ListaVeiculos_lv.IsHitTestVisible = true;
@@ -174,7 +188,7 @@ namespace iModSCCredenciamento.Views
         private void CancelarAdicao_bt_Click(object sender, RoutedEventArgs e)
         {
             Botoes_Principais_sp.Visibility = Visibility.Visible;
-            ((VeiculoViewModel)this.DataContext).OnCancelarAdicaoCommand();
+           // ((VeiculoViewModel)this.DataContext).OnCancelarAdicaoCommand();
             Botoes_Adicionar_sp.Visibility = Visibility.Hidden;
             Geral_sp.IsHitTestVisible = false;
 
@@ -187,13 +201,13 @@ namespace iModSCCredenciamento.Views
 
         private void SalvarAdicao_bt_Click(object sender, RoutedEventArgs e)
         {
-
-            if (Placa_tb.Text.Length == 0)
-            {
-                Global.PopupBox("Insira a Placa!", 4);
-                Placa_tb.Focus();
-                return;
-            }
+            
+            //if (Placa_tb.Text.Length == 0)
+            //{
+            //    Global.PopupBox("Insira a Placa!", 4);
+            //    Placa_tb.Focus();
+            //    return;
+            //}
 
             if (!Global.PopupBox("Tem certeza que deseja salvar?", 2))
             {
@@ -201,7 +215,7 @@ namespace iModSCCredenciamento.Views
             }
 
             Botoes_Principais_sp.Visibility = Visibility.Visible;
-            ((VeiculoViewModel)this.DataContext).SalvarAdicao();
+           // ((VeiculoViewModel)this.DataContext).SalvarAdicao();
             //((VeiculoViewModel)this.DataContext).OnSalvarAdicaoCommandAsync();
             Botoes_Adicionar_sp.Visibility = Visibility.Hidden;
             Geral_sp.IsHitTestVisible = false;
@@ -213,7 +227,7 @@ namespace iModSCCredenciamento.Views
         }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            ((VeiculoViewModel)this.DataContext).OnAbrirPendencias(sender, e);
+            //((VeiculoViewModel)this.DataContext).OnAbrirPendencias(sender, e);
         }
         #endregion
 
@@ -237,10 +251,7 @@ namespace iModSCCredenciamento.Views
 
         #endregion
 
-        #region Testes
-
-        #endregion
-
+      
 
         private void ListaVeiculos_lv_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -283,11 +294,6 @@ namespace iModSCCredenciamento.Views
             {
 
             }
-        }
-
-        private void BuscarArquivoAnexo_bt_Click(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }

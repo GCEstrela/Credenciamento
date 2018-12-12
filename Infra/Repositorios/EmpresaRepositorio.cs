@@ -12,6 +12,7 @@ using System.Data;
 using System.Linq;
 using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
+using IMOD.Domain.EntitiesCustom;
 using IMOD.Domain.Interfaces;
 using IMOD.Infra.Ado;
 using IMOD.Infra.Ado.Interfaces;
@@ -262,6 +263,34 @@ namespace IMOD.Infra.Repositorios
                         var d1 = reader.MapToList<Empresa>();
 
                         return d1.FirstOrDefault();
+                    }
+                    catch (Exception ex)
+                    {
+                        Utils.TraceException(ex);
+                        throw;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Listar Pendencias
+        /// </summary>
+        /// <param name="empresaId"></param>
+        /// <returns></returns>
+        public ICollection<EmpresaPendenciaView> ListarPendencias(int empresaId = 0)
+        {
+            using (var conn = _dataBase.CreateOpenConnection())
+            {
+                using (var cmd = _dataBase.SelectText("EmpresaPendenciasView", conn))
+                {
+                    try
+                    {
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmpresaId", DbType.Int32, empresaId).Igual())); 
+
+                        var reader = cmd.ExecuteReaderSelect();
+                        var d1 = reader.MapToList<EmpresaPendenciaView>();
+                        return d1;
                     }
                     catch (Exception ex)
                     {

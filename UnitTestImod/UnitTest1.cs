@@ -211,6 +211,29 @@ namespace UnitTestImod
 
             #endregion
 
+            #region Cadastrar Pendencias
+
+            service.Pendencia.Criar(new Pendencia
+            {
+                EmpresaId = _empresa.EmpresaId,
+                Descricao = "Teste Unitário",
+                DataLimite = DateTime.Now.Date,
+                Impeditivo = true,
+                TipoPendenciaId = 24
+                 
+            });
+
+
+            #endregion
+
+            #region Listar Pendencias
+
+            var listP = service.ListarPendencias (_empresa.EmpresaId).FirstOrDefault();
+            if(listP==null) throw  new Exception("Uma pendência foi cadastrada, mas não foi possível retorna informção");
+            var pend = listP.Pendencias;
+            Assert.IsTrue(!string.IsNullOrWhiteSpace(pend));
+            #endregion
+
 
         }
 
@@ -290,6 +313,7 @@ namespace UnitTestImod
             var arrayByte = File.ReadAllBytes("Arquivos/contrato.pdf");
             //Transformar numa string Base64
             var strBase64 = Convert.ToBase64String(arrayByte);
+            
             for (var i = 0; i < 3; i++)
             {
                 var d1 = new EmpresaContrato
@@ -311,12 +335,12 @@ namespace UnitTestImod
                     ArquivoBlob = arrayByte
                 };
                 repositorio.Criar(d1);//Criar dados
-
+                var d2 = repositorio.BuscarPelaChave (d1.EmpresaContratoId);
+                Assert.IsNotNull(d2.ArquivoBlob);
             }
 
             //ler dados
-            var list = repositorio.Listar();
-            Assert.IsNotNull(list.FirstOrDefault().ArquivoBlob);
+            
         }
 
         [TestMethod]
@@ -377,6 +401,8 @@ namespace UnitTestImod
             d1.Descricao = "Descrição Alterada";
             repositorio.Criar(d1);
         }
+
+      
 
         [TestMethod]
         public void Cadastrar_ColaboradorEanexos_com_sucesso()
@@ -521,18 +547,18 @@ namespace UnitTestImod
         {
             var repositorio = new EmpresaAreaAcessoRepositorio();
 
-            //for (var i = 0; i < 3; i++)
-            //{
-            //    var d1 = new EmpresaAreaAcesso
-            //    {
-            //        AreaAcessoId = i + 1,
-            //        EmpresaId = i + 1,
-            //    };
-            //    repositorio.Criar(d1);
+            for (var i = 0; i < 3; i++)
+            {
+                var d1 = new EmpresaAreaAcesso
+                {
+                    AreaAcessoId = i + 1,
+                    EmpresaId = i + 1,
+                };
+                repositorio.Criar(d1);
 
-            //    d1.EmpresaAreaAcessoId = 2;
-            //    repositorio.Alterar(d1);
-            //}
+                d1.EmpresaAreaAcessoId = 2;
+                repositorio.Alterar(d1);
+            }
 
             var list0 = repositorio.Listar();
             var frst = list0.FirstOrDefault();
