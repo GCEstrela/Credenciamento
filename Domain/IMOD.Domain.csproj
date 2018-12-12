@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="EntitiesCustom\ColaboradoresCredenciaisView.cs" />
     <Compile Include="EntitiesCustom\EmpresaLayoutCrachaView.cs" />
+    <Compile Include="EntitiesCustom\EmpresaPendenciaView.cs" />
     <Compile Include="EntitiesCustom\EmpresaTipoAtividadeView.cs" />
     <Compile Include="EntitiesCustom\EstadoView.cs" />
     <Compile Include="EntitiesCustom\VeiculosCredenciaisView.cs" />

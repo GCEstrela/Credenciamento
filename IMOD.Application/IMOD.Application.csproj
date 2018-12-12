@@ -60,6 +60,7 @@
     <Compile Include="Interfaces\IFormatoCredencialService.cs" />
     <Compile Include="Interfaces\ILayoutCrachaService.cs" />
     <Compile Include="Interfaces\IMunicipioService.cs" />
+    <Compile Include="Interfaces\IPendenciaService.cs" />
     <Compile Include="Interfaces\IRelatorioGerencialService.cs" />
     <Compile Include="Interfaces\IRelatorioService.cs" />
     <Compile Include="Interfaces\IStatusService.cs" />

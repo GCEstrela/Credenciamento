@@ -18,7 +18,7 @@ namespace iModSCCredenciamento.Views
         public VeiculoView()
         {
             InitializeComponent();
-            this.DataContext = new VeiculoViewModel2();
+            this.DataContext = new VeiculoViewModel();
 
         }
         #region Comando dos Botoes

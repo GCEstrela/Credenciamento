@@ -205,6 +205,13 @@
     <Compile Include="Modulo\ModuloDescritor.cs" />
     <Compile Include="Modulo\ModuloPage.cs" />
     <Compile Include="Modulo\ViewSingleton.cs" />
+    <Compile Include="PagePrincipal\MenuPrincipal.xaml.cs">
+      <DependentUpon>MenuPrincipal.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PagePrincipal\PagePrincipal.cs" />
+    <Compile Include="PagePrincipal\PagePrincipalView.xaml.cs">
+      <DependentUpon>PagePrincipalView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -220,7 +227,6 @@
     <Compile Include="Regras\CpfValida.cs" />
     <Compile Include="Regras\RazaoSocial.cs" />
     <Compile Include="ViewModels\RelayCommand.cs" />
-    <Compile Include="ViewModels\VeiculoViewModel2.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\ColaboradoresAnexosViewModel.cs" />
     <Compile Include="ViewModels\ColaboradoresCredenciaisViewModel.cs" />
@@ -424,6 +430,14 @@
     <Page Include="Modulo\MenuPrincipalView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PagePrincipal\MenuPrincipal.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PagePrincipal\PagePrincipalView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\ColaboradoresCredenciaisView.xaml">
       <SubType>Designer</SubType>
@@ -704,13 +718,11 @@
     <Resource Include="Resources\remove.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-    <Content Include="Certificates\iModSCCredenciamento.Modulo.ModuloPage.cert">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <None Include="Certificates\iModSCCredenciamento.PagePrincipal.PagePrincipal - Cópia .cert">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </None>
+    <None Include="Certificates\iModSCCredenciamento.PagePrincipal.PagePrincipal.cert" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

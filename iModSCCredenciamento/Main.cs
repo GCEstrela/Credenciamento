@@ -49,8 +49,7 @@ namespace iModSCCredenciamento
         #endregion
 
         #region Constants
-
-        public static readonly Guid iModSCCredenciamentoId = new Guid("{2ACE4CD0-7E9C-FAFA-B8A6-24FD71D6DD59}");
+         public static readonly Guid ImodCredencialGuid = new Guid("{2ACE4CD0-7E9C-FAFA-B8A6-24FD71D6DD59}");
 
         public static IEngine engine;
 
@@ -135,7 +134,7 @@ namespace iModSCCredenciamento
 
         private void RegisterTaskExtensions()
         {
-            var taskGroup = new TaskGroup(iModSCCredenciamentoId, Guid.Empty, "Módulo de Credenciamento", iModSCCredenciamentoIcon, 1500);
+            var taskGroup = new TaskGroup(ImodCredencialGuid, Guid.Empty, "Módulo de Credenciamento", iModSCCredenciamentoIcon, 1500);
             taskGroup.Initialize(Workspace);
             m_tasks.Add(taskGroup);
 
