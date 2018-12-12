@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -167,6 +168,8 @@ namespace iModSCCredenciamento.Views
 
         #endregion
 
+        #region Metodos privados
+
         private void Emissao_tb_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
             Global.CheckField(sender, false);
@@ -205,6 +208,14 @@ namespace iModSCCredenciamento.Views
         {
             ValorCobertura_tb.Text = ValorCobertura_tb.Text.FormatarMoeda();
         }
+
+        private void NumberOnly(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
+        }
+
+        #endregion
 
     }
 }

@@ -742,11 +742,7 @@ namespace iModSCCredenciamento.ViewModels
                 Utils.TraceException(ex);
             }
         }
-
-        /// <summary>
-        /// Alteração iniciada por Mihai & Máximo (28/11/2018)
-        /// TranportarDados
-        /// </summary>
+        
         internal void SalvarEdicao()
         {
             try
@@ -826,6 +822,8 @@ namespace iModSCCredenciamento.ViewModels
 
 
         }
+
+
 
         #endregion
 

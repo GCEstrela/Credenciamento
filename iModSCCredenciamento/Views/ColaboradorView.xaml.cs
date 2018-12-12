@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -45,11 +46,11 @@ namespace iModSCCredenciamento.Views
                     if (tamanho > 200)
                     {
                         MessageBox.Show("Tamanho ( " + tamanho + " ) inválido, só é permitido arquivo com o máximo de 200");
-                        return; 
+                        return;
                     }
 
                     BitmapImage _img = new BitmapImage(new Uri(openFileDialog.FileName));
-                    
+
                     string _imgstr = Conversores.IMGtoSTR(_img);
 
                     var fileLength = new FileInfo(openFileDialog.FileName).Length; //limitar o tamanho futuro
@@ -93,7 +94,7 @@ namespace iModSCCredenciamento.Views
 
             }
         }
- 
+
 
         private void Pesquisar_bt_Click(object sender, RoutedEventArgs e)
         {
@@ -371,6 +372,12 @@ namespace iModSCCredenciamento.Views
             ListaColaboradores_sp.Margin = new Thickness(marginThickness.Left, marginThickness.Top, 0, marginThickness.Bottom);
             Botoes_ca.Visibility = Visibility.Hidden;
             ListaColaboradores_lv.Focus();
+        }
+
+        private void NumberOnly(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
         }
 
 

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using iModSCCredenciamento.Funcoes;
 using iModSCCredenciamento.Helpers;
@@ -221,6 +223,12 @@ namespace iModSCCredenciamento.Views
         #endregion
 
         #region Metodos Privados
+
+        private void NumberOnly(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
+        }
         private void OnTabSelected(object sender, RoutedEventArgs e)
         {
             Thickness marginThickness = ListaVeiculos_lv.Margin;
@@ -310,14 +318,10 @@ namespace iModSCCredenciamento.Views
 
         private void ExcluirServ_bt_Click(object sender, RoutedEventArgs e)
         {
-            //if (tipoServico_cb.Text != "" & tipoServico_cb.Text != "N/D") 
-            //{
-            //((VeiculoViewModel)DataContext).OnExcluirEquipamentoVeiculoTipoServicoCommand(tipoServico_lb.SelectedValue.ToString());
             ((VeiculoViewModel)DataContext).OnExcluirEquipamentoVeiculoTipoServicoCommand();
-            //TipoAtividade_cb.SelectedIndex = 0;
+
             tipoServico_cb.Text = "";
 
-            //}
         }
 
     }

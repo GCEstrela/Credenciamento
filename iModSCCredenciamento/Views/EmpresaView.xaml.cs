@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 using iModSCCredenciamento.Funcoes;
 using iModSCCredenciamento.Helpers;
 using iModSCCredenciamento.Models;
@@ -29,15 +31,15 @@ namespace iModSCCredenciamento.Views
             try
             {
                 var filtro = "Images (*.BMP;*.JPG;*.GIF,*.PNG,*.TIFF)|*.BMP;*.JPG;*.GIF;*.PNG;*.TIFF|" + "All files (*.*)|*.*";
-                var arq = WpfHelp.UpLoadArquivoDialog (filtro);
+                var arq = WpfHelp.UpLoadArquivoDialog(filtro);
                 if (arq == null) return;
-                ((ClasseEmpresas.Empresa) ListaEmpresas_lv.SelectedItem).Logo = arq.FormatoBase64;
-                 BindingExpression be = BindingOperations.GetBindingExpression(Logo_im, Image.SourceProperty);
-                 be.UpdateTarget();
+                ((ClasseEmpresas.Empresa)ListaEmpresas_lv.SelectedItem).Logo = arq.FormatoBase64;
+                BindingExpression be = BindingOperations.GetBindingExpression(Logo_im, Image.SourceProperty);
+                be.UpdateTarget();
             }
             catch (Exception ex)
             {
-                    Utils.TraceException(ex);
+                Utils.TraceException(ex);
             }
         }
 
@@ -110,7 +112,7 @@ namespace iModSCCredenciamento.Views
         }
 
         private void SalvarEdicao_bt_Click(object sender, RoutedEventArgs e)
-        { 
+        {
             try
             {
                 Check();
@@ -198,7 +200,7 @@ namespace iModSCCredenciamento.Views
             var cnpjAnterior = Global._cnpjEdicao.RetirarCaracteresEspeciais();
             var cnpjAtual = CNPJ_tb.Text.RetirarCaracteresEspeciais();
             if (!Utils.IsValidCnpj(cnpjAtual)) { throw new InvalidOperationException("CNPJ inválido!"); }
-            
+
             if (cnpjAnterior == "00.000.000/0000-00") //Então a operação é de adição, logo verificar se ha CNPJ apenas no ação de salvar...
             {
                 var c1 = ((EmpresaViewModel)DataContext).ConsultaCNPJ(cnpjAtual);
@@ -226,10 +228,11 @@ namespace iModSCCredenciamento.Views
                 Global.PopupBox(ex.Message, 4);
             }
 
-
-
         }
-       
+
+
+
+
         private void IncluirAtividade_bt_Click(object sender, RoutedEventArgs e)
         {
             if (TipoAtividade_cb.Text != "" & TipoAtividade_cb.Text != "N/D")
@@ -289,6 +292,12 @@ namespace iModSCCredenciamento.Views
         }
 
         #endregion
+
+        private void NumberOnly(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
+        }
 
         private void ListaEmpresas_lv_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

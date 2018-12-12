@@ -469,7 +469,7 @@ namespace iModSCCredenciamento.ViewModels
 
                 _selectedIndexTemp = SelectedIndex;
                 Veiculos.Clear();
-                EquipamentosVeiculosTiposServicos.Clear();
+                //EquipamentosVeiculosTiposServicos.Clear();
 
                 _veiculoTemp = new ClasseVeiculos.Veiculo();
 

@@ -375,10 +375,10 @@
 
                                         <!--#region Grid 1 -->
                                         <Label Content="Número:" Height="28" Width="100" Margin="0,0,0,0" HorizontalContentAlignment="Right" Grid.Row="1" Grid.Column="0"/>
-                                        <TextBox  x:Name="Numero_tb" MaxLength="5" CharacterCasing="Upper" Text="{Binding SelectedItem.Numero, ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" IsEnabled="True"  Height="24"  Width="50" Grid.Row="1" Grid.Column="1"/>
+                                        <TextBox  x:Name="Numero_tb" PreviewTextInput="NumberOnly" MaxLength="5" CharacterCasing="Upper" Text="{Binding SelectedItem.Numero, ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" IsEnabled="True"  Height="24"  Width="50" Grid.Row="1" Grid.Column="1"/>
                                         <Label Content="Complemento:" Height="28" HorizontalAlignment="Left" Width="100" Margin="0,0,0,7" HorizontalContentAlignment="Right" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" VerticalAlignment="Bottom" />
                                         <TextBox  x:Name="Complemento_tb" MaxLength="30" CharacterCasing="Upper" Text="{Binding SelectedItem.Complemento, ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="136" Grid.Row="1" Grid.Column="3" Margin="0,9,14,9"/>
-                                        <Label Content="CEP:" Height="28" Width="32" Margin="0,0,0,0" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="4" />
+                                        <Label Content="CEP:" Height="28" Width="32" Margin="0,0,0,0" PreviewTextInput="NumberOnly" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="4" />
                                         <TextBox Foreground="#FFD0D0D0" Background="#FF1E2022" x:Name="Cep_tb" MaxLength="10" Text="{Binding SelectedItem.Cep, ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}"  HorizontalAlignment="Right" IsEnabled="True"  Height="24"  Width="118" Grid.Row="1" Grid.Column="4"/>
                                         <!--#endregion Grid 1 -->
 
@@ -409,7 +409,7 @@
                                                 <RowDefinition Height="42"/>
                                                 <RowDefinition Height="42"/>
                                             </Grid.RowDefinitions>
-                                            
+
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="150"/>
                                                 <ColumnDefinition Width="150"/>
@@ -421,13 +421,13 @@
 
                                             <!--#region Grid 0 -->
                                             <Label Content="Telefone Residencial:" Height="28" Width="150" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" Grid.Row="0" Grid.Column="0"/>
-                                            <TextBox  Foreground="#FFD0D0D0"  MaxLength="15"  x:Name="TelefoneFixo_tb" Grid.Row="0" Grid.Column="1"
+                                            <TextBox  Foreground="#FFD0D0D0"  MaxLength="15" PreviewTextInput="NumberOnly" x:Name="TelefoneFixo_tb" Grid.Row="0" Grid.Column="1"
                                                       Text="{Binding SelectedItem.TelefoneFixo , ElementName=ListaColaboradores_lv, 
                                                 Converter={ StaticResource FormateTel}, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="150"/>
 
 
                                             <Label Content="Telefone Celular:" Height="28" Width="150" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" Grid.Row="0" Grid.Column="2" />
-                                            <TextBox Foreground="#FFD0D0D0"  MaxLength="16" x:Name="TelefoneCelular_tb"  Grid.Row="0" Grid.Column="3"
+                                            <TextBox Foreground="#FFD0D0D0" PreviewTextInput="NumberOnly" MaxLength="16" x:Name="TelefoneCelular_tb"  Grid.Row="0" Grid.Column="3"
                                                      Text="{Binding SelectedItem.TelefoneCelular , ElementName=ListaColaboradores_lv,
                                                 Converter={ StaticResource FormateTel}, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="150"/>
                                             <!--#endregion Grid 0-->
@@ -447,18 +447,18 @@
                                             <TextBox  x:Name="ContatoEmergencia_tb" MaxLength="30" CharacterCasing="Upper" Text="{Binding SelectedItem.ContatoEmergencia , ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="150" Grid.Row="2" Grid.Column="1"/>
 
                                             <Label Content="Tel. Emergência:" Height="28" Width="120" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" Grid.Row="2" Grid.Column="2" />
-                                            <TextBox  Foreground="#FFD0D0D0" MaxLength="16"  x:Name="TelefoneEmergencia_tb" Grid.Row="2" Grid.Column="3"
+                                            <TextBox  Foreground="#FFD0D0D0" MaxLength="16" PreviewTextInput="NumberOnly" x:Name="TelefoneEmergencia_tb" Grid.Row="2" Grid.Column="3"
                                                       Text="{Binding SelectedItem.TelefoneEmergencia , ElementName=ListaColaboradores_lv,Converter={ StaticResource FormateTel}, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24" />
                                             <!--#endregion Grid 2 -->
                                         </Grid>
                                     </StackPanel>
                                 </GroupBox>
-                                
-                            <!--/GroupBox3-->
+
+                                <!--/GroupBox3-->
 
 
-                            <!--GroupBox4-->
-                            <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" Foreground="#FFD0D0D0"  x:Name="Habilitacao_gb"  Grid.Row="0" Grid.Column="1"  Header="Informações de Habilitação " Margin="10,10,10,10" VerticalAlignment="Stretch" Height="89" >
+                                <!--GroupBox4-->
+                                <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" Foreground="#FFD0D0D0"  x:Name="Habilitacao_gb"  Grid.Row="0" Grid.Column="1"  Header="Informações de Habilitação " Margin="10,10,10,10" VerticalAlignment="Stretch" Height="89" >
                                     <StackPanel Margin="0,10,0,0">
 
                                         <Grid HorizontalAlignment="Stretch" Margin="1"   ScrollViewer.VerticalScrollBarVisibility="Visible" VerticalAlignment="Stretch">
@@ -467,39 +467,66 @@
 
                                             </Grid.RowDefinitions>
                                             <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="101"/>
-                                                <ColumnDefinition Width="100"/>
+                                                <ColumnDefinition Width="60"/>
+                                                <ColumnDefinition Width="90"/>
                                                 <ColumnDefinition Width="60"/>
                                                 <ColumnDefinition Width="100"/>
                                                 <ColumnDefinition Width="80"/>
-                                                <ColumnDefinition Width="50"/>
-                                                <ColumnDefinition Width="30"/>
-                                                <ColumnDefinition Width="30"/>
                                                 <ColumnDefinition Width="80"/>
-                                                <ColumnDefinition Width="50"/>
+                                                <ColumnDefinition Width="26"/>
+                                                <ColumnDefinition Width="60"/>
+                                                <ColumnDefinition Width="80"/>
+                                                <ColumnDefinition Width="30"/>
                                             </Grid.ColumnDefinitions>
 
 
                                             <!--#region Grid 0 -->
 
-                                            <Label Content="Nº Registro CNH:" Height="28" HorizontalContentAlignment="Right" Grid.Row="0" Grid.Column="0" />
-                                            <TextBox  x:Name="CNH_tb" MaxLength="11" CharacterCasing="Upper"  Text="{Binding SelectedItem.CNH, ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Grid.Row="0" Grid.Column="1" Height="24" Margin="0,6,10,5"/>
+                                            <Label Content="Nº CNH:" Height="28" HorizontalContentAlignment="Left" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" />
+                                            <TextBox  x:Name="CNH_tb" MaxLength="11" PreviewTextInput="NumberOnly" Text="{Binding SelectedItem.CNH, ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Grid.Row="0" Grid.Column="1" Height="24" Margin="0,6,0,5"/>
 
                                             <Label Content="Validade:" Height="28" Width="60" Margin="0,0,0,0" HorizontalContentAlignment="Right" Grid.Row="0" Grid.Column="2"  />
                                             <DatePicker  x:Name="CNHValidade_tb" HorizontalAlignment="Left" VerticalContentAlignment="Center" SelectedDate="{Binding SelectedItem.CNHValidade, ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}" Foreground="White" Background="{x:Null}" Grid.Row="0" Grid.Column="3" Margin="0,4,0,3" />
 
                                             <Label Content="Órg. Emissor:" Height="28" Width="80" HorizontalContentAlignment="Right" Grid.Row="0" Grid.Column="4" />
-                                            <TextBox  x:Name="CNHEmissor_tb"  CharacterCasing="Upper" HorizontalAlignment="Left" Text="{Binding SelectedItem.CNHEmissor , ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}" IsEnabled="True"  Height="24"  Width="50" Grid.Row="0" Grid.Column="5" Margin="0,5,0,6" />
-                                            <Label Content="UF:" Height="28" Width="30" HorizontalAlignment="Right" HorizontalContentAlignment="Right" Grid.Row="0" Grid.Column="6" />
-                                            <TextBox  x:Name="CNHUF_tb"  CharacterCasing="Upper" HorizontalAlignment="Left" Text="{Binding SelectedItem.CNHUF  , ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}" IsEnabled="True"  Height="24"  Width="30" Grid.Row="0" Grid.Column="7"/>
+
+                                            <!--<TextBox  x:Name="CNHEmissor_tb"  CharacterCasing="Upper" HorizontalAlignment="Left" Text="{Binding SelectedItem.CNHEmissor , ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}" IsEnabled="True"  Height="24"  Width="50" Grid.Row="0" Grid.Column="5" Margin="0,5,0,6" />-->
+                                            <ComboBox  x:Name="CNHEmissor_cb" Text="{Binding SelectedItem.CNHEmissor, ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}" HorizontalContentAlignment="Center" IsEnabled="True" Width="76" Height="30" HorizontalAlignment="Right" Grid.Row="0" Grid.Column="5" Margin="0,2,5,3" >
+                                                <ComboBoxItem>DETRAN</ComboBoxItem>
+                                                <ComboBoxItem>SSP</ComboBoxItem>
+                                            </ComboBox>
+
+
+                                            <Label Content="UF:" Height="28" Width="27" HorizontalAlignment="Right" HorizontalContentAlignment="Center" Grid.Row="0" Grid.Column="6" Margin="0,4,0,3" />
+
+                                            <!--<TextBox  x:Name="CNHUF_tb"  CharacterCasing="Upper" HorizontalAlignment="Left" Text="{Binding SelectedItem.CNHUF  , ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}" IsEnabled="True"  Height="24"  Width="30" Grid.Row="0" Grid.Column="7"/>-->
+
+                                            <ComboBox x:Name="CNHUF_cb" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Grid.Row="0" Grid.Column="7" Width="50"
+                                                      ItemsSource="{Binding Estados}" DisplayMemberPath="UF"   SelectedValue="{Binding SelectedItem.Nome, ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}" 
+                                                      Text="{Binding SelectedItem.CNHUF  , ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}"
+                                                      SelectedValuePath="CNHUF" Margin="5,2,6,0" RenderTransformOrigin="0.52,0.167" Height="30" VerticalAlignment="Top">
+
+                                            </ComboBox>
 
                                             <CheckBox x:Name="Motorista_cb"  Content=":Motorista" FlowDirection="RightToLeft" VerticalContentAlignment="Center" HorizontalAlignment="Center"
                                                       Height="28" Width="80"  HorizontalContentAlignment="Left"  Foreground="#FFD0D0D0" Grid.Row="0" Grid.Column="8"  
                                                IsChecked="{Binding SelectedItem.Motorista, ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}" Checked="Motorista_cb_Checked"/>
 
-                                            <Label Content="Categoria:" Height="28" Width="66" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Grid.Row="0" Grid.Column="9" Margin="0,4,-39,3" />
-                                            <TextBox  Foreground="#FFD0D0D0"  MaxLength="16"  x:Name="CNHCategoria_tb" Grid.Row="0" Grid.Column="9" HorizontalAlignment="Right"
-                                                      Text="{Binding SelectedItem.CNHCategoria , ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="{Binding IsChecked, ElementName=Motorista_cb}"  Height="24"  Width="38" Margin="0,6,-59,5" />
+                                            <Label Content="Categoria:" Height="28" Width="64" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Grid.Row="0" Grid.Column="9" Margin="2,4,-35,3" />
+
+
+                                            <!--<TextBox  Foreground="#FFD0D0D0"  MaxLength="16"  x:Name="CNHCategoria_tb" Grid.Row="0" Grid.Column="9" HorizontalAlignment="Right"
+                                                      Text="{Binding SelectedItem.CNHCategoria , ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="{Binding IsChecked, ElementName=Motorista_cb}"  Height="24"  Width="38" Margin="0,6,-59,5" />-->
+
+
+                                            <ComboBox  x:Name="CNHCategoria_cb" Text="{Binding SelectedItem.CNHCategoria, ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}" HorizontalContentAlignment="Center" IsEnabled="True" Grid.Row="0" Grid.Column="9" Width="50" Height="30" Margin="65,2,-84,3" HorizontalAlignment="Left" >
+                                                <ComboBoxItem>A</ComboBoxItem>
+                                                <ComboBoxItem>B</ComboBoxItem>
+                                                <ComboBoxItem>AB</ComboBoxItem>
+                                                <ComboBoxItem>C</ComboBoxItem>
+                                                <ComboBoxItem>D</ComboBoxItem>
+                                                <ComboBoxItem>E</ComboBoxItem>
+                                            </ComboBox>
 
 
                                             <!--#endregion Grid 0-->
@@ -535,21 +562,34 @@
                                         <DatePicker x:Name="DataNascimento_tb" VerticalContentAlignment="Center" HorizontalAlignment="Center" SelectedDate="{Binding SelectedItem.DataNascimento, ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}"  Foreground="White" Background="{x:Null}" Grid.Row="0" Grid.Column="1" />
 
                                         <Label Content="Nacionalidade:" Height="28" Width="129" Margin="0,0,5,0" HorizontalContentAlignment="Right" Grid.Row="0" Grid.Column="2" />
-                                        <TextBox  x:Name="Nacionalidade_tb"  CharacterCasing="Upper"  MaxLength="50" Text="{Binding SelectedItem.Nacionalidade, ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24" Grid.Row="0" Grid.Column="3" Margin="18,9,15,9" />
+                                        <TextBox  x:Name="Nacionalidade_tb"  CharacterCasing="Upper"  MaxLength="50" Text="{Binding SelectedItem.Nacionalidade, ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24" Grid.Row="0" Grid.Column="3" Margin="18,9,6,9" />
 
                                         <!--#endregion Grid 0-->
 
 
                                         <!--#region Grid 1 -->
                                         <Label Content="RG:" Height="28" Width="66" Margin="0,7" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="0" />
-                                        <TextBox  x:Name="RG_tb"  CharacterCasing="Upper" Text="{Binding SelectedItem.RG, ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="90" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" Margin="0,9"/>
+                                        <TextBox  x:Name="RG_tb"  PreviewTextInput="NumberOnly" Text="{Binding SelectedItem.RG, ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="90" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" Margin="0,9"/>
                                         <Label Content="Data de Emissão:" Height="28" Width="110" Margin="0,0,5,0" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="1" />
                                         <DatePicker x:Name="RGEmissao_tb" VerticalContentAlignment="Center" SelectedDate="{Binding SelectedItem.RGEmissao, ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}" Width="120" Foreground="White" Background="{x:Null}" Grid.Row="1" Grid.Column="2" />
 
-                                        <Label Content="Órgão Expeditor:" Height="28" Width="100" Margin="0,0,5,0" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="3"/>
-                                        <TextBox  x:Name="RGOrgLocal_tb"  CharacterCasing="Upper" Text="{Binding SelectedItem.RGOrgLocal , ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}" IsEnabled="True"  Height="24"  Width="66" Grid.Row="1" Grid.Column="3" Margin="100,8,15,10"/>
-                                        <Label Content="UF:" Height="28" Width="26" Margin="10,5,0,9" HorizontalContentAlignment="Left" Grid.Row="1" Grid.Column="4" HorizontalAlignment="Left" />
-                                        <TextBox  x:Name="RGOrgUF_tb"  CharacterCasing="Upper" Text="{Binding SelectedItem.RGOrgUF  , ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}" IsEnabled="True"  Height="24"  Width="30" Grid.Row="1" Grid.Column="4" HorizontalAlignment="Right" Margin="0,9,5,9" />
+                                        <Label Content="Órg. Expeditor:" Height="28" Width="100" Margin="0,0,5,0" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="3"/>
+                                        <ComboBox  x:Name="RGOrgLocal_cb" Text="{Binding SelectedItem.RGOrgLocal, ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}" IsEnabled="True"  Height="28" Width="75" HorizontalAlignment="Right" Grid.Row="1" Grid.Column="3" Margin="0,7,6,7" >
+                                            <ComboBoxItem>SSP</ComboBoxItem>
+                                            <ComboBoxItem>DPF</ComboBoxItem>
+                                            <ComboBoxItem>EST</ComboBoxItem>
+                                            <ComboBoxItem>OAB</ComboBoxItem>
+                                        </ComboBox>
+                                        <!--<TextBox  x:Name="RGOrgLocal_tb"  CharacterCasing="Upper" Text="{Binding SelectedItem.RGOrgLocal , ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}" IsEnabled="True"  Height="24"  Width="66" Grid.Row="1" Grid.Column="3" Margin="100,8,15,10"/>-->
+
+                                        <Label Content="UF:" Height="28" Width="26" Margin="0,5,0,9" HorizontalContentAlignment="Left" Grid.Row="1" Grid.Column="4" HorizontalAlignment="Left" />
+
+                                        <!--<TextBox  x:Name="RGOrgUF_tb"  CharacterCasing="Upper" Text="{Binding SelectedItem.RGOrgUF  , ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}" IsEnabled="True"  Height="24"  Width="30" Grid.Row="1" Grid.Column="4" HorizontalAlignment="Right" Margin="0,9,5,9" />-->
+
+                                        <ComboBox x:Name="RGOrgUF_cb" Height="28" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Grid.Row="1" Grid.Column="4" Width="50"
+                                                  ItemsSource="{Binding Estados}" DisplayMemberPath="UF"   SelectedValue="{Binding SelectedItem.Nome, ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}" 
+                                                  Text="{Binding SelectedItem.RGOrgUF  , ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}"
+                                                  SelectedValuePath="RGOrgUF" Margin="26,7,5,7"/>
 
 
                                         <!--#endregion Grid 1 -->
@@ -563,15 +603,15 @@
                                         <DatePicker x:Name="PassaporteValidade_tb" VerticalContentAlignment="Center" SelectedDate="{Binding SelectedItem.PassaporteValidade, ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}" Width="120" Foreground="White" Background="{x:Null}" Grid.Row="2" Grid.Column="2"/>
 
                                         <Label Content="RNE:" Height="28" Width="40" Margin="0,0,0,0" HorizontalContentAlignment="Right" Grid.Row="2" Grid.Column="3" HorizontalAlignment="Left" />
-                                        <TextBox  x:Name="RNE_tb"  CharacterCasing="Upper" MaxLength="30"  Text="{Binding SelectedItem.RNE, ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged,  StringFormat=\{0:d\}}"  IsEnabled="True"  Height="24"  Width="105" Grid.Row="2" Grid.Column="3" HorizontalAlignment="Center" Margin="61,10,15,8"/>
+                                        <TextBox  x:Name="RNE_tb"  CharacterCasing="Upper" MaxLength="30"  Text="{Binding SelectedItem.RNE, ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged,  StringFormat=\{0:d\}}"  IsEnabled="True"  Height="24"  Width="114" Grid.Row="2" Grid.Column="3" HorizontalAlignment="Center" Margin="61,10,6,8"/>
 
                                         <Label Content="Estado Civil:" Height="28" Width="77" Margin="0,0,5,0" HorizontalContentAlignment="Right" Grid.Row="0" Grid.Column="4" />
 
-                                        <ComboBox  x:Name="EstadoCivil_cb" Text="{Binding SelectedItem.EstadoCivil, ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}" IsEnabled="True"  Height="30" Grid.Row="0" Grid.Column="5" Margin="0,7,-24,5">
-                                            <ComboBoxItem>Solteiro</ComboBoxItem>
-                                            <ComboBoxItem>Casado</ComboBoxItem>
-                                            <ComboBoxItem>Divorciado</ComboBoxItem>
-                                            <ComboBoxItem>Viúvo</ComboBoxItem>
+                                        <ComboBox  x:Name="EstadoCivil_cb" Text="{Binding SelectedItem.EstadoCivil, ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}" IsEnabled="True"  Height="30" Grid.Row="0" Grid.Column="5" Margin="0,7,-24,5" HorizontalAlignment="Left" Width="95">
+                                            <ComboBoxItem>SOLTEIRO(A)</ComboBoxItem>
+                                            <ComboBoxItem>CASADO(A)</ComboBoxItem>
+                                            <ComboBoxItem>DIVORCIADO(A)</ComboBoxItem>
+                                            <ComboBoxItem>VIÚVO(A)</ComboBoxItem>
                                         </ComboBox>
 
 

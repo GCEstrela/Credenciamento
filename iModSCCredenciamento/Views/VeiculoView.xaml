@@ -291,7 +291,7 @@
                                             <TextBox  x:Name="Cor_tb" MaxLength="50"  Margin="12,0,0,0" CharacterCasing="Upper" Text="{Binding SelectedItem.Cor, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="138"/>
 
                                             <Label Content="Ano:" Height="28" Width="51" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                            <TextBox  x:Name="Ano_tb" MaxLength="4"  Text="{Binding SelectedItem.Ano, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}" IsEnabled="True"  Height="24"  Width="50"/>
+                                            <TextBox  x:Name="Ano_tb" MaxLength="4" PreviewTextInput="NumberOnly" Text="{Binding SelectedItem.Ano, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}" IsEnabled="True"  Height="24"  Width="50"/>
 
 
 
@@ -425,11 +425,12 @@
                 <ScrollViewer Grid.Row="0"   VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" >
                     <Grid >
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="164*"/>
-                            <ColumnDefinition Width="365*"/>
+                            <ColumnDefinition Width="137*"/>
+                            <ColumnDefinition Width="352*"/>
+                            <ColumnDefinition Width="569*"/>
                         </Grid.ColumnDefinitions>
                         <local:VeiculosSegurosView VeiculoSelecionadaIDView="{Binding SelectedItem.EquipamentoVeiculoID, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"
-                                                    Editando="{Binding IsEnabled, ElementName=ListaVeiculos_sp, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="2" Margin="0,0,0,10" />
+                                                    Editando="{Binding IsEnabled, ElementName=ListaVeiculos_sp, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="3" Margin="0,0,0,10" />
                     </Grid>
                 </ScrollViewer>
             </TabItem>
