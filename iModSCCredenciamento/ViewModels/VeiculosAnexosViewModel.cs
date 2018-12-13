@@ -260,6 +260,7 @@ namespace iModSCCredenciamento.ViewModels
 
                 var entity = Mapper.Map<VeiculoAnexo>(VeiculoAnexoSelecionado);
                 var repositorio = new VeiculoAnexoService();
+
                 repositorio.Criar(entity);
 
                 Thread CarregaColecaoAnexos_thr = new Thread(() => CarregaColecaoVeiculosAnexos(VeiculoAnexoSelecionado.VeiculoID));

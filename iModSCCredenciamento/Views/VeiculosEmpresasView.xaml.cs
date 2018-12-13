@@ -47,7 +47,7 @@ namespace iModSCCredenciamento.Views
             int _veiculoID = Convert.ToInt32(e.NewValue);
             if (_veiculoID != _veiculoIDFisrt && _veiculoID != 0)
             {
-                ((iModSCCredenciamento.ViewModels.VeiculosEmpresasViewModel)((System.Windows.FrameworkElement)source).DataContext).OnAtualizaCommand(_veiculoID);
+                ((VeiculosEmpresasViewModel)((System.Windows.FrameworkElement)source).DataContext).OnAtualizaCommand(_veiculoID);
                 _veiculoIDFisrt = _veiculoID;
             }
         }

@@ -1024,62 +1024,62 @@ namespace UnitTestImod
             repositorio.Remover(list3);
         }
 
-        //[TestMethod]
-        //public void LayoutCrachaRepositorio_com_sucesso()
-        //{
-        //    var repositorio = new LayoutCrachaRepositorio();
+        [TestMethod]
+        public void LayoutCrachaRepositorio_com_sucesso()
+        {
+            var repositorio = new LayoutCrachaRepositorio();
 
-        //    for (var i = 0; i < 4; i++)
-        //    {
-        //        var d1 = new LayoutCracha
-        //        {
-        //            Nome = "Cracha" + i,
-        //            LayoutCrachaGuid = "#",
-        //            Valor = i,
-        //            LayoutRpt = ""
-        //        };
+            for (var i = 0; i < 4; i++)
+            {
+                var d1 = new LayoutCracha
+                {
+                    Nome = "Crachá" + i,
+                    LayoutCrachaGuid = "#",
+                    Valor = i,
+                    LayoutRpt = ""
+                };
 
-        //        //CREATE
-        //        repositorio.Criar(d1);
+                //CREATE
+                repositorio.Criar(d1);
 
-        //        d1.Nome = "Cracha alterado" + i;
-        //        d1.LayoutRpt = "####";
+                d1.Nome = "Crachá Alterado" + i;
+                d1.LayoutRpt = "##";
 
-        //        //UPDATE
-        //        repositorio.Alterar(d1);
-        //    }
+                //UPDATE
+                repositorio.Alterar(d1);
+            }
 
-        //    //READ
-        //    var list0 = repositorio.Listar().ToList();
-        //    Assert.IsNotNull(list0);
+            //READ
+            var list0 = repositorio.Listar().ToList();
+            Assert.IsNotNull(list0);
 
-        //    var IdFirst = list0.FirstOrDefault().LayoutCrachaId;
-        //    if (IdFirst == null)
-        //    {
-        //        return;
-        //    }
-        //    else
-        //    {
-        //        //Listar pela chave
-        //        var list1 = repositorio.BuscarPelaChave(IdFirst);
-        //        Assert.IsNotNull(list1);
+            var IdFirst = list0.FirstOrDefault().LayoutCrachaId;
+            if (IdFirst == null)
+            {
+                return;
+            }
+            else
+            {
+                //Listar pela chave
+                var list1 = repositorio.BuscarPelaChave(IdFirst);
+                Assert.IsNotNull(list1);
 
-        //        var DescFirst = list0.FirstOrDefault().Nome;
-        //        if (DescFirst == null)
-        //        {
-        //            return;
-        //        }
-        //        //Listar Filtrando parâmetro(s)
-        //        var list2 = repositorio.Listar("%" + DescFirst + "%", null).ToList();
-        //        Assert.IsNotNull(list2);
-        //    }
+                var DescFirst = list0.FirstOrDefault().Nome;
+                if (DescFirst == null)
+                {
+                    return;
+                }
+                //Listar Filtrando parâmetro(s)
+                var list2 = repositorio.Listar("%" + DescFirst + "%", null).ToList();
+                Assert.IsNotNull(list2);
+            }
 
-        //    //DELETE
-        //    var IdLast = repositorio.Listar().ToList().LastOrDefault().LayoutCrachaId;
-        //    var list3 = repositorio.BuscarPelaChave(IdLast);
-        //    Assert.IsNotNull(list3);
-        //    repositorio.Remover(list3);
-        //}
+            //DELETE
+            var IdLast = repositorio.Listar().ToList().LastOrDefault().LayoutCrachaId;
+            var list3 = repositorio.BuscarPelaChave(IdLast);
+            Assert.IsNotNull(list3);
+            repositorio.Remover(list3);
+        }
 
         [TestMethod]
         public void PendenciaRepositorio_com_sucesso()
