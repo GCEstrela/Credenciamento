@@ -849,7 +849,7 @@ namespace iModSCCredenciamento.ViewModels
             }
 
         }
-        //TODO: OnBuscarRelatorioGerencialCommand(Binding Nome Arquivo .rpt) - Mihai (07/12/2018)
+
         public void OnBuscarRelatorioGerencialCommand()
         {
             try
@@ -859,7 +859,7 @@ namespace iModSCCredenciamento.ViewModels
                 if (arq == null) return;
                 _RelatorioGerencialTemp.Nome = arq.Nome;
                 _RelatorioGerencialTemp.ArquivoRPT = arq.FormatoBase64;
-                //RelatoriosGerenciais.Add(_RelatorioGerencialTemp);
+
             }
             catch (Exception ex)
             {

@@ -89,11 +89,10 @@ namespace IMOD.Infra.Repositorios
             using (var conn = _dataBase.CreateOpenConnection())
             {
                 using (var cmd = _dataBase.SelectText("Colaboradores", conn))
-
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("Cpf", DbType.String, cpf.RetirarCaracteresEspeciais()).Igual())); 
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("Cpf", DbType.String, cpf.RetirarCaracteresEspeciais()).Igual()));
                         var reader = cmd.ExecuteReader();
                         var d1 = reader.MapToList<Colaborador>();
                         return d1.FirstOrDefault();

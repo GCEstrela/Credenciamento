@@ -44,6 +44,7 @@
     <Compile Include="Interfaces\IAreaAcessoService.cs" />
     <Compile Include="Interfaces\IColaboradorAnexoService.cs" />
     <Compile Include="Interfaces\IColaboradorCredencialService.cs" />
+    <Compile Include="Interfaces\IColaboradorCursoService.cs" />
     <Compile Include="Interfaces\IColaboradorEmpresaService.cs" />
     <Compile Include="Interfaces\IColaboradorService.cs" />
     <Compile Include="Interfaces\ICredencialMotivoService.cs" />

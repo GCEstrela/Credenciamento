@@ -23,6 +23,9 @@ namespace IMOD.Application.Service
         private readonly IColaboradorCredencialRepositorio _repositorioCredencial = new ColaboradorCredencialRepositorio();
 
         public IColaboradorCredencialService Credencial => new ColaboradorCredencialService();
+        public IColaboradorEmpresaService Empresa { get { return new ColaboradorEmpresaService(); } }
+        public IColaboradorCursoService Curso { get { return new ColaboradorCursosService(); } }
+        public IColaboradorAnexoService Anexo { get { return new ColaboradorAnexoService(); } }
 
         #region  Metodos
 
@@ -41,9 +44,9 @@ namespace IMOD.Application.Service
         /// </summary>
         /// <param name="cpf"></param>
         /// <returns></returns>
-        public  Colaborador ObterPorCpf(string cpf)
+        public Colaborador ObterPorCpf(string cpf)
         {
-            return _repositorio.ObterPorCpf (cpf);
+            return _repositorio.ObterPorCpf(cpf);
         }
 
         /// <summary>
