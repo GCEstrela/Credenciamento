@@ -61,12 +61,14 @@
     <Compile Include="Interfaces\IFormatoCredencialService.cs" />
     <Compile Include="Interfaces\ILayoutCrachaService.cs" />
     <Compile Include="Interfaces\IMunicipioService.cs" />
+    <Compile Include="Interfaces\IPendenciaService.cs" />
     <Compile Include="Interfaces\IRelatorioGerencialService.cs" />
     <Compile Include="Interfaces\IRelatorioService.cs" />
     <Compile Include="Interfaces\IStatusService.cs" />
     <Compile Include="Interfaces\ITecnologiaCredencialService.cs" />
     <Compile Include="Interfaces\ITipoAtividadeService.cs" />
     <Compile Include="Interfaces\ITipoCobrancaService.cs" />
+    <Compile Include="Interfaces\ITipoCombustivelService.cs" />
     <Compile Include="Interfaces\ITipoCredencialService.cs" />
     <Compile Include="Interfaces\ITipoEquipamentoService.cs" />
     <Compile Include="Interfaces\ITiposAcessoService.cs" />

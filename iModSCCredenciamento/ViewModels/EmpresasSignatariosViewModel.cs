@@ -39,7 +39,7 @@ namespace iModSCCredenciamento.ViewModels
             {
                 if (!string.IsNullOrWhiteSpace(nome)) nome = $"%{nome}%";
 
-                var list1 = _service.Listar(empresaID, nome, null, null, null, null);
+                var list1 = _service.Listar(empresaID, nome, null, null, null, null,null);
                 var list2 = Mapper.Map<List<ClasseEmpresasSignatarios.EmpresaSignatario>>(list1);
 
                 var observer = new ObservableCollection<ClasseEmpresasSignatarios.EmpresaSignatario>();
@@ -244,27 +244,10 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                string _ArquivoPDF = null;
-                if (_signatarioTemp != null)
-                {
-                    if (_signatarioTemp.Assinatura != null && _signatarioTemp.EmpresaSignatarioID == SignatarioSelecionado.EmpresaSignatarioID)
-                    {
-                        _ArquivoPDF = _signatarioTemp.Assinatura;
-                    }
-                }
-                if (string.IsNullOrWhiteSpace(_ArquivoPDF))
-                {
-                    var _xmlstring = CriaXmlImagem(SignatarioSelecionado.EmpresaSignatarioID);
-
-                    var xmldocument = new XmlDocument();
-                    xmldocument.LoadXml(_xmlstring);
-                    XmlNode node = xmldocument.DocumentElement;
-                    var arquivoNode = node.SelectSingleNode("ArquivosImagens/ArquivoImagem/Arquivo");
-
-                    _ArquivoPDF = arquivoNode.FirstChild.Value;
-                }
-
-                Global.PopupPDF(_ArquivoPDF, false);
+                var arquivoStr = SignatarioSelecionado.Assinatura;
+                var nomeArquivo = "Ficha Cadastral";
+                var arrBytes = Convert.FromBase64String(arquivoStr);
+                WpfHelp.DownloadArquivoDialog(nomeArquivo, arrBytes);
             }
             catch (Exception ex)
             {

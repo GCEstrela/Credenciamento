@@ -219,40 +219,7 @@ namespace iModSCCredenciamento.ViewModels
 
         public void OnAbrirArquivoCommand()
         {
-            //try
-            //{
-            //    try
-            //    {
-            //        string _xmlstring = CriaXmlImagem(SeguroSelecionado.EmpresaSeguroID);
-
-            //        XmlDocument xmldocument = new XmlDocument();
-            //        xmldocument.LoadXml(_xmlstring);
-            //        XmlNode node = (XmlNode)xmldocument.DocumentElement;
-            //        XmlNode arquivoNode = node.SelectSingleNode("ArquivosImagens/ArquivoImagem/Arquivo");
-
-            //        string _ArquivoPDF = arquivoNode.FirstChild.Value;
-            //        byte[] buffer = Conversores.StringToPDF(_ArquivoPDF);
-            //        _ArquivoPDF = System.IO.Path.GetTempFileName();
-            //        _ArquivoPDF = System.IO.Path.GetRandomFileName();
-            //        _ArquivoPDF = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\" + _ArquivoPDF;
-
-            //        //File.Move(_caminhoArquivoPDF, Path.ChangeExtension(_caminhoArquivoPDF, ".pdf"));
-            //        _ArquivoPDF = System.IO.Path.ChangeExtension(_ArquivoPDF, ".pdf");
-            //        System.IO.File.WriteAllBytes(_ArquivoPDF, buffer);
-            //        Action<string> act = new Action<string>(Global.AbrirArquivoPDF);
-            //        act.BeginInvoke(_ArquivoPDF, null, null);
-            //        //Global.AbrirArquivoPDF(_caminhoArquivoPDF);
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        Global.Log("Erro na void ListaARQColaboradorAnexo_lv_PreviewMouseDoubleClick ex: " + ex);
-
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-
-            //}
+            
         }
 
         public void OnEditarCommand()

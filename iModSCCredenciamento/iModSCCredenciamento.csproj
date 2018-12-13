@@ -199,12 +199,6 @@
     <Compile Include="Models\ClasseVinculos.cs" />
     <Compile Include="Models\ClasseFormatosCredenciais.cs" />
     <Compile Include="Models\Colaborador.cs" />
-    <Compile Include="Modulo\MenuPrincipalView.xaml.cs">
-      <DependentUpon>MenuPrincipalView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Modulo\ModuloDescritor.cs" />
-    <Compile Include="Modulo\ModuloPage.cs" />
-    <Compile Include="Modulo\ViewSingleton.cs" />
     <Compile Include="PagePrincipal\MenuPrincipal.xaml.cs">
       <DependentUpon>MenuPrincipal.xaml</DependentUpon>
     </Compile>
@@ -226,7 +220,6 @@
     <Compile Include="Regras\CnpjValida.cs" />
     <Compile Include="Regras\CpfValida.cs" />
     <Compile Include="Regras\RazaoSocial.cs" />
-    <Compile Include="ViewModels\RelayCommand.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\ColaboradoresAnexosViewModel.cs" />
     <Compile Include="ViewModels\ColaboradoresCredenciaisViewModel.cs" />
@@ -427,10 +420,6 @@
     </Resource>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Modulo\MenuPrincipalView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="PagePrincipal\MenuPrincipal.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -722,7 +711,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </None>
-    <None Include="Certificates\iModSCCredenciamento.PagePrincipal.PagePrincipal.cert" />
+    <None Include="Certificates\iModSCCredenciamento.PagePrincipal.PagePrincipal.cert">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

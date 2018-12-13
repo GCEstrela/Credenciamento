@@ -9,5 +9,6 @@ namespace IMOD.Application.Interfaces
 {
     public interface IVeiculoAnexoService : IVeiculoAnexoRepositorio
     {
+        
     }
 }

@@ -80,6 +80,34 @@ namespace IMOD.Infra.Repositorios
         }
 
         /// <summary>
+        ///     Obter colaborador por CPF
+        /// </summary>
+        /// <param name="cpf"></param>
+        /// <returns></returns>
+        public Colaborador ObterPorCpf(string cpf)
+        {
+            using (var conn = _dataBase.CreateOpenConnection())
+            {
+                using (var cmd = _dataBase.SelectText("Colaboradores", conn))
+
+                {
+                    try
+                    {
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("Cpf", DbType.String, cpf.RetirarCaracteresEspeciais()).Igual())); 
+                        var reader = cmd.ExecuteReader();
+                        var d1 = reader.MapToList<Colaborador>();
+                        return d1.FirstOrDefault();
+                    }
+                    catch (Exception ex)
+                    {
+                        Utils.TraceException(ex);
+                        throw;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
         ///     Alterar registro
         /// </summary>
         /// <param name="entity"></param>

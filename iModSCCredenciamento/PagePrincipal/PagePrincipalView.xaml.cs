@@ -36,7 +36,7 @@ namespace iModSCCredenciamento.PagePrincipal
         {
             if (workspace == null)
                 throw new ArgumentNullException("workspace");
-
+            DataContext = null;
             Workspace = workspace;
 
         }

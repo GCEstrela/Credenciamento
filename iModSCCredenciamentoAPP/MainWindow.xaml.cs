@@ -22,8 +22,9 @@ namespace IMOD.ImodApp
     {
         public MainWindow()
         {
-            InitializeComponent();
             AutoMapperConfig.RegisterMappings();
+            InitializeComponent();
+            
         }
     }
 }
