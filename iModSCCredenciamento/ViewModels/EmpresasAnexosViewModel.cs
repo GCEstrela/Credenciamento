@@ -177,34 +177,10 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                try
-                {
-                    string _ArquivoPDF = null;
-                    if (_anexoTemp != null)
-                    {
-                        if (_anexoTemp.Anexo != null && _anexoTemp.EmpresaAnexoID == AnexoSelecionado.EmpresaAnexoID)
-                        {
-                            _ArquivoPDF = _anexoTemp.Anexo;
-
-                        }
-                    }
-                    if (_ArquivoPDF == null)
-                    {
-                        string _xmlstring = CriaXmlImagem(AnexoSelecionado.EmpresaAnexoID);
-
-                        XmlDocument xmldocument = new XmlDocument();
-                        xmldocument.LoadXml(_xmlstring);
-                        XmlNode node = xmldocument.DocumentElement;
-                        XmlNode arquivoNode = node.SelectSingleNode("ArquivosImagens/ArquivoImagem/Arquivo");
-
-                        _ArquivoPDF = arquivoNode.FirstChild.Value;
-                    }
-                    Global.PopupPDF(_ArquivoPDF);
-                }
-                catch (Exception ex)
-                {
-                    Utils.TraceException(ex);
-                }
+                var arquivoStr = AnexoSelecionado.Anexo;
+                var nomeArquivo = AnexoSelecionado.NomeAnexo;
+                var arrBytes = Convert.FromBase64String(arquivoStr);
+                WpfHelp.DownloadArquivoDialog(nomeArquivo, arrBytes);
             }
             catch (Exception ex)
             {

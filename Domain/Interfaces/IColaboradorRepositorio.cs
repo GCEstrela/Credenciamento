@@ -31,6 +31,13 @@ namespace IMOD.Domain.Interfaces
         /// <returns></returns>
         ICollection<Colaborador> ListarPorStatus(int idStatus);
 
+        /// <summary>
+        ///     Obter colaborador por CPF
+        /// </summary>
+        /// <param name="cpf"></param>
+        /// <returns></returns>
+        Colaborador ObterPorCpf(string cpf);
+
         #endregion
     }
 }

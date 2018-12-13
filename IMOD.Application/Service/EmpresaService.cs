@@ -9,6 +9,7 @@
 using System.Collections.Generic;
 using IMOD.Application.Interfaces;
 using IMOD.Domain.Entities;
+using IMOD.Domain.EntitiesCustom;
 using IMOD.Domain.Interfaces;
 using IMOD.Infra.Repositorios;
 
@@ -87,7 +88,22 @@ namespace IMOD.Application.Service
           return  _repositorio.BuscarEmpresaPorCnpj (cnpj);
         }
 
+        /// <summary>
+        /// Listar Pendencias
+        /// </summary>
+        /// <param name="empresaId"></param>
+        /// <returns></returns>
+        public ICollection<EmpresaPendenciaView> ListarPendencias(int empresaId = 0)
+        {
+            return _repositorio.ListarPendencias(empresaId);
+        }
+
         #endregion
+
+        /// <summary>
+        /// Pendência serviços
+        /// </summary>
+        public IPendenciaService Pendencia { get {return  new PendenciaService();} }
 
         /// <summary>
         ///     Signatário serviços

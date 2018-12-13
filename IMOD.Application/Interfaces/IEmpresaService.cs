@@ -17,6 +17,11 @@ namespace IMOD.Application.Interfaces
         #region  Propriedades
 
         /// <summary>
+        /// Pendência serviços
+        /// </summary>
+        IPendenciaService Pendencia { get; }
+
+        /// <summary>
         ///     Signatário serviços
         /// </summary>
         IEmpresaSignatarioService SignatarioService { get; }

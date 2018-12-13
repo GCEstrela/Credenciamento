@@ -211,52 +211,14 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                try
-                {
-                    string _ArquivoPDF = null;
-
-                    if (_ColaboradorCursoTemp != null)
-                    {
-                        if (_ColaboradorCursoTemp.Arquivo != null && _ColaboradorCursoTemp.ColaboradorCursoID == ColaboradorCursoSelecionado.ColaboradorCursoID)
-                        {
-                            _ArquivoPDF = _ColaboradorCursoTemp.Arquivo;
-
-                        }
-                    }
-                    if (_ArquivoPDF == null)
-                    {
-                        string _xmlstring = CriaXmlImagem(ColaboradorCursoSelecionado.ColaboradorCursoID);
-
-                        XmlDocument xmldocument = new XmlDocument();
-                        xmldocument.LoadXml(_xmlstring);
-                        XmlNode node = xmldocument.DocumentElement;
-                        XmlNode arquivoNode = node.SelectSingleNode("ArquivosImagens/ArquivoImagem/Arquivo");
-
-                        _ArquivoPDF = arquivoNode.FirstChild.Value;
-                    }
-                    Global.PopupPDF(_ArquivoPDF);
-                    //byte[] buffer = Conversores.StringToPDF(_ArquivoPDF);
-                    //_ArquivoPDF = System.IO.Path.GetTempFileName();
-                    //_ArquivoPDF = System.IO.Path.GetRandomFileName();
-                    //_ArquivoPDF = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\" + _ArquivoPDF;
-
-                    ////File.Move(_caminhoArquivoPDF, Path.ChangeExtension(_caminhoArquivoPDF, ".pdf"));
-                    //_ArquivoPDF = System.IO.Path.ChangeExtension(_ArquivoPDF, ".pdf");
-                    //System.IO.File.WriteAllBytes(_ArquivoPDF, buffer);
-                    ////Action<string> act = new Action<string>(Global.AbrirArquivoPDF);
-                    ////act.BeginInvoke(_ArquivoPDF, null, null);
-                    //Global.PopupPDF(_ArquivoPDF);
-                    //System.IO.File.Delete(_ArquivoPDF);
-                }
-                catch (Exception ex)
-                {
-                    Global.Log("Erro na void ListaARQColaboradorAnexo_lv_PreviewMouseDoubleClick ex: " + ex);
-
-                }
+                var arquivoStr = ColaboradorCursoSelecionado.Arquivo;
+                var nomeArquivo = ColaboradorCursoSelecionado.NomeArquivo;
+                var arrBytes = Convert.FromBase64String(arquivoStr);
+                WpfHelp.DownloadArquivoDialog(nomeArquivo, arrBytes);
             }
             catch (Exception ex)
             {
-
+                Utils.TraceException(ex);
             }
         }
 

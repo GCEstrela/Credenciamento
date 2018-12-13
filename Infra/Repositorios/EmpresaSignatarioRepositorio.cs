@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
@@ -116,7 +117,7 @@ namespace IMOD.Infra.Repositorios
 
                 {
                     try
-                    {
+                    { 
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmpresaID", DbType.String, objects, 0).Igual()));
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Nome", DbType.String, objects, 1).Like()));
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("CPF", DbType.String, objects, 2).Like()));

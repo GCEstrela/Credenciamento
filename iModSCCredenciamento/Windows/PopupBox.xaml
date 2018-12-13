@@ -6,7 +6,7 @@
         xmlns:gif="http://wpfanimatedgif.codeplex.com"
         xmlns:local="clr-namespace:iModSCCredenciamento.Windows"
         mc:Ignorable="d"
-        Title="Módulo de Credenciamento" Height="190.049" Width="333.004" ShowInTaskbar="False" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" WindowStyle="None" BorderThickness="6,30,6,6" Topmost="True" Icon="/iModSCCredenciamento;component/Resources/Cracha.ico">
+        Title="Módulo de Credenciamento" Height="190.049" Width="333.004" ShowInTaskbar="False" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" WindowStyle="None" BorderThickness="6,30,6,6" Topmost="True" Icon="/iModSCCredenciamento;component/Resources/Cracha.ico" PreviewKeyDown="OnTecla_PreviewKeyDown">
     <Window.Effect>
         <DropShadowEffect ShadowDepth="20" BlurRadius="10"/>
     </Window.Effect>
@@ -39,9 +39,9 @@
 
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="0,5,0,0" >
 
-                <Button x:Name="Ok_bt" Content="OK"  Height="30" Width="100"   Margin="10,5,0,7" Click="Ok_bt_Click" Visibility="Collapsed" />
-                <Button x:Name="Sim_bt" Content="Sim"  Height="30" Width="100"   Margin="10,5,0,7" Click="Sim_bt_Click" />
-                <Button x:Name="Nao_bt" Content="Não"  Height="30" Width="100"   Margin="10,5,0,7" Click="Nao_bt_Click" />
+                <Button x:Name="btnOk" Content="OK"  Height="30" Width="100"   Margin="10,5,0,7" Click="OnButtonOK_Click" Visibility="Collapsed" />
+                <Button x:Name="btnSim" Content="Sim"  Height="30" Width="100"   Margin="10,5,0,7" Click="OnButtonSim_Click" />
+                <Button x:Name="btnNao" Content="Não"  Height="30" Width="100"   Margin="10,5,0,7" Click="OnButtonNao_Click" />
             </StackPanel>
 
         </StackPanel>

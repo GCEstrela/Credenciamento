@@ -78,5 +78,20 @@ namespace IMOD.Application.Service
         }
 
         #endregion
+
+        /// <summary>
+        /// Seguros
+        /// </summary>
+        public IVeiculoSeguroService Seguro { get {return new VeiculoSeguroService();} }
+
+        /// <summary>
+        /// Anexos
+        /// </summary>
+        public IVeiculoAnexoService Anexo { get { return new VeiculoAnexoService(); } }
+
+        /// <summary>
+        /// Veiculos
+        /// </summary>
+        public IVeiculoempresaService Veiculo { get {return new VeiculoEmpresaService();} }
     }
 }

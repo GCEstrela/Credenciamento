@@ -13,6 +13,7 @@ using System.Xml;
 using System.Xml.Serialization;
 using AutoMapper;
 using iModSCCredenciamento.Funcoes;
+using iModSCCredenciamento.Helpers;
 using iModSCCredenciamento.Models;
 using iModSCCredenciamento.Windows;
 using IMOD.Application.Interfaces;
@@ -337,40 +338,17 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                try
-                {
-                    string _ArquivoPDF = null;
-                    if (_veiculoTemp != null)
-                    {
-                        if (_veiculoTemp.ArquivoAnexo != null && _veiculoTemp.EquipamentoVeiculoID == _VeiculoSelecionado.EquipamentoVeiculoID)
-                        {
-                            _ArquivoPDF = _veiculoTemp.ArquivoAnexo;
-
-                        }
-                    }
-                    if (_ArquivoPDF == null)
-                    {
-                        string _xmlstring = CriaXmlImagem(_VeiculoSelecionado.EquipamentoVeiculoID);
-
-                        XmlDocument xmldocument = new XmlDocument();
-                        xmldocument.LoadXml(_xmlstring);
-                        XmlNode node = xmldocument.DocumentElement;
-                        XmlNode arquivoNode = node.SelectSingleNode("ArquivosImagens/ArquivoImagem/Arquivo");
-
-                        _ArquivoPDF = arquivoNode.FirstChild.Value;
-                    }
-                    Global.PopupPDF(_ArquivoPDF);
-                }
-                catch (Exception ex)
-                {
-                    Utils.TraceException(ex);
-
-                }
+                var arquivoStr = VeiculoSelecionado.NomeArquivoAnexo;
+                var nomeArquivo = VeiculoSelecionado.ArquivoAnexo;
+                var arrBytes = Convert.FromBase64String(arquivoStr);
+                WpfHelp.DownloadArquivoDialog(nomeArquivo, arrBytes);
             }
             catch (Exception ex)
             {
                 Utils.TraceException(ex);
             }
+        
+           
         }
 
         public void OnEditarCommand()

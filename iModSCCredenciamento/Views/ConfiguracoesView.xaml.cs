@@ -41,27 +41,27 @@ namespace iModSCCredenciamento.Views
         {
             ((ConfiguracoesViewModel)DataContext).OnExcluirCommand_TiposEquipamentos();
         }
-        IEngine _sdk = Main.engine;
-        private void Carregar_bt_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                Schedule agenda = _sdk.GetEntity(new Guid("00000000-0000-0000-0000-000000000006")) as Schedule;
-                SystemConfiguration systemConfiguration = _sdk.GetEntity(SdkGuids.SystemConfiguration) as SystemConfiguration;
-                var service = systemConfiguration.CustomFieldService;
-                string instancia = service.GetValue<string>("Instancia", agenda.Guid);
-                string bancoDados = service.GetValue<string>("Banco de Dados", agenda.Guid);
-                string usuario = service.GetValue<string>("Usuario", agenda.Guid);
-                string senha = service.GetValue<string>("Senha", agenda.Guid);
+        //IEngine _sdk = Main.engine;
+        //private void Carregar_bt_Click(object sender, RoutedEventArgs e)
+        //{
+        //    try
+        //    {
+        //        Schedule agenda = _sdk.GetEntity(new Guid("00000000-0000-0000-0000-000000000006")) as Schedule;
+        //        SystemConfiguration systemConfiguration = _sdk.GetEntity(SdkGuids.SystemConfiguration) as SystemConfiguration;
+        //        var service = systemConfiguration.CustomFieldService;
+        //        string instancia = service.GetValue<string>("Instancia", agenda.Guid);
+        //        string bancoDados = service.GetValue<string>("Banco de Dados", agenda.Guid);
+        //        string usuario = service.GetValue<string>("Usuario", agenda.Guid);
+        //        string senha = service.GetValue<string>("Senha", agenda.Guid);
 
-                Global._connectionString = "Data Source=" + instancia + "; Initial Catalog=" + bancoDados + "; User ID=" + usuario + "; Password=" + senha +
-                    "; Min Pool Size=5;Max Pool Size=15;Connection Reset=True;Connection Lifetime=600;Trusted_Connection=no;MultipleActiveResultSets=True";
-            }
-            catch
-            {
+        //        Global._connectionString = "Data Source=" + instancia + "; Initial Catalog=" + bancoDados + "; User ID=" + usuario + "; Password=" + senha +
+        //            "; Min Pool Size=5;Max Pool Size=15;Connection Reset=True;Connection Lifetime=600;Trusted_Connection=no;MultipleActiveResultSets=True";
+        //    }
+        //    catch
+        //    {
 
-            }
-        }
+        //    }
+        //}
         private void BuscarRelatorio_bt_Click(object sender, RoutedEventArgs e)
         {
             ((ConfiguracoesViewModel)DataContext).OnBuscarRelatorioCommand();

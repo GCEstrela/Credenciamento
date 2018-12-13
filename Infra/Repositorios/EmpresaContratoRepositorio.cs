@@ -240,7 +240,7 @@ namespace IMOD.Infra.Repositorios
         /// <returns></returns>
         public ICollection<EmpresaContrato> ListarPorNumeroContrato(string numContrato)
         {
-            return Listar(numContrato, null, null, null, null, null, null, null);
+            return Listar(null, numContrato, null, null, null, null, null, null);
         }
 
         /// <summary>
@@ -250,7 +250,7 @@ namespace IMOD.Infra.Repositorios
         /// <returns></returns>
         public ICollection<EmpresaContrato> ListarPorDescricao(string desc)
         {
-            return Listar(null, $"%{desc}%", null, null, null, null, null, null);
+            return Listar(null,null, $"%{desc}%", null, null, null, null, null);
         }
 
 
@@ -261,7 +261,7 @@ namespace IMOD.Infra.Repositorios
         /// <returns></returns>
         public ICollection<EmpresaContrato> ListarPorEmpresa(int empresaId)
         {
-            return Listar(null, null, null, null, null, null, null, empresaId);
+            return Listar(empresaId, null, null, null, null, null, null, null);
         }
 
         #endregion

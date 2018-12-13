@@ -16,6 +16,7 @@ using Genetec.Sdk.Workspace;
 using Genetec.Sdk.Workspace.Modules;
 using Genetec.Sdk.Workspace.Tasks;
 using iModSCCredenciamento.Funcoes;
+using iModSCCredenciamento.Mapeamento;
 using iModSCCredenciamento.Models;
 using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
@@ -38,6 +39,7 @@ namespace iModSCCredenciamento
                 AutoMapperConfig.RegisterMappings();
                 iModSCCredenciamentoIcon = new BitmapImage(new Uri(@"pack://application:,,,/iModSCCredenciamento;Component/Resources/Cracha.png", UriKind.RelativeOrAbsolute));
                 Global.AbreConfig();
+                
             }
 
             catch (Exception)
@@ -49,8 +51,7 @@ namespace iModSCCredenciamento
         #endregion
 
         #region Constants
-
-        public static readonly Guid iModSCCredenciamentoId = new Guid("{2ACE4CD0-7E9C-FAFA-B8A6-24FD71D6DD59}");
+         public static readonly Guid ImodCredencialGuid = new Guid("{2ACE4CD0-7E9C-FAFA-B8A6-24FD71D6DD59}");
 
         public static IEngine engine;
 
@@ -135,7 +136,7 @@ namespace iModSCCredenciamento
 
         private void RegisterTaskExtensions()
         {
-            var taskGroup = new TaskGroup(iModSCCredenciamentoId, Guid.Empty, "Módulo de Credenciamento", iModSCCredenciamentoIcon, 1500);
+            var taskGroup = new TaskGroup(ImodCredencialGuid, Guid.Empty, "Módulo de Credenciamento", iModSCCredenciamentoIcon, 1500);
             taskGroup.Initialize(Workspace);
             m_tasks.Add(taskGroup);
 
@@ -206,47 +207,47 @@ namespace iModSCCredenciamento
         #endregion
     }
 
-    public class AutoMapperConfig
-    {
-        #region  Metodos
+    //public class AutoMapperConfig
+    //{
+    //    #region  Metodos
 
-        public static void RegisterMappings()
-        {
-            Mapper.Initialize(
-                    m =>
-                    {
-                        //  .ForMember(n=>n.CNPJ,opt=>opt.MapFrom(n=>n.Cnpj.FormatarCnpj()))
-                        m.CreateMap<Colaborador, ClasseColaboradores.Colaborador>()
-                        .ForMember(k => k.CPF, opt => opt.MapFrom(k => k.Cpf.FormatarCpf())).ReverseMap();
-                        m.CreateMap<ColaboradorCurso, ClasseColaboradoresCursos.ColaboradorCurso>().ReverseMap();
-                        m.CreateMap<ClasseColaboradoresCredenciais, ClasseColaboradoresCredenciais.ColaboradorCredencial>().ReverseMap();
-                        m.CreateMap<ColaboradoresCredenciaisView, ClasseColaboradoresCredenciais.ColaboradorCredencial>().ReverseMap();
-                        m.CreateMap<ColaboradorEmpresa, ClasseColaboradoresEmpresas.ColaboradorEmpresa>().ReverseMap();
-                        m.CreateMap<VeiculoEmpresa, ClasseVeiculosEmpresas.VeiculoEmpresa>().ReverseMap();
-                        m.CreateMap<VeiculoCredencial, ClasseVeiculosCredenciais.VeiculoCredencial>().ReverseMap();
-                        m.CreateMap<VeiculosCredenciaisView, ClasseVeiculosCredenciais.VeiculoCredencial>().ReverseMap();
-                        m.CreateMap<VeiculoEmpresa, ClasseVeiculosEmpresas.VeiculoEmpresa>().ReverseMap();
-                        m.CreateMap<VeiculoEmpresaView, ClasseVeiculosEmpresas.VeiculoEmpresa>().ReverseMap();
-                        m.CreateMap<Empresa, ClasseEmpresas.Empresa>()
-                       .ForMember(k => k.CNPJ, opt => opt.MapFrom(k => k.Cnpj.FormatarCnpj())).ReverseMap();
-                        m.CreateMap<LayoutCracha, ClasseEmpresasLayoutsCrachas.EmpresaLayoutCracha>().ReverseMap();
+    //    public static void RegisterMappings()
+    //    {
+    //        Mapper.Initialize(
+    //                m =>
+    //                {
+    //                    //  .ForMember(n=>n.CNPJ,opt=>opt.MapFrom(n=>n.Cnpj.FormatarCnpj()))
+    //                    m.CreateMap<Colaborador, ClasseColaboradores.Colaborador>()
+    //                    .ForMember(k => k.CPF, opt => opt.MapFrom(k => k.Cpf.FormatarCpf())).ReverseMap();
+    //                    m.CreateMap<ColaboradorCurso, ClasseColaboradoresCursos.ColaboradorCurso>().ReverseMap();
+    //                    m.CreateMap<ClasseColaboradoresCredenciais, ClasseColaboradoresCredenciais.ColaboradorCredencial>().ReverseMap();
+    //                    m.CreateMap<ColaboradoresCredenciaisView, ClasseColaboradoresCredenciais.ColaboradorCredencial>().ReverseMap();
+    //                    m.CreateMap<ColaboradorEmpresa, ClasseColaboradoresEmpresas.ColaboradorEmpresa>().ReverseMap();
+    //                    m.CreateMap<VeiculoEmpresa, ClasseVeiculosEmpresas.VeiculoEmpresa>().ReverseMap();
+    //                    m.CreateMap<VeiculoCredencial, ClasseVeiculosCredenciais.VeiculoCredencial>().ReverseMap();
+    //                    m.CreateMap<VeiculosCredenciaisView, ClasseVeiculosCredenciais.VeiculoCredencial>().ReverseMap();
+    //                    m.CreateMap<VeiculoEmpresa, ClasseVeiculosEmpresas.VeiculoEmpresa>().ReverseMap();
+    //                    m.CreateMap<VeiculoEmpresaView, ClasseVeiculosEmpresas.VeiculoEmpresa>().ReverseMap();
+    //                    m.CreateMap<Empresa, ClasseEmpresas.Empresa>()
+    //                   .ForMember(k => k.CNPJ, opt => opt.MapFrom(k => k.Cnpj.FormatarCnpj())).ReverseMap();
+    //                    m.CreateMap<LayoutCracha, ClasseEmpresasLayoutsCrachas.EmpresaLayoutCracha>().ReverseMap();
 
-                        m.CreateMap<Estados, ClasseEstados.Estado>().ReverseMap();
-                        m.CreateMap<Municipio, ClasseMunicipios.Municipio>().ReverseMap();
-                        m.CreateMap<EmpresaSignatario, ClasseEmpresasSignatarios.EmpresaSignatario>().ReverseMap();
-                        m.CreateMap<EmpresaContrato, ClasseEmpresasContratos.EmpresaContrato>().ReverseMap();
-                        m.CreateMap<TipoAtividade, ClasseTiposAtividades.TipoAtividade>().ReverseMap();
-                        m.CreateMap<TipoEquipamento, ClasseTiposEquipamento.TipoEquipamento>().ReverseMap();
-                        m.CreateMap<EmpresaTipoAtividade, ClasseEmpresasTiposAtividades.EmpresaTipoAtividade>().ReverseMap();
-                        m.CreateMap<AreaAcesso, ClasseAreasAcessos.AreaAcesso>().ReverseMap();
-                        m.CreateMap<LayoutCracha, ClasseLayoutsCrachas.LayoutCracha>().ReverseMap();
-                        m.CreateMap<EmpresaLayoutCrachaView, ClasseEmpresasLayoutsCrachas.EmpresaLayoutCracha>().ReverseMap();
+    //                    m.CreateMap<Estados, ClasseEstados.Estado>().ReverseMap();
+    //                    m.CreateMap<Municipio, ClasseMunicipios.Municipio>().ReverseMap();
+    //                    m.CreateMap<EmpresaSignatario, ClasseEmpresasSignatarios.EmpresaSignatario>().ReverseMap();
+    //                    m.CreateMap<EmpresaContrato, ClasseEmpresasContratos.EmpresaContrato>().ReverseMap();
+    //                    m.CreateMap<TipoAtividade, ClasseTiposAtividades.TipoAtividade>().ReverseMap();
+    //                    m.CreateMap<TipoEquipamento, ClasseTiposEquipamento.TipoEquipamento>().ReverseMap();
+    //                    m.CreateMap<EmpresaTipoAtividade, ClasseEmpresasTiposAtividades.EmpresaTipoAtividade>().ReverseMap();
+    //                    m.CreateMap<AreaAcesso, ClasseAreasAcessos.AreaAcesso>().ReverseMap();
+    //                    m.CreateMap<LayoutCracha, ClasseLayoutsCrachas.LayoutCracha>().ReverseMap();
+    //                    m.CreateMap<EmpresaLayoutCrachaView, ClasseEmpresasLayoutsCrachas.EmpresaLayoutCracha>().ReverseMap();
 
-                        m.CreateMap<EmpresaContrato , ClasseEmpresasContratos.EmpresaContrato>().ReverseMap();
+    //                    m.CreateMap<EmpresaContrato , ClasseEmpresasContratos.EmpresaContrato>().ReverseMap();
 
-                    });
-        }
+    //                });
+    //    }
 
-        #endregion
-    }
+    //    #endregion
+    //}
 }

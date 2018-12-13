@@ -82,7 +82,7 @@ namespace iModSCCredenciamento.PagePrincipal
 
         public override Guid CategoryId
         {
-            get { return Main.iModSCCredenciamentoId; }
+            get { return Main.ImodCredencialGuid; }
         }
 
         public override string Description

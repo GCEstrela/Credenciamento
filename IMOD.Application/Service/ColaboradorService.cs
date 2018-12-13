@@ -37,13 +37,13 @@ namespace IMOD.Application.Service
         }
 
         /// <summary>
-        ///     Listar por CPF
+        ///     Obter colaborador por CPF
         /// </summary>
         /// <param name="cpf"></param>
         /// <returns></returns>
-        public ICollection<Colaborador> ListarPorColaboradorPorCpf(string cpf)
+        public  Colaborador ObterPorCpf(string cpf)
         {
-            return _repositorio.Listar(0, cpf, 0);
+            return _repositorio.ObterPorCpf (cpf);
         }
 
         /// <summary>

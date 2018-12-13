@@ -160,6 +160,12 @@ namespace IMOD.Application.Service
         {
             get { return new FormatoCredencialService(); }
         }
+
+        /// <summary>
+        ///     Tipos Combustiveis
+        /// </summary>
+        public ITipoCombustivelService TipoCombustivelService { get {return new TipoCombustivelService();} }
+
         #endregion
     }
 }
