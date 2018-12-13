@@ -126,7 +126,7 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText("VeiculosCredenciaisView", conn))
+                using (var cmd = _dataBase.SelectText("VeiculosCredenciais", conn))
 
                 {
                     try

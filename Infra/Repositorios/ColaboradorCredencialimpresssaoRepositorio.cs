@@ -77,12 +77,12 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText("ColaboradorCredencialimpresssao", conn))
+                using (var cmd = _dataBase.SelectText("ColaboradoresCredenciaisImpressoes", conn))
 
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("CredencialImpressaoId", DbType.Int32, id).Igual()));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("CredencialImpressaoID", DbType.Int32, id).Igual()));
                         var reader = cmd.ExecuteReader();
                         var d1 = reader.MapToList<ColaboradorCredencialimpresssao>();
 
@@ -165,7 +165,7 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.DeleteText("ColaboradorCredencialimpresssao", conn))
+                using (var cmd = _dataBase.DeleteText("ColaboradoresCredenciaisImpressoes", conn))
                 {
                     try
                     {

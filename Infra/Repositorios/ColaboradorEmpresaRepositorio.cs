@@ -136,7 +136,7 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText("ColaboradorEmpresaView", conn))
+                using (var cmd = _dataBase.SelectText("ColaboradoresEmpresas", conn))
 
                 {
                     try
@@ -183,7 +183,7 @@ namespace IMOD.Infra.Repositorios
                 }
             }
         }
-       
+
         /// <summary>
         ///     Listar View
         /// </summary>

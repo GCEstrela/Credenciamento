@@ -146,7 +146,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Nome", entity.Nome, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("LayoutCrachaGUID", entity.LayoutCrachaGuid, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Valor", entity.Valor, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("LayoutRPT", entity.LayoutRpt, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("LayoutRPT", entity.LayoutRpt, false)));
 
                         cmd.ExecuteNonQuery();
                     }
