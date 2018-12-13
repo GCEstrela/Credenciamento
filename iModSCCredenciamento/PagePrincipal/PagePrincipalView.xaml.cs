@@ -1,19 +1,8 @@
-﻿using Genetec.Sdk.Workspace;
-using iModSCCredenciamento.Views;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using Genetec.Sdk.Workspace;
+using iModSCCredenciamento.Views;
 
 namespace iModSCCredenciamento.PagePrincipal
 {
@@ -57,7 +46,7 @@ namespace iModSCCredenciamento.PagePrincipal
         #region Event Handlers
         private void OnButtonClick(object sender, RoutedEventArgs e)
         {
-            switch (((System.Windows.FrameworkElement)sender).Name)
+            switch (((FrameworkElement)sender).Name)
             {
                 case "Empresas_bt":
                     DataContext = EmpresaViewDataContext;

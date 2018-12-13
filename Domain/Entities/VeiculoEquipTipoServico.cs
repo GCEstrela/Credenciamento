@@ -10,9 +10,10 @@ namespace IMOD.Domain.Entities
     {
         #region  Propriedades
 
-        public int VeiculoTipoServicoId { get; set; }
-        public int VeiculoId { get; set; }
+        public int EquipamentoVeiculoTipoServicoId { get; set; }
+        public int EquipamentoVeiculoId { get; set; }
         public int? TipoServicoId { get; set; }
+        public string Descricao { get; set; }
 
         #endregion
     }

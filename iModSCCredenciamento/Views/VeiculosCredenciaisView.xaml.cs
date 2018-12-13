@@ -174,7 +174,7 @@ namespace iModSCCredenciamento.Views
             }
             EmpresaVinculo_cb.IsEnabled = true;
             Editando = true; Botoes_Principais_sp.Visibility = Visibility.Visible;
-            ((VeiculosCredenciaisViewModel)this.DataContext).OnSalvarAdicaoCommand();
+            ((VeiculosCredenciaisViewModel)this.DataContext).OnSalvarEdicaoCommand();
             Botoes_Editar_sp.Visibility = Visibility.Hidden;
             ListaVeiculosCredenciais_lv.IsHitTestVisible = true;
             Global.SetReadonly(Linha0_sp, true);

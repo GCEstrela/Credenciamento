@@ -136,7 +136,7 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText("ColaboradoresEmpresas", conn))
+                using (var cmd = _dataBase.SelectText("ColaboradorEmpresaView", conn))
 
                 {
                     try
@@ -183,7 +183,38 @@ namespace IMOD.Infra.Repositorios
                 }
             }
         }
+       
+        /// <summary>
+        ///     Listar View
+        /// </summary>
+        /// <returns></returns>
+        public ICollection<ColaboradorEmpresa> ListarView(params object[] o)
+        {
+            using (var conn = _dataBase.CreateOpenConnection())
+            {
+                using (var cmd = _dataBase.SelectText("ColaboradorEmpresaView", conn))
 
+                {
+                    try
+                    {
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("ColaboradorID", DbType.Int32, o, 0).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Ativo", DbType.Boolean, o, 1).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Cargo", DbType.String, o, 2).Like()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Matricula", DbType.String, o, 3).Like()));
+
+                        var reader = cmd.ExecuteReaderSelect();
+                        var d1 = reader.MapToList<ColaboradorEmpresa>();
+
+                        return d1;
+                    }
+                    catch (Exception ex)
+                    {
+                        Utils.TraceException(ex);
+                        throw;
+                    }
+                }
+            }
+        }
         #endregion
     }
 }

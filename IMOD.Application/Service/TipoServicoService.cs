@@ -35,7 +35,7 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void Criar(TipoServico entity)
         {
-            _repositorio.Criar (entity);
+            _repositorio.Criar(entity);
         }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public TipoServico BuscarPelaChave(int id)
         {
-            return _repositorio.BuscarPelaChave (id);
+            return _repositorio.BuscarPelaChave(id);
         }
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public ICollection<TipoServico> Listar(params object[] objects)
         {
-            return _repositorio.Listar (objects);
+            return _repositorio.Listar(objects);
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void Alterar(TipoServico entity)
         {
-            _repositorio.Alterar (entity);
+            _repositorio.Alterar(entity);
         }
 
         /// <summary>
@@ -73,7 +73,7 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void Remover(TipoServico entity)
         {
-            _repositorio.Remover (entity);
+            _repositorio.Remover(entity);
         }
 
         #endregion

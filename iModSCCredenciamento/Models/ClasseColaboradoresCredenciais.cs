@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace iModSCCredenciamento.Models
 {
@@ -37,8 +33,8 @@ namespace iModSCCredenciamento.Models
             public DateTime? Validade { get; set; }
             public int CredencialStatusID { get; set; }
             public string CredencialStatusDescricao { get; set; }
-            public Guid? CredencialGuid { get; set; }
-            public Guid? CardHolderGuid { get; set; }
+            public string CredencialGuid { get; set; }
+            public string CardHolderGuid { get; set; }
             public int ColaboradorPrivilegio1ID { get; set; }
             public int ColaboradorPrivilegio2ID { get; set; }
             public string PrivilegioDescricao1 { get; set; }

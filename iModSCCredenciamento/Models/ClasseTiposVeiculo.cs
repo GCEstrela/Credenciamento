@@ -1,5 +1,5 @@
 ﻿using System.Collections.ObjectModel;
-using Microsoft.VisualBasic;
+
 public class ClasseTiposVeiculo
 {
 

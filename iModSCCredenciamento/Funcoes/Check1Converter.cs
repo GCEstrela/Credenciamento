@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media.Imaging;
@@ -25,7 +21,7 @@ namespace iModSCCredenciamento.Funcoes
                     string _CredencialStatusDescricao = (string)values[1];
                     int _LayoutCrachaID = (int)values[2];
                     int _FormatoCredencialID = (int)values[3];
-                    string _NumeroCredencial = (string)values[4].ToString().Trim();
+                    string _NumeroCredencial = values[4].ToString().Trim();
                     string _Descricao = (string)values[5];
                     bool _Ativa = (bool)values[6];
 
@@ -33,13 +29,11 @@ namespace iModSCCredenciamento.Funcoes
                     {
                         return false;
                     }
-                    else
-                    {
-                        return true;
-                    }
+
+                    return true;
                 }
 
-                else if (_parameter == "Salvar")
+                if (_parameter == "Salvar")
                 {
                     int _CredencialStatusID = (int)values[0];
                     int _ColaboradorEmpresaID = (int)values[1];
@@ -54,13 +48,11 @@ namespace iModSCCredenciamento.Funcoes
                     {
                         return false;
                     }
-                    else
-                    {
-                        return true;
-                    }
+
+                    return true;
                 }
 
-                else if (_parameter == "DadosAutenticacaoCredencial")
+                if (_parameter == "DadosAutenticacaoCredencial")
                 {
                     if (values[0] == null)
                     {
@@ -73,13 +65,11 @@ namespace iModSCCredenciamento.Funcoes
                     {
                         return true;
                     }
-                    else
-                    {
-                        return false;
-                    }
+
+                    return false;
                 }
 
-                else if ((string)parameter == "StatusCredencial_tb")
+                if ((string)parameter == "StatusCredencial_tb")
                 {
                     string _Descricao = (string)values[0];
                     bool _CredencialAtiva = (bool)values[1];
@@ -88,15 +78,18 @@ namespace iModSCCredenciamento.Funcoes
                     {
                         return Visibility.Visible;
                     }
-                    else if (_CredencialAtiva && _Descricao != "ATIVA")
+
+                    if (_CredencialAtiva && _Descricao != "ATIVA")
                     {
                         return Visibility.Collapsed;
                     }
-                    else if (!_CredencialAtiva && _Descricao != "ATIVA")
+
+                    if (!_CredencialAtiva && _Descricao != "ATIVA")
                     {
                         return Visibility.Visible;
                     }
-                    else if (!_CredencialAtiva && _Descricao == "ATIVA")
+
+                    if (!_CredencialAtiva && _Descricao == "ATIVA")
                     {
                         return Visibility.Collapsed;
                     }
@@ -116,15 +109,18 @@ namespace iModSCCredenciamento.Funcoes
                     {
                         return _CardPrinterAzul;
                     }
-                    else if (_Impressa && _StatusCredencialID != 1)
+
+                    if (_Impressa && _StatusCredencialID != 1)
                     {
                         return _CardPrinterVermelho;
                     }
-                    else if (!_Impressa && _StatusCredencialID != 1)
+
+                    if (!_Impressa && _StatusCredencialID != 1)
                     {
                         return _CardPrinterVermelho;
                     }
-                    else if (!_Impressa && _StatusCredencialID == 1)
+
+                    if (!_Impressa && _StatusCredencialID == 1)
                     {
                         return _CardPrinterAmarelo;
                     }
@@ -140,7 +136,7 @@ namespace iModSCCredenciamento.Funcoes
 
         }
 
-        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture)
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
         {
             return null;
         }

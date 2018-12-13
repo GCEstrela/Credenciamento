@@ -9,13 +9,14 @@
 using System;
 using System.Data.SqlClient;
 using System.IO;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 using CrystalDecisions.CrystalReports.Engine;
 using CrystalDecisions.Shared;
 using iModSCCredenciamento.Windows;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using IMOD.CrossCutting;
 using IMOD.Infra.Ado;
+using Application = System.Windows.Application;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 
 #endregion
@@ -71,30 +72,6 @@ namespace iModSCCredenciamento.Helpers
         }
 
         /// <summary>
-        ///  Caixa de Menssagem Customizada
-        /// </summary>
-        /// <param name="msg"></param>
-        /// <returns></returns>
-        public static bool PopUpBox(string msg)
-        {
-            var pop = new PopupBox(msg,1);
-            pop.ShowDialog();
-            return pop.Result;
-        }
-
-        /// <summary>
-        ///  Caixa de Menssagem Customizada Sim ou Não
-        /// </summary>
-        /// <param name="msg"></param>
-        /// <returns></returns>
-        public static bool PopUpBoxSimNao(string msg)
-        {
-            var pop = new PopupBox(msg, 2);
-            pop.ShowDialog();
-            return pop.Result;
-        }
-
-        /// <summary>
         ///     Caixa de Menssagem Customizada
         /// </summary>
         /// <param name="msg">Mensagem</param>
@@ -128,11 +105,24 @@ namespace iModSCCredenciamento.Helpers
         }
 
         /// <summary>
+        ///     Mensagem por Popup
+        /// </summary>
+        /// <param name="msg">Mensagem a ser exibida</param>
+        /// <param name="icone">1-Informação, 2-Interrogação, 3-Exclamação, 4-Proibido</param>
+        /// <returns></returns>
+        public static bool PopupBox(string msg, int icone)
+        {
+            var popupBox = new PopupBox(msg, icone);
+            popupBox.ShowDialog();
+            return popupBox.Result;
+        }
+
+        /// <summary>
         ///     Upload de arquivo
         ///     <para>Retorna dados de um arquivo</para>
         /// </summary>
         /// <param name="filtro"></param>
-        /// <param name="tamMax">Tamanho máximo em Kilobytes do arquivo, informe 0 para não limitar o tamanho do arquivo</param>
+        /// <param name="tamMax">Tamanho máximo do arquivo, informe 0 para não limitar o tamnho do arquivo</param>
         /// <returns></returns>
         public static ArquivoInfo UpLoadArquivoDialog(string filtro, int tamMax = 0)
         {
@@ -144,7 +134,7 @@ namespace iModSCCredenciamento.Helpers
             if (result != true) return null;
 
             var path = openFileDialog.FileName;
-            var tamBytes = new FileInfo (path).Length;
+            var tamBytes = new FileInfo(path).Length;
             var tam = decimal.Divide(tamBytes, 1000);
             var arq = new ArquivoInfo
             {
@@ -239,7 +229,7 @@ namespace iModSCCredenciamento.Helpers
 
                 var tsk = Task.Factory.StartNew(() =>
                 {
-                    System.Windows.Application.Current.Dispatcher.Invoke(() =>
+                    Application.Current.Dispatcher.Invoke(() =>
                     {
                         //your code here, formulas...
                         if (!string.IsNullOrWhiteSpace(formula))

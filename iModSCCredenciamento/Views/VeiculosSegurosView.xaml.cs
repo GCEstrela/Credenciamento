@@ -1,23 +1,11 @@
-﻿using iModSCCredenciamento.Funcoes;
-using iModSCCredenciamento.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Forms;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using iModSCCredenciamento.Funcoes;
+using iModSCCredenciamento.ViewModels;
 using IMOD.CrossCutting;
-using UserControl = System.Windows.Controls.UserControl;
 
 namespace iModSCCredenciamento.Views
 {
@@ -30,12 +18,12 @@ namespace iModSCCredenciamento.Views
         public VeiculosSegurosView()
         {
             InitializeComponent();
-            this.DataContext = new VeiculosSegurosViewModel();
+            DataContext = new VeiculosSegurosViewModel();
         }
         #endregion
 
         #region Vinculo do UserControl
-        static int __EquipamentoVeiculoIDFisrt = 0;
+        static int __EquipamentoVeiculoIDFisrt;
         public int VeiculoSelecionadaIDView
         {
             get { return (int)GetValue(VeiculoSelecionadaIDViewProperty); }
@@ -49,7 +37,7 @@ namespace iModSCCredenciamento.Views
             int _EquipamentoVeiculoID = Convert.ToInt32(e.NewValue);
             if (_EquipamentoVeiculoID != __EquipamentoVeiculoIDFisrt && _EquipamentoVeiculoID != 0)
             {
-                ((iModSCCredenciamento.ViewModels.VeiculosSegurosViewModel)((System.Windows.FrameworkElement)source).DataContext).OnAtualizaCommand(_EquipamentoVeiculoID);
+                ((VeiculosSegurosViewModel)((FrameworkElement)source).DataContext).OnAtualizaCommand(_EquipamentoVeiculoID);
                 __EquipamentoVeiculoIDFisrt = _EquipamentoVeiculoID;
             }
         }
@@ -61,7 +49,7 @@ namespace iModSCCredenciamento.Views
 
         public static readonly DependencyProperty EditandoProperty =
             DependencyProperty.Register("Editando", typeof(bool), typeof(VeiculosSegurosView), new FrameworkPropertyMetadata(true,
-                                                           FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, new PropertyChangedCallback(EditandoPropertyChanged)));
+                                                           FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, EditandoPropertyChanged));
 
         private static void EditandoPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -72,18 +60,18 @@ namespace iModSCCredenciamento.Views
         #region Comando dos Botoes
         private void BuscarApoliceArquivo_bt_Click(object sender, RoutedEventArgs e)
         {
-            ((VeiculosSegurosViewModel)this.DataContext).OnBuscarArquivoCommand();
-            ApoliceArquivo_tb.Text = ((VeiculosSegurosViewModel)this.DataContext).Seguros[0].NomeArquivo;
+            ((VeiculosSegurosViewModel)DataContext).OnBuscarArquivoCommand();
+            ApoliceArquivo_tb.Text = ((VeiculosSegurosViewModel)DataContext).Seguros[0].NomeArquivo;
         }
 
         private void AbrirApoliceArquivo_bt_Click(object sender, RoutedEventArgs e)
         {
-            ((VeiculosSegurosViewModel)this.DataContext).OnAbrirArquivoCommand();
+            ((VeiculosSegurosViewModel)DataContext).OnAbrirArquivoCommand();
         }
 
         private void Pesquisar_bt_Click(object sender, RoutedEventArgs e)
         {
-            ((VeiculosSegurosViewModel)this.DataContext).OnPesquisarCommand();
+            ((VeiculosSegurosViewModel)DataContext).OnPesquisarCommand();
         }
 
         private void Editar_bt_Click(object sender, RoutedEventArgs e)
@@ -92,7 +80,7 @@ namespace iModSCCredenciamento.Views
             Botoes_Editar_sp.Visibility = Visibility.Visible;
             ListaSeguros_lv.IsHitTestVisible = false;
             Global.SetReadonly(Linha0_sp, false);
-            ((VeiculosSegurosViewModel)this.DataContext).OnEditarCommand();
+            ((VeiculosSegurosViewModel)DataContext).OnEditarCommand();
         }
 
         private void Adicionar_bt_Click(object sender, RoutedEventArgs e)
@@ -100,13 +88,13 @@ namespace iModSCCredenciamento.Views
             Editando = false; Botoes_Principais_sp.Visibility = Visibility.Hidden;
             Botoes_Adicionar_sp.Visibility = Visibility.Visible;
             Global.SetReadonly(Linha0_sp, false);
-            ((VeiculosSegurosViewModel)this.DataContext).OnAdicionarCommand();
+            ((VeiculosSegurosViewModel)DataContext).OnAdicionarCommand();
         }
 
         private void Excluir_bt_Click(object sender, RoutedEventArgs e)
         {
             Editando = true; Botoes_Principais_sp.Visibility = Visibility.Visible;
-            ((VeiculosSegurosViewModel)this.DataContext).OnExcluirCommand();
+            ((VeiculosSegurosViewModel)DataContext).OnExcluirCommand();
         }
 
         private void ExecutarPesquisa_bt_Click(object sender, RoutedEventArgs e)
@@ -130,7 +118,7 @@ namespace iModSCCredenciamento.Views
             Botoes_Editar_sp.Visibility = Visibility.Hidden;
             ListaSeguros_lv.IsHitTestVisible = true;
             Global.SetReadonly(Linha0_sp, true);
-            ((VeiculosSegurosViewModel)this.DataContext).OnCancelarEdicaoCommand();
+            ((VeiculosSegurosViewModel)DataContext).OnCancelarEdicaoCommand();
         }
 
         private void SalvarEdicao_bt_Click(object sender, RoutedEventArgs e)
@@ -146,7 +134,7 @@ namespace iModSCCredenciamento.Views
             }
 
             Editando = true; Botoes_Principais_sp.Visibility = Visibility.Visible;
-            ((VeiculosSegurosViewModel)this.DataContext).OnSalvarEdicaoCommand();
+            ((VeiculosSegurosViewModel)DataContext).OnSalvarEdicaoCommand();
             Botoes_Editar_sp.Visibility = Visibility.Hidden;
             ListaSeguros_lv.IsHitTestVisible = true;
             Global.SetReadonly(Linha0_sp, true);
@@ -155,7 +143,7 @@ namespace iModSCCredenciamento.Views
         private void CancelarAdicao_bt_Click(object sender, RoutedEventArgs e)
         {
             Editando = true; Botoes_Principais_sp.Visibility = Visibility.Visible;
-            ((VeiculosSegurosViewModel)this.DataContext).OnCancelarAdicaoCommand();
+            ((VeiculosSegurosViewModel)DataContext).OnCancelarAdicaoCommand();
             Botoes_Adicionar_sp.Visibility = Visibility.Hidden;
             Global.SetReadonly(Linha0_sp, true);
         }
@@ -173,12 +161,14 @@ namespace iModSCCredenciamento.Views
             }
 
             Editando = true; Botoes_Principais_sp.Visibility = Visibility.Visible;
-            ((VeiculosSegurosViewModel)this.DataContext).OnSalvarAdicaoCommand();
+            ((VeiculosSegurosViewModel)DataContext).OnSalvarAdicaoCommand();
             Botoes_Adicionar_sp.Visibility = Visibility.Hidden;
             Global.SetReadonly(Linha0_sp, true);
         }
 
         #endregion
+
+        #region Metodos privados
 
         private void Emissao_tb_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
@@ -218,6 +208,14 @@ namespace iModSCCredenciamento.Views
         {
             ValorCobertura_tb.Text = ValorCobertura_tb.Text.FormatarMoeda();
         }
+
+        private void NumberOnly(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
+        }
+
+        #endregion
 
     }
 }

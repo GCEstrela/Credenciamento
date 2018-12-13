@@ -31,11 +31,11 @@ namespace Singulink.Windows.Data
         }
         
         public MethodBindingExtension(string path) : this(path, null) { }
-        public MethodBindingExtension(string path, object argument) : this(path, new object[] { argument }) { }
-        public MethodBindingExtension(string path, object arg0, object arg1) : this(path, new object[] { arg0, arg1 }) { }
-        public MethodBindingExtension(string path, object arg0, object arg1, object arg2) : this(path, new object[] { arg0, arg1, arg2 }) { }
-        public MethodBindingExtension(string path, object arg0, object arg1, object arg2, object arg3) : this(path, new object[] { arg0, arg1, arg2, arg3 }) { }
-        public MethodBindingExtension(string path, object arg0, object arg1, object arg2, object arg3, object arg4) : this(path, new object[] { arg0, arg1, arg2, arg3, arg4 }) { }
+        public MethodBindingExtension(string path, object argument) : this(path, new[] { argument }) { }
+        public MethodBindingExtension(string path, object arg0, object arg1) : this(path, new[] { arg0, arg1 }) { }
+        public MethodBindingExtension(string path, object arg0, object arg1, object arg2) : this(path, new[] { arg0, arg1, arg2 }) { }
+        public MethodBindingExtension(string path, object arg0, object arg1, object arg2, object arg3) : this(path, new[] { arg0, arg1, arg2, arg3 }) { }
+        public MethodBindingExtension(string path, object arg0, object arg1, object arg2, object arg3, object arg4) : this(path, new[] { arg0, arg1, arg2, arg3, arg4 }) { }
 
         public MethodBindingExtension(string path, object[] arguments)
         {
@@ -150,7 +150,8 @@ namespace Singulink.Windows.Data
                                 method = null;
                                 break;
                         }
-                        else if (_methodArguments[i] is string && parameters[i].ParameterType != typeof(string))
+
+                        if (_methodArguments[i] is string && parameters[i].ParameterType != typeof(string))
                         {
                             // The original value provided for this argument was a XAML string so try to convert it
                             

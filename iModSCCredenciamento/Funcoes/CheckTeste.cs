@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Data;
 
 namespace iModSCCredenciamento.Funcoes
@@ -23,22 +19,19 @@ namespace iModSCCredenciamento.Funcoes
                 {
                     return "White";
                 }
-                else
-                {
-                    return "Red";
-                }
+
+                return "Red";
             }
-            else if ((string)parameter == "Principal_tw")
+
+            if ((string)parameter == "Principal_tw")
             {
                 bool _Principal = (bool)value;
                 if (_Principal)
                 {
                     return "White";
                 }
-                else
-                {
-                    return "Gray";
-                }
+
+                return "Gray";
             }
             //else if ((string)parameter == "Ativa_Checked")
             //{

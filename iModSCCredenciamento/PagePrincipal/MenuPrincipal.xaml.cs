@@ -1,17 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace iModSCCredenciamento.PagePrincipal
 {
@@ -25,7 +15,7 @@ namespace iModSCCredenciamento.PagePrincipal
             InitializeComponent();
             Veiculos_bt.Visibility = Visibility.Collapsed;
             Configuracoes_bt.Visibility = Visibility.Collapsed;
-            this.PreviewKeyDown += (ss, ee) =>
+            PreviewKeyDown += (ss, ee) =>
             {
                 if (ee.Key == Key.F12)
                 {

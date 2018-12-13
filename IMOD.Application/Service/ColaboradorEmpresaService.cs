@@ -1,12 +1,8 @@
-﻿using IMOD.Application.Interfaces;
+﻿using System.Collections.Generic;
+using IMOD.Application.Interfaces;
 using IMOD.Domain.Entities;
 using IMOD.Domain.Interfaces;
 using IMOD.Infra.Repositorios;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace IMOD.Application.Service
 {
@@ -71,6 +67,14 @@ namespace IMOD.Application.Service
             _repositorio.Remover(entity);
         }
 
+        /// <summary>
+        ///     Listar View
+        /// </summary>
+        /// <returns></returns>
+        public ICollection<ColaboradorEmpresa> ListarView(params object[] objects)
+        {
+            return _repositorio.Listar(objects);
+        }
         #endregion
     }
 }

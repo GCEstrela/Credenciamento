@@ -33,7 +33,7 @@ namespace iModSCCredenciamento.Views
         #endregion
 
         #region Vinculo do UserControl
-        static int _EquipamentoVeiculoIDFisrt = 0;
+        static int _veiculoIDFisrt = 0;
         public int VeiculoSelecionadoIDView
         {
             get { return (int)GetValue(VeiculoSelecionadoIDViewProperty); }
@@ -44,11 +44,11 @@ namespace iModSCCredenciamento.Views
             DependencyProperty.Register("VeiculoSelecionadoIDView", typeof(int), typeof(VeiculosEmpresasView), new PropertyMetadata(0, PropertyChanged));
         private static void PropertyChanged(DependencyObject source, DependencyPropertyChangedEventArgs e)
         {
-            int _EquipamentoVeiculoID = Convert.ToInt32(e.NewValue);
-            if (_EquipamentoVeiculoID != _EquipamentoVeiculoIDFisrt && _EquipamentoVeiculoID != 0)
+            int _veiculoID = Convert.ToInt32(e.NewValue);
+            if (_veiculoID != _veiculoIDFisrt && _veiculoID != 0)
             {
-                ((iModSCCredenciamento.ViewModels.VeiculosEmpresasViewModel)((System.Windows.FrameworkElement)source).DataContext).OnAtualizaCommand(_EquipamentoVeiculoID);
-                _EquipamentoVeiculoIDFisrt = _EquipamentoVeiculoID;
+                ((iModSCCredenciamento.ViewModels.VeiculosEmpresasViewModel)((System.Windows.FrameworkElement)source).DataContext).OnAtualizaCommand(_veiculoID);
+                _veiculoIDFisrt = _veiculoID;
             }
         }
 
@@ -70,7 +70,10 @@ namespace iModSCCredenciamento.Views
         #endregion
 
         #region Comando dos Botoes
-        
+        private void BuscarApoliceArquivo_bt_Click(object sender, RoutedEventArgs e)
+        {
+            //((VeiculosEmpresasViewModel)this.DataContext).OnBuscarArquivoCommand();
+        }
 
         private void Pesquisar_bt_Click(object sender, RoutedEventArgs e)
         {
@@ -203,6 +206,57 @@ namespace iModSCCredenciamento.Views
             ListaVeiculosEmpresas_lv.SelectedIndex = -1;
             Linha0_sp.IsEnabled = false;
             Editar_bt.IsEnabled = false;
+        }
+
+        private void Ativo_cb_Checked(object sender, RoutedEventArgs e)
+        {
+            if (((VeiculosEmpresasViewModel)this.DataContext).VerificaVinculo() && !Editando)
+            {
+                SalvarEdicao_bt.IsEnabled = false;
+                SalvarAdicao_bt.IsEnabled = false;
+                Global.PopupBox("Este veiculo/equipamento já possui vínculo ativo com este contrato!", 1);
+
+            }
+            else
+            {
+                SalvarEdicao_bt.IsEnabled = true;
+                SalvarAdicao_bt.IsEnabled = true;
+            }
+        }
+
+        private void Ativo_cb_Unchecked(object sender, RoutedEventArgs e)
+        {
+            if (!Editando)
+            {
+                if (!Global.PopupBox("Todas as credenciais deste veiculo/equipamento serão canceladas! Confirma desligamento?", 2))
+                {
+                    Ativo_cb.IsChecked = true;
+                }
+                return;
+            }
+        }
+
+        private void Contrato_cb_DropDownClosed(object sender, EventArgs e)
+        {
+            if (((VeiculosEmpresasViewModel)this.DataContext).VerificaVinculo() && !Editando)
+            {
+                SalvarEdicao_bt.IsEnabled = false;
+                SalvarAdicao_bt.IsEnabled = false;
+                Global.PopupBox("Este veiculo/equipamento já possui vínculo ativo com este contrato!", 1);
+
+            }
+            else
+            {
+                SalvarEdicao_bt.IsEnabled = true;
+                SalvarAdicao_bt.IsEnabled = true;
+            }
+            var display1 = EmpresaRazaoSocial_cb.Text;
+            var display2 = Contrato_cb.Text;
+            var data1 = ((VeiculosEmpresasViewModel)this.DataContext).VeiculoEmpresaSelecionado;
+            data1.EmpresaNome = display1;
+            data1.Descricao = display2;
+            //ListaColaboradoresEmpresas_lv.ItemsSource = data1;
+            ListaVeiculosEmpresas_lv.Items.Refresh();
         }
     }
 }

@@ -1,6 +1,6 @@
-﻿using iModSCCredenciamento.ViewModels;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Input;
+using iModSCCredenciamento.ViewModels;
 
 namespace iModSCCredenciamento.Windows
 {
@@ -12,7 +12,7 @@ namespace iModSCCredenciamento.Windows
         public PopUpFiltrosCredenciaisViasAdicionais()
         {
             InitializeComponent();
-            this.DataContext = new RelatoriosViewModel();
+            DataContext = new RelatoriosViewModel();
             MouseDown += Window_MouseDown;
         }
 
@@ -44,15 +44,15 @@ namespace iModSCCredenciamento.Windows
                 tipo = 0;
             }
 
-            ((RelatoriosViewModel)this.DataContext).OnFiltroCredencialViasAdicionaisCommand(tipo, DataIni, DataFim);
+            ((RelatoriosViewModel)DataContext).OnFiltroCredencialViasAdicionaisCommand(tipo, DataIni, DataFim);
 
 
-            this.Close();
+            Close();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Close();
         }
     }
 }

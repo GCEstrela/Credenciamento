@@ -240,6 +240,36 @@ namespace IMOD.Infra.Repositorios
                 }
             }
         }
+        /// <summary>
+        ///    Listar Veículos e seus contratos
+        /// </summary>
+        /// <param name="o">Arrays de Parametros</param>
+        /// <returns></returns>
+        public ICollection<ColaboradorEmpresaView> ListarContratoView(params object[] o)
+        {
+            using (var conn = _dataBase.CreateOpenConnection())
+            {
+                using (var cmd = _dataBase.SelectText("ColaboradorEmpresaView", conn))
+                {
+                    try
+                    {
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("ColaboradorCredencialID", DbType.Int32, o, 0).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmpresaNome", DbType.String, o, 1).Like()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("NumeroContrato", DbType.String, o, 2).Like()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Descricao", DbType.String, o, 3).Igual()));
+
+                        var reader = cmd.ExecuteReaderSelect();
+                        var d1 = reader.MapToList<ColaboradorEmpresaView>();
+                        return d1;
+                    }
+                    catch (Exception ex)
+                    {
+                        Utils.TraceException(ex);
+                        throw;
+                    }
+                }
+            }
+        }
 
         #endregion
     }

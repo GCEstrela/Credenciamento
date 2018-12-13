@@ -1,12 +1,8 @@
-﻿using Genetec.Sdk.Workspace.Pages;
-using iModSCCredenciamento.Funcoes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Genetec.Sdk.Workspace.Pages;
+using iModSCCredenciamento.Funcoes;
 
 namespace iModSCCredenciamento.PagePrincipal
 {

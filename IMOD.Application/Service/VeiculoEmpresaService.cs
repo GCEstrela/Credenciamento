@@ -8,6 +8,7 @@
 
 using System.Collections.Generic;
 using IMOD.Domain.Entities;
+using IMOD.Domain.EntitiesCustom;
 using IMOD.Domain.Interfaces;
 using IMOD.Infra.Repositorios;
 
@@ -76,6 +77,15 @@ namespace IMOD.Application.Service
             _repositorio.Remover (entity);
         }
 
+        public ICollection<VeiculoEmpresa> ListarEmpresas(params object[] objects)
+        {
+            return _repositorio.Listar(objects);
+        }
+
+        public ICollection<VeiculoEmpresaView> ListarContratoView(params object[] o)
+        {
+            return _repositorio.ListarContratoView(o);
+        }
         #endregion
     }
 }

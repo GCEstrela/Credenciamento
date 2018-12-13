@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 
 namespace iModSCCredenciamento.Models
 {
-    [Serializable()]
+    [Serializable]
     public class ClasseEmpresas
     {
         public ObservableCollection<Empresa> Empresas { get; set; }

@@ -1,7 +1,7 @@
-﻿using iModSCCredenciamento.ViewModels;
-using System;
+﻿using System;
 using System.Windows;
 using System.Windows.Input;
+using iModSCCredenciamento.ViewModels;
 
 namespace iModSCCredenciamento.Windows
 {
@@ -15,7 +15,7 @@ namespace iModSCCredenciamento.Windows
         {
 
             InitializeComponent();
-            this.DataContext = new TermosViewModel();
+            DataContext = new TermosViewModel();
             MouseDown += Window_MouseDown;
             _termo = termo;
             _status = status;
@@ -63,15 +63,15 @@ namespace iModSCCredenciamento.Windows
             }
 
 
-                ((TermosViewModel)this.DataContext).OnFiltrosTermosCommand(_termo, _status, periodo, DataIni, DataFim);
+                ((TermosViewModel)DataContext).OnFiltrosTermosCommand(_termo, _status, periodo, DataIni, DataFim);
 
 
-            this.Close();
+            Close();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Close();
         }
     }
 }

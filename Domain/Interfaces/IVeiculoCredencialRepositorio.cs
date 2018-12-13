@@ -6,9 +6,9 @@
 
 #region
 
+using System.Collections.Generic;
 using IMOD.Domain.Entities;
 using IMOD.Domain.EntitiesCustom;
-using System.Collections.Generic;
 
 #endregion
 

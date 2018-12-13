@@ -1,11 +1,9 @@
-﻿using System.Windows;
-
-namespace iModSCCredenciamentoAPP
+﻿namespace IMOD.Wpf2
 {
     /// <summary>
     /// Interação lógica para App.xaml
     /// </summary>
-    public partial class App : Application
+    public class App : System.Windows.Application
     {
     }
 }

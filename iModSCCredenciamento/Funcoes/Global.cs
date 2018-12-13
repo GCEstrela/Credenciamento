@@ -1,17 +1,20 @@
-﻿using iModSCCredenciamento.Windows;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Reflection;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using System.Xml;
+using CSharpControls.Wpf;
+using iModSCCredenciamento.Windows;
 
 namespace iModSCCredenciamento.Funcoes
 {
     public class Global
     {
+
+        public Boolean iniciarFiljos = false;
         public static string _cnpjEdicao = "";
         public static string CpfEdicao { get; set; }
 
@@ -80,8 +83,8 @@ namespace iModSCCredenciamento.Funcoes
                 }
                 else
                 {
-                    _eventoDisplay = System.DateTime.Now + " " + texto + Environment.NewLine;
-                    _eventolog = System.DateTime.Now + " " + texto.Replace("*", "") + Environment.NewLine;
+                    _eventoDisplay = DateTime.Now + " " + texto + Environment.NewLine;
+                    _eventolog = DateTime.Now + " " + texto.Replace("*", "") + Environment.NewLine;
                 }
 
 
@@ -95,26 +98,23 @@ namespace iModSCCredenciamento.Funcoes
 
                 if (funcao == 0 | funcao == 2)
                 {
-                    string _path2 = System.IO.Path.GetTempPath() + "ModuloCredenciamento_LogTemp";
+                    string _path2 = Path.GetTempPath() + "ModuloCredenciamento_LogTemp";
                     if (!(Directory.Exists(_path2)))
                     {
                         Directory.CreateDirectory(_path2);
                     }
 
-                    string arqlog = _path2 + "\\iMod_log_" + System.DateTime.Now.ToString("ddMMyy") + ".txt";
+                    string arqlog = _path2 + "\\iMod_log_" + DateTime.Now.ToString("ddMMyy") + ".txt";
 
                     try
                     {
-                        System.IO.File.AppendAllText(arqlog, _eventolog);
+                        File.AppendAllText(arqlog, _eventolog);
 
                     }
                     catch (Exception)
                     {
                         //MsgBox("Erro na Sub Log do modulo Global_mod:" & ex.Message)
 
-                    }
-                    finally
-                    {
                     }
                 }
 
@@ -138,7 +138,7 @@ namespace iModSCCredenciamento.Funcoes
                 }
                 catch (Exception ex)
                 {
-                    Global.Log("Erro na void AbrirArquivoPDF  ex: " + ex);
+                    Log("Erro na void AbrirArquivoPDF  ex: " + ex);
                 }
             }
         }
@@ -256,16 +256,14 @@ namespace iModSCCredenciamento.Funcoes
                     resto = 11 - resto;
                 }
 
-                digito = digito + resto.ToString();
+                digito = digito + resto;
                 if (digito == tempdigito)
                 {
                     return true;
                 }
-                else
-                {
-                    //PopupBox("CNPJ Inválido (pressione [Esc] para cancelar)", 1);
-                    return false;
-                }
+
+                //PopupBox("CNPJ Inválido (pressione [Esc] para cancelar)", 1);
+                return false;
                 //return cnpj.EndsWith(digito);
             }
 
@@ -348,16 +346,14 @@ namespace iModSCCredenciamento.Funcoes
                     resto = 11 - resto;
                 }
 
-                digito = digito + resto.ToString();
+                digito = digito + resto;
                 if (digito == tempdigito)
                 {
                     return true;
                 }
-                else
-                {
-                    //PopupBox("CPF Inválido (pressione [Esc] para cancelar)", 1);
-                    return false;
-                }
+
+                //PopupBox("CPF Inválido (pressione [Esc] para cancelar)", 1);
+                return false;
                 //return cpf.EndsWith(digito);
             }
             catch (Exception)
@@ -374,7 +370,7 @@ namespace iModSCCredenciamento.Funcoes
 
             if (_controleType == "System.Windows.Controls.TextBox")
             {
-                System.Windows.Controls.TextBox _textBox = (System.Windows.Controls.TextBox)_controle;
+                TextBox _textBox = (TextBox)_controle;
                 switch (_tipo)
                 {
 
@@ -445,7 +441,7 @@ namespace iModSCCredenciamento.Funcoes
             }
             else if (_controleType == "System.Windows.Controls.TextBox")
             {
-                System.Windows.Controls.TextBox _textBox = (System.Windows.Controls.TextBox)_controle;
+                TextBox _textBox = (TextBox)_controle;
                 if (_textBox.Text.Trim() == "")
                 {
                     if (PopupBox("Campo [ " + _tooltip + " ]  em branco é Inválido", 1))
@@ -474,33 +470,33 @@ namespace iModSCCredenciamento.Funcoes
         {
             //System.Windows.DependencyObject control;
 
-            switch (((System.Windows.DependencyObject)controls).DependencyObjectType.Name)
+            switch (((DependencyObject)controls).DependencyObjectType.Name)
             {
                 case "StackPanel":
-                    controls = (System.Windows.Controls.StackPanel)controls;
+                    controls = (StackPanel)controls;
                     break;
                 case "GroupBox":
-                    controls = (System.Windows.Controls.GroupBox)controls;
+                    controls = (GroupBox)controls;
                     break;
             }
-            DependencyObject control = (System.Windows.DependencyObject)controls;
-            foreach (System.Windows.Controls.TextBox tb in FindVisualChildren<System.Windows.Controls.TextBox>(control))
+            DependencyObject control = (DependencyObject)controls;
+            foreach (TextBox tb in FindVisualChildren<TextBox>(control))
             {
                 tb.IsReadOnly = Valor;
             }
-            foreach (System.Windows.Controls.ComboBox tb in FindVisualChildren<System.Windows.Controls.ComboBox>(control))
+            foreach (ComboBox tb in FindVisualChildren<ComboBox>(control))
             {
                 tb.IsHitTestVisible = !Valor;
             }
-            foreach (System.Windows.Controls.CheckBox tb in FindVisualChildren<System.Windows.Controls.CheckBox>(control))
+            foreach (CheckBox tb in FindVisualChildren<CheckBox>(control))
             {
                 tb.IsHitTestVisible = !Valor;
             }
-            foreach (System.Windows.Controls.Button tb in FindVisualChildren<System.Windows.Controls.Button>(control))
+            foreach (Button tb in FindVisualChildren<Button>(control))
             {
                 tb.IsHitTestVisible = !Valor;
             }
-            foreach (CSharpControls.Wpf.ToggleSwitch tb in FindVisualChildren<CSharpControls.Wpf.ToggleSwitch>(control))
+            foreach (ToggleSwitch tb in FindVisualChildren<ToggleSwitch>(control))
             {
                 tb.IsHitTestVisible = !Valor;
             }

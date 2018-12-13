@@ -7,8 +7,8 @@ using System.Windows;
 using System.Xml;
 using System.Xml.Serialization;
 using iModSCCredenciamento.Funcoes;
-using iModSCCredenciamento.Models;
 using iModSCCredenciamento.ViewModels;
+using Microsoft.Reporting.WinForms;
 
 namespace iModSCCredenciamento.Windows
 {
@@ -37,7 +37,7 @@ namespace iModSCCredenciamento.Windows
             var dadosRelatorio = new ObservableCollection<ClasseEmpresasVeiculos.EmpresaVeiculo>();
             dadosRelatorio = classeVeiculos.EmpresasVeiculos;
 
-            var dataSource = new Microsoft.Reporting.WinForms.ReportDataSource("DataSetEmpresasVeiculos", dadosRelatorio);
+            var dataSource = new ReportDataSource("DataSetEmpresasVeiculos", dadosRelatorio);
             ReportViewer.LocalReport.DataSources.Add(dataSource);
             ReportViewer.LocalReport.ReportEmbeddedResource = "iModSCCredenciamento.Relatorios.Report_Veiculos.rdlc";
             // ReportViewer.LocalReport.ReportEmbeddedResource = "ModuloCredenciamento.Report1.rdlc";

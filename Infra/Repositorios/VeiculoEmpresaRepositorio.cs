@@ -12,6 +12,7 @@ using System.Data;
 using System.Linq;
 using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
+using IMOD.Domain.EntitiesCustom;
 using IMOD.Domain.Interfaces;
 using IMOD.Infra.Ado;
 using IMOD.Infra.Ado.Interfaces;
@@ -54,6 +55,8 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("VeiculoID", entity.VeiculoId, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("EmpresaID", entity.EmpresaId, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("EmpresaContratoID", entity.EmpresaContratoId, false)));
+                        //cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Descricao", entity.EmpresaContratoId, false)));
+                        //cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("EmpresaNome", entity.EmpresaContratoId, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Cargo", entity.Cargo, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Matricula", entity.Matricula, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Ativo", entity.Ativo, false)));
@@ -110,13 +113,14 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText("VeiculosEmpresas", conn))
+                using (var cmd = _dataBase.SelectText("VeiculoEmpresaView", conn))
 
                 {
                     try
                     {
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Cargo", objects, 0).Like()));
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Matricula", objects, 1).Like()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("VeiculoID", DbType.Int16, objects, 0).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Cargo", DbType.String, objects, 1).Like()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Matricula", DbType.String, objects, 2).Like()));
 
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<VeiculoEmpresa>();
@@ -144,17 +148,14 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("VeiculoEmpresaID",
-                            entity.VeiculoEmpresaId, true)));
-                        cmd.Parameters.Add(
-                            _dataBase.CreateParameter(new ParamUpdate("VeiculoID", entity.VeiculoId, false)));
-                        cmd.Parameters.Add(
-                            _dataBase.CreateParameter(new ParamUpdate("EmpresaID", entity.EmpresaId, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("EmpresaContratoID",
-                            entity.EmpresaContratoId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("VeiculoEmpresaID", entity.VeiculoEmpresaId, true)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("VeiculoID", entity.VeiculoId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("EmpresaID", entity.EmpresaId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("EmpresaContratoID", entity.EmpresaContratoId, false)));
+                        //cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Descricao", entity.EmpresaContratoId, false)));
+                        //cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("EmpresaNome", entity.EmpresaContratoId, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Cargo", entity.Cargo, false)));
-                        cmd.Parameters.Add(
-                            _dataBase.CreateParameter(new ParamUpdate("Matricula", entity.Matricula, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Matricula", entity.Matricula, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Ativo", entity.Ativo, false)));
 
                         cmd.ExecuteNonQuery();
@@ -181,8 +182,7 @@ namespace IMOD.Infra.Repositorios
                     try
                     {
                         cmd.Parameters.Add(
-                            _dataBase.CreateParameter(
-                                new ParamDelete("VeiculoEmpresaId", entity.VeiculoEmpresaId).Igual()));
+                            _dataBase.CreateParameter(new ParamDelete("VeiculoEmpresaId", entity.VeiculoEmpresaId).Igual()));
                         cmd.ExecuteNonQuery();
                     }
                     catch (Exception ex)
@@ -192,7 +192,66 @@ namespace IMOD.Infra.Repositorios
                 }
             }
         }
+        /// <summary>
+        ///    Listar Veículos e suas credenciais
+        /// </summary>
+        /// <param name="o">Arrays de Parametros</param>
+        /// <returns></returns>
+        public ICollection<VeiculosCredenciaisView> ListarView(params object[] o)
+        {
+            using (var conn = _dataBase.CreateOpenConnection())
+            {
+                using (var cmd = _dataBase.SelectText("VeiculosCredenciaisView", conn))
+                {
+                    try
+                    {
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("VeiculoCredencialID", DbType.Int32, o, 0).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmpresaNome", DbType.String, o, 1).Like()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("TipoCredencialID", DbType.String, o, 2).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("CredencialStatusID", DbType.String, o, 3).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("VeiculoID", DbType.Int32, o, 4).Igual()));
 
+                        var reader = cmd.ExecuteReaderSelect();
+                        var d1 = reader.MapToList<VeiculosCredenciaisView>();
+                        return d1;
+                    }
+                    catch (Exception ex)
+                    {
+                        Utils.TraceException(ex);
+                        throw;
+                    }
+                }
+            }
+        }
+        /// <summary>
+        ///    Listar Veículos e seus contratos
+        /// </summary>
+        /// <param name="o">Arrays de Parametros</param>
+        /// <returns></returns>
+        public ICollection<VeiculoEmpresaView> ListarContratoView(params object[] o)
+        {
+            using (var conn = _dataBase.CreateOpenConnection())
+            {
+                using (var cmd = _dataBase.SelectText("VeiculoEmpresaView", conn))
+                {
+                    try
+                    {
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("VeiculoID", DbType.Int32, o, 0).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmpresaNome", DbType.String, o, 1).Like()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Matricula", DbType.Int32, o, 2).Igual()));
+
+                        var reader = cmd.ExecuteReaderSelect();
+                        var d1 = reader.MapToList<VeiculoEmpresaView>();
+                        return d1;
+                    }
+                    catch (Exception ex)
+                    {
+                        Utils.TraceException(ex);
+                        throw;
+                    }
+                }
+            }
+        }
         #endregion
     }
 }

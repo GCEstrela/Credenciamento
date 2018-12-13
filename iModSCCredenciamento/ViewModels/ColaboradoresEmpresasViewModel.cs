@@ -1,29 +1,21 @@
-﻿using iModSCCredenciamento.Funcoes;
-using iModSCCredenciamento.Models;
-using iModSCCredenciamento.Windows;
-using iModSCCredenciamento.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Data.SqlClient;
-using System.Drawing;
-using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.Windows.Media.Imaging;
-using System.Xml;
-using System.Xml.Serialization;
 using AutoMapper;
+using iModSCCredenciamento.Funcoes;
+using iModSCCredenciamento.Models;
+using iModSCCredenciamento.Windows;
+using IMOD.Application.Service;
+using IMOD.Domain.Entities;
 
 namespace iModSCCredenciamento.ViewModels
 {
     public class ColaboradoresEmpresasViewModel : ViewModelBase
     {
-        //Global g = new Global();
         #region Inicializacao
         public ColaboradoresEmpresasViewModel()
         {
@@ -66,11 +58,11 @@ namespace iModSCCredenciamento.ViewModels
 
         private int _ColaboradorSelecionadaID;
 
-        private bool _HabilitaEdicao = false;
+        private bool _HabilitaEdicao;
 
         private string _Criterios = "";
 
-        private int _selectedIndexTemp = 0;
+        private int _selectedIndexTemp;
 
         private string _Validade;
 
@@ -135,11 +127,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             get
             {
-                return this._ColaboradorEmpresaSelecionado;
+                return _ColaboradorEmpresaSelecionado;
             }
             set
             {
-                this._ColaboradorEmpresaSelecionado = value;
+                _ColaboradorEmpresaSelecionado = value;
                 //base.OnPropertyChanged("SelectedItem");
                 base.OnPropertyChanged();
                 if (ColaboradorEmpresaSelecionado != null)
@@ -208,12 +200,12 @@ namespace iModSCCredenciamento.ViewModels
         {
             get
             {
-                return this._ColaboradorSelecionadaID;
+                return _ColaboradorSelecionadaID;
 
             }
             set
             {
-                this._ColaboradorSelecionadaID = value;
+                _ColaboradorSelecionadaID = value;
                 base.OnPropertyChanged();
                 if (ColaboradorSelecionadaID != null)
                 {
@@ -240,11 +232,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             get
             {
-                return this._HabilitaEdicao;
+                return _HabilitaEdicao;
             }
             set
             {
-                this._HabilitaEdicao = value;
+                _HabilitaEdicao = value;
                 base.OnPropertyChanged();
             }
         }
@@ -253,11 +245,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             get
             {
-                return this._Criterios;
+                return _Criterios;
             }
             set
             {
-                this._Criterios = value;
+                _Criterios = value;
                 base.OnPropertyChanged();
             }
         }
@@ -266,11 +258,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             get
             {
-                return this._Validade;
+                return _Validade;
             }
             set
             {
-                this._Validade = value;
+                _Validade = value;
                 base.OnPropertyChanged();
             }
         }
@@ -307,7 +299,7 @@ namespace iModSCCredenciamento.ViewModels
             }
 
         }
- 
+
         public void OnEditarCommand()
         {
             try
@@ -351,15 +343,15 @@ namespace iModSCCredenciamento.ViewModels
             {
 
                 HabilitaEdicao = false;
-                
+
 
                 //IMOD.Domain.Entities.ColaboradorEmpresa ColaboradorEmpresaEntity = new IMOD.Domain.Entities.ColaboradorEmpresa();
                 //g.TranportarDados(ColaboradorEmpresaSelecionado, 1, ColaboradorEmpresaEntity);
                 //var repositorio = new IMOD.Infra.Repositorios.ColaboradorEmpresaRepositorio();
 
 
-                var entity = Mapper.Map<IMOD.Domain.Entities.ColaboradorEmpresa>(ColaboradorEmpresaSelecionado);
-                var repositorio = new IMOD.Application.Service.ColaboradorEmpresaService();
+                var entity = Mapper.Map<ColaboradorEmpresa>(ColaboradorEmpresaSelecionado);
+                var repositorio = new ColaboradorEmpresaService();
 
                 repositorio.Criar(entity);
                 var id = entity.ColaboradorEmpresaId;
@@ -399,8 +391,8 @@ namespace iModSCCredenciamento.ViewModels
 
                 //var repositorio = new IMOD.Infra.Repositorios.ColaboradorEmpresaRepositorio();
 
-                var entity = Mapper.Map<IMOD.Domain.Entities.ColaboradorEmpresa>(ColaboradorEmpresaSelecionado);
-                var repositorio = new IMOD.Application.Service.ColaboradorEmpresaService();
+                var entity = Mapper.Map<ColaboradorEmpresa>(ColaboradorEmpresaSelecionado);
+                var repositorio = new ColaboradorEmpresaService();
                 repositorio.Alterar(entity);
 
                 var id = entity.ColaboradorEmpresaId;
@@ -504,15 +496,15 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                
+
                 if (Global.PopupBox("Tem certeza que deseja excluir?", 2))
                 {
                     if (Global.PopupBox("Você perderá todos os dados, inclusive histórico. Confirma exclusão?", 2))
                     {
-                        var entity = Mapper.Map<IMOD.Domain.Entities.ColaboradorEmpresa>(ColaboradorEmpresaSelecionado);
-                        var repositorio = new IMOD.Application.Service.ColaboradorEmpresaService();
+                        var entity = Mapper.Map<ColaboradorEmpresa>(ColaboradorEmpresaSelecionado);
+                        var repositorio = new ColaboradorEmpresaService();
                         repositorio.Remover(entity);
-                        
+
                         ColaboradoresEmpresas.Remove(ColaboradorEmpresaSelecionado);
                     }
                 }
@@ -530,7 +522,7 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 popupPesquisaColaboradoresEmpresas = new PopupPesquisaColaboradoresEmpresas();
-                popupPesquisaColaboradoresEmpresas.EfetuarProcura += new EventHandler(On_EfetuarProcura);
+                popupPesquisaColaboradoresEmpresas.EfetuarProcura += On_EfetuarProcura;
                 popupPesquisaColaboradoresEmpresas.ShowDialog();
             }
             catch (Exception ex)
@@ -550,7 +542,7 @@ namespace iModSCCredenciamento.ViewModels
                 string _cargo = ((string[])vetor)[2];
                 int _ativo = Convert.ToInt32(((string[])vetor)[3]);
 
-                CarregaColecaoColaboradoresEmpresas(_colaboradorID, _empresaNome,_cargo, _matricula, _ativo);
+                CarregaColecaoColaboradoresEmpresas(_colaboradorID, _empresaNome, _cargo, _matricula, _ativo);
                 SelectedIndex = 0;
             }
             catch (Exception ex)
@@ -567,7 +559,7 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                var service = new IMOD.Application.Service.ColaboradorEmpresaService();
+                var service = new ColaboradorEmpresaService();
                 if (!string.IsNullOrWhiteSpace(_cargo)) _cargo = $"%{_cargo}%";
                 if (!string.IsNullOrWhiteSpace(_matricula)) _matricula = $"%{_matricula}%";
                 var list1 = service.Listar(_colaboradorID, _cargo, _matricula);
@@ -580,7 +572,7 @@ namespace iModSCCredenciamento.ViewModels
                     observer.Add(n);
                 });
 
-                this.ColaboradoresEmpresas = observer;
+                ColaboradoresEmpresas = observer;
             }
             catch (Exception ex)
             {
@@ -592,8 +584,8 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                
-                var service = new IMOD.Application.Service.EmpresaService();
+
+                var service = new EmpresaService();
                 if (!string.IsNullOrWhiteSpace(_nome)) _nome = $"%{_nome}%";
                 if (!string.IsNullOrWhiteSpace(_apelido)) _apelido = $"%{_apelido}%";
                 if (!string.IsNullOrWhiteSpace(_cNPJ)) _cNPJ = $"%{_cNPJ}%";
@@ -607,7 +599,7 @@ namespace iModSCCredenciamento.ViewModels
                     observer.Add(n);
                 });
 
-                this.Empresas = observer;
+                Empresas = observer;
                 SelectedIndex = 0;
 
 
@@ -616,14 +608,14 @@ namespace iModSCCredenciamento.ViewModels
             {
                 //Global.Log("Erro void CarregaColecaoEmpresas ex: " + ex.Message);
             }
-        }    
+        }
         public void CarregaColecaoContratos(int empresaID = 0)
         {
-            
+
             try
             {
-                
-                var service = new IMOD.Application.Service.EmpresaContratoService();
+
+                var service = new EmpresaContratoService();
                 //if (!string.IsNullOrWhiteSpace(nome)) nome = $"%{nome}%";
                 //if (!string.IsNullOrWhiteSpace(apelido)) apelido = $"%{apelido}%";
                 //if (!string.IsNullOrWhiteSpace(cpf)) cpf = $"%{cpf}%";
@@ -637,7 +629,7 @@ namespace iModSCCredenciamento.ViewModels
                     observer.Add(n);
                 });
 
-                this.Contratos = observer;
+                Contratos = observer;
 
 
                 //SelectedIndex = 0;
@@ -730,13 +722,13 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                if( _ColaboradoresEmpresasTemp.Where(x =>
+                if (_ColaboradoresEmpresasTemp.Where(x =>
                 (x.EmpresaContratoID == ColaboradorEmpresaSelecionado.EmpresaContratoID && x.Ativo)
-                && (x.ColaboradorEmpresaID!= ColaboradorEmpresaSelecionado.ColaboradorEmpresaID)).Count() > 0)
+                && (x.ColaboradorEmpresaID != ColaboradorEmpresaSelecionado.ColaboradorEmpresaID)).Count() > 0)
                 {
                     return true;
                 }
-                
+
             }
             catch (Exception ex)
             {
@@ -757,12 +749,12 @@ namespace iModSCCredenciamento.ViewModels
 
                 SqlCommand _sqlCmd;
 
-                    _sqlCmd = new SqlCommand("Update ColaboradoresCredenciais Set " +
-                            "CredencialStatusID=@v1" +
-                            ",CredencialMotivoID=@v2" +
-                            ",Baixa=@v3" +
-                            ",Ativa=@v4" +
-                            " Where ColaboradorEmpresaID = @v0 AND CredencialStatusID = 1", _Con);
+                _sqlCmd = new SqlCommand("Update ColaboradoresCredenciais Set " +
+                        "CredencialStatusID=@v1" +
+                        ",CredencialMotivoID=@v2" +
+                        ",Baixa=@v3" +
+                        ",Ativa=@v4" +
+                        " Where ColaboradorEmpresaID = @v0 AND CredencialStatusID = 1", _Con);
 
                 _sqlCmd.Parameters.Add("@V0", SqlDbType.Int).Value = colaboradorEmpresaID;
                 _sqlCmd.Parameters.Add("@V1", SqlDbType.Int).Value = 2;
@@ -780,7 +772,7 @@ namespace iModSCCredenciamento.ViewModels
             catch (Exception ex)
             {
 
-                
+
             }
         }
 

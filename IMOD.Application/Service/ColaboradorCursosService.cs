@@ -1,11 +1,7 @@
-﻿using IMOD.Domain.Entities;
+﻿using System.Collections.Generic;
+using IMOD.Domain.Entities;
 using IMOD.Domain.Interfaces;
 using IMOD.Infra.Repositorios;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace IMOD.Application.Service
 {

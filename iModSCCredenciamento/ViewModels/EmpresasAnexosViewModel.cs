@@ -1,7 +1,4 @@
-﻿using iModSCCredenciamento.Funcoes;
-using iModSCCredenciamento.Models;
-using iModSCCredenciamento.Windows;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
@@ -9,7 +6,10 @@ using System.Data.SqlClient;
 using System.Threading;
 using System.Xml;
 using AutoMapper;
+using iModSCCredenciamento.Funcoes;
 using iModSCCredenciamento.Helpers;
+using iModSCCredenciamento.Models;
+using iModSCCredenciamento.Windows;
 using IMOD.Application.Interfaces;
 using IMOD.Application.Service;
 using IMOD.CrossCutting;
@@ -21,10 +21,7 @@ namespace iModSCCredenciamento.ViewModels
     {
 
         #region Inicializacao
-        public EmpresasAnexosViewModel()
-        {
 
-        }
         #endregion
 
         #region Variaveis Privadas
@@ -43,11 +40,11 @@ namespace iModSCCredenciamento.ViewModels
 
         private int _EmpresaSelecionadaID;
 
-        private bool _HabilitaEdicao = false;
+        private bool _HabilitaEdicao;
 
         private string _Criterios = "";
 
-        private int _selectedIndexTemp = 0;
+        private int _selectedIndexTemp;
 
         private readonly IEmpresaAnexoService _service = new EmpresaAnexoService();
 
@@ -76,11 +73,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             get
             {
-                return this._AnexoSelecionado;
+                return _AnexoSelecionado;
             }
             set
             {
-                this._AnexoSelecionado = value;
+                _AnexoSelecionado = value;
                 base.OnPropertyChanged("SelectedItem");
                 if (AnexoSelecionado != null)
                 {
@@ -94,11 +91,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             get
             {
-                return this._EmpresaSelecionadaID;
+                return _EmpresaSelecionadaID;
             }
             set
             {
-                this._EmpresaSelecionadaID = value;
+                _EmpresaSelecionadaID = value;
                 base.OnPropertyChanged();
                 if (EmpresaSelecionadaID != null)
                 {
@@ -125,11 +122,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             get
             {
-                return this._HabilitaEdicao;
+                return _HabilitaEdicao;
             }
             set
             {
-                this._HabilitaEdicao = value;
+                _HabilitaEdicao = value;
                 base.OnPropertyChanged();
             }
         }
@@ -138,11 +135,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             get
             {
-                return this._Criterios;
+                return _Criterios;
             }
             set
             {
-                this._Criterios = value;
+                _Criterios = value;
                 base.OnPropertyChanged();
             }
         }
@@ -154,7 +151,6 @@ namespace iModSCCredenciamento.ViewModels
             EmpresaSelecionadaID = Convert.ToInt32(empresaID);
             Thread CarregaColecaoAnexos_thr = new Thread(() => CarregaColecaoAnexos(Convert.ToInt32(empresaID)));
             CarregaColecaoAnexos_thr.Start();
-            //CarregaColecaoAnexos(Convert.ToInt32(empresaID));
         }
 
         public void OnBuscarArquivoCommand()
@@ -175,9 +171,8 @@ namespace iModSCCredenciamento.ViewModels
                 WpfHelp.Mbox(ex.Message);
                 Utils.TraceException(ex);
             }
-            
-        }
 
+        }
         public void OnAbrirArquivoCommand()
         {
             try
@@ -199,37 +194,23 @@ namespace iModSCCredenciamento.ViewModels
 
                         XmlDocument xmldocument = new XmlDocument();
                         xmldocument.LoadXml(_xmlstring);
-                        XmlNode node = (XmlNode)xmldocument.DocumentElement;
+                        XmlNode node = xmldocument.DocumentElement;
                         XmlNode arquivoNode = node.SelectSingleNode("ArquivosImagens/ArquivoImagem/Arquivo");
 
                         _ArquivoPDF = arquivoNode.FirstChild.Value;
                     }
                     Global.PopupPDF(_ArquivoPDF);
-                    //byte[] buffer = Conversores.StringToPDF(_ArquivoPDF);
-                    //_ArquivoPDF = System.IO.Path.GetTempFileName();
-                    //_ArquivoPDF = System.IO.Path.GetRandomFileName();
-                    //_ArquivoPDF = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\" + _ArquivoPDF;
-
-                    ////File.Move(_caminhoArquivoPDF, Path.ChangeExtension(_caminhoArquivoPDF, ".pdf"));
-                    //_ArquivoPDF = System.IO.Path.ChangeExtension(_ArquivoPDF, ".pdf");
-                    //System.IO.File.WriteAllBytes(_ArquivoPDF, buffer);
-                    ////Action<string> act = new Action<string>(Global.AbrirArquivoPDF);
-                    ////act.BeginInvoke(_ArquivoPDF, null, null);
-                    //Global.PopupPDF(_ArquivoPDF);
-                    //System.IO.File.Delete(_ArquivoPDF);
                 }
                 catch (Exception ex)
                 {
-
-
+                    Utils.TraceException(ex);
                 }
             }
             catch (Exception ex)
             {
-                Global.Log("Erro na void OnAbrirArquivoCommand ex: " + ex);
+                Utils.TraceException(ex);
             }
         }
-
         public void OnEditarCommand()
         {
             try
@@ -239,11 +220,11 @@ namespace iModSCCredenciamento.ViewModels
                 _selectedIndexTemp = SelectedIndex;
                 HabilitaEdicao = true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Utils.TraceException(ex);
             }
         }
-
         public void OnCancelarEdicaoCommand()
         {
             try
@@ -254,10 +235,9 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-
+                Utils.TraceException(ex);
             }
         }
-
         public void OnSalvarEdicaoCommand()
         {
             try
@@ -275,12 +255,9 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log("Erro void OnSalvarEdicaoCommand ex: " + ex.Message);
-                IMOD.CrossCutting.Utils.TraceException(ex);
-                throw;
+                Utils.TraceException(ex);
             }
         }
-
         public void OnAdicionarCommand()
         {
             try
@@ -292,9 +269,7 @@ namespace iModSCCredenciamento.ViewModels
 
                 _selectedIndexTemp = SelectedIndex;
                 Anexos.Clear();
-                //ClasseEmpresasSeguros.EmpresaSeguro _seguro = new ClasseEmpresasSeguros.EmpresaSeguro();
-                //_seguro.EmpresaID = EmpresaSelecionadaID;
-                //Seguros.Add(_seguro);
+
                 _anexoTemp = new ClasseEmpresasAnexos.EmpresaAnexo();
                 _anexoTemp.EmpresaID = EmpresaSelecionadaID;
                 Anexos.Add(_anexoTemp);
@@ -303,13 +278,10 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log("Erro void OnSalvarEdicaoCommand ex: " + ex.Message);
-                IMOD.CrossCutting.Utils.TraceException(ex);
-                throw;
+                Utils.TraceException(ex);
             }
 
         }
-
         public void OnSalvarAdicaoCommand()
         {
             try
@@ -333,8 +305,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log("Erro void OnSalvarAdicaoCommand ex: " + ex.Message);
-                IMOD.CrossCutting.Utils.TraceException(ex);
+                Utils.TraceException(ex);
                 throw;
             }
         }
@@ -352,7 +323,6 @@ namespace iModSCCredenciamento.ViewModels
             {
             }
         }
-
         public void OnExcluirCommand()
         {
             try
@@ -372,20 +342,19 @@ namespace iModSCCredenciamento.ViewModels
             }
 
         }
-
         public void OnPesquisarCommand()
         {
             try
             {
                 popupPesquisaEmpresasAnexos = new PopupPesquisaEmpresasAnexos();
-                popupPesquisaEmpresasAnexos.EfetuarProcura += new EventHandler(On_EfetuarProcura);
+                popupPesquisaEmpresasAnexos.EfetuarProcura += On_EfetuarProcura;
                 popupPesquisaEmpresasAnexos.ShowDialog();
             }
             catch (Exception ex)
             {
+                Utils.TraceException(ex);
             }
         }
-
         public void On_EfetuarProcura(object sender, EventArgs e)
         {
             object vetor = popupPesquisaEmpresasAnexos.Criterio.Split((char)(20));
@@ -394,7 +363,6 @@ namespace iModSCCredenciamento.ViewModels
             CarregaColecaoAnexos(_empresaID, _descricao);
             SelectedIndex = 0;
         }
-
         #endregion
 
         #region Carregamento das Colecoes
@@ -413,175 +381,20 @@ namespace iModSCCredenciamento.ViewModels
                     observer.Add(n);
                 });
 
-                this.Anexos = observer;
+                Anexos = observer;
 
             }
             catch (Exception ex)
             {
-                Global.Log("Erro void CarregaColecaoEmpresas ex: " + ex.Message);
+                Utils.TraceException(ex);
             }
         }
         #endregion
 
         #region Data Access
-        private string RequisitaAnexos(int _empresaID, string _DescricaoAnexo = "")
-        {
-            try
-            {
-                XmlDocument _xmlDocument = new XmlDocument();
-                XmlNode _xmlNode = _xmlDocument.CreateXmlDeclaration("1.0", "UTF-8", null);
-
-                XmlNode _ClasseEmpresasAnexos = _xmlDocument.CreateElement("ClasseEmpresasAnexos");
-                _xmlDocument.AppendChild(_ClasseEmpresasAnexos);
-
-                XmlNode _EmpresasAnexos = _xmlDocument.CreateElement("EmpresasAnexos");
-                _ClasseEmpresasAnexos.AppendChild(_EmpresasAnexos);
-
-                string _strSql;
-
-                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
-
-
-                _DescricaoAnexo = "%" + _DescricaoAnexo + "%";
-
-                _strSql = "select [EmpresaAnexoID],[EmpresaID],[Descricao],[NomeAnexo] " +
-                    "from EmpresasAnexos where EmpresaID = " + _empresaID + " and Descricao Like '" +
-                    _DescricaoAnexo + "' order by EmpresaAnexoID desc";
-
-                SqlCommand _sqlcmd = new SqlCommand(_strSql, _Con);
-                SqlDataReader _sqlreader = _sqlcmd.ExecuteReader(CommandBehavior.Default);
-                while (_sqlreader.Read())
-                {
-
-                    XmlNode _EmpresaAnexo = _xmlDocument.CreateElement("EmpresaAnexo");
-                    _EmpresasAnexos.AppendChild(_EmpresaAnexo);
-
-                    XmlNode _EmpresaAnexoID = _xmlDocument.CreateElement("EmpresaAnexoID");
-                    _EmpresaAnexoID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["EmpresaAnexoID"].ToString())));
-                    _EmpresaAnexo.AppendChild(_EmpresaAnexoID);
-
-                    XmlNode _EmpresaID = _xmlDocument.CreateElement("EmpresaID");
-                    _EmpresaID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["EmpresaID"].ToString())));
-                    _EmpresaAnexo.AppendChild(_EmpresaID);
-
-                    XmlNode _Descricao = _xmlDocument.CreateElement("Descricao");
-                    _Descricao.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Descricao"].ToString())));
-                    _EmpresaAnexo.AppendChild(_Descricao);
-
-                    XmlNode _NomeAnexo = _xmlDocument.CreateElement("NomeAnexo");
-                    _NomeAnexo.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["NomeAnexo"].ToString())));
-                    _EmpresaAnexo.AppendChild(_NomeAnexo);
-
-                    XmlNode _Anexo = _xmlDocument.CreateElement("Anexo");
-                    //_Anexo.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Anexo"].ToString())));
-                    _EmpresaAnexo.AppendChild(_Anexo);
-
-                }
-
-                _sqlreader.Close();
-
-                _Con.Close();
-                string _xml = _xmlDocument.InnerXml;
-                _xmlDocument = null;
-                return _xml;
-            }
-            catch (Exception ex)
-            {
-
-                return null;
-            }
-            return null;
-        }
-
-        private void InsereAnexoBD(string xmlString)
-        {
-            try
-            {
-
-
-                System.Xml.XmlDocument _xmlDoc = new System.Xml.XmlDocument();
-
-                _xmlDoc.LoadXml(xmlString);
-                //
-                ClasseEmpresasAnexos.EmpresaAnexo _empresaAnexo = new ClasseEmpresasAnexos.EmpresaAnexo();
-                //for (int i = 0; i <= _xmlDoc.GetElementsByTagName("EmpresaID").Count - 1; i++)
-                //{
-                int i = 0;
-
-                _empresaAnexo.EmpresaAnexoID = Convert.ToInt32(_xmlDoc.GetElementsByTagName("EmpresaAnexoID")[i].InnerText);
-                _empresaAnexo.EmpresaID = Convert.ToInt32(_xmlDoc.GetElementsByTagName("EmpresaID")[i].InnerText);
-                _empresaAnexo.Descricao = _xmlDoc.GetElementsByTagName("Descricao")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Descricao")[i].InnerText.ToString().Trim();
-                //_empresaAnexo.NomeAnexo = _xmlDoc.GetElementsByTagName("NomeSeguradora")[i] == null ? "" : _xmlDoc.GetElementsByTagName("NomeSeguradora")[i].InnerText;
-                //_empresaAnexo.NumeroApolice = _xmlDoc.GetElementsByTagName("NumeroApolice")[i] == null ? "" : _xmlDoc.GetElementsByTagName("NumeroApolice")[i].InnerText;
-                //_empresaSeguro.ValorCobertura = _xmlDoc.GetElementsByTagName("ValorCobertura")[i] == null ? "" : _xmlDoc.GetElementsByTagName("ValorCobertura")[i].InnerText;
-                //_empresaSeguro.Arquivo = _xmlDoc.GetElementsByTagName("Arquivo")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Arquivo")[i].InnerText;
-
-                _empresaAnexo.NomeAnexo = _anexoTemp.NomeAnexo == null ? "" : _anexoTemp.NomeAnexo.ToString().Trim();
-                _empresaAnexo.Anexo = _anexoTemp.Anexo == null ? "" : _anexoTemp.Anexo.ToString().Trim();
-
-
-                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
-                //_Con.Close();
-
-
-                SqlCommand _sqlCmd;
-                if (_empresaAnexo.EmpresaAnexoID != 0)
-                {
-                    _sqlCmd = new SqlCommand("Update EmpresasAnexos Set" +
-                        " EmpresaID= " + _empresaAnexo.EmpresaID + "" +
-                        ",Descricao= '" + _empresaAnexo.Descricao + "'" +
-                        ",NomeAnexo= '" + _empresaAnexo.NomeAnexo + "'" +
-                        ",Anexo= '" + _empresaAnexo.Anexo + "'" +
-                        " Where EmpresaAnexoID = " + _empresaAnexo.EmpresaAnexoID + "", _Con);
-                }
-                else
-                {
-                    _sqlCmd = new SqlCommand("Insert into EmpresasAnexos(EmpresaID,Descricao,NomeAnexo,Anexo) values (" +
-                                                          _empresaAnexo.EmpresaID + ",'" + _empresaAnexo.Descricao + "','" +
-                                                          _empresaAnexo.NomeAnexo + "','" + _empresaAnexo.Anexo + "')", _Con);
-
-
-                }
-
-                _sqlCmd.ExecuteNonQuery();
-                _Con.Close();
-            }
-            catch (Exception ex)
-            {
-                Global.Log("Erro na void InsereEmpresaBD ex: " + ex);
-
-
-            }
-        }
-
-        private void ExcluiSeguroBD(int _EmpresaAnexoID) // alterar para xml
-        {
-            try
-            {
-
-                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
-                //_Con.Close();
-
-
-                SqlCommand _sqlCmd;
-                _sqlCmd = new SqlCommand("Delete from EmpresasAnexos where EmpresaAnexoID=" + _EmpresaAnexoID, _Con);
-                _sqlCmd.ExecuteNonQuery();
-
-                _Con.Close();
-            }
-            catch (Exception ex)
-            {
-                Global.Log("Erro na void EmpresasAnexos ex: " + ex);
-
-            }
-        }
-        #endregion
-
-        #region Métodos Públicos
-
-        Global g = new Global();
 
         #endregion
+
 
         #region Metodos privados
         private string CriaXmlImagem(int empresaAnexoID)

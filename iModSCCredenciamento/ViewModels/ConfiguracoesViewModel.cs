@@ -1,25 +1,15 @@
-﻿using CrystalDecisions.CrystalReports.Engine;
-using CrystalDecisions.Shared;
-using iModSCCredenciamento.Funcoes;
-using iModSCCredenciamento.Models;
-using iModSCCredenciamento.Windows;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Data;
-using System.Data.SqlClient;
-using System.IO;
 using System.Threading;
-using System.Xml;
-using System.Xml.Serialization;
 using AutoMapper;
-using Genetec.Sdk.Entities;
+using iModSCCredenciamento.Funcoes;
 using iModSCCredenciamento.Helpers;
-using IMOD.Domain.Entities;
+using iModSCCredenciamento.Models;
 using IMOD.Application.Interfaces;
 using IMOD.Application.Service;
 using IMOD.CrossCutting;
-using Utils = IMOD.CrossCutting.Utils;
+using IMOD.Domain.Entities;
 
 namespace iModSCCredenciamento.ViewModels
 {
@@ -164,11 +154,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             get
             {
-                return this._TipoEquipamentoSelecionado;
+                return _TipoEquipamentoSelecionado;
             }
             set
             {
-                this._TipoEquipamentoSelecionado = value;
+                _TipoEquipamentoSelecionado = value;
                 base.OnPropertyChanged("SelectedItem");
                 if (TipoEquipamentoSelecionado != null)
                 {
@@ -230,11 +220,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             get
             {
-                return this._RelatorioSelecionado;
+                return _RelatorioSelecionado;
             }
             set
             {
-                this._RelatorioSelecionado = value;
+                _RelatorioSelecionado = value;
                 base.OnPropertyChanged("SelectedItem");
                 if (_RelatorioSelecionado != null)
                 {
@@ -248,11 +238,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             get
             {
-                return this._LayoutCrachaSelecionado;
+                return _LayoutCrachaSelecionado;
             }
             set
             {
-                this._LayoutCrachaSelecionado = value;
+                _LayoutCrachaSelecionado = value;
                 base.OnPropertyChanged("SelectedItem");
                 if (_LayoutCrachaSelecionado != null)
                 {
@@ -266,11 +256,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             get
             {
-                return this._RelatorioGerencialSelecionado;
+                return _RelatorioGerencialSelecionado;
             }
             set
             {
-                this._RelatorioGerencialSelecionado = value;
+                _RelatorioGerencialSelecionado = value;
                 base.OnPropertyChanged("SelectedItem");
                 if (_RelatorioGerencialSelecionado != null)
                 {
@@ -340,11 +330,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             get
             {
-                return this._AtividadeSelecionada;
+                return _AtividadeSelecionada;
             }
             set
             {
-                this._AtividadeSelecionada = value;
+                _AtividadeSelecionada = value;
                 base.OnPropertyChanged("SelectedItem");
                 if (TipoAtividadeSelecionada != null)
                 {
@@ -387,11 +377,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             get
             {
-                return this._CobrancaSelecionada;
+                return _CobrancaSelecionada;
             }
             set
             {
-                this._CobrancaSelecionada = value;
+                _CobrancaSelecionada = value;
                 base.OnPropertyChanged("SelectedItem");
                 if (TipoCobrancaSelecionado != null)
                 {
@@ -434,11 +424,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             get
             {
-                return this._AcessoAreaSelecionada;
+                return _AcessoAreaSelecionada;
             }
             set
             {
-                this._AcessoAreaSelecionada = value;
+                _AcessoAreaSelecionada = value;
                 base.OnPropertyChanged("SelectedItem");
                 if (AreaAcessoSelecionada != null)
                 {
@@ -481,11 +471,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             get
             {
-                return this._StatusSelecionado;
+                return _StatusSelecionado;
             }
             set
             {
-                this._StatusSelecionado = value;
+                _StatusSelecionado = value;
                 base.OnPropertyChanged("SelectedItem");
                 if (TipoStatusSelecionado != null)
                 {
@@ -527,11 +517,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             get
             {
-                return this._CursosSelecionado;
+                return _CursosSelecionado;
             }
             set
             {
-                this._CursosSelecionado = value;
+                _CursosSelecionado = value;
                 base.OnPropertyChanged("SelectedItem");
                 if (CursoSelecionado != null)
                 {
@@ -571,18 +561,15 @@ namespace iModSCCredenciamento.ViewModels
             }
         }
 
-
-
-
         public ClasseTiposAcessos.TipoAcesso TipoAcessoSelecionado
         {
             get
             {
-                return this._TiposAcessoSelecionado;
+                return _TiposAcessoSelecionado;
             }
             set
             {
-                this._TiposAcessoSelecionado = value;
+                _TiposAcessoSelecionado = value;
                 base.OnPropertyChanged("SelectedItem");
                 if (TipoAcessoSelecionado != null)
                 {
@@ -603,7 +590,6 @@ namespace iModSCCredenciamento.ViewModels
                 OnPropertyChanged("TipoAcessoSelectedIndex");
             }
         }
-
         public int SelectedIndex
         {
             get
@@ -616,7 +602,6 @@ namespace iModSCCredenciamento.ViewModels
                 OnPropertyChanged("SelectedIndex");
             }
         }
-
 
         #endregion
 
@@ -765,23 +750,15 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                System.Windows.Forms.OpenFileDialog _arquivoRPT = new System.Windows.Forms.OpenFileDialog();
-
-                string _nomecompletodoarquivo;
-                string _arquivoSTR;
-                _arquivoRPT.InitialDirectory = "c:\\\\";
-                _arquivoRPT.Filter = "Reports Files|*.rpt"; ;
-                _arquivoRPT.RestoreDirectory = true;
-                _arquivoRPT.ShowDialog();
-
-                _nomecompletodoarquivo = _arquivoRPT.SafeFileName;
-                _arquivoSTR = Conversores.PDFtoString(_arquivoRPT.FileName);
-
-                _RelatorioTemp.NomeArquivoRPT = _nomecompletodoarquivo;
-                _RelatorioTemp.ArquivoRPT = _arquivoSTR;
+                var filtro = "Crystal Report Files|*.rpt";
+                var arq = WpfHelp.UpLoadArquivoDialog(filtro, 0);
+                if (arq == null) return;
+                _RelatorioTemp.NomeArquivoRPT = arq.Nome;
+                _RelatorioTemp.ArquivoRPT = arq.FormatoBase64;
             }
             catch (Exception ex)
             {
+                WpfHelp.Mbox(ex.Message);
                 Utils.TraceException(ex);
             }
         }
@@ -797,6 +774,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
+                WpfHelp.Mbox(ex.Message);
                 Utils.TraceException(ex);
             }
 
@@ -871,29 +849,21 @@ namespace iModSCCredenciamento.ViewModels
             }
 
         }
+        //TODO: OnBuscarRelatorioGerencialCommand(Binding Nome Arquivo .rpt) - Mihai (07/12/2018)
         public void OnBuscarRelatorioGerencialCommand()
         {
             try
             {
-                System.Windows.Forms.OpenFileDialog _arquivoRPT = new System.Windows.Forms.OpenFileDialog();
-
-                string _nomecompletodoarquivo;
-                string _arquivoSTR;
-
-                _arquivoRPT.InitialDirectory = "c:\\\\";
-                _arquivoRPT.Filter = "Reports Files|*.rpt"; ;
-                _arquivoRPT.RestoreDirectory = true;
-                _arquivoRPT.ShowDialog();
-
-                _nomecompletodoarquivo = _arquivoRPT.SafeFileName;
-                _arquivoSTR = Conversores.PDFtoString(_arquivoRPT.FileName);
-
-                _RelatorioGerencialTemp.NomeArquivoRPT = _nomecompletodoarquivo;
-                _RelatorioGerencialTemp.ArquivoRPT = _arquivoSTR;
-
+                var filtro = "Crystal Report Files|*.rpt";
+                var arq = WpfHelp.UpLoadArquivoDialog(filtro, 0);
+                if (arq == null) return;
+                _RelatorioGerencialTemp.Nome = arq.Nome;
+                _RelatorioGerencialTemp.ArquivoRPT = arq.FormatoBase64;
+                //RelatoriosGerenciais.Add(_RelatorioGerencialTemp);
             }
             catch (Exception ex)
             {
+                WpfHelp.Mbox(ex.Message);
                 Utils.TraceException(ex);
             }
         }
@@ -989,30 +959,18 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                System.Windows.Forms.OpenFileDialog _arquivoRPT = new System.Windows.Forms.OpenFileDialog();
-
-                string _nomecompletodoarquivo;
-                string _arquivoSTR;
-
-                _arquivoRPT.InitialDirectory = "c:\\\\";
-                _arquivoRPT.Filter = "Reports Files|*.rpt"; ;
-                _arquivoRPT.RestoreDirectory = true;
-                _arquivoRPT.ShowDialog();
-
-                _nomecompletodoarquivo = _arquivoRPT.SafeFileName;
-                _arquivoSTR = Conversores.PDFtoString(_arquivoRPT.FileName);
-
-                _LayoutCrachaTemp.Nome = _nomecompletodoarquivo;
-                _LayoutCrachaTemp.LayoutRPT = _arquivoSTR;
-
+                var filtro = "Crystal Report Files|*.rpt";
+                var arq = WpfHelp.UpLoadArquivoDialog(filtro, 0);
+                if (arq == null) return;
+                _LayoutCrachaTemp.Nome = arq.Nome;
+                _LayoutCrachaTemp.LayoutRPT = arq.FormatoBase64;
             }
             catch (Exception ex)
             {
+                WpfHelp.Mbox(ex.Message);
                 Utils.TraceException(ex);
             }
         }
-
-        //TODO: LayoutCracha (Falta LayoutRPT no banco) - Mihai (06/12/2018)
         public void OnAbrirLayoutCrachaCommand()
         {
             try
@@ -1263,7 +1221,7 @@ namespace iModSCCredenciamento.ViewModels
             catch (Exception ex)
             {
                 Global.Log("Erro na void OnAdicionarCommand_TiposStatus ex: " + ex);
-                IMOD.CrossCutting.Utils.TraceException(ex);
+                Utils.TraceException(ex);
                 throw;
             }
 
@@ -1290,7 +1248,7 @@ namespace iModSCCredenciamento.ViewModels
             catch (Exception ex)
             {
                 Global.Log("Erro na void OnSalvarEdicaoCommand_TiposStatus ex: " + ex);
-                IMOD.CrossCutting.Utils.TraceException(ex);
+                Utils.TraceException(ex);
                 throw;
             }
         }
@@ -1312,7 +1270,7 @@ namespace iModSCCredenciamento.ViewModels
             catch (Exception ex)
             {
                 Global.Log("Erro na void OnExcluirCommand_TiposStatus ex: " + ex);
-                IMOD.CrossCutting.Utils.TraceException(ex);
+                Utils.TraceException(ex);
                 throw;
             }
 
@@ -1340,7 +1298,7 @@ namespace iModSCCredenciamento.ViewModels
             catch (Exception ex)
             {
                 Global.Log("Erro na void OnAdicionarCommand_TiposCursos ex: " + ex);
-                IMOD.CrossCutting.Utils.TraceException(ex);
+                Utils.TraceException(ex);
                 throw;
             }
 
@@ -1369,7 +1327,7 @@ namespace iModSCCredenciamento.ViewModels
             catch (Exception ex)
             {
                 Global.Log("Erro na void OnSalvarEdicaoCommand_TiposCursos ex: " + ex);
-                IMOD.CrossCutting.Utils.TraceException(ex);
+                Utils.TraceException(ex);
                 throw;
             }
         }
@@ -1390,7 +1348,7 @@ namespace iModSCCredenciamento.ViewModels
             catch (Exception ex)
             {
                 Global.Log("Erro na void OnSalvarEdicaoCommand_TiposCursos ex: " + ex);
-                IMOD.CrossCutting.Utils.TraceException(ex);
+                Utils.TraceException(ex);
                 throw;
             }
         }
@@ -1473,7 +1431,7 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                var service = new IMOD.Application.Service.TipoEquipamentoService();
+                var service = new TipoEquipamentoService();
                 var list1 = service.Listar();
 
                 var list2 = Mapper.Map<List<ClasseTiposEquipamento.TipoEquipamento>>(list1);
@@ -1483,7 +1441,7 @@ namespace iModSCCredenciamento.ViewModels
                     observer.Add(n);
                 });
 
-                this.TiposEquipamentos = observer;
+                TiposEquipamentos = observer;
             }
             catch (Exception ex)
             {
@@ -1495,7 +1453,7 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                var service = new IMOD.Application.Service.TipoAtividadeService();
+                var service = new TipoAtividadeService();
                 var list1 = service.Listar();
 
                 var list2 = Mapper.Map<List<ClasseTiposAtividades.TipoAtividade>>(list1);
@@ -1505,7 +1463,7 @@ namespace iModSCCredenciamento.ViewModels
                     observer.Add(n);
                 });
 
-                this.TiposAtividades = observer;
+                TiposAtividades = observer;
 
             }
             catch (Exception ex)
@@ -1518,7 +1476,7 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                var service = new IMOD.Application.Service.TipoCobrancaService();
+                var service = new TipoCobrancaService();
                 var list1 = service.Listar();
 
                 var list2 = Mapper.Map<List<ClasseTiposCobrancas.TipoCobranca>>(list1);
@@ -1528,7 +1486,7 @@ namespace iModSCCredenciamento.ViewModels
                     observer.Add(n);
                 });
 
-                this.TiposCobrancas = observer;
+                TiposCobrancas = observer;
 
             }
             catch (Exception ex)
@@ -1541,7 +1499,7 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                var service = new IMOD.Application.Service.AreaAcessoService();
+                var service = new AreaAcessoService();
                 var list1 = service.Listar();
 
                 var list2 = Mapper.Map<List<ClasseAreasAcessos.AreaAcesso>>(list1);
@@ -1551,7 +1509,7 @@ namespace iModSCCredenciamento.ViewModels
                     observer.Add(n);
                 });
 
-                this.AreasAcessos = observer;
+                AreasAcessos = observer;
             }
             catch (Exception ex)
             {
@@ -1563,7 +1521,7 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                var service = new IMOD.Application.Service.StatusService();
+                var service = new StatusService();
                 var list1 = service.Listar();
 
                 var list2 = Mapper.Map<List<ClasseStatus.Status>>(list1);
@@ -1573,7 +1531,7 @@ namespace iModSCCredenciamento.ViewModels
                     observer.Add(n);
                 });
 
-                this.TiposStatus = observer;
+                TiposStatus = observer;
 
             }
             catch (Exception ex)
@@ -1586,7 +1544,7 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                var service = new IMOD.Application.Service.CursoService();
+                var service = new CursoService();
                 var list1 = service.Listar();
 
                 var list2 = Mapper.Map<List<ClasseCursos.Curso>>(list1);
@@ -1596,7 +1554,7 @@ namespace iModSCCredenciamento.ViewModels
                     observer.Add(n);
                 });
 
-                this.Cursos = observer;
+                Cursos = observer;
             }
             catch (Exception ex)
             {
@@ -1608,7 +1566,7 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                var service = new IMOD.Application.Service.LayoutCrachaService();
+                var service = new LayoutCrachaService();
                 var list1 = service.Listar();
 
                 var list2 = Mapper.Map<List<ClasseLayoutsCrachas.LayoutCracha>>(list1);
@@ -1618,7 +1576,7 @@ namespace iModSCCredenciamento.ViewModels
                     observer.Add(n);
                 });
 
-                this.LayoutsCrachas = observer;
+                LayoutsCrachas = observer;
 
             }
             catch (Exception ex)
@@ -1632,7 +1590,7 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                var service = new IMOD.Application.Service.TipoAcessoService();
+                var service = new TipoAcessoService();
                 var list1 = service.Listar();
 
                 var list2 = Mapper.Map<List<ClasseTiposAcessos.TipoAcesso>>(list1);
@@ -1642,7 +1600,7 @@ namespace iModSCCredenciamento.ViewModels
                     observer.Add(n);
                 });
 
-                this.TiposAcessos = observer;
+                TiposAcessos = observer;
 
             }
             catch (Exception ex)
@@ -1655,7 +1613,7 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                var service = new IMOD.Application.Service.RelatorioService();
+                var service = new RelatorioService();
                 var list1 = service.Listar();
 
                 var list2 = Mapper.Map<List<ClasseRelatorios.Relatorio>>(list1);
@@ -1665,7 +1623,7 @@ namespace iModSCCredenciamento.ViewModels
                     observer.Add(n);
                 });
 
-                this.Relatorios = observer;
+                Relatorios = observer;
 
             }
             catch (Exception ex)
@@ -1678,7 +1636,7 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                var service = new IMOD.Application.Service.RelatorioGerencialService();
+                var service = new RelatorioGerencialService();
                 var list1 = service.Listar();
 
                 var list2 = Mapper.Map<List<ClasseRelatoriosGerenciais.RelatorioGerencial>>(list1);
@@ -1688,7 +1646,7 @@ namespace iModSCCredenciamento.ViewModels
                     observer.Add(n);
                 });
 
-                this.RelatoriosGerenciais = observer;
+                RelatoriosGerenciais = observer;
 
             }
             catch (Exception ex)

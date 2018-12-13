@@ -192,9 +192,9 @@
                                         </StackPanel>
                                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0" >
                                             <Label Content="Insc. Estadual:" Height="28" Width="100" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                            <TextBox CharacterCasing="Upper"  x:Name="Ins_Estadual_tb"   MaxLength="50" Text="{Binding SelectedItem.InsEst, ElementName=ListaEmpresas_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="100"/>
+                                            <TextBox CharacterCasing="Upper"  x:Name="Ins_Estadual_tb"   MaxLength="11" PreviewTextInput="NumberOnly" Text="{Binding SelectedItem.InsEst, ElementName=ListaEmpresas_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="100"/>
                                             <Label Content="Insc. Municipal:" Height="28" Width="100" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                            <TextBox CharacterCasing="Upper"  x:Name="Ins_Municipal_tb"   MaxLength="50" Text="{Binding SelectedItem.InsMun, ElementName=ListaEmpresas_lv, UpdateSourceTrigger=PropertyChanged,  StringFormat=\{0:d\}}"  IsEnabled="True"  Height="24"  Width="100"/>
+                                            <TextBox CharacterCasing="Upper"  x:Name="Ins_Municipal_tb"   MaxLength="11" PreviewTextInput="NumberOnly" Text="{Binding SelectedItem.InsMun, ElementName=ListaEmpresas_lv, UpdateSourceTrigger=PropertyChanged,  StringFormat=\{0:d\}}"  IsEnabled="True"  Height="24"  Width="100"/>
                                         </StackPanel>
                                     </StackPanel>
                                     <StackPanel VerticalAlignment="Center" Margin="50,23,20,37" Height="167" >
@@ -216,11 +216,11 @@
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,10" >
                                         <Label Content="No.:" Height="28" Width="100" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                        <TextBox CharacterCasing="Upper"  x:Name="Numero_tb"   MaxLength="50" Text="{Binding SelectedItem.Numero, ElementName=ListaEmpresas_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="50"/>
+                                        <TextBox CharacterCasing="Upper"  x:Name="Numero_tb"   MaxLength="50" PreviewTextInput="NumberOnly" Text="{Binding SelectedItem.Numero, ElementName=ListaEmpresas_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="50"/>
                                         <Label Content="Complemento:" Height="28" Width="100" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
                                         <TextBox CharacterCasing="Upper"  x:Name="Complemento_tb"   MaxLength="50" Text="{Binding SelectedItem.Complemento, ElementName=ListaEmpresas_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="136"/>
                                         <Label Content="CEP:" Height="28" Width="30" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                        <TextBox CharacterCasing="Upper"  x:Name="Cep_tb"   MaxLength="50" Text="{Binding SelectedItem.CEP, ElementName=ListaEmpresas_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="131"/>
+                                        <TextBox CharacterCasing="Upper"  x:Name="Cep_tb" MaxLength="50" PreviewTextInput="NumberOnly" Text="{Binding SelectedItem.CEP, ElementName=ListaEmpresas_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="131"/>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,10" >
                                         <Label Content="Bairro:" Height="28" Width="100" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
