@@ -6,14 +6,14 @@
 
 #region
 
-using System;
-using System.IO;
-using System.Linq;
 using IMOD.Application.Service;
 using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
 using IMOD.Infra.Repositorios;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.IO;
+using System.Linq;
 
 #endregion
 
@@ -29,9 +29,15 @@ namespace UnitTestImod
         private ColaboradorAnexo _colaboradorAnexo;
         private Curso _curso;
         private Empresa _empresa;
+        private Estados _estados;
         private EmpresaAnexo _empresaAnexo;
         private EmpresaContrato _empresaContrato;
         private EmpresaSignatario _empresaSignatario;
+        private Municipio _municipio;
+        private Status _status;
+        private TecnologiaCredencial _tecnologiaCredencial;
+        private TipoCobranca _tipoCobrancas;
+        private TipoAcesso _tipoAcesso;
         private Veiculo _veiculo;
         private VeiculoAnexo _veiculoAnexo;
         private VeiculoEmpresa _veiculoEmpresa;
@@ -338,7 +344,9 @@ namespace UnitTestImod
                 _colaborador.Nome = $"Colaborador ({i})";
                 var d0 = service.ObterPorCpf(_colaborador.Cpf);
                 if (d0 == null)
+                {
                     service.Criar(_colaborador);
+                }
             }
 
             //Alterar 2 Colaboradores
@@ -496,6 +504,100 @@ namespace UnitTestImod
             //TODO: Continuar TestUnit1 (Mihai)
             #region CRUD Credenciais
 
+            #region Cadastrar Tabelas Auxiliares
+
+            var auxService = new DadosAuxiliaresFacadeService();
+
+            //Credenciais Status
+            auxService.CredencialStatusService.Criar(new CredencialStatus()
+            {
+                Descricao = "Novo Status de Credencial"
+            });
+            //Credenciais Motivos
+            auxService.CredencialMotivoService.Criar(new CredencialMotivo()
+            {
+                Descricao = "Novo Motivo de Credencial"
+            });
+            //Tipo Credencial
+            auxService.TipoCredencialService.Criar(new TipoCredencial()
+            {
+                Descricao = "Novo Tipo de Credencial"
+            });
+            //Layouts Crachas
+            auxService.LayoutCrachaService.Criar(new LayoutCracha()
+            {
+                Nome = "Novo Layout de Crachá"
+            });
+            //Tipo Acessos
+            auxService.TiposAcessoService.Criar(new TipoAcesso()
+            {
+                Descricao = "Novo Tipo de Acesso"
+            });
+            //Tecnologias Credenciais
+            auxService.TecnologiaCredencialService.Criar(new TecnologiaCredencial()
+            {
+                Descricao = "Nova Tecnologia de Credencial"
+            });
+            //Formatos Credenciais
+            auxService.FormatoCredencialService.Criar(new FormatoCredencial()
+            {
+                Descricao = "Novo Formato de Credencial"
+            });
+
+            #endregion
+
+
+            #region Cadastro em Tabelas Relacionadas
+
+
+
+            //EmpresaContrato
+
+
+            //TODO:Mihai (8:34PM)
+            _empresaContrato.TipoCobrancaId = _tipoCobrancas.TipoCobrancaId;
+            _empresaContrato.MunicipioId = _municipio.MunicipioId;
+            _empresaContrato.EstadoId = _estados.EstadoId;
+            _empresaContrato.StatusId = _status.StatusId;
+            _empresaContrato.TipoAcessoId = _tipoAcesso.TipoAcessoId;
+
+
+
+            service.Empresa.Criar(_colaboradorEmpresa);
+
+
+
+
+            //ColaboradoresEmpresas --LAST--
+            _colaboradorEmpresa.ColaboradorId = _colaborador.ColaboradorId;
+            _colaboradorEmpresa.EmpresaId = _empresa.EmpresaId;
+            _colaboradorEmpresa.EmpresaContratoId = _empresaContrato.EmpresaContratoId;
+            _colaboradorEmpresa.EmpresaContratoId = _empresaContrato.EmpresaContratoId;
+
+            service.Empresa.Criar(_colaboradorEmpresa);
+
+            //TecnologiasCredenciais
+            _tecnologiaCredencial.TecnologiaCredencialId = _colaborador.ColaboradorId;
+            service.Empresa.Criar(_colaboradorEmpresa);
+
+
+            #endregion
+
+
+
+
+
+
+
+
+
+
+            #region CRUD de Credencial
+
+
+
+            #endregion
+
 
 
             #endregion
@@ -648,7 +750,11 @@ namespace UnitTestImod
             #region Listar Pendencias
 
             var listP = service.ListarPendencias(_empresa.EmpresaId).FirstOrDefault();
-            if (listP == null) throw new Exception("Uma pendência foi cadastrada, mas não foi possível retorna informção");
+            if (listP == null)
+            {
+                throw new Exception("Uma pendência foi cadastrada, mas não foi possível retorna informção");
+            }
+
             var pend = listP.Pendencias;
             Assert.IsTrue(!string.IsNullOrWhiteSpace(pend));
 
@@ -744,7 +850,10 @@ namespace UnitTestImod
 
             var d1 = repositorio.Listar().FirstOrDefault();
 
-            if (d1 == null) repositorio.Criar(_colaboradorCredencial);
+            if (d1 == null)
+            {
+                repositorio.Criar(_colaboradorCredencial);
+            }
 
             var d2 = repositorio.BuscarPelaChave(_colaboradorCredencial.ColaboradorCredencialId);
             Assert.IsNotNull(d2);
@@ -1128,7 +1237,9 @@ namespace UnitTestImod
             _colaborador.Nome = "Colaborador Nome";
             var d1 = service.ObterPorCpf(_colaborador.Cpf);
             if (d1 == null)
+            {
                 service.Criar(_colaborador);
+            }
 
             #endregion
 
@@ -1217,7 +1328,10 @@ namespace UnitTestImod
                 _colaborador.Nome = $"Colaborador ({i})";
                 var d1 = service.ObterPorCpf(item);
                 if (d1 == null)
+                {
                     service.Criar(_colaborador);
+                }
+
                 i++;
             }
 
