@@ -48,8 +48,9 @@
     <Reference Include="CrystalDecisions.Shared">
       <HintPath>..\..\..\..\..\..\program files (x86)\sap businessobjects\crystal reports for .net framework 4.0\common\sap businessobjects enterprise xi 4.0\win32_x86\dotnet\CrystalDecisions.Shared.dll</HintPath>
     </Reference>
-    <Reference Include="CSharpControls.Wpf">
-      <HintPath>.\CSharpControls.Wpf.dll</HintPath>
+    <Reference Include="CSharpControls.Wpf, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Dlls\CSharpControls.Wpf.dll</HintPath>
     </Reference>
     <Reference Include="Genetec.Sdk, Version=5.7.0.0, Culture=neutral, PublicKeyToken=a446968a32b751de, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -199,13 +200,61 @@
     <Compile Include="Models\ClasseVinculos.cs" />
     <Compile Include="Models\ClasseFormatosCredenciais.cs" />
     <Compile Include="Models\Colaborador.cs" />
-    <Compile Include="PagePrincipal\MenuPrincipal.xaml.cs">
-      <DependentUpon>MenuPrincipal.xaml</DependentUpon>
+    <Compile Include="Views\Model\AreaAcessoView.cs" />
+    <Compile Include="Views\Model\ColaboradorAnexoView.cs" />
+    <Compile Include="Views\Model\ColaboradorCredencialView.cs" />
+    <Compile Include="Views\Model\ColaboradorCursoView.cs" />
+    <Compile Include="Views\Model\ColaboradorEmpresaView.cs" />
+    <Compile Include="Views\Model\ColaboradorPrivilegioView.cs" />
+    <Compile Include="Views\Model\ColaboradorView.cs" />
+    <Compile Include="Views\Model\CredencialView.cs" />
+    <Compile Include="Views\Model\CredencialMotivoView.cs" />
+    <Compile Include="Views\Model\CredencialStatusView.cs" />
+    <Compile Include="Views\Model\CursoView.cs" />
+    <Compile Include="Views\Model\EmpresaVeiculoView.cs" />
+    <Compile Include="Views\Model\EmpresaView.cs" />
+    <Compile Include="Views\Model\EmpresaAnexoView.cs" />
+    <Compile Include="Views\Model\EmpresaAreaAcessoView.cs" />
+    <Compile Include="Views\Model\EmpresaContratoView.cs" />
+    <Compile Include="Views\Model\EmpresaEquipamentoView.cs" />
+    <Compile Include="Views\Model\EmpresaLayoutCrachaView.cs" />
+    <Compile Include="Views\Model\EmpresaSeguroView.cs" />
+    <Compile Include="Views\Model\EmpresaSignatarioView.cs" />
+    <Compile Include="Views\Model\EmpresaTipoAtividadeView.cs" />
+    <Compile Include="Views\Model\EquipamentoVeiculoTipoServicoView.cs" />
+    <Compile Include="Views\Model\EstadoView.cs" />
+    <Compile Include="Views\Model\FormatoCredencialView.cs" />
+    <Compile Include="Views\Model\LayoutCrachaView.cs" />
+    <Compile Include="Views\Model\MunicipioView.cs" />
+    <Compile Include="Views\Model\PendenciaView.cs" />
+    <Compile Include="Views\Model\RelatorioView.cs" />
+    <Compile Include="Views\Model\RelatorioGerencialView.cs" />
+    <Compile Include="Views\Model\StatusView.cs" />
+    <Compile Include="Views\Model\TecnologiaCredencialView.cs" />
+    <Compile Include="Views\Model\TipoAcessoView.cs" />
+    <Compile Include="Views\Model\TipoCredencialView.cs" />
+    <Compile Include="Views\Model\TipoEquipamentoView.cs" />
+    <Compile Include="Views\Model\TipoEquipamentoVeiculoView.cs" />
+    <Compile Include="Views\Model\TipoPendenciaView.cs" />
+    <Compile Include="Views\Model\TipoAtividadeView.cs" />
+    <Compile Include="Views\Model\TipoCobrancaView.cs" />
+    <Compile Include="Views\Model\TipoCombustivelView.cs" />
+    <Compile Include="Views\Model\TipoEmpresaView.cs" />
+    <Compile Include="Views\Model\TipoServicoView.cs" />
+    <Compile Include="Views\Model\TipoVeiculoView.cs" />
+    <Compile Include="Views\Model\VeiculoAnexoView.cs" />
+    <Compile Include="Views\Model\VeiculoCredencialView.cs" />
+    <Compile Include="Views\Model\VeiculoEmpresaView.cs" />
+    <Compile Include="Views\Model\VeiculoPrivilegioView.cs" />
+    <Compile Include="Views\Model\VeiculoSeguroView.cs" />
+    <Compile Include="Views\Model\VeiculoView.cs" />
+    <Compile Include="Views\Model\VinculoView.cs" />
+    <Compile Include="Modulo\MenuPrincipalView.xaml.cs">
+      <DependentUpon>MenuPrincipalView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PagePrincipal\PagePrincipal.cs" />
-    <Compile Include="PagePrincipal\PagePrincipalView.xaml.cs">
-      <DependentUpon>PagePrincipalView.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="Modulo\ModuloDescritor.cs" />
+    <Compile Include="Modulo\ModuloPage.cs" />
+    <Compile Include="Modulo\ViewSingleton.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -420,11 +469,7 @@
     </Resource>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="PagePrincipal\MenuPrincipal.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="PagePrincipal\PagePrincipalView.xaml">
+    <Page Include="Modulo\MenuPrincipalView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -658,7 +703,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Companhia.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Cracha.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -707,13 +752,9 @@
     <Resource Include="Resources\remove.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-    <None Include="Certificates\iModSCCredenciamento.PagePrincipal.PagePrincipal - Cópia .cert">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Certificates\iModSCCredenciamento.PagePrincipal.PagePrincipal.cert">
+    <Content Include="Certificates\iModSCCredenciamento.Modulo.ModuloPage.cert">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    </Content>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -742,6 +783,7 @@
     <Resource Include="Resources\Proibido.ico" />
     <Resource Include="Resources\Pasta2.ico" />
     <Resource Include="Resources\WebCam.ico" />
+    <Content Include="Dlls\CSharpControls.Wpf.dll" />
     <Content Include="Dlls\Genetec.Sdk.Controls.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
