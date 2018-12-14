@@ -195,7 +195,7 @@
             </Canvas>
             <StackPanel x:Name="ListaColaboradores_sp" Margin="0,0,170,0" Grid.Column="0" Grid.ColumnSpan="2">
                 <ListView x:Name="ListaColaboradores_lv" Margin="0,0,0,0" Height="180" ItemsSource="{Binding Colaboradores, Mode=TwoWay}" SelectedIndex="{Binding Path=SelectedIndex, Mode=TwoWay}"
-                           SelectedItem="{Binding Path = ColaboradorSelecionado, Mode=TwoWay}" SelectionChanged="ListaColaboradores_lv_SelectionChanged"    >
+                           SelectedItem="{Binding Path = ColaboradorSelecionado, Mode=TwoWay}" SelectionChanged="ListaColaboradores_lv_SelectionChanged"  >
                     <ListView.View>
                         <GridView FrameworkElement.FlowDirection="RightToLeft">
                             <GridViewColumn >

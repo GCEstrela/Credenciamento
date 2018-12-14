@@ -18,6 +18,8 @@ using System.Windows.Media.Imaging;
 using System.Xml;
 using System.Xml.Serialization;
 using AutoMapper;
+using IMOD.Application.Service;
+using IMOD.Application.Interfaces;
 
 namespace iModSCCredenciamento.ViewModels
 {
@@ -74,6 +76,7 @@ namespace iModSCCredenciamento.ViewModels
 
         private string _Validade;
 
+        private readonly IColaboradorEmpresaService service = new ColaboradorEmpresaService();
         #endregion
 
         #region Contrutores
@@ -459,6 +462,7 @@ namespace iModSCCredenciamento.ViewModels
                 }
 
                 _selectedIndexTemp = SelectedIndex;
+
                 ColaboradoresEmpresas.Clear();
                 //ClasseEmpresasSeguros.EmpresaSeguro _seguro = new ClasseEmpresasSeguros.EmpresaSeguro();
                 //_seguro.EmpresaID = EmpresaSelecionadaID;
@@ -567,11 +571,10 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                var service = new IMOD.Application.Service.ColaboradorEmpresaService();
+               // var service = new IMOD.Application.Service.ColaboradorEmpresaService();
                 if (!string.IsNullOrWhiteSpace(_cargo)) _cargo = $"%{_cargo}%";
                 if (!string.IsNullOrWhiteSpace(_matricula)) _matricula = $"%{_matricula}%";
                 var list1 = service.Listar(_colaboradorID, _cargo, _matricula);
-
                 var list2 = Mapper.Map<List<ClasseColaboradoresEmpresas.ColaboradorEmpresa>>(list1);
 
                 var observer = new ObservableCollection<ClasseColaboradoresEmpresas.ColaboradorEmpresa>();

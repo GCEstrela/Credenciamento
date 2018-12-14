@@ -12,6 +12,7 @@ using iModSCCredenciamento.ViewModels;
 using iModSCCredenciamento.Windows;
 using IMOD.CrossCutting;
 using Microsoft.Win32;
+using System.Data;
 //using IMOD.Application.Service;
 
 namespace iModSCCredenciamento.Views
@@ -21,11 +22,14 @@ namespace iModSCCredenciamento.Views
     /// </summary>
     public partial class ColaboradorView : UserControl
     {
+        DataRowView CompRow;
+        int SComp;
+        long CompID;
         public ColaboradorView()
         {
             InitializeComponent();
             DataContext = new ColaboradorViewModel();
-
+            
         }
 
 

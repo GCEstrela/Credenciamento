@@ -603,8 +603,20 @@ namespace iModSCCredenciamento.ViewModels
                 AtualizaPendencias(_novoEmpresaID);
                 EmpresaSelecionada.EmpresaID = _novoEmpresaID;
 
-                Thread CarregaColecaoEmpresasSignatarios_thr = new Thread(() => CarregaColecaoEmpresas());
-                CarregaColecaoEmpresasSignatarios_thr.Start();
+                var list1 = _service.Listar();
+                var list2 = Mapper.Map<List<ClasseEmpresas.Empresa>>(list1.OrderByDescending(a => a.EmpresaId));
+
+                var observer = new ObservableCollection<ClasseEmpresas.Empresa>();
+                list2.ForEach(n =>
+                {
+                    observer.Add(n);
+                });
+
+                Empresas = observer;
+
+
+                //Thread CarregaColecaoEmpresasSignatarios_thr = new Thread(() => CarregaColecaoEmpresas());
+                //CarregaColecaoEmpresasSignatarios_thr.Start();
 
             }
             catch (Exception ex)
@@ -997,7 +1009,7 @@ namespace iModSCCredenciamento.ViewModels
                 if (!string.IsNullOrWhiteSpace(nome)) nome = $"%{nome}%";
                 if (!string.IsNullOrWhiteSpace(apelido)) apelido = $"%{apelido}%";
                 if (!string.IsNullOrWhiteSpace(cnpj)) cnpj = $"%{cnpj}%";
-
+                
                 var list1 = _service.Listar(idEmpresa, nome, apelido, cnpj);
                 var list2 = Mapper.Map<List<ClasseEmpresas.Empresa>>(list1.OrderByDescending(a => a.EmpresaId));
 

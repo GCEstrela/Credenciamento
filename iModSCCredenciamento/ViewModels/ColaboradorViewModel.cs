@@ -24,6 +24,7 @@ namespace iModSCCredenciamento.ViewModels
 {
     public class ColaboradorViewModel : ViewModelBase
     {
+       
         private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
         /// <summary>
         /// Lista de municipios
@@ -55,7 +56,7 @@ namespace iModSCCredenciamento.ViewModels
         #endregion
 
         #region Variaveis Privadas
-
+        
         private ObservableCollection<ClasseColaboradores.Colaborador> _Colaboradores;
 
         private ClasseColaboradores.Colaborador _ColaboradorSelecionado;
@@ -86,6 +87,9 @@ namespace iModSCCredenciamento.ViewModels
 
         private BitmapImage _Waiting;
 
+        private readonly IColaboradorService service = new ColaboradorService();
+        
+        //private readonly ObservableCollection<ClasseColaboradores.Colaborador> observer;
         //private bool _EditandoUserControl;
 
         #endregion
@@ -363,7 +367,8 @@ namespace iModSCCredenciamento.ViewModels
                     _ColaboradoresTemp.Add(x);
                 }
                 Global.CpfEdicao = "000.000.000-00";
-                _selectedIndexTemp = SelectedIndex;
+               
+
                 Colaboradores.Clear();
 
                 _colaboradorTemp = new ClasseColaboradores.Colaborador();
@@ -371,7 +376,7 @@ namespace iModSCCredenciamento.ViewModels
                 _colaboradorTemp.ColaboradorID = EmpresaSelecionadaID;  //OBS
                 ////////////////////////////////////////////////////////
                 Colaboradores.Add(_colaboradorTemp);
-                SelectedIndex = 0;
+                //SelectedIndex = 0;
                 HabilitaEdicao = true;
             }
             catch (Exception ex)
@@ -501,7 +506,7 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
 
-                var service = new ColaboradorService();
+                //var service = new ColaboradorService();
                 if (!string.IsNullOrWhiteSpace(nome)) nome = $"%{nome}%";
                 if (!string.IsNullOrWhiteSpace(apelido)) apelido = $"%{apelido}%";
                 if (!string.IsNullOrWhiteSpace(cpf)) cpf = $"%{cpf}%";
@@ -517,6 +522,8 @@ namespace iModSCCredenciamento.ViewModels
 
                 Colaboradores = observer;
                 SelectedIndex = 0;
+
+
             }
             catch (Exception ex)
             {
@@ -722,18 +729,33 @@ namespace iModSCCredenciamento.ViewModels
 
                 var entity = Mapper.Map<Colaborador>(ColaboradorSelecionado);
                 var repositorio = new ColaboradorService();
-                repositorio.Criar(entity);
+                repositorio.Criar(entity); 
 
                 var id = entity.ColaboradorId;
                 AtualizaPendencias(id);
-
+                
                 ColaboradorSelecionado.ColaboradorID = id;
 
-                _ColaboradoresTemp.Clear();
+                _selectedIndexTemp = SelectedIndex;
 
-                _ColaboradoresTemp.Add(ColaboradorSelecionado);
-                Colaboradores = null;
-                Colaboradores = new ObservableCollection<ClasseColaboradores.Colaborador>(_ColaboradoresTemp);
+                var list1 = service.Listar();
+                var list2 = Mapper.Map<List<ClasseColaboradores.Colaborador>>(list1.OrderBy(n => n.ColaboradorId));
+                var observer = new ObservableCollection<ClasseColaboradores.Colaborador>();
+                list2.ForEach(n =>
+                {
+                    observer.Add(n);
+                });
+                Colaboradores = observer;
+                //_ColaboradoresTemp.Clear();
+
+                //_ColaboradoresTemp.Add(ColaboradorSelecionado);
+
+                ////Colaboradores.Add(ColaboradorSelecionado);
+
+                //Colaboradores = null;
+                //Colaboradores = new ObservableCollection<ClasseColaboradores.Colaborador>(_ColaboradoresTemp);
+                //Colaboradores.Add(ColaboradorSelecionado);
+                // CarregaColecaoColaboradores();
                 SelectedIndex = 0;
 
             }
