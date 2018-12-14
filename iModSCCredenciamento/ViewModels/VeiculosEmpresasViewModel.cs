@@ -398,6 +398,8 @@ namespace iModSCCredenciamento.ViewModels
                 //Seguros.Add(_seguro);
                 _VeiculoEmpresaTemp = new ClasseVeiculosEmpresas.VeiculoEmpresa();
                 _VeiculoEmpresaTemp.VeiculoID = VeiculoSelecionadaID;
+                _VeiculoEmpresaTemp.Matricula = string.Format("{0:#,##0}", Global.GerarID()) + "-" + String.Format("{0:yy}", DateTime.Now);
+                _VeiculoEmpresaTemp.Ativo = true;
                 VeiculosEmpresas.Add(_VeiculoEmpresaTemp);
 
                 SelectedIndex = 0;
