@@ -1,21 +1,13 @@
-﻿using CrystalDecisions.CrystalReports.Engine;
-using CrystalDecisions.Shared;
-using IMOD.Application.Interfaces;
-using iModSCCredenciamento.Funcoes;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.Windows.Media.Imaging;
+using iModSCCredenciamento.Helpers;
 using iModSCCredenciamento.Models;
 using iModSCCredenciamento.Windows;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Data;
-using System.Data.SqlClient;
-using System.Threading;
-using System.Windows.Media.Imaging;
-using System.Xml;
-using iModSCCredenciamento.Helpers;
+using IMOD.Application.Interfaces;
 using IMOD.Application.Service;
+using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
-using Utils = IMOD.CrossCutting.Utils;
 
 namespace iModSCCredenciamento.ViewModels
 {
@@ -48,23 +40,9 @@ namespace iModSCCredenciamento.ViewModels
 
         #endregion
 
-        #region Contrutores (Vazia)
-
-        #endregion
-
-        #region Carregamento das Colecoes (Vazia)
-
-
-        #endregion
-
-        #region Data Access (Vazia)
-
-
-        #endregion
-
         #region Comandos dos Botoes 
 
-        //TODO: OnFiltrosTermosCommand (Ajustar fórmulas) - Mihai (06/12/2018)
+        //TODO: OnFiltrosTermosCommand (Ajustar fórmulas/relatórios) - Mihai (06/12/2018)
         public void OnFiltrosTermosCommand(int _report, int _status, int _periodo, string _dataIni, string _dataFim)
         {
             string _xmlstring;
@@ -254,11 +232,6 @@ namespace iModSCCredenciamento.ViewModels
             }
         }
 
-
-        #endregion
-
-
-        #region Metodos privados (empty)
 
         #endregion
 

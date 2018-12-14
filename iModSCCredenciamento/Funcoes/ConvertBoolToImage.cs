@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Data;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace iModSCCredenciamento.Funcoes
@@ -28,20 +22,18 @@ namespace iModSCCredenciamento.Funcoes
                 }
                 return null;
             }
-            else
+
+            BitmapImage imgOk = new BitmapImage(new Uri("pack://application:,,,/iModSCCredenciamento;component/Resources/Ok.ico"));
+            BitmapImage imgPend = new BitmapImage(new Uri("pack://application:,,,/iModSCCredenciamento;component/Resources/Pendencia.ico"));
+            BitmapImage imgNull = new BitmapImage(new Uri("pack://application:,,,/iModSCCredenciamento;component/Resources/Proibido.ico"));
+
+            if (value != null)
             {
-                BitmapImage imgOk = new BitmapImage(new Uri("pack://application:,,,/iModSCCredenciamento;component/Resources/Ok.ico"));
-                BitmapImage imgPend = new BitmapImage(new Uri("pack://application:,,,/iModSCCredenciamento;component/Resources/Pendencia.ico"));
-                BitmapImage imgNull = new BitmapImage(new Uri("pack://application:,,,/iModSCCredenciamento;component/Resources/Proibido.ico"));
+                bool isTrue = (bool)value;               
 
-                if (value != null)
-                {
-                    bool isTrue = (bool)value;               
-
-                    return isTrue?imgPend:imgOk;
-                }
-                return imgNull;
+                return isTrue?imgPend:imgOk;
             }
+            return imgNull;
 
             return null;
 

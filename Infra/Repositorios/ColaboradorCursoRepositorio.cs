@@ -80,7 +80,7 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText("ColaboradorCurso", conn))
+                using (var cmd = _dataBase.SelectText("ColaboradoresCursos", conn))
 
                 {
                     try

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace iModSCCredenciamento.Models
 {
@@ -28,8 +24,8 @@ namespace iModSCCredenciamento.Models
             set { _credencialGuid = value; }
         }
 
-        private System.DateTime _dataValidade;
-        public System.DateTime DataValidade
+        private DateTime _dataValidade;
+        public DateTime DataValidade
         {
             get { return _dataValidade; }
             set { _dataValidade = value; }

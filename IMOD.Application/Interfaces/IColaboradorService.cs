@@ -32,7 +32,22 @@ namespace IMOD.Application.Interfaces
         /// Serviços de credenciais
         /// </summary>
         IColaboradorCredencialService Credencial { get; }
-        
+
+        /// <summary>
+        /// Serviços de Empresas
+        /// </summary>
+        IColaboradorEmpresaService Empresa { get; }
+
+        /// <summary>
+        /// Serviços de Cursos
+        /// </summary>
+        IColaboradorCursoService Curso { get; }
+
+        /// <summary>
+        /// Serviços de Anexos
+        /// </summary>
+        IColaboradorAnexoService Anexo { get; }
+
         #endregion
     }
 }

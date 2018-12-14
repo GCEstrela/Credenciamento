@@ -1,34 +1,24 @@
-﻿using iModSCCredenciamento.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Data.SqlClient;
-using System.Drawing;
-using System.IO;
-using System.Windows.Media.Imaging;
-using System.Xml;
-using System.Xml.Serialization;
-using iModSCCredenciamento.Funcoes;
-using System.Windows.Forms;
-using iModSCCredenciamento.Windows;
-using System.Threading;
 using System.Linq;
-using System.Reflection;
-using iModSCCredenciamento.Views;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media.Imaging;
+using System.Xml;
 using AutoMapper;
+using iModSCCredenciamento.Funcoes;
+using iModSCCredenciamento.Models;
+using iModSCCredenciamento.Windows;
 using IMOD.Application.Interfaces;
-using IMOD.Domain.Entities;
-using IMOD.Infra.Repositorios;
-using MessageBox = System.Windows.MessageBox;
 using IMOD.Application.Service;
 using IMOD.CrossCutting;
+using Colaborador = IMOD.Domain.Entities.Colaborador;
 
-//using IMOD.Application.Service;
 
-//using IMOD.Application.Service;
 
 namespace iModSCCredenciamento.ViewModels
 {
@@ -44,17 +34,13 @@ namespace iModSCCredenciamento.ViewModels
         /// </summary>
         public List<ClasseEstados.Estado> ObterListaEstadosFederacao { get; private set; }
         //private IColaboradorService _colaboradorService = new ColaboradorService();
-        public IMOD.Domain.Entities.Colaborador Colaborador { get; set; }
-        
+        public Colaborador Colaborador { get; set; }
+
         #region Inicializacao
         public ColaboradorViewModel()
-        {
-
-
-            //CarregaUI();
+        {//CarregaUI();
             Thread CarregaUI_thr = new Thread(() => CarregaUI());
             CarregaUI_thr.Start();
-            //CarregaColecaoColaboradores();
         }
         private void CarregaUI()
         {
@@ -67,8 +53,6 @@ namespace iModSCCredenciamento.ViewModels
             //CarregaColecaoLayoutsCrachas();
         }
         #endregion
-
-
 
         #region Variaveis Privadas
 
@@ -92,13 +76,13 @@ namespace iModSCCredenciamento.ViewModels
 
         private int _EmpresaSelecionadaID;
 
-        private bool _HabilitaEdicao = false;
+        private bool _HabilitaEdicao;
 
         private string _Criterios = "";
 
-        private int _selectedIndexTemp = 0;
+        private int _selectedIndexTemp;
 
-        private bool _atualizandoFoto = false;
+        private bool _atualizandoFoto;
 
         private BitmapImage _Waiting;
 
@@ -130,11 +114,11 @@ namespace iModSCCredenciamento.ViewModels
             get
             {
 
-                return this._ColaboradorSelecionado;
+                return _ColaboradorSelecionado;
             }
             set
             {
-                this._ColaboradorSelecionado = value;
+                _ColaboradorSelecionado = value;
                 base.OnPropertyChanged("SelectedItem");
                 if (ColaboradorSelecionado != null)
                 {
@@ -157,11 +141,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             get
             {
-                return this._EmpresaSelecionadaID;
+                return _EmpresaSelecionadaID;
             }
             set
             {
-                this._EmpresaSelecionadaID = value;
+                _EmpresaSelecionadaID = value;
                 base.OnPropertyChanged();
                 if (EmpresaSelecionadaID != null)
                 {
@@ -188,11 +172,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             get
             {
-                return this._HabilitaEdicao;
+                return _HabilitaEdicao;
             }
             set
             {
-                this._HabilitaEdicao = value;
+                _HabilitaEdicao = value;
                 base.OnPropertyChanged();
             }
         }
@@ -214,11 +198,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             get
             {
-                return this._Criterios;
+                return _Criterios;
             }
             set
             {
-                this._Criterios = value;
+                _Criterios = value;
                 base.OnPropertyChanged();
             }
         }
@@ -263,11 +247,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             get
             {
-                return this._Waiting;
+                return _Waiting;
             }
             set
             {
-                this._Waiting = value;
+                _Waiting = value;
                 base.OnPropertyChanged();
             }
         }
@@ -282,7 +266,6 @@ namespace iModSCCredenciamento.ViewModels
             //CarregaColecaoSeguros_thr.Start();
             //CarregaColecaoSeguros(Convert.ToInt32(empresaID));
         }
-        
 
         public void OnEditarCommand()
         {
@@ -338,7 +321,7 @@ namespace iModSCCredenciamento.ViewModels
                 {
                     _PopupSalvando.Close();
                 }
-
+                Utils.TraceException(ex);
             }
         }
 
@@ -367,14 +350,8 @@ namespace iModSCCredenciamento.ViewModels
                 {
                     _PopupSalvando.Close();
                 }
-
+                Utils.TraceException(ex);
             }
-        }
-
-        public void OnSalvarEdicaoCommand2()
-        {
-            //var colab = Mapper.Map<IMOD.Domain.Entities.Colaborador>(ColaboradorSelecionado);
-            //_colaboradorService.Alterar(colab);
         }
 
         public void OnAdicionarCommand()
@@ -388,9 +365,7 @@ namespace iModSCCredenciamento.ViewModels
                 Global.CpfEdicao = "000.000.000-00";
                 _selectedIndexTemp = SelectedIndex;
                 Colaboradores.Clear();
-                //ClasseEmpresasSeguros.EmpresaSeguro _seguro = new ClasseEmpresasSeguros.EmpresaSeguro();
-                //_seguro.EmpresaID = EmpresaSelecionadaID;
-                //Seguros.Add(_seguro);
+
                 _colaboradorTemp = new ClasseColaboradores.Colaborador();
                 ////////////////////////////////////////////////////////
                 _colaboradorTemp.ColaboradorID = EmpresaSelecionadaID;  //OBS
@@ -422,38 +397,19 @@ namespace iModSCCredenciamento.ViewModels
             }
         }
 
-        public void OnExcluirCommand2()
-        {
-            try
-            {
-
-                //var colab = Mapper.Map<IMOD.Domain.Entities.Colaborador>(ColaboradorSelecionado);
-                //_colaboradorService.Remover(colab);
-
-            }
-            catch (Exception ex)
-            {
-            }
-
-        }
         public void OnExcluirCommand()
         {
             try
-            {                
+            {
 
                 if (Global.PopupBox("Tem certeza que deseja excluir?", 2))
                 {
                     if (Global.PopupBox("Você perderá todos os dados, inclusive histórico. Confirma exclusão?", 2))
                     {
-                        //IMOD.Domain.Entities.Colaborador ColaboradorEntity = new IMOD.Domain.Entities.Colaborador();
-                        //g.TranportarDados(ColaboradorSelecionado, 1, ColaboradorEntity);
-
-                        //var repositorio = new IMOD.Infra.Repositorios.ColaboradorRepositorio();
-
-                        var entity = Mapper.Map<IMOD.Domain.Entities.Colaborador>(ColaboradorSelecionado);
-                        var repositorio = new IMOD.Application.Service.ColaboradorService();
+                        var entity = Mapper.Map<Colaborador>(ColaboradorSelecionado);
+                        var repositorio = new ColaboradorService();
                         repositorio.Remover(entity);
-                       
+
                         Colaboradores.Remove(ColaboradorSelecionado);
                     }
                 }
@@ -461,6 +417,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
+                Utils.TraceException(ex);
             }
 
         }
@@ -469,13 +426,13 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-
                 popupPesquisaColaborador = new PopupPesquisaColaborador();
-                popupPesquisaColaborador.EfetuarProcura += new EventHandler(On_EfetuarProcura);
+                popupPesquisaColaborador.EfetuarProcura += On_EfetuarProcura;
                 popupPesquisaColaborador.ShowDialog();
             }
             catch (Exception ex)
             {
+                Utils.TraceException(ex);
             }
         }
 
@@ -502,15 +459,15 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                PopupPendencias popupPendencias = new PopupPendencias(2, ((System.Windows.FrameworkElement)e.OriginalSource).Tag, ColaboradorSelecionado.ColaboradorID, ColaboradorSelecionado.Nome);
+                PopupPendencias popupPendencias = new PopupPendencias(2, ((FrameworkElement)e.OriginalSource).Tag, ColaboradorSelecionado.ColaboradorID, ColaboradorSelecionado.Nome);
                 popupPendencias.ShowDialog();
                 popupPendencias = null;
                 CarregaColecaoColaboradores(ColaboradorSelecionado.ColaboradorID);
 
-
             }
             catch (Exception ex)
             {
+                Utils.TraceException(ex);
             }
         }
 
@@ -544,26 +501,26 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
 
-                var service = new IMOD.Application.Service.ColaboradorService();
+                var service = new ColaboradorService();
                 if (!string.IsNullOrWhiteSpace(nome)) nome = $"%{nome}%";
                 if (!string.IsNullOrWhiteSpace(apelido)) apelido = $"%{apelido}%";
                 if (!string.IsNullOrWhiteSpace(cpf)) cpf = $"%{cpf}%";
                 var list1 = service.Listar(_ColaboradorID, nome, apelido, cpf);
 
-                var list2 = Mapper.Map<List<ClasseColaboradores.Colaborador>>(list1.OrderBy (n => n.ColaboradorId ));
+                var list2 = Mapper.Map<List<ClasseColaboradores.Colaborador>>(list1.OrderBy(n => n.ColaboradorId));
 
                 var observer = new ObservableCollection<ClasseColaboradores.Colaborador>();
                 list2.ForEach(n =>
                 {
                     observer.Add(n);
                 });
-                                
-                this.Colaboradores = observer;
+
+                Colaboradores = observer;
                 SelectedIndex = 0;
             }
             catch (Exception ex)
             {
-                IMOD.CrossCutting.Utils.TraceException(ex);
+                Utils.TraceException(ex);
             }
         }
 
@@ -579,11 +536,11 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                IMOD.CrossCutting.Utils.TraceException(ex);
+                Utils.TraceException(ex);
             }
         }
 
-        public void CarregaColeçãoMunicipios(string uf )
+        public void CarregaColeçãoMunicipios(string uf)
         {
 
             try
@@ -596,7 +553,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                IMOD.CrossCutting.Utils.TraceException(ex);
+                Utils.TraceException(ex);
             }
         }
 
@@ -624,28 +581,28 @@ namespace iModSCCredenciamento.ViewModels
 
                 //}));
 
-                System.Windows.Application.Current.Dispatcher.Invoke((Action)(() =>
+                Application.Current.Dispatcher.Invoke(() =>
                 {
                     Waiting = new BitmapImage(new Uri("pack://application:,,,/iModSCCredenciamento;component/Resources/Waitng.gif", UriKind.Absolute));
 
                     Waiting.Freeze();
-                }));
+                });
 
                 string _xmlstring = BuscaFoto(_ColaboradorID);
 
-                System.Windows.Application.Current.Dispatcher.Invoke((Action)(() => { Waiting = null; }));
+                Application.Current.Dispatcher.Invoke(() => { Waiting = null; });
 
                 XmlDocument xmldocument = new XmlDocument();
 
                 xmldocument.LoadXml(_xmlstring);
 
-                XmlNode node = (XmlNode)xmldocument.DocumentElement;
+                XmlNode node = xmldocument.DocumentElement;
 
                 XmlNode arquivoNode = node.SelectSingleNode("ArquivosImagens/ArquivoImagem/Arquivo");
 
                 if (arquivoNode.HasChildNodes)
                 {
-                    System.Windows.Application.Current.Dispatcher.Invoke((Action)(() =>
+                    Application.Current.Dispatcher.Invoke(() =>
                     {
                         _colaboradorTemp = ColaboradorSelecionado.CriaCopia(ColaboradorSelecionado);
 
@@ -657,7 +614,7 @@ namespace iModSCCredenciamento.ViewModels
 
                         SelectedIndex = _selectedIndexTemp;
 
-                    }));
+                    });
                 }
                 _atualizandoFoto = false;
 
@@ -750,20 +707,11 @@ namespace iModSCCredenciamento.ViewModels
 
         #region Metodos privados
 
-        
-        //Global g = new Global();
 
         internal void SalvarAdicao()
         {
             try
             {
-
-                //HabilitaEdicao = false;
-                //System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(ClasseColaboradores));
-
-                //ObservableCollection<ClasseColaboradores.Colaborador> _ColaboradoresPro = new ObservableCollection<ClasseColaboradores.Colaborador>();
-                //ClasseColaboradores _ClasseColaboradoresTemp = new ClasseColaboradores();
-
                 ColaboradorSelecionado.Pendente = true;
                 ColaboradorSelecionado.Pendente21 = true;
                 ColaboradorSelecionado.Pendente22 = true;
@@ -772,8 +720,8 @@ namespace iModSCCredenciamento.ViewModels
                 ColaboradorSelecionado.Pendente25 = true;
 
 
-                var entity = Mapper.Map<IMOD.Domain.Entities.Colaborador>(ColaboradorSelecionado);
-                var repositorio = new IMOD.Application.Service.ColaboradorService();
+                var entity = Mapper.Map<Colaborador>(ColaboradorSelecionado);
+                var repositorio = new ColaboradorService();
                 repositorio.Criar(entity);
 
                 var id = entity.ColaboradorId;
@@ -791,41 +739,34 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-
+                Utils.TraceException(ex);
             }
         }
-
-        /// <summary>
-        /// Alteração iniciada por Mihai & Máximo (28/11/2018)
-        /// TranportarDados
-        /// </summary>
+        
         internal void SalvarEdicao()
         {
             try
             {
-                
-
-                var entity = Mapper.Map<IMOD.Domain.Entities.Colaborador>(ColaboradorSelecionado);
-                var repositorio = new IMOD.Application.Service.ColaboradorService();
+                var entity = Mapper.Map<Colaborador>(ColaboradorSelecionado);
+                var repositorio = new ColaboradorService();
                 repositorio.Alterar(entity);
 
-                //_ClasseColaboradoresTemp = null;
 
-                this._ColaboradoresTemp.Clear();
+                _ColaboradoresTemp.Clear();
                 _colaboradorTemp = null;
 
 
             }
             catch (Exception ex)
             {
-
+                Utils.TraceException(ex);
             }
         }
 
         internal void AbrePopupSalvando()
         {
 
-            System.Windows.Application.Current.Dispatcher.Invoke((Action)(() =>
+            Application.Current.Dispatcher.Invoke(() =>
             {
                 if (_PopupSalvando != null)
                 {
@@ -833,7 +774,7 @@ namespace iModSCCredenciamento.ViewModels
                 }
 
 
-            }));
+            });
 
         }
 
@@ -844,7 +785,6 @@ namespace iModSCCredenciamento.ViewModels
             {
                 if (string.IsNullOrWhiteSpace(doc)) throw new ArgumentNullException("Informe um CPF para pesquisar");
                 //doc = doc.RetirarCaracteresEspeciais().Replace(" ", "");
-                
 
                 SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
                 SqlCommand cmd = new SqlCommand("Select * From Colaboradores Where cpf = '" + doc + "'", _Con);
@@ -859,6 +799,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
+                Utils.TraceException(ex);
                 return false;
             }
         }
@@ -881,6 +822,8 @@ namespace iModSCCredenciamento.ViewModels
 
 
         }
+
+
 
         #endregion
 

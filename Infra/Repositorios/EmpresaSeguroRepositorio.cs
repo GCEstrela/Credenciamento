@@ -82,7 +82,7 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText("EmpresaSeguro", conn))
+                using (var cmd = _dataBase.SelectText("EmpresasSeguros", conn))
 
                 {
                     try
@@ -177,7 +177,7 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.DeleteText("EmpresaSeguro", conn))
+                using (var cmd = _dataBase.DeleteText("EmpresasSeguros", conn))
                 {
                     try
                     {

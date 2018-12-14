@@ -1,19 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using iModSCCredenciamento.Funcoes;
 using iModSCCredenciamento.ViewModels;
 
 namespace iModSCCredenciamento.Windows
@@ -32,13 +20,13 @@ namespace iModSCCredenciamento.Windows
 
             Pendencias_gb.Header = "Detalhes da Pendência (" +  Nome + ")";
 
-            this.DataContext = new PopupPendenciasViewModel();
-            this.PreviewKeyDown += (ss, ee) =>
+            DataContext = new PopupPendenciasViewModel();
+            PreviewKeyDown += (ss, ee) =>
             {
                 if (ee.Key == Key.Escape)
                 {
                     
-                    this.Close();
+                    Close();
                 }
             };
 
@@ -57,7 +45,7 @@ namespace iModSCCredenciamento.Windows
             }
 
             MouseDown += Window_MouseDown;
-            ((PopupPendenciasViewModel)this.DataContext).OnAtualizaCommand( Cadastro, _tag,  ID );
+            ((PopupPendenciasViewModel)DataContext).OnAtualizaCommand( Cadastro, _tag,  ID );
 
         }
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
@@ -67,7 +55,7 @@ namespace iModSCCredenciamento.Windows
         }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Close();
         }
 
 
@@ -75,7 +63,7 @@ namespace iModSCCredenciamento.Windows
 
         private void Pesquisar_bt_Click(object sender, RoutedEventArgs e)
         {
-            ((PopupPendenciasViewModel)this.DataContext).OnPesquisarCommand();
+            ((PopupPendenciasViewModel)DataContext).OnPesquisarCommand();
         }
 
         private void Editar_bt_Click(object sender, RoutedEventArgs e)
@@ -84,7 +72,7 @@ namespace iModSCCredenciamento.Windows
             Botoes_Principais_sp.Visibility = Visibility.Hidden;
             Botoes_Editar_sp.Visibility = Visibility.Visible;
             ListaPendencias_lv.IsHitTestVisible = false;
-            ((PopupPendenciasViewModel)this.DataContext).OnEditarCommand();
+            ((PopupPendenciasViewModel)DataContext).OnEditarCommand();
         }
 
         private void Adicionar_bt_Click(object sender, RoutedEventArgs e)
@@ -92,14 +80,14 @@ namespace iModSCCredenciamento.Windows
             Linha0_sp.IsEnabled = true;
             Botoes_Principais_sp.Visibility = Visibility.Hidden;
             Botoes_Adicionar_sp.Visibility = Visibility.Visible;
-            ((PopupPendenciasViewModel)this.DataContext).OnAdicionarCommand(_cadastro, _tag, _entidadeID);
+            ((PopupPendenciasViewModel)DataContext).OnAdicionarCommand(_cadastro, _tag, _entidadeID);
         }
 
         private void Excluir_bt_Click(object sender, RoutedEventArgs e)
         {
             Botoes_Principais_sp.Visibility = Visibility.Visible;
-            ((PopupPendenciasViewModel)this.DataContext).OnExcluirCommand(_cadastro, _tag, _entidadeID);
-            if (ListaPendencias_lv.Items.Count == 0) { this.Close(); }
+            ((PopupPendenciasViewModel)DataContext).OnExcluirCommand(_cadastro, _tag, _entidadeID);
+            if (ListaPendencias_lv.Items.Count == 0) { Close(); }
         }
 
         private void ExecutarPesquisa_bt_Click(object sender, RoutedEventArgs e)
@@ -122,7 +110,7 @@ namespace iModSCCredenciamento.Windows
             Botoes_Principais_sp.Visibility = Visibility.Visible;
             Botoes_Editar_sp.Visibility = Visibility.Hidden;
             ListaPendencias_lv.IsHitTestVisible = true;
-            ((PopupPendenciasViewModel)this.DataContext).OnCancelarEdicaoCommand();
+            ((PopupPendenciasViewModel)DataContext).OnCancelarEdicaoCommand();
             Linha0_sp.IsEnabled = false;
         }
 
@@ -130,7 +118,7 @@ namespace iModSCCredenciamento.Windows
         {
 
             Botoes_Principais_sp.Visibility = Visibility.Visible;
-            ((PopupPendenciasViewModel)this.DataContext).OnSalvarEdicaoCommand();
+            ((PopupPendenciasViewModel)DataContext).OnSalvarEdicaoCommand();
             Botoes_Editar_sp.Visibility = Visibility.Hidden;
             ListaPendencias_lv.IsHitTestVisible = true;
             Linha0_sp.IsEnabled = false;
@@ -139,7 +127,7 @@ namespace iModSCCredenciamento.Windows
         private void CancelarAdicao_bt_Click(object sender, RoutedEventArgs e)
         {
             Botoes_Principais_sp.Visibility = Visibility.Visible;
-            ((PopupPendenciasViewModel)this.DataContext).OnCancelarAdicaoCommand();
+            ((PopupPendenciasViewModel)DataContext).OnCancelarAdicaoCommand();
             Botoes_Adicionar_sp.Visibility = Visibility.Hidden;
             Linha0_sp.IsEnabled = false;
         }
@@ -148,10 +136,10 @@ namespace iModSCCredenciamento.Windows
         {
 
             Botoes_Principais_sp.Visibility = Visibility.Visible;
-            ((PopupPendenciasViewModel)this.DataContext).OnSalvarAdicaoCommand();
+            ((PopupPendenciasViewModel)DataContext).OnSalvarAdicaoCommand();
             Botoes_Adicionar_sp.Visibility = Visibility.Hidden;
             Linha0_sp.IsEnabled = false;
-            this.Close();
+            Close();
         }
 
         #endregion

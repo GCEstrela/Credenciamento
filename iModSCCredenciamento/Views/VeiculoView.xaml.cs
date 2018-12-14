@@ -1,13 +1,18 @@
-﻿using iModSCCredenciamento.Funcoes;
+﻿using System;
+using System.IO;
+using System.Text.RegularExpressions;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media.Imaging;
+using iModSCCredenciamento.Funcoes;
+using iModSCCredenciamento.Helpers;
 using iModSCCredenciamento.Models;
 using iModSCCredenciamento.ViewModels;
 using iModSCCredenciamento.Windows;
-using System;
-using System.IO;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media.Imaging;
-using UserControl = System.Windows.Controls.UserControl;
+using IMOD.CrossCutting;
+using Microsoft.Win32;
+
 namespace iModSCCredenciamento.Views
 {
     /// <summary>
@@ -18,19 +23,18 @@ namespace iModSCCredenciamento.Views
         public VeiculoView()
         {
             InitializeComponent();
-            this.DataContext = new VeiculoViewModel();
-
+            DataContext = new VeiculoViewModel();
         }
         #region Comando dos Botoes
         private void SelecionarFoto_bt_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-
-                Microsoft.Win32.OpenFileDialog openFileDialog = new Microsoft.Win32.OpenFileDialog();
+                OpenFileDialog openFileDialog = new OpenFileDialog();
                 openFileDialog.Multiselect = false;
                 openFileDialog.Filter = "Images (*.BMP;*.JPG;*.GIF,*.PNG,*.TIFF)|*.BMP;*.JPG;*.GIF;*.PNG;*.TIFF|" + "All files (*.*)|*.*";
                 openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+
                 if (openFileDialog.ShowDialog() == true)
                 {
                     BitmapImage _img = new BitmapImage(new Uri(openFileDialog.FileName));
@@ -41,19 +45,19 @@ namespace iModSCCredenciamento.Views
 
                     Foto_im.Source = _img;
                     ((ClasseVeiculos.Veiculo)ListaVeiculos_lv.SelectedItem).Foto = _imgstr; //Conversores.IMGtoSTR(new BitmapImage(new Uri(arquivoLogo.FileName)));
-                   
                 }
 
             }
             catch (Exception ex)
             {
-
+                WpfHelp.Mbox(ex.Message);
+                Utils.TraceException(ex);
             }
         }
 
         private void AbrirArquivoAnexo_bt_Click(object sender, RoutedEventArgs e)
         {
-            ((VeiculoViewModel)this.DataContext).OnAbrirArquivoCommand();
+            ((VeiculoViewModel)DataContext).OnAbrirArquivoCommand();
         }
         private void CapturarFoto_bt_Click(object sender, RoutedEventArgs e)
         {
@@ -75,14 +79,15 @@ namespace iModSCCredenciamento.Views
             }
             catch (Exception ex)
             {
-
+                WpfHelp.Mbox(ex.Message);
+                Utils.TraceException(ex);
             }
         }
- 
+
 
         private void Pesquisar_bt_Click(object sender, RoutedEventArgs e)
         {
-            ((VeiculoViewModel)this.DataContext).OnPesquisarCommand();
+            ((VeiculoViewModel)DataContext).OnPesquisarCommand();
         }
 
         private void Editar_bt_Click(object sender, RoutedEventArgs e)
@@ -95,7 +100,7 @@ namespace iModSCCredenciamento.Views
             Botoes_Editar_sp.Visibility = Visibility.Visible;
             ListaVeiculos_lv.IsHitTestVisible = false;
             Geral_sp.IsHitTestVisible = true;
-            ((VeiculoViewModel)this.DataContext).OnEditarCommand();
+            ((VeiculoViewModel)DataContext).OnEditarCommand();
         }
 
         private void Adicionar_bt_Click(object sender, RoutedEventArgs e)
@@ -108,13 +113,13 @@ namespace iModSCCredenciamento.Views
             Botoes_Adicionar_sp.Visibility = Visibility.Visible;
             Geral_sp.IsHitTestVisible = true;
             Geral_bt.Visibility = Visibility.Hidden;
-            ((VeiculoViewModel)this.DataContext).OnAdicionarCommand();
+            ((VeiculoViewModel)DataContext).OnAdicionarCommand();
         }
 
         private void Excluir_bt_Click(object sender, RoutedEventArgs e)
         {
             Botoes_Principais_sp.Visibility = Visibility.Visible;
-            ((VeiculoViewModel)this.DataContext).OnExcluirCommand();
+            ((VeiculoViewModel)DataContext).OnExcluirCommand();
         }
 
         private void ExecutarPesquisa_bt_Click(object sender, RoutedEventArgs e)
@@ -138,7 +143,7 @@ namespace iModSCCredenciamento.Views
             Botoes_Editar_sp.Visibility = Visibility.Hidden;
             ListaVeiculos_lv.IsHitTestVisible = true;
             Geral_sp.IsHitTestVisible = false;
-            ((VeiculoViewModel)this.DataContext).OnCancelarEdicaoCommand();
+            ((VeiculoViewModel)DataContext).OnCancelarEdicaoCommand();
 
             VinculoEmpresa_ti.Visibility = Visibility.Visible;
             Seguros_ti.Visibility = Visibility.Visible;
@@ -160,7 +165,7 @@ namespace iModSCCredenciamento.Views
             }
 
             Botoes_Principais_sp.Visibility = Visibility.Visible;
-            ((VeiculoViewModel)this.DataContext).SalvarEdicao();
+            ((VeiculoViewModel)DataContext).SalvarEdicao();
             //((VeiculoViewModel)this.DataContext).OnSalvarEdicaoCommandAsync();
             Botoes_Editar_sp.Visibility = Visibility.Hidden;
             ListaVeiculos_lv.IsHitTestVisible = true;
@@ -174,7 +179,7 @@ namespace iModSCCredenciamento.Views
         private void CancelarAdicao_bt_Click(object sender, RoutedEventArgs e)
         {
             Botoes_Principais_sp.Visibility = Visibility.Visible;
-            ((VeiculoViewModel)this.DataContext).OnCancelarAdicaoCommand();
+            ((VeiculoViewModel)DataContext).OnCancelarAdicaoCommand();
             Botoes_Adicionar_sp.Visibility = Visibility.Hidden;
             Geral_sp.IsHitTestVisible = false;
 
@@ -201,7 +206,7 @@ namespace iModSCCredenciamento.Views
             }
 
             Botoes_Principais_sp.Visibility = Visibility.Visible;
-            ((VeiculoViewModel)this.DataContext).SalvarAdicao();
+            ((VeiculoViewModel)DataContext).SalvarAdicao();
             //((VeiculoViewModel)this.DataContext).OnSalvarAdicaoCommandAsync();
             Botoes_Adicionar_sp.Visibility = Visibility.Hidden;
             Geral_sp.IsHitTestVisible = false;
@@ -213,11 +218,17 @@ namespace iModSCCredenciamento.Views
         }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            ((VeiculoViewModel)this.DataContext).OnAbrirPendencias(sender, e);
+            ((VeiculoViewModel)DataContext).OnAbrirPendencias(sender, e);
         }
         #endregion
 
         #region Metodos Privados
+
+        private void NumberOnly(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
+        }
         private void OnTabSelected(object sender, RoutedEventArgs e)
         {
             Thickness marginThickness = ListaVeiculos_lv.Margin;
@@ -233,7 +244,6 @@ namespace iModSCCredenciamento.Views
             Botoes_ca.Visibility = Visibility.Hidden;
             ListaVeiculos_lv.Focus();
         }
-
 
         #endregion
 
@@ -289,5 +299,30 @@ namespace iModSCCredenciamento.Views
         {
 
         }
+
+        private void Tipo_cb_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+
+        private void IncluirServ_bt_Click(object sender, RoutedEventArgs e)
+        {
+            if (tipoServico_cb.Text != "" & tipoServico_cb.Text != "N/D")
+            {
+                ((VeiculoViewModel)DataContext).OnInserirServicoCommand(tipoServico_cb.SelectedValue.ToString(), tipoServico_cb.Text);
+                tipoServico_cb.Text = "";
+
+            }
+        }
+
+        private void ExcluirServ_bt_Click(object sender, RoutedEventArgs e)
+        {
+            ((VeiculoViewModel)DataContext).OnExcluirEquipamentoVeiculoTipoServicoCommand();
+
+            tipoServico_cb.Text = "";
+
+        }
+
     }
 }

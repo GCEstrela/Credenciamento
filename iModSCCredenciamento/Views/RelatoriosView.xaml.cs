@@ -1,9 +1,10 @@
-﻿using iModSCCredenciamento.ViewModels;
-using iModSCCredenciamento.Windows;
-using System;
+﻿using System;
 using System.Windows;
 using System.Windows.Controls;
 using iModSCCredenciamento.Funcoes;
+using iModSCCredenciamento.ViewModels;
+using iModSCCredenciamento.Windows;
+using IMOD.CrossCutting;
 
 namespace iModSCCredenciamento.Views
 {
@@ -25,14 +26,14 @@ namespace iModSCCredenciamento.Views
         public RelatoriosView()
         {
             InitializeComponent();
-            this.DataContext = new RelatoriosViewModel();
+            DataContext = new RelatoriosViewModel();
         }
 
         #region Comando dos Botoes
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Button _botao = (Button)sender;
-            ((RelatoriosViewModel)this.DataContext).OnAbrirRelatorioCommand(_botao.Tag.ToString());
+            ((RelatoriosViewModel)DataContext).OnAbrirRelatorioCommand(_botao.Tag.ToString());
         }
 
         private void ButtonCredenciais_Click(object sender, RoutedEventArgs e)
@@ -45,7 +46,7 @@ namespace iModSCCredenciamento.Views
             catch (Exception ex)
             {
                 Global.Log("Erro na void ButtonCredenciais_Click ex: " + ex);
-                IMOD.CrossCutting.Utils.TraceException(ex);
+                Utils.TraceException(ex);
                 throw;
             }
         }
@@ -59,7 +60,7 @@ namespace iModSCCredenciamento.Views
             catch (Exception ex)
             {
                 Global.Log("Erro na void ButtonAutorizacoes_Click ex: " + ex);
-                IMOD.CrossCutting.Utils.TraceException(ex);
+                Utils.TraceException(ex);
                 throw;
             }
         }
@@ -75,7 +76,7 @@ namespace iModSCCredenciamento.Views
             catch (Exception ex)
             {
                 Global.Log("Erro na void BotaoFiltroPorEmpresa_bt_Click ex: " + ex);
-                IMOD.CrossCutting.Utils.TraceException(ex);
+                Utils.TraceException(ex);
                 throw;
             }
 
@@ -92,7 +93,7 @@ namespace iModSCCredenciamento.Views
             catch (Exception ex)
             {
                 Global.Log("Erro na void BotaoFiltroPorArea_bt_Click ex: " + ex);
-                IMOD.CrossCutting.Utils.TraceException(ex);
+                Utils.TraceException(ex);
                 throw;
             }
         }
@@ -107,7 +108,7 @@ namespace iModSCCredenciamento.Views
             catch (Exception ex)
             {
                 Global.Log("Erro na void BotaoCredenciaisInvalidasClick ex: " + ex);
-                IMOD.CrossCutting.Utils.TraceException(ex);
+                Utils.TraceException(ex);
                 throw;
             }
         }
@@ -122,7 +123,7 @@ namespace iModSCCredenciamento.Views
             catch (Exception ex)
             {
                 Global.Log("Erro na void BotaoAutorizacoesInvalidasClick ex: " + ex);
-                IMOD.CrossCutting.Utils.TraceException(ex);
+                Utils.TraceException(ex);
                 throw;
             }
         }
@@ -138,7 +139,7 @@ namespace iModSCCredenciamento.Views
             catch (Exception ex)
             {
                 Global.Log("Erro na void BotaoImpressoesCredenciaisClick ex: " + ex);
-                IMOD.CrossCutting.Utils.TraceException(ex);
+                Utils.TraceException(ex);
                 throw;
             }
         }
@@ -154,7 +155,7 @@ namespace iModSCCredenciamento.Views
             catch (Exception ex)
             {
                 Global.Log("Erro na void BotaoImpressoesAutorizacoesClick ex: " + ex);
-                IMOD.CrossCutting.Utils.TraceException(ex);
+                Utils.TraceException(ex);
                 throw;
             }
 
@@ -170,7 +171,7 @@ namespace iModSCCredenciamento.Views
             catch (Exception ex)
             {
                 Global.Log("Erro na void ButtonRelatorioViasAdicionaisCredenciaisClick ex: " + ex);
-                IMOD.CrossCutting.Utils.TraceException(ex);
+                Utils.TraceException(ex);
                 throw;
             }
         }

@@ -6,11 +6,7 @@
 
 #region
 
-using System;
-using System.Collections.Generic;
 using IMOD.Application.Interfaces;
-using IMOD.Domain.Entities;
-using IMOD.Domain.EntitiesCustom;
 
 #endregion
 
@@ -164,6 +160,12 @@ namespace IMOD.Application.Service
         {
             get { return new FormatoCredencialService(); }
         }
+
+        /// <summary>
+        ///     Tipos Combustiveis
+        /// </summary>
+        public ITipoCombustivelService TipoCombustivelService { get {return new TipoCombustivelService();} }
+
         #endregion
     }
 }

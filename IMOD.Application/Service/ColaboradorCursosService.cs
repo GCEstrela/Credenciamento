@@ -1,15 +1,12 @@
-﻿using IMOD.Domain.Entities;
+﻿using System.Collections.Generic;
+using IMOD.Application.Interfaces;
+using IMOD.Domain.Entities;
 using IMOD.Domain.Interfaces;
 using IMOD.Infra.Repositorios;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace IMOD.Application.Service
 {
-    public class ColaboradorCursosService : IColaboradorCursoRepositorio
+    public class ColaboradorCursosService : IColaboradorCursoService
     {
         #region Variaveis Globais
 

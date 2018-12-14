@@ -1,23 +1,16 @@
-﻿using iModSCCredenciamento.Funcoes;
-using Microsoft.Win32;
-using iModSCCredenciamento.Models;
-using iModSCCredenciamento.ViewModels;
-using iModSCCredenciamento.Views;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.Windows.Input;
 using System.Xml;
 using System.Xml.Serialization;
+using iModSCCredenciamento.Funcoes;
 using iModSCCredenciamento.Helpers;
+using iModSCCredenciamento.Models;
 using iModSCCredenciamento.Windows;
 using IMOD.CrossCutting;
 
@@ -26,10 +19,7 @@ namespace iModSCCredenciamento.ViewModels
     public class EmpresasSegurosViewModel : ViewModelBase
     {
         #region Inicializacao
-        public EmpresasSegurosViewModel()
-        {
 
-        }
         #endregion
 
         #region Variaveis Privadas
@@ -48,11 +38,11 @@ namespace iModSCCredenciamento.ViewModels
 
         private int _EmpresaSelecionadaID;
 
-        private bool _HabilitaEdicao = false;
+        private bool _HabilitaEdicao;
 
         private string _Criterios = "";
 
-        private int _selectedIndexTemp = 0;
+        private int _selectedIndexTemp;
 
         #endregion
 
@@ -79,11 +69,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             get
             {
-                return this._SeguroSelecionado;
+                return _SeguroSelecionado;
             }
             set
             {
-                this._SeguroSelecionado = value;
+                _SeguroSelecionado = value;
                 base.OnPropertyChanged("SelectedItem");
                 if (SeguroSelecionado != null)
                 {
@@ -97,11 +87,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             get
             {
-                return this._EmpresaSelecionadaID;
+                return _EmpresaSelecionadaID;
             }
             set
             {
-                this._EmpresaSelecionadaID = value;
+                _EmpresaSelecionadaID = value;
                 base.OnPropertyChanged();
                 if (EmpresaSelecionadaID != null)
                 {
@@ -128,11 +118,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             get
             {
-                return this._HabilitaEdicao;
+                return _HabilitaEdicao;
             }
             set
             {
-                this._HabilitaEdicao = value;
+                _HabilitaEdicao = value;
                 base.OnPropertyChanged();
             }
         }
@@ -141,11 +131,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             get
             {
-                return this._Criterios;
+                return _Criterios;
             }
             set
             {
-                this._Criterios = value;
+                _Criterios = value;
                 base.OnPropertyChanged();
             }
         }
@@ -183,48 +173,17 @@ namespace iModSCCredenciamento.ViewModels
 
         public void OnAbrirArquivoCommand()
         {
-                try
-                {
-
-                    string _ArquivoPDF = null;
-                    if (_seguroTemp != null)
-                    {
-                        if (_seguroTemp.Arquivo != null && _seguroTemp.EmpresaSeguroID == SeguroSelecionado.EmpresaSeguroID)
-                        {
-                            _ArquivoPDF = _seguroTemp.Arquivo;
-
-                        }
-                    }
-                    if (_ArquivoPDF == null)
-                    {
-                        string _xmlstring = CriaXmlImagem(SeguroSelecionado.EmpresaSeguroID);
-
-                        XmlDocument xmldocument = new XmlDocument();
-                        xmldocument.LoadXml(_xmlstring);
-                        XmlNode node = (XmlNode)xmldocument.DocumentElement;
-                        XmlNode arquivoNode = node.SelectSingleNode("ArquivosImagens/ArquivoImagem/Arquivo");
-
-                        _ArquivoPDF = arquivoNode.FirstChild.Value;
-                    }
-                Global.PopupPDF(_ArquivoPDF);
-                //byte[] buffer = Conversores.StringToPDF(_ArquivoPDF);
-                //    _ArquivoPDF = System.IO.Path.GetTempFileName();
-                //    _ArquivoPDF = System.IO.Path.GetRandomFileName();
-                //    _ArquivoPDF = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\" + _ArquivoPDF;
-
-                //    //File.Move(_caminhoArquivoPDF, Path.ChangeExtension(_caminhoArquivoPDF, ".pdf"));
-                //    _ArquivoPDF = System.IO.Path.ChangeExtension(_ArquivoPDF, ".pdf");
-                //    System.IO.File.WriteAllBytes(_ArquivoPDF, buffer);
-                //    //Action<string> act = new Action<string>(Global.AbrirArquivoPDF);
-                //    //act.BeginInvoke(_ArquivoPDF, null, null);
-                //    Global.PopupPDF(_ArquivoPDF);
-                //    System.IO.File.Delete(_ArquivoPDF);
-                }
-                catch (Exception ex)
-                {
-                    Global.Log("Erro na void OnAbrirArquivoCommand ex: " + ex);
-
-                }
+            try
+            {
+                var arquivoStr = SeguroSelecionado.Arquivo;
+                var nomeArquivo = SeguroSelecionado.NomeArquivo;
+                var arrBytes = Convert.FromBase64String(arquivoStr);
+                WpfHelp.DownloadArquivoDialog(nomeArquivo, arrBytes);
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+            }
         }
 
         public void OnEditarCommand()
@@ -260,7 +219,7 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 HabilitaEdicao = false;
-                System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(ClasseEmpresasSeguros));
+                XmlSerializer serializer = new XmlSerializer(typeof(ClasseEmpresasSeguros));
 
                 ObservableCollection<ClasseEmpresasSeguros.EmpresaSeguro> _EmpresasSegurosTemp = new ObservableCollection<ClasseEmpresasSeguros.EmpresaSeguro>();
                 ClasseEmpresasSeguros _ClasseEmpresasSegurosTemp = new ClasseEmpresasSeguros();
@@ -269,7 +228,7 @@ namespace iModSCCredenciamento.ViewModels
 
                 string xmlString;
 
-                using (StringWriterWithEncoding sw = new StringWriterWithEncoding(System.Text.Encoding.UTF8))
+                using (StringWriterWithEncoding sw = new StringWriterWithEncoding(Encoding.UTF8))
                 {
 
                     using (XmlTextWriter xw = new XmlTextWriter(sw))
@@ -330,7 +289,7 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 HabilitaEdicao = false;
-                System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(ClasseEmpresasSeguros));
+                XmlSerializer serializer = new XmlSerializer(typeof(ClasseEmpresasSeguros));
 
                 ObservableCollection<ClasseEmpresasSeguros.EmpresaSeguro> _EmpresasSegurosPro = new ObservableCollection<ClasseEmpresasSeguros.EmpresaSeguro>();
                 ClasseEmpresasSeguros _ClasseEmpresasSegurosPro = new ClasseEmpresasSeguros();
@@ -339,7 +298,7 @@ namespace iModSCCredenciamento.ViewModels
 
                 string xmlString;
 
-                using (StringWriterWithEncoding sw = new StringWriterWithEncoding(System.Text.Encoding.UTF8))
+                using (StringWriterWithEncoding sw = new StringWriterWithEncoding(Encoding.UTF8))
                 {
 
                     using (XmlTextWriter xw = new XmlTextWriter(sw))
@@ -420,7 +379,7 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 popupPesquisaSeguro = new PopupPesquisaSeguro();
-                popupPesquisaSeguro.EfetuarProcura += new EventHandler(On_EfetuarProcura);
+                popupPesquisaSeguro.EfetuarProcura += On_EfetuarProcura;
                 popupPesquisaSeguro.ShowDialog();
             }
             catch (Exception ex)
@@ -673,7 +632,7 @@ namespace iModSCCredenciamento.ViewModels
             {
 
 
-                System.Xml.XmlDocument _xmlDoc = new System.Xml.XmlDocument();
+                XmlDocument _xmlDoc = new XmlDocument();
 
                 _xmlDoc.LoadXml(xmlString);
                 // SqlConnection _Con = new SqlConnection(Global._connectionString);_Con.Open();

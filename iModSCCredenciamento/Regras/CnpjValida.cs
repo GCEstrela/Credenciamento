@@ -1,5 +1,4 @@
-﻿using iModSCCredenciamento.Funcoes;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Windows.Controls;
 using IMOD.CrossCutting;
 

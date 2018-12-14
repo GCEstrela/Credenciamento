@@ -1,18 +1,9 @@
-﻿using iModSCCredenciamento.Funcoes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System;
+using System.IO;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using iModSCCredenciamento.Funcoes;
 
 namespace iModSCCredenciamento.Windows
 {
@@ -29,10 +20,10 @@ namespace iModSCCredenciamento.Windows
 
             _ArquivoPDF = _PDF;
             byte[] buffer = Conversores.StringToPDF(_ArquivoPDF);
-            _ArquivoPDF = System.IO.Path.GetRandomFileName();
+            _ArquivoPDF = Path.GetRandomFileName();
             _ArquivoPDF = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\" + _ArquivoPDF;
-            _ArquivoPDF = System.IO.Path.ChangeExtension(_ArquivoPDF, ".pdf");
-            System.IO.File.WriteAllBytes(_ArquivoPDF, buffer);
+            _ArquivoPDF = Path.ChangeExtension(_ArquivoPDF, ".pdf");
+            File.WriteAllBytes(_ArquivoPDF, buffer);
 
             pdfWebViewer.Navigate(new Uri(_ArquivoPDF));
 
@@ -49,8 +40,8 @@ namespace iModSCCredenciamento.Windows
 
                 Thread.Sleep(500);
 
-            System.IO.File.Delete(_ArquivoPDF);
-            this.Close();
+            File.Delete(_ArquivoPDF);
+            Close();
         }
     }
 }

@@ -1,6 +1,6 @@
-﻿using iModSCCredenciamento.ViewModels;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Input;
+using iModSCCredenciamento.ViewModels;
 
 namespace iModSCCredenciamento.Windows
 {
@@ -12,7 +12,7 @@ namespace iModSCCredenciamento.Windows
         public PopUpFiltrosCredenciaisPorArea()
         {
             InitializeComponent();
-            this.DataContext = new RelatoriosViewModel();
+            DataContext = new RelatoriosViewModel();
             MouseDown += Window_MouseDown;
         }
 
@@ -42,14 +42,14 @@ namespace iModSCCredenciamento.Windows
             else
                 check = false;
 
-            ((RelatoriosViewModel)this.DataContext).OnRelatorioFiltroPorAreaCommand(area, check);
+            ((RelatoriosViewModel)DataContext).OnRelatorioFiltroPorAreaCommand(area, check);
 
-            this.Close();
+            Close();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Close();
         }
     }
 }

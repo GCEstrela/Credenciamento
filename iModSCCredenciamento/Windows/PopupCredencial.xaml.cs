@@ -1,17 +1,9 @@
-﻿using CrystalDecisions.CrystalReports.Engine;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using CrystalDecisions.CrystalReports.Engine;
 
 namespace iModSCCredenciamento.Windows
 {
@@ -20,7 +12,7 @@ namespace iModSCCredenciamento.Windows
     /// </summary>
     public partial class PopupCredencial : Window
     {
-        public bool Result = false;
+        public bool Result;
         ReportDocument Cracha = new ReportDocument();
         public PopupCredencial(ReportDocument reportDocument)
         {
@@ -61,7 +53,7 @@ namespace iModSCCredenciamento.Windows
         }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void ImprimirCredencial_bt_Click(object sender, RoutedEventArgs e)
@@ -69,7 +61,7 @@ namespace iModSCCredenciamento.Windows
             try
             {
                 //Cracha report1 = new Cracha();
-                System.Windows.Forms.PrintDialog dialog1 = new System.Windows.Forms.PrintDialog();
+                PrintDialog dialog1 = new PrintDialog();
 
 
                 //report1.SetDatabaseLogon("imod", "imod");
@@ -87,7 +79,7 @@ namespace iModSCCredenciamento.Windows
                     Cracha.PrintOptions.PrinterName = dialog1.PrinterSettings.PrinterName;
                     Cracha.PrintToPrinter(copies, collate, fromPage, toPage);
                     Result = true;
-                    this.Close();
+                    Close();
                 }
                 else
                 {
@@ -103,7 +95,7 @@ namespace iModSCCredenciamento.Windows
                 //return null;
             }
         }
-        bool firstPage = false;
+        bool firstPage;
         private void ChangePage_bt_Click(object sender, RoutedEventArgs e)
         {
             try

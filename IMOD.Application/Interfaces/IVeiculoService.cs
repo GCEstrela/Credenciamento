@@ -1,13 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using IMOD.Domain.Interfaces;
+﻿using IMOD.Domain.Interfaces;
 
 namespace IMOD.Application.Interfaces
 {
     public interface IVeiculoService : IVeiculoRepositorio
     {
+        /// <summary>
+        /// Seguros
+        /// </summary>
+        IVeiculoSeguroService Seguro { get; }
+
+        /// <summary>
+        /// Anexos
+        /// </summary>
+        IVeiculoAnexoService Anexo { get; }
+
+        /// <summary>
+        /// Veiculos
+        /// </summary>
+        IVeiculoempresaService Veiculo { get; }
     }
 }

@@ -1,27 +1,18 @@
-﻿using iModSCCredenciamento.Funcoes;
-using iModSCCredenciamento.Models;
-using iModSCCredenciamento.ViewModels;
-using iModSCCredenciamento.Windows;
-using System;
-using System.Collections.Generic;
-using System.Drawing.Imaging;
+﻿using System;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Forms;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using iModSCCredenciamento.Funcoes;
+using iModSCCredenciamento.Models;
+using iModSCCredenciamento.ViewModels;
+using iModSCCredenciamento.Windows;
 using IMOD.CrossCutting;
+using Microsoft.Win32;
 //using IMOD.Application.Service;
-using UserControl = System.Windows.Controls.UserControl;
 
 namespace iModSCCredenciamento.Views
 {
@@ -33,7 +24,7 @@ namespace iModSCCredenciamento.Views
         public ColaboradorView()
         {
             InitializeComponent();
-            this.DataContext = new ColaboradorViewModel();
+            DataContext = new ColaboradorViewModel();
 
         }
 
@@ -45,21 +36,21 @@ namespace iModSCCredenciamento.Views
             try
             {
 
-                Microsoft.Win32.OpenFileDialog openFileDialog = new Microsoft.Win32.OpenFileDialog();
+                OpenFileDialog openFileDialog = new OpenFileDialog();
                 openFileDialog.Multiselect = false;
                 openFileDialog.Filter = "Imagem files (*.jpg)|*.jpg|All Files (*.*)|*.*";
                 openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
                 if (openFileDialog.ShowDialog() == true)
                 {
-                    long tamanho = new System.IO.FileInfo(openFileDialog.FileName).Length;
+                    long tamanho = new FileInfo(openFileDialog.FileName).Length;
                     if (tamanho > 200)
                     {
-                        System.Windows.MessageBox.Show("Tamanho ( " + tamanho.ToString() + " ) inválido, só é permitido arquivo com o máximo de 200");
-                        return; 
+                        MessageBox.Show("Tamanho ( " + tamanho + " ) inválido, só é permitido arquivo com o máximo de 200");
+                        return;
                     }
 
                     BitmapImage _img = new BitmapImage(new Uri(openFileDialog.FileName));
-                    
+
                     string _imgstr = Conversores.IMGtoSTR(_img);
 
                     var fileLength = new FileInfo(openFileDialog.FileName).Length; //limitar o tamanho futuro
@@ -103,11 +94,11 @@ namespace iModSCCredenciamento.Views
 
             }
         }
- 
+
 
         private void Pesquisar_bt_Click(object sender, RoutedEventArgs e)
         {
-            ((ColaboradorViewModel)this.DataContext).OnPesquisarCommand();
+            ((ColaboradorViewModel)DataContext).OnPesquisarCommand();
         }
 
         private void Editar_bt_Click(object sender, RoutedEventArgs e)
@@ -121,7 +112,7 @@ namespace iModSCCredenciamento.Views
             Botoes_Editar_sp.Visibility = Visibility.Visible;
             ListaColaboradores_lv.IsHitTestVisible = false;
             Geral_sp.IsHitTestVisible = true;
-            ((ColaboradorViewModel)this.DataContext).OnEditarCommand();
+            ((ColaboradorViewModel)DataContext).OnEditarCommand();
         }
 
         private void Adicionar_bt_Click(object sender, RoutedEventArgs e)
@@ -135,14 +126,14 @@ namespace iModSCCredenciamento.Views
             Botoes_Adicionar_sp.Visibility = Visibility.Visible;
             Geral_sp.IsHitTestVisible = true;
             Geral_bt.Visibility = Visibility.Hidden;
-            ((ColaboradorViewModel)this.DataContext).OnAdicionarCommand();
+            ((ColaboradorViewModel)DataContext).OnAdicionarCommand();
 
         }
 
         private void Excluir_bt_Click(object sender, RoutedEventArgs e)
         {
             Botoes_Principais_sp.Visibility = Visibility.Visible;
-            ((ColaboradorViewModel)this.DataContext).OnExcluirCommand();
+            ((ColaboradorViewModel)DataContext).OnExcluirCommand();
         }
 
         private void ExecutarPesquisa_bt_Click(object sender, RoutedEventArgs e)
@@ -166,7 +157,7 @@ namespace iModSCCredenciamento.Views
             Botoes_Editar_sp.Visibility = Visibility.Hidden;
             ListaColaboradores_lv.IsHitTestVisible = true;
             Geral_sp.IsHitTestVisible = false;
-            ((ColaboradorViewModel)this.DataContext).OnCancelarEdicaoCommand();
+            ((ColaboradorViewModel)DataContext).OnCancelarEdicaoCommand();
 
             VinculoEmpresa_ti.Visibility = Visibility.Visible;
             Cursos_ti.Visibility = Visibility.Visible;
@@ -199,7 +190,7 @@ namespace iModSCCredenciamento.Views
                     CPF_tb.Focus();
                     return;
                 }
-                var model = ((ColaboradorViewModel)this.DataContext);
+                var model = ((ColaboradorViewModel)DataContext);
                 var entity = model.ColaboradorSelecionado;
                 model.ValidarEdicao(entity);
 
@@ -254,7 +245,7 @@ namespace iModSCCredenciamento.Views
                     CPF_tb.Focus();
                     return;
                 }
-                var model = ((ColaboradorViewModel)this.DataContext);
+                var model = ((ColaboradorViewModel)DataContext);
                 var entity = model.ColaboradorSelecionado;
                 model.ValidarEdicao(entity);
 
@@ -287,7 +278,7 @@ namespace iModSCCredenciamento.Views
         private void CancelarAdicao_bt_Click(object sender, RoutedEventArgs e)
         {
             Botoes_Principais_sp.Visibility = Visibility.Visible;
-            ((ColaboradorViewModel)this.DataContext).OnCancelarAdicaoCommand();
+            ((ColaboradorViewModel)DataContext).OnCancelarAdicaoCommand();
             Botoes_Adicionar_sp.Visibility = Visibility.Hidden;
             Geral_sp.IsHitTestVisible = false;
 
@@ -337,7 +328,7 @@ namespace iModSCCredenciamento.Views
             #region Opcao 1
             try
             {
-                var model = ((ColaboradorViewModel)this.DataContext);
+                var model = ((ColaboradorViewModel)DataContext);
                 var entity = model.ColaboradorSelecionado;
                 model.ValidarAdicao(entity);
 
@@ -362,7 +353,7 @@ namespace iModSCCredenciamento.Views
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            ((ColaboradorViewModel)this.DataContext).OnAbrirPendencias(sender, e);
+            ((ColaboradorViewModel)DataContext).OnAbrirPendencias(sender, e);
         }
         #endregion
 
@@ -383,6 +374,12 @@ namespace iModSCCredenciamento.Views
             ListaColaboradores_lv.Focus();
         }
 
+        private void NumberOnly(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
+        }
+
 
         #endregion
 
@@ -394,7 +391,7 @@ namespace iModSCCredenciamento.Views
         {
             ListaColaboradores_lv.Items.Refresh();
 
-            BindingExpression be1 = BindingOperations.GetBindingExpression(Apelido_tb, System.Windows.Controls.TextBox.TextProperty);
+            BindingExpression be1 = BindingOperations.GetBindingExpression(Apelido_tb, TextBox.TextProperty);
             if (be1 != null)
             {
                 be1.UpdateSource();
@@ -432,13 +429,13 @@ namespace iModSCCredenciamento.Views
             var cpfAnterior = Global.CpfEdicao.RetirarCaracteresEspeciais();
             var cpfjAtual = CPF_tb.Text.RetirarCaracteresEspeciais();
 
-            var model = (ColaboradorViewModel)this.DataContext;
+            var model = (ColaboradorViewModel)DataContext;
 
             if (!Utils.IsValidCpf(cpfjAtual)) { throw new InvalidOperationException("CPF inválido!"); }
 
             if (cpfAnterior == "000.000.000-00") //Então a operação é de adição, logo verificar se ha CNPJ apenas no ação de salvar...
             {
-                var c1 = ((ColaboradorViewModel)this.DataContext).ConsultarCpf(cpfjAtual);
+                var c1 = ((ColaboradorViewModel)DataContext).ConsultarCpf(cpfjAtual);
                 //if (c1) Global.PopupBox("CPF já cadastrado, impossível inclusão!", 4);
                 if (c1) throw new InvalidOperationException("CPF já cadastrado, impossível inclusão!");
             }
@@ -446,7 +443,7 @@ namespace iModSCCredenciamento.Views
             {
                 //Então verificar se há cnpj exisitente
                 //Verificar se existe
-                var c1 = ((ColaboradorViewModel)this.DataContext).ConsultarCpf(cpfjAtual);
+                var c1 = ((ColaboradorViewModel)DataContext).ConsultarCpf(cpfjAtual);
                 if (c1) throw new InvalidOperationException("CPF já cadastrado, impossível edição!");
                 //if (c1) Global.PopupBox("CPF já cadastrado, impossível edição!", 4);
             }

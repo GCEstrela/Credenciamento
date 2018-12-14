@@ -113,7 +113,8 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Descricao", objects, 0).Like()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("VeiculoID", objects, 0).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Descricao", objects, 1).Like()));
 
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<VeiculoAnexo>();

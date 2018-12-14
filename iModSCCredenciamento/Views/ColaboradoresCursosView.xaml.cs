@@ -1,40 +1,29 @@
-﻿using iModSCCredenciamento.Funcoes;
-using iModSCCredenciamento.ViewModels;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Forms;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using iModSCCredenciamento.Funcoes;
+using iModSCCredenciamento.ViewModels;
 
 namespace iModSCCredenciamento.Views
 {
     /// <summary>
     /// Interação lógica para ColaboradoresCursosView.xam
     /// </summary>
-    public partial class ColaboradoresCursosView : System.Windows.Controls.UserControl
+    public partial class ColaboradoresCursosView : UserControl
     {
         #region Inicializacao
         public ColaboradoresCursosView()
         {
             InitializeComponent();
-            this.DataContext = new ColaboradoresCursosViewModel();
+            DataContext = new ColaboradoresCursosViewModel();
 
         }
         #endregion
 
         #region Vinculo do UserControl
-        static int _colaboradorIDFisrt = 0;
+        static int _colaboradorIDFisrt;
         public int ColaboradorSelecionadoIDView
         {
             get { return (int)GetValue(ColaboradorSelecionadoIDViewProperty); }
@@ -49,7 +38,7 @@ namespace iModSCCredenciamento.Views
 
             if (_colaboradorID != _colaboradorIDFisrt && _colaboradorID != 0)
             {
-                ((iModSCCredenciamento.ViewModels.ColaboradoresCursosViewModel)((System.Windows.FrameworkElement)source).DataContext).OnAtualizaCommand(_colaboradorID);
+                ((ColaboradoresCursosViewModel)((FrameworkElement)source).DataContext).OnAtualizaCommand(_colaboradorID);
                 _colaboradorIDFisrt = _colaboradorID;
             }
         }
@@ -62,7 +51,7 @@ namespace iModSCCredenciamento.Views
 
         public static readonly DependencyProperty EditandoProperty =
             DependencyProperty.Register("Editando", typeof(bool), typeof(ColaboradoresCursosView), new FrameworkPropertyMetadata(true,
-                                                           FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, new PropertyChangedCallback(EditandoPropertyChanged)));
+                                                           FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, EditandoPropertyChanged));
 
         private static void EditandoPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -74,18 +63,18 @@ namespace iModSCCredenciamento.Views
         #region Comando dos Botoes
         private void BuscarApoliceArquivo_bt_Click(object sender, RoutedEventArgs e)
         {
-            ((ColaboradoresCursosViewModel)this.DataContext).OnBuscarArquivoCommand();
-            ApoliceArquivo_tb.Text = ((ColaboradoresCursosViewModel)this.DataContext).ColaboradoresCursos[0].NomeArquivo;
+            ((ColaboradoresCursosViewModel)DataContext).OnBuscarArquivoCommand();
+            ApoliceArquivo_tb.Text = ((ColaboradoresCursosViewModel)DataContext).ColaboradoresCursos[0].NomeArquivo;
         }
 
         private void AbrirApoliceArquivo_bt_Click(object sender, RoutedEventArgs e)
         {
-            ((ColaboradoresCursosViewModel)this.DataContext).OnAbrirArquivoCommand();
+            ((ColaboradoresCursosViewModel)DataContext).OnAbrirArquivoCommand();
         }
 
         private void Pesquisar_bt_Click(object sender, RoutedEventArgs e)
         {
-            ((ColaboradoresCursosViewModel)this.DataContext).OnPesquisarCommand();
+            ((ColaboradoresCursosViewModel)DataContext).OnPesquisarCommand();
         }
 
         private void Editar_bt_Click(object sender, RoutedEventArgs e)
@@ -94,7 +83,7 @@ namespace iModSCCredenciamento.Views
             Botoes_Editar_sp.Visibility = Visibility.Visible;
             ListaColaboradoresCursos_lv.IsHitTestVisible = false;
             Global.SetReadonly(Linha0_sp, false);
-            ((ColaboradoresCursosViewModel)this.DataContext).OnEditarCommand();
+            ((ColaboradoresCursosViewModel)DataContext).OnEditarCommand();
         }
 
         private void Adicionar_bt_Click(object sender, RoutedEventArgs e)
@@ -102,13 +91,13 @@ namespace iModSCCredenciamento.Views
             Editando = false; Botoes_Principais_sp.Visibility = Visibility.Hidden;
             Botoes_Adicionar_sp.Visibility = Visibility.Visible;
             Global.SetReadonly(Linha0_sp, false);
-            ((ColaboradoresCursosViewModel)this.DataContext).OnAdicionarCommand();
+            ((ColaboradoresCursosViewModel)DataContext).OnAdicionarCommand();
         }
 
         private void Excluir_bt_Click(object sender, RoutedEventArgs e)
         {
             Editando = true; Botoes_Principais_sp.Visibility = Visibility.Visible;
-            ((ColaboradoresCursosViewModel)this.DataContext).OnExcluirCommand();
+            ((ColaboradoresCursosViewModel)DataContext).OnExcluirCommand();
         }
 
         private void ExecutarPesquisa_bt_Click(object sender, RoutedEventArgs e)
@@ -132,7 +121,7 @@ namespace iModSCCredenciamento.Views
             Botoes_Editar_sp.Visibility = Visibility.Hidden;
             ListaColaboradoresCursos_lv.IsHitTestVisible = true;
             Global.SetReadonly(Linha0_sp, true);
-            ((ColaboradoresCursosViewModel)this.DataContext).OnCancelarEdicaoCommand();
+            ((ColaboradoresCursosViewModel)DataContext).OnCancelarEdicaoCommand();
         }
 
         private void SalvarEdicao_bt_Click(object sender, RoutedEventArgs e)
@@ -148,7 +137,7 @@ namespace iModSCCredenciamento.Views
             }
 
             Editando = true; Botoes_Principais_sp.Visibility = Visibility.Visible;
-            ((ColaboradoresCursosViewModel)this.DataContext).OnSalvarEdicaoCommand();
+            ((ColaboradoresCursosViewModel)DataContext).OnSalvarEdicaoCommand();
             ICollectionView view = CollectionViewSource.GetDefaultView(ListaColaboradoresCursos_lv.ItemsSource);
             view.Refresh();
             Botoes_Editar_sp.Visibility = Visibility.Hidden;
@@ -159,7 +148,7 @@ namespace iModSCCredenciamento.Views
         private void CancelarAdicao_bt_Click(object sender, RoutedEventArgs e)
         {
             Editando = true; Botoes_Principais_sp.Visibility = Visibility.Visible;
-            ((ColaboradoresCursosViewModel)this.DataContext).OnCancelarAdicaoCommand();
+            ((ColaboradoresCursosViewModel)DataContext).OnCancelarAdicaoCommand();
             Botoes_Adicionar_sp.Visibility = Visibility.Hidden;
             Global.SetReadonly(Linha0_sp, true);
         }
@@ -177,7 +166,7 @@ namespace iModSCCredenciamento.Views
             }
 
             Editando = true; Botoes_Principais_sp.Visibility = Visibility.Visible;
-            ((ColaboradoresCursosViewModel)this.DataContext).OnSalvarAdicaoCommand();
+            ((ColaboradoresCursosViewModel)DataContext).OnSalvarAdicaoCommand();
 
             Botoes_Adicionar_sp.Visibility = Visibility.Hidden;
             Global.SetReadonly(Linha0_sp, true);

@@ -1,26 +1,14 @@
-﻿using Microsoft.Win32;
-using iModSCCredenciamento.Funcoes;
-using iModSCCredenciamento.Models;
-using iModSCCredenciamento.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Forms;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using iModSCCredenciamento.Funcoes;
 using iModSCCredenciamento.Helpers;
+using iModSCCredenciamento.Models;
+using iModSCCredenciamento.ViewModels;
 using IMOD.CrossCutting;
-using UserControl = System.Windows.Controls.UserControl;
-
 
 namespace iModSCCredenciamento.Views
 {
@@ -32,7 +20,7 @@ namespace iModSCCredenciamento.Views
         public EmpresaView()
         {
             InitializeComponent();
-            this.DataContext = new EmpresaViewModel();
+            DataContext = new EmpresaViewModel();
         }
 
         #endregion
@@ -43,15 +31,15 @@ namespace iModSCCredenciamento.Views
             try
             {
                 var filtro = "Images (*.BMP;*.JPG;*.GIF,*.PNG,*.TIFF)|*.BMP;*.JPG;*.GIF;*.PNG;*.TIFF|" + "All files (*.*)|*.*";
-                var arq = WpfHelp.UpLoadArquivoDialog (filtro);
+                var arq = WpfHelp.UpLoadArquivoDialog(filtro);
                 if (arq == null) return;
-                ((ClasseEmpresas.Empresa) ListaEmpresas_lv.SelectedItem).Logo = arq.FormatoBase64;
-                 BindingExpression be = BindingOperations.GetBindingExpression(Logo_im, Image.SourceProperty);
-                 be.UpdateTarget();
+                ((ClasseEmpresas.Empresa)ListaEmpresas_lv.SelectedItem).Logo = arq.FormatoBase64;
+                BindingExpression be = BindingOperations.GetBindingExpression(Logo_im, Image.SourceProperty);
+                be.UpdateTarget();
             }
             catch (Exception ex)
             {
-                    Utils.TraceException(ex);
+                Utils.TraceException(ex);
             }
         }
 
@@ -59,7 +47,7 @@ namespace iModSCCredenciamento.Views
         {
             //Editando = false; Botoes_Principais_sp.Visibility = Visibility.Hidden;
             //Botoes_Pesquisar_sp.Visibility = Visibility.Visible;
-            ((EmpresaViewModel)this.DataContext).OnPesquisarCommand();
+            ((EmpresaViewModel)DataContext).OnPesquisarCommand();
         }
 
         private void Editar_bt_Click(object sender, RoutedEventArgs e)
@@ -72,7 +60,7 @@ namespace iModSCCredenciamento.Views
             Botoes_Editar_sp.Visibility = Visibility.Visible;
             ListaEmpresas_lv.IsHitTestVisible = false;
             Geral_sp.IsHitTestVisible = true;
-            ((EmpresaViewModel)this.DataContext).OnEditarCommand();
+            ((EmpresaViewModel)DataContext).OnEditarCommand();
         }
 
         private void Adicionar_bt_Click(object sender, RoutedEventArgs e)
@@ -86,13 +74,13 @@ namespace iModSCCredenciamento.Views
             Botoes_Adicionar_sp.Visibility = Visibility.Visible;
             Geral_sp.IsHitTestVisible = true;
             Geral_bt.Visibility = Visibility.Hidden;
-            ((EmpresaViewModel)this.DataContext).OnAdicionarCommand();
+            ((EmpresaViewModel)DataContext).OnAdicionarCommand();
         }
 
         private void Excluir_bt_Click(object sender, RoutedEventArgs e)
         {
             Botoes_Principais_sp.Visibility = Visibility.Visible;
-            ((EmpresaViewModel)this.DataContext).OnExcluirCommand();
+            ((EmpresaViewModel)DataContext).OnExcluirCommand();
         }
 
         private void ExecutarPesquisa_bt_Click(object sender, RoutedEventArgs e)
@@ -114,7 +102,7 @@ namespace iModSCCredenciamento.Views
             Botoes_Editar_sp.Visibility = Visibility.Hidden;
             ListaEmpresas_lv.IsHitTestVisible = true;
 
-            ((EmpresaViewModel)this.DataContext).OnCancelarEdicaoCommand();
+            ((EmpresaViewModel)DataContext).OnCancelarEdicaoCommand();
             Geral_sp.IsHitTestVisible = false;
 
             Signatarios_ti.Visibility = Visibility.Visible;
@@ -124,7 +112,7 @@ namespace iModSCCredenciamento.Views
         }
 
         private void SalvarEdicao_bt_Click(object sender, RoutedEventArgs e)
-        { 
+        {
             try
             {
                 Check();
@@ -134,7 +122,7 @@ namespace iModSCCredenciamento.Views
                 }
                 if (_cnpjVerificar)
                 {
-                    if (((EmpresaViewModel)this.DataContext).ConsultaCNPJ(CNPJ_tb.Text))
+                    if (((EmpresaViewModel)DataContext).ConsultaCNPJ(CNPJ_tb.Text))
                     {
                         if (Global.PopupBox("CNPJ já cadastrado, impossível alteração!", 4))
                         {
@@ -145,7 +133,7 @@ namespace iModSCCredenciamento.Views
                 }
                 Botoes_Principais_sp.Visibility = Visibility.Visible;
                 //Execute the command
-                ((EmpresaViewModel)this.DataContext).OnSalvarEdicaoCommand();
+                ((EmpresaViewModel)DataContext).OnSalvarEdicaoCommand();
                 Botoes_Editar_sp.Visibility = Visibility.Hidden;
                 ListaEmpresas_lv.IsHitTestVisible = true;
                 Geral_sp.IsHitTestVisible = false;
@@ -167,7 +155,7 @@ namespace iModSCCredenciamento.Views
         private void CancelarAdicao_bt_Click(object sender, RoutedEventArgs e)
         {
             Botoes_Principais_sp.Visibility = Visibility.Visible;
-            ((EmpresaViewModel)this.DataContext).OnCancelarAdicaoCommand();
+            ((EmpresaViewModel)DataContext).OnCancelarAdicaoCommand();
             Botoes_Adicionar_sp.Visibility = Visibility.Hidden;
             Geral_sp.IsHitTestVisible = false;
 
@@ -186,12 +174,12 @@ namespace iModSCCredenciamento.Views
                 {
                     return;
                 }
-                var model = (EmpresaViewModel)this.DataContext;
+                var model = (EmpresaViewModel)DataContext;
                 var entity = model.EmpresaSelecionada;
                 model.ValidarAdicao(entity);
 
                 Botoes_Principais_sp.Visibility = Visibility.Visible;
-                ((EmpresaViewModel)this.DataContext).OnSalvarAdicaoCommand();
+                ((EmpresaViewModel)DataContext).OnSalvarAdicaoCommand();
                 Botoes_Adicionar_sp.Visibility = Visibility.Hidden;
                 Geral_sp.IsHitTestVisible = false;
                 Signatarios_ti.Visibility = Visibility.Visible;
@@ -212,17 +200,17 @@ namespace iModSCCredenciamento.Views
             var cnpjAnterior = Global._cnpjEdicao.RetirarCaracteresEspeciais();
             var cnpjAtual = CNPJ_tb.Text.RetirarCaracteresEspeciais();
             if (!Utils.IsValidCnpj(cnpjAtual)) { throw new InvalidOperationException("CNPJ inválido!"); }
-            
+
             if (cnpjAnterior == "00.000.000/0000-00") //Então a operação é de adição, logo verificar se ha CNPJ apenas no ação de salvar...
             {
-                var c1 = ((EmpresaViewModel)this.DataContext).ConsultaCNPJ(cnpjAtual);
+                var c1 = ((EmpresaViewModel)DataContext).ConsultaCNPJ(cnpjAtual);
                 if (c1) throw new InvalidOperationException("CNPJ já cadastrado, impossível inclusão!");
             }
             else if (cnpjAnterior.CompareTo(cnpjAtual) != 0 && !string.IsNullOrWhiteSpace(cnpjAnterior))
             {
                 //Então verificar se há cnpj exisitente
                 //Verificar se existe
-                var c1 = ((EmpresaViewModel)this.DataContext).ConsultaCNPJ(cnpjAtual);
+                var c1 = ((EmpresaViewModel)DataContext).ConsultaCNPJ(cnpjAtual);
                 if (c1) throw new InvalidOperationException("CNPJ já cadastrado, impossível Edição!");
             }
         }
@@ -240,31 +228,30 @@ namespace iModSCCredenciamento.Views
                 Global.PopupBox(ex.Message, 4);
             }
 
-
-
         }
-       
+
+
+
+
         private void IncluirAtividade_bt_Click(object sender, RoutedEventArgs e)
         {
             if (TipoAtividade_cb.Text != "" & TipoAtividade_cb.Text != "N/D")
             {
-
-                ((EmpresaViewModel)this.DataContext).OnInserirAtividadeCommand(TipoAtividade_cb.SelectedValue.ToString(), TipoAtividade_cb.Text);
+                ((EmpresaViewModel)DataContext).OnInserirAtividadeCommand(TipoAtividade_cb.SelectedValue.ToString(), TipoAtividade_cb.Text);
                 //TipoAtividade_cb.SelectedIndex = 0;
                 TipoAtividade_cb.Text = "";
 
             }
-
         }
 
         private void ExcluirAtividade_bt_Click(object sender, RoutedEventArgs e)
         {
-            ((EmpresaViewModel)this.DataContext).OnExcluirAtividadeCommand();
+            ((EmpresaViewModel)DataContext).OnExcluirAtividadeCommand();
         }
 
         private void ExcluirAcesso_bt_Click(object sender, RoutedEventArgs e)
         {
-            ((EmpresaViewModel)this.DataContext).OnExcluirAcessoCommand();
+            ((EmpresaViewModel)DataContext).OnExcluirAcessoCommand();
         }
 
         private void IncluirCracha_bt_Click(object sender, RoutedEventArgs e)
@@ -272,7 +259,7 @@ namespace iModSCCredenciamento.Views
             if (Cracha_cb.Text != "" & Cracha_cb.Text != "N/D")
             {
 
-                ((EmpresaViewModel)this.DataContext).OnInserirCrachaCommand(Convert.ToInt32(Cracha_cb.SelectedValue), Cracha_cb.Text);
+                ((EmpresaViewModel)DataContext).OnInserirCrachaCommand(Convert.ToInt32(Cracha_cb.SelectedValue), Cracha_cb.Text);
                 //Cracha_cb.SelectedIndex = 0;
                 Cracha_cb.Text = "";
             }
@@ -280,12 +267,12 @@ namespace iModSCCredenciamento.Views
 
         private void ExcluirCracha_bt_Click(object sender, RoutedEventArgs e)
         {
-            ((EmpresaViewModel)this.DataContext).OnExcluirCrachaCommand();
+            ((EmpresaViewModel)DataContext).OnExcluirCrachaCommand();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            ((EmpresaViewModel)this.DataContext).OnAbrirPendencias(sender, e);
+            ((EmpresaViewModel)DataContext).OnAbrirPendencias(sender, e);
         }
         #endregion
 
@@ -305,6 +292,12 @@ namespace iModSCCredenciamento.Views
         }
 
         #endregion
+
+        private void NumberOnly(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
+        }
 
         private void ListaEmpresas_lv_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
