@@ -17,7 +17,6 @@ namespace iModSCCredenciamento.Windows
             InitializeComponent();
             //LimpaTextBoxes(0,this);
             MouseDown += Window_MouseDown;
-            Descrícao_tb.Focus();
         }
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {

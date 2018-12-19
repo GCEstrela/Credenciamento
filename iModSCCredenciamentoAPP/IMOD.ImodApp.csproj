@@ -50,7 +50,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="CSharpControls.Wpf">
-      <HintPath>..\iModSCCredenciamento\Dlls\CSharpControls.Wpf.dll</HintPath>
+      <HintPath>..\iModSCCredenciamento\CSharpControls.Wpf.dll</HintPath>
     </Reference>
     <Reference Include="Genetec.Sdk, Version=5.7.0.0, Culture=neutral, PublicKeyToken=a446968a32b751de, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

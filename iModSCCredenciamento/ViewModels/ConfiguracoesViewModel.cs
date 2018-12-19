@@ -1235,11 +1235,11 @@ namespace iModSCCredenciamento.ViewModels
 
                 if (TipoStatusSelecionado.StatusID != 0)
                 {
-                    _auxiliaresService.TipoStatusService.Alterar(entityConv);
+                    _auxiliaresService.StatusService.Alterar(entityConv);
                 }
                 else
                 {
-                    _auxiliaresService.TipoStatusService.Criar(entityConv);
+                    _auxiliaresService.StatusService.Criar(entityConv);
                 }
 
                 CarregaColecaoStatus();
@@ -1260,7 +1260,7 @@ namespace iModSCCredenciamento.ViewModels
                 {
                     var entity = TipoStatusSelecionado;
                     var entityConv = Mapper.Map<Status>(entity);
-                    _auxiliaresService.TipoStatusService.Remover(entityConv);
+                    _auxiliaresService.StatusService.Remover(entityConv);
 
                     TiposStatus.Remove(TipoStatusSelecionado);
 

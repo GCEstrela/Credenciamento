@@ -42,7 +42,7 @@
         <StackPanel Margin="10,20,10,0">
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0" >
                 <Label Content="Código:" Height="28" Width="100" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                <TextBox CharacterCasing="Upper"  x:Name="Codigo_tb" Height="24"  Width="50"/>
+                <TextBox CharacterCasing="Upper"  x:Name="Codigo_tb"   Height="24"  Width="50"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0" >
                 <Label Content="Nome:" Height="28" Width="100" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />

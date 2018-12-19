@@ -13,7 +13,6 @@ namespace iModSCCredenciamento.Windows
         {
             InitializeComponent();
             MouseDown += Window_MouseDown;
-            Matricula_tb.Focus();
         }
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)

@@ -77,6 +77,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Arquivos\bean.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Arquivos\car-equip.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Arquivos\logo.PNG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

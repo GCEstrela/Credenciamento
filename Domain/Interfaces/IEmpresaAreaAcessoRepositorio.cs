@@ -13,7 +13,7 @@ using IMOD.Domain.Entities;
 
 namespace IMOD.Domain.Interfaces
 {
-    public interface IEmpresaAreaAcessoRepositorio //: IRepositorioBaseAdoNet<EmpresaAreaAcesso>
+    public interface IEmpresaAreaAcessoRepositorio : IRepositorioBaseAdoNet<EmpresaAreaAcesso>
     {
         /// <summary>
         ///     Buscar pela chave primaria

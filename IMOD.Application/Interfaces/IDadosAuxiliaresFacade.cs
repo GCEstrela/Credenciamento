@@ -78,7 +78,7 @@ namespace IMOD.Application.Interfaces
         ///     Tipos de Status
         /// </summary>
         /// <returns></returns>
-        IStatusService TipoStatusService { get; }
+        IStatusService StatusService { get; }
 
         /// <summary>
         ///     Cursos

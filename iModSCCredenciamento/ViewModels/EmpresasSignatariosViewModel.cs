@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Threading;
 using System.Xml;
 using AutoMapper;
@@ -39,66 +40,28 @@ namespace iModSCCredenciamento.ViewModels
             {
                 if (!string.IsNullOrWhiteSpace(nome)) nome = $"%{nome}%";
 
-                var list1 = _service.Listar(empresaID, nome, null, null, null, null,null);
+                var list1 = _service.Listar(empresaID, nome, null, null, null, null, null);
                 var list2 = Mapper.Map<List<ClasseEmpresasSignatarios.EmpresaSignatario>>(list1);
 
                 var observer = new ObservableCollection<ClasseEmpresasSignatarios.EmpresaSignatario>();
                 list2.ForEach(n => { observer.Add(n); });
 
                 Signatarios = observer;
+
+                //Hotfix auto-selecionar registro do topo da ListView
+                var topList = observer.FirstOrDefault();
+                SignatarioSelecionado = topList;
+
                 SelectedIndex = -1;
             }
             catch (Exception ex)
             {
-                Global.Log("Erro void CarregaColecaoEmpresasSignatarios ex: " + ex.Message);
+                Utils.TraceException(ex);
             }
         }
 
         #endregion
 
-        private string CriaXmlImagem(int empresaSignatarioID)
-        {
-            try
-            {
-                var _xmlDocument = new XmlDocument();
-                XmlNode _xmlNode = _xmlDocument.CreateXmlDeclaration("1.0", "UTF-8", null);
-
-                XmlNode _ClasseArquivosImagens = _xmlDocument.CreateElement("ClasseArquivosImagens");
-                _xmlDocument.AppendChild(_ClasseArquivosImagens);
-
-                XmlNode _ArquivosImagens = _xmlDocument.CreateElement("ArquivosImagens");
-                _ClasseArquivosImagens.AppendChild(_ArquivosImagens);
-
-                var _Con = new SqlConnection(Global._connectionString);
-                _Con.Open();
-
-                var SQCMDXML = new SqlCommand("Select * From EmpresasSignatarios Where EmpresaSignatarioID = " + empresaSignatarioID + "", _Con);
-                SqlDataReader SQDR_XML;
-                SQDR_XML = SQCMDXML.ExecuteReader(CommandBehavior.Default);
-                while (SQDR_XML.Read())
-                {
-                    XmlNode _ArquivoImagem = _xmlDocument.CreateElement("ArquivoImagem");
-                    _ArquivosImagens.AppendChild(_ArquivoImagem);
-
-                    //XmlNode _ArquivoImagemID = _xmlDocument.CreateElement("ArquivoImagemID");
-                    //_ArquivoImagemID.AppendChild(_xmlDocument.CreateTextNode((SQDR_XML["EmpresaSeguroID"].ToString())));
-                    //_ArquivoImagem.AppendChild(_ArquivoImagemID);
-
-                    XmlNode _Arquivo = _xmlDocument.CreateElement("Arquivo");
-                    _Arquivo.AppendChild(_xmlDocument.CreateTextNode(SQDR_XML["Assinatura"].ToString()));
-                    _ArquivoImagem.AppendChild(_Arquivo);
-                }
-                SQDR_XML.Close();
-
-                _Con.Close();
-                return _xmlDocument.InnerXml;
-            }
-            catch (Exception ex)
-            {
-                Global.Log("Erro na void CriaXmlImagem ex: " + ex);
-                return null;
-            }
-        }
 
         #endregion
 

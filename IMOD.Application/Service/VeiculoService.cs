@@ -6,11 +6,11 @@
 
 #region
 
-using System.Collections.Generic;
 using IMOD.Application.Interfaces;
 using IMOD.Domain.Entities;
 using IMOD.Domain.Interfaces;
 using IMOD.Infra.Repositorios;
+using System.Collections.Generic;
 
 #endregion
 
@@ -21,6 +21,7 @@ namespace IMOD.Application.Service
         #region Variaveis Globais
 
         private readonly IVeiculoRepositorio _repositorio = new VeiculoRepositorio();
+        private readonly IVeiculoCredencialRepositorio _repositorioCredencial = new VeiculoCredencialRepositorio();
 
         #endregion
 
@@ -80,18 +81,28 @@ namespace IMOD.Application.Service
         #endregion
 
         /// <summary>
-        /// Seguros
+        /// Credencial X Veiculo Service
         /// </summary>
-        public IVeiculoSeguroService Seguro { get {return new VeiculoSeguroService();} }
+        public IVeiculoCredencialService Credencial => new VeiculoCredencialService();
 
         /// <summary>
-        /// Anexos
+        /// Empresa X Veiculo Service
+        /// </summary>
+        public IVeiculoEmpresaService Empresa { get { return new VeiculoEmpresaService(); } }
+
+        /// <summary>
+        /// Seguros X Veiculo Service
+        /// </summary>
+        public IVeiculoSeguroService Seguro { get { return new VeiculoSeguroService(); } }
+
+        /// <summary>
+        /// Anexo X Veiculo Serice
         /// </summary>
         public IVeiculoAnexoService Anexo { get { return new VeiculoAnexoService(); } }
 
         /// <summary>
-        /// Veiculos
+        /// Veiculo X Empresa Service
         /// </summary>
-        public IVeiculoempresaService Veiculo { get {return new VeiculoEmpresaService();} }
+        public IVeiculoEmpresaService Veiculo { get { return new VeiculoEmpresaService(); } }
     }
 }

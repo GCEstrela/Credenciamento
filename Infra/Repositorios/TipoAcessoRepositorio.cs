@@ -6,16 +6,16 @@
 
 #region
 
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
 using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
 using IMOD.Domain.Interfaces;
 using IMOD.Infra.Ado;
 using IMOD.Infra.Ado.Interfaces;
 using IMOD.Infra.Ado.Interfaces.ParamSql;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
 
 #endregion
 

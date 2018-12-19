@@ -44,7 +44,7 @@ namespace IMOD.Infra.Repositorios
         /// <param name="entity"></param>
         public void Criar(Veiculo entity)
         {
-            
+
             using (var conn = _dataBase.CreateOpenConnection())
             {
                 using (var cmd = _dataBase.InsertText("Veiculos", conn))

@@ -347,8 +347,8 @@ namespace iModSCCredenciamento.ViewModels
             {
                 Utils.TraceException(ex);
             }
-        
-           
+
+
         }
 
         public void OnEditarCommand()
@@ -601,16 +601,15 @@ namespace iModSCCredenciamento.ViewModels
 
         #region Carregamento das Colecoes
 
-        private void CarregaColecaoVeiculos(int VeiculoID = 0, string nome = "", string apelido = "", string cpf = "")
+        private void CarregaColecaoVeiculos(int EquipamentoVeiculoID = 0, string nome = "", string modelo = "")
         {
             try
             {
                 var service = new VeiculoService();
                 if (!string.IsNullOrWhiteSpace(nome)) nome = $"%{nome}%";
-                if (!string.IsNullOrWhiteSpace(apelido)) apelido = $"%{apelido}%";
-                if (!string.IsNullOrWhiteSpace(cpf)) cpf = $"%{cpf}%";
+                if (!string.IsNullOrWhiteSpace(modelo)) modelo = $"%{modelo}%";
 
-                var list1 = service.Listar(VeiculoID, nome, apelido, cpf);
+                var list1 = service.Listar(nome, modelo);
                 var list2 = Mapper.Map<List<ClasseVeiculos.Veiculo>>(list1.OrderByDescending(a => a.EquipamentoVeiculoId));
 
                 var observer = new ObservableCollection<ClasseVeiculos.Veiculo>();
@@ -618,8 +617,11 @@ namespace iModSCCredenciamento.ViewModels
                 {
                     observer.Add(n);
                 });
-
                 Veiculos = observer;
+
+                //Hotfix auto-selecionar registro do topo da ListView
+                var topList = observer.FirstOrDefault();
+                VeiculoSelecionado = topList;
 
                 SelectedIndex = 0;
             }
@@ -628,7 +630,6 @@ namespace iModSCCredenciamento.ViewModels
                 Utils.TraceException(ex);
             }
         }
-
         private void CarregaColecaoTiposServicos()
         {
             try
@@ -650,7 +651,6 @@ namespace iModSCCredenciamento.ViewModels
                 Utils.TraceException(ex);
             }
         }
-
         public void CarregaColecaoVeiculoEquipTipoServicos(int _VeiculoId = 0)
         {
             try
@@ -671,29 +671,6 @@ namespace iModSCCredenciamento.ViewModels
                 Utils.TraceException(ex);
             }
         }
-        //private void CarregaColecaoTiposEquipamentoVeiculo()
-        //{
-        //    try
-        //    {
-        //        string _xml = RequisitaTiposEquipamentoVeiculo();
-
-        //        XmlSerializer deserializer = new XmlSerializer(typeof(ClasseTiposEquipamentoVeiculo));
-
-        //        XmlDocument xmldocument = new XmlDocument();
-        //        xmldocument.LoadXml(_xml);
-
-        //        TextReader reader = new StringReader(_xml);
-        //        ClasseTiposEquipamentoVeiculo classeTiposEquipamentoVeiculo = new ClasseTiposEquipamentoVeiculo();
-        //        classeTiposEquipamentoVeiculo = (ClasseTiposEquipamentoVeiculo)deserializer.Deserialize(reader);
-        //        TiposEquipamentoVeiculo = new ObservableCollection<ClasseTiposEquipamentoVeiculo.TipoEquipamentoVeiculo>();
-        //        TiposEquipamentoVeiculo = classeTiposEquipamentoVeiculo.TiposEquipamentoVeiculo;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        //Global.Log("Erro void CarregaColecaoEmpresas ex: " + ex.Message);
-        //    }
-        //}
-
         private void CarregaColecaoTiposCombustiveis()
         {
             try
@@ -737,7 +714,6 @@ namespace iModSCCredenciamento.ViewModels
                 Utils.TraceException(ex);
             }
         }
-
         public void CarregaColeçãoMunicipios(string _EstadoUF = "%")
         {
             try

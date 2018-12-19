@@ -12,7 +12,8 @@ using Genetec.Sdk.Entities.Activation;
 using Genetec.Sdk.Queries;
 using Genetec.Sdk.Workspace;
 using Genetec.Sdk.Workspace.Services;
-using iModSCCredenciamento.Models; 
+using iModSCCredenciamento.Models;
+using iModSCCredenciamento.PagePrincipal;
 using Application = System.Windows.Application;
 using ValidationResult = System.Printing.ValidationResult;
 
@@ -20,7 +21,7 @@ namespace iModSCCredenciamento.Funcoes
 {
     public class SCManager
     {
-       static IEngine _sdk = Main.Engine;
+       static IEngine _sdk = Main.engine;
         //public static bool ImprimirCredencial(ClasseColaboradoresCredenciais.ColaboradorCredencial colaboradorCredencial)
         //{
         //    try

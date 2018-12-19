@@ -26,8 +26,6 @@ namespace iModSCCredenciamento.ViewModels
 
         private readonly IColaboradorService _repositorio = new ColaboradorService();
         private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
-        //private readonly ColaboradoresCredenciaisView _repositorio = new ColaboradoresCredenciaisViewService();
-        //Global g = new Global();
 
         #region Inicializacao
         public ColaboradoresCredenciaisViewModel()
@@ -889,8 +887,6 @@ namespace iModSCCredenciamento.ViewModels
 
         #region Carregamento das Colecoes
 
-
-
         private void CarregaColecaoColaboradoresCredenciais(int colaboradorID, string _empresaNome = "", int _tipoCredencialID = 0, int _credencialStatusID = 0)
         {
             try
@@ -906,9 +902,12 @@ namespace iModSCCredenciamento.ViewModels
                 });
 
                 ColaboradoresCredenciais = observer;
+
+                //Hotfix auto-selecionar registro no topo da ListView
+                var topList = observer.FirstOrDefault();
+                ColaboradorCredencialSelecionado = topList;
+
                 SelectedIndex = 0;
-
-
 
             }
             catch (Exception ex)
@@ -928,27 +927,10 @@ namespace iModSCCredenciamento.ViewModels
 
                 }
 
-                //ColaboradoresPrivilegios.Add(new ClasseClaboradoresPrivilegios.ColaboradorPrivilegio() { ColaboradorPrivilegioID = 1, Descricao = "A" });
-                //ColaboradoresPrivilegios.Add(new ClasseClaboradoresPrivilegios.ColaboradorPrivilegio() { ColaboradorPrivilegioID = 2, Descricao = "A1" });
-                //ColaboradoresPrivilegios.Add(new ClasseClaboradoresPrivilegios.ColaboradorPrivilegio() { ColaboradorPrivilegioID = 3, Descricao = "A2" });
-                //ColaboradoresPrivilegios.Add(new ClasseClaboradoresPrivilegios.ColaboradorPrivilegio() { ColaboradorPrivilegioID = 4, Descricao = "A3" });
-                //ColaboradoresPrivilegios.Add(new ClasseClaboradoresPrivilegios.ColaboradorPrivilegio() { ColaboradorPrivilegioID = 5, Descricao = "A4" });
-                //ColaboradoresPrivilegios.Add(new ClasseClaboradoresPrivilegios.ColaboradorPrivilegio() { ColaboradorPrivilegioID = 6, Descricao = "C" });
-                //ColaboradoresPrivilegios.Add(new ClasseClaboradoresPrivilegios.ColaboradorPrivilegio() { ColaboradorPrivilegioID = 7, Descricao = "C1" });
-                //ColaboradoresPrivilegios.Add(new ClasseClaboradoresPrivilegios.ColaboradorPrivilegio() { ColaboradorPrivilegioID = 8, Descricao = "C4" });
-                //ColaboradoresPrivilegios.Add(new ClasseClaboradoresPrivilegios.ColaboradorPrivilegio() { ColaboradorPrivilegioID = 9, Descricao = "C6" });
-                //ColaboradoresPrivilegios.Add(new ClasseClaboradoresPrivilegios.ColaboradorPrivilegio() { ColaboradorPrivilegioID = 10, Descricao = "C8" });
-                //ColaboradoresPrivilegios.Add(new ClasseClaboradoresPrivilegios.ColaboradorPrivilegio() { ColaboradorPrivilegioID = 11, Descricao = "R" });
-                //ColaboradoresPrivilegios.Add(new ClasseClaboradoresPrivilegios.ColaboradorPrivilegio() { ColaboradorPrivilegioID = 12, Descricao = "R1" });
-                //ColaboradoresPrivilegios.Add(new ClasseClaboradoresPrivilegios.ColaboradorPrivilegio() { ColaboradorPrivilegioID = 13, Descricao = "R2" });
-                //ColaboradoresPrivilegios.Add(new ClasseClaboradoresPrivilegios.ColaboradorPrivilegio() { ColaboradorPrivilegioID = 14, Descricao = "R3" });
-                //ColaboradoresPrivilegios.Add(new ClasseClaboradoresPrivilegios.ColaboradorPrivilegio() { ColaboradorPrivilegioID = 15, Descricao = "R4" });
-                //ColaboradoresPrivilegios.Add(new ClasseClaboradoresPrivilegios.ColaboradorPrivilegio() { ColaboradorPrivilegioID = 16, Descricao = "AR" });
-
             }
             catch (Exception ex)
             {
-                //Global.Log("Erro void CarregaColecaoEmpresas ex: " + ex.Message);
+                Utils.TraceException(ex);
             }
         }
         private void CarregaColecaoAreasAcessos()
@@ -972,37 +954,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                //Global.Log("Erro void CarregaColecaoEmpresas ex: " + ex.Message);
-            }
-        }
-        private void CarregaColecaoEmpresas(int? idEmpresa = null, string nome = null, string apelido = null, string cnpj = null, string _quantidaderegistro = "500")
-        {
-            try
-            {
-
-                var service = new EmpresaService();
-                if (!string.IsNullOrWhiteSpace(nome)) nome = $"%{nome}%";
-                if (!string.IsNullOrWhiteSpace(apelido)) apelido = $"%{apelido}%";
-                if (!string.IsNullOrWhiteSpace(cnpj)) cnpj = $"%{cnpj}%";
-
-                var list1 = service.Listar(idEmpresa, nome, apelido, cnpj);
-                var list2 = Mapper.Map<List<ClasseEmpresas.Empresa>>(list1);
-
-                var observer = new ObservableCollection<ClasseEmpresas.Empresa>();
-                list2.ForEach(n =>
-                {
-                    observer.Add(n);
-                });
-
-                Empresas = observer;
-                SelectedIndex = 0;
-
-
-
-            }
-            catch (Exception ex)
-            {
-                //Global.Log("Erro void CarregaColecaoEmpresas ex: " + ex.Message);
+                Utils.TraceException(ex);
             }
         }
 
@@ -1010,22 +962,8 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                //string _xml = RequisitaColaboradoresEmpresas(_colaboradorID, _ativo);
 
-                //XmlSerializer deserializer = new XmlSerializer(typeof(ClasseColaboradoresEmpresas));
-
-                //XmlDocument xmldocument = new XmlDocument();
-                //xmldocument.LoadXml(_xml);
-
-                //TextReader reader = new StringReader(_xml);
-                //ClasseColaboradoresEmpresas classeColaboradoresEmpresas = new ClasseColaboradoresEmpresas();
-                //classeColaboradoresEmpresas = (ClasseColaboradoresEmpresas)deserializer.Deserialize(reader);
-                //ColaboradoresEmpresas = new ObservableCollection<ClasseColaboradoresEmpresas.ColaboradorEmpresa>();
-                //ColaboradoresEmpresas = classeColaboradoresEmpresas.ColaboradoresEmpresas;
-                //SelectedIndex = -1;
-                ////CarregaColeçãoEmpresasLayoutsCrachas(empresaID);
-
-                var service = new IMOD.Application.Service.ColaboradorEmpresaService();
+                var service = new ColaboradorEmpresaService();
                 //if (!string.IsNullOrWhiteSpace(_cargo)) _cargo = $"%{_cargo}%";
                 //if (!string.IsNullOrWhiteSpace(_matricula)) _matricula = $"%{_matricula}%";
                 var list1 = service.ListarView(_colaboradorID, _ativo);
@@ -1040,20 +978,17 @@ namespace iModSCCredenciamento.ViewModels
 
                 this.ColaboradoresEmpresas = observer;
 
-
             }
             catch (Exception ex)
             {
-                //Global.Log("Erro void CarregaColecaoEmpresas ex: " + ex.Message);
+                Utils.TraceException(ex);
             }
         }
 
         public void CarregaColeçãoEmpresasLayoutsCrachas(int _colaboradorEmpresaID = 0)
         {
-
             try
             {
-
                 var list1 = _auxiliaresService.LayoutCrachaService.Listar();
                 var list2 = Mapper.Map<List<ClasseEmpresasLayoutsCrachas.EmpresaLayoutCracha>>(list1);
 
@@ -1068,16 +1003,14 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log("Erro na void CarregaColeçãoMunicipios ex: " + ex);
+                Utils.TraceException(ex);
             }
         }
 
         public void CarregaColeçãoFormatosCredenciais()
         {
-
             try
             {
-
                 var list1 = _auxiliaresService.FormatoCredencialService.Listar();
                 var list2 = Mapper.Map<List<ClasseFormatosCredenciais.FormatoCredencial>>(list1);
 
@@ -1089,66 +1022,10 @@ namespace iModSCCredenciamento.ViewModels
 
                 FormatosCredenciais = observer;
                 SelectedIndex = 0;
-
-
             }
             catch (Exception ex)
             {
-                Global.Log("Erro na void CarregaColeçãoMunicipios ex: " + ex);
-            }
-        }
-
-        public void CarregaColeçãoVinculos(int _ColaboradorCredencialID = 0)
-        {
-
-            try
-            {
-                //this.Dispatcher.Invoke(new Action(() => { LoadingAdorner.IsAdornerVisible = true; }));
-
-                string _xml = RequisitaVinculos(_ColaboradorCredencialID);
-
-                XmlSerializer deserializer = new XmlSerializer(typeof(ClasseVinculos));
-                XmlDocument DataFile = new XmlDocument();
-                DataFile.LoadXml(_xml);
-                TextReader reader = new StringReader(_xml);
-                ClasseVinculos classeVinculos = new ClasseVinculos();
-                classeVinculos = (ClasseVinculos)deserializer.Deserialize(reader);
-                Vinculos = new ObservableCollection<ClasseVinculos.Vinculo>();
-                Vinculos = classeVinculos.Vinculos;
-
-                //this.Dispatcher.Invoke(new Action(() => { LoadingAdorner.IsAdornerVisible = false; }));
-            }
-            catch (Exception ex)
-            {
-                Global.Log("Erro na void CarregaColeçãoMunicipios ex: " + ex);
-            }
-        }
-
-        public void CarregaColecaoContratos(int empresaID = 0)
-        {
-
-            try
-            {
-
-                string _xml = RequisitaContratos(empresaID);
-
-                XmlSerializer deserializer = new XmlSerializer(typeof(ClasseEmpresasContratos));
-
-                XmlDocument xmldocument = new XmlDocument();
-                xmldocument.LoadXml(_xml);
-
-                TextReader reader = new StringReader(_xml);
-                ClasseEmpresasContratos classeContratosEmpresa = new ClasseEmpresasContratos();
-                classeContratosEmpresa = (ClasseEmpresasContratos)deserializer.Deserialize(reader);
-                Contratos = new ObservableCollection<ClasseEmpresasContratos.EmpresaContrato>();
-                Contratos = classeContratosEmpresa.EmpresasContratos;
-                SelectedIndex = 0;
-                CarregaColeçãoEmpresasLayoutsCrachas(empresaID);
-
-            }
-            catch (Exception ex)
-            {
-                //Global.Log("Erro void CarregaColecaoEmpresas ex: " + ex.Message);
+                Utils.TraceException(ex);
             }
         }
 
@@ -1156,7 +1033,6 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-
                 var list1 = _auxiliaresService.TipoCredencialService.Listar();
                 var list2 = Mapper.Map<List<ClasseTiposCredenciais.TipoCredencial>>(list1);
 
@@ -1168,11 +1044,10 @@ namespace iModSCCredenciamento.ViewModels
 
                 TiposCredenciais = observer;
                 SelectedIndex = 0;
-
             }
             catch (Exception ex)
             {
-                Global.Log("Erro na void CarregaColecaoTiposCredenciais ex: " + ex);
+                Utils.TraceException(ex);
             }
 
         }
@@ -1181,8 +1056,6 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-
-
                 var list1 = _auxiliaresService.TecnologiaCredencialService.Listar();
                 var list2 = Mapper.Map<List<ClasseTecnologiasCredenciais.TecnologiaCredencial>>(list1);
 
@@ -1198,17 +1071,14 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log("Erro na void CarregaColecaoTecnologiasCredenciais ex: " + ex);
+                Utils.TraceException(ex);
             }
-
         }
 
         private void CarregaColecaoCredenciaisStatus()
         {
             try
             {
-
-
                 var list1 = _auxiliaresService.CredencialStatusService.Listar();
                 var list2 = Mapper.Map<List<ClasseCredenciaisStatus.CredencialStatus>>(list1);
 
@@ -1224,7 +1094,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log("Erro na void CarregaColecaoCredenciaisStatus ex: " + ex);
+                Utils.TraceException(ex);
             }
 
         }
@@ -1233,7 +1103,6 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-
                 var list1 = _auxiliaresService.CredencialMotivoService.Listar();
                 var list2 = Mapper.Map<List<ClasseCredenciaisMotivos.CredencialMotivo>>(list1);
 
@@ -1249,7 +1118,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Global.Log("Erro na void CarregaColecaoCredenciaisStatus ex: " + ex);
+                Utils.TraceException(ex);
             }
 
         }
@@ -1678,1263 +1547,6 @@ namespace iModSCCredenciamento.ViewModels
             return null;
         }
 
-
-        //private string RequisitaColaboradoresCredenciais(int _colaboradorID, string _empresaNome = "", int _status = 0, string _validade = "")//Possibilidade de criar a pesquisa por Matriculatambem
-        //{
-        //    try
-        //    {
-        //        XmlDocument _xmlDocument = new XmlDocument();
-        //        XmlNode _xmlNode = _xmlDocument.CreateXmlDeclaration("1.0", "UTF-8", null);
-
-        //        XmlNode _ClasseColaboradoresCredenciais = _xmlDocument.CreateElement("ClasseColaboradoresCredenciais");
-        //        _xmlDocument.AppendChild(_ClasseColaboradoresCredenciais);
-
-        //        XmlNode _ColaboradoresCredenciais = _xmlDocument.CreateElement("ColaboradoresCredenciais");
-        //        _ClasseColaboradoresCredenciais.AppendChild(_ColaboradoresCredenciais);
-
-        //        string _strSql;
-        //        string _statusSTR = "";
-
-        //        SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
-
-        //        _empresaNome = _empresaNome == "" ? "" : " AND Nome like '%" + _empresaNome + "%' ";
-        //        _statusSTR = _status == 0 ? "" : " AND CredencialStatusID = " + _status + "' ";
-        //        _validade = _validade == "" ? "" : " AND _validade like '%" + _validade + "%'";
-
-
-        //        _strSql = "SELECT dbo.LayoutsCrachas.Nome AS LayoutCrachaNome, dbo.FormatosCredenciais.Descricao AS FormatoCredencialDescricao," +
-        //            " dbo.ColaboradoresCredenciais.NumeroCredencial, dbo.ColaboradoresCredenciais.FC, dbo.ColaboradoresCredenciais.Emissao,dbo.ColaboradoresCredenciais.Impressa," +
-        //            " dbo.ColaboradoresCredenciais.Validade, dbo.ColaboradoresCredenciais.Ativa,dbo.ColaboradoresCredenciais.ColaboradorPrivilegio1ID," +
-        //            " dbo.ColaboradoresCredenciais.ColaboradorPrivilegio2ID,dbo.ColaboradoresCredenciais.Colete,dbo.ColaboradoresCredenciais.CredencialMotivoID," + 
-        //            " dbo.ColaboradoresCredenciais.CredencialStatusID, dbo.ColaboradoresCredenciais.ColaboradorEmpresaID, " +
-        //            " dbo.ColaboradoresCredenciais.TipoCredencialID, dbo.ColaboradoresCredenciais.TecnologiaCredencialID, dbo.ColaboradoresCredenciais.FormatoCredencialID," +
-        //            " dbo.ColaboradoresCredenciais.LayoutCrachaID, dbo.ColaboradoresCredenciais.ColaboradorCredencialID, dbo.Colaboradores.Nome AS ColaboradorNome," +
-        //            " dbo.Empresas.Nome AS EmpresaNome, dbo.EmpresasContratos.Descricao AS ContratoDescricao,dbo.ColaboradoresEmpresas.EmpresaID," +
-        //            " dbo.ColaboradoresEmpresas.ColaboradorID, dbo.ColaboradoresCredenciais.CardHolderGUID, dbo.ColaboradoresCredenciais.CredencialGUID," +
-        //            " dbo.Colaboradores.Foto AS ColaboradorFoto, dbo.Colaboradores.CPF, dbo.Colaboradores.Motorista, dbo.Colaboradores.Apelido AS ColaboradorApelido," +
-        //            " dbo.Colaboradores.Nome AS ColaboradorNome, dbo.Empresas.Logo AS EmpresaLogo,dbo.Empresas.Sigla AS EmpresaSigla," +
-        //            " dbo.Empresas.Apelido AS EmpresaApelido, dbo.ColaboradoresEmpresas.Cargo, dbo.LayoutsCrachas.LayoutCrachaGUID, dbo.Empresas.CNPJ," +
-        //            " dbo.FormatosCredenciais.FormatIDGUID FROM dbo.ColaboradoresCredenciais INNER JOIN dbo.FormatosCredenciais ON" +
-        //            " dbo.ColaboradoresCredenciais.FormatoCredencialID = dbo.FormatosCredenciais.FormatoCredencialID INNER JOIN dbo.ColaboradoresEmpresas ON" +
-        //            " dbo.ColaboradoresCredenciais.ColaboradorEmpresaID = dbo.ColaboradoresEmpresas.ColaboradorEmpresaID INNER JOIN dbo.Empresas ON" +
-        //            " dbo.ColaboradoresEmpresas.EmpresaID = dbo.Empresas.EmpresaID INNER JOIN dbo.EmpresasContratos ON " +
-        //            " dbo.ColaboradoresEmpresas.EmpresaContratoID = dbo.EmpresasContratos.EmpresaContratoID INNER JOIN dbo.Colaboradores ON" +
-        //            " dbo.ColaboradoresEmpresas.ColaboradorID = dbo.Colaboradores.ColaboradorID LEFT OUTER JOIN dbo.LayoutsCrachas ON" +
-        //            " dbo.ColaboradoresCredenciais.LayoutCrachaID = dbo.LayoutsCrachas.LayoutCrachaID" +
-        //            " WHERE dbo.ColaboradoresEmpresas.ColaboradorID =" + _colaboradorID + _statusSTR + _empresaNome + _validade +
-        //            " ORDER BY dbo.ColaboradoresCredenciais.ColaboradorCredencialID DESC";
-
-        //        SqlCommand _sqlcmd = new SqlCommand(_strSql, _Con);
-        //        SqlDataReader _sqlreader = _sqlcmd.ExecuteReader(CommandBehavior.Default);
-        //        while (_sqlreader.Read())
-        //        {
-
-        //            XmlNode _ColaboradorCredencial = _xmlDocument.CreateElement("ColaboradorCredencial");
-        //            _ColaboradoresCredenciais.AppendChild(_ColaboradorCredencial);
-
-        //            XmlNode _ColaboradorCredencialID = _xmlDocument.CreateElement("ColaboradorCredencialID");
-        //            _ColaboradorCredencialID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["ColaboradorCredencialID"].ToString().Trim())));
-        //            _ColaboradorCredencial.AppendChild(_ColaboradorCredencialID);
-
-        //            XmlNode _Ativa = _xmlDocument.CreateElement("Ativa");
-        //            _Ativa.AppendChild(_xmlDocument.CreateTextNode((Convert.ToInt32((bool)_sqlreader["Ativa"])).ToString().Trim()));
-        //            _ColaboradorCredencial.AppendChild(_Ativa);
-
-        //            XmlNode ColaboradorPrivilegio1ID = _xmlDocument.CreateElement("ColaboradorPrivilegio1ID");
-        //            ColaboradorPrivilegio1ID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["ColaboradorPrivilegio1ID"].ToString().Trim())));
-        //            _ColaboradorCredencial.AppendChild(ColaboradorPrivilegio1ID);
-
-        //            XmlNode ColaboradorPrivilegio2ID = _xmlDocument.CreateElement("ColaboradorPrivilegio2ID");
-        //            ColaboradorPrivilegio2ID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["ColaboradorPrivilegio2ID"].ToString().Trim())));
-        //            _ColaboradorCredencial.AppendChild(ColaboradorPrivilegio2ID);
-
-        //            XmlNode _ColaboradorEmpresaID = _xmlDocument.CreateElement("ColaboradorEmpresaID");
-        //            _ColaboradorEmpresaID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["ColaboradorEmpresaID"].ToString().Trim())));
-        //            _ColaboradorCredencial.AppendChild(_ColaboradorEmpresaID);
-
-        //            XmlNode _ColaboradorID = _xmlDocument.CreateElement("ColaboradorID");
-        //            _ColaboradorID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["ColaboradorID"].ToString().Trim())));
-        //            _ColaboradorCredencial.AppendChild(_ColaboradorID);
-
-        //            XmlNode _CardHolderGUID = _xmlDocument.CreateElement("CardHolderGuid");
-        //            _CardHolderGUID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["CardHolderGuid"].ToString().Trim())));
-        //            _ColaboradorCredencial.AppendChild(_CardHolderGUID);
-
-        //            XmlNode _CredencialGUID = _xmlDocument.CreateElement("CredencialGuid");
-        //            _CredencialGUID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["CredencialGuid"].ToString().Trim())));
-        //            _ColaboradorCredencial.AppendChild(_CredencialGUID);
-
-        //            XmlNode _Descricao = _xmlDocument.CreateElement("ContratoDescricao");
-        //            _Descricao.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["ContratoDescricao"].ToString().Trim())));
-        //            _ColaboradorCredencial.AppendChild(_Descricao);
-
-        //            XmlNode _Empresa = _xmlDocument.CreateElement("EmpresaNome");
-        //            _Empresa.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["EmpresaNome"].ToString().Trim())));
-        //            _ColaboradorCredencial.AppendChild(_Empresa);
-
-        //            XmlNode _ColaboradorNome = _xmlDocument.CreateElement("ColaboradorNome");
-        //            _ColaboradorNome.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["ColaboradorNome"].ToString().Trim())));
-        //            _ColaboradorCredencial.AppendChild(_ColaboradorNome);
-
-        //            XmlNode _TecnologiaCredencialID = _xmlDocument.CreateElement("TecnologiaCredencialID");
-        //            _TecnologiaCredencialID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["TecnologiaCredencialID"].ToString().Trim())));
-        //            _ColaboradorCredencial.AppendChild(_TecnologiaCredencialID);
-
-        //            XmlNode _TecnologiaCredencialDescricao = _xmlDocument.CreateElement("TecnologiaCredencialDescricao");
-        //            var _tec = TecnologiasCredenciais.FirstOrDefault(x => x.TecnologiaCredencialID == Convert.ToInt32(_sqlreader["TecnologiaCredencialID"].ToString().Trim()));
-        //            if (_tec != null)
-        //            {
-        //                _TecnologiaCredencialDescricao.AppendChild(_xmlDocument.CreateTextNode(_tec.Descricao.ToString().Trim()));
-        //                _ColaboradorCredencial.AppendChild(_TecnologiaCredencialDescricao);
-        //            }
-
-        //            XmlNode _TipoCredencialID = _xmlDocument.CreateElement("TipoCredencialID");
-        //            _TipoCredencialID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["TipoCredencialID"].ToString().Trim())));
-        //            _ColaboradorCredencial.AppendChild(_TipoCredencialID);
-
-        //            XmlNode _TipoCredencialDescricao = _xmlDocument.CreateElement("TipoCredencialDescricao");
-        //            var _tip = TiposCredenciais.FirstOrDefault(x => x.TipoCredencialID == Convert.ToInt32(_sqlreader["TipoCredencialID"].ToString().Trim()));
-        //            if (_tip != null)
-        //            {
-        //                _TipoCredencialDescricao.AppendChild(_xmlDocument.CreateTextNode(_tip.Descricao.ToString().Trim()));
-        //                _ColaboradorCredencial.AppendChild(_TipoCredencialDescricao);
-        //            }
-
-        //            XmlNode _LayoutCrachaID = _xmlDocument.CreateElement("LayoutCrachaID");
-        //            _LayoutCrachaID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["LayoutCrachaID"].ToString().Trim())));
-        //            _ColaboradorCredencial.AppendChild(_LayoutCrachaID);
-
-        //            XmlNode _LayoutCrachaNome = _xmlDocument.CreateElement("LayoutCrachaNome");
-        //            _LayoutCrachaNome.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["LayoutCrachaNome"].ToString().Trim())));
-        //            _ColaboradorCredencial.AppendChild(_LayoutCrachaNome);
-
-        //            XmlNode _FormatoCredencialID = _xmlDocument.CreateElement("FormatoCredencialID");
-        //            _FormatoCredencialID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["FormatoCredencialID"].ToString().Trim())));
-        //            _ColaboradorCredencial.AppendChild(_FormatoCredencialID);
-
-        //            XmlNode _FormatoCredencialDescricao = _xmlDocument.CreateElement("FormatoCredencialDescricao");
-        //            _FormatoCredencialDescricao.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["FormatoCredencialDescricao"].ToString().Trim())));
-        //            _ColaboradorCredencial.AppendChild(_FormatoCredencialDescricao);
-
-        //            XmlNode _NumeroCredencial = _xmlDocument.CreateElement("NumeroCredencial");
-        //            _NumeroCredencial.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["NumeroCredencial"].ToString().Trim())));
-        //            _ColaboradorCredencial.AppendChild(_NumeroCredencial);
-
-        //            XmlNode _FC = _xmlDocument.CreateElement("FC");
-        //            _FC.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["FC"].ToString().Trim())));
-        //            _ColaboradorCredencial.AppendChild(_FC);
-
-        //            var dateStr = (_sqlreader["Emissao"].ToString().Trim());
-        //            if (!string.IsNullOrWhiteSpace(dateStr))
-        //            {
-        //                var dt2 = Convert.ToDateTime(dateStr);
-        //                XmlNode _Emissao = _xmlDocument.CreateElement("Emissao");
-        //                _Emissao.AppendChild(_xmlDocument.CreateTextNode(dt2.ToString("yyyy-MM-ddTHH:mm:ss")));
-        //                _ColaboradorCredencial.AppendChild(_Emissao);
-        //            }
-
-        //            dateStr = (_sqlreader["Validade"].ToString().Trim());
-        //            if (!string.IsNullOrWhiteSpace(dateStr))
-        //            {
-        //                var dt2 = Convert.ToDateTime(dateStr);
-        //                XmlNode _Validade = _xmlDocument.CreateElement("Validade");
-        //                _Validade.AppendChild(_xmlDocument.CreateTextNode(dt2.ToString("yyyy-MM-ddTHH:mm:ss")));
-        //                _ColaboradorCredencial.AppendChild(_Validade);
-        //            }
-
-        //            XmlNode _CredencialStatusID = _xmlDocument.CreateElement("CredencialStatusID");
-        //            _CredencialStatusID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["CredencialStatusID"].ToString().Trim())));
-        //            _ColaboradorCredencial.AppendChild(_CredencialStatusID);
-
-        //            XmlNode _CredencialStatusDescricao = _xmlDocument.CreateElement("CredencialStatusDescricao");
-        //            var _sta = CredenciaisStatus.FirstOrDefault(x => x.CredencialStatusID == Convert.ToInt32(_sqlreader["CredencialStatusID"].ToString().Trim()));
-        //            if (_sta != null)
-        //            {
-        //                _CredencialStatusDescricao.AppendChild(_xmlDocument.CreateTextNode(_sta.Descricao.ToString().Trim()));
-        //                _ColaboradorCredencial.AppendChild(_CredencialStatusDescricao);
-        //            }
-
-
-        //            XmlNode _Vinculo9 = _xmlDocument.CreateElement("CPF");
-        //            _Vinculo9.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["CPF"].ToString().Trim())));
-        //            _ColaboradorCredencial.AppendChild(_Vinculo9);
-
-        //            XmlNode _Vinculo22 = _xmlDocument.CreateElement("Motorista");
-        //            _Vinculo22.AppendChild(_xmlDocument.CreateTextNode((Convert.ToInt32((bool)_sqlreader["Motorista"])).ToString().Trim()));
-        //            _ColaboradorCredencial.AppendChild(_Vinculo22);
-
-        //            XmlNode _Vinculo21 = _xmlDocument.CreateElement("ColaboradorApelido");
-        //            _Vinculo21.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["ColaboradorApelido"].ToString().Trim())));
-        //            _ColaboradorCredencial.AppendChild(_Vinculo21);
-
-        //            XmlNode _Vinculo11 = _xmlDocument.CreateElement("ColaboradorFoto");
-        //            _Vinculo11.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["ColaboradorFoto"].ToString().Trim())));
-        //            _ColaboradorCredencial.AppendChild(_Vinculo11);
-
-
-        //            XmlNode _Vinculo12 = _xmlDocument.CreateElement("EmpresaLogo");
-        //            _Vinculo12.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["EmpresaLogo"].ToString().Trim())));
-        //            _ColaboradorCredencial.AppendChild(_Vinculo12);
-
-        //            XmlNode _Vinculo23 = _xmlDocument.CreateElement("EmpresaApelido");
-        //            _Vinculo23.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["EmpresaApelido"].ToString().Trim())));
-        //            _ColaboradorCredencial.AppendChild(_Vinculo23);
-
-        //            XmlNode _Vinculo13 = _xmlDocument.CreateElement("Cargo");
-        //            _Vinculo13.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Cargo"].ToString().Trim())));
-        //            _ColaboradorCredencial.AppendChild(_Vinculo13);
-
-
-        //            XmlNode _Vinculo15 = _xmlDocument.CreateElement("LayoutCrachaGUID");
-        //            _Vinculo15.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["LayoutCrachaGUID"].ToString().Trim())));
-        //            _ColaboradorCredencial.AppendChild(_Vinculo15);
-
-        //            XmlNode _Vinculo19 = _xmlDocument.CreateElement("CNPJ");
-        //            _Vinculo19.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["CNPJ"].ToString().Trim())));
-        //            _ColaboradorCredencial.AppendChild(_Vinculo19);
-
-        //            XmlNode _Vinculo20 = _xmlDocument.CreateElement("FormatIDGUID");
-        //            _Vinculo20.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["FormatIDGUID"].ToString().Trim())));
-        //            _ColaboradorCredencial.AppendChild(_Vinculo20);
-
-        //            XmlNode _Colete = _xmlDocument.CreateElement("Colete");
-        //            _Colete.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Colete"].ToString().Trim())));
-        //            _ColaboradorCredencial.AppendChild(_Colete);
-
-        //            XmlNode _EmpresaSigla = _xmlDocument.CreateElement("EmpresaSigla");
-        //            _EmpresaSigla.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["EmpresaSigla"].ToString().Trim())));
-        //            _ColaboradorCredencial.AppendChild(_EmpresaSigla);
-
-        //            XmlNode _CredencialMotivoID = _xmlDocument.CreateElement("CredencialMotivoID");
-        //            _CredencialMotivoID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["CredencialMotivoID"].ToString().Trim())));
-        //            _ColaboradorCredencial.AppendChild(_CredencialMotivoID);
-
-        //            XmlNode _Impressa = _xmlDocument.CreateElement("Impressa");
-        //            _Impressa.AppendChild(_xmlDocument.CreateTextNode((Convert.ToInt32((bool)_sqlreader["Impressa"])).ToString().Trim()));
-        //            _ColaboradorCredencial.AppendChild(_Impressa);
-
-        //        }
-
-        //        _sqlreader.Close();
-
-        //        _Con.Close();
-        //        string _xml = _xmlDocument.InnerXml;
-        //        _xmlDocument = null;
-        //        return _xml;
-        //    }
-        //    catch (Exception ex)
-        //    {
-
-        //        return null;
-        //    }
-        //    return null;
-        //}
-
-        private string RequisitaColaboradoresCredenciaisNovos(int _colaboradorEmpresaID)
-        {
-            try
-            {
-                XmlDocument _xmlDocument = new XmlDocument();
-                XmlNode _xmlNode = _xmlDocument.CreateXmlDeclaration("1.0", "UTF-8", null);
-
-                XmlNode _ClasseColaboradoresCredenciais = _xmlDocument.CreateElement("ClasseColaboradoresCredenciais");
-                _xmlDocument.AppendChild(_ClasseColaboradoresCredenciais);
-
-                XmlNode _ColaboradoresCredenciais = _xmlDocument.CreateElement("ColaboradoresCredenciais");
-                _ClasseColaboradoresCredenciais.AppendChild(_ColaboradoresCredenciais);
-
-                string _strSql;
-
-                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
-
-                _strSql = "SELECT dbo.Colaboradores.Nome AS ColaboradorNome, dbo.Empresas.Nome AS EmpresaNome, dbo.EmpresasContratos.Descricao AS ContratoDescricao," +
-                    " dbo.ColaboradoresEmpresas.EmpresaID, dbo.ColaboradoresEmpresas.ColaboradorID, dbo.Colaboradores.Foto AS ColaboradorFoto, dbo.Colaboradores.CPF," +
-                    " dbo.Colaboradores.Motorista, dbo.Colaboradores.Apelido AS ColaboradorApelido, dbo.Colaboradores.Nome, dbo.Empresas.Logo AS EmpresaLogo," +
-                    " dbo.Empresas.Apelido AS EmpresaApelido, dbo.ColaboradoresEmpresas.Cargo, dbo.Empresas.CNPJ, dbo.ColaboradoresEmpresas.ColaboradorEmpresaID" +
-                    " FROM dbo.Empresas INNER JOIN dbo.ColaboradoresEmpresas ON" +
-                    " dbo.Empresas.EmpresaID = dbo.ColaboradoresEmpresas.EmpresaID INNER JOIN dbo.EmpresasContratos ON" +
-                    " dbo.ColaboradoresEmpresas.EmpresaContratoID = dbo.EmpresasContratos.EmpresaContratoID INNER JOIN dbo.Colaboradores ON" +
-                    " dbo.ColaboradoresEmpresas.ColaboradorID = dbo.Colaboradores.ColaboradorID WHERE dbo.ColaboradoresEmpresas.Ativo = 1 AND" +
-                    " dbo.ColaboradoresEmpresas.ColaboradorEmpresaID = " + _colaboradorEmpresaID;
-
-                SqlCommand _sqlcmd = new SqlCommand(_strSql, _Con);
-                SqlDataReader _sqlreader = _sqlcmd.ExecuteReader(CommandBehavior.Default);
-                while (_sqlreader.Read())
-                {
-
-                    XmlNode _ColaboradorCredencial = _xmlDocument.CreateElement("ColaboradorCredencial");
-                    _ColaboradoresCredenciais.AppendChild(_ColaboradorCredencial);
-
-                    //XmlNode _ColaboradorCredencialID = _xmlDocument.CreateElement("ColaboradorCredencialID");
-                    //_ColaboradorCredencialID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["ColaboradorCredencialID"].ToString())));
-                    //_ColaboradorCredencial.AppendChild(_ColaboradorCredencialID);
-
-                    XmlNode _ColaboradorEmpresaID = _xmlDocument.CreateElement("ColaboradorEmpresaID");
-                    _ColaboradorEmpresaID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["ColaboradorEmpresaID"].ToString())));
-                    _ColaboradorCredencial.AppendChild(_ColaboradorEmpresaID);
-
-                    XmlNode _ColaboradorID = _xmlDocument.CreateElement("ColaboradorID");
-                    _ColaboradorID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["ColaboradorID"].ToString())));
-                    _ColaboradorCredencial.AppendChild(_ColaboradorID);
-
-                    XmlNode _Descricao = _xmlDocument.CreateElement("ContratoDescricao");
-                    _Descricao.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["ContratoDescricao"].ToString())));
-                    _ColaboradorCredencial.AppendChild(_Descricao);
-
-                    XmlNode _Empresa = _xmlDocument.CreateElement("EmpresaNome");
-                    _Empresa.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["EmpresaNome"].ToString())));
-                    _ColaboradorCredencial.AppendChild(_Empresa);
-
-                    XmlNode _ColaboradorNome = _xmlDocument.CreateElement("ColaboradorNome");
-                    _ColaboradorNome.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["ColaboradorNome"].ToString())));
-                    _ColaboradorCredencial.AppendChild(_ColaboradorNome);
-
-                    //XmlNode _CredencialStatusID = _xmlDocument.CreateElement("CredencialStatusID");
-                    //_CredencialStatusID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["CredencialStatusID"].ToString())));
-                    //_ColaboradorCredencial.AppendChild(_CredencialStatusID);
-
-                    XmlNode _Vinculo9 = _xmlDocument.CreateElement("CPF");
-                    _Vinculo9.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["CPF"].ToString().Trim())));
-                    _ColaboradorCredencial.AppendChild(_Vinculo9);
-
-                    XmlNode _Vinculo22 = _xmlDocument.CreateElement("Motorista");
-                    _Vinculo22.AppendChild(_xmlDocument.CreateTextNode((Convert.ToInt32((bool)_sqlreader["Motorista"])).ToString()));
-                    _ColaboradorCredencial.AppendChild(_Vinculo22);
-
-                    XmlNode _Vinculo21 = _xmlDocument.CreateElement("ColaboradorApelido");
-                    _Vinculo21.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["ColaboradorApelido"].ToString().Trim())));
-                    _ColaboradorCredencial.AppendChild(_Vinculo21);
-
-                    XmlNode _Vinculo11 = _xmlDocument.CreateElement("ColaboradorFoto");
-                    _Vinculo11.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["ColaboradorFoto"].ToString())));
-                    _ColaboradorCredencial.AppendChild(_Vinculo11);
-
-
-                    XmlNode _Vinculo12 = _xmlDocument.CreateElement("EmpresaLogo");
-                    _Vinculo12.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["EmpresaLogo"].ToString())));
-                    _ColaboradorCredencial.AppendChild(_Vinculo12);
-
-                    XmlNode _Vinculo23 = _xmlDocument.CreateElement("EmpresaApelido");
-                    _Vinculo23.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["EmpresaApelido"].ToString().Trim())));
-                    _ColaboradorCredencial.AppendChild(_Vinculo23);
-
-                    XmlNode _Vinculo13 = _xmlDocument.CreateElement("Cargo");
-                    _Vinculo13.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Cargo"].ToString().Trim())));
-                    _ColaboradorCredencial.AppendChild(_Vinculo13);
-
-                    XmlNode _Vinculo19 = _xmlDocument.CreateElement("CNPJ");
-                    _Vinculo19.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["CNPJ"].ToString().Trim())));
-                    _ColaboradorCredencial.AppendChild(_Vinculo19);
-
-                }
-
-                _sqlreader.Close();
-
-                _Con.Close();
-                string _xml = _xmlDocument.InnerXml;
-                _xmlDocument = null;
-                return _xml;
-            }
-            catch (Exception ex)
-            {
-
-                return null;
-            }
-            return null;
-        }
-
-        private string RequisitaEmpresas(int _empresaID = 0, string _nome = "", string _apelido = "", string _cNPJ = "", int _excluida = 0, string _quantidaderegistro = "500")
-        {
-            try
-            {
-                XmlDocument _xmlDocument = new XmlDocument();
-                XmlNode _xmlNode = _xmlDocument.CreateXmlDeclaration("1.0", "UTF-8", null);
-
-                XmlNode _ClasseEmpresas = _xmlDocument.CreateElement("ClasseEmpresas");
-                _xmlDocument.AppendChild(_ClasseEmpresas);
-
-                XmlNode _Empresas = _xmlDocument.CreateElement("Empresas");
-                _ClasseEmpresas.AppendChild(_Empresas);
-
-                string _strSql = " [EmpresaID],[Nome],[Apelido],[CNPJ],[CEP],[Endereco]," +
-                    "[Numero],[Complemento],[Bairro],[MunicipioID],[EstadoID]," +
-                    "[Email1],[Contato1],[Telefone1],[Celular1],[Email2],[Contato2],[Telefone2],[Celular2]," +
-                    "[Obs],[Responsavel],[InsEst],[InsMun],[Excluida],[Pendente11],[Pendente12],[Pendente13],[Pendente14]" +
-                    ",[Pendente15],[Pendente16],[Pendente17]";
-
-
-
-                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
-
-                string _empresaIDSTR = "";
-
-                _empresaIDSTR = _empresaID == 0 ? "" : " AND EmpresaID = " + _empresaID;
-                _nome = _nome == "" ? "" : " AND Nome like '%" + _nome + "%' ";
-                _apelido = _apelido == "" ? "" : "AND Apelido like '%" + _apelido + "%' ";
-                _cNPJ = _cNPJ == "" ? "" : " AND CPF like '%" + _cNPJ.RetirarCaracteresEspeciais() + "%'";
-
-                if (_quantidaderegistro == "0")
-                {
-                    _strSql = "select " + _strSql + " from Empresas where Excluida = " + _excluida + _empresaIDSTR +
-                       _nome + _apelido + _cNPJ + " order by EmpresaID desc";
-                }
-                else
-                {
-                    _strSql = "select Top " + _quantidaderegistro + _strSql + " from Empresas where Excluida = " + _excluida + _empresaIDSTR +
-                       _nome + _apelido + _cNPJ + " order by EmpresaID desc";
-                }
-
-
-                SqlCommand _sqlcmd = new SqlCommand(_strSql, _Con);
-                SqlDataReader _sqlreader = _sqlcmd.ExecuteReader(CommandBehavior.Default);
-                while (_sqlreader.Read())
-                {
-
-                    XmlNode _Empresa = _xmlDocument.CreateElement("Empresa");
-                    _Empresas.AppendChild(_Empresa);
-
-                    XmlNode _EmpresaID = _xmlDocument.CreateElement("EmpresaID");
-                    _EmpresaID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["EmpresaID"].ToString())));
-                    _Empresa.AppendChild(_EmpresaID);
-
-                    XmlNode _Nome = _xmlDocument.CreateElement("Nome");
-                    _Nome.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Nome"].ToString())));
-                    _Empresa.AppendChild(_Nome);
-
-                    XmlNode _Apelido = _xmlDocument.CreateElement("Apelido");
-                    _Apelido.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Apelido"].ToString())));
-                    _Empresa.AppendChild(_Apelido);
-
-                    XmlNode _CNPJ = _xmlDocument.CreateElement("CNPJ");
-                    _CNPJ.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["CNPJ"].ToString().FormatarCnpj())));
-                    _Empresa.AppendChild(_CNPJ);
-
-                    XmlNode _InsEst = _xmlDocument.CreateElement("InsEst");
-                    _InsEst.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["InsEst"].ToString())));
-                    _Empresa.AppendChild(_InsEst);
-
-                    XmlNode _InsMun = _xmlDocument.CreateElement("InsMun");
-                    _InsMun.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["InsMun"].ToString())));
-                    _Empresa.AppendChild(_InsMun);
-
-                    XmlNode _Responsavel = _xmlDocument.CreateElement("Responsavel");
-                    _Responsavel.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Responsavel"].ToString())));
-                    _Empresa.AppendChild(_Responsavel);
-
-                    XmlNode _CEP = _xmlDocument.CreateElement("CEP");
-                    _CEP.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["CEP"].ToString())));
-                    _Empresa.AppendChild(_CEP);
-
-                    XmlNode _Endereco = _xmlDocument.CreateElement("Endereco");
-                    _Endereco.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Endereco"].ToString())));
-                    _Empresa.AppendChild(_Endereco);
-
-                    XmlNode _Numero = _xmlDocument.CreateElement("Numero");
-                    _Numero.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Numero"].ToString())));
-                    _Empresa.AppendChild(_Numero);
-
-                    XmlNode _Complemento = _xmlDocument.CreateElement("Complemento");
-                    _Complemento.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Complemento"].ToString())));
-                    _Empresa.AppendChild(_Complemento);
-
-                    XmlNode _Bairro = _xmlDocument.CreateElement("Bairro");
-                    _Bairro.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Bairro"].ToString())));
-                    _Empresa.AppendChild(_Bairro);
-
-                    XmlNode _EstadoID = _xmlDocument.CreateElement("EstadoID");
-                    _EstadoID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["EstadoID"].ToString())));
-                    _Empresa.AppendChild(_EstadoID);
-
-                    XmlNode _MunicipioID = _xmlDocument.CreateElement("MunicipioID");
-                    _MunicipioID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["MunicipioID"].ToString())));
-                    _Empresa.AppendChild(_MunicipioID);
-
-                    XmlNode _Email1 = _xmlDocument.CreateElement("Email1");
-                    _Email1.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Email1"].ToString())));
-                    _Empresa.AppendChild(_Email1);
-
-                    XmlNode _Contato1 = _xmlDocument.CreateElement("Contato1");
-                    _Contato1.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Contato1"].ToString())));
-                    _Empresa.AppendChild(_Contato1);
-
-                    XmlNode _Tel1 = _xmlDocument.CreateElement("Telefone1");
-                    _Tel1.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Telefone1"].ToString())));
-                    _Empresa.AppendChild(_Tel1);
-
-                    XmlNode _Cel1 = _xmlDocument.CreateElement("Celular1");
-                    _Cel1.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Celular1"].ToString())));
-                    _Empresa.AppendChild(_Cel1);
-
-                    XmlNode Email2 = _xmlDocument.CreateElement("Email2");
-                    Email2.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Email2"].ToString())));
-                    _Empresa.AppendChild(Email2);
-
-                    XmlNode _Contato2 = _xmlDocument.CreateElement("Contato2");
-                    _Contato2.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Contato2"].ToString())));
-                    _Empresa.AppendChild(_Contato2);
-
-                    XmlNode _Tel2 = _xmlDocument.CreateElement("Telefone2");
-                    _Tel2.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Telefone2"].ToString())));
-                    _Empresa.AppendChild(_Tel2);
-
-                    XmlNode _Cel2 = _xmlDocument.CreateElement("Celular2");
-                    _Cel2.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Celular2"].ToString())));
-                    _Empresa.AppendChild(_Cel2);
-                    //////////////////////////////////////////////
-                    XmlNode _Obs = _xmlDocument.CreateElement("Obs");
-                    _Obs.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Obs"].ToString())));
-                    _Empresa.AppendChild(_Obs);
-
-                    XmlNode _Logo = _xmlDocument.CreateElement("Logo");
-                    //_Logo.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Logo"].ToString())));
-                    _Empresa.AppendChild(_Logo);
-
-                    XmlNode _Excluida = _xmlDocument.CreateElement("Excluida");
-                    _Excluida.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Excluida"].ToString())));
-                    _Empresa.AppendChild(_Excluida);
-
-                    XmlNode _Pendente1 = _xmlDocument.CreateElement("Pendente11");
-                    _Pendente1.AppendChild(_xmlDocument.CreateTextNode((Convert.ToInt32((bool)_sqlreader["Pendente11"])).ToString()));
-                    _Empresa.AppendChild(_Pendente1);
-
-                    XmlNode _Pendente2 = _xmlDocument.CreateElement("Pendente12");
-                    _Pendente2.AppendChild(_xmlDocument.CreateTextNode((Convert.ToInt32((bool)_sqlreader["Pendente12"])).ToString()));
-                    _Empresa.AppendChild(_Pendente2);
-
-                    XmlNode _Pendente3 = _xmlDocument.CreateElement("Pendente13");
-                    _Pendente3.AppendChild(_xmlDocument.CreateTextNode((Convert.ToInt32((bool)_sqlreader["Pendente13"])).ToString()));
-                    _Empresa.AppendChild(_Pendente3);
-
-                    XmlNode _Pendente4 = _xmlDocument.CreateElement("Pendente14");
-                    _Pendente4.AppendChild(_xmlDocument.CreateTextNode((Convert.ToInt32((bool)_sqlreader["Pendente14"])).ToString()));
-                    _Empresa.AppendChild(_Pendente4);
-
-                    XmlNode _Pendente5 = _xmlDocument.CreateElement("Pendente15");
-                    _Pendente5.AppendChild(_xmlDocument.CreateTextNode((Convert.ToInt32((bool)_sqlreader["Pendente15"])).ToString()));
-                    _Empresa.AppendChild(_Pendente5);
-
-                    XmlNode _Pendente6 = _xmlDocument.CreateElement("Pendente16");
-                    _Pendente6.AppendChild(_xmlDocument.CreateTextNode((Convert.ToInt32((bool)_sqlreader["Pendente16"])).ToString()));
-                    _Empresa.AppendChild(_Pendente6);
-
-                    XmlNode _Pendente7 = _xmlDocument.CreateElement("Pendente17");
-                    _Pendente7.AppendChild(_xmlDocument.CreateTextNode((Convert.ToInt32((bool)_sqlreader["Pendente17"])).ToString()));
-                    _Empresa.AppendChild(_Pendente7);
-
-                    bool _pend = false;
-                    _pend = (bool)_sqlreader["Pendente11"] ||
-                        (bool)_sqlreader["Pendente12"] ||
-                        (bool)_sqlreader["Pendente13"] ||
-                        (bool)_sqlreader["Pendente14"] ||
-                        (bool)_sqlreader["Pendente15"] ||
-                        (bool)_sqlreader["Pendente16"] ||
-                        (bool)_sqlreader["Pendente17"];
-
-                    XmlNode _Pendente = _xmlDocument.CreateElement("Pendente");
-                    _Pendente.AppendChild(_xmlDocument.CreateTextNode(Convert.ToInt32(_pend).ToString()));
-                    _Empresa.AppendChild(_Pendente);
-
-                }
-
-                _sqlreader.Close();
-
-                _Con.Close();
-                string _xml = _xmlDocument.InnerXml;
-                _xmlDocument = null;
-                return _xml;
-            }
-            catch (Exception ex)
-            {
-
-                return null;
-            }
-            return null;
-        }
-
-        private string RequisitaColaboradoresEmpresas(int _colaboradorID, int _ativo = 2)//Possibilidade de criar a pesquisa por Matriculatambem
-        {
-            try
-            {
-                XmlDocument _xmlDocument = new XmlDocument();
-                XmlNode _xmlNode = _xmlDocument.CreateXmlDeclaration("1.0", "UTF-8", null);
-
-                XmlNode _ClasseColaboradoresEmpresas = _xmlDocument.CreateElement("ClasseColaboradoresEmpresas");
-                _xmlDocument.AppendChild(_ClasseColaboradoresEmpresas);
-
-                XmlNode _ColaboradoresEmpresas = _xmlDocument.CreateElement("ColaboradoresEmpresas");
-                _ClasseColaboradoresEmpresas.AppendChild(_ColaboradoresEmpresas);
-
-                string _strSql;
-
-
-                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
-                if (_ativo == 1)
-                {
-                    _strSql = "SELECT dbo.ColaboradoresEmpresas.ColaboradorEmpresaID, dbo.ColaboradoresEmpresas.EmpresaID, dbo.Empresas.Nome AS EmpresaNome," +
-                        " dbo.EmpresasContratos.NumeroContrato, dbo.EmpresasContratos.Descricao, dbo.ColaboradoresEmpresas.Matricula," +
-                        " dbo.ColaboradoresEmpresas.Ativo FROM dbo.ColaboradoresEmpresas INNER JOIN dbo.Empresas ON" +
-                        " dbo.ColaboradoresEmpresas.EmpresaID = dbo.Empresas.EmpresaID INNER JOIN dbo.EmpresasContratos ON" +
-                        " dbo.ColaboradoresEmpresas.EmpresaContratoID = dbo.EmpresasContratos.EmpresaContratoID" +
-                        " WHERE(dbo.ColaboradoresEmpresas.ColaboradorID =" + _colaboradorID + ")" +
-                        " AND(dbo.ColaboradoresEmpresas.Ativo = 1)  ";
-                }
-                else
-                {
-                    _strSql = "SELECT dbo.ColaboradoresEmpresas.ColaboradorEmpresaID, dbo.ColaboradoresEmpresas.EmpresaID, dbo.Empresas.Nome AS EmpresaNome," +
-                        " dbo.EmpresasContratos.NumeroContrato, dbo.EmpresasContratos.Descricao, dbo.ColaboradoresEmpresas.Matricula," +
-                        " dbo.ColaboradoresEmpresas.Ativo FROM dbo.ColaboradoresEmpresas INNER JOIN dbo.Empresas ON" +
-                        " dbo.ColaboradoresEmpresas.EmpresaID = dbo.Empresas.EmpresaID INNER JOIN dbo.EmpresasContratos ON" +
-                        " dbo.ColaboradoresEmpresas.EmpresaContratoID = dbo.EmpresasContratos.EmpresaContratoID" +
-                        " WHERE(dbo.ColaboradoresEmpresas.ColaboradorID =" + _colaboradorID + ")";
-                }
-
-
-                SqlCommand _sqlcmd = new SqlCommand(_strSql, _Con);
-                SqlDataReader _sqlreader = _sqlcmd.ExecuteReader(CommandBehavior.Default);
-                while (_sqlreader.Read())
-                {
-
-                    XmlNode _ColaboradorEmpresa = _xmlDocument.CreateElement("ColaboradorEmpresa");
-                    _ColaboradoresEmpresas.AppendChild(_ColaboradorEmpresa);
-
-                    XmlNode _ColaboradorEmpresaID = _xmlDocument.CreateElement("ColaboradorEmpresaID");
-                    _ColaboradorEmpresaID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["ColaboradorEmpresaID"].ToString())));
-                    _ColaboradorEmpresa.AppendChild(_ColaboradorEmpresaID);
-
-                    //XmlNode _ColaboradorID = _xmlDocument.CreateElement("ColaboradorID");
-                    //_ColaboradorID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["ColaboradorID"].ToString())));
-                    //_ColaboradorEmpresa.AppendChild(_ColaboradorID);
-
-                    XmlNode _EmpresaID = _xmlDocument.CreateElement("EmpresaID");
-                    _EmpresaID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["EmpresaID"].ToString())));
-                    _ColaboradorEmpresa.AppendChild(_EmpresaID);
-
-                    //XmlNode _EmpresaContratoID = _xmlDocument.CreateElement("EmpresaContratoID");
-                    //_EmpresaContratoID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["EmpresaContratoID"].ToString())));
-                    //_ColaboradorEmpresa.AppendChild(_EmpresaContratoID);
-
-                    XmlNode _Descricao = _xmlDocument.CreateElement("Descricao");
-                    _Descricao.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Descricao"].ToString())));
-                    _ColaboradorEmpresa.AppendChild(_Descricao);
-
-                    XmlNode _Empresa = _xmlDocument.CreateElement("EmpresaNome");
-                    _Empresa.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["EmpresaNome"].ToString())));
-                    _ColaboradorEmpresa.AppendChild(_Empresa);
-
-                    //XmlNode _Cargo = _xmlDocument.CreateElement("Cargo");
-                    //_Cargo.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Cargo"].ToString())));
-                    //_ColaboradorEmpresa.AppendChild(_Cargo);
-
-                    //XmlNode _Matricula = _xmlDocument.CreateElement("Matricula");
-                    //_Matricula.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Matricula"].ToString())));
-                    //_ColaboradorEmpresa.AppendChild(_Matricula);
-
-                    XmlNode _Ativo = _xmlDocument.CreateElement("Ativo");
-                    _Ativo.AppendChild(_xmlDocument.CreateTextNode((Convert.ToInt32((bool)_sqlreader["Ativo"])).ToString()));
-                    _ColaboradorEmpresa.AppendChild(_Ativo);
-
-                }
-
-                _sqlreader.Close();
-
-                _Con.Close();
-                string _xml = _xmlDocument.InnerXml;
-                _xmlDocument = null;
-                return _xml;
-            }
-            catch (Exception ex)
-            {
-
-                return null;
-            }
-            return null;
-        }
-
-        private string RequisitaEmpresasLayoutsCrachas(int _colaboradorEmpresaID = 0)
-        {
-            try
-            {
-                XmlDocument _xmlDocument = new XmlDocument();
-                XmlNode _xmlNode = _xmlDocument.CreateXmlDeclaration("1.0", "UTF-8", null);
-
-                XmlNode _ClasseEmpresasLayoutsCrachas = _xmlDocument.CreateElement("ClasseEmpresasLayoutsCrachas");
-                _xmlDocument.AppendChild(_ClasseEmpresasLayoutsCrachas);
-
-                XmlNode _EmpresasLayoutsCrachas = _xmlDocument.CreateElement("EmpresasLayoutsCrachas");
-                _ClasseEmpresasLayoutsCrachas.AppendChild(_EmpresasLayoutsCrachas);
-
-
-                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
-
-                //string _SQL = "SELECT dbo.ColaboradoresEmpresas.ColaboradorEmpresaID, dbo.EmpresasLayoutsCrachas.EmpresaID, dbo.LayoutsCrachas.Nome, dbo.EmpresasLayoutsCrachas.LayoutCrachaID " +
-                //    "FROM dbo.ColaboradoresEmpresas INNER JOIN dbo.EmpresasLayoutsCrachas ON dbo.ColaboradoresEmpresas.EmpresaID = dbo.EmpresasLayoutsCrachas.EmpresaID" +
-                //    " INNER JOIN dbo.LayoutsCrachas ON dbo.EmpresasLayoutsCrachas.LayoutCrachaID = dbo.LayoutsCrachas.LayoutCrachaID " +
-                //    "WHERE dbo.ColaboradoresEmpresas.ColaboradorEmpresaID = " + _colaboradorEmpresaID ;
-
-                string _SQL = "SELECT dbo.ColaboradoresEmpresas.ColaboradorEmpresaID, dbo.EmpresasLayoutsCrachas.EmpresaLayoutCrachaID, dbo.LayoutsCrachas.LayoutCrachaGUID," +
-                    " dbo.LayoutsCrachas.Nome, dbo.EmpresasLayoutsCrachas.LayoutCrachaID" +
-                    " FROM dbo.LayoutsCrachas INNER JOIN dbo.EmpresasLayoutsCrachas ON dbo.LayoutsCrachas.LayoutCrachaID = dbo.EmpresasLayoutsCrachas.LayoutCrachaID INNER JOIN" +
-                    " dbo.ColaboradoresEmpresas ON dbo.EmpresasLayoutsCrachas.EmpresaID = dbo.ColaboradoresEmpresas.EmpresaID " +
-                    "WHERE dbo.ColaboradoresEmpresas.ColaboradorEmpresaID = " + _colaboradorEmpresaID;
-
-                SqlCommand _sqlcmd = new SqlCommand(_SQL, _Con);
-                SqlDataReader _sqldatareader = _sqlcmd.ExecuteReader();
-                while (_sqldatareader.Read())
-                {
-                    XmlNode _EmpresaLayoutCracha = _xmlDocument.CreateElement("EmpresaLayoutCracha");
-                    _EmpresasLayoutsCrachas.AppendChild(_EmpresaLayoutCracha);
-
-                    XmlNode _EmpresaLayoutCrachaID = _xmlDocument.CreateElement("EmpresaLayoutCrachaID");
-                    _EmpresaLayoutCrachaID.AppendChild(_xmlDocument.CreateTextNode((_sqldatareader["EmpresaLayoutCrachaID"].ToString())));
-                    _EmpresaLayoutCracha.AppendChild(_EmpresaLayoutCrachaID);
-
-                    //XmlNode _EmpresaID = _xmlDocument.CreateElement("EmpresaID");
-                    //_EmpresaID.AppendChild(_xmlDocument.CreateTextNode((_sqldatareader["EmpresaID"].ToString())));
-                    //_EmpresaLayoutCracha.AppendChild(_EmpresaID);
-
-                    XmlNode _LayoutCrachaGUID = _xmlDocument.CreateElement("LayoutCrachaGUID");
-                    _LayoutCrachaGUID.AppendChild(_xmlDocument.CreateTextNode((_sqldatareader["LayoutCrachaGUID"].ToString())));
-                    _EmpresaLayoutCracha.AppendChild(_LayoutCrachaGUID);
-
-                    XmlNode _Descricao = _xmlDocument.CreateElement("Nome");
-                    _Descricao.AppendChild(_xmlDocument.CreateTextNode((_sqldatareader["Nome"].ToString())));
-                    _EmpresaLayoutCracha.AppendChild(_Descricao);
-
-                    XmlNode _LayoutCrachaID = _xmlDocument.CreateElement("LayoutCrachaID");
-                    _LayoutCrachaID.AppendChild(_xmlDocument.CreateTextNode((_sqldatareader["LayoutCrachaID"].ToString())));
-                    _EmpresaLayoutCracha.AppendChild(_LayoutCrachaID);
-                }
-                _sqldatareader.Close();
-                _Con.Close();
-                return _xmlDocument.InnerXml;
-            }
-            catch (Exception ex)
-            {
-                Global.Log("Erro na void RequisitaEmpresasLayoutsCrachas ex: " + ex);
-
-                return null;
-            }
-        }
-
-        private string RequisitaFormatosCredenciais(int _empresaID = 0)
-        {
-            try
-            {
-                XmlDocument _xmlDocument = new XmlDocument();
-                XmlNode _xmlNode = _xmlDocument.CreateXmlDeclaration("1.0", "UTF-8", null);
-
-                XmlNode _ClasseFormatosCredenciais = _xmlDocument.CreateElement("ClasseFormatosCredenciais");
-                _xmlDocument.AppendChild(_ClasseFormatosCredenciais);
-
-                XmlNode _FormatosCredenciais = _xmlDocument.CreateElement("FormatosCredenciais");
-                _ClasseFormatosCredenciais.AppendChild(_FormatosCredenciais);
-
-
-                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
-
-                string _SQL = "select * from FormatosCredenciais";
-                SqlCommand _sqlcmd = new SqlCommand(_SQL, _Con);
-                SqlDataReader _sqldatareader = _sqlcmd.ExecuteReader();
-                while (_sqldatareader.Read())
-                {
-                    XmlNode _FormatoCredencial = _xmlDocument.CreateElement("FormatoCredencial");
-                    _FormatosCredenciais.AppendChild(_FormatoCredencial);
-
-                    XmlNode _FormatoCredencialID = _xmlDocument.CreateElement("FormatoCredencialID");
-                    _FormatoCredencialID.AppendChild(_xmlDocument.CreateTextNode((_sqldatareader["FormatoCredencialID"].ToString())));
-                    _FormatoCredencial.AppendChild(_FormatoCredencialID);
-
-                    XmlNode _Descricao = _xmlDocument.CreateElement("Descricao");
-                    _Descricao.AppendChild(_xmlDocument.CreateTextNode((_sqldatareader["Descricao"].ToString().Trim())));
-                    _FormatoCredencial.AppendChild(_Descricao);
-
-                    XmlNode _FormatIDGUID = _xmlDocument.CreateElement("FormatIDGUID");
-                    _FormatIDGUID.AppendChild(_xmlDocument.CreateTextNode((_sqldatareader["FormatIDGUID"].ToString().Trim())));
-                    _FormatoCredencial.AppendChild(_FormatIDGUID);
-                }
-                _sqldatareader.Close();
-                _Con.Close();
-                return _xmlDocument.InnerXml;
-            }
-            catch (Exception ex)
-            {
-                Global.Log("Erro na void RequisitaFormatosCredenciais ex: " + ex);
-
-                return null;
-            }
-        }
-
-        private string RequisitaVinculos(int _ColaboradorCredencialID = 0)
-        {
-            try
-            {
-                XmlDocument _xmlDocument = new XmlDocument();
-                XmlNode _xmlNode = _xmlDocument.CreateXmlDeclaration("1.0", "UTF-8", null);
-
-                XmlNode _ClasseVinculos = _xmlDocument.CreateElement("ClasseVinculos");
-                _xmlDocument.AppendChild(_ClasseVinculos);
-
-                XmlNode _Vinculos = _xmlDocument.CreateElement("Vinculos");
-                _ClasseVinculos.AppendChild(_Vinculos);
-
-
-                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
-
-                string _SQL = "SELECT dbo.ColaboradoresCredenciais.ColaboradorCredencialID,dbo.ColaboradoresCredenciais.CardHolderGuid,dbo.ColaboradoresCredenciais.CredencialGuid," +
-                    " dbo.ColaboradoresEmpresas.ColaboradorID, dbo.Colaboradores.Nome AS ColaboradorNome," +
-                    " dbo.Colaboradores.CPF,dbo.Colaboradores.Apelido AS ColaboradorApelido, dbo.Colaboradores.Motorista, dbo.Colaboradores.Foto, dbo.ColaboradoresEmpresas.EmpresaID," +
-                    " dbo.Empresas.Nome AS EmpresaNome,dbo.Empresas.Apelido AS EmpresaApelido, dbo.Empresas.CNPJ, dbo.FormatosCredenciais.FormatIDGUID," +
-                    " dbo.ColaboradoresCredenciais.NumeroCredencial, dbo.ColaboradoresCredenciais.FC,dbo.ColaboradoresCredenciais.Validade, dbo.LayoutsCrachas.LayoutCrachaGUID," +
-                    " dbo.ColaboradoresEmpresas.Cargo, dbo.ColaboradoresEmpresas.Matricula, dbo.ColaboradoresEmpresas.Ativo FROM dbo.Empresas INNER JOIN" +
-                    " dbo.Colaboradores INNER JOIN dbo.ColaboradoresCredenciais INNER JOIN dbo.LayoutsCrachas ON" +
-                    " dbo.ColaboradoresCredenciais.LayoutCrachaID = dbo.LayoutsCrachas.LayoutCrachaID INNER JOIN dbo.FormatosCredenciais ON" +
-                    " dbo.ColaboradoresCredenciais.FormatoCredencialID = dbo.FormatosCredenciais.FormatoCredencialID INNER JOIN dbo.ColaboradoresEmpresas ON" +
-                    " dbo.ColaboradoresCredenciais.ColaboradorEmpresaID = dbo.ColaboradoresEmpresas.ColaboradorEmpresaID ON" +
-                    " dbo.Colaboradores.ColaboradorID = dbo.ColaboradoresEmpresas.ColaboradorID ON dbo.Empresas.EmpresaID = dbo.ColaboradoresEmpresas.EmpresaID " +
-                    "WHERE dbo.ColaboradoresCredenciais.ColaboradorCredencialID = " + _ColaboradorCredencialID;
-
-
-                SqlCommand _sqlcmd = new SqlCommand(_SQL, _Con);
-                SqlDataReader _sqldatareader = _sqlcmd.ExecuteReader();
-                while (_sqldatareader.Read())
-                {
-                    XmlNode _Vinculo = _xmlDocument.CreateElement("Vinculo");
-                    _Vinculos.AppendChild(_Vinculo);
-
-                    XmlNode _Vinculo24 = _xmlDocument.CreateElement("ColaboradorID");
-                    _Vinculo24.AppendChild(_xmlDocument.CreateTextNode((_sqldatareader["ColaboradorID"].ToString().Trim())));
-                    _Vinculo.AppendChild(_Vinculo24);
-
-                    XmlNode _CardHolderGUID = _xmlDocument.CreateElement("CardHolderGuid");
-                    _CardHolderGUID.AppendChild(_xmlDocument.CreateTextNode((_sqldatareader["CardHolderGuid"].ToString())));
-                    _Vinculo.AppendChild(_CardHolderGUID);
-
-                    XmlNode _CredencialGUID = _xmlDocument.CreateElement("CredencialGuid");
-                    _CredencialGUID.AppendChild(_xmlDocument.CreateTextNode((_sqldatareader["CredencialGuid"].ToString())));
-                    _Vinculo.AppendChild(_CredencialGUID);
-
-                    XmlNode _Vinculo9 = _xmlDocument.CreateElement("CPF");
-                    _Vinculo9.AppendChild(_xmlDocument.CreateTextNode((_sqldatareader["CPF"].ToString().Trim())));
-                    _Vinculo.AppendChild(_Vinculo9);
-
-                    XmlNode _Vinculo10 = _xmlDocument.CreateElement("ColaboradorNome");
-                    _Vinculo10.AppendChild(_xmlDocument.CreateTextNode((_sqldatareader["ColaboradorNome"].ToString().Trim())));
-                    _Vinculo.AppendChild(_Vinculo10);
-
-                    XmlNode _Vinculo22 = _xmlDocument.CreateElement("Motorista");
-                    _Vinculo22.AppendChild(_xmlDocument.CreateTextNode((Convert.ToInt32((bool)_sqldatareader["Motorista"])).ToString()));
-                    _Vinculo.AppendChild(_Vinculo22);
-
-                    XmlNode _Vinculo21 = _xmlDocument.CreateElement("ColaboradorApelido");
-                    _Vinculo21.AppendChild(_xmlDocument.CreateTextNode((_sqldatareader["ColaboradorApelido"].ToString().Trim())));
-                    _Vinculo.AppendChild(_Vinculo21);
-
-                    XmlNode _Vinculo11 = _xmlDocument.CreateElement("ColaboradorFoto");
-                    _Vinculo11.AppendChild(_xmlDocument.CreateTextNode((_sqldatareader["Foto"].ToString())));
-                    _Vinculo.AppendChild(_Vinculo11);
-
-                    XmlNode _Vinculo12 = _xmlDocument.CreateElement("EmpresaNome");
-                    _Vinculo12.AppendChild(_xmlDocument.CreateTextNode((_sqldatareader["EmpresaNome"].ToString().Trim())));
-                    _Vinculo.AppendChild(_Vinculo12);
-
-
-                    XmlNode _Vinculo23 = _xmlDocument.CreateElement("EmpresaApelido");
-                    _Vinculo23.AppendChild(_xmlDocument.CreateTextNode((_sqldatareader["EmpresaApelido"].ToString().Trim())));
-                    _Vinculo.AppendChild(_Vinculo23);
-
-                    XmlNode _Vinculo13 = _xmlDocument.CreateElement("Cargo");
-                    _Vinculo13.AppendChild(_xmlDocument.CreateTextNode((_sqldatareader["Cargo"].ToString().Trim())));
-                    _Vinculo.AppendChild(_Vinculo13);
-
-                    XmlNode _Vinculo14 = _xmlDocument.CreateElement("Matricula");
-                    _Vinculo14.AppendChild(_xmlDocument.CreateTextNode((_sqldatareader["Matricula"].ToString().Trim())));
-                    _Vinculo.AppendChild(_Vinculo14);
-
-                    XmlNode _Vinculo15 = _xmlDocument.CreateElement("LayoutCrachaGUID");
-                    _Vinculo15.AppendChild(_xmlDocument.CreateTextNode((_sqldatareader["LayoutCrachaGUID"].ToString().Trim())));
-                    _Vinculo.AppendChild(_Vinculo15);
-
-                    XmlNode _Vinculo16 = _xmlDocument.CreateElement("NumeroCredencial");
-                    _Vinculo16.AppendChild(_xmlDocument.CreateTextNode((_sqldatareader["NumeroCredencial"].ToString().Trim())));
-                    _Vinculo.AppendChild(_Vinculo16);
-
-                    XmlNode _Vinculo17 = _xmlDocument.CreateElement("FC");
-                    _Vinculo17.AppendChild(_xmlDocument.CreateTextNode((_sqldatareader["FC"].ToString().Trim())));
-                    _Vinculo.AppendChild(_Vinculo17);
-
-                    var dateStr = (_sqldatareader["Validade"].ToString());
-                    if (!string.IsNullOrWhiteSpace(dateStr))
-                    {
-                        var dt1 = Convert.ToDateTime(dateStr);
-                        XmlNode _Validade = _xmlDocument.CreateElement("Validade");
-                        //format valid for XML W3C yyyy-MM-ddTHH:mm:ss
-                        _Validade.AppendChild(_xmlDocument.CreateTextNode(dt1.ToString("yyyy-MM-ddTHH:mm:ss")));
-                        _Vinculo.AppendChild(_Validade);
-                    }
-
-                    XmlNode _Vinculo19 = _xmlDocument.CreateElement("CNPJ");
-                    _Vinculo19.AppendChild(_xmlDocument.CreateTextNode((_sqldatareader["CNPJ"].ToString().Trim())));
-                    _Vinculo.AppendChild(_Vinculo19);
-
-                    XmlNode _Vinculo20 = _xmlDocument.CreateElement("FormatIDGUID");
-                    _Vinculo20.AppendChild(_xmlDocument.CreateTextNode((_sqldatareader["FormatIDGUID"].ToString().Trim())));
-                    _Vinculo.AppendChild(_Vinculo20);
-
-                }
-                _sqldatareader.Close();
-                _Con.Close();
-                return _xmlDocument.InnerXml;
-            }
-            catch (Exception ex)
-            {
-                Global.Log("Erro na void RequisitaVinculos ex: " + ex);
-
-                return null;
-            }
-        }
-
-        private string RequisitaContratos(int _empresaID)
-        {
-            try
-            {
-                XmlDocument _xmlDocument = new XmlDocument();
-                XmlNode _xmlNode = _xmlDocument.CreateXmlDeclaration("1.0", "UTF-8", null);
-
-                XmlNode _ClasseContratosEmpresas = _xmlDocument.CreateElement("ClasseEmpresasContratos");
-                _xmlDocument.AppendChild(_ClasseContratosEmpresas);
-
-                XmlNode _EmpresasContratos = _xmlDocument.CreateElement("EmpresasContratos");
-                _ClasseContratosEmpresas.AppendChild(_EmpresasContratos);
-
-                string _strSql;
-
-
-                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
-
-
-                _strSql = "SELECT dbo.ColaboradoresEmpresas.ColaboradorID, dbo.ColaboradoresEmpresas.EmpresaID, dbo.Empresas.Nome AS EmpresaNome," +
-                    " dbo.ColaboradoresEmpresas.Ativo, dbo.EmpresasContratos.Descricao, dbo.ColaboradoresEmpresas.EmpresaContratoID FROM dbo.ColaboradoresEmpresas INNER JOIN dbo.Empresas" +
-                    " ON dbo.ColaboradoresEmpresas.EmpresaID = dbo.Empresas.EmpresaID INNER JOIN dbo.EmpresasContratos ON" +
-                    " dbo.ColaboradoresEmpresas.EmpresaContratoID = dbo.EmpresasContratos.EmpresaContratoID WHERE(dbo.ColaboradoresEmpresas.Ativo = 1)" +
-                    " AND(dbo.ColaboradoresEmpresas.ColaboradorID =" + ColaboradorSelecionadaID + ")AND (dbo.ColaboradoresEmpresas.EmpresaID =" + _empresaID + ")";
-
-
-                SqlCommand _sqlcmd = new SqlCommand(_strSql, _Con);
-                SqlDataReader _sqlreader = _sqlcmd.ExecuteReader(CommandBehavior.Default);
-                while (_sqlreader.Read())
-                {
-
-                    XmlNode _EmpresaContrato = _xmlDocument.CreateElement("EmpresaContrato");
-                    _EmpresasContratos.AppendChild(_EmpresaContrato);
-
-                    XmlNode _EmpresaContratoID = _xmlDocument.CreateElement("EmpresaContratoID");
-                    _EmpresaContratoID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["EmpresaContratoID"].ToString())));
-                    _EmpresaContrato.AppendChild(_EmpresaContratoID);
-
-                    XmlNode _EmpresaID = _xmlDocument.CreateElement("EmpresaID");
-                    _EmpresaID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["EmpresaID"].ToString())));
-                    _EmpresaContrato.AppendChild(_EmpresaID);
-
-                    //XmlNode _NumeroContrato = _xmlDocument.CreateElement("NumeroContrato");
-                    //_NumeroContrato.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["NumeroContrato"].ToString())));
-                    //_EmpresaContrato.AppendChild(_NumeroContrato);
-
-                    XmlNode _Descricao = _xmlDocument.CreateElement("Descricao");
-                    _Descricao.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Descricao"].ToString())));
-                    _EmpresaContrato.AppendChild(_Descricao);
-
-
-                }
-
-                _sqlreader.Close();
-
-                _Con.Close();
-                string _xml = _xmlDocument.InnerXml;
-                _xmlDocument = null;
-                return _xml;
-            }
-            catch
-            {
-
-                return null;
-            }
-            return null;
-        }
-
-        private string RequisitaTiposCredenciais()
-        {
-            try
-            {
-                XmlDocument _xmlDocument = new XmlDocument();
-                XmlNode _xmlNode = _xmlDocument.CreateXmlDeclaration("1.0", "UTF-8", null);
-
-                XmlNode _ClasseTiposCredenciais = _xmlDocument.CreateElement("ClasseTiposCredenciais");
-                _xmlDocument.AppendChild(_ClasseTiposCredenciais);
-
-                XmlNode _TiposCredenciais = _xmlDocument.CreateElement("TiposCredenciais");
-                _ClasseTiposCredenciais.AppendChild(_TiposCredenciais);
-
-                string _strSql;
-
-
-                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
-
-
-                _strSql = "select * from TiposCredenciais ";
-
-                SqlCommand _sqlcmd = new SqlCommand(_strSql, _Con);
-                SqlDataReader _sqlreader = _sqlcmd.ExecuteReader(CommandBehavior.Default);
-                while (_sqlreader.Read())
-                {
-
-                    XmlNode _TipoCredencial = _xmlDocument.CreateElement("TipoCredencial");
-                    _TiposCredenciais.AppendChild(_TipoCredencial);
-
-                    XmlNode _TipoCredencialID = _xmlDocument.CreateElement("TipoCredencialID");
-                    _TipoCredencialID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["TipoCredencialID"].ToString())));
-                    _TipoCredencial.AppendChild(_TipoCredencialID);
-
-                    XmlNode _Descricao = _xmlDocument.CreateElement("Descricao");
-                    _Descricao.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Descricao"].ToString())));
-                    _TipoCredencial.AppendChild(_Descricao);
-
-                }
-
-                _sqlreader.Close();
-
-                _Con.Close();
-                string _xml = _xmlDocument.InnerXml;
-                _xmlDocument = null;
-                return _xml;
-            }
-            catch
-            {
-
-                return null;
-            }
-
-        }
-
-        private string RequisitaTecnologiasCredenciais()
-        {
-            try
-            {
-                XmlDocument _xmlDocument = new XmlDocument();
-                XmlNode _xmlNode = _xmlDocument.CreateXmlDeclaration("1.0", "UTF-8", null);
-
-                XmlNode _ClasseTecnologiasCredenciais = _xmlDocument.CreateElement("ClasseTecnologiasCredenciais");
-                _xmlDocument.AppendChild(_ClasseTecnologiasCredenciais);
-
-                XmlNode _TecnologiasCredenciais = _xmlDocument.CreateElement("TecnologiasCredenciais");
-                _ClasseTecnologiasCredenciais.AppendChild(_TecnologiasCredenciais);
-
-                string _strSql;
-
-
-                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
-
-
-                _strSql = "select * from TecnologiasCredenciais ";
-
-                SqlCommand _sqlcmd = new SqlCommand(_strSql, _Con);
-                SqlDataReader _sqlreader = _sqlcmd.ExecuteReader(CommandBehavior.Default);
-                while (_sqlreader.Read())
-                {
-
-                    XmlNode _TecnologiaCredencial = _xmlDocument.CreateElement("TecnologiaCredencial");
-                    _TecnologiasCredenciais.AppendChild(_TecnologiaCredencial);
-
-                    XmlNode _TecnologiaCredencialID = _xmlDocument.CreateElement("TecnologiaCredencialID");
-                    _TecnologiaCredencialID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["TecnologiaCredencialID"].ToString())));
-                    _TecnologiaCredencial.AppendChild(_TecnologiaCredencialID);
-
-                    XmlNode _Descricao = _xmlDocument.CreateElement("Descricao");
-                    _Descricao.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Descricao"].ToString())));
-                    _TecnologiaCredencial.AppendChild(_Descricao);
-
-                }
-
-                _sqlreader.Close();
-
-                _Con.Close();
-                string _xml = _xmlDocument.InnerXml;
-                _xmlDocument = null;
-                return _xml;
-            }
-            catch
-            {
-
-                return null;
-            }
-
-        }
-
-        private string RequisitaCredenciaisMotivos(int tipo = 0)
-        {
-            try
-            {
-                XmlDocument _xmlDocument = new XmlDocument();
-                XmlNode _xmlNode = _xmlDocument.CreateXmlDeclaration("1.0", "UTF-8", null);
-
-                XmlNode _ClasseCredenciaisMotivos = _xmlDocument.CreateElement("ClasseCredenciaisMotivos");
-                _xmlDocument.AppendChild(_ClasseCredenciaisMotivos);
-
-                XmlNode _CredenciaisMotivos = _xmlDocument.CreateElement("CredenciaisMotivos");
-                _ClasseCredenciaisMotivos.AppendChild(_CredenciaisMotivos);
-
-                string _strSql;
-
-
-                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
-
-                if (tipo == 0)
-                {
-                    _strSql = "select * from CredenciaisMotivos ";
-                }
-                else
-                {
-                    _strSql = "select * from CredenciaisMotivos where Tipo= " + tipo;
-                }
-
-
-                SqlCommand _sqlcmd = new SqlCommand(_strSql, _Con);
-                SqlDataReader _sqlreader = _sqlcmd.ExecuteReader(CommandBehavior.Default);
-                while (_sqlreader.Read())
-                {
-
-                    XmlNode _CredencialMotivo = _xmlDocument.CreateElement("CredencialMotivo");
-                    _CredenciaisMotivos.AppendChild(_CredencialMotivo);
-
-                    XmlNode _CredencialMotivoID = _xmlDocument.CreateElement("CredencialMotivoID");
-                    _CredencialMotivoID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["CredencialMotivoID"].ToString().Trim())));
-                    _CredencialMotivo.AppendChild(_CredencialMotivoID);
-
-                    XmlNode _Descricao = _xmlDocument.CreateElement("Descricao");
-                    _Descricao.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Descricao"].ToString().Trim())));
-                    _CredencialMotivo.AppendChild(_Descricao);
-
-
-                    XmlNode _Tipo = _xmlDocument.CreateElement("Tipo");
-                    _Tipo.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Tipo"].ToString().Trim())));
-                    _CredencialMotivo.AppendChild(_Tipo);
-
-                }
-
-                _sqlreader.Close();
-
-                _Con.Close();
-                string _xml = _xmlDocument.InnerXml;
-                _xmlDocument = null;
-                return _xml;
-            }
-            catch
-            {
-
-                return null;
-            }
-
-        }
-
-        private string RequisitaAreasAcessos()
-        {
-            try
-            {
-                XmlDocument _xmlDocument = new XmlDocument();
-                XmlNode _xmlNode = _xmlDocument.CreateXmlDeclaration("1.0", "UTF-8", null);
-
-                XmlNode _ClasseAreasAcessos = _xmlDocument.CreateElement("ClasseAreasAcessos");
-                _xmlDocument.AppendChild(_ClasseAreasAcessos);
-
-                XmlNode _AreasAcessos = _xmlDocument.CreateElement("AreasAcessos");
-                _ClasseAreasAcessos.AppendChild(_AreasAcessos);
-
-                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
-                SqlCommand _sqlcmd = new SqlCommand("select * from AreasAcessos order by AreaAcessoID", _Con);
-                SqlDataReader _sqldatareader = _sqlcmd.ExecuteReader();
-                while (_sqldatareader.Read())
-                {
-                    XmlNode _AreaAcesso = _xmlDocument.CreateElement("AreaAcesso");
-                    _AreasAcessos.AppendChild(_AreaAcesso);
-
-                    XmlNode _AreaAcessoID = _xmlDocument.CreateElement("AreaAcessoID");
-                    _AreaAcessoID.AppendChild(_xmlDocument.CreateTextNode((_sqldatareader["AreaAcessoID"].ToString())));
-                    _AreaAcesso.AppendChild(_AreaAcessoID);
-
-                    XmlNode _Descricao = _xmlDocument.CreateElement("Descricao");
-                    _Descricao.AppendChild(_xmlDocument.CreateTextNode((_sqldatareader["Descricao"].ToString())));
-                    _AreaAcesso.AppendChild(_Descricao);
-
-                    XmlNode _Identificacao = _xmlDocument.CreateElement("Identificacao");
-                    _Identificacao.AppendChild(_xmlDocument.CreateTextNode((_sqldatareader["Identificacao"].ToString())));
-                    _AreaAcesso.AppendChild(_Identificacao);
-
-                }
-                _sqldatareader.Close();
-                _Con.Close();
-                return _xmlDocument.InnerXml;
-            }
-            catch (Exception ex)
-            {
-                Global.Log("Erro na void RequisitaAreasAcessos ex: " + ex);
-
-                return null;
-            }
-        }
-
-        private string RequisitaCredenciaisStatus()
-        {
-            try
-            {
-                XmlDocument _xmlDocument = new XmlDocument();
-                XmlNode _xmlNode = _xmlDocument.CreateXmlDeclaration("1.0", "UTF-8", null);
-
-                XmlNode _ClasseCredenciaisStatus = _xmlDocument.CreateElement("ClasseCredenciaisStatus");
-                _xmlDocument.AppendChild(_ClasseCredenciaisStatus);
-
-                XmlNode _CredenciaisStatus = _xmlDocument.CreateElement("CredenciaisStatus");
-                _ClasseCredenciaisStatus.AppendChild(_CredenciaisStatus);
-
-                string _strSql;
-
-
-                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
-
-
-                _strSql = "select * from CredenciaisStatus ";
-
-                SqlCommand _sqlcmd = new SqlCommand(_strSql, _Con);
-                SqlDataReader _sqlreader = _sqlcmd.ExecuteReader(CommandBehavior.Default);
-                while (_sqlreader.Read())
-                {
-
-                    XmlNode _CredencialStatus = _xmlDocument.CreateElement("CredencialStatus");
-                    _CredenciaisStatus.AppendChild(_CredencialStatus);
-
-                    XmlNode _CredencialStatusID = _xmlDocument.CreateElement("CredencialStatusID");
-                    _CredencialStatusID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["CredencialStatusID"].ToString())));
-                    _CredencialStatus.AppendChild(_CredencialStatusID);
-
-                    XmlNode _Descricao = _xmlDocument.CreateElement("Descricao");
-                    _Descricao.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Descricao"].ToString())));
-                    _CredencialStatus.AppendChild(_Descricao);
-
-                }
-
-                _sqlreader.Close();
-
-                _Con.Close();
-                string _xml = _xmlDocument.InnerXml;
-                _xmlDocument = null;
-                return _xml;
-            }
-            catch
-            {
-
-                return null;
-            }
-
-        }
-
         private void InsereImpressaoDB(int colaboradorCredencialID)
         {
             try
@@ -2975,7 +1587,6 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-
                 //DateTime _menorDataCurso = Convert.ToDateTime("01-01-2999");
                 //DateTime _menorDataContrato = Convert.ToDateTime("01-01-2999");
 
@@ -3043,8 +1654,6 @@ namespace iModSCCredenciamento.ViewModels
                 return DateTime.Now;
             }
         }
-
-
         #endregion
 
         #region Metodos Privados

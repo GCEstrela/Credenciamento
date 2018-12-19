@@ -1,16 +1,14 @@
 ﻿// ***********************************************************************
 // Project: iModSCCredenciamento
 // Crafted by: Grupo Estrela by Genetec
-// Date:  12 - 12 - 2018
+// Date:  11 - 27 - 2018
 // ***********************************************************************
-
-#region
 
 using System;
 using System.Windows;
+using System.Windows.Media;
 using Genetec.Sdk.Workspace;
-
-#endregion
+using iModSCCredenciamento.Views; 
 
 namespace iModSCCredenciamento.Modulo
 {
@@ -19,88 +17,48 @@ namespace iModSCCredenciamento.Modulo
     /// </summary>
     public partial class MenuPrincipalView
     {
-        #region  Propriedades
-
-        public static Workspace Workspace { get; private set; }
-
-        #endregion
 
         public MenuPrincipalView()
         {
             InitializeComponent();
+             
         }
 
-        #region  Metodos
-
+        public static Workspace Workspace { get; private set; }
         public void Initialize(Workspace wrk)
         {
             if (wrk == null)
-                throw new ArgumentNullException (nameof (wrk));
+                throw new ArgumentNullException(nameof(wrk));
             Workspace = wrk;
-
-            DataContext = null; //Iniciar sem conteudo na tela do frame
+           
+            DataContext = null;//Iniciar sem conteudo na tela do frame
         }
 
-        /// <summary>
-        ///     Obter view Empresa
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void OnEmpresaView_Click(object sender, RoutedEventArgs e)
-        { 
-            DataContext = new ViewSingleton().EmpresaView;
-        }
-
-        /// <summary>
-        ///     Obter view Colaborador
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void OnColaboradoresView_Click(object sender, RoutedEventArgs e)
-        { 
-            DataContext = new ViewSingleton().ColaboradorView;
-        }
-
-        /// <summary>
-        ///     Obter view Veiculos
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void OnVeiculo_Click(object sender, RoutedEventArgs e)
+        private void OpenEmpresaView_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            DataContext = new ViewSingleton().VeiculoView;
+
+            //Empresas_bt.Background = new SolidColorBrush(Color.FromArgb(255, 0, 122, 204));
+            //Colaboradores_bt.Background = Brushes.Transparent;
+            //Veiculos_bt.Background = Brushes.Transparent;
+            //Configuracoes_bt.Background = Brushes.Transparent;
+            //Relatorios_bt.Background = Brushes.Transparent;
+            //Termos_bt.Background = Brushes.Transparent;
+            //ButtonClick(sender, new RoutedEventArgs());
+            this.DataContext = new ViewSingleton().ObterInstanciaEmpresa;
         }
 
-        /// <summary>
-        ///     Obter view Configurações
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void OnConfiguracao_Click(object sender, RoutedEventArgs e)
+        private void OpenColaboradoresView_Click(object sender, RoutedEventArgs e)
         {
-            DataContext = new ViewSingleton().ConfiguracoesView;
-        }
+            //Empresas_bt.Background = new SolidColorBrush(Color.FromArgb(255, 0, 122, 204));
+            //Colaboradores_bt.Background = Brushes.Transparent;
+            //Veiculos_bt.Background = Brushes.Transparent;
+            //Configuracoes_bt.Background = Brushes.Transparent;
+            //Relatorios_bt.Background = Brushes.Transparent;
+            //Termos_bt.Background = Brushes.Transparent;
+            //ButtonClick(sender, new RoutedEventArgs());
+            // this.DataContext = new ColaboradorView();
 
-        /// <summary>
-        ///     Obter view Relatorios
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void OnRelatorio_Click(object sender, RoutedEventArgs e)
-        {
-            DataContext = new ViewSingleton().RelatoriosView;
+            this.DataContext = new ViewSingleton().ObterInstanciaColaborador;
         }
-
-        /// <summary>
-        ///     Obter view Termo
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void OnTermo_Click(object sender, RoutedEventArgs e)
-        {
-            DataContext = new ViewSingleton().TermosView;
-        }
-
-        #endregion
     }
 }

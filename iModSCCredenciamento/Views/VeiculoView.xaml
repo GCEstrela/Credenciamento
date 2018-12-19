@@ -209,9 +209,8 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                             <GridViewColumn Width="80" Header="Código"  DisplayMemberBinding="{Binding EquipamentoVeiculoID}"/>
-                            <GridViewColumn Width="150" Header="Placa/ID"  DisplayMemberBinding="{Binding Placa_Identificador}"/>
-                            <!--<GridViewColumn Width="200"  Header="Renavan" DisplayMemberBinding="{Binding Renavam}"/>-->
-                            <GridViewColumn Width="350"  Header="Veículo/Equipamento" DisplayMemberBinding="{Binding Descricao}"/>
+                            <GridViewColumn Width="150" Header="Placa/Identificador"  DisplayMemberBinding="{Binding Placa_Identificador}"/>
+                            <GridViewColumn Width="300"  Header="Veículo/Equipamento" DisplayMemberBinding="{Binding Descricao}"/>
                             <GridViewColumn Width="200"  Header="Modelo" DisplayMemberBinding="{Binding Modelo}"/>
                             <GridViewColumn Width="100"  Header="Cor" DisplayMemberBinding="{Binding Cor}"/>
                         </GridView>
@@ -239,7 +238,7 @@
                 </TabItem.Header>
                 <ScrollViewer Grid.Row="0"   VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" >
                     <StackPanel x:Name="Geral_sp" IsHitTestVisible="False" >
-                        <Grid Height="399" >
+                        <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="182"/>
                                 <RowDefinition Height="203"/>
@@ -258,7 +257,7 @@
                                     <StackPanel Margin="10,10,0,0" Width="709">
                                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,5" >
                                             <Label Content="Tipo:" Height="28" Width="73" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                            <ComboBox  x:Name="Tipo_cb" Margin="12,0,0,0" MinWidth="50" Text="{Binding SelectedItem.Tipo, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}" Height="24"  Width="227" SelectionChanged="Tipo_cb_SelectionChanged">
+                                            <ComboBox  x:Name="Tipo_cb" Margin="12,0,0,0" MinWidth="50" Text="{Binding SelectedItem.Tipo, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}" Height="24"  Width="194" SelectionChanged="Tipo_cb_SelectionChanged" TabIndex="0">
                                                 <ComboBoxItem>EQUIPAMENTO</ComboBoxItem>
                                                 <ComboBoxItem>VEÍCULO</ComboBoxItem>
                                             </ComboBox>
@@ -266,49 +265,49 @@
 
                                         <StackPanel Orientation="Horizontal"  VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0">
                                             <Label Content="Código:" Height="28" Width="73" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                            <TextBox  x:Name="Codigo_tb" Margin="12,0,0,0" CharacterCasing="Upper" Text="{Binding SelectedItem.EquipamentoVeiculoID, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"  Height="24"  Width="50"/>
+                                            <TextBox  x:Name="Codigo_tb" Margin="12,0,0,0" CharacterCasing="Upper" Text="{Binding SelectedItem.EquipamentoVeiculoID, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"  Height="24"  Width="50" TabIndex="1"/>
                                             <Label Content="Placa/Identificador:" Height="28" Width="139" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                            <TextBox  x:Name="Placa_tb" MaxLength="8" CharacterCasing="Upper" Text="{Binding SelectedItem.Placa_Identificador, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="111"/>
-                                            <Label Content="Frota:" Height="28" Width="83" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                            <TextBox  x:Name="frota_tb" MaxLength="8" CharacterCasing="Upper" Text="{Binding SelectedItem.Frota, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True" Height="24"  Width="49"/>
+                                            <TextBox  x:Name="Placa_tb" MaxLength="8" CharacterCasing="Upper" Text="{Binding SelectedItem.Placa_Identificador, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="146" TabIndex="2"/>
+                                            <Label Content="Frota:" Height="28" Width="49" Margin="0,0,0,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                                            <TextBox  x:Name="frota_tb" MaxLength="8" CharacterCasing="Upper" Text="{Binding SelectedItem.Frota, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True" Height="24"  Width="49" TabIndex="3"/>
                                             <Label Content="Patrimônio:" Height="28" Width="72" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0"  />
-                                            <TextBox  x:Name="patrimonio_tb" MaxLength="8" CharacterCasing="Upper" Text="{Binding SelectedItem.Patrimonio, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True" Height="24"  Width="99" />
+                                            <TextBox  x:Name="patrimonio_tb" MaxLength="8" CharacterCasing="Upper" Text="{Binding SelectedItem.Patrimonio, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True" Height="24"  Width="99" TabIndex="4" />
                                         </StackPanel>
 
                                         <StackPanel Orientation="Horizontal"  VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0">
                                             <Label Content="Marca:" Height="28" Width="73" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                            <TextBox  x:Name="Marca_tb" Margin="12,0,0,0" MaxLength="50" CharacterCasing="Upper" Text="{Binding SelectedItem.Marca, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="80"/>
+                                            <TextBox  x:Name="Marca_tb" Margin="12,0,0,0" MaxLength="50" CharacterCasing="Upper" Text="{Binding SelectedItem.Marca, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="80" TabIndex="5"/>
                                             <Label Content="Modelo:" Height="28" Width="109" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                            <TextBox  x:Name="Modelo_tb" MaxLength="50" CharacterCasing="Upper" Text="{Binding SelectedItem.Modelo, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="146"/>
-                                            <Label Content="Tipo:"   Height="28" Width="51" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                            <TextBox  x:Name="Tipo_tb" CharacterCasing="Upper" Margin="-7,0,0,0" MaxLength="50" Text="{Binding SelectedItem.Tipo, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True" Height="24"  Width="229"/>
+                                            <TextBox  x:Name="Modelo_tb" MaxLength="50" CharacterCasing="Upper" Text="{Binding SelectedItem.Modelo, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="146" TabIndex="6"/>
+                                            <Label Content="Tipo:"   Height="28" Width="49" Margin="0,0,0,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                                            <TextBox  x:Name="Tipo_tb" CharacterCasing="Upper" Margin="0,0,0,0" MaxLength="50" Text="{Binding SelectedItem.Tipo, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True" Height="24"  Width="229" TabIndex="7"/>
 
 
 
                                         </StackPanel>
                                         <StackPanel Orientation="Horizontal"  VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0">
                                             <Label Content="Cor:" Height="28" Width="73" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                            <TextBox  x:Name="Cor_tb" MaxLength="50"  Margin="12,0,0,0" CharacterCasing="Upper" Text="{Binding SelectedItem.Cor, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="138"/>
+                                            <TextBox  x:Name="Cor_tb" MaxLength="50"  Margin="12,0,0,0" CharacterCasing="Upper" Text="{Binding SelectedItem.Cor, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="138" TabIndex="8"/>
 
                                             <Label Content="Ano:" Height="28" Width="51" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                            <TextBox  x:Name="Ano_tb" MaxLength="4" PreviewTextInput="NumberOnly" Text="{Binding SelectedItem.Ano, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}" IsEnabled="True"  Height="24"  Width="50"/>
+                                            <TextBox  x:Name="Ano_tb" MaxLength="4" PreviewTextInput="NumberOnly" Text="{Binding SelectedItem.Ano, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}" IsEnabled="True"  Height="24"  Width="50" TabIndex="9"/>
 
 
 
                                             <Label Content="UF:" Height="28" Width="41" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
                                             <ComboBox  x:Name="Estado_cb"   MinWidth="50" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
                                                        ItemsSource="{Binding Estados}" DisplayMemberPath="UF"   SelectedValue="{Binding SelectedItem.EstadoID, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}" 
-                                                       SelectedValuePath="EstadoID"  SelectionChanged="{data:MethodBinding  CarregaColeçãoMunicipios, {Binding SelectedItem.UF, ElementName=Estado_cb}}"/>
+                                                       SelectedValuePath="EstadoID"  SelectionChanged="{data:MethodBinding  CarregaColeçãoMunicipios, {Binding SelectedItem.UF, ElementName=Estado_cb}}" TabIndex="10"/>
 
                                             <Label Content="Cidade:" Height="28" Width="49" Margin="0,0,0,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
                                             <ComboBox  x:Name="Municipio_cb"  MinWidth="50" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
                                                        ItemsSource="{Binding Municipios}" DisplayMemberPath="Nome"  SelectedValue="{Binding SelectedItem.MunicipioID, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}" 
-                                                       SelectedValuePath="MunicipioID" Width="230" />
+                                                       SelectedValuePath="MunicipioID" Width="230" TabIndex="11" />
                                         </StackPanel>
 
                                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0" >
                                             <Label Content="Descrição:" Height="28" Width="73" Margin="0,0,17,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                            <TextBox  x:Name="Descricao_tb" MaxLength="50" CharacterCasing="Upper" Text="{Binding SelectedItem.Descricao, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="340"/>
+                                            <TextBox  x:Name="Descricao_tb" MaxLength="50" CharacterCasing="Upper" Text="{Binding SelectedItem.Descricao, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="340" TabIndex="12"/>
                                         </StackPanel>
                                         <StackPanel Orientation="Horizontal"  VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0" >
                                             <Grid>
@@ -326,17 +325,17 @@
                                                 </Grid.ColumnDefinitions>
 
                                                 <Label Grid.Column="0" Grid.Row="0" Content="Série/Chassi:"    Height="28" Margin="0,6,0,7" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0"/>
-                                                <TextBox  Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" x:Name="SeriaChassi_tb"  ToolTip="Série/Chassi" MaxLength="50" CharacterCasing="Upper" Text="{Binding SelectedItem.Serie_Chassi, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True" Height="28" Margin="10,6,10,7" />
+                                                <TextBox  Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" x:Name="SeriaChassi_tb"  ToolTip="Série/Chassi" MaxLength="50" CharacterCasing="Upper" Text="{Binding SelectedItem.Serie_Chassi, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True" Height="28" Margin="10,6,0,7" TabIndex="13" />
                                                 <Label Grid.Column="0" Grid.Row="1" Content="Combustível:" Height="28" Margin="0,7,0,6" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0"/>
                                                 <!--<ComboBox x:Name="Combustivel_cb"  Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding TiposCombustiveis}" SelectedValue="{Binding SelectedItem.TipoCombustivelID, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}" DisplayMemberPath="Descricao" IsEnabled="True" Height="28" Margin="10,6"    
                                                            SelectedValuePath="TipoCombustivelID" />-->
                                                 <ComboBox x:Name="Combustivel_cb" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" MinWidth="50" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
                                                           ItemsSource="{Binding TiposCombustiveis}" DisplayMemberPath="Descricao"   SelectedValue="{Binding SelectedItem.CombustivelID, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}" 
-                                                          SelectedValuePath="TipoCombustivelID" Margin="10,5,0,6"/>
+                                                          SelectedValuePath="TipoCombustivelID" Margin="10,5,0,6" TabIndex="14"/>
 
 
                                                 <Label Grid.Column="0" Grid.Row="2" Content="Altura:" Height="28" Margin="0,6,0,7" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0"/>
-                                                <TextBox  Grid.Column="1" Grid.Row="2" x:Name="Altura_tb"  MaxLength="50" CharacterCasing="Upper" Text="{Binding SelectedItem.Altura, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True" Height="28" Margin="10,6,10,7"/>
+                                                <TextBox  Grid.Column="1" Grid.Row="2" x:Name="Altura_tb"  MaxLength="50" CharacterCasing="Upper" Text="{Binding SelectedItem.Altura, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True" Height="28" Margin="10,6,10,7" TabIndex="1"/>
                                                 <Label Grid.Column="2" Grid.Row="3" Content="Comprimento:"   Height="28" Margin="10,7,0,6" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
                                                 <TextBox Grid.Column="3" Grid.Row="3" x:Name="Comprimento_tb"  MaxLength="50"   ToolTip="Comprimento" CharacterCasing="Upper" Text="{Binding SelectedItem.Comprimento, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True" Height="28" Margin="10,6"/>
                                                 <Label Grid.Column="0" Grid.Row="3" Content="Largura:" Height="28" Margin="0,7,0,6" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0"  />
@@ -425,12 +424,13 @@
                 <ScrollViewer Grid.Row="0"   VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" >
                     <Grid >
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="137*"/>
-                            <ColumnDefinition Width="352*"/>
-                            <ColumnDefinition Width="569*"/>
+                            <ColumnDefinition Width="50*"/>
+                            <ColumnDefinition Width="113*"/>
+                            <ColumnDefinition Width="163*"/>
+                            <ColumnDefinition Width="178*"/>
                         </Grid.ColumnDefinitions>
                         <local:VeiculosSegurosView VeiculoSelecionadaIDView="{Binding SelectedItem.EquipamentoVeiculoID, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"
-                                                    Editando="{Binding IsEnabled, ElementName=ListaVeiculos_sp, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="3" Margin="0,0,0,10" />
+                                                    Editando="{Binding IsEnabled, ElementName=ListaVeiculos_sp, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="4" Margin="0,0,0,10" />
                     </Grid>
                 </ScrollViewer>
             </TabItem>

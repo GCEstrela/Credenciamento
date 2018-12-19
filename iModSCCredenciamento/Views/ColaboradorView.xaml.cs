@@ -1,4 +1,10 @@
-﻿using System;
+﻿using IMOD.CrossCutting;
+using iModSCCredenciamento.Funcoes;
+using iModSCCredenciamento.Models;
+using iModSCCredenciamento.ViewModels;
+using iModSCCredenciamento.Windows;
+using Microsoft.Win32;
+using System;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -6,13 +12,6 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
-using iModSCCredenciamento.Funcoes;
-using iModSCCredenciamento.Models;
-using iModSCCredenciamento.ViewModels;
-using iModSCCredenciamento.Windows;
-using IMOD.CrossCutting;
-using Microsoft.Win32;
-using System.Data;
 //using IMOD.Application.Service;
 
 namespace iModSCCredenciamento.Views
@@ -22,14 +21,11 @@ namespace iModSCCredenciamento.Views
     /// </summary>
     public partial class ColaboradorView : UserControl
     {
-        DataRowView CompRow;
-        int SComp;
-        long CompID;
         public ColaboradorView()
         {
             InitializeComponent();
             DataContext = new ColaboradorViewModel();
-            
+
         }
 
 
@@ -69,7 +65,7 @@ namespace iModSCCredenciamento.Views
                 }
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
@@ -93,7 +89,7 @@ namespace iModSCCredenciamento.Views
 
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
@@ -441,14 +437,20 @@ namespace iModSCCredenciamento.Views
             {
                 var c1 = ((ColaboradorViewModel)DataContext).ConsultarCpf(cpfjAtual);
                 //if (c1) Global.PopupBox("CPF já cadastrado, impossível inclusão!", 4);
-                if (c1) throw new InvalidOperationException("CPF já cadastrado, impossível inclusão!");
+                if (c1)
+                {
+                    throw new InvalidOperationException("CPF já cadastrado, impossível inclusão!");
+                }
             }
             else if (cpfAnterior.CompareTo(cpfjAtual) != 0 && !string.IsNullOrWhiteSpace(cpfAnterior))
             {
                 //Então verificar se há cnpj exisitente
                 //Verificar se existe
                 var c1 = ((ColaboradorViewModel)DataContext).ConsultarCpf(cpfjAtual);
-                if (c1) throw new InvalidOperationException("CPF já cadastrado, impossível edição!");
+                if (c1)
+                {
+                    throw new InvalidOperationException("CPF já cadastrado, impossível edição!");
+                }
                 //if (c1) Global.PopupBox("CPF já cadastrado, impossível edição!", 4);
             }
         }

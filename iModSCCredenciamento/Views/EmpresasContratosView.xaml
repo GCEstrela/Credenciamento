@@ -8,7 +8,7 @@
              xmlns:i="clr-namespace:iModSCCredenciamento.Funcoes"
              mc:Ignorable="d" Loaded="UserControl_Loaded" >
     <UserControl.Resources>
-        <!--<Style TargetType="{x:Type DatePickerTextBox}">
+        <Style TargetType="{x:Type DatePickerTextBox}">
             <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" />
             <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />
             <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst"/>
@@ -102,7 +102,7 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-        </Style>-->
+        </Style>
         <i:FormateTel x:Key="FormateTel" />
     </UserControl.Resources>
     <Grid >

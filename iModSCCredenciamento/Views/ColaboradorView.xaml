@@ -67,7 +67,8 @@
                                         </Storyboard>
                                     </VisualState>
                                 </VisualStateGroup>
-                                <VisualStateGroup Name="WatermarkStates">
+
+                                <!--<VisualStateGroup Name="WatermarkStates">
                                     <VisualStateGroup.Transitions>
                                         <VisualTransition GeneratedDuration="0" />
                                     </VisualStateGroup.Transitions>
@@ -78,7 +79,8 @@
                                             <DoubleAnimation Storyboard.TargetName="PART_Watermark" Storyboard.TargetProperty="Opacity" To="1" Duration="0" />
                                         </Storyboard>
                                     </VisualState>
-                                </VisualStateGroup>
+                                </VisualStateGroup>-->
+
                                 <VisualStateGroup Name="FocusStates">
                                     <VisualStateGroup.Transitions>
                                         <VisualTransition GeneratedDuration="0" />
@@ -90,6 +92,7 @@
                                         </Storyboard>
                                     </VisualState>
                                 </VisualStateGroup>
+
                             </VisualStateManager.VisualStateGroups>
 
 
@@ -195,7 +198,7 @@
             </Canvas>
             <StackPanel x:Name="ListaColaboradores_sp" Margin="0,0,170,0" Grid.Column="0" Grid.ColumnSpan="2">
                 <ListView x:Name="ListaColaboradores_lv" Margin="0,0,0,0" Height="180" ItemsSource="{Binding Colaboradores, Mode=TwoWay}" SelectedIndex="{Binding Path=SelectedIndex, Mode=TwoWay}"
-                           SelectedItem="{Binding Path = ColaboradorSelecionado, Mode=TwoWay}" SelectionChanged="ListaColaboradores_lv_SelectionChanged"  >
+                           SelectedItem="{Binding Path = ColaboradorSelecionado, Mode=TwoWay}" SelectionChanged="ListaColaboradores_lv_SelectionChanged"    >
                     <ListView.View>
                         <GridView FrameworkElement.FlowDirection="RightToLeft">
                             <GridViewColumn >
@@ -486,7 +489,7 @@
                                             <TextBox  x:Name="CNH_tb" MaxLength="11" PreviewTextInput="NumberOnly" Text="{Binding SelectedItem.CNH, ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Grid.Row="0" Grid.Column="1" Height="24" Margin="0,6,0,5"/>
 
                                             <Label Content="Validade:" Height="28" Width="60" Margin="0,0,0,0" HorizontalContentAlignment="Right" Grid.Row="0" Grid.Column="2"  />
-                                            <DatePicker  x:Name="CNHValidade_tb" HorizontalAlignment="Left" VerticalContentAlignment="Center" SelectedDate="{Binding SelectedItem.CNHValidade, ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}" Foreground="White" Background="{x:Null}" Grid.Row="0" Grid.Column="3" Margin="0,4,0,3" />
+                                            <DatePicker  x:Name="CNHValidade_tb" HorizontalAlignment="Left" VerticalContentAlignment="Center" SelectedDate="{Binding SelectedItem.CNHValidade, ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}" Foreground="White" Background="{x:Null}" Text="02/08/2014" Grid.Row="0" Grid.Column="3" Margin="0,4,0,3" />
 
                                             <Label Content="Órg. Emissor:" Height="28" Width="80" HorizontalContentAlignment="Right" Grid.Row="0" Grid.Column="4" />
 

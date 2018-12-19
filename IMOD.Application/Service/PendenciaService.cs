@@ -36,7 +36,7 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void Criar(Pendencia entity)
         {
-            _repositorio.Criar (entity);
+            _repositorio.Criar(entity);
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public Pendencia BuscarPelaChave(int id)
         {
-            return _repositorio.BuscarPelaChave (id);
+            return _repositorio.BuscarPelaChave(id);
         }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public ICollection<Pendencia> Listar(params object[] objects)
         {
-            return _repositorio.Listar (objects);
+            return _repositorio.Listar(objects);
         }
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void Alterar(Pendencia entity)
         {
-            _repositorio.Alterar (entity);
+            _repositorio.Alterar(entity);
         }
 
         /// <summary>
@@ -74,7 +74,12 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void Remover(Pendencia entity)
         {
-            _repositorio.Remover (entity);
+            _repositorio.Remover(entity);
+        }
+
+        public Pendencia BuscarPorEmpresa(int id)
+        {
+            return _repositorio.BuscarPorEmpresa(id);
         }
 
         #endregion

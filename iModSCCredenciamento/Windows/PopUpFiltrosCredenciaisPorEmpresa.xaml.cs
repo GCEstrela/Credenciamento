@@ -14,7 +14,6 @@ namespace iModSCCredenciamento.Windows
             InitializeComponent();
             DataContext = new RelatoriosViewModel();
             MouseDown += Window_MouseDown;
-            EmpresaRazaoSocial_cb.Focus();
         }
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)

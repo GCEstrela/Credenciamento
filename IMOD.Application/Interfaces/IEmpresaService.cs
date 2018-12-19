@@ -21,29 +21,65 @@ namespace IMOD.Application.Interfaces
         /// </summary>
         IPendenciaService Pendencia { get; }
 
+
         /// <summary>
         ///     Signatário serviços
         /// </summary>
         IEmpresaSignatarioService SignatarioService { get; }
+
 
         /// <summary>
         ///     Contrato serviços
         /// </summary>
         IEmpresaContratosService ContratoService { get; }
 
+
         /// <summary>
         ///     Anexo serviços
         /// </summary>
         IEmpresaAnexoService AnexoService { get; }
 
+
         /// <summary>
-        /// Atividade serviços
+        /// Tipo de Atividade serviços
         /// </summary>
-        IEmpresaTipoAtividadeService TipoAtividadeService { get; }
+        ITipoAtividadeService TipoAtividadeService { get; }
+
+
         /// <summary>
-        /// Crachá serviços
+        /// Tipo de Atividade (por Empresa) serviços
         /// </summary>
-        IEmpresaLayoutCrachaService CrachaService { get; }
+        IEmpresaTipoAtividadeService EmpresaTipoAtividadeService { get; }
+
+
+        /// <summary>
+        /// Empresa Layout Crachá serviços
+        /// </summary>
+        ILayoutCrachaService LayoutCrachaService { get; }
+
+
+        /// <summary>
+        /// Empresa Layout Crachá serviços
+        /// </summary>
+        IEmpresaLayoutCrachaService EmpresaLayoutCrachaService { get; }
+
+
+        /// <summary>
+        /// Area Acesso serviços
+        /// </summary>
+        IAreaAcessoService AreaAcessoService { get; }
+
+
+        /// <summary>
+        /// Empresa Area Acesso Serviços
+        /// </summary>
+        IEmpresaAreaAcessoService EmpresaAreaAcessoService { get; }
+
+
+        /// <summary>
+        /// Veículo Empresa Serviços
+        /// </summary>
+        IVeiculoEmpresaService VeiculoEmpresaService { get; }
 
 
         #endregion

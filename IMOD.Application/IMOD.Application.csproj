@@ -52,6 +52,7 @@
     <Compile Include="Interfaces\ICursoService.cs" />
     <Compile Include="Interfaces\IDadosAuxiliaresFacade.cs" />
     <Compile Include="Interfaces\IEmpresaAnexoService.cs" />
+    <Compile Include="Interfaces\IEmpresaAreaAcessoService.cs" />
     <Compile Include="Interfaces\IEmpresaContratosService.cs" />
     <Compile Include="Interfaces\IEmpresaLayoutCrachaService.cs" />
     <Compile Include="Interfaces\IEmpresaService.cs" />

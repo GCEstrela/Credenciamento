@@ -17,7 +17,7 @@ namespace IMOD.Domain.Entities
         #region  Propriedades
 
         public int PendenciaId { get; set; }
-        public int? TipoPendenciaId { get; set; }
+        public int CodPendencia { get; set; }
         public string Descricao { get; set; }
         public DateTime? DataLimite { get; set; }
         public bool Impeditivo { get; set; }

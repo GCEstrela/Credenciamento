@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Xml;
@@ -359,6 +360,10 @@ namespace iModSCCredenciamento.ViewModels
                 });
 
                 Seguros = observer;
+
+                //Hotfix auto-selecionar registro do topo da ListView
+                var topList = observer.FirstOrDefault();
+                SeguroSelecionado = topList;
 
             }
             catch (Exception ex)

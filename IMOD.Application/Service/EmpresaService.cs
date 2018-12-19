@@ -85,7 +85,7 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public Empresa BuscarEmpresaPorCnpj(string cnpj)
         {
-          return  _repositorio.BuscarEmpresaPorCnpj (cnpj);
+            return _repositorio.BuscarEmpresaPorCnpj(cnpj);
         }
 
         /// <summary>
@@ -103,31 +103,57 @@ namespace IMOD.Application.Service
         /// <summary>
         /// Pendência serviços
         /// </summary>
-        public IPendenciaService Pendencia { get {return  new PendenciaService();} }
+        public IPendenciaService Pendencia { get { return new PendenciaService(); } }
 
         /// <summary>
         ///     Signatário serviços
         /// </summary>
-        public IEmpresaSignatarioService SignatarioService { get {return new EmpresaSignatarioService();} }
+        public IEmpresaSignatarioService SignatarioService { get { return new EmpresaSignatarioService(); } }
 
         /// <summary>
         ///     Contrato serviços
         /// </summary>
-        public IEmpresaContratosService ContratoService { get {return new EmpresaContratoService();} }
+        public IEmpresaContratosService ContratoService { get { return new EmpresaContratoService(); } }
 
         /// <summary>
         ///     Anexo serviços
         /// </summary>
-        public IEmpresaAnexoService AnexoService { get {return new EmpresaAnexoService();} }
+        public IEmpresaAnexoService AnexoService { get { return new EmpresaAnexoService(); } }
 
         /// <summary>
         /// Atividade serviços
         /// </summary>
-        public IEmpresaTipoAtividadeService TipoAtividadeService { get {return new EmpresaTipoAtividadeService();} }
+        public ITipoAtividadeService TipoAtividadeService { get { return new TipoAtividadeService(); } }
+
+        /// <summary>
+        /// Atividade serviços
+        /// </summary>
+        public IEmpresaTipoAtividadeService EmpresaTipoAtividadeService { get { return new EmpresaTipoAtividadeService(); } }
 
         /// <summary>
         /// Crachá serviços
         /// </summary>
-        public IEmpresaLayoutCrachaService CrachaService { get {return new EmpresaLayoutCrachaService();} }
+        public ILayoutCrachaService LayoutCrachaService { get { return new LayoutCrachaService(); } }
+
+        /// <summary>
+        /// EmpresaLayoutCracha serviços
+        /// </summary>
+        public IEmpresaLayoutCrachaService EmpresaLayoutCrachaService { get { return new EmpresaLayoutCrachaService(); } }
+
+        /// <summary>
+        /// Area Acesso serviços
+        /// </summary>
+        public IAreaAcessoService AreaAcessoService { get { return new AreaAcessoService(); } }
+
+        /// <summary>
+        /// Empresa Area Acesso serviços
+        /// </summary>
+        public IEmpresaAreaAcessoService EmpresaAreaAcessoService { get { return new EmpresaAreaAcessoService(); } }
+
+
+        /// <summary>
+        /// Veículo Empresa Serviços
+        /// </summary>
+        public IVeiculoEmpresaService VeiculoEmpresaService { get { return new VeiculoEmpresaService(); } }
     }
 }

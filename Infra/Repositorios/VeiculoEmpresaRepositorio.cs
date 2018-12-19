@@ -55,8 +55,6 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("VeiculoID", entity.VeiculoId, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("EmpresaID", entity.EmpresaId, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("EmpresaContratoID", entity.EmpresaContratoId, false)));
-                        //cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Descricao", entity.EmpresaContratoId, false)));
-                        //cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("EmpresaNome", entity.EmpresaContratoId, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Cargo", entity.Cargo, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Matricula", entity.Matricula, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Ativo", entity.Ativo, false)));
@@ -113,14 +111,15 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText("VeiculoEmpresaView", conn))
+                using (var cmd = _dataBase.SelectText("VeiculosEmpresas", conn))
 
                 {
                     try
                     {
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("VeiculoID",DbType.Int16, objects, 0).Igual()));
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Cargo",DbType.String, objects, 1).Like()));
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Matricula", DbType.String, objects, 2).Like()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmpresaID", DbType.Int16, objects, 0).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("VeiculoID", DbType.Int16, objects, 1).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Cargo", DbType.String, objects, 2).Like()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Matricula", DbType.String, objects, 3).Like()));
 
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<VeiculoEmpresa>();
@@ -148,12 +147,10 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("VeiculoEmpresaID",entity.VeiculoEmpresaId, true)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("VeiculoEmpresaID", entity.VeiculoEmpresaId, true)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("VeiculoID", entity.VeiculoId, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("EmpresaID", entity.EmpresaId, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("EmpresaContratoID",entity.EmpresaContratoId, false)));
-                        //cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Descricao", entity.EmpresaContratoId, false)));
-                        //cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("EmpresaNome", entity.EmpresaContratoId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("EmpresaContratoID", entity.EmpresaContratoId, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Cargo", entity.Cargo, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Matricula", entity.Matricula, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Ativo", entity.Ativo, false)));
@@ -252,6 +249,36 @@ namespace IMOD.Infra.Repositorios
                 }
             }
         }
+        /// <summary>
+        ///     Listar Vínculo Empresa por empresaId
+        /// </summary>
+        /// <param name="empresaId"></param>
+        /// <returns></returns>
+        public VeiculoEmpresa BuscarPorEmpresa(int id)
+        {
+            using (var conn = _dataBase.CreateOpenConnection())
+            {
+                using (var cmd = _dataBase.SelectText("VeiculosEmpresas", conn))
+
+                {
+                    try
+                    {
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("EmpresaID", DbType.Int16, id).Igual()));
+                        var reader = cmd.ExecuteReader();
+                        var d1 = reader.MapToList<VeiculoEmpresa>();
+
+                        return d1.FirstOrDefault();
+                    }
+                    catch (Exception ex)
+                    {
+                        Utils.TraceException(ex);
+                        throw;
+                    }
+                }
+            }
+        }
+
+
         #endregion
     }
 }

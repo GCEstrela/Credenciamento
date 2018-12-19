@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Threading;
 using System.Xml;
 using System.Xml.Serialization;
@@ -400,6 +401,11 @@ namespace iModSCCredenciamento.ViewModels
                 });
 
                 ColaboradoresAnexos = observer;
+
+                //Hotfix auto-selecionar registro no topo da ListView
+                var topList = observer.FirstOrDefault();
+                ColaboradorAnexoSelecionado = topList;
+
                 SelectedIndex = 0;
 
             }

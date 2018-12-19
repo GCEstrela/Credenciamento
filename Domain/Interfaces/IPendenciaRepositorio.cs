@@ -14,5 +14,12 @@ namespace IMOD.Domain.Interfaces
 {
     public interface IPendenciaRepositorio : IRepositorioBaseAdoNet<Pendencia>
     {
+
+        /// <summary>
+        ///     Buscar por EmpresaID
+        /// </summary>
+        /// <param name="id">Primary key</param>
+        /// <returns></returns>
+        Pendencia BuscarPorEmpresa(int id);
     }
 }

@@ -12,6 +12,9 @@ using System.Xml;
 using System.Xml.Serialization;
 using AutoMapper;
 using System.Linq;
+using IMOD.Application.Service;
+using IMOD.CrossCutting;
+using IMOD.Domain.Entities;
 
 namespace iModSCCredenciamento.ViewModels
 {
@@ -268,18 +271,6 @@ namespace iModSCCredenciamento.ViewModels
             }
         }
 
-        //public string ComboEmpresaSelecionado
-        //{
-        //    get
-        //    {
-        //        return this._ComboEmpresaSelecionado;
-        //    }
-        //    set
-        //    {
-        //        this._ComboEmpresaSelecionado = value;
-        //        base.OnPropertyChanged();
-        //    }
-        //}
         #endregion
 
         #region Comandos dos Botoes
@@ -291,18 +282,14 @@ namespace iModSCCredenciamento.ViewModels
                 VeiculoSelecionadaID = Convert.ToInt32(_VeiculoID);
                 Thread CarregaColecaoVeiculosEmpresas_thr = new Thread(() => CarregaColecaoVeiculosEmpresas(Convert.ToInt32(_VeiculoID)));
                 CarregaColecaoVeiculosEmpresas_thr.Start();
-                //CarregaColecaoVeiculosEmpresas(Convert.ToInt32(_VeiculoID));
 
             }
             catch (Exception ex)
             {
-
+                Utils.TraceException(ex);
             }
 
         }
-
-       
-
         public void OnEditarCommand()
         {
             try
@@ -311,15 +298,13 @@ namespace iModSCCredenciamento.ViewModels
                 _VeiculoEmpresaTemp = VeiculoEmpresaSelecionado.CriaCopia(VeiculoEmpresaSelecionado);
                 _selectedIndexTemp = SelectedIndex;
 
-                //CarregaColecaoContratos(_VeiculoEmpresaTemp.EmpresaID);
-
                 HabilitaEdicao = true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Utils.TraceException(ex);
             }
         }
-
         public void OnCancelarEdicaoCommand()
         {
             try
@@ -330,58 +315,28 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-
+                Utils.TraceException(ex);
             }
         }
-
         public void OnSalvarEdicaoCommand()
         {
             try
             {
                 HabilitaEdicao = false;
-                //System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(ClasseVeiculosEmpresas));
 
-                //ObservableCollection<ClasseVeiculosEmpresas.VeiculoEmpresa> _VeiculoEmpresaTemp = new ObservableCollection<ClasseVeiculosEmpresas.VeiculoEmpresa>();
-                //ClasseVeiculosEmpresas _ClasseVeiculoerEmpresasTemp = new ClasseVeiculosEmpresas();
-                //_VeiculoEmpresaTemp.Add(VeiculoEmpresaSelecionado);
-                //_ClasseVeiculoerEmpresasTemp.VeiculosEmpresas = _VeiculoEmpresaTemp;
-
-                //string xmlString;
-
-                //using (StringWriterWithEncoding sw = new StringWriterWithEncoding(System.Text.Encoding.UTF8))
-                //{
-
-                //    using (XmlTextWriter xw = new XmlTextWriter(sw))
-                //    {
-                //        xw.Formatting = Formatting.Indented;
-                //        serializer.Serialize(xw, _ClasseVeiculoerEmpresasTemp);
-                //        xmlString = sw.ToString();
-                //    }
-
-                //}
-
-                //InsereVeiculoEmpresaBD(xmlString);
-
-
-                var entity = Mapper.Map<IMOD.Domain.Entities.VeiculoEmpresa>(VeiculoEmpresaSelecionado);
-                var repositorio = new IMOD.Application.Service.VeiculoEmpresaService();
+                var entity = Mapper.Map<VeiculoEmpresa>(VeiculoEmpresaSelecionado);
+                var repositorio = new VeiculoEmpresaService();
 
                 repositorio.Alterar(entity);
                 var id = entity.VeiculoEmpresaId;
 
 
-                //_ClasseEmpresasSegurosTemp = null;
-
-                //_SegurosTemp.Clear();
-                //_seguroTemp = null;
-
-
             }
             catch (Exception ex)
             {
+                Utils.TraceException(ex);
             }
         }
-
         public void OnAdicionarCommand()
         {
             try
@@ -393,13 +348,9 @@ namespace iModSCCredenciamento.ViewModels
 
                 _selectedIndexTemp = SelectedIndex;
                 VeiculosEmpresas.Clear();
-                //ClasseEmpresasSeguros.EmpresaSeguro _seguro = new ClasseEmpresasSeguros.EmpresaSeguro();
-                //_seguro.EmpresaID = EmpresaSelecionadaID;
-                //Seguros.Add(_seguro);
+
                 _VeiculoEmpresaTemp = new ClasseVeiculosEmpresas.VeiculoEmpresa();
                 _VeiculoEmpresaTemp.VeiculoID = VeiculoSelecionadaID;
-                _VeiculoEmpresaTemp.Matricula = string.Format("{0:#,##0}", Global.GerarID()) + "-" + String.Format("{0:yy}", DateTime.Now);
-                _VeiculoEmpresaTemp.Ativo = true;
                 VeiculosEmpresas.Add(_VeiculoEmpresaTemp);
 
                 SelectedIndex = 0;
@@ -407,45 +358,18 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-
+                Utils.TraceException(ex);
             }
 
         }
-        //public void OnSelecionaEmpresaCommand(int _empresaID)
-        //{
-        //    CarregaColecaoContratos(_empresaID);
-        //}
         public void OnSalvarAdicaoCommand()
         {
             try
             {
                 HabilitaEdicao = false;
-                //System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(ClasseVeiculosEmpresas));
 
-                //ObservableCollection<ClasseVeiculosEmpresas.VeiculoEmpresa> _VeiculoEmpresaPro = new ObservableCollection<ClasseVeiculosEmpresas.VeiculoEmpresa>();
-                //ClasseVeiculosEmpresas _ClasseVeiculoerEmpresasPro = new ClasseVeiculosEmpresas();
-                //_VeiculoEmpresaPro.Add(VeiculoEmpresaSelecionado);
-                //_ClasseVeiculoerEmpresasPro.VeiculosEmpresas = _VeiculoEmpresaPro;
-
-                //string xmlString;
-
-                //using (StringWriterWithEncoding sw = new StringWriterWithEncoding(System.Text.Encoding.UTF8))
-                //{
-
-                //    using (XmlTextWriter xw = new XmlTextWriter(sw))
-                //    {
-                //        xw.Formatting = Formatting.Indented;
-                //        serializer.Serialize(xw, _ClasseVeiculoerEmpresasPro);
-                //        xmlString = sw.ToString();
-                //    }
-
-                //}
-
-                //InsereVeiculoEmpresaBD(xmlString);VeiculoId = 0
-
-
-                var entity = Mapper.Map<IMOD.Domain.Entities.VeiculoEmpresa>(VeiculoEmpresaSelecionado);
-                var repositorio = new IMOD.Application.Service.VeiculoEmpresaService();
+                var entity = Mapper.Map<VeiculoEmpresa>(VeiculoEmpresaSelecionado);
+                var repositorio = new VeiculoEmpresaService();
 
                 repositorio.Criar(entity);
                 var id = entity.VeiculoEmpresaId;
@@ -453,23 +377,17 @@ namespace iModSCCredenciamento.ViewModels
 
                 Thread CarregaColecaoVeiculosEmpresas_thr = new Thread(() => CarregaColecaoVeiculosEmpresas(id));
                 CarregaColecaoVeiculosEmpresas_thr.Start();
-                _VeiculosEmpresasTemp.Add(VeiculoEmpresaSelecionado);
-                VeiculosEmpresas = null;
-                VeiculosEmpresas = new ObservableCollection<ClasseVeiculosEmpresas.VeiculoEmpresa>(_VeiculosEmpresasTemp);
-                SelectedIndex = _selectedIndexTemp;
-                _VeiculosEmpresasTemp.Clear();
 
-
-
-                //_ClasseEmpresasSegurosTemp = null;
-
-                //_SegurosTemp.Clear();
-                //_seguroTemp = null;
-
+                //_VeiculosEmpresasTemp.Add(VeiculoEmpresaSelecionado);
+                //VeiculosEmpresas = null;
+                //VeiculosEmpresas = new ObservableCollection<ClasseVeiculosEmpresas.VeiculoEmpresa>(_VeiculosEmpresasTemp);
+                //SelectedIndex = _selectedIndexTemp;
+                //_VeiculosEmpresasTemp.Clear();
 
             }
             catch (Exception ex)
             {
+                Utils.TraceException(ex);
             }
         }
 
@@ -485,6 +403,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
+                Utils.TraceException(ex);
             }
         }
 
@@ -492,23 +411,13 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                //if (MessageBox.Show("Tem certeza que deseja excluir este vínculo?", "Excluir Vínculo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                //{
-                //    if (MessageBox.Show("Você perderá todos os dados deste vínculo, inclusive histórico. Confirma exclusão?", "Excluir Vínculo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                //    {
-                //        //ExcluiSeguroBD(VeiculoEmpresaSelecionado.VeiculoID);
-
-                //        ExcluiVeiculoEmpresaBD(VeiculoEmpresaSelecionado.VeiculoEmpresaID);
-                //        VeiculosEmpresas.Remove(VeiculoEmpresaSelecionado);
-                //    }
-                //}
                 if (Global.PopupBox("Tem certeza que deseja excluir?", 2))
                 {
                     if (Global.PopupBox("Você perderá todos os dados, inclusive histórico. Confirma exclusão?", 2))
                     {
 
-                        var entity = Mapper.Map<IMOD.Domain.Entities.VeiculoEmpresa>(VeiculoEmpresaSelecionado);
-                        var repositorio = new IMOD.Application.Service.VeiculoEmpresaService();
+                        var entity = Mapper.Map<VeiculoEmpresa>(VeiculoEmpresaSelecionado);
+                        var repositorio = new VeiculoEmpresaService();
 
                         repositorio.Remover(entity);
                         VeiculosEmpresas.Remove(VeiculoEmpresaSelecionado);
@@ -519,6 +428,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
+                Utils.TraceException(ex);
             }
 
         }
@@ -533,6 +443,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
+                Utils.TraceException(ex);
             }
         }
 
@@ -552,7 +463,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-
+                Utils.TraceException(ex);
             }
 
         }
@@ -560,28 +471,15 @@ namespace iModSCCredenciamento.ViewModels
         #endregion
 
         #region Carregamento das Colecoes
-        private void CarregaColecaoVeiculosEmpresas(int veiculoID = 0, string empresaNome = "", string cargo = "", string matricula = "", int ativo = 2)
+        private void CarregaColecaoVeiculosEmpresas(int veiculoID = 0, string empresaNome = null, string cargo = null, string matricula = null, int ativo = 0)
         {
             try
             {
-                //string _xml = RequisitaVeiculosEmpresas(_veiculoID, _empresaNome, _cargo, _matricula, _ativo);
+                var service = new VeiculoEmpresaService();
 
-                //XmlSerializer deserializer = new XmlSerializer(typeof(ClasseVeiculosEmpresas));
-
-                //XmlDocument xmldocument = new XmlDocument();
-                //xmldocument.LoadXml(_xml);
-
-                //TextReader reader = new StringReader(_xml);
-                //ClasseVeiculosEmpresas classeVeiculosEmpresas = new ClasseVeiculosEmpresas();
-                //classeVeiculosEmpresas = (ClasseVeiculosEmpresas)deserializer.Deserialize(reader);
-                //VeiculosEmpresas = new ObservableCollection<ClasseVeiculosEmpresas.VeiculoEmpresa>();
-                //VeiculosEmpresas = classeVeiculosEmpresas.VeiculosEmpresas;
-                //SelectedIndex = -1;
-
-
-                var service = new IMOD.Application.Service.VeiculoEmpresaService();
                 if (!string.IsNullOrWhiteSpace(cargo)) cargo = $"%{cargo}%";
                 if (!string.IsNullOrWhiteSpace(matricula)) matricula = $"%{matricula}%";
+
                 var list1 = service.Listar(veiculoID, cargo, matricula);
 
                 var list2 = Mapper.Map<List<ClasseVeiculosEmpresas.VeiculoEmpresa>>(list1);
@@ -592,13 +490,17 @@ namespace iModSCCredenciamento.ViewModels
                     observer.Add(n);
                 });
 
-                this.VeiculosEmpresas = observer;
+                VeiculosEmpresas = observer;
+
+                //Hotfix auto-selecionar registro do topo da ListView
+                var topList = observer.FirstOrDefault();
+                VeiculoEmpresaSelecionado = topList;
 
 
             }
             catch (Exception ex)
             {
-                //Global.Log("Erro void CarregaColecaoEmpresas ex: " + ex.Message);
+                Utils.TraceException(ex);
             }
         }
 
@@ -619,7 +521,7 @@ namespace iModSCCredenciamento.ViewModels
                 //Empresas = new ObservableCollection<ClasseEmpresas.Empresa>();
                 //Empresas = classeEmpresas.Empresas;
 
-                var service = new IMOD.Application.Service.EmpresaService();
+                var service = new EmpresaService();
                 if (!string.IsNullOrWhiteSpace(_nome)) _nome = $"%{_nome}%";
                 if (!string.IsNullOrWhiteSpace(_apelido)) _apelido = $"%{_apelido}%";
                 if (!string.IsNullOrWhiteSpace(_cNPJ)) _cNPJ = $"%{_cNPJ}%";
@@ -640,7 +542,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                //Global.Log("Erro void CarregaColecaoEmpresas ex: " + ex.Message);
+                Utils.TraceException(ex);
             }
         }
 

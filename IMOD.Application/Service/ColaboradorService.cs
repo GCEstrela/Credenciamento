@@ -6,12 +6,12 @@
 
 #region
 
-using System.Collections.Generic;
 using IMOD.Application.Interfaces;
 using IMOD.Domain.Entities;
 using IMOD.Domain.EntitiesCustom;
 using IMOD.Domain.Interfaces;
 using IMOD.Infra.Repositorios;
+using System.Collections.Generic;
 
 #endregion
 
@@ -22,9 +22,24 @@ namespace IMOD.Application.Service
         private readonly IColaboradorRepositorio _repositorio = new ColaboradorRepositorio();
         private readonly IColaboradorCredencialRepositorio _repositorioCredencial = new ColaboradorCredencialRepositorio();
 
+        /// <summary>
+        /// Credencial X Colaborador Service
+        /// </summary>
         public IColaboradorCredencialService Credencial => new ColaboradorCredencialService();
+
+        /// <summary>
+        /// Empresa X Colaborador Service
+        /// </summary>
         public IColaboradorEmpresaService Empresa { get { return new ColaboradorEmpresaService(); } }
+
+        /// <summary>
+        ///Curso X Colaborador Service
+        /// </summary>
         public IColaboradorCursoService Curso { get { return new ColaboradorCursosService(); } }
+
+        /// <summary>
+        /// Anexo X Colaborador Serice
+        /// </summary>
         public IColaboradorAnexoService Anexo { get { return new ColaboradorAnexoService(); } }
 
         #region  Metodos

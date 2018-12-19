@@ -5,11 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d" HorizontalContentAlignment="Center">
     <UserControl.Resources>
-        <Style TargetType="TextBlock">
-            <Setter Property="FontSize" Value="14"></Setter>
-        </Style>
-        
-        <Style TargetType="Button" x:Key="menu">
+        <Style TargetType="Button">
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="Foreground" Value="White" />
             <Setter Property="FontFamily" Value="./#Segoe UI" />
@@ -43,100 +39,101 @@
                 </Setter.Value>
             </Setter>
         </Style>
-
     </UserControl.Resources>
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1100*"></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="10*"></RowDefinition>
-            <RowDefinition Height="900*"></RowDefinition>
-        </Grid.RowDefinitions>
-        
+       <DockPanel>
 
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Height="100" Grid.Column="0" Grid.Row="0">
+            <!--#region StackPanel -->
+            <StackPanel Orientation="Horizontal" Height="60" VerticalAlignment="Top" HorizontalAlignment="Center" DockPanel.Dock="Top">
+
                 <!--#region Empresa -->
-                <Button x:Name="EmpresasBt" Width="110" Click="OnEmpresaView_Click" Margin="10" Style="{StaticResource menu}">
-                    <StackPanel Orientation="Vertical">
-                        <Image Source="../Resources/Companhia.png" Width="30" Height="40" />
-                        <TextBlock Margin="0,15,0,0">Empresas</TextBlock>
-                    </StackPanel>
+                <Button x:Name="EmpresasBt" Height="60" VerticalAlignment="Top" Width="115"
+                        Click="OpenEmpresaView_Click">
+
+                    <DockPanel>
+                        <Label HorizontalContentAlignment="Center"
+                               DockPanel.Dock="Bottom"
+                               Content="Empresas" Foreground="White" />
+                        <Image Source="/iModSCCredenciamento;component/Resources/Companhia.png" Height="24" Width="24" />
+                    </DockPanel>
                 </Button>
                 <!--#endregion -->
 
                 <!--#region Colaboradores -->
-            <Button x:Name="ColaboradoresBt" Click="OnColaboradoresView_Click" Width="110" Margin="10" Style="{StaticResource menu}">
-                    <StackPanel Orientation="Vertical">
-                        <Image Source="../Resources/Colaboradores.png" Width="30" Height="40" />
-                        <TextBlock Margin="0,15,0,0">Colaboradores</TextBlock>
-                    </StackPanel>
+                <Button x:Name="ColaboradoresBt" HorizontalAlignment="Left" Height="60" VerticalAlignment="Top"
+                        Width="115" Click="OpenColaboradoresView_Click">
+
+                    <DockPanel>
+                        <Label HorizontalContentAlignment="Center"
+                               DockPanel.Dock="Bottom"
+                               Content="Colaboradores" Foreground="White" />
+                        <Image Source="/iModSCCredenciamento;component/Resources/Colaboradores.png" Height="24"
+                               Width="24" />
+                    </DockPanel>
                 </Button>
                 <!--#endregion -->
 
                 <!--#region Veiculos -->
-            <Button x:Name="VeiculosBt" Width="110" Margin="10" Click="OnVeiculo_Click" Style="{StaticResource menu}">
-                    <StackPanel Orientation="Vertical">
-                        <Image Source="../Resources/Veiculo.png" Width="30" Height="40" />
-                        <TextBlock Margin="0,15,0,0">Veículos</TextBlock>
-                    </StackPanel> 
+                <Button x:Name="VeiculosBt" HorizontalAlignment="Left" Height="60" VerticalAlignment="Top" Width="115">
+
+                    <DockPanel>
+                        <Label HorizontalContentAlignment="Center"
+                               DockPanel.Dock="Bottom"
+                               Content="Veículos" Foreground="White" />
+                        <Image Source="/iModSCCredenciamento;component/Resources/Veiculo.png" Height="24" Width="24" />
+                    </DockPanel>
                 </Button>
                 <!--#endregion -->
 
                 <!--#region Configurações -->
-            <Button x:Name="ConfiguracoesBt" Width="110" Margin="10" Click="OnConfiguracao_Click" Style="{StaticResource menu}">
-                    <StackPanel>
-                        <Image Source="../Resources/Engrenagem.ico" Width="26" Height="40" />
-                        <TextBlock Margin="0,15,0,0">Configurações</TextBlock>
-                    </StackPanel> 
+                <Button x:Name="ConfiguracoesBt" HorizontalAlignment="Left" Height="60" VerticalAlignment="Top"
+                        Width="115">
+
+                    <DockPanel>
+                        <Label HorizontalContentAlignment="Center"
+                               DockPanel.Dock="Bottom"
+                               Content="Configurações" Foreground="White" />
+                        <Image Source="/iModSCCredenciamento;component/Resources/Engrenagem.ico" Height="24" Width="24" />
+                    </DockPanel>
                 </Button>
                 <!--#endregion -->
 
                 <!--#region Relatorio -->
-            <Button x:Name="RelatoriosBt" Width="110" Margin="10" Click="OnRelatorio_Click" Style="{StaticResource menu}">
-                    <StackPanel>
-                        <Image Source="../Resources/Relatorio.png" Width="26" Height="40" />
-                        <TextBlock Margin="0,15,0,0">Relatórios</TextBlock>
-                    </StackPanel> 
+                <Button x:Name="RelatoriosBt" HorizontalAlignment="Left" Height="60" VerticalAlignment="Top"
+                        Width="115">
+                    <DockPanel>
+                        <Label HorizontalContentAlignment="Center"
+                               DockPanel.Dock="Bottom"
+                               Content="Relatórios" Foreground="White" />
+                        <Image Source="/iModSCCredenciamento;component/Resources/Relatorio.png" Height="24" Width="24" />
+                    </DockPanel>
                 </Button>
                 <!--#endregion -->
 
                 <!--#region Termos -->
-            <Button x:Name="TermosBt" Width="110" Margin="10" Click="OnTermo_Click" Style="{StaticResource menu}">
-                    <StackPanel>
-                        <Image Source="../Resources/Termo.png" Width="26" Height="40" />
-                        <TextBlock Margin="0,15,0,0">Termos</TextBlock>
-                    </StackPanel> 
+                <Button x:Name="TermosBt" HorizontalAlignment="Left" Height="60" VerticalAlignment="Top" Width="115">
+
+                    <DockPanel>
+                        <Label HorizontalContentAlignment="Center"
+                               DockPanel.Dock="Bottom"
+                               Content="Termos" Foreground="White" />
+                        <Image Source="/iModSCCredenciamento;component/Resources/Termo.png" Height="24" Width="24" />
+                    </DockPanel>
                 </Button>
                 <!--#endregion -->
 
 
             </StackPanel>
-        
             <!--#endregion -->
 
 
-        <Border BorderThickness="0,0,0,1" Grid.Column="0" Grid.Row="1">
-            <Border.BorderBrush>
-                <RadialGradientBrush Center="0.6,1">
-                    <GradientStop Color="Black"/>
-                    <GradientStop Color="Black" Offset="1"/>
-                    <GradientStop Color="#FF007ACC" Offset="0.5"/>
-                </RadialGradientBrush>
-            </Border.BorderBrush>
-        </Border>
+            <!--#region Conteudo frame -->
 
-
-        <!--#region Conteudo frame -->
-
-              <ContentControl Content="{Binding}" DockPanel.Dock="Bottom" Grid.Column="0" Grid.Row="2">
-               
-              </ContentControl>
+            <ContentControl Content="{Binding}" />
 
             <!--#endregion -->
 
-
-         
+           
+        </DockPanel> 
     </Grid>
 </UserControl>

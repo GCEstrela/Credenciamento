@@ -5,18 +5,30 @@ namespace IMOD.Application.Interfaces
     public interface IVeiculoService : IVeiculoRepositorio
     {
         /// <summary>
-        /// Seguros
+        /// Serviços de credenciais
+        /// </summary>
+        IVeiculoCredencialService Credencial { get; }
+
+        /// <summary>
+        /// Serviços de Empresas
+        /// Author: Mihai
+        /// </summary>
+        IVeiculoEmpresaService Empresa { get; }
+
+        /// <summary>
+        /// Serviços de Seguros
         /// </summary>
         IVeiculoSeguroService Seguro { get; }
 
         /// <summary>
-        /// Anexos
+        /// Serviços de Anexos
         /// </summary>
         IVeiculoAnexoService Anexo { get; }
 
         /// <summary>
-        /// Veiculos
+        /// Serviços de Veiculos
+        /// Author: Valnei
         /// </summary>
-        IVeiculoempresaService Veiculo { get; }
+        IVeiculoEmpresaService Veiculo { get; }
     }
 }

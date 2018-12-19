@@ -603,20 +603,8 @@ namespace iModSCCredenciamento.ViewModels
                 AtualizaPendencias(_novoEmpresaID);
                 EmpresaSelecionada.EmpresaID = _novoEmpresaID;
 
-                var list1 = _service.Listar();
-                var list2 = Mapper.Map<List<ClasseEmpresas.Empresa>>(list1.OrderByDescending(a => a.EmpresaId));
-
-                var observer = new ObservableCollection<ClasseEmpresas.Empresa>();
-                list2.ForEach(n =>
-                {
-                    observer.Add(n);
-                });
-
-                Empresas = observer;
-
-
-                //Thread CarregaColecaoEmpresasSignatarios_thr = new Thread(() => CarregaColecaoEmpresas());
-                //CarregaColecaoEmpresasSignatarios_thr.Start();
+                Thread CarregaColecaoEmpresasSignatarios_thr = new Thread(() => CarregaColecaoEmpresas());
+                CarregaColecaoEmpresasSignatarios_thr.Start();
 
             }
             catch (Exception ex)
@@ -725,7 +713,7 @@ namespace iModSCCredenciamento.ViewModels
 
                 var entity = _EmpresaTipoAtividade;
                 var entityConv = Mapper.Map<EmpresaTipoAtividade>(entity);
-                _service.TipoAtividadeService.Criar(entityConv);
+                _service.EmpresaTipoAtividadeService.Criar(entityConv);
                 CarregaColecaoEmpresasTiposAtividades(_EmpresaTipoAtividade.EmpresaID);
 
             }
@@ -743,7 +731,7 @@ namespace iModSCCredenciamento.ViewModels
                 {
                     var entity = EmpresaTipoAtividadeSelecionada;
                     var entityConv = Mapper.Map<EmpresaTipoAtividade>(entity);
-                    _service.TipoAtividadeService.Remover(entityConv);
+                    _service.EmpresaTipoAtividadeService.Remover(entityConv);
 
                     EmpresasTiposAtividades.Remove(EmpresaTipoAtividadeSelecionada);
 
@@ -811,7 +799,7 @@ namespace iModSCCredenciamento.ViewModels
 
                 var entity = _EmpresaLayoutCracha;
                 var entityConv = Mapper.Map<EmpresaLayoutCracha>(entity);
-                _service.CrachaService.Criar(entityConv);
+                _service.EmpresaLayoutCrachaService.Criar(entityConv);
 
                 CarregaColecaoEmpresasLayoutsCrachas(_EmpresaLayoutCracha.EmpresaID);
             }
@@ -830,7 +818,7 @@ namespace iModSCCredenciamento.ViewModels
                 {
                     var entity = EmpresaLayoutCrachaSelecionada;
                     var entityConv = Mapper.Map<EmpresaLayoutCracha>(entity);
-                    _service.CrachaService.Remover(entityConv);
+                    _service.EmpresaLayoutCrachaService.Remover(entityConv);
                     EmpresasLayoutsCrachas.Remove(EmpresaLayoutCrachaSelecionada);
 
                     CarregaColecaoEmpresasTiposAtividades(EmpresaSelecionada.EmpresaID);
@@ -916,7 +904,7 @@ namespace iModSCCredenciamento.ViewModels
 
         //}
 
-       // Global g = new Global();
+        // Global g = new Global();
 
         public void ValidarAdicao(ClasseEmpresas.Empresa entity)
         {
@@ -1009,7 +997,7 @@ namespace iModSCCredenciamento.ViewModels
                 if (!string.IsNullOrWhiteSpace(nome)) nome = $"%{nome}%";
                 if (!string.IsNullOrWhiteSpace(apelido)) apelido = $"%{apelido}%";
                 if (!string.IsNullOrWhiteSpace(cnpj)) cnpj = $"%{cnpj}%";
-                
+
                 var list1 = _service.Listar(idEmpresa, nome, apelido, cnpj);
                 var list2 = Mapper.Map<List<ClasseEmpresas.Empresa>>(list1.OrderByDescending(a => a.EmpresaId));
 
@@ -1020,6 +1008,11 @@ namespace iModSCCredenciamento.ViewModels
                 });
 
                 Empresas = observer;
+
+                //Hotfix auto-selecionar registro do topo da ListView
+                var topList = observer.FirstOrDefault();
+                EmpresaSelecionada = topList;
+
                 SelectedIndex = 0;
             }
 
@@ -1058,7 +1051,7 @@ namespace iModSCCredenciamento.ViewModels
             {
                 var service = new MunicipioService();
                 if (!string.IsNullOrWhiteSpace(_EstadoUF)) _EstadoUF = $"%{_EstadoUF}%";
-                var list1 = service.Listar(null,_EstadoUF);
+                var list1 = service.Listar(null, _EstadoUF);
 
                 var list2 = Mapper.Map<List<ClasseMunicipios.Municipio>>(list1);
                 var observer = new ObservableCollection<ClasseMunicipios.Municipio>();

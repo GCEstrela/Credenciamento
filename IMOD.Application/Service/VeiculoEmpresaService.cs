@@ -6,18 +6,18 @@
 
 #region
 
-using System.Collections.Generic;
 using IMOD.Application.Interfaces;
 using IMOD.Domain.Entities;
 using IMOD.Domain.EntitiesCustom;
 using IMOD.Domain.Interfaces;
 using IMOD.Infra.Repositorios;
+using System.Collections.Generic;
 
 #endregion
 
 namespace IMOD.Application.Service
 {
-    public class VeiculoEmpresaService : IVeiculoempresaService
+    public class VeiculoEmpresaService : IVeiculoEmpresaService
     {
         #region Variaveis Globais
 
@@ -37,7 +37,7 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void Criar(VeiculoEmpresa entity)
         {
-            _repositorio.Criar (entity);
+            _repositorio.Criar(entity);
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public VeiculoEmpresa BuscarPelaChave(int id)
         {
-            return _repositorio.BuscarPelaChave (id);
+            return _repositorio.BuscarPelaChave(id);
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public ICollection<VeiculoEmpresa> Listar(params object[] objects)
         {
-            return _repositorio.Listar (objects);
+            return _repositorio.Listar(objects);
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void Alterar(VeiculoEmpresa entity)
         {
-            _repositorio.Alterar (entity);
+            _repositorio.Alterar(entity);
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void Remover(VeiculoEmpresa entity)
         {
-            _repositorio.Remover (entity);
+            _repositorio.Remover(entity);
         }
 
         public ICollection<VeiculoEmpresa> ListarEmpresas(params object[] objects)
@@ -87,6 +87,11 @@ namespace IMOD.Application.Service
         {
             return _repositorio.ListarContratoView(o);
         }
+        public VeiculoEmpresa BuscarPorEmpresa(int empresaId)
+        {
+            return _repositorio.BuscarPorEmpresa(empresaId);
+        }
+
         #endregion
     }
 }

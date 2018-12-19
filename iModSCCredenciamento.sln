@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.136
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iModSCCredenciamento", "iModSCCredenciamento\iModSCCredenciamento.csproj", "{974F5875-4CFB-4926-8273-D1BF96AC8242}"
 EndProject
@@ -26,8 +26,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2 - Application", "2 - Application", "{28FC2D44-1265-4462-9A79-2EEB9560E4AB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IMOD.Application", "IMOD.Application\IMOD.Application.csproj", "{B7BD6687-CB39-45A0-9B21-67125DA69A2E}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - Presentation Credenciamento Desktop", "1 - Presentation Credenciamento Desktop", "{16868AC9-7D22-4B96-AF21-880AAB51E2E7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

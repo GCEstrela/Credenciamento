@@ -25,6 +25,7 @@ namespace iModSCCredenciamento.Views
             InitializeComponent();
             DataContext = new VeiculoViewModel();
         }
+
         #region Comando dos Botoes
         private void SelecionarFoto_bt_Click(object sender, RoutedEventArgs e)
         {
@@ -269,9 +270,7 @@ namespace iModSCCredenciamento.Views
                 //AbrirArquivoAnexo_bt.IsHitTestVisible = true;
             }
         }
-
         object _removed;
-
         private void TabGeral_tc_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             try
@@ -294,18 +293,10 @@ namespace iModSCCredenciamento.Views
 
             }
         }
-
-        private void BuscarArquivoAnexo_bt_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void Tipo_cb_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
         }
-
-
         private void IncluirServ_bt_Click(object sender, RoutedEventArgs e)
         {
             if (tipoServico_cb.Text != "" & tipoServico_cb.Text != "N/D")
@@ -315,13 +306,10 @@ namespace iModSCCredenciamento.Views
 
             }
         }
-
         private void ExcluirServ_bt_Click(object sender, RoutedEventArgs e)
         {
             ((VeiculoViewModel)DataContext).OnExcluirEquipamentoVeiculoTipoServicoCommand();
-
             tipoServico_cb.Text = "";
-
         }
 
     }

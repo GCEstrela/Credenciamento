@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Threading;
 using System.Xml;
 using AutoMapper;
@@ -358,6 +359,10 @@ namespace iModSCCredenciamento.ViewModels
                 });
 
                 Anexos = observer;
+
+                //Hotfix auto-selecionar registro no topo da ListView
+                var topList = observer.FirstOrDefault();
+                AnexoSelecionado = topList;
 
             }
             catch (Exception ex)

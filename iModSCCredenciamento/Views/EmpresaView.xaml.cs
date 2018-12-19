@@ -1,14 +1,14 @@
-﻿using System;
+﻿using IMOD.CrossCutting;
+using iModSCCredenciamento.Funcoes;
+using iModSCCredenciamento.Helpers;
+using iModSCCredenciamento.Models;
+using iModSCCredenciamento.ViewModels;
+using System;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
-using iModSCCredenciamento.Funcoes;
-using iModSCCredenciamento.Helpers;
-using iModSCCredenciamento.Models;
-using iModSCCredenciamento.ViewModels;
-using IMOD.CrossCutting;
 
 namespace iModSCCredenciamento.Views
 {
@@ -32,8 +32,10 @@ namespace iModSCCredenciamento.Views
             {
                 var filtro = "Images (*.BMP;*.JPG;*.GIF,*.PNG,*.TIFF)|*.BMP;*.JPG;*.GIF;*.PNG;*.TIFF|" + "All files (*.*)|*.*";
                 var arq = WpfHelp.UpLoadArquivoDialog(filtro);
-                if (arq == null) return;
-                ((ClasseEmpresas.Empresa)ListaEmpresas_lv.SelectedItem).Logo = arq.FormatoBase64;
+                if (arq == null)
+                {
+                    return;
+                } ((ClasseEmpresas.Empresa)ListaEmpresas_lv.SelectedItem).Logo = arq.FormatoBase64;
                 BindingExpression be = BindingOperations.GetBindingExpression(Logo_im, Image.SourceProperty);
                 be.UpdateTarget();
             }
@@ -204,14 +206,20 @@ namespace iModSCCredenciamento.Views
             if (cnpjAnterior == "00.000.000/0000-00") //Então a operação é de adição, logo verificar se ha CNPJ apenas no ação de salvar...
             {
                 var c1 = ((EmpresaViewModel)DataContext).ConsultaCNPJ(cnpjAtual);
-                if (c1) throw new InvalidOperationException("CNPJ já cadastrado, impossível inclusão!");
+                if (c1)
+                {
+                    throw new InvalidOperationException("CNPJ já cadastrado, impossível inclusão!");
+                }
             }
             else if (cnpjAnterior.CompareTo(cnpjAtual) != 0 && !string.IsNullOrWhiteSpace(cnpjAnterior))
             {
                 //Então verificar se há cnpj exisitente
                 //Verificar se existe
                 var c1 = ((EmpresaViewModel)DataContext).ConsultaCNPJ(cnpjAtual);
-                if (c1) throw new InvalidOperationException("CNPJ já cadastrado, impossível Edição!");
+                if (c1)
+                {
+                    throw new InvalidOperationException("CNPJ já cadastrado, impossível Edição!");
+                }
             }
         }
 

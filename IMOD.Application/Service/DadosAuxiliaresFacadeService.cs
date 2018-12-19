@@ -97,14 +97,16 @@ namespace IMOD.Application.Service
         {
             get { return new TipoAcessoService(); }
         }
+
         /// <summary>
-        /// CRUD Completo TipoStatus
+        /// CRUD Completo Status
         /// </summary>
         /// <returns></returns>
-        public IStatusService TipoStatusService
+        public IStatusService StatusService
         {
             get { return new StatusService(); }
         }
+
         /// <summary>
         /// CRUD Completo Curso
         /// </summary>
@@ -122,7 +124,7 @@ namespace IMOD.Application.Service
             get { return new AreaAcessoService(); }
         }
 
-       
+
         /// <summary>
         /// CRUD Completo Credencial Motivo 
         /// </summary>
@@ -152,7 +154,7 @@ namespace IMOD.Application.Service
         {
             get { return new TipoCredencialService(); }
         }
-        
+
         /// <summary>
         /// CRUD Completo Tipo Credencial 
         /// </summary>
@@ -164,7 +166,7 @@ namespace IMOD.Application.Service
         /// <summary>
         ///     Tipos Combustiveis
         /// </summary>
-        public ITipoCombustivelService TipoCombustivelService { get {return new TipoCombustivelService();} }
+        public ITipoCombustivelService TipoCombustivelService { get { return new TipoCombustivelService(); } }
 
         #endregion
     }

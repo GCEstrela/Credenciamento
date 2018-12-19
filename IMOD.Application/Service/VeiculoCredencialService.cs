@@ -6,12 +6,12 @@
 
 #region
 
-using System.Collections.Generic;
 using IMOD.Application.Interfaces;
 using IMOD.Domain.Entities;
 using IMOD.Domain.EntitiesCustom;
 using IMOD.Domain.Interfaces;
 using IMOD.Infra.Repositorios;
+using System.Collections.Generic;
 
 #endregion
 
@@ -25,7 +25,19 @@ namespace IMOD.Application.Service
 
         #endregion
 
-        #region Construtor
+        #region Construtores
+
+        public ITecnologiaCredencialService TecnologiaCredencial { get { return new TecnologiaCredencialService(); } }
+
+        public ITipoCredencialService TipoCredencial { get { return new TipoCredencialService(); } }
+
+        public ILayoutCrachaService LayoutCracha { get { return new LayoutCrachaService(); } }
+
+        public IFormatoCredencialService FormatoCredencial { get { return new FormatoCredencialService(); } }
+
+        public ICredencialStatusService CredencialStatus { get { return new CredencialStatusService(); } }
+
+        public ICredencialMotivoService CredencialMotivo { get { return new CredencialMotivoService(); } }
 
         #endregion
 
@@ -37,7 +49,7 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void Criar(VeiculoCredencial entity)
         {
-            _repositorio.Criar (entity);
+            _repositorio.Criar(entity);
         }
 
         /// <summary>
@@ -47,7 +59,7 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public VeiculoCredencial BuscarPelaChave(int id)
         {
-            return _repositorio.BuscarPelaChave (id);
+            return _repositorio.BuscarPelaChave(id);
         }
 
         /// <summary>
@@ -57,7 +69,7 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public ICollection<VeiculoCredencial> Listar(params object[] objects)
         {
-            return _repositorio.Listar (objects);
+            return _repositorio.Listar(objects);
         }
 
         /// <summary>
@@ -66,7 +78,7 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void Alterar(VeiculoCredencial entity)
         {
-            _repositorio.Alterar (entity);
+            _repositorio.Alterar(entity);
         }
 
         /// <summary>
@@ -75,7 +87,7 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void Remover(VeiculoCredencial entity)
         {
-            _repositorio.Remover (entity);
+            _repositorio.Remover(entity);
         }
 
         /// <summary>
@@ -89,5 +101,7 @@ namespace IMOD.Application.Service
         }
 
         #endregion
+
+
     }
 }

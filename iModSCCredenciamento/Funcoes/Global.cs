@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CSharpControls.Wpf;
+using iModSCCredenciamento.Windows;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -6,8 +8,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Xml;
-using CSharpControls.Wpf;
-using iModSCCredenciamento.Windows;
 
 namespace iModSCCredenciamento.Funcoes
 {
