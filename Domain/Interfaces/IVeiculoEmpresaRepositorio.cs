@@ -22,15 +22,7 @@ namespace IMOD.Domain.Interfaces
         /// <param name="o">Arrays de Parametros</param>
         /// <returns></returns>
         ICollection<VeiculoEmpresaView> ListarContratoView(params object[] o);
-
-
-
-        /// <summary>
-        ///     Listar Vínculo Empresa por empresaId
-        /// </summary>
-        /// <param name="empresaId"></param>
-        /// <returns></returns>
-        VeiculoEmpresa BuscarPorEmpresa(int empresaId);
+         
 
     }
 }

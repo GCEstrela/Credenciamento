@@ -1,14 +1,16 @@
-﻿using IMOD.CrossCutting;
-using iModSCCredenciamento.Funcoes;
-using iModSCCredenciamento.Helpers;
-using iModSCCredenciamento.Models;
-using iModSCCredenciamento.ViewModels;
-using System;
+﻿using System;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using iModSCCredenciamento.Enums;
+using iModSCCredenciamento.Funcoes;
+using iModSCCredenciamento.Helpers;
+using iModSCCredenciamento.Models;
+using iModSCCredenciamento.ViewModels;
+using iModSCCredenciamento.Windows;
+using IMOD.CrossCutting;
 
 namespace iModSCCredenciamento.Views
 {
@@ -32,10 +34,8 @@ namespace iModSCCredenciamento.Views
             {
                 var filtro = "Images (*.BMP;*.JPG;*.GIF,*.PNG,*.TIFF)|*.BMP;*.JPG;*.GIF;*.PNG;*.TIFF|" + "All files (*.*)|*.*";
                 var arq = WpfHelp.UpLoadArquivoDialog(filtro);
-                if (arq == null)
-                {
-                    return;
-                } ((ClasseEmpresas.Empresa)ListaEmpresas_lv.SelectedItem).Logo = arq.FormatoBase64;
+                if (arq == null) return;
+                ((ClasseEmpresas.Empresa)ListaEmpresas_lv.SelectedItem).Logo = arq.FormatoBase64;
                 BindingExpression be = BindingOperations.GetBindingExpression(Logo_im, Image.SourceProperty);
                 be.UpdateTarget();
             }
@@ -206,20 +206,14 @@ namespace iModSCCredenciamento.Views
             if (cnpjAnterior == "00.000.000/0000-00") //Então a operação é de adição, logo verificar se ha CNPJ apenas no ação de salvar...
             {
                 var c1 = ((EmpresaViewModel)DataContext).ConsultaCNPJ(cnpjAtual);
-                if (c1)
-                {
-                    throw new InvalidOperationException("CNPJ já cadastrado, impossível inclusão!");
-                }
+                if (c1) throw new InvalidOperationException("CNPJ já cadastrado, impossível inclusão!");
             }
             else if (cnpjAnterior.CompareTo(cnpjAtual) != 0 && !string.IsNullOrWhiteSpace(cnpjAnterior))
             {
                 //Então verificar se há cnpj exisitente
                 //Verificar se existe
                 var c1 = ((EmpresaViewModel)DataContext).ConsultaCNPJ(cnpjAtual);
-                if (c1)
-                {
-                    throw new InvalidOperationException("CNPJ já cadastrado, impossível Edição!");
-                }
+                if (c1) throw new InvalidOperationException("CNPJ já cadastrado, impossível Edição!");
             }
         }
 
@@ -278,10 +272,42 @@ namespace iModSCCredenciamento.Views
             ((EmpresaViewModel)DataContext).OnExcluirCrachaCommand();
         }
 
+
+
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            ((EmpresaViewModel)DataContext).OnAbrirPendencias(sender, e);
+           // ((EmpresaViewModel)DataContext).OnAbrirPendencias(sender, e);
+           var frm = new PopupPendencias();
+            frm.ResizeMode=ResizeMode.NoResize;
+           frm.Owner = Application.Current.MainWindow;
+            frm.ShowDialog();
         }
+
+        private void OnPendenciaGeral_Click(object sender, RoutedEventArgs e)
+        {
+             ((EmpresaViewModel)DataContext).OnAbrirPendenciaGeral(sender, e);
+            //var frm = new PopupPendencias();
+            //frm.Inicializa(21,2, PendenciaTipo.Empresa);
+            //frm.Owner = Application.Current.MainWindow;
+            //frm.ShowDialog();
+        }
+        private void OnPendenciaContratos_Click(object sender, RoutedEventArgs e)
+        {
+            ((EmpresaViewModel)DataContext).OnAbrirPendenciaContratos(sender, e);
+        }
+        private void OnPendenciaRepresentante_Click(object sender, RoutedEventArgs e)
+        {
+            ((EmpresaViewModel)DataContext).OnAbrirPendenciaRepresentante(sender, e);
+        }
+        private void OnPendenciaAnexos_Click(object sender, RoutedEventArgs e)
+        {
+            ((EmpresaViewModel)DataContext).OnAbrirPendenciaAnexos(sender, e);
+        } 
+
+
+
+
         #endregion
 
         #region Metodos Privados

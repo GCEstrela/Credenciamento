@@ -14,5 +14,9 @@ namespace IMOD.Application.Interfaces
 {
     public interface IPendenciaService : IPendenciaRepositorio
     {
+        /// <summary>
+        ///     Tipo
+        /// </summary>
+        ITipoPendenciaService TipoPendenciaService { get; }
     }
 }

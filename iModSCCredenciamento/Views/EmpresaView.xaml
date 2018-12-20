@@ -5,6 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:iModSCCredenciamento.Views"
              xmlns:i="clr-namespace:iModSCCredenciamento.Funcoes"
+             xmlns:viewModel="clr-namespace:iModSCCredenciamento.ViewModels"
+             d:DataContext="{d:DesignInstance viewModel:EmpresaViewModel , IsDesignTimeCreatable=True}"
              xmlns:data="clr-namespace:Singulink.Windows.Data"
              xmlns:z="clr-namespace:iModSCCredenciamento.Regras"
              xmlns:gif="http://wpfanimatedgif.codeplex.com"
@@ -119,7 +121,7 @@
             <TabItem x:Name="Geral_ti" Width="200" Background="{x:Null}"  Selector.Selected="OnTabSelected" Selector.Unselected="OnTabUnSelected">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <Button x:Name="Geral_bt" Tag="11" IsEnabled="{Binding IsSelected, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type TabItem }}}"  Click="Button_Click" Style="{StaticResource MenuStyle}" >
+                        <Button x:Name="Geral_bt" Tag="11" IsEnabled="{Binding IsSelected, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type TabItem }}}"  Click="OnPendenciaGeral_Click" Style="{StaticResource MenuStyle}" >
                             <StackPanel>
                                 <Image Source="{Binding ElementName=ListaEmpresas_lv, Path=SelectedItem.Pendente11,
                                         Converter={StaticResource ConvertBoolToImage},UpdateSourceTrigger=Explicit, Mode=TwoWay}" Width="16"  Height="16" />
@@ -228,7 +230,7 @@
                                         <Label Content="UF:" Height="28" Width="30" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
                                         <ComboBox x:Name="Estado_cb" MinWidth="50" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
                                               ItemsSource="{Binding Estados}" DisplayMemberPath="UF"   SelectedValue="{Binding SelectedItem.EstadoID, ElementName=ListaEmpresas_lv, UpdateSourceTrigger=PropertyChanged}" 
-                                              SelectedValuePath="EstadoID"  SelectionChanged="{data:MethodBinding  CarregaColecaoMunicipios, {Binding SelectedItem.UF, ElementName=Estado_cb}}"/>
+                                              SelectedValuePath="EstadoID"  SelectionChanged="{data:MethodBinding Municipios, {Binding SelectedItem.UF, ElementName=Estado_cb}}"/>
                                         <Label Content="Cidade:" Height="28" Width="50" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
                                         <ComboBox x:Name="Cidade_cb"  MinWidth="50" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
                                                 ItemsSource="{Binding Municipios}" DisplayMemberPath="Nome"  SelectedValue="{Binding SelectedItem.MunicipioID, ElementName=ListaEmpresas_lv, UpdateSourceTrigger=PropertyChanged}" 
@@ -382,7 +384,7 @@
             <TabItem x:Name="Signatarios_ti"  Width="200">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <Button x:Name="Signatarios_bt"  Tag="12"  IsEnabled="{Binding IsSelected, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type TabItem }}}"  Click="Button_Click" Style="{StaticResource MenuStyle}" >
+                        <Button x:Name="Signatarios_bt"  Tag="12"  IsEnabled="{Binding IsSelected, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type TabItem }}}"  Click="OnPendenciaRepresentante_Click" Style="{StaticResource MenuStyle}" >
                             <StackPanel>
                                 <Image Source="{Binding ElementName=ListaEmpresas_lv, Path=SelectedItem.Pendente12,
                                         Converter={StaticResource ConvertBoolToImage},UpdateSourceTrigger=Explicit, Mode=TwoWay}"  Width="16"  Height="16" />
@@ -408,7 +410,7 @@
             <TabItem x:Name="Contrato_ti"  Width="200"  >
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <Button  x:Name="Contratos_bt"  Tag="14" IsEnabled="{Binding IsSelected, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type TabItem }}}"   Click="Button_Click" Style="{StaticResource MenuStyle}" >
+                        <Button  x:Name="Contratos_bt"  Tag="14" IsEnabled="{Binding IsSelected, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type TabItem }}}"   Click="OnPendenciaContratos_Click" Style="{StaticResource MenuStyle}" >
                             <StackPanel>
                                 <Image Source="{Binding ElementName=ListaEmpresas_lv, Path=SelectedItem.Pendente14,
                                         Converter={StaticResource ConvertBoolToImage},UpdateSourceTrigger=Explicit, Mode=TwoWay}" Width="16"  Height="16" />
@@ -433,7 +435,7 @@
             <TabItem x:Name="Anexos_ti"  Width="200" >
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <Button  x:Name="Anexos_bt"  Tag="17" IsEnabled="{Binding IsSelected, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type TabItem }}}"  Click="Button_Click" Style="{StaticResource MenuStyle}" >
+                        <Button  x:Name="Anexos_bt"  Tag="17" IsEnabled="{Binding IsSelected, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type TabItem }}}"  Click="OnPendenciaAnexos_Click" Style="{StaticResource MenuStyle}" >
                             <StackPanel>
                                 <Image Source="{Binding ElementName=ListaEmpresas_lv, Path=SelectedItem.Pendente17,
                                         Converter={StaticResource ConvertBoolToImage},UpdateSourceTrigger=Explicit, Mode=TwoWay}" Width="16"  Height="16" />

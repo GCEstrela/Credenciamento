@@ -8,10 +8,13 @@
 
 using AutoMapper;
 using iModSCCredenciamento.Models;
+using iModSCCredenciamento.Views.Model;
 using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
 using IMOD.Domain.EntitiesCustom;
 using Colaborador = IMOD.Domain.Entities.Colaborador;
+using EmpresaLayoutCrachaView = IMOD.Domain.EntitiesCustom.EmpresaLayoutCrachaView;
+using VeiculoEmpresaView = IMOD.Domain.EntitiesCustom.VeiculoEmpresaView;
 
 #endregion
 
@@ -46,6 +49,11 @@ namespace iModSCCredenciamento.Mapeamento
                        m.CreateMap<EmpresaContrato, ClasseEmpresasContratos.EmpresaContrato>().ReverseMap();
                        m.CreateMap<TipoAtividade, ClasseTiposAtividades.TipoAtividade>().ReverseMap();
                        m.CreateMap<TipoEquipamento, ClasseTiposEquipamento.TipoEquipamento>().ReverseMap();
+
+                       m.CreateMap<Pendencia, ClassePendencias.Pendencia>().ReverseMap();
+                       m.CreateMap<Pendencia, PendenciaView>().ReverseMap();
+                       m.CreateMap<TipoPendencia, TipoPendenciaView>().ReverseMap();
+
                        m.CreateMap<EmpresaTipoAtividade, ClasseEmpresasTiposAtividades.EmpresaTipoAtividade>().ReverseMap();
                        m.CreateMap<AreaAcesso, ClasseAreasAcessos.AreaAcesso>().ReverseMap();
                        m.CreateMap<LayoutCracha, ClasseLayoutsCrachas.LayoutCracha>().ReverseMap();

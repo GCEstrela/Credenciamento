@@ -105,6 +105,28 @@ namespace iModSCCredenciamento.Helpers
         }
 
         /// <summary>
+        ///     Exibe Mensagem Solicitando Confirmação Sim ou Não
+        /// </summary>
+        /// <param name="msg">Uma string  contendo a mensagem</param>
+        /// <param name="button1">True: Opção Sim recebe focus</param>
+        /// <returns></returns>
+        public static DialogResult MboxDialogYesNo(string msg, bool button1)
+        {
+            var button = button1 ? MessageBoxDefaultButton.Button1 : MessageBoxDefaultButton.Button2;
+            var result = MessageBox.Show(msg, "Confirmação", MessageBoxButtons.YesNo, MessageBoxIcon.Question, button);
+            return result;
+        }
+
+        /// <summary>
+        /// Exibe Mensagem Solicitando Confirmação Sim ou Não para remoção de dados
+        /// </summary>
+        /// <returns></returns>
+        public static DialogResult MboxDialogRemove()
+        {
+            return MboxDialogYesNo ("Deseja realmente excluir o item?", false);
+        }
+
+        /// <summary>
         ///     Mensagem por Popup
         /// </summary>
         /// <param name="msg">Mensagem a ser exibida</param>

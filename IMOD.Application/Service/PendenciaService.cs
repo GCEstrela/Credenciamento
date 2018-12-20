@@ -1,7 +1,7 @@
 ﻿// ***********************************************************************
 // Project: IMOD.Application
 // Crafted by: Grupo Estrela by Genetec
-// Date:  11 - 26 - 2018
+// Date:  12 - 07 - 2018
 // ***********************************************************************
 
 #region
@@ -24,7 +24,15 @@ namespace IMOD.Application.Service
 
         #endregion
 
-        #region Construtor
+        #region  Propriedades
+
+        /// <summary>
+        ///     Tipo
+        /// </summary>
+        public ITipoPendenciaService TipoPendenciaService
+        {
+            get { return new TipoPendenciaService(); }
+        }
 
         #endregion
 
@@ -77,10 +85,19 @@ namespace IMOD.Application.Service
             _repositorio.Remover(entity);
         }
 
-        public Pendencia BuscarPorEmpresa(int id)
+        /// <summary>
+        ///     Listar Pendencia por Empresa
+        /// </summary>
+        /// <param name="empresaId"></param>
+        /// <returns></returns>
+        public ICollection<Pendencia> ListarPorEmpresa(int empresaId)
         {
-            return _repositorio.BuscarPorEmpresa(id);
+            return _repositorio.ListarPorEmpresa (empresaId);
         }
+
+        #endregion
+
+        #region Construtor
 
         #endregion
     }

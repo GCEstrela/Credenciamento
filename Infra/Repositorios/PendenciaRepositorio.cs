@@ -219,6 +219,35 @@ namespace IMOD.Infra.Repositorios
             }
         }
 
+        /// <summary>
+        /// Listar Pendencia por Empresa
+        /// </summary>
+        /// <param name="empresaId"></param>
+        /// <returns></returns>
+        public ICollection<Pendencia> ListarPorEmpresa(int empresaId)
+        {
+            using (var conn = _dataBase.CreateOpenConnection())
+            {
+                using (var cmd = _dataBase.SelectText("Pendencias", conn))
+
+                {
+                    try
+                    {
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmpresaID", DbType.Int32, empresaId).Igual()));
+                        var reader = cmd.ExecuteReaderSelect();
+                        var d1 = reader.MapToList<Pendencia>();
+
+                        return d1;
+                    }
+                    catch (Exception ex)
+                    {
+                        Utils.TraceException(ex);
+                        throw;
+                    }
+                }
+            }
+        }
+
         #endregion
     }
 }

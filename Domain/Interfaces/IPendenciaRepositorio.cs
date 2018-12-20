@@ -6,6 +6,7 @@
 
 #region
 
+using System.Collections.Generic;
 using IMOD.Domain.Entities;
 
 #endregion
@@ -14,12 +15,12 @@ namespace IMOD.Domain.Interfaces
 {
     public interface IPendenciaRepositorio : IRepositorioBaseAdoNet<Pendencia>
     {
-
         /// <summary>
-        ///     Buscar por EmpresaID
+        /// Listar Pendencia por Empresa
         /// </summary>
-        /// <param name="id">Primary key</param>
+        /// <param name="empresaId"></param>
         /// <returns></returns>
-        Pendencia BuscarPorEmpresa(int id);
+        ICollection<Pendencia> ListarPorEmpresa(int empresaId);
+       
     }
 }

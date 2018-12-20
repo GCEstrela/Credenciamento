@@ -1,0 +1,180 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="IMOD.Application.Service.DadosAuxiliaresFacadeService" BaseTypeListCollapsed="true">
+    <Position X="11.25" Y="10" Width="4" />
+    <TypeIdentifier>
+      <HashCode>AASIgAEEAABAAICEgAAAgAAAAEAAAIAAAAAQgAAAQAA=</HashCode>
+      <FileName>Service\DadosAuxiliaresFacadeService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="IMOD.Application.Service.EmpresaService" BaseTypeListCollapsed="true">
+    <Position X="0.5" Y="8.25" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>ACABAAAABEAAAIAAAgEABAEAwAGAAAASAAAAQAAAAAA=</HashCode>
+      <FileName>Service\EmpresaService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="IMOD.Application.Service.AreaAcessoService" BaseTypeListCollapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAAAEABAEAQACAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Service\AreaAcessoService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="IMOD.Application.Service.ColaboradorAnexoService" BaseTypeListCollapsed="true">
+    <Position X="2.25" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAEAAAAAAAAEABAEAQACAAAAABAAAAAAAAAA=</HashCode>
+      <FileName>Service\ColaboradorAnexoService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="IMOD.Application.Service.ColaboradorCredencialService" BaseTypeListCollapsed="true">
+    <Position X="4.75" Y="0.75" Width="4" />
+    <TypeIdentifier>
+      <HashCode>AAEAIAAAAEAAAAIAAAEgBAEAQQCAAAAEAAAAACAAAAA=</HashCode>
+      <FileName>Service\ColaboradorCredencialService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="IMOD.Application.Service.ColaboradorCursosService" BaseTypeListCollapsed="true">
+    <Position X="9" Y="4" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAAAEABAEAQACAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Service\ColaboradorCursosService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="IMOD.Application.Service.ColaboradorEmpresaService" BaseTypeListCollapsed="true">
+    <Position X="11.5" Y="0.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAAAEABAEAQQCAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Service\ColaboradorEmpresaService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="IMOD.Application.Service.ColaboradorService" BaseTypeListCollapsed="true">
+    <Position X="7" Y="9.75" Width="4" />
+    <TypeIdentifier>
+      <HashCode>ABABAAAAAUAAAEAAAAEQBAEAQACBAAAAAAAAgiQIAAA=</HashCode>
+      <FileName>Service\ColaboradorService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="IMOD.Application.Service.CredencialMotivoService" BaseTypeListCollapsed="true">
+    <Position X="4.75" Y="7.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAAAEABAEAQACAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Service\CredencialMotivoService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="IMOD.Application.Service.CredencialStatusService" BaseTypeListCollapsed="true">
+    <Position X="3.25" Y="5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAAAEABAEAQACAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Service\CredencialStatusService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="IMOD.Application.Service.CursoService" BaseTypeListCollapsed="true">
+    <Position X="16.5" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAAAEABAEAQACAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Service\CursoService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="IMOD.Application.Service.EmpresaAnexoService" BaseTypeListCollapsed="true">
+    <Position X="12" Y="4.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAAAEABAEAQACAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Service\EmpresaAnexoService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="IMOD.Application.Service.EmpresaAreaAcessoService" BaseTypeListCollapsed="true">
+    <Position X="18" Y="2.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAAAEABAEAQACAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Service\EmpresaAreaAcessoService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="IMOD.Application.Service.EmpresaContratoService" BaseTypeListCollapsed="true">
+    <Position X="16.25" Y="10.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AiEAAAAEAEEAAAAAACEABAEAQACAAAAAAAAIAAAAAAg=</HashCode>
+      <FileName>Service\EmpresaContratoService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="IMOD.Application.Service.EmpresaLayoutCrachaService" BaseTypeListCollapsed="true">
+    <Position X="9.25" Y="1" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAkAAAAAAAAEABAEEQACAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Service\EmpresaLayoutCrachaService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="IMOD.Application.Service.EmpresaSeguroService" BaseTypeListCollapsed="true">
+    <Position X="14.5" Y="1" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAAAEABAEAQACAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Service\EmpresaSeguroService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="IMOD.Application.Service.EmpresaSignatarioService" BaseTypeListCollapsed="true">
+    <Position X="0.5" Y="4" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAAAEABAEAQACAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Service\EmpresaSignatarioService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="IMOD.Application.Service.EmpresaTipoAtividadeService" BaseTypeListCollapsed="true">
+    <Position X="15.25" Y="4" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAEAAAAEABAEAQACAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Service\EmpresaTipoAtividadeService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="IMOD.Application.Service.EmpresaVeiculoService" BaseTypeListCollapsed="true">
+    <Position X="15" Y="7.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAAAEABAEAQACAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Service\EmpresaVeiculoService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="IMOD.Application.Service.EquipamentoVeiculoTipoServicoService" BaseTypeListCollapsed="true">
+    <Position X="7.75" Y="6.75" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAAAEABAEAUACAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Service\EquipamentoVeiculoTipoServicoService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="IMOD.Application.Service.PendenciaService" BaseTypeListCollapsed="true">
+    <Position X="18" Y="5.25" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAEAAAAAAACEABAEAQACAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Service\PendenciaService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="IMOD.Application.Service.VeiculoService" BaseTypeListCollapsed="true">
+    <Position X="2.5" Y="13.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>ABABAAAAAEAAAAAAAAEQBAEAQACAAAAAAAAAAAAAACA=</HashCode>
+      <FileName>Service\VeiculoService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

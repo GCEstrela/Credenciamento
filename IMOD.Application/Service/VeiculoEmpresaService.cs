@@ -86,11 +86,7 @@ namespace IMOD.Application.Service
         public ICollection<VeiculoEmpresaView> ListarContratoView(params object[] o)
         {
             return _repositorio.ListarContratoView(o);
-        }
-        public VeiculoEmpresa BuscarPorEmpresa(int empresaId)
-        {
-            return _repositorio.BuscarPorEmpresa(empresaId);
-        }
+        } 
 
         #endregion
     }

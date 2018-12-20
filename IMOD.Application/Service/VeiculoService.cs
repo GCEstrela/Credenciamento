@@ -6,11 +6,11 @@
 
 #region
 
+using System.Collections.Generic;
 using IMOD.Application.Interfaces;
 using IMOD.Domain.Entities;
 using IMOD.Domain.Interfaces;
 using IMOD.Infra.Repositorios;
-using System.Collections.Generic;
 
 #endregion
 
@@ -21,13 +21,9 @@ namespace IMOD.Application.Service
         #region Variaveis Globais
 
         private readonly IVeiculoRepositorio _repositorio = new VeiculoRepositorio();
-        private readonly IVeiculoCredencialRepositorio _repositorioCredencial = new VeiculoCredencialRepositorio();
 
         #endregion
-
-        #region Construtor
-
-        #endregion
+         
 
         #region  Metodos
 
@@ -81,28 +77,25 @@ namespace IMOD.Application.Service
         #endregion
 
         /// <summary>
-        /// Credencial X Veiculo Service
+        /// Serviços de credenciais
         /// </summary>
-        public IVeiculoCredencialService Credencial => new VeiculoCredencialService();
+        public IVeiculoCredencialService Credencial { get {return new VeiculoCredencialService();} }
 
         /// <summary>
-        /// Empresa X Veiculo Service
+        /// Serviços de Empresas
+        /// Author: Mihai
         /// </summary>
-        public IVeiculoEmpresaService Empresa { get { return new VeiculoEmpresaService(); } }
+        public IVeiculoEmpresaService Empresa { get {return new VeiculoEmpresaService();} }
 
         /// <summary>
-        /// Seguros X Veiculo Service
+        /// Seguros
         /// </summary>
-        public IVeiculoSeguroService Seguro { get { return new VeiculoSeguroService(); } }
+        public IVeiculoSeguroService Seguro { get {return new VeiculoSeguroService();} }
 
         /// <summary>
-        /// Anexo X Veiculo Serice
+        /// Anexos
         /// </summary>
         public IVeiculoAnexoService Anexo { get { return new VeiculoAnexoService(); } }
-
-        /// <summary>
-        /// Veiculo X Empresa Service
-        /// </summary>
-        public IVeiculoEmpresaService Veiculo { get { return new VeiculoEmpresaService(); } }
+        
     }
 }

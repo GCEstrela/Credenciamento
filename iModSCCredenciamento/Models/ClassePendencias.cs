@@ -15,7 +15,7 @@ namespace iModSCCredenciamento.Models
             public int ColaboradorID { get; set; }
             public int EmpresaID { get; set; }
             public int VeiculoID { get; set; }
-            public int TipoPendenciaID { get; set; }
+            public int CodPendencia { get; set; }
             public string Descricao { get; set; }
             public DateTime? DataLimite { get; set; }
             public bool Impeditivo { get; set; }

@@ -351,10 +351,33 @@ namespace iModSCCredenciamento.Views
 
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        //private void Button_Click(object sender, RoutedEventArgs e)
+        //{
+        //    //((ColaboradorViewModel)DataContext).OnAbrirPendencias(sender, e);
+        //}
+
+        private void OnPendenciaGeral_Click(object sender, RoutedEventArgs e)
         {
-            ((ColaboradorViewModel)DataContext).OnAbrirPendencias(sender, e);
+            ((ColaboradorViewModel)DataContext).OnAbrirPendenciaGeral(sender, e);
         }
+        private void OnPendenciaContratos_Click(object sender, RoutedEventArgs e)
+        {
+            ((ColaboradorViewModel)DataContext).OnAbrirPendenciaContratos(sender, e);
+        }
+        private void OnPendenciaTreinamento_Click(object sender, RoutedEventArgs e)
+        {
+            ((ColaboradorViewModel)DataContext).OnAbrirPendenciaTreinamento(sender, e);
+        }
+        private void OnPendenciaAnexos_Click(object sender, RoutedEventArgs e)
+        {
+            ((ColaboradorViewModel)DataContext).OnAbrirPendenciaAnexos(sender, e);
+        }
+        private void OnPendenciaCredenciais_Click(object sender, RoutedEventArgs e)
+        {
+            ((ColaboradorViewModel)DataContext).OnAbrirPendenciaCredenciais(sender, e);
+        }
+
+
         #endregion
 
         #region Metodos Privados

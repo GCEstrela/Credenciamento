@@ -11,7 +11,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
 using System.Threading;
 using System.Xml;
 using AutoMapper;
@@ -40,28 +39,23 @@ namespace iModSCCredenciamento.ViewModels
             {
                 if (!string.IsNullOrWhiteSpace(nome)) nome = $"%{nome}%";
 
-                var list1 = _service.Listar(empresaID, nome, null, null, null, null, null);
+                var list1 = _service.Listar(empresaID, nome, null, null, null, null,null);
                 var list2 = Mapper.Map<List<ClasseEmpresasSignatarios.EmpresaSignatario>>(list1);
 
                 var observer = new ObservableCollection<ClasseEmpresasSignatarios.EmpresaSignatario>();
                 list2.ForEach(n => { observer.Add(n); });
 
                 Signatarios = observer;
-
-                //Hotfix auto-selecionar registro do topo da ListView
-                var topList = observer.FirstOrDefault();
-                SignatarioSelecionado = topList;
-
                 SelectedIndex = -1;
             }
             catch (Exception ex)
             {
-                Utils.TraceException(ex);
+                Global.Log("Erro void CarregaColecaoEmpresasSignatarios ex: " + ex.Message);
             }
         }
 
         #endregion
-
+ 
 
         #endregion
 

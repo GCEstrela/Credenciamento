@@ -645,7 +645,7 @@ namespace UnitTestImod
             if (dd0 != null)
             {
                 //Remove pendência de empresa (caso exista)
-                var pendencia = serviceEmpresa.Pendencia.BuscarPorEmpresa(dd0.EmpresaId);
+                var pendencia = serviceEmpresa.Pendencia.Listar().FirstOrDefault (n => n.EmpresaId == _empresa.EmpresaId);
                 if (pendencia != null)
                 {
                     serviceEmpresa.Pendencia.Remover(pendencia);
@@ -881,317 +881,308 @@ namespace UnitTestImod
 
         }
 
-        [Priority(2)]
-        [TestMethod]
-        [Description("Objetivo: Cadastrar/ler/alterar/remover dados de Veículos e seus relacionamentos")]
-        public void Veiculo_Cadastro_geral_com_Sucesso()
-        {
-            //Serviços
-            var serviceVeiculo = new VeiculoService();
-            var serviceEmpresa = new EmpresaService();
-            var serviceVeiculoCredencial = new VeiculoCredencialService();
-
-
-            #region CRUD Veículo (Aba Geral) 
-
-            //Cadastrar 4 Veículos
-            for (var i = 0; i < 4; i++)
-            {
-                _veiculo.Descricao = $"Veículo ({i})";
-                _veiculo.Ano = $"200{i}";
-                _veiculo.Altura = $"{i}m";
-                _veiculo.CombustivelId = 1;
-                _veiculo.StatusId = 1;
-                _veiculo.TipoAcessoId = 1;
-
-
-                serviceVeiculo.Criar(_veiculo);
-            }
-
-            //Alterar 3 Veículos
-            for (var j = 0; j < 3; j++)
-            {
-                int lastId = serviceVeiculo.Listar().LastOrDefault().EquipamentoVeiculoId - j;
-                var d1 = serviceVeiculo.BuscarPelaChave(lastId);
-
-                d1.Descricao = $"Veículo {j * 100}";
-                d1.Ano = DateTime.Now.AddYears(j).ToString();
-                d1.Foto = Convert.ToBase64String(File.ReadAllBytes("Arquivos/car-equip.jpg"));
-
-                serviceVeiculo.Alterar(d1);
-            }
-
-            //Listar Veículos
-            string FirstNome = serviceVeiculo.Listar().FirstOrDefault().Descricao;
-
-            var list1 = serviceVeiculo.Listar("%" + FirstNome + "%", null).ToList();
-            Assert.IsNotNull(list1);
-
-            //Prevent from Removing EquipamentoVeiculoID(1)
-            int second = serviceVeiculo.Listar().Skip(1).FirstOrDefault().EquipamentoVeiculoId;
-            var b0 = serviceVeiculo.BuscarPelaChave(second);
-            Assert.IsNotNull(b0);
-
-            //Remover 1 Veículo
-            serviceVeiculo.Remover(b0);
-            var d2 = serviceVeiculo.BuscarPelaChave(b0.EquipamentoVeiculoId);
-            Assert.IsNull(d2);
-
-            #endregion
-            //Done
-            #region CRUD Empresas Vínculos (VeiculosEmpresas)
-
-            //Cadastrar 1 Empresa
-            //Já existindo Empresa, então remove e cria novo, evitando duplicidade de CNPJ
-            var dd1 = serviceEmpresa.BuscarEmpresaPorCnpj(_empresa.Cnpj);
-            if (dd1 != null)
-            {
-                //Remove vínculo VeiculoEmpresa (caso exista)
-                var ddd1 = serviceVeiculo.Empresa.BuscarPorEmpresa(_empresa.EmpresaId);
-                if (ddd1 != null)
-                {
-                    serviceVeiculo.Empresa.Remover(ddd1);
-                }
-                serviceEmpresa.Remover(dd1);
-                serviceEmpresa.Criar(dd1);
-                _empresa = dd1;
-            }
-            else
-            {
-                serviceEmpresa.Criar(_empresa);
-            }
-
-            //Cadastrar 1 Empresa Contrato
-            _empresaContrato.EmpresaId = _empresa.EmpresaId;
-            serviceEmpresa.ContratoService.Criar(_empresaContrato);
-
-            //Cadastrar 3 Empresas Vínculos
-            for (var j = 0; j < 2; j++)
-            {
-                _veiculoEmpresa.VeiculoId = _veiculo.EquipamentoVeiculoId;
-                _veiculoEmpresa.EmpresaId = _empresa.EmpresaId;
-                _veiculoEmpresa.EmpresaContratoId = _empresaContrato.EmpresaContratoId;
-                serviceVeiculo.Empresa.Criar(_veiculoEmpresa);
-            }
-
-            //Alterar 2 Empresas Vínculos
-            for (var j = 0; j < 2; j++)
-            {
-                int lastId = serviceVeiculo.Empresa.Listar().LastOrDefault().VeiculoEmpresaId - j;
-
-                var d0 = serviceVeiculo.Empresa.BuscarPelaChave(lastId);
-
-                d0.Cargo = $"Personal Driver Car {j}"; ;
-                d0.Matricula = $"{j}0254{j}"; ;
-                d0.Ativo = true;
+        //[Priority(2)]
+        //[TestMethod]
+        //[Description("Objetivo: Cadastrar/ler/alterar/remover dados de Veículos e seus relacionamentos")]
+        //public void Veiculo_Cadastro_geral_com_Sucesso()
+        //{
+        //    //Serviços
+        //    var serviceVeiculo = new VeiculoService();
+        //    var serviceEmpresa = new EmpresaService();
+        //    var serviceVeiculoCredencial = new VeiculoCredencialService();
+
+
+        //    #region CRUD Veículo (Aba Geral) 
+
+        //    //Cadastrar 4 Veículos
+        //    for (var i = 0; i < 25; i++)
+        //    {
+        //        _veiculo.Descricao = $"Veículo ({i})";
+        //        _veiculo.Ano = $"200{i}";
+        //        _veiculo.Altura = $"{i}m";
+        //        _veiculo.CombustivelId = 1;
+        //        _veiculo.StatusId = 1;
+        //        _veiculo.TipoAcessoId = 1;
+
+
+        //        serviceVeiculo.Criar(_veiculo);
+        //    }
+
+        //       var d1 = serviceVeiculo.BuscarPelaChave(_veiculo.EquipamentoVeiculoId);
+        //       serviceVeiculo.Alterar(d1);
+
+        //    //Listar Veículos
+        //    string FirstNome = serviceVeiculo.Listar().FirstOrDefault().Descricao;
+
+        //    var list1 = serviceVeiculo.Listar("%" + FirstNome + "%", null).ToList();
+        //    Assert.IsNotNull(list1);
+
+        //    //Prevent from Removing EquipamentoVeiculoID(1)
+        //    int second = serviceVeiculo.Listar().Skip(1).FirstOrDefault().EquipamentoVeiculoId;
+        //    var b0 = serviceVeiculo.BuscarPelaChave(second);
+        //    Assert.IsNotNull(b0);
+
+        //    //Remover 1 Veículo
+        //    serviceVeiculo.Remover(b0);
+        //    var d2 = serviceVeiculo.BuscarPelaChave(b0.EquipamentoVeiculoId);
+        //    Assert.IsNull(d2);
+
+        //    #endregion
+        //    //Done
+        //    #region CRUD Empresas Vínculos (VeiculosEmpresas)
+
+        //    //Cadastrar 1 Empresa
+        //    //Já existindo Empresa, então remove e cria novo, evitando duplicidade de CNPJ
+        //    var dd1 = serviceEmpresa.BuscarEmpresaPorCnpj(_empresa.Cnpj);
+        //    if (dd1 != null)
+        //    {
+        //        //Remove vínculo VeiculoEmpresa (caso exista)
+        //        var ddd1 = serviceEmpresa.VeiculoService.Listar().FirstOrDefault(n=>n.EmpresaId==_empresa.EmpresaId);
+        //        if (ddd1 != null)
+        //        {
+        //            serviceVeiculo.Empresa.Remover(ddd1);
+        //        }
+        //        serviceEmpresa.Remover(dd1);
+        //        serviceEmpresa.Criar(dd1);
+        //        _empresa = dd1;
+        //    }
+        //    else
+        //    {
+        //        serviceEmpresa.Criar(_empresa);
+        //    }
+
+        //    //Cadastrar 1 Empresa Contrato
+        //    _empresaContrato.EmpresaId = _empresa.EmpresaId;
+        //    serviceEmpresa.ContratoService.Criar(_empresaContrato);
+
+        //    //Cadastrar 3 Empresas Vínculos
+        //    for (var j = 0; j < 2; j++)
+        //    {
+        //        _veiculoEmpresa.VeiculoId = _veiculo.EquipamentoVeiculoId;
+        //        _veiculoEmpresa.EmpresaId = _empresa.EmpresaId;
+        //        _veiculoEmpresa.EmpresaContratoId = _empresaContrato.EmpresaContratoId;
+        //        serviceVeiculo.Empresa.Criar(_veiculoEmpresa);
+        //    }
+
+        //    //Alterar 2 Empresas Vínculos
+        //    for (var j = 0; j < 2; j++)
+        //    {
+        //        int lastId = serviceVeiculo.Empresa.Listar().LastOrDefault().VeiculoEmpresaId - j;
+
+        //        var d0 = serviceVeiculo.Empresa.BuscarPelaChave(lastId);
+
+        //        d0.Cargo = $"Personal Driver Car {j}"; ;
+        //        d0.Matricula = $"{j}0254{j}"; ;
+        //        d0.Ativo = true;
+
+        //        serviceVeiculo.Empresa.Alterar(d0);
+        //    }
+
+        //    //Listar Empresas Vínculos 
+        //    string FirstMatricula = serviceVeiculo.Empresa.Listar().FirstOrDefault().Matricula;
+
+        //    var list2 = serviceVeiculo.Empresa.Listar(0, null, "%" + FirstMatricula + "%").ToList();
+        //    Assert.IsNotNull(list2);
 
-                serviceVeiculo.Empresa.Alterar(d0);
-            }
+        //    int Id = serviceVeiculo.Empresa.Listar().LastOrDefault().VeiculoEmpresaId;
 
-            //Listar Empresas Vínculos 
-            string FirstMatricula = serviceVeiculo.Empresa.Listar().FirstOrDefault().Matricula;
+        //    var b1 = serviceVeiculo.Empresa.BuscarPelaChave(Id);
+        //    Assert.IsNotNull(b1);
 
-            var list2 = serviceVeiculo.Empresa.Listar(0, null, "%" + FirstMatricula + "%").ToList();
-            Assert.IsNotNull(list2);
+        //    //Remover 1 Empresa Vínculo
+        //    serviceVeiculo.Empresa.Remover(b1);
+        //    var d3 = serviceVeiculo.Empresa.BuscarPelaChave(b1.VeiculoEmpresaId);
+        //    Assert.IsNull(d3);
 
-            int Id = serviceVeiculo.Empresa.Listar().LastOrDefault().VeiculoEmpresaId;
+        //    #endregion
+        //    //Loading...
+        //    #region CRUD Seguros (VeiculosSeguros) 
 
-            var b1 = serviceVeiculo.Empresa.BuscarPelaChave(Id);
-            Assert.IsNotNull(b1);
+        //    //Cadastrar e Vincular Seguro a Veiculo (3 registros)
+        //    for (int i = 0; i < 3; i++)
+        //    {
+        //        _veiculoSeguro.NomeSeguradora = "Seguradora " + (i + 1);
+        //        _veiculoSeguro.VeiculoId = _veiculo.EquipamentoVeiculoId;
 
-            //Remover 1 Empresa Vínculo
-            serviceVeiculo.Empresa.Remover(b1);
-            var d3 = serviceVeiculo.Empresa.BuscarPelaChave(b1.VeiculoEmpresaId);
-            Assert.IsNull(d3);
+        //        serviceVeiculo.Seguro.Criar(_veiculoSeguro);
 
-            #endregion
-            //Loading...
-            #region CRUD Seguros (VeiculosSeguros) 
+        //        _veiculoSeguro.VeiculoId = _veiculo.EquipamentoVeiculoId;
 
-            //Cadastrar e Vincular Seguro a Veiculo (3 registros)
-            for (int i = 0; i < 3; i++)
-            {
-                _veiculoSeguro.NomeSeguradora = "Seguradora " + (i + 1);
-                _veiculoSeguro.VeiculoId = _veiculo.EquipamentoVeiculoId;
+        //        serviceVeiculo.Seguro.Criar(_veiculoSeguro);
+        //    }
 
-                serviceVeiculo.Seguro.Criar(_veiculoSeguro);
 
-                _veiculoSeguro.VeiculoId = _veiculo.EquipamentoVeiculoId;
+        //    //Alterar 2 registros VeiculosSeguros
 
-                serviceVeiculo.Seguro.Criar(_veiculoSeguro);
-            }
+        //    for (int i = 0; i < 2; i++)
+        //    {
+        //        int ccId = serviceVeiculo.Seguro.Listar().LastOrDefault().VeiculoSeguroId - i;
+        //        var cc = serviceVeiculo.Seguro.BuscarPelaChave(ccId);
 
+        //        cc.NomeSeguradora = $"Nova Seguradora ({ccId})";
+        //        cc.NumeroApolice = $"New Arquivo {ccId}";
+        //        cc.Validade = DateTime.Today;
 
-            //Alterar 2 registros VeiculosSeguros
+        //        serviceVeiculo.Seguro.Alterar(cc);
+        //    }
 
-            for (int i = 0; i < 2; i++)
-            {
-                int ccId = serviceVeiculo.Seguro.Listar().LastOrDefault().VeiculoSeguroId - i;
-                var cc = serviceVeiculo.Seguro.BuscarPelaChave(ccId);
+        //    //Listar VeiculosSeguros
+        //    string nomeSeguradora = serviceVeiculo.Seguro.Listar().FirstOrDefault().NomeSeguradora;
+        //    var list3 = serviceVeiculo.Seguro.Listar(0, "%" + nomeSeguradora + "%", null).ToList();
+        //    Assert.IsNotNull(list3);
 
-                cc.NomeSeguradora = $"Nova Seguradora ({ccId})";
-                cc.NumeroApolice = $"New Arquivo {ccId}";
-                cc.Validade = DateTime.Today;
+        //    int cursoId = serviceVeiculo.Seguro.Listar().LastOrDefault().VeiculoSeguroId;
+        //    var b2 = serviceVeiculo.Seguro.BuscarPelaChave(cursoId);
+        //    Assert.IsNotNull(b2);
 
-                serviceVeiculo.Seguro.Alterar(cc);
-            }
+        //    //Remover VeiculosSeguros
+        //    serviceVeiculo.Seguro.Remover(b2);
+        //    var d4 = serviceVeiculo.Seguro.BuscarPelaChave(b2.VeiculoSeguroId);
+        //    Assert.IsNull(d4);
 
-            //Listar VeiculosSeguros
-            string nomeSeguradora = serviceVeiculo.Seguro.Listar().FirstOrDefault().NomeSeguradora;
-            var list3 = serviceVeiculo.Seguro.Listar(0, "%" + nomeSeguradora + "%", null).ToList();
-            Assert.IsNotNull(list3);
+        //    #endregion
 
-            int cursoId = serviceVeiculo.Seguro.Listar().LastOrDefault().VeiculoSeguroId;
-            var b2 = serviceVeiculo.Seguro.BuscarPelaChave(cursoId);
-            Assert.IsNotNull(b2);
+        //    #region CRUD Anexos
 
-            //Remover VeiculosSeguros
-            serviceVeiculo.Seguro.Remover(b2);
-            var d4 = serviceVeiculo.Seguro.BuscarPelaChave(b2.VeiculoSeguroId);
-            Assert.IsNull(d4);
+        //    //var veiculo = serviceVeiculo.Listar().FirstOrDefault();
+        //    ////Cadastrar 3 Anexos
+        //    //for (var j = 0; j < 3; j++)
+        //    //{
+        //    //    _veiculoAnexo.VeiculoId = veiculo.EquipamentoVeiculoId;
+        //    //    serviceVeiculo.Anexo.Criar(_veiculoAnexo);
+        //    //}
 
-            #endregion
+        //    ////Alterar 2 Anexo
+        //    //for (var j = 0; j < 2; j++)
+        //    //{
+        //    //    int lastId = serviceVeiculo.Anexo.Listar().LastOrDefault().VeiculoAnexoId - j;
 
-            #region CRUD Anexos
+        //    //    var d0 = serviceVeiculo.Anexo.BuscarPelaChave(lastId);
 
-            //Cadastrar 3 Anexos
-            for (var j = 0; j < 3; j++)
-            {
-                _veiculoAnexo.VeiculoId = _veiculo.EquipamentoVeiculoId;
-                serviceVeiculo.Anexo.Criar(_veiculoAnexo);
-            }
+        //    //    d0.NomeArquivo = $"Anexo ({j})";
+        //    //    d0.Descricao = $"Descrição ({j})";
 
-            //Alterar 2 Anexo
-            for (var j = 0; j < 2; j++)
-            {
-                int lastId = serviceVeiculo.Anexo.Listar().LastOrDefault().VeiculoAnexoId - j;
+        //    //    serviceVeiculo.Anexo.Alterar(d0);
+        //    //}
 
-                var d0 = serviceVeiculo.Anexo.BuscarPelaChave(lastId);
+        //    //Listar Anexo 
+        //    string FirstDesc = serviceVeiculo.Anexo.Listar().FirstOrDefault().Descricao;
 
-                d0.NomeArquivo = $"Anexo ({j})";
-                d0.Descricao = $"Descrição ({j})";
+        //    var list4 = serviceVeiculo.Anexo.Listar(0, "%" + FirstDesc + "%").ToList();
+        //    Assert.IsNotNull(list4);
 
-                serviceVeiculo.Anexo.Alterar(d0);
-            }
+        //    int key = serviceVeiculo.Anexo.Listar().LastOrDefault().VeiculoAnexoId;
 
-            //Listar Anexo 
-            string FirstDesc = serviceVeiculo.Anexo.Listar().FirstOrDefault().Descricao;
+        //    var b3 = serviceVeiculo.Anexo.BuscarPelaChave(key);
+        //    Assert.IsNotNull(b3);
 
-            var list4 = serviceVeiculo.Anexo.Listar(0, "%" + FirstDesc + "%").ToList();
-            Assert.IsNotNull(list4);
+        //    //Remover 1 Anexo
+        //    serviceVeiculo.Anexo.Remover(b3);
+        //    var d5 = serviceVeiculo.Anexo.BuscarPelaChave(b3.VeiculoAnexoId);
+        //    Assert.IsNull(d5);
 
-            int key = serviceVeiculo.Anexo.Listar().LastOrDefault().VeiculoAnexoId;
+        //    #endregion
 
-            var b3 = serviceVeiculo.Anexo.BuscarPelaChave(key);
-            Assert.IsNotNull(b3);
+        //    #region CRUD Credenciais (Veículos)
 
-            //Remover 1 Anexo
-            serviceVeiculo.Anexo.Remover(b3);
-            var d5 = serviceVeiculo.Anexo.BuscarPelaChave(b3.VeiculoAnexoId);
-            Assert.IsNull(d5);
 
-            #endregion
+        //    #region Cadastro em Tabelas Auxiliares
 
-            #region CRUD Credenciais (Veículos)
+        //    //Cria 1 Area de Acesso
+        //    serviceEmpresa.ContratoService.AreaAceesso.Criar(_areaAcesso);
+        //    //Cria 1 Tipo de Acesso
+        //    serviceEmpresa.ContratoService.TipoCobranca.Criar(_tipoCobrancas);
+        //    //Cria 1 Status
+        //    serviceEmpresa.ContratoService.Status.Criar(_status);
+        //    //Cria 1 Tipo de Acesso
+        //    serviceEmpresa.ContratoService.TipoAcesso.Criar(_tipoAcesso);
 
+        //    //Empresas
+        //    int idStr = serviceEmpresa.Listar().LastOrDefault().EmpresaId + 1;
+        //    _empresa.Nome = "EMPRESA #" + idStr.ToString() + "#";
+        //    serviceEmpresa.Alterar(_empresa);
 
-            #region Cadastro em Tabelas Auxiliares
+        //    //EmpresasContratos
+        //    _empresaContrato.EmpresaId = _empresa.EmpresaId;
+        //    _empresaContrato.TipoCobrancaId = _tipoCobrancas.TipoCobrancaId;
+        //    _empresaContrato.EstadoId = _estados.EstadoId;
+        //    _empresaContrato.MunicipioId = _municipio.MunicipioId;
+        //    _empresaContrato.StatusId = _status.StatusId;
+        //    _empresaContrato.TipoAcessoId = _tipoAcesso.TipoAcessoId;
 
-            //Cria 1 Area de Acesso
-            serviceEmpresa.ContratoService.AreaAceesso.Criar(_areaAcesso);
-            //Cria 1 Tipo de Acesso
-            serviceEmpresa.ContratoService.TipoCobranca.Criar(_tipoCobrancas);
-            //Cria 1 Status
-            serviceEmpresa.ContratoService.Status.Criar(_status);
-            //Cria 1 Tipo de Acesso
-            serviceEmpresa.ContratoService.TipoAcesso.Criar(_tipoAcesso);
+        //    serviceEmpresa.ContratoService.Alterar(_empresaContrato);
 
-            //Empresas
-            int idStr = serviceEmpresa.Listar().LastOrDefault().EmpresaId + 1;
-            _empresa.Nome = "EMPRESA #" + idStr.ToString() + "#";
-            serviceEmpresa.Alterar(_empresa);
+        //    //VeiculosEmpresas
+        //    _veiculoEmpresa.VeiculoId = _veiculo.EquipamentoVeiculoId;
+        //    _veiculoEmpresa.EmpresaId = _empresa.EmpresaId;
+        //    _veiculoEmpresa.EmpresaContratoId = _empresaContrato.EmpresaContratoId;
 
-            //EmpresasContratos
-            _empresaContrato.EmpresaId = _empresa.EmpresaId;
-            _empresaContrato.TipoCobrancaId = _tipoCobrancas.TipoCobrancaId;
-            _empresaContrato.EstadoId = _estados.EstadoId;
-            _empresaContrato.MunicipioId = _municipio.MunicipioId;
-            _empresaContrato.StatusId = _status.StatusId;
-            _empresaContrato.TipoAcessoId = _tipoAcesso.TipoAcessoId;
+        //    serviceVeiculo.Empresa.Alterar(_veiculoEmpresa);
 
-            serviceEmpresa.ContratoService.Alterar(_empresaContrato);
+        //    //TecnologiasCredenciais
+        //    serviceVeiculoCredencial.TecnologiaCredencial.Criar(_tecnologiaCredencial);
 
-            //VeiculosEmpresas
-            _veiculoEmpresa.VeiculoId = _veiculo.EquipamentoVeiculoId;
-            _veiculoEmpresa.EmpresaId = _empresa.EmpresaId;
-            _veiculoEmpresa.EmpresaContratoId = _empresaContrato.EmpresaContratoId;
+        //    //TipoCredencial
+        //    serviceVeiculoCredencial.TipoCredencial.Criar(_tipoCredencial);
 
-            serviceVeiculo.Empresa.Alterar(_veiculoEmpresa);
+        //    //LayoutCracha
+        //    serviceVeiculoCredencial.LayoutCracha.Criar(_layoutCracha);
 
-            //TecnologiasCredenciais
-            serviceVeiculoCredencial.TecnologiaCredencial.Criar(_tecnologiaCredencial);
+        //    //FormatoCredencial
+        //    serviceVeiculoCredencial.FormatoCredencial.Criar(_formatoCredencial);
 
-            //TipoCredencial
-            serviceVeiculoCredencial.TipoCredencial.Criar(_tipoCredencial);
+        //    //CredencialStatus
+        //    serviceVeiculoCredencial.CredencialStatus.Criar(_credencialStatus);
 
-            //LayoutCracha
-            serviceVeiculoCredencial.LayoutCracha.Criar(_layoutCracha);
+        //    //CredencialMotivo
+        //    serviceVeiculoCredencial.CredencialMotivo.Criar(_credencialMotivo);
 
-            //FormatoCredencial
-            serviceVeiculoCredencial.FormatoCredencial.Criar(_formatoCredencial);
+        //    #endregion
 
-            //CredencialStatus
-            serviceVeiculoCredencial.CredencialStatus.Criar(_credencialStatus);
+        //    #region CRUD de Credencial (VeiculosCredenciais)
 
-            //CredencialMotivo
-            serviceVeiculoCredencial.CredencialMotivo.Criar(_credencialMotivo);
+        //    //Cadastrar 1 Credencial de Veículo (ColaboradorCredencial)
+        //    _veiculoCredencial.VeiculoEmpresaId = _veiculoEmpresa.VeiculoEmpresaId;
+        //    _veiculoCredencial.TecnologiaCredencialId = _tecnologiaCredencial.TecnologiaCredencialId;
+        //    _veiculoCredencial.TipoCredencialId = _tipoCredencial.TipoCredencialId;
+        //    _veiculoCredencial.LayoutCrachaId = _layoutCracha.LayoutCrachaId;
+        //    _veiculoCredencial.FormatoCredencialId = _formatoCredencial.FormatoCredencialId;
+        //    _veiculoCredencial.CredencialStatusId = _credencialStatus.CredencialStatusId;
+        //    _veiculoCredencial.CredencialStatusId = _credencialStatus.CredencialStatusId;
+        //    _veiculoCredencial.VeiculoPrivilegio1Id = _areaAcesso.AreaAcessoId;
+        //    _veiculoCredencial.VeiculoPrivilegio2Id = _areaAcesso.AreaAcessoId;
+        //    _veiculoCredencial.CredencialmotivoId = _credencialMotivo.CredencialMotivoId;
 
-            #endregion
+        //    serviceVeiculoCredencial.Criar(_veiculoCredencial);
 
-            #region CRUD de Credencial (VeiculosCredenciais)
+        //    //Alterar 1 Credencial de Veículo (ColaboradorCredencial)
+        //    _colaboradorCredencial.Ativa = true;
+        //    _colaboradorCredencial.Validade = DateTime.Today.AddYears(1);
 
-            //Cadastrar 1 Credencial de Veículo (ColaboradorCredencial)
-            _veiculoCredencial.VeiculoEmpresaId = _veiculoEmpresa.VeiculoEmpresaId;
-            _veiculoCredencial.TecnologiaCredencialId = _tecnologiaCredencial.TecnologiaCredencialId;
-            _veiculoCredencial.TipoCredencialId = _tipoCredencial.TipoCredencialId;
-            _veiculoCredencial.LayoutCrachaId = _layoutCracha.LayoutCrachaId;
-            _veiculoCredencial.FormatoCredencialId = _formatoCredencial.FormatoCredencialId;
-            _veiculoCredencial.CredencialStatusId = _credencialStatus.CredencialStatusId;
-            _veiculoCredencial.CredencialStatusId = _credencialStatus.CredencialStatusId;
-            _veiculoCredencial.VeiculoPrivilegio1Id = _areaAcesso.AreaAcessoId;
-            _veiculoCredencial.VeiculoPrivilegio2Id = _areaAcesso.AreaAcessoId;
-            _veiculoCredencial.CredencialmotivoId = _credencialMotivo.CredencialMotivoId;
+        //    serviceVeiculoCredencial.Alterar(_veiculoCredencial);
 
-            serviceVeiculoCredencial.Criar(_veiculoCredencial);
 
-            //Alterar 1 Credencial de Veículo (ColaboradorCredencial)
-            _colaboradorCredencial.Ativa = true;
-            _colaboradorCredencial.Validade = DateTime.Today.AddYears(1);
+        //    //Listar 1 Credencial de Veículo (ColaboradorCredencial)
+        //    var ccList = serviceVeiculoCredencial.Listar().FirstOrDefault();
+        //    Assert.IsNotNull(ccList);
 
-            serviceVeiculoCredencial.Alterar(_veiculoCredencial);
+        //    //Remover 1 Credencial de Veículo (ColaboradorCredencial)
+        //    //serviceVeiculoCredencial.Remover(ccList);
+        //    //var ccDel = serviceVeiculoCredencial.BuscarPelaChave(ccList.VeiculoCredencialId);
+        //    //Assert.IsNull(ccDel);
 
+        //    #endregion
 
-            //Listar 1 Credencial de Veículo (ColaboradorCredencial)
-            var ccList = serviceVeiculoCredencial.Listar().FirstOrDefault();
-            Assert.IsNotNull(ccList);
+        //    #endregion
 
-            //Remover 1 Credencial de Veículo (ColaboradorCredencial)
-            //serviceVeiculoCredencial.Remover(ccList);
-            //var ccDel = serviceVeiculoCredencial.BuscarPelaChave(ccList.VeiculoCredencialId);
-            //Assert.IsNull(ccDel);
-
-            #endregion
-
-            #endregion
-
-        }
+        //}
 
         [Priority(1)]
         [TestMethod]
         [Description("Objetivo cadastrar dados de empresa e seus relacionamentos")]
         public void Empresa_Cadastro_geral_com_Sucesso()
         {
-            var service = new EmpresaService();
+            var empresaService = new EmpresaService();
 
             #region Lista de CNPJs
 
@@ -1258,43 +1249,44 @@ namespace UnitTestImod
                 _empresa.Nome = $"Empresa ({_empresa.EmpresaId})";
 
                 //Já existindo empresa, então nao cadastrar novamente, pois não é possivel haver 2 CNPJ iguais
-                var d0 = service.BuscarEmpresaPorCnpj(_empresa.Cnpj);
+                var d0 = empresaService.BuscarEmpresaPorCnpj(_empresa.Cnpj);
 
                 if (d0 != null)
                 {
                     //Remove pendência de empresa (caso exista)
-                    var pendencia = service.Pendencia.BuscarPorEmpresa(d0.EmpresaId);
+                    var pendencia = empresaService.Pendencia.Listar().FirstOrDefault(n=>n.EmpresaId==d0.EmpresaId);
                     if (pendencia != null)
                     {
-                        service.Pendencia.Remover(pendencia);
+                        empresaService.Pendencia.Remover(pendencia);
                     }
                     //Remove empresa
-                    service.Remover(d0);
-                    service.Criar(d0);
+                    empresaService.Remover(d0);
+                    empresaService.Criar(d0);
                     _empresa = d0;
                 }
                 else
                 {
-                    service.Criar(_empresa);
+                    empresaService.Criar(_empresa);
                 }
                 k++;
             }
 
             //Cria TipoAtividade
-            service.TipoAtividadeService.Criar(_tipoAtividade);
+            serviceAuxiliar.TipoAtividadeService.Criar(_tipoAtividade);
             _empresaTipoAtividade.TipoAtividadeId = _tipoAtividade.TipoAtividadeId;
             _empresaTipoAtividade.EmpresaId = _empresa.EmpresaId;
 
             //Cria EmpresaTipoAtividade
-            service.EmpresaTipoAtividadeService.Criar(_empresaTipoAtividade);
+            empresaService.Atividade.Criar(_empresaTipoAtividade);
 
 
-            service.LayoutCrachaService.Criar(_layoutCracha);
+           serviceAuxiliar.LayoutCrachaService.Criar(_layoutCracha);
+
             _empresaLayoutCracha.LayoutCrachaId = _layoutCracha.LayoutCrachaId;
             _empresaLayoutCracha.EmpresaId = _empresa.EmpresaId;
 
             //Cria EmpresaLayoutCracha
-            service.EmpresaLayoutCrachaService.Criar(_empresaLayoutCracha);
+            empresaService.CrachaService.Criar(_empresaLayoutCracha);
 
             #endregion
 
@@ -1304,7 +1296,7 @@ namespace UnitTestImod
             for (var i = 0; i < 5; i++)
             {
                 _empresaSignatario.EmpresaId = _empresa.EmpresaId;
-                service.SignatarioService.Criar(_empresaSignatario);
+                empresaService.SignatarioService.Criar(_empresaSignatario);
             }
 
             #endregion
@@ -1315,14 +1307,14 @@ namespace UnitTestImod
             for (var i = 0; i < 5; i++)
             {
                 _empresaAnexo.EmpresaId = _empresa.EmpresaId;
-                service.AnexoService.Criar(_empresaAnexo);
+                empresaService.AnexoService.Criar(_empresaAnexo);
             }
 
             #endregion
 
             #region Cadastrar Pendencias
 
-            service.Pendencia.Criar(new Pendencia
+            empresaService.Pendencia.Criar(new Pendencia
             {
                 EmpresaId = _empresa.EmpresaId,
                 Descricao = "Teste Unitário",
@@ -1335,7 +1327,7 @@ namespace UnitTestImod
 
             #region Listar Pendencias
 
-            var listP = service.ListarPendencias(_empresa.EmpresaId).FirstOrDefault();
+            var listP = empresaService.ListarPendencias(_empresa.EmpresaId).FirstOrDefault();
             if (listP == null) throw new Exception("Uma pendência foi cadastrada, mas não foi possível retorna informção");
             var pend = listP.Pendencias;
             Assert.IsTrue(!string.IsNullOrWhiteSpace(pend));
@@ -1343,27 +1335,27 @@ namespace UnitTestImod
             #endregion
 
             #region Empresa Area Acesso
-
+         
             //Cria Area Acesso
             for (var i = 0; i < 2; i++)
             {
-                service.AreaAcessoService.Criar(_areaAcesso);
+                serviceAuxiliar.AreaAcessoService.Criar(_areaAcesso);
             }
 
             //Cria Empresa Area Acesso
             _empresaAreaAcesso.AreaAcessoId = _areaAcesso.AreaAcessoId;
             _empresaAreaAcesso.EmpresaId = _empresa.EmpresaId;
-            service.EmpresaAreaAcessoService.Criar(_empresaAreaAcesso);
+            empresaService.AreaAcessoService.Criar(_empresaAreaAcesso);
 
-            var d1 = service.EmpresaAreaAcessoService.BuscarPelaChave(_empresaAreaAcesso.EmpresaAreaAcessoId);
-            service.EmpresaAreaAcessoService.Alterar(d1);
+            var d1 = empresaService.AreaAcessoService.BuscarPelaChave(_empresaAreaAcesso.EmpresaAreaAcessoId);
+            empresaService.AreaAcessoService.Alterar(d1);
 
-            var list = service.EmpresaAreaAcessoService.Listar().LastOrDefault();
+            var list = empresaService.AreaAcessoService.Listar().LastOrDefault();
             Assert.IsNotNull(list);
 
-            var d2 = service.EmpresaAreaAcessoService.BuscarPelaChave(list.EmpresaAreaAcessoId);
-            service.EmpresaAreaAcessoService.Remover(d2);
-            var d3 = service.EmpresaAreaAcessoService.BuscarPelaChave(d2.EmpresaAreaAcessoId);
+            var d2 = empresaService.AreaAcessoService.BuscarPelaChave(list.EmpresaAreaAcessoId);
+            empresaService.AreaAcessoService.Remover(d2);
+            var d3 = empresaService.AreaAcessoService.BuscarPelaChave(d2.EmpresaAreaAcessoId);
             Assert.IsNull(d3);
 
             #endregion
@@ -1374,26 +1366,23 @@ namespace UnitTestImod
             for (var i = 0; i < 2; i++)
             {
                 //Cria Layout Crachá
-                service.LayoutCrachaService.Criar(_layoutCracha);
-
-
+                serviceAuxiliar.LayoutCrachaService.Criar (_layoutCracha);
                 //Cria Empresa Layout Crachá
                 _empresaLayoutCracha.LayoutCrachaId = _layoutCracha.LayoutCrachaId;
                 _empresaLayoutCracha.EmpresaId = _empresa.EmpresaId;
-
-                service.EmpresaLayoutCrachaService.Criar(_empresaLayoutCracha);
+                empresaService.CrachaService.Criar(_empresaLayoutCracha);
             }
 
-            var d4 = service.EmpresaLayoutCrachaService.BuscarPelaChave(_empresaLayoutCracha.EmpresaLayoutCrachaId);
-            service.EmpresaLayoutCrachaService.Alterar(d4);
+            var d4 = empresaService.CrachaService.BuscarPelaChave(_empresaLayoutCracha.EmpresaLayoutCrachaId);
+            empresaService.CrachaService.Alterar(d4);
 
-            var last = service.EmpresaLayoutCrachaService.Listar().LastOrDefault();
+            var last = empresaService.CrachaService.Listar().LastOrDefault();
             Assert.IsNotNull(last);
 
             //Remove Empresa Layout Crachá
-            var d5 = service.EmpresaLayoutCrachaService.BuscarPelaChave(last.EmpresaLayoutCrachaId);
-            service.EmpresaLayoutCrachaService.Remover(d5);
-            var d6 = service.EmpresaLayoutCrachaService.BuscarPelaChave(d5.EmpresaLayoutCrachaId);
+            var d5 = empresaService.CrachaService.BuscarPelaChave(last.EmpresaLayoutCrachaId);
+            empresaService.CrachaService.Remover(d5);
+            var d6 = empresaService.CrachaService.BuscarPelaChave(d5.EmpresaLayoutCrachaId);
             Assert.IsNull(d6);
 
 
@@ -1407,15 +1396,15 @@ namespace UnitTestImod
 
             //Cadastrar 1 Contrato
             _empresaContrato.EmpresaId = _empresa.EmpresaId;
-            service.ContratoService.Criar(_empresaContrato);
+            empresaService.ContratoService.Criar(_empresaContrato);
 
-            var n1 = service.ContratoService.BuscarPelaChave(_empresaContrato.EmpresaContratoId);
+            var n1 = empresaService.ContratoService.BuscarPelaChave(_empresaContrato.EmpresaContratoId);
             Assert.IsNotNull(n1);
-            var l1 = service.ContratoService.ListarPorEmpresa(_empresa.EmpresaId);
+            var l1 = empresaService.ContratoService.ListarPorEmpresa(_empresa.EmpresaId);
             Assert.IsNotNull(l1);
-            var l2 = service.ContratoService.ListarPorDescricao(_empresaContrato.Descricao);
+            var l2 = empresaService.ContratoService.ListarPorDescricao(_empresaContrato.Descricao);
             Assert.IsNotNull(l2);
-            var l3 = service.ContratoService.ListarPorNumeroContrato(_empresaContrato.NumeroContrato);
+            var l3 = empresaService.ContratoService.ListarPorNumeroContrato(_empresaContrato.NumeroContrato);
             Assert.IsNotNull(l3);
 
             //Altera Empresa Contrato
@@ -1424,9 +1413,9 @@ namespace UnitTestImod
             _empresaContrato.TipoAcessoId = _tipoAcesso.TipoAcessoId;
             _empresaContrato.EmpresaId = _empresa.EmpresaId;
 
-            service.ContratoService.Alterar(_empresaContrato);
+            empresaService.ContratoService.Alterar(_empresaContrato);
 
-            var list1 = service.ContratoService.Listar().LastOrDefault();
+            var list1 = empresaService.ContratoService.Listar().LastOrDefault();
             Assert.IsNotNull(list1);
 
             //Remover Empresa Contrato
@@ -1434,6 +1423,47 @@ namespace UnitTestImod
             //service.ContratoService.Remover(dd2);
             //var dd3 = service.ContratoService.BuscarPelaChave(dd2.EmpresaContratoId);
             //Assert.IsNull(dd3);
+
+            #endregion
+
+            #region Veiculos Vinculados
+
+            var veicserv = new VeiculoService();
+
+            var cb1 = serviceAuxiliar.TipoCombustivelService.Listar().FirstOrDefault();
+            var cb2 = serviceAuxiliar.TiposAcessoService.Listar().FirstOrDefault();
+            var cb3 = serviceAuxiliar.StatusService.Listar().FirstOrDefault();
+
+            _veiculo.CombustivelId = cb1.TipoCombustivelId;
+            _veiculo.TipoAcessoId = cb2.TipoAcessoId;
+            _veiculo.StatusId = cb3.StatusId;
+
+
+            veicserv.Criar(_veiculo);
+
+            var v1 = veicserv.BuscarPelaChave(_veiculo.EquipamentoVeiculoId);
+            _veiculoEmpresa.VeiculoId = v1.EquipamentoVeiculoId;
+            _veiculoEmpresa.EmpresaId = _empresa.EmpresaId;
+            _veiculoEmpresa.EmpresaContratoId = _empresaContrato.EmpresaContratoId;
+
+            for (var i = 0; i < 5; i++)
+            {
+                empresaService.VeiculoService.Criar(_veiculoEmpresa);
+            }
+
+            var list0 = empresaService.VeiculoService.Listar();
+            Assert.IsNotNull(list0);
+
+            var b1 = empresaService.VeiculoService.BuscarPelaChave(_veiculoEmpresa.VeiculoEmpresaId);
+            Assert.IsNotNull(b1);
+
+            var b2 = empresaService.VeiculoService.Listar(0, 0, "%" + _veiculoEmpresa.Matricula + "%");
+            Assert.IsNotNull(b2);
+
+            //Remover
+            empresaService.VeiculoService.Remover(b1);
+            var b4 = empresaService.VeiculoService.BuscarPelaChave(b1.VeiculoEmpresaId);
+            Assert.IsNull(b4);
 
             #endregion
 

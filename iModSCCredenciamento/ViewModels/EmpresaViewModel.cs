@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Xml;
 using System.Xml.Serialization;
 using AutoMapper;
+using iModSCCredenciamento.Enums;
 using iModSCCredenciamento.Funcoes;
 using iModSCCredenciamento.Models;
 using iModSCCredenciamento.Windows;
@@ -713,7 +714,7 @@ namespace iModSCCredenciamento.ViewModels
 
                 var entity = _EmpresaTipoAtividade;
                 var entityConv = Mapper.Map<EmpresaTipoAtividade>(entity);
-                _service.EmpresaTipoAtividadeService.Criar(entityConv);
+                _service.Atividade.Criar(entityConv);
                 CarregaColecaoEmpresasTiposAtividades(_EmpresaTipoAtividade.EmpresaID);
 
             }
@@ -731,7 +732,7 @@ namespace iModSCCredenciamento.ViewModels
                 {
                     var entity = EmpresaTipoAtividadeSelecionada;
                     var entityConv = Mapper.Map<EmpresaTipoAtividade>(entity);
-                    _service.EmpresaTipoAtividadeService.Remover(entityConv);
+                    _service.Atividade.Remover(entityConv);
 
                     EmpresasTiposAtividades.Remove(EmpresaTipoAtividadeSelecionada);
 
@@ -745,7 +746,6 @@ namespace iModSCCredenciamento.ViewModels
             }
         }
         #endregion
-
 
         #region Area Acesso
         public void OnInserirAcessoCommand(object areaAcesso)
@@ -799,7 +799,7 @@ namespace iModSCCredenciamento.ViewModels
 
                 var entity = _EmpresaLayoutCracha;
                 var entityConv = Mapper.Map<EmpresaLayoutCracha>(entity);
-                _service.EmpresaLayoutCrachaService.Criar(entityConv);
+                _service.CrachaService.Criar(entityConv);
 
                 CarregaColecaoEmpresasLayoutsCrachas(_EmpresaLayoutCracha.EmpresaID);
             }
@@ -818,7 +818,7 @@ namespace iModSCCredenciamento.ViewModels
                 {
                     var entity = EmpresaLayoutCrachaSelecionada;
                     var entityConv = Mapper.Map<EmpresaLayoutCracha>(entity);
-                    _service.EmpresaLayoutCrachaService.Remover(entityConv);
+                    _service.CrachaService.Remover(entityConv);
                     EmpresasLayoutsCrachas.Remove(EmpresaLayoutCrachaSelecionada);
 
                     CarregaColecaoEmpresasTiposAtividades(EmpresaSelecionada.EmpresaID);
@@ -865,11 +865,81 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                PopupPendencias popupPendencias = new PopupPendencias(1, ((FrameworkElement)e.OriginalSource).Tag, EmpresaSelecionada.EmpresaID, EmpresaSelecionada.Nome);
-                popupPendencias.ShowDialog();
-                popupPendencias = null;
-                CarregaColecaoEmpresas(EmpresaSelecionada.EmpresaID, "", "", "");
+                //PopupPendencias popupPendencias = new PopupPendencias(1, ((FrameworkElement)e.OriginalSource).Tag, EmpresaSelecionada.EmpresaID, EmpresaSelecionada.Nome);
+                //popupPendencias.ShowDialog();
+                //popupPendencias = null;
+                //CarregaColecaoEmpresas(EmpresaSelecionada.EmpresaID, "", "", "");
 
+
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+            }
+        }
+
+
+
+        public void OnAbrirPendenciaGeral(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                //var popupPendencias = 
+                //    new PopupPendencias(2, ((FrameworkElement)e.OriginalSource).Tag, EmpresaSelecionada.EmpresaID, ColaboradorSelecionado.Nome);
+                //popupPendencias.ShowDialog();
+                //popupPendencias = null;
+                //CarregaColecaoColaboradores(EmpresaSelecionada.EmpresaID);
+
+                var frm = new PopupPendencias();
+                frm.Inicializa(21, EmpresaSelecionada.EmpresaID, PendenciaTipo.Empresa);
+                frm.ShowDialog();
+                //CarregaColecaoEmpresas(EmpresaSelecionada.EmpresaID, "", "", "");
+
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+            }
+        }
+        public void OnAbrirPendenciaContratos(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var frm = new PopupPendencias();
+                frm.Inicializa(14, EmpresaSelecionada.EmpresaID, PendenciaTipo.Empresa);
+                frm.ShowDialog();
+               // CarregaColecaoEmpresas(EmpresaSelecionada.EmpresaID, "", "", "");
+
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+            }
+        }
+        public void OnAbrirPendenciaAnexos(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var frm = new PopupPendencias();
+                frm.Inicializa(24, EmpresaSelecionada.EmpresaID, PendenciaTipo.Empresa);
+                frm.ShowDialog();
+                //CarregaColecaoEmpresas(EmpresaSelecionada.EmpresaID, "", "", "");
+
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+            }
+        }
+        
+        public void OnAbrirPendenciaRepresentante(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var frm = new PopupPendencias();
+                frm.Inicializa(12, EmpresaSelecionada.EmpresaID, PendenciaTipo.Empresa);
+                frm.ShowDialog();
+               // CarregaColecaoEmpresas(EmpresaSelecionada.EmpresaID, "", "", "");
 
             }
             catch (Exception ex)

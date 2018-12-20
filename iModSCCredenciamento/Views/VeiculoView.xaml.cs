@@ -217,10 +217,37 @@ namespace iModSCCredenciamento.Views
             Credenciais_ti.Visibility = Visibility.Visible;
             Geral_bt.Visibility = Visibility.Visible;
         }
-        private void Button_Click(object sender, RoutedEventArgs e)
+
+
+        //private void Button_Click(object sender, RoutedEventArgs e)
+        //{
+        //    ((VeiculoViewModel)DataContext).OnAbrirPendencias(sender, e);
+        //}
+
+        private void OnPendenciaGeral_Click(object sender, RoutedEventArgs e)
         {
-            ((VeiculoViewModel)DataContext).OnAbrirPendencias(sender, e);
+            ((VeiculoViewModel)DataContext).OnAbrirPendenciaGeral(sender, e);
         }
+        private void OnPendenciaContratos_Click(object sender, RoutedEventArgs e)
+        {
+            ((VeiculoViewModel)DataContext).OnAbrirPendenciaContratos(sender, e);
+        }
+        private void OnPendenciaSeguro_Click(object sender, RoutedEventArgs e)
+        {
+            ((VeiculoViewModel)DataContext).OnAbrirPendenciaSeguro(sender, e);
+        }
+        private void OnPendenciaAnexos_Click(object sender, RoutedEventArgs e)
+        {
+            ((VeiculoViewModel)DataContext).OnAbrirPendenciaAnexos(sender, e);
+        }
+        private void OnPendenciaCredenciais_Click(object sender, RoutedEventArgs e)
+        {
+            ((VeiculoViewModel)DataContext).OnAbrirPendenciaCredenciais(sender, e);
+        }
+
+
+
+
         #endregion
 
         #region Metodos Privados

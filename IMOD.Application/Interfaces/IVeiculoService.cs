@@ -25,10 +25,6 @@ namespace IMOD.Application.Interfaces
         /// </summary>
         IVeiculoAnexoService Anexo { get; }
 
-        /// <summary>
-        /// Serviços de Veiculos
-        /// Author: Valnei
-        /// </summary>
-        IVeiculoEmpresaService Veiculo { get; }
+        
     }
 }

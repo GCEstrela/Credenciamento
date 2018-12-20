@@ -10,6 +10,7 @@ using System.Windows;
 using System.Windows.Media.Imaging;
 using System.Xml;
 using AutoMapper;
+using iModSCCredenciamento.Enums;
 using iModSCCredenciamento.Funcoes;
 using iModSCCredenciamento.Models;
 using iModSCCredenciamento.Windows;
@@ -455,13 +456,19 @@ namespace iModSCCredenciamento.ViewModels
             SelectedIndex = 0;
         }
 
-        public void OnAbrirPendencias(object sender, RoutedEventArgs e)
+        public void OnAbrirPendenciaGeral(object sender, RoutedEventArgs e)
         {
             try
             {
-                PopupPendencias popupPendencias = new PopupPendencias(2, ((FrameworkElement)e.OriginalSource).Tag, ColaboradorSelecionado.ColaboradorID, ColaboradorSelecionado.Nome);
-                popupPendencias.ShowDialog();
-                popupPendencias = null;
+                //var popupPendencias = 
+                //    new PopupPendencias(2, ((FrameworkElement)e.OriginalSource).Tag, ColaboradorSelecionado.ColaboradorID, ColaboradorSelecionado.Nome);
+                //popupPendencias.ShowDialog();
+                //popupPendencias = null;
+                //CarregaColecaoColaboradores(ColaboradorSelecionado.ColaboradorID);
+
+                var frm = new PopupPendencias();
+                frm.Inicializa(21, ColaboradorSelecionado.ColaboradorID,PendenciaTipo.Colaborador);
+                frm.ShowDialog();
                 CarregaColecaoColaboradores(ColaboradorSelecionado.ColaboradorID);
 
             }
@@ -470,6 +477,69 @@ namespace iModSCCredenciamento.ViewModels
                 Utils.TraceException(ex);
             }
         }
+        public void OnAbrirPendenciaContratos(object sender, RoutedEventArgs e)
+        {
+            try
+            { 
+                var frm = new PopupPendencias();
+                frm.Inicializa(14, ColaboradorSelecionado.ColaboradorID, PendenciaTipo.Colaborador);
+                frm.ShowDialog();
+                CarregaColecaoColaboradores(ColaboradorSelecionado.ColaboradorID);
+
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+            }
+        }
+        public void OnAbrirPendenciaAnexos(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var frm = new PopupPendencias();
+                frm.Inicializa(24, ColaboradorSelecionado.ColaboradorID, PendenciaTipo.Colaborador);
+                frm.ShowDialog();
+                //CarregaColecaoColaboradores(ColaboradorSelecionado.ColaboradorID);
+
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+            }
+        }
+        public void OnAbrirPendenciaCredenciais(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var frm = new PopupPendencias();
+                frm.Inicializa(25, ColaboradorSelecionado.ColaboradorID, PendenciaTipo.Colaborador);
+                frm.ShowDialog();
+                //CarregaColecaoColaboradores(ColaboradorSelecionado.ColaboradorID);
+
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+            }
+        }
+        public void OnAbrirPendenciaTreinamento(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var frm = new PopupPendencias();
+                frm.Inicializa(23, ColaboradorSelecionado.ColaboradorID, PendenciaTipo.Colaborador);
+                frm.ShowDialog();
+                //CarregaColecaoColaboradores(ColaboradorSelecionado.ColaboradorID);
+
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+            }
+        }
+
+
+
 
         #endregion
 

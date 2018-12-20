@@ -1,30 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿// ***********************************************************************
+// Project: IMOD.ImodApp
+// Crafted by: Grupo Estrela by Genetec
+// Date:  12 - 07 - 2018
+// ***********************************************************************
+
+#region
+
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using iModSCCredenciamento.Mapeamento;
+
+#endregion
 
 namespace IMOD.ImodApp
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    ///     Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
         public MainWindow()
         {
-            AutoMapperConfig.RegisterMappings();
             InitializeComponent();
-            
+            AutoMapperConfig.RegisterMappings();
         }
     }
 }

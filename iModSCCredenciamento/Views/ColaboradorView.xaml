@@ -234,7 +234,7 @@
             <TabItem x:Name="Geral_ti" Width="200" Background="{x:Null}"  Selector.Selected="OnTabSelected" Selector.Unselected="OnTabUnSelected">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <Button x:Name="Geral_bt" Tag="21" IsEnabled="{Binding IsSelected, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type TabItem }}}"  Click="Button_Click" Style="{StaticResource MenuStyle}" >
+                        <Button x:Name="Geral_bt" Tag="21" IsEnabled="{Binding IsSelected, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type TabItem }}}"  Click="OnPendenciaGeral_Click" Style="{StaticResource MenuStyle}" >
                             <StackPanel>
                                 <Image Source="{Binding ElementName=ListaColaboradores_lv, Path=SelectedItem.Pendente21,
                                         Converter={StaticResource ConvertBoolToImage},UpdateSourceTrigger=Explicit, Mode=TwoWay}" Width="16"  Height="16"  />
@@ -635,7 +635,7 @@
             <TabItem x:Name="VinculoEmpresa_ti" Width="200">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <Button x:Name="Contratos_bt" Tag="22" IsEnabled="{Binding IsSelected, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type TabItem }}}"  Click="Button_Click" Style="{StaticResource MenuStyle}" >
+                        <Button x:Name="Contratos_bt" Tag="22" IsEnabled="{Binding IsSelected, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type TabItem }}}"  Click="OnPendenciaContratos_Click" Style="{StaticResource MenuStyle}" >
                             <StackPanel>
                                 <Image Source="{Binding ElementName=ListaColaboradores_lv, Path=SelectedItem.Pendente22,
                                         Converter={StaticResource ConvertBoolToImage},UpdateSourceTrigger=Explicit, Mode=TwoWay}"  Width="16"  Height="16" />
@@ -661,7 +661,7 @@
             <TabItem x:Name="Cursos_ti"  Width="200" Background="{x:Null}"  >
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <Button x:Name="Cursos_bt" Tag="23" IsEnabled="{Binding IsSelected, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type TabItem }}}"  Click="Button_Click" Style="{StaticResource MenuStyle}" >
+                        <Button x:Name="Cursos_bt" Tag="23" IsEnabled="{Binding IsSelected, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type TabItem }}}"  Click="OnPendenciaTreinamento_Click" Style="{StaticResource MenuStyle}" >
                             <StackPanel>
                                 <Image Source="{Binding ElementName=ListaColaboradores_lv, Path=SelectedItem.Pendente23,
                                         Converter={StaticResource ConvertBoolToImage},UpdateSourceTrigger=Explicit, Mode=TwoWay}" Width="16"  Height="16"  />
@@ -686,7 +686,7 @@
             <TabItem x:Name="Anexos_ti"  Width="200"   >
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <Button x:Name="Anexos_bt" Tag="24" IsEnabled="{Binding IsSelected, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type TabItem }}}"  Click="Button_Click" Style="{StaticResource MenuStyle}" >
+                        <Button x:Name="Anexos_bt" Tag="24" IsEnabled="{Binding IsSelected, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type TabItem }}}"  Click="OnPendenciaAnexos_Click" Style="{StaticResource MenuStyle}" >
                             <StackPanel>
                                 <Image Source="{Binding ElementName=ListaColaboradores_lv, Path=SelectedItem.Pendente24,
                                         Converter={StaticResource ConvertBoolToImage},UpdateSourceTrigger=Explicit, Mode=TwoWay}"  Width="16"  Height="16" />
@@ -708,7 +708,7 @@
             <TabItem x:Name="Credenciais_ti"  Width="200"   >
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <Button x:Name="Credenciais_bt" Tag="25" IsEnabled="{Binding IsSelected, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type TabItem }}}"  Click="Button_Click" Style="{StaticResource MenuStyle}" >
+                        <Button x:Name="Credenciais_bt" Tag="25" IsEnabled="{Binding IsSelected, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type TabItem }}}"  Click="OnPendenciaCredenciais_Click" Style="{StaticResource MenuStyle}" >
                             <StackPanel>
                                 <Image Source="{Binding ElementName=ListaColaboradores_lv, Path=SelectedItem.Pendente25,
                                         Converter={StaticResource ConvertBoolToImage},UpdateSourceTrigger=Explicit, Mode=TwoWay}" Width="16"  Height="16"  />

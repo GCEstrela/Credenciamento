@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:iModSCCredenciamento.Views"
              xmlns:i="clr-namespace:iModSCCredenciamento.Funcoes"
              xmlns:wpf="clr-namespace:CSharpControls.Wpf;assembly=CSharpControls.Wpf"
+
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="1073.333"  Loaded="UserControl_Loaded"  >
     <UserControl.Resources>
