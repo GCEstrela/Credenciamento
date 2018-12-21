@@ -47,7 +47,7 @@ namespace iModSCCredenciamento.ViewModels
 
         private ObservableCollection<ClasseFormatosCredenciais.FormatoCredencial> _FormatosCredenciais;
 
-        private ObservableCollection<ClasseEmpresasLayoutsCrachas.EmpresaLayoutCracha> _EmpresasLayoutsCrachas;
+        private ObservableCollection<EmpresaLayoutCrachaView> _EmpresasLayoutsCrachas;
 
         private ObservableCollection<EmpresaContratoView> _Contratos;
 
@@ -110,7 +110,7 @@ namespace iModSCCredenciamento.ViewModels
             }
         }
 
-        public ObservableCollection<ClasseEmpresasLayoutsCrachas.EmpresaLayoutCracha> EmpresasLayoutsCrachas
+        public ObservableCollection<EmpresaLayoutCrachaView> EmpresasLayoutsCrachas
         {
             get
             {

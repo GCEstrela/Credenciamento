@@ -10,6 +10,7 @@ using IMOD.Application.Interfaces;
 using IMOD.Application.Service;
 using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
+using iModSCCredenciamento.Views.Model;
 
 namespace iModSCCredenciamento.ViewModels
 {
@@ -50,8 +51,8 @@ namespace iModSCCredenciamento.ViewModels
         private ClasseRelatoriosGerenciais.RelatorioGerencial _RelatorioGerencialTemp = new ClasseRelatoriosGerenciais.RelatorioGerencial();
         private List<ClasseRelatoriosGerenciais.RelatorioGerencial> _RelatoriosGerenciaisTemp = new List<ClasseRelatoriosGerenciais.RelatorioGerencial>();
 
-        private ClasseLayoutsCrachas.LayoutCracha _LayoutCrachaTemp = new ClasseLayoutsCrachas.LayoutCracha();
-        private List<ClasseLayoutsCrachas.LayoutCracha> _LayoutsCrachasTemp = new List<ClasseLayoutsCrachas.LayoutCracha>();
+        private LayoutCrachaView _LayoutCrachaTemp = new LayoutCrachaView();
+        private List<LayoutCrachaView> _LayoutsCrachasTemp = new List<LayoutCrachaView>();
 
         private ClasseRelatorios.Relatorio _RelatorioSelecionado;
         private ClasseRelatoriosGerenciais.RelatorioGerencial _RelatorioGerencialSelecionado;
@@ -70,9 +71,9 @@ namespace iModSCCredenciamento.ViewModels
         private ClasseTiposCobrancas.TipoCobranca _CobrancaSelecionada;
         private int _tipoCobrancaSelectedIndex;
 
-        private ObservableCollection<ClasseTiposAtividades.TipoAtividade> _TiposAtividade;
-        private List<ClasseTiposAtividades.TipoAtividade> _TiposAtividadesTemp = new List<ClasseTiposAtividades.TipoAtividade>();
-        private ClasseTiposAtividades.TipoAtividade _AtividadeSelecionada;
+        private ObservableCollection<TipoAtividadeView> _TiposAtividade;
+        private List<TipoAtividadeView> _TiposAtividadesTemp = new List<TipoAtividadeView>();
+        private TipoAtividadeView _AtividadeSelecionada;
         private int _tipoAtividadeSelectedIndex;
 
         private ObservableCollection<ClasseCursos.Curso> _Cursos;
@@ -99,8 +100,8 @@ namespace iModSCCredenciamento.ViewModels
 
         private int _selectedIndex;
         private int _selectedIndexTemp = 0;
-        private ClasseLayoutsCrachas.LayoutCracha _LayoutCrachaSelecionado;
-        private ObservableCollection<ClasseLayoutsCrachas.LayoutCracha> _LayoutsCrachas;
+        private LayoutCrachaView _LayoutCrachaSelecionado;
+        private ObservableCollection<LayoutCrachaView> _LayoutsCrachas;
         private int _LayoutCrachaSelectedIndex;
 
         private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
@@ -133,7 +134,7 @@ namespace iModSCCredenciamento.ViewModels
             }
         }
 
-        public ObservableCollection<ClasseLayoutsCrachas.LayoutCracha> LayoutsCrachas
+        public ObservableCollection<LayoutCrachaView> LayoutsCrachas
         {
             get
             {
@@ -234,7 +235,7 @@ namespace iModSCCredenciamento.ViewModels
             }
         }
 
-        public ClasseLayoutsCrachas.LayoutCracha LayoutCrachaSelecionado
+        public LayoutCrachaView LayoutCrachaSelecionado
         {
             get
             {
@@ -309,7 +310,7 @@ namespace iModSCCredenciamento.ViewModels
             }
         }
 
-        public ObservableCollection<ClasseTiposAtividades.TipoAtividade> TiposAtividades
+        public ObservableCollection<TipoAtividadeView> TiposAtividades
         {
             get
             {
@@ -326,7 +327,7 @@ namespace iModSCCredenciamento.ViewModels
                 }
             }
         }
-        public ClasseTiposAtividades.TipoAtividade TipoAtividadeSelecionada
+        public TipoAtividadeView TipoAtividadeSelecionada
         {
             get
             {
@@ -901,7 +902,7 @@ namespace iModSCCredenciamento.ViewModels
                 _LayoutCrachaSelectedIndex = LayoutCrachaSelectedIndex;
                 LayoutsCrachas.Clear();
 
-                _LayoutCrachaTemp = new ClasseLayoutsCrachas.LayoutCracha();
+                _LayoutCrachaTemp = new LayoutCrachaView();
                 LayoutsCrachas.Add(_LayoutCrachaTemp);
 
                 LayoutCrachaSelectedIndex = 0;
@@ -920,7 +921,7 @@ namespace iModSCCredenciamento.ViewModels
                 var entity = LayoutCrachaSelecionado;
                 var entityConv = Mapper.Map<LayoutCracha>(entity);
 
-                if (LayoutCrachaSelecionado.LayoutCrachaID != 0)
+                if (LayoutCrachaSelecionado.LayoutCrachaId != 0)
                 {
                     _auxiliaresService.LayoutCrachaService.Alterar(entityConv);
                 }
@@ -963,7 +964,7 @@ namespace iModSCCredenciamento.ViewModels
                 var arq = WpfHelp.UpLoadArquivoDialog(filtro, 0);
                 if (arq == null) return;
                 _LayoutCrachaTemp.Nome = arq.Nome;
-                _LayoutCrachaTemp.LayoutRPT = arq.FormatoBase64;
+                _LayoutCrachaTemp.LayoutRpt = arq.FormatoBase64;
             }
             catch (Exception ex)
             {
@@ -975,7 +976,7 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                var id = LayoutCrachaSelecionado.LayoutCrachaID;
+                var id = LayoutCrachaSelecionado.LayoutCrachaId;
 
                 layoutCracha = _auxiliaresService.LayoutCrachaService.BuscarPelaChave(id);
 
@@ -1004,7 +1005,7 @@ namespace iModSCCredenciamento.ViewModels
 
                 _tipoAtividadeSelectedIndex = TipoAtividadeSelectedIndex;
                 TiposAtividades.Clear();
-                ClasseTiposAtividades.TipoAtividade _atividade = new ClasseTiposAtividades.TipoAtividade();
+                TipoAtividadeView _atividade = new TipoAtividadeView();
                 TiposAtividades.Add(_atividade);
 
                 TipoAtividadeSelectedIndex = 0;
@@ -1023,7 +1024,7 @@ namespace iModSCCredenciamento.ViewModels
                 var entity = TipoAtividadeSelecionada;
                 var entityConv = Mapper.Map<TipoAtividade>(entity);
 
-                if (TipoAtividadeSelecionada.TipoAtividadeID != 0)
+                if (TipoAtividadeSelecionada.TipoAtividadeId != 0)
                 {
                     _auxiliaresService.TipoAtividadeService.Alterar(entityConv);
                 }
@@ -1456,8 +1457,8 @@ namespace iModSCCredenciamento.ViewModels
                 var service = new TipoAtividadeService();
                 var list1 = service.Listar();
 
-                var list2 = Mapper.Map<List<ClasseTiposAtividades.TipoAtividade>>(list1);
-                var observer = new ObservableCollection<ClasseTiposAtividades.TipoAtividade>();
+                var list2 = Mapper.Map<List<TipoAtividadeView>>(list1);
+                var observer = new ObservableCollection<TipoAtividadeView>();
                 list2.ForEach(n =>
                 {
                     observer.Add(n);
@@ -1569,8 +1570,8 @@ namespace iModSCCredenciamento.ViewModels
                 var service = new LayoutCrachaService();
                 var list1 = service.Listar();
 
-                var list2 = Mapper.Map<List<ClasseLayoutsCrachas.LayoutCracha>>(list1);
-                var observer = new ObservableCollection<ClasseLayoutsCrachas.LayoutCracha>();
+                var list2 = Mapper.Map<List<LayoutCrachaView>>(list1);
+                var observer = new ObservableCollection<LayoutCrachaView>();
                 list2.ForEach(n =>
                 {
                     observer.Add(n);

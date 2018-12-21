@@ -17,6 +17,7 @@ using Colaborador = IMOD.Domain.Entities.Colaborador;
 using EmpresaLayoutCrachaView = IMOD.Domain.EntitiesCustom.EmpresaLayoutCrachaView;
 using VeiculoEmpresaView = IMOD.Domain.EntitiesCustom.VeiculoEmpresaView;
 using EstadoView = iModSCCredenciamento.Views.Model.EstadoView;
+using EmpresaTipoAtividadeView = iModSCCredenciamento.Views.Model.EmpresaTipoAtividadeView;
 
 #endregion
 
@@ -47,23 +48,23 @@ namespace iModSCCredenciamento.Mapeamento
                        m.CreateMap<Empresa, EmpresaView>().ForMember(k => k.Cnpj, opt => opt.MapFrom(k => k.Cnpj.FormatarCnpj())).ReverseMap();
                        m.CreateMap<EmpresaSignatarioView, EmpresaSignatario>().ReverseMap();
                        m.CreateMap<EmpresaContratoView, EmpresaContrato>().ReverseMap();
-                       m.CreateMap<EmpresaLayoutCrachaView, ClasseEmpresasLayoutsCrachas.EmpresaLayoutCracha>().ReverseMap();
+                       //m.CreateMap<EmpresaLayoutCrachaView, ClasseEmpresasLayoutsCrachas.EmpresaLayoutCracha>().ReverseMap();
 
-                       m.CreateMap<LayoutCracha, ClasseEmpresasLayoutsCrachas.EmpresaLayoutCracha>().ReverseMap();
+                       m.CreateMap<LayoutCracha, EmpresaLayoutCrachaView>().ReverseMap();
                        m.CreateMap<Estados, EstadoView>().ReverseMap();
                        m.CreateMap<Municipio, ClasseMunicipios.Municipio>().ReverseMap();
                       
                        
-                       m.CreateMap<TipoAtividade, ClasseTiposAtividades.TipoAtividade>().ReverseMap();
+                       m.CreateMap<TipoAtividade, TipoAtividadeView>().ReverseMap();
                        m.CreateMap<TipoEquipamento, ClasseTiposEquipamento.TipoEquipamento>().ReverseMap();
 
                        m.CreateMap<Pendencia, ClassePendencias.Pendencia>().ReverseMap();
                        m.CreateMap<Pendencia, PendenciaView>().ReverseMap();
                        m.CreateMap<TipoPendencia, TipoPendenciaView>().ReverseMap();
 
-                       m.CreateMap<EmpresaTipoAtividade, ClasseEmpresasTiposAtividades.EmpresaTipoAtividade>().ReverseMap();
+                       m.CreateMap<EmpresaTipoAtividade, EmpresaTipoAtividadeView>().ReverseMap();
                        m.CreateMap<AreaAcesso, ClasseAreasAcessos.AreaAcesso>().ReverseMap();
-                       m.CreateMap<LayoutCracha, ClasseLayoutsCrachas.LayoutCracha>().ReverseMap();
+                       m.CreateMap<LayoutCracha, LayoutCrachaView>().ReverseMap();
                        
                        //m.CreateMap<EmpresaContrato, ClasseEmpresasContratos.EmpresaContrato>().ReverseMap();
 

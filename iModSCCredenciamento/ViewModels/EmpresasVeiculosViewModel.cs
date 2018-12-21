@@ -44,7 +44,7 @@ namespace iModSCCredenciamento.ViewModels
 
         private ObservableCollection<ClasseFormatosCredenciais.FormatoCredencial> _FormatosCredenciais;
 
-        private ObservableCollection<ClasseEmpresasLayoutsCrachas.EmpresaLayoutCracha> _EmpresasLayoutsCrachas;
+        private ObservableCollection<EmpresaLayoutCrachaView> _EmpresasLayoutsCrachas;
 
         private ClasseEmpresasVeiculos.EmpresaVeiculo _EmpresaVeiculoSelecionado;
 
@@ -139,7 +139,7 @@ namespace iModSCCredenciamento.ViewModels
             }
         }
 
-        public ObservableCollection<ClasseEmpresasLayoutsCrachas.EmpresaLayoutCracha> EmpresasLayoutsCrachas
+        public ObservableCollection<EmpresaLayoutCrachaView> EmpresasLayoutsCrachas
         {
             get
             {
@@ -575,14 +575,14 @@ namespace iModSCCredenciamento.ViewModels
 
                 string _xml = RequisitaEmpresasLayoutsCrachas(_empresaID);
 
-                XmlSerializer deserializer = new XmlSerializer(typeof(ClasseEmpresasLayoutsCrachas));
+                XmlSerializer deserializer = new XmlSerializer(typeof(EmpresaLayoutCrachaView));
                 XmlDocument DataFile = new XmlDocument();
                 DataFile.LoadXml(_xml);
                 TextReader reader = new StringReader(_xml);
-                ClasseEmpresasLayoutsCrachas classeEmpresasLayoutsCrachas = new ClasseEmpresasLayoutsCrachas();
-                classeEmpresasLayoutsCrachas = (ClasseEmpresasLayoutsCrachas)deserializer.Deserialize(reader);
-                EmpresasLayoutsCrachas = new ObservableCollection<ClasseEmpresasLayoutsCrachas.EmpresaLayoutCracha>();
-                EmpresasLayoutsCrachas = classeEmpresasLayoutsCrachas.EmpresasLayoutsCrachas;
+                EmpresaLayoutCrachaView classeEmpresasLayoutsCrachas = new EmpresaLayoutCrachaView();
+                classeEmpresasLayoutsCrachas = (EmpresaLayoutCrachaView)deserializer.Deserialize(reader);
+                EmpresasLayoutsCrachas = new ObservableCollection<EmpresaLayoutCrachaView>();
+               // EmpresasLayoutsCrachas = classeEmpresasLayoutsCrachas.EmpresasLayoutsCrachas;
 
                 //this.Dispatcher.Invoke(new Action(() => { LoadingAdorner.IsAdornerVisible = false; }));
             }

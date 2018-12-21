@@ -61,7 +61,7 @@ namespace iModSCCredenciamento.ViewModels
 
         private ObservableCollection<ClasseFormatosCredenciais.FormatoCredencial> _FormatosCredenciais;
 
-        private ObservableCollection<ClasseEmpresasLayoutsCrachas.EmpresaLayoutCracha> _EmpresasLayoutsCrachas;
+        private ObservableCollection<EmpresaLayoutCrachaView> _EmpresasLayoutsCrachas;
 
         private ObservableCollection<EmpresaContratoView> _Contratos;
 
@@ -241,7 +241,7 @@ namespace iModSCCredenciamento.ViewModels
                 }
             }
         }
-        public ObservableCollection<ClasseEmpresasLayoutsCrachas.EmpresaLayoutCracha> EmpresasLayoutsCrachas
+        public ObservableCollection<EmpresaLayoutCrachaView> EmpresasLayoutsCrachas
         {
             get
             {
@@ -988,9 +988,9 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 var list1 = _auxiliaresService.LayoutCrachaService.Listar();
-                var list2 = Mapper.Map<List<ClasseEmpresasLayoutsCrachas.EmpresaLayoutCracha>>(list1);
+                var list2 = Mapper.Map<List<EmpresaLayoutCrachaView>>(list1);
 
-                var observer = new ObservableCollection<ClasseEmpresasLayoutsCrachas.EmpresaLayoutCracha>();
+                var observer = new ObservableCollection<EmpresaLayoutCrachaView>();
                 list2.ForEach(n =>
                 {
                     observer.Add(n);
