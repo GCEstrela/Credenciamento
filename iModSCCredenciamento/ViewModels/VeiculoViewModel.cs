@@ -22,6 +22,7 @@ using IMOD.Application.Service;
 using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
 using IMOD.Domain.Interfaces;
+using iModSCCredenciamento.Views.Model;
 
 namespace iModSCCredenciamento.ViewModels
 {
@@ -60,7 +61,7 @@ namespace iModSCCredenciamento.ViewModels
 
         private List<ClasseVeiculos.Veiculo> _VeiculosTemp = new List<ClasseVeiculos.Veiculo>();
 
-        private ObservableCollection<ClasseEstados.Estado> _Estados;
+        private ObservableCollection<EstadoView> _Estados;
 
         private ObservableCollection<ClasseMunicipios.Municipio> _Municipios;
 
@@ -267,7 +268,7 @@ namespace iModSCCredenciamento.ViewModels
                 base.OnPropertyChanged();
             }
         }
-        public ObservableCollection<ClasseEstados.Estado> Estados
+        public ObservableCollection<EstadoView> Estados
         {
             get
             {
@@ -809,16 +810,16 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
 
-                string _xml = RequisitaEstados();
+                //string _xml = RequisitaEstados();
 
-                XmlSerializer deserializer = new XmlSerializer(typeof(ClasseEstados));
-                XmlDocument xmldocument = new XmlDocument();
-                xmldocument.LoadXml(_xml);
-                TextReader reader = new StringReader(_xml);
-                ClasseEstados classeEstados = new ClasseEstados();
-                classeEstados = (ClasseEstados)deserializer.Deserialize(reader);
-                Estados = new ObservableCollection<ClasseEstados.Estado>();
-                Estados = classeEstados.Estados;
+                //XmlSerializer deserializer = new XmlSerializer(typeof(ClasseEstados));
+                //XmlDocument xmldocument = new XmlDocument();
+                //xmldocument.LoadXml(_xml);
+                //TextReader reader = new StringReader(_xml);
+                //ClasseEstados classeEstados = new ClasseEstados();
+                //classeEstados = (ClasseEstados)deserializer.Deserialize(reader);
+                //Estados = new ObservableCollection<EstadoView>();
+                //Estados = EstadoViews;
 
             }
             catch (Exception ex)

@@ -165,7 +165,6 @@
     <Compile Include="Models\ClasseEmpresasTiposAtividades.cs" />
     <Compile Include="Models\ClasseEmpresasVeiculos.cs" />
     <Compile Include="Models\ClasseEquipamentoVeiculoTiposServicos.cs" />
-    <Compile Include="Models\ClasseEstados.cs" />
     <Compile Include="Models\ClasseLayoutsCrachas.cs" />
     <Compile Include="Models\ClasseMunicipios.cs" />
     <Compile Include="Models\ClassePendencias.cs" />

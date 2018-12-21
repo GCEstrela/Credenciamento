@@ -10,7 +10,9 @@ using System.Xml;
 using System.Xml.Serialization;
 using iModSCCredenciamento.Funcoes;
 using iModSCCredenciamento.Models;
+using iModSCCredenciamento.Views.Model;
 using iModSCCredenciamento.Windows;
+using EstadoView = iModSCCredenciamento.Views.Model.EstadoView;
 
 namespace iModSCCredenciamento.ViewModels
 {
@@ -36,7 +38,7 @@ namespace iModSCCredenciamento.ViewModels
 
         private ObservableCollection<ClasseVinculos.Vinculo> _Vinculos;
 
-        private ObservableCollection<ClasseEstados.Estado> _Estados;
+        private ObservableCollection<EstadoView> _Estados;
 
         private ObservableCollection<ClasseMunicipios.Municipio> _Municipios;
 
@@ -101,7 +103,7 @@ namespace iModSCCredenciamento.ViewModels
             }
         }
 
-        public ObservableCollection<ClasseEstados.Estado> Estados
+        public ObservableCollection<EstadoView> Estados
         {
             get
             {
@@ -523,16 +525,16 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
 
-                string _xml = RequisitaEstados();
+                //string _xml = RequisitaEstados();
 
-                XmlSerializer deserializer = new XmlSerializer(typeof(ClasseEstados));
-                XmlDocument xmldocument = new XmlDocument();
-                xmldocument.LoadXml(_xml);
-                TextReader reader = new StringReader(_xml);
-                ClasseEstados classeEstados = new ClasseEstados();
-                classeEstados = (ClasseEstados)deserializer.Deserialize(reader);
-                Estados = new ObservableCollection<ClasseEstados.Estado>();
-                Estados = classeEstados.Estados;
+                //XmlSerializer deserializer = new XmlSerializer(typeof(EstadoView));
+                //XmlDocument xmldocument = new XmlDocument();
+                //xmldocument.LoadXml(_xml);
+                //TextReader reader = new StringReader(_xml);
+                //EstadoView classeEstados = new EstadoView();
+                //classeEstados = (EstadoView)deserializer.Deserialize(reader);
+                //Estados = new ObservableCollection<EstadoView>();
+                //Estados = EstadoViews;
 
             }
             catch (Exception ex)

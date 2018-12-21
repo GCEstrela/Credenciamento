@@ -231,12 +231,12 @@
                                         <TextBox CharacterCasing="Upper"  x:Name="Bairro_tb"   MaxLength="50" Text="{Binding SelectedItem.Bairro, ElementName=ListaEmpresas_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="150"/>
                                         <Label Content="UF:" Height="28" Width="30" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
                                         <ComboBox x:Name="Estado_cb" MinWidth="50" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
-                                              ItemsSource="{Binding Estados}" DisplayMemberPath="UF"   SelectedValue="{Binding SelectedItem.EstadoID, ElementName=ListaEmpresas_lv, UpdateSourceTrigger=PropertyChanged}" 
-                                              SelectedValuePath="EstadoID"  SelectionChanged="{data:MethodBinding Municipios, {Binding SelectedItem.UF, ElementName=Estado_cb}}"/>
+                                              ItemsSource="{Binding Estados}" DisplayMemberPath="Uf" SelectedValue="{Binding SelectedItem.EstadoId, ElementName=ListaEmpresas_lv, UpdateSourceTrigger=PropertyChanged}" 
+                                              SelectedValuePath="EstadoId"  SelectionChanged="{data:MethodBinding Municipios, {Binding SelectedItem.Uf, ElementName=Estado_cb}}"/>
                                         <Label Content="Cidade:" Height="28" Width="50" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
                                         <ComboBox x:Name="Cidade_cb"  MinWidth="50" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
-                                                ItemsSource="{Binding Municipios}" DisplayMemberPath="Nome"  SelectedValue="{Binding SelectedItem.MunicipioID, ElementName=ListaEmpresas_lv, UpdateSourceTrigger=PropertyChanged}" 
-                                              SelectedValuePath="MunicipioID" Width="170" />
+                                                ItemsSource="{Binding Municipios}" DisplayMemberPath="Nome"  SelectedValue="{Binding SelectedItem.MunicipioId, ElementName=ListaEmpresas_lv, UpdateSourceTrigger=PropertyChanged}" 
+                                              SelectedValuePath="MunicipioId" Width="170" />
                                     </StackPanel>
                                 </StackPanel>
                             </GroupBox>

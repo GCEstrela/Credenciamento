@@ -60,9 +60,9 @@ namespace iModSCCredenciamento.ViewModels
 
         private EmpresaView _empresaTemp = new EmpresaView();
 
-        private ObservableCollection<ClasseEstados.Estado> _Estados;
+        private ObservableCollection<EstadoView> _Estados;
 
-        private ObservableCollection<ClasseMunicipios.Municipio> _Municipios;
+        private ObservableCollection<MunicipioView> _Municipios;
 
         private ObservableCollection<ClasseTiposEmpresas.TipoEmpresa> _TiposEmpresa;
 
@@ -146,7 +146,7 @@ namespace iModSCCredenciamento.ViewModels
             }
         }
 
-        public ObservableCollection<ClasseEstados.Estado> Estados
+        public ObservableCollection<EstadoView> Estados
         {
             get
             {
@@ -164,7 +164,7 @@ namespace iModSCCredenciamento.ViewModels
             }
         }
 
-        public ObservableCollection<ClasseMunicipios.Municipio> Municipios
+        public ObservableCollection<MunicipioView> Municipios
         {
             get
             {
@@ -1101,8 +1101,8 @@ namespace iModSCCredenciamento.ViewModels
                 var service = new EstadoService();
 
                 var list1 = service.Listar();
-                var list2 = Mapper.Map<List<ClasseEstados.Estado>>(list1);
-                var observer = new ObservableCollection<ClasseEstados.Estado>();
+                var list2 = Mapper.Map<List<EstadoView>>(list1);
+                var observer = new ObservableCollection<EstadoView>();
                 list2.ForEach(n =>
                 {
                     observer.Add(n);
@@ -1125,8 +1125,8 @@ namespace iModSCCredenciamento.ViewModels
                 if (!string.IsNullOrWhiteSpace(_EstadoUF)) _EstadoUF = $"%{_EstadoUF}%";
                 var list1 = service.Listar(null, _EstadoUF);
 
-                var list2 = Mapper.Map<List<ClasseMunicipios.Municipio>>(list1);
-                var observer = new ObservableCollection<ClasseMunicipios.Municipio>();
+                var list2 = Mapper.Map<List<MunicipioView>>(list1);
+                var observer = new ObservableCollection<MunicipioView>();
                 list2.ForEach(n =>
                 {
                     observer.Add(n);

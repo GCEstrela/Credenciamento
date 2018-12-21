@@ -28,11 +28,11 @@ namespace iModSCCredenciamento.ViewModels
         /// <summary>
         /// Lista de municipios
         /// </summary>
-        public List<ClasseMunicipios.Municipio> ObterListaListaMunicipios { get; private set; }
+        public List<MunicipioView> ObterListaListaMunicipios { get; private set; }
         /// <summary>
         /// Lista de estados
         /// </summary>
-        public List<ClasseEstados.Estado> ObterListaEstadosFederacao { get; private set; }
+        public List<EstadoView> ObterListaEstadosFederacao { get; private set; }
         //private IColaboradorService _colaboradorService = new ColaboradorService();
         public Colaborador Colaborador { get; set; }
 
@@ -68,9 +68,9 @@ namespace iModSCCredenciamento.ViewModels
         //private List<ClasseColaboradores.Colaborador> _ColaboradoresTemp = new List<ClasseColaboradores.Colaborador>();
         private List<ColaboradorView> _ColaboradoresTemp = new List<ColaboradorView>();
 
-        private ObservableCollection<ClasseEstados.Estado> _Estados;
+        private ObservableCollection<EstadoView> _Estados;
 
-        private ObservableCollection<ClasseMunicipios.Municipio> _municipios;
+        private ObservableCollection<MunicipioView> _municipios;
 
         PopupPesquisaColaborador popupPesquisaColaborador;
 
@@ -212,7 +212,7 @@ namespace iModSCCredenciamento.ViewModels
             }
         }
 
-        public ObservableCollection<ClasseEstados.Estado> Estados
+        public ObservableCollection<EstadoView> Estados
         {
             get
             {
@@ -230,7 +230,7 @@ namespace iModSCCredenciamento.ViewModels
             }
         }
 
-        public ObservableCollection<ClasseMunicipios.Municipio> Municipios
+        public ObservableCollection<MunicipioView> Municipios
         {
             get
             {
@@ -552,10 +552,10 @@ namespace iModSCCredenciamento.ViewModels
         {
             //Estados
             var e1 = _auxiliaresService.EstadoService.Listar();
-            ObterListaEstadosFederacao = Mapper.Map<List<ClasseEstados.Estado>>(e1);
+            ObterListaEstadosFederacao = Mapper.Map<List<EstadoView>>(e1);
             //Municipios
             var list = _auxiliaresService.MunicipioService.Listar();
-            ObterListaListaMunicipios = Mapper.Map<List<ClasseMunicipios.Municipio>>(list);
+            ObterListaListaMunicipios = Mapper.Map<List<MunicipioView>>(list);
             ////Status
             //var e3 = _auxiliaresService.ListarStatus();
             //ObterListaStatus = Mapper.Map<List<ClasseStatus.Status>>(e3);
@@ -610,8 +610,8 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
 
-                var convert = Mapper.Map<List<ClasseEstados.Estado>>(ObterListaEstadosFederacao);
-                Estados = new ObservableCollection<ClasseEstados.Estado>();
+                var convert = Mapper.Map<List<EstadoView>>(ObterListaEstadosFederacao);
+                Estados = new ObservableCollection<EstadoView>();
                 convert.ForEach(n => { Estados.Add(n); });
 
             }
@@ -627,8 +627,8 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
 
-                var list = ObterListaListaMunicipios.Where(n => n.UF == uf).ToList();
-                Municipios = new ObservableCollection<ClasseMunicipios.Municipio>();
+                var list = ObterListaListaMunicipios.Where(n => n.Uf == uf).ToList();
+                Municipios = new ObservableCollection<MunicipioView>();
                 list.ForEach(n => Municipios.Add(n));
 
             }

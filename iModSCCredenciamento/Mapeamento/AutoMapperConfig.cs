@@ -12,9 +12,11 @@ using iModSCCredenciamento.Views.Model;
 using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
 using IMOD.Domain.EntitiesCustom;
+using iModSCCredenciamento.Views.Model;
 using Colaborador = IMOD.Domain.Entities.Colaborador;
 using EmpresaLayoutCrachaView = IMOD.Domain.EntitiesCustom.EmpresaLayoutCrachaView;
 using VeiculoEmpresaView = IMOD.Domain.EntitiesCustom.VeiculoEmpresaView;
+using EstadoView = iModSCCredenciamento.Views.Model.EstadoView;
 
 #endregion
 
@@ -48,7 +50,7 @@ namespace iModSCCredenciamento.Mapeamento
                        m.CreateMap<EmpresaLayoutCrachaView, ClasseEmpresasLayoutsCrachas.EmpresaLayoutCracha>().ReverseMap();
 
                        m.CreateMap<LayoutCracha, ClasseEmpresasLayoutsCrachas.EmpresaLayoutCracha>().ReverseMap();
-                       m.CreateMap<Estados, ClasseEstados.Estado>().ReverseMap();
+                       m.CreateMap<Estados, EstadoView>().ReverseMap();
                        m.CreateMap<Municipio, ClasseMunicipios.Municipio>().ReverseMap();
                       
                        

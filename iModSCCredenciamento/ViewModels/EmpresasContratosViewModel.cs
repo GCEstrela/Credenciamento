@@ -40,7 +40,7 @@ namespace iModSCCredenciamento.ViewModels
         /// <summary>
         ///     Lista de estados
         /// </summary>
-        public List<ClasseEstados.Estado> ObterListaEstadosFederacao { get; private set; }
+        public List<EstadoView> ObterListaEstadosFederacao { get; private set; }
 
         /// <summary>
         ///     Lista de sattus
@@ -71,7 +71,7 @@ namespace iModSCCredenciamento.ViewModels
             }
         }
 
-        public ObservableCollection<ClasseEstados.Estado> Estados
+        public ObservableCollection<EstadoView> Estados
         {
             get { return _estados; }
 
@@ -267,7 +267,7 @@ namespace iModSCCredenciamento.ViewModels
         {
             //Estados
             var e1 = _auxiliaresService.EstadoService.Listar();
-            ObterListaEstadosFederacao = Mapper.Map<List<ClasseEstados.Estado>>(e1);
+            ObterListaEstadosFederacao = Mapper.Map<List<EstadoView>>(e1);
             //Municipios
             var list = _auxiliaresService.MunicipioService.Listar();
             ObterListaListaMunicipios = Mapper.Map<List<ClasseMunicipios.Municipio>>(list);
@@ -294,7 +294,7 @@ namespace iModSCCredenciamento.ViewModels
 
         private readonly List<EmpresaContratoView> _contratosTemp = new List<EmpresaContratoView>();
 
-        private ObservableCollection<ClasseEstados.Estado> _estados;
+        private ObservableCollection<EstadoView> _estados;
 
         private ObservableCollection<ClasseMunicipios.Municipio> _municipios;
 
@@ -515,8 +515,8 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                var convert = Mapper.Map<List<ClasseEstados.Estado>>(ObterListaEstadosFederacao);
-                Estados = new ObservableCollection<ClasseEstados.Estado>();
+                var convert = Mapper.Map<List<EstadoView>>(ObterListaEstadosFederacao);
+                Estados = new ObservableCollection<EstadoView>();
                 convert.ForEach(n => { Estados.Add(n); });
             }
             catch (Exception ex)
