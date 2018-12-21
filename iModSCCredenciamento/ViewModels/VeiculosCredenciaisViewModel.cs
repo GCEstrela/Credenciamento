@@ -22,6 +22,7 @@ using IMOD.Application.Interfaces;
 using IMOD.Application.Service;
 using AutoMapper;
 using IMOD.CrossCutting;
+using iModSCCredenciamento.Views.Model;
 
 namespace iModSCCredenciamento.ViewModels
 {
@@ -61,13 +62,13 @@ namespace iModSCCredenciamento.ViewModels
 
         private ObservableCollection<ClasseVinculos.Vinculo> _Vinculos;
 
-        private ObservableCollection<ClasseEmpresas.Empresa> _Empresas;
+        private ObservableCollection<EmpresaView> _Empresas;
 
         private ObservableCollection<ClasseFormatosCredenciais.FormatoCredencial> _FormatosCredenciais;
 
         private ObservableCollection<ClasseEmpresasLayoutsCrachas.EmpresaLayoutCracha> _EmpresasLayoutsCrachas;
 
-        private ObservableCollection<ClasseEmpresasContratos.EmpresaContrato> _Contratos;
+        private ObservableCollection<EmpresaContratoView> _Contratos;
 
         private ClasseVeiculosCredenciais.VeiculoCredencial _VeiculoCredencialSelecionado;
 
@@ -276,7 +277,7 @@ namespace iModSCCredenciamento.ViewModels
 
             }
         }
-        public ObservableCollection<ClasseEmpresas.Empresa> Empresas
+        public ObservableCollection<EmpresaView> Empresas
 
         {
             get
@@ -329,7 +330,7 @@ namespace iModSCCredenciamento.ViewModels
                 }
             }
         }
-        public ObservableCollection<ClasseEmpresasContratos.EmpresaContrato> Contratos
+        public ObservableCollection<EmpresaContratoView> Contratos
         {
             get
             {
@@ -915,9 +916,9 @@ namespace iModSCCredenciamento.ViewModels
                 if (!string.IsNullOrWhiteSpace(cnpj)) cnpj = $"%{cnpj}%";
 
                 var list1 = service.Listar(idEmpresa, nome, apelido, cnpj);
-                var list2 = Mapper.Map<List<ClasseEmpresas.Empresa>>(list1);
+                var list2 = Mapper.Map<List<EmpresaView>>(list1);
 
-                var observer = new ObservableCollection<ClasseEmpresas.Empresa>();
+                var observer = new ObservableCollection<EmpresaView>();
                 list2.ForEach(n =>
                 {
                     observer.Add(n);

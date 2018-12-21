@@ -12,6 +12,7 @@ using IMOD.Application.Interfaces;
 using IMOD.Application.Service;
 using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
+using iModSCCredenciamento.Views.Model;
 
 namespace iModSCCredenciamento.ViewModels
 {
@@ -37,7 +38,7 @@ namespace iModSCCredenciamento.ViewModels
 
         private ObservableCollection<ClasseAreasAcessos.AreaAcesso> _AreasAcessos;
 
-        private ObservableCollection<ClasseEmpresas.Empresa> _Empresas;
+        private ObservableCollection<EmpresaView> _Empresas;
 
 
         private ObservableCollection<ClasseRelatorios.Relatorio> _Relatorios;
@@ -89,7 +90,7 @@ namespace iModSCCredenciamento.ViewModels
                 }
             }
         }
-        public ObservableCollection<ClasseEmpresas.Empresa> Empresas
+        public ObservableCollection<EmpresaView> Empresas
 
         {
             get
@@ -233,9 +234,9 @@ namespace iModSCCredenciamento.ViewModels
                 if (!string.IsNullOrWhiteSpace(cnpj)) cnpj = $"%{cnpj}%";
 
                 var list1 = _empresaService.Listar(idEmpresa, nome, apelido, cnpj);
-                var list2 = Mapper.Map<List<ClasseEmpresas.Empresa>>(list1.OrderByDescending(a => a.EmpresaId));
+                var list2 = Mapper.Map<List<EmpresaView>>(list1.OrderByDescending(a => a.EmpresaId));
 
-                var observer = new ObservableCollection<ClasseEmpresas.Empresa>();
+                var observer = new ObservableCollection<EmpresaView>();
                 list2.ForEach(n =>
                 {
                     observer.Add(n);

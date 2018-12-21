@@ -16,6 +16,7 @@ using IMOD.Application.Interfaces;
 using IMOD.Application.Service;
 using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
+using iModSCCredenciamento.Views.Model;
 //using System.Windows.Forms;
 
 namespace iModSCCredenciamento.ViewModels
@@ -39,13 +40,13 @@ namespace iModSCCredenciamento.ViewModels
 
         #region Variaveis Privadas
 
-        private ObservableCollection<ClasseColaboradoresAnexos.ColaboradorAnexo> _ColaboradoresAnexos;
+        private ObservableCollection<ColaboradorAnexoView> _ColaboradoresAnexos;
 
-        private ClasseColaboradoresAnexos.ColaboradorAnexo _ColaboradorAnexoSelecionado;
+        private ColaboradorAnexoView _ColaboradorAnexoSelecionado;
 
-        private ClasseColaboradoresAnexos.ColaboradorAnexo _ColaboradorAnexoTemp = new ClasseColaboradoresAnexos.ColaboradorAnexo();
+        private ColaboradorAnexoView _ColaboradorAnexoTemp = new ColaboradorAnexoView();
 
-        private List<ClasseColaboradoresAnexos.ColaboradorAnexo> _ColaboradoresAnexosTemp = new List<ClasseColaboradoresAnexos.ColaboradorAnexo>();
+        private List<ColaboradorAnexoView> _ColaboradoresAnexosTemp = new List<ColaboradorAnexoView>();
 
         PopupPesquisaColaboradorAnexo popupPesquisaColaboradorAnexo;
 
@@ -62,7 +63,7 @@ namespace iModSCCredenciamento.ViewModels
         #endregion
 
         #region Contrutores
-        public ObservableCollection<ClasseColaboradoresAnexos.ColaboradorAnexo> ColaboradoresAnexos
+        public ObservableCollection<ColaboradorAnexoView> ColaboradoresAnexos
         {
             get
             {
@@ -80,7 +81,7 @@ namespace iModSCCredenciamento.ViewModels
             }
         }
 
-        public ClasseColaboradoresAnexos.ColaboradorAnexo ColaboradorAnexoSelecionado
+        public ColaboradorAnexoView ColaboradorAnexoSelecionado
         {
             get
             {
@@ -205,7 +206,7 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 //BuscaBadges();
-                _ColaboradorAnexoTemp = ColaboradorAnexoSelecionado.CriaCopia(ColaboradorAnexoSelecionado);
+                //_ColaboradorAnexoTemp = ColaboradorAnexoSelecionado.CriaCopia(ColaboradorAnexoSelecionado);
                 _selectedIndexTemp = SelectedIndex;
                 HabilitaEdicao = true;
             }
@@ -260,12 +261,12 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 HabilitaEdicao = false;
-                XmlSerializer serializer = new XmlSerializer(typeof(ClasseColaboradoresAnexos));
+                XmlSerializer serializer = new XmlSerializer(typeof(ColaboradorView));
 
-                ObservableCollection<ClasseColaboradoresAnexos.ColaboradorAnexo> _ColaboradoresAnexosPro = new ObservableCollection<ClasseColaboradoresAnexos.ColaboradorAnexo>();
-                ClasseColaboradoresAnexos _ClasseColaboradoresAnexosPro = new ClasseColaboradoresAnexos();
+                ObservableCollection<ColaboradorAnexoView> _ColaboradoresAnexosPro = new ObservableCollection<ColaboradorAnexoView>();
+                ColaboradorView _ClasseColaboradoresAnexosPro = new ColaboradorView();
                 _ColaboradoresAnexosPro.Add(ColaboradorAnexoSelecionado);
-                _ClasseColaboradoresAnexosPro.ColaboradoresAnexos = _ColaboradoresAnexosPro;
+                //_ClasseColaboradoresAnexosPro.ColaboradoresAnexos = _ColaboradoresAnexosPro;
 
 
                 var entity = Mapper.Map<ColaboradorAnexo>(ColaboradorAnexoSelecionado);
@@ -278,7 +279,7 @@ namespace iModSCCredenciamento.ViewModels
                 CarregaColecaoSeguros_thr.Start();
                 _ColaboradoresAnexosTemp.Add(ColaboradorAnexoSelecionado);
                 ColaboradoresAnexos = null;
-                ColaboradoresAnexos = new ObservableCollection<ClasseColaboradoresAnexos.ColaboradorAnexo>(_ColaboradoresAnexosTemp);
+                ColaboradoresAnexos = new ObservableCollection<ColaboradorAnexoView>(_ColaboradoresAnexosTemp);
                 SelectedIndex = _selectedIndexTemp;
                 _ColaboradoresAnexosTemp.Clear();
 
@@ -308,8 +309,8 @@ namespace iModSCCredenciamento.ViewModels
                 _selectedIndexTemp = SelectedIndex;
                 ColaboradoresAnexos.Clear();
 
-                _ColaboradorAnexoTemp = new ClasseColaboradoresAnexos.ColaboradorAnexo();
-                _ColaboradorAnexoTemp.ColaboradorID = ColaboradorAnexoSelecionadaID;
+                _ColaboradorAnexoTemp = new ColaboradorAnexoView();
+                _ColaboradorAnexoTemp.ColaboradorId = ColaboradorAnexoSelecionadaID;
                 ColaboradoresAnexos.Add(_ColaboradorAnexoTemp);
                 SelectedIndex = 0;
                 HabilitaEdicao = true;
@@ -326,7 +327,7 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 ColaboradoresAnexos = null;
-                ColaboradoresAnexos = new ObservableCollection<ClasseColaboradoresAnexos.ColaboradorAnexo>(_ColaboradoresAnexosTemp);
+                ColaboradoresAnexos = new ObservableCollection<ColaboradorAnexoView>(_ColaboradoresAnexosTemp);
                 SelectedIndex = _selectedIndexTemp;
                 _ColaboradoresAnexosTemp.Clear();
                 HabilitaEdicao = false;
@@ -393,8 +394,8 @@ namespace iModSCCredenciamento.ViewModels
                 if (!string.IsNullOrWhiteSpace(_nome)) _nome = $"%{_nome}%";
                 var list1 = service.Listar(_colaboradorID, _nome);
 
-                var list2 = Mapper.Map<List<ClasseColaboradoresAnexos.ColaboradorAnexo>>(list1);
-                var observer = new ObservableCollection<ClasseColaboradoresAnexos.ColaboradorAnexo>();
+                var list2 = Mapper.Map<List<ColaboradorAnexoView>>(list1);
+                var observer = new ObservableCollection<ColaboradorAnexoView>();
                 list2.ForEach(n =>
                 {
                     observer.Add(n);

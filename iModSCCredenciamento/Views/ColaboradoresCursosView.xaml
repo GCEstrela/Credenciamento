@@ -177,10 +177,10 @@
                                     <!--#region Grid 1 -->
                                     <!--#region Grid 0 -->
                                     <Label Content="ID:" Height="28" Width="124" Margin="0,7" HorizontalContentAlignment="Right" Grid.Row="0" Grid.Column="0" />
-                                    <TextBox  x:Name="Seguradora_tb"  IsEnabled="False" CharacterCasing="Upper" Text="{Binding SelectedItem.ColaboradorCursoID, ElementName=ListaColaboradoresCursos_lv, UpdateSourceTrigger=PropertyChanged}"  Width="38" Grid.Row="0" Grid.Column="1" Margin="0,10,0,8" HorizontalAlignment="Left"/>
+                                    <TextBox  x:Name="Seguradora_tb"  IsEnabled="False" CharacterCasing="Upper" Text="{Binding SelectedItem.ColaboradorCursoId, ElementName=ListaColaboradoresCursos_lv, UpdateSourceTrigger=PropertyChanged}"  Width="38" Grid.Row="0" Grid.Column="1" Margin="0,10,0,8" HorizontalAlignment="Left"/>
                                     <Label Content="Curso:" Height="28" Width="50" Margin="0,7" HorizontalContentAlignment="Right" Grid.Row="0" Grid.Column="2"/>
                                     <ComboBox  x:Name="Curso_cb"  MinWidth="50" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="3"
-                                                ItemsSource="{Binding Cursos}" DisplayMemberPath="Descricao"  SelectedValue="{Binding SelectedItem.CursoID, ElementName=ListaColaboradoresCursos_lv, UpdateSourceTrigger=PropertyChanged}" 
+                                                ItemsSource="{Binding Cursos}" DisplayMemberPath="Descricao"  SelectedValue="{Binding SelectedItem.CursoId, ElementName=ListaColaboradoresCursos_lv, UpdateSourceTrigger=PropertyChanged}" 
                                               SelectedValuePath="CursoID" Margin="50,7,5,5" />
                                     <Label Content="Data de Validade:" Height="28" Width="110" Margin="0,7" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Grid.Row="0" Grid.Column="5"/>
                                     <DatePicker x:Name="DataValidade_dp" SelectedDate="{Binding SelectedItem.Validade, ElementName=ListaColaboradoresCursos_lv, UpdateSourceTrigger=PropertyChanged}" Foreground="White" Background="{x:Null}" HorizontalAlignment="Left" Grid.Row="0" Grid.Column="6" Margin="1,7,0,7" Height="Auto" />

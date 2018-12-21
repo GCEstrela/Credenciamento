@@ -8,6 +8,7 @@ using System.Xml;
 using System.Xml.Serialization;
 using iModSCCredenciamento.Funcoes;
 using iModSCCredenciamento.Models;
+using iModSCCredenciamento.Views.Model;
 using Microsoft.Reporting.WinForms;
 
 namespace iModSCCredenciamento.Windows
@@ -26,16 +27,16 @@ namespace iModSCCredenciamento.Windows
 
             string _xml = RequisitaColaboradores();
 
-            XmlSerializer deserializer = new XmlSerializer(typeof(ClasseColaboradores));
+            XmlSerializer deserializer = new XmlSerializer(typeof(ColaboradorView));
 
             XmlDocument xmldocument = new XmlDocument();
             xmldocument.LoadXml(_xml);
 
             TextReader reader = new StringReader(_xml);
-            ClasseColaboradores classeColaboradores = new ClasseColaboradores();
-            classeColaboradores = (ClasseColaboradores)deserializer.Deserialize(reader);
-            var dadosRelatorio = new ObservableCollection<ClasseColaboradores.Colaborador>();
-            dadosRelatorio = classeColaboradores.Colaboradores;
+            ColaboradorView classeColaboradores = new ColaboradorView();
+            classeColaboradores = (ColaboradorView)deserializer.Deserialize(reader);
+            var dadosRelatorio = new ObservableCollection<ColaboradorView>();
+           // dadosRelatorio = ColaboradorView;
 
 
             var dataSource = new ReportDataSource("DataSetColaboradores", dadosRelatorio);

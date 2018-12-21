@@ -12,6 +12,10 @@ using iModSCCredenciamento.Windows;
 using IMOD.Application.Service;
 using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
+using iModSCCredenciamento.Views.Model;
+using System.Xml;
+using System.Xml.Serialization;
+using System.IO;
 
 namespace iModSCCredenciamento.ViewModels
 {
@@ -28,6 +32,7 @@ namespace iModSCCredenciamento.ViewModels
         private void CarregaUI()
         {
             CarregaColecaoEmpresas();
+            CarregaColecaoContratos();
             //CarregaColeçãoFormatosCredenciais();
 
         }
@@ -35,23 +40,23 @@ namespace iModSCCredenciamento.ViewModels
 
         #region Variaveis Privadas
 
-        private ObservableCollection<ClasseColaboradoresEmpresas.ColaboradorEmpresa> _ColaboradoresEmpresas;
+        private ObservableCollection<ColaboradorEmpresaView> _ColaboradoresEmpresas;
 
         private ObservableCollection<ClasseVinculos.Vinculo> _Vinculos;
 
-        private ObservableCollection<ClasseEmpresas.Empresa> _Empresas;
+        private ObservableCollection<EmpresaView> _Empresas;
 
         private ObservableCollection<ClasseFormatosCredenciais.FormatoCredencial> _FormatosCredenciais;
 
         private ObservableCollection<ClasseEmpresasLayoutsCrachas.EmpresaLayoutCracha> _EmpresasLayoutsCrachas;
 
-        private ObservableCollection<ClasseEmpresasContratos.EmpresaContrato> _Contratos;
+        private ObservableCollection<EmpresaContratoView> _Contratos;
 
-        private ClasseColaboradoresEmpresas.ColaboradorEmpresa _ColaboradorEmpresaSelecionado;
+        private ColaboradorEmpresaView _ColaboradorEmpresaSelecionado;
 
-        private ClasseColaboradoresEmpresas.ColaboradorEmpresa _ColaboradorEmpresaTemp = new ClasseColaboradoresEmpresas.ColaboradorEmpresa();
+        private ColaboradorEmpresaView _ColaboradorEmpresaTemp = new ColaboradorEmpresaView();
 
-        private List<ClasseColaboradoresEmpresas.ColaboradorEmpresa> _ColaboradoresEmpresasTemp = new List<ClasseColaboradoresEmpresas.ColaboradorEmpresa>();
+        private List<ColaboradorEmpresaView> _ColaboradoresEmpresasTemp = new List<ColaboradorEmpresaView>();
 
         PopupPesquisaColaboradoresEmpresas popupPesquisaColaboradoresEmpresas;
 
@@ -70,7 +75,7 @@ namespace iModSCCredenciamento.ViewModels
         #endregion
 
         #region Contrutores
-        public ObservableCollection<ClasseColaboradoresEmpresas.ColaboradorEmpresa> ColaboradoresEmpresas
+        public ObservableCollection<ColaboradorEmpresaView> ColaboradoresEmpresas
         {
             get
             {
@@ -124,7 +129,7 @@ namespace iModSCCredenciamento.ViewModels
             }
         }
 
-        public ClasseColaboradoresEmpresas.ColaboradorEmpresa ColaboradorEmpresaSelecionado
+        public ColaboradorEmpresaView ColaboradorEmpresaSelecionado
         {
             get
             {
@@ -143,7 +148,7 @@ namespace iModSCCredenciamento.ViewModels
             }
         }
 
-        public ObservableCollection<ClasseEmpresas.Empresa> Empresas
+        public ObservableCollection<EmpresaView> Empresas
 
         {
             get
@@ -161,7 +166,6 @@ namespace iModSCCredenciamento.ViewModels
                 }
             }
         }
-
         public ObservableCollection<ClasseFormatosCredenciais.FormatoCredencial> FormatosCredenciais
 
         {
@@ -180,7 +184,7 @@ namespace iModSCCredenciamento.ViewModels
                 }
             }
         }
-        public ObservableCollection<ClasseEmpresasContratos.EmpresaContrato> Contratos
+        public ObservableCollection<EmpresaContratoView> Contratos
         {
             get
             {
@@ -312,7 +316,7 @@ namespace iModSCCredenciamento.ViewModels
                     _ColaboradoresEmpresasTemp.Add(x);
                 }
 
-                _ColaboradorEmpresaTemp = ColaboradorEmpresaSelecionado.CriaCopia(ColaboradorEmpresaSelecionado);
+                //_ColaboradorEmpresaTemp = ColaboradorEmpresaSelecionado.CriaCopia(ColaboradorEmpresaSelecionado);
                 _selectedIndexTemp = SelectedIndex;
 
                 //CarregaColecaoContratos(_ColaboradorEmpresaTemp.EmpresaID);
@@ -353,16 +357,15 @@ namespace iModSCCredenciamento.ViewModels
 
                 var entity = Mapper.Map<ColaboradorEmpresa>(ColaboradorEmpresaSelecionado);
                 var repositorio = new ColaboradorEmpresaService();
-
                 repositorio.Criar(entity);
                 var id = entity.ColaboradorEmpresaId;
 
 
 
-                ClasseColaboradoresEmpresas.ColaboradorEmpresa _ColaboradorEmpresaSelecionadoPro = new ClasseColaboradoresEmpresas.ColaboradorEmpresa();
+                ColaboradorEmpresaView _ColaboradorEmpresaSelecionadoPro = new ColaboradorEmpresaView();
                 _ColaboradorEmpresaSelecionadoPro = ColaboradorEmpresaSelecionado;
-                _ColaboradorEmpresaSelecionadoPro.ColaboradorEmpresaID = id;
-                ColaboradoresEmpresas = new ObservableCollection<ClasseColaboradoresEmpresas.ColaboradorEmpresa>(_ColaboradoresEmpresasTemp);
+                _ColaboradorEmpresaSelecionadoPro.ColaboradorEmpresaId = id;
+                ColaboradoresEmpresas = new ObservableCollection<ColaboradorEmpresaView>(_ColaboradoresEmpresasTemp);
                 ColaboradoresEmpresas.Add(_ColaboradorEmpresaSelecionadoPro);
 
                 //Thread CarregaColecaoColaboradoresEmpresas_thr = new Thread(() => CarregaColecaoColaboradoresEmpresas(ColaboradorEmpresaSelecionado.ColaboradorID));
@@ -457,8 +460,8 @@ namespace iModSCCredenciamento.ViewModels
                 //_seguro.EmpresaID = EmpresaSelecionadaID;
                 //Seguros.Add(_seguro);
                 CarregaColecaoEmpresas();
-                _ColaboradorEmpresaTemp = new ClasseColaboradoresEmpresas.ColaboradorEmpresa();
-                _ColaboradorEmpresaTemp.ColaboradorID = ColaboradorSelecionadaID;
+                _ColaboradorEmpresaTemp = new ColaboradorEmpresaView();
+                _ColaboradorEmpresaTemp.ColaboradorId = ColaboradorSelecionadaID;
                 _ColaboradorEmpresaTemp.Matricula = string.Format("{0:#,##0}", Global.GerarID()) + "-" + String.Format("{0:yy}", DateTime.Now);
                 _ColaboradorEmpresaTemp.Ativo = true;
                 ColaboradoresEmpresas.Add(_ColaboradorEmpresaTemp);
@@ -483,7 +486,7 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 ColaboradoresEmpresas = null;
-                ColaboradoresEmpresas = new ObservableCollection<ClasseColaboradoresEmpresas.ColaboradorEmpresa>(_ColaboradoresEmpresasTemp);
+                ColaboradoresEmpresas = new ObservableCollection<ColaboradorEmpresaView>(_ColaboradoresEmpresasTemp);
                 SelectedIndex = _selectedIndexTemp;
                 _ColaboradoresEmpresasTemp.Clear();
                 HabilitaEdicao = false;
@@ -565,9 +568,8 @@ namespace iModSCCredenciamento.ViewModels
                 if (!string.IsNullOrWhiteSpace(_matricula)) _matricula = $"%{_matricula}%";
                 var list1 = service.Listar(_colaboradorID, _cargo, _matricula);
 
-                var list2 = Mapper.Map<List<ClasseColaboradoresEmpresas.ColaboradorEmpresa>>(list1);
-
-                var observer = new ObservableCollection<ClasseColaboradoresEmpresas.ColaboradorEmpresa>();
+                var list2 = Mapper.Map<List<ColaboradorEmpresaView>>(list1);
+                var observer = new ObservableCollection<ColaboradorEmpresaView>();
                 list2.ForEach(n =>
                 {
                     observer.Add(n);
@@ -596,9 +598,9 @@ namespace iModSCCredenciamento.ViewModels
                 if (!string.IsNullOrWhiteSpace(_cNPJ)) _cNPJ = $"%{_cNPJ}%";
 
                 var list1 = service.Listar(_empresaID, _nome, _apelido, _cNPJ);
-                var list2 = Mapper.Map<List<ClasseEmpresas.Empresa>>(list1);
+                var list2 = Mapper.Map<List<EmpresaView>>(list1);
 
-                var observer = new ObservableCollection<ClasseEmpresas.Empresa>();
+                var observer = new ObservableCollection<EmpresaView>();
                 list2.ForEach(n =>
                 {
                     observer.Add(n);
@@ -615,10 +617,183 @@ namespace iModSCCredenciamento.ViewModels
             }
         }
 
+        public void CarregaColecaoContratos(int empresaID = 0)
+        {
+
+            try
+            {
+
+                var service = new IMOD.Application.Service.EmpresaContratoService();
+                var list1 = service.Listar(empresaID);
+
+                var list2 = Mapper.Map<List<EmpresaContratoView>>(list1.OrderBy(n => n.EmpresaId));
+
+                var observer = new ObservableCollection<EmpresaContratoView>();
+                list2.ForEach(n =>
+                {
+                    observer.Add(n);
+                });
+
+                this.Contratos = observer;
+                SelectedIndex = 0;
+            }
+            catch (Exception ex)
+            {
+                //Global.Log("Erro void CarregaColecaoEmpresas ex: " + ex.Message);
+            }
+        }
         #endregion
 
         #region Data Access
+        private string RequisitaContratos(int _empresaID)
+        {
+            try
+            {
+                XmlDocument _xmlDocument = new XmlDocument();
+                XmlNode _xmlNode = _xmlDocument.CreateXmlDeclaration("1.0", "UTF-8", null);
 
+                XmlNode _ClasseContratosEmpresas = _xmlDocument.CreateElement("ClasseEmpresasContratos");
+                _xmlDocument.AppendChild(_ClasseContratosEmpresas);
+
+                XmlNode _EmpresasContratos = _xmlDocument.CreateElement("EmpresasContratos");
+                _ClasseContratosEmpresas.AppendChild(_EmpresasContratos);
+
+                string _strSql;
+
+
+                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
+
+
+                _strSql = "select * from EmpresasContratos where EmpresaID = " + _empresaID + " and StatusID=1 order by EmpresaContratoID desc";
+
+                SqlCommand _sqlcmd = new SqlCommand(_strSql, _Con);
+                SqlDataReader _sqlreader = _sqlcmd.ExecuteReader(CommandBehavior.Default);
+                while (_sqlreader.Read())
+                {
+
+                    XmlNode _EmpresaContrato = _xmlDocument.CreateElement("EmpresaContrato");
+                    _EmpresasContratos.AppendChild(_EmpresaContrato);
+
+                    XmlNode _EmpresaContratoID = _xmlDocument.CreateElement("EmpresaContratoID");
+                    _EmpresaContratoID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["EmpresaContratoID"].ToString())));
+                    _EmpresaContrato.AppendChild(_EmpresaContratoID);
+
+                    XmlNode _EmpresaID = _xmlDocument.CreateElement("EmpresaID");
+                    _EmpresaID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["EmpresaID"].ToString())));
+                    _EmpresaContrato.AppendChild(_EmpresaID);
+
+                    XmlNode _NumeroContrato = _xmlDocument.CreateElement("NumeroContrato");
+                    _NumeroContrato.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["NumeroContrato"].ToString())));
+                    _EmpresaContrato.AppendChild(_NumeroContrato);
+
+                    XmlNode _Descricao = _xmlDocument.CreateElement("Descricao");
+                    _Descricao.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Descricao"].ToString())));
+                    _EmpresaContrato.AppendChild(_Descricao);
+
+                    XmlNode _Emissao = _xmlDocument.CreateElement("Emissao");
+                    _Emissao.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Emissao"].ToString())));
+                    _EmpresaContrato.AppendChild(_Emissao);
+
+                    XmlNode _Validade = _xmlDocument.CreateElement("Validade");
+                    _Validade.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Validade"].ToString())));
+                    _EmpresaContrato.AppendChild(_Validade);
+
+                    XmlNode _Terceirizada = _xmlDocument.CreateElement("Terceirizada");
+                    _Terceirizada.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Terceirizada"].ToString())));
+                    _EmpresaContrato.AppendChild(_Terceirizada);
+
+                    XmlNode _Contratante = _xmlDocument.CreateElement("Contratante");
+                    _Contratante.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Contratante"].ToString())));
+                    _EmpresaContrato.AppendChild(_Contratante);
+
+                    XmlNode _IsencaoCobranca = _xmlDocument.CreateElement("IsencaoCobranca");
+                    _IsencaoCobranca.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["IsencaoCobranca"].ToString())));
+                    _EmpresaContrato.AppendChild(_IsencaoCobranca);
+
+                    XmlNode _TipoCobrancaID = _xmlDocument.CreateElement("TipoCobrancaID");
+                    _TipoCobrancaID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["TipoCobrancaID"].ToString())));
+                    _EmpresaContrato.AppendChild(_TipoCobrancaID);
+
+                    XmlNode _CobrancaEmpresaID = _xmlDocument.CreateElement("CobrancaEmpresaID");
+                    _CobrancaEmpresaID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["CobrancaEmpresaID"].ToString())));
+                    _EmpresaContrato.AppendChild(_CobrancaEmpresaID);
+
+                    XmlNode _CEP = _xmlDocument.CreateElement("CEP");
+                    _CEP.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["CEP"].ToString())));
+                    _EmpresaContrato.AppendChild(_CEP);
+
+                    XmlNode _Endereco = _xmlDocument.CreateElement("Endereco");
+                    _Endereco.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Endereco"].ToString())));
+                    _EmpresaContrato.AppendChild(_Endereco);
+
+                    XmlNode _Complemento = _xmlDocument.CreateElement("Complemento");
+                    _Complemento.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Complemento"].ToString())));
+                    _EmpresaContrato.AppendChild(_Complemento);
+
+                    XmlNode _Bairro = _xmlDocument.CreateElement("Bairro");
+                    _Bairro.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Bairro"].ToString())));
+                    _EmpresaContrato.AppendChild(_Bairro);
+
+                    XmlNode _MunicipioID = _xmlDocument.CreateElement("MunicipioID");
+                    _MunicipioID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["MunicipioID"].ToString())));
+                    _EmpresaContrato.AppendChild(_MunicipioID);
+
+                    XmlNode _EstadoID = _xmlDocument.CreateElement("EstadoID");
+                    _EstadoID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["EstadoID"].ToString())));
+                    _EmpresaContrato.AppendChild(_EstadoID);
+
+                    XmlNode _NomeResp = _xmlDocument.CreateElement("NomeResp");
+                    _NomeResp.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["NomeResp"].ToString())));
+                    _EmpresaContrato.AppendChild(_NomeResp);
+
+                    XmlNode _TelefoneResp = _xmlDocument.CreateElement("TelefoneResp");
+                    _TelefoneResp.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["TelefoneResp"].ToString())));
+                    _EmpresaContrato.AppendChild(_TelefoneResp);
+
+                    XmlNode _CelularResp = _xmlDocument.CreateElement("CelularResp");
+                    _CelularResp.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["CelularResp"].ToString())));
+                    _EmpresaContrato.AppendChild(_CelularResp);
+
+                    XmlNode _EmailResp = _xmlDocument.CreateElement("EmailResp");
+                    _EmailResp.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["EmailResp"].ToString())));
+                    _EmpresaContrato.AppendChild(_EmailResp);
+
+                    XmlNode _Numero = _xmlDocument.CreateElement("Numero");
+                    _Numero.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Numero"].ToString())));
+                    _EmpresaContrato.AppendChild(_Numero);
+
+                    XmlNode _StatusID = _xmlDocument.CreateElement("StatusID");
+                    _StatusID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["StatusID"].ToString())));
+                    _EmpresaContrato.AppendChild(_StatusID);
+
+                    XmlNode _TipoAcessoID = _xmlDocument.CreateElement("TipoAcessoID");
+                    _TipoAcessoID.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["TipoAcessoID"].ToString())));
+                    _EmpresaContrato.AppendChild(_TipoAcessoID);
+
+                    XmlNode _NomeArquivo = _xmlDocument.CreateElement("NomeArquivo");
+                    _NomeArquivo.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["NomeArquivo"].ToString())));
+                    _EmpresaContrato.AppendChild(_NomeArquivo);
+
+                    XmlNode _Arquivo = _xmlDocument.CreateElement("Arquivo");
+                    //_Arquivo.AppendChild(_xmlDocument.CreateTextNode((_sqlreader["Arquivo"].ToString())));
+                    _EmpresaContrato.AppendChild(_Arquivo);
+
+                }
+
+                _sqlreader.Close();
+
+                _Con.Close();
+                string _xml = _xmlDocument.InnerXml;
+                _xmlDocument = null;
+                return _xml;
+            }
+            catch
+            {
+
+                return null;
+            }
+            return null;
+        }
         private DateTime validadeCursoContrato(int _colaborador = 0)
         {
             try
@@ -699,8 +874,8 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 if (_ColaboradoresEmpresasTemp.Where(x =>
-                (x.EmpresaContratoID == ColaboradorEmpresaSelecionado.EmpresaContratoID && x.Ativo)
-                && (x.ColaboradorEmpresaID != ColaboradorEmpresaSelecionado.ColaboradorEmpresaID)).Count() > 0)
+                (x.EmpresaContratoId == ColaboradorEmpresaSelecionado.EmpresaContratoId && x.Ativo)
+                && (x.ColaboradorEmpresaId != ColaboradorEmpresaSelecionado.ColaboradorEmpresaId)).Count() > 0)
                 {
                     return true;
                 }

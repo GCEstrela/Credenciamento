@@ -91,7 +91,7 @@
 
             <StackPanel x:Name="ListaEmpresas_sp" Margin="0,0,170,0" Grid.Column="0" Grid.ColumnSpan="2">
                 <ListView x:Name="ListaEmpresas_lv" Margin="0,0,0,0" Height="180" ItemsSource="{Binding Empresas, Mode=TwoWay}" SelectedIndex="{Binding Path=SelectedIndex, Mode=TwoWay}"
-                           SelectedItem="{Binding Path = EmpresaSelecionada, Mode=TwoWay}" SelectionChanged="ListaEmpresas_lv_SelectionChanged"    >
+                           SelectedItem="{Binding Path = EmpresaSelecionada, Mode=TwoWay}" SelectionChanged="ListaEmpresas_lv_SelectionChanged">
                     <ListView.View>
                         <GridView FrameworkElement.FlowDirection="RightToLeft">
                             <GridViewColumn >
@@ -102,8 +102,8 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn Width="80" Header="Código"  DisplayMemberBinding="{Binding EmpresaID}"/>
-                            <GridViewColumn Width="150" Header="CNPJ"  DisplayMemberBinding="{Binding CNPJ}"/>
+                            <GridViewColumn Width="80" Header="Código"  DisplayMemberBinding="{Binding EmpresaId}"/>
+                            <GridViewColumn Width="150" Header="CNPJ"  DisplayMemberBinding="{Binding Cnpj}"/>
                             <GridViewColumn Width="200"  Header="Nome" DisplayMemberBinding="{Binding Apelido}"/>
                             <GridViewColumn Width="450"  Header="Razão Social" DisplayMemberBinding="{Binding Nome}"/>
                             <GridViewColumn Width="200"  Header="Telefone 1" DisplayMemberBinding="{Binding Telefone1}"/>
@@ -154,17 +154,19 @@
                                     <StackPanel Margin="10,10,0,0">
                                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,10,0,10" >
                                             <Label Content="Código:" Height="28" Width="100" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                            <TextBox CharacterCasing="Upper"  x:Name="Codigo_tb"   MaxLength="50" Text="{Binding SelectedItem.EmpresaID, ElementName=ListaEmpresas_lv, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"  Height="24"  Width="50"/>
+                                            <TextBox CharacterCasing="Upper"  x:Name="Codigo_tb"   MaxLength="50" Text="{Binding SelectedItem.EmpresaId, ElementName=ListaEmpresas_lv, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"  Height="24"  Width="50"/>
                                             <Label Content="CNPJ:" Height="28" Width="70" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                            <TextBox  x:Name="CNPJ_tb"  MaxLength="20" IsEnabled="True"  Height="24"  Width="120"  Foreground="White" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" LostFocus="OnConsultarCnpj_LostFocus" Validation.ErrorTemplate="{StaticResource validationErrorTemplate}">
+                                            <TextBox  x:Name="CNPJ_tb"  MaxLength="20" IsEnabled="True"  Height="24"  Width="120"  Foreground="White" VerticalContentAlignment="Center" 
+                                                      Text="{Binding SelectedItem.Cnpj, ElementName=ListaEmpresas_lv, UpdateSourceTrigger=PropertyChanged}"
+                                                      HorizontalContentAlignment="Center" LostFocus="OnConsultarCnpj_LostFocus" Validation.ErrorTemplate="{StaticResource validationErrorTemplate}">
 
-                                                <TextBox.Text>
+                                                <!--<TextBox.Text>
                                                     <Binding Path="SelectedItem.CNPJ" ValidatesOnDataErrors="True"  Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"  ElementName="ListaEmpresas_lv">
                                                         <Binding.ValidationRules>
                                                             <z:CnpjValida></z:CnpjValida>
                                                         </Binding.ValidationRules>
                                                     </Binding>
-                                                </TextBox.Text>
+                                                </TextBox.Text>-->
 
 
                                             </TextBox>
@@ -402,7 +404,7 @@
                             <ColumnDefinition Width="1091*"/>
                             <ColumnDefinition Width="514*"/>
                         </Grid.ColumnDefinitions>
-                        <local:EmpresasSignatariosView EmpresaSelecionadaIDView="{Binding SelectedItem.EmpresaID, ElementName=ListaEmpresas_lv, UpdateSourceTrigger=PropertyChanged}"
+                        <local:EmpresasSignatariosView EmpresaSelecionadaIDView="{Binding SelectedItem.EmpresaId, ElementName=ListaEmpresas_lv, UpdateSourceTrigger=PropertyChanged}"
                                                        Editando="{Binding IsEnabled, ElementName=ListaEmpresas_sp, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10" Grid.ColumnSpan="3" />
                     </Grid>
                 </ScrollViewer>
@@ -427,7 +429,7 @@
                             <ColumnDefinition Width="655*"/>
                             <ColumnDefinition Width="599*"/>
                         </Grid.ColumnDefinitions>
-                        <local:EmpresasContratosView EmpresaSelecionadaIDView="{Binding SelectedItem.EmpresaID, ElementName=ListaEmpresas_lv, UpdateSourceTrigger=PropertyChanged}"
+                        <local:EmpresasContratosView EmpresaSelecionadaIDView="{Binding SelectedItem.EmpresaId, ElementName=ListaEmpresas_lv, UpdateSourceTrigger=PropertyChanged}"
                                                        Editando="{Binding IsEnabled, ElementName=ListaEmpresas_sp, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10" Grid.ColumnSpan="2" />
                     </Grid>
                 </ScrollViewer>
@@ -448,7 +450,7 @@
                 </TabItem.Header>
                 <ScrollViewer Grid.Row="0"   VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" >
                     <Grid >
-                        <local:EmpresasAnexosView EmpresaSelecionadaIDView="{Binding SelectedItem.EmpresaID, ElementName=ListaEmpresas_lv, UpdateSourceTrigger=PropertyChanged}"
+                        <local:EmpresasAnexosView EmpresaSelecionadaIDView="{Binding SelectedItem.EmpresaId, ElementName=ListaEmpresas_lv, UpdateSourceTrigger=PropertyChanged}"
                                                        Editando="{Binding IsEnabled, ElementName=ListaEmpresas_sp, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10" Grid.ColumnSpan="2" />
                     </Grid>
                 </ScrollViewer>

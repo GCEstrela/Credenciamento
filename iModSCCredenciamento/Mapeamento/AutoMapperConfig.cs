@@ -23,30 +23,35 @@ namespace iModSCCredenciamento.Mapeamento
     public class AutoMapperConfig
     {
         #region  Metodos
-
+        //ColaboradorEmpresaView
         public static void RegisterMappings()
         {
             Mapper.Initialize(
                    m =>
                    { 
-                        m.CreateMap<Colaborador, ClasseColaboradores.Colaborador>()
-                       .ForMember(k => k.CPF, opt => opt.MapFrom(k => k.Cpf.FormatarCpf())).ReverseMap();
-                       m.CreateMap<ColaboradorCurso, ClasseColaboradoresCursos.ColaboradorCurso>().ReverseMap();
+                        m.CreateMap<Colaborador, ColaboradorView>().ForMember(k => k.Cpf, opt => opt.MapFrom(k => k.Cpf.FormatarCpf())).ReverseMap();
+                       m.CreateMap<ColaboradorView, Colaborador>().ReverseMap();
+                       m.CreateMap<ColaboradorCurso, ColaboradorCursoView>().ReverseMap();
+                       m.CreateMap<ColaboradorCursoView, ColaboradorCurso>().ReverseMap();
                        m.CreateMap<ClasseColaboradoresCredenciais, ClasseColaboradoresCredenciais.ColaboradorCredencial>().ReverseMap();
                        m.CreateMap<ColaboradoresCredenciaisView, ClasseColaboradoresCredenciais.ColaboradorCredencial>().ReverseMap();
-                       m.CreateMap<ColaboradorEmpresa, ClasseColaboradoresEmpresas.ColaboradorEmpresa>().ReverseMap();
+
                        m.CreateMap<VeiculoEmpresa, ClasseVeiculosEmpresas.VeiculoEmpresa>().ReverseMap();
                        m.CreateMap<VeiculoCredencial, ClasseVeiculosCredenciais.VeiculoCredencial>().ReverseMap();
                        m.CreateMap<VeiculosCredenciaisView, ClasseVeiculosCredenciais.VeiculoCredencial>().ReverseMap();
                        m.CreateMap<VeiculoEmpresa, ClasseVeiculosEmpresas.VeiculoEmpresa>().ReverseMap();
                        m.CreateMap<VeiculoEmpresaView, ClasseVeiculosEmpresas.VeiculoEmpresa>().ReverseMap();
-                       m.CreateMap<Empresa, ClasseEmpresas.Empresa>()
-                      .ForMember(k => k.CNPJ, opt => opt.MapFrom(k => k.Cnpj.FormatarCnpj())).ReverseMap();
+                      
+                       m.CreateMap<Empresa, EmpresaView>().ForMember(k => k.Cnpj, opt => opt.MapFrom(k => k.Cnpj.FormatarCnpj())).ReverseMap();
+                       m.CreateMap<EmpresaSignatarioView, EmpresaSignatario>().ReverseMap();
+                       m.CreateMap<EmpresaContratoView, EmpresaContrato>().ReverseMap();
+                       m.CreateMap<EmpresaLayoutCrachaView, ClasseEmpresasLayoutsCrachas.EmpresaLayoutCracha>().ReverseMap();
+
                        m.CreateMap<LayoutCracha, ClasseEmpresasLayoutsCrachas.EmpresaLayoutCracha>().ReverseMap();
                        m.CreateMap<Estados, ClasseEstados.Estado>().ReverseMap();
                        m.CreateMap<Municipio, ClasseMunicipios.Municipio>().ReverseMap();
-                       m.CreateMap<EmpresaSignatario, ClasseEmpresasSignatarios.EmpresaSignatario>().ReverseMap();
-                       m.CreateMap<EmpresaContrato, ClasseEmpresasContratos.EmpresaContrato>().ReverseMap();
+                      
+                       
                        m.CreateMap<TipoAtividade, ClasseTiposAtividades.TipoAtividade>().ReverseMap();
                        m.CreateMap<TipoEquipamento, ClasseTiposEquipamento.TipoEquipamento>().ReverseMap();
 
@@ -57,8 +62,8 @@ namespace iModSCCredenciamento.Mapeamento
                        m.CreateMap<EmpresaTipoAtividade, ClasseEmpresasTiposAtividades.EmpresaTipoAtividade>().ReverseMap();
                        m.CreateMap<AreaAcesso, ClasseAreasAcessos.AreaAcesso>().ReverseMap();
                        m.CreateMap<LayoutCracha, ClasseLayoutsCrachas.LayoutCracha>().ReverseMap();
-                       m.CreateMap<EmpresaLayoutCrachaView, ClasseEmpresasLayoutsCrachas.EmpresaLayoutCracha>().ReverseMap();
-                       m.CreateMap<EmpresaContrato, ClasseEmpresasContratos.EmpresaContrato>().ReverseMap();
+                       
+                       //m.CreateMap<EmpresaContrato, ClasseEmpresasContratos.EmpresaContrato>().ReverseMap();
 
                    });
         }

@@ -175,8 +175,8 @@
                                 <Label Content="Razão Social da Empresa:" Height="28" Width="150" Margin="0,0,5,0" HorizontalContentAlignment="Right" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1" />
                                 <ComboBox  x:Name="EmpresaRazaoSocial_cb" Width="300" Height="28" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" VerticalAlignment="Center"
                                               Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3"
-                                           ItemsSource="{Binding Empresas}" DisplayMemberPath="Nome"  SelectedValue="{Binding SelectedItem.EmpresaID, ElementName=ListaColaboradoresEmpresas_lv, UpdateSourceTrigger=PropertyChanged}" 
-                                           SelectedValuePath="EmpresaID"  SelectionChanged="{data:MethodBinding  CarregaColecaoContratos, {Binding SelectedItem.EmpresaID, ElementName=EmpresaRazaoSocial_cb}}"  />
+                                           ItemsSource="{Binding Empresas}" DisplayMemberPath="Nome"  SelectedValue="{Binding SelectedItem.EmpresaId, ElementName=ListaColaboradoresEmpresas_lv, UpdateSourceTrigger=PropertyChanged}" 
+                                           SelectedValuePath="EmpresaID"  SelectionChanged="{data:MethodBinding  CarregaColecaoContratos, {Binding SelectedItem.EmpresaId, ElementName=EmpresaRazaoSocial_cb}}"  />
 
                                 <Label Content="Matrícula:" Height="28" Width="140" HorizontalContentAlignment="Right" Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="1" />
                                 <TextBox  x:Name="Matricula_tb" MaxLength="15" CharacterCasing="Upper" VerticalContentAlignment="Center" Text="{Binding SelectedItem.Matricula, ElementName=ListaColaboradoresEmpresas_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="False"  Height="28"  MaxWidth="200" Grid.Row="0" Grid.Column="5" Grid.ColumnSpan="1" HorizontalAlignment="Left" Width="150"/>
@@ -185,7 +185,7 @@
                                 <!--#region Grid 1 -->
                                 <Label Content="Contrato:" Height="28" Width="150" HorizontalContentAlignment="Right" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="1"  />
                                 <ComboBox  x:Name="Contrato_cb" Width="300" Height="28" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
-                                           ItemsSource="{Binding Contratos}" DisplayMemberPath="Descricao"  SelectedValue="{Binding SelectedItem.EmpresaContratoID, ElementName=ListaColaboradoresEmpresas_lv, UpdateSourceTrigger=PropertyChanged}" 
+                                           ItemsSource="{Binding Contratos}" DisplayMemberPath="Descricao"  SelectedValue="{Binding SelectedItem.EmpresaContratoId, ElementName=ListaColaboradoresEmpresas_lv, UpdateSourceTrigger=PropertyChanged}" 
                                            SelectedValuePath="EmpresaContratoID"  DropDownClosed="Contrato_cb_DropDownClosed"  />
 
                                 <Label Content="Cargo:" Height="28" Width="140" HorizontalContentAlignment="Right" Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="1"/>

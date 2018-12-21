@@ -18,6 +18,7 @@ using IMOD.Application.Service;
 using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
 using Colaborador = iModSCCredenciamento.Models.Colaborador;
+using iModSCCredenciamento.Views.Model;
 
 namespace iModSCCredenciamento.ViewModels
 {
@@ -56,13 +57,13 @@ namespace iModSCCredenciamento.ViewModels
 
         private ObservableCollection<ClasseVinculos.Vinculo> _Vinculos;
 
-        private ObservableCollection<ClasseEmpresas.Empresa> _Empresas;
+        private ObservableCollection<EmpresaView> _Empresas;
 
         private ObservableCollection<ClasseFormatosCredenciais.FormatoCredencial> _FormatosCredenciais;
 
         private ObservableCollection<ClasseEmpresasLayoutsCrachas.EmpresaLayoutCracha> _EmpresasLayoutsCrachas;
 
-        private ObservableCollection<ClasseEmpresasContratos.EmpresaContrato> _Contratos;
+        private ObservableCollection<EmpresaContratoView> _Contratos;
 
         private ClasseColaboradoresCredenciais.ColaboradorCredencial _ColaboradorCredencialSelecionado;
 
@@ -90,9 +91,9 @@ namespace iModSCCredenciamento.ViewModels
 
         private ObservableCollection<ClasseTecnologiasCredenciais.TecnologiaCredencial> _TecnologiasCredenciais;
 
-        private ObservableCollection<ClasseColaboradoresEmpresas.ColaboradorEmpresa> _ColaboradoresEmpresas;
+        private ObservableCollection<ColaboradorEmpresaView> _ColaboradoresEmpresas;
 
-        private List<ClasseColaboradoresEmpresas.ColaboradorEmpresa> _ColaboradoresEmpresasTemp = new List<ClasseColaboradoresEmpresas.ColaboradorEmpresa>();
+        private List<ColaboradorEmpresaView> _ColaboradoresEmpresasTemp = new List<ColaboradorEmpresaView>();
 
 
         private ObservableCollection<ClasseClaboradoresPrivilegios.ColaboradorPrivilegio> _ClaboradoresPrivilegios;
@@ -121,7 +122,7 @@ namespace iModSCCredenciamento.ViewModels
                 }
             }
         }
-        public ObservableCollection<ClasseColaboradoresEmpresas.ColaboradorEmpresa> ColaboradoresEmpresas
+        public ObservableCollection<ColaboradorEmpresaView> ColaboradoresEmpresas
         {
             get
             {
@@ -293,7 +294,7 @@ namespace iModSCCredenciamento.ViewModels
                 }
             }
         }
-        public ObservableCollection<ClasseEmpresas.Empresa> Empresas
+        public ObservableCollection<EmpresaView> Empresas
 
         {
             get
@@ -329,7 +330,7 @@ namespace iModSCCredenciamento.ViewModels
                 }
             }
         }
-        public ObservableCollection<ClasseEmpresasContratos.EmpresaContrato> Contratos
+        public ObservableCollection<EmpresaContratoView> Contratos
         {
             get
             {
@@ -526,7 +527,7 @@ namespace iModSCCredenciamento.ViewModels
                 ColaboradoresCredenciais[_selectedIndexTemp] = _ColaboradorCredencialTemp;
                 SelectedIndex = _selectedIndexTemp;
                 HabilitaEdicao = false;
-                ColaboradoresEmpresas = new ObservableCollection<ClasseColaboradoresEmpresas.ColaboradorEmpresa>(_ColaboradoresEmpresasTemp);
+                ColaboradoresEmpresas = new ObservableCollection<ColaboradorEmpresaView>(_ColaboradoresEmpresasTemp);
             }
             catch (Exception ex)
             {
@@ -558,7 +559,7 @@ namespace iModSCCredenciamento.ViewModels
                     _ColaboradoresEmpresasTemp.Add(y);
                 }
 
-                List<ClasseColaboradoresEmpresas.ColaboradorEmpresa> _Temp = ColaboradoresEmpresas.Where(x => x.Ativo).ToList();
+                List<ColaboradorEmpresaView> _Temp = ColaboradoresEmpresas.Where(x => x.Ativo).ToList();
                 //foreach (var _member in toRemove)
                 //{
                 //    ColaboradoresEmpresas.Remove(_member);
@@ -566,7 +567,7 @@ namespace iModSCCredenciamento.ViewModels
 
                 ColaboradoresEmpresas.Clear();
 
-                ColaboradoresEmpresas = new ObservableCollection<ClasseColaboradoresEmpresas.ColaboradorEmpresa>(_Temp);
+                ColaboradoresEmpresas = new ObservableCollection<ColaboradorEmpresaView>(_Temp);
 
                 _ColaboradorCredencialTemp = new ClasseColaboradoresCredenciais.ColaboradorCredencial();
                 _ColaboradorCredencialTemp.ColaboradorID = ColaboradorSelecionadaID;
@@ -748,7 +749,7 @@ namespace iModSCCredenciamento.ViewModels
 
                 //SelectedIndex = _index;
 
-                ColaboradoresEmpresas = new ObservableCollection<ClasseColaboradoresEmpresas.ColaboradorEmpresa>(_ColaboradoresEmpresasTemp);
+                ColaboradoresEmpresas = new ObservableCollection<ColaboradorEmpresaView>(_ColaboradoresEmpresasTemp);
 
 
                 //if (ColaboradorCredencialSelecionado.CredencialStatusID == 1)
@@ -795,7 +796,7 @@ namespace iModSCCredenciamento.ViewModels
                 SelectedIndex = _selectedIndexTemp;
                 _ColaboradoresCredenciaisTemp.Clear();
                 HabilitaEdicao = false;
-                ColaboradoresEmpresas = new ObservableCollection<ClasseColaboradoresEmpresas.ColaboradorEmpresa>(_ColaboradoresEmpresasTemp);
+                ColaboradoresEmpresas = new ObservableCollection<ColaboradorEmpresaView>(_ColaboradoresEmpresasTemp);
 
             }
             catch (Exception ex)
@@ -962,15 +963,12 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-
                 var service = new ColaboradorEmpresaService();
-                //if (!string.IsNullOrWhiteSpace(_cargo)) _cargo = $"%{_cargo}%";
-                //if (!string.IsNullOrWhiteSpace(_matricula)) _matricula = $"%{_matricula}%";
-                var list1 = service.ListarView(_colaboradorID, _ativo);
+                var list1 = service.Listar(_colaboradorID, _ativo);
 
-                var list2 = Mapper.Map<List<ClasseColaboradoresEmpresas.ColaboradorEmpresa>>(list1);
+                var list2 = Mapper.Map<List<ColaboradorEmpresaView>>(list1);
 
-                var observer = new ObservableCollection<ClasseColaboradoresEmpresas.ColaboradorEmpresa>();
+                var observer = new ObservableCollection<ColaboradorEmpresaView>();
                 list2.ForEach(n =>
                 {
                     observer.Add(n);

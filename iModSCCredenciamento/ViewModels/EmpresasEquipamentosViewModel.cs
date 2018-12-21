@@ -10,6 +10,7 @@ using System.Xml;
 using System.Xml.Serialization;
 using iModSCCredenciamento.Funcoes;
 using iModSCCredenciamento.Models;
+using iModSCCredenciamento.Views.Model;
 using iModSCCredenciamento.Windows;
 
 namespace iModSCCredenciamento.ViewModels
@@ -36,13 +37,13 @@ namespace iModSCCredenciamento.ViewModels
 
         #region Variaveis Privadas
 
-        private ObservableCollection<ClasseEmpresasEquipamentos.EmpresaEquipamento> _EmpresasEquipamentos;
+        private ObservableCollection<EmpresaEquipamentoView> _EmpresasEquipamentos;
 
-        private ClasseEmpresasEquipamentos.EmpresaEquipamento _EmpresaEquipamentoSelecionado;
+        private EmpresaEquipamentoView _EmpresaEquipamentoSelecionado;
 
-        private ClasseEmpresasEquipamentos.EmpresaEquipamento _EmpresaEquipamentoTemp = new ClasseEmpresasEquipamentos.EmpresaEquipamento();
+        private EmpresaEquipamentoView _EmpresaEquipamentoTemp = new EmpresaEquipamentoView();
 
-        private List<ClasseEmpresasEquipamentos.EmpresaEquipamento> _EmpresasEquipamentosTemp = new List<ClasseEmpresasEquipamentos.EmpresaEquipamento>();
+        private List<EmpresaEquipamentoView> _EmpresasEquipamentosTemp = new List<EmpresaEquipamentoView>();
 
         private ObservableCollection<ClasseTiposEquipamento.TipoEquipamento> _TiposEquipamentos;
         private ObservableCollection<ClasseStatus.Status> _TiposStatus;
@@ -63,7 +64,7 @@ namespace iModSCCredenciamento.ViewModels
         #endregion
 
         #region Contrutores
-        public ObservableCollection<ClasseEmpresasEquipamentos.EmpresaEquipamento> EmpresaEquipamentos
+        public ObservableCollection<EmpresaEquipamentoView> EmpresaEquipamentos
         {
             get
             {
@@ -80,7 +81,7 @@ namespace iModSCCredenciamento.ViewModels
                 }
             }
         }
-        public ClasseEmpresasEquipamentos.EmpresaEquipamento EmpresaEquipamentoSelecionado
+        public EmpresaEquipamentoView EmpresaEquipamentoSelecionado
         {
             get
             {
@@ -226,8 +227,8 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                //BuscaBadges();
-                _EmpresaEquipamentoTemp = EmpresaEquipamentoSelecionado.CriaCopia(EmpresaEquipamentoSelecionado);
+                ////BuscaBadges();
+                //_EmpresaEquipamentoTemp = EmpresaEquipamentoSelecionado.CriaCopia(EmpresaEquipamentoSelecionado);
                 _selectedIndexTemp = SelectedIndex;
                 HabilitaEdicao = true;
             }
@@ -256,12 +257,12 @@ namespace iModSCCredenciamento.ViewModels
             {
 
                 HabilitaEdicao = false;
-                XmlSerializer serializer = new XmlSerializer(typeof(ClasseEmpresasEquipamentos));
+                XmlSerializer serializer = new XmlSerializer(typeof(EmpresaEquipamentoView));
 
-                ObservableCollection<ClasseEmpresasEquipamentos.EmpresaEquipamento> _EmpresasEquipamentosTemp = new ObservableCollection<ClasseEmpresasEquipamentos.EmpresaEquipamento>();
-                ClasseEmpresasEquipamentos _ClasseEmpresasEquipamentosTemp = new ClasseEmpresasEquipamentos();
+                ObservableCollection<EmpresaEquipamentoView> _EmpresasEquipamentosTemp = new ObservableCollection<EmpresaEquipamentoView>();
+                EmpresaEquipamentoView _ClasseEmpresasEquipamentosTemp = new EmpresaEquipamentoView();
                 _EmpresasEquipamentosTemp.Add(EmpresaEquipamentoSelecionado);
-                _ClasseEmpresasEquipamentosTemp.EmpresasEquipamentos = _EmpresasEquipamentosTemp;
+                //_ClasseEmpresasEquipamentosTemp.EmpresasEquipamentos = _EmpresasEquipamentosTemp;
 
                 string xmlString;
 
@@ -308,8 +309,8 @@ namespace iModSCCredenciamento.ViewModels
                 //ClasseEmpresasSeguros.EmpresaSeguro _seguro = new ClasseEmpresasSeguros.EmpresaSeguro();
                 //_seguro.EmpresaID = EmpresaSelecionadaID;
                 //Seguros.Add(_seguro);
-                _EmpresaEquipamentoTemp = new ClasseEmpresasEquipamentos.EmpresaEquipamento();
-                _EmpresaEquipamentoTemp.EmpresaID = EmpresaSelecionadaID;
+                _EmpresaEquipamentoTemp = new EmpresaEquipamentoView();
+                _EmpresaEquipamentoTemp.EmpresaId = EmpresaSelecionadaID;
                 EmpresaEquipamentos.Add(_EmpresaEquipamentoTemp);
                 SelectedIndex = 0;
                 HabilitaEdicao = true;
@@ -326,12 +327,12 @@ namespace iModSCCredenciamento.ViewModels
             {
 
                 HabilitaEdicao = false;
-                XmlSerializer serializer = new XmlSerializer(typeof(ClasseEmpresasEquipamentos));
+                XmlSerializer serializer = new XmlSerializer(typeof(EmpresaEquipamentoView));
 
-                ObservableCollection<ClasseEmpresasEquipamentos.EmpresaEquipamento> _EmpresasEquipamentosPro = new ObservableCollection<ClasseEmpresasEquipamentos.EmpresaEquipamento>();
-                ClasseEmpresasEquipamentos _ClasseEmpresasEquipamentosPro = new ClasseEmpresasEquipamentos();
+                ObservableCollection<EmpresaEquipamentoView> _EmpresasEquipamentosPro = new ObservableCollection<EmpresaEquipamentoView>();
+                EmpresaEquipamentoView _ClasseEmpresasEquipamentosPro = new EmpresaEquipamentoView();
                 _EmpresasEquipamentosPro.Add(EmpresaEquipamentoSelecionado);
-                _ClasseEmpresasEquipamentosPro.EmpresasEquipamentos = _EmpresasEquipamentosPro;
+                //_ClasseEmpresasEquipamentosPro.EmpresasEquipamentos = _EmpresasEquipamentosPro;
 
                 string xmlString;
 
@@ -348,11 +349,11 @@ namespace iModSCCredenciamento.ViewModels
                 }
 
                 InsereEquipamentoBD(xmlString);
-                Thread CarregaColecaoEquipamentos_thr = new Thread(() => CarregaColecaoEquipamentos(EmpresaEquipamentoSelecionado.EmpresaID));
+                Thread CarregaColecaoEquipamentos_thr = new Thread(() => CarregaColecaoEquipamentos(EmpresaEquipamentoSelecionado.EmpresaId));
                 CarregaColecaoEquipamentos_thr.Start();
                 _EmpresasEquipamentosTemp.Add(EmpresaEquipamentoSelecionado);
                 EmpresaEquipamentos = null;
-                EmpresaEquipamentos = new ObservableCollection<ClasseEmpresasEquipamentos.EmpresaEquipamento>(_EmpresasEquipamentosTemp);
+                EmpresaEquipamentos = new ObservableCollection<EmpresaEquipamentoView>(_EmpresasEquipamentosTemp);
                 SelectedIndex = _selectedIndexTemp;
                 _EmpresasEquipamentosTemp.Clear();
                 _EmpresasEquipamentosPro = null;
@@ -371,7 +372,7 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 EmpresaEquipamentos = null;
-                EmpresaEquipamentos = new ObservableCollection<ClasseEmpresasEquipamentos.EmpresaEquipamento>(_EmpresasEquipamentosTemp);
+                EmpresaEquipamentos = new ObservableCollection<EmpresaEquipamentoView>(_EmpresasEquipamentosTemp);
                 SelectedIndex = _selectedIndexTemp;
                 _EmpresasEquipamentosTemp.Clear();
                 HabilitaEdicao = false;
@@ -398,8 +399,8 @@ namespace iModSCCredenciamento.ViewModels
                 {
                     if (Global.PopupBox("Você perderá todos os dados, inclusive histórico. Confirma exclusão?", 2))
                     {
-                        ExcluiEquipamentoBD(EmpresaEquipamentoSelecionado.EmpresaEquipamentoID);
-                        EmpresaEquipamentos.Remove(EmpresaEquipamentoSelecionado);
+                        //ExcluiEquipamentoBD(EmpresaEquipamentoSelecionado.EmpresaEquipamentoId);
+                        //EmpresaEquipamentos.Remove(EmpresaEquipamentoSelecionado);
                     }
                 }
             }
@@ -439,19 +440,19 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                string _xml = RequisitaEquipamentos(empresaID, _equipamento, _numeroapolice);
+                //string _xml = RequisitaEquipamentos(empresaID, _equipamento, _numeroapolice);
 
-                XmlSerializer deserializer = new XmlSerializer(typeof(ClasseEmpresasEquipamentos));
+                //XmlSerializer deserializer = new XmlSerializer(typeof(ClasseEmpresasEquipamentos));
 
-                XmlDocument xmldocument = new XmlDocument();
-                xmldocument.LoadXml(_xml);
+                //XmlDocument xmldocument = new XmlDocument();
+                //xmldocument.LoadXml(_xml);
 
-                TextReader reader = new StringReader(_xml);
-                ClasseEmpresasEquipamentos classeEquipamentosEmpresa = new ClasseEmpresasEquipamentos();
-                classeEquipamentosEmpresa = (ClasseEmpresasEquipamentos)deserializer.Deserialize(reader);
-                EmpresaEquipamentos = new ObservableCollection<ClasseEmpresasEquipamentos.EmpresaEquipamento>();
-                EmpresaEquipamentos = classeEquipamentosEmpresa.EmpresasEquipamentos;
-                SelectedIndex = -1;
+                //TextReader reader = new StringReader(_xml);
+                //ClasseEmpresasEquipamentos classeEquipamentosEmpresa = new ClasseEmpresasEquipamentos();
+                //classeEquipamentosEmpresa = (ClasseEmpresasEquipamentos)deserializer.Deserialize(reader);
+                //EmpresaEquipamentos = new ObservableCollection<EmpresaEquipamentoView>();
+                //EmpresaEquipamentos = classeEquipamentosEmpresa.EmpresasEquipamentos;
+                //SelectedIndex = -1;
             }
             catch (Exception ex)
             {
@@ -908,143 +909,143 @@ namespace iModSCCredenciamento.ViewModels
             {
 
 
-                XmlDocument _xmlDoc = new XmlDocument();
+                //XmlDocument _xmlDoc = new XmlDocument();
 
-                _xmlDoc.LoadXml(xmlString);
-                //_Con.Open();
-                ClasseEmpresasEquipamentos.EmpresaEquipamento _EmpresaEquipamento = new ClasseEmpresasEquipamentos.EmpresaEquipamento();
-                //for (int i = 0; i <= _xmlDoc.GetElementsByTagName("EmpresaID").Count - 1; i++)
+                //_xmlDoc.LoadXml(xmlString);
+                ////_Con.Open();
+                //EmpresaEquipamentoView _EmpresaEquipamento = new EmpresaEquipamentoView();
+                ////for (int i = 0; i <= _xmlDoc.GetElementsByTagName("EmpresaID").Count - 1; i++)
+                ////{
+                //int i = 0;
+
+                //_EmpresaEquipamento.EmpresaEquipamentoID = _xmlDoc.GetElementsByTagName("EmpresaEquipamentoID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("EmpresaEquipamentoID")[i].InnerText);
+                //_EmpresaEquipamento.Descricao = _xmlDoc.GetElementsByTagName("Descricao")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Descricao")[i].InnerText;
+                //_EmpresaEquipamento.Marca = _xmlDoc.GetElementsByTagName("Marca")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Marca")[i].InnerText;
+                //_EmpresaEquipamento.Modelo = _xmlDoc.GetElementsByTagName("Modelo")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Modelo")[i].InnerText;
+                //_EmpresaEquipamento.Ano = _xmlDoc.GetElementsByTagName("Ano")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Ano")[i].InnerText;
+                //_EmpresaEquipamento.Patrimonio = _xmlDoc.GetElementsByTagName("Patrimonio")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Patrimonio")[i].InnerText;
+                //_EmpresaEquipamento.Seguro = _xmlDoc.GetElementsByTagName("Seguro")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Seguro")[i].InnerText;
+                //_EmpresaEquipamento.ApoliceSeguro = _xmlDoc.GetElementsByTagName("ApoliceSeguro")[i] == null ? "" : _xmlDoc.GetElementsByTagName("ApoliceSeguro")[i].InnerText;
+                //_EmpresaEquipamento.ApoliceValor = _xmlDoc.GetElementsByTagName("ApoliceValor")[i] == null ? "" : _xmlDoc.GetElementsByTagName("ApoliceValor")[i].InnerText;
+                //_EmpresaEquipamento.ApoliceVigencia = _xmlDoc.GetElementsByTagName("ApoliceVigencia")[i] == null ? "" : _xmlDoc.GetElementsByTagName("ApoliceVigencia")[i].InnerText;
+                //_EmpresaEquipamento.DataEmissao = _xmlDoc.GetElementsByTagName("DataEmissao")[i].InnerText == "" ? null : (DateTime?)Convert.ToDateTime(_xmlDoc.GetElementsByTagName("DataEmissao")[i].InnerText);
+                //_EmpresaEquipamento.DataValidade = _xmlDoc.GetElementsByTagName("DataValidade")[i].InnerText == "" ? null : (DateTime?)Convert.ToDateTime(_xmlDoc.GetElementsByTagName("DataValidade")[i].InnerText);
+                //_EmpresaEquipamento.Excluido = _xmlDoc.GetElementsByTagName("Excluido")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Excluido")[i].InnerText;
+                //_EmpresaEquipamento.TipoEquipamentoID = _xmlDoc.GetElementsByTagName("TipoEquipamentoID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("TipoEquipamentoID")[i].InnerText);
+                //_EmpresaEquipamento.StatusID = _xmlDoc.GetElementsByTagName("StatusID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("StatusID")[i].InnerText);
+                //_EmpresaEquipamento.TipoAcessoID = _xmlDoc.GetElementsByTagName("TipoAcessoID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("TipoAcessoID")[i].InnerText);
+                //_EmpresaEquipamento.EmpresaID = _xmlDoc.GetElementsByTagName("EmpresaID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("EmpresaID")[i].InnerText);
+
+
+
+
+                //SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
+
+
+                //SqlCommand _sqlCmd;
+                //if (_EmpresaEquipamento.EmpresaEquipamentoID != 0)
                 //{
-                int i = 0;
+                //    _sqlCmd = new SqlCommand("Update EmpresasEquipamentos Set" +
+                //        " Descricao=@v1" +
+                //        ",Marca=@v2" +
+                //        ",Modelo=@v3" +
+                //        ",Ano=@v4" +
+                //        ",Patrimonio=@v5" +
+                //        ",Seguro=@v6" +
+                //        ",ApoliceSeguro=@v7" +
+                //        ",ApoliceValor=@v8" +
+                //        ",ApoliceVigencia=@v9" +
+                //        ",DataEmissao=@v10" +
+                //        ",DataValidade=@v11" +
+                //        ",Excluido=@v12" +
+                //        ",TipoEquipamentoID=@v13" +
+                //        ",StatusID=@v14" +
+                //        ",TipoAcessoID=@v15" +
+                //        ",EmpresaID=@v16" +
+                //        " Where EmpresaEquipamentoID =@v0", _Con);
 
-                _EmpresaEquipamento.EmpresaEquipamentoID = _xmlDoc.GetElementsByTagName("EmpresaEquipamentoID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("EmpresaEquipamentoID")[i].InnerText);
-                _EmpresaEquipamento.Descricao = _xmlDoc.GetElementsByTagName("Descricao")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Descricao")[i].InnerText;
-                _EmpresaEquipamento.Marca = _xmlDoc.GetElementsByTagName("Marca")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Marca")[i].InnerText;
-                _EmpresaEquipamento.Modelo = _xmlDoc.GetElementsByTagName("Modelo")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Modelo")[i].InnerText;
-                _EmpresaEquipamento.Ano = _xmlDoc.GetElementsByTagName("Ano")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Ano")[i].InnerText;
-                _EmpresaEquipamento.Patrimonio = _xmlDoc.GetElementsByTagName("Patrimonio")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Patrimonio")[i].InnerText;
-                _EmpresaEquipamento.Seguro = _xmlDoc.GetElementsByTagName("Seguro")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Seguro")[i].InnerText;
-                _EmpresaEquipamento.ApoliceSeguro = _xmlDoc.GetElementsByTagName("ApoliceSeguro")[i] == null ? "" : _xmlDoc.GetElementsByTagName("ApoliceSeguro")[i].InnerText;
-                _EmpresaEquipamento.ApoliceValor = _xmlDoc.GetElementsByTagName("ApoliceValor")[i] == null ? "" : _xmlDoc.GetElementsByTagName("ApoliceValor")[i].InnerText;
-                _EmpresaEquipamento.ApoliceVigencia = _xmlDoc.GetElementsByTagName("ApoliceVigencia")[i] == null ? "" : _xmlDoc.GetElementsByTagName("ApoliceVigencia")[i].InnerText;
-                _EmpresaEquipamento.DataEmissao = _xmlDoc.GetElementsByTagName("DataEmissao")[i].InnerText == "" ? null : (DateTime?)Convert.ToDateTime(_xmlDoc.GetElementsByTagName("DataEmissao")[i].InnerText);
-                _EmpresaEquipamento.DataValidade = _xmlDoc.GetElementsByTagName("DataValidade")[i].InnerText == "" ? null : (DateTime?)Convert.ToDateTime(_xmlDoc.GetElementsByTagName("DataValidade")[i].InnerText);
-                _EmpresaEquipamento.Excluido = _xmlDoc.GetElementsByTagName("Excluido")[i] == null ? "" : _xmlDoc.GetElementsByTagName("Excluido")[i].InnerText;
-                _EmpresaEquipamento.TipoEquipamentoID = _xmlDoc.GetElementsByTagName("TipoEquipamentoID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("TipoEquipamentoID")[i].InnerText);
-                _EmpresaEquipamento.StatusID = _xmlDoc.GetElementsByTagName("StatusID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("StatusID")[i].InnerText);
-                _EmpresaEquipamento.TipoAcessoID = _xmlDoc.GetElementsByTagName("TipoAcessoID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("TipoAcessoID")[i].InnerText);
-                _EmpresaEquipamento.EmpresaID = _xmlDoc.GetElementsByTagName("EmpresaID")[i] == null ? 0 : Convert.ToInt32(_xmlDoc.GetElementsByTagName("EmpresaID")[i].InnerText);
+                //    _sqlCmd.Parameters.Add("@V0", SqlDbType.VarChar).Value = _EmpresaEquipamento.EmpresaEquipamentoID;
+                //    _sqlCmd.Parameters.Add("@V1", SqlDbType.VarChar).Value = _EmpresaEquipamento.Descricao;
+                //    _sqlCmd.Parameters.Add("@V2", SqlDbType.VarChar).Value = _EmpresaEquipamento.Marca;
+                //    _sqlCmd.Parameters.Add("@V3", SqlDbType.VarChar).Value = _EmpresaEquipamento.Modelo;
+                //    _sqlCmd.Parameters.Add("@V4", SqlDbType.VarChar).Value = _EmpresaEquipamento.Ano;
+                //    _sqlCmd.Parameters.Add("@V5", SqlDbType.VarChar).Value = _EmpresaEquipamento.Patrimonio;
+                //    _sqlCmd.Parameters.Add("@V6", SqlDbType.VarChar).Value = _EmpresaEquipamento.Seguro;
+                //    _sqlCmd.Parameters.Add("@V7", SqlDbType.VarChar).Value = _EmpresaEquipamento.ApoliceSeguro;
+                //    _sqlCmd.Parameters.Add("@V8", SqlDbType.VarChar).Value = _EmpresaEquipamento.ApoliceValor;
+                //    _sqlCmd.Parameters.Add("@V9", SqlDbType.VarChar).Value = _EmpresaEquipamento.ApoliceVigencia;
+                //    if (_EmpresaEquipamento.DataEmissao == null)
+                //    {
+                //        _sqlCmd.Parameters.Add("@V10", SqlDbType.DateTime).Value = DBNull.Value;
+                //    }
+                //    else
+                //    {
+                //        _sqlCmd.Parameters.Add("@V10", SqlDbType.DateTime).Value = _EmpresaEquipamento.DataEmissao;
+                //    }
+                //    if (_EmpresaEquipamento.DataEmissao == null)
+                //    {
+                //        _sqlCmd.Parameters.Add("@V11", SqlDbType.DateTime).Value = DBNull.Value;
+                //    }
+                //    else
+                //    {
+                //        _sqlCmd.Parameters.Add("@V11", SqlDbType.DateTime).Value = _EmpresaEquipamento.DataValidade;
+                //    }
 
+                //    _sqlCmd.Parameters.Add("@V12", SqlDbType.VarChar).Value = _EmpresaEquipamento.Excluido;
+                //    _sqlCmd.Parameters.Add("@V13", SqlDbType.Int).Value = _EmpresaEquipamento.TipoEquipamentoID;
+                //    _sqlCmd.Parameters.Add("@V14", SqlDbType.Int).Value = _EmpresaEquipamento.StatusID;
+                //    _sqlCmd.Parameters.Add("@V15", SqlDbType.Int).Value = _EmpresaEquipamento.TipoAcessoID;
+                //    _sqlCmd.Parameters.Add("@V16", SqlDbType.Int).Value = _EmpresaEquipamento.EmpresaID;
 
+                //}
+                //else
+                //{
 
+                //    _sqlCmd = new SqlCommand("Insert into EmpresasEquipamentos(Descricao,Marca" +
+                //                                                        ",Modelo,Ano" +
+                //                                                        ",Patrimonio,Seguro" +
+                //                                                        ",ApoliceSeguro,ApoliceValor" +
+                //                                                        ",ApoliceVigencia,DataEmissao" +
+                //                                                        ",DataValidade,Excluido" +
+                //                                                        ",TipoEquipamentoID,StatusID" +
+                //                                                        ",TipoAcessoID,EmpresaID) " +
+                //                                                        "values (@V1,@V2,@V3,@V4,@V5,@V6,@V7,@V8,@V9,@V10,@V11,@V12,@V13,@V14,@V15,@V16)", _Con);
 
-                SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
+                //    _sqlCmd.Parameters.Add("@V1", SqlDbType.VarChar).Value = _EmpresaEquipamento.Descricao;
+                //    _sqlCmd.Parameters.Add("@V2", SqlDbType.VarChar).Value = _EmpresaEquipamento.Marca;
+                //    _sqlCmd.Parameters.Add("@V3", SqlDbType.VarChar).Value = _EmpresaEquipamento.Modelo;
+                //    _sqlCmd.Parameters.Add("@V4", SqlDbType.VarChar).Value = _EmpresaEquipamento.Ano;
+                //    _sqlCmd.Parameters.Add("@V5", SqlDbType.VarChar).Value = _EmpresaEquipamento.Patrimonio;
+                //    _sqlCmd.Parameters.Add("@V6", SqlDbType.VarChar).Value = _EmpresaEquipamento.Seguro;
+                //    _sqlCmd.Parameters.Add("@V7", SqlDbType.VarChar).Value = _EmpresaEquipamento.ApoliceSeguro;
+                //    _sqlCmd.Parameters.Add("@V8", SqlDbType.VarChar).Value = _EmpresaEquipamento.ApoliceValor;
+                //    _sqlCmd.Parameters.Add("@V9", SqlDbType.VarChar).Value = _EmpresaEquipamento.ApoliceVigencia;
+                //    if (_EmpresaEquipamento.DataEmissao == null)
+                //    {
+                //        _sqlCmd.Parameters.Add("@V10", SqlDbType.DateTime).Value = DBNull.Value;
+                //    }
+                //    else
+                //    {
+                //        _sqlCmd.Parameters.Add("@V10", SqlDbType.DateTime).Value = _EmpresaEquipamento.DataEmissao;
+                //    }
+                //    if (_EmpresaEquipamento.DataEmissao == null)
+                //    {
+                //        _sqlCmd.Parameters.Add("@V11", SqlDbType.DateTime).Value = DBNull.Value;
+                //    }
+                //    else
+                //    {
+                //        _sqlCmd.Parameters.Add("@V11", SqlDbType.DateTime).Value = _EmpresaEquipamento.DataValidade;
+                //    }
 
+                //    _sqlCmd.Parameters.Add("@V12", SqlDbType.VarChar).Value = _EmpresaEquipamento.Excluido;
+                //    _sqlCmd.Parameters.Add("@V13", SqlDbType.Int).Value = _EmpresaEquipamento.TipoEquipamentoID;
+                //    _sqlCmd.Parameters.Add("@V14", SqlDbType.Int).Value = _EmpresaEquipamento.StatusID;
+                //    _sqlCmd.Parameters.Add("@V15", SqlDbType.Int).Value = _EmpresaEquipamento.TipoAcessoID;
+                //    _sqlCmd.Parameters.Add("@V16", SqlDbType.Int).Value = _EmpresaEquipamento.EmpresaID;
+                //}
 
-                SqlCommand _sqlCmd;
-                if (_EmpresaEquipamento.EmpresaEquipamentoID != 0)
-                {
-                    _sqlCmd = new SqlCommand("Update EmpresasEquipamentos Set" +
-                        " Descricao=@v1" +
-                        ",Marca=@v2" +
-                        ",Modelo=@v3" +
-                        ",Ano=@v4" +
-                        ",Patrimonio=@v5" +
-                        ",Seguro=@v6" +
-                        ",ApoliceSeguro=@v7" +
-                        ",ApoliceValor=@v8" +
-                        ",ApoliceVigencia=@v9" +
-                        ",DataEmissao=@v10" +
-                        ",DataValidade=@v11" +
-                        ",Excluido=@v12" +
-                        ",TipoEquipamentoID=@v13" +
-                        ",StatusID=@v14" +
-                        ",TipoAcessoID=@v15" +
-                        ",EmpresaID=@v16" +
-                        " Where EmpresaEquipamentoID =@v0", _Con);
-
-                    _sqlCmd.Parameters.Add("@V0", SqlDbType.VarChar).Value = _EmpresaEquipamento.EmpresaEquipamentoID;
-                    _sqlCmd.Parameters.Add("@V1", SqlDbType.VarChar).Value = _EmpresaEquipamento.Descricao;
-                    _sqlCmd.Parameters.Add("@V2", SqlDbType.VarChar).Value = _EmpresaEquipamento.Marca;
-                    _sqlCmd.Parameters.Add("@V3", SqlDbType.VarChar).Value = _EmpresaEquipamento.Modelo;
-                    _sqlCmd.Parameters.Add("@V4", SqlDbType.VarChar).Value = _EmpresaEquipamento.Ano;
-                    _sqlCmd.Parameters.Add("@V5", SqlDbType.VarChar).Value = _EmpresaEquipamento.Patrimonio;
-                    _sqlCmd.Parameters.Add("@V6", SqlDbType.VarChar).Value = _EmpresaEquipamento.Seguro;
-                    _sqlCmd.Parameters.Add("@V7", SqlDbType.VarChar).Value = _EmpresaEquipamento.ApoliceSeguro;
-                    _sqlCmd.Parameters.Add("@V8", SqlDbType.VarChar).Value = _EmpresaEquipamento.ApoliceValor;
-                    _sqlCmd.Parameters.Add("@V9", SqlDbType.VarChar).Value = _EmpresaEquipamento.ApoliceVigencia;
-                    if (_EmpresaEquipamento.DataEmissao == null)
-                    {
-                        _sqlCmd.Parameters.Add("@V10", SqlDbType.DateTime).Value = DBNull.Value;
-                    }
-                    else
-                    {
-                        _sqlCmd.Parameters.Add("@V10", SqlDbType.DateTime).Value = _EmpresaEquipamento.DataEmissao;
-                    }
-                    if (_EmpresaEquipamento.DataEmissao == null)
-                    {
-                        _sqlCmd.Parameters.Add("@V11", SqlDbType.DateTime).Value = DBNull.Value;
-                    }
-                    else
-                    {
-                        _sqlCmd.Parameters.Add("@V11", SqlDbType.DateTime).Value = _EmpresaEquipamento.DataValidade;
-                    }
-
-                    _sqlCmd.Parameters.Add("@V12", SqlDbType.VarChar).Value = _EmpresaEquipamento.Excluido;
-                    _sqlCmd.Parameters.Add("@V13", SqlDbType.Int).Value = _EmpresaEquipamento.TipoEquipamentoID;
-                    _sqlCmd.Parameters.Add("@V14", SqlDbType.Int).Value = _EmpresaEquipamento.StatusID;
-                    _sqlCmd.Parameters.Add("@V15", SqlDbType.Int).Value = _EmpresaEquipamento.TipoAcessoID;
-                    _sqlCmd.Parameters.Add("@V16", SqlDbType.Int).Value = _EmpresaEquipamento.EmpresaID;
-
-                }
-                else
-                {
-
-                    _sqlCmd = new SqlCommand("Insert into EmpresasEquipamentos(Descricao,Marca" +
-                                                                        ",Modelo,Ano" +
-                                                                        ",Patrimonio,Seguro" +
-                                                                        ",ApoliceSeguro,ApoliceValor" +
-                                                                        ",ApoliceVigencia,DataEmissao" +
-                                                                        ",DataValidade,Excluido" +
-                                                                        ",TipoEquipamentoID,StatusID" +
-                                                                        ",TipoAcessoID,EmpresaID) " +
-                                                                        "values (@V1,@V2,@V3,@V4,@V5,@V6,@V7,@V8,@V9,@V10,@V11,@V12,@V13,@V14,@V15,@V16)", _Con);
-
-                    _sqlCmd.Parameters.Add("@V1", SqlDbType.VarChar).Value = _EmpresaEquipamento.Descricao;
-                    _sqlCmd.Parameters.Add("@V2", SqlDbType.VarChar).Value = _EmpresaEquipamento.Marca;
-                    _sqlCmd.Parameters.Add("@V3", SqlDbType.VarChar).Value = _EmpresaEquipamento.Modelo;
-                    _sqlCmd.Parameters.Add("@V4", SqlDbType.VarChar).Value = _EmpresaEquipamento.Ano;
-                    _sqlCmd.Parameters.Add("@V5", SqlDbType.VarChar).Value = _EmpresaEquipamento.Patrimonio;
-                    _sqlCmd.Parameters.Add("@V6", SqlDbType.VarChar).Value = _EmpresaEquipamento.Seguro;
-                    _sqlCmd.Parameters.Add("@V7", SqlDbType.VarChar).Value = _EmpresaEquipamento.ApoliceSeguro;
-                    _sqlCmd.Parameters.Add("@V8", SqlDbType.VarChar).Value = _EmpresaEquipamento.ApoliceValor;
-                    _sqlCmd.Parameters.Add("@V9", SqlDbType.VarChar).Value = _EmpresaEquipamento.ApoliceVigencia;
-                    if (_EmpresaEquipamento.DataEmissao == null)
-                    {
-                        _sqlCmd.Parameters.Add("@V10", SqlDbType.DateTime).Value = DBNull.Value;
-                    }
-                    else
-                    {
-                        _sqlCmd.Parameters.Add("@V10", SqlDbType.DateTime).Value = _EmpresaEquipamento.DataEmissao;
-                    }
-                    if (_EmpresaEquipamento.DataEmissao == null)
-                    {
-                        _sqlCmd.Parameters.Add("@V11", SqlDbType.DateTime).Value = DBNull.Value;
-                    }
-                    else
-                    {
-                        _sqlCmd.Parameters.Add("@V11", SqlDbType.DateTime).Value = _EmpresaEquipamento.DataValidade;
-                    }
-
-                    _sqlCmd.Parameters.Add("@V12", SqlDbType.VarChar).Value = _EmpresaEquipamento.Excluido;
-                    _sqlCmd.Parameters.Add("@V13", SqlDbType.Int).Value = _EmpresaEquipamento.TipoEquipamentoID;
-                    _sqlCmd.Parameters.Add("@V14", SqlDbType.Int).Value = _EmpresaEquipamento.StatusID;
-                    _sqlCmd.Parameters.Add("@V15", SqlDbType.Int).Value = _EmpresaEquipamento.TipoAcessoID;
-                    _sqlCmd.Parameters.Add("@V16", SqlDbType.Int).Value = _EmpresaEquipamento.EmpresaID;
-                }
-
-                _sqlCmd.ExecuteNonQuery();
-                _Con.Close();
+                //_sqlCmd.ExecuteNonQuery();
+                //_Con.Close();
             }
             catch (Exception ex)
             {
@@ -1063,7 +1064,7 @@ namespace iModSCCredenciamento.ViewModels
 
         //        _xmlDoc.LoadXml(xmlString);
         //        //_Con.Open();
-        //        ClasseEmpresasEquipamentos.EmpresaEquipamento _EmpresaEquipamento = new ClasseEmpresasEquipamentos.EmpresaEquipamento();
+        //        EmpresaEquipamentoView _EmpresaEquipamento = new EmpresaEquipamentoView();
         //        //for (int i = 0; i <= _xmlDoc.GetElementsByTagName("EmpresaID").Count - 1; i++)
         //        //{
         //        int i = 0;

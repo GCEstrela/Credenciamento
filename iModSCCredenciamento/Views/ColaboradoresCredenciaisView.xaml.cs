@@ -61,7 +61,7 @@ namespace iModSCCredenciamento.Views
         #endregion
 
         #region Comando dos Botoes
-       
+
 
         private void Pesquisar_bt_Click(object sender, RoutedEventArgs e)
         {
@@ -140,7 +140,7 @@ namespace iModSCCredenciamento.Views
 
         private void CancelarEdicao_bt_Click(object sender, RoutedEventArgs e)
         {
-            EmpresaVinculo_cb.IsEnabled= true;
+            EmpresaVinculo_cb.IsEnabled = true;
             Editando = true;
             EmpresaVinculo_cb.IsEnabled = true;
             Editando = true; Botoes_Principais_sp.Visibility = Visibility.Visible;
@@ -248,7 +248,7 @@ namespace iModSCCredenciamento.Views
 
         private void StatusCredencial_tb_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (e.AddedItems.Count>0)
+            if (e.AddedItems.Count > 0)
             {
                 if (((ClasseCredenciaisStatus.CredencialStatus)((object[])e.AddedItems)[0]).CredencialStatusID == 1)
                 {

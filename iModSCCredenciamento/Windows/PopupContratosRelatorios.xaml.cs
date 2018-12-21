@@ -8,6 +8,7 @@ using System.Xml;
 using System.Xml.Serialization;
 using iModSCCredenciamento.Funcoes;
 using iModSCCredenciamento.Models;
+using iModSCCredenciamento.Views.Model;
 using Microsoft.Reporting.WinForms;
 
 namespace iModSCCredenciamento.Windows
@@ -25,16 +26,16 @@ namespace iModSCCredenciamento.Windows
         {
             string _xml = RequisitaContratos();
 
-            XmlSerializer deserializer = new XmlSerializer(typeof(ClasseEmpresasContratos));
+            XmlSerializer deserializer = new XmlSerializer(typeof(EmpresaContratoView));
 
             XmlDocument xmldocument = new XmlDocument();
             xmldocument.LoadXml(_xml);
 
             TextReader reader = new StringReader(_xml);
-            ClasseEmpresasContratos classeEmpresasContratos = new ClasseEmpresasContratos();
-            classeEmpresasContratos = (ClasseEmpresasContratos)deserializer.Deserialize(reader);
-            var dadosRelatorio = new ObservableCollection<ClasseEmpresasContratos.EmpresaContrato>();
-            dadosRelatorio = classeEmpresasContratos.EmpresasContratos;
+            EmpresaContratoView classeEmpresasContratos = new EmpresaContratoView();
+            classeEmpresasContratos = (EmpresaContratoView)deserializer.Deserialize(reader);
+            var dadosRelatorio = new ObservableCollection<EmpresaContratoView>();
+            //dadosRelatorio = classeEmpresasContratos.EmpresasContratos;
 
             var dataSource = new ReportDataSource("DataSetContratos", dadosRelatorio);
             ReportViewer.LocalReport.DataSources.Add(dataSource);

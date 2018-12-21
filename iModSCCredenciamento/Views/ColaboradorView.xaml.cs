@@ -56,7 +56,7 @@ namespace iModSCCredenciamento.Views
                     var fileLength = new FileInfo(openFileDialog.FileName).Length; //limitar o tamanho futuro
 
                     Foto_im.Source = _img;
-                    ((ClasseColaboradores.Colaborador)ListaColaboradores_lv.SelectedItem).Foto = _imgstr; //Conversores.IMGtoSTR(new BitmapImage(new Uri(arquivoLogo.FileName)));
+                    //((ColaboradorView)ListaColaboradores_lv.SelectedItem).Foto_im = _imgstr; //Conversores.IMGtoSTR(new BitmapImage(new Uri(arquivoLogo.FileName)));
                     //ListaEmpresas_lv.Items.Refresh();
 
                     //BindingExpression be = BindingOperations.GetBindingExpression(Logo_im, Image.SourceProperty);
@@ -85,7 +85,7 @@ namespace iModSCCredenciamento.Views
                 {
                     string _imgstr = Conversores.IMGtoSTR(_img);
                     Foto_im.Source = _img;
-                    ((ClasseColaboradores.Colaborador)ListaColaboradores_lv.SelectedItem).Foto = _imgstr;
+                    //((ColaboradorView)ListaColaboradores_lv.SelectedItem).Foto = _imgstr;
 
                 }
             }
@@ -192,7 +192,7 @@ namespace iModSCCredenciamento.Views
                 }
                 var model = ((ColaboradorViewModel)DataContext);
                 var entity = model.ColaboradorSelecionado;
-                model.ValidarEdicao(entity);
+                //model.ValidarEdicao(entity);
 
                 if (!Global.PopupBox("Tem certeza que deseja salvar?", 2))
                 {
@@ -247,7 +247,7 @@ namespace iModSCCredenciamento.Views
                 }
                 var model = ((ColaboradorViewModel)DataContext);
                 var entity = model.ColaboradorSelecionado;
-                model.ValidarEdicao(entity);
+                //model.ValidarEdicao(entity);
 
                 if (!Global.PopupBox("Tem certeza que deseja salvar?", 2))
                 {
@@ -330,7 +330,7 @@ namespace iModSCCredenciamento.Views
             {
                 var model = ((ColaboradorViewModel)DataContext);
                 var entity = model.ColaboradorSelecionado;
-                model.ValidarAdicao(entity);
+                //model.ValidarAdicao(entity);
 
                 Botoes_Principais_sp.Visibility = Visibility.Visible;
                 model.SalvarAdicao();

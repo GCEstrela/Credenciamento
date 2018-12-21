@@ -15,6 +15,7 @@ using IMOD.Application.Interfaces;
 using IMOD.Application.Service;
 using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
+using iModSCCredenciamento.Views.Model;
 
 namespace iModSCCredenciamento.ViewModels
 {
@@ -27,13 +28,13 @@ namespace iModSCCredenciamento.ViewModels
 
         #region Variaveis Privadas
 
-        private ObservableCollection<ClasseEmpresasAnexos.EmpresaAnexo> _Anexos;
+        private ObservableCollection<EmpresaAnexoView> _Anexos;
 
-        private ClasseEmpresasAnexos.EmpresaAnexo _AnexoSelecionado;
+        private EmpresaAnexoView _AnexoSelecionado;
 
-        private ClasseEmpresasAnexos.EmpresaAnexo _anexoTemp = new ClasseEmpresasAnexos.EmpresaAnexo();
+        private EmpresaAnexoView _anexoTemp = new EmpresaAnexoView();
 
-        private List<ClasseEmpresasAnexos.EmpresaAnexo> _AnexosTemp = new List<ClasseEmpresasAnexos.EmpresaAnexo>();
+        private List<EmpresaAnexoView> _AnexosTemp = new List<EmpresaAnexoView>();
 
         PopupPesquisaEmpresasAnexos popupPesquisaEmpresasAnexos;
 
@@ -52,7 +53,7 @@ namespace iModSCCredenciamento.ViewModels
         #endregion
 
         #region Contrutores
-        public ObservableCollection<ClasseEmpresasAnexos.EmpresaAnexo> Anexos
+        public ObservableCollection<EmpresaAnexoView> Anexos
         {
             get
             {
@@ -70,7 +71,7 @@ namespace iModSCCredenciamento.ViewModels
             }
         }
 
-        public ClasseEmpresasAnexos.EmpresaAnexo AnexoSelecionado
+        public EmpresaAnexoView AnexoSelecionado
         {
             get
             {
@@ -193,7 +194,7 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 //BuscaBadges();
-                _anexoTemp = AnexoSelecionado.CriaCopia(AnexoSelecionado);
+               //_anexoTemp = AnexoSelecionado.CriaCopia(AnexoSelecionado);
                 _selectedIndexTemp = SelectedIndex;
                 HabilitaEdicao = true;
             }
@@ -226,7 +227,7 @@ namespace iModSCCredenciamento.ViewModels
 
                 _service.Alterar(entityConv);
 
-                Thread CarregaColecaoAnexosSignatarios_thr = new Thread(() => CarregaColecaoAnexos(AnexoSelecionado.EmpresaID));
+                Thread CarregaColecaoAnexosSignatarios_thr = new Thread(() => CarregaColecaoAnexos(AnexoSelecionado.EmpresaId));
                 CarregaColecaoAnexosSignatarios_thr.Start();
 
             }
@@ -247,8 +248,8 @@ namespace iModSCCredenciamento.ViewModels
                 _selectedIndexTemp = SelectedIndex;
                 Anexos.Clear();
 
-                _anexoTemp = new ClasseEmpresasAnexos.EmpresaAnexo();
-                _anexoTemp.EmpresaID = EmpresaSelecionadaID;
+                _anexoTemp = new EmpresaAnexoView();
+                _anexoTemp.EmpresaId = EmpresaSelecionadaID;
                 Anexos.Add(_anexoTemp);
                 SelectedIndex = 0;
                 HabilitaEdicao = true;
@@ -265,18 +266,18 @@ namespace iModSCCredenciamento.ViewModels
             {
                 HabilitaEdicao = false;
 
-                ObservableCollection<ClasseEmpresasAnexos.EmpresaAnexo> _EmpresasAnexosPro = new ObservableCollection<ClasseEmpresasAnexos.EmpresaAnexo>();
-                ClasseEmpresasAnexos _ClasseEmpresasAnexosTemp = new ClasseEmpresasAnexos();
+                ObservableCollection<EmpresaAnexoView> _EmpresasAnexosPro = new ObservableCollection<EmpresaAnexoView>();
+                EmpresaAnexoView _ClasseEmpresasAnexosTemp = new EmpresaAnexoView();
 
                 _EmpresasAnexosPro.Add(AnexoSelecionado);
-                _ClasseEmpresasAnexosTemp.EmpresasAnexos = _EmpresasAnexosPro;
+                //_ClasseEmpresasAnexosTemp.EmpresasAnexos = _EmpresasAnexosPro;
 
                 var entity = AnexoSelecionado;
                 var entityConv = Mapper.Map<EmpresaAnexo>(entity);
 
                 _service.Criar(entityConv);
 
-                Thread CarregaColecaoAnexosSignatarios_thr = new Thread(() => CarregaColecaoAnexos(AnexoSelecionado.EmpresaID));
+                Thread CarregaColecaoAnexosSignatarios_thr = new Thread(() => CarregaColecaoAnexos(AnexoSelecionado.EmpresaId));
                 CarregaColecaoAnexosSignatarios_thr.Start();
 
             }
@@ -291,7 +292,7 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 Anexos = null;
-                Anexos = new ObservableCollection<ClasseEmpresasAnexos.EmpresaAnexo>(_AnexosTemp);
+                Anexos = new ObservableCollection<EmpresaAnexoView>(_AnexosTemp);
                 SelectedIndex = _selectedIndexTemp;
                 _AnexosTemp.Clear();
                 HabilitaEdicao = false;
@@ -308,7 +309,7 @@ namespace iModSCCredenciamento.ViewModels
                 {
                     if (Global.PopupBox("Você perderá todos os dados, inclusive histórico. Confirma exclusão?", 2))
                     {
-                        var emp = _service.BuscarPelaChave(AnexoSelecionado.EmpresaAnexoID);
+                        var emp = _service.BuscarPelaChave(AnexoSelecionado.EmpresaAnexoId);
                         _service.Remover(emp);
                         Anexos.Remove(AnexoSelecionado);
                     }
@@ -350,9 +351,9 @@ namespace iModSCCredenciamento.ViewModels
                 if (!string.IsNullOrWhiteSpace(_descricao)) _descricao = $"%{_descricao}%";
 
                 var list1 = _service.Listar(empresaID, _descricao, null, null, null, null);
-                var list2 = Mapper.Map<List<ClasseEmpresasAnexos.EmpresaAnexo>>(list1);
+                var list2 = Mapper.Map<List<EmpresaAnexoView>>(list1);
 
-                var observer = new ObservableCollection<ClasseEmpresasAnexos.EmpresaAnexo>();
+                var observer = new ObservableCollection<EmpresaAnexoView>();
                 list2.ForEach(n =>
                 {
                     observer.Add(n);

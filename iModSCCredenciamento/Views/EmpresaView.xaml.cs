@@ -35,7 +35,7 @@ namespace iModSCCredenciamento.Views
                 var filtro = "Images (*.BMP;*.JPG;*.GIF,*.PNG,*.TIFF)|*.BMP;*.JPG;*.GIF;*.PNG;*.TIFF|" + "All files (*.*)|*.*";
                 var arq = WpfHelp.UpLoadArquivoDialog(filtro);
                 if (arq == null) return;
-                ((ClasseEmpresas.Empresa)ListaEmpresas_lv.SelectedItem).Logo = arq.FormatoBase64;
+                //((EmpresaView)ListaEmpresas_lv.SelectedItem).Logo = arq.FormatoBase64;
                 BindingExpression be = BindingOperations.GetBindingExpression(Logo_im, Image.SourceProperty);
                 be.UpdateTarget();
             }

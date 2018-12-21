@@ -26,7 +26,7 @@
                             <StackPanel x:Name="InformacoesSeguro_sp" Margin="0,10,10,10">
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,10" >
                                     <Label Content="ID:" Height="28" Width="150" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                    <TextBox  x:Name="ID_tb"  IsEnabled="False" CharacterCasing="Upper" Text="{Binding SelectedItem.ColaboradorAnexoID, ElementName=ListaColaboradoresAnexos_lv, UpdateSourceTrigger=PropertyChanged}" Height="24"  Width="43"/>
+                                    <TextBox  x:Name="ID_tb"  IsEnabled="False" CharacterCasing="Upper" Text="{Binding SelectedItem.ColaboradorAnexoId, ElementName=ListaColaboradoresAnexos_lv, UpdateSourceTrigger=PropertyChanged}" Height="24"  Width="43"/>
                                     <Label Content="Descrição:" Height="28" Width="67" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
                                     <TextBox  x:Name="Descricao_tb"  CharacterCasing="Upper" Text="{Binding SelectedItem.Descricao, ElementName=ListaColaboradoresAnexos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="298"/>
                                 </StackPanel>
@@ -65,7 +65,7 @@
                             <!--ScrollViewer.CanContentScroll="True" MaxHeight="150"  Visibility="Visible" SelectionMode="Single"  Background="#FF4E4E4E" Foreground="White" HorizontalAlignment="Left" SelectionChanged="ListaEmpresas_lv_SelectionChanged"-->
                             <ListView.View>
                                 <GridView FrameworkElement.FlowDirection="RightToLeft">
-                                    <GridViewColumn Width="50" Header="ID"  DisplayMemberBinding="{Binding ColaboradorAnexoID}"/>
+                                    <GridViewColumn Width="50" Header="ID"  DisplayMemberBinding="{Binding ColaboradorAnexoId}"/>
                                     <GridViewColumn Width="200" Header="Descrição"  DisplayMemberBinding="{Binding Descricao}"/>
                                     <GridViewColumn Width="200" Header="Arquivo"  DisplayMemberBinding="{Binding NomeArquivo}"/>
                                 </GridView>

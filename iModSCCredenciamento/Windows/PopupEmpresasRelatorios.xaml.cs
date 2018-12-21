@@ -9,6 +9,7 @@ using System.Xml.Serialization;
 using CrystalDecisions.CrystalReports.Engine;
 using iModSCCredenciamento.Funcoes;
 using iModSCCredenciamento.Models;
+using iModSCCredenciamento.Views.Model;
 using Microsoft.Win32;
 
 namespace iModSCCredenciamento.Windows
@@ -37,16 +38,16 @@ namespace iModSCCredenciamento.Windows
                 }
                 string _xml = RequisitaEmpresas("4");
 
-                XmlSerializer deserializer = new XmlSerializer(typeof(ClasseEmpresas));
+                XmlSerializer deserializer = new XmlSerializer(typeof(EmpresaView));
 
                 XmlDocument xmldocument = new XmlDocument();
                 xmldocument.LoadXml(_xml);
 
                 TextReader reader = new StringReader(_xml);
-                ClasseEmpresas classeEmpresas = new ClasseEmpresas();
-                classeEmpresas = (ClasseEmpresas)deserializer.Deserialize(reader);
-                var dadosRelatorio = new ObservableCollection<ClasseEmpresas.Empresa>();
-                dadosRelatorio = classeEmpresas.Empresas;
+                EmpresaView classeEmpresas = new EmpresaView();
+                classeEmpresas = (EmpresaView)deserializer.Deserialize(reader);
+                var dadosRelatorio = new ObservableCollection<EmpresaView>();
+                //dadosRelatorio = classeEmpresas.Empresas;
                 reportDocument.SetDataSource(dadosRelatorio);
                 ReportViewer.ViewerCore.ReportSource = reportDocument;
 

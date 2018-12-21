@@ -19,6 +19,7 @@ using IMOD.Application.Interfaces;
 using IMOD.Application.Service;
 using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
+using iModSCCredenciamento.Views.Model;
 
 #endregion
 
@@ -56,7 +57,7 @@ namespace iModSCCredenciamento.ViewModels
         /// </summary>
         public List<ClasseTiposAcessos.TipoAcesso> ObterListaTipoAcessos { get; private set; }
 
-        public ObservableCollection<ClasseEmpresasContratos.EmpresaContrato> Contratos
+        public ObservableCollection<EmpresaContratoView> Contratos
         {
             get { return _contratos; }
 
@@ -140,7 +141,7 @@ namespace iModSCCredenciamento.ViewModels
             }
         }
 
-        public ClasseEmpresasContratos.EmpresaContrato ContratoSelecionado
+        public EmpresaContratoView ContratoSelecionado
         {
             get { return _contratoSelecionado; }
             set
@@ -204,13 +205,13 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                Contratos = new ObservableCollection<ClasseEmpresasContratos.EmpresaContrato>();
+                Contratos = new ObservableCollection<EmpresaContratoView>();
                 ICollection<EmpresaContrato> p1;
 
                 if (empresaId != 0)
                 {
                     p1 = _empresaContratosService.ListarPorEmpresa(empresaId);
-                    var convert = Mapper.Map<List<ClasseEmpresasContratos.EmpresaContrato>>(p1);
+                    var convert = Mapper.Map<List<EmpresaContratoView>>(p1);
                     convert.ForEach(n => { Contratos.Add(n); });
                     return;
                 }
@@ -218,7 +219,7 @@ namespace iModSCCredenciamento.ViewModels
                 if (!string.IsNullOrWhiteSpace(descricao))
                 {
                     p1 = _empresaContratosService.ListarPorDescricao(descricao);
-                    var convert = Mapper.Map<List<ClasseEmpresasContratos.EmpresaContrato>>(p1);
+                    var convert = Mapper.Map<List<EmpresaContratoView>>(p1);
                     convert.ForEach(n => { Contratos.Add(n); });
                     return;
                 }
@@ -226,7 +227,7 @@ namespace iModSCCredenciamento.ViewModels
                 if (!string.IsNullOrWhiteSpace(numContrato))
                 {
                     p1 = _empresaContratosService.ListarPorNumeroContrato(numContrato);
-                    var convert = Mapper.Map<List<ClasseEmpresasContratos.EmpresaContrato>>(p1);
+                    var convert = Mapper.Map<List<EmpresaContratoView>>(p1);
                     convert.ForEach(n => { Contratos.Add(n); });
                     return;
                 }
@@ -285,13 +286,13 @@ namespace iModSCCredenciamento.ViewModels
 
         #region Variaveis Privadas
 
-        private ObservableCollection<ClasseEmpresasContratos.EmpresaContrato> _contratos;
+        private ObservableCollection<EmpresaContratoView> _contratos;
 
-        private ClasseEmpresasContratos.EmpresaContrato _contratoSelecionado;
+        private EmpresaContratoView _contratoSelecionado;
 
-        private ClasseEmpresasContratos.EmpresaContrato _contratoTemp = new ClasseEmpresasContratos.EmpresaContrato();
+        private EmpresaContratoView _contratoTemp = new EmpresaContratoView();
 
-        private readonly List<ClasseEmpresasContratos.EmpresaContrato> _contratosTemp = new List<ClasseEmpresasContratos.EmpresaContrato>();
+        private readonly List<EmpresaContratoView> _contratosTemp = new List<EmpresaContratoView>();
 
         private ObservableCollection<ClasseEstados.Estado> _estados;
 
@@ -366,7 +367,7 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 //BuscaBadges();
-                _contratoTemp = ContratoSelecionado.CriaCopia(ContratoSelecionado);
+                //_contratoTemp = ContratoSelecionado.CriaCopia(ContratoSelecionado);
                 _selectedIndexTemp = SelectedIndex;
                 HabilitaEdicao = true;
             }
@@ -387,7 +388,7 @@ namespace iModSCCredenciamento.ViewModels
 
                 _selectedIndexTemp = SelectedIndex;
                 Contratos.Clear();
-                _contratoTemp = new ClasseEmpresasContratos.EmpresaContrato { EmpresaID = EmpresaSelecionadaId };
+                _contratoTemp = new EmpresaContratoView { EmpresaId = EmpresaSelecionadaId };
                 Contratos.Add(_contratoTemp);
                 SelectedIndex = 0;
                 HabilitaEdicao = true;
@@ -450,7 +451,7 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 Contratos = null;
-                Contratos = new ObservableCollection<ClasseEmpresasContratos.EmpresaContrato>(_contratosTemp);
+                Contratos = new ObservableCollection<EmpresaContratoView>(_contratosTemp);
                 SelectedIndex = _selectedIndexTemp;
                 _contratosTemp.Clear();
                 HabilitaEdicao = false;

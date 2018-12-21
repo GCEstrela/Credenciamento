@@ -22,6 +22,7 @@ using IMOD.Application.Interfaces;
 using IMOD.Application.Service;
 using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
+using iModSCCredenciamento.Views.Model;
 
 #endregion
 
@@ -40,9 +41,9 @@ namespace iModSCCredenciamento.ViewModels
                 if (!string.IsNullOrWhiteSpace(nome)) nome = $"%{nome}%";
 
                 var list1 = _service.Listar(empresaID, nome, null, null, null, null,null);
-                var list2 = Mapper.Map<List<ClasseEmpresasSignatarios.EmpresaSignatario>>(list1);
+                var list2 = Mapper.Map<List<EmpresaSignatarioView>>(list1);
 
-                var observer = new ObservableCollection<ClasseEmpresasSignatarios.EmpresaSignatario>();
+                var observer = new ObservableCollection<EmpresaSignatarioView>();
                 list2.ForEach(n => { observer.Add(n); });
 
                 Signatarios = observer;
@@ -61,13 +62,13 @@ namespace iModSCCredenciamento.ViewModels
 
         #region Variaveis Privadas
 
-        private ObservableCollection<ClasseEmpresasSignatarios.EmpresaSignatario> _Signatarios;
+        private ObservableCollection<EmpresaSignatarioView> _Signatarios;
 
-        private ClasseEmpresasSignatarios.EmpresaSignatario _SignatarioSelecionado;
+        private EmpresaSignatarioView _SignatarioSelecionado;
 
-        private ClasseEmpresasSignatarios.EmpresaSignatario _signatarioTemp = new ClasseEmpresasSignatarios.EmpresaSignatario();
+        private EmpresaSignatarioView _signatarioTemp = new EmpresaSignatarioView();
 
-        private readonly List<ClasseEmpresasSignatarios.EmpresaSignatario> _SignatarioTemp = new List<ClasseEmpresasSignatarios.EmpresaSignatario>();
+        private readonly List<EmpresaSignatarioView> _SignatarioTemp = new List<EmpresaSignatarioView>();
 
         private readonly IEmpresaSignatarioService _service = new EmpresaSignatarioService();
 
@@ -87,7 +88,7 @@ namespace iModSCCredenciamento.ViewModels
 
         #region Contrutores
 
-        public ObservableCollection<ClasseEmpresasSignatarios.EmpresaSignatario> Signatarios
+        public ObservableCollection<EmpresaSignatarioView> Signatarios
         {
             get { return _Signatarios; }
 
@@ -101,7 +102,7 @@ namespace iModSCCredenciamento.ViewModels
             }
         }
 
-        public ClasseEmpresasSignatarios.EmpresaSignatario SignatarioSelecionado
+        public EmpresaSignatarioView SignatarioSelecionado
         {
             get { return _SignatarioSelecionado; }
             set
@@ -217,7 +218,7 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 //BuscaBadges();
-                _signatarioTemp = SignatarioSelecionado.CriaCopia(SignatarioSelecionado);
+                //_signatarioTemp = SignatarioSelecionado.CriaCopia(SignatarioSelecionado);
                 _selectedIndexTemp = SelectedIndex;
                 HabilitaEdicao = true;
             }
@@ -277,7 +278,7 @@ namespace iModSCCredenciamento.ViewModels
                 _selectedIndexTemp = SelectedIndex;
                 Signatarios.Clear();
 
-                _signatarioTemp = new ClasseEmpresasSignatarios.EmpresaSignatario();
+                _signatarioTemp = new EmpresaSignatarioView();
                 _signatarioTemp.EmpresaId = EmpresaSelecionadaID;
                 Signatarios.Add(_signatarioTemp);
                 SelectedIndex = 0;
@@ -314,7 +315,7 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 Signatarios = null;
-                Signatarios = new ObservableCollection<ClasseEmpresasSignatarios.EmpresaSignatario>(_SignatarioTemp);
+                Signatarios = new ObservableCollection<EmpresaSignatarioView>(_SignatarioTemp);
                 SelectedIndex = _selectedIndexTemp;
                 _SignatarioTemp.Clear();
                 HabilitaEdicao = false;
@@ -333,7 +334,7 @@ namespace iModSCCredenciamento.ViewModels
                 {
                     if (Global.PopupBox("Você perderá todos os dados, inclusive histórico. Confirma exclusão?", 2))
                     {
-                        var emp = _service.BuscarPelaChave(SignatarioSelecionado.EmpresaSignatarioID);
+                        var emp = _service.BuscarPelaChave(SignatarioSelecionado.EmpresaSignatarioId);
                         _service.Remover(emp);
 
                         Signatarios.Remove(SignatarioSelecionado);

@@ -209,8 +209,8 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn Width="80" Header="Código"  DisplayMemberBinding="{Binding ColaboradorID}"/>
-                            <GridViewColumn Width="150" Header="CPF"  DisplayMemberBinding="{Binding CPF}"/>
+                            <GridViewColumn Width="80" Header="Código"  DisplayMemberBinding="{Binding ColaboradorId}"/>
+                            <GridViewColumn Width="150" Header="CPF"  DisplayMemberBinding="{Binding Cpf}"/>
                             <GridViewColumn Width="200"  Header="Apelido" DisplayMemberBinding="{Binding Apelido}"/>
                             <GridViewColumn Width="350"  Header="Nome" DisplayMemberBinding="{Binding Nome}"/>
                             <GridViewColumn Width="70" Header="Motorista"  >
@@ -283,7 +283,7 @@
 
                                     <!--#region Grid 0 -->
                                     <Label Content="Código:" Height="28" Margin="0,0,5,0" HorizontalContentAlignment="Right" Grid.Row="0" Grid.Column="0" />
-                                    <TextBox  x:Name="Codigo_tb" MaxLength="5" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="1" CharacterCasing="Upper" Text="{Binding SelectedItem.ColaboradorID, ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"  Height="24"  Width="50" Margin="0,10,12,9"/>
+                                    <TextBox  x:Name="Codigo_tb" MaxLength="5" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="1" CharacterCasing="Upper" Text="{Binding SelectedItem.ColaboradorId, ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"  Height="24"  Width="50" Margin="0,10,12,9"/>
 
                                     <Label Content="CPF:" Height="24" Width="62" Margin="0,0,5,0" HorizontalContentAlignment="Right" Grid.Row="0" Grid.Column="2"/>
 
@@ -291,7 +291,7 @@
                                                                IsEnabled="True"  Height="24" Width="182"  HorizontalAlignment="Center"
                                                                HorizontalContentAlignment="Center" LostFocus="OnConsultarCpf_LostFocus"  Validation.ErrorTemplate="{StaticResource validationErrorTemplate}" >
                                         <TextBox.Text>
-                                            <Binding Path="SelectedItem.CPF" ValidatesOnDataErrors="False"  Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"  ElementName="ListaColaboradores_lv">
+                                            <Binding Path="SelectedItem.Cpf" ValidatesOnDataErrors="False"  Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"  ElementName="ListaColaboradores_lv">
                                                 <Binding.ValidationRules>
                                                     <z:CpfValida></z:CpfValida>
                                                 </Binding.ValidationRules>
@@ -572,7 +572,7 @@
 
                                         <!--#region Grid 1 -->
                                         <Label Content="RG:" Height="28" Width="66" Margin="0,7" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="0" />
-                                        <TextBox  x:Name="RG_tb"  PreviewTextInput="NumberOnly" Text="{Binding SelectedItem.RG, ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="90" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" Margin="0,9"/>
+                                        <TextBox  x:Name="RG_tb"  PreviewTextInput="NumberOnly" Text="{Binding SelectedItem.Rg, ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="90" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" Margin="0,9"/>
                                         <Label Content="Data de Emissão:" Height="28" Width="110" Margin="0,0,5,0" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="1" />
                                         <DatePicker x:Name="RGEmissao_tb" VerticalContentAlignment="Center" SelectedDate="{Binding SelectedItem.RGEmissao, ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}" Width="120" Foreground="White" Background="{x:Null}" Grid.Row="1" Grid.Column="2" />
 
@@ -652,7 +652,7 @@
                             <ColumnDefinition Width="15*"/>
                             <ColumnDefinition Width="151*"/>
                         </Grid.ColumnDefinitions>
-                        <local:ColaboradoresEmpresasView ColaboradorSelecionadoIDView="{Binding SelectedItem.ColaboradorID, ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}"
+                        <local:ColaboradoresEmpresasView ColaboradorSelecionadoIDView="{Binding SelectedItem.ColaboradorId, ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}"
                                                        Editando="{Binding IsEnabled, ElementName=ListaColaboradores_sp, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="2" Margin="0,0,0,10"  />
                     </Grid>
                 </ScrollViewer>
@@ -678,7 +678,7 @@
                             <ColumnDefinition Width="67*"/>
                             <ColumnDefinition Width="595*"/>
                         </Grid.ColumnDefinitions>
-                        <local:ColaboradoresCursosView ColaboradorSelecionadoIDView="{Binding SelectedItem.ColaboradorID, ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}"
+                        <local:ColaboradoresCursosView ColaboradorSelecionadoIDView="{Binding SelectedItem.ColaboradorId, ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}"
                                                     Editando="{Binding IsEnabled, ElementName=ListaColaboradores_sp, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="2" Margin="0,0,0,10" />
                     </Grid>
                 </ScrollViewer>
@@ -699,7 +699,7 @@
                 </TabItem.Header>
                 <ScrollViewer Grid.Row="0"   VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" >
                     <Grid >
-                        <local:ColaboradoresAnexosView ColaboradorSelecionadoIDView="{Binding SelectedItem.ColaboradorID, ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}"
+                        <local:ColaboradoresAnexosView ColaboradorSelecionadoIDView="{Binding SelectedItem.ColaboradorId, ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}"
                                                     Editando="{Binding IsEnabled, ElementName=ListaColaboradores_sp, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="3" Margin="0,0,0,10" />
                     </Grid>
                 </ScrollViewer>
@@ -721,7 +721,7 @@
                 </TabItem.Header>
                 <ScrollViewer Grid.Row="0"   VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" >
                     <Grid >
-                        <local:ColaboradoresCredenciaisView ColaboradorSelecionadoIDView="{Binding SelectedItem.ColaboradorID, ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}"
+                        <local:ColaboradoresCredenciaisView ColaboradorSelecionadoIDView="{Binding SelectedItem.ColaboradorId, ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}"
                                                     Editando="{Binding IsEnabled, ElementName=ListaColaboradores_sp, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="3" Margin="0,0,0,10" />
                     </Grid>
                 </ScrollViewer>

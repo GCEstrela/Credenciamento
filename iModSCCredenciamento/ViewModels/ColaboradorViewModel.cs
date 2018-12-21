@@ -18,8 +18,7 @@ using IMOD.Application.Interfaces;
 using IMOD.Application.Service;
 using IMOD.CrossCutting;
 using Colaborador = IMOD.Domain.Entities.Colaborador;
-
-
+using iModSCCredenciamento.Views.Model;
 
 namespace iModSCCredenciamento.ViewModels
 {
@@ -57,13 +56,17 @@ namespace iModSCCredenciamento.ViewModels
 
         #region Variaveis Privadas
 
-        private ObservableCollection<ClasseColaboradores.Colaborador> _Colaboradores;
+        //private ObservableCollection<ClasseColaboradores.Colaborador> _Colaboradores;
+        private ObservableCollection<ColaboradorView> _Colaboradores;
 
-        private ClasseColaboradores.Colaborador _ColaboradorSelecionado;
+        //private ClasseColaboradores.Colaborador _ColaboradorSelecionado;
+        private ColaboradorView _ColaboradorSelecionado;
 
-        private ClasseColaboradores.Colaborador _colaboradorTemp = new ClasseColaboradores.Colaborador();
+        //private ClasseColaboradores.Colaborador _colaboradorTemp = new ClasseColaboradores.Colaborador();
+        private ColaboradorView _colaboradorTemp = new ColaboradorView();
 
-        private List<ClasseColaboradores.Colaborador> _ColaboradoresTemp = new List<ClasseColaboradores.Colaborador>();
+        //private List<ClasseColaboradores.Colaborador> _ColaboradoresTemp = new List<ClasseColaboradores.Colaborador>();
+        private List<ColaboradorView> _ColaboradoresTemp = new List<ColaboradorView>();
 
         private ObservableCollection<ClasseEstados.Estado> _Estados;
 
@@ -92,7 +95,7 @@ namespace iModSCCredenciamento.ViewModels
         #endregion
 
         #region Contrutores
-        public ObservableCollection<ClasseColaboradores.Colaborador> Colaboradores
+        public ObservableCollection<ColaboradorView> Colaboradores
         {
             get
             {
@@ -110,7 +113,7 @@ namespace iModSCCredenciamento.ViewModels
             }
         }
 
-        public ClasseColaboradores.Colaborador ColaboradorSelecionado
+        public ColaboradorView ColaboradorSelecionado
         {
             get
             {
@@ -120,20 +123,21 @@ namespace iModSCCredenciamento.ViewModels
             set
             {
                 _ColaboradorSelecionado = value;
-                base.OnPropertyChanged("SelectedItem");
-                if (ColaboradorSelecionado != null)
-                {
-                    //BitmapImage _img = new BitmapImage(new Uri("pack://application:,,,/iModSCCredenciamento;component/Resources/Carregando.png", UriKind.Absolute));
-                    //string _imgstr = Conversores.IMGtoSTR(_img);
-                    //ColaboradorSelecionado.Foto = _imgstr;
-                    if (!_atualizandoFoto)
-                    {
-                        Thread CarregaFoto_thr = new Thread(() => CarregaFoto(ColaboradorSelecionado.ColaboradorID));
-                        CarregaFoto_thr.Start();
-                    }
+                //base.OnPropertyChanged("SelectedItem");
+                //if (ColaboradorSelecionado != null)
+                //{
+                //    //BitmapImage _img = new BitmapImage(new Uri("pack://application:,,,/iModSCCredenciamento;component/Resources/Carregando.png", UriKind.Absolute));
+                //    //string _imgstr = Conversores.IMGtoSTR(_img);
+                //    //ColaboradorSelecionado.Foto = _imgstr;
+                //    if (!_atualizandoFoto)
+                //    {
+                //        //Thread CarregaFoto_thr = new Thread(() => CarregaFoto(ColaboradorSelecionado.ColaboradorID));
+                //        //Thread CarregaFoto_thr = new Thread(() => CarregaFoto(ColaboradorSelecionado.ColaboradorId));
+                //        //CarregaFoto_thr.Start();
+                //    }
 
-                    //CarregaFoto(ColaboradorSelecionado.ColaboradorID);
-                }
+                //    //CarregaFoto(ColaboradorSelecionado.ColaboradorID);
+                //}
 
             }
         }
@@ -272,9 +276,9 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                //BuscaBadges();
-                _colaboradorTemp = ColaboradorSelecionado.CriaCopia(ColaboradorSelecionado);
-                Global.CpfEdicao = _colaboradorTemp.CPF;
+                ////BuscaBadges();
+                //_colaboradorTemp = ColaboradorSelecionado.CriaCopia(ColaboradorSelecionado);
+                //Global.CpfEdicao = _colaboradorTemp.CPF;
                 _selectedIndexTemp = SelectedIndex;
                 HabilitaEdicao = true;
             }
@@ -367,9 +371,9 @@ namespace iModSCCredenciamento.ViewModels
                 _selectedIndexTemp = SelectedIndex;
                 Colaboradores.Clear();
 
-                _colaboradorTemp = new ClasseColaboradores.Colaborador();
+                _colaboradorTemp = new ColaboradorView();
                 ////////////////////////////////////////////////////////
-                _colaboradorTemp.ColaboradorID = EmpresaSelecionadaID;  //OBS
+                _colaboradorTemp.ColaboradorId = EmpresaSelecionadaID;  //OBS
                 ////////////////////////////////////////////////////////
                 Colaboradores.Add(_colaboradorTemp);
                 SelectedIndex = 0;
@@ -387,7 +391,7 @@ namespace iModSCCredenciamento.ViewModels
             {
                 Global.CpfEdicao = "";
                 Colaboradores = null;
-                Colaboradores = new ObservableCollection<ClasseColaboradores.Colaborador>(_ColaboradoresTemp);
+                Colaboradores = new ObservableCollection<ColaboradorView>(_ColaboradoresTemp);
                 SelectedIndex = _selectedIndexTemp;
                 _ColaboradoresTemp.Clear();
                 HabilitaEdicao = false;
@@ -467,9 +471,9 @@ namespace iModSCCredenciamento.ViewModels
                 //CarregaColecaoColaboradores(ColaboradorSelecionado.ColaboradorID);
 
                 var frm = new PopupPendencias();
-                frm.Inicializa(21, ColaboradorSelecionado.ColaboradorID,PendenciaTipo.Colaborador);
+                frm.Inicializa(21, ColaboradorSelecionado.ColaboradorId,PendenciaTipo.Colaborador);
                 frm.ShowDialog();
-                CarregaColecaoColaboradores(ColaboradorSelecionado.ColaboradorID);
+                CarregaColecaoColaboradores(ColaboradorSelecionado.ColaboradorId);
 
             }
             catch (Exception ex)
@@ -482,9 +486,9 @@ namespace iModSCCredenciamento.ViewModels
             try
             { 
                 var frm = new PopupPendencias();
-                frm.Inicializa(14, ColaboradorSelecionado.ColaboradorID, PendenciaTipo.Colaborador);
+                frm.Inicializa(14, ColaboradorSelecionado.ColaboradorId, PendenciaTipo.Colaborador);
                 frm.ShowDialog();
-                CarregaColecaoColaboradores(ColaboradorSelecionado.ColaboradorID);
+                CarregaColecaoColaboradores(ColaboradorSelecionado.ColaboradorId);
 
             }
             catch (Exception ex)
@@ -497,7 +501,7 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 var frm = new PopupPendencias();
-                frm.Inicializa(24, ColaboradorSelecionado.ColaboradorID, PendenciaTipo.Colaborador);
+                frm.Inicializa(24, ColaboradorSelecionado.ColaboradorId, PendenciaTipo.Colaborador);
                 frm.ShowDialog();
                 //CarregaColecaoColaboradores(ColaboradorSelecionado.ColaboradorID);
 
@@ -512,7 +516,7 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 var frm = new PopupPendencias();
-                frm.Inicializa(25, ColaboradorSelecionado.ColaboradorID, PendenciaTipo.Colaborador);
+                frm.Inicializa(25, ColaboradorSelecionado.ColaboradorId, PendenciaTipo.Colaborador);
                 frm.ShowDialog();
                 //CarregaColecaoColaboradores(ColaboradorSelecionado.ColaboradorID);
 
@@ -527,7 +531,7 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 var frm = new PopupPendencias();
-                frm.Inicializa(23, ColaboradorSelecionado.ColaboradorID, PendenciaTipo.Colaborador);
+                frm.Inicializa(23, ColaboradorSelecionado.ColaboradorId, PendenciaTipo.Colaborador);
                 frm.ShowDialog();
                 //CarregaColecaoColaboradores(ColaboradorSelecionado.ColaboradorID);
 
@@ -577,9 +581,11 @@ namespace iModSCCredenciamento.ViewModels
                 if (!string.IsNullOrWhiteSpace(cpf)) cpf = $"%{cpf}%";
                 var list1 = service.Listar(_ColaboradorID, nome, apelido, cpf);
 
-                var list2 = Mapper.Map<List<ClasseColaboradores.Colaborador>>(list1.OrderByDescending(n => n.ColaboradorId));
+                //var list2 = Mapper.Map<List<ClasseColaboradores.Colaborador>>(list1.OrderByDescending(n => n.ColaboradorId));
+                var list2 = Mapper.Map<List<ColaboradorView>>(list1.OrderByDescending(n => n.ColaboradorId));
 
-                var observer = new ObservableCollection<ClasseColaboradores.Colaborador>();
+                //var observer = new ObservableCollection<ClasseColaboradores.Colaborador>();
+                var observer = new ObservableCollection<ColaboradorView>();
                 list2.ForEach(n =>
                 {
                     observer.Add(n);
@@ -679,7 +685,7 @@ namespace iModSCCredenciamento.ViewModels
                 {
                     Application.Current.Dispatcher.Invoke(() =>
                     {
-                        _colaboradorTemp = ColaboradorSelecionado.CriaCopia(ColaboradorSelecionado);
+                        //_colaboradorTemp = ColaboradorSelecionado.CriaCopia(ColaboradorSelecionado);
 
                         _selectedIndexTemp = SelectedIndex;
 
@@ -787,7 +793,7 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                ColaboradorSelecionado.Pendente = true;
+               // ColaboradorSelecionado.Pendente = true;
                 ColaboradorSelecionado.Pendente21 = true;
                 ColaboradorSelecionado.Pendente22 = true;
                 ColaboradorSelecionado.Pendente23 = true;
@@ -802,13 +808,13 @@ namespace iModSCCredenciamento.ViewModels
                 var id = entity.ColaboradorId;
                 AtualizaPendencias(id);
 
-                ColaboradorSelecionado.ColaboradorID = id;
+                ColaboradorSelecionado.ColaboradorId = id;
 
                 _ColaboradoresTemp.Clear();
 
                 _ColaboradoresTemp.Add(ColaboradorSelecionado);
                 Colaboradores = null;
-                Colaboradores = new ObservableCollection<ClasseColaboradores.Colaborador>(_ColaboradoresTemp);
+                Colaboradores = new ObservableCollection<ColaboradorView>(_ColaboradoresTemp);
                 SelectedIndex = 0;
 
             }
@@ -879,20 +885,20 @@ namespace iModSCCredenciamento.ViewModels
             }
         }
 
-        public void ValidarAdicao(ClasseColaboradores.Colaborador entity)
+        public void ValidarAdicao(ColaboradorView entity)
         {
             //if (string.IsNullOrWhiteSpace(entity.CPF)) throw new InvalidOperationException("Informe CPF");
             //if (!entity.CPF.IsValidCpf()) throw new InvalidOperationException("CPF inválido");
             ValidarEdicao(entity);
-            if (ConsultarCpf(entity.CPF)) throw new InvalidOperationException("CPF já cadastrado");
+            if (ConsultarCpf(entity.Cpf)) throw new InvalidOperationException("CPF já cadastrado");
 
 
         }
 
-        public void ValidarEdicao(ClasseColaboradores.Colaborador entity)
+        public void ValidarEdicao(ColaboradorView entity)
         {
-            if (string.IsNullOrWhiteSpace(entity.CPF)) throw new InvalidOperationException("Informe CPF");
-            if (!Utils.IsValidCpf(entity.CPF)) throw new InvalidOperationException("CPF inválido");
+            if (string.IsNullOrWhiteSpace(entity.Cpf)) throw new InvalidOperationException("Informe CPF");
+            if (!Utils.IsValidCpf(entity.Cpf)) throw new InvalidOperationException("CPF inválido");
             //if (ConsultarCpf(entity.CPF)) throw new InvalidOperationException("CPF já cadastrado");
 
 

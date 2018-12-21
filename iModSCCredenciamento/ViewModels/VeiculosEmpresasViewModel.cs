@@ -15,6 +15,7 @@ using System.Linq;
 using IMOD.Application.Service;
 using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
+using iModSCCredenciamento.Views.Model;
 
 namespace iModSCCredenciamento.ViewModels
 {
@@ -42,13 +43,13 @@ namespace iModSCCredenciamento.ViewModels
 
         private ObservableCollection<ClasseVinculos.Vinculo> _Vinculos;
 
-        private ObservableCollection<ClasseEmpresas.Empresa> _Empresas;
+        private ObservableCollection<EmpresaView> _Empresas;
 
         private ObservableCollection<ClasseFormatosCredenciais.FormatoCredencial> _FormatosCredenciais;
 
         private ObservableCollection<ClasseEmpresasLayoutsCrachas.EmpresaLayoutCracha> _EmpresasLayoutsCrachas;
 
-        private ObservableCollection<ClasseEmpresasContratos.EmpresaContrato> _Contratos;
+        private ObservableCollection<EmpresaContratoView> _Contratos;
 
         private ClasseVeiculosEmpresas.VeiculoEmpresa _VeiculoEmpresaSelecionado;
 
@@ -146,7 +147,7 @@ namespace iModSCCredenciamento.ViewModels
             }
         }
 
-        public ObservableCollection<ClasseEmpresas.Empresa> Empresas
+        public ObservableCollection<EmpresaView> Empresas
 
         {
             get
@@ -183,7 +184,7 @@ namespace iModSCCredenciamento.ViewModels
                 }
             }
         }
-        public ObservableCollection<ClasseEmpresasContratos.EmpresaContrato> Contratos
+        public ObservableCollection<EmpresaContratoView> Contratos
         {
             get
             {
@@ -527,9 +528,9 @@ namespace iModSCCredenciamento.ViewModels
                 if (!string.IsNullOrWhiteSpace(_cNPJ)) _cNPJ = $"%{_cNPJ}%";
 
                 var list1 = service.Listar(_empresaID, _nome, _apelido, _cNPJ);
-                var list2 = Mapper.Map<List<ClasseEmpresas.Empresa>>(list1);
+                var list2 = Mapper.Map<List<EmpresaView>>(list1);
 
-                var observer = new ObservableCollection<ClasseEmpresas.Empresa>();
+                var observer = new ObservableCollection<EmpresaView>();
                 list2.ForEach(n =>
                 {
                     observer.Add(n);
@@ -647,9 +648,9 @@ namespace iModSCCredenciamento.ViewModels
                 var service = new IMOD.Application.Service.EmpresaContratoService();
                 var list1 = service.Listar(empresaID);
 
-                var list2 = Mapper.Map<List<ClasseEmpresasContratos.EmpresaContrato>>(list1.OrderBy(n => n.EmpresaId));
+                var list2 = Mapper.Map<List<EmpresaContratoView>>(list1.OrderBy(n => n.EmpresaId));
 
-                var observer = new ObservableCollection<ClasseEmpresasContratos.EmpresaContrato>();
+                var observer = new ObservableCollection<EmpresaContratoView>();
                 list2.ForEach(n =>
                 {
                     observer.Add(n);

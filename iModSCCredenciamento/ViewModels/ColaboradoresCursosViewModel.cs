@@ -15,6 +15,7 @@ using IMOD.Application.Interfaces;
 using IMOD.Application.Service;
 using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
+using iModSCCredenciamento.Views.Model;
 
 namespace iModSCCredenciamento.ViewModels
 {
@@ -42,13 +43,13 @@ namespace iModSCCredenciamento.ViewModels
 
         #region Variaveis Privadas
 
-        private ObservableCollection<ClasseColaboradoresCursos.ColaboradorCurso> _ColaboradoresCursos;
+        private ObservableCollection<ColaboradorCursoView> _ColaboradoresCursos;
 
-        private ClasseColaboradoresCursos.ColaboradorCurso _ColaboradorCursoSelecionado;
+        private ColaboradorCursoView _ColaboradorCursoSelecionado;
 
-        private ClasseColaboradoresCursos.ColaboradorCurso _ColaboradorCursoTemp = new ClasseColaboradoresCursos.ColaboradorCurso();
+        private ColaboradorCursoView _ColaboradorCursoTemp = new ColaboradorCursoView();
 
-        private List<ClasseColaboradoresCursos.ColaboradorCurso> _ColaboradoresCursosTemp = new List<ClasseColaboradoresCursos.ColaboradorCurso>();
+        private List<ColaboradorCursoView> _ColaboradoresCursosTemp = new List<ColaboradorCursoView>();
 
         private ObservableCollection<ClasseCursos.Curso> _Cursos;
 
@@ -67,7 +68,7 @@ namespace iModSCCredenciamento.ViewModels
         #endregion
 
         #region Contrutores
-        public ObservableCollection<ClasseColaboradoresCursos.ColaboradorCurso> ColaboradoresCursos
+        public ObservableCollection<ColaboradorCursoView> ColaboradoresCursos
         {
             get
             {
@@ -100,7 +101,7 @@ namespace iModSCCredenciamento.ViewModels
                 }
             }
         }
-        public ClasseColaboradoresCursos.ColaboradorCurso ColaboradorCursoSelecionado
+        public ColaboradorCursoView ColaboradorCursoSelecionado
         {
             get
             {
@@ -228,7 +229,7 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 //BuscaBadges();
-                _ColaboradorCursoTemp = ColaboradorCursoSelecionado.CriaCopia(ColaboradorCursoSelecionado);
+                //_ColaboradorCursoTemp = ColaboradorCursoSelecionado.CriaCopia(ColaboradorCursoSelecionado);
                 _selectedIndexTemp = SelectedIndex;
                 HabilitaEdicao = true;
             }
@@ -261,7 +262,7 @@ namespace iModSCCredenciamento.ViewModels
                 var entity = Mapper.Map<ColaboradorCurso>(ColaboradorCursoSelecionado);
                 var repositorio = new ColaboradorCursosService();
                 repositorio.Alterar(entity);
-                var id = ColaboradorCursoSelecionado.ColaboradorID;
+                var id = ColaboradorCursoSelecionado.ColaboradorId;
 
                 Thread CarregaColecaoColaboradorerCursos_thr = new Thread(() => CarregaColecaoColaboradorerCursos(id));
                 CarregaColecaoColaboradorerCursos_thr.Start();
@@ -286,7 +287,7 @@ namespace iModSCCredenciamento.ViewModels
                 var entity = Mapper.Map<ColaboradorCurso>(ColaboradorCursoSelecionado);
                 var repositorio = new ColaboradorCursosService();
                 repositorio.Criar(entity);
-                var id = ColaboradorCursoSelecionado.ColaboradorID;
+                var id = ColaboradorCursoSelecionado.ColaboradorId;
 
                 Thread CarregaColecaoColaboradorerCursos_thr = new Thread(() => CarregaColecaoColaboradorerCursos(id));
                 CarregaColecaoColaboradorerCursos_thr.Start();
@@ -316,8 +317,8 @@ namespace iModSCCredenciamento.ViewModels
                 //ClasseEmpresasSeguros.EmpresaSeguro _seguro = new ClasseEmpresasSeguros.EmpresaSeguro();
                 //_seguro.EmpresaID = EmpresaSelecionadaID;
                 //Seguros.Add(_seguro);
-                _ColaboradorCursoTemp = new ClasseColaboradoresCursos.ColaboradorCurso();
-                _ColaboradorCursoTemp.ColaboradorID = ColaboradorCursoSelecionadaID;
+                _ColaboradorCursoTemp = new ColaboradorCursoView();
+                _ColaboradorCursoTemp.ColaboradorId = ColaboradorCursoSelecionadaID;
                 ColaboradoresCursos.Add(_ColaboradorCursoTemp);
                 SelectedIndex = 0;
                 HabilitaEdicao = true;
@@ -332,7 +333,7 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 ColaboradoresCursos = null;
-                ColaboradoresCursos = new ObservableCollection<ClasseColaboradoresCursos.ColaboradorCurso>(_ColaboradoresCursosTemp);
+                ColaboradoresCursos = new ObservableCollection<ColaboradorCursoView>(_ColaboradoresCursosTemp);
                 SelectedIndex = _selectedIndexTemp;
                 _ColaboradoresCursosTemp.Clear();
                 HabilitaEdicao = false;
@@ -380,7 +381,7 @@ namespace iModSCCredenciamento.ViewModels
         public void On_EfetuarProcura(object sender, EventArgs e)
         {
             object vetor = popupPesquisaColaboradorCurso.Criterio.Split((char)(20));
-            int _colaboradorID = ColaboradorCursoSelecionadaID;
+            int _ColaboradorId = ColaboradorCursoSelecionadaID;
             string _id = ((string[])vetor)[0];
             string _numeroapolice = ((string[])vetor)[1];
             CarregaColecaoColaboradorerCursos(Convert.ToInt32(_id), _numeroapolice);
@@ -397,7 +398,7 @@ namespace iModSCCredenciamento.ViewModels
             ObterListaListaCursos = Mapper.Map<List<ClasseCursos.Curso>>(e1);
 
         }
-        public void CarregaColecaoColaboradorerCursos(int _colaboradorID, string _descricao = "", string _curso = "")
+        public void CarregaColecaoColaboradorerCursos(int _ColaboradorId, string _descricao = "", string _curso = "")
         {
             try
             {
@@ -405,11 +406,11 @@ namespace iModSCCredenciamento.ViewModels
                 var service = new ColaboradorCursosService();
                 if (!string.IsNullOrWhiteSpace(_descricao)) _descricao = $"%{_descricao}%";
                 if (!string.IsNullOrWhiteSpace(_curso)) _curso = $"%{_curso}%";
-                var list1 = service.Listar(_colaboradorID, _descricao, _curso);
+                var list1 = service.Listar(_ColaboradorId, _descricao, _curso);
 
-                var list2 = Mapper.Map<List<ClasseColaboradoresCursos.ColaboradorCurso>>(list1);
+                var list2 = Mapper.Map<List<ColaboradorCursoView>>(list1);
 
-                var observer = new ObservableCollection<ClasseColaboradoresCursos.ColaboradorCurso>();
+                var observer = new ObservableCollection<ColaboradorCursoView>();
                 list2.ForEach(n =>
                 {
                     observer.Add(n);
@@ -496,9 +497,9 @@ namespace iModSCCredenciamento.ViewModels
 
                 SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
 
-                string _strSql = "SELECT dbo.Colaboradores.ColaboradorID, dbo.Colaboradores.Nome,CONVERT(datetime, dbo.ColaboradoresCursos.Validade, 103) " +
+                string _strSql = "SELECT dbo.Colaboradores.ColaboradorId, dbo.Colaboradores.Nome,CONVERT(datetime, dbo.ColaboradoresCursos.Validade, 103) " +
                                 "as ValidadeCurso,DATEDIFF(DAY, GETDATE(), CONVERT(datetime, dbo.ColaboradoresCursos.Validade, 103)) AS Dias FROM dbo.Colaboradores " +
-                                "INNER JOIN dbo.ColaboradoresCursos ON dbo.Colaboradores.ColaboradorID = dbo.ColaboradoresCursos.ColaboradorID where dbo.Colaboradores.Excluida = 0 And dbo.ColaboradoresCursos.Controlado = 1 And CONVERT(datetime, dbo.ColaboradoresCursos.Validade, 103) < GETDATE()";
+                                "INNER JOIN dbo.ColaboradoresCursos ON dbo.Colaboradores.ColaboradorId = dbo.ColaboradoresCursos.ColaboradorId where dbo.Colaboradores.Excluida = 0 And dbo.ColaboradoresCursos.Controlado = 1 And CONVERT(datetime, dbo.ColaboradoresCursos.Validade, 103) < GETDATE()";
 
                 SqlCommand _sqlcmd = new SqlCommand(_strSql, _Con);
                 SqlDataReader _sqlreader = _sqlcmd.ExecuteReader(CommandBehavior.Default);

@@ -55,7 +55,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Nome", entity.Nome, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Apelido", entity.Apelido, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Sigla", entity.Sigla, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("CNPJ", entity.Cnpj.RetirarCaracteresEspeciais(), false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Cnpj", entity.Cnpj.RetirarCaracteresEspeciais(), false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("CEP", entity.Cep, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Endereco", entity.Endereco, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Numero", entity.Numero, false)));
@@ -144,7 +144,7 @@ namespace IMOD.Infra.Repositorios
                     {
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Nome", DbType.String, objects, 0).Like()));
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Apelido", DbType.String, objects, 1).Like()));
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("CNPJ", DbType.String, objects, 2).Like()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Cnpj", DbType.String, objects, 2).Like()));
 
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<Empresa>();
@@ -176,7 +176,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Nome", entity.Nome, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Apelido", entity.Apelido, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Sigla", entity.Sigla, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("CNPJ", entity.Cnpj.RetirarCaracteresEspeciais(), false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Cnpj", entity.Cnpj.RetirarCaracteresEspeciais(), false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("CEP", entity.Cep, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Endereco", entity.Endereco, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Numero", entity.Numero, false)));
@@ -257,7 +257,7 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("CNPJ", DbType.String, cnpj.RetirarCaracteresEspeciais()).Igual()));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("Cnpj", DbType.String, cnpj.RetirarCaracteresEspeciais()).Igual()));
                         var reader = cmd.ExecuteReader();
                         var d1 = reader.MapToList<Empresa>();
 

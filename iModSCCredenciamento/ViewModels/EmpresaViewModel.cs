@@ -20,6 +20,7 @@ using IMOD.Application.Interfaces;
 using IMOD.Application.Service;
 using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
+using iModSCCredenciamento.Views.Model;
 
 namespace iModSCCredenciamento.ViewModels
 {
@@ -51,13 +52,13 @@ namespace iModSCCredenciamento.ViewModels
 
         private EmpresasSegurosViewModel _SegurosEmpresaViewModel;
 
-        private ObservableCollection<ClasseEmpresas.Empresa> _Empresas;
+        private ObservableCollection<EmpresaView> _Empresas;
 
         private ObservableCollection<ClasseEmpresasSeguros.EmpresaSeguro> _Seguros;
 
-        private List<ClasseEmpresas.Empresa> _EmpresasTemp = new List<ClasseEmpresas.Empresa>();
+        private List<EmpresaView> _EmpresasTemp = new List<EmpresaView>();
 
-        private ClasseEmpresas.Empresa _empresaTemp = new ClasseEmpresas.Empresa();
+        private EmpresaView _empresaTemp = new EmpresaView();
 
         private ObservableCollection<ClasseEstados.Estado> _Estados;
 
@@ -83,7 +84,7 @@ namespace iModSCCredenciamento.ViewModels
 
         private ClasseEmpresasLayoutsCrachas.EmpresaLayoutCracha _EmpresaLayoutCrachaSelecionada;
 
-        private ClasseEmpresas.Empresa _EmpresaSelecionada;
+        private EmpresaView _EmpresaSelecionada;
 
         private ImageSource _LogoImageSource;
 
@@ -108,7 +109,7 @@ namespace iModSCCredenciamento.ViewModels
         #endregion
 
         #region Contrutores
-        public ObservableCollection<ClasseEmpresas.Empresa> Empresas
+        public ObservableCollection<EmpresaView> Empresas
 
         {
             get
@@ -361,7 +362,7 @@ namespace iModSCCredenciamento.ViewModels
             }
         }
 
-        public ClasseEmpresas.Empresa EmpresaSelecionada
+        public EmpresaView EmpresaSelecionada
         {
             get
             {
@@ -377,8 +378,9 @@ namespace iModSCCredenciamento.ViewModels
                     {
                         Thread OnEmpresaSelecionada_thr = new Thread(() => OnEmpresaSelecionada());
                         OnEmpresaSelecionada_thr.Start();
-                        Thread CarregaLogo_thr = new Thread(() => CarregaLogo(EmpresaSelecionada.EmpresaID));
-                        CarregaLogo_thr.Start();
+
+                        //Thread CarregaLogo_thr = new Thread(() => CarregaLogo(EmpresaSelecionada.EmpresaId));
+                        //CarregaLogo_thr.Start();
                     }
                 }
 
@@ -461,8 +463,8 @@ namespace iModSCCredenciamento.ViewModels
             {
                 //BuscaBadges();
 
-                _empresaTemp = EmpresaSelecionada.CriaCopia(EmpresaSelecionada);
-                Global._cnpjEdicao = _empresaTemp.CNPJ;
+               // _empresaTemp = EmpresaSelecionada.CriaCopia(EmpresaSelecionada);
+                Global._cnpjEdicao = _empresaTemp.Cnpj;
                 _selectedIndexTemp = SelectedIndex;
                 //HabilitaEdicao = true;
             }
@@ -492,12 +494,12 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 Global._cnpjEdicao = "";
-                XmlSerializer serializer = new XmlSerializer(typeof(ClasseEmpresas));
+                XmlSerializer serializer = new XmlSerializer(typeof(EmpresaView));
 
-                ObservableCollection<ClasseEmpresas.Empresa> _EmpresasTemp = new ObservableCollection<ClasseEmpresas.Empresa>();
-                ClasseEmpresas _ClasseEmpresasTemp = new ClasseEmpresas();
+                ObservableCollection<EmpresaView> _EmpresasTemp = new ObservableCollection<EmpresaView>();
+                EmpresaView _ClasseEmpresasTemp = new EmpresaView();
                 _EmpresasTemp.Add(EmpresaSelecionada);
-                _ClasseEmpresasTemp.Empresas = _EmpresasTemp;
+                //_ClasseEmpresasTemp.Empresas = _EmpresasTemp;
 
                 var entity = EmpresaSelecionada;
                 var entityConv = Mapper.Map<Empresa>(entity);
@@ -583,7 +585,7 @@ namespace iModSCCredenciamento.ViewModels
             {
                 Global._cnpjEdicao = "";
 
-                //ObservableCollection<ClasseEmpresas.Empresa> _EmpresasPro = new ObservableCollection<ClasseEmpresas.Empresa>();
+                //ObservableCollection<EmpresaView> _EmpresasPro = new ObservableCollection<EmpresaView>();
                 //ClasseEmpresas _ClasseEmpresasTemp = new ClasseEmpresas();
 
                 EmpresaSelecionada.Pendente = true;
@@ -602,7 +604,7 @@ namespace iModSCCredenciamento.ViewModels
 
                 int _novoEmpresaID = entityConv.EmpresaId;
                 AtualizaPendencias(_novoEmpresaID);
-                EmpresaSelecionada.EmpresaID = _novoEmpresaID;
+                EmpresaSelecionada.EmpresaId = _novoEmpresaID;
 
                 Thread CarregaColecaoEmpresasSignatarios_thr = new Thread(() => CarregaColecaoEmpresas());
                 CarregaColecaoEmpresasSignatarios_thr.Start();
@@ -627,7 +629,7 @@ namespace iModSCCredenciamento.ViewModels
                 Global._cnpjEdicao = "00.000.000/0000-00";
                 _selectedIndexTemp = SelectedIndex;
                 Empresas.Clear();
-                ClasseEmpresas.Empresa _empresa = new ClasseEmpresas.Empresa();
+                EmpresaView _empresa = new EmpresaView();
                 Empresas.Add(_empresa);
 
                 SelectedIndex = 0;
@@ -646,7 +648,7 @@ namespace iModSCCredenciamento.ViewModels
             {
                 Global._cnpjEdicao = "";
                 Empresas = null;
-                Empresas = new ObservableCollection<ClasseEmpresas.Empresa>(_EmpresasTemp);
+                Empresas = new ObservableCollection<EmpresaView>(_EmpresasTemp);
                 SelectedIndex = _selectedIndexTemp;
                 _EmpresasTemp.Clear();
                 //HabilitaEdicao = false;
@@ -668,7 +670,7 @@ namespace iModSCCredenciamento.ViewModels
                     {
                         if (Global.PopupBox("Você realmente tem certeza desta operação?", 2))
                         {
-                            var emp = _service.BuscarPelaChave(EmpresaSelecionada.EmpresaID);
+                            var emp = _service.BuscarPelaChave(EmpresaSelecionada.EmpresaId);
                             _service.Remover(emp);
 
                             Empresas.Remove(EmpresaSelecionada);
@@ -708,7 +710,7 @@ namespace iModSCCredenciamento.ViewModels
             {
                 int _TipoAtividadeID = Convert.ToInt32(_TipoAtividadeIDstr);
                 ClasseEmpresasTiposAtividades.EmpresaTipoAtividade _EmpresaTipoAtividade = new ClasseEmpresasTiposAtividades.EmpresaTipoAtividade();
-                _EmpresaTipoAtividade.EmpresaID = EmpresaSelecionada.EmpresaID;
+                _EmpresaTipoAtividade.EmpresaID = EmpresaSelecionada.EmpresaId;
                 _EmpresaTipoAtividade.TipoAtividadeID = _TipoAtividadeID;
                 _EmpresaTipoAtividade.Descricao = _Descricao;
 
@@ -736,7 +738,7 @@ namespace iModSCCredenciamento.ViewModels
 
                     EmpresasTiposAtividades.Remove(EmpresaTipoAtividadeSelecionada);
 
-                    CarregaColecaoEmpresasTiposAtividades(EmpresaSelecionada.EmpresaID);
+                    CarregaColecaoEmpresasTiposAtividades(EmpresaSelecionada.EmpresaId);
                 }
             }
 
@@ -754,7 +756,7 @@ namespace iModSCCredenciamento.ViewModels
             {
                 ClasseAreasAcessos.AreaAcesso _areaAcesso = (ClasseAreasAcessos.AreaAcesso)areaAcesso;
                 ClasseEmpresasAreasAcessos.EmpresaAreaAcesso _EmpresaAreaAcesso = new ClasseEmpresasAreasAcessos.EmpresaAreaAcesso();
-                _EmpresaAreaAcesso.EmpresaID = EmpresaSelecionada.EmpresaID;
+                _EmpresaAreaAcesso.EmpresaID = EmpresaSelecionada.EmpresaId;
                 _EmpresaAreaAcesso.AreaAcessoID = _areaAcesso.AreaAcessoID;
                 _EmpresaAreaAcesso.Descricao = _areaAcesso.Descricao;
                 _EmpresaAreaAcesso.Identificacao = _areaAcesso.Identificacao;
@@ -794,7 +796,7 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 ClasseEmpresasLayoutsCrachas.EmpresaLayoutCracha _EmpresaLayoutCracha = new ClasseEmpresasLayoutsCrachas.EmpresaLayoutCracha();
-                _EmpresaLayoutCracha.EmpresaID = EmpresaSelecionada.EmpresaID;
+                _EmpresaLayoutCracha.EmpresaID = EmpresaSelecionada.EmpresaId;
                 _EmpresaLayoutCracha.LayoutCrachaID = _LayoutCrachaID;
 
                 var entity = _EmpresaLayoutCracha;
@@ -821,7 +823,7 @@ namespace iModSCCredenciamento.ViewModels
                     _service.CrachaService.Remover(entityConv);
                     EmpresasLayoutsCrachas.Remove(EmpresaLayoutCrachaSelecionada);
 
-                    CarregaColecaoEmpresasTiposAtividades(EmpresaSelecionada.EmpresaID);
+                    CarregaColecaoEmpresasTiposAtividades(EmpresaSelecionada.EmpresaId);
                 }
             }
             catch (Exception ex)
@@ -891,7 +893,7 @@ namespace iModSCCredenciamento.ViewModels
                 //CarregaColecaoColaboradores(EmpresaSelecionada.EmpresaID);
 
                 var frm = new PopupPendencias();
-                frm.Inicializa(21, EmpresaSelecionada.EmpresaID, PendenciaTipo.Empresa);
+                frm.Inicializa(21, EmpresaSelecionada.EmpresaId, PendenciaTipo.Empresa);
                 frm.ShowDialog();
                 //CarregaColecaoEmpresas(EmpresaSelecionada.EmpresaID, "", "", "");
 
@@ -906,7 +908,7 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 var frm = new PopupPendencias();
-                frm.Inicializa(14, EmpresaSelecionada.EmpresaID, PendenciaTipo.Empresa);
+                frm.Inicializa(14, EmpresaSelecionada.EmpresaId, PendenciaTipo.Empresa);
                 frm.ShowDialog();
                // CarregaColecaoEmpresas(EmpresaSelecionada.EmpresaID, "", "", "");
 
@@ -921,7 +923,7 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 var frm = new PopupPendencias();
-                frm.Inicializa(24, EmpresaSelecionada.EmpresaID, PendenciaTipo.Empresa);
+                frm.Inicializa(24, EmpresaSelecionada.EmpresaId, PendenciaTipo.Empresa);
                 frm.ShowDialog();
                 //CarregaColecaoEmpresas(EmpresaSelecionada.EmpresaID, "", "", "");
 
@@ -937,7 +939,7 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 var frm = new PopupPendencias();
-                frm.Inicializa(12, EmpresaSelecionada.EmpresaID, PendenciaTipo.Empresa);
+                frm.Inicializa(12, EmpresaSelecionada.EmpresaId, PendenciaTipo.Empresa);
                 frm.ShowDialog();
                // CarregaColecaoEmpresas(EmpresaSelecionada.EmpresaID, "", "", "");
 
@@ -976,20 +978,20 @@ namespace iModSCCredenciamento.ViewModels
 
         // Global g = new Global();
 
-        public void ValidarAdicao(ClasseEmpresas.Empresa entity)
+        public void ValidarAdicao(EmpresaView entity)
         {
             //if (string.IsNullOrWhiteSpace(entity.CPF)) throw new InvalidOperationException("Informe CPF");
             //if (!entity.CPF.IsValidCpf()) throw new InvalidOperationException("CPF inválido");
             ValidarEdicao(entity);
-            if (ConsultaCNPJ(entity.CNPJ)) throw new InvalidOperationException("CNPJ já cadastrado");
+            if (ConsultaCNPJ(entity.Cnpj)) throw new InvalidOperationException("CNPJ já cadastrado");
 
 
         }
 
-        public void ValidarEdicao(ClasseEmpresas.Empresa entity)
+        public void ValidarEdicao(EmpresaView entity)
         {
-            if (string.IsNullOrWhiteSpace(entity.CNPJ)) throw new InvalidOperationException("Informe CNPJ");
-            if (!Utils.IsValidCnpj(entity.CNPJ)) throw new InvalidOperationException("CNPJ inválido");
+            if (string.IsNullOrWhiteSpace(entity.Cnpj)) throw new InvalidOperationException("Informe CNPJ");
+            if (!Utils.IsValidCnpj(entity.Cnpj)) throw new InvalidOperationException("CNPJ inválido");
             //if (ConsultarCpf(entity.CPF)) throw new InvalidOperationException("CPF já cadastrado");
             if (string.IsNullOrWhiteSpace(entity.Nome)) throw new InvalidOperationException("Informe a Razão Social");
 
@@ -1028,9 +1030,9 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                CarregaColecaoEmpresasTiposAtividades(EmpresaSelecionada.EmpresaID);
-                CarregaColecaoEmpresasAreasAcessos(EmpresaSelecionada.EmpresaID);
-                CarregaColecaoEmpresasLayoutsCrachas(EmpresaSelecionada.EmpresaID);
+                CarregaColecaoEmpresasTiposAtividades(EmpresaSelecionada.EmpresaId);
+                CarregaColecaoEmpresasAreasAcessos(EmpresaSelecionada.EmpresaId);
+                CarregaColecaoEmpresasLayoutsCrachas(EmpresaSelecionada.EmpresaId);
                 CarregaColecaoLayoutsCrachas();
             }
             catch (Exception ex)
@@ -1069,9 +1071,9 @@ namespace iModSCCredenciamento.ViewModels
                 if (!string.IsNullOrWhiteSpace(cnpj)) cnpj = $"%{cnpj}%";
 
                 var list1 = _service.Listar(idEmpresa, nome, apelido, cnpj);
-                var list2 = Mapper.Map<List<ClasseEmpresas.Empresa>>(list1.OrderByDescending(a => a.EmpresaId));
+                var list2 = Mapper.Map<List<EmpresaView>>(list1.OrderByDescending(a => a.EmpresaId));
 
-                var observer = new ObservableCollection<ClasseEmpresas.Empresa>();
+                var observer = new ObservableCollection<EmpresaView>();
                 list2.ForEach(n =>
                 {
                     observer.Add(n);
@@ -1079,9 +1081,9 @@ namespace iModSCCredenciamento.ViewModels
 
                 Empresas = observer;
 
-                //Hotfix auto-selecionar registro do topo da ListView
-                var topList = observer.FirstOrDefault();
-                EmpresaSelecionada = topList;
+                ////Hotfix auto-selecionar registro do topo da ListView
+                //var topList = observer.FirstOrDefault();
+                //EmpresaSelecionada = topList;
 
                 SelectedIndex = 0;
             }
@@ -1309,7 +1311,7 @@ namespace iModSCCredenciamento.ViewModels
                 {
                     Application.Current.Dispatcher.Invoke(() =>
                     {
-                        _empresaTemp = EmpresaSelecionada.CriaCopia(EmpresaSelecionada);
+                        //_empresaTemp = EmpresaSelecionada.CriaCopia(EmpresaSelecionada);
 
                         _selectedIndexTemp = SelectedIndex;
 

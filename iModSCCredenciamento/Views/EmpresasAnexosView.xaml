@@ -25,7 +25,7 @@
                             <StackPanel x:Name="InformacoesAnexo_sp" Margin="0,10,10,10" Width="773">
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,0,10" >
                                     <Label Content="ID:" Height="28" Width="150" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                    <TextBox  x:Name="ID_tb"  IsEnabled="False" CharacterCasing="Upper" Text="{Binding SelectedItem.EmpresaAnexoID, ElementName=ListaAnexos_lv, UpdateSourceTrigger=PropertyChanged}" Height="24"  Width="59"/>
+                                    <TextBox  x:Name="ID_tb"  IsEnabled="False" CharacterCasing="Upper" Text="{Binding SelectedItem.EmpresaAnexoId, ElementName=ListaAnexos_lv, UpdateSourceTrigger=PropertyChanged}" Height="24"  Width="59"/>
                                     <Label Content="Descrição do Arquivo:" Height="28" Width="152" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
                                     <TextBox  x:Name="DescricaoArquivo_tb"  MaxLength="50" CharacterCasing="Upper" Text="{Binding SelectedItem.Descricao, ElementName=ListaAnexos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="383"/>
                                 </StackPanel>
@@ -64,7 +64,7 @@
                             <!--ScrollViewer.CanContentScroll="True" MaxHeight="150"  Visibility="Visible" SelectionMode="Single"  Background="#FF4E4E4E" Foreground="White" HorizontalAlignment="Left" SelectionChanged="ListaEmpresas_lv_SelectionChanged"-->
                             <ListView.View>
                                 <GridView FrameworkElement.FlowDirection="RightToLeft">
-                                    <GridViewColumn Width="50" Header="ID"  DisplayMemberBinding="{Binding EmpresaAnexoID}"/>
+                                    <GridViewColumn Width="50" Header="ID"  DisplayMemberBinding="{Binding EmpresaAnexoId}"/>
                                     <GridViewColumn Width="200" Header="Descrição do Arquivo"  DisplayMemberBinding="{Binding Descricao}"/>
                                     <GridViewColumn Width="200" Header="Nome do Arquivo"  DisplayMemberBinding="{Binding NomeAnexo}"/>
                                     <!--<GridViewColumn Width="150"  Header="Valor da Cobertura" DisplayMemberBinding="{Binding NomeAnexo}"/>-->
