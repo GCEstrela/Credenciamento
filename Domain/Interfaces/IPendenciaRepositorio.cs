@@ -21,6 +21,26 @@ namespace IMOD.Domain.Interfaces
         /// <param name="empresaId"></param>
         /// <returns></returns>
         ICollection<Pendencia> ListarPorEmpresa(int empresaId);
-       
+
+        /// <summary>
+        /// Listar Pendencia por Colaborador
+        /// </summary>
+        /// <param name="colaboradorId"></param> 
+        /// <returns></returns>
+        ICollection<Pendencia> ListarPorColaborador(int colaboradorId);
+
+        /// <summary>
+        /// Listar Pendencia por Veiculo
+        /// </summary>
+        /// <param name="veiculoId"></param> 
+        /// <returns></returns>
+        ICollection<Pendencia> ListarPorVeiculo(int veiculoId);
+
+
+
+
+
+
+
     }
 }

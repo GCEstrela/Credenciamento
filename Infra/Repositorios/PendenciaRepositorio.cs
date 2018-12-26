@@ -1,7 +1,7 @@
 ﻿// ***********************************************************************
 // Project: IMOD.Infra
 // Crafted by: Grupo Estrela by Genetec
-// Date:  11 - 26 - 2018
+// Date:  12 - 07 - 2018
 // ***********************************************************************
 
 #region
@@ -31,7 +31,7 @@ namespace IMOD.Infra.Repositorios
 
         public PendenciaRepositorio()
         {
-            _dataBase = _dataWorkerFactory.ObterDataBaseSingleton(TipoDataBase.SqlServer, _connection);
+            _dataBase = _dataWorkerFactory.ObterDataBaseSingleton (TipoDataBase.SqlServer, _connection);
         }
 
         #endregion
@@ -46,26 +46,26 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.InsertText("Pendencias", conn))
+                using (var cmd = _dataBase.InsertText ("Pendencias", conn))
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("PendenciaID", entity.PendenciaId, true)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("CodPendencia", entity.CodPendencia, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Descricao", entity.Descricao, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("DataLimite", entity.DataLimite, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Impeditivo", entity.Impeditivo, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("ColaboradorID", entity.ColaboradorId, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("EmpresaID", entity.EmpresaId, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("VeiculoID", entity.VeiculoId, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("PendenciaID", entity.PendenciaId, true)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("CodPendencia", entity.CodPendencia, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Descricao", entity.Descricao, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("DataLimite", entity.DataLimite, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Impeditivo", entity.Impeditivo, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("ColaboradorID", entity.ColaboradorId, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("EmpresaID", entity.EmpresaId, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("VeiculoID", entity.VeiculoId, false)));
 
-                        var key = Convert.ToInt32(cmd.ExecuteScalar());
+                        var key = Convert.ToInt32 (cmd.ExecuteScalar());
 
                         entity.PendenciaId = key;
                     }
                     catch (Exception ex)
                     {
-                        Utils.TraceException(ex);
+                        Utils.TraceException (ex);
                         throw;
                     }
                 }
@@ -81,12 +81,12 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText("Pendencias", conn))
+                using (var cmd = _dataBase.SelectText ("Pendencias", conn))
 
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("PendenciaId", DbType.Int32, id).Igual()));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("PendenciaId", DbType.Int32, id).Igual()));
                         var reader = cmd.ExecuteReader();
                         var d1 = reader.MapToList<Pendencia>();
 
@@ -94,37 +94,7 @@ namespace IMOD.Infra.Repositorios
                     }
                     catch (Exception ex)
                     {
-                        Utils.TraceException(ex);
-                        throw;
-                    }
-                }
-            }
-        }
-
-
-        /// <summary>
-        ///     Buscar por EmpresaID
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public Pendencia BuscarPorEmpresa(int id)
-        {
-            using (var conn = _dataBase.CreateOpenConnection())
-            {
-                using (var cmd = _dataBase.SelectText("Pendencias", conn))
-
-                {
-                    try
-                    {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("EmpresaID", DbType.Int32, id).Igual()));
-                        var reader = cmd.ExecuteReader();
-                        var d1 = reader.MapToList<Pendencia>();
-
-                        return d1.FirstOrDefault();
-                    }
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException(ex);
+                        Utils.TraceException (ex);
                         throw;
                     }
                 }
@@ -140,14 +110,14 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText("Pendencias", conn))
+                using (var cmd = _dataBase.SelectText ("Pendencias", conn))
 
                 {
                     try
                     {
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Descricao", DbType.String, objects, 0).Like()));
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("DataLimite", DbType.Date, objects, 1).Like()));
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Impeditivo", DbType.Boolean, objects, 2).Igual()));
+                        cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("Descricao", DbType.String, objects, 0).Like()));
+                        cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("DataLimite", DbType.Date, objects, 1).Like()));
+                        cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("Impeditivo", DbType.Boolean, objects, 2).Igual()));
 
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<Pendencia>();
@@ -156,7 +126,7 @@ namespace IMOD.Infra.Repositorios
                     }
                     catch (Exception ex)
                     {
-                        Utils.TraceException(ex);
+                        Utils.TraceException (ex);
                         throw;
                     }
                 }
@@ -171,24 +141,24 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.UpdateText("Pendencias", conn))
+                using (var cmd = _dataBase.UpdateText ("Pendencias", conn))
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("PendenciaID", entity.PendenciaId, true)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("CodPendencia", entity.CodPendencia, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Descricao", entity.Descricao, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("DataLimite", entity.DataLimite, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Impeditivo", entity.Impeditivo, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("ColaboradorID", entity.ColaboradorId, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("EmpresaID", entity.EmpresaId, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("VeiculoID", entity.VeiculoId, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("PendenciaID", entity.PendenciaId, true)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("CodPendencia", entity.CodPendencia, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Descricao", entity.Descricao, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("DataLimite", entity.DataLimite, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Impeditivo", entity.Impeditivo, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("ColaboradorID", entity.ColaboradorId, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("EmpresaID", entity.EmpresaId, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("VeiculoID", entity.VeiculoId, false)));
 
                         cmd.ExecuteNonQuery();
                     }
                     catch (Exception ex)
                     {
-                        Utils.TraceException(ex);
+                        Utils.TraceException (ex);
                         throw;
                     }
                 }
@@ -198,29 +168,29 @@ namespace IMOD.Infra.Repositorios
         /// <summary>
         ///     Deletar registro
         /// </summary>
-        /// <param name="objects"></param>
+        /// <param name="entity"></param>
         public void Remover(Pendencia entity)
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.DeleteText("Pendencias", conn))
+                using (var cmd = _dataBase.DeleteText ("Pendencias", conn))
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamDelete("PendenciaId", entity.PendenciaId).Igual()));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamDelete ("PendenciaId", entity.PendenciaId).Igual()));
 
                         cmd.ExecuteNonQuery();
                     }
                     catch (Exception ex)
                     {
-                        Utils.TraceException(ex);
+                        Utils.TraceException (ex);
                     }
                 }
             }
         }
 
         /// <summary>
-        /// Listar Pendencia por Empresa
+        ///     Listar Pendencia por Empresa
         /// </summary>
         /// <param name="empresaId"></param>
         /// <returns></returns>
@@ -228,12 +198,12 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText("Pendencias", conn))
+                using (var cmd = _dataBase.SelectText ("Pendencias", conn))
 
                 {
                     try
                     {
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmpresaID", DbType.Int32, empresaId).Igual()));
+                        cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("EmpresaID", DbType.Int32, empresaId).Igual()));
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<Pendencia>();
 
@@ -241,7 +211,65 @@ namespace IMOD.Infra.Repositorios
                     }
                     catch (Exception ex)
                     {
-                        Utils.TraceException(ex);
+                        Utils.TraceException (ex);
+                        throw;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        ///     Listar Pendencia por Colaborador
+        /// </summary>
+        /// <param name="colaboradorId"></param>
+        /// <returns></returns>
+        public ICollection<Pendencia> ListarPorColaborador(int colaboradorId)
+        {
+            using (var conn = _dataBase.CreateOpenConnection())
+            {
+                using (var cmd = _dataBase.SelectText ("Pendencias", conn))
+
+                {
+                    try
+                    {
+                        cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("ColaboradorID", DbType.Int32, colaboradorId).Igual()));
+                        var reader = cmd.ExecuteReaderSelect();
+                        var d1 = reader.MapToList<Pendencia>();
+
+                        return d1;
+                    }
+                    catch (Exception ex)
+                    {
+                        Utils.TraceException (ex);
+                        throw;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        ///     Listar Pendencia por Empresa
+        /// </summary>
+        /// <param name="veiculoId"></param>
+        /// <returns></returns>
+        public ICollection<Pendencia> ListarPorVeiculo(int veiculoId)
+        {
+            using (var conn = _dataBase.CreateOpenConnection())
+            {
+                using (var cmd = _dataBase.SelectText ("Pendencias", conn))
+
+                {
+                    try
+                    {
+                        cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("VeiculoID", DbType.Int32, veiculoId).Igual()));
+                        var reader = cmd.ExecuteReaderSelect();
+                        var d1 = reader.MapToList<Pendencia>();
+
+                        return d1;
+                    }
+                    catch (Exception ex)
+                    {
+                        Utils.TraceException (ex);
                         throw;
                     }
                 }

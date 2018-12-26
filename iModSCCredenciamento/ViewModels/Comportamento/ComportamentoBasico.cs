@@ -18,6 +18,7 @@ namespace iModSCCredenciamento.ViewModels.Comportamento
 
         #region  Propriedades
 
+        
         public bool IsEnableEditar { get; set; } = true;
         public bool IsEnableCriar { get; set; } = true;
         public bool isEnableRemover { get; set; } = true;
@@ -42,7 +43,8 @@ namespace iModSCCredenciamento.ViewModels.Comportamento
             IsEnableCriar = btnCriarEHabilitado;
             isEnableRemover = btnExcluirEHabilitado;
             isEnableSalvar = btnSalvarEHabilitado;
-            isEnableCancelar = cancelarHabilitado;
+            isEnableCancelar = cancelarHabilitado; 
+            
         }
 
         #region  Metodos

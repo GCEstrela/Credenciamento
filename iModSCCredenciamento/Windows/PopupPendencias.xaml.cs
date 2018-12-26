@@ -7,6 +7,7 @@
 #region
 
 using System.Windows;
+using System.Windows.Input;
 using iModSCCredenciamento.Enums;
 using iModSCCredenciamento.ViewModels;
 
@@ -36,6 +37,8 @@ namespace iModSCCredenciamento.Windows
         {
             DataContext = new PopupPendenciasViewModel (codPendencia, identificador, tipoPendencia);
         }
+
+       
 
         #endregion
     }

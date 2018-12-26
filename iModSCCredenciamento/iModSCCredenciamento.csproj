@@ -188,6 +188,7 @@
     <Compile Include="Models\ClasseFormatosCredenciais.cs" />
     <Compile Include="Models\Colaborador.cs" />
     <Compile Include="ViewModels\Commands\CommandBase.cs" />
+    <Compile Include="ViewModels\Commands\CommandBase2.cs" />
     <Compile Include="ViewModels\Comportamento\ComportamentoBasico.cs" />
     <Compile Include="ViewModels\Comportamento\IComportamento.cs" />
     <Compile Include="Views\Model\AreaAcessoView.cs" />

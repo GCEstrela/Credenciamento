@@ -45,22 +45,22 @@ namespace iModSCCredenciamento.ViewModels
         public ICommand PrepareCriarCommand => new CommandBase (PrepareCriar, true);
 
         /// <summary>
-        ///     Novo
+        ///     Editar
         /// </summary>
         public ICommand PrepareAlterarCommand => new CommandBase (PrepareAlterar, true);
 
         /// <summary>
-        ///     Novo
+        ///     Cancelar
         /// </summary>
         public ICommand PrepareCancelarCommand => new CommandBase(Comportamento.PrepareCancelar, true);
 
         /// <summary>
-        ///     Novo
+        ///     Salvar
         /// </summary>
         public ICommand PrepareSalvarCommand => new CommandBase (Comportamento.PrepareSalvar, true);
 
         /// <summary>
-        ///     Novo
+        ///     Remover
         /// </summary>
         public ICommand PrepareRemoverCommand => new CommandBase (PrepareRemover, true);
 

@@ -95,6 +95,26 @@ namespace IMOD.Application.Service
             return _repositorio.ListarPorEmpresa (empresaId);
         }
 
+        /// <summary>
+        /// Listar Pendencia por Colaborador
+        /// </summary>
+        /// <param name="colaboradorId"></param> 
+        /// <returns></returns>
+        public ICollection<Pendencia> ListarPorColaborador(int colaboradorId)
+        {
+            return _repositorio.ListarPorColaborador (colaboradorId);
+        }
+
+        /// <summary>
+        /// Listar Pendencia por Veiculo
+        /// </summary>
+        /// <param name="veiculoId"></param> 
+        /// <returns></returns>
+        public ICollection<Pendencia> ListarPorVeiculo(int veiculoId)
+        {
+            return _repositorio.ListarPorVeiculo (veiculoId);
+        }
+
         #endregion
 
         #region Construtor

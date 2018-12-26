@@ -47,6 +47,8 @@ namespace IMOD.Domain.Interfaces
         /// <param name="entity">Entidade</param>
         void Remover(TEntity entity);
 
+      
+
         #endregion
     }
 }
