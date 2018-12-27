@@ -64,27 +64,27 @@ namespace iModSCCredenciamento.ViewModels
         /// <summary>
         ///     True, empresa possui pendências
         /// </summary>
-        public bool Pendencias { get; private set; }
+        public bool Pendencias { get; set; }
 
         /// <summary>
         ///     True, empresa possui pendência na aba Geral
         /// </summary>
-        public bool PendenciaGeral { get; private set; }
+        public bool PendenciaGeral { get; set; }
 
         /// <summary>
         ///     True, empresa possui pendência na aba Represenante
         /// </summary>
-        public bool PendenciaRepresentante { get; private set; }
+        public bool PendenciaRepresentante { get; set; }
 
         /// <summary>
         ///     True, empresa possui pendência na aba Contrato
         /// </summary>
-        public bool PendenciaContrato { get; private set; }
+        public bool PendenciaContrato { get; set; }
 
         /// <summary>
         ///     True, empresa possui pendência na aba Anexo
         /// </summary>
-        public bool PendenciaAnexo { get; private set; }
+        public bool PendenciaAnexo { get;  set; }
 
         ///// <summary>
         ///// Habilita aba Geral
@@ -143,6 +143,7 @@ namespace iModSCCredenciamento.ViewModels
             ListaPesquisa.Add(new KeyValuePair<int, string>(2, "Código"));
             ListaPesquisa.Add(new KeyValuePair<int, string>(3, "CNPJ"));
             ListaPesquisa.Add(new KeyValuePair<int, string>(4, "Todos"));
+            PesquisarPor = ListaPesquisa[0];//Pesquisa Default
         }
         
         public void ListarTodos()
@@ -150,11 +151,7 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 var list1 = _service.Listar();
-                PopularObserver (list1);
-                //var list2 = Mapper.Map<List<EmpresaView>> (list1.OrderBy (n => n.Nome));
-                //var observer = new ObservableCollection<EmpresaView>();
-                //list2.ForEach (n => { observer.Add (n); });
-                //Empresas = observer;
+                PopularObserver (list1); 
             }
 
             catch (Exception ex)

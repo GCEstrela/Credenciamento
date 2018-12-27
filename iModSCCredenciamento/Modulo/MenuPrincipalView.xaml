@@ -129,12 +129,10 @@
 
 
         <!--#region Conteudo frame -->
-
-              <ContentControl Content="{Binding}" DockPanel.Dock="Bottom" Grid.Column="0" Grid.Row="2">
-               
-              </ContentControl>
-
-            <!--#endregion -->
+        <ScrollViewer Grid.Column="0" Grid.Row="2">
+              <ContentControl Content="{Binding}" DockPanel.Dock="Bottom" />
+        </ScrollViewer>
+        <!--#endregion -->
 
 
          
