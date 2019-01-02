@@ -71,6 +71,15 @@ namespace IMOD.Application.Service
         #endregion
 
         /// <summary>
+        /// Remover tipo de atividades por empresa
+        /// </summary>
+        /// <param name="empresaId"></param>
+        public void RemoverPorEmpresa(int empresaId)
+        {
+            _repositorio.RemoverPorEmpresa(empresaId);
+        }
+
+        /// <summary>
         /// Listar layout Crachas
         /// </summary>
         /// <param name="objects"></param>

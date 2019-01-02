@@ -17,6 +17,12 @@ namespace IMOD.Domain.Interfaces
     public interface IEmpresaLayoutCrachaRepositorio : IRepositorioBaseAdoNet<EmpresaLayoutCracha>
     {
         /// <summary>
+        /// Remover tipo de atividades por empresa
+        /// </summary>
+        /// <param name="empresaId"></param>
+        void RemoverPorEmpresa(int empresaId);
+
+        /// <summary>
         /// Listar layout Crachas
         /// </summary>
         /// <param name="objects"></param>

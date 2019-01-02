@@ -15,9 +15,9 @@ using System.Windows.Input;
 using iModSCCredenciamento.Enums;
 using iModSCCredenciamento.Helpers;
 using iModSCCredenciamento.ViewModels;
+using iModSCCredenciamento.Views.Model;
 using iModSCCredenciamento.Windows;
 using IMOD.CrossCutting;
-using IMOD.Domain.EntitiesCustom;
 
 #endregion
 
@@ -25,7 +25,7 @@ namespace iModSCCredenciamento.Views
 {
     public partial class EmpresaView : UserControl
     {
-        private readonly EmpresaViewModel _viewModel; 
+        private readonly EmpresaViewModel _viewModel;
 
         public EmpresaView()
         {
@@ -45,14 +45,70 @@ namespace iModSCCredenciamento.Views
         private void OnSelecionaMunicipio_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (_viewModel.Estado == null) return;
-            _viewModel.ListarMunicipios(_viewModel.Estado.Uf);
+            _viewModel.ListarMunicipios (_viewModel.Estado.Uf);
         }
 
         private void OnListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             _viewModel.AtualizarDadosPendencias();
             _viewModel.AtualizarDadosTiposAtividades();
+            _viewModel.AtualizarDadosTipoCrachas();
+        }
 
+        /// <summary>
+        ///     Remover tipo atividade
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnRemoverTipoAtividade_Click(object sender, RoutedEventArgs e)
+        {
+            if (_viewModel.TipoAtividade == null) return;
+            var idx = lstBoxTipoAtividade.Items.IndexOf (lstBoxTipoAtividade.SelectedItem);
+            _viewModel.TiposAtividades.RemoveAt (idx);
+        }
+
+        /// <summary>
+        ///     Adicionar Tipo Atividade
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnAdicionarTipoAtividade_Click(object sender, RoutedEventArgs e)
+        {
+            if (_viewModel.TipoAtividade == null) return;
+            var n1 = new EmpresaTipoAtividadeView
+            {
+                TipoAtividadeId = _viewModel.TipoAtividade.TipoAtividadeId,
+                Descricao = _viewModel.TipoAtividade.Descricao
+            };
+            _viewModel.TiposAtividades.Add (n1);
+        }
+
+        /// <summary>
+        ///     Adcionar cracha
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnAdicionarTipoCracha_Click(object sender, RoutedEventArgs e)
+        {
+            if (_viewModel.TipoCracha == null) return;
+            var n1 = new IMOD.Domain.EntitiesCustom.EmpresaLayoutCrachaView
+            {
+                LayoutCrachaId = _viewModel.TipoCracha.LayoutCrachaId,
+                Nome = _viewModel.TipoCracha.Nome
+            };
+            _viewModel.TiposLayoutCracha.Add (n1);
+        }
+
+        /// <summary>
+        ///     Remover tipo cracha
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnRemoverTipoCracha_Click(object sender, RoutedEventArgs e)
+        {
+            if (_viewModel.TipoCracha == null) return;
+            var idx = lstBoxLayoutCracha.Items.IndexOf (lstBoxLayoutCracha.SelectedItem);
+            _viewModel.TiposLayoutCracha.RemoveAt (idx);
         }
 
         #endregion
@@ -108,14 +164,12 @@ namespace iModSCCredenciamento.Views
                 _viewModel.ValidarCnpj();
                 if (_viewModel.Empresa == null) return;
                 txtCnpj.Text = _viewModel.Empresa.Cnpj.FormatarCnpj();
-
             }
             catch (Exception ex)
             {
-                Utils.TraceException(ex);
-                WpfHelp.PopupBox($"Não foi realizar a operação solicitada\n{ex.Message}", 3);
+                Utils.TraceException (ex);
+                WpfHelp.PopupBox ($"Não foi realizar a operação solicitada\n{ex.Message}", 3);
             }
- 
         }
 
         private void OnSelecionaFoto_Click(object sender, RoutedEventArgs e)
@@ -126,46 +180,15 @@ namespace iModSCCredenciamento.Views
                 var arq = WpfHelp.UpLoadArquivoDialog (filtro);
                 if (arq == null) return;
                 _viewModel.Empresa.Logo = arq.FormatoBase64;
-                //((EmpresaView)ListaEmpresas_lv.SelectedItem).Logo = arq.FormatoBase64;
-                var binding = BindingOperations.GetBindingExpression(Logo_im, Image.SourceProperty);
+                var binding = BindingOperations.GetBindingExpression (Logo_im, Image.SourceProperty);
                 binding?.UpdateTarget();
             }
             catch (Exception ex)
             {
                 Utils.TraceException (ex);
             }
-        } 
-        private void IncluirAtividade_bt_Click(object sender, RoutedEventArgs e)
-        {
-            //if (TipoAtividade_cb.Text != "" & TipoAtividade_cb.Text != "N/D")
-            //{
-            //    ((EmpresaViewModel)DataContext).OnInserirAtividadeCommand(TipoAtividade_cb.SelectedValue.ToString(), TipoAtividade_cb.Text);
-            //    //TipoAtividade_cb.SelectedIndex = 0;
-            //    TipoAtividade_cb.Text = "";
-
-            //}
         }
-
-
 
         #endregion
-
-        private void OnRemoverTipoAtividade_Click(object sender, RoutedEventArgs e)
-        {
-            if (_viewModel.TipoAtividade == null) return;
-            var idx = lstBoxTipoAtividade.Items.IndexOf(lstBoxTipoAtividade.SelectedItem);
-             _viewModel.TiposAtividades.RemoveAt(idx);
-        }
-
-        private void OnAdicionarTipoAtividade_Click(object sender, RoutedEventArgs e)
-        {
-            if (_viewModel.TipoAtividade == null) return;
-            var n1 = new Model.EmpresaTipoAtividadeView
-            {
-                TipoAtividadeId = _viewModel.TipoAtividade.TipoAtividadeId,
-                Descricao = _viewModel.TipoAtividade.Descricao
-            };
-            _viewModel.TiposAtividades.Add(n1);   
-        }
     }
 }

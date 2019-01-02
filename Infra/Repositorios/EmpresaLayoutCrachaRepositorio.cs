@@ -180,6 +180,29 @@ namespace IMOD.Infra.Repositorios
         }
 
         #endregion
+        /// <summary>
+        /// Remover tipo de atividades por empresa
+        /// </summary>
+        /// <param name="empresaId"></param>
+        public void RemoverPorEmpresa(int empresaId)
+        {
+            using (var conn = _dataBase.CreateOpenConnection())
+            {
+                using (var cmd = _dataBase.DeleteText("EmpresasLayoutsCrachas", conn))
+                {
+                    try
+                    {
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamDelete("empresaId", empresaId).Igual()));
+
+                        cmd.ExecuteNonQuery();
+                    }
+                    catch (Exception ex)
+                    {
+                        Utils.TraceException(ex);
+                    }
+                }
+            }
+        }
 
         public ICollection<EmpresaLayoutCrachaView> ListarLayoutCrachaView(params object[] objects)
         {

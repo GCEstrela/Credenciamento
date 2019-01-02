@@ -301,17 +301,20 @@
 
                             <StackPanel Width="469" Margin="0,0,0,10"   >
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" >
-                                    <Label Content="Layout do Crachá:" Height="28" Width="104" Margin="0,0,5,0"  Foreground="#FFD0D0D0" />
+                                    <Label Content="Tipo de Crachá:" Height="28" Width="104" Margin="0,0,5,0"  Foreground="#FFD0D0D0" />
                                     <ComboBox  x:Name="cmb3"   IsEnabled="True"  Height="30"  Width="280" ItemsSource="{Binding ListaCrachas}"
                                                DisplayMemberPath="Nome"   
-                                               SelectedValuePath="LayoutCrachaID"  />
+                                               SelectedValuePath="LayoutCrachaID"
+                                               SelectedItem="{Binding TipoCracha}"
+                                               />
                                     <Button x:Name="btnA" Content="Incluir" Margin="10,0,0,0" Width="65" 
-                                            Click="IncluirAtividade_bt_Click" Height="24" />
+                                            Click="OnAdicionarTipoCracha_Click" Height="24" />
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="109,5,0,0" Width="355" Height="84" >
-                                    <ListBox  x:Name="lst3b"  IsEnabled="True"  Width="280" ItemsSource="{Binding TiposLayoutCracha, Mode=TwoWay}"
-                                              DisplayMemberPath="NomeS" Height="82" VerticalAlignment="Top" />
-                                    <Button x:Name="btnex36" Content="Excluir" Margin="10,0,0,0" Width="65" Height="24" VerticalAlignment="Top"   />
+                                    <ListBox  x:Name="lstBoxLayoutCracha"  IsEnabled="True"  Width="280" 
+                                              ItemsSource="{Binding TiposLayoutCracha, Mode=TwoWay}"
+                                              DisplayMemberPath="Nome" Height="82" VerticalAlignment="Top" />
+                                    <Button x:Name="btnex36" Content="Excluir" Margin="10,0,0,0" Width="65" Height="24" Click="OnRemoverTipoCracha_Click" VerticalAlignment="Top"   />
                                 </StackPanel>
                             </StackPanel>
 
