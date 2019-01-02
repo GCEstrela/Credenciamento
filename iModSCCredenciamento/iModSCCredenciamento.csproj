@@ -143,6 +143,7 @@
     <Compile Include="Funcoes\Global.cs" />
     <Compile Include="Funcoes\Helper.cs" />
     <Compile Include="Funcoes\MethodBindingExtension.cs" />
+    <Compile Include="Funcoes\PropertyValidateModel.cs" />
     <Compile Include="Funcoes\SCManager.cs" />
     <Compile Include="Funcoes\Check1Converter.cs" />
     <Compile Include="Funcoes\StringToImageConverter.cs" />

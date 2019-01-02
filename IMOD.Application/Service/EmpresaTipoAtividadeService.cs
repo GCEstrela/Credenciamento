@@ -78,6 +78,15 @@ namespace IMOD.Application.Service
             _repositorio.Remover(entity);
         }
 
+        /// <summary>
+        /// Remover tipo de atividades por empresa
+        /// </summary>
+        /// <param name="empresaId"></param>
+        public void RemoverPorEmpresa(int empresaId)
+        {
+            _repositorio.RemoverPorEmpresa(empresaId);
+        }
+
         public ICollection<EmpresaTipoAtividadeView> ListarEmpresaTipoAtividadeView(params object[] objects)
         {
             return _repositorio.ListarEmpresaTipoAtividadeView(objects);

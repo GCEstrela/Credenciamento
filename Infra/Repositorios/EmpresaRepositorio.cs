@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
@@ -51,45 +52,52 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("EmpresaID", entity.EmpresaId, true)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Nome", entity.Nome, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Apelido", entity.Apelido, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Sigla", entity.Sigla, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Cnpj", entity.Cnpj.RetirarCaracteresEspeciais(), false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("CEP", entity.Cep, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Endereco", entity.Endereco, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Numero", entity.Numero, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Complemento", entity.Complemento, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Bairro", entity.Bairro, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("MunicipioID", entity.MunicipioId, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("EstadoID", entity.EstadoId, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Telefone", entity.Telefone, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Email1", entity.Email1, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Contato1", entity.Contato1, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Telefone1", entity.Telefone1, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Celular1", entity.Celular1, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Email2", entity.Email2, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Contato2", entity.Contato2, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Telefone2", entity.Telefone2, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Celular2", entity.Celular2, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Obs", entity.Obs, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Responsavel", entity.Responsavel, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Logo", entity.Logo, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("InsEst", entity.InsEst, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("InsMun", entity.InsMun, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Excluida", entity.Excluida, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Pendente11", entity.Pendente11, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Pendente12", entity.Pendente12, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Pendente13", entity.Pendente13, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Pendente14", entity.Pendente14, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Pendente15", entity.Pendente15, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Pendente16", entity.Pendente16, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Pendente17", entity.Pendente17, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("EmpresaID", entity.EmpresaId, true)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Nome", entity.Nome, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Apelido", entity.Apelido, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Sigla", entity.Sigla, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Cnpj", entity.Cnpj.RetirarCaracteresEspeciais(), false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("CEP", entity.Cep, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Endereco", entity.Endereco, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Numero", entity.Numero, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Complemento", entity.Complemento, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Bairro", entity.Bairro, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("MunicipioID", entity.MunicipioId, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("EstadoID", entity.EstadoId, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Telefone", entity.Telefone, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Email1", entity.Email1, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Contato1", entity.Contato1, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Telefone1", entity.Telefone1, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Celular1", entity.Celular1, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Email2", entity.Email2, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Contato2", entity.Contato2, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Telefone2", entity.Telefone2, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Celular2", entity.Celular2, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Obs", entity.Obs, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Responsavel", entity.Responsavel, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Logo", entity.Logo, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("InsEst", entity.InsEst, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("InsMun", entity.InsMun, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Excluida", entity.Excluida, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Pendente11", entity.Pendente11, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Pendente12", entity.Pendente12, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Pendente13", entity.Pendente13, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Pendente14", entity.Pendente14, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Pendente15", entity.Pendente15, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Pendente16", entity.Pendente16, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Pendente17", entity.Pendente17, false)));
 
-                        var key = Convert.ToInt32(cmd.ExecuteScalar());
+                        var key = Convert.ToInt32 (cmd.ExecuteScalar());
 
                         entity.EmpresaId = key;
                     }
+                    catch (SqlException ex)
+                    {
+                      if(ex.Number==2601)  
+                         throw new InvalidOperationException("CNPJ já existente.");
+                         throw;
+                    }
+
                     catch (Exception ex)
                     {
                         Utils.TraceException(ex);
@@ -208,6 +216,12 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Pendente17", entity.Pendente17, false)));
 
                         cmd.ExecuteNonQuery();
+                    }
+                    catch (SqlException ex)
+                    {
+                        if (ex.Number == 2601)
+                            throw new InvalidOperationException("CNPJ já existente.");
+                        throw;
                     }
                     catch (Exception ex)
                     {

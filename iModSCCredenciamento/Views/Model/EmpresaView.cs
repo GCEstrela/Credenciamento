@@ -4,13 +4,17 @@
 // Date:  12 - 13 - 2018
 // ***********************************************************************
 
+using System.ComponentModel.DataAnnotations;
+using iModSCCredenciamento.Funcoes;
+
 namespace iModSCCredenciamento.Views.Model
 {
-    public class EmpresaView
+    public class EmpresaView: PropertyValidateModel
     {
         #region  Propriedades
 
         public int EmpresaId { get; set; }
+        [Required(ErrorMessage = "Informe a razão social")]
         public string Nome { get; set; }
         public string Apelido { get; set; }
         public string Cnpj { get; set; }

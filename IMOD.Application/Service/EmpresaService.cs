@@ -6,8 +6,10 @@
 
 #region
 
+using System;
 using System.Collections.Generic;
 using IMOD.Application.Interfaces;
+using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
 using IMOD.Domain.EntitiesCustom;
 using IMOD.Domain.Interfaces;
@@ -91,6 +93,28 @@ namespace IMOD.Application.Service
         #endregion
 
         #region  Metodos
+
+        /// <summary>
+        ///     Verificar se existe CNPJ cadastrado
+        /// </summary>
+        /// <param name="cnpj"></param>
+        /// <returns></returns>
+        public bool ExisteCnpj(string cnpj)
+        {
+            if (string.IsNullOrWhiteSpace (cnpj)) return false;
+            var v1 = cnpj.TemCaracteres();
+            if(v1)
+                throw new InvalidOperationException("O CNPJ não está num formato válido.");
+            //Verificar formato válido
+            var v2 = Utils.IsValidCnpj (cnpj);
+            if (!v2)
+                throw new InvalidOperationException("CNPJ inválido.");
+
+
+            var doc = cnpj.RetirarCaracteresEspeciais();
+            var n1 = BuscarEmpresaPorCnpj (doc);
+            return n1 != null;
+        }
 
         /// <summary>
         ///     Criar registro

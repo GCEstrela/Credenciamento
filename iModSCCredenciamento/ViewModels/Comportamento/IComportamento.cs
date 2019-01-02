@@ -1,7 +1,7 @@
 ﻿// ***********************************************************************
 // Project: iModSCCredenciamento
 // Crafted by: Grupo Estrela by Genetec
-// Date:  12 - 18 - 2018
+// Date:  12 - 21 - 2018
 // ***********************************************************************
 
 #region
@@ -16,32 +16,41 @@ namespace iModSCCredenciamento.ViewModels.Comportamento
     {
         #region  Propriedades
 
-        ComportamentoBasico Comportamento { get;}
+        ComportamentoBasico Comportamento { get; }
 
         /// <summary>
         ///     Novo
         /// </summary>
-        ICommand PrepareCriarCommand { get;}
+        ICommand PrepareCriarCommand { get; }
 
         /// <summary>
         ///     Novo
         /// </summary>
-        ICommand PrepareAlterarCommand { get;}
+        ICommand PrepareAlterarCommand { get; }
 
         /// <summary>
         ///     Novo
         /// </summary>
-        ICommand PrepareCancelarCommand { get;}
+        ICommand PrepareCancelarCommand { get; }
 
         /// <summary>
         ///     Novo
         /// </summary>
-        ICommand PrepareSalvarCommand { get;}
+        ICommand PrepareSalvarCommand { get; }
 
         /// <summary>
         ///     Novo
         /// </summary>
-        ICommand PrepareRemoverCommand { get;}
+        ICommand PrepareRemoverCommand { get; }
+
+        #endregion
+
+        #region  Metodos
+
+        /// <summary>
+        ///    Validar Regras de Negócio 
+        /// </summary>
+        void Validar();
 
         #endregion
     }

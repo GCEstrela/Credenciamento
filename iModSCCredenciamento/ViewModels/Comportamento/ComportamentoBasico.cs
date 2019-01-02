@@ -14,7 +14,7 @@ namespace iModSCCredenciamento.ViewModels.Comportamento
 {
     public class ComportamentoBasico : ViewModelBase
     {
-        private Acao _salvar;
+        private Acao _salvar; 
 
         #region  Propriedades
 

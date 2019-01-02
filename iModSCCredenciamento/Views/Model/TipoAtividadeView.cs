@@ -11,7 +11,7 @@ namespace iModSCCredenciamento.Views.Model
         #region  Propriedades
 
         public int TipoAtividadeId { get; set; }
-        public string Descricao { get; set; }
+        public string Descricao { get; set; } 
 
         #endregion
     }

@@ -11,15 +11,13 @@
              xmlns:z="clr-namespace:iModSCCredenciamento.Regras"
              xmlns:gif="http://wpfanimatedgif.codeplex.com"
              mc:Ignorable="d"
-              MaxWidth="1300" Loaded="UserControl_Loaded" Width="1270" Height="825">
+              MaxWidth="1300" Width="1270" Height="825">
     <UserControl.Resources>
-        <ControlTemplate x:Key="validationErrorTemplate">
+        <ControlTemplate x:Key="ValidationErrorTemplate">
             <DockPanel>
                 <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
                     <Grid Width="12" Height="12">
-                        <Ellipse Width="12" Height="12" Fill="Red" HorizontalAlignment="Center" VerticalAlignment="Center"
-                             
-                             ></Ellipse>
+                        <Ellipse Width="12" Height="12" Fill="Red" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         <TextBlock Foreground="White"  FontWeight="Heavy" FontSize="8" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center"
                                ToolTip="{Binding ElementName=ErrorAdorner, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}"
                                >X</TextBlock>
@@ -54,7 +52,7 @@
         <!--End Styles-->
         <i:FormateTel x:Key="FormateTel" />
     </UserControl.Resources>
-    <Grid Margin="5">
+    <Grid Margin="5" Loaded="Frm_Loaded">
 
         <Grid.Resources>
             <i:ConvertBoolToImage x:Key="ConvertBoolToImage" />
@@ -82,9 +80,9 @@
         </StackPanel>
 
 
-        <StackPanel x:Name="ListaEmpresas_sp" Grid.Column="0" Grid.Row="1" Orientation="Horizontal" Margin="0,0,-219,0" Height="184" VerticalAlignment="Top">
-            <ListView x:Name="lstView"  ItemsSource="{Binding Empresas, Mode=TwoWay}" SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}"
-                           SelectedItem="{Binding Empresa, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,5,0" Width="1055">
+        <StackPanel x:Name="ListaEmpresas_sp" Grid.Column="0" Grid.Row="1" Orientation="Horizontal"  Margin="0,0,-219,0" Height="184" VerticalAlignment="Top">
+            <ListView x:Name="lstView" ItemsSource="{Binding Empresas, Mode=TwoWay}" IsEnabled="{Binding IsEnableLstView}" SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}"
+                           SelectedItem="{Binding Empresa, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"   Margin="0,0,5,0" Width="1055">
                 <ListView.View>
                     <GridView FrameworkElement.FlowDirection="RightToLeft">
                         <GridViewColumn >
@@ -124,7 +122,7 @@
 
         <TabControl x:Name="TabGeral_tc" Height="562" VerticalAlignment="Top" Width="1259" Margin="1,1,-259,-321" Grid.Row="3" HorizontalAlignment="Left"      >
 
-            <TabItem x:Name="Geral_ti" Background="{x:Null}"  Selector.Selected="OnTabSelected" Selector.Unselected="OnTabUnSelected" Margin="0,-2,0,0">
+            <TabItem x:Name="Geral_ti" Background="{x:Null}"    Margin="0,-2,0,0">
 
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
@@ -141,7 +139,7 @@
                     </StackPanel>
                 </TabItem.Header>
                 <Grid Margin="1" HorizontalAlignment="Left" Width="601">
-                    <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" Background="Chocolate"  Header="Identificação"   Height="187" VerticalAlignment="Top" Margin="0,0,2,0">
+                    <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" Header="Identificação"   Height="187" VerticalAlignment="Top" Margin="0,0,2,0">
                         <StackPanel Orientation="Horizontal" Height="152" Margin="2,0,-2,0" VerticalAlignment="Top">
                             <StackPanel.Resources>
                                 <i:StringToImageConverter x:Key="StringToImageConverter" />
@@ -151,21 +149,13 @@
                                     <Label Content="Código:" Height="28" Width="100" Margin="1" Foreground="#FFD0D0D0" />
                                     <TextBox CharacterCasing="Upper"  x:Name="Codigo_tb"   MaxLength="50" Text="{Binding Empresa.EmpresaId, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"  Height="24"  Width="50"/>
                                     <Label Content="CNPJ:" Height="28" Width="70" Margin="1"  Foreground="#FFD0D0D0" />
-                                    <TextBox  x:Name="CNPJ_tb"  MaxLength="20" IsEnabled="True"  Height="24"  Width="120"  Foreground="White" VerticalContentAlignment="Center" 
-                                                      Text="{Binding Empresa.Cnpj, UpdateSourceTrigger=PropertyChanged}"
-                                                      HorizontalContentAlignment="Center" LostFocus="OnConsultarCnpj_LostFocus" Validation.ErrorTemplate="{StaticResource validationErrorTemplate}"/>
+                                    <TextBox  x:Name="txtCnpj"  MaxLength="20" IsEnabled="True"  Height="24"  Width="120"  Foreground="White" VerticalContentAlignment="Center" 
+                                                      Text="{Binding Empresa.Cnpj, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                                      HorizontalContentAlignment="Center" LostFocus="OnValidaCnpj_LostFocus" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"  />
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="1" >
                                     <Label Content="Razão Social:" Height="28" Width="100" Margin="1" Foreground="#FFD0D0D0" />
-                                    <TextBox CharacterCasing="Upper"  x:Name="Nome_tb"   MaxLength="50"   IsEnabled="True"  Height="24"  Width="304"  Validation.ErrorTemplate="{StaticResource validationErrorTemplate}">
-                                        <TextBox.Text>
-                                            <Binding Path="Empresa.Nome"  ValidatesOnDataErrors="True" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
-                                                <Binding.ValidationRules>
-                                                    <z:RazaoSocial></z:RazaoSocial>
-                                                </Binding.ValidationRules>
-                                            </Binding>
-                                        </TextBox.Text>
-                                    </TextBox>
+                                    <TextBox CharacterCasing="Upper"  Text="{Binding Empresa.Nome}"   x:Name="Nome_tb"  MaxLength="50"   IsEnabled="True"  Height="24"  Width="304"  Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="1" >
                                     <Label Content="Nome Fantasia:" Height="28" Width="100" Margin="1" Foreground="#FFD0D0D0" />
@@ -187,7 +177,7 @@
                                 <Border  CornerRadius="3"  BorderThickness="1" Grid.Column="0" Width ="100" Height="100"    HorizontalAlignment="Left" BorderBrush="#FF686868"  >
                                     <Image x:Name="Logo_im" Stretch="Uniform" Source="{Binding Empresa.Logo, Converter={StaticResource StringToImageConverter}, Mode=TwoWay, UpdateSourceTrigger=Explicit}" Margin="3"   />
                                 </Border>
-                                <Button x:Name="SelecionarLogo_bt" Content="Selecionar Logo" HorizontalAlignment="Center" Margin="0,10,0,0"  Height="30" Width="100" Click="SelecionarLogo_bt_Click"   />
+                                <Button x:Name="SelecionarLogo_bt" Content="Selecionar Logo" HorizontalAlignment="Center" Margin="0,10,0,0"  Height="30" Width="100" Click="OnSelecionaFoto_Click"   />
                             </StackPanel>
                         </StackPanel>
 
@@ -211,9 +201,12 @@
                                 <Label Content="Bairro:" Height="28" Width="102" Margin="1"  Foreground="#FFD0D0D0" />
                                 <TextBox CharacterCasing="Upper"  x:Name="Bairro_tb"   MaxLength="50" Text="{Binding Empresa.Bairro,   UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="23"  Width="152" Margin="1" />
                                 <Label Content="UF:" Height="28" Width="30" Margin="1"  Foreground="#FFD0D0D0" />
-                                <ComboBox x:Name="Estado_cb" Margin="0,4,0,3" Height="30"
-                                                  ItemsSource="{Binding Estados}" DisplayMemberPath="Uf" SelectedValue="{Binding Empresa.EstadoId,  UpdateSourceTrigger=PropertyChanged}" 
-                                              SelectedValuePath="EstadoId"  SelectionChanged="{data:MethodBinding Municipios, {Binding SelectedItem.Uf, ElementName=Estado_cb}}"
+                                <ComboBox x:Name="cmbEstado" Margin="0,4,0,3" Height="28"
+                                                  ItemsSource="{Binding Estados}" DisplayMemberPath="Uf" 
+                                                  SelectedValue="{Binding Empresa.EstadoId,  UpdateSourceTrigger=PropertyChanged}" 
+                                                  SelectedValuePath="EstadoId" IsSynchronizedWithCurrentItem="True" 
+                                                  SelectedIndex="0" 
+                                                  SelectedItem="{Binding Estado}"
                                                   Width="43"/>
                                 <!--<ComboBox x:Name="Estado_cb" MinWidth="50" Height="22" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
                                               ItemsSource="{Binding Estados}" DisplayMemberPath="Uf" SelectedValue="{Binding Empresa.EstadoId,  UpdateSourceTrigger=PropertyChanged}" 
@@ -222,9 +215,10 @@
                                 <!--<ComboBox x:Name="Cidade_cb"  MinWidth="50" Height="22"  HorizontalContentAlignment="Left"
                                                 ItemsSource="{Binding Municipios}" DisplayMemberPath="Nome"  SelectedValue="{Binding Empresa.MunicipioId,  UpdateSourceTrigger=PropertyChanged}" 
                                               SelectedValuePath="MunicipioId" Width="166" Margin="0,6,0,0" VerticalAlignment="Top" />-->
-                                <ComboBox x:Name="Cidade_cb" Height="30" 
+                                <ComboBox x:Name="Cidade_cb" Height="28" 
                                                    ItemsSource="{Binding Municipios}" DisplayMemberPath="Nome"  SelectedValue="{Binding Empresa.MunicipioId,  UpdateSourceTrigger=PropertyChanged}" 
-                                              SelectedValuePath="MunicipioId"
+                                                  SelectedValuePath="MunicipioId"
+                                                  SelectedIndex="0"
                                                   Margin="0,2,0,3" Width="150"/>
                             </StackPanel>
                         </StackPanel>
@@ -286,27 +280,49 @@
 
                     <GroupBox   Background="Aquamarine" Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" Header="Características " HorizontalAlignment="Left" Width="1211" Margin="0,366,-610,0"  >
 
-                        <StackPanel Orientation="Horizontal" Height="95" VerticalAlignment="Top" Margin="0,0,0,-1" >
-                            <StackPanel Width="469" Margin="0,0,0,-29"   >
+                        <StackPanel Orientation="Horizontal" Height="140" VerticalAlignment="Top" >
+                            <StackPanel Width="469" Margin="0,0,0,10"   >
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" >
                                     <Label Content="Tipo de Atividade:" Height="28" Width="104" Margin="0,0,5,0"  Foreground="#FFD0D0D0" />
-                                    <ComboBox  x:Name="TipoAtividade_cb"   IsEnabled="True"  Height="30"  Width="280" ItemsSource="{Binding TiposAtividades}" DisplayMemberPath="Descricao"   
-                                              SelectedValuePath="TipoAtividadeId"  />
-                                    <Button x:Name="IncluirAtividade_bt" Content="Incluir" Margin="10,0,0,0" Width="65" Click="IncluirAtividade_bt_Click" Height="24" />
+                                    <ComboBox  x:Name="TipoAtividade_cb"   IsEnabled="True"  Height="30"  Width="280"
+                                               ItemsSource="{Binding ListaAtividades}"
+                                               SelectedItem="{Binding TipoAtividade}"
+                                               DisplayMemberPath="Descricao"   
+                                               SelectedValuePath="TipoAtividadeId"  />
+                                    <Button x:Name="IncluirAtividade_bt" Content="Incluir" Margin="10,0,0,0" Width="65" Height="24" Click="OnAdicionarTipoAtividade_Click" />
                                 </StackPanel>
-                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="109,5,-187,0" Width="467" Height="84" >
-                                    <ListBox  x:Name="TipoAtividade_lb"  IsEnabled="True"  Width="280" ItemsSource="{Binding EmpresasTiposAtividades, Mode=TwoWay}"
-                                                        SelectedItem="{Binding EmpresaTipoAtividadeSelecionada, Mode=TwoWay}"  DisplayMemberPath="Descricao" Height="82" VerticalAlignment="Top" />
-                                    <Button x:Name="ExcluirAtividade_bt" Content="Excluir" Margin="10,0,0,0" Width="65" Height="24" VerticalAlignment="Top" Click="ExcluirAtividade_bt_Click"  />
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="109,5,0,0" Width="355" Height="84" >
+                                    <ListBox  x:Name="lstBoxTipoAtividade"  IsEnabled="True"  Width="280" 
+                                              ItemsSource="{Binding TiposAtividades, Mode=TwoWay}"
+                                              DisplayMemberPath="Descricao" Height="82" VerticalAlignment="Top" />
+                                    <Button x:Name="ExcluirAtividade_bt" Content="Excluir" Margin="10,0,0,0" Width="65" Height="24" VerticalAlignment="Top" Click="OnRemoverTipoAtividade_Click" />
                                 </StackPanel>
                             </StackPanel>
-                            
-                            
-                            
-                            
-                            
-                            
-                            
+
+                            <StackPanel Width="469" Margin="0,0,0,10"   >
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" >
+                                    <Label Content="Layout do Crachá:" Height="28" Width="104" Margin="0,0,5,0"  Foreground="#FFD0D0D0" />
+                                    <ComboBox  x:Name="cmb3"   IsEnabled="True"  Height="30"  Width="280" ItemsSource="{Binding ListaCrachas}"
+                                               DisplayMemberPath="Nome"   
+                                               SelectedValuePath="LayoutCrachaID"  />
+                                    <Button x:Name="btnA" Content="Incluir" Margin="10,0,0,0" Width="65" 
+                                            Click="IncluirAtividade_bt_Click" Height="24" />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="109,5,0,0" Width="355" Height="84" >
+                                    <ListBox  x:Name="lst3b"  IsEnabled="True"  Width="280" ItemsSource="{Binding TiposLayoutCracha, Mode=TwoWay}"
+                                              DisplayMemberPath="NomeS" Height="82" VerticalAlignment="Top" />
+                                    <Button x:Name="btnex36" Content="Excluir" Margin="10,0,0,0" Width="65" Height="24" VerticalAlignment="Top"   />
+                                </StackPanel>
+                            </StackPanel>
+
+
+
+
+
+
+
+
+
                         </StackPanel>
                     </GroupBox>
                 </Grid>
@@ -324,7 +340,7 @@
 
 
 
-            <TabItem x:Name="Signatarios_ti"  Width="200">
+            <TabItem x:Name="Signatarios_ti"  Width="200" IsEnabled="{Binding IsEnableTabItem}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="Signatarios_bt"   Click="OnPendenciaRepresentantes_Click" Style="{StaticResource MenuStyle}" >
@@ -350,7 +366,7 @@
                     </Grid>
                 </ScrollViewer>-->
             </TabItem>
-            <TabItem x:Name="Contrato_ti"  Width="200"  >
+            <TabItem x:Name="Contrato_ti"  Width="200" IsEnabled="{Binding IsEnableTabItem}" >
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Button  x:Name="Contratos_bt"  Click="OnPendenciaGeralContratos_Click" Style="{StaticResource MenuStyle}" >
@@ -376,7 +392,7 @@
                     </Grid>
                 </ScrollViewer>-->
             </TabItem>
-            <TabItem x:Name="Anexos_ti"  Width="200" >
+            <TabItem x:Name="Anexos_ti"  Width="200"  IsEnabled="{Binding IsEnableTabItem}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Button  x:Name="Anexos_bt" Click="OnPendenciaGeralAnexos_Click" Style="{StaticResource MenuStyle}" >

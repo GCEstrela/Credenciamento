@@ -13,8 +13,7 @@ namespace iModSCCredenciamento.Views.Model
         public int LayoutCrachaId { get; set; }
         public string Nome { get; set; }
         public string LayoutCrachaGuid { get; set; }
-
-        public string LayoutRpt { get; set; }
+        public string LayoutRpt { get; set; } 
 
         #endregion
     }

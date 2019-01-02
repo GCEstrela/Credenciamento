@@ -139,6 +139,12 @@ namespace iModSCCredenciamento.Helpers
             return popupBox.Result;
         }
 
+        public static bool PopupBox(Exception ex)
+        {
+            var msg = $"Não foi possível executar a operação solicitada.\n{ex.Message}";
+            return PopupBox(msg,3);
+        }
+
         /// <summary>
         ///     Upload de arquivo
         ///     <para>Retorna dados de um arquivo</para>

@@ -7,16 +7,18 @@
 #region
 
 using System;
+using System.ComponentModel.DataAnnotations;
+using iModSCCredenciamento.Funcoes;
 
 #endregion
 
 namespace iModSCCredenciamento.Views.Model
 {
-    public class ColaboradorView
+    public class ColaboradorView: PropertyValidateModel
     {
         #region  Propriedades
 
-        public int ColaboradorId { get; set; }
+        public int ColaboradorId { get; set; } 
         public string Nome { get; set; }
         public string Apelido { get; set; }
         public DateTime? DataNascimento { get; set; }

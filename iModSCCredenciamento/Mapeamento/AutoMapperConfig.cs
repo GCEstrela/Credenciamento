@@ -53,8 +53,8 @@ namespace iModSCCredenciamento.Mapeamento
                        m.CreateMap<LayoutCracha, EmpresaLayoutCrachaView>().ReverseMap();
                        m.CreateMap<Estados, EstadoView>().ReverseMap();
                        m.CreateMap<Municipio, ClasseMunicipios.Municipio>().ReverseMap();
-                      
-                       
+
+
                        m.CreateMap<TipoAtividade, TipoAtividadeView>().ReverseMap();
                        m.CreateMap<TipoEquipamento, ClasseTiposEquipamento.TipoEquipamento>().ReverseMap();
 
@@ -63,6 +63,10 @@ namespace iModSCCredenciamento.Mapeamento
                        m.CreateMap<TipoPendencia, TipoPendenciaView>().ReverseMap();
 
                        m.CreateMap<EmpresaTipoAtividade, EmpresaTipoAtividadeView>().ReverseMap();
+
+                       m.CreateMap<IMOD.Domain.EntitiesCustom.EmpresaTipoAtividadeView, EmpresaTipoAtividadeView>()
+                       .ReverseMap();
+
                        m.CreateMap<AreaAcesso, ClasseAreasAcessos.AreaAcesso>().ReverseMap();
                        m.CreateMap<LayoutCracha, LayoutCrachaView>().ReverseMap();
                        

@@ -51,7 +51,14 @@ namespace IMOD.Application.Interfaces
         /// <summary>
         ///     Veículo Empresa Serviços
         /// </summary>
-        IVeiculoEmpresaService VeiculoService { get; } 
+        IVeiculoEmpresaService VeiculoService { get; }
+
+        /// <summary>
+        /// Verificar se existe CNPJ cadastrado
+        /// </summary>
+        /// <param name="cnpj"></param>
+        /// <returns></returns>
+        bool ExisteCnpj(string cnpj);
 
         #endregion
     }

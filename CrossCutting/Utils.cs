@@ -194,7 +194,7 @@ namespace IMOD.CrossCutting
         }
 
         /// <summary>
-        ///     Detecta na String caracteres especiais
+        ///     Detecta na string caracteres especiais
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
@@ -342,6 +342,18 @@ namespace IMOD.CrossCutting
             return retorno;
         }
 
+        /// <summary>
+        ///  Detecta na string caracteres
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public static bool TemCaracteres(this string str)
+        {
+            if (string.IsNullOrWhiteSpace(str)) return false;
+            var r = new Regex("[a-zA-Z\\s]+",
+                RegexOptions.IgnorePatternWhitespace | RegexOptions.CultureInvariant | RegexOptions.Compiled);
+            return r.IsMatch(str);
+        }
 
 
         /// <summary>

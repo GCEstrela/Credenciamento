@@ -65,6 +65,14 @@ namespace iModSCCredenciamento.ViewModels
         public ICommand PrepareRemoverCommand => new CommandBase (PrepareRemover, true);
 
         /// <summary>
+        ///     Validar Regras de Negócio
+        /// </summary>
+        public void Validar()
+        {
+             
+        }
+
+        /// <summary>
         ///     Tipos de pendencias
         /// </summary>
         private List<TipoPendenciaView> Tipos { get; set; }

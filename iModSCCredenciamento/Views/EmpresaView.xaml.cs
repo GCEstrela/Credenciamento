@@ -1,299 +1,140 @@
-﻿using System;
+﻿// ***********************************************************************
+// Project: iModSCCredenciamento
+// Crafted by: Grupo Estrela by Genetec
+// Date:  11 - 13 - 2018
+// ***********************************************************************
+
+#region
+
+using System;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using iModSCCredenciamento.Enums;
-using iModSCCredenciamento.Funcoes;
 using iModSCCredenciamento.Helpers;
-using iModSCCredenciamento.Models;
 using iModSCCredenciamento.ViewModels;
 using iModSCCredenciamento.Windows;
 using IMOD.CrossCutting;
+using IMOD.Domain.EntitiesCustom;
+
+#endregion
 
 namespace iModSCCredenciamento.Views
 {
-
     public partial class EmpresaView : UserControl
     {
-        
-        private bool _cnpjVerificar = false;
-        private EmpresaViewModel _viewModel;// = new EmpresaViewModel();
+        private readonly EmpresaViewModel _viewModel; 
+
         public EmpresaView()
         {
             InitializeComponent();
-            _viewModel  = new EmpresaViewModel();
-            DataContext = _viewModel;//new EmpresaViewModel();
+            _viewModel = new EmpresaViewModel();
+            DataContext = _viewModel;
+        }
+
+        #region  Metodos
+
+        private void Frm_Loaded(object sender, RoutedEventArgs e)
+        {
             lstView.SelectionChanged += OnListView_SelectionChanged;
+            cmbEstado.SelectionChanged += OnSelecionaMunicipio_SelectionChanged;
+        }
+
+        private void OnSelecionaMunicipio_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (_viewModel.Estado == null) return;
+            _viewModel.ListarMunicipios(_viewModel.Estado.Uf);
         }
 
         private void OnListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             _viewModel.AtualizarDadosPendencias();
+            _viewModel.AtualizarDadosTiposAtividades();
+
         }
 
+        #endregion
 
+        #region Pendencias
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        #region Comando dos Botoes
-        private void SelecionarLogo_bt_Click(object sender, RoutedEventArgs e)
+        private void AbrirPendencias(int codigo, PendenciaTipo tipoPendecia)
         {
             try
             {
-                //var filtro = "Images (*.BMP;*.JPG;*.GIF,*.PNG,*.TIFF)|*.BMP;*.JPG;*.GIF;*.PNG;*.TIFF|" + "All files (*.*)|*.*";
-                //var arq = WpfHelp.UpLoadArquivoDialog(filtro);
-                //if (arq == null) return;
-                ////((EmpresaView)ListaEmpresas_lv.SelectedItem).Logo = arq.FormatoBase64;
-                //BindingExpression be = BindingOperations.GetBindingExpression(Logo_im, Image.SourceProperty);
-                //be.UpdateTarget();
+                if (_viewModel.Empresa == null) return;
+                var frm = new PopupPendencias();
+                frm.Inicializa (codigo, _viewModel.Empresa.EmpresaId, tipoPendecia);
+                frm.ShowDialog();
+                _viewModel.AtualizarDadosPendencias();
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException (ex);
+            }
+        }
+
+        private void OnPendenciaGeral_Click(object sender, RoutedEventArgs e)
+        {
+            AbrirPendencias (21, PendenciaTipo.Empresa);
+        }
+
+        private void OnPendenciaRepresentantes_Click(object sender, RoutedEventArgs e)
+        {
+            AbrirPendencias (12, PendenciaTipo.Empresa);
+        }
+
+        private void OnPendenciaGeralContratos_Click(object sender, RoutedEventArgs e)
+        {
+            AbrirPendencias (14, PendenciaTipo.Empresa);
+        }
+
+        private void OnPendenciaGeralAnexos_Click(object sender, RoutedEventArgs e)
+        {
+            AbrirPendencias (24, PendenciaTipo.Empresa);
+        }
+
+        private void NumberOnly(object sender, TextCompositionEventArgs e)
+        {
+            var regex = new Regex ("[^0-9]+");
+            e.Handled = regex.IsMatch (e.Text);
+        }
+
+        private void OnValidaCnpj_LostFocus(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                _viewModel.ValidarCnpj();
+                if (_viewModel.Empresa == null) return;
+                txtCnpj.Text = _viewModel.Empresa.Cnpj.FormatarCnpj();
+
             }
             catch (Exception ex)
             {
                 Utils.TraceException(ex);
+                WpfHelp.PopupBox($"Não foi realizar a operação solicitada\n{ex.Message}", 3);
             }
+ 
         }
 
-        private void Pesquisar_bt_Click(object sender, RoutedEventArgs e)
+        private void OnSelecionaFoto_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                var frm = new PopUpPesquisaEmpresa(); 
-                frm.ShowDialog();
+                var filtro = "Images (*.BMP;*.JPG;*.GIF,*.PNG,*.TIFF)|*.BMP;*.JPG;*.GIF;*.PNG;*.TIFF|" + "All files (*.*)|*.*";
+                var arq = WpfHelp.UpLoadArquivoDialog (filtro);
+                if (arq == null) return;
+                _viewModel.Empresa.Logo = arq.FormatoBase64;
+                //((EmpresaView)ListaEmpresas_lv.SelectedItem).Logo = arq.FormatoBase64;
+                var binding = BindingOperations.GetBindingExpression(Logo_im, Image.SourceProperty);
+                binding?.UpdateTarget();
             }
             catch (Exception ex)
             {
-                Global.Log("Erro void OnPesquisarCommand ex: " + ex.Message);
+                Utils.TraceException (ex);
             }
-        }
-
-        //private void Editar_bt_Click(object sender, RoutedEventArgs e)
-        //{
-        //    Signatarios_ti.Visibility = Visibility.Hidden;
-        //    Contrato_ti.Visibility = Visibility.Hidden;
-        //    Anexos_ti.Visibility = Visibility.Hidden;
-
-        //    Botoes_Principais_sp.Visibility = Visibility.Hidden;
-        //    Botoes_Editar_sp.Visibility = Visibility.Visible;
-        //    ListaEmpresas_lv.IsHitTestVisible = false;
-        //    Geral_sp.IsHitTestVisible = true;
-        //    ((EmpresaViewModel)DataContext).OnEditarCommand();
-        //}
-
-        //private void Adicionar_bt_Click(object sender, RoutedEventArgs e)
-        //{
-        //    Signatarios_ti.Visibility = Visibility.Hidden;
-        //    Contrato_ti.Visibility = Visibility.Hidden;
-        //    Anexos_ti.Visibility = Visibility.Hidden;
-        //    Caracteristicas_gb.Visibility = Visibility.Hidden;
-
-        //    Botoes_Principais_sp.Visibility = Visibility.Hidden;
-        //    Botoes_Adicionar_sp.Visibility = Visibility.Visible;
-        //    Geral_sp.IsHitTestVisible = true;
-        //    Geral_bt.Visibility = Visibility.Hidden;
-        //    ((EmpresaViewModel)DataContext).OnAdicionarCommand();
-        //}
-
-        //private void Excluir_bt_Click(object sender, RoutedEventArgs e)
-        //{
-        //    Botoes_Principais_sp.Visibility = Visibility.Visible;
-        //    ((EmpresaViewModel)DataContext).OnExcluirCommand();
-        //}
-
-        //private void ExecutarPesquisa_bt_Click(object sender, RoutedEventArgs e)
-        //{
-        //    Botoes_Principais_sp.Visibility = Visibility.Visible;
-        //    Botoes_Principais_sp.Visibility = Visibility.Hidden;
-        //}
-
-        //private void CancelarPesquisa_bt_Click(object sender, RoutedEventArgs e)
-        //{
-        //    Botoes_Principais_sp.Visibility = Visibility.Visible;
-        //    Botoes_Pesquisar_sp.Visibility = Visibility.Hidden;
-        //    Geral_sp.IsHitTestVisible = false;
-        //}
-
-        //private void CancelarEdicao_bt_Click(object sender, RoutedEventArgs e)
-        //{
-        //    Botoes_Principais_sp.Visibility = Visibility.Visible;
-        //    Botoes_Editar_sp.Visibility = Visibility.Hidden;
-        //    ListaEmpresas_lv.IsHitTestVisible = true;
-
-        //    ((EmpresaViewModel)DataContext).OnCancelarEdicaoCommand();
-        //    Geral_sp.IsHitTestVisible = false;
-
-        //    Signatarios_ti.Visibility = Visibility.Visible;
-        //    Contrato_ti.Visibility = Visibility.Visible;
-        //    Anexos_ti.Visibility = Visibility.Visible;
-        //    Caracteristicas_gb.Visibility = Visibility.Visible;
-        //}
-
-        //private void SalvarEdicao_bt_Click(object sender, RoutedEventArgs e)
-        //{
-        //    try
-        //    {
-        //        Check();
-        //        if (!Global.PopupBox("Tem certeza que deseja salvar?", 2))
-        //        {
-        //            return;
-        //        }
-        //        if (_cnpjVerificar)
-        //        {
-        //            if (((EmpresaViewModel)DataContext).ConsultaCNPJ(CNPJ_tb.Text))
-        //            {
-        //                if (Global.PopupBox("CNPJ já cadastrado, impossível alteração!", 4))
-        //                {
-        //                    return;
-        //                }
-
-        //            }
-        //        }
-        //        Botoes_Principais_sp.Visibility = Visibility.Visible;
-        //        //Execute the command
-        //        ((EmpresaViewModel)DataContext).OnSalvarEdicaoCommand();
-        //        Botoes_Editar_sp.Visibility = Visibility.Hidden;
-        //        ListaEmpresas_lv.IsHitTestVisible = true;
-        //        Geral_sp.IsHitTestVisible = false;
-
-        //        Signatarios_ti.Visibility = Visibility.Visible;
-        //        Contrato_ti.Visibility = Visibility.Visible;
-        //        Anexos_ti.Visibility = Visibility.Visible;
-        //        Caracteristicas_gb.Visibility = Visibility.Visible;
-        //    }
-        //    catch (Exception ex)
-        //    {
-
-        //        Global.PopupBox(ex.Message, 4);
-        //    }
-
-
-        //}
-
-        //private void CancelarAdicao_bt_Click(object sender, RoutedEventArgs e)
-        //{
-        //    Botoes_Principais_sp.Visibility = Visibility.Visible;
-        //    ((EmpresaViewModel)DataContext).OnCancelarAdicaoCommand();
-        //    Botoes_Adicionar_sp.Visibility = Visibility.Hidden;
-        //    Geral_sp.IsHitTestVisible = false;
-
-        //    Signatarios_ti.Visibility = Visibility.Visible;
-        //    Contrato_ti.Visibility = Visibility.Visible;
-        //    Anexos_ti.Visibility = Visibility.Visible;
-        //    Caracteristicas_gb.Visibility = Visibility.Visible;
-        //    Geral_bt.Visibility = Visibility.Visible;
-        //}
-        //private void SalvarAdicao_bt_Click(object sender, RoutedEventArgs e)
-        //{
-
-        //    try
-        //    {
-        //        if (!Global.PopupBox("Tem certeza que deseja salvar?", 2))
-        //        {
-        //            return;
-        //        }
-        //        var model = (EmpresaViewModel)DataContext;
-        //        var entity = model.EmpresaSelecionada;
-        //        model.ValidarAdicao(entity);
-
-        //        Botoes_Principais_sp.Visibility = Visibility.Visible;
-        //        ((EmpresaViewModel)DataContext).OnSalvarAdicaoCommand();
-        //        Botoes_Adicionar_sp.Visibility = Visibility.Hidden;
-        //        Geral_sp.IsHitTestVisible = false;
-        //        Signatarios_ti.Visibility = Visibility.Visible;
-        //        Contrato_ti.Visibility = Visibility.Visible;
-        //        Anexos_ti.Visibility = Visibility.Visible;
-        //        Caracteristicas_gb.Visibility = Visibility.Visible;
-        //        Geral_bt.Visibility = Visibility.Visible;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Global.PopupBox(ex.Message, 4);
-        //    }
-
-
-        //}
-        private void Check()
-        {
-            //var cnpjAnterior = Global._cnpjEdicao.RetirarCaracteresEspeciais();
-            //var cnpjAtual = CNPJ_tb.Text.RetirarCaracteresEspeciais();
-            //if (!Utils.IsValidCnpj(cnpjAtual)) { throw new InvalidOperationException("CNPJ inválido!"); }
-
-            //if (cnpjAnterior == "00.000.000/0000-00") //Então a operação é de adição, logo verificar se ha CNPJ apenas no ação de salvar...
-            //{
-            //    var c1 = ((EmpresaViewModel)DataContext).ConsultaCNPJ(cnpjAtual);
-            //    if (c1) throw new InvalidOperationException("CNPJ já cadastrado, impossível inclusão!");
-            //}
-            //else if (cnpjAnterior.CompareTo(cnpjAtual) != 0 && !string.IsNullOrWhiteSpace(cnpjAnterior))
-            //{
-            //    //Então verificar se há cnpj exisitente
-            //    //Verificar se existe
-            //    var c1 = ((EmpresaViewModel)DataContext).ConsultaCNPJ(cnpjAtual);
-            //    if (c1) throw new InvalidOperationException("CNPJ já cadastrado, impossível Edição!");
-            //}
-        }
-
-        private void OnConsultarCnpj_LostFocus(object sender, RoutedEventArgs e)
-        {
-            //try
-            //{
-            //    Check();
-            //    var cnpjAtual = CNPJ_tb.Text.RetirarCaracteresEspeciais();
-            //    CNPJ_tb.Text = cnpjAtual.FormatarCnpj();
-            //}
-            //catch (Exception ex)
-            //{
-            //    Global.PopupBox(ex.Message, 4);
-            //}
-
-        }
-
-
-
-
+        } 
         private void IncluirAtividade_bt_Click(object sender, RoutedEventArgs e)
         {
             //if (TipoAtividade_cb.Text != "" & TipoAtividade_cb.Text != "N/D")
@@ -305,166 +146,26 @@ namespace iModSCCredenciamento.Views
             //}
         }
 
-        private void ExcluirAtividade_bt_Click(object sender, RoutedEventArgs e)
+
+
+        #endregion
+
+        private void OnRemoverTipoAtividade_Click(object sender, RoutedEventArgs e)
         {
-          //  ((EmpresaViewModel)DataContext).OnExcluirAtividadeCommand();
+            if (_viewModel.TipoAtividade == null) return;
+            var idx = lstBoxTipoAtividade.Items.IndexOf(lstBoxTipoAtividade.SelectedItem);
+             _viewModel.TiposAtividades.RemoveAt(idx);
         }
 
-        private void ExcluirAcesso_bt_Click(object sender, RoutedEventArgs e)
+        private void OnAdicionarTipoAtividade_Click(object sender, RoutedEventArgs e)
         {
-           // ((EmpresaViewModel)DataContext).OnExcluirAcessoCommand();
-        }
-
-        private void IncluirCracha_bt_Click(object sender, RoutedEventArgs e)
-        {
-            //if (Cracha_cb.Text != "" & Cracha_cb.Text != "N/D")
-            //{
-
-            //    ((EmpresaViewModel)DataContext).OnInserirCrachaCommand(Convert.ToInt32(Cracha_cb.SelectedValue), Cracha_cb.Text);
-            //    //Cracha_cb.SelectedIndex = 0;
-            //    Cracha_cb.Text = "";
-            //}
-        }
-
-        private void ExcluirCracha_bt_Click(object sender, RoutedEventArgs e)
-        {
-            //((EmpresaViewModel)DataContext).OnExcluirCrachaCommand();
-        }
-
-
-        #region Pendencias
-        private void AbrirPendencias(int codigo, PendenciaTipo tipoPendecia)
-        {
-            try
+            if (_viewModel.TipoAtividade == null) return;
+            var n1 = new Model.EmpresaTipoAtividadeView
             {
-                var frm = new PopupPendencias();
-                frm.Inicializa(codigo, _viewModel.Empresa.EmpresaId, tipoPendecia);
-                frm.ShowDialog();
-                _viewModel.AtualizarDadosPendencias();
-            }
-            catch (Exception ex)
-            {
-                Utils.TraceException(ex);
-            }
-        }
-
-        private void OnPendenciaGeral_Click(object sender, RoutedEventArgs e)
-        {
-            AbrirPendencias(21, PendenciaTipo.Empresa);
-        }
-
-        private void OnPendenciaRepresentantes_Click(object sender, RoutedEventArgs e)
-        {
-            AbrirPendencias(12, PendenciaTipo.Empresa);
-        }
-
-        private void OnPendenciaGeralContratos_Click(object sender, RoutedEventArgs e)
-        {
-            AbrirPendencias(14, PendenciaTipo.Empresa);
-        }
-
-        private void OnPendenciaGeralAnexos_Click(object sender, RoutedEventArgs e)
-        {
-            AbrirPendencias(24, PendenciaTipo.Empresa);
-        }
-
-        #endregion
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        #endregion
-
-        #region Metodos Privados
-        private void OnTabSelected(object sender, RoutedEventArgs e)
-        {
-            //Thickness marginThickness = ListaEmpresas_sp.Margin;
-            //ListaEmpresas_sp.Margin = new Thickness(marginThickness.Left, marginThickness.Top, 170, marginThickness.Bottom);
-            //Botoes_ca.Visibility = Visibility.Visible;
-        }
-
-        private void OnTabUnSelected(object sender, RoutedEventArgs e)
-        {
-            //Thickness marginThickness = ListaEmpresas_sp.Margin;
-            //ListaEmpresas_sp.Margin = new Thickness(marginThickness.Left, marginThickness.Top, 0, marginThickness.Bottom);
-            //Botoes_ca.Visibility = Visibility.Hidden;
-        }
-
-        #endregion
-
-        private void NumberOnly(object sender, TextCompositionEventArgs e)
-        {
-            Regex regex = new Regex("[^0-9]+");
-            e.Handled = regex.IsMatch(e.Text);
-        }
-
-        //private void ListaEmpresas_lv_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        //{
-        //    if (ListaEmpresas_lv.SelectedIndex == -1)
-        //    {
-        //        TabGeral_tc.IsEnabled = false;
-        //        Editar_bt.IsEnabled = false;
-        //        Excluir_bt.IsEnabled = false;
-        //    }
-        //    else
-        //    {
-        //        TabGeral_tc.IsEnabled = true;
-        //        Editar_bt.IsEnabled = true;
-        //        Excluir_bt.IsEnabled = true;
-        //    }
-        //}
-
-        object _removed;
-        //private void TabGeral_tc_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        //{
-        //    try
-        //    {
-        //        if (!ListaEmpresas_sp.IsEnabled)
-        //        {
-        //            if (((object[])e.AddedItems)[0] != _removed)
-        //            {
-        //                if (e.RemovedItems.Count > 0)
-        //                {
-        //                    Dispatcher.BeginInvoke((Action)(() => TabGeral_tc.SelectedItem = ((object[])e.RemovedItems)[0]));
-        //                    _removed = ((object[])e.RemovedItems)[0];
-        //                }
-        //            }
-        //        }
-
-        //    }
-        //    catch
-        //    {
-
-        //    }
-        //}
-
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
-        {
-            //((EmpresaViewModel)this.DataContext).CarregaColecoesIniciais();
-        }
-
-        private void Pesquisar_Click(object sender, RoutedEventArgs e)
-        {
-
+                TipoAtividadeId = _viewModel.TipoAtividade.TipoAtividadeId,
+                Descricao = _viewModel.TipoAtividade.Descricao
+            };
+            _viewModel.TiposAtividades.Add(n1);   
         }
     }
-
 }

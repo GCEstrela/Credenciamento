@@ -13,8 +13,7 @@ namespace iModSCCredenciamento.Views.Model
         public int EmpresaTipoAtividadeId { get; set; }
         public int EmpresaId { get; set; }
         public int TipoAtividadeId { get; set; }
-        public string Descricao { get; set; }
-
+        public string Descricao { get; set; } 
         #endregion
     }
 }
