@@ -1,179 +1,203 @@
 ﻿<UserControl x:Class="iModSCCredenciamento.Views.EmpresasSignatariosView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:iModSCCredenciamento.Views"
              xmlns:i="clr-namespace:iModSCCredenciamento.Funcoes"
+             d:DataContext="{d:DesignInstance viewModels:EmpresasSignatariosViewModel , IsDesignTimeCreatable=True}"
              xmlns:wpf="clr-namespace:CSharpControls.Wpf;assembly=CSharpControls.Wpf"
+             xmlns:viewModels="clr-namespace:iModSCCredenciamento.ViewModels"
 
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="1073.333"  Loaded="UserControl_Loaded"  >
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="1000"  >
     <UserControl.Resources>
         <i:FormateTel x:Key="FormateTel" />
         <i:StringToImageConverter x:Key="StringToImageConverter" />
         <i:CheckTeste x:Key="CheckTeste" />
     </UserControl.Resources>
-    <Grid >
-        <StackPanel >
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition Height="180"  />
-                </Grid.RowDefinitions>
+    <Grid Height="450" VerticalAlignment="Top">
+        <StackPanel Orientation="Vertical">
+          
+            <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}"
+                      Background="Crimson"
+                      x:Name="Responsavel_gb" Header="Dados dos Representantes" Margin="0,0,10,0">
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel Margin="1" Width="958">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
+                                    Margin="1">
+                            <Label Content="Nome:" Height="28" Width="56" Margin="1" Foreground="#FFD0D0D0" />
+                            <TextBox x:Name="Nome_tb" MaxLength="50" CharacterCasing="Upper"
+                                     Text="{Binding Entity.Nome, UpdateSourceTrigger=PropertyChanged}" IsEnabled="True"
+                                     Height="24" Width="456" />
+                            <Label Content="CPF:" Height="28" Width="50" HorizontalContentAlignment="Right"
+                                   Foreground="#FFD0D0D0" />
+                            <TextBox x:Name="txtCpf" MaxLength="15" CharacterCasing="Upper"
+                                     Text="{Binding Entity.Cpf, UpdateSourceTrigger=PropertyChanged}"
+                                     IsEnabled="True" Height="24" Width="120" Foreground="White"
+                                     VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
+                                       LostFocus="FormatCnpj_LostFocus" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
+                                    Margin="1">
+                            <Label Content="E-Mail:" Height="28" Width="56" Margin="1" Foreground="#FFD0D0D0" />
+                            <TextBox x:Name="Email_tb" MaxLength="50" CharacterCasing="Lower"
+                                     Text="{Binding Entity.Email, UpdateSourceTrigger=PropertyChanged}"
+                                     IsEnabled="True" Height="24" Width="301" />
 
-                <StackPanel Grid.Row="0" x:Name="Linha0_sp"  >
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="0*"/>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="620*"/>
-                            <ColumnDefinition Width="620*" />
-                        </Grid.ColumnDefinitions>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
+                                    Margin="1">
+                            <Label Content="Telefone:" Height="28" Width="56" Margin="1" Foreground="#FFD0D0D0" />
+                            <TextBox Foreground="#FFD0D0D0" x:Name="Telefone_tb" MaxLength="15" CharacterCasing="Upper"
+                                     Text="{Binding Entity.Telefone,Converter={ StaticResource FormateTel}, UpdateSourceTrigger=PropertyChanged}"
+                                     HorizontalContentAlignment="Center" IsEnabled="True" Height="24" Width="100" />
+                            <Label Content="Celular:" Height="28" Width="56" Foreground="#FFD0D0D0" />
+                            <TextBox Foreground="#FFD0D0D0" x:Name="Celular_tb" CharacterCasing="Upper"
+                                     Text="{Binding Entity.Celular,Converter={ StaticResource FormateTel}, UpdateSourceTrigger=PropertyChanged}"
+                                     IsEnabled="True" Height="24" HorizontalContentAlignment="Center" Width="100" />
+                        </StackPanel>
 
-                        <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}"    x:Name="Responsavel_gb"  Grid.Row="1" Grid.Column="0" Height="200" Header="Dados dos Representantes" Margin="10,10,10,10" VerticalAlignment="Stretch" Grid.ColumnSpan="2" >
-                            <StackPanel Orientation="Horizontal">
-                                <StackPanel Margin="10,10,-2,0">
-                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,10" >
-                                        <Label Content="Nome:" Height="28" Width="107" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                        <TextBox  x:Name="Nome_tb" MaxLength="50" CharacterCasing="Upper" Text="{Binding SelectedItem.Nome, ElementName=ListaSegnatarios_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="456"/>
-                                        <Label Content="CPF:" Height="28" Width="50" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                        <TextBox x:Name="CPF_tb" MaxLength="15" CharacterCasing="Upper"  Text="{Binding SelectedItem.CPF, ElementName=ListaSegnatarios_lv, UpdateSourceTrigger=PropertyChanged}"
-                                                               IsEnabled="True"  Height="24"  Width="120" Background="#FF1E2022" Foreground="White" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" LostKeyboardFocus="CPF_tb_LostKeyboardFocus" LostFocus="CPF_tb_LostFocus"  />
-                                    </StackPanel>
-                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0" >
-                                        <Label Content="E-Mail:" Height="28" Width="108" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                        <TextBox  x:Name="Email_tb" MaxLength="50" CharacterCasing="Lower"  Text="{Binding SelectedItem.Email, ElementName=ListaSegnatarios_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="301"/>
-                                        <Label Content="Telefone:" Height="28" Width="70" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                        <TextBox Background="#FF1E2022" Foreground="#FFD0D0D0" x:Name="Telefone_tb" MaxLength="15"  CharacterCasing="Upper"
-                                             Text="{Binding SelectedItem.Telefone, ElementName=ListaSegnatarios_lv,Converter={ StaticResource FormateTel}, UpdateSourceTrigger=PropertyChanged}"  HorizontalContentAlignment="Center" IsEnabled="True"  Height="24"  Width="100"/>
-                                        <Label Content="Celular:" Height="28" Width="50" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0"  />
-                                        <TextBox  Background="#FF1E2022" Foreground="#FFD0D0D0" x:Name="Celular_tb"  CharacterCasing="Upper"
-                                              Text="{Binding SelectedItem.Celular, ElementName=ListaSegnatarios_lv,Converter={ StaticResource FormateTel}, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"   Height="24"  HorizontalContentAlignment="Center" Width="100"/>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
+                                    Margin="1">
 
+                            <wpf:ToggleSwitch x:Name="Principal_tw" HeaderHorizontalAlignment="Stretch" Width="225"
+                                              HorizontalAlignment="Right"
+                                              SwitchContentPlacement="Right" Content="Representante Principal:"
+                                              CheckedText="Sim" UncheckedText="Não"
+                                              IsChecked="{Binding Entity.Principal,
+                                    UpdateSourceTrigger=PropertyChanged, ConverterParameter='Principal_tw'}"
+                                              Foreground="#FFD0D0BE" UncheckedBackground="Gray"
+                                              UncheckedBorderBrush="Gray" UncheckedForeground="#FFAEAEAE" />
 
-                                    </StackPanel>
+                            <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                                <Label Content="Ficha Cadastral:" Height="28" Width="93" Margin="0,0,5,0"
+                                       HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
 
-                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,20,0,5" Width="547">
-
-                                        <wpf:ToggleSwitch x:Name="Principal_tw"  HeaderHorizontalAlignment="Stretch" Width="225" HorizontalAlignment="Right"
-                                                         SwitchContentPlacement="Right"  Content="Representante Principal:" CheckedText="Sim" UncheckedText="Não"
-                                                         IsChecked="{Binding SelectedItem.Principal, ElementName=ListaSegnatarios_lv,
-                                                            UpdateSourceTrigger=PropertyChanged, ConverterParameter='Principal_tw'}"
-                                                              Foreground="#FFD0D0BE" UncheckedBackground="Gray" UncheckedBorderBrush="Gray" UncheckedForeground="#FFAEAEAE" 
-                                                         />
-                                        <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Margin="40,0" >
-                                            <Label Content="Ficha Cadastral:" Height="28" Width="93" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-
-                                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal" Margin="0,10" >
-                                                <Button x:Name="BuscarArquivo_bt" Height="24" Margin="10,0,0,0" VerticalAlignment="Center" Width="24" Click="BuscarArquivo_bt_Click" >
-                                                    <StackPanel>
-                                                        <Image Source="/iModSCCredenciamento;component/Resources/Pasta.ico"/>
-                                                    </StackPanel>
-                                                </Button>
-                                                <Button x:Name="AbrirArquivo_bt" Height="24" Margin="10,0,0,0" VerticalAlignment="Center" Width="24" Click="AbrirArquivo_bt_Click" >
-                                                    <StackPanel>
-                                                        <Image Source="/iModSCCredenciamento;component/Resources/Olho.png"/>
-                                                    </StackPanel>
-                                                </Button>
-                                            </StackPanel>
+                                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center"
+                                            Orientation="Horizontal" Margin="0,10">
+                                    <Button x:Name="BuscarArquivo_bt" Height="24" Margin="10,0,0,0"
+                                            VerticalAlignment="Center" Width="24" Click="OnUpLoad_Click">
+                                        <StackPanel>
+                                            <Image Source="/iModSCCredenciamento;component/Resources/Pasta.ico" />
                                         </StackPanel>
-                                    </StackPanel>
-
+                                    </Button>
+                                    <Button x:Name="AbrirArquivo_bt" Height="24" Margin="10,0,0,0"
+                                            VerticalAlignment="Center" Width="24" Click="OnDownload_Click">
+                                        <StackPanel>
+                                            <Image Source="/iModSCCredenciamento;component/Resources/Olho.png" />
+                                        </StackPanel>
+                                    </Button>
                                 </StackPanel>
-
-
                             </StackPanel>
-
-
-                        </GroupBox>
-
-
-                    </Grid>
-
-                </StackPanel>
-                <Grid Grid.Row="1" >
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition Width="164"  />
-                    </Grid.ColumnDefinitions>
-                    <StackPanel  Margin="10,0,0,0" Grid.Column="0">
-                        <ListView x:Name="ListaSegnatarios_lv" Margin="0,0,0,0" Height="180"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-                                      ItemsSource="{Binding Signatarios, Mode=TwoWay}" SelectedIndex="{Binding Path=SelectedIndex, Mode=TwoWay}" 
-                                      SelectedItem="{Binding Path = SignatarioSelecionado, Mode=TwoWay}" SelectionChanged="ListaSegnatarios_lv_SelectionChanged"  >
-                            <!--ScrollViewer.CanContentScroll="True" MaxHeight="150"  Visibility="Visible" SelectionMode="Single"  Background="#FF4E4E4E" Foreground="White" HorizontalAlignment="Left" SelectionChanged="ListaEmpresas_lv_SelectionChanged"-->
-                            <ListView.View>
-                                <GridView FrameworkElement.FlowDirection="RightToLeft">
-                                    <GridViewColumn Width="88" Header="Principal"  >
-                                        <GridViewColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <!--<CheckBox  IsChecked="{Binding Ativa}" IsHitTestVisible="False" />-->
-                                                <wpf:ToggleSwitch HeaderHorizontalAlignment="Stretch" Width="100" HorizontalAlignment="Right" SwitchContentPlacement="Right" IsHitTestVisible="False"
-                                                 IsChecked="{Binding Principal}"  Foreground="#FFD0D0BE" UncheckedBackground="Gray" UncheckedBorderBrush="Gray" UncheckedForeground="#FFAEAEAE" UncheckedText="" CheckedText="" SwitchWidth="44" />
-                                            </DataTemplate>
-                                        </GridViewColumn.CellTemplate>
-                                    </GridViewColumn>
-                                    <GridViewColumn Width="300" Header="Nome"  >
-                                        <GridViewColumn.CellTemplate  >
-                                            <DataTemplate>
-                                                <TextBlock Text="{Binding Nome}"  TextAlignment="Center" Foreground="{Binding Principal,  Converter={StaticResource CheckTeste}, ConverterParameter='Principal_tw'}"/>
-                                            </DataTemplate>
-                                        </GridViewColumn.CellTemplate>
-                                    </GridViewColumn>
-                                    <GridViewColumn Width="200" Header="E-mail"  >
-                                        <GridViewColumn.CellTemplate  >
-                                            <DataTemplate>
-                                                <TextBlock Text="{Binding Email}"  TextAlignment="Center" Foreground="{Binding Principal,  Converter={StaticResource CheckTeste}, ConverterParameter='Principal_tw'}"/>
-                                            </DataTemplate>
-                                        </GridViewColumn.CellTemplate>
-                                    </GridViewColumn>
-                                    <GridViewColumn Width="150" Header="Telefone"  >
-                                        <GridViewColumn.CellTemplate  >
-                                            <DataTemplate>
-                                                <TextBlock Text="{Binding Telefone,Converter={ StaticResource FormateTel}}"  TextAlignment="Center" Foreground="{Binding Principal,  Converter={StaticResource CheckTeste}, ConverterParameter='Principal_tw'}"/>
-                                            </DataTemplate>
-                                        </GridViewColumn.CellTemplate>
-                                    </GridViewColumn>
-                                    <GridViewColumn Width="150" Header="Celular"  >
-                                        <GridViewColumn.CellTemplate  >
-                                            <DataTemplate>
-                                                <TextBlock Text="{Binding Celular,Converter={ StaticResource FormateTel}}"  TextAlignment="Center" Foreground="{Binding Principal,  Converter={StaticResource CheckTeste}, ConverterParameter='Principal_tw'}"/>
-                                            </DataTemplate>
-                                        </GridViewColumn.CellTemplate>
-                                    </GridViewColumn>
-
-                                </GridView>
-                            </ListView.View>
-                        </ListView>
+                        </StackPanel>
 
                     </StackPanel>
-                    <Canvas x:Name="Botoes_ca"  Grid.Column="1"  HorizontalAlignment="Right" Width="158"  >
-                        <StackPanel x:Name="Botoes_Principais_sp" >
-                            <Button x:Name="Pesquisar_bt" Content="Pesquisar"  Height="40" Width="148"  Click="Pesquisar_bt_Click" Margin="0,0,0,7" />
-                            <Button x:Name="Editar_bt" Content="Editar"  Height="40" Width="148"  Click="Editar_bt_Click" Margin="0,0,0,7"  />
-                            <Button x:Name="Adicionar_bt" Content="Adicionar"  Height="40" Width="148" Click="Adicionar_bt_Click" Margin="0,0,0,7"  />
-                            <Button x:Name="Excluir_bt" Content="Excluir"  Height="40" Width="148"  Click="Excluir_bt_Click" Margin="0,0,0,7"  />
-                        </StackPanel>
-                        <StackPanel x:Name="Botoes_Pesquisar_sp" Visibility="Hidden" >
-                            <Button x:Name="ExecutarPesquisa_bt" Content="Executar Pequisa"  Height="40" Width="148"  Click="ExecutarPesquisa_bt_Click" Margin="0,0,0,7" Background="Green" />
-                            <Button x:Name="CancelarPesquisa_bt" Content="Cancelar Pesquisa"  Height="40" Width="148"  Click="CancelarPesquisa_bt_Click" Margin="0,0,0,7" Background="Red"  />
-                        </StackPanel>
-                        <StackPanel x:Name="Botoes_Editar_sp" Visibility="Hidden"  >
-                            <Button x:Name="CancelarEdicao_bt" Content="Cancelar Edição"  Height="40" Width="148"  Click="CancelarEdicao_bt_Click" Margin="0,0,0,7" Background="Red"   />
-                            <Button x:Name="SalvarEdicao_bt" Content="Salvar"  Height="40" Width="148"  Click="SalvarEdicao_bt_Click" Margin="0,0,0,7" Background="Green"   />
-                        </StackPanel>
-                        <StackPanel x:Name="Botoes_Adicionar_sp" Visibility="Hidden"  >
-                            <Button x:Name="CancelarAdicao_bt" Content="Cancelar Adição"  Height="40" Width="148" Click="CancelarAdicao_bt_Click" Margin="0,0,0,7" Background="Red"   />
-                            <Button x:Name="SalvarAdicao_bt" Content="Salvar"  Height="40" Width="148"  Click="SalvarAdicao_bt_Click" Margin="0,0,0,7"  Background="Green"   />
-                        </StackPanel>
 
-                    </Canvas>
-                </Grid>
-            </Grid>
+
+                </StackPanel>
+
+
+            </GroupBox>
+
+            <StackPanel Orientation="Horizontal" Margin="0,10,10,0">
+                <ComboBox  Width="150" ItemsSource="{Binding ListaPesquisa }"
+             DisplayMemberPath="Value"
+             SelectedValue="Key" 
+             SelectedItem="{Binding PesquisarPor}" VerticalContentAlignment="Center"/>
+                <TextBox Width="200" Margin="10,0,0,0" Text="{Binding NomePesquisa, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" >
+                    <TextBox.InputBindings>
+                        <KeyBinding Command="{Binding Path=PesquisarCommand}" Key="Enter" />
+                    </TextBox.InputBindings>
+                </TextBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Height="258" Margin="0,10,10,0">
+
+                <ListView x:Name="ListaSegnatarios_lv"
+                          IsEnabled="{Binding IsEnableLstView}"
+                          ItemsSource="{Binding EntityObserver, Mode=TwoWay}"
+                          SelectedItem="{Binding Entity, Mode=TwoWay}" Width="835" Margin="0,0,0,80">
+                    <!--ScrollViewer.CanContentScroll="True" MaxHeight="150"  Visibility="Visible" SelectionMode="Single"  Background="#FF4E4E4E" Foreground="White" HorizontalAlignment="Left" SelectionChanged="ListaEmpresas_lv_SelectionChanged"-->
+                    <ListView.View>
+                        <GridView FrameworkElement.FlowDirection="RightToLeft">
+                            <GridViewColumn Width="88" Header="Principal">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <!--<CheckBox  IsChecked="{Binding Ativa}" IsHitTestVisible="False" />-->
+                                        <wpf:ToggleSwitch HeaderHorizontalAlignment="Stretch" Width="100"
+                                                          HorizontalAlignment="Right" SwitchContentPlacement="Right"
+                                                          IsHitTestVisible="False"
+                                                          IsChecked="{Binding Principal}" Foreground="#FFD0D0BE"
+                                                          UncheckedBackground="Gray" UncheckedBorderBrush="Gray"
+                                                          UncheckedForeground="#FFAEAEAE" UncheckedText=""
+                                                          CheckedText="" SwitchWidth="44" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Width="300" Header="Nome">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Nome}" TextAlignment="Center"
+                                                   Foreground="{Binding Principal, ConverterParameter=Principal_tw, Converter={StaticResource CheckTeste}}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Width="200" Header="E-mail">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Email}" TextAlignment="Center"
+                                                   Foreground="{Binding Principal, ConverterParameter=Principal_tw, Converter={StaticResource CheckTeste}}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Width="150" Header="Telefone">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Telefone, Converter={StaticResource FormateTel}}"
+                                                   TextAlignment="Center"
+                                                   Foreground="{Binding Principal, ConverterParameter=Principal_tw, Converter={StaticResource CheckTeste}}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Width="150" Header="Celular">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Celular, Converter={StaticResource FormateTel}}"
+                                                   TextAlignment="Center"
+                                                   Foreground="{Binding Principal, ConverterParameter=Principal_tw, Converter={StaticResource CheckTeste}}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+                <StackPanel Orientation="Vertical" Margin="10,0,0,0" HorizontalAlignment="Right" Width="155"
+                            Height="183" VerticalAlignment="Top">
+
+                    <!--<Button x:Name="btnPesquisar" Content="Pesquisar" ToolTip="Pesquisar"  Height="30" Width="148"  Click="Pesquisar_bt_Click" Margin="0,0,0,7" />-->
+                    <Button x:Name="btnAdicionar" Content="Adicionar" ToolTip="Adicionar"
+                            IsEnabled="{Binding Comportamento.IsEnableCriar}" Command="{Binding PrepareCriarCommand}"
+                            Height="30" Width="148" Margin="0,0,0,7" />
+                    <Button x:Name="btnEditar" Content="Editar" Height="30" ToolTip="Editar"
+                            IsEnabled="{Binding Comportamento.IsEnableEditar}"
+                            Command="{Binding PrepareAlterarCommand}" Width="148" Margin="0,0,0,7" />
+                    <Button x:Name="btnExcluir" Content="Remover" Height="30" Width="148" ToolTip="Remover"
+                            IsEnabled="{Binding Comportamento.isEnableRemover}"
+                            Command="{Binding PrepareRemoverCommand}" Margin="0,0,0,7" />
+                    <Button x:Name="btnCancelar" Content="Cancelar" ToolTip="Cancelar" Height="30" Width="148"
+                            IsEnabled="{Binding Comportamento.isEnableCancelar}"
+                            Command="{Binding PrepareCancelarCommand}" Margin="0,0,0,7" />
+                    <Button x:Name="btnSalvar" Content="Salvar" ToolTip="Salvar" Height="30" Width="148"
+                            IsEnabled="{Binding Comportamento.isEnableSalvar}" Command="{Binding PrepareSalvarCommand}"
+                            Margin="0,0,0,7" />
+
+                </StackPanel>
+
+            </StackPanel>
+
         </StackPanel>
+
+
     </Grid>
 </UserControl>

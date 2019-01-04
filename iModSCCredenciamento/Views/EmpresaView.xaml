@@ -115,14 +115,13 @@
 
         <Label Content="{Binding Empresa.Nome }" Grid.Column="0" Grid.Row="2" FontSize="14" Foreground="#FF007ACC" Margin="0,1,-94,2" />
 
+        <TabControl x:Name="TabGeral_tc" 
+                    SelectedIndex="{Binding SelectedTabIndex }"
+                    Height="562" VerticalAlignment="Top"
+                    Width="1259" Margin="1,1,-259,-321" 
+                    Grid.Row="3" HorizontalAlignment="Left"      >
 
-
-
-
-
-        <TabControl x:Name="TabGeral_tc" Height="562" VerticalAlignment="Top" Width="1259" Margin="1,1,-259,-321" Grid.Row="3" HorizontalAlignment="Left"      >
-
-            <TabItem x:Name="Geral_ti" Background="{x:Null}"    Margin="0,-2,0,0">
+            <TabItem x:Name="Geral_ti"   Background="{x:Null}"    Margin="0,-2,0,0">
 
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
@@ -139,12 +138,12 @@
                     </StackPanel>
                 </TabItem.Header>
                 <Grid Margin="1" HorizontalAlignment="Left" Width="601">
-                    <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" Header="Identificação"   Height="187" VerticalAlignment="Top" Margin="0,0,2,0">
+                    <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" Header="Identificação" Background="BlueViolet"  Height="187" VerticalAlignment="Top" Margin="0,0,2,0">
                         <StackPanel Orientation="Horizontal" Height="152" Margin="2,0,-2,0" VerticalAlignment="Top">
                             <StackPanel.Resources>
                                 <i:StringToImageConverter x:Key="StringToImageConverter" />
                             </StackPanel.Resources>
-                            <StackPanel Margin="10,10,0,0" Height="131" VerticalAlignment="Top">
+                            <StackPanel Margin="1" Height="131" VerticalAlignment="Top" Width="416">
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="1" >
                                     <Label Content="Código:" Height="28" Width="100" Margin="1" Foreground="#FFD0D0D0" />
                                     <TextBox CharacterCasing="Upper"  x:Name="Codigo_tb"   MaxLength="50" Text="{Binding Empresa.EmpresaId, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"  Height="24"  Width="50"/>
@@ -170,7 +169,7 @@
                                     <Label Content="Insc. Estadual:" Height="28" Width="98" Margin="0,0,5,0" Foreground="#FFD0D0D0" />
                                     <TextBox CharacterCasing="Upper"  x:Name="Ins_Estadual_tb"   MaxLength="11" PreviewTextInput="NumberOnly" Text="{Binding Empresa.InsEst, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"    Width="100"/>
                                     <Label Content="Insc. Municipal:" Height="28" Width="100" Margin="0,0,5,0"  Foreground="#FFD0D0D0" />
-                                    <TextBox CharacterCasing="Upper"  x:Name="Ins_Municipal_tb"   MaxLength="11" PreviewTextInput="NumberOnly" Text="{Binding Empresa.InsMun,   UpdateSourceTrigger=PropertyChanged,  StringFormat=\{0:d\}}"  IsEnabled="True"  Height="24"  Width="99"/>
+                                    <TextBox CharacterCasing="Upper"  x:Name="Ins_Municipal_tb"   MaxLength="11" PreviewTextInput="NumberOnly" Text="{Binding Empresa.InsMun, StringFormat=\{0:d\}, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="99"/>
                                 </StackPanel>
                             </StackPanel>
                             <StackPanel VerticalAlignment="Top" Margin="50,6,20,0" Height="140" Width="101" >
@@ -184,7 +183,7 @@
                     </GroupBox>
 
                     <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" Background="Brown" Grid.Column="0" Header="Endereço"  Margin="0,192,0,0" Height="169" VerticalAlignment="Top" >
-                        <StackPanel Margin="1,1,1,13">
+                        <StackPanel Margin="1">
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="1" >
                                 <Label Content="Logradouro:" Height="28" Width="100" Margin="0,0,5,0"  Foreground="#FFD0D0D0" />
                                 <TextBox CharacterCasing="Upper"  x:Name="Endereco_tb"   MaxLength="50" Text="{Binding Empresa.Endereco, UpdateSourceTrigger=PropertyChanged}"    IsEnabled="True"  Height="24"  Width="457"/>
@@ -207,25 +206,20 @@
                                                   SelectedValuePath="EstadoId" IsSynchronizedWithCurrentItem="True" 
                                                   SelectedIndex="0" 
                                                   SelectedItem="{Binding Estado}"
-                                                  Width="43"/>
-                                <!--<ComboBox x:Name="Estado_cb" MinWidth="50" Height="22" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
-                                              ItemsSource="{Binding Estados}" DisplayMemberPath="Uf" SelectedValue="{Binding Empresa.EstadoId,  UpdateSourceTrigger=PropertyChanged}" 
-                                              SelectedValuePath="EstadoId"  SelectionChanged="{data:MethodBinding Municipios, {Binding SelectedItem.Uf, ElementName=Estado_cb}}" Margin="0,6,0,0" VerticalAlignment="Top"/>-->
-                                <Label Content="Cidade:" Height="28" Width="80"    Foreground="#FFD0D0D0" Margin="0,2,0,3" />
-                                <!--<ComboBox x:Name="Cidade_cb"  MinWidth="50" Height="22"  HorizontalContentAlignment="Left"
-                                                ItemsSource="{Binding Municipios}" DisplayMemberPath="Nome"  SelectedValue="{Binding Empresa.MunicipioId,  UpdateSourceTrigger=PropertyChanged}" 
-                                              SelectedValuePath="MunicipioId" Width="166" Margin="0,6,0,0" VerticalAlignment="Top" />-->
+                                                  Width="53"/>
+                                
+                                <Label Content="Cidade:" Height="28" Width="80"    Foreground="#FFD0D0D0" Margin="0,2,0,3" /> 
                                 <ComboBox x:Name="Cidade_cb" Height="28" 
                                                    ItemsSource="{Binding Municipios}" DisplayMemberPath="Nome"  SelectedValue="{Binding Empresa.MunicipioId,  UpdateSourceTrigger=PropertyChanged}" 
                                                   SelectedValuePath="MunicipioId"
                                                   SelectedIndex="0"
-                                                  Margin="0,2,0,3" Width="150"/>
+                                                  Margin="0,2,0,3" Width="140"/>
                             </StackPanel>
                         </StackPanel>
                     </GroupBox>
 
-                    <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" Background="Crimson"    x:Name="Contato1_gb"  Header="Contatos "    VerticalAlignment="Top" Margin="610,0,-610,0" Height="157" >
-                        <StackPanel Margin="1,1,1,13">
+                    <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" Background="Crimson"    x:Name="Contato1_gb"  Header="Contatos "    VerticalAlignment="Top" Margin="610,0,-610,0" Height="187" >
+                        <StackPanel Margin="1">
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="1" >
                                 <Label Content="Nome:" Height="28" Width="56" Margin="1"  Foreground="#FFD0D0D0" />
                                 <TextBox CharacterCasing="Upper"  x:Name="Contato1_tb"   MaxLength="50" Text="{Binding Empresa.Contato1, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="250"/>
@@ -261,8 +255,8 @@
                     </GroupBox>
 
 
-                    <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}"  Background="Blue"  x:Name="Observacoes_gb"  Header="Observações " Margin="610,162,-610,0" Height="144" VerticalAlignment="Top" >
-                        <StackPanel Margin="1,1,1,0" Height="104"  >
+                    <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}"  Background="Blue"  x:Name="Observacoes_gb"  Header="Observações " Margin="610,192,-610,0" Height="169" VerticalAlignment="Top" >
+                        <StackPanel Margin="1" Height="104"  >
                             <StackPanel Orientation="Vertical" Height="68"    >
                                 <Label Content="Observações:" Foreground="#FFD0D0D0" Margin="10,1,439,1"   />
                                 <TextBox CharacterCasing="Upper"  x:Name="Obs_tb"   MaxLength="50" Text="{Binding Empresa.Obs, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap"  IsEnabled="True" Margin="8,0,114,47" Height="30"/>
@@ -357,17 +351,8 @@
                         </StackPanel>
                     </StackPanel>
                 </TabItem.Header>
-                <!--<ScrollViewer Grid.Row="0"   VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" >
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="54*"/>
-                            <ColumnDefinition Width="1091*"/>
-                            <ColumnDefinition Width="514*"/>
-                        </Grid.ColumnDefinitions>
-                        <local:EmpresasSignatariosView EmpresaSelecionadaIDView="{Binding SelectedItem.EmpresaId, ElementName=ListaEmpresas_lv, UpdateSourceTrigger=PropertyChanged}"
-                                                       Editando="{Binding IsEnabled, ElementName=ListaEmpresas_sp, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10" Grid.ColumnSpan="3" />
-                    </Grid>
-                </ScrollViewer>-->
+                <local:EmpresasSignatariosView x:Name="RepresentanteUs" Margin="10" />
+                 
             </TabItem>
             <TabItem x:Name="Contrato_ti"  Width="200" IsEnabled="{Binding IsEnableTabItem}" >
                 <TabItem.Header>
@@ -409,6 +394,7 @@
                         </StackPanel>
                     </StackPanel>
                 </TabItem.Header>
+                <local:EmpresasAnexosView x:Name="AnexoUs" Margin="10" />
                 <!--<ScrollViewer Grid.Row="0"   VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" >
                     <Grid >
                         <local:EmpresasAnexosView EmpresaSelecionadaIDView="{Binding SelectedItem.EmpresaId, ElementName=ListaEmpresas_lv, UpdateSourceTrigger=PropertyChanged}"

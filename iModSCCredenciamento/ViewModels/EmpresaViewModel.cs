@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using System.Windows.Forms;
 using System.Windows.Input;
 using AutoMapper;
 using iModSCCredenciamento.Helpers;
@@ -88,6 +89,10 @@ namespace iModSCCredenciamento.ViewModels
         ///     Habilita abas
         /// </summary>
         public bool IsEnableTabItem { get; private set; } = true;
+        /// <summary>
+        /// Seleciona o indice da tabcontrol desejada
+        /// </summary>
+        public short SelectedTabIndex { get; set; }
 
         /// <summary>
         ///     Habilita listView
@@ -127,6 +132,7 @@ namespace iModSCCredenciamento.ViewModels
         ///     Dados de municipio armazendas em memoria
         /// </summary>
         public List<MunicipioView> _municipios { get; set; }
+         
 
         #endregion
 
@@ -141,7 +147,7 @@ namespace iModSCCredenciamento.ViewModels
             Comportamento.SalvarAdicao += OnSalvarAdicao;
             Comportamento.SalvarEdicao += OnSalvarEdicao;
             Comportamento.Remover += OnRemover;
-            Comportamento.Cancelar += OnCancelar;
+            Comportamento.Cancelar += OnCancelar; 
         }
 
         #region  Metodos
@@ -325,8 +331,9 @@ namespace iModSCCredenciamento.ViewModels
             Empresa = new EmpresaView();
             IsEnableTabItem = false;
             IsEnableLstView = false;
-            Comportamento.PrepareCriar();
             _prepareCriarCommandAcionado = true;
+            SelectedTabIndex = 0;
+            Comportamento.PrepareCriar();
             _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;
             TiposLayoutCracha.Clear();
             TiposAtividades.Clear();
@@ -434,6 +441,7 @@ namespace iModSCCredenciamento.ViewModels
             IsEnableTabItem = false;
             IsEnableLstView = false;
             _prepareCriarCommandAcionado = false;
+            SelectedTabIndex = 0;
             _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;
             AtualizarDadosTiposAtividades();
             AtualizarDadosTipoCrachas();
@@ -442,10 +450,12 @@ namespace iModSCCredenciamento.ViewModels
         private void PrepareRemover()
         {
             if (Empresa == null) return;
-            Comportamento.PrepareRemover();
             IsEnableLstView = true;
             _prepareCriarCommandAcionado = false;
             _prepareAlterarCommandAcionado = false;
+            SelectedTabIndex = 0;
+            Comportamento.PrepareRemover();
+            
         }
 
         private void OnSalvarAdicao(object sender, RoutedEventArgs e)
@@ -545,6 +555,15 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
+                if (Empresa == null) return;
+                var result = WpfHelp.MboxDialogRemove();
+                if (result != DialogResult.Yes) return;
+
+                var n1 = Mapper.Map<Empresa> (Empresa);
+                _service.Remover(n1);
+                //Retirar empresa da coleção
+                Empresas.Remove (Empresa);
+
                 IsEnableLstView = true;
                 IsEnableTabItem = true;
             }

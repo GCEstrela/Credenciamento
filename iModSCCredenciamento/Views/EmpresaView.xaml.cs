@@ -53,6 +53,11 @@ namespace iModSCCredenciamento.Views
             _viewModel.AtualizarDadosPendencias();
             _viewModel.AtualizarDadosTiposAtividades();
             _viewModel.AtualizarDadosTipoCrachas();
+            //Popular User Controls
+            RepresentanteUs.AtualizarDadosRepresentante(_viewModel.Empresa);
+            AnexoUs.AtualizarDadosAnexo(_viewModel.Empresa);
+            
+
         }
 
         /// <summary>
