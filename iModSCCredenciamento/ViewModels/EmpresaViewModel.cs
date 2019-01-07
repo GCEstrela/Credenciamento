@@ -119,19 +119,19 @@ namespace iModSCCredenciamento.ViewModels
         /// <summary>
         ///     Estados
         /// </summary>
-        public List<EstadoView> Estados { get; set; }
+        public List<Estados> Estados { get; set; }
 
-        public EstadoView Estado { get; set; }
+        public Estados Estado { get; set; }
 
         /// <summary>
         ///     Municipios
         /// </summary>
-        public List<MunicipioView> Municipios { get; set; }
+        public List<Municipio> Municipios { get; set; }
 
         /// <summary>
         ///     Dados de municipio armazendas em memoria
         /// </summary>
-        public List<MunicipioView> _municipios { get; set; }
+        public List<Municipio> _municipios { get; set; }
          
 
         #endregion
@@ -238,7 +238,7 @@ namespace iModSCCredenciamento.ViewModels
             var lst3 = _auxiliaresService.EstadoService.Listar();
             ListaCrachas = Mapper.Map<List<LayoutCrachaView>> (lst1);
             ListaAtividades = Mapper.Map<List<TipoAtividadeView>> (lst2);
-            Estados = Mapper.Map<List<EstadoView>> (lst3);
+            Estados = Mapper.Map<List<Estados>> (lst3);
         }
 
         #endregion
@@ -298,8 +298,8 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 if (string.IsNullOrWhiteSpace (uf)) return;
-                if (Municipios == null) Municipios = new List<MunicipioView>();
-                if (_municipios == null) _municipios = new List<MunicipioView>();
+                if (Municipios == null) Municipios = new List<Municipio>();
+                if (_municipios == null) _municipios = new List<Municipio>();
                 if (Estado == null) return;
 
                 //Verificar se há municipios já carregados...
@@ -309,7 +309,7 @@ namespace iModSCCredenciamento.ViewModels
                 if (!l1.Any())
                 {
                     var l2 = _auxiliaresService.MunicipioService.Listar (null, uf);
-                    _municipios.AddRange (Mapper.Map<List<MunicipioView>> (l2));
+                    _municipios.AddRange (Mapper.Map<List<Municipio>> (l2));
                 }
 
                 var municipios = _municipios.Where (n => n.Uf == uf).ToList();

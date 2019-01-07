@@ -50,13 +50,16 @@ namespace iModSCCredenciamento.Views
 
         private void OnListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            //Atualizar dados ao selecionar uma linha da listview
             _viewModel.AtualizarDadosPendencias();
             _viewModel.AtualizarDadosTiposAtividades();
             _viewModel.AtualizarDadosTipoCrachas();
             //Popular User Controls
-            RepresentanteUs.AtualizarDadosRepresentante(_viewModel.Empresa);
-            AnexoUs.AtualizarDadosAnexo(_viewModel.Empresa);
-            
+            RepresentanteUs.AtualizarDados(_viewModel.Empresa);
+            AnexoUs.AtualizarDados(_viewModel.Empresa);
+            EmpresaContratosUs.AtualizarDados(_viewModel.Empresa);
+
+
 
         }
 
@@ -195,5 +198,7 @@ namespace iModSCCredenciamento.Views
         }
 
         #endregion
+
+         
     }
 }

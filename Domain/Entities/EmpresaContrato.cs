@@ -22,9 +22,9 @@ namespace IMOD.Domain.Entities
         public string Descricao { get; set; }
         public DateTime? Emissao { get; set; }
         public DateTime? Validade { get; set; }
-        public string Terceirizada { get; set; }
+        public bool Terceirizada { get; set; }
         public string Contratante { get; set; }
-        public string IsencaoCobranca { get; set; }
+        public bool IsencaoCobranca { get; set; }
         public int? TipoCobrancaId { get; set; }
         public int? CobrancaEmpresaId { get; set; }
         public string Cep { get; set; }

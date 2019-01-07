@@ -91,13 +91,8 @@
                                 </StackPanel>
                             </StackPanel>
                         </StackPanel>
-
                     </StackPanel>
-
-
                 </StackPanel>
-
-
             </GroupBox>
 
             <StackPanel Orientation="Horizontal" Margin="0,10,10,0">

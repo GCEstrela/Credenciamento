@@ -209,7 +209,7 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                             <GridViewColumn Width="80" Header="Código"  DisplayMemberBinding="{Binding EquipamentoVeiculoID}"/>
-                            <GridViewColumn Width="150" Header="Placa/Identificador"  DisplayMemberBinding="{Binding Placa_Identificador}"/>
+                            <GridViewColumn Width="150" Header="Placa/Identificador"  DisplayMemberBinding="{Binding PlacaIdentificador}"/>
                             <GridViewColumn Width="300"  Header="Veículo/Equipamento" DisplayMemberBinding="{Binding Descricao}"/>
                             <GridViewColumn Width="200"  Header="Modelo" DisplayMemberBinding="{Binding Modelo}"/>
                             <GridViewColumn Width="100"  Header="Cor" DisplayMemberBinding="{Binding Cor}"/>
@@ -325,7 +325,7 @@
                                                 </Grid.ColumnDefinitions>
 
                                                 <Label Grid.Column="0" Grid.Row="0" Content="Série/Chassi:"    Height="28" Margin="0,6,0,7" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0"/>
-                                                <TextBox  Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" x:Name="SeriaChassi_tb"  ToolTip="Série/Chassi" MaxLength="50" CharacterCasing="Upper" Text="{Binding SelectedItem.Serie_Chassi, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True" Height="28" Margin="10,6,0,7" TabIndex="13" />
+                                                <TextBox  Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" x:Name="SeriaChassi_tb"  ToolTip="Série/Chassi" MaxLength="50" CharacterCasing="Upper" Text="{Binding SelectedItem.SerieChassi, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True" Height="28" Margin="10,6,0,7" TabIndex="13" />
                                                 <Label Grid.Column="0" Grid.Row="1" Content="Combustível:" Height="28" Margin="0,7,0,6" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0"/>
                                                 <!--<ComboBox x:Name="Combustivel_cb"  Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding TiposCombustiveis}" SelectedValue="{Binding SelectedItem.TipoCombustivelID, ElementName=ListaVeiculos_lv, UpdateSourceTrigger=PropertyChanged}" DisplayMemberPath="Descricao" IsEnabled="True" Height="28" Margin="10,6"    
                                                            SelectedValuePath="TipoCombustivelID" />-->

@@ -10,7 +10,7 @@
     <Grid VerticalAlignment="Top">
         <StackPanel Orientation="Vertical">
             <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" Background="Chocolate"
-                      x:Name="InformacoesAnexo_gb" Header="Anexos" Grid.Column="0" Margin="10,10,0,10"
+                      x:Name="InformacoesAnexo_gb" Header="Anexos" Grid.Column="0" Margin="0,0,10,0"
                       VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="795">
                 <StackPanel x:Name="InformacoesAnexo_sp" Margin="0,10,10,10" Width="773">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="1">
@@ -48,7 +48,7 @@
                 </StackPanel>
             </GroupBox>
 
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="795" Margin="10,0,0,0">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="795" Margin="0,0,10,0">
                 <ListView x:Name="ListaAnexos_lv" IsEnabled="{Binding IsEnableLstView}" Height="173"
                           HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                           ItemsSource="{Binding EntityObserver, Mode=TwoWay}"

@@ -155,15 +155,29 @@
     <Compile Include="Mapeamento\AutoMapperConfig.cs" />
     <Compile Include="Models\ClasseAreasAcessos.cs" />
     <Compile Include="Models\ClasseClaboradoresPrivilegios.cs" />
+    <Compile Include="Models\ClasseColaboradores.cs" />
+    <Compile Include="Models\ClasseColaboradoresAnexos.cs" />
     <Compile Include="Models\ClasseColaboradoresCredenciais.cs" />
+    <Compile Include="Models\ClasseColaboradoresCursos.cs" />
+    <Compile Include="Models\ClasseColaboradoresEmpresas.cs" />
     <Compile Include="Models\ClasseCredenciaisMotivos.cs" />
     <Compile Include="Models\ClasseCredenciaisStatus.cs" />
     <Compile Include="Models\ClasseCredencial.cs" />
     <Compile Include="Models\ClasseCursos.cs" />
+    <Compile Include="Models\ClasseEmpresas.cs" />
+    <Compile Include="Models\ClasseEmpresasAnexos.cs" />
     <Compile Include="Models\ClasseEmpresasAreasAcessos.cs" />
+    <Compile Include="Models\ClasseEmpresasContratos.cs" />
+    <Compile Include="Models\ClasseEmpresasEquipamentos.cs" />
+    <Compile Include="Models\ClasseEmpresasLayoutsCrachas.cs" />
     <Compile Include="Models\ClasseEmpresasSeguros.cs" />
+    <Compile Include="Models\ClasseEmpresasSignatarios.cs" />
+    <Compile Include="Models\ClasseEmpresasTiposAtividades.cs" />
     <Compile Include="Models\ClasseEmpresasVeiculos.cs" />
     <Compile Include="Models\ClasseEquipamentoVeiculoTiposServicos.cs" />
+    <Compile Include="Models\ClasseEstados.cs" />
+    <Compile Include="Models\ClasseFormatosCredenciais.cs" />
+    <Compile Include="Models\ClasseLayoutsCrachas.cs" />
     <Compile Include="Models\ClasseMunicipios.cs" />
     <Compile Include="Models\ClassePendencias.cs" />
     <Compile Include="Models\ClasseRelatorios.cs" />
@@ -172,12 +186,14 @@
     <Compile Include="Models\ClasseTecnologiasCredenciais.cs" />
     <Compile Include="Models\ClasseTipoEquipamentoVeiculo.cs" />
     <Compile Include="Models\ClasseTiposAcessos.cs" />
+    <Compile Include="Models\ClasseTiposAtividades.cs" />
     <Compile Include="Models\ClasseTiposCobrancas.cs" />
     <Compile Include="Models\ClasseTiposCombustiveis.cs" />
     <Compile Include="Models\ClasseTiposCredenciais.cs" />
+    <Compile Include="Models\ClasseTiposEmpresas.cs" />
     <Compile Include="Models\ClasseTiposEquipamento.cs" />
-    <Compile Include="Models\ClasseTiposServicos.cs" />
     <Compile Include="Models\ClasseTiposPendencias.cs" />
+    <Compile Include="Models\ClasseTiposServicos.cs" />
     <Compile Include="Models\ClasseTiposVeiculo.cs" />
     <Compile Include="Models\ClasseVeiculos.cs" />
     <Compile Include="Models\ClasseVeiculosAnexos.cs" />
@@ -186,12 +202,12 @@
     <Compile Include="Models\ClasseVeiculosPrivilegios.cs" />
     <Compile Include="Models\ClasseVeiculosSeguros.cs" />
     <Compile Include="Models\ClasseVinculos.cs" />
-    <Compile Include="Models\ClasseFormatosCredenciais.cs" />
     <Compile Include="Models\Colaborador.cs" />
     <Compile Include="ViewModels\Commands\CommandBase.cs" />
     <Compile Include="ViewModels\Commands\CommandBase2.cs" />
     <Compile Include="ViewModels\Comportamento\ComportamentoBasico.cs" />
     <Compile Include="ViewModels\Comportamento\IComportamento.cs" />
+    <Compile Include="ViewModels\ContratoViewModel.cs" />
     <Compile Include="Views\Model\AreaAcessoView.cs" />
     <Compile Include="Views\Model\ColaboradorAnexoView.cs" />
     <Compile Include="Views\Model\ColaboradorCredencialView.cs" />
@@ -306,9 +322,6 @@
     <Compile Include="Views\EmpresasAnexosView.xaml.cs">
       <DependentUpon>EmpresasAnexosView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\EmpresasContratosView.xaml.cs">
-      <DependentUpon>EmpresasContratosView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\EmpresasEquipamentosView.xaml.cs">
       <DependentUpon>EmpresasEquipamentosView.xaml</DependentUpon>
     </Compile>
@@ -330,6 +343,9 @@
     </Compile>
     <Compile Include="Views\TermosView.xaml.cs">
       <DependentUpon>TermosView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UsEmpresaContratoView.xaml.cs">
+      <DependentUpon>UsEmpresaContratoView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\VeiculosAnexosView.xaml.cs">
       <DependentUpon>VeiculosAnexosView.xaml</DependentUpon>
@@ -493,10 +509,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\EmpresasContratosView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Views\EmpresasEquipamentosView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -522,6 +534,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\TermosView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UsEmpresaContratoView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
