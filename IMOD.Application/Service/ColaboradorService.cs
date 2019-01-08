@@ -6,12 +6,14 @@
 
 #region
 
+using System;
 using IMOD.Application.Interfaces;
 using IMOD.Domain.Entities;
 using IMOD.Domain.EntitiesCustom;
 using IMOD.Domain.Interfaces;
 using IMOD.Infra.Repositorios;
 using System.Collections.Generic;
+using IMOD.CrossCutting;
 
 #endregion
 
@@ -21,6 +23,15 @@ namespace IMOD.Application.Service
     {
         private readonly IColaboradorRepositorio _repositorio = new ColaboradorRepositorio();
         private readonly IColaboradorCredencialRepositorio _repositorioCredencial = new ColaboradorCredencialRepositorio();
+
+        /// <summary>
+        ///     Pendência serviços
+        /// </summary>
+        public IPendenciaService Pendencia
+        {
+            get { return new PendenciaService(); }
+        }
+
 
         /// <summary>
         /// Credencial X Colaborador Service
@@ -41,6 +52,28 @@ namespace IMOD.Application.Service
         /// Anexo X Colaborador Serice
         /// </summary>
         public IColaboradorAnexoService Anexo { get { return new ColaboradorAnexoService(); } }
+
+        /// <summary>
+        /// Verificar se existe CPF cadastrado
+        /// </summary>
+        /// <param name="cpf"></param>
+        /// <returns></returns>
+        public bool ExisteCpf(string cpf)
+        {
+            if (string.IsNullOrWhiteSpace(cpf)) return false;
+            var v1 = cpf.TemCaracteres();
+            if (v1)
+                throw new InvalidOperationException("O CPF não está num formato válido.");
+            //Verificar formato válido
+            var v2 = Utils.IsValidCpf(cpf);
+            if (!v2)
+                throw new InvalidOperationException("CPF inválido.");
+
+
+            var doc = cpf.RetirarCaracteresEspeciais();
+            var n1 = ObterPorCpf(doc);
+            return n1 != null;
+        }
 
         #region  Metodos
 

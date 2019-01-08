@@ -204,7 +204,6 @@
     <Compile Include="Models\ClasseVinculos.cs" />
     <Compile Include="Models\Colaborador.cs" />
     <Compile Include="ViewModels\Commands\CommandBase.cs" />
-    <Compile Include="ViewModels\Commands\CommandBase2.cs" />
     <Compile Include="ViewModels\Comportamento\ComportamentoBasico.cs" />
     <Compile Include="ViewModels\Comportamento\IComportamento.cs" />
     <Compile Include="ViewModels\ContratoViewModel.cs" />
@@ -736,6 +735,8 @@
     <Content Include="App.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Ok2.ico" />
+    <Content Include="Resources\Okold.ico" />
     <Resource Include="Resources\undo.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>

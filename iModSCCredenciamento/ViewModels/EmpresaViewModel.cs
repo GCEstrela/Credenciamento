@@ -178,11 +178,11 @@ namespace iModSCCredenciamento.ViewModels
             list2.ForEach (n => TiposLayoutCracha.Add (n));
         }
 
-        
+
 
         /// <summary>
         ///     Atualizar dados de pendências
-        /// </summary>
+        /// </summary>ValidarCnpj
         public void AtualizarDadosPendencias()
         {
             if (Empresa == null) return;
