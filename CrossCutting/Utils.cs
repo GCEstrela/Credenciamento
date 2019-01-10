@@ -21,6 +21,7 @@ using System.Net.Mime;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using IMOD.CrossCutting.Entities;
@@ -896,7 +897,7 @@ namespace IMOD.CrossCutting
                         {
                             NullValueHandling = NullValueHandling.Ignore,
                             MissingMemberHandling = MissingMemberHandling.Ignore,
-                            Formatting = Formatting.Indented
+                            Formatting = Newtonsoft.Json.Formatting.Indented
                         }));
                 }
                 return lst;
@@ -1162,10 +1163,10 @@ namespace IMOD.CrossCutting
         /// <returns></returns>
         public static string JsonSerialize(object entity)
         {
-            var jsonconverter = JsonConvert.SerializeObject(entity, Formatting.Indented, new JsonSerializerSettings
+            var jsonconverter = JsonConvert.SerializeObject(entity, Newtonsoft.Json.Formatting.Indented, new JsonSerializerSettings
             {
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-                Formatting = Formatting.Indented
+                Formatting = Newtonsoft.Json.Formatting.Indented
             });
             return jsonconverter;
         }
