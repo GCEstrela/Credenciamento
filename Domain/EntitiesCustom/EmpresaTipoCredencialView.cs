@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
-namespace iModSCCredenciamento.Views.Model
+namespace IMOD.Domain.EntitiesCustom
 {
     public class EmpresaTipoCredencialView
     {
+
         #region  Propriedades
 
         public int ColaboradorCredencialId { get; set; }
@@ -19,5 +20,6 @@ namespace iModSCCredenciamento.Views.Model
         public string Descricao { get; set; }
 
         #endregion
+
     }
 }
