@@ -141,7 +141,7 @@ namespace iModSCCredenciamento.ViewModels
             ListarTodos();
             ItensDePesquisaConfigura();
             ListarDadosAuxiliares();
-            Comportamento = new ComportamentoBasico (true, true, true, true, true);
+            Comportamento = new ComportamentoBasico (true, true, true,false, false);
             TiposAtividades = new ObservableCollection<EmpresaTipoAtividadeView>();
             TiposLayoutCracha = new ObservableCollection<EmpresaLayoutCrachaView>();
             Comportamento.SalvarAdicao += OnSalvarAdicao;
@@ -369,6 +369,7 @@ namespace iModSCCredenciamento.ViewModels
         #region Salva Dados
 
         private void Pesquisar()
+
         {
             try
             {
@@ -543,6 +544,7 @@ namespace iModSCCredenciamento.ViewModels
                 _prepareAlterarCommandAcionado = false;
                 TiposAtividades.Clear();
                 TiposLayoutCracha.Clear();
+                
             }
             catch (Exception ex)
             {

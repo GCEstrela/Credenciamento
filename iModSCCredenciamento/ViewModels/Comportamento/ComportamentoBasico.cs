@@ -73,7 +73,7 @@ namespace iModSCCredenciamento.ViewModels.Comportamento
 
         public void PrepareCancelar()
         {
-            AdicionarEstado (true, true, true, false, true,true);
+            AdicionarEstado (true, true, true, false, false,true);
             _salvar = Acao.Cancelar;
             OnCancelar (new RoutedEventArgs());
         }
