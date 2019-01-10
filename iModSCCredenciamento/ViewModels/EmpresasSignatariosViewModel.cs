@@ -47,7 +47,7 @@ namespace iModSCCredenciamento.ViewModels
         public EmpresasSignatariosViewModel()
         {
             ItensDePesquisaConfigura();
-            Comportamento = new ComportamentoBasico (true, true, true, true, true);
+            Comportamento = new ComportamentoBasico (true, true, true, false, false);
             Comportamento.SalvarAdicao += OnSalvarAdicao;
             Comportamento.SalvarEdicao += OnSalvarEdicao;
             Comportamento.Remover += OnRemover;
@@ -74,6 +74,7 @@ namespace iModSCCredenciamento.ViewModels
         {
             ListaPesquisa = new List<KeyValuePair<int, string>>();
             ListaPesquisa.Add (new KeyValuePair<int, string> (1, "Nome"));
+            ListaPesquisa.Add(new KeyValuePair<int, string>(2, "Cpf"));
             PesquisarPor = ListaPesquisa[0]; //Pesquisa Default
         }
 
