@@ -49,7 +49,7 @@ namespace IMOD.Infra.Ado
                             if (info != null && info.CanWrite)
                             {
                                 var val = dr.GetValue(index);
-                                valorCampo = val.ToString();
+                                valorCampo = val.ToString().Trim();
                                 info.SetValue(newObject, val == DBNull.Value ? null : val, null);
                             }
                         }

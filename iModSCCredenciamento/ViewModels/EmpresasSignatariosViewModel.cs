@@ -47,7 +47,7 @@ namespace iModSCCredenciamento.ViewModels
         public EmpresasSignatariosViewModel()
         {
             ItensDePesquisaConfigura();
-            Comportamento = new ComportamentoBasico(true, true, true, true, true);
+            Comportamento = new ComportamentoBasico (true, true, true, false, false);
             Comportamento.SalvarAdicao += OnSalvarAdicao;
             Comportamento.SalvarEdicao += OnSalvarEdicao;
             Comportamento.Remover += OnRemover;
@@ -58,13 +58,13 @@ namespace iModSCCredenciamento.ViewModels
 
         public void AtualizarDados(EmpresaView entity)
         {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            if (entity == null) throw new ArgumentNullException (nameof (entity));
             _empresaView = entity;
             //Obter dados
-            var list1 = _service.Listar(entity.EmpresaId, null, null, null, null, null, null);
-            var list2 = Mapper.Map<List<EmpresaSignatarioView>>(list1);
+            var list1 = _service.Listar (entity.EmpresaId, null, null, null, null, null, null);
+            var list2 = Mapper.Map<List<EmpresaSignatarioView>> (list1);
             EntityObserver = new ObservableCollection<EmpresaSignatarioView>();
-            list2.ForEach(n => { EntityObserver.Add(n); });
+            list2.ForEach (n => { EntityObserver.Add (n); });
         }
 
         /// <summary>
@@ -73,8 +73,8 @@ namespace iModSCCredenciamento.ViewModels
         private void ItensDePesquisaConfigura()
         {
             ListaPesquisa = new List<KeyValuePair<int, string>>();
-            ListaPesquisa.Add(new KeyValuePair<int, string>(1, "Nome"));
-            ListaPesquisa.Add(new KeyValuePair<int, string>(2, "CPF"));
+            ListaPesquisa.Add (new KeyValuePair<int, string> (1, "Nome"));
+            ListaPesquisa.Add(new KeyValuePair<int, string>(2, "Cpf"));
             PesquisarPor = ListaPesquisa[0]; //Pesquisa Default
         }
 
@@ -96,18 +96,18 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 if (Entity == null) return;
-                var n1 = Mapper.Map<EmpresaSignatario>(Entity);
+                var n1 = Mapper.Map<EmpresaSignatario> (Entity);
                 n1.EmpresaId = _empresaView.EmpresaId;
-                _service.Criar(n1);
+                _service.Criar (n1);
                 //Adicionar no inicio da lista um item a coleção
-                var n2 = Mapper.Map<EmpresaSignatarioView>(n1);
-                EntityObserver.Insert(0, n2);
+                var n2 = Mapper.Map<EmpresaSignatarioView> (n1);
+                EntityObserver.Insert (0, n2);
                 IsEnableLstView = true;
             }
             catch (Exception ex)
             {
-                Utils.TraceException(ex);
-                WpfHelp.PopupBox(ex);
+                Utils.TraceException (ex);
+                WpfHelp.PopupBox (ex);
             }
         }
 
@@ -131,14 +131,14 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 if (Entity == null) return;
-                var n1 = Mapper.Map<EmpresaSignatario>(Entity);
-                _service.Alterar(n1);
+                var n1 = Mapper.Map<EmpresaSignatario> (Entity);
+                _service.Alterar (n1);
                 IsEnableLstView = true;
             }
             catch (Exception ex)
             {
-                Utils.TraceException(ex);
-                WpfHelp.PopupBox(ex);
+                Utils.TraceException (ex);
+                WpfHelp.PopupBox (ex);
             }
         }
 
@@ -155,8 +155,8 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Utils.TraceException(ex);
-                WpfHelp.MboxError("Não foi realizar a operação solicitada", ex);
+                Utils.TraceException (ex);
+                WpfHelp.MboxError ("Não foi realizar a operação solicitada", ex);
             }
         }
 
@@ -173,15 +173,15 @@ namespace iModSCCredenciamento.ViewModels
                 var result = WpfHelp.MboxDialogRemove();
                 if (result != DialogResult.Yes) return;
 
-                var n1 = Mapper.Map<EmpresaSignatario>(Entity);
-                _service.Remover(n1);
+                var n1 = Mapper.Map<EmpresaSignatario> (Entity);
+                _service.Remover (n1);
                 //Retirar empresa da coleção
-                EntityObserver.Remove(Entity);
+                EntityObserver.Remove (Entity);
             }
             catch (Exception ex)
             {
-                Utils.TraceException(ex);
-                WpfHelp.MboxError("Não foi realizar a operação solicitada", ex);
+                Utils.TraceException (ex);
+                WpfHelp.MboxError ("Não foi realizar a operação solicitada", ex);
             }
         }
 
@@ -221,7 +221,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Utils.TraceException(ex);
+                Utils.TraceException (ex);
             }
         }
 
@@ -229,15 +229,15 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                var list2 = Mapper.Map<List<EmpresaSignatarioView>>(list.OrderBy(n => n.Nome));
+                var list2 = Mapper.Map<List<EmpresaSignatarioView>> (list.OrderBy (n => n.Nome));
                 EntityObserver = new ObservableCollection<EmpresaSignatarioView>();
-                list2.ForEach(n => { EntityObserver.Add(n); });
+                list2.ForEach (n => { EntityObserver.Add (n); });
                 //Empresas = observer;
             }
 
             catch (Exception ex)
             {
-                Utils.TraceException(ex);
+                Utils.TraceException (ex);
             }
         }
 
@@ -275,34 +275,34 @@ namespace iModSCCredenciamento.ViewModels
         /// <summary>
         ///     Novo
         /// </summary>
-        public ICommand PrepareCriarCommand => new CommandBase(PrepareCriar, true);
+        public ICommand PrepareCriarCommand => new CommandBase (PrepareCriar, true);
 
         public ComportamentoBasico Comportamento { get; set; }
 
         /// <summary>
         ///     Editar
         /// </summary>
-        public ICommand PrepareAlterarCommand => new CommandBase(PrepareAlterar, true);
+        public ICommand PrepareAlterarCommand => new CommandBase (PrepareAlterar, true);
 
         /// <summary>
         ///     Cancelar
         /// </summary>
-        public ICommand PrepareCancelarCommand => new CommandBase(Comportamento.PrepareCancelar, true);
+        public ICommand PrepareCancelarCommand => new CommandBase (Comportamento.PrepareCancelar, true);
 
         /// <summary>
         ///     Novo
         /// </summary>
-        public ICommand PrepareSalvarCommand => new CommandBase(Comportamento.PrepareSalvar, true);
+        public ICommand PrepareSalvarCommand => new CommandBase (Comportamento.PrepareSalvar, true);
 
         /// <summary>
         ///     Remover
         /// </summary>
-        public ICommand PrepareRemoverCommand => new CommandBase(PrepareRemover, true);
+        public ICommand PrepareRemoverCommand => new CommandBase (PrepareRemover, true);
 
         /// <summary>
         ///     Pesquisar
         /// </summary>
-        public ICommand PesquisarCommand => new CommandBase(Pesquisar, true);
+        public ICommand PesquisarCommand => new CommandBase (Pesquisar, true);
 
         #endregion
     }

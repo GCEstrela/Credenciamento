@@ -20,6 +20,7 @@
         <StackPanel Orientation="Vertical">
 
             <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}"
+                      IsEnabled="{Binding Comportamento.isEnableCancelar}"
                       Background="Crimson"
                       x:Name="Responsavel_gb" Header="Dados dos Representantes" Margin="0,0,10,0">
                 <StackPanel Orientation="Horizontal">

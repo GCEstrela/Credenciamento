@@ -81,7 +81,7 @@ namespace iModSCCredenciamento.ViewModels
         {
              ListarDadosAuxiliares();
             ItensDePesquisaConfigura();
-            Comportamento = new ComportamentoBasico (true, true, true, true, true);
+            Comportamento = new ComportamentoBasico (true, true, true, false, false);
             EntityObserver = new ObservableCollection<EmpresaContratoView>();
             Comportamento.SalvarAdicao += OnSalvarAdicao;
             Comportamento.SalvarEdicao += OnSalvarEdicao;
