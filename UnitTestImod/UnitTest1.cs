@@ -7,7 +7,6 @@
 #region
 
 using IMOD.Application.Service;
-using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
 using IMOD.Infra.Repositorios;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -31,8 +30,7 @@ namespace UnitTestImod
         private CredencialStatus _credencialStatus;
         private CredencialMotivo _credencialMotivo;
         private Curso _curso;
-        private Empresa _empresa;
-        private EmpresaAreaAcesso _empresaAreaAcesso;
+        private Empresa _empresa; 
         private Estados _estados;
         private EmpresaAnexo _empresaAnexo;
         private EmpresaContrato _empresaContrato;
@@ -248,15 +246,6 @@ namespace UnitTestImod
 
             #endregion
 
-            #region Empresa Area Acesso
-
-            _empresaAreaAcesso = new EmpresaAreaAcesso
-            {
-
-            };
-
-            #endregion
-
             #region Empresa Anexo
 
             _empresaAnexo = new EmpresaAnexo
@@ -280,7 +269,7 @@ namespace UnitTestImod
                 Descricao = "Descricao",
                 Endereco = "Endereco",
                 Contratante = "Contrato",
-                IsencaoCobranca = "N",
+                IsencaoCobranca = false,
                 EmailResp = "email@email",
                 Emissao = DateTime.Now,
                 Numero = "21",
@@ -288,7 +277,7 @@ namespace UnitTestImod
                 NomeArquivo = "Nome arquivo",
                 TelefoneResp = "71554212",
                 NumeroContrato = "1124122",
-                Terceirizada = "Terceirizada",
+                Terceirizada = false,
                 EstadoId = 1,
                 MunicipioId = 1,
                 Validade = DateTime.Now.AddDays(10)
@@ -464,9 +453,9 @@ namespace UnitTestImod
                 Modelo = "Modelo A",
                 Patrimonio = "Patrimonio",
                 Renavam = "00025410",
-                Serie_Chassi = "445445454",
+                SerieChassi = "445445454",
                 Largura = "25",
-                Placa_Identificador = "asd58455",
+                PlacaIdentificador = "asd58455",
                 Tipo = "Tipo",
                 DescricaoAnexo = "Descricao Anexo",
                 Pendente31 = true,
@@ -539,10 +528,15 @@ namespace UnitTestImod
         [Description("Objetivo: Cadastrar/ler/alterar/remover dados de Colaboradores e seus relacionamentos")]
         public void Colaborador_Cadastro_geral_com_Sucesso()
         {
+            #region Serviços
+
+            var serviceAuxiliares = new DadosAuxiliaresFacadeService();
             var serviceColaborador = new ColaboradorService();
             var serviceCusrso = new CursoService();
             var serviceEmpresa = new EmpresaService();
             var serviceColaboradorCredencial = new ColaboradorCredencialService();
+
+            #endregion
 
             #region Lista de CPFs
 
@@ -605,47 +599,36 @@ namespace UnitTestImod
                 k++;
             }
 
-            //Alterar 3 Colaboradores
-            for (var j = 0; j < 3; j++)
-            {
-                int lastId = serviceColaborador.Listar().LastOrDefault().ColaboradorId - j;
-                var d1 = serviceColaborador.BuscarPelaChave(lastId);
+            //Alterar 1 Colaborador
+            var d1 = serviceColaborador.BuscarPelaChave(_colaborador.ColaboradorId);
 
-                d1.Nome = $"Colaborador {j * 100}";
-                d1.Cpf = Utils.GerarCpf();
-                d1.Foto = Convert.ToBase64String(File.ReadAllBytes("Arquivos/bean.png"));
+            d1.Nome = "Colaborador UPDATED";
+            d1.Foto = Convert.ToBase64String(File.ReadAllBytes("Arquivos/bean.png"));
 
-                serviceColaborador.Alterar(d1);
-            }
+            serviceColaborador.Alterar(d1);
 
-            //Listar Colaboradores
-            string FirstNome = serviceColaborador.Listar().FirstOrDefault().Nome;
+            //Listar 1 Colaborador
+            var firstColaborador = serviceColaborador.Listar().FirstOrDefault();
 
-            var list1 = serviceColaborador.Listar(0, null, "%" + FirstNome + "%").ToList();
+            var list1 = serviceColaborador.Listar(0, null, "%" + firstColaborador.Nome + "%").ToList();
             Assert.IsNotNull(list1);
 
-            //Prevent from Removing ColaboradorID(1)
-            int second = serviceColaborador.Listar().Skip(1).FirstOrDefault().ColaboradorId;
-            var b0 = serviceColaborador.BuscarPelaChave(second);
+            var b0 = serviceColaborador.BuscarPelaChave(firstColaborador.ColaboradorId);
             Assert.IsNotNull(b0);
 
-            //Remover 1 Colaborador
-            serviceColaborador.Remover(b0);
-            var d2 = serviceColaborador.BuscarPelaChave(b0.ColaboradorId);
-            Assert.IsNull(d2);
-
+            
 
             #endregion
 
             #region CRUD Empresas Vínculos (ColaboradoresEmpresas)
 
+            //Cria nova empresa
             //Já existindo empresa, então nao cadastrar novamente, pois não é possivel haver 2 CNPJ iguais
             var dd0 = serviceEmpresa.BuscarEmpresaPorCnpj(_empresa.Cnpj);
-
             if (dd0 != null)
             {
                 //Remove pendência de empresa (caso exista)
-                var pendencia = serviceEmpresa.Pendencia.Listar().FirstOrDefault (n => n.EmpresaId == _empresa.EmpresaId);
+                var pendencia = serviceEmpresa.Pendencia.ListarPorEmpresa(dd0.EmpresaId).FirstOrDefault();
                 if (pendencia != null)
                 {
                     serviceEmpresa.Pendencia.Remover(pendencia);
@@ -660,32 +643,22 @@ namespace UnitTestImod
                 serviceEmpresa.Criar(_empresa);
             }
 
-            //Cria 1 Contrato vinculado a empresa
+            //Cria 1 Contrato vinculado a empresa criada
             _empresaContrato.EmpresaId = _empresa.EmpresaId;
             serviceEmpresa.ContratoService.Criar(_empresaContrato);
 
-            //Cadastrar 3 vínculos de empresa e contrato
-            for (var j = 0; j < 3; j++)
-            {
-                _colaboradorEmpresa.EmpresaId = _empresa.EmpresaId;
-                _colaboradorEmpresa.EmpresaContratoId = _empresaContrato.EmpresaContratoId;
-                _colaboradorEmpresa.ColaboradorId = _colaborador.ColaboradorId;
-                serviceColaborador.Empresa.Criar(_colaboradorEmpresa);
-            }
+            //Cadastrar 1 vínculos de empresa e contrato
+            _colaboradorEmpresa.EmpresaId = _empresa.EmpresaId;
+            _colaboradorEmpresa.EmpresaContratoId = _empresaContrato.EmpresaContratoId;
+            _colaboradorEmpresa.ColaboradorId = _colaborador.ColaboradorId;
+            serviceColaborador.Empresa.Criar(_colaboradorEmpresa);
 
-            //Alterar 2 Empresas Vínculos
-            for (var j = 0; j < 2; j++)
-            {
-                int lastId = serviceColaborador.Empresa.Listar().LastOrDefault().ColaboradorEmpresaId - j;
-
-                var d0 = serviceColaborador.Empresa.BuscarPelaChave(lastId);
-
-                d0.Cargo = $"Cargo ({j})"; ;
-                d0.Matricula = $"Matrícula ({j})"; ;
-                d0.Ativo = false;
-
-                serviceColaborador.Empresa.Alterar(d0);
-            }
+            //Alterar 1 Empresas Vínculos
+            var dd1 = serviceColaborador.Empresa.BuscarPelaChave(_colaboradorEmpresa.ColaboradorEmpresaId);
+            dd1.Cargo = "Cargo #";
+            dd1.Matricula = "Matrícula ###";
+            dd1.Ativo = true;
+            serviceColaborador.Empresa.Alterar(dd1);
 
             //Listar Empresas Vínculos 
             string FirstMatricula = serviceColaborador.Empresa.Listar().FirstOrDefault().Matricula;
@@ -696,42 +669,29 @@ namespace UnitTestImod
             int Id = serviceColaborador.Empresa.Listar().LastOrDefault().ColaboradorEmpresaId;
 
             var b1 = serviceColaborador.Empresa.BuscarPelaChave(Id);
-            Assert.IsNotNull(b1);
-
-            //Remover 1 Empresa Vínculo
-            serviceColaborador.Empresa.Remover(b1);
-            var d3 = serviceColaborador.Empresa.BuscarPelaChave(b1.ColaboradorEmpresaId);
-            Assert.IsNull(d3);
+            Assert.IsNotNull(b1); 
 
             #endregion
 
             #region CRUD Treinamentos e Certificações (ColaboradoresCursos) 
 
-            //Cadastrar e Vincular Curso a Colaborador (3 registros)
-            for (int i = 0; i < 3; i++)
-            {
-                _curso.Descricao = "Curso " + (i + 1);
-                serviceCusrso.Criar(_curso);
+            //Lista um curso existente
+            _curso = serviceCusrso.Listar().LastOrDefault();
 
-                _colaboradorCurso.ColaboradorId = _colaborador.ColaboradorId;
-                _colaboradorCurso.CursoId = _curso.CursoId;
+            //Vincular Curso a Colaborador
+            _colaboradorCurso.ColaboradorId = _colaborador.ColaboradorId;
+            _colaboradorCurso.CursoId = _curso.CursoId;
+            serviceColaborador.Curso.Criar(_colaboradorCurso);
 
-                serviceColaborador.Curso.Criar(_colaboradorCurso);
-            }
+            //Alterar 1 registros ColaboradorCurso
+            int ccId = serviceColaborador.Curso.Listar().LastOrDefault().ColaboradorCursoId;
+            var cc = serviceColaborador.Curso.BuscarPelaChave(ccId);
 
-            //Alterar 2 registros ColaboradorCurso
+            cc.NomeArquivo = $"Nome Arquivo ({ccId})";
+            cc.Arquivo = $"Arquivo.arq ({ccId})";
+            cc.Controlado = false;
 
-            for (int i = 0; i < 2; i++)
-            {
-                int ccId = serviceColaborador.Curso.Listar().LastOrDefault().ColaboradorCursoId - i;
-                var cc = serviceColaborador.Curso.BuscarPelaChave(ccId);
-
-                cc.NomeArquivo = $"Nome Arquivo ({ccId})";
-                cc.Arquivo = $"Arquivo.arq ({ccId})";
-                cc.Controlado = false;
-
-                serviceColaborador.Curso.Alterar(cc);
-            }
+            serviceColaborador.Curso.Alterar(cc);
 
             //Listar ColaboradoresCursos
             string nomeArquivo = serviceColaborador.Curso.Listar().FirstOrDefault().NomeArquivo;
@@ -740,38 +700,25 @@ namespace UnitTestImod
 
             int cursoId = serviceColaborador.Curso.Listar().LastOrDefault().ColaboradorCursoId;
             var b2 = serviceColaborador.Curso.BuscarPelaChave(cursoId);
-            Assert.IsNotNull(b2);
-
-            //Remover ColaboradorCurso
-            serviceColaborador.Curso.Remover(b2);
-            var d4 = serviceColaborador.Curso.BuscarPelaChave(b2.ColaboradorCursoId);
-            Assert.IsNull(d4);
+            Assert.IsNotNull(b2); 
 
             #endregion
 
             #region CRUD Anexos
 
-            //Cadastrar 2 Anexos
-            for (var j = 0; j < 2; j++)
-            {
-                _colaboradorAnexo.ColaboradorId = _colaborador.ColaboradorId;
-                serviceColaborador.Anexo.Criar(_colaboradorAnexo);
-            }
+            //Cadastrar 1 Anexo
+            _colaboradorAnexo.ColaboradorId = _colaborador.ColaboradorId;
+            serviceColaborador.Anexo.Criar(_colaboradorAnexo);
 
-            //Alterar 2 Anexo
-            for (var j = 0; j < 2; j++)
-            {
-                int lastId = serviceColaborador.Anexo.Listar().LastOrDefault().ColaboradorAnexoId - j;
+            //Alterar 1 Anexo
+            int lastId = serviceColaborador.Anexo.Listar().LastOrDefault().ColaboradorAnexoId;
+            var dd2 = serviceColaborador.Anexo.BuscarPelaChave(lastId);
+            dd2.NomeArquivo = "Anexo ##";
+            dd2.Descricao = "Descrição ###";
 
-                var d0 = serviceColaborador.Anexo.BuscarPelaChave(lastId);
+            serviceColaborador.Anexo.Alterar(dd2);
 
-                d0.NomeArquivo = $"Anexo ({j})";
-                d0.Descricao = $"Descrição ({j})";
-
-                serviceColaborador.Anexo.Alterar(d0);
-            }
-
-            //Listar Anexo 
+            //Listar Anexos 
             string FirstDesc = serviceColaborador.Anexo.Listar().FirstOrDefault().NomeArquivo;
 
             var list4 = serviceColaborador.Anexo.Listar(0, "%" + FirstDesc + "%").ToList();
@@ -780,43 +727,49 @@ namespace UnitTestImod
             int key = serviceColaborador.Anexo.Listar().LastOrDefault().ColaboradorAnexoId;
 
             var b3 = serviceColaborador.Anexo.BuscarPelaChave(key);
-            Assert.IsNotNull(b3);
-
-            //Remover 1 Anexo
-            serviceColaborador.Anexo.Remover(b3);
-            var d5 = serviceColaborador.Anexo.BuscarPelaChave(b3.ColaboradorAnexoId);
-            Assert.IsNull(d5);
+            Assert.IsNotNull(b3); 
 
             #endregion
 
             #region CRUD Credenciais (Colaboradores)
 
-            #region Cadastro em Tabelas Auxiliares
+            #region Tabelas Auxiliares
 
-            //AreaAcesso
-            serviceEmpresa.ContratoService.AreaAceesso.Criar(_areaAcesso);
-            //TipoAcesso
-            serviceEmpresa.ContratoService.TipoCobranca.Criar(_tipoCobrancas);
-            //Status
-            serviceEmpresa.ContratoService.Status.Criar(_status);
-            //TipoAcesso
-            serviceEmpresa.ContratoService.TipoAcesso.Criar(_tipoAcesso);
+            //Lista uma Área de Acesso existente
+            _areaAcesso = serviceAuxiliares.AreaAcessoService.Listar().LastOrDefault();
 
-            //Empresa
-            _empresa.Cnpj = Utils.GerarCnpj();
+            //Lista um Tipo de Acesso existente
+            _tipoAcesso = serviceAuxiliares.TiposAcessoService.Listar().FirstOrDefault();
 
-            int? idStr = serviceEmpresa.Listar().LastOrDefault()?.EmpresaId + 1;
-            if (idStr == 0 || idStr == null)
-            {
-                idStr = 1;
-            }
+            //Lista uma Tipo de Cobrança existente
+            _tipoCobrancas = serviceAuxiliares.TipoCobrancaService.Listar().LastOrDefault();
 
-            _empresa.Nome += idStr.ToString();
+            //Lista um Status existente
+            _status = serviceAuxiliares.StatusService.Listar().LastOrDefault();
 
-            serviceEmpresa.Criar(_empresa);
+            //Lista um Tecnologia de Credencial existente
+            _tecnologiaCredencial = serviceAuxiliares.TecnologiaCredencialService.Listar().LastOrDefault();
 
+            //Lista um Tipo de Credencial existente
+            _tipoCredencial = serviceAuxiliares.TipoCredencialService.Listar().LastOrDefault();
 
-            //EmpresasContratos
+            //Lista um Layout de Crachá existente 
+            _layoutCracha = serviceAuxiliares.LayoutCrachaService.Listar().LastOrDefault();
+
+            //Lista um Formato de Credencial existente 
+            _formatoCredencial = serviceAuxiliares.FormatoCredencialService.Listar().LastOrDefault();
+
+            //Lista um Status de Credencial existente 
+            _credencialStatus = serviceAuxiliares.CredencialStatusService.Listar().FirstOrDefault();
+
+            //Lista um Motivo de Credencial existente
+            _credencialMotivo = serviceAuxiliares.CredencialMotivoService.Listar().FirstOrDefault();
+
+            #endregion
+
+            #region CRUD de Credencial (ColaboradoresCredenciais)
+
+            //Cria 1 registro em EmpresasContratos
             _empresaContrato.EmpresaId = _empresa.EmpresaId;
             _empresaContrato.TipoCobrancaId = _tipoCobrancas.TipoCobrancaId;
             _empresaContrato.EstadoId = _estados.EstadoId;
@@ -826,36 +779,14 @@ namespace UnitTestImod
 
             serviceEmpresa.ContratoService.Criar(_empresaContrato);
 
-            //ColaboradoresEmpresas
+            //Cria 1 registro em ColaboradoresEmpresas
             _colaboradorEmpresa.ColaboradorId = _colaborador.ColaboradorId;
             _colaboradorEmpresa.EmpresaId = _empresa.EmpresaId;
             _colaboradorEmpresa.EmpresaContratoId = _empresaContrato.EmpresaContratoId;
 
             serviceColaborador.Empresa.Criar(_colaboradorEmpresa);
 
-
-            //TecnologiasCredenciais
-            serviceColaboradorCredencial.TecnologiaCredencial.Criar(_tecnologiaCredencial);
-
-            //TipoCredencial
-            serviceColaboradorCredencial.TipoCredencial.Criar(_tipoCredencial);
-
-            //LayoutCracha
-            serviceColaboradorCredencial.LayoutCracha.Criar(_layoutCracha);
-
-            //FormatoCredencial
-            serviceColaboradorCredencial.FormatoCredencial.Criar(_formatoCredencial);
-
-            //CredencialStatus
-            serviceColaboradorCredencial.CredencialStatus.Criar(_credencialStatus);
-
-            //CredencialMotivo
-            serviceColaboradorCredencial.CredencialMotivo.Criar(_credencialMotivo);
-
-            #endregion
-
-            #region CRUD de Credencial (ColaboradoresCredenciais)
-
+            //Cria 1 credencial (ColaboradoresCredenciais)
             _colaboradorCredencial.ColaboradorEmpresaId = _colaboradorEmpresa.ColaboradorEmpresaId;
             _colaboradorCredencial.TecnologiaCredencialId = _tecnologiaCredencial.TecnologiaCredencialId;
             _colaboradorCredencial.TipoCredencialId = _tipoCredencial.TipoCredencialId;
@@ -868,6 +799,8 @@ namespace UnitTestImod
             _colaboradorCredencial.CredencialMotivoId = _credencialMotivo.CredencialMotivoId;
 
             serviceColaboradorCredencial.Criar(_colaboradorCredencial);
+
+            //Altera 1 credencial
             _colaboradorCredencial.Ativa = true;
             _colaboradorCredencial.Validade = DateTime.Today.AddYears(1);
             serviceColaboradorCredencial.Alterar(_colaboradorCredencial);
@@ -881,308 +814,263 @@ namespace UnitTestImod
 
         }
 
-        //[Priority(2)]
-        //[TestMethod]
-        //[Description("Objetivo: Cadastrar/ler/alterar/remover dados de Veículos e seus relacionamentos")]
-        //public void Veiculo_Cadastro_geral_com_Sucesso()
-        //{
-        //    //Serviços
-        //    var serviceVeiculo = new VeiculoService();
-        //    var serviceEmpresa = new EmpresaService();
-        //    var serviceVeiculoCredencial = new VeiculoCredencialService();
-
-
-        //    #region CRUD Veículo (Aba Geral) 
-
-        //    //Cadastrar 4 Veículos
-        //    for (var i = 0; i < 25; i++)
-        //    {
-        //        _veiculo.Descricao = $"Veículo ({i})";
-        //        _veiculo.Ano = $"200{i}";
-        //        _veiculo.Altura = $"{i}m";
-        //        _veiculo.CombustivelId = 1;
-        //        _veiculo.StatusId = 1;
-        //        _veiculo.TipoAcessoId = 1;
-
-
-        //        serviceVeiculo.Criar(_veiculo);
-        //    }
-
-        //       var d1 = serviceVeiculo.BuscarPelaChave(_veiculo.EquipamentoVeiculoId);
-        //       serviceVeiculo.Alterar(d1);
-
-        //    //Listar Veículos
-        //    string FirstNome = serviceVeiculo.Listar().FirstOrDefault().Descricao;
-
-        //    var list1 = serviceVeiculo.Listar("%" + FirstNome + "%", null).ToList();
-        //    Assert.IsNotNull(list1);
-
-        //    //Prevent from Removing EquipamentoVeiculoID(1)
-        //    int second = serviceVeiculo.Listar().Skip(1).FirstOrDefault().EquipamentoVeiculoId;
-        //    var b0 = serviceVeiculo.BuscarPelaChave(second);
-        //    Assert.IsNotNull(b0);
-
-        //    //Remover 1 Veículo
-        //    serviceVeiculo.Remover(b0);
-        //    var d2 = serviceVeiculo.BuscarPelaChave(b0.EquipamentoVeiculoId);
-        //    Assert.IsNull(d2);
-
-        //    #endregion
-        //    //Done
-        //    #region CRUD Empresas Vínculos (VeiculosEmpresas)
-
-        //    //Cadastrar 1 Empresa
-        //    //Já existindo Empresa, então remove e cria novo, evitando duplicidade de CNPJ
-        //    var dd1 = serviceEmpresa.BuscarEmpresaPorCnpj(_empresa.Cnpj);
-        //    if (dd1 != null)
-        //    {
-        //        //Remove vínculo VeiculoEmpresa (caso exista)
-        //        var ddd1 = serviceEmpresa.VeiculoService.Listar().FirstOrDefault(n=>n.EmpresaId==_empresa.EmpresaId);
-        //        if (ddd1 != null)
-        //        {
-        //            serviceVeiculo.Empresa.Remover(ddd1);
-        //        }
-        //        serviceEmpresa.Remover(dd1);
-        //        serviceEmpresa.Criar(dd1);
-        //        _empresa = dd1;
-        //    }
-        //    else
-        //    {
-        //        serviceEmpresa.Criar(_empresa);
-        //    }
-
-        //    //Cadastrar 1 Empresa Contrato
-        //    _empresaContrato.EmpresaId = _empresa.EmpresaId;
-        //    serviceEmpresa.ContratoService.Criar(_empresaContrato);
-
-        //    //Cadastrar 3 Empresas Vínculos
-        //    for (var j = 0; j < 2; j++)
-        //    {
-        //        _veiculoEmpresa.VeiculoId = _veiculo.EquipamentoVeiculoId;
-        //        _veiculoEmpresa.EmpresaId = _empresa.EmpresaId;
-        //        _veiculoEmpresa.EmpresaContratoId = _empresaContrato.EmpresaContratoId;
-        //        serviceVeiculo.Empresa.Criar(_veiculoEmpresa);
-        //    }
-
-        //    //Alterar 2 Empresas Vínculos
-        //    for (var j = 0; j < 2; j++)
-        //    {
-        //        int lastId = serviceVeiculo.Empresa.Listar().LastOrDefault().VeiculoEmpresaId - j;
-
-        //        var d0 = serviceVeiculo.Empresa.BuscarPelaChave(lastId);
-
-        //        d0.Cargo = $"Personal Driver Car {j}"; ;
-        //        d0.Matricula = $"{j}0254{j}"; ;
-        //        d0.Ativo = true;
-
-        //        serviceVeiculo.Empresa.Alterar(d0);
-        //    }
-
-        //    //Listar Empresas Vínculos 
-        //    string FirstMatricula = serviceVeiculo.Empresa.Listar().FirstOrDefault().Matricula;
-
-        //    var list2 = serviceVeiculo.Empresa.Listar(0, null, "%" + FirstMatricula + "%").ToList();
-        //    Assert.IsNotNull(list2);
+        [Priority(2)]
+        [TestMethod]
+        [Description("Objetivo: Cadastrar/ler/alterar/remover dados de Veículos e seus relacionamentos")]
+        public void Veiculo_Cadastro_geral_com_Sucesso()
+        {
+            #region Serviços
+
+            var serviceVeiculo = new VeiculoService();
+            var serviceEmpresa = new EmpresaService();
+            var serviceVeiculoCredencial = new VeiculoCredencialService();
+            var serviceAuxiliares = new DadosAuxiliaresFacadeService();
 
-        //    int Id = serviceVeiculo.Empresa.Listar().LastOrDefault().VeiculoEmpresaId;
+            #endregion
+
+            #region CRUD Veículo (Aba Geral) 
 
-        //    var b1 = serviceVeiculo.Empresa.BuscarPelaChave(Id);
-        //    Assert.IsNotNull(b1);
+            //Cadastrar 1 Veículo
+            _veiculo.Descricao = "Veículo ##";
+            _veiculo.Ano = "200#";
+            _veiculo.Altura = "111m";
+            _veiculo.CombustivelId = 1;
+            _veiculo.StatusId = 1;
+            _veiculo.TipoAcessoId = 1;
 
-        //    //Remover 1 Empresa Vínculo
-        //    serviceVeiculo.Empresa.Remover(b1);
-        //    var d3 = serviceVeiculo.Empresa.BuscarPelaChave(b1.VeiculoEmpresaId);
-        //    Assert.IsNull(d3);
 
-        //    #endregion
-        //    //Loading...
-        //    #region CRUD Seguros (VeiculosSeguros) 
+            serviceVeiculo.Criar(_veiculo);
+
+            //Alterar 1 Veículo
+            var d1 = serviceVeiculo.BuscarPelaChave(_veiculo.EquipamentoVeiculoId);
+            d1.Descricao = $"Veículo ###";
+            d1.Ano = DateTime.Now.AddYears(1).ToString();
+            d1.Foto = Convert.ToBase64String(File.ReadAllBytes("Arquivos/car-equip.jpg"));
 
-        //    //Cadastrar e Vincular Seguro a Veiculo (3 registros)
-        //    for (int i = 0; i < 3; i++)
-        //    {
-        //        _veiculoSeguro.NomeSeguradora = "Seguradora " + (i + 1);
-        //        _veiculoSeguro.VeiculoId = _veiculo.EquipamentoVeiculoId;
+            serviceVeiculo.Alterar(d1);
 
-        //        serviceVeiculo.Seguro.Criar(_veiculoSeguro);
+            //Listar Veículos
+            var firstVeiculo = serviceVeiculo.Listar().FirstOrDefault();
 
-        //        _veiculoSeguro.VeiculoId = _veiculo.EquipamentoVeiculoId;
+            var list1 = serviceVeiculo.Listar("%" + firstVeiculo.Descricao + "%", null).ToList();
+            Assert.IsNotNull(list1);
+            var list11 = serviceVeiculo.BuscarPelaChave(firstVeiculo.EquipamentoVeiculoId);
+            Assert.IsNotNull(list11); 
 
-        //        serviceVeiculo.Seguro.Criar(_veiculoSeguro);
-        //    }
+            #endregion
 
+            #region CRUD Empresas Vínculos (VeiculosEmpresas)
 
-        //    //Alterar 2 registros VeiculosSeguros
+            //Cadastrar 1 Empresa
+            //Já existindo Empresa, então remove e cria novo, evitando duplicidade de CNPJ
+            var dd1 = serviceEmpresa.BuscarEmpresaPorCnpj(_empresa.Cnpj);
+            if (dd1 != null)
+            {
+                //Remove vínculo VeiculoEmpresa (caso exista)
+                var ddd1 = serviceEmpresa.VeiculoService.Listar().FirstOrDefault(n => n.EmpresaId == _empresa.EmpresaId);
+                if (ddd1 != null)
+                {
+                    serviceVeiculo.Empresa.Remover(ddd1);
+                }
+                serviceEmpresa.Remover(dd1);
+                serviceEmpresa.Criar(dd1);
+                _empresa = dd1;
+            }
+            else
+            {
+                serviceEmpresa.Criar(_empresa);
+            }
 
-        //    for (int i = 0; i < 2; i++)
-        //    {
-        //        int ccId = serviceVeiculo.Seguro.Listar().LastOrDefault().VeiculoSeguroId - i;
-        //        var cc = serviceVeiculo.Seguro.BuscarPelaChave(ccId);
+            //Cadastrar 1 Empresa Contrato
+            _empresaContrato.EmpresaId = _empresa.EmpresaId;
+            serviceEmpresa.ContratoService.Criar(_empresaContrato);
 
-        //        cc.NomeSeguradora = $"Nova Seguradora ({ccId})";
-        //        cc.NumeroApolice = $"New Arquivo {ccId}";
-        //        cc.Validade = DateTime.Today;
+            //Cadastrar 1 Empresas Vínculos
+            _veiculoEmpresa.VeiculoId = _veiculo.EquipamentoVeiculoId;
+            _veiculoEmpresa.EmpresaId = _empresa.EmpresaId;
+            _veiculoEmpresa.EmpresaContratoId = _empresaContrato.EmpresaContratoId;
+            serviceVeiculo.Empresa.Criar(_veiculoEmpresa);
 
-        //        serviceVeiculo.Seguro.Alterar(cc);
-        //    }
+            //Alterar 1 Empresas Vínculos
+            var dd0 = serviceVeiculo.Empresa.BuscarPelaChave(_veiculoEmpresa.VeiculoEmpresaId);
 
-        //    //Listar VeiculosSeguros
-        //    string nomeSeguradora = serviceVeiculo.Seguro.Listar().FirstOrDefault().NomeSeguradora;
-        //    var list3 = serviceVeiculo.Seguro.Listar(0, "%" + nomeSeguradora + "%", null).ToList();
-        //    Assert.IsNotNull(list3);
+            dd0.Cargo = "Personal Driver Car ###";
+            dd0.Matricula = "####";
+            dd0.Ativo = true;
 
-        //    int cursoId = serviceVeiculo.Seguro.Listar().LastOrDefault().VeiculoSeguroId;
-        //    var b2 = serviceVeiculo.Seguro.BuscarPelaChave(cursoId);
-        //    Assert.IsNotNull(b2);
+            serviceVeiculo.Empresa.Alterar(dd0);
 
-        //    //Remover VeiculosSeguros
-        //    serviceVeiculo.Seguro.Remover(b2);
-        //    var d4 = serviceVeiculo.Seguro.BuscarPelaChave(b2.VeiculoSeguroId);
-        //    Assert.IsNull(d4);
+            //Listar Empresas Vínculos 
+            string FirstMatricula = serviceVeiculo.Empresa.Listar().FirstOrDefault().Matricula;
 
-        //    #endregion
+            var list2 = serviceVeiculo.Empresa.Listar(0, null, "%" + FirstMatricula + "%").ToList();
+            Assert.IsNotNull(list2);
 
-        //    #region CRUD Anexos
+            int Id = serviceVeiculo.Empresa.Listar().LastOrDefault().VeiculoEmpresaId;
 
-        //    //var veiculo = serviceVeiculo.Listar().FirstOrDefault();
-        //    ////Cadastrar 3 Anexos
-        //    //for (var j = 0; j < 3; j++)
-        //    //{
-        //    //    _veiculoAnexo.VeiculoId = veiculo.EquipamentoVeiculoId;
-        //    //    serviceVeiculo.Anexo.Criar(_veiculoAnexo);
-        //    //}
+            var b1 = serviceVeiculo.Empresa.BuscarPelaChave(Id);
+            Assert.IsNotNull(b1); 
 
-        //    ////Alterar 2 Anexo
-        //    //for (var j = 0; j < 2; j++)
-        //    //{
-        //    //    int lastId = serviceVeiculo.Anexo.Listar().LastOrDefault().VeiculoAnexoId - j;
+            #endregion
 
-        //    //    var d0 = serviceVeiculo.Anexo.BuscarPelaChave(lastId);
+            #region CRUD Seguros (VeiculosSeguros) 
 
-        //    //    d0.NomeArquivo = $"Anexo ({j})";
-        //    //    d0.Descricao = $"Descrição ({j})";
+            //Cadastrar e Vincular Seguro a Veiculo
+            _veiculoSeguro.NomeSeguradora = "Seguradora ###";
+            _veiculoSeguro.VeiculoId = _veiculo.EquipamentoVeiculoId;
+            serviceVeiculo.Seguro.Criar(_veiculoSeguro);
 
-        //    //    serviceVeiculo.Anexo.Alterar(d0);
-        //    //}
+            //Alterar 1 registro VeiculosSeguros
 
-        //    //Listar Anexo 
-        //    string FirstDesc = serviceVeiculo.Anexo.Listar().FirstOrDefault().Descricao;
+            int ccId = serviceVeiculo.Seguro.Listar().LastOrDefault().VeiculoSeguroId;
+            var cc = serviceVeiculo.Seguro.BuscarPelaChave(ccId);
 
-        //    var list4 = serviceVeiculo.Anexo.Listar(0, "%" + FirstDesc + "%").ToList();
-        //    Assert.IsNotNull(list4);
+            cc.NomeSeguradora = $"Nova Seguradora ({ccId})";
+            cc.NumeroApolice = $"New Arquivo {ccId}";
+            cc.Validade = DateTime.Today;
 
-        //    int key = serviceVeiculo.Anexo.Listar().LastOrDefault().VeiculoAnexoId;
+            serviceVeiculo.Seguro.Alterar(cc);
 
-        //    var b3 = serviceVeiculo.Anexo.BuscarPelaChave(key);
-        //    Assert.IsNotNull(b3);
+            //Listar VeiculosSeguros
+            string nomeSeguradora = serviceVeiculo.Seguro.Listar().FirstOrDefault().NomeSeguradora;
+            var list3 = serviceVeiculo.Seguro.Listar(0, "%" + nomeSeguradora + "%", null).ToList();
+            Assert.IsNotNull(list3);
 
-        //    //Remover 1 Anexo
-        //    serviceVeiculo.Anexo.Remover(b3);
-        //    var d5 = serviceVeiculo.Anexo.BuscarPelaChave(b3.VeiculoAnexoId);
-        //    Assert.IsNull(d5);
+            int cursoId = serviceVeiculo.Seguro.Listar().LastOrDefault().VeiculoSeguroId;
+            var b2 = serviceVeiculo.Seguro.BuscarPelaChave(cursoId);
+            Assert.IsNotNull(b2);
+             
 
-        //    #endregion
+            #endregion
 
-        //    #region CRUD Credenciais (Veículos)
+            #region CRUD Anexos
 
+            //Cadastrar Anexos
+            _veiculoAnexo.VeiculoId = _veiculo.EquipamentoVeiculoId;
+            serviceVeiculo.Anexo.Criar(_veiculoAnexo);
 
-        //    #region Cadastro em Tabelas Auxiliares
+            //Alterar Anexo
+            var d0 = serviceVeiculo.Anexo.BuscarPelaChave(_veiculoAnexo.VeiculoAnexoId);
+            d0.NomeArquivo = "Anexo ##";
+            d0.Descricao = "Descrição ###";
+            serviceVeiculo.Anexo.Alterar(d0);
 
-        //    //Cria 1 Area de Acesso
-        //    serviceEmpresa.ContratoService.AreaAceesso.Criar(_areaAcesso);
-        //    //Cria 1 Tipo de Acesso
-        //    serviceEmpresa.ContratoService.TipoCobranca.Criar(_tipoCobrancas);
-        //    //Cria 1 Status
-        //    serviceEmpresa.ContratoService.Status.Criar(_status);
-        //    //Cria 1 Tipo de Acesso
-        //    serviceEmpresa.ContratoService.TipoAcesso.Criar(_tipoAcesso);
+            //Listar Anexos
+            string FirstDesc = serviceVeiculo.Anexo.Listar().FirstOrDefault().Descricao;
 
-        //    //Empresas
-        //    int idStr = serviceEmpresa.Listar().LastOrDefault().EmpresaId + 1;
-        //    _empresa.Nome = "EMPRESA #" + idStr.ToString() + "#";
-        //    serviceEmpresa.Alterar(_empresa);
+            var list4 = serviceVeiculo.Anexo.Listar(0, "%" + FirstDesc + "%").ToList();
+            Assert.IsNotNull(list4);
 
-        //    //EmpresasContratos
-        //    _empresaContrato.EmpresaId = _empresa.EmpresaId;
-        //    _empresaContrato.TipoCobrancaId = _tipoCobrancas.TipoCobrancaId;
-        //    _empresaContrato.EstadoId = _estados.EstadoId;
-        //    _empresaContrato.MunicipioId = _municipio.MunicipioId;
-        //    _empresaContrato.StatusId = _status.StatusId;
-        //    _empresaContrato.TipoAcessoId = _tipoAcesso.TipoAcessoId;
+            int key = serviceVeiculo.Anexo.Listar().LastOrDefault().VeiculoAnexoId;
 
-        //    serviceEmpresa.ContratoService.Alterar(_empresaContrato);
+            var b3 = serviceVeiculo.Anexo.BuscarPelaChave(key);
+            Assert.IsNotNull(b3);
+             
 
-        //    //VeiculosEmpresas
-        //    _veiculoEmpresa.VeiculoId = _veiculo.EquipamentoVeiculoId;
-        //    _veiculoEmpresa.EmpresaId = _empresa.EmpresaId;
-        //    _veiculoEmpresa.EmpresaContratoId = _empresaContrato.EmpresaContratoId;
+            #endregion
 
-        //    serviceVeiculo.Empresa.Alterar(_veiculoEmpresa);
+            #region CRUD Credenciais (Veículos)
 
-        //    //TecnologiasCredenciais
-        //    serviceVeiculoCredencial.TecnologiaCredencial.Criar(_tecnologiaCredencial);
+            #region Tabelas Auxiliares
 
-        //    //TipoCredencial
-        //    serviceVeiculoCredencial.TipoCredencial.Criar(_tipoCredencial);
+            //Lista 1 Área de Acesso existente
+            _areaAcesso = serviceAuxiliares.AreaAcessoService.Listar().FirstOrDefault();
 
-        //    //LayoutCracha
-        //    serviceVeiculoCredencial.LayoutCracha.Criar(_layoutCracha);
+            //Lista 1 Tipo de Acesso existente
+            _tipoCobrancas = serviceAuxiliares.TipoCobrancaService.Listar().FirstOrDefault();
 
-        //    //FormatoCredencial
-        //    serviceVeiculoCredencial.FormatoCredencial.Criar(_formatoCredencial);
+            //Lista 1 Status existente
+            _status = serviceAuxiliares.StatusService.Listar().FirstOrDefault();
 
-        //    //CredencialStatus
-        //    serviceVeiculoCredencial.CredencialStatus.Criar(_credencialStatus);
+            //Lista 1 Tipo de Acesso existente
+            _tipoAcesso = serviceAuxiliares.TiposAcessoService.Listar().FirstOrDefault();
 
-        //    //CredencialMotivo
-        //    serviceVeiculoCredencial.CredencialMotivo.Criar(_credencialMotivo);
+            //Lista 1 Tecnologia de Credencial
+            _tecnologiaCredencial = serviceAuxiliares.TecnologiaCredencialService.Listar().FirstOrDefault();
 
-        //    #endregion
+            //Lista 1 Tipo de Credencial
+            _tipoCredencial = serviceAuxiliares.TipoCredencialService.Listar().FirstOrDefault();
 
-        //    #region CRUD de Credencial (VeiculosCredenciais)
+            //Lista 1 Layout de Crachá
+            _layoutCracha = serviceAuxiliares.LayoutCrachaService.Listar().FirstOrDefault();
 
-        //    //Cadastrar 1 Credencial de Veículo (ColaboradorCredencial)
-        //    _veiculoCredencial.VeiculoEmpresaId = _veiculoEmpresa.VeiculoEmpresaId;
-        //    _veiculoCredencial.TecnologiaCredencialId = _tecnologiaCredencial.TecnologiaCredencialId;
-        //    _veiculoCredencial.TipoCredencialId = _tipoCredencial.TipoCredencialId;
-        //    _veiculoCredencial.LayoutCrachaId = _layoutCracha.LayoutCrachaId;
-        //    _veiculoCredencial.FormatoCredencialId = _formatoCredencial.FormatoCredencialId;
-        //    _veiculoCredencial.CredencialStatusId = _credencialStatus.CredencialStatusId;
-        //    _veiculoCredencial.CredencialStatusId = _credencialStatus.CredencialStatusId;
-        //    _veiculoCredencial.VeiculoPrivilegio1Id = _areaAcesso.AreaAcessoId;
-        //    _veiculoCredencial.VeiculoPrivilegio2Id = _areaAcesso.AreaAcessoId;
-        //    _veiculoCredencial.CredencialmotivoId = _credencialMotivo.CredencialMotivoId;
+            //Lista 1 Formato de Credencial
+            _formatoCredencial = serviceAuxiliares.FormatoCredencialService.Listar().FirstOrDefault();
 
-        //    serviceVeiculoCredencial.Criar(_veiculoCredencial);
+            //Lista 1 Status de Credencial
+            _credencialStatus = serviceAuxiliares.CredencialStatusService.Listar().FirstOrDefault();
 
-        //    //Alterar 1 Credencial de Veículo (ColaboradorCredencial)
-        //    _colaboradorCredencial.Ativa = true;
-        //    _colaboradorCredencial.Validade = DateTime.Today.AddYears(1);
+            //Lista 1 Motivo de Credencial 
+            _credencialMotivo = serviceAuxiliares.CredencialMotivoService.Listar().FirstOrDefault();
 
-        //    serviceVeiculoCredencial.Alterar(_veiculoCredencial);
+            #endregion
 
+            #region CRUD de Credencial (VeiculosCredenciais)
 
-        //    //Listar 1 Credencial de Veículo (ColaboradorCredencial)
-        //    var ccList = serviceVeiculoCredencial.Listar().FirstOrDefault();
-        //    Assert.IsNotNull(ccList);
+            //Atualiza 1 Empresa
+            int idStr = serviceEmpresa.Listar().LastOrDefault().EmpresaId + 1;
+            _empresa.Nome = "EMPRESA #" + idStr  + "#";
+            serviceEmpresa.Alterar(_empresa);
 
-        //    //Remover 1 Credencial de Veículo (ColaboradorCredencial)
-        //    //serviceVeiculoCredencial.Remover(ccList);
-        //    //var ccDel = serviceVeiculoCredencial.BuscarPelaChave(ccList.VeiculoCredencialId);
-        //    //Assert.IsNull(ccDel);
 
-        //    #endregion
+            //Atualiza 1 EmpresaContrato
+            _empresaContrato.EmpresaId = _empresa.EmpresaId;
+            _empresaContrato.TipoCobrancaId = _tipoCobrancas.TipoCobrancaId;
+            _empresaContrato.EstadoId = _estados.EstadoId;
+            _empresaContrato.MunicipioId = _municipio.MunicipioId;
+            _empresaContrato.StatusId = _status.StatusId;
+            _empresaContrato.TipoAcessoId = _tipoAcesso.TipoAcessoId;
 
-        //    #endregion
+            serviceEmpresa.ContratoService.Alterar(_empresaContrato);
 
-        //}
+            //Atualiza 1 VeiculoEmpresa
+            _veiculoEmpresa.VeiculoId = _veiculo.EquipamentoVeiculoId;
+            _veiculoEmpresa.EmpresaId = _empresa.EmpresaId;
+            _veiculoEmpresa.EmpresaContratoId = _empresaContrato.EmpresaContratoId;
+
+            serviceVeiculo.Empresa.Alterar(_veiculoEmpresa);
+
+            //Cadastrar 1 Credencial de Veículo (ColaboradorCredencial)
+            _veiculoCredencial.VeiculoEmpresaId = _veiculoEmpresa.VeiculoEmpresaId;
+            _veiculoCredencial.TecnologiaCredencialId = _tecnologiaCredencial.TecnologiaCredencialId;
+            _veiculoCredencial.TipoCredencialId = _tipoCredencial.TipoCredencialId;
+            _veiculoCredencial.LayoutCrachaId = _layoutCracha.LayoutCrachaId;
+            _veiculoCredencial.FormatoCredencialId = _formatoCredencial.FormatoCredencialId;
+            _veiculoCredencial.CredencialStatusId = _credencialStatus.CredencialStatusId;
+            _veiculoCredencial.CredencialStatusId = _credencialStatus.CredencialStatusId;
+            _veiculoCredencial.VeiculoPrivilegio1Id = _areaAcesso.AreaAcessoId;
+            _veiculoCredencial.VeiculoPrivilegio2Id = _areaAcesso.AreaAcessoId;
+            _veiculoCredencial.CredencialmotivoId = _credencialMotivo.CredencialMotivoId;
+
+            serviceVeiculoCredencial.Criar(_veiculoCredencial);
+
+            //Alterar 1 Credencial de Veículo (ColaboradorCredencial)
+            _colaboradorCredencial.Ativa = true;
+            _colaboradorCredencial.Validade = DateTime.Today.AddYears(1);
+
+            serviceVeiculoCredencial.Alterar(_veiculoCredencial);
+
+
+            //Listar 1 Credencial de Veículo (ColaboradorCredencial)
+            var ccList = serviceVeiculoCredencial.Listar().FirstOrDefault();
+            Assert.IsNotNull(ccList); 
+
+            #endregion
+
+            #endregion
+        }
 
         [Priority(1)]
         [TestMethod]
         [Description("Objetivo cadastrar dados de empresa e seus relacionamentos")]
         public void Empresa_Cadastro_geral_com_Sucesso()
         {
+            #region Serviços
+
             var empresaService = new EmpresaService();
+            var serviceAuxiliar = new DadosAuxiliaresFacadeService();
+
+            #endregion
 
             #region Lista de CNPJs
 
@@ -1221,24 +1109,6 @@ namespace UnitTestImod
 
             #endregion
 
-            #region Cadastrar Caracterisitcas
-
-            var serviceAuxiliar = new DadosAuxiliaresFacadeService();
-            //Tipo de Atividade
-            serviceAuxiliar.TipoAtividadeService.Criar(new TipoAtividade
-            {
-                Descricao = "Descricao"
-            });
-            //Modelo de crachá
-            serviceAuxiliar.LayoutCrachaService.Criar(new LayoutCracha
-            {
-                Nome = "Modelo 1",
-                Valor = 54,
-                LayoutCrachaGuid = "0098787667676666"
-            });
-
-            #endregion
-
             #region Cadastro de Empresa
 
             //Cadastrar Empresas
@@ -1254,7 +1124,7 @@ namespace UnitTestImod
                 if (d0 != null)
                 {
                     //Remove pendência de empresa (caso exista)
-                    var pendencia = empresaService.Pendencia.Listar().FirstOrDefault(n=>n.EmpresaId==d0.EmpresaId);
+                    var pendencia = empresaService.Pendencia.ListarPorEmpresa(d0.EmpresaId).FirstOrDefault();
                     if (pendencia != null)
                     {
                         empresaService.Pendencia.Remover(pendencia);
@@ -1279,9 +1149,9 @@ namespace UnitTestImod
             //Cria EmpresaTipoAtividade
             empresaService.Atividade.Criar(_empresaTipoAtividade);
 
+            var aux = new DadosAuxiliaresFacadeService();
 
-           serviceAuxiliar.LayoutCrachaService.Criar(_layoutCracha);
-
+            aux.LayoutCrachaService.Criar(_layoutCracha);
             _empresaLayoutCracha.LayoutCrachaId = _layoutCracha.LayoutCrachaId;
             _empresaLayoutCracha.EmpresaId = _empresa.EmpresaId;
 
@@ -1292,23 +1162,17 @@ namespace UnitTestImod
 
             #region Cadastro de Signatários
 
-            //Cadastrar 5 Signatario
-            for (var i = 0; i < 5; i++)
-            {
-                _empresaSignatario.EmpresaId = _empresa.EmpresaId;
-                empresaService.SignatarioService.Criar(_empresaSignatario);
-            }
+            //Cadastrar 1 Signatario
+            _empresaSignatario.EmpresaId = _empresa.EmpresaId;
+            empresaService.SignatarioService.Criar(_empresaSignatario);
 
             #endregion
 
             #region Anexos
 
-            //Cadastrar 5 anexos
-            for (var i = 0; i < 5; i++)
-            {
-                _empresaAnexo.EmpresaId = _empresa.EmpresaId;
-                empresaService.AnexoService.Criar(_empresaAnexo);
-            }
+            //Cadastrar 1 anexo
+            _empresaAnexo.EmpresaId = _empresa.EmpresaId;
+            empresaService.AnexoService.Criar(_empresaAnexo);
 
             #endregion
 
@@ -1317,7 +1181,11 @@ namespace UnitTestImod
             empresaService.Pendencia.Criar(new Pendencia
             {
                 EmpresaId = _empresa.EmpresaId,
-                Descricao = "Teste Unitário",
+                Descricao = "At vero eos et accusamus et iusto odio dignissimos ducimus " +
+                            "qui blanditiis praesentium voluptatum deleniti atque corrupti " +
+                            "quos dolores et quas molestias excepturi sint occaecati cupiditate" +
+                            " non provident, similique sunt in culpa qui officia deserunt" +
+                            " mollitia animi, id est laborum et dolorum fuga.",
                 DataLimite = DateTime.Now.Date,
                 Impeditivo = true,
                 CodPendencia = 24
@@ -1335,64 +1203,55 @@ namespace UnitTestImod
             #endregion
 
             #region Empresa Area Acesso
-         
-            //Cria Area Acesso
-            for (var i = 0; i < 2; i++)
+
+            //Lista 1 Área de Acesso existente
+            _areaAcesso = serviceAuxiliar.AreaAcessoService.Listar().FirstOrDefault();
+
+            //Cria 1 Empresa Area Acesso 
+            var empresaAreaAcesso = new EmpresaAreaAcesso
             {
-                serviceAuxiliar.AreaAcessoService.Criar(_areaAcesso);
-            }
+                AreaAcessoId = _areaAcesso.AreaAcessoId,
+                EmpresaId = _empresa.EmpresaId
+            };
+            empresaService.AreaAcessoService.Criar(empresaAreaAcesso);
 
-            //Cria Empresa Area Acesso
-            _empresaAreaAcesso.AreaAcessoId = _areaAcesso.AreaAcessoId;
-            _empresaAreaAcesso.EmpresaId = _empresa.EmpresaId;
-            empresaService.AreaAcessoService.Criar(_empresaAreaAcesso);
-
-            var d1 = empresaService.AreaAcessoService.BuscarPelaChave(_empresaAreaAcesso.EmpresaAreaAcessoId);
+            //Altera Empresa Area Acesso
+            var d1 = empresaService.AreaAcessoService.BuscarPelaChave(empresaAreaAcesso.EmpresaAreaAcessoId);
             empresaService.AreaAcessoService.Alterar(d1);
-
             var list = empresaService.AreaAcessoService.Listar().LastOrDefault();
-            Assert.IsNotNull(list);
-
-            var d2 = empresaService.AreaAcessoService.BuscarPelaChave(list.EmpresaAreaAcessoId);
-            empresaService.AreaAcessoService.Remover(d2);
-            var d3 = empresaService.AreaAcessoService.BuscarPelaChave(d2.EmpresaAreaAcessoId);
-            Assert.IsNull(d3);
+            Assert.IsNotNull(list); 
 
             #endregion
 
             #region Empresa Layout Crachá
 
+            //Lista 1 Layout Crachá existente
+            _layoutCracha = serviceAuxiliar.LayoutCrachaService.Listar().FirstOrDefault();
 
-            for (var i = 0; i < 2; i++)
-            {
-                //Cria Layout Crachá
-                serviceAuxiliar.LayoutCrachaService.Criar (_layoutCracha);
-                //Cria Empresa Layout Crachá
-                _empresaLayoutCracha.LayoutCrachaId = _layoutCracha.LayoutCrachaId;
-                _empresaLayoutCracha.EmpresaId = _empresa.EmpresaId;
-                empresaService.CrachaService.Criar(_empresaLayoutCracha);
-            }
+            //Cria 1 Empresa Layout Crachá
+            _empresaLayoutCracha.LayoutCrachaId = _layoutCracha.LayoutCrachaId;
+            _empresaLayoutCracha.EmpresaId = _empresa.EmpresaId;
+            empresaService.CrachaService.Criar(_empresaLayoutCracha);
 
+            //Altera Empresa Layout Crachá
             var d4 = empresaService.CrachaService.BuscarPelaChave(_empresaLayoutCracha.EmpresaLayoutCrachaId);
             empresaService.CrachaService.Alterar(d4);
-
             var last = empresaService.CrachaService.Listar().LastOrDefault();
-            Assert.IsNotNull(last);
-
-            //Remove Empresa Layout Crachá
-            var d5 = empresaService.CrachaService.BuscarPelaChave(last.EmpresaLayoutCrachaId);
-            empresaService.CrachaService.Remover(d5);
-            var d6 = empresaService.CrachaService.BuscarPelaChave(d5.EmpresaLayoutCrachaId);
-            Assert.IsNull(d6);
+            Assert.IsNotNull(last);  
 
 
             #endregion
 
             #region Empresa Contrato
 
-            serviceAuxiliar.TipoCobrancaService.Criar(_tipoCobrancas);
-            serviceAuxiliar.StatusService.Criar(_status);
-            serviceAuxiliar.TiposAcessoService.Criar(_tipoAcesso);
+            //Lista 1 Tipo de Cobrança existente
+            _tipoCobrancas = serviceAuxiliar.TipoCobrancaService.Listar().FirstOrDefault();
+
+            //Lista 1 Status existente
+            _status = serviceAuxiliar.StatusService.Listar().FirstOrDefault();
+
+            //Lista 1 Tipo de Acesso existente
+            _tipoAcesso = serviceAuxiliar.TiposAcessoService.Listar().FirstOrDefault();
 
             //Cadastrar 1 Contrato
             _empresaContrato.EmpresaId = _empresa.EmpresaId;
@@ -1407,63 +1266,15 @@ namespace UnitTestImod
             var l3 = empresaService.ContratoService.ListarPorNumeroContrato(_empresaContrato.NumeroContrato);
             Assert.IsNotNull(l3);
 
-            //Altera Empresa Contrato
+            //Atualiza Empresa Contrato
             _empresaContrato.TipoCobrancaId = _tipoCobrancas.TipoCobrancaId;
             _empresaContrato.StatusId = _status.StatusId;
             _empresaContrato.TipoAcessoId = _tipoAcesso.TipoAcessoId;
             _empresaContrato.EmpresaId = _empresa.EmpresaId;
-
             empresaService.ContratoService.Alterar(_empresaContrato);
 
             var list1 = empresaService.ContratoService.Listar().LastOrDefault();
-            Assert.IsNotNull(list1);
-
-            //Remover Empresa Contrato
-            //var dd2 = service.ContratoService.BuscarPelaChave(list1.EmpresaContratoId);
-            //service.ContratoService.Remover(dd2);
-            //var dd3 = service.ContratoService.BuscarPelaChave(dd2.EmpresaContratoId);
-            //Assert.IsNull(dd3);
-
-            #endregion
-
-            #region Veiculos Vinculados
-
-            var veicserv = new VeiculoService();
-
-            var cb1 = serviceAuxiliar.TipoCombustivelService.Listar().FirstOrDefault();
-            var cb2 = serviceAuxiliar.TiposAcessoService.Listar().FirstOrDefault();
-            var cb3 = serviceAuxiliar.StatusService.Listar().FirstOrDefault();
-
-            _veiculo.CombustivelId = cb1.TipoCombustivelId;
-            _veiculo.TipoAcessoId = cb2.TipoAcessoId;
-            _veiculo.StatusId = cb3.StatusId;
-
-
-            veicserv.Criar(_veiculo);
-
-            var v1 = veicserv.BuscarPelaChave(_veiculo.EquipamentoVeiculoId);
-            _veiculoEmpresa.VeiculoId = v1.EquipamentoVeiculoId;
-            _veiculoEmpresa.EmpresaId = _empresa.EmpresaId;
-            _veiculoEmpresa.EmpresaContratoId = _empresaContrato.EmpresaContratoId;
-
-            for (var i = 0; i < 5; i++)
-            {
-                empresaService.VeiculoService.Criar(_veiculoEmpresa);
-            }
-
-            var list0 = empresaService.VeiculoService.Listar();
-            Assert.IsNotNull(list0);
-
-            var b1 = empresaService.VeiculoService.BuscarPelaChave(_veiculoEmpresa.VeiculoEmpresaId);
-            Assert.IsNotNull(b1);
-
-            var b2 = empresaService.VeiculoService.Listar(0, 0, "%" + _veiculoEmpresa.Matricula + "%");
-            Assert.IsNotNull(b2);
-
-            //Remover
-            empresaService.VeiculoService.Remover(b1);
-            var b4 = empresaService.VeiculoService.BuscarPelaChave(b1.VeiculoEmpresaId);
-            Assert.IsNull(b4);
+            Assert.IsNotNull(list1); 
 
             #endregion
 
@@ -1493,20 +1304,20 @@ namespace UnitTestImod
         {
             var repositorio = new ColaboradorCredencialRepositorio();
 
-            int ccid = repositorio.Listar().FirstOrDefault().ColaboradorCredencialId;
-            if (ccid == null)
+            var ccid = repositorio.Listar().FirstOrDefault().ColaboradorCredencialId;
+            if (ccid == 0)
             {
                 repositorio.Criar(_colaboradorCredencial);
             }
 
-            int csid = repositorio.Listar().FirstOrDefault().CredencialStatusId;
-            if (csid == null)
+            var csid = repositorio.Listar().FirstOrDefault().CredencialStatusId;
+            if (csid == 0)
             {
                 repositorio.Criar(_colaboradorCredencial);
             }
 
-            int fcid = repositorio.Listar().FirstOrDefault().FormatoCredencialId;
-            if (fcid == null)
+            var fcid = repositorio.Listar().FirstOrDefault().FormatoCredencialId;
+            if (fcid == 0)
             {
                 repositorio.Criar(_colaboradorCredencial);
             }
@@ -1551,11 +1362,7 @@ namespace UnitTestImod
         {
             var colaboradorCursoRepositorio = new ColaboradorCursoRepositorio();
             var cursoRepositorio = new CursoRepositorio();
-            var colaboradorRepositorio = new ColaboradorRepositorio();
-
-
-            //Criar Colaborador
-            //colaboradorRepositorio.Criar(_colaborador);
+            var colaboradorRepositorio = new ColaboradorRepositorio(); 
 
             //Criar Curso
             cursoRepositorio.Criar(_curso);
@@ -1601,7 +1408,9 @@ namespace UnitTestImod
             string filtro = repositorio.Listar().LastOrDefault().Descricao;
 
             var list = repositorio.Listar();
+            Assert.IsNotNull(list);
             var list1 = repositorio.Listar(0, filtro).ToList();
+            Assert.IsNotNull(list1);
         }
 
         [TestMethod]
@@ -1646,7 +1455,7 @@ namespace UnitTestImod
 
             string filtro = repositorio.Listar().LastOrDefault().Nome;
 
-            var list1 = repositorio.Listar(filtro, null).ToList();
+            var list1 = repositorio.Listar(filtro, null);
             if (list1 == null)
             {
                 repositorio.Criar(_layoutCracha);
@@ -2053,7 +1862,7 @@ namespace UnitTestImod
 
             //Listar Filtrando parâmetros
             var list1 = repositorio.Listar(filtro).ToList();
-            Assert.IsNotNull(list0);
+            Assert.IsNotNull(list1);
 
             ////Listar pela chave
             var ultimoDalista = list0.LastOrDefault();

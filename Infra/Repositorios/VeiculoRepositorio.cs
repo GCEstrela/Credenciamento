@@ -53,7 +53,7 @@ namespace IMOD.Infra.Repositorios
                     {
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("EquipamentoVeiculoID", entity.EquipamentoVeiculoId, true)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Descricao", entity.Descricao, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Placa_Identificador", entity.Placa_Identificador, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("PlacaIdentificador", entity.PlacaIdentificador, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Frota", entity.Frota, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Patrimonio", entity.Patrimonio, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Marca", entity.Marca, false)));
@@ -63,7 +63,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Ano", entity.Ano, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("EstadoID", entity.EstadoId, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("MunicipioID", entity.MunicipioId, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Serie_Chassi", entity.Serie_Chassi, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("SerieChassi", entity.SerieChassi, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("CombustivelID", entity.CombustivelId, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Altura", entity.Altura, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Comprimento", entity.Comprimento, false)));
@@ -170,7 +170,7 @@ namespace IMOD.Infra.Repositorios
                     {
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("EquipamentoVeiculoID", entity.EquipamentoVeiculoId, true)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Descricao", entity.Descricao, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Placa_Identificador", entity.Placa_Identificador, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("PlacaIdentificador", entity.PlacaIdentificador, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Frota", entity.Frota, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Patrimonio", entity.Patrimonio, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Marca", entity.Marca, false)));
@@ -180,7 +180,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Ano", entity.Ano, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("EstadoID", entity.EstadoId, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("MunicipioID", entity.MunicipioId, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Serie_Chassi", entity.Serie_Chassi, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("SerieChassi", entity.SerieChassi, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("CombustivelID", entity.CombustivelId, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Altura", entity.Altura, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Comprimento", entity.Comprimento, false)));

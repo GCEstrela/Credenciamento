@@ -17,6 +17,10 @@ namespace IMOD.Application.Interfaces
     public interface IColaboradorService : IColaboradorRepositorio
     {
         #region  Metodos
+        /// <summary>
+        ///     Pendência serviços
+        /// </summary>
+        IPendenciaService Pendencia { get; }
 
         /// <summary>
         ///     Obter uma lista de colaboradores e suas credenciais
@@ -47,6 +51,13 @@ namespace IMOD.Application.Interfaces
         /// Serviços de Anexos
         /// </summary>
         IColaboradorAnexoService Anexo { get; }
+
+        /// <summary>
+        /// Verificar se existe CPF cadastrado
+        /// </summary>
+        /// <param name="cpf"></param>
+        /// <returns></returns>
+        bool ExisteCpf(string cpf);
 
         #endregion
     }

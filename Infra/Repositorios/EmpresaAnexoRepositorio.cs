@@ -53,6 +53,7 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
+                         
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("EmpresaAnexoID", entity.EmpresaAnexoId, true)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("EmpresaID", entity.EmpresaId, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Descricao", entity.Descricao, false)));

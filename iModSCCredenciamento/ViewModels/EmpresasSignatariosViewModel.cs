@@ -56,7 +56,7 @@ namespace iModSCCredenciamento.ViewModels
 
         #region  Metodos
 
-        public void AtualizarDadosRepresentante(EmpresaView entity)
+        public void AtualizarDados(EmpresaView entity)
         {
             if (entity == null) throw new ArgumentNullException (nameof (entity));
             _empresaView = entity;
