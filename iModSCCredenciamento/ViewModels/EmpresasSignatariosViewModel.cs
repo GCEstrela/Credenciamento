@@ -211,11 +211,11 @@ namespace iModSCCredenciamento.ViewModels
                     var l1 = _service.Listar(Entity.EmpresaId, $"%{pesquisa}%");
                     PopularObserver(l1);
                 }
-
+                //TODO: Filtro por CPF
                 //Por CPF
                 if (num.Key == 2)
                 {
-                    var l1 = _service.Listar(null, Entity.EmpresaId, $"{pesquisa}", null, null, null);
+                    var l1 = _service.Listar(null, Entity.EmpresaId, $"%{pesquisa}%", null, null, null);
                     PopularObserver(l1);
                 }
             }
