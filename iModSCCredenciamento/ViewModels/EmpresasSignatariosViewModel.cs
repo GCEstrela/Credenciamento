@@ -78,7 +78,7 @@ namespace iModSCCredenciamento.ViewModels
         {
             ListaPesquisa = new List<KeyValuePair<int, string>>();
             ListaPesquisa.Add(new KeyValuePair<int, string>(1, "Nome"));
-            ListaPesquisa.Add(new KeyValuePair<int, string>(2, "Cpf"));
+            ListaPesquisa.Add(new KeyValuePair<int, string>(2, "CPF"));
             PesquisarPor = ListaPesquisa[0]; //Pesquisa Default
         }
 
@@ -208,6 +208,8 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
+                if (_empresaView == null) return;
+
                 var pesquisa = NomePesquisa;
 
                 var num = PesquisarPor;
@@ -215,14 +217,13 @@ namespace iModSCCredenciamento.ViewModels
                 //Por nome
                 if (num.Key == 1)
                 {
-                    var l1 = _service.Listar(Entity.EmpresaId, $"%{pesquisa}%");
+                    var l1 = _service.Listar(_empresaView.EmpresaId, $"%{pesquisa}%");
                     PopularObserver(l1);
                 }
-                //TODO: Filtrar por CPF
                 //Por CPF
                 if (num.Key == 2)
                 {
-                    var l1 = _service.Listar(null, Entity.EmpresaId, $"%{pesquisa}%", null, null, null);
+                    var l1 = _service.Listar(_empresaView.EmpresaId, null, $"%{pesquisa}%", null, null, null);
                     PopularObserver(l1);
                 }
             }
