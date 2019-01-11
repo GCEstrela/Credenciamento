@@ -314,6 +314,31 @@ namespace IMOD.Infra.Repositorios
             }
         }
 
+
+        public ICollection<EmpresaTipoCredencialView> ListarTipoCredenciaisEmpresa(int empresaId = 0)
+        {
+            using (var conn = _dataBase.CreateOpenConnection())
+            {
+                using (var cmd = _dataBase.SelectText("EmpresaCredenciaisView", conn))
+                {
+                    try
+                    {
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmpresaId", DbType.Int32, empresaId).Igual()));
+
+                        var reader = cmd.ExecuteReaderSelect();
+                        var objResult = reader.MapToList<EmpresaTipoCredencialView>();
+                        return objResult;
+                    }
+                    catch (Exception ex)
+                    {
+                        Utils.TraceException(ex);
+                        throw;
+                    }
+                }
+            }
+        }
+
+
         #endregion
     }
 }

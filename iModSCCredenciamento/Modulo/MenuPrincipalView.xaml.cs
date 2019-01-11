@@ -8,6 +8,8 @@
 
 using System;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
 using Genetec.Sdk.Workspace;
 
 #endregion
@@ -47,7 +49,16 @@ namespace iModSCCredenciamento.Modulo
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void OnEmpresaView_Click(object sender, RoutedEventArgs e)
-        { 
+        {
+            Button btn = e.Source as Button;
+            btn.Background = (SolidColorBrush)new BrushConverter().ConvertFromString("#FF007ACC");
+
+            this.ColaboradoresBt.Background = Brushes.Transparent;
+            this.VeiculosBt.Background = Brushes.Transparent;
+            this.ConfiguracoesBt.Background = Brushes.Transparent;
+            this.RelatoriosBt.Background = Brushes.Transparent;
+            this.TermosBt.Background = Brushes.Transparent;
+
             DataContext = new ViewSingleton().EmpresaView;
         }
 
@@ -57,7 +68,16 @@ namespace iModSCCredenciamento.Modulo
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void OnColaboradoresView_Click(object sender, RoutedEventArgs e)
-        { 
+        {
+            Button btn = e.Source as Button;
+            btn.Background = (SolidColorBrush)new BrushConverter().ConvertFromString("#FF007ACC");
+
+            this.EmpresasBt.Background = Brushes.Transparent;
+            this.VeiculosBt.Background = Brushes.Transparent;
+            this.ConfiguracoesBt.Background = Brushes.Transparent;
+            this.RelatoriosBt.Background = Brushes.Transparent;
+            this.TermosBt.Background = Brushes.Transparent;
+
             DataContext = new ViewSingleton().ColaboradorView;
         }
 
@@ -68,6 +88,16 @@ namespace iModSCCredenciamento.Modulo
         /// <param name="e"></param>
         private void OnVeiculo_Click(object sender, RoutedEventArgs e)
         {
+
+            Button btn = e.Source as Button;
+            btn.Background = (SolidColorBrush)new BrushConverter().ConvertFromString("#FF007ACC");
+
+            this.EmpresasBt.Background = Brushes.Transparent;
+            this.ColaboradoresBt.Background = Brushes.Transparent;
+            this.ConfiguracoesBt.Background = Brushes.Transparent;
+            this.RelatoriosBt.Background = Brushes.Transparent;
+            this.TermosBt.Background = Brushes.Transparent;
+
             DataContext = new ViewSingleton().VeiculoView;
         }
 
@@ -78,6 +108,15 @@ namespace iModSCCredenciamento.Modulo
         /// <param name="e"></param>
         private void OnConfiguracao_Click(object sender, RoutedEventArgs e)
         {
+            Button btn = e.Source as Button;
+            btn.Background = (SolidColorBrush)new BrushConverter().ConvertFromString("#FF007ACC");
+
+            this.EmpresasBt.Background = Brushes.Transparent;
+            this.ColaboradoresBt.Background = Brushes.Transparent;
+            this.VeiculosBt.Background = Brushes.Transparent;
+            this.RelatoriosBt.Background = Brushes.Transparent;
+            this.TermosBt.Background = Brushes.Transparent;
+
             DataContext = new ViewSingleton().ConfiguracoesView;
         }
 
@@ -88,6 +127,15 @@ namespace iModSCCredenciamento.Modulo
         /// <param name="e"></param>
         private void OnRelatorio_Click(object sender, RoutedEventArgs e)
         {
+            Button btn = e.Source as Button;
+            btn.Background = (SolidColorBrush)new BrushConverter().ConvertFromString("#FF007ACC");
+
+            this.EmpresasBt.Background = Brushes.Transparent;
+            this.ColaboradoresBt.Background = Brushes.Transparent;
+            this.VeiculosBt.Background = Brushes.Transparent;
+            this.ConfiguracoesBt.Background = Brushes.Transparent;
+            this.TermosBt.Background = Brushes.Transparent;
+
             DataContext = new ViewSingleton().RelatoriosView;
         }
 
@@ -98,6 +146,15 @@ namespace iModSCCredenciamento.Modulo
         /// <param name="e"></param>
         private void OnTermo_Click(object sender, RoutedEventArgs e)
         {
+            Button btn = e.Source as Button;
+            btn.Background = (SolidColorBrush)new BrushConverter().ConvertFromString("#FF007ACC");
+
+            this.EmpresasBt.Background = Brushes.Transparent;
+            this.ColaboradoresBt.Background = Brushes.Transparent;
+            this.VeiculosBt.Background = Brushes.Transparent;
+            this.ConfiguracoesBt.Background = Brushes.Transparent;
+            this.RelatoriosBt.Background = Brushes.Transparent;
+
             DataContext = new ViewSingleton().TermosView;
         }
 

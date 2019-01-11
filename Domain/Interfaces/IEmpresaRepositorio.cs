@@ -23,13 +23,19 @@ namespace IMOD.Domain.Interfaces
         /// <returns></returns>
         Empresa BuscarEmpresaPorCnpj(string cnpj);
 
-
-
         /// <summary>
         /// Listar Pendencias
         /// </summary>
         /// <param name="empresaId"></param>
         /// <returns></returns>
         ICollection<EmpresaPendenciaView> ListarPendencias(int empresaId = 0);
+
+        /// <summary>
+        /// Listar Credenciais Empresa por tipo
+        /// </summary>
+        /// <param name="empresaId"></param>
+        /// <returns></returns>
+        ICollection<EmpresaTipoCredencialView> ListarTipoCredenciaisEmpresa(int empresaId = 0);
+
     }
 }

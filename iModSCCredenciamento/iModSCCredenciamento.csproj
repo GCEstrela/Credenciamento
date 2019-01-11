@@ -217,6 +217,7 @@
     <Compile Include="Views\Model\CredencialMotivoView.cs" />
     <Compile Include="Views\Model\CredencialStatusView.cs" />
     <Compile Include="Views\Model\CursoView.cs" />
+    <Compile Include="Views\Model\EmpresaTipoCredencialView.cs" />
     <Compile Include="Views\Model\EmpresaVeiculoView.cs" />
     <Compile Include="Views\Model\EmpresaView.cs" />
     <Compile Include="Views\Model\EmpresaAnexoView.cs" />
