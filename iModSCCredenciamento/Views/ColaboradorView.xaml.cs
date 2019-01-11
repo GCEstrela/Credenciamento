@@ -55,7 +55,7 @@ namespace iModSCCredenciamento.Views
             //Atualizar dados ao selecionar uma linha da listview
             _viewModel.AtualizarDadosPendencias();
             //Popular User Controls
-            //RepresentanteUs.AtualizarDados(_viewModel.Entity);
+            ColaboradorEmpresaUs.AtualizarDados(_viewModel.Entity);
             //AnexoUs.AtualizarDados(_viewModel.Entity);
             //EmpresaContratosUs.AtualizarDados(_viewModel.Entity);
 
