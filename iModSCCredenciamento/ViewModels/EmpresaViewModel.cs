@@ -32,7 +32,7 @@ namespace iModSCCredenciamento.ViewModels
     {
         private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
         private readonly IEmpresaService _service = new EmpresaService();
-        
+
         /// <summary>
         ///     True, Comando de alteração acionado
         /// </summary>
@@ -133,7 +133,7 @@ namespace iModSCCredenciamento.ViewModels
         ///     Dados de municipio armazendas em memoria
         /// </summary>
         public List<Municipio> _municipios { get; set; }
-         
+
 
         #endregion
 
@@ -142,13 +142,13 @@ namespace iModSCCredenciamento.ViewModels
             ListarTodos();
             ItensDePesquisaConfigura();
             ListarDadosAuxiliares();
-            Comportamento = new ComportamentoBasico (true, true, true,false, false);
+            Comportamento = new ComportamentoBasico(true, true, true, false, false);
             TiposAtividades = new ObservableCollection<EmpresaTipoAtividadeView>();
             TiposLayoutCracha = new ObservableCollection<EmpresaLayoutCrachaView>();
             Comportamento.SalvarAdicao += OnSalvarAdicao;
             Comportamento.SalvarEdicao += OnSalvarEdicao;
             Comportamento.Remover += OnRemover;
-            Comportamento.Cancelar += OnCancelar; 
+            Comportamento.Cancelar += OnCancelar;
         }
 
         #region  Metodos
@@ -161,9 +161,9 @@ namespace iModSCCredenciamento.ViewModels
             if (Empresa == null) return;
             TiposAtividades.Clear();
             var id = Empresa.EmpresaId;
-            var list = _service.Atividade.ListarEmpresaTipoAtividadeView (null, id, null, null).ToList();
-            var list2 = Mapper.Map<List<EmpresaTipoAtividadeView>> (list);
-            list2.ForEach (n => TiposAtividades.Add (n));
+            var list = _service.Atividade.ListarEmpresaTipoAtividadeView(null, id, null, null).ToList();
+            var list2 = Mapper.Map<List<EmpresaTipoAtividadeView>>(list);
+            list2.ForEach(n => TiposAtividades.Add(n));
         }
 
         /// <summary>
@@ -174,9 +174,9 @@ namespace iModSCCredenciamento.ViewModels
             if (Empresa == null) return;
             TiposLayoutCracha.Clear();
             var id = Empresa.EmpresaId;
-            var list = _service.CrachaService.ListarLayoutCrachaPorEmpresaView (id).ToList();
-            var list2 = Mapper.Map<List<EmpresaLayoutCrachaView>> (list);
-            list2.ForEach (n => TiposLayoutCracha.Add (n));
+            var list = _service.CrachaService.ListarLayoutCrachaPorEmpresaView(id).ToList();
+            var list2 = Mapper.Map<List<EmpresaLayoutCrachaView>>(list);
+            list2.ForEach(n => TiposLayoutCracha.Add(n));
         }
 
 
@@ -187,17 +187,17 @@ namespace iModSCCredenciamento.ViewModels
         public void AtualizarDadosPendencias()
         {
             if (Empresa == null) return;
-            var pendencia = _service.Pendencia.ListarPorEmpresa (Empresa.EmpresaId).ToList();
+            var pendencia = _service.Pendencia.ListarPorEmpresa(Empresa.EmpresaId).ToList();
             //Set valores
             PendenciaGeral = false;
             PendenciaRepresentante = false;
             PendenciaContrato = false;
             PendenciaAnexo = false;
             //Buscar pendências referente aos códigos: 21; 12;14;24
-            PendenciaGeral = pendencia.Any (n => n.CodPendencia == 21);
-            PendenciaRepresentante = pendencia.Any (n => n.CodPendencia == 12);
-            PendenciaContrato = pendencia.Any (n => n.CodPendencia == 14);
-            PendenciaAnexo = pendencia.Any (n => n.CodPendencia == 24);
+            PendenciaGeral = pendencia.Any(n => n.CodPendencia == 21);
+            PendenciaRepresentante = pendencia.Any(n => n.CodPendencia == 12);
+            PendenciaContrato = pendencia.Any(n => n.CodPendencia == 14);
+            PendenciaAnexo = pendencia.Any(n => n.CodPendencia == 24);
             //Indica se a empresa possue pendências
             Pendencias = PendenciaGeral || PendenciaRepresentante || PendenciaContrato || PendenciaAnexo;
         }
@@ -208,10 +208,10 @@ namespace iModSCCredenciamento.ViewModels
         private void ItensDePesquisaConfigura()
         {
             ListaPesquisa = new List<KeyValuePair<int, string>>();
-            ListaPesquisa.Add (new KeyValuePair<int, string> (1, "Razão Social"));
-            ListaPesquisa.Add (new KeyValuePair<int, string> (2, "Código"));
-            ListaPesquisa.Add (new KeyValuePair<int, string> (3, "CNPJ"));
-            ListaPesquisa.Add (new KeyValuePair<int, string> (4, "Todos"));
+            ListaPesquisa.Add(new KeyValuePair<int, string>(1, "Razão Social"));
+            ListaPesquisa.Add(new KeyValuePair<int, string>(2, "Código"));
+            ListaPesquisa.Add(new KeyValuePair<int, string>(3, "CNPJ"));
+            ListaPesquisa.Add(new KeyValuePair<int, string>(4, "Todos"));
             PesquisarPor = ListaPesquisa[0]; //Pesquisa Default
         }
 
@@ -220,12 +220,12 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 var list1 = _service.Listar();
-                PopularObserver (list1);
+                PopularObserver(list1);
             }
 
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
+                Utils.TraceException(ex);
             }
         }
 
@@ -237,9 +237,9 @@ namespace iModSCCredenciamento.ViewModels
             var lst1 = _auxiliaresService.LayoutCrachaService.Listar();
             var lst2 = _auxiliaresService.TipoAtividadeService.Listar();
             var lst3 = _auxiliaresService.EstadoService.Listar();
-            ListaCrachas = Mapper.Map<List<LayoutCrachaView>> (lst1);
-            ListaAtividades = Mapper.Map<List<TipoAtividadeView>> (lst2);
-            Estados = Mapper.Map<List<Estados>> (lst3);
+            ListaCrachas = Mapper.Map<List<LayoutCrachaView>>(lst1);
+            ListaAtividades = Mapper.Map<List<TipoAtividadeView>>(lst2);
+            Estados = Mapper.Map<List<Estados>>(lst3);
         }
 
         #endregion
@@ -253,20 +253,20 @@ namespace iModSCCredenciamento.ViewModels
 
             //Verificar dados antes de salvar uma criação
             if (_prepareCriarCommandAcionado)
-                if (_service.ExisteCnpj (cnpj))
-                    throw new Exception ("CNPJ já cadastrado.");
+                if (_service.ExisteCnpj(cnpj))
+                    throw new Exception("CNPJ já cadastrado.");
             //Verificar dados antes de salvar uma alteraçao
             if (_prepareAlterarCommandAcionado)
             {
-                var n1 = _service.BuscarPelaChave (Empresa.EmpresaId);
+                var n1 = _service.BuscarPelaChave(Empresa.EmpresaId);
                 if (n1 == null) return;
                 //Comparar o CNPJ antes e o depois
-                if (string.Compare (n1.Cnpj.RetirarCaracteresEspeciais(),
+                if (string.Compare(n1.Cnpj.RetirarCaracteresEspeciais(),
                     cnpj, StringComparison.Ordinal) != 0)
                 {
                     //verificar se há cnpj exisitente
-                    if (_service.ExisteCnpj (cnpj))
-                        throw new Exception ("CNPJ já cadastrado.");
+                    if (_service.ExisteCnpj(cnpj))
+                        throw new Exception("CNPJ já cadastrado.");
                 }
             }
         }
@@ -278,10 +278,10 @@ namespace iModSCCredenciamento.ViewModels
         public void Validar()
         {
             ValidarCnpj();
-            if (string.IsNullOrWhiteSpace (Empresa.Nome))
-                throw new InvalidOperationException ("O nome é requerido");
-            if (string.IsNullOrWhiteSpace (Empresa.Cnpj))
-                throw new InvalidOperationException ("O CNPJ é requerido");
+            if (string.IsNullOrWhiteSpace(Empresa.Nome))
+                throw new InvalidOperationException("O nome é requerido");
+            if (string.IsNullOrWhiteSpace(Empresa.Cnpj))
+                throw new InvalidOperationException("O CNPJ é requerido");
         }
 
         #endregion
@@ -298,38 +298,38 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                if (string.IsNullOrWhiteSpace (uf)) return;
+                if (string.IsNullOrWhiteSpace(uf)) return;
                 if (Municipios == null) Municipios = new List<Municipio>();
                 if (_municipios == null) _municipios = new List<Municipio>();
                 if (Estado == null) return;
 
                 //Verificar se há municipios já carregados...
-                var l1 = _municipios.Where (n => n.Uf == uf);
+                var l1 = _municipios.Where(n => n.Uf == uf);
                 Municipios.Clear();
                 //Nao havendo municipios... obter do repositorio
                 if (!l1.Any())
                 {
-                    var l2 = _auxiliaresService.MunicipioService.Listar (null, uf);
-                    _municipios.AddRange (Mapper.Map<List<Municipio>> (l2));
+                    var l2 = _auxiliaresService.MunicipioService.Listar(null, uf);
+                    _municipios.AddRange(Mapper.Map<List<Municipio>>(l2));
                 }
 
-                var municipios = _municipios.Where (n => n.Uf == uf).ToList();
+                var municipios = _municipios.Where(n => n.Uf == uf).ToList();
                 Municipios = municipios;
             }
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
+                Utils.TraceException(ex);
             }
         }
 
         /// <summary>
         ///     Novo
         /// </summary>
-        public ICommand PrepareCriarCommand => new CommandBase (PrepareCriar, true);
+        public ICommand PrepareCriarCommand => new CommandBase(PrepareCriar, true);
 
         private void PrepareCriar()
         {
-           
+
             EntidadeTMP = Empresa;
             Empresa = new EmpresaView();
             IsEnableTabItem = false;
@@ -345,27 +345,27 @@ namespace iModSCCredenciamento.ViewModels
         /// <summary>
         ///     Editar
         /// </summary>
-        public ICommand PrepareAlterarCommand => new CommandBase (PrepareAlterar, true);
+        public ICommand PrepareAlterarCommand => new CommandBase(PrepareAlterar, true);
 
         /// <summary>
         ///     Cancelar
         /// </summary>
-        public ICommand PrepareCancelarCommand => new CommandBase (Comportamento.PrepareCancelar, true);
+        public ICommand PrepareCancelarCommand => new CommandBase(Comportamento.PrepareCancelar, true);
 
         /// <summary>
         ///     Novo
         /// </summary>
-        public ICommand PrepareSalvarCommand => new CommandBase (Comportamento.PrepareSalvar, true);
+        public ICommand PrepareSalvarCommand => new CommandBase(Comportamento.PrepareSalvar, true);
 
         /// <summary>
         ///     Remover
         /// </summary>
-        public ICommand PrepareRemoverCommand => new CommandBase (PrepareRemover, true);
+        public ICommand PrepareRemoverCommand => new CommandBase(PrepareRemover, true);
 
         /// <summary>
         ///     Pesquisar
         /// </summary>
-        public ICommand PesquisarCommand => new CommandBase (Pesquisar, true);
+        public ICommand PesquisarCommand => new CommandBase(Pesquisar, true);
 
         #endregion
 
@@ -383,42 +383,42 @@ namespace iModSCCredenciamento.ViewModels
                 //Por Razão Social
                 if (num.Key == 1)
                 {
-                    var l1 = _service.Listar ($"%{pesquisa}%", null, null);
-                    PopularObserver (l1);
+                    var l1 = _service.Listar($"%{pesquisa}%", null, null);
+                    PopularObserver(l1);
                 }
                 //Por código
                 if (num.Key == 2)
                 {
-                    if (string.IsNullOrWhiteSpace (pesquisa)) return;
+                    if (string.IsNullOrWhiteSpace(pesquisa)) return;
                     var cod = 0;
-                    int.TryParse (pesquisa, out cod);
-                    var n1 = _service.BuscarPelaChave (cod);
+                    int.TryParse(pesquisa, out cod);
+                    var n1 = _service.BuscarPelaChave(cod);
                     if (n1 == null) return;
                     Empresas.Clear();
-                    var n2 = Mapper.Map<EmpresaView> (n1);
+                    var n2 = Mapper.Map<EmpresaView>(n1);
                     var observer = new ObservableCollection<EmpresaView>();
-                    observer.Add (n2);
+                    observer.Add(n2);
                     Empresas = observer;
                 }
                 //Por CNPJ
                 if (num.Key == 3)
                 {
-                    var l1 = _service.Listar (null, null, pesquisa);
-                    PopularObserver (l1);
+                    var l1 = _service.Listar(null, null, pesquisa);
+                    PopularObserver(l1);
                 }
                 //Todos
                 if (num.Key == 4)
                 {
                     var l1 = _service.Listar();
-                    PopularObserver (l1);
+                    PopularObserver(l1);
                 }
 
                 IsEnableLstView = true;
-                IsEnableTabItem = true; 
+                IsEnableTabItem = true;
             }
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
+                Utils.TraceException(ex);
             }
         }
 
@@ -426,15 +426,15 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                var list2 = Mapper.Map<List<EmpresaView>> (list.OrderBy (n => n.Nome));
+                var list2 = Mapper.Map<List<EmpresaView>>(list.OrderBy(n => n.Nome));
                 Empresas = new ObservableCollection<EmpresaView>();
-                list2.ForEach (n => { Empresas.Add (n); });
+                list2.ForEach(n => { Empresas.Add(n); });
                 //Empresas = observer;
             }
 
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
+                Utils.TraceException(ex);
             }
         }
 
@@ -459,7 +459,7 @@ namespace iModSCCredenciamento.ViewModels
             _prepareAlterarCommandAcionado = false;
             SelectedTabIndex = 0;
             Comportamento.PrepareRemover();
-            
+
         }
 
         private void OnSalvarAdicao(object sender, RoutedEventArgs e)
@@ -467,52 +467,52 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 if (Empresa == null) return;
-                var n1 = Mapper.Map<Empresa> (Empresa);
+                var n1 = Mapper.Map<Empresa>(Empresa);
                 Validar();
-                _service.Criar (n1);
+                _service.Criar(n1);
                 //Salvar Tipo de Atividades
-                SalvarTipoAtividades (n1.EmpresaId);
+                SalvarTipoAtividades(n1.EmpresaId);
                 //Salvar Tipo Cracha
-                SalvarTipoCracha (n1.EmpresaId);
+                SalvarTipoCracha(n1.EmpresaId);
                 //Adicionar no inicio da lista um item a coleção
-                var n2 = Mapper.Map<EmpresaView> (n1);
-                Empresas.Insert (0, n2);
+                var n2 = Mapper.Map<EmpresaView>(n1);
+                Empresas.Insert(0, n2);
                 IsEnableTabItem = true;
                 IsEnableLstView = true;
             }
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
-                WpfHelp.PopupBox (ex);
+                Utils.TraceException(ex);
+                WpfHelp.PopupBox(ex);
             }
         }
 
         private void SalvarTipoAtividades(int empresaId)
         {
             //Remover
-            _service.Atividade.RemoverPorEmpresa (empresaId);
+            _service.Atividade.RemoverPorEmpresa(empresaId);
             //Adicionar
             var lst = TiposAtividades.ToList();
-            lst.ForEach (n =>
-            {
-                var n1 = Mapper.Map<EmpresaTipoAtividade> (n);
-                n1.EmpresaId = empresaId;
-                _service.Atividade.Criar (n1);
-            });
+            lst.ForEach(n =>
+           {
+               var n1 = Mapper.Map<EmpresaTipoAtividade>(n);
+               n1.EmpresaId = empresaId;
+               _service.Atividade.Criar(n1);
+           });
         }
 
         private void SalvarTipoCracha(int empresaId)
         {
             //Remover
-            _service.CrachaService.RemoverPorEmpresa (empresaId);
+            _service.CrachaService.RemoverPorEmpresa(empresaId);
             //Adicionar
             var lst = TiposLayoutCracha.ToList();
-            lst.ForEach (n =>
-            {
-                var n1 = Mapper.Map<EmpresaLayoutCracha> (n);
-                n1.EmpresaId = empresaId;
-                _service.CrachaService.Criar (n1);
-            });
+            lst.ForEach(n =>
+           {
+               var n1 = Mapper.Map<EmpresaLayoutCracha>(n);
+               n1.EmpresaId = empresaId;
+               _service.CrachaService.Criar(n1);
+           });
         }
 
         private void OnSalvarEdicao(object sender, RoutedEventArgs e)
@@ -521,19 +521,19 @@ namespace iModSCCredenciamento.ViewModels
             {
                 if (Empresa == null) return;
                 Validar();
-                var n1 = Mapper.Map<Empresa> (Empresa);
-                _service.Alterar (n1);
+                var n1 = Mapper.Map<Empresa>(Empresa);
+                _service.Alterar(n1);
                 //Salvar Tipo de Atividades
-                SalvarTipoAtividades (n1.EmpresaId);
+                SalvarTipoAtividades(n1.EmpresaId);
                 //Salvar Tipo Cracha
-                SalvarTipoCracha (n1.EmpresaId);
+                SalvarTipoCracha(n1.EmpresaId);
                 IsEnableTabItem = true;
                 IsEnableLstView = true;
             }
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
-                WpfHelp.PopupBox (ex);
+                Utils.TraceException(ex);
+                WpfHelp.PopupBox(ex);
             }
         }
 
@@ -551,8 +551,8 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
-                WpfHelp.MboxError ("Não foi realizar a operação solicitada", ex);
+                Utils.TraceException(ex);
+                WpfHelp.MboxError("Não foi realizar a operação solicitada", ex);
             }
         }
 
@@ -564,18 +564,18 @@ namespace iModSCCredenciamento.ViewModels
                 var result = WpfHelp.MboxDialogRemove();
                 if (result != DialogResult.Yes) return;
 
-                var n1 = Mapper.Map<Empresa> (Empresa);
+                var n1 = Mapper.Map<Empresa>(Empresa);
                 _service.Remover(n1);
                 //Retirar empresa da coleção
-                Empresas.Remove (Empresa);
+                Empresas.Remove(Empresa);
 
                 IsEnableLstView = true;
                 IsEnableTabItem = true;
             }
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
-                WpfHelp.MboxError ("Não foi realizar a operação solicitada", ex);
+                Utils.TraceException(ex);
+                WpfHelp.MboxError("Não foi realizar a operação solicitada", ex);
             }
         }
 
