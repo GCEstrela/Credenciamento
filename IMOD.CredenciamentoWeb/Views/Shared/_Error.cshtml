@@ -1,0 +1,44 @@
+﻿@model Exception
+@{
+    var erromensagem = ViewBag.Error;
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Error</title>
+
+</head>
+<body>
+
+    <div class="alert alert-danger">
+
+        <h4>
+
+            <img src="~/img/1494612254_sign-error.png" alt="" style="width: 40px; height: auto" /> 
+            Um erro ocorreu durante a solicitação.
+        </h4>
+        <p></p>
+
+        @{
+            var msg = "";
+            if (Model != null)
+            {
+                msg = Model.Message + Model.InnerException;
+            }
+        }
+        @Html.Raw(HttpUtility.HtmlDecode(@erromensagem))<p></p>
+        @{
+            if (string.Compare(msg, erromensagem, true) != 0)
+            {
+                @("Exception.StackTrace:")
+                @Html.Raw(HttpUtility.HtmlDecode("<br />" + msg))
+            }
+        }
+    </div>
+
+
+</body>
+</html>

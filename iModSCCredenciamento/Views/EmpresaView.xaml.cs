@@ -55,9 +55,9 @@ namespace iModSCCredenciamento.Views
             _viewModel.AtualizarDadosTiposAtividades();
             _viewModel.AtualizarDadosTipoCrachas();
             //Popular User Controls
-            RepresentanteUs.AtualizarDados(_viewModel.Empresa);
-            AnexoUs.AtualizarDados(_viewModel.Empresa);
-            EmpresaContratosUs.AtualizarDados(_viewModel.Empresa);
+            RepresentanteUs.AtualizarDados(_viewModel.Entity);
+            AnexoUs.AtualizarDados(_viewModel.Entity);
+            EmpresaContratosUs.AtualizarDados(_viewModel.Entity);
 
 
 
@@ -127,9 +127,9 @@ namespace iModSCCredenciamento.Views
         {
             try
             {
-                if (_viewModel.Empresa == null) return;
+                if (_viewModel.Entity == null) return;
                 var frm = new PopupPendencias();
-                frm.Inicializa (codigo, _viewModel.Empresa.EmpresaId, tipoPendecia);
+                frm.Inicializa (codigo, _viewModel.Entity.EmpresaId, tipoPendecia);
                 frm.ShowDialog();
                 _viewModel.AtualizarDadosPendencias();
             }
@@ -170,8 +170,8 @@ namespace iModSCCredenciamento.Views
             try
             {
                 _viewModel.ValidarCnpj();
-                if (_viewModel.Empresa == null) return;
-                txtCnpj.Text = _viewModel.Empresa.Cnpj.FormatarCnpj();
+                if (_viewModel.Entity == null) return;
+                txtCnpj.Text = _viewModel.Entity.Cnpj.FormatarCnpj();
             }
             catch (Exception ex)
             {
@@ -187,7 +187,7 @@ namespace iModSCCredenciamento.Views
                 var filtro = "Images (*.BMP;*.JPG;*.GIF,*.PNG,*.TIFF)|*.BMP;*.JPG;*.GIF;*.PNG;*.TIFF|" + "All files (*.*)|*.*";
                 var arq = WpfHelp.UpLoadArquivoDialog (filtro);
                 if (arq == null) return;
-                _viewModel.Empresa.Logo = arq.FormatoBase64;
+                _viewModel.Entity.Logo = arq.FormatoBase64;
                 var binding = BindingOperations.GetBindingExpression (Logo_im, Image.SourceProperty);
                 binding?.UpdateTarget();
             }

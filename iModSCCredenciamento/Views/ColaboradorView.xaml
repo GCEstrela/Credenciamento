@@ -345,7 +345,7 @@
                 </TabItem.Header>
                 <Grid Margin="5" HorizontalAlignment="Left" Width="601" >
                     <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" Header="Identificação" Background="BlueViolet"  Height="192" VerticalAlignment="Top" Margin="0,0,2,0">
-                        <StackPanel Orientation="Horizontal" Height="172"   VerticalAlignment="Top" Margin="0,0,0,-2">
+                        <StackPanel Orientation="Horizontal" Height="172"   VerticalAlignment="Top" Margin="1">
                             <StackPanel.Resources>
                                 <i:StringToImageConverter x:Key="StringToImageConverter" />
                             </StackPanel.Resources>
@@ -673,7 +673,7 @@
                         </StackPanel>
                     </StackPanel>
                 </TabItem.Header>
-                <!--<local:EmpresasSignatariosView x:Name="RepresentanteUs" Margin="5" />-->
+                <local:ColaboradoresEmpresasView x:Name="ColaboradorEmpresaUs" Margin="4,0,6,202" VerticalAlignment="Bottom" /> 
 
             </TabItem>
 

@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:iModSCCredenciamento.Views"
              d:DataContext="{d:DesignInstance vm:EmpresasAnexosViewModel , IsDesignTimeCreatable=True}"
              xmlns:vm="clr-namespace:iModSCCredenciamento.ViewModels"
-             mc:Ignorable="d" Loaded="UserControl_Loaded">
+             mc:Ignorable="d" Loaded="UserControl_Loaded" Height="320">
     <Grid VerticalAlignment="Top">
         <StackPanel Orientation="Vertical">
             <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" Background="Chocolate"
@@ -47,13 +47,12 @@
 
                 </StackPanel>
             </GroupBox>
-
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="795" Margin="0,0,10,0">
-                <ListView x:Name="ListaAnexos_lv" IsEnabled="{Binding IsEnableLstView}" Height="173"
-                          HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="795" Height="203">
+                <ListView x:Name="ListaAnexos_lv" IsEnabled="{Binding IsEnableLstView}"
+                          HorizontalAlignment="Stretch" 
                           ItemsSource="{Binding EntityObserver, Mode=TwoWay}"
                           SelectedItem="{Binding Entity, Mode=TwoWay}"
-                          SelectionChanged="ListaAnexos_lv_SelectionChanged" Width="630">
+                          SelectionChanged="ListaAnexos_lv_SelectionChanged" Width="630" Margin="0,15,0,10">
                     <ListView.View>
                         <GridView FrameworkElement.FlowDirection="RightToLeft">
                             <GridViewColumn Width="50" Header="ID" DisplayMemberBinding="{Binding EmpresaAnexoId}" />
@@ -64,8 +63,8 @@
                         </GridView>
                     </ListView.View>
                 </ListView>
-                <StackPanel Orientation="Vertical" Margin="10,0,0,0" HorizontalAlignment="Right" Width="155"
-                            Height="183" VerticalAlignment="Top">
+                <StackPanel Orientation="Vertical" Margin="10,0,0,-5" HorizontalAlignment="Right" Width="155"
+                            Height="193" VerticalAlignment="Bottom">
 
                     <Button x:Name="btnAdicionar" Content="Adicionar" ToolTip="Adicionar"
                             IsEnabled="{Binding Comportamento.IsEnableCriar}" Command="{Binding PrepareCriarCommand}"
@@ -79,9 +78,9 @@
                     <Button x:Name="btnCancelar" Content="Cancelar" ToolTip="Cancelar" Height="30" Width="148"
                             IsEnabled="{Binding Comportamento.isEnableCancelar}"
                             Command="{Binding PrepareCancelarCommand}" Margin="0,0,0,7" />
-                    <Button x:Name="btnSalvar" Content="Salvar" ToolTip="Salvar" Height="30" Width="148"
+                    <Button x:Name="btnSalvar" Content="Salvar" ToolTip="Salvar"  Height="30" Width="148"
                             IsEnabled="{Binding Comportamento.isEnableSalvar}" Command="{Binding PrepareSalvarCommand}"
-                            Margin="0,0,0,7" />
+                            Margin="4,0,3,7" />
 
                 </StackPanel>
             </StackPanel>

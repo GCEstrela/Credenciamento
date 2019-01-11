@@ -99,8 +99,8 @@ namespace iModSCCredenciamento.ViewModels
         /// </summary>
         public bool IsEnableLstView { get; private set; } = true;
 
-        public EmpresaView Empresa { get; set; }
-        public ObservableCollection<EmpresaView> Empresas { get; set; }
+        public EmpresaView Entity { get; set; }
+        public ObservableCollection<EmpresaView> EntityObserver { get; set; }
         public ObservableCollection<EmpresaLayoutCrachaView> TiposLayoutCracha { get; set; }
         public LayoutCrachaView TipoCracha { get; set; }
         public ObservableCollection<EmpresaTipoAtividadeView> TiposAtividades { get; set; }
@@ -157,9 +157,9 @@ namespace iModSCCredenciamento.ViewModels
         /// </summary>
         public void AtualizarDadosTiposAtividades()
         {
-            if (Empresa == null) return;
+            if (Entity == null) return;
             TiposAtividades.Clear();
-            var id = Empresa.EmpresaId;
+            var id = Entity.EmpresaId;
             var list = _service.Atividade.ListarEmpresaTipoAtividadeView (null, id, null, null).ToList();
             var list2 = Mapper.Map<List<EmpresaTipoAtividadeView>> (list);
             list2.ForEach (n => TiposAtividades.Add (n));
@@ -170,9 +170,9 @@ namespace iModSCCredenciamento.ViewModels
         /// </summary>
         public void AtualizarDadosTipoCrachas()
         {
-            if (Empresa == null) return;
+            if (Entity == null) return;
             TiposLayoutCracha.Clear();
-            var id = Empresa.EmpresaId;
+            var id = Entity.EmpresaId;
             var list = _service.CrachaService.ListarLayoutCrachaPorEmpresaView (id).ToList();
             var list2 = Mapper.Map<List<EmpresaLayoutCrachaView>> (list);
             list2.ForEach (n => TiposLayoutCracha.Add (n));
@@ -185,8 +185,8 @@ namespace iModSCCredenciamento.ViewModels
         /// </summary>ValidarCnpj
         public void AtualizarDadosPendencias()
         {
-            if (Empresa == null) return;
-            var pendencia = _service.Pendencia.ListarPorEmpresa (Empresa.EmpresaId).ToList();
+            if (Entity == null) return;
+            var pendencia = _service.Pendencia.ListarPorEmpresa (Entity.EmpresaId).ToList();
             //Set valores
             PendenciaGeral = false;
             PendenciaRepresentante = false;
@@ -247,8 +247,8 @@ namespace iModSCCredenciamento.ViewModels
 
         public void ValidarCnpj()
         {
-            if (Empresa == null) return;
-            var cnpj = Empresa.Cnpj.RetirarCaracteresEspeciais();
+            if (Entity == null) return;
+            var cnpj = Entity.Cnpj.RetirarCaracteresEspeciais();
 
             //Verificar dados antes de salvar uma criação
             if (_prepareCriarCommandAcionado)
@@ -257,7 +257,7 @@ namespace iModSCCredenciamento.ViewModels
             //Verificar dados antes de salvar uma alteraçao
             if (_prepareAlterarCommandAcionado)
             {
-                var n1 = _service.BuscarPelaChave (Empresa.EmpresaId);
+                var n1 = _service.BuscarPelaChave (Entity.EmpresaId);
                 if (n1 == null) return;
                 //Comparar o CNPJ antes e o depois
                 if (string.Compare (n1.Cnpj.RetirarCaracteresEspeciais(),
@@ -277,9 +277,9 @@ namespace iModSCCredenciamento.ViewModels
         public void Validar()
         {
             ValidarCnpj();
-            if (string.IsNullOrWhiteSpace (Empresa.Nome))
+            if (string.IsNullOrWhiteSpace (Entity.Nome))
                 throw new InvalidOperationException ("O nome é requerido");
-            if (string.IsNullOrWhiteSpace (Empresa.Cnpj))
+            if (string.IsNullOrWhiteSpace (Entity.Cnpj))
                 throw new InvalidOperationException ("O CNPJ é requerido");
         }
 
@@ -328,7 +328,7 @@ namespace iModSCCredenciamento.ViewModels
 
         private void PrepareCriar()
         {
-            Empresa = new EmpresaView();
+            Entity = new EmpresaView();
             IsEnableTabItem = false;
             IsEnableLstView = false;
             _prepareCriarCommandAcionado = true;
@@ -390,11 +390,11 @@ namespace iModSCCredenciamento.ViewModels
                     int.TryParse (pesquisa, out cod);
                     var n1 = _service.BuscarPelaChave (cod);
                     if (n1 == null) return;
-                    Empresas.Clear();
+                    EntityObserver.Clear();
                     var n2 = Mapper.Map<EmpresaView> (n1);
                     var observer = new ObservableCollection<EmpresaView>();
                     observer.Add (n2);
-                    Empresas = observer;
+                    EntityObserver = observer;
                 }
                 //Por CNPJ
                 if (num.Key == 3)
@@ -423,8 +423,8 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 var list2 = Mapper.Map<List<EmpresaView>> (list.OrderBy (n => n.Nome));
-                Empresas = new ObservableCollection<EmpresaView>();
-                list2.ForEach (n => { Empresas.Add (n); });
+                EntityObserver = new ObservableCollection<EmpresaView>();
+                list2.ForEach (n => { EntityObserver.Add (n); });
                 //Empresas = observer;
             }
 
@@ -436,7 +436,7 @@ namespace iModSCCredenciamento.ViewModels
 
         private void PrepareAlterar()
         {
-            if (Empresa == null) return;
+            if (Entity == null) return;
             Comportamento.PrepareAlterar();
             IsEnableTabItem = false;
             IsEnableLstView = false;
@@ -449,7 +449,7 @@ namespace iModSCCredenciamento.ViewModels
 
         private void PrepareRemover()
         {
-            if (Empresa == null) return;
+            if (Entity == null) return;
             IsEnableLstView = true;
             _prepareCriarCommandAcionado = false;
             _prepareAlterarCommandAcionado = false;
@@ -462,8 +462,8 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                if (Empresa == null) return;
-                var n1 = Mapper.Map<Empresa> (Empresa);
+                if (Entity == null) return;
+                var n1 = Mapper.Map<Empresa> (Entity);
                 Validar();
                 _service.Criar (n1);
                 //Salvar Tipo de Atividades
@@ -472,7 +472,7 @@ namespace iModSCCredenciamento.ViewModels
                 SalvarTipoCracha (n1.EmpresaId);
                 //Adicionar no inicio da lista um item a coleção
                 var n2 = Mapper.Map<EmpresaView> (n1);
-                Empresas.Insert (0, n2);
+                EntityObserver.Insert (0, n2);
                 IsEnableTabItem = true;
                 IsEnableLstView = true;
             }
@@ -515,9 +515,9 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                if (Empresa == null) return;
+                if (Entity == null) return;
                 Validar();
-                var n1 = Mapper.Map<Empresa> (Empresa);
+                var n1 = Mapper.Map<Empresa> (Entity);
                 _service.Alterar (n1);
                 //Salvar Tipo de Atividades
                 SalvarTipoAtividades (n1.EmpresaId);
@@ -555,14 +555,14 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                if (Empresa == null) return;
+                if (Entity == null) return;
                 var result = WpfHelp.MboxDialogRemove();
                 if (result != DialogResult.Yes) return;
 
-                var n1 = Mapper.Map<Empresa> (Empresa);
+                var n1 = Mapper.Map<Empresa> (Entity);
                 _service.Remover(n1);
                 //Retirar empresa da coleção
-                Empresas.Remove (Empresa);
+                EntityObserver.Remove (Entity);
 
                 IsEnableLstView = true;
                 IsEnableTabItem = true;

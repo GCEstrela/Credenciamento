@@ -1,0 +1,127 @@
+﻿
+@model  DSBR.ServicesWeb.ViewModel.DadosLicencaViewModel
+
+@{
+    Layout = null; 
+    var listUsuario = ViewBag.Usuarios;
+}
+
+<div class="modal fade" id="modal-page" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="background: #2c3e50; color: #ffffff">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel" style="font-family: 'Francois One', sans-serif;">Cadastro de Licenças</h4>
+            </div>
+            @*@using (Html.BeginForm("Criar", "Licenca", FormMethod.Post, new { htmlAttributes = new { @class = "register-form" } }))
+{
+    @Html.AntiForgeryToken();*@
+                    @using (Ajax.BeginForm("Criar", "Licenca", new AjaxOptions()
+                    {
+                        HttpMethod = "POST",
+                        OnSuccess = "sucesso",
+                        OnFailure = "falha"
+                    }, new { id = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="modal-body">
+
+                            <div class="row">
+                                <div class="col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label>Licenciado para</label>
+                                        *@Html.EditorFor(model => model.LicenciadoPara, new {htmlAttributes = new {@class = "form-control", @autofocus = "autofocus", maxlength = "50", required = "required" } })
+                                        @*@Html.ValidationMessageFor(model => model.LicenciadoPara, "", new {@class = "text-danger"})*@
+                                    </div>
+                                    <div class="form-group">
+                                        <label>CNPJ</label>
+                                        *@Html.EditorFor(model => model.Cnpj, new {htmlAttributes = new {@class = "form-control", maxlength = "14", required = "required" } })
+                                        @*@Html.ValidationMessageFor(model => model.Cnpj, "", new {@class = "text-danger"})*@
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Hardware Info</label>
+                                        *@Html.EditorFor(model => model.HardwareInfo, new {htmlAttributes = new {@class = "form-control", required = "required" } })
+                                        @*@Html.ValidationMessageFor(model => model.HardwareInfo, "", new {@class = "text-danger"})*@
+                                        <p class="help-block">Informação HASH da máquina.</p>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label>Data Fim da Assinatura</label>
+                                        *@Html.EditorFor(model => model.DataExpira, new {htmlAttributes = new {@class = "form-control datepicker", required = "required" } })
+                                        @*@Html.ValidationMessageFor(model => model.DataExpira, "", new {@class = "text-danger"})*@
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Número máx. de usuários</label>
+                                        *@Html.EditorFor(model => model.NumUsuariosSimultaneos, new {htmlAttributes = new {@class = "form-control", @value = "5", @min = "5", required = "required" } })
+                                        @*@Html.ValidationMessageFor(model => model.NumUsuariosSimultaneos, "", new {@class = "text-danger"})*@
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Nome do usuário associado</label>
+                                        @if (listUsuario != null)
+                                        {
+                                            @('*') @Html.DropDownListFor(n => n.IdUser, new SelectList(listUsuario, "Value", "Text"), "Selecione...", new { @class = "form-control", required = "required" })
+                                        }
+                                        
+                                        @*@Html.ValidationMessageFor(model => model.IdUser, "", new {@class = "text-danger"})*@
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div> 
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                <button type="submit" class="btn btn-primary">Salvar</button>
+            </div>
+}
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+@*@Scripts.Render("~/bundles/jqueryval")*@
+@*<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+<script src="/Scripts/jquery.validate.js"></script>
+<script src="/Scripts/globalize.js"></script>
+<script src="/Scripts/jquery.validate.globalize.js"></script>
+<script src="/Scripts/methods_pt.js"></script>*@
+
+
+<script type="text/javascript">
+ $('.datepicker')
+        .datepicker({
+            language: "pt-BR",
+            todayHighlight: true,
+            weekStart: 0,
+            startDate: '0d'
+        });
+
+
+ function sucesso(data) { 
+         $('#form').each(function () {
+             this.reset();
+         });
+         ExibirNotificacaoSucesso('Dados inseridos com sucesso'); 
+ };
+
+
+ function falha(data) {
+     var msg = data.responseText;
+     //var msg2 = $('messageError').text();//$(msg).find('messageError').text();
+     var msg2 = $(msg).find('#messageError').text();
+     ExibirNotificacaoErro('Um erro ocorreu ao executar ação.<br>' + msg2);
+
+ };
+
+    </script>
+ 
+
+
+
+ 

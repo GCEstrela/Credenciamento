@@ -1,0 +1,60 @@
+﻿@model System.Web.Mvc.HandleErrorInfo
+@{
+    ViewBag.Title = "Error";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*<h1 class="text-danger">Error.</h1>
+<h2 class="text-danger">An error occurred while processing your request.</h2>*@
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <h2 class="page-header">
+                <img src="~/img/error_.png" alt=""/>
+                Um erro ocorreu durante sua solicitação.
+            </h2>
+           
+                 
+                   
+                    <div class="panel-body">
+                         
+                            @{
+
+                                if (Model != null)
+                                {
+                                    var msg = Model.Exception.Message;
+                                    <h3>
+                                        <span id="messageError">
+                                        @Html.Raw(HttpUtility.HtmlDecode(msg))
+                                        </span>
+                                        
+                                    </h3>
+
+                                }
+                            }
+                        
+                                   
+                      </div>
+                   
+                
+                @*@{
+
+                    if (Model != null)
+                    {
+                        var msg = Model.Exception.Message;
+                        <h3>
+                            @Html.Raw(HttpUtility.HtmlDecode(msg))
+                        </h3>
+                        
+                    }
+                }*@
+ 
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+</div>
+<!-- /.container-fluid -->
+
+
