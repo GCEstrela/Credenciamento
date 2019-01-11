@@ -370,7 +370,7 @@ namespace iModSCCredenciamento.ViewModels
         #endregion
 
         #region Salva Dados
-
+        //TODO: Carrega lista OnPesquisarTodos
         private void Pesquisar()
 
         {
