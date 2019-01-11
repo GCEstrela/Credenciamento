@@ -104,6 +104,7 @@ namespace iModSCCredenciamento.ViewModels
         /// </summary>
         public bool IsEnableLstView { get; private set; } = true;
 
+        ColaboradorView EntityTmp = new ColaboradorView();
         public ColaboradorView Entity { get; set; }
         public ObservableCollection<ColaboradorView> EntityObserver { get; set; }
 
@@ -299,6 +300,7 @@ namespace iModSCCredenciamento.ViewModels
 
         private void PrepareCriar()
         {
+            EntityTmp = Entity;
             Entity = new ColaboradorView();
             IsEnableTabItem = false;
             IsEnableLstView = false;
@@ -411,7 +413,12 @@ namespace iModSCCredenciamento.ViewModels
                 IsEnableTabItem = true;
                 IsEnableLstView = true;
                 _prepareCriarCommandAcionado = false;
-                _prepareAlterarCommandAcionado = false; 
+                _prepareAlterarCommandAcionado = false;
+                if (Entity.ColaboradorId == 0)
+                {
+                    Entity = EntityTmp;
+                }
+                
             }
             catch (Exception ex)
             {

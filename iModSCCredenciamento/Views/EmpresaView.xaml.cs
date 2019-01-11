@@ -122,7 +122,22 @@ namespace iModSCCredenciamento.Views
             _viewModel.TiposLayoutCracha.RemoveAt(idx);
             TipoAtividade_cb.Text = "";
         }
-
+        private void Signatarios_ti_GotFocus(object sender, RoutedEventArgs e)
+        {
+            BotoesGeral_sp.IsEnabled = false;
+        }
+        private void Geral_ti_GotFocus(object sender, RoutedEventArgs e)
+        {
+            BotoesGeral_sp.IsEnabled = true;
+        }
+        private void Contrato_ti_GotFocus(object sender, RoutedEventArgs e)
+        {
+            BotoesGeral_sp.IsEnabled = false;
+        }
+        private void StackPanel_GotFocus(object sender, RoutedEventArgs e)
+        {
+            BotoesGeral_sp.IsEnabled = false;
+        }
         #endregion
 
         #region Pendencias
@@ -204,24 +219,6 @@ namespace iModSCCredenciamento.Views
 
         #endregion
 
-        private void Signatarios_ti_GotFocus(object sender, RoutedEventArgs e)
-        {
-            BotoesGeral_sp.IsEnabled = false;
-        }
-
-        private void Geral_ti_GotFocus(object sender, RoutedEventArgs e)
-        {
-            BotoesGeral_sp.IsEnabled = true;
-        }
-
-        private void Contrato_ti_GotFocus(object sender, RoutedEventArgs e)
-        {
-            BotoesGeral_sp.IsEnabled = false;
-        }
-
-        private void StackPanel_GotFocus(object sender, RoutedEventArgs e)
-        {
-            BotoesGeral_sp.IsEnabled = false;
-        }
+        
     }
 }
