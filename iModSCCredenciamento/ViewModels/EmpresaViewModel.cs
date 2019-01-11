@@ -32,7 +32,7 @@ namespace iModSCCredenciamento.ViewModels
     {
         private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
         private readonly IEmpresaService _service = new EmpresaService();
-
+        
         /// <summary>
         ///     True, Comando de alteração acionado
         /// </summary>
@@ -99,6 +99,7 @@ namespace iModSCCredenciamento.ViewModels
         /// </summary>
         public bool IsEnableLstView { get; private set; } = true;
 
+        EmpresaView EntidadeTMP = new EmpresaView();
         public EmpresaView Empresa { get; set; }
         public ObservableCollection<EmpresaView> Empresas { get; set; }
         public ObservableCollection<EmpresaLayoutCrachaView> TiposLayoutCracha { get; set; }
@@ -328,6 +329,8 @@ namespace iModSCCredenciamento.ViewModels
 
         private void PrepareCriar()
         {
+           
+            EntidadeTMP = Empresa;
             Empresa = new EmpresaView();
             IsEnableTabItem = false;
             IsEnableLstView = false;
@@ -544,7 +547,7 @@ namespace iModSCCredenciamento.ViewModels
                 _prepareAlterarCommandAcionado = false;
                 TiposAtividades.Clear();
                 TiposLayoutCracha.Clear();
-                
+                Empresa = EntidadeTMP;
             }
             catch (Exception ex)
             {
