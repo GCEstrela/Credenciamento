@@ -14,17 +14,17 @@ namespace iModSCCredenciamento.ViewModels.Comportamento
 {
     public class ComportamentoBasico : ViewModelBase
     {
-        private Acao _salvar; 
+        private Acao _salvar;
 
         #region  Propriedades
 
-        
+
         public bool IsEnableEditar { get; set; } = true;
         public bool IsEnableCriar { get; set; } = true;
         public bool isEnableRemover { get; set; } = true;
         public bool isEnableSalvar { get; set; }
         public bool isEnableCancelar { get; set; } = true;
-        public bool isEnableLstView { get; set; } = true; 
+        public bool isEnableLstView { get; set; } = true;
 
         #endregion
 
@@ -43,8 +43,8 @@ namespace iModSCCredenciamento.ViewModels.Comportamento
             IsEnableCriar = btnCriarEHabilitado;
             isEnableRemover = btnExcluirEHabilitado;
             isEnableSalvar = btnSalvarEHabilitado;
-            isEnableCancelar = cancelarHabilitado; 
-            
+            isEnableCancelar = cancelarHabilitado;
+
         }
 
         #region  Metodos
@@ -59,8 +59,7 @@ namespace iModSCCredenciamento.ViewModels.Comportamento
         /// </summary>
         public void PrepareCriar()
         {
-            AdicionarEstado (false, false, false, true, true,false);
-            
+            AdicionarEstado(false, false, false, true, true, false);
             _salvar = Acao.SalvarAdicao;
         }
 
@@ -68,32 +67,32 @@ namespace iModSCCredenciamento.ViewModels.Comportamento
         /// </summary>
         public void PrepareAlterar()
         {
-            AdicionarEstado (false, true, false, true, true,false);
+            AdicionarEstado(false, false, false, true, true, false);
             _salvar = Acao.SalvarEditar;
         }
 
         public void PrepareCancelar()
         {
-            AdicionarEstado (true, true, true, false, false,true);
+            AdicionarEstado(true, true, true, false, false, true);
             _salvar = Acao.Cancelar;
-            OnCancelar (new RoutedEventArgs());
+            OnCancelar(new RoutedEventArgs());
         }
 
         public void PrepareRemover()
         {
-            AdicionarEstado (true, true, true, false, true,true);
+            AdicionarEstado(true, true, true, false, true, true);
             _salvar = Acao.Remover;
-            OnRemover (new RoutedEventArgs());
+            OnRemover(new RoutedEventArgs());
         }
 
         public void PrepareSalvar()
         {
             if (_salvar == Acao.SalvarEditar)
-                OnSalvarEdicao (new RoutedEventArgs());
+                OnSalvarEdicao(new RoutedEventArgs());
             if (_salvar == Acao.SalvarAdicao)
-                OnSalvarAdicao (new RoutedEventArgs());
+                OnSalvarAdicao(new RoutedEventArgs());
 
-            AdicionarEstado (true, true, true, false, false, true);
+            AdicionarEstado(true, true, true, false, false, true);
         }
 
         /// <summary>
@@ -105,7 +104,7 @@ namespace iModSCCredenciamento.ViewModels.Comportamento
         /// <param name="isEnableSalvar">True, habilitar botão Salvar</param>
         /// <param name="isEnableCancelar">True, habilitar botão Cancelar </param>
         private void AdicionarEstado(bool isEnableCriar, bool isEnableEditar, bool isEnableRemover,
-            bool isEnableSalvar, bool isEnableCancelar,bool isEnableLstView)
+            bool isEnableSalvar, bool isEnableCancelar, bool isEnableLstView)
         {
             this.IsEnableCriar = isEnableCriar;
             this.isEnableCancelar = isEnableCancelar;
@@ -117,22 +116,22 @@ namespace iModSCCredenciamento.ViewModels.Comportamento
 
         protected virtual void OnRemover(RoutedEventArgs e)
         {
-            Remover?.Invoke (this, e);
+            Remover?.Invoke(this, e);
         }
 
         protected virtual void OnSalvarAdicao(RoutedEventArgs e)
         {
-            SalvarAdicao?.Invoke (this, e);
+            SalvarAdicao?.Invoke(this, e);
         }
 
         protected virtual void OnSalvarEdicao(RoutedEventArgs e)
         {
-            SalvarEdicao?.Invoke (this, e);
+            SalvarEdicao?.Invoke(this, e);
         }
 
         protected virtual void OnCancelar(RoutedEventArgs e)
         {
-            Cancelar?.Invoke (this, e);
+            Cancelar?.Invoke(this, e);
         }
 
         #endregion

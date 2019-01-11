@@ -565,7 +565,13 @@ namespace iModSCCredenciamento.ViewModels
                 _prepareAlterarCommandAcionado = false;
                 TiposAtividades.Clear();
                 TiposLayoutCracha.Clear();
-                Empresa = EntidadeTMP;
+                if (Empresa.EmpresaId == 0)
+                {
+                    Empresa = EntidadeTMP;
+                }
+                AtualizarDadosTipoCrachas();
+                AtualizarDadosTiposAtividades();
+
             }
             catch (Exception ex)
             {

@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:iModSCCredenciamento.Views"
              d:DataContext="{d:DesignInstance vm:EmpresasAnexosViewModel , IsDesignTimeCreatable=True}"
              xmlns:vm="clr-namespace:iModSCCredenciamento.ViewModels"
+             xmlns:wpf="clr-namespace:CSharpControls.Wpf;assembly=CSharpControls.Wpf"
              mc:Ignorable="d" Loaded="UserControl_Loaded">
     <Grid VerticalAlignment="Top">
         <StackPanel Orientation="Vertical">
@@ -15,11 +16,11 @@
                       VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="795">
                 <StackPanel x:Name="InformacoesAnexo_sp" Margin="0,10,10,10" Width="773">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="1">
-                        <Label Content="ID:" Height="28" Width="56" Margin="1" Foreground="#FFD0D0D0" />
+                        <Label Content="Código:" Height="28" Width="56" Margin="1" Foreground="#FFD0D0D0" />
                         <TextBox x:Name="ID_tb" IsEnabled="False" CharacterCasing="Upper"
                                  Text="{Binding Entity.EmpresaId, UpdateSourceTrigger=PropertyChanged}" Height="24"
                                  Width="51" />
-                        <Label Content="Descrição do Arquivo:" Height="28" Width="152" Margin="0,0,5,0"
+                        <Label Content="Descrição do Anexo:" Height="28" Width="152" Margin="0,0,5,0"
                                HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
                         <TextBox x:Name="DescricaoArquivo_tb" MaxLength="50" CharacterCasing="Upper"
                                  Text="{Binding Entity.Descricao, UpdateSourceTrigger=PropertyChanged}"
@@ -28,10 +29,10 @@
 
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                 Margin="1">
-                        <Label Content="Nome do Arquivo:" Height="28" Width="108" Margin="1" Foreground="#FFD0D0D0" />
+                        <Label Content="Arquivo:" Height="28" Width="56" Margin="1" Foreground="#FFD0D0D0" />
                         <TextBox x:Name="txtNomeAnexo" MaxLength="100" CharacterCasing="Upper"
                                  Text="{Binding Entity.NomeAnexo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                 IsEnabled="True" Height="24" Width="523" />
+                                 IsEnabled="True" Height="24" Width="507" />
                         <Button x:Name="BuscarContratoArquivo_bt" Height="24" Margin="10,0,0,0"
                                 VerticalAlignment="Center" Width="24" Click="OnUpLoad_Click">
                             <StackPanel>
@@ -57,10 +58,18 @@
                           SelectionChanged="ListaAnexos_lv_SelectionChanged" Width="630">
                     <ListView.View>
                         <GridView FrameworkElement.FlowDirection="RightToLeft">
-                            <GridViewColumn Width="50" Header="ID" DisplayMemberBinding="{Binding EmpresaAnexoId}" />
-                            <GridViewColumn Width="200" Header="Descrição do Arquivo"
+                            <GridViewColumn Width="0" Header="Principal"  >
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <wpf:ToggleSwitch HeaderHorizontalAlignment="Stretch" Width="100" HorizontalAlignment="Right" SwitchContentPlacement="Right" IsHitTestVisible="False"
+                                                                  IsChecked="{Binding Principal}"  Foreground="#FFD0D0BE" UncheckedBackground="Gray" UncheckedBorderBrush="Gray" UncheckedForeground="#FFAEAEAE" UncheckedText="" CheckedText="" SwitchWidth="44" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Width="50" Header="Cód." DisplayMemberBinding="{Binding EmpresaAnexoId}" />
+                            <GridViewColumn Width="300" Header="Descrição do Anexo"
                                             DisplayMemberBinding="{Binding Descricao}" />
-                            <GridViewColumn Width="200" Header="Nome do Arquivo"
+                            <GridViewColumn Width="250" Header="Arquivo"
                                             DisplayMemberBinding="{Binding NomeAnexo}" />
                         </GridView>
                     </ListView.View>

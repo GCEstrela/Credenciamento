@@ -76,6 +76,7 @@
                 <TextBox.InputBindings>
                     <KeyBinding Command="{Binding Path=PesquisarCommand}" Key="Enter" />
                 </TextBox.InputBindings>
+
             </TextBox>
         </StackPanel>
 
@@ -92,12 +93,13 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>-->
-                        <GridViewColumn Width="80" Header="Código"  DisplayMemberBinding="{Binding EmpresaId}"/>
-                        <GridViewColumn Width="150" Header="CNPJ"  DisplayMemberBinding="{Binding Cnpj}"/>
-                        <GridViewColumn Width="450"  Header="Razão Social" DisplayMemberBinding="{Binding Nome}"/>
-                        <GridViewColumn Width="200"  Header="Telefone 1" DisplayMemberBinding="{Binding Telefone1}"/>
-                        <GridViewColumn Width="200"  Header="Celular 1" DisplayMemberBinding="{Binding Celular1}"/>
-                        <GridViewColumn Width="200"  Header="E-Mail 1" DisplayMemberBinding="{Binding Email1}"/>
+                        <GridViewColumn Width="55" Header="Código"  DisplayMemberBinding="{Binding EmpresaId}"/>
+                        <GridViewColumn Width="140" Header="CNPJ"  DisplayMemberBinding="{Binding Cnpj}"/>
+                        <GridViewColumn Width="270"  Header="Razão Social" DisplayMemberBinding="{Binding Nome}"/>
+                        <GridViewColumn Width="130"  Header="Nome Fantasia" DisplayMemberBinding="{Binding Apelido}"/>
+                        <GridViewColumn Width="115"  Header="Telefone" DisplayMemberBinding="{Binding Telefone1}"/>
+                        <GridViewColumn Width="115"  Header="Celular" DisplayMemberBinding="{Binding Celular1}"/>
+                        <GridViewColumn Width="200"  Header="E-Mail" DisplayMemberBinding="{Binding Email1}"/>
                     </GridView>
                 </ListView.View>
             </ListView>
@@ -301,9 +303,9 @@
                             <StackPanel Width="469" Margin="0,0,0,10"   >
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" >
                                     <Label Content="Tipo de Crachá:" Height="28" Width="104" Margin="0,0,5,0"  Foreground="#FFD0D0D0" />
-                                    <ComboBox  x:Name="cmb3"   IsEnabled="True"  Height="30"  Width="280" ItemsSource="{Binding ListaCrachas}"
+                                    <ComboBox  x:Name="TipoCracha_cb"   IsEnabled="True"  Height="30"  Width="280" ItemsSource="{Binding ListaCrachas}"
                                                DisplayMemberPath="Nome"   
-                                               SelectedValuePath="LayoutCrachaID"
+                                               SelectedValuePath="LayoutCrachaId"
                                                SelectedItem="{Binding TipoCracha}"
                                                />
                                     <Button x:Name="btnA" Content="Incluir" Margin="10,0,0,0" Width="65" 
