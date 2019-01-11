@@ -18,7 +18,6 @@ namespace iModSCCredenciamento.ViewModels.Comportamento
 
         #region  Propriedades
 
-
         public bool IsEnableEditar { get; set; } = true;
         public bool IsEnableCriar { get; set; } = true;
         public bool isEnableRemover { get; set; } = true;
@@ -44,7 +43,6 @@ namespace iModSCCredenciamento.ViewModels.Comportamento
             isEnableRemover = btnExcluirEHabilitado;
             isEnableSalvar = btnSalvarEHabilitado;
             isEnableCancelar = cancelarHabilitado;
-
         }
 
         #region  Metodos
@@ -55,7 +53,7 @@ namespace iModSCCredenciamento.ViewModels.Comportamento
         public event RoutedEventHandler Cancelar;
 
         /// <summary>
-        ///     Prepara botões para comportamento de criação
+        /// Prepara botões para comportamento de criação
         /// </summary>
         public void PrepareCriar()
         {
@@ -80,7 +78,7 @@ namespace iModSCCredenciamento.ViewModels.Comportamento
 
         public void PrepareRemover()
         {
-            AdicionarEstado(true, true, true, false, true, true);
+            AdicionarEstado(true, true, true, false, false, true);
             _salvar = Acao.Remover;
             OnRemover(new RoutedEventArgs());
         }
