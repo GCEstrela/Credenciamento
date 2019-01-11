@@ -21,6 +21,8 @@ using IMOD.Application.Interfaces;
 using IMOD.Application.Service;
 using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
+using System.Linq;
+using iModSCCredenciamento.Funcoes;
 
 #endregion
 
@@ -51,7 +53,7 @@ namespace iModSCCredenciamento.ViewModels
         public ColaboradoresEmpresasViewModel()
         {
             ListarDadosAuxiliares();
-            Comportamento = new ComportamentoBasico (true, true, true, true, true);
+            Comportamento = new ComportamentoBasico (true, true, true, false, false);
             Comportamento.SalvarAdicao += OnSalvarAdicao;
             Comportamento.SalvarEdicao += OnSalvarEdicao;
             Comportamento.Remover += OnRemover;
@@ -75,7 +77,12 @@ namespace iModSCCredenciamento.ViewModels
 
         public void ListarContratos(Empresa empresa)
         {
+
+            
             if (empresa == null) return;
+            
+            var lstContratos = _empresaContratoService.Listar(empresa.EmpresaId);
+            Contratos.AddRange(lstContratos);
 
 
         }
@@ -99,7 +106,7 @@ namespace iModSCCredenciamento.ViewModels
             {
                 if (Entity == null) return;
                 var n1 = Mapper.Map<ColaboradorEmpresa> (Entity);
-                n1.EmpresaId = _colaboradorView.ColaboradorId;
+                n1.ColaboradorId = _colaboradorView.ColaboradorId;
                 _service.Criar (n1);
                 //Adicionar no inicio da lista um item a coleção
                 var n2 = Mapper.Map<ColaboradorEmpresaView> (n1);
@@ -119,6 +126,8 @@ namespace iModSCCredenciamento.ViewModels
         private void PrepareCriar()
         {
             Entity = new ColaboradorEmpresaView();
+            Entity.Matricula = string.Format("{0:#,##0}", Global.GerarID()) + "-" + String.Format("{0:yy}", DateTime.Now);
+
             Comportamento.PrepareCriar();
             IsEnableLstView = false;
         }

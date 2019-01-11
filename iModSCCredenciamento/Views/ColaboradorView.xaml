@@ -276,11 +276,11 @@
         </Grid.ColumnDefinitions>
 
         <StackPanel Orientation="Horizontal" Margin="0,5">
-            <ComboBox  Width="150" ItemsSource="{Binding ListaPesquisa }"
+            <ComboBox  Width="150" IsEnabled="{Binding Comportamento.IsEnableCriar}" ItemsSource="{Binding ListaPesquisa }"
              DisplayMemberPath="Value"
              SelectedValue="Key" 
              SelectedItem="{Binding PesquisarPor}" VerticalContentAlignment="Center"/>
-            <TextBox Width="200" Margin="10,0,0,0" Text="{Binding NomePesquisa, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" >
+            <TextBox Width="200" Margin="10,0,0,0" IsEnabled="{Binding Comportamento.IsEnableCriar}" Text="{Binding NomePesquisa, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" >
                 <TextBox.InputBindings>
                     <KeyBinding Command="{Binding Path=PesquisarCommand}" Key="Enter" />
                 </TextBox.InputBindings>
@@ -343,7 +343,7 @@
                         </StackPanel>
                     </StackPanel>
                 </TabItem.Header>
-                <Grid Margin="5" HorizontalAlignment="Left" Width="601" >
+                <Grid Margin="5" HorizontalAlignment="Left" Width="601" IsEnabled="{Binding Comportamento.isEnableCancelar}"  >
                     <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" Header="Identificação" Background="BlueViolet"  Height="192" VerticalAlignment="Top" Margin="0,0,2,0">
                         <StackPanel Orientation="Horizontal" Height="172"   VerticalAlignment="Top" Margin="1">
                             <StackPanel.Resources>

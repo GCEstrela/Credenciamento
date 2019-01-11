@@ -60,6 +60,7 @@ namespace iModSCCredenciamento.ViewModels.Comportamento
         public void PrepareCriar()
         {
             AdicionarEstado (false, false, false, true, true,false);
+            
             _salvar = Acao.SalvarAdicao;
         }
 
