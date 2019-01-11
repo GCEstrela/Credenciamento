@@ -70,6 +70,8 @@ namespace iModSCCredenciamento.ViewModels
         public ObservableCollection<EmpresaContratoView> EntityObserver { get; set; }
         public EmpresaContratoView Entity { get; set; }
 
+        EmpresaContratoView EntidadeTMP = new EmpresaContratoView();
+
         /// <summary>
         ///     Habilita listView
         /// </summary>
@@ -79,9 +81,9 @@ namespace iModSCCredenciamento.ViewModels
 
         public EmpresasContratosViewModel()
         {
-             ListarDadosAuxiliares();
+            ListarDadosAuxiliares();
             ItensDePesquisaConfigura();
-            Comportamento = new ComportamentoBasico (true, true, true, false, false);
+            Comportamento = new ComportamentoBasico(true, true, true, false, false);
             EntityObserver = new ObservableCollection<EmpresaContratoView>();
             Comportamento.SalvarAdicao += OnSalvarAdicao;
             Comportamento.SalvarEdicao += OnSalvarEdicao;
@@ -98,20 +100,20 @@ namespace iModSCCredenciamento.ViewModels
         {
             //Estados
             var lst1 = _auxiliaresService.EstadoService.Listar();
-            Estados= new List<Estados>();
-            Estados.AddRange (lst1);
+            Estados = new List<Estados>();
+            Estados.AddRange(lst1);
             //Status
             var lst2 = _auxiliaresService.StatusService.Listar();
             Status = new List<Status>();
-            Status.AddRange (lst2);
+            Status.AddRange(lst2);
             //Tipos Cobrança
             var lst3 = _auxiliaresService.TipoCobrancaService.Listar();
             TiposCobranca = new List<TipoCobranca>();
-            TiposCobranca.AddRange (lst3);
+            TiposCobranca.AddRange(lst3);
             //Tipo de Acesso
             var lst4 = _auxiliaresService.TiposAcessoService.Listar();
             ListaTipoAcessos = new List<TipoAcesso>();
-            ListaTipoAcessos.AddRange (lst4); 
+            ListaTipoAcessos.AddRange(lst4);
         }
 
         /// <summary>
@@ -122,39 +124,39 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                if (string.IsNullOrWhiteSpace (uf)) return;
+                if (string.IsNullOrWhiteSpace(uf)) return;
                 if (Municipios == null) Municipios = new List<Municipio>();
                 if (_municipios == null) _municipios = new List<Municipio>();
                 if (Estado == null) return;
 
                 //Verificar se há municipios já carregados...
-                var l1 = _municipios.Where (n => n.Uf == uf);
+                var l1 = _municipios.Where(n => n.Uf == uf);
                 Municipios.Clear();
                 //Nao havendo municipios... obter do repositorio
                 if (!l1.Any())
                 {
-                    var l2 = _auxiliaresService.MunicipioService.Listar (null, uf);
-                    _municipios.AddRange (Mapper.Map<List<Municipio>> (l2));
+                    var l2 = _auxiliaresService.MunicipioService.Listar(null, uf);
+                    _municipios.AddRange(Mapper.Map<List<Municipio>>(l2));
                 }
 
-                var municipios = _municipios.Where (n => n.Uf == uf).ToList();
+                var municipios = _municipios.Where(n => n.Uf == uf).ToList();
                 Municipios = municipios;
             }
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
+                Utils.TraceException(ex);
             }
         }
 
         public void AtualizarDados(EmpresaView entity)
         {
-            if (entity == null) throw new ArgumentNullException (nameof (entity));
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
             _empresaView = entity;
             //Obter dados
-            var list1 = _service.Listar (entity.EmpresaId, null, null, null, null, null, null);
-            var list2 = Mapper.Map<List<EmpresaContratoView>> (list1);
+            var list1 = _service.Listar(entity.EmpresaId, null, null, null, null, null, null);
+            var list2 = Mapper.Map<List<EmpresaContratoView>>(list1);
             EntityObserver = new ObservableCollection<EmpresaContratoView>();
-            list2.ForEach (n => { EntityObserver.Add (n); });
+            list2.ForEach(n => { EntityObserver.Add(n); });
         }
 
         /// <summary>
@@ -163,7 +165,7 @@ namespace iModSCCredenciamento.ViewModels
         private void ItensDePesquisaConfigura()
         {
             ListaPesquisa = new List<KeyValuePair<int, string>>();
-            ListaPesquisa.Add (new KeyValuePair<int, string> (1, "Nome"));
+            ListaPesquisa.Add(new KeyValuePair<int, string>(1, "Nome"));
             ListaPesquisa.Add(new KeyValuePair<int, string>(2, "Todos"));
             PesquisarPor = ListaPesquisa[0]; //Pesquisa Default
         }
@@ -186,18 +188,18 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 if (Entity == null) return;
-                var n1 = Mapper.Map<EmpresaContrato> (Entity);
+                var n1 = Mapper.Map<EmpresaContrato>(Entity);
                 n1.EmpresaId = _empresaView.EmpresaId;
-                _service.Criar (n1);
+                _service.Criar(n1);
                 //Adicionar no inicio da lista um item a coleção
-                var n2 = Mapper.Map<EmpresaContratoView> (n1);
-                EntityObserver.Insert (0, n2);
+                var n2 = Mapper.Map<EmpresaContratoView>(n1);
+                EntityObserver.Insert(0, n2);
                 IsEnableLstView = true;
             }
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
-                WpfHelp.PopupBox (ex);
+                Utils.TraceException(ex);
+                WpfHelp.PopupBox(ex);
             }
         }
 
@@ -206,6 +208,7 @@ namespace iModSCCredenciamento.ViewModels
         /// </summary>
         private void PrepareCriar()
         {
+            EntidadeTMP = Entity;
             Entity = new EmpresaContratoView();
             Comportamento.PrepareCriar();
             IsEnableLstView = false;
@@ -221,14 +224,14 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 if (Entity == null) return;
-                var n1 = Mapper.Map<EmpresaContrato> (Entity);
-                _service.Alterar (n1);
+                var n1 = Mapper.Map<EmpresaContrato>(Entity);
+                _service.Alterar(n1);
                 IsEnableLstView = true;
             }
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
-                WpfHelp.PopupBox (ex);
+                Utils.TraceException(ex);
+                WpfHelp.PopupBox(ex);
             }
         }
 
@@ -242,11 +245,12 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 IsEnableLstView = true;
+                Entity = EntidadeTMP;
             }
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
-                WpfHelp.MboxError ("Não foi realizar a operação solicitada", ex);
+                Utils.TraceException(ex);
+                WpfHelp.MboxError("Não foi realizar a operação solicitada", ex);
             }
         }
 
@@ -263,15 +267,15 @@ namespace iModSCCredenciamento.ViewModels
                 var result = WpfHelp.MboxDialogRemove();
                 if (result != DialogResult.Yes) return;
 
-                var n1 = Mapper.Map<EmpresaContrato> (Entity);
-                _service.Remover (n1);
+                var n1 = Mapper.Map<EmpresaContrato>(Entity);
+                _service.Remover(n1);
                 //Retirar empresa da coleção
-                EntityObserver.Remove (Entity);
+                EntityObserver.Remove(Entity);
             }
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
-                WpfHelp.MboxError ("Não foi realizar a operação solicitada", ex);
+                Utils.TraceException(ex);
+                WpfHelp.MboxError("Não foi realizar a operação solicitada", ex);
             }
         }
 
@@ -293,7 +297,7 @@ namespace iModSCCredenciamento.ViewModels
             {
                 var pesquisa = NomePesquisa;
                 var num = PesquisarPor;
-               
+
 
                 //Por nome
                 if (num.Key == 1)
@@ -301,24 +305,24 @@ namespace iModSCCredenciamento.ViewModels
                     //Obet itens do observer
                     //var l1 = _service.Listar (Entity.EmpresaId,null, $"%{pesquisa}%");
                     if (string.IsNullOrWhiteSpace(pesquisa)) return;
-                    var l1 = EntityObserver.Where (n => n.Descricao
-                    .ToLower()
-                    .Contains (pesquisa.ToLower())).ToList();
+                    var l1 = EntityObserver.Where(n => n.Descricao
+                   .ToLower()
+                   .Contains(pesquisa.ToLower())).ToList();
                     EntityObserver = new ObservableCollection<EmpresaContratoView>();
-                    l1.ForEach (n=> { EntityObserver.Add(n);});
+                    l1.ForEach(n => { EntityObserver.Add(n); });
                     //PopularObserver (l1);
                 }
 
                 if (num.Key == 2)
                 {
                     //Obet itens do observer
-                    var l1 = _service.Listar (Entity.EmpresaId);
-                    PopularObserver (l1);
+                    var l1 = _service.Listar(Entity.EmpresaId);
+                    PopularObserver(l1);
                 }
             }
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
+                Utils.TraceException(ex);
             }
         }
 
@@ -326,14 +330,14 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                var list2 = Mapper.Map<List<EmpresaContratoView>> (list);
+                var list2 = Mapper.Map<List<EmpresaContratoView>>(list);
                 EntityObserver = new ObservableCollection<EmpresaContratoView>();
-                list2.ForEach (n => { EntityObserver.Add (n); });
+                list2.ForEach(n => { EntityObserver.Add(n); });
             }
 
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
+                Utils.TraceException(ex);
             }
         }
 
@@ -371,34 +375,34 @@ namespace iModSCCredenciamento.ViewModels
         /// <summary>
         ///     Novo
         /// </summary>
-        public ICommand PrepareCriarCommand => new CommandBase (PrepareCriar, true);
+        public ICommand PrepareCriarCommand => new CommandBase(PrepareCriar, true);
 
         public ComportamentoBasico Comportamento { get; set; }
 
         /// <summary>
         ///     Editar
         /// </summary>
-        public ICommand PrepareAlterarCommand => new CommandBase (PrepareAlterar, true);
+        public ICommand PrepareAlterarCommand => new CommandBase(PrepareAlterar, true);
 
         /// <summary>
         ///     Cancelar
         /// </summary>
-        public ICommand PrepareCancelarCommand => new CommandBase (Comportamento.PrepareCancelar, true);
+        public ICommand PrepareCancelarCommand => new CommandBase(Comportamento.PrepareCancelar, true);
 
         /// <summary>
         ///     Novo
         /// </summary>
-        public ICommand PrepareSalvarCommand => new CommandBase (Comportamento.PrepareSalvar, true);
+        public ICommand PrepareSalvarCommand => new CommandBase(Comportamento.PrepareSalvar, true);
 
         /// <summary>
         ///     Remover
         /// </summary>
-        public ICommand PrepareRemoverCommand => new CommandBase (PrepareRemover, true);
+        public ICommand PrepareRemoverCommand => new CommandBase(PrepareRemover, true);
 
         /// <summary>
         ///     Pesquisar
         /// </summary>
-        public ICommand PesquisarCommand => new CommandBase (Pesquisar, true);
+        public ICommand PesquisarCommand => new CommandBase(Pesquisar, true);
 
         #endregion
     }

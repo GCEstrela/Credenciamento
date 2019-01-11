@@ -37,6 +37,10 @@ namespace iModSCCredenciamento.ViewModels
         public EmpresaSignatarioView Entity { get; set; }
         public ObservableCollection<EmpresaSignatarioView> EntityObserver { get; set; }
 
+
+        EmpresaSignatarioView EntidadeTMP = new EmpresaSignatarioView();
+
+
         /// <summary>
         ///     Habilita listView
         /// </summary>
@@ -116,6 +120,7 @@ namespace iModSCCredenciamento.ViewModels
         /// </summary>
         private void PrepareCriar()
         {
+            EntidadeTMP = Entity;
             Entity = new EmpresaSignatarioView();
             Comportamento.PrepareCriar();
             IsEnableLstView = false;
@@ -152,6 +157,8 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 IsEnableLstView = true;
+                Entity = EntidadeTMP;
+
             }
             catch (Exception ex)
             {

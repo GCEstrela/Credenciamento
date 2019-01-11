@@ -36,6 +36,8 @@ namespace iModSCCredenciamento.ViewModels
         public EmpresaAnexoView Entity { get; set; }
         public ObservableCollection<EmpresaAnexoView> EntityObserver { get; set; }
 
+        EmpresaAnexoView EntidadeTMP = new EmpresaAnexoView();
+
         /// <summary>
         ///     Habilita listView
         /// </summary>
@@ -45,7 +47,7 @@ namespace iModSCCredenciamento.ViewModels
 
         public EmpresasAnexosViewModel()
         {
-            Comportamento = new ComportamentoBasico (true, true, true,false,false);
+            Comportamento = new ComportamentoBasico(true, true, true, false, false);
             Comportamento.SalvarAdicao += OnSalvarAdicao;
             Comportamento.SalvarEdicao += OnSalvarEdicao;
             Comportamento.Remover += OnRemover;
@@ -72,18 +74,18 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 if (Entity == null) return;
-                var n1 = Mapper.Map<EmpresaAnexo> (Entity);
+                var n1 = Mapper.Map<EmpresaAnexo>(Entity);
                 n1.EmpresaId = _empresaView.EmpresaId;
-                _service.Criar (n1);
+                _service.Criar(n1);
                 //Adicionar no inicio da lista um item a coleção
-                var n2 = Mapper.Map<EmpresaAnexoView> (n1);
-                EntityObserver.Insert (0, n2);
+                var n2 = Mapper.Map<EmpresaAnexoView>(n1);
+                EntityObserver.Insert(0, n2);
                 IsEnableLstView = true;
             }
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
-                WpfHelp.PopupBox (ex);
+                Utils.TraceException(ex);
+                WpfHelp.PopupBox(ex);
             }
         }
 
@@ -92,6 +94,7 @@ namespace iModSCCredenciamento.ViewModels
         /// </summary>
         private void PrepareCriar()
         {
+            EntidadeTMP = Entity;
             Entity = new EmpresaAnexoView();
             Comportamento.PrepareCriar();
             IsEnableLstView = false;
@@ -107,14 +110,14 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 if (Entity == null) return;
-                var n1 = Mapper.Map<EmpresaAnexo> (Entity);
-                _service.Alterar (n1);
+                var n1 = Mapper.Map<EmpresaAnexo>(Entity);
+                _service.Alterar(n1);
                 IsEnableLstView = true;
             }
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
-                WpfHelp.PopupBox (ex);
+                Utils.TraceException(ex);
+                WpfHelp.PopupBox(ex);
             }
         }
 
@@ -128,11 +131,12 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 IsEnableLstView = true;
+                Entity = EntidadeTMP;
             }
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
-                WpfHelp.MboxError ("Não foi realizar a operação solicitada", ex);
+                Utils.TraceException(ex);
+                WpfHelp.MboxError("Não foi realizar a operação solicitada", ex);
             }
         }
 
@@ -149,15 +153,15 @@ namespace iModSCCredenciamento.ViewModels
                 var result = WpfHelp.MboxDialogRemove();
                 if (result != DialogResult.Yes) return;
 
-                var n1 = Mapper.Map<EmpresaAnexo> (Entity);
-                _service.Remover (n1);
+                var n1 = Mapper.Map<EmpresaAnexo>(Entity);
+                _service.Remover(n1);
                 //Retirar empresa da coleção
-                EntityObserver.Remove (Entity);
+                EntityObserver.Remove(Entity);
             }
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
-                WpfHelp.MboxError ("Não foi realizar a operação solicitada", ex);
+                Utils.TraceException(ex);
+                WpfHelp.MboxError("Não foi realizar a operação solicitada", ex);
             }
         }
 
@@ -172,13 +176,13 @@ namespace iModSCCredenciamento.ViewModels
 
         public void AtualizarDadosAnexo(EmpresaView entity)
         {
-            if (entity == null) throw new ArgumentNullException (nameof (entity));
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
             _empresaView = entity;
             //Obter dados
-            var list1 = _service.Listar (entity.EmpresaId);
-            var list2 = Mapper.Map<List<EmpresaAnexoView>> (list1);
+            var list1 = _service.Listar(entity.EmpresaId);
+            var list2 = Mapper.Map<List<EmpresaAnexoView>>(list1);
             EntityObserver = new ObservableCollection<EmpresaAnexoView>();
-            list2.ForEach (n => { EntityObserver.Add (n); });
+            list2.ForEach(n => { EntityObserver.Add(n); });
         }
 
         #endregion
@@ -208,29 +212,29 @@ namespace iModSCCredenciamento.ViewModels
         /// <summary>
         ///     Novo
         /// </summary>
-        public ICommand PrepareCriarCommand => new CommandBase (PrepareCriar, true);
+        public ICommand PrepareCriarCommand => new CommandBase(PrepareCriar, true);
 
         public ComportamentoBasico Comportamento { get; set; }
 
         /// <summary>
         ///     Editar
         /// </summary>
-        public ICommand PrepareAlterarCommand => new CommandBase (PrepareAlterar, true);
+        public ICommand PrepareAlterarCommand => new CommandBase(PrepareAlterar, true);
 
         /// <summary>
         ///     Cancelar
         /// </summary>
-        public ICommand PrepareCancelarCommand => new CommandBase (Comportamento.PrepareCancelar, true);
+        public ICommand PrepareCancelarCommand => new CommandBase(Comportamento.PrepareCancelar, true);
 
         /// <summary>
         ///     Novo
         /// </summary>
-        public ICommand PrepareSalvarCommand => new CommandBase (Comportamento.PrepareSalvar, true);
+        public ICommand PrepareSalvarCommand => new CommandBase(Comportamento.PrepareSalvar, true);
 
         /// <summary>
         ///     Remover
         /// </summary>
-        public ICommand PrepareRemoverCommand => new CommandBase (PrepareRemover, true);
+        public ICommand PrepareRemoverCommand => new CommandBase(PrepareRemover, true);
 
         /// <summary>
         ///     Validar Regras de Negócio
