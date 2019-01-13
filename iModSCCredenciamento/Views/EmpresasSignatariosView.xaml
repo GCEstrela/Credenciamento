@@ -83,7 +83,7 @@
                                         </StackPanel>
                                     </Button>
                                     <Button x:Name="AbrirArquivo_bt" Height="24" Margin="10,0,0,0"
-                                            VerticalAlignment="Center" Width="24" Click="OnDownload_Click">
+                                            VerticalAlignment="Center" Width="24" Click="OnAbrirArquivo_Click">
                                         <StackPanel>
                                             <Image Source="/iModSCCredenciamento;component/Resources/Olho.png" />
                                         </StackPanel>

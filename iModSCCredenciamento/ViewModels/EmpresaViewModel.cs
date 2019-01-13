@@ -367,7 +367,7 @@ namespace iModSCCredenciamento.ViewModels
         #endregion
 
         #region Salva Dados
-
+        //TODO: Carrega lista OnPesquisarTodos
         private void Pesquisar()
         {
             try
@@ -557,6 +557,7 @@ namespace iModSCCredenciamento.ViewModels
             {
                 if (Entity == null) return;
                 var result = WpfHelp.MboxDialogRemove();
+
                 if (result != DialogResult.Yes) return;
 
                 var n1 = Mapper.Map<Empresa> (Entity);
