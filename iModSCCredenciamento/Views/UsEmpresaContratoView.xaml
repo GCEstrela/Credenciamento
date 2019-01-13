@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:viewModel="clr-namespace:iModSCCredenciamento.ViewModels"
              xmlns:i="clr-namespace:iModSCCredenciamento.Funcoes"
+             xmlns:wpf="clr-namespace:CSharpControls.Wpf;assembly=CSharpControls.Wpf"
              d:DataContext="{d:DesignInstance viewModel:EmpresasContratosViewModel , IsDesignTimeCreatable=True}"
              mc:Ignorable="d"
              d:DesignHeight="510"  Width="1043.714">
@@ -108,7 +109,7 @@
     </UserControl.Resources>
     <Grid Margin="0,0,-48,0" Loaded="Frm_Loaded" >
         <StackPanel Orientation="Vertical" Margin="0,0,525,0" Height="275" VerticalAlignment="Top">
-            <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" Background="DarkGoldenrod"
+            <GroupBox IsEnabled="{Binding Comportamento.isEnableCancelar}" Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" Background="DarkGoldenrod"
                       x:Name="Contrato_gb" Header="Contrato " Height="175" HorizontalAlignment="Left" Width="510">
                 <StackPanel Margin="0,0,0,-12">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
@@ -164,7 +165,7 @@
                     </StackPanel>
                 </StackPanel>
             </GroupBox>
-            <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" Background="Brown"
+            <GroupBox IsEnabled="{Binding Comportamento.isEnableCancelar}" Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" Background="Brown"
                       x:Name="Responsavel_gb" Header="Responsável " HorizontalAlignment="Left" Width="510" Height="100">
                 <StackPanel Margin="1,1,1,-6">
                     <StackPanel Orientation="Horizontal" Margin="1">
@@ -198,7 +199,7 @@
             </GroupBox>
         </StackPanel>
         <StackPanel Orientation="Vertical" Margin="520,1,1,0" Height="274" VerticalAlignment="Top">
-            <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" Background="CadetBlue"
+            <GroupBox IsEnabled="{Binding Comportamento.isEnableCancelar}" Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" Background="CadetBlue"
                       x:Name="Cobranca_gb" Header="Cobrança " Height="174">
                 <StackPanel Margin="1">
                     <StackPanel Orientation="Horizontal" Margin="1"  VerticalAlignment="Center" HorizontalAlignment="Left">
@@ -224,17 +225,17 @@
                         <TextBox x:Name="Numero_tb" MaxLength="4" CharacterCasing="Upper"
                                  Text="{Binding Entity.Numero, UpdateSourceTrigger=PropertyChanged}" IsEnabled="True"
                                  Height="24" Width="50" />
-                        <Label Content="CEP:" Height="28" Width="30" Margin="0,0,5,0"  Foreground="#FFD0D0D0" />
+                        <Label Content="CEP:" Height="28" Width="50" Margin="0,0,5,0"  Foreground="#FFD0D0D0" />
                         
                         <TextBox CharacterCasing="Upper"  x:Name="Cep_tb" MaxLength="50" 
                                  PreviewTextInput="NumberOnly" 
                                  Text="{Binding Entity.Cep,  UpdateSourceTrigger=PropertyChanged}" 
-                                 IsEnabled="True"  Height="24"  Width="131"/>
+                                 IsEnabled="True"  Height="24"  Width="120"/>
                         
-                        <Label Content="Complemento:" Height="28" Width="100" Margin="1" Foreground="#FFD0D0D0" />
+                        <Label Content="Complemento:" Height="28" Width="90" Foreground="#FFD0D0D0" />
                         <TextBox x:Name="Complemento_tb" MaxLength="36" CharacterCasing="Upper"
                                  Text="{Binding Entity.Complemento, UpdateSourceTrigger=PropertyChanged}"
-                                 IsEnabled="True" Height="24" Width="147" />
+                                 IsEnabled="True" Height="24" Width="150" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                 Margin="1,1,0,1" Width="552">
@@ -258,7 +259,7 @@
                     </StackPanel>
                 </StackPanel>
             </GroupBox>
-            <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" Background="Coral" x:Name="Anexo_gb"
+            <GroupBox IsEnabled="{Binding Comportamento.isEnableCancelar}" Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" Background="Coral" x:Name="Anexo_gb"
                       Header="Anexo " Height="100">
                 <StackPanel Margin="1,1,1,18">
                     <StackPanel Orientation="Horizontal"   HorizontalAlignment="Left"
@@ -286,6 +287,7 @@
             </GroupBox>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Margin="0,287,0,198" Height="25"   >
+            <Label Content="Pesquisar:" Height="28" Width="65" Foreground="#FFD0D0D0" Margin="1,0,0,0"/>
             <ComboBox  Width="150" ItemsSource="{Binding ListaPesquisa }"
              DisplayMemberPath="Value"
              SelectedValue="Key" 
@@ -308,14 +310,23 @@
 
                 <ListView.View>
                     <GridView FrameworkElement.FlowDirection="RightToLeft">
-                        <GridViewColumn Width="50" Header="ID" DisplayMemberBinding="{Binding EmpresaContratoId}" />
-                        <GridViewColumn Width="200" Header="Descrição" DisplayMemberBinding="{Binding Descricao}" />
-                        <GridViewColumn Width="200" Header="Número da Contrato"
+                        <GridViewColumn Width="0" Header="Principal"  >
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <wpf:ToggleSwitch HeaderHorizontalAlignment="Stretch" Width="100" HorizontalAlignment="Right" SwitchContentPlacement="Right" IsHitTestVisible="False"
+                                                      IsChecked="{Binding Principal}"  Foreground="#FFD0D0BE" UncheckedBackground="Gray" UncheckedBorderBrush="Gray" UncheckedForeground="#FFAEAEAE" UncheckedText="" CheckedText="" SwitchWidth="44" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Width="50" Header="Cód." DisplayMemberBinding="{Binding EmpresaContratoId}" />
+                        <GridViewColumn Width="200" Header="Descrição do Contrato" DisplayMemberBinding="{Binding Descricao}" />
+                        <GridViewColumn Width="200" Header="Número do Contrato"
                                         DisplayMemberBinding="{Binding NumeroContrato}" />
-                        <GridViewColumn Width="150" Header="Emissao"
+                        <GridViewColumn Width="110" Header="Data de Emissão"
                                         DisplayMemberBinding="{Binding Emissao, StringFormat=dd/MM/yyyy}" />
-                        <GridViewColumn Width="200" Header="Validade"
+                        <GridViewColumn Width="110" Header="Data de Validade"
                                         DisplayMemberBinding="{Binding Validade, StringFormat=dd/MM/yyyy}" />
+                        <GridViewColumn Width="165" Header="Responsável" DisplayMemberBinding="{Binding NomeResp}" />
                     </GridView>
                 </ListView.View>
             </ListView>
