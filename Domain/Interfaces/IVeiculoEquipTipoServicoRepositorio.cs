@@ -16,6 +16,6 @@ namespace IMOD.Domain.Interfaces
 {
     public interface IVeiculoEquipTipoServicoRepositorio : IRepositorioBaseAdoNet<VeiculoEquipTipoServico>
     {
-
+        
     }
 }

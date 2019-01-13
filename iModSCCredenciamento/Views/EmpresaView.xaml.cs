@@ -197,8 +197,12 @@ namespace iModSCCredenciamento.Views
             }
         }
 
+
         #endregion
 
-         
+        private void TabGeral_tc_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }

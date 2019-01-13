@@ -1,7 +1,7 @@
 ﻿// ***********************************************************************
 // Project: IMOD.Application
 // Crafted by: Grupo Estrela by Genetec
-// Date:  11 - 26 - 2018
+// Date:  12 - 10 - 2018
 // ***********************************************************************
 
 #region
@@ -23,7 +23,59 @@ namespace IMOD.Application.Service
         private readonly IVeiculoRepositorio _repositorio = new VeiculoRepositorio();
 
         #endregion
-         
+
+        #region  Propriedades
+
+        /// <summary>
+        ///     Pendência serviços
+        /// </summary>
+        public IPendenciaService Pendencia
+        {
+            get { return new PendenciaService(); }
+        }
+
+        /// <summary>
+        ///     Serviços de credenciais
+        /// </summary>
+        public IVeiculoCredencialService Credencial
+        {
+            get { return new VeiculoCredencialService(); }
+        }
+
+        /// <summary>
+        ///     Serviços de Empresas
+        ///     Author: Mihai
+        /// </summary>
+        public IVeiculoEmpresaService Empresa
+        {
+            get { return new VeiculoEmpresaService(); }
+        }
+
+        /// <summary>
+        ///     Seguros
+        /// </summary>
+        public IVeiculoSeguroService Seguro
+        {
+            get { return new VeiculoSeguroService(); }
+        }
+
+        /// <summary>
+        ///     Anexos
+        /// </summary>
+        public IVeiculoAnexoService Anexo
+        {
+            get { return new VeiculoAnexoService(); }
+        }
+
+        /// <summary>
+        ///     Serviços Equipamentos
+        /// </summary>
+        public IEquipamentoVeiculoTipoServicoService Equipamento
+        {
+            get { return new EquipamentoVeiculoTipoServicoService(); }
+        }
+
+        #endregion
 
         #region  Metodos
 
@@ -33,7 +85,7 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void Criar(Veiculo entity)
         {
-            _repositorio.Criar(entity);
+            _repositorio.Criar (entity);
         }
 
         /// <summary>
@@ -43,7 +95,7 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public Veiculo BuscarPelaChave(int id)
         {
-            return _repositorio.BuscarPelaChave(id);
+            return _repositorio.BuscarPelaChave (id);
         }
 
         /// <summary>
@@ -53,7 +105,7 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public ICollection<Veiculo> Listar(params object[] objects)
         {
-            return _repositorio.Listar(objects);
+            return _repositorio.Listar (objects);
         }
 
         /// <summary>
@@ -62,7 +114,7 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void Alterar(Veiculo entity)
         {
-            _repositorio.Alterar(entity);
+            _repositorio.Alterar (entity);
         }
 
         /// <summary>
@@ -71,31 +123,9 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void Remover(Veiculo entity)
         {
-            _repositorio.Remover(entity);
+            _repositorio.Remover (entity);
         }
 
         #endregion
-
-        /// <summary>
-        /// Serviços de credenciais
-        /// </summary>
-        public IVeiculoCredencialService Credencial { get {return new VeiculoCredencialService();} }
-
-        /// <summary>
-        /// Serviços de Empresas
-        /// Author: Mihai
-        /// </summary>
-        public IVeiculoEmpresaService Empresa { get {return new VeiculoEmpresaService();} }
-
-        /// <summary>
-        /// Seguros
-        /// </summary>
-        public IVeiculoSeguroService Seguro { get {return new VeiculoSeguroService();} }
-
-        /// <summary>
-        /// Anexos
-        /// </summary>
-        public IVeiculoAnexoService Anexo { get { return new VeiculoAnexoService(); } }
-        
     }
 }

@@ -227,6 +227,7 @@ namespace iModSCCredenciamento.ViewModels
         }
 
         #endregion
+
         #region Regras de Negócio
 
         public void ValidarCpf()
@@ -257,6 +258,7 @@ namespace iModSCCredenciamento.ViewModels
          
 
         #endregion
+
         #region Commands
 
         public ComportamentoBasico Comportamento { get; set; }

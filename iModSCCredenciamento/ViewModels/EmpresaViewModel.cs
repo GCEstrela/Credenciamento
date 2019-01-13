@@ -141,7 +141,7 @@ namespace iModSCCredenciamento.ViewModels
             ListarTodos();
             ItensDePesquisaConfigura();
             ListarDadosAuxiliares();
-            Comportamento = new ComportamentoBasico (true, true, true, true, true);
+            Comportamento = new ComportamentoBasico (true, true, true, false, false);
             TiposAtividades = new ObservableCollection<EmpresaTipoAtividadeView>();
             TiposLayoutCracha = new ObservableCollection<EmpresaLayoutCrachaView>();
             Comportamento.SalvarAdicao += OnSalvarAdicao;

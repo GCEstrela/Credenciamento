@@ -121,9 +121,9 @@
                     SelectedIndex="{Binding SelectedTabIndex }"
                     Height="562" 
                     Width="1259" Margin="1,1,-259,-321" 
-                    Grid.Row="3"    >
+                    Grid.Row="3" SelectionChanged="TabGeral_tc_SelectionChanged"    >
 
-            <TabItem x:Name="Geral_ti"   Background="{x:Null}"    Margin="0,-2,0,0" GotFocus="Geral_ti_GotFocus">
+            <TabItem x:Name="Geral_ti"   Background="{x:Null}"    Margin="0,-2,0,0">
 
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
@@ -178,7 +178,8 @@
                                 <Border  CornerRadius="3"  BorderThickness="1" Grid.Column="0" Width ="100" Height="100"    HorizontalAlignment="Left" BorderBrush="#FF686868"  >
                                     <Image x:Name="Logo_im" Stretch="Uniform" Source="{Binding Entity.Logo, Converter={StaticResource StringToImageConverter}, Mode=TwoWay, UpdateSourceTrigger=Explicit}" Margin="3"   />
                                 </Border>
-                                <Button x:Name="SelecionarLogo_bt" Content="Selecionar Logo" HorizontalAlignment="Center" Margin="0,10,0,0"  Height="30" Width="100" Click="OnSelecionaFoto_Click"   />
+                                <Button  Content="Selecionar Logo" 
+                                        HorizontalAlignment="Center" Margin="0,10,0,0"  Height="30" Width="100" Click="OnSelecionaFoto_Click"   />
                             </StackPanel>
                         </StackPanel>
 
@@ -197,7 +198,7 @@
                                 <TextBox CharacterCasing="Upper"  x:Name="Cep_tb" MaxLength="50" PreviewTextInput="NumberOnly" Text="{Binding Entity.Cep,  UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="98"/>
                                 <Label Content="Complemento:" Height="28" Width="100" Margin="0,0,5,0"  Foreground="#FFD0D0D0" />
                                 <TextBox CharacterCasing="Upper"  x:Name="Complemento_tb"   MaxLength="50" Text="{Binding Entity.Complemento,   UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="167" RenderTransformOrigin="0.5,0.5"/>
-                                
+
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"  Width="569"  >
                                 <Label Content="Bairro:" Height="28" Width="102" Margin="1"  Foreground="#FFD0D0D0" />
@@ -341,7 +342,7 @@
 
 
 
-            <TabItem x:Name="Signatarios_ti"  Width="200" IsEnabled="{Binding IsEnableTabItem}" GotFocus="Signatarios_ti_GotFocus" >
+            <TabItem x:Name="Signatarios_ti"  Width="200" IsEnabled="{Binding IsEnableTabItem}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="Signatarios_bt"   Click="OnPendenciaRepresentantes_Click" Style="{StaticResource MenuStyle}" >
@@ -359,7 +360,7 @@
 
             </TabItem>
 
-            <TabItem x:Name="Contrato_ti"  Width="200" IsEnabled="{Binding IsEnableTabItem}" GotFocus="Contrato_ti_GotFocus" >
+            <TabItem x:Name="Contrato_ti"  Width="200" IsEnabled="{Binding IsEnableTabItem}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Button  x:Name="Contratos_bt"  Click="OnPendenciaGeralContratos_Click" Style="{StaticResource MenuStyle}" >
@@ -397,12 +398,12 @@
                                         Converter={StaticResource ConvertBoolToImage},UpdateSourceTrigger=Explicit, Mode=TwoWay}" Width="16"  Height="16" />
                             </StackPanel>
                         </Button>
-                        <StackPanel Width="170" GotFocus="StackPanel_GotFocus">
+                        <StackPanel Width="170">
                             <TextBlock Text="Anexos" HorizontalAlignment="Center"/>
                         </StackPanel>
                     </StackPanel>
                 </TabItem.Header>
-                <local:EmpresasAnexosView x:Name="AnexoUs" Margin="6,2,14,18" />
+                <local:EmpresasAnexosView x:Name="AnexoUs" Margin="5,5,0,207" HorizontalAlignment="Left" />
                 <!--<ScrollViewer Grid.Row="0"   VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" >
                     <Grid >
                         <local:EmpresasAnexosView EmpresaSelecionadaIDView="{Binding SelectedItem.EmpresaId, ElementName=ListaEmpresas_lv, UpdateSourceTrigger=PropertyChanged}"

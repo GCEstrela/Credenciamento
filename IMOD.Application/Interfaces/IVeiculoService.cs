@@ -4,6 +4,12 @@ namespace IMOD.Application.Interfaces
 {
     public interface IVeiculoService : IVeiculoRepositorio
     {
+
+        /// <summary>
+        ///     Pendência serviços
+        /// </summary>
+        IPendenciaService Pendencia { get; }
+
         /// <summary>
         /// Serviços de credenciais
         /// </summary>
@@ -25,6 +31,11 @@ namespace IMOD.Application.Interfaces
         /// </summary>
         IVeiculoAnexoService Anexo { get; }
 
-        
+        /// <summary>
+        /// Serviços Equipamentos
+        /// </summary>
+        IEquipamentoVeiculoTipoServicoService Equipamento { get; }
+
+
     }
 }

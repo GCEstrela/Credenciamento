@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:iModSCCredenciamento.Views"
              d:DataContext="{d:DesignInstance vm:EmpresasAnexosViewModel , IsDesignTimeCreatable=True}"
              xmlns:vm="clr-namespace:iModSCCredenciamento.ViewModels"
-             mc:Ignorable="d" Loaded="UserControl_Loaded" Height="320">
+             mc:Ignorable="d" Height="320">
     <Grid VerticalAlignment="Top">
         <StackPanel Orientation="Vertical">
             <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" Background="Chocolate"
@@ -52,7 +52,7 @@
                           HorizontalAlignment="Stretch" 
                           ItemsSource="{Binding EntityObserver, Mode=TwoWay}"
                           SelectedItem="{Binding Entity, Mode=TwoWay}"
-                          SelectionChanged="ListaAnexos_lv_SelectionChanged" Width="630" Margin="0,15,0,10">
+                          Width="630" Margin="0,15,0,10">
                     <ListView.View>
                         <GridView FrameworkElement.FlowDirection="RightToLeft">
                             <GridViewColumn Width="50" Header="ID" DisplayMemberBinding="{Binding EmpresaAnexoId}" />
