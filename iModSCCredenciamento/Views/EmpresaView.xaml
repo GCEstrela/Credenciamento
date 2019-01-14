@@ -204,7 +204,7 @@
                                 <Label Content="Bairro:" Height="28" Width="102" Margin="1"  Foreground="#FFD0D0D0" />
                                 <TextBox CharacterCasing="Upper"  x:Name="Bairro_tb"   MaxLength="50" Text="{Binding Entity.Bairro,   UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="23"  Width="152" Margin="1" />
                                 <Label Content="UF:" Height="28" Width="30" Margin="1"  Foreground="#FFD0D0D0" />
-                                <ComboBox x:Name="cmbEstado" Margin="0,4,0,3" Height="28"
+                                <ComboBox x:Name="cmbEstado" Margin="0,4,0,3" Height="25"
                                                   ItemsSource="{Binding Estados}" DisplayMemberPath="Uf" 
                                                   SelectedValue="{Binding Entity.EstadoId,  UpdateSourceTrigger=PropertyChanged}" 
                                                   SelectedValuePath="EstadoId" IsSynchronizedWithCurrentItem="True" 
@@ -213,7 +213,7 @@
                                                   Width="53" />
 
                                 <Label Content="Cidade:" Height="28" Width="51"    Foreground="#FFD0D0D0" Margin="0,2,0,3" />
-                                <ComboBox x:Name="Cidade_cb" Height="28" 
+                                <ComboBox x:Name="Cidade_cb" Height="25" 
                                                    ItemsSource="{Binding Municipios}" DisplayMemberPath="Nome"
                                                   SelectedValue="{Binding Entity.MunicipioId,  UpdateSourceTrigger=PropertyChanged}" 
                                                   SelectedValuePath="MunicipioId"

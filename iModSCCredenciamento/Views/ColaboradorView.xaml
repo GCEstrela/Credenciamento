@@ -674,7 +674,7 @@
                         </StackPanel>
                     </StackPanel>
                 </TabItem.Header>
-                <local:ColaboradoresEmpresasView x:Name="ColaboradorEmpresaUs" Margin="4,0,6,202" VerticalAlignment="Bottom" /> 
+                <local:ColaboradoresEmpresasView x:Name="ColaboradorEmpresaUs"  Margin="6,2,14,18"    /> 
 
             </TabItem>
 
@@ -710,7 +710,7 @@
                         </StackPanel>
                     </StackPanel>
                 </TabItem.Header>
-                <!--<local:EmpresasAnexosView x:Name="AnexoUs" Margin="6,2,14,18" />-->
+                 <local:ColaboradoresAnexosView x:Name="AnexoUs" Margin="6,2,14,18" /> 
 
             </TabItem>
 
@@ -728,7 +728,7 @@
                         </StackPanel>
                     </StackPanel>
                 </TabItem.Header>
-                <!--<local:EmpresasAnexosView x:Name="AnexoUs" Margin="6,2,14,18" />-->
+                <local:ColaboradoresCredenciaisView x:Name="CredenciaisUs" Margin="6,2,14,18" />
 
             </TabItem>
 

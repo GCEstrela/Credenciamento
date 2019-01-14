@@ -1,422 +1,227 @@
-﻿using System;
+﻿// ***********************************************************************
+// Project: iModSCCredenciamento
+// Crafted by: Grupo Estrela by Genetec
+// Date:  11 - 13 - 2018
+// ***********************************************************************
+
+#region
+
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Data;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Threading;
-using System.Xml;
-using System.Xml.Serialization;
+using System.Windows;
+using System.Windows.Forms;
+using System.Windows.Input;
 using AutoMapper;
-using iModSCCredenciamento.Funcoes;
 using iModSCCredenciamento.Helpers;
-using iModSCCredenciamento.Models;
-using iModSCCredenciamento.Windows;
+using iModSCCredenciamento.ViewModels.Commands;
+using iModSCCredenciamento.ViewModels.Comportamento;
+using iModSCCredenciamento.Views.Model;
 using IMOD.Application.Interfaces;
 using IMOD.Application.Service;
 using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
-using iModSCCredenciamento.Views.Model;
-//using System.Windows.Forms;
+
+#endregion
+ 
 
 namespace iModSCCredenciamento.ViewModels
 {
     public class ColaboradoresAnexosViewModel : ViewModelBase
     {
+        private readonly IColaboradorAnexoService _service = new ColaboradorAnexoService();
+        private ColaboradorView _colaboradorView;
 
-        private IColaboradorAnexoService _colaboradorAnexoService;
+        #region  Propriedades
 
-        #region Inicializacao
+        public ColaboradorAnexoView Entity { get; set; }
+        public ObservableCollection<ColaboradorAnexoView> EntityObserver { get; set; }
+
+        /// <summary>
+        ///     Habilita listView
+        /// </summary>
+        public bool IsEnableLstView { get; private set; } = true;
+
+        #endregion
+
         public ColaboradoresAnexosViewModel()
         {
-            _colaboradorAnexoService = new ColaboradorAnexoService();
-            CarregaUI();
+            Comportamento = new ComportamentoBasico (true, true, true, false, false);
+            Comportamento.SalvarAdicao += OnSalvarAdicao;
+            Comportamento.SalvarEdicao += OnSalvarEdicao;
+            Comportamento.Remover += OnRemover;
+            Comportamento.Cancelar += OnCancelar;
         }
-        private void CarregaUI()
+
+        #region  Metodos
+
+        /// <summary>
+        ///     Acionado antes de remover
+        /// </summary>
+        private void PrepareRemover()
         {
-            CarregaColecaoColaboradoresAnexos();
-        }
-        #endregion
-
-        #region Variaveis Privadas
-
-        private ObservableCollection<ColaboradorAnexoView> _ColaboradoresAnexos;
-
-        private ColaboradorAnexoView _ColaboradorAnexoSelecionado;
-
-        private ColaboradorAnexoView _ColaboradorAnexoTemp = new ColaboradorAnexoView();
-
-        private List<ColaboradorAnexoView> _ColaboradoresAnexosTemp = new List<ColaboradorAnexoView>();
-
-        PopupPesquisaColaboradorAnexo popupPesquisaColaboradorAnexo;
-
-        private int _selectedIndex;
-
-        private int _ColaboradorAnexoSelecionadaID;
-
-        private bool _HabilitaEdicao;
-
-        private string _Criterios = "";
-
-        private int _selectedIndexTemp;
-
-        #endregion
-
-        #region Contrutores
-        public ObservableCollection<ColaboradorAnexoView> ColaboradoresAnexos
-        {
-            get
-            {
-                return _ColaboradoresAnexos;
-            }
-
-            set
-            {
-                if (_ColaboradoresAnexos != value)
-                {
-                    _ColaboradoresAnexos = value;
-                    OnPropertyChanged();
-
-                }
-            }
+            Comportamento.PrepareRemover();
         }
 
-        public ColaboradorAnexoView ColaboradorAnexoSelecionado
-        {
-            get
-            {
-                return _ColaboradorAnexoSelecionado;
-            }
-            set
-            {
-                _ColaboradorAnexoSelecionado = value;
-                base.OnPropertyChanged("SelectedItem");
-                if (ColaboradorAnexoSelecionado != null)
-                {
-                    //OnEmpresaSelecionada();
-                }
-
-            }
-        }
-
-        public int ColaboradorAnexoSelecionadaID
-        {
-            get
-            {
-                return _ColaboradorAnexoSelecionadaID;
-            }
-            set
-            {
-                _ColaboradorAnexoSelecionadaID = value;
-                base.OnPropertyChanged();
-                if (ColaboradorAnexoSelecionadaID != null)
-                {
-                    //OnEmpresaSelecionada();
-                }
-
-            }
-        }
-
-        public int SelectedIndex
-        {
-            get
-            {
-                return _selectedIndex;
-            }
-            set
-            {
-                _selectedIndex = value;
-                OnPropertyChanged("SelectedIndex");
-            }
-        }
-
-        public bool HabilitaEdicao
-        {
-            get
-            {
-                return _HabilitaEdicao;
-            }
-            set
-            {
-                _HabilitaEdicao = value;
-                base.OnPropertyChanged();
-            }
-        }
-
-        public string Criterios
-        {
-            get
-            {
-                return _Criterios;
-            }
-            set
-            {
-                _Criterios = value;
-                base.OnPropertyChanged();
-            }
-        }
-        #endregion
-
-        #region Comandos dos Botoes
-        public void OnAtualizaCommand(object _colaboradorAnexoID)
-        {
-
-            ColaboradorAnexoSelecionadaID = Convert.ToInt32(_colaboradorAnexoID);
-            Thread CarregaColecaoColaboradoresAnexos_thr = new Thread(() => CarregaColecaoColaboradoresAnexos(Convert.ToInt32(_colaboradorAnexoID)));
-            CarregaColecaoColaboradoresAnexos_thr.Start();
-
-        }
-
-        public void OnBuscarArquivoCommand()
+        /// <summary>
+        ///     Criar Dados
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnSalvarAdicao(object sender, RoutedEventArgs e)
         {
             try
             {
-                var filtro = "Imagem files (*.pdf)|*.pdf|All Files (*.*)|*.*";
-                var arq = WpfHelp.UpLoadArquivoDialog(filtro, 700);
-                if (arq == null) return;
-                _ColaboradorAnexoTemp.NomeArquivo = arq.Nome;
-                _ColaboradorAnexoTemp.Arquivo = arq.FormatoBase64;
-                if (ColaboradoresAnexos != null)
-                    ColaboradoresAnexos[0].NomeArquivo = arq.Nome;
-
+                if (Entity == null) return;
+                var n1 = Mapper.Map<ColaboradorAnexo> (Entity);
+                n1.ColaboradorId = _colaboradorView.ColaboradorId;
+                _service.Criar (n1);
+                //Adicionar no inicio da lista um item a coleção
+                var n2 = Mapper.Map<ColaboradorAnexoView> (n1);
+                EntityObserver.Insert (0, n2);
+                IsEnableLstView = true;
             }
             catch (Exception ex)
             {
-                Utils.TraceException(ex);
+                Utils.TraceException (ex);
+                WpfHelp.PopupBox (ex);
             }
         }
 
-        public void OnAbrirArquivoCommand()
+        /// <summary>
+        ///     Acionado antes de criar
+        /// </summary>
+        private void PrepareCriar()
+        {
+            Entity = new ColaboradorAnexoView();
+            Comportamento.PrepareCriar();
+            IsEnableLstView = false;
+        }
+
+        /// <summary>
+        ///     Editar dados
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnSalvarEdicao(object sender, RoutedEventArgs e)
         {
             try
             {
-                var arquivoStr = ColaboradorAnexoSelecionado.Arquivo;
-                var nomeArquivo = ColaboradorAnexoSelecionado.NomeArquivo;
-                var arrBytes = Convert.FromBase64String(arquivoStr);
-                WpfHelp.DownloadArquivoDialog(nomeArquivo, arrBytes);
+                if (Entity == null) return;
+                var n1 = Mapper.Map<ColaboradorAnexo> (Entity);
+                _service.Alterar (n1);
+                IsEnableLstView = true;
             }
             catch (Exception ex)
             {
-                Utils.TraceException(ex);
+                Utils.TraceException (ex);
+                WpfHelp.PopupBox (ex);
             }
         }
 
-        public void OnEditarCommand()
+        /// <summary>
+        ///     Cancelar operação
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnCancelar(object sender, RoutedEventArgs e)
         {
             try
             {
-                //BuscaBadges();
-                //_ColaboradorAnexoTemp = ColaboradorAnexoSelecionado.CriaCopia(ColaboradorAnexoSelecionado);
-                _selectedIndexTemp = SelectedIndex;
-                HabilitaEdicao = true;
+                IsEnableLstView = true;
             }
             catch (Exception ex)
             {
-                Utils.TraceException(ex);
+                Utils.TraceException (ex);
+                WpfHelp.MboxError ("Não foi realizar a operação solicitada", ex);
             }
         }
 
-        public void OnCancelarEdicaoCommand()
+        /// <summary>
+        ///     Remover dados
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnRemover(object sender, RoutedEventArgs e)
         {
             try
             {
-                ColaboradoresAnexos[_selectedIndexTemp] = _ColaboradorAnexoTemp;
-                SelectedIndex = _selectedIndexTemp;
-                HabilitaEdicao = false;
+                if (Entity == null) return;
+                var result = WpfHelp.MboxDialogRemove();
+                if (result != DialogResult.Yes) return;
+
+                var n1 = Mapper.Map<ColaboradorAnexo> (Entity);
+                _service.Remover (n1);
+                //Retirar empresa da coleção
+                EntityObserver.Remove (Entity);
             }
             catch (Exception ex)
             {
-                Utils.TraceException(ex);
+                Utils.TraceException (ex);
+                WpfHelp.MboxError ("Não foi realizar a operação solicitada", ex);
             }
         }
 
-        public void OnSalvarEdicaoCommand()
+        /// <summary>
+        ///     Acionado antes de alterar
+        /// </summary>
+        private void PrepareAlterar()
         {
-            try
-            {
-                HabilitaEdicao = false;
-
-
-                var entity = Mapper.Map<ColaboradorAnexo>(ColaboradorAnexoSelecionado);
-                var repositorio = new ColaboradorAnexoService();
-                repositorio.Alterar(entity);
-
-                var id = entity.ColaboradorId;
-
-                _ColaboradoresAnexosTemp = null;
-
-                _ColaboradoresAnexosTemp.Clear();
-                _ColaboradorAnexoTemp = null;
-
-            }
-            catch (Exception ex)
-            {
-                Utils.TraceException(ex);
-            }
+            Comportamento.PrepareAlterar();
+            IsEnableLstView = false;
         }
 
-
-        public void OnSalvarAdicaoCommand()
+        public void AtualizarDadosAnexo(ColaboradorView entity)
         {
-            try
-            {
-                HabilitaEdicao = false;
-                XmlSerializer serializer = new XmlSerializer(typeof(ColaboradorView));
-
-                ObservableCollection<ColaboradorAnexoView> _ColaboradoresAnexosPro = new ObservableCollection<ColaboradorAnexoView>();
-                ColaboradorView _ClasseColaboradoresAnexosPro = new ColaboradorView();
-                _ColaboradoresAnexosPro.Add(ColaboradorAnexoSelecionado);
-                //_ClasseColaboradoresAnexosPro.ColaboradoresAnexos = _ColaboradoresAnexosPro;
-
-
-                var entity = Mapper.Map<ColaboradorAnexo>(ColaboradorAnexoSelecionado);
-                var repositorio = new ColaboradorAnexoService();
-                repositorio.Criar(entity);
-                var id = entity.ColaboradorId;
-
-
-                Thread CarregaColecaoSeguros_thr = new Thread(() => CarregaColecaoColaboradoresAnexos(id));
-                CarregaColecaoSeguros_thr.Start();
-                _ColaboradoresAnexosTemp.Add(ColaboradorAnexoSelecionado);
-                ColaboradoresAnexos = null;
-                ColaboradoresAnexos = new ObservableCollection<ColaboradorAnexoView>(_ColaboradoresAnexosTemp);
-                SelectedIndex = _selectedIndexTemp;
-                _ColaboradoresAnexosTemp.Clear();
-
-
-                _ColaboradoresAnexosPro = null;
-
-                _ColaboradoresAnexosPro.Clear();
-                _ColaboradorAnexoTemp = null;
-
-            }
-            catch (Exception ex)
-            {
-                Utils.TraceException(ex);
-            }
-        }
-
-        public void OnAdicionarCommand()
-        {
-            try
-            {
-
-                foreach (var x in ColaboradoresAnexos)
-                {
-                    _ColaboradoresAnexosTemp.Add(x);
-                }
-
-                _selectedIndexTemp = SelectedIndex;
-                ColaboradoresAnexos.Clear();
-
-                _ColaboradorAnexoTemp = new ColaboradorAnexoView();
-                _ColaboradorAnexoTemp.ColaboradorId = ColaboradorAnexoSelecionadaID;
-                ColaboradoresAnexos.Add(_ColaboradorAnexoTemp);
-                SelectedIndex = 0;
-                HabilitaEdicao = true;
-            }
-            catch (Exception ex)
-            {
-                Utils.TraceException(ex);
-            }
-
-        }
-
-        public void OnCancelarAdicaoCommand()
-        {
-            try
-            {
-                ColaboradoresAnexos = null;
-                ColaboradoresAnexos = new ObservableCollection<ColaboradorAnexoView>(_ColaboradoresAnexosTemp);
-                SelectedIndex = _selectedIndexTemp;
-                _ColaboradoresAnexosTemp.Clear();
-                HabilitaEdicao = false;
-            }
-            catch (Exception ex)
-            {
-                Utils.TraceException(ex);
-            }
-        }
-        public void OnExcluirCommand()
-        {
-            try
-            {
-
-                if (Global.PopupBox("Tem certeza que deseja excluir?", 2))
-                {
-                    if (Global.PopupBox("Você perderá todos os dados, inclusive histórico. Confirma exclusão?", 2))
-                    {
-                        var entity = Mapper.Map<ColaboradorAnexo>(ColaboradorAnexoSelecionado);
-                        var repositorio = new ColaboradorAnexoService();
-                        repositorio.Remover(entity);
-
-                        ColaboradoresAnexos.Remove(ColaboradorAnexoSelecionado);
-                    }
-                }
-
-            }
-            catch (Exception ex)
-            {
-                Utils.TraceException(ex);
-            }
-
-        }
-        public void OnPesquisarCommand()
-        {
-            try
-            {
-                popupPesquisaColaboradorAnexo = new PopupPesquisaColaboradorAnexo();
-                popupPesquisaColaboradorAnexo.EfetuarProcura += On_EfetuarProcura;
-                popupPesquisaColaboradorAnexo.ShowDialog();
-            }
-            catch (Exception ex)
-            {
-                Utils.TraceException(ex);
-            }
-        }
-        public void On_EfetuarProcura(object sender, EventArgs e)
-        {
-            object vetor = popupPesquisaColaboradorAnexo.Criterio.Split((char)(20));
-            int _colaboradorID = ColaboradorAnexoSelecionadaID;
-            string _DescricaoAnexo = ((string[])vetor)[0];
-            CarregaColecaoColaboradoresAnexos(_colaboradorID, _DescricaoAnexo);
-            SelectedIndex = 0;
+            if (entity == null) throw new ArgumentNullException (nameof (entity));
+            _colaboradorView = entity;
+            //Obter dados
+            var list1 = _service.Listar (entity.ColaboradorId);
+            var list2 = Mapper.Map<List<ColaboradorAnexoView>> (list1);
+            EntityObserver = new ObservableCollection<ColaboradorAnexoView>();
+            list2.ForEach (n => { EntityObserver.Add (n); });
         }
 
         #endregion
+         
 
-        #region Carregamento das Colecoes
-        public void CarregaColecaoColaboradoresAnexos(int _colaboradorID = 0, string _nome = "")
+        #region Propriedade Commands
+
+        /// <summary>
+        ///     Novo
+        /// </summary>
+        public ICommand PrepareCriarCommand => new CommandBase (PrepareCriar, true);
+
+        public ComportamentoBasico Comportamento { get; set; }
+
+        /// <summary>
+        ///     Editar
+        /// </summary>
+        public ICommand PrepareAlterarCommand => new CommandBase (PrepareAlterar, true);
+
+        /// <summary>
+        ///     Cancelar
+        /// </summary>
+        public ICommand PrepareCancelarCommand => new CommandBase (Comportamento.PrepareCancelar, true);
+
+        /// <summary>
+        ///     Novo
+        /// </summary>
+        public ICommand PrepareSalvarCommand => new CommandBase (Comportamento.PrepareSalvar, true);
+
+        /// <summary>
+        ///     Remover
+        /// </summary>
+        public ICommand PrepareRemoverCommand => new CommandBase (PrepareRemover, true);
+
+        /// <summary>
+        ///     Validar Regras de Negócio
+        /// </summary>
+        public void Validar()
         {
-            try
-            {
-                var service = new ColaboradorAnexoService();
-                if (!string.IsNullOrWhiteSpace(_nome)) _nome = $"%{_nome}%";
-                var list1 = service.Listar(_colaboradorID, _nome);
-
-                var list2 = Mapper.Map<List<ColaboradorAnexoView>>(list1);
-                var observer = new ObservableCollection<ColaboradorAnexoView>();
-                list2.ForEach(n =>
-                {
-                    observer.Add(n);
-                });
-
-                ColaboradoresAnexos = observer;
-
-                //Hotfix auto-selecionar registro no topo da ListView
-                var topList = observer.FirstOrDefault();
-                ColaboradorAnexoSelecionado = topList;
-
-                SelectedIndex = 0;
-
-            }
-            catch (Exception ex)
-            {
-                Utils.TraceException(ex);
-            }
         }
 
         #endregion
-
+         
     }
 }
