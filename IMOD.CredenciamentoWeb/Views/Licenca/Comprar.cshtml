@@ -1,0 +1,223 @@
+﻿@model DSBR.ServicesWeb.ViewModel.PagamentoViewModel
+@{
+
+     Layout = null; 
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+    var listFormPgto = ViewBag.ListFormPgto;
+    //Modal
+}
+
+  <div class="modal fade" id="modal-page" tabindex="-1">
+    <div class="modal-dialog" style="width: 60%">  
+       <div class="modal-content"> 
+ 
+
+
+    <div class="modal-header" style="background: #2c3e50; color: #ffffff">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel" style="font-family: 'Francois One', sans-serif;">Comprar Licença</h4>
+    </div>
+
+
+    @using (Ajax.BeginForm("Comprar", "Licenca", new AjaxOptions
+    {
+        HttpMethod = "POST",
+        UpdateTargetId = "listarVencimentos",
+        OnSuccess = "sucesso",
+        OnFailure = "falha"
+    }, new { id = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.IdLicencaCript)
+
+        <div class="modal-body">
+
+            <div class="row">
+                <div class="col-md-6 col-lg-6">
+                    <div class="form-group">
+                        <label>Licenciado para</label>
+                        <h4>Indústria e comercio ilimitada</h4>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-6">
+                    <div class="form-group">
+                        <label>Usuário</label>
+                        <h4>Valnei Filho</h4>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 col-lg-4">
+                    <div class="form-group">
+                        <label>Forma Pgto:</label>
+                        @if (listFormPgto != null)
+                        {
+                            @Html.DropDownListFor(n => n.FormaPagamento, new SelectList(listFormPgto, "Text", "Text"), "Selecione...", new { @class = "form-control", required = "required" })
+                        }
+
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-lg-4">
+                    <div class="form-group">
+                        <label>Valor da licença</label>
+                        *@Html.EditorFor(model => model.ValorLicenca, new { htmlAttributes = new { @class = "form-control", onkeypress = "return isNumberKey(event)", @max = "9999", @min = "0", required = "required" } })
+
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-lg-4">
+                    <div class="form-group">
+                        <label>Parcelas</label>
+                        *@Html.EditorFor(model => model.NumeroParcela, new { htmlAttributes = new { @class = "form-control", onkeypress = "return isNumberKey(event)", @max = "12", @min = "1", required = "required" } })
+
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 col-lg-4">
+                    <div class="form-group">
+                        <label>Data Inicial Pagamento</label>
+                        *@Html.EditorFor(model => model.DataInicioParcela, new {htmlAttributes = new {@class = "form-control datepicker", required = "required"}})
+
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-4">
+                    <div class="form-group">
+                        <label>Intervalo entre parcelas</label>
+                        *@Html.EditorFor(model => model.IntervaloParcela, new {htmlAttributes = new {@class = "form-control", onkeypress = "return isNumberKey(event)", @min = "1", @value="15", required = "required"}})
+
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-4">
+                    <div class="form-group">
+                        <label>Qtd. em dias para a primeria parcela</label>
+                        *@Html.EditorFor(model => model.QtdDiasPrimeriParcela, new { htmlAttributes = new { @class = "form-control", onkeypress = "return isNumberKey(event)", @min = "1",@value="30", required = "required" } })
+
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="row">
+                <div class="col-lg-12">
+
+                    <div class="panel panel-green">
+                        <div class="panel-heading" style="font-family: 'Francois One', sans-serif;">
+                            Vencimentos
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+
+
+                            <div id="listarVencimentos" style="overflow-y: scroll; height: 150px; width: auto;">
+
+                                <div class="text-center">
+
+                                    <img src="~/img/loader.gif" id="loader" style="display: none" />
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-12 -->
+
+            </div>
+
+        </div>
+
+        <div class="modal-footer">
+            <a href="#" class="btn btn-success" onclick="calcularParcelas();">Visualizar parcelas</a>
+            <button type="submit" class="btn btn-primary">Concluir</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+        </div>
+
+
+    }
+</div>
+
+    <!-- /.modal-content -->
+</div>
+    <!-- /.modal-dialog -->
+</div>
+
+<script type="text/javascript">
+    
+    $('.datepicker')
+        .datepicker({
+            language: "pt-BR",
+            todayHighlight: true,
+            weekStart: 0,
+            startDate: '0d'
+        });
+
+    function sucesso(data) {
+        $('#form').each(function () {
+            this.reset();
+        });
+        ExibirNotificacaoSucesso('Dados inseridos com sucesso');
+    };
+
+
+    function falha(data) {
+        var msg = data.responseText;
+        //var msg2 = $('messageError').text();//$(msg).find('messageError').text();
+        var msg2 = $(msg).find('#messageError').text();
+        ExibirNotificacaoErro('Um erro ocorreu ao executar ação.<br>' + msg2);
+         
+    };
+
+    function calcularParcelas() {
+        $('#loader').show();
+
+        var numparcela = $(this.NumeroParcela).val();
+        var dataInicio = $(this.DataInicioParcela).val();
+        var valorLicenca = $(this.ValorLicenca).val();
+        var qtdDiasPrimeiraParc = $(this.QtdDiasPrimeriParcela).val();
+        var intervEntreParc = $(this.IntervaloParcela).val();
+
+        $.ajax({ 
+           
+            url: '@Url.Action("CalcularParcelasAjax", "Pagamento")',
+            type: 'POST',
+            //dataType: 'JSON',
+            data: {
+                NumeroParcela: numparcela, ValorLicenca: valorLicenca,
+                DataInicioParcela: dataInicio, QtdDiasPrimeriParcela: qtdDiasPrimeiraParc,
+                IntervaloParcela: intervEntreParc
+            },
+            success: function (data) {
+                //if (typeof data.sucesso !== 'undefined') {
+                   // ExibirNotificacaoErro('Um erro ocorreu ao executar ação.<br>' + data.responseText);
+               // }
+
+                $('#listarVencimentos').html(data);
+                $('#loader').hide();
+            },
+            error: function (xhr) {
+                $('#loader').hide();
+                console.log(xhr);
+                falha(xhr);
+            } 
+
+        });
+
+    }
+
+
+</script> 
+
+ 

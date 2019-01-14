@@ -7,6 +7,8 @@
 #region
 
 using IMOD.Application.Interfaces;
+using IMOD.Domain.Interfaces;
+using IMOD.Infra.Repositorios;
 
 #endregion
 
@@ -17,7 +19,7 @@ namespace IMOD.Application.Service
         #region  Metodos
 
         /// <summary>
-        ///     CRUD Completo Estados
+        ///      Estados
         /// </summary>
         /// <returns></returns>
         public IEstadoService EstadoService
@@ -25,7 +27,7 @@ namespace IMOD.Application.Service
             get { return new EstadoService(); }
         }
         /// <summary>
-        ///     CRUD Completo Municipios
+        ///      Municipios
         /// </summary>
         /// <returns></returns>
         public IMunicipioService MunicipioService
@@ -33,7 +35,7 @@ namespace IMOD.Application.Service
             get { return new MunicipioService(); }
         }
         /// <summary>
-        ///  CRUD Completo Tipo de Equipamento
+        ///   Tipo de Equipamento
         /// </summary>
         /// <returns></returns>
         public ITipoEquipamentoService TipoEquipamentoService
@@ -42,7 +44,7 @@ namespace IMOD.Application.Service
         }
 
         /// <summary>
-        /// CRUD Completo ColaboradorAnexo
+        ///  ColaboradorAnexo
         /// </summary>
         /// <returns></returns>
         public IColaboradorAnexoService ColaboradorAnexoService
@@ -50,7 +52,7 @@ namespace IMOD.Application.Service
             get { return new ColaboradorAnexoService(); }
         }
         /// <summary>
-        /// CRUD Completo Relatorio
+        ///  Relatorio
         /// </summary>
         /// <returns></returns>
         public IRelatorioService RelatorioService
@@ -58,7 +60,7 @@ namespace IMOD.Application.Service
             get { return new RelatorioService(); }
         }
         /// <summary>
-        /// CRUD Completo RelatorioGerencial
+        ///  RelatorioGerencial
         /// </summary>
         /// <returns></returns>
         public IRelatorioGerencialService RelatorioGerencialService
@@ -66,7 +68,7 @@ namespace IMOD.Application.Service
             get { return new RelatorioGerencialService(); }
         }
         /// <summary>
-        /// CRUD Completo LayoutCracha
+        ///  LayoutCracha
         /// </summary>
         /// <returns></returns>
         public ILayoutCrachaService LayoutCrachaService
@@ -74,7 +76,7 @@ namespace IMOD.Application.Service
             get { return new LayoutCrachaService(); }
         }
         /// <summary>
-        /// CRUD Completo TipoAtividade
+        ///  TipoAtividade
         /// </summary>
         /// <returns></returns>
         public ITipoAtividadeService TipoAtividadeService
@@ -82,7 +84,7 @@ namespace IMOD.Application.Service
             get { return new TipoAtividadeService(); }
         }
         /// <summary>
-        /// CRUD Completo TipoCobranca
+        ///  TipoCobranca
         /// </summary>
         /// <returns></returns>
         public ITipoCobrancaService TipoCobrancaService
@@ -90,7 +92,7 @@ namespace IMOD.Application.Service
             get { return new TipoCobrancaService(); }
         }
         /// <summary>
-        /// CRUD Completo TiposAcesso
+        ///  TiposAcesso
         /// </summary>
         /// <returns></returns>
         public ITiposAcessoService TiposAcessoService
@@ -99,7 +101,7 @@ namespace IMOD.Application.Service
         }
 
         /// <summary>
-        /// CRUD Completo Status
+        ///  Status
         /// </summary>
         /// <returns></returns>
         public IStatusService StatusService
@@ -108,7 +110,7 @@ namespace IMOD.Application.Service
         }
 
         /// <summary>
-        /// CRUD Completo Curso
+        ///  Curso
         /// </summary>
         /// <returns></returns>
         public ICursoService CursoService
@@ -116,7 +118,7 @@ namespace IMOD.Application.Service
             get { return new CursoService(); }
         }
         /// <summary>
-        /// CRUD Completo AreaAcesso
+        ///  AreaAcesso
         /// </summary>
         /// <returns></returns>
         public IAreaAcessoService AreaAcessoService
@@ -126,21 +128,21 @@ namespace IMOD.Application.Service
 
 
         /// <summary>
-        /// CRUD Completo Credencial Motivo 
+        ///  Credencial Motivo 
         /// </summary>
         public ICredencialMotivoService CredencialMotivoService
         {
             get { return new CredencialMotivoService(); }
         }
         /// <summary>
-        /// CRUD Completo Credencial Motivo 
+        ///  Credencial Motivo 
         /// </summary>
         public ICredencialStatusService CredencialStatusService
         {
             get { return new CredencialStatusService(); }
         }
         /// <summary>
-        /// CRUD Completo TecnologiaCredencial 
+        ///  TecnologiaCredencial 
         /// </summary>
         public ITecnologiaCredencialService TecnologiaCredencialService
         {
@@ -148,7 +150,7 @@ namespace IMOD.Application.Service
         }
 
         /// <summary>
-        /// CRUD Completo Tipo Credencial 
+        ///  Tipo Credencial 
         /// </summary>
         public ITipoCredencialService TipoCredencialService
         {
@@ -156,12 +158,21 @@ namespace IMOD.Application.Service
         }
 
         /// <summary>
-        /// CRUD Completo Tipo Credencial 
+        ///  Tipo Credencial 
         /// </summary>
         public IFormatoCredencialService FormatoCredencialService
         {
             get { return new FormatoCredencialService(); }
         }
+
+        /// <summary>
+        /// Tipos de Serviço
+        /// </summary>
+        public ITipoServicoRepositorio TipoServico
+        {
+            get { return new TipoServicoRepositorio(); }
+        }
+
 
         /// <summary>
         ///     Tipos Combustiveis

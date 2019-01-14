@@ -79,6 +79,15 @@ namespace IMOD.Application.Service
         }
 
         /// <summary>
+        /// Remover 
+        /// </summary>
+        /// <param name="equipamentoVeiculoId"></param>
+        public void RemoverPorVeiculo(int equipamentoVeiculoId)
+        {
+            _repositorio.RemoverPorVeiculo(equipamentoVeiculoId);
+        }
+
+        /// <summary>
         /// Listar layout Cracha por empresa
         /// </summary>
         /// <param name="id"></param>

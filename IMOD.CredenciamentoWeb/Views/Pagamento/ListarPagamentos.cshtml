@@ -1,0 +1,36 @@
+﻿@model IEnumerable<DSBR.ServicesWeb.ViewModel.PagamentoViewModel>
+@{
+    Layout = null;
+}
+
+<div class="table-responsive">
+    <table class="table table-striped table-bordered table-hover">
+        <thead>
+            <tr>
+
+                <th>Vencimento</th>
+                <th>Valor</th>
+            </tr>
+        </thead>
+        <tbody>
+            @*@if (Model != null)
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+
+                        <td>@item.DataPagamento.ToShortDateString()</td>
+                        <td>@item.Valor</td>
+                    </tr>
+                }
+            }*@
+
+            <tr>
+
+                <td>01/01/2000</td>
+                <td>52,32</td>
+            </tr>
+
+        </tbody>
+    </table>
+</div>

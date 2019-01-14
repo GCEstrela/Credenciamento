@@ -8,6 +8,8 @@
 
 #endregion
 
+using IMOD.Domain.Interfaces;
+
 namespace IMOD.Application.Interfaces
 {
     public interface IDadosAuxiliaresFacade
@@ -121,6 +123,11 @@ namespace IMOD.Application.Interfaces
         ///     Tipos Combustiveis
         /// </summary>
         ITipoCombustivelService TipoCombustivelService { get; }
+
+        /// <summary>
+        /// Tipos de Serviço
+        /// </summary>
+        ITipoServicoRepositorio TipoServico { get; }
 
         #endregion
     }

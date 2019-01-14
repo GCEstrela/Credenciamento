@@ -7,8 +7,13 @@
 #region
 
 using System;
+using System.Globalization;
+using System.Reflection;
 using System.Windows;
 using Genetec.Sdk.Workspace;
+using IMOD.Application.Service;
+using IMOD.Domain.Interfaces;
+using IMOD.Infra.Repositorios;
 
 #endregion
 
@@ -21,15 +26,26 @@ namespace iModSCCredenciamento.Modulo
     {
         #region  Propriedades
 
-        public static Workspace Workspace { get; private set; }
+        public static Workspace Workspace { get; private set; } 
 
         #endregion
 
         public MenuPrincipalView()
         {
-            InitializeComponent();
+            InitializeComponent(); 
+            txtVersao.Text = VersaoSoftware; 
         }
-
+        /// <summary>
+        ///     Versao do Sistema
+        /// </summary>
+        /// <returns></returns>
+        private static string VersaoSoftware
+        {
+            get
+            {
+                return ConfiguracaoService.ObterVersaoSoftware(Assembly.GetExecutingAssembly());
+            }
+        }
         #region  Metodos
 
         public void Initialize(Workspace wrk)

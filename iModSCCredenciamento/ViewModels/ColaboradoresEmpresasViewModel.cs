@@ -77,14 +77,15 @@ namespace iModSCCredenciamento.ViewModels
 
         public void ListarContratos(Empresa empresa)
         {
-
-            
             if (empresa == null) return;
-            
-            var lstContratos = _empresaContratoService.Listar(empresa.EmpresaId);
-            Contratos.AddRange(lstContratos);
-
-
+            var lstContratos = _empresaContratoService.Listar(empresa.EmpresaId).ToList();
+            Contratos.Clear();
+            //Manipular concatenaçção de conrato
+            lstContratos.ForEach(n =>
+            {
+                n.Descricao = $"{n.Descricao} - {n.NumeroContrato}";
+                Contratos.Add(n);
+            });
         }
 
         /// <summary>
@@ -110,6 +111,8 @@ namespace iModSCCredenciamento.ViewModels
                 _service.Criar (n1);
                 //Adicionar no inicio da lista um item a coleção
                 var n2 = Mapper.Map<ColaboradorEmpresaView> (n1);
+                //Adicionar o nome da empresa e o contrato
+                SetDadosEmpresaContrato (n2);
                 EntityObserver.Insert (0, n2);
                 IsEnableLstView = true;
             }
@@ -120,6 +123,16 @@ namespace iModSCCredenciamento.ViewModels
             }
         }
 
+        private void SetDadosEmpresaContrato(ColaboradorEmpresaView entity)
+        {
+            var empresa = Empresas.FirstOrDefault (n => n.EmpresaId == entity.EmpresaId);
+            var contrato = Contratos.FirstOrDefault (n => n.EmpresaContratoId == entity.EmpresaContratoId);
+            if (empresa != null)
+                entity.EmpresaNome = empresa.Nome;//Setar o nome da empresa para ser exibida na list view
+            if (contrato != null)
+                entity.Descricao = contrato.Descricao;//Setar o nome do contrato para ser exibida na list view
+        }
+
         /// <summary>
         ///     Acionado antes de criar
         /// </summary>
@@ -127,7 +140,6 @@ namespace iModSCCredenciamento.ViewModels
         {
             Entity = new ColaboradorEmpresaView();
             Entity.Matricula = string.Format("{0:#,##0}", Global.GerarID()) + "-" + String.Format("{0:yy}", DateTime.Now);
-
             Comportamento.PrepareCriar();
             IsEnableLstView = false;
         }
@@ -217,67 +229,7 @@ namespace iModSCCredenciamento.ViewModels
         }
 
         #endregion
-
-        //    }
-
-        //        //EFETUAR ATUALIZAÇÃO NO SC
-
-        //        _Con.Close();
-
-        //        _sqlCmd.ExecuteNonQuery();
-        //        _sqlCmd.Parameters.Add("@V4", SqlDbType.Bit).Value = 0;
-        //        _sqlCmd.Parameters.Add("@V3", SqlDbType.DateTime).Value = DateTime.Now;
-        //        _sqlCmd.Parameters.Add("@V2", SqlDbType.Int).Value = 8;
-        //        _sqlCmd.Parameters.Add("@V1", SqlDbType.Int).Value = 2;
-
-        //        _sqlCmd.Parameters.Add("@V0", SqlDbType.Int).Value = colaboradorEmpresaID;
-        //}
-        //    list2.ForEach(n => { EntityObserver.Add(n); });
-        //    EntityObserver = new ObservableCollection<ColaboradorEmpresaView>();
-        //    var list2 = Mapper.Map<List<ColaboradorEmpresaView>>(list1);
-        //    var list1 = _service.Listar(entity.EmpresaId);
-        //    //Obter dados
-        //    _colaboradorView = entity;
-        //    if (entity == null) throw new ArgumentNullException(nameof(entity));
-        //{
-        //public void ListarContratos(EmpresaView entity)
-
-        //                " Where ColaboradorEmpresaID = @v0 AND CredencialStatusID = 1", _Con);
-        //                ",Ativa=@v4" +
-        //                ",Baixa=@v3" +
-        //                ",CredencialMotivoID=@v2" +
-        //                "CredencialStatusID=@v1" +
-
-        //        _sqlCmd = new SqlCommand("Update ColaboradoresCredenciais Set " +
-
-        //        SqlCommand _sqlCmd;
-        //        SqlConnection _Con = new SqlConnection(Global._connectionString); _Con.Open();
-        //    {
-        //    try
-        //{
-
-        //private void AtualizaCredenciais(int colaboradorEmpresaID)
-        //}
-        //    return false;
-
-        //    }
-
-        //        return false;
-        //        Utils.TraceException(ex);
-        //    {
-        //    catch (Exception ex)
-
-        //    }
-        //        }
-        //            return true;
-        //        {
-        //        && (x.ColaboradorEmpresaId != ColaboradorEmpresaSelecionado.ColaboradorEmpresaId)).Count() > 0)
-        //        (x.EmpresaContratoId == ColaboradorEmpresaSelecionado.EmpresaContratoId && x.Ativo)
-        //        if (_ColaboradoresEmpresasTemp.Where(x =>
-        //    {
-        //    try
-        //{
-        //public bool VerificaVinculo()
+         
 
         #region Propriedade Commands
 

@@ -9,6 +9,7 @@
 using System;
 using System.Windows;
 using System.Windows.Controls;
+using iModSCCredenciamento.Funcoes;
 using iModSCCredenciamento.Helpers;
 using iModSCCredenciamento.ViewModels;
 using IMOD.CrossCutting;
@@ -40,7 +41,7 @@ namespace iModSCCredenciamento.Views
         public void AtualizarDados(Model.EmpresaView entity)
         {
             if (entity == null) return;
-            _viewModel.AtualizarDados (entity);
+            _viewModel.AtualizarDados(entity);
         }
 
         /// <summary>
@@ -53,14 +54,14 @@ namespace iModSCCredenciamento.Views
             try
             {
                 var filtro = "Imagem files (*.pdf)|*.pdf|All Files (*.*)|*.*";
-                var arq = WpfHelp.UpLoadArquivoDialog (filtro, 700);
+                var arq = WpfHelp.UpLoadArquivoDialog(filtro, 700);
                 if (arq == null) return;
                 _viewModel.Entity.Assinatura = arq.FormatoBase64;
             }
             catch (Exception ex)
             {
-                WpfHelp.Mbox (ex.Message);
-                Utils.TraceException (ex);
+                WpfHelp.Mbox(ex.Message);
+                Utils.TraceException(ex);
             }
         }
 
@@ -69,18 +70,16 @@ namespace iModSCCredenciamento.Views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void OnDownload_Click(object sender, RoutedEventArgs e)
+        private void OnAbrirArquivo_Click(object sender, RoutedEventArgs e)
         {
             try
             {
                 var arquivoStr = _viewModel.Entity.Assinatura;
-                var nomeArquivo = "Ficha Cadastral";
-                var arrBytes = Convert.FromBase64String (arquivoStr);
-                WpfHelp.DownloadArquivoDialog (nomeArquivo, arrBytes);
+                Global.PopupPDF(arquivoStr);
             }
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
+                Utils.TraceException(ex);
             }
         }
 
@@ -93,8 +92,8 @@ namespace iModSCCredenciamento.Views
             }
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
-                WpfHelp.PopupBox ($"Não foi realizar a operação solicitada\n{ex.Message}", 3);
+                Utils.TraceException(ex);
+                WpfHelp.PopupBox($"Não foi realizar a operação solicitada\n{ex.Message}", 3);
             }
         }
 

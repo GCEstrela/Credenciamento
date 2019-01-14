@@ -117,8 +117,8 @@ namespace IMOD.Infra.Repositorios
 
                 {
                     try
-                    { 
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmpresaID", DbType.String, objects, 0).Igual()));
+                    {
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmpresaID", DbType.Int32, objects, 0).Igual()));
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Nome", DbType.String, objects, 1).Like()));
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("CPF", DbType.String, objects, 2).Like()));
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Email", DbType.String, objects, 3).Like()));

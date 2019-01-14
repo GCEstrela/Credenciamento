@@ -1,206 +1,94 @@
-﻿using System;
+﻿// ***********************************************************************
+// Project: iModSCCredenciamento
+// Crafted by: Grupo Estrela by Genetec
+// Date:  12 - 07 - 2018
+// ***********************************************************************
+
+#region
+
+using System;
 using System.Windows;
 using System.Windows.Controls;
-using iModSCCredenciamento.Funcoes;
+using iModSCCredenciamento.Helpers;
 using iModSCCredenciamento.ViewModels;
+using IMOD.CrossCutting;
+
+#endregion
 
 namespace iModSCCredenciamento.Views
 {
     /// <summary>
-    /// Interação lógica para VeiculosAnexosView.xam
+    ///     Interação lógica para VeiculosAnexosView.xam
     /// </summary>
     public partial class VeiculosAnexosView : UserControl
     {
+        private readonly VeiculosAnexosViewModel _viewModel;
+
         #region Inicializacao
+
         public VeiculosAnexosView()
         {
             InitializeComponent();
-            DataContext = new VeiculosAnexosViewModel();
+            _viewModel = new VeiculosAnexosViewModel();
+            DataContext = _viewModel;
         }
+
         #endregion
 
-        #region Vinculo do UserControl
-        static int _veiculoIDFisrt;
-        public int VeiculoSelecionadoIDView
+        #region  Metodos
+
+        /// <summary>
+        ///     Atualizar dados
+        /// </summary>
+        /// <param name="entity"></param>
+        public void AtualizarDados(Model.VeiculoView entity)
         {
-            get { return (int)GetValue(VeiculoSelecionadoIDViewProperty); }
-            set { SetValue(VeiculoSelecionadoIDViewProperty, value); }
+            if (entity == null) return;
+            _viewModel.AtualizarDadosAnexo (entity);
         }
 
-        public static readonly DependencyProperty VeiculoSelecionadoIDViewProperty =
-            DependencyProperty.Register("VeiculoSelecionadoIDView", typeof(int), typeof(VeiculosAnexosView), new PropertyMetadata(0, PropertyChanged));
-        private static void PropertyChanged(DependencyObject source, DependencyPropertyChangedEventArgs e)
+        /// <summary>
+        ///     UpLoad
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnUpLoad_Click(object sender, RoutedEventArgs e)
         {
-            int _veiculoID = Convert.ToInt32(e.NewValue);
-            if (_veiculoID != _veiculoIDFisrt && _veiculoID != 0)
+            try
             {
-                ((VeiculosAnexosViewModel)((FrameworkElement)source).DataContext).OnAtualizaCommand(_veiculoID);
-                _veiculoIDFisrt = _veiculoID;
+                var filtro = "Imagem files (*.pdf)|*.pdf|All Files (*.*)|*.*";
+                var arq = WpfHelp.UpLoadArquivoDialog (filtro, 700);
+                if (arq == null) return;
+                _viewModel.Entity.Arquivo = arq.FormatoBase64;
+                _viewModel.Entity.NomeArquivo = arq.Nome;
+                txtNomeAnexo.Text = arq.Nome;
             }
-
+            catch (Exception ex)
+            {
+                WpfHelp.Mbox (ex.Message);
+                Utils.TraceException (ex);
+            }
         }
 
-        public bool Editando
+        /// <summary>
+        ///     Downlaod
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnDownload_Click(object sender, RoutedEventArgs e)
         {
-            get { return (bool)GetValue(EditandoProperty); }
-            set { SetValue(EditandoProperty, value); }
+            try
+            {
+                var arquivoStr = _viewModel.Entity.Arquivo;
+                var arrBytes = Convert.FromBase64String (arquivoStr);
+                WpfHelp.DownloadArquivoDialog (_viewModel.Entity.NomeArquivo, arrBytes);
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException (ex);
+            }
         }
 
-        public static readonly DependencyProperty EditandoProperty =
-            DependencyProperty.Register("Editando", typeof(bool), typeof(VeiculosAnexosView), new FrameworkPropertyMetadata(true,
-                                                           FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, EditandoPropertyChanged));
-
-        private static void EditandoPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            //throw new NotImplementedException();
-        }
         #endregion
-
-        #region Comando dos Botoes
-        //
-        private void BuscarApoliceArquivo_bt_Click(object sender, RoutedEventArgs e)
-        {
-            ((VeiculosAnexosViewModel)DataContext).OnBuscarArquivoCommand();
-            Arquivo_tb.Text = ((VeiculosAnexosViewModel)DataContext).VeiculosAnexos[0].NomeArquivo;
-        }
-
-        private void AbrirApoliceArquivo_bt_Click(object sender, RoutedEventArgs e)
-        {
-            ((VeiculosAnexosViewModel)DataContext).OnAbrirArquivoCommand();
-        }
-
-        private void Pesquisar_bt_Click(object sender, RoutedEventArgs e)
-        {
-            ((VeiculosAnexosViewModel)DataContext).OnPesquisarCommand();
-        }
-
-        private void Editar_bt_Click(object sender, RoutedEventArgs e)
-        {
-            Editando = false; Botoes_Principais_sp.Visibility = Visibility.Hidden;
-            Botoes_Editar_sp.Visibility = Visibility.Visible;
-            ListaVeiculosAnexos_lv.IsHitTestVisible = false;
-            Global.SetReadonly(Linha0_sp, false);
-
-            ((VeiculosAnexosViewModel)DataContext).OnEditarCommand();
-        }
-
-        private void Adicionar_bt_Click(object sender, RoutedEventArgs e)
-        {
-
-            Editando = false; Botoes_Principais_sp.Visibility = Visibility.Hidden;
-            Botoes_Adicionar_sp.Visibility = Visibility.Visible;
-            Global.SetReadonly(Linha0_sp, false);
-            ((VeiculosAnexosViewModel)DataContext).OnAdicionarCommand();
-        }
-
-        private void Excluir_bt_Click(object sender, RoutedEventArgs e)
-        {
-            Editando = true; Botoes_Principais_sp.Visibility = Visibility.Visible;
-            ((VeiculosAnexosViewModel)DataContext).OnExcluirCommand();
-        }
-
-        private void ExecutarPesquisa_bt_Click(object sender, RoutedEventArgs e)
-        {
-            Editando = true; Botoes_Principais_sp.Visibility = Visibility.Visible;
-            //Criterios_tb.Text = PesquisaCodigo_tb.Text + (char)(20) + PesquisaNome_tb.Text + (char)(20) + PesquisaCNPJ_tb.Text;
-            Editando = false; Botoes_Principais_sp.Visibility = Visibility.Hidden;
-            //((EmpresasSegurosViewModel)this.DataContext).ExecutarPesquisaCommand();
-        }
-
-        private void CancelarPesquisa_bt_Click(object sender, RoutedEventArgs e)
-        {
-            Editando = true; Botoes_Principais_sp.Visibility = Visibility.Visible;
-            Botoes_Pesquisar_sp.Visibility = Visibility.Hidden;
-
-        }
-
-        private void CancelarEdicao_bt_Click(object sender, RoutedEventArgs e)
-        {
-            Editando = true; Botoes_Principais_sp.Visibility = Visibility.Visible;
-            Botoes_Editar_sp.Visibility = Visibility.Hidden;
-            ListaVeiculosAnexos_lv.IsHitTestVisible = true;
-            Global.SetReadonly(Linha0_sp, true); ;
-            ((VeiculosAnexosViewModel)DataContext).OnCancelarEdicaoCommand();
-        }
-
-        private void SalvarEdicao_bt_Click(object sender, RoutedEventArgs e)
-        {
-
-            //if (System.Windows.Forms.MessageBox.Show("Tem certeza que deseja salvar?", "Salvar Anexo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
-            //{
-            //    return;
-            //}
-            if (!Global.PopupBox("Tem certeza que deseja salvar?", 2))
-            {
-                return;
-            }
-
-            Editando = true; Botoes_Principais_sp.Visibility = Visibility.Visible;
-            ((VeiculosAnexosViewModel)DataContext).OnSalvarEdicaoCommand();
-            Botoes_Editar_sp.Visibility = Visibility.Hidden;
-            ListaVeiculosAnexos_lv.IsHitTestVisible = true;
-            Global.SetReadonly(Linha0_sp, true); ;
-        }
-
-        private void CancelarAdicao_bt_Click(object sender, RoutedEventArgs e)
-        {
-
-            Editando = true; Botoes_Principais_sp.Visibility = Visibility.Visible;
-            ((VeiculosAnexosViewModel)DataContext).OnCancelarAdicaoCommand();
-            Botoes_Adicionar_sp.Visibility = Visibility.Hidden;
-            Global.SetReadonly(Linha0_sp, true); ;
-        }
-
-        private void SalvarAdicao_bt_Click(object sender, RoutedEventArgs e)
-        {
-
-            //if (System.Windows.Forms.MessageBox.Show("Tem certeza que deseja salvar?", "Salvar Anexo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
-            //{
-            //    return;
-            //}
-            if (!Global.PopupBox("Tem certeza que deseja salvar?", 2))
-            {
-                return;
-            }
-
-            Editando = true; Botoes_Principais_sp.Visibility = Visibility.Visible;
-            ((VeiculosAnexosViewModel)DataContext).OnSalvarAdicaoCommand();
-            Botoes_Adicionar_sp.Visibility = Visibility.Hidden;
-            Global.SetReadonly(Linha0_sp, true); ;
-        }
-        #endregion
-
-        private void ListaVeiculosAnexos_lv_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (ListaVeiculosAnexos_lv.SelectedIndex == -1)
-            {
-                Linha0_sp.IsEnabled = false;
-                Editar_bt.IsEnabled = false;
-            }
-            else
-            {
-                Linha0_sp.IsEnabled = true;
-                Editar_bt.IsEnabled = true;
-                AbrirContratoArquivo_bt.IsHitTestVisible = true;
-            }
-        }
-
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
-        {
-            Global.SetReadonly(Linha0_sp, true);
-            ListaVeiculosAnexos_lv.SelectedIndex = -1;
-            Linha0_sp.IsEnabled = false;
-            Editar_bt.IsEnabled = false;
-        }
-        //private void UserControl_PreviewLostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
-        //{
-        //    e.Handled = true;
-        //}
-
-        //private void UserControl_LostFocus(object sender, RoutedEventArgs e)
-        //{
-        //    e.Handled = true;
-        //    this.Focus();
-        //}
     }
 }
