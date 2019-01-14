@@ -674,26 +674,26 @@
                         </StackPanel>
                     </StackPanel>
                 </TabItem.Header>
-                <local:ColaboradoresEmpresasView x:Name="ColaboradorEmpresaUs"  Margin="6,2,14,18"    /> 
+                <local:ColaboradoresEmpresasView x:Name="ColaboradorEmpresaUs"  Margin="6,2,14,18"    />
 
             </TabItem>
 
-            <TabItem x:Name="Contrato_ti"  Width="200" IsEnabled="{Binding IsEnableTabItem}" >
+            <TabItem x:Name="CursosTreinamentos_ti"  Width="200" IsEnabled="{Binding IsEnableTabItem}" >
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <Button  x:Name="Contratos_bt"  Click="OnPendenciaTreinamentoCertificacao_Click" Style="{StaticResource MenuStyle}" >
+                        <Button x:Name="Curso_bt"   Click="OnPendenciaEmpresaVinculo_Click" Style="{StaticResource MenuStyle}" >
                             <StackPanel>
-                                <Image Source="{Binding PendenciaAnexo,
-                                        Converter={StaticResource ConvertBoolToImage},
-                                        UpdateSourceTrigger=Explicit, Mode=TwoWay}" Width="16"  Height="16" />
+                                <Image Source="{Binding PendenciaEmpresasVinculos,
+                                        Converter={StaticResource ConvertBoolToImage},UpdateSourceTrigger=Explicit, Mode=TwoWay}"  Width="16"  Height="16" />
                             </StackPanel>
                         </Button>
                         <StackPanel Width="170">
-                            <TextBlock Text="Treinamentos Certificações" HorizontalAlignment="Center"/>
+                            <TextBlock Text="Empresas Vinculos" HorizontalAlignment="Center"/>
                         </StackPanel>
                     </StackPanel>
                 </TabItem.Header>
-                <!--<local:UsEmpresaContratoView x:Name="EmpresaContratosUs" Margin="5,5,0,5" HorizontalAlignment="Left" Width="1141"/>-->
+                <local:ColaboradoresCursosView x:Name="ColaboradorCurso"  Margin="0,0,20,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="1233"    />
+
             </TabItem>
 
             <TabItem x:Name="Anexos_ti"  Width="200"  IsEnabled="{Binding IsEnableTabItem}">
@@ -710,7 +710,7 @@
                         </StackPanel>
                     </StackPanel>
                 </TabItem.Header>
-                 <local:ColaboradoresAnexosView x:Name="AnexoUs" Margin="6,2,14,18" /> 
+                <local:ColaboradoresAnexosView x:Name="AnexoUs" Margin="6,2,14,18" />
 
             </TabItem>
 

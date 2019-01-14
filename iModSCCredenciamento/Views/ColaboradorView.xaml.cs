@@ -56,6 +56,7 @@ namespace iModSCCredenciamento.Views
             _viewModel.AtualizarDadosPendencias();
             //Popular User Controls
             ColaboradorEmpresaUs.AtualizarDados(_viewModel.Entity);
+            ColaboradorCurso.AtualizarDados(_viewModel.Entity);
             CredenciaisUs.AtualizarDados(_viewModel.Entity);
             AnexoUs.AtualizarDados(_viewModel.Entity);
             //EmpresaContratosUs.AtualizarDados(_viewModel.Entity);

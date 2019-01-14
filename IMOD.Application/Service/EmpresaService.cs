@@ -183,6 +183,17 @@ namespace IMOD.Application.Service
             return _repositorio.ListarPendencias (empresaId);
         }
 
+        /// <summary>
+        /// Listar Credenciais Empresa por tipo
+        /// </summary>
+        /// <param name="empresaId"></param>
+        /// <returns></returns>
+        public ICollection<EmpresaTipoCredencialView> ListarTipoCredenciaisEmpresa(int empresaId = 0)
+
+        {
+            return _repositorio.ListarTipoCredenciaisEmpresa(empresaId);
+        }
+
         #endregion
     }
 }
