@@ -7,6 +7,7 @@
 #region
 
 using System;
+using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
@@ -185,11 +186,12 @@ namespace iModSCCredenciamento.Views
             try
             {
                 var filtro = "Images (*.BMP;*.JPG;*.GIF,*.PNG,*.TIFF)|*.BMP;*.JPG;*.GIF;*.PNG;*.TIFF|" + "All files (*.*)|*.*";
-                var arq = WpfHelp.UpLoadArquivoDialog (filtro);
+                var arq = WpfHelp.UpLoadArquivoDialog(filtro);
                 if (arq == null) return;
                 _viewModel.Entity.Logo = arq.FormatoBase64;
-                var binding = BindingOperations.GetBindingExpression (Logo_im, Image.SourceProperty);
+                var binding = BindingOperations.GetBindingExpression(Logo_im, Image.SourceProperty);
                 binding?.UpdateTarget();
+
             }
             catch (Exception ex)
             {
