@@ -324,7 +324,7 @@
         <TabControl x:Name="TabGeral_tc" 
                     SelectedIndex="{Binding SelectedTabIndex }"
                     Height="562" 
-                    Width="1259" Margin="1,1,-259,-321" 
+                    Width="1259" Margin="0,10,-258,-330" 
                     Grid.Row="3"    >
 
             <TabItem x:Name="Geral_ti"   Background="{x:Null}"    Margin="0,-2,0,0">
@@ -659,7 +659,7 @@
 
 
 
-            <TabItem x:Name="Signatarios_ti"  Width="200" IsEnabled="{Binding IsEnableTabItem}" >
+            <TabItem x:Name="EmpresaVinculo_ti"  Width="200" IsEnabled="{Binding IsEnableTabItem}" >
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="Signatarios_bt"   Click="OnPendenciaEmpresaVinculo_Click" Style="{StaticResource MenuStyle}" >
@@ -673,7 +673,7 @@
                         </StackPanel>
                     </StackPanel>
                 </TabItem.Header>
-                <local:ColaboradoresEmpresasView x:Name="ColaboradorEmpresaUs" Margin="4,0,6,202" VerticalAlignment="Bottom" /> 
+                <local:ColaboradoresEmpresasView x:Name="ColaboradorEmpresaUs" Margin="10,0,-11,176" VerticalAlignment="Bottom"  />
 
             </TabItem>
 
@@ -692,7 +692,7 @@
                         </StackPanel>
                     </StackPanel>
                 </TabItem.Header>
-                <!--<local:UsEmpresaContratoView x:Name="EmpresaContratosUs" Margin="5,5,0,5" HorizontalAlignment="Left" Width="1141"/>-->
+                <local:ColaboradoresCursosView x:Name="EmpresaContratosUs" Width="1141" Margin="10,0,0,172" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
             </TabItem>
 
             <TabItem x:Name="Anexos_ti"  Width="200"  IsEnabled="{Binding IsEnableTabItem}">

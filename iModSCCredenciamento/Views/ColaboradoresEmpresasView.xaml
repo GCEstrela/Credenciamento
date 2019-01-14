@@ -11,130 +11,8 @@
              xmlns:i="clr-namespace:iModSCCredenciamento.Funcoes"
              mc:Ignorable="d"  Height="350" Loaded="Frm_Loaded">
             <UserControl.Resources>
-        <i:CheckTeste x:Key="CheckTeste" />
-        <i:StringToImageConverter x:Key="Convert64ToImage"/>
-        <!--<Style TargetType="{x:Type Label}">
-            <Setter Property="Foreground" Value="#FFD0D0D0"/>
-            <Setter Property="VerticalAlignment" Value="Center"></Setter>
-            <Setter Property="HorizontalAlignment" Value="Left"></Setter>
-            <Setter Property="HorizontalAlignment" Value="Left"></Setter>
-        </Style>-->
-        
-        <!--<Style TargetType="{x:Type DatePickerTextBox}">
-            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" />
-            <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />
-            <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst"/>
-            <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="DatePickerTextBox">
-                        <Grid >
-                            <Grid.Resources>
-                                <SolidColorBrush x:Key="WatermarkBrush" Color="#FFAAAAAA"/>
-                            </Grid.Resources>
-                            <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroup Name="CommonStates">
-                                    <VisualStateGroup.Transitions>
-                                        <VisualTransition GeneratedDuration="0" />
-                                        <VisualTransition To="MouseOver" GeneratedDuration="0:0:0.1" />
-                                    </VisualStateGroup.Transitions>
-                                    <VisualState Name="Normal" />
-                                    <VisualState Name="MouseOver">
-                                        <Storyboard>
-                                            <ColorAnimation Storyboard.TargetName="ContentElement" Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)" To="#FF99C1E2" Duration="0"/>
-                                            <ColorAnimation Storyboard.TargetName="watermark_decorator" Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)" To="#FF99C1E2" Duration="0"/>
-                                        </Storyboard>
-                                    </VisualState>
-                                </VisualStateGroup>
-                                <VisualStateGroup Name="WatermarkStates">
-                                    <VisualStateGroup.Transitions>
-                                        <VisualTransition GeneratedDuration="0" />
-                                    </VisualStateGroup.Transitions>
-                                    <VisualState Name="Unwatermarked" />
-                                    <VisualState Name="Watermarked">
-                                        <Storyboard>
-                                            <DoubleAnimation Storyboard.TargetName="ContentElement" Storyboard.TargetProperty="Opacity" To="0" Duration="0" />
-                                            <DoubleAnimation Storyboard.TargetName="PART_Watermark" Storyboard.TargetProperty="Opacity" To="1" Duration="0" />
-                                        </Storyboard>
-                                    </VisualState>
-                                </VisualStateGroup>
-                                <VisualStateGroup Name="FocusStates">
-                                    <VisualStateGroup.Transitions>
-                                        <VisualTransition GeneratedDuration="0" />
-                                    </VisualStateGroup.Transitions>
-                                    <VisualState Name="Unfocused" />
-                                    <VisualState Name="Focused">
-                                        <Storyboard>
-                                            <DoubleAnimation Storyboard.TargetName="FocusVisual" Storyboard.TargetProperty="Opacity" To="1" Duration="0" />
-                                        </Storyboard>
-                                    </VisualState>
-                                </VisualStateGroup>
-                            </VisualStateManager.VisualStateGroups>
-
-
-                            <Border x:Name="Border" VerticalAlignment="Center"
-                            Background="Transparent" 
-                            BorderBrush="Transparent" 
-                            BorderThickness="0"
-                            Padding="{TemplateBinding Padding}"
-                            CornerRadius="1" 
-                            Opacity="1">
-                                <Grid x:Name="WatermarkContent" 
-                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                              VerticalAlignment="Center">
-                                    <Border x:Name="ContentElement" BorderThickness="1">
-                                        <Border.BorderBrush>
-                                            <SolidColorBrush Color="Transparent"/>
-                                        </Border.BorderBrush>
-                                    </Border>
-                                    <Border x:Name="watermark_decorator" BorderThickness="1" VerticalAlignment="Stretch">
-                                        <Border.BorderBrush>
-                                            <SolidColorBrush Color="Transparent"/>
-                                        </Border.BorderBrush>
-                                        <ContentControl x:Name="PART_Watermark"
-                                                    Opacity="0"
-                                                    Focusable="False"
-                                                    IsHitTestVisible="False"
-                                                    Padding="2" VerticalContentAlignment="Stretch">
-                                            <ContentControl.Template>
-                                                <ControlTemplate>
-                                                    <TextBlock  VerticalAlignment="Center" Text="//"/>
-                                                </ControlTemplate>
-                                            </ContentControl.Template>
-                                        </ContentControl>
-                                    </Border>
-                                    <ScrollViewer x:Name="PART_ContentHost" 
-                                          Margin="0"
-                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                          VerticalContentAlignment= "Center" />
-                                    <Border x:Name="FocusVisual" VerticalAlignment="Center" BorderBrush="#FF45D6FA" CornerRadius="1" Opacity="0" IsHitTestVisible="False"/>
-                                </Grid>
-                            </Border>
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>-->
-
-        <!--<Style x:Key="MenuStyle" TargetType="{x:Type Button}">
-            <Setter Property="Background" Value="{x:Null}" />
-            <Setter Property="BorderBrush" Value="{x:Null}" />
-            <Setter Property="Width" Value="16" />
-            <Setter Property="Height" Value="16" />
-            <Setter Property="Cursor" Value="Hand" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <Border CornerRadius="0" Background="{TemplateBinding Background}">
-                            <Grid>
-                                <ContentPresenter x:Name="MyContentPresenter" Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" />
-                            </Grid>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>-->
-
+                <i:CheckTeste x:Key="CheckTeste" />
+                <i:StringToImageConverter x:Key="Convert64ToImage"/>
     </UserControl.Resources>
 
 
@@ -162,14 +40,6 @@
                                   UpdateSourceTrigger=PropertyChanged}"  
                                   IsEnabled="False"  Height="24" 
                                   MaxWidth="200"  Width="150"/>
-
-
-
-                        <!--<Label Content="Descrição do Arquivo:" Height="28" Width="152" Margin="0,0,5,0"
-                               HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                        <TextBox x:Name="DescricaoArquivo_tb" MaxLength="50" CharacterCasing="Upper"
-                                 Text="{Binding Entity.Descricao, UpdateSourceTrigger=PropertyChanged}"
-                                 IsEnabled="True" Height="24" Width="367" />-->
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="1">
@@ -187,32 +57,12 @@
                         <TextBox  x:Name="Cargo_tb" MaxLength="30" CharacterCasing="Upper" VerticalContentAlignment="Center" 
                                   Text="{Binding Entity.Cargo, UpdateSourceTrigger=PropertyChanged}" 
                                   IsEnabled="True"  Height="24"  MaxWidth="200"  HorizontalAlignment="Left" Width="150"/>
-                        <!--<Label Content="Nome do Arquivo:" Height="28" Width="108" Margin="1" Foreground="#FFD0D0D0" />
-                        <TextBox x:Name="txtNomeAnexo" MaxLength="100" CharacterCasing="Upper"
-                                 Text="{Binding Entity.NomeAnexo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                 IsEnabled="True" Height="24" Width="523" />-->
-                        <!--<Button x:Name="BuscarContratoArquivo_bt" Height="24" Margin="10,0,0,0"
-                                VerticalAlignment="Center" Width="24" Click="OnUpLoad_Click">
-                            <StackPanel>
-                                <Image Source="/iModSCCredenciamento;component/Resources/Pasta.ico" />
-                            </StackPanel>
-                        </Button>-->
-                        <!--<Button x:Name="AbrirContratoArquivo_bt" Height="24" Margin="10,0,0,0"
-                                VerticalAlignment="Center" Width="24" Click="OnDownload_Click">
-                            <StackPanel>
-                                <Image Source="/iModSCCredenciamento;component/Resources/Olho.png" />
-                            </StackPanel>
-                        </Button>-->
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="1">
                         <Label Content="Vínculo Ativo:" Height="28" Width="150" Foreground="#FFD0D0D0"   />
                         <CheckBox VerticalAlignment="Center" x:Name="Impeditivo_cb"  Foreground="#FFD0D0D0" IsChecked="{Binding Entity.Ativo, UpdateSourceTrigger=PropertyChanged}"/>
-                        <!--<wpf:ToggleSwitch x:Name="Ativo_cb" Height="28"  
-                                                        HorizontalContentAlignment="Left" SwitchContentPlacement="Left"  CheckedText="Sim" UncheckedText="Não"
-                                                        IsChecked="{Binding Entity.Ativo,  
-                                                        UpdateSourceTrigger=PropertyChanged, ConverterParameter='Ativa_tw'}"
-                                                        Foreground="#FFD0D0BE" UncheckedBackground="Maroon" UncheckedBorderBrush="Maroon" UncheckedForeground="#FFAEAEAE"  Width="85" HorizontalAlignment="Left" VerticalAlignment="Center"/>-->
+ 
                     </StackPanel>
 
                     </StackPanel>
@@ -225,23 +75,6 @@
                           Width="630" Margin="0,15,0,10">
                     <ListView.View>
                         <GridView FrameworkElement.FlowDirection="RightToLeft">
-                            <!--<GridViewColumn Width="88" Header="Vínculo Ativo"  >
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        --><!--<CheckBox  IsChecked="{Binding Ativa}" IsHitTestVisible="False" />--><!--
-                                        <wpf:ToggleSwitch HeaderHorizontalAlignment="Stretch" Width="100" HorizontalAlignment="Right" SwitchContentPlacement="Right" IsHitTestVisible="False"
-                                                 IsChecked="{Binding Entity.Ativo}"  Foreground="#FFD0D0BE" UncheckedBackground="Maroon" UncheckedBorderBrush="Maroon" UncheckedForeground="#FFAEAEAE" UncheckedText="" CheckedText="" SwitchWidth="44" />
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>-->
-                            <!--<GridViewColumn Width="100" Header="Matrícula"  >
-                                <GridViewColumn.CellTemplate  >
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding Entity.Matricula}"  TextAlignment="Center"/>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>-->
-                             
                             <GridViewColumn Width="35" Header="Ativo">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
@@ -253,27 +86,6 @@
                             <GridViewColumn Width="200" Header="Empresa"  DisplayMemberBinding="{Binding EmpresaNome}"></GridViewColumn>
                             <GridViewColumn Width="200" Header="Contrato"  DisplayMemberBinding="{Binding Descricao}"/>
                             <GridViewColumn Width="80" Header="Cargo"  DisplayMemberBinding="{Binding Cargo}"/>
-                            <!--<GridViewColumn Width="300" Header="Empresa"  >
-                                <GridViewColumn.CellTemplate  >
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding Entity.EmpresaNome}"  TextAlignment="Center"/>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>-->
-                            <!--<GridViewColumn Width="200" Header="Contrato"  >
-                                <GridViewColumn.CellTemplate  >
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding Entity.Descricao}"  TextAlignment="Center" />
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>-->
-                            <!--<GridViewColumn Width="200" Header="Cargo"  >
-                                <GridViewColumn.CellTemplate  >
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding Entity.Cargo}"  TextAlignment="Center" Foreground="{Binding Entity.Ativo,  Converter={StaticResource CheckTeste}, ConverterParameter='Ativa_tw'}"/>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>-->
                         </GridView>
                     </ListView.View>
                 </ListView>

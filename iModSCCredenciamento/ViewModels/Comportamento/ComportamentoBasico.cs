@@ -92,7 +92,7 @@ namespace iModSCCredenciamento.ViewModels.Comportamento
                 OnSalvarEdicao (new RoutedEventArgs());
             if (_salvar == Acao.SalvarAdicao)
                 OnSalvarAdicao (new RoutedEventArgs());
-
+            
             AdicionarEstado (true, true, true, false, false, true);
         }
 
