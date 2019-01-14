@@ -7,13 +7,15 @@
 #region
 
 using System;
+using System.Globalization;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Media;
 using Genetec.Sdk.Workspace;
 using IMOD.Application.Service;
+using IMOD.Domain.Interfaces;
+using IMOD.Infra.Repositorios;
 
 #endregion
 
@@ -64,8 +66,8 @@ namespace iModSCCredenciamento.Modulo
         /// <param name="e"></param>
         private void OnEmpresaView_Click(object sender, RoutedEventArgs e)
         {
-            Button tb = e.Source as Button;
-            tb.Background = (SolidColorBrush)new BrushConverter().ConvertFromString("#FF007ACC");
+            Button btn = e.Source as Button;
+            btn.Background = (SolidColorBrush)new BrushConverter().ConvertFromString("#FF007ACC");
 
             this.ColaboradoresBt.Background = Brushes.Transparent;
             this.VeiculosBt.Background = Brushes.Transparent;
@@ -83,8 +85,8 @@ namespace iModSCCredenciamento.Modulo
         /// <param name="e"></param>
         private void OnColaboradoresView_Click(object sender, RoutedEventArgs e)
         {
-            Button tb = e.Source as Button;
-            tb.Background = (SolidColorBrush)new BrushConverter().ConvertFromString("#FF007ACC");
+            Button btn = e.Source as Button;
+            btn.Background = (SolidColorBrush)new BrushConverter().ConvertFromString("#FF007ACC");
 
             this.EmpresasBt.Background = Brushes.Transparent;
             this.VeiculosBt.Background = Brushes.Transparent;
@@ -102,8 +104,9 @@ namespace iModSCCredenciamento.Modulo
         /// <param name="e"></param>
         private void OnVeiculo_Click(object sender, RoutedEventArgs e)
         {
-            Button tb = e.Source as Button;
-            tb.Background = (SolidColorBrush)new BrushConverter().ConvertFromString("#FF007ACC");
+
+            Button btn = e.Source as Button;
+            btn.Background = (SolidColorBrush)new BrushConverter().ConvertFromString("#FF007ACC");
 
             this.EmpresasBt.Background = Brushes.Transparent;
             this.ColaboradoresBt.Background = Brushes.Transparent;
@@ -121,8 +124,8 @@ namespace iModSCCredenciamento.Modulo
         /// <param name="e"></param>
         private void OnConfiguracao_Click(object sender, RoutedEventArgs e)
         {
-            Button tb = e.Source as Button;
-            tb.Background = (SolidColorBrush)new BrushConverter().ConvertFromString("#FF007ACC");
+            Button btn = e.Source as Button;
+            btn.Background = (SolidColorBrush)new BrushConverter().ConvertFromString("#FF007ACC");
 
             this.EmpresasBt.Background = Brushes.Transparent;
             this.ColaboradoresBt.Background = Brushes.Transparent;
@@ -140,8 +143,8 @@ namespace iModSCCredenciamento.Modulo
         /// <param name="e"></param>
         private void OnRelatorio_Click(object sender, RoutedEventArgs e)
         {
-            Button tb = e.Source as Button;
-            tb.Background = (SolidColorBrush)new BrushConverter().ConvertFromString("#FF007ACC");
+            Button btn = e.Source as Button;
+            btn.Background = (SolidColorBrush)new BrushConverter().ConvertFromString("#FF007ACC");
 
             this.EmpresasBt.Background = Brushes.Transparent;
             this.ColaboradoresBt.Background = Brushes.Transparent;
@@ -159,8 +162,8 @@ namespace iModSCCredenciamento.Modulo
         /// <param name="e"></param>
         private void OnTermo_Click(object sender, RoutedEventArgs e)
         {
-            Button tb = e.Source as Button;
-            tb.Background = (SolidColorBrush)new BrushConverter().ConvertFromString("#FF007ACC");
+            Button btn = e.Source as Button;
+            btn.Background = (SolidColorBrush)new BrushConverter().ConvertFromString("#FF007ACC");
 
             this.EmpresasBt.Background = Brushes.Transparent;
             this.ColaboradoresBt.Background = Brushes.Transparent;

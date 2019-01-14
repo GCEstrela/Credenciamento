@@ -49,6 +49,7 @@ namespace iModSCCredenciamento.Mapeamento
                        m.CreateMap<EmpresaSignatario, EmpresaSignatarioView>().ForMember(k => k.Cpf, opt => opt.MapFrom(k => k.Cpf.FormatarCpf())).ReverseMap();
                        m.CreateMap<EmpresaContratoView, EmpresaContrato>().ReverseMap();
                        //m.CreateMap<EmpresaLayoutCrachaView, ClasseEmpresasLayoutsCrachas.EmpresaLayoutCracha>().ReverseMap();
+                       m.CreateMap<IMOD.Domain.EntitiesCustom.EmpresaTipoCredencialView, iModSCCredenciamento.Views.Model.EmpresaTipoCredencialView>().ReverseMap();
 
                        m.CreateMap<LayoutCracha, EmpresaLayoutCrachaView>().ReverseMap();
                        m.CreateMap<Estados, EstadoView>().ReverseMap();
