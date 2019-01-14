@@ -276,6 +276,7 @@
         </Grid.ColumnDefinitions>
 
         <StackPanel Orientation="Horizontal" Margin="0,5">
+            <Label Content="Pesquisar:" Height="28" Width="65" Foreground="#FFD0D0D0" Margin="1,0,0,0"/>
             <ComboBox  Width="150" IsEnabled="{Binding Comportamento.IsEnableCriar}" ItemsSource="{Binding ListaPesquisa }"
              DisplayMemberPath="Value"
              SelectedValue="Key" 
@@ -673,7 +674,7 @@
                         </StackPanel>
                     </StackPanel>
                 </TabItem.Header>
-                <local:ColaboradoresEmpresasView x:Name="ColaboradorEmpresaUs" Margin="4,0,6,202" VerticalAlignment="Bottom" /> 
+                <local:ColaboradoresEmpresasView x:Name="ColaboradorEmpresaUs"  Margin="6,2,14,18"    /> 
 
             </TabItem>
 
@@ -709,7 +710,7 @@
                         </StackPanel>
                     </StackPanel>
                 </TabItem.Header>
-                <!--<local:EmpresasAnexosView x:Name="AnexoUs" Margin="6,2,14,18" />-->
+                 <local:ColaboradoresAnexosView x:Name="AnexoUs" Margin="6,2,14,18" /> 
 
             </TabItem>
 
@@ -727,7 +728,7 @@
                         </StackPanel>
                     </StackPanel>
                 </TabItem.Header>
-                <!--<local:EmpresasAnexosView x:Name="AnexoUs" Margin="6,2,14,18" />-->
+                <local:ColaboradoresCredenciaisView x:Name="CredenciaisUs" Margin="6,2,14,18" />
 
             </TabItem>
 

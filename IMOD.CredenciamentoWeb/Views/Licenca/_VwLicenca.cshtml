@@ -1,0 +1,33 @@
+﻿@using DSBR.ServicesWeb.Helpers
+@model  DSBR.ServicesWeb.ViewModel.DadosLicencaViewModel
+
+
+<div class="row">
+    <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+            <label>Licenciado para</label>
+            <h4>@Model.LicenciadoPara</h4>
+        </div>
+        <div class="form-group">
+            <label>CNPJ</label>
+            <h4>@Model.Cnpj.FormatarCnpj()</h4>
+        </div>
+        <div class="form-group">
+            <label>Hardware Info</label>
+            <h5>@Model.HardwareInfo</h5>
+        </div>
+    </div>
+
+
+    <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+            <label>Data Fim da Assinatura</label>
+            <h4>@Model.DataExpira.ToShortDateString()</h4>
+        </div>
+        <div class="form-group">
+            <label>Número máx. de usuários</label>
+            <h4>@Model.NumUsuariosSimultaneos</h4>
+        </div>
+    </div>
+     
+</div>

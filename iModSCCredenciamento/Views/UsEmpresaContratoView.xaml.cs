@@ -10,6 +10,7 @@ using System;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
+using iModSCCredenciamento.Funcoes;
 using iModSCCredenciamento.Helpers;
 using iModSCCredenciamento.ViewModels;
 using IMOD.CrossCutting;
@@ -46,7 +47,7 @@ namespace iModSCCredenciamento.Views
         public void AtualizarDados(Model.EmpresaView entity)
         {
             if (entity == null) return;
-            _viewModel.AtualizarDados (entity);
+            _viewModel.AtualizarDados(entity);
         }
 
         /// <summary>
@@ -59,16 +60,16 @@ namespace iModSCCredenciamento.Views
             try
             {
                 var filtro = "Imagem files (*.pdf)|*.pdf|All Files (*.*)|*.*";
-                var arq = WpfHelp.UpLoadArquivoDialog (filtro, 700);
+                var arq = WpfHelp.UpLoadArquivoDialog(filtro, 700);
                 if (arq == null) return;
                 _viewModel.Entity.Arquivo = arq.FormatoBase64;
                 _viewModel.Entity.NomeArquivo = arq.Nome;
-                 txtNomeAnexo.Text = arq.Nome;
+                txtNomeAnexo.Text = arq.Nome;
             }
             catch (Exception ex)
             {
-                WpfHelp.Mbox (ex.Message);
-                Utils.TraceException (ex);
+                WpfHelp.Mbox(ex.Message);
+                Utils.TraceException(ex);
             }
         }
 
@@ -82,19 +83,18 @@ namespace iModSCCredenciamento.Views
             try
             {
                 var arquivoStr = _viewModel.Entity.Arquivo;
-                var arrBytes = Convert.FromBase64String (arquivoStr);
-                WpfHelp.DownloadArquivoDialog (_viewModel.Entity.NomeArquivo, arrBytes);
+                Global.PopupPDF(arquivoStr);
             }
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
+                Utils.TraceException(ex);
             }
         }
 
         private void OnSelecionaMunicipio_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (_viewModel.Estado == null) return;
-            _viewModel.ListarMunicipios (_viewModel.Estado.Uf);
+            _viewModel.ListarMunicipios(_viewModel.Estado.Uf);
         }
 
         #endregion

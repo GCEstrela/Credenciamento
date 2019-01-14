@@ -1,0 +1,134 @@
+﻿@{
+
+    ViewBag.Title = "Home Page";
+}
+
+@*<div class="row">
+    <div class="col-lg-12">
+        <h2 class="page-header">Painel de indicadores</h2>
+    </div>
+</div>*@
+
+<div class="row">
+    <div class="col-lg-12">
+        <!-- #region Grafico Venda Mensal -->
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Produtos mais vendidos
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="flot-chart">
+                    <div class="flot-chart-content" id="flot-pie-chart"></div>
+                </div>
+            </div>
+            <!-- /.panel-body -->
+        </div>
+
+        <!-- #endregion -->
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+
+        <!-- #region Grafico Venda Mensal -->
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-bar-chart-o fa-fw"></i> Vendas Mensal
+                <div class="pull-right">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                            Ação
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu pull-right" role="menu">
+                            <li>
+                                <a href="#">O que fazer para melhorar meus indicadores?</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div id="morris-bar-chart"></div>
+            </div>
+            <!-- /.panel-body -->
+        </div>
+
+        <!-- #endregion -->
+
+
+    </div>
+    <!-- /.col-lg-4 -->
+
+
+</div>
+<div class="row">
+    <div class="col-lg-12">
+
+        <!-- /.panel -->
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-clock-o fa-fw"></i>Timeline
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <ul class="timeline">
+                    <li>
+                        <div class="timeline-badge">
+                            <i class="fa fa-check"></i>
+                        </div>
+
+                        <div class="timeline-panel">
+                            <div class="timeline-heading">
+                                <h4 class="timeline-title">Como elaborar um planejamento estratégico</h4>
+                                <p>
+                                    <small class="text-muted"><i class="fa fa-clock-o"></i> Sebrae 18/08/2018</small>
+                                </p>
+                            </div>
+                            <div class="timeline-body">
+                                <p>
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                                    Libero laboriosam dolor perspiciatis omnis exercitationem.
+                                    Beatae, officia pariatur? Est cum veniam excepturi. M
+                                    aiores praesentium, porro voluptas suscipit facere rem dicta, debitis.
+                                </p>
+                                <p>
+                                    <a class="active" href="http://www.sebrae.com.br/sites/PortalSebrae/bis/como-elaborar-um-planejamento-estrategico,854836627a963410VgnVCM1000003b74010aRCRD?origem=tema&codTema=9">mais detalhes</a>
+                                </p>
+                            </div>
+
+                        </div>
+                    </li>
+                    <li class="timeline-inverted">
+                        <div class="timeline-badge warning">
+                            <i class="fa fa-credit-card"></i>
+                        </div>
+                        <div class="timeline-panel">
+                            <div class="timeline-heading">
+                                <h4 class="timeline-title">Lorem ipsum dolor</h4>
+                            </div>
+                            <div class="timeline-body">
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem dolorem quibusdam, tenetur commodi provident cumque magni voluptatem libero, quis rerum. Fugiat esse debitis optio, tempore. Animi officiis alias, officia repellendus.</p>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laudantium maiores odit qui est tempora eos, nostrum provident explicabo dignissimos debitis vel! Adipisci eius voluptates, ad aut recusandae minus eaque facere.</p>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+
+    </div>
+</div>
+
+
+@*<script src="@Url.Content("~/Scripts/morris-data.js")"></script>*@
+<script language="javascript">
+
+
+     
+
+</script>

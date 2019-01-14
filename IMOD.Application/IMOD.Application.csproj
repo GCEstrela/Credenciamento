@@ -47,6 +47,7 @@
     <Compile Include="Interfaces\IColaboradorCursoService.cs" />
     <Compile Include="Interfaces\IColaboradorEmpresaService.cs" />
     <Compile Include="Interfaces\IColaboradorService.cs" />
+    <Compile Include="Interfaces\IConfiguracaoService.cs" />
     <Compile Include="Interfaces\ICredencialMotivoService.cs" />
     <Compile Include="Interfaces\ICredencialStatusService.cs" />
     <Compile Include="Interfaces\ICursoService.cs" />
@@ -87,6 +88,7 @@
     <Compile Include="Service\ColaboradorCursosService.cs" />
     <Compile Include="Service\ColaboradorEmpresaService.cs" />
     <Compile Include="Service\ColaboradorService.cs" />
+    <Compile Include="Service\ConfiguracaoService.cs" />
     <Compile Include="Service\CredencialMotivoService.cs" />
     <Compile Include="Service\CredencialStatusService.cs" />
     <Compile Include="Service\CursoService.cs" />

@@ -1,0 +1,151 @@
+﻿<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Grupo Estrela Eletrônicos</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+    <link href="https://fonts.googleapis.com/css?family=Bree+Serif" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Bree+Serif|Francois+One" rel="stylesheet">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css">
+    <!-- DataTables CSS -->
+    <link href="@Url.Content("~/browser_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css")" rel="stylesheet" type="text/css"/>
+    <!-- DataTables Responsive CSS -->
+    <link href="@Url.Content("~/browser_components/datatables-responsive/css/dataTables.responsive.css")" rel="stylesheet" type="text/css"/>
+
+    <link href="@Url.Content("~/browser_components/morrisjs/morris.css")" rel="stylesheet" type="text/css"/>
+    <link href="@Url.Content("~/browser_components/font-awesome/css/font-awesome.min.css")" rel="stylesheet" type="text/css"/>
+
+    <!-- jQuery -->
+
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+
+
+
+
+
+
+
+
+    <script src="@Url.Content("~/browser_components/jquery/dist/jquery.min.js")"></script>
+    @Scripts.Render("~/bundles/bootstrap")
+    <script src="@Url.Content("~/browser_components/metisMenu/dist/metisMenu.min.js")"></script>
+    <script src="~/Scripts/locales/bootstrap-datepicker.pt-BR.min.js"></script>
+</head>
+<body>
+<div id="wrapper">
+    <!-- Navigation -->
+    @Html.Action("Index", "Navbar")
+
+    <div id="page-wrapper">
+        <p></p>
+        @RenderBody()
+    </div>
+    <!-- /#page-wrapper -->
+</div>
+<!-- /#wrapper -->
+<!-- DataTables JavaScript -->
+<script src="@Url.Content("~/browser_components/raphael/raphael-min.js")"></script>
+
+<!-- DataTables JavaScript -->
+<script src="@Url.Content("~/browser_components/datatables/media/js/jquery.dataTables.min.js")"></script>
+<script src="@Url.Content("~/browser_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js")"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="@Url.Content("~/Scripts/sb-admin-2.js")"></script>
+<script src="@Url.Content("~/Scripts/utils.js")"></script>
+
+<script src="@Url.Content("~/browser_components/flot/excanvas.min.js")"></script>
+<script src="@Url.Content("~/browser_components/flot/jquery.flot.js")"></script>
+<script src="@Url.Content("~/browser_components/flot/jquery.flot.pie.js")"></script>
+<script src="@Url.Content("~/browser_components/flot/jquery.flot.resize.js")"></script>
+<script src="@Url.Content("~/browser_components/flot/jquery.flot.time.js")"></script>
+<script src="@Url.Content("~/browser_components/flot.tooltip/js/jquery.flot.tooltip.min.js")"></script>
+<script src="@Url.Content("~/browser_components/morrisjs/morris.min.js")"></script>
+
+<!-- Page-Level Demo Scripts - Tables - Use for reference -->
+<script>
+    $(function() {
+        $('#dataTables-example')
+            .DataTable({
+                responsive: true,
+                language: {
+                    search: "Procurar na tabela",
+                    lengthMenu: "Exibir _MENU_ registros por página",
+                    zeroRecords: "Sem dados",
+                    info: "Página _PAGE_ de _PAGES_",
+                    infoEmpty: "Registros não encontrado",
+                    infoFiltered: "(Toal de dados filtrados _MAX_)",
+                    paginate: {
+                        first: "Primeiro",
+                        previous: "Anterior",
+                        next: "Próximo",
+                        last: "Último"
+                    }
+                }
+            });
+
+
+        //------------ Link Anchor
+        $('a[href^="#"]')
+            .on('click',
+                function(e) {
+                    e.preventDefault();
+                    var target = this.hash;
+                    $target = $(target);
+                    $('html, body')
+                        .stop()
+                        .animate({
+                                'scrollTop': $target.offset().top //no need of parseInt here
+                            },
+                            900,
+                            'swing',
+                            function() {
+                                window.location.hash = target;
+                            });
+                });
+
+
+    });
+
+    $('.datepicker')
+        .datepicker({
+            language: "pt-BR",
+            todayHighlight: true,
+            weekStart: 0,
+            startDate: '0d'
+        });
+
+    function onShowModal(idTarget) {
+        $('#' + idTarget).modal('show');
+    };
+
+    //fechar modal
+    function onCloseModal(idTarget) {
+        //Fechar pagina modal
+        $('#' + idTarget).modal('hide');
+    };
+
+    //Somente numeros
+    function isNumberKey(evt) {
+        var charCode = (evt.which) ? evt.which : event.keyCode;
+        if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+
+        return true;
+    }
+
+
+</script>
+@RenderSection("scripts", required: false)
+</body>
+</html>
+

@@ -6,7 +6,7 @@
              mc:Ignorable="d" HorizontalContentAlignment="Center">
     <UserControl.Resources>
         <Style TargetType="TextBlock">
-            <Setter Property="FontSize" Value="14"></Setter>
+            <Setter Property="FontSize" Value="13"></Setter>
         </Style>
         
         <Style TargetType="Button" x:Key="menu">
@@ -51,12 +51,14 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="10*"></RowDefinition>
             <RowDefinition Height="900*"></RowDefinition>
         </Grid.RowDefinitions>
-        
-
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Height="100" Grid.Column="0" Grid.Row="0">
+        <StackPanel Grid.Column="0" Grid.Row="0" HorizontalAlignment="Right">
+            <TextBlock Name="txtVersao" Text="1.0" Foreground="DarkGray" FontSize="11"></TextBlock>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Height="100" Grid.Column="0" Grid.Row="1">
                 <!--#region Empresa -->
                 <Button x:Name="EmpresasBt" Width="110" Click="OnEmpresaView_Click" Margin="10" Style="{StaticResource menu}">
                     <StackPanel Orientation="Vertical">
@@ -111,13 +113,11 @@
                 </Button>
                 <!--#endregion -->
 
+              
 
             </StackPanel>
         
-            <!--#endregion -->
-
-
-        <Border BorderThickness="0,0,0,1" Grid.Column="0" Grid.Row="1">
+      <Border BorderThickness="0,0,0,1" Grid.Column="0" Grid.Row="2">
             <Border.BorderBrush>
                 <RadialGradientBrush Center="0.6,1">
                     <GradientStop Color="Black"/>
@@ -129,7 +129,7 @@
 
 
         <!--#region Conteudo frame -->
-        <ScrollViewer Grid.Column="0" Grid.Row="2">
+        <ScrollViewer Grid.Column="0" Grid.Row="3">
               <ContentControl Content="{Binding}" DockPanel.Dock="Bottom" />
         </ScrollViewer>
         <!--#endregion -->

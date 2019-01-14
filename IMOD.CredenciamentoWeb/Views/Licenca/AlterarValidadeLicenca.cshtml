@@ -1,0 +1,77 @@
+﻿@model  DSBR.ServicesWeb.ViewModel.DadosLicencaViewModel
+@{
+
+    Layout = null;
+    var error = ViewBag.Error;
+}
+
+<div class="modal fade" id="modal-page" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="background: #2c3e50; color: #ffffff">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel" style="font-family: 'Francois One', sans-serif;">Alterar Licença</h4>
+            </div>
+            @using (Ajax.BeginForm("Renovar", "Licenca", new AjaxOptions
+            {
+                HttpMethod = "POST",
+                OnSuccess = "sucesso",
+                OnFailure = "falha"
+            }, new {id = "form"}))
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="modal-body">
+
+                    @Html.Partial("_VwLicenca", Model)
+
+                    @Html.AntiForgeryToken()
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Data Fim da Assinatura</label>
+                                @Html.EditorFor(n => n.DataRenovacao, new {htmlAttributes = new {@class = "form-control datepicker", required = "required"}})
+                            </div>
+                            @Html.HiddenFor(n => n.IdLicenca)
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </div>
+            }
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<script type="text/javascript">
+ $('.datepicker')
+        .datepicker({
+            language: "pt-BR",
+            todayHighlight: true,
+            weekStart: 0,
+            startDate: '0d'
+        });
+
+
+ function sucesso(data) {
+        
+     ExibirNotificacaoSucesso('Dados inseridos com sucesso');
+     onCloseModal('modal-page');
+ };
+
+
+ function falha(data) {
+     var msg = data.responseText;
+     //var msg2 = $('messageError').text();//$(msg).find('messageError').text();
+     var msg2 = $(msg).find('#messageError').text();
+     ExibirNotificacaoErro('Um erro ocorreu ao executar ação.<br>' + msg2);
+
+ };
+
+</script>
+ 
