@@ -148,7 +148,7 @@
                                   VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
                                   ItemsSource="{Binding ListaTipoAcessos}" DisplayMemberPath="Descricao"
                                   SelectedValue="{Binding Entity.TipoAcessoId, UpdateSourceTrigger=PropertyChanged}"
-                                  SelectedValuePath="TipoAcessoID" Width="140" />
+                                  SelectedValuePath="TipoAcessoId" Width="140" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="1">
                         <Label Content="Data de Emissão:" Height="28" Width="112" Margin="1" Foreground="#FFD0D0D0" />
@@ -310,14 +310,6 @@
 
                 <ListView.View>
                     <GridView FrameworkElement.FlowDirection="RightToLeft">
-                        <GridViewColumn Width="0" Header="Principal"  >
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <wpf:ToggleSwitch HeaderHorizontalAlignment="Stretch" Width="100" HorizontalAlignment="Right" SwitchContentPlacement="Right" IsHitTestVisible="False"
-                                                      IsChecked="{Binding Principal}"  Foreground="#FFD0D0BE" UncheckedBackground="Gray" UncheckedBorderBrush="Gray" UncheckedForeground="#FFAEAEAE" UncheckedText="" CheckedText="" SwitchWidth="44" />
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
                         <GridViewColumn Width="50" Header="Cód." DisplayMemberBinding="{Binding EmpresaContratoId}" />
                         <GridViewColumn Width="200" Header="Descrição do Contrato" DisplayMemberBinding="{Binding Descricao}" />
                         <GridViewColumn Width="200" Header="Número do Contrato"

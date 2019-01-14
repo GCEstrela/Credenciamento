@@ -74,8 +74,6 @@ namespace iModSCCredenciamento.Views
         {
             try
             {
-                //var arquivoStr = _viewModel.Entity.Assinatura;
-                //Global.PopupPDF(arquivoStr);
                 var arrayByes = Convert.FromBase64String(_viewModel.Entity.Assinatura);
                 WpfHelp.AbrirArquivoPdf(_viewModel.Entity.Assinatura, arrayByes);
             }

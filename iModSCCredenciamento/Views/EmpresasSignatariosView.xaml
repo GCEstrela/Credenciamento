@@ -115,29 +115,6 @@
                     <!--ScrollViewer.CanContentScroll="True" MaxHeight="150"  Visibility="Visible" SelectionMode="Single"  Background="#FF4E4E4E" Foreground="White" HorizontalAlignment="Left" SelectionChanged="ListaEmpresas_lv_SelectionChanged"-->
                     <ListView.View>
                         <GridView FrameworkElement.FlowDirection="RightToLeft">
-                            <!--<GridViewColumn Width="88" Header="Principal">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        --><!--<CheckBox  IsChecked="{Binding Ativa}" IsHitTestVisible="False" />--><!--
-                                        <wpf:ToggleSwitch HeaderHorizontalAlignment="Stretch" Width="100"
-                                                          HorizontalAlignment="Right" SwitchContentPlacement="Right"
-                                                          IsHitTestVisible="False"
-                                                          IsChecked="{Binding Entity.Principal}" Foreground="#FFD0D0BE"
-                                                          UncheckedBackground="Gray" UncheckedBorderBrush="Gray"
-                                                          UncheckedForeground="#FFAEAEAE" UncheckedText=""
-                                                          CheckedText="" SwitchWidth="44" />
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>-->
-
-                            <GridViewColumn Width="0" Header="Principal"  >
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <wpf:ToggleSwitch HeaderHorizontalAlignment="Stretch" Width="100" HorizontalAlignment="Right" SwitchContentPlacement="Right" IsHitTestVisible="False"
-                                                          IsChecked="{Binding Principal}"  Foreground="#FFD0D0BE" UncheckedBackground="Gray" UncheckedBorderBrush="Gray" UncheckedForeground="#FFAEAEAE" UncheckedText="" CheckedText="" SwitchWidth="44" />
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
                             <GridViewColumn Width="35" Header="Ativo">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
@@ -165,7 +142,7 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
 
-                            <GridViewColumn Width="200" Header="E-mail">
+                            <GridViewColumn Width="250" Header="E-mail">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Email}" TextAlignment="Center"

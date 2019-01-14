@@ -302,13 +302,17 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>-->
-                        <GridViewColumn Width="80" Header="Código"  DisplayMemberBinding="{Binding ColaboradorId}"/>
-                        <GridViewColumn Width="350"  Header="Nome" DisplayMemberBinding="{Binding Nome}"/>
-                        <GridViewColumn Width="150" Header="CPF"  DisplayMemberBinding="{Binding Cpf}"/>
+                        <GridViewColumn Width="55" Header="Código"  DisplayMemberBinding="{Binding ColaboradorId}"/>
+                        <GridViewColumn Width="115" Header="CPF"  DisplayMemberBinding="{Binding Cpf}"/>
+                        <GridViewColumn Width="250"  Header="Nome do Colaborador" DisplayMemberBinding="{Binding Nome}"/>
+                        <GridViewColumn Width="150"  Header="Apelido do Colaborador" DisplayMemberBinding="{Binding Apelido}"/>
+                        <GridViewColumn Width="115"  Header="Telefone" DisplayMemberBinding="{Binding TelefoneFixo}"/>
+                        <GridViewColumn Width="115"  Header="Celular" DisplayMemberBinding="{Binding TelefoneCelular}"/>
+                        <GridViewColumn Width="200"  Header="E-Mail" DisplayMemberBinding="{Binding Email}"/>
                     </GridView>
                 </ListView.View>
             </ListView>
-            <StackPanel Orientation="Vertical" Width="165" >
+            <StackPanel x:Name="BotoesGeral_sp" Orientation="Vertical" Width="165" >
 
                 <!--<Button x:Name="btnPesquisar" Content="Pesquisar" ToolTip="Pesquisar"  Height="30" Width="148"  Click="Pesquisar_bt_Click" Margin="0,0,0,7" />-->
                 <Button x:Name="btnAdicionar" Content="Adicionar" ToolTip="Adicionar" IsEnabled="{Binding Comportamento.IsEnableCriar}" Command="{Binding PrepareCriarCommand}"   Height="30" Width="148" Margin="0,0,0,7"  />
@@ -328,7 +332,7 @@
                     Width="1259" Margin="1,1,-259,-321" 
                     Grid.Row="3"    >
 
-            <TabItem x:Name="Geral_ti"   Background="{x:Null}"    Margin="0,-2,0,0">
+            <TabItem x:Name="Geral_ti"   Background="{x:Null}"    Margin="0,-2,0,0" GotFocus="Geral_ti_GotFocus">
 
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
@@ -345,7 +349,11 @@
                     </StackPanel>
                 </TabItem.Header>
                 <Grid Margin="5" HorizontalAlignment="Left" Width="601" IsEnabled="{Binding Comportamento.isEnableCancelar}"  >
-                    <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" Header="Identificação" Background="BlueViolet"  Height="192" VerticalAlignment="Top" Margin="0,0,2,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="124*"/>
+                        <ColumnDefinition Width="477*"/>
+                    </Grid.ColumnDefinitions>
+                    <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" Header="Identificação" Background="BlueViolet"  Height="192" VerticalAlignment="Top" Margin="0,0,2,0" Grid.ColumnSpan="2">
                         <StackPanel Orientation="Horizontal" Height="172"   VerticalAlignment="Top" Margin="1">
                             <StackPanel.Resources>
                                 <i:StringToImageConverter x:Key="StringToImageConverter" />
@@ -394,7 +402,7 @@
                         </StackPanel>
                     </GroupBox>
 
-                    <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" Background="Brown" Grid.Column="0" Header="Endereço"  Margin="0,192,0,0" Height="205" VerticalAlignment="Top" >
+                    <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" Background="Brown" Grid.Column="0" Header="Endereço"  Margin="0,192,0,0" Height="205" VerticalAlignment="Top" Grid.ColumnSpan="2" >
                         <StackPanel Margin="1">
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="1" >
                                 <Label Content="Logradouro:" Height="28" Width="100"   Foreground="#FFD0D0D0" />
@@ -433,7 +441,7 @@
                         </StackPanel>
                     </GroupBox>
 
-                    <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" Background="Crimson"    x:Name="Contato1_gb"  Header="Contatos "    VerticalAlignment="Top" Margin="610,0,-610,0" Height="192" >
+                    <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" Background="Crimson"    x:Name="Contato1_gb"  Header="Contatos "    VerticalAlignment="Top" Margin="486,0,-610,0" Height="192" Grid.Column="1" >
                         <StackPanel Margin="1">
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="1" >
                                 <Label Content="Tel Fixo:" Height="28" Width="72"    Foreground="#FFD0D0D0" />
@@ -466,7 +474,7 @@
 
                     </GroupBox>
 
-                    <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}"  Background="Blue"  x:Name="Observacoes_gb"  Header="Registro/CNH " Margin="610,192,-610,0" Height="205" VerticalAlignment="Top" >
+                    <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}"  Background="Blue"  x:Name="Observacoes_gb"  Header="Registro/CNH " Margin="486,192,-610,0" Height="205" VerticalAlignment="Top" Grid.Column="1" >
                         <StackPanel Margin="1">
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="1" >
                                 <Label Content="Data de Nascimento:" Height="28" Foreground="#FFD0D0D0" />
@@ -660,7 +668,7 @@
 
 
 
-            <TabItem x:Name="Signatarios_ti"  Width="200" IsEnabled="{Binding IsEnableTabItem}" >
+            <TabItem x:Name="Signatarios_ti"  Width="200" IsEnabled="{Binding IsEnableTabItem}" GotFocus="EmpresasVinculos_ti_GotFocus">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="Signatarios_bt"   Click="OnPendenciaEmpresaVinculo_Click" Style="{StaticResource MenuStyle}" >
@@ -678,7 +686,7 @@
 
             </TabItem>
 
-            <TabItem x:Name="CursosTreinamentos_ti"  Width="200" IsEnabled="{Binding IsEnableTabItem}" >
+            <TabItem x:Name="CursosTreinamentos_ti"  Width="200" IsEnabled="{Binding IsEnableTabItem}" GotFocus="Cursos_ti_GotFocus">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="Curso_bt"   Click="OnPendenciaEmpresaVinculo_Click" Style="{StaticResource MenuStyle}" >
@@ -688,7 +696,7 @@
                             </StackPanel>
                         </Button>
                         <StackPanel Width="170">
-                            <TextBlock Text="Cursos e Treinamentos" HorizontalAlignment="Center"/>
+                            <TextBlock Text="Cursos e Treinamentos" HorizontalAlignment="Left" Margin="25,0,0,0"/>
                         </StackPanel>
                     </StackPanel>
                 </TabItem.Header>
@@ -696,7 +704,7 @@
 
             </TabItem>
 
-            <TabItem x:Name="Anexos_ti"  Width="200"  IsEnabled="{Binding IsEnableTabItem}">
+            <TabItem x:Name="Anexos_ti"  Width="200"  IsEnabled="{Binding IsEnableTabItem}" GotFocus="Anexos_ti_GotFocus">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Button  x:Name="Anexos_bt" Click="OnPendenciaAnexos_Click" Style="{StaticResource MenuStyle}" >
@@ -714,10 +722,10 @@
 
             </TabItem>
 
-            <TabItem x:Name="Tab5"  Width="200"  IsEnabled="{Binding IsEnableTabItem}">
+            <TabItem x:Name="Tab5"  Width="200"  IsEnabled="{Binding IsEnableTabItem}" >
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <Button  x:Name="btnTab5" Click="OnPendenciaCredencial_Click" Style="{StaticResource MenuStyle}" >
+                        <Button  x:Name="btnTab5" Click="OnPendenciaCredencial_Click" Style="{StaticResource MenuStyle}" GotFocus="Credenciais_ti_GotFocus">
                             <StackPanel>
                                 <Image Source="{Binding PendenciaCredencial,
                                         Converter={StaticResource ConvertBoolToImage},UpdateSourceTrigger=Explicit, Mode=TwoWay}" Width="16"  Height="16" />
