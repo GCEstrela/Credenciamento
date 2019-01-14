@@ -76,9 +76,9 @@ namespace iModSCCredenciamento.Views
         private void OnDownload_Click(object sender, RoutedEventArgs e)
         {
             try
-            {
-                var arquivoStr = _viewModel.Entity.Anexo;
-                Global.PopupPDF(arquivoStr);
+            { 
+                var arrayByes = Convert.FromBase64String (_viewModel.Entity.Anexo);
+                WpfHelp.AbrirArquivoPdf(_viewModel.Entity.NomeAnexo, arrayByes);
             }
             catch (Exception ex)
             {

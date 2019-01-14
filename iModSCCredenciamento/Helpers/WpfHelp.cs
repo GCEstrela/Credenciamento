@@ -8,6 +8,7 @@
 
 using System;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -185,6 +186,58 @@ namespace iModSCCredenciamento.Helpers
             return arq;
 
 
+        }
+
+        /// <summary>
+        /// Abrir arquivo 
+        /// </summary>
+        /// <param name="caminho">Caminho do arquivo</param>
+        /// <param name="nomeArquivo">Nome do arquivo</param>
+        public static void AbrirArquivo(string caminho, string nomeArquivo)
+        {
+            try
+            {
+                if(string.IsNullOrWhiteSpace(caminho)) throw  new ArgumentNullException(nameof(caminho));
+                if (string.IsNullOrWhiteSpace(caminho)) throw new ArgumentNullException(nameof(nomeArquivo));
+                var path = Path.Combine (caminho, nomeArquivo);
+                Process.Start(path);
+            }
+            catch (Exception ex)
+            {
+                   Utils.TraceException(ex);
+            }
+        }
+
+        /// <summary>
+        /// Abrir arquivo Pdf dentro do programa associado à extensão .pdf
+        /// </summary>
+        /// <param name="nomeArquivo"></param>
+        /// <param name="arrayBytes"></param>
+        public static void AbrirArquivoPdf(string nomeArquivo, byte[] arrayBytes)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(nomeArquivo)) return;
+                if (arrayBytes == null) return;
+                string fileName = "";
+                var tempArea = Path.GetTempPath(); 
+                fileName = Path.ChangeExtension(nomeArquivo, ".pdf");
+                var path = Path.Combine(tempArea, fileName);
+                File.WriteAllBytes(path, arrayBytes);//Save file on temp area
+
+                var tsk = Task.Factory.StartNew(() =>
+                {
+                    Application.Current.Dispatcher.Invoke(() =>
+                    { 
+                        Process.Start(path);
+                    });
+                });
+
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+            }
         }
 
         /// <summary>
