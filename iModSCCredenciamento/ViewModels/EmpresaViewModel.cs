@@ -132,7 +132,10 @@ namespace iModSCCredenciamento.ViewModels
         ///     Dados de municipio armazendas em memoria
         /// </summary>
         public List<Municipio> _municipios { get; set; }
-         
+
+        public int QuantidadeTipoCredencialTemporario { get; set; }
+
+        public int QuantidadeTipoCredencialPermanente { get; set; }
 
         #endregion
 
@@ -241,6 +244,20 @@ namespace iModSCCredenciamento.ViewModels
             Estados = Mapper.Map<List<Estados>> (lst3);
         }
 
+
+        /// <summary>
+        ///     Busca e preenche o quantitativo de tipo de credenciais (permanentes e temporária)
+        /// </summary>
+        public void CarregarQuantidadeTipoCredencial()
+        {
+            if (Entity == null || Entity.EmpresaId == 0) return;
+            var id = Entity.EmpresaId;
+            var objTipocredenciaisEmpresa = _service.ListarTipoCredenciaisEmpresa(id).ToList();
+            QuantidadeTipoCredencialPermanente = objTipocredenciaisEmpresa.Count(p => p.TipoCredencialId == 1);
+            QuantidadeTipoCredencialTemporario = objTipocredenciaisEmpresa.Count(p => p.TipoCredencialId == 2);
+        }
+
+
         #endregion
 
         #region Regras de Negócio
@@ -337,6 +354,8 @@ namespace iModSCCredenciamento.ViewModels
             _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;
             TiposLayoutCracha.Clear();
             TiposAtividades.Clear();
+            QuantidadeTipoCredencialTemporario = 0;
+            QuantidadeTipoCredencialPermanente = 0;
         }
 
         /// <summary>

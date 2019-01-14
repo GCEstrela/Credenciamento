@@ -58,8 +58,7 @@ namespace iModSCCredenciamento.Views
             RepresentanteUs.AtualizarDados(_viewModel.Entity);
             AnexoUs.AtualizarDados(_viewModel.Entity);
             EmpresaContratosUs.AtualizarDados(_viewModel.Entity);
-
-
+            _viewModel.CarregarQuantidadeTipoCredencial();
 
         }
 

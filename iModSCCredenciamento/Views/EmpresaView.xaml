@@ -269,9 +269,9 @@
                             <StackPanel Orientation="Horizontal" Height="39" Margin="1"   >
                                 <Label Content="Credenciais Ativas:" Height="28" Width="110" Margin="1"  Foreground="#FFD0D0D0" />
                                 <Label Content="Permanentes:" Height="28" Width="80" Margin="1"  Foreground="#FFD0D0D0" />
-                                <TextBox CharacterCasing="Upper"  x:Name="TotalPermanente_tb" HorizontalContentAlignment="Center"  MaxLength="50" Text="{Binding Entity.TotalPermanente, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="45"  />
+                                <TextBox CharacterCasing="Upper"  x:Name="txtTotalPermanente" HorizontalContentAlignment="Center"  MaxLength="50" Text="{Binding QuantidadeTipoCredencialPermanente, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="False"  Height="24"  Width="45"  />
                                 <Label Content="Temporárias:" Height="28" Width="80" Margin="1"  Foreground="#FFD0D0D0" />
-                                <TextBox CharacterCasing="Upper"  x:Name="TotalTemporaria_tb" HorizontalContentAlignment="Center"  MaxLength="50" Text="{Binding Entity.TotalTemporaria, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="45"  />
+                                <TextBox CharacterCasing="Upper"  x:Name="txtTotalTemporaria" HorizontalContentAlignment="Center"  MaxLength="50" Text="{Binding QuantidadeTipoCredencialTemporario, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="False"  Height="24"  Width="45"  />
                             </StackPanel>
                         </StackPanel>
                     </GroupBox>
