@@ -106,6 +106,7 @@
     <Compile Include="Interfaces\IColaboradorEmpresaRepositorio.cs" />
     <Compile Include="Interfaces\IColaboradorPrivilegioRepositorio.cs" />
     <Compile Include="Interfaces\IColaboradorRepositorio.cs" />
+    <Compile Include="Interfaces\IConfiguracaoRepositorio.cs" />
     <Compile Include="Interfaces\ICursoRepositorio.cs" />
     <Compile Include="Interfaces\IEmpresaAnexoRepositorio.cs" />
     <Compile Include="Interfaces\IEmpresaAreaAcessoRepositorio.cs" />
