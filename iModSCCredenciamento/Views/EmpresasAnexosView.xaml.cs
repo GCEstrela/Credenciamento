@@ -10,6 +10,7 @@ using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using iModSCCredenciamento.Funcoes;
 using iModSCCredenciamento.Helpers;
 using iModSCCredenciamento.ViewModels;
 using IMOD.CrossCutting;
@@ -41,7 +42,7 @@ namespace iModSCCredenciamento.Views
         public void AtualizarDados(Model.EmpresaView entity)
         {
             if (entity == null) return;
-            _viewModel.AtualizarDadosAnexo (entity);
+            _viewModel.AtualizarDadosAnexo(entity);
         }
 
         /// <summary>
@@ -54,7 +55,7 @@ namespace iModSCCredenciamento.Views
             try
             {
                 var filtro = "Imagem files (*.pdf)|*.pdf|All Files (*.*)|*.*";
-                var arq = WpfHelp.UpLoadArquivoDialog (filtro, 700);
+                var arq = WpfHelp.UpLoadArquivoDialog(filtro, 700);
                 if (arq == null) return;
                 _viewModel.Entity.Anexo = arq.FormatoBase64;
                 _viewModel.Entity.NomeAnexo = arq.Nome;
@@ -62,8 +63,8 @@ namespace iModSCCredenciamento.Views
             }
             catch (Exception ex)
             {
-                WpfHelp.Mbox (ex.Message);
-                Utils.TraceException (ex);
+                WpfHelp.Mbox(ex.Message);
+                Utils.TraceException(ex);
             }
         }
 
@@ -77,12 +78,11 @@ namespace iModSCCredenciamento.Views
             try
             {
                 var arquivoStr = _viewModel.Entity.Anexo;
-                var arrBytes = Convert.FromBase64String (arquivoStr);
-                WpfHelp.DownloadArquivoDialog (_viewModel.Entity.NomeAnexo, arrBytes);
+                Global.PopupPDF(arquivoStr);
             }
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
+                Utils.TraceException(ex);
             }
         }
  
