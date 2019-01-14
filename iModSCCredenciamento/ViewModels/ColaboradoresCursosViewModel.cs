@@ -29,9 +29,9 @@ namespace iModSCCredenciamento.ViewModels
         //private readonly IEmpresaService _empresaService = new EmpresaService();
         private readonly IColaboradorCursoService _service = new ColaboradorCursosService();
         //private readonly IColaboradorService _serviceCurso = new ColaboradorService();
-        private ColaboradorCursoView _colaboradorCursoView;
+        private ColaboradorView _colaboradorView;
 
-        
+
 
         private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
         //public List<ClasseCursos.Curso> ObterListaListaCursos { get; private set; }
@@ -111,7 +111,7 @@ namespace iModSCCredenciamento.ViewModels
             {
                 if (Entity == null) return;
                 var n1 = Mapper.Map<ColaboradorCurso>(Entity);
-                n1.ColaboradorId = _colaboradorCursoView.ColaboradorCursoId;
+                n1.ColaboradorId = _colaboradorView.ColaboradorId;
                 _service.Criar(n1);
                 ////Adicionar no inicio da lista um item a coleção
                 var n2 = Mapper.Map<ColaboradorCursoView>(n1);
@@ -211,10 +211,10 @@ namespace iModSCCredenciamento.ViewModels
             //IsEnableLstView = false;
         }
 
-        public void AtualizarDados(ColaboradorCursoView entity)
+        public void AtualizarDados(ColaboradorView entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
-            _colaboradorCursoView = entity;
+            _colaboradorView = entity;
             //Obter dados
             var list1 = _service.Listar(entity.ColaboradorId);
             var list2 = Mapper.Map<List<ColaboradorCursoView>>(list1);

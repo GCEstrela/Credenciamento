@@ -80,10 +80,17 @@
                           Width="630" Margin="0,15,0,10">
                     <ListView.View>
                         <GridView FrameworkElement.FlowDirection="RightToLeft">
-                            <GridViewColumn Width="100" Header="Controlada"  DisplayMemberBinding="{Binding Controlada}"/>
-                            <GridViewColumn Width="200" Header="Validade"  DisplayMemberBinding="{Binding Validade}"></GridViewColumn>
-                            <GridViewColumn Width="200" Header="Curso"  DisplayMemberBinding="{Binding Curso}"/>
-                            <GridViewColumn Width="80" Header="Arquivo"  DisplayMemberBinding="{Binding Arquivo}"/>
+                            <GridViewColumn Width="88" Header="Controlada"  >
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <wpf:ToggleSwitch HeaderHorizontalAlignment="Stretch" Width="100" HorizontalAlignment="Right" SwitchContentPlacement="Right" IsHitTestVisible="False"
+                                                 IsChecked="{Binding Controlado}"  Foreground="#FFD0D0BE" UncheckedBackground="Gray" UncheckedBorderBrush="Gray" UncheckedForeground="#FFAEAEAE" UncheckedText="" CheckedText="" SwitchWidth="44" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Width="100" Header="Validade"  DisplayMemberBinding="{Binding Validade, StringFormat='dd/MM/yyyy'}"/>
+                            <GridViewColumn Width="335" Header="Curso"    DisplayMemberBinding="{Binding CursoNome}"/>
+                            <GridViewColumn Width="377" Header="Arquivo"  DisplayMemberBinding="{Binding NomeArquivo}"/>
                         </GridView>
                     </ListView.View>
                 </ListView>
