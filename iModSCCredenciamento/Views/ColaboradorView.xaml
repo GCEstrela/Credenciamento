@@ -688,7 +688,7 @@
                             </StackPanel>
                         </Button>
                         <StackPanel Width="170">
-                            <TextBlock Text="Empresas Vinculos" HorizontalAlignment="Center"/>
+                            <TextBlock Text="Cursos e Treinamentos" HorizontalAlignment="Center"/>
                         </StackPanel>
                     </StackPanel>
                 </TabItem.Header>
