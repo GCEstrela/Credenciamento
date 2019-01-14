@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:iModSCCredenciamento.Views"
              d:DataContext="{d:DesignInstance vm:EmpresasAnexosViewModel , IsDesignTimeCreatable=True}"
              xmlns:vm="clr-namespace:iModSCCredenciamento.ViewModels"
+             xmlns:wpf="clr-namespace:CSharpControls.Wpf;assembly=CSharpControls.Wpf"
              mc:Ignorable="d" Height="320">
     <Grid VerticalAlignment="Top">
         <StackPanel Orientation="Vertical">
@@ -55,6 +56,14 @@
                           Width="630" Margin="0,15,0,10">
                     <ListView.View>
                         <GridView FrameworkElement.FlowDirection="RightToLeft">
+                            <GridViewColumn Width="0" Header="Principal"  >
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <wpf:ToggleSwitch HeaderHorizontalAlignment="Stretch" Width="100" HorizontalAlignment="Right" SwitchContentPlacement="Right" IsHitTestVisible="False"
+                                                          IsChecked="{Binding Principal}"  Foreground="#FFD0D0BE" UncheckedBackground="Gray" UncheckedBorderBrush="Gray" UncheckedForeground="#FFAEAEAE" UncheckedText="" CheckedText="" SwitchWidth="44" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
                             <GridViewColumn Width="50" Header="ID" DisplayMemberBinding="{Binding EmpresaAnexoId}" />
                             <GridViewColumn Width="200" Header="Descrição do Arquivo"
                                             DisplayMemberBinding="{Binding Descricao}" />

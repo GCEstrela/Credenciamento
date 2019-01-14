@@ -313,7 +313,8 @@
                         <GridViewColumn Width="0" Header="Principal"  >
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <CheckBox IsChecked="{Binding Path=Principal}" IsHitTestVisible="False" />
+                                    <wpf:ToggleSwitch HeaderHorizontalAlignment="Stretch" Width="100" HorizontalAlignment="Right" SwitchContentPlacement="Right" IsHitTestVisible="False"
+                                                      IsChecked="{Binding Principal}"  Foreground="#FFD0D0BE" UncheckedBackground="Gray" UncheckedBorderBrush="Gray" UncheckedForeground="#FFAEAEAE" UncheckedText="" CheckedText="" SwitchWidth="44" />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>

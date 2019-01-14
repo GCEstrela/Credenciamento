@@ -123,7 +123,7 @@
                     Width="1259" Margin="1,1,-259,-321" 
                     Grid.Row="3" SelectionChanged="TabGeral_tc_SelectionChanged"    >
 
-            <TabItem x:Name="Geral_ti"   Background="{x:Null}"    Margin="0,-2,0,0">
+            <TabItem x:Name="Geral_ti"   Background="{x:Null}"    Margin="0,-2,0,0" GotFocus="Geral_ti_GotFocus">
 
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
@@ -134,7 +134,7 @@
                                         UpdateSourceTrigger=Explicit, Mode=TwoWay}" Width="16"  Height="16" RenderTransformOrigin="1,1" />
                             </StackPanel>
                         </Button>
-                        <StackPanel Width="170">
+                        <StackPanel Width="170" >
                             <TextBlock Text="Geral" HorizontalAlignment="Center"/>
                         </StackPanel>
                     </StackPanel>
@@ -342,7 +342,7 @@
 
 
 
-            <TabItem x:Name="Signatarios_ti"  Width="200" IsEnabled="{Binding IsEnableTabItem}">
+            <TabItem x:Name="Signatarios_ti"  Width="200" IsEnabled="{Binding IsEnableTabItem}" GotFocus="Signatarios_ti_GotFocus">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="Signatarios_bt"   Click="OnPendenciaRepresentantes_Click" Style="{StaticResource MenuStyle}" >
@@ -351,7 +351,7 @@
                                         Converter={StaticResource ConvertBoolToImage},UpdateSourceTrigger=Explicit, Mode=TwoWay}"  Width="16"  Height="16" />
                             </StackPanel>
                         </Button>
-                        <StackPanel Width="170">
+                        <StackPanel Width="170" >
                             <TextBlock Text="Representantes" HorizontalAlignment="Center"/>
                         </StackPanel>
                     </StackPanel>
@@ -360,7 +360,7 @@
 
             </TabItem>
 
-            <TabItem x:Name="Contrato_ti"  Width="200" IsEnabled="{Binding IsEnableTabItem}">
+            <TabItem x:Name="Contrato_ti"  Width="200" IsEnabled="{Binding IsEnableTabItem}" GotFocus="Contrato_ti_GotFocus">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Button  x:Name="Contratos_bt"  Click="OnPendenciaGeralContratos_Click" Style="{StaticResource MenuStyle}" >
@@ -389,7 +389,7 @@
                 <!--<local:EmpresaContratoUs x:Name="EmpresaContratosUs" Margin="6,2,14,18" />-->
                 <local:UsEmpresaContratoView x:Name="EmpresaContratosUs" Margin="5,5,0,5" HorizontalAlignment="Left" Width="1141"/>
             </TabItem>
-            <TabItem x:Name="Anexos_ti"  Width="200"  IsEnabled="{Binding IsEnableTabItem}">
+            <TabItem x:Name="Anexos_ti"  Width="200"  IsEnabled="{Binding IsEnableTabItem}" GotFocus="Anexos_ti_GotFocus">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Button  x:Name="Anexos_bt" Click="OnPendenciaGeralAnexos_Click" Style="{StaticResource MenuStyle}" >

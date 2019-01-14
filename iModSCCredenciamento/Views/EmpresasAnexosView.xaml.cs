@@ -76,8 +76,8 @@ namespace iModSCCredenciamento.Views
         private void OnDownload_Click(object sender, RoutedEventArgs e)
         {
             try
-            { 
-                var arrayByes = Convert.FromBase64String (_viewModel.Entity.Anexo);
+            {
+                var arrayByes = Convert.FromBase64String(_viewModel.Entity.Anexo);
                 WpfHelp.AbrirArquivoPdf(_viewModel.Entity.NomeAnexo, arrayByes);
             }
             catch (Exception ex)
@@ -85,8 +85,8 @@ namespace iModSCCredenciamento.Views
                 Utils.TraceException(ex);
             }
         }
- 
 
-        #endregion 
+
+        #endregion
     }
 }
