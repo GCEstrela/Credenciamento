@@ -37,7 +37,7 @@ namespace iModSCCredenciamento.Views
         ///     Atualizar dados
         /// </summary>
         /// <param name="entity"></param>
-        public void AtualizarDados(Model.ColaboradorCursoView entity)
+        public void AtualizarDados(Model.ColaboradorView entity)
         {
             if (entity == null) return;
             _viewModel.AtualizarDados(entity);
