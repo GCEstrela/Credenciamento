@@ -68,6 +68,7 @@
     <Compile Include="Ado\Interfaces\ParamSql\ParamType.cs" />
     <Compile Include="Ado\Interfaces\ParamSql\ParamUpdate.cs" />
     <Compile Include="Ado\Converter.cs" />
+    <Compile Include="Interfaces\IInfoDataBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>

@@ -55,8 +55,9 @@
             <RowDefinition Height="10*"></RowDefinition>
             <RowDefinition Height="900*"></RowDefinition>
         </Grid.RowDefinitions>
-        <StackPanel Grid.Column="0" Grid.Row="0" HorizontalAlignment="Right">
-            <TextBlock Name="txtVersao" Text="1.0" Foreground="DarkGray" FontSize="11"></TextBlock>
+        <StackPanel Grid.Column="0" Grid.Row="0" HorizontalAlignment="Right" Orientation="Horizontal">
+            <TextBlock Name="txtVersao" Text="1.0" Foreground="DarkGray" FontSize="11" Margin="0,0,10,0"></TextBlock>
+            <!--<TextBlock Name="txtDataBase" Text="DataBase" Foreground="DarkGray" FontSize="11" Margin="0,0,10,0"></TextBlock>-->
         </StackPanel>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Height="100" Grid.Column="0" Grid.Row="1">
                 <!--#region Empresa -->
