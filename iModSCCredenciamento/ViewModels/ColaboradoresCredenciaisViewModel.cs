@@ -34,15 +34,18 @@ namespace iModSCCredenciamento.ViewModels
     public class ColaboradoresCredenciaisViewModel : ViewModelBase, IComportamento
     {
         //private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
-        private readonly IColaboradorService _service = new ColaboradorService();
+        //private readonly IColaboradorService _service = new ColaboradorService();
+        private readonly IColaboradorCredencialService _service = new ColaboradorCredencialService();
+
         private readonly IColaboradorEmpresaService _ColaboradorEmpresaService = new ColaboradorEmpresaService();
         private readonly IEmpresaLayoutCrachaService _EmpresaLayoutCrachaService = new EmpresaLayoutCrachaService();
 
         private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
         private readonly IEmpresaLayoutCrachaService _empresaLayoutCracha = new EmpresaLayoutCrachaService();
-        
+
 
         private ColaboradorView _colaboradorView;
+        private ColaboradorEmpresaView _colaboradorEmpresaView;
 
         #region  Propriedades
         public List<CredencialStatus> CredencialStatus { get; set; }
@@ -59,7 +62,7 @@ namespace iModSCCredenciamento.ViewModels
         //public FormatoCredencialView EntityFormatoCredencialView { get; set; }
         //public EmpresaContratoView EntityEmpresaContratoView { get; set; }
         public ColaboradorCredencialView Entity { get; set; }
-        public ObservableCollection<ColaboradoresCredenciaisView> EntityObserver { get; set; }
+        public ObservableCollection<ColaboradorCredencialView> EntityObserver { get; set; }
 
         /// <summary>
         ///     Habilita listView
@@ -73,7 +76,7 @@ namespace iModSCCredenciamento.ViewModels
         {
             ItensDePesquisaConfigura();
             ListarDadosAuxiliares();
-            Comportamento = new ComportamentoBasico (true, true, true, false, false);
+            Comportamento = new ComportamentoBasico(true, true, true, false, false);
             Comportamento.SalvarAdicao += OnSalvarAdicao;
             Comportamento.SalvarEdicao += OnSalvarEdicao;
             Comportamento.Remover += OnRemover;
@@ -84,12 +87,12 @@ namespace iModSCCredenciamento.ViewModels
 
         public void AtualizarDados(ColaboradorView entity)
         {
-            if (entity == null) throw new ArgumentNullException (nameof (entity));
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
             _colaboradorView = entity;
-            //Obter dados
-            var list1 = _service.Credencial.ListarView (null, null, null, null, entity.ColaboradorId).ToList();
-            EntityObserver = new ObservableCollection<ColaboradoresCredenciaisView>();
-            list1.ForEach (n => { EntityObserver.Add (n); });
+            ////Obter dados
+            //var list1 = _service.Credencial.ListarView(null, null, null, null, entity.ColaboradorId).ToList();
+            //EntityObserver = new ObservableCollection<ColaboradoresCredenciaisView>();
+            //list1.ForEach(n => { EntityObserver.Add(n); });
         }
 
         /// <summary>
@@ -98,10 +101,11 @@ namespace iModSCCredenciamento.ViewModels
         private void ItensDePesquisaConfigura()
         {
             ListaPesquisa = new List<KeyValuePair<int, string>>();
-            ListaPesquisa.Add (new KeyValuePair<int, string> (1, "Nome"));
-            ListaPesquisa.Add (new KeyValuePair<int, string> (2, "CPF"));
+            ListaPesquisa.Add(new KeyValuePair<int, string>(1, "Nome"));
+            ListaPesquisa.Add(new KeyValuePair<int, string>(2, "CPF"));
             PesquisarPor = ListaPesquisa[0]; //Pesquisa Default
         }
+
 
         /// <summary>
         ///     Acionado antes de remover
@@ -118,22 +122,31 @@ namespace iModSCCredenciamento.ViewModels
         /// <param name="e"></param>
         private void OnSalvarAdicao(object sender, RoutedEventArgs e)
         {
-            //try
-            //{
-            //    if (Entity == null) return;
-            //    var n1 = Mapper.Map<ColaboradorCredencial>(Entity);
-            //    n1.ColaboradorEmpresaId = _colaboradorView.;
-            //    _service.Criar(n1);
-            //    //Adicionar no inicio da lista um item a coleção
-            //    var n2 = Mapper.Map<ColaboradorCredencialView>(n1);
-            //    EntityObserver.Insert(0, n2);
-            //    IsEnableLstView = true;
-            //}
-            //catch (Exception ex)
-            //{
-            //    Utils.TraceException(ex);
-            //    WpfHelp.PopupBox(ex);
-            //}
+            try
+            {
+                if (Entity == null) return;
+                var n1 = Mapper.Map<ColaboradorCredencial>(Entity);
+
+                n1.CredencialMotivoId = Entity.CredencialMotivoId;
+                n1.CredencialStatusId = Entity.CredencialStatusId;
+                n1.FormatoCredencialId = Entity.FormatoCredencialId;
+                n1.LayoutCrachaId = Entity.LayoutCrachaId;
+                n1.TecnologiaCredencialId = Entity.TecnologiaCredencialId;
+                n1.TipoCredencialId = Entity.TipoCredencialId;
+
+                _service.Criar(n1);
+                //////Adicionar no inicio da lista um item a coleção
+                //var n2 = Mapper.Map<ColaboradorCredencialView>(n1);
+                EntityObserver = new ObservableCollection<ColaboradorCredencialView>();
+                Entity.ColaboradorCredencialId = n1.ColaboradorCredencialId;
+                EntityObserver.Insert(0, Entity);
+                IsEnableLstView = true;
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+                WpfHelp.PopupBox(ex);
+            }
         }
 
         /// <summary>
@@ -180,8 +193,8 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
-                WpfHelp.MboxError ("Não foi realizar a operação solicitada", ex);
+                Utils.TraceException(ex);
+                WpfHelp.MboxError("Não foi realizar a operação solicitada", ex);
             }
         }
 
@@ -253,18 +266,18 @@ namespace iModSCCredenciamento.ViewModels
 
         private void PopularObserver(ICollection<ColaboradorCredencial> list)
         {
-            //try
-            //{
-            //    var list2 = Mapper.Map<List<ColaboradorCredencialView>>(list.OrderBy(n => n.Nome));
-            //    EntityObserver = new ObservableCollection<ColaboradorCredencialView>();
-            //    list2.ForEach(n => { EntityObserver.Add(n); });
-            //    //Empresas = observer;
-            //}
+            try
+            {
+                var list2 = Mapper.Map<List<ColaboradorCredencialView>>(list.OrderBy(n => n.ColaboradorCredencialId));
+                EntityObserver = new ObservableCollection<ColaboradorCredencialView>();
+                list2.ForEach(n => { EntityObserver.Add(n); });
+                //Empresas = observer;
+            }
 
-            //catch (Exception ex)
-            //{
-            //    Utils.TraceException(ex);
-            //}
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+            }
         }
 
         /// <summary>
@@ -300,34 +313,34 @@ namespace iModSCCredenciamento.ViewModels
         /// <summary>
         ///     Novo
         /// </summary>
-        public ICommand PrepareCriarCommand => new CommandBase (PrepareCriar, true);
+        public ICommand PrepareCriarCommand => new CommandBase(PrepareCriar, true);
 
         public ComportamentoBasico Comportamento { get; set; }
 
         /// <summary>
         ///     Editar
         /// </summary>
-        public ICommand PrepareAlterarCommand => new CommandBase (PrepareAlterar, true);
+        public ICommand PrepareAlterarCommand => new CommandBase(PrepareAlterar, true);
 
         /// <summary>
         ///     Cancelar
         /// </summary>
-        public ICommand PrepareCancelarCommand => new CommandBase (Comportamento.PrepareCancelar, true);
+        public ICommand PrepareCancelarCommand => new CommandBase(Comportamento.PrepareCancelar, true);
 
         /// <summary>
         ///     Novo
         /// </summary>
-        public ICommand PrepareSalvarCommand => new CommandBase (Comportamento.PrepareSalvar, true);
+        public ICommand PrepareSalvarCommand => new CommandBase(Comportamento.PrepareSalvar, true);
 
         /// <summary>
         ///     Remover
         /// </summary>
-        public ICommand PrepareRemoverCommand => new CommandBase (PrepareRemover, true);
+        public ICommand PrepareRemoverCommand => new CommandBase(PrepareRemover, true);
 
         /// <summary>
         ///     Pesquisar
         /// </summary>
-        public ICommand PesquisarCommand => new CommandBase (Pesquisar, true);
+        public ICommand PesquisarCommand => new CommandBase(Pesquisar, true);
 
         #endregion
 
@@ -350,7 +363,7 @@ namespace iModSCCredenciamento.ViewModels
 
         public List<ColaboradorEmpresaView> ColaboradorEmpresa { get; private set; }
 
-        
+
 
         #endregion
 
