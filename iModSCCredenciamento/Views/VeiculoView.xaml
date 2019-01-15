@@ -312,7 +312,7 @@
                                 <Border CornerRadius="3" BorderThickness="1" Grid.Column="0" Width="100" Height="100"
                                         HorizontalAlignment="Left" BorderBrush="#FF686868">
                                     <Image x:Name="Logo_im" Stretch="Uniform"
-                                           Source="{Binding Entity.Logo, Converter={StaticResource StringToImageConverter}, Mode=TwoWay, UpdateSourceTrigger=Explicit}"
+                                           Source="{Binding Entity.Foto, Converter={StaticResource StringToImageConverter}, Mode=TwoWay, UpdateSourceTrigger=Explicit}"
                                            Margin="3" />
                                 </Border>
                                 <Button x:Name="SelecionarLogo_bt" Content="Selecionar Foto"
