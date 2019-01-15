@@ -179,7 +179,11 @@ namespace iModSCCredenciamento.ViewModels
             var list1 = _service.Listar (entity.ColaboradorId);
             var list2 = Mapper.Map<List<ColaboradorAnexoView>> (list1);
             EntityObserver = new ObservableCollection<ColaboradorAnexoView>();
-            list2.ForEach (n => { EntityObserver.Add (n); });
+            list2.ForEach (n =>
+            {
+                
+                EntityObserver.Add (n);
+            });
         }
 
         #endregion

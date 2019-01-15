@@ -6,6 +6,15 @@
 
 #region
 
+using AutoMapper;
+using IMOD.Application.Interfaces;
+using IMOD.Application.Service;
+using IMOD.CrossCutting;
+using IMOD.Domain.Entities;
+using iModSCCredenciamento.Helpers;
+using iModSCCredenciamento.ViewModels.Commands;
+using iModSCCredenciamento.ViewModels.Comportamento;
+using iModSCCredenciamento.Views.Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,15 +22,6 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
-using AutoMapper;
-using iModSCCredenciamento.Helpers;
-using iModSCCredenciamento.ViewModels.Commands;
-using iModSCCredenciamento.ViewModels.Comportamento;
-using iModSCCredenciamento.Views.Model;
-using IMOD.Application.Interfaces;
-using IMOD.Application.Service;
-using IMOD.CrossCutting;
-using IMOD.Domain.Entities;
 
 #endregion
 
@@ -131,7 +131,7 @@ namespace iModSCCredenciamento.ViewModels
         {
             ItensDePesquisaConfigura();
             ListarDadosAuxiliares();
-            Comportamento = new ComportamentoBasico(true, true, true,false,false); 
+            Comportamento = new ComportamentoBasico(true, true, true, false, false);
             Comportamento.SalvarAdicao += OnSalvarAdicao;
             Comportamento.SalvarEdicao += OnSalvarEdicao;
             Comportamento.Remover += OnRemover;
@@ -152,8 +152,8 @@ namespace iModSCCredenciamento.ViewModels
         private void ItensDePesquisaConfigura()
         {
             ListaPesquisa = new List<KeyValuePair<int, string>>();
-            ListaPesquisa.Add (new KeyValuePair<int, string> (1, "Nome"));
-            ListaPesquisa.Add (new KeyValuePair<int, string> (2, "Cpf"));
+            ListaPesquisa.Add(new KeyValuePair<int, string>(1, "CPF"));
+            ListaPesquisa.Add(new KeyValuePair<int, string>(2, "Nome"));
             PesquisarPor = ListaPesquisa[0]; //Pesquisa Default
         }
 
@@ -161,14 +161,14 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                var list2 = Mapper.Map<List<ColaboradorView>> (list.OrderBy (n => n.Nome));
+                var list2 = Mapper.Map<List<ColaboradorView>>(list.OrderBy(n => n.Nome));
                 EntityObserver = new ObservableCollection<ColaboradorView>();
-                list2.ForEach (n => { EntityObserver.Add (n); }); 
+                list2.ForEach(n => { EntityObserver.Add(n); });
             }
 
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
+                Utils.TraceException(ex);
             }
         }
 
@@ -181,17 +181,21 @@ namespace iModSCCredenciamento.ViewModels
                 var num = PesquisarPor;
 
                 //Por nome
-                if (num.Key == 1)
-                {
-                    var l1 = _service.Listar (null, null, $"%{pesquisa}%");
-                    PopularObserver (l1);
-                }
-                //Por cpf
                 if (num.Key == 2)
                 {
-                    if (string.IsNullOrWhiteSpace (pesquisa)) return;
-                    var l1 = _service.Listar (null,pesquisa.RetirarCaracteresEspeciais(), null);
-                    PopularObserver (l1);
+                    var l1 = _service.Listar(null, null, $"%{pesquisa}%");
+                    PopularObserver(l1);
+                }
+                //Por cpf
+                if (num.Key == 1)
+                {
+                    if (string.IsNullOrWhiteSpace(pesquisa))
+                    {
+                        pesquisa = "";
+                    }
+
+                    var l1 = _service.Listar(null, pesquisa.RetirarCaracteresEspeciais(), null);
+                    PopularObserver(l1);
                 }
 
                 IsEnableLstView = true;
@@ -199,7 +203,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
+                Utils.TraceException(ex);
             }
         }
 
@@ -208,8 +212,12 @@ namespace iModSCCredenciamento.ViewModels
         /// </summary>
         public void AtualizarDadosPendencias()
         {
-            if (Entity == null) return;
-            var pendencia = _service.Pendencia.ListarPorColaborador (Entity.ColaboradorId).ToList();
+            if (Entity == null)
+            {
+                return;
+            }
+
+            var pendencia = _service.Pendencia.ListarPorColaborador(Entity.ColaboradorId).ToList();
             //Set valores
             PendenciaGeral = false;
             PendenciaEmpresasVinculos = false;
@@ -217,11 +225,11 @@ namespace iModSCCredenciamento.ViewModels
             PendenciaAnexo = false;
             PendenciaCredencial = false;
             //Buscar pendências referente aos códigos: 21;22;23;24;25
-            PendenciaGeral = pendencia.Any (n => n.CodPendencia == 21);
-            PendenciaEmpresasVinculos = pendencia.Any (n => n.CodPendencia == 22);
-            PendenciaTreinamento = pendencia.Any (n => n.CodPendencia == 23);
-            PendenciaAnexo = pendencia.Any (n => n.CodPendencia == 24);
-            PendenciaCredencial = pendencia.Any (n => n.CodPendencia == 25);
+            PendenciaGeral = pendencia.Any(n => n.CodPendencia == 21);
+            PendenciaEmpresasVinculos = pendencia.Any(n => n.CodPendencia == 22);
+            PendenciaTreinamento = pendencia.Any(n => n.CodPendencia == 23);
+            PendenciaAnexo = pendencia.Any(n => n.CodPendencia == 24);
+            PendenciaCredencial = pendencia.Any(n => n.CodPendencia == 25);
             //Indica se a empresa possue pendências
             Pendencias = PendenciaGeral || PendenciaEmpresasVinculos || PendenciaTreinamento || PendenciaAnexo || PendenciaCredencial;
         }
@@ -232,30 +240,43 @@ namespace iModSCCredenciamento.ViewModels
 
         public void ValidarCpf()
         {
-            if (Entity == null) return;
+            if (Entity == null)
+            {
+                return;
+            }
+
             var cnpj = Entity.Cpf.RetirarCaracteresEspeciais();
 
             //Verificar dados antes de salvar uma criação
             if (_prepareCriarCommandAcionado)
+            {
                 if (_service.ExisteCpf(cnpj))
+                {
                     throw new Exception("CPF já cadastrado.");
+                }
+            }
             //Verificar dados antes de salvar uma alteraçao
             if (_prepareAlterarCommandAcionado)
             {
                 var n1 = _service.BuscarPelaChave(Entity.ColaboradorId);
-                if (n1 == null) return;
+                if (n1 == null)
+                {
+                    return;
+                }
                 //Comparar o CNPJ antes e o depois
                 if (string.Compare(n1.Cpf.RetirarCaracteresEspeciais(),
                     cnpj, StringComparison.Ordinal) != 0)
                 {
                     //verificar se há cnpj exisitente
                     if (_service.ExisteCpf(cnpj))
+                    {
                         throw new Exception("CPF já cadastrado.");
+                    }
                 }
             }
         }
 
-         
+
 
         #endregion
 
@@ -271,34 +292,49 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                if (string.IsNullOrWhiteSpace (uf)) return;
-                if (Municipios == null) Municipios = new List<Municipio>();
-                if (_municipios == null) _municipios = new List<Municipio>();
-                if (Estado == null) return;
+                if (string.IsNullOrWhiteSpace(uf))
+                {
+                    return;
+                }
+
+                if (Municipios == null)
+                {
+                    Municipios = new List<Municipio>();
+                }
+
+                if (_municipios == null)
+                {
+                    _municipios = new List<Municipio>();
+                }
+
+                if (Estado == null)
+                {
+                    return;
+                }
 
                 //Verificar se há municipios já carregados...
-                var l1 = _municipios.Where (n => n.Uf == uf);
+                var l1 = _municipios.Where(n => n.Uf == uf);
                 Municipios.Clear();
                 //Nao havendo municipios... obter do repositorio
                 if (!l1.Any())
                 {
-                    var l2 = _auxiliaresService.MunicipioService.Listar (null, uf);
-                    _municipios.AddRange (Mapper.Map<List<Municipio>> (l2));
+                    var l2 = _auxiliaresService.MunicipioService.Listar(null, uf);
+                    _municipios.AddRange(Mapper.Map<List<Municipio>>(l2));
                 }
 
-                var municipios = _municipios.Where (n => n.Uf == uf).ToList();
+                var municipios = _municipios.Where(n => n.Uf == uf).ToList();
                 Municipios = municipios;
             }
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
+                Utils.TraceException(ex);
             }
         }
 
         /// <summary>
         ///     Novo
         /// </summary>
-        public ICommand PrepareCriarCommand => new CommandBase (PrepareCriar, true);
+        public ICommand PrepareCriarCommand => new CommandBase(PrepareCriar, true);
 
         private void PrepareCriar()
         {
@@ -315,35 +351,35 @@ namespace iModSCCredenciamento.ViewModels
         /// <summary>
         ///     Editar
         /// </summary>
-        public ICommand PrepareAlterarCommand => new CommandBase (PrepareAlterar, true);
+        public ICommand PrepareAlterarCommand => new CommandBase(PrepareAlterar, true);
 
         /// <summary>
         ///     Cancelar
         /// </summary>
-        public ICommand PrepareCancelarCommand => new CommandBase (Comportamento.PrepareCancelar, true);
+        public ICommand PrepareCancelarCommand => new CommandBase(Comportamento.PrepareCancelar, true);
 
         /// <summary>
         ///     Novo
         /// </summary>
-        public ICommand PrepareSalvarCommand => new CommandBase (Comportamento.PrepareSalvar, true);
+        public ICommand PrepareSalvarCommand => new CommandBase(Comportamento.PrepareSalvar, true);
 
         /// <summary>
         ///     Remover
         /// </summary>
-        public ICommand PrepareRemoverCommand => new CommandBase (PrepareRemover, true);
+        public ICommand PrepareRemoverCommand => new CommandBase(PrepareRemover, true);
 
         /// <summary>
         ///     Validar Regras de Negócio
         /// </summary>
         public void Validar()
         {
-             
+
         }
 
         /// <summary>
         ///     Pesquisar
         /// </summary>
-        public ICommand PesquisarCommand => new CommandBase (Pesquisar, true);
+        public ICommand PesquisarCommand => new CommandBase(Pesquisar, true);
 
         #endregion
 
@@ -351,7 +387,11 @@ namespace iModSCCredenciamento.ViewModels
 
         private void PrepareAlterar()
         {
-            if (Entity == null) return;
+            if (Entity == null)
+            {
+                return;
+            }
+
             Comportamento.PrepareAlterar();
             IsEnableTabItem = false;
             IsEnableLstView = false;
@@ -362,7 +402,11 @@ namespace iModSCCredenciamento.ViewModels
 
         private void PrepareRemover()
         {
-            if (Entity == null) return;
+            if (Entity == null)
+            {
+                return;
+            }
+
             IsEnableLstView = true;
             _prepareCriarCommandAcionado = false;
             _prepareAlterarCommandAcionado = false;
@@ -374,19 +418,23 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                if (Entity == null) return;
+                if (Entity == null)
+                {
+                    return;
+                }
+
                 var n1 = Mapper.Map<Colaborador>(Entity);
                 Validar();
-                _service.Criar(n1); 
+                _service.Criar(n1);
                 var n2 = Mapper.Map<ColaboradorView>(n1);
-                 EntityObserver.Insert(0, n2);
+                EntityObserver.Insert(0, n2);
                 IsEnableTabItem = true;
                 IsEnableLstView = true;
             }
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
-                WpfHelp.PopupBox (ex);
+                Utils.TraceException(ex);
+                WpfHelp.PopupBox(ex);
             }
         }
 
@@ -394,17 +442,21 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                if (Entity == null) return;
+                if (Entity == null)
+                {
+                    return;
+                }
+
                 var n1 = Mapper.Map<Colaborador>(Entity);
                 Validar();
-               _service.Alterar(n1); 
+                _service.Alterar(n1);
                 IsEnableTabItem = true;
                 IsEnableLstView = true;
             }
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
-                WpfHelp.PopupBox (ex);
+                Utils.TraceException(ex);
+                WpfHelp.PopupBox(ex);
             }
         }
 
@@ -420,12 +472,12 @@ namespace iModSCCredenciamento.ViewModels
                 {
                     Entity = EntityTmp;
                 }
-                
+
             }
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
-                WpfHelp.MboxError ("Não foi realizar a operação solicitada", ex);
+                Utils.TraceException(ex);
+                WpfHelp.MboxError("Não foi realizar a operação solicitada", ex);
             }
         }
 
@@ -433,9 +485,17 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                if (Entity == null) return;
+                if (Entity == null)
+                {
+                    return;
+                }
+
                 var result = WpfHelp.MboxDialogRemove();
-                if (result != DialogResult.Yes) return;
+                if (result != DialogResult.Yes)
+                {
+                    return;
+                }
+
                 var n1 = Mapper.Map<Colaborador>(Entity);
                 _service.Remover(n1);
                 //Retirar empresa da coleção
@@ -445,8 +505,8 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
-                WpfHelp.MboxError ("Não foi realizar a operação solicitada", ex);
+                Utils.TraceException(ex);
+                WpfHelp.MboxError("Não foi realizar a operação solicitada", ex);
             }
         }
 

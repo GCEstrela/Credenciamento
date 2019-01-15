@@ -6,6 +6,15 @@
 
 #region
 
+using AutoMapper;
+using IMOD.Application.Interfaces;
+using IMOD.Application.Service;
+using IMOD.CrossCutting;
+using IMOD.Domain.Entities;
+using iModSCCredenciamento.Helpers;
+using iModSCCredenciamento.ViewModels.Commands;
+using iModSCCredenciamento.ViewModels.Comportamento;
+using iModSCCredenciamento.Views.Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,15 +22,6 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
-using AutoMapper;
-using iModSCCredenciamento.Helpers;
-using iModSCCredenciamento.ViewModels.Commands;
-using iModSCCredenciamento.ViewModels.Comportamento;
-using iModSCCredenciamento.Views.Model;
-using IMOD.Application.Interfaces;
-using IMOD.Application.Service;
-using IMOD.CrossCutting;
-using IMOD.Domain.Entities;
 using EmpresaLayoutCrachaView = IMOD.Domain.EntitiesCustom.EmpresaLayoutCrachaView;
 
 #endregion
@@ -162,7 +162,11 @@ namespace iModSCCredenciamento.ViewModels
         /// </summary>
         public void AtualizarDadosTiposAtividades()
         {
-            if (Entity == null) return;
+            if (Entity == null)
+            {
+                return;
+            }
+
             TiposAtividades.Clear();
             var id = Entity.EmpresaId;
             var list = _service.Atividade.ListarEmpresaTipoAtividadeView(null, id, null, null).ToList();
@@ -175,7 +179,11 @@ namespace iModSCCredenciamento.ViewModels
         /// </summary>
         public void AtualizarDadosTipoCrachas()
         {
-            if (Entity == null) return;
+            if (Entity == null)
+            {
+                return;
+            }
+
             TiposLayoutCracha.Clear();
             var id = Entity.EmpresaId;
             var list = _service.CrachaService.ListarLayoutCrachaPorEmpresaView(id).ToList();
@@ -190,7 +198,11 @@ namespace iModSCCredenciamento.ViewModels
         /// </summary>ValidarCnpj
         public void AtualizarDadosPendencias()
         {
-            if (Entity == null) return;
+            if (Entity == null)
+            {
+                return;
+            }
+
             var pendencia = _service.Pendencia.ListarPorEmpresa(Entity.EmpresaId).ToList();
             //Set valores
             PendenciaGeral = false;
@@ -212,10 +224,10 @@ namespace iModSCCredenciamento.ViewModels
         private void ItensDePesquisaConfigura()
         {
             ListaPesquisa = new List<KeyValuePair<int, string>>();
-            ListaPesquisa.Add(new KeyValuePair<int, string>(1, "Razão Social"));
-            ListaPesquisa.Add(new KeyValuePair<int, string>(2, "Código"));
-            ListaPesquisa.Add(new KeyValuePair<int, string>(3, "CNPJ"));
-            ListaPesquisa.Add(new KeyValuePair<int, string>(4, "Todos"));
+            ListaPesquisa.Add(new KeyValuePair<int, string>(1, "CNPJ"));
+            ListaPesquisa.Add(new KeyValuePair<int, string>(2, "Razão Social"));
+            ListaPesquisa.Add(new KeyValuePair<int, string>(3, "Código"));
+            //ListaPesquisa.Add(new KeyValuePair<int, string>(4, "Todos"));
             PesquisarPor = ListaPesquisa[0]; //Pesquisa Default
         }
 
@@ -252,7 +264,11 @@ namespace iModSCCredenciamento.ViewModels
         /// </summary>
         public void CarregarQuantidadeTipoCredencial()
         {
-            if (Entity == null || Entity.EmpresaId == 0) return;
+            if (Entity == null || Entity.EmpresaId == 0)
+            {
+                return;
+            }
+
             var id = Entity.EmpresaId;
             var objTipocredenciaisEmpresa = _service.ListarTipoCredenciaisEmpresa(id).ToList();
             QuantidadeTipoCredencialPermanente = objTipocredenciaisEmpresa.Count(p => p.TipoCredencialId == 1);
@@ -266,25 +282,38 @@ namespace iModSCCredenciamento.ViewModels
 
         public void ValidarCnpj()
         {
-            if (Entity == null) return;
+            if (Entity == null)
+            {
+                return;
+            }
+
             var cnpj = Entity.Cnpj.RetirarCaracteresEspeciais();
 
             //Verificar dados antes de salvar uma criação
             if (_prepareCriarCommandAcionado)
+            {
                 if (_service.ExisteCnpj(cnpj))
+                {
                     throw new Exception("CNPJ já cadastrado.");
+                }
+            }
             //Verificar dados antes de salvar uma alteraçao
             if (_prepareAlterarCommandAcionado)
             {
                 var n1 = _service.BuscarPelaChave(Entity.EmpresaId);
-                if (n1 == null) return;
+                if (n1 == null)
+                {
+                    return;
+                }
                 //Comparar o CNPJ antes e o depois
                 if (string.Compare(n1.Cnpj.RetirarCaracteresEspeciais(),
                     cnpj, StringComparison.Ordinal) != 0)
                 {
                     //verificar se há cnpj exisitente
                     if (_service.ExisteCnpj(cnpj))
+                    {
                         throw new Exception("CNPJ já cadastrado.");
+                    }
                 }
             }
         }
@@ -297,9 +326,14 @@ namespace iModSCCredenciamento.ViewModels
         {
             ValidarCnpj();
             if (string.IsNullOrWhiteSpace(Entity.Nome))
+            {
                 throw new InvalidOperationException("O nome é requerido");
+            }
+
             if (string.IsNullOrWhiteSpace(Entity.Cnpj))
+            {
                 throw new InvalidOperationException("O CNPJ é requerido");
+            }
         }
 
         #endregion
@@ -316,10 +350,25 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(uf)) return;
-                if (Municipios == null) Municipios = new List<Municipio>();
-                if (_municipios == null) _municipios = new List<Municipio>();
-                if (Estado == null) return;
+                if (string.IsNullOrWhiteSpace(uf))
+                {
+                    return;
+                }
+
+                if (Municipios == null)
+                {
+                    Municipios = new List<Municipio>();
+                }
+
+                if (_municipios == null)
+                {
+                    _municipios = new List<Municipio>();
+                }
+
+                if (Estado == null)
+                {
+                    return;
+                }
 
                 //Verificar se há municipios já carregados...
                 var l1 = _municipios.Where(n => n.Uf == uf);
@@ -399,19 +448,27 @@ namespace iModSCCredenciamento.ViewModels
                 var num = PesquisarPor;
 
                 //Por Razão Social
-                if (num.Key == 1)
+                if (num.Key == 2)
                 {
                     var l1 = _service.Listar($"%{pesquisa}%", null, null);
                     PopularObserver(l1);
                 }
                 //Por código
-                if (num.Key == 2)
+                if (num.Key == 3)
                 {
-                    if (string.IsNullOrWhiteSpace(pesquisa)) return;
+                    if (string.IsNullOrWhiteSpace(pesquisa))
+                    {
+                        return;
+                    }
+
                     var cod = 0;
                     int.TryParse(pesquisa, out cod);
                     var n1 = _service.BuscarPelaChave(cod);
-                    if (n1 == null) return;
+                    if (n1 == null)
+                    {
+                        return;
+                    }
+
                     EntityObserver.Clear();
                     var n2 = Mapper.Map<EmpresaView>(n1);
                     var observer = new ObservableCollection<EmpresaView>();
@@ -419,7 +476,7 @@ namespace iModSCCredenciamento.ViewModels
                     EntityObserver = observer;
                 }
                 //Por CNPJ
-                if (num.Key == 3)
+                if (num.Key == 1)
                 {
                     var l1 = _service.Listar(null, null, pesquisa);
                     PopularObserver(l1);
@@ -457,7 +514,11 @@ namespace iModSCCredenciamento.ViewModels
 
         private void PrepareAlterar()
         {
-            if (Entity == null) return;
+            if (Entity == null)
+            {
+                return;
+            }
+
             Comportamento.PrepareAlterar();
             IsEnableTabItem = false;
             IsEnableLstView = false;
@@ -470,7 +531,11 @@ namespace iModSCCredenciamento.ViewModels
 
         private void PrepareRemover()
         {
-            if (Entity == null) return;
+            if (Entity == null)
+            {
+                return;
+            }
+
             IsEnableLstView = true;
             _prepareCriarCommandAcionado = false;
             _prepareAlterarCommandAcionado = false;
@@ -483,7 +548,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                if (Entity == null) return;
+                if (Entity == null)
+                {
+                    return;
+                }
+
                 var n1 = Mapper.Map<Empresa>(Entity);
                 Validar();
                 _service.Criar(n1);
@@ -536,7 +605,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                if (Entity == null) return;
+                if (Entity == null)
+                {
+                    return;
+                }
+
                 Validar();
                 var n1 = Mapper.Map<Empresa>(Entity);
                 _service.Alterar(n1);
@@ -582,10 +655,17 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                if (Entity == null) return;
+                if (Entity == null)
+                {
+                    return;
+                }
+
                 var result = WpfHelp.MboxDialogRemove();
 
-                if (result != DialogResult.Yes) return;
+                if (result != DialogResult.Yes)
+                {
+                    return;
+                }
 
                 var n1 = Mapper.Map<Empresa>(Entity);
                 _service.Remover(n1);

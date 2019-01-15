@@ -8,9 +8,8 @@
              d:DataContext="{d:DesignInstance viewModels:EmpresasSignatariosViewModel , IsDesignTimeCreatable=True}"
              xmlns:wpf="clr-namespace:CSharpControls.Wpf;assembly=CSharpControls.Wpf"
              xmlns:viewModels="clr-namespace:iModSCCredenciamento.ViewModels"
-
              mc:Ignorable="d"
-             d:DesignHeight="450" d:DesignWidth="1000"  >
+             d:DesignHeight="450">
     <UserControl.Resources>
         <i:FormateTel x:Key="FormateTel" />
         <i:StringToImageConverter x:Key="StringToImageConverter" />
@@ -18,15 +17,18 @@
     </UserControl.Resources>
     <Grid Height="450" VerticalAlignment="Top">
         <StackPanel Orientation="Vertical">
-          
+
             <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}"
                       Background="Crimson"
-                      x:Name="Responsavel_gb" Header="Dados dos Representantes" Margin="0,0,10,0">
-                <StackPanel Orientation="Horizontal">
-                    <StackPanel Margin="1" Width="958">
+                      IsEnabled="{Binding Comportamento.isEnableCancelar}"
+                      x:Name="Responsavel_gb" Header="Dados dos Representantes" Margin="0,0,10,0"
+                      VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="795">
+
+                <StackPanel x:Name="InformacoesAnexo_sp" Margin="0,10,10,10" Width="773">
+                    <StackPanel Orientation="Vertical" Margin="1" VerticalAlignment="Center">
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                     Margin="1">
-                            <Label Content="Nome:" Height="28" Width="56" Margin="1" Foreground="#FFD0D0D0" />
+                            <Label Content="Nome:" Height="28" Width="57" Margin="1" Foreground="#FFD0D0D0" />
                             <TextBox x:Name="Nome_tb" MaxLength="50" CharacterCasing="Upper"
                                      Text="{Binding Entity.Nome, UpdateSourceTrigger=PropertyChanged}" IsEnabled="True"
                                      Height="24" Width="456" />
@@ -40,19 +42,19 @@
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                     Margin="1">
-                            <Label Content="E-Mail:" Height="28" Width="56" Margin="1" Foreground="#FFD0D0D0" />
+                            <Label Content="E-Mail:" Height="28" Width="57" Margin="1" Foreground="#FFD0D0D0" />
                             <TextBox x:Name="Email_tb" MaxLength="50" CharacterCasing="Lower"
                                      Text="{Binding Entity.Email, UpdateSourceTrigger=PropertyChanged}"
-                                     IsEnabled="True" Height="24" Width="301" />
+                                     IsEnabled="True" Height="24" Width="292" />
 
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                     Margin="1">
-                            <Label Content="Telefone:" Height="28" Width="56" Margin="1" Foreground="#FFD0D0D0" />
+                            <Label Content="Telefone:" Height="28" Width="57" Margin="1" Foreground="#FFD0D0D0" />
                             <TextBox Foreground="#FFD0D0D0" x:Name="Telefone_tb" MaxLength="15" CharacterCasing="Upper"
                                      Text="{Binding Entity.Telefone,Converter={ StaticResource FormateTel}, UpdateSourceTrigger=PropertyChanged}"
                                      HorizontalContentAlignment="Center" IsEnabled="True" Height="24" Width="100" />
-                            <Label Content="Celular:" Height="28" Width="56" Foreground="#FFD0D0D0" />
+                            <Label Content="Celular:" Height="28" Width="92" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                             <TextBox Foreground="#FFD0D0D0" x:Name="Celular_tb" CharacterCasing="Upper"
                                      Text="{Binding Entity.Celular,Converter={ StaticResource FormateTel}, UpdateSourceTrigger=PropertyChanged}"
                                      IsEnabled="True" Height="24" HorizontalContentAlignment="Center" Width="100" />
@@ -95,23 +97,28 @@
                 </StackPanel>
             </GroupBox>
 
-            <StackPanel Orientation="Horizontal" Margin="0,10,10,0">
-                <ComboBox  Width="150" ItemsSource="{Binding ListaPesquisa }"
-             DisplayMemberPath="Value"
-             SelectedValue="Key" 
-             SelectedItem="{Binding PesquisarPor}" VerticalContentAlignment="Center"/>
+            <StackPanel Orientation="Horizontal" Margin="0,10,10,-10">
+                <Label Content="Pesquisar:" Height="28" Width="65" Foreground="#FFD0D0D0" Margin="1,0,0,0" />
+                <ComboBox  Width="150" IsEnabled="{Binding  Comportamento.IsEnableCriar}"
+                           ItemsSource="{Binding ListaPesquisa }"
+                           DisplayMemberPath="Value"
+                           SelectedValue="Key"
+                           SelectedItem="{Binding PesquisarPor}" VerticalContentAlignment="Center" />
                 <TextBox Width="200" Margin="10,0,0,0" Text="{Binding NomePesquisa, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" >
                     <TextBox.InputBindings>
                         <KeyBinding Command="{Binding Path=PesquisarCommand}" Key="Enter" />
                     </TextBox.InputBindings>
                 </TextBox>
             </StackPanel>
+
             <StackPanel Orientation="Horizontal" Height="258" Margin="0,10,10,0">
 
-                <ListView x:Name="ListaSegnatarios_lv"
+                <ListView x:Name="ListaSignatarios_lv"
                           IsEnabled="{Binding IsEnableLstView}"
+                          HorizontalAlignment="Stretch" 
                           ItemsSource="{Binding EntityObserver, Mode=TwoWay}"
-                          SelectedItem="{Binding Entity, Mode=TwoWay}" Width="835" Margin="0,0,0,80">
+                          SelectedItem="{Binding Entity, Mode=TwoWay}" 
+                          Width="630" Margin="0,15,0,40">
                     <!--ScrollViewer.CanContentScroll="True" MaxHeight="150"  Visibility="Visible" SelectionMode="Single"  Background="#FF4E4E4E" Foreground="White" HorizontalAlignment="Left" SelectionChanged="ListaEmpresas_lv_SelectionChanged"-->
                     <ListView.View>
                         <GridView FrameworkElement.FlowDirection="RightToLeft">
@@ -122,7 +129,7 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn Width="300" Header="Nome"  DisplayMemberBinding="{Binding Nome}"/>
+                            <GridViewColumn Width="200" Header="Nome"  DisplayMemberBinding="{Binding Nome}"/>
                             <GridViewColumn Width="115" Header="Telefone">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
@@ -142,7 +149,7 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
 
-                            <GridViewColumn Width="250" Header="E-mail">
+                            <GridViewColumn Width="150" Header="E-mail">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Email}" TextAlignment="Center"
@@ -153,8 +160,8 @@
                         </GridView>
                     </ListView.View>
                 </ListView>
-                <StackPanel Orientation="Vertical" Margin="10,0,0,0" HorizontalAlignment="Right" Width="155"
-                            Height="183" VerticalAlignment="Top">
+                <StackPanel Orientation="Vertical" Margin="10,0,0,40" HorizontalAlignment="Right" Width="155"
+                            Height="205" VerticalAlignment="Bottom">
 
                     <!--<Button x:Name="btnPesquisar" Content="Pesquisar" ToolTip="Pesquisar"  Height="30" Width="148"  Click="Pesquisar_bt_Click" Margin="0,0,0,7" />-->
                     <Button x:Name="btnAdicionar" Content="Adicionar" ToolTip="Adicionar"
@@ -171,7 +178,7 @@
                             Command="{Binding PrepareCancelarCommand}" Margin="0,0,0,7" />
                     <Button x:Name="btnSalvar" Content="Salvar" ToolTip="Salvar" Height="30" Width="148"
                             IsEnabled="{Binding Comportamento.isEnableSalvar}" Command="{Binding PrepareSalvarCommand}"
-                            Margin="0,0,0,7" />
+                            Margin="4,0,3,7"/>
 
                 </StackPanel>
 

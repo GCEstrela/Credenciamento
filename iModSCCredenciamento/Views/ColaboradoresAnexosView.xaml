@@ -4,43 +4,39 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:iModSCCredenciamento.Views"
-             xmlns:i="clr-namespace:iModSCCredenciamento.Funcoes"
-             d:DataContext="{d:DesignInstance viewModels:ColaboradoresAnexosViewModel , IsDesignTimeCreatable=True}"
+             d:DataContext="{d:DesignInstance vm:ColaboradoresAnexosViewModel , IsDesignTimeCreatable=True}"
+             xmlns:vm="clr-namespace:iModSCCredenciamento.ViewModels"
              xmlns:wpf="clr-namespace:CSharpControls.Wpf;assembly=CSharpControls.Wpf"
-             xmlns:viewModels="clr-namespace:iModSCCredenciamento.ViewModels"
              mc:Ignorable="d"
-             d:DesignHeight="450" d:DesignWidth="1000">
-    <UserControl.Resources>
-        <i:FormateTel x:Key="FormateTel" />
-        <i:StringToImageConverter x:Key="StringToImageConverter" />
-        <i:CheckTeste x:Key="CheckTeste" />
-    </UserControl.Resources>
-    <Grid Height="450" VerticalAlignment="Top">
+             Height="320">
+    <Grid VerticalAlignment="Top">
         <StackPanel Orientation="Vertical">
-
             <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}"
-                      Background="Crimson"
-                      x:Name="Responsavel_gb" Header="Anexos" Margin="0,0,10,0">
-                <StackPanel Orientation="Horizontal">
-                    <StackPanel Margin="1" Width="958">
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
-                                    Margin="1,1,0,1" Width="947">
+                      Background="Chocolate"
+                      IsEnabled="{Binding Comportamento.isEnableCancelar}"
+                      x:Name="InformacoesAnexo_gb" Header="Anexos" Margin="0,0,10,0"
+                      VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="795">
+
+                <StackPanel x:Name="InformacoesAnexo_sp" Margin="0,10,10,10" Width="773">
+
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="1">
                             <Label Content="Código:" Height="28" Width="56" Margin="1" Foreground="#FFD0D0D0" />
                             <TextBox x:Name="ID_tb" IsEnabled="False" CharacterCasing="Upper"
                                  Text="{Binding Entity.ColaboradorAnexoId, UpdateSourceTrigger=PropertyChanged}" Height="24"
                                  Width="51" />
-                            <Label Content="Descrição do Arquivo:" Height="28" Width="128" HorizontalContentAlignment="Right"
-                                   Foreground="#FFD0D0D0" />
+                            <Label Content="Descrição do Anexo:" Height="28" Width="152" Margin="0,0,5,0"
+                                   HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
                             <TextBox x:Name="DescricaoArquivo_tb" MaxLength="50" CharacterCasing="Upper"
                                  Text="{Binding Entity.Descricao, UpdateSourceTrigger=PropertyChanged}"
-                                 IsEnabled="True" Height="24" Width="315" />
+                                 IsEnabled="True" Height="24" Width="367" />
                         </StackPanel>
+
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                     Margin="1">
-                            <Label Content="Nome do Arquivo:" Height="28" Width="166" Margin="1" Foreground="#FFD0D0D0" />
+                            <Label Content="Nome do Arquivo:" Height="28" Width="108" Margin="1" Foreground="#FFD0D0D0" />
                             <TextBox x:Name="txtNomeAnexo" MaxLength="100" CharacterCasing="Upper"
                                  Text="{Binding Entity.NomeArquivo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                 IsEnabled="True" Height="24" Width="444" />
+                                 IsEnabled="True" Height="24" Width="523" />
                             <Button x:Name="BuscarContratoArquivo_bt" Height="24" Margin="10,0,0,0"
                                 VerticalAlignment="Center" Width="24" Click="OnUpLoad_Click">
                                 <StackPanel>
@@ -53,46 +49,30 @@
                                     <Image Source="/iModSCCredenciamento;component/Resources/Olho.png" />
                                 </StackPanel>
                             </Button>
-
                         </StackPanel>
                         
-                    </StackPanel>
                 </StackPanel>
             </GroupBox>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="795" Height="203">
 
-            <StackPanel Orientation="Horizontal" Margin="0,10,10,0">
-                <!--<ComboBox Width="150" ItemsSource="{Binding ListaPesquisa }"
-                          DisplayMemberPath="Value"
-                          SelectedValue="Key"
-                          SelectedItem="{Binding PesquisarPor}" VerticalContentAlignment="Center" />
-                <TextBox Width="200" Margin="10,0,0,0"
-                         Text="{Binding NomePesquisa, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
-                    <TextBox.InputBindings>
-                        <KeyBinding Command="{Binding Path=PesquisarCommand}" Key="Enter" />
-                    </TextBox.InputBindings>
-                </TextBox>-->
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Height="258" Margin="0,10,10,0">
-
-                <ListView x:Name="ListaSegnatarios_lv"
+                <ListView x:Name="ListaAnexos_lv"
                           IsEnabled="{Binding IsEnableLstView}"
+                          HorizontalAlignment="Stretch" 
                           ItemsSource="{Binding EntityObserver, Mode=TwoWay}"
-                          SelectedItem="{Binding Entity, Mode=TwoWay}" Width="835" Margin="0,0,0,80">
-                    <!--ScrollViewer.CanContentScroll="True" MaxHeight="150"  Visibility="Visible" SelectionMode="Single"  Background="#FF4E4E4E" Foreground="White" HorizontalAlignment="Left" SelectionChanged="ListaEmpresas_lv_SelectionChanged"-->
+                          SelectedItem="{Binding Entity, Mode=TwoWay}"
+                          Width="630" Margin="0,15,0,10">
                     <ListView.View>
                         <GridView FrameworkElement.FlowDirection="RightToLeft">
-                            <GridViewColumn Width="50" Header="ID" DisplayMemberBinding="{Binding EmpresaAnexoId}" />
-                            <GridViewColumn Width="200" Header="Descrição do Arquivo"
+                            <GridViewColumn Width="50" Header="Cod." DisplayMemberBinding="{Binding ColaboradorAnexoId}" />
+                            <GridViewColumn Width="300" Header="Descrição do Anexo"
                                             DisplayMemberBinding="{Binding Descricao}" />
-                            <GridViewColumn Width="200" Header="Nome do Arquivo"
-                                            DisplayMemberBinding="{Binding NomeAnexo}" />
+                            <GridViewColumn Width="250" Header="Nome do Arquivo"
+                                            DisplayMemberBinding="{Binding NomeArquivo}" />
                         </GridView>
                     </ListView.View>
                 </ListView>
-                <StackPanel Orientation="Vertical" Margin="10,0,0,0" HorizontalAlignment="Right" Width="155"
-                            Height="183" VerticalAlignment="Top">
-
-                    <!--<Button x:Name="btnPesquisar" Content="Pesquisar" ToolTip="Pesquisar"  Height="30" Width="148"  Click="Pesquisar_bt_Click" Margin="0,0,0,7" />-->
+                <StackPanel Orientation="Vertical" Margin="10,0,0,-5" HorizontalAlignment="Right" Width="155"
+                            Height="193" VerticalAlignment="Bottom">
                     <Button x:Name="btnAdicionar" Content="Adicionar" ToolTip="Adicionar"
                             IsEnabled="{Binding Comportamento.IsEnableCriar}" Command="{Binding PrepareCriarCommand}"
                             Height="30" Width="148" Margin="0,0,0,7" />
@@ -105,16 +85,11 @@
                     <Button x:Name="btnCancelar" Content="Cancelar" ToolTip="Cancelar" Height="30" Width="148"
                             IsEnabled="{Binding Comportamento.isEnableCancelar}"
                             Command="{Binding PrepareCancelarCommand}" Margin="0,0,0,7" />
-                    <Button x:Name="btnSalvar" Content="Salvar" ToolTip="Salvar" Height="30" Width="148"
+                    <Button x:Name="btnSalvar" Content="Salvar" ToolTip="Salvar"  Height="30" Width="148"
                             IsEnabled="{Binding Comportamento.isEnableSalvar}" Command="{Binding PrepareSalvarCommand}"
-                            Margin="0,0,0,7" />
-
+                            Margin="4,0,3,7" />
                 </StackPanel>
-
             </StackPanel>
-
         </StackPanel>
-
-
     </Grid>
 </UserControl>

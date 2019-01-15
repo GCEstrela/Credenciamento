@@ -692,5 +692,10 @@ namespace iModSCCredenciamento.Views
         {
             BotoesGeral_sp.IsEnabled = false;
         }
+
+        private void CNHEmissor_cb_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }
