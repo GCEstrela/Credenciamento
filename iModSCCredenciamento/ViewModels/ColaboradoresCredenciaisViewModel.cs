@@ -61,13 +61,17 @@ namespace iModSCCredenciamento.ViewModels
         //public LayoutCrachaView EntityLayoutCrachaView { get; set; }
         //public FormatoCredencialView EntityFormatoCredencialView { get; set; }
         //public EmpresaContratoView EntityEmpresaContratoView { get; set; }
+
         public ColaboradorCredencialView Entity { get; set; }
         public ObservableCollection<ColaboradorCredencialView> EntityObserver { get; set; }
+
+        public ColaboradoresCredenciaisView EntityCustom { get; set; }
+        public ObservableCollection<ColaboradoresCredenciaisView> EntityCustomObserver { get; set; }
 
         /// <summary>
         ///     Habilita listView
         /// </summary>
-        public bool IsEnableLstView { get; private set; } = true;
+        public bool IsEnableLstView { get; set; } = true;
 
         #endregion 
         #region Inicializacao
@@ -85,14 +89,19 @@ namespace iModSCCredenciamento.ViewModels
 
         #region  Metodos
 
+        //TODO:Listar ColaboradoresCredenciais
         public void AtualizarDados(ColaboradorView entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             _colaboradorView = entity;
             ////Obter dados
-            //var list1 = _service.Credencial.ListarView(null, null, null, null, entity.ColaboradorId).ToList();
-            //EntityObserver = new ObservableCollection<ColaboradoresCredenciaisView>();
-            //list1.ForEach(n => { EntityObserver.Add(n); });
+            var list1 = _service.ListarView(null, null, null, null, entity.ColaboradorId).ToList();
+            var list2 = Mapper.Map<List<ColaboradoresCredenciaisView>>(list1);
+            EntityCustomObserver = new ObservableCollection<ColaboradoresCredenciaisView>();
+            list2.ForEach(n =>
+            {
+                EntityCustomObserver.Add(n);
+            });
         }
 
         /// <summary>

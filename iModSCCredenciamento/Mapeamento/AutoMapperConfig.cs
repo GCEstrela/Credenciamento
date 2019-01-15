@@ -39,6 +39,8 @@ namespace iModSCCredenciamento.Mapeamento
                        m.CreateMap<ClasseColaboradoresCredenciais, ClasseColaboradoresCredenciais.ColaboradorCredencial>().ReverseMap();
                        m.CreateMap<ColaboradoresCredenciaisView, ClasseColaboradoresCredenciais.ColaboradorCredencial>().ReverseMap();
 
+                       m.CreateMap<ColaboradorCredencialView, ColaboradoresCredenciaisView>().ReverseMap();
+
                        m.CreateMap<VeiculoEmpresa, ClasseVeiculosEmpresas.VeiculoEmpresa>().ReverseMap();
                        m.CreateMap<VeiculoCredencial, ClasseVeiculosCredenciais.VeiculoCredencial>().ReverseMap();
                        m.CreateMap<VeiculosCredenciaisView, ClasseVeiculosCredenciais.VeiculoCredencial>().ReverseMap();
