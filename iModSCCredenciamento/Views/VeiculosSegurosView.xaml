@@ -4,204 +4,117 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:iModSCCredenciamento.Views"
+             xmlns:i="clr-namespace:iModSCCredenciamento.Funcoes"
              xmlns:vm="clr-namespace:iModSCCredenciamento.ViewModels"
-             mc:Ignorable="d" Loaded="UserControl_Loaded" >
+             xmlns:viewModels="clr-namespace:iModSCCredenciamento.ViewModels"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="1000"  >
     <UserControl.Resources>
-        <Style TargetType="{x:Type DatePickerTextBox}">
-            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" />
-            <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />
-            <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst"/>
-            <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="DatePickerTextBox">
-                        <Grid >
-                            <Grid.Resources>
-                                <SolidColorBrush x:Key="WatermarkBrush" Color="#FFAAAAAA"/>
-                            </Grid.Resources>
-                            <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroup Name="CommonStates">
-                                    <VisualStateGroup.Transitions>
-                                        <VisualTransition GeneratedDuration="0" />
-                                        <VisualTransition To="MouseOver" GeneratedDuration="0:0:0.1" />
-                                    </VisualStateGroup.Transitions>
-                                    <VisualState Name="Normal" />
-                                    <VisualState Name="MouseOver">
-                                        <Storyboard>
-                                            <ColorAnimation Storyboard.TargetName="ContentElement" Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)" To="#FF99C1E2" Duration="0"/>
-                                            <ColorAnimation Storyboard.TargetName="watermark_decorator" Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)" To="#FF99C1E2" Duration="0"/>
-                                        </Storyboard>
-                                    </VisualState>
-                                </VisualStateGroup>
-                                <VisualStateGroup Name="WatermarkStates">
-                                    <VisualStateGroup.Transitions>
-                                        <VisualTransition GeneratedDuration="0" />
-                                    </VisualStateGroup.Transitions>
-                                    <VisualState Name="Unwatermarked" />
-                                    <VisualState Name="Watermarked">
-                                        <Storyboard>
-                                            <DoubleAnimation Storyboard.TargetName="ContentElement" Storyboard.TargetProperty="Opacity" To="0" Duration="0" />
-                                            <DoubleAnimation Storyboard.TargetName="PART_Watermark" Storyboard.TargetProperty="Opacity" To="1" Duration="0" />
-                                        </Storyboard>
-                                    </VisualState>
-                                </VisualStateGroup>
-                                <VisualStateGroup Name="FocusStates">
-                                    <VisualStateGroup.Transitions>
-                                        <VisualTransition GeneratedDuration="0" />
-                                    </VisualStateGroup.Transitions>
-                                    <VisualState Name="Unfocused" />
-                                    <VisualState Name="Focused">
-                                        <Storyboard>
-                                            <DoubleAnimation Storyboard.TargetName="FocusVisual" Storyboard.TargetProperty="Opacity" To="1" Duration="0" />
-                                        </Storyboard>
-                                    </VisualState>
-                                </VisualStateGroup>
-                            </VisualStateManager.VisualStateGroups>
-
-
-                            <Border x:Name="Border" VerticalAlignment="Center"
-                            Background="Transparent" 
-                            BorderBrush="Transparent" 
-                            BorderThickness="0"
-                            Padding="{TemplateBinding Padding}"
-                            CornerRadius="1" 
-                            Opacity="1">
-                                <Grid x:Name="WatermarkContent" 
-                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                              VerticalAlignment="Center">
-                                    <Border x:Name="ContentElement" BorderThickness="1">
-                                        <Border.BorderBrush>
-                                            <SolidColorBrush Color="Transparent"/>
-                                        </Border.BorderBrush>
-                                    </Border>
-                                    <Border x:Name="watermark_decorator" BorderThickness="1" VerticalAlignment="Stretch">
-                                        <Border.BorderBrush>
-                                            <SolidColorBrush Color="Transparent"/>
-                                        </Border.BorderBrush>
-                                        <ContentControl x:Name="PART_Watermark"
-                                                    Opacity="0"
-                                                    Focusable="False"
-                                                    IsHitTestVisible="False"
-                                                    Padding="2" VerticalContentAlignment="Stretch">
-                                            <ContentControl.Template>
-                                                <ControlTemplate>
-                                                    <TextBlock  VerticalAlignment="Center" Text="//"/>
-                                                </ControlTemplate>
-                                            </ContentControl.Template>
-                                        </ContentControl>
-                                    </Border>
-                                    <ScrollViewer x:Name="PART_ContentHost" 
-                                          Margin="0"
-                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                          VerticalContentAlignment= "Center" />
-                                    <Border x:Name="FocusVisual" VerticalAlignment="Center" BorderBrush="#FF45D6FA" CornerRadius="1" Opacity="0" IsHitTestVisible="False"/>
-                                </Grid>
-                            </Border>
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
+        <i:FormateTel x:Key="FormateTel" />
+        <i:StringToImageConverter x:Key="StringToImageConverter" />
+        <i:CheckTeste x:Key="CheckTeste" />
     </UserControl.Resources>
-    <Grid >
-        <StackPanel >
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition Height="180"  />
-                </Grid.RowDefinitions>
+    <Grid Height="450" VerticalAlignment="Top">
+        <StackPanel Orientation="Vertical">
 
-                <StackPanel Grid.Row="0"  x:Name="Linha0_sp" >
-                    <!--IsEnabled="{Binding Path=HabilitaEdicao, Mode=TwoWay}"-->
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="809*"/>
-                            <ColumnDefinition Width="169*" />
-                        </Grid.ColumnDefinitions>
-                        <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}"    x:Name="InformacoesSeguro_gb"  Header="Informações do Seguro" Grid.Column="0" Grid.ColumnSpan="2" Margin="10" VerticalAlignment="Stretch" >
-                            <StackPanel x:Name="InformacoesSeguro_sp" Margin="0,10,10,10">
-                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,5,246,0" >
-                                    <Label Content="Seguradora:" Height="28" Width="150" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                    <TextBox  x:Name="Seguradora_tb"  MaxLength="30" CharacterCasing="Upper" Text="{Binding SelectedItem.NomeSeguradora, ElementName=ListaSeguros_lv, UpdateSourceTrigger=PropertyChanged}" Height="24"  Width="275"/>
-                                    <Label Content="Número da Apólice:" Height="28" Width="130" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                    <TextBox  x:Name="NumeroApolice_tb" MaxLength="30" PreviewTextInput="NumberOnly" CharacterCasing="Upper" Text="{Binding SelectedItem.NumeroApolice, ElementName=ListaSeguros_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="119"/>
+            <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}"
+                      Background="Crimson"
+                      x:Name="GbxInformacoesSeguro" Header="Informações do Seguro" Margin="0,0,10,0">
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel Margin="1" Width="958">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
+                                    Margin="1">
+                            <Label Content="Seguradora:" Height="28" Width="150" Margin="1" Foreground="#FFD0D0D0" />
+                            <TextBox x:Name="txtSeguradora" MaxLength="50" CharacterCasing="Upper"
+                                     Text="{Binding Entity.NomeSeguradora, UpdateSourceTrigger=PropertyChanged}" IsEnabled="True"
+                                     Height="24" Width="456" />
+                            <Label Content="Número da Apólice::" Height="28" Width="129" HorizontalContentAlignment="Right"
+                                   Foreground="#FFD0D0D0" />
+                            <TextBox x:Name="txtNumeroApolice" MaxLength="15" CharacterCasing="Upper"
+                                     Text="{Binding Entity.NumeroApolice, UpdateSourceTrigger=PropertyChanged}"
+                                     IsEnabled="True" Height="24" Width="120" 
+                                     VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
+                                    Margin="1">
+                            <Label Content="Valor da Cobertura (R$):" Height="28" Width="150" Margin="1" Foreground="#FFD0D0D0" />
+                            <TextBox x:Name="txtValorCobertura" MaxLength="10" CharacterCasing="Lower"
+                                     Text="{Binding Entity.ValorCobertura, UpdateSourceTrigger=PropertyChanged}"
+                                     IsEnabled="True" Height="24" Width="301" LostFocus="FormatCurrency" PreviewTextInput="NumberOnly" />
+                            <Label Content="Data de Emissão:" Height="28" Width="125" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                            <DatePicker x:Name="dtPEmissao" VerticalContentAlignment="Center" SelectedDate="{Binding Entity.Emissao, UpdateSourceTrigger=PropertyChanged}" Width="110" />
+                            <Label Content="Data de Validade:" Height="28" Width="119" Margin="10,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                            <DatePicker x:Name="dtPValidade" VerticalContentAlignment="Center" SelectedDate="{Binding Entity.Validade, UpdateSourceTrigger=PropertyChanged}" Width="110" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0" >
+                            <Label Content="Apólice Digitalizada:" Height="28" Width="150" Margin="0,0,5,0" HorizontalContentAlignment="Left" Foreground="#FFD0D0D0" />
+                            <TextBox  x:Name="txtApoliceArquivo" CharacterCasing="Upper" Text="{Binding Entity.NomeArquivo, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="399"/>
+                            <Button x:Name="btnBuscarArquivo" Height="24" Margin="10,0,0,0" VerticalAlignment="Center" Width="24" Click="OnUpLoad_Click">
+                                <StackPanel>
+                                    <Image Source="/iModSCCredenciamento;component/Resources/Pasta.ico"/>
                                 </StackPanel>
-                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0">
-                                    <Label Content="Valor da Cobertura (R$):" Height="28" Width="150" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                    <TextBox  x:Name="ValorCobertura_tb" MaxLength="30" PreviewTextInput="NumberOnly" CharacterCasing="Upper" Text="{Binding SelectedItem.ValorCobertura, ElementName=ListaSeguros_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="112" LostFocus="FormatCurrency"/>
-                                    <Label Content="Data de Emissão:" Height="28" Width="120" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                    <DatePicker Margin="-10,3,0,0" x:Name="Emissao_tb" VerticalContentAlignment="Center" SelectedDate="{Binding SelectedItem.Emissao, ElementName=ListaSeguros_lv, UpdateSourceTrigger=PropertyChanged}" Width="120" Foreground="White" Background="{x:Null}"/>
-                                    <Label Content="Data de Validade:" Height="28" Width="100" Margin="25,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                    <DatePicker Margin="-10,3,0,0" x:Name="Validade_tb" VerticalContentAlignment="Center" SelectedDate="{Binding SelectedItem.Validade, ElementName=ListaSeguros_lv, UpdateSourceTrigger=PropertyChanged}" Width="120" Foreground="White" Background="{x:Null}"/>
+                            </Button>
+                            <Button x:Name="AbrirArquivo_bt" Height="24" Margin="10,0,0,0"  VerticalAlignment="Center" Width="24" Click="OnAbrirArquivo_Click">
+                                <StackPanel>
+                                    <Image Source="/iModSCCredenciamento;component/Resources/Olho.png"/>
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+            </GroupBox>
 
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0" >
-                                    <Label Content="Apólice Digitalizada:" Height="28" Width="150" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                    <TextBox  x:Name="ApoliceArquivo_tb"   CharacterCasing="Upper" Text="{Binding SelectedItem.NomeArquivo, ElementName=ListaSeguros_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="457"/>
-                                    <Button x:Name="BuscarContratoArquivo_bt" Height="24" Margin="10,0,0,0" VerticalAlignment="Center" Width="24" Click="BuscarApoliceArquivo_bt_Click" >
-                                        <StackPanel>
-                                            <Image Source="/iModSCCredenciamento;component/Resources/Pasta.ico"/>
-                                        </StackPanel>
-                                    </Button>
-                                    <Button x:Name="AbrirContratoArquivo_bt" Height="24" Margin="10,0,0,0" VerticalAlignment="Center" Width="24" Click="AbrirApoliceArquivo_bt_Click" >
-                                        <StackPanel>
-                                            <Image Source="/iModSCCredenciamento;component/Resources/Olho.png"/>
-                                        </StackPanel>
-                                    </Button>
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="20,5,0,0" >
-                                </StackPanel>
-                            </StackPanel>
-                        </GroupBox>
+            <StackPanel Orientation="Horizontal" Margin="0,10,10,0">
+                <ComboBox  Width="150" ItemsSource="{Binding ListaPesquisa }"
+             DisplayMemberPath="Value"
+             SelectedValue="Key" 
+             SelectedItem="{Binding PesquisarPor}" VerticalContentAlignment="Center"/>
+                <TextBox Width="200" Margin="10,0,0,0" Text="{Binding NomePesquisa, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" >
+                    <TextBox.InputBindings>
+                        <KeyBinding Command="{Binding Path=PesquisarCommand}" Key="Enter" />
+                    </TextBox.InputBindings>
+                </TextBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Height="258" Margin="0,10,10,0">
+                <ListView x:Name="ListaSeguros_lv"
+                          IsEnabled="{Binding IsEnableLstView}"
+                          ItemsSource="{Binding EntityObserver, Mode=TwoWay}"
+                          SelectedItem="{Binding Entity, Mode=TwoWay}" Width="835" Margin="0,0,0,80">
 
-                    </Grid>
+                    <ListView.View>
+                        <GridView FrameworkElement.FlowDirection="RightToLeft">
+                            <GridViewColumn Width="50" Header="ID"  DisplayMemberBinding="{Binding VeiculoSeguroId}"/>
+                            <GridViewColumn Width="200" Header="Seguradora"  DisplayMemberBinding="{Binding NomeSeguradora}"/>
+                            <GridViewColumn Width="200" Header="Número da Apólice"  DisplayMemberBinding="{Binding NumeroApolice}"/>
+                            <GridViewColumn Width="150"  Header="Valor da Cobertura" DisplayMemberBinding="{Binding ValorCobertura}"/>
+                            <GridViewColumn Width="150"  Header="Arquivo" DisplayMemberBinding="{Binding NomeArquivo}"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+                <StackPanel Orientation="Vertical" Margin="10,0,0,0" HorizontalAlignment="Right" Width="155"
+                            Height="183" VerticalAlignment="Top">
+                    <Button x:Name="btnAdicionar" Content="Adicionar" ToolTip="Adicionar"
+                            IsEnabled="{Binding Comportamento.IsEnableCriar}" Command="{Binding PrepareCriarCommand}"
+                            Height="30" Width="148" Margin="0,0,0,7" />
+                    <Button x:Name="btnEditar" Content="Editar" Height="30" ToolTip="Editar"
+                            IsEnabled="{Binding Comportamento.IsEnableEditar}"
+                            Command="{Binding PrepareAlterarCommand}" Width="148" Margin="0,0,0,7" />
+                    <Button x:Name="btnExcluir" Content="Remover" Height="30" Width="148" ToolTip="Remover"
+                            IsEnabled="{Binding Comportamento.isEnableRemover}"
+                            Command="{Binding PrepareRemoverCommand}" Margin="0,0,0,7" />
+                    <Button x:Name="btnCancelar" Content="Cancelar" ToolTip="Cancelar" Height="30" Width="148"
+                            IsEnabled="{Binding Comportamento.isEnableCancelar}"
+                            Command="{Binding PrepareCancelarCommand}" Margin="0,0,0,7" />
+                    <Button x:Name="btnSalvar" Content="Salvar" ToolTip="Salvar" Height="30" Width="148"
+                            IsEnabled="{Binding Comportamento.isEnableSalvar}" Command="{Binding PrepareSalvarCommand}"
+                            Margin="0,0,0,7" />
 
                 </StackPanel>
-                <Grid Grid.Row="1" >
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1000*" />
-                        <ColumnDefinition Width="168"  />
-                    </Grid.ColumnDefinitions>
-                    <StackPanel Margin="0,0,0,0" Grid.Column="0">
-                        <ListView x:Name="ListaSeguros_lv" Margin="0,0,0,0" Height="180"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-                                      ItemsSource="{Binding Seguros, Mode=TwoWay}" SelectedIndex="{Binding Path=SelectedIndex, Mode=TwoWay}" 
-                                      SelectedItem="{Binding Path = SeguroSelecionado, Mode=TwoWay}" SelectionChanged="ListaSeguros_lv_SelectionChanged" >
-                            <!--ScrollViewer.CanContentScroll="True" MaxHeight="150"  Visibility="Visible" SelectionMode="Single"  Background="#FF4E4E4E" Foreground="White" HorizontalAlignment="Left" SelectionChanged="ListaEmpresas_lv_SelectionChanged"-->
-                            <ListView.View>
-                                <GridView FrameworkElement.FlowDirection="RightToLeft">
-                                    <GridViewColumn Width="50" Header="ID"  DisplayMemberBinding="{Binding VeiculoSeguroID}"/>
-                                    <GridViewColumn Width="200" Header="Seguradora"  DisplayMemberBinding="{Binding NomeSeguradora}"/>
-                                    <GridViewColumn Width="200" Header="Número da Apólice"  DisplayMemberBinding="{Binding NumeroApolice}"/>
-                                    <GridViewColumn Width="150"  Header="Valor da Cobertura" DisplayMemberBinding="{Binding ValorCobertura}"/>
-                                    <GridViewColumn Width="200"  Header="Apólice" DisplayMemberBinding="{Binding NomeArquivo}"/>
-                                </GridView>
-                            </ListView.View>
-                        </ListView>
 
-                    </StackPanel>
-                    <Canvas x:Name="Botoes_ca"  Grid.Column="1"  HorizontalAlignment="Right" Width="158"  >
-                        <StackPanel x:Name="Botoes_Principais_sp" >
-                            <Button x:Name="Pesquisar_bt" Content="Pesquisar"  Height="40" Width="148"  Click="Pesquisar_bt_Click" Margin="0,0,0,7" />
-                            <Button x:Name="Editar_bt" Content="Editar"  Height="40" Width="148"  Click="Editar_bt_Click" Margin="0,0,0,7"  />
-                            <Button x:Name="Adicionar_bt" Content="Adicionar"  Height="40" Width="148" Click="Adicionar_bt_Click" Margin="0,0,0,7"  />
-                            <Button x:Name="Excluir_bt" Content="Excluir"  Height="40" Width="148"  Click="Excluir_bt_Click" Margin="0,0,0,7"  />
-                        </StackPanel>
-                        <StackPanel x:Name="Botoes_Pesquisar_sp" Visibility="Hidden" >
-                            <Button x:Name="ExecutarPesquisa_bt" Content="Executar Pequisa"  Height="40" Width="148"  Click="ExecutarPesquisa_bt_Click" Margin="0,0,0,7" Background="Green" />
-                            <Button x:Name="CancelarPesquisa_bt" Content="Cancelar Pesquisa"  Height="40" Width="148"  Click="CancelarPesquisa_bt_Click" Margin="0,0,0,7" Background="Red"  />
-                        </StackPanel>
-                        <StackPanel x:Name="Botoes_Editar_sp" Visibility="Hidden"  >
-                            <Button x:Name="CancelarEdicao_bt" Content="Cancelar Edição"  Height="40" Width="148"  Click="CancelarEdicao_bt_Click" Margin="0,0,0,7" Background="Red"   />
-                            <Button x:Name="SalvarEdicao_bt" Content="Salvar"  Height="40" Width="148"  Click="SalvarEdicao_bt_Click" Margin="0,0,0,7" Background="Green"   />
-                        </StackPanel>
-                        <StackPanel x:Name="Botoes_Adicionar_sp" Visibility="Hidden"  >
-                            <Button x:Name="CancelarAdicao_bt" Content="Cancelar Adição"  Height="40" Width="148" Click="CancelarAdicao_bt_Click" Margin="0,0,0,7" Background="Red"   />
-                            <Button x:Name="SalvarAdicao_bt" Content="Salvar"  Height="40" Width="148"  Click="SalvarAdicao_bt_Click" Margin="0,0,0,7"  Background="Green"   />
-                        </StackPanel>
+            </StackPanel>
 
-                    </Canvas>
-                </Grid>
-            </Grid>
         </StackPanel>
+
+
     </Grid>
 </UserControl>

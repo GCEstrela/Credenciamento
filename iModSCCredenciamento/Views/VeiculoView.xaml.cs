@@ -53,6 +53,8 @@ namespace iModSCCredenciamento.Views
             _viewModel.AtualizarDadosTiposServico();
             //Popular User Controls 
             AnexoUs.AtualizarDados (_viewModel.Entity);
+            EmpresaSeguroUs.AtualizarDados(_viewModel.Entity);
+
         }
 
         private void OnSelecionaMunicipio_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -131,27 +133,27 @@ namespace iModSCCredenciamento.Views
 
         private void OnPendenciaGeralAnexos_Click(object sender, RoutedEventArgs e)
         {
-            AbrirPendencias (24, PendenciaTipo.Colaborador);
+            AbrirPendencias (24, PendenciaTipo.Veiculo);
         }
 
         private void OnPendenciaVinculos_Click(object sender, RoutedEventArgs e)
         {
-            AbrirPendencias (22, PendenciaTipo.Colaborador);
+            AbrirPendencias (22, PendenciaTipo.Veiculo);
         }
 
         private void OnPendenciaSeguros_Click(object sender, RoutedEventArgs e)
         {
-            AbrirPendencias (19, PendenciaTipo.Colaborador);
+            AbrirPendencias (19, PendenciaTipo.Veiculo);
         }
 
         private void OnPendenciaCredencias_Click(object sender, RoutedEventArgs e)
         {
-            AbrirPendencias (25, PendenciaTipo.Colaborador);
+            AbrirPendencias (25, PendenciaTipo.Veiculo);
         }
 
         private void OnPendenciaGeral_Click(object sender, RoutedEventArgs e)
         {
-            AbrirPendencias (21, PendenciaTipo.Colaborador);
+            AbrirPendencias (21, PendenciaTipo.Veiculo);
         }
 
         #endregion

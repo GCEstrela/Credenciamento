@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:iModSCCredenciamento.Views"
              xmlns:i="clr-namespace:iModSCCredenciamento.Funcoes"
              xmlns:viewModel="clr-namespace:iModSCCredenciamento.ViewModels"
-             d:DataContext="{d:DesignInstance viewModel:VeiculoViewModel , IsDesignTimeCreatable=True}"
+             d:DataContext="{d:DesignInstance viewModel:VeiculosSegurosViewModel, IsDesignTimeCreatable=True}"
              xmlns:data="clr-namespace:Singulink.Windows.Data"
              xmlns:z="clr-namespace:iModSCCredenciamento.Regras"
              mc:Ignorable="d"
@@ -517,7 +517,7 @@
             <TabItem x:Name="Contrato_ti" Width="200" IsEnabled="{Binding IsEnableTabItem}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <Button x:Name="Contratos_bt" Click="OnPendenciaSeguros_Click"
+                        <Button x:Name="btnVeiculoSeguro" Click="OnPendenciaSeguros_Click"
                                 Style="{StaticResource MenuStyle}">
                             <StackPanel>
                                 <Image
@@ -532,8 +532,9 @@
                         </StackPanel>
                     </StackPanel>
                 </TabItem.Header>
-
-                <!--<local:UsEmpresaContratoView x:Name="EmpresaContratosUs" Margin="5,5,0,5" HorizontalAlignment="Left" Width="1141"/>-->
+                
+                <local:VeiculosSegurosView x:Name="EmpresaSeguroUs" Margin="5" />
+                
             </TabItem>
 
             <TabItem x:Name="Anexos_ti" Width="200" IsEnabled="{Binding IsEnableTabItem}">
