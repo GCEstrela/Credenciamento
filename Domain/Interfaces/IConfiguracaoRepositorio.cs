@@ -8,8 +8,9 @@ namespace IMOD.Domain.Interfaces
 {
     public interface IConfiguracaoRepositorio
     {
-       
 
         
+
+
     }
 }

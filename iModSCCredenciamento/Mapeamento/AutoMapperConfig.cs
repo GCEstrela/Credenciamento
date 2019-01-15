@@ -31,9 +31,9 @@ namespace iModSCCredenciamento.Mapeamento
         {
             Mapper.Initialize(
                    m =>
-                   { 
-                        m.CreateMap<Colaborador, ColaboradorView>().ForMember(k => k.Cpf, opt => opt.MapFrom(k => k.Cpf.FormatarCpf())).ReverseMap();
-                       m.CreateMap<ColaboradorView, Colaborador>().ReverseMap();
+                   {
+                       m.CreateMap<Colaborador, ColaboradorView>().ForMember(k => k.Cpf, opt => opt.MapFrom(k => k.Cpf.FormatarCpf())).ReverseMap();
+                       //m.CreateMap<ColaboradorView, Colaborador>().ReverseMap();
                        m.CreateMap<ColaboradorCurso, ColaboradorCursoView>().ReverseMap();
                        m.CreateMap<ColaboradorCursoView, ColaboradorCurso>().ReverseMap();
                        m.CreateMap<ClasseColaboradoresCredenciais, ClasseColaboradoresCredenciais.ColaboradorCredencial>().ReverseMap();
@@ -44,11 +44,10 @@ namespace iModSCCredenciamento.Mapeamento
                        m.CreateMap<VeiculosCredenciaisView, ClasseVeiculosCredenciais.VeiculoCredencial>().ReverseMap();
                        m.CreateMap<VeiculoEmpresa, ClasseVeiculosEmpresas.VeiculoEmpresa>().ReverseMap();
                        m.CreateMap<VeiculoEmpresaView, ClasseVeiculosEmpresas.VeiculoEmpresa>().ReverseMap();
-                      
+
                        m.CreateMap<Empresa, EmpresaView>().ForMember(k => k.Cnpj, opt => opt.MapFrom(k => k.Cnpj.FormatarCnpj())).ReverseMap();
                        m.CreateMap<EmpresaSignatario, EmpresaSignatarioView>().ForMember(k => k.Cpf, opt => opt.MapFrom(k => k.Cpf.FormatarCpf())).ReverseMap();
                        m.CreateMap<EmpresaContratoView, EmpresaContrato>().ReverseMap();
-                       //m.CreateMap<EmpresaLayoutCrachaView, ClasseEmpresasLayoutsCrachas.EmpresaLayoutCracha>().ReverseMap();
                        m.CreateMap<IMOD.Domain.EntitiesCustom.EmpresaTipoCredencialView, iModSCCredenciamento.Views.Model.EmpresaTipoCredencialView>().ReverseMap();
 
                        m.CreateMap<LayoutCracha, EmpresaLayoutCrachaView>().ReverseMap();

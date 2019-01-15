@@ -10,6 +10,8 @@ using System.Globalization;
 using System.Reflection;
 using IMOD.Application.Interfaces;
 using IMOD.Domain.Interfaces;
+using IMOD.Infra.Ado;
+using IMOD.Infra.Interfaces;
 using IMOD.Infra.Repositorios;
 
 #endregion
@@ -19,10 +21,12 @@ namespace IMOD.Application.Service
     public class ConfiguracaoService : IConfiguracaoService
     {
         private readonly IConfiguracaoRepositorio _repositorio;
+        private readonly IInfoDataBase _infoData;
 
         public ConfiguracaoService()
         {
             _repositorio = new ConfiguracaoRepositorio();
+            _infoData = new ConfiguracaoRepositorio();
         }
 
         #region  Metodos
@@ -35,5 +39,10 @@ namespace IMOD.Application.Service
         }
 
         #endregion
+
+        /// <summary>
+        /// Obter informações do banco de dados
+        /// </summary>
+        public  DataBaseInfo ObterInformacaoBancoDeDados { get { return _infoData.ObterInformacaoBancoDeDados; } }
     }
 }

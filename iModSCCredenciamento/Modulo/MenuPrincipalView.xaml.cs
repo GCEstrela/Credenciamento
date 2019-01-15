@@ -35,7 +35,7 @@ namespace iModSCCredenciamento.Modulo
         public MenuPrincipalView()
         {
             InitializeComponent(); 
-            txtVersao.Text = VersaoSoftware; 
+            txtVersao.Text = VersaoSoftware;
         }
         /// <summary>
         ///     Versao do Sistema
@@ -46,6 +46,16 @@ namespace iModSCCredenciamento.Modulo
             get
             {
                 return ConfiguracaoService.ObterVersaoSoftware(Assembly.GetExecutingAssembly());
+            }
+        }
+
+        private static string ObterNomeDataBase
+        {
+            get
+            {
+                var config = new ConfiguracaoService();
+                var nomeDataBase = config.ObterInformacaoBancoDeDados.BaseDados;
+                return nomeDataBase;
             }
         }
         #region  Metodos

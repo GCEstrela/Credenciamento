@@ -26,7 +26,9 @@ namespace iModSCCredenciamento.ViewModels
     public class ColaboradoresCursosViewModel : ViewModelBase
     {
         //private readonly IColaboradorCursoService _empresaContratoService = new ColaboradorCursosService();
-        //private readonly IEmpresaService _empresaService = new EmpresaService();
+
+        private readonly ICursoService _cursoService = new CursoService();
+
         private readonly IColaboradorCursoService _service = new ColaboradorCursosService();
         //private readonly IColaboradorService _serviceCurso = new ColaboradorService();
         private ColaboradorView _colaboradorView;
@@ -38,9 +40,10 @@ namespace iModSCCredenciamento.ViewModels
         #region  Propriedades
 
         public List<Curso> Cursos { get; private set; }
-        ColaboradorCursoView EntityTemp = new ColaboradorCursoView();
         public ColaboradorCursoView Entity { get; set; }
         public ObservableCollection<ColaboradorCursoView> EntityObserver { get; set; }
+
+        ColaboradorCursoView EntidadeTMP = new ColaboradorCursoView();
 
         /// <summary>
         ///     Habilita listView
@@ -59,7 +62,7 @@ namespace iModSCCredenciamento.ViewModels
             Comportamento.Remover += OnRemover;
             Comportamento.Cancelar += OnCancelar;
 
-          
+
         }
 
 
@@ -86,7 +89,7 @@ namespace iModSCCredenciamento.ViewModels
 
             if (empresa == null) return;
 
-           // var lstContratos = _empresaContratoService.Listar(empresa.EmpresaId);
+            // var lstContratos = _empresaContratoService.Listar(empresa.EmpresaId);
             //Contratos.AddRange(lstContratos);
 
 
@@ -130,10 +133,8 @@ namespace iModSCCredenciamento.ViewModels
         /// </summary>
         private void PrepareCriar()
         {
-            EntityTemp = Entity;
+            EntidadeTMP = Entity;
             Entity = new ColaboradorCursoView();
-            //Entity.Matricula = string.Format("{0:#,##0}", Global.GerarID()) + "-" + String.Format("{0:yy}", DateTime.Now);
-
             Comportamento.PrepareCriar();
             IsEnableLstView = false;
         }
@@ -148,9 +149,9 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
                 if (Entity == null) return;
-                var n1 = Mapper.Map<ColaboradorEmpresa>(Entity);
-                //_service.Alterar(n1);
-                //IsEnableLstView = true;
+                var n1 = Mapper.Map<ColaboradorCurso>(Entity);
+                _service.Alterar(n1);
+                IsEnableLstView = true;
             }
             catch (Exception ex)
             {
@@ -168,7 +169,8 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-               // IsEnableLstView = true;
+                IsEnableLstView = true;
+                Entity = EntidadeTMP;
             }
             catch (Exception ex)
             {
@@ -207,8 +209,8 @@ namespace iModSCCredenciamento.ViewModels
         /// </summary>
         private void PrepareAlterar()
         {
-            //Comportamento.PrepareAlterar();
-            //IsEnableLstView = false;
+            Comportamento.PrepareAlterar();
+            IsEnableLstView = false;
         }
 
         public void AtualizarDados(ColaboradorView entity)
@@ -219,7 +221,11 @@ namespace iModSCCredenciamento.ViewModels
             var list1 = _service.Listar(entity.ColaboradorId);
             var list2 = Mapper.Map<List<ColaboradorCursoView>>(list1);
             EntityObserver = new ObservableCollection<ColaboradorCursoView>();
-            list2.ForEach(n => { EntityObserver.Add(n); });
+            list2.ForEach(n =>
+            {
+                EntityObserver.Add(n);
+                n.CursoNome = _cursoService.BuscarPelaChave(n.CursoId).Descricao;
+            });
         }
 
         #endregion

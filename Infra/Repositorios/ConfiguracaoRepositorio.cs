@@ -6,16 +6,32 @@
 
 #region
 
-using System.Globalization;
-using System.Reflection;
 using IMOD.Domain.Interfaces;
+using IMOD.Infra.Ado;
+using IMOD.Infra.Ado.Interfaces;
+using IMOD.Infra.Interfaces;
 
 #endregion
 
 namespace IMOD.Infra.Repositorios
 {
-    public class ConfiguracaoRepositorio : IConfiguracaoRepositorio
+    public class ConfiguracaoRepositorio : IConfiguracaoRepositorio,IInfoDataBase
     {
-        
+        private readonly string _connection = CurrentConfig.ConexaoString;
+        private readonly IDataBaseAdo _dataBase;
+        private readonly IDataWorkerFactory _dataWorkerFactory = new DataWorkerFactory();
+
+        public ConfiguracaoRepositorio()
+        {
+            _dataBase = _dataWorkerFactory.ObterDataBaseSingleton (TipoDataBase.SqlServer, _connection);
+        }
+
+        /// <summary>
+        /// Obter informações do banco de dados
+        /// </summary>
+        public DataBaseInfo ObterInformacaoBancoDeDados
+        {
+            get { return _dataBase.Info (_connection); }
+        }
     }
 }

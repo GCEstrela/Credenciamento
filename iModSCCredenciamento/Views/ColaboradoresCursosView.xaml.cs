@@ -4,7 +4,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using iModSCCredenciamento.Funcoes;
+using iModSCCredenciamento.Helpers;
 using iModSCCredenciamento.ViewModels;
+using IMOD.CrossCutting;
 
 namespace iModSCCredenciamento.Views
 {
@@ -43,9 +45,35 @@ namespace iModSCCredenciamento.Views
             _viewModel.AtualizarDados(entity);
         }
 
+        private void OnUpLoad_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var filtro = "Imagem files (*.pdf)|*.pdf|All Files (*.*)|*.*";
+                var arq = WpfHelp.UpLoadArquivoDialog(filtro, 700);
+                if (arq == null) return;
+                _viewModel.Entity.Arquivo = arq.FormatoBase64;
+                _viewModel.Entity.NomeArquivo = arq.Nome;
+                NomeArquivo_tb.Text = arq.Nome;
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.Mbox(ex.Message);
+                Utils.TraceException(ex);
+            }
+        }
 
-
-
-
+        private void OnAbrirArquivo_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var arrayByes = Convert.FromBase64String(_viewModel.Entity.Arquivo);
+                WpfHelp.AbrirArquivoPdf(_viewModel.Entity.Arquivo, arrayByes);
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+            }
+        }
     }
 }

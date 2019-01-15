@@ -19,6 +19,7 @@
         <StackPanel Orientation="Vertical">
 
             <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}"
+                      IsEnabled="{Binding Comportamento.isEnableCancelar}"
                       Background="Crimson"
                       x:Name="Responsavel_gb" Header="Vinculos" Margin="0,0,10,0">
                 <StackPanel Orientation="Horizontal">
@@ -26,6 +27,7 @@
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                     Margin="1,1,0,1" Width="947">
                             <Label Content="Razão Social da Empresa:" Height="24" Foreground="#FFD0D0D0" Width="150"    />
+
                             <ComboBox  x:Name="cmbEmpresa" Width="300" Height="25" 
                                    VerticalContentAlignment="Center" 
                                    HorizontalContentAlignment="Left"
@@ -36,6 +38,7 @@
                                    SelectedValue="{Binding Entity.EmpresaId , UpdateSourceTrigger=PropertyChanged}" 
                                    SelectedValuePath="EmpresaId"/>
                             <Label Content="Matrícula:" Height="28" Width="140" Foreground="#FFD0D0D0" />
+
                             <TextBox  x:Name="Matricula_tb" MaxLength="15" CharacterCasing="Upper"
                                   VerticalContentAlignment="Center" 
                                   Text="{Binding Entity.Matricula, 
@@ -99,7 +102,7 @@
                    
                     <ListView.View>
                         <GridView FrameworkElement.FlowDirection="RightToLeft">
-                            <GridViewColumn Width="35" Header="Ativo">
+                            <GridViewColumn Width="40" Header="Ativo">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <CheckBox IsChecked="{Binding Ativo}" IsHitTestVisible="False" />
@@ -107,9 +110,9 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                             <GridViewColumn Width="100" Header="Matrícula" DisplayMemberBinding="{Binding Matricula}" />
-                            <GridViewColumn Width="100" Header="Empresa" DisplayMemberBinding="{Binding EmpresaNome}" />
-                            <GridViewColumn Width="100" Header="Contrato" DisplayMemberBinding="{Binding Descricao}" />
-                            <GridViewColumn Width="100" Header="Cargo" DisplayMemberBinding="{Binding Cargo}" />
+                            <GridViewColumn Width="300" Header="Empresa" DisplayMemberBinding="{Binding EmpresaNome}" />
+                            <GridViewColumn Width="200" Header="Contrato" DisplayMemberBinding="{Binding Descricao}" />
+                            <GridViewColumn Width="150" Header="Cargo" DisplayMemberBinding="{Binding Cargo}" />
                         </GridView>
                     </ListView.View>
                 </ListView>

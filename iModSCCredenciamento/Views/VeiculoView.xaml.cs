@@ -6,18 +6,18 @@
 
 #region
 
+using IMOD.CrossCutting;
+using iModSCCredenciamento.Enums;
+using iModSCCredenciamento.Helpers;
+using iModSCCredenciamento.ViewModels;
+using iModSCCredenciamento.Views.Model;
+using iModSCCredenciamento.Windows;
 using System;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
-using iModSCCredenciamento.Enums;
-using iModSCCredenciamento.Helpers;
-using iModSCCredenciamento.ViewModels;
-using iModSCCredenciamento.Views.Model;
-using iModSCCredenciamento.Windows;
-using IMOD.CrossCutting;
 
 #endregion
 
@@ -41,8 +41,8 @@ namespace iModSCCredenciamento.Views
 
         private void NumberOnly(object sender, TextCompositionEventArgs e)
         {
-            var regex = new Regex ("[^0-9]+");
-            e.Handled = regex.IsMatch (e.Text);
+            var regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
         }
 
         private void OnListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -59,8 +59,12 @@ namespace iModSCCredenciamento.Views
 
         private void OnSelecionaMunicipio_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (_viewModel.Estado == null) return;
-            _viewModel.ListarMunicipios (_viewModel.Estado.Uf);
+            if (_viewModel.Estado == null)
+            {
+                return;
+            }
+
+            _viewModel.ListarMunicipios(_viewModel.Estado.Uf);
         }
 
         private void Frm_Loaded(object sender, RoutedEventArgs e)
@@ -76,9 +80,13 @@ namespace iModSCCredenciamento.Views
         /// <param name="e"></param>
         private void OnRemoverTipoServico_Click(object sender, RoutedEventArgs e)
         {
-            if (_viewModel.TipoServico == null) return;
-            var idx = lstBoxTipoAtividade.Items.IndexOf (lstBoxTipoAtividade.SelectedItem);
-            _viewModel.TiposEquipamentoServico.RemoveAt (idx);
+            if (_viewModel.TipoServico == null)
+            {
+                return;
+            }
+
+            var idx = lstBoxTipoAtividade.Items.IndexOf(lstBoxTipoAtividade.SelectedItem);
+            _viewModel.TiposEquipamentoServico.RemoveAt(idx);
         }
 
         /// <summary>
@@ -88,29 +96,37 @@ namespace iModSCCredenciamento.Views
         /// <param name="e"></param>
         private void OnAdicionarTipoServico_Click(object sender, RoutedEventArgs e)
         {
-            if (_viewModel.TipoServico == null) return;
+            if (_viewModel.TipoServico == null)
+            {
+                return;
+            }
+
             var n1 = new EquipamentoVeiculoTipoServicoView
             {
                 EquipamentoVeiculoId = _viewModel.Entity.EquipamentoVeiculoId,
                 TipoServicoId = _viewModel.TipoServico.TipoServicoId,
                 Descricao = _viewModel.TipoServico.Descricao
             };
-            _viewModel.TiposEquipamentoServico.Add (n1);
+            _viewModel.TiposEquipamentoServico.Add(n1);
         }
 
         private void AbrirPendencias(int codigo, PendenciaTipo tipoPendecia)
         {
             try
             {
-                if (_viewModel.Entity == null) return;
+                if (_viewModel.Entity == null)
+                {
+                    return;
+                }
+
                 var frm = new PopupPendencias();
-                frm.Inicializa (codigo, _viewModel.Entity.EquipamentoVeiculoId, tipoPendecia);
+                frm.Inicializa(codigo, _viewModel.Entity.EquipamentoVeiculoId, tipoPendecia);
                 frm.ShowDialog();
                 _viewModel.AtualizarDadosPendencias();
             }
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
+                Utils.TraceException(ex);
             }
         }
 
@@ -119,43 +135,72 @@ namespace iModSCCredenciamento.Views
             try
             {
                 var filtro = "Images (*.BMP;*.JPG;*.GIF,*.PNG,*.TIFF)|*.BMP;*.JPG;*.GIF;*.PNG;*.TIFF|" + "All files (*.*)|*.*";
-                var arq = WpfHelp.UpLoadArquivoDialog (filtro);
-                if (arq == null) return;
+                var arq = WpfHelp.UpLoadArquivoDialog(filtro);
+                if (arq == null)
+                {
+                    return;
+                }
+
                 _viewModel.Entity.Foto = arq.FormatoBase64;
-                var binding = BindingOperations.GetBindingExpression (Logo_im, Image.SourceProperty);
+                var binding = BindingOperations.GetBindingExpression(Logo_im, Image.SourceProperty);
                 binding?.UpdateTarget();
             }
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
+                Utils.TraceException(ex);
             }
         }
 
         private void OnPendenciaGeralAnexos_Click(object sender, RoutedEventArgs e)
         {
-            AbrirPendencias (24, PendenciaTipo.Veiculo);
+            AbrirPendencias (24, PendenciaTipo.Colaborador);
         }
 
         private void OnPendenciaVinculos_Click(object sender, RoutedEventArgs e)
         {
-            AbrirPendencias (22, PendenciaTipo.Veiculo);
+            AbrirPendencias (22, PendenciaTipo.Colaborador);
         }
 
         private void OnPendenciaSeguros_Click(object sender, RoutedEventArgs e)
         {
-            AbrirPendencias (19, PendenciaTipo.Veiculo);
+            AbrirPendencias (19, PendenciaTipo.Colaborador);
         }
 
         private void OnPendenciaCredencias_Click(object sender, RoutedEventArgs e)
         {
-            AbrirPendencias (25, PendenciaTipo.Veiculo);
+            AbrirPendencias (25, PendenciaTipo.Colaborador);
         }
 
         private void OnPendenciaGeral_Click(object sender, RoutedEventArgs e)
         {
-            AbrirPendencias (21, PendenciaTipo.Veiculo);
+            AbrirPendencias (21, PendenciaTipo.Colaborador);
         }
 
         #endregion
+
+        private void Geral_ti_GotFocus(object sender, RoutedEventArgs e)
+        {
+            BotoesGeral_sp.IsEnabled = true;
+        }
+
+        private void EmpresasVinculos_ti_GotFocus(object sender, RoutedEventArgs e)
+        {
+            BotoesGeral_sp.IsEnabled = false;
+        }
+
+        private void Seguros_ti_GotFocus(object sender, RoutedEventArgs e)
+        {
+            BotoesGeral_sp.IsEnabled = false;
+        }
+
+        private void Anexos_ti_GotFocus(object sender, RoutedEventArgs e)
+        {
+            BotoesGeral_sp.IsEnabled = false;
+        }
+
+        private void Credenciais_ti_GotFocus(object sender, RoutedEventArgs e)
+        {
+            BotoesGeral_sp.IsEnabled = false;
+        }
     }
 }

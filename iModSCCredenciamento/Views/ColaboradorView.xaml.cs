@@ -59,6 +59,7 @@ namespace iModSCCredenciamento.Views
             ColaboradorCurso.AtualizarDados(_viewModel.Entity);
             CredenciaisUs.AtualizarDados(_viewModel.Entity);
             AnexoUs.AtualizarDados(_viewModel.Entity);
+            
             //EmpresaContratosUs.AtualizarDados(_viewModel.Entity);
 
 
@@ -213,7 +214,7 @@ namespace iModSCCredenciamento.Views
         {
         }
 
-       
+
 
         #endregion
 
@@ -225,52 +226,52 @@ namespace iModSCCredenciamento.Views
             {
                 if (_viewModel.Entity == null) return;
                 var frm = new PopupPendencias();
-                frm.Inicializa (codigo, _viewModel.Entity.ColaboradorId, tipoPendecia);
+                frm.Inicializa(codigo, _viewModel.Entity.ColaboradorId, tipoPendecia);
                 frm.ShowDialog();
                 _viewModel.AtualizarDadosPendencias();
             }
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
+                Utils.TraceException(ex);
             }
         }
 
         private void OnPendenciaGeral_Click(object sender, RoutedEventArgs e)
         {
-            AbrirPendencias (21, PendenciaTipo.Colaborador);
+            AbrirPendencias(21, PendenciaTipo.Colaborador);
         }
 
         private void OnPendenciaEmpresaVinculo_Click(object sender, RoutedEventArgs e)
         {
-            AbrirPendencias (22, PendenciaTipo.Colaborador);
+            AbrirPendencias(22, PendenciaTipo.Colaborador);
         }
 
         private void OnPendenciaTreinamentoCertificacao_Click(object sender, RoutedEventArgs e)
         {
-            AbrirPendencias (23, PendenciaTipo.Colaborador);
+            AbrirPendencias(23, PendenciaTipo.Colaborador);
         }
 
         private void OnPendenciaAnexos_Click(object sender, RoutedEventArgs e)
         {
-            AbrirPendencias (24, PendenciaTipo.Colaborador);
+            AbrirPendencias(24, PendenciaTipo.Colaborador);
         }
 
         private void OnPendenciaCredencial_Click(object sender, RoutedEventArgs e)
         {
-            AbrirPendencias (25, PendenciaTipo.Colaborador);
+            AbrirPendencias(25, PendenciaTipo.Colaborador);
         }
 
         private void NumberOnly(object sender, TextCompositionEventArgs e)
         {
-            var regex = new Regex ("[^0-9]+");
-            e.Handled = regex.IsMatch (e.Text);
+            var regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
         }
         private void OnValidaCpf_LostFocus(object sender, RoutedEventArgs e)
         {
             try
             {
                 _viewModel.ValidarCpf();
-                if (_viewModel.Entity== null) return;
+                if (_viewModel.Entity == null) return;
                 txtCpf.Text = _viewModel.Entity.Cpf.FormatarCpf();
             }
             catch (Exception ex)
@@ -311,7 +312,7 @@ namespace iModSCCredenciamento.Views
             //}
         }
 
-      
+
 
         #endregion
 
@@ -634,6 +635,7 @@ namespace iModSCCredenciamento.Views
             //#endregion
         }
 
+
         //private void Button_Click(object sender, RoutedEventArgs e)
         //{
         //    //((ColaboradorViewModel)DataContext).OnAbrirPendencias(sender, e);
@@ -666,6 +668,34 @@ namespace iModSCCredenciamento.Views
 
         #endregion
 
-        
+        private void Geral_ti_GotFocus(object sender, RoutedEventArgs e)
+        {
+            BotoesGeral_sp.IsEnabled = true;
+        }
+
+        private void EmpresasVinculos_ti_GotFocus(object sender, RoutedEventArgs e)
+        {
+            BotoesGeral_sp.IsEnabled = false;
+        }
+
+        private void Cursos_ti_GotFocus(object sender, RoutedEventArgs e)
+        {
+            BotoesGeral_sp.IsEnabled = false;
+        }
+
+        private void Anexos_ti_GotFocus(object sender, RoutedEventArgs e)
+        {
+            BotoesGeral_sp.IsEnabled = false;
+        }
+
+        private void Credenciais_ti_GotFocus(object sender, RoutedEventArgs e)
+        {
+            BotoesGeral_sp.IsEnabled = false;
+        }
+
+        private void CNHEmissor_cb_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }

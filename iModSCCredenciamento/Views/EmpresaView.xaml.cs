@@ -46,7 +46,7 @@ namespace iModSCCredenciamento.Views
         private void OnSelecionaMunicipio_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (_viewModel.Estado == null) return;
-            _viewModel.ListarMunicipios (_viewModel.Estado.Uf);
+            _viewModel.ListarMunicipios(_viewModel.Estado.Uf);
         }
 
         private void OnListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -70,9 +70,10 @@ namespace iModSCCredenciamento.Views
         /// <param name="e"></param>
         private void OnRemoverTipoAtividade_Click(object sender, RoutedEventArgs e)
         {
-            if (_viewModel.TipoAtividade == null) return;
-            var idx = lstBoxTipoAtividade.Items.IndexOf (lstBoxTipoAtividade.SelectedItem);
-            _viewModel.TiposAtividades.RemoveAt (idx);
+            //if (_viewModel.TipoAtividade == null) return;
+            var idx = lstBoxTipoAtividade.Items.IndexOf(lstBoxTipoAtividade.SelectedItem);
+            _viewModel.TiposAtividades.RemoveAt(idx);
+            TipoAtividade_cb.Text = "";
         }
 
         /// <summary>
@@ -88,7 +89,10 @@ namespace iModSCCredenciamento.Views
                 TipoAtividadeId = _viewModel.TipoAtividade.TipoAtividadeId,
                 Descricao = _viewModel.TipoAtividade.Descricao
             };
-            _viewModel.TiposAtividades.Add (n1);
+            _viewModel.TiposAtividades.Add(n1);
+            TipoAtividade_cb.Text = "";
+            lstBoxTipoAtividade.SelectedIndex = lstBoxTipoAtividade.Items.Count - 1;
+            lstBoxTipoAtividade.ScrollIntoView(lstBoxTipoAtividade.SelectedItem);
         }
 
         /// <summary>
@@ -104,7 +108,10 @@ namespace iModSCCredenciamento.Views
                 LayoutCrachaId = _viewModel.TipoCracha.LayoutCrachaId,
                 Nome = _viewModel.TipoCracha.Nome
             };
-            _viewModel.TiposLayoutCracha.Add (n1);
+            _viewModel.TiposLayoutCracha.Add(n1);
+            TipoCracha_cb.Text = "";
+            lstBoxLayoutCracha.SelectedIndex = lstBoxLayoutCracha.Items.Count - 1;
+            lstBoxLayoutCracha.ScrollIntoView(lstBoxLayoutCracha.SelectedItem);
         }
 
         /// <summary>
@@ -114,9 +121,10 @@ namespace iModSCCredenciamento.Views
         /// <param name="e"></param>
         private void OnRemoverTipoCracha_Click(object sender, RoutedEventArgs e)
         {
-            if (_viewModel.TipoCracha == null) return;
-            var idx = lstBoxLayoutCracha.Items.IndexOf (lstBoxLayoutCracha.SelectedItem);
-            _viewModel.TiposLayoutCracha.RemoveAt (idx);
+            //if (_viewModel.TipoCracha == null) return;
+            var idx = lstBoxLayoutCracha.Items.IndexOf(lstBoxLayoutCracha.SelectedItem);
+            _viewModel.TiposLayoutCracha.RemoveAt(idx);
+            TipoCracha_cb.Text = "";
         }
 
         #endregion
@@ -129,40 +137,40 @@ namespace iModSCCredenciamento.Views
             {
                 if (_viewModel.Entity == null) return;
                 var frm = new PopupPendencias();
-                frm.Inicializa (codigo, _viewModel.Entity.EmpresaId, tipoPendecia);
+                frm.Inicializa(codigo, _viewModel.Entity.EmpresaId, tipoPendecia);
                 frm.ShowDialog();
                 _viewModel.AtualizarDadosPendencias();
             }
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
+                Utils.TraceException(ex);
             }
         }
 
         private void OnPendenciaGeral_Click(object sender, RoutedEventArgs e)
         {
-            AbrirPendencias (21, PendenciaTipo.Empresa);
+            AbrirPendencias(21, PendenciaTipo.Empresa);
         }
 
         private void OnPendenciaRepresentantes_Click(object sender, RoutedEventArgs e)
         {
-            AbrirPendencias (12, PendenciaTipo.Empresa);
+            AbrirPendencias(12, PendenciaTipo.Empresa);
         }
 
         private void OnPendenciaGeralContratos_Click(object sender, RoutedEventArgs e)
         {
-            AbrirPendencias (14, PendenciaTipo.Empresa);
+            AbrirPendencias(14, PendenciaTipo.Empresa);
         }
 
         private void OnPendenciaGeralAnexos_Click(object sender, RoutedEventArgs e)
         {
-            AbrirPendencias (24, PendenciaTipo.Empresa);
+            AbrirPendencias(24, PendenciaTipo.Empresa);
         }
 
         private void NumberOnly(object sender, TextCompositionEventArgs e)
         {
-            var regex = new Regex ("[^0-9]+");
-            e.Handled = regex.IsMatch (e.Text);
+            var regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
         }
 
         private void OnValidaCnpj_LostFocus(object sender, RoutedEventArgs e)
@@ -175,8 +183,8 @@ namespace iModSCCredenciamento.Views
             }
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
-                WpfHelp.PopupBox ($"Não foi realizar a operação solicitada\n{ex.Message}", 3);
+                Utils.TraceException(ex);
+                WpfHelp.PopupBox($"Não foi realizar a operação solicitada\n{ex.Message}", 3);
             }
         }
 
@@ -194,16 +202,37 @@ namespace iModSCCredenciamento.Views
             }
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
+                Utils.TraceException(ex);
             }
         }
 
 
+
         #endregion
+
+        private void Contrato_ti_GotFocus(object sender, RoutedEventArgs e)
+        {
+            BotoesGeral_sp.IsEnabled = false;
+        }
 
         private void TabGeral_tc_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
+        }
+
+        private void Anexos_ti_GotFocus(object sender, RoutedEventArgs e)
+        {
+            BotoesGeral_sp.IsEnabled = false;
+        }
+
+        private void Geral_ti_GotFocus(object sender, RoutedEventArgs e)
+        {
+            BotoesGeral_sp.IsEnabled = true;
+        }
+
+        private void Signatarios_ti_GotFocus(object sender, RoutedEventArgs e)
+        {
+            BotoesGeral_sp.IsEnabled = false;
         }
     }
 }

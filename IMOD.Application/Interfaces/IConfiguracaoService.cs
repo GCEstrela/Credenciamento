@@ -7,6 +7,7 @@
 #region
 
 using IMOD.Domain.Interfaces;
+using IMOD.Infra.Ado;
 
 #endregion
 
@@ -14,5 +15,6 @@ namespace IMOD.Application.Interfaces
 {
     public interface IConfiguracaoService : IConfiguracaoRepositorio
     {
+
     }
 }

@@ -82,8 +82,8 @@ namespace iModSCCredenciamento.Views
         {
             try
             {
-                var arquivoStr = _viewModel.Entity.Arquivo;
-                Global.PopupPDF(arquivoStr);
+                var arrayByes = Convert.FromBase64String(_viewModel.Entity.Arquivo);
+                WpfHelp.AbrirArquivoPdf(_viewModel.Entity.Arquivo, arrayByes);
             }
             catch (Exception ex)
             {
