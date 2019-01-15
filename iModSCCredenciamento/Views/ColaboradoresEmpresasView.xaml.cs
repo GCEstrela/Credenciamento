@@ -38,7 +38,7 @@ namespace iModSCCredenciamento.Views
         private void OnSelecionaContrato_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (_viewModel.Empresa == null) return;
-            _viewModel.ListarContratos (_viewModel.Empresa);
+            _viewModel.ListarContratos(_viewModel.Empresa);
         }
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace iModSCCredenciamento.Views
         public void AtualizarDados(Model.ColaboradorView entity)
         {
             if (entity == null) return;
-            _viewModel.AtualizarDados (entity);
+            _viewModel.AtualizarDados(entity);
         }
 
         #endregion

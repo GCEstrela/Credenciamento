@@ -9,31 +9,31 @@
              xmlns:wpf="clr-namespace:CSharpControls.Wpf;assembly=CSharpControls.Wpf"
              xmlns:viewModels="clr-namespace:iModSCCredenciamento.ViewModels"
              mc:Ignorable="d"
-             d:DesignHeight="450" d:DesignWidth="1000">
+             Height="420" >
     <UserControl.Resources>
         <i:FormateTel x:Key="FormateTel" />
         <i:StringToImageConverter x:Key="StringToImageConverter" />
         <i:CheckTeste x:Key="CheckTeste" />
     </UserControl.Resources>
-    <Grid Height="450" VerticalAlignment="Top">
-        <StackPanel Orientation="Vertical">
+    <Grid Height="364" VerticalAlignment="Top">
+        <StackPanel Orientation="Vertical" VerticalAlignment="Top">
 
             <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}"
-                      Background="Crimson"
+                      Background="Purple"
                       x:Name="Responsavel_gb" Header="Credenciamento" Margin="0,0,10,0">
                 <StackPanel Orientation="Horizontal">
                     <StackPanel Margin="1" Width="958">
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
-                                    Margin="1,1,0,1" Width="947">
-                            <Label Content="Vinculo:" Height="28" Width="56" Margin="1" Foreground="#FFD0D0D0" />
+                                    Margin="1,1,-20,1" Width="977">
+                            <Label Content="Vínculo:" Height="28" Width="55" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
                             <ComboBox Margin="0,4,0,3" Height="25"
                                       ItemsSource="{Binding ColaboradoresEmpresas}" DisplayMemberPath="Descricao"
                                       SelectedValue="{Binding Entity.ColaboradorEmpresaId,  UpdateSourceTrigger=PropertyChanged}"
                                       SelectedValuePath="ColaboradorEmpresaId" IsSynchronizedWithCurrentItem="True"
                                       SelectedIndex="0"
                                       SelectedItem="{Binding ColaboradoresEmpresas}"
-                                      Width="389" />
-                            <Label Content="Status:" Height="28" Width="50" HorizontalContentAlignment="Right"
+                                      Width="413" />
+                            <Label Content="Status:" Height="28" Width="49" HorizontalContentAlignment="Right"
                                    Foreground="#FFD0D0D0" />
                             <ComboBox Margin="0,4,0,3" Height="25"
                                       ItemsSource="{Binding CredencialStatus}" DisplayMemberPath="Descricao"
@@ -41,24 +41,34 @@
                                       SelectedValuePath="CredencialStatusId" IsSynchronizedWithCurrentItem="True"
                                       SelectedIndex="0"
                                       SelectedItem="{Binding CredencialStatus}"
-                                      Width="134" />
-                            <Label Content="Motivo:" Height="28" Width="50" HorizontalContentAlignment="Right"
+                                      Width="130" RenderTransformOrigin="0.5,0.5" >
+                                <ComboBox.RenderTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform/>
+                                        <SkewTransform AngleY="0.211"/>
+                                        <RotateTransform/>
+                                        <TranslateTransform Y="0.246"/>
+                                    </TransformGroup>
+                                </ComboBox.RenderTransform>
+                            </ComboBox>
+                            <Label Content="Motivo:" Height="28" Width="55" HorizontalContentAlignment="Right"
                                    Foreground="#FFD0D0D0" />
                             <ComboBox Margin="0,4,0,3" Height="25"
                                       ItemsSource="{Binding CredencialMotivo}" DisplayMemberPath="Descricao"
-                                      SelectedValue="{Binding Entity.CredencialMotivoId,  UpdateSourceTrigger=PropertyChanged}"
+                                      SelectedValue="{Binding Entity.CredencialMotivoId, UpdateSourceTrigger=PropertyChanged}"
                                       SelectedValuePath="EstadoId" IsSynchronizedWithCurrentItem="True"
                                       SelectedIndex="0"
                                       SelectedItem="{Binding CredencialMotivo}"
-                                      Width="261" />
+                                      Width="252" />
                         </StackPanel>
+
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
-                                    Margin="1">
-                            <Label Content="Código:" Height="28" Width="56" Margin="1" Foreground="#FFD0D0D0" />
+                                    Margin="1,1,-20,1" Width="977">
+                            <Label Content="Código:" Height="28" Width="55" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
                             <TextBox MaxLength="50" CharacterCasing="Lower"
                                      Text="{Binding Entity.ColaboradorCredencialId, UpdateSourceTrigger=PropertyChanged}"
                                      IsEnabled="False" Height="24" Width="44" />
-                            <Label Content="Tipo:" Height="28" Width="41" Margin="1" Foreground="#FFD0D0D0" />
+                            <Label Content="Tipo:" Height="28" Width="36" Foreground="#FFD0D0D0" />
                             <ComboBox Margin="0,4,0,3" Height="25"
                                       ItemsSource="{Binding TipoCredencial}" DisplayMemberPath="Descricao"
                                       SelectedValue="{Binding Entity.TipoCredencialId,  UpdateSourceTrigger=PropertyChanged}"
@@ -66,18 +76,18 @@
                                       SelectedIndex="0"
                                       SelectedItem="{Binding TecnologiasCredenciais}"
                                       Width="134" />
-                            <Label Content="Modelo:" Height="28" Width="56" Margin="1" Foreground="#FFD0D0D0" />
+                            <Label Content="Modelo:" Height="28" Width="53" Margin="1" Foreground="#FFD0D0D0" />
                             <ComboBox Margin="0,4,0,3" Height="25"
                                       ItemsSource="{Binding EmpresaLayoutCracha}" DisplayMemberPath="Nome"
                                       SelectedValue="{Binding Entity.LayoutCrachaId,  UpdateSourceTrigger=PropertyChanged}"
                                       SelectedValuePath="LayoutCrachaId" IsSynchronizedWithCurrentItem="True"
                                       SelectedIndex="0"
                                       SelectedItem="{Binding TecnologiasCredenciais}"
-                                      Width="134" />
-                            <Label Content="Colete:" Height="28" Width="47" Margin="0,0,0,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                                      Width="144" />
+                            <Label Content="Colete:" Height="28" Width="49" Margin="0,0,0,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
                             <TextBox  x:Name="NumeroColete_tb"  MaxLength="4"  CharacterCasing="Upper" Text="{Binding SelectedItem.Colete, ElementName=ListaColaboradoresCredenciais_lv, UpdateSourceTrigger=PropertyChanged}"  Height="24"  Width="45"/>
 
-                            <Label Content="Método de Autenticação:" Height="28" Width="145" Margin="1"
+                            <Label Content="Autenticação:" Height="28" Width="138" Margin="1" HorizontalContentAlignment="Right"
                                    Foreground="#FFD0D0D0" />
                             <ComboBox Margin="0,4,0,3" Height="25"
                                       ItemsSource="{Binding TecnologiasCredenciais}" DisplayMemberPath="Descricao"
@@ -86,28 +96,28 @@
                                       SelectedIndex="0"
                                       SelectedItem="{Binding TecnologiasCredenciais}"
                                       Width="134" />
-                            <Label Content="Facilitador (FC):" Height="28" Width="63" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                            <Label Content="FC:" Height="28" Width="68" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
                             <TextBox  x:Name="FC_tb"  MaxLength="5"   IsEnabled="{Binding ElementName=Ativa_cb, Path=IsChecked }"  CharacterCasing="Upper" Text="{Binding SelectedItem.Fc, ElementName=ListaColaboradoresCredenciais_lv, UpdateSourceTrigger=PropertyChanged}"  Height="24"  Width="44"/>
-
                         </StackPanel>
+
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
-                                    Margin="1,1,0,1" Width="956">
-                            <Label Content="Emissão:" Height="28" Width="56" Margin="1" Foreground="#FFD0D0D0" />
+                                    Margin="1,1,-20,1" Width="977">
+                            <Label Content="Emissão:" Height="28" Width="55" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                             <TextBlock Text="00/00/0000" VerticalAlignment="Center" />
-                            <Label Content="Validade:" Height="28" Width="56" Margin="1" Foreground="#FFD0D0D0" />
+                            <Label Content="Validade:" Height="28" Width="60" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" RenderTransformOrigin="0.553,0.5"/>
                             <TextBlock Text="00/00/0000" VerticalAlignment="Center" />
-                            <Label Content="Validade:" Height="28" Width="56" Margin="1" Foreground="#FFD0D0D0" />
+                            <Label Content="Baixa:" Height="28" Width="50" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
                             <TextBlock Text="00/00/0000" VerticalAlignment="Center" />
-                            <Label Content="Privilégios:" Height="28" Width="108" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                            <Label Content="Privilégios:" Height="28" Width="97" Margin="0,0,4,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
                             <ComboBox  x:Name="Privilegio1_tb"   IsEnabled="{Binding ElementName=Ativa_tw, Path=IsChecked }" Width="45" VerticalContentAlignment="Center" HorizontalContentAlignment="Left"
-                                                            ItemsSource="{Binding ColaboradorPrivilegio, Mode=TwoWay}" DisplayMemberPath="Descricao" 
+                                                            ItemsSource="{Binding ColaboradorPrivilegio, Mode=TwoWay}" DisplayMemberPath="Identificacao" 
                                                             SelectedValue="{Binding Entity.ColaboradorPrivilegio1Id, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedValuePath="ColaboradorPrivilegioId"  />
 
                             <ComboBox  x:Name="Privilegio2_tb" Margin="5,0,0,0"  IsEnabled="{Binding ElementName=Ativa_tw, Path=IsChecked }" Width="45" VerticalContentAlignment="Center" HorizontalContentAlignment="Left"
-                                                            ItemsSource="{Binding ColaboradorPrivilegio, Mode=TwoWay}" DisplayMemberPath="Descricao" 
+                                                            ItemsSource="{Binding ColaboradorPrivilegio, Mode=TwoWay}" DisplayMemberPath="Identificacao" 
                                                             SelectedValue="{Binding Entity.ColaboradorPrivilegio2Id, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedValuePath="ColaboradorPrivilegioId"  />
 
-                            <Label Content="Formato Credencial:" Height="28" Width="141" Margin="1"
+                            <Label Content="Formato Credencial:" Height="28" Width="137" Margin="1" HorizontalContentAlignment="Right"
                                    Foreground="#FFD0D0D0" />
                             <ComboBox Margin="0,4,0,3" Height="25"
                                       ItemsSource="{Binding FormatoCredencial}" DisplayMemberPath="Descricao"
@@ -115,117 +125,106 @@
                                       SelectedValuePath="FormatoCredencialId" IsSynchronizedWithCurrentItem="True"
                                       SelectedIndex="0"
                                       SelectedItem="{Binding Estado}"
-                                      Width="136" />
-                            <Label Content="Número:" Height="28" Width="58" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                            <TextBox  x:Name="NumeroCredencial_tb"  IsEnabled="{Binding ElementName=Ativa_cb, Path=IsChecked }"  MaxLength="10"  CharacterCasing="Upper" Text="{Binding SelectedItem.NumeroCredencial, ElementName=ListaColaboradoresCredenciais_lv, UpdateSourceTrigger=PropertyChanged}"  Height="24"  Width="48"/>
+                                      Width="134" />
+                            <Label Content="Número:" Height="28" Width="59" Margin="0,0,0,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                            <TextBox  x:Name="NumeroCredencial_tb"  IsEnabled="{Binding ElementName=Ativa_cb, Path=IsChecked }"  MaxLength="10"  CharacterCasing="Upper" Text="{Binding SelectedItem.NumeroCredencial, ElementName=ListaColaboradoresCredenciais_lv, UpdateSourceTrigger=PropertyChanged}"  Height="24"  Width="58"/>
 
 
 
                         </StackPanel>
-                        <StackPanel>
-                            <Button Content="Imprimir Credencial" ToolTip="Imprimir Credencial"  Margin="819,0,10,0" 
+                        <StackPanel Margin="0,0,0,0">
+                            <Button Content="Imprimir Credencial" ToolTip="Imprimir Credencial"  Margin="820,5,0,5" 
                             IsEnabled="{Binding Comportamento.IsEnableCriar}" Command="{Binding PrepareCriarCommand}"
-                            Height="24" RenderTransformOrigin="0.953,0.417" />
+                            Height="24" RenderTransformOrigin="0.953,0.417" HorizontalAlignment="Left" Width="139" />
                         </StackPanel>
                     </StackPanel>
                 </StackPanel>
             </GroupBox>
 
-            <StackPanel Orientation="Horizontal" Margin="0,10,10,0">
-                <ComboBox Width="150" ItemsSource="{Binding ListaPesquisa }"
-                          DisplayMemberPath="Value"
-                          SelectedValue="Key"
-                          SelectedItem="{Binding PesquisarPor}" VerticalContentAlignment="Center" />
-                <TextBox Width="200" Margin="10,0,0,0"
-                         Text="{Binding NomePesquisa, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
-                    <TextBox.InputBindings>
-                        <KeyBinding Command="{Binding Path=PesquisarCommand}" Key="Enter" />
-                    </TextBox.InputBindings>
-                </TextBox>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Height="258" Margin="0,10,10,0">
 
-                <ListView x:Name="ListaSegnatarios_lv"
-                          IsEnabled="{Binding IsEnableLstView}"
-                          ItemsSource="{Binding EntityObserver, Mode=TwoWay}"
-                          SelectedItem="{Binding Entity, Mode=TwoWay}" Width="835" Margin="0,0,0,80">
-                    <!--ScrollViewer.CanContentScroll="True" MaxHeight="150"  Visibility="Visible" SelectionMode="Single"  Background="#FF4E4E4E" Foreground="White" HorizontalAlignment="Left" SelectionChanged="ListaEmpresas_lv_SelectionChanged"-->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="990" Height="203">
+
+                <ListView x:Name="ListaColaboradoresCredenciais_lv" Margin="0,6,0,19"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                                      ItemsSource="{Binding ColaboradoresCredenciais, Mode=TwoWay}" SelectedIndex="{Binding Path=SelectedIndex, Mode=TwoWay}" 
+                                      SelectedItem="{Binding Path = ColaboradorCredencialSelecionado, Mode=TwoWay}" SelectionChanged="ListaColaboradoresCredenciais_lv_SelectionChanged" Background="{x:Null}" Width="814"
+                                        >
                     <ListView.View>
-                        <GridView FrameworkElement.FlowDirection="RightToLeft">
-                            <!--<GridViewColumn Width="88" Header="Principal">
+                        <GridView  >
+                            <GridViewColumn >
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        -->
-                            <!--<CheckBox  IsChecked="{Binding Ativa}" IsHitTestVisible="False" />-->
-                            <!--
-                                        <wpf:ToggleSwitch HeaderHorizontalAlignment="Stretch" Width="100"
-                                                          HorizontalAlignment="Right" SwitchContentPlacement="Right"
-                                                          IsHitTestVisible="False"
-                                                          IsChecked="{Binding Entity.Principal}" Foreground="#FFD0D0BE"
-                                                          UncheckedBackground="Gray" UncheckedBorderBrush="Gray"
-                                                          UncheckedForeground="#FFAEAEAE" UncheckedText=""
-                                                          CheckedText="" SwitchWidth="44" />
+                                        <Image  Width="16"  Height="16">
+                                            <Image.Source>
+                                                <MultiBinding Converter="{StaticResource Check}" ConverterParameter="Impressa">
+                                                    <Binding Path="Impressa"/>
+                                                    <Binding Path="CredencialStatusId"/>
+                                                    <Binding Path=""/>
+                                                </MultiBinding>
+                                            </Image.Source>
+                                        </Image>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
-                            </GridViewColumn>-->
-                            <GridViewColumn Width="35" Header="Ativo">
+                            </GridViewColumn>
+                            <GridViewColumn Width="88" Header="Ativa"  >
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <CheckBox IsChecked="{Binding Principal}" IsHitTestVisible="False" />
+                                        <wpf:ToggleSwitch HeaderHorizontalAlignment="Stretch" Width="100" HorizontalAlignment="Right" SwitchContentPlacement="Right" IsHitTestVisible="False"
+                                                          IsChecked="{Binding Ativa}"  Foreground="#FFD0D0BE" UncheckedBackground="Maroon" UncheckedBorderBrush="Maroon" UncheckedForeground="#FFAEAEAE" UncheckedText="" CheckedText="" SwitchWidth="44" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Width="200" Header="Vínculo Empregatício">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Margin="0,0,10,0" Text="{Binding Path=EmpresaNome}" Foreground="{Binding Ativa,  Converter={StaticResource CheckTeste}, ConverterParameter='Ativa_tw'}"/>
+                                            <TextBlock Foreground="{Binding Ativa,  Converter={StaticResource CheckTeste}, ConverterParameter='Ativa_tw'}" >
+                                                              <Run Text=" ("/>
+                                                              <Run Text="{Binding  Path=ContratoDescricao}"/>
+                                                              <Run Text=")"/>
+                                            </TextBlock>
+                                        </StackPanel>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
 
-                            <!--<GridViewColumn Width="300" Header="Nome">
-                                <GridViewColumn.CellTemplate>
+
+
+                            <GridViewColumn Width="120" Header="Tipo" >
+                                <GridViewColumn.CellTemplate >
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Entity.Nome}" TextAlignment="Center"
-                                                   Foreground="{Binding Entity.Principal, ConverterParameter=Principal_tw, Converter={StaticResource CheckTeste}}" />
+                                        <TextBlock Text="{Binding TipoCredencialDescricao}"  Foreground="{Binding Ativa,  Converter={StaticResource CheckTeste}, ConverterParameter='Ativa_tw'}"/>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
-                            </GridViewColumn>-->
-                            <GridViewColumn Width="100" Header="Nome" DisplayMemberBinding="{Binding Nome}" />
-                            <!--<GridViewColumn Width="200" Header="E-mail">
-                                <GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Width="170" Header="Modelo" >
+                                <GridViewColumn.CellTemplate  >
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Entity.Email}" TextAlignment="Center"
-                                                   Foreground="{Binding Entity.Principal, ConverterParameter=Principal_tw, Converter={StaticResource CheckTeste}}" />
+                                        <TextBlock Text="{Binding LayoutCrachaNome}"  Foreground="{Binding Ativa,  Converter={StaticResource CheckTeste}, ConverterParameter='Ativa_tw'}" TextAlignment="Center"/>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
-                            </GridViewColumn>-->
-                            <GridViewColumn Width="100" Header="E-mail" DisplayMemberBinding="{Binding Email}" />
-                            <GridViewColumn Width="100" Header="Telefone"
-                                            DisplayMemberBinding="{Binding Telefone,Converter={StaticResource FormateTel}}" />
-                            <!--<GridViewColumn Width="150" Header="Telefone">
-                                <GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Width="120" Header="Status"  >
+                                <GridViewColumn.CellTemplate  >
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Entity.Telefone, Converter={StaticResource FormateTel}}"
-                                                   TextAlignment="Center"
-                                                   Foreground="{Binding Entity.Principal, ConverterParameter=Principal_tw, Converter={StaticResource CheckTeste}}" />
+                                        <TextBlock Text="{Binding CredencialStatusDescricao}" Foreground="{Binding Ativa,  Converter={StaticResource CheckTeste}, ConverterParameter='Ativa_tw'}"  TextAlignment="Center"/>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
-                            </GridViewColumn>-->
-                            <!--<GridViewColumn Width="150" Header="Celular">
-                                <GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Width="100" Header="Validade"  >
+                                <GridViewColumn.CellTemplate  >
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Entity.Celular, Converter={StaticResource FormateTel}}"
-                                                   TextAlignment="Center"
-                                                   Foreground="{Binding Entity.Principal, ConverterParameter=Principal_tw, Converter={StaticResource CheckTeste}}" />
+                                        <TextBlock Text="{Binding Validade, StringFormat='dd/MM/yyyy'}" Foreground="{Binding Ativa,  Converter={StaticResource CheckTeste}, ConverterParameter='Ativa_tw'}"  TextAlignment="Center"/>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
-                            </GridViewColumn>-->
-                            <GridViewColumn Width="100" Header="Celular"
-                                            DisplayMemberBinding="{Binding Celular,Converter={StaticResource FormateTel}}" />
+                            </GridViewColumn>
                         </GridView>
                     </ListView.View>
                 </ListView>
-                <StackPanel Orientation="Vertical" Margin="10,0,0,0" HorizontalAlignment="Right" Width="155"
-                            Height="183" VerticalAlignment="Top">
-
-                    <!--<Button x:Name="btnPesquisar" Content="Pesquisar" ToolTip="Pesquisar"  Height="30" Width="148"  Click="Pesquisar_bt_Click" Margin="0,0,0,7" />-->
+                <StackPanel Orientation="Vertical" Margin="10,6,0,0" HorizontalAlignment="Right" Width="155">
                     <Button x:Name="btnAdicionar" Content="Adicionar" ToolTip="Adicionar"
                             IsEnabled="{Binding Comportamento.IsEnableCriar}" Command="{Binding PrepareCriarCommand}"
-                            Height="30" Width="148" Margin="0,0,0,7" />
+                            Height="30" Width="148" Margin="4,0,3,7" />
                     <Button x:Name="btnEditar" Content="Editar" Height="30" ToolTip="Editar"
                             IsEnabled="{Binding Comportamento.IsEnableEditar}"
                             Command="{Binding PrepareAlterarCommand}" Width="148" Margin="0,0,0,7" />
@@ -235,12 +234,10 @@
                     <Button x:Name="btnCancelar" Content="Cancelar" ToolTip="Cancelar" Height="30" Width="148"
                             IsEnabled="{Binding Comportamento.isEnableCancelar}"
                             Command="{Binding PrepareCancelarCommand}" Margin="0,0,0,7" />
-                    <Button x:Name="btnSalvar" Content="Salvar" ToolTip="Salvar" Height="30" Width="148"
+                    <Button x:Name="btnSalvar" Content="Salvar" ToolTip="Salvar"  Height="30" Width="148"
                             IsEnabled="{Binding Comportamento.isEnableSalvar}" Command="{Binding PrepareSalvarCommand}"
-                            Margin="0,0,0,7" />
-
+                            Margin="4,0,3,7" />
                 </StackPanel>
-
             </StackPanel>
 
         </StackPanel>

@@ -42,6 +42,10 @@ namespace iModSCCredenciamento.Views
             if (entity == null) return;
             _viewModel.AtualizarDados(entity);
         }
-        
+
+        private void ListaColaboradoresCredenciais_lv_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }

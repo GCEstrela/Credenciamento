@@ -53,6 +53,7 @@ namespace iModSCCredenciamento.Views
             _viewModel.AtualizarDadosTiposServico();
             //Popular User Controls 
             AnexoUs.AtualizarDados(_viewModel.Entity);
+            VeiculosEmpresasUs.AtualizarDados(_viewModel.Entity);
         }
 
         private void OnSelecionaMunicipio_SelectionChanged(object sender, SelectionChangedEventArgs e)

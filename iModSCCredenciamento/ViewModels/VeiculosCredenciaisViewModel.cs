@@ -23,6 +23,8 @@ using IMOD.Application.Service;
 using AutoMapper;
 using IMOD.CrossCutting;
 using iModSCCredenciamento.Views.Model;
+using IMOD.Domain.Entities;
+using Colaborador = iModSCCredenciamento.Models.Colaborador;
 
 namespace iModSCCredenciamento.ViewModels
 {
