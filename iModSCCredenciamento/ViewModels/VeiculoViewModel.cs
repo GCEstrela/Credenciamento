@@ -6,21 +6,21 @@
 
 #region
 
+using AutoMapper;
+using IMOD.Application.Interfaces;
+using IMOD.Application.Service;
+using IMOD.CrossCutting;
+using IMOD.Domain.Entities;
+using iModSCCredenciamento.Helpers;
+using iModSCCredenciamento.ViewModels.Commands;
+using iModSCCredenciamento.ViewModels.Comportamento;
+using iModSCCredenciamento.Views.Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
-using AutoMapper;
-using iModSCCredenciamento.Helpers;
-using iModSCCredenciamento.ViewModels.Commands;
-using iModSCCredenciamento.ViewModels.Comportamento;
-using iModSCCredenciamento.Views.Model;
-using IMOD.Application.Interfaces;
-using IMOD.Application.Service;
-using IMOD.CrossCutting;
-using IMOD.Domain.Entities;
 
 #endregion
 
@@ -146,7 +146,7 @@ namespace iModSCCredenciamento.ViewModels
         {
             ItensDePesquisaConfigura();
             ListarDadosAuxiliares();
-            Comportamento = new ComportamentoBasico (true, true, true, false, false);
+            Comportamento = new ComportamentoBasico(true, true, true, false, false);
             TiposEquipamentoServico = new ObservableCollection<EquipamentoVeiculoTipoServicoView>();
             Comportamento.SalvarAdicao += OnSalvarAdicao;
             Comportamento.SalvarEdicao += OnSalvarEdicao;
@@ -162,8 +162,11 @@ namespace iModSCCredenciamento.ViewModels
         private void ItensDePesquisaConfigura()
         {
             ListaPesquisa = new List<KeyValuePair<int, string>>();
-            ListaPesquisa.Add (new KeyValuePair<int, string> (1, "Descrição"));
-            ListaPesquisa.Add (new KeyValuePair<int, string> (2, "Modelo"));
+            ListaPesquisa.Add(new KeyValuePair<int, string>(1, "Placa/Identificador"));
+            ListaPesquisa.Add(new KeyValuePair<int, string>(2, "Série/Chassi"));
+            ListaPesquisa.Add(new KeyValuePair<int, string>(3, "Código"));
+            ListaPesquisa.Add(new KeyValuePair<int, string>(4, "Descrição"));
+            ListaPesquisa.Add(new KeyValuePair<int, string>(5, "Marca"));
             PesquisarPor = ListaPesquisa[0]; //Pesquisa Default
         }
 
@@ -177,11 +180,11 @@ namespace iModSCCredenciamento.ViewModels
             var lst3 = _auxiliaresService.EstadoService.Listar();
             var lst4 = _auxiliaresService.TipoEquipamentoService.Listar();
 
-           
-            ListaTipoServico = Mapper.Map<List<TipoServico>> (lst1);
-            TiposCombustiveis = Mapper.Map<List<TipoCombustivel>> (lst2);
-            Estados = Mapper.Map<List<Estados>> (lst3);
-            ListaEquipamentos = Mapper.Map<List<TipoEquipamento>> (lst4);
+
+            ListaTipoServico = Mapper.Map<List<TipoServico>>(lst1);
+            TiposCombustiveis = Mapper.Map<List<TipoCombustivel>>(lst2);
+            Estados = Mapper.Map<List<Estados>>(lst3);
+            ListaEquipamentos = Mapper.Map<List<TipoEquipamento>>(lst4);
         }
 
         /// <summary>
@@ -190,18 +193,22 @@ namespace iModSCCredenciamento.ViewModels
         /// ValidarCnpj
         public void AtualizarDadosPendencias()
         {
-            if (Entity == null) return;
-            var pendencia = _service.Pendencia.ListarPorVeiculo (Entity.EquipamentoVeiculoId).ToList();
+            if (Entity == null)
+            {
+                return;
+            }
+
+            var pendencia = _service.Pendencia.ListarPorVeiculo(Entity.EquipamentoVeiculoId).ToList();
             //Set valores
             PendenciaGeral = false;
             PendenciaRepresentante = false;
             PendenciaContrato = false;
             PendenciaAnexo = false;
             //Buscar pendências referente aos códigos: 21; 12;14;24
-            PendenciaGeral = pendencia.Any (n => n.CodPendencia == 21);
-            PendenciaRepresentante = pendencia.Any (n => n.CodPendencia == 12);
-            PendenciaContrato = pendencia.Any (n => n.CodPendencia == 14);
-            PendenciaAnexo = pendencia.Any (n => n.CodPendencia == 24);
+            PendenciaGeral = pendencia.Any(n => n.CodPendencia == 21);
+            PendenciaRepresentante = pendencia.Any(n => n.CodPendencia == 12);
+            PendenciaContrato = pendencia.Any(n => n.CodPendencia == 14);
+            PendenciaAnexo = pendencia.Any(n => n.CodPendencia == 24);
             //Indica se a empresa possue pendências
             Pendencias = PendenciaGeral || PendenciaRepresentante || PendenciaContrato || PendenciaAnexo;
         }
@@ -211,16 +218,20 @@ namespace iModSCCredenciamento.ViewModels
         /// </summary>
         public void AtualizarDadosTiposServico()
         {
-            if (Entity == null) return;
+            if (Entity == null)
+            {
+                return;
+            }
+
             TiposEquipamentoServico.Clear();
             var id = Entity.EquipamentoVeiculoId;
-            var list = _service.Equipamento.ListarEquipamentoVeiculoTipoServicoView (id).ToList();
-            var list2 = Mapper.Map<List<EquipamentoVeiculoTipoServicoView>> (list);
-            list2.ForEach (n => TiposEquipamentoServico.Add (n));
+            var list = _service.Equipamento.ListarEquipamentoVeiculoTipoServicoView(id).ToList();
+            var list2 = Mapper.Map<List<EquipamentoVeiculoTipoServicoView>>(list);
+            list2.ForEach(n => TiposEquipamentoServico.Add(n));
         }
 
         #endregion
-         
+
         #region Commands
 
         public ComportamentoBasico Comportamento { get; set; }
@@ -233,34 +244,49 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                if (string.IsNullOrWhiteSpace (uf)) return;
-                if (Municipios == null) Municipios = new List<Municipio>();
-                if (_municipios == null) _municipios = new List<Municipio>();
-                if (Estado == null) return;
+                if (string.IsNullOrWhiteSpace(uf))
+                {
+                    return;
+                }
+
+                if (Municipios == null)
+                {
+                    Municipios = new List<Municipio>();
+                }
+
+                if (_municipios == null)
+                {
+                    _municipios = new List<Municipio>();
+                }
+
+                if (Estado == null)
+                {
+                    return;
+                }
 
                 //Verificar se há municipios já carregados...
-                var l1 = _municipios.Where (n => n.Uf == uf);
+                var l1 = _municipios.Where(n => n.Uf == uf);
                 Municipios.Clear();
                 //Nao havendo municipios... obter do repositorio
                 if (!l1.Any())
                 {
-                    var l2 = _auxiliaresService.MunicipioService.Listar (null, uf);
-                    _municipios.AddRange (Mapper.Map<List<Municipio>> (l2));
+                    var l2 = _auxiliaresService.MunicipioService.Listar(null, uf);
+                    _municipios.AddRange(Mapper.Map<List<Municipio>>(l2));
                 }
 
-                var municipios = _municipios.Where (n => n.Uf == uf).ToList();
+                var municipios = _municipios.Where(n => n.Uf == uf).ToList();
                 Municipios = municipios;
             }
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
+                Utils.TraceException(ex);
             }
         }
 
         /// <summary>
         ///     Novo
         /// </summary>
-        public ICommand PrepareCriarCommand => new CommandBase (PrepareCriar, true);
+        public ICommand PrepareCriarCommand => new CommandBase(PrepareCriar, true);
 
         private void PrepareCriar()
         {
@@ -277,22 +303,22 @@ namespace iModSCCredenciamento.ViewModels
         /// <summary>
         ///     Editar
         /// </summary>
-        public ICommand PrepareAlterarCommand => new CommandBase (PrepareAlterar, true);
+        public ICommand PrepareAlterarCommand => new CommandBase(PrepareAlterar, true);
 
         /// <summary>
         ///     Cancelar
         /// </summary>
-        public ICommand PrepareCancelarCommand => new CommandBase (Comportamento.PrepareCancelar, true);
+        public ICommand PrepareCancelarCommand => new CommandBase(Comportamento.PrepareCancelar, true);
 
         /// <summary>
         ///     Novo
         /// </summary>
-        public ICommand PrepareSalvarCommand => new CommandBase (Comportamento.PrepareSalvar, true);
+        public ICommand PrepareSalvarCommand => new CommandBase(Comportamento.PrepareSalvar, true);
 
         /// <summary>
         ///     Remover
         /// </summary>
-        public ICommand PrepareRemoverCommand => new CommandBase (PrepareRemover, true);
+        public ICommand PrepareRemoverCommand => new CommandBase(PrepareRemover, true);
 
         /// <summary>
         ///     Validar Regras de Negócio
@@ -304,7 +330,7 @@ namespace iModSCCredenciamento.ViewModels
         /// <summary>
         ///     Pesquisar
         /// </summary>
-        public ICommand PesquisarCommand => new CommandBase (Pesquisar, true);
+        public ICommand PesquisarCommand => new CommandBase(Pesquisar, true);
 
         #endregion
 
@@ -321,14 +347,14 @@ namespace iModSCCredenciamento.ViewModels
                 //Descricao
                 if (num.Key == 1)
                 {
-                    var l1 = _service.Listar ($"%{pesquisa}%", null);
-                    PopularObserver (l1);
+                    var l1 = _service.Listar($"%{pesquisa}%", null);
+                    PopularObserver(l1);
                 }
                 //Por Modelo
                 if (num.Key == 2)
                 {
-                    var l1 = _service.Listar (null, $"%{pesquisa}%");
-                    PopularObserver (l1);
+                    var l1 = _service.Listar(null, $"%{pesquisa}%");
+                    PopularObserver(l1);
                 }
 
                 IsEnableLstView = true;
@@ -336,7 +362,7 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
+                Utils.TraceException(ex);
             }
         }
 
@@ -344,20 +370,24 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                var list2 = Mapper.Map<List<VeiculoView>> (list);
+                var list2 = Mapper.Map<List<VeiculoView>>(list);
                 EntityObserver = new ObservableCollection<VeiculoView>();
-                list2.ForEach (n => { EntityObserver.Add (n); });
+                list2.ForEach(n => { EntityObserver.Add(n); });
             }
 
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
+                Utils.TraceException(ex);
             }
         }
 
         private void PrepareAlterar()
         {
-            if (Entity == null) return;
+            if (Entity == null)
+            {
+                return;
+            }
+
             Comportamento.PrepareAlterar();
             IsEnableTabItem = false;
             IsEnableLstView = false;
@@ -369,7 +399,11 @@ namespace iModSCCredenciamento.ViewModels
 
         private void PrepareRemover()
         {
-            if (Entity == null) return;
+            if (Entity == null)
+            {
+                return;
+            }
+
             IsEnableLstView = true;
             _prepareCriarCommandAcionado = false;
             _prepareAlterarCommandAcionado = false;
@@ -381,12 +415,16 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                if (Entity == null) return;
+                if (Entity == null)
+                {
+                    return;
+                }
+
                 var n1 = Mapper.Map<Veiculo>(Entity);
                 Validar();
                 _service.Criar(n1);
                 //Salvar Tipo de Servico
-                SalvarTipoServico(n1.EquipamentoVeiculoId); 
+                SalvarTipoServico(n1.EquipamentoVeiculoId);
                 //Adicionar no inicio da lista um item a coleção
                 var n2 = Mapper.Map<VeiculoView>(n1);
                 EntityObserver.Insert(0, n2);
@@ -413,13 +451,17 @@ namespace iModSCCredenciamento.ViewModels
                 _service.Equipamento.Criar(n1);
             });
         }
- 
+
 
         private void OnSalvarEdicao(object sender, RoutedEventArgs e)
         {
             try
             {
-                if (Entity == null) return;
+                if (Entity == null)
+                {
+                    return;
+                }
+
                 Validar();
                 var n1 = Mapper.Map<Veiculo>(Entity);
                 _service.Alterar(n1);
@@ -471,8 +513,8 @@ namespace iModSCCredenciamento.ViewModels
             }
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
-                WpfHelp.MboxError ("Não foi realizar a operação solicitada", ex);
+                Utils.TraceException(ex);
+                WpfHelp.MboxError("Não foi realizar a operação solicitada", ex);
             }
         }
 

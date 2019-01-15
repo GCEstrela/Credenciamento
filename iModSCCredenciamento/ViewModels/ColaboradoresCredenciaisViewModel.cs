@@ -21,7 +21,11 @@ using IMOD.Application.Interfaces;
 using IMOD.Application.Service;
 using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
-using IMOD.Domain.EntitiesCustom;
+//using IMOD.Domain.EntitiesCustom;
+using ColaboradoresCredenciaisView = IMOD.Domain.EntitiesCustom.ColaboradoresCredenciaisView;
+//using EmpresaView = iModSCCredenciamento.Views.Model.EmpresaView;
+using ColaboradorEmpresaView = iModSCCredenciamento.Views.Model.ColaboradorEmpresaView;
+using EmpresaLayoutCrachaView = iModSCCredenciamento.Views.Model.EmpresaLayoutCrachaView;
 
 #endregion
 
@@ -31,10 +35,29 @@ namespace iModSCCredenciamento.ViewModels
     {
         //private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
         private readonly IColaboradorService _service = new ColaboradorService();
+        private readonly IColaboradorEmpresaService _ColaboradorEmpresaService = new ColaboradorEmpresaService();
+        private readonly IEmpresaLayoutCrachaService _EmpresaLayoutCrachaService = new EmpresaLayoutCrachaService();
+
+        private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
+        private readonly IEmpresaLayoutCrachaService _empresaLayoutCracha = new EmpresaLayoutCrachaService();
+        
+
         private ColaboradorView _colaboradorView;
 
         #region  Propriedades
+        public List<CredencialStatus> CredencialStatus { get; set; }
+        public List<CredencialMotivo> CredencialMotivo { get; set; }
+        public List<FormatoCredencial> FormatoCredencial { get; set; }
+        public List<TipoCredencial> TipoCredencial { get; set; }
+        public List<EmpresaLayoutCracha> EmpresaLayoutCracha { get; set; }
+        public List<TecnologiaCredencial> TecnologiasCredenciais { get; set; }
+        public List<ColaboradorEmpresa> ColaboradoresEmpresas { get; set; }
+        public List<AreaAcesso> ColaboradorPrivilegio { get; set; }
 
+        //public EmpresaLayoutCrachaView EntityEmpresasLayoutsCrachas { get; set; }
+        //public LayoutCrachaView EntityLayoutCrachaView { get; set; }
+        //public FormatoCredencialView EntityFormatoCredencialView { get; set; }
+        //public EmpresaContratoView EntityEmpresaContratoView { get; set; }
         public ColaboradorCredencialView Entity { get; set; }
         public ObservableCollection<ColaboradoresCredenciaisView> EntityObserver { get; set; }
 
@@ -49,6 +72,7 @@ namespace iModSCCredenciamento.ViewModels
         public ColaboradoresCredenciaisViewModel()
         {
             ItensDePesquisaConfigura();
+            ListarDadosAuxiliares();
             Comportamento = new ComportamentoBasico (true, true, true, false, false);
             Comportamento.SalvarAdicao += OnSalvarAdicao;
             Comportamento.SalvarEdicao += OnSalvarEdicao;
@@ -324,52 +348,48 @@ namespace iModSCCredenciamento.ViewModels
 
         #region Variaveis Privadas
 
-        //private ObservableCollection<ClasseColaboradoresCredenciais.ColaboradorCredencial> _ColaboradoresCredenciais;
+        public List<ColaboradorEmpresaView> ColaboradorEmpresa { get; private set; }
 
-        //private ObservableCollection<ClasseVinculos.Vinculo> _Vinculos;
+        
 
-        //private ObservableCollection<EmpresaView> _Empresas;
+        #endregion
 
-        //private ObservableCollection<ClasseFormatosCredenciais.FormatoCredencial> _FormatosCredenciais;
+        #region  Metodos
+        private void ListarDadosAuxiliares()
+        {
+            var lst0 = _auxiliaresService.CredencialStatusService.Listar();
+            CredencialStatus = new List<CredencialStatus>();
+            CredencialStatus.AddRange(lst0);
 
-        //private ObservableCollection<EmpresaLayoutCrachaView> _EmpresasLayoutsCrachas;
+            var lst1 = _auxiliaresService.CredencialMotivoService.Listar();
+            CredencialMotivo = new List<CredencialMotivo>();
+            CredencialMotivo.AddRange(lst1);
 
-        //private ObservableCollection<EmpresaContratoView> _Contratos;
+            var lst2 = _auxiliaresService.FormatoCredencialService.Listar();
+            FormatoCredencial = new List<FormatoCredencial>();
+            FormatoCredencial.AddRange(lst2);
 
-        //private ClasseColaboradoresCredenciais.ColaboradorCredencial _ColaboradorCredencialSelecionado;
+            var lst3 = _auxiliaresService.TipoCredencialService.Listar();
+            TipoCredencial = new List<TipoCredencial>();
+            TipoCredencial.AddRange(lst3);
 
-        //private ClasseColaboradoresCredenciais.ColaboradorCredencial _ColaboradorCredencialTemp = new ClasseColaboradoresCredenciais.ColaboradorCredencial();
+            var lst4 = _empresaLayoutCracha.Listar();
+            EmpresaLayoutCracha = new List<EmpresaLayoutCracha>();
+            EmpresaLayoutCracha.AddRange(lst4);
 
-        //private List<ClasseColaboradoresCredenciais.ColaboradorCredencial> _ColaboradoresCredenciaisTemp = new List<ClasseColaboradoresCredenciais.ColaboradorCredencial>();
+            var lst5 = _auxiliaresService.TecnologiaCredencialService.Listar();
+            TecnologiasCredenciais = new List<TecnologiaCredencial>();
+            TecnologiasCredenciais.AddRange(lst5);
 
-        //PopupPesquisaColaboradoresCredenciais popupPesquisaColaboradoresCredenciais;
+            var lst6 = _ColaboradorEmpresaService.Listar();
+            ColaboradoresEmpresas = new List<ColaboradorEmpresa>();
+            ColaboradoresEmpresas.AddRange(lst6);
 
-        //private int _selectedIndex;
+            var lst7 = _auxiliaresService.AreaAcessoService.Listar();
+            ColaboradorPrivilegio = new List<AreaAcesso>();
+            ColaboradorPrivilegio.AddRange(lst7);
 
-        //private int _ColaboradorSelecionadaID;
-
-        //private bool _HabilitaEdicao;
-
-        //private string _Criterios = "";
-
-        //private int _selectedIndexTemp;
-
-        //private string _Validade;
-
-        //private ObservableCollection<ClasseTiposCredenciais.TipoCredencial> _TiposCredenciais;
-
-        //private ObservableCollection<ClasseCredenciaisStatus.CredencialStatus> _CredenciaisStatus;
-
-        //private ObservableCollection<ClasseTecnologiasCredenciais.TecnologiaCredencial> _TecnologiasCredenciais;
-
-        //private ObservableCollection<ColaboradorEmpresaView> _ColaboradoresEmpresas;
-
-        //private List<ColaboradorEmpresaView> _ColaboradoresEmpresasTemp = new List<ColaboradorEmpresaView>();
-
-        //private ObservableCollection<ClasseClaboradoresPrivilegios.ColaboradorPrivilegio> _ClaboradoresPrivilegios;
-
-        //private ObservableCollection<ClasseCredenciaisMotivos.CredencialMotivo> _CredenciaisMotivos;
-        //private ObservableCollection<ClasseAreasAcessos.AreaAcesso> _AreasAcessos;
+        }
 
         #endregion
 

@@ -114,11 +114,11 @@
                 <StackPanel Margin="0,0,0,-12">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                 Margin="1">
-                        <Label Content="Código:" Height="28" Width="100" Margin="1" Foreground="#FFD0D0D0" />
+                        <Label Content="Código:" Height="28" Width="102" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                         <TextBox x:Name="Codigo_tb" CharacterCasing="Upper"
                                  Text="{Binding Entity.EmpresaContratoId, UpdateSourceTrigger=PropertyChanged}"
                                  IsEnabled="False" Height="24" Width="50" />
-                        <Label Content="Nº do Contrato:" Height="28" Width="120" Margin="1" Foreground="#FFD0D0D0" />
+                        <Label Content="Nº do Contrato:" Height="28" Width="120" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"  />
                         <TextBox x:Name="NumeroContrato_tb" MaxLength="13" CharacterCasing="Upper"
                                  Text="{Binding Entity.NumeroContrato, UpdateSourceTrigger=PropertyChanged}"
                                  IsEnabled="True" Height="24" Width="94" />
@@ -128,13 +128,13 @@
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                 Margin="1">
-                        <Label Content="Descricao:" Height="28" Width="100" Margin="1" Foreground="#FFD0D0D0" />
+                        <Label Content="Descricao:" Height="28" Width="102" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"  />
                         <TextBox x:Name="Descricao_tb" MaxLength="50" CharacterCasing="Upper"
                                  Text="{Binding Entity.Descricao, UpdateSourceTrigger=PropertyChanged}"
-                                 IsEnabled="True" Height="24" Width="385" />
+                                 IsEnabled="True" Height="24" Width="381" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="1">
-                        <Label Content="Status:" Height="28" Width="100" Margin="1" Foreground="#FFD0D0D0" />
+                        <Label Content="Status:" Height="28" Width="102" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                         <ComboBox x:Name="Status_cb" MinWidth="50" Height="28" VerticalContentAlignment="Center"
                                   HorizontalContentAlignment="Center"
                                   ItemsSource="{Binding Status}" 
@@ -148,19 +148,19 @@
                                   VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
                                   ItemsSource="{Binding ListaTipoAcessos}" DisplayMemberPath="Descricao"
                                   SelectedValue="{Binding Entity.TipoAcessoId, UpdateSourceTrigger=PropertyChanged}"
-                                  SelectedValuePath="TipoAcessoID" Width="140" />
+                                  SelectedValuePath="TipoAcessoId" Width="140" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="1">
-                        <Label Content="Data de Emissão:" Height="28" Width="112" Margin="1" Foreground="#FFD0D0D0" />
+                        <Label Content="Data de Emissão:" Height="28" Width="102" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
 
-                        <DatePicker Margin="-10,3,0,0" x:Name="Emissao_tb" VerticalContentAlignment="Center"
+                        <DatePicker Margin="0,3,0,0" x:Name="Emissao_tb" VerticalContentAlignment="Center"
                                     SelectedDate="{Binding Entity.Emissao, UpdateSourceTrigger=PropertyChanged}"
-                                    Width="119" Foreground="White" Background="{x:Null}" Height="25" />
-                        <Label Content="Data de Validade:" Height="25" Width="112" Margin="25,0,5,0"
+                                    Width="130" Foreground="White" Background="{x:Null}" Height="25" />
+                        <Label Content="Data de Validade:" Height="26" Width="102" Margin="15,3,0,0"
                                Foreground="#FFD0D0D0" />
-                        <DatePicker Margin="-10,3,0,0" x:Name="Validade_tb" VerticalContentAlignment="Center"
+                        <DatePicker Margin="0,3,0,0" x:Name="Validade_tb" VerticalContentAlignment="Center"
                                     SelectedDate="{Binding Entity.Validade, UpdateSourceTrigger=PropertyChanged}"
-                                    Width="120" Foreground="White" Background="{x:Null}" Height="25"/>
+                                    Width="130" Foreground="White" Background="{x:Null}" Height="25"/>
 
                     </StackPanel>
                 </StackPanel>
@@ -169,11 +169,11 @@
                       x:Name="Responsavel_gb" Header="Responsável " HorizontalAlignment="Left" Width="510" Height="100">
                 <StackPanel Margin="1,1,1,-6">
                     <StackPanel Orientation="Horizontal" Margin="1">
-                        <Label Content="Nome:" Height="28" Width="50" Margin="1" Foreground="#FFD0D0D0" />
+                        <Label Content="Nome:" Height="28" Width="50" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
                         <TextBox x:Name="NomeResp_tb" MaxLength="27" CharacterCasing="Upper"
                                  Text="{Binding Entity.NomeResp, UpdateSourceTrigger=PropertyChanged}"
                                  IsEnabled="True" Height="24" Width="250" />
-                        <Label Content="Telefone:" Height="28" Width="70" Margin="1" Foreground="#FFD0D0D0" />
+                        <Label Content="Telefone:" Height="28" Width="70" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                         <TextBox   Foreground="#FFD0D0D0" x:Name="TelefoneResp_tb"
                                  CharacterCasing="Upper" MaxLength="15"
                                  Text="{Binding Entity.TelefoneResp, Converter={StaticResource FormateTel}, UpdateSourceTrigger=PropertyChanged}"
@@ -182,11 +182,11 @@
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                 Margin="1">
-                        <Label Content="E-Mail:" Height="28" Width="50" Margin="1" Foreground="#FFD0D0D0" />
+                        <Label Content="E-Mail:" Height="28" Width="50" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
                         <TextBox x:Name="EmailResp_tb" MaxLength="27" CharacterCasing="Lower"
                                  Text="{Binding Entity.EmailResp, UpdateSourceTrigger=PropertyChanged}"
                                  IsEnabled="True" Height="24" Width="250" />
-                        <Label Content="Celular:" Height="28" Width="70" Margin="1" Foreground="#FFD0D0D0" />
+                        <Label Content="Celular:" Height="28" Width="70" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                         <TextBox   Foreground="#FFD0D0D0" x:Name="CelularResp_tb"
                                  CharacterCasing="Upper" MaxLength="16"
                                  Text="{Binding Entity.CelularResp, Converter={StaticResource FormateTel}, UpdateSourceTrigger=PropertyChanged}"
@@ -200,50 +200,52 @@
         </StackPanel>
         <StackPanel Orientation="Vertical" Margin="520,1,1,0" Height="274" VerticalAlignment="Top">
             <GroupBox IsEnabled="{Binding Comportamento.isEnableCancelar}" Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" Background="CadetBlue"
-                      x:Name="Cobranca_gb" Header="Cobrança " Height="174">
+                      x:Name="Cobranca_gb" Header="Endereço de Cobrança " Height="174">
                 <StackPanel Margin="1">
                     <StackPanel Orientation="Horizontal" Margin="1"  VerticalAlignment="Center" HorizontalAlignment="Left">
-                        <CheckBox x:Name="IsencaoCobranca_cb" IsChecked="{Binding Entity.IsencaoCobranca}" FlowDirection="RightToLeft"  VerticalAlignment="Center"
-                                  VerticalContentAlignment="Center" Height="17" Margin="1" Foreground="#FFD0D0D0"  Width="130">Isento de Cobrança</CheckBox>
 
-                        <Label Content="Tipo de Cobrança:" Height="28" Width="109" Margin="1" Foreground="#FFD0D0D0" />
+
+                        <Label Content="Tipo de Cobrança:" Height="28" Width="109" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
                         <ComboBox x:Name="TipoCobranca_cb" Height="28"
                                   ItemsSource="{Binding TiposCobranca}" DisplayMemberPath="Descricao"
                                   SelectedValue="{Binding Entity.TipoCobrancaId, UpdateSourceTrigger=PropertyChanged}"
                                   SelectedValuePath="TipoCobrancaId" Width="207" />
 
+                        <CheckBox x:Name="IsencaoCobranca_cb" IsChecked="{Binding Entity.IsencaoCobranca}" FlowDirection="RightToLeft"  VerticalAlignment="Center"
+                                  VerticalContentAlignment="Center" Height="17" Margin="30,0,0,0" Foreground="#FFD0D0D0"  Width="130">Isento de Cobrança</CheckBox>
+
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="1"  VerticalAlignment="Center" HorizontalAlignment="Left">
-                        <Label Content="Logradouro:" Height="28" Width="80" Margin="1" Foreground="#FFD0D0D0" />
+                        <Label Content="Logradouro:" Height="28" Width="109" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
                         <TextBox x:Name="Endereco_tb" MaxLength="50" CharacterCasing="Upper"
                                  Text="{Binding Entity.Endereco, UpdateSourceTrigger=PropertyChanged}"
-                                 IsEnabled="True" Height="24" Width="368" />
+                                 IsEnabled="True" Height="24" Width="441" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                 Margin="1,1,0,1" Width="552">
-                        <Label Content="No.:" Height="28" Width="80" Margin="1" Foreground="#FFD0D0D0" />
+                        <Label Content="No.:" Height="28" Width="109" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
                         <TextBox x:Name="Numero_tb" MaxLength="4" CharacterCasing="Upper"
                                  Text="{Binding Entity.Numero, UpdateSourceTrigger=PropertyChanged}" IsEnabled="True"
                                  Height="24" Width="50" />
-                        <Label Content="CEP:" Height="28" Width="50" Margin="0,0,5,0"  Foreground="#FFD0D0D0" />
-                        
+                        <Label Content="CEP:" Height="28" Width="60" Margin="0,0,5,0"  Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
+
                         <TextBox CharacterCasing="Upper"  x:Name="Cep_tb" MaxLength="50" 
                                  PreviewTextInput="NumberOnly" 
                                  Text="{Binding Entity.Cep,  UpdateSourceTrigger=PropertyChanged}" 
                                  IsEnabled="True"  Height="24"  Width="120"/>
-                        
+
                         <Label Content="Complemento:" Height="28" Width="90" Foreground="#FFD0D0D0" />
                         <TextBox x:Name="Complemento_tb" MaxLength="36" CharacterCasing="Upper"
                                  Text="{Binding Entity.Complemento, UpdateSourceTrigger=PropertyChanged}"
-                                 IsEnabled="True" Height="24" Width="150" />
+                                 IsEnabled="True" Height="24" Width="116" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                 Margin="1,1,0,1" Width="552">
-                        <Label Content="Bairro:" Height="28" Width="80" Margin="1" Foreground="#FFD0D0D0" />
+                        <Label Content="Bairro:" Height="28" Width="109" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                         <TextBox x:Name="Bairro_tb" MaxLength="16" CharacterCasing="Upper"
                                  Text="{Binding Entity.Bairro, UpdateSourceTrigger=PropertyChanged}" IsEnabled="True"
                                  Height="24" Width="150" />
-                        <Label Content="UF:" Height="28" Width="30" Margin="1" Foreground="#FFD0D0D0" />
+                        <Label Content="UF:" Height="28" Width="30" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
                         <ComboBox x:Name="cmbEstado"   Height="28"
                                   ItemsSource="{Binding Estados}" DisplayMemberPath="Uf"
                                   SelectedValue="{Binding Entity.EstadoId, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
@@ -255,7 +257,7 @@
                         <ComboBox x:Name="Cidade_cb" MinWidth="50" Height="28"
                                   ItemsSource="{Binding Municipios}" DisplayMemberPath="Nome"
                                   SelectedValue="{Binding Entity.MunicipioId, UpdateSourceTrigger=PropertyChanged}"
-                                  SelectedValuePath="MunicipioId" Width="178" />
+                                  SelectedValuePath="MunicipioId" Width="154" />
                     </StackPanel>
                 </StackPanel>
             </GroupBox>
@@ -264,7 +266,7 @@
                 <StackPanel Margin="1,1,1,18">
                     <StackPanel Orientation="Horizontal"   HorizontalAlignment="Left"
                                 Margin="0,5,0,0" Width="558">
-                        <Label Content="Contrato Digitalizado:" Height="28" Width="129" Margin="1"
+                        <Label Content="Contrato Digitalizado:" Height="28" Width="129" Margin="1" HorizontalContentAlignment="Right"
                                Foreground="#FFD0D0D0" />
                         <TextBox x:Name="txtNomeAnexo" MaxLength="30" CharacterCasing="Upper"
                                  Text="{Binding Entity.NomeArquivo, UpdateSourceTrigger=PropertyChanged}"
@@ -310,13 +312,6 @@
 
                 <ListView.View>
                     <GridView FrameworkElement.FlowDirection="RightToLeft">
-                        <GridViewColumn Width="0" Header="Principal"  >
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <CheckBox IsChecked="{Binding Path=Principal}" IsHitTestVisible="False" />
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
                         <GridViewColumn Width="50" Header="Cód." DisplayMemberBinding="{Binding EmpresaContratoId}" />
                         <GridViewColumn Width="200" Header="Descrição do Contrato" DisplayMemberBinding="{Binding Descricao}" />
                         <GridViewColumn Width="200" Header="Número do Contrato"

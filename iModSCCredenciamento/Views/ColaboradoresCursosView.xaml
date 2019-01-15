@@ -18,28 +18,30 @@
 
     <Grid Margin="0,0,0,10" Loaded="Grid_Loaded">
         <StackPanel Orientation="Vertical">
-            <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" Background="Chocolate"                      
+            <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" 
+                      Background="Chocolate"                      
+                      IsEnabled="{Binding Comportamento.isEnableCancelar}"
                       x:Name="InformacoesCursos_gb" Header="Informações de Cursos e Treinamentos"   Margin="0,0,10,0"
                       VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="795">
                 <StackPanel x:Name="InformacoesAnexo_sp" Margin="0,10,10,10" Width="773">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="1">
-                        <Label Content="ID:" Height="24" Foreground="#FFD0D0D0" Width="148"    />
+                        <Label Content="Código:" Height="26" Foreground="#FFD0D0D0" Width="150"  HorizontalContentAlignment="Right"  />
                         <TextBox  x:Name="cmbEmpresa" Width="43" Height="24" 
                                   Text="{Binding Entity.ColaboradorCursoId, UpdateSourceTrigger=PropertyChanged}" 
                                    VerticalContentAlignment="Center" 
                                    HorizontalContentAlignment="Left"
                                    VerticalAlignment="Center"/>
-                        
-                        <Label Content="Curso:" Height="28" Width="55" Foreground="#FFD0D0D0" />
+
+                        <Label Content="Curso:" Height="24" Width="55" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                         <ComboBox  x:Name="cmbCurso" 
-                                   Width="300" Height="25" 
+                                   Width="294" Height="24" 
                                    VerticalContentAlignment="Center" 
                                    HorizontalContentAlignment="Left"
                                    ItemsSource="{Binding Cursos}" 
                                    DisplayMemberPath="Descricao"  
                                    SelectedValue="{Binding Entity.CursoId, UpdateSourceTrigger=PropertyChanged}" 
                                    SelectedValuePath="CursoId"/>
-                        <Label Content="Data de Validade:" Height="28" Width="110" Margin="0,7" HorizontalContentAlignment="Left" HorizontalAlignment="Left" />
+                        <Label Content="Data de Validade:" Height="24" Width="110" Foreground="#FFD0D0D0" Margin="0,7" HorizontalContentAlignment="Right" HorizontalAlignment="Left" />
                         <DatePicker x:Name="DataValidade_dp" 
                                     SelectedDate="{Binding Entity.Validade, UpdateSourceTrigger=PropertyChanged}" 
                                     Foreground="White" Background="{x:Null}" HorizontalAlignment="Left"  Margin="1,7,0,7" 
@@ -48,24 +50,24 @@
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="1">
-                        <Label Content="Nome do Arquivo:" Height="28" Width="150" Foreground="#FFD0D0D0"   />
-                        <TextBox  x:Name="cmbContrato" 
+                        <Label Content="Nome do Arquivo:" Height="24" Width="150" Foreground="#FFD0D0D0"  HorizontalContentAlignment="Right" />
+                        <TextBox  x:Name="NomeArquivo_tb" 
                                   Text="{Binding Entity.NomeArquivo, UpdateSourceTrigger=PropertyChanged}" 
                                    Width="324" Height="24" 
                                    VerticalContentAlignment="Center" 
                                    HorizontalContentAlignment="Left"/>
-                        <Button x:Name="BuscarCursoArquivo_bt" Height="24"  VerticalAlignment="Center" HorizontalAlignment="Left" Width="24" Margin="10,10,0,8" >
+                        <Button x:Name="BuscarCursoArquivo_bt" Height="24"  VerticalAlignment="Center" HorizontalAlignment="Left" Width="24" Margin="10,10,0,8" Click="OnUpLoad_Click">
                             <StackPanel>
                                 <Image Source="/iModSCCredenciamento;component/Resources/Pasta.ico"/>
                             </StackPanel>
                         </Button>
-                        <Button x:Name="AbrirCursoArquivo_bt" Height="24" Margin="10,10,5,8" VerticalAlignment="Center" Width="24">
+                        <Button x:Name="AbrirCursoArquivo_bt" Height="24" Margin="10,10,5,8" VerticalAlignment="Center" Width="24" Click="OnAbrirArquivo_Click">
                             <StackPanel>
                                 <Image Source="/iModSCCredenciamento;component/Resources/Olho.png"/>
                             </StackPanel>
                         </Button>
-                        <wpf:ToggleSwitch x:Name="Controlada_tw"  HeaderHorizontalAlignment="Stretch" Width="189" HorizontalAlignment="Left"
-                                                         SwitchContentPlacement="Right"  Content="Data Controlada:" CheckedText="Sim" UncheckedText="Não"
+                        <wpf:ToggleSwitch x:Name="Controlada_tw"  HeaderHorizontalAlignment="Stretch" Width="181" HorizontalAlignment="Right"
+                                                         SwitchContentPlacement="Left"  Content="Data Controlada:" CheckedText="Sim" UncheckedText="Não"
                                                          IsChecked="{Binding Entity.Controlado, ConverterParameter=Principal_tw, UpdateSourceTrigger=PropertyChanged}" Grid.Column="5"
                                                          Foreground="#FFD0D0BE" UncheckedBackground="Gray" UncheckedBorderBrush="Gray" UncheckedForeground="#FFAEAEAE" Margin="5,0,0,0"/>
 
@@ -80,7 +82,7 @@
                           Width="630" Margin="0,15,0,10">
                     <ListView.View>
                         <GridView FrameworkElement.FlowDirection="RightToLeft">
-                            <GridViewColumn Width="88" Header="Controlada"  >
+                            <GridViewColumn Width="80" Header="Controlada"  >
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <wpf:ToggleSwitch HeaderHorizontalAlignment="Stretch" Width="100" HorizontalAlignment="Right" SwitchContentPlacement="Right" IsHitTestVisible="False"
@@ -89,12 +91,12 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                             <GridViewColumn Width="100" Header="Validade"  DisplayMemberBinding="{Binding Validade, StringFormat='dd/MM/yyyy'}"/>
-                            <GridViewColumn Width="335" Header="Curso"    DisplayMemberBinding="{Binding CursoNome}"/>
-                            <GridViewColumn Width="377" Header="Arquivo"  DisplayMemberBinding="{Binding NomeArquivo}"/>
+                            <GridViewColumn Width="250" Header="Nome do Curso"    DisplayMemberBinding="{Binding CursoNome}"/>
+                            <GridViewColumn Width="190" Header="Arquivo"  DisplayMemberBinding="{Binding NomeArquivo}"/>
                         </GridView>
                     </ListView.View>
                 </ListView>
-                <StackPanel Orientation="Vertical" Margin="10,0,0,5" HorizontalAlignment="Right" Width="155"
+                <StackPanel Orientation="Vertical" Margin="10,0,0,-5" HorizontalAlignment="Right" Width="155"
                             Height="193" VerticalAlignment="Bottom">
 
                     <Button x:Name="btnAdicionar" Content="Adicionar" ToolTip="Adicionar"
