@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:iModSCCredenciamento.Views"
              xmlns:i="clr-namespace:iModSCCredenciamento.Funcoes"
              xmlns:viewModel="clr-namespace:iModSCCredenciamento.ViewModels"
-             d:DataContext="{d:DesignInstance viewModel:VeiculosSegurosViewModel, IsDesignTimeCreatable=True}"
+             d:DataContext="{d:DesignInstance viewModel:VeiculoViewModel}"
              xmlns:data="clr-namespace:Singulink.Windows.Data"
              xmlns:z="clr-namespace:iModSCCredenciamento.Regras"
              mc:Ignorable="d"
