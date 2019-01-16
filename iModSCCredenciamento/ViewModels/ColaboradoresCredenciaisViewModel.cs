@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
@@ -28,6 +29,10 @@ using IMOD.Domain.EntitiesCustom;
 using ColaboradorEmpresaView = iModSCCredenciamento.Views.Model.ColaboradorEmpresaView;
 using EmpresaLayoutCrachaView = iModSCCredenciamento.Views.Model.EmpresaLayoutCrachaView;
 using System.Windows.Forms;
+using System.Windows.Media.Imaging;
+using CrystalDecisions.CrystalReports.Engine;
+using iModSCCredenciamento.Funcoes;
+using iModSCCredenciamento.Windows;
 
 #endregion
 
@@ -38,6 +43,8 @@ namespace iModSCCredenciamento.ViewModels
         //private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
         //private readonly IColaboradorService _service = new ColaboradorService();
         private readonly IColaboradorCredencialService _service = new ColaboradorCredencialService();
+        private readonly IColaboradorCredencialImpressaoService _ImpressaoService = new ColaboradorCredencialImpressaoService();
+
 
         private readonly IColaboradorEmpresaService _ColaboradorEmpresaService = new ColaboradorEmpresaService();
         private readonly IEmpresaLayoutCrachaService _EmpresaLayoutCrachaService = new EmpresaLayoutCrachaService();
@@ -49,6 +56,9 @@ namespace iModSCCredenciamento.ViewModels
         private ColaboradorView _colaboradorView;
         private ColaboradorEmpresaView _colaboradorEmpresaView;
         private ColaboradorCredencial _colaboradorCredencial;
+
+        ColaboradorCredencialimpresssao _colaboradorCredencialImpressao = new ColaboradorCredencialimpresssao();
+        SCManager _sc = new SCManager();
 
         #region  Propriedades
 
@@ -68,6 +78,8 @@ namespace iModSCCredenciamento.ViewModels
 
         public ColaboradoresCredenciaisView Entity { get; set; }
         public ObservableCollection<ColaboradoresCredenciaisView> EntityObserver { get; set; }
+
+        public ObservableCollection<iModSCCredenciamento.Views.Model.CredencialView> Credencial { get; set; }
 
         //TODO: EntityCustom ColaboradoresCredenciais
         //public ColaboradoresCredenciaisView EntityCustom { get; set; }
@@ -143,7 +155,7 @@ namespace iModSCCredenciamento.ViewModels
 
                 if (Entity == null) return;
                 var n1 = Mapper.Map<ColaboradorCredencial>(Entity);
-                
+
                 n1.CredencialMotivoId = Entity.CredencialMotivoId;
                 n1.CredencialStatusId = Entity.CredencialStatusId;
                 n1.FormatoCredencialId = Entity.FormatoCredencialId;
@@ -385,6 +397,77 @@ namespace iModSCCredenciamento.ViewModels
             //CarregaColecaoColaboradoresPrivilegios();
         }
 
+        /// <summary>
+        /// Imprimir Credencial
+        /// </summary>
+        public void OnImprimirCredencial()
+        {
+            try
+            {
+                if (Entity.Validade == null || !Entity.Ativa || Entity.LayoutCrachaId == 0)
+                {
+                    WpfHelp.PopupBox("Não foi possível imprimir esta credencial!", 3);
+                    return;
+                }
+                var list1 = _service.ListarCredencialView(Entity.ColaboradorCredencialId);
+                var list2 = Mapper.Map<List<iModSCCredenciamento.Views.Model.CredencialView>>(list1);
+                var observer = new ObservableCollection<iModSCCredenciamento.Views.Model.CredencialView>();
+                list2.ForEach(n =>
+                {
+                    observer.Add(n);
+                });
+
+                Credencial = observer;
+
+                var layoutCracha = _auxiliaresService.LayoutCrachaService.BuscarPelaChave(Entity.LayoutCrachaId);
+
+                string _ArquivoRPT = Path.GetRandomFileName();
+                _ArquivoRPT = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\" + _ArquivoRPT;
+                _ArquivoRPT = Path.ChangeExtension(_ArquivoRPT, ".rpt");
+                byte[] arrayFile = Convert.FromBase64String(layoutCracha.LayoutRpt);
+                File.WriteAllBytes(_ArquivoRPT, arrayFile);
+                ReportDocument reportDocument = new ReportDocument();
+                reportDocument.Load(_ArquivoRPT);
+
+                reportDocument.SetDataSource(Credencial);
+
+                PopupCredencial _popupCredencial = new PopupCredencial(reportDocument);
+                _popupCredencial.ShowDialog();
+
+                bool _result = _popupCredencial.Result;
+
+                if (_result)
+                {
+                    _colaboradorCredencialImpressao.ColaboradorCredencialId = Entity.ColaboradorCredencialId;
+                    _colaboradorCredencialImpressao.DataImpressao = DateTime.Now;
+                    if (Entity.IsencaoCobranca)
+                    {
+                        _colaboradorCredencialImpressao.Cobrar = false;
+                    }
+                    else
+                    {
+                        _colaboradorCredencialImpressao.Cobrar = true;
+                    }
+
+                    _ImpressaoService.Criar(_colaboradorCredencialImpressao);
+                    WpfHelp.PopupBox("Impressão Efetuada com Sucesso!", 1);
+                    Entity.Impressa = true;
+
+                    BitmapImage _foto = Conversores.STRtoIMG(Entity.ColaboradorFoto) as BitmapImage;
+                    _sc.Vincular(Entity.ColaboradorNome.Trim(), Entity.Cpf.Trim(), Entity.Cnpj.Trim(),
+                        Entity.EmpresaNome.Trim(), Entity.Matricula.Trim(), Entity.Cargo.Trim(),
+                        Entity.Fc.ToString().Trim(), Entity.NumeroCredencial.Trim(),
+                        Entity.FormatoCredencialDescricao.Trim(), Entity.Validade.ToString(),
+                        Entity.LayoutCrachaGuid, Conversores.BitmapImageToBitmap(_foto));
+                }
+                File.Delete(_ArquivoRPT);
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+            }
+        }
+
         #endregion
 
         #region Variaveis Privadas
@@ -431,7 +514,7 @@ namespace iModSCCredenciamento.ViewModels
             ColaboradorPrivilegio.AddRange(lst7);
 
         }
-        public void CarregaColecaoLayoutsCrachas(string _empresaID )
+        public void CarregaColecaoLayoutsCrachas(string _empresaID)
         {
 
             try

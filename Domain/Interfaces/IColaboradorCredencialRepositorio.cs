@@ -32,6 +32,12 @@ namespace IMOD.Domain.Interfaces
         /// <returns></returns>
         ColaboradoresCredenciaisView BuscarCredencialPelaChave(int colaboradorCredencialId);
 
+        /// <summary>
+        ///     Listar dados de Credencial (Impressão)
+        /// </summary>
+        /// <param name="o">Arrays de Parametros</param>
+        /// <returns></returns>
+        ICollection<CredencialView> ListarCredencialView(int id);
         #endregion
     }
 }

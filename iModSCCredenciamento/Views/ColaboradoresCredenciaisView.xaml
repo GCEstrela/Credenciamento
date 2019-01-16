@@ -20,7 +20,6 @@
         <StackPanel Orientation="Vertical" VerticalAlignment="Top">
 
             <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}"
-                      IsEnabled="{Binding Comportamento.isEnableSalvar}"
                       Background="Purple"
                       x:Name="Responsavel_gb" Header="Credenciamento" Margin="0,0,10,0">
                 <StackPanel Orientation="Horizontal">
@@ -218,8 +217,7 @@
                         </StackPanel>
                         <StackPanel Margin="0,0,0,0">
                             <Button x:Name="brnImprimirCredencial" Content="Imprimir Credencial" ToolTip="Imprimir Credencial"  Margin="10,5,0,5" 
-                            IsEnabled="{Binding Comportamento.isEnableSalvar}" Command="{Binding PrepareCriarCommand}"
-                            Height="24" RenderTransformOrigin="0.953,0.417" HorizontalAlignment="Left" Width="139" />
+                                    Height="24" RenderTransformOrigin="0.953,0.417" HorizontalAlignment="Left" Width="139" Click="ImprimirCredencial_bt_Click" />
                         </StackPanel>
                     </StackPanel>
                 </StackPanel>
