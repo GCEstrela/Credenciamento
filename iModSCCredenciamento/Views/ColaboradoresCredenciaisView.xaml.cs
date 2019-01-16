@@ -72,5 +72,10 @@ namespace iModSCCredenciamento.Views
             }
 
         }
+
+        private void StatusCredencial_cb_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }
