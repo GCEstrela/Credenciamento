@@ -27,6 +27,7 @@ using IMOD.Domain.EntitiesCustom;
 //using EmpresaView = iModSCCredenciamento.Views.Model.EmpresaView;
 using ColaboradorEmpresaView = iModSCCredenciamento.Views.Model.ColaboradorEmpresaView;
 using EmpresaLayoutCrachaView = iModSCCredenciamento.Views.Model.EmpresaLayoutCrachaView;
+using System.Windows.Forms;
 
 #endregion
 
@@ -155,17 +156,17 @@ namespace iModSCCredenciamento.ViewModels
                 //var n2 = Mapper.Map<ColaboradorCredencialView>(n1);
                 //EntityObserver = new ObservableCollection<ColaboradoresCredenciaisView>();
                 //Entity.ColaboradorCredencialId = n1.ColaboradorCredencialId;
-                
-                var list1 = _service.ListarView(null, null, null, null, _colaboradorView.ColaboradorId).ToList();
-                var list2 = Mapper.Map<List<ColaboradoresCredenciaisView>>(list1);
-                EntityObserver = new ObservableCollection<ColaboradoresCredenciaisView>();
-                list2.ForEach(n =>
-                {
-                    EntityObserver.Add(n);
-                });
 
+                //var list1 = _service.ListarView(null, null, null, null, _colaboradorView.ColaboradorId).ToList();
+                //var list2 = Mapper.Map<List<ColaboradoresCredenciaisView>>(list1);
+                //EntityObserver = new ObservableCollection<ColaboradoresCredenciaisView>();
+                //list2.ForEach(n =>
+                // {
+                //    EntityObserver.Add(n);
+                //});
 
-                //EntityObserver.Insert(0, Entity);
+                var n2 = _service.BuscarCredencialPelaChave(Entity.ColaboradorCredencialId);
+                EntityObserver.Insert(0, n2);
                 IsEnableLstView = true;
             }
             catch (Exception ex)
@@ -193,18 +194,18 @@ namespace iModSCCredenciamento.ViewModels
         /// <param name="e"></param>
         private void OnSalvarEdicao(object sender, RoutedEventArgs e)
         {
-            //try
-            //{
-            //    if (Entity == null) return;
-            //    var n1 = Mapper.Map<ColaboradorCredencial>(Entity);
-            //    _service.Alterar(n1);
-            //    IsEnableLstView = true;
-            //}
-            //catch (Exception ex)
-            //{
-            //    Utils.TraceException(ex);
-            //    WpfHelp.PopupBox(ex);
-            //}
+            try
+            {
+                if (Entity == null) return;
+                var n1 = Mapper.Map<ColaboradorCredencial>(Entity);
+                _service.Alterar(n1);
+                IsEnableLstView = true;
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+                WpfHelp.PopupBox(ex);
+            }
         }
 
         /// <summary>
@@ -232,22 +233,22 @@ namespace iModSCCredenciamento.ViewModels
         /// <param name="e"></param>
         private void OnRemover(object sender, RoutedEventArgs e)
         {
-            //try
-            //{
-            //    if (Entity == null) return;
-            //    var result = WpfHelp.MboxDialogRemove();
-            //    if (result != DialogResult.Yes) return;
+            try
+            {
+                if (Entity == null) return;
+                var result = WpfHelp.MboxDialogRemove();
+                if (result != DialogResult.Yes) return;
 
-            //    var n1 = Mapper.Map<ColaboradorCredencial>(Entity);
-            //    _service.Remover(n1);
-            //    //Retirar empresa da coleção
-            //    EntityObserver.Remove(Entity);
-            //}
-            //catch (Exception ex)
-            //{
-            //    Utils.TraceException(ex);
-            //    WpfHelp.MboxError("Não foi realizar a operação solicitada", ex);
-            //}
+                var n1 = Mapper.Map<ColaboradorCredencial>(Entity);
+                _service.Remover(n1);
+                //Retirar empresa da coleção
+                EntityObserver.Remove(Entity);
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+                WpfHelp.MboxError("Não foi realizar a operação solicitada", ex);
+            }
         }
 
         /// <summary>
@@ -413,9 +414,9 @@ namespace iModSCCredenciamento.ViewModels
             TipoCredencial = new List<TipoCredencial>();
             TipoCredencial.AddRange(lst3);
 
-            var lst4 = _empresaLayoutCracha.Listar();
-            EmpresaLayoutCracha = new List<EmpresaLayoutCracha>();
-            EmpresaLayoutCracha.AddRange(lst4);
+            //var lst4 = _empresaLayoutCracha.Listar();
+            //EmpresaLayoutCracha = new List<EmpresaLayoutCracha>();
+            //EmpresaLayoutCracha.AddRange(lst4);
 
             var lst5 = _auxiliaresService.TecnologiaCredencialService.Listar();
             TecnologiasCredenciais = new List<TecnologiaCredencial>();
@@ -430,7 +431,34 @@ namespace iModSCCredenciamento.ViewModels
             ColaboradorPrivilegio.AddRange(lst7);
 
         }
+        public void CarregaColecaoLayoutsCrachas(string _empresaID )
+        {
 
+            try
+            {
+
+                var lst4 = _empresaLayoutCracha.Listar(null, _empresaID);
+                EmpresaLayoutCracha = new List<EmpresaLayoutCracha>();
+                EmpresaLayoutCracha.AddRange(lst4);
+
+                //var service = new EmpresaLayoutCrachaService();
+                //var list1 = service.ListarLayoutCrachaPorEmpresaView(_empresaID);
+
+                //var list2 = Mapper.Map<List<EmpresaLayoutCrachaView>>(list1);
+                //var observer = new ObservableCollection<EmpresaLayoutCrachaView>();
+                //list2.ForEach(n =>
+                //{
+                //    observer.Add(n);
+                //});
+
+                //EmpresasLayoutsCrachas = observer;
+                //LayoutsCrachas = observer;
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+            }
+        }
         #endregion
 
         //#region Contrutores

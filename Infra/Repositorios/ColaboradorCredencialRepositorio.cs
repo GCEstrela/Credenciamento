@@ -240,6 +240,40 @@ namespace IMOD.Infra.Repositorios
                 }
             }
         }
+
+        /// <summary>
+        /// Obter dados da credencial
+        /// </summary>
+        /// <param name="colaboradorCredencialId">Identificador</param>
+        /// <returns></returns>
+        public ColaboradoresCredenciaisView BuscarCredencialPelaChave(int colaboradorCredencialId)
+        {
+            using (var conn = _dataBase.CreateOpenConnection())
+            {
+                using (var cmd = _dataBase.SelectText("ColaboradoresCredenciaisView", conn))
+                {
+                    try
+                    {
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("ColaboradorCredencialID", DbType.Int32,colaboradorCredencialId, 0).Igual())); 
+
+                        var reader = cmd.ExecuteReaderSelect();
+                        var d1 = reader.MapToList<ColaboradoresCredenciaisView>();
+                        return d1.FirstOrDefault();
+                    }
+                    catch (Exception ex)
+                    {
+                        Utils.TraceException(ex);
+                        throw;
+                    }
+                }
+            }
+        }
+
+
+
+
+
+
         /// <summary>
         ///    Listar Veículos e seus contratos
         /// </summary>

@@ -75,5 +75,20 @@ namespace iModSCCredenciamento.Views
                 //}
             }
         }
+
+        private void EmpresaVinculo_cb_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        {
+            EmpresaVinculo_cb.SelectionChanged += EmpresaVinculo_cb_SelectionChanged;
+        }
+
+        private void EmpresaVinculo_cb_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            //var _empresa = EmpresaVinculo_cb.SelectedItem.ToString();
+            if (EmpresaVinculo_cb.SelectedValue.ToString() == null) return;
+            
+            var _empresa = EmpresaVinculo_cb.SelectedValue.ToString();
+            _viewModel.CarregaColecaoLayoutsCrachas(_empresa);
+
+        }
     }
 }
