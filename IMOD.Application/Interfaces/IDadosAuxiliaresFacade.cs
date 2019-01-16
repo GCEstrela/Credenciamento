@@ -129,6 +129,11 @@ namespace IMOD.Application.Interfaces
         /// </summary>
         ITipoServicoRepositorio TipoServico { get; }
 
+        /// <summary>
+        ///     Tipos Serviços
+        /// </summary>
+        ITipoServicoService TipoServicoService { get; }
+
         #endregion
     }
 }

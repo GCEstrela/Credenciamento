@@ -6,6 +6,7 @@
 
 #region
 
+using System;
 using IMOD.Application.Interfaces;
 using IMOD.Domain.Interfaces;
 using IMOD.Infra.Repositorios;
@@ -166,11 +167,11 @@ namespace IMOD.Application.Service
         }
 
         /// <summary>
-        /// Tipos de Serviço
+        ///     Tipos Serviços
         /// </summary>
-        public ITipoServicoRepositorio TipoServico
+        public ITipoServicoService TipoServicoService
         {
-            get { return new TipoServicoRepositorio(); }
+            get { return new TipoServicoService(); }
         }
 
 
@@ -178,6 +179,11 @@ namespace IMOD.Application.Service
         ///     Tipos Combustiveis
         /// </summary>
         public ITipoCombustivelService TipoCombustivelService { get { return new TipoCombustivelService(); } }
+
+        public ITipoServicoRepositorio TipoServico
+        {
+            get { return new TipoServicoService(); }
+        }
 
         #endregion
     }
