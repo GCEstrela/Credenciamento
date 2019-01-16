@@ -26,11 +26,11 @@ namespace IMOD.Domain.Interfaces
         ICollection<ColaboradoresCredenciaisView> ListarView(params object[] o);
 
         /// <summary>
-        ///     Listar dados de Credencial (Impressão)
+        /// Obter dados da credencial
         /// </summary>
-        /// <param name="o">Arrays de Parametros</param>
+        /// <param name="colaboradorCredencialId">Identificador</param>
         /// <returns></returns>
-        ICollection<CredencialView> ListarCredencialView(int id);
+        ColaboradoresCredenciaisView BuscarCredencialPelaChave(int colaboradorCredencialId);
 
         #endregion
     }

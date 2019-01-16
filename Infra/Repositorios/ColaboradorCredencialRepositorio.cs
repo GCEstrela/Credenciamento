@@ -128,7 +128,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("FormatoCredencialID", DbType.Int32, entity.FormatoCredencialId, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("NumeroCredencial", entity.NumeroCredencial, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("FC", DbType.Int32, entity.Fc, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Emissao", DbType.DateTime, entity.Emissao, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Emissao", DbType.DateTime, entity.Emissao, false))); 
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("CredencialStatusID", DbType.Int32, entity.CredencialStatusId, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("CardHolderGUID", DbType.String, entity.CardHolderGuid, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("CredencialGUID", DbType.String, entity.CredencialGuid, false)));
@@ -242,23 +242,23 @@ namespace IMOD.Infra.Repositorios
         }
 
         /// <summary>
-        ///    Listar dados de Credencial (Impressão)
+        /// Obter dados da credencial
         /// </summary>
-        /// <param name="o">Arrays de Parametros</param>
+        /// <param name="colaboradorCredencialId">Identificador</param>
         /// <returns></returns>
-        public ICollection<CredencialView> ListarCredencialView(int id)
+        public ColaboradoresCredenciaisView BuscarCredencialPelaChave(int colaboradorCredencialId)
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText("CredencialView", conn))
-
+                using (var cmd = _dataBase.SelectText("ColaboradoresCredenciaisView", conn))
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("ColaboradorCredencialID", DbType.Int32, id).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("ColaboradorCredencialID", DbType.Int32,colaboradorCredencialId, 0).Igual())); 
+
                         var reader = cmd.ExecuteReaderSelect();
-                        var d1 = reader.MapToList<CredencialView>();
-                        return d1;
+                        var d1 = reader.MapToList<ColaboradoresCredenciaisView>();
+                        return d1.FirstOrDefault();
                     }
                     catch (Exception ex)
                     {
@@ -268,6 +268,11 @@ namespace IMOD.Infra.Repositorios
                 }
             }
         }
+
+
+
+
+
 
         /// <summary>
         ///    Listar Veículos e seus contratos
@@ -303,3 +308,4 @@ namespace IMOD.Infra.Repositorios
         #endregion
     }
 }
+    
