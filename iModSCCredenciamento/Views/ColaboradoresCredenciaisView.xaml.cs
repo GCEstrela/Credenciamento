@@ -57,5 +57,23 @@ namespace iModSCCredenciamento.Views
                 brnImprimirCredencial.IsHitTestVisible = true;
             }
         }
+
+        private void StatusCredencial_cb_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.AddedItems.Count > 0)
+            {
+                
+                //if (((CredencialStatusView)((object[])e.AddedItems)[0]).CredencialStatusId == 1)
+                //{
+                //    Ativa_tw = true;
+                //    ((ColaboradoresCredenciaisViewModel)DataContext).CarregaColecaoCredenciaisMotivos(1);
+                //}
+                //else
+                //{
+                //    Ativa_tw.IsChecked = false;
+                //    ((ColaboradoresCredenciaisViewModel)DataContext).CarregaColecaoCredenciaisMotivos(2);
+                //}
+            }
+        }
     }
 }
