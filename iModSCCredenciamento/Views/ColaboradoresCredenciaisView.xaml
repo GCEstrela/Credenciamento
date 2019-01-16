@@ -35,8 +35,7 @@
                                       VerticalContentAlignment="Center" 
                                       HorizontalContentAlignment="Left"
                                       ItemsSource="{Binding ColaboradoresEmpresas}" 
-
-                                      SelectedValue="{Binding Entity.ColaboradorEmpresaId,  ElementName=ListaColaboradoresCredenciais_lv, UpdateSourceTrigger=PropertyChanged}"
+                                      SelectedValue="{Binding Entity.ColaboradorEmpresaId, UpdateSourceTrigger=PropertyChanged}"
                                       SelectedValuePath="ColaboradorEmpresaId" IsSynchronizedWithCurrentItem="True"
 
                                       >
@@ -67,9 +66,9 @@
                                       Width="130"
                                       ItemsSource="{Binding CredencialStatus}" 
                                       DisplayMemberPath="Descricao"
-                                      SelectedValue="{Binding Entity.CredencialStatusId, ElementName=ListaColaboradoresCredenciais_lv, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                      SelectedValue="{Binding Entity.CredencialStatusId, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                                       SelectedValuePath="CredencialStatusId" IsSynchronizedWithCurrentItem="True"
-                                      RenderTransformOrigin="0.5,0.5" >
+                                      RenderTransformOrigin="0.5,0.5" SelectionChanged="StatusCredencial_cb_SelectionChanged" >
 
                                 <ComboBox.RenderTransform>
                                     <TransformGroup>
@@ -92,7 +91,7 @@
                                       HorizontalContentAlignment="Left"
                                       ItemsSource="{Binding CredencialMotivo, Mode=TwoWay}" 
                                       DisplayMemberPath="Descricao"
-                                      SelectedValue="{Binding Entity.CredencialMotivoId, ElementName=ListaColaboradoresCredenciais_lv, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                      SelectedValue="{Binding Entity.CredencialMotivoId, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                                       SelectedValuePath="CredencialMotivoId" IsSynchronizedWithCurrentItem="True" />
                         </StackPanel>
 
@@ -101,7 +100,7 @@
                             <Label Content="Código:" Height="28" Width="55" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
                             <TextBox MaxLength="50" 
                                      CharacterCasing="Lower"
-                                     Text="{Binding SelectedItem.ColaboradorCredencialId, ElementName=ListaColaboradoresCredenciais_lv, UpdateSourceTrigger=PropertyChanged}" 
+                                     Text="{Binding Entity.ColaboradorCredencialId,  UpdateSourceTrigger=PropertyChanged}" 
                                      IsEnabled="False" Height="24" Width="44" />
                             <Label Content="Tipo:" Height="28" Width="36" Foreground="#FFD0D0D0" />
 
@@ -114,7 +113,7 @@
                                       HorizontalContentAlignment="Left"
                                       ItemsSource="{Binding TipoCredencial, Mode=TwoWay}" 
                                       DisplayMemberPath="Descricao"
-                                      SelectedValue="{Binding SelectedItem.TipoCredencialId, ElementName=ListaColaboradoresCredenciais_lv, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                      SelectedValue="{Binding Entity.TipoCredencialId,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                                       SelectedValuePath="TipoCredencialId" IsSynchronizedWithCurrentItem="True" />
 
                             <Label Content="Modelo:" Height="28" Width="53" Margin="1" Foreground="#FFD0D0D0" />
@@ -128,11 +127,12 @@
                                       HorizontalContentAlignment="Left"
                                       ItemsSource="{Binding EmpresaLayoutCracha , Mode=TwoWay}" 
                                       DisplayMemberPath="Nome"
-                                      SelectedValue="{Binding SelectedItem.LayoutCrachaId, ElementName=ListaColaboradoresCredenciais_lv, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                      SelectedValue="{Binding Entity.LayoutCrachaId, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                                       SelectedValuePath="LayoutCrachaId" IsSynchronizedWithCurrentItem="True" />
 
                             <Label Content="Colete:" Height="28" Width="49" Margin="0,0,0,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                            <TextBox  x:Name="NumeroColete_tb"  MaxLength="4"  CharacterCasing="Upper" Text="{Binding SelectedItem.Colete, ElementName=ListaColaboradoresCredenciais_lv, UpdateSourceTrigger=PropertyChanged}"  Height="24"  Width="45"/>
+                            <TextBox  x:Name="NumeroColete_tb"  MaxLength="4"  CharacterCasing="Upper" 
+                                      Text="{Binding Entity.Colete,  UpdateSourceTrigger=PropertyChanged}"  Height="24"  Width="45"/>
 
                             <Label Content="Autenticação:" Height="28" Width="138" Margin="1" HorizontalContentAlignment="Right"
                                    Foreground="#FFD0D0D0" />
@@ -146,11 +146,12 @@
                                       HorizontalContentAlignment="Left"
                                       ItemsSource="{Binding TecnologiasCredenciais, Mode=TwoWay}" 
                                       DisplayMemberPath="Descricao"
-                                      SelectedValue="{Binding SelectedItem.TecnologiaCredencialId, ElementName=ListaColaboradoresCredenciais_lv, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                      SelectedValue="{Binding Entity.TecnologiaCredencialId, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                                       SelectedValuePath="TecnologiaCredencialId" IsSynchronizedWithCurrentItem="True" />
 
                             <Label Content="FC:" Height="28" Width="68" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                            <TextBox  x:Name="FC_tb"  MaxLength="5"   IsEnabled="{Binding ElementName=Ativa_cb, Path=IsChecked }"  CharacterCasing="Upper" Text="{Binding SelectedItem.Fc, ElementName=ListaColaboradoresCredenciais_lv, UpdateSourceTrigger=PropertyChanged}"  Height="24"  Width="44"/>
+                            <TextBox  x:Name="FC_tb"  MaxLength="5"   IsEnabled="{Binding ElementName=Ativa_cb, Path=IsChecked }"  
+                                      CharacterCasing="Upper" Text="{Binding Entity.Fc,UpdateSourceTrigger=PropertyChanged}"  Height="24"  Width="44"/>
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
@@ -172,7 +173,7 @@
                                        HorizontalContentAlignment="Left"
                                        ItemsSource="{Binding ColaboradorPrivilegio, Mode=TwoWay}" 
                                        DisplayMemberPath="Identificacao" 
-                                       SelectedValue="{Binding SelectedItem.ColaboradorPrivilegio1Id, ElementName=ListaColaboradoresCredenciais_lv, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                       SelectedValue="{Binding Entity.ColaboradorPrivilegio1Id,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                                        SelectedValuePath="AreaAcessoId"  />
 
                             <ComboBox  x:Name="Privilegio2_tb" 
@@ -183,7 +184,7 @@
                                        HorizontalContentAlignment="Left"
                                        ItemsSource="{Binding ColaboradorPrivilegio}" 
                                        DisplayMemberPath="Identificacao" 
-                                       SelectedValue="{Binding SelectedItem.ColaboradorPrivilegio2Id, ElementName=ListaColaboradoresCredenciais_lv, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                       SelectedValue="{Binding Entity.ColaboradorPrivilegio2Id, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                                        SelectedValuePath="AreaAcessoId"  />
 
                             <Label Content="Formato Credencial:" Height="28" Width="137" Margin="1" HorizontalContentAlignment="Right"
@@ -198,7 +199,7 @@
                                       HorizontalContentAlignment="Left"
                                       ItemsSource="{Binding FormatoCredencial, Mode=TwoWay}" 
                                       DisplayMemberPath="Descricao"
-                                      SelectedValue="{Binding SelectedItem.FormatoCredencialId, ElementName=ListaColaboradoresCredenciais_lv, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                      SelectedValue="{Binding Entity.FormatoCredencialId, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                                       SelectedValuePath="FormatoCredencialId" IsSynchronizedWithCurrentItem="True" />
 
 
@@ -209,7 +210,7 @@
                             <TextBox  x:Name="NumeroCredencial_tb"  
                                       IsEnabled="{Binding ElementName=Ativa_cb, Path=IsChecked }"  
                                       MaxLength="10"  CharacterCasing="Upper" 
-                                      Text="{Binding SelectedItem.NumeroCredencial, ElementName=ListaColaboradoresCredenciais_lv, UpdateSourceTrigger=PropertyChanged}" 
+                                      Text="{Binding Entity.NumeroCredencial,  UpdateSourceTrigger=PropertyChanged}" 
                                       Height="24"  Width="58"/>
 
 
@@ -234,14 +235,8 @@
                           HorizontalAlignment="Stretch" 
                           VerticalAlignment="Stretch" 
                           ItemsSource="{Binding EntityObserver, Mode=TwoWay}" 
-
-                          SelectedItem="{Binding Entity, Mode=TwoWay}" 
-                          SelectionChanged="ListaColaboradoresCredenciais_lv_SelectionChanged" 
-
-                          Background="{x:Null}" 
-
-                          
-                                        >
+                          SelectedItem="{Binding Entity, Mode=TwoWay}"                            
+                          Background="{x:Null}">
                     <ListView.View>
                         <GridView  >
                             <!--<GridViewColumn >
@@ -262,7 +257,7 @@
                             <GridViewColumn Width="68" Header="Ativa"  >
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <wpf:ToggleSwitch HeaderHorizontalAlignment="Stretch" Width="100" HorizontalAlignment="Right" SwitchContentPlacement="Right" IsHitTestVisible="False"
+                                        <wpf:ToggleSwitch  x:Name="Ativa_tw" HeaderHorizontalAlignment="Stretch" Width="100" HorizontalAlignment="Right" SwitchContentPlacement="Right" IsHitTestVisible="False"
                                                           IsChecked="{Binding Ativa}"  Foreground="#FFD0D0BE" UncheckedBackground="Maroon" UncheckedBorderBrush="Maroon" UncheckedForeground="#FFAEAEAE" UncheckedText="" CheckedText="" SwitchWidth="44" />
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>

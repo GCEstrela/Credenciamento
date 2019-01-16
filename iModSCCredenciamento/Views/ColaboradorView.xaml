@@ -290,9 +290,11 @@
 
 
         <StackPanel x:Name="ListaColaboradores_sp" Grid.Column="0" Grid.Row="1" Orientation="Horizontal"  Margin="0,0,-219,0" Height="184" VerticalAlignment="Top">
-            <ListView x:Name="lstView" ItemsSource="{Binding EntityObserver, Mode=TwoWay}" IsEnabled="{Binding IsEnableLstView}"
-                      
-                      SelectedItem="{Binding Entity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"   Margin="0,0,5,0" Width="1055">
+                <ListView x:Name="lstView" 
+                          IsEnabled="{Binding IsEnableLstView}"  
+                          ItemsSource="{Binding EntityObserver, Mode=TwoWay}" 
+                          SelectedItem="{Binding Entity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"   
+                          Margin="0,0,5,0" Width="1055">
                 <ListView.View>
                     <GridView FrameworkElement.FlowDirection="RightToLeft">
                         <!--<GridViewColumn >

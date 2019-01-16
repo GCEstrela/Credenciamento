@@ -55,8 +55,10 @@ namespace iModSCCredenciamento.ViewModels
 
         private ColaboradorView _colaboradorView;
         private ColaboradorEmpresaView _colaboradorEmpresaView;
+        private ColaboradorCredencial _colaboradorCredencial;
 
         #region  Propriedades
+
         public List<CredencialStatus> CredencialStatus { get; set; }
         public List<CredencialMotivo> CredencialMotivo { get; set; }
         public List<FormatoCredencial> FormatoCredencial { get; set; }
@@ -93,6 +95,8 @@ namespace iModSCCredenciamento.ViewModels
             ItensDePesquisaConfigura();
             ListarDadosAuxiliares();
             Comportamento = new ComportamentoBasico(true, true, true, false, false);
+            EntityObserver = new ObservableCollection<ColaboradoresCredenciaisView>();
+
             Comportamento.SalvarAdicao += OnSalvarAdicao;
             Comportamento.SalvarEdicao += OnSalvarEdicao;
             Comportamento.Remover += OnRemover;
@@ -145,9 +149,10 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
+
                 if (Entity == null) return;
                 var n1 = Mapper.Map<ColaboradorCredencial>(Entity);
-
+                
                 n1.CredencialMotivoId = Entity.CredencialMotivoId;
                 n1.CredencialStatusId = Entity.CredencialStatusId;
                 n1.FormatoCredencialId = Entity.FormatoCredencialId;
@@ -158,9 +163,19 @@ namespace iModSCCredenciamento.ViewModels
                 _service.Criar(n1);
                 //////Adicionar no inicio da lista um item a coleção
                 //var n2 = Mapper.Map<ColaboradorCredencialView>(n1);
+                //EntityObserver = new ObservableCollection<ColaboradoresCredenciaisView>();
+                //Entity.ColaboradorCredencialId = n1.ColaboradorCredencialId;
+                
+                var list1 = _service.ListarView(null, null, null, null, _colaboradorView.ColaboradorId).ToList();
+                var list2 = Mapper.Map<List<ColaboradoresCredenciaisView>>(list1);
                 EntityObserver = new ObservableCollection<ColaboradoresCredenciaisView>();
-                Entity.ColaboradorCredencialId = n1.ColaboradorCredencialId;
-                EntityObserver.Insert(0, Entity);
+                list2.ForEach(n =>
+                {
+                    EntityObserver.Add(n);
+                });
+
+
+                //EntityObserver.Insert(0, Entity);
                 IsEnableLstView = true;
             }
             catch (Exception ex)
