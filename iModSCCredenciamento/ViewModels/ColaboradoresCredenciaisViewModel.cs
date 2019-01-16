@@ -21,8 +21,9 @@ using IMOD.Application.Interfaces;
 using IMOD.Application.Service;
 using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
+using IMOD.Domain.EntitiesCustom;
 //using IMOD.Domain.EntitiesCustom;
-using ColaboradoresCredenciaisView = IMOD.Domain.EntitiesCustom.ColaboradoresCredenciaisView;
+//using ColaboradoresCredenciaisView = IMOD.Domain.EntitiesCustom.ColaboradoresCredenciaisView;
 //using EmpresaView = iModSCCredenciamento.Views.Model.EmpresaView;
 using ColaboradorEmpresaView = iModSCCredenciamento.Views.Model.ColaboradorEmpresaView;
 using EmpresaLayoutCrachaView = iModSCCredenciamento.Views.Model.EmpresaLayoutCrachaView;
@@ -62,11 +63,12 @@ namespace iModSCCredenciamento.ViewModels
         //public FormatoCredencialView EntityFormatoCredencialView { get; set; }
         //public EmpresaContratoView EntityEmpresaContratoView { get; set; }
 
-        public ColaboradorCredencialView Entity { get; set; }
-        public ObservableCollection<ColaboradorCredencialView> EntityObserver { get; set; }
+        public ColaboradoresCredenciaisView Entity { get; set; }
+        public ObservableCollection<ColaboradoresCredenciaisView> EntityObserver { get; set; }
 
-        public ColaboradoresCredenciaisView EntityCustom { get; set; }
-        public ObservableCollection<ColaboradoresCredenciaisView> EntityCustomObserver { get; set; }
+        //TODO: EntityCustom ColaboradoresCredenciais
+        //public ColaboradoresCredenciaisView EntityCustom { get; set; }
+        //public ObservableCollection<ColaboradoresCredenciaisView> EntityCustomObserver { get; set; }
 
         /// <summary>
         ///     Habilita listView
@@ -97,10 +99,10 @@ namespace iModSCCredenciamento.ViewModels
             ////Obter dados
             var list1 = _service.ListarView(null, null, null, null, entity.ColaboradorId).ToList();
             var list2 = Mapper.Map<List<ColaboradoresCredenciaisView>>(list1);
-            EntityCustomObserver = new ObservableCollection<ColaboradoresCredenciaisView>();
+            EntityObserver = new ObservableCollection<ColaboradoresCredenciaisView>();
             list2.ForEach(n =>
             {
-                EntityCustomObserver.Add(n);
+                EntityObserver.Add(n);
             });
         }
 
@@ -146,7 +148,7 @@ namespace iModSCCredenciamento.ViewModels
                 _service.Criar(n1);
                 //////Adicionar no inicio da lista um item a coleção
                 //var n2 = Mapper.Map<ColaboradorCredencialView>(n1);
-                EntityObserver = new ObservableCollection<ColaboradorCredencialView>();
+                EntityObserver = new ObservableCollection<ColaboradoresCredenciaisView>();
                 Entity.ColaboradorCredencialId = n1.ColaboradorCredencialId;
                 EntityObserver.Insert(0, Entity);
                 IsEnableLstView = true;
@@ -163,7 +165,8 @@ namespace iModSCCredenciamento.ViewModels
         /// </summary>
         private void PrepareCriar()
         {
-            Entity = new ColaboradorCredencialView();
+            //Entity = new ColaboradorCredencialView();
+            Entity = new ColaboradoresCredenciaisView();
             Comportamento.PrepareCriar();
             IsEnableLstView = false;
         }
@@ -277,8 +280,8 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                var list2 = Mapper.Map<List<ColaboradorCredencialView>>(list.OrderBy(n => n.ColaboradorCredencialId));
-                EntityObserver = new ObservableCollection<ColaboradorCredencialView>();
+                var list2 = Mapper.Map<List<ColaboradoresCredenciaisView>>(list.OrderBy(n => n.ColaboradorCredencialId));
+                EntityObserver = new ObservableCollection<ColaboradoresCredenciaisView>();
                 list2.ForEach(n => { EntityObserver.Add(n); });
                 //Empresas = observer;
             }

@@ -230,7 +230,6 @@
     <Compile Include="ViewModels\ContratoViewModel.cs" />
     <Compile Include="Views\Model\AreaAcessoView.cs" />
     <Compile Include="Views\Model\ColaboradorAnexoView.cs" />
-    <Compile Include="Views\Model\ColaboradorCredencialView.cs" />
     <Compile Include="Views\Model\ColaboradorCursoView.cs" />
     <Compile Include="Views\Model\ColaboradorEmpresaView.cs" />
     <Compile Include="Views\Model\ColaboradorPrivilegioView.cs" />

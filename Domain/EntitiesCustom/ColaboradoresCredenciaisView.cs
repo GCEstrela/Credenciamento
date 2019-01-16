@@ -29,8 +29,10 @@ namespace IMOD.Domain.EntitiesCustom
         public string ColaboradorNome { get; set; }
         public string EmpresaNome { get; set; }
         public string ContratoDescricao { get; set; }
+        public string TipoCredencialDescricao { get; set; }
+        public string CredencialStatusDescricao { get; set; }
         public int EmpresaId { get; set; }
-        public int ColaboradorId { get; set; } 
+        public int ColaboradorId { get; set; }
         public string ColaboradorFoto { get; set; }
         public string Cpf { get; set; }
         public bool Motorista { get; set; }
@@ -41,7 +43,14 @@ namespace IMOD.Domain.EntitiesCustom
         public string Cargo { get; set; }
         public string LayoutCrachaGuid { get; set; }
         public string Cnpj { get; set; }
-        public string FormatIdguid { get; set; }
+        public string CnhCategoria { get; set; }
+        public string TelefoneEmergencia { get; set; }
+        public string Rg { get; set; }
+        public string RgOrgLocal { get; set; }
+        public string RgOrgUf { get; set; }
+        public string Matricula { get; set; }
+        public string Identificacao1 { get; set; }
+        public string Identificacao2 { get; set; }
 
     }
 }

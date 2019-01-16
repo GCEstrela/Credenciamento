@@ -31,7 +31,7 @@ namespace iModSCCredenciamento.Views
         }
 
         #endregion
-      
+
 
         /// <summary>
         ///     Atualizar dados
@@ -45,7 +45,17 @@ namespace iModSCCredenciamento.Views
 
         private void ListaColaboradoresCredenciais_lv_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            if (ListaColaboradoresCredenciais_lv.SelectedIndex == -1)
+            {
+                //Retirado pois não está funcionando o SelectedIndex=0!
+                //Linha0_sp.IsEnabled = false;
+                //Editar_bt.IsEnabled = false;
+            }
+            else
+            {
+                btnEditar.IsEnabled = true;
+                brnImprimirCredencial.IsHitTestVisible = true;
+            }
         }
     }
 }
