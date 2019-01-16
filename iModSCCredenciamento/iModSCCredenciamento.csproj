@@ -391,6 +391,9 @@
     <Compile Include="Windows\PopUpFiltrosAutorizacoesInvalidas.xaml.cs">
       <DependentUpon>PopUpFiltrosAutorizacoesInvalidas.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\PopUpFiltrosAutorizacoesViasAdicionais.xaml.cs">
+      <DependentUpon>PopUpFiltrosAutorizacoesViasAdicionais.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\PopUpFiltrosCredenciais.xaml.cs">
       <DependentUpon>PopUpFiltrosCredenciais.xaml</DependentUpon>
     </Compile>
@@ -590,6 +593,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Windows\PopUpFiltrosAutorizacoesInvalidas.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\PopUpFiltrosAutorizacoesViasAdicionais.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

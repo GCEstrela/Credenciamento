@@ -29,16 +29,18 @@ namespace iModSCCredenciamento.Windows
 
         private void button_ClickFiltrar(object sender, RoutedEventArgs e)
         {
-            bool check;
+            bool tipo;
+            string DataIni = dp_dataInicial.Text;
+            string DataFim = dp_dataFinal.Text;
 
             if (permanente_rb.IsChecked.Value)
             {
-                check = true;
+                tipo = true;
             }
             else
-                check = false;
+                tipo = false;
 
-            ((RelatoriosViewModel)DataContext).OnFiltroRelatorioAutorizacoesCommand(check);
+            ((RelatoriosViewModel)DataContext).OnFiltroRelatorioAutorizacoesCommand(tipo, DataIni, DataFim);
 
             Close();
         }

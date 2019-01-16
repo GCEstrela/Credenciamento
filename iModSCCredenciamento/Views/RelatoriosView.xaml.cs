@@ -13,6 +13,7 @@ namespace iModSCCredenciamento.Views
     /// </summary>
     public partial class RelatoriosView : UserControl
     {
+        private PopUpFiltrosAutorizacoesViasAdicionais popupfiltrosautorizacoesviasadicionais;
         private PopUpFiltrosCredenciaisViasAdicionais popupfiltroscredenciaisviasadicionais;
         private PopupFiltrosTermos PopupFiltrosTermos;
         private PopUpFiltrosImpressoes popupfiltrosimpressoes;
@@ -179,5 +180,20 @@ namespace iModSCCredenciamento.Views
 
 
         #endregion
+
+        private void ButtonRelatorioViasAdicionaisAutorizacoesClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                popupfiltrosautorizacoesviasadicionais = new PopUpFiltrosAutorizacoesViasAdicionais();
+                popupfiltrosautorizacoesviasadicionais.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                Global.Log("Erro na void ButtonRelatorioViasAdicionaisAutorizacoesClick ex: " + ex);
+                Utils.TraceException(ex);
+                throw;
+            }
+        }
     }
 }
