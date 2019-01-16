@@ -136,19 +136,19 @@
     <Compile Include="Crachas\CrachaModelo - Motorista.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>CrachaModelo - Motorista.rpt</DependentUpon>
+      <DependentUpon>ATIV FRAPORT.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Crachas\CrachaModelo.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>CrachaModelo.rpt</DependentUpon>
+      <DependentUpon>CRACHA_FRAPORT_PERM.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Crachas\CrachaTemporarioModelo1.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>CrachaTemporarioModelo.rpt</DependentUpon>
+      <DependentUpon>CRACHA_FRAPORT_TEMP.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Enums\Tipos.cs" />
@@ -863,17 +863,17 @@
     <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Crachas\CrachaModelo - Motorista.rpt">
+    <EmbeddedResource Include="Crachas\ATIV FRAPORT.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>CrachaModelo - Motorista.cs</LastGenOutput>
+      <LastGenOutput>ATIV FRAPORT.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Crachas\CrachaModelo.rpt">
+    <EmbeddedResource Include="Crachas\CRACHA_FRAPORT_PERM.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>CrachaModelo.cs</LastGenOutput>
+      <LastGenOutput>CRACHA_FRAPORT_PERM.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Crachas\CrachaTemporarioModelo.rpt">
+    <EmbeddedResource Include="Crachas\CRACHA_FRAPORT_TEMP.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>CrachaTemporarioModelo1.cs</LastGenOutput>
+      <LastGenOutput>CRACHA_FRAPORT_TEMP.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

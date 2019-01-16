@@ -51,6 +51,8 @@ namespace IMOD.Domain.EntitiesCustom
         public string Matricula { get; set; }
         public string Identificacao1 { get; set; }
         public string Identificacao2 { get; set; }
+        public bool IsencaoCobranca { get; set; }
+
 
     }
 }

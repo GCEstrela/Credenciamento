@@ -12,7 +12,8 @@ using Genetec.Sdk.Entities.Activation;
 using Genetec.Sdk.Queries;
 using Genetec.Sdk.Workspace;
 using Genetec.Sdk.Workspace.Services;
-using iModSCCredenciamento.Models; 
+using iModSCCredenciamento.Models;
+using IMOD.CrossCutting;
 using Application = System.Windows.Application;
 using ValidationResult = System.Printing.ValidationResult;
 
@@ -20,7 +21,7 @@ namespace iModSCCredenciamento.Funcoes
 {
     public class SCManager
     {
-       static IEngine _sdk = Main.Engine;
+        static IEngine _sdk = Main.Engine;
         //public static bool ImprimirCredencial(ClasseColaboradoresCredenciais.ColaboradorCredencial colaboradorCredencial)
         //{
         //    try
@@ -224,25 +225,21 @@ namespace iModSCCredenciamento.Funcoes
             return printQueue;
         }
 
-        public static bool Vincular(ClasseColaboradoresCredenciais.ColaboradorCredencial colaboradorCredencial)
-
+        public bool Vincular(string _Nome, string _CPF, string _CNPJ, string _Empresa, string _Matricula, string _Cargo,
+                                            string _FC, string _NumeroCredencial, string _FormatoCredencial, string _DataValidadeSTR, string _LayoutCrachaGuid = "", Bitmap _Foto = null)
         {
             try
             {
                 //IEngine _sdk = Main.engine;
-                Cardholder _cardholder=null;
+                Cardholder _cardholder;
                 string _firstname = "";
                 string _lastname = "";
                 ////// CardHolder
                 try
                 {
+                    _cardholder = BuscarCardHolder(_CPF, _CNPJ);
 
-                    _cardholder = BuscarCardHolder(colaboradorCredencial.CPF, colaboradorCredencial.CNPJ);
-                    _sdk.TransactionManager.CreateTransaction();
-
-                    
-
-                    string[] _nomeCompleto = colaboradorCredencial.ColaboradorNome.Split(' ');
+                    string[] _nomeCompleto = _Nome.Split(' ');
 
                     int _len = _nomeCompleto.Count();
 
@@ -254,241 +251,183 @@ namespace iModSCCredenciamento.Funcoes
                     }
                     else
                     {
-                        _firstname = colaboradorCredencial.ColaboradorNome;
+                        _firstname = _Nome;
+                    }
+                    DateTime _DataValidade = DateTime.Now.AddSeconds(86399);
+
+                    if (_DataValidadeSTR != "")
+                    {
+                        _DataValidade = Convert.ToDateTime(_DataValidadeSTR);
+
+                        _DataValidade = _DataValidade.AddSeconds(86399);
+
+                        _DataValidade = _DataValidade <= DateTime.Now ? DateTime.Now.AddSeconds(3) : _DataValidade;
                     }
 
+                    _sdk.TransactionManager.CreateTransaction();
 
-                    CardholderGroup _cardholderGroup = _sdk.GetEntity(EntityType.CardholderGroup, 1) as CardholderGroup;
+                    CardholderGroup _cardholderGroup;
 
                     if (_cardholder == null)
                     {
-                        _cardholder = _sdk.CreateEntity(colaboradorCredencial.ColaboradorNome, EntityType.Cardholder) as Cardholder;
+                        _cardholderGroup = _sdk.GetEntity(EntityType.CardholderGroup, 1) as CardholderGroup;
+
+                        _cardholder = _sdk.CreateEntity(_Nome, EntityType.Cardholder) as Cardholder;
+
+                        _cardholder.SetCustomFieldAsync("CPF", _CPF);
+
+                        _cardholder.SetCustomFieldAsync("Empresa", _Empresa);
+
+                        _cardholder.SetCustomFieldAsync("CNPJ", _CNPJ);
+
+                        _cardholder.SetCustomFieldAsync("Matricula", _Matricula);
+
+                        _cardholder.SetCustomFieldAsync("Cargo", _Cargo);
+
+                        _cardholder.InsertIntoPartition(Partition.DefaultPartitionGuid);
+
+                        if (_cardholderGroup != null)
+                        {
+                            _cardholder.Groups.Add(_cardholderGroup.Guid);
+                        }
                     }
 
-                    BitmapImage _img1 = Conversores.STRtoIMG(colaboradorCredencial.ColaboradorFoto) as BitmapImage;
+                    _cardholder.FirstName = _firstname;
 
-                    BitmapImage _img2 = Conversores.STRtoIMG(colaboradorCredencial.EmpresaLogo) as BitmapImage;
+                    _cardholder.LastName = _lastname;
 
-                    Bitmap _Foto = Conversores.BitmapImageToBitmap(_img1);
+
+                    _cardholder.SetCustomFieldAsync("CPF", _CPF);
+
+                    _cardholder.SetCustomFieldAsync("Empresa", _Empresa);
+
+                    _cardholder.SetCustomFieldAsync("CNPJ", _CNPJ);
+
+                    _cardholder.SetCustomFieldAsync("Matricula", _Matricula);
+
+                    _cardholder.SetCustomFieldAsync("Cargo", _Cargo);
+
+
+
+
 
                     if (_Foto != null)
                     {
                         _cardholder.Picture = _Foto;
                     }
 
-                    //////   CUSTOM FIELDS //////
-
-                    //var _systemConfiguration = _sdk.GetEntity(SdkGuids.SystemConfiguration) as SystemConfiguration;
-
-                    //var _customFieldService = _systemConfiguration.CustomFieldService;
-
-                    //Bitmap _Logo = Conversores.BitmapImageToBitmap(_img2);
-
-                    //System.Drawing.Image _img3 = System.Drawing.Image.FromFile("D:\\Meus Documentos\\Visual Studio 2015\\Projects\\Genetec\\Projeto Credenciamento\\iModSCCredenciamento 1.0.0.3\\iModSCCredenciamento\\Resources\\Contrato.jpg");
-
-                    //var _customField = _customFieldService.CustomFields.Where(x => x.EntityType == EntityType.Cardholder && x.Name.Equals("Logo")).FirstOrDefault();
-
-                    //if (_customField != null)
-                    //{
-                    //    _customFieldService.SetValue(_customField, _cardholder.Guid, _img3);
-                    //}
-
-
-                    Bitmap _Logo = Conversores.BitmapImageToBitmap(_img2);
-
-                    if (_Logo != null)
-                    {
-                        _cardholder.SetCustomFieldAsync("Logo", _Logo);
-                    }
-
-                    Bitmap _Motorista = null;
-
-                    if (colaboradorCredencial.Motorista)
-                    {
-                        _img1 = new BitmapImage(new Uri("pack://application:,,,/iModSCCredenciamento;component/Resources/Veiculo.png", UriKind.Absolute));
-                        _Motorista = Conversores.BitmapImageToBitmap(_img1);
-                        _cardholder.SetCustomFieldAsync("Motorista", _Motorista);
-                    }
-
-                    _cardholder.SetCustomFieldAsync("Colaborador (ID)", colaboradorCredencial.ColaboradorID);
-
-                    _cardholder.SetCustomFieldAsync("Apelido", colaboradorCredencial.ColaboradorApelido.Trim());
-
-                    _cardholder.SetCustomFieldAsync("CPF", colaboradorCredencial.CPF.Trim());
-
-                    _cardholder.SetCustomFieldAsync("Empresa", colaboradorCredencial.EmpresaNome.Trim());
-
-                    _cardholder.SetCustomFieldAsync("Nome Fantasia", colaboradorCredencial.EmpresaApelido.Trim());
-
-                    _cardholder.SetCustomFieldAsync("CNPJ", colaboradorCredencial.CNPJ.Trim());
-
-                    _cardholder.SetCustomFieldAsync("Cargo", colaboradorCredencial.Cargo.Trim());
-
-
-
-                    _cardholder.InsertIntoPartition(Partition.DefaultPartitionGuid);
-
-                    if (_cardholder.Groups.Count == 0 && _cardholderGroup != null)
-                    {
-                        _cardholder.Groups.Add(_cardholderGroup.Guid);
-                    }
-
-
-                    _cardholder.FirstName = _firstname.Trim();
-
-                    _cardholder.LastName = _lastname.Trim();
+                    _cardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, _DataValidade);
 
                     _sdk.TransactionManager.CommitTransaction();
 
-                    //colaboradorCredencial.CardHolderGuid = _cardholder.Guid;
+                    //return true;
                 }
                 catch (Exception ex)
                 {
-                    if (_sdk.TransactionManager.IsTransactionActive) { _sdk.TransactionManager.RollbackTransaction(); }
-                    
+
                     return false;
                 }
 
-
-
                 //// Credencial
-                ///
-                if (colaboradorCredencial.FormatIDGUID != "00000000-0000-0000-0000-000000000000" && colaboradorCredencial.NumeroCredencial != "")
+                try
                 {
+                    Credential _credencial;
 
-                    try
+                    _credencial = BuscarCredencial(_FC, _NumeroCredencial);
+
+                    if (_credencial != null)
                     {
-
-                        DateTime _DataValidade;
-
-                        if (colaboradorCredencial.Validade != null)
+                        if (_credencial.CardholderGuid != _cardholder.Guid)
                         {
-                            _DataValidade = (DateTime)colaboradorCredencial.Validade;
-
-                            _DataValidade = _DataValidade.AddSeconds(86399);
-
-                            _DataValidade = _DataValidade <= DateTime.Now ? DateTime.Now.AddSeconds(3) : _DataValidade;
+                            //MessageBox.Show("Esta credencial pertence a outro usuário e não pode ser vinculada!", "Erro ao Vincular", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            return false;
                         }
-                        else
+                        else // atualizar credencial
                         {
-                            _DataValidade = DateTime.Now.AddSeconds(86399);
+                            if (_LayoutCrachaGuid != "")
+                            {
+                                BadgeTemplate _BadgeTemplate = _sdk.GetEntity(new Guid(_LayoutCrachaGuid)) as BadgeTemplate;
+                                _credencial.BadgeTemplate = _BadgeTemplate.Guid;
+                            }
+
                         }
+                    }
+                    else //criar nova credencial
+                    {
+                        _sdk.TransactionManager.CreateTransaction();
 
-                        Credential _credencial; // = _sdk.GetEntity((Guid)colaboradorCredencial.CredencialGuid) as Credential;
+                        _credencial = _sdk.CreateEntity(_NumeroCredencial, EntityType.Credential) as Credential;
 
-                        _credencial = BuscarCredencial( colaboradorCredencial.NumeroCredencial, colaboradorCredencial.FormatIDGUID, colaboradorCredencial.FC);
+                        _credencial.Name = _NumeroCredencial + " - " + _firstname + " " + _lastname;
 
-                        
-                        if (_credencial != null)
+                        if (_LayoutCrachaGuid != "")
                         {
-                            if (_credencial.CardholderGuid != _cardholder.Guid)
-                            {
-                                //MessageBox.Show("Esta credencial pertence a outro usuário e não pode ser vinculada!", "Erro ao Vincular", MessageBoxButtons.OK,MessageBoxIcon.Exclamation);
-                                Global.PopupBox("Esta credencial já está associada a um usuário e não pode ser vinculada!", 4);
+                            BadgeTemplate _BadgeTemplate = _sdk.GetEntity(new Guid(_LayoutCrachaGuid)) as BadgeTemplate;
+                            _credencial.BadgeTemplate = _BadgeTemplate.Guid;
 
-                                return false;
-                            }
-
-                            if (colaboradorCredencial.LayoutCrachaGUID != "")
-                            {
-                                //BadgeTemplate _BadgeTemplate = _sdk.GetEntity(new Guid(colaboradorCredencial.LayoutCrachaGUID)) as BadgeTemplate;
-                                //_credencial.BadgeTemplate = _BadgeTemplate.Guid;
-
-                                _credencial.ActivationMode = new SpecificActivationPeriod(DateTime.Now, _DataValidade);
-
-                                _credencial.SetCustomFieldAsync("Privilégio #1", colaboradorCredencial.PrivilegioDescricao1);
-
-                                _credencial.SetCustomFieldAsync("Privilégio #2", colaboradorCredencial.PrivilegioDescricao2);
-                            }
-                        }
-                        else //criar nova credencial
-                        {
-
-
-                            _sdk.TransactionManager.CreateTransaction();
-
-                            _credencial = _sdk.CreateEntity("Credencial de " + _firstname, EntityType.Credential) as Credential;
-
-                            _credencial.Name = colaboradorCredencial.NumeroCredencial.Trim() + " - " + _firstname + " " + _lastname;
-
-                            _credencial.ActivationMode = new SpecificActivationPeriod(DateTime.Now, _DataValidade);
-
-
-                            if (!colaboradorCredencial.Ativa)
-                            {
-                                _credencial.State = CredentialState.Inactive;
-                            }
-
-
-                            //_credencial.SetCustomFieldAsync("Privilégio", colaboradorCredencial.PrivilegioDescricao1);
-
-                            if (colaboradorCredencial.LayoutCrachaGUID != "")
-                            {
-                                //BadgeTemplate _BadgeTemplate = _sdk.GetEntity(new Guid(colaboradorCredencial.LayoutCrachaGUID)) as BadgeTemplate;
-                                //_credencial.BadgeTemplate = _BadgeTemplate.Guid;
-
-                            }
-
-                            //0	N/D                           	00000000-0000-0000-0000-000000000000
-                            //1	Standard - 26 bits            	00000000-0000-0000-0000-000000000200
-                            //2	H10302 - 37 bits              	00000000-0000-0000-0000-000000000400
-                            //3	H10304 - 37 bits              	00000000-0000-0000-0000-000000000500
-                            //4	H10306 - 34 bits              	00000000-0000-0000-0000-000000000300
-                            //5	HID Corporate 1000 - 35 bits  	00000000-0000-0000-0000-000000000600
-                            //6	HID Corporate 1000 - 48 bits  	00000000-0000-0000-0000-000000000800
-                            //7	CSN                           	00000000-0000-0000-0000-000000000700
-
-
-                            switch (colaboradorCredencial.FormatIDGUID)
-                            {
-                                case "00000000-0000-0000-0000-000000000200":
-                                    _credencial.Format = new WiegandStandardCredentialFormat(Convert.ToInt32(colaboradorCredencial.FC), Convert.ToInt32(colaboradorCredencial.NumeroCredencial.Trim()));
-                                    break;
-                                case "00000000-0000-0000-0000-000000000400":
-                                    _credencial.Format = new WiegandH10302CredentialFormat(Convert.ToInt32(colaboradorCredencial.NumeroCredencial.Trim()));
-                                    break;
-                                case "00000000-0000-0000-0000-000000000500":
-                                    _credencial.Format = new WiegandH10304CredentialFormat(Convert.ToInt32(colaboradorCredencial.FC), Convert.ToInt32(colaboradorCredencial.NumeroCredencial.Trim()));
-                                    break;
-                                case "00000000-0000-0000-0000-000000000300":
-                                    _credencial.Format = new WiegandH10306CredentialFormat(Convert.ToInt32(colaboradorCredencial.FC), Convert.ToInt32(colaboradorCredencial.NumeroCredencial.Trim()));
-                                    break;
-                                case "00000000-0000-0000-0000-000000000600":
-                                    _credencial.Format = new WiegandCorporate1000CredentialFormat(Convert.ToInt32(colaboradorCredencial.FC), Convert.ToInt32(colaboradorCredencial.NumeroCredencial.Trim()));
-                                    break;
-                                case "00000000-0000-0000-0000-000000000800":
-                                    _credencial.Format = new Wiegand48BitCorporate1000CredentialFormat(Convert.ToInt32(colaboradorCredencial.FC), Convert.ToInt32(colaboradorCredencial.NumeroCredencial.Trim()));
-                                    break;
-
-                                case "00000000-0000-0000-0000-000000000700":
-                                    long _cardnumber = long.Parse(colaboradorCredencial.NumeroCredencial.Trim());
-                                    _credencial.Format = new WiegandCsn32CredentialFormat(_cardnumber);
-                                    break;
-                            }
-
-                            //if (_credencial.Format != null)
-                            //{
-
-
-                                _credencial.InsertIntoPartition(Partition.DefaultPartitionGuid);
-
-                                _cardholder.Credentials.Add(_credencial);
-                            //}
-
-
-                            _sdk.TransactionManager.CommitTransaction();
-
-                            
                         }
 
-                        //colaboradorCredencial.CredencialGuid = _credencial.Guid;
+
+
+                        switch (_FormatoCredencial)
+                        {
+                            case "Standard 26 bits":
+                                _credencial.Format = new WiegandStandardCredentialFormat(Convert.ToInt32(_FC), Convert.ToInt32(_NumeroCredencial));
+                                break;
+                            case "H10302":
+                                _credencial.Format = new WiegandH10302CredentialFormat(Convert.ToInt32(_NumeroCredencial));
+                                break;
+                            case "H10304":
+                                _credencial.Format = new WiegandH10304CredentialFormat(Convert.ToInt32(_FC), Convert.ToInt32(_NumeroCredencial));
+                                break;
+                            case "H10306":
+                                _credencial.Format = new WiegandH10306CredentialFormat(Convert.ToInt32(_FC), Convert.ToInt32(_NumeroCredencial));
+                                break;
+                            case "HID Corporate 1000":
+                                _credencial.Format = new WiegandCorporate1000CredentialFormat(Convert.ToInt32(_FC), Convert.ToInt32(_NumeroCredencial));
+                                break;
+
+                            case "CSN":
+                                CustomCredentialFormat mifareCSN;
+
+                                SystemConfiguration sysConfig = _sdk.GetEntity(SdkGuids.SystemConfiguration) as SystemConfiguration;
+
+                                if (sysConfig != null)
+                                {
+
+
+                                    foreach (CredentialFormat cardFormat in sysConfig.CredentialFormats)
+                                    {
+                                        if (cardFormat.Name == "CSN")
+                                        {
+                                            mifareCSN = cardFormat as CustomCredentialFormat;
+                                            mifareCSN.SetValues(long.Parse(_NumeroCredencial));
+                                            _credencial.Format = mifareCSN;
+                                            break;
+                                        }
+                                        //
+                                    }
+                                }
+                                break;
+                        }
+
+                        if (_credencial.Format != null)
+                        {
+                            _credencial.InsertIntoPartition(Partition.DefaultPartitionGuid);
+
+                            _cardholder.Credentials.Add(_credencial);
+                        }
+
+                        _sdk.TransactionManager.CommitTransaction();
 
                     }
-                    catch (Exception ex)
-                    {
-                        if (_sdk.TransactionManager.IsTransactionActive) { _sdk.TransactionManager.RollbackTransaction(); }
-                        return false;
-                    }
+
+
+                }
+                catch (Exception ex)
+                {
+                    Utils.TraceException(ex);
+                    return false;
                 }
 
                 return true;
@@ -496,7 +435,7 @@ namespace iModSCCredenciamento.Funcoes
 
             catch (Exception ex)
             {
-
+                Utils.TraceException(ex);
                 return false;
             }
 
@@ -816,17 +755,17 @@ namespace iModSCCredenciamento.Funcoes
             }
         }
 
-            //0	N/D                           	00000000-0000-0000-0000-000000000000
-            //1	Standard - 26 bits            	00000000-0000-0000-0000-000000000200
-            //2	H10302 - 37 bits              	00000000-0000-0000-0000-000000000400
-            //3	H10304 - 37 bits              	00000000-0000-0000-0000-000000000500
-            //4	H10306 - 34 bits              	00000000-0000-0000-0000-000000000300
-            //5	HID Corporate 1000 - 35 bits  	00000000-0000-0000-0000-000000000600
-            //6	HID Corporate 1000 - 48 bits  	00000000-0000-0000-0000-000000000800
-            //7	CSN                           	00000000-0000-0000-0000-000000000700
+        //0	N/D                           	00000000-0000-0000-0000-000000000000
+        //1	Standard - 26 bits            	00000000-0000-0000-0000-000000000200
+        //2	H10302 - 37 bits              	00000000-0000-0000-0000-000000000400
+        //3	H10304 - 37 bits              	00000000-0000-0000-0000-000000000500
+        //4	H10306 - 34 bits              	00000000-0000-0000-0000-000000000300
+        //5	HID Corporate 1000 - 35 bits  	00000000-0000-0000-0000-000000000600
+        //6	HID Corporate 1000 - 48 bits  	00000000-0000-0000-0000-000000000800
+        //7	CSN                           	00000000-0000-0000-0000-000000000700
 
 
-        private static Credential BuscarCredencial( string _NumeroCredencial, string _FormatoCredencial, int _FC =0)
+        private static Credential BuscarCredencial(string _NumeroCredencial, string _FormatoCredencial, int _FC = 0)
         {
             EntityConfigurationQuery query;
 
@@ -837,7 +776,7 @@ namespace iModSCCredenciamento.Funcoes
                 query = _sdk.ReportManager.CreateReportQuery(ReportType.EntityConfiguration) as EntityConfigurationQuery;
 
                 query.EntityTypeFilter.Add(EntityType.Credential);
-                
+
                 query.NameSearchMode = StringSearchMode.StartsWith;
 
                 result = query.Query();
@@ -851,7 +790,7 @@ namespace iModSCCredenciamento.Funcoes
                         string _NumeroCredencialteste;
                         int _FCteste;
                         string _FormatoCredencialTeste = _credencial.Format.FormatId.ToString();
-                        if (_FormatoCredencial== _FormatoCredencialTeste)
+                        if (_FormatoCredencial == _FormatoCredencialTeste)
                         {
 
                             switch (_FormatoCredencialTeste)
@@ -911,7 +850,7 @@ namespace iModSCCredenciamento.Funcoes
 
                 Credential _Credencial = _sdk.GetEntity((Guid)_CredencialGuid) as Credential;
 
-                if (_Credencial!= null)
+                if (_Credencial != null)
                 {
                     _sdk.DeleteEntity(_Credencial);
                 }
@@ -949,12 +888,12 @@ namespace iModSCCredenciamento.Funcoes
                     }
 
                 }
-                
+
             }
             catch (Exception ex)
             {
                 Global.Log("Erro na void BuscarCardHolder ex: " + ex);
-               
+
             }
         }
         #endregion

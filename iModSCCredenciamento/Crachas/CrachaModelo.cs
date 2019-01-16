@@ -23,7 +23,7 @@ namespace iModSCCredenciamento.Crachas {
         
         public override string ResourceName {
             get {
-                return "CrachaModelo.rpt";
+                return "CRACHA_FRAPORT_PERM.rpt";
             }
             set {
                 // Do nothing
@@ -41,7 +41,7 @@ namespace iModSCCredenciamento.Crachas {
         
         public override string FullResourceName {
             get {
-                return "iModSCCredenciamento.Crachas.CrachaModelo.rpt";
+                return "iModSCCredenciamento.Crachas.CRACHA_FRAPORT_PERM.rpt";
             }
             set {
                 // Do nothing
@@ -98,9 +98,9 @@ namespace iModSCCredenciamento.Crachas {
     }
     
     [System.Drawing.ToolboxBitmapAttribute(typeof(CrystalDecisions.Shared.ExportOptions), "report.bmp")]
-    public class CachedCrachaModelo : Component, ICachedReport {
+    public class CachedCRACHA_FRAPORT_PERM : Component, ICachedReport {
         
-        public CachedCrachaModelo() {
+        public CachedCRACHA_FRAPORT_PERM() {
         }
         
         [Browsable(false)]

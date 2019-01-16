@@ -93,6 +93,11 @@ namespace IMOD.Application.Service
             return _repositorio.ListarView(o);
         }
 
+        public ICollection<CredencialView> ListarCredencialView(int id)
+        {
+            return _repositorio.ListarCredencialView(id);
+        }
+
         /// <summary>
         ///     Deletar registro
         /// </summary>

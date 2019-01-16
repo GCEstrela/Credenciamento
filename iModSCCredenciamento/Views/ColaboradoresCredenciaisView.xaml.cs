@@ -6,8 +6,10 @@
 
 #region
 
+using System;
 using System.Windows.Controls;
 using iModSCCredenciamento.ViewModels;
+using IMOD.CrossCutting;
 
 #endregion
 
@@ -58,22 +60,22 @@ namespace iModSCCredenciamento.Views
             }
         }
 
+        private void ImprimirCredencial_bt_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            try
+            {
+                _viewModel.OnImprimirCredencial();
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+            }
+
+        }
+
         private void StatusCredencial_cb_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (e.AddedItems.Count > 0)
-            {
-                
-                //if (((CredencialStatusView)((object[])e.AddedItems)[0]).CredencialStatusId == 1)
-                //{
-                //    Ativa_tw = true;
-                //    ((ColaboradoresCredenciaisViewModel)DataContext).CarregaColecaoCredenciaisMotivos(1);
-                //}
-                //else
-                //{
-                //    Ativa_tw.IsChecked = false;
-                //    ((ColaboradoresCredenciaisViewModel)DataContext).CarregaColecaoCredenciaisMotivos(2);
-                //}
-            }
+
         }
 
         private void EmpresaVinculo_cb_Loaded(object sender, System.Windows.RoutedEventArgs e)
