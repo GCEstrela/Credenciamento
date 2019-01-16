@@ -16,14 +16,14 @@ namespace iModSCCredenciamento.Crachas {
     using CrystalDecisions.CrystalReports.Engine;
     
     
-    public class CrachaTemporarioModelo : ReportClass {
+    public class CrachaTemporarioModelo1 : ReportClass {
         
-        public CrachaTemporarioModelo() {
+        public CrachaTemporarioModelo1() {
         }
         
         public override string ResourceName {
             get {
-                return "CrachaTemporarioModelo.rpt";
+                return "CRACHA_FRAPORT_TEMP.rpt";
             }
             set {
                 // Do nothing
@@ -41,7 +41,7 @@ namespace iModSCCredenciamento.Crachas {
         
         public override string FullResourceName {
             get {
-                return "iModSCCredenciamento.Crachas.CrachaTemporarioModelo.rpt";
+                return "iModSCCredenciamento.Crachas.CRACHA_FRAPORT_TEMP.rpt";
             }
             set {
                 // Do nothing
@@ -98,9 +98,9 @@ namespace iModSCCredenciamento.Crachas {
     }
     
     [System.Drawing.ToolboxBitmapAttribute(typeof(CrystalDecisions.Shared.ExportOptions), "report.bmp")]
-    public class CachedCrachaTemporarioModelo : Component, ICachedReport {
+    public class CachedCRACHA_FRAPORT_TEMP : Component, ICachedReport {
         
-        public CachedCrachaTemporarioModelo() {
+        public CachedCRACHA_FRAPORT_TEMP() {
         }
         
         [Browsable(false)]
@@ -137,7 +137,7 @@ namespace iModSCCredenciamento.Crachas {
         }
         
         public virtual CrystalDecisions.CrystalReports.Engine.ReportDocument CreateReport() {
-            CrachaTemporarioModelo rpt = new CrachaTemporarioModelo();
+            CrachaTemporarioModelo1 rpt = new CrachaTemporarioModelo1();
             rpt.Site = this.Site;
             return rpt;
         }

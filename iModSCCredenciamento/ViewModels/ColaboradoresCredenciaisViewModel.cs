@@ -43,8 +43,7 @@ namespace iModSCCredenciamento.ViewModels
         //private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
         //private readonly IColaboradorService _service = new ColaboradorService();
         private readonly IColaboradorCredencialService _service = new ColaboradorCredencialService();
-
-        SCManager _sc = new SCManager();
+        private readonly IColaboradorCredencialImpressaoService _ImpressaoService = new ColaboradorCredencialImpressaoService();
 
         private readonly IColaboradorEmpresaService _ColaboradorEmpresaService = new ColaboradorEmpresaService();
         private readonly IEmpresaLayoutCrachaService _EmpresaLayoutCrachaService = new EmpresaLayoutCrachaService();
@@ -56,6 +55,8 @@ namespace iModSCCredenciamento.ViewModels
         private ColaboradorView _colaboradorView;
         private ColaboradorEmpresaView _colaboradorEmpresaView;
         private ColaboradorCredencial _colaboradorCredencial;
+        ColaboradorCredencialimpresssao _colaboradorCredencialImpressao = new ColaboradorCredencialimpresssao();
+        SCManager _sc = new SCManager();
 
         #region  Propriedades
 
@@ -152,7 +153,7 @@ namespace iModSCCredenciamento.ViewModels
 
                 if (Entity == null) return;
                 var n1 = Mapper.Map<ColaboradorCredencial>(Entity);
-                
+
                 n1.CredencialMotivoId = Entity.CredencialMotivoId;
                 n1.CredencialStatusId = Entity.CredencialStatusId;
                 n1.FormatoCredencialId = Entity.FormatoCredencialId;
@@ -165,7 +166,7 @@ namespace iModSCCredenciamento.ViewModels
                 //var n2 = Mapper.Map<ColaboradorCredencialView>(n1);
                 //EntityObserver = new ObservableCollection<ColaboradoresCredenciaisView>();
                 //Entity.ColaboradorCredencialId = n1.ColaboradorCredencialId;
-                
+
                 var list1 = _service.ListarView(null, null, null, null, _colaboradorView.ColaboradorId).ToList();
                 var list2 = Mapper.Map<List<ColaboradoresCredenciaisView>>(list1);
                 EntityObserver = new ObservableCollection<ColaboradoresCredenciaisView>();
@@ -269,7 +270,7 @@ namespace iModSCCredenciamento.ViewModels
             {
                 if (Entity.Validade == null || !Entity.Ativa || Entity.LayoutCrachaId == 0)
                 {
-                    WpfHelp.Mbox("Não foi possível imprimir esta credencial!", MessageBoxIcon.Warning);
+                    WpfHelp.PopupBox("Não foi possível imprimir esta credencial!", 3);
                     return;
                 }
                 var list1 = _service.ListarCredencialView(Entity.ColaboradorCredencialId);
@@ -301,14 +302,20 @@ namespace iModSCCredenciamento.ViewModels
 
                 if (_result)
                 {
-                    //TODO:InsereImpressaoDB
-                    //InsereImpressaoDB(Entity.ColaboradorCredencialId);
-                    WpfHelp.Mbox("Impressão Efetuada com Sucesso!", MessageBoxIcon.None);
-                    // Global.PopupBox("Impressão Efetuada com Sucesso!", 1);
+                    _colaboradorCredencialImpressao.ColaboradorCredencialId = Entity.ColaboradorCredencialId;
+                    _colaboradorCredencialImpressao.DataImpressao = DateTime.Now;
+                    if (Entity.IsencaoCobranca)
+                    {
+                        _colaboradorCredencialImpressao.Cobrar = false;
+                    }
+                    else
+                    {
+                        _colaboradorCredencialImpressao.Cobrar = true;
+                    }
+
+                    _ImpressaoService.Criar(_colaboradorCredencialImpressao);
+                    WpfHelp.PopupBox("Impressão Efetuada com Sucesso!", 1);
                     Entity.Impressa = true;
-                    //int _selectindex = SelectedIndex;
-                    //CarregaColecaoColaboradoresCredenciais(Entity.ColaboradorId); //revisar a necessidade do carregamento
-                    //SelectedIndex = _selectindex;
 
                     BitmapImage _foto = Conversores.STRtoIMG(Entity.ColaboradorFoto) as BitmapImage;
                     _sc.Vincular(Entity.ColaboradorNome.Trim(), Entity.Cpf.Trim(), Entity.Cnpj.Trim(),
@@ -316,10 +323,8 @@ namespace iModSCCredenciamento.ViewModels
                         Entity.Fc.ToString().Trim(), Entity.NumeroCredencial.Trim(),
                         Entity.FormatoCredencialDescricao.Trim(), Entity.Validade.ToString(),
                         Entity.LayoutCrachaGuid, Conversores.BitmapImageToBitmap(_foto));
-
                 }
                 File.Delete(_ArquivoRPT);
-
             }
             catch (Exception ex)
             {
