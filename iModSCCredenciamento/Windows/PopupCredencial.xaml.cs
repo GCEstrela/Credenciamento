@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using CrystalDecisions.CrystalReports.Engine;
+using IMOD.CrossCutting;
 
 namespace iModSCCredenciamento.Windows
 {
@@ -38,7 +39,7 @@ namespace iModSCCredenciamento.Windows
             }
             catch (Exception ex)
             {
-
+                Utils.TraceException(ex);
             }
             MouseDown += Window_MouseDown;
         }
@@ -91,7 +92,7 @@ namespace iModSCCredenciamento.Windows
             }
             catch (Exception ex)
             {
-
+                Utils.TraceException(ex);
                 //return null;
             }
         }
@@ -113,8 +114,8 @@ namespace iModSCCredenciamento.Windows
             }
             catch (Exception ex)
             {
-
-               // throw;
+                Utils.TraceException(ex);
+                // throw;
             }
         }
 

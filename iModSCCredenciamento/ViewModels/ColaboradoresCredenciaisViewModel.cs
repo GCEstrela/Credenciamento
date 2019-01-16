@@ -9,14 +9,20 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Windows;
+using System.Windows.Forms;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 using AutoMapper;
+using CrystalDecisions.CrystalReports.Engine;
+using iModSCCredenciamento.Funcoes;
 using iModSCCredenciamento.Helpers;
 using iModSCCredenciamento.ViewModels.Commands;
 using iModSCCredenciamento.ViewModels.Comportamento;
 using iModSCCredenciamento.Views.Model;
+using iModSCCredenciamento.Windows;
 using IMOD.Application.Interfaces;
 using IMOD.Application.Service;
 using IMOD.CrossCutting;
@@ -37,6 +43,8 @@ namespace iModSCCredenciamento.ViewModels
         //private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
         //private readonly IColaboradorService _service = new ColaboradorService();
         private readonly IColaboradorCredencialService _service = new ColaboradorCredencialService();
+
+        SCManager _sc = new SCManager();
 
         private readonly IColaboradorEmpresaService _ColaboradorEmpresaService = new ColaboradorEmpresaService();
         private readonly IEmpresaLayoutCrachaService _EmpresaLayoutCrachaService = new EmpresaLayoutCrachaService();
@@ -65,6 +73,8 @@ namespace iModSCCredenciamento.ViewModels
 
         public ColaboradoresCredenciaisView Entity { get; set; }
         public ObservableCollection<ColaboradoresCredenciaisView> EntityObserver { get; set; }
+
+        public ObservableCollection<iModSCCredenciamento.Views.Model.CredencialView> Credencial { get; set; }
 
         //TODO: EntityCustom ColaboradoresCredenciais
         //public ColaboradoresCredenciaisView EntityCustom { get; set; }
@@ -233,6 +243,73 @@ namespace iModSCCredenciamento.ViewModels
             //    Utils.TraceException(ex);
             //    WpfHelp.MboxError("Não foi realizar a operação solicitada", ex);
             //}
+        }
+
+        /// <summary>
+        /// Imprimir Credencial
+        /// </summary>
+        public void OnImprimirCredencial()
+        {
+            try
+            {
+                if (Entity.Validade == null || !Entity.Ativa || Entity.LayoutCrachaId == 0)
+                {
+                    WpfHelp.Mbox("Não foi possível imprimir esta credencial!", MessageBoxIcon.Warning);
+                    return;
+                }
+                var list1 = _service.ListarCredencialView(Entity.ColaboradorCredencialId);
+                var list2 = Mapper.Map<List<iModSCCredenciamento.Views.Model.CredencialView>>(list1);
+                var observer = new ObservableCollection<iModSCCredenciamento.Views.Model.CredencialView>();
+                list2.ForEach(n =>
+                {
+                    observer.Add(n);
+                });
+
+                Credencial = observer;
+
+                var layoutCracha = _auxiliaresService.LayoutCrachaService.BuscarPelaChave(Entity.LayoutCrachaId);
+
+                string _ArquivoRPT = Path.GetRandomFileName();
+                _ArquivoRPT = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\" + _ArquivoRPT;
+                _ArquivoRPT = Path.ChangeExtension(_ArquivoRPT, ".rpt");
+                byte[] arrayFile = Convert.FromBase64String(layoutCracha.LayoutRpt);
+                File.WriteAllBytes(_ArquivoRPT, arrayFile);
+                ReportDocument reportDocument = new ReportDocument();
+                reportDocument.Load(_ArquivoRPT);
+
+                reportDocument.SetDataSource(Credencial);
+
+                PopupCredencial _popupCredencial = new PopupCredencial(reportDocument);
+                _popupCredencial.ShowDialog();
+
+                bool _result = _popupCredencial.Result;
+
+                if (_result)
+                {
+                    //TODO:InsereImpressaoDB
+                    //InsereImpressaoDB(Entity.ColaboradorCredencialId);
+                    WpfHelp.Mbox("Impressão Efetuada com Sucesso!", MessageBoxIcon.None);
+                    // Global.PopupBox("Impressão Efetuada com Sucesso!", 1);
+                    Entity.Impressa = true;
+                    //int _selectindex = SelectedIndex;
+                    //CarregaColecaoColaboradoresCredenciais(Entity.ColaboradorId); //revisar a necessidade do carregamento
+                    //SelectedIndex = _selectindex;
+
+                    BitmapImage _foto = Conversores.STRtoIMG(Entity.ColaboradorFoto) as BitmapImage;
+                    _sc.Vincular(Entity.ColaboradorNome.Trim(), Entity.Cpf.Trim(), Entity.Cnpj.Trim(),
+                        Entity.EmpresaNome.Trim(), Entity.Matricula.Trim(), Entity.Cargo.Trim(),
+                        Entity.Fc.ToString().Trim(), Entity.NumeroCredencial.Trim(),
+                        Entity.FormatoCredencialDescricao.Trim(), Entity.Validade.ToString(),
+                        Entity.LayoutCrachaGuid, Conversores.BitmapImageToBitmap(_foto));
+
+                }
+                File.Delete(_ArquivoRPT);
+
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+            }
         }
 
         /// <summary>

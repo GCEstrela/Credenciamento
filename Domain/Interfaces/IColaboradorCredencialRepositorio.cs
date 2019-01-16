@@ -25,6 +25,13 @@ namespace IMOD.Domain.Interfaces
         /// <returns></returns>
         ICollection<ColaboradoresCredenciaisView> ListarView(params object[] o);
 
+        /// <summary>
+        ///     Listar dados de Credencial (Impressão)
+        /// </summary>
+        /// <param name="o">Arrays de Parametros</param>
+        /// <returns></returns>
+        ICollection<CredencialView> ListarCredencialView(int id);
+
         #endregion
     }
 }

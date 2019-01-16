@@ -6,8 +6,10 @@
 
 #region
 
+using System;
 using System.Windows.Controls;
 using iModSCCredenciamento.ViewModels;
+using IMOD.CrossCutting;
 
 #endregion
 
@@ -56,6 +58,19 @@ namespace iModSCCredenciamento.Views
                 btnEditar.IsEnabled = true;
                 brnImprimirCredencial.IsHitTestVisible = true;
             }
+        }
+
+        private void ImprimirCredencial_bt_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            try
+            {
+                _viewModel.OnImprimirCredencial();
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+            }
+
         }
     }
 }
