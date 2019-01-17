@@ -45,6 +45,7 @@
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                     Margin="1">
                         <Label Content="Contrato:" Height="28" Foreground="#FFD0D0D0" Width="143" HorizontalContentAlignment="Right"  />
+                       
                         <ComboBox  x:Name="cmbContrato" 
                                    Width="300" Height="25" 
                                    VerticalContentAlignment="Center" 
@@ -53,6 +54,10 @@
                                    DisplayMemberPath="Descricao"  
                                    SelectedValue="{Binding Entity.EmpresaContratoId, UpdateSourceTrigger=PropertyChanged}" 
                                    SelectedValuePath="EmpresaContratoId"/>
+
+
+
+
                         <Label Content="Cargo:" Height="28" Width="140" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
                         <TextBox  x:Name="Cargo_tb" MaxLength="30" CharacterCasing="Upper" VerticalContentAlignment="Center" 
                                   Text="{Binding Entity.Cargo, UpdateSourceTrigger=PropertyChanged}" 

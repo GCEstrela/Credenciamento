@@ -21,13 +21,14 @@
         <StackPanel Orientation="Vertical" VerticalAlignment="Top">
 
             <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}"
+                      IsEnabled="{Binding Comportamento.isEnableSalvar}"
                       Background="Purple"
                       x:Name="Responsavel_gb" Header="Credenciamento" Margin="0,0,10,0">
                 <StackPanel Orientation="Horizontal">
                     <StackPanel Margin="1" Width="958">
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                     Margin="1,1,-20,1" Width="977">
-                            <Label Content="Vínculo:" Height="28" Width="55" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
+                            <Label Content="Vínculo:" Height="28" Width="55" Margin="1" Foreground="#FFD0D0D0" />
 
                             <ComboBox x:Name="EmpresaVinculo_cb" 
                                       Width="413"
@@ -35,12 +36,11 @@
                                       Height="25"
                                       VerticalContentAlignment="Center" 
                                       HorizontalContentAlignment="Left"
-                                      ItemsSource="{Binding ColaboradoresEmpresas}" 
+                                      ItemsSource="{Binding ColaboradoresEmpresas}"
                                       SelectedValue="{Binding Entity.ColaboradorEmpresaId, UpdateSourceTrigger=PropertyChanged}"
                                       SelectedItem="{Binding ColaboradorEmpresa}"
                                       SelectedValuePath="ColaboradorEmpresaId"
-                                      IsSynchronizedWithCurrentItem="True" 
-                                      >
+                                      IsSynchronizedWithCurrentItem="True">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
@@ -56,6 +56,10 @@
                             </ComboBox>
 
 
+                            <wpf:ToggleSwitch x:Name="Ativa_tw"  HeaderHorizontalAlignment="Stretch" Width="187" HorizontalAlignment="Right" Visibility="Collapsed"
+                                              SwitchContentPlacement="Right"  Content="Credencial Ativa:" CheckedText="Sim" UncheckedText="Não" IsHitTestVisible="False"
+                                              IsChecked="{Binding Entity.Ativa,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                              Foreground="#FFD0D0BE" UncheckedBackground="Maroon" UncheckedBorderBrush="Maroon" UncheckedForeground="#FFAEAEAE"/>
 
 
                             <Label Content="Status:" Height="28" Width="49" HorizontalContentAlignment="Right"
@@ -99,7 +103,7 @@
 
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                     Margin="1,1,-20,1" Width="977">
-                            <Label Content="Código:" Height="28" Width="55" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
+                            <Label Content="Código:" Height="28" Width="55" Margin="1" Foreground="#FFD0D0D0" />
                             <TextBox MaxLength="50" 
                                      CharacterCasing="Lower"
                                      Text="{Binding Entity.ColaboradorCredencialId,  UpdateSourceTrigger=PropertyChanged}" 
@@ -158,9 +162,9 @@
 
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                     Margin="1,1,-20,1" Width="977">
-                            <Label Content="Emissão:" Height="28" Width="55" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
+                            <Label Content="Emissão:" Height="28" Width="55" Margin="1" Foreground="#FFD0D0D0" />
                             <TextBlock Text="00/00/0000" VerticalAlignment="Center" />
-                            <Label Content="Validade:" Height="28" Width="60" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" RenderTransformOrigin="0.553,0.5"/>
+                            <Label Content="Validade:" Height="28" Width="60" Margin="1" Foreground="#FFD0D0D0"  RenderTransformOrigin="0.553,0.5"/>
                             <TextBlock Text="00/00/0000" VerticalAlignment="Center" />
                             <Label Content="Baixa:" Height="28" Width="50" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
                             <TextBlock Text="00/00/0000" VerticalAlignment="Center" />
@@ -260,6 +264,8 @@
                                     <DataTemplate>
                                         <wpf:ToggleSwitch  x:Name="Ativa_tw" HeaderHorizontalAlignment="Stretch" Width="100" HorizontalAlignment="Right" SwitchContentPlacement="Right" IsHitTestVisible="False"
                                                           IsChecked="{Binding Ativa}"  Foreground="#FFD0D0BE" UncheckedBackground="Maroon" UncheckedBorderBrush="Maroon" UncheckedForeground="#FFAEAEAE" UncheckedText="" CheckedText="" SwitchWidth="44" />
+                                       
+
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>

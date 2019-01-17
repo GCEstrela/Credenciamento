@@ -45,6 +45,14 @@ namespace iModSCCredenciamento.Views
         {
             if (entity == null) return;
             _viewModel.AtualizarDados(entity);
+
+        }
+
+        public void AtualizarVinculo(Model.ColaboradorView entity)
+        {
+            if (entity == null) return;
+            _viewModel.AtualizarVinculo(entity);
+            EmpresaVinculo_cb.Items.Refresh();
         }
 
         private void ListaColaboradoresCredenciais_lv_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -81,7 +89,16 @@ namespace iModSCCredenciamento.Views
             {
                 //if (((ClasseCredenciaisStatus.CredencialStatus)((object[])e.AddedItems)[0]).CredencialStatusID == 1)
                 //{
-                //Ativa_tw.IsChecked = true;
+                if (_viewModel.Entity == null) return;
+
+                if (_viewModel.Entity.CredencialStatusId == 1)
+                {
+                    Ativa_tw.IsChecked = true;
+                }
+                else
+                {
+                    Ativa_tw.IsChecked = false;
+                }
                 //    ((ColaboradoresCredenciaisViewModel)DataContext).CarregaColecaoCredenciaisMotivos(1);
                 //}
                 //else
@@ -92,18 +109,10 @@ namespace iModSCCredenciamento.Views
             }
         }
 
-        private void EmpresaVinculo_cb_Loaded(object sender, System.Windows.RoutedEventArgs e)
-        {
-
-        }
-
         private void EmpresaVinculo_cb_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ////var _empresa = EmpresaVinculo_cb.SelectedItem.ToString();
             if (_viewModel.ColaboradorEmpresa == null) return;
 
-            //var _empresa2 = EmpresaVinculo_cb.Tag.ToString();
-            //var _empresa = EmpresaVinculo_cb.SelectedValue.ToString();
             _viewModel.CarregaColecaoLayoutsCrachas(_viewModel.ColaboradorEmpresa.EmpresaId);
 
         }
@@ -112,5 +121,6 @@ namespace iModSCCredenciamento.Views
         {
             EmpresaVinculo_cb.SelectionChanged += EmpresaVinculo_cb_SelectionChanged;
         }
+
     }
 }

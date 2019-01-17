@@ -79,12 +79,8 @@ namespace iModSCCredenciamento.ViewModels
 
         public ColaboradoresCredenciaisView Entity { get; set; }
         public ObservableCollection<ColaboradoresCredenciaisView> EntityObserver { get; set; }
-
         public ObservableCollection<iModSCCredenciamento.Views.Model.CredencialView> Credencial { get; set; }
 
-        //TODO: EntityCustom ColaboradoresCredenciais
-        //public ColaboradoresCredenciaisView EntityCustom { get; set; }
-        //public ObservableCollection<ColaboradoresCredenciaisView> EntityCustomObserver { get; set; }
 
         /// <summary>
         ///     Habilita listView
@@ -109,7 +105,23 @@ namespace iModSCCredenciamento.ViewModels
 
         #region  Metodos
 
-        //TODO:Listar ColaboradoresCredenciais
+        //TODO: AtualizarVinculo
+        public void AtualizarVinculo(ColaboradorView entity)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+
+            var lista1 = _ColaboradorEmpresaService.Listar(entity.ColaboradorId);
+            var lista2 = Mapper.Map<List<ColaboradorEmpresa>>(lista1.OrderByDescending(n => n.EmpresaNome).ToList());
+
+            ColaboradoresEmpresas.Clear();
+            lista2.ForEach(n =>
+            {
+                ColaboradoresEmpresas.Add(n);
+            });
+
+
+        }
+
         public void AtualizarDados(ColaboradorView entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
@@ -198,6 +210,11 @@ namespace iModSCCredenciamento.ViewModels
             Entity = new ColaboradoresCredenciaisView();
             Comportamento.PrepareCriar();
             IsEnableLstView = false;
+
+            //var lst6 = _ColaboradorEmpresaService.Listar(Entity.ColaboradorId);
+            //ColaboradoresEmpresas = new List<ColaboradorEmpresa>();
+
+            //ColaboradoresEmpresas.Where(x => x.ColaboradorId == Entity.ColaboradorId);
         }
 
         /// <summary>
@@ -459,7 +476,7 @@ namespace iModSCCredenciamento.ViewModels
                         Entity.EmpresaNome.Trim(), Entity.Matricula.Trim(), Entity.Cargo.Trim(),
                         Entity.Fc.ToString().Trim(), Entity.NumeroCredencial.Trim(),
                         Entity.FormatoCredencialDescricao.Trim(), Entity.Validade.ToString(),
-                        Entity.LayoutCrachaGuid, Conversores.BitmapImageToBitmap(_foto));
+                        layoutCracha.LayoutCrachaGuid, Conversores.BitmapImageToBitmap(_foto));
                 }
                 File.Delete(_ArquivoRPT);
             }
@@ -509,6 +526,10 @@ namespace iModSCCredenciamento.ViewModels
             var lst6 = _ColaboradorEmpresaService.Listar();
             ColaboradoresEmpresas = new List<ColaboradorEmpresa>();
             ColaboradoresEmpresas.AddRange(lst6);
+
+            //var lst6 = _ColaboradorEmpresaService.ListarView();
+            //ColaboradoresEmpresas = new List<IMOD.Domain.EntitiesCustom.ColaboradorEmpresaView>();
+            //ColaboradoresEmpresas.AddRange(lst6);
 
             var lst7 = _auxiliaresService.AreaAcessoService.Listar();
             ColaboradorPrivilegio = new List<AreaAcesso>();

@@ -56,13 +56,13 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("NumeroCredencial", entity.NumeroCredencial, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("FC", DbType.Int32, entity.Fc, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Emissao", DbType.DateTime, entity.Emissao, false)));
-                        //cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Validade", DbType.DateTime, entity.Validade, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Validade", DbType.DateTime, entity.Validade, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("CredencialStatusID", DbType.Int32, entity.CredencialStatusId, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("CardHolderGUID", DbType.String, entity.CardHolderGuid, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("CredencialGUID", DbType.String, entity.CredencialGuid, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("ColaboradorPrivilegio1ID", DbType.Int32, entity.ColaboradorPrivilegio1Id, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("ColaboradorPrivilegio2ID", DbType.Int32, entity.ColaboradorPrivilegio2Id, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Ativa", entity.Ativa, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Ativa",DbType.Boolean, entity.Ativa, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Colete", DbType.String, entity.Colete, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("CredencialmotivoID", DbType.Int32, entity.CredencialMotivoId, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Baixa", DbType.DateTime, entity.Baixa, false)));
@@ -136,11 +136,11 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("CredencialGUID", DbType.String, entity.CredencialGuid, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("ColaboradorPrivilegio1ID", DbType.Int32, entity.ColaboradorPrivilegio1Id, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("ColaboradorPrivilegio2ID", DbType.Int32, entity.ColaboradorPrivilegio2Id, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Ativa", entity.Ativa, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Ativa",DbType.Boolean, entity.Ativa, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Colete", DbType.String, entity.Colete, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("CredencialmotivoID", DbType.Int32, entity.CredencialMotivoId, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Baixa", DbType.DateTime, entity.Baixa, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Impressa", false, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Impressa", DbType.Boolean, false, false)));
 
                         var key = Convert.ToInt32(cmd.ExecuteScalar());
 
