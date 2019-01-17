@@ -33,7 +33,7 @@ namespace IMOD.Domain.Entities
         public int? VeiculoPrivilegio2Id { get; set; }
         public bool Ativa { get; set; }
         public string Colete { get; set; }
-        public int? CredencialmotivoId { get; set; }
+        public int? CredencialMotivoId { get; set; }
         public DateTime? Baixa { get; set; }
         public bool Impressa { get; set; }
 

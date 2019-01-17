@@ -1040,7 +1040,7 @@ namespace UnitTestImod
             _veiculoCredencial.CredencialStatusId = _credencialStatus.CredencialStatusId;
             _veiculoCredencial.VeiculoPrivilegio1Id = _areaAcesso.AreaAcessoId;
             _veiculoCredencial.VeiculoPrivilegio2Id = _areaAcesso.AreaAcessoId;
-            _veiculoCredencial.CredencialmotivoId = _credencialMotivo.CredencialMotivoId;
+            _veiculoCredencial.CredencialMotivoId = _credencialMotivo.CredencialMotivoId;
 
             serviceVeiculoCredencial.Criar(_veiculoCredencial);
 

@@ -98,6 +98,7 @@
     <Compile Include="Entities\VeiculoCredencial.cs" />
     <Compile Include="Entities\VeiculoCredencialimpressao.cs" />
     <Compile Include="Entities\VeiculoEmpresa.cs" />
+    <Compile Include="Entities\VeiculoPrivilegio.cs" />
     <Compile Include="Entities\VeiculoSeguro.cs" />
     <Compile Include="Interfaces\IAreaAcessoRepositorio.cs" />
     <Compile Include="Interfaces\IColaboradorAnexoRepositorio.cs" />

@@ -68,7 +68,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("VeiculoPrivilegio2ID", entity.VeiculoPrivilegio2Id, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Ativa", entity.Ativa, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Colete", entity.Colete, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("CredencialmotivoID", entity.CredencialmotivoId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("CredencialmotivoID", entity.CredencialMotivoId, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Baixa", DbType.Date, entity.Baixa, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Impressa", entity.Impressa, false)));
 
@@ -132,7 +132,7 @@ namespace IMOD.Infra.Repositorios
                     try
                     {
 
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("VeiculoID", DbType.Int32, objects, 0).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("VeiculoEmpresaID", DbType.Int32, objects, 0).Igual()));
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("VeiculoCredencialID", DbType.Int32, objects, 1).Igual()));
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("CredencialStatusID", DbType.Int32, objects, 2).Igual()));
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("FormatoCredencialID", DbType.Int32, objects, 3).Igual()));
@@ -179,10 +179,10 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("CredencialGUID", entity.CredencialGuid, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("VeiculoPrivilegio1ID", entity.VeiculoPrivilegio1Id, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("VeiculoPrivilegio2ID", entity.VeiculoPrivilegio2Id, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Ativa", entity.Ativa, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Ativa", DbType.Boolean, entity.Ativa, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Colete", entity.Colete, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("CredencialmotivoID", entity.CredencialmotivoId, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Baixa", entity.Baixa, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("CredencialmotivoID", entity.CredencialMotivoId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Baixa",  entity.Baixa, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Impressa", entity.Impressa, false)));
 
                         cmd.ExecuteNonQuery();

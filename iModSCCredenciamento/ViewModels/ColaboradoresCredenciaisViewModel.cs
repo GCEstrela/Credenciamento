@@ -369,19 +369,19 @@ namespace iModSCCredenciamento.ViewModels
 
         #region  Metodos
         private void ListarDadosAuxiliares()
-        {
+        {//ok
             var lst0 = _auxiliaresService.CredencialStatusService.Listar();
             CredencialStatus = new List<CredencialStatus>();
             CredencialStatus.AddRange(lst0);
-
+            //ok
             var lst1 = _auxiliaresService.CredencialMotivoService.Listar();
             CredencialMotivo = new List<CredencialMotivo>();
             CredencialMotivo.AddRange(lst1);
-
+            //ok
             var lst2 = _auxiliaresService.FormatoCredencialService.Listar();
             FormatoCredencial = new List<FormatoCredencial>();
             FormatoCredencial.AddRange(lst2);
-
+            //ok
             var lst3 = _auxiliaresService.TipoCredencialService.Listar();
             TipoCredencial = new List<TipoCredencial>();
             TipoCredencial.AddRange(lst3);
