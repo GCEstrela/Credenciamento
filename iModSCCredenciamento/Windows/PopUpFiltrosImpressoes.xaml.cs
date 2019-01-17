@@ -14,6 +14,9 @@ namespace iModSCCredenciamento.Windows
             InitializeComponent();
             DataContext = new RelatoriosViewModel();
             MouseDown += Window_MouseDown;
+
+            EmpresaRazaoSocial_cb.IsEditable = true;
+            EmpresaRazaoSocial_cb.Text = "--IMPRESSÕES DE TODAS EMPRESAS--";
         }
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
@@ -32,14 +35,8 @@ namespace iModSCCredenciamento.Windows
             string DataIni = Dataini_tb.Text;
             string DataFim = Datafim_tb.Text;
             bool check;
-            string empresa, area;
+            string empresa;
 
-            if (Area_cb.SelectedValue == null)
-            {
-                area = "";
-            }
-            else
-                area = Area_cb.SelectedValue.ToString();
 
             if (EmpresaRazaoSocial_cb.SelectedValue == null)
             {
@@ -57,7 +54,7 @@ namespace iModSCCredenciamento.Windows
                 check = false;
 
 
-            ((RelatoriosViewModel)DataContext).OnFiltrosImpressoesCommand(empresa, area, check, DataIni, DataFim);
+            ((RelatoriosViewModel)DataContext).OnFiltrosImpressoesCommand(empresa, check, DataIni, DataFim);
 
             Close();
         }

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using IMOD.Application.Interfaces;
 using IMOD.Domain.Entities;
+using IMOD.Domain.EntitiesCustom;
 using IMOD.Domain.Interfaces;
 using IMOD.Infra.Repositorios;
 
@@ -73,7 +74,7 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public ICollection<ColaboradorEmpresa> ListarView(params object[] objects)
         {
-            return _repositorio.Listar(objects);
+            return _repositorio.ListarView(objects);
         }
         #endregion
     }

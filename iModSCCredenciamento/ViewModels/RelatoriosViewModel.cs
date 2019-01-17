@@ -7,6 +7,7 @@ using System.Windows.Media.Imaging;
 using AutoMapper;
 using iModSCCredenciamento.Helpers;
 using iModSCCredenciamento.Models;
+using iModSCCredenciamento.Views.Model;
 using iModSCCredenciamento.Windows;
 using IMOD.Application.Interfaces;
 using IMOD.Application.Service;
@@ -36,18 +37,18 @@ namespace iModSCCredenciamento.ViewModels
 
         #region Variaveis Privadas
 
-        private ObservableCollection<ClasseAreasAcessos.AreaAcesso> _AreasAcessos;
+        private ObservableCollection<AreaAcessoView> _AreasAcessos;
 
         private ObservableCollection<EmpresaView> _Empresas;
 
 
-        private ObservableCollection<ClasseRelatorios.Relatorio> _Relatorios;
+        private ObservableCollection<RelatorioView> _Relatorios;
 
-        private ClasseRelatorios.Relatorio _RelatorioSelecionado;
+        private RelatorioView _RelatorioSelecionado;
 
-        private ClasseRelatorios.Relatorio _relatorioTemp = new ClasseRelatorios.Relatorio();
+        private RelatorioView _relatorioTemp = new RelatorioView();
 
-        private List<ClasseRelatorios.Relatorio> _RelatoriosTemp = new List<ClasseRelatorios.Relatorio>();
+        private List<RelatorioView> _RelatoriosTemp = new List<RelatorioView>();
 
         PopupMensagem _PopupSalvando;
 
@@ -60,6 +61,8 @@ namespace iModSCCredenciamento.ViewModels
         private BitmapImage _Waiting;
 
         private string formula;
+        private string verbo;
+        private string mensagem;
 
         private readonly IRelatorioService _relatorioService = new RelatorioService();
         private readonly IRelatorioGerencialService _relatorioGerencialServiceService = new RelatorioGerencialService();
@@ -73,7 +76,7 @@ namespace iModSCCredenciamento.ViewModels
 
         #region Contrutores
 
-        public ObservableCollection<ClasseAreasAcessos.AreaAcesso> AreasAcessos
+        public ObservableCollection<AreaAcessoView> AreasAcessos
         {
             get
             {
@@ -108,7 +111,7 @@ namespace iModSCCredenciamento.ViewModels
                 }
             }
         }
-        public ObservableCollection<ClasseRelatorios.Relatorio> Relatorios
+        public ObservableCollection<RelatorioView> Relatorios
         {
             get
             {
@@ -126,7 +129,7 @@ namespace iModSCCredenciamento.ViewModels
             }
         }
 
-        public ClasseRelatorios.Relatorio RelatorioSelecionado
+        public RelatorioView RelatorioSelecionado
         {
             get
             {
@@ -138,16 +141,7 @@ namespace iModSCCredenciamento.ViewModels
                 base.OnPropertyChanged("SelectedItem");
                 if (RelatorioSelecionado != null)
                 {
-                    //    //BitmapImage _img = new BitmapImage(new Uri("pack://application:,,,/iModSCCredenciamento;component/Resources/Carregando.png", UriKind.Absolute));
-                    //    //string _imgstr = Conversores.IMGtoSTR(_img);
-                    //    //ColaboradorSelecionado.Foto = _imgstr;
-                    //    if (!_atualizandoFoto)
-                    //    {
-                    //        Thread CarregaRelatorio_thr = new Thread(() => CarregaRelatorio(RelatorioSelecionado.RelatorioID));
-                    //        CarregaRelatorio_thr.Start();
-                    //    }
 
-                    //    //CarregaFoto(ColaboradorSelecionado.ColaboradorID);
                 }
 
             }
@@ -188,8 +182,8 @@ namespace iModSCCredenciamento.ViewModels
             {
                 var list1 = _relatorioService.Listar();
 
-                var list2 = Mapper.Map<List<ClasseRelatorios.Relatorio>>(list1);
-                var observer = new ObservableCollection<ClasseRelatorios.Relatorio>();
+                var list2 = Mapper.Map<List<RelatorioView>>(list1);
+                var observer = new ObservableCollection<RelatorioView>();
                 list2.ForEach(n =>
                 {
                     observer.Add(n);
@@ -210,8 +204,8 @@ namespace iModSCCredenciamento.ViewModels
             {
                 var list1 = _auxiliaresService.AreaAcessoService.Listar();
 
-                var list2 = Mapper.Map<List<ClasseAreasAcessos.AreaAcesso>>(list1);
-                var observer = new ObservableCollection<ClasseAreasAcessos.AreaAcesso>();
+                var list2 = Mapper.Map<List<AreaAcessoView>>(list1);
+                var observer = new ObservableCollection<AreaAcessoView>();
                 list2.ForEach(n =>
                 {
                     observer.Add(n);
@@ -274,50 +268,64 @@ namespace iModSCCredenciamento.ViewModels
 
         #region Comandos dos Botoes (RELATÓRIOS GERENCIAIS)
 
+        /// <summary>
+        /// Filtrar Relatório de Credenciais Permanentes/Temporárias
+        /// </summary>
+        /// <param name="_tipo"></param>
+        /// <param name="_dataIni"></param>
+        /// <param name="_dataFim"></param>
         public void OnFiltroRelatorioCredencialCommand(bool _tipo, string _dataIni, string _dataFim)
         {
             try
             {
-                //Permanentes
+                //CREDENCIAIS PERMANENTES - (1)
                 if (_tipo)
                 {
                     relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(1);
                     if (_dataIni == "" || _dataFim == "")
                     {
-                        //Filtra todas Credenciais Permanentes e Ativas
+                        //Listar apenas Credenciais Permanentes e Ativas
                         formula = " {TiposCredenciais.TipoCredencialID} = 1 " +
                                   " and {CredenciaisStatus.CredencialStatusID} = 1 ";
+
+                        mensagem = "Todas as CREDENCIAIS PERMANENTES ativas ";
                     }
                     else
-                    {   //Filtra todas Credenciais Permanentes e Ativas (Período)
+                    {   //Listar Credenciais Permanentes e Ativas por período
                         formula = " {TiposCredenciais.TipoCredencialID} = 1 " +
                                   " and {CredenciaisStatus.CredencialStatusID} = 1 " +
                                   " and ({ColaboradoresCredenciais.Emissao} <= CDate ('" + _dataFim + "')" +
                                   " and {ColaboradoresCredenciais.Emissao} >= CDate ('" + _dataIni + "') ) ";
+
+                        mensagem = "Todas as CREDENCIAIS PERMANENTES ativas concedidas entre " + _dataIni + " e " + _dataFim + "";
                     }
 
                 }
-                //Temporárias
+                //CREDENCIAIS TEMPORÁRIAS - (3)
                 else
                 {
-                    relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(5);
+                    relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(3);
                     if (_dataIni == "" || _dataFim == "")
                     {
-                        //Filtra todas Credenciais Temporárias e Ativas
+                        //Listar apenas Credenciais Temporárias e Ativas
                         formula = " {TiposCredenciais.TipoCredencialID} = 2 " +
                                   " and {CredenciaisStatus.CredencialStatusID} = 1 ";
+
+                        mensagem = "Todas as CREDENCIAIS TEMPORÁRIAS ativas ";
                     }
                     else
-                    {   //Filtra todas Credenciais Permanentes e Ativas (Período)
+                    {   //Listar Credenciais Permanentes e Ativas por período
                         formula = " {TiposCredenciais.TipoCredencialID} = 2 " +
                                   " and {CredenciaisStatus.CredencialStatusID} = 1 " +
                                   " and ({ColaboradoresCredenciais.Emissao} <= CDate ('" + _dataFim + "')" +
                                   " and {ColaboradoresCredenciais.Emissao} >= CDate ('" + _dataIni + "') ) ";
+
+                        mensagem = "Todas as CREDENCIAIS TEMPORÁRIAS ativas concedidas entre " + _dataIni + " e " + _dataFim + "";
                     }
                 }
 
                 var arrayFile = Convert.FromBase64String(relatorioGerencial.ArquivoRpt);
-                WpfHelp.ShowRelatorio(arrayFile, "RelatorioCredenciais", formula, "");
+                WpfHelp.ShowRelatorio(arrayFile, "RelatorioCredenciais", formula, mensagem);
             }
             catch (Exception ex)
             {
@@ -325,26 +333,64 @@ namespace iModSCCredenciamento.ViewModels
             }
         }
 
-        public void OnFiltroRelatorioAutorizacoesCommand(bool _check)
+        /// <summary>
+        /// Filtrar Relatório de Autorizações Permanentes/Temporárias
+        /// </summary>
+        /// <param name="_check"></param>
+        public void OnFiltroRelatorioAutorizacoesCommand(bool _tipo, string _dataIni, string _dataFim)
         {
             try
             {
-                relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(2);
 
-                if (_check)
-                {   //Filtrar Autorizações Permanentes e Ativas
-                    formula = " {TiposCredenciais.TipoCredencialID} = 1 " +
-                              " AND {CredenciaisStatus.CredencialStatusID} = 1 ";
+
+                //AUTORIZAÇÕES PERMANENTES - (2)
+                if (_tipo)
+                {
+                    relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(2);
+                    if (_dataIni == "" || _dataFim == "")
+                    {
+                        //Filtrar Autorizações Permanentes e Ativas
+                        formula = " {TiposCredenciais.TipoCredencialID} = 1 " +
+                                  " AND {CredenciaisStatus.CredencialStatusID} = 1 ";
+
+                        mensagem = "Todas as AUTORIZAÇÕES PERMANENTES ativas ";
+                    }
+                    else
+                    {   //Listar Autorizações Permanentes e Ativas por período
+                        formula = " {TiposCredenciais.TipoCredencialID} = 1 " +
+                                  " and {CredenciaisStatus.CredencialStatusID} = 1 " +
+                                  " and ({VeiculosCredenciais.Emissao} <= CDate ('" + _dataFim + "')" +
+                                  " and {VeiculosCredenciais.Emissao} >= CDate ('" + _dataIni + "') ) ";
+
+                        mensagem = "Todas as AUTORIZAÇÕES PERMANENTES ativas concedidas entre " + _dataIni + " e " + _dataFim + "";
+                    }
                 }
+                //AUTORIZAÇÕES TEMPORÁRIAS - (3)
                 else
                 {
-                    //Filtrar Autorizações Temporárias e Ativas
-                    formula = " {TiposCredenciais.TipoCredencialID} = 2 " +
-                              "AND {CredenciaisStatus.CredencialStatusID} = 1 ";
+                    relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(4);
+                    if (_dataIni == "" || _dataFim == "")
+                    {
+                        //Filtrar Autorizações Temporárias e Ativas
+                        formula = " {TiposCredenciais.TipoCredencialID} = 2 " +
+                                  "AND {CredenciaisStatus.CredencialStatusID} = 1 ";
+
+                        mensagem = "Todas as AUTORIZAÇÕES TEMPORÁRIAS ativas ";
+                    }
+                    else
+                    {
+                        //Listar Autorizações Permanentes e Ativas por período
+                        formula = " {TiposCredenciais.TipoCredencialID} = 2 " +
+                                  " and {CredenciaisStatus.CredencialStatusID} = 1 " +
+                                  " and ({VeiculosCredenciais.Emissao} <= CDate ('" + _dataFim + "')" +
+                                  " and {VeiculosCredenciais.Emissao} >= CDate ('" + _dataIni + "') ) ";
+
+                        mensagem = "Todas as AUTORIZAÇÕES TEMPORÁRIAS ativas concedidas entre " + _dataIni + " e " + _dataFim + "";
+                    }
                 }
 
                 var arrayFile = Convert.FromBase64String(relatorioGerencial.ArquivoRpt);
-                WpfHelp.ShowRelatorio(arrayFile, "RelatorioAutorizacoes", formula, "");
+                WpfHelp.ShowRelatorio(arrayFile, "RelatorioAutorizacoes", formula, mensagem);
             }
             catch (Exception ex)
             {
@@ -352,72 +398,127 @@ namespace iModSCCredenciamento.ViewModels
             }
         }
 
+        /// <summary>
+        /// Filtrar Relatório de Credenciais Inválidas
+        /// (Indeferidas,Roubadas,Extraviadas,Não-Devolvidas...)
+        /// </summary>
+        /// <param name="_status"></param>
+        /// <param name="_dataIni"></param>
+        /// <param name="_dataFim"></param>
         public void OnRelatorioCredenciaisInvalidasFiltroCommand(int _status, string _dataIni, string _dataFim)
         {
             try
             {
-                relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(3);
+                //CREDENCIAIS PERMANENTES - (5)
+                relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(5);
 
-                //Período de datas vazio (TODOS)
+                //Caso período de datas seja vazio (Todas Inválidas)
                 if ((_dataFim == "" || _dataIni == "") && _status == 0)
                 {
                     formula = " {CredenciaisStatus.CredencialStatusID} <> 1 ";
+
+                    mensagem = "Todas as CREDENCIAIS INVÁLIDAS (vencidas/indeferidas/canceladas/extraviadas/destruídas) ";
                 }
-                //Período de datas vazio (TODOS)
+                //Caso período de datas seja vazio e status informado
                 else if ((_dataFim == "" && _dataIni == "") && _status != 0)
                 {
+                    //Credenciais Roubadas
                     if (_status == 2)
                     {
-                        //Credenciais Roubadas
-                        formula = " {CredenciaisStatus.CredencialStatusID} = 2 " +
+
+                        formula = " {CredenciaisStatus.CredencialStatusID} <> 1 " +
                                   " AND {CredenciaisMotivos.CredencialmotivoID} = 10";
+
+                        mensagem = "Todas as CREDENCIAIS ROUBADAS ";
+
                     }
+                    //Credenciais Extraviadas
                     else if (_status == 1)
                     {
-                        //Credenciais Extraviadas
-                        formula = " {CredenciaisStatus.CredencialStatusID} = 2 " +
+
+                        formula = " {CredenciaisStatus.CredencialStatusID} <> 1 " +
                                   " AND {CredenciaisMotivos.CredencialmotivoID} = 9";
+
+                        mensagem = "Todas as CREDENCIAIS EXTRAVIADAS ";
                     }
+
+                    //Credenciais (Indefereidas, destruídas ou não-devolvidas)
                     else
                     {
                         formula = " {CredenciaisStatus.CredencialStatusID} = " + _status + "";
+                        switch (_status)
+                        {
+                            case 3:
+                                verbo = "DESTRUÍDAS";
+                                break;
+                            case 4:
+                                verbo = "NÃO DEVOLVIDAS";
+                                break;
+                            case 5:
+                                verbo = "INDEFERIDAS";
+                                break;
+                        }
+                        mensagem = "Todas as CREDENCIAIS " + verbo;
                     }
-
                 }
+
                 else
                 {
+                    //(Todas Inválidas no período)
                     if (_status == 0)
                     {
                         formula = " ({ColaboradoresCredenciais.Baixa} <= CDate ('" + _dataFim + "')" +
                                   " AND {ColaboradoresCredenciais.Baixa} >= CDate ('" + _dataIni + "') ) ";
-                    }
 
+                        mensagem = "Todas as CREDENCIAIS INVÁLIDAS (vencidas/indeferidas/canceladas/extraviadas/destruídas) entre " + _dataIni + " e " + _dataFim + "";
+                    }
+                    //Credenciais Roubadas
                     else if (_status == 2)
                     {
-                        //Credenciais Roubadas
-                        formula = " {CredenciaisStatus.CredencialStatusID} = 2 " +
+                        formula = " {CredenciaisStatus.CredencialStatusID} <> 1 " +
                                   " AND {CredenciaisMotivos.CredencialmotivoID} = 10" +
                                   " AND ({ColaboradoresCredenciais.Baixa} <= CDate ('" + _dataFim + "')" +
                                   " AND {ColaboradoresCredenciais.Baixa} >= CDate ('" + _dataIni + "') ) ";
+
+                        mensagem = "Todas as CREDENCIAIS ROUBADAS entre " + _dataIni + " e " + _dataFim + "";
                     }
+                    //Credenciais Extraviadas
                     else if (_status == 1)
                     {
-                        //Credenciais Extraviadas
-                        formula = " {CredenciaisStatus.CredencialStatusID} = 2 " +
+                        formula = " {CredenciaisStatus.CredencialStatusID} <> 1 " +
                                   " AND {CredenciaisMotivos.CredencialmotivoID} = 9" +
                                   " AND ({ColaboradoresCredenciais.Baixa} <= CDate ('" + _dataFim + "')" +
                                   " AND {ColaboradoresCredenciais.Baixa} >= CDate ('" + _dataIni + "') ) ";
+
+                        mensagem = "Todas as CREDENCIAIS EXTRAVIADAS entre " + _dataIni + " e " + _dataFim + "";
                     }
+                    //Credenciais (Indefereidas, destruídas ou não-devolvidas)
                     else
                     {
                         formula = " {CredenciaisStatus.CredencialStatusID} = " + _status +
                                   " AND ({ColaboradoresCredenciais.Baixa} <= CDate ('" + _dataFim + "')" +
                                   " AND {ColaboradoresCredenciais.Baixa} >= CDate ('" + _dataIni + "') ) ";
+
+                        mensagem = "Todas as CREDENCIAIS ????? entre " + _dataIni + " e " + _dataFim + "";
+
+                        switch (_status)
+                        {
+                            case 3:
+                                verbo = "DESTRUÍDAS";
+                                break;
+                            case 4:
+                                verbo = "NÃO DEVOLVIDAS";
+                                break;
+                            case 5:
+                                verbo = "INDEFERIDAS";
+                                break;
+                        }
+                        mensagem = "Todas as CREDENCIAIS " + verbo + "entre " + _dataIni + " e " + _dataFim + "";
                     }
                 }
 
                 var arrayFile = Convert.FromBase64String(relatorioGerencial.ArquivoRpt);
-                WpfHelp.ShowRelatorio(arrayFile, "RelatorioCredenciaisInvalidas", formula, "");
+                WpfHelp.ShowRelatorio(arrayFile, "RelatorioCredenciaisInvalidas", formula, mensagem);
             }
             catch (Exception ex)
             {
@@ -425,42 +526,116 @@ namespace iModSCCredenciamento.ViewModels
             }
         }
 
-        public void OnRelatorioAutorizacoesInvalidasFiltroCommand(int _check, string _dataIni, string _dataFim)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="_status"></param>
+        /// <param name="_dataIni"></param>
+        /// <param name="_dataFim"></param>
+        public void OnRelatorioAutorizacoesInvalidasFiltroCommand(int _status, string _dataIni, string _dataFim)
         {
             try
             {
-                //4_Relatório_AutorizacoesInvalidas.rpt
-                relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(4);
+                //6_Relatório_AutorizacoesInvalidas.rpt
+                relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(6);
 
-                //DATA VAZIA (TODOS)
-                if ((_dataFim == "" || _dataIni == "") && _check == 10)
+                //Caso período de datas seja vazio (Todas Inválidas)
+                if ((_dataFim == "" || _dataIni == "") && _status == 10)
 
                 {
                     formula = " {CredenciaisStatus.CredencialStatusID} <> 1 ";
+                    mensagem = "Todas as AUTORIZAÇÕES INVÁLIDAS (vencidas/indeferidas/canceladas/extraviadas/destruídas) ";
                 }
-                //CAMPOS VAZIOS (TODOS)
-                else if ((_dataFim == "" && _dataIni == "") && _check != 10)
+                //Caso período de datas seja vazio e status informado
+                else if ((_dataFim == "" && _dataIni == "") && _status != 10)
                 {
-                    formula = " {CredenciaisStatus.CredencialStatusID} <> 1 " +
-                    " AND {CredenciaisStatus.CredencialStatusID} = " + _check + "";
+
+                    //Credenciais Roubadas
+                    if (_status == 2)
+                    {
+
+                        formula = " {CredenciaisStatus.CredencialStatusID} <> 1 " +
+                                  " AND {CredenciaisMotivos.CredencialmotivoID} = 10";
+
+                        mensagem = "Todas as AUTORIZAÇÕES ROUBADAS ";
+
+                    }
+                    //Credenciais Extraviadas
+                    else if (_status == 1)
+                    {
+
+                        formula = " {CredenciaisStatus.CredencialStatusID} <> 1 " +
+                                  " AND {CredenciaisMotivos.CredencialmotivoID} = 9";
+
+                        mensagem = "Todas as AUTORIZAÇÕES EXTRAVIADAS ";
+                    }
+
+                    //Credenciais (Indefereidas, destruídas ou não-devolvidas)
+                    else
+                    {
+                        formula = " {CredenciaisStatus.CredencialStatusID} = " + _status + "";
+                        switch (_status)
+                        {
+                            case 3:
+                                verbo = "INDEFERIDAS";
+                                break;
+                            case 6:
+                                verbo = "DESTRUÍDAS";
+                                break;
+                            case 0:
+                                verbo = "NÃO DEVOLVIDAS";
+                                break;
+                            case 4:
+                                verbo = "EXTRAVIADAS";
+                                break;
+                        }
+                        mensagem = "Todas as AUTORIZAÇÕES " + verbo;
+                    }
                 }
                 else
                 {
-                    if (_check == 10)
+                    //(Todas Inválidas no período)
+                    if (_status == 10)
                     {
                         formula = " ({VeiculosCredenciais.Emissao} <= CDate ('" + _dataFim + "')" +
                                   " AND {VeiculosCredenciais.Emissao} >= CDate ('" + _dataIni + "') ) ";
+
+                        mensagem = "Todas as AUTORIZAÇÕES INVÁLIDAS (vencidas/indeferidas/canceladas/extraviadas/destruídas) " +
+                                   "entre " + _dataIni + " e " + _dataFim + "";
+
                     }
+                    //Credenciais Roubadas
+                    else if (_status == 2)
+                    {
+                        formula = " {CredenciaisStatus.CredencialStatusID} <> 1 " +
+                                  " AND {CredenciaisMotivos.CredencialmotivoID} = 10" +
+                                  " AND ({VeiculosCredenciais.Baixa} <= CDate ('" + _dataFim + "')" +
+                                  " AND {VeiculosCredenciais.Baixa} >= CDate ('" + _dataIni + "') ) ";
+
+                        mensagem = "Todas as AUTORIZAÇÕES ROUBADAS entre " + _dataIni + " e " + _dataFim + "";
+                    }
+                    //Credenciais Extraviadas
+                    else if (_status == 1)
+                    {
+                        formula = " {CredenciaisStatus.CredencialStatusID} <> 1 " +
+                                  " AND {CredenciaisMotivos.CredencialmotivoID} = 9" +
+                                  " AND ({VeiculosCredenciais.Baixa} <= CDate ('" + _dataFim + "')" +
+                                  " AND {VeiculosCredenciais.Baixa} >= CDate ('" + _dataIni + "') ) ";
+
+                        mensagem = "Todas as AUTORIZAÇÕES EXTRAVIADAS entre " + _dataIni + " e " + _dataFim + "";
+                    }
+                    //Credenciais (Indefereidas, destruídas ou não-devolvidas)
                     else
                     {
-                        formula = " {CredenciaisStatus.CredencialStatusID} = " + _check +
+                        formula = " {CredenciaisStatus.CredencialStatusID} = " + _status +
                                   " AND ({VeiculosCredenciais.Emissao} <= CDate ('" + _dataFim + "')" +
                                   " AND {VeiculosCredenciais.Emissao} >= CDate ('" + _dataIni + "') ) ";
                     }
+                    mensagem = "Todas as AUTORIZAÇÕES " + verbo + "entre " + _dataIni + " e " + _dataFim + "";
                 }
 
                 var arrayFile = Convert.FromBase64String(relatorioGerencial.ArquivoRpt);
-                WpfHelp.ShowRelatorio(arrayFile, "RelatorioAutorizacoesInvalidas", formula, "");
+                WpfHelp.ShowRelatorio(arrayFile, "RelatorioAutorizacoesInvalidas", formula, mensagem);
             }
             catch (Exception ex)
             {
@@ -468,25 +643,40 @@ namespace iModSCCredenciamento.ViewModels
             }
         }
 
+        /// <summary>
+        /// Filtrar Relatório de Credenciais por Área de Acesso
+        /// </summary>
+        /// <param name="_area"></param>
+        /// <param name="_check"></param>
         public void OnRelatorioFiltroPorAreaCommand(string _area, bool _check)
         {
             try
             {
+                //Relatório de Credenciais
                 if (_check)
                 {
-                    //6_Relatorio_CredenciaisPorArea.rpt
-                    relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(6);
+                    relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(7);
+                    mensagem = "Todas as CREDENCIAIS PERMANENTES E VÁLIDAS por ÁREA DE ACESSO";
+
+                }
+                //Relatório de Autorizações
+                else
+                {
+                    relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(8);
+                    mensagem = "Todas as AUTORIZAÇÕES PERMANENTES E VÁLIDAS por ÁREA DE ACESSO";
+                }
+
+                if (_area != "")
+                {
+                    formula = " {AreasAcessos_0.AreaAcessoID} = " + _area;
                 }
                 else
                 {
-                    //7_Relatorio_AutorizacoesPorArea.rpt
-                    relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(7);
+                    formula = "";
                 }
 
-                formula = " {AreasAcessos_0.AreaAcessoID} = " + _area;
-
                 var arrayFile = Convert.FromBase64String(relatorioGerencial.ArquivoRpt);
-                WpfHelp.ShowRelatorio(arrayFile, "RelatorioCredenciaisAutorizacoesPorArea", formula, "");
+                WpfHelp.ShowRelatorio(arrayFile, "RelatorioPorArea", formula, mensagem);
             }
             catch (Exception ex)
             {
@@ -494,56 +684,87 @@ namespace iModSCCredenciamento.ViewModels
             }
         }
 
+
+        /// <summary>
+        /// Filtrar Relatório de Credenciais e Autorizações por Empresas
+        /// </summary>
+        /// <param name="empresa"></param>
+        /// <param name="_check"></param>
+        /// <param name="_dataIni"></param>
+        /// <param name="_dataFim"></param>
         public void OnRelatorioFiltroPorEmpresaCommand(string empresa, bool _check, string _dataIni, string _dataFim)
         {
             try
             {
+                //CREDENCIAIS
                 if (_check)
                 {
-                    //8_Relatorio_CredenciaisNoPeriodoPorEntidade.rpt
-                    relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(8);
-                }
-
-                else
-                {
-                    //9_Relatorio_AutorizacoesNoPeriodoPorEntidade.rpt
                     relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(9);
                 }
+                //AUTORIZAÇÕES
+                else
+                {
+                    relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(10);
+                }
 
 
-
-                //Todas Empresas
+                //Filtra Todas Empresas
                 if (empresa == "" && _dataIni == "" && _dataFim == "")
                 {
                     formula = "";
+                    mensagem = "Todas as CREDENCIAIS emitidas por entidade solicitante";
                 }
 
                 //Uma Empresa
                 else if (_dataIni == "" && _dataFim == "" && _check)
                 {
                     formula = " {Empresas.EmpresaID} = " + empresa;
+                    mensagem = "Todas as CREDENCIAIS emitidas por entidade solicitante";
                 }
 
                 //Credenciais
                 else if (_check)
                 {
-                    formula = "{ColaboradoresEmpresas.Emissao}  <= '" + _dataFim + "' " +
-                              " and {ColaboradoresEmpresas.Emissao} >= '" + _dataIni +
-                              "' and {Empresas.EmpresaID} = " + empresa + "";
+                    //Uma empresas (filtrando por data)
+                    if (empresa != "")
+                    {
+                        formula = "{ColaboradoresCredenciais.Emissao}  <= CDate ('" + _dataFim + "')" +
+                                  " and {ColaboradoresCredenciais.Emissao} >= CDate ('" + _dataIni + "')" +
+                                  " and {Empresas.EmpresaID} = " + empresa + "";
+                    }
+                    //Todas empresas (filtrando por data)
+                    else
+                    {
+                        formula = "{ColaboradoresCredenciais.Emissao}  <= CDate ('" + _dataFim + "')" +
+                                  " and {ColaboradoresCredenciais.Emissao} >= CDate ('" + _dataIni + "')";
+                    }
 
+                    mensagem = "Todas as CREDENCIAIS emitidas por entidade solicitante no período de " + _dataIni + " a " + _dataFim;
                 }
 
                 //Autorizacoes
                 else
                 {
-                    formula = "{EmpresasVeiculos.Emissao}  <= '" + _dataFim + "' " +
-                          " and {EmpresasVeiculos.Emissao} >= '" + _dataIni +
-                          "' and {Empresas.EmpresaID} = " + empresa + "";
+                    //Uma empresa (filtrando por data)
+                    if (empresa != "")
+                    {
+                        formula = "{VeiculosCredenciais.Emissao}  <= CDate ('" + _dataFim + "')" +
+                                  " and {VeiculosCredenciais.Emissao} >= CDate ('" + _dataIni + "')" +
+                                  " and {Empresas.EmpresaID} = " + empresa + "";
+                    }
+                    //Todas empresa (filtrando por data)
+                    else
+                    {
+                        formula = "{VeiculosCredenciais.Emissao}  <= CDate ('" + _dataFim + "')" +
+                                  " and {VeiculosCredenciais.Emissao} >= CDate ('" + _dataIni + "')";
+                    }
+
+                    mensagem = "Todas as AUTORIZAÇÕES emitidas por entidade solicitante no período de " + _dataIni + " a " + _dataFim;
 
                 }
 
                 var arrayFile = Convert.FromBase64String(relatorioGerencial.ArquivoRpt);
-                WpfHelp.ShowRelatorio(arrayFile, "RelatorioCredenciaisAutorizacoesPorEmpresa", formula, "");
+                WpfHelp.ShowRelatorio(arrayFile, "RelatorioPorEmpresa", formula, mensagem);
             }
             catch (Exception ex)
             {
@@ -551,36 +772,80 @@ namespace iModSCCredenciamento.ViewModels
             }
         }
 
-        public void OnFiltrosImpressoesCommand(string _empresa, string _area, bool _check, string _dataIni, string _dataFim)
+        /// <summary>
+        /// Filtrar Relatório de impressões de Credenciais e Autorizações por Empresas
+        /// </summary>
+        /// <param name="_empresa"></param>
+        /// <param name="_check"></param>
+        /// <param name="_dataIni"></param>
+        /// <param name="_dataFim"></param>
+        public void OnFiltrosImpressoesCommand(string _empresa, bool _check, string _dataIni, string _dataFim)
         {
             try
             {
+                //CREDENCIAIS
                 if (_check)
                 {
-                    //10_Relatório_ImpressoesCredenciais.rpt
-                    relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(10);
+                    relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(23);
                 }
+                //AUTORIZAÇÕES
                 else
                 {
-                    //11_Relatório_ImpressoesAutorizacoes.rpt
-                    relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(11);
+                    relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(24);
                 }
 
-                if (_empresa == "" || _dataIni == "" || _dataFim == "" || _area == "")
+                if (_dataIni == "" || _dataFim == "")
                 {
-                    formula = "";
+                    if (_empresa != "")
+                    {
+                        formula = "{ Empresas.EmpresaID} = " + _empresa + "";
+                    }
+                    else
+                    {
+                        formula = "";
+                    }
                 }
 
                 else
                 {
-                    formula = " 1=1 and {ColaboradoresCredenciais.Emissao} <= cdate('" + _dataFim + "') " +
-                          " and {ColaboradoresCredenciais.Emissao} <= cdate('" + _dataIni + "')" +
-                          " and  {EmpresasAreasAcessos.AreaAcessoID} = " + _area + "" +
-                          " and {Empresas.EmpresaID} = " + _empresa + "";
+                    //CREDENCIAIS
+                    if (_check)
+                    {
+                        //Uma empresas (filtrando por data)
+                        if (_empresa != "")
+                        {
+                            formula = "{ColaboradoresCredenciaisImpressoes.DataImpressao} <= cdate('" + _dataFim + "') " +
+                                      " and {ColaboradoresCredenciaisImpressoes.DataImpressao} >= cdate('" + _dataIni + "')" +
+                                      " and {Empresas.EmpresaID} = " + _empresa + "";
+                        }
+                        else
+                        {
+                            formula = "{ColaboradoresCredenciaisImpressoes.DataImpressao} <= cdate('" + _dataFim + "') " +
+                                      " and {ColaboradoresCredenciaisImpressoes.DataImpressao} >= cdate('" + _dataIni + "')";
+                        }
+                    }
+
+                    //AUTORIZAÇÕES
+                    else
+                    {
+                        //Uma empresas (filtrando por data)
+                        if (_empresa != "")
+                        {
+                            formula = "{VeiculosCredenciaisImpressoes.DataImpressao} <= cdate('" + _dataFim + "') " +
+                                      " and {VeiculosCredenciaisImpressoes.DataImpressao} >= cdate('" + _dataIni + "')" +
+                                      " and {Empresas.EmpresaID} = " + _empresa + "";
+                        }
+                        else
+                        {
+                            formula = "{VeiculosCredenciaisImpressoes.DataImpressao} <= cdate('" + _dataFim + "') " +
+                                      " and {VeiculosCredenciaisImpressoes.DataImpressao} >= cdate('" + _dataIni + "')";
+                        }
+                    }
+                    mensagem = "Impressões de Credenciais registradas entre " + _dataIni + " e " + _dataFim;
                 }
 
                 var arrayFile = Convert.FromBase64String(relatorioGerencial.ArquivoRpt);
-                WpfHelp.ShowRelatorio(arrayFile, "RelatorioImpressoesCredenciaisAutorizacoes", formula, "");
+                WpfHelp.ShowRelatorio(arrayFile, "RelatorioImpressoes", formula, "");
             }
             catch (Exception ex)
             {
@@ -588,11 +853,17 @@ namespace iModSCCredenciamento.ViewModels
             }
         }
 
+        /// <summary>
+        /// Filtrar Relatório de vias adicionais de Credenciais
+        /// </summary>
+        /// <param name="_tipo"></param>
+        /// <param name="_dataIni"></param>
+        /// <param name="_dataFim"></param>
         public void OnFiltroCredencialViasAdicionaisCommand(int _tipo, string _dataIni, string _dataFim)
         {
             try
             {
-                //21_Relatório_ViasAdicionaisCredenciais.rpt
+                //CREDENCIAIS
                 relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(21);
 
                 if (_tipo == 0)
@@ -601,12 +872,16 @@ namespace iModSCCredenciamento.ViewModels
                     {
                         //TODAS AS VIAS ADICIONAIS EMITIDAS
                         formula = " {CredenciaisMotivos.CredencialmotivoID} in [2,3]";
+
+                        mensagem = "Todas as VIAS ADICIONAIS de CREDENCIAIS emitidas";
                     }
                     else
                     {
                         formula = " {CredenciaisMotivos.CredencialmotivoID} in [2,3] " +
                                   " AND ({ColaboradoresCredenciais.Emissao} <= CDate ('" + _dataFim + "')" +
                                   " AND {ColaboradoresCredenciais.Emissao} >= CDate ('" + _dataIni + "') ) ";
+
+                        mensagem = "Todas as VIAS ADICIONAIS de CREDENCIAIS emitidas entre " + _dataIni + " e " + _dataFim;
                     }
                 }
                 else
@@ -615,18 +890,103 @@ namespace iModSCCredenciamento.ViewModels
                     {
                         //VIAS ADICIONAIS EMITIDAS (1a,2a,3a VIA)
                         formula = " {CredenciaisMotivos.CredencialmotivoID}  =  " + _tipo;
+
+                        switch (_tipo)
+                        {
+                            case 2:
+                                verbo = "SEGUNDA EMISSÃO";
+                                break;
+                            case 3:
+                                verbo = "TERCEIRA EMISSÃO";
+                                break;
+                        }
+
+                        mensagem = "Todas as VIAS ADICIONAIS (" + verbo + ") de CREDENCIAIS emitidas";
                     }
                     else
                     {
                         formula = " {CredenciaisMotivos.CredencialmotivoID}  =  " + _tipo +
                                   " AND ({ColaboradoresCredenciais.Emissao} <= CDate ('" + _dataFim + "')" +
                                   " AND {ColaboradoresCredenciais.Emissao} >= CDate ('" + _dataIni + "') ) ";
+
+                        mensagem = "Todas as VIAS ADICIONAIS de CREDENCIAIS emitidas entre " + _dataIni + " e " + _dataFim;
                     }
 
                 }
 
                 var arrayFile = Convert.FromBase64String(relatorioGerencial.ArquivoRpt);
-                WpfHelp.ShowRelatorio(arrayFile, "RelatorioCredenciaisViasAdicionais", formula, "");
+                WpfHelp.ShowRelatorio(arrayFile, "RelatorioCredenciaisViasAdicionais", formula, mensagem);
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+            }
+        }
+
+
+        /// <summary>
+        /// Filtrar Relatório de vias adicionais de Credenciais
+        /// </summary>
+        /// <param name="_tipo"></param>
+        /// <param name="_dataIni"></param>
+        /// <param name="_dataFim"></param>
+        public void OnFiltroAutorizacaoViasAdicionaisCommand(int _tipo, string _dataIni, string _dataFim)
+        {
+            try
+            {
+                //CREDENCIAIS
+                relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(22);
+
+                if (_tipo == 0)
+                {
+                    if (_dataIni == "" || _dataFim == "")
+                    {
+                        //TODAS AS VIAS ADICIONAIS EMITIDAS
+                        formula = " {CredenciaisMotivos.CredencialmotivoID} in [2,3]";
+
+                        mensagem = "Todas as VIAS ADICIONAIS de AUTORIZAÇÕES ATIV emitidas";
+                    }
+                    else
+                    {
+                        formula = " {CredenciaisMotivos.CredencialmotivoID} in [2,3] " +
+                                  " AND ({ColaboradoresCredenciais.Emissao} <= CDate ('" + _dataFim + "')" +
+                                  " AND {ColaboradoresCredenciais.Emissao} >= CDate ('" + _dataIni + "') ) ";
+
+                        mensagem = "Todas as VIAS ADICIONAIS de AUTORIZAÇÕES ATIV emitidas entre " + _dataIni + " e " + _dataFim;
+                    }
+                }
+                else
+                {
+                    if (_dataIni == "" || _dataFim == "")
+                    {
+                        //VIAS ADICIONAIS EMITIDAS (1a,2a,3a VIA)
+                        formula = " {CredenciaisMotivos.CredencialmotivoID}  =  " + _tipo;
+
+                        switch (_tipo)
+                        {
+                            case 2:
+                                verbo = "SEGUNDA EMISSÃO";
+                                break;
+                            case 3:
+                                verbo = "TERCEIRA EMISSÃO";
+                                break;
+                        }
+
+                        mensagem = "Todas as VIAS ADICIONAIS (" + verbo + ") de AUTORIZAÇÕES ATIV emitidas";
+                    }
+                    else
+                    {
+                        formula = " {CredenciaisMotivos.CredencialmotivoID}  =  " + _tipo +
+                                  " AND ({VeiculosCredenciais.Emissao} <= CDate ('" + _dataFim + "')" +
+                                  " AND {VeiculosCredenciais.Emissao} >= CDate ('" + _dataIni + "') ) ";
+
+                        mensagem = "Todas as VIAS ADICIONAIS de AUTORIZAÇÕES ATIV emitidas entre " + _dataIni + " e " + _dataFim;
+                    }
+
+                }
+
+                var arrayFile = Convert.FromBase64String(relatorioGerencial.ArquivoRpt);
+                WpfHelp.ShowRelatorio(arrayFile, "RelatorioAutorizacoesViasAdicionais", formula, mensagem);
             }
             catch (Exception ex)
             {

@@ -6,6 +6,7 @@
 
 #region
 
+using System;
 using AutoMapper;
 using iModSCCredenciamento.Models;
 using iModSCCredenciamento.Views.Model;
@@ -38,6 +39,8 @@ namespace iModSCCredenciamento.Mapeamento
                        m.CreateMap<ColaboradorCursoView, ColaboradorCurso>().ReverseMap();
                        m.CreateMap<ClasseColaboradoresCredenciais, ClasseColaboradoresCredenciais.ColaboradorCredencial>().ReverseMap();
                        m.CreateMap<ColaboradoresCredenciaisView, ClasseColaboradoresCredenciais.ColaboradorCredencial>().ReverseMap();
+
+                       m.CreateMap<ColaboradorCredencial, ColaboradoresCredenciaisView>().ReverseMap();
 
                        m.CreateMap<VeiculoEmpresa, ClasseVeiculosEmpresas.VeiculoEmpresa>().ReverseMap();
                        m.CreateMap<VeiculosCredenciaisView, VeiculoCredencial>().ReverseMap();
@@ -75,6 +78,11 @@ namespace iModSCCredenciamento.Mapeamento
                        m.CreateMap<TipoAcesso, TipoAcessoView>().ReverseMap();
 
                        //m.CreateMap<EmpresaContrato, ClasseEmpresasContratos.EmpresaContrato>().ReverseMap();
+
+                       m.CreateMap<IMOD.Domain.EntitiesCustom.CredencialView, Views.Model.CredencialView>()
+                           .ForMember(k => k.Foto, opt => opt.MapFrom(k => Convert.FromBase64String(k.Foto)))
+                           .ForMember(k => k.Logo, opt => opt.MapFrom(k => Convert.FromBase64String(k.Logo)))
+                           .ReverseMap();
 
                    });
         }

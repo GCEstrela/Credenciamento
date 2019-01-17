@@ -48,6 +48,11 @@ namespace IMOD.Application.Service
             _repositorio.Alterar(entity);
         }
 
+        public ColaboradoresCredenciaisView BuscarCredencialPelaChave(int colaboradorCredencialId)
+        {
+            return _repositorio.BuscarCredencialPelaChave(colaboradorCredencialId);
+        }
+
         /// <summary>
         ///     Buscar pela chave primaria
         /// </summary>
@@ -86,6 +91,11 @@ namespace IMOD.Application.Service
         public ICollection<ColaboradoresCredenciaisView> ListarView(params object[] o)
         {
             return _repositorio.ListarView(o);
+        }
+
+        public ICollection<CredencialView> ListarCredencialView(int id)
+        {
+            return _repositorio.ListarCredencialView(id);
         }
 
         /// <summary>
