@@ -10,7 +10,8 @@
              xmlns:viewModels="clr-namespace:iModSCCredenciamento.ViewModels"
              xmlns:data="clr-namespace:Singulink.Windows.Data"
              mc:Ignorable="d"
-             Height="420" >
+             Height="420" 
+             Loaded="UserControl_Loaded" >
     <UserControl.Resources>
         <i:FormateTel x:Key="FormateTel" />
         <i:StringToImageConverter x:Key="StringToImageConverter" />
@@ -36,8 +37,10 @@
                                       HorizontalContentAlignment="Left"
                                       ItemsSource="{Binding ColaboradoresEmpresas}" 
                                       SelectedValue="{Binding Entity.ColaboradorEmpresaId, UpdateSourceTrigger=PropertyChanged}"
-                                      SelectedValuePath="ColaboradorEmpresaId" IsSynchronizedWithCurrentItem="True" 
-                                      Loaded="EmpresaVinculo_cb_Loaded" SelectionChanged="EmpresaVinculo_cb_SelectionChanged" >
+                                      SelectedItem="{Binding ColaboradorEmpresa}"
+                                      SelectedValuePath="ColaboradorEmpresaId"
+                                      IsSynchronizedWithCurrentItem="True" 
+                                      >
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">

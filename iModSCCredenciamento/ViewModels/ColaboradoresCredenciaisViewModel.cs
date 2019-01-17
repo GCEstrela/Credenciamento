@@ -69,6 +69,7 @@ namespace iModSCCredenciamento.ViewModels
         public List<EmpresaLayoutCracha> EmpresaLayoutCracha { get; set; }
         public List<TecnologiaCredencial> TecnologiasCredenciais { get; set; }
         public List<ColaboradorEmpresa> ColaboradoresEmpresas { get; set; }
+        public ColaboradorEmpresa ColaboradorEmpresa { get; set; }
         public List<AreaAcesso> ColaboradorPrivilegio { get; set; }
 
         //public EmpresaLayoutCrachaView EntityEmpresasLayoutsCrachas { get; set; }
@@ -115,7 +116,7 @@ namespace iModSCCredenciamento.ViewModels
             _colaboradorView = entity;
             ////Obter dados
             var list1 = _service.ListarView(null, null, null, null, entity.ColaboradorId).ToList();
-            var list2 = Mapper.Map<List<ColaboradoresCredenciaisView>>(list1);
+            var list2 = Mapper.Map<List<ColaboradoresCredenciaisView>>(list1.OrderByDescending(n => n.ColaboradorCredencialId));
             EntityObserver = new ObservableCollection<ColaboradoresCredenciaisView>();
             list2.ForEach(n =>
             {
@@ -169,16 +170,16 @@ namespace iModSCCredenciamento.ViewModels
                 //EntityObserver = new ObservableCollection<ColaboradoresCredenciaisView>();
                 //Entity.ColaboradorCredencialId = n1.ColaboradorCredencialId;
 
-                //var list1 = _service.ListarView(null, null, null, null, _colaboradorView.ColaboradorId).ToList();
-                //var list2 = Mapper.Map<List<ColaboradoresCredenciaisView>>(list1);
-                //EntityObserver = new ObservableCollection<ColaboradoresCredenciaisView>();
-                //list2.ForEach(n =>
-                // {
-                //    EntityObserver.Add(n);
-                //});
+                var list1 = _service.ListarView(null, null, null, null, _colaboradorView.ColaboradorId).ToList();
+                var list2 = Mapper.Map<List<ColaboradoresCredenciaisView>>(list1.OrderByDescending(n => n.ColaboradorCredencialId));
+                EntityObserver = new ObservableCollection<ColaboradoresCredenciaisView>();
+                list2.ForEach(n =>
+                 {
+                     EntityObserver.Add(n);
+                 });
 
-                var n2 = _service.BuscarCredencialPelaChave(Entity.ColaboradorCredencialId);
-                EntityObserver.Insert(0, n2);
+                //var n2 = _service.BuscarCredencialPelaChave(Entity.ColaboradorCredencialId);
+                //EntityObserver.Insert(0, n2);
                 IsEnableLstView = true;
             }
             catch (Exception ex)
@@ -472,7 +473,7 @@ namespace iModSCCredenciamento.ViewModels
 
         #region Variaveis Privadas
 
-        public List<ColaboradorEmpresaView> ColaboradorEmpresa { get; private set; }
+        //public List<ColaboradorEmpresaView> ColaboradorEmpresa { get; private set; }
 
 
 
@@ -514,27 +515,28 @@ namespace iModSCCredenciamento.ViewModels
             ColaboradorPrivilegio.AddRange(lst7);
 
         }
-        public void CarregaColecaoLayoutsCrachas(string _empresaID)
+        public void CarregaColecaoLayoutsCrachas(int _empresaID)
         {
 
             try
             {
 
-                var lst4 = _empresaLayoutCracha.Listar(null, _empresaID);
+                //var lst4 = _empresaLayoutCracha.Listar(null, _empresaID);
                 EmpresaLayoutCracha = new List<EmpresaLayoutCracha>();
-                EmpresaLayoutCracha.AddRange(lst4);
+                //EmpresaLayoutCracha.Clear();
+                //EmpresaLayoutCracha.AddRange(lst4);
 
-                //var service = new EmpresaLayoutCrachaService();
-                //var list1 = service.ListarLayoutCrachaPorEmpresaView(_empresaID);
+                var service = new EmpresaLayoutCrachaService();
+                var list1 = service.ListarLayoutCrachaPorEmpresaView(_empresaID);
 
-                //var list2 = Mapper.Map<List<EmpresaLayoutCrachaView>>(list1);
+                var list2 = Mapper.Map<List<EmpresaLayoutCracha>>(list1);
                 //var observer = new ObservableCollection<EmpresaLayoutCrachaView>();
                 //list2.ForEach(n =>
                 //{
                 //    observer.Add(n);
                 //});
 
-                //EmpresasLayoutsCrachas = observer;
+                EmpresaLayoutCracha = list2;
                 //LayoutsCrachas = observer;
             }
             catch (Exception ex)
