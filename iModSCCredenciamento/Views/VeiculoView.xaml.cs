@@ -56,6 +56,7 @@ namespace iModSCCredenciamento.Views
             VeiculosEmpresasUs.AtualizarDados(_viewModel.Entity);
             EmpresaSeguroUs.AtualizarDados(_viewModel.Entity);
             VeiculoCredenciaisUs.AtualizarDados(_viewModel.Entity);
+            VeiculoCredenciaisUs.AtualizarVinculo(_viewModel.Entity);
         }
 
         private void OnSelecionaMunicipio_SelectionChanged(object sender, SelectionChangedEventArgs e)

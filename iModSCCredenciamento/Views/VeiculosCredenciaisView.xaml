@@ -8,6 +8,7 @@
              d:DataContext="{d:DesignInstance viewModels:VeiculosCredenciaisViewModel , IsDesignTimeCreatable=True}"
              xmlns:wpf="clr-namespace:CSharpControls.Wpf;assembly=CSharpControls.Wpf"
              xmlns:viewModels="clr-namespace:iModSCCredenciamento.ViewModels"
+             xmlns:data="clr-namespace:Singulink.Windows.Data"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="1000" 
              Loaded="UserControl_Loaded" >
@@ -17,12 +18,12 @@
         <i:CheckTeste x:Key="CheckTeste" />
     </UserControl.Resources>
     <Grid Height="364" VerticalAlignment="Top">
-        <StackPanel Orientation="Vertical">
+        <StackPanel Orientation="Vertical" VerticalAlignment="Top">
 
             <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}"
                       IsEnabled="{Binding Comportamento.isEnableSalvar}"
                       Background="Purple"
-                      x:Name="Responsavel_gb" Header="Credenciamento" Margin="0,0,-1,0">
+                      x:Name="Responsavel_gb" Header="Credenciamento" Margin="0,0,10,0">
                 <StackPanel Orientation="Horizontal">
                     <StackPanel Margin="1" Width="958">
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
@@ -35,11 +36,12 @@
                                       Height="25"
                                       VerticalContentAlignment="Center" 
                                       HorizontalContentAlignment="Left"
-                                      ItemsSource="{Binding VeiculosEmpresas}" 
-                                      SelectedValue="{Binding Entity.VeiculoEmpresaId,  UpdateSourceTrigger=PropertyChanged}"
-                                      SelectedValuePath="VeiculoEmpresaId" 
+                                      ItemsSource="{Binding VeiculosEmpresas}"
+                                      SelectedValue="{Binding Entity.VeiculoEmpresaId, UpdateSourceTrigger=PropertyChanged}"
+                                      SelectedItem="{Binding VeiculoEmpresa}"
+                                      SelectedValuePath="VeiculoEmpresaId"
                                       IsSynchronizedWithCurrentItem="True"
-                                      SelectedIndex="0" >
+                                      SelectedIndex="0">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
@@ -73,7 +75,8 @@
                                       DisplayMemberPath="Descricao"
                                       SelectedValue="{Binding Entity.CredencialStatusId, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                                       SelectedValuePath="CredencialStatusId" IsSynchronizedWithCurrentItem="True"
-                                      RenderTransformOrigin="0.5,0.5" SelectionChanged="StatusCredencial_cb_SelectionChanged" >
+                                      RenderTransformOrigin="0.5,0.5"
+                                      SelectionChanged="StatusCredencial_cb_SelectionChanged">
 
                                 <ComboBox.RenderTransform>
                                     <TransformGroup>
@@ -162,13 +165,13 @@
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                     Margin="1,1,-20,1" Width="977">
                             <Label Content="Emissão:" Height="28" Width="55" Margin="1" Foreground="#FFD0D0D0" />
-                            <TextBlock Text="00/00/0000" VerticalAlignment="Center" />
+                            <TextBlock Text="{Binding Entity.Emissao,UpdateSourceTrigger=PropertyChanged, StringFormat=\{0:d\}}"  VerticalAlignment="Center" Width="70" />
                             <Label Content="Validade:" Height="28" Width="60" Margin="1" Foreground="#FFD0D0D0"  RenderTransformOrigin="0.553,0.5"/>
-                            <TextBlock Text="00/00/0000" VerticalAlignment="Center" />
+                            <TextBlock Text="{Binding Entity.Validade,UpdateSourceTrigger=PropertyChanged , StringFormat=\{0:d\}}" VerticalAlignment="Center" Width="70" />
                             <Label Content="Baixa:" Height="28" Width="50" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
-                            <TextBlock Text="00/00/0000" VerticalAlignment="Center" />
+                            <TextBlock Text="{Binding Entity.Baixa,UpdateSourceTrigger=PropertyChanged, StringFormat=\{0:d\}}"  VerticalAlignment="Center" Width="70"  />
 
-                            <Label Content="Privilégios:" Height="28" Width="97" Margin="0,0,4,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                            <Label Content="Privilégios:" Height="28" Width="85" Margin="0,0,4,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
 
 
                             <ComboBox  x:Name="Privilegio1_tb"   
@@ -176,7 +179,7 @@
                                        Width="45" 
                                        VerticalContentAlignment="Center" 
                                        HorizontalContentAlignment="Left"
-                                       ItemsSource="{Binding AreasAcessos, Mode=TwoWay}" 
+                                       ItemsSource="{Binding VeiculoPrivilegio, Mode=TwoWay}" 
                                        DisplayMemberPath="Identificacao" 
                                        SelectedValue="{Binding Entity.VeiculoPrivilegio1Id,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                                        SelectedValuePath="AreaAcessoId"  />
@@ -187,7 +190,7 @@
                                        Width="45" 
                                        VerticalContentAlignment="Center" 
                                        HorizontalContentAlignment="Left"
-                                       ItemsSource="{Binding AreasAcessos}" 
+                                       ItemsSource="{Binding VeiculoPrivilegio}" 
                                        DisplayMemberPath="Identificacao" 
                                        SelectedValue="{Binding Entity.VeiculoPrivilegio2Id, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                                        SelectedValuePath="AreaAcessoId"  />
@@ -223,22 +226,23 @@
                         </StackPanel>
                         <StackPanel Margin="0,0,0,0">
                             <Button x:Name="brnImprimirCredencial" Content="Imprimir Credencial" ToolTip="Imprimir Credencial"  Margin="10,5,0,5" 
-                                    Height="24" RenderTransformOrigin="0.953,0.417" HorizontalAlignment="Left" Width="139" Click="ImprimirCredencial_bt_Click" />
+                                    Height="24" RenderTransformOrigin="0.953,0.417" HorizontalAlignment="Left" Width="139" Click="ImprimirCredencial_bt_Click"/>
                         </StackPanel>
                     </StackPanel>
                 </StackPanel>
             </GroupBox>
 
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="203">
 
-                <ListView x:Name="ListaVeiculosCredenciais_lv"
-                          Margin="0,6,0,19" 
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="990" Height="203">
+
+                <ListView x:Name="ListaVeiculosCredenciais_lv" 
+                          Margin="0,6,0,0" 
                           Width="814" 
                           IsEnabled="{Binding IsEnableLstView}"
                           HorizontalAlignment="Stretch" 
-                          VerticalAlignment="Stretch" 
+                          VerticalAlignment="Top" 
                           ItemsSource="{Binding EntityObserver, Mode=TwoWay}" 
-                          SelectedItem="{Binding Entity, Mode=TwoWay}" >
+                          SelectedItem="{Binding Entity, Mode=TwoWay}" Height="178" >
                     <ListView.View>
                         <GridView  >
                             <!--<GridViewColumn >
@@ -314,7 +318,6 @@
                         </GridView>
                     </ListView.View>
                 </ListView>
-
                 <StackPanel Orientation="Vertical" Margin="10,6,0,0" HorizontalAlignment="Right" Width="155">
                     <Button x:Name="btnAdicionar" Content="Adicionar" ToolTip="Adicionar"
                             IsEnabled="{Binding Comportamento.IsEnableCriar}" Command="{Binding PrepareCriarCommand}"

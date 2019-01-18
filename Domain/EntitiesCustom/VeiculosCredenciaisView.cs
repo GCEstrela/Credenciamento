@@ -42,6 +42,7 @@ namespace IMOD.Domain.EntitiesCustom
         public string LayoutCrachaGuid { get; set; }
         public string Cnpj { get; set; }
         public string FormatIdguid { get; set; }
+        public bool IsencaoCobranca { get; set; }
 
     }
 }
