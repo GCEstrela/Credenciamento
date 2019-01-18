@@ -106,22 +106,22 @@ namespace iModSCCredenciamento.ViewModels
 
         #region  Metodos
 
-        public void AtualizarVinculo(VeiculoView entity)
+        //TODO: AtualizarVinculo
+        public void AtualizarVinculoVeiculoEmpresa(VeiculoView _entity)
         {
-            if (entity == null)
-            {
-                throw new ArgumentNullException(nameof(entity));
-            }
+            if (_entity == null ) { return;}
 
-            var lista1 = _VeiculoEmpresaService.Listar(entity.EquipamentoVeiculoId);
-            var lista2 = Mapper.Map<List<VeiculoEmpresa>>(lista1.OrderByDescending(n => n.VeiculoEmpresaId));
-
+            var lista1 = _VeiculoEmpresaService.Listar(_entity.EquipamentoVeiculoId, true);
+            var lista2 = Mapper.Map<List<VeiculoEmpresa>>(lista1.OrderByDescending(n => n.VeiculoEmpresaId).Where(n => n.Ativo.Equals(true)).ToList());
+          
             VeiculosEmpresas.Clear();
+            
             lista2.ForEach(n =>
             {
+                n.EmpresaNome.Trim();
+                n.Descricao.Trim();
                 VeiculosEmpresas.Add(n);
             });
-
 
         }
 
@@ -188,10 +188,6 @@ namespace iModSCCredenciamento.ViewModels
                 n1.TipoCredencialId = Entity.TipoCredencialId;
 
                 _service.Criar(n1);
-                //////Adicionar no inicio da lista um item a coleção
-                //var n2 = Mapper.Map<VeiculoCredencialView>(n1);
-                //EntityObserver = new ObservableCollection<VeiculosCredenciaisView>();
-                //Entity.VeiculoCredencialId = n1.VeiculoCredencialId;
 
                 var list1 = _service.ListarView(_VeiculoView.EquipamentoVeiculoId, null, null, null, null).ToList();
                 var list2 = Mapper.Map<List<VeiculosCredenciaisView>>(list1.OrderByDescending(n => n.VeiculoCredencialId));
@@ -201,8 +197,6 @@ namespace iModSCCredenciamento.ViewModels
                     EntityObserver.Add(n);
                 });
 
-                //var n2 = _service.BuscarCredencialPelaChave(Entity.VeiculoCredencialId);
-                //EntityObserver.Insert(0, n2);
                 IsEnableLstView = true;
             }
             catch (Exception ex)
@@ -538,34 +532,26 @@ namespace iModSCCredenciamento.ViewModels
             TipoCredencial = new List<TipoCredencial>();
             TipoCredencial.AddRange(lst3);
 
-            //var lst4 = _empresaLayoutCracha.Listar();
-            //EmpresaLayoutCracha = new List<EmpresaLayoutCracha>();
-            //EmpresaLayoutCracha.AddRange(lst4);
-
             var lst5 = _auxiliaresService.TecnologiaCredencialService.Listar();
             TecnologiasCredenciais = new List<TecnologiaCredencial>();
             TecnologiasCredenciais.AddRange(lst5);
 
-            var lst6 = _VeiculoEmpresaService.Listar();
+            var lst6 = _VeiculoEmpresaService.Listar(null, true).OrderByDescending(n => n.VeiculoEmpresaId).Where(n => n.Ativo.Equals(true)).ToList();
             VeiculosEmpresas = new List<VeiculoEmpresa>();
             VeiculosEmpresas.AddRange(lst6);
-
-            //var lst6 = _VeiculoEmpresaService.ListarView();
-            //VeiculosEmpresas = new List<IMOD.Domain.EntitiesCustom.VeiculoEmpresaView>();
-            //VeiculosEmpresas.AddRange(lst6);
 
             var lst7 = _auxiliaresService.AreaAcessoService.Listar();
             VeiculoPrivilegio = new List<AreaAcesso>();
             VeiculoPrivilegio.AddRange(lst7);
 
         }
-        public void CarregaColecaoLayoutsCrachas(int _empresaID)
+        public void CarregaColecaoLayoutsCrachas(int _empresaId)
         {
             try
             {
                 EmpresaLayoutCracha = new List<EmpresaLayoutCracha>();
                 var service = new EmpresaLayoutCrachaService();
-                var list1 = service.ListarLayoutCrachaPorEmpresaView(_empresaID);
+                var list1 = service.ListarLayoutCrachaPorEmpresaView(_empresaId);
                 var list2 = Mapper.Map<List<EmpresaLayoutCracha>>(list1);
                 EmpresaLayoutCracha = list2;
             }

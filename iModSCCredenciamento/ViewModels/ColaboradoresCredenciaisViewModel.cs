@@ -112,8 +112,8 @@ namespace iModSCCredenciamento.ViewModels
                 throw new ArgumentNullException(nameof(entity));
             }
 
-            var lista1 = _ColaboradorEmpresaService.Listar(entity.ColaboradorId);
-            var lista2 = Mapper.Map<List<ColaboradorEmpresa>>(lista1.OrderByDescending(n => n.ColaboradorEmpresaId).ToList());
+            var lista1 = _ColaboradorEmpresaService.Listar(entity.ColaboradorId, true);
+            var lista2 = Mapper.Map<List<ColaboradorEmpresa>>(lista1.OrderByDescending(n => n.ColaboradorEmpresaId).Where(n => n.Ativo.Equals(true)).ToList());
 
             ColaboradoresEmpresas.Clear();
             lista2.ForEach(n =>
@@ -549,7 +549,8 @@ namespace iModSCCredenciamento.ViewModels
             TecnologiasCredenciais = new List<TecnologiaCredencial>();
             TecnologiasCredenciais.AddRange(lst5);
 
-            var lst6 = _ColaboradorEmpresaService.Listar();
+
+            var lst6 = _ColaboradorEmpresaService.Listar(null, true).OrderByDescending(n => n.ColaboradorEmpresaId).Where(n => n.Ativo.Equals(true)).ToList();
             ColaboradoresEmpresas = new List<ColaboradorEmpresa>();
             ColaboradoresEmpresas.AddRange(lst6);
 
