@@ -540,14 +540,14 @@ namespace iModSCCredenciamento.ViewModels
                 relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(6);
 
                 //Caso período de datas seja vazio (Todas Inválidas)
-                if ((_dataFim == "" || _dataIni == "") && _status == 10)
+                if ((_dataFim == "" || _dataIni == "") && _status == 0)
 
                 {
                     formula = " {CredenciaisStatus.CredencialStatusID} <> 1 ";
                     mensagem = "Todas as AUTORIZAÇÕES INVÁLIDAS (vencidas/indeferidas/canceladas/extraviadas/destruídas) ";
                 }
                 //Caso período de datas seja vazio e status informado
-                else if ((_dataFim == "" && _dataIni == "") && _status != 10)
+                else if ((_dataFim == "" && _dataIni == "") && _status != 0)
                 {
 
                     //Credenciais Roubadas
@@ -577,17 +577,15 @@ namespace iModSCCredenciamento.ViewModels
                         switch (_status)
                         {
                             case 3:
-                                verbo = "INDEFERIDAS";
-                                break;
-                            case 6:
                                 verbo = "DESTRUÍDAS";
                                 break;
-                            case 0:
+                            case 4:
                                 verbo = "NÃO DEVOLVIDAS";
                                 break;
-                            case 4:
-                                verbo = "EXTRAVIADAS";
+                            case 5:
+                                verbo = "INDEFERIDAS";
                                 break;
+
                         }
                         mensagem = "Todas as AUTORIZAÇÕES " + verbo;
                     }
@@ -595,7 +593,7 @@ namespace iModSCCredenciamento.ViewModels
                 else
                 {
                     //(Todas Inválidas no período)
-                    if (_status == 10)
+                    if (_status == 0)
                     {
                         formula = " ({VeiculosCredenciais.Emissao} <= CDate ('" + _dataFim + "')" +
                                   " AND {VeiculosCredenciais.Emissao} >= CDate ('" + _dataIni + "') ) ";
@@ -604,7 +602,7 @@ namespace iModSCCredenciamento.ViewModels
                                    "entre " + _dataIni + " e " + _dataFim + "";
 
                     }
-                    //Credenciais Roubadas
+                    //Autorizações Roubadas
                     else if (_status == 2)
                     {
                         formula = " {CredenciaisStatus.CredencialStatusID} <> 1 " +
@@ -614,7 +612,7 @@ namespace iModSCCredenciamento.ViewModels
 
                         mensagem = "Todas as AUTORIZAÇÕES ROUBADAS entre " + _dataIni + " e " + _dataFim + "";
                     }
-                    //Credenciais Extraviadas
+                    //Autorizaçõess Extraviadas
                     else if (_status == 1)
                     {
                         formula = " {CredenciaisStatus.CredencialStatusID} <> 1 " +
@@ -624,12 +622,26 @@ namespace iModSCCredenciamento.ViewModels
 
                         mensagem = "Todas as AUTORIZAÇÕES EXTRAVIADAS entre " + _dataIni + " e " + _dataFim + "";
                     }
-                    //Credenciais (Indefereidas, destruídas ou não-devolvidas)
+                    //Autorizações (Indefereidas, destruídas ou não-devolvidas)
                     else
                     {
                         formula = " {CredenciaisStatus.CredencialStatusID} = " + _status +
                                   " AND ({VeiculosCredenciais.Emissao} <= CDate ('" + _dataFim + "')" +
                                   " AND {VeiculosCredenciais.Emissao} >= CDate ('" + _dataIni + "') ) ";
+                    }
+                    mensagem = "Todas as AUTORIZAÇÕES " + verbo + "entre " + _dataIni + " e " + _dataFim + "";
+
+                    switch (_status)
+                    {
+                        case 3:
+                            verbo = "DESTRUÍDAS";
+                            break;
+                        case 4:
+                            verbo = "NÃO DEVOLVIDAS";
+                            break;
+                        case 5:
+                            verbo = "INDEFERIDAS";
+                            break;
                     }
                     mensagem = "Todas as AUTORIZAÇÕES " + verbo + "entre " + _dataIni + " e " + _dataFim + "";
                 }

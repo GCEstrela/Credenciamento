@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using iModSCCredenciamento.Windows;
+using IMOD.CrossCutting;
 
 namespace iModSCCredenciamento.Views
 {
@@ -21,13 +22,13 @@ namespace iModSCCredenciamento.Views
 
             try
             {
-                //12_TermoConcessaoCredencial.rpt
-                PopupFiltrosTermos = new PopupFiltrosTermos(12,1);
+                //11_TermoConcessaoCredencial.rpt
+                PopupFiltrosTermos = new PopupFiltrosTermos(11, 1);
                 PopupFiltrosTermos.ShowDialog();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                Utils.TraceException(ex);
             }
         }
 
@@ -36,13 +37,13 @@ namespace iModSCCredenciamento.Views
 
             try
             {
-                //16_TermoIndeferimentoCredencial.rpt
-                PopupFiltrosTermos = new PopupFiltrosTermos(16,5);
+                //15_TermoIndeferimentoCredencial.rpt
+                PopupFiltrosTermos = new PopupFiltrosTermos(15, 5);
                 PopupFiltrosTermos.ShowDialog();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                Utils.TraceException(ex);
             }
         }
 
@@ -51,13 +52,13 @@ namespace iModSCCredenciamento.Views
 
             try
             {
-                //14_TermoCancelamentoCredencial.rpt
-                PopupFiltrosTermos = new PopupFiltrosTermos(14,2);
+                //13_TermoCancelamentoCredencial.rpt
+                PopupFiltrosTermos = new PopupFiltrosTermos(13, 2);
                 PopupFiltrosTermos.ShowDialog();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                Utils.TraceException(ex);
             }
         }
 
@@ -66,20 +67,100 @@ namespace iModSCCredenciamento.Views
 
             try
             {
-                //18_TermoDestruicaoCredencial.rpt
-                PopupFiltrosTermos = new PopupFiltrosTermos(18,3);
+                //17_TermoDestruicaoCredencial.rpt
+                PopupFiltrosTermos = new PopupFiltrosTermos(17, 3);
                 PopupFiltrosTermos.ShowDialog();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                Utils.TraceException(ex);
             }
         }
 
         private void ButtonTermoViasAdicionaisCredenciaisClick(object sender, RoutedEventArgs e)
         {
-            PopupFiltrosTermos = new PopupFiltrosTermos(20,1);
-            PopupFiltrosTermos.ShowDialog();
+            try
+            {
+                //19_TermoViaAdicionalCredencial.rpt
+                PopupFiltrosTermos = new PopupFiltrosTermos(19, 1);
+                PopupFiltrosTermos.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+            }
+
+        }
+
+
+        private void ButtonTermoConcessaoAutorizacoesClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                //12_TermoConcessaoAutorizacao.rpt
+                PopupFiltrosTermos = new PopupFiltrosTermos(12, 1);
+                PopupFiltrosTermos.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+            }
+        }
+
+        private void ButtonTermoIndeferimentoAutorizacoesClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                //16_TermoIndeferimentoAutorizacao.rpt
+                PopupFiltrosTermos = new PopupFiltrosTermos(16, 5);
+                PopupFiltrosTermos.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+            }
+        }
+
+        private void ButtonTermoCancelamentoAutorizacoesClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                //14_TermoCancelamentoAutorizacao.rpt
+                PopupFiltrosTermos = new PopupFiltrosTermos(14, 2);
+                PopupFiltrosTermos.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+            }
+        }
+
+        private void ButtonTermoDestruicaoAutorizacoesClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                //18_TermoDestruicaoAutorizacao.rpt
+                PopupFiltrosTermos = new PopupFiltrosTermos(18, 3);
+                PopupFiltrosTermos.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+            }
+        }
+
+        private void ButtonTermoViasAdicionaisAutorizacoesClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                //20_TermoViaAdicionalAutorizacao.rpt
+                PopupFiltrosTermos = new PopupFiltrosTermos(20, 1);
+                PopupFiltrosTermos.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+            }
         }
     }
 }

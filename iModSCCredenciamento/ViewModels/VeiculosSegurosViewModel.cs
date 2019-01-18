@@ -236,10 +236,16 @@ namespace iModSCCredenciamento.ViewModels
 
                 var num = PesquisarPor;
 
-                //Por nome
+                //Por Seguro
                 if (num.Key == 1)
                 {
-                    var l1 = _service.Listar(_veiculoView.EquipamentoVeiculoId, $"%{pesquisa}%");
+                    var l1 = _service.Listar(_veiculoView.EquipamentoVeiculoId, $"%{pesquisa}%", null);
+                    PopularObserver(l1);
+                }
+                //Por Seguro
+                if (num.Key == 2)
+                {
+                    var l1 = _service.Listar(_veiculoView.EquipamentoVeiculoId, null, $"%{pesquisa}%");
                     PopularObserver(l1);
                 }
 

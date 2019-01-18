@@ -42,6 +42,7 @@ namespace iModSCCredenciamento.Mapeamento
 
                        m.CreateMap<VeiculosCredenciaisView, VeiculoCredencial>().ReverseMap();
                        m.CreateMap<VeiculoEmpresaView, VeiculoEmpresa>().ReverseMap();
+                       m.CreateMap<VeiculoEmpresa, VeiculoEmpresa>().ReverseMap();
                        m.CreateMap<IMOD.Domain.EntitiesCustom.VeiculosCredenciaisView, iModSCCredenciamento.Views.Model.VeiculoCredencialView>().ReverseMap();
 
                        m.CreateMap<Empresa, EmpresaView>().ForMember(k => k.Cnpj, opt => opt.MapFrom(k => k.Cnpj.FormatarCnpj())).ReverseMap();

@@ -88,7 +88,7 @@
 
                     <ListView.View>
                         <GridView FrameworkElement.FlowDirection="RightToLeft">
-                            <GridViewColumn Width="50" Header="ID"  DisplayMemberBinding="{Binding VeiculoSeguroId}"/>
+                            <GridViewColumn Width="50" Header="Cód."  DisplayMemberBinding="{Binding VeiculoSeguroId}"/>
                             <GridViewColumn Width="200" Header="Seguradora"  DisplayMemberBinding="{Binding NomeSeguradora}"/>
                             <GridViewColumn Width="200" Header="Número da Apólice"  DisplayMemberBinding="{Binding NumeroApolice}"/>
                             <GridViewColumn Width="150"  Header="Valor da Cobertura" DisplayMemberBinding="{Binding ValorCobertura}"/>

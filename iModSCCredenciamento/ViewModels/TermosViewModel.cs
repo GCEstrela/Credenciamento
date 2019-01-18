@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Windows.Media.Imaging;
 using iModSCCredenciamento.Helpers;
-//using iModSCCredenciamento.Models;
+using iModSCCredenciamento.Views.Model;
 using iModSCCredenciamento.Windows;
 using IMOD.Application.Interfaces;
 using IMOD.Application.Service;
@@ -16,7 +16,10 @@ namespace iModSCCredenciamento.ViewModels
 
         #region Variaveis Privadas
 
-        
+        private ObservableCollection<RelatorioView> _Relatorios;
+
+        private RelatorioView _RelatorioSelecionado;
+
         PopupMensagem _PopupSalvando;
 
         private int _selectedIndex;
@@ -39,22 +42,33 @@ namespace iModSCCredenciamento.ViewModels
 
         #region Comandos dos Botoes 
 
-        //TODO: OnFiltrosTermosCommand (Ajustar fórmulas/relatórios) - Mihai (06/12/2018)
+        /// <summary>
+        /// Filtrar Termos de Credenciais
+        /// </summary>
+        /// <param name="_report"></param>
+        /// <param name="_status"></param>
+        /// <param name="_periodo"></param>
+        /// <param name="_dataIni"></param>
+        /// <param name="_dataFim"></param>
         public void OnFiltrosTermosCommand(int _report, int _status, int _periodo, string _dataIni, string _dataFim)
         {
             string _xmlstring;
 
             switch (_report)
             {
+                case 11:
                 case 12:
                     verbo = "concedeu";
                     break;
+                case 15:
                 case 16:
                     verbo = "indeferiu";
                     break;
+                case 13:
                 case 14:
                     verbo = "cancelou";
                     break;
+                case 17:
                 case 18:
                     verbo = "destruiu";
                     break;
