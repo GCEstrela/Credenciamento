@@ -30,7 +30,7 @@ namespace UnitTestImod
         private CredencialStatus _credencialStatus;
         private CredencialMotivo _credencialMotivo;
         private Curso _curso;
-        private Empresa _empresa; 
+        private Empresa _empresa;
         private Estados _estados;
         private EmpresaAnexo _empresaAnexo;
         private EmpresaContrato _empresaContrato;
@@ -181,7 +181,7 @@ namespace UnitTestImod
             _credencialMotivo =
                 new CredencialMotivo()
                 {
-                    Descricao = "Credencial Motivo 1"
+                    Descricao = "PRIMEIRA EMISSÃO"
                 };
 
             #endregion
@@ -290,7 +290,8 @@ namespace UnitTestImod
             _layoutCracha =
                 new LayoutCracha()
                 {
-                    Nome = "Layout Cracha 1"
+                    Nome = "CRACHA_TEST",
+                    LayoutCrachaGuid = "4fb898dc-9ad2-4568-aa95-fca413bf39c4"
                 };
 
             #endregion
@@ -343,22 +344,22 @@ namespace UnitTestImod
             #region Formato Credencial
 
             _formatoCredencial =
-                new FormatoCredencial()
-                {
-                    Descricao = "Formato de Credencial 1"
-                };
+                            new FormatoCredencial()
+                            {
+                                Descricao = "Formato de Credencial 1"
+                            };
 
             #endregion
 
             #region Municipios
 
             _municipio =
-                new Municipio()
-                {
-                    Nome = "Salvador",
-                    Uf = "BA",
-                    MunicipioId = 1
-                };
+                            new Municipio()
+                            {
+                                Nome = "Salvador",
+                                Uf = "BA",
+                                MunicipioId = 1
+                            };
 
             #endregion
 
@@ -387,10 +388,10 @@ namespace UnitTestImod
             #region Tecnologia Credencial
 
             _tecnologiaCredencial =
-                new TecnologiaCredencial()
-                {
-                    Descricao = "Método de Autenticação 1"
-                };
+                            new TecnologiaCredencial()
+                            {
+                                Descricao = "Método de Autenticação 1"
+                            };
 
             #endregion
 
@@ -425,10 +426,10 @@ namespace UnitTestImod
             #region Tipo Credencial
 
             _tipoCredencial =
-                new TipoCredencial()
-                {
-                    Descricao = "Tipo Credencial 1"
-                };
+                            new TipoCredencial()
+                            {
+                                Descricao = "Tipo Credencial 1"
+                            };
 
             #endregion
 
@@ -523,7 +524,269 @@ namespace UnitTestImod
 
         }
 
-        [Priority(3)]
+        [Priority(20)]
+        [TestMethod]
+        [Description("Objetivo: Cadastrar/ler/alterar/remover dados de Veículos e seus relacionamentos")]
+        public void Veiculo_Cadastro_geral_com_Sucesso()
+        {
+            #region Serviços
+
+            var serviceVeiculo = new VeiculoService();
+            var serviceEmpresa = new EmpresaService();
+            var serviceVeiculoCredencial = new VeiculoCredencialService();
+            var serviceAuxiliares = new DadosAuxiliaresFacadeService();
+
+            #endregion
+
+            #region CRUD Veículo (Aba Geral) 
+
+            //Cadastrar 1 Veículo
+            _veiculo.Descricao = "Veículo ##";
+            _veiculo.Ano = "200#";
+            _veiculo.Altura = "111m";
+            _veiculo.CombustivelId = 1;
+            _veiculo.StatusId = 1;
+            _veiculo.TipoAcessoId = 1;
+
+
+            serviceVeiculo.Criar(_veiculo);
+
+            //Alterar 1 Veículo
+            var d1 = serviceVeiculo.BuscarPelaChave(_veiculo.EquipamentoVeiculoId);
+            d1.Descricao = $"Veículo ###";
+            d1.Ano = DateTime.Now.AddYears(1).ToString();
+            d1.Foto = Convert.ToBase64String(File.ReadAllBytes("Arquivos/car-equip.jpg"));
+
+            serviceVeiculo.Alterar(d1);
+
+            //Listar Veículos
+            var firstVeiculo = serviceVeiculo.Listar().FirstOrDefault();
+
+            var list1 = serviceVeiculo.Listar("%" + firstVeiculo.Descricao + "%", null).ToList();
+            Assert.IsNotNull(list1);
+            var list11 = serviceVeiculo.BuscarPelaChave(firstVeiculo.EquipamentoVeiculoId);
+            Assert.IsNotNull(list11);
+
+            #endregion
+
+            #region CRUD Empresas Vínculos (VeiculosEmpresas)
+
+            //Cadastrar 1 Empresa
+            //Já existindo Empresa, então remove e cria novo, evitando duplicidade de CNPJ
+            var dd1 = serviceEmpresa.BuscarEmpresaPorCnpj(_empresa.Cnpj);
+            if (dd1 != null)
+            {
+                //Remove vínculo VeiculoEmpresa (caso exista)
+                var ddd1 = serviceEmpresa.VeiculoService.Listar().FirstOrDefault(n => n.EmpresaId == _empresa.EmpresaId);
+                if (ddd1 != null)
+                {
+                    serviceVeiculo.Empresa.Remover(ddd1);
+                }
+                serviceEmpresa.Remover(dd1);
+                serviceEmpresa.Criar(dd1);
+                _empresa = dd1;
+            }
+            else
+            {
+                serviceEmpresa.Criar(_empresa);
+            }
+
+            //Cadastrar 1 Empresa Contrato
+            _empresaContrato.EmpresaId = _empresa.EmpresaId;
+            serviceEmpresa.ContratoService.Criar(_empresaContrato);
+
+            //Cadastrar 1 Empresas Vínculos
+            _veiculoEmpresa.VeiculoId = _veiculo.EquipamentoVeiculoId;
+            _veiculoEmpresa.EmpresaId = _empresa.EmpresaId;
+            _veiculoEmpresa.EmpresaContratoId = _empresaContrato.EmpresaContratoId;
+            serviceVeiculo.Empresa.Criar(_veiculoEmpresa);
+
+            //Cria e Lista 1 Layout Crachá vinculado
+            serviceAuxiliares.LayoutCrachaService.Criar(_layoutCracha);
+            _empresaLayoutCracha.LayoutCrachaId = _layoutCracha.LayoutCrachaId;
+            _empresaLayoutCracha.EmpresaId = _empresa.EmpresaId;
+            serviceEmpresa.CrachaService.Criar(_empresaLayoutCracha);
+
+            //Alterar 1 Empresas Vínculos
+            var dd0 = serviceVeiculo.Empresa.BuscarPelaChave(_veiculoEmpresa.VeiculoEmpresaId);
+
+            dd0.Cargo = "Personal Driver Car ###";
+            dd0.Matricula = "####";
+            dd0.Ativo = true;
+
+            serviceVeiculo.Empresa.Alterar(dd0);
+
+            //Listar Empresas Vínculos 
+            string FirstMatricula = serviceVeiculo.Empresa.Listar().FirstOrDefault().Matricula;
+
+            var list2 = serviceVeiculo.Empresa.Listar(0, null, "%" + FirstMatricula + "%").ToList();
+            Assert.IsNotNull(list2);
+
+            int Id = serviceVeiculo.Empresa.Listar().LastOrDefault().VeiculoEmpresaId;
+
+            var b1 = serviceVeiculo.Empresa.BuscarPelaChave(Id);
+            Assert.IsNotNull(b1);
+
+            #endregion
+
+            #region CRUD Seguros (VeiculosSeguros) 
+
+            //Cadastrar e Vincular Seguro a Veiculo
+            _veiculoSeguro.NomeSeguradora = "Seguradora ###";
+            _veiculoSeguro.VeiculoId = _veiculo.EquipamentoVeiculoId;
+            serviceVeiculo.Seguro.Criar(_veiculoSeguro);
+
+            //Alterar 1 registro VeiculosSeguros
+
+            int ccId = serviceVeiculo.Seguro.Listar().LastOrDefault().VeiculoSeguroId;
+            var cc = serviceVeiculo.Seguro.BuscarPelaChave(ccId);
+
+            cc.NomeSeguradora = $"Nova Seguradora ({ccId})";
+            cc.NumeroApolice = $"New Arquivo {ccId}";
+            cc.Validade = DateTime.Today;
+
+            serviceVeiculo.Seguro.Alterar(cc);
+
+            //Listar VeiculosSeguros
+            string nomeSeguradora = serviceVeiculo.Seguro.Listar().FirstOrDefault().NomeSeguradora;
+            var list3 = serviceVeiculo.Seguro.Listar(0, "%" + nomeSeguradora + "%", null).ToList();
+            Assert.IsNotNull(list3);
+
+            int cursoId = serviceVeiculo.Seguro.Listar().LastOrDefault().VeiculoSeguroId;
+            var b2 = serviceVeiculo.Seguro.BuscarPelaChave(cursoId);
+            Assert.IsNotNull(b2);
+
+
+            #endregion
+
+            #region CRUD Anexos
+
+            //Cadastrar Anexos
+            _veiculoAnexo.VeiculoId = _veiculo.EquipamentoVeiculoId;
+            serviceVeiculo.Anexo.Criar(_veiculoAnexo);
+
+            //Alterar Anexo
+            var d0 = serviceVeiculo.Anexo.BuscarPelaChave(_veiculoAnexo.VeiculoAnexoId);
+            d0.NomeArquivo = "Anexo ##";
+            d0.Descricao = "Descrição ###";
+            serviceVeiculo.Anexo.Alterar(d0);
+
+            //Listar Anexos
+            string FirstDesc = serviceVeiculo.Anexo.Listar().FirstOrDefault().Descricao;
+
+            var list4 = serviceVeiculo.Anexo.Listar(0, "%" + FirstDesc + "%").ToList();
+            Assert.IsNotNull(list4);
+
+            int key = serviceVeiculo.Anexo.Listar().LastOrDefault().VeiculoAnexoId;
+
+            var b3 = serviceVeiculo.Anexo.BuscarPelaChave(key);
+            Assert.IsNotNull(b3);
+
+
+            #endregion
+
+            #region CRUD Credenciais (Veículos)
+
+            #region Tabelas Auxiliares
+
+            //Lista uma Área de Acesso existente
+            _areaAcesso = serviceAuxiliares.AreaAcessoService.BuscarPelaChave(1);
+
+            //Lista um Tipo de Acesso existente
+            _tipoAcesso = serviceAuxiliares.TiposAcessoService.BuscarPelaChave(1);
+
+            //Lista uma Tipo de Cobrança existente
+            _tipoCobrancas = serviceAuxiliares.TipoCobrancaService.BuscarPelaChave(1);
+
+            //Lista um Status existente
+            _status = serviceAuxiliares.StatusService.BuscarPelaChave(1);
+
+            //Lista um Tecnologia de Credencial existente
+            _tecnologiaCredencial = serviceAuxiliares.TecnologiaCredencialService.BuscarPelaChave(2);
+
+            //Lista um Tipo de Credencial existente
+            _tipoCredencial = serviceAuxiliares.TipoCredencialService.BuscarPelaChave(1);
+
+            //Lista um Layout de Crachá existente 
+            _layoutCracha = serviceAuxiliares.LayoutCrachaService.Listar().LastOrDefault();
+
+            //Lista um Formato de Credencial existente 
+            _formatoCredencial = serviceAuxiliares.FormatoCredencialService.BuscarPelaChave(1);
+
+            //Lista um Status de Credencial existente 
+            _credencialStatus = serviceAuxiliares.CredencialStatusService.BuscarPelaChave(1);
+
+            //Lista um Motivo de Credencial existente
+            _credencialMotivo = serviceAuxiliares.CredencialMotivoService.BuscarPelaChave(1);
+
+            #endregion
+
+            #region CRUD de Credencial (VeiculosCredenciais)
+
+            //Atualiza 1 Empresa
+            int idStr = serviceEmpresa.Listar().LastOrDefault().EmpresaId + 1;
+            _empresa.Nome = "EMPRESA #" + idStr + "#";
+            serviceEmpresa.Alterar(_empresa);
+
+
+            //Criar 1 EmpresaContrato
+            _empresaContrato.EmpresaId = _empresa.EmpresaId;
+            _empresaContrato.TipoCobrancaId = _tipoCobrancas.TipoCobrancaId;
+            _empresaContrato.EstadoId = _estados.EstadoId;
+            _empresaContrato.MunicipioId = _municipio.MunicipioId;
+            _empresaContrato.StatusId = _status.StatusId;
+            _empresaContrato.TipoAcessoId = _tipoAcesso.TipoAcessoId;
+
+            serviceEmpresa.ContratoService.Criar(_empresaContrato);
+
+            //Criar 1 VeiculoEmpresa
+            _veiculoEmpresa.VeiculoId = _veiculo.EquipamentoVeiculoId;
+            _veiculoEmpresa.EmpresaId = _empresa.EmpresaId;
+            _veiculoEmpresa.EmpresaContratoId = _empresaContrato.EmpresaContratoId;
+
+            serviceVeiculo.Empresa.Criar(_veiculoEmpresa);
+
+            //Cadastrar 5 Credencial de Veículo (VeiculoCredencial)
+            for (int i = 0; i < 5; i++)
+            {
+                _veiculoCredencial.VeiculoEmpresaId = _veiculoEmpresa.VeiculoEmpresaId;
+                _veiculoCredencial.TecnologiaCredencialId = _tecnologiaCredencial.TecnologiaCredencialId;
+                _veiculoCredencial.TipoCredencialId = _tipoCredencial.TipoCredencialId;
+                _veiculoCredencial.LayoutCrachaId = _layoutCracha.LayoutCrachaId;
+                _veiculoCredencial.FormatoCredencialId = _formatoCredencial.FormatoCredencialId;
+                _veiculoCredencial.CredencialStatusId = _credencialStatus.CredencialStatusId;
+                _veiculoCredencial.CredencialStatusId = _credencialStatus.CredencialStatusId;
+                _veiculoCredencial.VeiculoPrivilegio1Id = _areaAcesso.AreaAcessoId;
+                _veiculoCredencial.VeiculoPrivilegio2Id = _areaAcesso.AreaAcessoId;
+                _veiculoCredencial.CredencialMotivoId = _credencialMotivo.CredencialMotivoId;
+                _veiculoCredencial.Ativa = true;
+                _veiculoCredencial.Emissao = DateTime.Today;
+
+                serviceVeiculoCredencial.Criar(_veiculoCredencial);
+            }
+
+            //Alterar 1 Credencial de Veículo (VeiculoCredencial)
+            _veiculoCredencial.Ativa = false;
+            _veiculoCredencial.Validade = DateTime.Today.AddYears(1);
+
+            serviceVeiculoCredencial.Alterar(_veiculoCredencial);
+
+
+            //Listar 1 Credencial de Veículo (ColaboradorCredencial)
+            var ccList = serviceVeiculoCredencial.Listar().FirstOrDefault();
+            Assert.IsNotNull(ccList);
+
+            //Remove 1 credencial
+            serviceVeiculoCredencial.Remover(_veiculoCredencial);
+            var d53 = serviceVeiculoCredencial.BuscarPelaChave(_veiculoCredencial.VeiculoCredencialId);
+            Assert.IsNull(d53);
+
+            #endregion
+
+            #endregion
+        }
+
+        [Priority(19)]
         [TestMethod]
         [Description("Objetivo: Cadastrar/ler/alterar/remover dados de Colaboradores e seus relacionamentos")]
         public void Colaborador_Cadastro_geral_com_Sucesso()
@@ -616,7 +879,7 @@ namespace UnitTestImod
             var b0 = serviceColaborador.BuscarPelaChave(firstColaborador.ColaboradorId);
             Assert.IsNotNull(b0);
 
-            
+
 
             #endregion
 
@@ -653,10 +916,19 @@ namespace UnitTestImod
             _colaboradorEmpresa.ColaboradorId = _colaborador.ColaboradorId;
             serviceColaborador.Empresa.Criar(_colaboradorEmpresa);
 
+            //Lista 1 Layout Crachá existente
+            _layoutCracha = serviceAuxiliares.LayoutCrachaService.Listar().FirstOrDefault();
+
+            //Cria e Lista 1 Layout Crachá vinculado
+            serviceAuxiliares.LayoutCrachaService.Criar(_layoutCracha);
+            _empresaLayoutCracha.LayoutCrachaId = _layoutCracha.LayoutCrachaId;
+            _empresaLayoutCracha.EmpresaId = _empresa.EmpresaId;
+            serviceEmpresa.CrachaService.Criar(_empresaLayoutCracha);
+
             //Alterar 1 Empresas Vínculos
             var dd1 = serviceColaborador.Empresa.BuscarPelaChave(_colaboradorEmpresa.ColaboradorEmpresaId);
-            dd1.Cargo = "Cargo #";
-            dd1.Matricula = "Matrícula ###";
+            dd1.Cargo = "Cargo X#X";
+            dd1.Matricula = "###";
             dd1.Ativo = true;
             serviceColaborador.Empresa.Alterar(dd1);
 
@@ -669,7 +941,7 @@ namespace UnitTestImod
             int Id = serviceColaborador.Empresa.Listar().LastOrDefault().ColaboradorEmpresaId;
 
             var b1 = serviceColaborador.Empresa.BuscarPelaChave(Id);
-            Assert.IsNotNull(b1); 
+            Assert.IsNotNull(b1);
 
             #endregion
 
@@ -700,7 +972,7 @@ namespace UnitTestImod
 
             int cursoId = serviceColaborador.Curso.Listar().LastOrDefault().ColaboradorCursoId;
             var b2 = serviceColaborador.Curso.BuscarPelaChave(cursoId);
-            Assert.IsNotNull(b2); 
+            Assert.IsNotNull(b2);
 
             #endregion
 
@@ -727,7 +999,7 @@ namespace UnitTestImod
             int key = serviceColaborador.Anexo.Listar().LastOrDefault().ColaboradorAnexoId;
 
             var b3 = serviceColaborador.Anexo.BuscarPelaChave(key);
-            Assert.IsNotNull(b3); 
+            Assert.IsNotNull(b3);
 
             #endregion
 
@@ -736,34 +1008,34 @@ namespace UnitTestImod
             #region Tabelas Auxiliares
 
             //Lista uma Área de Acesso existente
-            _areaAcesso = serviceAuxiliares.AreaAcessoService.Listar().LastOrDefault();
+            _areaAcesso = serviceAuxiliares.AreaAcessoService.BuscarPelaChave(1);
 
             //Lista um Tipo de Acesso existente
-            _tipoAcesso = serviceAuxiliares.TiposAcessoService.Listar().FirstOrDefault();
+            _tipoAcesso = serviceAuxiliares.TiposAcessoService.BuscarPelaChave(1);
 
             //Lista uma Tipo de Cobrança existente
-            _tipoCobrancas = serviceAuxiliares.TipoCobrancaService.Listar().LastOrDefault();
+            _tipoCobrancas = serviceAuxiliares.TipoCobrancaService.BuscarPelaChave(1);
 
             //Lista um Status existente
-            _status = serviceAuxiliares.StatusService.Listar().LastOrDefault();
+            _status = serviceAuxiliares.StatusService.BuscarPelaChave(1);
 
             //Lista um Tecnologia de Credencial existente
-            _tecnologiaCredencial = serviceAuxiliares.TecnologiaCredencialService.Listar().LastOrDefault();
+            _tecnologiaCredencial = serviceAuxiliares.TecnologiaCredencialService.BuscarPelaChave(2);
 
             //Lista um Tipo de Credencial existente
-            _tipoCredencial = serviceAuxiliares.TipoCredencialService.Listar().LastOrDefault();
+            _tipoCredencial = serviceAuxiliares.TipoCredencialService.BuscarPelaChave(1);
 
             //Lista um Layout de Crachá existente 
             _layoutCracha = serviceAuxiliares.LayoutCrachaService.Listar().LastOrDefault();
 
             //Lista um Formato de Credencial existente 
-            _formatoCredencial = serviceAuxiliares.FormatoCredencialService.Listar().LastOrDefault();
+            _formatoCredencial = serviceAuxiliares.FormatoCredencialService.BuscarPelaChave(1);
 
             //Lista um Status de Credencial existente 
-            _credencialStatus = serviceAuxiliares.CredencialStatusService.Listar().FirstOrDefault();
+            _credencialStatus = serviceAuxiliares.CredencialStatusService.BuscarPelaChave(1);
 
             //Lista um Motivo de Credencial existente
-            _credencialMotivo = serviceAuxiliares.CredencialMotivoService.Listar().FirstOrDefault();
+            _credencialMotivo = serviceAuxiliares.CredencialMotivoService.BuscarPelaChave(1);
 
             #endregion
 
@@ -786,27 +1058,38 @@ namespace UnitTestImod
 
             serviceColaborador.Empresa.Criar(_colaboradorEmpresa);
 
-            //Cria 1 credencial (ColaboradoresCredenciais)
-            _colaboradorCredencial.ColaboradorEmpresaId = _colaboradorEmpresa.ColaboradorEmpresaId;
-            _colaboradorCredencial.TecnologiaCredencialId = _tecnologiaCredencial.TecnologiaCredencialId;
-            _colaboradorCredencial.TipoCredencialId = _tipoCredencial.TipoCredencialId;
-            _colaboradorCredencial.LayoutCrachaId = _layoutCracha.LayoutCrachaId;
-            _colaboradorCredencial.FormatoCredencialId = _formatoCredencial.FormatoCredencialId;
-            _colaboradorCredencial.CredencialStatusId = _credencialStatus.CredencialStatusId;
-            _colaboradorCredencial.CredencialStatusId = _credencialStatus.CredencialStatusId;
-            _colaboradorCredencial.ColaboradorPrivilegio1Id = _areaAcesso.AreaAcessoId;
-            _colaboradorCredencial.ColaboradorPrivilegio2Id = _areaAcesso.AreaAcessoId;
-            _colaboradorCredencial.CredencialMotivoId = _credencialMotivo.CredencialMotivoId;
+            //Cria 5 credenciais (ColaboradoresCredenciais)
+            for (int i = 0; i < 5; i++)
+            {
+                _colaboradorCredencial.ColaboradorEmpresaId = _colaboradorEmpresa.ColaboradorEmpresaId;
+                _colaboradorCredencial.TecnologiaCredencialId = _tecnologiaCredencial.TecnologiaCredencialId;
+                _colaboradorCredencial.TipoCredencialId = _tipoCredencial.TipoCredencialId;
+                _colaboradorCredencial.LayoutCrachaId = _layoutCracha.LayoutCrachaId;
+                _colaboradorCredencial.FormatoCredencialId = _formatoCredencial.FormatoCredencialId;
+                _colaboradorCredencial.CredencialStatusId = _credencialStatus.CredencialStatusId;
+                _colaboradorCredencial.CredencialStatusId = _credencialStatus.CredencialStatusId;
+                _colaboradorCredencial.ColaboradorPrivilegio1Id = _areaAcesso.AreaAcessoId;
+                _colaboradorCredencial.ColaboradorPrivilegio2Id = _areaAcesso.AreaAcessoId;
+                _colaboradorCredencial.CredencialMotivoId = _credencialMotivo.CredencialMotivoId;
+                _colaboradorCredencial.Ativa = true;
+                _colaboradorCredencial.Emissao = DateTime.Today;
 
-            serviceColaboradorCredencial.Criar(_colaboradorCredencial);
+                serviceColaboradorCredencial.Criar(_colaboradorCredencial);
+            }
 
             //Altera 1 credencial
-            _colaboradorCredencial.Ativa = true;
+            _colaboradorCredencial.Ativa = false;
             _colaboradorCredencial.Validade = DateTime.Today.AddYears(1);
             serviceColaboradorCredencial.Alterar(_colaboradorCredencial);
             var d52 = serviceColaboradorCredencial.BuscarPelaChave(_colaboradorCredencial.ColaboradorCredencialId);
             Assert.IsNotNull(d52);
 
+
+            //Remove 1 credencial
+            serviceColaboradorCredencial.Remover(_colaboradorCredencial);
+            var d53 = serviceColaboradorCredencial.BuscarPelaChave(_colaboradorCredencial.ColaboradorCredencialId);
+            Assert.IsNull(d53);
+
             #endregion
 
 
@@ -814,253 +1097,7 @@ namespace UnitTestImod
 
         }
 
-        [Priority(2)]
-        [TestMethod]
-        [Description("Objetivo: Cadastrar/ler/alterar/remover dados de Veículos e seus relacionamentos")]
-        public void Veiculo_Cadastro_geral_com_Sucesso()
-        {
-            #region Serviços
-
-            var serviceVeiculo = new VeiculoService();
-            var serviceEmpresa = new EmpresaService();
-            var serviceVeiculoCredencial = new VeiculoCredencialService();
-            var serviceAuxiliares = new DadosAuxiliaresFacadeService();
-
-            #endregion
-
-            #region CRUD Veículo (Aba Geral) 
-
-            //Cadastrar 1 Veículo
-            _veiculo.Descricao = "Veículo ##";
-            _veiculo.Ano = "200#";
-            _veiculo.Altura = "111m";
-            _veiculo.CombustivelId = 1;
-            _veiculo.StatusId = 1;
-            _veiculo.TipoAcessoId = 1;
-
-
-            serviceVeiculo.Criar(_veiculo);
-
-            //Alterar 1 Veículo
-            var d1 = serviceVeiculo.BuscarPelaChave(_veiculo.EquipamentoVeiculoId);
-            d1.Descricao = $"Veículo ###";
-            d1.Ano = DateTime.Now.AddYears(1).ToString();
-            d1.Foto = Convert.ToBase64String(File.ReadAllBytes("Arquivos/car-equip.jpg"));
-
-            serviceVeiculo.Alterar(d1);
-
-            //Listar Veículos
-            var firstVeiculo = serviceVeiculo.Listar().FirstOrDefault();
-
-            var list1 = serviceVeiculo.Listar("%" + firstVeiculo.Descricao + "%", null).ToList();
-            Assert.IsNotNull(list1);
-            var list11 = serviceVeiculo.BuscarPelaChave(firstVeiculo.EquipamentoVeiculoId);
-            Assert.IsNotNull(list11); 
-
-            #endregion
-
-            #region CRUD Empresas Vínculos (VeiculosEmpresas)
-
-            //Cadastrar 1 Empresa
-            //Já existindo Empresa, então remove e cria novo, evitando duplicidade de CNPJ
-            var dd1 = serviceEmpresa.BuscarEmpresaPorCnpj(_empresa.Cnpj);
-            if (dd1 != null)
-            {
-                //Remove vínculo VeiculoEmpresa (caso exista)
-                var ddd1 = serviceEmpresa.VeiculoService.Listar().FirstOrDefault(n => n.EmpresaId == _empresa.EmpresaId);
-                if (ddd1 != null)
-                {
-                    serviceVeiculo.Empresa.Remover(ddd1);
-                }
-                serviceEmpresa.Remover(dd1);
-                serviceEmpresa.Criar(dd1);
-                _empresa = dd1;
-            }
-            else
-            {
-                serviceEmpresa.Criar(_empresa);
-            }
-
-            //Cadastrar 1 Empresa Contrato
-            _empresaContrato.EmpresaId = _empresa.EmpresaId;
-            serviceEmpresa.ContratoService.Criar(_empresaContrato);
-
-            //Cadastrar 1 Empresas Vínculos
-            _veiculoEmpresa.VeiculoId = _veiculo.EquipamentoVeiculoId;
-            _veiculoEmpresa.EmpresaId = _empresa.EmpresaId;
-            _veiculoEmpresa.EmpresaContratoId = _empresaContrato.EmpresaContratoId;
-            serviceVeiculo.Empresa.Criar(_veiculoEmpresa);
-
-            //Alterar 1 Empresas Vínculos
-            var dd0 = serviceVeiculo.Empresa.BuscarPelaChave(_veiculoEmpresa.VeiculoEmpresaId);
-
-            dd0.Cargo = "Personal Driver Car ###";
-            dd0.Matricula = "####";
-            dd0.Ativo = true;
-
-            serviceVeiculo.Empresa.Alterar(dd0);
-
-            //Listar Empresas Vínculos 
-            string FirstMatricula = serviceVeiculo.Empresa.Listar().FirstOrDefault().Matricula;
-
-            var list2 = serviceVeiculo.Empresa.Listar(0, null, "%" + FirstMatricula + "%").ToList();
-            Assert.IsNotNull(list2);
-
-            int Id = serviceVeiculo.Empresa.Listar().LastOrDefault().VeiculoEmpresaId;
-
-            var b1 = serviceVeiculo.Empresa.BuscarPelaChave(Id);
-            Assert.IsNotNull(b1); 
-
-            #endregion
-
-            #region CRUD Seguros (VeiculosSeguros) 
-
-            //Cadastrar e Vincular Seguro a Veiculo
-            _veiculoSeguro.NomeSeguradora = "Seguradora ###";
-            _veiculoSeguro.VeiculoId = _veiculo.EquipamentoVeiculoId;
-            serviceVeiculo.Seguro.Criar(_veiculoSeguro);
-
-            //Alterar 1 registro VeiculosSeguros
-
-            int ccId = serviceVeiculo.Seguro.Listar().LastOrDefault().VeiculoSeguroId;
-            var cc = serviceVeiculo.Seguro.BuscarPelaChave(ccId);
-
-            cc.NomeSeguradora = $"Nova Seguradora ({ccId})";
-            cc.NumeroApolice = $"New Arquivo {ccId}";
-            cc.Validade = DateTime.Today;
-
-            serviceVeiculo.Seguro.Alterar(cc);
-
-            //Listar VeiculosSeguros
-            string nomeSeguradora = serviceVeiculo.Seguro.Listar().FirstOrDefault().NomeSeguradora;
-            var list3 = serviceVeiculo.Seguro.Listar(0, "%" + nomeSeguradora + "%", null).ToList();
-            Assert.IsNotNull(list3);
-
-            int cursoId = serviceVeiculo.Seguro.Listar().LastOrDefault().VeiculoSeguroId;
-            var b2 = serviceVeiculo.Seguro.BuscarPelaChave(cursoId);
-            Assert.IsNotNull(b2);
-             
-
-            #endregion
-
-            #region CRUD Anexos
-
-            //Cadastrar Anexos
-            _veiculoAnexo.VeiculoId = _veiculo.EquipamentoVeiculoId;
-            serviceVeiculo.Anexo.Criar(_veiculoAnexo);
-
-            //Alterar Anexo
-            var d0 = serviceVeiculo.Anexo.BuscarPelaChave(_veiculoAnexo.VeiculoAnexoId);
-            d0.NomeArquivo = "Anexo ##";
-            d0.Descricao = "Descrição ###";
-            serviceVeiculo.Anexo.Alterar(d0);
-
-            //Listar Anexos
-            string FirstDesc = serviceVeiculo.Anexo.Listar().FirstOrDefault().Descricao;
-
-            var list4 = serviceVeiculo.Anexo.Listar(0, "%" + FirstDesc + "%").ToList();
-            Assert.IsNotNull(list4);
-
-            int key = serviceVeiculo.Anexo.Listar().LastOrDefault().VeiculoAnexoId;
-
-            var b3 = serviceVeiculo.Anexo.BuscarPelaChave(key);
-            Assert.IsNotNull(b3);
-             
-
-            #endregion
-
-            #region CRUD Credenciais (Veículos)
-
-            #region Tabelas Auxiliares
-
-            //Lista 1 Área de Acesso existente
-            _areaAcesso = serviceAuxiliares.AreaAcessoService.Listar().FirstOrDefault();
-
-            //Lista 1 Tipo de Acesso existente
-            _tipoCobrancas = serviceAuxiliares.TipoCobrancaService.Listar().FirstOrDefault();
-
-            //Lista 1 Status existente
-            _status = serviceAuxiliares.StatusService.Listar().FirstOrDefault();
-
-            //Lista 1 Tipo de Acesso existente
-            _tipoAcesso = serviceAuxiliares.TiposAcessoService.Listar().FirstOrDefault();
-
-            //Lista 1 Tecnologia de Credencial
-            _tecnologiaCredencial = serviceAuxiliares.TecnologiaCredencialService.Listar().FirstOrDefault();
-
-            //Lista 1 Tipo de Credencial
-            _tipoCredencial = serviceAuxiliares.TipoCredencialService.Listar().FirstOrDefault();
-
-            //Lista 1 Layout de Crachá
-            _layoutCracha = serviceAuxiliares.LayoutCrachaService.Listar().FirstOrDefault();
-
-            //Lista 1 Formato de Credencial
-            _formatoCredencial = serviceAuxiliares.FormatoCredencialService.Listar().FirstOrDefault();
-
-            //Lista 1 Status de Credencial
-            _credencialStatus = serviceAuxiliares.CredencialStatusService.Listar().FirstOrDefault();
-
-            //Lista 1 Motivo de Credencial 
-            _credencialMotivo = serviceAuxiliares.CredencialMotivoService.Listar().FirstOrDefault();
-
-            #endregion
-
-            #region CRUD de Credencial (VeiculosCredenciais)
-
-            //Atualiza 1 Empresa
-            int idStr = serviceEmpresa.Listar().LastOrDefault().EmpresaId + 1;
-            _empresa.Nome = "EMPRESA #" + idStr  + "#";
-            serviceEmpresa.Alterar(_empresa);
-
-
-            //Atualiza 1 EmpresaContrato
-            _empresaContrato.EmpresaId = _empresa.EmpresaId;
-            _empresaContrato.TipoCobrancaId = _tipoCobrancas.TipoCobrancaId;
-            _empresaContrato.EstadoId = _estados.EstadoId;
-            _empresaContrato.MunicipioId = _municipio.MunicipioId;
-            _empresaContrato.StatusId = _status.StatusId;
-            _empresaContrato.TipoAcessoId = _tipoAcesso.TipoAcessoId;
-
-            serviceEmpresa.ContratoService.Alterar(_empresaContrato);
-
-            //Atualiza 1 VeiculoEmpresa
-            _veiculoEmpresa.VeiculoId = _veiculo.EquipamentoVeiculoId;
-            _veiculoEmpresa.EmpresaId = _empresa.EmpresaId;
-            _veiculoEmpresa.EmpresaContratoId = _empresaContrato.EmpresaContratoId;
-
-            serviceVeiculo.Empresa.Alterar(_veiculoEmpresa);
-
-            //Cadastrar 1 Credencial de Veículo (ColaboradorCredencial)
-            _veiculoCredencial.VeiculoEmpresaId = _veiculoEmpresa.VeiculoEmpresaId;
-            _veiculoCredencial.TecnologiaCredencialId = _tecnologiaCredencial.TecnologiaCredencialId;
-            _veiculoCredencial.TipoCredencialId = _tipoCredencial.TipoCredencialId;
-            _veiculoCredencial.LayoutCrachaId = _layoutCracha.LayoutCrachaId;
-            _veiculoCredencial.FormatoCredencialId = _formatoCredencial.FormatoCredencialId;
-            _veiculoCredencial.CredencialStatusId = _credencialStatus.CredencialStatusId;
-            _veiculoCredencial.CredencialStatusId = _credencialStatus.CredencialStatusId;
-            _veiculoCredencial.VeiculoPrivilegio1Id = _areaAcesso.AreaAcessoId;
-            _veiculoCredencial.VeiculoPrivilegio2Id = _areaAcesso.AreaAcessoId;
-            _veiculoCredencial.CredencialMotivoId = _credencialMotivo.CredencialMotivoId;
-
-            serviceVeiculoCredencial.Criar(_veiculoCredencial);
-
-            //Alterar 1 Credencial de Veículo (ColaboradorCredencial)
-            _colaboradorCredencial.Ativa = true;
-            _colaboradorCredencial.Validade = DateTime.Today.AddYears(1);
-
-            serviceVeiculoCredencial.Alterar(_veiculoCredencial);
-
-
-            //Listar 1 Credencial de Veículo (ColaboradorCredencial)
-            var ccList = serviceVeiculoCredencial.Listar().FirstOrDefault();
-            Assert.IsNotNull(ccList); 
-
-            #endregion
-
-            #endregion
-        }
-
-        [Priority(1)]
+        [Priority(18)]
         [TestMethod]
         [Description("Objetivo cadastrar dados de empresa e seus relacionamentos")]
         public void Empresa_Cadastro_geral_com_Sucesso()
@@ -1151,6 +1188,7 @@ namespace UnitTestImod
 
             var aux = new DadosAuxiliaresFacadeService();
 
+            //Cria LayoutCracha
             aux.LayoutCrachaService.Criar(_layoutCracha);
             _empresaLayoutCracha.LayoutCrachaId = _layoutCracha.LayoutCrachaId;
             _empresaLayoutCracha.EmpresaId = _empresa.EmpresaId;
@@ -1219,7 +1257,7 @@ namespace UnitTestImod
             var d1 = empresaService.AreaAcessoService.BuscarPelaChave(empresaAreaAcesso.EmpresaAreaAcessoId);
             empresaService.AreaAcessoService.Alterar(d1);
             var list = empresaService.AreaAcessoService.Listar().LastOrDefault();
-            Assert.IsNotNull(list); 
+            Assert.IsNotNull(list);
 
             #endregion
 
@@ -1237,7 +1275,7 @@ namespace UnitTestImod
             var d4 = empresaService.CrachaService.BuscarPelaChave(_empresaLayoutCracha.EmpresaLayoutCrachaId);
             empresaService.CrachaService.Alterar(d4);
             var last = empresaService.CrachaService.Listar().LastOrDefault();
-            Assert.IsNotNull(last);  
+            Assert.IsNotNull(last);
 
 
             #endregion
@@ -1274,13 +1312,13 @@ namespace UnitTestImod
             empresaService.ContratoService.Alterar(_empresaContrato);
 
             var list1 = empresaService.ContratoService.Listar().LastOrDefault();
-            Assert.IsNotNull(list1); 
+            Assert.IsNotNull(list1);
 
             #endregion
 
         }
 
-
+        [Priority(17)]
         [TestMethod]
         [Description("Objetivo: Buscar dados de última Credencial de Colaborador criada")]
         public void ColabororadorCredencial_Buscar_com_sucesso()
@@ -1298,87 +1336,30 @@ namespace UnitTestImod
             Assert.IsNotNull(d2);
         }
 
-        [TestMethod]
-        [Description("Objetivo: Listar dados de Credencial de  Colaborador, usando filtros")]
-        public void ColabororadorCredencial_ListarColaboradorCredeniasView_com_sucesso()
-        {
-            var repositorio = new ColaboradorCredencialRepositorio();
-
-            var ccid = repositorio.Listar().FirstOrDefault().ColaboradorCredencialId;
-            if (ccid == 0)
-            {
-                repositorio.Criar(_colaboradorCredencial);
-            }
-
-            var csid = repositorio.Listar().FirstOrDefault().CredencialStatusId;
-            if (csid == 0)
-            {
-                repositorio.Criar(_colaboradorCredencial);
-            }
-
-            var fcid = repositorio.Listar().FirstOrDefault().FormatoCredencialId;
-            if (fcid == 0)
-            {
-                repositorio.Criar(_colaboradorCredencial);
-            }
-
-            //ColaboradorCredencialID
-            var d2 = repositorio.Listar(ccid, 0, 0);
-            //CredencialStatusID
-            var d3 = repositorio.Listar(0, csid, 0);
-            //FormatoCredencialID
-            var d4 = repositorio.Listar(0, 0, fcid);
-
-            Assert.IsNotNull(d2);
-            Assert.IsNotNull(d3);
-            Assert.IsNotNull(d4);
-        }
-
-        [TestMethod]
-        [Description("Objetivo: Criar e listar dados de impressões de credenciais de colaboradores")]
-        public void ColaboradorCredencialimpresssao_com_sucesso()
-        {
-            var repositorio = new ColaboradorCredencialimpresssaoRepositorio();
-            for (var i = 0; i < 6; i++)
-            {
-                var d1 = new ColaboradorCredencialimpresssao
-                {
-                    Cobrar = true,
-                    ColaboradorCredencialId = 1 + i,
-                    DataImpressao = DateTime.Now
-                };
-                repositorio.Criar(d1);
-
-                d1.Cobrar = false;
-                repositorio.Alterar(d1);
-            }
-            var list = repositorio.Listar();
-            Assert.IsNotNull(list);
-        }
-
+        [Priority(16)]
         [TestMethod]
         [Description("Objetivo: Criar e listar dados de Colaboradores e Cursos")]
         public void ColaboradorCursos_com_sucesso()
         {
             var colaboradorCursoRepositorio = new ColaboradorCursoRepositorio();
             var cursoRepositorio = new CursoRepositorio();
-            var colaboradorRepositorio = new ColaboradorRepositorio(); 
+            var colaboradorRepositorio = new ColaboradorRepositorio();
 
             //Criar Curso
             cursoRepositorio.Criar(_curso);
 
             //Já existindo colaborador, então remove e cria novo, evitando duplicidade de CPF
-            var d0 = colaboradorRepositorio.ObterPorCpf(_colaborador.Cpf);
-            if (d0 != null)
-            {
-                colaboradorRepositorio.Remover(d0);
-                colaboradorRepositorio.Criar(d0);
-                _colaborador = d0;
-            }
-            else
-            {
-                colaboradorRepositorio.Criar(_colaborador);
-            }
+            var _colaborador = colaboradorRepositorio.Listar().FirstOrDefault();
+            //if (d0 != null)
+            //{
+            //    colaboradorRepositorio.Remover(d0);
+            //    colaboradorRepositorio.Criar(d0);
+            //    _colaborador = d0;
+            //}
+            //else
+            //{
+            //    //colaboradorRepositorio.Criar(_colaborador);
+            //}
 
             for (var i = 0; i < 5; i++)
             {
@@ -1399,74 +1380,11 @@ namespace UnitTestImod
             Assert.IsNotNull(list1);
         }
 
-        [TestMethod]
-        [Description("Objetivo: Listar Credenciais Status, incluindo filtro")]
-        public void CredencialStatusRepositorio_com_sucesso()
-        {
-            var repositorio = new CredencialStatusRepositorio();
 
-            string filtro = repositorio.Listar().LastOrDefault().Descricao;
-
-            var list = repositorio.Listar();
-            Assert.IsNotNull(list);
-            var list1 = repositorio.Listar(0, filtro).ToList();
-            Assert.IsNotNull(list1);
-        }
-
-        [TestMethod]
-        [Description("Objetivo: Criar e Listar Cursos, incluindo filtro")]
-        public void CursoRepositorio_com_sucesso()
-        {
-            var repositorio = new CursoRepositorio();
-            for (var i = 0; i < 6; i++)
-            {
-                var d1 = new Curso
-                {
-                    CursoId = i,
-                    Descricao = "Descrição curso " + i
-                };
-                repositorio.Criar(d1);
-
-                d1.Descricao = "Descrição curso " + i + " alterado";
-                repositorio.Alterar(d1);
-            }
-
-            string filtro = repositorio.Listar().LastOrDefault().Descricao;
-
-            var list0 = repositorio.Listar();
-            Assert.IsNotNull(list0);
-            var list1 = repositorio.Listar(0, filtro).ToList();
-            Assert.IsNotNull(list1);
-        }
-
-        [TestMethod]
-        [Description("Objetivo: Criar e Listar Layout Crachá, incluindo filtro")]
-        public void LayoutCrachaRepositorio_com_sucesso()
-        {
-            var repositorio = new LayoutCrachaRepositorio();
-
-            var list0 = repositorio.Listar();
-            if (list0 == null)
-            {
-                repositorio.Criar(_layoutCracha);
-                list0 = repositorio.Listar();
-            }
-            Assert.IsNotNull(list0);
-
-            string filtro = repositorio.Listar().LastOrDefault().Nome;
-
-            var list1 = repositorio.Listar(filtro, null);
-            if (list1 == null)
-            {
-                repositorio.Criar(_layoutCracha);
-                list1 = repositorio.Listar(filtro, null).ToList();
-            }
-            Assert.IsNotNull(list1);
-        }
-
+        [Priority(15)]
         [TestMethod]
         [Description("Objetivo: Criar e Listar e Remover registro de pendência, incluindo filtro")]
-        public void PendenciaRepositorio_com_sucesso()
+        public void Pendencia_Cadastrar_com_sucesso()
         {
             var repositorio = new PendenciaRepositorio();
 
@@ -1503,166 +1421,30 @@ namespace UnitTestImod
             repositorio.Remover(_pendencia);
         }
 
+        [Priority(14)]
         [TestMethod]
-        [Description("Objetivo: Criar e Listar registro de Colaborador, incluindo filtro")]
-        public void Colabororador_Criar_Listar_com_sucesso()
+        [Description("Objetivo: Criar e listar dados de impressões de credenciais de colaboradores")]
+        public void ColaboradorCredencialimpresssao_com_sucesso()
         {
-            var service = new ColaboradorService();
-
-            #region Cadastrar Colaborador
-
-            _colaborador.Cpf = "483.578.550-91";
-            _colaborador.Nome = "Colaborador Nome";
-            var d1 = service.ObterPorCpf(_colaborador.Cpf);
-            if (d1 == null)
+            var repositorio = new ColaboradorCredencialimpresssaoRepositorio();
+            for (var i = 0; i < 6; i++)
             {
-                service.Criar(_colaborador);
-            }
-
-            #endregion
-
-            var l1 = service.Listar(); //Listar todos
-            Assert.IsNotNull(l1);
-
-            string filtro = service.Listar().LastOrDefault().Nome;
-
-            var l2 = service.Listar(null, null, filtro); //Listar por nome
-            Assert.IsNotNull(l2);
-        }
-
-        [TestMethod]
-        [Description("Objetivo: Criar registro de Colaborador Credencial")]
-        public void ColabororadorCredencial_Cadastrar_com_sucesso()
-        {
-            var repositorio = new ColaboradorCredencialRepositorio();
-
-            var colaborador = new ColaboradorCredencial
-            {
-                Ativa = true,
-                Baixa = DateTime.Now,
-                CardHolderGuid = "000000",
-                ColaboradorEmpresaId = 1,
-                ColaboradorPrivilegio1Id = 0,
-                ColaboradorPrivilegio2Id = 0,
-                Colete = "Colete",
-                CredencialGuid = "Credencial Guid",
-                CredencialMotivoId = 1,
-                Emissao = DateTime.Now,
-                Fc = 0,
-                Impressa = false,
-                NumeroCredencial = "Numero Credencial",
-                TipoCredencialId = 1,
-                TecnologiaCredencialId = 2,
-                CredencialStatusId = 1,
-                FormatoCredencialId = 1,
-                LayoutCrachaId = 2
-            };
-
-            repositorio.Criar(colaborador);
-        }
-
-        [TestMethod]
-        [Description("Objetivo: Buscar filtrando por CPF e Criar registro de Colaborador, caso não exista")]
-        public void Colabororador_Cadastrar_com_sucesso()
-        {
-            #region Lista de CPFs
-
-            var cpfArray = new[]
-            {
-                "64846162486",
-                "32222216699",
-                "21361852763",
-                "44212987279",
-                "15139389592",
-                "73984076614",
-                "02411705166",
-                "71467846490",
-                "60474202143",
-                "15728331572",
-                "94570447201",
-                "12439592749",
-                "17954615197",
-                "73864171873",
-                "27673022168",
-                "11578341914",
-                "88734745190",
-                "63858065536",
-                "63846216577",
-                "61535105070",
-                "41872772005",
-                "93138702155",
-                "96856687109",
-                "74467731113",
-                "95130557360",
-                "11164314670",
-                "38584211209",
-                "39478667122",
-                "31578551153"
-            };
-
-            #endregion
-
-            var service = new ColaboradorService();
-
-            int i = 0;
-            foreach (var item in cpfArray)
-            {
-                _colaborador.Cpf = item;
-                _colaborador.Nome = $"Colaborador ({_colaborador.ColaboradorId})";
-
-                //Já existindo colaborador, então remove e cria novo, evitando duplicidade de CPF
-                var d1 = service.ObterPorCpf(_colaborador.Cpf);
-                if (d1 != null)
+                var d1 = new ColaboradorCredencialimpresssao
                 {
-                    service.Remover(d1);
-                    service.Criar(d1);
-                    _colaborador = d1;
-                }
-                else
-                {
-                    service.Criar(_colaborador);
-                }
-                i++;
+                    Cobrar = true,
+                    ColaboradorCredencialId = 1 + i,
+                    DataImpressao = DateTime.Now
+                };
+                repositorio.Criar(d1);
+
+                d1.Cobrar = false;
+                repositorio.Alterar(d1);
             }
+            var list = repositorio.Listar();
+            Assert.IsNotNull(list);
         }
 
-        [TestMethod]
-        [Description("Objetivo: Criar registro de Colaborador Credencial")]
-        public void VeiculoAnexo_Cadastrar_Alterar_Listar_Remover_com_sucesso()
-        {
-            var service = new VeiculoService();
-
-            _veiculo.CombustivelId = 1;
-            _veiculo.StatusId = 1;
-            _veiculo.TipoAcessoId = 1;
-            service.Criar(_veiculo);
-
-            _veiculoAnexo.VeiculoId = _veiculo.EquipamentoVeiculoId;
-
-            for (var i = 0; i < 5; i++)
-            {
-                //criar
-                service.Anexo.Criar(_veiculoAnexo);
-                //update
-                _veiculoAnexo.Descricao = "Descricao Alterada";
-                service.Anexo.Alterar(_veiculoAnexo);
-            }
-
-            var list0 = service.Anexo.Listar().ToList();
-            Assert.IsNotNull(list0);
-
-            var b1 = service.Anexo.BuscarPelaChave(_veiculoAnexo.VeiculoAnexoId);
-            Assert.IsNotNull(b1);
-
-            var b2 = service.Anexo.Listar(0, "%" + _veiculoAnexo.Descricao + "%");
-            Assert.IsNotNull(b2);
-
-            //Remover
-            service.Anexo.Remover(b1);
-            var b4 = service.Anexo.BuscarPelaChave(b1.VeiculoAnexoId);
-            Assert.IsNull(b4);
-        }
-
+        [Priority(13)]
         [TestMethod]
         [Description("Objetivo: Criar e listar dados de impressões de credenciais de veículos")]
         public void VeiculoCredencialimpressao_Cadastrar_Alterar_Listar_Remover_com_sucesso()
@@ -1705,6 +1487,62 @@ namespace UnitTestImod
             Assert.IsNotNull(d3);
         }
 
+        #region Tabelas Auxiliares
+
+        [Priority(12)]
+        [TestMethod]
+        [Description("Objetivo: Criar e Listar Cursos, incluindo filtro")]
+        public void CursoRepositorio_com_sucesso()
+        {
+            var repositorio = new CursoRepositorio();
+            for (var i = 0; i < 6; i++)
+            {
+                var d1 = new Curso
+                {
+                    CursoId = i,
+                    Descricao = "Descrição curso " + i
+                };
+                repositorio.Criar(d1);
+
+                d1.Descricao = "Descrição curso " + i + " alterado";
+                repositorio.Alterar(d1);
+            }
+
+            string filtro = repositorio.Listar().LastOrDefault().Descricao;
+
+            var list0 = repositorio.Listar();
+            Assert.IsNotNull(list0);
+            var list1 = repositorio.Listar(0, filtro).ToList();
+            Assert.IsNotNull(list1);
+        }
+
+        [Priority(11)]
+        [TestMethod]
+        [Description("Objetivo: Criar e Listar Layout Crachá, incluindo filtro")]
+        public void LayoutCrachaRepositorio_com_sucesso()
+        {
+            var repositorio = new LayoutCrachaRepositorio();
+
+            var list0 = repositorio.Listar();
+            if (list0 == null)
+            {
+                repositorio.Criar(_layoutCracha);
+                list0 = repositorio.Listar();
+            }
+            Assert.IsNotNull(list0);
+
+            string filtro = repositorio.Listar().LastOrDefault().Nome;
+
+            var list1 = repositorio.Listar(filtro, null);
+            if (list1 == null)
+            {
+                repositorio.Criar(_layoutCracha);
+                list1 = repositorio.Listar(filtro, null).ToList();
+            }
+            Assert.IsNotNull(list1);
+        }
+
+        [Priority(10)]
         [TestMethod]
         [Description("Objetivo: Cadastrar/listar/alterar/remover dados de Tipos de Serviços")]
         public void TipoServico_Cadastrar_Alterar_Listar_Remover_com_sucesso()
@@ -1745,6 +1583,7 @@ namespace UnitTestImod
             Assert.IsNull(d4);
         }
 
+        [Priority(9)]
         [TestMethod]
         [Description("Objetivo: Cadastrar/listar/alterar/remover dados de Tipos de Equipamento")]
         public void TipoEquipamento_Cadastrar_Alterar_Listar_Remover_com_sucesso()
@@ -1788,6 +1627,7 @@ namespace UnitTestImod
             Assert.IsNull(d3);
         }
 
+        [Priority(8)]
         [TestMethod]
         [Description("Objetivo: Cadastrar/listar/alterar/remover dados de Tipos de Combustível")]
         public void TipoCombustivel_Cadastrar_Alterar_Listar_Remover_com_sucesso()
@@ -1832,6 +1672,7 @@ namespace UnitTestImod
             Assert.IsNull(d3);
         }
 
+        [Priority(7)]
         [TestMethod]
         [Description("Objetivo: Cadastrar/listar/alterar/remover dados de Tipos de Cobrança")]
         public void TipoCobranca_Cadastrar_Alterar_Listar_Remover_com_sucesso()
@@ -1876,6 +1717,7 @@ namespace UnitTestImod
             Assert.IsNull(d3);
         }
 
+        [Priority(6)]
         [TestMethod]
         [Description("Objetivo: Cadastrar/listar/alterar/remover dados de Tipos de Atividade")]
         public void TipoAtividade_Cadastrar_Alterar_Listar_Remover_com_sucesso()
@@ -1920,6 +1762,7 @@ namespace UnitTestImod
             Assert.IsNull(d3);
         }
 
+        [Priority(5)]
         [TestMethod]
         [Description("Objetivo: Cadastrar/listar/alterar/remover dados de Tipos de Acesso")]
         public void TipoAcesso_Cadastrar_Alterar_Listar_Remover_com_sucesso()
@@ -1964,6 +1807,7 @@ namespace UnitTestImod
             Assert.IsNull(d3);
         }
 
+        [Priority(4)]
         [TestMethod]
         [Description("Objetivo: Cadastrar/listar/alterar/remover dados de Tecnologia de Credencial")]
         public void TecnologiaCredencial_Cadastrar_Alterar_Listar_Remover_com_sucesso()
@@ -2008,6 +1852,7 @@ namespace UnitTestImod
             Assert.IsNull(d3);
         }
 
+        [Priority(3)]
         [TestMethod]
         [Description("Objetivo: Cadastrar/listar/alterar/remover dados de Status")]
         public void Status_Cadastrar_Alterar_Listar_Remover_com_sucesso()
@@ -2052,6 +1897,7 @@ namespace UnitTestImod
             Assert.IsNull(d3);
         }
 
+        [Priority(2)]
         [TestMethod]
         [Description("Objetivo: Cadastrar/listar/alterar/remover dados de Relatórios")]
         public void Relatorios_Cadastrar_Alterar_Listar_Remover_com_sucesso()
@@ -2098,7 +1944,7 @@ namespace UnitTestImod
             Assert.IsNull(d3);
         }
 
-
+        [Priority(1)]
         [TestMethod]
         [Description("Objetivo: Cadastrar/listar/alterar/remover dados de Relatórios Gerenciais")]
         public void RelatoriosGerenciais_Cadastrar_Alterar_Listar_Remover_com_sucesso()
@@ -2145,6 +1991,8 @@ namespace UnitTestImod
             var d3 = repositorio.BuscarPelaChave(d2.RelatorioId);
             Assert.IsNull(d3);
         }
+
+        #endregion
 
         #endregion
 

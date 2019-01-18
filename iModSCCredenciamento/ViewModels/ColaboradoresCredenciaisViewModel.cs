@@ -245,6 +245,20 @@ namespace iModSCCredenciamento.ViewModels
 
                 var n1 = Mapper.Map<ColaboradorCredencial>(Entity);
                 _service.Alterar(n1);
+
+                if (n1.CardHolderGuid == null || n1.CredencialGuid == null) return;
+                if (_sc.CredencialStatus(n1.CardHolderGuid, n1.CredencialGuid, n1.Ativa, n1.CredencialMotivoId))
+                {
+                    WpfHelp.PopupBox("Credencial alterada com êxito!", 1);
+                    // _service.Alterar(n1);
+                }
+                else
+                {
+                    WpfHelp.PopupBox("Erro na alterada da credencial no Genetec!", 1);
+
+                }
+
+
                 IsEnableLstView = true;
             }
             catch (Exception ex)
@@ -495,14 +509,41 @@ namespace iModSCCredenciamento.ViewModels
                     Entity.Impressa = true;
 
                     BitmapImage _foto = Conversores.STRtoIMG(Entity.ColaboradorFoto) as BitmapImage;
-                    _sc.Vincular(Entity.ColaboradorNome.Trim(), Entity.Cpf.Trim(), Entity.Cnpj.Trim(),
+                    //string guid = _sc.Vincular(Entity.ColaboradorNome.Trim(), Entity.Cpf.Trim(), Entity.Cnpj.Trim(),
+                    //    Entity.EmpresaNome.Trim(), Entity.Matricula.Trim(), Entity.Cargo.Trim(),
+                    //    Entity.Fc.ToString().Trim(), Entity.NumeroCredencial.Trim(),
+                    //    Entity.FormatoCredencialDescricao.Trim(), Entity.Validade.ToString(),
+                    //    layoutCracha.LayoutCrachaGuid, Conversores.BitmapImageToBitmap(_foto));
+
+
+                    //string[] guids = guid.Split(' ');
+                    //if (Entity == null)
+                    //{
+                    //    return;
+                    //}
+                    //var n1 = Mapper.Map<ColaboradorCredencial>(Entity);
+                    //n1.CardHolderGuid = guids[0].ToString();
+                    //n1.CredencialGuid = guids[2].ToString();
+                    //_service.Alterar(n1);
+
+                    string cardholderGuid = _sc.CardHolder(Entity.ColaboradorNome.Trim(), Entity.Cpf.Trim(), Entity.Cnpj.Trim(),
                         Entity.EmpresaNome.Trim(), Entity.Matricula.Trim(), Entity.Cargo.Trim(),
                         Entity.Fc.ToString().Trim(), Entity.NumeroCredencial.Trim(),
                         Entity.FormatoCredencialDescricao.Trim(), Entity.Validade.ToString(),
                         layoutCracha.LayoutCrachaGuid, Conversores.BitmapImageToBitmap(_foto));
 
-                    //_sc.CriarCredencialTeste(layoutCracha.LayoutCrachaGuid.ToString(), Entity.Validade);
-                    
+                    string credentialGuid = _sc.Credencial(layoutCracha.LayoutCrachaGuid, Entity.Fc.ToString().Trim(),
+                        Entity.NumeroCredencial.Trim(), Entity.FormatoCredencialDescricao.Trim(), cardholderGuid);
+
+                    if (Entity == null)
+                    {
+                        return;
+                    }
+                    var n1 = Mapper.Map<ColaboradorCredencial>(Entity);
+                    n1.CardHolderGuid = cardholderGuid.ToString();
+                    n1.CredencialGuid = credentialGuid.ToString();
+                    _service.Alterar(n1);
+
                 }
                 File.Delete(_ArquivoRPT);
             }
@@ -583,6 +624,6 @@ namespace iModSCCredenciamento.ViewModels
 
 
 
-        
+
     }
 }

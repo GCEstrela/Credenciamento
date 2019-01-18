@@ -44,7 +44,7 @@
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                     Margin="1">
-                        <Label Content="Contrato:" Height="28" Foreground="#FFD0D0D0" Width="143" HorizontalContentAlignment="Right"  />
+                        <Label Content="Contrato:" Height="28" Foreground="#FFD0D0D0" Width="143"  />
                         <ComboBox  x:Name="cmbContrato" 
                                    Width="300" Height="25" 
                                    VerticalContentAlignment="Center" 
@@ -56,7 +56,7 @@
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                     Margin="1,1,0,1" Width="947">
-                        <Label Content="Vínculo Ativo:" Height="28" Width="143" Foreground="#FFD0D0D0"  HorizontalContentAlignment="Right" />
+                        <Label Content="Vínculo Ativo:" Height="28" Width="143" Foreground="#FFD0D0D0" />
                         <CheckBox VerticalAlignment="Center" x:Name="Impeditivo_cb"  Foreground="#FFD0D0D0" IsChecked="{Binding Entity.Ativo, UpdateSourceTrigger=PropertyChanged}"/>
                     </StackPanel>
                 </StackPanel>

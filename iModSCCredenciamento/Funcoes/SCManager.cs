@@ -150,6 +150,7 @@ namespace iModSCCredenciamento.Funcoes
 
         private static Credential CriarCredencialProvisoria(Cardholder cardholder, DateTime? validade, Guid layoutCracha)
         {
+            IEngine _sdk = Main.Engine;
             DateTime _DataValidade;
 
             if (validade != null)
@@ -187,46 +188,48 @@ namespace iModSCCredenciamento.Funcoes
 
             return _credencial;
         }
-        //public Credential CriarCredencialTeste(string validade, string layoutCracha)//Cardholder cardholder,
-        //{
-        //    Cardholder cardholder;
-        //    DateTime _DataValidade;
+        public Boolean CredencialStatus(string cardholder, string credential, Boolean Ativado, int status)
+        {
+            _sdk.TransactionManager.CreateTransaction();
 
-        //    if (validade != null)
-        //    {
-        //        _DataValidade = Convert.ToDateTime(validade);    //(DateTime)validade;
+            if (Ativado)
+            {
+                Cardholder _cardholder = _sdk.GetEntity(new Guid(cardholder)) as Cardholder;
+                _cardholder.State = CardholderState.Active;
 
-        //        _DataValidade = _DataValidade.AddSeconds(86399);
+                Credential _credential = _sdk.GetEntity(new Guid(credential)) as Credential;
+                _credential.State = CredentialState.Active;
+            }
+            else
+            {
 
-        //        _DataValidade = _DataValidade <= DateTime.Now ? DateTime.Now.AddSeconds(3) : _DataValidade;
-        //    }
-        //    else
-        //    {
-        //        _DataValidade = DateTime.Now.AddSeconds(86399);
-        //    }
+                Cardholder _cardholder = _sdk.GetEntity(new Guid(cardholder)) as Cardholder;
+                _cardholder.State = CardholderState.Inactive;
 
-        //    Credential _credencial;
+                switch (status)
+                {
 
-        //    _sdk.TransactionManager.CreateTransaction();
+                    case 6:
+                        Credential _credential = _sdk.GetEntity(new Guid(credential)) as Credential;
+                        _credential.State = CredentialState.Expired;
+                        break;
+                    case 10:
+                        Credential _credential2 = _sdk.GetEntity(new Guid(credential)) as Credential;
+                        _credential2.State = CredentialState.Stolen;
+                        break;
+                    default:
+                        Credential _credential3 = _sdk.GetEntity(new Guid(credential)) as Credential;
+                        _credential3.State = CredentialState.Inactive;
+                        break;
+                }
 
-        //    _credencial = _sdk.CreateEntity("Credencial de " + cardholder.FirstName, EntityType.Credential) as Credential;
+            }
 
-        //    _credencial.Name = cardholder.FirstName + " " + cardholder.LastName;
+            _sdk.TransactionManager.CommitTransaction();
 
-        //    _credencial.ActivationMode = new SpecificActivationPeriod(DateTime.Now, _DataValidade);
+            return true;
 
-        //    BadgeTemplate _BadgeTemplate = _sdk.GetEntity(layoutCracha) as BadgeTemplate;
-
-        //    _credencial.BadgeTemplate = _BadgeTemplate.Guid;
-
-        //    _credencial.InsertIntoPartition(Partition.DefaultPartitionGuid);
-
-        //    cardholder.Credentials.Add(_credencial);
-
-        //    _sdk.TransactionManager.CommitTransaction();
-
-        //    return _credencial;
-        //}
+        }
         private static void OnBadgePrinted(IAsyncResult ar)
         {
             //throw new NotImplementedException();
@@ -264,223 +267,403 @@ namespace iModSCCredenciamento.Funcoes
             return printQueue;
         }
 
-        public bool Vincular(string _Nome, string _CPF, string _CNPJ, string _Empresa, string _Matricula, string _Cargo,
+        public string Vincular(string _Nome, string _CPF, string _CNPJ, string _Empresa, string _Matricula, string _Cargo,
                                             string _FC, string _NumeroCredencial, string _FormatoCredencial, string _DataValidadeSTR, string _LayoutCrachaGuid = "", Bitmap _Foto = null)
         {
             try
             {
-                ////IEngine _sdk = Main.engine;
-                //Cardholder _cardholder;
-                //string _firstname = "";
-                //string _lastname = "";
-                //////// CardHolder
-                //try
-                //{
-                //    _cardholder = "";   // BuscarCardHolder(_CPF, _CNPJ);
+                //IEngine _sdk = Main.engine;
+                Cardholder _cardholder;
+                string _firstname = "";
+                string _lastname = "";
+                string _cardholderGuid = "";
+                string _credencialGuid = "";
+                ////// CardHolder
+                try
+                {
+                    _cardholder = BuscarCardHolder(_CPF, _CNPJ);
 
-                //    string[] _nomeCompleto = _Nome.Split(' ');
+                    string[] _nomeCompleto = _Nome.Split(' ');
 
-                //    int _len = _nomeCompleto.Count();
+                    int _len = _nomeCompleto.Count();
 
-                //    if (_len > 1)
-                //    {
-                //        _lastname = _nomeCompleto[_len - 1];
+                    if (_len > 1)
+                    {
+                        _lastname = _nomeCompleto[_len - 1];
 
-                //        _firstname = _nomeCompleto[0];
-                //    }
-                //    else
-                //    {
-                //        _firstname = _Nome;
-                //    }
-                //    DateTime _DataValidade = DateTime.Now.AddSeconds(86399);
+                        _firstname = _nomeCompleto[0];
+                    }
+                    else
+                    {
+                        _firstname = _Nome;
+                    }
+                    DateTime _DataValidade = DateTime.Now.AddSeconds(86399);
 
-                //    if (_DataValidadeSTR != "")
-                //    {
-                //        _DataValidade = Convert.ToDateTime(_DataValidadeSTR);
+                    if (_DataValidadeSTR != "")
+                    {
+                        _DataValidade = Convert.ToDateTime(_DataValidadeSTR);
 
-                //        _DataValidade = _DataValidade.AddSeconds(86399);
+                        _DataValidade = _DataValidade.AddSeconds(86399);
 
-                //        _DataValidade = _DataValidade <= DateTime.Now ? DateTime.Now.AddSeconds(3) : _DataValidade;
-                //    }
+                        _DataValidade = _DataValidade <= DateTime.Now ? DateTime.Now.AddSeconds(3) : _DataValidade;
+                    }
 
-                //    _sdk.TransactionManager.CreateTransaction();
+                    _sdk.TransactionManager.CreateTransaction();
 
-                //    CardholderGroup _cardholderGroup;
+                    CardholderGroup _cardholderGroup;
 
-                //    if (_cardholder == null)
-                //    {
-                //        _cardholderGroup = _sdk.GetEntity(EntityType.CardholderGroup, 1) as CardholderGroup;
+                    if (_cardholder == null)
+                    {
+                        _cardholderGroup = _sdk.GetEntity(EntityType.CardholderGroup, 1) as CardholderGroup;
 
-                //        _cardholder = _sdk.CreateEntity(_Nome, EntityType.Cardholder) as Cardholder;
+                        _cardholder = _sdk.CreateEntity(_Nome, EntityType.Cardholder) as Cardholder;
 
-                //        _cardholder.SetCustomFieldAsync("CPF", _CPF);
+                        _cardholder.SetCustomFieldAsync("CPF", _CPF);
 
-                //        _cardholder.SetCustomFieldAsync("Empresa", _Empresa);
+                        _cardholder.SetCustomFieldAsync("Empresa", _Empresa);
 
-                //        _cardholder.SetCustomFieldAsync("CNPJ", _CNPJ);
+                        _cardholder.SetCustomFieldAsync("CNPJ", _CNPJ);
 
-                //        _cardholder.SetCustomFieldAsync("Matricula", _Matricula);
+                        _cardholder.SetCustomFieldAsync("Matricula", _Matricula);
 
-                //        _cardholder.SetCustomFieldAsync("Cargo", _Cargo);
+                        _cardholder.SetCustomFieldAsync("Cargo", _Cargo);
 
-                //        _cardholder.InsertIntoPartition(Partition.DefaultPartitionGuid);
+                        _cardholder.InsertIntoPartition(Partition.DefaultPartitionGuid);
 
-                //        if (_cardholderGroup != null)
-                //        {
-                //            _cardholder.Groups.Add(_cardholderGroup.Guid);
-                //        }
-                //    }
+                        if (_cardholderGroup != null)
+                        {
+                            _cardholder.Groups.Add(_cardholderGroup.Guid);
+                        }
+                    }
 
-                //    _cardholder.FirstName = _firstname;
+                    _cardholder.FirstName = _firstname;
 
-                //    _cardholder.LastName = _lastname;
-
-
-                //    _cardholder.SetCustomFieldAsync("CPF", _CPF);
-
-                //    _cardholder.SetCustomFieldAsync("Empresa", _Empresa);
-
-                //    _cardholder.SetCustomFieldAsync("CNPJ", _CNPJ);
-
-                //    _cardholder.SetCustomFieldAsync("Matricula", _Matricula);
-
-                //    _cardholder.SetCustomFieldAsync("Cargo", _Cargo);
+                    _cardholder.LastName = _lastname;
 
 
+                    _cardholder.SetCustomFieldAsync("CPF", _CPF);
 
+                    _cardholder.SetCustomFieldAsync("Empresa", _Empresa);
 
+                    _cardholder.SetCustomFieldAsync("CNPJ", _CNPJ);
 
-                //    if (_Foto != null)
-                //    {
-                //        _cardholder.Picture = _Foto;
-                //    }
+                    _cardholder.SetCustomFieldAsync("Matricula", _Matricula);
 
-                //    _cardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, _DataValidade);
-
-                //    _sdk.TransactionManager.CommitTransaction();
-
-                //    //return true;
-                //}
-                //catch (Exception ex)
-                //{
-
-                //    return false;
-                //}
-
-                ////// Credencial
-                //try
-                //{
-                //    Credential _credencial;
-
-                //    _credencial = "";   // BuscarCredencial(_FC, _NumeroCredencial);
-
-                //    if (_credencial != null)
-                //    {
-                //        if (_credencial.CardholderGuid != _cardholder.Guid)
-                //        {
-                //            //MessageBox.Show("Esta credencial pertence a outro usuário e não pode ser vinculada!", "Erro ao Vincular", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                //            return false;
-                //        }
-                //        else // atualizar credencial
-                //        {
-                //            if (_LayoutCrachaGuid != "")
-                //            {
-                //                BadgeTemplate _BadgeTemplate = _sdk.GetEntity(new Guid(_LayoutCrachaGuid)) as BadgeTemplate;
-                //                _credencial.BadgeTemplate = _BadgeTemplate.Guid;
-                //            }
-
-                //        }
-                //    }
-                //    else //criar nova credencial
-                //    {
-                //        _sdk.TransactionManager.CreateTransaction();
-
-                //        _credencial = _sdk.CreateEntity(_NumeroCredencial, EntityType.Credential) as Credential;
-
-                //        _credencial.Name = _NumeroCredencial + " - " + _firstname + " " + _lastname;
-
-                //        if (_LayoutCrachaGuid != "")
-                //        {
-                //            BadgeTemplate _BadgeTemplate = _sdk.GetEntity(new Guid(_LayoutCrachaGuid)) as BadgeTemplate;
-                //            _credencial.BadgeTemplate = _BadgeTemplate.Guid;
-
-                //        }
+                    _cardholder.SetCustomFieldAsync("Cargo", _Cargo);
 
 
 
-                //        switch (_FormatoCredencial)
-                //        {
-                //            case "Standard 26 bits":
-                //                _credencial.Format = new WiegandStandardCredentialFormat(Convert.ToInt32(_FC), Convert.ToInt32(_NumeroCredencial));
-                //                break;
-                //            case "H10302":
-                //                _credencial.Format = new WiegandH10302CredentialFormat(Convert.ToInt32(_NumeroCredencial));
-                //                break;
-                //            case "H10304":
-                //                _credencial.Format = new WiegandH10304CredentialFormat(Convert.ToInt32(_FC), Convert.ToInt32(_NumeroCredencial));
-                //                break;
-                //            case "H10306":
-                //                _credencial.Format = new WiegandH10306CredentialFormat(Convert.ToInt32(_FC), Convert.ToInt32(_NumeroCredencial));
-                //                break;
-                //            case "HID Corporate 1000":
-                //                _credencial.Format = new WiegandCorporate1000CredentialFormat(Convert.ToInt32(_FC), Convert.ToInt32(_NumeroCredencial));
-                //                break;
-
-                //            case "CSN":
-                //                CustomCredentialFormat mifareCSN;
-
-                //                SystemConfiguration sysConfig = _sdk.GetEntity(SdkGuids.SystemConfiguration) as SystemConfiguration;
-
-                //                if (sysConfig != null)
-                //                {
 
 
-                //                    foreach (CredentialFormat cardFormat in sysConfig.CredentialFormats)
-                //                    {
-                //                        if (cardFormat.Name == "CSN")
-                //                        {
-                //                            mifareCSN = cardFormat as CustomCredentialFormat;
-                //                            mifareCSN.SetValues(long.Parse(_NumeroCredencial));
-                //                            _credencial.Format = mifareCSN;
-                //                            break;
-                //                        }
-                //                        //
-                //                    }
-                //                }
-                //                break;
-                //        }
+                    if (_Foto != null)
+                    {
+                        _cardholder.Picture = _Foto;
+                    }
 
-                //        if (_credencial.Format != null)
-                //        {
-                //            _credencial.InsertIntoPartition(Partition.DefaultPartitionGuid);
+                    _cardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, _DataValidade);
+                    _cardholderGuid = _cardholder.Guid.ToString();
 
-                //            _cardholder.Credentials.Add(_credencial);
-                //        }
+                    _sdk.TransactionManager.CommitTransaction();
 
-                //        _sdk.TransactionManager.CommitTransaction();
+                    //return true;
+                }
+                catch (Exception ex)
+                {
 
-                //    }
+                    return null;
+                }
+
+                //// Credencial
+                try
+                {
+                    Credential _credencial;
+
+                    _credencial = BuscarCredencial(_FC, _NumeroCredencial);
+
+                    if (_credencial != null)
+                    {
+                        if (_credencial.CardholderGuid != _cardholder.Guid)
+                        {
+                            //MessageBox.Show("Esta credencial pertence a outro usuário e não pode ser vinculada!", "Erro ao Vincular", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            return null;
+                        }
+                        else // atualizar credencial
+                        {
+                            if (_LayoutCrachaGuid != "")
+                            {
+                                BadgeTemplate _BadgeTemplate = _sdk.GetEntity(new Guid(_LayoutCrachaGuid)) as BadgeTemplate;
+                                _credencial.BadgeTemplate = _BadgeTemplate.Guid;
+                            }
+
+                        }
+                    }
+                    else //criar nova credencial
+                    {
+                        _sdk.TransactionManager.CreateTransaction();
+
+                        _credencial = _sdk.CreateEntity(_NumeroCredencial, EntityType.Credential) as Credential;
+
+                        _credencial.Name = _NumeroCredencial + " - " + _firstname + " " + _lastname;
+
+                        if (_LayoutCrachaGuid != "")
+                        {
+                            BadgeTemplate _BadgeTemplate = _sdk.GetEntity(new Guid(_LayoutCrachaGuid)) as BadgeTemplate;
+                            _credencial.BadgeTemplate = _BadgeTemplate.Guid;
+
+                        }
 
 
-                //}
-                //catch (Exception ex)
-                //{
-                //    Utils.TraceException(ex);
-                //    return false;
-                //}
 
-                return true;
+                        switch (_FormatoCredencial)
+                        {
+                            case "Standard 26 bits":
+                                _credencial.Format = new WiegandStandardCredentialFormat(Convert.ToInt32(_FC), Convert.ToInt32(_NumeroCredencial));
+                                break;
+                            case "H10302":
+                                _credencial.Format = new WiegandH10302CredentialFormat(Convert.ToInt32(_NumeroCredencial));
+                                break;
+                            case "H10304":
+                                _credencial.Format = new WiegandH10304CredentialFormat(Convert.ToInt32(_FC), Convert.ToInt32(_NumeroCredencial));
+                                break;
+                            case "H10306":
+                                _credencial.Format = new WiegandH10306CredentialFormat(Convert.ToInt32(_FC), Convert.ToInt32(_NumeroCredencial));
+                                break;
+                            case "HID Corporate 1000":
+                                _credencial.Format = new WiegandCorporate1000CredentialFormat(Convert.ToInt32(_FC), Convert.ToInt32(_NumeroCredencial));
+                                break;
+
+                            case "CSN":
+                                CustomCredentialFormat mifareCSN;
+
+                                SystemConfiguration sysConfig = _sdk.GetEntity(SdkGuids.SystemConfiguration) as SystemConfiguration;
+
+                                if (sysConfig != null)
+                                {
+
+
+                                    foreach (CredentialFormat cardFormat in sysConfig.CredentialFormats)
+                                    {
+                                        if (cardFormat.Name == "CSN")
+                                        {
+                                            mifareCSN = cardFormat as CustomCredentialFormat;
+                                            mifareCSN.SetValues(long.Parse(_NumeroCredencial));
+                                            _credencial.Format = mifareCSN;
+                                            break;
+                                        }
+                                        //
+                                    }
+                                }
+                                break;
+                        }
+
+                        if (_credencial.Format != null)
+                        {
+                            _credencial.InsertIntoPartition(Partition.DefaultPartitionGuid);
+
+                            _cardholder.Credentials.Add(_credencial);
+                        }
+                        _credencialGuid = _credencial.Guid.ToString();
+                        _sdk.TransactionManager.CommitTransaction();
+
+                    }
+
+
+                }
+                catch (Exception ex)
+                {
+                    Utils.TraceException(ex);
+                    return null;
+                }
+
+                return _cardholderGuid + "  " + _credencialGuid;
             }
 
             catch (Exception ex)
             {
                 Utils.TraceException(ex);
-                return false;
+                return null;
             }
 
-
         }
+        public string CardHolder(string _Nome, string _CPF, string _CNPJ, string _Empresa, string _Matricula, string _Cargo,
+                                            string _FC, string _NumeroCredencial, string _FormatoCredencial, string _DataValidadeSTR, string _LayoutCrachaGuid = "", Bitmap _Foto = null)
+        {
+            Cardholder _cardholder;
+            string _firstname = "";
+            string _lastname = "";
+            string _cardholderGuid = "";
+            try
+            {
+                _cardholder = BuscarCardHolder(_CPF, _CNPJ);
+                string[] _nomeCompleto = _Nome.Split(' ');
+                int _len = _nomeCompleto.Count();
+                if (_len > 1)
+                {
+                    _lastname = _nomeCompleto[_len - 1];
+                    _firstname = _nomeCompleto[0];
+                }
+                else
+                {
+                    _firstname = _Nome;
+                }
+                DateTime _DataValidade = DateTime.Now.AddSeconds(86399);
 
+                if (_DataValidadeSTR != "")
+                {
+                    _DataValidade = Convert.ToDateTime(_DataValidadeSTR);
+                    _DataValidade = _DataValidade.AddSeconds(86399);
+                    _DataValidade = _DataValidade <= DateTime.Now ? DateTime.Now.AddSeconds(3) : _DataValidade;
+                }
+
+                _sdk.TransactionManager.CreateTransaction();
+
+                CardholderGroup _cardholderGroup;
+
+                if (_cardholder == null)
+                {
+                    _cardholderGroup = _sdk.GetEntity(EntityType.CardholderGroup, 1) as CardholderGroup;
+                    _cardholder = _sdk.CreateEntity(_Nome, EntityType.Cardholder) as Cardholder;
+                    _cardholder.SetCustomFieldAsync("CPF", _CPF);
+                    _cardholder.SetCustomFieldAsync("Empresa", _Empresa);
+                    _cardholder.SetCustomFieldAsync("CNPJ", _CNPJ);
+                    _cardholder.SetCustomFieldAsync("Matricula", _Matricula);
+                    _cardholder.SetCustomFieldAsync("Cargo", _Cargo);
+                    _cardholder.InsertIntoPartition(Partition.DefaultPartitionGuid);
+                    if (_cardholderGroup != null)
+                    {
+                        _cardholder.Groups.Add(_cardholderGroup.Guid);
+                    }
+                }
+                _cardholder.FirstName = _firstname;
+                _cardholder.LastName = _lastname;
+                _cardholder.SetCustomFieldAsync("CPF", _CPF);
+                _cardholder.SetCustomFieldAsync("Empresa", _Empresa);
+                _cardholder.SetCustomFieldAsync("CNPJ", _CNPJ);
+                _cardholder.SetCustomFieldAsync("Matricula", _Matricula);
+                _cardholder.SetCustomFieldAsync("Cargo", _Cargo);
+
+                if (_Foto != null)
+                {
+                    _cardholder.Picture = _Foto;
+                }
+
+                _cardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, _DataValidade);
+                _cardholderGuid = _cardholder.Guid.ToString();
+
+                _sdk.TransactionManager.CommitTransaction();
+
+                return _cardholderGuid;
+            }
+            catch (Exception ex)
+            {
+
+                return null;
+            }
+        }
+        public string Credencial(string _LayoutCrachaGuid, string _FC, string _NumeroCredencial, string _FormatoCredencial, string cardholder)
+        {
+            string _credencialGuid = "";
+            try
+            {
+                Cardholder _cardholder = _sdk.GetEntity(new Guid(cardholder)) as Cardholder;
+                Credential _credencial;
+
+                _credencial = BuscarCredencial(_FC, _NumeroCredencial);
+
+                if (_credencial != null)
+                {
+                    if (_credencial.CardholderGuid != _cardholder.Guid)
+                    {
+                        //MessageBox.Show("Esta credencial pertence a outro usuário e não pode ser vinculada!", "Erro ao Vincular", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        return null;
+                    }
+                    else // atualizar credencial
+                    {
+                        if (_LayoutCrachaGuid != "")
+                        {
+                            BadgeTemplate _BadgeTemplate = _sdk.GetEntity(new Guid(_LayoutCrachaGuid)) as BadgeTemplate;
+                            _credencial.BadgeTemplate = _BadgeTemplate.Guid;
+                        }
+
+                    }
+                }
+                else //criar nova credencial
+                {
+                    _sdk.TransactionManager.CreateTransaction();
+
+                    _credencial = _sdk.CreateEntity(_NumeroCredencial, EntityType.Credential) as Credential;
+
+                    _credencial.Name = _NumeroCredencial + " - " + _cardholder.FirstName + " " + _cardholder.LastName;
+
+                    if (_LayoutCrachaGuid != "")
+                    {
+                        BadgeTemplate _BadgeTemplate = _sdk.GetEntity(new Guid(_LayoutCrachaGuid)) as BadgeTemplate;
+                        _credencial.BadgeTemplate = _BadgeTemplate.Guid;
+
+                    }
+
+                    switch (_FormatoCredencial)
+                    {
+                        case "Standard 26 bits":
+                            _credencial.Format = new WiegandStandardCredentialFormat(Convert.ToInt32(_FC), Convert.ToInt32(_NumeroCredencial));
+                            break;
+                        case "H10302":
+                            _credencial.Format = new WiegandH10302CredentialFormat(Convert.ToInt32(_NumeroCredencial));
+                            break;
+                        case "H10304":
+                            _credencial.Format = new WiegandH10304CredentialFormat(Convert.ToInt32(_FC), Convert.ToInt32(_NumeroCredencial));
+                            break;
+                        case "H10306":
+                            _credencial.Format = new WiegandH10306CredentialFormat(Convert.ToInt32(_FC), Convert.ToInt32(_NumeroCredencial));
+                            break;
+                        case "HID Corporate 1000":
+                            _credencial.Format = new WiegandCorporate1000CredentialFormat(Convert.ToInt32(_FC), Convert.ToInt32(_NumeroCredencial));
+                            break;
+
+                        case "CSN":
+                            CustomCredentialFormat mifareCSN;
+
+                            SystemConfiguration sysConfig = _sdk.GetEntity(SdkGuids.SystemConfiguration) as SystemConfiguration;
+
+                            if (sysConfig != null)
+                            {
+
+
+                                foreach (CredentialFormat cardFormat in sysConfig.CredentialFormats)
+                                {
+                                    if (cardFormat.Name == "CSN")
+                                    {
+                                        mifareCSN = cardFormat as CustomCredentialFormat;
+                                        mifareCSN.SetValues(long.Parse(_NumeroCredencial));
+                                        _credencial.Format = mifareCSN;
+                                        break;
+                                    }
+                                    //
+                                }
+                            }
+                            break;
+                    }
+
+                    if (_credencial.Format != null)
+                    {
+                        _credencial.InsertIntoPartition(Partition.DefaultPartitionGuid);
+
+                        _cardholder.Credentials.Add(_credencial);
+                    }
+                    _credencialGuid = _credencial.Guid.ToString();
+                    _sdk.TransactionManager.CommitTransaction();
+
+                }
+
+                return _credencialGuid;
+
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+                return null;
+            }
+        }
         //public static bool VincularVeiculo(ClasseVeiculosCredenciais.VeiculoCredencial veiculoCredencial)
         //public static bool VincularVeiculo(string veiculoCredencial)
         //{
@@ -744,55 +927,56 @@ namespace iModSCCredenciamento.Funcoes
         //    }
 
 
+
+
+
+        private static Cardholder BuscarCardHolder(string _CPF, string _CNPJ)
+        {
+            IEngine _sdk = Main.Engine;
+            EntityConfigurationQuery query;
+
+            QueryCompletedEventArgs result;
+
+            try
+            {
+                query = _sdk.ReportManager.CreateReportQuery(ReportType.EntityConfiguration) as EntityConfigurationQuery;
+
+                query.EntityTypeFilter.Add(EntityType.Cardholder);
+
+                query.NameSearchMode = StringSearchMode.StartsWith;
+
+                result = query.Query();
+
+                SystemConfiguration systemConfiguration = _sdk.GetEntity(SdkGuids.SystemConfiguration) as SystemConfiguration;
+
+                var service = systemConfiguration.CustomFieldService;
+
+                if (result.Success)
+                {
+                    foreach (DataRow dr in result.Data.Rows)
+                    {
+                        Cardholder _cardholder = _sdk.GetEntity((Guid)dr[0]) as Cardholder;
+
+                        string _CPFteste = service.GetValue<string>("CPF", _cardholder.Guid);
+
+                        string _CNPJteste = service.GetValue<string>("CNPJ", _cardholder.Guid);
+
+                        if (_CPFteste == _CPF && _CNPJteste == _CNPJ)
+                        {
+                            return _cardholder;
+                        }
+                    }
+
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                //Global.Log("Erro na void BuscarCardHolder ex: " + ex);
+
+                return null;
+            }
         }
-
-
-        //private static Cardholder BuscarCardHolder(string _CPF, string _CNPJ)
-        //{
-        //    //EntityConfigurationQuery query;
-
-        //    //QueryCompletedEventArgs result;
-
-        //    //try
-        //    //{
-        //    //    query = _sdk.ReportManager.CreateReportQuery(ReportType.EntityConfiguration) as EntityConfigurationQuery;
-
-        //    //    query.EntityTypeFilter.Add(EntityType.Cardholder);
-
-        //    //    query.NameSearchMode = StringSearchMode.StartsWith;
-
-        //    //    result = query.Query();
-
-        //    //    SystemConfiguration systemConfiguration = _sdk.GetEntity(SdkGuids.SystemConfiguration) as SystemConfiguration;
-
-        //    //    var service = systemConfiguration.CustomFieldService;
-
-        //    //    if (result.Success)
-        //    //    {
-        //    //        foreach (DataRow dr in result.Data.Rows)
-        //    //        {
-        //    //            Cardholder _cardholder = _sdk.GetEntity((Guid)dr[0]) as Cardholder;
-
-        //    //            string _CPFteste = service.GetValue<string>("CPF", _cardholder.Guid);
-
-        //    //            string _CNPJteste = service.GetValue<string>("CNPJ", _cardholder.Guid);
-
-        //    //            if (_CPFteste == _CPF && _CNPJteste == _CNPJ)
-        //    //            {
-        //    //                return _cardholder;
-        //    //            }
-        //    //        }
-
-        //    //    }
-        //        //return null;
-        //    //}
-        //    //catch (Exception ex)
-        //    //{
-        //    //    //Global.Log("Erro na void BuscarCardHolder ex: " + ex);
-
-        //    //    return null;
-        //    //}
-        //}
 
         //0	N/D                           	00000000-0000-0000-0000-000000000000
         //1	Standard - 26 bits            	00000000-0000-0000-0000-000000000200
@@ -804,78 +988,79 @@ namespace iModSCCredenciamento.Funcoes
         //7	CSN                           	00000000-0000-0000-0000-000000000700
 
 
-        //private static Credential BuscarCredencial(string _NumeroCredencial, string _FormatoCredencial, int _FC = 0)
-        //{
-        //    EntityConfigurationQuery query;
+        private static Credential BuscarCredencial(string _NumeroCredencial, string _FormatoCredencial, int _FC = 0)
+        {
+            IEngine _sdk = Main.Engine;
+            EntityConfigurationQuery query;
 
-        //    QueryCompletedEventArgs result;
+            QueryCompletedEventArgs result;
 
-        //    try
-        //    {
-        //        //query = _sdk.ReportManager.CreateReportQuery(ReportType.EntityConfiguration) as EntityConfigurationQuery;
+            try
+            {
+                query = _sdk.ReportManager.CreateReportQuery(ReportType.EntityConfiguration) as EntityConfigurationQuery;
 
-        //        //query.EntityTypeFilter.Add(EntityType.Credential);
+                query.EntityTypeFilter.Add(EntityType.Credential);
 
-        //        //query.NameSearchMode = StringSearchMode.StartsWith;
+                query.NameSearchMode = StringSearchMode.StartsWith;
 
-        //        //result = query.Query();
+                result = query.Query();
 
-        //        //if (result.Success)
-        //        //{
-        //        //    foreach (DataRow dr in result.Data.Rows)
-        //        //    {
-        //        //        Credential _credencial = _sdk.GetEntity((Guid)dr[0]) as Credential;
+                if (result.Success)
+                {
+                    foreach (DataRow dr in result.Data.Rows)
+                    {
+                        Credential _credencial = _sdk.GetEntity((Guid)dr[0]) as Credential;
 
-        //        //        string _NumeroCredencialteste;
-        //        //        int _FCteste;
-        //        //        string _FormatoCredencialTeste = _credencial.Format.FormatId.ToString();
-        //        //        if (_FormatoCredencial == _FormatoCredencialTeste)
-        //        //        {
+                        string _NumeroCredencialteste;
+                        int _FCteste;
+                        string _FormatoCredencialTeste = _credencial.Format.FormatId.ToString();
+                        if (_FormatoCredencial == _FormatoCredencialTeste)
+                        {
 
-        //        //            switch (_FormatoCredencialTeste)
-        //        //            {
-        //        //                case "00000000-0000-0000-0000-000000000200":
-        //        //                case "00000000-0000-0000-0000-000000000300":
-        //        //                case "00000000-0000-0000-0000-000000000500":
-        //        //                case "00000000-0000-0000-0000-000000000600":
-        //        //                case "00000000-0000-0000-0000-000000000800":
-        //        //                    _FCteste = ((WiegandStandardCredentialFormat)_credencial.Format).Facility;
+                            switch (_FormatoCredencialTeste)
+                            {
+                                case "00000000-0000-0000-0000-000000000200":
+                                case "00000000-0000-0000-0000-000000000300":
+                                case "00000000-0000-0000-0000-000000000500":
+                                case "00000000-0000-0000-0000-000000000600":
+                                case "00000000-0000-0000-0000-000000000800":
+                                    _FCteste = ((WiegandStandardCredentialFormat)_credencial.Format).Facility;
 
-        //        //                    _NumeroCredencialteste = ((WiegandCredentialFormat)_credencial.Format).CardId.ToString();
+                                    _NumeroCredencialteste = ((WiegandCredentialFormat)_credencial.Format).CardId.ToString();
 
-        //        //                    if (_FCteste == _FC && _NumeroCredencialteste == _NumeroCredencial)
-        //        //                    {
-        //        //                        return _credencial;
-        //        //                    }
+                                    if (_FCteste == _FC && _NumeroCredencialteste == _NumeroCredencial)
+                                    {
+                                        return _credencial;
+                                    }
 
-        //        //                    break;
+                                    break;
 
-        //        //                case "00000000-0000-0000-0000-000000000400":
-        //        //                case "00000000-0000-0000-0000-000000000700":
-        //        //                    _NumeroCredencialteste = ((WiegandCredentialFormat)_credencial.Format).CardId.ToString();
-        //        //                    //_NumeroCredencialteste = long.Parse(_NumeroCredencialteste, System.Globalization.NumberStyles.HexNumber);
+                                case "00000000-0000-0000-0000-000000000400":
+                                case "00000000-0000-0000-0000-000000000700":
+                                    _NumeroCredencialteste = ((WiegandCredentialFormat)_credencial.Format).CardId.ToString();
+                                    //_NumeroCredencialteste = long.Parse(_NumeroCredencialteste, System.Globalization.NumberStyles.HexNumber);
 
-        //        //                    if (_NumeroCredencialteste == _NumeroCredencial)
-        //        //                    {
-        //        //                        return _credencial;
-        //        //                    }
-        //        //                    break;
-        //        //            }
+                                    if (_NumeroCredencialteste == _NumeroCredencial)
+                                    {
+                                        return _credencial;
+                                    }
+                                    break;
+                            }
 
-        //        //        }
+                        }
 
-        //        //    }
+                    }
 
-        //        //}
-        //        return null;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Global.Log("Erro na void BuscarCredencial ex: " + ex);
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                Global.Log("Erro na void BuscarCredencial ex: " + ex);
 
-        //        return null;
-        //    }
-        //}
+                return null;
+            }
+        }
 
         //public static bool ExcluirCredencial(Guid? _CredencialGuid)
         //{
@@ -937,6 +1122,6 @@ namespace iModSCCredenciamento.Funcoes
         //}
         #endregion
 
-    //}
-
+    }
 }
+
