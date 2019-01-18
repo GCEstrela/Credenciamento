@@ -8,7 +8,7 @@
 
 using System;
 using System.Windows.Controls;
-using iModSCCredenciamento.Models;
+//using iModSCCredenciamento.Models;
 using iModSCCredenciamento.ViewModels;
 using IMOD.CrossCutting;
 using IMOD.Domain.Entities;

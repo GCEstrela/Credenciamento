@@ -8,7 +8,7 @@
 
 using System;
 using AutoMapper;
-using iModSCCredenciamento.Models;
+//using iModSCCredenciamento.Models;
 using iModSCCredenciamento.Views.Model;
 using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
@@ -37,14 +37,10 @@ namespace iModSCCredenciamento.Mapeamento
                        //m.CreateMap<ColaboradorView, Colaborador>().ReverseMap();
                        m.CreateMap<ColaboradorCurso, ColaboradorCursoView>().ReverseMap();
                        m.CreateMap<ColaboradorCursoView, ColaboradorCurso>().ReverseMap();
-                       m.CreateMap<ClasseColaboradoresCredenciais, ClasseColaboradoresCredenciais.ColaboradorCredencial>().ReverseMap();
-                       m.CreateMap<ColaboradoresCredenciaisView, ClasseColaboradoresCredenciais.ColaboradorCredencial>().ReverseMap();
 
                        m.CreateMap<ColaboradorCredencial, ColaboradoresCredenciaisView>().ReverseMap();
 
-                       m.CreateMap<VeiculoEmpresa, ClasseVeiculosEmpresas.VeiculoEmpresa>().ReverseMap();
                        m.CreateMap<VeiculosCredenciaisView, VeiculoCredencial>().ReverseMap();
-                       m.CreateMap<VeiculoEmpresa, ClasseVeiculosEmpresas.VeiculoEmpresa>().ReverseMap();
                        m.CreateMap<VeiculoEmpresaView, VeiculoEmpresa>().ReverseMap();
                        m.CreateMap<IMOD.Domain.EntitiesCustom.VeiculosCredenciaisView, iModSCCredenciamento.Views.Model.VeiculoCredencialView>().ReverseMap();
 
@@ -59,7 +55,6 @@ namespace iModSCCredenciamento.Mapeamento
 
 
                        m.CreateMap<TipoAtividade, TipoAtividadeView>().ReverseMap();
-                       m.CreateMap<TipoEquipamento, ClasseTiposEquipamento.TipoEquipamento>().ReverseMap();
 
                        m.CreateMap<Pendencia, PendenciaView>().ReverseMap();
                        m.CreateMap<Pendencia, PendenciaView>().ReverseMap();

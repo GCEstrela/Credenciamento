@@ -7,7 +7,7 @@ using System.Windows;
 using System.Xml;
 using System.Xml.Serialization;
 using iModSCCredenciamento.Funcoes;
-using iModSCCredenciamento.Models;
+//using iModSCCredenciamento.Models;
 using iModSCCredenciamento.Views.Model;
 using Microsoft.Reporting.WinForms;
 

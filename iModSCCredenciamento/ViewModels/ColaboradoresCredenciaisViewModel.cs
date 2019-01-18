@@ -500,6 +500,9 @@ namespace iModSCCredenciamento.ViewModels
                         Entity.Fc.ToString().Trim(), Entity.NumeroCredencial.Trim(),
                         Entity.FormatoCredencialDescricao.Trim(), Entity.Validade.ToString(),
                         layoutCracha.LayoutCrachaGuid, Conversores.BitmapImageToBitmap(_foto));
+
+                    //_sc.CriarCredencialTeste(layoutCracha.LayoutCrachaGuid.ToString(), Entity.Validade);
+                    
                 }
                 File.Delete(_ArquivoRPT);
             }
