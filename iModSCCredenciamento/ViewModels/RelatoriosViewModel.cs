@@ -6,7 +6,7 @@ using System.Threading;
 using System.Windows.Media.Imaging;
 using AutoMapper;
 using iModSCCredenciamento.Helpers;
-using iModSCCredenciamento.Models;
+//using iModSCCredenciamento.Models;
 using iModSCCredenciamento.Views.Model;
 using iModSCCredenciamento.Windows;
 using IMOD.Application.Interfaces;

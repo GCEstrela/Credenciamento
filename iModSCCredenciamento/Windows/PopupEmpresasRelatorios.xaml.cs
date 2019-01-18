@@ -8,7 +8,7 @@ using System.Xml;
 using System.Xml.Serialization;
 using CrystalDecisions.CrystalReports.Engine;
 using iModSCCredenciamento.Funcoes;
-using iModSCCredenciamento.Models;
+//using iModSCCredenciamento.Models;
 using iModSCCredenciamento.Views.Model;
 using Microsoft.Win32;
 

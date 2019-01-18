@@ -26,22 +26,22 @@ namespace iModSCCredenciamento.Windows
         {
             string _xml = RequisitaEmpresasVeiculos();
 
-            XmlSerializer deserializer = new XmlSerializer(typeof(ClasseEmpresasVeiculos));
+            //XmlSerializer deserializer = new XmlSerializer(typeof(ClasseEmpresasVeiculos));
 
-            XmlDocument xmldocument = new XmlDocument();
-            xmldocument.LoadXml(_xml);
+            //XmlDocument xmldocument = new XmlDocument();
+            //xmldocument.LoadXml(_xml);
 
-            TextReader reader = new StringReader(_xml);
-            ClasseEmpresasVeiculos classeVeiculos = new ClasseEmpresasVeiculos();
-            classeVeiculos = (ClasseEmpresasVeiculos)deserializer.Deserialize(reader);
-            var dadosRelatorio = new ObservableCollection<ClasseEmpresasVeiculos.EmpresaVeiculo>();
-            dadosRelatorio = classeVeiculos.EmpresasVeiculos;
+            //TextReader reader = new StringReader(_xml);
+            //ClasseEmpresasVeiculos classeVeiculos = new ClasseEmpresasVeiculos();
+            //classeVeiculos = (ClasseEmpresasVeiculos)deserializer.Deserialize(reader);
+            //var dadosRelatorio = new ObservableCollection<ClasseEmpresasVeiculos.EmpresaVeiculo>();
+            //dadosRelatorio = classeVeiculos.EmpresasVeiculos;
 
-            var dataSource = new ReportDataSource("DataSetEmpresasVeiculos", dadosRelatorio);
-            ReportViewer.LocalReport.DataSources.Add(dataSource);
-            ReportViewer.LocalReport.ReportEmbeddedResource = "iModSCCredenciamento.Relatorios.Report_Veiculos.rdlc";
-            // ReportViewer.LocalReport.ReportEmbeddedResource = "ModuloCredenciamento.Report1.rdlc";
-            ReportViewer.RefreshReport();
+            //var dataSource = new ReportDataSource("DataSetEmpresasVeiculos", dadosRelatorio);
+            //ReportViewer.LocalReport.DataSources.Add(dataSource);
+            //ReportViewer.LocalReport.ReportEmbeddedResource = "iModSCCredenciamento.Relatorios.Report_Veiculos.rdlc";
+            //// ReportViewer.LocalReport.ReportEmbeddedResource = "ModuloCredenciamento.Report1.rdlc";
+            //ReportViewer.RefreshReport();
         }
         private string RequisitaEmpresasVeiculos(int _empresaID =0, string _placa = "", string _marca = "", string _modelo = "", int _ativo = 2)
         {

@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Windows.Media.Imaging;
 using iModSCCredenciamento.Helpers;
-using iModSCCredenciamento.Models;
+//using iModSCCredenciamento.Models;
 using iModSCCredenciamento.Windows;
 using IMOD.Application.Interfaces;
 using IMOD.Application.Service;
@@ -16,10 +16,7 @@ namespace iModSCCredenciamento.ViewModels
 
         #region Variaveis Privadas
 
-        private ObservableCollection<ClasseRelatorios.Relatorio> _Relatorios;
-
-        private ClasseRelatorios.Relatorio _RelatorioSelecionado;
-
+        
         PopupMensagem _PopupSalvando;
 
         private int _selectedIndex;
