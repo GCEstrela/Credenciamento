@@ -46,14 +46,15 @@ namespace iModSCCredenciamento.Views
             if (entity == null) return;
             _viewModel.AtualizarDados(entity);
 
+            if (entity != null)
+            {
+                _viewModel.AtualizarVinculoVeiculoEmpresa(entity);
+            }
+
+            EmpresaVinculo_cb.Items.Refresh();
+
         }
 
-        public void AtualizarVinculo(Model.VeiculoView entity)
-        {
-            if (entity == null) return;
-            _viewModel.AtualizarVinculo(entity);
-            EmpresaVinculo_cb.Items.Refresh();
-        }
 
         private void ListaVeiculosCredenciais_lv_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
