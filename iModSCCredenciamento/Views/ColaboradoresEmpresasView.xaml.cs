@@ -39,6 +39,7 @@ namespace iModSCCredenciamento.Views
         {
             if (_viewModel.Empresa == null) return;
             _viewModel.ListarContratos(_viewModel.Empresa);
+            cmbContrato.Items.Refresh();
         }
 
         /// <summary>
@@ -52,5 +53,10 @@ namespace iModSCCredenciamento.Views
         }
 
         #endregion
+
+        private void cmbEmpresa_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }

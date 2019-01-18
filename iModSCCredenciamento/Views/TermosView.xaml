@@ -4,8 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="clr-namespace:iModSCCredenciamento.Funcoes"
+             xmlns:viewModel="clr-namespace:iModSCCredenciamento.ViewModels"
+             d:DataContext="{d:DesignInstance viewModel:TermosViewModel , IsDesignTimeCreatable=True}"
              mc:Ignorable="d" 
-             MinWidth="1258" >
+             MaxWidth="1300" Width="1270" Height="825">
     <UserControl.Resources>
         <Style x:Key="MenuStyle" TargetType="{x:Type Button}">
             <Setter Property="Background" Value="#FF252526" />
@@ -24,8 +26,6 @@
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Border CornerRadius="0" Background="{TemplateBinding Background}">
                             <Grid>
-
-                                <!--<Path x:Name="PathIcon" Width="15" Height="25" Stretch="Fill" Fill="#4C87B3" HorizontalAlignment="Left" Margin="17,0,0,0" Data="F1 M 30.0833,22.1667L 50.6665,37.6043L 50.6665,38.7918L 30.0833,53.8333L 30.0833,22.1667 Z "/>-->
                                 <ContentPresenter x:Name="MyContentPresenter" Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" />
                             </Grid>
                         </Border>
@@ -34,7 +34,6 @@
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter Property="Background" Value="Gray" />
                                 <Setter Property="Foreground" Value="White" />
-                                <!--<Setter TargetName="PathIcon" Property="Fill" Value="Black" />-->
                             </Trigger>
                             <Trigger Property="IsFocused" Value="True">
                                 <Setter Property="Background" Value="#FF007ACC" />
@@ -102,47 +101,91 @@
                 </Grid.RowDefinitions>
                 <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto"   >
                     <Grid >
-                        <StackPanel Grid.Row="0">
+                        <StackPanel>
                             <GroupBox    x:Name="RelatoriosGerenciais_gb" Header="Relação dos Termos" Margin="0,20,0,0" Height="542"  >
                                 <StackPanel>
 
-                                    <StackPanel  VerticalAlignment="Center" Margin="227,20,0,20" HorizontalAlignment="Left" Width="559" >
-                                        <Button x:Name="BotaoTermoConcessaoCredenciais_bt" Style="{StaticResource MenuStyle}" Margin="0,20,00,0" Height="50" VerticalAlignment="Top"  
+                                    <Grid >
+
+                                        <StackPanel  Grid.Row="0" VerticalAlignment="Center" Margin="50,20,0,20" HorizontalAlignment="Left" Width="559" >
+                                            <Button x:Name="BotaoTermoConcessaoCredenciais_bt" Style="{StaticResource MenuStyle}" Margin="0,20,00,0" Height="50" VerticalAlignment="Top"  
                                                         Click="ButtonTermoConcessaoCredenciaisClick" >
-                                            <StackPanel Orientation="Horizontal" Width="260">
-                                                <Image Source="/iModSCCredenciamento;component/Resources/Relatorio.png" Height="24" Width="24" Margin="0,0,5,0"/>
-                                                <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom" Content ="Termo de Concessão de Credenciais" Foreground="White" />
-                                            </StackPanel>
-                                        </Button>
-                                        <Button x:Name="BotaoTermoIndeferimentoCredenciais_bt"  Style="{StaticResource MenuStyle}" Margin="0,50,0,0" Height="50" VerticalAlignment="Top"  
+                                                <StackPanel Orientation="Horizontal" Width="260">
+                                                    <Image Source="/iModSCCredenciamento;component/Resources/Relatorio.png" Height="24" Width="24" Margin="0,0,5,0"/>
+                                                    <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom" Content ="Termo de Concessão de Credenciais" Foreground="White" />
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="BotaoTermoIndeferimentoCredenciais_bt"  Style="{StaticResource MenuStyle}" Margin="0,50,0,0" Height="50" VerticalAlignment="Top"  
                                                        Click="ButtonTermoIndeferimentoCredenciaisClick"  >
-                                            <StackPanel Orientation="Horizontal"  Width="260">
-                                                <Image Source="/iModSCCredenciamento;component/Resources/Relatorio.png" Height="24" Width="24" Margin="0,0,5,0"/>
-                                                <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom" Content ="Termo de Indeferimento de Credenciais" Foreground="White" />
-                                            </StackPanel>
-                                        </Button>
-                                        <Button x:Name="BotaoTermoCancelamentoCredenciais_bt"  Style="{StaticResource MenuStyle}" Margin="0,50,0,0" Height="50" VerticalAlignment="Top" 
+                                                <StackPanel Orientation="Horizontal"  Width="260">
+                                                    <Image Source="/iModSCCredenciamento;component/Resources/Relatorio.png" Height="24" Width="24" Margin="0,0,5,0"/>
+                                                    <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom" Content ="Termo de Indeferimento de Credenciais" Foreground="White" />
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="BotaoTermoCancelamentoCredenciais_bt"  Style="{StaticResource MenuStyle}" Margin="0,50,0,0" Height="50" VerticalAlignment="Top" 
                                                         Click="ButtonTermoCancelamentoCredenciaisClick"   >
-                                            <StackPanel Orientation="Horizontal"  Width="260">
-                                                <Image Source="/iModSCCredenciamento;component/Resources/Relatorio.png" Height="24" Width="24" Margin="0,0,5,0"/>
-                                                <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom" Content ="Termo de Cancelamento de Credenciais" Foreground="White" />
-                                            </StackPanel>
-                                        </Button>
-                                        <Button x:Name="BotaoTermoDestruicaoCredenciais_bt"  Style="{StaticResource MenuStyle}" Margin="0,50,0,0" Height="50" VerticalAlignment="Top"  
+                                                <StackPanel Orientation="Horizontal"  Width="260">
+                                                    <Image Source="/iModSCCredenciamento;component/Resources/Relatorio.png" Height="24" Width="24" Margin="0,0,5,0"/>
+                                                    <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom" Content ="Termo de Cancelamento de Credenciais" Foreground="White" />
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="BotaoTermoDestruicaoCredenciais_bt"  Style="{StaticResource MenuStyle}" Margin="0,50,0,0" Height="50" VerticalAlignment="Top"  
                                                        Click="ButtonTermoDestruicaoCredenciaisClick"   >
-                                            <StackPanel Orientation="Horizontal"  Width="260">
-                                                <Image Source="/iModSCCredenciamento;component/Resources/Relatorio.png" Height="24" Width="24" Margin="0,0,5,0"/>
-                                                <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom" Content ="Termo de Destruição de Credenciais" Foreground="White" />
-                                            </StackPanel>
-                                        </Button>
-                                        <Button x:Name="BotaoTermoViasAdicionaisCredenciais_bt"  Style="{StaticResource MenuStyle}" Margin="0,50,0,0" Height="50" VerticalAlignment="Top" 
+                                                <StackPanel Orientation="Horizontal"  Width="260">
+                                                    <Image Source="/iModSCCredenciamento;component/Resources/Relatorio.png" Height="24" Width="24" Margin="0,0,5,0"/>
+                                                    <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom" Content ="Termo de Destruição de Credenciais" Foreground="White" />
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="BotaoTermoViasAdicionaisCredenciais_bt"  Style="{StaticResource MenuStyle}" Margin="0,50,0,0" Height="50" VerticalAlignment="Top" 
                                                        Click="ButtonTermoViasAdicionaisCredenciaisClick" >
-                                            <StackPanel Orientation="Horizontal"  Width="260">
-                                                <Image Source="/iModSCCredenciamento;component/Resources/Relatorio.png" Height="24" Width="24" Margin="0,0,5,0"/>
-                                                <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom" Content ="Termo de Vias Adicionais de Credenciais" Foreground="White" />
-                                            </StackPanel>
-                                        </Button>
-                                    </StackPanel>
+                                                <StackPanel Orientation="Horizontal"  Width="260">
+                                                    <Image Source="/iModSCCredenciamento;component/Resources/Relatorio.png" Height="24" Width="24" Margin="0,0,5,0"/>
+                                                    <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom" Content ="Termo de Vias Adicionais de Credenciais" Foreground="White" />
+                                                </StackPanel>
+                                            </Button>
+                                        </StackPanel>
+
+
+                                        <StackPanel Grid.Row="1" VerticalAlignment="Center" Margin="500,20,50,20" HorizontalAlignment="Right" Width="559" >
+                                            <Button x:Name="BotaoTermoConcessaoAutorizacoes_bt" Style="{StaticResource MenuStyle}" Margin="0,20,00,0" Height="50" VerticalAlignment="Top"  
+                                                        Click="ButtonTermoConcessaoAutorizacoesClick" >
+                                                <StackPanel Orientation="Horizontal" Width="260">
+                                                    <Image Source="/iModSCCredenciamento;component/Resources/Relatorio.png" Height="24" Width="24" Margin="0,0,5,0"/>
+                                                    <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom" Content ="Termo de Concessão de Autorizações" Foreground="White" />
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="BotaoTermoIndeferimentoAutorizacoes_bt"  Style="{StaticResource MenuStyle}" Margin="0,50,0,0" Height="50" VerticalAlignment="Top"  
+                                                       Click="ButtonTermoIndeferimentoAutorizacoesClick"  >
+                                                <StackPanel Orientation="Horizontal"  Width="260">
+                                                    <Image Source="/iModSCCredenciamento;component/Resources/Relatorio.png" Height="24" Width="24" Margin="0,0,5,0"/>
+                                                    <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom" Content ="Termo de Indeferimento de Autorizações" Foreground="White" />
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="BotaoTermoCancelamentoAutorizacoes_bt"  Style="{StaticResource MenuStyle}" Margin="0,50,0,0" Height="50" VerticalAlignment="Top" 
+                                                        Click="ButtonTermoCancelamentoAutorizacoesClick"   >
+                                                <StackPanel Orientation="Horizontal"  Width="260">
+                                                    <Image Source="/iModSCCredenciamento;component/Resources/Relatorio.png" Height="24" Width="24" Margin="0,0,5,0"/>
+                                                    <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom" Content ="Termo de Cancelamento de Autorizacões" Foreground="White" />
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="BotaoTermoDestruicaoAutorizacoes_bt"  Style="{StaticResource MenuStyle}" Margin="0,50,0,0" Height="50" VerticalAlignment="Top"  
+                                                       Click="ButtonTermoDestruicaoAutorizacoesClick"   >
+                                                <StackPanel Orientation="Horizontal"  Width="260">
+                                                    <Image Source="/iModSCCredenciamento;component/Resources/Relatorio.png" Height="24" Width="24" Margin="0,0,5,0"/>
+                                                    <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom" Content ="Termo de Destruição de Autorizacões" Foreground="White" />
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="BotaoTermoViasAdicionaisAutorizacoes_bt"  Style="{StaticResource MenuStyle}" Margin="0,50,0,0" Height="50" VerticalAlignment="Top" 
+                                                       Click="ButtonTermoViasAdicionaisAutorizacoesClick" >
+                                                <StackPanel Orientation="Horizontal"  Width="260">
+                                                    <Image Source="/iModSCCredenciamento;component/Resources/Relatorio.png" Height="24" Width="24" Margin="0,0,5,0"/>
+                                                    <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom" Content ="Termo de Vias Adicionais de Autorizacões" Foreground="White" />
+                                                </StackPanel>
+                                            </Button>
+                                        </StackPanel>
+
+                                    </Grid >
+
                                 </StackPanel>
 
                             </GroupBox>

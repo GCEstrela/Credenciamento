@@ -106,7 +106,6 @@ namespace iModSCCredenciamento.ViewModels
 
         #region  Metodos
 
-        //TODO: AtualizarVinculo
         public void AtualizarVinculo(VeiculoView entity)
         {
             if (entity == null)
@@ -115,13 +114,11 @@ namespace iModSCCredenciamento.ViewModels
             }
 
             var lista1 = _VeiculoEmpresaService.Listar(entity.EquipamentoVeiculoId);
-            var lista2 = Mapper.Map<List<VeiculoEmpresa>>(lista1.OrderByDescending(n => n.VeiculoEmpresaId).ToList());
+            var lista2 = Mapper.Map<List<VeiculoEmpresa>>(lista1.OrderByDescending(n => n.VeiculoEmpresaId));
 
             VeiculosEmpresas.Clear();
             lista2.ForEach(n =>
             {
-                n.EmpresaNome.Trim();
-                n.Descricao.Trim();
                 VeiculosEmpresas.Add(n);
             });
 

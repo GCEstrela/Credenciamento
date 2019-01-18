@@ -4,7 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
         xmlns:modulo="clr-namespace:iModSCCredenciamento.Modulo;assembly=iModSCCredenciamento"
-        mc:Ignorable="d" Title="Credenciamento" Background="Transparent" Width="1200">
+        mc:Ignorable="d" Title="Credenciamento" Background="Transparent" Width="1200"
+        Icon="Resources/Cracha.png">
     <Grid >
         <modulo:MenuPrincipalView/>
     </Grid>

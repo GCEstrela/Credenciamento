@@ -30,6 +30,7 @@ namespace iModSCCredenciamento.Views
         {
             if (_viewModel.Empresa == null) return;
             _viewModel.ListarContratos(_viewModel.Empresa);
+            cmbContrato.Items.Refresh();
         }
 
         /// <summary>

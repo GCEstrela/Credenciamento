@@ -23,6 +23,7 @@
 
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="1" >
                         <Label Content="Razão Social da Empresa:" Height="24" Foreground="#FFD0D0D0" />
+                        
                         <ComboBox  x:Name="cmbEmpresa" Width="300" Height="25" 
                                    VerticalContentAlignment="Center" 
                                    HorizontalContentAlignment="Left"
@@ -31,7 +32,8 @@
                                    SelectedItem="{Binding  Empresa}"
                                    DisplayMemberPath="Nome"  
                                    SelectedValue="{Binding Entity.EmpresaId , UpdateSourceTrigger=PropertyChanged}" 
-                                   SelectedValuePath="EmpresaId"/>
+                                   SelectedValuePath="EmpresaId" SelectionChanged="cmbEmpresa_SelectionChanged"/>
+
                         <Label Content="Matrícula:" Height="28" Width="140" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
 
                         <TextBox  x:Name="Matricula_tb" MaxLength="15" CharacterCasing="Upper"

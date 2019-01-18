@@ -4,8 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:iModSCCredenciamento.Views"
-             mc:Ignorable="d" 
-              MinWidth="1258" >
+             xmlns:viewModel="clr-namespace:iModSCCredenciamento.ViewModels"
+             d:DataContext="{d:DesignInstance viewModel:ConfiguracoesViewModel , IsDesignTimeCreatable=True}"
+             mc:Ignorable="d"
+             MaxWidth="1300" Width="1270" >
     <Grid Margin="5,5">
         <Grid.RowDefinitions>
             <RowDefinition Height="1" />

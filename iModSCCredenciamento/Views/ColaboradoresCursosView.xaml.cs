@@ -68,7 +68,7 @@ namespace iModSCCredenciamento.Views
             try
             {
                 var arrayByes = Convert.FromBase64String(_viewModel.Entity.Arquivo);
-                WpfHelp.AbrirArquivoPdf(_viewModel.Entity.Arquivo, arrayByes);
+                WpfHelp.AbrirArquivoPdf(_viewModel.Entity.NomeArquivo, arrayByes);
             }
             catch (Exception ex)
             {

@@ -4,8 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="clr-namespace:iModSCCredenciamento.Funcoes"
-             mc:Ignorable="d" 
-             MinWidth="1258" >
+             xmlns:viewModel="clr-namespace:iModSCCredenciamento.ViewModels"
+             d:DataContext="{d:DesignInstance viewModel:RelatoriosViewModel , IsDesignTimeCreatable=True}"
+             mc:Ignorable="d"
+             MaxWidth="1300" Width="1270" Height="825">
     <UserControl.Resources>
         <Style x:Key="MenuStyle" TargetType="{x:Type Button}">
             <Setter Property="Background" Value="#FF252526" />

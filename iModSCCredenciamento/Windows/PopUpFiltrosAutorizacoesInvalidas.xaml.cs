@@ -29,37 +29,42 @@ namespace iModSCCredenciamento.Windows
 
         private void button_ClickFiltrar(object sender, RoutedEventArgs e)
         {
-            int check;
+            int status;
             string DataIni = dp_dataInicial.Text;
             string DataFim = dp_dataFinal.Text;
 
-            //NAO DEVOLVIDAS
-            if (naodevolvidas_rb.IsChecked.Value)
-            {
-                check = 0;
-            }
-            //INDEFERIDAS
-            else if (indeferidas_rb.IsChecked.Value)
-            {
-                check = 3;
-            }
             //EXTRAVIADAS
-            else if (extraviadas_rb.IsChecked.Value)
+            if (extraviadas_rb.IsChecked.Value)
             {
-                check = 4;
+                status = 1;
+            }
+            //ROUBADAS
+            else if (roubadas_rb.IsChecked.Value)
+            {
+                status = 2;
             }
             //DESTRUIDAS
             else if (destruidas_rb.IsChecked.Value)
             {
-                check = 6;
+                status = 3;
+            }
+            //NÂO DEVOLVIDA
+            else if (naodevolvidas_rb.IsChecked.Value)
+            {
+                status = 4;
+            }
+            //INDEFERIDAS
+            else if (indeferidas_rb.IsChecked.Value)
+            {
+                status = 5;
             }
             //TUDO
             else
             {
-                check = 10;
+                status = 0;
             }
 
-            ((RelatoriosViewModel)DataContext).OnRelatorioAutorizacoesInvalidasFiltroCommand(check, DataIni, DataFim);
+            ((RelatoriosViewModel)DataContext).OnRelatorioAutorizacoesInvalidasFiltroCommand(status, DataIni, DataFim);
 
             Close();
         }

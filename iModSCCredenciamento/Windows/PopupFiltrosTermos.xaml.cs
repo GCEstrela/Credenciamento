@@ -32,12 +32,9 @@ namespace iModSCCredenciamento.Windows
 
         private void button_ClickFiltrar(object sender, RoutedEventArgs e)
         {
-
-
             int periodo = 0;
             string DataIni = "01/01/1900";
             string DataFim = DateTime.Now.ToShortDateString();
-
 
             if (hoje_rb.IsChecked.Value)
             {
@@ -62,10 +59,7 @@ namespace iModSCCredenciamento.Windows
                 DataFim = dp_dataFinal.Text;
             }
 
-
-                ((TermosViewModel)DataContext).OnFiltrosTermosCommand(_termo, _status, periodo, DataIni, DataFim);
-
-
+            ((TermosViewModel)DataContext).OnFiltrosTermosCommand(_termo, _status, periodo, DataIni, DataFim);
             Close();
         }
 
