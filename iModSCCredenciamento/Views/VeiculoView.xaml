@@ -511,7 +511,7 @@
                         </StackPanel>
                     </StackPanel>
                 </TabItem.Header>
-                <local:VeiculosEmpresasView x:Name="VeiculosEmpresasUs" Margin="6,2,14,18"    />
+                <local:VeiculosEmpresasView x:Name="VeiculosEmpresasUs" Margin="5,5,14,18"    />
 
             </TabItem>
 
@@ -533,8 +533,8 @@
                         </StackPanel>
                     </StackPanel>
                 </TabItem.Header>
-                
-                <local:VeiculosSegurosView x:Name="EmpresaSeguroUs" Margin="5" />
+
+                <local:VeiculosSegurosView x:Name="EmpresaSeguroUs" Margin="5,5,240,178"/>
                 
             </TabItem>
 

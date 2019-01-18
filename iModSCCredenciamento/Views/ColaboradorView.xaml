@@ -683,7 +683,7 @@
                         </StackPanel>
                     </StackPanel>
                 </TabItem.Header>
-                <local:ColaboradoresEmpresasView x:Name="ColaboradorEmpresaUs"  Margin="6,2,14,18"    />
+                <local:ColaboradoresEmpresasView x:Name="ColaboradorEmpresaUs"  Margin="5,5,14,18"    />
 
             </TabItem>
 
@@ -701,7 +701,7 @@
                         </StackPanel>
                     </StackPanel>
                 </TabItem.Header>
-                <local:ColaboradoresCursosView x:Name="ColaboradorCurso"  Margin="0,0,20,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="1233"    />
+                <local:ColaboradoresCursosView x:Name="ColaboradorCurso" Margin="5,5,15,18" VerticalAlignment="Top" HorizontalAlignment="Right" Width="1233"    />
 
             </TabItem>
 

@@ -21,18 +21,18 @@
             <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" 
                       Background="Chocolate"                      
                       IsEnabled="{Binding Comportamento.isEnableCancelar}"
-                      x:Name="InformacoesCursos_gb" Header="Informações de Cursos e Treinamentos"   Margin="0,0,10,0"
+                      x:Name="InformacoesCursos_gb" Header="Cursos e Treinamentos"   Margin="0,0,0,0"
                       VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="795">
-                <StackPanel x:Name="InformacoesAnexo_sp" Margin="0,10,10,10" Width="773">
+                <StackPanel x:Name="InformacoesAnexo_sp" Margin="0,0,0,0" Width="773">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="1">
-                        <Label Content="Código:" Height="26" Foreground="#FFD0D0D0" Width="150"  HorizontalContentAlignment="Right"  />
+                        <Label Content="Código:" Height="26" Foreground="#FFD0D0D0" Width="110"  />
                         <TextBox  x:Name="cmbEmpresa" Width="43" Height="24" 
                                   Text="{Binding Entity.ColaboradorCursoId, UpdateSourceTrigger=PropertyChanged}" 
                                    VerticalContentAlignment="Center" 
                                    HorizontalContentAlignment="Left"
                                    VerticalAlignment="Center"/>
 
-                        <Label Content="Curso:" Height="24" Width="55" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
+                        <Label Content="Curso:" Height="24" Width="55" Foreground="#FFD0D0D0" />
                         <ComboBox  x:Name="cmbCurso" 
                                    Width="294" Height="24" 
                                    VerticalContentAlignment="Center" 
@@ -49,8 +49,8 @@
 
                     </StackPanel>
 
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="1">
-                        <Label Content="Nome do Arquivo:" Height="24" Width="150" Foreground="#FFD0D0D0"  HorizontalContentAlignment="Right" />
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
+                        <Label Content="Nome do Arquivo:" Height="24" Width="110" Foreground="#FFD0D0D0"  />
                         <TextBox  x:Name="NomeArquivo_tb" 
                                   Text="{Binding Entity.NomeArquivo, UpdateSourceTrigger=PropertyChanged}" 
                                    Width="324" Height="24" 

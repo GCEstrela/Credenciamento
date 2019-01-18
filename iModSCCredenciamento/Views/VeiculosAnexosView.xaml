@@ -10,9 +10,13 @@
              mc:Ignorable="d" 
              Height="320">
     <Grid VerticalAlignment="Top">
-        <StackPanel Orientation="Vertical">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="34*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Orientation="Vertical" Grid.ColumnSpan="2">
             <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" 
-                      Background="Chocolate"
+                      Background="Maroon"
                       IsEnabled="{Binding Comportamento.isEnableCancelar}"
                       x:Name="InformacoesAnexo_gb" Header="Anexos" Margin="0,0,10,0"
                       VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="795">
@@ -55,7 +59,8 @@
                 </StackPanel>
             </GroupBox>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="795" Height="203">
-                <ListView x:Name="ListaAnexos_lv" IsEnabled="{Binding IsEnableLstView}"
+                <ListView x:Name="ListaAnexos_lv" 
+                          IsEnabled="{Binding IsEnableLstView}"
                           HorizontalAlignment="Stretch" 
                           ItemsSource="{Binding EntityObserver, Mode=TwoWay}"
                           SelectedItem="{Binding Entity, Mode=TwoWay}"

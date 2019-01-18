@@ -79,6 +79,7 @@
     <Compile Include="Interfaces\ITiposAcessoService.cs" />
     <Compile Include="Interfaces\ITipoServicoService.cs" />
     <Compile Include="Interfaces\IVeiculoAnexoService.cs" />
+    <Compile Include="Interfaces\IVeiculoCredencialimpressaoService.cs" />
     <Compile Include="Interfaces\IVeiculoCredencialService.cs" />
     <Compile Include="Interfaces\IVeiculoempresaService.cs" />
     <Compile Include="Interfaces\IVeiculoSeguroService.cs" />

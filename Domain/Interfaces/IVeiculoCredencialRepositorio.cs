@@ -6,9 +6,9 @@
 
 #region
 
-using System.Collections.Generic;
 using IMOD.Domain.Entities;
 using IMOD.Domain.EntitiesCustom;
+using System.Collections.Generic;
 
 #endregion
 
@@ -24,6 +24,13 @@ namespace IMOD.Domain.Interfaces
         /// <param name="o">Arrays de Parametros</param>
         /// <returns></returns>
         ICollection<VeiculosCredenciaisView> ListarView(params object[] objects);
+
+        /// <summary>
+        ///     Listar dados de Autorização de Veículo
+        /// </summary>
+        /// <param name="o">Arrays de Parametros</param>
+        /// <returns></returns>
+        ICollection<AutorizacaoView> ListarAutorizacaoView(params object[] objects);
 
         #endregion
     }

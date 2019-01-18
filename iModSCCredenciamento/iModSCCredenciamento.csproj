@@ -229,6 +229,7 @@
     <Compile Include="ViewModels\Comportamento\IComportamento.cs" />
     <Compile Include="ViewModels\ContratoViewModel.cs" />
     <Compile Include="Views\Model\AreaAcessoView.cs" />
+    <Compile Include="Views\Model\AutorizacaoView.cs" />
     <Compile Include="Views\Model\ColaboradorAnexoView.cs" />
     <Compile Include="Views\Model\ColaboradorCursoView.cs" />
     <Compile Include="Views\Model\ColaboradorEmpresaView.cs" />
@@ -381,6 +382,9 @@
     </Compile>
     <Compile Include="Views\VeiculoView.xaml.cs">
       <DependentUpon>VeiculoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\PopupAutorizacao.xaml.cs">
+      <DependentUpon>PopupAutorizacao.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\PopupCredencial.xaml.cs">
       <DependentUpon>PopupCredencial.xaml</DependentUpon>
@@ -583,6 +587,10 @@
     <Page Include="Views\VeiculoView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\PopupAutorizacao.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Windows\PopupCredencial.xaml">
       <Generator>MSBuild:Compile</Generator>

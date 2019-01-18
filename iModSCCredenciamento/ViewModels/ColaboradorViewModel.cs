@@ -161,7 +161,7 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                var list2 = Mapper.Map<List<ColaboradorView>>(list.OrderBy(n => n.Nome));
+                var list2 = Mapper.Map<List<ColaboradorView>>(list.OrderByDescending(n => n.ColaboradorId));
                 EntityObserver = new ObservableCollection<ColaboradorView>();
                 list2.ForEach(n => { EntityObserver.Add(n); });
             }

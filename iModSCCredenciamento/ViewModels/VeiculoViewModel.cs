@@ -370,7 +370,7 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                var list2 = Mapper.Map<List<VeiculoView>>(list);
+                var list2 = Mapper.Map<List<VeiculoView>>(list.OrderByDescending(n => n.EquipamentoVeiculoId));
                 EntityObserver = new ObservableCollection<VeiculoView>();
                 list2.ForEach(n => { EntityObserver.Add(n); });
             }

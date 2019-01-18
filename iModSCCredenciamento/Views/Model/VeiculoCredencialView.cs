@@ -60,6 +60,7 @@ namespace iModSCCredenciamento.Views.Model
         public int CredencialMotivoId { get; set; }
         public bool Impressa { get; set; }
         public DateTime? Baixa { get; set; }
+        public bool IsencaoCobranca { get; set; }
 
         #endregion
     }

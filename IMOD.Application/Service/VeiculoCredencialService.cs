@@ -100,6 +100,11 @@ namespace IMOD.Application.Service
             return _repositorio.ListarView(objects);
         }
 
+        public ICollection<AutorizacaoView> ListarAutorizacaoView(params object[] objects)
+        {
+            return _repositorio.ListarAutorizacaoView(objects);
+        }
+
         #endregion
 
 

@@ -6,10 +6,6 @@
 
 #region
 
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
 using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
 using IMOD.Domain.EntitiesCustom;
@@ -17,6 +13,10 @@ using IMOD.Domain.Interfaces;
 using IMOD.Infra.Ado;
 using IMOD.Infra.Ado.Interfaces;
 using IMOD.Infra.Ado.Interfaces.ParamSql;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
 
 #endregion
 
@@ -182,7 +182,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Ativa", DbType.Boolean, entity.Ativa, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Colete", entity.Colete, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("CredencialmotivoID", entity.CredencialMotivoId, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Baixa",  entity.Baixa, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Baixa", entity.Baixa, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Impressa", entity.Impressa, false)));
 
                         cmd.ExecuteNonQuery();
@@ -236,6 +236,35 @@ namespace IMOD.Infra.Repositorios
 
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<VeiculosCredenciaisView>();
+
+                        return d1;
+                    }
+                    catch (Exception ex)
+                    {
+                        Utils.TraceException(ex);
+                        throw;
+                    }
+                }
+            }
+        }
+
+        public ICollection<AutorizacaoView> ListarAutorizacaoView(params object[] objects)
+        {
+            using (var conn = _dataBase.CreateOpenConnection())
+            {
+                using (var cmd = _dataBase.SelectText("AutorizacaoView", conn))
+
+                {
+                    try
+                    {
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("VeiculoCredencialID", DbType.Int32, objects, 0).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Nome", DbType.String, objects, 1).Like()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("PlacaIdentificador", DbType.String, objects, 2).Like()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Marca", DbType.String, objects, 3).Like()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Cor", DbType.String, objects, 4).Like()));
+
+                        var reader = cmd.ExecuteReaderSelect();
+                        var d1 = reader.MapToList<AutorizacaoView>();
 
                         return d1;
                     }

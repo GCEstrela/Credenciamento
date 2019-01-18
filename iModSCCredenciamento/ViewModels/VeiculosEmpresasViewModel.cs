@@ -6,23 +6,23 @@
 
 #region
 
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Windows;
-using System.Windows.Forms;
-using System.Windows.Input;
 using AutoMapper;
-using iModSCCredenciamento.Helpers;
-using iModSCCredenciamento.ViewModels.Commands;
-using iModSCCredenciamento.ViewModels.Comportamento;
-using iModSCCredenciamento.Views.Model;
 using IMOD.Application.Interfaces;
 using IMOD.Application.Service;
 using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
-using System.Linq;
 using iModSCCredenciamento.Funcoes;
+using iModSCCredenciamento.Helpers;
+using iModSCCredenciamento.ViewModels.Commands;
+using iModSCCredenciamento.ViewModels.Comportamento;
+using iModSCCredenciamento.Views.Model;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Windows;
+using System.Windows.Forms;
+using System.Windows.Input;
 
 #endregion
 
@@ -80,7 +80,10 @@ namespace iModSCCredenciamento.ViewModels
         public void ListarContratos(Empresa empresa)
         {
 
-            if (empresa == null) return;
+            if (empresa == null)
+            {
+                return;
+            }
             //Contratos = new List<EmpresaContrato>();
             var lstContratos = _empresaContratoService.Listar(empresa.EmpresaId).ToList();
             Contratos.Clear();
@@ -113,7 +116,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                if (Entity == null) return;
+                if (Entity == null)
+                {
+                    return;
+                }
+
                 var n1 = Mapper.Map<VeiculoEmpresa>(Entity);
                 n1.VeiculoId = _veiculoView.EquipamentoVeiculoId;
                 _service.Criar(n1);
@@ -136,9 +143,14 @@ namespace iModSCCredenciamento.ViewModels
             var empresa = Empresas.FirstOrDefault(n => n.EmpresaId == entity.EmpresaId);
             var contrato = Contratos.FirstOrDefault(n => n.EmpresaContratoId == entity.EmpresaContratoId);
             if (empresa != null)
+            {
                 entity.EmpresaNome = empresa.Nome;//Setar o nome da empresa para ser exibida na list view
+            }
+
             if (contrato != null)
+            {
                 entity.Descricao = contrato.Descricao;//Setar o nome do contrato para ser exibida na list view
+            }
         }
 
         /// <summary>
@@ -161,7 +173,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                if (Entity == null) return;
+                if (Entity == null)
+                {
+                    return;
+                }
+
                 var n1 = Mapper.Map<VeiculoEmpresa>(Entity);
                 _service.Alterar(n1);
                 IsEnableLstView = true;
@@ -200,9 +216,16 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                if (Entity == null) return;
+                if (Entity == null)
+                {
+                    return;
+                }
+
                 var result = WpfHelp.MboxDialogRemove();
-                if (result != DialogResult.Yes) return;
+                if (result != DialogResult.Yes)
+                {
+                    return;
+                }
 
                 var n1 = Mapper.Map<VeiculoEmpresa>(Entity);
                 _service.Remover(n1);
@@ -227,12 +250,16 @@ namespace iModSCCredenciamento.ViewModels
 
         public void AtualizarDados(VeiculoView entity)
         {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            if (entity == null)
+            {
+                throw new ArgumentNullException(nameof(entity));
+            }
+
             _veiculoView = entity;
             //Obter dados
             var list1 = _service.ListarContratoView(entity.EquipamentoVeiculoId);
             //var list1 = _service.Listar(entity.EquipamentoVeiculoId);
-            var list2 = Mapper.Map<List<VeiculoEmpresaView>>(list1);
+            var list2 = Mapper.Map<List<VeiculoEmpresaView>>(list1.OrderByDescending(n => n.VeiculoEmpresaId));
             EntityObserver = new ObservableCollection<VeiculoEmpresaView>();
             list2.ForEach(n => { EntityObserver.Add(n); });
         }

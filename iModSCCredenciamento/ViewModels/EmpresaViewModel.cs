@@ -501,7 +501,7 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                var list2 = Mapper.Map<List<EmpresaView>>(list.OrderBy(n => n.Nome));
+                var list2 = Mapper.Map<List<EmpresaView>>(list.OrderByDescending(n => n.EmpresaId));
                 EntityObserver = new ObservableCollection<EmpresaView>();
                 list2.ForEach(n => { EntityObserver.Add(n); });
             }

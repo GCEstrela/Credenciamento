@@ -1,20 +1,7 @@
-﻿using iModSCCredenciamento.Funcoes;
+﻿using IMOD.CrossCutting;
 using iModSCCredenciamento.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Forms;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using UserControl = System.Windows.Controls.UserControl;
 
 namespace iModSCCredenciamento.Views
@@ -32,7 +19,11 @@ namespace iModSCCredenciamento.Views
         /// <param name="entity"></param>
         public void AtualizarDados(Model.VeiculoView entity)
         {
-            if (entity == null) return;
+            if (entity == null)
+            {
+                return;
+            }
+
             _viewModel.AtualizarDados(entity);
         }
 
@@ -53,7 +44,10 @@ namespace iModSCCredenciamento.Views
             if (e.AddedItems.Count > 0)
             {
 
-                if (_viewModel.Entity == null) return;
+                if (_viewModel.Entity == null)
+                {
+                    return;
+                }
 
                 if (_viewModel.Entity.CredencialStatusId == 1)
                 {
@@ -65,6 +59,64 @@ namespace iModSCCredenciamento.Views
                 }
 
             }
+        }
+
+        private void StatusCredencial_cb_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.AddedItems.Count > 0)
+            {
+                //if (((ClasseCredenciaisStatus.CredencialStatus)((object[])e.AddedItems)[0]).CredencialStatusID == 1)
+                //{
+                if (_viewModel.Entity == null)
+                {
+                    return;
+                }
+
+                if (_viewModel.Entity.CredencialStatusId == 1)
+                {
+                    Ativa_tw.IsChecked = true;
+                }
+                else
+                {
+                    Ativa_tw.IsChecked = false;
+                }
+                //    ((ColaboradoresCredenciaisViewModel)DataContext).CarregaColecaoCredenciaisMotivos(1);
+                //}
+                //else
+                //{
+                //    Ativa_tw.IsChecked = false;
+                //    ((ColaboradoresCredenciaisViewModel)DataContext).CarregaColecaoCredenciaisMotivos(2);
+                //}
+            }
+        }
+
+        private void ImprimirCredencial_bt_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            try
+            {
+                _viewModel.OnImprimirAutorizacao();
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+            }
+
+        }
+
+        private void EmpresaVinculo_cb_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (_viewModel.VeiculoEmpresa == null)
+            {
+                return;
+            }
+
+            _viewModel.CarregaColecaoLayoutsCrachas((int)_viewModel.VeiculoEmpresa.EmpresaId);
+
+        }
+
+        private void UserControl_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        {
+            EmpresaVinculo_cb.SelectionChanged += EmpresaVinculo_cb_SelectionChanged;
         }
     }
 }

@@ -7,8 +7,7 @@
              xmlns:i="clr-namespace:iModSCCredenciamento.Funcoes"
              xmlns:vm="clr-namespace:iModSCCredenciamento.ViewModels"
              xmlns:viewModels="clr-namespace:iModSCCredenciamento.ViewModels"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="1000"  >
+             mc:Ignorable="d"  Height="350">
     <UserControl.Resources>
         <i:FormateTel x:Key="FormateTel" />
         <i:StringToImageConverter x:Key="StringToImageConverter" />
@@ -18,37 +17,38 @@
         <StackPanel Orientation="Vertical">
 
             <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}"
-                      Background="Crimson"
-                      x:Name="GbxInformacoesSeguro" Header="Informações do Seguro" Margin="0,0,10,0">
+                      Background="Chocolate"
+                      IsEnabled="{Binding Comportamento.isEnableCancelar}"
+                      x:Name="GbxInformacoesSeguro" Header="Seguro" Margin="0,0,40,0">
                 <StackPanel Orientation="Horizontal">
                     <StackPanel Margin="1" Width="958">
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                     Margin="1">
-                            <Label Content="Seguradora:" Height="28" Width="150" Margin="1" Foreground="#FFD0D0D0" />
+                            <Label Content="Seguradora:" Height="28" Width="133" Margin="1" Foreground="#FFD0D0D0" />
                             <TextBox x:Name="txtSeguradora" MaxLength="50" CharacterCasing="Upper"
                                      Text="{Binding Entity.NomeSeguradora, UpdateSourceTrigger=PropertyChanged}" IsEnabled="True"
-                                     Height="24" Width="456" />
-                            <Label Content="Número da Apólice::" Height="28" Width="129" HorizontalContentAlignment="Right"
+                                     Height="24" Width="453" />
+                            <Label Content="Número da Apólice:" Height="28" Width="184" HorizontalContentAlignment="Right"
                                    Foreground="#FFD0D0D0" />
                             <TextBox x:Name="txtNumeroApolice" MaxLength="15" CharacterCasing="Upper"
                                      Text="{Binding Entity.NumeroApolice, UpdateSourceTrigger=PropertyChanged}"
-                                     IsEnabled="True" Height="24" Width="120" 
+                                     IsEnabled="True" Height="24" Width="110" 
                                      VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                     Margin="1">
-                            <Label Content="Valor da Cobertura (R$):" Height="28" Width="150" Margin="1" Foreground="#FFD0D0D0" />
+                            <Label Content="Valor da Cobertura (R$):" Height="28" Width="133" Margin="1" Foreground="#FFD0D0D0" />
                             <TextBox x:Name="txtValorCobertura" MaxLength="10" CharacterCasing="Lower"
                                      Text="{Binding Entity.ValorCobertura, UpdateSourceTrigger=PropertyChanged}"
-                                     IsEnabled="True" Height="24" Width="301" LostFocus="FormatCurrency" PreviewTextInput="NumberOnly" />
-                            <Label Content="Data de Emissão:" Height="28" Width="125" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                                     IsEnabled="True" Height="24" Width="300" LostFocus="FormatCurrency" PreviewTextInput="NumberOnly" />
+                            <Label Content="Data de Emissão:" Height="28" Width="110" Margin="1" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
                             <DatePicker x:Name="dtPEmissao" VerticalContentAlignment="Center" SelectedDate="{Binding Entity.Emissao, UpdateSourceTrigger=PropertyChanged}" Width="110" />
-                            <Label Content="Data de Validade:" Height="28" Width="119" Margin="10,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                            <Label Content="Data de Validade:" Height="28" Width="105" Margin="10,0,0,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
                             <DatePicker x:Name="dtPValidade" VerticalContentAlignment="Center" SelectedDate="{Binding Entity.Validade, UpdateSourceTrigger=PropertyChanged}" Width="110" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0" >
-                            <Label Content="Apólice Digitalizada:" Height="28" Width="150" Margin="0,0,5,0" HorizontalContentAlignment="Left" Foreground="#FFD0D0D0" />
-                            <TextBox  x:Name="txtApoliceArquivo" CharacterCasing="Upper" Text="{Binding Entity.NomeArquivo, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="399"/>
+                            <Label Content="Apólice Digitalizada:" Height="28" Width="131" Margin="0,0,5,0" HorizontalContentAlignment="Left" Foreground="#FFD0D0D0" />
+                            <TextBox  x:Name="txtApoliceArquivo" CharacterCasing="Upper" Text="{Binding Entity.NomeArquivo, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="454"/>
                             <Button x:Name="btnBuscarArquivo" Height="24" Margin="10,0,0,0" VerticalAlignment="Center" Width="24" Click="OnUpLoad_Click">
                                 <StackPanel>
                                     <Image Source="/iModSCCredenciamento;component/Resources/Pasta.ico"/>
@@ -65,6 +65,7 @@
             </GroupBox>
 
             <StackPanel Orientation="Horizontal" Margin="0,10,10,0">
+                <Label Content="Pesquisar:" Height="28" Width="65" Foreground="#FFD0D0D0" Margin="1,0,0,0"/>
                 <ComboBox  Width="150" ItemsSource="{Binding ListaPesquisa }"
              DisplayMemberPath="Value"
              SelectedValue="Key" 
@@ -75,11 +76,11 @@
                     </TextBox.InputBindings>
                 </TextBox>
             </StackPanel>
-            <StackPanel Orientation="Horizontal" Height="258" Margin="0,10,10,0">
+            <StackPanel Orientation="Horizontal" Height="179" Margin="0,10,40,0">
                 <ListView x:Name="ListaSeguros_lv"
                           IsEnabled="{Binding IsEnableLstView}"
                           ItemsSource="{Binding EntityObserver, Mode=TwoWay}"
-                          SelectedItem="{Binding Entity, Mode=TwoWay}" Width="835" Margin="0,0,0,80">
+                          SelectedItem="{Binding Entity, Mode=TwoWay}" Width="805" Height="178" VerticalAlignment="Top">
 
                     <ListView.View>
                         <GridView FrameworkElement.FlowDirection="RightToLeft">

@@ -1,25 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Data;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Threading;
-using System.Xml;
-using AutoMapper;
-using iModSCCredenciamento.Funcoes;
-using iModSCCredenciamento.Helpers;
-using iModSCCredenciamento.Models;
-using iModSCCredenciamento.Windows;
+﻿using AutoMapper;
 using IMOD.Application.Interfaces;
 using IMOD.Application.Service;
 using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
-using iModSCCredenciamento.Views.Model;
-using System.Windows;
-using System.Windows.Input;
+using iModSCCredenciamento.Helpers;
 using iModSCCredenciamento.ViewModels.Commands;
 using iModSCCredenciamento.ViewModels.Comportamento;
+using iModSCCredenciamento.Views.Model;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Data;
+using System.Linq;
+using System.Windows;
+using System.Windows.Input;
 
 namespace iModSCCredenciamento.ViewModels
 {
@@ -87,7 +81,10 @@ namespace iModSCCredenciamento.ViewModels
         {
 
 
-            if (empresa == null) return;
+            if (empresa == null)
+            {
+                return;
+            }
 
             // var lstContratos = _empresaContratoService.Listar(empresa.EmpresaId);
             //Contratos.AddRange(lstContratos);
@@ -112,7 +109,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                if (Entity == null) return;
+                if (Entity == null)
+                {
+                    return;
+                }
+
                 var n1 = Mapper.Map<ColaboradorCurso>(Entity);
                 n1.ColaboradorId = _colaboradorView.ColaboradorId;
                 _service.Criar(n1);
@@ -148,7 +149,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                if (Entity == null) return;
+                if (Entity == null)
+                {
+                    return;
+                }
+
                 var n1 = Mapper.Map<ColaboradorCurso>(Entity);
                 _service.Alterar(n1);
                 IsEnableLstView = true;
@@ -188,7 +193,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                if (Entity == null) return;
+                if (Entity == null)
+                {
+                    return;
+                }
+
                 var result = WpfHelp.MboxDialogRemove();
                 //if (result != DialogResult.Yes) return;
 
@@ -215,11 +224,15 @@ namespace iModSCCredenciamento.ViewModels
 
         public void AtualizarDados(ColaboradorView entity)
         {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            if (entity == null)
+            {
+                throw new ArgumentNullException(nameof(entity));
+            }
+
             _colaboradorView = entity;
             //Obter dados
             var list1 = _service.Listar(entity.ColaboradorId);
-            var list2 = Mapper.Map<List<ColaboradorCursoView>>(list1);
+            var list2 = Mapper.Map<List<ColaboradorCursoView>>(list1.OrderByDescending(n => n.ColaboradorCursoId));
             EntityObserver = new ObservableCollection<ColaboradorCursoView>();
             list2.ForEach(n =>
             {

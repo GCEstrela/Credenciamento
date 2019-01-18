@@ -6,6 +6,15 @@
 
 #region
 
+using AutoMapper;
+using IMOD.Application.Interfaces;
+using IMOD.Application.Service;
+using IMOD.CrossCutting;
+using IMOD.Domain.Entities;
+using iModSCCredenciamento.Helpers;
+using iModSCCredenciamento.ViewModels.Commands;
+using iModSCCredenciamento.ViewModels.Comportamento;
+using iModSCCredenciamento.Views.Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,15 +22,6 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
-using AutoMapper;
-using iModSCCredenciamento.Helpers;
-using iModSCCredenciamento.ViewModels.Commands;
-using iModSCCredenciamento.ViewModels.Comportamento;
-using iModSCCredenciamento.Views.Model;
-using IMOD.Application.Interfaces;
-using IMOD.Application.Service;
-using IMOD.CrossCutting;
-using IMOD.Domain.Entities;
 
 #endregion
 
@@ -124,10 +124,25 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(uf)) return;
-                if (Municipios == null) Municipios = new List<Municipio>();
-                if (_municipios == null) _municipios = new List<Municipio>();
-                if (Estado == null) return;
+                if (string.IsNullOrWhiteSpace(uf))
+                {
+                    return;
+                }
+
+                if (Municipios == null)
+                {
+                    Municipios = new List<Municipio>();
+                }
+
+                if (_municipios == null)
+                {
+                    _municipios = new List<Municipio>();
+                }
+
+                if (Estado == null)
+                {
+                    return;
+                }
 
                 //Verificar se há municipios já carregados...
                 var l1 = _municipios.Where(n => n.Uf == uf);
@@ -150,11 +165,15 @@ namespace iModSCCredenciamento.ViewModels
 
         public void AtualizarDados(EmpresaView entity)
         {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            if (entity == null)
+            {
+                throw new ArgumentNullException(nameof(entity));
+            }
+
             _empresaView = entity;
             //Obter dados
             var list1 = _service.Listar(entity.EmpresaId, null, null, null, null, null, null);
-            var list2 = Mapper.Map<List<EmpresaContratoView>>(list1);
+            var list2 = Mapper.Map<List<EmpresaContratoView>>(list1.OrderByDescending(n => n.EmpresaContratoId));
             EntityObserver = new ObservableCollection<EmpresaContratoView>();
             list2.ForEach(n => { EntityObserver.Add(n); });
         }
@@ -187,7 +206,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                if (Entity == null) return;
+                if (Entity == null)
+                {
+                    return;
+                }
+
                 var n1 = Mapper.Map<EmpresaContrato>(Entity);
                 n1.EmpresaId = _empresaView.EmpresaId;
                 _service.Criar(n1);
@@ -223,7 +246,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                if (Entity == null) return;
+                if (Entity == null)
+                {
+                    return;
+                }
+
                 var n1 = Mapper.Map<EmpresaContrato>(Entity);
                 _service.Alterar(n1);
                 IsEnableLstView = true;
@@ -263,9 +290,16 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                if (Entity == null) return;
+                if (Entity == null)
+                {
+                    return;
+                }
+
                 var result = WpfHelp.MboxDialogRemove();
-                if (result != DialogResult.Yes) return;
+                if (result != DialogResult.Yes)
+                {
+                    return;
+                }
 
                 var n1 = Mapper.Map<EmpresaContrato>(Entity);
                 _service.Remover(n1);
@@ -304,7 +338,11 @@ namespace iModSCCredenciamento.ViewModels
                 {
                     //Obet itens do observer
                     //var l1 = _service.Listar (Entity.EmpresaId,null, $"%{pesquisa}%");
-                    if (string.IsNullOrWhiteSpace(pesquisa)) return;
+                    if (string.IsNullOrWhiteSpace(pesquisa))
+                    {
+                        return;
+                    }
+
                     var l1 = EntityObserver.Where(n => n.Descricao
                    .ToLower()
                    .Contains(pesquisa.ToLower())).ToList();

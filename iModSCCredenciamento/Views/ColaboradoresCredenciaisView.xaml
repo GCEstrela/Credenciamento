@@ -10,7 +10,7 @@
              xmlns:viewModels="clr-namespace:iModSCCredenciamento.ViewModels"
              xmlns:data="clr-namespace:Singulink.Windows.Data"
              mc:Ignorable="d"
-             Height="420" 
+             d:DesignHeight="450" d:DesignWidth="1000" 
              Loaded="UserControl_Loaded" >
     <UserControl.Resources>
         <i:FormateTel x:Key="FormateTel" />
@@ -40,13 +40,14 @@
                                       SelectedValue="{Binding Entity.ColaboradorEmpresaId, UpdateSourceTrigger=PropertyChanged}"
                                       SelectedItem="{Binding ColaboradorEmpresa}"
                                       SelectedValuePath="ColaboradorEmpresaId"
-                                      IsSynchronizedWithCurrentItem="True">
+                                      IsSynchronizedWithCurrentItem="True"
+                                      SelectedIndex="0">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock Margin="0,0,10,0" Text="{Binding Path=EmpresaNome}" />
                                             <TextBlock >
-                                                <Run Text=" ("/>
+                                                <Run Text="("/>
                                                 <Run Text="{Binding  Path=Descricao}"/>
                                                 <Run Text=")"/>
                                             </TextBlock>
@@ -240,8 +241,7 @@
                           HorizontalAlignment="Stretch" 
                           VerticalAlignment="Stretch" 
                           ItemsSource="{Binding EntityObserver, Mode=TwoWay}" 
-                          SelectedItem="{Binding Entity, Mode=TwoWay}"                            
-                          Background="{x:Null}">
+                          SelectedItem="{Binding Entity, Mode=TwoWay}" >
                     <ListView.View>
                         <GridView  >
                             <!--<GridViewColumn >

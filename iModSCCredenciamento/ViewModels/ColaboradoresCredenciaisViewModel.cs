@@ -6,33 +6,32 @@
 
 #region
 
+using AutoMapper;
+using CrystalDecisions.CrystalReports.Engine;
+using IMOD.Application.Interfaces;
+using IMOD.Application.Service;
+using IMOD.CrossCutting;
+using IMOD.Domain.Entities;
+using IMOD.Domain.EntitiesCustom;
+using iModSCCredenciamento.Funcoes;
+using iModSCCredenciamento.Helpers;
+using iModSCCredenciamento.ViewModels.Commands;
+using iModSCCredenciamento.ViewModels.Comportamento;
+using iModSCCredenciamento.Views.Model;
+using iModSCCredenciamento.Windows;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Windows;
+using System.Windows.Forms;
 using System.Windows.Input;
-using AutoMapper;
-using iModSCCredenciamento.Helpers;
-using iModSCCredenciamento.ViewModels.Commands;
-using iModSCCredenciamento.ViewModels.Comportamento;
-using iModSCCredenciamento.Views.Model;
-using IMOD.Application.Interfaces;
-using IMOD.Application.Service;
-using IMOD.CrossCutting;
-using IMOD.Domain.Entities;
-using IMOD.Domain.EntitiesCustom;
+using System.Windows.Media.Imaging;
 //using IMOD.Domain.EntitiesCustom;
 //using ColaboradoresCredenciaisView = IMOD.Domain.EntitiesCustom.ColaboradoresCredenciaisView;
 //using EmpresaView = iModSCCredenciamento.Views.Model.EmpresaView;
 using ColaboradorEmpresaView = iModSCCredenciamento.Views.Model.ColaboradorEmpresaView;
-using EmpresaLayoutCrachaView = iModSCCredenciamento.Views.Model.EmpresaLayoutCrachaView;
-using System.Windows.Forms;
-using System.Windows.Media.Imaging;
-using CrystalDecisions.CrystalReports.Engine;
-using iModSCCredenciamento.Funcoes;
-using iModSCCredenciamento.Windows;
 
 #endregion
 
@@ -108,14 +107,19 @@ namespace iModSCCredenciamento.ViewModels
         //TODO: AtualizarVinculo
         public void AtualizarVinculo(ColaboradorView entity)
         {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            if (entity == null)
+            {
+                throw new ArgumentNullException(nameof(entity));
+            }
 
             var lista1 = _ColaboradorEmpresaService.Listar(entity.ColaboradorId);
-            var lista2 = Mapper.Map<List<ColaboradorEmpresa>>(lista1.OrderByDescending(n => n.EmpresaNome).ToList());
+            var lista2 = Mapper.Map<List<ColaboradorEmpresa>>(lista1.OrderByDescending(n => n.ColaboradorEmpresaId).ToList());
 
             ColaboradoresEmpresas.Clear();
             lista2.ForEach(n =>
             {
+                n.EmpresaNome.Trim();
+                n.Descricao.Trim();
                 ColaboradoresEmpresas.Add(n);
             });
 
@@ -124,7 +128,11 @@ namespace iModSCCredenciamento.ViewModels
 
         public void AtualizarDados(ColaboradorView entity)
         {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            if (entity == null)
+            {
+                throw new ArgumentNullException(nameof(entity));
+            }
+
             _colaboradorView = entity;
             ////Obter dados
             var list1 = _service.ListarView(null, null, null, null, entity.ColaboradorId).ToList();
@@ -166,7 +174,11 @@ namespace iModSCCredenciamento.ViewModels
             try
             {
 
-                if (Entity == null) return;
+                if (Entity == null)
+                {
+                    return;
+                }
+
                 var n1 = Mapper.Map<ColaboradorCredencial>(Entity);
 
                 n1.CredencialMotivoId = Entity.CredencialMotivoId;
@@ -226,7 +238,11 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                if (Entity == null) return;
+                if (Entity == null)
+                {
+                    return;
+                }
+
                 var n1 = Mapper.Map<ColaboradorCredencial>(Entity);
                 _service.Alterar(n1);
                 IsEnableLstView = true;
@@ -265,9 +281,16 @@ namespace iModSCCredenciamento.ViewModels
         {
             try
             {
-                if (Entity == null) return;
+                if (Entity == null)
+                {
+                    return;
+                }
+
                 var result = WpfHelp.MboxDialogRemove();
-                if (result != DialogResult.Yes) return;
+                if (result != DialogResult.Yes)
+                {
+                    return;
+                }
 
                 var n1 = Mapper.Map<ColaboradorCredencial>(Entity);
                 _service.Remover(n1);
@@ -538,27 +561,13 @@ namespace iModSCCredenciamento.ViewModels
         }
         public void CarregaColecaoLayoutsCrachas(int _empresaID)
         {
-
             try
             {
-
-                //var lst4 = _empresaLayoutCracha.Listar(null, _empresaID);
                 EmpresaLayoutCracha = new List<EmpresaLayoutCracha>();
-                //EmpresaLayoutCracha.Clear();
-                //EmpresaLayoutCracha.AddRange(lst4);
-
                 var service = new EmpresaLayoutCrachaService();
                 var list1 = service.ListarLayoutCrachaPorEmpresaView(_empresaID);
-
                 var list2 = Mapper.Map<List<EmpresaLayoutCracha>>(list1);
-                //var observer = new ObservableCollection<EmpresaLayoutCrachaView>();
-                //list2.ForEach(n =>
-                //{
-                //    observer.Add(n);
-                //});
-
                 EmpresaLayoutCracha = list2;
-                //LayoutsCrachas = observer;
             }
             catch (Exception ex)
             {

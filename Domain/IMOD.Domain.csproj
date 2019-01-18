@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EntitiesCustom\AutorizacaoView.cs" />
     <Compile Include="EntitiesCustom\ColaboradorEmpresaView.cs" />
     <Compile Include="EntitiesCustom\ColaboradoresCredenciaisView.cs" />
     <Compile Include="EntitiesCustom\CredencialView.cs" />
