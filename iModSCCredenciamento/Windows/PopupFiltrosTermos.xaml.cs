@@ -11,7 +11,8 @@ namespace iModSCCredenciamento.Windows
     public partial class PopupFiltrosTermos : Window
     {
         public int _termo, _status;
-        public PopupFiltrosTermos(int termo, int status)
+        public bool _tipo;
+        public PopupFiltrosTermos(int termo, int status, bool tipo)
         {
 
             InitializeComponent();
@@ -19,6 +20,7 @@ namespace iModSCCredenciamento.Windows
             MouseDown += Window_MouseDown;
             _termo = termo;
             _status = status;
+            _tipo = tipo;
 
         }
 
@@ -59,7 +61,15 @@ namespace iModSCCredenciamento.Windows
                 DataFim = dp_dataFinal.Text;
             }
 
-            ((TermosViewModel)DataContext).OnFiltrosTermosCommand(_termo, _status, periodo, DataIni, DataFim);
+            if (_tipo)
+            {
+                ((TermosViewModel)DataContext).OnFiltrosTermosCredenciaisCommand(_termo, _status, periodo, DataIni, DataFim);
+            }
+            else
+            {
+                ((TermosViewModel)DataContext).OnFiltrosTermosAutorizacoesCommand(_termo, _status, periodo, DataIni, DataFim);
+            }
+
             Close();
         }
 

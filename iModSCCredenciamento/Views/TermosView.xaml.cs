@@ -23,7 +23,7 @@ namespace iModSCCredenciamento.Views
             try
             {
                 //11_TermoConcessaoCredencial.rpt
-                PopupFiltrosTermos = new PopupFiltrosTermos(11, 1);
+                PopupFiltrosTermos = new PopupFiltrosTermos(11, 1, true);
                 PopupFiltrosTermos.ShowDialog();
             }
             catch (Exception ex)
@@ -38,7 +38,7 @@ namespace iModSCCredenciamento.Views
             try
             {
                 //15_TermoIndeferimentoCredencial.rpt
-                PopupFiltrosTermos = new PopupFiltrosTermos(15, 5);
+                PopupFiltrosTermos = new PopupFiltrosTermos(15, 5, true);
                 PopupFiltrosTermos.ShowDialog();
             }
             catch (Exception ex)
@@ -53,7 +53,7 @@ namespace iModSCCredenciamento.Views
             try
             {
                 //13_TermoCancelamentoCredencial.rpt
-                PopupFiltrosTermos = new PopupFiltrosTermos(13, 2);
+                PopupFiltrosTermos = new PopupFiltrosTermos(13, 2, true);
                 PopupFiltrosTermos.ShowDialog();
             }
             catch (Exception ex)
@@ -68,7 +68,7 @@ namespace iModSCCredenciamento.Views
             try
             {
                 //17_TermoDestruicaoCredencial.rpt
-                PopupFiltrosTermos = new PopupFiltrosTermos(17, 3);
+                PopupFiltrosTermos = new PopupFiltrosTermos(17, 3, true);
                 PopupFiltrosTermos.ShowDialog();
             }
             catch (Exception ex)
@@ -82,7 +82,7 @@ namespace iModSCCredenciamento.Views
             try
             {
                 //19_TermoViaAdicionalCredencial.rpt
-                PopupFiltrosTermos = new PopupFiltrosTermos(19, 1);
+                PopupFiltrosTermos = new PopupFiltrosTermos(19, 1, true);
                 PopupFiltrosTermos.ShowDialog();
             }
             catch (Exception ex)
@@ -98,7 +98,7 @@ namespace iModSCCredenciamento.Views
             try
             {
                 //12_TermoConcessaoAutorizacao.rpt
-                PopupFiltrosTermos = new PopupFiltrosTermos(12, 1);
+                PopupFiltrosTermos = new PopupFiltrosTermos(12, 1, false);
                 PopupFiltrosTermos.ShowDialog();
             }
             catch (Exception ex)
@@ -112,7 +112,7 @@ namespace iModSCCredenciamento.Views
             try
             {
                 //16_TermoIndeferimentoAutorizacao.rpt
-                PopupFiltrosTermos = new PopupFiltrosTermos(16, 5);
+                PopupFiltrosTermos = new PopupFiltrosTermos(16, 5, false);
                 PopupFiltrosTermos.ShowDialog();
             }
             catch (Exception ex)
@@ -126,7 +126,7 @@ namespace iModSCCredenciamento.Views
             try
             {
                 //14_TermoCancelamentoAutorizacao.rpt
-                PopupFiltrosTermos = new PopupFiltrosTermos(14, 2);
+                PopupFiltrosTermos = new PopupFiltrosTermos(14, 2, false);
                 PopupFiltrosTermos.ShowDialog();
             }
             catch (Exception ex)
@@ -140,7 +140,7 @@ namespace iModSCCredenciamento.Views
             try
             {
                 //18_TermoDestruicaoAutorizacao.rpt
-                PopupFiltrosTermos = new PopupFiltrosTermos(18, 3);
+                PopupFiltrosTermos = new PopupFiltrosTermos(18, 3, false);
                 PopupFiltrosTermos.ShowDialog();
             }
             catch (Exception ex)
@@ -154,7 +154,7 @@ namespace iModSCCredenciamento.Views
             try
             {
                 //20_TermoViaAdicionalAutorizacao.rpt
-                PopupFiltrosTermos = new PopupFiltrosTermos(20, 1);
+                PopupFiltrosTermos = new PopupFiltrosTermos(20, 1, false);
                 PopupFiltrosTermos.ShowDialog();
             }
             catch (Exception ex)
