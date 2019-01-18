@@ -75,7 +75,7 @@ namespace iModSCCredenciamento.Views
             try
             {
                 var arrayByes = Convert.FromBase64String(_viewModel.Entity.Assinatura);
-                WpfHelp.AbrirArquivoPdf(_viewModel.Entity.Assinatura, arrayByes);
+                WpfHelp.AbrirArquivoPdf("FICHA_CADASTRAL_" + _viewModel.Entity.Nome.Trim(), arrayByes);
             }
             catch (Exception ex)
             {

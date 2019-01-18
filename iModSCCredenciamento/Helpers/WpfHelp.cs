@@ -124,7 +124,7 @@ namespace iModSCCredenciamento.Helpers
         /// <returns></returns>
         public static DialogResult MboxDialogRemove()
         {
-            return MboxDialogYesNo ("Deseja realmente excluir o item?", false);
+            return MboxDialogYesNo("Deseja realmente excluir o item?", false);
         }
 
         /// <summary>
@@ -143,7 +143,7 @@ namespace iModSCCredenciamento.Helpers
         public static bool PopupBox(Exception ex)
         {
             var msg = $"Não foi possível executar a operação solicitada.\n{ex.Message}";
-            return PopupBox(msg,3);
+            return PopupBox(msg, 3);
         }
 
         /// <summary>
@@ -197,14 +197,14 @@ namespace iModSCCredenciamento.Helpers
         {
             try
             {
-                if(string.IsNullOrWhiteSpace(caminho)) throw  new ArgumentNullException(nameof(caminho));
+                if (string.IsNullOrWhiteSpace(caminho)) throw new ArgumentNullException(nameof(caminho));
                 if (string.IsNullOrWhiteSpace(caminho)) throw new ArgumentNullException(nameof(nomeArquivo));
-                var path = Path.Combine (caminho, nomeArquivo);
+                var path = Path.Combine(caminho, nomeArquivo);
                 Process.Start(path);
             }
             catch (Exception ex)
             {
-                   Utils.TraceException(ex);
+                Utils.TraceException(ex);
             }
         }
 
@@ -220,7 +220,7 @@ namespace iModSCCredenciamento.Helpers
                 if (string.IsNullOrWhiteSpace(nomeArquivo)) return;
                 if (arrayBytes == null) return;
                 string fileName = "";
-                var tempArea = Path.GetTempPath(); 
+                var tempArea = Path.GetTempPath();
                 fileName = Path.ChangeExtension(nomeArquivo, ".pdf");
                 var path = Path.Combine(tempArea, fileName);
                 File.WriteAllBytes(path, arrayBytes);//Save file on temp area
@@ -228,7 +228,7 @@ namespace iModSCCredenciamento.Helpers
                 var tsk = Task.Factory.StartNew(() =>
                 {
                     Application.Current.Dispatcher.Invoke(() =>
-                    { 
+                    {
                         Process.Start(path);
                     });
                 });
