@@ -13,7 +13,7 @@
         <i:StringToImageConverter x:Key="StringToImageConverter" />
         <i:CheckTeste x:Key="CheckTeste" />
     </UserControl.Resources>
-    <Grid Height="450" VerticalAlignment="Top">
+    <Grid Height="350" VerticalAlignment="Top">
         <StackPanel Orientation="Vertical">
 
             <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}"
@@ -24,7 +24,7 @@
                     <StackPanel Margin="1" Width="958">
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                     Margin="1">
-                            <Label Content="Seguradora:" Height="28" Width="133" Margin="1" Foreground="#FFD0D0D0" />
+                            <Label Content="Seguradora:" Height="28" Width="132"  Foreground="#FFD0D0D0" />
                             <TextBox x:Name="txtSeguradora" MaxLength="50" CharacterCasing="Upper"
                                      Text="{Binding Entity.NomeSeguradora, UpdateSourceTrigger=PropertyChanged}" IsEnabled="True"
                                      Height="24" Width="453" />
@@ -35,13 +35,12 @@
                                      IsEnabled="True" Height="24" Width="110" 
                                      VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
-                                    Margin="1">
-                            <Label Content="Valor da Cobertura (R$):" Height="28" Width="133" Margin="1" Foreground="#FFD0D0D0" />
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="1">
+                            <Label Content="Valor da Cobertura (R$):" Height="28" Width="132"  Foreground="#FFD0D0D0" />
                             <TextBox x:Name="txtValorCobertura" MaxLength="10" CharacterCasing="Lower"
                                      Text="{Binding Entity.ValorCobertura, UpdateSourceTrigger=PropertyChanged}"
                                      IsEnabled="True" Height="24" Width="300" LostFocus="FormatCurrency" PreviewTextInput="NumberOnly" />
-                            <Label Content="Data de Emissão:" Height="28" Width="110" Margin="1" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                            <Label Content="Data de Emissão:" Height="28" Width="112" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
                             <DatePicker x:Name="dtPEmissao" VerticalContentAlignment="Center" 
                                         SelectedDate="{Binding Entity.Emissao, UpdateSourceTrigger=PropertyChanged}" Width="110"
                                         Foreground="White" Background="{x:Null}"/>
@@ -50,8 +49,8 @@
                                         SelectedDate="{Binding Entity.Validade, UpdateSourceTrigger=PropertyChanged}" Width="110" 
                                         Foreground="White" Background="{x:Null}"/>
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0" >
-                            <Label Content="Apólice Digitalizada:" Height="28" Width="131" Margin="0,0,5,0" HorizontalContentAlignment="Left" Foreground="#FFD0D0D0" />
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" >
+                            <Label Content="Apólice Digitalizada:" Height="28" Width="131" Margin="0,0,2,0" HorizontalContentAlignment="Left" Foreground="#FFD0D0D0" />
                             <TextBox  x:Name="txtApoliceArquivo" CharacterCasing="Upper" Text="{Binding Entity.NomeArquivo, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="454"/>
                             <Button x:Name="btnBuscarArquivo" Height="24" Margin="10,0,0,0" VerticalAlignment="Center" Width="24" Click="OnUpLoad_Click">
                                 <StackPanel>
@@ -68,9 +67,9 @@
                 </StackPanel>
             </GroupBox>
 
-            <StackPanel Orientation="Horizontal" Margin="0,10,10,0">
-                <Label Content="Pesquisar:" Height="28" Width="65" Foreground="#FFD0D0D0" Margin="1,0,0,0"/>
-                <ComboBox  Width="150" ItemsSource="{Binding ListaPesquisa }"
+            <StackPanel Orientation="Horizontal" Margin="0,3,0,-3">
+                <Label Content="Pesquisar:" Height="25" Width="65" Foreground="#FFD0D0D0" Margin="1,0,0,0"/>
+                <ComboBox  Width="150" ItemsSource="{Binding ListaPesquisa}"
              DisplayMemberPath="Value"
              SelectedValue="Key" 
              SelectedItem="{Binding PesquisarPor}" VerticalContentAlignment="Center"/>

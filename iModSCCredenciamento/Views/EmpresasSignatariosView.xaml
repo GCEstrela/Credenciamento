@@ -21,7 +21,7 @@
             <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}"
                       Background="Crimson"
                       IsEnabled="{Binding Comportamento.isEnableCancelar}"
-                      x:Name="Responsavel_gb" Header="Dados dos Representantes" Margin="0,0,10,0"
+                      x:Name="Responsavel_gb" Header="Dados dos Representantes" Margin="0,0,10,-3"
                       VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="795">
 
                 <StackPanel x:Name="InformacoesAnexo_sp" Margin="0,10,10,10" Width="773">
@@ -111,14 +111,14 @@
                 </TextBox>
             </StackPanel>
 
-            <StackPanel Orientation="Horizontal" Height="258" Margin="0,10,10,0">
+            <StackPanel Orientation="Horizontal" Height="258" Margin="0,5,5,0">
 
                 <ListView x:Name="ListaSignatarios_lv"
                           IsEnabled="{Binding IsEnableLstView}"
                           HorizontalAlignment="Stretch" 
                           ItemsSource="{Binding EntityObserver, Mode=TwoWay}"
                           SelectedItem="{Binding Entity, Mode=TwoWay}" 
-                          Width="630" Margin="0,15,0,40">
+                          Width="630" Margin="0,15,0,67">
                     <!--ScrollViewer.CanContentScroll="True" MaxHeight="150"  Visibility="Visible" SelectionMode="Single"  Background="#FF4E4E4E" Foreground="White" HorizontalAlignment="Left" SelectionChanged="ListaEmpresas_lv_SelectionChanged"-->
                     <ListView.View>
                         <GridView FrameworkElement.FlowDirection="RightToLeft">

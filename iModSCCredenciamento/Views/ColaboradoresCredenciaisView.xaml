@@ -25,10 +25,10 @@
                       Background="Purple"
                       x:Name="Responsavel_gb" Header="Credenciamento" Margin="0,0,10,0">
                 <StackPanel Orientation="Horizontal">
-                    <StackPanel Margin="1" Width="958">
+                    <StackPanel Width="958">
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                     Margin="1,1,-20,1" Width="977">
-                            <Label Content="Vínculo:" Height="28" Width="55" Margin="1" Foreground="#FFD0D0D0" />
+                            <Label Content="Vínculo:" Height="28" Width="55" Foreground="#FFD0D0D0" />
 
                             <ComboBox x:Name="EmpresaVinculo_cb" 
                                       Width="413"
@@ -75,7 +75,8 @@
                                       DisplayMemberPath="Descricao"
                                       SelectedValue="{Binding Entity.CredencialStatusId, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                                       SelectedValuePath="CredencialStatusId" IsSynchronizedWithCurrentItem="True"
-                                      RenderTransformOrigin="0.5,0.5" SelectionChanged="StatusCredencial_cb_SelectionChanged" >
+                                      RenderTransformOrigin="0.5,0.5"
+                                      SelectionChanged="StatusCredencial_cb_SelectionChanged">
 
                                 <ComboBox.RenderTransform>
                                     <TransformGroup>
@@ -103,8 +104,8 @@
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
-                                    Margin="1,1,-20,1" Width="977">
-                            <Label Content="Código:" Height="28" Width="55" Margin="1" Foreground="#FFD0D0D0" />
+                                    Width="977">
+                            <Label Content="Código:" Height="28" Width="55"  Foreground="#FFD0D0D0" />
                             <TextBox MaxLength="50" 
                                      CharacterCasing="Lower"
                                      Text="{Binding Entity.ColaboradorCredencialId,  UpdateSourceTrigger=PropertyChanged}" 
@@ -112,8 +113,7 @@
                             <Label Content="Tipo:" Height="28" Width="36" Foreground="#FFD0D0D0" />
 
                             <ComboBox x:Name="TipoCredencial_cb"   
-                                      IsEnabled="{Binding ElementName=Ativa_cb, Path=IsChecked }" 
-                                      Margin="0,4,0,3" 
+                                      IsEnabled="{Binding ElementName=Ativa_cb, Path=IsChecked }"  
                                       Height="25"
                                       Width="134"
                                       VerticalContentAlignment="Center" 
@@ -137,7 +137,7 @@
                                       SelectedValue="{Binding Entity.LayoutCrachaId, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                                       SelectedValuePath="LayoutCrachaId" IsSynchronizedWithCurrentItem="True" />
 
-                            <Label Content="Colete:" Height="28" Width="49" Margin="0,0,0,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                            <Label Content="Colete:" Height="28" Width="49" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
                             <TextBox  x:Name="NumeroColete_tb"  MaxLength="4"  CharacterCasing="Upper" 
                                       Text="{Binding Entity.Colete,  UpdateSourceTrigger=PropertyChanged}"  Height="24"  Width="45"/>
 
@@ -158,11 +158,11 @@
 
                             <Label Content="FC:" Height="28" Width="68" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
                             <TextBox  x:Name="FC_tb"  MaxLength="5"   IsEnabled="{Binding ElementName=Ativa_cb, Path=IsChecked }"  
-                                      CharacterCasing="Upper" Text="{Binding Entity.Fc,UpdateSourceTrigger=PropertyChanged}"  Height="24"  Width="44"/>
+                                      CharacterCasing="Upper" Text="{Binding Entity.Fc,UpdateSourceTrigger=PropertyChanged}"  Height="24"  Width="46"/>
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
-                                    Margin="1,1,-20,1" Width="977">
+                                    Width="977">
                             <Label Content="Emissão:" Height="28" Width="55" Margin="1" Foreground="#FFD0D0D0" />
                             <TextBlock Text="{Binding Entity.Emissao,UpdateSourceTrigger=PropertyChanged, StringFormat=\{0:d\}}"  VerticalAlignment="Center" Width="70" />
                             <Label Content="Validade:" Height="28" Width="60" Margin="1" Foreground="#FFD0D0D0"  RenderTransformOrigin="0.553,0.5"/>
@@ -178,7 +178,7 @@
                                        Width="45" 
                                        VerticalContentAlignment="Center" 
                                        HorizontalContentAlignment="Left"
-                                       ItemsSource="{Binding ColaboradorPrivilegio, Mode=TwoWay}" 
+                                       ItemsSource="{Binding VeiculoPrivilegio, Mode=TwoWay}" 
                                        DisplayMemberPath="Identificacao" 
                                        SelectedValue="{Binding Entity.ColaboradorPrivilegio1Id,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                                        SelectedValuePath="AreaAcessoId"  />
@@ -189,7 +189,7 @@
                                        Width="45" 
                                        VerticalContentAlignment="Center" 
                                        HorizontalContentAlignment="Left"
-                                       ItemsSource="{Binding ColaboradorPrivilegio}" 
+                                       ItemsSource="{Binding VeiculoPrivilegio}" 
                                        DisplayMemberPath="Identificacao" 
                                        SelectedValue="{Binding Entity.ColaboradorPrivilegio2Id, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                                        SelectedValuePath="AreaAcessoId"  />
@@ -223,9 +223,9 @@
 
 
                         </StackPanel>
-                        <StackPanel Margin="0,0,0,0">
-                            <Button x:Name="brnImprimirCredencial" Content="Imprimir Credencial" ToolTip="Imprimir Credencial"  Margin="10,5,0,5" 
-                                    Height="24" RenderTransformOrigin="0.953,0.417" HorizontalAlignment="Left" Width="139" Click="ImprimirCredencial_bt_Click" />
+                        <StackPanel>
+                            <Button x:Name="brnImprimirCredencial" Content="Imprimir Credencial" ToolTip="Imprimir Credencial"  Margin="10,0,0,0" 
+                                    Height="24" RenderTransformOrigin="0.953,0.417" HorizontalAlignment="Left" Width="139" Click="ImprimirCredencial_bt_Click"/>
                         </StackPanel>
                     </StackPanel>
                 </StackPanel>
