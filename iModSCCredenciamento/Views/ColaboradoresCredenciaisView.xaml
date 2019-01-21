@@ -178,7 +178,7 @@
                                        Width="45" 
                                        VerticalContentAlignment="Center" 
                                        HorizontalContentAlignment="Left"
-                                       ItemsSource="{Binding VeiculoPrivilegio, Mode=TwoWay}" 
+                                       ItemsSource="{Binding ColaboradorPrivilegio, Mode=TwoWay}" 
                                        DisplayMemberPath="Identificacao" 
                                        SelectedValue="{Binding Entity.ColaboradorPrivilegio1Id,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                                        SelectedValuePath="AreaAcessoId"  />
@@ -189,7 +189,7 @@
                                        Width="45" 
                                        VerticalContentAlignment="Center" 
                                        HorizontalContentAlignment="Left"
-                                       ItemsSource="{Binding VeiculoPrivilegio}" 
+                                       ItemsSource="{Binding ColaboradorPrivilegio}" 
                                        DisplayMemberPath="Identificacao" 
                                        SelectedValue="{Binding Entity.ColaboradorPrivilegio2Id, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                                        SelectedValuePath="AreaAcessoId"  />
