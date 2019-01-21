@@ -54,14 +54,12 @@ namespace iModSCCredenciamento.Views
         {
             //Atualizar dados ao selecionar uma linha da listview
             _viewModel.AtualizarDadosPendencias();
+
             //Popular User Controls
             ColaboradorEmpresaUs.AtualizarDados(_viewModel.Entity);
             ColaboradorCurso.AtualizarDados(_viewModel.Entity);
-            CredenciaisUs.AtualizarDados(_viewModel.Entity);
-            CredenciaisUs.AtualizarVinculo(_viewModel.Entity);
             AnexoUs.AtualizarDados(_viewModel.Entity);
-
-            //EmpresaContratosUs.AtualizarDados(_viewModel.Entity);
+            ColaboradoresCredenciaisUs.AtualizarDados(_viewModel.Entity);
 
 
 

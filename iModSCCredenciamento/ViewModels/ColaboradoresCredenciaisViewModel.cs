@@ -105,14 +105,14 @@ namespace iModSCCredenciamento.ViewModels
         #region  Metodos
 
         //TODO: AtualizarVinculo
-        public void AtualizarVinculo(ColaboradorView entity)
+        public void AtualizarVinculoColaboradorEmpresa(ColaboradorView _entity)
         {
-            if (entity == null)
+            if (_entity == null)
             {
-                throw new ArgumentNullException(nameof(entity));
+                throw new ArgumentNullException(nameof(_entity));
             }
 
-            var lista1 = _ColaboradorEmpresaService.Listar(entity.ColaboradorId, true);
+            var lista1 = _ColaboradorEmpresaService.Listar(_entity.ColaboradorId, true);
             var lista2 = Mapper.Map<List<ColaboradorEmpresa>>(lista1.OrderByDescending(n => n.ColaboradorEmpresaId).Where(n => n.Ativo.Equals(true)).ToList());
 
             ColaboradoresEmpresas.Clear();

@@ -46,12 +46,18 @@ namespace iModSCCredenciamento.Views
             if (entity == null) return;
             _viewModel.AtualizarDados(entity);
 
+            if (entity != null)
+            {
+                _viewModel.AtualizarVinculoColaboradorEmpresa(entity);
+            }
+
+            EmpresaVinculo_cb.Items.Refresh();
         }
 
         public void AtualizarVinculo(Model.ColaboradorView entity)
         {
             if (entity == null) return;
-            _viewModel.AtualizarVinculo(entity);
+            _viewModel.AtualizarVinculoColaboradorEmpresa(entity);
             EmpresaVinculo_cb.Items.Refresh();
         }
 

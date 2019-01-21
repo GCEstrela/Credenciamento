@@ -52,7 +52,6 @@ namespace iModSCCredenciamento.Views
             }
 
             EmpresaVinculo_cb.Items.Refresh();
-
         }
 
 

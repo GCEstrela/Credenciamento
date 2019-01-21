@@ -51,10 +51,11 @@ namespace iModSCCredenciamento.Views
             _viewModel.AtualizarDadosPendencias();
             _viewModel.AtualizarDadosTiposServico();
             _viewModel.AtualizarDadosTiposServico();
+
             //Popular User Controls 
-            AnexoUs.AtualizarDados(_viewModel.Entity);
             VeiculosEmpresasUs.AtualizarDados(_viewModel.Entity);
             EmpresaSeguroUs.AtualizarDados(_viewModel.Entity);
+            AnexoUs.AtualizarDados(_viewModel.Entity);
             VeiculoCredenciaisUs.AtualizarDados(_viewModel.Entity);
         }
 
