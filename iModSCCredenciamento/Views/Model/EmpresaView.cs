@@ -5,6 +5,7 @@
 // ***********************************************************************
 
 using System.ComponentModel.DataAnnotations;
+using System.Drawing;
 using iModSCCredenciamento.Funcoes;
 
 namespace iModSCCredenciamento.Views.Model
@@ -37,7 +38,7 @@ namespace iModSCCredenciamento.Views.Model
         public string Telefone2 { get; set; }
         public string Celular2 { get; set; }
         public string Obs { get; set; }
-        public string Logo { get; set; }
+        public string Logo { get; set; } 
         public int Excluida { get; set; }
         public bool Pendente { get; set; }
         public bool Pendente11 { get; set; }

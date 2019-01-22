@@ -11,7 +11,7 @@
              xmlns:z="clr-namespace:iModSCCredenciamento.Regras"
              mc:Ignorable="d"
              MaxWidth="1300" Width="1270" Height="825"  Loaded="Frm_Loaded">
-    <UserControl.Resources>
+    <UserControl.Resources> 
         <ControlTemplate x:Key="ValidationErrorTemplate">
             <DockPanel>
                 <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
@@ -57,9 +57,7 @@
     </UserControl.Resources>
     <Grid Margin="5">
 
-        <Grid.Resources>
-            <i:ConvertBoolToImage x:Key="ConvertBoolToImage" />
-        </Grid.Resources>
+         
         <Grid.RowDefinitions>
             <RowDefinition Height="35" />
             <RowDefinition Height="184" />
@@ -166,8 +164,7 @@
                     <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" Header="Identificação"
                               Background="BlueViolet" Height="297" VerticalAlignment="Top" Margin="0,0,-275,0" HorizontalAlignment="Left" Width="876">
                         <StackPanel Orientation="Horizontal" Height="272" Margin="2,0,-2,0" VerticalAlignment="Top">
-                            <StackPanel.Resources>
-                                <i:StringToImageConverter x:Key="StringToImageConverter" />
+                            <StackPanel.Resources> 
                             </StackPanel.Resources>
                             <StackPanel Margin="1,1,1,0" Height="265" VerticalAlignment="Top" Width="702">
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="1">
@@ -313,7 +310,7 @@
                                 <Border CornerRadius="3" BorderThickness="1" Grid.Column="0" Width="100" Height="100"
                                         HorizontalAlignment="Left" BorderBrush="#FF686868">
                                     <Image x:Name="Logo_im" Stretch="Uniform"
-                                           Source="{Binding Entity.Foto, Converter={StaticResource StringToImageConverter}, Mode=TwoWay, UpdateSourceTrigger=Explicit}"
+                                           Source="{Binding Entity.Foto,  Mode=TwoWay ,UpdateSourceTrigger=Explicit}"
                                            Margin="3" />
                                 </Border>
                                 <Button x:Name="SelecionarLogo_bt" Content="Selecionar Foto"

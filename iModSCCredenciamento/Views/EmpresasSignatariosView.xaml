@@ -11,8 +11,7 @@
              mc:Ignorable="d"
              d:DesignHeight="450">
     <UserControl.Resources>
-        <i:FormateTel x:Key="FormateTel" />
-        <i:StringToImageConverter x:Key="StringToImageConverter" />
+        <i:FormateTel x:Key="FormateTel" /> 
         <i:CheckTeste x:Key="CheckTeste" />
     </UserControl.Resources>
     <Grid Height="450" VerticalAlignment="Top">

@@ -486,14 +486,13 @@ namespace iModSCCredenciamento.ViewModels
                     _ImpressaoService.Criar(_veiculoCredencialImpressao);
                     WpfHelp.PopupBox("Impressão Efetuada com Sucesso!", 1);
                     Entity.Impressa = true;
-
-                    BitmapImage _foto = Conversores.STRtoIMG(Entity.VeiculoFoto) as BitmapImage;
+                     
 
                     _sc.Vincular(Entity.VeiculoNome.Trim(), Entity.Cnpj.Trim(), Entity.Cnpj.Trim(),
                         Entity.EmpresaNome.Trim(), Entity.Colete.Trim(), Entity.Cargo.Trim(),
                         Entity.Fc.ToString().Trim(), Entity.NumeroCredencial.Trim(),
                         Entity.FormatoCredencialDescricao.Trim(), Entity.Validade.ToString(),
-                        layoutCracha.LayoutCrachaGuid, Conversores.BitmapImageToBitmap(_foto));
+                        layoutCracha.LayoutCrachaGuid, Entity.VeiculoFoto.ConverterBase64StringToBitmap());
                 }
                 File.Delete(_ArquivoRPT);
             }

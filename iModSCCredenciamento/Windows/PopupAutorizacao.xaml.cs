@@ -1,29 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿// ***********************************************************************
+// Project: iModSCCredenciamento
+// Crafted by: Grupo Estrela by Genetec
+// Date:  01 - 21 - 2019
+// ***********************************************************************
+
+#region
+
+using System;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using CrystalDecisions.CrystalReports.Engine;
 using IMOD.CrossCutting;
-using PrintDialog = System.Windows.Forms.PrintDialog;
+
+#endregion
 
 namespace iModSCCredenciamento.Windows
 {
     /// <summary>
-    /// Interaction logic for PopupAutorizacao.xaml
+    ///     Interaction logic for PopupAutorizacao.xaml
     /// </summary>
     public partial class PopupAutorizacao : Window
     {
+        private readonly ReportDocument Cracha = new ReportDocument();
+        private bool firstPage;
         public bool Result;
-        ReportDocument Cracha = new ReportDocument();
 
         public PopupAutorizacao(ReportDocument reportDocument)
         {
@@ -32,27 +34,26 @@ namespace iModSCCredenciamento.Windows
             {
                 Cracha = reportDocument;
 
-
                 GenericReportViewer.Background = Brushes.Transparent;
                 GenericReportViewer.ShowSearchTextButton = false;
                 GenericReportViewer.ShowExportButton = false;
                 GenericReportViewer.ShowCopyButton = false;
                 GenericReportViewer.ShowRefreshButton = false;
                 GenericReportViewer.ShowToggleSidePanelButton = false;
-                // GenericReportViewer.ShowToolbar = false;
                 GenericReportViewer.ShowOpenFileButton = false;
                 GenericReportViewer.ShowLogo = false;
-                GenericReportViewer.ViewerCore.Zoom(150);
-
+                GenericReportViewer.ViewerCore.Zoom (150);
                 GenericReportViewer.ViewerCore.ReportSource = reportDocument;
-
             }
             catch (Exception ex)
             {
-                Utils.TraceException(ex);
+                Utils.TraceException (ex);
             }
             MouseDown += Window_MouseDown;
         }
+
+        #region  Metodos
+
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left)
@@ -70,26 +71,19 @@ namespace iModSCCredenciamento.Windows
         {
             try
             {
-                //Cracha report1 = new Cracha();
-                System.Windows.Forms.PrintDialog dialog1 = new PrintDialog();
-
-
-                //report1.SetDatabaseLogon("imod", "imod");
-
+                var dialog1 = new PrintDialog();
                 dialog1.AllowSomePages = true;
                 dialog1.AllowPrintToFile = false;
 
                 if (dialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
                     int copies = dialog1.PrinterSettings.Copies;
-                    int fromPage = dialog1.PrinterSettings.FromPage;
-                    int toPage = dialog1.PrinterSettings.ToPage;
-                    bool collate = dialog1.PrinterSettings.Collate;
+                    var fromPage = dialog1.PrinterSettings.FromPage;
+                    var toPage = dialog1.PrinterSettings.ToPage;
+                    var collate = dialog1.PrinterSettings.Collate;
 
                     dialog1.PrinterSettings.PrinterName = dialog1.PrinterSettings.PrinterName;
-
-                    //Cracha.PrintOptions.PrinterName = dialog1.PrinterSettings.PrinterName;
-                    Cracha.PrintToPrinter(copies, collate, fromPage, toPage);
+                    Cracha.PrintToPrinter (copies, collate, fromPage, toPage);
                     Result = true;
                     Close();
                 }
@@ -103,10 +97,10 @@ namespace iModSCCredenciamento.Windows
             }
             catch (Exception ex)
             {
-                Utils.TraceException(ex);
+                Utils.TraceException (ex);
             }
         }
-        bool firstPage;
+
         private void ChangePage_bt_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -124,8 +118,10 @@ namespace iModSCCredenciamento.Windows
             }
             catch (Exception ex)
             {
-                Utils.TraceException(ex);
+                Utils.TraceException (ex);
             }
         }
+
+        #endregion
     }
 }

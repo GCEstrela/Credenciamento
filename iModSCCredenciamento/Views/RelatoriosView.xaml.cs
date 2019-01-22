@@ -45,8 +45,7 @@ namespace iModSCCredenciamento.Views
                 popupFiltrosCredenciais.ShowDialog();
             }
             catch (Exception ex)
-            {
-                Global.Log("Erro na void ButtonCredenciais_Click ex: " + ex);
+            { 
                 Utils.TraceException(ex);
                 throw;
             }
@@ -59,8 +58,7 @@ namespace iModSCCredenciamento.Views
                 PopUpFiltrosAutorizacoes.ShowDialog();
             }
             catch (Exception ex)
-            {
-                Global.Log("Erro na void ButtonAutorizacoes_Click ex: " + ex);
+            { 
                 Utils.TraceException(ex);
                 throw;
             }
@@ -75,8 +73,7 @@ namespace iModSCCredenciamento.Views
                 popupfiltroscredenciaisporempresa.ShowDialog();
             }
             catch (Exception ex)
-            {
-                Global.Log("Erro na void BotaoFiltroPorEmpresa_bt_Click ex: " + ex);
+            { 
                 Utils.TraceException(ex);
                 throw;
             }
@@ -92,8 +89,7 @@ namespace iModSCCredenciamento.Views
                 popupfiltroscredenciaisporarea.ShowDialog();
             }
             catch (Exception ex)
-            {
-                Global.Log("Erro na void BotaoFiltroPorArea_bt_Click ex: " + ex);
+            { 
                 Utils.TraceException(ex);
                 throw;
             }
@@ -107,8 +103,7 @@ namespace iModSCCredenciamento.Views
                 popupfiltroscredenciaisinvalidas.ShowDialog();
             }
             catch (Exception ex)
-            {
-                Global.Log("Erro na void BotaoCredenciaisInvalidasClick ex: " + ex);
+            { 
                 Utils.TraceException(ex);
                 throw;
             }
@@ -122,8 +117,7 @@ namespace iModSCCredenciamento.Views
                 popupfiltrosautorizacoesinvalidas.ShowDialog();
             }
             catch (Exception ex)
-            {
-                Global.Log("Erro na void BotaoAutorizacoesInvalidasClick ex: " + ex);
+            { 
                 Utils.TraceException(ex);
                 throw;
             }
@@ -138,8 +132,7 @@ namespace iModSCCredenciamento.Views
                 popupfiltrosimpressoes.ShowDialog();
             }
             catch (Exception ex)
-            {
-                Global.Log("Erro na void BotaoImpressoesCredenciaisClick ex: " + ex);
+            { 
                 Utils.TraceException(ex);
                 throw;
             }
@@ -154,8 +147,7 @@ namespace iModSCCredenciamento.Views
                 popupfiltrosimpressoes.ShowDialog();
             }
             catch (Exception ex)
-            {
-                Global.Log("Erro na void BotaoImpressoesAutorizacoesClick ex: " + ex);
+            { 
                 Utils.TraceException(ex);
                 throw;
             }
@@ -170,8 +162,7 @@ namespace iModSCCredenciamento.Views
                 popupfiltroscredenciaisviasadicionais.ShowDialog();
             }
             catch (Exception ex)
-            {
-                Global.Log("Erro na void ButtonRelatorioViasAdicionaisCredenciaisClick ex: " + ex);
+            { 
                 Utils.TraceException(ex);
                 throw;
             }
@@ -189,8 +180,7 @@ namespace iModSCCredenciamento.Views
                 popupfiltrosautorizacoesviasadicionais.ShowDialog();
             }
             catch (Exception ex)
-            {
-                Global.Log("Erro na void ButtonRelatorioViasAdicionaisAutorizacoesClick ex: " + ex);
+            { 
                 Utils.TraceException(ex);
                 throw;
             }

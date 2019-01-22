@@ -64,12 +64,13 @@ namespace iModSCCredenciamento.Views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void OnAbrirArquivo_Click(object sender, RoutedEventArgs e)
+        private void OnDownload_Click(object sender, RoutedEventArgs e)
         {
             try
             {
                 var arquivoStr = _viewModel.Entity.Arquivo;
-                Global.PopupPDF(arquivoStr);
+                var arrBytes = Convert.FromBase64String(arquivoStr);
+                WpfHelp.DownloadArquivoDialog(_viewModel.Entity.NomeArquivo, arrBytes);
             }
             catch (Exception ex)
             {

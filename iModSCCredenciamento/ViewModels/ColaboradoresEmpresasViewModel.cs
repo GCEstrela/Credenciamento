@@ -152,7 +152,6 @@ namespace iModSCCredenciamento.ViewModels
         private void PrepareCriar()
         {
             Entity = new ColaboradorEmpresaView();
-            Entity.Matricula = string.Format("{0:#,##0}", Global.GerarID()) + "-" + String.Format("{0:yy}", DateTime.Now);
             Comportamento.PrepareCriar();
             IsEnableLstView = false;
         }

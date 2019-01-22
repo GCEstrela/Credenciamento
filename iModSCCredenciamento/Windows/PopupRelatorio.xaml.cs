@@ -14,16 +14,8 @@ namespace iModSCCredenciamento.Windows
             InitializeComponent();
             try
             {
-
-                //var sidepanel = GenericReportViewer.FindName("btnToggleSidePanel") as ToggleButton;
-                //if (sidepanel != null)
-                //{
-                //    GenericReportViewer.ViewChange += (x, y) => sidepanel.IsChecked = false;
-                //}
-                // GenericReportViewer.ShowStatusbar = false;
                 GenericReportViewer.ShowRefreshButton = false;
                 GenericReportViewer.ShowToggleSidePanelButton = false;
-               // GenericReportViewer.ShowToolbar = false;
                 GenericReportViewer.ShowOpenFileButton = false;
                 GenericReportViewer.ShowLogo = false;
 

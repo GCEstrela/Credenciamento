@@ -11,6 +11,7 @@
              mc:Ignorable="d"
             MaxWidth="1300" Width="1270" Height="825">
     <UserControl.Resources>
+        <i:StringToImageConverter x:Key="ImageConverter"/>
         <Style TargetType="{x:Type DatePickerTextBox}">
             <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" />
             <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />
@@ -143,8 +144,7 @@
                 <AdornedElementPlaceholder x:Name="ErrorAdorner" ></AdornedElementPlaceholder>
             </DockPanel>
         </ControlTemplate>
-
-        <i:StringToImageConverter x:Key="Convert64ToImage"/>
+ 
         <!--<Style TargetType="{x:Type Label}">
             <Setter Property="VerticalAlignment" Value="Center"></Setter>
             <Setter Property="HorizontalAlignment" Value="Right"></Setter>
@@ -357,8 +357,7 @@
                     </Grid.ColumnDefinitions>
                     <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" Header="Identificação" Background="BlueViolet"  Height="192" VerticalAlignment="Top" Margin="0,0,2,0" Grid.ColumnSpan="2">
                         <StackPanel Orientation="Horizontal" Height="172"   VerticalAlignment="Top" Margin="1">
-                            <StackPanel.Resources>
-                                <i:StringToImageConverter x:Key="StringToImageConverter" />
+                            <StackPanel.Resources> 
                             </StackPanel.Resources>
                             <StackPanel Margin="1,1,1,0" Height="166" VerticalAlignment="Top" Width="416">
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="1"   >
@@ -397,7 +396,7 @@
                             </StackPanel>
                             <StackPanel VerticalAlignment="Top" Margin="50,6,20,0" Height="140" Width="101" >
                                 <Border  CornerRadius="3"  BorderThickness="1"   Width ="100" Height="100"    HorizontalAlignment="Left" BorderBrush="#FF686868"  >
-                                    <Image x:Name="Logo_im" Stretch="Uniform" Source="{Binding Entity.Foto, Converter={StaticResource StringToImageConverter}, Mode=TwoWay, UpdateSourceTrigger=Explicit}" Margin="3"   />
+                                    <Image x:Name="Logo_im" Stretch="Uniform" Source="{Binding Entity.Foto, Converter={StaticResource ImageConverter}, Mode=TwoWay, UpdateSourceTrigger=Explicit}" Margin="3"   />
                                 </Border>
                                 <Button x:Name="SelecionarLogo_bt" Content="Selecionar Foto" HorizontalAlignment="Center" Margin="0,10,0,0"  Height="30" Width="100" Click="OnSelecionaFoto_Click"   />
                             </StackPanel>

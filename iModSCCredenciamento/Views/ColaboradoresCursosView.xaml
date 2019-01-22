@@ -11,8 +11,7 @@
              xmlns:i="clr-namespace:iModSCCredenciamento.Funcoes"
              mc:Ignorable="d"  Height="350">
     <UserControl.Resources>
-        <i:CheckTeste x:Key="CheckTeste" />
-        <i:StringToImageConverter x:Key="Convert64ToImage"/>
+        <i:CheckTeste x:Key="CheckTeste" /> 
     </UserControl.Resources>
 
 

@@ -119,6 +119,8 @@ namespace IMOD.Infra.Repositorios
                         var key = Convert.ToInt32(cmd.ExecuteScalar());
 
                         entity.ColaboradorEmpresaId = key;
+                        //Gerar matricula
+                        CriarNumeroMatricula (entity);
                     }
                     catch (Exception ex)
                     {
@@ -127,6 +129,18 @@ namespace IMOD.Infra.Repositorios
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Criar numero de matricula
+        /// </summary>
+        /// <param name="entity"></param>
+        private void CriarNumeroMatricula(ColaboradorEmpresa entity)
+        {
+            
+            var data = DateTime.Now.ToString("yy");
+            entity.Matricula = $"{entity.ColaboradorEmpresaId}-{data}";//entity
+            Alterar (entity);
         }
 
         /// <summary>

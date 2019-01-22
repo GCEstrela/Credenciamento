@@ -1056,8 +1056,8 @@ namespace iModSCCredenciamento.Funcoes
             }
             catch (Exception ex)
             {
-                Global.Log("Erro na void BuscarCredencial ex: " + ex);
-
+                 
+                Utils.TraceException(ex);
                 return null;
             }
         }

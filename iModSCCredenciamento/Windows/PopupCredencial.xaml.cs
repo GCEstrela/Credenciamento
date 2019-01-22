@@ -64,9 +64,6 @@ namespace iModSCCredenciamento.Windows
                 //Cracha report1 = new Cracha();
                 PrintDialog dialog1 = new PrintDialog();
 
-
-                //report1.SetDatabaseLogon("imod", "imod");
-
                 dialog1.AllowSomePages = true;
                 dialog1.AllowPrintToFile = false;
 

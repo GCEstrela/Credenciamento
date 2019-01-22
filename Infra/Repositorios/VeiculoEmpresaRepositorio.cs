@@ -60,8 +60,9 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Ativo", entity.Ativo, false)));
 
                         var key = Convert.ToInt32(cmd.ExecuteScalar());
-
                         entity.VeiculoEmpresaId = key;
+                        //Gerar matricula
+                        CriarNumeroMatricula(entity);
                     }
                     catch (Exception ex)
                     {
@@ -70,6 +71,18 @@ namespace IMOD.Infra.Repositorios
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Criar numero de matricula
+        /// </summary>
+        /// <param name="entity"></param>
+        private void CriarNumeroMatricula(VeiculoEmpresa entity)
+        {
+
+            var data = DateTime.Now.ToString("yy");
+            entity.Matricula = $"{entity.Matricula}-{data}";//entity
+            Alterar(entity);
         }
 
         /// <summary>

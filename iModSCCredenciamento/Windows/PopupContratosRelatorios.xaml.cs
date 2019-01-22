@@ -9,6 +9,7 @@ using System.Xml.Serialization;
 using iModSCCredenciamento.Funcoes;
 //using iModSCCredenciamento.Models;
 using iModSCCredenciamento.Views.Model;
+using IMOD.Infra.Ado;
 using Microsoft.Reporting.WinForms;
 
 namespace iModSCCredenciamento.Windows
@@ -18,6 +19,7 @@ namespace iModSCCredenciamento.Windows
     /// </summary>
     public partial class PopupContratosRelatorios : Window
     {
+        private readonly string _connection = CurrentConfig.ConexaoString;
         public PopupContratosRelatorios()
         {
             InitializeComponent();
@@ -59,7 +61,7 @@ namespace iModSCCredenciamento.Windows
                 string _strSql;
 
                 
-                 SqlConnection _Con = new SqlConnection(Global._connectionString);_Con.Open();
+                 SqlConnection _Con = new SqlConnection(_connection);_Con.Open();
 
                 _descricao = "%" + _descricao + "%";
                 _numerocontrato = "%" + _numerocontrato + "%";

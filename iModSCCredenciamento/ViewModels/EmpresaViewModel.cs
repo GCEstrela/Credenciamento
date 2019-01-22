@@ -661,11 +661,7 @@ namespace iModSCCredenciamento.ViewModels
                 }
 
                 var result = WpfHelp.MboxDialogRemove();
-
-                if (result != DialogResult.Yes)
-                {
-                    return;
-                }
+                if (result != DialogResult.Yes)return;
 
                 var n1 = Mapper.Map<Empresa>(Entity);
                 _service.Remover(n1);

@@ -1,22 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿// ***********************************************************************
+// Project: iModSCCredenciamento
+// Crafted by: Grupo Estrela by Genetec
+// Date:  01 - 21 - 2019
+// ***********************************************************************
+
+#region
+
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using iModSCCredenciamento.ViewModels;
+
+#endregion
 
 namespace iModSCCredenciamento.Windows
 {
     /// <summary>
-    /// Interaction logic for PopUpFiltrosAutorizacoesViasAdicionais.xaml
+    ///     Interaction logic for PopUpFiltrosAutorizacoesViasAdicionais.xaml
     /// </summary>
     public partial class PopUpFiltrosAutorizacoesViasAdicionais : Window
     {
@@ -27,6 +26,8 @@ namespace iModSCCredenciamento.Windows
             MouseDown += Window_MouseDown;
         }
 
+        #region  Metodos
+
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left)
@@ -35,12 +36,11 @@ namespace iModSCCredenciamento.Windows
             }
         }
 
-
         private void button_ClickFiltrar(object sender, RoutedEventArgs e)
         {
-            int tipo = 0;
-            string DataIni = dp_dataInicial.Text;
-            string DataFim = dp_dataFinal.Text;
+            var tipo = 0;
+            var DataIni = dp_dataInicial.Text;
+            var DataFim = dp_dataFinal.Text;
 
             if (segundaemissao_rb.IsChecked.Value)
             {
@@ -55,8 +55,7 @@ namespace iModSCCredenciamento.Windows
                 tipo = 0;
             }
 
-            ((RelatoriosViewModel)DataContext).OnFiltroAutorizacaoViasAdicionaisCommand(tipo, DataIni, DataFim);
-
+            ((RelatoriosViewModel) DataContext).OnFiltroAutorizacaoViasAdicionaisCommand (tipo, DataIni, DataFim);
 
             Close();
         }
@@ -65,5 +64,7 @@ namespace iModSCCredenciamento.Windows
         {
             Close();
         }
+
+        #endregion
     }
 }

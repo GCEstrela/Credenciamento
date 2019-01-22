@@ -28,16 +28,12 @@ namespace iModSCCredenciamento.Views
         {
             ((ConfiguracoesViewModel)DataContext).OnBuscarRelatorioCommand();
 
-            CodigoRelatorio_tb.Text = ((ConfiguracoesViewModel)DataContext)._RelatorioTemp.RelatorioId.ToString();
-            DescricaoRelatorio_tb.Text = ((ConfiguracoesViewModel)DataContext)._RelatorioTemp.NomeArquivoRpt;
+            CodigoRelatorio_tb.Text = ((ConfiguracoesViewModel)DataContext).RelatorioTemp.RelatorioId.ToString();
+            DescricaoRelatorio_tb.Text = ((ConfiguracoesViewModel)DataContext).RelatorioTemp.NomeArquivoRpt;
         }
         private void SalvarRelatorio_bt_Click(object sender, RoutedEventArgs e)
         {
-
-            if (!Global.PopupBox("Tem certeza que deseja salvar?", 2))
-            {
-                return;
-            }
+ 
             ((ConfiguracoesViewModel)DataContext).OnSalvarRelatorioCommand();
 
         }
@@ -62,8 +58,8 @@ namespace iModSCCredenciamento.Views
         private void BuscarRelatorioGerencial_bt_Click(object sender, RoutedEventArgs e)
         {
             ((ConfiguracoesViewModel)DataContext).OnBuscarRelatorioGerencialCommand();
-            CodigoRelatorioGerencial_tb.Text = ((ConfiguracoesViewModel)DataContext)._RelatorioGerencialTemp.RelatorioId.ToString();
-            DescricaoRelatorioGerencial_tb.Text = ((ConfiguracoesViewModel)DataContext)._RelatorioGerencialTemp.NomeArquivoRpt;
+            CodigoRelatorioGerencial_tb.Text = ((ConfiguracoesViewModel)DataContext).RelatorioGerencialTemp.RelatorioId.ToString();
+            DescricaoRelatorioGerencial_tb.Text = ((ConfiguracoesViewModel)DataContext).RelatorioGerencialTemp.NomeArquivoRpt;
 
         }
         private void AbrirRelatorioGerencial_bt_Click(object sender, RoutedEventArgs e)
@@ -77,10 +73,7 @@ namespace iModSCCredenciamento.Views
         }
         private void SalvarRelatorioGerencial_bt_Click(object sender, RoutedEventArgs e)
         {
-            if (!Global.PopupBox("Tem certeza que deseja salvar?", 2))
-            {
-                return;
-            }
+             
             ((ConfiguracoesViewModel)DataContext).OnSalvarRelatorioGerencialCommand();
         }
         private void ExcluirRelatorioGerencial_bt_Click(object sender, RoutedEventArgs e)
@@ -98,11 +91,7 @@ namespace iModSCCredenciamento.Views
             ((ConfiguracoesViewModel)DataContext).OnAdicionarLayoutCrachaCommand();
         }
         private void SalvarCracha_bt_Click(object sender, RoutedEventArgs e)
-        {
-            if (!Global.PopupBox("Tem certeza que deseja salvar?", 2))
-            {
-                return;
-            }
+        { 
             ((ConfiguracoesViewModel)DataContext).OnSalvarLayoutCrachaCommand();
         }
         private void ExcluirCracha_bt_Click(object sender, RoutedEventArgs e)
@@ -113,8 +102,8 @@ namespace iModSCCredenciamento.Views
         {
             ((ConfiguracoesViewModel)DataContext).OnBuscarLayoutCrachaCommand();
 
-            CodigoCracha_tb.Text = ((ConfiguracoesViewModel)DataContext)._LayoutCrachaTemp.LayoutCrachaId.ToString();
-            Nome_tb.Text = ((ConfiguracoesViewModel)DataContext)._LayoutCrachaTemp.Nome;
+            CodigoCracha_tb.Text = ((ConfiguracoesViewModel)DataContext).LayoutCrachaTemp.LayoutCrachaId.ToString();
+            Nome_tb.Text = ((ConfiguracoesViewModel)DataContext).LayoutCrachaTemp.Nome;
 
         }
         private void AbrirCracha_bt_Click(object sender, RoutedEventArgs e)
@@ -128,10 +117,7 @@ namespace iModSCCredenciamento.Views
 
         private void SalvarEquipamento_bt_Click(object sender, RoutedEventArgs e)
         {
-            if (!Global.PopupBox("Tem certeza que deseja salvar?", 2))
-            {
-                return;
-            }
+             
             ((ConfiguracoesViewModel)DataContext).OnSalvarEdicaoCommand_TiposEquipamentos();
 
         }
@@ -225,11 +211,7 @@ namespace iModSCCredenciamento.Views
         }
 
         private void SalvarTecnologiasCredenciais_bt_Click(object sender, RoutedEventArgs e)
-        {
-            if (!Global.PopupBox("Tem certeza que deseja salvar?", 2))
-            {
-                return;
-            }
+        { 
             ((ConfiguracoesViewModel)DataContext).OnSalvarEdicaoCommand_TecnologiasCredenciais();
         }
 
@@ -283,10 +265,7 @@ namespace iModSCCredenciamento.Views
 
         private void SalvarTiposCombustiveis_bt_Click(object sender, RoutedEventArgs e)
         {
-            if (!Global.PopupBox("Tem certeza que deseja salvar?", 2))
-            {
-                return;
-            }
+            
             ((ConfiguracoesViewModel)DataContext).OnSalvarEdicaoCommand_TiposCombustiveis();
         }
 

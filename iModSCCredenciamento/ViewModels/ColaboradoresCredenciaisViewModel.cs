@@ -508,7 +508,7 @@ namespace iModSCCredenciamento.ViewModels
                     WpfHelp.PopupBox("Impressão Efetuada com Sucesso!", 1);
                     Entity.Impressa = true;
 
-                    BitmapImage _foto = Conversores.STRtoIMG(Entity.ColaboradorFoto) as BitmapImage;
+                    //BitmapImage _foto = Conversores.STRtoIMG(Entity.ColaboradorFoto) as BitmapImage;
                     //string guid = _sc.Vincular(Entity.ColaboradorNome.Trim(), Entity.Cpf.Trim(), Entity.Cnpj.Trim(),
                     //    Entity.EmpresaNome.Trim(), Entity.Matricula.Trim(), Entity.Cargo.Trim(),
                     //    Entity.Fc.ToString().Trim(), Entity.NumeroCredencial.Trim(),
@@ -526,11 +526,12 @@ namespace iModSCCredenciamento.ViewModels
                     //n1.CredencialGuid = guids[2].ToString();
                     //_service.Alterar(n1);
 
+                    //Criar cardHolder
                     string cardholderGuid = _sc.CardHolder(Entity.ColaboradorNome.Trim(), Entity.Cpf.Trim(), Entity.Cnpj.Trim(),
                         Entity.EmpresaNome.Trim(), Entity.Matricula.Trim(), Entity.Cargo.Trim(),
                         Entity.Fc.ToString().Trim(), Entity.NumeroCredencial.Trim(),
                         Entity.FormatoCredencialDescricao.Trim(), Entity.Validade.ToString(),
-                        layoutCracha.LayoutCrachaGuid, Conversores.BitmapImageToBitmap(_foto));
+                        layoutCracha.LayoutCrachaGuid, Entity.ColaboradorFoto.ConverterBase64StringToBitmap());
 
                     string credentialGuid = _sc.Credencial(layoutCracha.LayoutCrachaGuid, Entity.Fc.ToString().Trim(),
                         Entity.NumeroCredencial.Trim(), Entity.FormatoCredencialDescricao.Trim(), cardholderGuid);
