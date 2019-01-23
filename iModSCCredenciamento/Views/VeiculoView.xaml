@@ -6,12 +6,12 @@
              xmlns:local="clr-namespace:iModSCCredenciamento.Views"
              xmlns:i="clr-namespace:iModSCCredenciamento.Funcoes"
              xmlns:viewModel="clr-namespace:iModSCCredenciamento.ViewModels"
-             d:DataContext="{d:DesignInstance viewModel:VeiculoViewModel}"
-             xmlns:data="clr-namespace:Singulink.Windows.Data"
-             xmlns:z="clr-namespace:iModSCCredenciamento.Regras"
+             d:DataContext="{d:DesignInstance viewModel:VeiculoViewModel, IsDesignTimeCreatable=True}" 
              mc:Ignorable="d"
              MaxWidth="1300" Width="1270" Height="825"  Loaded="Frm_Loaded">
-    <UserControl.Resources> 
+    <UserControl.Resources>
+        <i:StringToImageConverter x:Key="ImageConverter"/>
+        <i:ConvertBoolToImage x:Key="ConvertBoolToImage"/>
         <ControlTemplate x:Key="ValidationErrorTemplate">
             <DockPanel>
                 <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
@@ -147,10 +147,7 @@
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="Geral_bt" Click="OnPendenciaGeral_Click" Style="{StaticResource MenuStyle}">
                             <StackPanel>
-                                <Image
-                                    Source="{Binding PendenciaGeral,
-                                        Converter={StaticResource ConvertBoolToImage},
-                                        UpdateSourceTrigger=Explicit, Mode=TwoWay}"
+                                <Image Source="{Binding PendenciaGeral,UpdateSourceTrigger=Explicit, Mode=TwoWay}"
                                     Width="16" Height="16" RenderTransformOrigin="1,1" />
                             </StackPanel>
                         </Button>
@@ -159,8 +156,8 @@
                         </StackPanel>
                     </StackPanel>
                 </TabItem.Header>
-                <Grid IsEnabled="{Binding Comportamento.isEnableCancelar}" Margin="5" HorizontalAlignment="Left"
-                      Width="601">
+                <Grid IsEnabled="{Binding Comportamento.isEnableCancelar}" Margin="5" HorizontalAlignment="Left" Width="601">
+                    
                     <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" Header="Identificação"
                               Background="BlueViolet" Height="297" VerticalAlignment="Top" Margin="0,0,-275,0" HorizontalAlignment="Left" Width="876">
                         <StackPanel Orientation="Horizontal" Height="272" Margin="2,0,-2,0" VerticalAlignment="Top">
@@ -255,11 +252,7 @@
                                                   SelectedValue="{Binding Entity.TipoEquipamentoVeiculoId,  UpdateSourceTrigger=PropertyChanged}" 
                                                   SelectedValuePath="TipoEquipamentoId" IsSynchronizedWithCurrentItem="True" 
                                                   SelectedIndex="0" 
-                                                  Width="259" />
-                                    <!--<TextBox CharacterCasing="Upper"   MaxLength="50"
-                                             
-                                             Text="{Binding Entity.TipoEquipamentoVeiculoId, UpdateSourceTrigger=PropertyChanged}"
-                                             IsEnabled="True" Height="24" Width="100" />-->
+                                                  Width="259" /> 
                                     <Label Content="Cor:" Height="28" Width="60" HorizontalContentAlignment="Right"
                                            Foreground="#FFD0D0D0" />
                                     <TextBox CharacterCasing="Upper"   MaxLength="20"
@@ -307,11 +300,10 @@
 
                             </StackPanel>
                             <StackPanel VerticalAlignment="Top"  Height="140" Width="101" Margin="10,10,0,0">
+                               
                                 <Border CornerRadius="3" BorderThickness="1" Grid.Column="0" Width="100" Height="100"
                                         HorizontalAlignment="Left" BorderBrush="#FF686868">
-                                    <Image x:Name="Logo_im" Stretch="Uniform"
-                                           Source="{Binding Entity.Foto,  Mode=TwoWay ,UpdateSourceTrigger=Explicit}"
-                                           Margin="3" />
+                                    <Image x:Name="Logo_im" Stretch="Uniform" Source="{Binding Entity.Foto, Converter={StaticResource ImageConverter}, Mode=TwoWay, UpdateSourceTrigger=Explicit}" Margin="3"   />
                                 </Border>
                                 <Button x:Name="SelecionarLogo_bt" Content="Selecionar Foto"
                                         HorizontalAlignment="Right" Margin="0,10,1,0" Height="30" Width="100"
@@ -519,9 +511,7 @@
                                 Style="{StaticResource MenuStyle}">
                             <StackPanel>
                                 <Image
-                                    Source="{Binding PendenciaContrato,
-                                        Converter={StaticResource ConvertBoolToImage},
-                                        UpdateSourceTrigger=Explicit, Mode=TwoWay}"
+                                    Source="{Binding PendenciaContrato,Converter={StaticResource ConvertBoolToImage},UpdateSourceTrigger=Explicit, Mode=TwoWay}"
                                     Width="16" Height="16" />
                             </StackPanel>
                         </Button>
