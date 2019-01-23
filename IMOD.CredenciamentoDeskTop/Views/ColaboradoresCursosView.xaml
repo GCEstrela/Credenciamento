@@ -1,0 +1,121 @@
+﻿<UserControl x:Class="IMOD.CredenciamentoDeskTop.Views.ColaboradoresCursosView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:wpf="clr-namespace:CSharpControls.Wpf;assembly=CSharpControls.Wpf"
+             xmlns:funcoes="clr-namespace:IMOD.CredenciamentoDeskTop.Funcoes"
+             xmlns:viewModels="clr-namespace:IMOD.CredenciamentoDeskTop.ViewModels"
+             d:DataContext="{d:DesignInstance viewModels:ColaboradoresCursosViewModel , IsDesignTimeCreatable=True}"
+             mc:Ignorable="d"  Height="350">
+    <UserControl.Resources>
+        <funcoes:CheckTeste x:Key="CheckTeste" /> 
+    </UserControl.Resources>
+
+
+    <Grid Margin="0,0,0,10" Loaded="Grid_Loaded">
+        <StackPanel Orientation="Vertical">
+            <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" 
+                      Background="Chocolate"                      
+                      IsEnabled="{Binding Comportamento.isEnableCancelar}"
+                      x:Name="InformacoesCursos_gb" Header="Cursos e Treinamentos"   Margin="0,0,0,0"
+                      VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="795">
+                <StackPanel x:Name="InformacoesAnexo_sp" Margin="0,0,0,0" Width="773">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="1">
+                        <Label Content="Código:" Height="26" Foreground="#FFD0D0D0" Width="110"  />
+                        <TextBox  x:Name="cmbEmpresa" Width="43" Height="24" 
+                                  Text="{Binding Entity.ColaboradorCursoId, UpdateSourceTrigger=PropertyChanged}" 
+                                   VerticalContentAlignment="Center" 
+                                   HorizontalContentAlignment="Left"
+                                   VerticalAlignment="Center"/>
+
+                        <Label Content="Curso:" Height="24" Width="55" Foreground="#FFD0D0D0" />
+                        <ComboBox  x:Name="cmbCurso" 
+                                   Width="294" Height="24" 
+                                   VerticalContentAlignment="Center" 
+                                   HorizontalContentAlignment="Left"
+                                   ItemsSource="{Binding Cursos}" 
+                                   DisplayMemberPath="Descricao"  
+                                   SelectedValue="{Binding Entity.CursoId, UpdateSourceTrigger=PropertyChanged}" 
+                                   SelectedValuePath="CursoId"/>
+                        <Label Content="Data de Validade:" Height="24" Width="110" Foreground="#FFD0D0D0" Margin="0,7" HorizontalContentAlignment="Right" HorizontalAlignment="Left" />
+                        <DatePicker x:Name="DataValidade_dp" 
+                                    SelectedDate="{Binding Entity.Validade, UpdateSourceTrigger=PropertyChanged}" 
+                                    Foreground="White" Background="{x:Null}" HorizontalAlignment="Left"  Margin="1,7,0,7" 
+                                    Height="Auto" Width="114" />
+
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
+                        <Label Content="Nome do Arquivo:" Height="24" Width="110" Foreground="#FFD0D0D0"  />
+                        <TextBox  x:Name="NomeArquivo_tb" 
+                                  Text="{Binding Entity.NomeArquivo, UpdateSourceTrigger=PropertyChanged}" 
+                                   Width="324" Height="24" 
+                                   VerticalContentAlignment="Center" 
+                                   HorizontalContentAlignment="Left"/>
+                        <Button x:Name="BuscarCursoArquivo_bt" Height="24"  VerticalAlignment="Center" HorizontalAlignment="Left" Width="24" Margin="10,10,0,8" Click="OnUpLoad_Click">
+                            <StackPanel>
+                                <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Pasta.ico"/>
+                            </StackPanel>
+                        </Button>
+                        <Button x:Name="AbrirCursoArquivo_bt" Height="24" Margin="10,10,5,8" VerticalAlignment="Center" Width="24" Click="OnAbrirArquivo_Click">
+                            <StackPanel>
+                                <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Olho.png"/>
+                            </StackPanel>
+                        </Button>
+                        <wpf:ToggleSwitch x:Name="Controlada_tw"  HeaderHorizontalAlignment="Stretch" Width="181" HorizontalAlignment="Right"
+                                                         SwitchContentPlacement="Left"  Content="Data Controlada:" CheckedText="Sim" UncheckedText="Não"
+                                                         IsChecked="{Binding Entity.Controlado, ConverterParameter=Principal_tw, UpdateSourceTrigger=PropertyChanged}" Grid.Column="5"
+                                                         Foreground="#FFD0D0BE" UncheckedBackground="Gray" UncheckedBorderBrush="Gray" UncheckedForeground="#FFAEAEAE" Margin="5,0,0,0"/>
+
+                    </StackPanel>
+                </StackPanel>
+            </GroupBox>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="795" Height="202">
+                <ListView x:Name="ListaColaboradoresCursos_lv" IsEnabled="{Binding IsEnableLstView}"
+                          HorizontalAlignment="Stretch" 
+                          ItemsSource="{Binding EntityObserver, Mode=TwoWay}"
+                          SelectedItem="{Binding Entity, Mode=TwoWay}"
+                          Width="630" Margin="0,15,0,10">
+                    <ListView.View>
+                        <GridView FrameworkElement.FlowDirection="RightToLeft">
+                            <GridViewColumn Width="80" Header="Controlada"  >
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <wpf:ToggleSwitch HeaderHorizontalAlignment="Stretch" Width="100" HorizontalAlignment="Right" SwitchContentPlacement="Right" IsHitTestVisible="False"
+                                                 IsChecked="{Binding Controlado}"  Foreground="#FFD0D0BE" UncheckedBackground="Gray" UncheckedBorderBrush="Gray" UncheckedForeground="#FFAEAEAE" UncheckedText="" CheckedText="" SwitchWidth="44" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Width="100" Header="Validade"  DisplayMemberBinding="{Binding Validade, StringFormat='dd/MM/yyyy'}"/>
+                            <GridViewColumn Width="250" Header="Nome do Curso"    DisplayMemberBinding="{Binding CursoNome}"/>
+                            <GridViewColumn Width="190" Header="Arquivo"  DisplayMemberBinding="{Binding NomeArquivo}"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+                <StackPanel Orientation="Vertical" Margin="10,0,0,-5" HorizontalAlignment="Right" Width="155"
+                            Height="193" VerticalAlignment="Bottom">
+
+                    <Button x:Name="btnAdicionar" Content="Adicionar" ToolTip="Adicionar"
+                            IsEnabled="{Binding Comportamento.IsEnableCriar}" Command="{Binding PrepareCriarCommand}"
+                            Height="30" Width="148" Margin="0,0,0,7" />
+                    <Button x:Name="btnEditar" Content="Editar" Height="30" ToolTip="Editar"
+                            IsEnabled="{Binding Comportamento.IsEnableEditar}"
+                            Command="{Binding PrepareAlterarCommand}" Width="148" Margin="0,0,0,7" />
+                    <Button x:Name="btnExcluir" Content="Remover" Height="30" Width="148" ToolTip="Remover"
+                            IsEnabled="{Binding Comportamento.isEnableRemover}"
+                            Command="{Binding PrepareRemoverCommand}" Margin="0,0,0,7" />
+                    <Button x:Name="btnCancelar" Content="Cancelar" ToolTip="Cancelar" Height="30" Width="148"
+                            IsEnabled="{Binding Comportamento.isEnableCancelar}"
+                            Command="{Binding PrepareCancelarCommand}" Margin="0,0,0,7" />
+                    <Button x:Name="btnSalvar" Content="Salvar" ToolTip="Salvar"  Height="30" Width="148"
+                            IsEnabled="{Binding Comportamento.isEnableSalvar}" Command="{Binding PrepareSalvarCommand}"
+                            Margin="4,0,3,7" />
+
+                </StackPanel>
+            </StackPanel>
+
+        </StackPanel>
+    </Grid>
+
+</UserControl>

@@ -1,0 +1,63 @@
+﻿<Window x:Class="IMOD.CredenciamentoDeskTop.Windows.PopupFiltrosTermos"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+
+        mc:Ignorable="d"
+        Title="Procurar Empresa" Height="372.879" Width="444.628" ShowInTaskbar="False" WindowStartupLocation="CenterOwner" ResizeMode="NoResize" WindowStyle="None" BorderThickness="6,30,6,6" Topmost="True">
+    <Window.Background>
+        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FF171717" Offset="0.984"/>
+            <GradientStop Color="#FF363535"/>
+        </LinearGradientBrush>
+    </Window.Background>
+    <Window.BorderBrush>
+        <LinearGradientBrush EndPoint="0,0" MappingMode="RelativeToBoundingBox" StartPoint="1,1">
+            <GradientStop Color="#FF131313"/>
+            <GradientStop Color="#FF424040" Offset="0.976"/>
+            <GradientStop Color="White" Offset="0.544"/>
+        </LinearGradientBrush>
+    </Window.BorderBrush>
+    <Grid>
+        <StackPanel Margin="0,-30,0,0" Orientation="Horizontal" HorizontalAlignment="Left"  >
+            <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Cracha.png" Width="24" Height="139" VerticalAlignment="Top"/>
+            <Label Content="Filtrar Termos de Credenciais/Autorizações" Foreground="White" Width="411" TextBlock.TextAlignment="Center"/>
+        </StackPanel>
+        <StackPanel Margin="0,-30" HorizontalAlignment="Right" Width="38" >
+            <Button FontWeight="Bold" Height="18" BorderBrush="Black" BorderThickness="1,0,1,1" Click="Button_Click" Margin="-2,0,0,0">
+                <Button.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FF660000" Offset="0"/>
+                        <GradientStop Color="#FFC70000" Offset="0.996"/>
+                    </LinearGradientBrush>
+                </Button.Background>
+
+                <DockPanel>
+                    <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Fechar2.png" Height="10" Width="10" />
+                </DockPanel>
+            </Button>
+        </StackPanel>
+        <StackPanel Grid.Column="0" Margin="0,0,0,0" Grid.ColumnSpan="2">
+            <GroupBox x:Name="Informacoes_gb" Header="Filtro de Termos por Período" Margin="10,10" Height="231" Foreground="#FFD0D0D0">
+                <StackPanel x:Name="Informacoes_sp" Margin="0,26,10,5">
+                    <RadioButton x:Name="hoje_rb" Content="Hoje" TextBlock.TextAlignment="Left" GroupName="Cred_rb" Height="25"  HorizontalContentAlignment="Left" Foreground="#FFD0D0D0" VerticalAlignment="Center" HorizontalAlignment="Left" IsChecked="True" Margin="10,0,0,0" Width="130"/>
+                    <RadioButton x:Name="semana_rb" Content="Últimos 7 dias" TextBlock.TextAlignment="Left" GroupName="Cred_rb" Height="25"  HorizontalContentAlignment="Left" Foreground="#FFD0D0D0" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Width="130"/>
+                    <RadioButton x:Name="mes_rb" Content="Últimos 30 dias" TextBlock.TextAlignment="Left" GroupName="Cred_rb" Height="25"  HorizontalContentAlignment="Left" Foreground="#FFD0D0D0" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Width="130"/>
+                    <RadioButton x:Name="periodo_rb" Content="Período Determinado:" TextBlock.TextAlignment="Left" GroupName="Cred_rb" Height="25"  HorizontalContentAlignment="Left" Foreground="#FFD0D0D0" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Width="140"/>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Stretch"  HorizontalAlignment="Left" Margin="0,5,-42,5" Height="48" Width="433">
+                        <Label Content="Data Inicial:" Height="28" Width="83" Margin="0,10,5,10" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                        <DatePicker Margin="-10,3,0,0" IsEnabled="{Binding IsChecked, ElementName=periodo_rb}" Height="28" HorizontalAlignment="Left" x:Name="dp_dataInicial" Width="100" />
+                        <!--<TextBox CharacterCasing="Upper"  x:Name="Datafim_tb"   MaxLength="50" Text="Data Final"  IsEnabled="True"  Height="24"  Width="100" />-->
+                        <!--<TextBox CharacterCasing="Upper"  x:Name="Dataini_tb"   MaxLength="50" Text="Data Inicial"  IsEnabled="True"  Height="24"  Width="100" Margin="0,12"/>-->
+                        <Label Content="Data Final :" Height="28" Width="100" Margin="0,10,5,10" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                        <DatePicker Margin="-10,3,0,0"  IsEnabled="{Binding IsChecked, ElementName=periodo_rb}"  Height="28" HorizontalAlignment="Left" x:Name="dp_dataFinal" Width="100" />
+                    </StackPanel>
+
+
+                </StackPanel>
+            </GroupBox>
+            <Button x:Name="button" Content="Filtrar" Click="button_ClickFiltrar" Height="33" HorizontalAlignment="Center" Width="100" Margin="166,20,167,20" />
+        </StackPanel>
+    </Grid>
+</Window>

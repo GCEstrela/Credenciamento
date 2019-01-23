@@ -1,0 +1,82 @@
+﻿<Window x:Class="IMOD.CredenciamentoDeskTop.Windows.PopupAutorizacao"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:Viewer="clr-namespace:SAPBusinessObjects.WPF.Viewer;assembly=SAPBusinessObjects.WPF.Viewer" 
+        mc:Ignorable="d"
+        Title="Autorização" 
+        ShowInTaskbar="False" 
+        WindowStartupLocation="CenterOwner" 
+        ResizeMode="NoResize" WindowStyle="None" 
+        BorderThickness="6,30,6,6" 
+        Topmost="True" 
+        Height="727.667" 
+        Width="1280">
+    <Window.Background>
+        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FF171717" Offset="0.984"/>
+            <GradientStop Color="#FF363535"/>
+        </LinearGradientBrush>
+    </Window.Background>
+    <Window.BorderBrush>
+        <LinearGradientBrush EndPoint="0,0" MappingMode="RelativeToBoundingBox" StartPoint="1,1">
+            <GradientStop Color="#FF131313"/>
+            <GradientStop Color="#FF424040" Offset="0.976"/>
+            <GradientStop Color="White" Offset="0.544"/>
+        </LinearGradientBrush>
+    </Window.BorderBrush>
+    <Grid>
+        <StackPanel Margin="0,-30,0,0" Orientation="Horizontal" HorizontalAlignment="Left"  >
+            <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Cracha.png" Width="24" Height="139" VerticalAlignment="Top"/>
+            <Label Content="Autorização ATIV - Impressão" Foreground="White"/>
+        </StackPanel>
+        <StackPanel Margin="0,-30" HorizontalAlignment="Right" Width="38" >
+            <Button FontWeight="Bold" Height="18" BorderBrush="Black" BorderThickness="1,0,1,1" Click="Button_Click" Margin="-2,0,0,0">
+                <Button.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FF660000" Offset="0"/>
+                        <GradientStop Color="#FFC70000" Offset="0.996"/>
+                    </LinearGradientBrush>
+                </Button.Background>
+
+                <DockPanel>
+                    <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Fechar2.png" Height="10" Width="10" />
+                </DockPanel>
+            </Button>
+        </StackPanel>
+        <Canvas ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Hidden">
+
+
+            <StackPanel Margin="0,-30,0,0" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Hidden" Height="622" Canvas.Top="100">
+                <Viewer:CrystalReportsViewer x:Name="GenericReportViewer" ToggleSidePanel="None" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                                                     ShowCopyButton="True" ShowExportButton="True" 
+                                                     ShowGoToPageButton="True" ShowLogo="True"
+                                                     ShowNextPageButton="True" 
+                                                     ShowPrevPageButton="True" 
+                                                     ShowPrintButton="True"
+                                                     ShowRefreshButton="True" 
+                                                     ShowSearchTextButton="True"
+                                                     ShowStatusbar="False"
+                                                     ShowToggleSidePanelButton="True" 
+                                                     ShowToolbar="False" Height="621" Background="#FF1C1C1C" HorizontalAlignment="Left" Width="1267" />
+            </StackPanel>
+            <StackPanel Height="93" Orientation="Horizontal"   Width="1267" Background="#FF2D2D30">
+                <Button x:Name="ImprimirCredencial_bt" Margin="330,0" Height="64" Width="64" Click="ImprimirCredencial_bt_Click">
+                    <StackPanel>
+                        <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/CardPrinter.png" Height="48" Width="48"/>
+                    </StackPanel>
+                </Button>
+                <Button x:Name="ChangePage_bt" Height="64" Width="64" Margin="110,0,0,0" VerticalAlignment="Center"   Click="ChangePage_bt_Click">
+                    <StackPanel>
+                        <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Rotate.png" Height="48" Width="48"/>
+                    </StackPanel>
+                </Button>
+
+            </StackPanel>
+
+        </Canvas>
+
+
+    </Grid>
+</Window>
