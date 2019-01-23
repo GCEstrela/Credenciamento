@@ -13,7 +13,7 @@ using AutoMapper;
 
 namespace IMOD.CredenciamentoWeb.Controllers
 {
-    [System.Web.Mvc.RoutePrefix("credenciamento/api/v1")]
+    //[System.Web.Mvc.RoutePrefix("credenciamento/api/v1")]
     public class ServicesController : ApiController
     {
         #region Propriedades
@@ -21,7 +21,73 @@ namespace IMOD.CredenciamentoWeb.Controllers
         private Version VersaoServico => new Version(1, 0);
 
         #endregion
+        
+        [HttpGet]
+        [Route("credenciamento/api/v1/verificar/{id}")]
+        public HttpResponseMessage Verificar(string  id)
+        {
+            try
+            {
+                //if (!dados.DadosGrafico.Any())
+                //    throw new FalhaValidacaoException("Sem dados gráficos");
 
+                ////Validar licença so software
+                //var licModel = new LicencaModel();
+                //var licOuterXml = licModel.BuscarPelaChave(dados.IdLicenca);
+                ////Validar Licença
+                //var chavePublica = ConfiguracaoModel.ChavePublica;
+                //var diasToleracia = ConfiguracaoModel.DiasParaExpirarValidade;
+                //var diasPrxValidacao = ConfiguracaoModel.DiasParaProximaValidacao;
+                //var xDoc = new XmlDocument();
+                //xDoc.LoadXml(licOuterXml);
+                //var lic = licModel.Validar(xDoc, chavePublica, diasToleracia, diasPrxValidacao, new LicencaSoftware());
+                //if (!lic.EValidoDataExpira) throw new Exception("Licença de software vencida.");
+                ////Cadastrar dados
+                //var grafModel = new GraficoModel();
+
+                //grafModel.Criar(dados.DadosGrafico, dados.IdLicenca, dados.TipoGrafico);
+
+                return Request.CreateResponse(HttpStatusCode.Created);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest,
+                        $"Não foi possível inserir dados. {ex.Message}");
+            }
+        }
+        //[Route("verificar")]
+        //[HttpGet]
+        //public HttpResponseMessage PostVerificarCredencial()
+        //{
+        //    try
+        //    {
+        //        //if (!dados.DadosGrafico.Any())
+        //        //    throw new FalhaValidacaoException("Sem dados gráficos");
+
+        //        ////Validar licença so software
+        //        //var licModel = new LicencaModel();
+        //        //var licOuterXml = licModel.BuscarPelaChave(dados.IdLicenca);
+        //        ////Validar Licença
+        //        //var chavePublica = ConfiguracaoModel.ChavePublica;
+        //        //var diasToleracia = ConfiguracaoModel.DiasParaExpirarValidade;
+        //        //var diasPrxValidacao = ConfiguracaoModel.DiasParaProximaValidacao;
+        //        //var xDoc = new XmlDocument();
+        //        //xDoc.LoadXml(licOuterXml);
+        //        //var lic = licModel.Validar(xDoc, chavePublica, diasToleracia, diasPrxValidacao, new LicencaSoftware());
+        //        //if (!lic.EValidoDataExpira) throw new Exception("Licença de software vencida.");
+        //        ////Cadastrar dados
+        //        //var grafModel = new GraficoModel();
+
+        //        //grafModel.Criar(dados.DadosGrafico, dados.IdLicenca, dados.TipoGrafico);
+
+        //        return Request.CreateResponse(HttpStatusCode.Created);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return Request.CreateResponse(HttpStatusCode.BadRequest,
+        //                $"Não foi possível inserir dados. {ex.Message}");
+        //    }
+        //}
         ////[Authorize(Users = "User,Adm")]
         //[Route("CarregarDadosGraficos")]
         //[HttpPost]
@@ -56,6 +122,8 @@ namespace IMOD.CredenciamentoWeb.Controllers
         //                $"Não foi possível inserir dados. {ex.Message}");
         //    }
         //}
+
+        
 
         ///// <summary>
         /////     Adicionar licença de software
