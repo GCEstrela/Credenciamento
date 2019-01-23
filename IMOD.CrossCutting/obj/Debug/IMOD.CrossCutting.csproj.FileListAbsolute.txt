@@ -1,0 +1,10 @@
+D:\Git Repositorio\IMOD.CrossCutting\bin\Debug\IMOD.CrossCutting.dll
+D:\Git Repositorio\IMOD.CrossCutting\bin\Debug\IMOD.CrossCutting.pdb
+D:\Git Repositorio\IMOD.CrossCutting\bin\Debug\Newtonsoft.Json.dll
+D:\Git Repositorio\IMOD.CrossCutting\bin\Debug\Newtonsoft.Json.pdb
+D:\Git Repositorio\IMOD.CrossCutting\bin\Debug\Newtonsoft.Json.xml
+D:\Git Repositorio\IMOD.CrossCutting\obj\Debug\IMOD.CrossCutting.csprojAssemblyReference.cache
+D:\Git Repositorio\IMOD.CrossCutting\obj\Debug\IMOD.CrossCutting.csproj.CoreCompileInputs.cache
+D:\Git Repositorio\IMOD.CrossCutting\obj\Debug\IMOD.CrossCutting.csproj.CopyComplete
+D:\Git Repositorio\IMOD.CrossCutting\obj\Debug\IMOD.CrossCutting.dll
+D:\Git Repositorio\IMOD.CrossCutting\obj\Debug\IMOD.CrossCutting.pdb
