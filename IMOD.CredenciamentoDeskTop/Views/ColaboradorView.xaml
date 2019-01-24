@@ -10,6 +10,29 @@
              mc:Ignorable="d"
             MaxWidth="1300" Width="1270" Height="825">
     <UserControl.Resources>
+
+     
+        
+        <!--<ControlTemplate x:Key="ValidaTemplate">
+            <DockPanel LastChildFill="True">
+                <TextBlock DockPanel.Dock="Right"
+ Foreground="Red" FontSize="14" FontWeight="Bold"
+ ToolTip="{Binding ElementName=adornerPlaceholder,
+Path=AdornedElement.(Validation.Errors)[0].ErrorContent}">*</TextBlock>
+                <Border BorderBrush="Green" BorderThickness="1">
+                    <AdornedElementPlaceholder Name="adornerPlaceholder">
+                    </AdornedElementPlaceholder>
+                </Border>
+            </DockPanel>
+        </ControlTemplate>-->
+
+
+
+
+
+
+
+
         <funcoes:StringToImageConverter x:Key="ImageConverter"/>
         <Style TargetType="{x:Type DatePickerTextBox}">
             <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" />
@@ -124,8 +147,8 @@
                 </Setter.Value>
             </Setter>
         </Style>
-
-        <ControlTemplate x:Key="validationErrorTemplate">
+        
+        <!--<ControlTemplate x:Key="validationErrorTemplate">
             <DockPanel>
                 <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
                     <Grid Width="12" Height="12">
@@ -142,121 +165,8 @@
                 </StackPanel>
                 <AdornedElementPlaceholder x:Name="ErrorAdorner" ></AdornedElementPlaceholder>
             </DockPanel>
-        </ControlTemplate>
- 
-        <!--<Style TargetType="{x:Type Label}">
-            <Setter Property="VerticalAlignment" Value="Center"></Setter>
-            <Setter Property="HorizontalAlignment" Value="Right"></Setter>
-            <Setter Property="Foreground" Value="#FFD0D0D0"/>
-        </Style>
-        <Style TargetType="{x:Type DatePicker}">
-            <Setter Property="Width" Value="100" />
-            <Setter Property="Height" Value="28" />
-        </Style>
-        <Style TargetType="{x:Type DatePickerTextBox}">
-
-            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" />
-            <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />
-            <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst"/>
-            <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="DatePickerTextBox">
-                        <Grid >
-                            <Grid.Resources>
-                                <SolidColorBrush x:Key="WatermarkBrush" Color="#FFAAAAAA"/>
-                            </Grid.Resources>
-                            <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroup Name="CommonStates">
-                                    <VisualStateGroup.Transitions>
-                                        <VisualTransition GeneratedDuration="0" />
-                                        <VisualTransition To="MouseOver" GeneratedDuration="0:0:0.1" />
-                                    </VisualStateGroup.Transitions>
-                                    <VisualState Name="Normal" />
-                                    <VisualState Name="MouseOver">
-                                        <Storyboard>
-                                            <ColorAnimation Storyboard.TargetName="ContentElement" Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)" To="#FF99C1E2" Duration="0"/>
-                                            <ColorAnimation Storyboard.TargetName="watermark_decorator" Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)" To="#FF99C1E2" Duration="0"/>
-                                        </Storyboard>
-                                    </VisualState>
-                                </VisualStateGroup>
-
-                                -->
-        <!--<VisualStateGroup Name="WatermarkStates">
-                                    <VisualStateGroup.Transitions>
-                                        <VisualTransition GeneratedDuration="0" />
-                                    </VisualStateGroup.Transitions>
-                                    <VisualState Name="Unwatermarked" />
-                                    <VisualState Name="Watermarked">
-                                        <Storyboard>
-                                            <DoubleAnimation Storyboard.TargetName="ContentElement" Storyboard.TargetProperty="Opacity" To="0" Duration="0" />
-                                            <DoubleAnimation Storyboard.TargetName="PART_Watermark" Storyboard.TargetProperty="Opacity" To="1" Duration="0" />
-                                        </Storyboard>
-                                    </VisualState>
-                                </VisualStateGroup>-->
-        <!--
-
-                                <VisualStateGroup Name="FocusStates">
-                                    <VisualStateGroup.Transitions>
-                                        <VisualTransition GeneratedDuration="0" />
-                                    </VisualStateGroup.Transitions>
-                                    <VisualState Name="Unfocused" />
-                                    <VisualState Name="Focused">
-                                        <Storyboard>
-                                            <DoubleAnimation Storyboard.TargetName="FocusVisual" Storyboard.TargetProperty="Opacity" To="1" Duration="0" />
-                                        </Storyboard>
-                                    </VisualState>
-                                </VisualStateGroup>
-
-                            </VisualStateManager.VisualStateGroups>
-
-
-                            <Border x:Name="Border" VerticalAlignment="Center"
-                            Background="Transparent" 
-                            BorderBrush="Transparent" 
-                            BorderThickness="0"
-                            Padding="{TemplateBinding Padding}"
-                            CornerRadius="1" 
-                            Opacity="1">
-                                <Grid x:Name="WatermarkContent" 
-                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                              VerticalAlignment="Center">
-                                    <Border x:Name="ContentElement" BorderThickness="1">
-                                        <Border.BorderBrush>
-                                            <SolidColorBrush Color="Transparent"/>
-                                        </Border.BorderBrush>
-                                    </Border>
-                                    <Border x:Name="watermark_decorator" BorderThickness="1" VerticalAlignment="Stretch">
-                                        <Border.BorderBrush>
-                                            <SolidColorBrush Color="Transparent"/>
-                                        </Border.BorderBrush>
-                                        <ContentControl x:Name="PART_Watermark"
-                                                    Opacity="0"
-                                                    Focusable="False"
-                                                    IsHitTestVisible="False"
-                                                    Padding="2" VerticalContentAlignment="Stretch">
-                                            <ContentControl.Template>
-                                                <ControlTemplate>
-                                                    <TextBlock  VerticalAlignment="Center" Text="//"/>
-                                                </ControlTemplate>
-                                            </ContentControl.Template>
-                                        </ContentControl>
-                                    </Border>
-                                    <ScrollViewer x:Name="PART_ContentHost" 
-                                          Margin="0"
-                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                          VerticalContentAlignment= "Center" />
-                                    <Border x:Name="FocusVisual" VerticalAlignment="Center" BorderBrush="#FF45D6FA" CornerRadius="1" Opacity="0" IsHitTestVisible="False"/>
-                                </Grid>
-                            </Border>
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>-->
-
-
-
+        </ControlTemplate>-->
+        
         <funcoes:FormateTel x:Key="FormateTel" />
     </UserControl.Resources>
     <Grid  Margin="5" Loaded="Frm_Loaded">
@@ -325,7 +235,7 @@
             </StackPanel>
         </StackPanel>
 
-        <Label Content="{Binding Entity.Nome }" Grid.Column="0" Grid.Row="2" FontSize="14" Foreground="#FF007ACC" Margin="0,1,-94,2" />
+        <!--<Label Content="{Binding Entity.Nome }" Grid.Column="0" Grid.Row="2" FontSize="14" Foreground="#FF007ACC" Margin="0,1,-94,2" />-->
 
         <TabControl x:Name="TabGeral_tc" 
                     SelectedIndex="{Binding SelectedTabIndex }"
@@ -360,21 +270,21 @@
                             </StackPanel.Resources>
                             <StackPanel Margin="1,1,1,0" Height="166" VerticalAlignment="Top" Width="416">
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="1"   >
-                                    <Label Content="Código:" Height="28" Width="100"   Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
+                                    <Label Content="Código:" Height="28" Width="100"   Foreground="#FFD0D0D0" HorizontalContentAlignment="Left" />
                                     <TextBox CharacterCasing="Upper"  x:Name="Codigo_tb"   MaxLength="50" Text="{Binding Entity.ColaboradorId, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"  Height="24"  Width="50"/>
                                     <Label Content="CPF:" Height="28" Width="132" Margin="1"  Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                                     <TextBox  x:Name="txtCpf"  MaxLength="20" IsEnabled="True"  Height="24"  Width="122"  Foreground="White" VerticalContentAlignment="Center" 
                                                       Text="{Binding Entity.Cpf,
                                                       UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                                      HorizontalContentAlignment="Center" LostFocus="OnValidaCpf_LostFocus" Validation.ErrorTemplate="{StaticResource validationErrorTemplate}"  />
+                                                      HorizontalContentAlignment="Center" LostFocus="OnValidaCpf_LostFocus"/>
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="1" >
-                                    <Label Content="Nome:" Height="28" Width="100"   Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
-                                    <TextBox CharacterCasing="Upper"  Text="{Binding Entity.Nome}"   x:Name="Nome_tb"  MaxLength="50"   IsEnabled="True"  Height="24"  Width="306"  Validation.ErrorTemplate="{StaticResource validationErrorTemplate}"/>
+                                    <Label Content="Nome:" Height="28" Width="100"   Foreground="#FFD0D0D0" HorizontalContentAlignment="Left"/>
+                                    <TextBox CharacterCasing="Upper"  Text="{Binding Entity.Nome,ValidatesOnNotifyDataErrors=True}"    x:Name="Nome_tb"  MaxLength="50"   IsEnabled="True"  Height="24"  Width="306"  />
                                 </StackPanel>
 
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="1"   >
-                                    <Label Content="Apelido:" Height="28" Width="100"   Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
+                                    <Label Content="Apelido:" Height="28" Width="100"   Foreground="#FFD0D0D0" HorizontalContentAlignment="Left"/>
                                     <TextBox CharacterCasing="Upper"  x:Name="Apelido_tb"   
                                              MaxLength="50" Text="{Binding Entity.Apelido, UpdateSourceTrigger=PropertyChanged}"
                                              IsEnabled="True"  Height="24"  Width="306"/>
@@ -382,13 +292,13 @@
                                 </StackPanel>
 
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="1" >
-                                    <Label Content="Nome Pai:" Height="28"  Width="100"    Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
+                                    <Label Content="Nome Pai:" Height="28"  Width="100"    Foreground="#FFD0D0D0" HorizontalContentAlignment="Left"/>
                                     <TextBox CharacterCasing="Upper"  x:Name="Ins_Estadual_tb"   MaxLength="11" PreviewTextInput="NumberOnly" Text="{Binding Entity.NomePai, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"    Width="306"/>
 
                                 </StackPanel>
 
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="1"  >
-                                    <Label Content="Nome Mãe:" Height="28"  Width="100"    Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
+                                    <Label Content="Nome Mãe:" Height="28"  Width="100"    Foreground="#FFD0D0D0" HorizontalContentAlignment="Left"/>
                                     <TextBox CharacterCasing="Upper"  x:Name="Ins_Municipal_tb"   MaxLength="11" PreviewTextInput="NumberOnly" Text="{Binding Entity.NomeMae, StringFormat=\{0:d\}, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="306"/>
                                 </StackPanel>
 
@@ -405,11 +315,11 @@
                     <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" Background="Brown" Grid.Column="0" Header="Endereço"  Margin="0,192,0,0" Height="205" VerticalAlignment="Top" Grid.ColumnSpan="2" >
                         <StackPanel Margin="1">
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="1" >
-                                <Label Content="Logradouro:" Height="28" Width="100"   Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
+                                <Label Content="Logradouro:" Height="28" Width="100"   Foreground="#FFD0D0D0" HorizontalContentAlignment="Left"/>
                                 <TextBox CharacterCasing="Upper"  x:Name="Endereco_tb"   MaxLength="50" Text="{Binding Entity.Endereco, UpdateSourceTrigger=PropertyChanged}"    IsEnabled="True"  Height="24"  Width="455"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="1,1,0,1" Width="562" >
-                                <Label Content="No.:" Height="28" Width="100"    Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
+                                <Label Content="No.:" Height="28" Width="100"    Foreground="#FFD0D0D0" HorizontalContentAlignment="Left"/>
                                 <TextBox CharacterCasing="Upper"  x:Name="Numero_tb"   MaxLength="50" PreviewTextInput="NumberOnly" Text="{Binding Entity.Numero,  UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="50"/>
                                 <Label Content="CEP:" Height="28" Width="90"    Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
                                 <TextBox CharacterCasing="Upper"  x:Name="Cep_tb" MaxLength="50" PreviewTextInput="NumberOnly" Text="{Binding Entity.Cep,  UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="98"/>
@@ -418,7 +328,7 @@
 
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"  Width="569"   >
-                                <Label Content="Bairro:" Height="28" Width="102"   Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
+                                <Label Content="Bairro:" Height="28" Width="102"   Foreground="#FFD0D0D0" HorizontalContentAlignment="Left" />
                                 <TextBox CharacterCasing="Upper"  x:Name="Bairro_tb"   MaxLength="50" 
                                          Text="{Binding Entity.Bairro,   UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="23"  Width="152"   />
                                 <Label Content="UF:" Height="28" Width="30" Margin="1"  Foreground="#FFD0D0D0" />
@@ -444,7 +354,7 @@
                     <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" Background="Crimson"    x:Name="Contato1_gb"  Header="Contatos "    VerticalAlignment="Top" Margin="486,0,-610,0" Height="192" Grid.Column="1" >
                         <StackPanel Margin="1">
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="1" >
-                                <Label Content="Telefone:" Height="28" Width="72"    Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
+                                <Label Content="Telefone:" Height="28" Width="72"    Foreground="#FFD0D0D0" HorizontalContentAlignment="Left"/>
                                 <TextBox CharacterCasing="Upper"  x:Name="Contato1_tb"   MaxLength="50" Text="{Binding Entity.TelefoneFixo,Converter={StaticResource FormateTel}, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="250"/>
                                 <Label Content="Celular:" Height="28" Width="105"    Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                                 <TextBox Foreground="#FFD0D0D0"   CharacterCasing="Upper"  x:Name="Tel1_tb"   MaxLength="15" Margin="1"
@@ -453,7 +363,7 @@
                             </StackPanel>
 
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="1" >
-                                <Label Content="E-Mail:" Height="28" Width="72"   Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
+                                <Label Content="E-Mail:" Height="28" Width="72"   Foreground="#FFD0D0D0" HorizontalContentAlignment="Left" />
                                 <TextBox CharacterCasing="Lower"  x:Name="Email1_tb"   MaxLength="50" Text="{Binding Entity.Email, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="454"/>
 
                             </StackPanel>
@@ -477,7 +387,7 @@
                     <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}"  Background="Blue"  x:Name="Observacoes_gb"  Header="Registro/CNH " Margin="486,192,-610,0" Height="205" VerticalAlignment="Top" Grid.Column="1" >
                         <StackPanel Margin="1">
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="1" >
-                                <Label Content="Nascimento:" Height="28" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
+                                <Label Content="Nascimento:" Height="28" Foreground="#FFD0D0D0" HorizontalContentAlignment="Left" />
                                 <DatePicker x:Name="DataNascimento_tb" Width="120" Height="24"
                                     SelectedDate="{Binding Entity.DataNascimento,
                                     UpdateSourceTrigger=PropertyChanged}"  Foreground="White" Background="{x:Null}" />
@@ -499,14 +409,14 @@
                             </StackPanel>
 
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="1" >
-                                <Label Content="RG:" Height="28"  Foreground="#FFD0D0D0" Width="40" HorizontalContentAlignment="Right" />
+                                <Label Content="RG:" Height="28"  Foreground="#FFD0D0D0" Width="40" HorizontalContentAlignment="Left" />
                                 <TextBox  x:Name="RG_tb"  PreviewTextInput="NumberOnly" 
                                           Text="{Binding Entity.Rg, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="83" />
-                                <Label Content="Emissão:" Height="24" Foreground="#FFD0D0D0" Width="81" HorizontalContentAlignment="Right" />
+                                <Label Content="Emissão:" Height="24" Foreground="#FFD0D0D0" Width="81" HorizontalContentAlignment="Left" />
                                 <DatePicker x:Name="emissa" VerticalContentAlignment="Center" HorizontalAlignment="Center" Height="24"
                                     SelectedDate="{Binding Entity.DataEmissao,
                                     UpdateSourceTrigger=PropertyChanged}"  Foreground="White" Background="{x:Null}"  Width="120" />
-                                <Label Foreground="#FFD0D0D0" Content="Órg. Exp.:" Height="24" Width="80" HorizontalContentAlignment="Right" />
+                                <Label Foreground="#FFD0D0D0" Content="Órg. Exp.:" Height="24" Width="80" HorizontalContentAlignment="Left" />
                                 <ComboBox  x:Name="RGOrgLocal_cb" Text="{Binding Entity.RgOrgLocal, 
                                     UpdateSourceTrigger=PropertyChanged}" IsEnabled="True"  Height="25" Width="80"   >
                                     <ComboBoxItem>SSP</ComboBoxItem>
@@ -525,18 +435,18 @@
                             </StackPanel>
 
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="1,1,0,1" Width="575" >
-                                <Label Content="RNE:" Height="24"  Foreground="#FFD0D0D0" Width="40" HorizontalContentAlignment="Right" />
+                                <Label Content="RNE:" Height="24"  Foreground="#FFD0D0D0" Width="40" HorizontalContentAlignment="Left" />
                                 <TextBox  x:Name="RNE_tb"  CharacterCasing="Upper" MaxLength="30"  
                                     Text="{Binding Entity.Rne,  
                                     UpdateSourceTrigger=PropertyChanged,
                                     StringFormat=\{0:d\}}"  IsEnabled="True"  Height="24"  Width="83"  />
 
-                                <Label Content="Passaporte:" Height="24" Width="80" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
+                                <Label Content="Passaporte:" Height="24" Width="80" Foreground="#FFD0D0D0" HorizontalContentAlignment="Left" />
                                 <TextBox  x:Name="Passaporte_tb"  CharacterCasing="Upper" Text="{Binding Entity.Passaporte,
                                     UpdateSourceTrigger=PropertyChanged,  
                                     StringFormat=\{0:d\}}"  IsEnabled="True"  Height="24"  Width="120" />
 
-                                <Label Content="Validade:" Foreground="#FFD0D0D0" Height="24" Width="80" HorizontalContentAlignment="Right"  />
+                                <Label Content="Validade:" Foreground="#FFD0D0D0" Height="24" Width="80" HorizontalContentAlignment="Left"  />
                                 <DatePicker x:Name="PassaporteValidade_tb" 
                                             VerticalContentAlignment="Center" 
                                             SelectedDate="{Binding Entity.PassaporteValidade, UpdateSourceTrigger=PropertyChanged}"
@@ -546,15 +456,15 @@
                             </StackPanel>
 
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="1" >
-                                <Label Content="CNH:" Height="24" Foreground="#FFD0D0D0" Width="40" HorizontalContentAlignment="Right"/>
+                                <Label Content="CNH:" Height="24" Foreground="#FFD0D0D0" Width="40" HorizontalContentAlignment="Left"/>
                                 <TextBox  x:Name="CNH_tb"  MaxLength="11" PreviewTextInput="NumberOnly" Text="{Binding Entity.Cnh ,
                                     UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24" Width="83" />
 
-                                <Label Content="Validade:" Height="28" Width="79"  Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
+                                <Label Content="Validade:" Height="28" Width="79"  Foreground="#FFD0D0D0" HorizontalContentAlignment="Left"/>
                                 <DatePicker x:Name="cnhva" VerticalContentAlignment="Center" HorizontalAlignment="Center" Height="24"
                                     SelectedDate="{Binding Entity.CnhValidade,
                                     UpdateSourceTrigger=PropertyChanged}"  Foreground="White" Background="{x:Null}"  Width="120" />
-                                <Label Content="Órg. Emissor:" Height="26" Width="80" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
+                                <Label Content="Órg. Emissor:" Height="26" Width="80" Foreground="#FFD0D0D0" HorizontalContentAlignment="Left" />
 
                                 <!--<TextBox  x:Name="CNHEmissor_tb"  CharacterCasing="Upper" HorizontalAlignment="Left" Text="{Binding SelectedItem.CNHEmissor , ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}" IsEnabled="True"  Height="24"  Width="50" Grid.Row="0" Grid.Column="5" Margin="0,5,0,6" />-->
                                 <ComboBox  x:Name="CNHEmissor_cb" Text="{Binding Entity.CnhEmissor,
@@ -575,12 +485,12 @@
                             </StackPanel>
 
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="1" >
-                                <Label Content="Motorista" Foreground="#FFD0D0D0"  Height="24" Width="108" HorizontalContentAlignment="Right"  />
+                                <Label Content="Motorista" Foreground="#FFD0D0D0"  Height="24" Width="108" HorizontalContentAlignment="Left"  />
                                 <CheckBox x:Name="Motorista_cb" VerticalContentAlignment="Center"
                                                Height="24"    Foreground="#FFD0D0D0"  
                                                IsChecked="{Binding Entity.Motorista, UpdateSourceTrigger=PropertyChanged}"/>
 
-                                <Label Content="Categoria:" Foreground="#FFD0D0D0"  Height="26" Width="78"  HorizontalContentAlignment="Right" />
+                                <Label Content="Categoria:" Foreground="#FFD0D0D0"  Height="26" Width="78"  HorizontalContentAlignment="Left" />
 
                                 <ComboBox  x:Name="CNHCategoria_cb" Text="{Binding Entity.CnhCategoria, UpdateSourceTrigger=PropertyChanged}"   IsEnabled="True"   Width="50" Height="25"  >
                                     <ComboBoxItem Content="A"/>
@@ -699,7 +609,7 @@
                         </StackPanel>
                     </StackPanel>
                 </TabItem.Header>
-                <views:ColaboradoresCursosView x:Name="ColaboradorCurso" Margin="5,5,15,18" VerticalAlignment="Top" HorizontalAlignment="Right" Width="1233"    />
+                <views:UsColaboradoresCursosView x:Name="ColaboradorCurso" Margin="5,5,15,18" VerticalAlignment="Top" HorizontalAlignment="Right" Width="1233"    />
 
             </TabItem>
 

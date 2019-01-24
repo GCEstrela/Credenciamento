@@ -9,7 +9,7 @@ using IMOD.CredenciamentoDeskTop.Funcoes;
 
 namespace IMOD.CredenciamentoDeskTop.Views.Model
 {
-    public class EmpresaView: PropertyValidateModel
+    public class EmpresaView//: PropertyValidateModel
     {
         #region  Propriedades
 

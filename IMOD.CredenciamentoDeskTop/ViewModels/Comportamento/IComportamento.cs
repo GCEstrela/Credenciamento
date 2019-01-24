@@ -50,7 +50,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels.Comportamento
         /// <summary>
         ///    Validar Regras de Negócio 
         /// </summary>
-        void Validar();
+        bool Validar();
 
         #endregion
     }

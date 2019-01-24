@@ -28,9 +28,6 @@ using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
 using IMOD.Domain.EntitiesCustom;
 using AutorizacaoView = IMOD.CredenciamentoDeskTop.Views.Model.AutorizacaoView;
-//using IMOD.Domain.EntitiesCustom;
-//using VeiculosCredenciaisView = IMOD.Domain.EntitiesCustom.VeiculosCredenciaisView;
-//using EmpresaView = iModSCCredenciamento.Views.Model.EmpresaView;
 using VeiculoEmpresaView = IMOD.CredenciamentoDeskTop.Views.Model.VeiculoEmpresaView;
 
 #endregion
@@ -355,10 +352,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         }
 
         /// <summary>
-        ///     Validar Regras de Negócio
+        ///  Validar Regras de Negócio 
         /// </summary>
-        public void Validar()
+        public bool Validar()
         {
+            return false;
+
         }
 
         #endregion

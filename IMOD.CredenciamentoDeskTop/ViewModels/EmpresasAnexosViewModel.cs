@@ -237,13 +237,13 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public ICommand PrepareRemoverCommand => new CommandBase(PrepareRemover, true);
 
         /// <summary>
-        ///     Validar Regras de Negócio
+        ///  Validar Regras de Negócio 
         /// </summary>
-        public void Validar()
+        public bool Validar()
         {
-            throw new NotImplementedException();
-        }
+            return false;
 
+        }
         #endregion
 
     }

@@ -1,35 +1,44 @@
 ﻿// ***********************************************************************
-// Project: iModSCCredenciamento
+// Project: IMOD.CredenciamentoDeskTop
 // Crafted by: Grupo Estrela by Genetec
-// Date:  12 - 13 - 2018
+// Date:  01 - 21 - 2019
 // ***********************************************************************
 
 #region
 
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using IMOD.CredenciamentoDeskTop.Funcoes;
+using IMOD.CredenciamentoDeskTop.ViewModels;
 
 #endregion
 
 namespace IMOD.CredenciamentoDeskTop.Views.Model
 {
-    public class ColaboradorView: PropertyValidateModel
+    public class ColaboradorView: ValidacaoModel
     {
+       
         #region  Propriedades
 
-        public int ColaboradorId { get; set; } 
+        public int ColaboradorId {get; set; }
+        [Required(ErrorMessage = "O Nome é requerido.")]
         public string Nome { get; set; }
+        [Required(ErrorMessage = "O Apelido é requerido.")]
         public string Apelido { get; set; }
-        public DateTime? DataNascimento { get; set; }
-        public string NomePai { get; set; }
-        public string NomeMae { get; set; }
-        public string Nacionalidade { get; set; }
-        public string Foto { get; set; }
+        public DateTime? DataNascimento { get; set; } 
+        public string NomePai { get; set; } 
+        public string NomeMae { get; set; } 
+        public string Nacionalidade { get; set; } 
+        public string Foto { get; set; } 
         public string EstadoCivil { get; set; }
-        public string Cpf { get; set; }
+        [Required(ErrorMessage = "O CPF é requerido.")]
+        public string Cpf { get; set; } 
         public string Rg { get; set; }
         public DateTime? RgEmissao { get; set; }
-        public string RgOrgLocal { get; set; }
+        public string RgOrgLocal { get; set; } 
         public string RgOrgUf { get; set; }
         public string Passaporte { get; set; }
         public DateTime? PassaporteValidade { get; set; }
@@ -55,18 +64,9 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public string Bagagem { get; set; }
         public DateTime? DataEmissao { get; set; }
         public DateTime? DataValidade { get; set; }
-        public int Excluida { get; set; }
-        public int StatusId { get; set; }
-        public int TipoAcessoId { get; set; }
-        public bool Pendente { get; set; }
-        public bool Pendente21 { get; set; }
-        public bool Pendente22 { get; set; }
-        public bool Pendente23 { get; set; }
-        public bool Pendente24 { get; set; }
-        public bool Pendente25 { get; set; }
-        public bool Pendente26 { get; set; }
-        public bool Pendente27 { get; set; }
+        
 
         #endregion
+        
     }
 }
