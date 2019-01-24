@@ -10,6 +10,11 @@
              d:DesignHeight="450" d:DesignWidth="1000" 
              Loaded="UserControl_Loaded" >
     <UserControl.Resources>
+        <Image x:Key="imgAdd" Source="../Resources/add.png"  />
+        <Image x:Key="imgEdit" Source="../Resources/edit.png"  />
+        <Image x:Key="imgRemove" Source="../Resources/remove.png"  />
+        <Image x:Key="imgSave" Source="../Resources/save.png"  />
+        <Image x:Key="imgCancel" Source="../Resources/undo.png"  />
         <funcoes:FormateTel x:Key="FormateTel" /> 
         <funcoes:CheckTeste x:Key="CheckTeste" />
     </UserControl.Resources>
@@ -233,8 +238,8 @@
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="990" Height="203">
 
                 <ListView x:Name="ListaColaboradoresCredenciais_lv" 
-                          Margin="0,0,0,19" 
-                          Width="814" 
+                          Margin="0,10,0,10"
+                          Width="947" 
                           IsEnabled="{Binding IsEnableLstView}"
                           HorizontalAlignment="Stretch" 
                           VerticalAlignment="Stretch" 
@@ -315,22 +320,22 @@
                         </GridView>
                     </ListView.View>
                 </ListView>
-                <StackPanel Orientation="Vertical" Margin="10,6,0,0" HorizontalAlignment="Right" Width="155">
-                    <Button x:Name="btnAdicionar" Content="Adicionar" ToolTip="Adicionar"
-                            IsEnabled="{Binding Comportamento.IsEnableCriar}" Command="{Binding PrepareCriarCommand}"
-                            Height="30" Width="148" Margin="4,0,3,7" />
-                    <Button x:Name="btnEditar" Content="Editar" Height="30" ToolTip="Editar"
-                            IsEnabled="{Binding Comportamento.IsEnableEditar}"
-                            Command="{Binding PrepareAlterarCommand}" Width="148" Margin="0,0,0,7" />
-                    <Button x:Name="btnExcluir" Content="Remover" Height="30" Width="148" ToolTip="Remover"
-                            IsEnabled="{Binding Comportamento.isEnableRemover}"
-                            Command="{Binding PrepareRemoverCommand}" Margin="0,0,0,7" />
-                    <Button x:Name="btnCancelar" Content="Cancelar" ToolTip="Cancelar" Height="30" Width="148"
-                            IsEnabled="{Binding Comportamento.isEnableCancelar}"
-                            Command="{Binding PrepareCancelarCommand}" Margin="0,0,0,7" />
-                    <Button x:Name="btnSalvar" Content="Salvar" ToolTip="Salvar"  Height="30" Width="148"
-                            IsEnabled="{Binding Comportamento.isEnableSalvar}" Command="{Binding PrepareSalvarCommand}"
-                            Margin="4,0,3,7" />
+                <StackPanel Orientation="Vertical" Margin="5,10,0,1" HorizontalAlignment="Right" Width="47"
+                            Height="193" >
+                    <Button x:Name="btnAdicionar" Content="{StaticResource imgAdd}"     ToolTip="Adicionar"  Width="25" Margin="0,0,0,7"
+                            IsEnabled="{Binding Comportamento.IsEnableCriar}"           Command="{Binding PrepareCriarCommand}"/>
+
+                    <Button x:Name="btnEditar" Content="{StaticResource imgEdit}"       ToolTip="Editar"  Width="25" Margin="0,0,0,7"
+                            IsEnabled="{Binding Comportamento.IsEnableEditar}"          Command="{Binding PrepareAlterarCommand}"  />
+
+                    <Button x:Name="btnExcluir" Content="{StaticResource imgRemove}"    ToolTip="Remover" Width="25" Margin="0,0,0,7"
+                            IsEnabled="{Binding Comportamento.isEnableRemover}"         Command="{Binding PrepareRemoverCommand}"  />
+
+                    <Button x:Name="btnCancelar" Content="{StaticResource imgCancel}"   ToolTip="Cancelar" Width="25" Margin="0,0,0,7"
+                            IsEnabled="{Binding Comportamento.isEnableCancelar}"        Command="{Binding PrepareCancelarCommand}"  />
+
+                    <Button x:Name="btnSalvar" Content="{StaticResource imgSave}"       ToolTip="Salvar" Width="25"  Margin="4,0,3,7"
+                            IsEnabled="{Binding Comportamento.isEnableSalvar}"          Command="{Binding PrepareSalvarCommand}" />
                 </StackPanel>
             </StackPanel>
 
