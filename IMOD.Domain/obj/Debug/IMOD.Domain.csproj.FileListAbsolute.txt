@@ -1,5 +1,0 @@
-C:\Users\valnei.batista\Documents\Git Repositorio\Credencimento\IMOD.Domain\bin\Debug\IMOD.Domain.dll
-C:\Users\valnei.batista\Documents\Git Repositorio\Credencimento\IMOD.Domain\bin\Debug\IMOD.Domain.pdb
-C:\Users\valnei.batista\Documents\Git Repositorio\Credencimento\IMOD.Domain\obj\Debug\IMOD.Domain.csprojResolveAssemblyReference.cache
-C:\Users\valnei.batista\Documents\Git Repositorio\Credencimento\IMOD.Domain\obj\Debug\IMOD.Domain.dll
-C:\Users\valnei.batista\Documents\Git Repositorio\Credencimento\IMOD.Domain\obj\Debug\IMOD.Domain.pdb
