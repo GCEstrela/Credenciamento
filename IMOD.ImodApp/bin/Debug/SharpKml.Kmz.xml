@@ -1,0 +1,272 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SharpKml.Kmz</name>
+    </assembly>
+    <members>
+        <member name="T:SharpKml.Engine.FileHandler">
+            <summary>
+            Handles downloading of files from a URI, such as local files or network files.
+            </summary>
+        </member>
+        <member name="M:SharpKml.Engine.FileHandler.OpenRead(System.Uri)">
+            <summary>
+            Reads a file from either http, ftp or local and returns a stream to
+            its contents.
+            </summary>
+            <param name="uri">The uri to obtain the data from.</param>
+            <returns>The file contents as a read-only stream.</returns>
+            <exception cref="T:System.IO.IOException">
+            An error occurred reading the file. See the
+            <see cref="P:System.Exception.InnerException"/> for more details.
+            </exception>
+        </member>
+        <member name="M:SharpKml.Engine.FileHandler.ReadBytes(System.Uri)">
+            <summary>
+            Reads a file from either http, ftp or local and returns its entire contents.
+            </summary>
+            <param name="uri">The uri to obtain the data from.</param>
+            <returns>The file contents.</returns>
+            <exception cref="T:System.IO.IOException">
+            An error occurred reading the file. See the
+            <see cref="P:System.Exception.InnerException"/> for more details.
+            </exception>
+        </member>
+        <member name="T:SharpKml.Engine.KmzFile">
+            <summary>
+            Represents a Kmz archive, containing Kml data and associated files.
+            </summary>
+            <remarks>
+            The entire Kmz archive (in its compressed state) will be held in memory
+            until a call to <see cref="M:SharpKml.Engine.KmzFile.Dispose"/> is made.
+            </remarks>
+        </member>
+        <member name="M:SharpKml.Engine.KmzFile.Create(SharpKml.Engine.KmlFile)">
+            <summary>
+            Creates a new KmzFile using the data specified in the KmlFile.
+            </summary>
+            <param name="kml">The Kml data to add to the archive.</param>
+            <returns>
+            A new KmzFile populated with the data specified in the KmlFile.
+            </returns>
+            <remarks>
+            This overloaded version does not resolve any links in the Kml data
+            and, therefore, will not add any local references to the archive.
+            </remarks>
+            <exception cref="T:System.ArgumentNullException">kml is null.</exception>
+        </member>
+        <member name="M:SharpKml.Engine.KmzFile.Create(System.String)">
+            <summary>
+            Creates a new KmzFile using the data specified in the Kml file.
+            </summary>
+            <param name="path">The path of the Kml file.</param>
+            <returns>
+            A new KmzFile populated with the data specified in the Kml file.
+            </returns>
+            <remarks>
+            Any local references in the file are written to the Kmz as archived
+            resources if the resource URI is relative to and below the location
+            of the Kml file. This means all absolute paths, such as
+            &lt;href&gt;/etc/passwd&lt;/href&gt;, are ignored, as well as
+            relative paths that point to point to an object that is not in
+            the same folder or subfolder of the Kml file, e.g.
+            &lt;href&gt;../../etc/passwd&lt;/href&gt; will be ignored for the
+            file "/home/libkml/kmlfile.kml".
+            </remarks>
+            <exception cref="T:System.ArgumentNullException">path is null.</exception>
+            <exception cref="T:System.IO.IOException">An I/O error occurred.</exception>
+            <exception cref="T:System.Xml.XmlException">
+            An error occurred while parsing the KML.
+            </exception>
+        </member>
+        <member name="M:SharpKml.Engine.KmzFile.Open(System.IO.Stream)">
+            <summary>Opens a KmzFile from the specified stream.</summary>
+            <param name="stream">The stream to read the data from.</param>
+            <returns>A KmzFile representing the specified stream.</returns>
+            <exception cref="T:System.ArgumentNullException">stream is null.</exception>
+            <exception cref="T:System.IO.IOException">
+            The Kmz archive is not in the expected format.
+            </exception>
+            <exception cref="T:System.IO.IOException">An I/O error occurred.</exception>
+            <exception cref="T:System.NotSupportedException">
+            The stream does not support reading.
+            </exception>
+            <exception cref="T:System.ObjectDisposedException">
+            The stream was closed.
+            </exception>
+        </member>
+        <member name="M:SharpKml.Engine.KmzFile.Open(System.String)">
+            <summary>Creates a KmzFile from the specified file path.</summary>
+            <param name="path">
+            The URI for the file containing the KMZ data.
+            </param>
+            <returns>A KmzFile representing the specified file path.</returns>
+            <exception cref="T:System.ArgumentNullException">path is null.</exception>
+            <exception cref="T:System.IO.InvalidDataException">
+            The Kmz archive is not in the expected format.
+            </exception>
+            <exception cref="T:System.IO.IOException">An I/O error occurred.</exception>
+        </member>
+        <member name="M:SharpKml.Engine.KmzFile.AddFile(System.String,System.Byte[])">
+            <summary>
+            Adds the specified data to the Kmz archive, using the specified
+            filename and directory path within the archive.
+            </summary>
+            <param name="path">
+            The name, including any path, to use within the archive.
+            </param>
+            <param name="data">The data to add to the archive.</param>
+            <exception cref="T:System.ArgumentException">
+            path is a zero-length string, contains only white space, or contains
+            one or more invalid characters as defined by
+            <see cref="M:System.IO.Path.GetInvalidPathChars"/>.
+            </exception>
+            <exception cref="T:System.ArgumentNullException">path/data is null.</exception>
+            <exception cref="T:System.ObjectDisposedException">
+            <see cref="M:SharpKml.Engine.KmzFile.Dispose"/> has been called on this instance.
+            </exception>
+        </member>
+        <member name="M:SharpKml.Engine.KmzFile.Dispose">
+            <summary>
+            Releases all resources used by this instance.
+            </summary>
+        </member>
+        <member name="M:SharpKml.Engine.KmzFile.GetDefaultKmlFile">
+            <summary>
+            Loads a default <see cref="T:SharpKml.Engine.KmlFile"/> inside this archive.
+            </summary>
+            <returns>
+            A KmlFile representing the default KML file in the specified KMZ archive
+            or null if no KML data was found.
+            </returns>
+            <remarks>
+            This method checks for duplicate Id's in the file and throws an
+            exception if duplicate Id's are found. To enable duplicate Id's
+            use the <see cref="T:SharpKml.Base.Parser"/> class and pass the root
+            element to <see cref="M:SharpKml.Engine.KmlFile.Create(SharpKml.Dom.Element,System.Boolean)"/>.
+            </remarks>
+            <exception cref="T:System.ObjectDisposedException">
+            <see cref="M:SharpKml.Engine.KmzFile.Dispose"/> has been called on this instance.
+            </exception>
+            <exception cref="T:System.Xml.XmlException">
+            An error occurred while parsing the KML.
+            </exception>
+        </member>
+        <member name="M:SharpKml.Engine.KmzFile.ReadFile(System.String)">
+            <summary>Extracts the specified file from the Kmz archive.</summary>
+            <param name="path">
+            The file, including directory information, to locate in the archive.
+            </param>
+            <returns>
+            A byte array if the specified value parameter was found in the
+            archive; otherwise, null.
+            </returns>
+            <exception cref="T:System.ObjectDisposedException">
+            <see cref="M:SharpKml.Engine.KmzFile.Dispose"/> has been called on this instance.
+            </exception>
+        </member>
+        <member name="M:SharpKml.Engine.KmzFile.ReadKml">
+            <summary>Extracts the default Kml file from the archive.</summary>
+            <returns>
+            A string containing the Kml content if a suitable file was found in
+            the Kmz archive; otherwise, null.
+            </returns>
+            <remarks>
+            This returns the first file in the Kmz archive table of contents
+            which has a ".kml" extension. Note that the file found may not
+            necessarily be in the root directory.
+            </remarks>
+            <exception cref="T:System.ObjectDisposedException">
+            <see cref="M:SharpKml.Engine.KmzFile.Dispose"/> has been called on this instance.
+            </exception>
+        </member>
+        <member name="M:SharpKml.Engine.KmzFile.RemoveFile(System.String)">
+            <summary>Removes the specified file from the Kmz archive.</summary>
+            <param name="path">
+            The file, including directory information, to locate in the archive.
+            </param>
+            <returns>
+            true if the specified file was found in the archive and successfully
+            removed; otherwise, false.
+            </returns>
+            <exception cref="T:System.ObjectDisposedException">
+            <see cref="M:SharpKml.Engine.KmzFile.Dispose"/> has been called on this instance.
+            </exception>
+        </member>
+        <member name="M:SharpKml.Engine.KmzFile.Save(System.IO.Stream)">
+            <summary>Saves this instance to the specified stream.</summary>
+            <param name="stream">The stream to write to.</param>
+            <exception cref="T:System.ArgumentException">stream is not writable.</exception>
+            <exception cref="T:System.ArgumentNullException">stream is null.</exception>
+            <exception cref="T:System.IO.IOException">An I/O error occurred.</exception>
+            <exception cref="T:System.NotSupportedException">
+            The stream does not support writing.
+            </exception>
+            <exception cref="T:System.ObjectDisposedException">
+            <see cref="M:SharpKml.Engine.KmzFile.Dispose"/> has been called on this instance or the
+            stream was closed.
+            </exception>
+        </member>
+        <member name="M:SharpKml.Engine.KmzFile.Save(System.String)">
+            <summary>Saves this instance to the specified path.</summary>
+            <param name="path">The complete file path to write to.</param>
+            <remarks>
+            If the specified file exists in the specified path then it will be
+            overwritten; otherwise, a new file will be created.
+            </remarks>
+            <exception cref="T:System.ArgumentException">
+            path is a zero-length string, contains only white space, or contains
+            one or more invalid characters as defined by
+            <see cref="M:System.IO.Path.GetInvalidPathChars"/>.
+            </exception>
+            <exception cref="T:System.ArgumentNullException">path is null.</exception>
+            <exception cref="T:System.IO.DirectoryNotFoundException">
+            The specified path is invalid.
+            </exception>
+            <exception cref="T:System.IO.IOException">An I/O error occurred.</exception>
+            <exception cref="T:System.NotSupportedException">
+            path is in an invalid format.
+            </exception>
+            <exception cref="T:System.ObjectDisposedException">
+            <see cref="M:SharpKml.Engine.KmzFile.Dispose"/> has been called on this instance.
+            </exception>
+            <exception cref="T:System.IO.PathTooLongException">
+            The specified path, file name, or both exceed the system-defined
+            maximum length.
+            </exception>
+            <exception cref="T:System.UnauthorizedAccessException">
+            The caller does not have the required permission or path specified a
+            file that is read-only.
+            </exception>
+        </member>
+        <member name="M:SharpKml.Engine.KmzFile.UpdateFile(System.String,System.Byte[])">
+            <summary>
+            Replaces the specified file's contents in the Kmz archive with the
+            specified data.
+            </summary>
+            <param name="path">
+            The name, including any path, of the file within the archive.
+            </param>
+            <param name="data">The data to add to the archive.</param>
+            <exception cref="T:System.ArgumentNullException">path/data is null.</exception>
+            <exception cref="T:System.ObjectDisposedException">
+            <see cref="M:SharpKml.Engine.KmzFile.Dispose"/> has been called on this instance.
+            </exception>
+        </member>
+        <member name="P:SharpKml.Engine.KmzFile.DefaultEncoding">
+            <summary>
+            Gets or sets the default string encoding to use when extracting
+            the Kml from a Kmz archive. Defaults to UTF8.
+            </summary>
+        </member>
+        <member name="P:SharpKml.Engine.KmzFile.Files">
+            <summary>
+            Gets the filenames for the entries contained in the archive.
+            </summary>
+            <exception cref="T:System.ObjectDisposedException">
+            <see cref="M:SharpKml.Engine.KmzFile.Dispose"/> has been called on this instance or the
+            stream was closed.
+            </exception>
+        </member>
+    </members>
+</doc>

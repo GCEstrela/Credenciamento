@@ -1,0 +1,20 @@
+﻿iModSCCredenciamento
+
+
+library
+C#
+.cs
+C:\Users\valnei.batista\Documents\Git Repositorio\Credencimento\iModSCCredenciamento\obj\Debug\
+iModSCCredenciamento
+none
+false
+DEBUG;TRACE
+
+56582477133
+161326764267
+171333747255
+48-736701708
+Modulo\MenuPrincipalView.xaml;Views\ColaboradoresCredenciaisView.xaml;Views\ColaboradoresAnexosView.xaml;Views\ColaboradoresCursosView.xaml;Views\ColaboradoresEmpresasView.xaml;Views\ColaboradorView.xaml;Views\ConfiguracoesView.xaml;Views\EmpresasAnexosView.xaml;Views\EmpresasSignatariosView.xaml;Views\EmpresaView.xaml;Views\RelatoriosView.xaml;Views\TermosView.xaml;Views\UsEmpresaContratoView.xaml;Views\VeiculosAnexosView.xaml;Views\VeiculosCredenciaisView.xaml;Views\VeiculosEmpresasView.xaml;Views\VeiculosSegurosView.xaml;Views\VeiculoView.xaml;Windows\PopupAutorizacao.xaml;Windows\PopupCredencial.xaml;Windows\PopUpFiltrosAutorizacoes.xaml;Windows\PopUpFiltrosAutorizacoesInvalidas.xaml;Windows\PopUpFiltrosAutorizacoesViasAdicionais.xaml;Windows\PopUpFiltrosCredenciais.xaml;Windows\PopUpFiltrosCredenciaisInvalidas.xaml;Windows\PopUpFiltrosCredenciaisPorArea.xaml;Windows\PopUpFiltrosCredenciaisPorEmpresa.xaml;Windows\PopUpFiltrosCredenciaisViasAdicionais.xaml;Windows\PopUpFiltrosImpressoes.xaml;Windows\PopupFiltrosTermos.xaml;Windows\PopupPdfViewer.xaml;Windows\PopupPendencias.xaml;Windows\PopupBox.xaml;Windows\PopupColaboradoresRelatorios.xaml;Windows\PopupContratosRelatorios.xaml;Windows\PopupEmpresasRelatorios.xaml;Windows\PopupEquipamentosRelatorios.xaml;Windows\PopupPesquisaColaboradoresCredenciais.xaml;Windows\PopupPesquisaEmpresasAnexos.xaml;Windows\PopupPesquisaColaborador.xaml;Windows\PopupPesquisaColaboradorAnexo.xaml;Windows\PopupPesquisaColaboradorCurso.xaml;Windows\PopupPesquisaColaboradoresEmpresas.xaml;Windows\PopupPesquisaContrato.xaml;Windows\PopUpPesquisaEmpresa.xaml;Windows\PopupMensagem .xaml;Windows\PopupPesquisaEquipamentos.xaml;Windows\PopupPesquisaSeguro.xaml;Windows\PopupPesquisaEmpresasVeiculos.xaml;Windows\PopupPesquisaSignatarios.xaml;Windows\PopupPesquisaVeiculoAnexo.xaml;Windows\PopupPesquisaVeiculos.xaml;Windows\PopupPesquisaVeiculosCredenciais.xaml;Windows\PopupRelatorio.xaml;Windows\PopupVeiculosRelatorios.xaml;Windows\PopupWebCam.xaml;
+
+True
+

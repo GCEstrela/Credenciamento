@@ -3,21 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iModSCCredenciamento", "iModSCCredenciamento\iModSCCredenciamento.csproj", "{974F5875-4CFB-4926-8273-D1BF96AC8242}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IMOD.CredenciamentoDeskTop", "IMOD.CredenciamentoDeskTop\IMOD.CredenciamentoDeskTop.csproj", "{974F5875-4CFB-4926-8273-D1BF96AC8242}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IMOD.ImodApp", "iModSCCredenciamentoAPP\IMOD.ImodApp.csproj", "{FDF601A5-33E0-417A-8C59-53811776C553}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IMOD.ImodApp", "IMOD.ImodApp\IMOD.ImodApp.csproj", "{FDF601A5-33E0-417A-8C59-53811776C553}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3 - Domain", "3 - Domain", "{AE5F79FC-E612-49F0-9F0D-D9D64D72F54F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IMOD.Domain", "Domain\IMOD.Domain.csproj", "{F7DC651F-CB04-40CA-AC1B-C2355B474CF3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IMOD.Domain", "IMOD.Domain\IMOD.Domain.csproj", "{F7DC651F-CB04-40CA-AC1B-C2355B474CF3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4 - Infra", "4 - Infra", "{FFF17B5D-58ED-4E4E-9B0A-34DF49E32EBA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IMOD.Infra", "Infra\IMOD.Infra.csproj", "{0B4AD570-EFA6-4207-B4C1-3E95050452AC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IMOD.Infra", "IMOD.Infra\IMOD.Infra.csproj", "{0B4AD570-EFA6-4207-B4C1-3E95050452AC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5 - CrossCutting", "5 - CrossCutting", "{FF18E7DE-5684-4030-B154-84AFD556077F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IMOD.CrossCutting", "CrossCutting\IMOD.CrossCutting.csproj", "{4279ABF8-7C1B-497F-90BD-E533B0E6A417}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IMOD.CrossCutting", "IMOD.CrossCutting\IMOD.CrossCutting.csproj", "{4279ABF8-7C1B-497F-90BD-E533B0E6A417}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTest", "UnitTest", "{FD61B8D5-97C7-46C7-B092-026B4324506E}"
 EndProject
@@ -27,9 +27,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2 - Application", "2 - Appl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IMOD.Application", "IMOD.Application\IMOD.Application.csproj", "{B7BD6687-CB39-45A0-9B21-67125DA69A2E}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - Presentation Credenciamento Desktop", "1 - Presentation Credenciamento Desktop", "{16868AC9-7D22-4B96-AF21-880AAB51E2E7}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - Presentation Desktop", "1 - Presentation Desktop", "{16868AC9-7D22-4B96-AF21-880AAB51E2E7}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - Presentation ServiceWeb", "1 - Presentation ServiceWeb", "{BFE0C201-490D-4DFF-B1F3-C74BBD48994B}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - Presentation Web", "1 - Presentation Web", "{BFE0C201-490D-4DFF-B1F3-C74BBD48994B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IMOD.CredenciamentoWeb", "IMOD.CredenciamentoWeb\IMOD.CredenciamentoWeb.csproj", "{C09F7AA0-6EA0-4525-B337-5DAE88D5F89D}"
 EndProject
@@ -76,6 +76,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{974F5875-4CFB-4926-8273-D1BF96AC8242} = {16868AC9-7D22-4B96-AF21-880AAB51E2E7}
 		{F7DC651F-CB04-40CA-AC1B-C2355B474CF3} = {AE5F79FC-E612-49F0-9F0D-D9D64D72F54F}
 		{0B4AD570-EFA6-4207-B4C1-3E95050452AC} = {FFF17B5D-58ED-4E4E-9B0A-34DF49E32EBA}
 		{4279ABF8-7C1B-497F-90BD-E533B0E6A417} = {FF18E7DE-5684-4030-B154-84AFD556077F}

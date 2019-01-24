@@ -55,11 +55,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CrossCutting\IMOD.CrossCutting.csproj">
+    <ProjectReference Include="..\IMOD.CrossCutting\IMOD.CrossCutting.csproj">
       <Project>{4279abf8-7c1b-497f-90bd-e533b0e6a417}</Project>
       <Name>IMOD.CrossCutting</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Domain\IMOD.Domain.csproj">
+    <ProjectReference Include="..\IMOD.Domain\IMOD.Domain.csproj">
       <Project>{f7dc651f-cb04-40ca-ac1b-c2355b474cf3}</Project>
       <Name>IMOD.Domain</Name>
     </ProjectReference>
@@ -67,11 +67,11 @@
       <Project>{b7bd6687-cb39-45a0-9b21-67125da69a2e}</Project>
       <Name>IMOD.Application</Name>
     </ProjectReference>
-    <ProjectReference Include="..\iModSCCredenciamento\iModSCCredenciamento.csproj">
+    <ProjectReference Include="..\IMOD.CredenciamentoDeskTop\IMOD.CredenciamentoDeskTop.csproj">
       <Project>{974f5875-4cfb-4926-8273-d1bf96ac8242}</Project>
       <Name>iModSCCredenciamento</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Infra\IMOD.Infra.csproj">
+    <ProjectReference Include="..\IMOD.Infra\IMOD.Infra.csproj">
       <Project>{0b4ad570-efa6-4207-b4c1-3e95050452ac}</Project>
       <Name>IMOD.Infra</Name>
     </ProjectReference>
