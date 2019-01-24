@@ -143,7 +143,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         public EmpresaViewModel()
         {
-            ListarTodos();
+            //ListarTodos();
             ItensDePesquisaConfigura();
             ListarDadosAuxiliares();
             Comportamento = new ComportamentoBasico(true, true, true, false, false);
@@ -248,7 +248,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <summary>
         ///     Listar dados auxilizares
         /// </summary>
-        private void ListarDadosAuxiliares()
+        public void ListarDadosAuxiliares()
         {
             var lst1 = _auxiliaresService.LayoutCrachaService.Listar();
             var lst2 = _auxiliaresService.TipoAtividadeService.Listar();
@@ -282,20 +282,14 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         public void ValidarCnpj()
         {
-            if (Entity == null)
-            {
-                return;
-            }
+            if (Entity == null) return;
 
             var cnpj = Entity.Cnpj.RetirarCaracteresEspeciais();
 
             //Verificar dados antes de salvar uma criação
             if (_prepareCriarCommandAcionado)
             {
-                if (_service.ExisteCnpj(cnpj))
-                {
-                    throw new Exception("CNPJ já cadastrado.");
-                }
+                if (_service.ExisteCnpj(cnpj)) throw new Exception("CNPJ já cadastrado.");
             }
             //Verificar dados antes de salvar uma alteraçao
             if (_prepareAlterarCommandAcionado)
@@ -324,14 +318,18 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         public bool Validar()
         {
-            ValidarCnpj();
-            if (string.IsNullOrWhiteSpace(Entity.Nome))
-                throw new InvalidOperationException("O nome é requerido");
-            
+            ValidarCnpj();                     
 
-            if (string.IsNullOrWhiteSpace(Entity.Cnpj))
-                throw new InvalidOperationException("O CNPJ é requerido");
-            return false;
+            Entity.Validate();
+            var hasErros = Entity.HasErrors;
+            if (hasErros)
+                WpfHelp.Summary(Entity.Errors);
+
+            Entity = EntidadeTMP;
+            IsEnableTabItem = true;
+            IsEnableLstView = true;
+
+            return hasErros;
         }
 
         #endregion
@@ -552,7 +550,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 }
 
                 var n1 = Mapper.Map<Empresa>(Entity);
-                Validar();
+                if (Validar()) return;
                 _service.Criar(n1);
                 //Salvar Tipo de Atividades
                 SalvarTipoAtividades(n1.EmpresaId);
@@ -603,12 +601,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                if (Entity == null)
-                {
-                    return;
-                }
-
-                Validar();
+                if (Entity == null) return;
+                
+                if (Validar()) return;
                 var n1 = Mapper.Map<Empresa>(Entity);
                 _service.Alterar(n1);
                 //Salvar Tipo de Atividades

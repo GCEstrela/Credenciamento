@@ -25,11 +25,11 @@ namespace IMOD.CredenciamentoDeskTop.Views
 {
     public partial class EmpresaView : UserControl
     {
+        
         private readonly EmpresaViewModel _viewModel;
-
         public EmpresaView()
         {
-            InitializeComponent();
+            InitializeComponent();            
             _viewModel = new EmpresaViewModel();
             DataContext = _viewModel;
         }

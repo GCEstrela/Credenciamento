@@ -9,15 +9,17 @@ using IMOD.CredenciamentoDeskTop.Funcoes;
 
 namespace IMOD.CredenciamentoDeskTop.Views.Model
 {
-    public class EmpresaView//: PropertyValidateModel
+    public class EmpresaView:ValidacaoModel 
     {
         #region  Propriedades
 
         public int EmpresaId { get; set; }
-        [Required(ErrorMessage = "Informe a razão social")]
+        [Required(ErrorMessage = "A Razão Social é requerido.")]
         public string Nome { get; set; }
+        [Required(ErrorMessage = "O Apelido é requerido.")]
         public string Apelido { get; set; }
-        public string Cnpj { get; set; }
+        [Required(ErrorMessage = "O Cnpj é requerido.")]
+        public string Cnpj { get; set; }       
         public string InsEst { get; set; }
         public string InsMun { get; set; }
         public string Responsavel { get; set; }

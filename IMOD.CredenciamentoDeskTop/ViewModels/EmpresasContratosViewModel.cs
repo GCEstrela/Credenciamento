@@ -206,10 +206,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                if (Entity == null)
-                {
-                    return;
-                }
+                if (Entity == null) return;
+                if (Validar()) return;
 
                 var n1 = Mapper.Map<EmpresaContrato>(Entity);
                 n1.EmpresaId = _empresaView.EmpresaId;
@@ -246,10 +244,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                if (Entity == null)
-                {
-                    return;
-                }
+                if (Entity == null) return;
+
+                if (Validar()) return;
 
                 var n1 = Mapper.Map<EmpresaContrato>(Entity);
                 _service.Alterar(n1);
@@ -318,6 +315,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private void PrepareAlterar()
         {
+            if (Entity == null)
+            {
+                WpfHelp.PopupBox("Selecione um Item na Lista de Contratos", 1);
+                return;
+            }
+            EntidadeTMP = Entity;
             Comportamento.PrepareAlterar();
             IsEnableLstView = false;
         }
@@ -384,7 +387,15 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         public bool Validar()
         {
-            return false;
+            Entity.Validate();
+            var hasErros = Entity.HasErrors;
+            if (hasErros)
+                WpfHelp.Summary(Entity.Errors);
+
+            IsEnableLstView = true;
+            Entity = EntidadeTMP;
+        
+            return hasErros;
 
         }
 
