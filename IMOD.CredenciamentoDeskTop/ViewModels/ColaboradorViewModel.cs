@@ -142,6 +142,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             var lst3 = _auxiliaresService.EstadoService.Listar();
             Estados = Mapper.Map<List<Estados>>(lst3);
+            Municipios = new List<Municipio>();
+            _municipios = new List<Municipio>();
         }
 
         #region  Metodos
@@ -292,25 +294,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(uf))
-                {
-                    return;
-                }
-
-                if (Municipios == null)
-                {
-                    Municipios = new List<Municipio>();
-                }
-
-                if (_municipios == null)
-                {
-                    _municipios = new List<Municipio>();
-                }
-
-                if (Estado == null)
-                {
-                    return;
-                }
+                if (string.IsNullOrWhiteSpace(uf)) return;
+                if (Estado == null) return; 
 
                 //Verificar se há municipios já carregados...
                 var l1 = _municipios.Where(n => n.Uf == uf);
@@ -368,12 +353,21 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         public ICommand PrepareRemoverCommand => new CommandBase(PrepareRemover, true);
 
+       
+
         /// <summary>
-        ///     Validar Regras de Negócio
+        ///  Validar Regras de Negócio
         /// </summary>
-        public void Validar()
+        /// <returns></returns>
+        public bool Validar()
         {
 
+            Entity.Validate();
+            var hasErros = Entity.HasErrors;
+            if (hasErros)
+                WpfHelp.Summary(Entity.Errors);
+
+            return hasErros;
         }
 
         /// <summary>
@@ -387,10 +381,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         private void PrepareAlterar()
         {
-            if (Entity == null)
-            {
-                return;
-            }
+            if (Entity == null) return;
 
             Comportamento.PrepareAlterar();
             IsEnableTabItem = false;
@@ -402,10 +393,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         private void PrepareRemover()
         {
-            if (Entity == null)
-            {
-                return;
-            }
+            if (Entity == null) return;
 
             IsEnableLstView = true;
             _prepareCriarCommandAcionado = false;
@@ -418,13 +406,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                if (Entity == null)
-                {
-                    return;
-                }
+                if (Entity == null) return;
 
                 var n1 = Mapper.Map<Colaborador>(Entity);
-                Validar();
+                if(Validar()) return;
                 _service.Criar(n1);
                 var n2 = Mapper.Map<ColaboradorView>(n1);
                 EntityObserver.Insert(0, n2);
@@ -442,13 +427,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                if (Entity == null)
-                {
-                    return;
-                }
+                if (Entity == null) return;
 
                 var n1 = Mapper.Map<Colaborador>(Entity);
-                Validar();
+                if (Validar()) return;
                 _service.Alterar(n1);
                 IsEnableTabItem = true;
                 IsEnableLstView = true;
@@ -485,16 +467,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                if (Entity == null)
-                {
-                    return;
-                }
-
+                if (Entity == null) return;
                 var result = WpfHelp.MboxDialogRemove();
-                if (result != DialogResult.Yes)
-                {
-                    return;
-                }
+                if (result != DialogResult.Yes) return;
 
                 var n1 = Mapper.Map<Colaborador>(Entity);
                 _service.Remover(n1);

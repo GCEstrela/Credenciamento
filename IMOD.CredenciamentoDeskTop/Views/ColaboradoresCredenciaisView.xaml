@@ -4,7 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              d:DataContext="{d:DesignInstance viewModels:ColaboradoresCredenciaisViewModel , IsDesignTimeCreatable=True}"
-             xmlns:wpf="clr-namespace:CSharpControls.Wpf;assembly=CSharpControls.Wpf"
              xmlns:funcoes="clr-namespace:IMOD.CredenciamentoDeskTop.Funcoes"
              xmlns:viewModels="clr-namespace:IMOD.CredenciamentoDeskTop.ViewModels"
              mc:Ignorable="d"
@@ -52,12 +51,12 @@
                                     </DataTemplate>
                                 </ComboBox.ItemTemplate>
                             </ComboBox>
+ 
 
-
-                            <wpf:ToggleSwitch x:Name="Ativa_tw"  HeaderHorizontalAlignment="Stretch" Width="187" HorizontalAlignment="Right" Visibility="Collapsed"
+                            <!--<wpf:ToggleSwitch x:Name="Ativa_tw"  HeaderHorizontalAlignment="Stretch" Width="187" HorizontalAlignment="Right" Visibility="Collapsed"
                                               SwitchContentPlacement="Right"  Content="Credencial Ativa:" CheckedText="Sim" UncheckedText="Não" IsHitTestVisible="False"
                                               IsChecked="{Binding Entity.Ativa,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                              Foreground="#FFD0D0BE" UncheckedBackground="Maroon" UncheckedBorderBrush="Maroon" UncheckedForeground="#FFAEAEAE"/>
+                                              Foreground="#FFD0D0BE" UncheckedBackground="Maroon" UncheckedBorderBrush="Maroon" UncheckedForeground="#FFAEAEAE"/>-->
 
 
                             <Label Content="Status:" Height="28" Width="49" HorizontalContentAlignment="Right"
@@ -173,6 +172,7 @@
                             <ComboBox  x:Name="Privilegio1_tb"   
                                        IsEnabled="{Binding ElementName=Ativa_tw, Path=IsChecked }" 
                                        Width="45" 
+                                       Height="25"
                                        VerticalContentAlignment="Center" 
                                        HorizontalContentAlignment="Left"
                                        ItemsSource="{Binding ColaboradorPrivilegio, Mode=TwoWay}" 
@@ -184,6 +184,7 @@
                                        Margin="5,0,0,0"  
                                        IsEnabled="{Binding ElementName=Ativa_tw, Path=IsChecked }" 
                                        Width="45" 
+                                       Height="25"
                                        VerticalContentAlignment="Center" 
                                        HorizontalContentAlignment="Left"
                                        ItemsSource="{Binding ColaboradorPrivilegio}" 
@@ -220,19 +221,19 @@
 
 
                         </StackPanel>
-                        <StackPanel>
-                            <Button x:Name="brnImprimirCredencial" Content="Imprimir Credencial" ToolTip="Imprimir Credencial"  Margin="10,0,0,0" 
-                                    Height="24" RenderTransformOrigin="0.953,0.417" HorizontalAlignment="Left" Width="139" Click="ImprimirCredencial_bt_Click"/>
-                        </StackPanel>
+                        
                     </StackPanel>
                 </StackPanel>
             </GroupBox>
 
-
+            <StackPanel>
+                <Button x:Name="brnImprimirCredencial" Content="Imprimir Credencial" ToolTip="Imprimir Credencial"  Margin="0,10,10,10" 
+                                    Height="24" RenderTransformOrigin="0.953,0.417" HorizontalAlignment="Left" Width="139" Click="ImprimirCredencial_bt_Click"/>
+            </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="990" Height="203">
 
                 <ListView x:Name="ListaColaboradoresCredenciais_lv" 
-                          Margin="0,6,0,19" 
+                          Margin="0,0,0,19" 
                           Width="814" 
                           IsEnabled="{Binding IsEnableLstView}"
                           HorizontalAlignment="Stretch" 
@@ -259,9 +260,9 @@
                             <GridViewColumn Width="68" Header="Ativa"  >
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <wpf:ToggleSwitch  x:Name="Ativa_tw" HeaderHorizontalAlignment="Stretch" Width="100" HorizontalAlignment="Right" SwitchContentPlacement="Right" IsHitTestVisible="False"
-                                                          IsChecked="{Binding Ativa}"  Foreground="#FFD0D0BE" UncheckedBackground="Maroon" UncheckedBorderBrush="Maroon" UncheckedForeground="#FFAEAEAE" UncheckedText="" CheckedText="" SwitchWidth="44" />
-                                       
+                                        <!--<wpf:ToggleSwitch  x:Name="Ativa_tw" HeaderHorizontalAlignment="Stretch" Width="100" HorizontalAlignment="Right" SwitchContentPlacement="Right" IsHitTestVisible="False"
+                                                          IsChecked="{Binding Ativa}"  Foreground="#FFD0D0BE" UncheckedBackground="Maroon" UncheckedBorderBrush="Maroon" UncheckedForeground="#FFAEAEAE" UncheckedText="" CheckedText="" SwitchWidth="44" />-->
+                                        <CheckBox IsChecked="{Binding Path=Ativa}" IsHitTestVisible="False" />
 
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>

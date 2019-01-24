@@ -10,14 +10,13 @@ namespace IMOD.CredenciamentoDeskTop.Views
     /// <summary>
     /// Interação lógica para ColaboradoresCursosView.xam
     /// </summary>
-    public partial class ColaboradoresCursosView : UserControl
+    public partial class UsColaboradoresCursosView : UserControl
     {
         private readonly ColaboradoresCursosViewModel _viewModel;
         #region Inicializacao
-        public ColaboradoresCursosView()
+        public UsColaboradoresCursosView()
         {
-            InitializeComponent();
-            //DataContext = new ColaboradoresCursosViewModel();
+            InitializeComponent(); 
             _viewModel = new ColaboradoresCursosViewModel();
             DataContext = _viewModel;
         }

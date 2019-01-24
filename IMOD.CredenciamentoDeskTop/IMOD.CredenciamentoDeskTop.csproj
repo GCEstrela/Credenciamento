@@ -108,7 +108,7 @@
     <Compile Include="Funcoes\DispatchService.cs" />
     <Compile Include="Funcoes\FormateTel.cs" />
     <Compile Include="Funcoes\MethodBindingExtension.cs" />
-    <Compile Include="Funcoes\PropertyValidateModel.cs" />
+    <Compile Include="Funcoes\ValidacaoModel.cs" />
     <Compile Include="Funcoes\SCManager.cs" />
     <Compile Include="Funcoes\StringToImageConverter.cs" />
     <Compile Include="Funcoes\StringWriterWithEncoding.cs" />
@@ -215,8 +215,8 @@
     <Compile Include="Views\ColaboradoresAnexosView.xaml.cs">
       <DependentUpon>ColaboradoresAnexosView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ColaboradoresCursosView.xaml.cs">
-      <DependentUpon>ColaboradoresCursosView.xaml</DependentUpon>
+    <Compile Include="Views\UsColaboradoresCursosView.xaml.cs">
+      <DependentUpon>UsColaboradoresCursosView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ColaboradoresEmpresasView.xaml.cs">
       <DependentUpon>ColaboradoresEmpresasView.xaml</DependentUpon>
@@ -336,7 +336,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\ColaboradoresCursosView.xaml">
+    <Page Include="Views\UsColaboradoresCursosView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

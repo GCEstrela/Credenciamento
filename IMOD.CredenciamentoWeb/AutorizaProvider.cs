@@ -44,16 +44,20 @@ namespace IMOD.CredenciamentoWeb
             //if (usuarioModel.Login(email, senha))
             //{
             //    var usuario = usuarioModel.Listar().Single(k => k.Email == email);
-            //    var identity = new ClaimsIdentity(context.Options.AuthenticationType);
-            //    identity.AddClaim(new Claim(ClaimTypes.Name, usuario.Nome));
-            //    identity.AddClaim(new Claim(ClaimTypes.Email, usuario.Email));
-            //    identity.AddClaim(new Claim(ClaimTypes.Role, usuario.Perfil));
-            //    context.Validated(identity);
+              var identity = new ClaimsIdentity(context.Options.AuthenticationType);
+            //identity.AddClaim(new Claim(ClaimTypes.Name, usuario.Nome));
+            // identity.AddClaim(new Claim(ClaimTypes.Email, usuario.Email));
+            //identity.AddClaim(new Claim(ClaimTypes.Role, usuario.Perfil));
+
+            identity.AddClaim(new Claim(ClaimTypes.Name, "Valnei"));
+            identity.AddClaim(new Claim(ClaimTypes.Email, "v_marinpietri@yahoo.com.br"));
+            identity.AddClaim(new Claim(ClaimTypes.Role, "adm"));
+            context.Validated(identity);
             //    //Manager da coneao
-            //    var roles = identity.Claims.Where(m => m.Type == "Role").Select(n => n.Value).ToArray();
+               var roles = identity.Claims.Where(m => m.Type == "Role").Select(n => n.Value).ToArray();
             //    //O metodo GenericPrincipal serve para passar a Thread, para poder recuperar os dados de identidade no controller
-            //    var principal = new GenericPrincipal(identity, roles);
-            //    Thread.CurrentPrincipal = principal;
+                var principal = new GenericPrincipal(identity, roles);
+               Thread.CurrentPrincipal = principal;
             //}
             //else
             //{

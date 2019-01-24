@@ -322,18 +322,16 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         ///     Validar Regras de Negócio
         ///     <para>True, dados válidos</para>
         /// </summary>
-        public void Validar()
+        public bool Validar()
         {
             ValidarCnpj();
             if (string.IsNullOrWhiteSpace(Entity.Nome))
-            {
                 throw new InvalidOperationException("O nome é requerido");
-            }
+            
 
             if (string.IsNullOrWhiteSpace(Entity.Cnpj))
-            {
                 throw new InvalidOperationException("O CNPJ é requerido");
-            }
+            return false;
         }
 
         #endregion

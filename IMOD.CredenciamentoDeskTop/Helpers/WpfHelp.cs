@@ -7,6 +7,7 @@
 #region
 
 using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.IO;
@@ -80,6 +81,24 @@ namespace IMOD.CredenciamentoDeskTop.Helpers
         {
             MessageBox.Show(msg, Caption(pIcon), MessageBoxButtons.OK, pIcon, MessageBoxDefaultButton.Button1);
         }
+
+        /// <summary>
+        ///     Exibe messageBox contendo uma lista de erros
+        ///     <para>Usada para exibir mensagens formatadas numa única messageBox</para>
+        /// </summary>
+        /// <param name="msg">Lista de mensagens</param>
+        public static void Summary(IList<string> msg)
+        {
+            if (msg == null) return;
+            var text = "";
+            foreach (var item in msg)
+            {
+                text = text + "- " + item + "\n";
+            }
+            if (!string.IsNullOrWhiteSpace(text))
+                Mbox($"Não foi possível continuar\nRazão:\n{text}",MessageBoxIcon.Exclamation);
+        }
+
 
         /// <summary>
         ///     Define titulo do messagebox

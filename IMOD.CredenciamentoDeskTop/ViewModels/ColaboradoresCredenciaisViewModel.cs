@@ -373,10 +373,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         }
 
         /// <summary>
-        ///     Validar Regras de Negócio
+        ///  Validar Regras de Negócio 
         /// </summary>
-        public void Validar()
+        public bool Validar()
         {
+            return false;
+
         }
 
         #endregion
