@@ -143,7 +143,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         public EmpresaViewModel()
         {
-            ListarTodos();
+            //ListarTodos();
             ItensDePesquisaConfigura();
             ListarDadosAuxiliares();
             Comportamento = new ComportamentoBasico(true, true, true, false, false);
@@ -248,7 +248,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <summary>
         ///     Listar dados auxilizares
         /// </summary>
-        private void ListarDadosAuxiliares()
+        public void ListarDadosAuxiliares()
         {
             var lst1 = _auxiliaresService.LayoutCrachaService.Listar();
             var lst2 = _auxiliaresService.TipoAtividadeService.Listar();

@@ -318,6 +318,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private void PrepareAlterar()
         {
+            if (Entity == null)
+            {
+                WpfHelp.PopupBox("Selecione um Item na Lista de Contratos", 1);
+                return;
+            }
+            EntidadeTMP = Entity;
             Comportamento.PrepareAlterar();
             IsEnableLstView = false;
         }

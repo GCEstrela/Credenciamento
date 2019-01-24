@@ -1,6 +1,5 @@
 D:\Git Repositorio\IMOD.Domain\bin\Debug\IMOD.Domain.dll
 D:\Git Repositorio\IMOD.Domain\bin\Debug\IMOD.Domain.pdb
-D:\Git Repositorio\IMOD.Domain\obj\Debug\IMOD.Domain.csprojAssemblyReference.cache
 D:\Git Repositorio\IMOD.Domain\obj\Debug\IMOD.Domain.csproj.CoreCompileInputs.cache
 D:\Git Repositorio\IMOD.Domain\obj\Debug\IMOD.Domain.dll
 D:\Git Repositorio\IMOD.Domain\obj\Debug\IMOD.Domain.pdb

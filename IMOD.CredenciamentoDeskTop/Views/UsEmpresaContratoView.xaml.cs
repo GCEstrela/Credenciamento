@@ -82,7 +82,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
             try
             {
                 var arrayByes = Convert.FromBase64String(_viewModel.Entity.Arquivo);
-                WpfHelp.AbrirArquivoPdf(_viewModel.Entity.Arquivo, arrayByes);
+                WpfHelp.AbrirArquivoPdf(_viewModel.Entity.NomeArquivo, arrayByes);
             }
             catch (Exception ex)
             {
@@ -103,5 +103,22 @@ namespace IMOD.CredenciamentoDeskTop.Views
             var regex = new Regex("[^0-9]+");
             e.Handled = regex.IsMatch(e.Text);
         }
+
+        private void TipoCobranca_cb_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (TipoCobranca_cb.SelectedValue == null) return;
+
+            var _tipocobranca =TipoCobranca_cb.SelectedValue;
+            if (_tipocobranca.ToString() == "0")
+            {
+                IsencaoCobranca_cb.IsEnabled = true;
+            }
+            else
+            {
+                IsencaoCobranca_cb.IsEnabled = false;
+                IsencaoCobranca_cb.IsChecked = false;
+            }
+        }
+
     }
 }

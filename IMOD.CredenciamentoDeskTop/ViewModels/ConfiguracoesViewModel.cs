@@ -23,8 +23,10 @@ using IMOD.Domain.Entities;
 
 namespace IMOD.CredenciamentoDeskTop.ViewModels
 {
+    
     public class ConfiguracoesViewModel : ViewModelBase
     {
+       
         #region Inicializacao
 
         public ConfiguracoesViewModel()
@@ -1069,7 +1071,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 {
                     _auxiliaresService.LayoutCrachaService.Criar (entityConv);
                 }
-
+               
                 CarregaColecaoLayoutsCrachas();
             }
             catch (Exception ex)
@@ -1383,7 +1385,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 {
                     _auxiliaresService.TipoAtividadeService.Criar (entityConv);
                 }
-
+               
                 CarregaColecaoTiposAtividades();
             }
             catch (Exception ex)

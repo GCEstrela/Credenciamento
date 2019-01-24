@@ -10,6 +10,11 @@
              mc:Ignorable="d"
              d:DesignHeight="510"  Width="1043.714">
     <UserControl.Resources>
+        <Image x:Key="imgAdd" Source="../Resources/add.png"  />
+        <Image x:Key="imgEdit" Source="../Resources/edit.png"  />
+        <Image x:Key="imgRemove" Source="../Resources/remove.png"  />
+        <Image x:Key="imgSave" Source="../Resources/save.png"  />
+        <Image x:Key="imgCancel" Source="../Resources/undo.png"  />
         <Style TargetType="{x:Type DatePickerTextBox}">
             <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" />
             <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />
@@ -108,8 +113,13 @@
         <funcoes:FormateTel x:Key="FormateTel" />
     </UserControl.Resources>
     <Grid Margin="0,0,-48,0" Loaded="Frm_Loaded" >
-        <StackPanel Orientation="Vertical" Margin="0,0,525,0" Height="275" VerticalAlignment="Top">
-            <GroupBox IsEnabled="{Binding Comportamento.isEnableCancelar}" Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" Background="DarkGoldenrod"
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="265*"/>
+            <ColumnDefinition Width="281*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Orientation="Vertical" Margin="0,0,525,0" Height="275" VerticalAlignment="Top" Grid.ColumnSpan="2">
+            <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" Background="DarkGoldenrod"
+                      IsEnabled="{Binding Comportamento.isEnableCancelar}" 
                       x:Name="Contrato_gb" Header="Contrato " Height="175" HorizontalAlignment="Left" Width="510">
                 <StackPanel Margin="0,0,0,-12">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
@@ -118,7 +128,7 @@
                         <TextBox x:Name="Codigo_tb" CharacterCasing="Upper"
                                  Text="{Binding Entity.EmpresaContratoId, UpdateSourceTrigger=PropertyChanged}"
                                  IsEnabled="False" Height="24" Width="50" />
-                        <Label Content="Nº do Contrato:" Height="28" Width="120" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"  />
+                        <Label Content="* Nº do Contrato:" Height="28" Width="120" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"  />
                         <TextBox x:Name="NumeroContrato_tb" MaxLength="13" CharacterCasing="Upper"
                                  Text="{Binding Entity.NumeroContrato, UpdateSourceTrigger=PropertyChanged}"
                                  IsEnabled="True" Height="24" Width="94" />
@@ -128,13 +138,13 @@
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                 Margin="1">
-                        <Label Content="Descricao:" Height="28" Width="102" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"  />
+                        <Label Content="* Descricao:" Height="28" Width="102" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"  />
                         <TextBox x:Name="Descricao_tb" MaxLength="50" CharacterCasing="Upper"
                                  Text="{Binding Entity.Descricao, UpdateSourceTrigger=PropertyChanged}"
                                  IsEnabled="True" Height="24" Width="381" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="1">
-                        <Label Content="Status:" Height="28" Width="102" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
+                        <Label Content="* Status:" Height="28" Width="102" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                         <ComboBox x:Name="Status_cb" MinWidth="50" Height="28" VerticalContentAlignment="Center"
                                   HorizontalContentAlignment="Center"
                                   ItemsSource="{Binding Status}" 
@@ -151,12 +161,12 @@
                                   SelectedValuePath="TipoAcessoId" Width="140" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="1">
-                        <Label Content="Data de Emissão:" Height="28" Width="102" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
+                        <Label Content="* Data de Emissão:" Height="28" Width="102" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
 
                         <DatePicker Margin="0,3,0,0" x:Name="Emissao_tb" VerticalContentAlignment="Center"
                                     SelectedDate="{Binding Entity.Emissao, UpdateSourceTrigger=PropertyChanged}"
                                     Width="130" Foreground="White" Background="{x:Null}" Height="25" />
-                        <Label Content="Data de Validade:" Height="26" Width="102" Margin="15,3,0,0"
+                        <Label Content="* Data de Validade:" Height="26" Width="102" Margin="15,3,0,0"
                                Foreground="#FFD0D0D0" />
                         <DatePicker Margin="0,3,0,0" x:Name="Validade_tb" VerticalContentAlignment="Center"
                                     SelectedDate="{Binding Entity.Validade, UpdateSourceTrigger=PropertyChanged}"
@@ -169,7 +179,7 @@
                       x:Name="Responsavel_gb" Header="Responsável " HorizontalAlignment="Left" Width="510" Height="100">
                 <StackPanel Margin="1,1,1,-6">
                     <StackPanel Orientation="Horizontal" Margin="1">
-                        <Label Content="Nome:" Height="28" Width="50" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
+                        <Label Content="* Nome:" Height="28" Width="50" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
                         <TextBox x:Name="NomeResp_tb" MaxLength="27" CharacterCasing="Upper"
                                  Text="{Binding Entity.NomeResp, UpdateSourceTrigger=PropertyChanged}"
                                  IsEnabled="True" Height="24" Width="250" />
@@ -182,7 +192,7 @@
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                 Margin="1">
-                        <Label Content="E-Mail:" Height="28" Width="50" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
+                        <Label Content="* E-Mail:" Height="28" Width="50" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
                         <TextBox x:Name="EmailResp_tb" MaxLength="27" CharacterCasing="Lower"
                                  Text="{Binding Entity.EmailResp, UpdateSourceTrigger=PropertyChanged}"
                                  IsEnabled="True" Height="24" Width="250" />
@@ -198,20 +208,23 @@
                 </StackPanel>
             </GroupBox>
         </StackPanel>
-        <StackPanel Orientation="Vertical" Margin="520,1,1,0" Height="274" VerticalAlignment="Top">
-            <GroupBox IsEnabled="{Binding Comportamento.isEnableCancelar}" Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" Background="CadetBlue"
+        <StackPanel Orientation="Vertical" Margin="520,1,1,0" Height="274" VerticalAlignment="Top" Grid.ColumnSpan="2">
+            <GroupBox IsEnabled="{Binding Comportamento.isEnableCancelar}" 
+                      Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}"
+                      Background="CadetBlue"
                       x:Name="Cobranca_gb" Header="Endereço de Cobrança " Height="174">
                 <StackPanel Margin="1">
                     <StackPanel Orientation="Horizontal" Margin="1"  VerticalAlignment="Center" HorizontalAlignment="Left">
 
 
-                        <Label Content="Tipo de Cobrança:" Height="28" Width="109" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
+                        <Label Content="* T. de Cobrança:" Height="28" Width="109" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
                         <ComboBox x:Name="TipoCobranca_cb" Height="28"
                                   ItemsSource="{Binding TiposCobranca}" DisplayMemberPath="Descricao"
                                   SelectedValue="{Binding Entity.TipoCobrancaId, UpdateSourceTrigger=PropertyChanged}"
-                                  SelectedValuePath="TipoCobrancaId" Width="207" />
+                                  SelectedValuePath="TipoCobrancaId" Width="207" SelectionChanged="TipoCobranca_cb_SelectionChanged" />
 
-                        <CheckBox x:Name="IsencaoCobranca_cb" IsChecked="{Binding Entity.IsencaoCobranca}" FlowDirection="RightToLeft"  VerticalAlignment="Center"
+                        <CheckBox x:Name="IsencaoCobranca_cb" IsChecked="{Binding Entity.IsencaoCobranca}"                                   
+                                  FlowDirection="RightToLeft"  VerticalAlignment="Center"
                                   VerticalContentAlignment="Center" Height="17" Margin="30,0,0,0" Foreground="#FFD0D0D0"  Width="130">Isento de Cobrança</CheckBox>
 
                     </StackPanel>
@@ -261,17 +274,19 @@
                     </StackPanel>
                 </StackPanel>
             </GroupBox>
-            <GroupBox IsEnabled="{Binding Comportamento.isEnableCancelar}" Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" Background="Coral" x:Name="Anexo_gb"
+            <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" Background="Coral" x:Name="Anexo_gb"
                       Header="Anexo " Height="100">
                 <StackPanel Margin="1,1,1,18">
                     <StackPanel Orientation="Horizontal"   HorizontalAlignment="Left"
                                 Margin="0,5,0,0" Width="558">
-                        <Label Content="Contrato Digitalizado:" Height="28" Width="129" Margin="1" HorizontalContentAlignment="Right"
+                        <Label Content="* Contrato Digitalizado:" Height="28" Width="137" Margin="1" HorizontalContentAlignment="Right"
                                Foreground="#FFD0D0D0" />
                         <TextBox x:Name="txtNomeAnexo" MaxLength="30" CharacterCasing="Upper"
+                                 IsEnabled="{Binding Comportamento.isEnableCancelar}" 
                                  Text="{Binding Entity.NomeArquivo, UpdateSourceTrigger=PropertyChanged}"
-                                 IsEnabled="True" Height="24" Width="320" />
+                                 Height="24" Width="331" />
                         <Button x:Name="BuscarContratoArquivo_bt" Height="24" Margin="10,0,0,0"
+                                IsEnabled="{Binding Comportamento.isEnableCancelar}" 
                                 VerticalAlignment="Center" Width="24" Click="OnUpLoad_Click">
                             <StackPanel>
                                 <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Pasta.ico" />
@@ -288,7 +303,7 @@
                 </StackPanel>
             </GroupBox>
         </StackPanel>
-        <StackPanel Orientation="Horizontal" Margin="0,287,0,198" Height="25"   >
+        <StackPanel Orientation="Horizontal" Margin="0,287,0,198" Height="25" Grid.ColumnSpan="2"   >
             <Label Content="Pesquisar:" Height="28" Width="65" Foreground="#FFD0D0D0" Margin="1,0,0,0"/>
             <ComboBox  Width="150" ItemsSource="{Binding ListaPesquisa }"
              DisplayMemberPath="Value"
@@ -300,7 +315,7 @@
                 </TextBox.InputBindings>
             </TextBox>
         </StackPanel>
-        <StackPanel Orientation="Horizontal" Margin="0,323,0,0" Height="181" VerticalAlignment="Top">
+        <StackPanel Orientation="Horizontal" Margin="0,323,0,0" Height="181" VerticalAlignment="Top" Grid.ColumnSpan="2">
 
 
             <ListView x:Name="ListaContratos_lv" Margin="1,0,1,3"
@@ -308,7 +323,7 @@
               
                       ItemsSource="{Binding EntityObserver, Mode=TwoWay}"
                       SelectedItem="{Binding Entity, Mode=TwoWay}"
-                      Width="844">
+                      Width="1054">
 
                 <ListView.View>
                     <GridView FrameworkElement.FlowDirection="RightToLeft">
@@ -324,23 +339,23 @@
                     </GridView>
                 </ListView.View>
             </ListView>
-            <StackPanel Orientation="Vertical" HorizontalAlignment="Right" Width="154"
-                        Height="183" VerticalAlignment="Top">
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Right" Width="46"
+                        Height="183" VerticalAlignment="Top" Margin="0,0,0,-2">
 
                 <!--<Button x:Name="btnPesquisar" Content="Pesquisar" ToolTip="Pesquisar"  Height="30" Width="148"  Click="Pesquisar_bt_Click" Margin="0,0,0,7" />-->
-                <Button x:Name="btnAdicionar" Content="Adicionar" ToolTip="Adicionar"
+                <Button x:Name="btnAdicionar" Content="{StaticResource imgAdd}"       ToolTip="Adicionar"  
                         IsEnabled="{Binding Comportamento.IsEnableCriar}" Command="{Binding PrepareCriarCommand}"
-                        Height="30" Width="148" Margin="0,0,0,7" />
-                <Button x:Name="btnEditar" Content="Editar" Height="30" ToolTip="Editar"
+                        Height="31" Width="25" Margin="0,0,0,7" />
+                <Button x:Name="btnEditar" Content="{StaticResource imgEdit}"      ToolTip="Editar" Height="31" 
                         IsEnabled="{Binding Comportamento.IsEnableEditar}"
-                        Command="{Binding PrepareAlterarCommand}" Width="148" Margin="0,0,0,7" />
-                <Button x:Name="btnExcluir" Content="Remover" Height="30" Width="148" ToolTip="Remover"
+                        Command="{Binding PrepareAlterarCommand}" Width="25" Margin="0,0,0,7" />
+                <Button x:Name="btnExcluir" Content="{StaticResource imgRemove}"    ToolTip="Remover" Height="31" Width="25"
                         IsEnabled="{Binding Comportamento.isEnableRemover}"
                         Command="{Binding PrepareRemoverCommand}" Margin="0,0,0,7" />
-                <Button x:Name="btnCancelar" Content="Cancelar" ToolTip="Cancelar" Height="30" Width="148"
+                <Button x:Name="btnCancelar"  Content="{StaticResource imgCancel}"    ToolTip="Cancelar" Height="31" Width="25"
                         IsEnabled="{Binding Comportamento.isEnableCancelar}"
                         Command="{Binding PrepareCancelarCommand}" Margin="0,0,0,7" />
-                <Button x:Name="btnSalvar" Content="Salvar" ToolTip="Salvar" Height="30" Width="148"
+                <Button x:Name="btnSalvar" Content="{StaticResource imgSave}"      ToolTip="Salvar" Height="31" Width="25"
                         IsEnabled="{Binding Comportamento.isEnableSalvar}" Command="{Binding PrepareSalvarCommand}"
                         Margin="0,0,0,7" />
 
