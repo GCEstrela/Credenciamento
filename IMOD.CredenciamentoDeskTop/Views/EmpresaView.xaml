@@ -166,7 +166,7 @@
                                     <Label Content="* CNPJ:" Height="28" Width="132" Margin="1"  Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                                     <TextBox  x:Name="txtCnpj"  MaxLength="20" IsEnabled="True"  Height="24"  Width="120"  Foreground="White" VerticalContentAlignment="Center" 
                                                       Text="{Binding Entity.Cnpj, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                                      HorizontalContentAlignment="Center" LostFocus="OnValidaCnpj_LostFocus" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"  />
+                                                      HorizontalContentAlignment="Center" LostFocus="OnValidaCnpj_LostFocus" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="1" >
                                     <Label Content="* Razão Social:" Height="28" Width="100" Margin="1" Foreground="#FFD0D0D0"  HorizontalContentAlignment="Right"/>

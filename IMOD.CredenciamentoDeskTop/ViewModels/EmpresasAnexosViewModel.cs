@@ -74,11 +74,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                if (Entity == null)
-                {
-                    return;
-                }
+                if (Entity == null) return;
 
+                if (Validar()) return;
                 var n1 = Mapper.Map<EmpresaAnexo>(Entity);
                 n1.EmpresaId = _empresaView.EmpresaId;
                 _service.Criar(n1);
@@ -114,11 +112,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                if (Entity == null)
-                {
-                    return;
-                }
+                if (Entity == null) return;
 
+                if (Validar()) return;
                 var n1 = Mapper.Map<EmpresaAnexo>(Entity);
                 _service.Alterar(n1);
                 IsEnableLstView = true;
@@ -247,8 +243,15 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         public bool Validar()
         {
-            return false;
+            Entity.Validate();
+            var hasErros = Entity.HasErrors;
+            if (hasErros)
+                WpfHelp.Summary(Entity.Errors);
 
+            IsEnableLstView = true;
+            Entity = EntidadeTMP;
+            return hasErros;
+            
         }
         #endregion
 

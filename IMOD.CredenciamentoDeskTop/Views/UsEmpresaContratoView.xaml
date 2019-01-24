@@ -2,8 +2,7 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:wpf="clr-namespace:CSharpControls.Wpf;assembly=CSharpControls.Wpf"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"            
              xmlns:funcoes="clr-namespace:IMOD.CredenciamentoDeskTop.Funcoes"
              xmlns:viewModels="clr-namespace:IMOD.CredenciamentoDeskTop.ViewModels"
              d:DataContext="{d:DesignInstance viewModels:EmpresasContratosViewModel , IsDesignTimeCreatable=True}"
@@ -15,97 +14,36 @@
         <Image x:Key="imgRemove" Source="../Resources/remove.png"  />
         <Image x:Key="imgSave" Source="../Resources/save.png"  />
         <Image x:Key="imgCancel" Source="../Resources/undo.png"  />
-        <Style TargetType="{x:Type DatePickerTextBox}">
-            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" />
-            <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />
-            <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst"/>
-            <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
+        <ControlTemplate x:Key="ValidationErrorTemplate">
+            <DockPanel>
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+                    <Grid Width="12" Height="12">
+                        <Ellipse Width="12" Height="12" Fill="Red" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Foreground="White"  FontWeight="Heavy" FontSize="8" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center"
+                               ToolTip="{Binding ElementName=ErrorAdorner, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}"
+                               >X</TextBlock>
+                    </Grid>
+                    <TextBlock Foreground="Red" Margin="2,0,0,0" 
+                           Text="{Binding ElementName=ErrorAdorner, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}"
+                           ></TextBlock>
+                </StackPanel>
+                <AdornedElementPlaceholder x:Name="ErrorAdorner" ></AdornedElementPlaceholder>
+            </DockPanel>
+        </ControlTemplate>
+        <Style x:Key="MenuStyle" TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="{x:Null}" />
+            <Setter Property="BorderBrush" Value="{x:Null}" />
+            <Setter Property="Width" Value="16" />
+            <Setter Property="Height" Value="16" />
+            <Setter Property="Cursor" Value="Hand" />
             <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="DatePickerTextBox">
-                        <Grid >
-                            <Grid.Resources>
-                                <SolidColorBrush x:Key="WatermarkBrush" Color="#FFAAAAAA"/>
-                            </Grid.Resources>
-                            <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroup Name="CommonStates">
-                                    <VisualStateGroup.Transitions>
-                                        <VisualTransition GeneratedDuration="0" />
-                                        <VisualTransition To="MouseOver" GeneratedDuration="0:0:0.1" />
-                                    </VisualStateGroup.Transitions>
-                                    <VisualState Name="Normal" />
-                                    <VisualState Name="MouseOver">
-                                        <Storyboard>
-                                            <ColorAnimation Storyboard.TargetName="ContentElement" Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)" To="#FF99C1E2" Duration="0"/>
-                                            <ColorAnimation Storyboard.TargetName="watermark_decorator" Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)" To="#FF99C1E2" Duration="0"/>
-                                        </Storyboard>
-                                    </VisualState>
-                                </VisualStateGroup>
-                                <VisualStateGroup Name="WatermarkStates">
-                                    <VisualStateGroup.Transitions>
-                                        <VisualTransition GeneratedDuration="0" />
-                                    </VisualStateGroup.Transitions>
-                                    <VisualState Name="Unwatermarked" />
-                                    <VisualState Name="Watermarked">
-                                        <Storyboard>
-                                            <DoubleAnimation Storyboard.TargetName="ContentElement" Storyboard.TargetProperty="Opacity" To="0" Duration="0" />
-                                            <DoubleAnimation Storyboard.TargetName="PART_Watermark" Storyboard.TargetProperty="Opacity" To="1" Duration="0" />
-                                        </Storyboard>
-                                    </VisualState>
-                                </VisualStateGroup>
-                                <VisualStateGroup Name="FocusStates">
-                                    <VisualStateGroup.Transitions>
-                                        <VisualTransition GeneratedDuration="0" />
-                                    </VisualStateGroup.Transitions>
-                                    <VisualState Name="Unfocused" />
-                                    <VisualState Name="Focused">
-                                        <Storyboard>
-                                            <DoubleAnimation Storyboard.TargetName="FocusVisual" Storyboard.TargetProperty="Opacity" To="1" Duration="0" />
-                                        </Storyboard>
-                                    </VisualState>
-                                </VisualStateGroup>
-                            </VisualStateManager.VisualStateGroups>
-
-
-                            <Border x:Name="Border" VerticalAlignment="Center"
-                            Background="Transparent" 
-                            BorderBrush="Transparent" 
-                            BorderThickness="0"
-                            Padding="{TemplateBinding Padding}"
-                            CornerRadius="1" 
-                            Opacity="1">
-                                <Grid x:Name="WatermarkContent" 
-                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                              VerticalAlignment="Center">
-                                    <Border x:Name="ContentElement" BorderThickness="1">
-                                        <Border.BorderBrush>
-                                            <SolidColorBrush Color="Transparent"/>
-                                        </Border.BorderBrush>
-                                    </Border>
-                                    <Border x:Name="watermark_decorator" BorderThickness="1" VerticalAlignment="Stretch">
-                                        <Border.BorderBrush>
-                                            <SolidColorBrush Color="Transparent"/>
-                                        </Border.BorderBrush>
-                                        <ContentControl x:Name="PART_Watermark"
-                                                    Opacity="0"
-                                                    Focusable="False"
-                                                    IsHitTestVisible="False"
-                                                    Padding="2" VerticalContentAlignment="Stretch">
-                                            <ContentControl.Template>
-                                                <ControlTemplate>
-                                                    <TextBlock  VerticalAlignment="Center" Text=""/>
-                                                </ControlTemplate>
-                                            </ContentControl.Template>
-                                        </ContentControl>
-                                    </Border>
-                                    <ScrollViewer x:Name="PART_ContentHost" 
-                                          Margin="0"
-                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                          VerticalContentAlignment= "Center" />
-                                    <Border x:Name="FocusVisual" VerticalAlignment="Center" BorderBrush="#FF45D6FA" CornerRadius="1" Opacity="0" IsHitTestVisible="False"/>
-                                </Grid>
-                            </Border>
-                        </Grid>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border CornerRadius="0" Background="{TemplateBinding Background}">
+                            <Grid>
+                                <ContentPresenter x:Name="MyContentPresenter" Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" />
+                            </Grid>
+                        </Border>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
@@ -131,7 +69,7 @@
                         <Label Content="* Nº do Contrato:" Height="28" Width="120" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"  />
                         <TextBox x:Name="NumeroContrato_tb" MaxLength="13" CharacterCasing="Upper"
                                  Text="{Binding Entity.NumeroContrato, UpdateSourceTrigger=PropertyChanged}"
-                                 IsEnabled="True" Height="24" Width="94" />
+                                 IsEnabled="True" Height="24" Width="94" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
                         <CheckBox x:Name="Terceirizada_cb" IsChecked="{Binding Entity.Terceirizada}" FlowDirection="RightToLeft" VerticalAlignment="Center"
                                   Height="17" Width="100" Margin="1"
                                   Foreground="#FFD0D0D0" Content="Terceirizada"/>
@@ -141,7 +79,7 @@
                         <Label Content="* Descricao:" Height="28" Width="102" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"  />
                         <TextBox x:Name="Descricao_tb" MaxLength="50" CharacterCasing="Upper"
                                  Text="{Binding Entity.Descricao, UpdateSourceTrigger=PropertyChanged}"
-                                 IsEnabled="True" Height="24" Width="381" />
+                                 IsEnabled="True" Height="24" Width="381" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="1">
                         <Label Content="* Status:" Height="28" Width="102" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
@@ -150,7 +88,7 @@
                                   ItemsSource="{Binding Status}" 
                                   DisplayMemberPath="Descricao"
                                   SelectedValue="{Binding Entity.StatusId, UpdateSourceTrigger=PropertyChanged}"
-                                  SelectedValuePath="StatusId" Width="140" />
+                                  SelectedValuePath="StatusId" Width="140" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
 
                         <Label Visibility="Hidden" Content="Tipo de Acesso:" Height="28" Width="100" Margin="1"
                                Foreground="#FFD0D0D0" />
@@ -165,12 +103,12 @@
 
                         <DatePicker Margin="0,3,0,0" x:Name="Emissao_tb" VerticalContentAlignment="Center"
                                     SelectedDate="{Binding Entity.Emissao, UpdateSourceTrigger=PropertyChanged}"
-                                    Width="130" Foreground="White" Background="{x:Null}" Height="25" />
+                                    Width="130" Foreground="White" Background="{x:Null}" Height="25" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
                         <Label Content="* Data de Validade:" Height="26" Width="102" Margin="15,3,0,0"
                                Foreground="#FFD0D0D0" />
                         <DatePicker Margin="0,3,0,0" x:Name="Validade_tb" VerticalContentAlignment="Center"
                                     SelectedDate="{Binding Entity.Validade, UpdateSourceTrigger=PropertyChanged}"
-                                    Width="130" Foreground="White" Background="{x:Null}" Height="25"/>
+                                    Width="130" Foreground="White" Background="{x:Null}" Height="25" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
 
                     </StackPanel>
                 </StackPanel>
@@ -182,7 +120,7 @@
                         <Label Content="* Nome:" Height="28" Width="50" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
                         <TextBox x:Name="NomeResp_tb" MaxLength="27" CharacterCasing="Upper"
                                  Text="{Binding Entity.NomeResp, UpdateSourceTrigger=PropertyChanged}"
-                                 IsEnabled="True" Height="24" Width="250" />
+                                 IsEnabled="True" Height="24" Width="250" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
                         <Label Content="Telefone:" Height="28" Width="70" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                         <TextBox   Foreground="#FFD0D0D0" x:Name="TelefoneResp_tb"
                                  CharacterCasing="Upper" MaxLength="15"
@@ -195,7 +133,7 @@
                         <Label Content="* E-Mail:" Height="28" Width="50" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
                         <TextBox x:Name="EmailResp_tb" MaxLength="27" CharacterCasing="Lower"
                                  Text="{Binding Entity.EmailResp, UpdateSourceTrigger=PropertyChanged}"
-                                 IsEnabled="True" Height="24" Width="250" />
+                                 IsEnabled="True" Height="24" Width="250" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
                         <Label Content="Celular:" Height="28" Width="70" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                         <TextBox   Foreground="#FFD0D0D0" x:Name="CelularResp_tb"
                                  CharacterCasing="Upper" MaxLength="16"
@@ -221,7 +159,7 @@
                         <ComboBox x:Name="TipoCobranca_cb" Height="28"
                                   ItemsSource="{Binding TiposCobranca}" DisplayMemberPath="Descricao"
                                   SelectedValue="{Binding Entity.TipoCobrancaId, UpdateSourceTrigger=PropertyChanged}"
-                                  SelectedValuePath="TipoCobrancaId" Width="207" SelectionChanged="TipoCobranca_cb_SelectionChanged" />
+                                  SelectedValuePath="TipoCobrancaId" Width="207" SelectionChanged="TipoCobranca_cb_SelectionChanged" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
 
                         <CheckBox x:Name="IsencaoCobranca_cb" IsChecked="{Binding Entity.IsencaoCobranca}"                                   
                                   FlowDirection="RightToLeft"  VerticalAlignment="Center"

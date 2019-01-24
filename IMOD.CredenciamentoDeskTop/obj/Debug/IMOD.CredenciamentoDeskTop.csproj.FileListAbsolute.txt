@@ -80,7 +80,7 @@ D:\Git Repositorio\IMOD.CredenciamentoDeskTop\obj\Debug\Windows\PopupRelatorio.b
 D:\Git Repositorio\IMOD.CredenciamentoDeskTop\obj\Debug\Modulo\MenuPrincipalView.g.cs
 D:\Git Repositorio\IMOD.CredenciamentoDeskTop\obj\Debug\Views\ColaboradoresCredenciaisView.g.cs
 D:\Git Repositorio\IMOD.CredenciamentoDeskTop\obj\Debug\Views\ColaboradoresAnexosView.g.cs
-D:\Git Repositorio\IMOD.CredenciamentoDeskTop\obj\Debug\Views\ColaboradoresCursosView.g.cs
+D:\Git Repositorio\IMOD.CredenciamentoDeskTop\obj\Debug\Views\UsColaboradoresCursosView.g.cs
 D:\Git Repositorio\IMOD.CredenciamentoDeskTop\obj\Debug\Views\ColaboradoresEmpresasView.g.cs
 D:\Git Repositorio\IMOD.CredenciamentoDeskTop\obj\Debug\Views\ColaboradorView.g.cs
 D:\Git Repositorio\IMOD.CredenciamentoDeskTop\obj\Debug\Views\ConfiguracoesView.g.cs
@@ -119,7 +119,7 @@ D:\Git Repositorio\IMOD.CredenciamentoDeskTop\obj\Debug\IMOD.CredenciamentoDeskT
 D:\Git Repositorio\IMOD.CredenciamentoDeskTop\obj\Debug\IMOD.CredenciamentoDeskTop_MarkupCompile.lref
 D:\Git Repositorio\IMOD.CredenciamentoDeskTop\obj\Debug\Views\ColaboradoresCredenciaisView.baml
 D:\Git Repositorio\IMOD.CredenciamentoDeskTop\obj\Debug\Views\ColaboradoresAnexosView.baml
-D:\Git Repositorio\IMOD.CredenciamentoDeskTop\obj\Debug\Views\ColaboradoresCursosView.baml
+D:\Git Repositorio\IMOD.CredenciamentoDeskTop\obj\Debug\Views\UsColaboradoresCursosView.baml
 D:\Git Repositorio\IMOD.CredenciamentoDeskTop\obj\Debug\Views\ColaboradoresEmpresasView.baml
 D:\Git Repositorio\IMOD.CredenciamentoDeskTop\obj\Debug\Views\ColaboradorView.baml
 D:\Git Repositorio\IMOD.CredenciamentoDeskTop\obj\Debug\Views\ConfiguracoesView.baml
