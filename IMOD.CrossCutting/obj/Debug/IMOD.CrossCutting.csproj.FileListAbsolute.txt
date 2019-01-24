@@ -1,0 +1,8 @@
+C:\Users\valnei.batista\Documents\Git Repositorio\Credencimento\IMOD.CrossCutting\bin\Debug\IMOD.CrossCutting.dll
+C:\Users\valnei.batista\Documents\Git Repositorio\Credencimento\IMOD.CrossCutting\bin\Debug\IMOD.CrossCutting.pdb
+C:\Users\valnei.batista\Documents\Git Repositorio\Credencimento\IMOD.CrossCutting\bin\Debug\Newtonsoft.Json.dll
+C:\Users\valnei.batista\Documents\Git Repositorio\Credencimento\IMOD.CrossCutting\bin\Debug\Newtonsoft.Json.pdb
+C:\Users\valnei.batista\Documents\Git Repositorio\Credencimento\IMOD.CrossCutting\bin\Debug\Newtonsoft.Json.xml
+C:\Users\valnei.batista\Documents\Git Repositorio\Credencimento\IMOD.CrossCutting\obj\Debug\IMOD.CrossCutting.csprojResolveAssemblyReference.cache
+C:\Users\valnei.batista\Documents\Git Repositorio\Credencimento\IMOD.CrossCutting\obj\Debug\IMOD.CrossCutting.dll
+C:\Users\valnei.batista\Documents\Git Repositorio\Credencimento\IMOD.CrossCutting\obj\Debug\IMOD.CrossCutting.pdb
