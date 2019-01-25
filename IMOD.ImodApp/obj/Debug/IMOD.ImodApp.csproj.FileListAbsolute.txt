@@ -1,5 +1,0 @@
-C:\Users\valnei.batista\Documents\Git Repositorio\Credencimento\IMOD.ImodApp\obj\Debug\IMOD.ImodApp.csprojResolveAssemblyReference.cache
-C:\Users\valnei.batista\Documents\Git Repositorio\Credencimento\IMOD.ImodApp\obj\Debug\IMOD.ImodApp.csproj.IMOD.ImodApp.exe.config
-C:\Users\valnei.batista\Documents\Git Repositorio\Credencimento\IMOD.ImodApp\obj\Debug\App.g.cs
-C:\Users\valnei.batista\Documents\Git Repositorio\Credencimento\IMOD.ImodApp\obj\Debug\IMOD.ImodApp_Content.g.cs
-C:\Users\valnei.batista\Documents\Git Repositorio\Credencimento\IMOD.ImodApp\obj\Debug\IMOD.ImodApp_MarkupCompile.cache

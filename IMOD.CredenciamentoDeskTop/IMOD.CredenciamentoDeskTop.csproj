@@ -101,6 +101,7 @@
     <Compile Include="Funcoes\ConvertBoolToImage.cs" />
     <Compile Include="Funcoes\ConvertDescToBool.cs" />
     <Compile Include="Funcoes\DispatchService.cs" />
+    <Compile Include="Funcoes\FormatCpf.cs" />
     <Compile Include="Funcoes\FormateTel.cs" />
     <Compile Include="Funcoes\MethodBindingExtension.cs" />
     <Compile Include="Funcoes\ValidacaoModel.cs" />

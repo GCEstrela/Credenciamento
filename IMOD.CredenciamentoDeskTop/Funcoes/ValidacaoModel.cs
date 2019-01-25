@@ -22,7 +22,7 @@ namespace IMOD.CredenciamentoDeskTop.Funcoes
 {
     public class ValidacaoModel : INotifyPropertyChanged, INotifyDataErrorInfo
     {
-        private readonly ConcurrentDictionary<string, List<string>> _errors = new ConcurrentDictionary<string, List<string>>();
+        private  ConcurrentDictionary<string, List<string>> _errors = new ConcurrentDictionary<string, List<string>>();
         private readonly object _lock = new object();
 
         #region  Propriedades
@@ -39,11 +39,11 @@ namespace IMOD.CredenciamentoDeskTop.Funcoes
                 var erros = new List<string>();
                 erros.Clear();
                 foreach (var item in _errors.Values)
-                {
-                    item.ForEach(n=>erros.Add (n)); 
-                }
+                     item.ForEach(n=>erros.Add (n)); 
+                 
                 return erros;
             }
+            
         }
 
         #endregion
@@ -63,10 +63,28 @@ namespace IMOD.CredenciamentoDeskTop.Funcoes
             return Task.Run (() => Validate());
         }
 
+        /// <summary>
+        /// Validaç~çao
+        /// </summary>
+        /// <param name="func"></param>
+        /// <param name="key">Nome da propriedade da entidade</param>
+        /// <param name="msg">Mensagem caso nçao passe na validaçao</param>
+        public void Validate(Func<bool> func,string key,string msg)
+        {
+            Validate();
+            var result = func.Invoke();
+            if (!result) return;
+            var n = new List<string>();
+            n.Add(msg);
+            _errors.TryAdd(key, n);
+            OnErrorsChanged(key);
+
+        }
+
         public void Validate()
         {
             lock (_lock)
-            {
+             {
                 var validationContext = new ValidationContext (this, null, null);
                 var validationResults = new List<ValidationResult>();
                 Validator.TryValidateObject (this, validationContext, validationResults, true);
@@ -99,9 +117,10 @@ namespace IMOD.CredenciamentoDeskTop.Funcoes
                     _errors.TryAdd (prop.Key, messages);
                     OnErrorsChanged (prop.Key);
                 }
-            }
+             }
         }
 
+         
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
 
         #endregion

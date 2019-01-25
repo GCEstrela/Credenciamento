@@ -269,9 +269,10 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             try
             {
-                _viewModel.ValidarCpf();
-                if (_viewModel.Entity == null) return;
-                txtCpf.Text = _viewModel.Entity.Cpf.FormatarCpf();
+                _viewModel.Validar();
+                //_viewModel.ValidarCpf();
+                //if (_viewModel.Entity == null) return;
+                //txtCpf.Text = _viewModel.Entity.Cpf.FormatarCpf();
             }
             catch (Exception ex)
             {
