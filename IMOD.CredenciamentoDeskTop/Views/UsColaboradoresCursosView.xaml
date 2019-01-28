@@ -17,17 +17,17 @@
     </UserControl.Resources>
 
 
-    <Grid Margin="0,0,0,10" Loaded="Grid_Loaded">
+    <Grid VerticalAlignment="Top" Loaded="Grid_Loaded">
         <StackPanel Orientation="Vertical">
             <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" 
-                      Background="Chocolate"                      
-                      IsEnabled="{Binding Comportamento.isEnableCancelar}"
+                      Background="Chocolate"                                            
                       x:Name="InformacoesCursos_gb" Header="Cursos e Treinamentos"   Margin="0,0,0,0"
                       VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="795">
+                
                 <StackPanel x:Name="InformacoesAnexo_sp" Margin="0,0,0,0" Width="773">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="1">
-                        <Label Content="Código:" Height="26" Foreground="#FFD0D0D0" Width="110"  />
-                        <TextBox  x:Name="cmbEmpresa" Width="43" Height="24" 
+                        <Label Content="Código:" Height="24" Foreground="#FFD0D0D0" Width="110"  />
+                        <TextBox  x:Name="cmbEmpresa" Width="43" Height="24" IsEnabled="false"
                                   Text="{Binding Entity.ColaboradorCursoId, UpdateSourceTrigger=PropertyChanged}" 
                                    VerticalContentAlignment="Center" 
                                    HorizontalContentAlignment="Left"
@@ -39,12 +39,14 @@
                                    VerticalContentAlignment="Center" 
                                    HorizontalContentAlignment="Left"
                                    ItemsSource="{Binding Cursos}" 
-                                   DisplayMemberPath="Descricao"  
+                                   DisplayMemberPath="Descricao"
+                                   IsEnabled="{Binding Comportamento.isEnableCancelar}"
                                    SelectedValue="{Binding Entity.CursoId, UpdateSourceTrigger=PropertyChanged}" 
                                    SelectedValuePath="CursoId"/>
                         <Label Content="Data de Validade:" Height="24" Width="110" Foreground="#FFD0D0D0" Margin="0,7" HorizontalContentAlignment="Right" HorizontalAlignment="Left" />
                         <DatePicker x:Name="DataValidade_dp" 
-                                    SelectedDate="{Binding Entity.Validade, UpdateSourceTrigger=PropertyChanged}" 
+                                    SelectedDate="{Binding Entity.Validade, UpdateSourceTrigger=PropertyChanged}"
+                                    IsEnabled="{Binding Comportamento.isEnableCancelar}"
                                     Foreground="White" Background="{x:Null}" HorizontalAlignment="Left"  Margin="1,7,0,7" 
                                     Height="Auto" Width="114" />
 
@@ -54,10 +56,13 @@
                         <Label Content="Nome do Arquivo:" Height="24" Width="110" Foreground="#FFD0D0D0"  />
                         <TextBox  x:Name="NomeArquivo_tb" 
                                   Text="{Binding Entity.NomeArquivo, UpdateSourceTrigger=PropertyChanged}" 
-                                   Width="324" Height="24" 
-                                   VerticalContentAlignment="Center" 
-                                   HorizontalContentAlignment="Left"/>
-                        <Button x:Name="BuscarCursoArquivo_bt" Height="24"  VerticalAlignment="Center" HorizontalAlignment="Left" Width="24" Margin="10,10,0,8" Click="OnUpLoad_Click">
+                                  IsEnabled="{Binding Comportamento.isEnableCancelar}"
+                                  Width="324" Height="24" 
+                                  VerticalContentAlignment="Center" 
+                                  HorizontalContentAlignment="Left"/>
+                        <Button x:Name="BuscarCursoArquivo_bt" Height="24"
+                                IsEnabled="{Binding Comportamento.isEnableCancelar}"
+                                VerticalAlignment="Center" HorizontalAlignment="Left" Width="24" Margin="10,10,0,8" Click="OnUpLoad_Click">
                             <StackPanel>
                                 <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Pasta.ico"/>
                             </StackPanel>
@@ -67,17 +72,17 @@
                                 <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Olho.png"/>
                             </StackPanel>
                         </Button>
-                        <CheckBox VerticalAlignment="Center" x:Name="Impeditivo_cb" Margin="10,0,0,0" Foreground="#FFD0D0D0" IsChecked="{Binding Entity.Controlado, UpdateSourceTrigger=PropertyChanged}" Content="Curso Controlado"/>
-                        <!--<wpf:ToggleSwitch x:Name="Controlada_tw"  HeaderHorizontalAlignment="Stretch" Width="181" HorizontalAlignment="Right"
-                        SwitchContentPlacement="Left"  Content="Data Controlada:" CheckedText="Sim" UncheckedText="Não"
-                        IsChecked="{Binding Entity.Controlado, ConverterParameter=Principal_tw, UpdateSourceTrigger=PropertyChanged}" Grid.Column="5"
-                        Foreground="#FFD0D0BE" UncheckedBackground="Gray" UncheckedBorderBrush="Gray" UncheckedForeground="#FFAEAEAE" Margin="5,0,0,0"/>-->
-
+                        <CheckBox VerticalAlignment="Center" x:Name="Impeditivo_cb" Margin="10,0,0,0" Foreground="#FFD0D0D0"
+                                  IsEnabled="{Binding Comportamento.isEnableCancelar}"
+                                  IsChecked="{Binding Entity.Controlado, UpdateSourceTrigger=PropertyChanged}" 
+                                  Content="Curso Controlado"/>
+                        
                     </StackPanel>
                 </StackPanel>
             </GroupBox>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="795" Height="203">
-                <ListView x:Name="ListaColaboradoresCursos_lv" IsEnabled="{Binding IsEnableLstView}"
+                <ListView x:Name="ListaColaboradoresCursos_lv" 
+                          IsEnabled="{Binding IsEnableLstView}"
                           HorizontalAlignment="Stretch" 
                           ItemsSource="{Binding EntityObserver, Mode=TwoWay}"
                           SelectedItem="{Binding Entity, Mode=TwoWay}"

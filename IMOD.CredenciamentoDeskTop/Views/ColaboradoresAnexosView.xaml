@@ -14,39 +14,53 @@
         <Image x:Key="imgRemove" Source="../Resources/remove.png"  />
         <Image x:Key="imgSave" Source="../Resources/save.png"  />
         <Image x:Key="imgCancel" Source="../Resources/undo.png"  />
+        <ControlTemplate x:Key="ValidationErrorTemplate">
+            <DockPanel>
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" Margin="5,0,0,2">
+                    <Grid Width="12" Height="12">
+                        <Ellipse Width="12" Height="12" Fill="Red" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Foreground="White"  FontWeight="Heavy" FontSize="8" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center"
+                               ToolTip="{Binding ElementName=ErrorAdorner, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}">X</TextBlock>
+                    </Grid>
+                </StackPanel>
+                <AdornedElementPlaceholder x:Name="ErrorAdorner" ></AdornedElementPlaceholder>
+            </DockPanel>
+        </ControlTemplate>
     </UserControl.Resources>
     <Grid VerticalAlignment="Top">
         <StackPanel Orientation="Vertical">
             <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}"
-                      Background="Maroon"
-                      IsEnabled="{Binding Comportamento.isEnableCancelar}"
+                      Background="Maroon"                     
                       x:Name="InformacoesAnexo_gb" Header="Anexos" Margin="0,0,0,0"
                       VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="795">
 
                 <StackPanel x:Name="InformacoesAnexo_sp" Margin="0,0,0,0" Width="773">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="1">
                         <Label Content="Código:" Height="26" Foreground="#FFD0D0D0" Width="116"  />
-                        <TextBox x:Name="ID_tb" IsEnabled="False" CharacterCasing="Upper"
+                        <TextBox x:Name="ID_tb" IsEnabled="false" CharacterCasing="Upper"
                                  Text="{Binding Entity.ColaboradorAnexoId, UpdateSourceTrigger=PropertyChanged}" 
                                   Width="43" Height="24"  />
                             <Label Content="* Descrição do Anexo:" Height="28" Width="152" Margin="0,0,5,0"
                                    HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                            <TextBox x:Name="DescricaoArquivo_tb" MaxLength="50" CharacterCasing="Upper"
+                        <TextBox x:Name="DescricaoArquivo_tb" MaxLength="50" CharacterCasing="Upper"  Height="24" Width="367" 
                                  Text="{Binding Entity.Descricao, UpdateSourceTrigger=PropertyChanged}"
-                                 IsEnabled="True" Height="24" Width="367" />
+                                 IsEnabled="{Binding Comportamento.isEnableCancelar}"
+                                 Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
                         </StackPanel>
 
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                     Margin="1">
                             <Label Content="* Nome do Arquivo:" Height="28" Width="114" Margin="1" Foreground="#FFD0D0D0" />
-                            <TextBox x:Name="txtNomeAnexo" MaxLength="100" CharacterCasing="Upper"
-                                 Text="{Binding Entity.NomeArquivo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                 IsEnabled="True" Height="24" Width="499" />
+                        <TextBox x:Name="txtNomeAnexo" MaxLength="100" CharacterCasing="Upper" Height="24" Width="499"
+                                     Text="{Binding Entity.NomeArquivo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"                                     
+                                     IsEnabled="{Binding Comportamento.isEnableCancelar}"
+                                     Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
                             <Button x:Name="BuscarContratoArquivo_bt" Height="24" Margin="10,0,0,0"
-                                VerticalAlignment="Center" Width="24" Click="OnUpLoad_Click">
-                                <StackPanel>
-                                <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Pasta.ico" />
-                                </StackPanel>
+                                    IsEnabled="{Binding Comportamento.isEnableCancelar}"
+                                    VerticalAlignment="Center" Width="24" Click="OnUpLoad_Click">
+                                    <StackPanel>
+                                        <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Pasta.ico" />
+                                    </StackPanel>
                             </Button>
                             <Button x:Name="AbrirContratoArquivo_bt" Height="24" Margin="10,0,0,0"
                                 VerticalAlignment="Center" Width="24" Click="OnDownload_Click">

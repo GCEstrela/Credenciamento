@@ -43,11 +43,11 @@
                     <StackPanel Orientation="Vertical" Margin="1" VerticalAlignment="Center">
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                     Margin="1">
-                            <Label Content="* Nome:" Height="28" Width="57" Margin="1" Foreground="#FFD0D0D0" />
+                            <Label Content="Nome:" Height="28" Width="57" Margin="1" Foreground="#FFD0D0D0" />
                             <TextBox x:Name="Nome_tb" MaxLength="50" CharacterCasing="Upper"                                     
                                      Text="{Binding Entity.Nome, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Comportamento.isEnableCancelar}"
                                      Height="24" Width="456" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
-                            <Label Content="* CPF:" Height="28" Width="50" HorizontalContentAlignment="Right"
+                            <Label Content="CPF:" Height="28" Width="50" HorizontalContentAlignment="Left"
                                    Foreground="#FFD0D0D0" />
                             <TextBox x:Name="txtCpf" MaxLength="15" CharacterCasing="Upper"
                                      Text="{Binding Entity.Cpf, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Comportamento.isEnableCancelar}"
@@ -57,7 +57,7 @@
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                     Margin="1">
-                            <Label Content="* E-Mail:" Height="28" Width="57" Margin="1" Foreground="#FFD0D0D0" />
+                            <Label Content="E-Mail:" Height="28" Width="57" Margin="1" Foreground="#FFD0D0D0" />
                             <TextBox x:Name="Email_tb" MaxLength="50" CharacterCasing="Lower"
                                      Text="{Binding Entity.Email, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Comportamento.isEnableCancelar}"
                                      Height="24" Width="292" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
@@ -69,22 +69,22 @@
                             <TextBox Foreground="#FFD0D0D0" x:Name="Telefone_tb" MaxLength="15" CharacterCasing="Upper"
                                      Text="{Binding Entity.Telefone,Converter={ StaticResource FormateTel}, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="{Binding Comportamento.isEnableCancelar}"
                                      HorizontalContentAlignment="Center" Height="24" Width="100" />
-                            <Label Content="Celular:" Height="28" Width="92" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
+                            <Label Content="Celular:" Height="28" Width="92" Foreground="#FFD0D0D0" HorizontalContentAlignment="Left" />
                             <TextBox Foreground="#FFD0D0D0" x:Name="Celular_tb" MaxLength="15" CharacterCasing="Upper"
                                      Text="{Binding Entity.Celular,Converter={ StaticResource FormateTel}, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="{Binding Comportamento.isEnableCancelar}"
                                      Height="24" HorizontalContentAlignment="Center" Width="100" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="1">
-                            <Label Content="* Principal:" Height="28" Width="66" Foreground="#FFD0D0D0"   />
+                            <Label Content="Principal:" Height="28" Width="66" Foreground="#FFD0D0D0"   />
                             <CheckBox VerticalAlignment="Center" x:Name="Impeditivo_cb"  Foreground="#FFD0D0D0" 
                                       IsChecked="{Binding Entity.Principal, UpdateSourceTrigger=PropertyChanged}" 
                                       IsEnabled="{Binding Comportamento.isEnableCancelar}" 
                                       Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
                             
                             <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-                                <Label Content="* Ficha Cadastral:" Height="28" Width="104" Margin="0,0,5,0"
-                                       HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                                <Label Content="Ficha Cadastral:" Height="28" Width="104" Margin="0,0,5,0"
+                                       HorizontalContentAlignment="Left" Foreground="#FFD0D0D0" />
 
                                 <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center"
                                             Orientation="Horizontal" Margin="0,10">
