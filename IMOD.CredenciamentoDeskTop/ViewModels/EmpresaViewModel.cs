@@ -323,12 +323,13 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             ValidarCnpj();                     
 
             Entity.Validate();
+            var hasErros = Entity.HasErrors;
 
             Entity = EntidadeTMP;
             IsEnableTabItem = true;
             IsEnableLstView = true;
 
-            return true;
+            return hasErros;
         }
 
         #endregion
@@ -549,8 +550,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 }
 
                 var n1 = Mapper.Map<Empresa>(Entity);
-                if (Validar()) return;
-
+                Validar();
                 _service.Criar(n1);
                 //Salvar Tipo de Atividades
                 SalvarTipoAtividades(n1.EmpresaId);

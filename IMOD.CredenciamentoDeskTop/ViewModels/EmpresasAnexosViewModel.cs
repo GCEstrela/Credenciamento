@@ -244,12 +244,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public bool Validar()
         {
             Entity.Validate();
-            
-
+            var hasErros = Entity.HasErrors;
             IsEnableLstView = true;
             Entity = EntidadeTMP;
-
-            return true;
+            return hasErros;
+            
         }
         #endregion
 

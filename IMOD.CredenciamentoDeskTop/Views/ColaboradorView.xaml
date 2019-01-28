@@ -274,30 +274,31 @@
                                     <TextBox  x:Name="txtCpf"  MaxLength="20" IsEnabled="True"  Height="24"  Width="122"  Foreground="White" VerticalContentAlignment="Center" 
                                                       Text="{Binding Entity.Cpf,
                                                       UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                                      HorizontalContentAlignment="Center" LostFocus="OnValidaCpf_LostFocus"/>
+                                                      HorizontalContentAlignment="Center" LostFocus="OnValidaCpf_LostFocus" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="1" >
                                     <Label Content="Nome:" Height="28" Width="100"   Foreground="#FFD0D0D0" HorizontalContentAlignment="Left"/>
-                                    <TextBox CharacterCasing="Upper"  Text="{Binding Entity.Nome,ValidatesOnNotifyDataErrors=True}"    x:Name="Nome_tb"  MaxLength="50"   IsEnabled="True"  Height="24"  Width="306"  />
+                                    <TextBox CharacterCasing="Upper"  Text="{Binding Entity.Nome,ValidatesOnNotifyDataErrors=True}"    x:Name="Nome_tb"  MaxLength="100"   IsEnabled="True"  Height="24"  Width="306" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"  />
                                 </StackPanel>
 
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="1"   >
                                     <Label Content="Apelido:" Height="28" Width="100"   Foreground="#FFD0D0D0" HorizontalContentAlignment="Left"/>
                                     <TextBox CharacterCasing="Upper"  x:Name="Apelido_tb"   
-                                             MaxLength="50" Text="{Binding Entity.Apelido, UpdateSourceTrigger=PropertyChanged}"
+                                             MaxLength="100" Text="{Binding Entity.Apelido, UpdateSourceTrigger=PropertyChanged}"
+                                             Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
                                              IsEnabled="True"  Height="24"  Width="306"/>
 
                                 </StackPanel>
 
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="1" >
                                     <Label Content="Nome Pai:" Height="28"  Width="100"    Foreground="#FFD0D0D0" HorizontalContentAlignment="Left"/>
-                                    <TextBox CharacterCasing="Upper"  x:Name="Ins_Estadual_tb"   MaxLength="11" PreviewTextInput="NumberOnly" Text="{Binding Entity.NomePai, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"    Width="306"/>
+                                    <TextBox CharacterCasing="Upper"  x:Name="Ins_Estadual_tb"   MaxLength="100"  Text="{Binding Entity.NomePai, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"    Width="306"/>
 
                                 </StackPanel>
 
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="1"  >
                                     <Label Content="Nome Mãe:" Height="28"  Width="100"    Foreground="#FFD0D0D0" HorizontalContentAlignment="Left"/>
-                                    <TextBox CharacterCasing="Upper"  x:Name="Ins_Municipal_tb"   MaxLength="11" PreviewTextInput="NumberOnly" Text="{Binding Entity.NomeMae, StringFormat=\{0:d\}, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="306"/>
+                                    <TextBox CharacterCasing="Upper"  x:Name="Ins_Municipal_tb"   MaxLength="100"   Text="{Binding Entity.NomeMae, StringFormat=\{0:d\}, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="306"/>
                                 </StackPanel>
 
                             </StackPanel>
@@ -314,13 +315,13 @@
                         <StackPanel Margin="1">
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="1" >
                                 <Label Content="Logradouro:" Height="28" Width="100"   Foreground="#FFD0D0D0" HorizontalContentAlignment="Left"/>
-                                <TextBox CharacterCasing="Upper"  x:Name="Endereco_tb"   MaxLength="50" Text="{Binding Entity.Endereco, UpdateSourceTrigger=PropertyChanged}"    IsEnabled="True"  Height="24"  Width="455"/>
+                                <TextBox CharacterCasing="Upper"  x:Name="Endereco_tb"   MaxLength="100" Text="{Binding Entity.Endereco, UpdateSourceTrigger=PropertyChanged}"    IsEnabled="True"  Height="24"  Width="455"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="1,1,0,1" Width="562" >
                                 <Label Content="No.:" Height="28" Width="100"    Foreground="#FFD0D0D0" HorizontalContentAlignment="Left"/>
-                                <TextBox CharacterCasing="Upper"  x:Name="Numero_tb"   MaxLength="50" PreviewTextInput="NumberOnly" Text="{Binding Entity.Numero,  UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="50"/>
+                                <TextBox CharacterCasing="Upper"  x:Name="Numero_tb"   MaxLength="4"   Text="{Binding Entity.Numero,  UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="50"/>
                                 <Label Content="CEP:" Height="28" Width="90"    Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
-                                <TextBox CharacterCasing="Upper"  x:Name="Cep_tb" MaxLength="50" PreviewTextInput="NumberOnly" Text="{Binding Entity.Cep,  UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="98"/>
+                                <TextBox CharacterCasing="Upper"  x:Name="Cep_tb" MaxLength="12" PreviewTextInput="NumberOnly" Text="{Binding Entity.Cep,  UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="98"/>
                                 <Label Content="Complemento:" Height="28" Width="89" Margin="0,0,5,0"  Foreground="#FFD0D0D0" />
                                 <TextBox CharacterCasing="Upper"  x:Name="Complemento_tb"   MaxLength="50" Text="{Binding Entity.Complemento,   UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="123" RenderTransformOrigin="0.5,0.5"/>
 
@@ -340,11 +341,10 @@
 
                                 <Label Content="Cidade:" Height="28" Width="50"    Foreground="#FFD0D0D0"   />
                                 <ComboBox x:Name="Cidade_cb" Height="25" 
-                                                   ItemsSource="{Binding Municipios}" DisplayMemberPath="Nome"
+                                                  ItemsSource="{Binding Municipios}" DisplayMemberPath="Nome"
                                                   SelectedValue="{Binding Entity.MunicipioId,  UpdateSourceTrigger=PropertyChanged}" 
                                                   SelectedValuePath="MunicipioId"
-                                                  SelectedIndex="0"
-                                                    Width="167"/>
+                                                  SelectedIndex="0" Width="167"/>
                             </StackPanel>
                         </StackPanel>
                     </GroupBox>
@@ -353,7 +353,7 @@
                         <StackPanel Margin="1">
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="1" >
                                 <Label Content="Telefone:" Height="28" Width="72"    Foreground="#FFD0D0D0" HorizontalContentAlignment="Left"/>
-                                <TextBox CharacterCasing="Upper"  x:Name="Contato1_tb"   MaxLength="50" Text="{Binding Entity.TelefoneFixo,Converter={StaticResource FormateTel}, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="250"/>
+                                <TextBox CharacterCasing="Upper"  x:Name="Contato1_tb"   MaxLength="15" Text="{Binding Entity.TelefoneFixo,Converter={StaticResource FormateTel}, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="250"/>
                                 <Label Content="Celular:" Height="28" Width="105"    Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                                 <TextBox Foreground="#FFD0D0D0"   CharacterCasing="Upper"  x:Name="Tel1_tb"   MaxLength="15" Margin="1"
                                                      Text="{Binding Entity.TelefoneCelular, Converter={StaticResource FormateTel}, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="98" HorizontalContentAlignment="Center"/>
@@ -371,7 +371,7 @@
                                 <Label Content="Emergência:" Height="28" Width="72"   Foreground="#FFD0D0D0" />
                                 <TextBox CharacterCasing="Lower"  x:Name="Email2_tb"   MaxLength="50" Text="{Binding Entity.ContatoEmergencia, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="250"/>
                                 <Label Content="Telefone Emerg.:" Height="28" Width="106"    Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
-                                <TextBox Foreground="#FFD0D0D0"   CharacterCasing="Upper"  x:Name="Cel2_tb"   MaxLength="16"
+                                <TextBox Foreground="#FFD0D0D0"   CharacterCasing="Upper"  x:Name="Cel2_tb"   MaxLength="15"
                                                      Text="{Binding Entity.TelefoneEmergencia, Converter={StaticResource FormateTel}, UpdateSourceTrigger=PropertyChanged}"  Margin="1" IsEnabled="True"  Height="24"  Width="97" HorizontalContentAlignment="Center"/>
                             </StackPanel>
 
@@ -391,7 +391,7 @@
                                     UpdateSourceTrigger=PropertyChanged}"  Foreground="White" Background="{x:Null}" />
                                 <Label Foreground="#FFD0D0D0" Content="Nacionalidade:" Height="28"   />
                                 <TextBox CharacterCasing="Upper"  x:Name="txtn"  
-                                         MaxLength="50" Text="{Binding Entity.Nacionalidade,  
+                                         MaxLength="20" Text="{Binding Entity.Nacionalidade,  
                                          UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="100" />
                                 <Label Foreground="#FFD0D0D0" Content="Estado Civil:" Height="28" Width="86"  HorizontalContentAlignment="Right"  />
 
@@ -408,7 +408,7 @@
 
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="1" >
                                 <Label Content="RG:" Height="28"  Foreground="#FFD0D0D0" Width="40" HorizontalContentAlignment="Left" />
-                                <TextBox  x:Name="RG_tb"  PreviewTextInput="NumberOnly" 
+                                <TextBox  x:Name="RG_tb"  PreviewTextInput="NumberOnly" MaxLength="20" 
                                           Text="{Binding Entity.Rg, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="83" />
                                 <Label Content="Emissão:" Height="24" Foreground="#FFD0D0D0" Width="81" HorizontalContentAlignment="Left" />
                                 <DatePicker x:Name="emissa" VerticalContentAlignment="Center" HorizontalAlignment="Center" Height="24"
@@ -434,15 +434,15 @@
 
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="1,1,0,1" Width="575" >
                                 <Label Content="RNE:" Height="24"  Foreground="#FFD0D0D0" Width="40" HorizontalContentAlignment="Left" />
-                                <TextBox  x:Name="RNE_tb"  CharacterCasing="Upper" MaxLength="30"  
+                                <TextBox  x:Name="RNE_tb"  CharacterCasing="Upper" MaxLength="20"  
                                     Text="{Binding Entity.Rne,  
                                     UpdateSourceTrigger=PropertyChanged,
                                     StringFormat=\{0:d\}}"  IsEnabled="True"  Height="24"  Width="83"  />
 
                                 <Label Content="Passaporte:" Height="24" Width="80" Foreground="#FFD0D0D0" HorizontalContentAlignment="Left" />
                                 <TextBox  x:Name="Passaporte_tb"  CharacterCasing="Upper" Text="{Binding Entity.Passaporte,
-                                    UpdateSourceTrigger=PropertyChanged,  
-                                    StringFormat=\{0:d\}}"  IsEnabled="True"  Height="24"  Width="120" />
+                                    UpdateSourceTrigger=PropertyChanged, 
+                                    StringFormat=\{0:d\}}"  IsEnabled="True"  MaxLength="20" Height="24"  Width="120" />
 
                                 <Label Content="Validade:" Foreground="#FFD0D0D0" Height="24" Width="80" HorizontalContentAlignment="Left"  />
                                 <DatePicker x:Name="PassaporteValidade_tb" 
@@ -455,7 +455,7 @@
 
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="1" >
                                 <Label Content="CNH:" Height="24" Foreground="#FFD0D0D0" Width="40" HorizontalContentAlignment="Left"/>
-                                <TextBox  x:Name="CNH_tb"  MaxLength="11" PreviewTextInput="NumberOnly" Text="{Binding Entity.Cnh ,
+                                <TextBox  x:Name="CNH_tb"  MaxLength="11"   Text="{Binding Entity.Cnh ,
                                     UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24" Width="83" />
 
                                 <Label Content="Validade:" Height="28" Width="79"  Foreground="#FFD0D0D0" HorizontalContentAlignment="Left"/>
