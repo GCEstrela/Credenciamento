@@ -126,12 +126,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         public List<Municipio> _municipios { get; set; }
 
-        /// <summary>
-        /// Erro de validação
-        /// True, Erro de validação
-        /// </summary>
-        public  bool ErroValidacao { get { return Validar(); } }
-
         #endregion
 
         public ColaboradorViewModel()
@@ -139,6 +133,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             ItensDePesquisaConfigura();
             ListarDadosAuxiliares();
             Comportamento = new ComportamentoBasico (true, true, true, false, false);
+            EntityObserver = new ObservableCollection<ColaboradorView>();
             Comportamento.SalvarAdicao += OnSalvarAdicao;
             Comportamento.SalvarEdicao += OnSalvarEdicao;
             Comportamento.Remover += OnRemover;
@@ -163,7 +158,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             ListaPesquisa = new List<KeyValuePair<int, string>>();
             ListaPesquisa.Add (new KeyValuePair<int, string> (1, "CPF"));
             ListaPesquisa.Add (new KeyValuePair<int, string> (2, "Nome"));
-            PesquisarPor = ListaPesquisa[0]; //Pesquisa Default
+            PesquisarPor = ListaPesquisa[1]; //Pesquisa Default
         }
 
         private void PopularObserver(ICollection<Colaborador> list)
@@ -243,40 +238,65 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             Pendencias = PendenciaGeral || PendenciaEmpresasVinculos || PendenciaTreinamento || PendenciaAnexo || PendenciaCredencial;
         }
 
+        #endregion
+
         #region Regras de Negócio
 
-        //public void ValidarCpf()
-        //{
-        //    //if (Entity == null)
-        //    //    return;
-        //    //var n = new List<string>();
-        //    //var msg = "CPF já cadastrado.";
-        //    //var cnpj = Entity.Cpf.RetirarCaracteresEspeciais();
+        private bool ExisteCpf()
+        {
+            if (Entity == null) return false;
+            var cpf = Entity.Cpf.RetirarCaracteresEspeciais();
 
-        //    ////Verificar dados antes de salvar uma criação
-        //    //if (_prepareCriarCommandAcionado)
-        //    //{
-        //    //    if (_service.ExisteCpf (cnpj))
-        //    //        throw new Exception (msg);
-        //    //}
-        //    ////Verificar dados antes de salvar uma alteraçao
-        //    //if (_prepareAlterarCommandAcionado)
-        //    //{
-        //    //    var n1 = _service.BuscarPelaChave (Entity.ColaboradorId);
-        //    //    if (n1 == null) return;
+            //Verificar dados antes de salvar uma criação
+            if (_prepareCriarCommandAcionado)
+                if (_service.ExisteCpf (cpf)) return true;
+            //Verificar dados antes de salvar uma alteraçao
+            if (!_prepareAlterarCommandAcionado) return false;
+            var n1 = _service.BuscarPelaChave (Entity.ColaboradorId);
+            if (n1 == null) return false;
+            //Comparar o CNPJ antes e o depois
+            //Verificar se há cnpj exisitente
+            return string.Compare (n1.Cpf.RetirarCaracteresEspeciais(),
+                cpf, StringComparison.Ordinal) != 0 && _service.ExisteCpf (cpf);
+        }
 
-        //    //    //Comparar o CNPJ antes e o depois
-        //    //    if (string.Compare (n1.Cpf.RetirarCaracteresEspeciais(),
-        //    //        cnpj, StringComparison.Ordinal) != 0)
-        //    //    {
-        //    //        //verificar se há cnpj exisitente
-        //    //        if (_service.ExisteCpf (cnpj))
-        //    //            throw new Exception (msg);
-        //    //    }
-        //    //}
-        //}
+        /// <summary>
+        ///     Verificar se dados válidos
+        /// <para>True, inválido</para>
+        /// </summary>
+        /// <returns></returns>
+        private bool EInValidoCpf()
+        {
+            if (Entity == null) return false;
+            var cpf = Entity.Cpf.RetirarCaracteresEspeciais();
+            if (!Utils.IsValidCpf (cpf)) return true;
+            return false;
+        }
 
-        #endregion
+        /// <summary>
+        ///     Validar Regras de Negócio
+        ///     True, regra de negócio violada
+        /// </summary>
+        /// <returns></returns>
+        public bool Validar()
+        {
+            //Verificar valiade de cpf
+            if (EInValidoCpf())
+            {
+                Entity.SetMessageErro ("Cpf", "CPF inválido");
+                return true;
+            }
+
+            //Verificar existência de CPF
+            if (ExisteCpf())
+            {
+                Entity.SetMessageErro ("Cpf", "CPF já existe");
+                return true;
+            }
+
+            var hasErros = Entity.HasErrors;
+            return hasErros;
+        }
 
         #endregion
 
@@ -323,7 +343,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             EntityTmp = Entity;
             Entity = new ColaboradorView();
-            IsEnableTabItem = false;
+           
+             IsEnableTabItem = false;
             IsEnableLstView = false;
             _prepareCriarCommandAcionado = true;
             SelectedTabIndex = 0;
@@ -351,34 +372,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         public ICommand PrepareRemoverCommand => new CommandBase (PrepareRemover, true);
 
-        private bool ExisteCpf()
-        {
-            if (Entity == null) return false;
-            var cnpj = Entity.Cpf.RetirarCaracteresEspeciais();
-            //Verificar dados antes de salvar uma criação
-            if (_prepareCriarCommandAcionado)
-                if (_service.ExisteCpf (cnpj)) return true;
-            //Verificar dados antes de salvar uma alteraçao
-            if (!_prepareAlterarCommandAcionado) return false;
-            var n1 = _service.BuscarPelaChave (Entity.ColaboradorId);
-            if (n1 == null) return false;
-            //Comparar o CNPJ antes e o depois
-            return string.Compare (n1.Cpf.RetirarCaracteresEspeciais(),
-                cnpj, StringComparison.Ordinal) != 0 && _service.ExisteCpf (cnpj);
-            //verificar se há cnpj exisitente
-        }
-
-        /// <summary>
-        ///     Validar Regras de Negócio
-        /// </summary>
-        /// <returns></returns>
-        public bool Validar()
-        { 
-            Entity.Validate(ExisteCpf,"Cpf","CPF já existe");
-            var hasErros = Entity.HasErrors;
-            return hasErros;
-        }
-
         /// <summary>
         ///     Pesquisar
         /// </summary>
@@ -390,9 +383,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         private void PrepareSalvar()
         {
-            if(!ErroValidacao)
+            if (Validar()) return;
             Comportamento.PrepareSalvar();
         }
+
         private void PrepareAlterar()
         {
             if (Entity == null) return;
@@ -443,7 +437,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 if (Entity == null) return;
                 if (Validar()) return;
-                var n1 = Mapper.Map<Colaborador>(Entity);
+                var n1 = Mapper.Map<Colaborador> (Entity);
                 _service.Alterar (n1);
                 IsEnableTabItem = true;
                 IsEnableLstView = true;

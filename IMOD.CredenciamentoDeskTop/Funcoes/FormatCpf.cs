@@ -25,7 +25,7 @@ namespace IMOD.CredenciamentoDeskTop.Funcoes
                 if (value == null) return "";
                 var str = value.ToString();
                 var strNew = str.RetirarCaracteresEspeciais().Replace(" ", "");
-                return strNew.FormatarCpf();
+                return strNew.Trim().FormatarCpf();
             }
             catch (Exception)
             {

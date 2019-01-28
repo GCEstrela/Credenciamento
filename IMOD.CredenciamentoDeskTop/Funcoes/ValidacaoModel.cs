@@ -12,6 +12,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -64,7 +65,7 @@ namespace IMOD.CredenciamentoDeskTop.Funcoes
         }
 
         /// <summary>
-        /// Validaç~çao
+        /// Validação
         /// </summary>
         /// <param name="func"></param>
         /// <param name="key">Nome da propriedade da entidade</param>
@@ -79,6 +80,18 @@ namespace IMOD.CredenciamentoDeskTop.Funcoes
             _errors.TryAdd(key, n);
             OnErrorsChanged(key);
 
+        }
+        /// <summary>
+        /// Set mensagem de erro
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="msg"></param>
+        public void SetMessageErro(string key, string msg)
+        {
+            var n = new List<string>();
+            n.Add(msg);
+            _errors.TryAdd(key, n);
+            OnErrorsChanged(key);
         }
 
         public void Validate()

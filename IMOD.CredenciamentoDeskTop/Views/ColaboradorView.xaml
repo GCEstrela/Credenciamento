@@ -286,7 +286,7 @@ Path=AdornedElement.(Validation.Errors)[0].ErrorContent}">*</TextBlock>
                                     <Label Content="CPF:" Height="28" Width="132" Margin="1"  Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                                     <TextBox  x:Name="txtCpf"  MaxLength="20" IsEnabled="True"  Height="24"  Width="122"  Foreground="White" VerticalContentAlignment="Center" 
                                                       Text="{Binding Entity.Cpf,
-                                                      UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource FormatCpf}}"
+                                                      UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                                       HorizontalContentAlignment="Center" LostFocus="OnValidaCpf_LostFocus" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="1" >

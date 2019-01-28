@@ -269,10 +269,9 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             try
             {
-                _viewModel.Validar();
-                //_viewModel.ValidarCpf();
-                //if (_viewModel.Entity == null) return;
-                //txtCpf.Text = _viewModel.Entity.Cpf.FormatarCpf();
+                var result = _viewModel.Validar();
+                   
+                   txtCpf.Text = _viewModel.Entity.Cpf.FormatarCpf();
             }
             catch (Exception ex)
             {
@@ -314,13 +313,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
 
 
-        #endregion
-
-        //private void VinculoEmpresa_ti_PreviewLostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
-        //{
-        //    Dispatcher.BeginInvoke((Action)(() => TabGeral_tc.SelectedItem = VinculoEmpresa_ti));
-
-        //}
+        #endregion 
 
         #region Comando dos Botoes
 
