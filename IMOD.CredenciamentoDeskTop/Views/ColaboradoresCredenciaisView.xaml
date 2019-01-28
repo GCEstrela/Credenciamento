@@ -95,7 +95,7 @@
                                       IsEnabled="{Binding ElementName=Ativa_cb, Path=IsChecked }" 
                                       Margin="0,4,0,3" 
                                       Height="25"
-                                      Width="252"
+                                      Width="252"                                      
                                       VerticalContentAlignment="Center" 
                                       HorizontalContentAlignment="Left"
                                       ItemsSource="{Binding CredencialMotivo, Mode=TwoWay}" 

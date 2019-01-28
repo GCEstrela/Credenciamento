@@ -16,16 +16,12 @@
         <Image x:Key="imgCancel" Source="../Resources/undo.png"  />
         <ControlTemplate x:Key="ValidationErrorTemplate">
             <DockPanel>
-                <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" Margin="5,0,0,2">
                     <Grid Width="12" Height="12">
                         <Ellipse Width="12" Height="12" Fill="Red" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         <TextBlock Foreground="White"  FontWeight="Heavy" FontSize="8" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center"
-                               ToolTip="{Binding ElementName=ErrorAdorner, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}"
-                               >X</TextBlock>
+                               ToolTip="{Binding ElementName=ErrorAdorner, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}">X</TextBlock>
                     </Grid>
-                    <TextBlock Foreground="Red" Margin="2,0,0,0" 
-                           Text="{Binding ElementName=ErrorAdorner, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}"
-                           ></TextBlock>
                 </StackPanel>
                 <AdornedElementPlaceholder x:Name="ErrorAdorner" ></AdornedElementPlaceholder>
             </DockPanel>
@@ -42,26 +38,26 @@
                 <StackPanel x:Name="InformacoesAnexo_sp" Margin="0,10,10,10" Width="773">
 
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  Margin="1"  >
-                        <Label Content="Código:" Height="28" Width="56" Margin="1" Foreground="#FFD0D0D0" />
+                        <Label Content="Código:" Height="28" Width="114" Margin="1" Foreground="#FFD0D0D0" />
                         <TextBox x:Name="ID_tb" IsEnabled="False" CharacterCasing="Upper"
                                  Text="{Binding Entity.EmpresaAnexoId, UpdateSourceTrigger=PropertyChanged}" Height="24"
-                                 Width="51" />
-                        <Label Content="Descrição do Anexo:" Height="28" Width="152" Margin="0,0,5,0"
+                                 Width="39" />
+                        <Label Content="* Descrição do Anexo:" Height="28" Width="138" Margin="0,0,5,0"
                                HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
                         <TextBox x:Name="DescricaoArquivo_tb" MaxLength="50" CharacterCasing="Upper"
-                                 Text="{Binding Entity.Descricao, UpdateSourceTrigger=PropertyChanged}"
+                                 Text="{Binding Entity.Descricao, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                  IsEnabled="{Binding Comportamento.isEnableCancelar}"
-                                 Height="24" Width="367" />
+                                 Height="24" Width="406" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                 Margin="1">
-                        <Label Content="Nome do Arquivo:" Height="28" Width="108" Margin="1" Foreground="#FFD0D0D0" />
+                        <Label Content="* Nome do Arquivo:" Height="28" Width="114" Margin="1" Foreground="#FFD0D0D0" />
                         <TextBox x:Name="txtNomeAnexo" MaxLength="100" CharacterCasing="Upper"
                                  Text="{Binding Entity.NomeAnexo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                  IsEnabled="{Binding Comportamento.isEnableCancelar}"
-                                 Height="24" Width="523" />
-                        <Button x:Name="BuscarContratoArquivo_bt" Height="24" Margin="10,0,0,0"
+                                 Height="24" Width="499" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
+                        <Button x:Name="BuscarContratoArquivo_bt" Height="24" Margin="30,0,0,0"
                                 IsEnabled="{Binding Comportamento.isEnableCancelar}"
                                 VerticalAlignment="Center" Width="24" Click="OnUpLoad_Click">
                             <StackPanel>
@@ -95,7 +91,7 @@
                         </GridView>
                     </ListView.View>
                 </ListView>
-                <StackPanel Orientation="Vertical" Margin="10,0,0,-5" HorizontalAlignment="Right" Width="40"
+                <StackPanel Orientation="Vertical" Margin="0,0,0,-5" HorizontalAlignment="Right" Width="40"
                             Height="193" VerticalAlignment="Bottom">
                     <Button x:Name="btnAdicionar" Content="{StaticResource imgAdd}"       ToolTip="Adicionar"
                             IsEnabled="{Binding Comportamento.IsEnableCriar}" Command="{Binding PrepareCriarCommand}"

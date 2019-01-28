@@ -264,7 +264,23 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 WpfHelp.PopupBox(ex);
             }
         }
-
+        /// <summary>
+        ///     Cancelar operação
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SelecioneCredencialMotivo(string _statusCredencial)
+        {
+            try
+            {
+                CarregaColecaoCredencialMotivo(_statusCredencial);
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+                WpfHelp.MboxError("Não foi realizar a operação solicitada", ex);
+            }
+        }
         /// <summary>
         ///     Cancelar operação
         /// </summary>
@@ -570,9 +586,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             CredencialStatus = new List<CredencialStatus>();
             CredencialStatus.AddRange(lst0);
             //ok
-            var lst1 = _auxiliaresService.CredencialMotivoService.Listar();
-            CredencialMotivo = new List<CredencialMotivo>();
-            CredencialMotivo.AddRange(lst1);
+            //var lst1 = _auxiliaresService.CredencialMotivoService.Listar();
+            //CredencialMotivo = new List<CredencialMotivo>();
+            //CredencialMotivo.AddRange(lst1);
             //ok
             var lst2 = _auxiliaresService.FormatoCredencialService.Listar();
             FormatoCredencial = new List<FormatoCredencial>();
@@ -603,6 +619,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             ColaboradorPrivilegio = new List<AreaAcesso>();
             ColaboradorPrivilegio.AddRange(lst7);
 
+        }
+        public void CarregaColecaoCredencialMotivo(string _creencialStatus )
+        {
+            var lst1 = _auxiliaresService.CredencialMotivoService.Listar(null,null,_creencialStatus);
+            CredencialMotivo = new List<CredencialMotivo>();
+            CredencialMotivo.AddRange(lst1);
         }
         public void CarregaColecaoLayoutsCrachas(int _empresaID)
         {

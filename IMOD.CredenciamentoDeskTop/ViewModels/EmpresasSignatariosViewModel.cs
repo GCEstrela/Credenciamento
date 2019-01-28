@@ -282,14 +282,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public bool Validar()
         {
             Entity.Validate();
-            var hasErros = Entity.HasErrors;
-            if (hasErros)
-                WpfHelp.Summary(Entity.Errors);
-
+            
             IsEnableLstView = true;
             Entity = EntidadeTMP;
 
-            return hasErros;
+            return true;
 
         }
 

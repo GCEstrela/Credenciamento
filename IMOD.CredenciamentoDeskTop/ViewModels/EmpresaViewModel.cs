@@ -149,6 +149,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             Comportamento = new ComportamentoBasico(true, true, true, false, false);
             TiposAtividades = new ObservableCollection<EmpresaTipoAtividadeView>();
             TiposLayoutCracha = new ObservableCollection<EmpresaLayoutCrachaView>();
+            EntityObserver = new ObservableCollection<EmpresaView>();
+
             Comportamento.SalvarAdicao += OnSalvarAdicao;
             Comportamento.SalvarEdicao += OnSalvarEdicao;
             Comportamento.Remover += OnRemover;
@@ -321,15 +323,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             ValidarCnpj();                     
 
             Entity.Validate();
-            var hasErros = Entity.HasErrors;
-            if (hasErros)
-                WpfHelp.Summary(Entity.Errors);
 
             Entity = EntidadeTMP;
             IsEnableTabItem = true;
             IsEnableLstView = true;
 
-            return hasErros;
+            return true;
         }
 
         #endregion
@@ -551,6 +550,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 var n1 = Mapper.Map<Empresa>(Entity);
                 if (Validar()) return;
+
                 _service.Criar(n1);
                 //Salvar Tipo de Atividades
                 SalvarTipoAtividades(n1.EmpresaId);

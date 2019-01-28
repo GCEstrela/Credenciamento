@@ -25,11 +25,11 @@
 
                 <StackPanel x:Name="InformacoesAnexo_sp" Margin="0,0,0,0" Width="773">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="1">
-                        <Label Content="Código:" Height="26" Foreground="#FFD0D0D0" Width="110"  />
+                        <Label Content="Código:" Height="26" Foreground="#FFD0D0D0" Width="116"  />
                         <TextBox x:Name="ID_tb" IsEnabled="False" CharacterCasing="Upper"
                                  Text="{Binding Entity.ColaboradorAnexoId, UpdateSourceTrigger=PropertyChanged}" 
                                   Width="43" Height="24"  />
-                            <Label Content="Descrição do Anexo:" Height="28" Width="152" Margin="0,0,5,0"
+                            <Label Content="* Descrição do Anexo:" Height="28" Width="152" Margin="0,0,5,0"
                                    HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
                             <TextBox x:Name="DescricaoArquivo_tb" MaxLength="50" CharacterCasing="Upper"
                                  Text="{Binding Entity.Descricao, UpdateSourceTrigger=PropertyChanged}"
@@ -38,7 +38,7 @@
 
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                     Margin="1">
-                            <Label Content="Nome do Arquivo:" Height="28" Width="108" Margin="1" Foreground="#FFD0D0D0" />
+                            <Label Content="* Nome do Arquivo:" Height="28" Width="114" Margin="1" Foreground="#FFD0D0D0" />
                             <TextBox x:Name="txtNomeAnexo" MaxLength="100" CharacterCasing="Upper"
                                  Text="{Binding Entity.NomeArquivo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                  IsEnabled="True" Height="24" Width="499" />

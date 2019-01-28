@@ -89,28 +89,12 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         private void StatusCredencial_cb_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //if (e.AddedItems.Count > 0)
-            //{
-            //    //if (((ClasseCredenciaisStatus.CredencialStatus)((object[])e.AddedItems)[0]).CredencialStatusID == 1)
-            //    //{
-            //    if (_viewModel.Entity == null) return;
 
-            //    if (_viewModel.Entity.CredencialStatusId == 1)
-            //    {
-            //        Ativa_tw.IsChecked = true;
-            //    }
-            //    else
-            //    {
-            //        Ativa_tw.IsChecked = false;
-            //    }
-            //    //    ((ColaboradoresCredenciaisViewModel)DataContext).CarregaColecaoCredenciaisMotivos(1);
-            //    //}
-            //    //else
-            //    //{
-            //    //    Ativa_tw.IsChecked = false;
-            //    //    ((ColaboradoresCredenciaisViewModel)DataContext).CarregaColecaoCredenciaisMotivos(2);
-            //    //}
-            //}
+            if (StatusCredencial_cb.SelectedValue == null) return;
+            string _valorSelecionado = StatusCredencial_cb.SelectedValue.ToString();
+            _viewModel.CarregaColecaoCredencialMotivo(_valorSelecionado);
+            MotivoCredencial_cb.Items.Refresh();
+            
         }
 
         private void EmpresaVinculo_cb_SelectionChanged(object sender, SelectionChangedEventArgs e)
