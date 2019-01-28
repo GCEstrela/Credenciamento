@@ -56,7 +56,7 @@
                         <TextBox x:Name="txtNomeAnexo" MaxLength="100" CharacterCasing="Upper"
                                  Text="{Binding Entity.NomeAnexo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                  IsEnabled="{Binding Comportamento.isEnableCancelar}"
-                                 Height="24" Width="499" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
+                                 Height="24" Width="499"  Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
                         <Button x:Name="BuscarContratoArquivo_bt" Height="24" Margin="30,0,0,0"
                                 IsEnabled="{Binding Comportamento.isEnableCancelar}"
                                 VerticalAlignment="Center" Width="24" Click="OnUpLoad_Click">

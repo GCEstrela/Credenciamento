@@ -135,7 +135,7 @@
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                 Margin="1">
                         <Label Content="* E-Mail:" Height="28" Width="50" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
-                        <TextBox x:Name="EmailResp_tb" MaxLength="27" CharacterCasing="Lower"
+                        <TextBox x:Name="EmailResp_tb" MaxLength="50" CharacterCasing="Lower"
                                  Text="{Binding Entity.EmailResp, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                  IsEnabled="True" Height="24" Width="250" 
                                  Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
@@ -192,7 +192,7 @@
                                  IsEnabled="True"  Height="24"  Width="120"/>
 
                         <Label Content="Complemento:" Height="28" Width="90" Foreground="#FFD0D0D0" />
-                        <TextBox x:Name="Complemento_tb" MaxLength="36" CharacterCasing="Upper"
+                        <TextBox x:Name="Complemento_tb" MaxLength="50" CharacterCasing="Upper"
                                  Text="{Binding Entity.Complemento, UpdateSourceTrigger=PropertyChanged}"
                                  IsEnabled="True" Height="24" Width="116" />
                     </StackPanel>

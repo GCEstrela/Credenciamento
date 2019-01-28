@@ -282,9 +282,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         #region Regras de Negócio
 
-        public void ValidarCnpj()
+        public bool ValidarCnpj()
         {
-            if (Entity == null) return;
+            if (Entity == null) return false;
 
             var cnpj = Entity.Cnpj.RetirarCaracteresEspeciais();
 
@@ -299,7 +299,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var n1 = _service.BuscarPelaChave(Entity.EmpresaId);
                 if (n1 == null)
                 {
-                    return;
+                    return false;
                 }
                 //Comparar o CNPJ antes e o depois
                 if (string.Compare(n1.Cnpj.RetirarCaracteresEspeciais(),
@@ -312,23 +312,60 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     }
                 }
             }
+            return false;
         }
 
+        private bool ExisteCnpj()
+        {
+            if (Entity == null) return false;
+            var cnpj = Entity.Cnpj.RetirarCaracteresEspeciais();
+
+            //Verificar dados antes de salvar uma criação
+            if (_prepareCriarCommandAcionado)
+                if (_service.ExisteCnpj(cnpj)) return true;
+            //Verificar dados antes de salvar uma alteraçao
+            if (!_prepareAlterarCommandAcionado) return false;
+            var n1 = _service.BuscarPelaChave(Entity.EmpresaId);
+            if (n1 == null) return false;
+            //Comparar o CNPJ antes e o depois
+            //Verificar se há cnpj exisitente
+            return string.Compare(n1.Cnpj.RetirarCaracteresEspeciais(),
+                cnpj, StringComparison.Ordinal) != 0 && _service.ExisteCnpj(cnpj);
+        }
+        /// <summary>
+        ///     Verificar se dados válidos
+        /// <para>True, inválido</para>
+        /// </summary>
+        /// <returns></returns>
+        private bool EInValidoCnpj()
+        {
+            if (Entity == null) return false;
+            var cnpj = Entity.Cnpj.RetirarCaracteresEspeciais();
+            if (!Utils.IsValidCnpj(cnpj)) return true;
+            return false;
+        }
         /// <summary>
         ///     Validar Regras de Negócio
         ///     <para>True, dados válidos</para>
         /// </summary>
         public bool Validar()
         {
-            ValidarCnpj();                     
 
-            Entity.Validate();
+            //Verificar valiade de cnpj
+            if (EInValidoCnpj())
+            {
+                Entity.SetMessageErro("Cnpj", "CNPJ inválido");
+                return true;
+            }
+
+            //Verificar existência de CNPJ
+            if (ExisteCnpj())
+            {
+                Entity.SetMessageErro("Cnpj", "CNPJ já existe");
+                return true;
+            }
+
             var hasErros = Entity.HasErrors;
-
-            Entity = EntidadeTMP;
-            IsEnableTabItem = true;
-            IsEnableLstView = true;
-
             return hasErros;
         }
 
@@ -419,7 +456,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <summary>
         ///     Novo
         /// </summary>
-        public ICommand PrepareSalvarCommand => new CommandBase(Comportamento.PrepareSalvar, true);
+        public ICommand PrepareSalvarCommand => new CommandBase(PrepareSalvar, true);
 
         /// <summary>
         ///     Remover
@@ -508,6 +545,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
         }
 
+        private void PrepareSalvar()
+        {
+            if (Validar()) return;
+            Comportamento.PrepareSalvar();
+        }
         private void PrepareAlterar()
         {
             if (Entity == null)

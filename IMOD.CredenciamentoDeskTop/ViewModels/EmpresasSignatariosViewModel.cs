@@ -209,7 +209,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 WpfHelp.MboxError("Não foi realizar a operação solicitada", ex);
             }
         }
-
+        private void PrepareSalvar()
+        {
+            if (Validar()) return;
+            Comportamento.PrepareSalvar();
+        }
         /// <summary>
         ///     Acionado antes de alterar
         /// </summary>
@@ -281,7 +285,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         public bool Validar()
         {
-            Entity.Validate();
+            //Entity.Validate();
             var hasErros = Entity.HasErrors;
 
             IsEnableLstView = true;
@@ -334,7 +338,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <summary>
         ///     Novo
         /// </summary>
-        public ICommand PrepareSalvarCommand => new CommandBase(Comportamento.PrepareSalvar, true);
+        public ICommand PrepareSalvarCommand => new CommandBase(PrepareSalvar, true);
 
         /// <summary>
         ///     Remover
