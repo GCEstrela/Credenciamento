@@ -458,9 +458,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 _prepareCriarCommandAcionado = false;
                 _prepareAlterarCommandAcionado = false;
                 if (Entity.ColaboradorId == 0)
-                {
                     Entity = EntityTmp;
-                }
+                 
             }
             catch (Exception ex)
             {

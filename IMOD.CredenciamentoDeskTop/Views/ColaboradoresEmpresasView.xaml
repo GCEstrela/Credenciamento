@@ -9,6 +9,20 @@
              mc:Ignorable="d"
              d:DesignHeight="320" 
              Loaded="Frm_Loaded">
+    <UserControl.Resources>
+        <ControlTemplate x:Key="ValidationErrorTemplate">
+            <DockPanel>
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" Margin="5,0,0,2">
+                    <Grid Width="12" Height="12">
+                        <Ellipse Width="12" Height="12" Fill="Red" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Foreground="White"  FontWeight="Heavy" FontSize="8" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center"
+                               ToolTip="{Binding ElementName=ErrorAdorner, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}">X</TextBlock>
+                    </Grid>
+                </StackPanel>
+                <AdornedElementPlaceholder x:Name="ErrorAdorner" ></AdornedElementPlaceholder>
+            </DockPanel>
+        </ControlTemplate>
+    </UserControl.Resources >
     <Grid VerticalAlignment="Top">
         <StackPanel Orientation="Vertical">
             <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}"
@@ -30,7 +44,8 @@
                                    SelectedItem="{Binding  Empresa}"
                                    DisplayMemberPath="Nome"  
                                    SelectedValue="{Binding Entity.EmpresaId , UpdateSourceTrigger=PropertyChanged}" 
-                                   SelectedValuePath="EmpresaId" SelectionChanged="cmbEmpresa_SelectionChanged"/>
+                                   SelectedValuePath="EmpresaId" SelectionChanged="cmbEmpresa_SelectionChanged"
+                                   Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
 
                         <Label Content="Matrícula:" Height="28" Width="140" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
 
@@ -53,7 +68,8 @@
                                    ItemsSource="{Binding Contratos}" 
                                    DisplayMemberPath="Descricao"  
                                    SelectedValue="{Binding Entity.EmpresaContratoId, UpdateSourceTrigger=PropertyChanged}" 
-                                   SelectedValuePath="EmpresaContratoId"/>
+                                   SelectedValuePath="EmpresaContratoId"
+                                   Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
 
 
 

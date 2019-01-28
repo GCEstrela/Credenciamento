@@ -94,6 +94,20 @@ namespace IMOD.CredenciamentoDeskTop.Funcoes
             OnErrorsChanged(key);
         }
 
+        /// <summary>
+        /// Remove messages erros
+        /// </summary>
+        public void ClearMessageErro()
+        {
+             
+            foreach (var kv in _errors.ToList())
+            {
+                    List<string> outLi;
+                    _errors.TryRemove(kv.Key, out outLi);
+                    OnErrorsChanged(kv.Key);
+            }
+        }
+
         public void Validate()
         {
             lock (_lock)

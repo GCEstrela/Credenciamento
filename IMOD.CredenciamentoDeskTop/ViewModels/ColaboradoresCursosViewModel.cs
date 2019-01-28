@@ -1,8 +1,17 @@
-﻿using System;
+﻿// ***********************************************************************
+// Project: IMOD.CredenciamentoDeskTop
+// Crafted by: Grupo Estrela by Genetec
+// Date:  01 - 24 - 2019
+// ***********************************************************************
+
+#region
+
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using System.Windows.Forms;
 using System.Windows.Input;
 using AutoMapper;
 using IMOD.Application.Interfaces;
@@ -14,50 +23,43 @@ using IMOD.CredenciamentoDeskTop.Views.Model;
 using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
 
+#endregion
+
 namespace IMOD.CredenciamentoDeskTop.ViewModels
 {
-    public class ColaboradoresCursosViewModel : ViewModelBase
+    public class ColaboradoresCursosViewModel : ViewModelBase, IComportamento
     {
-        //private readonly IColaboradorCursoService _empresaContratoService = new ColaboradorCursosService();
-
-        private readonly ICursoService _cursoService = new CursoService();
-
-        private readonly IColaboradorCursoService _service = new ColaboradorCursosService();
-        //private readonly IColaboradorService _serviceCurso = new ColaboradorService();
-        private ColaboradorView _colaboradorView;
-
-
-
         private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
-        //public List<ClasseCursos.Curso> ObterListaListaCursos { get; private set; }
+        private readonly ICursoService _cursoService = new CursoService();
+        private readonly IColaboradorCursoService _service = new ColaboradorCursosService();
+        private ColaboradorView _colaboradorView;
+        private ColaboradorCursoView _entidadeTmp = new ColaboradorCursoView();
+
         #region  Propriedades
 
         public List<Curso> Cursos { get; private set; }
         public ColaboradorCursoView Entity { get; set; }
         public ObservableCollection<ColaboradorCursoView> EntityObserver { get; set; }
 
-        ColaboradorCursoView EntidadeTMP = new ColaboradorCursoView();
-
         /// <summary>
         ///     Habilita listView
         /// </summary>
         public bool IsEnableLstView { get; private set; } = true;
+
         #endregion
 
         #region Inicializacao
+
         public ColaboradoresCursosViewModel()
         {
-
             ListarDadosAuxiliares();
-            Comportamento = new ComportamentoBasico(true, true, true, false, false);
+            Comportamento = new ComportamentoBasico (true, true, true, false, false);
+            EntityObserver = new ObservableCollection<ColaboradorCursoView>();
             Comportamento.SalvarAdicao += OnSalvarAdicao;
             Comportamento.SalvarEdicao += OnSalvarEdicao;
             Comportamento.Remover += OnRemover;
             Comportamento.Cancelar += OnCancelar;
-
-
         }
-
 
         #endregion
 
@@ -69,34 +71,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private void ListarDadosAuxiliares()
         {
             var lst1 = _auxiliaresService.CursoService.Listar();
-            //var lst2 = _empresaContratoService.Listar();
             Cursos = new List<Curso>();
-            //Contratos = new List<EmpresaContrato>();
-            Cursos.AddRange(lst1);
-            //Contratos.AddRange(lst2);
-        }
-
-        public void ListarContratos(Empresa empresa)
-        {
-
-
-            if (empresa == null)
-            {
-                return;
-            }
-
-            // var lstContratos = _empresaContratoService.Listar(empresa.EmpresaId);
-            //Contratos.AddRange(lstContratos);
-
-
-        }
-
-        /// <summary>
-        ///     Acionado antes de remover
-        /// </summary>
-        private void PrepareRemover()
-        {
-            //Comportamento.PrepareRemover();
+            Cursos.AddRange (lst1);
         }
 
         /// <summary>
@@ -108,24 +84,40 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                if (Entity == null)
-                {
-                    return;
-                }
+                if (Entity == null) return;
+                if (Validar()) return;
 
-                var n1 = Mapper.Map<ColaboradorCurso>(Entity);
+                Entity.ColaboradorId = _colaboradorView.ColaboradorId;
+                var n1 = Mapper.Map<ColaboradorCurso> (Entity);
                 n1.ColaboradorId = _colaboradorView.ColaboradorId;
-                _service.Criar(n1);
-                ////Adicionar no inicio da lista um item a coleção
-                var n2 = Mapper.Map<ColaboradorCursoView>(n1);
-                EntityObserver.Insert(0, n2);
+                _service.Criar (n1);
+                //Adicionar no inicio da lista um item a coleção
+                var n2 = Mapper.Map<ColaboradorCursoView> (n1);
+                n2.CursoNome = NomeCurso (n2.CursoId);
+                EntityObserver.Insert (0, n2);
                 IsEnableLstView = true;
             }
             catch (Exception ex)
             {
-                Utils.TraceException(ex);
-                WpfHelp.PopupBox(ex);
+                Utils.TraceException (ex);
+                WpfHelp.PopupBox (ex);
             }
+        }
+
+        /// <summary>
+        /// Obter o nome do curso
+        /// </summary> 
+        /// <param name="cursoId">Identificador curso</param>
+        private string NomeCurso(int cursoId)
+        { 
+            var curso = _auxiliaresService.CursoService.BuscarPelaChave (cursoId);
+            return curso.Descricao;
+        }
+
+        private void PrepareSalvar()
+        {
+            if (Validar()) return;
+            Comportamento.PrepareSalvar();
         }
 
         /// <summary>
@@ -133,7 +125,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private void PrepareCriar()
         {
-            EntidadeTMP = Entity;
+            _entidadeTmp = Entity;
             Entity = new ColaboradorCursoView();
             Comportamento.PrepareCriar();
             IsEnableLstView = false;
@@ -148,19 +140,20 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                if (Entity == null)
-                {
-                    return;
-                }
+                if (Entity == null) return;
+                if (Validar()) return;
 
-                var n1 = Mapper.Map<ColaboradorCurso>(Entity);
-                _service.Alterar(n1);
+                var n1 = Mapper.Map<ColaboradorCurso> (Entity);
+                _service.Alterar (n1);
+                var n2 = EntityObserver.FirstOrDefault(n => n.ColaboradorCursoId == n1.ColaboradorCursoId);
+                if (n2 == null) return;
+                n2.CursoNome = NomeCurso(n2.CursoId);
                 IsEnableLstView = true;
             }
             catch (Exception ex)
             {
-                Utils.TraceException(ex);
-                WpfHelp.PopupBox(ex);
+                Utils.TraceException (ex);
+                WpfHelp.PopupBox (ex);
             }
         }
 
@@ -174,12 +167,13 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             try
             {
                 IsEnableLstView = true;
-                Entity = EntidadeTMP;
+                Entity = _entidadeTmp;
+                Entity.ClearMessageErro();
             }
             catch (Exception ex)
             {
-                Utils.TraceException(ex);
-                WpfHelp.MboxError("Não foi realizar a operação solicitada", ex);
+                Utils.TraceException (ex);
+                WpfHelp.MboxError ("Não foi realizar a operação solicitada", ex);
             }
         }
 
@@ -192,23 +186,19 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                if (Entity == null)
-                {
-                    return;
-                }
-
+                if (Entity == null) return;
                 var result = WpfHelp.MboxDialogRemove();
-                //if (result != DialogResult.Yes) return;
+                if (result != DialogResult.Yes) return;
 
-                var n1 = Mapper.Map<ColaboradorEmpresa>(Entity);
-                //_service.Remover(n1);
+                var n1 = Mapper.Map<ColaboradorCurso> (Entity);
+                _service.Remover (n1);
                 //Retirar empresa da coleção
-                EntityObserver.Remove(Entity);
+                EntityObserver.Remove (Entity);
             }
             catch (Exception ex)
             {
-                Utils.TraceException(ex);
-                WpfHelp.MboxError("Não foi realizar a operação solicitada", ex);
+                Utils.TraceException (ex);
+                WpfHelp.MboxError ("Não foi realizar a operação solicitada", ex);
             }
         }
 
@@ -224,20 +214,29 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public void AtualizarDados(ColaboradorView entity)
         {
             if (entity == null)
-            {
-                throw new ArgumentNullException(nameof(entity));
-            }
+                throw new ArgumentNullException (nameof (entity));
 
             _colaboradorView = entity;
             //Obter dados
-            var list1 = _service.Listar(entity.ColaboradorId);
-            var list2 = Mapper.Map<List<ColaboradorCursoView>>(list1.OrderByDescending(n => n.ColaboradorCursoId));
+            var list1 = _service.Listar (entity.ColaboradorId);
+            var list2 = Mapper.Map<List<ColaboradorCursoView>> (list1.OrderByDescending (n => n.ColaboradorCursoId));
             EntityObserver = new ObservableCollection<ColaboradorCursoView>();
-            list2.ForEach(n =>
+            list2.ForEach (n =>
             {
-                EntityObserver.Add(n);
-                n.CursoNome = _cursoService.BuscarPelaChave(n.CursoId).Descricao;
+                EntityObserver.Add (n);
+                n.CursoNome = _cursoService.BuscarPelaChave (n.CursoId).Descricao;
             });
+        }
+
+        /// <summary>
+        ///     Validar Regras de Negócio
+        /// </summary>
+        public bool Validar()
+        {
+            Entity.Validate();
+            var hasErro = Entity.HasErrors;
+
+            return hasErro;
         }
 
         #endregion
@@ -247,36 +246,29 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <summary>
         ///     Novo
         /// </summary>
-        public ICommand PrepareCriarCommand => new CommandBase(PrepareCriar, true);
+        public ICommand PrepareCriarCommand => new CommandBase (PrepareCriar, true);
 
         public ComportamentoBasico Comportamento { get; set; }
 
         /// <summary>
         ///     Editar
         /// </summary>
-        public ICommand PrepareAlterarCommand => new CommandBase(PrepareAlterar, true);
+        public ICommand PrepareAlterarCommand => new CommandBase (PrepareAlterar, true);
 
         /// <summary>
         ///     Cancelar
         /// </summary>
-        public ICommand PrepareCancelarCommand => new CommandBase(Comportamento.PrepareCancelar, true);
+        public ICommand PrepareCancelarCommand => new CommandBase (Comportamento.PrepareCancelar, true);
 
         /// <summary>
         ///     Novo
         /// </summary>
-        public ICommand PrepareSalvarCommand => new CommandBase(Comportamento.PrepareSalvar, true);
+        public ICommand PrepareSalvarCommand => new CommandBase (PrepareSalvar, true);
 
         /// <summary>
         ///     Remover
         /// </summary>
-        public ICommand PrepareRemoverCommand => new CommandBase(PrepareRemover, true);
-
-        /// <summary>
-        ///     Validar Regras de Negócio
-        /// </summary>
-        public void Validar()
-        {
-        }
+        public ICommand PrepareRemoverCommand => new CommandBase (Comportamento.PrepareRemover, true);
 
         #endregion
     }
