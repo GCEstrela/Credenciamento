@@ -247,7 +247,7 @@
                 </StackPanel>
             </GroupBox>
         </StackPanel>
-        <StackPanel Orientation="Horizontal" Margin="0,287,0,198" Height="25" Grid.ColumnSpan="2"   >
+        <!--<StackPanel Orientation="Horizontal" Margin="0,287,0,198" Height="25" Grid.ColumnSpan="2"   >
             <Label Content="Pesquisar:" Height="28" Width="65" Foreground="#FFD0D0D0" Margin="1,0,0,0"/>
             <ComboBox  Width="150" ItemsSource="{Binding ListaPesquisa }"
              DisplayMemberPath="Value"
@@ -258,15 +258,13 @@
                     <KeyBinding Command="{Binding Path=PesquisarCommand}" Key="Enter" />
                 </TextBox.InputBindings>
             </TextBox>
-        </StackPanel>
-        <StackPanel Orientation="Horizontal" Margin="0,323,0,0" Height="181" VerticalAlignment="Top" Grid.ColumnSpan="2">
-
-
+        </StackPanel>-->
+        <StackPanel Orientation="Horizontal" Margin="0,295,0,0" Height="181" VerticalAlignment="Top" Grid.ColumnSpan="2">
             <ListView x:Name="ListaContratos_lv"
                       IsEnabled="{Binding IsEnableLstView}"              
                       ItemsSource="{Binding EntityObserver, Mode=TwoWay}"
                       SelectedItem="{Binding Entity, Mode=TwoWay}"
-                      Width="1054"  Margin="1,0,1,3">
+                      Width="1054"  Margin="1,0">
 
                 <ListView.View>
                     <GridView FrameworkElement.FlowDirection="RightToLeft">
@@ -283,22 +281,22 @@
                 </ListView.View>
             </ListView>
             <StackPanel Orientation="Vertical" HorizontalAlignment="Right" Width="40"
-                        Height="193" VerticalAlignment="Top" Margin="0,0,0,-2">
+                        Height="181" VerticalAlignment="Top">
 
                 <!--<Button x:Name="btnPesquisar" Content="Pesquisar" ToolTip="Pesquisar"  Height="30" Width="148"  Click="Pesquisar_bt_Click" Margin="0,0,0,7" />-->
                 <Button x:Name="btnAdicionar" Content="{StaticResource imgAdd}"       ToolTip="Adicionar"  
                         IsEnabled="{Binding Comportamento.IsEnableCriar}" Command="{Binding PrepareCriarCommand}"
                         Height="31" Width="25" Margin="0,0,0,7" />
-                <Button x:Name="btnEditar" Content="{StaticResource imgEdit}"      ToolTip="Editar" Height="31" 
+                <Button x:Name="btnEditar" Content="{StaticResource imgEdit}"      ToolTip="Editar" 
                         IsEnabled="{Binding Comportamento.IsEnableEditar}"
                         Command="{Binding PrepareAlterarCommand}" Width="25" Margin="0,0,0,7" />
-                <Button x:Name="btnExcluir" Content="{StaticResource imgRemove}"    ToolTip="Remover" Height="31" Width="25"
+                <Button x:Name="btnExcluir" Content="{StaticResource imgRemove}"    ToolTip="Remover"  Width="25"
                         IsEnabled="{Binding Comportamento.isEnableRemover}"
                         Command="{Binding PrepareRemoverCommand}" Margin="0,0,0,7" />
-                <Button x:Name="btnCancelar"  Content="{StaticResource imgCancel}"    ToolTip="Cancelar" Height="31" Width="25"
+                <Button x:Name="btnCancelar"  Content="{StaticResource imgCancel}"    ToolTip="Cancelar" Width="25"
                         IsEnabled="{Binding Comportamento.isEnableCancelar}"
                         Command="{Binding PrepareCancelarCommand}" Margin="0,0,0,7" />
-                <Button x:Name="btnSalvar" Content="{StaticResource imgSave}"      ToolTip="Salvar" Height="31" Width="25"
+                <Button x:Name="btnSalvar" Content="{StaticResource imgSave}"      ToolTip="Salvar" Width="25"
                         IsEnabled="{Binding Comportamento.isEnableSalvar}" Command="{Binding PrepareSalvarCommand}"
                         Margin="0,0,0,7" />
 

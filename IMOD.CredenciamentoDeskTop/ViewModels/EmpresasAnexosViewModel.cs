@@ -248,9 +248,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public bool Validar()
         {
             //Entity.Validate();
+            
+            //IsEnableLstView = true;
+            //Entity = EntidadeTMP;
+
             var hasErros = Entity.HasErrors;
-            IsEnableLstView = true;
-            Entity = EntidadeTMP;
             return hasErros;
             
         }
