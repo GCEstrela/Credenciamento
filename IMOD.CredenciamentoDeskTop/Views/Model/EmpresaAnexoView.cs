@@ -20,7 +20,7 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public int EmpresaId { get; set; }
         [Required(ErrorMessage = "A Descrição do Anexo é requerido.")]
         public string Descricao { get; set; }
-        [Required(ErrorMessage = "A Descrição do Arquivo Anexo é requerido.")]
+        [Required(ErrorMessage = "O Arquivo Anexo é requerido.")]
         public string NomeAnexo { get; set; }
         public string Anexo { get; set; }
 

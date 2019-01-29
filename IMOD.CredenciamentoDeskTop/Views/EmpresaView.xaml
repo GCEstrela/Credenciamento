@@ -83,7 +83,7 @@
 
 
         <StackPanel x:Name="ListaEmpresas_sp" Grid.Column="0" Grid.Row="1" Orientation="Horizontal"  Margin="0,0,-259,0" Height="184" VerticalAlignment="Top">
-            <ListView x:Name="lstView" ItemsSource="{Binding EntityObserver, Mode=TwoWay}" IsEnabled="{Binding IsEnableLstView}"
+            <ListView x:Name="lstView" ItemsSource="{Binding EntityObserver, Mode=TwoWay}" IsEnabled="{Binding IsEnableLstView}"   
                            SelectedItem="{Binding Entity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"   Margin="0,0,5,0" Width="1258">
                 <ListView.View>
                     <GridView FrameworkElement.FlowDirection="RightToLeft">
@@ -94,6 +94,7 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>-->
+                        
                         <GridViewColumn Width="55" Header="Código"  DisplayMemberBinding="{Binding EmpresaId}"/>
                         <GridViewColumn Width="140" Header="CNPJ"  DisplayMemberBinding="{Binding Cnpj}"/>
                         <GridViewColumn Width="270"  Header="Razão Social" DisplayMemberBinding="{Binding Nome}"/>

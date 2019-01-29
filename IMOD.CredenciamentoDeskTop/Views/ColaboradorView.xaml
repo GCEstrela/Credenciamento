@@ -594,7 +594,7 @@
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="Curso_bt"   Click="OnPendenciaEmpresaVinculo_Click" Style="{StaticResource MenuStyle}" >
                             <StackPanel>
-                                <Image Source="{Binding PendenciaEmpresasVinculos,
+                                <Image Source="{Binding PendenciaCredencial,
                                         Converter={StaticResource ConvertBoolToImage},UpdateSourceTrigger=Explicit, Mode=TwoWay}"  Width="16"  Height="16" />
                             </StackPanel>
                         </Button>

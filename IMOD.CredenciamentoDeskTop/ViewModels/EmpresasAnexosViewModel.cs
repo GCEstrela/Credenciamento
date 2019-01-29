@@ -247,8 +247,22 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         public bool Validar()
         {
+
+            //Verificar valiade de Descricao do Anexo
+            if (EInValidandoDescricao())
+            {
+                Entity.SetMessageErro("Descricao", "Descrição inválida");
+                return true;
+            }
+
+            //Verificar valiade do Anexo
+            if (EInValidandoAnexo())
+            {
+                Entity.SetMessageErro("NomeAnexo", "Nome do Anexo é inválido");
+                return true;
+            }
             //Entity.Validate();
-            
+
             //IsEnableLstView = true;
             //Entity = EntidadeTMP;
 
@@ -257,6 +271,22 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             
         }
         #endregion
+        #region Regras de Negócio
+        private bool EInValidandoDescricao()
+        {
+            if (Entity == null) return false;
+            var descricao = Entity.Descricao;
+            if (descricao == null) return true;
+            return false;
+        }
+        private bool EInValidandoAnexo()
+        {
+            if (Entity == null) return false;
+            var nomeAnexo = Entity.NomeAnexo;
+            if (nomeAnexo == null) return true;
+            return false;
+        }
 
+        #endregion
     }
 }

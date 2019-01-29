@@ -59,7 +59,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
             AnexoUs.AtualizarDados(_viewModel.Entity);
             EmpresaContratosUs.AtualizarDados(_viewModel.Entity);
             _viewModel.CarregarQuantidadeTipoCredencial();
-
+            _viewModel.IsEnableTabItem = true;
         }
 
         /// <summary>

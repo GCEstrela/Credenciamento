@@ -392,16 +392,89 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         public bool Validar()
         {
-            //Entity.Validate();
+
+            //Verificar valiade de Contrato
+            if (EInValidocontrato())
+            {
+                Entity.SetMessageErro("NumeroContrato", "Nº do Contrato inválido");
+                return true;
+            }
+
+            //Verificar valiade de Descricao do Contrato
+            if (EInValidoDescricao())
+            {
+                Entity.SetMessageErro("Descricao", "Descrição do Contrato inválido");
+                return true;
+            }
+            //Verificar valiade de Data de Emissão
+            if (EInValidoEmissao())
+            {
+                Entity.SetMessageErro("Emissao", "Emissao do Contrato inválido");
+                return true;
+            }
+            //Verificar valiade de Data de Emissão
+            if (EInValidoValidade())
+            {
+                Entity.SetMessageErro("Validade", "Validade do Contrato inválido");
+                return true;
+            }
             var hasErros = Entity.HasErrors;
 
-            IsEnableLstView = true;
-            Entity = EntidadeTMP;
+            //IsEnableLstView = true;
+            //Entity = EntidadeTMP;
         
             return hasErros;
 
         }
 
+        #endregion
+        #region Regras de Negócio
+        /// <summary>
+        ///     Verificar se dados válidos
+        /// <para>True, inválido</para>
+        /// </summary>
+        /// <returns></returns>
+        private bool EInValidocontrato()
+        {
+            if (Entity == null) return false;
+            var contrato = Entity.NumeroContrato.RetirarCaracteresEspeciais();
+            if (contrato == "") return true;
+            return false;
+        }
+        private bool EInValidoDescricao()
+        {
+            if (Entity == null) return false;
+            var descricao = Entity.Descricao.RetirarCaracteresEspeciais();
+            if (descricao == "") return true;
+            return false;
+        }
+        private bool EInValidoEmissao()
+        {
+            if (Entity == null) return false;
+            var emissao = Entity.Emissao.ToString();
+            if (CheckDate(emissao)) return true;
+            return false;
+        }
+        private bool EInValidoValidade()
+        {
+            if (Entity == null) return false;
+            var validade = Entity.Validade.ToString();
+            if (CheckDate(validade)) return true;
+            return false;
+        }
+        protected bool CheckDate(String date)
+        {
+            try
+            {
+                DateTime dt = DateTime.Parse(date);
+                return false;
+            }
+            catch
+            {
+                return true;
+            }
+
+        }
         #endregion
 
         #region Propriedade de Pesquisa
@@ -458,471 +531,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public ICommand PesquisarCommand => new CommandBase(Pesquisar, true);
 
         #endregion
+       
     }
 }
 
-//public ObservableCollection<EstadoView> Estados
-//{
-//    get { return _estados; }
-
-//    set
-//    {
-//        if (_estados != value)
-//        {
-//            _estados = value;
-//            OnPropertyChanged();
-//        }
-//    }
-//}
-
-//public ObservableCollection<ClasseMunicipios.Municipio> Municipios
-//{
-//    get { return _municipios; }
-
-//    set
-//    {
-//        if (_municipios != value)
-//        {
-//            _municipios = value;
-//            OnPropertyChanged();
-//        }
-//    }
-//}
-
-//public ObservableCollection<ClasseStatus.Status> Status
-//{
-//    get { return _statuss; }
-
-//    set
-//    {
-//        if (_statuss != value)
-//        {
-//            _statuss = value;
-//            OnPropertyChanged();
-//        }
-//    }
-//}
-
-//public ObservableCollection<ClasseTiposAcessos.TipoAcesso> TiposAcessos
-//{
-//    get { return _tiposAcessos; }
-
-//    set
-//    {
-//        if (_tiposAcessos != value)
-//        {
-//            _tiposAcessos = value;
-//            OnPropertyChanged();
-//        }
-//    }
-//}
-
-//public ObservableCollection<ClasseTiposCobrancas.TipoCobranca> TiposCobrancas
-//{
-//    get { return _tiposCobrancas; }
-
-//    set
-//    {
-//        if (_tiposCobrancas != value)
-//        {
-//            _tiposCobrancas = value;
-//            OnPropertyChanged();
-//        }
-//    }
-//}
-
-//public EmpresaContratoView ContratoSelecionado
-//{
-//    get { return _contratoSelecionado; }
-//    set
-//    {
-//        _contratoSelecionado = value;
-//        OnPropertyChanged("SelectedItem");
-//    }
-//}
-
-//public int EmpresaSelecionadaId
-//{
-//    get { return _empresaSelecionadaId; }
-//    set
-//    {
-//        _empresaSelecionadaId = value;
-//        OnPropertyChanged();
-//        if (EmpresaSelecionadaId != null)
-//        {
-//            //OnEmpresaSelecionada();
-//        }
-//    }
-//}
-
-//public int SelectedIndex
-//{
-//    get { return _selectedIndex; }
-//    set
-//    {
-//        _selectedIndex = value;
-//        OnPropertyChanged("SelectedIndex");
-//    }
-//}
-
-//public bool HabilitaEdicao
-//{
-//    get { return _habilitaEdicao; }
-//    set
-//    {
-//        _habilitaEdicao = value;
-//        OnPropertyChanged();
-//    }
-//}
-
-//public string Criterios
-//{
-//    get { return _criterios; }
-//    set
-//    {
-//        _criterios = value;
-//        OnPropertyChanged();
-//    }
-//}
-//#region Data Access
-
-//private void ObterContratos(int empresaId, string descricao, string numContrato)
-//{
-//    try
-//    {
-//        Contratos = new ObservableCollection<EmpresaContratoView>();
-//        ICollection<EmpresaContrato> p1;
-
-//        if (empresaId != 0)
-//        {
-//            p1 = _empresaContratosService.ListarPorEmpresa(empresaId);
-//            var convert = Mapper.Map<List<EmpresaContratoView>>(p1);
-//            convert.ForEach(n => { Contratos.Add(n); });
-//            return;
-//        }
-
-//        if (!string.IsNullOrWhiteSpace(descricao))
-//        {
-//            p1 = _empresaContratosService.ListarPorDescricao(descricao);
-//            var convert = Mapper.Map<List<EmpresaContratoView>>(p1);
-//            convert.ForEach(n => { Contratos.Add(n); });
-//            return;
-//        }
-
-//        if (!string.IsNullOrWhiteSpace(numContrato))
-//        {
-//            p1 = _empresaContratosService.ListarPorNumeroContrato(numContrato);
-//            var convert = Mapper.Map<List<EmpresaContratoView>>(p1);
-//            convert.ForEach(n => { Contratos.Add(n); });
-//            return;
-//        }
-
-//        //Hotfix auto-selecionar registro do topo da ListView
-//        var topList = Contratos.FirstOrDefault();
-//        ContratoSelecionado = topList;
-
-//        SelectedIndex = -1;
-//    }
-//    catch (Exception ex)
-//    {
-//        Utils.TraceException(ex);
-//    }
-//}
-
-//#endregion
-
-#region Variaveis Privadas
-
-//private ObservableCollection<EmpresaContratoView> _contratos;
-
-//private EmpresaContratoView _contratoSelecionado;
-
-//private EmpresaContratoView _contratoTemp = new EmpresaContratoView();
-
-//private readonly List<EmpresaContratoView> _contratosTemp = new List<EmpresaContratoView>();
-
-//private ObservableCollection<EstadoView> _estados;
-
-//private ObservableCollection<ClasseMunicipios.Municipio> _municipios;
-
-//private ObservableCollection<ClasseStatus.Status> _statuss;
-
-//private ObservableCollection<ClasseTiposAcessos.TipoAcesso> _tiposAcessos;
-
-//private ObservableCollection<ClasseTiposCobrancas.TipoCobranca> _tiposCobrancas;
-
-//private PopupPesquisaContrato _popupPesquisaContrato;
-
-//private int _selectedIndex;
-
-//private int _empresaSelecionadaId;
-
-//private bool _habilitaEdicao;
-
-//private string _criterios = "";
-
-//private int _selectedIndexTemp;
-
-#endregion
-
-#region Comandos dos Botoes
-
-//public void OnAtualizaCommand(object idEmpresa)
-//{
-//    EmpresaSelecionadaId = Convert.ToInt32(idEmpresa);
-//    ObterContratos(EmpresaSelecionadaId, "", "");
-//}
-
-//public void OnBuscarArquivoCommand()
-//{
-//    try
-//    {
-//        var filtro = "Imagem files (*.pdf)|*.pdf|All Files (*.*)|*.*";
-//        var arq = WpfHelp.UpLoadArquivoDialog(filtro, 700);
-//        if (arq == null) return;
-//        _contratoTemp.NomeArquivo = arq.Nome;
-//        _contratoTemp.Arquivo = arq.FormatoBase64;
-//        if (Contratos != null)
-//            Contratos[0].NomeArquivo = arq.Nome;
-
-//    }
-//    catch (Exception ex)
-//    {
-//        WpfHelp.Mbox(ex.Message);
-//        Utils.TraceException(ex);
-//    }
-
-//}
-
-//public void OnAbrirArquivoCommand()
-//{
-//    try
-//    {
-//        var arquivoStr = ContratoSelecionado.Arquivo;
-//        var nomeArquivo = ContratoSelecionado.NomeArquivo;
-//        var arrBytes = Convert.FromBase64String(arquivoStr);
-//        WpfHelp.DownloadArquivoDialog(nomeArquivo, arrBytes);
-//    }
-//    catch (Exception ex)
-//    {
-//        Utils.TraceException(ex);
-//    }
-//}
-
-//public void OnEditarCommand()
-//{
-//    try
-//    {
-//        //BuscaBadges();
-//        //_contratoTemp = ContratoSelecionado.CriaCopia(ContratoSelecionado);
-//        _selectedIndexTemp = SelectedIndex;
-//        HabilitaEdicao = true;
-//    }
-//    catch (Exception ex)
-//    {
-//        Utils.TraceException(ex);
-//    }
-//}
-
-//public void OnAdicionarCommand()
-//{
-//    try
-//    {
-//        foreach (var x in Contratos)
-//        {
-//            _contratosTemp.Add(x);
-//        }
-
-//        _selectedIndexTemp = SelectedIndex;
-//        Contratos.Clear();
-//        _contratoTemp = new EmpresaContratoView { EmpresaId = EmpresaSelecionadaId };
-//        Contratos.Add(_contratoTemp);
-//        SelectedIndex = 0;
-//        HabilitaEdicao = true;
-//    }
-//    catch (Exception ex)
-//    {
-//        Utils.TraceException(ex);
-//    }
-//}
-
-//public void OnCancelarEdicaoCommand()
-//{
-//    try
-//    {
-//        Contratos[_selectedIndexTemp] = _contratoTemp;
-//        SelectedIndex = _selectedIndexTemp;
-//        HabilitaEdicao = false;
-//    }
-//    catch (Exception ex)
-//    {
-//        Utils.TraceException(ex);
-//    }
-//}
-
-//public void OnSalvarEdicaoCommand()
-//{
-//    try
-//    {
-//        var entity = Mapper.Map<EmpresaContrato>(ContratoSelecionado);
-//        _empresaContratosService.Alterar(entity);
-
-//        _contratosTemp.Clear();
-//        _contratoTemp = null;
-//    }
-//    catch (Exception ex)
-//    {
-//        Utils.TraceException(ex);
-//    }
-
-//}
-
-//public void OnSalvarAdicaoCommand()
-//{
-//    try
-//    {
-//        var entity = Mapper.Map<EmpresaContrato>(ContratoSelecionado);
-//        _empresaContratosService.Criar(entity);
-
-//        _contratosTemp.Clear();
-//        _contratoTemp = null;
-//    }
-//    catch (Exception ex)
-//    {
-//        Utils.TraceException(ex);
-//    }
-//}
-
-//public void OnCancelarAdicaoCommand()
-//{
-//    try
-//    {
-//        Contratos = null;
-//        Contratos = new ObservableCollection<EmpresaContratoView>(_contratosTemp);
-//        SelectedIndex = _selectedIndexTemp;
-//        _contratosTemp.Clear();
-//        HabilitaEdicao = false;
-//    }
-//    catch (Exception ex)
-//    {
-//        Utils.TraceException(ex);
-//    }
-//}
-
-//public void OnExcluirCommand()
-//{
-//    try
-//    {
-
-//        if (Global.PopupBox("Tem certeza que deseja excluir?", 2))
-//        {
-//            if (Global.PopupBox("Você perderá todos os dados, inclusive histórico. Confirma exclusão?", 2))
-//            {
-//                var entity = Mapper.Map<EmpresaContrato>(ContratoSelecionado);
-//                _empresaContratosService.Remover(entity);
-
-//                Contratos.Remove(ContratoSelecionado);
-//            }
-//        }
-//    }
-//    catch (Exception ex)
-//    {
-//        Utils.TraceException(ex);
-//    }
-//}
-
-//public void OnPesquisarCommand()
-//{
-//    try
-//    {
-//        _popupPesquisaContrato = new PopupPesquisaContrato();
-//        _popupPesquisaContrato.EfetuarProcura += On_EfetuarProcura;
-//        _popupPesquisaContrato.ShowDialog();
-//    }
-//    catch (Exception ex)
-//    {
-//        Utils.TraceException(ex);
-//    }
-//}
-
-//public void On_EfetuarProcura(object sender, EventArgs e)
-//{
-//    object vetor = _popupPesquisaContrato.Criterio.Split((char)20);
-//    var descricao = ((string[])vetor)[0];
-//    var numContrato = ((string[])vetor)[1];
-//    ObterContratos(0, descricao, numContrato);
-//    SelectedIndex = 0;
-//}
-
-#endregion
-
-#region Dados Auxiliares
-
-//private void CarregaColecaoEstados()
-//{
-//    try
-//    {
-//        var convert = Mapper.Map<List<EstadoView>>(ListaEstadosFederacao);
-//        Estados = new ObservableCollection<EstadoView>();
-//        convert.ForEach(n => { Estados.Add(n); });
-//    }
-//    catch (Exception ex)
-//    {
-//        Utils.TraceException(ex);
-//    }
-//}
-
-//public void CarregaColecaoMunicipios(string uf)
-//{
-//    try
-//    {
-//        var list = ListaMunicipios.Where(n => n.UF == uf).ToList();
-//        Municipios = new ObservableCollection<ClasseMunicipios.Municipio>();
-//        list.ForEach(n => Municipios.Add(n));
-//    }
-//    catch (Exception ex)
-//    {
-//        Utils.TraceException(ex);
-//    }
-//}
-
-//private void CarregaColecaoStatus()
-//{
-//    try
-//    {
-//        Status = new ObservableCollection<ClasseStatus.Status>();
-//        ListaStatus.ForEach(n => { Status.Add(n); });
-//    }
-//    catch (Exception ex)
-//    {
-//        Utils.TraceException(ex);
-//    }
-//}
-
-//private void CarregaColeçãoTiposAcessos()
-//{
-//    try
-//    {
-//        TiposAcessos = new ObservableCollection<ClasseTiposAcessos.TipoAcesso>();
-//        ListaTipoAcessos.ForEach(n => { TiposAcessos.Add(n); });
-//    }
-//    catch (Exception ex)
-//    {
-//        Utils.TraceException(ex);
-//    }
-//}
-
-//private void CarregaColeçãoTiposCobrancas()
-//{
-//    try
-//    {
-//        TiposCobrancas = new ObservableCollection<ClasseTiposCobrancas.TipoCobranca>();
-//        ListaTiposCobranca.ForEach(n => { TiposCobrancas.Add(n); });
-//    }
-//    catch (Exception ex)
-//    {
-//        Utils.TraceException(ex);
-//    }
-//}
-
-#endregion

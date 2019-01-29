@@ -88,7 +88,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <summary>
         ///     Habilita abas
         /// </summary>
-        public bool IsEnableTabItem { get; private set; } = true;
+        public bool IsEnableTabItem { get; set; } = false;
         /// <summary>
         /// Seleciona o indice da tabcontrol desejada
         /// </summary>
@@ -468,6 +468,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         public ICommand PesquisarCommand => new CommandBase(Pesquisar, true);
 
+        public ICommand LiberarBotoes => new CommandBase(Pesquisar, true);
         #endregion
 
         #region Salva Dados
@@ -522,7 +523,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 }
 
                 IsEnableLstView = true;
-                IsEnableTabItem = true;
+                //IsEnableTabItem = true;
+                IsEnableTabItem = false;
             }
             catch (Exception ex)
             {

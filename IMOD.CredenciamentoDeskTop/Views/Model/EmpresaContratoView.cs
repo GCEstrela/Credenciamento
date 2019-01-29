@@ -30,7 +30,7 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public bool Terceirizada { get; set; }
         public string Contratante { get; set; }
         public bool IsencaoCobranca { get; set; }
-        [Required(ErrorMessage = "O Tipo de Bobrança do Contrato é requeirido.")]
+        //[Required(ErrorMessage = "O Tipo de Bobrança do Contrato é requeirido.")]
         public int TipoCobrancaId { get; set; }
         public int CobrancaEmpresaId { get; set; }
         public string Cep { get; set; }
@@ -40,16 +40,16 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public string Bairro { get; set; }
         public int MunicipioId { get; set; }
         public int EstadoId { get; set; }
-        [Required(ErrorMessage = "O Nome do Responsável do Contrato é requeirido.")]
+        //[Required(ErrorMessage = "O Nome do Responsável do Contrato é requeirido.")]
         public string NomeResp { get; set; }
         public string TelefoneResp { get; set; }
         public string CelularResp { get; set; }
-        [Required(ErrorMessage = "O E-Mail do Responsável do Contrato é requeirido.")]
+        //[Required(ErrorMessage = "O E-Mail do Responsável do Contrato é requeirido.")]
         public string EmailResp { get; set; }
-        [Required(ErrorMessage = "O Ststus do Contrato é requerido.")]
+        //[Required(ErrorMessage = "O Ststus do Contrato é requerido.")]
         public int StatusId { get; set; }
         public string NomeArquivo { get; set; }
-        [Required(ErrorMessage = "O Contrato Digitalizado é requeirido.")]
+        //[Required(ErrorMessage = "O Contrato Digitalizado é requeirido.")]
         public string Arquivo { get; set; }
         public int TipoAcessoId { get; set; }
 
