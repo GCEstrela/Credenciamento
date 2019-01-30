@@ -55,9 +55,11 @@ namespace IMOD.CredenciamentoDeskTop.Views
             _viewModel.AtualizarDadosTiposAtividades();
             _viewModel.AtualizarDadosTipoCrachas();
             //Popular User Controls
+            //////////////////////////////////////////////////////////////
             RepresentanteUs.AtualizarDados(_viewModel.Entity);
             AnexoUs.AtualizarDados(_viewModel.Entity);
             EmpresaContratosUs.AtualizarDados(_viewModel.Entity);
+            //////////////////////////////////////////////////////////////
             _viewModel.CarregarQuantidadeTipoCredencial();
             _viewModel.IsEnableTabItem = true;
         }
@@ -212,6 +214,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
         private void Contrato_ti_GotFocus(object sender, RoutedEventArgs e)
         {
             BotoesGeral_sp.IsEnabled = false;
+            //EmpresaContratosUs.AtualizarDados(_viewModel.Entity);
         }
 
         private void TabGeral_tc_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -222,6 +225,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
         private void Anexos_ti_GotFocus(object sender, RoutedEventArgs e)
         {
             BotoesGeral_sp.IsEnabled = false;
+            //AnexoUs.AtualizarDados(_viewModel.Entity);
         }
 
         private void Geral_ti_GotFocus(object sender, RoutedEventArgs e)
@@ -232,6 +236,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
         private void Signatarios_ti_GotFocus(object sender, RoutedEventArgs e)
         {
             BotoesGeral_sp.IsEnabled = false;
+            //RepresentanteUs.AtualizarDados(_viewModel.Entity);
         }
     }
 }

@@ -31,7 +31,7 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
         /// </summary>
         public EmpresaView EmpresaView
         {
-            get { return _empresaView; }
+            get { return _empresaView; }           
         }
 
         /// <summary>
@@ -73,11 +73,12 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
         {
             get { return _termosView; }
         }
-
+        
         #endregion
 
         static ViewSingleton()
         {
+            
             _empresaView = new EmpresaView();
             _colaboradorView = new ColaboradorView();
             _veiculoView = new VeiculoView();
@@ -85,5 +86,6 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
             _relatoriosView = new RelatoriosView();
             _termosView = new TermosView();
         }
+        
     }
 }

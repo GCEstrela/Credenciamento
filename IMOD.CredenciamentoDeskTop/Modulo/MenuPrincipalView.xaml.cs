@@ -81,7 +81,7 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
             this.ConfiguracoesBt.Background = Brushes.Transparent;
             this.RelatoriosBt.Background = Brushes.Transparent;
             this.TermosBt.Background = Brushes.Transparent;
-
+           
             DataContext = new ViewSingleton().EmpresaView;
         }
 
