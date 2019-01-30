@@ -10,11 +10,6 @@
              d:DesignHeight="320" 
              Loaded="Frm_Loaded">
     <UserControl.Resources>
-        <Image x:Key="imgAdd" Source="../Resources/add.png"  />
-        <Image x:Key="imgEdit" Source="../Resources/edit.png"  />
-        <Image x:Key="imgRemove" Source="../Resources/remove.png"  />
-        <Image x:Key="imgSave" Source="../Resources/save.png"  />
-        <Image x:Key="imgCancel" Source="../Resources/undo.png"  />
         <ControlTemplate x:Key="ValidationErrorTemplate">
             <DockPanel>
                 <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" Margin="5,0,0,2">
@@ -27,7 +22,7 @@
                 <AdornedElementPlaceholder x:Name="ErrorAdorner" ></AdornedElementPlaceholder>
             </DockPanel>
         </ControlTemplate>
-    </UserControl.Resources>
+    </UserControl.Resources >
     <Grid VerticalAlignment="Top">
         <StackPanel Orientation="Vertical">
             <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}"
@@ -36,10 +31,11 @@
                       x:Name="Responsavel_gb" Header="Empresas Vínculos" Margin="0,0,10,0"
                       VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="795">
 
-                <StackPanel x:Name="InformacoesAnexo_sp" Margin="0,0,0,0" Width="773">
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="1" >
+                <StackPanel x:Name="InformacoesAnexo_sp" Margin="0,10,10,10" Width="773">
 
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="1" >
                         <Label Content="Razão Social da Empresa:" Height="24" Foreground="#FFD0D0D0" />
+                        
                         <ComboBox  x:Name="cmbEmpresa" Width="300" Height="25" 
                                    VerticalContentAlignment="Center" 
                                    HorizontalContentAlignment="Left"
@@ -49,7 +45,7 @@
                                    DisplayMemberPath="Nome"  
                                    SelectedValue="{Binding Entity.EmpresaId , UpdateSourceTrigger=PropertyChanged}" 
                                    SelectedValuePath="EmpresaId" SelectionChanged="cmbEmpresa_SelectionChanged"
-                                   Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
+                                   Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
 
                         <Label Content="Matrícula:" Height="28" Width="140" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
 
@@ -64,7 +60,7 @@
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                     Margin="1">
                         <Label Content="Contrato:" Height="28" Foreground="#FFD0D0D0" Width="143"   />
-
+                       
                         <ComboBox  x:Name="cmbContrato" 
                                    Width="300" Height="25" 
                                    VerticalContentAlignment="Center" 
@@ -72,7 +68,8 @@
                                    ItemsSource="{Binding Contratos}" 
                                    DisplayMemberPath="Descricao"  
                                    SelectedValue="{Binding Entity.EmpresaContratoId, UpdateSourceTrigger=PropertyChanged}" 
-                                   SelectedValuePath="EmpresaContratoId" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
+                                   SelectedValuePath="EmpresaContratoId"
+                                   Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
 
 
 
@@ -83,10 +80,9 @@
                                   IsEnabled="True"  Height="24"  MaxWidth="200"  HorizontalAlignment="Left" Width="150"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
-                                Margin="1,1,0,1" Width="772">
+                                    Margin="1,1,0,1" Width="947">
                         <Label Content="Vínculo Ativo:" Height="28" Width="143" Foreground="#FFD0D0D0"  />
-                        <CheckBox VerticalAlignment="Center" x:Name="Impeditivo_cb"  Foreground="#FFD0D0D0" IsChecked="{Binding Entity.Ativo, UpdateSourceTrigger=PropertyChanged}"
-                                Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
+                        <CheckBox VerticalAlignment="Center" x:Name="Impeditivo_cb"  Foreground="#FFD0D0D0" IsChecked="{Binding Entity.Ativo, UpdateSourceTrigger=PropertyChanged}"/>
                     </StackPanel>
                 </StackPanel>
             </GroupBox>
@@ -99,7 +95,7 @@
                           HorizontalAlignment="Stretch" 
                           ItemsSource="{Binding EntityObserver, Mode=TwoWay}"
                           SelectedItem="{Binding Entity, Mode=TwoWay}"
-                          Width="747" Margin="0,10,0,10">
+                          Width="630" Margin="0,10,0,10">
                     <ListView.View>
                         <GridView FrameworkElement.FlowDirection="RightToLeft">
                             <GridViewColumn Width="40" Header="Ativo">
@@ -117,22 +113,23 @@
                     </ListView.View>
                 </ListView>
 
-                <StackPanel Orientation="Vertical" Margin="5,10,0,1" HorizontalAlignment="Right" Width="47"
+                <StackPanel Orientation="Vertical" Margin="10,3,0,-5" HorizontalAlignment="Right" Width="155"
                             Height="193" >
-                    <Button x:Name="btnAdicionar" Content="{StaticResource imgAdd}"     ToolTip="Adicionar"  Width="25" Margin="0,0,0,7"
-                            IsEnabled="{Binding Comportamento.IsEnableCriar}"           Command="{Binding PrepareCriarCommand}"/>
-
-                    <Button x:Name="btnEditar" Content="{StaticResource imgEdit}"       ToolTip="Editar"  Width="25" Margin="0,0,0,7"
-                            IsEnabled="{Binding Comportamento.IsEnableEditar}"          Command="{Binding PrepareAlterarCommand}"  />
-
-                    <Button x:Name="btnExcluir" Content="{StaticResource imgRemove}"    ToolTip="Remover" Width="25" Margin="0,0,0,7"
-                            IsEnabled="{Binding Comportamento.isEnableRemover}"         Command="{Binding PrepareRemoverCommand}"  />
-
-                    <Button x:Name="btnCancelar" Content="{StaticResource imgCancel}"   ToolTip="Cancelar" Width="25" Margin="0,0,0,7"
-                            IsEnabled="{Binding Comportamento.isEnableCancelar}"        Command="{Binding PrepareCancelarCommand}"  />
-
-                    <Button x:Name="btnSalvar" Content="{StaticResource imgSave}"       ToolTip="Salvar" Width="25"  Margin="4,0,3,7"
-                            IsEnabled="{Binding Comportamento.isEnableSalvar}"          Command="{Binding PrepareSalvarCommand}" />
+                    <Button x:Name="btnAdicionar" Content="Adicionar" ToolTip="Adicionar"
+                            IsEnabled="{Binding Comportamento.IsEnableCriar}" Command="{Binding PrepareCriarCommand}"
+                            Height="30" Width="148" Margin="0,0,0,7" />
+                    <Button x:Name="btnEditar" Content="Editar" Height="30" ToolTip="Editar"
+                            IsEnabled="{Binding Comportamento.IsEnableEditar}"
+                            Command="{Binding PrepareAlterarCommand}" Width="148" Margin="0,0,0,7" />
+                    <Button x:Name="btnExcluir" Content="Remover" Height="30" Width="148" ToolTip="Remover"
+                            IsEnabled="{Binding Comportamento.isEnableRemover}"
+                            Command="{Binding PrepareRemoverCommand}" Margin="0,0,0,7" />
+                    <Button x:Name="btnCancelar" Content="Cancelar" ToolTip="Cancelar" Height="30" Width="148"
+                            IsEnabled="{Binding Comportamento.isEnableCancelar}"
+                            Command="{Binding PrepareCancelarCommand}" Margin="0,0,0,7" />
+                    <Button x:Name="btnSalvar" Content="Salvar" ToolTip="Salvar"  Height="30" Width="148"
+                            IsEnabled="{Binding Comportamento.isEnableSalvar}" Command="{Binding PrepareSalvarCommand}"
+                            Margin="4,0,3,7" />
                 </StackPanel>
             </StackPanel>
         </StackPanel>

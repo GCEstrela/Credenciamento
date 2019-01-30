@@ -1,7 +1,7 @@
 ﻿// ***********************************************************************
 // Project: IMOD.Infra
 // Crafted by: Grupo Estrela by Genetec
-// Date:  12 - 07 - 2018
+// Date:  01 - 24 - 2019
 // ***********************************************************************
 
 #region
@@ -58,6 +58,8 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("ColaboradorID", entity.ColaboradorId, false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("EmpresaID", entity.EmpresaId, false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("VeiculoID", entity.VeiculoId, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("PendenciaSistema", entity.PendenciaSistema, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Ativo", true, false)));
 
                         var key = Convert.ToInt32 (cmd.ExecuteScalar());
 
@@ -153,6 +155,8 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("ColaboradorID", entity.ColaboradorId, false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("EmpresaID", entity.EmpresaId, false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("VeiculoID", entity.VeiculoId, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("PendenciaSistema", entity.PendenciaSistema, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Ativo", entity.Ativo, false)));
 
                         cmd.ExecuteNonQuery();
                     }
@@ -187,6 +191,16 @@ namespace IMOD.Infra.Repositorios
                     }
                 }
             }
+        }
+
+        /// <summary>
+        ///     Desativar Pendência
+        /// </summary>
+        /// <param name="entity"></param>
+        public void Desativar(Pendencia entity)
+        {
+            entity.Ativo = false;
+            Alterar (entity);
         }
 
         /// <summary>
@@ -274,6 +288,27 @@ namespace IMOD.Infra.Repositorios
                     }
                 }
             }
+        }
+
+        /// <summary>
+        ///     Criar pendência de sistema
+        /// </summary>
+        /// <param name="entity"></param>
+        public void CriarPendenciaSistema(Pendencia entity)
+        {
+            entity.PendenciaSistema = true;
+            entity.Descricao = "Pendência de cadastro inicial";
+            Criar (entity);
+        }
+
+        /// <summary>
+        ///     Alterar pendência de sistema
+        /// </summary>
+        /// <param name="entity"></param>
+        public void AlterarPendenciaSistema(Pendencia entity)
+        {
+            entity.PendenciaSistema = true;
+            Alterar (entity);
         }
 
         #endregion

@@ -1,12 +1,13 @@
 ﻿// ***********************************************************************
 // Project: IMOD.Application
 // Crafted by: Grupo Estrela by Genetec
-// Date:  11 - 30 - 2018
+// Date:  01 - 21 - 2019
 // ***********************************************************************
 
 #region
 
 using System.Collections.Generic;
+using System.Linq;
 using IMOD.Application.Interfaces;
 using IMOD.Domain.Entities;
 using IMOD.Domain.Interfaces;
@@ -20,6 +21,47 @@ namespace IMOD.Application.Service
     {
         private readonly IEmpresaContratoRepositorio _repositorio = new EmpresaContratoRepositorio();
 
+        #region  Propriedades
+
+        /// <summary>
+        ///     Pendência serviços
+        /// </summary>
+        public IPendenciaService Pendencia
+        {
+            get { return new PendenciaService(); }
+        }
+
+        public IAreaAcessoService AreaAceesso
+        {
+            get { return new AreaAcessoService(); }
+        }
+
+        public ITiposAcessoService TipoAcesso
+        {
+            get { return new TipoAcessoService(); }
+        }
+
+        public IStatusService Status
+        {
+            get { return new StatusService(); }
+        }
+
+        public ITipoCobrancaService TipoCobranca
+        {
+            get { return new TipoCobrancaService(); }
+        }
+
+        public IEstadoService Estado
+        {
+            get { return new EstadoService(); }
+        }
+
+        public IMunicipioService Municipio
+        {
+            get { return new MunicipioService(); }
+        }
+
+        #endregion
 
         #region  Metodos
 
@@ -29,7 +71,13 @@ namespace IMOD.Application.Service
         /// <param name="entity">Entidade</param>
         public void Criar(EmpresaContrato entity)
         {
-            _repositorio.Criar(entity);
+            _repositorio.Criar (entity);
+            #region Retirar pendencias de sistema
+            var pendencia = Pendencia.ListarPorEmpresa(entity.EmpresaId)
+                .FirstOrDefault(n => n.PendenciaSistema);
+            if (pendencia == null) return;
+            Pendencia.Remover(pendencia);
+            #endregion
         }
 
         /// <summary>
@@ -39,7 +87,7 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public EmpresaContrato BuscarPelaChave(int id)
         {
-            return _repositorio.BuscarPelaChave(id);
+            return _repositorio.BuscarPelaChave (id);
         }
 
         /// <summary>
@@ -48,7 +96,7 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public ICollection<EmpresaContrato> Listar(params object[] objects)
         {
-            return _repositorio.Listar(objects);
+            return _repositorio.Listar (objects);
         }
 
         /// <summary>
@@ -57,7 +105,7 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void Alterar(EmpresaContrato entity)
         {
-            _repositorio.Alterar(entity);
+            _repositorio.Alterar (entity);
         }
 
         /// <summary>
@@ -66,10 +114,8 @@ namespace IMOD.Application.Service
         /// <param name="entity">Entidade</param>
         public void Remover(EmpresaContrato entity)
         {
-            _repositorio.Remover(entity);
+            _repositorio.Remover (entity);
         }
-
-        #endregion
 
         /// <summary>
         ///     Listar contratos por número
@@ -78,7 +124,7 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public ICollection<EmpresaContrato> ListarPorNumeroContrato(string numContrato)
         {
-            return _repositorio.ListarPorNumeroContrato(numContrato);
+            return _repositorio.ListarPorNumeroContrato (numContrato);
         }
 
         /// <summary>
@@ -88,7 +134,7 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public ICollection<EmpresaContrato> ListarPorDescricao(string desc)
         {
-            return _repositorio.ListarPorDescricao(desc);
+            return _repositorio.ListarPorDescricao (desc);
         }
 
         /// <summary>
@@ -98,19 +144,9 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public ICollection<EmpresaContrato> ListarPorEmpresa(int empresaId)
         {
-            return _repositorio.ListarPorEmpresa(empresaId);
+            return _repositorio.ListarPorEmpresa (empresaId);
         }
 
-
-        public IAreaAcessoService AreaAceesso { get { return new AreaAcessoService(); } }
-        public ITiposAcessoService TipoAcesso { get { return new TipoAcessoService(); } }
-
-        public IStatusService Status { get { return new StatusService(); } }
-
-        public ITipoCobrancaService TipoCobranca { get { return new TipoCobrancaService(); } }
-
-        public IEstadoService Estado { get { return new EstadoService(); } }
-
-        public IMunicipioService Municipio { get { return new MunicipioService(); } }
+        #endregion
     }
 }

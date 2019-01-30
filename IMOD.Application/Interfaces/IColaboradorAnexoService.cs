@@ -14,5 +14,9 @@ namespace IMOD.Application.Interfaces
 {
     public interface IColaboradorAnexoService : IColaboradorAnexoRepositorio
     {
+        /// <summary>
+        ///     Pendência serviços
+        /// </summary>
+        IPendenciaService Pendencia { get; }
     }
 }

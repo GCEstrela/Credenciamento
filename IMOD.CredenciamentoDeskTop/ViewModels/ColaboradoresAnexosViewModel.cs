@@ -1,7 +1,7 @@
 ﻿// ***********************************************************************
-// Project: iModSCCredenciamento
+// Project: IMOD.CredenciamentoDeskTop
 // Crafted by: Grupo Estrela by Genetec
-// Date:  11 - 13 - 2018
+// Date:  01 - 24 - 2019
 // ***********************************************************************
 
 #region
@@ -25,13 +25,13 @@ using IMOD.Domain.Entities;
 
 #endregion
 
-
 namespace IMOD.CredenciamentoDeskTop.ViewModels
 {
-    public class ColaboradoresAnexosViewModel : ViewModelBase
+    public class ColaboradoresAnexosViewModel : ViewModelBase,IComportamento
     {
         private readonly IColaboradorAnexoService _service = new ColaboradorAnexoService();
         private ColaboradorView _colaboradorView;
+        private ColaboradorViewModel _viewModelParent;
 
         #region  Propriedades
 
@@ -47,7 +47,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         public ColaboradoresAnexosViewModel()
         {
-            Comportamento = new ComportamentoBasico(true, true, true, false, false);
+            Comportamento = new ComportamentoBasico (true, true, true, false, false);
+            EntityObserver = new ObservableCollection<ColaboradorAnexoView>();
             Comportamento.SalvarAdicao += OnSalvarAdicao;
             Comportamento.SalvarEdicao += OnSalvarEdicao;
             Comportamento.Remover += OnRemover;
@@ -56,6 +57,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         #region  Metodos
 
+
+        private void PrepareSalvar()
+        {
+            if (Validar()) return;
+            Comportamento.PrepareSalvar();
+        }
         /// <summary>
         ///     Acionado antes de remover
         /// </summary>
@@ -73,23 +80,22 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                if (Entity == null)
-                {
-                    return;
-                }
+                if (Entity == null) return;
+                if (Validar()) return;
 
-                var n1 = Mapper.Map<ColaboradorAnexo>(Entity);
+                var n1 = Mapper.Map<ColaboradorAnexo> (Entity);
                 n1.ColaboradorId = _colaboradorView.ColaboradorId;
-                _service.Criar(n1);
+                _service.Criar (n1);
                 //Adicionar no inicio da lista um item a coleção
-                var n2 = Mapper.Map<ColaboradorAnexoView>(n1);
-                EntityObserver.Insert(0, n2);
+                var n2 = Mapper.Map<ColaboradorAnexoView> (n1);
+                EntityObserver.Insert (0, n2);
                 IsEnableLstView = true;
+                _viewModelParent.AtualizarDadosPendencias();
             }
             catch (Exception ex)
             {
-                Utils.TraceException(ex);
-                WpfHelp.PopupBox(ex);
+                Utils.TraceException (ex);
+                WpfHelp.PopupBox (ex);
             }
         }
 
@@ -112,19 +118,16 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                if (Entity == null)
-                {
-                    return;
-                }
-
-                var n1 = Mapper.Map<ColaboradorAnexo>(Entity);
-                _service.Alterar(n1);
+                if (Entity == null) return;
+                if (Validar()) return;
+                var n1 = Mapper.Map<ColaboradorAnexo> (Entity);
+                _service.Alterar (n1);
                 IsEnableLstView = true;
             }
             catch (Exception ex)
             {
-                Utils.TraceException(ex);
-                WpfHelp.PopupBox(ex);
+                Utils.TraceException (ex);
+                WpfHelp.PopupBox (ex);
             }
         }
 
@@ -141,8 +144,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
             catch (Exception ex)
             {
-                Utils.TraceException(ex);
-                WpfHelp.MboxError("Não foi realizar a operação solicitada", ex);
+                Utils.TraceException (ex);
+                WpfHelp.MboxError ("Não foi realizar a operação solicitada", ex);
             }
         }
 
@@ -155,26 +158,19 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                if (Entity == null)
-                {
-                    return;
-                }
-
+                if (Entity == null) return;
                 var result = WpfHelp.MboxDialogRemove();
-                if (result != DialogResult.Yes)
-                {
-                    return;
-                }
+                if (result != DialogResult.Yes) return;
 
-                var n1 = Mapper.Map<ColaboradorAnexo>(Entity);
-                _service.Remover(n1);
+                var n1 = Mapper.Map<ColaboradorAnexo> (Entity);
+                _service.Remover (n1);
                 //Retirar empresa da coleção
-                EntityObserver.Remove(Entity);
+                EntityObserver.Remove (Entity);
             }
             catch (Exception ex)
             {
-                Utils.TraceException(ex);
-                WpfHelp.MboxError("Não foi realizar a operação solicitada", ex);
+                Utils.TraceException (ex);
+                WpfHelp.MboxError ("Não foi realizar a operação solicitada", ex);
             }
         }
 
@@ -190,62 +186,64 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public void AtualizarDadosAnexo(ColaboradorView entity)
         {
             if (entity == null)
-            {
-                throw new ArgumentNullException(nameof(entity));
-            }
+                throw new ArgumentNullException (nameof (entity));
 
             _colaboradorView = entity;
             //Obter dados
-            var list1 = _service.Listar(entity.ColaboradorId);
-            var list2 = Mapper.Map<List<ColaboradorAnexoView>>(list1.OrderByDescending(n => n.ColaboradorAnexoId));
+            var list1 = _service.Listar (entity.ColaboradorId);
+            var list2 = Mapper.Map<List<ColaboradorAnexoView>> (list1.OrderByDescending (n => n.ColaboradorAnexoId));
             EntityObserver = new ObservableCollection<ColaboradorAnexoView>();
-            list2.ForEach(n =>
-           {
+            list2.ForEach (n => { EntityObserver.Add (n); });
+        }
 
-               EntityObserver.Add(n);
-           });
+        public void AtualizarDadosAnexo(ColaboradorView entity, ColaboradorViewModel viewModelParent)
+        {
+            _viewModelParent = viewModelParent;
+           AtualizarDadosAnexo(entity);
         }
 
         #endregion
-
 
         #region Propriedade Commands
 
         /// <summary>
         ///     Novo
         /// </summary>
-        public ICommand PrepareCriarCommand => new CommandBase(PrepareCriar, true);
+        public ICommand PrepareCriarCommand => new CommandBase (PrepareCriar, true);
 
         public ComportamentoBasico Comportamento { get; set; }
 
         /// <summary>
         ///     Editar
         /// </summary>
-        public ICommand PrepareAlterarCommand => new CommandBase(PrepareAlterar, true);
+        public ICommand PrepareAlterarCommand => new CommandBase (PrepareAlterar, true);
 
         /// <summary>
         ///     Cancelar
         /// </summary>
-        public ICommand PrepareCancelarCommand => new CommandBase(Comportamento.PrepareCancelar, true);
+        public ICommand PrepareCancelarCommand => new CommandBase (Comportamento.PrepareCancelar, true);
 
         /// <summary>
         ///     Novo
         /// </summary>
-        public ICommand PrepareSalvarCommand => new CommandBase(Comportamento.PrepareSalvar, true);
+        public ICommand PrepareSalvarCommand => new CommandBase (PrepareSalvar, true);
 
         /// <summary>
         ///     Remover
         /// </summary>
-        public ICommand PrepareRemoverCommand => new CommandBase(PrepareRemover, true);
+        public ICommand PrepareRemoverCommand => new CommandBase (PrepareRemover, true);
 
         /// <summary>
-        ///     Validar Regras de Negócio
+        ///    Validar Regras de Negócio 
         /// </summary>
-        public void Validar()
+        public bool Validar()
         {
+            Entity.Validate();
+            var hasErro = Entity.HasErrors;
+
+            return hasErro;
         }
 
         #endregion
-
     }
 }

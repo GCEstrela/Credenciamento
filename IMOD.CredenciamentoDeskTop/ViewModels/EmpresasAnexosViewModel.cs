@@ -49,6 +49,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public EmpresasAnexosViewModel()
         {
             Comportamento = new ComportamentoBasico(true, true, true, false, false);
+            EntityObserver = new ObservableCollection<EmpresaAnexoView>();
             Comportamento.SalvarAdicao += OnSalvarAdicao;
             Comportamento.SalvarEdicao += OnSalvarEdicao;
             Comportamento.Remover += OnRemover;

@@ -35,49 +35,34 @@ namespace IMOD.CredenciamentoDeskTop.Mapeamento
                    m =>
                    {
                        m.CreateMap<Colaborador, ColaboradorView>().ForMember(k => k.Cpf, opt => opt.MapFrom(k => k.Cpf.FormatarCpf())).ReverseMap();
-                       //m.CreateMap<ColaboradorView, Colaborador>().ReverseMap();
+                       m.CreateMap<ColaboradorEmpresa, Views.Model.ColaboradorEmpresaView>().ReverseMap();
                        m.CreateMap<ColaboradorCurso, ColaboradorCursoView>().ReverseMap();
                        m.CreateMap<ColaboradorCursoView, ColaboradorCurso>().ReverseMap();
-
                        m.CreateMap<ColaboradorCredencial, ColaboradoresCredenciaisView>().ReverseMap();
+                       m.CreateMap<ColaboradorAnexo, ColaboradorAnexoView>().ReverseMap();
 
                        m.CreateMap<VeiculosCredenciaisView, VeiculoCredencial>().ReverseMap();
                        m.CreateMap<VeiculoEmpresaView, VeiculoEmpresa>().ReverseMap();
                        m.CreateMap<VeiculoEmpresa, VeiculoEmpresa>().ReverseMap();
                        m.CreateMap<IMOD.Domain.EntitiesCustom.VeiculosCredenciaisView, VeiculoCredencialView>().ReverseMap();
-
                        m.CreateMap<Empresa, EmpresaView>().ForMember(k => k.Cnpj, opt => opt.MapFrom(k => k.Cnpj.FormatarCnpj())).ReverseMap();
                        m.CreateMap<EmpresaSignatario, EmpresaSignatarioView>().ForMember(k => k.Cpf, opt => opt.MapFrom(k => k.Cpf.FormatarCpf())).ReverseMap();
                        m.CreateMap<EmpresaContratoView, EmpresaContrato>().ReverseMap();
                        m.CreateMap<EmpresaAnexoView, EmpresaAnexo>().ReverseMap();
-                       m.CreateMap<IMOD.Domain.EntitiesCustom.EmpresaTipoCredencialView, EmpresaTipoCredencialView>().ReverseMap();
-
+                       m.CreateMap<Domain.EntitiesCustom.EmpresaTipoCredencialView, EmpresaTipoCredencialView>().ReverseMap();
                        m.CreateMap<LayoutCracha, EmpresaLayoutCrachaView>().ReverseMap();
                        m.CreateMap<Estados, EstadoView>().ReverseMap();
                        m.CreateMap<Municipio, MunicipioView>().ReverseMap();
-
-
                        m.CreateMap<TipoAtividade, TipoAtividadeView>().ReverseMap();
-
                        m.CreateMap<Pendencia, PendenciaView>().ReverseMap();
                        m.CreateMap<Pendencia, PendenciaView>().ReverseMap();
                        m.CreateMap<TipoPendencia, TipoPendenciaView>().ReverseMap();
-
                        m.CreateMap<EmpresaTipoAtividade, EmpresaTipoAtividadeView>().ReverseMap();
-
-                       m.CreateMap<IMOD.Domain.EntitiesCustom.EmpresaTipoAtividadeView, EmpresaTipoAtividadeView>()
-                       .ReverseMap();
-
+                       m.CreateMap<Domain.EntitiesCustom.EmpresaTipoAtividadeView, EmpresaTipoAtividadeView>().ReverseMap();
                        m.CreateMap<AreaAcesso, AreaAcessoView>().ReverseMap();
-
-
                        m.CreateMap<LayoutCracha, LayoutCrachaView>().ReverseMap();
-
                        m.CreateMap<TipoAcesso, TipoAcessoView>().ReverseMap();
-
-                       //m.CreateMap<EmpresaContrato, ClasseEmpresasContratos.EmpresaContrato>().ReverseMap();
-
-                       m.CreateMap<IMOD.Domain.EntitiesCustom.CredencialView, CredencialView>()
+                       m.CreateMap<Domain.EntitiesCustom.CredencialView, CredencialView>()
                            .ForMember(k => k.Foto, opt => opt.MapFrom(k => Convert.FromBase64String(k.Foto)))
                            .ForMember(k => k.Logo, opt => opt.MapFrom(k => Convert.FromBase64String(k.Logo)))
                            .ReverseMap();

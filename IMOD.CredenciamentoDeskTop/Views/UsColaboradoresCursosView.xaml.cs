@@ -31,14 +31,16 @@ namespace IMOD.CredenciamentoDeskTop.Views
             //if (_viewModel.Cursos == null) return;
             //_viewModel.ListarContratos(_viewModel.);
         }
+
         /// <summary>
         ///     Atualizar dados
         /// </summary>
         /// <param name="entity"></param>
-        public void AtualizarDados(Model.ColaboradorView entity)
+        /// <param name="viewModelParent"></param>
+        public void AtualizarDados(Model.ColaboradorView entity, ColaboradorViewModel viewModelParent)
         {
             if (entity == null) return;
-            _viewModel.AtualizarDados(entity);
+            _viewModel.AtualizarDados(entity, viewModelParent);
         }
 
         private void OnUpLoad_Click(object sender, RoutedEventArgs e)

@@ -17,12 +17,12 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
     /// </summary>
     public class ViewSingleton
     {
-        private static readonly EmpresaView _empresaView;
-        private static readonly ColaboradorView _colaboradorView;
-        private static readonly VeiculoView _veiculoView;
-        private static readonly ConfiguracoesView _configuracoesView;
-        private static readonly RelatoriosView _relatoriosView;
-        private static readonly TermosView _termosView;
+        private static  EmpresaView _empresaView;
+        private static  ColaboradorView _colaboradorView;
+        private static  VeiculoView _veiculoView;
+        private static  ConfiguracoesView _configuracoesView;
+        private static  RelatoriosView _relatoriosView;
+        private static  TermosView _termosView;
 
         #region  Propriedades
 
@@ -31,7 +31,7 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
         /// </summary>
         public EmpresaView EmpresaView
         {
-            get { return _empresaView; }           
+            get { return _empresaView ?? (_empresaView = new EmpresaView()); }
         }
 
         /// <summary>
@@ -39,7 +39,7 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
         /// </summary>
         public ColaboradorView ColaboradorView
         {
-            get { return _colaboradorView; }
+            get { return _colaboradorView ?? (_colaboradorView = new ColaboradorView()); }
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
         /// </summary>
         public VeiculoView VeiculoView
         {
-            get { return _veiculoView; }
+            get { return _veiculoView ?? (_veiculoView = new VeiculoView()); }
         }
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
         /// </summary>
         public ConfiguracoesView ConfiguracoesView
         {
-            get { return _configuracoesView; }
+            get { return _configuracoesView ?? (_configuracoesView = new ConfiguracoesView()); }
         }
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
         /// </summary>
         public RelatoriosView RelatoriosView
         {
-            get { return _relatoriosView; }
+            get { return _relatoriosView ?? (_relatoriosView = new RelatoriosView()); }
         }
 
         /// <summary>
@@ -71,21 +71,10 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
         /// </summary>
         public TermosView TermosView
         {
-            get { return _termosView; }
+            get { return _termosView ?? (_termosView = new TermosView()); }
         }
-        
-        #endregion
 
-        static ViewSingleton()
-        {
-            
-            _empresaView = new EmpresaView();
-            _colaboradorView = new ColaboradorView();
-            _veiculoView = new VeiculoView();
-            _configuracoesView = new ConfiguracoesView();
-            _relatoriosView = new RelatoriosView();
-            _termosView = new TermosView();
-        }
+        #endregion
         
     }
 }

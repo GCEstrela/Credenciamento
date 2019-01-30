@@ -8,26 +8,33 @@
              d:DataContext="{d:DesignInstance viewModels:ColaboradoresCursosViewModel , IsDesignTimeCreatable=True}"
              mc:Ignorable="d"  Height="350">
     <UserControl.Resources>
-        <Image x:Key="imgAdd" Source="../Resources/add.png"  />
-        <Image x:Key="imgEdit" Source="../Resources/edit.png"  />
-        <Image x:Key="imgRemove" Source="../Resources/remove.png"  />
-        <Image x:Key="imgSave" Source="../Resources/save.png"  />
-        <Image x:Key="imgCancel" Source="../Resources/undo.png"  />
+        <ControlTemplate x:Key="ValidationErrorTemplate">
+            <DockPanel>
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" Margin="5,0,0,2">
+                    <Grid Width="12" Height="12">
+                        <Ellipse Width="12" Height="12" Fill="Red" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Foreground="White"  FontWeight="Heavy" FontSize="8" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center"
+                               ToolTip="{Binding ElementName=ErrorAdorner, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}">X</TextBlock>
+                    </Grid>
+                </StackPanel>
+                <AdornedElementPlaceholder x:Name="ErrorAdorner" ></AdornedElementPlaceholder>
+            </DockPanel>
+        </ControlTemplate>
         <funcoes:CheckTeste x:Key="CheckTeste" /> 
     </UserControl.Resources>
 
 
-    <Grid VerticalAlignment="Top" Loaded="Grid_Loaded">
+    <Grid Margin="0,0,0,10" Loaded="Grid_Loaded">
         <StackPanel Orientation="Vertical">
             <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" 
-                      Background="Chocolate"                                            
+                      Background="Chocolate"                      
+                      IsEnabled="{Binding Comportamento.isEnableCancelar}"
                       x:Name="InformacoesCursos_gb" Header="Cursos e Treinamentos"   Margin="0,0,0,0"
                       VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="795">
-                
                 <StackPanel x:Name="InformacoesAnexo_sp" Margin="0,0,0,0" Width="773">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="1">
-                        <Label Content="Código:" Height="24" Foreground="#FFD0D0D0" Width="110"  />
-                        <TextBox  x:Name="cmbEmpresa" Width="43" Height="24" IsEnabled="false"
+                        <Label Content="Código:" Height="26" Foreground="#FFD0D0D0" Width="110"  />
+                        <TextBox  x:Name="cmbEmpresa" Width="43" Height="24" 
                                   Text="{Binding Entity.ColaboradorCursoId, UpdateSourceTrigger=PropertyChanged}" 
                                    VerticalContentAlignment="Center" 
                                    HorizontalContentAlignment="Left"
@@ -39,14 +46,13 @@
                                    VerticalContentAlignment="Center" 
                                    HorizontalContentAlignment="Left"
                                    ItemsSource="{Binding Cursos}" 
-                                   DisplayMemberPath="Descricao"
-                                   IsEnabled="{Binding Comportamento.isEnableCancelar}"
+                                   DisplayMemberPath="Descricao"  
                                    SelectedValue="{Binding Entity.CursoId, UpdateSourceTrigger=PropertyChanged}" 
-                                   SelectedValuePath="CursoId"/>
+                                   SelectedValuePath="CursoId"
+                                   Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
                         <Label Content="Data de Validade:" Height="24" Width="110" Foreground="#FFD0D0D0" Margin="0,7" HorizontalContentAlignment="Right" HorizontalAlignment="Left" />
                         <DatePicker x:Name="DataValidade_dp" 
-                                    SelectedDate="{Binding Entity.Validade, UpdateSourceTrigger=PropertyChanged}"
-                                    IsEnabled="{Binding Comportamento.isEnableCancelar}"
+                                    SelectedDate="{Binding Entity.Validade, UpdateSourceTrigger=PropertyChanged}" 
                                     Foreground="White" Background="{x:Null}" HorizontalAlignment="Left"  Margin="1,7,0,7" 
                                     Height="Auto" Width="114" />
 
@@ -56,13 +62,11 @@
                         <Label Content="Nome do Arquivo:" Height="24" Width="110" Foreground="#FFD0D0D0"  />
                         <TextBox  x:Name="NomeArquivo_tb" 
                                   Text="{Binding Entity.NomeArquivo, UpdateSourceTrigger=PropertyChanged}" 
-                                  IsEnabled="{Binding Comportamento.isEnableCancelar}"
-                                  Width="324" Height="24" 
-                                  VerticalContentAlignment="Center" 
-                                  HorizontalContentAlignment="Left"/>
-                        <Button x:Name="BuscarCursoArquivo_bt" Height="24"
-                                IsEnabled="{Binding Comportamento.isEnableCancelar}"
-                                VerticalAlignment="Center" HorizontalAlignment="Left" Width="24" Margin="10,10,0,8" Click="OnUpLoad_Click">
+                                   Width="324" Height="24" 
+                                   MaxLength="100"
+                                   VerticalContentAlignment="Center" 
+                                   HorizontalContentAlignment="Left" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
+                        <Button x:Name="BuscarCursoArquivo_bt" Height="24"  VerticalAlignment="Center" HorizontalAlignment="Left" Width="24" Margin="10,10,0,8" Click="OnUpLoad_Click">
                             <StackPanel>
                                 <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Pasta.ico"/>
                             </StackPanel>
@@ -72,21 +76,21 @@
                                 <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Olho.png"/>
                             </StackPanel>
                         </Button>
-                        <CheckBox VerticalAlignment="Center" x:Name="Impeditivo_cb" Margin="10,0,0,0" Foreground="#FFD0D0D0"
-                                  IsEnabled="{Binding Comportamento.isEnableCancelar}"
-                                  IsChecked="{Binding Entity.Controlado, UpdateSourceTrigger=PropertyChanged}" 
-                                  Content="Curso Controlado"/>
-                        
+                        <CheckBox VerticalAlignment="Center" x:Name="Impeditivo_cb" Margin="10,0,0,0" Foreground="#FFD0D0D0" IsChecked="{Binding Entity.Controlado, UpdateSourceTrigger=PropertyChanged}" Content="Curso Controlado"/>
+                        <!--<wpf:ToggleSwitch x:Name="Controlada_tw"  HeaderHorizontalAlignment="Stretch" Width="181" HorizontalAlignment="Right"
+                        SwitchContentPlacement="Left"  Content="Data Controlada:" CheckedText="Sim" UncheckedText="Não"
+                        IsChecked="{Binding Entity.Controlado, ConverterParameter=Principal_tw, UpdateSourceTrigger=PropertyChanged}" Grid.Column="5"
+                        Foreground="#FFD0D0BE" UncheckedBackground="Gray" UncheckedBorderBrush="Gray" UncheckedForeground="#FFAEAEAE" Margin="5,0,0,0"/>-->
+
                     </StackPanel>
                 </StackPanel>
             </GroupBox>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="795" Height="203">
-                <ListView x:Name="ListaColaboradoresCursos_lv" 
-                          IsEnabled="{Binding IsEnableLstView}"
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="795" Height="202">
+                <ListView x:Name="ListaColaboradoresCursos_lv" IsEnabled="{Binding IsEnableLstView}"
                           HorizontalAlignment="Stretch" 
                           ItemsSource="{Binding EntityObserver, Mode=TwoWay}"
                           SelectedItem="{Binding Entity, Mode=TwoWay}"
-                          Width="747" Margin="0,10,0,10">
+                          Width="630" Margin="0,15,0,10">
                     <ListView.View>
                         <GridView FrameworkElement.FlowDirection="RightToLeft">
                             <GridViewColumn Width="80" Header="Controlada"  >
@@ -104,22 +108,25 @@
                         </GridView>
                     </ListView.View>
                 </ListView>
-                <StackPanel Orientation="Vertical" Margin="5,10,0,1" HorizontalAlignment="Right" Width="47"
-                            Height="193" >
-                    <Button x:Name="btnAdicionar" Content="{StaticResource imgAdd}"     ToolTip="Adicionar"  Width="25" Margin="0,0,0,7"
-                            IsEnabled="{Binding Comportamento.IsEnableCriar}"           Command="{Binding PrepareCriarCommand}"/>
+                <StackPanel Orientation="Vertical" Margin="10,0,0,-5" HorizontalAlignment="Right" Width="155"
+                            Height="193" VerticalAlignment="Bottom">
 
-                    <Button x:Name="btnEditar" Content="{StaticResource imgEdit}"       ToolTip="Editar"  Width="25" Margin="0,0,0,7"
-                            IsEnabled="{Binding Comportamento.IsEnableEditar}"          Command="{Binding PrepareAlterarCommand}"  />
+                    <Button x:Name="btnAdicionar" Content="Adicionar" ToolTip="Adicionar"
+                            IsEnabled="{Binding Comportamento.IsEnableCriar}" Command="{Binding PrepareCriarCommand}"
+                            Height="30" Width="148" Margin="0,0,0,7" />
+                    <Button x:Name="btnEditar" Content="Editar" Height="30" ToolTip="Editar"
+                            IsEnabled="{Binding Comportamento.IsEnableEditar}"
+                            Command="{Binding PrepareAlterarCommand}" Width="148" Margin="0,0,0,7" />
+                    <Button x:Name="btnExcluir" Content="Remover" Height="30" Width="148" ToolTip="Remover"
+                            IsEnabled="{Binding Comportamento.isEnableRemover}"
+                            Command="{Binding PrepareRemoverCommand}" Margin="0,0,0,7" />
+                    <Button x:Name="btnCancelar" Content="Cancelar" ToolTip="Cancelar" Height="30" Width="148"
+                            IsEnabled="{Binding Comportamento.isEnableCancelar}"
+                            Command="{Binding PrepareCancelarCommand}" Margin="0,0,0,7" />
+                    <Button x:Name="btnSalvar" Content="Salvar" ToolTip="Salvar"  Height="30" Width="148"
+                            IsEnabled="{Binding Comportamento.isEnableSalvar}" Command="{Binding PrepareSalvarCommand}"
+                            Margin="4,0,3,7" />
 
-                    <Button x:Name="btnExcluir" Content="{StaticResource imgRemove}"    ToolTip="Remover" Width="25" Margin="0,0,0,7"
-                            IsEnabled="{Binding Comportamento.isEnableRemover}"         Command="{Binding PrepareRemoverCommand}"  />
-
-                    <Button x:Name="btnCancelar" Content="{StaticResource imgCancel}"   ToolTip="Cancelar" Width="25" Margin="0,0,0,7"
-                            IsEnabled="{Binding Comportamento.isEnableCancelar}"        Command="{Binding PrepareCancelarCommand}"  />
-
-                    <Button x:Name="btnSalvar" Content="{StaticResource imgSave}"       ToolTip="Salvar" Width="25"  Margin="4,0,3,7"
-                            IsEnabled="{Binding Comportamento.isEnableSalvar}"          Command="{Binding PrepareSalvarCommand}" />
                 </StackPanel>
             </StackPanel>
 

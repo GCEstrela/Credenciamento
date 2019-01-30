@@ -1,12 +1,13 @@
 ﻿// ***********************************************************************
 // Project: IMOD.Application
 // Crafted by: Grupo Estrela by Genetec
-// Date:  11 - 26 - 2018
+// Date:  01 - 21 - 2019
 // ***********************************************************************
 
 #region
 
 using System.Collections.Generic;
+using System.Linq;
 using IMOD.Application.Interfaces;
 using IMOD.Domain.Entities;
 using IMOD.Domain.Interfaces;
@@ -24,7 +25,15 @@ namespace IMOD.Application.Service
 
         #endregion
 
-        #region Construtor
+        #region  Propriedades
+
+        /// <summary>
+        ///     Pendência serviços
+        /// </summary>
+        public IPendenciaService Pendencia
+        {
+            get { return new PendenciaService(); }
+        }
 
         #endregion
 
@@ -36,7 +45,14 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void Criar(EmpresaSignatario entity)
         {
-            _repositorio.Criar(entity);
+            _repositorio.Criar (entity);
+
+            #region Retirar pendencias de sistema
+            var pendencia = Pendencia.ListarPorEmpresa (entity.EmpresaId)
+                .FirstOrDefault(n=>n.PendenciaSistema);
+            if (pendencia==null) return;
+             Pendencia.Remover(pendencia);
+            #endregion
         }
 
         /// <summary>
@@ -46,7 +62,7 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public EmpresaSignatario BuscarPelaChave(int id)
         {
-            return _repositorio.BuscarPelaChave(id);
+            return _repositorio.BuscarPelaChave (id);
         }
 
         /// <summary>
@@ -56,7 +72,7 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public ICollection<EmpresaSignatario> Listar(params object[] objects)
         {
-            return _repositorio.Listar(objects);
+            return _repositorio.Listar (objects);
         }
 
         /// <summary>
@@ -65,7 +81,7 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void Alterar(EmpresaSignatario entity)
         {
-            _repositorio.Alterar(entity);
+            _repositorio.Alterar (entity);
         }
 
         /// <summary>
@@ -74,7 +90,7 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void Remover(EmpresaSignatario entity)
         {
-            _repositorio.Remover(entity);
+            _repositorio.Remover (entity);
         }
 
         #endregion

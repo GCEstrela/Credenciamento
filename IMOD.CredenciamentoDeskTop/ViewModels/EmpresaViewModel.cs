@@ -147,6 +147,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             ItensDePesquisaConfigura();
             ListarDadosAuxiliares();
             Comportamento = new ComportamentoBasico(true, true, true, false, false);
+            EntityObserver=new ObservableCollection<EmpresaView>();
             TiposAtividades = new ObservableCollection<EmpresaTipoAtividadeView>();
             TiposLayoutCracha = new ObservableCollection<EmpresaLayoutCrachaView>();
             EntityObserver = new ObservableCollection<EmpresaView>();
@@ -692,10 +693,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                if (Entity == null)
-                {
-                    return;
-                }
+                if (Entity == null) return;
 
                 var result = WpfHelp.MboxDialogRemove();
                 if (result != DialogResult.Yes)return;

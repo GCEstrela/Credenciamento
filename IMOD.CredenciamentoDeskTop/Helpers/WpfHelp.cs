@@ -146,6 +146,15 @@ namespace IMOD.CredenciamentoDeskTop.Helpers
         }
 
         /// <summary>
+        /// Exibe Mensagem Solicitando Confirmação Sim ou Não para desativação de dados
+        /// </summary>
+        /// <returns></returns>
+        public static DialogResult MboxDialogDesativar()
+        {
+            return MboxDialogYesNo("Deseja realmente desativar o item?", false);
+        }
+
+        /// <summary>
         ///     Mensagem por Popup
         /// </summary>
         /// <param name="msg">Mensagem a ser exibida</param>

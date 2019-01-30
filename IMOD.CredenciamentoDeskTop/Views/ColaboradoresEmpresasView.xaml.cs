@@ -46,10 +46,10 @@ namespace IMOD.CredenciamentoDeskTop.Views
         ///     Atualizar dados
         /// </summary>
         /// <param name="entity"></param>
-        public void AtualizarDados(Model.ColaboradorView entity)
+        public void AtualizarDados(Model.ColaboradorView entity,ColaboradorViewModel viewModelParent)
         {
             if (entity == null) return;
-            _viewModel.AtualizarDados(entity);
+            _viewModel.AtualizarDados(entity,viewModelParent);
         }
 
         #endregion
