@@ -86,6 +86,15 @@ namespace IMOD.Application.Service
         }
 
         /// <summary>
+        ///     Desativar Pendência
+        /// </summary>
+        /// <param name="entity"></param>
+        public void Desativar(Pendencia entity)
+        {
+            _repositorio.Desativar(entity);
+        }
+
+        /// <summary>
         ///     Listar Pendencia por Empresa
         /// </summary>
         /// <param name="empresaId"></param>
@@ -115,10 +124,25 @@ namespace IMOD.Application.Service
             return _repositorio.ListarPorVeiculo (veiculoId);
         }
 
-        #endregion
+        /// <summary>
+        ///     Criar pendência de sistema
+        /// </summary>
+        /// <param name="entity"></param>
+        public void CriarPendenciaSistema(Pendencia entity)
+        {
+            _repositorio.CriarPendenciaSistema (entity);
+        }
 
-        #region Construtor
+        /// <summary>
+        ///     Alterar pendência de sistema
+        /// </summary>
+        /// <param name="entity"></param>
+        public void AlterarPendenciaSistema(Pendencia entity)
+        {
+            _repositorio.AlterarPendenciaSistema(entity);
+        }
 
         #endregion
+         
     }
 }

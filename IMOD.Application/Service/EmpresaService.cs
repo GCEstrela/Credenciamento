@@ -118,11 +118,29 @@ namespace IMOD.Application.Service
 
         /// <summary>
         ///     Criar registro
+        /// <para>Pendências de cadastros serão automaticamente cadastradas</para>
         /// </summary>
         /// <param name="entity"></param>
         public void Criar(Empresa entity)
         {
+            //Criar empresa 
             _repositorio.Criar (entity);
+            //Criar pendências
+            #region Criar Pendências
+
+            var pendencia = new Pendencia();
+            pendencia.EmpresaId = entity.EmpresaId;
+            //--------------------------
+            pendencia.CodPendencia = 12; 
+            Pendencia.CriarPendenciaSistema(pendencia);
+            //--------------------------
+            pendencia.CodPendencia = 14;
+            Pendencia.CriarPendenciaSistema(pendencia);
+            //--------------------------
+            pendencia.CodPendencia = 24;
+            Pendencia.CriarPendenciaSistema(pendencia);
+            #endregion
+            
         }
 
         /// <summary>

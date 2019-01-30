@@ -34,6 +34,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private readonly IColaboradorCursoService _service = new ColaboradorCursosService();
         private ColaboradorView _colaboradorView;
         private ColaboradorCursoView _entidadeTmp = new ColaboradorCursoView();
+        private  ColaboradorViewModel _viewModelParent;
 
         #region  Propriedades
 
@@ -96,6 +97,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 n2.CursoNome = NomeCurso (n2.CursoId);
                 EntityObserver.Insert (0, n2);
                 IsEnableLstView = true;
+                _viewModelParent.AtualizarDadosPendencias();
             }
             catch (Exception ex)
             {
@@ -109,9 +111,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary> 
         /// <param name="cursoId">Identificador curso</param>
         private string NomeCurso(int cursoId)
-        { 
-            var curso = _auxiliaresService.CursoService.BuscarPelaChave (cursoId);
-            return curso.Descricao;
+        {
+            var curso = Cursos.FirstOrDefault (n => n.CursoId == cursoId);  
+            return curso == null ? "" : curso.Descricao;
         }
 
         private void PrepareSalvar()
@@ -129,6 +131,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             Entity = new ColaboradorCursoView();
             Comportamento.PrepareCriar();
             IsEnableLstView = false;
+            _viewModelParent.AtualizarDadosPendencias();
         }
 
         /// <summary>
@@ -209,6 +212,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             Comportamento.PrepareAlterar();
             IsEnableLstView = false;
+        }
+
+        public void AtualizarDados(ColaboradorView entity, ColaboradorViewModel viewModelParent)
+        {
+            _viewModelParent = viewModelParent;
+            this.AtualizarDados(entity);
         }
 
         public void AtualizarDados(ColaboradorView entity)

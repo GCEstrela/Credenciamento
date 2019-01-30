@@ -216,10 +216,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         public void AtualizarDadosPendencias()
         {
-            if (Entity == null)
-            {
-                return;
-            }
+            if (Entity == null) return;
 
             var pendencia = _service.Pendencia.ListarPorColaborador (Entity.ColaboradorId).ToList();
             //Set valores
@@ -229,11 +226,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             PendenciaAnexo = false;
             PendenciaCredencial = false;
             //Buscar pendências referente aos códigos: 21;22;23;24;25
-            PendenciaGeral = pendencia.Any (n => n.CodPendencia == 21);
-            PendenciaEmpresasVinculos = pendencia.Any (n => n.CodPendencia == 22);
-            PendenciaTreinamento = pendencia.Any (n => n.CodPendencia == 23);
-            PendenciaAnexo = pendencia.Any (n => n.CodPendencia == 24);
-            PendenciaCredencial = pendencia.Any (n => n.CodPendencia == 25);
+            PendenciaGeral = pendencia.Any (n => n.CodPendencia == 21 & n.Ativo);
+            PendenciaEmpresasVinculos = pendencia.Any (n => n.CodPendencia == 22 & n.Ativo);
+            PendenciaTreinamento = pendencia.Any (n => n.CodPendencia == 23 & n.Ativo);
+            PendenciaAnexo = pendencia.Any (n => n.CodPendencia == 24 & n.Ativo);
+            PendenciaCredencial = pendencia.Any (n => n.CodPendencia == 25 & n.Ativo);
             //Indica se a empresa possue pendências
             Pendencias = PendenciaGeral || PendenciaEmpresasVinculos || PendenciaTreinamento || PendenciaAnexo || PendenciaCredencial;
         }

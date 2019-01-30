@@ -127,6 +127,21 @@ namespace IMOD.Application.Service
         public void Criar(Colaborador entity)
         {
             _repositorio.Criar(entity);
+            //Criar pendências
+            #region Criar Pendências
+
+            var pendencia = new Pendencia();
+            pendencia.ColaboradorId = entity.ColaboradorId;
+            //--------------------------
+            pendencia.CodPendencia = 22;
+            Pendencia.CriarPendenciaSistema(pendencia);
+            //--------------------------
+            pendencia.CodPendencia = 23;
+            Pendencia.CriarPendenciaSistema(pendencia);
+            //--------------------------
+            pendencia.CodPendencia = 24;
+            Pendencia.CriarPendenciaSistema(pendencia);
+            #endregion
         }
 
         /// <summary>

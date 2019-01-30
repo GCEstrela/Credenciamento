@@ -1,12 +1,13 @@
 ﻿// ***********************************************************************
 // Project: IMOD.Application
 // Crafted by: Grupo Estrela by Genetec
-// Date:  11 - 21 - 2018
+// Date:  01 - 21 - 2019
 // ***********************************************************************
 
 #region
 
 using System.Collections.Generic;
+using System.Linq;
 using IMOD.Application.Interfaces;
 using IMOD.Domain.Entities;
 using IMOD.Domain.Interfaces;
@@ -19,13 +20,25 @@ namespace IMOD.Application.Service
     public class ColaboradorAnexoService : IColaboradorAnexoService
     {
         private readonly IColaboradorAnexoRepositorio _repositorio;
- 
-        #region  Metodos
+
+        #region  Propriedades
+
+        /// <summary>
+        ///     Pendência serviços
+        /// </summary>
+        public IPendenciaService Pendencia
+        {
+            get { return new PendenciaService(); }
+        }
+
+        #endregion
 
         public ColaboradorAnexoService()
         {
             _repositorio = new ColaboradorAnexoRepositorio();
         }
+
+        #region  Metodos
 
         /// <summary>
         ///     Listar anexo por nome
@@ -54,6 +67,12 @@ namespace IMOD.Application.Service
         public void Criar(ColaboradorAnexo entity)
         {
             _repositorio.Criar (entity);
+            #region Retirar pendencias de sistema
+            var pendencia = Pendencia.ListarPorColaborador(entity.ColaboradorId)
+                 .FirstOrDefault(n => n.PendenciaSistema & n.CodPendencia == 24);
+            if (pendencia == null) return;
+            Pendencia.Remover(pendencia);
+            #endregion
         }
 
         /// <summary>
@@ -81,7 +100,7 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void Alterar(ColaboradorAnexo entity)
         {
-            _repositorio.Alterar(entity);
+            _repositorio.Alterar (entity);
         }
 
         /// <summary>
@@ -90,7 +109,7 @@ namespace IMOD.Application.Service
         /// <param name="entity">Entidade</param>
         public void Remover(ColaboradorAnexo entity)
         {
-            _repositorio.Remover(entity);
+            _repositorio.Remover (entity);
         }
 
         #endregion

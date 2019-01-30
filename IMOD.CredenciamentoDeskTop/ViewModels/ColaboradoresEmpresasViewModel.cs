@@ -33,6 +33,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private readonly IEmpresaService _empresaService = new EmpresaService();
         private readonly IColaboradorEmpresaService _service = new ColaboradorEmpresaService();
         private ColaboradorView _colaboradorView;
+        private ColaboradorViewModel _viewModelParent;
 
         #region  Propriedades
 
@@ -77,10 +78,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         public void ListarContratos(Empresa empresa)
         {
-            if (empresa == null)
-            {
-                return;
-            }
+            if (empresa == null) return;
 
             var lstContratos = _empresaContratoService.Listar(empresa.EmpresaId).ToList();
             Contratos.Clear();
@@ -121,6 +119,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 SetDadosEmpresaContrato(n2);
                 EntityObserver.Insert(0, n2);
                 IsEnableLstView = true;
+               _viewModelParent.AtualizarDadosPendencias();
             }
             catch (Exception ex)
             {
@@ -202,16 +201,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                if (Entity == null)
-                {
-                    return;
-                }
+                if (Entity == null) return;
 
                 var result = WpfHelp.MboxDialogRemove();
                 if (result != DialogResult.Yes)
-                {
                     return;
-                }
 
                 var n1 = Mapper.Map<ColaboradorEmpresa>(Entity);
                 _service.Remover(n1);
@@ -240,12 +234,25 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             IsEnableLstView = false;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="viewModel"></param>
+        public void AtualizarDados(ColaboradorView entity, ColaboradorViewModel viewModel)
+        {
+            _viewModelParent = viewModel;
+           AtualizarDados(entity);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="entity"></param>
         public void AtualizarDados(ColaboradorView entity)
         {
             if (entity == null)
-            {
                 throw new ArgumentNullException(nameof(entity));
-            }
+             
 
             _colaboradorView = entity;
             //Obter dados

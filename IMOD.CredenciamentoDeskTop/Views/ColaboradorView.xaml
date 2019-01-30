@@ -609,9 +609,9 @@ Path=AdornedElement.(Validation.Errors)[0].ErrorContent}">*</TextBlock>
             <TabItem x:Name="CursosTreinamentos_ti"  Width="200" IsEnabled="{Binding IsEnableTabItem}" GotFocus="Cursos_ti_GotFocus">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <Button x:Name="Curso_bt"   Click="OnPendenciaEmpresaVinculo_Click" Style="{StaticResource MenuStyle}" >
+                        <Button x:Name="Curso_bt"   Click="OnPendenciaTreinamentoCertificacao_Click" Style="{StaticResource MenuStyle}" >
                             <StackPanel>
-                                <Image Source="{Binding PendenciaEmpresasVinculos,
+                                <Image Source="{Binding PendenciaTreinamento,
                                         Converter={StaticResource ConvertBoolToImage},UpdateSourceTrigger=Explicit, Mode=TwoWay}"  Width="16"  Height="16" />
                             </StackPanel>
                         </Button>

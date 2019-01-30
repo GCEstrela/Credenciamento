@@ -56,9 +56,9 @@ namespace IMOD.CredenciamentoDeskTop.Views
             _viewModel.AtualizarDadosPendencias();
 
             //Popular User Controls
-            ColaboradorEmpresaUs.AtualizarDados(_viewModel.Entity);
-            ColaboradorCurso.AtualizarDados(_viewModel.Entity);
-            AnexoUs.AtualizarDados(_viewModel.Entity);
+            ColaboradorEmpresaUs.AtualizarDados(_viewModel.Entity, _viewModel);
+            ColaboradorCurso.AtualizarDados(_viewModel.Entity, _viewModel);
+            AnexoUs.AtualizarDados(_viewModel.Entity, _viewModel);
             ColaboradoresCredenciaisUs.AtualizarDados(_viewModel.Entity);
 
 

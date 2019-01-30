@@ -14,6 +14,10 @@ namespace IMOD.Application.Interfaces
 {
     public interface IEmpresaContratosService : IEmpresaContratoRepositorio
     {
+        /// <summary>
+        ///     Pendência serviços
+        /// </summary>
+        IPendenciaService Pendencia { get; }
 
         /// <summary>
         ///     AreaAceesso serviços

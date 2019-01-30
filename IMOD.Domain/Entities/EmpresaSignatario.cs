@@ -11,7 +11,7 @@ namespace IMOD.Domain.Entities
         #region  Propriedades
 
         public int EmpresaSignatarioId { get; set; }
-        public int? EmpresaId { get; set; }
+        public int EmpresaId { get; set; }
         public string Nome { get; set; }
         public string Cpf { get; set; }
         public string Email { get; set; }

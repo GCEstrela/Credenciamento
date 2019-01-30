@@ -57,7 +57,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <summary>
         ///     Salvar
         /// </summary>
-        public ICommand PrepareSalvarCommand => new CommandBase (Comportamento.PrepareSalvar, true);
+        public ICommand PrepareSalvarCommand => new CommandBase (PrepareSalvar, true);
 
         /// <summary>
         ///     Remover
@@ -69,7 +69,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         public bool Validar()
         {
-            return false;
+            Entity.Validate();
+            var hasErro = Entity.HasErrors;
+
+            return hasErro;
 
         }
     
@@ -85,7 +88,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public string CodPendeciaDescricao { get; private set; }
 
         public ObservableCollection<PendenciaView> PendenciasObserver { get; set; }
-        public PendenciaView Pendencia { get; set; }
+        public PendenciaView Entity { get; set; }
 
         #endregion
 
@@ -115,30 +118,34 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         #region  Metodos
 
-       
+        private void PrepareSalvar()
+        {
+            if (Validar()) return;
+            Comportamento.PrepareSalvar();
+        }
         private void PrepareCriar()
         {
             Comportamento.PrepareCriar();
 
-            Pendencia = new PendenciaView {CodPendencia = _codPendencia};
+            Entity = new PendenciaView {CodPendencia = _codPendencia};
             //Set identificador adequado o tipo informado
             if (_tipoPendencia == PendenciaTipo.Empresa)
-                Pendencia.EmpresaId = _identificador;
+                Entity.EmpresaId = _identificador;
             if (_tipoPendencia == PendenciaTipo.Veiculo)
-                Pendencia.VeiculoId = _identificador;
+                Entity.VeiculoId = _identificador;
             if (_tipoPendencia == PendenciaTipo.Colaborador)
-                Pendencia.ColaboradorId = _identificador;
+                Entity.ColaboradorId = _identificador;
             //Adicionar um objeto a coleção
-            PendenciasObserver.Add (Pendencia);
+            PendenciasObserver.Add (Entity);
         }
         private void PrepareAlterar()
         {
-            if (Pendencia == null) return;
+            if (Entity == null) return;
             Comportamento.PrepareAlterar();
         }
         private void PrepareRemover()
         {
-            if (Pendencia == null) return;
+            if (Entity == null) return;
             Comportamento.PrepareRemover();
         }
 
@@ -146,7 +153,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                var entity = Pendencia;
+                var entity = Entity;
                 if (entity == null) return;
                 var entityConv = Mapper.Map<Pendencia> (entity);
                 _service.Criar (entityConv);
@@ -164,7 +171,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             try
             {
               
-                var entity = Pendencia;
+                var entity = Entity;
                 var entityConv = Mapper.Map<Pendencia> (entity);
                 _service.Alterar (entityConv);
             }
@@ -195,11 +202,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                var result = WpfHelp.MboxDialogRemove();
+                var result = WpfHelp.MboxDialogDesativar();
                 if (result != DialogResult.Yes) return;
-                var entity = Pendencia;
+                var entity = Entity;
                 var entityConv = Mapper.Map<Pendencia> (entity);
-                _service.Remover (entityConv);
+                _service.Desativar (entityConv);
                 PendenciasObserver.Remove (entity);
             }
             catch (Exception ex)
@@ -211,7 +218,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         private void ListarTipos()
         {
-            var aux = new DadosAuxiliaresFacadeService();
+             
             var lst = _service.TipoPendenciaService.Listar();
             var lst2 = Mapper.Map<List<TipoPendenciaView>> (lst);
             Tipos = new List<TipoPendenciaView>();
@@ -230,15 +237,15 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             switch (_tipoPendencia)
             {
                 case PendenciaTipo.Empresa:
-                    var c1 = _service.Listar().Where (n => n.EmpresaId == _identificador & n.CodPendencia == _codPendencia);
+                    var c1 = _service.Listar().Where (n => n.EmpresaId == _identificador & n.CodPendencia == _codPendencia & n.Ativo);
                     lst.AddRange (c1);
                     break;
                 case PendenciaTipo.Veiculo:
-                    var c2 = _service.Listar().Where (n => n.VeiculoId == _identificador & n.CodPendencia == _codPendencia);
+                    var c2 = _service.Listar().Where (n => n.VeiculoId == _identificador & n.CodPendencia == _codPendencia & n.Ativo);
                     lst.AddRange (c2);
                     break;
                 case PendenciaTipo.Colaborador:
-                    var c3 = _service.Listar().Where (n => n.ColaboradorId == _identificador & n.CodPendencia == _codPendencia);
+                    var c3 = _service.Listar().Where (n => n.ColaboradorId == _identificador & n.CodPendencia == _codPendencia & n.Ativo);
                     lst.AddRange (c3);
                     break;
                 default:

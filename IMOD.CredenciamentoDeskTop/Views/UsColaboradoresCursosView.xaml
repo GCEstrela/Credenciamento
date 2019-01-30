@@ -63,6 +63,7 @@
                         <TextBox  x:Name="NomeArquivo_tb" 
                                   Text="{Binding Entity.NomeArquivo, UpdateSourceTrigger=PropertyChanged}" 
                                    Width="324" Height="24" 
+                                   MaxLength="100"
                                    VerticalContentAlignment="Center" 
                                    HorizontalContentAlignment="Left" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
                         <Button x:Name="BuscarCursoArquivo_bt" Height="24"  VerticalAlignment="Center" HorizontalAlignment="Left" Width="24" Margin="10,10,0,8" Click="OnUpLoad_Click">

@@ -8,6 +8,21 @@
              xmlns:viewModels="clr-namespace:IMOD.CredenciamentoDeskTop.ViewModels"
              mc:Ignorable="d"
              Height="320">
+    <UserControl.Resources>
+        <ControlTemplate x:Key="ValidationErrorTemplate">
+            <DockPanel>
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" Margin="5,0,0,2">
+                    <Grid Width="12" Height="12">
+                        <Ellipse Width="12" Height="12" Fill="Red" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Foreground="White"  FontWeight="Heavy" FontSize="8" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center"
+                               ToolTip="{Binding ElementName=ErrorAdorner, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}">X</TextBlock>
+                    </Grid>
+                </StackPanel>
+                <AdornedElementPlaceholder x:Name="ErrorAdorner" ></AdornedElementPlaceholder>
+            </DockPanel>
+        </ControlTemplate>
+        
+    </UserControl.Resources>
     <Grid VerticalAlignment="Top">
         <StackPanel Orientation="Vertical">
             <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}"
@@ -27,7 +42,7 @@
                                    HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
                             <TextBox x:Name="DescricaoArquivo_tb" MaxLength="50" CharacterCasing="Upper"
                                  Text="{Binding Entity.Descricao, UpdateSourceTrigger=PropertyChanged}"
-                                 IsEnabled="True" Height="24" Width="367" />
+                                 IsEnabled="True" Height="24" Width="367" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
@@ -35,7 +50,7 @@
                             <Label Content="Nome do Arquivo:" Height="28" Width="108" Margin="1" Foreground="#FFD0D0D0" />
                             <TextBox x:Name="txtNomeAnexo" MaxLength="100" CharacterCasing="Upper"
                                  Text="{Binding Entity.NomeArquivo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                 IsEnabled="True" Height="24" Width="523" />
+                                 IsEnabled="True" Height="24" Width="523" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
                             <Button x:Name="BuscarContratoArquivo_bt" Height="24" Margin="10,0,0,0"
                                 VerticalAlignment="Center" Width="24" Click="OnUpLoad_Click">
                                 <StackPanel>
