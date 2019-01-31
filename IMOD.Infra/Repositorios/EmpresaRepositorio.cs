@@ -78,7 +78,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Logo", entity.Logo, false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("InsEst", entity.InsEst, false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("InsMun", entity.InsMun, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Excluida", entity.Excluida, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Ativo", true, false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Pendente11", entity.Pendente11, false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Pendente12", entity.Pendente12, false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Pendente13", entity.Pendente13, false)));
@@ -185,7 +185,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Apelido", entity.Apelido, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Sigla", entity.Sigla, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Cnpj", entity.Cnpj.RetirarCaracteresEspeciais(), false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("CEP", entity.Cep, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("CEP", entity.Cep.RetirarCaracteresEspeciais(), false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Endereco", entity.Endereco, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Numero", entity.Numero, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Complemento", entity.Complemento, false)));
@@ -206,7 +206,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Logo", entity.Logo, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("InsEst", entity.InsEst, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("InsMun", entity.InsMun, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Excluida", entity.Excluida, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Ativo", entity.Ativo, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Pendente11", entity.Pendente11, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Pendente12", entity.Pendente12, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Pendente13", entity.Pendente13, false)));

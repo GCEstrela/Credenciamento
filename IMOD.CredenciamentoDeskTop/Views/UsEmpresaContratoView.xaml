@@ -104,7 +104,8 @@
                         <DatePicker Margin="0,3,0,0" x:Name="Emissao_tb" VerticalContentAlignment="Center"
                                     SelectedDate="{Binding Entity.Emissao, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                     Width="130" Foreground="White" Background="{x:Null}" Height="25" 
-                                   />
+                                    Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
+                        
                         <Label Content="Data de Validade:" Height="26" Width="102" Margin="15,3,0,0"
                                Foreground="#FFD0D0D0" />
                         <DatePicker Margin="0,3,0,0" x:Name="Validade_tb" VerticalContentAlignment="Center"
@@ -189,7 +190,7 @@
                         <TextBox CharacterCasing="Upper"  x:Name="Cep_tb" MaxLength="10" 
                                  PreviewTextInput="NumberOnly" 
                                  Text="{Binding Entity.Cep,  UpdateSourceTrigger=PropertyChanged}" 
-                                 IsEnabled="True"  Height="24"  Width="120"/>
+                                 IsEnabled="True"  Height="24"  Width="120" LostFocus="Cep_tb_LostFocus"/>
 
                         <Label Content="Complemento:" Height="28" Width="90" Foreground="#FFD0D0D0" />
                         <TextBox x:Name="Complemento_tb" MaxLength="50" CharacterCasing="Upper"

@@ -40,7 +40,7 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public string Celular2 { get; set; }
         public string Obs { get; set; }
         public string Logo { get; set; } 
-        public int Excluida { get; set; }
+        public bool Ativo { get; set; }
         public bool Pendente { get; set; }
         public bool Pendente11 { get; set; }
         public bool Pendente12 { get; set; }

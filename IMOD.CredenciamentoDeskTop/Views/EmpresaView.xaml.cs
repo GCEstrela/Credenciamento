@@ -56,9 +56,9 @@ namespace IMOD.CredenciamentoDeskTop.Views
             _viewModel.AtualizarDadosTipoCrachas();
             //Popular User Controls
             //////////////////////////////////////////////////////////////
-            RepresentanteUs.AtualizarDados(_viewModel.Entity);
-            AnexoUs.AtualizarDados(_viewModel.Entity);
-            EmpresaContratosUs.AtualizarDados(_viewModel.Entity);
+            RepresentanteUs.AtualizarDados(_viewModel.Entity, _viewModel);
+            AnexoUs.AtualizarDados(_viewModel.Entity, _viewModel);
+            EmpresaContratosUs.AtualizarDados(_viewModel.Entity, _viewModel);
             //////////////////////////////////////////////////////////////
             _viewModel.CarregarQuantidadeTipoCredencial();
             _viewModel.IsEnableTabItem = true;
@@ -71,7 +71,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
         /// <param name="e"></param>
         private void OnRemoverTipoAtividade_Click(object sender, RoutedEventArgs e)
         {
-            //if (_viewModel.TipoAtividade == null) return;
+            if (lstBoxTipoAtividade.SelectedItem == null) return;
             var idx = lstBoxTipoAtividade.Items.IndexOf(lstBoxTipoAtividade.SelectedItem);
             _viewModel.TiposAtividades.RemoveAt(idx);
             TipoAtividade_cb.Text = "";
@@ -122,7 +122,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
         /// <param name="e"></param>
         private void OnRemoverTipoCracha_Click(object sender, RoutedEventArgs e)
         {
-            //if (_viewModel.TipoCracha == null) return;
+            if (lstBoxLayoutCracha.SelectedItem == null) return;
             var idx = lstBoxLayoutCracha.Items.IndexOf(lstBoxLayoutCracha.SelectedItem);
             _viewModel.TiposLayoutCracha.RemoveAt(idx);
             TipoCracha_cb.Text = "";
@@ -237,6 +237,18 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             BotoesGeral_sp.IsEnabled = false;
             //RepresentanteUs.AtualizarDados(_viewModel.Entity);
+        }
+
+        private void Cep_tb_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (_viewModel.Entity == null) return;
+            Cep_tb.Text = _viewModel.Entity.Cep.FormataCep();
+        }
+
+        private void TxtCnpj_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (_viewModel.Entity == null) return;
+            txtCnpj.Text = _viewModel.Entity.Cnpj.FormatarCnpj();
         }
     }
 }

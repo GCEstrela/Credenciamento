@@ -43,10 +43,10 @@ namespace IMOD.CredenciamentoDeskTop.Views
         ///     Atualizar dados
         /// </summary>
         /// <param name="entity"></param>
-        public void AtualizarDados(Model.EmpresaView entity)
+        public void AtualizarDados(Model.EmpresaView entity, EmpresaViewModel viewModelParent)
         {
             if (entity == null) return;
-            _viewModel.AtualizarDados(entity);
+            _viewModel.AtualizarDados(entity, viewModelParent);
         }
 
         /// <summary>
@@ -120,5 +120,11 @@ namespace IMOD.CredenciamentoDeskTop.Views
             }
         }
 
+       
+        private void Cep_tb_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (_viewModel.Entity == null) return;
+            Cep_tb.Text = _viewModel.Entity.Cep.FormataCep();
+        }
     }
 }

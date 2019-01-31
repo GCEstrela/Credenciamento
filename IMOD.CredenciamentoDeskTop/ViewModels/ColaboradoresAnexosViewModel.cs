@@ -182,24 +182,15 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             Comportamento.PrepareAlterar();
             IsEnableLstView = false;
         }
-
-        public void AtualizarDadosAnexo(ColaboradorView entity)
-        {
-            if (entity == null)
-                throw new ArgumentNullException (nameof (entity));
-
-            _colaboradorView = entity;
-            //Obter dados
-            var list1 = _service.Listar (entity.ColaboradorId);
-            var list2 = Mapper.Map<List<ColaboradorAnexoView>> (list1.OrderByDescending (n => n.ColaboradorAnexoId));
-            EntityObserver = new ObservableCollection<ColaboradorAnexoView>();
-            list2.ForEach (n => { EntityObserver.Add (n); });
-        }
-
+        
         public void AtualizarDadosAnexo(ColaboradorView entity, ColaboradorViewModel viewModelParent)
         {
+            _colaboradorView = entity ?? throw new ArgumentNullException(nameof(entity));
             _viewModelParent = viewModelParent;
-           AtualizarDadosAnexo(entity);
+            var list1 = _service.Listar(entity.ColaboradorId);
+            var list2 = Mapper.Map<List<ColaboradorAnexoView>>(list1.OrderByDescending(n => n.ColaboradorAnexoId));
+            EntityObserver = new ObservableCollection<ColaboradorAnexoView>();
+            list2.ForEach(n => { EntityObserver.Add(n); });
         }
 
         #endregion

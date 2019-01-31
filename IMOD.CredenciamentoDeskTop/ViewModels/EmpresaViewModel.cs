@@ -165,10 +165,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         public void AtualizarDadosTiposAtividades()
         {
-            if (Entity == null)
-            {
-                return;
-            }
+            if (Entity == null) return;
 
             TiposAtividades.Clear();
             var id = Entity.EmpresaId;
@@ -182,10 +179,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         public void AtualizarDadosTipoCrachas()
         {
-            if (Entity == null)
-            {
-                return;
-            }
+            if (Entity == null) return;
 
             TiposLayoutCracha.Clear();
             var id = Entity.EmpresaId;
@@ -201,10 +195,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>ValidarCnpj
         public void AtualizarDadosPendencias()
         {
-            if (Entity == null)
-            {
-                return;
-            }
+            if (Entity == null) return;
 
             var pendencia = _service.Pendencia.ListarPorEmpresa(Entity.EmpresaId).ToList();
             //Set valores
@@ -230,7 +221,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             ListaPesquisa.Add(new KeyValuePair<int, string>(1, "CNPJ"));
             ListaPesquisa.Add(new KeyValuePair<int, string>(2, "Razão Social"));
             ListaPesquisa.Add(new KeyValuePair<int, string>(3, "Código"));
-            //ListaPesquisa.Add(new KeyValuePair<int, string>(4, "Todos"));
+            ListaPesquisa.Add(new KeyValuePair<int, string>(4, "Todos"));
             PesquisarPor = ListaPesquisa[0]; //Pesquisa Default
         }
 
@@ -267,10 +258,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         public void CarregarQuantidadeTipoCredencial()
         {
-            if (Entity == null || Entity.EmpresaId == 0)
-            {
-                return;
-            }
+            if (Entity == null || Entity.EmpresaId == 0) return;
 
             var id = Entity.EmpresaId;
             var objTipocredenciaisEmpresa = _service.ListarTipoCredenciaisEmpresa(id).ToList();
@@ -473,36 +461,38 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         #endregion
 
         #region Salva Dados
-        //TODO: Carrega lista OnPesquisarTodos
         private void Pesquisar()
         {
             try
             {
                 var pesquisa = NomePesquisa;
-
-                var num = PesquisarPor;
+                var num = PesquisarPor;                
+                
+                //Por CNPJ
+                if (num.Key == 1)
+                {
+                    if (string.IsNullOrWhiteSpace(pesquisa)) return;
+                    var l1 = _service.Listar(null, null, pesquisa);
+                    PopularObserver(l1);
+                }
 
                 //Por Razão Social
                 if (num.Key == 2)
                 {
+                    if (string.IsNullOrWhiteSpace(pesquisa)) return;
                     var l1 = _service.Listar($"%{pesquisa}%", null, null);
                     PopularObserver(l1);
                 }
+
                 //Por código
                 if (num.Key == 3)
                 {
-                    if (string.IsNullOrWhiteSpace(pesquisa))
-                    {
-                        return;
-                    }
+                    if (string.IsNullOrWhiteSpace(pesquisa)) return;
 
                     var cod = 0;
                     int.TryParse(pesquisa, out cod);
                     var n1 = _service.BuscarPelaChave(cod);
-                    if (n1 == null)
-                    {
-                        return;
-                    }
+                    if (n1 == null) return;
 
                     EntityObserver.Clear();
                     var n2 = Mapper.Map<EmpresaView>(n1);
@@ -510,12 +500,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     observer.Add(n2);
                     EntityObserver = observer;
                 }
-                //Por CNPJ
-                if (num.Key == 1)
-                {
-                    var l1 = _service.Listar(null, null, pesquisa);
-                    PopularObserver(l1);
-                }
+
                 //Todos
                 if (num.Key == 4)
                 {
@@ -523,8 +508,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     PopularObserver(l1);
                 }
 
-                IsEnableLstView = true;
-                //IsEnableTabItem = true;
+
+                IsEnableLstView = true; 
                 IsEnableTabItem = false;
             }
             catch (Exception ex)
@@ -589,10 +574,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                if (Entity == null)
-                {
-                    return;
-                }
+                if (Entity == null) return;
 
                 var n1 = Mapper.Map<Empresa>(Entity);
                 Validar();
@@ -675,10 +657,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 _prepareAlterarCommandAcionado = false;
                 TiposAtividades.Clear();
                 TiposLayoutCracha.Clear();
-                if (Entity.EmpresaId == 0)
-                {
+                if (Entity.EmpresaId == 0)                
                     Entity = EntidadeTMP;
-                }
+
+                Entity.ClearMessageErro();
                 AtualizarDadosTipoCrachas();
                 AtualizarDadosTiposAtividades();
             }

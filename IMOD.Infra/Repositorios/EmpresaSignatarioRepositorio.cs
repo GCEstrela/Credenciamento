@@ -60,6 +60,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Celular", entity.Celular, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Principal", entity.Principal, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Assinatura", entity.Assinatura, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("NomeArquivo", entity.NomeArquivo, false)));
 
                         var key = Convert.ToInt32(cmd.ExecuteScalar());
 
@@ -161,6 +162,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Celular", entity.Celular.Trim(), false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Principal", entity.Principal, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Assinatura", entity.Assinatura.Trim(), false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("NomeArquivo", entity.NomeArquivo.Trim(), false)));
 
                         cmd.ExecuteNonQuery();
                     }

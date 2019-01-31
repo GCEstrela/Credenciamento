@@ -87,13 +87,21 @@
 
         <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Stretch" Margin="0,0,28,0">
             <Label Content="Data Limite:" Foreground="#FFD0D0D0" VerticalContentAlignment="Center" />
-            <DatePicker SelectedDate="{Binding Entity.DataLimite}" Foreground="White" Background="{x:Null}" Width="120"  Margin="10,4,0,4" VerticalContentAlignment="Center"/>
-            <CheckBox VerticalAlignment="Center" x:Name="Impeditivo_cb" Margin="10,0,0,0" Foreground="#FFD0D0D0" IsChecked="{Binding Entity.Impeditivo, UpdateSourceTrigger=PropertyChanged}" Content="Pendência Impeditiva"/>
+            <DatePicker SelectedDate="{Binding Entity.DataLimite}" 
+                        IsEnabled="{Binding Comportamento.isEnableCancelar}"
+                        Foreground="White" Background="{x:Null}" Width="120"  Margin="10,4,0,4" VerticalContentAlignment="Center"/>
+            <CheckBox VerticalAlignment="Center" x:Name="Impeditivo_cb" Margin="10,0,0,0" Foreground="#FFD0D0D0" 
+                      IsChecked="{Binding Entity.Impeditivo, UpdateSourceTrigger=PropertyChanged}" 
+                      IsEnabled="{Binding Comportamento.isEnableCancelar}"
+                      Content="Pendência Impeditiva"/>
         </StackPanel>
 
         <StackPanel Orientation=" Vertical" Grid.Column="0" Grid.Row="2"   HorizontalAlignment="Left" Width="487">
             <Label Content="Descrição: (máximo 300 caracteres)" Foreground="#FFD0D0D0" HorizontalAlignment="Left"/>
-            <TextBox TextWrapping="Wrap" MaxLength="300" Text="{Binding Entity.Descricao, UpdateSourceTrigger=PropertyChanged}" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" Height="69" Margin="0,0,7,0"/>
+            <TextBox TextWrapping="Wrap" MaxLength="300" 
+                     Text="{Binding Entity.Descricao, UpdateSourceTrigger=PropertyChanged}" 
+                     IsEnabled="{Binding Comportamento.isEnableCancelar}"
+                     AcceptsReturn="True" VerticalScrollBarVisibility="Auto" Height="69" Margin="0,0,7,0"/>
         </StackPanel>
 
         <StackPanel Orientation=" Horizontal" Grid.Column="0" Grid.Row="3"  Width="152" HorizontalAlignment="Left" Margin="335,0,0,0">
@@ -107,8 +115,7 @@
 
         <ListView  
                 Grid.Column="0" Grid.Row="4" Margin="0,5,40,65"
-            HorizontalAlignment="Center" 
-                IsEnabled="{Binding Comportamento.isEnableLstView}"
+            HorizontalAlignment="Center"                 
                 x:Name="ListaPendencias_lv"
                 ItemsSource="{Binding PendenciasObserver, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 SelectedItem="{Binding Entity, Mode=TwoWay}" Width="480">

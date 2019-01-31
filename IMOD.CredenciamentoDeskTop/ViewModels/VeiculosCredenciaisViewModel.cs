@@ -103,7 +103,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         #region  Metodos
 
-        //TODO: AtualizarVinculo
         public void AtualizarVinculoVeiculoEmpresa(VeiculoView _entity)
         {
             if (_entity == null ) { return;}

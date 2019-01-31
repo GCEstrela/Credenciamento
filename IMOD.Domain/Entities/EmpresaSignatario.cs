@@ -19,7 +19,7 @@ namespace IMOD.Domain.Entities
         public string Celular { get; set; }
         public bool Principal { get; set; }
         public string Assinatura { get; set; }
-
+        public string NomeArquivo { get; set; }
         #endregion
     }
 }

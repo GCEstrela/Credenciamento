@@ -36,7 +36,7 @@ namespace IMOD.Domain.Entities
         public string Logo { get; set; }
         public string InsEst { get; set; }
         public string InsMun { get; set; }
-        public int? Excluida { get; set; }
+        public bool Ativo { get; set; }
         public bool Pendente11 { get; set; }
         public bool Pendente12 { get; set; }
         public bool Pendente13 { get; set; }

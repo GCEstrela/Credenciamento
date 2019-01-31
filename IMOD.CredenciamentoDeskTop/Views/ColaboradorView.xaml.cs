@@ -60,7 +60,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
             ColaboradorCurso.AtualizarDados(_viewModel.Entity, _viewModel);
             AnexoUs.AtualizarDados(_viewModel.Entity, _viewModel);
             ColaboradoresCredenciaisUs.AtualizarDados(_viewModel.Entity);
-
+            _viewModel.IsEnableTabItem = true;
 
 
         }
@@ -689,6 +689,12 @@ namespace IMOD.CredenciamentoDeskTop.Views
         private void CNHEmissor_cb_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
+        }
+
+        private void Cep_tb_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (_viewModel.Entity == null) return;
+            Cep_tb.Text = _viewModel.Entity.Cep.FormataCep();
         }
     }
 }

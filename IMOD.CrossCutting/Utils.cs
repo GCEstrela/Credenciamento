@@ -1270,7 +1270,22 @@ namespace IMOD.CrossCutting
             var regex = new Regex ("[^0-9]+"); //regex that matches disallowed text
             return !regex.IsMatch (text);
         }
-
+        /// <summary>
+        ///     Formatar string para CEP
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public static string FormataCep(this string cep)
+        {
+            try
+            {
+                return Convert.ToUInt64(cep).ToString(@"00000\-000");
+            }
+            catch
+            {
+                return "";
+            }
+        }
         /// <summary>
         ///     Formatar string para CNPJ
         /// </summary>

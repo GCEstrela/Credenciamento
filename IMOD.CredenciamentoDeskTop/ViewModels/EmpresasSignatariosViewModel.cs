@@ -31,14 +31,18 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
     {
         private readonly IEmpresaSignatarioService _service = new EmpresaSignatarioService();
         private EmpresaView _empresaView;
+        private EmpresaViewModel _viewModelParent;
 
         #region  Propriedades
 
         public EmpresaSignatarioView Entity { get; set; }
         public ObservableCollection<EmpresaSignatarioView> EntityObserver { get; set; }
+        /// <summary>
+        /// Indice selecionado na list view
+        /// </summary>
+        public bool IndiceSelecionado { get; set; }
 
-
-        EmpresaSignatarioView EntidadeTMP = new EmpresaSignatarioView();
+       // EmpresaSignatarioView EntidadeTMP = new EmpresaSignatarioView();
 
         
         /// <summary>
@@ -61,14 +65,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         #region  Metodos
 
-        public void AtualizarDados(EmpresaView entity)
+        public void AtualizarDados(EmpresaView entity, EmpresaViewModel viewModelParent)
         {
-            if (entity == null)
-            {
-                throw new ArgumentNullException(nameof(entity));
-            }
-
-            _empresaView = entity;
+            
+            _empresaView = entity ?? throw new ArgumentNullException(nameof(entity));
+            _viewModelParent = viewModelParent;
             //Obter dados
             var list1 = _service.Listar(entity.EmpresaId, null, null, null, null, null, null);
             var list2 = Mapper.Map<List<EmpresaSignatarioView>>(list1.OrderByDescending(n => n.EmpresaSignatarioId));
@@ -115,6 +116,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var n2 = Mapper.Map<EmpresaSignatarioView>(n1);
                 EntityObserver.Insert(0, n2);
                 IsEnableLstView = true;
+                _viewModelParent.AtualizarDadosPendencias();
             }
             catch (Exception ex)
             {
@@ -129,7 +131,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private void PrepareCriar()
         {
             //if (Entity == null) return;
-            EntidadeTMP = Entity;
+            //EntidadeTMP = Entity;
             Entity = new EmpresaSignatarioView();
             Comportamento.PrepareCriar();
             IsEnableLstView = false;
@@ -145,7 +147,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             try
             {
                 if (Entity == null) return;
-                EntidadeTMP = Entity;
+                //EntidadeTMP = Entity;
 
                 if (Validar()) return;
                 
@@ -170,7 +172,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             try
             {
                 IsEnableLstView = true;
-                Entity = EntidadeTMP;
+                //Entity = new EmpresaSignatarioView();
+                //Entity = EntidadeTMP;
+                //Entity.ClearMessageErro();
+                IndiceSelecionado = true;
 
             }
             catch (Exception ex)
@@ -189,16 +194,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                if (Entity == null)
-                {
-                    return;
-                }
+                if (Entity == null) return;
 
                 var result = WpfHelp.MboxDialogRemove();
-                if (result != DialogResult.Yes)
-                {
-                    return;
-                }
+                if (result != DialogResult.Yes) return;
 
                 var n1 = Mapper.Map<EmpresaSignatario>(Entity);
                 _service.Remover(n1);
@@ -226,7 +225,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 WpfHelp.PopupBox("Selecione um Item na Lista de Representantes", 1);
                 return;
             }
-            EntidadeTMP = Entity;
+            //EntidadeTMP = Entity;
             Comportamento.PrepareAlterar();
             IsEnableLstView = false;
         }
@@ -238,10 +237,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                if (_empresaView == null)
-                {
-                    return;
-                }
+                if (_empresaView == null) return;
 
                 var pesquisa = NomePesquisa;
 
@@ -295,12 +291,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
 
             var hasErros = Entity.HasErrors;
-            return hasErros;
-
-            //IsEnableLstView = true;
-            //Entity = EntidadeTMP;
-
-           
+            return hasErros; 
 
         }
 
@@ -361,24 +352,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         #endregion
 
-        #region Regras de Negócio
-        //private bool ExisteCpf()
-        //{
-        //    if (Entity == null) return false;
-        //    var cpf = Entity.Cpf.RetirarCaracteresEspeciais();
-
-        //    //Verificar dados antes de salvar uma criação
-        //    if (_prepareCriarCommandAcionado)
-        //        if (_service.ExisteCpf(cpf)) return true;
-        //    //Verificar dados antes de salvar uma alteraçao
-        //    if (!_prepareAlterarCommandAcionado) return false;
-        //    var n1 = _service.BuscarPelaChave(Entity.ColaboradorId);
-        //    if (n1 == null) return false;
-        //    //Comparar o CNPJ antes e o depois
-        //    //Verificar se há cnpj exisitente
-        //    return string.Compare(n1.Cpf.RetirarCaracteresEspeciais(),
-        //        cpf, StringComparison.Ordinal) != 0 && _service.ExisteCpf(cpf);
-        //}
+        #region Regras de Negócio 
 
         /// <summary>
         ///     Verificar se dados válidos
@@ -389,6 +363,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             if (Entity == null) return false;
             var cpf = Entity.Cpf.RetirarCaracteresEspeciais();
+            //var cpf = Entity.Cpf;
             if (!Utils.IsValidCpf(cpf)) return true;
             return false;
         }

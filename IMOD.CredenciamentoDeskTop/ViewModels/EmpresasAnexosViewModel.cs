@@ -31,6 +31,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
     {
         private readonly IEmpresaAnexoService _service = new EmpresaAnexoService();
         private EmpresaView _empresaView;
+        private EmpresaViewModel _viewModelParent;
 
         #region  Propriedades
 
@@ -85,6 +86,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var n2 = Mapper.Map<EmpresaAnexoView>(n1);
                 EntityObserver.Insert(0, n2);
                 IsEnableLstView = true;
+                _viewModelParent.AtualizarDadosPendencias();
             }
             catch (Exception ex)
             {
@@ -138,6 +140,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 IsEnableLstView = true;
                 Entity = EntidadeTMP;
+                Entity.ClearMessageErro();
             }
             catch (Exception ex)
             {
@@ -155,16 +158,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                if (Entity == null)
-                {
-                    return;
-                }
+                if (Entity == null) return;
 
                 var result = WpfHelp.MboxDialogRemove();
-                if (result != DialogResult.Yes)
-                {
-                    return;
-                }
+                if (result != DialogResult.Yes) return;
 
                 var n1 = Mapper.Map<EmpresaAnexo>(Entity);
                 _service.Remover(n1);
@@ -197,14 +194,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             IsEnableLstView = false;
         }
 
-        public void AtualizarDadosAnexo(EmpresaView entity)
-        {
-            if (entity == null)
-            {
-                throw new ArgumentNullException(nameof(entity));
-            }
-
-            _empresaView = entity;
+        public void AtualizarDadosAnexo(EmpresaView entity, EmpresaViewModel viewModelParent)
+        {          
+            _empresaView = entity ?? throw new ArgumentNullException(nameof(entity));
+            _viewModelParent = viewModelParent;
             //Obter dados
             var list1 = _service.Listar(entity.EmpresaId);
             var list2 = Mapper.Map<List<EmpresaAnexoView>>(list1.OrderByDescending(n => n.EmpresaAnexoId));
@@ -261,17 +254,13 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 Entity.SetMessageErro("NomeAnexo", "Nome do Anexo é inválido");
                 return true;
-            }
-            //Entity.Validate();
-
-            //IsEnableLstView = true;
-            //Entity = EntidadeTMP;
-
+            } 
             var hasErros = Entity.HasErrors;
             return hasErros;
             
         }
         #endregion
+
         #region Regras de Negócio
         private bool EInValidandoDescricao()
         {

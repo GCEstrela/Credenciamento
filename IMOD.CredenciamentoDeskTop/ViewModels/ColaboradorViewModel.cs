@@ -94,7 +94,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <summary>
         ///     Habilita abas
         /// </summary>
-        public bool IsEnableTabItem { get; private set; } = true;
+        public bool IsEnableTabItem { get; set; } = false;
 
         /// <summary>
         ///     Seleciona o indice da tabcontrol desejada
@@ -187,23 +187,20 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 //Por nome
                 if (num.Key == 2)
                 {
+                    if (string.IsNullOrWhiteSpace(pesquisa)) return;
                     var l1 = _service.Listar (null, null, $"%{pesquisa}%");
                     PopularObserver (l1);
                 }
                 //Por cpf
                 if (num.Key == 1)
                 {
-                    if (string.IsNullOrWhiteSpace (pesquisa))
-                    {
-                        pesquisa = "";
-                    }
-
+                    if (string.IsNullOrWhiteSpace(pesquisa)) return;
                     var l1 = _service.Listar (null, pesquisa.RetirarCaracteresEspeciais(), null);
                     PopularObserver (l1);
                 }
 
                 IsEnableLstView = true;
-                IsEnableTabItem = true;
+                IsEnableTabItem = false;
             }
             catch (Exception ex)
             {
@@ -456,7 +453,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 _prepareAlterarCommandAcionado = false;
                 if (Entity.ColaboradorId == 0)
                     Entity = EntityTmp;
-                 
+
+                Entity.ClearMessageErro();
             }
             catch (Exception ex)
             {

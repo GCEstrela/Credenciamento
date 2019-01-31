@@ -101,7 +101,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             _service = new PendenciaService();
 
-            Comportamento = new ComportamentoBasico (true, true, true, true, true);
+            Comportamento = new ComportamentoBasico(true, true, true, false, false);
             Comportamento.SalvarAdicao += OnSalvarAdicao;
             Comportamento.SalvarEdicao += OnSalvarEdicao;
             Comportamento.Remover += OnRemover;

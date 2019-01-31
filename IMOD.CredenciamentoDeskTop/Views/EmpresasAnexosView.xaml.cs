@@ -37,10 +37,10 @@ namespace IMOD.CredenciamentoDeskTop.Views
         ///     Atualizar dados
         /// </summary>
         /// <param name="entity"></param>
-        public void AtualizarDados(Model.EmpresaView entity)
+        public void AtualizarDados(Model.EmpresaView entity,EmpresaViewModel viewModelParent)
         {
             if (entity == null) return;
-            _viewModel.AtualizarDadosAnexo(entity);
+            _viewModel.AtualizarDadosAnexo(entity, viewModelParent);
         }
 
         /// <summary>

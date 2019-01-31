@@ -84,17 +84,9 @@
 
         <StackPanel x:Name="ListaEmpresas_sp" Grid.Column="0" Grid.Row="1" Orientation="Horizontal"  Margin="0,0,-259,0" Height="184" VerticalAlignment="Top">
             <ListView x:Name="lstView" ItemsSource="{Binding EntityObserver, Mode=TwoWay}" IsEnabled="{Binding IsEnableLstView}"   
-                           SelectedItem="{Binding Entity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"   Margin="0,0,5,0" Width="1258">
+                           SelectedItem="{Binding Entity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  Margin="0,0,5,0" Width="1258">
                 <ListView.View>
-                    <GridView FrameworkElement.FlowDirection="RightToLeft">
-                        <!--<GridViewColumn >
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Image Source="{Binding Pendencias, Converter={StaticResource ConvertBoolToImage}, Mode=TwoWay, UpdateSourceTrigger=Explicit}" Width="16"  Height="16"/>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>-->
-                        
+                    <GridView FrameworkElement.FlowDirection="RightToLeft"> 
                         <GridViewColumn Width="55" Header="Código"  DisplayMemberBinding="{Binding EmpresaId}"/>
                         <GridViewColumn Width="140" Header="CNPJ"  DisplayMemberBinding="{Binding Cnpj}"/>
                         <GridViewColumn Width="270"  Header="Razão Social" DisplayMemberBinding="{Binding Nome}"/>
@@ -122,7 +114,9 @@
             
             <Button x:Name="btnAdicionar"   Content="{StaticResource imgAdd}"       ToolTip="Adicionar"     IsEnabled="{Binding Comportamento.IsEnableCriar}"       Command="{Binding PrepareCriarCommand}"     Width="25" Margin="0,0,5,0"  />
             <Button x:Name="btnEditar"      Content="{StaticResource imgEdit}"      ToolTip="Editar"        IsEnabled="{Binding Comportamento.IsEnableEditar}"      Command="{Binding PrepareAlterarCommand}"   Width="25" Margin="0,0,5,0"  />
-            <Button x:Name="btnExcluir"     Content="{StaticResource imgRemove}"    ToolTip="Remover"       IsEnabled="{Binding Comportamento.isEnableRemover}"     Command="{Binding PrepareRemoverCommand}"   Width="25" Margin="0,0,5,0"  />
+            <!--Botão [Exclui] foi removido da Visibilidade da Tela-->
+            <Button x:Name="btnExcluir"     Content="{StaticResource imgRemove}"    ToolTip="Remover"       IsEnabled="{Binding Comportamento.isEnableRemover}"     Command="{Binding PrepareRemoverCommand}"   Width="25" Margin="0,0,5,0"  Visibility="Collapsed"/>
+            
             <Button x:Name="btnCancelar"    Content="{StaticResource imgCancel}"    ToolTip="Cancelar"      IsEnabled="{Binding Comportamento.isEnableCancelar}"    Command="{Binding PrepareCancelarCommand}"  Width="25" Margin="0,0,5,0"  />
             <Button x:Name="btnSalvar"      Content="{StaticResource imgSave}"      ToolTip="Salvar"        IsEnabled="{Binding Comportamento.isEnableSalvar}"      Command="{Binding PrepareSalvarCommand}"    Width="25" Margin="0,0,5,0"  />
 
@@ -164,7 +158,7 @@
                                     <Label Content="CNPJ:" Height="28" Width="130" Margin="1"  Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                                     <TextBox  x:Name="txtCnpj"  MaxLength="20" IsEnabled="True"  Height="24"  Width="120"  Foreground="White" VerticalContentAlignment="Center" 
                                                       Text="{Binding Entity.Cnpj, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                                      HorizontalContentAlignment="Center" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
+                                                      HorizontalContentAlignment="Center" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" LostFocus="TxtCnpj_LostFocus" />
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="1" >
                                     <Label Content="Razão Social:" Height="28" Width="100" Margin="1" Foreground="#FFD0D0D0"  HorizontalContentAlignment="Left"/>
@@ -175,7 +169,7 @@
                                     <TextBox CharacterCasing="Upper"  x:Name="Apelido_tb"     MaxLength="30" Text="{Binding Entity.Apelido, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="200"  Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
 
                                     <Label Content="Sigla:" Height="28" Width="53" Margin="1"  Foreground="#FFD0D0D0" HorizontalContentAlignment="Left"/>
-                                    <TextBox CharacterCasing="Upper"  x:Name="Sigla_tb"     MaxLength="3" Text="{Binding Entity.Sigla, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="49"/>
+                                    <TextBox CharacterCasing="Upper"  x:Name="Sigla_tb"     MaxLength="8" Text="{Binding Entity.Sigla, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="49"/>
 
                                 </StackPanel>
 
@@ -205,9 +199,9 @@
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="1,1,0,1" Width="562" >
                                 <Label Content="No.:" Height="28" Width="100" Margin="0,0,5,0"  Foreground="#FFD0D0D0" HorizontalContentAlignment="Left" />
-                                <TextBox CharacterCasing="Upper"  x:Name="Numero_tb"   MaxLength="5" PreviewTextInput="NumberOnly" Text="{Binding Entity.Numero,  UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="50"/>
+                                <TextBox CharacterCasing="Upper" x:Name="Numero_tb"   MaxLength="5" Text="{Binding Entity.Numero,  UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="50"/>
                                 <Label Content="CEP:" Height="28" Width="85" Margin="0,0,5,0"  Foreground="#FFD0D0D0" HorizontalContentAlignment="Left"/>
-                                <TextBox CharacterCasing="Upper"  x:Name="Cep_tb" MaxLength="10" PreviewTextInput="NumberOnly" Text="{Binding Entity.Cep,  UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="98"/>
+                                <TextBox CharacterCasing="Upper"  x:Name="Cep_tb" MaxLength="10" PreviewTextInput="NumberOnly" Text="{Binding Entity.Cep,  UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="98" LostFocus="Cep_tb_LostFocus"/>
                                 <Label Content="Complemento:" Height="28" Width="89" Margin="0,0,5,0"  Foreground="#FFD0D0D0"  />
                                 <TextBox CharacterCasing="Upper"  x:Name="Complemento_tb"   MaxLength="50" Text="{Binding Entity.Complemento,   UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="123" RenderTransformOrigin="0.5,0.5"/>
 
@@ -275,17 +269,17 @@
 
 
                     <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}"  Background="Blue"  x:Name="Observacoes_gb"  Header="Observações " Margin="610,192,-610,0" Height="169" VerticalAlignment="Top" >
-                        <StackPanel Margin="1" Height="104"  >
-                            <StackPanel Orientation="Vertical" Height="68"    >
+                        <StackPanel Margin="1,10,1,2"  >
+                            <StackPanel Orientation="Vertical" Height="86" >
                                 <Label Content="Observações:" Foreground="#FFD0D0D0" Margin="8,1,439,1"   />
-                                <TextBox CharacterCasing="Upper"  x:Name="Obs_tb"   MaxLength="50" Text="{Binding Entity.Obs, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap"  IsEnabled="True" Margin="8,0,114,47" Height="30"/>
+                                <TextBox CharacterCasing="Upper"  x:Name="Obs_tb"   MaxLength="249" Text="{Binding Entity.Obs, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap"  IsEnabled="True" Margin="8,0,55,47" Height="56"/>
                             </StackPanel>
-                            <StackPanel Orientation="Horizontal" Height="39" Margin="1"   >
-                                <Label Content="Credenciais Ativas:" Height="28" Width="110" Margin="1"  Foreground="#FFD0D0D0" />
-                                <Label Content="Permanentes:" Height="28" Width="80" Margin="1"  Foreground="#FFD0D0D0" />
-                                <TextBox CharacterCasing="Upper"  x:Name="txtTotalPermanente" HorizontalContentAlignment="Center"  MaxLength="50" Text="{Binding QuantidadeTipoCredencialPermanente, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="False"  Height="24"  Width="45"  />
+                            <StackPanel Orientation="Horizontal" Height="43" Margin="1"   >
+                                <Label Content="Credenciais Ativas:" Height="28" Width="110" Margin="0,0,0,3"   Foreground="#FFD0D0D0" />
+                                <Label Content="Permanentes:" Height="28" Width="80" Margin="0,0,0,3"  Foreground="#FFD0D0D0" />
+                                <TextBox CharacterCasing="Upper"  x:Name="txtTotalPermanente" HorizontalContentAlignment="Center"  MaxLength="50" Text="{Binding QuantidadeTipoCredencialPermanente, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="False"  Height="22"  Width="45" Margin="0,0,0,5" />
                                 <Label Content="Temporárias:" Height="28" Width="80" Margin="1"  Foreground="#FFD0D0D0" />
-                                <TextBox CharacterCasing="Upper"  x:Name="txtTotalTemporaria" HorizontalContentAlignment="Center"  MaxLength="50" Text="{Binding QuantidadeTipoCredencialTemporario, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="False"  Height="24"  Width="45"  />
+                                <TextBox CharacterCasing="Upper"  x:Name="txtTotalTemporaria" HorizontalContentAlignment="Center"  MaxLength="50" Text="{Binding QuantidadeTipoCredencialTemporario, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="False"  Height="22"  Width="45" Margin="0,0,0,5" />
                             </StackPanel>
                         </StackPanel>
                     </GroupBox>
@@ -307,7 +301,7 @@
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="117,5,0,0" Width="355" Height="84" >
                                     <ListBox  x:Name="lstBoxTipoAtividade"  IsEnabled="True"  Width="278" 
                                               ItemsSource="{Binding TiposAtividades, Mode=TwoWay}"
-                                              DisplayMemberPath="Descricao" Height="82" VerticalAlignment="Top" />
+                                              DisplayMemberPath="Descricao" Height="80" VerticalAlignment="Top" />
                                     <Button x:Name="ExcluirAtividade_bt" Content="Excluir" Margin="08,0,0,0" Width="65" Height="24" VerticalAlignment="Top" Click="OnRemoverTipoAtividade_Click" />
                                 </StackPanel>
                             </StackPanel>
@@ -326,7 +320,7 @@
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="109,5,0,0" Width="355" Height="84" >
                                     <ListBox  x:Name="lstBoxLayoutCracha"  IsEnabled="True"  Width="280" 
                                               ItemsSource="{Binding TiposLayoutCracha, Mode=TwoWay}"
-                                              DisplayMemberPath="Nome" Height="82" VerticalAlignment="Top" />
+                                              DisplayMemberPath="Nome" Height="80" VerticalAlignment="Top" />
                                     <Button x:Name="btnex36" Content="Excluir" Margin="10,0,0,0" Width="65" Height="24" Click="OnRemoverTipoCracha_Click" VerticalAlignment="Top"   />
                                 </StackPanel>
                             </StackPanel>

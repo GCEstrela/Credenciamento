@@ -35,16 +35,11 @@ using CredencialView = IMOD.CredenciamentoDeskTop.Views.Model.CredencialView;
 namespace IMOD.CredenciamentoDeskTop.ViewModels
 {
     public class ColaboradoresCredenciaisViewModel : ViewModelBase, IComportamento
-    {
-        //private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
-        //private readonly IColaboradorService _service = new ColaboradorService();
+    { 
         private readonly IColaboradorCredencialService _service = new ColaboradorCredencialService();
         private readonly IColaboradorCredencialImpressaoService _ImpressaoService = new ColaboradorCredencialImpressaoService();
-
-
         private readonly IColaboradorEmpresaService _ColaboradorEmpresaService = new ColaboradorEmpresaService();
         private readonly IEmpresaLayoutCrachaService _EmpresaLayoutCrachaService = new EmpresaLayoutCrachaService();
-
         private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
         private readonly IEmpresaLayoutCrachaService _empresaLayoutCracha = new EmpresaLayoutCrachaService();
 
@@ -54,6 +49,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private ColaboradorCredencial _colaboradorCredencial;
 
         ColaboradorCredencialimpresssao _colaboradorCredencialImpressao = new ColaboradorCredencialimpresssao();
+        //TODO:Retirar a função de SCManager e colocar em infra esrutura
         SCManager _sc = new SCManager();
 
         #region  Propriedades
@@ -67,16 +63,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public List<ColaboradorEmpresa> ColaboradoresEmpresas { get; set; }
         public ColaboradorEmpresa ColaboradorEmpresa { get; set; }
         public List<AreaAcesso> ColaboradorPrivilegio { get; set; }
-
-        //public EmpresaLayoutCrachaView EntityEmpresasLayoutsCrachas { get; set; }
-        //public LayoutCrachaView EntityLayoutCrachaView { get; set; }
-        //public FormatoCredencialView EntityFormatoCredencialView { get; set; }
-        //public EmpresaContratoView EntityEmpresaContratoView { get; set; }
-
         public ColaboradoresCredenciaisView Entity { get; set; }
         public ObservableCollection<ColaboradoresCredenciaisView> EntityObserver { get; set; }
         public ObservableCollection<CredencialView> Credencial { get; set; }
-
 
         /// <summary>
         ///     Habilita listView
@@ -84,6 +73,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public bool IsEnableLstView { get; set; } = true;
 
         #endregion 
+
         #region Inicializacao
 
         public ColaboradoresCredenciaisViewModel()
@@ -92,7 +82,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             ListarDadosAuxiliares();
             Comportamento = new ComportamentoBasico(true, true, true, false, false);
             EntityObserver = new ObservableCollection<ColaboradoresCredenciaisView>();
-
             Comportamento.SalvarAdicao += OnSalvarAdicao;
             Comportamento.SalvarEdicao += OnSalvarEdicao;
             Comportamento.Remover += OnRemover;
@@ -101,13 +90,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         #region  Metodos
 
-        //TODO: AtualizarVinculo
         public void AtualizarVinculoColaboradorEmpresa(ColaboradorView _entity)
         {
-            if (_entity == null)
-            {
-                throw new ArgumentNullException(nameof(_entity));
-            }
+            if (_entity == null) throw new ArgumentNullException(nameof(_entity));
 
             var lista1 = _ColaboradorEmpresaService.Listar(_entity.ColaboradorId, true);
             var lista2 = Mapper.Map<List<ColaboradorEmpresa>>(lista1.OrderByDescending(n => n.ColaboradorEmpresaId).Where(n => n.Ativo.Equals(true)).ToList());
@@ -125,12 +110,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         public void AtualizarDados(ColaboradorView entity)
         {
-            if (entity == null)
-            {
-                throw new ArgumentNullException(nameof(entity));
-            }
-
-            _colaboradorView = entity;
+            _colaboradorView = entity ?? throw new ArgumentNullException(nameof(entity));
             ////Obter dados
             var list1 = _service.ListarView(null, null, null, null, entity.ColaboradorId).ToList();
             var list2 = Mapper.Map<List<ColaboradoresCredenciaisView>>(list1.OrderByDescending(n => n.ColaboradorCredencialId));
@@ -171,10 +151,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             try
             {
 
-                if (Entity == null)
-                {
-                    return;
-                }
+                if (Entity == null) return;
 
                 var n1 = Mapper.Map<ColaboradorCredencial>(Entity);
 
@@ -185,11 +162,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 n1.TecnologiaCredencialId = Entity.TecnologiaCredencialId;
                 n1.TipoCredencialId = Entity.TipoCredencialId;
 
-                _service.Criar(n1);
-                //////Adicionar no inicio da lista um item a coleção
-                //var n2 = Mapper.Map<ColaboradorCredencialView>(n1);
-                //EntityObserver = new ObservableCollection<ColaboradoresCredenciaisView>();
-                //Entity.ColaboradorCredencialId = n1.ColaboradorCredencialId;
+                _service.Criar(n1); 
 
                 var list1 = _service.ListarView(null, null, null, null, _colaboradorView.ColaboradorId).ToList();
                 var list2 = Mapper.Map<List<ColaboradoresCredenciaisView>>(list1.OrderByDescending(n => n.ColaboradorCredencialId));
@@ -198,9 +171,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                  {
                      EntityObserver.Add(n);
                  });
-
-                //var n2 = _service.BuscarCredencialPelaChave(Entity.ColaboradorCredencialId);
-                //EntityObserver.Insert(0, n2);
+                 
                 IsEnableLstView = true;
             }
             catch (Exception ex)
@@ -214,16 +185,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         ///     Acionado antes de criar
         /// </summary>
         private void PrepareCriar()
-        {
-            //Entity = new ColaboradorCredencialView();
+        { 
             Entity = new ColaboradoresCredenciaisView();
             Comportamento.PrepareCriar();
-            IsEnableLstView = false;
-
-            //var lst6 = _ColaboradorEmpresaService.Listar(Entity.ColaboradorId);
-            //ColaboradoresEmpresas = new List<ColaboradorEmpresa>();
-
-            //ColaboradoresEmpresas.Where(x => x.ColaboradorId == Entity.ColaboradorId);
+            IsEnableLstView = false; 
         }
 
         /// <summary>
@@ -235,10 +200,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                if (Entity == null)
-                {
-                    return;
-                }
+                if (Entity == null) return;
 
                 var n1 = Mapper.Map<ColaboradorCredencial>(Entity);
                 _service.Alterar(n1);
@@ -246,15 +208,13 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (n1.CardHolderGuid == null || n1.CredencialGuid == null) return;
                 if (_sc.CredencialStatus(n1.CardHolderGuid, n1.CredencialGuid, n1.Ativa, n1.CredencialMotivoId))
                 {
-                    WpfHelp.PopupBox("Credencial alterada com êxito!", 1);
-                    // _service.Alterar(n1);
+                    WpfHelp.PopupBox("Credencial alterada com êxito!", 1); 
                 }
                 else
                 {
                     WpfHelp.PopupBox("Erro na alterada da credencial no Genetec!", 1);
 
                 }
-
 
                 IsEnableLstView = true;
             }
@@ -308,16 +268,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                if (Entity == null)
-                {
-                    return;
-                }
+                if (Entity == null) return;
 
                 var result = WpfHelp.MboxDialogRemove();
-                if (result != DialogResult.Yes)
-                {
-                    return;
-                }
+                if (result != DialogResult.Yes) return;
 
                 var n1 = Mapper.Map<ColaboradorCredencial>(Entity);
                 _service.Remover(n1);
@@ -340,36 +294,18 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             IsEnableLstView = false;
         }
 
+
+        private void PrepareSalvar()
+        {
+            if (Validar()) return;
+            Comportamento.PrepareSalvar();
+        }
         /// <summary>
         ///     Pesquisar
         /// </summary>
         private void Pesquisar()
         {
-            //try
-            //{
-            //    if (_colaboradorView == null) return;
-
-            //    var pesquisa = NomePesquisa;
-
-            //    var num = PesquisarPor;
-
-            //    //Por nome
-            //    if (num.Key == 1)
-            //    {
-            //        var l1 = _service.Listar(_colaboradorView.EmpresaId, $"%{pesquisa}%");
-            //        PopularObserver(l1);
-            //    }
-            //    //Por CPF
-            //    if (num.Key == 2)
-            //    {
-            //        var l1 = _service.Listar(_colaboradorView.EmpresaId, null, $"%{pesquisa}%", null, null, null);
-            //        PopularObserver(l1);
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    Utils.TraceException(ex);
-            //}
+           
         }
 
         private void PopularObserver(ICollection<ColaboradorCredencial> list)
@@ -378,8 +314,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 var list2 = Mapper.Map<List<ColaboradoresCredenciaisView>>(list.OrderBy(n => n.ColaboradorCredencialId));
                 EntityObserver = new ObservableCollection<ColaboradoresCredenciaisView>();
-                list2.ForEach(n => { EntityObserver.Add(n); });
-                //Empresas = observer;
+                list2.ForEach(n => { EntityObserver.Add(n); }); 
             }
 
             catch (Exception ex)
@@ -440,7 +375,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <summary>
         ///     Novo
         /// </summary>
-        public ICommand PrepareSalvarCommand => new CommandBase(Comportamento.PrepareSalvar, true);
+        public ICommand PrepareSalvarCommand => new CommandBase(PrepareSalvar, true);
 
         /// <summary>
         ///     Remover
@@ -454,18 +389,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         #endregion
 
-        private void CarregaUI()
-        {
-            //CarregaColecaoEmpresas();
-            //CarregaColecaoAreasAcessos();
-            //CarregaColecaoCredenciaisStatus();
-            //CarregaColecaoTiposCredenciais();
-            //CarregaColecaoTecnologiasCredenciais();
-            //CarregaColeçãoFormatosCredenciais();
-            //CarregaColecaoCredenciaisMotivos();
-
-            //CarregaColecaoColaboradoresPrivilegios();
-        }
+        
 
         /// <summary>
         /// Imprimir Credencial
@@ -570,50 +494,30 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         }
 
         #endregion
-
-        #region Variaveis Privadas
-
-        //public List<ColaboradorEmpresaView> ColaboradorEmpresa { get; private set; }
-
-
-
-        #endregion
+         
 
         #region  Metodos
         private void ListarDadosAuxiliares()
-        {//ok
+        { 
             var lst0 = _auxiliaresService.CredencialStatusService.Listar();
             CredencialStatus = new List<CredencialStatus>();
-            CredencialStatus.AddRange(lst0);
-            //ok
-            //var lst1 = _auxiliaresService.CredencialMotivoService.Listar();
-            //CredencialMotivo = new List<CredencialMotivo>();
-            //CredencialMotivo.AddRange(lst1);
-            //ok
+            CredencialStatus.AddRange(lst0); 
+
             var lst2 = _auxiliaresService.FormatoCredencialService.Listar();
             FormatoCredencial = new List<FormatoCredencial>();
             FormatoCredencial.AddRange(lst2);
-            //ok
+            
             var lst3 = _auxiliaresService.TipoCredencialService.Listar();
             TipoCredencial = new List<TipoCredencial>();
-            TipoCredencial.AddRange(lst3);
-
-            //var lst4 = _empresaLayoutCracha.Listar();
-            //EmpresaLayoutCracha = new List<EmpresaLayoutCracha>();
-            //EmpresaLayoutCracha.AddRange(lst4);
+            TipoCredencial.AddRange(lst3);             
 
             var lst5 = _auxiliaresService.TecnologiaCredencialService.Listar();
             TecnologiasCredenciais = new List<TecnologiaCredencial>();
             TecnologiasCredenciais.AddRange(lst5);
 
-
             var lst6 = _ColaboradorEmpresaService.Listar(null, true).OrderByDescending(n => n.ColaboradorEmpresaId).Where(n => n.Ativo.Equals(true)).ToList();
             ColaboradoresEmpresas = new List<ColaboradorEmpresa>();
             ColaboradoresEmpresas.AddRange(lst6);
-
-            //var lst6 = _ColaboradorEmpresaService.ListarView();
-            //ColaboradoresEmpresas = new List<IMOD.Domain.EntitiesCustom.ColaboradorEmpresaView>();
-            //ColaboradoresEmpresas.AddRange(lst6);
 
             var lst7 = _auxiliaresService.AreaAcessoService.Listar();
             ColaboradorPrivilegio = new List<AreaAcesso>();

@@ -32,6 +32,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
         private readonly IEmpresaContratosService _service = new EmpresaContratoService();
         private EmpresaView _empresaView;
+        private EmpresaViewModel _viewModelParent;
 
         #region  Propriedades
 
@@ -66,7 +67,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         ///     Lista de tipos de acessos
         /// </summary>
         public List<TipoAcesso> ListaTipoAcessos { get; private set; }
-
         public ObservableCollection<EmpresaContratoView> EntityObserver { get; set; }
         public EmpresaContratoView Entity { get; set; }
 
@@ -124,25 +124,13 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(uf))
-                {
-                    return;
-                }
+                if (string.IsNullOrWhiteSpace(uf)) return;
 
-                if (Municipios == null)
-                {
-                    Municipios = new List<Municipio>();
-                }
+                if (Municipios == null) Municipios = new List<Municipio>();                
 
-                if (_municipios == null)
-                {
-                    _municipios = new List<Municipio>();
-                }
+                if (_municipios == null) _municipios = new List<Municipio>();              
 
-                if (Estado == null)
-                {
-                    return;
-                }
+                if (Estado == null) return;                 
 
                 //Verificar se há municipios já carregados...
                 var l1 = _municipios.Where(n => n.Uf == uf);
@@ -163,14 +151,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
         }
 
-        public void AtualizarDados(EmpresaView entity)
+        public void AtualizarDados(EmpresaView entity, EmpresaViewModel viewModelParent)
         {
-            if (entity == null)
-            {
-                throw new ArgumentNullException(nameof(entity));
-            }
-
-            _empresaView = entity;
+          
+            _empresaView = entity ?? throw new ArgumentNullException(nameof(entity));
+            _viewModelParent = viewModelParent;
             //Obter dados
             var list1 = _service.Listar(entity.EmpresaId, null, null, null, null, null, null);
             var list2 = Mapper.Map<List<EmpresaContratoView>>(list1.OrderByDescending(n => n.EmpresaContratoId));
@@ -216,6 +201,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var n2 = Mapper.Map<EmpresaContratoView>(n1);
                 EntityObserver.Insert(0, n2);
                 IsEnableLstView = true;
+                _viewModelParent.AtualizarDadosPendencias();
             }
             catch (Exception ex)
             {
@@ -270,6 +256,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 IsEnableLstView = true;
                 Entity = EntidadeTMP;
+                Entity.ClearMessageErro();
             }
             catch (Exception ex)
             {
@@ -287,17 +274,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                if (Entity == null)
-                {
-                    return;
-                }
+                if (Entity == null) return;
 
                 var result = WpfHelp.MboxDialogRemove();
-                if (result != DialogResult.Yes)
-                {
-                    return;
-                }
-
+                if (result != DialogResult.Yes) return;
+                
                 var n1 = Mapper.Map<EmpresaContrato>(Entity);
                 _service.Remover(n1);
                 //Retirar empresa da coleção
@@ -346,17 +327,14 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 {
                     //Obet itens do observer
                     //var l1 = _service.Listar (Entity.EmpresaId,null, $"%{pesquisa}%");
-                    if (string.IsNullOrWhiteSpace(pesquisa))
-                    {
-                        return;
-                    }
+                    if (string.IsNullOrWhiteSpace(pesquisa)) return;
 
                     var l1 = EntityObserver.Where(n => n.Descricao
                    .ToLower()
                    .Contains(pesquisa.ToLower())).ToList();
                     EntityObserver = new ObservableCollection<EmpresaContratoView>();
                     l1.ForEach(n => { EntityObserver.Add(n); });
-                    //PopularObserver (l1);
+           
                 }
 
                 if (num.Key == 2)
@@ -419,10 +397,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 return true;
             }
             var hasErros = Entity.HasErrors;
-
-            //IsEnableLstView = true;
-            //Entity = EntidadeTMP;
-        
+             
             return hasErros;
 
         }
@@ -434,6 +409,23 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <para>True, inválido</para>
         /// </summary>
         /// <returns></returns>
+        //private bool ExisteContrato()
+        //{
+        //    //if (Entity == null) return false;
+        //    //var cpf = Entity.NumeroContrato.RetirarCaracteresEspeciais();
+
+        //    ////Verificar dados antes de salvar uma criação
+        //    //if (_prepareCriarCommandAcionado)
+        //    //    if (_service.ExisteCpf(cpf)) return true;
+        //    ////Verificar dados antes de salvar uma alteraçao
+        //    //if (!_prepareAlterarCommandAcionado) return false;
+        //    //var n1 = _service.BuscarPelaChave(Entity.ColaboradorId);
+        //    //if (n1 == null) return false;
+        //    ////Comparar o CNPJ antes e o depois
+        //    ////Verificar se há cnpj exisitente
+        //    //return string.Compare(n1.Cpf.RetirarCaracteresEspeciais(),
+        //    //    cpf, StringComparison.Ordinal) != 0 && _service.ExisteCpf(cpf);
+        //}
         private bool EInValidocontrato()
         {
             if (Entity == null) return false;
