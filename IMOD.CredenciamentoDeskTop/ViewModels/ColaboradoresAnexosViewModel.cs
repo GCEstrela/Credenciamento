@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Forms;
@@ -34,7 +35,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private ColaboradorViewModel _viewModelParent;
 
         #region  Propriedades
-
+        ColaboradorAnexoView EntityTmp = new ColaboradorAnexoView();
         public ColaboradorAnexoView Entity { get; set; }
         public ObservableCollection<ColaboradorAnexoView> EntityObserver { get; set; }
 
@@ -47,16 +48,27 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         public ColaboradoresAnexosViewModel()
         {
-            Comportamento = new ComportamentoBasico (true, true, true, false, false);
+            Comportamento = new ComportamentoBasico (false, true, true, false, false);
             EntityObserver = new ObservableCollection<ColaboradorAnexoView>();
             Comportamento.SalvarAdicao += OnSalvarAdicao;
             Comportamento.SalvarEdicao += OnSalvarEdicao;
             Comportamento.Remover += OnRemover;
             Comportamento.Cancelar += OnCancelar;
+            base.PropertyChanged += OnEntityChanged;
         }
 
         #region  Metodos
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnEntityChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "Entity") //habilitar botão alterar todas as vezes em que houver entidade diferente de null
+                Comportamento.IsEnableEditar = true;
+        }
 
         private void PrepareSalvar()
         {
@@ -104,6 +116,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private void PrepareCriar()
         {
+            EntityTmp = Entity;
             Entity = new ColaboradorAnexoView();
             Comportamento.PrepareCriar();
             IsEnableLstView = false;
@@ -140,6 +153,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
+                if (Entity != null)
+                {
+                    Entity.ClearMessageErro();
+                    Entity = EntityTmp;
+                }
                 IsEnableLstView = true;
             }
             catch (Exception ex)
@@ -229,6 +247,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         public bool Validar()
         {
+            if (Entity == null) return true;
             Entity.Validate();
             var hasErro = Entity.HasErrors;
 

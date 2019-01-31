@@ -118,8 +118,7 @@
                           IsEnabled="{Binding IsEnableLstView}"
                           HorizontalAlignment="Stretch" 
                           ItemsSource="{Binding EntityObserver, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                          SelectedItem="{Binding Entity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                          Focusable="{Binding IndiceSelecionado}"
+                          SelectedItem="{Binding Entity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"                           
                           Width="749" Margin="0,15,0,60">
                     <!--ScrollViewer.CanContentScroll="True" MaxHeight="150"  Visibility="Visible" SelectionMode="Single"  Background="#FF4E4E4E" Foreground="White" HorizontalAlignment="Left" SelectionChanged="ListaEmpresas_lv_SelectionChanged"-->
                     <ListView.View>

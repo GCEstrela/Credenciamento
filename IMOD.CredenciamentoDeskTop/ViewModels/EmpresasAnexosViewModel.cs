@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Forms;
@@ -38,7 +39,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public EmpresaAnexoView Entity { get; set; }
         public ObservableCollection<EmpresaAnexoView> EntityObserver { get; set; }
 
-        EmpresaAnexoView EntidadeTMP = new EmpresaAnexoView();
+        EmpresaAnexoView EntityTmp = new EmpresaAnexoView();
 
         /// <summary>
         ///     Habilita listView
@@ -49,15 +50,27 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         public EmpresasAnexosViewModel()
         {
-            Comportamento = new ComportamentoBasico(true, true, true, false, false);
+            Comportamento = new ComportamentoBasico(false, true, true, false, false);
             EntityObserver = new ObservableCollection<EmpresaAnexoView>();
             Comportamento.SalvarAdicao += OnSalvarAdicao;
             Comportamento.SalvarEdicao += OnSalvarEdicao;
             Comportamento.Remover += OnRemover;
             Comportamento.Cancelar += OnCancelar;
+            base.PropertyChanged += OnEntityChanged;
         }
 
         #region  Metodos
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnEntityChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "Entity") //habilitar botão alterar todas as vezes em que houver entidade diferente de null
+                Comportamento.IsEnableEditar = true;
+        }
 
         /// <summary>
         ///     Acionado antes de remover
@@ -100,7 +113,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private void PrepareCriar()
         {
-            EntidadeTMP = Entity;
+            EntityTmp = Entity;
             Entity = new EmpresaAnexoView();
             Comportamento.PrepareCriar();
             IsEnableLstView = false;
@@ -139,8 +152,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             try
             {
                 IsEnableLstView = true;
-                Entity = EntidadeTMP;
-                Entity.ClearMessageErro();
+                if (Entity != null)
+                {
+                    Entity.ClearMessageErro();
+                    Entity = EntityTmp;
+                   
+                }
             }
             catch (Exception ex)
             {
@@ -189,7 +206,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 WpfHelp.PopupBox("Selecione um Item na Lista de Anexos", 1);
                 return;
             }
-            EntidadeTMP = Entity;
+            EntityTmp = Entity;
             Comportamento.PrepareAlterar();
             IsEnableLstView = false;
         }
@@ -241,7 +258,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         public bool Validar()
         {
-
+            if (Entity == null) return true;
             //Verificar valiade de Descricao do Anexo
             if (EInValidandoDescricao())
             {

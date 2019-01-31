@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Forms;
@@ -33,12 +34,13 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private readonly ICursoService _cursoService = new CursoService();
         private readonly IColaboradorCursoService _service = new ColaboradorCursosService();
         private ColaboradorView _colaboradorView;
-        private ColaboradorCursoView _entidadeTmp = new ColaboradorCursoView();
+       
         private  ColaboradorViewModel _viewModelParent;
 
         #region  Propriedades
 
-        public List<Curso> Cursos { get; private set; }
+        private ColaboradorCursoView EntityTmp = new ColaboradorCursoView();
+        public List<Curso> Cursos { get; private set; }       
         public ColaboradorCursoView Entity { get; set; }
         public ObservableCollection<ColaboradorCursoView> EntityObserver { get; set; }
 
@@ -54,17 +56,29 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public ColaboradoresCursosViewModel()
         {
             ListarDadosAuxiliares();
-            Comportamento = new ComportamentoBasico (true, true, true, false, false);
+            Comportamento = new ComportamentoBasico(false, true, true, false, false);
             EntityObserver = new ObservableCollection<ColaboradorCursoView>();
             Comportamento.SalvarAdicao += OnSalvarAdicao;
             Comportamento.SalvarEdicao += OnSalvarEdicao;
             Comportamento.Remover += OnRemover;
             Comportamento.Cancelar += OnCancelar;
+            base.PropertyChanged += OnEntityChanged;
         }
 
         #endregion
 
         #region  Metodos
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnEntityChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "Entity") //habilitar botão alterar todas as vezes em que houver entidade diferente de null
+                Comportamento.IsEnableEditar = true;
+        }
 
         /// <summary>
         ///     Listar dados auxilizares
@@ -127,7 +141,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private void PrepareCriar()
         {
-            _entidadeTmp = Entity;
+            EntityTmp = Entity;
             Entity = new ColaboradorCursoView();
             Comportamento.PrepareCriar();
             IsEnableLstView = false;
@@ -170,8 +184,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             try
             {
                 IsEnableLstView = true;
-                Entity = _entidadeTmp;
-                Entity.ClearMessageErro();
+                if (Entity != null)
+                {                             
+                    Entity.ClearMessageErro();
+                    Entity = EntityTmp;
+                }
             }
             catch (Exception ex)
             {
@@ -242,6 +259,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         public bool Validar()
         {
+            if (Entity == null) return true;
             Entity.Validate();
             var hasErro = Entity.HasErrors;
 

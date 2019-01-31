@@ -79,8 +79,8 @@
                 <ListView x:Name="ListaAnexos_lv" Grid.Column="0" Grid.Row="1" 
                           IsEnabled="{Binding IsEnableLstView}"
                           HorizontalAlignment="Stretch" 
-                          ItemsSource="{Binding EntityObserver, Mode=TwoWay}"
-                          SelectedItem="{Binding Entity, Mode=TwoWay}"
+                          ItemsSource="{Binding EntityObserver, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          SelectedItem="{Binding Entity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                           Width="749" Margin="0,15,0,60">
                     <ListView.View>
                         <GridView FrameworkElement.FlowDirection="RightToLeft">

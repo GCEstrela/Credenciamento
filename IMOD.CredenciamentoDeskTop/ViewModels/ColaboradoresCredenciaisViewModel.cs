@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -63,6 +64,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public List<ColaboradorEmpresa> ColaboradoresEmpresas { get; set; }
         public ColaboradorEmpresa ColaboradorEmpresa { get; set; }
         public List<AreaAcesso> ColaboradorPrivilegio { get; set; }
+        private ColaboradoresCredenciaisView EntityTmp = new ColaboradoresCredenciaisView();
         public ColaboradoresCredenciaisView Entity { get; set; }
         public ObservableCollection<ColaboradoresCredenciaisView> EntityObserver { get; set; }
         public ObservableCollection<CredencialView> Credencial { get; set; }
@@ -80,15 +82,26 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             ItensDePesquisaConfigura();
             ListarDadosAuxiliares();
-            Comportamento = new ComportamentoBasico(true, true, true, false, false);
+            Comportamento = new ComportamentoBasico(false, true, true, false, false);
             EntityObserver = new ObservableCollection<ColaboradoresCredenciaisView>();
             Comportamento.SalvarAdicao += OnSalvarAdicao;
             Comportamento.SalvarEdicao += OnSalvarEdicao;
             Comportamento.Remover += OnRemover;
             Comportamento.Cancelar += OnCancelar;
+            base.PropertyChanged += OnEntityChanged;
         }
 
         #region  Metodos
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnEntityChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "Entity") //habilitar botão alterar todas as vezes em que houver entidade diferente de null
+                Comportamento.IsEnableEditar = true;
+        }
 
         public void AtualizarVinculoColaboradorEmpresa(ColaboradorView _entity)
         {
@@ -185,7 +198,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         ///     Acionado antes de criar
         /// </summary>
         private void PrepareCriar()
-        { 
+        {
+            EntityTmp = Entity;
             Entity = new ColaboradoresCredenciaisView();
             Comportamento.PrepareCriar();
             IsEnableLstView = false; 
@@ -251,6 +265,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             try
             {
                 IsEnableLstView = true;
+                if (Entity != null)
+                {
+                    Entity = EntityTmp;                   
+                }
             }
             catch (Exception ex)
             {
@@ -328,6 +346,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         public bool Validar()
         {
+            if (Entity == null) return true;
             return false;
 
         }

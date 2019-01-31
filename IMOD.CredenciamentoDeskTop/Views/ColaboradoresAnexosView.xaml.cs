@@ -78,7 +78,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
             {
                 var arquivoStr = _viewModel.Entity.Arquivo;
                 var arrBytes = Convert.FromBase64String (arquivoStr);
-                WpfHelp.DownloadArquivoDialog (_viewModel.Entity.NomeArquivo, arrBytes);
+                WpfHelp.AbrirArquivoPdf(_viewModel.Entity.NomeArquivo, arrBytes);
             }
             catch (Exception ex)
             {

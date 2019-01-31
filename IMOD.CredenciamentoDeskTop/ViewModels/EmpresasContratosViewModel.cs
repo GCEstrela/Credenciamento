@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Forms;
@@ -83,16 +84,27 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             ListarDadosAuxiliares();
             ItensDePesquisaConfigura();
-            Comportamento = new ComportamentoBasico(true, true, true, false, false);
+            Comportamento = new ComportamentoBasico(false, true, true, false, false);
             EntityObserver = new ObservableCollection<EmpresaContratoView>();
             Comportamento.SalvarAdicao += OnSalvarAdicao;
             Comportamento.SalvarEdicao += OnSalvarEdicao;
             Comportamento.Remover += OnRemover;
             Comportamento.Cancelar += OnCancelar;
+            base.PropertyChanged += OnEntityChanged;
         }
 
         #region  Metodos
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnEntityChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "Entity") //habilitar botão alterar todas as vezes em que houver entidade diferente de null
+                Comportamento.IsEnableEditar = true;
+        }
         /// <summary>
         ///     Carregar dados auxiliares em memória
         /// </summary>
@@ -255,8 +267,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             try
             {
                 IsEnableLstView = true;
-                Entity = EntidadeTMP;
-                Entity.ClearMessageErro();
+                if (Entity != null)
+                {
+                    Entity.ClearMessageErro();
+                    Entity = EntidadeTMP;
+                    
+                }
             }
             catch (Exception ex)
             {
@@ -370,7 +386,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         public bool Validar()
         {
-
+            if (Entity == null) return true;
             //Verificar valiade de Contrato
             if (EInValidocontrato())
             {

@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Forms;
@@ -40,6 +41,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public List<EmpresaContrato> Contratos { get; private set; }
         public List<Empresa> Empresas { get; private set; }
         public Empresa Empresa { get; set; }
+        private ColaboradorEmpresaView EntityTmp = new ColaboradorEmpresaView();
         public ColaboradorEmpresaView Entity { get; set; }
         public ObservableCollection<ColaboradorEmpresaView> EntityObserver { get; set; }
 
@@ -53,15 +55,27 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public ColaboradoresEmpresasViewModel()
         {
             ListarDadosAuxiliares();
-            Comportamento = new ComportamentoBasico(true, true, true, false, false);
-            EntityObserver=new ObservableCollection<ColaboradorEmpresaView>();
+            Comportamento = new ComportamentoBasico(false, true, true, false, false);
+            EntityObserver =new ObservableCollection<ColaboradorEmpresaView>();
             Comportamento.SalvarAdicao += OnSalvarAdicao;
             Comportamento.SalvarEdicao += OnSalvarEdicao;
             Comportamento.Remover += OnRemover;
             Comportamento.Cancelar += OnCancelar;
+            base.PropertyChanged += OnEntityChanged;
         }
 
         #region  Metodos
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnEntityChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "Entity") //habilitar botão alterar todas as vezes em que houver entidade diferente de null
+                Comportamento.IsEnableEditar = true;
+        }
 
         /// <summary>
         ///     Listar dados auxilizares
@@ -146,6 +160,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private void PrepareCriar()
         {
+            EntityTmp = Entity;
             Entity = new ColaboradorEmpresaView();
             Comportamento.PrepareCriar();
             IsEnableLstView = false;
@@ -183,7 +198,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             try
             {
                 IsEnableLstView = true;
-                Entity.ClearMessageErro();
+                if (Entity != null)
+                {
+                    Entity.ClearMessageErro();
+                    Entity = EntityTmp;
+                    
+                }
             }
             catch (Exception ex)
             {
@@ -298,6 +318,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         public bool Validar()
         {
+            if (Entity == null) return true;
             Entity.Validate();
             var hasErro = Entity.HasErrors;
 

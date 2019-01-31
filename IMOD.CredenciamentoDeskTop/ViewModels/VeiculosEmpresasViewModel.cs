@@ -53,7 +53,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public VeiculosEmpresasViewModel()
         {
             ListarDadosAuxiliares();
-            Comportamento = new ComportamentoBasico(true, true, true, false, false);
+           Comportamento = new ComportamentoBasico(false, true, true, false, false);
             Comportamento.SalvarAdicao += OnSalvarAdicao;
             Comportamento.SalvarEdicao += OnSalvarEdicao;
             Comportamento.Remover += OnRemover;

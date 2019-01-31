@@ -115,7 +115,6 @@
     <Compile Include="ViewModels\Commands\CommandBase.cs" />
     <Compile Include="ViewModels\Comportamento\ComportamentoBasico.cs" />
     <Compile Include="ViewModels\Comportamento\IComportamento.cs" />
-    <Compile Include="ViewModels\ContratoViewModel.cs" />
     <Compile Include="Views\Model\AreaAcessoView.cs" />
     <Compile Include="Views\Model\AutorizacaoView.cs" />
     <Compile Include="Views\Model\ColaboradorAnexoView.cs" />

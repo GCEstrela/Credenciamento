@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Forms;
@@ -37,12 +38,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         public EmpresaSignatarioView Entity { get; set; }
         public ObservableCollection<EmpresaSignatarioView> EntityObserver { get; set; }
-        /// <summary>
-        /// Indice selecionado na list view
-        /// </summary>
-        public bool IndiceSelecionado { get; set; }
 
-       // EmpresaSignatarioView EntidadeTMP = new EmpresaSignatarioView();
+        EmpresaSignatarioView EntidadeTMP = new EmpresaSignatarioView();
 
         
         /// <summary>
@@ -55,13 +52,27 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public EmpresasSignatariosViewModel()
         {
             ItensDePesquisaConfigura();
-            Comportamento = new ComportamentoBasico(true, true, true, false, false);
+            Comportamento = new ComportamentoBasico(false, true, true, false, false);
             EntityObserver = new ObservableCollection<EmpresaSignatarioView>();
             Comportamento.SalvarAdicao += OnSalvarAdicao;
             Comportamento.SalvarEdicao += OnSalvarEdicao;
             Comportamento.Remover += OnRemover;
             Comportamento.Cancelar += OnCancelar;
+            base.PropertyChanged += OnEntityChanged;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnEntityChanged(object sender, PropertyChangedEventArgs e)
+        {
+             if (e.PropertyName == "Entity") //habilitar botão alterar todas as vezes em que houver entidade diferente de null
+                  Comportamento.IsEnableEditar = true;
+        }
+
+
 
         #region  Metodos
 
@@ -131,7 +142,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private void PrepareCriar()
         {
             //if (Entity == null) return;
-            //EntidadeTMP = Entity;
+            EntidadeTMP = Entity;
             Entity = new EmpresaSignatarioView();
             Comportamento.PrepareCriar();
             IsEnableLstView = false;
@@ -147,7 +158,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             try
             {
                 if (Entity == null) return;
-                //EntidadeTMP = Entity;
+                EntidadeTMP = Entity;
 
                 if (Validar()) return;
                 
@@ -172,10 +183,14 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             try
             {
                 IsEnableLstView = true;
-                //Entity = new EmpresaSignatarioView();
-                //Entity = EntidadeTMP;
-                //Entity.ClearMessageErro();
-                IndiceSelecionado = true;
+
+                if (Entity != null)
+                {
+                    Entity.ClearMessageErro();
+                    Entity = EntidadeTMP;
+                   
+                }
+
 
             }
             catch (Exception ex)
@@ -268,8 +283,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 var list2 = Mapper.Map<List<EmpresaSignatarioView>>(list.OrderBy(n => n.Nome));
                 EntityObserver = new ObservableCollection<EmpresaSignatarioView>();
-                list2.ForEach(n => { EntityObserver.Add(n); });
-                //Empresas = observer;
+                list2.ForEach(n => { EntityObserver.Add(n); }); 
             }
 
             catch (Exception ex)
@@ -283,6 +297,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         public bool Validar()
         {
+            if (Entity == null) return true;
             //Verificar valiade de cpf
             if (EInValidoCpf())
             {

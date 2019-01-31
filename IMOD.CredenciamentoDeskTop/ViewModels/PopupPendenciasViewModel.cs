@@ -69,6 +69,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         public bool Validar()
         {
+            if (Entity == null) return true;
             Entity.Validate();
             var hasErro = Entity.HasErrors;
 
@@ -101,7 +102,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             _service = new PendenciaService();
 
-            Comportamento = new ComportamentoBasico(true, true, true, false, false);
+           Comportamento = new ComportamentoBasico(true, true, true, false, false);
             Comportamento.SalvarAdicao += OnSalvarAdicao;
             Comportamento.SalvarEdicao += OnSalvarEdicao;
             Comportamento.Remover += OnRemover;

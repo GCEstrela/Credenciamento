@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Forms;
@@ -89,6 +90,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         ///     Habilita abas
         /// </summary>
         public bool IsEnableTabItem { get; set; } = false;
+         
         /// <summary>
         /// Seleciona o indice da tabcontrol desejada
         /// </summary>
@@ -99,7 +101,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         public bool IsEnableLstView { get; private set; } = true;
 
-        EmpresaView EntidadeTMP = new EmpresaView();
+        EmpresaView EntityTmp = new EmpresaView();
 
         public EmpresaView Entity { get; set; }
         public ObservableCollection<EmpresaView> EntityObserver { get; set; }
@@ -146,8 +148,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             //ListarTodos();
             ItensDePesquisaConfigura();
             ListarDadosAuxiliares();
-            Comportamento = new ComportamentoBasico(true, true, true, false, false);
-            EntityObserver=new ObservableCollection<EmpresaView>();
+            Comportamento = new ComportamentoBasico(false, true, true, false, false);
+            EntityObserver =new ObservableCollection<EmpresaView>();
             TiposAtividades = new ObservableCollection<EmpresaTipoAtividadeView>();
             TiposLayoutCracha = new ObservableCollection<EmpresaLayoutCrachaView>();
             EntityObserver = new ObservableCollection<EmpresaView>();
@@ -156,9 +158,20 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             Comportamento.SalvarEdicao += OnSalvarEdicao;
             Comportamento.Remover += OnRemover;
             Comportamento.Cancelar += OnCancelar;
+            base.PropertyChanged += OnEntityChanged;
         }
 
         #region  Metodos
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnEntityChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "Entity") //habilitar botão alterar todas as vezes em que houver entidade diferente de null
+                Comportamento.IsEnableEditar = true;
+        }
 
         /// <summary>
         ///     Atualizar dados de atividade
@@ -204,10 +217,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             PendenciaContrato = false;
             PendenciaAnexo = false;
             //Buscar pendências referente aos códigos: 21; 12;14;24
-            PendenciaGeral = pendencia.Any(n => n.CodPendencia == 21);
-            PendenciaRepresentante = pendencia.Any(n => n.CodPendencia == 12);
-            PendenciaContrato = pendencia.Any(n => n.CodPendencia == 14);
-            PendenciaAnexo = pendencia.Any(n => n.CodPendencia == 24);
+            PendenciaGeral = pendencia.Any(n => n.CodPendencia == 21 & n.Ativo);
+            PendenciaRepresentante = pendencia.Any(n => n.CodPendencia == 12 & n.Ativo);
+            PendenciaContrato = pendencia.Any(n => n.CodPendencia == 14 & n.Ativo);
+            PendenciaAnexo = pendencia.Any(n => n.CodPendencia == 24 & n.Ativo);
             //Indica se a empresa possue pendências
             Pendencias = PendenciaGeral || PendenciaRepresentante || PendenciaContrato || PendenciaAnexo;
         }
@@ -222,7 +235,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             ListaPesquisa.Add(new KeyValuePair<int, string>(2, "Razão Social"));
             ListaPesquisa.Add(new KeyValuePair<int, string>(3, "Código"));
             ListaPesquisa.Add(new KeyValuePair<int, string>(4, "Todos"));
-            PesquisarPor = ListaPesquisa[0]; //Pesquisa Default
+            PesquisarPor = ListaPesquisa[1]; //Pesquisa Default
         }
 
         private void ListarTodos()
@@ -339,7 +352,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         public bool Validar()
         {
-
+            if (Entity == null) return true;
             //Verificar valiade de cnpj
             if (EInValidoCnpj())
             {
@@ -372,25 +385,14 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(uf))
-                {
-                    return;
-                }
+                if (string.IsNullOrWhiteSpace(uf)) return;
 
-                if (Municipios == null)
-                {
-                    Municipios = new List<Municipio>();
-                }
+                if (Municipios == null) Municipios = new List<Municipio>();
 
-                if (_municipios == null)
-                {
-                    _municipios = new List<Municipio>();
-                }
+                if (_municipios == null) _municipios = new List<Municipio>();
 
-                if (Estado == null)
-                {
-                    return;
-                }
+                if (Estado == null) return;
+            
 
                 //Verificar se há municipios já carregados...
                 var l1 = _municipios.Where(n => n.Uf == uf);
@@ -418,7 +420,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         private void PrepareCriar()
         {
-            EntidadeTMP = Entity;
+            EntityTmp = Entity;
             Entity = new EmpresaView();
             IsEnableTabItem = false;
             IsEnableLstView = false;
@@ -509,8 +511,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 }
 
 
-                IsEnableLstView = true; 
+                IsEnableLstView = true;
                 IsEnableTabItem = false;
+                SelectedTabIndex = 0;
             }
             catch (Exception ex)
             {
@@ -540,10 +543,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         }
         private void PrepareAlterar()
         {
-            if (Entity == null)
-            {
-                return;
-            }
+            if (Entity == null) return;
 
             Comportamento.PrepareAlterar();
             IsEnableTabItem = false;
@@ -557,10 +557,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         private void PrepareRemover()
         {
-            if (Entity == null)
-            {
-                return;
-            }
+            if (Entity == null) return;
 
             IsEnableLstView = true;
             _prepareCriarCommandAcionado = false;
@@ -585,8 +582,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 SalvarTipoCracha(n1.EmpresaId);
                 //Adicionar no inicio da lista um item a coleção
                 var n2 = Mapper.Map<EmpresaView>(n1);
-                EntityObserver.Insert(0, n2);
-                IsEnableTabItem = true;
+                EntityObserver.Insert(0, n2); 
                 IsEnableLstView = true;
             }
             catch (Exception ex)
@@ -651,16 +647,22 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                IsEnableTabItem = true;
+                
                 IsEnableLstView = true;
                 _prepareCriarCommandAcionado = false;
                 _prepareAlterarCommandAcionado = false;
                 TiposAtividades.Clear();
                 TiposLayoutCracha.Clear();
-                if (Entity.EmpresaId == 0)                
-                    Entity = EntidadeTMP;
-
-                Entity.ClearMessageErro();
+                if (Entity != null)
+                {
+                    
+                    Entity.ClearMessageErro();
+                    Entity = EntityTmp;
+                    if (Entity != null)                     
+                        IsEnableTabItem = true;
+                    
+                }
+               
                 AtualizarDadosTipoCrachas();
                 AtualizarDadosTiposAtividades();
             }

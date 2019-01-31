@@ -92,7 +92,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             ItensDePesquisaConfigura();
             ListarDadosAuxiliares();
-            Comportamento = new ComportamentoBasico(true, true, true, false, false);
+           Comportamento = new ComportamentoBasico(false, true, true, false, false);
             EntityObserver = new ObservableCollection<VeiculosCredenciaisView>();
 
             Comportamento.SalvarAdicao += OnSalvarAdicao;

@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Forms;
@@ -128,19 +129,33 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         #endregion
 
+        
+
         public ColaboradorViewModel()
         {
             ItensDePesquisaConfigura();
             ListarDadosAuxiliares();
-            Comportamento = new ComportamentoBasico (true, true, true, false, false);
+            Comportamento = new ComportamentoBasico(false, true, true, false, false);
             EntityObserver = new ObservableCollection<ColaboradorView>();
             Comportamento.SalvarAdicao += OnSalvarAdicao;
             Comportamento.SalvarEdicao += OnSalvarEdicao;
             Comportamento.Remover += OnRemover;
             Comportamento.Cancelar += OnCancelar;
+            base.PropertyChanged += OnEntityChanged;
         }
 
         #region  Metodos
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnEntityChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "Entity") //habilitar botão alterar todas as vezes em que houver entidade diferente de null
+                Comportamento.IsEnableEditar = true;
+        }
 
         private void ListarDadosAuxiliares()
         {
@@ -201,6 +216,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 IsEnableLstView = true;
                 IsEnableTabItem = false;
+                SelectedTabIndex = 0;
             }
             catch (Exception ex)
             {
@@ -274,6 +290,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <returns></returns>
         public bool Validar()
         {
+            if (Entity == null) return true;
             //Verificar valiade de cpf
             if (EInValidoCpf())
             {
@@ -338,7 +355,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             EntityTmp = Entity;
             Entity = new ColaboradorView();
            
-             IsEnableTabItem = false;
+            IsEnableTabItem = false;
             IsEnableLstView = false;
             _prepareCriarCommandAcionado = true;
             SelectedTabIndex = 0;
@@ -414,8 +431,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var n1 = Mapper.Map<Colaborador> (Entity);
                 _service.Criar (n1);
                 var n2 = Mapper.Map<ColaboradorView> (n1);
-                EntityObserver.Insert (0, n2);
-                IsEnableTabItem = true;
+                EntityObserver.Insert (0, n2); 
                 IsEnableLstView = true;
             }
             catch (Exception ex)
@@ -447,14 +463,17 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                IsEnableTabItem = true;
+                
                 IsEnableLstView = true;
                 _prepareCriarCommandAcionado = false;
                 _prepareAlterarCommandAcionado = false;
-                if (Entity.ColaboradorId == 0)
+                if (Entity != null)
+                {
+                    Entity.ClearMessageErro();
                     Entity = EntityTmp;
-
-                Entity.ClearMessageErro();
+                    if (Entity != null)
+                        IsEnableTabItem = true;
+                }
             }
             catch (Exception ex)
             {
