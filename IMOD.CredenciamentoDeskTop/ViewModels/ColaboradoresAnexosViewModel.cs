@@ -208,7 +208,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         
         public void AtualizarDadosAnexo(ColaboradorView entity, ColaboradorViewModel viewModelParent)
         {
-            _colaboradorView = entity ?? throw new ArgumentNullException(nameof(entity));
+            if(entity==null) throw new ArgumentNullException(nameof(entity));
+            _colaboradorView = entity;
             _viewModelParent = viewModelParent;
             var list1 = _service.Listar(entity.ColaboradorId);
             var list2 = Mapper.Map<List<ColaboradorAnexoView>>(list1.OrderByDescending(n => n.ColaboradorAnexoId));

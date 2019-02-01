@@ -83,7 +83,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         public void AtualizarDados(VeiculoView entity, VeiculoViewModel viewModelParent)
         {
-            _veiculoView = entity ?? throw new ArgumentNullException(nameof(entity));
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            _veiculoView = entity;
             _viewModelParent = viewModelParent;
         
             //Obter dados

@@ -52,7 +52,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         public void AtualizarDados(VeiculoView entity)
         {
-            _veiculoView = entity ?? throw new ArgumentNullException(nameof(entity));
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            _veiculoView = entity;
             //Obter dados
             var list1 = _service.Listar(entity.EquipamentoVeiculoId, null, null);
             var list2 = Mapper.Map<List<VeiculoSeguroView>>(list1.OrderByDescending(n => n.VeiculoSeguroId));

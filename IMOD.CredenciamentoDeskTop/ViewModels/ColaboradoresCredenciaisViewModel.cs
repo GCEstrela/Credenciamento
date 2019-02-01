@@ -123,7 +123,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         public void AtualizarDados(ColaboradorView entity)
         {
-            _colaboradorView = entity ?? throw new ArgumentNullException(nameof(entity));
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            _colaboradorView = entity;
             ////Obter dados
             var list1 = _service.ListarView(null, null, null, null, entity.ColaboradorId).ToList();
             var list2 = Mapper.Map<List<ColaboradoresCredenciaisView>>(list1.OrderByDescending(n => n.ColaboradorCredencialId));
