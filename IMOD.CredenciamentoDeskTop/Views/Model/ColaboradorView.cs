@@ -53,6 +53,7 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public string Numero { get; set; }
         public string Complemento { get; set; }
         public string Bairro { get; set; }
+        public bool Ativo { get; set; }
         public int MunicipioId { get; set; }
         public int EstadoId { get; set; }
         public bool Motorista { get; set; }

@@ -72,9 +72,10 @@ namespace IMOD.CredenciamentoDeskTop.Views
         private void OnRemoverTipoAtividade_Click(object sender, RoutedEventArgs e)
         {
             if (lstBoxTipoAtividade.SelectedItem == null) return;
-            var idx = lstBoxTipoAtividade.Items.IndexOf(lstBoxTipoAtividade.SelectedItem);
-            _viewModel.TiposAtividades.RemoveAt(idx);
-            TipoAtividade_cb.Text = "";
+            var item = lstBoxTipoAtividade.SelectedItem;
+            if (item == null) return;
+            var idx = lstBoxTipoAtividade.Items.IndexOf(item);
+            _viewModel.TiposAtividades.RemoveAt(idx); 
         }
 
         /// <summary>
@@ -91,9 +92,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 Descricao = _viewModel.TipoAtividade.Descricao
             };
             _viewModel.TiposAtividades.Add(n1);
-            TipoAtividade_cb.Text = "";
-            lstBoxTipoAtividade.SelectedIndex = lstBoxTipoAtividade.Items.Count - 1;
-            lstBoxTipoAtividade.ScrollIntoView(lstBoxTipoAtividade.SelectedItem);
+             
         }
 
         /// <summary>
@@ -109,10 +108,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 LayoutCrachaId = _viewModel.TipoCracha.LayoutCrachaId,
                 Nome = _viewModel.TipoCracha.Nome
             };
-            _viewModel.TiposLayoutCracha.Add(n1);
-            TipoCracha_cb.Text = "";
-            lstBoxLayoutCracha.SelectedIndex = lstBoxLayoutCracha.Items.Count - 1;
-            lstBoxLayoutCracha.ScrollIntoView(lstBoxLayoutCracha.SelectedItem);
+            _viewModel.TiposLayoutCracha.Add(n1); 
         }
 
         /// <summary>
@@ -124,8 +120,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             if (lstBoxLayoutCracha.SelectedItem == null) return;
             var idx = lstBoxLayoutCracha.Items.IndexOf(lstBoxLayoutCracha.SelectedItem);
-            _viewModel.TiposLayoutCracha.RemoveAt(idx);
-            TipoCracha_cb.Text = "";
+            _viewModel.TiposLayoutCracha.RemoveAt(idx); 
         }
 
         #endregion
@@ -214,7 +209,6 @@ namespace IMOD.CredenciamentoDeskTop.Views
         private void Contrato_ti_GotFocus(object sender, RoutedEventArgs e)
         {
             BotoesGeral_sp.IsEnabled = false;
-            //EmpresaContratosUs.AtualizarDados(_viewModel.Entity);
         }
 
         private void TabGeral_tc_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -225,7 +219,6 @@ namespace IMOD.CredenciamentoDeskTop.Views
         private void Anexos_ti_GotFocus(object sender, RoutedEventArgs e)
         {
             BotoesGeral_sp.IsEnabled = false;
-            //AnexoUs.AtualizarDados(_viewModel.Entity);
         }
 
         private void Geral_ti_GotFocus(object sender, RoutedEventArgs e)
@@ -236,7 +229,6 @@ namespace IMOD.CredenciamentoDeskTop.Views
         private void Signatarios_ti_GotFocus(object sender, RoutedEventArgs e)
         {
             BotoesGeral_sp.IsEnabled = false;
-            //RepresentanteUs.AtualizarDados(_viewModel.Entity);
         }
 
         private void Cep_tb_LostFocus(object sender, RoutedEventArgs e)

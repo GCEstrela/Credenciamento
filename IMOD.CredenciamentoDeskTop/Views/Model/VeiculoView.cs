@@ -37,7 +37,7 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public int TipoEquipamentoVeiculoId { get; set; }
         public string Renavam { get; set; }
         public string Foto { get; set; }
-        public int Excluida { get; set; }
+        public bool Ativo { get; set; }
         public int StatusId { get; set; }
         public int TipoAcessoId { get; set; }
         public string DescricaoAnexo { get; set; }

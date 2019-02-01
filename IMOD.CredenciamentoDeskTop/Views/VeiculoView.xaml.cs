@@ -28,7 +28,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
     /// </summary>
     public partial class VeiculoView : UserControl
     {
-        private readonly VeiculoViewModel _viewModel;
+        private readonly   VeiculoViewModel _viewModel;
 
         public VeiculoView()
         {
@@ -48,24 +48,23 @@ namespace IMOD.CredenciamentoDeskTop.Views
         private void OnListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             //Atualizar dados ao selecionar uma linha da listview
-            _viewModel.AtualizarDadosPendencias();
-            _viewModel.AtualizarDadosTiposServico();
-            _viewModel.AtualizarDadosTiposServico();
+           //_viewModel.AtualizarDadosPendencias();
+            //_viewModel.AtualizarDadosTiposServico();
+            //_viewModel.AtualizarDadosTiposServico();
 
-            //Popular User Controls 
-            VeiculosEmpresasUs.AtualizarDados(_viewModel.Entity);
-            //EmpresaSeguroUs.AtualizarDados(_viewModel.Entity);
-            AnexoUs.AtualizarDados(_viewModel.Entity);
-            VeiculoCredenciaisUs.AtualizarDados(_viewModel.Entity);
+            //Popular User Controls
+            //////////////////////////////////////////////////////////////
+            //VeiculosEmpresasUs.AtualizarDados(_viewModel.Entity, _viewModel);
+            //EmpresaSeguroUs.AtualizarDados(_viewModel.Entity,_viewModel);
+            //AnexoUs.AtualizarDados(_viewModel.Entity, _viewModel);
+            //VeiculoCredenciaisUs.AtualizarDados(_viewModel.Entity);
+            /////////////////////////////////////////////////////////////
+            _viewModel.IsEnableTabItem = true;
         }
 
         private void OnSelecionaMunicipio_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (_viewModel.Estado == null)
-            {
-                return;
-            }
-
+            if (_viewModel.Estado == null) return;
             _viewModel.ListarMunicipios(_viewModel.Estado.Uf);
         }
 
@@ -82,13 +81,10 @@ namespace IMOD.CredenciamentoDeskTop.Views
         /// <param name="e"></param>
         private void OnRemoverTipoServico_Click(object sender, RoutedEventArgs e)
         {
-            if (_viewModel.TipoServico == null)
-            {
-                return;
-            }
-            var tipoAtiv = lstBoxTipoAtividade.SelectedItem;
-            if (tipoAtiv == null) return ;
-            var idx =  lstBoxTipoAtividade.Items.IndexOf(tipoAtiv) ;
+            if (_viewModel.TipoServico == null) return;
+            var item = lstBoxTipoAtividade.SelectedItem;
+            if (item == null) return ;
+            var idx =  lstBoxTipoAtividade.Items.IndexOf(item) ;
             _viewModel.TiposEquipamentoServico.RemoveAt(idx);
         }
 
@@ -99,10 +95,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
         /// <param name="e"></param>
         private void OnAdicionarTipoServico_Click(object sender, RoutedEventArgs e)
         {
-            if (_viewModel.TipoServico == null)
-            {
-                return;
-            }
+            if (_viewModel.TipoServico == null) return;
 
             var n1 = new EquipamentoVeiculoTipoServicoView
             {
@@ -117,10 +110,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             try
             {
-                if (_viewModel.Entity == null)
-                {
-                    return;
-                }
+                if (_viewModel.Entity == null) return;
 
                 var frm = new PopupPendencias();
                 frm.Inicializa(codigo, _viewModel.Entity.EquipamentoVeiculoId, tipoPendecia);
@@ -139,11 +129,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
             {
                 var filtro = "Images (*.BMP;*.JPG;*.GIF,*.PNG,*.TIFF)|*.BMP;*.JPG;*.GIF;*.PNG;*.TIFF|" + "All files (*.*)|*.*";
                 var arq = WpfHelp.UpLoadArquivoDialog(filtro);
-                if (arq == null)
-                {
-                    return;
-                }
-
+                if (arq == null) return;
                 _viewModel.Entity.Foto = arq.FormatoBase64;
                 var binding = BindingOperations.GetBindingExpression(Logo_im, Image.SourceProperty);
                 binding?.UpdateTarget();
@@ -156,27 +142,31 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         private void OnPendenciaGeralAnexos_Click(object sender, RoutedEventArgs e)
         {
-            AbrirPendencias(24, PendenciaTipo.Colaborador);
+            AbrirPendencias(24, PendenciaTipo.Veiculo);
         }
 
         private void OnPendenciaVinculos_Click(object sender, RoutedEventArgs e)
         {
-            AbrirPendencias(22, PendenciaTipo.Colaborador);
+            AbrirPendencias(22, PendenciaTipo.Veiculo);
         }
 
         private void OnPendenciaSeguros_Click(object sender, RoutedEventArgs e)
         {
-            AbrirPendencias(19, PendenciaTipo.Veiculo);
+           AbrirPendencias(19, PendenciaTipo.Veiculo);
         }
 
         private void OnPendenciaCredencias_Click(object sender, RoutedEventArgs e)
         {
-            AbrirPendencias(25, PendenciaTipo.Colaborador);
+             AbrirPendencias(25, PendenciaTipo.Veiculo);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OnPendenciaGeral_Click(object sender, RoutedEventArgs e)
         {
-            AbrirPendencias(21, PendenciaTipo.Colaborador);
+            AbrirPendencias(21, PendenciaTipo.Veiculo);
         }
 
         #endregion

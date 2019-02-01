@@ -203,7 +203,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             if (Entity == null)
             {
-                WpfHelp.PopupBox("Selecione um Item na Lista de Anexos", 1);
+                WpfHelp.PopupBox("Selecione um item da lista", 1);
                 return;
             }
             EntityTmp = Entity;

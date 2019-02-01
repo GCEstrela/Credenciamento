@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Forms;
@@ -51,48 +52,41 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         public void AtualizarDados(VeiculoView entity)
         {
-            if (entity == null)
-            {
-                throw new ArgumentNullException(nameof(entity));
-            }
-
-            _veiculoView = entity;
+            _veiculoView = entity ?? throw new ArgumentNullException(nameof(entity));
             //Obter dados
-
             var list1 = _service.Listar(entity.EquipamentoVeiculoId, null, null);
             var list2 = Mapper.Map<List<VeiculoSeguroView>>(list1.OrderByDescending(n => n.VeiculoSeguroId));
-            var observer = new ObservableCollection<VeiculoSeguro>();
-            //var ppppp = new ObservableCollection<VeiculoSeguroView>();
+            var observer = new ObservableCollection<VeiculoSeguro>(); 
             EntityObserver = new ObservableCollection<VeiculoSeguroView>();
             list2.ForEach(n => { EntityObserver.Add(n); });
         }
 
         public VeiculosSegurosViewModel()
-        {
-            ItensDePesquisaConfigura();
-            Comportamento = new ComportamentoBasico(true, true, true, false, false);
+        { 
+            Comportamento = new ComportamentoBasico(false, true, true, false, false);
+            EntityObserver = new ObservableCollection<VeiculoSeguroView>();
             Comportamento.SalvarAdicao += OnSalvarAdicao;
             Comportamento.SalvarEdicao += OnSalvarEdicao;
             Comportamento.Remover += OnRemover;
             Comportamento.Cancelar += OnCancelar;
+            base.PropertyChanged += OnEntityChanged;
         }
 
         #endregion
 
         #region Metódos
 
-
         /// <summary>
-        ///     Relação dos itens de pesquisa
+        /// 
         /// </summary>
-        private void ItensDePesquisaConfigura()
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnEntityChanged(object sender, PropertyChangedEventArgs e)
         {
-            ListaPesquisa = new List<KeyValuePair<int, string>>();
-            ListaPesquisa.Add(new KeyValuePair<int, string>(1, "Seguro"));
-            ListaPesquisa.Add(new KeyValuePair<int, string>(2, "Apólice"));
-            PesquisarPor = ListaPesquisa[0]; //Pesquisa Default
+            if (e.PropertyName == "Entity") //habilitar botão alterar todas as vezes em que houver entidade diferente de null
+                Comportamento.IsEnableEditar = true;
         }
-
+         
 
         private void PrepareRemover()
         {
@@ -213,16 +207,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                if (Entity == null)
-                {
-                    return;
-                }
+                if (Entity == null) return;
 
                 var result = WpfHelp.MboxDialogRemove();
-                if (result != DialogResult.Yes)
-                {
-                    return;
-                }
+                if (result != DialogResult.Yes) return;
 
                 var n1 = Mapper.Map<VeiculoSeguro>(Entity);
                 _service.Remover(n1);
@@ -244,7 +232,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         }
         private void PrepareAlterar()
         {
-            if (Entity == null) return;
+            if (Entity == null)
+            {
+                WpfHelp.PopupBox("Selecione um item da lista", 1);
+                return;
+            }
 
             Comportamento.PrepareAlterar();
             IsEnableLstView = false;
@@ -257,35 +249,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private void Pesquisar()
         {
-            try
-            {
-                if (_veiculoView == null)
-                {
-                    return;
-                }
-
-                var pesquisa = NomePesquisa;
-
-                var num = PesquisarPor;
-
-                //Por Seguro
-                if (num.Key == 1)
-                {
-                    var l1 = _service.Listar(_veiculoView.EquipamentoVeiculoId, $"%{pesquisa}%", null);
-                    PopularObserver(l1);
-                }
-                //Por Seguro
-                if (num.Key == 2)
-                {
-                    var l1 = _service.Listar(_veiculoView.EquipamentoVeiculoId, null, $"%{pesquisa}%");
-                    PopularObserver(l1);
-                }
-
-            }
-            catch (Exception ex)
-            {
-                Utils.TraceException(ex);
-            }
+             
         }
 
         private void PopularObserver(ICollection<VeiculoSeguro> list)
@@ -294,8 +258,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 var list2 = Mapper.Map<List<VeiculoSeguroView>>(list.OrderBy(n => n.NomeArquivo));
                 EntityObserver = new ObservableCollection<VeiculoSeguroView>();
-                list2.ForEach(n => { EntityObserver.Add(n); });
-                //Empresas = observer;
+                list2.ForEach(n => { EntityObserver.Add(n); }); 
             }
 
             catch (Exception ex)

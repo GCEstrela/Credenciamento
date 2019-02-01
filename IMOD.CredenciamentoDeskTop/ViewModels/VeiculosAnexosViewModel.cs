@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Forms;
@@ -31,6 +32,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
     {
         private readonly IVeiculoAnexoService _service = new VeiculoAnexoService();
         private VeiculoView _veiculoView;
+        private VeiculoViewModel _viewModelParent;
 
         /// <summary>
         ///     True, Comando de alteração acionado
@@ -58,23 +60,32 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         public VeiculosAnexosViewModel()
         {
-            Comportamento = new ComportamentoBasico(true, true, true, false, false);
+            Comportamento = new ComportamentoBasico(false, true, true, false, false);
+            EntityObserver = new ObservableCollection<VeiculoAnexoView>();
             Comportamento.SalvarAdicao += OnSalvarAdicao;
             Comportamento.SalvarEdicao += OnSalvarEdicao;
             Comportamento.Remover += OnRemover;
             Comportamento.Cancelar += OnCancelar;
+            base.PropertyChanged += OnEntityChanged;
         }
 
         #region  Metodos
-
-        public void AtualizarDadosAnexo(VeiculoView entity)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnEntityChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (entity == null)
-            {
-                throw new ArgumentNullException(nameof(entity));
-            }
+            if (e.PropertyName == "Entity") //habilitar botão alterar todas as vezes em que houver entidade diferente de null
+                Comportamento.IsEnableEditar = true;
+        }
 
-            _veiculoView = entity;
+        public void AtualizarDados(VeiculoView entity, VeiculoViewModel viewModelParent)
+        {
+            _veiculoView = entity ?? throw new ArgumentNullException(nameof(entity));
+            _viewModelParent = viewModelParent;
+        
             //Obter dados
             var list1 = _service.Listar(entity.EquipamentoVeiculoId);
             var list2 = Mapper.Map<List<VeiculoAnexoView>>(list1.OrderByDescending(n => n.VeiculoAnexoId));
@@ -102,10 +113,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                if (Entity == null)
-                {
-                    return;
-                }
+                if (Entity == null) return;
                 if (Validar()) return;
 
                 var n1 = Mapper.Map<VeiculoAnexo>(Entity);
@@ -115,6 +123,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var n2 = Mapper.Map<VeiculoAnexoView>(n1);
                 EntityObserver.Insert(0, n2);
                 IsEnableLstView = true;
+                _viewModelParent.AtualizarDadosPendencias();
             }
             catch (Exception ex)
             {
@@ -143,10 +152,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                if (Entity == null)
-                {
-                    return;
-                }
+                if (Entity == null) return;
+                EntityTmp = Entity;
                 if (Validar()) return;
                 var n1 = Mapper.Map<VeiculoAnexo>(Entity);
                 _service.Alterar(n1);
@@ -168,18 +175,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                IsEnableLstView = true;
-                _prepareCriarCommandAcionado = false;
-                _prepareAlterarCommandAcionado = false;
-                Entity = EntityTmp;
-
+                IsEnableLstView = true; 
                 if (Entity != null)
                 {
-                    //if (Entity.VeiculoAnexoId == 0)
-                    //{
-                    //    Entity = EntityTmp;
-                    //}
                     Entity.ClearMessageErro();
+                    Entity = EntityTmp;
                 }
                 
             }
@@ -199,20 +199,15 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                if (Entity == null) return;
-                
+                if (Entity == null) return;               
 
                 var result = WpfHelp.MboxDialogRemove();
-                if (result != DialogResult.Yes)
-                {
-                    return;
-                }
+                if (result != DialogResult.Yes) return;          
 
                 var n1 = Mapper.Map<VeiculoAnexo>(Entity);
                 _service.Remover(n1);
                 //Retirar empresa da coleção
                 EntityObserver.Remove(Entity);
-                IsEnableLstView = true;
                 
             }
             catch (Exception ex)
@@ -226,10 +221,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         #endregion
 
     
-
-        #region Inicializacao
-
-        #endregion
+ 
 
 
         #region Propriedade Commands
@@ -265,13 +257,17 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         private void PrepareSalvar()
         {
-            if (!ErroValidacao)
-                Comportamento.PrepareSalvar();
+            if (Validar()) return;
+            Comportamento.PrepareSalvar();
         }
 
         private void PrepareAlterar()
         {
-            if (Entity == null) return;
+            if (Entity == null)
+            {
+                WpfHelp.PopupBox("Selecione um item da lista", 1);
+                return;
+            }
 
             Comportamento.PrepareAlterar();
             IsEnableLstView = false;

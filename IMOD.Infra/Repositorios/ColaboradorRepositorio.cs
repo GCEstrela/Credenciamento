@@ -157,7 +157,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Bagagem", entity.Bagagem, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("DataEmissao", DbType.Date, entity.DataEmissao, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("DataValidade", DbType.Date, entity.DataValidade, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Excluida", entity.Excluida, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Ativo", entity.Ativo, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("StatusID", entity.StatusId, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("TipoAcessoID", entity.TipoAcessoId, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Pendente21", entity.Pendente21, false)));
@@ -256,7 +256,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Bagagem", entity.Bagagem, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("DataEmissao", DbType.Date, entity.DataEmissao, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("DataValidade", DbType.Date, entity.DataValidade, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Excluida", entity.Excluida, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Ativo", true, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("StatusID", entity.StatusId, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("TipoAcessoID", entity.TipoAcessoId, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Pendente21", entity.Pendente21, false)));

@@ -109,6 +109,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private void PrepareRemover()
         {
+            if (Entity == null) return;
+
+            IsEnableLstView = true;
             Comportamento.PrepareRemover();
         }
 
@@ -250,6 +253,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private void PrepareAlterar()
         {
+            if (Entity == null)
+            {
+                WpfHelp.PopupBox("Selecione um item da lista", 1);
+                return;
+            }
             Comportamento.PrepareAlterar();
             IsEnableLstView = false;
         }

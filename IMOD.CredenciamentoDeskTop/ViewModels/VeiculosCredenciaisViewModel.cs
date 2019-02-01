@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -47,21 +48,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <summary>
         ///     True, Comando de criação acionado
         /// </summary>
-        private bool _prepareCriarCommandAcionado;
-
-        //private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
-        //private readonly IVeiculoService _service = new VeiculoService();
-        private readonly IVeiculoCredencialService _service = new VeiculoCredencialService();
-        //private readonly IVeiculoCredencialImpressaoService _ImpressaoService = new VeiculoCredencialImpressaoService();
-
-
+        private bool _prepareCriarCommandAcionado; 
+        private readonly IVeiculoCredencialService _service = new VeiculoCredencialService(); 
         private readonly IVeiculoEmpresaService _VeiculoEmpresaService = new VeiculoEmpresaService();
-        private readonly IEmpresaLayoutCrachaService _EmpresaLayoutCrachaService = new EmpresaLayoutCrachaService();
-
+        private readonly IEmpresaLayoutCrachaService _EmpresaLayoutCrachaService = new EmpresaLayoutCrachaService(); 
         private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
-        private readonly IEmpresaLayoutCrachaService _empresaLayoutCracha = new EmpresaLayoutCrachaService();
-
-
+        private readonly IEmpresaLayoutCrachaService _empresaLayoutCracha = new EmpresaLayoutCrachaService(); 
         private VeiculoView _VeiculoView;
         private VeiculoEmpresaView _VeiculoEmpresaView;
         private VeiculoCredencial _VeiculoCredencial;
@@ -106,13 +98,14 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public bool IsEnableFixo { get; set; } = false;
 
         #endregion
+
         #region Inicializacao
 
         public VeiculosCredenciaisViewModel()
         {
             ItensDePesquisaConfigura();
             ListarDadosAuxiliares();
-            Comportamento = new ComportamentoBasico(true, true, true, false, false);
+            Comportamento = new ComportamentoBasico(false, true, true, false, false);
             EntityObserver = new ObservableCollection<VeiculoCredencialView>();
             IsEnablePrint = false;
             IsEnableFixo = false;
@@ -121,11 +114,21 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             Comportamento.SalvarEdicao += OnSalvarEdicao;
             Comportamento.Remover += OnRemover;
             Comportamento.Cancelar += OnCancelar;
+            base.PropertyChanged += OnEntityChanged;
         }
 
         #region  Metodos
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnEntityChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "Entity") //habilitar botão alterar todas as vezes em que houver entidade diferente de null
+                Comportamento.IsEnableEditar = true;
+        }
 
-        //TODO: AtualizarVinculo
         public void AtualizarVinculoVeiculoEmpresa(VeiculoView _entity)
         {
             if (_entity == null ) { return;}
@@ -146,12 +149,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         public void AtualizarDados(VeiculoView entity)
         {
-            if (entity == null)
-            {
-                throw new ArgumentNullException(nameof(entity));
-            }
-
-            _VeiculoView = entity;
+            _VeiculoView = entity ?? throw new ArgumentNullException(nameof(entity));
             ////Obter dados
             var list1 = _service.ListarView(entity.EquipamentoVeiculoId, null, null, null, null).ToList();
             var list2 = Mapper.Map<List<VeiculoCredencialView>>(list1.OrderByDescending(n => n.VeiculoCredencialId));
@@ -528,11 +526,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         }
 
         #endregion
-
-        #region Variaveis Privadas
-
-
-        #endregion
+         
 
         #region  Metodos
         private void ListarDadosAuxiliares()
@@ -603,19 +597,21 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         private void PrepareSalvar()
         {
-            if (!ErroValidacao)
-                Comportamento.PrepareSalvar();
+            if (Validar()) return;
+            Comportamento.PrepareSalvar();
         }
 
         private void PrepareAlterar()
         {
-            if (Entity == null) return;
-            
-            Comportamento.PrepareAlterar();
+            if (Entity == null)
+            {
+                WpfHelp.PopupBox("Selecione um item da lista", 1);
+                return;
+            }
 
+            Comportamento.PrepareAlterar();
             IsEnableLstView = false;
             _prepareCriarCommandAcionado = false;
-
             _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;
         }
 
@@ -626,16 +622,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public bool Validar()
         {
             Entity.Validate();
-            var hasErros = Entity.HasErrors;
-            //Entity = EntityTmp;
+            var hasErros = Entity.HasErrors; 
             return hasErros;
         }
-
-        /// <summary>
-        /// Erro de validação
-        /// True, Erro de validação
-        /// </summary>
-        public bool ErroValidacao { get { return Validar(); } }
+         
 
 
 

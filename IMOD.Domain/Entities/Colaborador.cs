@@ -54,7 +54,7 @@ namespace IMOD.Domain.Entities
         public string Bagagem { get; set; }
         public DateTime? DataEmissao { get; set; }
         public DateTime? DataValidade { get; set; }
-        public int Excluida { get; set; }
+        public bool Ativo { get; set; }
         public int StatusId { get; set; }
         public int TipoAcessoId { get; set; }
         public bool Pendente21 { get; set; }

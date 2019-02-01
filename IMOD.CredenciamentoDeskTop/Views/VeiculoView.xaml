@@ -180,13 +180,6 @@
                       SelectedItem="{Binding Entity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,5,0" Width="1259">
                 <ListView.View>
                     <GridView FrameworkElement.FlowDirection="RightToLeft">
-                        <!--<GridViewColumn >
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Image Source="{Binding Pendencias, Converter={StaticResource ConvertBoolToImage}, Mode=TwoWay, UpdateSourceTrigger=Explicit}" Width="16"  Height="16"/>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>-->
                         <GridViewColumn Width="55" Header="Código" DisplayMemberBinding="{Binding EquipamentoVeiculoId}" />
                         <GridViewColumn Width="140" Header="Placa/Identificador" DisplayMemberBinding="{Binding PlacaIdentificador}" />
                         <GridViewColumn Width="140" Header="Série/Chassi" DisplayMemberBinding="{Binding SerieChassi}" />
@@ -209,8 +202,6 @@
             <Button x:Name="btnSalvar"      Content="{StaticResource imgSave}"      ToolTip="Salvar"        IsEnabled="{Binding Comportamento.isEnableSalvar}"      Command="{Binding PrepareSalvarCommand}"    Width="25" Margin="0,0,5,0"  />
 
         </StackPanel>
-
-        <!--<Label Content="{Binding Entity.DescricaoAlias }" Grid.Column="0" Grid.Row="2" FontSize="14"  Foreground="#FF007ACC" Margin="0,1,161,2" />-->
 
         <TabControl  
                     SelectedIndex="{Binding SelectedTabIndex }" Margin="1,1,-259,-324"
@@ -264,7 +255,7 @@
                                     <TextBox CharacterCasing="Upper" Text="{Binding Entity.EquipamentoVeiculoId}" x:Name="Nome_tb"
                                              MaxLength="50" IsEnabled="True" Height="24" Width="39"/>
                                     <Label Content="Placa/Identificador:" Height="28" Width="160" HorizontalContentAlignment="Right"  Foreground="#FFD0D0D0" />
-                                    <TextBox  MaxLength="8" CharacterCasing="Upper" Text="{Binding Entity.PlacaIdentificador, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="140" />
+                                    <TextBox  MaxLength="10" CharacterCasing="Upper" Text="{Binding Entity.PlacaIdentificador, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="140" />
                                     <Label Content="Série/Chassi:" Height="28" Width="80"  Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
                                     <TextBox   MaxLength="20" CharacterCasing="Upper" Text="{Binding Entity.SerieChassi, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="140" />
                                 </StackPanel>
@@ -272,12 +263,12 @@
                                             HorizontalAlignment="Left" Margin="1">
                                     <Label Content="Frota:" Height="28" Width="98"  HorizontalContentAlignment="Right"
                                            Foreground="#FFD0D0D0" />
-                                    <TextBox CharacterCasing="Upper" x:Name="Apelido_tb" MaxLength="8"
+                                    <TextBox CharacterCasing="Upper" x:Name="Apelido_tb" MaxLength="10"
                                              Text="{Binding Entity.Frota, UpdateSourceTrigger=PropertyChanged}"
                                              IsEnabled="True" Height="24" Width="200" />
 
                                     <Label Content="Patrimônio:" Height="28" Width="73" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
-                                    <TextBox CharacterCasing="Upper" x:Name="Sigla_tb" MaxLength="8"
+                                    <TextBox CharacterCasing="Upper" x:Name="Sigla_tb" MaxLength="10"
                                              Text="{Binding Entity.Patrimonio, UpdateSourceTrigger=PropertyChanged}"
                                              IsEnabled="True" Height="24" Width="64" />
 

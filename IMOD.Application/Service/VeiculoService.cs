@@ -86,6 +86,21 @@ namespace IMOD.Application.Service
         public void Criar(Veiculo entity)
         {
             _repositorio.Criar (entity);
+            //Criar pendências
+            #region Criar Pendências
+
+            var pendencia = new Pendencia();
+            pendencia.VeiculoId = entity.EquipamentoVeiculoId;
+            //--------------------------
+            pendencia.CodPendencia = 22;
+            Pendencia.CriarPendenciaSistema(pendencia);
+            //--------------------------
+            pendencia.CodPendencia = 19;
+            Pendencia.CriarPendenciaSistema(pendencia);
+            //--------------------------
+            pendencia.CodPendencia = 24;
+            Pendencia.CriarPendenciaSistema(pendencia);
+            #endregion
         }
 
         /// <summary>

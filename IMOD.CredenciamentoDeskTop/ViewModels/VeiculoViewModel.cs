@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Forms;
@@ -27,7 +28,7 @@ using IMOD.Domain.Entities;
 
 namespace IMOD.CredenciamentoDeskTop.ViewModels
 {
-    internal class VeiculoViewModel : ViewModelBase, IComportamento
+    public class VeiculoViewModel : ViewModelBase, IComportamento
     {
         private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
         private readonly IVeiculoService _service = new VeiculoService();
@@ -87,7 +88,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <summary>
         ///     Habilita abas
         /// </summary>
-        public bool IsEnableTabItem { get; private set; } = true;
+        public bool IsEnableTabItem { get; set; } = false;
 
         /// <summary>
         ///     Seleciona o indice da tabcontrol desejada
@@ -101,7 +102,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         VeiculoView EntityTmp = new VeiculoView();
         public VeiculoView Entity { get; set; }
-        public VeiculoView EntidadeTMP { get; set; }
+        public VeiculoView EntidadeTmp { get; set; }
         
         public ObservableCollection<VeiculoView> EntityObserver { get; set; }
 
@@ -150,15 +151,28 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             ItensDePesquisaConfigura();
             ListarDadosAuxiliares();
-            Comportamento = new ComportamentoBasico(true, true, true, false, false);
+            Comportamento = new ComportamentoBasico(false, true, true, false, false);
+            EntityObserver = new ObservableCollection<VeiculoView>();
             TiposEquipamentoServico = new ObservableCollection<EquipamentoVeiculoTipoServicoView>();
             Comportamento.SalvarAdicao += OnSalvarAdicao;
             Comportamento.SalvarEdicao += OnSalvarEdicao;
             Comportamento.Remover += OnRemover;
             Comportamento.Cancelar += OnCancelar;
+            base.PropertyChanged += OnEntityChanged;
         }
 
         #region  Metodos
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnEntityChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "Entity") //habilitar botão alterar todas as vezes em que houver entidade diferente de null
+                Comportamento.IsEnableEditar = true;
+        }
 
         /// <summary>
         ///     Relação dos itens de pesauisa
@@ -167,10 +181,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             ListaPesquisa = new List<KeyValuePair<int, string>>();
             ListaPesquisa.Add(new KeyValuePair<int, string>(1, "Placa/Identificador"));
-            ListaPesquisa.Add(new KeyValuePair<int, string>(2, "Série/Chassi"));
-            ListaPesquisa.Add(new KeyValuePair<int, string>(3, "Código"));
-            ListaPesquisa.Add(new KeyValuePair<int, string>(4, "Descrição"));
-            ListaPesquisa.Add(new KeyValuePair<int, string>(5, "Marca"));
+            ListaPesquisa.Add(new KeyValuePair<int, string>(2, "Série/Chassi")); 
             PesquisarPor = ListaPesquisa[0]; //Pesquisa Default
         }
 
@@ -183,8 +194,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             var lst2 = _auxiliaresService.TipoCombustivelService.Listar();
             var lst3 = _auxiliaresService.EstadoService.Listar();
             var lst4 = _auxiliaresService.TipoEquipamentoService.Listar();
-
-
             ListaTipoServico = Mapper.Map<List<TipoServico>>(lst1);
             TiposCombustiveis = Mapper.Map<List<TipoCombustivel>>(lst2);
             Estados = Mapper.Map<List<Estados>>(lst3);
@@ -197,10 +206,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// ValidarCnpj
         public void AtualizarDadosPendencias()
         {
-            if (Entity == null)
-            {
-                return;
-            }
+            if (Entity == null) return;
 
             var pendencia = _service.Pendencia.ListarPorVeiculo(Entity.EquipamentoVeiculoId).ToList();
             //Set valores
@@ -209,10 +215,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             PendenciaContrato = false;
             PendenciaAnexo = false;
             //Buscar pendências referente aos códigos: 21; 12;14;24
-            PendenciaGeral = pendencia.Any(n => n.CodPendencia == 21);
-            PendenciaRepresentante = pendencia.Any(n => n.CodPendencia == 12);
-            PendenciaContrato = pendencia.Any(n => n.CodPendencia == 14);
-            PendenciaAnexo = pendencia.Any(n => n.CodPendencia == 24);
+            PendenciaGeral = pendencia.Any(n => n.CodPendencia == 21 & n.Ativo);
+            PendenciaRepresentante = pendencia.Any(n => n.CodPendencia == 12 & n.Ativo);
+            PendenciaContrato = pendencia.Any(n => n.CodPendencia == 14 & n.Ativo);
+            PendenciaAnexo = pendencia.Any(n => n.CodPendencia == 24 & n.Ativo);
             //Indica se a empresa possue pendências
             Pendencias = PendenciaGeral || PendenciaRepresentante || PendenciaContrato || PendenciaAnexo;
         }
@@ -222,10 +228,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         public void AtualizarDadosTiposServico()
         {
-            if (Entity == null)
-            {
-                return;
-            }
+            if (Entity == null) return;
 
             TiposEquipamentoServico.Clear();
             var id = Entity.EquipamentoVeiculoId;
@@ -248,25 +251,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(uf))
-                {
-                    return;
-                }
-
-                if (Municipios == null)
-                {
-                    Municipios = new List<Municipio>();
-                }
-
-                if (_municipios == null)
-                {
-                    _municipios = new List<Municipio>();
-                }
-
-                if (Estado == null)
-                {
-                    return;
-                }
+                if (string.IsNullOrWhiteSpace(uf)) return;
+                if (Municipios == null) Municipios = new List<Municipio>();
+                if (_municipios == null) _municipios = new List<Municipio>();
+                if (Estado == null) return;
 
                 //Verificar se há municipios já carregados...
                 var l1 = _municipios.Where(n => n.Uf == uf);
@@ -295,7 +283,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             IsEnableLstView = false;
             _prepareCriarCommandAcionado = true;
             SelectedTabIndex = 0;
-            Comportamento.PrepareCriar();
+            Comportamento.PrepareCriar(); 
             _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;
             TiposEquipamentoServico.Clear();
         }
@@ -343,16 +331,16 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 var num = PesquisarPor;
 
-                //Descricao
+                //Placa/Identificador
                 if (num.Key == 1)
                 {
-                    var l1 = _service.Listar($"%{pesquisa}%", null);
+                    var l1 = _service.Listar(null,null,$"%{pesquisa}%", null);
                     PopularObserver(l1);
                 }
-                //Por Modelo
+                //Por Série/Chassi
                 if (num.Key == 2)
                 {
-                    var l1 = _service.Listar(null, $"%{pesquisa}%");
+                    var l1 = _service.Listar(null,null,null, $"%{pesquisa}%");
                     PopularObserver(l1);
                 }
 
@@ -382,14 +370,15 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         private void PrepareSalvar()
         {
-            if (!ErroValidacao)
-                Comportamento.PrepareSalvar();
+            if (Validar()) return;
+            Comportamento.PrepareSalvar();
         }
 
         private void PrepareAlterar()
         {
             if (Entity == null)
             {
+                WpfHelp.PopupBox("Selecione um item da lista", 1);
                 return;
             }
 
@@ -404,10 +393,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         private void PrepareRemover()
         {
-            if (Entity == null)
-            {
-                return;
-            }
+            if (Entity == null) return;
 
             IsEnableLstView = true;
             _prepareCriarCommandAcionado = false;
@@ -430,7 +416,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 //Adicionar no inicio da lista um item a coleção
                 var n2 = Mapper.Map<VeiculoView>(n1);
                 EntityObserver.Insert(0, n2);
-                IsEnableTabItem = true;
                 IsEnableLstView = true;
             }
             catch (Exception ex)
@@ -480,22 +465,20 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                
+
                 IsEnableLstView = true;
-                IsEnableTabItem = true;
                 _prepareCriarCommandAcionado = false;
                 _prepareAlterarCommandAcionado = false;
-                Entity = EntityTmp;
+                TiposEquipamentoServico.Clear();
 
                 if (Entity != null)
                 {
-                    //if (Entity.EquipamentoVeiculoId == 0)
-                    //{
-                        
-                    //}
                     Entity.ClearMessageErro();
+                    Entity = EntityTmp;
+                    if (Entity != null)
+                        IsEnableTabItem = true;
                 }
-
+                AtualizarDadosTiposServico();
             }
             catch (Exception ex)
             {
@@ -508,16 +491,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                if (Entity == null)
-                {
-                    return;
-                }
+                if (Entity == null) return;
 
                 var result = WpfHelp.MboxDialogRemove();
-                if (result != DialogResult.Yes)
-                {
-                    return;
-                }
+                if (result != DialogResult.Yes) return;
 
                 var n1 = Mapper.Map<Veiculo>(Entity);
                 _service.Remover(n1);
@@ -543,12 +520,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             var hasErros = Entity.HasErrors;
             return hasErros;
         }
-
-        /// <summary>
-        /// Erro de validação
-        /// True, Erro de validação
-        /// </summary>
-        public bool ErroValidacao { get { return Validar(); } }
+         
 
         #endregion
 

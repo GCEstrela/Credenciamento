@@ -83,7 +83,7 @@
                 </StackPanel>
             </GroupBox>
 
-            <StackPanel Orientation="Horizontal" Margin="0,3,0,-3">
+            <!--<StackPanel Orientation="Horizontal" Margin="0,3,0,-3">
                 <Label Content="Pesquisar:" Height="25" Width="65" Foreground="#FFD0D0D0" Margin="1,0,0,0"/>
                 <ComboBox  Width="150" ItemsSource="{Binding ListaPesquisa}"
              DisplayMemberPath="Value"
@@ -94,7 +94,7 @@
                         <KeyBinding Command="{Binding Path=PesquisarCommand}" Key="Enter" />
                     </TextBox.InputBindings>
                 </TextBox>
-            </StackPanel>
+            </StackPanel>-->
             <StackPanel Orientation="Horizontal" Height="179" Margin="0,10,40,0">
                 <ListView x:Name="ListaSeguros_lv"
                           IsEnabled="{Binding IsEnableLstView}"

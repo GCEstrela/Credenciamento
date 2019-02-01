@@ -41,10 +41,10 @@ namespace IMOD.CredenciamentoDeskTop.Views
         ///     Atualizar dados
         /// </summary>
         /// <param name="entity"></param>
-        public void AtualizarDados(Model.VeiculoView entity)
+        public void AtualizarDados(Model.VeiculoView entity,  VeiculoViewModel viewModelParent)
         {
             if (entity == null) return;
-            _viewModel.AtualizarDadosAnexo (entity);
+            _viewModel.AtualizarDados (entity, viewModelParent);
         }
 
         /// <summary>
@@ -79,9 +79,13 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             try
             {
+                //var arquivoStr = _viewModel.Entity.Arquivo;
+                //var arrBytes = Convert.FromBase64String (arquivoStr);
+                //WpfHelp.DownloadArquivoDialog (_viewModel.Entity.NomeArquivo, arrBytes);
+
                 var arquivoStr = _viewModel.Entity.Arquivo;
-                var arrBytes = Convert.FromBase64String (arquivoStr);
-                WpfHelp.DownloadArquivoDialog (_viewModel.Entity.NomeArquivo, arrBytes);
+                var arrBytes = Convert.FromBase64String(arquivoStr);
+                WpfHelp.AbrirArquivoPdf(_viewModel.Entity.NomeArquivo, arrBytes);
             }
             catch (Exception ex)
             {

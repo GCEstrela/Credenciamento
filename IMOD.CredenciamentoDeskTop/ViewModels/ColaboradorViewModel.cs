@@ -400,7 +400,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         private void PrepareAlterar()
         {
-            if (Entity == null) return;
+            if (Entity == null)
+            {
+                WpfHelp.PopupBox("Selecione um item da lista", 1);
+                return;
+            }
 
             Comportamento.PrepareAlterar();
             IsEnableTabItem = false;

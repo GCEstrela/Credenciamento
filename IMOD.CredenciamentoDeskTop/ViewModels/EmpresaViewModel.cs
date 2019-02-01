@@ -102,7 +102,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public bool IsEnableLstView { get; private set; } = true;
 
         EmpresaView EntityTmp = new EmpresaView();
-
         public EmpresaView Entity { get; set; }
         public ObservableCollection<EmpresaView> EntityObserver { get; set; }
         public ObservableCollection<EmpresaLayoutCrachaView> TiposLayoutCracha { get; set; }
@@ -543,8 +542,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         }
         private void PrepareAlterar()
         {
-            if (Entity == null) return;
-
+            if (Entity == null)
+            {
+                WpfHelp.PopupBox("Selecione um item da lista", 1);
+                return;
+            }
             Comportamento.PrepareAlterar();
             IsEnableTabItem = false;
             IsEnableLstView = false;
@@ -572,9 +574,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             try
             {
                 if (Entity == null) return;
+                if (Validar()) return;
 
-                var n1 = Mapper.Map<Empresa>(Entity);
-                Validar();
+                var n1 = Mapper.Map<Empresa>(Entity);               
                 _service.Criar(n1);
                 //Salvar Tipo de Atividades
                 SalvarTipoAtividades(n1.EmpresaId);
@@ -624,9 +626,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                if (Entity == null) return;
-                
+                if (Entity == null) return;                
                 if (Validar()) return;
+
                 var n1 = Mapper.Map<Empresa>(Entity);
                 _service.Alterar(n1);
                 //Salvar Tipo de Atividades

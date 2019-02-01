@@ -39,7 +39,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public EmpresaSignatarioView Entity { get; set; }
         public ObservableCollection<EmpresaSignatarioView> EntityObserver { get; set; }
 
-        EmpresaSignatarioView EntidadeTMP = new EmpresaSignatarioView();
+        EmpresaSignatarioView EntityTmp = new EmpresaSignatarioView();
 
         
         /// <summary>
@@ -117,7 +117,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             try
             {
                 if (Entity == null) return;
-
                 if (Validar()) return;
 
                 var n1 = Mapper.Map<EmpresaSignatario>(Entity);
@@ -140,9 +139,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         ///     Acionado antes de criar
         /// </summary>
         private void PrepareCriar()
-        {
-            //if (Entity == null) return;
-            EntidadeTMP = Entity;
+        { 
+            EntityTmp = Entity;
             Entity = new EmpresaSignatarioView();
             Comportamento.PrepareCriar();
             IsEnableLstView = false;
@@ -158,10 +156,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             try
             {
                 if (Entity == null) return;
-                EntidadeTMP = Entity;
-
-                if (Validar()) return;
-                
+                EntityTmp = Entity;
+                if (Validar()) return;                
                 var n1 = Mapper.Map<EmpresaSignatario>(Entity);
                 _service.Alterar(n1);
                 IsEnableLstView = true;
@@ -187,7 +183,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (Entity != null)
                 {
                     Entity.ClearMessageErro();
-                    Entity = EntidadeTMP;
+                    Entity = EntityTmp;
                    
                 }
 
@@ -237,7 +233,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             if (Entity == null)
             {
-                WpfHelp.PopupBox("Selecione um Item na Lista de Representantes", 1);
+                WpfHelp.PopupBox("Selecione um item da lista", 1);
                 return;
             }
             //EntidadeTMP = Entity;

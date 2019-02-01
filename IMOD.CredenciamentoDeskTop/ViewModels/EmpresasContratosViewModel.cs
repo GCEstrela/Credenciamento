@@ -71,7 +71,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public ObservableCollection<EmpresaContratoView> EntityObserver { get; set; }
         public EmpresaContratoView Entity { get; set; }
 
-        EmpresaContratoView EntidadeTMP = new EmpresaContratoView();
+        EmpresaContratoView EntityTmp = new EmpresaContratoView();
 
         /// <summary>
         ///     Habilita listView
@@ -227,7 +227,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private void PrepareCriar()
         {
-            EntidadeTMP = Entity;
+            EntityTmp = Entity;
             Entity = new EmpresaContratoView();
             Comportamento.PrepareCriar();
             IsEnableLstView = false;
@@ -270,7 +270,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (Entity != null)
                 {
                     Entity.ClearMessageErro();
-                    Entity = EntidadeTMP;
+                    Entity = EntityTmp;
                     
                 }
             }
@@ -319,10 +319,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             if (Entity == null)
             {
-                WpfHelp.PopupBox("Selecione um Item na Lista de Contratos", 1);
+                WpfHelp.PopupBox("Selecione um item da lista", 1);
                 return;
             }
-            EntidadeTMP = Entity;
+            EntityTmp = Entity;
             Comportamento.PrepareAlterar();
             IsEnableLstView = false;
         }
