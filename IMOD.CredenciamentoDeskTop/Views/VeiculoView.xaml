@@ -10,8 +10,6 @@
              mc:Ignorable="d"
              MaxWidth="1300" Width="1270" Height="825"  Loaded="Frm_Loaded">
     <UserControl.Resources>
-        <funcoes:StringToImageConverter x:Key="ImageConverter"/>
-        <funcoes:ConvertBoolToImage x:Key="ConvertBoolToImage"/>
         <Image x:Key="imgAdd" Source="../Resources/add.png"  />
         <Image x:Key="imgEdit" Source="../Resources/edit.png"  />
         <Image x:Key="imgRemove" Source="../Resources/remove.png"  />
@@ -29,7 +27,102 @@
                 <AdornedElementPlaceholder x:Name="ErrorAdorner" ></AdornedElementPlaceholder>
             </DockPanel>
         </ControlTemplate>
-        <!--Begin Styles-->
+        <funcoes:StringToImageConverter x:Key="ImageConverter"/>
+        <Style TargetType="{x:Type DatePickerTextBox}">
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" />
+            <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />
+            <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst"/>
+            <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="DatePickerTextBox">
+                        <Grid >
+                            <Grid.Resources>
+                                <SolidColorBrush x:Key="WatermarkBrush" Color="#FFAAAAAA"/>
+                            </Grid.Resources>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup Name="CommonStates">
+                                    <VisualStateGroup.Transitions>
+                                        <VisualTransition GeneratedDuration="0" />
+                                        <VisualTransition To="MouseOver" GeneratedDuration="0:0:0.1" />
+                                    </VisualStateGroup.Transitions>
+                                    <VisualState Name="Normal" />
+                                    <VisualState Name="MouseOver">
+                                        <Storyboard>
+                                            <ColorAnimation Storyboard.TargetName="ContentElement" Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)" To="#FF99C1E2" Duration="0"/>
+                                            <ColorAnimation Storyboard.TargetName="watermark_decorator" Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)" To="#FF99C1E2" Duration="0"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup Name="WatermarkStates">
+                                    <VisualStateGroup.Transitions>
+                                        <VisualTransition GeneratedDuration="0" />
+                                    </VisualStateGroup.Transitions>
+                                    <VisualState Name="Unwatermarked" />
+                                    <VisualState Name="Watermarked">
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="ContentElement" Storyboard.TargetProperty="Opacity" To="0" Duration="0" />
+                                            <DoubleAnimation Storyboard.TargetName="PART_Watermark" Storyboard.TargetProperty="Opacity" To="1" Duration="0" />
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup Name="FocusStates">
+                                    <VisualStateGroup.Transitions>
+                                        <VisualTransition GeneratedDuration="0" />
+                                    </VisualStateGroup.Transitions>
+                                    <VisualState Name="Unfocused" />
+                                    <VisualState Name="Focused">
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="FocusVisual" Storyboard.TargetProperty="Opacity" To="1" Duration="0" />
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+
+
+                            <Border x:Name="Border" VerticalAlignment="Center"
+                            Background="Transparent" 
+                            BorderBrush="Transparent" 
+                            BorderThickness="0"
+                            Padding="{TemplateBinding Padding}"
+                            CornerRadius="1" 
+                            Opacity="1">
+                                <Grid x:Name="WatermarkContent" 
+                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              VerticalAlignment="Center">
+                                    <Border x:Name="ContentElement" BorderThickness="1">
+                                        <Border.BorderBrush>
+                                            <SolidColorBrush Color="Transparent"/>
+                                        </Border.BorderBrush>
+                                    </Border>
+                                    <Border x:Name="watermark_decorator" BorderThickness="1" VerticalAlignment="Stretch">
+                                        <Border.BorderBrush>
+                                            <SolidColorBrush Color="Transparent"/>
+                                        </Border.BorderBrush>
+                                        <ContentControl x:Name="PART_Watermark"
+                                                    Opacity="0"
+                                                    Focusable="False"
+                                                    IsHitTestVisible="False"
+                                                    Padding="2" VerticalContentAlignment="Stretch">
+                                            <ContentControl.Template>
+                                                <ControlTemplate>
+                                                    <TextBlock  VerticalAlignment="Center" Text=""/>
+                                                </ControlTemplate>
+                                            </ContentControl.Template>
+                                        </ContentControl>
+                                    </Border>
+                                    <ScrollViewer x:Name="PART_ContentHost" 
+                                          Margin="0"
+                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalContentAlignment= "Center" />
+                                    <Border x:Name="FocusVisual" VerticalAlignment="Center" BorderBrush="#FF45D6FA" CornerRadius="1" Opacity="0" IsHitTestVisible="False"/>
+                                </Grid>
+                            </Border>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
         <Style x:Key="MenuStyle" TargetType="{x:Type Button}">
             <Setter Property="Background" Value="{x:Null}" />
             <Setter Property="BorderBrush" Value="{x:Null}" />
@@ -41,27 +134,24 @@
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Border CornerRadius="0" Background="{TemplateBinding Background}">
                             <Grid>
-                                <ContentPresenter x:Name="MyContentPresenter" Content="{TemplateBinding Content}"
-                                                  HorizontalAlignment="Center" VerticalAlignment="Center"
-                                                  Margin="0,0,0,0" />
+                                <ContentPresenter x:Name="MyContentPresenter" Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" />
                             </Grid>
                         </Border>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
-
-        <!--End Styles-->
         <funcoes:FormateTel x:Key="FormateTel" />
     </UserControl.Resources>
     <Grid Margin="5">
-
-
+        <Grid.Resources>
+            <funcoes:ConvertBoolToImage x:Key="ConvertBoolToImage" />
+        </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="35" />
             <RowDefinition Height="184" />
-            <RowDefinition Height="45" />
-            <RowDefinition Height="240" />
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="241"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1000" />
@@ -83,11 +173,11 @@
             </TextBox>
         </StackPanel>
 
-        <StackPanel x:Name="ListaEmpresas_sp" Grid.Column="0" Grid.Row="1" Orientation="Horizontal" Margin="0,0,-219,0"
+        <StackPanel x:Name="ListaEmpresas_sp" Grid.Column="0" Grid.Row="1" Orientation="Horizontal" Margin="0,0,-259,0"
                     Height="184" VerticalAlignment="Top">
             <ListView x:Name="lstView" ItemsSource="{Binding EntityObserver, Mode=TwoWay}"
                       IsEnabled="{Binding IsEnableLstView}"
-                      SelectedItem="{Binding Entity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,5,0" Width="1055">
+                      SelectedItem="{Binding Entity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,5,0" Width="1259">
                 <ListView.View>
                     <GridView FrameworkElement.FlowDirection="RightToLeft">
                         <!--<GridViewColumn >
@@ -109,14 +199,18 @@
                 </ListView.View>
             </ListView>
         </StackPanel>
-        <StackPanel x:Name="BotoesGeral_sp" Orientation="Horizontal" Width="165" Margin="0,4,-19,6" HorizontalAlignment="Right" Grid.Row="2">
-            <Button x:Name="btnAdicionar"   Content="{StaticResource imgAdd}"       ToolTip="Adicionar"  Height="31" IsEnabled="{Binding Comportamento.IsEnableCriar}" Command="{Binding PrepareCriarCommand}"       Width="25" Margin="0,0,5,0"  />
-            <Button x:Name="btnEditar"      Content="{StaticResource imgEdit}"      ToolTip="Editar" Height="31"  IsEnabled="{Binding Comportamento.IsEnableEditar}"  Command="{Binding PrepareAlterarCommand}"      Width="25" Margin="0,0,5,0"  />
-            <Button x:Name="btnCancelar"    Content="{StaticResource imgCancel}"    ToolTip="Cancelar" Height="31"  IsEnabled="{Binding Comportamento.isEnableCancelar}"  Command="{Binding PrepareCancelarCommand}" Width="25" Margin="0,0,5,0"  />
-            <Button x:Name="btnSalvar"      Content="{StaticResource imgSave}"      ToolTip="Salvar" Height="31"  IsEnabled="{Binding Comportamento.isEnableSalvar}"  Command="{Binding PrepareSalvarCommand}"       Width="25" Margin="0,0,5,0"  />
+
+        <StackPanel x:Name="BotoesGeral_sp" Grid.Column="0" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,2,-262,0">
+
+            <Button x:Name="btnAdicionar"   Content="{StaticResource imgAdd}"       ToolTip="Adicionar"     IsEnabled="{Binding Comportamento.IsEnableCriar}"       Command="{Binding PrepareCriarCommand}"     Width="25" Margin="0,0,5,0"  />
+            <Button x:Name="btnEditar"      Content="{StaticResource imgEdit}"      ToolTip="Editar"        IsEnabled="{Binding Comportamento.IsEnableEditar}"      Command="{Binding PrepareAlterarCommand}"   Width="25" Margin="0,0,5,0"  />
+            <Button x:Name="btnExcluir"     Content="{StaticResource imgRemove}"    ToolTip="Remover"       IsEnabled="{Binding Comportamento.isEnableRemover}"     Command="{Binding PrepareRemoverCommand}"   Width="25" Margin="0,0,5,0"  Visibility="Collapsed" />
+            <Button x:Name="btnCancelar"    Content="{StaticResource imgCancel}"    ToolTip="Cancelar"      IsEnabled="{Binding Comportamento.isEnableCancelar}"    Command="{Binding PrepareCancelarCommand}"  Width="25" Margin="0,0,5,0"  />
+            <Button x:Name="btnSalvar"      Content="{StaticResource imgSave}"      ToolTip="Salvar"        IsEnabled="{Binding Comportamento.isEnableSalvar}"      Command="{Binding PrepareSalvarCommand}"    Width="25" Margin="0,0,5,0"  />
+
         </StackPanel>
 
-        <Label Content="{Binding Entity.DescricaoAlias }" Grid.Column="0" Grid.Row="2" FontSize="14"  Foreground="#FF007ACC" Margin="0,1,161,2" />
+        <!--<Label Content="{Binding Entity.DescricaoAlias }" Grid.Column="0" Grid.Row="2" FontSize="14"  Foreground="#FF007ACC" Margin="0,1,161,2" />-->
 
         <TabControl  
                     SelectedIndex="{Binding SelectedTabIndex }" Margin="1,1,-259,-324"
@@ -149,6 +243,7 @@
 
                                     <Label Content="Tipo:" Height="28"   Width="98" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
                                     <ComboBox  x:Name="Tipo_cb"   Text="{Binding Entity.Tipo, UpdateSourceTrigger=PropertyChanged}"
+                                               Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
                                                Height="24"  Width="194"  TabIndex="0" >
                                         <ComboBoxItem>EQUIPAMENTO</ComboBoxItem>
                                         <ComboBoxItem>VEÍCULO</ComboBoxItem>
@@ -160,7 +255,7 @@
                                     <Label Content="Descrição:" Height="28" Width="98"  HorizontalContentAlignment="Right"
                                            Foreground="#FFD0D0D0" />
                                     <TextBox CharacterCasing="Upper" Text="{Binding Entity.Descricao}"
-                                             MaxLength="50" IsEnabled="True" Height="24" Width="339" />
+                                             MaxLength="50" IsEnabled="True" Height="24" Width="339" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
                                             HorizontalAlignment="Left" Margin="1,1,0,1">
@@ -187,11 +282,12 @@
                                              IsEnabled="True" Height="24" Width="64" />
 
                                     <Label Content="Combustível:" Height="28" Width="80" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
-                                    <ComboBox    Height="26" VerticalContentAlignment="Center"
+                                    <ComboBox  Height="26" VerticalContentAlignment="Center"
                                                HorizontalContentAlignment="Center"
                                                ItemsSource="{Binding TiposCombustiveis}" DisplayMemberPath="Descricao"
                                                SelectedValue="{Binding Entity.CombustivelId, UpdateSourceTrigger=PropertyChanged}" 
-                                               SelectedValuePath="TipoCombustivelId"   TabIndex="14" Width="138"/>
+                                               SelectedValuePath="TipoCombustivelId"   TabIndex="14" Width="138" 
+                                               Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
 
                                 </StackPanel>
 
@@ -206,7 +302,7 @@
                                            Foreground="#FFD0D0D0" />
                                     <TextBox CharacterCasing="Upper" x:Name="Ins_Municipal_tb" MaxLength="20"
                                              Text="{Binding Entity.Modelo,UpdateSourceTrigger=PropertyChanged}"
-                                             IsEnabled="True" Height="24" Width="99" />
+                                             IsEnabled="True" Height="24" Width="99" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
 
                                     <Label Content="Altura:" Height="28" Width="85" HorizontalContentAlignment="Right"
                                            Foreground="#FFD0D0D0" />
@@ -231,7 +327,7 @@
                                                   SelectedValue="{Binding Entity.TipoEquipamentoVeiculoId,  UpdateSourceTrigger=PropertyChanged}" 
                                                   SelectedValuePath="TipoEquipamentoId" IsSynchronizedWithCurrentItem="True" 
                                                   SelectedIndex="0" 
-                                                  Width="259" />
+                                                  Width="259" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
                                     <Label Content="Cor:" Height="28" Width="60" HorizontalContentAlignment="Right"
                                            Foreground="#FFD0D0D0" />
                                     <TextBox CharacterCasing="Upper"   MaxLength="20"

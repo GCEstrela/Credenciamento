@@ -6,13 +6,13 @@
              xmlns:funcoes="clr-namespace:IMOD.CredenciamentoDeskTop.Funcoes"
              mc:Ignorable="d"  Height="350">
     <UserControl.Resources>
-        <funcoes:FormateTel x:Key="FormateTel" /> 
-        <funcoes:CheckTeste x:Key="CheckTeste" />
         <Image x:Key="imgAdd" Source="../Resources/add.png"  />
         <Image x:Key="imgEdit" Source="../Resources/edit.png"  />
         <Image x:Key="imgRemove" Source="../Resources/remove.png"  />
         <Image x:Key="imgSave" Source="../Resources/save.png"  />
         <Image x:Key="imgCancel" Source="../Resources/undo.png"  />
+        <funcoes:FormateTel x:Key="FormateTel" />
+        <funcoes:CheckTeste x:Key="CheckTeste" />
         <ControlTemplate x:Key="ValidationErrorTemplate">
             <DockPanel>
                 <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" Margin="5,0,0,2">
@@ -40,11 +40,13 @@
                             <Label Content="Seguradora:" Height="28" Width="132"  Foreground="#FFD0D0D0" />
                             <TextBox x:Name="txtSeguradora" MaxLength="50" CharacterCasing="Upper"
                                      Text="{Binding Entity.NomeSeguradora, UpdateSourceTrigger=PropertyChanged}" IsEnabled="True"
+                                     Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
                                      Height="24" Width="453" />
                             <Label Content="Número da Apólice:" Height="28" Width="184" HorizontalContentAlignment="Right"
                                    Foreground="#FFD0D0D0" />
                             <TextBox x:Name="txtNumeroApolice" MaxLength="50" CharacterCasing="Upper"
                                      Text="{Binding Entity.NumeroApolice, UpdateSourceTrigger=PropertyChanged}"
+                                     Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
                                      IsEnabled="True" Height="24" Width="110" 
                                      VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
                         </StackPanel>
@@ -60,6 +62,7 @@
                             <Label Content="Data de Validade:" Height="28" Width="105" Margin="10,0,0,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
                             <DatePicker x:Name="dtPValidade" VerticalContentAlignment="Center" 
                                         SelectedDate="{Binding Entity.Validade, UpdateSourceTrigger=PropertyChanged}" Width="110" 
+                                        Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
                                         Foreground="White" Background="{x:Null}"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" >
@@ -96,7 +99,7 @@
                 <ListView x:Name="ListaSeguros_lv"
                           IsEnabled="{Binding IsEnableLstView}"
                           ItemsSource="{Binding EntityObserver, Mode=TwoWay}"
-                          SelectedItem="{Binding Entity, Mode=TwoWay}" Width="805" Height="178" VerticalAlignment="Top">
+                          SelectedItem="{Binding Entity, Mode=TwoWay}" Width="931" Margin="0,10,0,10"> VerticalAlignment="Top">
 
                     <ListView.View>
                         <GridView FrameworkElement.FlowDirection="RightToLeft">
@@ -108,11 +111,15 @@
                         </GridView>
                     </ListView.View>
                 </ListView>
-                <StackPanel Orientation="Vertical" Grid.Column="0" Grid.Row="3" Height="193" HorizontalAlignment="Center"  Margin="0,23,0,-37">
-                    <Button x:Name="btnAdicionar"   Content="{StaticResource imgAdd}"       ToolTip="Adicionar"  IsEnabled="{Binding Comportamento.IsEnableCriar}" Command="{Binding PrepareCriarCommand}"                   Width="25" Margin="0,0,5,0"  />
-                    <Button x:Name="btnEditar"      Content="{StaticResource imgEdit}"      ToolTip="Editar" Height="31"  IsEnabled="{Binding Comportamento.IsEnableEditar}"  Command="{Binding PrepareAlterarCommand}"      Width="25" Margin="0,0,5,0"  />
-                    <Button x:Name="btnCancelar"    Content="{StaticResource imgCancel}"    ToolTip="Cancelar" Height="31"  IsEnabled="{Binding Comportamento.isEnableCancelar}"  Command="{Binding PrepareCancelarCommand}" Width="25" Margin="0,0,5,0"  />
-                    <Button x:Name="btnSalvar"      Content="{StaticResource imgSave}"      ToolTip="Salvar" Height="31"  IsEnabled="{Binding Comportamento.isEnableSalvar}"  Command="{Binding PrepareSalvarCommand}"       Width="25" Margin="0,0,5,0"  />
+
+                <StackPanel Orientation="Vertical" Margin="0,0,0,0" HorizontalAlignment="Right" Width="40" Height="167" VerticalAlignment="Bottom">
+
+                    <Button x:Name="btnAdicionar"   Content="{StaticResource imgAdd}"       ToolTip="Adicionar" IsEnabled="{Binding Comportamento.IsEnableCriar}"       Command="{Binding PrepareCriarCommand}"      Width="25" Margin="0,0,0,7" />
+                    <Button x:Name="btnEditar"      Content="{StaticResource imgEdit}"      ToolTip="Editar"    IsEnabled="{Binding Comportamento.IsEnableEditar}"      Command="{Binding PrepareAlterarCommand}"    Width="25" Margin="0,0,0,7" />
+                    <Button x:Name="btnExcluir"     Content="{StaticResource imgRemove}"    ToolTip="Remover"   IsEnabled="{Binding Comportamento.isEnableRemover}"     Command="{Binding PrepareRemoverCommand}"    Width="25" Margin="0,0,0,7"  Visibility="Collapsed"/>
+                    <Button x:Name="btnCancelar"    Content="{StaticResource imgCancel}"    ToolTip="Cancelar"  IsEnabled="{Binding Comportamento.isEnableCancelar}"    Command="{Binding PrepareCancelarCommand}"   Width="25" Margin="0,0,0,7" />
+                    <Button x:Name="btnSalvar"      Content="{StaticResource imgSave}"      ToolTip="Salvar"    IsEnabled="{Binding Comportamento.isEnableSalvar}"      Command="{Binding PrepareSalvarCommand}"     Width="25" Margin="0,0,0,7" />
+
                 </StackPanel>
 
             </StackPanel>

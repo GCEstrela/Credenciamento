@@ -65,7 +65,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
             {
                 btnEditar.IsEnabled = true;
                 //btnImprimirCredencial.IsHitTestVisible = true;
-                btnImprimirCredencial.IsEnabled = true;
+                //btnImprimirCredencial.IsEnabled = true;
             }
         }
 
@@ -91,11 +91,11 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
                 if (_viewModel.Entity.CredencialStatusId == 1)
                 {
-                    Ativa_tw.IsChecked = true;
+                    //Ativa_tw.IsChecked = true;
                 }
                 else
                 {
-                    Ativa_tw.IsChecked = false;
+                    //Ativa_tw.IsChecked = false;
                 }
 
                 if (_viewModel.Entity.CredencialStatusId > 0)

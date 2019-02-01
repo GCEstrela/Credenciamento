@@ -19,13 +19,13 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         #region  Propriedades
 
         public int VeiculoSeguroId { get; set; }
-        [Required(ErrorMessage = "Campo Seguradora é requerido.")]
+        [Required(ErrorMessage = "O Nome da Seguradora é requerido.")]
         public string NomeSeguradora { get; set; }
-        [Required(ErrorMessage = "Campo Apólice requerido.")]
+        [Required(ErrorMessage = "O Nùmero da Apólice é requerido.")]
         public string NumeroApolice { get; set; }
         public string ValorCobertura { get; set; }
         public DateTime? Emissao { get; set; }
-        [Required(ErrorMessage = "Campo Validade é requerido.")]
+        [Required(ErrorMessage = "A Data de Validade é requerido.")]
         public DateTime? Validade { get; set; }
         public int VeiculoId { get; set; }
         public string NomeArquivo { get; set; }

@@ -19,7 +19,7 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         #region  Propriedades
 
         public int VeiculoCredencialId { get; set; }
-        [Range(1, int.MaxValue, ErrorMessage = "Campo Empresa é requerido.")]
+        [Range(1, int.MaxValue, ErrorMessage = "A Empresa é requerida.")]
         public int VeiculoEmpresaId { get; set; }
         public int VeiculoId { get; set; }
         public string ContratoDescricao { get; set; }

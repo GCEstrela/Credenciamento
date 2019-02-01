@@ -14,26 +14,26 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
 
         
         public int EquipamentoVeiculoId { get; set; }
-        [Required(ErrorMessage = "O campo Descrição é requerido!")]
+        [Required(ErrorMessage = "A Descrição é requerida.")]
         public string Descricao { get; set; }
         public string PlacaIdentificador { get; set; }
         public string Frota { get; set; }
         public string Patrimonio { get; set; }
         public string Marca { get; set; }
         public string Modelo { get; set; }
-        [Required(ErrorMessage = "O campo Tipo é requerido!")]
+        [Required(ErrorMessage = "O Tipo Equipamento/Veículo é requerido.")]
         public string Tipo { get; set; }
         public string Cor { get; set; }
         public string Ano { get; set; }
         public int EstadoId { get; set; }
         public int MunicipioId { get; set; }
         public string SerieChassi { get; set; }
-        [Range(1, int.MaxValue, ErrorMessage = "O campo combustível requerido.")]
+        [Range(1, int.MaxValue, ErrorMessage = "O Tipo de Combustível é requerido.")]
         public int CombustivelId { get; set; }
         public string Altura { get; set; }
         public string Comprimento { get; set; }
         public string Largura { get; set; }
-        [Range(1, int.MaxValue, ErrorMessage = "O campo tipo equipamento requerido.")]
+        [Range(1, int.MaxValue, ErrorMessage = "A Natureza do Equipamento/Veículo é requerido.")]
         public int TipoEquipamentoVeiculoId { get; set; }
         public string Renavam { get; set; }
         public string Foto { get; set; }

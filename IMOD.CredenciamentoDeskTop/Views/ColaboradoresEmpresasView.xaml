@@ -110,10 +110,10 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn Width="80" Header="Matrícula" DisplayMemberBinding="{Binding Matricula}" />
-                            <GridViewColumn Width="200" Header="Empresa" DisplayMemberBinding="{Binding EmpresaNome}" />
-                            <GridViewColumn Width="200" Header="Contrato" DisplayMemberBinding="{Binding Descricao}" />
-                            <GridViewColumn Width="100" Header="Cargo" DisplayMemberBinding="{Binding Cargo}" />
+                            <GridViewColumn Width="80"  Header="Matrícula"  DisplayMemberBinding="{Binding Matricula}" />
+                            <GridViewColumn Width="250" Header="Empresa"    DisplayMemberBinding="{Binding EmpresaNome}" />
+                            <GridViewColumn Width="250" Header="Contrato"   DisplayMemberBinding="{Binding Descricao}" />
+                            <GridViewColumn Width="100" Header="Cargo"      DisplayMemberBinding="{Binding Cargo}" />
                         </GridView>
                     </ListView.View>
                 </ListView>

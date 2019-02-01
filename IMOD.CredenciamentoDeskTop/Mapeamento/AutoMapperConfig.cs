@@ -41,11 +41,11 @@ namespace IMOD.CredenciamentoDeskTop.Mapeamento
                        m.CreateMap<ColaboradorCredencial, ColaboradoresCredenciaisView>().ReverseMap();
                        m.CreateMap<ColaboradorAnexo, ColaboradorAnexoView>().ReverseMap();
 
-		       m.CreateMap<VeiculoView, Veiculo>().ReverseMap();
+                       m.CreateMap<VeiculoView, Veiculo>().ReverseMap();
                        m.CreateMap<VeiculosCredenciaisView, VeiculoCredencial>().ReverseMap();
                        m.CreateMap<VeiculoEmpresaView, VeiculoEmpresa>().ReverseMap();
                        m.CreateMap<IMOD.CredenciamentoDeskTop.Views.Model.VeiculoEmpresaView, VeiculoEmpresa>().ReverseMap();
-                       m.CreateMap< IMOD.Domain.EntitiesCustom.VeiculoEmpresaView, IMOD.CredenciamentoDeskTop.Views.Model.VeiculoEmpresaView>().ReverseMap();
+                       m.CreateMap<IMOD.Domain.EntitiesCustom.VeiculoEmpresaView, IMOD.CredenciamentoDeskTop.Views.Model.VeiculoEmpresaView>().ReverseMap();
                        m.CreateMap<IMOD.Domain.EntitiesCustom.VeiculosCredenciaisView, VeiculoCredencialView>().ReverseMap();
                        m.CreateMap<VeiculoSeguroView, VeiculoSeguro>().ReverseMap();
                        m.CreateMap<VeiculoAnexoView, VeiculoAnexo>().ReverseMap();

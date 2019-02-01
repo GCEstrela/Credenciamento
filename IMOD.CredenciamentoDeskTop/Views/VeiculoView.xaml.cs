@@ -54,7 +54,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
             //Popular User Controls 
             VeiculosEmpresasUs.AtualizarDados(_viewModel.Entity);
-            EmpresaSeguroUs.AtualizarDados(_viewModel.Entity);
+            //EmpresaSeguroUs.AtualizarDados(_viewModel.Entity);
             AnexoUs.AtualizarDados(_viewModel.Entity);
             VeiculoCredenciaisUs.AtualizarDados(_viewModel.Entity);
         }
