@@ -3,16 +3,20 @@
 // Crafted by: Grupo Estrela by Genetec
 // Date:  12 - 13 - 2018
 // ***********************************************************************
+using System.ComponentModel.DataAnnotations;
+using IMOD.CredenciamentoDeskTop.Funcoes;
 
 namespace IMOD.CredenciamentoDeskTop.Views.Model
 {
-    public class VeiculoEmpresaView
+    public class VeiculoEmpresaView : ValidacaoModel
     {
         #region  Propriedades
 
         public int VeiculoEmpresaId { get; set; }
         public int VeiculoId { get; set; }
+        [Range(1, int.MaxValue, ErrorMessage = "O Campo Empresa é requerido.")] 
         public int EmpresaId { get; set; }
+        [Range(1, int.MaxValue, ErrorMessage = "O Campo Contrato é requerido.")] 
         public int EmpresaContratoId { get; set; }
         public string Descricao { get; set; }
         public string EmpresaNome { get; set; }

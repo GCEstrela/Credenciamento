@@ -43,6 +43,8 @@ namespace IMOD.Domain.EntitiesCustom
         public string Cnpj { get; set; }
         public string FormatIdguid { get; set; }
         public bool IsencaoCobranca { get; set; }
+        public string TipoCredencialDescricao { get; set; }
+        public string CredencialStatusDescricao { get; set; }
 
     }
 }

@@ -17,18 +17,28 @@ using IMOD.Domain.Entities;
 
 namespace IMOD.CredenciamentoDeskTop.ViewModels
 {
-    class VeiculosSegurosViewModel : ViewModelBase
+    class VeiculosSegurosViewModel : ViewModelBase, IComportamento
     {
 
         #region  Propriedades
 
         private readonly IVeiculoSeguroService _service = new VeiculoSeguroService();
         private VeiculoView _veiculoView;
+        /// <summary>
+        ///     True, Comando de alteração acionado
+        /// </summary>
+        private bool _prepareAlterarCommandAcionado;
+
+        /// <summary>
+        ///     True, Comando de criação acionado
+        /// </summary>
+        private bool _prepareCriarCommandAcionado;
+
 
         public VeiculoSeguroView Entity { get; set; }
-        public ObservableCollection<VeiculoSeguroView> EntityObserver { get; set; }
+        public VeiculoSeguroView EntityTmp { get; set; }
 
-        VeiculoSeguroView EntidadeTMP = new VeiculoSeguroView();
+        public ObservableCollection<VeiculoSeguroView> EntityObserver { get; set; }
 
         /// <summary>
         ///     Habilita listView
@@ -60,7 +70,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public VeiculosSegurosViewModel()
         {
             ItensDePesquisaConfigura();
-           Comportamento = new ComportamentoBasico(false, true, true, false, false);
+            Comportamento = new ComportamentoBasico(true, true, true, false, false);
             Comportamento.SalvarAdicao += OnSalvarAdicao;
             Comportamento.SalvarEdicao += OnSalvarEdicao;
             Comportamento.Remover += OnRemover;
@@ -84,12 +94,13 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         }
 
 
-
-        /// <summary>
-        ///     Acionado antes de remover
-        /// </summary>
         private void PrepareRemover()
         {
+            if (Entity == null) return;
+
+            IsEnableLstView = true;
+            _prepareCriarCommandAcionado = false;
+            _prepareAlterarCommandAcionado = false;
             Comportamento.PrepareRemover();
         }
 
@@ -106,6 +117,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 {
                     return;
                 }
+                if (Validar()) return;
 
                 var n1 = Mapper.Map<VeiculoSeguro>(Entity);
                 n1.VeiculoId = _veiculoView.EquipamentoVeiculoId;
@@ -125,12 +137,16 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <summary>
         ///     Acionado antes de criar
         /// </summary>
+
         private void PrepareCriar()
         {
-            EntidadeTMP = Entity;
+            EntityTmp = Entity;
             Entity = new VeiculoSeguroView();
             Comportamento.PrepareCriar();
             IsEnableLstView = false;
+            _prepareCriarCommandAcionado = true;
+            Comportamento.PrepareCriar();
+            _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;
         }
 
         /// <summary>
@@ -146,7 +162,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 {
                     return;
                 }
-
+                if (Validar()) return;
                 var n1 = Mapper.Map<VeiculoSeguro>(Entity);
                 _service.Alterar(n1);
                 IsEnableLstView = true;
@@ -168,8 +184,18 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             try
             {
                 IsEnableLstView = true;
-                Entity = EntidadeTMP;
+                _prepareCriarCommandAcionado = false;
+                _prepareAlterarCommandAcionado = false;
+                Entity = EntityTmp;
 
+                if (Entity != null)
+                {
+                    //if (Entity.VeiculoSeguroId == 0)
+                    //{
+                    //    Entity = EntityTmp;
+                    //}
+                    Entity.ClearMessageErro();
+                }
             }
             catch (Exception ex)
             {
@@ -202,6 +228,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 _service.Remover(n1);
                 //Retirar empresa da coleção
                 EntityObserver.Remove(Entity);
+                IsEnableLstView = true;
             }
             catch (Exception ex)
             {
@@ -210,13 +237,19 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
         }
 
-        /// <summary>
-        ///     Acionado antes de alterar
-        /// </summary>
+        private void PrepareSalvar()
+        {
+            if (!ErroValidacao)
+                Comportamento.PrepareSalvar();
+        }
         private void PrepareAlterar()
         {
+            if (Entity == null) return;
+
             Comportamento.PrepareAlterar();
             IsEnableLstView = false;
+            _prepareCriarCommandAcionado = false;
+            _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;
         }
 
         /// <summary>
@@ -271,14 +304,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
         }
 
-        /// <summary>
-        ///     Validar Regras de Negócio
-        /// </summary>
-        public void Validar()
-        {
-            throw new NotImplementedException();
-        }
-
         #endregion
 
         #region Propriedade de Pesquisa
@@ -322,7 +347,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <summary>
         ///     Novo
         /// </summary>
-        public ICommand PrepareSalvarCommand => new CommandBase(Comportamento.PrepareSalvar, true);
+        public ICommand PrepareSalvarCommand => new CommandBase(PrepareSalvar, true);
 
         /// <summary>
         ///     Remover
@@ -335,354 +360,24 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public ICommand PesquisarCommand => new CommandBase(Pesquisar, true);
 
         #endregion
+
+        /// <summary>
+        ///     Validar Regras de Negócio
+        /// </summary>
+        /// <returns></returns>
+        public bool Validar()
+        {
+            Entity.Validate();
+            var hasErros = Entity.HasErrors; 
+            return hasErros;
+        }
+
+        /// <summary>
+        /// Erro de validação
+        /// True, Erro de validação
+        /// </summary>
+        public bool ErroValidacao { get { return Validar(); } }
     }
-
-    //#region Variaveis Privadas
-
-    //private ObservableCollection<ClasseVeiculosSeguros.VeiculoSeguro> _Seguros;
-
-    //private ClasseVeiculosSeguros.VeiculoSeguro _SeguroSelecionado;
-
-    //private ClasseVeiculosSeguros.VeiculoSeguro _seguroTemp = new ClasseVeiculosSeguros.VeiculoSeguro();
-
-    //private List<ClasseVeiculosSeguros.VeiculoSeguro> _SegurosTemp = new List<ClasseVeiculosSeguros.VeiculoSeguro>();
-
-    //PopupPesquisaSeguro popupPesquisaSeguro;
-
-    //private int _selectedIndex;
-
-    //private int _VeiculoSelecionadaID;
-
-    //private bool _HabilitaEdicao;
-
-    //private string _Criterios = "";
-
-    //private int _selectedIndexTemp;
-
-    //#endregion
-
-    //#region Contrutores
-    //public ObservableCollection<ClasseVeiculosSeguros.VeiculoSeguro> Seguros
-    //{
-    //    get
-    //    {
-    //        return _Seguros;
-    //    }
-
-    //    set
-    //    {
-    //        if (_Seguros != value)
-    //        {
-    //            _Seguros = value;
-    //            OnPropertyChanged();
-
-    //        }
-    //    }
-    //}
-
-    //public ClasseVeiculosSeguros.VeiculoSeguro SeguroSelecionado
-    //{
-    //    get
-    //    {
-    //        return _SeguroSelecionado;
-    //    }
-    //    set
-    //    {
-    //        _SeguroSelecionado = value;
-    //        base.OnPropertyChanged("SelectedItem");
-    //        if (SeguroSelecionado != null)
-    //        {
-    //            //OnVeiculoSelecionada();
-    //        }
-
-    //    }
-    //}
-
-    //public int VeiculoSelecionadaID
-    //{
-    //    get
-    //    {
-    //        return _VeiculoSelecionadaID;
-    //    }
-    //    set
-    //    {
-    //        _VeiculoSelecionadaID = value;
-    //        base.OnPropertyChanged();
-    //        if (VeiculoSelecionadaID != null)
-    //        {
-    //            //OnVeiculoSelecionada();
-    //        }
-
-    //    }
-    //}
-
-    //public int SelectedIndex
-    //{
-    //    get
-    //    {
-    //        return _selectedIndex;
-    //    }
-    //    set
-    //    {
-    //        _selectedIndex = value;
-    //        OnPropertyChanged("SelectedIndex");
-    //    }
-    //}
-
-    //public bool HabilitaEdicao
-    //{
-    //    get
-    //    {
-    //        return _HabilitaEdicao;
-    //    }
-    //    set
-    //    {
-    //        _HabilitaEdicao = value;
-    //        base.OnPropertyChanged();
-    //    }
-    //}
-
-    //public string Criterios
-    //{
-    //    get
-    //    {
-    //        return _Criterios;
-    //    }
-    //    set
-    //    {
-    //        _Criterios = value;
-    //        base.OnPropertyChanged();
-    //    }
-    //}
-    //#endregion
-
-    //#region Comandos dos Botoes
-    //public void OnAtualizaCommand(object veiculoID)
-    //{
-    //    VeiculoSelecionadaID = Convert.ToInt32(veiculoID);
-    //    Thread CarregaColecaoSeguros_thr = new Thread(() => CarregaColecaoSeguros(Convert.ToInt32(veiculoID)));
-    //    CarregaColecaoSeguros_thr.Start();
-    //}
-
-    //public void OnBuscarArquivoCommand()
-    //{
-    //    try
-    //    {
-    //        var filtro = "Imagem files (*.pdf)|*.pdf|All Files (*.*)|*.*";
-    //        var arq = WpfHelp.UpLoadArquivoDialog(filtro, 700);
-    //        if (arq == null) return;
-    //        _seguroTemp.NomeArquivo = arq.Nome;
-    //        _seguroTemp.Arquivo = arq.FormatoBase64;
-    //        if (Seguros != null)
-    //            Seguros[0].NomeArquivo = arq.Nome;
-
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        WpfHelp.Mbox(ex.Message);
-    //        Utils.TraceException(ex);
-    //    }
-
-    //}
-
-    //public void OnAbrirArquivoCommand()
-    //{
-    //    try
-    //    {
-    //        var arquivoStr = SeguroSelecionado.Arquivo;
-    //        var nomeArquivo = SeguroSelecionado.NomeArquivo;
-    //        var arrBytes = Convert.FromBase64String(arquivoStr);
-    //        WpfHelp.DownloadArquivoDialog(nomeArquivo, arrBytes);
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        Utils.TraceException(ex);
-    //    }
-    //}
-
-    //public void OnEditarCommand()
-    //{
-    //    try
-    //    {
-    //        //BuscaBadges();
-    //        _seguroTemp = SeguroSelecionado.CriaCopia(SeguroSelecionado);
-    //        _selectedIndexTemp = SelectedIndex;
-    //        HabilitaEdicao = true;
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        Utils.TraceException(ex);
-    //    }
-    //}
-
-    //public void OnCancelarEdicaoCommand()
-    //{
-    //    try
-    //    {
-    //        Seguros[_selectedIndexTemp] = _seguroTemp;
-    //        SelectedIndex = _selectedIndexTemp;
-    //        HabilitaEdicao = false;
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        Utils.TraceException(ex);
-    //    }
-    //}
-
-    //public void OnSalvarEdicaoCommand()
-    //{
-    //    try
-    //    {
-    //        HabilitaEdicao = false;
-
-    //        var entity = Mapper.Map<VeiculoSeguro>(SeguroSelecionado);
-    //        var repositorio = new VeiculoSeguroService();
-    //        repositorio.Alterar(entity);
-
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        Utils.TraceException(ex);
-    //    }
-    //}
-
-    //public void OnAdicionarCommand()
-    //{
-    //    try
-    //    {
-    //        foreach (var x in Seguros)
-    //        {
-    //            _SegurosTemp.Add(x);
-    //        }
-
-    //        _selectedIndexTemp = SelectedIndex;
-    //        Seguros.Clear();
-
-    //        _seguroTemp = new ClasseVeiculosSeguros.VeiculoSeguro();
-    //        _seguroTemp.VeiculoID = VeiculoSelecionadaID;
-    //        Seguros.Add(_seguroTemp);
-    //        SelectedIndex = 0;
-    //        HabilitaEdicao = true;
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        Utils.TraceException(ex);
-    //    }
-
-    //}
-
-    //public void OnSalvarAdicaoCommand()
-    //{
-    //    try
-    //    {
-    //        HabilitaEdicao = false;
-
-    //        var entity = Mapper.Map<VeiculoSeguro>(SeguroSelecionado);
-    //        var repositorio = new VeiculoSeguroService();
-    //        repositorio.Criar(entity);
-
-    //        Thread CarregaColecaoAnexos_thr = new Thread(() => CarregaColecaoSeguros(SeguroSelecionado.VeiculoID));
-    //        CarregaColecaoAnexos_thr.Start();
-
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        Utils.TraceException(ex);
-    //    }
-    //}
-
-    //public void OnCancelarAdicaoCommand()
-    //{
-    //    try
-    //    {
-    //        Seguros = null;
-    //        Seguros = new ObservableCollection<ClasseVeiculosSeguros.VeiculoSeguro>(_SegurosTemp);
-    //        SelectedIndex = _selectedIndexTemp;
-    //        _SegurosTemp.Clear();
-    //        HabilitaEdicao = false;
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        Utils.TraceException(ex);
-    //    }
-    //}
-
-    //public void OnExcluirCommand()
-    //{
-    //    try
-    //    {
-    //        if (Global.PopupBox("Tem certeza que deseja excluir?", 2))
-    //        {
-    //            if (Global.PopupBox("Você perderá todos os dados, inclusive histórico. Confirma exclusão?", 2))
-    //            {
-    //                var entity = Mapper.Map<VeiculoSeguro>(SeguroSelecionado);
-    //                var repositorio = new VeiculoSeguroService();
-    //                repositorio.Remover(entity);
-
-    //                Seguros.Remove(SeguroSelecionado);
-    //            }
-    //        }
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        Utils.TraceException(ex);
-    //    }
-    //}
-
-    //public void OnPesquisarCommand()
-    //{
-    //    try
-    //    {
-    //        popupPesquisaSeguro = new PopupPesquisaSeguro();
-    //        popupPesquisaSeguro.EfetuarProcura += On_EfetuarProcura;
-    //        popupPesquisaSeguro.ShowDialog();
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        Utils.TraceException(ex);
-    //    }
-    //}
-
-    //public void On_EfetuarProcura(object sender, EventArgs e)
-    //{
-    //    object vetor = popupPesquisaSeguro.Criterio.Split((char)(20));
-    //    int _veiculoID = VeiculoSelecionadaID;
-    //    string _seguradora = ((string[])vetor)[0];
-    //    string _numeroapolice = ((string[])vetor)[1];
-    //    CarregaColecaoSeguros(_veiculoID, _seguradora, _numeroapolice);
-    //    SelectedIndex = 0;
-    //}
-
-    //#endregion
-
-    //#region Carregamento das Colecoes
-    //private void CarregaColecaoSeguros(int veiculoID, string _seguradora = "", string _numeroapolice = "")
-    //{
-    //    try
-    //    {
-    //        var service = new VeiculoSeguroService();
-    //        var list1 = service.Listar(veiculoID, null, null);
-
-    //        var list2 = Mapper.Map<List<ClasseVeiculosSeguros.VeiculoSeguro>>(list1);
-    //        var observer = new ObservableCollection<ClasseVeiculosSeguros.VeiculoSeguro>();
-    //        list2.ForEach(n =>
-    //        {
-    //            observer.Add(n);
-    //        });
-
-    //        Seguros = observer;
-
-    //        //Hotfix auto-selecionar registro do topo da ListView
-    //        var topList = observer.FirstOrDefault();
-    //        SeguroSelecionado = topList;
-
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        Utils.TraceException(ex);
-    //    }
-    //}
-    //#endregion
-
+    
 
 }

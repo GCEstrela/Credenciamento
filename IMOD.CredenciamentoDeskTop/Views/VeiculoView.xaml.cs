@@ -86,8 +86,9 @@ namespace IMOD.CredenciamentoDeskTop.Views
             {
                 return;
             }
-
-            var idx = lstBoxTipoAtividade.Items.IndexOf(lstBoxTipoAtividade.SelectedItem);
+            var tipoAtiv = lstBoxTipoAtividade.SelectedItem;
+            if (tipoAtiv == null) return ;
+            var idx =  lstBoxTipoAtividade.Items.IndexOf(tipoAtiv) ;
             _viewModel.TiposEquipamentoServico.RemoveAt(idx);
         }
 

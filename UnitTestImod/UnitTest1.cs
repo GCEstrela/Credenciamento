@@ -237,7 +237,7 @@ namespace UnitTestImod
                 Pendente16 = false,
                 Pendente17 = true,
                 Logo = Convert.ToBase64String(File.ReadAllBytes("Arquivos/logo.png")),
-                Excluida = 0,
+                //Excluida = 0,
                 Responsavel = "Responsavel",
                 Sigla = "Sigla",
                 EstadoId = 1,

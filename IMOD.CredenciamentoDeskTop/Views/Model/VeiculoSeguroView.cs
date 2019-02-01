@@ -7,20 +7,25 @@
 #region
 
 using System;
+using System.ComponentModel.DataAnnotations;
+using IMOD.CredenciamentoDeskTop.Funcoes;
 
 #endregion
 
 namespace IMOD.CredenciamentoDeskTop.Views.Model
 {
-    public class VeiculoSeguroView
+    public class VeiculoSeguroView : ValidacaoModel
     {
         #region  Propriedades
 
         public int VeiculoSeguroId { get; set; }
+        [Required(ErrorMessage = "Campo Seguradora é requerido.")]
         public string NomeSeguradora { get; set; }
+        [Required(ErrorMessage = "Campo Apólice requerido.")]
         public string NumeroApolice { get; set; }
         public string ValorCobertura { get; set; }
         public DateTime? Emissao { get; set; }
+        [Required(ErrorMessage = "Campo Validade é requerido.")]
         public DateTime? Validade { get; set; }
         public int VeiculoId { get; set; }
         public string NomeArquivo { get; set; }

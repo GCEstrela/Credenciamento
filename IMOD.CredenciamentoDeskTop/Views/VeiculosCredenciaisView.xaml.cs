@@ -64,7 +64,8 @@ namespace IMOD.CredenciamentoDeskTop.Views
             else
             {
                 btnEditar.IsEnabled = true;
-                brnImprimirCredencial.IsHitTestVisible = true;
+                //btnImprimirCredencial.IsHitTestVisible = true;
+                btnImprimirCredencial.IsEnabled = true;
             }
         }
 
@@ -85,8 +86,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             if (e.AddedItems.Count > 0)
             {
-                //if (((ClasseCredenciaisStatus.CredencialStatus)((object[])e.AddedItems)[0]).CredencialStatusID == 1)
-                //{
+
                 if (_viewModel.Entity == null) return;
 
                 if (_viewModel.Entity.CredencialStatusId == 1)
@@ -97,13 +97,13 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 {
                     Ativa_tw.IsChecked = false;
                 }
-                //    ((VeiculosCredenciaisViewModel)DataContext).CarregaColecaoCredenciaisMotivos(1);
-                //}
-                //else
-                //{
-                //    Ativa_tw.IsChecked = false;
-                //    ((VeiculosCredenciaisViewModel)DataContext).CarregaColecaoCredenciaisMotivos(2);
-                //}
+
+                if (_viewModel.Entity.CredencialStatusId > 0)
+                {
+                    _viewModel.CarregaColecaoCredenciaisMotivos(_viewModel.Entity.CredencialStatusId);
+                    MotivoCredencial_cb.Items.Refresh();
+                }
+
             }
         }
 

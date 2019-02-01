@@ -7,16 +7,19 @@
 #region
 
 using System;
+using System.ComponentModel.DataAnnotations;
+using IMOD.CredenciamentoDeskTop.Funcoes;
 
 #endregion
 
 namespace IMOD.CredenciamentoDeskTop.Views.Model
 {
-    public class VeiculoCredencialView
+    public class VeiculoCredencialView : ValidacaoModel
     {
         #region  Propriedades
 
         public int VeiculoCredencialId { get; set; }
+        [Range(1, int.MaxValue, ErrorMessage = "Campo Empresa é requerido.")]
         public int VeiculoEmpresaId { get; set; }
         public int VeiculoId { get; set; }
         public string ContratoDescricao { get; set; }

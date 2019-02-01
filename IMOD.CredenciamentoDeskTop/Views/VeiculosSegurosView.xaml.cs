@@ -50,6 +50,8 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 var arq = WpfHelp.UpLoadArquivoDialog(filtro, 700);
                 if (arq == null) return;
                 _viewModel.Entity.Arquivo = arq.FormatoBase64;
+                _viewModel.Entity.NomeArquivo = arq.Nome;
+                txtApoliceArquivo.Text = arq.Nome;
             }
             catch (Exception ex)
             {

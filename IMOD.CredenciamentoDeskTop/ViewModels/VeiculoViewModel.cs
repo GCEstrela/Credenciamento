@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using System.Windows.Forms;
 using System.Windows.Input;
 using AutoMapper;
 using IMOD.Application.Interfaces;
@@ -98,7 +99,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         public bool IsEnableLstView { get; private set; } = true;
 
+        VeiculoView EntityTmp = new VeiculoView();
         public VeiculoView Entity { get; set; }
+        public VeiculoView EntidadeTMP { get; set; }
+        
         public ObservableCollection<VeiculoView> EntityObserver { get; set; }
 
         /// <summary>
@@ -146,7 +150,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             ItensDePesquisaConfigura();
             ListarDadosAuxiliares();
-           Comportamento = new ComportamentoBasico(false, true, true, false, false);
+            Comportamento = new ComportamentoBasico(true, true, true, false, false);
             TiposEquipamentoServico = new ObservableCollection<EquipamentoVeiculoTipoServicoView>();
             Comportamento.SalvarAdicao += OnSalvarAdicao;
             Comportamento.SalvarEdicao += OnSalvarEdicao;
@@ -283,13 +287,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
         }
 
-        /// <summary>
-        ///     Novo
-        /// </summary>
-        public ICommand PrepareCriarCommand => new CommandBase(PrepareCriar, true);
-
         private void PrepareCriar()
         {
+            EntityTmp = Entity;
             Entity = new VeiculoView();
             IsEnableTabItem = false;
             IsEnableLstView = false;
@@ -313,26 +313,23 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <summary>
         ///     Novo
         /// </summary>
-        public ICommand PrepareSalvarCommand => new CommandBase(Comportamento.PrepareSalvar, true);
+        public ICommand PrepareSalvarCommand => new CommandBase(PrepareSalvar, true);
 
         /// <summary>
         ///     Remover
         /// </summary>
         public ICommand PrepareRemoverCommand => new CommandBase(PrepareRemover, true);
 
-        /// <summary>
-        ///  Validar Regras de Negócio 
-        /// </summary>
-        public bool Validar()
-        {
-            return false;
-
-        }
 
         /// <summary>
         ///     Pesquisar
         /// </summary>
         public ICommand PesquisarCommand => new CommandBase(Pesquisar, true);
+
+        /// <summary>
+        ///     Novo
+        /// </summary>
+        public ICommand PrepareCriarCommand => new CommandBase(PrepareCriar, true);
 
         #endregion
 
@@ -372,7 +369,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                var list2 = Mapper.Map<List<VeiculoView>>(list.OrderByDescending(n => n.EquipamentoVeiculoId));
+                var list2 = Mapper.Map<List<VeiculoView>>(list.OrderByDescending(n => n.EquipamentoVeiculoId).ToList());
                 EntityObserver = new ObservableCollection<VeiculoView>();
                 list2.ForEach(n => { EntityObserver.Add(n); });
             }
@@ -381,6 +378,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 Utils.TraceException(ex);
             }
+        }
+
+        private void PrepareSalvar()
+        {
+            if (!ErroValidacao)
+                Comportamento.PrepareSalvar();
         }
 
         private void PrepareAlterar()
@@ -417,13 +420,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                if (Entity == null)
-                {
-                    return;
-                }
+                if (Entity == null) return;
+                if (Validar()) return;
 
                 var n1 = Mapper.Map<Veiculo>(Entity);
-                Validar();
                 _service.Criar(n1);
                 //Salvar Tipo de Servico
                 SalvarTipoServico(n1.EquipamentoVeiculoId);
@@ -459,12 +459,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                if (Entity == null)
-                {
-                    return;
-                }
+                if (Entity == null) return;
+                if (Validar()) return;
 
-                Validar();
                 var n1 = Mapper.Map<Veiculo>(Entity);
                 _service.Alterar(n1);
                 //Salvar Tipo de Servico
@@ -481,37 +478,24 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         private void OnCancelar(object sender, RoutedEventArgs e)
         {
-            //try
-            //{
-            //    IsEnableTabItem = true;
-            //    IsEnableLstView = true;
-            //    _prepareCriarCommandAcionado = false;
-            //    _prepareAlterarCommandAcionado = false;
-            //    TiposAtividades.Clear();
-            //    TiposLayoutCracha.Clear();
-            //}
-            //catch (Exception ex)
-            //{
-            //    Utils.TraceException(ex);
-            //    WpfHelp.MboxError("Não foi realizar a operação solicitada", ex);
-            //}
-        }
-
-        private void OnRemover(object sender, RoutedEventArgs e)
-        {
             try
             {
-                //if (Entity == null) return;
-                //var result = WpfHelp.MboxDialogRemove();
-                //if (result != DialogResult.Yes) return;
+                
+                IsEnableLstView = true;
+                IsEnableTabItem = true;
+                _prepareCriarCommandAcionado = false;
+                _prepareAlterarCommandAcionado = false;
+                Entity = EntityTmp;
 
-                //var n1 = Mapper.Map<Empresa>(Entity);
-                //_service.Remover(n1);
-                ////Retirar empresa da coleção
-                //EntityObserver.Remove(Entity);
+                if (Entity != null)
+                {
+                    //if (Entity.EquipamentoVeiculoId == 0)
+                    //{
+                        
+                    //}
+                    Entity.ClearMessageErro();
+                }
 
-                //IsEnableLstView = true;
-                //IsEnableTabItem = true;
             }
             catch (Exception ex)
             {
@@ -520,7 +504,53 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
         }
 
+        private void OnRemover(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (Entity == null)
+                {
+                    return;
+                }
+
+                var result = WpfHelp.MboxDialogRemove();
+                if (result != DialogResult.Yes)
+                {
+                    return;
+                }
+
+                var n1 = Mapper.Map<Veiculo>(Entity);
+                _service.Remover(n1);
+                //Retirar empresa da coleção
+                EntityObserver.Remove(Entity);
+                IsEnableLstView = true;
+                IsEnableTabItem = true;
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+                WpfHelp.MboxError("Não foi realizar a operação solicitada", ex);
+            }
+        }
+
+        /// <summary>
+        ///     Validar Regras de Negócio
+        /// </summary>
+        /// <returns></returns>
+        public bool Validar()
+        {
+            Entity.Validate();
+            var hasErros = Entity.HasErrors;
+            return hasErros;
+        }
+
+        /// <summary>
+        /// Erro de validação
+        /// True, Erro de validação
+        /// </summary>
+        public bool ErroValidacao { get { return Validar(); } }
+
         #endregion
- 
+
     }
 }

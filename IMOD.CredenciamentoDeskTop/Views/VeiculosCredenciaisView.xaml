@@ -11,9 +11,27 @@
              d:DesignHeight="450" d:DesignWidth="1000" 
              Loaded="UserControl_Loaded" >
     <UserControl.Resources>
-        <funcoes:FormateTel x:Key="FormateTel" /> 
+        <funcoes:FormateTel x:Key="FormateTel" />
         <funcoes:CheckTeste x:Key="CheckTeste" />
+        <Image x:Key="imgAdd" Source="../Resources/add.png"  />
+        <Image x:Key="imgEdit" Source="../Resources/edit.png"  />
+        <Image x:Key="imgRemove" Source="../Resources/remove.png"  />
+        <Image x:Key="imgSave" Source="../Resources/save.png"  />
+        <Image x:Key="imgCancel" Source="../Resources/undo.png"  />
+        <ControlTemplate x:Key="ValidationErrorTemplate">
+            <DockPanel>
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" Margin="5,0,0,2">
+                    <Grid Width="12" Height="12">
+                        <Ellipse Width="12" Height="12" Fill="Red" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Foreground="White"  FontWeight="Heavy" FontSize="8" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center"
+                               ToolTip="{Binding ElementName=ErrorAdorner, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}">X</TextBlock>
+                    </Grid>
+                </StackPanel>
+                <AdornedElementPlaceholder x:Name="ErrorAdorner" ></AdornedElementPlaceholder>
+            </DockPanel>
+        </ControlTemplate>
     </UserControl.Resources>
+
     <Grid Height="364" VerticalAlignment="Top">
         <StackPanel Orientation="Vertical" VerticalAlignment="Top">
 
@@ -38,7 +56,7 @@
                                       SelectedItem="{Binding VeiculoEmpresa}"
                                       SelectedValuePath="VeiculoEmpresaId"
                                       IsSynchronizedWithCurrentItem="True"
-                                      SelectedIndex="0">
+                                      SelectedIndex="0" >
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
@@ -142,7 +160,7 @@
                                    Foreground="#FFD0D0D0" />
 
                             <ComboBox x:Name="TecnologiaCredencial_cb"
-                                      IsEnabled="{Binding ElementName=Ativa_cb, Path=IsChecked }" 
+                                      IsEnabled="{Binding Ativa_cb}" 
                                       Margin="0,4,0,3" 
                                       Height="25"
                                       Width="134" 
@@ -150,12 +168,13 @@
                                       HorizontalContentAlignment="Left"
                                       ItemsSource="{Binding TecnologiasCredenciais, Mode=TwoWay}" 
                                       DisplayMemberPath="Descricao"
+                                      SelectedIndex="0"
                                       SelectedValue="{Binding Entity.TecnologiaCredencialId, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                                       SelectedValuePath="TecnologiaCredencialId" IsSynchronizedWithCurrentItem="True" />
 
                             <Label Content="FC:" Height="28" Width="68" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                            <TextBox  x:Name="FC_tb"  MaxLength="5"   IsEnabled="{Binding ElementName=Ativa_cb, Path=IsChecked }"  
-                                      CharacterCasing="Upper" Text="{Binding Entity.Fc,UpdateSourceTrigger=PropertyChanged}"  Height="24"  Width="46"/>
+                            <TextBox  x:Name="FC_tb"  MaxLength="5" IsEnabled="{Binding Ativa_cb}"  
+                                CharacterCasing="Upper" Text="{Binding Entity.Fc,UpdateSourceTrigger=PropertyChanged}"  Height="24"  Width="46"/>
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
@@ -194,11 +213,12 @@
                             <Label Content="Formato Credencial:" Height="28" Width="137" Margin="1" HorizontalContentAlignment="Right"
                                    Foreground="#FFD0D0D0" />
 
-                            <ComboBox x:Name="FormatoCredencial_cb"   
-                                      IsEnabled="{Binding ElementName=Ativa_cb, Path=IsChecked }" 
+                            <ComboBox x:Name="FormatoCredencial_cb"
                                       Margin="0,4,0,3" 
                                       Height="25"
                                       Width="134"
+                                      SelectedIndex="0"
+                                      IsEnabled="{Binding Ativa_cb}"
                                       VerticalContentAlignment="Center" 
                                       HorizontalContentAlignment="Left"
                                       ItemsSource="{Binding FormatoCredencial, Mode=TwoWay}" 
@@ -211,23 +231,22 @@
 
 
                             <Label Content="Número:" Height="28" Width="59" Margin="0,0,0,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                            <TextBox  x:Name="NumeroCredencial_tb"  
-                                      IsEnabled="{Binding ElementName=Ativa_cb, Path=IsChecked }"  
+                            <TextBox  x:Name="NumeroCredencial_tb"
                                       MaxLength="10"  CharacterCasing="Upper" 
                                       Text="{Binding Entity.NumeroCredencial,  UpdateSourceTrigger=PropertyChanged}" 
-                                      Height="24"  Width="58"/>
+                                      Height="24"  Width="58" IsEnabled="{Binding Ativa_cb}" />
 
 
 
                         </StackPanel>
-                        <StackPanel>
-                            <Button x:Name="brnImprimirCredencial" Content="Imprimir Credencial" ToolTip="Imprimir Credencial"  Margin="10,0,0,0" 
-                                    Height="24" RenderTransformOrigin="0.953,0.417" HorizontalAlignment="Left" Width="139" Click="ImprimirCredencial_bt_Click"/>
-                        </StackPanel>
+
                     </StackPanel>
                 </StackPanel>
             </GroupBox>
-
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
+                <Button x:Name="btnImprimirCredencial" Content="Imprimir Credencial" ToolTip="Imprimir Credencial"  Margin="10,0,0,0" 
+                 IsEnabled="{Binding IsEnablePrint}" Height="24" RenderTransformOrigin="0.953,0.417" HorizontalAlignment="Left" Width="139" Click="ImprimirCredencial_bt_Click"/>
+            </StackPanel>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="990" Height="203">
 
@@ -238,7 +257,7 @@
                           HorizontalAlignment="Stretch" 
                           VerticalAlignment="Top" 
                           ItemsSource="{Binding EntityObserver, Mode=TwoWay}" 
-                          SelectedItem="{Binding Entity, Mode=TwoWay}" Height="178" >
+                          SelectedItem="{Binding Entity, Mode=TwoWay}" Height="178" SelectionChanged="ListaVeiculosCredenciais_lv_SelectionChanged">
                     <ListView.View>
                         <GridView  >
                             <!--<GridViewColumn >
@@ -256,13 +275,10 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>-->
-                            <GridViewColumn Width="68" Header="Ativa"  >
+                            <GridViewColumn Width="55" Header="Ativo">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <wpf:ToggleSwitch  x:Name="Ativa_tw" HeaderHorizontalAlignment="Stretch" Width="100" HorizontalAlignment="Right" SwitchContentPlacement="Right" IsHitTestVisible="False"
-                                                          IsChecked="{Binding Ativa}"  Foreground="#FFD0D0BE" UncheckedBackground="Maroon" UncheckedBorderBrush="Maroon" UncheckedForeground="#FFAEAEAE" UncheckedText="" CheckedText="" SwitchWidth="44" />
-
-
+                                        <CheckBox IsChecked="{Binding Ativa}" IsHitTestVisible="False" />
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
@@ -314,25 +330,13 @@
                         </GridView>
                     </ListView.View>
                 </ListView>
-                <StackPanel Orientation="Vertical" Margin="10,6,0,0" HorizontalAlignment="Right" Width="155">
-                    <Button x:Name="btnAdicionar" Content="Adicionar" ToolTip="Adicionar"
-                            IsEnabled="{Binding Comportamento.IsEnableCriar}" Command="{Binding PrepareCriarCommand}"
-                            Height="30" Width="148" Margin="4,0,3,7" />
-                    <Button x:Name="btnEditar" Content="Editar" Height="30" ToolTip="Editar"
-                            IsEnabled="{Binding Comportamento.IsEnableEditar}"
-                            Command="{Binding PrepareAlterarCommand}" Width="148" Margin="0,0,0,7" />
-                    <Button x:Name="btnExcluir" Content="Remover" Height="30" Width="148" ToolTip="Remover"
-                            IsEnabled="{Binding Comportamento.isEnableRemover}"
-                            Command="{Binding PrepareRemoverCommand}" Margin="0,0,0,7" />
-                    <Button x:Name="btnCancelar" Content="Cancelar" ToolTip="Cancelar" Height="30" Width="148"
-                            IsEnabled="{Binding Comportamento.isEnableCancelar}"
-                            Command="{Binding PrepareCancelarCommand}" Margin="0,0,0,7" />
-                    <Button x:Name="btnSalvar" Content="Salvar" ToolTip="Salvar"  Height="30" Width="148"
-                            IsEnabled="{Binding Comportamento.isEnableSalvar}" Command="{Binding PrepareSalvarCommand}"
-                            Margin="4,0,3,7" />
+                <StackPanel Orientation="Vertical" Grid.Column="0" Grid.Row="3"  Height="193" HorizontalAlignment="Center"  Margin="0,32,0,-22">
+                    <Button x:Name="btnAdicionar"   Content="{StaticResource imgAdd}"       ToolTip="Adicionar"  IsEnabled="{Binding Comportamento.IsEnableCriar}" Command="{Binding PrepareCriarCommand}"                   Width="25" Margin="0,0,5,0"  />
+                    <Button x:Name="btnEditar"      Content="{StaticResource imgEdit}"      ToolTip="Editar" Height="31"  IsEnabled="{Binding Comportamento.IsEnableEditar}"  Command="{Binding PrepareAlterarCommand}"      Width="25" Margin="0,0,5,0"  />
+                    <Button x:Name="btnCancelar"    Content="{StaticResource imgCancel}"    ToolTip="Cancelar" Height="31"  IsEnabled="{Binding Comportamento.isEnableCancelar}"  Command="{Binding PrepareCancelarCommand}" Width="25" Margin="0,0,5,0"  />
+                    <Button x:Name="btnSalvar"      Content="{StaticResource imgSave}"      ToolTip="Salvar" Height="31"  IsEnabled="{Binding Comportamento.isEnableSalvar}"  Command="{Binding PrepareSalvarCommand}"       Width="25" Margin="0,0,5,0"  />
                 </StackPanel>
             </StackPanel>
-
         </StackPanel>
 
 

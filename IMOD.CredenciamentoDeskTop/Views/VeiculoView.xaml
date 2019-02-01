@@ -12,22 +12,21 @@
     <UserControl.Resources>
         <funcoes:StringToImageConverter x:Key="ImageConverter"/>
         <funcoes:ConvertBoolToImage x:Key="ConvertBoolToImage"/>
+        <Image x:Key="imgAdd" Source="../Resources/add.png"  />
+        <Image x:Key="imgEdit" Source="../Resources/edit.png"  />
+        <Image x:Key="imgRemove" Source="../Resources/remove.png"  />
+        <Image x:Key="imgSave" Source="../Resources/save.png"  />
+        <Image x:Key="imgCancel" Source="../Resources/undo.png"  />
         <ControlTemplate x:Key="ValidationErrorTemplate">
             <DockPanel>
-                <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" Margin="5,0,0,2">
                     <Grid Width="12" Height="12">
-                        <Ellipse Width="12" Height="12" Fill="Red" HorizontalAlignment="Center"
-                                 VerticalAlignment="Center" />
-                        <TextBlock Foreground="White" FontWeight="Heavy" FontSize="8" HorizontalAlignment="Center"
-                                   VerticalAlignment="Center" TextAlignment="Center"
-                                   ToolTip="{Binding ElementName=ErrorAdorner, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}">
-                            
-                        </TextBlock>
+                        <Ellipse Width="12" Height="12" Fill="Red" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Foreground="White"  FontWeight="Heavy" FontSize="8" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center"
+                               ToolTip="{Binding ElementName=ErrorAdorner, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}">X</TextBlock>
                     </Grid>
-                    <TextBlock Foreground="Red" Margin="2,0,0,0"
-                               Text="{Binding ElementName=ErrorAdorner, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}" />
                 </StackPanel>
-                <AdornedElementPlaceholder x:Name="ErrorAdorner" />
+                <AdornedElementPlaceholder x:Name="ErrorAdorner" ></AdornedElementPlaceholder>
             </DockPanel>
         </ControlTemplate>
         <!--Begin Styles-->
@@ -57,12 +56,12 @@
     </UserControl.Resources>
     <Grid Margin="5">
 
-         
+
         <Grid.RowDefinitions>
             <RowDefinition Height="35" />
             <RowDefinition Height="184" />
-            <RowDefinition Height="30" />
-            <RowDefinition Height="241" />
+            <RowDefinition Height="45" />
+            <RowDefinition Height="240" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1000" />
@@ -83,7 +82,6 @@
 
             </TextBox>
         </StackPanel>
-
 
         <StackPanel x:Name="ListaEmpresas_sp" Grid.Column="0" Grid.Row="1" Orientation="Horizontal" Margin="0,0,-219,0"
                     Height="184" VerticalAlignment="Top">
@@ -110,35 +108,18 @@
                     </GridView>
                 </ListView.View>
             </ListView>
-            <StackPanel x:Name="BotoesGeral_sp" Orientation="Vertical" Width="165" Margin="0,1,0,0">
-
-                <!--<Button x:Name="btnPesquisar" Content="Pesquisar" ToolTip="Pesquisar"  Height="30" Width="148"  Click="Pesquisar_bt_Click" Margin="0,0,0,7" />-->
-                <Button x:Name="btnAdicionar" Content="Adicionar" ToolTip="Adicionar"
-                        IsEnabled="{Binding Comportamento.IsEnableCriar}" Command="{Binding PrepareCriarCommand}"
-                        Height="31" Width="148" Margin="0,0,0,7" />
-                <Button x:Name="btnEditar" Content="Editar" Height="31" ToolTip="Editar"
-                        IsEnabled="{Binding Comportamento.IsEnableEditar}" Command="{Binding PrepareAlterarCommand}"
-                        Width="148" Margin="0,0,0,7" />
-                <Button x:Name="btnExcluir" Content="Remover" Height="31" Width="148" ToolTip="Remover"
-                        IsEnabled="{Binding Comportamento.isEnableRemover}" Command="{Binding PrepareRemoverCommand}"
-                        Margin="0,0,0,7" />
-                <Button x:Name="btnCancelar" Content="Cancelar" ToolTip="Cancelar" Height="31" Width="148"
-                        IsEnabled="{Binding Comportamento.isEnableCancelar}" Command="{Binding PrepareCancelarCommand}"
-                        Margin="0,0,0,7" />
-                <Button x:Name="btnSalvar" Content="Salvar" ToolTip="Salvar" Height="31" Width="148"
-                        IsEnabled="{Binding Comportamento.isEnableSalvar}" Command="{Binding PrepareSalvarCommand}"
-                        Margin="8,0,9,7" />
-
-            </StackPanel>
+        </StackPanel>
+        <StackPanel x:Name="BotoesGeral_sp" Orientation="Horizontal" Width="165" Margin="0,4,-19,6" HorizontalAlignment="Right" Grid.Row="2">
+            <Button x:Name="btnAdicionar"   Content="{StaticResource imgAdd}"       ToolTip="Adicionar"  Height="31" IsEnabled="{Binding Comportamento.IsEnableCriar}" Command="{Binding PrepareCriarCommand}"       Width="25" Margin="0,0,5,0"  />
+            <Button x:Name="btnEditar"      Content="{StaticResource imgEdit}"      ToolTip="Editar" Height="31"  IsEnabled="{Binding Comportamento.IsEnableEditar}"  Command="{Binding PrepareAlterarCommand}"      Width="25" Margin="0,0,5,0"  />
+            <Button x:Name="btnCancelar"    Content="{StaticResource imgCancel}"    ToolTip="Cancelar" Height="31"  IsEnabled="{Binding Comportamento.isEnableCancelar}"  Command="{Binding PrepareCancelarCommand}" Width="25" Margin="0,0,5,0"  />
+            <Button x:Name="btnSalvar"      Content="{StaticResource imgSave}"      ToolTip="Salvar" Height="31"  IsEnabled="{Binding Comportamento.isEnableSalvar}"  Command="{Binding PrepareSalvarCommand}"       Width="25" Margin="0,0,5,0"  />
         </StackPanel>
 
-        <Label Content="{Binding Entity.Descricao }" Grid.Column="0" Grid.Row="2" FontSize="14" Foreground="#FF007ACC"
-               Margin="0,1,-94,2" />
+        <Label Content="{Binding Entity.DescricaoAlias }" Grid.Column="0" Grid.Row="2" FontSize="14"  Foreground="#FF007ACC" Margin="0,1,161,2" />
 
         <TabControl  
-                    SelectedIndex="{Binding SelectedTabIndex }"
-                    Height="562"
-                    Width="1259" Margin="1,1,-259,-321"
+                    SelectedIndex="{Binding SelectedTabIndex }" Margin="1,1,-259,-324"
                     Grid.Row="3">
 
             <TabItem x:Name="Geral_ti" Background="{x:Null}" Margin="0,-2,0,0" GotFocus="Geral_ti_GotFocus">
@@ -157,18 +138,18 @@
                     </StackPanel>
                 </TabItem.Header>
                 <Grid IsEnabled="{Binding Comportamento.isEnableCancelar}" Margin="5" HorizontalAlignment="Left" Width="601">
-                    
+
                     <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" Header="Identificação"
                               Background="BlueViolet" Height="297" VerticalAlignment="Top" Margin="0,0,-275,0" HorizontalAlignment="Left" Width="876">
                         <StackPanel Orientation="Horizontal" Height="272" Margin="2,0,-2,0" VerticalAlignment="Top">
-                            <StackPanel.Resources> 
+                            <StackPanel.Resources>
                             </StackPanel.Resources>
                             <StackPanel Margin="1,1,1,0" Height="265" VerticalAlignment="Top" Width="702">
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="1">
 
                                     <Label Content="Tipo:" Height="28"   Width="98" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
                                     <ComboBox  x:Name="Tipo_cb"   Text="{Binding Entity.Tipo, UpdateSourceTrigger=PropertyChanged}"
-                                               Height="24"  Width="194"  TabIndex="0">
+                                               Height="24"  Width="194"  TabIndex="0" >
                                         <ComboBoxItem>EQUIPAMENTO</ComboBoxItem>
                                         <ComboBoxItem>VEÍCULO</ComboBoxItem>
                                     </ComboBox>
@@ -179,7 +160,7 @@
                                     <Label Content="Descrição:" Height="28" Width="98"  HorizontalContentAlignment="Right"
                                            Foreground="#FFD0D0D0" />
                                     <TextBox CharacterCasing="Upper" Text="{Binding Entity.Descricao}"
-                                             MaxLength="50" IsEnabled="True" Height="24" Width="339"/>
+                                             MaxLength="50" IsEnabled="True" Height="24" Width="339" />
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
                                             HorizontalAlignment="Left" Margin="1,1,0,1">
@@ -219,13 +200,11 @@
                                     <Label Content="Marca:" Height="28" Width="98" HorizontalContentAlignment="Right"
                                            Foreground="#FFD0D0D0" />
                                     <TextBox CharacterCasing="Upper" x:Name="Ins_Estadual_tb" MaxLength="11"
-                                             PreviewTextInput="NumberOnly"
                                              Text="{Binding Entity.Marca, UpdateSourceTrigger=PropertyChanged}"
                                              IsEnabled="True" Height="24" Width="100" />
                                     <Label Content="Modelo:" Height="28" Width="60" HorizontalContentAlignment="Right"
                                            Foreground="#FFD0D0D0" />
                                     <TextBox CharacterCasing="Upper" x:Name="Ins_Municipal_tb" MaxLength="20"
-                                             PreviewTextInput="NumberOnly"
                                              Text="{Binding Entity.Modelo,UpdateSourceTrigger=PropertyChanged}"
                                              IsEnabled="True" Height="24" Width="99" />
 
@@ -252,7 +231,7 @@
                                                   SelectedValue="{Binding Entity.TipoEquipamentoVeiculoId,  UpdateSourceTrigger=PropertyChanged}" 
                                                   SelectedValuePath="TipoEquipamentoId" IsSynchronizedWithCurrentItem="True" 
                                                   SelectedIndex="0" 
-                                                  Width="259" /> 
+                                                  Width="259" />
                                     <Label Content="Cor:" Height="28" Width="60" HorizontalContentAlignment="Right"
                                            Foreground="#FFD0D0D0" />
                                     <TextBox CharacterCasing="Upper"   MaxLength="20"
@@ -300,7 +279,7 @@
 
                             </StackPanel>
                             <StackPanel VerticalAlignment="Top"  Height="140" Width="101" Margin="10,10,0,0">
-                               
+
                                 <Border CornerRadius="3" BorderThickness="1" Grid.Column="0" Width="100" Height="100"
                                         HorizontalAlignment="Left" BorderBrush="#FF686868">
                                     <Image x:Name="Logo_im" Stretch="Uniform" Source="{Binding Entity.Foto, Converter={StaticResource ImageConverter}, Mode=TwoWay, UpdateSourceTrigger=Explicit}" Margin="3"   />
@@ -522,7 +501,7 @@
                 </TabItem.Header>
 
                 <views:VeiculosSegurosView x:Name="EmpresaSeguroUs" Margin="5,5,240,178"/>
-                
+
             </TabItem>
 
             <TabItem x:Name="Anexos_ti" Width="200" IsEnabled="{Binding IsEnableTabItem}" GotFocus="Anexos_ti_GotFocus">
