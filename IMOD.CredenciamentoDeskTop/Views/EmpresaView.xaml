@@ -83,8 +83,9 @@
 
 
         <StackPanel x:Name="ListaEmpresas_sp" Grid.Column="0" Grid.Row="1" Orientation="Horizontal"  Margin="0,0,-259,0" Height="184" VerticalAlignment="Top">
-            <ListView x:Name="lstView" ItemsSource="{Binding EntityObserver, Mode=TwoWay}" IsEnabled="{Binding IsEnableLstView}"   
-                           SelectedItem="{Binding Entity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  Margin="0,0,5,0" Width="1258">
+            <ListView x:Name="lstView" ItemsSource="{Binding EntityObserver, Mode=TwoWay}" IsEnabled="{Binding IsEnableLstView}"  
+                      SelectedIndex="{Binding SelectListViewIndex}"
+                      SelectedItem="{Binding Entity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  Margin="0,0,5,0" Width="1258">
                 <ListView.View>
                     <GridView FrameworkElement.FlowDirection="RightToLeft"> 
                         <GridViewColumn Width="55" Header="Código"  DisplayMemberBinding="{Binding EmpresaId}"/>
@@ -110,7 +111,7 @@
         </StackPanel>
 
         <!--<Label Content="{Binding Entity.Nome}" Grid.Column="0" Grid.Row="2" FontSize="14" Foreground="#FF007ACC" Margin="0,1,-94,2" />-->
-        <StackPanel x:Name="BotoesGeral_sp" Grid.Column="0" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,2,-262,0">
+        <StackPanel x:Name="BotoesGeral_sp" Grid.Column="0" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,2,-262,0" IsEnabled="{Binding HabilitaCommandPincipal}">
             
             <Button x:Name="btnAdicionar"   Content="{StaticResource imgAdd}"       ToolTip="Adicionar"     IsEnabled="{Binding Comportamento.IsEnableCriar}"       Command="{Binding PrepareCriarCommand}"     Width="25" Margin="0,0,5,0"  />
             <Button x:Name="btnEditar"      Content="{StaticResource imgEdit}"      ToolTip="Editar"        IsEnabled="{Binding Comportamento.IsEnableEditar}"      Command="{Binding PrepareAlterarCommand}"   Width="25" Margin="0,0,5,0"  />
@@ -125,12 +126,10 @@
         <TabControl x:Name="TabGeral_tc" 
                     SelectedIndex="{Binding SelectedTabIndex }"
                     Height="562" 
-                    Width="1259" Margin="1,1,-259,-321" 
-                   
-                    Grid.Row="3" SelectionChanged="TabGeral_tc_SelectionChanged">
+                    Width="1259" Margin="1,1,-259,-321" Grid.Row="3" >
             
 
-            <TabItem x:Name="Geral_ti"   Background="{x:Null}"    Margin="0,-2,0,0" GotFocus="Geral_ti_GotFocus">
+            <TabItem x:Name="Geral_ti"   Background="{x:Null}"    Margin="0,-2,0,0">
 
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
@@ -350,7 +349,7 @@
 
 
 
-            <TabItem x:Name="Signatarios_ti"  Width="200" IsEnabled="{Binding IsEnableTabItem}" GotFocus="Signatarios_ti_GotFocus">
+            <TabItem x:Name="Signatarios_ti"  Width="200" IsEnabled="{Binding IsEnableTabItem}" >
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="Signatarios_bt"   Click="OnPendenciaRepresentantes_Click" Style="{StaticResource MenuStyle}" >
@@ -368,7 +367,7 @@
 
             </TabItem>
 
-            <TabItem x:Name="Contrato_ti"  Width="200" IsEnabled="{Binding IsEnableTabItem}" GotFocus="Contrato_ti_GotFocus">
+            <TabItem x:Name="Contrato_ti"  Width="200" IsEnabled="{Binding IsEnableTabItem}" >
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Button  x:Name="Contratos_bt"  Click="OnPendenciaGeralContratos_Click" Style="{StaticResource MenuStyle}" >
@@ -397,7 +396,7 @@
                 <!--<local:EmpresaContratoUs x:Name="EmpresaContratosUs" Margin="6,2,14,18" />-->
                 <views:UsEmpresaContratoView x:Name="EmpresaContratosUs" Margin="5,5,0,5" HorizontalAlignment="Left" Width="1141"/>
             </TabItem>
-            <TabItem x:Name="Anexos_ti"  Width="200"  IsEnabled="{Binding IsEnableTabItem}" GotFocus="Anexos_ti_GotFocus">
+            <TabItem x:Name="Anexos_ti"  Width="200"  IsEnabled="{Binding IsEnableTabItem}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Button  x:Name="Anexos_bt" Click="OnPendenciaGeralAnexos_Click" Style="{StaticResource MenuStyle}" >

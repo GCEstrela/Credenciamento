@@ -61,7 +61,6 @@ namespace IMOD.CredenciamentoDeskTop.Views
             EmpresaContratosUs.AtualizarDados(_viewModel.Entity, _viewModel);
             //////////////////////////////////////////////////////////////
             _viewModel.CarregarQuantidadeTipoCredencial();
-            _viewModel.IsEnableTabItem = true;
         }
 
         /// <summary>
@@ -206,30 +205,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         #endregion
 
-        private void Contrato_ti_GotFocus(object sender, RoutedEventArgs e)
-        {
-            BotoesGeral_sp.IsEnabled = false;
-        }
-
-        private void TabGeral_tc_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
-        private void Anexos_ti_GotFocus(object sender, RoutedEventArgs e)
-        {
-            BotoesGeral_sp.IsEnabled = false;
-        }
-
-        private void Geral_ti_GotFocus(object sender, RoutedEventArgs e)
-        {
-            BotoesGeral_sp.IsEnabled = true;
-        }
-
-        private void Signatarios_ti_GotFocus(object sender, RoutedEventArgs e)
-        {
-            BotoesGeral_sp.IsEnabled = false;
-        }
+        
 
         private void Cep_tb_LostFocus(object sender, RoutedEventArgs e)
         {

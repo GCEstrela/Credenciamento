@@ -87,6 +87,13 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         public bool Pendencia25 { get; set; }
 
+        public bool HabilitaCommandPincipal { get; set; } = true;
+
+        /// <summary>
+        ///     Seleciona indice da listview
+        /// </summary>
+        public short SelectListViewIndex { get; set; }
+
         /// <summary>
         ///     Habilita abas
         /// </summary>
@@ -140,6 +147,16 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         }
 
         #region  Metodos
+        /// <summary>
+        ///     Habilita controles
+        /// </summary>
+        /// <param name="isEnableTabItem"></param>
+        /// <param name="isEnableLstView"></param>
+        private void HabilitaControle(bool isEnableTabItem, bool isEnableLstView)
+        {
+            IsEnableTabItem = isEnableTabItem;
+            IsEnableLstView = isEnableLstView;
+        }
 
         /// <summary>
         /// 
@@ -148,8 +165,15 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <param name="e"></param>
         private void OnEntityChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "Entity") //habilitar botão alterar todas as vezes em que houver entidade diferente de null
-                Comportamento.IsEnableEditar = true;
+            if (e.PropertyName == "Entity")
+
+            {
+                Comportamento.IsEnableEditar = Entity != null;
+                IsEnableTabItem = Entity != null;
+            }
+            if (e.PropertyName == "SelectedTabIndex")
+                //Habilita botoes principais...
+                HabilitaCommandPincipal = SelectedTabIndex == 0;
         }
 
         private void ListarDadosAuxiliares()
