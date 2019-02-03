@@ -136,7 +136,7 @@
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="Geral_bt" Click="OnPendenciaGeral_Click" Style="{StaticResource MenuStyle}" >
                             <StackPanel>
-                                <Image Source="{Binding PendenciaGeral,
+                                <Image Source="{Binding Pendencia21,
                                         Converter={StaticResource ConvertBoolToImage},
                                         UpdateSourceTrigger=Explicit, Mode=TwoWay}" Width="16"  Height="16" RenderTransformOrigin="1,1" />
                             </StackPanel>
@@ -355,7 +355,7 @@
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="Signatarios_bt"   Click="OnPendenciaRepresentantes_Click" Style="{StaticResource MenuStyle}" >
                             <StackPanel>
-                                <Image Source="{Binding PendenciaRepresentante,
+                                <Image Source="{Binding Pendencia12,
                                         Converter={StaticResource ConvertBoolToImage},UpdateSourceTrigger=Explicit, Mode=TwoWay}"  Width="16"  Height="16" />
                             </StackPanel>
                         </Button>
@@ -373,7 +373,7 @@
                     <StackPanel Orientation="Horizontal">
                         <Button  x:Name="Contratos_bt"  Click="OnPendenciaGeralContratos_Click" Style="{StaticResource MenuStyle}" >
                             <StackPanel>
-                                <Image Source="{Binding PendenciaContrato,
+                                <Image Source="{Binding Pendencia14,
                                         Converter={StaticResource ConvertBoolToImage},
                                         UpdateSourceTrigger=Explicit, Mode=TwoWay}" Width="16"  Height="16" />
                             </StackPanel>
@@ -402,7 +402,7 @@
                     <StackPanel Orientation="Horizontal">
                         <Button  x:Name="Anexos_bt" Click="OnPendenciaGeralAnexos_Click" Style="{StaticResource MenuStyle}" >
                             <StackPanel>
-                                <Image Source="{Binding PendenciaAnexo,
+                                <Image Source="{Binding Pendencia24,
                                         Converter={StaticResource ConvertBoolToImage},UpdateSourceTrigger=Explicit, Mode=TwoWay}" Width="16"  Height="16" />
                             </StackPanel>
                         </Button>

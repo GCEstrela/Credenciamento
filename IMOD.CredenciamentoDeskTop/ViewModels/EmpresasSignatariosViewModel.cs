@@ -236,7 +236,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 WpfHelp.PopupBox("Selecione um item da lista", 1);
                 return;
             }
-            //EntidadeTMP = Entity;
+            
             Comportamento.PrepareAlterar();
             IsEnableLstView = false;
         }

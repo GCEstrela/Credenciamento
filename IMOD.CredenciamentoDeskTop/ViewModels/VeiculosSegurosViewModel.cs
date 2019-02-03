@@ -1,4 +1,12 @@
-﻿using System;
+﻿// ***********************************************************************
+// Project: IMOD.CredenciamentoDeskTop
+// Crafted by: Grupo Estrela by Genetec
+// Date:  01 - 24 - 2019
+// ***********************************************************************
+
+#region
+
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -16,25 +24,18 @@ using IMOD.CredenciamentoDeskTop.Views.Model;
 using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
 
+#endregion
+
 namespace IMOD.CredenciamentoDeskTop.ViewModels
 {
-    class VeiculosSegurosViewModel : ViewModelBase, IComportamento
+    internal class VeiculosSegurosViewModel : ViewModelBase, IComportamento
     {
+        private readonly IVeiculoSeguroService _service = new VeiculoSeguroService();
+
+        private VeiculoView _veiculoView;
+        private VeiculoViewModel _viewModelParent;
 
         #region  Propriedades
-
-        private readonly IVeiculoSeguroService _service = new VeiculoSeguroService();
-        private VeiculoView _veiculoView;
-        /// <summary>
-        ///     True, Comando de alteração acionado
-        /// </summary>
-        private bool _prepareAlterarCommandAcionado;
-
-        /// <summary>
-        ///     True, Comando de criação acionado
-        /// </summary>
-        private bool _prepareCriarCommandAcionado;
-
 
         public VeiculoSeguroView Entity { get; set; }
         public VeiculoSeguroView EntityTmp { get; set; }
@@ -48,29 +49,45 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         #endregion
 
+        #region  Metodos
+
+        /// <summary>
+        ///     Validar Regras de Negócio
+        /// </summary>
+        /// <returns></returns>
+        public bool Validar()
+        {
+            Entity.Validate();
+            var hasErros = Entity.HasErrors;
+            return hasErros;
+        }
+
+        #endregion
+
         #region Inicializacao
 
-        public void AtualizarDados(VeiculoView entity)
+        public void AtualizarDados(VeiculoView entity, VeiculoViewModel viewModelParent)
         {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            if (entity == null) throw new ArgumentNullException (nameof (entity));
             _veiculoView = entity;
+            _viewModelParent = viewModelParent;
+
             //Obter dados
-            var list1 = _service.Listar(entity.EquipamentoVeiculoId, null, null);
-            var list2 = Mapper.Map<List<VeiculoSeguroView>>(list1.OrderByDescending(n => n.VeiculoSeguroId));
-            var observer = new ObservableCollection<VeiculoSeguro>(); 
+            var list1 = _service.Listar (entity.EquipamentoVeiculoId, null, null);
+            var list2 = Mapper.Map<List<VeiculoSeguroView>> (list1.OrderByDescending (n => n.VeiculoSeguroId));
             EntityObserver = new ObservableCollection<VeiculoSeguroView>();
-            list2.ForEach(n => { EntityObserver.Add(n); });
+            list2.ForEach (n => { EntityObserver.Add (n); });
         }
 
         public VeiculosSegurosViewModel()
-        { 
-            Comportamento = new ComportamentoBasico(false, true, true, false, false);
+        {
+            Comportamento = new ComportamentoBasico (false, true, true, false, false);
             EntityObserver = new ObservableCollection<VeiculoSeguroView>();
             Comportamento.SalvarAdicao += OnSalvarAdicao;
             Comportamento.SalvarEdicao += OnSalvarEdicao;
             Comportamento.Remover += OnRemover;
             Comportamento.Cancelar += OnCancelar;
-            base.PropertyChanged += OnEntityChanged;
+            PropertyChanged += OnEntityChanged;
         }
 
         #endregion
@@ -78,7 +95,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         #region Metódos
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -87,15 +103,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             if (e.PropertyName == "Entity") //habilitar botão alterar todas as vezes em que houver entidade diferente de null
                 Comportamento.IsEnableEditar = true;
         }
-         
 
         private void PrepareRemover()
         {
             if (Entity == null) return;
 
             IsEnableLstView = true;
-            _prepareCriarCommandAcionado = false;
-            _prepareAlterarCommandAcionado = false;
             Comportamento.PrepareRemover();
         }
 
@@ -108,40 +121,34 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                if (Entity == null)
-                {
-                    return;
-                }
+                if (Entity == null) return;
                 if (Validar()) return;
 
-                var n1 = Mapper.Map<VeiculoSeguro>(Entity);
+                var n1 = Mapper.Map<VeiculoSeguro> (Entity);
                 n1.VeiculoId = _veiculoView.EquipamentoVeiculoId;
-                _service.Criar(n1);
+                _service.Criar (n1);
                 //Adicionar no inicio da lista um item a coleção
-                var n2 = Mapper.Map<VeiculoSeguroView>(n1);
-                EntityObserver.Insert(0, n2);
+                var n2 = Mapper.Map<VeiculoSeguroView> (n1);
+                EntityObserver.Insert (0, n2);
                 IsEnableLstView = true;
+                _viewModelParent.AtualizarDadosPendencias();
             }
             catch (Exception ex)
             {
-                Utils.TraceException(ex);
-                WpfHelp.PopupBox(ex);
+                Utils.TraceException (ex);
+                WpfHelp.PopupBox (ex);
             }
         }
 
         /// <summary>
         ///     Acionado antes de criar
         /// </summary>
-
         private void PrepareCriar()
         {
             EntityTmp = Entity;
             Entity = new VeiculoSeguroView();
             Comportamento.PrepareCriar();
             IsEnableLstView = false;
-            _prepareCriarCommandAcionado = true;
-            Comportamento.PrepareCriar();
-            _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;
         }
 
         /// <summary>
@@ -153,19 +160,16 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                if (Entity == null)
-                {
-                    return;
-                }
+                if (Entity == null) return;
                 if (Validar()) return;
-                var n1 = Mapper.Map<VeiculoSeguro>(Entity);
-                _service.Alterar(n1);
+                var n1 = Mapper.Map<VeiculoSeguro> (Entity);
+                _service.Alterar (n1);
                 IsEnableLstView = true;
             }
             catch (Exception ex)
             {
-                Utils.TraceException(ex);
-                WpfHelp.PopupBox(ex);
+                Utils.TraceException (ex);
+                WpfHelp.PopupBox (ex);
             }
         }
 
@@ -179,23 +183,17 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             try
             {
                 IsEnableLstView = true;
-                _prepareCriarCommandAcionado = false;
-                _prepareAlterarCommandAcionado = false;
-                Entity = EntityTmp;
 
                 if (Entity != null)
                 {
-                    //if (Entity.VeiculoSeguroId == 0)
-                    //{
-                    //    Entity = EntityTmp;
-                    //}
                     Entity.ClearMessageErro();
+                    Entity = EntityTmp;
                 }
             }
             catch (Exception ex)
             {
-                Utils.TraceException(ex);
-                WpfHelp.MboxError("Não foi realizar a operação solicitada", ex);
+                Utils.TraceException (ex);
+                WpfHelp.MboxError ("Não foi realizar a operação solicitada", ex);
             }
         }
 
@@ -213,36 +211,34 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var result = WpfHelp.MboxDialogRemove();
                 if (result != DialogResult.Yes) return;
 
-                var n1 = Mapper.Map<VeiculoSeguro>(Entity);
-                _service.Remover(n1);
+                var n1 = Mapper.Map<VeiculoSeguro> (Entity);
+                _service.Remover (n1);
                 //Retirar empresa da coleção
-                EntityObserver.Remove(Entity);
-                IsEnableLstView = true;
+                EntityObserver.Remove (Entity);
             }
             catch (Exception ex)
             {
-                Utils.TraceException(ex);
-                WpfHelp.MboxError("Não foi realizar a operação solicitada", ex);
+                Utils.TraceException (ex);
+                WpfHelp.MboxError ("Não foi realizar a operação solicitada", ex);
             }
         }
 
         private void PrepareSalvar()
         {
-            if (!ErroValidacao)
-                Comportamento.PrepareSalvar();
+            if (Validar()) return;
+            Comportamento.PrepareSalvar();
         }
+
         private void PrepareAlterar()
         {
             if (Entity == null)
             {
-                WpfHelp.PopupBox("Selecione um item da lista", 1);
+                WpfHelp.PopupBox ("Selecione um item da lista", 1);
                 return;
             }
 
             Comportamento.PrepareAlterar();
             IsEnableLstView = false;
-            _prepareCriarCommandAcionado = false;
-            _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;
         }
 
         /// <summary>
@@ -250,22 +246,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private void Pesquisar()
         {
-             
-        }
-
-        private void PopularObserver(ICollection<VeiculoSeguro> list)
-        {
-            try
-            {
-                var list2 = Mapper.Map<List<VeiculoSeguroView>>(list.OrderBy(n => n.NomeArquivo));
-                EntityObserver = new ObservableCollection<VeiculoSeguroView>();
-                list2.ForEach(n => { EntityObserver.Add(n); }); 
-            }
-
-            catch (Exception ex)
-            {
-                Utils.TraceException(ex);
-            }
         }
 
         #endregion
@@ -294,54 +274,35 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <summary>
         ///     Novo
         /// </summary>
-        public ICommand PrepareCriarCommand => new CommandBase(PrepareCriar, true);
+        public ICommand PrepareCriarCommand => new CommandBase (PrepareCriar, true);
 
         public ComportamentoBasico Comportamento { get; set; }
 
         /// <summary>
         ///     Editar
         /// </summary>
-        public ICommand PrepareAlterarCommand => new CommandBase(PrepareAlterar, true);
+        public ICommand PrepareAlterarCommand => new CommandBase (PrepareAlterar, true);
 
         /// <summary>
         ///     Cancelar
         /// </summary>
-        public ICommand PrepareCancelarCommand => new CommandBase(Comportamento.PrepareCancelar, true);
+        public ICommand PrepareCancelarCommand => new CommandBase (Comportamento.PrepareCancelar, true);
 
         /// <summary>
         ///     Novo
         /// </summary>
-        public ICommand PrepareSalvarCommand => new CommandBase(PrepareSalvar, true);
+        public ICommand PrepareSalvarCommand => new CommandBase (PrepareSalvar, true);
 
         /// <summary>
         ///     Remover
         /// </summary>
-        public ICommand PrepareRemoverCommand => new CommandBase(PrepareRemover, true);
+        public ICommand PrepareRemoverCommand => new CommandBase (PrepareRemover, true);
 
         /// <summary>
         ///     Pesquisar
         /// </summary>
-        public ICommand PesquisarCommand => new CommandBase(Pesquisar, true);
+        public ICommand PesquisarCommand => new CommandBase (Pesquisar, true);
 
         #endregion
-
-        /// <summary>
-        ///     Validar Regras de Negócio
-        /// </summary>
-        /// <returns></returns>
-        public bool Validar()
-        {
-            Entity.Validate();
-            var hasErros = Entity.HasErrors; 
-            return hasErros;
-        }
-
-        /// <summary>
-        /// Erro de validação
-        /// True, Erro de validação
-        /// </summary>
-        public bool ErroValidacao { get { return Validar(); } }
     }
-    
-
 }

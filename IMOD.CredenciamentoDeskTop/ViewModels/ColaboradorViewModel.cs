@@ -60,37 +60,32 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <summary>
         ///     Pesquisar por
         /// </summary>
-        public KeyValuePair<int, string> PesquisarPor { get; set; }
+        public KeyValuePair<int, string> PesquisarPor { get; set; } 
 
         /// <summary>
-        ///     True, empresa possui pendências
+        ///      True, empresa possui pendência de codigo 21
         /// </summary>
-        public bool Pendencias { get; set; }
+        public bool Pendencia21 { get; set; }
 
         /// <summary>
-        ///     True, empresa possui pendência na aba Geral
+        ///     True, empresa possui pendência de codigo 22
         /// </summary>
-        public bool PendenciaGeral { get; set; }
+        public bool Pendencia22 { get; set; }
 
         /// <summary>
-        ///     True, empresa possui pendência na aba Empresas Vinculos
+        ///      True, empresa possui pendência de codigo 23
         /// </summary>
-        public bool PendenciaEmpresasVinculos { get; set; }
+        public bool Pendencia23 { get; set; }
 
         /// <summary>
-        ///     True, empresa possui pendência na aba Treinamento
+        ///     True, empresa possui pendência de codigo 24
         /// </summary>
-        public bool PendenciaTreinamento { get; set; }
+        public bool Pendencia24 { get; set; }
 
         /// <summary>
-        ///     True, empresa possui pendência na aba Anexo
+        ///      True, empresa possui pendência de codigo 25
         /// </summary>
-        public bool PendenciaAnexo { get; set; }
-
-        /// <summary>
-        ///     True, empresa possui pendência na aba Credencial
-        /// </summary>
-        public bool PendenciaCredencial { get; set; }
+        public bool Pendencia25 { get; set; }
 
         /// <summary>
         ///     Habilita abas
@@ -233,19 +228,17 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
             var pendencia = _service.Pendencia.ListarPorColaborador (Entity.ColaboradorId).ToList();
             //Set valores
-            PendenciaGeral = false;
-            PendenciaEmpresasVinculos = false;
-            PendenciaTreinamento = false;
-            PendenciaAnexo = false;
-            PendenciaCredencial = false;
+            Pendencia21 = false;
+            Pendencia22 = false;
+            Pendencia23 = false;
+            Pendencia24 = false;
+            Pendencia25 = false;
             //Buscar pendências referente aos códigos: 21;22;23;24;25
-            PendenciaGeral = pendencia.Any (n => n.CodPendencia == 21 & n.Ativo);
-            PendenciaEmpresasVinculos = pendencia.Any (n => n.CodPendencia == 22 & n.Ativo);
-            PendenciaTreinamento = pendencia.Any (n => n.CodPendencia == 23 & n.Ativo);
-            PendenciaAnexo = pendencia.Any (n => n.CodPendencia == 24 & n.Ativo);
-            PendenciaCredencial = pendencia.Any (n => n.CodPendencia == 25 & n.Ativo);
-            //Indica se a empresa possue pendências
-            Pendencias = PendenciaGeral || PendenciaEmpresasVinculos || PendenciaTreinamento || PendenciaAnexo || PendenciaCredencial;
+            Pendencia21 = pendencia.Any (n => n.CodPendencia == 21 & n.Ativo);
+            Pendencia22 = pendencia.Any (n => n.CodPendencia == 22 & n.Ativo);
+            Pendencia23 = pendencia.Any (n => n.CodPendencia == 23 & n.Ativo);
+            Pendencia24 = pendencia.Any (n => n.CodPendencia == 24 & n.Ativo);
+            Pendencia25 = pendencia.Any (n => n.CodPendencia == 25 & n.Ativo); 
         }
 
         #endregion

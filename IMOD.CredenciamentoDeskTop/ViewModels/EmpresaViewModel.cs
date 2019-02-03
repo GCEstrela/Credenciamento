@@ -61,30 +61,26 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         public KeyValuePair<int, string> PesquisarPor { get; set; }
 
-        /// <summary>
-        ///     True, empresa possui pendências
-        /// </summary>
-        public bool Pendencias { get; set; }
 
         /// <summary>
-        ///     True, empresa possui pendência na aba Geral
+        ///     True, empresa possui pendência de codigo 21
         /// </summary>
-        public bool PendenciaGeral { get; set; }
+        public bool Pendencia21 { get; set; }
 
         /// <summary>
-        ///     True, empresa possui pendência na aba Represenante
+        ///   True, empresa possui pendência de codigo 12    
         /// </summary>
-        public bool PendenciaRepresentante { get; set; }
+        public bool Pendencia12 { get; set; }
 
         /// <summary>
-        ///     True, empresa possui pendência na aba Contrato
+        ///       True, empresa possui pendência de codigo 14
         /// </summary>
-        public bool PendenciaContrato { get; set; }
+        public bool Pendencia14 { get; set; }
 
         /// <summary>
-        ///     True, empresa possui pendência na aba Anexo
+        ///     
         /// </summary>
-        public bool PendenciaAnexo { get; set; }
+        public bool Pendencia24 { get; set; }
 
         /// <summary>
         ///     Habilita abas
@@ -144,7 +140,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         public EmpresaViewModel()
         {
-            //ListarTodos();
+           
             ItensDePesquisaConfigura();
             ListarDadosAuxiliares();
             Comportamento = new ComportamentoBasico(false, true, true, false, false);
@@ -211,17 +207,15 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
             var pendencia = _service.Pendencia.ListarPorEmpresa(Entity.EmpresaId).ToList();
             //Set valores
-            PendenciaGeral = false;
-            PendenciaRepresentante = false;
-            PendenciaContrato = false;
-            PendenciaAnexo = false;
+            Pendencia21= false;
+            Pendencia12 = false;
+            Pendencia14 = false;
+            Pendencia24 = false;
             //Buscar pendências referente aos códigos: 21; 12;14;24
-            PendenciaGeral = pendencia.Any(n => n.CodPendencia == 21 & n.Ativo);
-            PendenciaRepresentante = pendencia.Any(n => n.CodPendencia == 12 & n.Ativo);
-            PendenciaContrato = pendencia.Any(n => n.CodPendencia == 14 & n.Ativo);
-            PendenciaAnexo = pendencia.Any(n => n.CodPendencia == 24 & n.Ativo);
-            //Indica se a empresa possue pendências
-            Pendencias = PendenciaGeral || PendenciaRepresentante || PendenciaContrato || PendenciaAnexo;
+            Pendencia21 = pendencia.Any(n => n.CodPendencia == 21 & n.Ativo);
+            Pendencia12 = pendencia.Any(n => n.CodPendencia == 12 & n.Ativo);
+            Pendencia14 = pendencia.Any(n => n.CodPendencia == 14 & n.Ativo);
+            Pendencia24 = pendencia.Any(n => n.CodPendencia == 24 & n.Ativo);
         }
 
         /// <summary>
@@ -236,21 +230,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             ListaPesquisa.Add(new KeyValuePair<int, string>(4, "Todos"));
             PesquisarPor = ListaPesquisa[1]; //Pesquisa Default
         }
-
-        private void ListarTodos()
-        {
-            try
-            {
-                var list1 = _service.Listar();
-                PopularObserver(list1);
-            }
-
-            catch (Exception ex)
-            {
-                Utils.TraceException(ex);
-            }
-        }
-
+         
         /// <summary>
         ///     Listar dados auxilizares
         /// </summary>
@@ -456,9 +436,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <summary>
         ///     Pesquisar
         /// </summary>
-        public ICommand PesquisarCommand => new CommandBase(Pesquisar, true);
-
-        public ICommand LiberarBotoes => new CommandBase(Pesquisar, true);
+        public ICommand PesquisarCommand => new CommandBase(Pesquisar, true); 
         #endregion
 
         #region Salva Dados

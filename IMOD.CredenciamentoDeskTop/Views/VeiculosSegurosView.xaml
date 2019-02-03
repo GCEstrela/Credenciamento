@@ -4,6 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:funcoes="clr-namespace:IMOD.CredenciamentoDeskTop.Funcoes"
+              d:DataContext="{d:DesignInstance viewModels:VeiculosSegurosViewModel , IsDesignTimeCreatable=True}"
+              xmlns:viewModels="clr-namespace:IMOD.CredenciamentoDeskTop.ViewModels"
              mc:Ignorable="d"  Height="350">
     <UserControl.Resources>
         <Image x:Key="imgAdd" Source="../Resources/add.png"  />
@@ -54,7 +56,7 @@
                             <Label Content="Valor da Cobertura (R$):" Height="28" Width="132"  Foreground="#FFD0D0D0" />
                             <TextBox x:Name="txtValorCobertura" MaxLength="15" CharacterCasing="Lower"
                                      Text="{Binding Entity.ValorCobertura, UpdateSourceTrigger=PropertyChanged}"
-                                     IsEnabled="True" Height="24" Width="300" LostFocus="FormatCurrency" PreviewTextInput="NumberOnly" />
+                                     IsEnabled="True" Height="24" Width="300" />
                             <Label Content="Data de Emissão:" Height="28" Width="112" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
                             <DatePicker x:Name="dtPEmissao" VerticalContentAlignment="Center" 
                                         SelectedDate="{Binding Entity.Emissao, UpdateSourceTrigger=PropertyChanged}" Width="110"
@@ -96,10 +98,10 @@
                 </TextBox>
             </StackPanel>-->
             <StackPanel Orientation="Horizontal" Height="179" Margin="0,10,40,0">
-                <ListView x:Name="ListaSeguros_lv"
+                <ListView x:Name="ListaSeguros_lve"
                           IsEnabled="{Binding IsEnableLstView}"
-                          ItemsSource="{Binding EntityObserver, Mode=TwoWay}"
-                          SelectedItem="{Binding Entity, Mode=TwoWay}" Width="931" Margin="0,10,0,10"> VerticalAlignment="Top">
+                          ItemsSource="{Binding EntityObserver, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          SelectedItem="{Binding Entity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="931" Margin="0,10,0,10">
 
                     <ListView.View>
                         <GridView FrameworkElement.FlowDirection="RightToLeft">

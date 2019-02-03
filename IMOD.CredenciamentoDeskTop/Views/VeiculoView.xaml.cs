@@ -1,4 +1,5 @@
-﻿// ***********************************************************************
+﻿
+// ***********************************************************************
 // Project: iModSCCredenciamento
 // Crafted by: Grupo Estrela by Genetec
 // Date:  11 - 13 - 2018
@@ -33,7 +34,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
         public VeiculoView()
         {
             InitializeComponent();
-            _viewModel = new VeiculoViewModel();
+           _viewModel = new VeiculoViewModel();
             DataContext = _viewModel;
         }
 
@@ -48,18 +49,18 @@ namespace IMOD.CredenciamentoDeskTop.Views
         private void OnListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             //Atualizar dados ao selecionar uma linha da listview
-           //_viewModel.AtualizarDadosPendencias();
-            //_viewModel.AtualizarDadosTiposServico();
-            //_viewModel.AtualizarDadosTiposServico();
+            _viewModel.AtualizarDadosPendencias();
+            _viewModel.AtualizarDadosTiposServico();
+            _viewModel.AtualizarDadosTiposServico();
 
             //Popular User Controls
             //////////////////////////////////////////////////////////////
-            //VeiculosEmpresasUs.AtualizarDados(_viewModel.Entity, _viewModel);
-            //EmpresaSeguroUs.AtualizarDados(_viewModel.Entity,_viewModel);
-            //AnexoUs.AtualizarDados(_viewModel.Entity, _viewModel);
-            //VeiculoCredenciaisUs.AtualizarDados(_viewModel.Entity);
+            VeiculosEmpresasUs.AtualizarDados(_viewModel.Entity, _viewModel);
+            EmpresaSeguroUs.AtualizarDados(_viewModel.Entity, _viewModel);
+            AnexoUs.AtualizarDados(_viewModel.Entity, _viewModel);
+            VeiculoCredenciaisUs.AtualizarDados(_viewModel.Entity);
             /////////////////////////////////////////////////////////////
-            _viewModel.IsEnableTabItem = true;
+            //_viewModel.IsEnableTabItem = true;
         }
 
         private void OnSelecionaMunicipio_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -70,7 +71,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         private void Frm_Loaded(object sender, RoutedEventArgs e)
         {
-            lstView.SelectionChanged += OnListView_SelectionChanged;
+             lstView.SelectionChanged += OnListView_SelectionChanged;
             cmbEstado.SelectionChanged += OnSelecionaMunicipio_SelectionChanged;
         }
 
@@ -170,30 +171,6 @@ namespace IMOD.CredenciamentoDeskTop.Views
         }
 
         #endregion
-
-        private void Geral_ti_GotFocus(object sender, RoutedEventArgs e)
-        {
-            BotoesGeral_sp.IsEnabled = true;
-        }
-
-        private void EmpresasVinculos_ti_GotFocus(object sender, RoutedEventArgs e)
-        {
-            BotoesGeral_sp.IsEnabled = false;
-        }
-
-        private void Seguros_ti_GotFocus(object sender, RoutedEventArgs e)
-        {
-            BotoesGeral_sp.IsEnabled = false;
-        }
-
-        private void Anexos_ti_GotFocus(object sender, RoutedEventArgs e)
-        {
-            BotoesGeral_sp.IsEnabled = false;
-        }
-
-        private void Credenciais_ti_GotFocus(object sender, RoutedEventArgs e)
-        {
-            BotoesGeral_sp.IsEnabled = false;
-        }
+         
     }
 }

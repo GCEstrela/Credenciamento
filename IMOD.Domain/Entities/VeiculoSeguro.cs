@@ -20,7 +20,7 @@ namespace IMOD.Domain.Entities
         public string NomeSeguradora { get; set; }
         public string NumeroApolice { get; set; }
         public decimal ValorCobertura { get; set; }
-        public int? VeiculoId { get; set; }
+        public int VeiculoId { get; set; }
         public string Arquivo { get; set; }
         public string NomeArquivo { get; set; }
         public DateTime? Emissao { get; set; }

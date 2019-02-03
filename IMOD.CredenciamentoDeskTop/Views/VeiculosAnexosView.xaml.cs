@@ -78,11 +78,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
         private void OnDownload_Click(object sender, RoutedEventArgs e)
         {
             try
-            {
-                //var arquivoStr = _viewModel.Entity.Arquivo;
-                //var arrBytes = Convert.FromBase64String (arquivoStr);
-                //WpfHelp.DownloadArquivoDialog (_viewModel.Entity.NomeArquivo, arrBytes);
-
+            { 
                 var arquivoStr = _viewModel.Entity.Arquivo;
                 var arrBytes = Convert.FromBase64String(arquivoStr);
                 WpfHelp.AbrirArquivoPdf(_viewModel.Entity.NomeArquivo, arrBytes);

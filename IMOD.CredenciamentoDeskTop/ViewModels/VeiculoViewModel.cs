@@ -1,7 +1,7 @@
 ﻿// ***********************************************************************
-// Project: iModSCCredenciamento
+// Project: IMOD.CredenciamentoDeskTop
 // Crafted by: Grupo Estrela by Genetec
-// Date:  11 - 13 - 2018
+// Date:  01 - 24 - 2019
 // ***********************************************************************
 
 #region
@@ -33,16 +33,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
         private readonly IVeiculoService _service = new VeiculoService();
 
-        /// <summary>
-        ///     True, Comando de alteração acionado
-        /// </summary>
-        private bool _prepareAlterarCommandAcionado;
-
-        /// <summary>
-        ///     True, Comando de criação acionado
-        /// </summary>
-        private bool _prepareCriarCommandAcionado;
-
         #region  Propriedades
 
         /// <summary>
@@ -61,34 +51,36 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public KeyValuePair<int, string> PesquisarPor { get; set; }
 
         /// <summary>
-        ///     True, empresa possui pendências
+        ///     True, empresa possui pendência de codigo 21
         /// </summary>
-        public bool Pendencias { get; set; }
+        public bool Pendencia21 { get; set; }
 
         /// <summary>
-        ///     True, empresa possui pendência na aba Geral
+        ///     True, empresa possui pendência de codigo 22
         /// </summary>
-        public bool PendenciaGeral { get; set; }
+        public bool Pendencia22 { get; set; }
 
         /// <summary>
-        ///     True, empresa possui pendência na aba Represenante
+        ///     True, empresa possui pendência de codigo 19
         /// </summary>
-        public bool PendenciaRepresentante { get; set; }
+        public bool Pendencia19 { get; set; }
 
         /// <summary>
-        ///     True, empresa possui pendência na aba Contrato
+        ///     True, empresa possui pendência de codigo 24
         /// </summary>
-        public bool PendenciaContrato { get; set; }
+        public bool Pendencia24 { get; set; }
 
         /// <summary>
-        ///     True, empresa possui pendência na aba Anexo
+        ///     True, empresa possui pendência de codigo 25
         /// </summary>
-        public bool PendenciaAnexo { get; set; }
+        public bool Pendencia25 { get; set; }
+
+        public bool HabilitaCommandPincipal { get; set; } = true;
 
         /// <summary>
-        ///     Habilita abas
+        ///     Indice da tabela de controle selecionada
         /// </summary>
-        public bool IsEnableTabItem { get; set; } = false;
+        public bool IsEnableTabItem { get; private set; }
 
         /// <summary>
         ///     Seleciona o indice da tabcontrol desejada
@@ -96,14 +88,16 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public short SelectedTabIndex { get; set; }
 
         /// <summary>
+        ///     Seleciona indice da listview
+        /// </summary>
+        public short SelectListViewIndex { get; set; }
+
+        /// <summary>
         ///     Habilita listView
         /// </summary>
         public bool IsEnableLstView { get; private set; } = true;
 
-        VeiculoView EntityTmp = new VeiculoView();
         public VeiculoView Entity { get; set; }
-        public VeiculoView EntidadeTmp { get; set; }
-        
         public ObservableCollection<VeiculoView> EntityObserver { get; set; }
 
         /// <summary>
@@ -151,27 +145,34 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             ItensDePesquisaConfigura();
             ListarDadosAuxiliares();
-            Comportamento = new ComportamentoBasico(false, true, true, false, false);
+            Comportamento = new ComportamentoBasico (false, true, true, false, false);
             EntityObserver = new ObservableCollection<VeiculoView>();
             TiposEquipamentoServico = new ObservableCollection<EquipamentoVeiculoTipoServicoView>();
             Comportamento.SalvarAdicao += OnSalvarAdicao;
             Comportamento.SalvarEdicao += OnSalvarEdicao;
             Comportamento.Remover += OnRemover;
             Comportamento.Cancelar += OnCancelar;
-            base.PropertyChanged += OnEntityChanged;
+            PropertyChanged += OnEntityChanged;
         }
 
         #region  Metodos
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void OnEntityChanged(object sender, PropertyChangedEventArgs e)
+
         {
-            if (e.PropertyName == "Entity") //habilitar botão alterar todas as vezes em que houver entidade diferente de null
-                Comportamento.IsEnableEditar = true;
+            if (e.PropertyName == "Entity")
+
+            {
+                Comportamento.IsEnableEditar = Entity != null;
+                IsEnableTabItem = Entity != null;
+            }
+            if (e.PropertyName == "SelectedTabIndex")
+                //Habilita botoes principais...
+                HabilitaCommandPincipal = SelectedTabIndex == 0;
         }
 
         /// <summary>
@@ -180,8 +181,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private void ItensDePesquisaConfigura()
         {
             ListaPesquisa = new List<KeyValuePair<int, string>>();
-            ListaPesquisa.Add(new KeyValuePair<int, string>(1, "Placa/Identificador"));
-            ListaPesquisa.Add(new KeyValuePair<int, string>(2, "Série/Chassi")); 
+            ListaPesquisa.Add (new KeyValuePair<int, string> (1, "Placa/Identificador"));
+            ListaPesquisa.Add (new KeyValuePair<int, string> (2, "Série/Chassi"));
             PesquisarPor = ListaPesquisa[0]; //Pesquisa Default
         }
 
@@ -194,10 +195,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             var lst2 = _auxiliaresService.TipoCombustivelService.Listar();
             var lst3 = _auxiliaresService.EstadoService.Listar();
             var lst4 = _auxiliaresService.TipoEquipamentoService.Listar();
-            ListaTipoServico = Mapper.Map<List<TipoServico>>(lst1);
-            TiposCombustiveis = Mapper.Map<List<TipoCombustivel>>(lst2);
-            Estados = Mapper.Map<List<Estados>>(lst3);
-            ListaEquipamentos = Mapper.Map<List<TipoEquipamento>>(lst4);
+            ListaTipoServico = Mapper.Map<List<TipoServico>> (lst1);
+            TiposCombustiveis = Mapper.Map<List<TipoCombustivel>> (lst2);
+            Estados = Mapper.Map<List<Estados>> (lst3);
+            ListaEquipamentos = Mapper.Map<List<TipoEquipamento>> (lst4);
         }
 
         /// <summary>
@@ -208,19 +209,19 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             if (Entity == null) return;
 
-            var pendencia = _service.Pendencia.ListarPorVeiculo(Entity.EquipamentoVeiculoId).ToList();
+            var pendencia = _service.Pendencia.ListarPorVeiculo (Entity.EquipamentoVeiculoId).ToList();
             //Set valores
-            PendenciaGeral = false;
-            PendenciaRepresentante = false;
-            PendenciaContrato = false;
-            PendenciaAnexo = false;
+            Pendencia21 = false;
+            Pendencia22 = false;
+            Pendencia19 = false;
+            Pendencia24 = false;
+            Pendencia25 = false;
             //Buscar pendências referente aos códigos: 21; 12;14;24
-            PendenciaGeral = pendencia.Any(n => n.CodPendencia == 21 & n.Ativo);
-            PendenciaRepresentante = pendencia.Any(n => n.CodPendencia == 12 & n.Ativo);
-            PendenciaContrato = pendencia.Any(n => n.CodPendencia == 14 & n.Ativo);
-            PendenciaAnexo = pendencia.Any(n => n.CodPendencia == 24 & n.Ativo);
-            //Indica se a empresa possue pendências
-            Pendencias = PendenciaGeral || PendenciaRepresentante || PendenciaContrato || PendenciaAnexo;
+            Pendencia21 = pendencia.Any (n => n.CodPendencia == 21 & n.Ativo);
+            Pendencia22 = pendencia.Any (n => n.CodPendencia == 22 & n.Ativo);
+            Pendencia19 = pendencia.Any (n => n.CodPendencia == 19 & n.Ativo);
+            Pendencia24 = pendencia.Any (n => n.CodPendencia == 24 & n.Ativo);
+            Pendencia25 = pendencia.Any (n => n.CodPendencia == 25 & n.Ativo);
         }
 
         /// <summary>
@@ -232,9 +233,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
             TiposEquipamentoServico.Clear();
             var id = Entity.EquipamentoVeiculoId;
-            var list = _service.Equipamento.ListarEquipamentoVeiculoTipoServicoView(id).ToList();
-            var list2 = Mapper.Map<List<EquipamentoVeiculoTipoServicoView>>(list);
-            list2.ForEach(n => TiposEquipamentoServico.Add(n));
+            var list = _service.Equipamento.ListarEquipamentoVeiculoTipoServicoView (id).ToList();
+            var list2 = Mapper.Map<List<EquipamentoVeiculoTipoServicoView>> (list);
+            list2.ForEach (n => TiposEquipamentoServico.Add (n));
         }
 
         #endregion
@@ -251,73 +252,78 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(uf)) return;
+                if (string.IsNullOrWhiteSpace (uf)) return;
                 if (Municipios == null) Municipios = new List<Municipio>();
                 if (_municipios == null) _municipios = new List<Municipio>();
                 if (Estado == null) return;
 
                 //Verificar se há municipios já carregados...
-                var l1 = _municipios.Where(n => n.Uf == uf);
+                var l1 = _municipios.Where (n => n.Uf == uf);
                 Municipios.Clear();
                 //Nao havendo municipios... obter do repositorio
                 if (!l1.Any())
                 {
-                    var l2 = _auxiliaresService.MunicipioService.Listar(null, uf);
-                    _municipios.AddRange(Mapper.Map<List<Municipio>>(l2));
+                    var l2 = _auxiliaresService.MunicipioService.Listar (null, uf);
+                    _municipios.AddRange (Mapper.Map<List<Municipio>> (l2));
                 }
 
-                var municipios = _municipios.Where(n => n.Uf == uf).ToList();
+                var municipios = _municipios.Where (n => n.Uf == uf).ToList();
                 Municipios = municipios;
             }
             catch (Exception ex)
             {
-                Utils.TraceException(ex);
+                Utils.TraceException (ex);
             }
         }
 
         private void PrepareCriar()
         {
-            EntityTmp = Entity;
             Entity = new VeiculoView();
-            IsEnableTabItem = false;
-            IsEnableLstView = false;
-            _prepareCriarCommandAcionado = true;
-            SelectedTabIndex = 0;
-            Comportamento.PrepareCriar(); 
-            _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;
+            Comportamento.PrepareCriar();
             TiposEquipamentoServico.Clear();
+            HabilitaControle (false, false);
+        }
+
+        /// <summary>
+        ///     Habilita controles
+        /// </summary>
+        /// <param name="isEnableTabItem"></param>
+        /// <param name="isEnableLstView"></param>
+        private void HabilitaControle(bool isEnableTabItem, bool isEnableLstView)
+        {
+            IsEnableTabItem = isEnableTabItem;
+            IsEnableLstView = isEnableLstView;
         }
 
         /// <summary>
         ///     Editar
         /// </summary>
-        public ICommand PrepareAlterarCommand => new CommandBase(PrepareAlterar, true);
+        public ICommand PrepareAlterarCommand => new CommandBase (PrepareAlterar, true);
 
         /// <summary>
         ///     Cancelar
         /// </summary>
-        public ICommand PrepareCancelarCommand => new CommandBase(Comportamento.PrepareCancelar, true);
+        public ICommand PrepareCancelarCommand => new CommandBase (Comportamento.PrepareCancelar, true);
 
         /// <summary>
         ///     Novo
         /// </summary>
-        public ICommand PrepareSalvarCommand => new CommandBase(PrepareSalvar, true);
+        public ICommand PrepareSalvarCommand => new CommandBase (PrepareSalvar, true);
 
         /// <summary>
         ///     Remover
         /// </summary>
-        public ICommand PrepareRemoverCommand => new CommandBase(PrepareRemover, true);
-
+        public ICommand PrepareRemoverCommand => new CommandBase (PrepareRemover, true);
 
         /// <summary>
         ///     Pesquisar
         /// </summary>
-        public ICommand PesquisarCommand => new CommandBase(Pesquisar, true);
+        public ICommand PesquisarCommand => new CommandBase (Pesquisar, true);
 
         /// <summary>
         ///     Novo
         /// </summary>
-        public ICommand PrepareCriarCommand => new CommandBase(PrepareCriar, true);
+        public ICommand PrepareCriarCommand => new CommandBase (PrepareCriar, true);
 
         #endregion
 
@@ -334,22 +340,23 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 //Placa/Identificador
                 if (num.Key == 1)
                 {
-                    var l1 = _service.Listar(null,null,$"%{pesquisa}%", null);
-                    PopularObserver(l1);
+                    if (string.IsNullOrWhiteSpace (pesquisa)) return;
+                    var l1 = _service.Listar (null, null, $"%{pesquisa}%", null);
+                    PopularObserver (l1);
                 }
                 //Por Série/Chassi
                 if (num.Key == 2)
                 {
-                    var l1 = _service.Listar(null,null,null, $"%{pesquisa}%");
-                    PopularObserver(l1);
+                    if (string.IsNullOrWhiteSpace (pesquisa)) return;
+                    var l1 = _service.Listar (null, null, null, $"%{pesquisa}%");
+                    PopularObserver (l1);
                 }
 
                 IsEnableLstView = true;
-                IsEnableTabItem = true;
             }
             catch (Exception ex)
             {
-                Utils.TraceException(ex);
+                Utils.TraceException (ex);
             }
         }
 
@@ -357,14 +364,14 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                var list2 = Mapper.Map<List<VeiculoView>>(list.OrderByDescending(n => n.EquipamentoVeiculoId).ToList());
+                var list2 = Mapper.Map<List<VeiculoView>> (list.OrderByDescending (n => n.EquipamentoVeiculoId).ToList());
                 EntityObserver = new ObservableCollection<VeiculoView>();
-                list2.ForEach(n => { EntityObserver.Add(n); });
+                list2.ForEach (n => { EntityObserver.Add (n); });
             }
 
             catch (Exception ex)
             {
-                Utils.TraceException(ex);
+                Utils.TraceException (ex);
             }
         }
 
@@ -378,28 +385,20 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             if (Entity == null)
             {
-                WpfHelp.PopupBox("Selecione um item da lista", 1);
+                WpfHelp.PopupBox ("Selecione um item da lista", 1);
                 return;
             }
-
             Comportamento.PrepareAlterar();
-            IsEnableTabItem = false;
-            IsEnableLstView = false;
-            _prepareCriarCommandAcionado = false;
-            SelectedTabIndex = 0;
-            _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;
             AtualizarDadosTiposServico();
+            HabilitaControle (false, false);
         }
 
         private void PrepareRemover()
         {
             if (Entity == null) return;
 
-            IsEnableLstView = true;
-            _prepareCriarCommandAcionado = false;
-            _prepareAlterarCommandAcionado = false;
-            SelectedTabIndex = 0;
             Comportamento.PrepareRemover();
+            HabilitaControle (true, true);
         }
 
         private void OnSalvarAdicao(object sender, RoutedEventArgs e)
@@ -409,36 +408,36 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (Entity == null) return;
                 if (Validar()) return;
 
-                var n1 = Mapper.Map<Veiculo>(Entity);
-                _service.Criar(n1);
+                var n1 = Mapper.Map<Veiculo> (Entity);
+                _service.Criar (n1);
                 //Salvar Tipo de Servico
-                SalvarTipoServico(n1.EquipamentoVeiculoId);
+                SalvarTipoServico (n1.EquipamentoVeiculoId);
                 //Adicionar no inicio da lista um item a coleção
-                var n2 = Mapper.Map<VeiculoView>(n1);
-                EntityObserver.Insert(0, n2);
-                IsEnableLstView = true;
+                var n2 = Mapper.Map<VeiculoView> (n1);
+                EntityObserver.Insert (0, n2);
+                HabilitaControle (true, true);
+                SelectListViewIndex = 0;
             }
             catch (Exception ex)
             {
-                Utils.TraceException(ex);
-                WpfHelp.PopupBox(ex);
+                Utils.TraceException (ex);
+                WpfHelp.PopupBox (ex);
             }
         }
 
         private void SalvarTipoServico(int veiculoId)
         {
             //Remover
-            _service.Equipamento.RemoverPorVeiculo(veiculoId);
+            _service.Equipamento.RemoverPorVeiculo (veiculoId);
             //Adicionar
             var lst = TiposEquipamentoServico.ToList();
-            lst.ForEach(n =>
+            lst.ForEach (n =>
             {
-                var n1 = Mapper.Map<EquipamentoVeiculoTipoServico>(n);
+                var n1 = Mapper.Map<EquipamentoVeiculoTipoServico> (n);
                 n1.EquipamentoVeiculoId = veiculoId;
-                _service.Equipamento.Criar(n1);
+                _service.Equipamento.Criar (n1);
             });
         }
-
 
         private void OnSalvarEdicao(object sender, RoutedEventArgs e)
         {
@@ -447,17 +446,16 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (Entity == null) return;
                 if (Validar()) return;
 
-                var n1 = Mapper.Map<Veiculo>(Entity);
-                _service.Alterar(n1);
+                var n1 = Mapper.Map<Veiculo> (Entity);
+                _service.Alterar (n1);
                 //Salvar Tipo de Servico
-                SalvarTipoServico(n1.EquipamentoVeiculoId);
-                IsEnableTabItem = true;
-                IsEnableLstView = true;
+                SalvarTipoServico (n1.EquipamentoVeiculoId);
+                HabilitaControle (true, true);
             }
             catch (Exception ex)
             {
-                Utils.TraceException(ex);
-                WpfHelp.PopupBox(ex);
+                Utils.TraceException (ex);
+                WpfHelp.PopupBox (ex);
             }
         }
 
@@ -465,25 +463,15 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-
-                IsEnableLstView = true;
-                _prepareCriarCommandAcionado = false;
-                _prepareAlterarCommandAcionado = false;
-                TiposEquipamentoServico.Clear();
-
-                if (Entity != null)
-                {
-                    Entity.ClearMessageErro();
-                    Entity = EntityTmp;
-                    if (Entity != null)
-                        IsEnableTabItem = true;
-                }
+                if (Entity != null) Entity.ClearMessageErro();
                 AtualizarDadosTiposServico();
+                TiposEquipamentoServico.Clear();
+                HabilitaControle (true, true);
             }
             catch (Exception ex)
             {
-                Utils.TraceException(ex);
-                WpfHelp.MboxError("Não foi realizar a operação solicitada", ex);
+                Utils.TraceException (ex);
+                WpfHelp.MboxError ("Não foi realizar a operação solicitada", ex);
             }
         }
 
@@ -496,17 +484,16 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var result = WpfHelp.MboxDialogRemove();
                 if (result != DialogResult.Yes) return;
 
-                var n1 = Mapper.Map<Veiculo>(Entity);
-                _service.Remover(n1);
+                var n1 = Mapper.Map<Veiculo> (Entity);
+                _service.Remover (n1);
                 //Retirar empresa da coleção
-                EntityObserver.Remove(Entity);
-                IsEnableLstView = true;
-                IsEnableTabItem = true;
+                EntityObserver.Remove (Entity);
+                HabilitaControle (true, true);
             }
             catch (Exception ex)
             {
-                Utils.TraceException(ex);
-                WpfHelp.MboxError("Não foi realizar a operação solicitada", ex);
+                Utils.TraceException (ex);
+                WpfHelp.MboxError ("Não foi realizar a operação solicitada", ex);
             }
         }
 
@@ -520,9 +507,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             var hasErros = Entity.HasErrors;
             return hasErros;
         }
-         
 
         #endregion
-
     }
 }

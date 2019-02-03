@@ -75,8 +75,8 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             try
             {
-                var arrayByes = Convert.FromBase64String(_viewModel.Entity.Anexo);
-                WpfHelp.AbrirArquivoPdf(_viewModel.Entity.NomeAnexo, arrayByes);
+                var arrBytes = Convert.FromBase64String(_viewModel.Entity.Anexo);
+                WpfHelp.AbrirArquivoPdf(_viewModel.Entity.NomeAnexo, arrBytes);
             }
             catch (Exception ex)
             {

@@ -176,10 +176,13 @@
         <StackPanel x:Name="ListaEmpresas_sp" Grid.Column="0" Grid.Row="1" Orientation="Horizontal" Margin="0,0,-259,0"
                     Height="184" VerticalAlignment="Top">
             <ListView x:Name="lstView" ItemsSource="{Binding EntityObserver, Mode=TwoWay}"
-                      IsEnabled="{Binding IsEnableLstView}"
+                      IsEnabled="{Binding IsEnableLstView}" SelectedIndex="{Binding SelectListViewIndex}"
                       SelectedItem="{Binding Entity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,5,0" Width="1259">
+                
                 <ListView.View>
+                    
                     <GridView FrameworkElement.FlowDirection="RightToLeft">
+                        
                         <GridViewColumn Width="55" Header="Código" DisplayMemberBinding="{Binding EquipamentoVeiculoId}" />
                         <GridViewColumn Width="140" Header="Placa/Identificador" DisplayMemberBinding="{Binding PlacaIdentificador}" />
                         <GridViewColumn Width="140" Header="Série/Chassi" DisplayMemberBinding="{Binding SerieChassi}" />
@@ -193,27 +196,25 @@
             </ListView>
         </StackPanel>
 
-        <StackPanel x:Name="BotoesGeral_sp" Grid.Column="0" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,2,-262,0">
+        <StackPanel x:Name="BotoesGeral_sp" Grid.Column="0" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,2,-262,0" IsEnabled="{Binding HabilitaCommandPincipal}">
 
             <Button x:Name="btnAdicionar"   Content="{StaticResource imgAdd}"       ToolTip="Adicionar"     IsEnabled="{Binding Comportamento.IsEnableCriar}"       Command="{Binding PrepareCriarCommand}"     Width="25" Margin="0,0,5,0"  />
             <Button x:Name="btnEditar"      Content="{StaticResource imgEdit}"      ToolTip="Editar"        IsEnabled="{Binding Comportamento.IsEnableEditar}"      Command="{Binding PrepareAlterarCommand}"   Width="25" Margin="0,0,5,0"  />
             <Button x:Name="btnExcluir"     Content="{StaticResource imgRemove}"    ToolTip="Remover"       IsEnabled="{Binding Comportamento.isEnableRemover}"     Command="{Binding PrepareRemoverCommand}"   Width="25" Margin="0,0,5,0"  Visibility="Collapsed" />
             <Button x:Name="btnCancelar"    Content="{StaticResource imgCancel}"    ToolTip="Cancelar"      IsEnabled="{Binding Comportamento.isEnableCancelar}"    Command="{Binding PrepareCancelarCommand}"  Width="25" Margin="0,0,5,0"  />
-            <Button x:Name="btnSalvar"      Content="{StaticResource imgSave}"      ToolTip="Salvar"        IsEnabled="{Binding Comportamento.isEnableSalvar}"      Command="{Binding PrepareSalvarCommand}"    Width="25" Margin="0,0,5,0"  />
+            <Button x:Name="btnSalvar"      Content="{StaticResource imgSave}"      ToolTip="Salvar"        IsEnabled="{Binding Comportamento.isEnableSalvar,UpdateSourceTrigger=PropertyChanged}"      Command="{Binding PrepareSalvarCommand}"    Width="25" Margin="0,0,5,0"  />
 
         </StackPanel>
 
-        <TabControl  
-                    SelectedIndex="{Binding SelectedTabIndex }" Margin="1,1,-259,-324"
-                    Grid.Row="3">
+        <TabControl SelectedIndex="{Binding SelectedTabIndex, UpdateSourceTrigger=PropertyChanged }" Margin="1,1,-259,-324" Grid.Row="3">
 
-            <TabItem x:Name="Geral_ti" Background="{x:Null}" Margin="0,-2,0,0" GotFocus="Geral_ti_GotFocus">
+            <TabItem x:Name="Geral_ti" Background="{x:Null}" Margin="0,-2,0,0">
 
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="Geral_bt" Click="OnPendenciaGeral_Click" Style="{StaticResource MenuStyle}">
                             <StackPanel>
-                                <Image Source="{Binding PendenciaGeral,UpdateSourceTrigger=Explicit, Mode=TwoWay}"
+                                <Image Source="{Binding Pendencia21,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                     Width="16" Height="16" RenderTransformOrigin="1,1" />
                             </StackPanel>
                         </Button>
@@ -253,9 +254,9 @@
                                     <Label Content="Código:" Height="28" Width="98" HorizontalContentAlignment="Right"
                                            Foreground="#FFD0D0D0" />
                                     <TextBox CharacterCasing="Upper" Text="{Binding Entity.EquipamentoVeiculoId}" x:Name="Nome_tb"
-                                             MaxLength="50" IsEnabled="True" Height="24" Width="39"/>
+                                             MaxLength="50" IsEnabled="False" Height="24" Width="39"/>
                                     <Label Content="Placa/Identificador:" Height="28" Width="160" HorizontalContentAlignment="Right"  Foreground="#FFD0D0D0" />
-                                    <TextBox  MaxLength="10" CharacterCasing="Upper" Text="{Binding Entity.PlacaIdentificador, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="140" />
+                                    <TextBox  MaxLength="10" CharacterCasing="Upper" Text="{Binding Entity.PlacaIdentificador, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="140" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
                                     <Label Content="Série/Chassi:" Height="28" Width="80"  Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
                                     <TextBox   MaxLength="20" CharacterCasing="Upper" Text="{Binding Entity.SerieChassi, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="140" />
                                 </StackPanel>
@@ -549,15 +550,15 @@
                 </Grid>
             </TabItem>
 
-            <TabItem x:Name="Signatarios_ti" Width="200" IsEnabled="{Binding IsEnableTabItem}" GotFocus="EmpresasVinculos_ti_GotFocus">
+            <TabItem x:Name="Signatarios_ti" Width="200" IsEnabled="{Binding IsEnableTabItem, Mode=OneWay}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="Signatarios_bt" Click="OnPendenciaVinculos_Click"
                                 Style="{StaticResource MenuStyle}">
                             <StackPanel>
                                 <Image
-                                    Source="{Binding PendenciaRepresentante,
-                                        Converter={StaticResource ConvertBoolToImage},UpdateSourceTrigger=Explicit, Mode=TwoWay}"
+                                    Source="{Binding Pendencia22,
+                                        Converter={StaticResource ConvertBoolToImage},UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                     Width="16" Height="16" />
                             </StackPanel>
                         </Button>
@@ -570,14 +571,14 @@
 
             </TabItem>
 
-            <TabItem x:Name="Contrato_ti" Width="200" IsEnabled="{Binding IsEnableTabItem}" GotFocus="Seguros_ti_GotFocus">
+            <TabItem x:Name="Contrato_ti" Width="200" IsEnabled="{Binding IsEnableTabItem}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="btnVeiculoSeguro" Click="OnPendenciaSeguros_Click"
                                 Style="{StaticResource MenuStyle}">
                             <StackPanel>
                                 <Image
-                                    Source="{Binding PendenciaContrato,Converter={StaticResource ConvertBoolToImage},UpdateSourceTrigger=Explicit, Mode=TwoWay}"
+                                    Source="{Binding Pendencia19,Converter={StaticResource ConvertBoolToImage},UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                     Width="16" Height="16" />
                             </StackPanel>
                         </Button>
@@ -587,19 +588,19 @@
                     </StackPanel>
                 </TabItem.Header>
 
-                <views:VeiculosSegurosView x:Name="EmpresaSeguroUs" Margin="5,5,240,178"/>
+                <views:VeiculosSegurosView x:Name="EmpresaSeguroUs" Margin="5,5,240,178"/> 
 
             </TabItem>
 
-            <TabItem x:Name="Anexos_ti" Width="200" IsEnabled="{Binding IsEnableTabItem}" GotFocus="Anexos_ti_GotFocus">
+            <TabItem x:Name="Anexos_ti" Width="200" IsEnabled="{Binding IsEnableTabItem}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="Anexos_bt" Click="OnPendenciaGeralAnexos_Click"
                                 Style="{StaticResource MenuStyle}">
                             <StackPanel>
                                 <Image
-                                    Source="{Binding PendenciaAnexo,
-                                        Converter={StaticResource ConvertBoolToImage},UpdateSourceTrigger=Explicit, Mode=TwoWay}"
+                                    Source="{Binding Pendencia24,
+                                        Converter={StaticResource ConvertBoolToImage},UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                     Width="16" Height="16" />
                             </StackPanel>
                         </Button>
@@ -609,20 +610,20 @@
                     </StackPanel>
                 </TabItem.Header>
                 <views:VeiculosAnexosView x:Name="AnexoUs" Margin="5,5,0,207" HorizontalAlignment="Left" />
-                <!--<local:EmpresasAnexosView x:Name="AnexoUs" Margin="5,5,0,207" HorizontalAlignment="Left" />-->
+                
 
             </TabItem>
 
-            <TabItem x:Name="tab43" Width="200" IsEnabled="{Binding IsEnableTabItem}" GotFocus="Credenciais_ti_GotFocus">
+            <TabItem x:Name="tab43" Width="200" IsEnabled="{Binding IsEnableTabItem}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="Crede" Click="OnPendenciaCredencias_Click"
                                 Style="{StaticResource MenuStyle}">
                             <StackPanel>
                                 <Image
-                                    Source="{Binding PendenciaContrato,
+                                    Source="{Binding Pendencia25,
                                         Converter={StaticResource ConvertBoolToImage},
-                                        UpdateSourceTrigger=Explicit, Mode=TwoWay}"
+                                        UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                     Width="16" Height="16" />
                             </StackPanel>
                         </Button>

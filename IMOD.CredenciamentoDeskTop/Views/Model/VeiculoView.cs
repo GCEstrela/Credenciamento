@@ -16,6 +16,7 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public int EquipamentoVeiculoId { get; set; }
         [Required(ErrorMessage = "A Descrição é requerida.")]
         public string Descricao { get; set; }
+        [Required(ErrorMessage = "A Placa/Identificador é requerido.")]
         public string PlacaIdentificador { get; set; }
         public string Frota { get; set; }
         public string Patrimonio { get; set; }

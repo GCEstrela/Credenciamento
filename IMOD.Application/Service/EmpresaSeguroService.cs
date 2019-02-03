@@ -22,10 +22,7 @@ namespace IMOD.Application.Service
         private readonly IEmpresaSeguroRepositorio _repositorio = new EmpresaSeguroRepositorio();
 
         #endregion
-
-        #region Construtor
-
-        #endregion
+        
 
         #region  Metodos
 

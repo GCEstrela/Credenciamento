@@ -36,6 +36,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
         ///     Atualizar dados
         /// </summary>
         /// <param name="entity"></param>
+        /// <param name="viewModelParent"></param>
         public void AtualizarDados(Model.VeiculoView entity, VeiculoViewModel viewModelParent)
         {
             if (entity == null) return;
