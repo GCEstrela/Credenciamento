@@ -38,8 +38,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private  ColaboradorViewModel _viewModelParent;
 
         #region  Propriedades
-
-        private ColaboradorCursoView EntityTmp = new ColaboradorCursoView();
+        /// <summary>
+        ///     Seleciona o indice da tabcontrol desejada
+        /// </summary>
+        public short SelectListViewIndex { get; set; } 
         public List<Curso> Cursos { get; private set; }       
         public ColaboradorCursoView Entity { get; set; }
         public ObservableCollection<ColaboradorCursoView> EntityObserver { get; set; }
@@ -112,6 +114,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 EntityObserver.Insert (0, n2);
                 IsEnableLstView = true;
                 _viewModelParent.AtualizarDadosPendencias();
+                SelectListViewIndex = 0;
             }
             catch (Exception ex)
             {
@@ -141,7 +144,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private void PrepareCriar()
         {
-            EntityTmp = Entity;
+            
             Entity = new ColaboradorCursoView();
             Comportamento.PrepareCriar();
             IsEnableLstView = false;
@@ -184,11 +187,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             try
             {
                 IsEnableLstView = true;
-                if (Entity != null)
-                {                             
-                    Entity.ClearMessageErro();
-                    Entity = EntityTmp;
-                }
+                if (Entity != null) Entity.ClearMessageErro();
             }
             catch (Exception ex)
             {

@@ -32,8 +32,7 @@
     <Grid Margin="0,0,0,10">
         <StackPanel Orientation="Vertical">
             <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" 
-                      Background="Chocolate"                      
-                      IsEnabled="{Binding Comportamento.isEnableCancelar}"
+                      Background="Chocolate" 
                       x:Name="InformacoesCursos_gb" Header="Cursos e Treinamentos"   Margin="0,0,0,0"
                       VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="795">
                 <StackPanel x:Name="InformacoesAnexo_sp" Margin="0,0,0,0" Width="773">
@@ -47,6 +46,7 @@
 
                         <Label Content="Curso:" Height="24" Width="55" Foreground="#FFD0D0D0" />
                         <ComboBox  x:Name="cmbCurso" 
+                                   IsEnabled="{Binding Comportamento.isEnableCancelar}"
                                    Width="294" Height="24" 
                                    VerticalContentAlignment="Center" 
                                    HorizontalContentAlignment="Left"
@@ -57,6 +57,7 @@
                                    Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
                         <Label Content="Data de Validade:" Height="24" Width="110" Foreground="#FFD0D0D0" Margin="0,7" HorizontalContentAlignment="Right" HorizontalAlignment="Left" />
                         <DatePicker x:Name="DataValidade_dp" 
+                                    IsEnabled="{Binding Comportamento.isEnableCancelar}"
                                     SelectedDate="{Binding Entity.Validade, UpdateSourceTrigger=PropertyChanged}" 
                                     Foreground="White" Background="{x:Null}" HorizontalAlignment="Left"  Margin="1,7,0,7" 
                                     Height="Auto" Width="114" />
@@ -69,9 +70,10 @@
                                   Text="{Binding Entity.NomeArquivo, UpdateSourceTrigger=PropertyChanged}" 
                                    Width="324" Height="24" 
                                    MaxLength="100"
+                                   IsEnabled="False"
                                    VerticalContentAlignment="Center" 
                                    HorizontalContentAlignment="Left" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
-                        <Button x:Name="BuscarCursoArquivo_bt" Height="24"  VerticalAlignment="Center" HorizontalAlignment="Left" Width="24" Margin="10,10,0,8" Click="OnUpLoad_Click">
+                        <Button x:Name="BuscarCursoArquivo_bt" IsEnabled="{Binding Comportamento.isEnableCancelar}" Height="24"  VerticalAlignment="Center" HorizontalAlignment="Left" Width="24" Margin="10,10,0,8" Click="OnUpLoad_Click">
                             <StackPanel>
                                 <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Pasta.ico"/>
                             </StackPanel>
@@ -81,18 +83,15 @@
                                 <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Olho.png"/>
                             </StackPanel>
                         </Button>
-                        <CheckBox VerticalAlignment="Center" x:Name="Impeditivo_cb" Margin="10,0,0,0" Foreground="#FFD0D0D0" IsChecked="{Binding Entity.Controlado, UpdateSourceTrigger=PropertyChanged}" Content="Curso Controlado"/>
-                        <!--<wpf:ToggleSwitch x:Name="Controlada_tw"  HeaderHorizontalAlignment="Stretch" Width="181" HorizontalAlignment="Right"
-                        SwitchContentPlacement="Left"  Content="Data Controlada:" CheckedText="Sim" UncheckedText="Não"
-                        IsChecked="{Binding Entity.Controlado, ConverterParameter=Principal_tw, UpdateSourceTrigger=PropertyChanged}" Grid.Column="5"
-                        Foreground="#FFD0D0BE" UncheckedBackground="Gray" UncheckedBorderBrush="Gray" UncheckedForeground="#FFAEAEAE" Margin="5,0,0,0"/>-->
-
+                        <CheckBox VerticalAlignment="Center" IsEnabled="{Binding Comportamento.isEnableCancelar}" x:Name="Impeditivo_cb" Margin="10,0,0,0" Foreground="#FFD0D0D0" IsChecked="{Binding Entity.Controlado, UpdateSourceTrigger=PropertyChanged}" Content="Curso Controlado"/>
+                        
                     </StackPanel>
                 </StackPanel>
             </GroupBox>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="795" Height="202">
                 <ListView x:Name="ListaColaboradoresCursos_lv" IsEnabled="{Binding IsEnableLstView}"
-                          HorizontalAlignment="Stretch" 
+                          HorizontalAlignment="Stretch"
+                          SelectedIndex="{Binding SelectListViewIndex}"
                           ItemsSource="{Binding EntityObserver, Mode=TwoWay}"
                           SelectedItem="{Binding Entity, Mode=TwoWay}"
                           Width="757" Margin="0,15,0,10">
