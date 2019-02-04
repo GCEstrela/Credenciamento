@@ -51,6 +51,7 @@
 
         <!--End Styles-->
         <funcoes:FormateTel x:Key="FormateTel" />
+        <funcoes:FormatCep x:Key="FormatCep"></funcoes:FormatCep>
     </UserControl.Resources>
     <Grid Margin="5" Loaded="Frm_Loaded">
 
@@ -73,7 +74,7 @@
              DisplayMemberPath="Value"
              SelectedValue="Key" 
              SelectedItem="{Binding PesquisarPor}" VerticalContentAlignment="Center"/>
-            <TextBox Width="200" Margin="10,0,0,0" IsEnabled="{Binding  Comportamento.IsEnableCriar}" Text="{Binding NomePesquisa, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" >
+            <TextBox Name="txtPesquisa" Width="200" Margin="10,0,0,0" IsEnabled="{Binding  Comportamento.IsEnableCriar}" Text="{Binding NomePesquisa, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" >
                 <TextBox.InputBindings>
                     <KeyBinding Command="{Binding Path=PesquisarCommand}" Key="Enter" />
                 </TextBox.InputBindings>
@@ -200,7 +201,7 @@
                                 <Label Content="No.:" Height="28" Width="100" Margin="0,0,5,0"  Foreground="#FFD0D0D0" HorizontalContentAlignment="Left" />
                                 <TextBox CharacterCasing="Upper" x:Name="Numero_tb"   MaxLength="5" Text="{Binding Entity.Numero,  UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="50"/>
                                 <Label Content="CEP:" Height="28" Width="85" Margin="0,0,5,0"  Foreground="#FFD0D0D0" HorizontalContentAlignment="Left"/>
-                                <TextBox CharacterCasing="Upper"  x:Name="Cep_tb" MaxLength="10" PreviewTextInput="NumberOnly" Text="{Binding Entity.Cep,  UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="98" LostFocus="Cep_tb_LostFocus"/>
+                                <TextBox CharacterCasing="Upper"  x:Name="Cep_tb" MaxLength="10" PreviewTextInput="NumberOnly" Text="{Binding Entity.Cep,  UpdateSourceTrigger=PropertyChanged, Converter={StaticResource FormatCep}}"  IsEnabled="True"  Height="24"  Width="98"/>
                                 <Label Content="Complemento:" Height="28" Width="89" Margin="0,0,5,0"  Foreground="#FFD0D0D0"  />
                                 <TextBox CharacterCasing="Upper"  x:Name="Complemento_tb"   MaxLength="50" Text="{Binding Entity.Complemento,   UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="123" RenderTransformOrigin="0.5,0.5"/>
 

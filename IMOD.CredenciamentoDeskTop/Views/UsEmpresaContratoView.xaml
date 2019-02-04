@@ -46,6 +46,7 @@
             </Setter>
         </Style>
         <funcoes:FormateTel x:Key="FormateTel" />
+        <funcoes:FormatCep x:Key="FormatCep"></funcoes:FormatCep>
     </UserControl.Resources>
     <Grid Margin="0,0,-48,0" Loaded="Frm_Loaded" >
         <Grid.ColumnDefinitions>
@@ -189,8 +190,8 @@
 
                         <TextBox CharacterCasing="Upper"  x:Name="Cep_tb" MaxLength="10" 
                                  PreviewTextInput="NumberOnly" 
-                                 Text="{Binding Entity.Cep,  UpdateSourceTrigger=PropertyChanged}" 
-                                 IsEnabled="True"  Height="24"  Width="120" LostFocus="Cep_tb_LostFocus"/>
+                                 Text="{Binding Entity.Cep,  UpdateSourceTrigger=PropertyChanged, Converter={StaticResource FormatCep}}" 
+                                 IsEnabled="True"  Height="24"  Width="120"/>
 
                         <Label Content="Complemento:" Height="28" Width="90" Foreground="#FFD0D0D0" />
                         <TextBox x:Name="Complemento_tb" MaxLength="50" CharacterCasing="Upper"
@@ -265,6 +266,7 @@
                       IsEnabled="{Binding IsEnableLstView}"              
                       ItemsSource="{Binding EntityObserver, Mode=TwoWay}"
                       SelectedItem="{Binding Entity, Mode=TwoWay}"
+                      SelectedIndex="{Binding SelectListViewIndex}"
                       Width="1054"  Margin="1,0">
 
                 <ListView.View>

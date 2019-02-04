@@ -19,8 +19,7 @@ using IMOD.CredenciamentoDeskTop.Windows;
 using IMOD.CrossCutting;
 
 #endregion
-
-//using IMOD.Application.Service;
+ 
 
 namespace IMOD.CredenciamentoDeskTop.Views
 {
@@ -43,6 +42,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             cmbEstado.SelectionChanged += OnSelecionaMunicipio_SelectionChanged;
             lstView.SelectionChanged += OnListView_SelectionChanged;
+            txtPesquisa.Focus();
         }
         private void OnSelecionaMunicipio_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -61,8 +61,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
             ColaboradorCurso.AtualizarDados(_viewModel.Entity, _viewModel);
             AnexoUs.AtualizarDados(_viewModel.Entity, _viewModel);
             ColaboradoresCredenciaisUs.AtualizarDados(_viewModel.Entity);
-            //////////////////////////////////////////////////////////////
-            _viewModel.IsEnableTabItem = true;
+            ////////////////////////////////////////////////////////////// 
         }
         
 
@@ -115,21 +114,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             var regex = new Regex("[^0-9]+");
             e.Handled = regex.IsMatch(e.Text);
-        }
-        private void OnValidaCpf_LostFocus(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                var result = _viewModel.Validar();
-                   
-                   txtCpf.Text = _viewModel.Entity.Cpf.FormatarCpf();
-            }
-            catch (Exception ex)
-            {
-                Utils.TraceException(ex);
-                WpfHelp.PopupBox($"Não foi realizar a operação solicitada\n{ex.Message}", 3);
-            }
-        }
+        } 
         private void OnSelecionaFoto_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -149,41 +134,8 @@ namespace IMOD.CredenciamentoDeskTop.Views
  
 
         #endregion 
+        
          
-        private void Geral_ti_GotFocus(object sender, RoutedEventArgs e)
-        {
-            BotoesGeral_sp.IsEnabled = true;
-        }
 
-        private void EmpresasVinculos_ti_GotFocus(object sender, RoutedEventArgs e)
-        {
-            BotoesGeral_sp.IsEnabled = false;
-        }
-
-        private void Cursos_ti_GotFocus(object sender, RoutedEventArgs e)
-        {
-            BotoesGeral_sp.IsEnabled = false;
-        }
-
-        private void Anexos_ti_GotFocus(object sender, RoutedEventArgs e)
-        {
-            BotoesGeral_sp.IsEnabled = false;
-        }
-
-        private void Credenciais_ti_GotFocus(object sender, RoutedEventArgs e)
-        {
-            BotoesGeral_sp.IsEnabled = false;
-        }
-
-        private void CNHEmissor_cb_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
-        private void Cep_tb_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (_viewModel.Entity == null) return;
-            Cep_tb.Text = _viewModel.Entity.Cep.FormataCep();
-        }
     }
 }

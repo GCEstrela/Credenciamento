@@ -38,6 +38,16 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         #region  Propriedades
 
         /// <summary>
+        ///     True, Comando de alteração acionado
+        /// </summary>
+        private bool _prepareAlterarCommandAcionado;
+
+        /// <summary>
+        ///     True, Comando de criação acionado
+        /// </summary>
+        private bool _prepareCriarCommandAcionado;
+
+        /// <summary>
         ///     Lista de municipios
         /// </summary>
         public List<Municipio> Municipios { get; private set; }
@@ -71,7 +81,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public ObservableCollection<EmpresaContratoView> EntityObserver { get; set; }
         public EmpresaContratoView Entity { get; set; }
 
-        EmpresaContratoView EntityTmp = new EmpresaContratoView();
+        /// <summary>
+        ///     Seleciona indice da listview
+        /// </summary>
+        public short SelectListViewIndex { get; set; }
 
         /// <summary>
         ///     Habilita listView
@@ -192,6 +205,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private void PrepareRemover()
         {
             Comportamento.PrepareRemover();
+            _prepareCriarCommandAcionado = false;
+            _prepareAlterarCommandAcionado = false;
         }
 
         /// <summary>
@@ -214,6 +229,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 EntityObserver.Insert(0, n2);
                 IsEnableLstView = true;
                 _viewModelParent.AtualizarDadosPendencias();
+                SelectListViewIndex = 0;
             }
             catch (Exception ex)
             {
@@ -227,9 +243,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private void PrepareCriar()
         {
-            EntityTmp = Entity;
+            
             Entity = new EmpresaContratoView();
             Comportamento.PrepareCriar();
+            _prepareCriarCommandAcionado = true;
+            _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;
             IsEnableLstView = false;
         }
 
@@ -267,12 +285,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             try
             {
                 IsEnableLstView = true;
-                if (Entity != null)
-                {
-                    Entity.ClearMessageErro();
-                    Entity = EntityTmp;
-                    
-                }
+                if (Entity != null) Entity.ClearMessageErro();
+                _prepareCriarCommandAcionado = false;
+                _prepareAlterarCommandAcionado = false;
             }
             catch (Exception ex)
             {
@@ -321,9 +336,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 WpfHelp.PopupBox("Selecione um item da lista", 1);
                 return;
-            }
-            EntityTmp = Entity;
+            }  
             Comportamento.PrepareAlterar();
+            _prepareCriarCommandAcionado = false;
+            _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;
             IsEnableLstView = false;
         }
 
@@ -340,9 +356,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 //Por nome
                 if (num.Key == 1)
-                {
-                    //Obet itens do observer
-                    //var l1 = _service.Listar (Entity.EmpresaId,null, $"%{pesquisa}%");
+                { 
                     if (string.IsNullOrWhiteSpace(pesquisa)) return;
 
                     var l1 = EntityObserver.Where(n => n.Descricao
@@ -386,30 +400,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         public bool Validar()
         {
-            if (Entity == null) return true;
-            //Verificar valiade de Contrato
-            if (EInValidocontrato())
+            if (Entity == null) return true; 
+            if (ExisteNumContrato())
             {
-                Entity.SetMessageErro("NumeroContrato", "Nº do Contrato inválido");
-                return true;
-            }
-
-            //Verificar valiade de Descricao do Contrato
-            if (EInValidoDescricao())
-            {
-                Entity.SetMessageErro("Descricao", "Descrição do Contrato inválido");
-                return true;
-            }
-            //Verificar valiade de Data de Emissão
-            if (EInValidoEmissao())
-            {
-                Entity.SetMessageErro("Emissao", "Emissao do Contrato inválido");
-                return true;
-            }
-            //Verificar valiade de Data de Emissão
-            if (EInValidoValidade())
-            {
-                Entity.SetMessageErro("Validade", "Validade do Contrato inválido");
+                Entity.SetMessageErro("NumeroContrato", "Número de contrato já existente.");
                 return true;
             }
             var hasErros = Entity.HasErrors;
@@ -420,69 +414,25 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         #endregion
         #region Regras de Negócio
-        /// <summary>
-        ///     Verificar se dados válidos
-        /// <para>True, inválido</para>
-        /// </summary>
-        /// <returns></returns>
-        //private bool ExisteContrato()
-        //{
-        //    //if (Entity == null) return false;
-        //    //var cpf = Entity.NumeroContrato.RetirarCaracteresEspeciais();
-
-        //    ////Verificar dados antes de salvar uma criação
-        //    //if (_prepareCriarCommandAcionado)
-        //    //    if (_service.ExisteCpf(cpf)) return true;
-        //    ////Verificar dados antes de salvar uma alteraçao
-        //    //if (!_prepareAlterarCommandAcionado) return false;
-        //    //var n1 = _service.BuscarPelaChave(Entity.ColaboradorId);
-        //    //if (n1 == null) return false;
-        //    ////Comparar o CNPJ antes e o depois
-        //    ////Verificar se há cnpj exisitente
-        //    //return string.Compare(n1.Cpf.RetirarCaracteresEspeciais(),
-        //    //    cpf, StringComparison.Ordinal) != 0 && _service.ExisteCpf(cpf);
-        //}
-        private bool EInValidocontrato()
+         
+        private bool ExisteNumContrato()
         {
             if (Entity == null) return false;
-            var contrato = Entity.NumeroContrato.RetirarCaracteresEspeciais();
-            if (contrato == "") return true;
-            return false;
+            var numContrato = Entity.NumeroContrato;
+            //Verificar dados antes de salvar uma criação
+            if (_prepareCriarCommandAcionado)
+            {//Verificar se existe numero de contrato
+                var n1 = _service.BuscarContrato(numContrato);
+                  if(n1 != null) return true;}
+            //Verificar dados antes de salvar uma alteraçao
+            if (!_prepareAlterarCommandAcionado) return false;
+            var n2 = _service.BuscarPelaChave(Entity.EmpresaContratoId);
+            return string.Compare (n2.NumeroContrato,
+                numContrato, StringComparison.Ordinal) != 0;
         }
-        private bool EInValidoDescricao()
-        {
-            if (Entity == null) return false;
-            var descricao = Entity.Descricao.RetirarCaracteresEspeciais();
-            if (descricao == "") return true;
-            return false;
-        }
-        private bool EInValidoEmissao()
-        {
-            if (Entity == null) return false;
-            var emissao = Entity.Emissao.ToString();
-            if (CheckDate(emissao)) return true;
-            return false;
-        }
-        private bool EInValidoValidade()
-        {
-            if (Entity == null) return false;
-            var validade = Entity.Validade.ToString();
-            if (CheckDate(validade)) return true;
-            return false;
-        }
-        protected bool CheckDate(String date)
-        {
-            try
-            {
-                DateTime dt = DateTime.Parse(date);
-                return false;
-            }
-            catch
-            {
-                return true;
-            }
-
-        }
+ 
+       
+        
         #endregion
 
         #region Propriedade de Pesquisa

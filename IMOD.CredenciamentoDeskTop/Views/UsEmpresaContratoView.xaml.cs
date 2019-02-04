@@ -120,11 +120,6 @@ namespace IMOD.CredenciamentoDeskTop.Views
             }
         }
 
-       
-        private void Cep_tb_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (_viewModel.Entity == null) return;
-            Cep_tb.Text = _viewModel.Entity.Cep.FormataCep();
-        }
+        
     }
 }

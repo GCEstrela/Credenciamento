@@ -270,39 +270,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         #region Regras de Negócio
 
-        public bool ValidarCnpj()
-        {
-            if (Entity == null) return false;
-
-            var cnpj = Entity.Cnpj.RetirarCaracteresEspeciais();
-
-            //Verificar dados antes de salvar uma criação
-            if (_prepareCriarCommandAcionado)
-            {
-                if (_service.ExisteCnpj (cnpj)) throw new Exception ("CNPJ já cadastrado.");
-            }
-            //Verificar dados antes de salvar uma alteraçao
-            if (_prepareAlterarCommandAcionado)
-            {
-                var n1 = _service.BuscarPelaChave (Entity.EmpresaId);
-                if (n1 == null)
-                {
-                    return false;
-                }
-                //Comparar o CNPJ antes e o depois
-                if (string.Compare (n1.Cnpj.RetirarCaracteresEspeciais(),
-                    cnpj, StringComparison.Ordinal) != 0)
-                {
-                    //verificar se há cnpj exisitente
-                    if (_service.ExisteCnpj (cnpj))
-                    {
-                        throw new Exception ("CNPJ já cadastrado.");
-                    }
-                }
-            }
-            return false;
-        }
-
         private bool ExisteCnpj()
         {
             if (Entity == null) return false;
@@ -640,17 +607,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             try
             {
                 _prepareCriarCommandAcionado = false;
-                _prepareAlterarCommandAcionado = false;
-
-                //if (Entity != null)
-                //{
-
-                //    Entity.ClearMessageErro();
-                //    Entity = EntityTmp;
-                //    if (Entity != null)                     
-                //        IsEnableTabItem = true;
-
-                //}
+                _prepareAlterarCommandAcionado = false; 
 
                 AtualizarDadosTipoCrachas();
                 AtualizarDadosTiposAtividades();

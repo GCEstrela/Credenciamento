@@ -42,9 +42,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         ///     True, Comando de criação acionado
         /// </summary>
         private bool _prepareCriarCommandAcionado;
-
-        private ColaboradorView EntityTmp = new ColaboradorView();
-
+        
         #region  Propriedades
 
         /// <summary>
@@ -97,7 +95,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <summary>
         ///     Habilita abas
         /// </summary>
-        public bool IsEnableTabItem { get; set; } = false;
+        public bool IsEnableTabItem { get; private set; }
 
         /// <summary>
         ///     Seleciona o indice da tabcontrol desejada
@@ -175,6 +173,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 //Habilita botoes principais...
                 HabilitaCommandPincipal = SelectedTabIndex == 0;
         }
+        
 
         private void ListarDadosAuxiliares()
         {
@@ -229,13 +228,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (num.Key == 1)
                 {
                     if (string.IsNullOrWhiteSpace(pesquisa)) return;
-                    var l1 = _service.Listar (null, pesquisa.RetirarCaracteresEspeciais(), null);
+                    var l1 = _service.Listar (null, $"%{pesquisa.RetirarCaracteresEspeciais()}%", null);
                     PopularObserver (l1);
                 }
 
-                IsEnableLstView = true;
-                IsEnableTabItem = false;
-                SelectedTabIndex = 0;
+                IsEnableLstView = true;  
             }
             catch (Exception ex)
             {
@@ -369,15 +366,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         private void PrepareCriar()
         {
-            EntityTmp = Entity;
-            Entity = new ColaboradorView();
            
-            IsEnableTabItem = false;
-            IsEnableLstView = false;
-            _prepareCriarCommandAcionado = true;
-            SelectedTabIndex = 0;
+            Entity = new ColaboradorView(); 
+            _prepareCriarCommandAcionado = true; 
             Comportamento.PrepareCriar();
             _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;
+            HabilitaControle(false, false);
         }
 
         /// <summary>
@@ -423,23 +417,20 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 return;
             }
 
-            Comportamento.PrepareAlterar();
-            IsEnableTabItem = false;
-            IsEnableLstView = false;
-            _prepareCriarCommandAcionado = false;
-            SelectedTabIndex = 0;
+            Comportamento.PrepareAlterar(); 
+            _prepareCriarCommandAcionado = false; 
             _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;
+            HabilitaControle(false, false);
         }
 
         private void PrepareRemover()
         {
             if (Entity == null) return;
-
-            IsEnableLstView = true;
+             
             _prepareCriarCommandAcionado = false;
             _prepareAlterarCommandAcionado = false;
-            SelectedTabIndex = 0;
             Comportamento.PrepareRemover();
+            HabilitaControle(true, true);
         }
 
         private void OnSalvarAdicao(object sender, RoutedEventArgs e)
@@ -452,8 +443,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var n1 = Mapper.Map<Colaborador> (Entity);
                 _service.Criar (n1);
                 var n2 = Mapper.Map<ColaboradorView> (n1);
-                EntityObserver.Insert (0, n2); 
-                IsEnableLstView = true;
+                EntityObserver.Insert (0, n2);
+                HabilitaControle(true, true);
+                SelectListViewIndex = 0;
             }
             catch (Exception ex)
             {
@@ -470,8 +462,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (Validar()) return;
                 var n1 = Mapper.Map<Colaborador> (Entity);
                 _service.Alterar (n1);
-                IsEnableTabItem = true;
-                IsEnableLstView = true;
+                HabilitaControle(true, true);
             }
             catch (Exception ex)
             {
@@ -484,17 +475,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                
-                IsEnableLstView = true;
+              
                 _prepareCriarCommandAcionado = false;
                 _prepareAlterarCommandAcionado = false;
-                if (Entity != null)
-                {
-                    Entity.ClearMessageErro();
-                    Entity = EntityTmp;
-                    if (Entity != null)
-                        IsEnableTabItem = true;
-                }
+                if (Entity != null) Entity.ClearMessageErro();
+                HabilitaControle(true, true);
             }
             catch (Exception ex)
             {
@@ -515,8 +500,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 _service.Remover (n1);
                 //Retirar empresa da coleção
                 EntityObserver.Remove (Entity);
-                IsEnableLstView = true;
-                IsEnableTabItem = true;
+                HabilitaControle(true, true);
             }
             catch (Exception ex)
             {

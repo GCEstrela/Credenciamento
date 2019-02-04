@@ -17,6 +17,7 @@
         <Image x:Key="imgCancel" Source="../Resources/undo.png"  />
         <funcoes:FormateTel x:Key="FormateTel" />
         <funcoes:CheckTeste x:Key="CheckTeste" />
+        <funcoes:FormatCpf x:Key="FormatCpf"></funcoes:FormatCpf>
         <ControlTemplate x:Key="ValidationErrorTemplate">
             <DockPanel>
                 <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" Margin="5,0,0,2">
@@ -50,10 +51,10 @@
                             <Label Content="CPF:" Height="28" Width="50" HorizontalContentAlignment="Left"
                                    Foreground="#FFD0D0D0" />
                             <TextBox x:Name="txtCpf" MaxLength="15" CharacterCasing="Upper"
-                                     Text="{Binding Entity.Cpf, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Comportamento.isEnableCancelar}"
+                                     Text="{Binding Entity.Cpf, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource FormatCpf}}" IsEnabled="{Binding Comportamento.isEnableCancelar}"
                                      Height="24" Width="120" Foreground="White"
                                      VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
-                                       LostFocus="FormatCnpj_LostFocus" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
+                                     Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                     Margin="1">
@@ -116,6 +117,7 @@
 
                 <ListView x:Name="ListaSignatarios_lv" Grid.Column="0" Grid.Row="1"
                           IsEnabled="{Binding IsEnableLstView}"
+                          SelectedIndex="{Binding SelectListViewIndex}"
                           HorizontalAlignment="Stretch" 
                           ItemsSource="{Binding EntityObserver, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                           SelectedItem="{Binding Entity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"                           

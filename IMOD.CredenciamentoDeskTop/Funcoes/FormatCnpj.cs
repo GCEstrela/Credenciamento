@@ -1,14 +1,13 @@
 ﻿// ***********************************************************************
 // Project: IMOD.CredenciamentoDeskTop
 // Crafted by: Grupo Estrela by Genetec
-// Date:  01 - 24 - 2019
+// Date:  02 - 04 - 2019
 // ***********************************************************************
 
 #region
 
 using System;
 using System.Globalization;
-using System.Text.RegularExpressions;
 using System.Windows.Data;
 using IMOD.CrossCutting;
 
@@ -16,10 +15,16 @@ using IMOD.CrossCutting;
 
 namespace IMOD.CredenciamentoDeskTop.Funcoes
 {
-    public class FormateTel : IValueConverter
+    public class FormatCnpj : IValueConverter
     {
         #region  Metodos
 
+        /// <summary>Converts a value. </summary>
+        /// <param name="value">The value produced by the binding source.</param>
+        /// <param name="targetType">The type of the binding target property.</param>
+        /// <param name="parameter">The converter parameter to use.</param>
+        /// <param name="culture">The culture to use in the converter.</param>
+        /// <returns>A converted value. If the method returns null, the valid null value is used.</returns>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             try
@@ -29,12 +34,9 @@ namespace IMOD.CredenciamentoDeskTop.Funcoes
                 var strNew = str.RetirarCaracteresEspeciais().Replace (" ", "");
                 switch (strNew.Length)
                 {
-                    case 7:
-                        return Regex.Replace (strNew, @"(\d{3})(\d{4})", "$1-$2");
-                    case 10:
-                        return Regex.Replace (strNew, @"(\d{2})(\d{4})(\d{4})", "($1) $2-$3");
-                    case 11:
-                        return Regex.Replace (strNew, @"(\d{2})(\d{5})(\d{4})", "($1) $2-$3");
+                    case 14:
+                        return strNew.FormatarCnpj();
+                        break;
                     default:
                         return strNew;
                 }
@@ -45,6 +47,12 @@ namespace IMOD.CredenciamentoDeskTop.Funcoes
             }
         }
 
+        /// <summary>Converts a value. </summary>
+        /// <param name="value">The value that is produced by the binding target.</param>
+        /// <param name="targetType">The type to convert to.</param>
+        /// <param name="parameter">The converter parameter to use.</param>
+        /// <param name="culture">The culture to use in the converter.</param>
+        /// <returns>A converted value. If the method returns null, the valid null value is used.</returns>
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             return value;

@@ -29,7 +29,7 @@
     </UserControl.Resources>
 
 
-    <Grid Margin="0,0,0,10" Loaded="Grid_Loaded">
+    <Grid Margin="0,0,0,10">
         <StackPanel Orientation="Vertical">
             <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" 
                       Background="Chocolate"                      

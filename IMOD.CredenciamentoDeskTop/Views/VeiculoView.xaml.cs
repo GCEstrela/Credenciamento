@@ -73,6 +73,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
              lstView.SelectionChanged += OnListView_SelectionChanged;
             cmbEstado.SelectionChanged += OnSelecionaMunicipio_SelectionChanged;
+            txtPesquisa.Focus();
         }
 
         /// <summary>

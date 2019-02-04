@@ -244,6 +244,35 @@ namespace IMOD.Infra.Repositorios
         }
 
         /// <summary>
+        /// Buscar numero do contrato
+        /// </summary>
+        /// <param name="numContrato"></param>
+        /// <returns></returns>
+        public EmpresaContrato BuscarContrato(string numContrato)
+        {
+            using (var conn = _dataBase.CreateOpenConnection())
+            {
+                using (var cmd = _dataBase.SelectText("EmpresasContratos", conn))
+
+                {
+                    try
+                    {
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("NumeroContrato", numContrato).Igual()));
+                        var reader = cmd.ExecuteReader();
+                        var d1 = reader.MapToList<EmpresaContrato>();
+
+                        return d1.FirstOrDefault();
+                    }
+                    catch (Exception ex)
+                    {
+                        Utils.TraceException(ex);
+                        throw;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
         ///     Listar contratos por descrição
         /// </summary>
         /// <param name="desc"></param>

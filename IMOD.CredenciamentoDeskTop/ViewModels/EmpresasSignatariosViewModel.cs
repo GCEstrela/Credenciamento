@@ -38,10 +38,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         public EmpresaSignatarioView Entity { get; set; }
         public ObservableCollection<EmpresaSignatarioView> EntityObserver { get; set; }
+        /// <summary>
+        ///     Seleciona indice da listview
+        /// </summary>
+        public short SelectListViewIndex { get; set; }
 
-        EmpresaSignatarioView EntityTmp = new EmpresaSignatarioView();
 
-        
         /// <summary>
         ///     Habilita listView
         /// </summary>
@@ -127,6 +129,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 EntityObserver.Insert(0, n2);
                 IsEnableLstView = true;
                 _viewModelParent.AtualizarDadosPendencias();
+                SelectListViewIndex = 0;
             }
             catch (Exception ex)
             {
@@ -140,7 +143,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private void PrepareCriar()
         { 
-            EntityTmp = Entity;
+             
             Entity = new EmpresaSignatarioView();
             Comportamento.PrepareCriar();
             IsEnableLstView = false;
@@ -155,8 +158,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                if (Entity == null) return;
-                EntityTmp = Entity;
+                if (Entity == null) return; 
                 if (Validar()) return;                
                 var n1 = Mapper.Map<EmpresaSignatario>(Entity);
                 _service.Alterar(n1);
@@ -179,15 +181,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             try
             {
                 IsEnableLstView = true;
-
-                if (Entity != null)
-                {
-                    Entity.ClearMessageErro();
-                    Entity = EntityTmp;
-                   
-                }
-
-
+                if (Entity != null) Entity.ClearMessageErro();
             }
             catch (Exception ex)
             {
@@ -374,7 +368,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             if (Entity == null) return false;
             var cpf = Entity.Cpf.RetirarCaracteresEspeciais();
-            //var cpf = Entity.Cpf;
+            if (string.IsNullOrWhiteSpace (cpf)) return false; 
             if (!Utils.IsValidCpf(cpf)) return true;
             return false;
         }

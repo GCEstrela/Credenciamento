@@ -27,7 +27,8 @@
                 <AdornedElementPlaceholder x:Name="ErrorAdorner" ></AdornedElementPlaceholder>
             </DockPanel>
         </ControlTemplate>
-        <funcoes:FormatCpf x:Key="FormatCpf"/> 
+        <funcoes:FormatCpf x:Key="FormatCpf"/>
+        <funcoes:FormatCep x:Key="FormatCep"></funcoes:FormatCep>
         <funcoes:StringToImageConverter x:Key="ImageConverter"/>
         <Style TargetType="{x:Type DatePickerTextBox}">
             <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" />
@@ -164,7 +165,7 @@
              DisplayMemberPath="Value"
              SelectedValue="Key" 
              SelectedItem="{Binding PesquisarPor}" VerticalContentAlignment="Center"/>
-            <TextBox Width="200" Margin="10,0,0,0" IsEnabled="{Binding Comportamento.IsEnableCriar}" Text="{Binding NomePesquisa, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" >
+            <TextBox Name="txtPesquisa" Width="200" Margin="10,0,0,0" IsEnabled="{Binding Comportamento.IsEnableCriar}" Text="{Binding NomePesquisa, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" >
                 <TextBox.InputBindings>
                     <KeyBinding Command="{Binding Path=PesquisarCommand}" Key="Enter" />
                 </TextBox.InputBindings>
@@ -210,7 +211,7 @@
         </StackPanel>
 
         <!--<Label Content="{Binding Entity.Nome }" Grid.Column="0" Grid.Row="2" FontSize="14" Foreground="#FF007ACC" Margin="0,1,-94,2" />-->
-        <StackPanel x:Name="BotoesGeral_sp" Grid.Column="0" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,2,-262,0">
+        <StackPanel x:Name="BotoesGeral_sp" Grid.Column="0" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,2,-262,0" IsEnabled="{Binding HabilitaCommandPincipal}">
 
             <Button x:Name="btnAdicionar"   Content="{StaticResource imgAdd}"       ToolTip="Adicionar"     IsEnabled="{Binding Comportamento.IsEnableCriar}"       Command="{Binding PrepareCriarCommand}"     Width="25" Margin="0,0,5,0"  />
             <Button x:Name="btnEditar"      Content="{StaticResource imgEdit}"      ToolTip="Editar"        IsEnabled="{Binding Comportamento.IsEnableEditar}"      Command="{Binding PrepareAlterarCommand}"   Width="25" Margin="0,0,5,0"  />
@@ -225,7 +226,7 @@
                     Width="1259" Margin="1,1,-259,-321" 
                     Grid.Row="3"    >
 
-            <TabItem x:Name="Geral_ti"   Background="{x:Null}"    Margin="0,-2,0,0" GotFocus="Geral_ti_GotFocus">
+            <TabItem x:Name="Geral_ti"   Background="{x:Null}"    Margin="0,-2,0,0">
 
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
@@ -257,8 +258,8 @@
                                     <Label Content="CPF:" Height="28" Width="132" Margin="1"  Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                                     <TextBox  x:Name="txtCpf"  MaxLength="20" IsEnabled="True"  Height="24"  Width="122"  Foreground="White" VerticalContentAlignment="Center" 
                                                       Text="{Binding Entity.Cpf,
-                                                      UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                                      HorizontalContentAlignment="Center" LostFocus="OnValidaCpf_LostFocus" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
+                                                      UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource FormatCpf}}"
+                                                      HorizontalContentAlignment="Center"  Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="1" >
                                     <Label Content="Nome:" Height="28" Width="100"   Foreground="#FFD0D0D0" HorizontalContentAlignment="Left"/>
@@ -305,7 +306,7 @@
                                 <Label Content="No.:" Height="28" Width="100"    Foreground="#FFD0D0D0" HorizontalContentAlignment="Left"/>
                                 <TextBox CharacterCasing="Upper" x:Name="Numero_tb"   MaxLength="4"   Text="{Binding Entity.Numero,  UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="50"/>
                                 <Label Content="CEP:" Height="28" Width="90"    Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
-                                <TextBox CharacterCasing="Upper"  x:Name="Cep_tb" MaxLength="12" PreviewTextInput="NumberOnly" Text="{Binding Entity.Cep,  UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="98" LostFocus="Cep_tb_LostFocus"/>
+                                <TextBox CharacterCasing="Upper"  x:Name="Cep_tb" MaxLength="12" PreviewTextInput="NumberOnly" Text="{Binding Entity.Cep,  UpdateSourceTrigger=PropertyChanged, Converter={StaticResource FormatCep}}"  IsEnabled="True"  Height="24"  Width="98"/>
                                 <Label Content="Complemento:" Height="28" Width="89" Margin="0,0,5,0"  Foreground="#FFD0D0D0" />
                                 <TextBox CharacterCasing="Upper"  x:Name="Complemento_tb"   MaxLength="50" Text="{Binding Entity.Complemento,   UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="123" RenderTransformOrigin="0.5,0.5"/>
 
@@ -450,7 +451,7 @@
 
                                 <!--<TextBox  x:Name="CNHEmissor_tb"  CharacterCasing="Upper" HorizontalAlignment="Left" Text="{Binding SelectedItem.CNHEmissor , ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}" IsEnabled="True"  Height="24"  Width="50" Grid.Row="0" Grid.Column="5" Margin="0,5,0,6" />-->
                                 <ComboBox  x:Name="CNHEmissor_cb" Text="{Binding Entity.CnhEmissor,
-                                    UpdateSourceTrigger=PropertyChanged}" HorizontalContentAlignment="Center" IsEnabled="True" Width="85" Height="25" SelectionChanged="CNHEmissor_cb_SelectionChanged"  >
+                                    UpdateSourceTrigger=PropertyChanged}" HorizontalContentAlignment="Center" IsEnabled="True" Width="85" Height="25">
                                     <ComboBoxItem>DETRAN</ComboBoxItem>
                                     <ComboBoxItem>SSP</ComboBoxItem>
                                 </ComboBox>
@@ -559,7 +560,7 @@
 
 
 
-            <TabItem x:Name="Signatarios_ti"  Width="200" IsEnabled="{Binding IsEnableTabItem}" GotFocus="EmpresasVinculos_ti_GotFocus">
+            <TabItem x:Name="Signatarios_ti"  Width="200" IsEnabled="{Binding IsEnableTabItem}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="Signatarios_bt"   Click="OnPendenciaEmpresaVinculo_Click" Style="{StaticResource MenuStyle}" >
@@ -577,7 +578,7 @@
 
             </TabItem>
 
-            <TabItem x:Name="CursosTreinamentos_ti"  Width="200" IsEnabled="{Binding IsEnableTabItem}" GotFocus="Cursos_ti_GotFocus">
+            <TabItem x:Name="CursosTreinamentos_ti"  Width="200" IsEnabled="{Binding IsEnableTabItem}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="Curso_bt"   Click="OnPendenciaTreinamentoCertificacao_Click" Style="{StaticResource MenuStyle}" >
@@ -595,7 +596,7 @@
 
             </TabItem>
 
-            <TabItem x:Name="Anexos_ti"  Width="200"  IsEnabled="{Binding IsEnableTabItem}" GotFocus="Anexos_ti_GotFocus">
+            <TabItem x:Name="Anexos_ti"  Width="200"  IsEnabled="{Binding IsEnableTabItem}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Button  x:Name="Anexos_bt" Click="OnPendenciaAnexos_Click" Style="{StaticResource MenuStyle}" >
@@ -616,7 +617,7 @@
             <TabItem x:Name="Tab5"  Width="200"  IsEnabled="{Binding IsEnableTabItem}" >
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <Button  x:Name="btnTab5" Click="OnPendenciaCredencial_Click" Style="{StaticResource MenuStyle}" GotFocus="Credenciais_ti_GotFocus">
+                        <Button  x:Name="btnTab5" Click="OnPendenciaCredencial_Click" Style="{StaticResource MenuStyle}">
                             <StackPanel>
                                 <Image Source="{Binding Pendencia25,
                                         Converter={StaticResource ConvertBoolToImage},UpdateSourceTrigger=Explicit, Mode=TwoWay}" Width="16"  Height="16" />

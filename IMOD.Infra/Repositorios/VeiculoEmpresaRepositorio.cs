@@ -81,7 +81,7 @@ namespace IMOD.Infra.Repositorios
         {
 
             var data = DateTime.Now.ToString("yy");
-            entity.Matricula = $"{entity.Matricula}-{data}";//entity
+            entity.Matricula = $"{entity.VeiculoId}-{data}";//entity
             Alterar(entity);
         }
 

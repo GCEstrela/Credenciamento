@@ -90,12 +90,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
             {
                 Utils.TraceException (ex);
             }
-        }
-
-        private void FormatCurrency(object sender, RoutedEventArgs e)
-        {
-            txtValorCobertura.Text = txtValorCobertura.Text.FormatarMoeda();
-        }
+        } 
 
         private void NumberOnly(object sender, TextCompositionEventArgs e)
         {

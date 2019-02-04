@@ -155,14 +155,14 @@ namespace IMOD.Infra.Repositorios
                     {
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("EmpresaSignatarioID", entity.EmpresaSignatarioId, true)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("EmpresaID", entity.EmpresaId, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Nome", entity.Nome.Trim(), false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("CPF", entity.Cpf.RetirarCaracteresEspeciais().Trim(), false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Email", entity.Email.Trim(), false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Telefone", entity.Telefone.Trim(), false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Celular", entity.Celular.Trim(), false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Nome", entity.Nome, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("CPF", entity.Cpf.RetirarCaracteresEspeciais(), false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Email", entity.Email, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Telefone", entity.Telefone, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Celular", entity.Celular, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Principal", entity.Principal, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Assinatura", entity.Assinatura.Trim(), false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("NomeArquivo", entity.NomeArquivo.Trim(), false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Assinatura", entity.Assinatura, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("NomeArquivo", entity.NomeArquivo, false)));
 
                         cmd.ExecuteNonQuery();
                     }

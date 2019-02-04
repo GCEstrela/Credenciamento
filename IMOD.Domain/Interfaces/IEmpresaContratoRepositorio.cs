@@ -25,6 +25,13 @@ namespace IMOD.Domain.Interfaces
         ICollection<EmpresaContrato> ListarPorNumeroContrato(string numContrato);
 
         /// <summary>
+        /// Buscar numero do contrato
+        /// </summary>
+        /// <param name="numContrato"></param>
+        /// <returns></returns>
+        EmpresaContrato BuscarContrato(string numContrato);
+
+        /// <summary>
         ///     Listar contratos por descrição
         /// </summary>
         /// <param name="desc"></param>

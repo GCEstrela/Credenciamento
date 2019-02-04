@@ -15,6 +15,7 @@
         <Image x:Key="imgCancel" Source="../Resources/undo.png"  />
         <funcoes:FormateTel x:Key="FormateTel" />
         <funcoes:CheckTeste x:Key="CheckTeste" />
+        <funcoes:FormatCurrency x:Key="FormatCurrency"></funcoes:FormatCurrency>
         <ControlTemplate x:Key="ValidationErrorTemplate">
             <DockPanel>
                 <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" Margin="5,0,0,2">
@@ -55,8 +56,8 @@
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="1">
                             <Label Content="Valor da Cobertura (R$):" Height="28" Width="132"  Foreground="#FFD0D0D0" />
                             <TextBox x:Name="txtValorCobertura" MaxLength="15" CharacterCasing="Lower"
-                                     Text="{Binding Entity.ValorCobertura, UpdateSourceTrigger=PropertyChanged}"
-                                     IsEnabled="True" Height="24" Width="300" />
+                                     Text="{Binding Entity.ValorCobertura, UpdateSourceTrigger=PropertyChanged,  StringFormat={}{0:N}}"
+                                     IsEnabled="True" Height="24" Width="300" PreviewTextInput="NumberOnly"/>
                             <Label Content="Data de Emissão:" Height="28" Width="112" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
                             <DatePicker x:Name="dtPEmissao" VerticalContentAlignment="Center" 
                                         SelectedDate="{Binding Entity.Emissao, UpdateSourceTrigger=PropertyChanged}" Width="110"
@@ -100,6 +101,7 @@
             <StackPanel Orientation="Horizontal" Height="179" Margin="0,10,40,0">
                 <ListView x:Name="ListaSeguros_lve"
                           IsEnabled="{Binding IsEnableLstView}"
+                          SelectedIndex="{Binding SelectListViewIndex}"
                           ItemsSource="{Binding EntityObserver, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                           SelectedItem="{Binding Entity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="931" Margin="0,10,0,10">
 

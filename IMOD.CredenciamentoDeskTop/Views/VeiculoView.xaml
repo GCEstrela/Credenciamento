@@ -164,7 +164,7 @@
                       DisplayMemberPath="Value"
                       SelectedValue="Key"
                       SelectedItem="{Binding PesquisarPor}" VerticalContentAlignment="Center" />
-            <TextBox Width="200" Margin="10,0,0,0" IsEnabled="{Binding  Comportamento.IsEnableCriar}"
+            <TextBox Name = "txtPesquisa" Width="200" Margin="10,0,0,0" IsEnabled="{Binding  Comportamento.IsEnableCriar}"
                      Text="{Binding NomePesquisa, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                 <TextBox.InputBindings>
                     <KeyBinding Command="{Binding Path=PesquisarCommand}" Key="Enter" />
@@ -258,7 +258,7 @@
                                     <Label Content="Placa/Identificador:" Height="28" Width="160" HorizontalContentAlignment="Right"  Foreground="#FFD0D0D0" />
                                     <TextBox  MaxLength="10" CharacterCasing="Upper" Text="{Binding Entity.PlacaIdentificador, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="140" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
                                     <Label Content="Série/Chassi:" Height="28" Width="80"  Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
-                                    <TextBox   MaxLength="20" CharacterCasing="Upper" Text="{Binding Entity.SerieChassi, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="140" />
+                                    <TextBox   MaxLength="20" CharacterCasing="Upper" Text="{Binding Entity.SerieChassi, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="140" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
                                             HorizontalAlignment="Left" Margin="1">

@@ -16,7 +16,7 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public int EquipamentoVeiculoId { get; set; }
         [Required(ErrorMessage = "A Descrição é requerida.")]
         public string Descricao { get; set; }
-        [Required(ErrorMessage = "A Placa/Identificador é requerido.")]
+        [Required(ErrorMessage = "A Placa/Identificador é requerida.")]
         public string PlacaIdentificador { get; set; }
         public string Frota { get; set; }
         public string Patrimonio { get; set; }
@@ -28,6 +28,7 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public string Ano { get; set; }
         public int EstadoId { get; set; }
         public int MunicipioId { get; set; }
+        [Required(ErrorMessage = "A Série/Chassi é requerido.")]
         public string SerieChassi { get; set; }
         [Range(1, int.MaxValue, ErrorMessage = "O Tipo de Combustível é requerido.")]
         public int CombustivelId { get; set; }

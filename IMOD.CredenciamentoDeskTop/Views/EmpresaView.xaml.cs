@@ -38,6 +38,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         private void Frm_Loaded(object sender, RoutedEventArgs e)
         {
+            txtPesquisa.Focus();
             lstView.SelectionChanged += OnListView_SelectionChanged;
             cmbEstado.SelectionChanged += OnSelecionaMunicipio_SelectionChanged;
         }
@@ -168,20 +169,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
             e.Handled = regex.IsMatch(e.Text);
         }
 
-        private void OnValidaCnpj_LostFocus(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                _viewModel.ValidarCnpj();
-                if (_viewModel.Entity == null) return;
-                txtCnpj.Text = _viewModel.Entity.Cnpj.FormatarCnpj();
-            }
-            catch (Exception ex)
-            {
-                Utils.TraceException(ex);
-                WpfHelp.PopupBox($"Não foi realizar a operação solicitada\n{ex.Message}", 3);
-            }
-        }
+
 
         private void OnSelecionaFoto_Click(object sender, RoutedEventArgs e)
         {
@@ -207,11 +195,6 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         
 
-        private void Cep_tb_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (_viewModel.Entity == null) return;
-            Cep_tb.Text = _viewModel.Entity.Cep.FormataCep();
-        }
 
         private void TxtCnpj_LostFocus(object sender, RoutedEventArgs e)
         {

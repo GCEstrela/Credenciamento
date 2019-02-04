@@ -128,6 +128,16 @@ namespace IMOD.Application.Service
         }
 
         /// <summary>
+        /// Buscar numero do contrato
+        /// </summary>
+        /// <param name="numContrato"></param>
+        /// <returns></returns>
+        public EmpresaContrato BuscarContrato(string numContrato)
+        {
+            return _repositorio.BuscarContrato (numContrato);
+        }
+
+        /// <summary>
         ///     Listar contratos por descrição
         /// </summary>
         /// <param name="desc"></param>

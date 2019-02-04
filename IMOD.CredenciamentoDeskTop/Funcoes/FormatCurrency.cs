@@ -1,13 +1,14 @@
 ﻿// ***********************************************************************
 // Project: IMOD.CredenciamentoDeskTop
 // Crafted by: Grupo Estrela by Genetec
-// Date:  02 - 01 - 2019
+// Date:  02 - 04 - 2019
 // ***********************************************************************
 
 #region
 
 using System;
 using System.Globalization;
+using System.Linq;
 using System.Windows.Data;
 using IMOD.CrossCutting;
 
@@ -15,7 +16,7 @@ using IMOD.CrossCutting;
 
 namespace IMOD.CredenciamentoDeskTop.Funcoes
 {
-    public class FormatCpf : IValueConverter
+    public class FormatCurrency : IValueConverter
     {
         #region  Metodos
 
@@ -30,9 +31,10 @@ namespace IMOD.CredenciamentoDeskTop.Funcoes
             try
             {
                 if (value == null) return "";
-                var str = value.ToString();
-                var strNew = str.RetirarCaracteresEspeciais().Replace (" ", "");
-                return strNew.Trim().FormatarCpf();
+                //if (!value.ToString().All (char.IsNumber)) return 0;
+                var num = value.ToString();
+                var strNew = num.RetirarCaracteresEspeciais().Replace (" ", "");
+                return strNew.FormatarMoeda();
             }
             catch (Exception)
             {

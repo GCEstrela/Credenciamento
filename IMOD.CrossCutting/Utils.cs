@@ -1293,18 +1293,26 @@ namespace IMOD.CrossCutting
         /// <returns></returns>
         public static string FormatarCnpj(this string str)
         {
-            if (string.IsNullOrWhiteSpace (str))
+            try
+            {
+                if (string.IsNullOrWhiteSpace(str))
+                {
+                    return "";
+                }
+
+                var str2 = str.RetirarCaracteresEspeciais();
+                if (string.IsNullOrWhiteSpace(str2))
+                {
+                    return "";
+                }
+
+                return Convert.ToUInt64(str2).ToString(@"00\.000\.000\/0000\-00");
+            }
+            catch (Exception)
             {
                 return "";
             }
-
-            var str2 = str.RetirarCaracteresEspeciais();
-            if (string.IsNullOrWhiteSpace (str2))
-            {
-                return "";
-            }
-
-            return Convert.ToUInt64 (str2).ToString (@"00\.000\.000\/0000\-00");
+            
         }
 
         /// <summary>
@@ -1313,17 +1321,11 @@ namespace IMOD.CrossCutting
         /// <param name="str"></param>
         /// <returns></returns>
         public static string FormatarCpf(this string str)
-        {
-            if (string.IsNullOrWhiteSpace (str))
-            {
-                return "";
-            }
+     {
+            if (string.IsNullOrWhiteSpace (str)) return "";
 
             var str2 = str.RetirarCaracteresEspeciais();
-            if (string.IsNullOrWhiteSpace (str2))
-            {
-                return "";
-            }
+            if (string.IsNullOrWhiteSpace (str2)) return "";
 
             return Convert.ToUInt64 (str2).ToString (@"000\.000\.000\-00");
         }

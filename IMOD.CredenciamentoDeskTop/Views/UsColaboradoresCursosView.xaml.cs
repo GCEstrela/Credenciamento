@@ -22,16 +22,6 @@ namespace IMOD.CredenciamentoDeskTop.Views
         }
         #endregion
 
-        private void Grid_Loaded(object sender, RoutedEventArgs e)
-        {
-            cmbCurso.SelectionChanged += OnSelecionaCurso_SelectionChanged;
-        }
-        private void OnSelecionaCurso_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            //if (_viewModel.Cursos == null) return;
-            //_viewModel.ListarContratos(_viewModel.);
-        }
-
         /// <summary>
         ///     Atualizar dados
         /// </summary>
