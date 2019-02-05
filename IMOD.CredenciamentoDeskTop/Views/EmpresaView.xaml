@@ -162,11 +162,11 @@
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="1" >
                                     <Label Content="Razão Social:" Height="28" Width="100" Margin="1" Foreground="#FFD0D0D0"  HorizontalContentAlignment="Left"/>
-                                    <TextBox CharacterCasing="Upper"  Text="{Binding Entity.Nome}"   x:Name="Nome_tb"  MaxLength="50"   IsEnabled="True"  Height="24"  Width="304"  Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
+                                    <TextBox CharacterCasing="Upper"  Text="{Binding Entity.Nome}"   x:Name="Nome_tb"  MaxLength="100"   IsEnabled="True"  Height="24"  Width="304"  Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="1" >
                                     <Label Content="Nome Fantasia:" Height="28" Width="100" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Left" />
-                                    <TextBox CharacterCasing="Upper"  x:Name="Apelido_tb"     MaxLength="30" Text="{Binding Entity.Apelido, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="200"  Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
+                                    <TextBox CharacterCasing="Upper"  x:Name="Apelido_tb"     MaxLength="50" Text="{Binding Entity.Apelido, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="200"  Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
 
                                     <Label Content="Sigla:" Height="28" Width="53" Margin="1"  Foreground="#FFD0D0D0" HorizontalContentAlignment="Left"/>
                                     <TextBox CharacterCasing="Upper"  x:Name="Sigla_tb"     MaxLength="8" Text="{Binding Entity.Sigla, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="49"/>
@@ -290,7 +290,7 @@
                         <StackPanel Orientation="Horizontal" Height="140" VerticalAlignment="Top" >
                             <StackPanel Width="469" Margin="0,0,0,10"   >
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" >
-                                    <Label Content="* Tipo de Atividade:" Height="28" Width="111" Margin="0,0,5,0"  Foreground="#FFD0D0D0" />
+                                    <Label Content="Tipo de Atividade:" Height="28" Width="111" Margin="0,0,5,0"  Foreground="#FFD0D0D0" />
                                     <ComboBox  x:Name="TipoAtividade_cb"   IsEnabled="True"  Height="30"  Width="280"
                                                ItemsSource="{Binding ListaAtividades}"
                                                SelectedItem="{Binding TipoAtividade}"
@@ -308,7 +308,7 @@
 
                             <StackPanel Width="469" Margin="0,0,0,10"   >
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" >
-                                    <Label Content="* Tipo de Crachá:" Height="28" Width="104" Margin="0,0,5,0"  Foreground="#FFD0D0D0" />
+                                    <Label Content="Tipo de Crachá:" Height="28" Width="104" Margin="0,0,5,0"  Foreground="#FFD0D0D0" />
                                     <ComboBox  x:Name="TipoCracha_cb"   IsEnabled="True"  Height="30"  Width="280" ItemsSource="{Binding ListaCrachas}"
                                                DisplayMemberPath="Nome"   
                                                SelectedValuePath="LayoutCrachaId"

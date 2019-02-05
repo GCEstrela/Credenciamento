@@ -260,6 +260,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public bool Validar()
         {
             if (Entity == null) return true;
+            Entity.Validate();
+            var hasErros = Entity.HasErrors;
+            if (hasErros) return true;
             //Verificar valiade de Descricao do Anexo
             if (EInValidandoDescricao())
             {
@@ -272,10 +275,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 Entity.SetMessageErro("NomeAnexo", "Nome do Anexo é inválido");
                 return true;
-            } 
-            var hasErros = Entity.HasErrors;
-            return hasErros;
-            
+            }
+            return Entity.HasErrors;
+
         }
         #endregion
 
