@@ -357,6 +357,13 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             if (Entity == null) return true;
             return false;
 
+
+            //if (Entity == null) return true;
+            //Entity.Validate();
+            //var hasErros = Entity.HasErrors;
+            //if (hasErros) return true;
+
+            //return Entity.HasErrors;
         }
 
         #endregion

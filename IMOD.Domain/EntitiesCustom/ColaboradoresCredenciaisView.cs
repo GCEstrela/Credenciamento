@@ -1,10 +1,12 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace IMOD.Domain.EntitiesCustom
 {
     public class ColaboradoresCredenciaisView
     {
         public int ColaboradorCredencialId { get; set; }
+        [Range(1, int.MaxValue, ErrorMessage = "A Empresa é requerida.")]
         public int ColaboradorEmpresaId { get; set; }
         public int TecnologiaCredencialId { get; set; }
         public int TipoCredencialId { get; set; }

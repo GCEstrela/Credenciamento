@@ -333,7 +333,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private void PrepareAlterar()
         {
-            if (Entity == null)
+            if (Entity == null | Entity.CobrancaEmpresaId == 0)
             {
                 WpfHelp.PopupBox("Selecione um item da lista", 1);
                 return;
@@ -401,16 +401,15 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         public bool Validar()
         {
-            if (Entity == null) return true; 
-            if (ExisteNumContrato())
-            {
-                Entity.SetMessageErro("NumeroContrato", "Número de contrato já existente.");
-                return true;
-            }
+            if (Entity == null) return true;
+            Entity.Validate();
             var hasErros = Entity.HasErrors;
-             
-            return hasErros;
+            if (hasErros) return true;
 
+            if (ExisteNumContrato())            
+                Entity.SetMessageErro("NumeroContrato", "Número de contrato já existente.");               
+            
+            return Entity.HasErrors;
         }
 
         #endregion
@@ -420,6 +419,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             if (Entity == null) return false;
             var numContrato = Entity.NumeroContrato;
+            if (string.IsNullOrWhiteSpace(numContrato)) throw new ArgumentNullException("Informe um número de contrato para pesquisar.");
             //Verificar dados antes de salvar uma criação
             if (_prepareCriarCommandAcionado)
             {//Verificar se existe numero de contrato

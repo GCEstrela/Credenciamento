@@ -39,7 +39,7 @@
                 <StackPanel x:Name="InformacoesAnexo_sp" Margin="0,10,10,10" Width="773">
 
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="1" >
-                        <Label Content="Razão Social da Empresa:" Height="24" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
+                        <Label Content="Razão Social da Empresa:" Height="24" Foreground="#FFD0D0D0" HorizontalContentAlignment="Left" />
                         <ComboBox  x:Name="cmbEmpresa" Width="300" Height="25" 
                                    VerticalContentAlignment="Center" 
                                    HorizontalContentAlignment="Left"
@@ -49,7 +49,7 @@
                                    DisplayMemberPath="Nome"  
                                    SelectedValue="{Binding Entity.EmpresaId , UpdateSourceTrigger=PropertyChanged}" 
                                    SelectedValuePath="EmpresaId" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
-                        <Label Content="Matrícula:" Height="28" Width="140" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
+                        <Label Content="Matrícula:" Height="28" Width="140" Foreground="#FFD0D0D0" HorizontalContentAlignment="Left" />
 
                         <TextBox  x:Name="Matricula_tb" MaxLength="50" CharacterCasing="Upper"
                                   VerticalContentAlignment="Center" 

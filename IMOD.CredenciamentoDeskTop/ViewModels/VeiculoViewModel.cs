@@ -505,9 +505,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <returns></returns>
         public bool Validar()
         {
+            if (Entity == null) return true;
             Entity.Validate();
             var hasErros = Entity.HasErrors;
-            return hasErros;
+            if (hasErros) return true;         
+
+            return Entity.HasErrors;
         }
 
         #endregion

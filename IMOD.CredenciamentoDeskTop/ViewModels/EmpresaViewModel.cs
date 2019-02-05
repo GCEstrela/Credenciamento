@@ -308,6 +308,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public bool Validar()
         {
             if (Entity == null) return true;
+            Entity.Validate();
+            var hasErros = Entity.HasErrors;
+            if (hasErros) return true;
             //Verificar valiade de cnpj
             if (EInValidoCnpj())
             {
@@ -322,8 +325,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 return true;
             }
 
-            var hasErros = Entity.HasErrors;
-            return hasErros;
+            return Entity.HasErrors;
         }
 
         #endregion

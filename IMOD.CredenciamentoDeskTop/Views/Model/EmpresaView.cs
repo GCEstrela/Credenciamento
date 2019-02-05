@@ -14,7 +14,7 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         #region  Propriedades
 
         public int EmpresaId { get; set; }
-        [Required(ErrorMessage = "A Razão Social é requerido.")]
+        [Required(ErrorMessage = "A Razão Social é requerida.")]
         public string Nome { get; set; }
         [Required(ErrorMessage = "O Apelido é requerido.")]
         public string Apelido { get; set; }

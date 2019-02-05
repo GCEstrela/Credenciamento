@@ -43,7 +43,7 @@
                                  Text="{Binding Entity.EmpresaAnexoId, UpdateSourceTrigger=PropertyChanged}" Height="24" Width="39" />
                         <Label Content="Descrição do Anexo:" Height="28" Width="138" Margin="0,0,5,0"
                                HorizontalContentAlignment="Left" Foreground="#FFD0D0D0" />
-                        <TextBox x:Name="DescricaoArquivo_tb" MaxLength="50" CharacterCasing="Upper" Height="24" Width="406"
+                        <TextBox x:Name="DescricaoArquivo_tb" MaxLength="100" CharacterCasing="Upper" Height="24" Width="406"
                                  Text="{Binding Entity.Descricao, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                  IsEnabled="{Binding Comportamento.isEnableCancelar}"
                                  Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
@@ -86,7 +86,7 @@
                     <ListView.View>
                         <GridView FrameworkElement.FlowDirection="RightToLeft">
                             <GridViewColumn Width="50" Header="Cod." DisplayMemberBinding="{Binding EmpresaAnexoId}" />
-                            <GridViewColumn Width="300" Header="Descrição do Anexo"
+                            <GridViewColumn Width="440" Header="Descrição do Anexo"
                                             DisplayMemberBinding="{Binding Descricao}" />
                             <GridViewColumn Width="250" Header="Nome do Arquivo"
                                             DisplayMemberBinding="{Binding NomeAnexo}" />

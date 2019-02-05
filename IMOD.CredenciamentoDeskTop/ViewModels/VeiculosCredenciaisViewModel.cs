@@ -166,6 +166,13 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             Entity.Validate();
             var hasErros = Entity.HasErrors;
             return hasErros;
+
+            //if (Entity == null) return true;
+            //Entity.Validate();
+            //var hasErros = Entity.HasErrors;
+            //if (hasErros) return true;
+
+            //return Entity.HasErrors;
         }
 
         #endregion

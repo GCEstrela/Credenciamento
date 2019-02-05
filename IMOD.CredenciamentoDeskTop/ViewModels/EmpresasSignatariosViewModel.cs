@@ -226,7 +226,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private void PrepareAlterar()
         {
-            if (Entity == null)
+            if (Entity == null | Entity.EmpresaSignatarioId == 0)
             {
                 WpfHelp.PopupBox("Selecione um item da lista", 1);
                 return;
@@ -289,6 +289,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public bool Validar()
         {
             if (Entity == null) return true;
+            Entity.Validate();
+            var hasErros = Entity.HasErrors;
+            if (hasErros) return true;
             //Verificar valiade de cpf
             if (EInValidoCpf())
             {
@@ -296,8 +299,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 return true;
             }
 
-            var hasErros = Entity.HasErrors;
-            return hasErros; 
+            return Entity.HasErrors;
 
         }
 
