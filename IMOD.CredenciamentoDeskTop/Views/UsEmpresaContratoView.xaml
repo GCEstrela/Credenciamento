@@ -263,7 +263,7 @@
         </StackPanel>-->
         <StackPanel Orientation="Horizontal" Margin="0,295,0,0" Height="181" VerticalAlignment="Top" Grid.ColumnSpan="2">
             <ListView x:Name="ListaContratos_lv"
-                      IsEnabled="{Binding IsEnableLstView}"              
+                      IsEnabled="{Binding IsEnableLstView}" 
                       ItemsSource="{Binding EntityObserver, Mode=TwoWay}"
                       SelectedItem="{Binding Entity, Mode=TwoWay}"
                       SelectedIndex="{Binding SelectListViewIndex}"

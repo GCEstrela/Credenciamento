@@ -42,9 +42,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         ///     True, Comando de criação acionado
         /// </summary>
         private bool _prepareCriarCommandAcionado;
-        
-        #region  Propriedades
 
+        #region  Propriedades 
         /// <summary>
         ///     String contendo o nome a pesquisa;
         /// </summary>
@@ -480,6 +479,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 _prepareAlterarCommandAcionado = false;
                 if (Entity != null) Entity.ClearMessageErro();
                 HabilitaControle(true, true);
+                Entity = null;
+
             }
             catch (Exception ex)
             {

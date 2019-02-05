@@ -63,8 +63,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public List<TecnologiaCredencial> TecnologiasCredenciais { get; set; }
         public List<ColaboradorEmpresa> ColaboradoresEmpresas { get; set; }
         public ColaboradorEmpresa ColaboradorEmpresa { get; set; }
-        public List<AreaAcesso> ColaboradorPrivilegio { get; set; }
-        private ColaboradoresCredenciaisView EntityTmp = new ColaboradoresCredenciaisView();
+        public List<AreaAcesso> ColaboradorPrivilegio { get; set; } 
         public ColaboradoresCredenciaisView Entity { get; set; }
         public ObservableCollection<ColaboradoresCredenciaisView> EntityObserver { get; set; }
         public ObservableCollection<CredencialView> Credencial { get; set; }
@@ -73,6 +72,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         ///     Habilita listView
         /// </summary>
         public bool IsEnableLstView { get; set; } = true;
+        /// <summary>
+        ///     Seleciona indice da listview
+        /// </summary>
+        public short SelectListViewIndex { get; set; }
 
         #endregion 
 
@@ -187,6 +190,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                  });
                  
                 IsEnableLstView = true;
+                SelectListViewIndex = 0;
             }
             catch (Exception ex)
             {
@@ -200,7 +204,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private void PrepareCriar()
         {
-            EntityTmp = Entity;
+           
             Entity = new ColaboradoresCredenciaisView();
             Comportamento.PrepareCriar();
             IsEnableLstView = false; 
@@ -266,10 +270,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             try
             {
                 IsEnableLstView = true;
-                if (Entity != null)
-                {
-                    Entity = EntityTmp;                   
-                }
+                //if (Entity != null)  
+                 Entity = null;
             }
             catch (Exception ex)
             {

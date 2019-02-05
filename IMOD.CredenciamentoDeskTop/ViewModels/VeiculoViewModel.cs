@@ -34,6 +34,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private readonly IVeiculoService _service = new VeiculoService();
 
         #region  Propriedades
+       
 
         /// <summary>
         ///     String contendo o nome a pesquisa;
@@ -467,6 +468,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 AtualizarDadosTiposServico();
                 TiposEquipamentoServico.Clear();
                 HabilitaControle (true, true);
+                Entity = null;
             }
             catch (Exception ex)
             {

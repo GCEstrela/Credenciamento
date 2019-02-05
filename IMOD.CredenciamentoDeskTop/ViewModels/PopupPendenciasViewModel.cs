@@ -36,6 +36,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private readonly PendenciaTipo _tipoPendencia;
 
         #region  Propriedades
+        /// <summary>
+        ///     Seleciona indice da listview
+        /// </summary>
+        public short SelectListViewIndex { get; set; }
 
         public ComportamentoBasico Comportamento { get; set; }
 
@@ -163,6 +167,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var entityConv = Mapper.Map<Pendencia> (entity);
                 _service.Criar (entityConv);
                 entity.PendenciaId = entityConv.PendenciaId;
+                SelectListViewIndex = 0;
             }
             catch (Exception ex)
             {
@@ -195,6 +200,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var lst = PendenciasObserver.Where (n => n.PendenciaId == 0).ToList();
                 foreach (var item in lst)
                     PendenciasObserver.Remove (item);
+
+                Entity = null;
             }
             catch (Exception ex)
             {

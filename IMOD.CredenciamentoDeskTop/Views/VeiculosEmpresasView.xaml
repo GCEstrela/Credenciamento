@@ -84,7 +84,8 @@
 
                 <ListView x:Name="ListaSegnatarios_lv"
                           IsEnabled="{Binding IsEnableLstView}"
-                          HorizontalAlignment="Stretch" 
+                          HorizontalAlignment="Stretch"
+                          SelectedIndex="{Binding SelectListViewIndex}"
                           ItemsSource="{Binding EntityObserver, Mode=TwoWay}"
                           SelectedItem="{Binding Entity, Mode=TwoWay}"
                          Width="756" Margin="0,10,0,10">

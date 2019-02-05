@@ -51,7 +51,7 @@
                             <Label Content="CPF:" Height="28" Width="50" HorizontalContentAlignment="Left"
                                    Foreground="#FFD0D0D0" />
                             <TextBox x:Name="txtCpf" MaxLength="15" CharacterCasing="Upper"
-                                     Text="{Binding Entity.Cpf, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource FormatCpf}}" IsEnabled="{Binding Comportamento.isEnableCancelar}"
+                                     Text="{Binding Entity.Cpf, UpdateSourceTrigger=PropertyChanged}" LostFocus="OnFormatCpf_LostFocus" IsEnabled="{Binding Comportamento.isEnableCancelar}"
                                      Height="24" Width="120" Foreground="White"
                                      VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
                                      Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />

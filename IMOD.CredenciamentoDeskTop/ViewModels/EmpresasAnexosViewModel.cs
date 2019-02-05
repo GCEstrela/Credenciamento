@@ -37,14 +37,16 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         #region  Propriedades
 
         public EmpresaAnexoView Entity { get; set; }
-        public ObservableCollection<EmpresaAnexoView> EntityObserver { get; set; }
-
-        EmpresaAnexoView EntityTmp = new EmpresaAnexoView();
+        public ObservableCollection<EmpresaAnexoView> EntityObserver { get; set; } 
 
         /// <summary>
         ///     Habilita listView
         /// </summary>
         public bool IsEnableLstView { get; private set; } = true;
+        /// <summary>
+        ///     Seleciona indice da listview
+        /// </summary>
+        public short SelectListViewIndex { get; set; }
 
         #endregion
 
@@ -100,6 +102,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 EntityObserver.Insert(0, n2);
                 IsEnableLstView = true;
                 _viewModelParent.AtualizarDadosPendencias();
+                SelectListViewIndex = 0;
             }
             catch (Exception ex)
             {
@@ -113,7 +116,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private void PrepareCriar()
         {
-            EntityTmp = Entity;
+           
             Entity = new EmpresaAnexoView();
             Comportamento.PrepareCriar();
             IsEnableLstView = false;
@@ -152,12 +155,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             try
             {
                 IsEnableLstView = true;
-                if (Entity != null)
-                {
-                    Entity.ClearMessageErro();
-                    Entity = EntityTmp;
-                   
-                }
+                if (Entity != null) Entity.ClearMessageErro();
+                Entity = null;
             }
             catch (Exception ex)
             {
@@ -206,7 +205,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 WpfHelp.PopupBox("Selecione um item da lista", 1);
                 return;
             }
-            EntityTmp = Entity;
+           
             Comportamento.PrepareAlterar();
             IsEnableLstView = false;
         }

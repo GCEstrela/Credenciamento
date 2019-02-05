@@ -34,11 +34,13 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private ColaboradorView _colaboradorView;
         private ColaboradorViewModel _viewModelParent;
 
-        #region  Propriedades
-        ColaboradorAnexoView EntityTmp = new ColaboradorAnexoView();
+        #region  Propriedades 
         public ColaboradorAnexoView Entity { get; set; }
         public ObservableCollection<ColaboradorAnexoView> EntityObserver { get; set; }
-
+        /// <summary>
+        ///     Seleciona indice da listview
+        /// </summary>
+        public short SelectListViewIndex { get; set; }
         /// <summary>
         ///     Habilita listView
         /// </summary>
@@ -103,6 +105,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 EntityObserver.Insert (0, n2);
                 IsEnableLstView = true;
                 _viewModelParent.AtualizarDadosPendencias();
+                SelectListViewIndex = 0;
             }
             catch (Exception ex)
             {
@@ -116,7 +119,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private void PrepareCriar()
         {
-            EntityTmp = Entity;
+            
             Entity = new ColaboradorAnexoView();
             Comportamento.PrepareCriar();
             IsEnableLstView = false;
@@ -153,12 +156,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                if (Entity != null)
-                {
-                    Entity.ClearMessageErro();
-                    Entity = EntityTmp;
-                }
+                if (Entity != null) Entity.ClearMessageErro();
                 IsEnableLstView = true;
+                Entity = null;
             }
             catch (Exception ex)
             {

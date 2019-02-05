@@ -42,6 +42,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         ///     Seleciona o indice da tabcontrol desejada
         /// </summary>
         public short SelectListViewIndex { get; set; } 
+
         public List<Curso> Cursos { get; private set; }       
         public ColaboradorCursoView Entity { get; set; }
         public ObservableCollection<ColaboradorCursoView> EntityObserver { get; set; }

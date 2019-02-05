@@ -40,10 +40,13 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         public List<EmpresaContrato> Contratos { get; private set; }
         public List<Empresa> Empresas { get; private set; }
-        public Empresa Empresa { get; set; }
-        private ColaboradorEmpresaView EntityTmp = new ColaboradorEmpresaView();
+        public Empresa Empresa { get; set; } 
         public ColaboradorEmpresaView Entity { get; set; }
         public ObservableCollection<ColaboradorEmpresaView> EntityObserver { get; set; }
+        /// <summary>
+        ///     Seleciona indice da listview
+        /// </summary>
+        public short SelectListViewIndex { get; set; }
 
         /// <summary>
         ///     Habilita listView
@@ -137,6 +140,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 EntityObserver.Insert(0, n2);
                 IsEnableLstView = true;
                _viewModelParent.AtualizarDadosPendencias();
+                SelectListViewIndex = 0;
             }
             catch (Exception ex)
             {
@@ -163,7 +167,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private void PrepareCriar()
         {
-            EntityTmp = Entity;
+           
             Entity = new ColaboradorEmpresaView();
             Comportamento.PrepareCriar();
             IsEnableLstView = false;
@@ -201,12 +205,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             try
             {
                 IsEnableLstView = true;
-                if (Entity != null)
-                {
-                    Entity.ClearMessageErro();
-                    Entity = EntityTmp;
-                    
-                }
+                if (Entity != null) Entity.ClearMessageErro();
+                Entity = null;
             }
             catch (Exception ex)
             {

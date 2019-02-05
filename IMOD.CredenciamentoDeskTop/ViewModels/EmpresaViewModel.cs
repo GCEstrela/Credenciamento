@@ -616,6 +616,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 TiposAtividades.Clear();
                 TiposLayoutCracha.Clear();
                 HabilitaControle (true, true);
+                Entity = null;
             }
             catch (Exception ex)
             {

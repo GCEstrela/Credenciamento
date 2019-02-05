@@ -26,11 +26,7 @@ using IMOD.CredenciamentoDeskTop.ViewModels.Comportamento;
 using IMOD.CredenciamentoDeskTop.Views.Model;
 using IMOD.CredenciamentoDeskTop.Windows;
 using IMOD.CrossCutting;
-using IMOD.Domain.Entities;
-
-//using IMOD.Domain.EntitiesCustom;
-//using VeiculosCredenciaisView = IMOD.Domain.EntitiesCustom.VeiculosCredenciaisView;
-//using EmpresaView = iModSCCredenciamento.Views.Model.EmpresaView;
+using IMOD.Domain.Entities; 
 
 #endregion
 
@@ -49,7 +45,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private VeiculoView _veiculoView;
 
         #region  Propriedades
-
+        /// <summary>
+        ///     Seleciona indice da listview
+        /// </summary>
+        public short SelectListViewIndex { get; set; }
         public List<CredencialStatus> CredencialStatus { get; set; }
         public List<CredencialMotivo> CredencialMotivo { get; set; }
         public List<FormatoCredencial> FormatoCredencial { get; set; }
@@ -59,8 +58,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public List<VeiculoEmpresa> VeiculosEmpresas { get; set; }
         public VeiculoEmpresa VeiculoEmpresa { get; set; }
         public List<AreaAcesso> VeiculoPrivilegio { get; set; }
-        public VeiculoCredencialView Entity { get; set; }
-        public VeiculoCredencialView EntityTmp { get; set; }
+        public VeiculoCredencialView Entity { get; set; } 
 
         public ObservableCollection<VeiculoCredencialView> EntityObserver { get; set; }
         public ObservableCollection<AutorizacaoView> Autorizacao { get; set; }
@@ -277,6 +275,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 IsEnableLstView = true;
                 IsEnablePrint = true;
                 IsEnableFixo = false;
+                SelectListViewIndex = 0;
             }
             catch (Exception ex)
             {
@@ -290,7 +289,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private void PrepareCriar()
         {
-            EntityTmp = Entity;
+           
             Entity = new VeiculoCredencialView();
             Comportamento.PrepareCriar();
             IsEnableLstView = false;
@@ -334,11 +333,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 IsEnableLstView = true;
                 IsEnableFixo = false;
-                if (Entity != null)
-                {
-                    Entity.ClearMessageErro();
-                    Entity = EntityTmp;
-                }
+                if (Entity != null) Entity.ClearMessageErro();
+                Entity = null;
             }
             catch (Exception ex)
             {

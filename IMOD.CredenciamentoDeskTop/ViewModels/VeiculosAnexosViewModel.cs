@@ -37,9 +37,13 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         #region  Propriedades
 
         public VeiculoAnexoView Entity { get; set; }
-        public VeiculoAnexoView EntityTmp { get; set; }
 
         public ObservableCollection<VeiculoAnexoView> EntityObserver { get; set; }
+        
+        /// <summary>
+        ///     Seleciona indice da listview
+        /// </summary>
+        public short SelectListViewIndex { get; set; }
 
         /// <summary>
         ///     Habilita listView
@@ -112,6 +116,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 EntityObserver.Insert (0, n2);
                 IsEnableLstView = true;
                 _viewModelParent.AtualizarDadosPendencias();
+                SelectListViewIndex = 0;
             }
             catch (Exception ex)
             {
@@ -125,7 +130,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private void PrepareCriar()
         {
-            EntityTmp = Entity;
+          
             Entity = new VeiculoAnexoView();
             Comportamento.PrepareCriar();
             IsEnableLstView = false;
@@ -141,7 +146,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             try
             {
                 if (Entity == null) return;
-                EntityTmp = Entity;
+              
                 if (Validar()) return;
                 var n1 = Mapper.Map<VeiculoAnexo> (Entity);
                 _service.Alterar (n1);
@@ -164,11 +169,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             try
             {
                 IsEnableLstView = true;
-                if (Entity != null)
-                {
-                    Entity.ClearMessageErro();
-                    Entity = EntityTmp;
-                }
+                if (Entity != null) Entity.ClearMessageErro();
+                Entity = null;
             }
             catch (Exception ex)
             {

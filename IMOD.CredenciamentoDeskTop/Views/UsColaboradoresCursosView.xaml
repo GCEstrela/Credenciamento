@@ -38,7 +38,7 @@
                 <StackPanel x:Name="InformacoesAnexo_sp" Margin="0,0,0,0" Width="773">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="1">
                         <Label Content="Código:" Height="26" Foreground="#FFD0D0D0" Width="110"  />
-                        <TextBox  x:Name="cmbEmpresa" Width="43" Height="24" 
+                        <TextBox  x:Name="cmbEmpresa" Width="43" Height="24" IsEnabled="False"
                                   Text="{Binding Entity.ColaboradorCursoId, UpdateSourceTrigger=PropertyChanged}" 
                                    VerticalContentAlignment="Center" 
                                    HorizontalContentAlignment="Left"

@@ -78,6 +78,7 @@
 
                 <ListView x:Name="ListaAnexos_lv" Grid.Column="0" Grid.Row="1" 
                           IsEnabled="{Binding IsEnableLstView}"
+                          SelectedIndex="{Binding SelectListViewIndex}"
                           HorizontalAlignment="Stretch" 
                           ItemsSource="{Binding EntityObserver, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                           SelectedItem="{Binding Entity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"

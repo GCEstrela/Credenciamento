@@ -288,6 +288,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (Entity != null) Entity.ClearMessageErro();
                 _prepareCriarCommandAcionado = false;
                 _prepareAlterarCommandAcionado = false;
+                Entity = null;
             }
             catch (Exception ex)
             {
