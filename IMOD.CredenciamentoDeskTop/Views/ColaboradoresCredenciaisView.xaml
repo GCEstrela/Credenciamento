@@ -51,6 +51,7 @@
                                       HorizontalContentAlignment="Left"
                                       ItemsSource="{Binding ColaboradoresEmpresas}"
                                       SelectedValue="{Binding Entity.ColaboradorEmpresaId, UpdateSourceTrigger=PropertyChanged}"
+                                      Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
                                       SelectedItem="{Binding ColaboradorEmpresa}"
                                       SelectedValuePath="ColaboradorEmpresaId"
                                       IsSynchronizedWithCurrentItem="True"
@@ -220,9 +221,9 @@
                                       VerticalContentAlignment="Center" 
                                       HorizontalContentAlignment="Left"
                                       ItemsSource="{Binding FormatoCredencial, Mode=TwoWay}" 
-                                      SelectedIndex="7"
                                       DisplayMemberPath="Descricao"
                                       SelectedValue="{Binding Entity.FormatoCredencialId, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                      SelectedIndex="{Binding selectFormatoCredencialIndex}"
                                       SelectedValuePath="FormatoCredencialId" IsSynchronizedWithCurrentItem="True" />
 
 
