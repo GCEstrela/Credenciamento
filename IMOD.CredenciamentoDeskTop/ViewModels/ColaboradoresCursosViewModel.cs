@@ -188,6 +188,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 IsEnableLstView = true;
                 if (Entity != null) Entity.ClearMessageErro();
+                Entity = null;
             }
             catch (Exception ex)
             {
