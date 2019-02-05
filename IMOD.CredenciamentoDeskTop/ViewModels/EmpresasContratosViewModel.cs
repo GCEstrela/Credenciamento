@@ -332,7 +332,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private void PrepareAlterar()
         {
-            if (Entity == null)
+            if (Entity == null | Entity.CobrancaEmpresaId == 0)
             {
                 WpfHelp.PopupBox("Selecione um item da lista", 1);
                 return;

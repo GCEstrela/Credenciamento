@@ -39,7 +39,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public EmpresaAnexoView Entity { get; set; }
         public ObservableCollection<EmpresaAnexoView> EntityObserver { get; set; }
 
-        EmpresaAnexoView EntityTmp = new EmpresaAnexoView();
+        //EmpresaAnexoView EntityTmp = new EmpresaAnexoView();
 
         /// <summary>
         ///     Habilita listView
@@ -113,7 +113,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private void PrepareCriar()
         {
-            EntityTmp = Entity;
+            //EntityTmp = Entity;
             Entity = new EmpresaAnexoView();
             Comportamento.PrepareCriar();
             IsEnableLstView = false;
@@ -155,7 +155,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (Entity != null)
                 {
                     Entity.ClearMessageErro();
-                    Entity = EntityTmp;
+                    //Entity = EntityTmp;
                    
                 }
             }
@@ -201,12 +201,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private void PrepareAlterar()
         {
-            if (Entity == null)
+            if (Entity == null | Entity.EmpresaAnexoId == 0)
             {
                 WpfHelp.PopupBox("Selecione um item da lista", 1);
                 return;
             }
-            EntityTmp = Entity;
+            //EntityTmp = Entity;
             Comportamento.PrepareAlterar();
             IsEnableLstView = false;
         }

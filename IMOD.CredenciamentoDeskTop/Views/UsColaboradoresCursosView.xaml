@@ -38,7 +38,7 @@
                 <StackPanel x:Name="InformacoesAnexo_sp" Margin="0,0,0,0" Width="773">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="1">
                         <Label Content="Código:" Height="26" Foreground="#FFD0D0D0" Width="110"  />
-                        <TextBox  x:Name="cmbEmpresa" Width="43" Height="24" 
+                        <TextBox  x:Name="cmbEmpresa" Width="43" IsEnabled="False" Height="24" 
                                   Text="{Binding Entity.ColaboradorCursoId, UpdateSourceTrigger=PropertyChanged}" 
                                    VerticalContentAlignment="Center" 
                                    HorizontalContentAlignment="Left"
@@ -73,12 +73,12 @@
                                    IsEnabled="False"
                                    VerticalContentAlignment="Center" 
                                    HorizontalContentAlignment="Left" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
-                        <Button x:Name="BuscarCursoArquivo_bt" IsEnabled="{Binding Comportamento.isEnableCancelar}" Height="24"  VerticalAlignment="Center" HorizontalAlignment="Left" Width="24" Margin="10,10,0,8" Click="OnUpLoad_Click">
+                        <Button x:Name="BuscarCursoArquivo_bt" IsEnabled="{Binding Comportamento.isEnableCancelar}" Height="24"  VerticalAlignment="Center" HorizontalAlignment="Left" Width="24" Margin="17,10,0,8" Click="OnUpLoad_Click">
                             <StackPanel>
                                 <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Pasta.ico"/>
                             </StackPanel>
                         </Button>
-                        <Button x:Name="AbrirCursoArquivo_bt" Height="24" Margin="10,10,5,8" VerticalAlignment="Center" Width="24" Click="OnAbrirArquivo_Click">
+                        <Button x:Name="AbrirCursoArquivo_bt" Height="24" Margin="3,10,5,8" VerticalAlignment="Center" Width="24" Click="OnAbrirArquivo_Click">
                             <StackPanel>
                                 <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Olho.png"/>
                             </StackPanel>

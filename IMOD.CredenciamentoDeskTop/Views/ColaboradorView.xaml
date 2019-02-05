@@ -338,8 +338,8 @@
                         <StackPanel Margin="1">
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="1" >
                                 <Label Content="Telefone:" Height="28" Width="72"    Foreground="#FFD0D0D0" HorizontalContentAlignment="Left"/>
-                                <TextBox CharacterCasing="Upper"  x:Name="Contato1_tb"   MaxLength="15" Text="{Binding Entity.TelefoneFixo,Converter={StaticResource FormateTel}, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="250"/>
-                                <Label Content="Celular:" Height="28" Width="105"    Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
+                                <TextBox CharacterCasing="Upper"  x:Name="Contato1_tb"   MaxLength="15" Text="{Binding Entity.TelefoneFixo,Converter={StaticResource FormateTel}, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="98"/>
+                                <Label Content="Celular:" Height="28" Width="256"    Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                                 <TextBox Foreground="#FFD0D0D0"   CharacterCasing="Upper"  x:Name="Tel1_tb"   MaxLength="15" Margin="1"
                                                      Text="{Binding Entity.TelefoneCelular, Converter={StaticResource FormateTel}, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="98" HorizontalContentAlignment="Center"/>
 
@@ -354,8 +354,8 @@
 
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="1" Width="527" >
                                 <Label Content="Emergência:" Height="28" Width="72"   Foreground="#FFD0D0D0" />
-                                <TextBox CharacterCasing="Lower"  x:Name="Email2_tb"   MaxLength="50" Text="{Binding Entity.ContatoEmergencia, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="250"/>
-                                <Label Content="Telefone Emerg.:" Height="28" Width="106"    Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
+                                <TextBox CharacterCasing="Lower"  x:Name="Email2_tb"   MaxLength="50" Text="{Binding Entity.ContatoEmergencia, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="258"/>
+                                <Label Content="Telefone Emerg.:" Height="28" Width="98"    Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                                 <TextBox Foreground="#FFD0D0D0"   CharacterCasing="Upper"  x:Name="Cel2_tb"   MaxLength="15"
                                                      Text="{Binding Entity.TelefoneEmergencia, Converter={StaticResource FormateTel}, UpdateSourceTrigger=PropertyChanged}"  Margin="1" IsEnabled="True"  Height="24"  Width="97" HorizontalContentAlignment="Center"/>
                             </StackPanel>
