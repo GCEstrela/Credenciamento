@@ -6,7 +6,7 @@
              xmlns:funcoes="clr-namespace:IMOD.CredenciamentoDeskTop.Funcoes"
              xmlns:viewModels="clr-namespace:IMOD.CredenciamentoDeskTop.ViewModels"
              d:DataContext="{d:DesignInstance viewModels:ColaboradoresCursosViewModel , IsDesignTimeCreatable=True}"
-             mc:Ignorable="d"  Height="350">
+             mc:Ignorable="d"  Height="350" Loaded="OnFrm_Loaded">
     <UserControl.Resources>
         <Image x:Key="imgAdd" Source="../Resources/add.png"  />
         <Image x:Key="imgEdit" Source="../Resources/edit.png"  />
@@ -65,7 +65,7 @@
                         <TextBox 
                             Name="txtDate"
                             IsEnabled="{Binding Comportamento.isEnableCancelar}"
-                            Text="{Binding Entity.Validade,StringFormat='{}{0:dd/MM/yyyy}'}"
+                            Text="{Binding Entity.Validade, StringFormat='{}{0:dd/MM/yyyy}'}"
                             LostFocus="OnFormatDate_LostFocus"
                             MaxLength="10"
                             Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"

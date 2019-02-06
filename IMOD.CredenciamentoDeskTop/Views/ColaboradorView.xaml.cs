@@ -131,11 +131,34 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 Utils.TraceException(ex);
             }
         }
- 
 
-        #endregion 
-        
-         
 
+
+
+        #endregion
+
+        private void OnFormatDateNascimento_LostFocus(object sender, RoutedEventArgs e)
+        {
+            var str = txtDateNascimento.Text;
+            txtDateNascimento.Text = str.FormatarData();
+        }
+
+        private void OnFormatEmissao_LostFocus(object sender, RoutedEventArgs e)
+        {
+            var str = txtDateEmissao.Text;
+            txtDateEmissao.Text = str.FormatarData();
+        }
+
+        private void OnFormatDateValidade_LostFocus(object sender, RoutedEventArgs e)
+        {
+            var str = txtDateValidade.Text;
+            txtDateValidade.Text = str.FormatarData();
+        }
+
+        private void OnFormatDatePassaporteValidade_LostFocus(object sender, RoutedEventArgs e)
+        {
+            var str = txtDatePassaporte.Text;
+            txtDatePassaporte.Text = str.FormatarData();
+        }
     }
 }

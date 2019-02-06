@@ -120,6 +120,16 @@ namespace IMOD.CredenciamentoDeskTop.Views
             }
         }
 
-        
+        private void OnFormatDateEmissao_LostFocus(object sender, RoutedEventArgs e)
+        {
+            var str = txtDateEmissao.Text;
+            txtDateEmissao.Text = str.FormatarData();
+        }
+
+        private void OnFormatDateValidade_LostFocus(object sender, RoutedEventArgs e)
+        {
+            var str = txtDateValidade.Text;
+            txtDateValidade.Text = str.FormatarData();
+        }
     }
 }

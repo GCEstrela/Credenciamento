@@ -371,9 +371,18 @@
                         <StackPanel Margin="1">
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="1" >
                                 <Label Content="Nascimento:" Height="28" Foreground="#FFD0D0D0" HorizontalContentAlignment="Left" />
-                                <DatePicker x:Name="DataNascimento_tb" Width="120" Height="24"
+                                
+                                <!--<DatePicker x:Name="DataNascimento_tb" Width="120" Height="24"
                                     SelectedDate="{Binding Entity.DataNascimento,
-                                    UpdateSourceTrigger=PropertyChanged}"  Foreground="White" Background="{x:Null}" />
+                                    UpdateSourceTrigger=PropertyChanged}"  Foreground="White" Background="{x:Null}" />-->
+                                <TextBox 
+                            Name="txtDateNascimento"
+                            Text="{Binding Entity.DataNascimento , StringFormat='{}{0:dd/MM/yyyy}'}"
+                            LostFocus="OnFormatDateNascimento_LostFocus"
+                            MaxLength="10"
+                            Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
+                            Height="24"  Width="114" />
+
                                 <Label Foreground="#FFD0D0D0" Content="Nacionalidade:" Height="28"   />
                                 <TextBox CharacterCasing="Upper"  x:Name="txtn"  
                                          MaxLength="20" Text="{Binding Entity.Nacionalidade,  
@@ -395,10 +404,22 @@
                                 <Label Content="RG:" Height="28"  Foreground="#FFD0D0D0" Width="40" HorizontalContentAlignment="Left" />
                                 <TextBox  x:Name="RG_tb"  PreviewTextInput="NumberOnly" MaxLength="20" 
                                           Text="{Binding Entity.Rg, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="83" />
-                                <Label Content="Emissão:" Height="24" Foreground="#FFD0D0D0" Width="81" HorizontalContentAlignment="Left" />
-                                <DatePicker x:Name="emissa" VerticalContentAlignment="Center" HorizontalAlignment="Center" Height="24"
+                                <Label Content="Emissão RG:" Height="24" Foreground="#FFD0D0D0" Width="85" HorizontalContentAlignment="Left" />
+                                
+                                
+                                <!--<DatePicker x:Name="emissa" VerticalContentAlignment="Center" HorizontalAlignment="Center" Height="24"
                                     SelectedDate="{Binding Entity.DataEmissao,
-                                    UpdateSourceTrigger=PropertyChanged}"  Foreground="White" Background="{x:Null}"  Width="120" />
+                                    UpdateSourceTrigger=PropertyChanged}"  Foreground="White" Background="{x:Null}"  Width="120" />-->
+
+                                <TextBox 
+                            Name="txtDateEmissao"
+                            Text="{Binding Entity.DataEmissao,  StringFormat='{}{0:dd/MM/yyyy}'}"
+                            LostFocus="OnFormatEmissao_LostFocus"
+                            MaxLength="10"
+                            Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
+                            Height="24"  Width="110" />
+
+
                                 <Label Foreground="#FFD0D0D0" Content="Órg. Exp.:" Height="24" Width="80" HorizontalContentAlignment="Left" />
                                 <ComboBox  x:Name="RGOrgLocal_cb" Text="{Binding Entity.RgOrgLocal, 
                                     UpdateSourceTrigger=PropertyChanged}" IsEnabled="True"  Height="25" Width="80"   >
@@ -424,16 +445,25 @@
                                     UpdateSourceTrigger=PropertyChanged,
                                     StringFormat=\{0:d\}}"  IsEnabled="True"  Height="24"  Width="83"  />
 
-                                <Label Content="Passaporte:" Height="24" Width="80" Foreground="#FFD0D0D0" HorizontalContentAlignment="Left" />
+                                <Label Content="Passaporte:" Height="24" Width="85" Foreground="#FFD0D0D0" HorizontalContentAlignment="Left" />
                                 <TextBox  x:Name="Passaporte_tb"  CharacterCasing="Upper" Text="{Binding Entity.Passaporte,
                                     UpdateSourceTrigger=PropertyChanged, 
-                                    StringFormat=\{0:d\}}"  IsEnabled="True"  MaxLength="20" Height="24"  Width="120" />
+                                    StringFormat=\{0:d\}}"  IsEnabled="True"  MaxLength="15" Height="24"  Width="110" />
 
-                                <Label Content="Validade:" Foreground="#FFD0D0D0" Height="24" Width="80" HorizontalContentAlignment="Left"  />
-                                <DatePicker x:Name="PassaporteValidade_tb" 
+                                <Label Content="Validade Passaporte:" Foreground="#FFD0D0D0" Height="24" Width="120" HorizontalContentAlignment="Left"  />
+                                <!--<DatePicker x:Name="PassaporteValidade_tb" 
                                             VerticalContentAlignment="Center" 
                                             SelectedDate="{Binding Entity.PassaporteValidade, UpdateSourceTrigger=PropertyChanged}"
-                                            Width="120" Foreground="White" Background="{x:Null}" Height="24" />
+                                            Width="120" Foreground="White" Background="{x:Null}" Height="24" />-->
+
+                                <TextBox 
+                            Name="txtDatePassaporte"
+                            Text="{Binding Entity.PassaporteValidade,
+							StringFormat='{}{0:dd/MM/yyyy}'}"
+                            LostFocus="OnFormatDatePassaporteValidade_LostFocus"
+                            MaxLength="10"
+                            Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
+                            Height="24"  Width="114" />
 
 
                             </StackPanel>
@@ -443,10 +473,21 @@
                                 <TextBox  x:Name="CNH_tb"  MaxLength="11"   Text="{Binding Entity.Cnh ,
                                     UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24" Width="83" />
 
-                                <Label Content="Validade:" Height="28" Width="79"  Foreground="#FFD0D0D0" HorizontalContentAlignment="Left"/>
-                                <DatePicker x:Name="cnhva" VerticalContentAlignment="Center" HorizontalAlignment="Center" Height="24"
+                                <Label Content="Validade CNH:" Height="28" Width="85"  Foreground="#FFD0D0D0" HorizontalContentAlignment="Left"/>
+                                
+                                   <!--<DatePicker x:Name="cnhva" VerticalContentAlignment="Center" HorizontalAlignment="Center" Height="24"
                                     SelectedDate="{Binding Entity.CnhValidade,
-                                    UpdateSourceTrigger=PropertyChanged}"  Foreground="White" Background="{x:Null}"  Width="120" />
+                                    UpdateSourceTrigger=PropertyChanged}"  Foreground="White" Background="{x:Null}"  Width="120" />-->
+                                <TextBox 
+                            Name="txtDateValidade"
+                            Text="{Binding Entity.CnhValidade,
+							StringFormat='{}{0:dd/MM/yyyy}'}"
+                            LostFocus="OnFormatDateValidade_LostFocus"
+                            MaxLength="10"
+                            Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
+                            Height="24"  Width="110" />
+                                
+
                                 <Label Content="Órg. Emissor:" Height="26" Width="80" Foreground="#FFD0D0D0" HorizontalContentAlignment="Left" />
 
                                 <!--<TextBox  x:Name="CNHEmissor_tb"  CharacterCasing="Upper" HorizontalAlignment="Left" Text="{Binding SelectedItem.CNHEmissor , ElementName=ListaColaboradores_lv, UpdateSourceTrigger=PropertyChanged}" IsEnabled="True"  Height="24"  Width="50" Grid.Row="0" Grid.Column="5" Margin="0,5,0,6" />-->
@@ -473,7 +514,7 @@
                                                Height="24"    Foreground="#FFD0D0D0"  
                                                IsChecked="{Binding Entity.Motorista, UpdateSourceTrigger=PropertyChanged}"/>
 
-                                <Label Content="Categoria:" Foreground="#FFD0D0D0"  Height="26" Width="78"  HorizontalContentAlignment="Left" />
+                                <Label Content="Categoria:" Foreground="#FFD0D0D0"  Height="26" Width="84"  HorizontalContentAlignment="Left" />
 
                                 <ComboBox  x:Name="CNHCategoria_cb" Text="{Binding Entity.CnhCategoria, UpdateSourceTrigger=PropertyChanged}"   IsEnabled="True"   Width="50" Height="25"  >
                                     <ComboBoxItem Content="A"/>

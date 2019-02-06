@@ -71,5 +71,10 @@ namespace IMOD.CredenciamentoDeskTop.Views
             txtDate.Text = str.FormatarData(); 
 
         }
+
+        private void OnFrm_Loaded(object sender, RoutedEventArgs e)
+        {
+            cmbCurso.Focus();
+        }
     }
 }

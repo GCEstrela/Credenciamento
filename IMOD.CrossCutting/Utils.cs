@@ -1325,18 +1325,22 @@ namespace IMOD.CrossCutting
         public static string FormatarData(this string str)
         {
             try
-            {
+            { 
                 if (string.IsNullOrWhiteSpace (str)) return "";
+                str = str.RetirarCaracteresEspeciais();
                 if (str.Length != 8) return "";
-                var dia = str.Substring (0, 2);
-                var mes = str.Substring (2, 2);
-                var ano = str.Substring (4, 4);
+ 
+                    var dia = str.Substring(0, 2);
+                    var mes = str.Substring(2, 2);
+                    var ano = str.Substring(4, 4);
 
                 if (!dia.All (char.IsNumber)) return "";
                 if (!mes.All (char.IsNumber)) return "";
                 if (!ano.All (char.IsNumber)) return "";
 
-                return $"{dia}/{mes}/{ano}";
+                var data = new DateTime(int.Parse(ano),int.Parse(mes),int.Parse(dia));
+                return $"{data:dd/MM/yyyy}";
+                 
             }
             catch (Exception)
             {

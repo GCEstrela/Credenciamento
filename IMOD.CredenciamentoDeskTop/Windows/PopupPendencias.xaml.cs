@@ -9,6 +9,7 @@
 using System.Windows;
 using IMOD.CredenciamentoDeskTop.Enums;
 using IMOD.CredenciamentoDeskTop.ViewModels;
+using IMOD.CrossCutting;
 
 #endregion
 
@@ -37,8 +38,14 @@ namespace IMOD.CredenciamentoDeskTop.Windows
             DataContext = new PopupPendenciasViewModel (codPendencia, identificador, tipoPendencia);
         }
 
-       
+
 
         #endregion
+
+        private void OnFormatDateLimite_LostFocus(object sender, RoutedEventArgs e)
+        {
+            var str = txtDateDataLimite.Text;
+            txtDateDataLimite.Text = str.FormatarData();
+        }
     }
 }

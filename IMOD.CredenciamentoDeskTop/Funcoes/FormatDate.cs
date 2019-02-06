@@ -11,6 +11,7 @@ using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Data;
+using IMOD.CrossCutting;
 
 #endregion
 
@@ -28,10 +29,17 @@ namespace IMOD.CredenciamentoDeskTop.Funcoes
         /// <returns>A converted value. If the method returns null, the valid null value is used.</returns>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value == null) return null;
-           
-            var date = (DateTime) value;
-            return date.ToShortDateString();
+            try
+            {
+                if (value == null) return "";
+                var str = value.ToString();
+                var strNew = str.RetirarCaracteresEspeciais().Replace(" ", "");
+                return strNew.FormatarData();
+            }
+            catch (Exception)
+            {
+                return "";
+            }
         }
 
         /// <summary>Converts a value. </summary>
@@ -42,13 +50,7 @@ namespace IMOD.CredenciamentoDeskTop.Funcoes
         /// <returns>A converted value. If the method returns null, the valid null value is used.</returns>
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var strValue = value as string;
-            DateTime resultDateTime;
-            if (DateTime.TryParse (strValue, out resultDateTime))
-            {
-                return resultDateTime;
-            }
-            return DependencyProperty.UnsetValue;
+            return value;
         }
 
         #endregion

@@ -102,17 +102,34 @@
                     <StackPanel Orientation="Horizontal" Margin="1">
                         <Label Content="Data de Emissão:" Height="28" Width="102" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Left" />
 
-                        <DatePicker Margin="0,3,0,0" x:Name="Emissao_tb" VerticalContentAlignment="Center"
+                        <!--<DatePicker Margin="0,3,0,0" x:Name="Emissao_tb" VerticalContentAlignment="Center"
                                     SelectedDate="{Binding Entity.Emissao, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                     Width="130" Foreground="White" Background="{x:Null}" Height="25" 
-                                    Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
+                                    Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>-->
+                        <TextBox 
+                            Name="txtDateEmissao"
+                            Text="{Binding Entity.Emissao,
+							StringFormat='{}{0:dd/MM/yyyy}'}"
+                            LostFocus="OnFormatDateEmissao_LostFocus"
+                            MaxLength="10"
+                            Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
+                            Height="24"  Width="110" />
+                        
                         
                         <Label Content="Data de Validade:" Height="26" Width="102" Margin="15,3,0,0"
                                Foreground="#FFD0D0D0" />
-                        <DatePicker Margin="0,3,0,0" x:Name="Validade_tb" VerticalContentAlignment="Center"
+                        <!--<DatePicker Margin="0,3,0,0" x:Name="Validade_tb" VerticalContentAlignment="Center"
                                     SelectedDate="{Binding Entity.Validade, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                     Width="130" Foreground="White" Background="{x:Null}" Height="25" 
-                                    Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
+                                    Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>-->
+                        <TextBox 
+                            Name="txtDateValidade"
+                            Text="{Binding Entity.Validade,
+							StringFormat='{}{0:dd/MM/yyyy}'}"
+                            LostFocus="OnFormatDateValidade_LostFocus"
+                            MaxLength="10"
+                            Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
+                            Height="24"  Width="110" />
 
                     </StackPanel>
                 </StackPanel>

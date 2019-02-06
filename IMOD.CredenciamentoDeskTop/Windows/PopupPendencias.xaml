@@ -54,6 +54,19 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
+        <ControlTemplate x:Key="ValidationErrorTemplate">
+            <DockPanel>
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" Margin="5,0,0,2">
+                    <Grid Width="12" Height="12">
+                        <Ellipse Width="12" Height="12" Fill="Red" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Foreground="White"  FontWeight="Heavy" FontSize="8" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center"
+                               ToolTip="{Binding ElementName=ErrorAdorner, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}">X</TextBlock>
+                    </Grid>
+                </StackPanel>
+                <AdornedElementPlaceholder x:Name="ErrorAdorner" ></AdornedElementPlaceholder>
+            </DockPanel>
+        </ControlTemplate>
     </Window.Resources>
     <Window.Background>
         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -83,13 +96,28 @@
             <RowDefinition Height="220" />
         </Grid.RowDefinitions>
 
-        <Label  Grid.Column="0" Grid.Row="0" Foreground="#FFD0D0D0" Content="{Binding CodPendeciaDescricao, StringFormat=Pendência: {0}}" FontSize="15" HorizontalAlignment="Left" Width="480"></Label>
+        <Label  Grid.Column="0" Grid.Row="0" Foreground="#FFD0D0D0" 
+                Content="{Binding CodPendeciaDescricao, StringFormat=Pendência: {0}}"
+                FontSize="15" 
+                Style="{Styles {x:Static LabelStyles.Normal}}"
+                HorizontalAlignment="Left" 
+                Width="480"></Label>
 
         <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Stretch" Margin="0,0,28,0">
             <Label Content="Data Limite:" Foreground="#FFD0D0D0" VerticalContentAlignment="Center" />
-            <DatePicker SelectedDate="{Binding Entity.DataLimite}" 
+            
+            <!--<DatePicker SelectedDate="{Binding Entity.DataLimite}" 
                         IsEnabled="{Binding Comportamento.isEnableCancelar}"
-                        Foreground="White" Background="{x:Null}" Width="120"  Margin="10,4,0,4" VerticalContentAlignment="Center"/>
+                        Foreground="White" Background="{x:Null}" Width="120"  Margin="10,4,0,4" VerticalContentAlignment="Center"/>-->
+            <TextBox 
+                            Name="txtDateDataLimite"
+                            Text="{Binding Entity.DataLimite,
+							StringFormat='{}{0:dd/MM/yyyy}'}"
+                            LostFocus="OnFormatDateLimite_LostFocus"
+                            MaxLength="10"
+                            Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
+                            Height="24"  Width="110" />
+            
             <CheckBox VerticalAlignment="Center" x:Name="Impeditivo_cb" Margin="10,0,0,0" Foreground="#FFD0D0D0" 
                       IsChecked="{Binding Entity.Impeditivo, UpdateSourceTrigger=PropertyChanged}" 
                       IsEnabled="{Binding Comportamento.isEnableCancelar}"
