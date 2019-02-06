@@ -26,6 +26,7 @@
             </DockPanel>
         </ControlTemplate>
         <funcoes:CheckTeste x:Key="CheckTeste" /> 
+        <funcoes:FormatDate x:Key="FormatDate"/>
     </UserControl.Resources>
 
 
@@ -56,12 +57,19 @@
                                    SelectedValuePath="CursoId"
                                    Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
                         <Label Content="Data de Validade:" Height="24" Width="110" Foreground="#FFD0D0D0" Margin="0,7" HorizontalContentAlignment="Right" HorizontalAlignment="Left" />
-                        <DatePicker x:Name="DataValidade_dp" 
+                        <!--<DatePicker x:Name="DataValidade_dp" 
                                     IsEnabled="{Binding Comportamento.isEnableCancelar}"
                                     SelectedDate="{Binding Entity.Validade, UpdateSourceTrigger=PropertyChanged}" 
                                     Foreground="White" Background="{x:Null}" HorizontalAlignment="Left"  Margin="1,7,0,7" 
-                                    Height="Auto" Width="114" />
-
+                                    Height="Auto" Width="114" />-->
+                        <TextBox 
+                            Name="txtDate"
+                            IsEnabled="{Binding Comportamento.isEnableCancelar}"
+                            Text="{Binding Entity.Validade,StringFormat='{}{0:dd/MM/yyyy}'}"
+                            LostFocus="OnFormatDate_LostFocus"
+                            MaxLength="10"
+                            Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
+                            Height="24"  Width="114" />
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">

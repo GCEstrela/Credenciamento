@@ -1,7 +1,7 @@
 ﻿// ***********************************************************************
 // Project: IMOD.CrossCutting
 // Crafted by: Grupo Estrela by Genetec
-// Date:  01 - 21 - 2019
+// Date:  01 - 24 - 2019
 // ***********************************************************************
 
 #region
@@ -1270,6 +1270,7 @@ namespace IMOD.CrossCutting
             var regex = new Regex ("[^0-9]+"); //regex that matches disallowed text
             return !regex.IsMatch (text);
         }
+
         /// <summary>
         ///     Formatar string para CEP
         /// </summary>
@@ -1279,13 +1280,14 @@ namespace IMOD.CrossCutting
         {
             try
             {
-                return Convert.ToUInt64(cep).ToString(@"00000\-000");
+                return Convert.ToUInt64 (cep).ToString (@"00000\-000");
             }
             catch
             {
                 return "";
             }
         }
+
         /// <summary>
         ///     Formatar string para CNPJ
         /// </summary>
@@ -1295,24 +1297,51 @@ namespace IMOD.CrossCutting
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(str))
+                if (string.IsNullOrWhiteSpace (str))
                 {
                     return "";
                 }
 
                 var str2 = str.RetirarCaracteresEspeciais();
-                if (string.IsNullOrWhiteSpace(str2))
+                if (string.IsNullOrWhiteSpace (str2))
                 {
                     return "";
                 }
 
-                return Convert.ToUInt64(str2).ToString(@"00\.000\.000\/0000\-00");
+                return Convert.ToUInt64 (str2).ToString (@"00\.000\.000\/0000\-00");
             }
             catch (Exception)
             {
                 return "";
             }
-            
+        }
+
+        /// <summary>
+        ///     Formatar data
+        ///     <para>dd/mm/aaaa</para>
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public static string FormatarData(this string str)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace (str)) return "";
+                if (str.Length != 8) return "";
+                var dia = str.Substring (0, 2);
+                var mes = str.Substring (2, 2);
+                var ano = str.Substring (4, 4);
+
+                if (!dia.All (char.IsNumber)) return "";
+                if (!mes.All (char.IsNumber)) return "";
+                if (!ano.All (char.IsNumber)) return "";
+
+                return $"{dia}/{mes}/{ano}";
+            }
+            catch (Exception)
+            {
+                return "";
+            }
         }
 
         /// <summary>
@@ -1321,7 +1350,7 @@ namespace IMOD.CrossCutting
         /// <param name="str"></param>
         /// <returns></returns>
         public static string FormatarCpf(this string str)
-     {
+        {
             if (string.IsNullOrWhiteSpace (str)) return "";
 
             var str2 = str.RetirarCaracteresEspeciais();

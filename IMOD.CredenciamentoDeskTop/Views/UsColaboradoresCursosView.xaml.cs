@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using IMOD.CredenciamentoDeskTop.Helpers;
@@ -62,6 +63,13 @@ namespace IMOD.CredenciamentoDeskTop.Views
             {
                 Utils.TraceException(ex);
             }
+        }
+
+        private void OnFormatDate_LostFocus(object sender, RoutedEventArgs e)
+        {
+            var str = txtDate.Text;
+            txtDate.Text = str.FormatarData(); 
+
         }
     }
 }
