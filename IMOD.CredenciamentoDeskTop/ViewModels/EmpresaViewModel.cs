@@ -258,7 +258,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         public void CarregarQuantidadeTipoCredencial()
         {
-            if (Entity == null || Entity.EmpresaId == 0) return;
+            if (Entity == null) return;
 
             var id = Entity.EmpresaId;
             var objTipocredenciaisEmpresa = _service.ListarTipoCredenciaisEmpresa (id).ToList();

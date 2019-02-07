@@ -1,11 +1,12 @@
 ﻿// ***********************************************************************
 // Project: IMOD.Domain
 // Crafted by: Grupo Estrela by Genetec
-// Date:  11 - 19 - 2018
+// Date:  01 - 24 - 2019
 // ***********************************************************************
 
 #region
 
+using System;
 using System.Collections.Generic;
 using IMOD.Domain.Entities;
 using IMOD.Domain.EntitiesCustom;
@@ -26,7 +27,7 @@ namespace IMOD.Domain.Interfaces
         ICollection<ColaboradoresCredenciaisView> ListarView(params object[] o);
 
         /// <summary>
-        /// Obter dados da credencial
+        ///     Obter dados da credencial
         /// </summary>
         /// <param name="colaboradorCredencialId">Identificador</param>
         /// <returns></returns>
@@ -38,6 +39,36 @@ namespace IMOD.Domain.Interfaces
         /// <param name="o">Arrays de Parametros</param>
         /// <returns></returns>
         ICollection<CredencialView> ListarCredencialView(int id);
+
+        /// <summary>
+        ///     Obtém a menor data de entre um curso do tipo controlado e uma data de validade do contrato
+        /// </summary>
+        /// <param name="colaboradorId">Identificador do colaborador</param>
+        /// <param name="numContrato">Número do contrato</param>
+        /// <returns></returns>
+        DateTime? ObterMenorData(int colaboradorId, string numContrato);
+
+        /// <summary>
+        ///     Criar registro credencial e obter data de validade da credencial
+        /// </summary>
+        /// <param name="entity">Entidade</param>
+        /// <param name="colaboradorId">Identificador</param>
+        void Criar(ColaboradorCredencial entity, int colaboradorId);
+
+        /// <summary>
+        ///  Alterar registro credencial e obter data de validade da credencial
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="colaboradorId"></param>
+        void Alterar(ColaboradorCredencial entity, int colaboradorId);
+
+        /// <summary>
+        ///     Listar contratos
+        /// </summary>
+        /// <param name="o">Arrays de Parametros</param>
+        /// <returns></returns>
+        ICollection<ColaboradorEmpresaView> ListarContratos(params object[] o);
+
         #endregion
     }
 }

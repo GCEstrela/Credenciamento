@@ -4,6 +4,7 @@
 // Date:  12 - 16 - 2018
 // ***********************************************************************
 
+using System;
 using IMOD.Application.Interfaces;
 using IMOD.Domain.Entities;
 using IMOD.Domain.EntitiesCustom;
@@ -45,6 +46,7 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void Alterar(ColaboradorCredencial entity)
         {
+            ObterStatusCredencial(entity);
             _repositorio.Alterar(entity);
         }
 
@@ -69,6 +71,7 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void Criar(ColaboradorCredencial entity)
         {
+            ObterStatusCredencial(entity);
             _repositorio.Criar(entity);
         }
 
@@ -96,6 +99,55 @@ namespace IMOD.Application.Service
         public ICollection<CredencialView> ListarCredencialView(int id)
         {
             return _repositorio.ListarCredencialView(id);
+        }
+
+        /// <summary>
+        ///     Obtém a menor data de entre um curso do tipo controlado e uma data de validade do contrato
+        /// </summary>
+        /// <param name="colaboradorId">Identificador do colaborador</param>
+        /// <param name="numContrato">Número do contrato</param>
+        /// <returns></returns>
+        public DateTime? ObterMenorData(int colaboradorId, string numContrato)
+        {
+            return _repositorio.ObterMenorData (colaboradorId, numContrato);
+        }
+
+        /// <summary>
+        ///     Criar registro credencial e obter data de validade da credencial
+        /// </summary>
+        /// <param name="entity">Entidade</param>
+        /// <param name="colaboradorId">Identificador</param>
+        public void Criar(ColaboradorCredencial entity, int colaboradorId)
+        {
+            ObterStatusCredencial(entity);
+            _repositorio.Criar(entity,colaboradorId);
+        }
+
+        /// <summary>
+        ///  Alterar registro credencial e obter data de validade da credencial
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="colaboradorId"></param>
+        public void Alterar(ColaboradorCredencial entity, int colaboradorId)
+        {
+            ObterStatusCredencial(entity);
+            _repositorio.Alterar (entity,colaboradorId);
+        }
+
+        /// <summary>
+        ///     Listar contratos
+        /// </summary>
+        /// <param name="o">Arrays de Parametros</param>
+        /// <returns></returns>
+        public ICollection<ColaboradorEmpresaView> ListarContratos(params object[] o)
+        {
+            return _repositorio.ListarContratos (o);
+        }
+
+        private void ObterStatusCredencial(ColaboradorCredencial entity)
+        {
+            var status = CredencialStatus.BuscarPelaChave (entity.CredencialStatusId);
+            entity.Ativa = status.Codigo == "1"; //Set status da credencial
         }
 
         /// <summary>

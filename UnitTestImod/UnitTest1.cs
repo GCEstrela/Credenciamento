@@ -1077,6 +1077,17 @@ namespace UnitTestImod
                 serviceColaboradorCredencial.Criar(_colaboradorCredencial);
             }
 
+
+            //Verificar a menor data de validade
+            var credencial = serviceColaboradorCredencial.ListarView().FirstOrDefault();
+            if (credencial != null)
+            {
+                var colaboradorId = credencial.ColaboradorId;
+                var numContrato = credencial.NumeroContrato;
+                var data = serviceColaboradorCredencial.ObterMenorData (colaboradorId, numContrato);
+                Assert.IsNotNull(data);
+            }
+
             //Altera 1 credencial
             _colaboradorCredencial.Ativa = false;
             _colaboradorCredencial.Validade = DateTime.Today.AddYears(1);

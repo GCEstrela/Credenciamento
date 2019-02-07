@@ -46,11 +46,13 @@
     <Compile Include="EntitiesCustom\ColaboradorEmpresaView.cs" />
     <Compile Include="EntitiesCustom\ColaboradoresCredenciaisView.cs" />
     <Compile Include="EntitiesCustom\CredencialView.cs" />
+    <Compile Include="EntitiesCustom\EmpresaContratoCredencial.cs" />
     <Compile Include="EntitiesCustom\EmpresaLayoutCrachaView.cs" />
     <Compile Include="EntitiesCustom\EmpresaPendenciaView.cs" />
     <Compile Include="EntitiesCustom\EmpresaTipoAtividadeView.cs" />
     <Compile Include="EntitiesCustom\EmpresaTipoCredencialView.cs" />
     <Compile Include="EntitiesCustom\EstadoView.cs" />
+    <Compile Include="EntitiesCustom\Funcoes\ValidacaoModel.cs" />
     <Compile Include="EntitiesCustom\VeiculoEmpresaView.cs" />
     <Compile Include="EntitiesCustom\VeiculosCredenciaisView.cs" />
     <Compile Include="EntitiesCustom\VeiculoTipoServicoView.cs" />

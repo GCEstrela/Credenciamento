@@ -10,6 +10,7 @@ namespace IMOD.Domain.EntitiesCustom
         public int ColaboradorEmpresaId { get; set; }
         public int TecnologiaCredencialId { get; set; }
         public int TipoCredencialId { get; set; }
+        public string NumeroContrato { get; set; }
         public int LayoutCrachaId { get; set; }
         public int FormatoCredencialId { get; set; }
         public string NumeroCredencial { get; set; }

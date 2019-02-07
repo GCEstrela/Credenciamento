@@ -12,6 +12,7 @@ namespace IMOD.Domain.Entities
 
         public int CredencialStatusId { get; set; }
         public string Descricao { get; set; }
+        public string Codigo { get; set; }
 
         #endregion
     }

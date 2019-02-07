@@ -1,12 +1,13 @@
 ﻿// ***********************************************************************
 // Project: IMOD.Domain
 // Crafted by: Grupo Estrela by Genetec
-// Date:  11 - 19 - 2018
+// Date:  01 - 24 - 2019
 // ***********************************************************************
 
 #region
 
 using System.Collections.Generic;
+using IMOD.Domain.Entities;
 
 #endregion
 
@@ -47,7 +48,7 @@ namespace IMOD.Domain.Interfaces
         /// <param name="entity">Entidade</param>
         void Remover(TEntity entity);
 
-      
+        
 
         #endregion
     }
