@@ -95,7 +95,8 @@ namespace IMOD.CredenciamentoDeskTop.Windows
                 DialogResult podeCobrarResult;
                 var impressaoCorreta = false;
 
-                //Imprimir();
+                Imprimir();
+
                 impressaoRealizadaResult = WpfHelp.MboxDialogYesNo ("A impressão foi corretamente realizada?", true);
                 impressaoCorreta = impressaoRealizadaResult == System.Windows.Forms.DialogResult.Yes;
 
@@ -103,8 +104,9 @@ namespace IMOD.CredenciamentoDeskTop.Windows
                 {
                     reImpressaoResult = WpfHelp.MboxDialogYesNo ("Deseja imprimir mais uma vez?", true);
                     if (reImpressaoResult != System.Windows.Forms.DialogResult.Yes) return;
+
                     //Re imprimir
-                    //Imprimir();
+                    Imprimir();
 
                     impressaoRealizadaResult = WpfHelp.MboxDialogYesNo("A impressão foi corretamente realizada?", true);
                     impressaoCorreta = impressaoRealizadaResult == System.Windows.Forms.DialogResult.Yes;
