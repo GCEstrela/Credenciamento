@@ -1,7 +1,7 @@
 ﻿// ***********************************************************************
-// Project: iModSCCredenciamento
+// Project: IMOD.CredenciamentoDeskTop
 // Crafted by: Grupo Estrela by Genetec
-// Date:  12 - 06 - 2018
+// Date:  01 - 24 - 2019
 // ***********************************************************************
 
 #region
@@ -29,12 +29,12 @@ namespace IMOD.CredenciamentoDeskTop.Helpers
     /// </summary>
     internal static class WpfHelp
     {
-        #region  Metodos
-
         /// <summary>
-        /// ConnectionString
+        ///     ConnectionString
         /// </summary>
-        public static SqlConnectionStringBuilder db = new SqlConnectionStringBuilder(CurrentConfig.ConexaoString);
+        public static SqlConnectionStringBuilder db = new SqlConnectionStringBuilder (CurrentConfig.ConexaoString);
+
+        #region  Metodos
 
         /// <summary>
         ///     Caixa de Menssagem Customizada
@@ -42,7 +42,7 @@ namespace IMOD.CredenciamentoDeskTop.Helpers
         /// <param name="msg">Mensagem</param>
         public static void Mbox(string msg)
         {
-            Mbox(msg, MessageBoxIcon.Information);
+            Mbox (msg, MessageBoxIcon.Information);
         }
 
         /// <summary>
@@ -54,8 +54,8 @@ namespace IMOD.CredenciamentoDeskTop.Helpers
             var innerMsg = "";
             if (ex.InnerException != null)
                 innerMsg = ex.InnerException.Message;
-            var detalhe = string.IsNullOrWhiteSpace(innerMsg) ? string.Empty : $"\nDetalhe: {innerMsg}";
-            Mbox("Um erro ocorreu.\nRazão: " + ex.Message + detalhe, MessageBoxIcon.Error);
+            var detalhe = string.IsNullOrWhiteSpace (innerMsg) ? string.Empty : $"\nDetalhe: {innerMsg}";
+            Mbox ("Um erro ocorreu.\nRazão: " + ex.Message + detalhe, MessageBoxIcon.Error);
         }
 
         /// <summary>
@@ -68,8 +68,8 @@ namespace IMOD.CredenciamentoDeskTop.Helpers
             var innerMsg = "";
             if (ex.InnerException != null)
                 innerMsg = ex.InnerException.Message;
-            var detalhe = string.IsNullOrWhiteSpace(innerMsg) ? string.Empty : $"\nDetalhe: {innerMsg}";
-            Mbox(msg + "\nRazão: " + ex.Message + detalhe, MessageBoxIcon.Error);
+            var detalhe = string.IsNullOrWhiteSpace (innerMsg) ? string.Empty : $"\nDetalhe: {innerMsg}";
+            Mbox (msg + "\nRazão: " + ex.Message + detalhe, MessageBoxIcon.Error);
         }
 
         /// <summary>
@@ -79,7 +79,7 @@ namespace IMOD.CredenciamentoDeskTop.Helpers
         /// <param name="pIcon">Um icone para apresentacao</param>
         public static void Mbox(string msg, MessageBoxIcon pIcon)
         {
-            MessageBox.Show(msg, Caption(pIcon), MessageBoxButtons.OK, pIcon, MessageBoxDefaultButton.Button1);
+            MessageBox.Show (msg, Caption (pIcon), MessageBoxButtons.OK, pIcon, MessageBoxDefaultButton.Button1);
         }
 
         /// <summary>
@@ -95,10 +95,9 @@ namespace IMOD.CredenciamentoDeskTop.Helpers
             {
                 text = text + "- " + item + "\n";
             }
-            if (!string.IsNullOrWhiteSpace(text))
-                Mbox($"Não foi possível continuar\nRazão:\n{text}",MessageBoxIcon.Exclamation);
+            if (!string.IsNullOrWhiteSpace (text))
+                Mbox ($"Não foi possível continuar\nRazão:\n{text}", MessageBoxIcon.Exclamation);
         }
-
 
         /// <summary>
         ///     Define titulo do messagebox
@@ -132,26 +131,26 @@ namespace IMOD.CredenciamentoDeskTop.Helpers
         public static DialogResult MboxDialogYesNo(string msg, bool button1)
         {
             var button = button1 ? MessageBoxDefaultButton.Button1 : MessageBoxDefaultButton.Button2;
-            var result = MessageBox.Show(msg, "Confirmação", MessageBoxButtons.YesNo, MessageBoxIcon.Question, button);
+            var result = MessageBox.Show (msg, "Confirmação", MessageBoxButtons.YesNo, MessageBoxIcon.Question, button);
             return result;
         }
 
         /// <summary>
-        /// Exibe Mensagem Solicitando Confirmação Sim ou Não para remoção de dados
+        ///     Exibe Mensagem Solicitando Confirmação Sim ou Não para remoção de dados
         /// </summary>
         /// <returns></returns>
         public static DialogResult MboxDialogRemove()
         {
-            return MboxDialogYesNo("Deseja realmente excluir o item?", false);
+            return MboxDialogYesNo ("Deseja realmente excluir o item?", false);
         }
 
         /// <summary>
-        /// Exibe Mensagem Solicitando Confirmação Sim ou Não para desativação de dados
+        ///     Exibe Mensagem Solicitando Confirmação Sim ou Não para desativação de dados
         /// </summary>
         /// <returns></returns>
         public static DialogResult MboxDialogDesativar()
         {
-            return MboxDialogYesNo("Deseja realmente desativar o item?", false);
+            return MboxDialogYesNo ("Deseja realmente desativar o item?", false);
         }
 
         /// <summary>
@@ -162,7 +161,7 @@ namespace IMOD.CredenciamentoDeskTop.Helpers
         /// <returns></returns>
         public static bool PopupBox(string msg, int icone)
         {
-            var popupBox = new PopupBox(msg, icone);
+            var popupBox = new PopupBox (msg, icone);
             popupBox.ShowDialog();
             return popupBox.Result;
         }
@@ -170,7 +169,7 @@ namespace IMOD.CredenciamentoDeskTop.Helpers
         public static bool PopupBox(Exception ex)
         {
             var msg = $"Não foi possível executar a operação solicitada.\n{ex.Message}";
-            return PopupBox(msg, 3);
+            return PopupBox (msg, 3);
         }
 
         /// <summary>
@@ -185,13 +184,13 @@ namespace IMOD.CredenciamentoDeskTop.Helpers
             var openFileDialog = new OpenFileDialog();
             openFileDialog.Multiselect = false;
             openFileDialog.Filter = filtro;
-            openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            openFileDialog.InitialDirectory = Environment.GetFolderPath (Environment.SpecialFolder.MyDocuments);
             var result = openFileDialog.ShowDialog();
             if (result != true) return null;
 
             var path = openFileDialog.FileName;
-            var tamBytes = new FileInfo(path).Length;
-            var tam = decimal.Divide(tamBytes, 1000);
+            var tamBytes = new FileInfo (path).Length;
+            var tam = decimal.Divide (tamBytes, 1000);
             var arq = new ArquivoInfo
             {
                 Nome = openFileDialog.SafeFileName
@@ -199,24 +198,21 @@ namespace IMOD.CredenciamentoDeskTop.Helpers
 
             if (tamMax == 0)
             {
-                arq.ArrayBytes = File.ReadAllBytes(path);
-                arq.FormatoBase64 = Convert.ToBase64String(arq.ArrayBytes);
+                arq.ArrayBytes = File.ReadAllBytes (path);
+                arq.FormatoBase64 = Convert.ToBase64String (arq.ArrayBytes);
                 return arq;
             }
 
-
             if (tamMax < tam)
-                throw new Exception($"{tamMax} Kbytes é o tamanho máximo permitido para upload.");
+                throw new Exception ($"{tamMax} Kbytes é o tamanho máximo permitido para upload.");
 
-            arq.ArrayBytes = File.ReadAllBytes(path);
-            arq.FormatoBase64 = Convert.ToBase64String(arq.ArrayBytes);
+            arq.ArrayBytes = File.ReadAllBytes (path);
+            arq.FormatoBase64 = Convert.ToBase64String (arq.ArrayBytes);
             return arq;
-
-
         }
 
         /// <summary>
-        /// Abrir arquivo 
+        ///     Abrir arquivo
         /// </summary>
         /// <param name="caminho">Caminho do arquivo</param>
         /// <param name="nomeArquivo">Nome do arquivo</param>
@@ -224,19 +220,19 @@ namespace IMOD.CredenciamentoDeskTop.Helpers
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(caminho)) throw new ArgumentNullException(nameof(caminho));
-                if (string.IsNullOrWhiteSpace(caminho)) throw new ArgumentNullException(nameof(nomeArquivo));
-                var path = Path.Combine(caminho, nomeArquivo);
-                Process.Start(path);
+                if (string.IsNullOrWhiteSpace (caminho)) throw new ArgumentNullException (nameof (caminho));
+                if (string.IsNullOrWhiteSpace (caminho)) throw new ArgumentNullException (nameof (nomeArquivo));
+                var path = Path.Combine (caminho, nomeArquivo);
+                Process.Start (path);
             }
             catch (Exception ex)
             {
-                Utils.TraceException(ex);
+                Utils.TraceException (ex);
             }
         }
 
         /// <summary>
-        /// Abrir arquivo Pdf dentro do programa associado à extensão .pdf
+        ///     Abrir arquivo Pdf dentro do programa associado à extensão .pdf
         /// </summary>
         /// <param name="nomeArquivo"></param>
         /// <param name="arrayBytes"></param>
@@ -244,26 +240,19 @@ namespace IMOD.CredenciamentoDeskTop.Helpers
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(nomeArquivo)) return;
+                if (string.IsNullOrWhiteSpace (nomeArquivo)) return;
                 if (arrayBytes == null) return;
-                string fileName = "";
+                var fileName = "";
                 var tempArea = Path.GetTempPath();
-                fileName = Path.ChangeExtension(nomeArquivo, ".pdf");
-                var path = Path.Combine(tempArea, fileName);
-                File.WriteAllBytes(path, arrayBytes);//Save file on temp area
+                fileName = Path.ChangeExtension (nomeArquivo, ".pdf");
+                var path = Path.Combine (tempArea, fileName);
+                File.WriteAllBytes (path, arrayBytes); //Save file on temp area
 
-                var tsk = Task.Factory.StartNew(() =>
-                {
-                    System.Windows.Application.Current.Dispatcher.Invoke(() =>
-                    {
-                        Process.Start(path);
-                    });
-                });
-
+                var tsk = Task.Factory.StartNew (() => { System.Windows.Application.Current.Dispatcher.Invoke (() => { Process.Start (path); }); });
             }
             catch (Exception ex)
             {
-                Utils.TraceException(ex);
+                Utils.TraceException (ex);
             }
         }
 
@@ -276,50 +265,52 @@ namespace IMOD.CredenciamentoDeskTop.Helpers
         public static void DownloadArquivoDialog(string nomeArquivo, byte[] arrayBytes)
         {
             //Parâmetros necessários a execução do metodo
-            if (string.IsNullOrWhiteSpace(nomeArquivo)) return;
+            if (string.IsNullOrWhiteSpace (nomeArquivo)) return;
             if (arrayBytes == null) return;
 
             var dlgSave = new SaveFileDialog();
             dlgSave.FileName = nomeArquivo; //Nome do arquivo
             //Obter extensão do arquivo, caso exista
-            var ext = string.IsNullOrWhiteSpace(nomeArquivo) ? "" : nomeArquivo;
-            if (ext.Contains("."))
+            var ext = string.IsNullOrWhiteSpace (nomeArquivo) ? "" : nomeArquivo;
+            if (ext.Contains ("."))
             {
-                ext = ext.Substring(ext.IndexOf(".", StringComparison.CurrentCulture));
+                ext = ext.Substring (ext.IndexOf (".", StringComparison.CurrentCulture));
                 dlgSave.DefaultExt = ext; //Extensão
                 dlgSave.Filter = $"documents ({ext})|*{ext}";
             }
             //Usuario decidindo salvar...
             if (dlgSave.ShowDialog() == DialogResult.OK)
-                File.WriteAllBytes(dlgSave.FileName, arrayBytes);
+                File.WriteAllBytes (dlgSave.FileName, arrayBytes);
         }
 
         /// <summary>
-        /// Exibir o relatório
+        ///     Exibir o relatório
         /// </summary>
         /// <param name="nomeArquivo">Nome do arquivo</param>
         /// <param name="arrayBytes">Array de Bytes relativo ao arquivo</param>
         /// <param name="formula">Formula do relatório</param>
+        /// <param name="mensagem"></param>
+        [Obsolete("Usado apenas para relatórios do tipo .rpt onde tinha conexao com o banco de dados internamente.")]
         public static void ShowRelatorio(byte[] arrayBytes, string nomeArquivo, string formula, string mensagem)
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(nomeArquivo)) return;
+                if (string.IsNullOrWhiteSpace (nomeArquivo)) return;
                 if (arrayBytes == null) return;
 
                 var tempArea = Path.GetTempPath();
 
-                var idx = nomeArquivo.IndexOf(".", StringComparison.Ordinal);
-                var nameFile = idx == -1 ? nomeArquivo : nomeArquivo.Substring(idx);
+                var idx = nomeArquivo.IndexOf (".", StringComparison.Ordinal);
+                var nameFile = idx == -1 ? nomeArquivo : nomeArquivo.Substring (idx);
 
-                var fileName = Path.Combine(tempArea, $"{nameFile}.rpt");
-                File.WriteAllBytes(fileName, arrayBytes);//Save file on temp area
+                var fileName = Path.Combine (tempArea, $"{nameFile}.rpt");
+                File.WriteAllBytes (fileName, arrayBytes); //Save file on temp area
 
                 var reportDoc = new ReportDocument();
-                reportDoc.Load(fileName, OpenReportMethod.OpenReportByTempCopy);
+                reportDoc.Load (fileName, OpenReportMethod.OpenReportByTempCopy);
 
-                TableLogOnInfo crtableLogoninfo = new TableLogOnInfo();
-                ConnectionInfo crConnectionInfo = new ConnectionInfo();
+                var crtableLogoninfo = new TableLogOnInfo();
+                var crConnectionInfo = new ConnectionInfo();
                 Tables CrTables;
 
                 crConnectionInfo.ServerName = db.DataSource;
@@ -332,36 +323,66 @@ namespace IMOD.CredenciamentoDeskTop.Helpers
                 {
                     crtableLogoninfo = CrTable.LogOnInfo;
                     crtableLogoninfo.ConnectionInfo = crConnectionInfo;
-                    CrTable.ApplyLogOnInfo(crtableLogoninfo);
+                    CrTable.ApplyLogOnInfo (crtableLogoninfo);
                 }
 
-                var tsk = Task.Factory.StartNew(() =>
+                var tsk = Task.Factory.StartNew (() =>
                 {
-                    System.Windows.Application.Current.Dispatcher.Invoke(() =>
+                    System.Windows.Application.Current.Dispatcher.Invoke (() =>
                     {
                         //your code here, formulas...
-                        if (!string.IsNullOrWhiteSpace(formula))
+                        if (!string.IsNullOrWhiteSpace (formula))
                         {
                             reportDoc.RecordSelectionFormula = formula;
                         }
-                        if (!string.IsNullOrWhiteSpace(mensagem))
+                        if (!string.IsNullOrWhiteSpace (mensagem))
                         {
-                            TextObject txt = (TextObject)reportDoc.ReportDefinition.ReportObjects["TextoPrincipal"];
+                            var txt = (TextObject) reportDoc.ReportDefinition.ReportObjects["TextoPrincipal"];
                             txt.Text = mensagem;
                         }
 
-                        var _popupRelatorio = new PopupRelatorio(reportDoc);
+                        var _popupRelatorio = new PopupRelatorio (reportDoc);
                         _popupRelatorio.Show();
                     });
                 });
-
             }
             catch (Exception ex)
             {
-                Utils.TraceException(ex);
+                Utils.TraceException (ex);
             }
         }
 
+        /// <summary>
+        ///     Retorna um objeto Crystal Report
+        /// </summary>
+        /// <param name="arrayBytes">Array de bytes de um arquivo rpt</param>
+        /// <param name="nomeArquivo">Nome do arquivo</param>
+        /// <returns></returns>
+        public static ReportDocument ShowRelatorioCrystalReport(byte[] arrayBytes, string nomeArquivo)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace (nomeArquivo)) throw new ArgumentNullException ("O nome do arquivo rpt é requerido");
+                if (arrayBytes == null) throw new ArgumentNullException ("Um array de bytes do arquivo rpt é requerido");
+
+                var tempArea = Path.GetTempPath();
+
+                var idx = nomeArquivo.IndexOf (".", StringComparison.Ordinal);
+                var nameFile = idx == -1 ? nomeArquivo : nomeArquivo.Substring (idx);
+                //Criar um arquivo rpt na maquina local numa área temporária
+                var fileName = Path.Combine (tempArea, $"{nameFile}.rpt");
+                File.WriteAllBytes (fileName, arrayBytes); //Save file on temp area
+
+                var reportDoc = new ReportDocument();
+                reportDoc.Load (fileName, OpenReportMethod.OpenReportByTempCopy);
+                return reportDoc;
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException (ex);
+                return null;
+            }
+        }
 
         #endregion
     }

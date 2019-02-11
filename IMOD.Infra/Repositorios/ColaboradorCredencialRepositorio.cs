@@ -35,7 +35,14 @@ namespace IMOD.Infra.Repositorios
 
         #region  Metodos
 
-        private EmpresaContratoCredencial ObterNumeroContrato(ColaboradorCredencial entity, int colaboradorId)
+        /// <summary>
+        ///     Obtem um único numero de contrato vinculado ao colaborador
+        ///     <para>Não é permitido vincular mais de uma número de codntrato igual para o colaborador.</para>
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="colaboradorId"></param>
+        /// <returns></returns>
+        private EmpresaContratoCredencialView ObterNumeroContrato(ColaboradorCredencial entity, int colaboradorId)
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
@@ -47,7 +54,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("ColaboradorID", colaboradorId).Igual()));
 
                         var reader = cmd.ExecuteReaderSelect();
-                        var d1 = reader.MapToList<EmpresaContratoCredencial>();
+                        var d1 = reader.MapToList<EmpresaContratoCredencialView>();
                         return d1.FirstOrDefault();
                     }
                     catch (Exception ex)
@@ -57,6 +64,87 @@ namespace IMOD.Infra.Repositorios
                     }
                 }
             }
+        }
+
+        /// <summary>
+        ///     Obtém a menor data de entre um curso do tipo controlado e uma data de validade do contrato
+        /// </summary>
+        /// <param name="colaboradorId">Identificador do colaborador</param>
+        /// <param name="numContrato">Número do contrato</param>
+        /// <returns></returns>
+        private DateTime? ObterMenorData(int colaboradorId, string numContrato)
+        {
+            using (var conn = _dataBase.CreateOpenConnection())
+            {
+                using (var cmd = _dataBase.CreateCommand ("Select dbo.fnc_Obter_Menor_Data (@colaboradorId,@NumContrato)", conn))
+                {
+                    try
+                    {
+                        var param1 = _dataBase.CreateParameter ("@colaboradorId", DbType.Int32, ParameterDirection.Input, colaboradorId);
+                        var param2 = _dataBase.CreateParameter ("@numContrato", DbType.String, ParameterDirection.Input, numContrato);
+                        cmd.Parameters.Add (param1);
+                        cmd.Parameters.Add (param2);
+
+                        var returns = cmd.ExecuteScalar();
+                        var dt = returns == null ? (DateTime?) null : Convert.ToDateTime (returns);
+
+                        return dt;
+                    }
+                    catch (Exception ex)
+                    {
+                        Utils.TraceException (ex);
+                        throw;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        ///     Obtem a data de validade de uma credencial
+        ///     <para>
+        ///         Verificar se o contrato é temporário ou permanente,
+        ///         sendo permanente, então vale obter a menor data entre
+        ///         um curso controlado e uma data de validade do contrato, caso contrario, será concedido prazo de 90 dias a
+        ///         partir da data atual
+        ///     </para>
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="colaboradorId"></param>
+        /// <param name="numContrato"></param>
+        /// <param name="credencialRepositorio"></param>
+        /// <returns></returns>
+        public DateTime? ObterDataValidadeCredencial(ColaboradorCredencial entity,int colaboradorId,string numContrato,ITipoCredencialRepositorio credencialRepositorio)
+        {
+            if (credencialRepositorio == null) throw new ArgumentNullException (nameof (credencialRepositorio));
+
+            //Verificar se o contrato é temporário ou permanente
+            var tipoCredencial = credencialRepositorio.BuscarPelaChave (entity.TipoCredencialId);
+            if (tipoCredencial == null) throw new InvalidOperationException ("Um tipo de credencial é necessário.");
+            if (tipoCredencial.CredPermanente) //Sendo uma credencial do tipo permanente, então vale a regra da menor data
+                return ObterMenorData (colaboradorId, numContrato);
+            //Caso contrario, trata-se de uma credencial temporária, então vale o prazo de 90 dias em relação a data atual
+            return DateTime.Today.AddDays (90);
+        }
+
+        /// <summary>
+        ///     Criar registro credencial e obter data de validade da credencial
+        /// </summary>
+        /// <param name="entity">Entidade</param>
+        /// <param name="colaboradorId">Identificador</param>
+        /// <param name="credencialRepositorio"></param>
+        public void Criar(ColaboradorCredencial entity, int colaboradorId, ITipoCredencialRepositorio credencialRepositorio)
+        {
+            Criar (entity);
+            //Setar a data de validade, caso Status Ativo
+            if (!entity.Ativa) return;
+            //Obter contrato
+            var contrato = ObterNumeroContrato (entity, colaboradorId);
+            var numContrato = contrato.NumeroContrato;
+            //Obter uma data de validade (menor data entre um curso do tipo controlado e uma data de vencimento de um determinado contrato
+            var dataCredencial = ObterDataValidadeCredencial (entity, colaboradorId, numContrato, credencialRepositorio);
+            //Setando a data de vencimento uma credencial
+            entity.Validade = dataCredencial;
+            Alterar (entity);
         }
 
         /// <summary>
@@ -72,8 +160,8 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("ColaboradorCredencialID", DbType.Int32, o, 0).Igual())); 
-                        cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("NumeroContrato", DbType.String, o, 2).Igual())); 
+                        cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("ColaboradorCredencialID", DbType.Int32, o, 0).Igual()));
+                        cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("NumeroContrato", DbType.String, o, 2).Igual()));
 
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<ColaboradorEmpresaView>();
@@ -207,41 +295,24 @@ namespace IMOD.Infra.Repositorios
         }
 
         /// <summary>
-        ///     Criar registro credencial e obter data de validade da credencial
-        /// </summary>
-        /// <param name="entity">Entidade</param>
-        /// <param name="colaboradorId">Identificador</param>
-        public void Criar(ColaboradorCredencial entity, int colaboradorId)
-        {
-            Criar (entity);
-            //Setar a data de validade, caso Status Ativo
-            if (!entity.Ativa) return;
-            //Obter contrato
-            var contrato = this.ObterNumeroContrato (entity, colaboradorId);
-            var numContrato = contrato.NumeroContrato;
-            //Obter uma data de validade (menor data entre um curso do tipo controlado e uma data de vencimento de um determinado contrato
-            var dataVencida = ObterMenorData (colaboradorId, numContrato);
-            entity.Validade = dataVencida;
-            this.Alterar (entity); 
-        }
-
-        /// <summary>
-        ///     Alterar registro credencial e obter data de validade da credencial
+        ///     Alterar registro credencial obtendo a data de validade da credencial
         /// </summary>
         /// <param name="entity"></param>
         /// <param name="colaboradorId"></param>
-        public void Alterar(ColaboradorCredencial entity, int colaboradorId)
+        /// <param name="credencialRepositorio"></param>
+        public void Alterar(ColaboradorCredencial entity, int colaboradorId, ITipoCredencialRepositorio credencialRepositorio)
         {
             Alterar (entity);
             //Setar a data de validade, caso Status Ativo
             if (!entity.Ativa) return;
             //Obter contrato
-            var contrato = this.ObterNumeroContrato(entity, colaboradorId);
+            var contrato = ObterNumeroContrato (entity, colaboradorId);
             var numContrato = contrato.NumeroContrato;
             //Obter uma data de validade (menor data entre um curso do tipo controlado e uma data de vencimento de um determinado contrato
-            var dataVencida = ObterMenorData(colaboradorId, numContrato);
-            entity.Validade = dataVencida;
-            this.Alterar(entity); 
+            var dataCredencial = ObterDataValidadeCredencial(entity, colaboradorId, numContrato, credencialRepositorio);
+            //Setando a data de vencimento uma credencial
+            entity.Validade = dataCredencial;
+            Alterar (entity);
         }
 
         /// <summary>
@@ -333,11 +404,11 @@ namespace IMOD.Infra.Repositorios
         }
 
         /// <summary>
-        ///     Listar dados de Credencial (Impressão)
+        ///     Obter credencial
         /// </summary>
-        /// <param name="o">Arrays de Parametros</param>
+        /// <param name="colaboradorCredencialId"></param>
         /// <returns></returns>
-        public ICollection<CredencialView> ListarCredencialView(int id)
+        public CredencialView ObterCredencialView(int colaboradorCredencialId)
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
@@ -346,43 +417,10 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("ColaboradorCredencialID", DbType.Int32, id).Igual()));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("ColaboradorCredencialID", DbType.Int32, colaboradorCredencialId).Igual()));
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<CredencialView>();
-                        return d1;
-                    }
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException (ex);
-                        throw;
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        ///     Obtém a menor data de entre um curso do tipo controlado e uma data de validade do contrato
-        /// </summary>
-        /// <param name="colaboradorId">Identificador do colaborador</param>
-        /// <param name="numContrato">Número do contrato</param>
-        /// <returns></returns>
-        public DateTime? ObterMenorData(int colaboradorId, string numContrato)
-        {
-            using (var conn = _dataBase.CreateOpenConnection())
-            {
-                using (var cmd = _dataBase.CreateCommand ("Select dbo.fnc_Obter_Menor_Data (@colaboradorId,@NumContrato)", conn))
-                {
-                    try
-                    {
-                        var param1 = _dataBase.CreateParameter ("@colaboradorId", DbType.Int32, ParameterDirection.Input, colaboradorId);
-                        var param2 = _dataBase.CreateParameter ("@numContrato", DbType.String, ParameterDirection.Input, numContrato);
-                        cmd.Parameters.Add (param1);
-                        cmd.Parameters.Add (param2);
-
-                        var returns = cmd.ExecuteScalar();
-                        var dt = returns == null ? (DateTime?) null : Convert.ToDateTime (returns);
-
-                        return dt;
+                        return d1.FirstOrDefault();
                     }
                     catch (Exception ex)
                     {

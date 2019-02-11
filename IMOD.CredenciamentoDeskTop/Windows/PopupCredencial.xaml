@@ -52,7 +52,7 @@
                                                      ShowSearchTextButton="True"
                                                      ShowStatusbar="False"
                                                      ShowToggleSidePanelButton="True" 
-                                                     ShowToolbar="False" Height="621" Background="#FF1C1C1C" HorizontalAlignment="Left" Width="523" />
+                                                     ShowToolbar="False" Height="621" Background="#FF1C1C1C" HorizontalAlignment="Left" Width="500" />
             </StackPanel>
             <StackPanel Height="93" Orientation="Horizontal"   Width="500" Background="#FF2D2D30">
                 <Button x:Name="ImprimirCredencial_bt" Margin="130,0" Height="64" Width="64" Click="ImprimirCredencial_bt_Click">

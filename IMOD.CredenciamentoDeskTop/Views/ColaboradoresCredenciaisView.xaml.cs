@@ -45,21 +45,6 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
             EmpresaVinculo_cb.Items.Refresh();
         }
- 
-
-       
-        private void ImprimirCredencial_bt_Click(object sender, System.Windows.RoutedEventArgs e)
-        {
-            try
-            {
-                _viewModel.OnImprimirCredencial();
-            }
-            catch (Exception ex)
-            {
-                Utils.TraceException(ex);
-            }
-
-        }
 
         private void StatusCredencial_cb_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

@@ -21,10 +21,10 @@ using IMOD.CredenciamentoDeskTop.Helpers;
 using IMOD.CredenciamentoDeskTop.ViewModels.Commands;
 using IMOD.CredenciamentoDeskTop.ViewModels.Comportamento;
 using IMOD.CredenciamentoDeskTop.Views.Model;
+using IMOD.CredenciamentoDeskTop.Windows;
 using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
 using IMOD.Domain.EntitiesCustom;
-using CredencialView = IMOD.CredenciamentoDeskTop.Views.Model.CredencialView;
 
 #endregion
 
@@ -35,9 +35,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
         private readonly IColaboradorEmpresaService _colaboradorEmpresaService = new ColaboradorEmpresaService();
         private readonly IColaboradorCredencialService _service = new ColaboradorCredencialService();
-        //private ColaboradorCredencialimpresssao _colaboradorCredencialImpressao = new ColaboradorCredencialimpresssao();
-        //private readonly IColaboradorCredencialImpressaoService _ImpressaoService = new ColaboradorCredencialImpressaoService();
-
 
         private ColaboradorView _colaboradorView;
 
@@ -54,7 +51,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public List<AreaAcesso> ColaboradorPrivilegio { get; set; }
         public ColaboradoresCredenciaisView Entity { get; set; }
         public ObservableCollection<ColaboradoresCredenciaisView> EntityObserver { get; set; }
-        public ObservableCollection<CredencialView> Credencial { get; set; }
 
         /// <summary>
         ///     Habilita listView
@@ -127,9 +123,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         }
 
         #endregion
-
-        //SCManager _sc = new SCManager();
-        //TODO:Retirar a função de SCManager e colocar em infra esrutura
 
         #region Inicializacao
 
@@ -317,6 +310,125 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         }
 
         /// <summary>
+        ///     Imprimir Credencial
+        /// </summary>
+        private void OnImprimirCredencial()
+        {
+            try
+            {
+                if (Entity == null) return;
+                if (!Entity.Ativa) throw new InvalidOperationException ("Não é possível imprimir uma credencial não ativa.");
+                if (Entity.Validade == null) throw new InvalidOperationException ("Não é possível imprimir uma credencial sem data de validade.");
+
+                var layoutCracha = _auxiliaresService.LayoutCrachaService.BuscarPelaChave (Entity.LayoutCrachaId);
+                if (layoutCracha == null) throw new InvalidOperationException ("Não é possível imprimir uma credencial sem ter sido definida um layout do crachá.");
+                if (string.IsNullOrWhiteSpace (layoutCracha.LayoutRpt)) throw new InvalidOperationException ("Não é possível imprimir uma credencial sem ter sido definida um layout do crachá.");
+
+                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
+
+                var arrayBytes = Convert.FromBase64String (layoutCracha.LayoutRpt);
+                var relatorio = WpfHelp.ShowRelatorioCrystalReport (arrayBytes, layoutCracha.Nome);
+                var lst = new List<CredencialView>();
+                var credencialView = _service.ObterCredencialView (Entity.ColaboradorCredencialId);
+                lst.Add (credencialView);
+                relatorio.SetDataSource (lst);
+                var popupCredencial = new PopupCredencial (relatorio, _service, Entity, layoutCracha);
+                popupCredencial.ShowDialog();
+
+                //    if (Entity.Validade == null || !Entity.Ativa || Entity.LayoutCrachaId == 0)
+                //    {
+                //        WpfHelp.PopupBox("Não foi possível imprimir esta credencial!", 3);
+                //        return;
+                //    }
+                //var list1 = _service.ObterCredencialView(Entity.ColaboradorCredencialId);
+                //    var list2 = Mapper.Map<List<CredencialView>>(list1);
+                //    var observer = new ObservableCollection<CredencialView>();
+                //    list2.ForEach(n =>
+                //    {
+                //        observer.Add(n);
+                //    });
+
+                // Credencial = observer;
+
+                //    var layoutCracha = _auxiliaresService.LayoutCrachaService.BuscarPelaChave(Entity.LayoutCrachaId);
+
+                //    string _ArquivoRPT = Path.GetRandomFileName();
+                //    _ArquivoRPT = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\" + _ArquivoRPT;
+                //    _ArquivoRPT = Path.ChangeExtension(_ArquivoRPT, ".rpt");
+                //    byte[] arrayFile = Convert.FromBase64String(layoutCracha.LayoutRpt);
+                //    File.WriteAllBytes(_ArquivoRPT, arrayFile);
+                //    ReportDocument reportDocument = new ReportDocument();
+                //    reportDocument.Load(_ArquivoRPT);
+
+                //    reportDocument.SetDataSource(Credencial);
+
+                //    PopupCredencial _popupCredencial = new PopupCredencial(reportDocument);
+                //    _popupCredencial.ShowDialog();
+
+                //    bool _result = _popupCredencial.Result;
+
+                //    if (_result)
+                //    {
+                //        _colaboradorCredencialImpressao.ColaboradorCredencialId = Entity.ColaboradorCredencialId;
+                //        _colaboradorCredencialImpressao.DataImpressao = DateTime.Now;
+                //        if (Entity.IsencaoCobranca)
+                //        {
+                //            _colaboradorCredencialImpressao.Cobrar = false;
+                //        }
+                //        else
+                //        {
+                //            _colaboradorCredencialImpressao.Cobrar = true;
+                //        }
+
+                //        _ImpressaoService.Criar(_colaboradorCredencialImpressao);
+                //        WpfHelp.PopupBox("Impressão Efetuada com Sucesso!", 1);
+                //        Entity.Impressa = true;
+
+                //        //Criar cardHolder
+                //        string cardholderGuid = _sc.CardHolder(Entity.ColaboradorNome.Trim(), Entity.Cpf.Trim(), Entity.Cnpj.Trim(),
+                //            Entity.EmpresaNome.Trim(), Entity.Matricula.Trim(), Entity.Cargo.Trim(),
+                //            Entity.Fc.ToString().Trim(), Entity.NumeroCredencial.Trim(),
+                //            Entity.FormatoCredencialDescricao.Trim(), Entity.Validade.ToString(),
+                //            layoutCracha.LayoutCrachaGuid, Entity.ColaboradorFoto.ConverterBase64StringToBitmap());
+
+                //        string credentialGuid = _sc.Credencial(layoutCracha.LayoutCrachaGuid, Entity.Fc.ToString().Trim(),
+                //            Entity.NumeroCredencial.Trim(), Entity.FormatoCredencialDescricao.Trim(), cardholderGuid);
+
+                //        if (Entity == null)
+                //        {
+                //            return;
+                //        }
+                //        var n1 = Mapper.Map<ColaboradorCredencial>(Entity);
+                //        n1.CardHolderGuid = cardholderGuid.ToString();
+                //        n1.CredencialGuid = credentialGuid.ToString();
+                //        _service.Alterar(n1);
+
+                //    }
+                //    File.Delete(_ArquivoRPT);
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException (ex);
+                WpfHelp.MboxError ("Não foi realizar a operação solicitada", ex);
+            }
+            finally
+            {
+                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
+                
+            }
+        }
+
+        private void CriarCardHolder()
+        {
+            
+        }
+
+        private void CriarCredencial()
+        {
+            
+        }
+
+        /// <summary>
         ///     Acionado antes de alterar
         /// </summary>
         private void PrepareAlterar()
@@ -407,91 +519,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         public ICommand PesquisarCommand => new CommandBase (Pesquisar, true);
 
+        public ICommand ImprimirCommand => new CommandBase (OnImprimirCredencial, true);
+
         #endregion
-
-        /// <summary>
-        ///     Imprimir Credencial
-        /// </summary>
-        public void OnImprimirCredencial()
-        {
-            try
-            {
-                //if (Entity.Validade == null || !Entity.Ativa || Entity.LayoutCrachaId == 0)
-                //{
-                //    WpfHelp.PopupBox("Não foi possível imprimir esta credencial!", 3);
-                //    return;
-                //}
-                //var list1 = _service.ListarCredencialView(Entity.ColaboradorCredencialId);
-                //var list2 = Mapper.Map<List<CredencialView>>(list1);
-                //var observer = new ObservableCollection<CredencialView>();
-                //list2.ForEach(n =>
-                //{
-                //    observer.Add(n);
-                //});
-
-                //Credencial = observer;
-
-                //var layoutCracha = _auxiliaresService.LayoutCrachaService.BuscarPelaChave(Entity.LayoutCrachaId);
-
-                //string _ArquivoRPT = Path.GetRandomFileName();
-                //_ArquivoRPT = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\" + _ArquivoRPT;
-                //_ArquivoRPT = Path.ChangeExtension(_ArquivoRPT, ".rpt");
-                //byte[] arrayFile = Convert.FromBase64String(layoutCracha.LayoutRpt);
-                //File.WriteAllBytes(_ArquivoRPT, arrayFile);
-                //ReportDocument reportDocument = new ReportDocument();
-                //reportDocument.Load(_ArquivoRPT);
-
-                //reportDocument.SetDataSource(Credencial);
-
-                //PopupCredencial _popupCredencial = new PopupCredencial(reportDocument);
-                //_popupCredencial.ShowDialog();
-
-                //bool _result = _popupCredencial.Result;
-
-                //if (_result)
-                //{
-                //    _colaboradorCredencialImpressao.ColaboradorCredencialId = Entity.ColaboradorCredencialId;
-                //    _colaboradorCredencialImpressao.DataImpressao = DateTime.Now;
-                //    if (Entity.IsencaoCobranca)
-                //    {
-                //        _colaboradorCredencialImpressao.Cobrar = false;
-                //    }
-                //    else
-                //    {
-                //        _colaboradorCredencialImpressao.Cobrar = true;
-                //    }
-
-                //    _ImpressaoService.Criar(_colaboradorCredencialImpressao);
-                //    WpfHelp.PopupBox("Impressão Efetuada com Sucesso!", 1);
-                //    Entity.Impressa = true;
-
-                //    //Criar cardHolder
-                //    string cardholderGuid = _sc.CardHolder(Entity.ColaboradorNome.Trim(), Entity.Cpf.Trim(), Entity.Cnpj.Trim(),
-                //        Entity.EmpresaNome.Trim(), Entity.Matricula.Trim(), Entity.Cargo.Trim(),
-                //        Entity.Fc.ToString().Trim(), Entity.NumeroCredencial.Trim(),
-                //        Entity.FormatoCredencialDescricao.Trim(), Entity.Validade.ToString(),
-                //        layoutCracha.LayoutCrachaGuid, Entity.ColaboradorFoto.ConverterBase64StringToBitmap());
-
-                //    string credentialGuid = _sc.Credencial(layoutCracha.LayoutCrachaGuid, Entity.Fc.ToString().Trim(),
-                //        Entity.NumeroCredencial.Trim(), Entity.FormatoCredencialDescricao.Trim(), cardholderGuid);
-
-                //    if (Entity == null)
-                //    {
-                //        return;
-                //    }
-                //    var n1 = Mapper.Map<ColaboradorCredencial>(Entity);
-                //    n1.CardHolderGuid = cardholderGuid.ToString();
-                //    n1.CredencialGuid = credentialGuid.ToString();
-                //    _service.Alterar(n1);
-
-                //}
-                //File.Delete(_ArquivoRPT);
-            }
-            catch (Exception ex)
-            {
-                Utils.TraceException (ex);
-            }
-        }
 
         #endregion
     }

@@ -25,10 +25,9 @@ namespace IMOD.Application.Service
         #region  Metodos
 
         /// <summary>
-        ///     Criar
+        ///     Criar registro
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <param name="entity">Entidade</param>
         public void Criar(ColaboradorCredencialimpresssao entity)
         {
             _repositorio.Criar(entity);
@@ -55,20 +54,18 @@ namespace IMOD.Application.Service
         }
 
         /// <summary>
-        ///     Alterar
+        ///     Alterar registro
         /// </summary>
-        /// <param name="objects">Expressão de consulta</param>
-        /// <returns></returns>
+        /// <param name="entity"></param>
         public void Alterar(ColaboradorCredencialimpresssao entity)
         {
             _repositorio.Alterar(entity);
         }
 
         /// <summary>
-        ///     Remover
+        ///     Deletar registro
         /// </summary>
-        /// <param name="objects">Expressão de consulta</param>
-        /// <returns></returns>
+        /// <param name="entity">Entidade</param>
         public void Remover(ColaboradorCredencialimpresssao entity)
         {
             _repositorio.Remover(entity);

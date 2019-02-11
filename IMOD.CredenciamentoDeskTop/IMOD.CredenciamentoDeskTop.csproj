@@ -131,7 +131,6 @@
     <Compile Include="Views\Model\ColaboradorEmpresaView.cs" />
     <Compile Include="Views\Model\ColaboradorPrivilegioView.cs" />
     <Compile Include="Views\Model\ColaboradorView.cs" />
-    <Compile Include="Views\Model\CredencialView.cs" />
     <Compile Include="Views\Model\CredencialMotivoView.cs" />
     <Compile Include="Views\Model\CredencialStatusView.cs" />
     <Compile Include="Views\Model\CursoView.cs" />

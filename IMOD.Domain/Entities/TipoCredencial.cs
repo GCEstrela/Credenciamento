@@ -12,6 +12,7 @@ namespace IMOD.Domain.Entities
 
         public int TipoCredencialId { get; set; }
         public string Descricao { get; set; }
+        public bool CredPermanente { get; set; }
 
         #endregion
     }

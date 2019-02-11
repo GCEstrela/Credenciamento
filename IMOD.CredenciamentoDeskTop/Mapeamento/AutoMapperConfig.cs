@@ -11,10 +11,8 @@ using AutoMapper;
 using IMOD.CredenciamentoDeskTop.Views.Model;
 using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
-using IMOD.Domain.EntitiesCustom;
-//using iModSCCredenciamento.Models;
-using Colaborador = IMOD.Domain.Entities.Colaborador;
-using CredencialView = IMOD.CredenciamentoDeskTop.Views.Model.CredencialView;
+using IMOD.Domain.EntitiesCustom; 
+using Colaborador = IMOD.Domain.Entities.Colaborador; 
 using EmpresaLayoutCrachaView = IMOD.Domain.EntitiesCustom.EmpresaLayoutCrachaView;
 using VeiculoEmpresaView = IMOD.Domain.EntitiesCustom.VeiculoEmpresaView;
 using EstadoView = IMOD.CredenciamentoDeskTop.Views.Model.EstadoView;
@@ -70,10 +68,6 @@ namespace IMOD.CredenciamentoDeskTop.Mapeamento
                        m.CreateMap<AreaAcesso, AreaAcessoView>().ReverseMap();
                        m.CreateMap<LayoutCracha, LayoutCrachaView>().ReverseMap();
                        m.CreateMap<TipoAcesso, TipoAcessoView>().ReverseMap();
-                       m.CreateMap<Domain.EntitiesCustom.CredencialView, CredencialView>()
-                           .ForMember(k => k.Foto, opt => opt.MapFrom(k => Convert.FromBase64String(k.Foto)))
-                           .ForMember(k => k.Logo, opt => opt.MapFrom(k => Convert.FromBase64String(k.Logo)))
-                           .ReverseMap();
 
                    });
         }

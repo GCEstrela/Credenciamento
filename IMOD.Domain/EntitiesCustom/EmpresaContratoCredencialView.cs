@@ -6,7 +6,7 @@
 
 namespace IMOD.Domain.EntitiesCustom
 {
-    public class EmpresaContratoCredencial
+    public class EmpresaContratoCredencialView
     {
         #region  Propriedades
 

@@ -1,16 +1,20 @@
 ﻿// ***********************************************************************
 // Project: IMOD.Application
-// Crafted by: Mihainuan de Sá Silva
-// Date:  12 - 16 - 2018
+// Crafted by: Grupo Estrela by Genetec
+// Date:  01 - 21 - 2019
 // ***********************************************************************
 
+#region
+
 using System;
+using System.Collections.Generic;
 using IMOD.Application.Interfaces;
 using IMOD.Domain.Entities;
 using IMOD.Domain.EntitiesCustom;
 using IMOD.Domain.Interfaces;
 using IMOD.Infra.Repositorios;
-using System.Collections.Generic;
+
+#endregion
 
 namespace IMOD.Application.Service
 {
@@ -22,23 +26,13 @@ namespace IMOD.Application.Service
 
         #endregion
 
-        #region Construtores
-
-        public ITecnologiaCredencialService TecnologiaCredencial { get { return new TecnologiaCredencialService(); } }
-
-        public ITipoCredencialService TipoCredencial { get { return new TipoCredencialService(); } }
-
-        public ILayoutCrachaService LayoutCracha { get { return new LayoutCrachaService(); } }
-
-        public IFormatoCredencialService FormatoCredencial { get { return new FormatoCredencialService(); } }
-
-        public ICredencialStatusService CredencialStatus { get { return new CredencialStatusService(); } }
-
-        public ICredencialMotivoService CredencialMotivo { get { return new CredencialMotivoService(); } }
-
-        #endregion
-
         #region  Metodos
+
+        private void ObterStatusCredencial(ColaboradorCredencial entity)
+        {
+            var status = CredencialStatus.BuscarPelaChave (entity.CredencialStatusId);
+            entity.Ativa = status.Codigo == "1"; //Set status da credencial
+        }
 
         /// <summary>
         ///     Alterar registro
@@ -46,13 +40,23 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void Alterar(ColaboradorCredencial entity)
         {
-            ObterStatusCredencial(entity);
-            _repositorio.Alterar(entity);
+            ObterStatusCredencial (entity);
+            _repositorio.Alterar (entity);
         }
 
         public ColaboradoresCredenciaisView BuscarCredencialPelaChave(int colaboradorCredencialId)
         {
-            return _repositorio.BuscarCredencialPelaChave(colaboradorCredencialId);
+            return _repositorio.BuscarCredencialPelaChave (colaboradorCredencialId);
+        }
+
+        /// <summary>
+        ///     Obter credencial
+        /// </summary>
+        /// <param name="colaboradorCredencialId"></param>
+        /// <returns></returns>
+        public CredencialView ObterCredencialView(int colaboradorCredencialId)
+        {
+            return _repositorio.ObterCredencialView (colaboradorCredencialId);
         }
 
         /// <summary>
@@ -62,7 +66,7 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public ColaboradorCredencial BuscarPelaChave(int id)
         {
-            return _repositorio.BuscarPelaChave(id);
+            return _repositorio.BuscarPelaChave (id);
         }
 
         /// <summary>
@@ -71,10 +75,9 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void Criar(ColaboradorCredencial entity)
         {
-            ObterStatusCredencial(entity);
-            _repositorio.Criar(entity);
+            ObterStatusCredencial (entity);
+            _repositorio.Criar (entity);
         }
-
 
         /// <summary>
         ///     Listar
@@ -83,33 +86,61 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public ICollection<ColaboradorCredencial> Listar(params object[] objects)
         {
-            return _repositorio.Listar(objects);
+            return _repositorio.Listar (objects);
         }
 
         /// <summary>
-        /// Listar Colaboradores e suas credenciais
+        ///     Listar Colaboradores e suas credenciais
         /// </summary>
         /// <param name="objects"></param>
         /// <returns></returns>
         public ICollection<ColaboradoresCredenciaisView> ListarView(params object[] o)
         {
-            return _repositorio.ListarView(o);
+            return _repositorio.ListarView (o);
         }
+         
 
-        public ICollection<CredencialView> ListarCredencialView(int id)
+        /// <summary>
+        ///     Obtem a data de validade de uma credencial
+        ///     <para>
+        ///         Verificar se o contrato é temporário ou permanente,
+        ///         sendo permanente, então vale obter a menor data entre
+        ///         um curso controlado e uma data de validade do contrato, caso contrario, será concedido prazo de 90 dias a
+        ///         partir da data atual
+        ///     </para>
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="colaboradorId"></param>
+        /// <param name="numContrato"></param>
+        /// <param name="credencialRepositorio"></param>
+        /// <returns></returns>
+        public DateTime? ObterDataValidadeCredencial(ColaboradorCredencial entity, int colaboradorId, string numContrato, ITipoCredencialRepositorio credencialRepositorio)
         {
-            return _repositorio.ListarCredencialView(id);
+            return _repositorio.ObterDataValidadeCredencial (entity, colaboradorId, numContrato, credencialRepositorio);
         }
 
         /// <summary>
-        ///     Obtém a menor data de entre um curso do tipo controlado e uma data de validade do contrato
+        ///     Criar registro credencial e obter data de validade da credencial
         /// </summary>
-        /// <param name="colaboradorId">Identificador do colaborador</param>
-        /// <param name="numContrato">Número do contrato</param>
-        /// <returns></returns>
-        public DateTime? ObterMenorData(int colaboradorId, string numContrato)
+        /// <param name="entity">Entidade</param>
+        /// <param name="colaboradorId">Identificador</param>
+        /// <param name="credencialService"></param>
+        public void Criar(ColaboradorCredencial entity, int colaboradorId,
+            ITipoCredencialRepositorio credencialService)
         {
-            return _repositorio.ObterMenorData (colaboradorId, numContrato);
+            ObterStatusCredencial (entity);
+            _repositorio.Criar (entity, colaboradorId, TipoCredencial);
+        }
+
+        /// <summary>
+        ///     Alterar registro credencial obtendo a data de validade da credencial
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="colaboradorId"></param>
+        /// <param name="credencialRepositorio"></param>
+        public void Alterar(ColaboradorCredencial entity, int colaboradorId, ITipoCredencialRepositorio credencialRepositorio)
+        {
+            _repositorio.Alterar (entity, colaboradorId, credencialRepositorio);
         }
 
         /// <summary>
@@ -119,19 +150,17 @@ namespace IMOD.Application.Service
         /// <param name="colaboradorId">Identificador</param>
         public void Criar(ColaboradorCredencial entity, int colaboradorId)
         {
-            ObterStatusCredencial(entity);
-            _repositorio.Criar(entity,colaboradorId);
+            Criar (entity, colaboradorId, TipoCredencial);
         }
 
         /// <summary>
-        ///  Alterar registro credencial e obter data de validade da credencial
+        ///     Alterar registro credencial e obter data de validade da credencial
         /// </summary>
-        /// <param name="entity"></param>
-        /// <param name="colaboradorId"></param>
+        /// <param name="entity">Entidade</param>
+        /// <param name="colaboradorId">Identificador</param>
         public void Alterar(ColaboradorCredencial entity, int colaboradorId)
         {
-            ObterStatusCredencial(entity);
-            _repositorio.Alterar (entity,colaboradorId);
+            Alterar (entity, colaboradorId, TipoCredencial);
         }
 
         /// <summary>
@@ -144,23 +173,75 @@ namespace IMOD.Application.Service
             return _repositorio.ListarContratos (o);
         }
 
-        private void ObterStatusCredencial(ColaboradorCredencial entity)
-        {
-            var status = CredencialStatus.BuscarPelaChave (entity.CredencialStatusId);
-            entity.Ativa = status.Codigo == "1"; //Set status da credencial
-        }
-
         /// <summary>
         ///     Deletar registro
         /// </summary>
         /// <param name="entity"></param>
         public void Remover(ColaboradorCredencial entity)
         {
-            _repositorio.Remover(entity);
+            _repositorio.Remover (entity);
         }
 
         #endregion
 
+        #region Construtores
 
+        /// <summary>
+        ///     Impressão Serviços
+        /// </summary>
+        public IColaboradorCredencialImpressaoService ImpressaoCredencial
+        {
+            get { return new ColaboradorCredencialImpressaoService();}
+        }
+
+        /// <summary>
+        ///     TecnologiaCredencial serviços
+        /// </summary>
+        public ITecnologiaCredencialService TecnologiaCredencial
+        {
+            get { return new TecnologiaCredencialService(); }
+        }
+
+        /// <summary>
+        ///     TipoCredencial serviços
+        /// </summary>
+        public ITipoCredencialService TipoCredencial
+        {
+            get { return new TipoCredencialService(); }
+        }
+
+        /// <summary>
+        ///     LayoutCracha serviços
+        /// </summary>
+        public ILayoutCrachaService LayoutCracha
+        {
+            get { return new LayoutCrachaService(); }
+        }
+
+        /// <summary>
+        ///     FormatoCredencial serviços
+        /// </summary>
+        public IFormatoCredencialService FormatoCredencial
+        {
+            get { return new FormatoCredencialService(); }
+        }
+
+        /// <summary>
+        ///     CredencialStatus serviços
+        /// </summary>
+        public ICredencialStatusService CredencialStatus
+        {
+            get { return new CredencialStatusService(); }
+        }
+
+        /// <summary>
+        ///     CredencialMotivo serviços
+        /// </summary>
+        public ICredencialMotivoService CredencialMotivo
+        {
+            get { return new CredencialMotivoService(); }
+        }
+
+        #endregion
     }
 }

@@ -1079,12 +1079,15 @@ namespace UnitTestImod
 
 
             //Verificar a menor data de validade
+            //TODO:Criar teste unitario, para testar a data de validade de uma credencial, seja ela temporaria ou permaente...
             var credencial = serviceColaboradorCredencial.ListarView().FirstOrDefault();
             if (credencial != null)
             {
                 var colaboradorId = credencial.ColaboradorId;
                 var numContrato = credencial.NumeroContrato;
-                var data = serviceColaboradorCredencial.ObterMenorData (colaboradorId, numContrato);
+                var data = serviceColaboradorCredencial;
+                var colaboradorCredencial = serviceColaboradorCredencial.BuscarPelaChave (credencial.ColaboradorCredencialId);
+                serviceColaboradorCredencial.ObterDataValidadeCredencial (colaboradorCredencial, colaboradorId, numContrato,new TipoCredencialRepositorio());
                 Assert.IsNotNull(data);
             }
 

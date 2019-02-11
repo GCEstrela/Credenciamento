@@ -35,10 +35,23 @@
       <HintPath>..\packages\AutoMapper.8.0.0\lib\net461\AutoMapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Genetec.Sdk">
+      <HintPath>..\IMOD.CredenciamentoDeskTop\Dlls\Genetec.Sdk.dll</HintPath>
+    </Reference>
+    <Reference Include="Genetec.Sdk.Controls">
+      <HintPath>..\IMOD.CredenciamentoDeskTop\Dlls\Genetec.Sdk.Controls.dll</HintPath>
+    </Reference>
+    <Reference Include="Genetec.Sdk.Maps">
+      <HintPath>..\IMOD.CredenciamentoDeskTop\Dlls\Genetec.Sdk.Maps.dll</HintPath>
+    </Reference>
+    <Reference Include="Genetec.Sdk.Workspace">
+      <HintPath>..\IMOD.CredenciamentoDeskTop\Dlls\Genetec.Sdk.Workspace.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
       <Private>True</Private>
@@ -121,6 +134,8 @@
     <Compile Include="Repositorios\VeiculoEquipTipoServicoRepositorio.cs" />
     <Compile Include="Repositorios\VeiculoSeguroRepositorio.cs" />
     <Compile Include="Repositorios\VeiculoRepositorio.cs" />
+    <Compile Include="Servicos\CredencialGenetecService.cs" />
+    <Compile Include="Servicos\Entities\CardHolderEntity.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config">

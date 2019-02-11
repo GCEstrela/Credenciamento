@@ -34,33 +34,47 @@ namespace IMOD.Domain.Interfaces
         ColaboradoresCredenciaisView BuscarCredencialPelaChave(int colaboradorCredencialId);
 
         /// <summary>
-        ///     Listar dados de Credencial (Impressão)
+        ///     Obter credencial
         /// </summary>
-        /// <param name="o">Arrays de Parametros</param>
+        /// <param name="colaboradorCredencialId"></param>
         /// <returns></returns>
-        ICollection<CredencialView> ListarCredencialView(int id);
+        CredencialView ObterCredencialView(int colaboradorCredencialId);
 
         /// <summary>
-        ///     Obtém a menor data de entre um curso do tipo controlado e uma data de validade do contrato
-        /// </summary>
-        /// <param name="colaboradorId">Identificador do colaborador</param>
-        /// <param name="numContrato">Número do contrato</param>
-        /// <returns></returns>
-        DateTime? ObterMenorData(int colaboradorId, string numContrato);
-
-        /// <summary>
-        ///     Criar registro credencial e obter data de validade da credencial
-        /// </summary>
-        /// <param name="entity">Entidade</param>
-        /// <param name="colaboradorId">Identificador</param>
-        void Criar(ColaboradorCredencial entity, int colaboradorId);
-
-        /// <summary>
-        ///  Alterar registro credencial e obter data de validade da credencial
+        ///     Obtem a data de validade de uma credencial
+        ///     <para>
+        ///         Verificar se o contrato é temporário ou permanente,
+        ///         sendo permanente, então vale obter a menor data entre
+        ///         um curso controlado e uma data de validade do contrato, caso contrario, será concedido prazo de 90 dias a
+        ///         partir da data atual
+        ///     </para>
         /// </summary>
         /// <param name="entity"></param>
         /// <param name="colaboradorId"></param>
-        void Alterar(ColaboradorCredencial entity, int colaboradorId);
+        /// <param name="numContrato"></param>
+        /// <param name="credencialRepositorio"></param>
+        /// <returns></returns>
+        DateTime? ObterDataValidadeCredencial(
+            ColaboradorCredencial entity,
+            int colaboradorId,
+            string numContrato,
+            ITipoCredencialRepositorio credencialRepositorio);
+
+        /// <summary>
+        ///     Criar registro credencial obtendo a data de validade da credencial
+        /// </summary>
+        /// <param name="entity">Entidade</param>
+        /// <param name="colaboradorId">Identificador</param>
+        /// <param name="credencialRepositorio"></param>
+        void Criar(ColaboradorCredencial entity, int colaboradorId, ITipoCredencialRepositorio credencialRepositorio);
+
+        /// <summary>
+        ///     Alterar registro credencial obtendo a data de validade da credencial
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="colaboradorId"></param>
+        /// <param name="credencialRepositorio"></param>
+        void Alterar(ColaboradorCredencial entity, int colaboradorId, ITipoCredencialRepositorio credencialRepositorio);
 
         /// <summary>
         ///     Listar contratos

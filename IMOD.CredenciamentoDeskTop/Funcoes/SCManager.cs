@@ -519,6 +519,7 @@ namespace IMOD.CredenciamentoDeskTop.Funcoes
                 {
                     _cardholderGroup = _sdk.GetEntity(EntityType.CardholderGroup, 1) as CardholderGroup;
                     _cardholder = _sdk.CreateEntity(_Nome, EntityType.Cardholder) as Cardholder;
+
                     _cardholder.SetCustomFieldAsync("CPF", _CPF);
                     _cardholder.SetCustomFieldAsync("Empresa", _Empresa);
                     _cardholder.SetCustomFieldAsync("CNPJ", _CNPJ);

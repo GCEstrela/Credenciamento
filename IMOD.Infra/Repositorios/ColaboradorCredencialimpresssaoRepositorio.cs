@@ -54,6 +54,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("ColaboradorCredencialID", DbType.Int32, entity.ColaboradorCredencialId, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("DataImpressao", DbType.Date, entity.DataImpressao, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Cobrar", DbType.Boolean, entity.Cobrar, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Valor", entity.Valor, false)));
 
                         var key = Convert.ToInt32(cmd.ExecuteScalar());
 
@@ -145,6 +146,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("ColaboradorCredencialID", DbType.Int32, entity.ColaboradorCredencialId, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("DataImpressao", DbType.Date, entity.DataImpressao, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Cobrar", DbType.Boolean, entity.Cobrar, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Valor", entity.Valor, false)));
 
                         cmd.ExecuteNonQuery();
                     }
