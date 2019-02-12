@@ -136,6 +136,7 @@
     <Compile Include="Repositorios\VeiculoRepositorio.cs" />
     <Compile Include="Servicos\CredencialGenetecService.cs" />
     <Compile Include="Servicos\Entities\CardHolderEntity.cs" />
+    <Compile Include="Servicos\ICredencialService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config">

@@ -26,10 +26,10 @@ namespace IMOD.Infra.Servicos.Entities
         private string _numeroCredencial;
 
         #region  Propriedades
-
+        public bool Ativo { get; set; }
         public string IdentificadorCardHolderGuid { get; set; }
         public string IdentificadorCredencialGuid { get; set; }
-        public string IdentificadorLayoutCrahaGuid { get; set; }
+        public string IdentificadorLayoutCrachaGuid { get; set; }
         public int FacilityCode { get; set; }
         public  Image Foto { get; set; }
         /// <summary>

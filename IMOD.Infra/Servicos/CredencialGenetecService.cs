@@ -1,7 +1,7 @@
 ﻿// ***********************************************************************
 // Project: IMOD.Infra
 // Crafted by: Grupo Estrela by Genetec
-// Date:  02 - 08 - 2019
+// Date:  02 - 11 - 2019
 // ***********************************************************************
 
 #region
@@ -18,7 +18,7 @@ using IMOD.Infra.Servicos.Entities;
 
 namespace IMOD.Infra.Servicos
 {
-    public class CredencialGenetecService
+    public class CredencialGenetecService : ICredencialService
     {
         private readonly IEngine _sdk;
 
@@ -39,13 +39,15 @@ namespace IMOD.Infra.Servicos
             if (string.IsNullOrWhiteSpace (entity.Matricula)) throw new ArgumentNullException (nameof (entity.Matricula));
         }
 
-        private async void SetValorCamposCustomizadosAsync(CardHolderEntity entity, Cardholder entityCardholder)
+        private void SetValorCamposCustomizados(CardHolderEntity entity, Cardholder entityCardholder)
         {
-            await entityCardholder.SetCustomFieldAsync ("CPF", entity.Cpf);
-            await entityCardholder.SetCustomFieldAsync ("Empresa", entity.Nome);
-            await entityCardholder.SetCustomFieldAsync ("Cnpj", entity.Cnpj);
-            await entityCardholder.SetCustomFieldAsync ("Matricula", entity.Matricula);
-            await entityCardholder.SetCustomFieldAsync ("Cargo", entity.Cargo);
+            entityCardholder.SetCustomFieldAsync ("CPF", entity.Cpf);
+            entityCardholder.SetCustomFieldAsync ("Empresa", entity.Empresa);
+            entityCardholder.SetCustomFieldAsync ("CNPJ", entity.Cnpj);
+            entityCardholder.SetCustomFieldAsync ("Matricula", entity.Matricula);
+            entityCardholder.SetCustomFieldAsync ("Cargo", entity.Cargo);
+            entityCardholder.FirstName = entity.Nome;
+            entityCardholder.LastName = entity.Apelido;
             entityCardholder.ActivationMode = new SpecificActivationPeriod (DateTime.Now, entity.Validade);
             entityCardholder.Picture = entity.Foto;
         }
@@ -105,6 +107,56 @@ namespace IMOD.Infra.Servicos
         }
 
         /// <summary>
+        ///     Alterar uma credencial para um Card Holder (Titular do cartão)
+        /// </summary>
+        /// <param name="entity"></param>
+        public void AlterarStatusCardHolder(CardHolderEntity entity)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace (entity.IdentificadorCardHolderGuid)) throw new ArgumentNullException(nameof(entity.IdentificadorCardHolderGuid));
+                _sdk.TransactionManager.CreateTransaction();
+
+                var cardholder = _sdk.GetEntity(new Guid(entity.IdentificadorCardHolderGuid)) as Cardholder;
+                if(cardholder==null) throw new InvalidOperationException("Não foi possível encontrar o titular do cartão.");
+                cardholder.State =  entity.Ativo?CardholderState.Active:CardholderState.Inactive;
+
+                _sdk.TransactionManager.CommitTransaction();
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+                throw;
+            }
+           
+        }
+
+        /// <summary>
+        ///     Alterar uma credencial para um Card Holder (Titular do cartão)
+        /// </summary>
+        /// <param name="entity"></param>
+        public void AlterarStatusCredencial(CardHolderEntity entity)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(entity.IdentificadorCredencialGuid)) throw new ArgumentNullException(nameof(entity.IdentificadorCredencialGuid));
+                _sdk.TransactionManager.CreateTransaction();
+
+                var credencial = _sdk.GetEntity(new Guid(entity.IdentificadorCredencialGuid)) as Credential;
+                if (credencial == null) throw new InvalidOperationException("Não foi possível encontrar uma credencial.");
+                credencial.State = entity.Ativo ? CredentialState.Active : CredentialState.Inactive;
+
+                _sdk.TransactionManager.CommitTransaction();
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+                throw;
+            }
+
+        }
+
+        /// <summary>
         ///     Criar Card Holder (Titular do cartão)
         /// </summary>
         /// <param name="entity"></param>
@@ -117,20 +169,22 @@ namespace IMOD.Infra.Servicos
             {
                 _sdk.TransactionManager.CreateTransaction();
 
-                var cardHolderGroup = _sdk.GetEntity (EntityType.CardholderGroup, 1) as CardholderGroup;
-                ;
                 var cardHolder = _sdk.CreateEntity (entity.Nome, EntityType.Cardholder) as Cardholder;
                 if (cardHolder == null) throw new InvalidOperationException ("Não foi possível criar uma credencial.");
-                if (cardHolderGroup == null) throw new InvalidOperationException ("Não foi possível gerar grupo de credencial");
+
                 entity.IdentificadorCardHolderGuid = cardHolder.Guid.ToString(); //Set identificador Guid
-                SetValorCamposCustomizadosAsync (entity, cardHolder);
-                cardHolder.Groups.Add (cardHolderGroup.Guid);
+                SetValorCamposCustomizados (entity, cardHolder);
+                var cardHolderGroup = _sdk.GetEntity (EntityType.CardholderGroup, 1) as CardholderGroup;
+                //if (cardHolderGroup == null) throw new InvalidOperationException ("Não foi possível gerar grupo de credencial");
+                if (cardHolderGroup != null)
+                    cardHolder.Groups.Add (cardHolderGroup.Guid);
 
                 _sdk.TransactionManager.CommitTransaction();
             }
             catch (Exception ex)
             {
                 Utils.TraceException (ex);
+                throw;
             }
         }
 
@@ -143,18 +197,21 @@ namespace IMOD.Infra.Servicos
             try
             {
                 if (string.IsNullOrWhiteSpace (entity.IdentificadorCardHolderGuid)) throw new ArgumentNullException (nameof (entity.IdentificadorCardHolderGuid));
-                if (string.IsNullOrWhiteSpace (entity.IdentificadorLayoutCrahaGuid)) throw new ArgumentNullException (nameof (entity.IdentificadorLayoutCrahaGuid));
+                if (string.IsNullOrWhiteSpace (entity.IdentificadorLayoutCrachaGuid)) throw new ArgumentNullException (nameof (entity.IdentificadorLayoutCrachaGuid));
+                if (string.IsNullOrWhiteSpace (entity.NumeroCredencial)) throw new ArgumentNullException (nameof (entity.NumeroCredencial));
+
                 var guid = new Guid (entity.IdentificadorCardHolderGuid);
                 var cardHolder = _sdk.GetEntity (guid) as Cardholder;
                 if (cardHolder == null) throw new InvalidOperationException ($"Não foi possível obter o titular do cartão GUID {entity.IdentificadorCardHolderGuid}");
 
                 _sdk.TransactionManager.CreateTransaction();
+
                 var credencial = _sdk.CreateEntity (entity.NumeroCredencial, EntityType.Credential) as Credential;
                 if (credencial == null) throw new InvalidOperationException ("Não foi possível criar credencial.");
                 credencial.Name = $"{entity.NumeroCredencial} - {entity.Nome}";
-                var layout = _sdk.GetEntity (new Guid (entity.IdentificadorLayoutCrahaGuid));
+                var layout = _sdk.GetEntity (new Guid (entity.IdentificadorLayoutCrachaGuid));
                 if (layout != null) //Especifica um layout Cracha apenas se houver um existente
-                    credencial.BadgeTemplate = new Guid (entity.IdentificadorLayoutCrahaGuid);
+                    credencial.BadgeTemplate = new Guid (entity.IdentificadorLayoutCrachaGuid);
                 //Obter Formatacao da Credencial
                 SetValorFormatoCredencial (entity, credencial);
 
@@ -164,11 +221,13 @@ namespace IMOD.Infra.Servicos
                 //Vincular Credencial ao CardHolder
                 cardHolder.Credentials.Add (credencial);
                 entity.IdentificadorCredencialGuid = credencial.Guid.ToString();
+
                 _sdk.TransactionManager.CommitTransaction();
             }
             catch (Exception ex)
             {
                 Utils.TraceException (ex);
+                throw;
             }
         }
 

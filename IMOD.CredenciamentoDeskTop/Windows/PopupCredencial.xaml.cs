@@ -19,6 +19,9 @@ using IMOD.CredenciamentoDeskTop.Helpers;
 using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
 using IMOD.Domain.EntitiesCustom;
+using IMOD.Infra.Servicos;
+using IMOD.Infra.Servicos.Entities;
+using Microsoft.Expression.Encoder;
 
 #endregion
 
@@ -93,16 +96,17 @@ namespace IMOD.CredenciamentoDeskTop.Windows
                 DialogResult impressaoRealizadaResult;
                 DialogResult reImpressaoResult;
                 DialogResult podeCobrarResult;
-                var impressaoCorreta = false;
+                //var impressaoCorreta = false;
+                var impressaoCorreta = true;
 
                 Imprimir();
 
-                impressaoRealizadaResult = WpfHelp.MboxDialogYesNo ("A impressão foi corretamente realizada?", true);
+                impressaoRealizadaResult = WpfHelp.MboxDialogYesNo("A impressão foi corretamente realizada?", true);
                 impressaoCorreta = impressaoRealizadaResult == System.Windows.Forms.DialogResult.Yes;
 
                 if (!impressaoCorreta)
                 {
-                    reImpressaoResult = WpfHelp.MboxDialogYesNo ("Deseja imprimir mais uma vez?", true);
+                    reImpressaoResult = WpfHelp.MboxDialogYesNo("Deseja imprimir mais uma vez?", true);
                     if (reImpressaoResult != System.Windows.Forms.DialogResult.Yes) return;
 
                     //Re imprimir
@@ -119,21 +123,26 @@ namespace IMOD.CredenciamentoDeskTop.Windows
                     var n1 = Mapper.Map<ColaboradorCredencial>(_entity);
                     n1.Emissao = DateTime.Today.Date;
                     n1.Impressa = true;
-                    _service.Alterar (n1);
+                    _service.Alterar(n1);
 
                     podeCobrarResult = WpfHelp.MboxDialogYesNo($"Autoriza a cobrança pela impressão no valor de {$"{_layoutCracha.Valor:C} ?"}", true);
                     var impressaoCobrar = podeCobrarResult == System.Windows.Forms.DialogResult.Yes;
+
+                    _service.ImpressaoCredencial.Criar(new ColaboradorCredencialimpresssao
+                    {
+                        ColaboradorCredencialId = _entity.ColaboradorCredencialId,
+                        Cobrar = impressaoCobrar,
+                        DataImpressao = DateTime.Today.Date,
+                        Valor = _layoutCracha.Valor
+
+                    });
+
+                    //Gerar card Holder e Credencial
+                    //Uma data de validade é necessária para geração da credencial
+                    if (_entity.Validade==null) throw new InvalidOperationErrorException("A validade da credencial deve ser informada.");
+                    _service.CriarTitularCartao (new CredencialGenetecService (Main.Engine),_entity);
                     
-                        _service.ImpressaoCredencial.Criar (new ColaboradorCredencialimpresssao
-                        {
-                            ColaboradorCredencialId = _entity.ColaboradorCredencialId,
-                            Cobrar = impressaoCobrar,
-                            DataImpressao = DateTime.Today.Date,
-                            Valor = _layoutCracha.Valor
-
-                        });
-
-                     this.Close();
+                    this.Close();
 
                 }
                  
@@ -141,6 +150,7 @@ namespace IMOD.CredenciamentoDeskTop.Windows
             catch (Exception ex)
             {
                 Utils.TraceException (ex);
+                WpfHelp.MboxError("Não foi realizar a operação solicitada", ex);
             }
         }
 

@@ -25,6 +25,7 @@ using IMOD.CredenciamentoDeskTop.Windows;
 using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
 using IMOD.Domain.EntitiesCustom;
+using IMOD.Infra.Servicos;
 
 #endregion
 
@@ -40,6 +41,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         #region  Propriedades
 
+        public bool Habilitar { get; private set; } = true;
         public List<CredencialStatus> CredencialStatus { get; set; }
         public List<CredencialMotivo> CredencialMotivo { get; set; }
         public List<FormatoCredencial> FormatoCredencial { get; set; }
@@ -212,7 +214,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 n1.LayoutCrachaId = Entity.LayoutCrachaId;
                 n1.TecnologiaCredencialId = Entity.TecnologiaCredencialId;
                 n1.TipoCredencialId = Entity.TipoCredencialId;
-
+                //Criar registro no banco de dados e setar uma data de validade
                 _service.Criar (n1, _colaboradorView.ColaboradorId);
                 IsEnableLstView = true;
                 SelectListViewIndex = 0;
@@ -240,6 +242,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             };
             Comportamento.PrepareCriar();
             IsEnableLstView = false;
+            Habilitar = true;
         }
 
         /// <summary>
@@ -254,7 +257,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (Entity == null) return;
 
                 var n1 = Mapper.Map<ColaboradorCredencial> (Entity);
-                _service.Alterar (n1);
+                //Alterar o status do titular do cartão
+                _service.AlterarStatusTitularCartao (new CredencialGenetecService (Main.Engine),Entity,n1);
+                //_service.Alterar (n1);
                 IsEnableLstView = true;
             }
             catch (Exception ex)
@@ -334,77 +339,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 relatorio.SetDataSource (lst);
                 var popupCredencial = new PopupCredencial (relatorio, _service, Entity, layoutCracha);
                 popupCredencial.ShowDialog();
+                //Atualizar GUID
+                 
+                 
 
-                //    if (Entity.Validade == null || !Entity.Ativa || Entity.LayoutCrachaId == 0)
-                //    {
-                //        WpfHelp.PopupBox("Não foi possível imprimir esta credencial!", 3);
-                //        return;
-                //    }
-                //var list1 = _service.ObterCredencialView(Entity.ColaboradorCredencialId);
-                //    var list2 = Mapper.Map<List<CredencialView>>(list1);
-                //    var observer = new ObservableCollection<CredencialView>();
-                //    list2.ForEach(n =>
-                //    {
-                //        observer.Add(n);
-                //    });
-
-                // Credencial = observer;
-
-                //    var layoutCracha = _auxiliaresService.LayoutCrachaService.BuscarPelaChave(Entity.LayoutCrachaId);
-
-                //    string _ArquivoRPT = Path.GetRandomFileName();
-                //    _ArquivoRPT = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\" + _ArquivoRPT;
-                //    _ArquivoRPT = Path.ChangeExtension(_ArquivoRPT, ".rpt");
-                //    byte[] arrayFile = Convert.FromBase64String(layoutCracha.LayoutRpt);
-                //    File.WriteAllBytes(_ArquivoRPT, arrayFile);
-                //    ReportDocument reportDocument = new ReportDocument();
-                //    reportDocument.Load(_ArquivoRPT);
-
-                //    reportDocument.SetDataSource(Credencial);
-
-                //    PopupCredencial _popupCredencial = new PopupCredencial(reportDocument);
-                //    _popupCredencial.ShowDialog();
-
-                //    bool _result = _popupCredencial.Result;
-
-                //    if (_result)
-                //    {
-                //        _colaboradorCredencialImpressao.ColaboradorCredencialId = Entity.ColaboradorCredencialId;
-                //        _colaboradorCredencialImpressao.DataImpressao = DateTime.Now;
-                //        if (Entity.IsencaoCobranca)
-                //        {
-                //            _colaboradorCredencialImpressao.Cobrar = false;
-                //        }
-                //        else
-                //        {
-                //            _colaboradorCredencialImpressao.Cobrar = true;
-                //        }
-
-                //        _ImpressaoService.Criar(_colaboradorCredencialImpressao);
-                //        WpfHelp.PopupBox("Impressão Efetuada com Sucesso!", 1);
-                //        Entity.Impressa = true;
-
-                //        //Criar cardHolder
-                //        string cardholderGuid = _sc.CardHolder(Entity.ColaboradorNome.Trim(), Entity.Cpf.Trim(), Entity.Cnpj.Trim(),
-                //            Entity.EmpresaNome.Trim(), Entity.Matricula.Trim(), Entity.Cargo.Trim(),
-                //            Entity.Fc.ToString().Trim(), Entity.NumeroCredencial.Trim(),
-                //            Entity.FormatoCredencialDescricao.Trim(), Entity.Validade.ToString(),
-                //            layoutCracha.LayoutCrachaGuid, Entity.ColaboradorFoto.ConverterBase64StringToBitmap());
-
-                //        string credentialGuid = _sc.Credencial(layoutCracha.LayoutCrachaGuid, Entity.Fc.ToString().Trim(),
-                //            Entity.NumeroCredencial.Trim(), Entity.FormatoCredencialDescricao.Trim(), cardholderGuid);
-
-                //        if (Entity == null)
-                //        {
-                //            return;
-                //        }
-                //        var n1 = Mapper.Map<ColaboradorCredencial>(Entity);
-                //        n1.CardHolderGuid = cardholderGuid.ToString();
-                //        n1.CredencialGuid = credentialGuid.ToString();
-                //        _service.Alterar(n1);
-
-                //    }
-                //    File.Delete(_ArquivoRPT);
             }
             catch (Exception ex)
             {
@@ -417,16 +355,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 
             }
         }
-
-        private void CriarCardHolder()
-        {
-            
-        }
-
-        private void CriarCredencial()
-        {
-            
-        }
+         
 
         /// <summary>
         ///     Acionado antes de alterar
@@ -440,6 +369,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
             Comportamento.PrepareAlterar();
             IsEnableLstView = false;
+            Habilitar = false;
         }
 
         private void PrepareSalvar()

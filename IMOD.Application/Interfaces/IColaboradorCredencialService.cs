@@ -7,7 +7,9 @@
 #region
 
 using IMOD.Domain.Entities;
+using IMOD.Domain.EntitiesCustom;
 using IMOD.Domain.Interfaces;
+using IMOD.Infra.Servicos;
 
 #endregion
 
@@ -16,6 +18,11 @@ namespace IMOD.Application.Interfaces
     public interface IColaboradorCredencialService : IColaboradorCredencialRepositorio
     {
         #region  Propriedades
+
+        ///// <summary>
+        /////     Sub sistema de geração de credenciais de cartão de um titular
+        ///// </summary>
+        //ICredencialService GeradorCredencialServico { get; set; }
 
         /// <summary>
         ///     Impressão Serviços
@@ -55,6 +62,21 @@ namespace IMOD.Application.Interfaces
         #endregion
 
         #region  Metodos
+
+        /// <summary>
+        ///     Criar um titular de cartão no sub-sistema de credenciamento (Genetec)
+        /// </summary>
+        /// <param name="geradorCredencialService"> Sub sistema de geração de credenciais de cartão de um titular</param>
+        /// <param name="entity"></param>
+        void CriarTitularCartao(ICredencialService geradorCredencialService, ColaboradoresCredenciaisView entity);
+
+        /// <summary>
+        ///     Alterar o status de um titular de cartão no  sub-sistema de credenciamento (Genetec)
+        /// </summary>
+        /// <param name="geradorCredencialService"></param>
+        /// <param name="entity"></param>
+        /// <param name="entity2"></param>
+        void AlterarStatusTitularCartao(ICredencialService geradorCredencialService, ColaboradoresCredenciaisView entity, ColaboradorCredencial entity2);
 
         /// <summary>
         ///     Criar registro credencial e obter data de validade da credencial
