@@ -12,6 +12,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Forms;
 using System.Windows.Input;
 using AutoMapper;
@@ -258,9 +259,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 var n1 = Mapper.Map<ColaboradorCredencial> (Entity);
                 //Alterar o status do titular do cartão
-                _service.AlterarStatusTitularCartao (new CredencialGenetecService (Main.Engine),Entity,n1);
-                //_service.Alterar (n1);
-                IsEnableLstView = true;
+               _service.AlterarStatusTitularCartao (new CredencialGenetecService (Main.Engine),Entity,n1);
+                CollectionViewSource.GetDefaultView(EntityObserver).Refresh();//Atualizar observer
+                IsEnableLstView = true; 
             }
             catch (Exception ex)
             {
@@ -339,9 +340,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 relatorio.SetDataSource (lst);
                 var popupCredencial = new PopupCredencial (relatorio, _service, Entity, layoutCracha);
                 popupCredencial.ShowDialog();
-                //Atualizar GUID
-                 
-                 
+                //Atualizar observer
+                CollectionViewSource.GetDefaultView(EntityObserver).Refresh();//Atualizar observer
+
 
             }
             catch (Exception ex)

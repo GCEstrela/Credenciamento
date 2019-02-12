@@ -291,6 +291,18 @@
                           SelectedItem="{Binding Entity, Mode=TwoWay}" >
                     <ListView.View>
                         <GridView  >
+                            <GridViewColumn Width="50" Header="Status"  >
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding Path= Ativa}" IsHitTestVisible="False" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                                <!--<GridViewColumn.CellTemplate  >
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding CredencialStatusDescricao}" Foreground="{Binding Ativa,  Converter={StaticResource CheckTeste}, ConverterParameter='Ativa_tw'}"  TextAlignment="Center"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>-->
+                            </GridViewColumn>
                             <!--<GridViewColumn >
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
@@ -322,10 +334,10 @@
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
-                                            <TextBlock Margin="0,0,10,0" Text="{Binding Path=EmpresaNome}" Foreground="{Binding Ativa,  Converter={StaticResource CheckTeste}, ConverterParameter='Ativa_tw'}"/>
-                                            <TextBlock Foreground="{Binding Ativa,  Converter={StaticResource CheckTeste}, ConverterParameter='Ativa_tw'}" >
+                                            <TextBlock Margin="0,0,10,0" Text="{Binding Path=  EmpresaNome}" Foreground="{Binding   Ativa,  Converter={StaticResource CheckTeste}, ConverterParameter='Ativa_tw'}"/>
+                                            <TextBlock Foreground="{Binding  Ativa,  Converter={StaticResource CheckTeste}, ConverterParameter='Ativa_tw'}" >
                                                               <Run Text=" ("/>
-                                                              <Run Text="{Binding  Path=ContratoDescricao}"/>
+                                                              <Run Text="{Binding  Path= Entity.ContratoDescricao}"/>
                                                               <Run Text=")"/>
                                             </TextBlock>
                                         </StackPanel>
@@ -338,24 +350,18 @@
                             <GridViewColumn Width="95" Header="Tipo" >
                                 <GridViewColumn.CellTemplate >
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding TipoCredencialDescricao}"  Foreground="{Binding Ativa,  Converter={StaticResource CheckTeste}, ConverterParameter='Ativa_tw'}"/>
+                                        <TextBlock Text="{Binding  TipoCredencialDescricao}"  Foreground="{Binding   Ativa,  Converter={StaticResource CheckTeste}, ConverterParameter='Ativa_tw'}"/>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                             <GridViewColumn Width="150" Header="Modelo" >
                                 <GridViewColumn.CellTemplate  >
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding LayoutCrachaNome}"  Foreground="{Binding Ativa,  Converter={StaticResource CheckTeste}, ConverterParameter='Ativa_tw'}" TextAlignment="Center"/>
+                                        <TextBlock Text="{Binding  LayoutCrachaNome}"  Foreground="{Binding   Ativa,  Converter={StaticResource CheckTeste}, ConverterParameter='Ativa_tw'}" TextAlignment="Center"/>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn Width="120" Header="Status"  >
-                                <GridViewColumn.CellTemplate  >
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding CredencialStatusDescricao}" Foreground="{Binding Ativa,  Converter={StaticResource CheckTeste}, ConverterParameter='Ativa_tw'}"  TextAlignment="Center"/>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
+                           
                             <GridViewColumn Width="100" Header="Validade"  >
                                 <GridViewColumn.CellTemplate  >
                                     <DataTemplate>
