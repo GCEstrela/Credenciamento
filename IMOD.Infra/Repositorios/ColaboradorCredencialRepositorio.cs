@@ -194,7 +194,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("TipoCredencialID", DbType.Int32, entity.TipoCredencialId, false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("LayoutCrachaID", DbType.Int32, entity.LayoutCrachaId, false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("FormatoCredencialID", DbType.Int32, entity.FormatoCredencialId, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("NumeroCredencial", entity.NumeroCredencial, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("NumeroCredencial", entity.NumeroCredencial.RetirarCaracteresEspeciais(), false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("FC", DbType.Int32, entity.Fc, false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Emissao", DbType.DateTime, entity.Emissao, false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Validade", DbType.DateTime, entity.Validade, false)));
@@ -267,7 +267,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("TipoCredencialID", DbType.Int32, entity.TipoCredencialId, false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("LayoutCrachaID", DbType.Int32, entity.LayoutCrachaId, false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("FormatoCredencialID", DbType.Int32, entity.FormatoCredencialId, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("NumeroCredencial", entity.NumeroCredencial, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("NumeroCredencial", entity.NumeroCredencial.RetirarCaracteresEspeciais(), false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("FC", DbType.Int32, entity.Fc, false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Emissao", DbType.DateTime, entity.Emissao, false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("CredencialStatusID", DbType.Int32, entity.CredencialStatusId, false)));
@@ -366,6 +366,35 @@ namespace IMOD.Infra.Repositorios
                     catch (Exception ex)
                     {
                         Utils.TraceException (ex);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        ///     Obter dados da credencial pelo numero da credencial
+        /// </summary>
+        /// <param name="numCredencial"></param>
+        /// <returns></returns>
+        public ColaboradorCredencial ObterCredencialPeloNumeroCredencial(string numCredencial)
+        {
+            using (var conn = _dataBase.CreateOpenConnection())
+            {
+                using (var cmd = _dataBase.SelectText("ColaboradoresCredenciais", conn))
+
+                {
+                    try
+                    {
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("NumeroCredencial", numCredencial).Igual()));
+                        var reader = cmd.ExecuteReader();
+                        var d1 = reader.MapToList<ColaboradorCredencial>();
+
+                        return d1.FirstOrDefault();
+                    }
+                    catch (Exception ex)
+                    {
+                        Utils.TraceException(ex);
+                        throw;
                     }
                 }
             }

@@ -37,7 +37,15 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
         private readonly IColaboradorEmpresaService _colaboradorEmpresaService = new ColaboradorEmpresaService();
         private readonly IColaboradorCredencialService _service = new ColaboradorCredencialService();
+        /// <summary>
+        ///     True, Comando de alteração acionado
+        /// </summary>
+        private bool _prepareAlterarCommandAcionado;
 
+        /// <summary>
+        ///     True, Comando de criação acionado
+        /// </summary>
+        private bool _prepareCriarCommandAcionado;
         private ColaboradorView _colaboradorView;
 
         #region  Propriedades
@@ -68,6 +76,26 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         #endregion
 
         #region  Metodos
+
+        #region Regras de Negócio
+        private bool ExisteNumeroCredencial()
+        {
+            if (Entity == null) return false;
+            var numCredencial = Entity.NumeroCredencial.RetirarCaracteresEspeciais();
+
+            //Verificar dados antes de salvar uma criação
+            if (_prepareCriarCommandAcionado)
+                if (_service.ExisteNumeroCredencial(numCredencial)) return true;
+            //Verificar dados antes de salvar uma alteraçao
+            if (!_prepareAlterarCommandAcionado) return false;
+            var n1 = _service.BuscarPelaChave(Entity.ColaboradorId);
+            if (n1 == null) return false;
+            //Comparar o CNPJ antes e o depois
+            //Verificar se há cnpj exisitente
+            return string.Compare(n1.NumeroCredencial.RetirarCaracteresEspeciais(),
+                numCredencial, StringComparison.Ordinal) != 0 && _service.ExisteNumeroCredencial(numCredencial);
+        }
+        #endregion   
 
         private void ListarDadosAuxiliares()
         {
@@ -193,6 +221,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private void PrepareRemover()
         {
+            _prepareCriarCommandAcionado = false;
+            _prepareAlterarCommandAcionado = false;
             Comportamento.PrepareRemover();
         }
 
@@ -242,6 +272,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 Ativa = true
             };
             Comportamento.PrepareCriar();
+            _prepareCriarCommandAcionado = true;
+            _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;
             IsEnableLstView = false;
             Habilitar = true;
         }
@@ -259,8 +291,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 var n1 = Mapper.Map<ColaboradorCredencial> (Entity);
                 //Alterar o status do titular do cartão
-               _service.AlterarStatusTitularCartao (new CredencialGenetecService (Main.Engine),Entity,n1);
-                CollectionViewSource.GetDefaultView(EntityObserver).Refresh();//Atualizar observer
+                _service.AlterarStatusTitularCartao (new CredencialGenetecService (Main.Engine),Entity,n1);
+                //Atualizar observer
+                CollectionViewSource.GetDefaultView(EntityObserver).Refresh(); 
                 IsEnableLstView = true; 
             }
             catch (Exception ex)
@@ -279,6 +312,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
+                _prepareCriarCommandAcionado = false;
+                _prepareAlterarCommandAcionado = false;
                 IsEnableLstView = true;
                 Entity = null;
             }
@@ -332,15 +367,18 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
 
-                var arrayBytes = Convert.FromBase64String (layoutCracha.LayoutRpt);
-                var relatorio = WpfHelp.ShowRelatorioCrystalReport (arrayBytes, layoutCracha.Nome);
+                var arrayBytes = Convert.FromBase64String(layoutCracha.LayoutRpt);
+                var relatorio = WpfHelp.ShowRelatorioCrystalReport(arrayBytes, layoutCracha.Nome);
                 var lst = new List<CredencialView>();
-                var credencialView = _service.ObterCredencialView (Entity.ColaboradorCredencialId);
-                lst.Add (credencialView);
-                relatorio.SetDataSource (lst);
-                var popupCredencial = new PopupCredencial (relatorio, _service, Entity, layoutCracha);
+                var credencialView = _service.ObterCredencialView(Entity.ColaboradorCredencialId);
+                lst.Add(credencialView);
+                relatorio.SetDataSource(lst);
+                var popupCredencial = new PopupCredencial(relatorio, _service, Entity, layoutCracha);
                 popupCredencial.ShowDialog();
+
+
                 //Atualizar observer
+                base.OnPropertyChanged("Entity");
                 CollectionViewSource.GetDefaultView(EntityObserver).Refresh();//Atualizar observer
 
 
@@ -369,6 +407,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 return;
             }
             Comportamento.PrepareAlterar();
+            _prepareCriarCommandAcionado = false;
+            _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;
             IsEnableLstView = false;
             Habilitar = false;
         }
@@ -391,8 +431,21 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         public bool Validar()
         {
+            //if (Entity == null) return true;
+            //return false;
             if (Entity == null) return true;
-            return false;
+            Entity.Validate();
+            var hasErros = Entity.HasErrors;
+            if (hasErros) return true; 
+            //Verificar existência de CPF
+            if (ExisteNumeroCredencial())
+            {
+                Entity.SetMessageErro("NumeroCredencial", "Número de credencial já existente.");
+                return true;
+            }
+
+            return Entity.HasErrors;
+
         }
 
         #endregion

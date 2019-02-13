@@ -1,18 +1,22 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using IMOD.Domain.EntitiesCustom.Funcoes;
 
 namespace IMOD.Domain.EntitiesCustom
 {
-    public class ColaboradoresCredenciaisView
+    public class ColaboradoresCredenciaisView : ValidacaoModel
     {
         public int ColaboradorCredencialId { get; set; }
         [Range(1, int.MaxValue, ErrorMessage = "A Empresa é requerida.")]
         public int ColaboradorEmpresaId { get; set; }
         public int TecnologiaCredencialId { get; set; }
+        [Range(1, int.MaxValue, ErrorMessage = "O Tipo de credencial é requerida.")]
         public int TipoCredencialId { get; set; }
         public string NumeroContrato { get; set; }
+        [Range(1, int.MaxValue, ErrorMessage = "O Layout do crachá é requerido.")]
         public int LayoutCrachaId { get; set; }
         public int FormatoCredencialId { get; set; }
+        [Required(ErrorMessage = "O Número da credencial é requerida.")]
         public string NumeroCredencial { get; set; }
         public int Fc { get; set; }
         public DateTime? Emissao { get; set; }

@@ -396,7 +396,7 @@ namespace IMOD.CredenciamentoDeskTop.Funcoes
                     else //criar nova credencial
                     {
                         _sdk.TransactionManager.CreateTransaction();
-
+                        
                         _credencial = _sdk.CreateEntity(_NumeroCredencial, EntityType.Credential) as Credential;
 
                         _credencial.Name = _NumeroCredencial + " - " + _firstname + " " + _lastname;

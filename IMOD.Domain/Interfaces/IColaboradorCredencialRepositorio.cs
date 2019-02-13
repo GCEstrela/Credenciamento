@@ -20,6 +20,13 @@ namespace IMOD.Domain.Interfaces
         #region  Metodos
 
         /// <summary>
+        ///     Obter dados da credencial pelo numero da credencial
+        /// </summary>
+        /// <param name="numCredencial"></param>
+        /// <returns></returns>
+        ColaboradorCredencial ObterCredencialPeloNumeroCredencial(string numCredencial);
+
+        /// <summary>
         ///     Listar Colaboradores e suas credenciais
         /// </summary>
         /// <param name="o">Arrays de Parametros</param>

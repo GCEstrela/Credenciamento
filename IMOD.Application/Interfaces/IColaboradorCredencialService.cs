@@ -19,10 +19,7 @@ namespace IMOD.Application.Interfaces
     {
         #region  Propriedades
 
-        ///// <summary>
-        /////     Sub sistema de geração de credenciais de cartão de um titular
-        ///// </summary>
-        //ICredencialService GeradorCredencialServico { get; set; }
+         
 
         /// <summary>
         ///     Impressão Serviços
@@ -62,6 +59,13 @@ namespace IMOD.Application.Interfaces
         #endregion
 
         #region  Metodos
+
+        /// <summary>
+        /// Verificar se um número credencial
+        /// </summary>
+        /// <param name="numCredencial"></param>
+        /// <returns></returns>
+        bool ExisteNumeroCredencial(string numCredencial);
 
         /// <summary>
         ///     Criar um titular de cartão no sub-sistema de credenciamento (Genetec)

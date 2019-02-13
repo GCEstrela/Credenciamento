@@ -30,7 +30,19 @@ namespace IMOD.Application.Service
         #endregion
 
         #region  Metodos
+        /// <summary>
+        /// Verificar se um número credencial
+        /// </summary>
+        /// <param name="numCredencial"></param>
+        /// <returns></returns>
+        public bool ExisteNumeroCredencial(string numCredencial)
+        {
+            if (string.IsNullOrWhiteSpace(numCredencial)) return false;
 
+            var doc = numCredencial.RetirarCaracteresEspeciais();
+            var n1 = ObterCredencialPeloNumeroCredencial (doc);
+            return n1 != null;
+        }
         private void ObterStatusCredencial(ColaboradorCredencial entity)
         {
             var status = CredencialStatus.BuscarPelaChave (entity.CredencialStatusId);
@@ -122,6 +134,16 @@ namespace IMOD.Application.Service
         }
 
         /// <summary>
+        ///     Obter dados da credencial pelo numero da credencial
+        /// </summary>
+        /// <param name="numCredencial"></param>
+        /// <returns></returns>
+        public ColaboradorCredencial ObterCredencialPeloNumeroCredencial(string numCredencial)
+        {
+            return _repositorio.ObterCredencialPeloNumeroCredencial (numCredencial);
+        }
+
+        /// <summary>
         ///     Listar Colaboradores e suas credenciais
         /// </summary>
         /// <param name="objects"></param>
@@ -189,13 +211,21 @@ namespace IMOD.Application.Service
             //Alterar status de um titual do cartao
             var titularCartao = CardHolderEntity (entity);
             titularCartao.Ativo = entity2.Ativa;
-            //Alterar status do carato
+            entity.Ativa = entity2.Ativa;//Atulizar dados para serem exibidas na tela
+            entity.Baixa = entity2.Ativa ? (DateTime?)null : DateTime.Today.Date;//Atulizar dados para serem exibidas na tela
+            //Alterar dados no sub-sistema de credenciamento
+            //A data da baixa está em função do status do titular do cartao e sua credencial
+            entity2.Baixa = entity.Baixa; 
+            Alterar(entity2);
+            //Alterar o status do cartao do titular, se houver
+            if(string.IsNullOrWhiteSpace (titularCartao.IdentificadorCardHolderGuid) 
+                & string.IsNullOrWhiteSpace (titularCartao.IdentificadorCredencialGuid)) return;
+            
+            //Alterar status do cartao
             geradorCredencialService.AlterarStatusCardHolder (titularCartao);
             //Alterar credencial
             geradorCredencialService.AlterarStatusCredencial (titularCartao);
-            //A data da baixa está em função do status do titular do cartao e sua credencial
-            entity2.Baixa = entity2.Ativa ? (DateTime?) null : DateTime.Today.Date;
-            Alterar (entity2);
+           
         }
 
         /// <summary>

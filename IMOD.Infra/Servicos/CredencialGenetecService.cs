@@ -48,6 +48,9 @@ namespace IMOD.Infra.Servicos
             entityCardholder.SetCustomFieldAsync ("Cargo", entity.Cargo);
             entityCardholder.FirstName = entity.Nome;
             entityCardholder.LastName = entity.Apelido;
+            //Uma data de validade deve ser mairo que a data corrente 
+            var compareData = DateTime.Compare (DateTime.Now, entity.Validade);
+            if (compareData >= 0) throw new InvalidOperationException ("A data de validade deve ser maior que a data corrente.");
             entityCardholder.ActivationMode = new SpecificActivationPeriod (DateTime.Now, entity.Validade);
             entityCardholder.Picture = entity.Foto;
         }
@@ -114,21 +117,20 @@ namespace IMOD.Infra.Servicos
         {
             try
             {
-                if (string.IsNullOrWhiteSpace (entity.IdentificadorCardHolderGuid)) throw new ArgumentNullException(nameof(entity.IdentificadorCardHolderGuid));
+                if (string.IsNullOrWhiteSpace (entity.IdentificadorCardHolderGuid)) throw new ArgumentNullException (nameof (entity.IdentificadorCardHolderGuid));
                 _sdk.TransactionManager.CreateTransaction();
 
-                var cardholder = _sdk.GetEntity(new Guid(entity.IdentificadorCardHolderGuid)) as Cardholder;
-                if(cardholder==null) throw new InvalidOperationException("Não foi possível encontrar o titular do cartão.");
-                cardholder.State =  entity.Ativo?CardholderState.Active:CardholderState.Inactive;
+                var cardholder = _sdk.GetEntity (new Guid (entity.IdentificadorCardHolderGuid)) as Cardholder;
+                if (cardholder == null) throw new InvalidOperationException ("Não foi possível encontrar o titular do cartão.");
+                cardholder.State = entity.Ativo ? CardholderState.Active : CardholderState.Inactive;
 
                 _sdk.TransactionManager.CommitTransaction();
             }
             catch (Exception ex)
             {
-                Utils.TraceException(ex);
+                Utils.TraceException (ex);
                 throw;
             }
-           
         }
 
         /// <summary>
@@ -139,21 +141,20 @@ namespace IMOD.Infra.Servicos
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(entity.IdentificadorCredencialGuid)) throw new ArgumentNullException(nameof(entity.IdentificadorCredencialGuid));
+                if (string.IsNullOrWhiteSpace (entity.IdentificadorCredencialGuid)) throw new ArgumentNullException (nameof (entity.IdentificadorCredencialGuid));
                 _sdk.TransactionManager.CreateTransaction();
 
-                var credencial = _sdk.GetEntity(new Guid(entity.IdentificadorCredencialGuid)) as Credential;
-                if (credencial == null) throw new InvalidOperationException("Não foi possível encontrar uma credencial.");
+                var credencial = _sdk.GetEntity (new Guid (entity.IdentificadorCredencialGuid)) as Credential;
+                if (credencial == null) throw new InvalidOperationException ("Não foi possível encontrar uma credencial.");
                 credencial.State = entity.Ativo ? CredentialState.Active : CredentialState.Inactive;
 
                 _sdk.TransactionManager.CommitTransaction();
             }
             catch (Exception ex)
             {
-                Utils.TraceException(ex);
+                Utils.TraceException (ex);
                 throw;
             }
-
         }
 
         /// <summary>
@@ -205,9 +206,25 @@ namespace IMOD.Infra.Servicos
                 if (cardHolder == null) throw new InvalidOperationException ($"Não foi possível obter o titular do cartão GUID {entity.IdentificadorCardHolderGuid}");
 
                 _sdk.TransactionManager.CreateTransaction();
+                Credential credencial;
 
-                var credencial = _sdk.CreateEntity (entity.NumeroCredencial, EntityType.Credential) as Credential;
-                if (credencial == null) throw new InvalidOperationException ("Não foi possível criar credencial.");
+                #region Criar ou obter uma credencial
+
+                if (!string.IsNullOrWhiteSpace (entity.IdentificadorCredencialGuid))
+                {
+                    //Obter uma credencial já criada, posto que não foi gerado um GUID
+                    credencial = _sdk.GetEntity (new Guid (entity.IdentificadorCredencialGuid)) as Credential;
+                }
+                else
+                {
+                    //Criar uma credencial
+                    //O número da credencial deve ser unico
+                    credencial = _sdk.CreateEntity (entity.NumeroCredencial, EntityType.Credential) as Credential;
+                }
+
+                #endregion
+
+                if (credencial == null) throw new InvalidOperationException ("Não foi possível criar uma credencial.");
                 credencial.Name = $"{entity.NumeroCredencial} - {entity.Nome}";
                 var layout = _sdk.GetEntity (new Guid (entity.IdentificadorLayoutCrachaGuid));
                 if (layout != null) //Especifica um layout Cracha apenas se houver um existente

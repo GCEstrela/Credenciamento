@@ -80,7 +80,7 @@
                           HorizontalAlignment="Stretch" 
                           ItemsSource="{Binding EntityObserver, Mode=TwoWay}"
                           SelectedItem="{Binding Entity, Mode=TwoWay}"
-                          Width="749" Margin="0,15,0,60">
+                          Width="749" Margin="0,15,0,81">
                     <ListView.View>
                         <GridView FrameworkElement.FlowDirection="RightToLeft">
                             <GridViewColumn Width="50" Header="Cod." DisplayMemberBinding="{Binding ColaboradorAnexoId}" />

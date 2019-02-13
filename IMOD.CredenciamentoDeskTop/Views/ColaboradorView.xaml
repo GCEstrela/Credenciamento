@@ -669,7 +669,7 @@
                         </StackPanel>
                     </StackPanel>
                 </TabItem.Header>
-                <views:ColaboradoresCredenciaisView x:Name="ColaboradoresCredenciaisUs" Margin="5,5,0,164" HorizontalAlignment="Left"  />
+                <views:ColaboradoresCredenciaisView x:Name="ColaboradoresCredenciaisUs" Margin="5,5,0,62" HorizontalAlignment="Left"  />
 
             </TabItem>
 
