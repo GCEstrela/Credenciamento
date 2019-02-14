@@ -37,12 +37,16 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private VeiculoViewModel _viewModelParent;
 
         #region  Propriedades
-
+        /// <summary>
+        ///     Acionado ao salvar dados
+        /// </summary>
+        public event RoutedEventHandler OnSalvar;
         public List<EmpresaContrato> Contratos { get; private set; }
         public List<Empresa> Empresas { get; private set; }
         public Empresa Empresa { get; set; }
-        public VeiculoEmpresaView Entity { get; set; } 
+        public VeiculoEmpresaView Entity { get; set; }
         public ObservableCollection<VeiculoEmpresaView> EntityObserver { get; set; }
+
         /// <summary>
         ///     Seleciona indice da listview
         /// </summary>
@@ -58,7 +62,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public VeiculosEmpresasViewModel()
         {
             ListarDadosAuxiliares();
-            Comportamento = new ComportamentoBasico(false, true, true, false, false);
+            Comportamento = new ComportamentoBasico (false, true, true, false, false);
             EntityObserver = new ObservableCollection<VeiculoEmpresaView>();
             Comportamento.SalvarAdicao += OnSalvarAdicao;
             Comportamento.SalvarEdicao += OnSalvarEdicao;
@@ -68,6 +72,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         }
 
         #region  Metodos
+
+        
 
         /// <summary>
         /// </summary>
@@ -140,6 +146,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 IsEnableLstView = true;
                 _viewModelParent.AtualizarDadosPendencias();
                 SelectListViewIndex = 0;
+
+                OnSalvar?.Invoke (sender,e);
             }
             catch (Exception ex)
             {
@@ -163,7 +171,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private void PrepareCriar()
         {
-         
             Entity = new VeiculoEmpresaView();
             Comportamento.PrepareCriar();
             IsEnableLstView = false;
@@ -184,6 +191,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var n1 = Mapper.Map<VeiculoEmpresa> (Entity);
                 _service.Alterar (n1);
                 IsEnableLstView = true;
+                OnSalvar?.Invoke(sender, e);
             }
             catch (Exception ex)
             {

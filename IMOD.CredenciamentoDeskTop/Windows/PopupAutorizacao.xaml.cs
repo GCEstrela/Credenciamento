@@ -11,8 +11,16 @@ using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
+using AutoMapper;
 using CrystalDecisions.CrystalReports.Engine;
+using IMOD.Application.Interfaces;
+using IMOD.CredenciamentoDeskTop.Helpers;
+using IMOD.CredenciamentoDeskTop.Views.Model;
 using IMOD.CrossCutting;
+using IMOD.Domain.Entities;
+using IMOD.Domain.EntitiesCustom;
+using IMOD.Infra.Servicos;
+using Microsoft.Expression.Encoder;
 
 #endregion
 
@@ -23,23 +31,30 @@ namespace IMOD.CredenciamentoDeskTop.Windows
     /// </summary>
     public partial class PopupAutorizacao : Window
     {
-        private readonly ReportDocument Cracha = new ReportDocument();
-        private bool firstPage;
-        public bool Result;
+        private VeiculosCredenciaisView _entity;
+        private readonly ReportDocument _report;
+        private IVeiculoCredencialService _service;
+        private LayoutCracha _layoutCracha;
+        private bool _firstPage;
+       
 
-        public PopupAutorizacao(ReportDocument reportDocument)
+        public PopupAutorizacao(ReportDocument reportDocument, IVeiculoCredencialService service, VeiculosCredenciaisView entity, LayoutCracha layoutCracha)
         {
             InitializeComponent();
             try
             {
-                Cracha = reportDocument;
+                _report = reportDocument;
+                _service = service;
+                _entity = entity;
+                _layoutCracha = layoutCracha;
 
                 GenericReportViewer.Background = Brushes.Transparent;
                 GenericReportViewer.ShowSearchTextButton = false;
                 GenericReportViewer.ShowExportButton = false;
                 GenericReportViewer.ShowCopyButton = false;
                 GenericReportViewer.ShowRefreshButton = false;
-                GenericReportViewer.ShowToggleSidePanelButton = false;
+                GenericReportViewer.ShowToggleSidePanelButton = false; 
+                // GenericReportViewer.ShowToolbar = false;
                 GenericReportViewer.ShowOpenFileButton = false;
                 GenericReportViewer.ShowLogo = false;
                 GenericReportViewer.ViewerCore.Zoom (150);
@@ -71,49 +86,132 @@ namespace IMOD.CredenciamentoDeskTop.Windows
         {
             try
             {
-                var dialog1 = new PrintDialog();
-                dialog1.AllowSomePages = true;
-                dialog1.AllowPrintToFile = false;
+                //A impressão foi realizada corretamente?
+                DialogResult impressaoRealizadaResult;
+                DialogResult reImpressaoResult;
+                DialogResult podeCobrarResult;
+                //var impressaoCorreta = false;
+                var impressaoCorreta = true;
 
-                if (dialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                Imprimir();
+
+                impressaoRealizadaResult = WpfHelp.MboxDialogYesNo("A impressão foi corretamente realizada?", true);
+                impressaoCorreta = impressaoRealizadaResult == System.Windows.Forms.DialogResult.Yes;
+
+                if (!impressaoCorreta)
                 {
-                    int copies = dialog1.PrinterSettings.Copies;
-                    var fromPage = dialog1.PrinterSettings.FromPage;
-                    var toPage = dialog1.PrinterSettings.ToPage;
-                    var collate = dialog1.PrinterSettings.Collate;
+                    reImpressaoResult = WpfHelp.MboxDialogYesNo("Deseja imprimir mais uma vez?", true);
+                    if (reImpressaoResult != System.Windows.Forms.DialogResult.Yes) return;
 
-                    dialog1.PrinterSettings.PrinterName = dialog1.PrinterSettings.PrinterName;
-                    Cracha.PrintToPrinter (copies, collate, fromPage, toPage);
-                    Result = true;
-                    Close();
+                    //Re imprimir
+                    Imprimir();
+
+                    impressaoRealizadaResult = WpfHelp.MboxDialogYesNo("A impressão foi corretamente realizada?", true);
+                    impressaoCorreta = impressaoRealizadaResult == System.Windows.Forms.DialogResult.Yes;
                 }
-                else
+
+                //Sendo a impressao realizada corretamente, então, solicitar autorização de cobrança
+                if (impressaoCorreta)
                 {
-                    Result = false;
+                    //Registrar a data da emissão da credencial..
+                    var n1 = Mapper.Map<VeiculoCredencial>(_entity);
+                    n1.Emissao = DateTime.Today.Date;
+                    n1.Impressa = true;
+                    _service.Alterar(n1);
+
+                    podeCobrarResult = WpfHelp.MboxDialogYesNo($"Autoriza a cobrança pela impressão no valor de {$"{_layoutCracha.Valor:C} ?"}", true);
+                    var impressaoCobrar = podeCobrarResult == System.Windows.Forms.DialogResult.Yes;
+
+                    _service.ImpressaoCredencial.Criar(new VeiculoCredencialimpressao
+                    {
+                        VeiculoCredencialId = _entity.VeiculoCredencialId,
+                        Cobrar = impressaoCobrar,
+                        DataImpressao = DateTime.Today.Date,
+                        Valor = _layoutCracha.Valor
+
+                    });
+
+                    //Gerar card Holder e Credencial
+                    //Uma data de validade é necessária para geração da credencial
+                    if (_entity.Validade == null) throw new InvalidOperationErrorException("A validade da credencial deve ser informada.");
+                    _service.CriarTitularCartao(new CredencialGenetecService(Main.Engine), _entity);
+
+                    this.Close();
+
                 }
 
-                //Cracha.Dispose();
-                dialog1.Dispose();
             }
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
+                Utils.TraceException(ex);
+                WpfHelp.MboxError("Não foi realizar a operação solicitada", ex);
             }
+            //try
+            //{
+            //    var dialog1 = new PrintDialog();
+            //    dialog1.AllowSomePages = true;
+            //    dialog1.AllowPrintToFile = false;
+
+            //    if (dialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            //    {
+            //        int copies = dialog1.PrinterSettings.Copies;
+            //        var fromPage = dialog1.PrinterSettings.FromPage;
+            //        var toPage = dialog1.PrinterSettings.ToPage;
+            //        var collate = dialog1.PrinterSettings.Collate;
+
+            //        dialog1.PrinterSettings.PrinterName = dialog1.PrinterSettings.PrinterName;
+            //        Cracha.PrintToPrinter (copies, collate, fromPage, toPage);
+            //        Result = true;
+            //        Close();
+            //    }
+            //    else
+            //    {
+            //        Result = false;
+            //    }
+
+            //    //Cracha.Dispose();
+            //    dialog1.Dispose();
+            //}
+            //catch (Exception ex)
+            //{
+            //    Utils.TraceException (ex);
+            //}
+        }
+
+        private void Imprimir()
+        {
+
+            var dialog1 = new PrintDialog();
+            dialog1.AllowSomePages = true;
+            dialog1.AllowPrintToFile = false;
+
+            if (dialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                int copies = dialog1.PrinterSettings.Copies;
+                var fromPage = dialog1.PrinterSettings.FromPage;
+                var toPage = dialog1.PrinterSettings.ToPage;
+                var collate = dialog1.PrinterSettings.Collate;
+
+                _report.PrintOptions.PrinterName = dialog1.PrinterSettings.PrinterName;
+                _report.PrintToPrinter(copies, collate, fromPage, toPage);
+            }
+
+            dialog1.Dispose();
         }
 
         private void ChangePage_bt_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                if (firstPage)
+                if (_firstPage)
                 {
                     GenericReportViewer.ViewerCore.ShowFirstPage();
-                    firstPage = false;
+                    _firstPage = false;
                 }
                 else
                 {
                     GenericReportViewer.ViewerCore.ShowLastPage();
-                    firstPage = true;
+                    _firstPage = true;
                 }
             }
             catch (Exception ex)

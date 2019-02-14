@@ -56,9 +56,14 @@ namespace IMOD.CredenciamentoDeskTop.Views
             //Popular User Controls
             //////////////////////////////////////////////////////////////
             VeiculosEmpresasUs.AtualizarDados(_viewModel.Entity, _viewModel);
+
+            //TODO:Resolver rotina para possibilitar que ao cadastrar uma empresa a tela de veiculo credenical possa incluir em sua lista
+            //VeiculosEmpresasUs.AtualizarDados (_viewModel.Entity, VeiculoCredenciaisUs, _viewModel);
+
+
             EmpresaSeguroUs.AtualizarDados(_viewModel.Entity, _viewModel);
             AnexoUs.AtualizarDados(_viewModel.Entity, _viewModel);
-            VeiculoCredenciaisUs.AtualizarDados(_viewModel.Entity);
+            VeiculoCredenciaisUs.AtualizarDados(_viewModel.Entity); 
             /////////////////////////////////////////////////////////////
             //_viewModel.IsEnableTabItem = true;
         }

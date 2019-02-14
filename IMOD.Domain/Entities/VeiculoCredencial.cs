@@ -19,14 +19,14 @@ namespace IMOD.Domain.Entities
         public int VeiculoCredencialId { get; set; }
         public int? VeiculoEmpresaId { get; set; }
         public int? TecnologiaCredencialId { get; set; }
-        public int? TipoCredencialId { get; set; }
+        public int TipoCredencialId { get; set; }
         public int? LayoutCrachaId { get; set; }
         public int? FormatoCredencialId { get; set; }
         public string NumeroCredencial { get; set; }
         public int? Fc { get; set; }
         public DateTime? Emissao { get; set; }
         public DateTime? Validade { get; set; }
-        public int? CredencialStatusId { get; set; }
+        public int CredencialStatusId { get; set; }
         public string CardHolderGuid { get; set; }
         public string CredencialGuid { get; set; }
         public int? VeiculoPrivilegio1Id { get; set; }

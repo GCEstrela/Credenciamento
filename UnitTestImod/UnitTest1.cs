@@ -539,6 +539,8 @@ namespace UnitTestImod
             #endregion
 
             #region CRUD Veículo (Aba Geral) 
+            //Obter Tipo de Equipamento
+            var tipo = serviceAuxiliares.TipoEquipamentoService.Listar().FirstOrDefault();
 
             //Cadastrar 1 Veículo
             _veiculo.Descricao = "Veículo ##";
@@ -547,13 +549,14 @@ namespace UnitTestImod
             _veiculo.CombustivelId = 1;
             _veiculo.StatusId = 1;
             _veiculo.TipoAcessoId = 1;
-
+            
+            _veiculo.TipoEquipamentoVeiculoId = tipo?.TipoEquipamentoId;
 
             serviceVeiculo.Criar(_veiculo);
 
             //Alterar 1 Veículo
             var d1 = serviceVeiculo.BuscarPelaChave(_veiculo.EquipamentoVeiculoId);
-            d1.Descricao = $"Veículo ###";
+            d1.Descricao = $"Veículo";
             d1.Ano = DateTime.Now.AddYears(1).ToString();
             d1.Foto = Convert.ToBase64String(File.ReadAllBytes("Arquivos/car-equip.jpg"));
 
@@ -747,6 +750,7 @@ namespace UnitTestImod
             serviceVeiculo.Empresa.Criar(_veiculoEmpresa);
 
             //Cadastrar 5 Credencial de Veículo (VeiculoCredencial)
+            Random r = new Random();
             for (int i = 0; i < 5; i++)
             {
                 _veiculoCredencial.VeiculoEmpresaId = _veiculoEmpresa.VeiculoEmpresaId;
@@ -761,6 +765,7 @@ namespace UnitTestImod
                 _veiculoCredencial.CredencialMotivoId = _credencialMotivo.CredencialMotivoId;
                 _veiculoCredencial.Ativa = true;
                 _veiculoCredencial.Emissao = DateTime.Today;
+                _veiculoCredencial.NumeroCredencial = r.Next().ToString();
 
                 serviceVeiculoCredencial.Criar(_veiculoCredencial);
             }
@@ -865,7 +870,7 @@ namespace UnitTestImod
             //Alterar 1 Colaborador
             var d1 = serviceColaborador.BuscarPelaChave(_colaborador.ColaboradorId);
 
-            d1.Nome = "Colaborador UPDATED";
+            d1.Nome = "Nome-Alterado";
             d1.Foto = Convert.ToBase64String(File.ReadAllBytes("Arquivos/bean.png"));
 
             serviceColaborador.Alterar(d1);
@@ -1059,6 +1064,8 @@ namespace UnitTestImod
             serviceColaborador.Empresa.Criar(_colaboradorEmpresa);
 
             //Cria 5 credenciais (ColaboradoresCredenciais)
+            Random r = new Random();
+
             for (int i = 0; i < 5; i++)
             {
                 _colaboradorCredencial.ColaboradorEmpresaId = _colaboradorEmpresa.ColaboradorEmpresaId;
@@ -1073,6 +1080,7 @@ namespace UnitTestImod
                 _colaboradorCredencial.CredencialMotivoId = _credencialMotivo.CredencialMotivoId;
                 _colaboradorCredencial.Ativa = true;
                 _colaboradorCredencial.Emissao = DateTime.Today;
+                _colaboradorCredencial.NumeroCredencial = r.Next().ToString();
 
                 serviceColaboradorCredencial.Criar(_colaboradorCredencial);
             }

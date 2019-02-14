@@ -46,7 +46,7 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText ("EmpresaContratoCredencialView", conn))
+                using (var cmd = _dataBase.SelectText ("EmpresaContratoCredencialColaboradorView", conn))
                 {
                     try
                     {
@@ -69,14 +69,14 @@ namespace IMOD.Infra.Repositorios
         /// <summary>
         ///     Obtém a menor data de entre um curso do tipo controlado e uma data de validade do contrato
         /// </summary>
-        /// <param name="colaboradorId">Identificador do colaborador</param>
+        /// <param name="colaboradorId">Identificador</param>
         /// <param name="numContrato">Número do contrato</param>
         /// <returns></returns>
         private DateTime? ObterMenorData(int colaboradorId, string numContrato)
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.CreateCommand ("Select dbo.fnc_Obter_Menor_Data (@colaboradorId,@NumContrato)", conn))
+                using (var cmd = _dataBase.CreateCommand ("Select dbo.fnc_Colaborador_Obter_Menor_Data (@colaboradorId,@NumContrato)", conn))
                 {
                     try
                     {
@@ -113,7 +113,7 @@ namespace IMOD.Infra.Repositorios
         /// <param name="numContrato"></param>
         /// <param name="credencialRepositorio"></param>
         /// <returns></returns>
-        public DateTime? ObterDataValidadeCredencial(ColaboradorCredencial entity,int colaboradorId,string numContrato,ITipoCredencialRepositorio credencialRepositorio)
+        public DateTime? ObterDataValidadeCredencial(ColaboradorCredencial entity, int colaboradorId, string numContrato, ITipoCredencialRepositorio credencialRepositorio)
         {
             if (credencialRepositorio == null) throw new ArgumentNullException (nameof (credencialRepositorio));
 
@@ -309,7 +309,7 @@ namespace IMOD.Infra.Repositorios
             var contrato = ObterNumeroContrato (entity, colaboradorId);
             var numContrato = contrato.NumeroContrato;
             //Obter uma data de validade (menor data entre um curso do tipo controlado e uma data de vencimento de um determinado contrato
-            var dataCredencial = ObterDataValidadeCredencial(entity, colaboradorId, numContrato, credencialRepositorio);
+            var dataCredencial = ObterDataValidadeCredencial (entity, colaboradorId, numContrato, credencialRepositorio);
             //Setando a data de vencimento uma credencial
             entity.Validade = dataCredencial;
             Alterar (entity);
@@ -380,12 +380,12 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText("ColaboradoresCredenciais", conn))
+                using (var cmd = _dataBase.SelectText ("ColaboradoresCredenciais", conn))
 
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("NumeroCredencial", numCredencial).Igual()));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("NumeroCredencial", numCredencial).Igual()));
                         var reader = cmd.ExecuteReader();
                         var d1 = reader.MapToList<ColaboradorCredencial>();
 
@@ -393,7 +393,7 @@ namespace IMOD.Infra.Repositorios
                     }
                     catch (Exception ex)
                     {
-                        Utils.TraceException(ex);
+                        Utils.TraceException (ex);
                         throw;
                     }
                 }

@@ -35,7 +35,15 @@ namespace IMOD.CredenciamentoDeskTop.Views
         #endregion
 
         #region  Metodos
-
+        //TODO:Resolver rotina para possibilitar que ao cadastrar uma empresa a tela de veiculo credenical possa incluir em sua lista
+        public void AtualizarDados(Model.VeiculoView entity, VeiculosEmpresasViewModel viewModel)
+        {
+            if (entity == null) return;
+            _viewModel.AtualizarDados(entity); 
+            viewModel.OnSalvar += _viewModel.ListarDadosEmpresas;
+            //_viewModel.AtualizarVinculoVeiculoEmpresa (entity);
+            EmpresaVinculo_cb.Items.Refresh();
+        }
         /// <summary>
         ///     Atualizar dados
         /// </summary>
@@ -43,22 +51,10 @@ namespace IMOD.CredenciamentoDeskTop.Views
         public void AtualizarDados(Model.VeiculoView entity)
         {
             if (entity == null) return;
-            _viewModel.AtualizarDados (entity);
-            _viewModel.AtualizarVinculoVeiculoEmpresa (entity);
+            _viewModel.AtualizarDados (entity); 
             EmpresaVinculo_cb.Items.Refresh();
         }
-
-        private void ImprimirCredencial_bt_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                _viewModel.OnImprimirAutorizacao();
-            }
-            catch (Exception ex)
-            {
-                Utils.TraceException (ex);
-            }
-        }
+         
 
         private void StatusCredencial_cb_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

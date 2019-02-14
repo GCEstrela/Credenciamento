@@ -315,6 +315,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 _prepareCriarCommandAcionado = false;
                 _prepareAlterarCommandAcionado = false;
                 IsEnableLstView = true;
+                if (Entity != null) Entity.ClearMessageErro();
                 Entity = null;
             }
             catch (Exception ex)
@@ -401,7 +402,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private void PrepareAlterar()
         {
-            if (Entity == null)
+            if (Entity == null) 
             {
                 WpfHelp.PopupBox ("Selecione um item da lista", 1);
                 return;
@@ -431,13 +432,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         public bool Validar()
         {
-            //if (Entity == null) return true;
-            //return false;
+            
             if (Entity == null) return true;
             Entity.Validate();
             var hasErros = Entity.HasErrors;
             if (hasErros) return true; 
-            //Verificar existência de CPF
+            
             if (ExisteNumeroCredencial())
             {
                 Entity.SetMessageErro("NumeroCredencial", "Número de credencial já existente.");

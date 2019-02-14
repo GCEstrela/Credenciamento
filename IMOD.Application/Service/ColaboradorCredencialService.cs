@@ -30,26 +30,13 @@ namespace IMOD.Application.Service
         #endregion
 
         #region  Metodos
-        /// <summary>
-        /// Verificar se um número credencial
-        /// </summary>
-        /// <param name="numCredencial"></param>
-        /// <returns></returns>
-        public bool ExisteNumeroCredencial(string numCredencial)
-        {
-            if (string.IsNullOrWhiteSpace(numCredencial)) return false;
 
-            var doc = numCredencial.RetirarCaracteresEspeciais();
-            var n1 = ObterCredencialPeloNumeroCredencial (doc);
-            return n1 != null;
-        }
         private void ObterStatusCredencial(ColaboradorCredencial entity)
         {
             var status = CredencialStatus.BuscarPelaChave (entity.CredencialStatusId);
             entity.Ativa = status.Codigo == "1"; //Set status da credencial
         }
 
-         
         /// <summary>
         ///     Set dados de um titular de cartao
         /// </summary>
@@ -76,6 +63,20 @@ namespace IMOD.Application.Service
                 IdentificadorLayoutCrachaGuid = entity.LayoutCrachaGuid
             };
             return titularCartao;
+        }
+
+        /// <summary>
+        ///     Verificar se um número credencial
+        /// </summary>
+        /// <param name="numCredencial"></param>
+        /// <returns></returns>
+        public bool ExisteNumeroCredencial(string numCredencial)
+        {
+            if (string.IsNullOrWhiteSpace (numCredencial)) return false;
+
+            var doc = numCredencial.RetirarCaracteresEspeciais();
+            var n1 = ObterCredencialPeloNumeroCredencial (doc);
+            return n1 != null;
         }
 
         /// <summary>
@@ -211,21 +212,20 @@ namespace IMOD.Application.Service
             //Alterar status de um titual do cartao
             var titularCartao = CardHolderEntity (entity);
             titularCartao.Ativo = entity2.Ativa;
-            entity.Ativa = entity2.Ativa;//Atulizar dados para serem exibidas na tela
-            entity.Baixa = entity2.Ativa ? (DateTime?)null : DateTime.Today.Date;//Atulizar dados para serem exibidas na tela
+            entity.Ativa = entity2.Ativa; //Atulizar dados para serem exibidas na tela
+            entity.Baixa = entity2.Ativa ? (DateTime?) null : DateTime.Today.Date; //Atulizar dados para serem exibidas na tela
             //Alterar dados no sub-sistema de credenciamento
             //A data da baixa está em função do status do titular do cartao e sua credencial
-            entity2.Baixa = entity.Baixa; 
-            Alterar(entity2);
+            entity2.Baixa = entity.Baixa;
+            Alterar (entity2);
             //Alterar o status do cartao do titular, se houver
-            if(string.IsNullOrWhiteSpace (titularCartao.IdentificadorCardHolderGuid) 
+            if (string.IsNullOrWhiteSpace (titularCartao.IdentificadorCardHolderGuid)
                 & string.IsNullOrWhiteSpace (titularCartao.IdentificadorCredencialGuid)) return;
-            
+
             //Alterar status do cartao
             geradorCredencialService.AlterarStatusCardHolder (titularCartao);
             //Alterar credencial
             geradorCredencialService.AlterarStatusCredencial (titularCartao);
-           
         }
 
         /// <summary>
@@ -297,7 +297,7 @@ namespace IMOD.Application.Service
 
         #endregion
 
-        #region Construtores
+         
 
         /// <summary>
         ///     Impressão Serviços
@@ -355,6 +355,6 @@ namespace IMOD.Application.Service
             get { return new CredencialMotivoService(); }
         }
 
-        #endregion
+        
     }
 }

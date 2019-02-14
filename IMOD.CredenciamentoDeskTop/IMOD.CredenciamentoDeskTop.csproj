@@ -167,7 +167,6 @@
     <Compile Include="Views\Model\TipoServicoView.cs" />
     <Compile Include="Views\Model\TipoVeiculoView.cs" />
     <Compile Include="Views\Model\VeiculoAnexoView.cs" />
-    <Compile Include="Views\Model\VeiculoCredencialView.cs" />
     <Compile Include="Views\Model\VeiculoEmpresaView.cs" />
     <Compile Include="Views\Model\VeiculoPrivilegioView.cs" />
     <Compile Include="Views\Model\VeiculoSeguroView.cs" />

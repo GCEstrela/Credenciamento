@@ -36,9 +36,8 @@ namespace IMOD.CredenciamentoDeskTop.Windows
         private readonly ReportDocument _report;
         private IColaboradorCredencialService _service;
         private LayoutCracha _layoutCracha;
-
-        private bool firstPage;
-        public bool Result;
+        private bool _firstPage;
+      
 
         public PopupCredencial(ReportDocument reportDocument, 
             IColaboradorCredencialService service,
@@ -70,6 +69,7 @@ namespace IMOD.CredenciamentoDeskTop.Windows
             {
                 Utils.TraceException (ex);
             }
+
             MouseDown += Window_MouseDown;
         }
 
@@ -179,15 +179,15 @@ namespace IMOD.CredenciamentoDeskTop.Windows
         {
             try
             {
-                if (firstPage)
+                if (_firstPage)
                 {
                     GenericReportViewer.ViewerCore.ShowFirstPage();
-                    firstPage = false;
+                    _firstPage = false;
                 }
                 else
                 {
                     GenericReportViewer.ViewerCore.ShowLastPage();
-                    firstPage = true;
+                    _firstPage = true;
                 }
             }
             catch (Exception ex)

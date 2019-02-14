@@ -10,23 +10,26 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.IO;
 using System.Linq;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Forms;
 using System.Windows.Input;
 using AutoMapper;
-using CrystalDecisions.CrystalReports.Engine;
 using IMOD.Application.Interfaces;
 using IMOD.Application.Service;
-using IMOD.CredenciamentoDeskTop.Funcoes;
 using IMOD.CredenciamentoDeskTop.Helpers;
 using IMOD.CredenciamentoDeskTop.ViewModels.Commands;
 using IMOD.CredenciamentoDeskTop.ViewModels.Comportamento;
 using IMOD.CredenciamentoDeskTop.Views.Model;
 using IMOD.CredenciamentoDeskTop.Windows;
 using IMOD.CrossCutting;
-using IMOD.Domain.Entities; 
+using IMOD.Domain.Entities;
+using IMOD.Domain.EntitiesCustom;
+using IMOD.Infra.Servicos;
+using AutorizacaoView = IMOD.Domain.EntitiesCustom.AutorizacaoView;
+using Cursor = System.Windows.Forms.Cursor;
+using Cursors = System.Windows.Forms.Cursors;
 
 #endregion
 
@@ -35,20 +38,30 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
     public class VeiculosCredenciaisViewModel : ViewModelBase, IComportamento
     {
         private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
-
-        private readonly IVeiculoCredencialimpressaoService _impressaoService = new VeiculoCredencialimpressaoService();
-        private readonly SCManager _sc = new SCManager();
-
         private readonly IVeiculoCredencialService _service = new VeiculoCredencialService();
-        private readonly VeiculoCredencialimpressao _veiculoCredencialImpressao = new VeiculoCredencialimpressao();
         private readonly IVeiculoEmpresaService _veiculoEmpresaService = new VeiculoEmpresaService();
+
+        /// <summary>
+        ///     True, Comando de alteração acionado
+        /// </summary>
+        private bool _prepareAlterarCommandAcionado;
+
+        /// <summary>
+        ///     True, Comando de criação acionado
+        /// </summary>
+        private bool _prepareCriarCommandAcionado;
+
         private VeiculoView _veiculoView;
 
         #region  Propriedades
+
+        public bool Habilitar { get; private set; } = true;
+
         /// <summary>
         ///     Seleciona indice da listview
         /// </summary>
         public short SelectListViewIndex { get; set; }
+
         public List<CredencialStatus> CredencialStatus { get; set; }
         public List<CredencialMotivo> CredencialMotivo { get; set; }
         public List<FormatoCredencial> FormatoCredencial { get; set; }
@@ -58,23 +71,52 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public List<VeiculoEmpresa> VeiculosEmpresas { get; set; }
         public VeiculoEmpresa VeiculoEmpresa { get; set; }
         public List<AreaAcesso> VeiculoPrivilegio { get; set; }
-        public VeiculoCredencialView Entity { get; set; } 
-
-        public ObservableCollection<VeiculoCredencialView> EntityObserver { get; set; }
-        public ObservableCollection<AutorizacaoView> Autorizacao { get; set; }
+        public VeiculosCredenciaisView Entity { get; set; }
+        public ObservableCollection<VeiculosCredenciaisView> EntityObserver { get; set; }
 
         /// <summary>
         ///     Habilita listView
         /// </summary>
         public bool IsEnableLstView { get; set; } = true;
 
-        public bool IsEnablePrint { get; set; } = true;
-
-        public bool IsEnableFixo { get; set; }
-
         #endregion
 
+        public VeiculosCredenciaisViewModel()
+        {
+            ItensDePesquisaConfigura();
+            ListarDadosAuxiliares();
+            Comportamento = new ComportamentoBasico (false, true, true, false, false);
+            EntityObserver = new ObservableCollection<VeiculosCredenciaisView>();
+            Comportamento.SalvarAdicao += OnSalvarAdicao;
+            Comportamento.SalvarEdicao += OnSalvarEdicao;
+            Comportamento.Remover += OnRemover;
+            Comportamento.Cancelar += OnCancelar;
+            PropertyChanged += OnEntityChanged;
+        }
+
         #region  Metodos
+
+        #region Regras de Negócio
+
+        private bool ExisteNumeroCredencial()
+        {
+            if (Entity == null) return false;
+            var numCredencial = Entity.NumeroCredencial.RetirarCaracteresEspeciais();
+
+            //Verificar dados antes de salvar uma criação
+            if (_prepareCriarCommandAcionado)
+                if (_service.ExisteNumeroCredencial (numCredencial)) return true;
+            //Verificar dados antes de salvar uma alteraçao
+            if (!_prepareAlterarCommandAcionado) return false;
+            var n1 = _service.BuscarPelaChave (Entity.VeiculoId);
+            if (n1 == null) return false;
+            //Comparar o CNPJ antes e o depois
+            //Verificar se há cnpj exisitente
+            return string.Compare (n1.NumeroCredencial.RetirarCaracteresEspeciais(),
+                numCredencial, StringComparison.Ordinal) != 0 && _service.ExisteNumeroCredencial (numCredencial);
+        }
+
+        #endregion
 
         private void ListarDadosAuxiliares()
         {
@@ -98,22 +140,22 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             TecnologiasCredenciais = new List<TecnologiaCredencial>();
             TecnologiasCredenciais.AddRange (lst5);
 
-            var lst6 = _veiculoEmpresaService.Listar (null, true).OrderByDescending (n => n.VeiculoEmpresaId).Where (n => n.Ativo.Equals (true)).ToList();
-            VeiculosEmpresas = new List<VeiculoEmpresa>();
-            VeiculosEmpresas.AddRange (lst6);
+            //var lst6 = _veiculoEmpresaService.Listar (null, true).OrderByDescending (n => n.VeiculoEmpresaId).Where (n => n.Ativo.Equals (true)).ToList();
+            //VeiculosEmpresas = new List<VeiculoEmpresa>();
+            //VeiculosEmpresas.AddRange (lst6);
 
             var lst7 = _auxiliaresService.AreaAcessoService.Listar();
             VeiculoPrivilegio = new List<AreaAcesso>();
             VeiculoPrivilegio.AddRange (lst7);
         }
 
-        public void CarregaColecaoLayoutsCrachas(int _empresaId)
+        public void CarregaColecaoLayoutsCrachas(int empresaId)
         {
             try
             {
                 EmpresaLayoutCracha = new List<EmpresaLayoutCracha>();
                 var service = new EmpresaLayoutCrachaService();
-                var list1 = service.ListarLayoutCrachaPorEmpresaView (_empresaId);
+                var list1 = service.ListarLayoutCrachaPorEmpresaView (empresaId);
                 var list2 = Mapper.Map<List<EmpresaLayoutCracha>> (list1);
                 EmpresaLayoutCracha = list2;
             }
@@ -123,11 +165,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
         }
 
-        public void CarregaColecaoCredenciaisMotivos(int _idStatusCredencial)
+        public void CarregaColecaoCredenciaisMotivos(int statusCredencialId)
         {
             try
             {
-                var lst1 = _auxiliaresService.CredencialMotivoService.Listar (null, null, _idStatusCredencial);
+                var lst1 = _auxiliaresService.CredencialMotivoService.Listar (null, null, statusCredencialId);
 
                 if (CredencialMotivo != null && CredencialMotivo.Any()) CredencialMotivo.Clear();
                 CredencialMotivo = new List<CredencialMotivo>();
@@ -154,48 +196,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
 
             Comportamento.PrepareAlterar();
+            _prepareCriarCommandAcionado = false;
+            _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;
             IsEnableLstView = false;
+            Habilitar = false;
         }
-
-        /// <summary>
-        ///     Validar Regras de Negócio
-        /// </summary>
-        /// <returns></returns>
-        public bool Validar()
-        {
-            Entity.Validate();
-            var hasErros = Entity.HasErrors;
-            return hasErros;
-
-            //if (Entity == null) return true;
-            //Entity.Validate();
-            //var hasErros = Entity.HasErrors;
-            //if (hasErros) return true;
-
-            //return Entity.HasErrors;
-        }
-
-        #endregion
-
-        #region Inicializacao
-
-        public VeiculosCredenciaisViewModel()
-        {
-            ItensDePesquisaConfigura();
-            ListarDadosAuxiliares();
-            Comportamento = new ComportamentoBasico (false, true, true, false, false);
-            EntityObserver = new ObservableCollection<VeiculoCredencialView>();
-            IsEnablePrint = false;
-            IsEnableFixo = false;
-
-            Comportamento.SalvarAdicao += OnSalvarAdicao;
-            Comportamento.SalvarEdicao += OnSalvarEdicao;
-            Comportamento.Remover += OnRemover;
-            Comportamento.Cancelar += OnCancelar;
-            PropertyChanged += OnEntityChanged;
-        }
-
-        #region  Metodos
 
         /// <summary>
         /// </summary>
@@ -207,28 +212,28 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 Comportamento.IsEnableEditar = true;
         }
 
-        public void AtualizarVinculoVeiculoEmpresa(VeiculoView entity)
-        {
-            if (entity == null)
-            {
-                return;
-            }
+        //public void AtualizarVinculoVeiculoEmpresa(VeiculoView entity)
+        //{
+        //    if (entity == null)
+        //    {
+        //        return;
+        //    }
 
-            var lista1 = _veiculoEmpresaService.Listar (entity.EquipamentoVeiculoId, true);
-            var lista2 = Mapper.Map<List<VeiculoEmpresa>> (lista1.OrderByDescending (n => n.VeiculoEmpresaId).Where (n => n.Ativo.Equals (true)).ToList());
+        //    var lista1 = _veiculoEmpresaService.Listar (entity.EquipamentoVeiculoId, true);
+        //    var lista2 = Mapper.Map<List<VeiculoEmpresa>> (lista1.OrderByDescending (n => n.VeiculoEmpresaId).Where (n => n.Ativo.Equals (true)).ToList());
 
-            VeiculosEmpresas.Clear();
-            lista2.ForEach (n => { VeiculosEmpresas.Add (n); });
-        }
+        //    VeiculosEmpresas.Clear();
+        //    lista2.ForEach (n => { VeiculosEmpresas.Add (n); });
+        //}
 
         public void AtualizarDados(VeiculoView entity)
         {
             if (entity == null) throw new ArgumentNullException (nameof (entity));
             _veiculoView = entity;
-            ////Obter dados
+            //Obter dados
             var list1 = _service.ListarView (entity.EquipamentoVeiculoId, null, null, null, null).ToList();
-            var list2 = Mapper.Map<List<VeiculoCredencialView>> (list1.OrderByDescending (n => n.VeiculoCredencialId));
-            EntityObserver = new ObservableCollection<VeiculoCredencialView>();
+            var list2 = Mapper.Map<List<VeiculosCredenciaisView>> (list1.OrderByDescending (n => n.VeiculoCredencialId));
+            EntityObserver = new ObservableCollection<VeiculosCredenciaisView>();
             list2.ForEach (n => { EntityObserver.Add (n); });
         }
 
@@ -248,7 +253,23 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private void PrepareRemover()
         {
+            _prepareCriarCommandAcionado = false;
+            _prepareAlterarCommandAcionado = false;
             Comportamento.PrepareRemover();
+        }
+
+        /// <summary>
+        ///     Listar dados de empresa e contratos
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void ListarDadosEmpresas(object sender, RoutedEventArgs e)
+        {
+            var lst6 = _veiculoEmpresaService.Listar(_veiculoView.EquipamentoVeiculoId,null,null,null,null ).ToList();
+            VeiculosEmpresas = new List<VeiculoEmpresa>();
+            //VeiculosEmpresas.Clear();
+            VeiculosEmpresas.AddRange (lst6);
+            //OnPropertyChanged ("VeiculosEmpresas");
         }
 
         /// <summary>
@@ -273,16 +294,13 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 n1.TipoCredencialId = Entity.TipoCredencialId;
 
                 _service.Criar (n1);
+                IsEnableLstView = true;
+                SelectListViewIndex = 0;
 
                 var list1 = _service.ListarView (_veiculoView.EquipamentoVeiculoId, null, null, null, null).ToList();
-                var list2 = Mapper.Map<List<VeiculoCredencialView>> (list1.OrderByDescending (n => n.VeiculoCredencialId));
-                EntityObserver = new ObservableCollection<VeiculoCredencialView>();
+                var list2 = Mapper.Map<List<VeiculosCredenciaisView>> (list1.OrderByDescending (n => n.VeiculoCredencialId));
+                EntityObserver = new ObservableCollection<VeiculosCredenciaisView>();
                 list2.ForEach (n => { EntityObserver.Add (n); });
-
-                IsEnableLstView = true;
-                IsEnablePrint = true;
-                IsEnableFixo = false;
-                SelectListViewIndex = 0;
             }
             catch (Exception ex)
             {
@@ -296,12 +314,15 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private void PrepareCriar()
         {
-           
-            Entity = new VeiculoCredencialView();
+            Entity = new VeiculosCredenciaisView
+            {
+                Ativa = true
+            };
             Comportamento.PrepareCriar();
+            _prepareCriarCommandAcionado = true;
+            _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;
             IsEnableLstView = false;
-            IsEnablePrint = false;
-            IsEnableFixo = false;
+            Habilitar = true;
         }
 
         /// <summary>
@@ -317,10 +338,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (Validar()) return;
 
                 var n1 = Mapper.Map<VeiculoCredencial> (Entity);
-                _service.Alterar (n1);
+                //Alterar o status do titular do cartão
+                _service.AlterarStatusTitularCartao (new CredencialGenetecService (Main.Engine), Entity, n1);
+                //Atualizar observer
+                CollectionViewSource.GetDefaultView (EntityObserver).Refresh();
                 IsEnableLstView = true;
-                IsEnablePrint = true;
-                IsEnableFixo = false;
             }
             catch (Exception ex)
             {
@@ -338,8 +360,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
+                _prepareCriarCommandAcionado = false;
+                _prepareAlterarCommandAcionado = false;
                 IsEnableLstView = true;
-                IsEnableFixo = false;
                 if (Entity != null) Entity.ClearMessageErro();
                 Entity = null;
             }
@@ -382,7 +405,137 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
         }
 
+        /// <summary>
+        ///     Imprimir Credencial
+        /// </summary>
+        private void OnImprimirCredencial()
+        {
+            try
+            {
+                if (Entity == null) return;
+                if (!Entity.Ativa) throw new InvalidOperationException ("Não é possível imprimir uma credencial não ativa.");
+                if (Entity.Validade == null) throw new InvalidOperationException ("Não é possível imprimir uma credencial sem data de validade.");
+
+                var layoutCracha = _auxiliaresService.LayoutCrachaService.BuscarPelaChave (Entity.LayoutCrachaId);
+                if (layoutCracha == null) throw new InvalidOperationException ("Não é possível imprimir uma credencial sem ter sido definida um layout do crachá.");
+                if (string.IsNullOrWhiteSpace (layoutCracha.LayoutRpt)) throw new InvalidOperationException ("Não é possível imprimir uma credencial sem ter sido definida um layout do crachá.");
+
+                Cursor.Current = Cursors.WaitCursor;
+
+                var arrayBytes = Convert.FromBase64String (layoutCracha.LayoutRpt);
+                var relatorio = WpfHelp.ShowRelatorioCrystalReport (arrayBytes, layoutCracha.Nome);
+                var lst = new List<AutorizacaoView>();
+                var credencialView = _service.ObterCredencialView (Entity.VeiculoCredencialId);
+                lst.Add (credencialView);
+                relatorio.SetDataSource (lst);
+                var popupCredencial = new PopupAutorizacao (relatorio, _service, Entity, layoutCracha);
+                popupCredencial.ShowDialog();
+
+                //Atualizar observer
+                OnPropertyChanged ("Entity");
+                CollectionViewSource.GetDefaultView (EntityObserver).Refresh(); //Atualizar observer
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException (ex);
+                WpfHelp.MboxError ("Não foi realizar a operação solicitada", ex);
+            }
+            finally
+            {
+                Cursor.Current = Cursors.Default;
+            }
+        }
+
+        /// <summary>
+        ///     Validar Regras de Negócio
+        /// </summary>
+        /// <returns></returns>
+        public bool Validar()
+        {
+            if (Entity == null) return true;
+            Entity.Validate();
+            var hasErros = Entity.HasErrors;
+            if (hasErros) return true;
+
+            if (ExisteNumeroCredencial())
+            {
+                Entity.SetMessageErro ("NumeroCredencial", "Número de credencial já existente.");
+                return true;
+            }
+
+            return Entity.HasErrors;
+        }
+
         #endregion
+
+        //}
+        //    }
+        //        Utils.TraceException (ex);
+        //    {
+        //    catch (Exception ex)
+        //    }
+        //        File.Delete (_ArquivoRPT);
+        //        }
+        //                layoutCracha.LayoutCrachaGuid, Entity.VeiculoFoto.ConverterBase64StringToBitmap());
+        //                Entity.FormatoCredencialDescricao.Trim(), Entity.Validade.ToString(),
+        //                Entity.Fc.ToString().Trim(), Entity.NumeroCredencial.Trim(),
+        //                Entity.EmpresaNome.Trim(), Entity.Colete.Trim(), Entity.Cargo.Trim(),
+
+        //            _sc.Vincular (Entity.VeiculoNome.Trim(), Entity.Cnpj.Trim(), Entity.Cnpj.Trim(),
+        //            Entity.Impressa = true;
+        //            WpfHelp.PopupBox ("Impressão Efetuada com Sucesso!", 1);
+
+        //            _impressaoService.Criar (_veiculoCredencialImpressao);
+
+        ///// <summary>
+
+        //            }
+        //                _veiculoCredencialImpressao.Cobrar = true;
+        //            {
+        //            else
+        //            }
+        //                _veiculoCredencialImpressao.Cobrar = false;
+        //            {
+        //            if (Entity.IsencaoCobranca)
+        //            _veiculoCredencialImpressao.DataImpressao = DateTime.Now;
+        //            _veiculoCredencialImpressao.VeiculoCredencialId = Entity.VeiculoCredencialId;
+        //        {
+
+        //        if (_result)
+
+        //        var _result = _popupCredencial.Result;
+        //        _popupCredencial.ShowDialog();
+
+        //        var _popupCredencial = new PopupAutorizacao (reportDocument);
+
+        //        reportDocument.SetDataSource (Autorizacao);
+        //        reportDocument.Load (_ArquivoRPT);
+        //        var reportDocument = new ReportDocument();
+        //        File.WriteAllBytes (_ArquivoRPT, arrayFile);
+        //        var arrayFile = Convert.FromBase64String (layoutCracha.LayoutRpt);
+        //        _ArquivoRPT = Path.ChangeExtension (_ArquivoRPT, ".rpt");
+        //        _ArquivoRPT = Environment.GetFolderPath (Environment.SpecialFolder.MyDocuments) + "\\" + _ArquivoRPT;
+
+        //        var _ArquivoRPT = Path.GetRandomFileName();
+
+        //        var layoutCracha = _auxiliaresService.LayoutCrachaService.BuscarPelaChave (Entity.LayoutCrachaId);
+
+        //        Autorizacao = observer;
+        //        list2.ForEach (n => { observer.Add (n); });
+        //        var observer = new ObservableCollection<AutorizacaoView>();
+        //        var list2 = Mapper.Map<List<AutorizacaoView>> (list1);
+        //        var list1 = _service.ListarAutorizacaoView (Entity.VeiculoCredencialId);
+        //        }
+        //            return;
+        //            WpfHelp.PopupBox ("Não foi possível imprimir esta credencial!", 3);
+        //        {
+        //        if (Entity.Validade == null || !Entity.Ativa || Entity.LayoutCrachaId == 0)
+        //    {
+        //    try
+        //{
+        //public void OnImprimirAutorizacao()
+        ///// </summary>
+        /////     Imprimir Credencial
 
         #region Propriedade de Pesquisa
 
@@ -437,74 +590,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         public ICommand PesquisarCommand => new CommandBase (Pesquisar, true);
 
-        #endregion
-
-        /// <summary>
-        ///     Imprimir Credencial
-        /// </summary>
-        public void OnImprimirAutorizacao()
-        {
-            try
-            {
-                if (Entity.Validade == null || !Entity.Ativa || Entity.LayoutCrachaId == 0)
-                {
-                    WpfHelp.PopupBox ("Não foi possível imprimir esta credencial!", 3);
-                    return;
-                }
-                var list1 = _service.ListarAutorizacaoView (Entity.VeiculoCredencialId);
-                var list2 = Mapper.Map<List<AutorizacaoView>> (list1);
-                var observer = new ObservableCollection<AutorizacaoView>();
-                list2.ForEach (n => { observer.Add (n); });
-
-                Autorizacao = observer;
-
-                var layoutCracha = _auxiliaresService.LayoutCrachaService.BuscarPelaChave (Entity.LayoutCrachaId);
-
-                var _ArquivoRPT = Path.GetRandomFileName();
-                _ArquivoRPT = Environment.GetFolderPath (Environment.SpecialFolder.MyDocuments) + "\\" + _ArquivoRPT;
-                _ArquivoRPT = Path.ChangeExtension (_ArquivoRPT, ".rpt");
-                var arrayFile = Convert.FromBase64String (layoutCracha.LayoutRpt);
-                File.WriteAllBytes (_ArquivoRPT, arrayFile);
-                var reportDocument = new ReportDocument();
-                reportDocument.Load (_ArquivoRPT);
-
-                reportDocument.SetDataSource (Autorizacao);
-
-                var _popupCredencial = new PopupAutorizacao (reportDocument);
-                _popupCredencial.ShowDialog();
-
-                var _result = _popupCredencial.Result;
-
-                if (_result)
-                {
-                    _veiculoCredencialImpressao.VeiculoCredencialId = Entity.VeiculoCredencialId;
-                    _veiculoCredencialImpressao.DataImpressao = DateTime.Now;
-                    if (Entity.IsencaoCobranca)
-                    {
-                        _veiculoCredencialImpressao.Cobrar = false;
-                    }
-                    else
-                    {
-                        _veiculoCredencialImpressao.Cobrar = true;
-                    }
-
-                    _impressaoService.Criar (_veiculoCredencialImpressao);
-                    WpfHelp.PopupBox ("Impressão Efetuada com Sucesso!", 1);
-                    Entity.Impressa = true;
-
-                    _sc.Vincular (Entity.VeiculoNome.Trim(), Entity.Cnpj.Trim(), Entity.Cnpj.Trim(),
-                        Entity.EmpresaNome.Trim(), Entity.Colete.Trim(), Entity.Cargo.Trim(),
-                        Entity.Fc.ToString().Trim(), Entity.NumeroCredencial.Trim(),
-                        Entity.FormatoCredencialDescricao.Trim(), Entity.Validade.ToString(),
-                        layoutCracha.LayoutCrachaGuid, Entity.VeiculoFoto.ConverterBase64StringToBitmap());
-                }
-                File.Delete (_ArquivoRPT);
-            }
-            catch (Exception ex)
-            {
-                Utils.TraceException (ex);
-            }
-        }
+        public ICommand ImprimirCommand => new CommandBase (OnImprimirCredencial, true);
 
         #endregion
     }

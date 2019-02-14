@@ -27,13 +27,16 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public string VeiculoNome { get; set; }
         public int TecnologiaCredencialId { get; set; }
         public string TecnologiaCredencialDescricao { get; set; }
+        [Range(1, int.MaxValue, ErrorMessage = "O Tipo de credencial é requerida.")]
         public int TipoCredencialId { get; set; }
         public string TipoCredencialDescricao { get; set; }
+        [Range(1, int.MaxValue, ErrorMessage = "O Layout do crachá é requerido.")]
         public int LayoutCrachaId { get; set; }
         public int EmpresaLayoutCrachaId { get; set; }
         public string LayoutCrachaNome { get; set; }
         public int FormatoCredencialId { get; set; }
         public string FormatoCredencialDescricao { get; set; }
+        [Required(ErrorMessage = "O Número da credencial é requerida.")]
         public string NumeroCredencial { get; set; }
         public int Fc { get; set; }
         public DateTime? Emissao { get; set; }

@@ -20,6 +20,7 @@ namespace IMOD.Domain.Entities
         public int? VeiculoCredencialId { get; set; }
         public DateTime? DataImpressao { get; set; }
         public bool Cobrar { get; set; }
+        public decimal Valor { get; set; }
 
         #endregion
     }
