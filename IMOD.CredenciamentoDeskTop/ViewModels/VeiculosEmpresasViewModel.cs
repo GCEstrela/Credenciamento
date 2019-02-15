@@ -266,7 +266,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             var list2 = Mapper.Map<List<VeiculoEmpresaView>> (list1.OrderByDescending (n => n.VeiculoEmpresaId).ToList());
             EntityObserver = new ObservableCollection<VeiculoEmpresaView>();
             list2.ForEach (n => { EntityObserver.Add (n); });
-            ListarDadosEmpresaContratos();
+             
         }
 
         #endregion

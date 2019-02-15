@@ -35,7 +35,7 @@
             </DockPanel>
         </ControlTemplate>
     </UserControl.Resources>
-    <Grid Height="364" VerticalAlignment="Top">
+    <Grid Height="395" VerticalAlignment="Top">
         <StackPanel Orientation="Vertical" VerticalAlignment="Top">
 
             <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}"
@@ -285,17 +285,16 @@
                         IsEnabled="{Binding Entity.Ativa}"
                         Command="{Binding ImprimirCommand}" />
             </StackPanel>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="990" Height="203">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="990" Height="230">
 
                 <ListView x:Name="ListaVeiculosCredenciais_lv"
-                          Margin="0,10,0,10"
+                          Margin="0,10,0,0"
                           Width="947"
                           IsEnabled="{Binding IsEnableLstView}"
                           SelectedIndex="{Binding SelectListViewIndex}"
-                          HorizontalAlignment="Stretch"
-                          VerticalAlignment="Stretch"
+                          HorizontalAlignment="Stretch" 
                           ItemsSource="{Binding EntityObserver, Mode=TwoWay}"
-                          SelectedItem="{Binding Entity, Mode=TwoWay}">
+                          SelectedItem="{Binding Entity, Mode=TwoWay}" Height="155" VerticalAlignment="Top">
                     <ListView.View>
                         <GridView>
                             <!--<GridViewColumn >
@@ -379,8 +378,7 @@
                         </GridView>
                     </ListView.View>
                 </ListView>
-                <StackPanel Orientation="Vertical" Margin="5,10,0,1" HorizontalAlignment="Right" Width="47"
-                            Height="193">
+                <StackPanel Orientation="Vertical" Margin="5,10,0,10" HorizontalAlignment="Right" Width="47">
                     <Button x:Name="btnAdicionar" Content="{StaticResource imgAdd}" ToolTip="Adicionar" Width="25"
                             Margin="0,0,0,7"
                             IsEnabled="{Binding Comportamento.IsEnableCriar}" Command="{Binding PrepareCriarCommand}" />

@@ -288,8 +288,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public void AtualizarDados(ColaboradorView entity, ColaboradorViewModel viewModel)
         {
             _viewModelParent = viewModel;
-           AtualizarDados(entity);
-            ListarDadosEmpresaContratos();
+            AtualizarDados(entity);
+             
         }
         /// <summary>
         /// 
