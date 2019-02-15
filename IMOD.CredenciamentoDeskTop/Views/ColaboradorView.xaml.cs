@@ -136,7 +136,13 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
 
         #endregion
+        private void OnFormatCpf_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (_viewModel.Entity == null) return;
+            var cpf = _viewModel.Entity.Cpf.FormatarCpf();
+            txtCpf.Text = cpf;
 
+        }
         private void OnFormatDateNascimento_LostFocus(object sender, RoutedEventArgs e)
         {
             var str = txtDateNascimento.Text;

@@ -256,10 +256,14 @@
                                     <Label Content="Código:" Height="28" Width="100"   Foreground="#FFD0D0D0" HorizontalContentAlignment="Left" />
                                     <TextBox CharacterCasing="Upper"  x:Name="Codigo_tb"   MaxLength="50" Text="{Binding Entity.ColaboradorId, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"  Height="24"  Width="50"/>
                                     <Label Content="CPF:" Height="28" Width="132" Margin="1"  Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
-                                    <TextBox  x:Name="txtCpf"  MaxLength="20" IsEnabled="True"  Height="24"  Width="122"  Foreground="White" VerticalContentAlignment="Center" 
-                                                      Text="{Binding Entity.Cpf,
-                                                      UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource FormatCpf}}"
-                                                      HorizontalContentAlignment="Center"  Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
+                                    <TextBox  x:Name="txtCpf"  
+                                              MaxLength="20" 
+                                              IsEnabled="True"  Height="24"  Width="122"
+                                              LostFocus="OnFormatCpf_LostFocus"
+                                              Foreground="White" VerticalContentAlignment="Center" 
+                                              Text="{Binding Entity.Cpf,
+                                              UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                              HorizontalContentAlignment="Center"  Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="1" >
                                     <Label Content="Nome:" Height="28" Width="100"   Foreground="#FFD0D0D0" HorizontalContentAlignment="Left"/>

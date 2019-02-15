@@ -86,13 +86,29 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private void ListarDadosAuxiliares()
         {
-            var lst1 = _empresaService.Listar();
-            var lst2 = _empresaContratoService.Listar();
+             
             Empresas = new List<Empresa>();
             Contratos = new List<EmpresaContrato>();
+            ListarDadosEmpresaContratos();
+        }
 
-            Empresas.AddRange (lst1);
-            Contratos.AddRange (lst2);
+        /// <summary>
+        ///  Listar dados de empresa e contratos
+        /// </summary>
+        private void ListarDadosEmpresaContratos()
+        {
+
+            try
+            {
+                var l2 = _empresaService.Listar().ToList();
+                Empresas = l2;
+                var l3 = _empresaContratoService.Listar().ToList();
+                Contratos = l3;
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+            }
         }
 
         public void ListarContratos(Empresa empresa)
@@ -168,6 +184,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             Entity = new VeiculoEmpresaView();
             Comportamento.PrepareCriar();
             IsEnableLstView = false;
+            ListarDadosEmpresaContratos();
         }
 
         /// <summary>
@@ -249,6 +266,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             var list2 = Mapper.Map<List<VeiculoEmpresaView>> (list1.OrderByDescending (n => n.VeiculoEmpresaId).ToList());
             EntityObserver = new ObservableCollection<VeiculoEmpresaView>();
             list2.ForEach (n => { EntityObserver.Add (n); });
+            ListarDadosEmpresaContratos();
         }
 
         #endregion
@@ -298,6 +316,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
             Comportamento.PrepareAlterar();
             IsEnableLstView = false;
+            ListarDadosEmpresaContratos();
         }
 
         /// <summary>

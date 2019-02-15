@@ -84,13 +84,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         ///     Listar dados auxilizares
         /// </summary>
         private void ListarDadosAuxiliares()
-        {
-            var lst1 = _empresaService.Listar();
-            var lst2 = _empresaContratoService.Listar();
+        { 
             Empresas = new List<Empresa>();
             Contratos = new List<EmpresaContrato>();
-            Empresas.AddRange(lst1);
-            Contratos.AddRange(lst2);
+            ListarDadosEmpresaContratos();
         }
 
         public void ListarContratos(Empresa empresa)
@@ -105,6 +102,25 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 n.Descricao = $"{n.Descricao} - {n.NumeroContrato}";
                 Contratos.Add(n);
             });
+        }
+
+        /// <summary>
+        ///  Listar dados de empresa e contratos
+        /// </summary>
+        private void ListarDadosEmpresaContratos()
+        {
+
+            try
+            {
+                var l2 = _empresaService.Listar().ToList();
+                Empresas = l2;
+                var l3 = _empresaContratoService.Listar().ToList();
+                Contratos = l3;
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+            }
         }
 
         /// <summary>
@@ -171,6 +187,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             Entity = new ColaboradorEmpresaView();
             Comportamento.PrepareCriar();
             IsEnableLstView = false;
+            ListarDadosEmpresaContratos();
         }
 
         /// <summary>
@@ -260,6 +277,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
             Comportamento.PrepareAlterar();
             IsEnableLstView = false;
+            ListarDadosEmpresaContratos();
         }
 
         /// <summary>
@@ -271,6 +289,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             _viewModelParent = viewModel;
            AtualizarDados(entity);
+            ListarDadosEmpresaContratos();
         }
         /// <summary>
         /// 
