@@ -6,8 +6,9 @@ namespace IMOD.Domain.EntitiesCustom
 {
     public class VeiculosCredenciaisView : ValidacaoModel
     {
-        [Range(1, int.MaxValue, ErrorMessage = "A Empresa é requerida.")]
+        
         public int VeiculoCredencialId { get; set; }
+        [Range(1, int.MaxValue, ErrorMessage = "A Empresa é requerida.")]
         public int VeiculoEmpresaId { get; set; }
         public int TecnologiaCredencialId { get; set; }
         [Range(1, int.MaxValue, ErrorMessage = "O Tipo de credencial é requerida.")]
@@ -19,8 +20,8 @@ namespace IMOD.Domain.EntitiesCustom
         [Required(ErrorMessage = "O Número da credencial é requerida.")]
         public string NumeroCredencial { get; set; }
         public int Fc { get; set; }
-        public DateTime Emissao { get; set; }
-        public DateTime Validade { get; set; }
+        public DateTime? Emissao { get; set; }
+        public DateTime? Validade { get; set; }
         public int CredencialStatusId { get; set; }
         public string CredencialStatusDescricao { get; set; }
         public string CredencialGuid { get; set; }

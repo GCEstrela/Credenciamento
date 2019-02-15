@@ -89,8 +89,7 @@ namespace IMOD.CredenciamentoDeskTop.Windows
                 //A impressão foi realizada corretamente?
                 DialogResult impressaoRealizadaResult;
                 DialogResult reImpressaoResult;
-                DialogResult podeCobrarResult;
-                //var impressaoCorreta = false;
+                DialogResult podeCobrarResult; 
                 var impressaoCorreta = true;
 
                 Imprimir();
@@ -113,11 +112,13 @@ namespace IMOD.CredenciamentoDeskTop.Windows
                 //Sendo a impressao realizada corretamente, então, solicitar autorização de cobrança
                 if (impressaoCorreta)
                 {
-                    //Registrar a data da emissão da credencial..
+                    //Registrar a data da emissão da autorização..
                     var n1 = Mapper.Map<VeiculoCredencial>(_entity);
                     n1.Emissao = DateTime.Today.Date;
                     n1.Impressa = true;
                     _service.Alterar(n1);
+                    //Passar dados para atualizar entidade 
+                    _entity.Emissao = n1.Emissao;
 
                     podeCobrarResult = WpfHelp.MboxDialogYesNo($"Autoriza a cobrança pela impressão no valor de {$"{_layoutCracha.Valor:C} ?"}", true);
                     var impressaoCobrar = podeCobrarResult == System.Windows.Forms.DialogResult.Yes;
@@ -131,11 +132,12 @@ namespace IMOD.CredenciamentoDeskTop.Windows
 
                     });
 
+                    //Um equipamento ou veiculo não possue credencial a ser incluida no sub-sistema de credencial (Genetec)
+
                     //Gerar card Holder e Credencial
                     //Uma data de validade é necessária para geração da credencial
-                    if (_entity.Validade == null) throw new InvalidOperationErrorException("A validade da credencial deve ser informada.");
-                    _service.CriarTitularCartao(new CredencialGenetecService(Main.Engine), _entity);
-
+                    //if (_entity.Validade == null) throw new InvalidOperationErrorException("A validade da credencial deve ser informada.");
+                    // _service.CriarTitularCartao(new CredencialGenetecService(Main.Engine), _entity);
                     this.Close();
 
                 }
@@ -146,36 +148,7 @@ namespace IMOD.CredenciamentoDeskTop.Windows
                 Utils.TraceException(ex);
                 WpfHelp.MboxError("Não foi realizar a operação solicitada", ex);
             }
-            //try
-            //{
-            //    var dialog1 = new PrintDialog();
-            //    dialog1.AllowSomePages = true;
-            //    dialog1.AllowPrintToFile = false;
-
-            //    if (dialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            //    {
-            //        int copies = dialog1.PrinterSettings.Copies;
-            //        var fromPage = dialog1.PrinterSettings.FromPage;
-            //        var toPage = dialog1.PrinterSettings.ToPage;
-            //        var collate = dialog1.PrinterSettings.Collate;
-
-            //        dialog1.PrinterSettings.PrinterName = dialog1.PrinterSettings.PrinterName;
-            //        Cracha.PrintToPrinter (copies, collate, fromPage, toPage);
-            //        Result = true;
-            //        Close();
-            //    }
-            //    else
-            //    {
-            //        Result = false;
-            //    }
-
-            //    //Cracha.Dispose();
-            //    dialog1.Dispose();
-            //}
-            //catch (Exception ex)
-            //{
-            //    Utils.TraceException (ex);
-            //}
+             
         }
 
         private void Imprimir()

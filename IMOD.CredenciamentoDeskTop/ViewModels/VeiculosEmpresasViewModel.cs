@@ -37,10 +37,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private VeiculoViewModel _viewModelParent;
 
         #region  Propriedades
-        /// <summary>
-        ///     Acionado ao salvar dados
-        /// </summary>
-        public event RoutedEventHandler OnSalvar;
         public List<EmpresaContrato> Contratos { get; private set; }
         public List<Empresa> Empresas { get; private set; }
         public Empresa Empresa { get; set; }
@@ -145,9 +141,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 EntityObserver.Insert (0, n2);
                 IsEnableLstView = true;
                 _viewModelParent.AtualizarDadosPendencias();
-                SelectListViewIndex = 0;
-
-                OnSalvar?.Invoke (sender,e);
+                SelectListViewIndex = 0; 
             }
             catch (Exception ex)
             {
@@ -191,7 +185,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var n1 = Mapper.Map<VeiculoEmpresa> (Entity);
                 _service.Alterar (n1);
                 IsEnableLstView = true;
-                OnSalvar?.Invoke(sender, e);
             }
             catch (Exception ex)
             {

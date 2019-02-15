@@ -44,26 +44,23 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         private static CardHolderEntity CardHolderEntity(VeiculosCredenciaisView entity)
         {
-            //var titularCartao = new CardHolderEntity
-            //{
-            //    Ativo = entity.Ativa,
-            //    Empresa = entity.EmpresaNome,
-            //    Nome = entity.,
-            //    Cpf = entity.Cpf,
-            //    Apelido = entity.ColaboradorApelido,
-            //    Cargo = entity.Cargo,
-            //    Cnpj = entity.Cnpj,
-            //    IdentificadorCardHolderGuid = entity.CardHolderGuid,
-            //    IdentificadorCredencialGuid = entity.CredencialGuid,
-            //    FacilityCode = entity.Fc,
-            //    Foto = entity.VeiculoFoto.ConverterBase64StringToBitmap(),
-            //    Matricula = entity.,
-            //    Validade = entity.Validade ?? DateTime.Today.Date,
-            //    NumeroCredencial = entity.NumeroCredencial,
-            //    IdentificadorLayoutCrachaGuid = entity.LayoutCrachaGuid
-            //};
-            //return titularCartao;
-            return null;
+            var titularCartao = new CardHolderEntity
+            {
+                Ativo = entity.Ativa,
+                Empresa = entity.EmpresaNome,
+                Nome = entity.VeiculoNome,
+                Identificador = entity.PlacaIdentificador, 
+                IdentificadorCardHolderGuid = entity.CardHolderGuid,
+                IdentificadorCredencialGuid = entity.CredencialGuid,
+                FacilityCode = entity.Fc,
+                Foto = entity.VeiculoFoto.ConverterBase64StringToBitmap(),
+                Matricula = entity.PlacaIdentificador,
+                Validade = entity.Validade ?? DateTime.Today.Date,
+                NumeroCredencial = entity.NumeroCredencial,
+                IdentificadorLayoutCrachaGuid = entity.LayoutCrachaGuid
+            };
+            return titularCartao;
+
         }
 
         public VeiculosCredenciaisView BuscarCredencialPelaChave(int veiculoCredencialId)

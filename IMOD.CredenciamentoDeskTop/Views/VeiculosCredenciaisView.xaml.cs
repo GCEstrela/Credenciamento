@@ -35,15 +35,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
         #endregion
 
         #region  Metodos
-        //TODO:Resolver rotina para possibilitar que ao cadastrar uma empresa a tela de veiculo credenical possa incluir em sua lista
-        public void AtualizarDados(Model.VeiculoView entity, VeiculosEmpresasViewModel viewModel)
-        {
-            if (entity == null) return;
-            _viewModel.AtualizarDados(entity); 
-            viewModel.OnSalvar += _viewModel.ListarDadosEmpresas;
-            //_viewModel.AtualizarVinculoVeiculoEmpresa (entity);
-            EmpresaVinculo_cb.Items.Refresh();
-        }
+
         /// <summary>
         ///     Atualizar dados
         /// </summary>

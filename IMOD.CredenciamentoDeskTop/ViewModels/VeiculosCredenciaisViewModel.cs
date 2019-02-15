@@ -50,7 +50,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         ///     True, Comando de criação acionado
         /// </summary>
         private bool _prepareCriarCommandAcionado;
-
+       
         private VeiculoView _veiculoView;
 
         #region  Propriedades
@@ -139,12 +139,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             var lst5 = _auxiliaresService.TecnologiaCredencialService.Listar();
             TecnologiasCredenciais = new List<TecnologiaCredencial>();
             TecnologiasCredenciais.AddRange (lst5);
+             
+            VeiculosEmpresas = new List<VeiculoEmpresa>(); 
 
-            //var lst6 = _veiculoEmpresaService.Listar (null, true).OrderByDescending (n => n.VeiculoEmpresaId).Where (n => n.Ativo.Equals (true)).ToList();
-            //VeiculosEmpresas = new List<VeiculoEmpresa>();
-            //VeiculosEmpresas.AddRange (lst6);
-
-            var lst7 = _auxiliaresService.AreaAcessoService.Listar();
+             var lst7 = _auxiliaresService.AreaAcessoService.Listar();
             VeiculoPrivilegio = new List<AreaAcesso>();
             VeiculoPrivilegio.AddRange (lst7);
         }
@@ -200,6 +198,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;
             IsEnableLstView = false;
             Habilitar = false;
+            this.ListarDadosEmpresaContratos(_veiculoView.EquipamentoVeiculoId);
         }
 
         /// <summary>
@@ -211,21 +210,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             if (e.PropertyName == "Entity") //habilitar botão alterar todas as vezes em que houver entidade diferente de null
                 Comportamento.IsEnableEditar = true;
         }
-
-        //public void AtualizarVinculoVeiculoEmpresa(VeiculoView entity)
-        //{
-        //    if (entity == null)
-        //    {
-        //        return;
-        //    }
-
-        //    var lista1 = _veiculoEmpresaService.Listar (entity.EquipamentoVeiculoId, true);
-        //    var lista2 = Mapper.Map<List<VeiculoEmpresa>> (lista1.OrderByDescending (n => n.VeiculoEmpresaId).Where (n => n.Ativo.Equals (true)).ToList());
-
-        //    VeiculosEmpresas.Clear();
-        //    lista2.ForEach (n => { VeiculosEmpresas.Add (n); });
-        //}
-
+         
         public void AtualizarDados(VeiculoView entity)
         {
             if (entity == null) throw new ArgumentNullException (nameof (entity));
@@ -235,6 +220,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             var list2 = Mapper.Map<List<VeiculosCredenciaisView>> (list1.OrderByDescending (n => n.VeiculoCredencialId));
             EntityObserver = new ObservableCollection<VeiculosCredenciaisView>();
             list2.ForEach (n => { EntityObserver.Add (n); });
+            //Listar dados de contratos
+            this.ListarDadosEmpresaContratos (_veiculoView.EquipamentoVeiculoId);
         }
 
         /// <summary>
@@ -259,17 +246,22 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         }
 
         /// <summary>
-        ///     Listar dados de empresa e contratos
+        ///  Listar dados de empresa e contratos
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public void ListarDadosEmpresas(object sender, RoutedEventArgs e)
+        /// <param name="equipamentoVeiculoId"></param>
+        private void ListarDadosEmpresaContratos(int equipamentoVeiculoId)
         {
-            var lst6 = _veiculoEmpresaService.Listar(_veiculoView.EquipamentoVeiculoId,null,null,null,null ).ToList();
-            VeiculosEmpresas = new List<VeiculoEmpresa>();
-            //VeiculosEmpresas.Clear();
-            VeiculosEmpresas.AddRange (lst6);
-            //OnPropertyChanged ("VeiculosEmpresas");
+
+            try
+            {
+                if (equipamentoVeiculoId==0) return; 
+                var l2 = _veiculoEmpresaService.Listar(equipamentoVeiculoId, null, null, null, null).ToList();
+                VeiculosEmpresas = l2;
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+            } 
         }
 
         /// <summary>
@@ -323,6 +315,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;
             IsEnableLstView = false;
             Habilitar = true;
+            this.ListarDadosEmpresaContratos (_veiculoView.EquipamentoVeiculoId);
         }
 
         /// <summary>
@@ -420,9 +413,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (layoutCracha == null) throw new InvalidOperationException ("Não é possível imprimir uma credencial sem ter sido definida um layout do crachá.");
                 if (string.IsNullOrWhiteSpace (layoutCracha.LayoutRpt)) throw new InvalidOperationException ("Não é possível imprimir uma credencial sem ter sido definida um layout do crachá.");
 
-                Cursor.Current = Cursors.WaitCursor;
+                Cursor.Current = Cursors.WaitCursor; 
 
-                var arrayBytes = Convert.FromBase64String (layoutCracha.LayoutRpt);
+                var arrayBytes = WpfHelp.ConverterBase64 (layoutCracha.LayoutRpt, "Layout de Autorização");
                 var relatorio = WpfHelp.ShowRelatorioCrystalReport (arrayBytes, layoutCracha.Nome);
                 var lst = new List<AutorizacaoView>();
                 var credencialView = _service.ObterCredencialView (Entity.VeiculoCredencialId);
@@ -467,75 +460,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         }
 
         #endregion
-
-        //}
-        //    }
-        //        Utils.TraceException (ex);
-        //    {
-        //    catch (Exception ex)
-        //    }
-        //        File.Delete (_ArquivoRPT);
-        //        }
-        //                layoutCracha.LayoutCrachaGuid, Entity.VeiculoFoto.ConverterBase64StringToBitmap());
-        //                Entity.FormatoCredencialDescricao.Trim(), Entity.Validade.ToString(),
-        //                Entity.Fc.ToString().Trim(), Entity.NumeroCredencial.Trim(),
-        //                Entity.EmpresaNome.Trim(), Entity.Colete.Trim(), Entity.Cargo.Trim(),
-
-        //            _sc.Vincular (Entity.VeiculoNome.Trim(), Entity.Cnpj.Trim(), Entity.Cnpj.Trim(),
-        //            Entity.Impressa = true;
-        //            WpfHelp.PopupBox ("Impressão Efetuada com Sucesso!", 1);
-
-        //            _impressaoService.Criar (_veiculoCredencialImpressao);
-
-        ///// <summary>
-
-        //            }
-        //                _veiculoCredencialImpressao.Cobrar = true;
-        //            {
-        //            else
-        //            }
-        //                _veiculoCredencialImpressao.Cobrar = false;
-        //            {
-        //            if (Entity.IsencaoCobranca)
-        //            _veiculoCredencialImpressao.DataImpressao = DateTime.Now;
-        //            _veiculoCredencialImpressao.VeiculoCredencialId = Entity.VeiculoCredencialId;
-        //        {
-
-        //        if (_result)
-
-        //        var _result = _popupCredencial.Result;
-        //        _popupCredencial.ShowDialog();
-
-        //        var _popupCredencial = new PopupAutorizacao (reportDocument);
-
-        //        reportDocument.SetDataSource (Autorizacao);
-        //        reportDocument.Load (_ArquivoRPT);
-        //        var reportDocument = new ReportDocument();
-        //        File.WriteAllBytes (_ArquivoRPT, arrayFile);
-        //        var arrayFile = Convert.FromBase64String (layoutCracha.LayoutRpt);
-        //        _ArquivoRPT = Path.ChangeExtension (_ArquivoRPT, ".rpt");
-        //        _ArquivoRPT = Environment.GetFolderPath (Environment.SpecialFolder.MyDocuments) + "\\" + _ArquivoRPT;
-
-        //        var _ArquivoRPT = Path.GetRandomFileName();
-
-        //        var layoutCracha = _auxiliaresService.LayoutCrachaService.BuscarPelaChave (Entity.LayoutCrachaId);
-
-        //        Autorizacao = observer;
-        //        list2.ForEach (n => { observer.Add (n); });
-        //        var observer = new ObservableCollection<AutorizacaoView>();
-        //        var list2 = Mapper.Map<List<AutorizacaoView>> (list1);
-        //        var list1 = _service.ListarAutorizacaoView (Entity.VeiculoCredencialId);
-        //        }
-        //            return;
-        //            WpfHelp.PopupBox ("Não foi possível imprimir esta credencial!", 3);
-        //        {
-        //        if (Entity.Validade == null || !Entity.Ativa || Entity.LayoutCrachaId == 0)
-        //    {
-        //    try
-        //{
-        //public void OnImprimirAutorizacao()
-        ///// </summary>
-        /////     Imprimir Credencial
+         
 
         #region Propriedade de Pesquisa
 

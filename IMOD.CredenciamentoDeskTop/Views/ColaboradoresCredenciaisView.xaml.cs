@@ -41,8 +41,6 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             if (entity == null) return;
             _viewModel.AtualizarDados(entity);
-                _viewModel.AtualizarVinculoColaboradorEmpresa(entity);
-
             EmpresaVinculo_cb.Items.Refresh();
         }
 

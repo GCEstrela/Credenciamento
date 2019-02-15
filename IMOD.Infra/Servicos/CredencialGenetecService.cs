@@ -34,18 +34,19 @@ namespace IMOD.Infra.Servicos
             if (entity == null) throw new ArgumentNullException (nameof (entity));
             if (string.IsNullOrWhiteSpace (entity.Empresa)) throw new ArgumentNullException (nameof (entity.Empresa));
             if (string.IsNullOrWhiteSpace (entity.Nome)) throw new ArgumentNullException (nameof (entity.Nome));
-            if (string.IsNullOrWhiteSpace (entity.Cnpj)) throw new ArgumentNullException (nameof (entity.Cnpj));
-            if (string.IsNullOrWhiteSpace (entity.Cpf)) throw new ArgumentNullException (nameof (entity.Cpf));
+            if (string.IsNullOrWhiteSpace (entity.Identificador)) throw new ArgumentNullException (nameof (entity.Identificador)); 
             if (string.IsNullOrWhiteSpace (entity.Matricula)) throw new ArgumentNullException (nameof (entity.Matricula));
         }
 
         private void SetValorCamposCustomizados(CardHolderEntity entity, Cardholder entityCardholder)
         {
-            entityCardholder.SetCustomFieldAsync ("CPF", entity.Cpf);
+            //entityCardholder.SetCustomFieldAsync ("CPF", entity.Cpf);
+            //entityCardholder.SetCustomFieldAsync ("CNPJ", entity.Cnpj);
+            //entityCardholder.SetCustomFieldAsync ("Cargo", entity.Cargo);
             entityCardholder.SetCustomFieldAsync ("Empresa", entity.Empresa);
-            entityCardholder.SetCustomFieldAsync ("CNPJ", entity.Cnpj);
             entityCardholder.SetCustomFieldAsync ("Matricula", entity.Matricula);
-            entityCardholder.SetCustomFieldAsync ("Cargo", entity.Cargo);
+            entityCardholder.SetCustomFieldAsync("Identificador", entity.Matricula);
+           
             entityCardholder.FirstName = entity.Nome;
             entityCardholder.LastName = entity.Apelido;
             //Uma data de validade deve ser mairo que a data corrente 

@@ -122,7 +122,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public List<Municipio> Municipios { get; set; }
 
         /// <summary>
-        ///     Dados de municipio armazendas em memoria
+        ///     Dados de municipio armazenadas em memoria
         /// </summary>
         public List<Municipio> _municipios { get; set; }
 

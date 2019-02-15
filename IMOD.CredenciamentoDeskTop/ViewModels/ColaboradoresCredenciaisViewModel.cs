@@ -115,9 +115,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             TecnologiasCredenciais = new List<TecnologiaCredencial>();
             TecnologiasCredenciais.AddRange (lst5);
 
-            var lst6 = _colaboradorEmpresaService.Listar (null, true).OrderByDescending (n => n.ColaboradorEmpresaId).Where (n => n.Ativo.Equals (true)).ToList();
-            ColaboradoresEmpresas = new List<ColaboradorEmpresa>();
-            ColaboradoresEmpresas.AddRange (lst6);
+            ColaboradoresEmpresas= new List<ColaboradorEmpresa>();
 
             var lst7 = _auxiliaresService.AreaAcessoService.Listar();
             ColaboradorPrivilegio = new List<AreaAcesso>();
@@ -182,16 +180,16 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 Comportamento.IsEnableEditar = true;
         }
 
-        public void AtualizarVinculoColaboradorEmpresa(ColaboradorView entity)
-        {
-            if (entity == null) throw new ArgumentNullException (nameof (entity));
+        //public void AtualizarVinculoColaboradorEmpresa(ColaboradorView entity)
+        //{
+        //    if (entity == null) throw new ArgumentNullException (nameof (entity));
 
-            var lista1 = _colaboradorEmpresaService.Listar (entity.ColaboradorId, true);
-            var lista2 = Mapper.Map<List<ColaboradorEmpresa>> (lista1.OrderByDescending (n => n.ColaboradorEmpresaId).Where (n => n.Ativo.Equals (true)).ToList());
+        //    var lista1 = _colaboradorEmpresaService.Listar (entity.ColaboradorId, true);
+        //    var lista2 = Mapper.Map<List<ColaboradorEmpresa>> (lista1.OrderByDescending (n => n.ColaboradorEmpresaId).Where (n => n.Ativo.Equals (true)).ToList());
 
-            ColaboradoresEmpresas.Clear();
-            lista2.ForEach (n => { ColaboradoresEmpresas.Add (n); });
-        }
+        //    ColaboradoresEmpresas.Clear();
+        //    lista2.ForEach (n => { ColaboradoresEmpresas.Add (n); });
+        //}
 
         public void AtualizarDados(ColaboradorView entity)
         {
@@ -201,8 +199,27 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             var list1 = _service.ListarView (null, null, null, null, entity.ColaboradorId).ToList();
             var list2 = Mapper.Map<List<ColaboradoresCredenciaisView>> (list1.OrderByDescending (n => n.ColaboradorCredencialId));
             EntityObserver = new ObservableCollection<ColaboradoresCredenciaisView>();
-
             list2.ForEach (n => { EntityObserver.Add (n); });
+            //Listar dados de contratos
+            this.ListarDadosEmpresaContratos(_colaboradorView.ColaboradorId);
+        }
+        /// <summary>
+        ///  Listar dados de empresa e contratos
+        /// </summary>
+        /// <param name="colaboradorId"></param>
+        private void ListarDadosEmpresaContratos(int colaboradorId)
+        {
+
+            try
+            {
+                if (colaboradorId == 0) return;
+                var l2 = _colaboradorEmpresaService.Listar(colaboradorId, null, null, null, null).ToList();
+                ColaboradoresEmpresas = l2;
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+            }
         }
 
         /// <summary>
@@ -276,6 +293,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;
             IsEnableLstView = false;
             Habilitar = true;
+            this.ListarDadosEmpresaContratos(_colaboradorView.ColaboradorId);
         }
 
         /// <summary>
@@ -367,8 +385,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (string.IsNullOrWhiteSpace (layoutCracha.LayoutRpt)) throw new InvalidOperationException ("Não é possível imprimir uma credencial sem ter sido definida um layout do crachá.");
 
                 System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
-
-                var arrayBytes = Convert.FromBase64String(layoutCracha.LayoutRpt);
+                 
+                var arrayBytes = WpfHelp.ConverterBase64(layoutCracha.LayoutRpt, "Layout Cracha");
                 var relatorio = WpfHelp.ShowRelatorioCrystalReport(arrayBytes, layoutCracha.Nome);
                 var lst = new List<CredencialView>();
                 var credencialView = _service.ObterCredencialView(Entity.ColaboradorCredencialId);
@@ -412,6 +430,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;
             IsEnableLstView = false;
             Habilitar = false;
+            this.ListarDadosEmpresaContratos(_colaboradorView.ColaboradorId);
         }
 
         private void PrepareSalvar()

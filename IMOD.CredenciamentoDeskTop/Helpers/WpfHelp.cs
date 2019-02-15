@@ -29,11 +29,7 @@ namespace IMOD.CredenciamentoDeskTop.Helpers
     /// </summary>
     internal static class WpfHelp
     {
-        /// <summary>
-        ///     ConnectionString
-        /// </summary>
-        public static SqlConnectionStringBuilder db = new SqlConnectionStringBuilder (CurrentConfig.ConexaoString);
-
+        
         #region  Metodos
 
         /// <summary>
@@ -164,6 +160,27 @@ namespace IMOD.CredenciamentoDeskTop.Helpers
             var popupBox = new PopupBox (msg, icone);
             popupBox.ShowDialog();
             return popupBox.Result;
+        }
+
+        /// <summary>
+        ///     Converte um dado em Base64 para um array de bytes
+        /// </summary>
+        /// <param name="strFormatBase64">String no formato Base64</param>
+        /// <param name="nomeDocumento">
+        ///     Um nome qualificado para identificar o nome a ser exibido como causa de uma execao se
+        ///     houver
+        /// </param>
+        /// <returns></returns>
+        public static byte[] ConverterBase64(string strFormatBase64, string nomeDocumento)
+        {
+            try
+            {
+                return Convert.FromBase64String (strFormatBase64);
+            }
+            catch (Exception)
+            {
+                throw new Exception ($"Não foi possível converter o {nomeDocumento}");
+            }
         }
 
         public static bool PopupBox(Exception ex)
@@ -312,6 +329,8 @@ namespace IMOD.CredenciamentoDeskTop.Helpers
                 var crtableLogoninfo = new TableLogOnInfo();
                 var crConnectionInfo = new ConnectionInfo();
                 Tables CrTables;
+                //Obter string de conexao
+                var  db = new SqlConnectionStringBuilder (CurrentConfig.ConexaoString);
 
                 crConnectionInfo.ServerName = db.DataSource;
                 crConnectionInfo.DatabaseName = db.InitialCatalog;

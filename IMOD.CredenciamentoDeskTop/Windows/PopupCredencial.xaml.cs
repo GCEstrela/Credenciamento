@@ -124,6 +124,8 @@ namespace IMOD.CredenciamentoDeskTop.Windows
                     n1.Emissao = DateTime.Today.Date;
                     n1.Impressa = true;
                     _service.Alterar(n1);
+                    //Passar dados para atualizar entidade 
+                    _entity.Emissao = n1.Emissao;
 
                     podeCobrarResult = WpfHelp.MboxDialogYesNo($"Autoriza a cobrança pela impressão no valor de {$"{_layoutCracha.Valor:C} ?"}", true);
                     var impressaoCobrar = podeCobrarResult == System.Windows.Forms.DialogResult.Yes;
