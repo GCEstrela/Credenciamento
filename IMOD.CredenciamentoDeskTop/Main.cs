@@ -1,7 +1,7 @@
 ﻿// ***********************************************************************
-// Project: iModSCCredenciamento
+// Project: IMOD.CredenciamentoDeskTop
 // Crafted by: Grupo Estrela by Genetec
-// Date:  11 - 27 - 2018
+// Date:  01 - 24 - 2019
 // ***********************************************************************
 
 #region
@@ -10,12 +10,14 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Media.Imaging;
 using Genetec.Sdk;
+using Genetec.Sdk.Entities;
 using Genetec.Sdk.Workspace;
 using Genetec.Sdk.Workspace.Modules;
 using Genetec.Sdk.Workspace.Tasks;
 using IMOD.CredenciamentoDeskTop.Mapeamento;
 using IMOD.CredenciamentoDeskTop.Modulo;
 using IMOD.CrossCutting;
+using IMOD.Domain.EntitiesCustom;
 
 #endregion
 
@@ -56,6 +58,7 @@ namespace IMOD.CredenciamentoDeskTop
             Engine = Workspace.Sdk;
             SubscribeToSdkEvents (Engine);
             SubscribeToWorkspaceEvents();
+           
         }
 
         private void UnregisterTaskExtensions()
@@ -138,6 +141,13 @@ namespace IMOD.CredenciamentoDeskTop
         private void OnLoggedOn(object sender, LoggedOnEventArgs e)
         {
             RegisterTaskExtensions();
+            //=================== Obter dados do usuario logado ================
+            var usuario = Engine.LoggedUser; 
+            if (usuario == null) return;
+            UsuarioLogado.Nome = usuario.Name;
+            UsuarioLogado.Email = usuario.EmailAddress;
+            UsuarioLogado.Identificador = usuario.Guid.ToString();
+            //===================================================================
         }
 
         private void OnWorkspaceInitialized(object sender, InitializedEventArgs e)

@@ -32,7 +32,6 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         #endregion
 
-
         /// <summary>
         ///     Atualizar dados
         /// </summary>
@@ -46,11 +45,11 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         private void StatusCredencial_cb_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
-            if (StatusCredencial_cb.SelectedValue == null) return;
-            string _valorSelecionado = StatusCredencial_cb.SelectedValue.ToString();
-            _viewModel.ListarMotivos(_valorSelecionado);
-            MotivoCredencial_cb.Items.Refresh();
+ 
+            //if (StatusCredencial_cb.SelectedValue == null) return;
+            //string _valorSelecionado = StatusCredencial_cb.SelectedValue.ToString();
+            //_viewModel.ListarMotivos(_valorSelecionado);
+            //MotivoCredencial_cb.Items.Refresh();
             
         }
 

@@ -1,19 +1,18 @@
 ﻿// ***********************************************************************
 // Project: IMOD.Domain
 // Crafted by: Grupo Estrela by Genetec
-// Date:  11 - 19 - 2018
+// Date:  02 - 18 - 2019
 // ***********************************************************************
 
-namespace IMOD.Domain.Entities
+namespace IMOD.Domain.EntitiesCustom
 {
-    public class CredencialMotivo
+    public static class UsuarioLogado
     {
         #region  Propriedades
 
-        public int CredencialMotivoId { get; set; }
-        public string Descricao { get; set; }
-        public string CodigoStatus { get; set; }
-        public bool Impeditivo { get; set; }
+        public static string Nome { get; set; }
+        public static string Email { get; set; }
+        public static string Identificador { get; set; }
 
         #endregion
     }

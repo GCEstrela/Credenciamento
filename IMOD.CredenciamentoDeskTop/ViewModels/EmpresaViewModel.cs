@@ -29,7 +29,7 @@ using EmpresaLayoutCrachaView = IMOD.Domain.EntitiesCustom.EmpresaLayoutCrachaVi
 
 namespace IMOD.CredenciamentoDeskTop.ViewModels
 {
-    public class EmpresaViewModel : ViewModelBase, IComportamento
+    public class EmpresaViewModel : ViewModelBase, IComportamento, IAtualizarDados
     {
         private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
         private readonly IEmpresaService _service = new EmpresaService();
@@ -207,6 +207,32 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         }
 
         /// <summary>
+        ///     Relação dos itens de pesauisa
+        /// </summary>
+        private void ItensDePesquisaConfigura()
+        {
+            ListaPesquisa = new List<KeyValuePair<int, string>>();
+            ListaPesquisa.Add (new KeyValuePair<int, string> (1, "CNPJ"));
+            ListaPesquisa.Add (new KeyValuePair<int, string> (2, "Razão Social"));
+            ListaPesquisa.Add (new KeyValuePair<int, string> (3, "Código"));
+            ListaPesquisa.Add (new KeyValuePair<int, string> (4, "Todos"));
+            PesquisarPor = ListaPesquisa[1]; //Pesquisa Default
+        }
+
+        /// <summary>
+        ///     Busca e preenche o quantitativo de tipo de credenciais (permanentes e temporária)
+        /// </summary>
+        public void CarregarQuantidadeTipoCredencial()
+        {
+            if (Entity == null) return;
+
+            var id = Entity.EmpresaId;
+            var objTipocredenciaisEmpresa = _service.ListarTipoCredenciaisEmpresa (id).ToList();
+            QuantidadeTipoCredencialPermanente = objTipocredenciaisEmpresa.Count (p => p.TipoCredencialId == 1);
+            QuantidadeTipoCredencialTemporario = objTipocredenciaisEmpresa.Count (p => p.TipoCredencialId == 2);
+        }
+
+        /// <summary>
         ///     Atualizar dados de pendências
         /// </summary>
         /// ValidarCnpj
@@ -228,19 +254,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         }
 
         /// <summary>
-        ///     Relação dos itens de pesauisa
-        /// </summary>
-        private void ItensDePesquisaConfigura()
-        {
-            ListaPesquisa = new List<KeyValuePair<int, string>>();
-            ListaPesquisa.Add (new KeyValuePair<int, string> (1, "CNPJ"));
-            ListaPesquisa.Add (new KeyValuePair<int, string> (2, "Razão Social"));
-            ListaPesquisa.Add (new KeyValuePair<int, string> (3, "Código"));
-            ListaPesquisa.Add (new KeyValuePair<int, string> (4, "Todos"));
-            PesquisarPor = ListaPesquisa[1]; //Pesquisa Default
-        }
-
-        /// <summary>
         ///     Listar dados auxilizares
         /// </summary>
         public void ListarDadosAuxiliares()
@@ -251,19 +264,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             ListaCrachas = Mapper.Map<List<LayoutCrachaView>> (lst1);
             ListaAtividades = Mapper.Map<List<TipoAtividadeView>> (lst2);
             Estados = Mapper.Map<List<Estados>> (lst3);
-        }
-
-        /// <summary>
-        ///     Busca e preenche o quantitativo de tipo de credenciais (permanentes e temporária)
-        /// </summary>
-        public void CarregarQuantidadeTipoCredencial()
-        {
-            if (Entity == null) return;
-
-            var id = Entity.EmpresaId;
-            var objTipocredenciaisEmpresa = _service.ListarTipoCredenciaisEmpresa (id).ToList();
-            QuantidadeTipoCredencialPermanente = objTipocredenciaisEmpresa.Count (p => p.TipoCredencialId == 1);
-            QuantidadeTipoCredencialTemporario = objTipocredenciaisEmpresa.Count (p => p.TipoCredencialId == 2);
         }
 
         #endregion
@@ -609,7 +609,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             try
             {
                 _prepareCriarCommandAcionado = false;
-                _prepareAlterarCommandAcionado = false; 
+                _prepareAlterarCommandAcionado = false;
 
                 AtualizarDadosTipoCrachas();
                 AtualizarDadosTiposAtividades();

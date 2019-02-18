@@ -297,7 +297,8 @@ namespace IMOD.Infra.Repositorios
         public void CriarPendenciaSistema(Pendencia entity)
         {
             entity.PendenciaSistema = true;
-            entity.Descricao = "Pendência de cadastro inicial";
+                    if(string.IsNullOrWhiteSpace (entity.Descricao))
+                    entity.Descricao = "Pendência de cadastro inicial";
             Criar (entity);
         }
 

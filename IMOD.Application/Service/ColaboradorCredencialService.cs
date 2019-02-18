@@ -29,7 +29,107 @@ namespace IMOD.Application.Service
 
         #endregion
 
+        #region  Propriedades
+
+      
+
+        /// <summary>
+        ///     Pendência serviços
+        /// </summary>
+        public IPendenciaService Pendencia
+        {
+            get { return new PendenciaService(); }
+        }
+
+        /// <summary>
+        ///     Impressão Serviços
+        /// </summary>
+        public IColaboradorCredencialImpressaoService ImpressaoCredencial
+        {
+            get { return new ColaboradorCredencialImpressaoService(); }
+        }
+
+        /// <summary>
+        ///     TecnologiaCredencial serviços
+        /// </summary>
+        public ITecnologiaCredencialService TecnologiaCredencial
+        {
+            get { return new TecnologiaCredencialService(); }
+        }
+
+        /// <summary>
+        ///     TipoCredencial serviços
+        /// </summary>
+        public ITipoCredencialService TipoCredencial
+        {
+            get { return new TipoCredencialService(); }
+        }
+
+        /// <summary>
+        ///     LayoutCracha serviços
+        /// </summary>
+        public ILayoutCrachaService LayoutCracha
+        {
+            get { return new LayoutCrachaService(); }
+        }
+
+        /// <summary>
+        ///     FormatoCredencial serviços
+        /// </summary>
+        public IFormatoCredencialService FormatoCredencial
+        {
+            get { return new FormatoCredencialService(); }
+        }
+
+        /// <summary>
+        ///     CredencialStatus serviços
+        /// </summary>
+        public ICredencialStatusService CredencialStatus
+        {
+            get { return new CredencialStatusService(); }
+        }
+
+        /// <summary>
+        ///     CredencialMotivo serviços
+        /// </summary>
+        public ICredencialMotivoService CredencialMotivo
+        {
+            get { return new CredencialMotivoService(); }
+        }
+
+        #endregion
+
         #region  Metodos
+
+        /// <summary>
+        ///     Criar uma pendência impeditiva caso o motivo do credenciamento possua natureza impeditiva
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="empresaId"></param>
+        public void CriarPendenciaImpeditiva(ColaboradorCredencial entity, int empresaId)
+        {
+            //Criar um pendenci impeditiva ao constatar o motivo da credencial
+            var pendImp = CredencialMotivo.BuscarPelaChave (entity.CredencialMotivoId);
+            if (pendImp == null) throw new InvalidOperationException ("Não foi possível obter a entidade credencial motivo");
+            var impeditivo = pendImp.Impeditivo;
+            if (!impeditivo) return;
+            //Criar uma pendencia impeditiva,caso sua natureza seja impeditiva
+
+            #region Criar Pendência  
+
+            var pendencia = new Pendencia();
+            pendencia.EmpresaId = empresaId;
+            var motivo = CredencialMotivo.BuscarPelaChave (entity.CredencialMotivoId);
+            pendencia.Descricao = $"Em {DateTime.Now}, uma pendência impeditiva foi criada pelo sistema por ter sido {motivo.Descricao}." +
+                  "\r\nDeseja-se que tais pendências sejam solucionadas."+
+                  $"\r\nAutor {UsuarioLogado.Nome} {UsuarioLogado.Email}";
+            pendencia.Impeditivo = true;
+            //--------------------------
+            pendencia.CodPendencia = 21;
+            Pendencia.CriarPendenciaSistema (pendencia);
+
+            #endregion
+        }
 
         private void ObterStatusCredencial(ColaboradorCredencial entity)
         {
@@ -192,6 +292,7 @@ namespace IMOD.Application.Service
         /// <param name="credencialRepositorio"></param>
         public void Alterar(ColaboradorCredencial entity, int colaboradorId, ITipoCredencialRepositorio credencialRepositorio)
         {
+            ObterStatusCredencial (entity);
             _repositorio.Alterar (entity, colaboradorId, credencialRepositorio);
         }
 
@@ -294,65 +395,5 @@ namespace IMOD.Application.Service
         }
 
         #endregion
-
-         
-
-        /// <summary>
-        ///     Impressão Serviços
-        /// </summary>
-        public IColaboradorCredencialImpressaoService ImpressaoCredencial
-        {
-            get { return new ColaboradorCredencialImpressaoService(); }
-        }
-
-        /// <summary>
-        ///     TecnologiaCredencial serviços
-        /// </summary>
-        public ITecnologiaCredencialService TecnologiaCredencial
-        {
-            get { return new TecnologiaCredencialService(); }
-        }
-
-        /// <summary>
-        ///     TipoCredencial serviços
-        /// </summary>
-        public ITipoCredencialService TipoCredencial
-        {
-            get { return new TipoCredencialService(); }
-        }
-
-        /// <summary>
-        ///     LayoutCracha serviços
-        /// </summary>
-        public ILayoutCrachaService LayoutCracha
-        {
-            get { return new LayoutCrachaService(); }
-        }
-
-        /// <summary>
-        ///     FormatoCredencial serviços
-        /// </summary>
-        public IFormatoCredencialService FormatoCredencial
-        {
-            get { return new FormatoCredencialService(); }
-        }
-
-        /// <summary>
-        ///     CredencialStatus serviços
-        /// </summary>
-        public ICredencialStatusService CredencialStatus
-        {
-            get { return new CredencialStatusService(); }
-        }
-
-        /// <summary>
-        ///     CredencialMotivo serviços
-        /// </summary>
-        public ICredencialMotivoService CredencialMotivo
-        {
-            get { return new CredencialMotivoService(); }
-        }
-
-        
     }
 }

@@ -52,7 +52,7 @@ namespace IMOD.Infra.Repositorios
                     {
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("CredencialmotivoID", entity.CredencialMotivoId, true)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Descricao", entity.Descricao, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Tipo", entity.Tipo, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("CodigoStatus", entity.CodigoStatus, false)));
 
                         var key = Convert.ToInt32(cmd.ExecuteScalar());
 
@@ -142,7 +142,7 @@ namespace IMOD.Infra.Repositorios
                     {
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("CredencialmotivoID", entity.CredencialMotivoId, true)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Descricao", entity.Descricao, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Tipo", entity.Tipo, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("CodigoStatus", entity.CodigoStatus, false)));
                         cmd.ExecuteNonQuery();
                     }
                     catch (Exception ex)

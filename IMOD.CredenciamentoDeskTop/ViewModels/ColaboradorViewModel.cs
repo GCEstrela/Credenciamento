@@ -28,7 +28,7 @@ using IMOD.Domain.Entities;
 
 namespace IMOD.CredenciamentoDeskTop.ViewModels
 {
-    public class ColaboradorViewModel : ViewModelBase, IComportamento
+    public class ColaboradorViewModel : ViewModelBase, IComportamento, IAtualizarDados
     {
         private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
         private readonly IColaboradorService _service = new ColaboradorService();
@@ -43,7 +43,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private bool _prepareCriarCommandAcionado;
 
-        #region  Propriedades 
+        #region  Propriedades
+
         /// <summary>
         ///     String contendo o nome a pesquisa;
         /// </summary>
@@ -57,10 +58,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <summary>
         ///     Pesquisar por
         /// </summary>
-        public KeyValuePair<int, string> PesquisarPor { get; set; } 
+        public KeyValuePair<int, string> PesquisarPor { get; set; }
 
         /// <summary>
-        ///      True, empresa possui pendência de codigo 21
+        ///     True, empresa possui pendência de codigo 21
         /// </summary>
         public bool Pendencia21 { get; set; }
 
@@ -70,7 +71,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public bool Pendencia22 { get; set; }
 
         /// <summary>
-        ///      True, empresa possui pendência de codigo 23
+        ///     True, empresa possui pendência de codigo 23
         /// </summary>
         public bool Pendencia23 { get; set; }
 
@@ -80,7 +81,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public bool Pendencia24 { get; set; }
 
         /// <summary>
-        ///      True, empresa possui pendência de codigo 25
+        ///     True, empresa possui pendência de codigo 25
         /// </summary>
         public bool Pendencia25 { get; set; }
 
@@ -128,22 +129,21 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         #endregion
 
-        
-
         public ColaboradorViewModel()
         {
             ItensDePesquisaConfigura();
             ListarDadosAuxiliares();
-            Comportamento = new ComportamentoBasico(false, true, true, false, false);
+            Comportamento = new ComportamentoBasico (false, true, true, false, false);
             EntityObserver = new ObservableCollection<ColaboradorView>();
             Comportamento.SalvarAdicao += OnSalvarAdicao;
             Comportamento.SalvarEdicao += OnSalvarEdicao;
             Comportamento.Remover += OnRemover;
             Comportamento.Cancelar += OnCancelar;
-            base.PropertyChanged += OnEntityChanged;
+            PropertyChanged += OnEntityChanged;
         }
 
         #region  Metodos
+
         /// <summary>
         ///     Habilita controles
         /// </summary>
@@ -156,7 +156,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -171,15 +170,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             if (e.PropertyName == "SelectedTabIndex")
                 //Habilita botoes principais...
                 HabilitaCommandPincipal = SelectedTabIndex == 0;
-        }
-        
-
-        private void ListarDadosAuxiliares()
-        {
-            var lst3 = _auxiliaresService.EstadoService.Listar();
-            Estados = Mapper.Map<List<Estados>> (lst3);
-            Municipios = new List<Municipio>();
-            _municipios = new List<Municipio>();
         }
 
         /// <summary>
@@ -219,24 +209,32 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 //Por nome
                 if (num.Key == 2)
                 {
-                    if (string.IsNullOrWhiteSpace(pesquisa)) return;
+                    if (string.IsNullOrWhiteSpace (pesquisa)) return;
                     var l1 = _service.Listar (null, null, $"%{pesquisa}%");
                     PopularObserver (l1);
                 }
                 //Por cpf
                 if (num.Key == 1)
                 {
-                    if (string.IsNullOrWhiteSpace(pesquisa)) return;
+                    if (string.IsNullOrWhiteSpace (pesquisa)) return;
                     var l1 = _service.Listar (null, $"%{pesquisa.RetirarCaracteresEspeciais()}%", null);
                     PopularObserver (l1);
                 }
 
-                IsEnableLstView = true;  
+                IsEnableLstView = true;
             }
             catch (Exception ex)
             {
                 Utils.TraceException (ex);
             }
+        }
+
+        public void ListarDadosAuxiliares()
+        {
+            var lst3 = _auxiliaresService.EstadoService.Listar();
+            Estados = Mapper.Map<List<Estados>> (lst3);
+            Municipios = new List<Municipio>();
+            _municipios = new List<Municipio>();
         }
 
         /// <summary>
@@ -258,7 +256,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             Pendencia22 = pendencia.Any (n => n.CodPendencia == 22 & n.Ativo);
             Pendencia23 = pendencia.Any (n => n.CodPendencia == 23 & n.Ativo);
             Pendencia24 = pendencia.Any (n => n.CodPendencia == 24 & n.Ativo);
-            Pendencia25 = pendencia.Any (n => n.CodPendencia == 25 & n.Ativo); 
+            Pendencia25 = pendencia.Any (n => n.CodPendencia == 25 & n.Ativo);
         }
 
         #endregion
@@ -285,7 +283,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         /// <summary>
         ///     Verificar se dados válidos
-        /// <para>True, inválido</para>
+        ///     <para>True, inválido</para>
         /// </summary>
         /// <returns></returns>
         private bool EInValidoCpf()
@@ -367,12 +365,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         private void PrepareCriar()
         {
-           
-            Entity = new ColaboradorView(); 
-            _prepareCriarCommandAcionado = true; 
+            Entity = new ColaboradorView();
+            _prepareCriarCommandAcionado = true;
             Comportamento.PrepareCriar();
             _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;
-            HabilitaControle(false, false);
+            HabilitaControle (false, false);
         }
 
         /// <summary>
@@ -414,24 +411,24 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             if (Entity == null)
             {
-                WpfHelp.PopupBox("Selecione um item da lista", 1);
+                WpfHelp.PopupBox ("Selecione um item da lista", 1);
                 return;
             }
 
-            Comportamento.PrepareAlterar(); 
-            _prepareCriarCommandAcionado = false; 
+            Comportamento.PrepareAlterar();
+            _prepareCriarCommandAcionado = false;
             _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;
-            HabilitaControle(false, false);
+            HabilitaControle (false, false);
         }
 
         private void PrepareRemover()
         {
             if (Entity == null) return;
-             
+
             _prepareCriarCommandAcionado = false;
             _prepareAlterarCommandAcionado = false;
             Comportamento.PrepareRemover();
-            HabilitaControle(true, true);
+            HabilitaControle (true, true);
         }
 
         private void OnSalvarAdicao(object sender, RoutedEventArgs e)
@@ -445,7 +442,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 _service.Criar (n1);
                 var n2 = Mapper.Map<ColaboradorView> (n1);
                 EntityObserver.Insert (0, n2);
-                HabilitaControle(true, true);
+                HabilitaControle (true, true);
                 SelectListViewIndex = 0;
             }
             catch (Exception ex)
@@ -463,7 +460,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (Validar()) return;
                 var n1 = Mapper.Map<Colaborador> (Entity);
                 _service.Alterar (n1);
-                HabilitaControle(true, true);
+                HabilitaControle (true, true);
             }
             catch (Exception ex)
             {
@@ -476,13 +473,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-              
                 _prepareCriarCommandAcionado = false;
                 _prepareAlterarCommandAcionado = false;
                 if (Entity != null) Entity.ClearMessageErro();
-                HabilitaControle(true, true);
+                HabilitaControle (true, true);
                 Entity = null;
-
             }
             catch (Exception ex)
             {
@@ -503,7 +498,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 _service.Remover (n1);
                 //Retirar empresa da coleção
                 EntityObserver.Remove (Entity);
-                HabilitaControle(true, true);
+                HabilitaControle (true, true);
             }
             catch (Exception ex)
             {

@@ -113,6 +113,7 @@
     <Compile Include="Funcoes\FormatDate.cs" />
     <Compile Include="Funcoes\FormateTel.cs" />
     <Compile Include="Funcoes\MethodBindingExtension.cs" />
+    <Compile Include="Funcoes\StringNullOrEmptyToVisibilityConverter.cs" />
     <Compile Include="Funcoes\ValidacaoModel.cs" />
     <Compile Include="Funcoes\SCManager.cs" />
     <Compile Include="Funcoes\StringToImageConverter.cs" />
@@ -123,6 +124,7 @@
     <Compile Include="Mapeamento\AutoMapperConfig.cs" />
     <Compile Include="ViewModels\Commands\CommandBase.cs" />
     <Compile Include="ViewModels\Comportamento\ComportamentoBasico.cs" />
+    <Compile Include="ViewModels\Comportamento\IAtualizarDados.cs" />
     <Compile Include="ViewModels\Comportamento\IComportamento.cs" />
     <Compile Include="Views\Model\AreaAcessoView.cs" />
     <Compile Include="Views\Model\AutorizacaoView.cs" />

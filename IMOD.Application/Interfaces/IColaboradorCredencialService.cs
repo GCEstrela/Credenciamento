@@ -6,6 +6,7 @@
 
 #region
 
+using System.Collections.Generic;
 using IMOD.Domain.Entities;
 using IMOD.Domain.EntitiesCustom;
 using IMOD.Domain.Interfaces;
@@ -17,9 +18,11 @@ namespace IMOD.Application.Interfaces
 {
     public interface IColaboradorCredencialService : IColaboradorCredencialRepositorio
     {
-        #region  Propriedades
-
-         
+        #region  Propriedades 
+        /// <summary>
+        ///     Pendência serviços
+        /// </summary>
+        IPendenciaService Pendencia { get; }
 
         /// <summary>
         ///     Impressão Serviços
@@ -59,6 +62,13 @@ namespace IMOD.Application.Interfaces
         #endregion
 
         #region  Metodos
+
+        /// <summary>
+        ///     Criar uma pendência impeditiva caso o motivo do credenciamento possua natureza impeditiva
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="empresaId"></param>
+        void CriarPendenciaImpeditiva(ColaboradorCredencial entity, int empresaId);
 
         /// <summary>
         /// Verificar se um número credencial

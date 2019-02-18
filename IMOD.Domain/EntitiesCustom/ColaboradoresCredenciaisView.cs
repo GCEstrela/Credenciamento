@@ -59,6 +59,10 @@ namespace IMOD.Domain.EntitiesCustom
         public string Identificacao1 { get; set; }
         public string Identificacao2 { get; set; }
         public bool IsencaoCobranca { get; set; }
+        /// <summary>
+        /// True, possue pendencia impeditiva
+        /// </summary>
+        public bool PendenciaImpeditiva { get; set; }
 
 
     }
