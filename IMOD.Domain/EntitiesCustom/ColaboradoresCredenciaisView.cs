@@ -16,17 +16,19 @@ namespace IMOD.Domain.EntitiesCustom
         [Range(1, int.MaxValue, ErrorMessage = "O Layout do crachá é requerido.")]
         public int LayoutCrachaId { get; set; }
         public int FormatoCredencialId { get; set; }
-        [Required(ErrorMessage = "O Número da credencial é requerida.")]
+        //[Required(ErrorMessage = "O Número da credencial é requerida.")]
         public string NumeroCredencial { get; set; }
         public int Fc { get; set; }
         public DateTime? Emissao { get; set; }
         public DateTime? Validade { get; set; }
+        [Range(0, int.MaxValue, ErrorMessage = "O status da credencial é requerida.")]
         public int CredencialStatusId { get; set; }
         public string CredencialGuid { get; set; }
         public string CardHolderGuid { get; set; }
         public int ColaboradorPrivilegio1Id { get; set; }
         public int ColaboradorPrivilegio2Id { get; set; }
         public string Colete { get; set; }
+        [Range(1, int.MaxValue, ErrorMessage = "A motivação é requerida.")]
         public int CredencialMotivoId { get; set; }
         public bool Impressa { get; set; }
         public bool Ativa { get; set; }

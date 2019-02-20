@@ -52,15 +52,36 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private bool _prepareCriarCommandAcionado;
 
+        private List<CredencialMotivo> _credencialMotivo;
+
         #region  Propriedades
 
         /// <summary>
         ///     Habilitar Controles
         /// </summary>
         public bool Habilitar { get; private set; } = true;
+        public CredencialStatus StatusCredencial { get; set; }
 
         public List<CredencialStatus> CredencialStatus { get; set; }
-        public List<CredencialMotivo> CredencialMotivo { get; set; }
+
+        public List<CredencialMotivo> CredenciaisMotivo
+        {
+            get
+            {
+                if (StatusCredencial == null)
+                {
+                    return _credencialMotivo;
+                }
+                else
+                {
+                     var lst = _credencialMotivo.Where (n => n.CodigoStatus == StatusCredencial.Codigo);
+                    return lst.ToList();
+                }
+
+            }
+            set { _credencialMotivo = value; }
+        }
+
         public List<FormatoCredencial> FormatoCredencial { get; set; }
         public List<TipoCredencial> TipoCredencial { get; set; }
         public List<EmpresaLayoutCracha> EmpresaLayoutCracha { get; set; }
@@ -99,6 +120,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 return habilita;
             }
+
+
         }
 
         public ObservableCollection<ColaboradoresCredenciaisView> EntityObserver { get; set; }
@@ -163,23 +186,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             ColaboradorPrivilegio = new List<AreaAcesso>();
             ColaboradorPrivilegio.AddRange (lst7);
 
-            var lst8 = _auxiliaresService.CredencialMotivoService.Listar();
-            CredencialMotivo = new List<CredencialMotivo>();
-            CredencialMotivo.AddRange (lst8);
-            //_credencialMotivo = new List<CredencialMotivo>();
-            //_credencialMotivo.AddRange (lst8);
-            //CredencialMotivo=new List<CredencialMotivo>();
+           _credencialMotivo = new List<CredencialMotivo>();
+           var lst8 = _auxiliaresService.CredencialMotivoService.Listar();
+           _credencialMotivo.AddRange(lst8); 
         }
-
-        /// <summary>
-        /// </summary>
-        /// <param name="tipoCredencial"></param>
-        public void ListarMotivos(string tipoCredencial)
-        {
-            //var lst1 = _auxiliaresService.CredencialMotivoService.Listar (null, null, tipoCredencial);
-            //CredencialMotivo = new List<CredencialMotivo>();
-            //CredencialMotivo.AddRange (lst1);
-        }
+        
 
         /// <summary>
         /// </summary>
@@ -323,10 +334,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private void PrepareCriar()
         {
-            Entity = new ColaboradoresCredenciaisView
-            {
-                Ativa = true
-            };
+            Entity = new ColaboradoresCredenciaisView();
+            Entity.Ativa = true;
+            var statusCred = CredencialStatus.FirstOrDefault (n => n.Codigo == "1");//Status ativa
+            if(statusCred == null) throw new InvalidOperationException("O status da credencial é requerida.");
+            StatusCredencial = statusCred;
+            
             Comportamento.PrepareCriar();
             _prepareCriarCommandAcionado = true;
             _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;

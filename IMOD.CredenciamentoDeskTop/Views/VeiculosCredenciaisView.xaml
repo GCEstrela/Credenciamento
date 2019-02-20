@@ -91,12 +91,12 @@
                                       Margin="0,4,0,3"
                                       Height="25"
                                       Width="130"
-                                      ItemsSource="{Binding CredencialStatus}"
+                                      ItemsSource="{Binding CredencialStatus}" 
+                                      SelectedItem="{Binding StatusCredencial, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                       DisplayMemberPath="Descricao"
                                       SelectedValue="{Binding Entity.CredencialStatusId, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                       SelectedValuePath="CredencialStatusId" IsSynchronizedWithCurrentItem="True"
-                                      RenderTransformOrigin="0.5,0.5"
-                                      SelectionChanged="StatusCredencial_cb_SelectionChanged">
+                                      RenderTransformOrigin="0.5,0.5">
 
                                 <ComboBox.RenderTransform>
                                     <TransformGroup>
@@ -110,14 +110,14 @@
                             <Label Content="Motivo:" Height="28" Width="55" HorizontalContentAlignment="Left"
                                    Foreground="#FFD0D0D0" />
 
-                            <ComboBox x:Name="MotivoCredencial_cb"
+                            <ComboBox x:Name="cmbMotivacao"
 
                                       Margin="0,4,0,3"
                                       Height="25"
                                       Width="252"
                                       VerticalContentAlignment="Center"
                                       HorizontalContentAlignment="Left"
-                                      ItemsSource="{Binding CredencialMotivo, Mode=TwoWay}"
+                                      ItemsSource="{Binding CredenciaisMotivo}" 
                                       DisplayMemberPath="Descricao"
                                       Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
                                       SelectedValue="{Binding Entity.CredencialMotivoId, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"

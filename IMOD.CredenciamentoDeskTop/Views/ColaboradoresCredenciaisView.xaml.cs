@@ -1,15 +1,14 @@
 ﻿// ***********************************************************************
-// Project: iModSCCredenciamento
+// Project: IMOD.CredenciamentoDeskTop
 // Crafted by: Grupo Estrela by Genetec
-// Date:  11 - 13 - 2018
+// Date:  01 - 24 - 2019
 // ***********************************************************************
 
 #region
 
-using System;
+using System.Windows;
 using System.Windows.Controls;
 using IMOD.CredenciamentoDeskTop.ViewModels;
-using IMOD.CrossCutting; 
 
 #endregion
 
@@ -21,16 +20,19 @@ namespace IMOD.CredenciamentoDeskTop.Views
     public partial class ColaboradoresCredenciaisView : UserControl
     {
         private readonly ColaboradoresCredenciaisViewModel _viewModel;
+
         #region Inicializacao
 
         public ColaboradoresCredenciaisView()
         {
             InitializeComponent();
             _viewModel = new ColaboradoresCredenciaisViewModel();
-            DataContext = _viewModel; 
+            DataContext = _viewModel;
         }
 
         #endregion
+
+        #region  Metodos
 
         /// <summary>
         ///     Atualizar dados
@@ -39,32 +41,22 @@ namespace IMOD.CredenciamentoDeskTop.Views
         public void AtualizarDados(Model.ColaboradorView entity)
         {
             if (entity == null) return;
-            _viewModel.AtualizarDados(entity);
+            _viewModel.AtualizarDados (entity);
             EmpresaVinculo_cb.Items.Refresh();
-        }
-
-        private void StatusCredencial_cb_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
- 
-            //if (StatusCredencial_cb.SelectedValue == null) return;
-            //string _valorSelecionado = StatusCredencial_cb.SelectedValue.ToString();
-            //_viewModel.ListarMotivos(_valorSelecionado);
-            //MotivoCredencial_cb.Items.Refresh();
-            
         }
 
         private void EmpresaVinculo_cb_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (_viewModel.ColaboradorEmpresa == null) return;
 
-            _viewModel.ListarCracha(_viewModel.ColaboradorEmpresa.EmpresaId);
-
+            _viewModel.ListarCracha (_viewModel.ColaboradorEmpresa.EmpresaId);
         }
 
-        private void UserControl_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             EmpresaVinculo_cb.SelectionChanged += EmpresaVinculo_cb_SelectionChanged;
         }
 
+        #endregion
     }
 }

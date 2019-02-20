@@ -50,7 +50,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         ///     True, Comando de criação acionado
         /// </summary>
         private bool _prepareCriarCommandAcionado;
-       
+        private List<CredencialMotivo> _credencialMotivo;
+
         private VeiculoView _veiculoView;
 
         #region  Propriedades
@@ -61,9 +62,25 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         ///     Seleciona indice da listview
         /// </summary>
         public short SelectListViewIndex { get; set; }
-
+        public CredencialStatus StatusCredencial { get; set; }
         public List<CredencialStatus> CredencialStatus { get; set; }
-        public List<CredencialMotivo> CredencialMotivo { get; set; }
+        public List<CredencialMotivo> CredenciaisMotivo
+        {
+            get
+            {
+                if (StatusCredencial == null)
+                {
+                    return _credencialMotivo;
+                }
+                else
+                {
+                    var lst = _credencialMotivo.Where(n => n.CodigoStatus == StatusCredencial.Codigo);
+                    return lst.ToList();
+                }
+
+            }
+            set { _credencialMotivo = value; }
+        }
         public List<FormatoCredencial> FormatoCredencial { get; set; }
         public List<TipoCredencial> TipoCredencial { get; set; }
         public List<EmpresaLayoutCracha> EmpresaLayoutCracha { get; set; }
@@ -122,11 +139,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             var lst0 = _auxiliaresService.CredencialStatusService.Listar();
             CredencialStatus = new List<CredencialStatus>();
-            CredencialStatus.AddRange (lst0);
-
-            var lst1 = _auxiliaresService.CredencialMotivoService.Listar();
-            CredencialMotivo = new List<CredencialMotivo>();
-            CredencialMotivo.AddRange (lst1);
+            CredencialStatus.AddRange (lst0); 
 
             var lst2 = _auxiliaresService.FormatoCredencialService.Listar();
             FormatoCredencial = new List<FormatoCredencial>();
@@ -145,6 +158,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
              var lst7 = _auxiliaresService.AreaAcessoService.Listar();
             VeiculoPrivilegio = new List<AreaAcesso>();
             VeiculoPrivilegio.AddRange (lst7);
+
+            _credencialMotivo = new List<CredencialMotivo>();
+            var lst8 = _auxiliaresService.CredencialMotivoService.Listar();
+            _credencialMotivo.AddRange(lst8);
         }
 
         public void CarregaColecaoLayoutsCrachas(int empresaId)
@@ -162,22 +179,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 Utils.TraceException (ex);
             }
         }
-
-        public void CarregaColecaoCredenciaisMotivos(int statusCredencialId)
-        {
-            try
-            {
-                var lst1 = _auxiliaresService.CredencialMotivoService.Listar (null, null, statusCredencialId);
-
-                if (CredencialMotivo != null && CredencialMotivo.Any()) CredencialMotivo.Clear();
-                CredencialMotivo = new List<CredencialMotivo>();
-                CredencialMotivo.AddRange (lst1);
-            }
-            catch (Exception ex)
-            {
-                Utils.TraceException (ex);
-            }
-        }
+         
 
         private void PrepareSalvar()
         {
@@ -306,10 +308,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private void PrepareCriar()
         {
-            Entity = new VeiculosCredenciaisView
-            {
-                Ativa = true
-            };
+            Entity = new VeiculosCredenciaisView();
+            Entity.Ativa = true;
+            var statusCred = CredencialStatus.FirstOrDefault(n => n.Codigo == "1");//Status ativa
+            if (statusCred == null) throw new InvalidOperationException("O status da credencial é requerida.");
+            StatusCredencial = statusCred;
+
             Comportamento.PrepareCriar();
             _prepareCriarCommandAcionado = true;
             _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;

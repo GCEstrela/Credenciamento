@@ -320,9 +320,12 @@ namespace IMOD.Application.Service
             //Alterar o status do cartao do titular, se houver
             if (string.IsNullOrWhiteSpace (titularCartao.IdentificadorCardHolderGuid)
                 & string.IsNullOrWhiteSpace (titularCartao.IdentificadorCredencialGuid)) return;
-
+            
             //Alterar status do cartao
             geradorCredencialService.AlterarStatusCardHolder (titularCartao);
+            //Sistema somente gerar credencial se o tipo de autenticação permitir
+
+           
             //Alterar credencial
             geradorCredencialService.AlterarStatusCredencial (titularCartao);
         }
@@ -382,6 +385,8 @@ namespace IMOD.Application.Service
             var titularCartao = CardHolderEntity (entity);
             //Gerar titular do cartão no sub-sistema de credenciamento (Genetec)
             geradorCredencialService.CriarCardHolder (titularCartao);
+
+            //Sistema somente gerar credencial se o tipo de autenticação permitir
             //Gerar Credencial do titular do cartão no sub-sistema de credenciamento (Genetec)
             geradorCredencialService.CriarCredencial (titularCartao);
             //Atualizar dados do identificador GUID

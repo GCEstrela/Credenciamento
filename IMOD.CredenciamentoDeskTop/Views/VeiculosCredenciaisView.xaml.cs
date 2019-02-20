@@ -6,11 +6,9 @@
 
 #region
 
-using System;
 using System.Windows;
 using System.Windows.Controls;
 using IMOD.CredenciamentoDeskTop.ViewModels;
-using IMOD.CrossCutting;
 
 #endregion
 
@@ -43,22 +41,8 @@ namespace IMOD.CredenciamentoDeskTop.Views
         public void AtualizarDados(Model.VeiculoView entity)
         {
             if (entity == null) return;
-            _viewModel.AtualizarDados (entity); 
+            _viewModel.AtualizarDados (entity);
             EmpresaVinculo_cb.Items.Refresh();
-        }
-         
-
-        private void StatusCredencial_cb_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (e.AddedItems.Count > 0)
-            {
-                if (_viewModel.Entity == null) return;
-                if (_viewModel.Entity.CredencialStatusId > 0)
-                {
-                    _viewModel.CarregaColecaoCredenciaisMotivos (_viewModel.Entity.CredencialStatusId);
-                    MotivoCredencial_cb.Items.Refresh();
-                }
-            }
         }
 
         private void EmpresaVinculo_cb_SelectionChanged(object sender, SelectionChangedEventArgs e)
