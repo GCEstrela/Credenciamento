@@ -1,7 +1,7 @@
 ﻿// ***********************************************************************
 // Project: IMOD.Application
 // Crafted by: Grupo Estrela by Genetec
-// Date:  12 - 07 - 2018
+// Date:  01 - 21 - 2019
 // ***********************************************************************
 
 #region
@@ -103,13 +103,12 @@ namespace IMOD.Application.Service
         {
             if (string.IsNullOrWhiteSpace (cnpj)) return false;
             var v1 = cnpj.TemCaracteres();
-            if(v1)
-                throw new InvalidOperationException("O CNPJ não está num formato válido.");
+            if (v1)
+                throw new InvalidOperationException ("O CNPJ não está num formato válido.");
             //Verificar formato válido
             var v2 = Utils.IsValidCnpj (cnpj);
             if (!v2)
-                throw new InvalidOperationException("CNPJ inválido.");
-
+                throw new InvalidOperationException ("CNPJ inválido.");
 
             var doc = cnpj.RetirarCaracteresEspeciais();
             var n1 = BuscarEmpresaPorCnpj (doc);
@@ -117,8 +116,33 @@ namespace IMOD.Application.Service
         }
 
         /// <summary>
+        ///     Criar um empresa com contrato básico
+        ///     <para>Um contrato básico será criada automaticamente</para>
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="dataValidade">Data de validade</param>
+        /// <param name="numContrato">Numero do contrato</param>
+        /// <param name="status">Status do cdontrato</param>
+        public void CriarContratoBasico(Empresa entity,DateTime dataValidade,string numContrato,Status status)
+        {
+            if (entity == null) throw new ArgumentNullException (nameof (entity));
+            if (status == null) throw new ArgumentNullException (nameof (status));
+            //Criar Empresa
+            Criar (entity);
+            //Criar contrato básico
+            var contrato = new EmpresaContrato();
+            contrato.EmpresaId = entity.EmpresaId;
+            contrato.Validade = dataValidade;
+            contrato.Descricao = "Contrato Básico";
+            contrato.StatusId = status.StatusId;
+            contrato.NumeroContrato = numContrato;
+            contrato.Emissao = contrato.Validade;
+            ContratoService.Criar (contrato);
+        }
+
+        /// <summary>
         ///     Criar registro
-        /// <para>Pendências de cadastros serão automaticamente cadastradas</para>
+        ///     <para>Pendências de cadastros serão automaticamente cadastradas</para>
         /// </summary>
         /// <param name="entity"></param>
         public void Criar(Empresa entity)
@@ -126,21 +150,22 @@ namespace IMOD.Application.Service
             //Criar empresa 
             _repositorio.Criar (entity);
             //Criar pendências
+
             #region Criar Pendências
 
             var pendencia = new Pendencia();
             pendencia.EmpresaId = entity.EmpresaId;
             //--------------------------
-            pendencia.CodPendencia = 12; 
-            Pendencia.CriarPendenciaSistema(pendencia);
+            pendencia.CodPendencia = 12;
+            Pendencia.CriarPendenciaSistema (pendencia);
             //--------------------------
             pendencia.CodPendencia = 14;
-            Pendencia.CriarPendenciaSistema(pendencia);
+            Pendencia.CriarPendenciaSistema (pendencia);
             //--------------------------
             pendencia.CodPendencia = 24;
-            Pendencia.CriarPendenciaSistema(pendencia);
+            Pendencia.CriarPendenciaSistema (pendencia);
+
             #endregion
-            
         }
 
         /// <summary>
@@ -202,14 +227,14 @@ namespace IMOD.Application.Service
         }
 
         /// <summary>
-        /// Listar Credenciais Empresa por tipo
+        ///     Listar Credenciais Empresa por tipo
         /// </summary>
         /// <param name="empresaId"></param>
         /// <returns></returns>
         public ICollection<EmpresaTipoCredencialView> ListarTipoCredenciaisEmpresa(int empresaId = 0)
 
         {
-            return _repositorio.ListarTipoCredenciaisEmpresa(empresaId);
+            return _repositorio.ListarTipoCredenciaisEmpresa (empresaId);
         }
 
         #endregion

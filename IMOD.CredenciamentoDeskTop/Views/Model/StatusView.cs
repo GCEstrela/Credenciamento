@@ -14,6 +14,8 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
 
         public string Descricao { get; set; }
 
+        public bool CodigoStatus { get; set; }
+
         #endregion
     }
 }

@@ -67,8 +67,7 @@ namespace IMOD.Application.Interfaces
         ///     Criar uma pendência impeditiva caso o motivo do credenciamento possua natureza impeditiva
         /// </summary>
         /// <param name="entity"></param>
-        /// <param name="empresaId"></param>
-        void CriarPendenciaImpeditiva(ColaboradorCredencial entity, int empresaId);
+        void CriarPendenciaImpeditiva(ColaboradoresCredenciaisView entity);
 
         /// <summary>
         /// Verificar se um número credencial

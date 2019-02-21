@@ -115,15 +115,35 @@ namespace IMOD.Infra.Repositorios
         /// <returns></returns>
         public DateTime? ObterDataValidadeCredencial(ColaboradorCredencial entity, int colaboradorId, string numContrato, ITipoCredencialRepositorio credencialRepositorio)
         {
-            if (credencialRepositorio == null) throw new ArgumentNullException (nameof (credencialRepositorio));
+            return ObterDataValidadeCredencial (entity.TipoCredencialId, colaboradorId, numContrato, credencialRepositorio);
+        }
+
+        /// <summary>
+        ///     Obtem a data de validade de uma credencial
+        ///     <para>
+        ///         Verificar se o contrato é temporário ou permanente,
+        ///         sendo permanente, então vale obter a menor data entre
+        ///         um curso controlado e uma data de validade do contrato, caso contrario, será concedido prazo de 90 dias a
+        ///         partir da data atual
+        ///     </para>
+        /// </summary>
+        /// <param name="tipoCredencialId"></param>
+        /// <param name="colaboradorId"></param>
+        /// <param name="numContrato"></param>
+        /// <param name="credencialRepositorio"></param>
+        /// <returns></returns>
+        public DateTime? ObterDataValidadeCredencial(int tipoCredencialId, int colaboradorId, string numContrato, ITipoCredencialRepositorio credencialRepositorio)
+        {
+
+            if (credencialRepositorio == null) throw new ArgumentNullException(nameof(credencialRepositorio));
 
             //Verificar se o contrato é temporário ou permanente
-            var tipoCredencial = credencialRepositorio.BuscarPelaChave (entity.TipoCredencialId);
-            if (tipoCredencial == null) throw new InvalidOperationException ("Um tipo de credencial é necessário.");
+            var tipoCredencial = credencialRepositorio.BuscarPelaChave(tipoCredencialId);
+            if (tipoCredencial == null) throw new InvalidOperationException("Um tipo de credencial é necessário.");
             if (tipoCredencial.CredPermanente) //Sendo uma credencial do tipo permanente, então vale a regra da menor data
-                return ObterMenorData (colaboradorId, numContrato);
+                return ObterMenorData(colaboradorId, numContrato);
             //Caso contrario, trata-se de uma credencial temporária, então vale o prazo de 90 dias em relação a data atual
-            return DateTime.Today.AddDays (90);
+            return DateTime.Today.AddDays(90);
         }
 
         /// <summary>
