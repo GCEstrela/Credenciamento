@@ -68,6 +68,9 @@ namespace IMOD.CredenciamentoDeskTop.Mapeamento
                        m.CreateMap<AreaAcesso, AreaAcessoView>().ReverseMap();
                        m.CreateMap<LayoutCracha, LayoutCrachaView>().ReverseMap();
                        m.CreateMap<TipoAcesso, TipoAcessoView>().ReverseMap();
+                       m.CreateMap<Domain.EntitiesCustom.ColaboradoresCredenciaisView, Views.Model.RelColaboradoresCredenciaisView>().ReverseMap();
+                       m.CreateMap<FiltroVeiculoCredencial, RelVeiculosCredenciaisView>().ReverseMap();
+                       m.CreateMap<VeiculosCredenciaisView, RelVeiculosCredenciaisView>().ReverseMap();
 
                    });
         }

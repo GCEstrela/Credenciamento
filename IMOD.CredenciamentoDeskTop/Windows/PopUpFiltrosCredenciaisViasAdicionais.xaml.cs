@@ -14,6 +14,7 @@ namespace IMOD.CredenciamentoDeskTop.Windows
             InitializeComponent();
             DataContext = new RelatoriosViewModel();
             MouseDown += Window_MouseDown;
+            ((RelatoriosViewModel)DataContext).CarregaMotivoCredenciais(1);//Carregar os motivos do status 1 - ativo 
         }
 
 
@@ -28,24 +29,17 @@ namespace IMOD.CredenciamentoDeskTop.Windows
         private void button_ClickFiltrar(object sender, RoutedEventArgs e)
         {
             int tipo = 0;
-            string DataIni = dp_dataInicial.Text;
-            string DataFim = dp_dataFinal.Text;
+            IMOD.CredenciamentoDeskTop.Views.Model.CredencialMotivoView motivoCredencialSelecionado = null;
+            string dataIni = dp_dataInicial.Text; 
+            string dataFim = dp_dataFinal.Text; 
 
-            if (segundaemissao_rb.IsChecked.Value)
+            if (lstMotivoCredencial.SelectedItem != null)
             {
-                tipo = 2;
-            }
-            else if (terceiraemissao_rb.IsChecked.Value)
-            {
-                tipo = 3;
-            }
-            else
-            {
-                tipo = 0;
+                motivoCredencialSelecionado = (IMOD.CredenciamentoDeskTop.Views.Model.CredencialMotivoView)lstMotivoCredencial.SelectedItem;
+                tipo = ((IMOD.CredenciamentoDeskTop.Views.Model.CredencialMotivoView)lstMotivoCredencial.SelectedItem).CredencialMotivoId;
             }
 
-            ((RelatoriosViewModel)DataContext).OnFiltroCredencialViasAdicionaisCommand(tipo, DataIni, DataFim);
-
+            ((RelatoriosViewModel)DataContext).OnFiltroCredencialViasAdicionaisCommand(tipo, dataIni, dataFim);
 
             Close();
         }

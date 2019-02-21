@@ -4,7 +4,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-
+             d:DataContext="{d:DesignInstance viewModels:RelatoriosViewModel , IsDesignTimeCreatable=True}"
+             xmlns:funcoes="clr-namespace:IMOD.CredenciamentoDeskTop.Funcoes"
+             xmlns:viewModels="clr-namespace:IMOD.CredenciamentoDeskTop.ViewModels"
         mc:Ignorable="d"
         Title="Procurar Empresa" Height="485.944" Width="444.628" ShowInTaskbar="False" WindowStartupLocation="CenterOwner" ResizeMode="NoResize" WindowStyle="None" BorderThickness="6,30,6,6" Topmost="True">
     <Window.Background>
@@ -40,15 +42,19 @@
             </Button>
         </StackPanel>
         <StackPanel Grid.Column="0" Margin="0,0,0,0" Grid.ColumnSpan="2">
-            <GroupBox x:Name="invalidas_gb" Header="Filtro de Credenciais Inválidas" Margin="10,10" Height="211" Foreground="#FFD0D0D0">
-                <StackPanel x:Name="Informacoes_sp" Margin="10,10,10,5" HorizontalAlignment="Left">
-                    <RadioButton x:Name="todas_rb" Content="Todas"  TextBlock.TextAlignment="Left" GroupName="Cred_rb" Height="25"  HorizontalContentAlignment="Left" Foreground="#FFD0D0D0" VerticalAlignment="Center" HorizontalAlignment="Left" IsChecked="True"/>
-                    <RadioButton x:Name="indeferidas_rb" Content="Indeferidas"  GroupName="Cred_rb" Height="25"  HorizontalContentAlignment="Left" Foreground="#FFD0D0D0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                    <RadioButton x:Name="extraviadas_rb" Content="Extraviadas"  TextBlock.TextAlignment="Left" GroupName="Cred_rb" Height="25"  HorizontalContentAlignment="Left" Foreground="#FFD0D0D0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                    <RadioButton x:Name="roubadas_rb" Content="Roubadas"  TextBlock.TextAlignment="Center" GroupName="Cred_rb" Height="25"  HorizontalContentAlignment="Left" Foreground="#FFD0D0D0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                    <RadioButton x:Name="destruidas_rb" Content="Destruídas"  TextBlock.TextAlignment="Center" GroupName="Cred_rb" Height="25"  HorizontalContentAlignment="Left" Foreground="#FFD0D0D0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                    <RadioButton x:Name="naodevolvidas_rb" Content="Não Devolvidas"  TextBlock.TextAlignment="Center" GroupName="Cred_rb" Height="25"  HorizontalContentAlignment="Left" Foreground="#FFD0D0D0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                </StackPanel>
+            <GroupBox x:Name="invalidas_gb" Header="Filtro de Credenciais Inválidas" Height="170" Width="410" Foreground="#FFD0D0D0">
+                <ListBox x:Name="lstMotivoCredencial"
+                        ItemsSource="{Binding MotivosCredenciais}"
+                        SelectedValue="{Binding MotivosCredenciais}"
+                        SelectedValuePath="CredencialMotivoId">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <RadioButton
+                                IsChecked="{Binding IsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}}"
+                                Content="{Binding Descricao}" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
             </GroupBox>
 
             <GroupBox x:Name="periodo_gb" Header="Filtrar por Período (Data de Emissão)" Height="131"  Margin="10,10"  Foreground="#FFD0D0D0">
@@ -61,7 +67,6 @@
                     <DatePicker Margin="-10,3,0,0" Height="28" HorizontalAlignment="Left" Name="dp_dataFinal" Width="100" />
                     <!--<TextBox CharacterCasing="Upper"  x:Name="Datafim_tb"   MaxLength="50" Text="Data Final"  IsEnabled="True"  Height="24"  Width="100" />-->
                 </StackPanel>
-
             </GroupBox>
 
             <Button x:Name="button" Content="Filtrar" Click="button_ClickFiltrar" Height="33" HorizontalAlignment="Center" Width="100" Margin="166,20,167,20" />

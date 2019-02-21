@@ -66,6 +66,15 @@ namespace IMOD.Domain.EntitiesCustom
         /// </summary>
         public bool PendenciaImpeditiva { get; set; }
 
+        public string CredencialMotivoDescricao { get; set; }
+        public DateTime? DataImpressao { get; set; }
+        public decimal Valor { get; set; }
+        public string TiposCobrancaNome { get; set; }
+        public string EmpresasContratosNome { get; set; }
+        public string Identificacao { get; set; }
+        public int AreaAcessoId { get; set; }
+        public string IdentificacaoDescricao { get; set; }
+
 
     }
 }

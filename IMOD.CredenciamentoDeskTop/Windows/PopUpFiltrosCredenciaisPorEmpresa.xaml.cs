@@ -29,29 +29,33 @@ namespace IMOD.CredenciamentoDeskTop.Windows
 
         private void button_ClickFiltrar(object sender, RoutedEventArgs e)
         {
-            string DataIni = Dataini_tb.Text;
-            string DataFim = Datafim_tb.Text;
+            string dataIni = Dataini_tb.Text;
+            string dataFim = Datafim_tb.Text;
             bool check;
             string empresa;
 
 
-            if (EmpresaRazaoSocial_cb.SelectedValue == null)
+            if (EmpresaRazaoSocial_cb.SelectedItem == null)
             {
-                empresa = "";
+                empresa = "0";
             }
             else
-                empresa = EmpresaRazaoSocial_cb.SelectedValue.ToString();
+            {
+                empresa = ((IMOD.CredenciamentoDeskTop.Views.Model.EmpresaView)EmpresaRazaoSocial_cb.SelectedItem).EmpresaId.ToString();
+            }
 
 
             if (credenciais_rb.IsChecked.Value)
             {
                 check = true;
+                ((RelatoriosViewModel)DataContext).OnRelatorioFiltroCredencialPorEmpresaCommand(empresa, check, dataIni, dataFim);
             }
             else
+            {
                 check = false;
+                ((RelatoriosViewModel)DataContext).OnRelatorioFiltroPorEmpresaCommand(empresa, check, dataIni, dataFim);
+            }
 
-
-            ((RelatoriosViewModel)DataContext).OnRelatorioFiltroPorEmpresaCommand(empresa, check, DataIni, DataFim);
 
             Close();
         }

@@ -26,23 +26,29 @@ namespace IMOD.CredenciamentoDeskTop.Windows
         {
             bool check;
             string area;
+            IMOD.CredenciamentoDeskTop.Views.Model.AreaAcessoView objAreaSelecionado = new IMOD.CredenciamentoDeskTop.Views.Model.AreaAcessoView();
 
-            if (AreaAcesso_cb.SelectedValue == null)
+            if (AreaAcesso_cb.SelectedItem == null)
             {
-                area = "";
+                area = "0";
             }
             else
-                area = AreaAcesso_cb.SelectedValue.ToString();
-
+            {
+                area = ((IMOD.CredenciamentoDeskTop.Views.Model.AreaAcessoView)AreaAcesso_cb.SelectedItem).AreaAcessoId.ToString();
+                objAreaSelecionado = (IMOD.CredenciamentoDeskTop.Views.Model.AreaAcessoView)AreaAcesso_cb.SelectedItem;
+            }
 
             if (credenciais_rb.IsChecked.Value)
             {
                 check = true;
+                ((RelatoriosViewModel)DataContext).OnRelatorioCredencialPorAreaCommand(area, check, objAreaSelecionado);
             }
             else
+            {
                 check = false;
+                ((RelatoriosViewModel)DataContext).OnRelatorioFiltroPorAreaCommand(area, check);
+            }
 
-            ((RelatoriosViewModel)DataContext).OnRelatorioFiltroPorAreaCommand(area, check);
 
             Close();
         }

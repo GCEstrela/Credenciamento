@@ -90,6 +90,43 @@ namespace IMOD.Domain.Interfaces
         /// <returns></returns>
         ICollection<ColaboradorEmpresaView> ListarContratos(params object[] o);
 
+        /// <summary>
+        ///    Listar Colaboradores credenciais - concedidas
+        /// </summary>
+        /// <param name="entity">entity</param>
+        /// <returns></returns>
+        List<ColaboradoresCredenciaisView> ListarColaboradorCredencialConcedidasView(RelColaboradoresCredenciaisView entity);
+
+
+        /// <summary>
+        ///    Listar Colaboradores credenciais - vias adicionais
+        /// </summary>
+        /// <param name="entity">entity</param>
+        /// <returns></returns>
+        List<ColaboradoresCredenciaisView> ListarColaboradorCredencialViaAdicionaisView(RelColaboradoresCredenciaisView entity);
+
+        /// <summary>
+        ///    Listar Colaboradores credenciais - inválidas
+        /// </summary>
+        /// <param name="entity">entity</param>
+        /// <returns></returns>
+        List<ColaboradoresCredenciaisView> ListarColaboradorCredencialInvalidasView(RelColaboradoresCredenciaisView entity);
+
+
+        /// <summary>
+        ///    Listar Colaboradores credenciais - impressoes 
+        /// </summary>
+        /// <param name="entity">entity</param>
+        /// <returns></returns>
+        List<ColaboradoresCredenciaisView> ListarColaboradorCredencialImpressoesView(RelColaboradoresCredenciaisView entity);
+
+
+        /// <summary>
+        ///    Listar Colaboradores credenciais - permanentes ativos por área
+        /// </summary>
+        /// <param name="entity">entity</param>
+        /// <returns></returns>
+        List<ColaboradoresCredenciaisView> ListarColaboradorCredencialPermanentePorAreaView(RelColaboradoresCredenciaisView entity);
         #endregion
     }
 }

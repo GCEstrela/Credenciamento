@@ -90,6 +90,27 @@ namespace IMOD.Domain.Interfaces
         /// <returns></returns>
         VeiculoCredencial ObterCredencialPeloNumeroCredencial(string numCredencial);
 
+        /// <summary>
+        ///    Listar Colaboradores / credenciais concedidas
+        /// </summary>
+        /// <param name="entity">entity</param>
+        /// <returns></returns>
+        List<VeiculosCredenciaisView> ListarVeiculoCredencialConcedidasView(FiltroVeiculoCredencial entity);
+
+
+        /// <summary>
+        ///    Listar Colaboradores / credenciais vias adicionais
+        /// </summary>
+        /// <param name="entity">entity</param>
+        /// <returns></returns>
+        List<VeiculosCredenciaisView> ListarVeiculoCredencialViaAdicionaisView(FiltroVeiculoCredencial entity);
+
+        /// <summary>
+        ///    Listar Colaboradores / credenciais concedidas
+        /// </summary>
+        /// <param name="entity">entity</param>
+        /// <returns></returns>
+        List<VeiculosCredenciaisView> ListarVeiculoCredencialInvalidasView(FiltroVeiculoCredencial entity);
         #endregion
     }
 }

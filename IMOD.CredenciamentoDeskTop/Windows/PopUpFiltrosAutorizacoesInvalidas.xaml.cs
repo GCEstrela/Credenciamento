@@ -36,27 +36,27 @@ namespace IMOD.CredenciamentoDeskTop.Windows
             //EXTRAVIADAS
             if (extraviadas_rb.IsChecked.Value)
             {
-                status = 1;
+                status = 9;
             }
             //ROUBADAS
             else if (roubadas_rb.IsChecked.Value)
             {
-                status = 2;
+                status = 10;
             }
             //DESTRUIDAS
             else if (destruidas_rb.IsChecked.Value)
             {
-                status = 3;
+                status = 13;
             }
             //NÂO DEVOLVIDA
             else if (naodevolvidas_rb.IsChecked.Value)
             {
-                status = 4;
+                status = 14;
             }
             //INDEFERIDAS
             else if (indeferidas_rb.IsChecked.Value)
             {
-                status = 5;
+                status = 2;
             }
             //TUDO
             else
@@ -68,5 +68,7 @@ namespace IMOD.CredenciamentoDeskTop.Windows
 
             Close();
         }
+
+       
     }
 }
