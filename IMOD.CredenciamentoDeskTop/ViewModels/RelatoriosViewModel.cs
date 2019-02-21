@@ -196,7 +196,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         #endregion
 
-        #region Carregamento das Colecoes
+        #region Carregamento das Colecoes 
 
         private void CarregaColecaoRelatorios()
         {
