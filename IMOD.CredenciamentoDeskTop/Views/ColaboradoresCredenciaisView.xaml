@@ -51,7 +51,7 @@
                                       VerticalContentAlignment="Center" 
                                       HorizontalContentAlignment="Left"
                                       ItemsSource="{Binding ColaboradoresEmpresas}"
-                                      SelectedValue="{Binding Entity.ColaboradorEmpresaId, UpdateSourceTrigger=PropertyChanged}"
+                                      SelectedValue="{Binding Entity.ColaboradorEmpresaId, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                       Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
                                       SelectedItem="{Binding ColaboradorEmpresa}"
                                       SelectedValuePath="ColaboradorEmpresaId"

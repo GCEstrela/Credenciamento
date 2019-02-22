@@ -51,6 +51,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private bool _prepareCriarCommandAcionado;
         private List<CredencialMotivo> _credencialMotivo;
+        private List<ColaboradorEmpresa> _colaboradoresEmpresas;
 
         #region  Propriedades
 
@@ -82,7 +83,20 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public List<TipoCredencial> TipoCredencial { get; set; }
         public List<EmpresaLayoutCracha> EmpresaLayoutCracha { get; set; }
         public List<TecnologiaCredencial> TecnologiasCredenciais { get; set; }
-        public List<ColaboradorEmpresa> ColaboradoresEmpresas { get; set; }
+
+        public List<ColaboradorEmpresa> ColaboradoresEmpresas
+        {
+            get
+            {
+                return _colaboradoresEmpresas;
+            }
+            set
+            {
+                _colaboradoresEmpresas = value;
+                base.OnPropertyChanged("ColaboradoresEmpresas");
+            }
+        }
+
         public ColaboradorEmpresa ColaboradorEmpresa { get; set; } 
         public List<AreaAcesso> ColaboradorPrivilegio { get; set; }
         public ColaboradoresCredenciaisView Entity { get; set; }
@@ -177,7 +191,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             TecnologiasCredenciais.AddRange (lst5);
 
             ColaboradoresEmpresas = new List<ColaboradorEmpresa>();
-            //_colaboradoresEmpresa = new List<ColaboradorEmpresa>();
+            _colaboradoresEmpresas = new List<ColaboradorEmpresa>();
 
             var lst7 = _auxiliaresService.AreaAcessoService.Listar();
             ColaboradorPrivilegio = new List<AreaAcesso>();
@@ -274,12 +288,32 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                
                 if (colaboradorId == 0) return;
                 var l2 = _colaboradorEmpresaService.Listar (colaboradorId, null, null, null, null).ToList();
-                //_colaboradoresEmpresa = l2;
-                ColaboradoresEmpresas = l2;
+                _colaboradoresEmpresas.AddRange (l2); 
             }
             catch (Exception ex)
             {
                 Utils.TraceException (ex);
+            }
+        }
+
+        /// <summary>
+        /// Listar contratos ativos
+        /// </summary>
+        /// <param name="colaboradorId"></param>
+        private void ListarDadosEmpresaContratosAtivos(int colaboradorId)
+        {
+            try
+            {
+
+                if (colaboradorId == 0) return;
+                var l2 = _colaboradorEmpresaService.Listar(colaboradorId, null, null, null, null).ToList();
+                _colaboradoresEmpresas.Clear();
+                _colaboradoresEmpresas.AddRange(l2.Where (n=>n.Ativo)); 
+                
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
             }
         }
 
@@ -366,7 +400,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;
             IsEnableLstView = false;
             Habilitar = true;
-            ListarDadosEmpresaContratos (_colaboradorView.ColaboradorId); 
+            ListarDadosEmpresaContratosAtivos (_colaboradorView.ColaboradorId); 
         }
 
         /// <summary>
@@ -416,6 +450,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 IsEnableLstView = true; 
                 if (Entity != null) Entity.ClearMessageErro();
                 Entity = null;
+                ListarDadosEmpresaContratos(_colaboradorView.ColaboradorId);
             }
             catch (Exception ex)
             {
@@ -514,6 +549,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             if (Validar()) return;
             Comportamento.PrepareSalvar();
+            ListarDadosEmpresaContratos(_colaboradorView.ColaboradorId);
         }
 
         /// <summary>
