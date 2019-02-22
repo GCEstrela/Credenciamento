@@ -116,6 +116,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 Empresas = l2;
                 var l3 = _empresaContratoService.Listar().ToList();
                 Contratos = l3;
+                base.OnPropertyChanged ("Entity");
             }
             catch (Exception ex)
             {
