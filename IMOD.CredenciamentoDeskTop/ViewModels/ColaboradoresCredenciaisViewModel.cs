@@ -51,7 +51,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private bool _prepareCriarCommandAcionado;
         private List<CredencialMotivo> _credencialMotivo;
-        //private List<ColaboradorEmpresa> _colaboradoresEmpresa; 
 
         #region  Propriedades
 
@@ -83,7 +82,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public List<TipoCredencial> TipoCredencial { get; set; }
         public List<EmpresaLayoutCracha> EmpresaLayoutCracha { get; set; }
         public List<TecnologiaCredencial> TecnologiasCredenciais { get; set; }
-        //public List<ColaboradorEmpresa> ColaboradoresEmpresas { get { return _colaboradoresEmpresa; } set { _colaboradoresEmpresa = value; } }
         public List<ColaboradorEmpresa> ColaboradoresEmpresas { get; set; }
         public ColaboradorEmpresa ColaboradorEmpresa { get; set; } 
         public List<AreaAcesso> ColaboradorPrivilegio { get; set; }

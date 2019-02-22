@@ -230,11 +230,13 @@
 
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <Button x:Name="Geral_bt"  Style="{StaticResource MenuStyle}" Click="OnPendenciaGeral_Click" >
+                        <Button x:Name="Geral_bt"  Style="{StaticResource MenuStyle}" Click="OnPendenciaGeral_Click"  IsEnabled="{Binding Comportamento.IsEnableEditar}">
                             <StackPanel>
                                 <Image Source="{Binding Pendencia22,
                                         Converter={StaticResource ConvertBoolToImage},
-                                        UpdateSourceTrigger=Explicit, Mode=TwoWay}" Width="16"  Height="16" RenderTransformOrigin="1,1" />
+                                        UpdateSourceTrigger=Explicit, Mode=TwoWay}" Width="16"  Height="16" RenderTransformOrigin="1,1"
+                                       
+                                       />
                             </StackPanel>
                         </Button>
                         <StackPanel Width="170">
@@ -608,7 +610,7 @@
             <TabItem x:Name="Signatarios_ti"  Width="200" IsEnabled="{Binding IsEnableTabItem}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <Button x:Name="Signatarios_bt"   Click="OnPendenciaEmpresaVinculo_Click" Style="{StaticResource MenuStyle}" >
+                        <Button x:Name="Signatarios_bt"   Click="OnPendenciaEmpresaVinculo_Click" Style="{StaticResource MenuStyle}" IsEnabled="{Binding Comportamento.IsEnableEditar}" >
                             <StackPanel>
                                 <Image Source="{Binding Pendencia22,
                                         Converter={StaticResource ConvertBoolToImage},UpdateSourceTrigger=Explicit, Mode=TwoWay}"  Width="16"  Height="16" />
@@ -626,7 +628,7 @@
             <TabItem x:Name="CursosTreinamentos_ti"  Width="200" IsEnabled="{Binding IsEnableTabItem}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <Button x:Name="Curso_bt"   Click="OnPendenciaTreinamentoCertificacao_Click" Style="{StaticResource MenuStyle}" >
+                        <Button x:Name="Curso_bt"   Click="OnPendenciaTreinamentoCertificacao_Click" Style="{StaticResource MenuStyle}" IsEnabled="{Binding Comportamento.IsEnableEditar}">
                             <StackPanel>
                                 <Image Source="{Binding Pendencia23,
                                         Converter={StaticResource ConvertBoolToImage},UpdateSourceTrigger=Explicit, Mode=TwoWay}"  Width="16"  Height="16" />
@@ -644,7 +646,7 @@
             <TabItem x:Name="Anexos_ti"  Width="200"  IsEnabled="{Binding IsEnableTabItem}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <Button  x:Name="Anexos_bt" Click="OnPendenciaAnexos_Click" Style="{StaticResource MenuStyle}" >
+                        <Button  x:Name="Anexos_bt" Click="OnPendenciaAnexos_Click" Style="{StaticResource MenuStyle}" IsEnabled="{Binding Comportamento.IsEnableEditar}" >
                             <StackPanel>
                                 <Image Source="{Binding Pendencia24,
                                         Converter={StaticResource ConvertBoolToImage},UpdateSourceTrigger=Explicit, Mode=TwoWay}" Width="16"  Height="16" />
@@ -662,7 +664,7 @@
             <TabItem x:Name="Tab5"  Width="200"  IsEnabled="{Binding IsEnableTabItem}" >
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <Button  x:Name="btnTab5" Click="OnPendenciaCredencial_Click" Style="{StaticResource MenuStyle}">
+                        <Button  x:Name="btnTab5" Click="OnPendenciaCredencial_Click" Style="{StaticResource MenuStyle}" IsEnabled="{Binding Comportamento.IsEnableEditar}">
                             <StackPanel>
                                 <Image Source="{Binding Pendencia25,
                                         Converter={StaticResource ConvertBoolToImage},UpdateSourceTrigger=Explicit, Mode=TwoWay}" Width="16"  Height="16" />

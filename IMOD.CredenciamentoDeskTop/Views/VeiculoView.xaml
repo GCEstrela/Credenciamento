@@ -213,7 +213,7 @@
 
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <Button x:Name="Geral_bt" Click="OnPendenciaGeral_Click" Style="{StaticResource MenuStyle}">
+                        <Button x:Name="Geral_bt" Click="OnPendenciaGeral_Click" Style="{StaticResource MenuStyle}" IsEnabled="{Binding Comportamento.IsEnableEditar}">
                             <StackPanel>
                                 <Image Source="{Binding Pendencia21,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                     Width="16" Height="16" RenderTransformOrigin="1,1" />
@@ -555,7 +555,7 @@
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="Signatarios_bt" Click="OnPendenciaVinculos_Click"
-                                Style="{StaticResource MenuStyle}">
+                                Style="{StaticResource MenuStyle}" IsEnabled="{Binding Comportamento.IsEnableEditar}">
                             <StackPanel>
                                 <Image
                                     Source="{Binding Pendencia22,
@@ -576,7 +576,7 @@
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="btnVeiculoSeguro" Click="OnPendenciaSeguros_Click"
-                                Style="{StaticResource MenuStyle}">
+                                Style="{StaticResource MenuStyle}" IsEnabled="{Binding Comportamento.IsEnableEditar}">
                             <StackPanel>
                                 <Image
                                     Source="{Binding Pendencia19,Converter={StaticResource ConvertBoolToImage},UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
@@ -597,7 +597,7 @@
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="Anexos_bt" Click="OnPendenciaGeralAnexos_Click"
-                                Style="{StaticResource MenuStyle}">
+                                Style="{StaticResource MenuStyle}" IsEnabled="{Binding Comportamento.IsEnableEditar}">
                             <StackPanel>
                                 <Image
                                     Source="{Binding Pendencia24,
@@ -619,7 +619,7 @@
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="Crede" Click="OnPendenciaCredencias_Click"
-                                Style="{StaticResource MenuStyle}">
+                                Style="{StaticResource MenuStyle}" IsEnabled="{Binding Comportamento.IsEnableEditar}">
                             <StackPanel>
                                 <Image
                                     Source="{Binding Pendencia25,
