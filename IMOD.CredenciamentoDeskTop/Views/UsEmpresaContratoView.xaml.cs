@@ -58,8 +58,8 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             try
             {
-                var filtro = "Imagem files (*.pdf)|*.pdf|All Files (*.*)|*.*";
-                var arq = WpfHelp.UpLoadArquivoDialog(filtro, 700);
+                var filtro = "Imagem files (*.pdf)|*.pdf";
+                var arq = WpfHelp.UpLoadArquivoDialog(filtro,2048);
                 if (arq == null) return;
                 _viewModel.Entity.Arquivo = arq.FormatoBase64;
                 _viewModel.Entity.NomeArquivo = arq.Nome;
