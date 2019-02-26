@@ -39,7 +39,7 @@
                       Background="Purple"
                       x:Name="Responsavel_gb" Header="Credenciamento" Margin="0,0,10,0">
                 <StackPanel Orientation="Horizontal">
-                    <StackPanel Width="958">
+                    <StackPanel Width="964">
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                     Margin="1,1,-20,1" Width="977">
                             <Label Content="Vínculo:" Height="28" Width="55" Foreground="#FFD0D0D0" />
@@ -253,7 +253,7 @@
                                       MaxLength="8"  CharacterCasing="Upper" 
                                       Text="{Binding Entity.NumeroCredencial,  UpdateSourceTrigger=PropertyChanged}" 
                                       Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
-                                      Height="24"  Width="59"/>
+                                      Height="24"  Width="49"/>
 
 
 

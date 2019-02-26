@@ -117,6 +117,7 @@ namespace IMOD.CredenciamentoDeskTop.Windows
                 }
 
                 //Sendo a impressao realizada corretamente, então, solicitar autorização de cobrança
+                
                 if (impressaoCorreta)
                 {
                     //Registrar a data da emissão da credencial..
@@ -139,10 +140,16 @@ namespace IMOD.CredenciamentoDeskTop.Windows
 
                     });
 
-                    //Gerar card Holder e Credencial
-                    //Uma data de validade é necessária para geração da credencial
-                    if (_entity.Validade==null) throw new InvalidOperationErrorException("A validade da credencial deve ser informada.");
-                    _service.CriarTitularCartao (new CredencialGenetecService (Main.Engine),_entity);
+                    //Não deve ser criada dado na sub-rotina de credenciamento quando a tecnologia da credencial nao permitir
+                    //TODO:Retirar condicional fazendo referencia ao identificador
+                    if (_entity.TecnologiaCredencialId != 0)
+                    {
+                        //Gerar card Holder e Credencial
+                        //Uma data de validade é necessária para geração da credencial
+                        if (_entity.Validade == null) throw new InvalidOperationErrorException("A validade da credencial deve ser informada.");
+                        _service.CriarTitularCartao(new CredencialGenetecService(Main.Engine), _entity);
+                    }
+                   
                     
                     this.Close();
 

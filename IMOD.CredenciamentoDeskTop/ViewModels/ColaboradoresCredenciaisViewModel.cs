@@ -406,6 +406,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;
             IsEnableLstView = false;
             Habilitar = true;
+            MensagemAlerta = "";
             ListarDadosEmpresaContratosAtivos (_colaboradorView.ColaboradorId); 
         }
 
@@ -510,9 +511,20 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 var arrayBytes = WpfHelp.ConverterBase64 (layoutCracha.LayoutRpt, "Layout Cracha");
                 var relatorio = WpfHelp.ShowRelatorioCrystalReport (arrayBytes, layoutCracha.Nome);
-                var lst = new List<CredencialView>();
+                //var lst = new List<CredencialView>();
+                var lst = new List<CredencialViewCracha>();
                 var credencialView = _service.ObterCredencialView (Entity.ColaboradorCredencialId);
-                lst.Add (credencialView);
+
+                //TODO: Retirar POG
+                var c1 = Mapper.Map<CredencialViewCracha>(credencialView);
+                if(!string.IsNullOrWhiteSpace(c1.Foto))
+                c1.Foto2 = Convert.FromBase64String(credencialView.Foto);
+                if (!string.IsNullOrWhiteSpace(c1.Logo))
+                    c1.Logo2 = Convert.FromBase64String(credencialView.Logo);
+
+                lst.Add(c1);
+
+                //lst.Add (credencialView);
                 relatorio.SetDataSource (lst);
                 var popupCredencial = new PopupCredencial (relatorio, _service, Entity, layoutCracha);
                 popupCredencial.ShowDialog();
