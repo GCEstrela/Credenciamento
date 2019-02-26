@@ -18,7 +18,7 @@ using IMOD.CredenciamentoDeskTop.ViewModels;
 
 namespace IMOD.CredenciamentoDeskTop.Views.Model
 {
-    public class ColaboradorView: ValidacaoModel
+    public class ColaboradorView: ValidacaoModel, ICloneable
     {
        
         #region  Propriedades
@@ -68,6 +68,12 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         
 
         #endregion
-        
+
+        /// <summary>Creates a new object that is a copy of the current instance.</summary>
+        /// <returns>A new object that is a copy of this instance.</returns>
+        public object Clone()
+        {
+            return (ColaboradorView)  MemberwiseClone();
+        }
     }
 }

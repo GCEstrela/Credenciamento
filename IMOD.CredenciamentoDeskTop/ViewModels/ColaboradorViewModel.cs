@@ -263,7 +263,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         #region Regras de Negócio
 
-        private bool ExisteCpf()
+        public bool ExisteCpf()
         {
             if (Entity == null) return false;
             var cpf = Entity.Cpf.RetirarCaracteresEspeciais();
@@ -370,6 +370,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             Comportamento.PrepareCriar();
             _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;
             HabilitaControle (false, false);
+            CloneObservable();
         }
 
         /// <summary>
@@ -406,7 +407,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             if (Validar()) return;
             Comportamento.PrepareSalvar();
         }
-
+         
+        private List<ColaboradorView> _entityObserverCloned = new List<ColaboradorView>();
         private void PrepareAlterar()
         {
             if (Entity == null)
@@ -419,6 +421,16 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             _prepareCriarCommandAcionado = false;
             _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;
             HabilitaControle (false, false);
+
+            CloneObservable();
+        }
+        /// <summary>
+        /// Clone Observable
+        /// </summary>
+        private void CloneObservable()
+        {
+            _entityObserverCloned.Clear();
+            EntityObserver.ToList().ForEach (n => { _entityObserverCloned.Add ((ColaboradorView) n.Clone()); });
         }
 
         private void PrepareRemover()
@@ -478,6 +490,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (Entity != null) Entity.ClearMessageErro();
                 HabilitaControle (true, true);
                 Entity = null;
+
+                EntityObserver.Clear();
+                EntityObserver = new ObservableCollection<ColaboradorView>(_entityObserverCloned); 
+
             }
             catch (Exception ex)
             {

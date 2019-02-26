@@ -114,7 +114,9 @@
                             Text="{Binding Entity.DataLimite,
 							StringFormat='{}{0:dd/MM/yyyy}'}"
                             LostFocus="OnFormatDateLimite_LostFocus"
+                            PreviewTextInput="NumberOnly"
                             MaxLength="10"
+                            IsEnabled="{Binding Comportamento.isEnableCancelar}"
                             Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
                             Height="24"  Width="110" />
             
