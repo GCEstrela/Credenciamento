@@ -77,7 +77,7 @@
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="1">
-                            <Label Content="Principal:" Height="28" Width="66" Foreground="#FFD0D0D0"   />
+                            <Label Content="Ativo:" Height="28" Width="66" Foreground="#FFD0D0D0"   />
                             <CheckBox VerticalAlignment="Center" x:Name="Impeditivo_cb"  Foreground="#FFD0D0D0" 
                                       IsChecked="{Binding Entity.Principal, UpdateSourceTrigger=PropertyChanged}" 
                                       IsEnabled="{Binding Comportamento.isEnableCancelar}" 
