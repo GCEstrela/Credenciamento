@@ -267,7 +267,7 @@
                                 IsEnabled="{Binding Comportamento.IsEnableEditar}">
                             <StackPanel>
                                 <Image
-                                    Source="{Binding Pendencia22,
+                                    Source="{Binding Pendencia21,
                                         Converter={StaticResource ConvertBoolToImage},
                                         UpdateSourceTrigger=Explicit, Mode=TwoWay}"
                                     Width="16" Height="16" RenderTransformOrigin="1,1" />

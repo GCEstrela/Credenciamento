@@ -212,17 +212,22 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
             var pendencia = _service.Pendencia.ListarPorVeiculo (Entity.EquipamentoVeiculoId).ToList();
             //Set valores
-            Pendencia21 = false;
-            Pendencia22 = false;
-            Pendencia19 = false;
-            Pendencia24 = false;
-            Pendencia25 = false;
+            SetPendenciaFalse();
             //Buscar pendências referente aos códigos: 21; 12;14;24
             Pendencia21 = pendencia.Any (n => n.CodPendencia == 21 & n.Ativo);
             Pendencia22 = pendencia.Any (n => n.CodPendencia == 22 & n.Ativo);
             Pendencia19 = pendencia.Any (n => n.CodPendencia == 19 & n.Ativo);
             Pendencia24 = pendencia.Any (n => n.CodPendencia == 24 & n.Ativo);
             Pendencia25 = pendencia.Any (n => n.CodPendencia == 25 & n.Ativo);
+        }
+
+        private void SetPendenciaFalse()
+        {
+            Pendencia21 = false;
+            Pendencia22 = false;
+            Pendencia19 = false;
+            Pendencia24 = false;
+            Pendencia25 = false;
         }
 
         /// <summary>
@@ -283,6 +288,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             Comportamento.PrepareCriar();
             TiposEquipamentoServico.Clear();
             HabilitaControle (false, false);
+            SetPendenciaFalse();
         }
 
         /// <summary>

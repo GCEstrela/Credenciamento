@@ -167,6 +167,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
             try
             {
                 var str = txtDateNascimento.Text;
+                if (string.IsNullOrWhiteSpace (str)) return;
                 txtDateNascimento.Text = str.FormatarData();
             }
             catch (Exception)
@@ -182,6 +183,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
             try
             {
                 var str = txtDateEmissao.Text;
+                if (string.IsNullOrWhiteSpace(str)) return;
                 txtDateEmissao.Text = str.FormatarData();
             }
             catch (Exception)
@@ -197,6 +199,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
             try
             {
                 var str = txtDateValidade.Text;
+                if (string.IsNullOrWhiteSpace(str)) return;
                 txtDateValidade.Text = str.FormatarData();
             }
             catch (Exception)
@@ -212,6 +215,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
             try
             {
                 var str = txtDatePassaporte.Text;
+                if (string.IsNullOrWhiteSpace(str)) return;
                 txtDatePassaporte.Text = str.FormatarData();
             }
             catch (Exception )

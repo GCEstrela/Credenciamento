@@ -242,15 +242,20 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
             var pendencia = _service.Pendencia.ListarPorEmpresa (Entity.EmpresaId).ToList();
             //Set valores
-            Pendencia21 = false;
-            Pendencia12 = false;
-            Pendencia14 = false;
-            Pendencia24 = false;
+            SetPendenciaFalse();
             //Buscar pendências referente aos códigos: 21; 12;14;24
             Pendencia21 = pendencia.Any (n => n.CodPendencia == 21 & n.Ativo);
             Pendencia12 = pendencia.Any (n => n.CodPendencia == 12 & n.Ativo);
             Pendencia14 = pendencia.Any (n => n.CodPendencia == 14 & n.Ativo);
             Pendencia24 = pendencia.Any (n => n.CodPendencia == 24 & n.Ativo);
+        }
+
+        private void SetPendenciaFalse()
+        {
+            Pendencia21 = false;
+            Pendencia12 = false;
+            Pendencia14 = false;
+            Pendencia24 = false;
         }
 
         /// <summary>
@@ -386,6 +391,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             QuantidadeTipoCredencialPermanente = 0;
             HabilitaControle (false, false);
             CloneObservable();
+            SetPendenciaFalse();
         }
 
         /// <summary>

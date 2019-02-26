@@ -246,17 +246,22 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
             var pendencia = _service.Pendencia.ListarPorColaborador (Entity.ColaboradorId).ToList();
             //Set valores
-            Pendencia21 = false;
-            Pendencia22 = false;
-            Pendencia23 = false;
-            Pendencia24 = false;
-            Pendencia25 = false;
+            SetPendenciaFalse();
             //Buscar pendências referente aos códigos: 21;22;23;24;25
             Pendencia21 = pendencia.Any (n => n.CodPendencia == 21 & n.Ativo);
             Pendencia22 = pendencia.Any (n => n.CodPendencia == 22 & n.Ativo);
             Pendencia23 = pendencia.Any (n => n.CodPendencia == 23 & n.Ativo);
             Pendencia24 = pendencia.Any (n => n.CodPendencia == 24 & n.Ativo);
             Pendencia25 = pendencia.Any (n => n.CodPendencia == 25 & n.Ativo);
+        }
+
+        private void SetPendenciaFalse()
+        {
+            Pendencia21 = false;
+            Pendencia22 = false;
+            Pendencia23 = false;
+            Pendencia24 = false;
+            Pendencia25 = false;
         }
 
         #endregion
@@ -371,6 +376,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;
             HabilitaControle (false, false);
             CloneObservable();
+            SetPendenciaFalse();
         }
 
         /// <summary>
