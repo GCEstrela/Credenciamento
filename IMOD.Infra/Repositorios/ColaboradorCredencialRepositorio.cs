@@ -300,6 +300,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("CredencialmotivoID", DbType.Int32, entity.CredencialMotivoId, false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Baixa", DbType.DateTime, entity.Baixa, false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Impressa", DbType.Boolean, false, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Validade", DbType.DateTime, entity.Validade, false)));
 
                         var key = Convert.ToInt32 (cmd.ExecuteScalar());
 
