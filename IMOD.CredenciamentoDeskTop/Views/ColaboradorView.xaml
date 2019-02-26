@@ -8,7 +8,8 @@
              xmlns:viewModels="clr-namespace:IMOD.CredenciamentoDeskTop.ViewModels"
              d:DataContext="{d:DesignInstance viewModels:ColaboradorViewModel , IsDesignTimeCreatable=True}"
              mc:Ignorable="d"
-            MaxWidth="1300" Width="1270" Height="825">
+             Loaded="Frm_Loaded"
+             MaxWidth="1300" Width="1270" Height="825">
     <UserControl.Resources>
         <Image x:Key="imgAdd" Source="../Resources/add.png"  />
         <Image x:Key="imgEdit" Source="../Resources/edit.png"  />
@@ -145,7 +146,7 @@
         </Style>
         <funcoes:FormateTel x:Key="FormateTel" />
     </UserControl.Resources>
-    <Grid  Margin="5" Loaded="Frm_Loaded">
+    <Grid  Margin="5">
         <Grid.Resources>
             <funcoes:ConvertBoolToImage x:Key="ConvertBoolToImage" />
         </Grid.Resources>
@@ -260,6 +261,7 @@
                                     <Label Content="CPF:" Height="28" Width="132" Margin="1"  Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                                     <TextBox  x:Name="txtCpf"  
                                               MaxLength="20" 
+                                              PreviewTextInput="NumberOnly"
                                               IsEnabled="True"  Height="24"  Width="122"
                                               LostFocus="OnFormatCpf_LostFocus"
                                               Foreground="White" VerticalContentAlignment="Center" 
@@ -344,9 +346,9 @@
                         <StackPanel Margin="1">
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="1" >
                                 <Label Content="Telefone:" Height="28" Width="72"    Foreground="#FFD0D0D0" HorizontalContentAlignment="Left"/>
-                                <TextBox CharacterCasing="Upper"  x:Name="Contato1_tb"   MaxLength="15" Text="{Binding Entity.TelefoneFixo,Converter={StaticResource FormateTel}, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="98"/>
+                                <TextBox CharacterCasing="Upper"  x:Name="Contato1_tb"  PreviewTextInput="NumberOnly"  MaxLength="15" Text="{Binding Entity.TelefoneFixo,Converter={StaticResource FormateTel}, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="98"/>
                                 <Label Content="Celular:" Height="28" Width="256"    Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
-                                <TextBox Foreground="#FFD0D0D0"   CharacterCasing="Upper"  x:Name="Tel1_tb"   MaxLength="15" Margin="1"
+                                <TextBox Foreground="#FFD0D0D0"   CharacterCasing="Upper"  PreviewTextInput="NumberOnly" x:Name="Tel1_tb"   MaxLength="15" Margin="1"
                                                      Text="{Binding Entity.TelefoneCelular, Converter={StaticResource FormateTel}, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="98" HorizontalContentAlignment="Center"/>
 
                             </StackPanel>
@@ -359,11 +361,11 @@
 
 
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="1" Width="527" >
-                                <Label Content="Emergência:" Height="28" Width="72"   Foreground="#FFD0D0D0" />
-                                <TextBox CharacterCasing="Lower"  x:Name="Email2_tb"   MaxLength="50" Text="{Binding Entity.ContatoEmergencia, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="258"/>
-                                <Label Content="Telefone Emerg.:" Height="28" Width="98"    Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
-                                <TextBox Foreground="#FFD0D0D0"   CharacterCasing="Upper"  x:Name="Cel2_tb"   MaxLength="15"
-                                                     Text="{Binding Entity.TelefoneEmergencia, Converter={StaticResource FormateTel}, UpdateSourceTrigger=PropertyChanged}"  Margin="1" IsEnabled="True"  Height="24"  Width="97" HorizontalContentAlignment="Center"/>
+                                <Label Content="Nome Emergência:" Height="28" Width="113"   Foreground="#FFD0D0D0" />
+                                <TextBox CharacterCasing="Lower"  x:Name="Email2_tb"   MaxLength="50" Text="{Binding Entity.ContatoEmergencia, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="237"/>
+                                <Label Content="Tel.Emerg.:" Height="28" Width="68"    Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
+                                <TextBox Foreground="#FFD0D0D0"   CharacterCasing="Upper"  x:Name="Cel2_tb"   MaxLength="15"  PreviewTextInput="NumberOnly"
+                                                     Text="{Binding Entity.TelefoneEmergencia, Converter={StaticResource FormateTel}, UpdateSourceTrigger=PropertyChanged}"  Margin="1" IsEnabled="True"  Height="24"  Width="109" HorizontalContentAlignment="Center"/>
                             </StackPanel>
 
 
@@ -383,8 +385,9 @@
                                     UpdateSourceTrigger=PropertyChanged}"  Foreground="White" Background="{x:Null}" />-->
                                 <TextBox 
                             Name="txtDateNascimento"
-                            Text="{Binding Entity.DataNascimento , StringFormat='{}{0:dd/MM/yyyy}'}"
+                            Text="{Binding Entity.DataNascimento,StringFormat='{}{0:dd/MM/yyyy}'}"
                             LostFocus="OnFormatDateNascimento_LostFocus"
+                            PreviewTextInput="NumberOnly"
                             MaxLength="10"
                             Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
                             Height="24"  Width="114" />
@@ -421,6 +424,7 @@
                             Name="txtDateEmissao"
                             Text="{Binding Entity.DataEmissao,  StringFormat='{}{0:dd/MM/yyyy}'}"
                             LostFocus="OnFormatEmissao_LostFocus"
+                            PreviewTextInput="NumberOnly"
                             MaxLength="10"
                             Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
                             Height="24"  Width="110" />
@@ -436,12 +440,32 @@
                                 </ComboBox>
 
                                 <Label Foreground="#FFD0D0D0" Content="UF:" Width="41" Height="24" HorizontalContentAlignment="Right"/>
-                                <ComboBox x:Name="RGOrgUF_cb" Height="25"  Width="50"
-                                                  ItemsSource="{Binding Estados}" 
-                                          DisplayMemberPath="Uf" 
-                                          SelectedValue="{Binding Entity.RgOrgUf, UpdateSourceTrigger=PropertyChanged}" 
-                                                  Text="{Binding Entity.RgOrgUf ,UpdateSourceTrigger=PropertyChanged}"
-                                                  SelectedValuePath="RGOrgUF"  />
+                                <ComboBox x:Name="RGOrgUF_cb" Height="25"  Width="50" Text="{Binding Entity.RgOrgUf}" >
+                                    <ComboBoxItem>AP</ComboBoxItem>
+                                    <ComboBoxItem>BA</ComboBoxItem>
+                                    <ComboBoxItem>CE</ComboBoxItem>
+                                    <ComboBoxItem>DF</ComboBoxItem>
+                                    <ComboBoxItem>ES</ComboBoxItem>
+                                    <ComboBoxItem>GO</ComboBoxItem>
+                                    <ComboBoxItem>MA</ComboBoxItem>
+                                    <ComboBoxItem>MG</ComboBoxItem>
+                                    <ComboBoxItem>MS</ComboBoxItem>
+                                    <ComboBoxItem>MT</ComboBoxItem>
+                                    <ComboBoxItem>PA</ComboBoxItem>
+                                    <ComboBoxItem>PB</ComboBoxItem>
+                                    <ComboBoxItem>PE</ComboBoxItem>
+                                    <ComboBoxItem>PI</ComboBoxItem>
+                                    <ComboBoxItem>PR</ComboBoxItem>
+                                    <ComboBoxItem>RJ</ComboBoxItem>
+                                    <ComboBoxItem>RN</ComboBoxItem>
+                                    <ComboBoxItem>RO</ComboBoxItem>
+                                    <ComboBoxItem>RR</ComboBoxItem>
+                                    <ComboBoxItem>RS</ComboBoxItem>
+                                    <ComboBoxItem>SC</ComboBoxItem>
+                                    <ComboBoxItem>SE</ComboBoxItem>
+                                    <ComboBoxItem>SP</ComboBoxItem>
+                                    <ComboBoxItem>TO</ComboBoxItem>
+                                </ComboBox>
                             </StackPanel>
 
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="1,1,0,1" Width="575" >
@@ -467,6 +491,7 @@
                             Text="{Binding Entity.PassaporteValidade,
 							StringFormat='{}{0:dd/MM/yyyy}'}"
                             LostFocus="OnFormatDatePassaporteValidade_LostFocus"
+                            PreviewTextInput="NumberOnly"
                             MaxLength="10"
                             Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
                             Height="24"  Width="114" />
@@ -486,9 +511,9 @@
                                     UpdateSourceTrigger=PropertyChanged}"  Foreground="White" Background="{x:Null}"  Width="120" />-->
                                 <TextBox 
                             Name="txtDateValidade"
-                            Text="{Binding Entity.CnhValidade,
-							StringFormat='{}{0:dd/MM/yyyy}'}"
+                            Text="{Binding Entity.CnhValidade,StringFormat='{}{0:dd/MM/yyyy}'}"
                             LostFocus="OnFormatDateValidade_LostFocus"
+                            PreviewTextInput="NumberOnly"
                             MaxLength="10"
                             Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
                             Height="24"  Width="110" />
@@ -505,12 +530,31 @@
 
                                 <Label Foreground="#FFD0D0D0" Content="UF:" Width="38" Height="24" Margin="0,3,0,3" HorizontalContentAlignment="Right"/>
 
-                                <ComboBox x:Name="CNHUF_cb"   Width="50"
-                                                      ItemsSource="{Binding Estados}" DisplayMemberPath="Uf"  
-                                                      SelectedValue="{Binding Entity.Cnhuf, UpdateSourceTrigger=PropertyChanged}" 
-                                                      Text="{Binding Entity.Cnhuf,   UpdateSourceTrigger=PropertyChanged}"
-                                                      SelectedValuePath="Cnhuf"  Height="25"  >
-
+                                <ComboBox x:Name="CNHUF_cb"   Width="50" Text="{Binding Entity.Cnhuf}" SelectedValuePath="Cnhuf"  Height="25"  >
+                                    <ComboBoxItem>AP</ComboBoxItem>
+                                    <ComboBoxItem>BA</ComboBoxItem>
+                                    <ComboBoxItem>CE</ComboBoxItem>
+                                    <ComboBoxItem>DF</ComboBoxItem>
+                                    <ComboBoxItem>ES</ComboBoxItem>
+                                    <ComboBoxItem>GO</ComboBoxItem>
+                                    <ComboBoxItem>MA</ComboBoxItem>
+                                    <ComboBoxItem>MG</ComboBoxItem>
+                                    <ComboBoxItem>MS</ComboBoxItem>
+                                    <ComboBoxItem>MT</ComboBoxItem>
+                                    <ComboBoxItem>PA</ComboBoxItem>
+                                    <ComboBoxItem>PB</ComboBoxItem>
+                                    <ComboBoxItem>PE</ComboBoxItem>
+                                    <ComboBoxItem>PI</ComboBoxItem>
+                                    <ComboBoxItem>PR</ComboBoxItem>
+                                    <ComboBoxItem>RJ</ComboBoxItem>
+                                    <ComboBoxItem>RN</ComboBoxItem>
+                                    <ComboBoxItem>RO</ComboBoxItem>
+                                    <ComboBoxItem>RR</ComboBoxItem>
+                                    <ComboBoxItem>RS</ComboBoxItem>
+                                    <ComboBoxItem>SC</ComboBoxItem>
+                                    <ComboBoxItem>SE</ComboBoxItem>
+                                    <ComboBoxItem>SP</ComboBoxItem>
+                                    <ComboBoxItem>TO</ComboBoxItem>
                                 </ComboBox>
                             </StackPanel>
 

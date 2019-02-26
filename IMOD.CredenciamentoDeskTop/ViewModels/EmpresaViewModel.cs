@@ -33,7 +33,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
     {
         private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
         private readonly IEmpresaService _service = new EmpresaService();
-
+        private List<EmpresaView> _entityObserverCloned = new List<EmpresaView>();
         /// <summary>
         ///     True, Comando de alteração acionado
         /// </summary>
@@ -270,7 +270,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         #region Regras de Negócio
 
-        private bool ExisteCnpj()
+        public bool ExisteCnpj()
         {
             if (Entity == null) return false;
             var cnpj = Entity.Cnpj.RetirarCaracteresEspeciais();
@@ -385,6 +385,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             QuantidadeTipoCredencialTemporario = 0;
             QuantidadeTipoCredencialPermanente = 0;
             HabilitaControle (false, false);
+            CloneObservable();
         }
 
         /// <summary>
@@ -505,6 +506,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             AtualizarDadosTiposAtividades();
             AtualizarDadosTipoCrachas();
             HabilitaControle (false, false);
+            CloneObservable();
         }
 
         private void PrepareRemover()
@@ -620,12 +622,24 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 TiposLayoutCracha.Clear();
                 HabilitaControle (true, true);
                 Entity = null;
+
+                EntityObserver.Clear();
+                EntityObserver = new ObservableCollection<EmpresaView>(_entityObserverCloned);
             }
             catch (Exception ex)
             {
                 Utils.TraceException (ex);
                 WpfHelp.MboxError ("Não foi realizar a operação solicitada", ex);
             }
+        }
+
+        /// <summary>
+        /// Clone Observable
+        /// </summary>
+        private void CloneObservable()
+        {
+            _entityObserverCloned.Clear();
+            EntityObserver.ToList().ForEach(n => { _entityObserverCloned.Add((EmpresaView)n.Clone()); });
         }
 
         private void OnRemover(object sender, RoutedEventArgs e)

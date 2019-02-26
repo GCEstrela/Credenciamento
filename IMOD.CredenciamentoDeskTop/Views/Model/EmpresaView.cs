@@ -4,12 +4,13 @@
 // Date:  12 - 13 - 2018
 // ***********************************************************************
 
+using System;
 using System.ComponentModel.DataAnnotations;
 using IMOD.CredenciamentoDeskTop.Funcoes;
 
 namespace IMOD.CredenciamentoDeskTop.Views.Model
 {
-    public class EmpresaView:ValidacaoModel 
+    public class EmpresaView:ValidacaoModel ,ICloneable
     {
         #region  Propriedades
 
@@ -54,5 +55,13 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public int TotalTemporaria { get; set; }
 
         #endregion
+
+
+        /// <summary>Creates a new object that is a copy of the current instance.</summary>
+        /// <returns>A new object that is a copy of this instance.</returns>
+        public object Clone()
+        {
+            return (EmpresaView)MemberwiseClone();
+        }
     }
 }
