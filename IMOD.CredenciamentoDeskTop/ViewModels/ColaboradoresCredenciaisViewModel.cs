@@ -406,6 +406,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;
             IsEnableLstView = false;
             Habilitar = true;
+            MensagemAlerta = "";
             ListarDadosEmpresaContratosAtivos (_colaboradorView.ColaboradorId); 
         }
 

@@ -122,7 +122,7 @@ namespace IMOD.Application.Service
                 IdentificadorCardHolderGuid = entity.CardHolderGuid,
                 IdentificadorCredencialGuid = entity.CredencialGuid,
                 FacilityCode = entity.Fc,
-                Foto = entity.ColaboradorFoto.ConverterBase64StringToBitmap(),
+                Foto = entity.Foto.ConverterBase64StringToBitmap(),
                 Matricula = entity.Matricula,
                 Validade = entity.Validade ?? DateTime.Today.Date,
                 NumeroCredencial = entity.NumeroCredencial,
