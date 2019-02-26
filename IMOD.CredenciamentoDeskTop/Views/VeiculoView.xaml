@@ -215,7 +215,9 @@
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="Geral_bt" Click="OnPendenciaGeral_Click" Style="{StaticResource MenuStyle}" IsEnabled="{Binding Comportamento.IsEnableEditar}">
                             <StackPanel>
-                                <Image Source="{Binding Pendencia21,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                <Image Source="{Binding Pendencia21,
+                                        Converter={StaticResource ConvertBoolToImage},
+                                        UpdateSourceTrigger=Explicit, Mode=TwoWay}"
                                     Width="16" Height="16" RenderTransformOrigin="1,1" />
                             </StackPanel>
                         </Button>
