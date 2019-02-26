@@ -1,11 +1,13 @@
 ﻿// ***********************************************************************
 // Project: IMOD.Application
 // Crafted by: Grupo Estrela by Genetec
-// Date:  12 - 10 - 2018
+// Date:  01 - 21 - 2019
 // ***********************************************************************
 
 #region
 
+using System;
+using IMOD.Domain.Entities;
 using IMOD.Domain.Interfaces;
 
 #endregion
@@ -53,12 +55,26 @@ namespace IMOD.Application.Interfaces
         /// </summary>
         IVeiculoEmpresaService VeiculoService { get; }
 
+        #endregion
+
+        #region  Metodos
+
         /// <summary>
-        /// Verificar se existe CNPJ cadastrado
+        ///     Verificar se existe CNPJ cadastrado
         /// </summary>
         /// <param name="cnpj"></param>
         /// <returns></returns>
         bool ExisteCnpj(string cnpj);
+
+        /// <summary>
+        ///     Criar um empresa com contrato básico
+        ///     <para>Um contrato básico será criada automaticamente</para>
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="dataValidade">Data de validade</param>
+        /// <param name="numContrato">Numero do contrato</param>
+        /// <param name="status">Status do cdontrato</param>
+        void CriarContratoBasico(Empresa entity, DateTime dataValidade, string numContrato, Status status);
 
         #endregion
     }

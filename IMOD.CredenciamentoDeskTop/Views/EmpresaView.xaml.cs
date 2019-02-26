@@ -199,7 +199,23 @@ namespace IMOD.CredenciamentoDeskTop.Views
         private void TxtCnpj_LostFocus(object sender, RoutedEventArgs e)
         {
             if (_viewModel.Entity == null) return;
-            txtCnpj.Text = _viewModel.Entity.Cnpj.FormatarCnpj();
+            try
+            {
+
+                var cnpj = _viewModel.Entity.Cnpj;
+                if (!Utils.IsValidCnpj(cnpj)) throw new Exception();
+                _viewModel.Entity.Cnpj.FormatarCnpj();
+                //Verificar existência de CPF
+                if (_viewModel.ExisteCnpj())
+                    _viewModel.Entity.SetMessageErro("Cnpj", "CNPJ já existe");
+
+                txtCnpj.Text = cnpj;
+            }
+            catch (Exception)
+            {
+                _viewModel.Entity.SetMessageErro("Cnpj", "CNPJ inválido");
+            }
+             
         }
     }
 }

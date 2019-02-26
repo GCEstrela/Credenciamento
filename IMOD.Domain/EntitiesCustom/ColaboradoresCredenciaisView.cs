@@ -20,6 +20,7 @@ namespace IMOD.Domain.EntitiesCustom
         public string NumeroCredencial { get; set; }
         public int Fc { get; set; }
         public DateTime? Emissao { get; set; }
+        [Required(ErrorMessage = "A Data de Validade é requerido.")]
         public DateTime? Validade { get; set; }
         [Range(0, int.MaxValue, ErrorMessage = "O status da credencial é requerida.")]
         public int CredencialStatusId { get; set; }

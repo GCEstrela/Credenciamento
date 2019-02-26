@@ -44,14 +44,14 @@
                                     Margin="1,1,-20,1" Width="977">
                             <Label Content="Vínculo:" Height="28" Width="55" Foreground="#FFD0D0D0" />
 
-                            <ComboBox x:Name="EmpresaVinculo_cb" 
+                            <ComboBox x:Name="cmbEmpresaVinculo" 
                                       Width="413"
                                       Margin="0,4,0,3" 
                                       Height="25"
                                       VerticalContentAlignment="Center" 
                                       HorizontalContentAlignment="Left"
                                       ItemsSource="{Binding ColaboradoresEmpresas}"
-                                      SelectedValue="{Binding Entity.ColaboradorEmpresaId, UpdateSourceTrigger=PropertyChanged}"
+                                      SelectedValue="{Binding Entity.ColaboradorEmpresaId, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                       Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
                                       SelectedItem="{Binding ColaboradorEmpresa}"
                                       SelectedValuePath="ColaboradorEmpresaId"
@@ -195,8 +195,9 @@
                                     Width="977">
                             <Label Content="Emissão:" Height="28" Width="55" Margin="1" Foreground="#FFD0D0D0" />
                             <TextBlock Text="{Binding Entity.Emissao,UpdateSourceTrigger=PropertyChanged, StringFormat=\{0:d\}}"  VerticalAlignment="Center" Width="70" />
-                            <Label Content="Validade:" Height="28" Width="60" Margin="1" Foreground="#FFD0D0D0"  RenderTransformOrigin="0.553,0.5"/>
-                            <TextBlock Text="{Binding Entity.Validade,UpdateSourceTrigger=PropertyChanged , StringFormat=\{0:d\}}" VerticalAlignment="Center" Width="70" />
+                            <Label Content="Validade:" Height="28" Width="56" Margin="1"   Foreground="#FFD0D0D0"  RenderTransformOrigin="0.553,0.5"/>
+                            <!--<TextBlock Text="{Binding Entity.Validade,UpdateSourceTrigger=PropertyChanged , StringFormat=\{0:d\}}" VerticalAlignment="Center" Width="70" />-->
+                            <TextBox Text="{Binding Entity.Validade, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay,StringFormat='{}{0:dd/MM/yyyy}'}"  Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" LostFocus="OnFormatData_LostFocus" Height="24" Width="85" Name="txtDtValidade"></TextBox>
                             <Label Content="Baixa:" Height="28" Width="50" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
                             <TextBlock Text="{Binding Entity.Baixa,UpdateSourceTrigger=PropertyChanged, StringFormat=\{0:d\}}"  VerticalAlignment="Center" Width="70"  />
 

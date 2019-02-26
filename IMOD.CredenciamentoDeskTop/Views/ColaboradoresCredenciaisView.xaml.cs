@@ -9,6 +9,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using IMOD.CredenciamentoDeskTop.ViewModels;
+using IMOD.CrossCutting;
 
 #endregion
 
@@ -42,19 +43,25 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             if (entity == null) return;
             _viewModel.AtualizarDados (entity);
-            EmpresaVinculo_cb.Items.Refresh();
+            cmbEmpresaVinculo.Items.Refresh();
         }
 
         private void EmpresaVinculo_cb_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (_viewModel.ColaboradorEmpresa == null) return;
-
             _viewModel.ListarCracha (_viewModel.ColaboradorEmpresa.EmpresaId);
+            _viewModel.ObterValidade();
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            EmpresaVinculo_cb.SelectionChanged += EmpresaVinculo_cb_SelectionChanged;
+            cmbEmpresaVinculo.SelectionChanged += EmpresaVinculo_cb_SelectionChanged;
+        }
+
+        private void OnFormatData_LostFocus(object sender, RoutedEventArgs e)
+        {
+            var str = txtDtValidade.Text;
+            txtDtValidade.Text = str.FormatarData();
         }
 
         #endregion

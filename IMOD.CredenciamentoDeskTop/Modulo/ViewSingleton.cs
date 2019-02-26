@@ -1,7 +1,7 @@
 ﻿// ***********************************************************************
-// Project: iModSCCredenciamento
+// Project: IMOD.CredenciamentoDeskTop
 // Crafted by: Grupo Estrela by Genetec
-// Date:  12 - 12 - 2018
+// Date:  01 - 24 - 2019
 // ***********************************************************************
 
 #region
@@ -17,12 +17,12 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
     /// </summary>
     public class ViewSingleton
     {
-        private static  EmpresaView _empresaView;
-        private static  ColaboradorView _colaboradorView;
-        private static  VeiculoView _veiculoView;
-        private static  ConfiguracoesView _configuracoesView;
-        private static  RelatoriosView _relatoriosView;
-        private static  TermosView _termosView;
+        private static EmpresaView _empresaView;
+        private static ColaboradorView _colaboradorView;
+        private static VeiculoView _veiculoView;
+        private static ConfiguracoesView _configuracoesView;
+        private static RelatoriosView _relatoriosView;
+        private static TermosView _termosView;
 
         #region  Propriedades
 
@@ -75,6 +75,5 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
         }
 
         #endregion
-        
     }
 }

@@ -11,12 +11,14 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Forms;
 using System.Windows.Input;
 using IMOD.CredenciamentoDeskTop.Enums;
 using IMOD.CredenciamentoDeskTop.Helpers;
 using IMOD.CredenciamentoDeskTop.ViewModels;
 using IMOD.CredenciamentoDeskTop.Windows;
 using IMOD.CrossCutting;
+using UserControl = System.Windows.Controls.UserControl;
 
 #endregion
  
@@ -71,9 +73,9 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         private void AbrirPendencias(int codigo, PendenciaTipo tipoPendecia)
         {
+            if (_viewModel.Entity == null) return;
             try
-            {
-                if (_viewModel.Entity == null) return;
+            { 
                 var frm = new PopupPendencias();
                 frm.Inicializa(codigo, _viewModel.Entity.ColaboradorId, tipoPendecia);
                 frm.ShowDialog();
@@ -139,32 +141,88 @@ namespace IMOD.CredenciamentoDeskTop.Views
         private void OnFormatCpf_LostFocus(object sender, RoutedEventArgs e)
         {
             if (_viewModel.Entity == null) return;
-            var cpf = _viewModel.Entity.Cpf.FormatarCpf();
-            txtCpf.Text = cpf;
+            try
+            {
+
+                var cpf = _viewModel.Entity.Cpf;
+                if (!Utils.IsValidCpf(cpf)) throw new Exception();
+                _viewModel.Entity.Cpf.FormatarCpf();
+                //Verificar existência de CPF
+                if (_viewModel.ExisteCpf())
+                    _viewModel.Entity.SetMessageErro("Cpf", "CPF já existe");
+
+                txtCpf.Text = cpf;
+
+            }
+            catch (Exception)
+            {
+                 _viewModel.Entity.SetMessageErro ("Cpf", "CPF inválido");
+            }
+           
 
         }
         private void OnFormatDateNascimento_LostFocus(object sender, RoutedEventArgs e)
         {
-            var str = txtDateNascimento.Text;
-            txtDateNascimento.Text = str.FormatarData();
+            if (_viewModel.Entity == null) return;
+            try
+            {
+                var str = txtDateNascimento.Text;
+                if (string.IsNullOrWhiteSpace (str)) return;
+                txtDateNascimento.Text = str.FormatarData();
+            }
+            catch (Exception)
+            {
+                _viewModel.Entity.SetMessageErro("DataNascimento", "Data inválida");
+            }
+            
         }
 
         private void OnFormatEmissao_LostFocus(object sender, RoutedEventArgs e)
         {
-            var str = txtDateEmissao.Text;
-            txtDateEmissao.Text = str.FormatarData();
+            if (_viewModel.Entity == null) return;
+            try
+            {
+                var str = txtDateEmissao.Text;
+                if (string.IsNullOrWhiteSpace(str)) return;
+                txtDateEmissao.Text = str.FormatarData();
+            }
+            catch (Exception)
+            {
+                _viewModel.Entity.SetMessageErro("DataEmissao", "Data inválida");
+            }
+           
         }
 
         private void OnFormatDateValidade_LostFocus(object sender, RoutedEventArgs e)
         {
-            var str = txtDateValidade.Text;
-            txtDateValidade.Text = str.FormatarData();
+            if (_viewModel.Entity == null) return;
+            try
+            {
+                var str = txtDateValidade.Text;
+                if (string.IsNullOrWhiteSpace(str)) return;
+                txtDateValidade.Text = str.FormatarData();
+            }
+            catch (Exception)
+            {
+                _viewModel.Entity.SetMessageErro("CnhValidade", "Data inválida");
+            }
+            
         }
 
         private void OnFormatDatePassaporteValidade_LostFocus(object sender, RoutedEventArgs e)
         {
-            var str = txtDatePassaporte.Text;
-            txtDatePassaporte.Text = str.FormatarData();
+            if (_viewModel.Entity == null) return;
+            try
+            {
+                var str = txtDatePassaporte.Text;
+                if (string.IsNullOrWhiteSpace(str)) return;
+                txtDatePassaporte.Text = str.FormatarData();
+            }
+            catch (Exception )
+            {
+                _viewModel.Entity.SetMessageErro("PassaporteValidade", "Data inválida");
+            }
+            
         }
     }
 }

@@ -31,8 +31,6 @@ namespace IMOD.Application.Service
 
         #region  Propriedades
 
-      
-
         /// <summary>
         ///     Pendência serviços
         /// </summary>
@@ -101,36 +99,6 @@ namespace IMOD.Application.Service
 
         #region  Metodos
 
-        /// <summary>
-        ///     Criar uma pendência impeditiva caso o motivo do credenciamento possua natureza impeditiva
-        /// </summary>
-        /// <param name="entity"></param>
-        /// <param name="empresaId"></param>
-        public void CriarPendenciaImpeditiva(ColaboradorCredencial entity, int empresaId)
-        {
-            //Criar um pendenci impeditiva ao constatar o motivo da credencial
-            var pendImp = CredencialMotivo.BuscarPelaChave (entity.CredencialMotivoId);
-            if (pendImp == null) throw new InvalidOperationException ("Não foi possível obter a entidade credencial motivo");
-            var impeditivo = pendImp.Impeditivo;
-            if (!impeditivo) return;
-            //Criar uma pendencia impeditiva,caso sua natureza seja impeditiva
-
-            #region Criar Pendência  
-
-            var pendencia = new Pendencia();
-            pendencia.EmpresaId = empresaId;
-            var motivo = CredencialMotivo.BuscarPelaChave (entity.CredencialMotivoId);
-            pendencia.Descricao = $"Em {DateTime.Now}, uma pendência impeditiva foi criada pelo sistema por ter sido {motivo.Descricao}." +
-                  "\r\nDeseja-se que tais pendências sejam solucionadas."+
-                  $"\r\nAutor {UsuarioLogado.Nome} {UsuarioLogado.Email}";
-            pendencia.Impeditivo = true;
-            //--------------------------
-            pendencia.CodPendencia = 21;
-            Pendencia.CriarPendenciaSistema (pendencia);
-
-            #endregion
-        }
-
         private void ObterStatusCredencial(ColaboradorCredencial entity)
         {
             var status = CredencialStatus.BuscarPelaChave (entity.CredencialStatusId);
@@ -161,6 +129,36 @@ namespace IMOD.Application.Service
                 IdentificadorLayoutCrachaGuid = entity.LayoutCrachaGuid
             };
             return titularCartao;
+        }
+
+        /// <summary>
+        ///     Criar uma pendência impeditiva caso o motivo do credenciamento possua natureza impeditiva
+        /// </summary>
+        /// <param name="entity"></param>
+        public void CriarPendenciaImpeditiva(ColaboradoresCredenciaisView entity)
+        {
+            //Criar um pendenci impeditiva ao constatar o motivo da credencial
+            var pendImp = CredencialMotivo.BuscarPelaChave (entity.CredencialMotivoId);
+            if (pendImp == null) throw new InvalidOperationException ("Não foi possível obter a entidade credencial motivo");
+            var impeditivo = pendImp.Impeditivo;
+            if (!impeditivo) return;
+            //Criar uma pendencia impeditiva,caso sua natureza seja impeditiva
+
+            #region Criar Pendência  
+
+            var pendencia = new Pendencia();
+            pendencia.EmpresaId = entity.EmpresaId;
+            var motivo = CredencialMotivo.BuscarPelaChave (entity.CredencialMotivoId);
+            pendencia.Descricao = $"Em {DateTime.Now}, uma pendência impeditiva foi criada pelo sistema por uma credencial ter sido {motivo.Descricao}." +
+                                  $"\r\nEm nome de {entity.ColaboradorNome}" +
+                                  "\r\nDeseja-se que tais pendências sejam solucionadas." +
+                                  $"\r\nAutor {UsuarioLogado.Nome} {UsuarioLogado.Email}";
+            pendencia.Impeditivo = true;
+            //--------------------------
+            pendencia.CodPendencia = 21;
+            Pendencia.CriarPendenciaSistema (pendencia);
+
+            #endregion
         }
 
         /// <summary>
@@ -272,6 +270,25 @@ namespace IMOD.Application.Service
         }
 
         /// <summary>
+        ///     Obtem a data de validade de uma credencial
+        ///     <para>
+        ///         Verificar se o contrato é temporário ou permanente,
+        ///         sendo permanente, então vale obter a menor data entre
+        ///         um curso controlado e uma data de validade do contrato, caso contrario, será concedido prazo de 90 dias a
+        ///         partir da data atual
+        ///     </para>
+        /// </summary>
+        /// <param name="tipoCredencialId"></param>
+        /// <param name="colaboradorId"></param>
+        /// <param name="numContrato"></param>
+        /// <param name="credencialRepositorio"></param>
+        /// <returns></returns>
+        public DateTime? ObterDataValidadeCredencial(int tipoCredencialId, int colaboradorId, string numContrato, ITipoCredencialRepositorio credencialRepositorio)
+        {
+            return _repositorio.ObterDataValidadeCredencial (tipoCredencialId, colaboradorId, numContrato, credencialRepositorio);
+        }
+
+        /// <summary>
         ///     Criar registro credencial e obter data de validade da credencial
         /// </summary>
         /// <param name="entity">Entidade</param>
@@ -320,12 +337,11 @@ namespace IMOD.Application.Service
             //Alterar o status do cartao do titular, se houver
             if (string.IsNullOrWhiteSpace (titularCartao.IdentificadorCardHolderGuid)
                 & string.IsNullOrWhiteSpace (titularCartao.IdentificadorCredencialGuid)) return;
-            
+
             //Alterar status do cartao
             geradorCredencialService.AlterarStatusCardHolder (titularCartao);
             //Sistema somente gerar credencial se o tipo de autenticação permitir
 
-           
             //Alterar credencial
             geradorCredencialService.AlterarStatusCredencial (titularCartao);
         }

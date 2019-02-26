@@ -12,6 +12,7 @@ namespace IMOD.Domain.Entities
 
         public int StatusId { get; set; }
         public string Descricao { get; set; }
+        public bool CodigoStatus { get; set; }
 
         #endregion
     }

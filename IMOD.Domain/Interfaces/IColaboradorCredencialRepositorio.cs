@@ -68,6 +68,22 @@ namespace IMOD.Domain.Interfaces
             ITipoCredencialRepositorio credencialRepositorio);
 
         /// <summary>
+        ///     Obtem a data de validade de uma credencial
+        ///     <para>
+        ///         Verificar se o contrato é temporário ou permanente,
+        ///         sendo permanente, então vale obter a menor data entre
+        ///         um curso controlado e uma data de validade do contrato, caso contrario, será concedido prazo de 90 dias a
+        ///         partir da data atual
+        ///     </para>
+        /// </summary>
+        /// <param name="tipoCredencialId"></param>
+        /// <param name="colaboradorId"></param>
+        /// <param name="numContrato"></param>
+        /// <param name="credencialRepositorio"></param>
+        /// <returns></returns>
+        DateTime? ObterDataValidadeCredencial(int tipoCredencialId, int colaboradorId, string numContrato, ITipoCredencialRepositorio credencialRepositorio);
+
+        /// <summary>
         ///     Criar registro credencial obtendo a data de validade da credencial
         /// </summary>
         /// <param name="entity">Entidade</param>

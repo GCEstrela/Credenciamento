@@ -33,7 +33,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
     {
         private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
         private readonly IEmpresaService _service = new EmpresaService();
-
+        private List<EmpresaView> _entityObserverCloned = new List<EmpresaView>();
         /// <summary>
         ///     True, Comando de alteração acionado
         /// </summary>
@@ -242,15 +242,20 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
             var pendencia = _service.Pendencia.ListarPorEmpresa (Entity.EmpresaId).ToList();
             //Set valores
-            Pendencia21 = false;
-            Pendencia12 = false;
-            Pendencia14 = false;
-            Pendencia24 = false;
+            SetPendenciaFalse();
             //Buscar pendências referente aos códigos: 21; 12;14;24
             Pendencia21 = pendencia.Any (n => n.CodPendencia == 21 & n.Ativo);
             Pendencia12 = pendencia.Any (n => n.CodPendencia == 12 & n.Ativo);
             Pendencia14 = pendencia.Any (n => n.CodPendencia == 14 & n.Ativo);
             Pendencia24 = pendencia.Any (n => n.CodPendencia == 24 & n.Ativo);
+        }
+
+        private void SetPendenciaFalse()
+        {
+            Pendencia21 = false;
+            Pendencia12 = false;
+            Pendencia14 = false;
+            Pendencia24 = false;
         }
 
         /// <summary>
@@ -270,7 +275,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         #region Regras de Negócio
 
-        private bool ExisteCnpj()
+        public bool ExisteCnpj()
         {
             if (Entity == null) return false;
             var cnpj = Entity.Cnpj.RetirarCaracteresEspeciais();
@@ -385,6 +390,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             QuantidadeTipoCredencialTemporario = 0;
             QuantidadeTipoCredencialPermanente = 0;
             HabilitaControle (false, false);
+            CloneObservable();
+            SetPendenciaFalse();
         }
 
         /// <summary>
@@ -505,6 +512,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             AtualizarDadosTiposAtividades();
             AtualizarDadosTipoCrachas();
             HabilitaControle (false, false);
+            CloneObservable();
         }
 
         private void PrepareRemover()
@@ -525,7 +533,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (Validar()) return;
 
                 var n1 = Mapper.Map<Empresa> (Entity);
-                _service.Criar (n1);
+                var status = _auxiliaresService.StatusService.Listar().FirstOrDefault (n => n.CodigoStatus);
+                _service.CriarContratoBasico(n1, DateTime.Now.Date,"0",status);
                 //Salvar Tipo de Atividades
                 SalvarTipoAtividades (n1.EmpresaId);
                 //Salvar Tipo Cracha
@@ -619,12 +628,24 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 TiposLayoutCracha.Clear();
                 HabilitaControle (true, true);
                 Entity = null;
+
+                EntityObserver.Clear();
+                EntityObserver = new ObservableCollection<EmpresaView>(_entityObserverCloned);
             }
             catch (Exception ex)
             {
                 Utils.TraceException (ex);
                 WpfHelp.MboxError ("Não foi realizar a operação solicitada", ex);
             }
+        }
+
+        /// <summary>
+        /// Clone Observable
+        /// </summary>
+        private void CloneObservable()
+        {
+            _entityObserverCloned.Clear();
+            EntityObserver.ToList().ForEach(n => { _entityObserverCloned.Add((EmpresaView)n.Clone()); });
         }
 
         private void OnRemover(object sender, RoutedEventArgs e)

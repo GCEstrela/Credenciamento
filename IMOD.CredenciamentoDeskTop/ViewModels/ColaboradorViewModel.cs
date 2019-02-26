@@ -246,11 +246,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
             var pendencia = _service.Pendencia.ListarPorColaborador (Entity.ColaboradorId).ToList();
             //Set valores
-            Pendencia21 = false;
-            Pendencia22 = false;
-            Pendencia23 = false;
-            Pendencia24 = false;
-            Pendencia25 = false;
+            SetPendenciaFalse();
             //Buscar pendências referente aos códigos: 21;22;23;24;25
             Pendencia21 = pendencia.Any (n => n.CodPendencia == 21 & n.Ativo);
             Pendencia22 = pendencia.Any (n => n.CodPendencia == 22 & n.Ativo);
@@ -259,11 +255,20 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             Pendencia25 = pendencia.Any (n => n.CodPendencia == 25 & n.Ativo);
         }
 
+        private void SetPendenciaFalse()
+        {
+            Pendencia21 = false;
+            Pendencia22 = false;
+            Pendencia23 = false;
+            Pendencia24 = false;
+            Pendencia25 = false;
+        }
+
         #endregion
 
         #region Regras de Negócio
 
-        private bool ExisteCpf()
+        public bool ExisteCpf()
         {
             if (Entity == null) return false;
             var cpf = Entity.Cpf.RetirarCaracteresEspeciais();
@@ -370,6 +375,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             Comportamento.PrepareCriar();
             _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;
             HabilitaControle (false, false);
+            CloneObservable();
+            SetPendenciaFalse();
         }
 
         /// <summary>
@@ -406,7 +413,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             if (Validar()) return;
             Comportamento.PrepareSalvar();
         }
-
+         
+        private List<ColaboradorView> _entityObserverCloned = new List<ColaboradorView>();
         private void PrepareAlterar()
         {
             if (Entity == null)
@@ -419,6 +427,16 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             _prepareCriarCommandAcionado = false;
             _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;
             HabilitaControle (false, false);
+
+            CloneObservable();
+        }
+        /// <summary>
+        /// Clone Observable
+        /// </summary>
+        private void CloneObservable()
+        {
+            _entityObserverCloned.Clear();
+            EntityObserver.ToList().ForEach (n => { _entityObserverCloned.Add ((ColaboradorView) n.Clone()); });
         }
 
         private void PrepareRemover()
@@ -478,6 +496,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (Entity != null) Entity.ClearMessageErro();
                 HabilitaControle (true, true);
                 Entity = null;
+
+                EntityObserver.Clear();
+                EntityObserver = new ObservableCollection<ColaboradorView>(_entityObserverCloned); 
+
             }
             catch (Exception ex)
             {
