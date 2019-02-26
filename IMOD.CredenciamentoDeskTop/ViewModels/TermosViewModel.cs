@@ -86,7 +86,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                         _mensagem = "Na data " + DateTime.Now.ToShortDateString() + " " +
                                     "este setor de credenciamento do AEROPORTO INTERNACIONAL " +
-                                    "DE PORTO ALEGRE, " + verbo + " as seguintes vias adicionais de credenciais:";
+                                    ", " + verbo + " as seguintes vias adicionais de credenciais:";
                     }
 
                     //Outros status (Concedidas/Indeferidas/Canceladas/Destruidas)
@@ -107,7 +107,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                         _mensagem = "Na data " + DateTime.Now.ToShortDateString() + " " +
                                     "este setor de credenciamento do AEROPORTO INTERNACIONAL " +
-                                    "DE PORTO ALEGRE, " + verbo + " as seguintes credenciais:";
+                                    ", " + verbo + " as seguintes credenciais:";
                     }
                 }
                 //Filtro últimos 7 dias
@@ -122,7 +122,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                         _mensagem = "Durante o período de " + DateTime.Now.AddDays(-7).ToShortDateString() + " " +
                                     "a " + DateTime.Now.ToShortDateString() + " esse setor de credenciamento do " +
-                                    "AEROPORTO INTERNACIONAL DE PORTO ALEGRE, " + verbo +
+                                    "AEROPORTO INTERNACIONAL , " + verbo +
                                     " as seguintes vias adicionais de credenciais:";
                     }
 
@@ -145,7 +145,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                         _mensagem = "Durante o período de " + DateTime.Now.AddDays(-7).ToShortDateString() + " " +
                                     "a " + DateTime.Now.ToShortDateString() + " esse setor de credenciamento do " +
-                                    "AEROPORTO INTERNACIONAL DE PORTO ALEGRE, " + verbo +
+                                    "AEROPORTO INTERNACIONAL , " + verbo +
                                     " as seguintes vias adicionais de credenciais:";
                     }
                 }
@@ -161,7 +161,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                         _mensagem = "Durante o período de " + DateTime.Now.AddDays(-30).ToShortDateString() + " " +
                                     "a " + DateTime.Now.ToShortDateString() + " esse setor de credenciamento do " +
-                                    "AEROPORTO INTERNACIONAL DE PORTO ALEGRE, " + verbo +
+                                    "AEROPORTO INTERNACIONAL , " + verbo +
                                     " as seguintes vias adicionais de credenciais:";
                     }
 
@@ -184,7 +184,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                         _mensagem = "Durante o período de " + DateTime.Now.AddDays(-30).ToShortDateString() + " " +
                                     "a " + DateTime.Now.ToShortDateString() + " esse setor de credenciamento do " +
-                                    "AEROPORTO INTERNACIONAL DE PORTO ALEGRE, " + verbo +
+                                    "AEROPORTO INTERNACIONAL , " + verbo +
                                     " as seguintes vias adicionais de credenciais:";
                     }
                 }
@@ -200,7 +200,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
 
                         _mensagem = "Durante o período de " + _dataIni + " a " + _dataFim + " " +
-                                    "esse setor de credenciamento do AEROPORTO INTERNACIONAL DE PORTO ALEGRE, " +
+                                    "esse setor de credenciamento do AEROPORTO INTERNACIONAL , " +
                                     "" + verbo + " as seguintes vias adicionais de credenciais:";
                     }
 
@@ -222,7 +222,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                         }
 
                         _mensagem = "Durante o período de " + _dataIni + " a " + _dataFim + " " +
-                                    "esse setor de credenciamento do AEROPORTO INTERNACIONAL DE PORTO ALEGRE, " +
+                                    "esse setor de credenciamento do AEROPORTO INTERNACIONAL , " +
                                     "" + verbo + " as seguintes credenciais:";
                     }
 
@@ -282,7 +282,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                         _mensagem = "Na data " + DateTime.Now.ToShortDateString() + " " +
                                     "este setor de credenciamento do AEROPORTO INTERNACIONAL " +
-                                    "DE PORTO ALEGRE, " + verbo + " as seguintes vias adicionais de autorizações:";
+                                    ", " + verbo + " as seguintes vias adicionais de autorizações:";
                     }
 
                     //Outros status (Concedidas/Indeferidas/Canceladas/Destruidas)
@@ -303,7 +303,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                         _mensagem = "Na data " + DateTime.Now.ToShortDateString() + " " +
                                     "este setor de credenciamento do AEROPORTO INTERNACIONAL " +
-                                    "DE PORTO ALEGRE, " + verbo + " as seguintes autorizações:";
+                                    ", " + verbo + " as seguintes autorizações:";
                     }
                 }
                 //Filtro últimos 7 dias
@@ -318,7 +318,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                         _mensagem = "Durante o período de " + DateTime.Now.AddDays(-7).ToShortDateString() + " " +
                                     "a " + DateTime.Now.ToShortDateString() + " esse setor de credenciamento do " +
-                                    "AEROPORTO INTERNACIONAL DE PORTO ALEGRE, " + verbo +
+                                    "AEROPORTO INTERNACIONAL , " + verbo +
                                     " as seguintes vias adicionais de autorizações:";
                     }
 
@@ -341,7 +341,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                         _mensagem = "Durante o período de " + DateTime.Now.AddDays(-7).ToShortDateString() + " " +
                                     "a " + DateTime.Now.ToShortDateString() + " esse setor de credenciamento do " +
-                                    "AEROPORTO INTERNACIONAL DE PORTO ALEGRE, " + verbo +
+                                    "AEROPORTO INTERNACIONAL , " + verbo +
                                     " as seguintes vias adicionais de autorizações:";
                     }
                 }
@@ -357,7 +357,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                         _mensagem = "Durante o período de " + DateTime.Now.AddDays(-30).ToShortDateString() + " " +
                                     "a " + DateTime.Now.ToShortDateString() + " esse setor de credenciamento do " +
-                                    "AEROPORTO INTERNACIONAL DE PORTO ALEGRE, " + verbo +
+                                    "AEROPORTO INTERNACIONAL , " + verbo +
                                     " as seguintes vias adicionais de autorizações:";
                     }
 
@@ -380,7 +380,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                         _mensagem = "Durante o período de " + DateTime.Now.AddDays(-30).ToShortDateString() + " " +
                                     "a " + DateTime.Now.ToShortDateString() + " esse setor de credenciamento do " +
-                                    "AEROPORTO INTERNACIONAL DE PORTO ALEGRE, " + verbo +
+                                    "AEROPORTO INTERNACIONAL , " + verbo +
                                     " as seguintes vias adicionais de autorizações:";
                     }
                 }
@@ -396,7 +396,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
 
                         _mensagem = "Durante o período de " + _dataIni + " a " + _dataFim + " " +
-                                    "esse setor de credenciamento do AEROPORTO INTERNACIONAL DE PORTO ALEGRE, " +
+                                    "esse setor de credenciamento do AEROPORTO INTERNACIONAL , " +
                                     "" + verbo + " as seguintes vias adicionais de autorizações:";
                     }
 
@@ -418,7 +418,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                         }
 
                         _mensagem = "Durante o período de " + _dataIni + " a " + _dataFim + " " +
-                                    "esse setor de credenciamento do AEROPORTO INTERNACIONAL DE PORTO ALEGRE, " +
+                                    "esse setor de credenciamento do AEROPORTO INTERNACIONAL , " +
                                     "" + verbo + " as seguintes autorizações:";
                     }
 
