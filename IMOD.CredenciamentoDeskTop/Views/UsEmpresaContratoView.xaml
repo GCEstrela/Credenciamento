@@ -184,7 +184,7 @@
                                   ItemsSource="{Binding TiposCobranca}" DisplayMemberPath="Descricao"
                                   SelectedValue="{Binding Entity.TipoCobrancaId, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                   SelectedValuePath="TipoCobrancaId" Width="207" SelectionChanged="TipoCobranca_cb_SelectionChanged" 
-                                  Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
+                                  Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" SelectedIndex="0"/>
 
                         <CheckBox x:Name="IsencaoCobranca_cb" IsChecked="{Binding Entity.IsencaoCobranca}"                                   
                                   FlowDirection="RightToLeft"  VerticalAlignment="Center"
