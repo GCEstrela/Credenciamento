@@ -150,10 +150,10 @@
                                       Width="144"
                                       VerticalContentAlignment="Center" 
                                       HorizontalContentAlignment="Left"
-                                      ItemsSource="{Binding EmpresaLayoutCracha , Mode=TwoWay}" 
+                                      ItemsSource="{Binding EmpresaLayoutCracha}" 
                                       DisplayMemberPath="Nome"
-                                      SelectedValue="{Binding Entity.LayoutCrachaId, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
-                                      SelectedValuePath="LayoutCrachaId" IsSynchronizedWithCurrentItem="True"
+                                      SelectedValue="{Binding Entity.LayoutCrachaId, UpdateSourceTrigger=PropertyChanged}" 
+                                      SelectedValuePath="LayoutCrachaId"
                                       Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
                                       />
 
