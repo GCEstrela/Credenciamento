@@ -157,7 +157,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 veiculoCredencial.EmissaoFim = DateTime.Now;
                 _mensagem = "Na data " + DateTime.Now.ToShortDateString() + " " +
                                     "este setor de credenciamento do AEROPORTO INTERNACIONAL " +
-                                    "DE PORTO ALEGRE, " + verbo + " as seguintes vias adicionais de autorizações:";
+                                    ", " + verbo + " as seguintes vias adicionais de autorizações:";
             }
             else if (_periodo == 7)
             {
@@ -169,7 +169,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 _mensagem = "Durante o período de " + novaDatadias.ToShortDateString() + " " +
                                     "a " + DateTime.Now.ToShortDateString() + " esse setor de credenciamento do " +
-                                    "AEROPORTO INTERNACIONAL DE PORTO ALEGRE, " + verbo +
+                                    "AEROPORTO INTERNACIONAL , " + verbo +
                                     " as seguintes vias adicionais de autorizações:";
             }
             else if (_periodo == 30)
@@ -203,7 +203,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 }
                 _mensagem = "Durante o período de " + novaDatadias.ToShortDateString() + " " +
                                     "a " + DateTime.Now.ToShortDateString() + " esse setor de credenciamento do " +
-                                    "AEROPORTO INTERNACIONAL DE PORTO ALEGRE, " + verbo +
+                                    "AEROPORTO INTERNACIONAL , " + verbo +
                                     " as seguintes vias adicionais de autorizações:";
             }
             else
@@ -217,7 +217,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 //    //mensagem += mensagemPeriodo;
 
                 //    _mensagem = "Durante o período de " + _dataIni + " a " + _dataFim + " " +
-                //                    "esse setor de credenciamento do AEROPORTO INTERNACIONAL DE PORTO ALEGRE, " +
+                //                    "esse setor de credenciamento do AEROPORTO INTERNACIONAL , " +
                 //                    "" + verbo + " as seguintes vias adicionais de autorizações:";
                 //}
                 switch (_report)
@@ -270,7 +270,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 }
 
                 _mensagem = "Durante o período de " + _dataIni + " a " + _dataFim + " " +
-                                           "esse setor de credenciamento do AEROPORTO INTERNACIONAL DE PORTO ALEGRE, " +
+                                           "esse setor de credenciamento do AEROPORTO INTERNACIONAL , " +
                                            "" + verbo + " as seguintes vias adicionais de autorizações:";
             }
 
@@ -323,7 +323,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 string mensagem = string.Empty;
                 string mensagemComplemento = string.Empty;
                 string mensagemPeriodo = string.Empty;
-                mensagemComplemento = "AEROPORTO INTERNACIONAL DE PORTO ALEGRE";
+                mensagemComplemento = "AEROPORTO INTERNACIONAL ";
 
                 // objeto com o filtro de parâmetros da consulta
                 Domain.EntitiesCustom.RelColaboradoresCredenciaisView colaboradorCredencial = new Domain.EntitiesCustom.RelColaboradoresCredenciaisView();
@@ -388,7 +388,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 string mensagem = string.Empty;
                 string mensagemComplemento = string.Empty;
                 string mensagemPeriodo = string.Empty;
-                mensagemComplemento = "AEROPORTO INTERNACIONAL DE PORTO ALEGRE";
+                mensagemComplemento = "AEROPORTO INTERNACIONAL ";
 
                 // objeto com o filtro de parâmetros da consulta
                 Domain.EntitiesCustom.RelColaboradoresCredenciaisView colaboradorCredencial = new Domain.EntitiesCustom.RelColaboradoresCredenciaisView();
@@ -455,7 +455,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 string mensagemPeriodo = string.Empty;
                 string arquivoTermo = string.Empty;
 
-                mensagemComplemento = "AEROPORTO INTERNACIONAL DE PORTO ALEGRE";
+                mensagemComplemento = "AEROPORTO INTERNACIONAL ";
                 // objeto com o filtro de parâmetros da consulta
                 Domain.EntitiesCustom.RelColaboradoresCredenciaisView colaboradorCredencial = new Domain.EntitiesCustom.RelColaboradoresCredenciaisView();
 
