@@ -37,14 +37,14 @@ namespace IMOD.CredenciamentoDeskTop.Windows
             bool check;
             string empresa;
 
-
-            if (EmpresaRazaoSocial_cb.SelectedValue == null)
+            if (EmpresaRazaoSocial_cb.SelectedItem == null)
             {
                 empresa = "";
             }
             else
-                empresa = EmpresaRazaoSocial_cb.SelectedValue.ToString();
-
+            {
+                empresa = ((IMOD.CredenciamentoDeskTop.Views.Model.EmpresaView)EmpresaRazaoSocial_cb.SelectedItem).EmpresaId.ToString();
+            }
 
             if (credenciais_rb.IsChecked.Value)
             {
