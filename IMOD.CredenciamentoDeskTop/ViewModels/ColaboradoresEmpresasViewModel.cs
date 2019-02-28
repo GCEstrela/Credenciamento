@@ -192,9 +192,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
            
             Entity = new ColaboradorEmpresaView();
+            Entity.Ativo = true;
             Comportamento.PrepareCriar();
             IsEnableLstView = false;
-            ListarDadosEmpresaContratos();
         }
 
         /// <summary>
@@ -284,7 +284,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
             Comportamento.PrepareAlterar();
             IsEnableLstView = false;
-            ListarDadosEmpresaContratos();
         }
 
         /// <summary>
