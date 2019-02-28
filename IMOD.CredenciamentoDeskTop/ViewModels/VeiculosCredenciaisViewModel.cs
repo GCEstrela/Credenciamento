@@ -427,9 +427,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 var arrayBytes = WpfHelp.ConverterBase64 (layoutCracha.LayoutRpt, "Layout de Autorização");
                 var relatorio = WpfHelp.ShowRelatorioCrystalReport (arrayBytes, layoutCracha.Nome);
-                var lst = new List<AutorizacaoView>();
+                var lst = new List<Views.Model.AutorizacaoView>();
                 var credencialView = _service.ObterCredencialView (Entity.VeiculoCredencialId);
-                lst.Add (credencialView);
+                
+                var AutorizacaoMapeada = Mapper.Map<Views.Model.AutorizacaoView>(credencialView);
+                lst.Add (AutorizacaoMapeada);
+
                 relatorio.SetDataSource (lst);
                 var popupCredencial = new PopupAutorizacao (relatorio, _service, Entity, layoutCracha);
                 popupCredencial.ShowDialog();

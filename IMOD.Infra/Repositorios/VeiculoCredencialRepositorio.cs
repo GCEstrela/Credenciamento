@@ -123,8 +123,8 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("FormatoCredencialID", entity.FormatoCredencialId, false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("NumeroCredencial", entity.NumeroCredencial, false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("FC", entity.Fc, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Emissao", DbType.Date, entity.Emissao, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Validade", DbType.Date, entity.Validade, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Emissao", DbType.DateTime, entity.Emissao, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Validade", DbType.DateTime, entity.Validade, false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("CredencialStatusID", entity.CredencialStatusId, false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("CardHolderGUID", entity.CardHolderGuid, false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("CredencialGUID", entity.CredencialGuid, false)));
@@ -133,7 +133,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Ativa", entity.Ativa, false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Colete", entity.Colete, false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("CredencialmotivoID", entity.CredencialMotivoId, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Baixa", DbType.Date, entity.Baixa, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Baixa", DbType.DateTime, entity.Baixa, false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Impressa", entity.Impressa, false)));
 
                         var key = Convert.ToInt32 (cmd.ExecuteScalar());
@@ -233,8 +233,8 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("FormatoCredencialID", entity.FormatoCredencialId, false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("NumeroCredencial", entity.NumeroCredencial, false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("FC", entity.Fc, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Emissao", entity.Emissao, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Validade", entity.Validade, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Emissao", entity.Emissao, false)));                        
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Validade", DbType.DateTime, entity.Validade, false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("CredencialStatusID", entity.CredencialStatusId, false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("CardHolderGUID", entity.CardHolderGuid, false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("CredencialGUID", entity.CredencialGuid, false)));
@@ -243,8 +243,8 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Ativa", DbType.Boolean, entity.Ativa, false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Colete", entity.Colete, false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("CredencialmotivoID", entity.CredencialMotivoId, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Baixa", entity.Baixa, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Impressa", entity.Impressa, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Baixa", DbType.DateTime, entity.Baixa, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Impressa", DbType.DateTime, entity.Impressa, false)));
 
                         cmd.ExecuteNonQuery();
                     }

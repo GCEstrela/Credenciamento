@@ -321,6 +321,8 @@ namespace IMOD.CredenciamentoDeskTop.Helpers
                 var nameFile = idx == -1 ? nomeArquivo : nomeArquivo.Substring (idx);
 
                 var fileName = Path.Combine (tempArea, $"{nameFile}.rpt");
+
+                
                 File.WriteAllBytes (fileName, arrayBytes); //Save file on temp area
 
                 var reportDoc = new ReportDocument();
@@ -359,7 +361,7 @@ namespace IMOD.CredenciamentoDeskTop.Helpers
                             var txt = (TextObject) reportDoc.ReportDefinition.ReportObjects["TextoPrincipal"];
                             txt.Text = mensagem;
                         }
-
+                        reportDoc.Refresh();
                         var _popupRelatorio = new PopupRelatorio (reportDoc);
                         _popupRelatorio.Show();
                     });
