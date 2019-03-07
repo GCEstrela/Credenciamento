@@ -108,7 +108,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 var entity = Entity;
                 if (entity == null) return false;
-                var habilita = entity.Ativa & !entity.PendenciaImpeditiva;
+                var habilita = entity.Ativa & !entity.PendenciaImpeditiva & !entity.Impressa;
 
                 if (habilita)
                 {
