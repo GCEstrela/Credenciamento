@@ -130,6 +130,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             var n1 = _service.BuscarCredencialPelaChave (entity.ColaboradorCredencialId);
             var mensagem1 = !n1.Ativa ? "Credencial Inativa" : string.Empty;
             var mensagem2 = n1.PendenciaImpeditiva ? "Pendência Impeditiva (consultar dados da empresa na aba Geral)" : string.Empty;
+           
             if(!string.IsNullOrWhiteSpace (mensagem1) | !string.IsNullOrWhiteSpace(mensagem2))
             MensagemAlerta = $"A empresa está impedida de imprimir credencial pelo seguinte motivo: {mensagem1} {mensagem2}";
         }
