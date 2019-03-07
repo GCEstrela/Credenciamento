@@ -304,10 +304,13 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private void ListarTodosContratos()
         {
             ColaboradoresEmpresas.Clear();
-            _todosContratosEmpresas.ForEach (n => { ColaboradoresEmpresas.Add (n); });
+            _todosContratosEmpresas.ForEach(n => { ColaboradoresEmpresas.Add(n); });
         }
 
-        private void OnAtualizar()
+        /// <summary>
+        /// Obter novos dados de contratos ativos
+        /// </summary>
+        private void OnAtualizarDadosContratosAtivos()
         {
             //Obter todos os contratos vinculados ao colaborador...
             ObterContratos();
@@ -405,7 +408,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             Habilitar = true;
             MensagemAlerta = "";
             //Listar Colaboradores Ativos
-            OnAtualizar();
+            OnAtualizarDadosContratosAtivos();
         }
 
         /// <summary>

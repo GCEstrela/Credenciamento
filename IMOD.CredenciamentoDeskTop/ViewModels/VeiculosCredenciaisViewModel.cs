@@ -53,6 +53,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private List<CredencialMotivo> _credencialMotivo;
 
         private VeiculoView _veiculoView;
+        /// <summary>
+        ///     Lista de todos os contratos disponíveis
+        /// </summary>
+        private readonly List<VeiculoEmpresa> _todosContratosEmpresas = new List<VeiculoEmpresa>();
 
         #region  Propriedades
 
@@ -85,7 +89,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public List<TipoCredencial> TipoCredencial { get; set; }
         public List<EmpresaLayoutCracha> EmpresaLayoutCracha { get; set; }
         public List<TecnologiaCredencial> TecnologiasCredenciais { get; set; }
-        public List<VeiculoEmpresa> VeiculosEmpresas { get; set; }
+        public ObservableCollection<VeiculoEmpresa> VeiculosEmpresas { get; set; }
         public VeiculoEmpresa VeiculoEmpresa { get; set; }
         public List<AreaAcesso> VeiculoPrivilegio { get; set; }
         public VeiculosCredenciaisView Entity { get; set; }
@@ -109,6 +113,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             Comportamento.Remover += OnRemover;
             Comportamento.Cancelar += OnCancelar;
             PropertyChanged += OnEntityChanged;
+            SelectListViewIndex = -1;
         }
 
         #region  Metodos
@@ -153,7 +158,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             TecnologiasCredenciais = new List<TecnologiaCredencial>();
             TecnologiasCredenciais.AddRange (lst5);
              
-            VeiculosEmpresas = new List<VeiculoEmpresa>(); 
+            VeiculosEmpresas = new ObservableCollection<VeiculoEmpresa>();
 
              var lst7 = _auxiliaresService.AreaAcessoService.Listar();
             VeiculoPrivilegio = new List<AreaAcesso>();
@@ -199,8 +204,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             _prepareCriarCommandAcionado = false;
             _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;
             IsEnableLstView = false;
-            Habilitar = false;
-            this.ListarDadosEmpresaContratos(_veiculoView.EquipamentoVeiculoId);
+            Habilitar = false; 
         }
 
         /// <summary>
@@ -208,8 +212,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void OnEntityChanged(object sender, PropertyChangedEventArgs e)
-        {
-            // if (e.PropertyName == "Entity") //habilitar botão alterar todas as vezes em que houver entidade diferente de null
+        { 
             //Comportamento.IsEnableEditar = true;
             if (e.PropertyName == "Entity")
             {
@@ -218,7 +221,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
             }
         }
-         
+
+        private int _count;
+
         public void AtualizarDados(VeiculoView entity)
         {
             if (entity == null) throw new ArgumentNullException (nameof (entity));
@@ -229,7 +234,51 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             EntityObserver = new ObservableCollection<VeiculosCredenciaisView>();
             list2.ForEach (n => { EntityObserver.Add (n); });
             //Listar dados de contratos
-            this.ListarDadosEmpresaContratos (_veiculoView.EquipamentoVeiculoId);
+            if (_count == 0) ObterContratos();
+            _count++;
+            ListarTodosContratos(); 
+        }
+
+        /// <summary>
+        ///     Listar dados de empresa e contratos
+        /// </summary>
+        private void ObterContratos()
+        {
+            try
+            {
+                var l2 = _veiculoEmpresaService.Listar().ToList();
+                _todosContratosEmpresas.Clear();
+                _todosContratosEmpresas.AddRange(l2);
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+            }
+        }
+        private void ListarTodosContratos()
+        {
+            VeiculosEmpresas.Clear();
+            _todosContratosEmpresas.ForEach(n => { VeiculosEmpresas.Add(n); });
+        }
+
+        /// <summary>
+        /// Obter novos dados de contratos ativos
+        /// </summary>
+        private void OnAtualizarDadosContratosAtivos()
+        {
+            //Obter todos os contratos vinculados ao colaborador...
+            ObterContratos();
+            ListarTodosContratoPorColaboradorAtivos(_veiculoView.EquipamentoVeiculoId);
+        }
+        /// <summary>
+        ///     Listar contratos ativos
+        /// </summary>
+        /// <param name="veiculoId"></param>
+        private void ListarTodosContratoPorColaboradorAtivos(int veiculoId)
+        {
+            VeiculosEmpresas.Clear();
+            var lst2 = _todosContratosEmpresas.Where(n => n.VeiculoId == veiculoId & n.Ativo).ToList();
+            lst2.ForEach(n => { VeiculosEmpresas.Add(n); });
         }
 
         /// <summary>
@@ -252,25 +301,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             _prepareAlterarCommandAcionado = false;
             Comportamento.PrepareRemover();
         }
-
-        /// <summary>
-        ///  Listar dados de empresa e contratos
-        /// </summary>
-        /// <param name="equipamentoVeiculoId"></param>
-        private void ListarDadosEmpresaContratos(int equipamentoVeiculoId)
-        {
-
-            try
-            {
-                if (equipamentoVeiculoId==0) return; 
-                var l2 = _veiculoEmpresaService.Listar(equipamentoVeiculoId, null, null, null, null).ToList();
-                VeiculosEmpresas = l2;
-            }
-            catch (Exception ex)
-            {
-                Utils.TraceException(ex);
-            } 
-        }
+         
 
         /// <summary>
         ///     Criar Dados
@@ -325,7 +356,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;
             IsEnableLstView = false;
             Habilitar = true;
-            this.ListarDadosEmpresaContratos (_veiculoView.EquipamentoVeiculoId);
+            //Listar Colaboradores Ativos
+            OnAtualizarDadosContratosAtivos();
         }
 
         /// <summary>
@@ -368,6 +400,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 IsEnableLstView = true;
                 if (Entity != null) Entity.ClearMessageErro();
                 Entity = null;
+                //Listar todas contratos
+                ListarTodosContratos();
             }
             catch (Exception ex)
             {

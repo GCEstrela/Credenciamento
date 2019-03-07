@@ -322,8 +322,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
 
             Comportamento.PrepareAlterar();
-            IsEnableLstView = false;
-            ListarDadosEmpresaContratos();
+            IsEnableLstView = false; 
         }
 
         /// <summary>
