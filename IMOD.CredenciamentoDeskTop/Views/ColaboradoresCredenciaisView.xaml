@@ -51,10 +51,10 @@
                                       Height="25"
                                       VerticalContentAlignment="Center" 
                                       HorizontalContentAlignment="Left"
-                                      ItemsSource="{Binding ColaboradoresEmpresas}"
+                                      ItemsSource="{Binding ColaboradoresEmpresas,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                       SelectedValue="{Binding Entity.ColaboradorEmpresaId, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                       Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
-                                      SelectedItem="{Binding ColaboradorEmpresa}"
+                                      SelectedItem="{Binding ColaboradorEmpresa, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                       SelectedValuePath="ColaboradorEmpresaId"
                                       IsSynchronizedWithCurrentItem="True"
                                       IsEnabled="{Binding Habilitar}"
@@ -73,13 +73,8 @@
                                 </ComboBox.ItemTemplate>
                             </ComboBox>
 
-
-                            <!--<wpf:ToggleSwitch x:Name="Ativa_tw"  HeaderHorizontalAlignment="Stretch" Width="187" HorizontalAlignment="Right" Visibility="Collapsed"
-                                              SwitchContentPlacement="Right"  Content="Credencial Ativa:" CheckedText="Sim" UncheckedText="Não" IsHitTestVisible="False"
-                                              IsChecked="{Binding Entity.Ativa,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                              Foreground="#FFD0D0BE" UncheckedBackground="Maroon" UncheckedBorderBrush="Maroon" UncheckedForeground="#FFAEAEAE"/>-->
-
-
+                      
+                            
                             <Label Content="Status:" Height="28" Width="49" HorizontalContentAlignment="Right"
                                    Foreground="#FFD0D0D0" />
 
@@ -197,8 +192,13 @@
                             <Label Content="Emissão:" Height="28" Width="55" Margin="1" Foreground="#FFD0D0D0" />
                             <TextBlock Text="{Binding Entity.Emissao,UpdateSourceTrigger=PropertyChanged, StringFormat=\{0:d\}}"  VerticalAlignment="Center" Width="70" />
                             <Label Content="Validade:" Height="28" Width="56" Margin="1"   Foreground="#FFD0D0D0"  RenderTransformOrigin="0.553,0.5"/>
-                            <!--<TextBlock Text="{Binding Entity.Validade,UpdateSourceTrigger=PropertyChanged , StringFormat=\{0:d\}}" VerticalAlignment="Center" Width="70" />-->
-                            <TextBox Text="{Binding Entity.Validade, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay,StringFormat='{}{0:dd/MM/yyyy}'}"  Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" LostFocus="OnFormatData_LostFocus" Height="24" Width="85" Name="txtDtValidade"></TextBox>
+                         
+                            <TextBox Text="{Binding Entity.Validade, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay,StringFormat='{}{0:dd/MM/yyyy}'}"
+                                     LostFocus="OnFormatData_LostFocus"
+                                     PreviewTextInput="NumberOnly"
+                                     IsEnabled="{Binding Habilitar}"
+                                     Height="24" Width="85" 
+                                     Name="txtDtValidade"></TextBox>
                             <Label Content="Baixa:" Height="28" Width="50" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
                             <TextBlock Text="{Binding Entity.Baixa,UpdateSourceTrigger=PropertyChanged, StringFormat=\{0:d\}}"  VerticalAlignment="Center" Width="70"  />
 
@@ -228,14 +228,14 @@
                                        SelectedValue="{Binding Entity.ColaboradorPrivilegio2Id, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                                        SelectedValuePath="AreaAcessoId"  />
 
-                            <Label Content="Formato Credencial:" Height="28" Width="138"   HorizontalContentAlignment="Right"
+                            <Label Content="Formato Credencial:" Height="28" Width="127"   HorizontalContentAlignment="Right"
                                    Foreground="#FFD0D0D0" />
 
                             <ComboBox x:Name="FormatoCredencial_cb"   
                                       IsEnabled="False"
                                       Margin="0,4,0,3" 
                                       Height="25"
-                                      Width="133"
+                                      Width="132"
                                       VerticalContentAlignment="Center" 
                                       HorizontalContentAlignment="Left"
                                       ItemsSource="{Binding FormatoCredencial, Mode=TwoWay}" 
@@ -248,7 +248,7 @@
 
 
 
-                            <Label Content="Número:" Height="28" Width="59" Margin="0,0,0,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                            <Label Content="Número:" Height="28" Width="69" Margin="0,0,0,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
                             <TextBox  x:Name="NumeroCredencial_tb"  
                                        IsEnabled="{Binding Habilitar}" 
                                       MaxLength="8"  CharacterCasing="Upper" 
@@ -299,13 +299,9 @@
                                     <DataTemplate>
                                         <CheckBox IsChecked="{Binding Path= Ativa}" IsHitTestVisible="False" />
                                     </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                                <!--<GridViewColumn.CellTemplate  >
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding CredencialStatusDescricao}" Foreground="{Binding Ativa,  Converter={StaticResource CheckTeste}, ConverterParameter='Ativa_tw'}"  TextAlignment="Center"/>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>-->
+                                </GridViewColumn.CellTemplate> 
                             </GridViewColumn>
+                            
                             <!--<GridViewColumn >
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>

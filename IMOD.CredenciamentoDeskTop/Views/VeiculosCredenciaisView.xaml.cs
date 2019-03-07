@@ -42,13 +42,12 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             if (entity == null) return;
             _viewModel.AtualizarDados (entity);
-            EmpresaVinculo_cb.Items.Refresh();
+           // EmpresaVinculo_cb.Items.Refresh();
         }
 
         private void EmpresaVinculo_cb_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (_viewModel.VeiculoEmpresa == null) return;
-
             _viewModel.CarregaColecaoLayoutsCrachas ((int) _viewModel.VeiculoEmpresa.EmpresaId);
         }
 
