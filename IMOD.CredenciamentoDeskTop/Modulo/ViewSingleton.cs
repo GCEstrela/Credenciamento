@@ -31,6 +31,7 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
         /// </summary>
         public EmpresaView EmpresaView
         {
+          
             //get { return _empresaView ?? (_empresaView = new EmpresaView()); }
             get { return new EmpresaView();}
         }

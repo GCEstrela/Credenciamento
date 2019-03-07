@@ -3,10 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+              d:DataContext="{d:DesignInstance viewModels:EmpresaViewModel , IsDesignTimeCreatable=True}"
              xmlns:funcoes="clr-namespace:IMOD.CredenciamentoDeskTop.Funcoes"
              xmlns:views="clr-namespace:IMOD.CredenciamentoDeskTop.Views"
-             xmlns:viewModels="clr-namespace:IMOD.CredenciamentoDeskTop.ViewModels"
-             d:DataContext="{d:DesignInstance viewModels:EmpresaViewModel , IsDesignTimeCreatable=True}"
+             xmlns:viewModels="clr-namespace:IMOD.CredenciamentoDeskTop.ViewModels"            
              mc:Ignorable="d"
              MaxWidth="1300" Width="1270" Height="825">
     <UserControl.Resources>
@@ -216,9 +216,10 @@
 
                                     <Label Content="Sigla:" Height="28" Width="53" Margin="1" Foreground="#FFD0D0D0"
                                            HorizontalContentAlignment="Left" />
-                                    <TextBox CharacterCasing="Upper" x:Name="Sigla_tb" MaxLength="8"
+                                    <TextBox CharacterCasing="Upper" x:Name="Sigla_tb" MaxLength="3"
                                              Text="{Binding Entity.Sigla, UpdateSourceTrigger=PropertyChanged}"
-                                             IsEnabled="True" Height="24" Width="49" />
+                                             IsEnabled="True" Height="24" Width="49" 
+                                             Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" LostFocus="Sigla_tb_LostFocus" />
 
                                 </StackPanel>
 

@@ -75,6 +75,7 @@ namespace IMOD.Application.Interfaces
         /// <param name="numContrato">Numero do contrato</param>
         /// <param name="status">Status do cdontrato</param>
         void CriarContratoBasico(Empresa entity, DateTime dataValidade, string numContrato, Status status);
+        bool ExisteSigla(string sigla);
 
         #endregion
     }
