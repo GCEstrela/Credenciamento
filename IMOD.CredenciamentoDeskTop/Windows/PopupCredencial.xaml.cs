@@ -37,7 +37,8 @@ namespace IMOD.CredenciamentoDeskTop.Windows
         private IColaboradorCredencialService _service;
         private LayoutCracha _layoutCracha;
         private bool _firstPage;
-      
+        private bool confirmacaoImpressao = true;
+
 
         public PopupCredencial(ReportDocument reportDocument, 
             IColaboradorCredencialService service,
@@ -96,65 +97,69 @@ namespace IMOD.CredenciamentoDeskTop.Windows
                 DialogResult impressaoRealizadaResult;
                 DialogResult reImpressaoResult;
                 DialogResult podeCobrarResult;
-                //var impressaoCorreta = false;
                 var impressaoCorreta = true;
 
                 Imprimir();
 
-                impressaoRealizadaResult = WpfHelp.MboxDialogYesNo("A impressão foi corretamente realizada?", true);
-                impressaoCorreta = impressaoRealizadaResult == System.Windows.Forms.DialogResult.Yes;
-
-                if (!impressaoCorreta)
+                if (confirmacaoImpressao)
                 {
-                    reImpressaoResult = WpfHelp.MboxDialogYesNo("Deseja imprimir mais uma vez?", true);
-                    if (reImpressaoResult != System.Windows.Forms.DialogResult.Yes) return;
-
-                    //Re imprimir
-                    Imprimir();
-
                     impressaoRealizadaResult = WpfHelp.MboxDialogYesNo("A impressão foi corretamente realizada?", true);
                     impressaoCorreta = impressaoRealizadaResult == System.Windows.Forms.DialogResult.Yes;
-                }
+
+                    if (!impressaoCorreta)
+                    {
+                        reImpressaoResult = WpfHelp.MboxDialogYesNo("Deseja imprimir mais uma vez?", true);
+                        if (reImpressaoResult != System.Windows.Forms.DialogResult.Yes) return;
+
+                        //Re imprimir
+                        Imprimir();
+
+                        impressaoRealizadaResult = WpfHelp.MboxDialogYesNo("A impressão foi corretamente realizada?", true);
+                        impressaoCorreta = impressaoRealizadaResult == System.Windows.Forms.DialogResult.Yes;
+                    }
 
                 //Sendo a impressao realizada corretamente, então, solicitar autorização de cobrança
                 
-                if (impressaoCorreta)
-                {
-                    //Registrar a data da emissão da credencial..
-                    var n1 = Mapper.Map<ColaboradorCredencial>(_entity);
-                    n1.Emissao = DateTime.Today.Date;
-                    n1.Impressa = true;
-                    _service.Alterar(n1);
-                    //Passar dados para atualizar entidade 
-                    _entity.Emissao = n1.Emissao;
-
-                    podeCobrarResult = WpfHelp.MboxDialogYesNo($"Autoriza a cobrança pela impressão no valor de {$"{_layoutCracha.Valor:C} ?"}", true);
-                    var impressaoCobrar = podeCobrarResult == System.Windows.Forms.DialogResult.Yes;
-
-                    _service.ImpressaoCredencial.Criar(new ColaboradorCredencialimpresssao
+                    if (impressaoCorreta)
                     {
-                        ColaboradorCredencialId = _entity.ColaboradorCredencialId,
-                        Cobrar = impressaoCobrar,
-                        DataImpressao = DateTime.Today.Date,
-                        Valor = _layoutCracha.Valor
+                        //Registrar a data da emissão da credencial..
+                        var n1 = Mapper.Map<ColaboradorCredencial>(_entity);
+                        n1.Emissao = DateTime.Today.Date;
+                        n1.Impressa = true;
+                        _service.Alterar(n1);
+                        //Passar dados para atualizar entidade 
+                        _entity.Emissao = n1.Emissao;
+                        _entity.Impressa = true;
 
-                    });
+                        podeCobrarResult = WpfHelp.MboxDialogYesNo($"Autoriza a cobrança pela impressão no valor de {$"{_layoutCracha.Valor:C} ?"}", true);
+                        var impressaoCobrar = podeCobrarResult == System.Windows.Forms.DialogResult.Yes;
 
-                    //Não deve ser criada dado na sub-rotina de credenciamento quando a tecnologia da credencial nao permitir
-                    //TODO:Retirar condicional fazendo referencia ao identificador
-                    if (_entity.TecnologiaCredencialId != 0)
-                    {
-                        //Gerar card Holder e Credencial
-                        //Uma data de validade é necessária para geração da credencial
-                        if (_entity.Validade == null) throw new InvalidOperationErrorException("A validade da credencial deve ser informada.");
-                        _service.CriarTitularCartao(new CredencialGenetecService(Main.Engine), _entity);
-                    }
+                        _service.ImpressaoCredencial.Criar(new ColaboradorCredencialimpresssao
+                        {
+                            ColaboradorCredencialId = _entity.ColaboradorCredencialId,
+                            Cobrar = impressaoCobrar,
+                            DataImpressao = DateTime.Today.Date,
+                            Valor = _layoutCracha.Valor
+
+                        });
+
+                        //Não deve ser criada dado na sub-rotina de credenciamento quando a tecnologia da credencial nao permitir
+                        //TODO:Retirar condicional fazendo referencia ao identificador
+                        if (_entity.TecnologiaCredencialId != 0)
+                        {
+                            //Gerar card Holder e Credencial
+                            //Uma data de validade é necessária para geração da credencial
+                            if (_entity.Validade == null) throw new InvalidOperationErrorException("A validade da credencial deve ser informada.");
+                            _service.CriarTitularCartao(new CredencialGenetecService(Main.Engine), _entity);
+                        }
                    
                     
-                    this.Close();
+                        this.Close();
+                    }
 
                 }
-                 
+
+
             }
             catch (Exception ex)
             {
@@ -178,7 +183,12 @@ namespace IMOD.CredenciamentoDeskTop.Windows
                 var collate = dialog1.PrinterSettings.Collate;
 
                 _report.PrintOptions.PrinterName = dialog1.PrinterSettings.PrinterName;
-                _report.PrintToPrinter (copies, collate, fromPage, toPage);
+                _report.PrintToPrinter(copies, collate, fromPage, toPage);
+                confirmacaoImpressao = true;
+            }
+            else
+            {
+                confirmacaoImpressao = false;
             }
 
             dialog1.Dispose();

@@ -115,7 +115,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 var entity = Entity;
                 if (entity == null) return false;
-                var habilita = entity.Ativa & !entity.PendenciaImpeditiva;
+                var habilita = entity.Ativa & !entity.PendenciaImpeditiva & !entity.Impressa;
 
                 if (habilita)
                 {
@@ -293,8 +293,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                
                 if (colaboradorId == 0) return;
-                var l2 = _colaboradorEmpresaService.Listar (colaboradorId, null, null, null, null).ToList();
-                _colaboradoresEmpresas.AddRange (l2); 
+                var l2 = _colaboradorEmpresaService.Listar(colaboradorId, null, null, null, null).ToList();
+                _colaboradoresEmpresas.Clear();
+                _colaboradoresEmpresas.AddRange(l2); 
             }
             catch (Exception ex)
             {
@@ -310,7 +311,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-
                 if (colaboradorId == 0) return;
                 var l2 = _colaboradorEmpresaService.Listar(colaboradorId, null, null, null, null).ToList();
                 _colaboradoresEmpresas.Clear();
@@ -528,6 +528,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 relatorio.SetDataSource (lst);
                 var popupCredencial = new PopupCredencial (relatorio, _service, Entity, layoutCracha);
                 popupCredencial.ShowDialog();
+
 
                 //Atualizar observer
                 OnPropertyChanged ("Entity");
