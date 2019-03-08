@@ -81,6 +81,7 @@
                                       Margin="0,4,0,3" 
                                       Height="25"
                                       Width="130"
+                                      SelectionChanged="OnAlterarStatus_SelectonChanged"
                                       ItemsSource="{Binding CredencialStatus}" 
                                       SelectedItem="{Binding StatusCredencial, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                       DisplayMemberPath="Descricao"
@@ -192,8 +193,11 @@
                             <TextBlock Text="{Binding Entity.Emissao,UpdateSourceTrigger=PropertyChanged, StringFormat=\{0:d\}}"  VerticalAlignment="Center" Width="70" />
                             <Label Content="Validade:" Height="28" Width="56" Margin="1"   Foreground="#FFD0D0D0"  RenderTransformOrigin="0.553,0.5"/>
                          
-                            <TextBox Text="{Binding Entity.Validade, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay,StringFormat='{}{0:dd/MM/yyyy}'}"
+                            <TextBox Text="{Binding Entity.Validade, 
+                                     UpdateSourceTrigger=PropertyChanged,Mode=TwoWay,
+                                     StringFormat='{}{0:dd/MM/yyyy}'}"
                                      LostFocus="OnFormatData_LostFocus"
+                                     Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
                                      PreviewTextInput="NumberOnly"
                                      IsEnabled="{Binding Habilitar}"
                                      Height="24" Width="85" 
@@ -259,7 +263,7 @@
 
                         </StackPanel>
 
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Width="977">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Width="977" Visibility="Collapsed" >
                             <Label Content="Card Holder GUID" Height="28" Width="113" Margin="1" Foreground="#FFD0D0D0" />
                             <TextBlock Text="{Binding Entity.CardHolderGuid}"  VerticalAlignment="Center" Width="357" />
                             <Label Content="Credential Holder GUID" Height="28" Width="106" Margin="1" Foreground="#FFD0D0D0" />
@@ -271,7 +275,7 @@
             </GroupBox>
 
             <StackPanel Orientation="Horizontal">
-                <Button x:Name="brnImprimirCredencial"
+                <Button x:Name="btnImprimirCredencial"
                         IsEnabled="{Binding HabilitaImpressao}"
                         Content="Imprimir Credencial" 
                         ToolTip="Imprimir Credencial"  

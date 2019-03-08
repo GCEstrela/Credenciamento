@@ -99,7 +99,7 @@ namespace IMOD.Application.Service
 
         #region  Metodos
 
-        private void ObterStatusCredencial(ColaboradorCredencial entity)
+        public void ObterStatusCredencial(ColaboradorCredencial entity)
         {
             var status = CredencialStatus.BuscarPelaChave (entity.CredencialStatusId);
             entity.Ativa = status.Codigo == "1"; //Set status da credencial

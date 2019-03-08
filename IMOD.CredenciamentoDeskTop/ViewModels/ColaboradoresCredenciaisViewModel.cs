@@ -93,11 +93,19 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public List<AreaAcesso> ColaboradorPrivilegio { get; set; }
         public ColaboradoresCredenciaisView Entity { get; set; }
 
+
+        //public void AtualizarStatus()
+        //{
+        //    if (Entity == null) return ;
+        //    _habilitarImpresao = !Entity.Ativa;
+        //}
+
         /// <summary>
         ///     Mensagem de alerta
         /// </summary>
         public string MensagemAlerta { get; private set; }
 
+        private bool _habilitarImpresao;
         /// <summary>
         ///     Habilitar impressao de credencial com base no status da credencial
         ///     e condição de pendencia impeditiva
@@ -108,9 +116,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 var entity = Entity;
                 if (entity == null) return false;
-                var habilita = entity.Ativa & !entity.PendenciaImpeditiva;
+                _habilitarImpresao = entity.Ativa & !entity.PendenciaImpeditiva;
 
-                if (habilita)
+                if (_habilitarImpresao)
                 {
                     MensagemAlerta = "";
                 }
@@ -119,8 +127,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     AtualizarMensagem(entity);
                 }
 
-                return habilita;
+                return _habilitarImpresao;
             }
+
+            
+           
         }
 
         private void AtualizarMensagem(ColaboradoresCredenciaisView entity)
@@ -153,6 +164,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         #region Regras de Negócio
 
+        
         private bool ExisteNumeroCredencial()
         {
             if (Entity == null) return false;
@@ -251,6 +263,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 Comportamento.IsEnableEditar = Entity != null;
                 Comportamento.isEnableRemover = Entity != null;
+                _habilitarImpresao = !Entity?.Ativa ?? false;
             }
         }
 
@@ -259,13 +272,14 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             if (!_prepareCriarCommandAcionado) return;
             if (Entity == null) return;
             var empContratoId = ColaboradorEmpresa.EmpresaContratoId;
-            var contrato = _contratosService.BuscarPelaChave (empContratoId);
-            var data = _service.ObterDataValidadeCredencial (Entity.TipoCredencialId,
+            var contrato = _contratosService.BuscarPelaChave(empContratoId);
+            var data = _service.ObterDataValidadeCredencial(Entity.TipoCredencialId,
                 _colaboradorView.ColaboradorId, contrato.NumeroContrato, _service.TipoCredencial);
 
             Entity.Validade = data;
-            OnPropertyChanged ("Entity");
+            OnPropertyChanged("Entity");
         }
+       
 
         private int _count;
 
@@ -370,6 +384,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 n1.TecnologiaCredencialId = Entity.TecnologiaCredencialId;
                 n1.TipoCredencialId = Entity.TipoCredencialId;
                 //Criar registro no banco de dados e setar uma data de validade
+                _prepareCriarCommandAcionado = false;
                 _service.Criar (n1);
                 IsEnableLstView = true;
                 SelectListViewIndex = 0;
@@ -377,8 +392,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var list1 = _service.ListarView (null, null, null, null, _colaboradorView.ColaboradorId).ToList();
                 var list2 = Mapper.Map<List<ColaboradoresCredenciaisView>> (list1.OrderByDescending (n => n.ColaboradorCredencialId));
                 EntityObserver = new ObservableCollection<ColaboradoresCredenciaisView>();
+                 
                 list2.ForEach (n => { EntityObserver.Add (n);  });
                 MensagemAlerta = "";
+                Entity = null;
+
             }
             catch (Exception ex)
             {
@@ -427,17 +445,22 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 //Alterar o status do titular do cartão
                 _service.AlterarStatusTitularCartao (new CredencialGenetecService (Main.Engine), Entity, n1);
 
-                //Atualizar Dados
+                //===================================================
+                //Atualizar dados a serem exibidas na tela de empresa
                 if (Entity == null) return;
                 _service.CriarPendenciaImpeditiva (Entity);
                 var view = new ViewSingleton().EmpresaView;
                 var dados = view.DataContext as IAtualizarDados;
                 dados.AtualizarDadosPendencias();
+                //===================================================
 
                 //Atualizar observer
                 CollectionViewSource.GetDefaultView (EntityObserver).Refresh();
                 IsEnableLstView = true;
                 AtualizarMensagem(Entity);
+                //===================================================
+                Entity = null;
+
             }
             catch (Exception ex)
             {
@@ -556,13 +579,16 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             _prepareCriarCommandAcionado = false;
             _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;
             IsEnableLstView = false;
-            Habilitar = false;
+            //Habilitar controles somente se a credencial não estiver sido impressa
+             Habilitar = !Entity.Impressa;
         }
+
 
         private void PrepareSalvar()
         {
             if (Validar()) return;
             Comportamento.PrepareSalvar();
+           
         }
 
         /// <summary>
