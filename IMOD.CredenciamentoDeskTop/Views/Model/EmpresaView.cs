@@ -24,15 +24,23 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public string InsEst { get; set; }
         public string InsMun { get; set; }
         public string Responsavel { get; set; }
+        [Required(ErrorMessage = "O Cep é requerido.")]
         public string Cep { get; set; }
+        [Required(ErrorMessage = "O Endereço é requerido.")]
         public string Endereco { get; set; }
         public string Numero { get; set; }
         public string Complemento { get; set; }
+        [Required(ErrorMessage = "O Bairro é requerido.")]
         public string Bairro { get; set; }
+        [Required(ErrorMessage = "O Estado é requerido.")]
         public int EstadoId { get; set; }
+        [Required(ErrorMessage = "O Município é requerido.")]
         public int MunicipioId { get; set; }
+        [Required(ErrorMessage = "O E-Mail é requerido.")]
         public string Email1 { get; set; }
+        [Required(ErrorMessage = "O Contato é requerido.")]
         public string Contato1 { get; set; }
+        [Required(ErrorMessage = "O Telefone é requerido.")]
         public string Telefone1 { get; set; }
         public string Celular1 { get; set; }
         public string Email2 { get; set; }
@@ -50,7 +58,8 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public bool Pendente15 { get; set; }
         public bool Pendente16 { get; set; }
         public bool Pendente17 { get; set; }
-        public string Sigla { get; set; }
+        [Required(ErrorMessage = "A Gigla é requerida.")]
+        public string Sigla { get; set; }       
         public int TotalPermanente { get; set; }
         public int TotalTemporaria { get; set; }
 

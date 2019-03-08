@@ -217,5 +217,14 @@ namespace IMOD.CredenciamentoDeskTop.Views
             }
              
         }
+
+        private void Sigla_tb_LostFocus(object sender, RoutedEventArgs e)
+        {
+            var sigla = _viewModel.Entity.Sigla;
+            if (_viewModel.ExisteSigla())
+                _viewModel.Entity.SetMessageErro("Sigla", "Sigla já existe");
+
+            Sigla_tb.Text = sigla;
+        }
     }
 }

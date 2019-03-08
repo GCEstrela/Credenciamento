@@ -27,6 +27,7 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public DateTime? Emissao { get; set; }
         [Required(ErrorMessage = "A Data de Validade do Contrato é requerido.")]
         public DateTime? Validade { get; set; }
+        //[Required(ErrorMessage = "A Data de Validade do Contrato é requerido.")]
         public bool Terceirizada { get; set; }
         public string Contratante { get; set; }
         public bool IsencaoCobranca { get; set; }
@@ -46,7 +47,7 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public string CelularResp { get; set; }
         //[Required(ErrorMessage = "O E-Mail do Responsável do Contrato é requeirido.")]
         public string EmailResp { get; set; }
-        //[Required(ErrorMessage = "O Ststus do Contrato é requerido.")]
+        [Required(ErrorMessage = "O Ststus do Contrato é requerido.")]
         public int StatusId { get; set; }
         public string NomeArquivo { get; set; }
         //[Required(ErrorMessage = "O Contrato Digitalizado é requeirido.")]

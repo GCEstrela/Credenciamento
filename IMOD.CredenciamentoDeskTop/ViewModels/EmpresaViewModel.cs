@@ -292,7 +292,19 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             return string.Compare (n1.Cnpj.RetirarCaracteresEspeciais(),
                 cnpj, StringComparison.Ordinal) != 0 && _service.ExisteCnpj (cnpj);
         }
+        public bool ExisteSigla()
+        {
+            if (Entity == null) return false;
+            var sigla = Entity.Sigla;
 
+            if (_service.ExisteSigla(sigla))
+            {
+                return true;
+            }
+            return false;
+           
+            
+        }
         /// <summary>
         ///     Verificar se dados válidos
         ///     <para>True, inválido</para>
@@ -330,7 +342,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 return true;
             }
 
-            return Entity.HasErrors;
+            if (ExisteSigla())
+            {
+                Entity.SetMessageErro("Sigla", "Sigla já existe");
+                return true;
+            }
+                return Entity.HasErrors;
         }
 
         #endregion
@@ -427,6 +444,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
+                //ListarDadosAuxiliares();
                 var pesquisa = NomePesquisa;
                 var num = PesquisarPor;
 
