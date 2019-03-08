@@ -60,7 +60,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private bool _prepareCriarCommandAcionado;
 
-        #region  Propriedades
+        public int _empresaSelecionadaId;
+
+
+        #region  Propriedades 
 
         /// <summary>
         ///     Habilitar Controles
@@ -96,43 +99,38 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <summary>
         ///     Mensagem de alerta
         /// </summary>
-        public string MensagemAlerta { get; private set; }
+        public string MensagemAlerta { get; private set; } 
 
         /// <summary>
         ///     Habilitar impressao de credencial com base no status da credencial
         ///     e condição de pendencia impeditiva
         /// </summary>
-        public bool HabilitaImpressao
-        {
-            get
-            {
-                var entity = Entity;
-                if (entity == null) return false;
-                var habilita = entity.Ativa & !entity.PendenciaImpeditiva & !entity.Impressa;
-
-                if (habilita)
-                {
-                    MensagemAlerta = "";
-                }
-                else
-                {
-                    AtualizarMensagem(entity);
-                }
-
-                return habilita;
-            }
-        }
-
+        public bool HabilitaImpressao { get; set; } 
         private void AtualizarMensagem(ColaboradoresCredenciaisView entity)
         {
-          
+            MensagemAlerta = string.Empty;
+            if (entity == null) return;
+
+            #region Habilitar botão de impressao e mensagem ao usuario
+            //================================================================================
+            //Autor: Valnei Filho
+            //Data:08/03/19
+            //Wrk:O botão imprimir credencial habilitado apenas para registros, não impresso e ativo, desabilitado caso contrário
+            HabilitaImpressao = entity.Ativa & !entity.PendenciaImpeditiva & !entity.Impressa;
             //Verificar se a empresa esta impedida
-            var n1 = _service.BuscarCredencialPelaChave (entity.ColaboradorCredencialId);
+            var n1 = _service.BuscarCredencialPelaChave(entity.ColaboradorCredencialId);
             var mensagem1 = !n1.Ativa ? "Credencial Inativa" : string.Empty;
             var mensagem2 = n1.PendenciaImpeditiva ? "Pendência Impeditiva (consultar dados da empresa na aba Geral)" : string.Empty;
-           
-            if(!string.IsNullOrWhiteSpace (mensagem1) | !string.IsNullOrWhiteSpace(mensagem2))
-            MensagemAlerta = $"A empresa está impedida de imprimir credencial pelo seguinte motivo: {mensagem1} {mensagem2}";
+            var mensagem3 = n1.Impressa ? "Não é possível imprimir pois a credencial já foi impressa" : string.Empty;
+            //Exibir mensagem de impressao de credencial, esta tem prioridade sobre as demais regras
+            MensagemAlerta = $"{mensagem3}";
+            if (n1.Impressa) return;
+
+            if (!string.IsNullOrWhiteSpace(mensagem1) | !string.IsNullOrWhiteSpace(mensagem2))
+                MensagemAlerta = $"A empresa está impedida de imprimir credencial pelo seguinte motivo: {mensagem1} {mensagem2}";
+            //================================================================================
+            #endregion
+
         }
 
         public ObservableCollection<ColaboradoresCredenciaisView> EntityObserver { get; set; }
@@ -153,6 +151,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         #region Regras de Negócio
 
+        
         private bool ExisteNumeroCredencial()
         {
             if (Entity == null) return false;
@@ -250,7 +249,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             if (e.PropertyName == "Entity")
             {
                 Comportamento.IsEnableEditar = Entity != null;
-                Comportamento.isEnableRemover = Entity != null;
+                Comportamento.isEnableRemover = Entity != null; 
+                AtualizarMensagem (Entity);
             }
         }
 
@@ -259,13 +259,14 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             if (!_prepareCriarCommandAcionado) return;
             if (Entity == null) return;
             var empContratoId = ColaboradorEmpresa.EmpresaContratoId;
-            var contrato = _contratosService.BuscarPelaChave (empContratoId);
-            var data = _service.ObterDataValidadeCredencial (Entity.TipoCredencialId,
+            var contrato = _contratosService.BuscarPelaChave(empContratoId);
+            var data = _service.ObterDataValidadeCredencial(Entity.TipoCredencialId,
                 _colaboradorView.ColaboradorId, contrato.NumeroContrato, _service.TipoCredencial);
 
             Entity.Validade = data;
-            OnPropertyChanged ("Entity");
+            OnPropertyChanged("Entity");
         }
+       
 
         private int _count;
 
@@ -370,6 +371,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 n1.TecnologiaCredencialId = Entity.TecnologiaCredencialId;
                 n1.TipoCredencialId = Entity.TipoCredencialId;
                 //Criar registro no banco de dados e setar uma data de validade
+                _prepareCriarCommandAcionado = false;
                 _service.Criar (n1);
                 IsEnableLstView = true;
                 SelectListViewIndex = 0;
@@ -377,8 +379,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var list1 = _service.ListarView (null, null, null, null, _colaboradorView.ColaboradorId).ToList();
                 var list2 = Mapper.Map<List<ColaboradoresCredenciaisView>> (list1.OrderByDescending (n => n.ColaboradorCredencialId));
                 EntityObserver = new ObservableCollection<ColaboradoresCredenciaisView>();
+                 
                 list2.ForEach (n => { EntityObserver.Add (n);  });
                 MensagemAlerta = "";
+                Entity = null;
+
             }
             catch (Exception ex)
             {
@@ -425,19 +430,24 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 var n1 = Mapper.Map<ColaboradorCredencial> (Entity);
                 //Alterar o status do titular do cartão
-                _service.AlterarStatusTitularCartao (new CredencialGenetecService (Main.Engine), Entity, n1);
+               _service.AlterarStatusTitularCartao (new CredencialGenetecService (Main.Engine), Entity, n1);
 
-                //Atualizar Dados
+                //===================================================
+                //Atualizar dados a serem exibidas na tela de empresa
                 if (Entity == null) return;
                 _service.CriarPendenciaImpeditiva (Entity);
                 var view = new ViewSingleton().EmpresaView;
                 var dados = view.DataContext as IAtualizarDados;
                 dados.AtualizarDadosPendencias();
+                //===================================================
 
                 //Atualizar observer
                 CollectionViewSource.GetDefaultView (EntityObserver).Refresh();
                 IsEnableLstView = true;
                 AtualizarMensagem(Entity);
+                //===================================================
+                Entity = null;
+
             }
             catch (Exception ex)
             {
@@ -552,17 +562,21 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 WpfHelp.PopupBox ("Selecione um item da lista", 1);
                 return;
             }
+
             Comportamento.PrepareAlterar();
             _prepareCriarCommandAcionado = false;
             _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;
             IsEnableLstView = false;
-            Habilitar = false;
+            //Habilitar controles somente se a credencial não estiver sido impressa
+             Habilitar = !Entity.Impressa;
         }
+
 
         private void PrepareSalvar()
         {
             if (Validar()) return;
             Comportamento.PrepareSalvar();
+           
         }
 
         /// <summary>
@@ -589,6 +603,15 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
 
             return Entity.HasErrors;
+        }
+
+        /// <summary>
+        ///     Carregar Caracteres Colete
+        /// </summary>
+        public void CarregarCaracteresColete(ColaboradorEmpresa colaboradorEmpresa)
+        {
+            if (Entity == null || colaboradorEmpresa == null || colaboradorEmpresa.EmpresaSigla == null) return;
+            Entity.Colete = (colaboradorEmpresa.EmpresaSigla.Trim().ToString() + Convert.ToString(_colaboradorView.ColaboradorId)); 
         }
 
         #endregion

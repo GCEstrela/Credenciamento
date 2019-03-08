@@ -256,7 +256,7 @@
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
-                                    Width="977">
+                                    Width="977"  Visibility="Collapsed">
                             <Label Content="Card Holder GUID" Height="28" Width="113" Margin="1" Foreground="#FFD0D0D0" />
                             <TextBlock Text="{Binding Entity.CardHolderGuid}" VerticalAlignment="Center" Width="357" />
                             <Label Content="Credential Holder GUID" Height="28" Width="106" Margin="1"
@@ -279,14 +279,12 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="990" Height="230">
 
-                <ListView x:Name="ListaVeiculosCredenciais_lv"
-                          Margin="0,10,0,0"
+                <ListView x:Name="ListaVeiculosCredenciais_lv" HorizontalAlignment="Stretch"
                           Width="947"
                           IsEnabled="{Binding IsEnableLstView}"
                           SelectedIndex="{Binding SelectListViewIndex}"
-                          HorizontalAlignment="Stretch" 
                           ItemsSource="{Binding EntityObserver, Mode=TwoWay}"
-                          SelectedItem="{Binding Entity, Mode=TwoWay}" Height="155" VerticalAlignment="Top">
+                          SelectedItem="{Binding Entity, Mode=TwoWay}" Height="175"  VerticalAlignment="Top" >
                     <ListView.View>
                         <GridView>
                             <!--<GridViewColumn >
@@ -370,7 +368,7 @@
                         </GridView>
                     </ListView.View>
                 </ListView>
-                <StackPanel Orientation="Vertical" Margin="5,10,0,10" HorizontalAlignment="Right" Width="47">
+                <StackPanel Orientation="Vertical" Margin="10,0" Width="30" HorizontalAlignment="Right" Height="172" VerticalAlignment="Top" >
                     <Button x:Name="btnAdicionar" Content="{StaticResource imgAdd}" ToolTip="Adicionar" Width="25"
                             Margin="0,0,0,7"
                             IsEnabled="{Binding Comportamento.IsEnableCriar}" Command="{Binding PrepareCriarCommand}" />
@@ -391,7 +389,7 @@
                             Command="{Binding PrepareCancelarCommand}" />
 
                     <Button x:Name="btnSalvar" Content="{StaticResource imgSave}" ToolTip="Salvar" Width="25"
-                            Margin="4,0,3,7"
+                            Margin="0,0,0,7"
                             IsEnabled="{Binding Comportamento.isEnableSalvar}" Command="{Binding PrepareSalvarCommand}" />
                 </StackPanel>
             </StackPanel>

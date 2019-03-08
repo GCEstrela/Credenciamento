@@ -103,7 +103,7 @@
                           SelectedIndex="{Binding SelectListViewIndex}"
                           ItemsSource="{Binding EntityObserver, Mode=TwoWay}"
                           SelectedItem="{Binding Entity, Mode=TwoWay}"
-                          Width="757" Margin="0,15,0,10">
+                          Width="757" Margin="0,15,0,0" Height="175" VerticalAlignment="Top">
                     <ListView.View>
                         <GridView FrameworkElement.FlowDirection="RightToLeft">
                             <GridViewColumn Width="80" Header="Controlada"  >

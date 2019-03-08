@@ -171,9 +171,16 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 Comportamento.IsEnableEditar = Entity != null;
                 IsEnableTabItem = Entity != null;
             }
+            //===================================
+            //Autor:Valnei Filho
+            //Data:08/03/19
+            //A listView principal deve estar desabilitada ao navegar por entre as abas
             if (e.PropertyName == "SelectedTabIndex")
-                //Habilita botoes principais...
+            {
+                //Habilita/Desabilita botoes principais...
                 HabilitaCommandPincipal = SelectedTabIndex == 0;
+                IsEnableLstView = SelectedTabIndex == 0;
+            }
         }
 
         /// <summary>

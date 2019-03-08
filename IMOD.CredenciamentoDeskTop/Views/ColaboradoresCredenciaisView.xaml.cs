@@ -55,28 +55,14 @@ namespace IMOD.CredenciamentoDeskTop.Views
             if (_viewModel.ColaboradorEmpresa == null) return;
             _viewModel.ListarCracha (_viewModel.ColaboradorEmpresa.EmpresaId);
             _viewModel.ObterValidade();
-
+            _viewModel.CarregarCaracteresColete(_viewModel.ColaboradorEmpresa);
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             cmbEmpresaVinculo.SelectionChanged += EmpresaVinculo_cb_SelectionChanged;
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+         
 
         private void NumberOnly(object sender, TextCompositionEventArgs e)
         {
@@ -93,6 +79,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 var str = txtDtValidade.Text;
                 if (string.IsNullOrWhiteSpace(str)) return;
                 txtDtValidade.Text = str.FormatarData();
+                //_viewModel.Entity.Validade = Convert.ToDateTime (str.FormatarData());
             }
             catch (Exception)
             {
@@ -103,5 +90,11 @@ namespace IMOD.CredenciamentoDeskTop.Views
         }
 
         #endregion
+
+        private void OnAlterarStatus_SelectonChanged(object sender, SelectionChangedEventArgs e)
+        {
+            
+            btnImprimirCredencial.IsEnabled = _viewModel.HabilitaImpressao;
+        }
     }
 }
