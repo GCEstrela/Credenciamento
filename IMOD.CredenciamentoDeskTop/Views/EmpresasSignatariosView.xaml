@@ -58,22 +58,54 @@
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                     Margin="1">
+                            <Label Content="RG:" Height="28" Width="57" Margin="1" Foreground="#FFD0D0D0" />
+                            <TextBox x:Name="RG_tb" MaxLength="100" CharacterCasing="Upper"                                     
+                                     Text="{Binding Entity.Nome, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Comportamento.isEnableCancelar}"
+                                     Height="24" Width="191" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
+                            <Label Content="Órgão expedidor:" Height="28" Width="104" HorizontalContentAlignment="Right"
+                                   Foreground="#FFD0D0D0" />
+                            <TextBox x:Name="OrgaoExp_tb" MaxLength="15" CharacterCasing="Upper"
+                                     Text="{Binding Entity.Cpf, UpdateSourceTrigger=PropertyChanged}" LostFocus="OnFormatCpf_LostFocus" IsEnabled="{Binding Comportamento.isEnableCancelar}"
+                                     Height="24" Width="74" Foreground="White"
+                                     VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
+                                     Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
+                            <Label Content="UF:" Height="28" Width="30" Margin="1" Foreground="#FFD0D0D0"
+                                       HorizontalContentAlignment="Left" />
+
+                            <ComboBox x:Name="cmbEstado" Margin="0,4,0,3" Height="25"
+                                          ItemsSource="{Binding Estados}" DisplayMemberPath="Uf"
+                                          SelectedValue="{Binding Entity.EstadoId,  UpdateSourceTrigger=PropertyChanged}"
+                                          SelectedValuePath="EstadoId"
+                                          IsSynchronizedWithCurrentItem="True"
+                                          SelectedIndex="0"
+                                          SelectedItem="{Binding Estado}"
+                                          Width="53" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
+                                    Margin="1">
                             <Label Content="E-Mail:" Height="28" Width="57" Margin="1" Foreground="#FFD0D0D0" />
                             <TextBox x:Name="Email_tb" MaxLength="50" CharacterCasing="Lower"
                                      Text="{Binding Entity.Email, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Comportamento.isEnableCancelar}"
                                      Height="24" Width="292" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
-
+                            <Label Content="Telefone:" Height="28" Width="57" Margin="1" Foreground="#FFD0D0D0" />
+                            <TextBox Foreground="#FFD0D0D0" x:Name="Telefone_tb" MaxLength="15" CharacterCasing="Upper"
+                                     Text="{Binding Entity.Telefone,Converter={ StaticResource FormateTel}, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="{Binding Comportamento.isEnableCancelar}"
+                                     HorizontalContentAlignment="Center" Height="24" Width="100" />
+                            <Label Content="Celular:" Height="28" Width="73" Foreground="#FFD0D0D0" HorizontalContentAlignment="Left" />
+                            <TextBox Foreground="#FFD0D0D0" x:Name="Celular_tb" MaxLength="15" CharacterCasing="Upper"
+                                     Text="{Binding Entity.Celular,Converter={ StaticResource FormateTel}, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="{Binding Comportamento.isEnableCancelar}"
+                                     Height="24" HorizontalContentAlignment="Center" Width="100" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                     Margin="1">
-                            <Label Content="Telefone:" Height="28" Width="57" Margin="1" Foreground="#FFD0D0D0" />
+                            <!--<Label Content="Telefone:" Height="28" Width="57" Margin="1" Foreground="#FFD0D0D0" />
                             <TextBox Foreground="#FFD0D0D0" x:Name="Telefone_tb" MaxLength="15" CharacterCasing="Upper"
                                      Text="{Binding Entity.Telefone,Converter={ StaticResource FormateTel}, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="{Binding Comportamento.isEnableCancelar}"
                                      HorizontalContentAlignment="Center" Height="24" Width="100" />
                             <Label Content="Celular:" Height="28" Width="92" Foreground="#FFD0D0D0" HorizontalContentAlignment="Left" />
                             <TextBox Foreground="#FFD0D0D0" x:Name="Celular_tb" MaxLength="15" CharacterCasing="Upper"
                                      Text="{Binding Entity.Celular,Converter={ StaticResource FormateTel}, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="{Binding Comportamento.isEnableCancelar}"
-                                     Height="24" HorizontalContentAlignment="Center" Width="100" />
+                                     Height="24" HorizontalContentAlignment="Center" Width="100" />-->
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="1">
@@ -82,16 +114,26 @@
                                       IsChecked="{Binding Entity.Principal, UpdateSourceTrigger=PropertyChanged}" 
                                       IsEnabled="{Binding Comportamento.isEnableCancelar}" 
                                       Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
+                            <Label Content="Tipo:" Height="28" Width="39" Margin="1" Foreground="#FFD0D0D0"
+                                       HorizontalContentAlignment="Left" />
 
+                            <ComboBox x:Name="cmbTipo" Margin="0,4,0,3" Height="25"
+                                          ItemsSource="{Binding Estados}" DisplayMemberPath="Uf"
+                                          SelectedValue="{Binding Entity.EstadoId,  UpdateSourceTrigger=PropertyChanged}"
+                                          SelectedValuePath="EstadoId"
+                                          IsSynchronizedWithCurrentItem="True"
+                                          SelectedIndex="0"
+                                          SelectedItem="{Binding Estado}"
+                                          Width="139" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
                             <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Width="600">
-                                <Label Content="Ficha Cadastral:" Height="28" Width="103" Margin="0,0,5,0"
+                                <Label Content="Ficha Cadastral:" Height="28" Width="92" Margin="0,0,5,0"
                                        HorizontalContentAlignment="Left" Foreground="#FFD0D0D0" />
 
                                 <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center"
                                             Orientation="Horizontal" Margin="0,10">
                                     <TextBox x:Name="NomeArquivo" Text="{Binding Entity.NomeArquivo, UpdateSourceTrigger=PropertyChanged}"
                                              Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
-                                             IsEnabled="False" Height="24" Width="403"></TextBox>
+                                             IsEnabled="False" Height="24" Width="234"></TextBox>
                                     <Button x:Name="BuscarArquivo_bt" Height="24" Margin="30,0,0,0"
                                             IsEnabled="{Binding Comportamento.isEnableCancelar}"
                                             VerticalAlignment="Center" Width="24" Click="OnUpLoad_Click" 

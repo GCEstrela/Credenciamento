@@ -60,7 +60,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private bool _prepareCriarCommandAcionado;
 
-        #region  Propriedades
+        public int _empresaSelecionadaId;
+
+
+        #region  Propriedades 
 
         /// <summary>
         ///     Habilitar Controles
@@ -559,6 +562,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 WpfHelp.PopupBox ("Selecione um item da lista", 1);
                 return;
             }
+
             Comportamento.PrepareAlterar();
             _prepareCriarCommandAcionado = false;
             _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;
@@ -599,6 +603,15 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
 
             return Entity.HasErrors;
+        }
+
+        /// <summary>
+        ///     Carregar Caracteres Colete
+        /// </summary>
+        public void CarregarCaracteresColete(ColaboradorEmpresa colaboradorEmpresa)
+        {
+            if (Entity == null || colaboradorEmpresa == null || colaboradorEmpresa.EmpresaSigla == null) return;
+            Entity.Colete = (colaboradorEmpresa.EmpresaSigla.Trim().ToString() + Convert.ToString(_colaboradorView.ColaboradorId)); 
         }
 
         #endregion

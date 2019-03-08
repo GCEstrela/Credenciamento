@@ -46,7 +46,7 @@
                             <Label Content="Vínculo:" Height="28" Width="55" Foreground="#FFD0D0D0" />
 
                             <ComboBox x:Name="cmbEmpresaVinculo" 
-                                      Width="413"
+                                      Width="413" 
                                       Margin="0,4,0,3" 
                                       Height="25"
                                       VerticalContentAlignment="Center" 
@@ -155,20 +155,11 @@
                                       />
 
                             <Label Content="Colete:" Height="28" Width="50" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" RenderTransformOrigin="0.5,0.5" >
-                                <Label.RenderTransform>
-                                    <TransformGroup>
-                                        <ScaleTransform/>
-                                        <SkewTransform AngleY="-0.374"/>
-                                        <RotateTransform/>
-                                        <TranslateTransform Y="-0.16"/>
-                                    </TransformGroup>
-                                </Label.RenderTransform>
                             </Label>
-                            <TextBox  x:Name="NumeroColete_tb"  MaxLength="4"  CharacterCasing="Upper" 
-                                       IsEnabled="{Binding Habilitar}"
-                                      Text="{Binding Entity.Colete,  UpdateSourceTrigger=PropertyChanged}"  Height="24"  Width="45"/>
+                            <TextBox  x:Name="NumeroColete_tb"  MaxLength="15"  CharacterCasing="Upper" 
+                                       IsEnabled="False" Text="{Binding Entity.Colete,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Height="24"  Width="75"/>
 
-                            <Label Content="Autenticação:" Height="28" Width="139"   HorizontalContentAlignment="Right"
+                            <Label Content="Autenticação:" Height="28" Width="109"   HorizontalContentAlignment="Right"
                                    Foreground="#FFD0D0D0" />
 
                             <ComboBox x:Name="TecnologiaCredencial_cb"
@@ -374,8 +365,8 @@
                             </GridViewColumn>
                             <GridViewColumn Width="90" Header="Impressão">
                                 <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <CheckBox IsChecked="{Binding Path= Impressa}" IsHitTestVisible="False" Background="{Binding   Impressa,  Converter={StaticResource CheckImpressao}, ConverterParameter='Impressa_tw'}" />
+                                    <DataTemplate >
+                                        <CheckBox HorizontalAlignment="Center" IsChecked="{Binding Path= Impressa}" IsHitTestVisible="False" Background="{Binding   Impressa,  Converter={StaticResource CheckImpressao}, ConverterParameter='Impressa_tw'}" />
                                     </DataTemplate> 
                                 </GridViewColumn.CellTemplate> 
                             </GridViewColumn>

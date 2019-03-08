@@ -29,7 +29,8 @@ namespace IMOD.Domain.EntitiesCustom
         public string CardHolderGuid { get; set; }
         public int ColaboradorPrivilegio1Id { get; set; }
         public int ColaboradorPrivilegio2Id { get; set; }
-        public string Colete { get; set; }
+        private string _colete;
+        public string Colete { get { return _colete = ColaboradorId > 0 ? EmpresaSigla.Trim().ToString() + Convert.ToString(ColaboradorId) : _colete; } set { _colete = value; } }
         [Range(1, int.MaxValue, ErrorMessage = "A motivação é requerida.")]
         public int CredencialMotivoId { get; set; }
         public bool Impressa { get; set; }

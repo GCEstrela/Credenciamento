@@ -145,7 +145,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public EmpresaViewModel()
         {
             ItensDePesquisaConfigura();
-            //ListarDadosAuxiliares();
+            ListarDadosAuxiliares();
             Comportamento = new ComportamentoBasico (false, true, true, false, false);
             EntityObserver = new ObservableCollection<EmpresaView>();
             TiposAtividades = new ObservableCollection<EmpresaTipoAtividadeView>();
@@ -451,7 +451,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                ListarDadosAuxiliares();
+                //ListarDadosAuxiliares();
                 var pesquisa = NomePesquisa;
                 var num = PesquisarPor;
 
