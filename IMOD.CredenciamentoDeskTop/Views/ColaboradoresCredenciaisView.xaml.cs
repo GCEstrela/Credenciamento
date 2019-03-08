@@ -55,7 +55,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
             if (_viewModel.ColaboradorEmpresa == null) return;
             _viewModel.ListarCracha (_viewModel.ColaboradorEmpresa.EmpresaId);
             _viewModel.ObterValidade();
-
+            _viewModel.CarregarCaracteresColete(_viewModel.ColaboradorEmpresa);
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
