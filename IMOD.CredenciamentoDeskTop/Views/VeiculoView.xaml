@@ -383,7 +383,7 @@
                     </GroupBox>
 
                     <GroupBox Background="Aquamarine" Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}"
-                              Header="Características " HorizontalAlignment="Left" Width="614" Margin="2,231,-15,105">
+                              Header="Características " HorizontalAlignment="Left" Width="614" Margin="2,231,-15,87">
 
                         <StackPanel Orientation="Horizontal" Height="140" VerticalAlignment="Top">
                             <StackPanel Width="469" Margin="0,0,0,10">
