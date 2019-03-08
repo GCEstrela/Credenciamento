@@ -207,7 +207,7 @@
 
         </StackPanel>
 
-        <TabControl SelectedIndex="{Binding SelectedTabIndex, UpdateSourceTrigger=PropertyChanged }" Margin="1,1,-259,-281" Grid.Row="3">
+        <TabControl SelectedIndex="{Binding SelectedTabIndex, UpdateSourceTrigger=PropertyChanged }" Margin="1,1,-259,-275" Grid.Row="3">
 
             <TabItem x:Name="Geral_ti" Background="{x:Null}" Margin="0,-2,0,0">
 
@@ -383,7 +383,7 @@
                     </GroupBox>
 
                     <GroupBox Background="Aquamarine" Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}"
-                              Header="Características " HorizontalAlignment="Left" Width="614" Margin="2,231,-15,135">
+                              Header="Características " HorizontalAlignment="Left" Width="614" Margin="2,231,-15,105">
 
                         <StackPanel Orientation="Horizontal" Height="140" VerticalAlignment="Top">
                             <StackPanel Width="469" Margin="0,0,0,10">
