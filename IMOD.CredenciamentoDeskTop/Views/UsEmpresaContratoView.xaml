@@ -114,8 +114,8 @@
                             MaxLength="10"
                             Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
                             Height="24"  Width="110" />
-                        
-                        
+
+
                         <Label Content="Data de Validade:" Height="26" Width="102" Margin="15,3,0,0"
                                Foreground="#FFD0D0D0" />
                         <!--<DatePicker Margin="0,3,0,0" x:Name="Validade_tb" VerticalContentAlignment="Center"
@@ -284,7 +284,7 @@
                       ItemsSource="{Binding EntityObserver, Mode=TwoWay}"
                       SelectedItem="{Binding Entity, Mode=TwoWay}"
                       SelectedIndex="{Binding SelectListViewIndex}"
-                      Width="1054"  Margin="1,0">
+                      Width="1054"  Height="175" VerticalAlignment="Top">
 
                 <ListView.View>
                     <GridView FrameworkElement.FlowDirection="RightToLeft">
@@ -300,7 +300,7 @@
                     </GridView>
                 </ListView.View>
             </ListView>
-            <StackPanel Orientation="Vertical" HorizontalAlignment="Right" Width="40" Height="167" VerticalAlignment="Top" Margin="0,14,0,0">
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Right" Width="30" Margin="10,0" Height="175" VerticalAlignment="Top">
 
                 <!--<Button x:Name="btnPesquisar" Content="Pesquisar" ToolTip="Pesquisar"  Height="30" Width="148"  Click="Pesquisar_bt_Click" Margin="0,0,0,7" />-->
                 <Button x:Name="btnAdicionar"   Content="{StaticResource imgAdd}"       ToolTip="Adicionar" IsEnabled="{Binding Comportamento.IsEnableCriar}"       Command="{Binding PrepareCriarCommand}"      Width="25" Margin="0,0,0,7" />

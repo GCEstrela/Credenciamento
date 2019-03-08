@@ -96,47 +96,38 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <summary>
         ///     Mensagem de alerta
         /// </summary>
-        public string MensagemAlerta { get; private set; }
+        public string MensagemAlerta { get; private set; } 
 
-        private bool _habilitarImpresao;
         /// <summary>
         ///     Habilitar impressao de credencial com base no status da credencial
         ///     e condição de pendencia impeditiva
         /// </summary>
-        public bool HabilitaImpressao
-        {
-            get
-            {
-                var entity = Entity;
-                if (entity == null) return false;
-                var habilita = entity.Ativa & !entity.PendenciaImpeditiva & !entity.Impressa;
-
-                if (_habilitarImpresao)
-                {
-                    MensagemAlerta = "";
-                }
-                else
-                {
-                    AtualizarMensagem(entity);
-                }
-
-                return _habilitarImpresao;
-            }
-
-            
-           
-        }
-
+        public bool HabilitaImpressao { get; set; } 
         private void AtualizarMensagem(ColaboradoresCredenciaisView entity)
         {
-          
+            MensagemAlerta = string.Empty;
+            if (entity == null) return;
+
+            #region Habilitar botão de impressao e mensagem ao usuario
+            //================================================================================
+            //Autor: Valnei Filho
+            //Data:08/03/19
+            //Wrk:O botão imprimir credencial habilitado apenas para registros, não impresso e ativo, desabilitado caso contrário
+            HabilitaImpressao = entity.Ativa & !entity.PendenciaImpeditiva & !entity.Impressa;
             //Verificar se a empresa esta impedida
-            var n1 = _service.BuscarCredencialPelaChave (entity.ColaboradorCredencialId);
+            var n1 = _service.BuscarCredencialPelaChave(entity.ColaboradorCredencialId);
             var mensagem1 = !n1.Ativa ? "Credencial Inativa" : string.Empty;
             var mensagem2 = n1.PendenciaImpeditiva ? "Pendência Impeditiva (consultar dados da empresa na aba Geral)" : string.Empty;
-           
-            if(!string.IsNullOrWhiteSpace (mensagem1) | !string.IsNullOrWhiteSpace(mensagem2))
-            MensagemAlerta = $"A empresa está impedida de imprimir credencial pelo seguinte motivo: {mensagem1} {mensagem2}";
+            var mensagem3 = n1.Impressa ? "Não é possível imprimir pois a credencial já foi impressa" : string.Empty;
+            //Exibir mensagem de impressao de credencial, esta tem prioridade sobre as demais regras
+            MensagemAlerta = $"{mensagem3}";
+            if (n1.Impressa) return;
+
+            if (!string.IsNullOrWhiteSpace(mensagem1) | !string.IsNullOrWhiteSpace(mensagem2))
+                MensagemAlerta = $"A empresa está impedida de imprimir credencial pelo seguinte motivo: {mensagem1} {mensagem2}";
+            //================================================================================
+            #endregion
+
         }
 
         public ObservableCollection<ColaboradoresCredenciaisView> EntityObserver { get; set; }
@@ -255,8 +246,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             if (e.PropertyName == "Entity")
             {
                 Comportamento.IsEnableEditar = Entity != null;
-                Comportamento.isEnableRemover = Entity != null;
-                _habilitarImpresao = !Entity?.Ativa ?? false;
+                Comportamento.isEnableRemover = Entity != null; 
+                AtualizarMensagem (Entity);
             }
         }
 
@@ -436,7 +427,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 var n1 = Mapper.Map<ColaboradorCredencial> (Entity);
                 //Alterar o status do titular do cartão
-                _service.AlterarStatusTitularCartao (new CredencialGenetecService (Main.Engine), Entity, n1);
+               _service.AlterarStatusTitularCartao (new CredencialGenetecService (Main.Engine), Entity, n1);
 
                 //===================================================
                 //Atualizar dados a serem exibidas na tela de empresa

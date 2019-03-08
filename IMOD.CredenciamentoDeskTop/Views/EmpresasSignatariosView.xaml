@@ -121,7 +121,7 @@
                           HorizontalAlignment="Stretch" 
                           ItemsSource="{Binding EntityObserver, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                           SelectedItem="{Binding Entity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"                           
-                          Width="749" Margin="0,15,0,60">
+                          Width="749" Margin="0,23,0,0" Height="175" VerticalAlignment="Top">
                     <!--ScrollViewer.CanContentScroll="True" MaxHeight="150"  Visibility="Visible" SelectionMode="Single"  Background="#FF4E4E4E" Foreground="White" HorizontalAlignment="Left" SelectionChanged="ListaEmpresas_lv_SelectionChanged"-->
                     <ListView.View>
                         <GridView FrameworkElement.FlowDirection="RightToLeft">
@@ -163,7 +163,7 @@
                         </GridView>
                     </ListView.View>
                 </ListView>
-                <StackPanel Orientation="Vertical" Margin="0,0,0,69" HorizontalAlignment="Right" Width="40" Height="167" VerticalAlignment="Bottom">
+                <StackPanel Orientation="Vertical" Width="30" Margin="10,23,10,0" HorizontalAlignment="Right"   Height="226" VerticalAlignment="Top">
 
                     <Button x:Name="btnAdicionar"   Content="{StaticResource imgAdd}"       ToolTip="Adicionar" IsEnabled="{Binding Comportamento.IsEnableCriar}"       Command="{Binding PrepareCriarCommand}"      Width="25" Margin="0,0,0,7" />
                     <Button x:Name="btnEditar"      Content="{StaticResource imgEdit}"      ToolTip="Editar"    IsEnabled="{Binding Comportamento.IsEnableEditar}"      Command="{Binding PrepareAlterarCommand}"    Width="25" Margin="0,0,0,7" />

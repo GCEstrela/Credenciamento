@@ -167,7 +167,7 @@
         </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="35" />
-            <RowDefinition Height="184" />
+            <RowDefinition Height="184"/>
             <RowDefinition Height="30" />
             <RowDefinition Height="241" />
         </Grid.RowDefinitions>
@@ -194,11 +194,12 @@
         <StackPanel x:Name="ListaColaboradores_sp" Grid.Column="0" Grid.Row="1" Orientation="Horizontal"
                     Margin="0,0,-259,0" Height="184" VerticalAlignment="Top">
             <ListView x:Name="lstView"
+                    
                       IsEnabled="{Binding IsEnableLstView}"
                       ItemsSource="{Binding EntityObserver, Mode=TwoWay}"
                       SelectedItem="{Binding Entity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                       Margin="0,0,5,0" Width="1258">
-                <ListView.View>
+                <ListView.View  >
                     <GridView FrameworkElement.FlowDirection="RightToLeft">
                         <!--<GridViewColumn >
                             <GridViewColumn.CellTemplate>
