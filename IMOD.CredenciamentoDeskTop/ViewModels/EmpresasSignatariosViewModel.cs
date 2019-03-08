@@ -30,6 +30,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 {
     public class EmpresasSignatariosViewModel : ViewModelBase, IComportamento
     {
+        private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
         private readonly IEmpresaSignatarioService _service = new EmpresaSignatarioService();
         private EmpresaView _empresaView;
         private EmpresaViewModel _viewModelParent;
@@ -48,11 +49,19 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         ///     Habilita listView
         /// </summary>
         public bool IsEnableLstView { get; private set; } = true;
-
+        /// <summary>
+        ///     Tipo Representante
+        /// </summary>
+        public List<TipoRepresentanteView> ListaRepresentante { get; set; }
+        /// <summary>
+        ///     Lista de estados
+        /// </summary>
+        public List<Estados> Estados { get; private set; }
         #endregion
 
         public EmpresasSignatariosViewModel()
         {
+            ListarDadosAuxiliares();
             ItensDePesquisaConfigura();
             Comportamento = new ComportamentoBasico(false, true, true, false, false);
             EntityObserver = new ObservableCollection<EmpresaSignatarioView>();
@@ -96,8 +105,18 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             var list2 = Mapper.Map<List<EmpresaSignatarioView>>(list1.OrderByDescending(n => n.EmpresaSignatarioId));
             EntityObserver = new ObservableCollection<EmpresaSignatarioView>();
             list2.ForEach(n => { EntityObserver.Add(n); });
+            
         }
+        public void ListarDadosAuxiliares()
+        {
+            var lst1 = _auxiliaresService.TipoRepresentanteService.Listar();
+            ListaRepresentante = Mapper.Map<List<TipoRepresentanteView>>(lst1);
 
+            //var lst2 = _auxiliaresService.EstadoService.Listar();
+            //Estados = new List<Estados>();
+            //Estados.AddRange(lst2);
+
+        }
         /// <summary>
         ///     Relação dos itens de pesauisa
         /// </summary>

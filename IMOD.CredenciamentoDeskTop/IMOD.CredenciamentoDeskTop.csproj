@@ -168,6 +168,7 @@
     <Compile Include="Views\Model\TipoAtividadeView.cs" />
     <Compile Include="Views\Model\TipoCobrancaView.cs" />
     <Compile Include="Views\Model\TipoCombustivelView.cs" />
+    <Compile Include="Views\Model\TipoRepresentanteView.cs" />
     <Compile Include="Views\Model\TipoServicoView.cs" />
     <Compile Include="Views\Model\TipoVeiculoView.cs" />
     <Compile Include="Views\Model\VeiculoAnexoView.cs" />

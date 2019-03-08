@@ -81,6 +81,7 @@
     <Compile Include="Interfaces\ITipoCredencialService.cs" />
     <Compile Include="Interfaces\ITipoEquipamentoService.cs" />
     <Compile Include="Interfaces\ITipoPendenciaService.cs" />
+    <Compile Include="Interfaces\ITipoRepresentanteService.cs" />
     <Compile Include="Interfaces\ITiposAcessoService.cs" />
     <Compile Include="Interfaces\ITipoServicoService.cs" />
     <Compile Include="Interfaces\IVeiculoAnexoService.cs" />
@@ -128,6 +129,7 @@
     <Compile Include="Service\TipoCredencialService.cs" />
     <Compile Include="Service\TipoEquipamentoService.cs" />
     <Compile Include="Service\TipoPendenciaService.cs" />
+    <Compile Include="Service\TipoRepresentanteService.cs" />
     <Compile Include="Service\TipoServicoService.cs" />
     <Compile Include="Service\VeiculoAnexoService.cs" />
     <Compile Include="Service\VeiculoCredencialimpressaoService.cs" />

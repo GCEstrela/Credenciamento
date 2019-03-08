@@ -133,7 +133,10 @@ namespace IMOD.Application.Interfaces
         ///     Tipos Serviços
         /// </summary>
         ITipoServicoService TipoServicoService { get; }
-
+        /// <summary>
+        ///     Tipos Representante
+        /// </summary>
+        ITipoRepresentanteService TipoRepresentanteService { get; }
         #endregion
     }
 }

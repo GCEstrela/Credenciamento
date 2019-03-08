@@ -28,6 +28,10 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public string Assinatura { get; set; }
         [Required(ErrorMessage = "O Nome do Arquivo é requerido.")]
         public string NomeArquivo { get; set; }
+        public string RG { get; set; }
+        public string OrgaoExp { get; set; }
+        public string RGUF { get; set; }
+        public string TipoRepresentanteId { get; set; }
         #endregion
     }
 }

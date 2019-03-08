@@ -70,6 +70,7 @@ namespace IMOD.CredenciamentoDeskTop.Mapeamento
                     m.CreateMap<AreaAcesso, AreaAcessoView>().ReverseMap();
                     m.CreateMap<LayoutCracha, LayoutCrachaView>().ReverseMap();
                     m.CreateMap<TipoAcesso, TipoAcessoView>().ReverseMap();
+                    m.CreateMap<TipoRepresentante, TipoRepresentanteView>().ReverseMap();
                 });
         }
 

@@ -133,7 +133,7 @@
                                       HorizontalContentAlignment="Left"
                                       ItemsSource="{Binding TipoCredencial, Mode=TwoWay}" 
                                       DisplayMemberPath="Descricao"
-                                       Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
+                                      Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
                                       SelectedValue="{Binding Entity.TipoCredencialId,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                                       SelectedValuePath="TipoCredencialId" IsSynchronizedWithCurrentItem="True" />
 

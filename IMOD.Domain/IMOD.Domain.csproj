@@ -97,6 +97,7 @@
     <Compile Include="Entities\TipoEquipamento.cs" />
     <Compile Include="Entities\TipoEstadoCivil.cs" />
     <Compile Include="Entities\TipoPendencia.cs" />
+    <Compile Include="Entities\TipoRepresentante.cs" />
     <Compile Include="Entities\TipoServico.cs" />
     <Compile Include="Entities\VeiculoEquipTipoServico.cs" />
     <Compile Include="Entities\Veiculo.cs" />
@@ -147,6 +148,7 @@
     <Compile Include="Interfaces\ITipoEquipamentoRepositorio.cs" />
     <Compile Include="Interfaces\ITipoEquipamentoVeiculoRepositorio.cs" />
     <Compile Include="Interfaces\ITipoPendenciaRepositorio.cs" />
+    <Compile Include="Interfaces\ITipoRepresentanteRepositorio.cs" />
     <Compile Include="Interfaces\ITipoServicoRepositorio.cs" />
     <Compile Include="Interfaces\IVeiculoAnexoRepositorio.cs" />
     <Compile Include="Interfaces\IVeiculoCredencialimpressaoRepositorio.cs" />

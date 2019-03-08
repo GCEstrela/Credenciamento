@@ -61,6 +61,10 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Principal", entity.Principal, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Assinatura", entity.Assinatura, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("NomeArquivo", entity.NomeArquivo, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("RG", entity.RG, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("OrgaoExp", entity.OrgaoExp, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("RGUF", entity.RGUF, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("TipoRepresentanteID", entity.TipoRepresentanteId, false)));
 
                         var key = Convert.ToInt32(cmd.ExecuteScalar());
 
@@ -163,6 +167,10 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Principal", entity.Principal, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Assinatura", entity.Assinatura, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("NomeArquivo", entity.NomeArquivo, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("RG", entity.RG, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("OrgaoExp", entity.OrgaoExp, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("RGUF", entity.RGUF, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("TipoRepresentanteID", entity.TipoRepresentanteId, false)));
 
                         cmd.ExecuteNonQuery();
                     }

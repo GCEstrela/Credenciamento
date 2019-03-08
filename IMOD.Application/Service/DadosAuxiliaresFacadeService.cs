@@ -184,7 +184,15 @@ namespace IMOD.Application.Service
         {
             get { return new TipoServicoService(); }
         }
+        /// <summary>
+        ///     Tipos Representante
+        /// </summary>
+        public ITipoRepresentanteService TipoRepresentanteService { get { return new TipoRepresentanteService(); } }
 
+        public ITipoRepresentanteRepositorio TipoRepresentante
+        {
+            get { return new TipoRepresentanteService(); }
+        }
         #endregion
     }
 }

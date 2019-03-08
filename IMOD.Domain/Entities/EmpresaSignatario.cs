@@ -20,6 +20,10 @@ namespace IMOD.Domain.Entities
         public bool Principal { get; set; }
         public string Assinatura { get; set; }
         public string NomeArquivo { get; set; }
+        public string RG { get; set; }
+        public string OrgaoExp { get; set; }
+        public string RGUF { get; set; }
+        public int TipoRepresentanteId { get; set; }
         #endregion
     }
 }
