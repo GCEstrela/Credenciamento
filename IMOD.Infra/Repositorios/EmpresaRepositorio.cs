@@ -285,7 +285,35 @@ namespace IMOD.Infra.Repositorios
                 }
             }
         }
+        /// <summary>
+        /// Buscar empresa por Sigla
+        /// </summary>
+        /// <param name="sigla"></param>
+        /// <returns></returns>
+        public Empresa BuscarEmpresaPorSigla(string sigla)
+        {
+            if (string.IsNullOrWhiteSpace(sigla)) return null;
+            using (var conn = _dataBase.CreateOpenConnection())
+            {
+                using (var cmd = _dataBase.SelectText("Empresas", conn))
 
+                {
+                    try
+                    {
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("Sigla", DbType.String, sigla).Igual()));
+                        var reader = cmd.ExecuteReader();
+                        var d1 = reader.MapToList<Empresa>();
+
+                        return d1.FirstOrDefault();
+                    }
+                    catch (Exception ex)
+                    {
+                        Utils.TraceException(ex);
+                        throw;
+                    }
+                }
+            }
+        }
         /// <summary>
         /// Listar Pendencias
         /// </summary>
@@ -313,8 +341,6 @@ namespace IMOD.Infra.Repositorios
                 }
             }
         }
-
-
         public ICollection<EmpresaTipoCredencialView> ListarTipoCredenciaisEmpresa(int empresaId = 0)
         {
             using (var conn = _dataBase.CreateOpenConnection())

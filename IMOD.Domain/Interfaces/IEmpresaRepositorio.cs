@@ -22,7 +22,12 @@ namespace IMOD.Domain.Interfaces
         /// <param name="cnpj"></param>
         /// <returns></returns>
         Empresa BuscarEmpresaPorCnpj(string cnpj);
-
+        /// <summary>
+        /// Buscar empresa por Sigla
+        /// </summary>
+        /// <param name="sigla"></param>
+        /// <returns></returns>
+        Empresa BuscarEmpresaPorSigla(string sigla);
         /// <summary>
         /// Listar Pendencias
         /// </summary>

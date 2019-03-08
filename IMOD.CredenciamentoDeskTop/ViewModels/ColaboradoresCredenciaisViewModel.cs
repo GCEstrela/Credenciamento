@@ -93,13 +93,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public List<AreaAcesso> ColaboradorPrivilegio { get; set; }
         public ColaboradoresCredenciaisView Entity { get; set; }
 
-
-        //public void AtualizarStatus()
-        //{
-        //    if (Entity == null) return ;
-        //    _habilitarImpresao = !Entity.Ativa;
-        //}
-
         /// <summary>
         ///     Mensagem de alerta
         /// </summary>
@@ -116,7 +109,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 var entity = Entity;
                 if (entity == null) return false;
-                _habilitarImpresao = entity.Ativa & !entity.PendenciaImpeditiva;
+                var habilita = entity.Ativa & !entity.PendenciaImpeditiva & !entity.Impressa;
 
                 if (_habilitarImpresao)
                 {

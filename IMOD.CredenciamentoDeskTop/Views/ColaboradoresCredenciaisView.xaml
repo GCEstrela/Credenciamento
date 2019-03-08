@@ -17,6 +17,7 @@
         <Image x:Key="imgCancel" Source="../Resources/undo.png"  />
         <funcoes:FormateTel x:Key="FormateTel" />
         <funcoes:CheckTeste x:Key="CheckTeste" />
+        <funcoes:CheckImpressao x:Key="CheckImpressao" />
         <funcoes:StringNullOrEmptyToVisibilityConverter x:Key="StringVisibility" />
         <ControlTemplate x:Key="ValidationErrorTemplate">
             <DockPanel>
@@ -370,6 +371,13 @@
                                         <TextBlock Text="{Binding Validade, StringFormat='dd/MM/yyyy'}" Foreground="{Binding Ativa,  Converter={StaticResource CheckTeste}, ConverterParameter='Ativa_tw'}"  TextAlignment="Center"/>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Width="90" Header="Impressão">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding Path= Impressa}" IsHitTestVisible="False" Background="{Binding   Impressa,  Converter={StaticResource CheckImpressao}, ConverterParameter='Impressa_tw'}" />
+                                    </DataTemplate> 
+                                </GridViewColumn.CellTemplate> 
                             </GridViewColumn>
                         </GridView>
                     </ListView.View>

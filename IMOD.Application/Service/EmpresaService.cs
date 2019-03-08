@@ -114,7 +114,17 @@ namespace IMOD.Application.Service
             var n1 = BuscarEmpresaPorCnpj (doc);
             return n1 != null;
         }
-
+        /// <summary>
+        ///     Verificar se existe Sigla cadastrado
+        /// </summary>
+        /// <param name="sigla"></param>
+        /// <returns></returns>
+        public bool ExisteSigla(string sigla)
+        {
+            
+            var n1 = BuscarEmpresaPorSigla(sigla);
+            return n1 != null;
+        }
         /// <summary>
         ///     Criar um empresa com contrato básico
         ///     <para>Um contrato básico será criada automaticamente</para>
@@ -215,7 +225,10 @@ namespace IMOD.Application.Service
         {
             return _repositorio.BuscarEmpresaPorCnpj (cnpj);
         }
-
+        public Empresa BuscarEmpresaPorSigla(string sigla)
+        {
+            return _repositorio.BuscarEmpresaPorSigla(sigla);
+        }
         /// <summary>
         ///     Listar Pendencias
         /// </summary>
