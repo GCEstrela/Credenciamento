@@ -263,7 +263,8 @@
                                        Foreground="#FFD0D0D0" HorizontalContentAlignment="Left" />
                                 <TextBox CharacterCasing="Upper" x:Name="Endereco_tb" MaxLength="100"
                                          Text="{Binding Entity.Endereco, UpdateSourceTrigger=PropertyChanged}"
-                                         IsEnabled="True" Height="24" Width="455" />
+                                         IsEnabled="True" Height="24" Width="455" 
+                                         Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                         Margin="1,1,0,1" Width="562">
@@ -277,7 +278,8 @@
                                 <TextBox CharacterCasing="Upper" x:Name="Cep_tb" MaxLength="10"
                                          PreviewTextInput="NumberOnly"
                                          Text="{Binding Entity.Cep,  UpdateSourceTrigger=PropertyChanged, Converter={StaticResource FormatCep}}"
-                                         IsEnabled="True" Height="24" Width="98" />
+                                         IsEnabled="True" Height="24" Width="98" 
+                                         Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
                                 <Label Content="Complemento:" Height="28" Width="89" Margin="0,0,5,0"
                                        Foreground="#FFD0D0D0" />
                                 <TextBox CharacterCasing="Upper" x:Name="Complemento_tb" MaxLength="50"
@@ -290,7 +292,8 @@
                                        HorizontalContentAlignment="Left" />
                                 <TextBox CharacterCasing="Upper" x:Name="Bairro_tb" MaxLength="50"
                                          Text="{Binding Entity.Bairro,   UpdateSourceTrigger=PropertyChanged}"
-                                         IsEnabled="True" Height="23" Width="152" Margin="1" />
+                                         IsEnabled="True" Height="23" Width="152" Margin="1" 
+                                         Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
                                 <Label Content="UF:" Height="28" Width="30" Margin="1" Foreground="#FFD0D0D0"
                                        HorizontalContentAlignment="Left" />
 
@@ -301,7 +304,7 @@
                                           IsSynchronizedWithCurrentItem="True"
                                           SelectedIndex="0"
                                           SelectedItem="{Binding Estado}"
-                                          Width="53" />
+                                          Width="53" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
 
                                 <Label Content="Cidade:" Height="28" Width="51" HorizontalContentAlignment="Left"
                                        Foreground="#FFD0D0D0" Margin="0,2,0,3" />
@@ -310,7 +313,7 @@
                                           SelectedValue="{Binding Entity.MunicipioId,  UpdateSourceTrigger=PropertyChanged}"
                                           SelectedValuePath="MunicipioId"
                                           SelectedIndex="0"
-                                          Margin="0,2,0,3" Width="167" />
+                                          Margin="0,2,0,3" Width="167" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
                             </StackPanel>
                         </StackPanel>
                     </GroupBox>
@@ -327,13 +330,15 @@
                                          Text="{Binding Entity.Contato1, UpdateSourceTrigger=PropertyChanged}"
                                          IsEnabled="True" Height="24" Width="250" />
                                 <Label Content="Telefone:" Height="28" Width="68" Margin="1" Foreground="#FFD0D0D0"
-                                       HorizontalContentAlignment="Left" />
+                                       HorizontalContentAlignment="Left" 
+                                       Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
                                 <TextBox Foreground="#FFD0D0D0"
                                          CharacterCasing="Upper"
                                          PreviewTextInput="NumberOnly"
                                          x:Name="Tel1_tb" MaxLength="15" Margin="1"
                                          Text="{Binding Entity.Telefone1, Converter={StaticResource FormateTel}, UpdateSourceTrigger=PropertyChanged}"
-                                         IsEnabled="True" Height="24" Width="98" HorizontalContentAlignment="Center" />
+                                         IsEnabled="True" Height="24" Width="98" HorizontalContentAlignment="Center" 
+                                         Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
 
                             </StackPanel>
 
@@ -343,7 +348,8 @@
                                        Foreground="#FFD0D0D0" HorizontalContentAlignment="Left" />
                                 <TextBox CharacterCasing="Lower" x:Name="Email1_tb" Margin="1" MaxLength="50"
                                          Text="{Binding Entity.Email1, UpdateSourceTrigger=PropertyChanged}"
-                                         IsEnabled="True" Height="24" Width="250" />
+                                         IsEnabled="True" Height="24" Width="250" 
+                                         Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
                                 <Label Content="Celular 1:" Height="28" Width="66" Margin="1" Foreground="#FFD0D0D0"
                                        HorizontalContentAlignment="Left" />
                                 <TextBox Foreground="#FFD0D0D0" PreviewTextInput="NumberOnly" CharacterCasing="Upper"
