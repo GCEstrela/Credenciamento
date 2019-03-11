@@ -459,7 +459,7 @@
                     </StackPanel>
                 </TabItem.Header>
 
-                <views:VeiculosSegurosView x:Name="EmpresaSeguroUs" Margin="5,5,240,15"/>
+                <views:VeiculosSegurosView x:Name="EmpresaSeguroUs" Margin="0,0,245,17" Height="474" VerticalAlignment="Bottom"/>
 
             </TabItem>
 
