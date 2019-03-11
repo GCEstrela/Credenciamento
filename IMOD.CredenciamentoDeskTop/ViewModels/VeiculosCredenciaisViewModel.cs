@@ -60,8 +60,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private readonly List<VeiculoEmpresa> _todosContratosEmpresas = new List<VeiculoEmpresa>();
 
         #region  Propriedades
-
-        public bool Habilitar { get; private set; } = true;
+        /// <summary>
+        ///     Habilitar Controles
+        /// </summary>
+        public bool Habilitar { get; set; }
         /// <summary>
         ///     Mensagem de alerta
         /// </summary>
@@ -115,7 +117,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             ItensDePesquisaConfigura();
             ListarDadosAuxiliares();
-            Comportamento = new ComportamentoBasico (false, true, true, false, false);
+            Comportamento = new ComportamentoBasico(false, true, false, false, false);
             EntityObserver = new ObservableCollection<VeiculosCredenciaisView>();
             Comportamento.SalvarAdicao += OnSalvarAdicao;
             Comportamento.SalvarEdicao += OnSalvarEdicao;
@@ -212,8 +214,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             Comportamento.PrepareAlterar();
             _prepareCriarCommandAcionado = false;
             _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;
-            IsEnableLstView = false;
-            Habilitar = false; 
+            IsEnableLstView = false; 
+            //Habilitar controles somente se a credencial não estiver sido impressa
+            Habilitar = !Entity.Impressa;
         }
 
         /// <summary>

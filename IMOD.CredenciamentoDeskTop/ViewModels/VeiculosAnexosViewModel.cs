@@ -54,7 +54,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         public VeiculosAnexosViewModel()
         {
-            Comportamento = new ComportamentoBasico (false, true, true, false, false);
+            Comportamento = new ComportamentoBasico(false, true, false, false, false);
             EntityObserver = new ObservableCollection<VeiculoAnexoView>();
             Comportamento.SalvarAdicao += OnSalvarAdicao;
             Comportamento.SalvarEdicao += OnSalvarEdicao;
