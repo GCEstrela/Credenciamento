@@ -45,8 +45,7 @@
                                HorizontalContentAlignment="Left" Foreground="#FFD0D0D0" />
                         <TextBox x:Name="DescricaoArquivo_tb" MaxLength="100" CharacterCasing="Upper" Height="24" Width="406"
                                  Text="{Binding Entity.Descricao, UpdateSourceTrigger=PropertyChanged}"
-                                 IsEnabled="{Binding Comportamento.isEnableCancelar}"
-                                 Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
+                                 IsEnabled="{Binding Comportamento.isEnableCancelar}"/>
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
@@ -54,7 +53,7 @@
                         <Label Content="Nome do Arquivo:" Height="28" Width="114" Margin="1" HorizontalContentAlignment="Left" Foreground="#FFD0D0D0" />
                         <TextBox x:Name="txtNomeAnexo" MaxLength="100" CharacterCasing="Upper" Height="24" Width="499"  
                                  Text="{Binding Entity.NomeArquivo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                 IsEnabled="False"  Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
+                                 IsEnabled="False"/>
                         <Button x:Name="BuscarContratoArquivo_bt" Height="24" Margin="30,0,0,0"
                                 IsEnabled="{Binding Comportamento.isEnableCancelar}"
                                 VerticalAlignment="Center" Width="24" Click="OnUpLoad_Click">
