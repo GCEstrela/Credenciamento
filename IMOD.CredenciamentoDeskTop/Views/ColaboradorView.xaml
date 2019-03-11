@@ -541,6 +541,7 @@
                                     <ComboBoxItem>SE</ComboBoxItem>
                                     <ComboBoxItem>SP</ComboBoxItem>
                                     <ComboBoxItem>TO</ComboBoxItem>
+                                    <ComboBoxItem>EX</ComboBoxItem>
                                 </ComboBox>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
@@ -675,6 +676,7 @@
                                     <ComboBoxItem>SE</ComboBoxItem>
                                     <ComboBoxItem>SP</ComboBoxItem>
                                     <ComboBoxItem>TO</ComboBoxItem>
+                                    <ComboBoxItem>EX</ComboBoxItem>
                                 </ComboBox>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
