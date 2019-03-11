@@ -41,8 +41,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
         public void AtualizarDados(Model.VeiculoView entity)
         {
             if (entity == null) return;
-            _viewModel.AtualizarDados (entity);
-           // EmpresaVinculo_cb.Items.Refresh();
+            _viewModel.AtualizarDados (entity); 
         }
 
         private void EmpresaVinculo_cb_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -53,7 +52,13 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            EmpresaVinculo_cb.SelectionChanged += EmpresaVinculo_cb_SelectionChanged;
+            //EmpresaVinculo_cb.SelectionChanged += EmpresaVinculo_cb_SelectionChanged;
+            cmbEmpresaVinculo.SelectionChanged += EmpresaVinculo_cb_SelectionChanged;
+        }
+        private void OnAlterarStatus_SelectonChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+            btnImprimirCredencial.IsEnabled = _viewModel.HabilitaImpressao;
         }
 
         #endregion

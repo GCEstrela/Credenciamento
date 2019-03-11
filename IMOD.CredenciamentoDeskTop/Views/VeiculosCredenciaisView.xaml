@@ -48,7 +48,7 @@
                                     Margin="1,1,-20,1" Width="977">
                             <Label Content="Vínculo:" Height="28" Width="55" Foreground="#FFD0D0D0" />
 
-                            <ComboBox x:Name="EmpresaVinculo_cb"
+                            <ComboBox x:Name="cmbEmpresaVinculo"
                                       Width="413"
                                       Margin="0,4,0,3"
                                       Height="25"
@@ -92,6 +92,7 @@
                                       Height="25"
                                       Width="130"
                                       ItemsSource="{Binding CredencialStatus}" 
+                                      SelectionChanged="OnAlterarStatus_SelectonChanged"
                                       SelectedItem="{Binding StatusCredencial, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                       DisplayMemberPath="Descricao"
                                       SelectedValue="{Binding Entity.CredencialStatusId, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
@@ -268,15 +269,17 @@
                 </StackPanel>
             </GroupBox>
 
-            <StackPanel>
-                <Button x:Name="brnImprimirCredencial" Content="Imprimir Credencial" ToolTip="Imprimir Credencial"
-                        Margin="0,10,10,10"
+            <StackPanel Orientation="Horizontal">
+                <Button x:Name="btnImprimirCredencial" Content="Imprimir Credencial" ToolTip="Imprimir Credencial"
+                        Margin="0,10" 
                         Height="24"
                         RenderTransformOrigin="0.953,0.417" HorizontalAlignment="Left"
-                        Width="139"
-                        IsEnabled="{Binding Entity.Ativa}"
+                        Width="220" 
+                        IsEnabled="{Binding HabilitaImpressao, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                         Command="{Binding ImprimirCommand}" />
+                <Label Style="{Styles {x:Static LabelStyles.Info} }" Margin="10,0,0,0" Visibility="{Binding MensagemAlerta, Converter={funcoes:StringNullOrEmptyToVisibilityConverter}}"   Height="24" VerticalAlignment="Center"   HorizontalAlignment="Center" Content="{Binding MensagemAlerta}"></Label>
             </StackPanel>
+           
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="990" Height="230">
 
                 <ListView x:Name="ListaVeiculosCredenciais_lv" HorizontalAlignment="Stretch"

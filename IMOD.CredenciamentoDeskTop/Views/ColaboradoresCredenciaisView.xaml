@@ -279,6 +279,7 @@
                         Command ="{Binding ImprimirCommand}"/>
                 <Label Style="{Styles {x:Static LabelStyles.Info} }" Margin="10,0,0,0" Visibility="{Binding MensagemAlerta, Converter={funcoes:StringNullOrEmptyToVisibilityConverter}}"   Height="24" VerticalAlignment="Center"   HorizontalAlignment="Center" Content="{Binding MensagemAlerta}"></Label>
             </StackPanel>
+            
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="990" Height="245">
                 <ListView x:Name="ListaColaboradoresCredenciais_lv" 
                           Width="947"  

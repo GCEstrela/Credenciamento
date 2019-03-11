@@ -29,6 +29,56 @@ namespace IMOD.Application.Service
 
         #endregion
 
+        #region  Propriedades
+
+        /// <summary>
+        ///     Impressão Serviços
+        /// </summary>
+        public IVeiculoCredencialimpressaoService ImpressaoCredencial
+        {
+            get { return new VeiculoCredencialimpressaoService(); }
+        }
+
+        public ITecnologiaCredencialService TecnologiaCredencial
+        {
+            get { return new TecnologiaCredencialService(); }
+        }
+
+        public ITipoCredencialService TipoCredencial
+        {
+            get { return new TipoCredencialService(); }
+        }
+
+        public ILayoutCrachaService LayoutCracha
+        {
+            get { return new LayoutCrachaService(); }
+        }
+
+        public IFormatoCredencialService FormatoCredencial
+        {
+            get { return new FormatoCredencialService(); }
+        }
+
+        public ICredencialStatusService CredencialStatus
+        {
+            get { return new CredencialStatusService(); }
+        }
+
+        public ICredencialMotivoService CredencialMotivo
+        {
+            get { return new CredencialMotivoService(); }
+        }
+
+        /// <summary>
+        ///     Pendência serviços
+        /// </summary>
+        public IPendenciaService Pendencia
+        {
+            get { return new PendenciaService(); }
+        }
+
+        #endregion
+
         #region  Metodos
 
         private void ObterStatusCredencial(VeiculoCredencial entity)
@@ -49,7 +99,7 @@ namespace IMOD.Application.Service
                 Ativo = entity.Ativa,
                 Empresa = entity.EmpresaNome,
                 Nome = entity.VeiculoNome,
-                Identificador = entity.PlacaIdentificador, 
+                Identificador = entity.PlacaIdentificador,
                 IdentificadorCardHolderGuid = entity.CardHolderGuid,
                 IdentificadorCredencialGuid = entity.CredencialGuid,
                 FacilityCode = entity.Fc,
@@ -60,7 +110,6 @@ namespace IMOD.Application.Service
                 IdentificadorLayoutCrachaGuid = entity.LayoutCrachaGuid
             };
             return titularCartao;
-
         }
 
         public VeiculosCredenciaisView BuscarCredencialPelaChave(int veiculoCredencialId)
@@ -143,6 +192,36 @@ namespace IMOD.Application.Service
             var doc = numCredencial.RetirarCaracteresEspeciais();
             var n1 = ObterCredencialPeloNumeroCredencial (doc);
             return n1 != null;
+        }
+
+        /// <summary>
+        ///     Criar uma pendência impeditiva caso o motivo do credenciamento possua natureza impeditiva
+        /// </summary>
+        /// <param name="entity"></param>
+        public void CriarPendenciaImpeditiva(VeiculosCredenciaisView entity)
+        {
+            //Criar um pendenci impeditiva ao constatar o motivo da credencial
+            var pendImp = CredencialMotivo.BuscarPelaChave (entity.CredencialMotivoId);
+            if (pendImp == null) throw new InvalidOperationException ("Não foi possível obter a entidade credencial motivo");
+            var impeditivo = pendImp.Impeditivo;
+            if (!impeditivo) return;
+            //Criar uma pendencia impeditiva,caso sua natureza seja impeditiva
+
+            #region Criar Pendência  
+
+            var pendencia = new Pendencia();
+            pendencia.EmpresaId = entity.EmpresaId;
+            var motivo = CredencialMotivo.BuscarPelaChave (entity.CredencialMotivoId);
+            pendencia.Descricao = $"Em {DateTime.Now}, uma pendência impeditiva foi criada pelo sistema por uma autorização ter sido {motivo.Descricao}." +
+                                  $"\r\nO Equipamento/Veículo de Placa/Identificador {entity.PlacaIdentificador}" +
+                                  "\r\nDeseja-se que tais pendências sejam solucionadas." +
+                                  $"\r\nAutor {UsuarioLogado.Nome} {UsuarioLogado.Email}";
+            pendencia.Impeditivo = true;
+            //--------------------------
+            pendencia.CodPendencia = 21;
+            Pendencia.CriarPendenciaSistema (pendencia);
+
+            #endregion
         }
 
         /// <summary>
@@ -287,49 +366,7 @@ namespace IMOD.Application.Service
         {
             return _repositorio.ListarAutorizacaoView (objects);
         }
-        
+
         #endregion
-
-        
-
-        /// <summary>
-        ///     Impressão Serviços
-        /// </summary>
-        public IVeiculoCredencialimpressaoService ImpressaoCredencial
-        {
-            get { return new VeiculoCredencialimpressaoService(); }
-        }
-
-        public ITecnologiaCredencialService TecnologiaCredencial
-        {
-            get { return new TecnologiaCredencialService(); }
-        }
-
-        public ITipoCredencialService TipoCredencial
-        {
-            get { return new TipoCredencialService(); }
-        }
-
-        public ILayoutCrachaService LayoutCracha
-        {
-            get { return new LayoutCrachaService(); }
-        }
-
-        public IFormatoCredencialService FormatoCredencial
-        {
-            get { return new FormatoCredencialService(); }
-        }
-
-        public ICredencialStatusService CredencialStatus
-        {
-            get { return new CredencialStatusService(); }
-        }
-
-        public ICredencialMotivoService CredencialMotivo
-        {
-            get { return new CredencialMotivoService(); }
-        }
-
-        
     }
 }

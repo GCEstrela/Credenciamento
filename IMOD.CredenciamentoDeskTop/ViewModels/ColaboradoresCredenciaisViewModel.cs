@@ -127,7 +127,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             if (n1.Impressa) return;
 
             if (!string.IsNullOrWhiteSpace(mensagem1) | !string.IsNullOrWhiteSpace(mensagem2))
-                MensagemAlerta = $"A empresa está impedida de imprimir credencial pelo seguinte motivo: {mensagem1} {mensagem2}";
+                MensagemAlerta = $"A credencial não poderá ser impressa pelo seguinte motivo: [ {mensagem1} {mensagem2} ]";
             //================================================================================
             #endregion
 

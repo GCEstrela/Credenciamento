@@ -54,6 +54,11 @@ namespace IMOD.Application.Interfaces
         /// </summary>
         ICredencialMotivoService CredencialMotivo { get; }
 
+        /// <summary>
+        ///     Pendência serviços
+        /// </summary>
+        IPendenciaService Pendencia { get; }
+
         #endregion
 
         #region  Metodos
@@ -64,6 +69,13 @@ namespace IMOD.Application.Interfaces
         /// <param name="numCredencial"></param>
         /// <returns></returns>
         bool ExisteNumeroCredencial(string numCredencial);
+
+
+        /// <summary>
+        ///     Criar uma pendência impeditiva caso o motivo do credenciamento possua natureza impeditiva
+        /// </summary>
+        /// <param name="entity"></param>
+        void CriarPendenciaImpeditiva(VeiculosCredenciaisView entity);
 
         /// <summary>
         ///     Criar um titular de cartão no sub-sistema de credenciamento (Genetec)

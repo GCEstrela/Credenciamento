@@ -19,6 +19,7 @@ using AutoMapper;
 using IMOD.Application.Interfaces;
 using IMOD.Application.Service;
 using IMOD.CredenciamentoDeskTop.Helpers;
+using IMOD.CredenciamentoDeskTop.Modulo;
 using IMOD.CredenciamentoDeskTop.ViewModels.Commands;
 using IMOD.CredenciamentoDeskTop.ViewModels.Comportamento;
 using IMOD.CredenciamentoDeskTop.Views.Model;
@@ -61,7 +62,15 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         #region  Propriedades
 
         public bool Habilitar { get; private set; } = true;
-
+        /// <summary>
+        ///     Mensagem de alerta
+        /// </summary>
+        public string MensagemAlerta { get; private set; }
+        /// <summary>
+        ///     Habilitar impressao de credencial com base no status da credencial
+        ///     e condição de pendencia impeditiva
+        /// </summary>
+        public bool HabilitaImpressao { get; set; }
         /// <summary>
         ///     Seleciona indice da listview
         /// </summary>
@@ -212,13 +221,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void OnEntityChanged(object sender, PropertyChangedEventArgs e)
-        { 
-            //Comportamento.IsEnableEditar = true;
+        {
             if (e.PropertyName == "Entity")
             {
                 Comportamento.IsEnableEditar = Entity != null;
                 Comportamento.isEnableRemover = Entity != null;
-
+                AtualizarMensagem(Entity);
             }
         }
 
@@ -359,6 +367,32 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             //Listar Colaboradores Ativos
             OnAtualizarDadosContratosAtivos();
         }
+        private void AtualizarMensagem(VeiculosCredenciaisView entity)
+        {
+            MensagemAlerta = string.Empty;
+            if (entity == null) return;
+
+            #region Habilitar botão de impressao e mensagem ao usuario
+            //================================================================================
+            //Autor: Valnei Filho
+            //Data:08/03/19
+            //Wrk:O botão imprimir credencial habilitado apenas para registros, não impresso e ativo, desabilitado caso contrário
+            HabilitaImpressao = entity.Ativa & !entity.PendenciaImpeditiva & !entity.Impressa;
+            //Verificar se a empresa esta impedida
+            var n1 = _service.BuscarCredencialPelaChave(entity.VeiculoCredencialId);
+            var mensagem1 = !n1.Ativa ? "Credencial Inativa" : string.Empty;
+            var mensagem2 = n1.PendenciaImpeditiva ? "Pendência Impeditiva (consultar dados da empresa na aba Geral)" : string.Empty;
+            var mensagem3 = n1.Impressa ? "Não é possível imprimir pois a credencial já foi impressa" : string.Empty;
+            //Exibir mensagem de impressao de credencial, esta tem prioridade sobre as demais regras
+            MensagemAlerta = $"{mensagem3}";
+            if (n1.Impressa) return; 
+
+            if (!string.IsNullOrWhiteSpace(mensagem1) | !string.IsNullOrWhiteSpace(mensagem2))
+                MensagemAlerta = $"A credencial não poderá ser impressa pelo seguinte motivo: [ {mensagem1} {mensagem2} ]";
+            //================================================================================
+            #endregion
+
+        }
 
         /// <summary>
         ///     Editar dados
@@ -375,9 +409,20 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var n1 = Mapper.Map<VeiculoCredencial> (Entity);
                 //Alterar o status do titular do cartão
                 _service.AlterarStatusTitularCartao (new CredencialGenetecService (Main.Engine), Entity, n1);
+                //===================================================
+                //Atualizar dados a serem exibidas na tela de empresa
+                if (Entity == null) return;
+                _service.CriarPendenciaImpeditiva(Entity);
+                var view = new ViewSingleton().EmpresaView;
+                var dados = view.DataContext as IAtualizarDados;
+                dados.AtualizarDadosPendencias();
+                //===================================================
                 //Atualizar observer
                 CollectionViewSource.GetDefaultView (EntityObserver).Refresh();
                 IsEnableLstView = true;
+                AtualizarMensagem(Entity);
+                //===================================================
+                Entity = null;
             }
             catch (Exception ex)
             {
