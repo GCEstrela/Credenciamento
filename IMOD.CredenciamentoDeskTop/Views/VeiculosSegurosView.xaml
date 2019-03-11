@@ -57,6 +57,7 @@
                             <Label Content="Valor da Cobertura (R$):" Height="28" Width="132"  Foreground="#FFD0D0D0" />
                             <TextBox x:Name="txtValorCobertura" MaxLength="15" CharacterCasing="Lower"
                                      Text="{Binding Entity.ValorCobertura, UpdateSourceTrigger=PropertyChanged,  StringFormat={}{0:N}}"
+                                     Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
                                      IsEnabled="True" Height="24" Width="300" PreviewTextInput="NumberOnly"/>
                             <Label Content="Data de Emissão:" Height="28" Width="112" HorizontalContentAlignment="Left" Foreground="#FFD0D0D0" />
 
