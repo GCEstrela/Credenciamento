@@ -153,6 +153,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             
             Entity = new ColaboradorCursoView();
+            Entity.Controlado = true;
             Comportamento.PrepareCriar();
             IsEnableLstView = false;
             _viewModelParent.AtualizarDadosPendencias();

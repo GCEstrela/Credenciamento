@@ -378,7 +378,7 @@
                                        HorizontalContentAlignment="Left" />
                                 <TextBox CharacterCasing="Upper" x:Name="Endereco_tb" MaxLength="100"
                                          Text="{Binding Entity.Endereco, UpdateSourceTrigger=PropertyChanged}"
-                                         IsEnabled="True" Height="24" Width="455" />
+                                         IsEnabled="True" Height="24" Width="455" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                         Margin="1,1,0,1" Width="562">
@@ -386,13 +386,13 @@
                                        HorizontalContentAlignment="Left" />
                                 <TextBox CharacterCasing="Upper" x:Name="Numero_tb" MaxLength="4"
                                          Text="{Binding Entity.Numero,  UpdateSourceTrigger=PropertyChanged}"
-                                         IsEnabled="True" Height="24" Width="50" />
+                                         IsEnabled="True" Height="24" Width="50" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
                                 <Label Content="CEP:" Height="28" Width="90" Foreground="#FFD0D0D0"
                                        HorizontalContentAlignment="Right" />
                                 <TextBox CharacterCasing="Upper" x:Name="Cep_tb" MaxLength="12"
                                          PreviewTextInput="NumberOnly"
                                          Text="{Binding Entity.Cep,  UpdateSourceTrigger=PropertyChanged, Converter={StaticResource FormatCep}}"
-                                         IsEnabled="True" Height="24" Width="98" />
+                                         IsEnabled="True" Height="24" Width="98" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
                                 <Label Content="Complemento:" Height="28" Width="89" Margin="0,0,5,0"
                                        Foreground="#FFD0D0D0" />
                                 <TextBox CharacterCasing="Upper" x:Name="Complemento_tb" MaxLength="50"
@@ -405,7 +405,7 @@
                                        HorizontalContentAlignment="Left" />
                                 <TextBox CharacterCasing="Upper" x:Name="Bairro_tb" MaxLength="50"
                                          Text="{Binding Entity.Bairro,   UpdateSourceTrigger=PropertyChanged}"
-                                         IsEnabled="True" Height="23" Width="152" />
+                                         IsEnabled="True" Height="23" Width="152" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
                                 <Label Content="UF:" Height="28" Width="30" Margin="1" Foreground="#FFD0D0D0" />
                                 <ComboBox x:Name="cmbEstado" Height="25"
                                           ItemsSource="{Binding Estados}" DisplayMemberPath="Uf"
@@ -413,14 +413,14 @@
                                           SelectedValuePath="EstadoId" IsSynchronizedWithCurrentItem="True"
                                           SelectedIndex="0"
                                           SelectedItem="{Binding Estado}"
-                                          Width="53" />
+                                          Width="53" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
 
                                 <Label Content="Cidade:" Height="28" Width="50" Foreground="#FFD0D0D0" />
                                 <ComboBox x:Name="Cidade_cb" Height="25"
                                           ItemsSource="{Binding Municipios}" DisplayMemberPath="Nome"
                                           SelectedValue="{Binding Entity.MunicipioId,  UpdateSourceTrigger=PropertyChanged}"
                                           SelectedValuePath="MunicipioId"
-                                          SelectedIndex="0" Width="167" />
+                                          SelectedIndex="0" Width="167" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
                             </StackPanel>
                         </StackPanel>
                     </GroupBox>
@@ -462,14 +462,16 @@
                                 <Label Content="Nome Emergência:" Height="28" Width="113" Foreground="#FFD0D0D0" />
                                 <TextBox CharacterCasing="Lower" x:Name="Email2_tb" MaxLength="50"
                                          Text="{Binding Entity.ContatoEmergencia, UpdateSourceTrigger=PropertyChanged}"
-                                         IsEnabled="True" Height="24" Width="237" />
+                                         IsEnabled="True" Height="24" Width="237" 
+                                         Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
                                 <Label Content="Tel.Emerg.:" Height="28" Width="68" Foreground="#FFD0D0D0"
                                        HorizontalContentAlignment="Right" />
                                 <TextBox Foreground="#FFD0D0D0" CharacterCasing="Upper" x:Name="Cel2_tb" MaxLength="15"
                                          PreviewTextInput="NumberOnly"
                                          Text="{Binding Entity.TelefoneEmergencia, Converter={StaticResource FormateTel}, UpdateSourceTrigger=PropertyChanged}"
                                          Margin="1" IsEnabled="True" Height="24" Width="106"
-                                         HorizontalContentAlignment="Center" />
+                                         HorizontalContentAlignment="Center" 
+                                         Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
                             </StackPanel>
 
 
@@ -539,6 +541,7 @@
                                     <ComboBoxItem>SE</ComboBoxItem>
                                     <ComboBoxItem>SP</ComboBoxItem>
                                     <ComboBoxItem>TO</ComboBoxItem>
+                                    <ComboBoxItem>EX</ComboBoxItem>
                                 </ComboBox>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
@@ -673,6 +676,7 @@
                                     <ComboBoxItem>SE</ComboBoxItem>
                                     <ComboBoxItem>SP</ComboBoxItem>
                                     <ComboBoxItem>TO</ComboBoxItem>
+                                    <ComboBoxItem>EX</ComboBoxItem>
                                 </ComboBox>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
@@ -683,7 +687,8 @@
                                        HorizontalContentAlignment="Left" />
                                 <CheckBox x:Name="Motorista_cb" VerticalContentAlignment="Center"
                                           Height="24" Foreground="#FFD0D0D0"
-                                          IsChecked="{Binding Entity.Motorista, UpdateSourceTrigger=PropertyChanged}" />
+                                          IsChecked="{Binding Entity.Motorista, UpdateSourceTrigger=PropertyChanged}" 
+                                          Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
 
                                 <Label Content="Categoria:" Foreground="#FFD0D0D0" Height="26" Width="66"
                                        HorizontalContentAlignment="Left" />
