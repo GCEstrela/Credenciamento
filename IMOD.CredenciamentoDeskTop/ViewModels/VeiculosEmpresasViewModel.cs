@@ -189,6 +189,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private void PrepareCriar()
         {
             Entity = new VeiculoEmpresaView();
+            Entity.Ativo = true;
             Comportamento.PrepareCriar();
             IsEnableLstView = false;
             ListarDadosEmpresaContratos();

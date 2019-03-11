@@ -22,6 +22,7 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public string EmpresaNome { get; set; }
         public string Cargo { get; set; }
         public string Matricula { get; set; }
+        [Required(ErrorMessage = "Ativo é requerida.")]
         public bool Ativo { get; set; }
 
         #endregion
