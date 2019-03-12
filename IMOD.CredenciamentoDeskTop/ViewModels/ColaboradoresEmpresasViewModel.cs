@@ -194,8 +194,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (_configuraSistema.Contrato)
                 {
                     n1.EmpresaContratoId = Contratos[0].EmpresaContratoId;
-                }
                     
+
+
+                }
 
                 _service.Criar(n1);
                 //Adicionar no inicio da lista um item a coleção

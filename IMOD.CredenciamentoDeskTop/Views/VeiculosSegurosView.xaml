@@ -33,8 +33,7 @@
         <StackPanel Orientation="Vertical">
 
             <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}"
-                      Background="Chocolate"
-                      IsEnabled="{Binding Comportamento.isEnableCancelar}"
+                      Background="Chocolate"                      
                       x:Name="GbxInformacoesSeguro" Header="Seguro" Margin="0,0,40,0">
                 <StackPanel Orientation="Horizontal">
                     <StackPanel Margin="1" Width="958">
@@ -42,15 +41,16 @@
                                     Margin="1">
                             <Label Content="Seguradora:" Height="28" Width="132"  Foreground="#FFD0D0D0" />
                             <TextBox x:Name="txtSeguradora" MaxLength="50" CharacterCasing="Upper"
-                                     Text="{Binding Entity.NomeSeguradora, UpdateSourceTrigger=PropertyChanged}" IsEnabled="True"
+                                     Text="{Binding Entity.NomeSeguradora, UpdateSourceTrigger=PropertyChanged}" 
                                      Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
+                                     IsEnabled="{Binding Comportamento.isEnableCancelar}"
                                      Height="24" Width="453" />
                             <Label Content="Número da Apólice:" Height="28" Width="117" HorizontalContentAlignment="Right"
                                    Foreground="#FFD0D0D0" />
                             <TextBox x:Name="txtNumeroApolice" MaxLength="50" CharacterCasing="Upper"
                                      Text="{Binding Entity.NumeroApolice, UpdateSourceTrigger=PropertyChanged}"
                                      Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
-                                     IsEnabled="True" Height="24" Width="110" 
+                                     IsEnabled="{Binding Comportamento.isEnableCancelar}" Height="24" Width="110" 
                                      VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="1">
@@ -58,7 +58,7 @@
                             <TextBox x:Name="txtValorCobertura" MaxLength="15" CharacterCasing="Lower"
                                      Text="{Binding Entity.ValorCobertura, UpdateSourceTrigger=PropertyChanged,  StringFormat={}{0:N}}"
                                      Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
-                                     IsEnabled="True" Height="24" Width="100" PreviewTextInput="NumberOnly"/>
+                                     IsEnabled="{Binding Comportamento.isEnableCancelar}" Height="24" Width="100" PreviewTextInput="NumberOnly"/>
                             <Label Content="Data de Emissão:" Height="28" Width="244" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
 
                             <!--<DatePicker x:Name="dtPEmissao" VerticalContentAlignment="Center" 
@@ -71,6 +71,7 @@
 							StringFormat='{}{0:dd/MM/yyyy}'}"
                             LostFocus="OnFormatDateEmissao_LostFocus"
                             MaxLength="10"
+                            IsEnabled="{Binding Comportamento.isEnableCancelar}"
                             Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
                             Height="24"  Width="110" />
 
@@ -85,13 +86,14 @@
 							StringFormat='{}{0:dd/MM/yyyy}'}"
                             LostFocus="OnFormatDateValidade_LostFocus"
                             MaxLength="10"
+                            IsEnabled="{Binding Comportamento.isEnableCancelar}"
                             Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
                             Height="24"  Width="110" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" >
                             <Label Content="Apólice Digitalizada:" Height="28" Width="131" Margin="0,0,2,0" HorizontalContentAlignment="Left" Foreground="#FFD0D0D0" />
                             <TextBox  x:Name="txtApoliceArquivo" MaxLength="50" CharacterCasing="Upper" Text="{Binding Entity.NomeArquivo, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="False"  Height="24"  Width="454"/>
-                            <Button x:Name="btnBuscarArquivo" Height="24" Margin="10,0,0,0" VerticalAlignment="Center" Width="24" Click="OnUpLoad_Click">
+                            <Button x:Name="btnBuscarArquivo" Height="24" Margin="10,0,0,0" IsEnabled="{Binding Comportamento.isEnableCancelar}" VerticalAlignment="Center" Width="24" Click="OnUpLoad_Click">
                                 <StackPanel>
                                     <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Pasta.ico"/>
                                 </StackPanel>
