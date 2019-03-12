@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             mc:Ignorable="d" HorizontalContentAlignment="Center">
+             mc:Ignorable="d" HorizontalContentAlignment="Center" Loaded="OnFrm_Loaded" >
     <UserControl.Resources>
         <Style TargetType="TextBlock">
             <Setter Property="FontSize" Value="13"></Setter>
