@@ -324,7 +324,7 @@
                                            Foreground="#FFD0D0D0" />
                                 <TextBox CharacterCasing="Upper"   MaxLength="4" x:Name="txtAno"
                                              Text="{Binding Entity.Ano, UpdateSourceTrigger=PropertyChanged}"
-                                             IsEnabled="True" PreviewTextInput="NumberOnly"  Height="24" Width="97" 
+                                             IsEnabled="True" PreviewTextInput="NumberOnly"  Height="24" Width="60" 
                                              Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
                                 <Label Content="Combustível:" Height="28" Width="110" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
                                 <ComboBox  Height="26" VerticalContentAlignment="Center" x:Name="cmbCombustivel"
@@ -336,24 +336,24 @@
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
                                             HorizontalAlignment="Left" Margin="1">
-                                <Label Content="Altura:" Height="28" Width="110" HorizontalContentAlignment="Right"
+                                <Label Content="Altura (cm):" Height="28" Width="110" HorizontalContentAlignment="Right"
                                            Foreground="#FFD0D0D0" />
                                 <TextBox CharacterCasing="Upper" MaxLength="5" x:Name="txtAltura"
                                              PreviewTextInput="NumberOnly"
                                              Text="{Binding Entity.Altura,UpdateSourceTrigger=PropertyChanged}"
-                                             IsEnabled="True" Height="24" Width="98" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
-                                <Label Content="Comprimento:" Height="28" Width="111" HorizontalContentAlignment="Right"
+                                             IsEnabled="True" Height="24" Width="60" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
+                                <Label Content="Comprimento (cm):" Height="28" Width="111" HorizontalContentAlignment="Right"
                                            Foreground="#FFD0D0D0" />
                                 <TextBox CharacterCasing="Upper" MaxLength="5" x:Name="txtComprimento"
                                              PreviewTextInput="NumberOnly"
                                              Text="{Binding Entity.Comprimento,UpdateSourceTrigger=PropertyChanged}"
-                                             IsEnabled="True" Height="24" Width="60" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
-                                <Label Content="Largura:" Height="28" Width="54" HorizontalContentAlignment="Left"
+                                             IsEnabled="True" Height="24" Width="45" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
+                                <Label Content="Largura (cm):" Height="28" Width="78" HorizontalContentAlignment="Right"
                                            Foreground="#FFD0D0D0" />
                                 <TextBox CharacterCasing="Upper" MaxLength="5" x:Name="txtLargura"
-                                             PreviewTextInput="NumberOnly"
+                                             PreviewTextInput="NumberOnly" 
                                              Text="{Binding Entity.Largura,UpdateSourceTrigger=PropertyChanged}"
-                                             IsEnabled="True" Height="24" Width="60" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
+                                             IsEnabled="True" Height="24" Width="45" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
                             </StackPanel>
 
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
