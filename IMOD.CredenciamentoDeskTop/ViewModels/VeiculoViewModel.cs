@@ -79,9 +79,28 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public bool HabilitaCommandPincipal { get; set; } = true;
 
         /// <summary>
-        ///     Indice da tabela de controle selecionada
+        ///     Indice da tabela de controle selecionada geral
         /// </summary>
-        public bool IsEnableTabItem { get; private set; }
+        public bool IsEnableTabItemGeral { get; set; }
+        /// <summary>
+        ///     Indice da tabela de controle selecionada empresa vinculo
+        /// </summary>
+        public bool IsEnableTabItemEmpresaVinculo { get; set; }
+
+        /// <summary>
+        ///     Indice da tabela de controle selecionada seguros
+        /// </summary>
+        public bool IsEnableTabItemSeguros { get; set; }
+
+        /// <summary>
+        ///     Indice da tabela de controle selecionada Credenciais
+        /// </summary>
+        public bool IsEnableTabItemCredenciais { get; set; }
+
+        /// <summary>
+        ///     Indice da tabela de controle selecionada anexos
+        /// </summary>
+        public bool IsEnableTabItemAnexos { get; set; }
 
         /// <summary>
         ///     Seleciona o indice da tabcontrol desejada
@@ -166,10 +185,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         {
             if (e.PropertyName == "Entity")
-
             {
+                var enableControls = Entity != null;
                 Comportamento.IsEnableEditar = Entity != null;
-                IsEnableTabItem = Entity != null;
+                HabilitaControleTabControls(true, enableControls, enableControls, enableControls, enableControls, enableControls);
             }
             //===================================
             //Autor:Valnei Filho
@@ -179,7 +198,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 //Habilita/Desabilita botoes principais...
                 HabilitaCommandPincipal = SelectedTabIndex == 0;
-                IsEnableLstView = SelectedTabIndex == 0;
+                //IsEnableLstView = SelectedTabIndex == 0;
             }
         }
 
@@ -305,8 +324,21 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <param name="isEnableLstView"></param>
         private void HabilitaControle(bool isEnableTabItem, bool isEnableLstView)
         {
-            IsEnableTabItem = isEnableTabItem;
+            HabilitaControleTabControls(isEnableLstView, isEnableTabItem, isEnableTabItem, isEnableTabItem, isEnableTabItem, isEnableTabItem);
+            //IsEnableTabItem = isEnableTabItem;
             IsEnableLstView = isEnableLstView;
+        }
+
+        public void HabilitaControleTabControls(bool lstViewSuperior = true, bool isItemGeral = true, 
+                bool isItemEmpresa = false, bool isItemSeguro = false, bool isItemAnexo = false, bool isItemCredenciais = false)
+        {
+            IsEnableLstView = lstViewSuperior;
+
+            IsEnableTabItemGeral = isItemGeral;
+            IsEnableTabItemEmpresaVinculo = isItemEmpresa;
+            IsEnableTabItemSeguros = isItemSeguro;
+            IsEnableTabItemAnexos = isItemAnexo;
+            IsEnableTabItemCredenciais = isItemCredenciais;
         }
 
         /// <summary>
@@ -480,8 +512,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (Entity != null) Entity.ClearMessageErro();
                 AtualizarDadosTiposServico();
                 TiposEquipamentoServico.Clear();
-                HabilitaControle (true, true);
                 Entity = null;
+                HabilitaControle(true, true);
             }
             catch (Exception ex)
             {

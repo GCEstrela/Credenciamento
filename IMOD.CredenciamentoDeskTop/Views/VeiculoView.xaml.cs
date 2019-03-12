@@ -58,7 +58,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
             VeiculosEmpresasUs.AtualizarDados(_viewModel.Entity, _viewModel);
             EmpresaSeguroUs.AtualizarDados(_viewModel.Entity, _viewModel);
             AnexoUs.AtualizarDados(_viewModel.Entity, _viewModel);
-            VeiculoCredenciaisUs.AtualizarDados(_viewModel.Entity); 
+            VeiculoCredenciaisUs.AtualizarDados(_viewModel.Entity, _viewModel);
             /////////////////////////////////////////////////////////////
             //_viewModel.IsEnableTabItem = true;
         }

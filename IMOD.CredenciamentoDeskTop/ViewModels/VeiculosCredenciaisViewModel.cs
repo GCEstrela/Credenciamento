@@ -41,6 +41,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
         private readonly IVeiculoCredencialService _service = new VeiculoCredencialService();
         private readonly IVeiculoEmpresaService _veiculoEmpresaService = new VeiculoEmpresaService();
+        private VeiculoViewModel _viewModelParent;
 
         /// <summary>
         ///     True, Comando de alteração acionado
@@ -217,6 +218,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             IsEnableLstView = false; 
             //Habilitar controles somente se a credencial não estiver sido impressa
             Habilitar = !Entity.Impressa;
+            _viewModelParent.HabilitaControleTabControls(false, false, false, false, false, true);
         }
 
         /// <summary>
@@ -235,10 +237,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         private int _count;
 
-        public void AtualizarDados(VeiculoView entity)
+        public void AtualizarDados(VeiculoView entity, VeiculoViewModel viewModelParent) 
         {
-            if (entity == null) throw new ArgumentNullException (nameof (entity));
+            if (entity == null) throw new ArgumentNullException (nameof (entity)); 
             _veiculoView = entity;
+            _viewModelParent = viewModelParent;
             //Obter dados
             var list1 = _service.ListarView (entity.EquipamentoVeiculoId, null, null, null, null).ToList();
             var list2 = Mapper.Map<List<VeiculosCredenciaisView>> (list1.OrderByDescending (n => n.VeiculoCredencialId));
@@ -343,6 +346,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var list2 = Mapper.Map<List<VeiculosCredenciaisView>> (list1.OrderByDescending (n => n.VeiculoCredencialId));
                 EntityObserver = new ObservableCollection<VeiculosCredenciaisView>();
                 list2.ForEach (n => { EntityObserver.Add (n); });
+                _viewModelParent.HabilitaControleTabControls(true, true, true, true, true, true);
+
             }
             catch (Exception ex)
             {
@@ -369,6 +374,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             Habilitar = true;
             //Listar Colaboradores Ativos
             OnAtualizarDadosContratosAtivos();
+            _viewModelParent.HabilitaControleTabControls(false, false, false, false, false, true);
         }
         private void AtualizarMensagem(VeiculosCredenciaisView entity)
         {
@@ -426,6 +432,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 AtualizarMensagem(Entity);
                 //===================================================
                 Entity = null;
+                _viewModelParent.HabilitaControleTabControls(true, true, true, true, true, true);
+
             }
             catch (Exception ex)
             {
@@ -450,6 +458,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 Entity = null;
                 //Listar todas contratos
                 ListarTodosContratos();
+                _viewModelParent.HabilitaControleTabControls(true, true, true, true, true, true);
             }
             catch (Exception ex)
             {
@@ -475,6 +484,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 _service.Remover (n1);
                 //Retirar empresa da coleção
                 EntityObserver.Remove (Entity);
+                _viewModelParent.HabilitaControleTabControls(true, true, true, true, true, true);
             }
             catch (Exception ex)
             {

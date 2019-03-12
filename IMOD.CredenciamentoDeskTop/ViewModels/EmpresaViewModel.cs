@@ -83,7 +83,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <summary>
         ///     Indice da tabela de controle selecionada
         /// </summary>
-        public bool IsEnableTabItem { get; private set; }
+        public bool IsEnableTabGeral{ get; set; } 
+        public bool IsEnableTabRepresentantes { get; set; } 
+        public bool IsEnableTabContratos { get; set; } 
+        public bool IsEnableTabAnexo { get; set; } 
 
         public bool HabilitaCommandPincipal { get; set; } = true;
 
@@ -170,8 +173,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             if (e.PropertyName == "Entity")
 
             {
+                var enableControls = Entity != null;
                 Comportamento.IsEnableEditar = Entity != null;
-                IsEnableTabItem = Entity != null;
+                HabilitaControleTabControls(true, enableControls, enableControls, enableControls, enableControls);
             }
             //===================================
             //Autor:Valnei Filho
@@ -181,7 +185,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 //Habilita/Desabilita botoes principais...
                 HabilitaCommandPincipal = SelectedTabIndex == 0;
-                IsEnableLstView = SelectedTabIndex == 0;
+                //IsEnableLstView = SelectedTabIndex == 0;
             }
         }
 
@@ -634,8 +638,19 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <param name="isEnableLstView"></param>
         private void HabilitaControle(bool isEnableTabItem, bool isEnableLstView)
         {
-            IsEnableTabItem = isEnableTabItem;
+            HabilitaControleTabControls(isEnableLstView, isEnableTabItem, isEnableTabItem, isEnableTabItem, isEnableTabItem);
             IsEnableLstView = isEnableLstView;
+        }
+
+        public void HabilitaControleTabControls(bool lstViewSuperior = true, bool isItemGeral = true,
+        bool isItemRpresentantes = false, bool isItemContratos = false, bool isItemAnexo = false)
+        {
+            IsEnableLstView = lstViewSuperior;
+
+            IsEnableTabGeral = isItemGeral;
+            IsEnableTabRepresentantes = isItemRpresentantes;
+            IsEnableTabContratos = isItemContratos;
+            IsEnableTabAnexo = isItemAnexo;
         }
 
         private void OnCancelar(object sender, RoutedEventArgs e)

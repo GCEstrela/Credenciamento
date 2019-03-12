@@ -260,7 +260,7 @@
                     Width="1259" Margin="1,1,-259,-321"
                     Grid.Row="3">
 
-            <TabItem x:Name="Geral_ti" Background="{x:Null}" Margin="0,-2,0,0">
+            <TabItem x:Name="Geral_ti" Background="{x:Null}" Margin="0,-2,0,0" IsEnabled="{Binding IsEnableTabItemGeral}">
 
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
@@ -712,7 +712,7 @@
             </TabItem>
 
 
-            <TabItem x:Name="Signatarios_ti" Width="200" IsEnabled="{Binding IsEnableTabItem}">
+            <TabItem x:Name="Signatarios_ti" Width="200" IsEnabled="{Binding IsEnableTabItemEmpresas}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="Signatarios_bt" Click="OnPendenciaEmpresaVinculo_Click"
@@ -733,7 +733,7 @@
 
             </TabItem>
 
-            <TabItem x:Name="CursosTreinamentos_ti" Width="200" IsEnabled="{Binding IsEnableTabItem}">
+            <TabItem x:Name="CursosTreinamentos_ti" Width="200" IsEnabled="{Binding IsEnableTabItemCursos}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="Curso_bt" Click="OnPendenciaTreinamentoCertificacao_Click"
@@ -755,7 +755,7 @@
 
             </TabItem>
 
-            <TabItem x:Name="Anexos_ti" Width="200" IsEnabled="{Binding IsEnableTabItem}">
+            <TabItem x:Name="Anexos_ti" Width="200" IsEnabled="{Binding IsEnableTabItemAnexos}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="Anexos_bt" Click="OnPendenciaAnexos_Click" Style="{StaticResource MenuStyle}"
@@ -776,7 +776,7 @@
 
             </TabItem>
 
-            <TabItem x:Name="Tab5" Width="200" IsEnabled="{Binding IsEnableTabItem}">
+            <TabItem x:Name="Tab5" Width="200" IsEnabled="{Binding IsEnableTabItemCredenciais}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="btnTab5" Click="OnPendenciaCredencial_Click" Style="{StaticResource MenuStyle}"
