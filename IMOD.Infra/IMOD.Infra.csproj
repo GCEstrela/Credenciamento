@@ -96,6 +96,7 @@
     <Compile Include="Repositorios\ColaboradorEmpresaRepositorio.cs" />
     <Compile Include="Repositorios\ColaboradorRepositorio.cs" />
     <Compile Include="Repositorios\ConfiguracaoRepositorio.cs" />
+    <Compile Include="Repositorios\ConfiguraSistemaRepositorio.cs" />
     <Compile Include="Repositorios\CredencialMotivoRepositorio.cs" />
     <Compile Include="Repositorios\CredencialStatusRepositorio.cs" />
     <Compile Include="Repositorios\CursoRepositorio.cs" />

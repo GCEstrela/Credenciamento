@@ -137,6 +137,11 @@ namespace IMOD.Application.Interfaces
         ///     Tipos Representante
         /// </summary>
         ITipoRepresentanteService TipoRepresentanteService { get; }
+        /// <summary>
+        ///     Tipos Representante
+        /// </summary>
+        IConfiguraSistemaService ConfiguraSistemaService { get; }
+
         #endregion
     }
 }

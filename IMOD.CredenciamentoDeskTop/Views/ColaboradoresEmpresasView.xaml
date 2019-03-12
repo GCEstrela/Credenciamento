@@ -70,6 +70,7 @@
                                    Width="300" Height="25" 
                                    VerticalContentAlignment="Center" 
                                    HorizontalContentAlignment="Left"
+                                   IsEnabled="{Binding IsEnableComboContrato}"
                                    ItemsSource="{Binding Contratos}" 
                                    DisplayMemberPath="Descricao"  
                                    SelectedValue="{Binding Entity.EmpresaContratoId, UpdateSourceTrigger=PropertyChanged}" 

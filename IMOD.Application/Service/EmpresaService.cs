@@ -127,18 +127,20 @@ namespace IMOD.Application.Service
         }
         /// <summary>
         ///     Criar um empresa com contrato básico
-        ///     <para>Um contrato básico será criada automaticamente</para>
+        ///     <para>Um contrato básico será criada automaticamente com base nos dados de configuracao</para>
         /// </summary>
         /// <param name="entity"></param>
         /// <param name="dataValidade">Data de validade</param>
         /// <param name="numContrato">Numero do contrato</param>
         /// <param name="status">Status do cdontrato</param>
-        public void CriarContratoBasico(Empresa entity,DateTime dataValidade,string numContrato,Status status)
+        public void CriarContrato(Empresa entity,DateTime dataValidade,string numContrato,Status status, ConfiguraSistema  configuracaoSistema )
         {
             if (entity == null) throw new ArgumentNullException (nameof (entity));
             if (status == null) throw new ArgumentNullException (nameof (status));
             //Criar Empresa
             Criar (entity);
+            //Criar um contrato básico e automatico apenas se as configurações permitirem
+            if (!configuracaoSistema.Contrato) return;
             //Criar contrato básico
             var contrato = new EmpresaContrato();
             contrato.EmpresaId = entity.EmpresaId;

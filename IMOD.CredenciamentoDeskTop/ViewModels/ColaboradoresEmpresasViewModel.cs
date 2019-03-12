@@ -33,8 +33,13 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private readonly IEmpresaContratosService _empresaContratoService = new EmpresaContratoService();
         private readonly IEmpresaService _empresaService = new EmpresaService();
         private readonly IColaboradorEmpresaService _service = new ColaboradorEmpresaService();
+        
+        private readonly object _auxiliaresService;
         private ColaboradorView _colaboradorView;
         private ColaboradorViewModel _viewModelParent;
+
+        private readonly IDadosAuxiliaresFacade _auxiliaresServiceConfiguraSistema = new DadosAuxiliaresFacadeService();
+        private ConfiguraSistema _configuraSistema;
 
         #region  Propriedades
 
@@ -52,7 +57,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         ///     Habilita listView
         /// </summary>
         public bool IsEnableLstView { get; private set; } = true;
-
+        /// <summary>
+        ///     Habilita Combo de Contratos
+        /// </summary>
+        public bool IsEnableComboContrato { get; private set; } = true;
         #endregion
 
         public ColaboradoresEmpresasViewModel()
@@ -123,13 +131,28 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var l3 = _empresaContratoService.Listar().ToList();
                 Contratos = l3;
                 base.OnPropertyChanged ("Entity");
+
+                _configuraSistema = ObterConfiguracao();
+                IsEnableComboContrato = false;
+
             }
             catch (Exception ex)
             {
                 Utils.TraceException(ex);
             }
         }
-
+        /// <summary>
+        /// Obtem configuração de sistema
+        /// </summary>
+        /// <returns></returns>
+        private ConfiguraSistema ObterConfiguracao()
+        {
+            //Obter configuracoes de sistema
+            var config = _auxiliaresServiceConfiguraSistema.ConfiguraSistemaService.Listar();
+            //Obtem o primeiro registro de configuracao
+            if (config == null) throw new InvalidOperationException("Não foi possivel obter dados de configuração do sistema.");
+            return config.FirstOrDefault();
+        }
         /// <summary>
         ///     Acionado antes de remover
         /// </summary>

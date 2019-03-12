@@ -34,6 +34,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
         private readonly IEmpresaService _service = new EmpresaService();
         private List<EmpresaView> _entityObserverCloned = new List<EmpresaView>();
+        private ConfiguraSistema _configuraSistema;
+        
         /// <summary>
         ///     True, Comando de alteração acionado
         /// </summary>
@@ -273,12 +275,31 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             var lst1 = _auxiliaresService.LayoutCrachaService.Listar();
             var lst2 = _auxiliaresService.TipoAtividadeService.Listar();
             var lst3 = _auxiliaresService.EstadoService.Listar();
+
             ListaCrachas = Mapper.Map<List<LayoutCrachaView>> (lst1);
             ListaAtividades = Mapper.Map<List<TipoAtividadeView>> (lst2);
             Estados = Mapper.Map<List<Estados>> (lst3);
+
+            //Obter configuracoes de sistema
+           _configuraSistema = ObterConfiguracao();
+
+
+
         }
 
         #endregion
+        /// <summary>
+        /// Obtem configuração de sistema
+        /// </summary>
+        /// <returns></returns>
+        private ConfiguraSistema ObterConfiguracao()
+        {
+            //Obter configuracoes de sistema
+            var config = _auxiliaresService.ConfiguraSistemaService.Listar();
+            //Obtem o primeiro registro de configuracao
+            if (config == null) throw new InvalidOperationException("Não foi possivel obter dados de configuração do sistema.");
+            return config.FirstOrDefault();
+        }
 
         #region Regras de Negócio
 
@@ -559,7 +580,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 var n1 = Mapper.Map<Empresa> (Entity);
                 var status = _auxiliaresService.StatusService.Listar().FirstOrDefault (n => n.CodigoStatus);
-                _service.CriarContratoBasico(n1, DateTime.Now.Date,"0",status);
+
+                _service.CriarContrato(n1, DateTime.Now.Date,"0",status,_configuraSistema);             
+                
                 //Salvar Tipo de Atividades
                 SalvarTipoAtividades (n1.EmpresaId);
                 //Salvar Tipo Cracha
