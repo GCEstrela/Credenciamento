@@ -209,7 +209,7 @@
 
         <TabControl SelectedIndex="{Binding SelectedTabIndex, UpdateSourceTrigger=PropertyChanged }" Margin="1,1,-259,-281" Grid.Row="3">
 
-            <TabItem x:Name="Geral_ti" Background="{x:Null}" Margin="0,-2,0,0">
+            <TabItem x:Name="Geral_ti" Background="{x:Null}" Margin="0,-2,0,0" IsEnabled="{Binding IsEnableTabItemGeral}">
 
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
@@ -421,7 +421,7 @@
                 </Grid>
             </TabItem>
 
-            <TabItem x:Name="Signatarios_ti" Width="200" IsEnabled="{Binding IsEnableTabItem, Mode=OneWay}">
+            <TabItem x:Name="Signatarios_ti" Width="200" IsEnabled="{Binding IsEnableTabItemEmpresaVinculo}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="Signatarios_bt" Click="OnPendenciaVinculos_Click"
@@ -442,7 +442,7 @@
 
             </TabItem>
 
-            <TabItem x:Name="Contrato_ti" Width="200" IsEnabled="{Binding IsEnableTabItem}">
+            <TabItem x:Name="Contrato_ti" Width="200" IsEnabled="{Binding IsEnableTabItemSeguros}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="btnVeiculoSeguro" Click="OnPendenciaSeguros_Click"
@@ -463,7 +463,7 @@
 
             </TabItem>
 
-            <TabItem x:Name="Anexos_ti" Width="200" IsEnabled="{Binding IsEnableTabItem}">
+            <TabItem x:Name="Anexos_ti" Width="200" IsEnabled="{Binding IsEnableTabItemAnexos}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="Anexos_bt" Click="OnPendenciaGeralAnexos_Click"
@@ -485,7 +485,7 @@
 
             </TabItem>
 
-            <TabItem x:Name="tab43" Width="200" IsEnabled="{Binding IsEnableTabItem}">
+            <TabItem x:Name="tab43" Width="200" IsEnabled="{Binding IsEnableTabItemCredenciais}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="Crede" Click="OnPendenciaCredencias_Click"

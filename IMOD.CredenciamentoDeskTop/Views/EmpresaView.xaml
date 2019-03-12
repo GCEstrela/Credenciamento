@@ -153,7 +153,7 @@
                     Width="1259" Margin="1,1,-259,-321" Grid.Row="3">
 
 
-            <TabItem x:Name="Geral_ti" Background="{x:Null}" Margin="0,-2,0,0">
+            <TabItem x:Name="Geral_ti" Background="{x:Null}" Margin="0,-2,0,0" IsEnabled="{Binding IsEnableTabGeral}">
 
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
@@ -471,7 +471,7 @@
             </TabItem>
 
 
-            <TabItem x:Name="Signatarios_ti" Width="200" IsEnabled="{Binding IsEnableTabItem}">
+            <TabItem x:Name="Signatarios_ti" Width="200" IsEnabled="{Binding IsEnableTabRepresentantes}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="Signatarios_bt" Click="OnPendenciaRepresentantes_Click"
@@ -492,7 +492,7 @@
 
             </TabItem>
 
-            <TabItem x:Name="Contrato_ti" Width="200" IsEnabled="{Binding IsEnableTabItem}">
+            <TabItem x:Name="Contrato_ti" Width="200" IsEnabled="{Binding IsEnableTabContratos}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="Contratos_bt" Click="OnPendenciaGeralContratos_Click"
@@ -525,7 +525,7 @@
                 <views:UsEmpresaContratoView x:Name="EmpresaContratosUs" Margin="5,5,0,5" HorizontalAlignment="Left"
                                              Width="1141" />
             </TabItem>
-            <TabItem x:Name="Anexos_ti" Width="200" IsEnabled="{Binding IsEnableTabItem}">
+            <TabItem x:Name="Anexos_ti" Width="200" IsEnabled="{Binding IsEnableTabAnexo}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="Anexos_bt" Click="OnPendenciaGeralAnexos_Click"

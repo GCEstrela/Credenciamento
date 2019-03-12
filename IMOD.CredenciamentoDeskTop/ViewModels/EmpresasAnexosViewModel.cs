@@ -109,6 +109,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 IsEnableLstView = true;
                 _viewModelParent.AtualizarDadosPendencias();
                 SelectListViewIndex = 0;
+                _viewModelParent.HabilitaControleTabControls(true, true, true, true, true);
+
             }
             catch (Exception ex)
             {
@@ -126,6 +128,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             Entity = new EmpresaAnexoView();
             Comportamento.PrepareCriar();
             IsEnableLstView = false;
+            _viewModelParent.HabilitaControleTabControls(false, false, false, false, true);
         }
 
         /// <summary>
@@ -143,6 +146,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var n1 = Mapper.Map<EmpresaAnexo>(Entity);
                 _service.Alterar(n1);
                 IsEnableLstView = true;
+                _viewModelParent.HabilitaControleTabControls(true, true, true, true, true);
             }
             catch (Exception ex)
             {
@@ -163,7 +167,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 IsEnableLstView = true;
                 if (Entity != null) Entity.ClearMessageErro();
                 Entity = null;
-               
+                _viewModelParent.HabilitaControleTabControls(true, true, true, true, true);
             }
             catch (Exception ex)
             {
@@ -190,6 +194,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 _service.Remover(n1);
                 //Retirar empresa da coleção
                 EntityObserver.Remove(Entity);
+                _viewModelParent.HabilitaControleTabControls(true, true, true, true, true);
             }
             catch (Exception ex)
             {
@@ -214,7 +219,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
            
             Comportamento.PrepareAlterar();
-            IsEnableLstView = false;
+            IsEnableLstView = false; 
+            _viewModelParent.HabilitaControleTabControls(false, false, false, false, true);
         }
 
         public void AtualizarDadosAnexo(EmpresaView entity, EmpresaViewModel viewModelParent)

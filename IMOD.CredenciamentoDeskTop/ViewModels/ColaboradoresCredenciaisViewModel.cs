@@ -41,6 +41,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private readonly IColaboradorEmpresaService _colaboradorEmpresaService = new ColaboradorEmpresaService();
         private readonly IEmpresaContratosService _contratosService = new EmpresaContratoService();
         private readonly IColaboradorCredencialService _service = new ColaboradorCredencialService();
+        private ColaboradorViewModel _viewModelParent;
 
         /// <summary>
         ///     Lista de todos os contratos disponíveis
@@ -270,10 +271,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         private int _count;
 
-        public void AtualizarDados(ColaboradorView entity)
+        public void AtualizarDados(ColaboradorView entity, ColaboradorViewModel viewModelParent)
         {
             if (entity == null) throw new ArgumentNullException (nameof (entity));
             _colaboradorView = entity;
+            _viewModelParent = viewModelParent;
             //Obter dados
             var list1 = _service.ListarView (null, null, null, null, entity.ColaboradorId).ToList();
             var list2 = Mapper.Map<List<ColaboradoresCredenciaisView>> (list1.OrderByDescending (n => n.ColaboradorCredencialId));
@@ -383,6 +385,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 list2.ForEach (n => { EntityObserver.Add (n);  });
                 MensagemAlerta = "";
                 Entity = null;
+                _viewModelParent.HabilitaControleTabControls(true, true, true, true, true, true);
 
             }
             catch (Exception ex)
@@ -415,6 +418,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             MensagemAlerta = "";
             //Listar Colaboradores Ativos
             OnAtualizarDadosContratosAtivos();
+            _viewModelParent.HabilitaControleTabControls(false, false, false, false, false, true);
         }
 
         /// <summary>
@@ -447,6 +451,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 AtualizarMensagem(Entity);
                 //===================================================
                 Entity = null;
+                _viewModelParent.HabilitaControleTabControls(true, true, true, true, true, true);
 
             }
             catch (Exception ex)
@@ -470,8 +475,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 IsEnableLstView = true;
                 if (Entity != null) Entity.ClearMessageErro();
                 Entity = null;
-                //Listar todas contratos
-                ListarTodosContratos();
+                //Listar todas contratos 
+                ListarTodosContratos(); 
+                _viewModelParent.HabilitaControleTabControls(true, true, true, true, true, true);
             }
             catch (Exception ex)
             {
@@ -498,6 +504,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 _service.Remover (n1);
                 //Retirar empresa da coleção
                 EntityObserver.Remove (Entity);
+                _viewModelParent.HabilitaControleTabControls(true, true, true, true, true, true);
+
             }
             catch (Exception ex)
             {
@@ -568,7 +576,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;
             IsEnableLstView = false;
             //Habilitar controles somente se a credencial não estiver sido impressa
-             Habilitar = !Entity.Impressa;
+             Habilitar = !Entity.Impressa; 
+            _viewModelParent.HabilitaControleTabControls(false, false, false, false, false, true); 
         }
 
 
