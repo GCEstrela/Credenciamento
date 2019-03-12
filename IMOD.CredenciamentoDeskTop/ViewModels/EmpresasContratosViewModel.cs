@@ -194,18 +194,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             list2.ForEach(n => { EntityObserver.Add(n); });
             
 
-            //var contratoBasico = list2[0].NumeroContrato.ToString();
-            //if (contratoBasico != "0")
-            //{
-            //    EntityObserver = new ObservableCollection<EmpresaContratoView>();
-            //    list2.ForEach(n => { EntityObserver.Add(n); });
-            //}
-            //else
-            //{
-            //    EntityObserver = new ObservableCollection<EmpresaContratoView>();
-            //}
-
-
         }
 
         /// <summary>
