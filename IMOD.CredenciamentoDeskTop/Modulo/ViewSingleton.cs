@@ -32,8 +32,7 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
         public EmpresaView EmpresaView
         {
           
-            get { return _empresaView ?? (_empresaView = new EmpresaView()); }
-           // get { return new EmpresaView();}
+            get { return _empresaView ?? (_empresaView = new EmpresaView()); } 
         }
 
         /// <summary>
@@ -41,8 +40,7 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
         /// </summary>
         public ColaboradorView ColaboradorView
         {
-            get { return _colaboradorView ?? (_colaboradorView = new ColaboradorView()); }
-            //get { return new ColaboradorView();}
+            get { return _colaboradorView ?? (_colaboradorView = new ColaboradorView()); } 
         }
 
         /// <summary>
@@ -50,8 +48,7 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
         /// </summary>
         public VeiculoView VeiculoView
         {
-              get { return _veiculoView ?? (_veiculoView = new VeiculoView()); }
-           // get { return new VeiculoView();}
+              get { return _veiculoView ?? (_veiculoView = new VeiculoView()); } 
         }
 
         /// <summary>
@@ -59,8 +56,7 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
         /// </summary>
         public ConfiguracoesView ConfiguracoesView
         {
-              get { return _configuracoesView ?? (_configuracoesView = new ConfiguracoesView()); }
-            //get { return new ConfiguracoesView();}
+              get { return _configuracoesView ?? (_configuracoesView = new ConfiguracoesView()); } 
         }
 
         /// <summary>
@@ -68,8 +64,7 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
         /// </summary>
         public RelatoriosView RelatoriosView
         {
-             get { return _relatoriosView ?? (_relatoriosView = new RelatoriosView()); }
-            //get { return new RelatoriosView();}
+             get { return _relatoriosView ?? (_relatoriosView = new RelatoriosView()); } 
         }
 
         /// <summary>
@@ -77,8 +72,7 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
         /// </summary>
         public TermosView TermosView
         {
-             get { return _termosView ?? (_termosView = new TermosView()); }
-            //get { return new TermosView();}
+             get { return _termosView ?? (_termosView = new TermosView()); } 
         }
 
         #endregion
