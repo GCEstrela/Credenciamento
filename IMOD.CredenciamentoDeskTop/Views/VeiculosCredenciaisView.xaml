@@ -66,11 +66,11 @@
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock Margin="0,0,10,0" Text="{Binding Path=EmpresaNome}" />
-                                            <TextBlock>
+                                            <!--<TextBlock>
                                                 <Run Text="(" />
                                                 <Run Text="{Binding  Path=Descricao}" />
                                                 <Run Text=")" />
-                                            </TextBlock>
+                                            </TextBlock>-->
                                         </StackPanel>
                                     </DataTemplate>
                                 </ComboBox.ItemTemplate>

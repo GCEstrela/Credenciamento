@@ -36,6 +36,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private VeiculoView _veiculoView;
         private VeiculoViewModel _viewModelParent;
 
+        private readonly IDadosAuxiliaresFacade _auxiliaresServiceConfiguraSistema = new DadosAuxiliaresFacadeService();
+        private ConfiguraSistema _configuraSistema;
+
         #region  Propriedades
         public List<EmpresaContrato> Contratos { get; private set; }
         public List<Empresa> Empresas { get; private set; }
@@ -52,6 +55,14 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         ///     Habilita listView
         /// </summary>
         public bool IsEnableLstView { get; private set; } = true;
+
+        public bool IsEnableComboContrato
+        {
+            get
+            {
+                return !_configuraSistema.Contrato;
+            }
+        }
 
         #endregion
 
@@ -96,6 +107,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             Empresas = new List<Empresa>();
             Contratos = new List<EmpresaContrato>();
             ListarDadosEmpresaContratos();
+            _configuraSistema = ObterConfiguracao();
         }
 
         /// <summary>
@@ -115,6 +127,19 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 Utils.TraceException(ex);
             }
+        }
+
+        /// <summary>
+        /// Obtem configuração de sistema
+        /// </summary>
+        /// <returns></returns>
+        private ConfiguraSistema ObterConfiguracao()
+        {
+            //Obter configuracoes de sistema
+            var config = _auxiliaresServiceConfiguraSistema.ConfiguraSistemaService.Listar();
+            //Obtem o primeiro registro de configuracao
+            if (config == null) throw new InvalidOperationException("Não foi possivel obter dados de configuração do sistema.");
+            return config.FirstOrDefault();
         }
 
         public void ListarContratos(Empresa empresa)
@@ -155,6 +180,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 var n1 = Mapper.Map<VeiculoEmpresa> (Entity);
                 n1.VeiculoId = _veiculoView.EquipamentoVeiculoId;
+                if (_configuraSistema.Contrato)
+                {
+                    n1.EmpresaContratoId = Contratos[0].EmpresaContratoId;
+                }
+
                 _service.Criar (n1);
                 //Adicionar no inicio da lista um item a coleção
                 var n2 = Mapper.Map<VeiculoEmpresaView> (n1);
