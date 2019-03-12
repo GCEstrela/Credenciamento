@@ -190,10 +190,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 Comportamento.IsEnableEditar = Entity != null;
                 HabilitaControleTabControls(true, enableControls, enableControls, enableControls, enableControls, enableControls);
             }
-            //===================================
-            //Autor:Valnei Filho
-            //Data:08/03/19
-            //A listView principal deve estar desabilitada ao navegar por entre as abas
+
             if (e.PropertyName == "SelectedTabIndex")
             {
                 //Habilita/Desabilita botoes principais...
