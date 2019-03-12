@@ -61,6 +61,8 @@ namespace IMOD.CredenciamentoDeskTop.Views
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             cmbEmpresaVinculo.SelectionChanged += EmpresaVinculo_cb_SelectionChanged;
+
+            
         }
          
 

@@ -42,6 +42,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private readonly IEmpresaContratosService _contratosService = new EmpresaContratoService();
         private readonly IColaboradorCredencialService _service = new ColaboradorCredencialService();
         private ColaboradorViewModel _viewModelParent;
+        private readonly IDadosAuxiliaresFacade _auxiliaresServiceConfiguraSistema = new DadosAuxiliaresFacadeService();
+        private ConfiguraSistema _configuraSistema;
 
         /// <summary>
         ///     Lista de todos os contratos disponíveis
@@ -96,7 +98,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public ColaboradorEmpresa ColaboradorEmpresa { get; set; }
         public List<AreaAcesso> ColaboradorPrivilegio { get; set; }
         public ColaboradoresCredenciaisView Entity { get; set; }
-
+        /// <summary>
+        ///     Habilita concatenação do Contratos
+        /// </summary>
+        public bool IsEnableContrato { get; private set; } = true;
         /// <summary>
         ///     Mensagem de alerta
         /// </summary>
@@ -237,6 +242,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             Comportamento.Cancelar += OnCancelar;
             PropertyChanged += OnEntityChanged;
             SelectListViewIndex = -1;
+
+            _configuraSistema = ObterConfiguracao();
+            if (_configuraSistema.Contrato) //Se contrato for automático for true a combo sera removida do formulário
+            {
+                IsEnableContrato = false;
+            }
         }
 
         #region  Metodos
@@ -372,6 +383,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 n1.LayoutCrachaId = Entity.LayoutCrachaId;
                 n1.TecnologiaCredencialId = Entity.TecnologiaCredencialId;
                 n1.TipoCredencialId = Entity.TipoCredencialId;
+                
                 //Criar registro no banco de dados e setar uma data de validade
                 _prepareCriarCommandAcionado = false;
                 _service.Criar (n1);
@@ -394,7 +406,18 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 WpfHelp.PopupBox (ex);
             }
         }
-
+        /// <summary>
+        /// Obtem configuração de sistema
+        /// </summary>
+        /// <returns></returns>
+        private ConfiguraSistema ObterConfiguracao()
+        {
+            //Obter configuracoes de sistema
+            var config = _auxiliaresServiceConfiguraSistema.ConfiguraSistemaService.Listar();
+            //Obtem o primeiro registro de configuracao
+            if (config == null) throw new InvalidOperationException("Não foi possivel obter dados de configuração do sistema.");
+            return config.FirstOrDefault();
+        }
         /// <summary>
         ///     Acionado antes de criar
         /// </summary>

@@ -50,6 +50,19 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             if (entity == null) return;
             _viewModel.AtualizarDados(entity,viewModelParent);
+            if (!_viewModel.IsEnableComboContrato)
+            {
+                //lblContrato.Visibility = Visibility.Collapsed;
+                //cmbContrato.Visibility = Visibility.Collapsed;
+
+                lblContrato.Visibility = Visibility.Hidden;
+                cmbContrato.Visibility = Visibility.Hidden;
+
+                //ListaSegnatarios_lv.col
+
+            }
+
+
         }
 
         #endregion

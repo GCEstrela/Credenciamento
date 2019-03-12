@@ -36,6 +36,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         
         private readonly object _auxiliaresService;
         private ColaboradorView _colaboradorView;
+       
         private ColaboradorViewModel _viewModelParent;
 
         private readonly IDadosAuxiliaresFacade _auxiliaresServiceConfiguraSistema = new DadosAuxiliaresFacadeService();
@@ -133,7 +134,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 base.OnPropertyChanged ("Entity");
 
                 _configuraSistema = ObterConfiguracao();
-                IsEnableComboContrato = false;
+                if (_configuraSistema.Contrato) //Se contrato for automático for true a combo sera removida do formulário
+                {
+                    IsEnableComboContrato = false;
+                }
+                
+                
 
             }
             catch (Exception ex)
@@ -178,6 +184,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 var n1 = Mapper.Map<ColaboradorEmpresa>(Entity);
                 n1.ColaboradorId = _colaboradorView.ColaboradorId;
+                if (_configuraSistema.Contrato)
+                {
+                    n1.EmpresaContratoId = Contratos[0].EmpresaContratoId;
+                }
+                    
+
                 _service.Criar(n1);
                 //Adicionar no inicio da lista um item a coleção
                 var n2 = Mapper.Map<ColaboradorEmpresaView>(n1);
