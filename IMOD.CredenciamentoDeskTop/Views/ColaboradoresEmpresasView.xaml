@@ -6,10 +6,12 @@
              d:DataContext="{d:DesignInstance viewModels:ColaboradoresEmpresasViewModel , IsDesignTimeCreatable=True}"
              xmlns:wpf="clr-namespace:CSharpControls.Wpf;assembly=CSharpControls.Wpf"
              xmlns:viewModels="clr-namespace:IMOD.CredenciamentoDeskTop.ViewModels"
+             xmlns:funcoes="clr-namespace:IMOD.CredenciamentoDeskTop.Funcoes"
              mc:Ignorable="d"
              d:DesignHeight="320" 
              Loaded="Frm_Loaded">
     <UserControl.Resources>
+        <funcoes:BooleanToVisibilityConverter x:Key="VisibleControl" />
         <Image x:Key="imgAdd" Source="../Resources/add.png"  />
         <Image x:Key="imgEdit" Source="../Resources/edit.png"  />
         <Image x:Key="imgRemove" Source="../Resources/remove.png"  />
@@ -64,12 +66,13 @@
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                     Margin="1">
-                        <Label Name="lblContrato" Content="Contrato:" Height="28" Foreground="#FFD0D0D0" Width="143"   />
+                        <Label Name="lblContrato" Content="Contrato:" Height="28" Foreground="#FFD0D0D0" Width="143"   Visibility="{Binding IsEnableComboContrato,  Converter={StaticResource VisibleControl}}" />
 
                         <ComboBox  x:Name="cmbContrato" 
                                    Width="300" Height="25" 
                                    VerticalContentAlignment="Center" 
-                                   HorizontalContentAlignment="Left"                                   
+                                   HorizontalContentAlignment="Left"  
+                                   Visibility="{Binding IsEnableComboContrato,  Converter={StaticResource VisibleControl}}"
                                    ItemsSource="{Binding Contratos}" 
                                    DisplayMemberPath="Descricao"  
                                    SelectedValue="{Binding Entity.EmpresaContratoId, UpdateSourceTrigger=PropertyChanged}" 

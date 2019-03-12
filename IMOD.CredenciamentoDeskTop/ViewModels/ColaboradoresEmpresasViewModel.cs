@@ -61,7 +61,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <summary>
         ///     Habilita Combo de Contratos
         /// </summary>
-        public bool IsEnableComboContrato { get; private set; } = true;
+        public bool IsEnableComboContrato { get {
+                return !_configuraSistema.Contrato;
+            } }
         #endregion
 
         public ColaboradoresEmpresasViewModel()
@@ -91,7 +93,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 Comportamento.IsEnableEditar = Entity != null;
                 Comportamento.isEnableRemover = Entity != null;
-
+                
             }
         }
 
@@ -103,6 +105,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             Empresas = new List<Empresa>();
             Contratos = new List<EmpresaContrato>();
             ListarDadosEmpresaContratos();
+            _configuraSistema = ObterConfiguracao();
         }
 
         public void ListarContratos(Empresa empresa)
@@ -133,11 +136,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 Contratos = l3;
                 base.OnPropertyChanged ("Entity");
 
-                _configuraSistema = ObterConfiguracao();
-                if (_configuraSistema.Contrato) //Se contrato for automático for true a combo sera removida do formulário
-                {
-                    IsEnableComboContrato = false;
-                }
+                //_configuraSistema = ObterConfiguracao();
+                //if (_configuraSistema.Contrato) //Se contrato for automático for true a combo sera removida do formulário
+                //{
+                //    IsEnableComboContrato = false;
+                //}
                 
                 
 
