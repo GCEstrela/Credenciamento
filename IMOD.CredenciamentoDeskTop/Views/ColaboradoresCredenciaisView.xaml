@@ -290,13 +290,13 @@
                           SelectedItem="{Binding Entity, Mode=TwoWay}" Height="175" VerticalAlignment="Top" >
                     <ListView.View>
                         <GridView  >
-                            <GridViewColumn Width="50" Header="Status"  >
+                            <!--<GridViewColumn Width="50" Header="Status"  >
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <CheckBox IsChecked="{Binding Path= Ativa}" IsHitTestVisible="False" />
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate> 
-                            </GridViewColumn>
+                            </GridViewColumn>-->
                             
                             <!--<GridViewColumn >
                                 <GridViewColumn.CellTemplate>
@@ -364,7 +364,7 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn Width="90" Header="Impressão">
+                            <GridViewColumn Width="90" Header="Emitida">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate >
                                         <CheckBox HorizontalAlignment="Center" IsChecked="{Binding Path= Impressa}" IsHitTestVisible="False" Background="{Binding   Impressa,  Converter={StaticResource CheckImpressao}, ConverterParameter='Impressa_tw'}" />
