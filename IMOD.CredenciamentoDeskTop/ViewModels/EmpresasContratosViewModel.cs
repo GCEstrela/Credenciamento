@@ -188,10 +188,24 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             _empresaView = entity;
             _viewModelParent = viewModelParent;
             //Obter dados
-            var list1 = _service.Listar(entity.EmpresaId, null, null, null, null, null, null);
+            var list1 = _service.Listar(entity.EmpresaId, null, null, null, null, null, null,null,1);
             var list2 = Mapper.Map<List<EmpresaContratoView>>(list1.OrderByDescending(n => n.EmpresaContratoId));
             EntityObserver = new ObservableCollection<EmpresaContratoView>();
             list2.ForEach(n => { EntityObserver.Add(n); });
+            
+
+            //var contratoBasico = list2[0].NumeroContrato.ToString();
+            //if (contratoBasico != "0")
+            //{
+            //    EntityObserver = new ObservableCollection<EmpresaContratoView>();
+            //    list2.ForEach(n => { EntityObserver.Add(n); });
+            //}
+            //else
+            //{
+            //    EntityObserver = new ObservableCollection<EmpresaContratoView>();
+            //}
+
+
         }
 
         /// <summary>

@@ -117,8 +117,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             //Manipular concatenaçção de conrato
             lstContratos.ForEach(n =>
             {
+                //if (Convert.ToInt32(n.NumeroContrato) > 0)
+                //{
                 n.Descricao = $"{n.Descricao} - {n.NumeroContrato}";
                 Contratos.Add(n);
+                //}
+
             });
         }
 
