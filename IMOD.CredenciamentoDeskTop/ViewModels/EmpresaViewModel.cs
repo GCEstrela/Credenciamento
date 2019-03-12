@@ -324,15 +324,30 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public bool ExisteSigla()
         {
             if (Entity == null) return false;
-            var sigla = Entity.Sigla;
+            var sigla = Entity.Sigla.Trim();
 
-            if (_service.ExisteSigla(sigla))
-            {
-                return true;
-            }
-            return false;
-           
+            //Verificar dados antes de salvar uma criação
+            if (_prepareCriarCommandAcionado)
+                if (_service.ExisteSigla(sigla)) return true;
+            //Verificar dados antes de salvar uma alteraçao
+            if (!_prepareAlterarCommandAcionado) return false;
+            var n1 = _service.BuscarPelaChave(Entity.EmpresaId);
+            if (n1 == null) return false;
+            //Comparar o CNPJ antes e o depois
+            //Verificar se há cnpj exisitente
             
+
+            //if (Entity == null) return false;
+            //var empreId = Entity.EmpresaId;
+            //var sigla = Entity.Sigla.Trim();
+
+            //if (_service.ExisteSigla(sigla))
+            //{
+            //    return true;
+            //}
+            return false;
+
+
         }
         /// <summary>
         ///     Verificar se dados válidos

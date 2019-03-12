@@ -300,7 +300,9 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
+                        //cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("EmpresaID", DbType.Int32, EmpresaId).Igual()));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("Sigla", DbType.String, sigla).Igual()));
+
                         var reader = cmd.ExecuteReader();
                         var d1 = reader.MapToList<Empresa>();
 
@@ -363,6 +365,11 @@ namespace IMOD.Infra.Repositorios
                 }
             }
         }
+
+        //public Empresa BuscarEmpresaPorSigla(string sigla)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
 
         #endregion
