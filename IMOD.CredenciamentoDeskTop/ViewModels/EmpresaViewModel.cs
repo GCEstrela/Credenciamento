@@ -333,20 +333,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             if (!_prepareAlterarCommandAcionado) return false;
             var n1 = _service.BuscarPelaChave(Entity.EmpresaId);
             if (n1 == null) return false;
-            //Comparar o CNPJ antes e o depois
-            //Verificar se há cnpj exisitente
-            
-
-            //if (Entity == null) return false;
-            //var empreId = Entity.EmpresaId;
-            //var sigla = Entity.Sigla.Trim();
-
-            //if (_service.ExisteSigla(sigla))
-            //{
-            //    return true;
-            //}
+           
             return false;
-
 
         }
         /// <summary>
