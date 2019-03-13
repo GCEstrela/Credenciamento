@@ -184,6 +184,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         public void AtualizarDados(EmpresaView entity, EmpresaViewModel viewModelParent)
         {
+
           if(entity==null) throw new ArgumentNullException(nameof(entity));
             _empresaView = entity;
             _viewModelParent = viewModelParent;
@@ -276,6 +277,13 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 var n1 = Mapper.Map<EmpresaContrato>(Entity);
                 _service.Alterar(n1);
+
+                var list1 = _service.Listar(n1.EmpresaId, "0", null, null, null, null, null, null, null);
+                
+                //var list2 = Mapper.Map<List<EmpresaContratoView>>(list1.OrderByDescending(n => n.EmpresaContratoId));
+                //EntityObserver = new ObservableCollection<EmpresaContratoView>();
+                //list2.ForEach(n => { EntityObserver.Add(n); });
+
                 IsEnableLstView = true;
                 _viewModelParent.HabilitaControleTabControls(true, true, true, true, true);
             }
