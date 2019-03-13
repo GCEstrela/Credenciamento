@@ -43,7 +43,7 @@
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="1" >
                         <Label Content="Razão Social da Empresa:" Height="24" Foreground="#FFD0D0D0" />
 
-                        <ComboBox  x:Name="cmbEmpresa" Width="300" Height="25" 
+                        <ComboBox  x:Name="cmbEmpresa" Width="300" Height="25" IsEditable="true"  
                                    VerticalContentAlignment="Center" 
                                    HorizontalContentAlignment="Left"
                                    VerticalAlignment="Center"
@@ -68,7 +68,7 @@
                                     Margin="1">
                         <Label Name="lblContrato" Content="Contrato:" Height="28" Foreground="#FFD0D0D0" Width="143"   Visibility="{Binding IsEnableComboContrato,  Converter={StaticResource VisibleControl}}" />
 
-                        <ComboBox  x:Name="cmbContrato" 
+                        <ComboBox  x:Name="cmbContrato" IsEditable="true" 
                                    Width="300" Height="25" 
                                    VerticalContentAlignment="Center" 
                                    HorizontalContentAlignment="Left"  
@@ -89,7 +89,7 @@
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                     Margin="1,1,0,1" Width="947">
-                        <Label Content="Vínculo Ativo:" Height="28" Width="143" Foreground="#FFD0D0D0"  />
+                        <Label Content="Vínculo Ativo:" Height="28" Width="143" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                         <CheckBox VerticalAlignment="Center" x:Name="Impeditivo_cb"  Foreground="#FFD0D0D0" IsChecked="{Binding Entity.Ativo, UpdateSourceTrigger=PropertyChanged}"/>
                     </StackPanel>
                 </StackPanel>

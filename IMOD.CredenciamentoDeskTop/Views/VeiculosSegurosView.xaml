@@ -39,7 +39,7 @@
                     <StackPanel Margin="1" Width="958">
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                     Margin="1">
-                            <Label Content="Seguradora:" Height="28" Width="132"  Foreground="#FFD0D0D0" />
+                            <Label Content="Seguradora:" Height="28" Width="132"  Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
                             <TextBox x:Name="txtSeguradora" MaxLength="50" CharacterCasing="Upper"
                                      Text="{Binding Entity.NomeSeguradora, UpdateSourceTrigger=PropertyChanged}" 
                                      Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
@@ -54,7 +54,7 @@
                                      VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="1">
-                            <Label Content="Valor da Cobertura (R$):" Height="28" Width="132"  Foreground="#FFD0D0D0" />
+                            <Label Content="Valor da Cobertura (R$):" Height="28" Width="132"  Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                             <TextBox x:Name="txtValorCobertura" MaxLength="15" CharacterCasing="Lower"
                                      Text="{Binding Entity.ValorCobertura, UpdateSourceTrigger=PropertyChanged,  StringFormat={}{0:N}}"
                                      Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
@@ -91,7 +91,7 @@
                             Height="24"  Width="110" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" >
-                            <Label Content="Apólice Digitalizada:" Height="28" Width="131" Margin="0,0,2,0" HorizontalContentAlignment="Left" Foreground="#FFD0D0D0" />
+                            <Label Content="Apólice Digitalizada:" Height="28" Width="131" Margin="0,0,2,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
                             <TextBox  x:Name="txtApoliceArquivo" MaxLength="50" CharacterCasing="Upper" Text="{Binding Entity.NomeArquivo, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="False"  Height="24"  Width="454"/>
                             <Button x:Name="btnBuscarArquivo" Height="24" Margin="10,0,0,0" IsEnabled="{Binding Comportamento.isEnableCancelar}" VerticalAlignment="Center" Width="24" Click="OnUpLoad_Click">
                                 <StackPanel>
