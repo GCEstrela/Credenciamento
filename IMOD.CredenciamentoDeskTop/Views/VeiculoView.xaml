@@ -239,7 +239,7 @@
                                     <Label Content="Tipo:" Height="28"   Width="110" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
                                     <ComboBox  x:Name="cboTipo"   Text="{Binding Entity.Tipo, UpdateSourceTrigger=PropertyChanged}"
                                                Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
-                                               Height="24"  Width="329"  TabIndex="0" >
+                                               Height="24"  Width="329"  TabIndex="0" IsEditable="true" >
                                         <ComboBoxItem>EQUIPAMENTO</ComboBoxItem>
                                         <ComboBoxItem>VEÍCULO</ComboBoxItem>
                                     </ComboBox>
@@ -316,6 +316,7 @@
                                                   ItemsSource="{Binding ListaEquipamentos}" DisplayMemberPath="Descricao" 
                                                   SelectedValue="{Binding Entity.TipoEquipamentoVeiculoId,  UpdateSourceTrigger=PropertyChanged}" 
                                                   SelectedValuePath="TipoEquipamentoId" IsSynchronizedWithCurrentItem="True" 
+                                                  IsEditable="true" 
                                                   SelectedIndex="0" 
                                                   Width="381" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
                                 </StackPanel>
@@ -331,6 +332,7 @@
                                 <Label Content="Combustível:" Height="28" Width="110" Margin="40,0,0,0" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
                                 <ComboBox  Height="26" VerticalContentAlignment="Center" x:Name="cmbCombustivel"
                                                HorizontalContentAlignment="Center"
+                                               IsEditable="true" 
                                                ItemsSource="{Binding TiposCombustiveis}" DisplayMemberPath="Descricao"
                                                SelectedValue="{Binding Entity.CombustivelId, UpdateSourceTrigger=PropertyChanged}" 
                                                SelectedValuePath="TipoCombustivelId"   TabIndex="14" Width="173" 
@@ -374,6 +376,7 @@
                                                   SelectedValue="{Binding Entity.EstadoId,  UpdateSourceTrigger=PropertyChanged}" 
                                                   SelectedValuePath="EstadoId" IsSynchronizedWithCurrentItem="True" 
                                                   SelectedIndex="0"
+                                                  IsEditable="true" 
                                                   SelectedItem="{Binding Estado}"
                                                   Width="99" />
 
@@ -382,6 +385,7 @@
                                                    ItemsSource="{Binding Municipios}" DisplayMemberPath="Nome"
                                                   SelectedValue="{Binding Entity.MunicipioId,  UpdateSourceTrigger=PropertyChanged}" 
                                                   SelectedValuePath="MunicipioId"
+                                                  IsEditable="true" 
                                                   SelectedIndex="0"
                                                   Margin="0,2,0,3" Width="175"/>
                             </StackPanel>
@@ -400,6 +404,7 @@
                                     <Label Content="Tipo de Serviço:" Height="28" Width="104" Margin="0,0,5,0"
                                            Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                                     <ComboBox   IsEnabled="True" Height="30" Width="280"
+                                                IsEditable="true" 
                                               ItemsSource="{Binding ListaTipoServico}"
                                               SelectedItem="{Binding TipoServico}"
                                               DisplayMemberPath="Descricao"

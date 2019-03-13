@@ -427,6 +427,7 @@
                                               ItemsSource="{Binding ListaAtividades}"
                                               SelectedItem="{Binding TipoAtividade}"
                                               DisplayMemberPath="Descricao"
+                                              IsEditable="true" 
                                               SelectedValuePath="TipoAtividadeId" />
                                     <Button x:Name="IncluirAtividade_bt" Content="Incluir" Margin="07,0,0,0" Width="65"
                                             Height="24" Click="OnAdicionarTipoAtividade_Click" />
@@ -450,6 +451,7 @@
                                               ItemsSource="{Binding ListaCrachas}"
                                               DisplayMemberPath="Nome"
                                               SelectedValuePath="LayoutCrachaId"
+                                              IsEditable="true" 
                                               SelectedItem="{Binding TipoCracha}" />
                                     <Button x:Name="btnA" Content="Incluir" Margin="10,0,0,0" Width="65"
                                             Click="OnAdicionarTipoCracha_Click" Height="24" />

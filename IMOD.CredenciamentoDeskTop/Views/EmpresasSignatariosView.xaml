@@ -65,6 +65,7 @@
                             <Label Foreground="#FFD0D0D0" Content="Órg. Exp.:" Height="24" Width="64"
                                        HorizontalContentAlignment="Right" />
                             <ComboBox x:Name="RGOrgLocal_cb"
+                                      IsEditable="true" 
                                       Text="{Binding Entity.OrgaoExp, 
                                       UpdateSourceTrigger=PropertyChanged}"
                                       IsEnabled="{Binding Comportamento.isEnableCancelar}" Height="24" Width="43">

@@ -46,7 +46,7 @@
                                    VerticalAlignment="Center" Visibility="Collapsed"/>
 
                         <Label Content="Curso:" Height="24" Width="109" Foreground="#FFD0D0D0" />
-                        <ComboBox  x:Name="cmbCurso" 
+                        <ComboBox  x:Name="cmbCurso" IsEditable="true" 
                                    IsEnabled="{Binding Comportamento.isEnableCancelar}"
                                    Width="294" Height="24" 
                                    VerticalContentAlignment="Center" 

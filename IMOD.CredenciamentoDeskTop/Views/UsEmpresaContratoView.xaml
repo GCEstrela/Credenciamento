@@ -181,6 +181,7 @@
 
                         <Label Content="T. de Cobrança:" Height="28" Width="109" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Left"/>
                         <ComboBox x:Name="TipoCobranca_cb" Height="28"
+                                  IsEditable="true" 
                                   ItemsSource="{Binding TiposCobranca}" DisplayMemberPath="Descricao"
                                   SelectedValue="{Binding Entity.TipoCobrancaId, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                   SelectedValuePath="TipoCobrancaId" Width="207" SelectionChanged="TipoCobranca_cb_SelectionChanged" 
