@@ -120,20 +120,32 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
             #region Habilitar botão de impressao e mensagem ao usuario
 
-            HabilitaImpressao = entity.Ativa & !entity.PendenciaImpeditiva & !entity.Impressa & (entity.ColaboradorCredencialId > 0);
             //Verifica se a data de validade da credencial é maior que a data atural
-            HabilitaImpressao = entity.Validade >= DateTime.Now;
+            HabilitaImpressao = entity.Ativa && !entity.PendenciaImpeditiva && !entity.Impressa && (entity.ColaboradorCredencialId > 0) && entity.Validade >= DateTime.Now.Date;                        
             //Verificar se a empresa esta impedida
             var n1 = _service.BuscarCredencialPelaChave(entity.ColaboradorCredencialId);
             var mensagem1 = !n1.Ativa ? "Credencial Inativa" : string.Empty;
             var mensagem2 = n1.PendenciaImpeditiva ? "Pendência Impeditiva (consultar dados da empresa na aba Geral)" : string.Empty;
-            var mensagem3 = n1.Impressa ? "Não é possível imprimir pois a credencial já foi impressa" : string.Empty;
-            //Exibir mensagem de impressao de credencial, esta tem prioridade sobre as demais regras
-            MensagemAlerta = $"{mensagem3}";
+            var mensagem3 = n1.Impressa ? "Credencial já foi impressa" : string.Empty;
+            var mensagem4 = (entity.Validade < DateTime.Now.Date) ? "Credencial vencida." : string.Empty;
+            //Exibir mensagem de impressao de credencial, esta tem prioridade sobre as demais regras            
             if (n1.Impressa) return;
 
-            if (!string.IsNullOrWhiteSpace(mensagem1) | !string.IsNullOrWhiteSpace(mensagem2))
-                MensagemAlerta = $"A credencial não poderá ser impressa pelo seguinte motivo: [ {mensagem1} {mensagem2} ]";
+            MensagemAlerta = $"A credencial não poderá ser impressa pelo seguinte motivo: ";
+
+            if (!string.IsNullOrEmpty(mensagem1))
+            {
+                MensagemAlerta += mensagem1;
+            } else if (!string.IsNullOrEmpty(mensagem2))
+            {
+                MensagemAlerta += mensagem2;
+            } else if (!string.IsNullOrEmpty(mensagem3))
+            {
+                MensagemAlerta += mensagem3;
+            }else if (!string.IsNullOrEmpty(mensagem4))
+            {
+                MensagemAlerta += mensagem4;
+            }                
             //================================================================================
             #endregion
 
@@ -559,7 +571,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (Entity == null) return;
                 if (!Entity.Ativa) throw new InvalidOperationException ("Não é possível imprimir uma credencial não ativa.");
                 if (Entity.Validade == null) throw new InvalidOperationException ("Não é possível imprimir uma credencial sem data de validade.");
-                if (Entity.Validade == DateTime.Now ) throw new InvalidOperationException("Não é possível imprimir uma credencial com data/hora inferior à corrente.");
+                if (Entity.Validade < DateTime.Now.Date ) throw new InvalidOperationException("Não é possível imprimir uma credencial está vencida.");
 
                 var layoutCracha = _auxiliaresService.LayoutCrachaService.BuscarPelaChave (Entity.LayoutCrachaId);
                 if (layoutCracha == null) throw new InvalidOperationException ("Não é possível imprimir uma credencial sem ter sido definida um layout do crachá.");
