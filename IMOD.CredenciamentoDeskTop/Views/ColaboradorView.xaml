@@ -193,10 +193,10 @@
 
         <StackPanel x:Name="ListaColaboradores_sp" Grid.Column="0" Grid.Row="1" Orientation="Horizontal"
                     Margin="0,0,-259,0" Height="184" VerticalAlignment="Top">
-            <ListView x:Name="lstView"
-                    
+            <ListView x:Name="lstView"                    
                       IsEnabled="{Binding IsEnableLstView}"
                       ItemsSource="{Binding EntityObserver, Mode=TwoWay}"
+                      SelectedIndex="{Binding SelectListViewIndex}"
                       SelectedItem="{Binding Entity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                       Margin="0,0,5,0" Width="1258">
                 <ListView.View  >
@@ -460,7 +460,7 @@
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                         Margin="1,1,0,1" Width="571">
                                 <Label Content="Nome Emergência:" Height="28" Width="113" Foreground="#FFD0D0D0" />
-                                <TextBox CharacterCasing="Lower" x:Name="Email2_tb" MaxLength="50"
+                                <TextBox CharacterCasing="Upper" x:Name="Email2_tb" MaxLength="50"
                                          Text="{Binding Entity.ContatoEmergencia, UpdateSourceTrigger=PropertyChanged}"
                                          IsEnabled="True" Height="24" Width="237" 
                                          Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />

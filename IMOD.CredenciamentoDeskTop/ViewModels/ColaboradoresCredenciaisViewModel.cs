@@ -420,26 +420,36 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private void PrepareCriar()
         {
-            Entity = new ColaboradoresCredenciaisView();
+            try
+            {
+            
+                Entity = new ColaboradoresCredenciaisView();
 
-            var statusCred = CredencialStatus.FirstOrDefault (n => n.Codigo == "1"); //Status ativa
-            if (statusCred == null) throw new InvalidOperationException ("O status da credencial é requerida.");
-            StatusCredencial = statusCred;
+                var statusCred = CredencialStatus.FirstOrDefault (n => n.Codigo == "1"); //Status ativa
+                if (statusCred == null) throw new InvalidOperationException ("O status da credencial é requerida.");
+                StatusCredencial = statusCred;
 
-            var tipoCredencial = TipoCredencial.FirstOrDefault (n => n.CredPermanente);
-            if (tipoCredencial != null) Entity.TipoCredencialId = tipoCredencial.TipoCredencialId;
+                var tipoCredencial = TipoCredencial.FirstOrDefault (n => n.CredPermanente);
+                if (tipoCredencial != null) Entity.TipoCredencialId = tipoCredencial.TipoCredencialId;
 
-            Entity.Ativa = true;
-            Comportamento.PrepareCriar();
-            _prepareCriarCommandAcionado = true;
-            _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;
-            IsEnableLstView = false;
-            Habilitar = true;
-            MensagemAlerta = "";
-            //Listar Colaboradores Ativos
-            OnAtualizarDadosContratosAtivos();
-            _viewModelParent.HabilitaControleTabControls(false, false, false, false, false, true);
-        }
+                Entity.Ativa = true;
+                Comportamento.PrepareCriar();
+                _prepareCriarCommandAcionado = true;
+                _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;
+                IsEnableLstView = false;
+                Habilitar = true;
+                MensagemAlerta = "";
+                //Listar Colaboradores Ativos
+                OnAtualizarDadosContratosAtivos();
+                _viewModelParent.HabilitaControleTabControls(false, false, false, false, false, true);
+
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+                WpfHelp.PopupBox(ex);
+            }
+}
 
         /// <summary>
         ///     Editar dados

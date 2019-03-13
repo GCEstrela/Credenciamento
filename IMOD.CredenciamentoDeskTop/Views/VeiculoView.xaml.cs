@@ -24,6 +24,7 @@ using IMOD.CrossCutting;
 
 namespace IMOD.CredenciamentoDeskTop.Views
 {
+   
     /// <summary>
     ///     Interação lógica para VeiculoView.xam
     /// </summary>
@@ -172,6 +173,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
         }
 
         #endregion
-         
+
+        
     }
 }
