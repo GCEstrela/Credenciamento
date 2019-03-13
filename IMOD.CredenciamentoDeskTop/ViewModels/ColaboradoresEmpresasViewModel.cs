@@ -69,6 +69,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public ColaboradoresEmpresasViewModel()
         {
             ListarDadosAuxiliares();
+           
             Comportamento = new ComportamentoBasico(false, true, true, false, false);
             EntityObserver =new ObservableCollection<ColaboradorEmpresaView>();
             Comportamento.SalvarAdicao += OnSalvarAdicao;
@@ -362,6 +363,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             var list2 = Mapper.Map<List<ColaboradorEmpresaView>>(list1.OrderByDescending(n => n.ColaboradorEmpresaId));
             EntityObserver = new ObservableCollection<ColaboradorEmpresaView>();
             list2.ForEach(n => { EntityObserver.Add(n); });
+            ListarDadosEmpresaContratos();
         }
 
         #endregion
