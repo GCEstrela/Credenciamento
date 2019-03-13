@@ -160,7 +160,7 @@
                                       Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
                                       SelectedValue="{Binding Entity.LayoutCrachaId, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                       SelectedValuePath="LayoutCrachaId" IsSynchronizedWithCurrentItem="True" />
-                            <Label Content="Autenticação:" Height="28" Width="90" Margin="1"
+                            <Label Content="Autenticação:" Height="28" Width="90"  Margin="133,0,5,0"
                                    HorizontalContentAlignment="Right"
                                    Foreground="#FFD0D0D0" />
 
@@ -175,8 +175,9 @@
                                       DisplayMemberPath="Descricao"
                                       SelectedValue="{Binding Entity.TecnologiaCredencialId, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                       SelectedValuePath="TecnologiaCredencialId" IsSynchronizedWithCurrentItem="True" />
+                            
 
-                            <Label Content="FC:" Height="28" Width="46" Margin="0,0,5,0"
+                            <Label Content="FC:" Height="28" Width="46" Margin="38,0,5,0"
                                    HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
                             <TextBox x:Name="FC_tb" MaxLength="5" IsEnabled="{Binding Habilitar}"
                                      CharacterCasing="Upper"
