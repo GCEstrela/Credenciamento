@@ -44,7 +44,7 @@
                     <StackPanel Orientation="Vertical" Margin="1" VerticalAlignment="Center">
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                     Margin="1">
-                            <Label Content="Nome:" Height="28" Width="57" Margin="1" Foreground="#FFD0D0D0" />
+                            <Label Content="Nome:" Height="28" Width="57" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                             <TextBox x:Name="Nome_tb" MaxLength="100" CharacterCasing="Upper"                                     
                                      Text="{Binding Entity.Nome, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Comportamento.isEnableCancelar}"
                                      Height="24" Width="456" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
@@ -58,7 +58,7 @@
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                     Margin="1">
-                            <Label Content="RG:" Height="28" Width="57" Margin="1" Foreground="#FFD0D0D0" />
+                            <Label Content="RG:" Height="28" Width="57" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                             <TextBox x:Name="RG_tb" MaxLength="10" CharacterCasing="Upper"                                     
                                      Text="{Binding Entity.RG, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Comportamento.isEnableCancelar}"
                                      Height="24" Width="137" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
@@ -103,15 +103,15 @@
                                 <ComboBoxItem>SP</ComboBoxItem>
                                 <ComboBoxItem>TO</ComboBoxItem>
                             </ComboBox>
-                            <Label Content="E-Mail:" Height="28" Width="48" Margin="1" Foreground="#FFD0D0D0" />
+                            <Label Content="E-Mail:" Height="28" Width="48" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
                             <TextBox x:Name="Email_tb" MaxLength="50" CharacterCasing="Lower"
                                      Text="{Binding Entity.Email, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Comportamento.isEnableCancelar}"
                                      Height="24" Width="262" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                     Margin="1">
-                            
-                            <Label Content="Telefone:" Height="28" Width="57" Margin="1" Foreground="#FFD0D0D0" />
+
+                            <Label Content="Telefone:" Height="28" Width="57" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
                             <TextBox Foreground="#FFD0D0D0" x:Name="Telefone_tb" MaxLength="15" CharacterCasing="Upper"
                                      Text="{Binding Entity.Telefone,Converter={ StaticResource FormateTel}, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="{Binding Comportamento.isEnableCancelar}"
                                      HorizontalContentAlignment="Center" Height="24" Width="103" />
@@ -132,16 +132,16 @@
                                      Height="24" HorizontalContentAlignment="Center" Width="100" />-->
                         </StackPanel>
 
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="1,1,0,1" Width="770">
-                            <Label Content="Ativo:" Height="28" Width="66" Foreground="#FFD0D0D0"   />
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,1,0,1" Width="770">
+                            <Label Content="Ativo:" Height="28" Width="60" Foreground="#FFD0D0D0"  HorizontalContentAlignment="Right" />
                             <CheckBox VerticalAlignment="Center" x:Name="Impeditivo_cb"  Foreground="#FFD0D0D0" 
                                       IsChecked="{Binding Entity.Principal, UpdateSourceTrigger=PropertyChanged}" 
                                       IsEnabled="{Binding Comportamento.isEnableCancelar}" 
                                       Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
-                            <Label Content="Tipo:" Height="28" Width="39" Margin="1" Foreground="#FFD0D0D0"
+                            <Label Content="Tipo:" Height="28" Width="39" Margin="10,0,0,0" Foreground="#FFD0D0D0"
                                        HorizontalContentAlignment="Left" />
 
-                            <ComboBox x:Name="TipoRepresentante_cb" Margin="0,4,0,3" Height="25"
+                            <ComboBox x:Name="TipoRepresentante_cb" Margin="0,4,10,3" Height="25"
                                                 HorizontalContentAlignment="Center"
                                                 IsEditable="true" 
                                                 ItemsSource="{Binding ListaRepresentante, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
@@ -153,14 +153,14 @@
                             
                             <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Width="600">
                                 <Label Content="Ficha Cadastral:" Height="28" Width="92" Margin="0,0,5,0"
-                                       HorizontalContentAlignment="Left" Foreground="#FFD0D0D0" />
+                                       HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
 
                                 <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center"
                                             Orientation="Horizontal" Margin="0,10">
                                     <TextBox x:Name="NomeArquivo" Text="{Binding Entity.NomeArquivo, UpdateSourceTrigger=PropertyChanged}"
                                              Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
-                                             IsEnabled="False" Height="24" Width="234"></TextBox>
-                                    <Button x:Name="BuscarArquivo_bt" Height="24" Margin="30,0,0,0"
+                                             IsEnabled="False" Height="24" Width="255"></TextBox>
+                                    <Button x:Name="BuscarArquivo_bt" Height="24" Margin="10,0,0,0"
                                             IsEnabled="{Binding Comportamento.isEnableCancelar}"
                                             VerticalAlignment="Center" Width="24" Click="OnUpLoad_Click" 
                                             Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}">
@@ -168,7 +168,7 @@
                                             <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Pasta.ico"/>
                                         </StackPanel>
                                     </Button>
-                                    <Button  x:Name="AbrirArquivo_bt" Height="24" Margin="10,0,0,0"
+                                    <Button  x:Name="AbrirArquivo_bt" Height="24" Margin="5,0,0,0"
                                             VerticalAlignment="Center" Width="24" Click="OnAbrirArquivo_Click">
                                         <StackPanel>
                                             <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Olho.png" />

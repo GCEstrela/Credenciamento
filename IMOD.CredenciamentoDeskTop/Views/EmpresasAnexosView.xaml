@@ -57,14 +57,14 @@
                                  Text="{Binding Entity.NomeAnexo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                  IsEnabled="False"
                                  Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
-                        <Button x:Name="BuscarContratoArquivo_bt" Height="24" Margin="30,0,0,0"
+                        <Button x:Name="BuscarContratoArquivo_bt" Height="24" Margin="10,0,0,0"
                                 IsEnabled="{Binding Comportamento.isEnableCancelar}"
                                 VerticalAlignment="Center" Width="24" Click="OnUpLoad_Click">
                             <StackPanel>
                                 <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Pasta.ico" />
                             </StackPanel>
                         </Button>
-                        <Button x:Name="AbrirContratoArquivo_bt" Height="24" Margin="10,0,0,0"
+                        <Button x:Name="AbrirContratoArquivo_bt" Height="24" Margin="5,0,0,0"
                                 VerticalAlignment="Center" Width="24" Click="OnDownload_Click">
                             <StackPanel>
                                 <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Olho.png" />
