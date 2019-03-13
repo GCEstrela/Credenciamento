@@ -64,7 +64,7 @@
                         <TextBox x:Name="Codigo_tb" CharacterCasing="Upper"
                                  Text="{Binding Entity.EmpresaContratoId, UpdateSourceTrigger=PropertyChanged}"
                                  IsEnabled="False" Height="24" Width="50" Visibility="Collapsed" />
-                        <Label Content="Nº do Contrato:" Height="28" Width="103" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Left"  />
+                        <Label Content="Nº do Contrato:" Height="28" Width="103" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"  />
                         <TextBox x:Name="NumeroContrato_tb" MaxLength="13" CharacterCasing="Upper"
                                  Text="{Binding Entity.NumeroContrato, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                  IsEnabled="True" Height="24" Width="94" 
@@ -75,14 +75,14 @@
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                 Margin="1">
-                        <Label Content="Descricao:" Height="28" Width="102" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Left"  />
+                        <Label Content="Descricao:" Height="28" Width="102" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"  />
                         <TextBox x:Name="Descricao_tb" MaxLength="150" CharacterCasing="Upper"
                                  Text="{Binding Entity.Descricao, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                  IsEnabled="True" Height="24" Width="381" 
                                  Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="1">
-                        <Label Content="Status:" Height="28" Width="102" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Left" />
+                        <Label Content="Status:" Height="28" Width="102" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                         <ComboBox x:Name="Status_cb" MinWidth="50" Height="25" VerticalContentAlignment="Center"
                                   HorizontalContentAlignment="Center"
                                   ItemsSource="{Binding Status}" 
@@ -92,7 +92,7 @@
                                   Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
 
                         <Label Visibility="Hidden" Content="Tipo de Acesso:" Height="28" Width="100" Margin="1"
-                               Foreground="#FFD0D0D0" />
+                               Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                         <ComboBox x:Name="TipoAcesso_cb" Visibility="Hidden" MinWidth="50" Height="30"
                                   VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
                                   ItemsSource="{Binding ListaTipoAcessos}" DisplayMemberPath="Descricao"
@@ -100,7 +100,7 @@
                                   SelectedValuePath="TipoAcessoId" Width="140" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="1">
-                        <Label Content="Data de Emissão:" Height="28" Width="102" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Left" />
+                        <Label Content="Data de Emissão:" Height="28" Width="102" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
 
                         <!--<DatePicker Margin="0,3,0,0" x:Name="Emissao_tb" VerticalContentAlignment="Center"
                                     SelectedDate="{Binding Entity.Emissao, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
@@ -117,7 +117,7 @@
 
 
                         <Label Content="Data de Validade:" Height="26" Width="102" Margin="15,3,0,0"
-                               Foreground="#FFD0D0D0" />
+                               Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
                         <!--<DatePicker Margin="0,3,0,0" x:Name="Validade_tb" VerticalContentAlignment="Center"
                                     SelectedDate="{Binding Entity.Validade, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                     Width="130" Foreground="White" Background="{x:Null}" Height="25" 
@@ -138,12 +138,12 @@
                       x:Name="Responsavel_gb" Header="Responsável " HorizontalAlignment="Left" Width="510" Height="100">
                 <StackPanel Margin="1,1,1,-6">
                     <StackPanel Orientation="Horizontal" Margin="1">
-                        <Label Content="Nome:" Height="28" Width="50" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Left"/>
+                        <Label Content="Nome:" Height="28" Width="50" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
                         <TextBox x:Name="NomeResp_tb" MaxLength="50" CharacterCasing="Upper"
                                  Text="{Binding Entity.NomeResp, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                  IsEnabled="True" Height="24" Width="250" 
                                  />
-                        <Label Content="Telefone:" Height="28" Width="70" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Left" />
+                        <Label Content="Telefone:" Height="28" Width="70" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                         <TextBox   Foreground="#FFD0D0D0" x:Name="TelefoneResp_tb"
                                  CharacterCasing="Upper" MaxLength="15"
                                  Text="{Binding Entity.TelefoneResp, Converter={StaticResource FormateTel}, UpdateSourceTrigger=PropertyChanged}"
@@ -153,12 +153,12 @@
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                 Margin="1">
-                        <Label Content="E-Mail:" Height="28" Width="50" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Left"/>
+                        <Label Content="E-Mail:" Height="28" Width="50" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
                         <TextBox x:Name="EmailResp_tb" MaxLength="50" CharacterCasing="Lower"
                                  Text="{Binding Entity.EmailResp, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                  IsEnabled="True" Height="24" Width="250" 
                                  Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
-                        <Label Content="Celular:" Height="28" Width="70" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Left" />
+                        <Label Content="Celular:" Height="28" Width="70" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                         <TextBox   Foreground="#FFD0D0D0" x:Name="CelularResp_tb"
                                  CharacterCasing="Upper" MaxLength="15"
                                  Text="{Binding Entity.CelularResp, Converter={StaticResource FormateTel}, UpdateSourceTrigger=PropertyChanged}"
@@ -179,7 +179,7 @@
                     <StackPanel Orientation="Horizontal" Margin="1"  VerticalAlignment="Center" HorizontalAlignment="Left">
 
 
-                        <Label Content="T. de Cobrança:" Height="28" Width="109" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Left"/>
+                        <Label Content="T. de Cobrança:" Height="28" Width="109" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
                         <ComboBox x:Name="TipoCobranca_cb" Height="28"
                                   IsEditable="true" 
                                   ItemsSource="{Binding TiposCobranca}" DisplayMemberPath="Descricao"
@@ -193,36 +193,36 @@
 
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="1"  VerticalAlignment="Center" HorizontalAlignment="Left">
-                        <Label Content="Logradouro:" Height="28" Width="109" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Left"/>
+                        <Label Content="Logradouro:" Height="28" Width="109" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
                         <TextBox x:Name="Endereco_tb" MaxLength="100" CharacterCasing="Upper"
                                  Text="{Binding Entity.Endereco, UpdateSourceTrigger=PropertyChanged}"
                                  IsEnabled="True" Height="24" Width="441" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                 Margin="1,1,0,1" Width="552" >
-                        <Label Content="No.:" Height="28" Width="109" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Left"/>
+                        <Label Content="No.:" Height="28" Width="109" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
                         <TextBox x:Name="Numero_tb" MaxLength="5" CharacterCasing="Upper"
                                  Text="{Binding Entity.Numero, UpdateSourceTrigger=PropertyChanged}" IsEnabled="True"
                                  Height="24" Width="50"/>
-                        <Label Content="CEP:" Height="28" Width="60" Margin="0,0,5,0"  Foreground="#FFD0D0D0" HorizontalContentAlignment="Left" />
+                        <Label Content="CEP:" Height="28" Width="60" Margin="0,0,5,0"  Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
 
                         <TextBox CharacterCasing="Upper"  x:Name="Cep_tb" MaxLength="10" 
                                  PreviewTextInput="NumberOnly" 
                                  Text="{Binding Entity.Cep,  UpdateSourceTrigger=PropertyChanged, Converter={StaticResource FormatCep}}" 
                                  IsEnabled="True"  Height="24"  Width="120"/>
 
-                        <Label Content="Complemento:" Height="28" Width="90" Foreground="#FFD0D0D0" />
+                        <Label Content="Complemento:" Height="28" Width="90" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
                         <TextBox x:Name="Complemento_tb" MaxLength="50" CharacterCasing="Upper"
                                  Text="{Binding Entity.Complemento, UpdateSourceTrigger=PropertyChanged}"
                                  IsEnabled="True" Height="24" Width="116" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                 Margin="1,1,0,1" Width="552">
-                        <Label Content="Bairro:" Height="28" Width="109" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Left" />
+                        <Label Content="Bairro:" Height="28" Width="109" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                         <TextBox x:Name="Bairro_tb" MaxLength="50" CharacterCasing="Upper"
                                  Text="{Binding Entity.Bairro, UpdateSourceTrigger=PropertyChanged}" IsEnabled="True"
                                  Height="24" Width="150" />
-                        <Label Content="UF:" Height="28" Width="30" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Left"/>
+                        <Label Content="UF:" Height="28" Width="30" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
                         <ComboBox x:Name="cmbEstado"  Height="25"
                                   ItemsSource="{Binding Estados}" DisplayMemberPath="Uf"
                                   SelectedValue="{Binding Entity.EstadoId, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
@@ -231,7 +231,7 @@
                                   IsEditable="true" 
                                   SelectedItem="{Binding Estado}"
                                   Width="53"/>
-                        <Label Content="Cidade:" Height="25" Width="50" Margin="1" Foreground="#FFD0D0D0" />
+                        <Label Content="Cidade:" Height="25" Width="50" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
                         <ComboBox x:Name="Cidade_cb" MinWidth="50" Height="28" IsEditable="true" 
                                   ItemsSource="{Binding Municipios}" DisplayMemberPath="Nome"
                                   SelectedValue="{Binding Entity.MunicipioId, UpdateSourceTrigger=PropertyChanged}"
@@ -244,7 +244,7 @@
                 <StackPanel Margin="1,1,1,18">
                     <StackPanel Orientation="Horizontal"   HorizontalAlignment="Left"
                                 Margin="0,5,0,0" Width="558">
-                        <Label Content="Contrato Digitalizado:" Height="28" Width="137" Margin="1" HorizontalContentAlignment="Left"
+                        <Label Content="Contrato Digitalizado:" Height="28" Width="137" Margin="1" HorizontalContentAlignment="Right"
                                Foreground="#FFD0D0D0" />
                         <TextBox x:Name="txtNomeAnexo" MaxLength="50" Height="24" Width="331" CharacterCasing="Upper"
                                  IsEnabled="{Binding Comportamento.isEnableCancelar}" 
@@ -257,7 +257,7 @@
                                 <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Pasta.ico" />
                             </StackPanel>
                         </Button>
-                        <Button x:Name="AbrirContratoArquivo_bt" Height="24" Margin="10,0,0,0"
+                        <Button x:Name="AbrirContratoArquivo_bt" Height="24" Margin="5,0,0,0"
                                 VerticalAlignment="Center" Width="24" Click="OnDownload_Click">
                             <StackPanel>
                                 <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Olho.png" />
