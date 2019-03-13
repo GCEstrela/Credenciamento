@@ -192,9 +192,19 @@
                                 VerticalAlignment="Center" Width="75" />
                             <Label Content="Validade:" Height="28" Width="60" Margin="1" Foreground="#FFD0D0D0"
                                    RenderTransformOrigin="0.553,0.5" />
-                            <TextBlock
+                            <!--<TextBlock
                                 Text="{Binding Entity.Validade,UpdateSourceTrigger=PropertyChanged , StringFormat=\{0:d\}}"
-                                VerticalAlignment="Center" Width="76" />
+                                VerticalAlignment="Center" Width="76" />-->
+                            <TextBox Text="{Binding Entity.Validade, 
+                            UpdateSourceTrigger=PropertyChanged,Mode=TwoWay,
+                            StringFormat='{}{0:dd/MM/yyyy}'}"
+                            LostFocus="OnFormatData_LostFocus"
+                            Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
+                            PreviewTextInput="NumberOnly"
+                            IsEnabled="{Binding Habilitar}"
+                            Height="24" Width="75" 
+                            Name="txtDtValidade">
+                            </TextBox>
                             <Label Content="Baixa:" Height="28" Width="53" Margin="1" Foreground="#FFD0D0D0"
                                    HorizontalContentAlignment="Left" />
                             <TextBlock

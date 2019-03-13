@@ -94,6 +94,11 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         private static CardHolderEntity CardHolderEntity(VeiculosCredenciaisView entity)
         {
+            //Autor: Valnei Filho
+            //Data:13/03/19
+            //Wrk:Adicionar um dia a credencial
+            DateTime dataValidade = entity.Validade == null ? DateTime.Today.Date : (DateTime) entity.Validade;
+
             var titularCartao = new CardHolderEntity
             {
                 Ativo = entity.Ativa,
@@ -105,7 +110,7 @@ namespace IMOD.Application.Service
                 FacilityCode = entity.Fc,
                 Foto = entity.VeiculoFoto.ConverterBase64StringToBitmap(),
                 Matricula = entity.PlacaIdentificador,
-                Validade = entity.Validade ?? DateTime.Today.Date,
+                Validade = dataValidade.AddDays (1),
                 NumeroCredencial = entity.NumeroCredencial,
                 IdentificadorLayoutCrachaGuid = entity.LayoutCrachaGuid
             };
@@ -146,14 +151,14 @@ namespace IMOD.Application.Service
         ///         partir da data atual
         ///     </para>
         /// </summary>
-        /// <param name="entity"></param>
+        /// <param name="tipoCredencialId"></param>
         /// <param name="equiapmentoVeiculoId"></param>
         /// <param name="numContrato"></param>
         /// <param name="credencialRepositorio"></param>
         /// <returns></returns>
-        public DateTime? ObterDataValidadeCredencial(VeiculoCredencial entity, int equiapmentoVeiculoId, string numContrato, ITipoCredencialRepositorio credencialRepositorio)
+        public DateTime? ObterDataValidadeCredencial(int tipoCredencialId, int equiapmentoVeiculoId, string numContrato, ITipoCredencialRepositorio credencialRepositorio)
         {
-            return _repositorio.ObterDataValidadeCredencial (entity, equiapmentoVeiculoId, numContrato, credencialRepositorio);
+            return _repositorio.ObterDataValidadeCredencial (tipoCredencialId, equiapmentoVeiculoId, numContrato, credencialRepositorio);
         }
 
         /// <summary>
@@ -282,9 +287,9 @@ namespace IMOD.Application.Service
         /// <param name="entity2"></param>
         public void AlterarStatusTitularCartao(ICredencialService geradorCredencialService, VeiculosCredenciaisView entity, VeiculoCredencial entity2)
         {
-            if (geradorCredencialService == null) throw new ArgumentNullException (nameof (geradorCredencialService));
-            if (entity == null) throw new ArgumentNullException (nameof (entity));
-            if (entity2 == null) throw new ArgumentNullException (nameof (entity2));
+            if (geradorCredencialService == null) throw new ArgumentNullException (nameof(geradorCredencialService));
+            if (entity == null) throw new ArgumentNullException (nameof(entity));
+            if (entity2 == null) throw new ArgumentNullException (nameof(entity2));
             ObterStatusCredencial (entity2);
             //Alterar status de um titual do cartao
             var titularCartao = CardHolderEntity (entity);
@@ -332,8 +337,8 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void CriarTitularCartao(ICredencialService geradorCredencialService, VeiculosCredenciaisView entity)
         {
-            if (geradorCredencialService == null) throw new ArgumentNullException (nameof (geradorCredencialService));
-            if (entity == null) throw new ArgumentNullException (nameof (entity));
+            if (geradorCredencialService == null) throw new ArgumentNullException (nameof(geradorCredencialService));
+            if (entity == null) throw new ArgumentNullException (nameof(entity));
             //Somente é permitido criar uma única vez o titular do cartão...
             //Os numeros GUIDs são indicação  de que já houve criação de credenciais no sub-sistema de credenciamento
             if (!string.IsNullOrWhiteSpace (entity.CardHolderGuid) & !string.IsNullOrWhiteSpace (entity.CredencialGuid)) return;

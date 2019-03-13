@@ -6,9 +6,13 @@
 
 #region
 
+using System;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using IMOD.CredenciamentoDeskTop.ViewModels;
+using IMOD.CrossCutting;
 
 #endregion
 
@@ -48,6 +52,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             if (_viewModel.VeiculoEmpresa == null) return;
             _viewModel.CarregaColecaoLayoutsCrachas ((int) _viewModel.VeiculoEmpresa.EmpresaId);
+            _viewModel.ObterValidade();
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
@@ -59,6 +64,31 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
 
             btnImprimirCredencial.IsEnabled = _viewModel.HabilitaImpressao;
+        }
+
+
+        private void NumberOnly(object sender, TextCompositionEventArgs e)
+        {
+            var regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
+        }
+
+        private void OnFormatData_LostFocus(object sender, RoutedEventArgs e)
+        {
+
+            if (_viewModel.Entity == null) return;
+            try
+            {
+                var str = txtDtValidade.Text;
+                if (string.IsNullOrWhiteSpace(str)) return;
+                txtDtValidade.Text = str.FormatarData(); 
+            }
+            catch (Exception)
+            {
+                _viewModel.Entity.SetMessageErro("Validade", "Data inválida");
+            }
+
+
         }
 
         #endregion

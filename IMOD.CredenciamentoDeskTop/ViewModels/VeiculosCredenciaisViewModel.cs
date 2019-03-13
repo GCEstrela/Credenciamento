@@ -41,7 +41,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
         private readonly IVeiculoCredencialService _service = new VeiculoCredencialService();
         private readonly IVeiculoEmpresaService _veiculoEmpresaService = new VeiculoEmpresaService();
+        private readonly IEmpresaContratosService _contratosService = new EmpresaContratoService();
         private VeiculoViewModel _viewModelParent;
+        private readonly ConfiguraSistema _configuraSistema;
 
         /// <summary>
         ///     True, Comando de alteração acionado
@@ -126,6 +128,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             Comportamento.Cancelar += OnCancelar;
             PropertyChanged += OnEntityChanged;
             SelectListViewIndex = -1;
+            _configuraSistema = ObterConfiguracao();
         }
 
         #region  Metodos
@@ -151,6 +154,19 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         }
 
         #endregion
+
+        public void ObterValidade()
+        {
+            if (!_prepareCriarCommandAcionado) return;
+            if (Entity == null) return;
+            var empContratoId = VeiculoEmpresa.EmpresaContratoId;
+            var contrato = _contratosService.BuscarPelaChave(empContratoId);
+            var data = _service.ObterDataValidadeCredencial(Entity.TipoCredencialId,
+                _veiculoView.EquipamentoVeiculoId, contrato.NumeroContrato, _service.TipoCredencial);
+
+            Entity.Validade = data;
+            OnPropertyChanged("Entity");
+        }
 
         private void ListarDadosAuxiliares()
         {
@@ -250,7 +266,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             //Listar dados de contratos
             if (_count == 0) ObterContratos();
             _count++;
-            ListarTodosContratos(); 
+            ListarTodosContratos();
+            MensagemAlerta = "";
         }
 
         /// <summary>
@@ -338,6 +355,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 n1.TecnologiaCredencialId = Entity.TecnologiaCredencialId;
                 n1.TipoCredencialId = Entity.TipoCredencialId;
 
+                //Criar registro no banco de dados e setar uma data de validade
+                _prepareCriarCommandAcionado = false;
                 _service.Criar (n1);
                 IsEnableLstView = true;
                 SelectListViewIndex = 0;
@@ -346,6 +365,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var list2 = Mapper.Map<List<VeiculosCredenciaisView>> (list1.OrderByDescending (n => n.VeiculoCredencialId));
                 EntityObserver = new ObservableCollection<VeiculosCredenciaisView>();
                 list2.ForEach (n => { EntityObserver.Add (n); });
+                MensagemAlerta = "";
+                Entity = null;
                 _viewModelParent.HabilitaControleTabControls(true, true, true, true, true, true);
 
             }
@@ -354,6 +375,19 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 Utils.TraceException (ex);
                 WpfHelp.PopupBox (ex);
             }
+        }
+
+        /// <summary>
+        ///     Obtem configuração de sistema
+        /// </summary>
+        /// <returns></returns>
+        private ConfiguraSistema ObterConfiguracao()
+        {
+            //Obter configuracoes de sistema
+            var config = _auxiliaresService.ConfiguraSistemaService.Listar();
+            //Obtem o primeiro registro de configuracao
+            if (config == null) throw new InvalidOperationException("Não foi possivel obter dados de configuração do sistema.");
+            return config.FirstOrDefault();
         }
 
         /// <summary>
@@ -566,7 +600,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         }
 
         #endregion
-         
 
         #region Propriedade de Pesquisa
 

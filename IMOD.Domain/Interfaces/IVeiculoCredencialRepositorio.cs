@@ -49,13 +49,13 @@ namespace IMOD.Domain.Interfaces
         ///         partir da data atual
         ///     </para>
         /// </summary>
-        /// <param name="entity"></param>
+        /// <param name="tipoCredencialId"></param>
         /// <param name="equiapmentoVeiculoId"></param>
         /// <param name="numContrato"></param>
         /// <param name="credencialRepositorio"></param>
         /// <returns></returns>
         DateTime? ObterDataValidadeCredencial(
-            VeiculoCredencial entity,
+            int tipoCredencialId,
             int equiapmentoVeiculoId,
             string numContrato,
             ITipoCredencialRepositorio credencialRepositorio);
