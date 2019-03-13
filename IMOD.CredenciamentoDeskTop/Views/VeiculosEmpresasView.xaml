@@ -51,7 +51,7 @@
                                    DisplayMemberPath="Nome"  
                                    SelectedValue="{Binding Entity.EmpresaId , UpdateSourceTrigger=PropertyChanged}" 
                                    SelectedValuePath="EmpresaId" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
-                        <Label Content="Matrícula:" Height="28" Width="140" Foreground="#FFD0D0D0" HorizontalContentAlignment="Left" />
+                        <Label Content="Matrícula:" Height="28" Width="140" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
 
                         <TextBox  x:Name="Matricula_tb" MaxLength="50" CharacterCasing="Upper"
                                   VerticalContentAlignment="Center" 
@@ -76,7 +76,7 @@
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                     Margin="1,1,0,1" Width="947">
-                                    <Label Content="Vínculo Ativo:" Height="28" Width="143" Foreground="#FFD0D0D0" />
+                                    <Label Content="Vínculo Ativo:" Height="28" Width="143" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                                     <CheckBox VerticalAlignment="Center" x:Name="Impeditivo_cb"                                               
                                               Foreground="#FFD0D0D0" 
                                               IsChecked="{Binding Entity.Ativo, UpdateSourceTrigger=PropertyChanged}"
