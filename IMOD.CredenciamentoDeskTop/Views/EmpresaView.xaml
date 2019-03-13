@@ -302,6 +302,7 @@
                                           SelectedValue="{Binding Entity.EstadoId,  UpdateSourceTrigger=PropertyChanged}"
                                           SelectedValuePath="EstadoId"
                                           IsSynchronizedWithCurrentItem="True"
+                                          IsEditable="True"
                                           SelectedIndex="0"
                                           SelectedItem="{Binding Estado}"
                                           Width="53" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
@@ -313,6 +314,7 @@
                                           SelectedValue="{Binding Entity.MunicipioId,  UpdateSourceTrigger=PropertyChanged}"
                                           SelectedValuePath="MunicipioId"
                                           SelectedIndex="0"
+                                          IsEditable="True"
                                           Margin="0,2,0,3" Width="167" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
                             </StackPanel>
                         </StackPanel>

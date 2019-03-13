@@ -387,18 +387,34 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             //Autor: Valnei Filho
             //Data:08/03/19
             //Wrk:O botão imprimir credencial habilitado apenas para registros, não impresso e ativo, desabilitado caso contrário
-            HabilitaImpressao = entity.Ativa & !entity.PendenciaImpeditiva & !entity.Impressa;
+            HabilitaImpressao = entity.Ativa & !entity.PendenciaImpeditiva & !entity.Impressa && entity.Validade >= DateTime.Now.Date; 
             //Verificar se a empresa esta impedida
             var n1 = _service.BuscarCredencialPelaChave(entity.VeiculoCredencialId);
-            var mensagem1 = !n1.Ativa ? "Credencial Inativa" : string.Empty;
+            var mensagem1 = !n1.Ativa ? "Autorização Inativa" : string.Empty;
             var mensagem2 = n1.PendenciaImpeditiva ? "Pendência Impeditiva (consultar dados da empresa na aba Geral)" : string.Empty;
-            var mensagem3 = n1.Impressa ? "Não é possível imprimir pois a credencial já foi impressa" : string.Empty;
+            var mensagem3 = n1.Impressa ? "Autorização já foi impressa" : string.Empty;
+            var mensagem4 = (entity.Validade < DateTime.Now.Date) ? "Autorização vencida." : string.Empty;
             //Exibir mensagem de impressao de credencial, esta tem prioridade sobre as demais regras
-            MensagemAlerta = $"{mensagem3}";
-            if (n1.Impressa) return; 
+            if (n1.Impressa) return;
 
-            if (!string.IsNullOrWhiteSpace(mensagem1) | !string.IsNullOrWhiteSpace(mensagem2))
-                MensagemAlerta = $"A credencial não poderá ser impressa pelo seguinte motivo: [ {mensagem1} {mensagem2} ]";
+            MensagemAlerta = $"A autorização não poderá ser impressa pelo seguinte motivo: ";
+
+            if (!string.IsNullOrEmpty(mensagem1))
+            {
+                MensagemAlerta += mensagem1;
+            }
+            else if (!string.IsNullOrEmpty(mensagem2))
+            {
+                MensagemAlerta += mensagem2;
+            }
+            else if (!string.IsNullOrEmpty(mensagem3))
+            {
+                MensagemAlerta += mensagem3;
+            }
+            else if (!string.IsNullOrEmpty(mensagem4))
+            {
+                MensagemAlerta += mensagem4;
+            }
             //================================================================================
             #endregion
 
