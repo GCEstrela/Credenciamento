@@ -183,7 +183,7 @@
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
                                             HorizontalAlignment="Left" Margin="1">
                                     <Label Content="Código:" Height="28" Width="100" Margin="1" Foreground="#FFD0D0D0"
-                                           HorizontalContentAlignment="Left" />
+                                           HorizontalContentAlignment="Right" />
                                     <TextBox CharacterCasing="Upper" x:Name="Codigo_tb" MaxLength="50"
                                              Text="{Binding Entity.EmpresaId, UpdateSourceTrigger=PropertyChanged}"
                                              IsEnabled="False" Height="24" Width="50" />
@@ -200,7 +200,7 @@
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
                                             HorizontalAlignment="Left" Margin="1">
                                     <Label Content="Razão Social:" Height="28" Width="100" Margin="1"
-                                           Foreground="#FFD0D0D0" HorizontalContentAlignment="Left" />
+                                           Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                                     <TextBox CharacterCasing="Upper" Text="{Binding Entity.Nome}" x:Name="Nome_tb"
                                              MaxLength="100" IsEnabled="True" Height="24" Width="304"
                                              Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
@@ -208,14 +208,14 @@
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
                                             HorizontalAlignment="Left" Margin="1">
                                     <Label Content="Nome Fantasia:" Height="28" Width="100" Margin="1"
-                                           Foreground="#FFD0D0D0" HorizontalContentAlignment="Left" />
+                                           Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                                     <TextBox CharacterCasing="Upper" x:Name="Apelido_tb" MaxLength="50"
                                              Text="{Binding Entity.Apelido, UpdateSourceTrigger=PropertyChanged}"
                                              IsEnabled="True" Height="24" Width="200"
                                              Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
 
                                     <Label Content="Sigla:" Height="28" Width="53" Margin="1" Foreground="#FFD0D0D0"
-                                           HorizontalContentAlignment="Left" />
+                                           HorizontalContentAlignment="Right" />
                                     <TextBox CharacterCasing="Upper"  x:Name="Sigla_tb" MaxLength="3"
                                              Text="{Binding Entity.Sigla, UpdateSourceTrigger=PropertyChanged}"
                                              HorizontalContentAlignment="Center" IsEnabled="True" Height="24" Width="49" 
@@ -226,13 +226,13 @@
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
                                             HorizontalAlignment="Left" Margin="1">
                                     <Label Content="Insc. Estadual:" Height="28" Width="98" Margin="1"
-                                           Foreground="#FFD0D0D0" HorizontalContentAlignment="Left" />
+                                           Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                                     <TextBox CharacterCasing="Upper" x:Name="Ins_Estadual_tb" MaxLength="11"
                                              PreviewTextInput="NumberOnly"
                                              Text="{Binding Entity.InsEst, UpdateSourceTrigger=PropertyChanged}"
                                              IsEnabled="True" Height="24" Width="100" />
                                     <Label Content="Insc. Municipal:" Height="28" Width="100" Margin="0,0,5,0"
-                                           Foreground="#FFD0D0D0" HorizontalContentAlignment="Left" />
+                                           Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                                     <TextBox CharacterCasing="Upper" x:Name="Ins_Municipal_tb" MaxLength="11"
                                              PreviewTextInput="NumberOnly"
                                              Text="{Binding Entity.InsMun, StringFormat=\{0:d\}, UpdateSourceTrigger=PropertyChanged}"
@@ -260,7 +260,7 @@
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                         Margin="1">
                                 <Label Content="Logradouro:" Height="28" Width="100" Margin="0,0,5,0"
-                                       Foreground="#FFD0D0D0" HorizontalContentAlignment="Left" />
+                                       Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                                 <TextBox CharacterCasing="Upper" x:Name="Endereco_tb" MaxLength="100"
                                          Text="{Binding Entity.Endereco, UpdateSourceTrigger=PropertyChanged}"
                                          IsEnabled="True" Height="24" Width="455" 
@@ -269,19 +269,19 @@
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                         Margin="1,1,0,1" Width="562">
                                 <Label Content="No.:" Height="28" Width="100" Margin="0,0,5,0" Foreground="#FFD0D0D0"
-                                       HorizontalContentAlignment="Left" />
+                                       HorizontalContentAlignment="Right" />
                                 <TextBox CharacterCasing="Upper" x:Name="Numero_tb" MaxLength="5"
                                          Text="{Binding Entity.Numero,  UpdateSourceTrigger=PropertyChanged}"
                                          IsEnabled="True" Height="24" Width="50" />
                                 <Label Content="CEP:" Height="28" Width="85" Margin="0,0,5,0" Foreground="#FFD0D0D0"
-                                       HorizontalContentAlignment="Left" />
+                                       HorizontalContentAlignment="Right" />
                                 <TextBox CharacterCasing="Upper" x:Name="Cep_tb" MaxLength="10"
                                          PreviewTextInput="NumberOnly"
                                          Text="{Binding Entity.Cep,  UpdateSourceTrigger=PropertyChanged, Converter={StaticResource FormatCep}}"
                                          IsEnabled="True" Height="24" Width="98" 
                                          Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
                                 <Label Content="Complemento:" Height="28" Width="89" Margin="0,0,5,0"
-                                       Foreground="#FFD0D0D0" />
+                                       Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
                                 <TextBox CharacterCasing="Upper" x:Name="Complemento_tb" MaxLength="50"
                                          Text="{Binding Entity.Complemento,   UpdateSourceTrigger=PropertyChanged}"
                                          IsEnabled="True" Height="24" Width="123" RenderTransformOrigin="0.5,0.5" />
@@ -289,13 +289,13 @@
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="569">
                                 <Label Content="Bairro:" Height="28" Width="102" Margin="1" Foreground="#FFD0D0D0"
-                                       HorizontalContentAlignment="Left" />
+                                       HorizontalContentAlignment="Right" />
                                 <TextBox CharacterCasing="Upper" x:Name="Bairro_tb" MaxLength="50"
                                          Text="{Binding Entity.Bairro,   UpdateSourceTrigger=PropertyChanged}"
                                          IsEnabled="True" Height="23" Width="152" Margin="1" 
                                          Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
                                 <Label Content="UF:" Height="28" Width="30" Margin="1" Foreground="#FFD0D0D0"
-                                       HorizontalContentAlignment="Left" />
+                                       HorizontalContentAlignment="Right" />
 
                                 <ComboBox x:Name="cmbEstado" Margin="0,4,0,3" Height="25"
                                           ItemsSource="{Binding Estados}" DisplayMemberPath="Uf"
@@ -307,7 +307,7 @@
                                           SelectedItem="{Binding Estado}"
                                           Width="53" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
 
-                                <Label Content="Cidade:" Height="28" Width="51" HorizontalContentAlignment="Left"
+                                <Label Content="Cidade:" Height="28" Width="51" HorizontalContentAlignment="Right"
                                        Foreground="#FFD0D0D0" Margin="0,2,0,3" />
                                 <ComboBox x:Name="Cidade_cb" Height="25"
                                           ItemsSource="{Binding Municipios}" DisplayMemberPath="Nome"
@@ -327,7 +327,7 @@
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                         Margin="1">
                                 <Label Content="Nome:" Height="28" Width="110" Margin="1" Foreground="#FFD0D0D0"
-                                       HorizontalContentAlignment="Left" />
+                                       HorizontalContentAlignment="Right" />
                                 <TextBox CharacterCasing="Upper" x:Name="Contato1_tb" MaxLength="50"
                                          Text="{Binding Entity.Contato1, UpdateSourceTrigger=PropertyChanged}"
                                          IsEnabled="True" Height="24" Width="250" />
@@ -347,7 +347,7 @@
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                         Margin="1">
                                 <Label Content="E-Mail Principal:" Height="28" Width="110" Margin="1"
-                                       Foreground="#FFD0D0D0" HorizontalContentAlignment="Left" />
+                                       Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                                 <TextBox CharacterCasing="Lower" x:Name="Email1_tb" Margin="1" MaxLength="50"
                                          Text="{Binding Entity.Email1, UpdateSourceTrigger=PropertyChanged}"
                                          IsEnabled="True" Height="24" Width="250" 
@@ -365,7 +365,7 @@
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                         Margin="1,1,0,1" Width="532">
                                 <Label Content="E-Mail Secundário:" Height="28" Width="110" Margin="1"
-                                       Foreground="#FFD0D0D0" HorizontalContentAlignment="Left" />
+                                       Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                                 <TextBox CharacterCasing="Lower" x:Name="Email2_tb" MaxLength="50"
                                          Text="{Binding Entity.Email2, UpdateSourceTrigger=PropertyChanged}"
                                          IsEnabled="True" Height="24" Width="250" />
@@ -390,7 +390,7 @@
                               VerticalAlignment="Top">
                         <StackPanel Margin="1,10,1,2">
                             <StackPanel Orientation="Vertical" Height="86">
-                                <Label Content="Observações:" Foreground="#FFD0D0D0" Margin="8,1,439,1" />
+                                <Label Content="Observações:" Foreground="#FFD0D0D0" Margin="8,-8,439,1" />
                                 <TextBox CharacterCasing="Upper" x:Name="Obs_tb" MaxLength="249"
                                          Text="{Binding Entity.Obs, UpdateSourceTrigger=PropertyChanged}"
                                          TextWrapping="Wrap" IsEnabled="True" Margin="8,0,55,47" Height="56" />
@@ -422,7 +422,7 @@
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
                                             HorizontalAlignment="Left">
                                     <Label Content="Tipo de Atividade:" Height="28" Width="111" Margin="0,0,5,0"
-                                           Foreground="#FFD0D0D0" />
+                                           Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
                                     <ComboBox x:Name="TipoAtividade_cb" IsEnabled="True" Height="30" Width="280"
                                               ItemsSource="{Binding ListaAtividades}"
                                               SelectedItem="{Binding TipoAtividade}"
@@ -445,7 +445,7 @@
                             <StackPanel Width="469" Margin="0,0,0,10">
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
                                             HorizontalAlignment="Left">
-                                    <Label Content="Tipo de Crachá:" Height="28" Width="104" Margin="0,0,5,0"
+                                    <Label Content="Tipo de Crachá:" Height="28" Width="104" Margin="0,0,5,0" HorizontalContentAlignment="Right" 
                                            Foreground="#FFD0D0D0" />
                                     <ComboBox x:Name="TipoCracha_cb" IsEnabled="True" Height="30" Width="280"
                                               ItemsSource="{Binding ListaCrachas}"
