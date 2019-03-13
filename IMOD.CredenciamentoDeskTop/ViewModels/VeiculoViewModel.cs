@@ -336,6 +336,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             IsEnableTabItemSeguros = isItemSeguro;
             IsEnableTabItemAnexos = isItemAnexo;
             IsEnableTabItemCredenciais = isItemCredenciais;
+            Comportamento.IsEnableCriar = isItemGeral;
         }
 
         /// <summary>
