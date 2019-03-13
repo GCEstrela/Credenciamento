@@ -76,7 +76,7 @@
 
                             <Label Foreground="#FFD0D0D0" Content="UF:" Width="26" Height="24"
                                        HorizontalContentAlignment="Right" />
-                            <ComboBox x:Name="RGOrgUF_cb" Height="24" Width="45" IsEnabled="{Binding Comportamento.isEnableCancelar}" Text="{Binding Entity.RGUF}">
+                            <ComboBox x:Name="RGOrgUF_cb" Height="24" Width="45" IsEditable="true" IsEnabled="{Binding Comportamento.isEnableCancelar}" Text="{Binding Entity.RGUF}">
                                 <ComboBoxItem>AP</ComboBoxItem>
                                 <ComboBoxItem>BA</ComboBoxItem>
                                 <ComboBoxItem>CE</ComboBoxItem>
@@ -142,6 +142,7 @@
 
                             <ComboBox x:Name="TipoRepresentante_cb" Margin="0,4,0,3" Height="25"
                                                 HorizontalContentAlignment="Center"
+                                                IsEditable="true" 
                                                 ItemsSource="{Binding ListaRepresentante, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                                 DisplayMemberPath="Descricao"
                                                 SelectedValue="{Binding Entity.TipoRepresentanteId,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 

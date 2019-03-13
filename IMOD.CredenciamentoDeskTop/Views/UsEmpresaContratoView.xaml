@@ -226,11 +226,12 @@
                                   ItemsSource="{Binding Estados}" DisplayMemberPath="Uf"
                                   SelectedValue="{Binding Entity.EstadoId, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                   SelectedValuePath="EstadoId" IsSynchronizedWithCurrentItem="True" 
-                                   SelectedIndex="0" 
+                                  SelectedIndex="0" 
+                                  IsEditable="true" 
                                   SelectedItem="{Binding Estado}"
                                   Width="53"/>
                         <Label Content="Cidade:" Height="25" Width="50" Margin="1" Foreground="#FFD0D0D0" />
-                        <ComboBox x:Name="Cidade_cb" MinWidth="50" Height="28"
+                        <ComboBox x:Name="Cidade_cb" MinWidth="50" Height="28" IsEditable="true" 
                                   ItemsSource="{Binding Municipios}" DisplayMemberPath="Nome"
                                   SelectedValue="{Binding Entity.MunicipioId, UpdateSourceTrigger=PropertyChanged}"
                                   SelectedValuePath="MunicipioId" Width="154" />

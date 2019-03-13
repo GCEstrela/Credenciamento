@@ -302,7 +302,7 @@
                                           SelectedValue="{Binding Entity.EstadoId,  UpdateSourceTrigger=PropertyChanged}"
                                           SelectedValuePath="EstadoId"
                                           IsSynchronizedWithCurrentItem="True"
-                                          SelectedIndex="0"
+                                          SelectedIndex="0" IsEditable="true" 
                                           SelectedItem="{Binding Estado}"
                                           Width="53" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
 
@@ -312,7 +312,7 @@
                                           ItemsSource="{Binding Municipios}" DisplayMemberPath="Nome"
                                           SelectedValue="{Binding Entity.MunicipioId,  UpdateSourceTrigger=PropertyChanged}"
                                           SelectedValuePath="MunicipioId"
-                                          SelectedIndex="0"
+                                          SelectedIndex="0" IsEditable="true"                                                                               
                                           Margin="0,2,0,3" Width="167" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
                             </StackPanel>
                         </StackPanel>
