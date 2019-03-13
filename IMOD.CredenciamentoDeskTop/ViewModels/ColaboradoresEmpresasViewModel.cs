@@ -194,9 +194,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (_configuraSistema.Contrato)
                 {
                     n1.EmpresaContratoId = Contratos[0].EmpresaContratoId;
-                    
-
-
                 }
 
                 _service.Criar(n1);
@@ -222,12 +219,14 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             var empresa = Empresas.FirstOrDefault(n => n.EmpresaId == entity.EmpresaId);
             var contrato = Contratos.FirstOrDefault(n => n.EmpresaContratoId == entity.EmpresaContratoId);
             if (empresa != null)
+                //Verificar essa linha
+                //entity.EmpresaContratoId = Contratos[0].EmpresaContratoId;
                 entity.EmpresaNome = empresa.Nome;//Setar o nome da empresa para ser exibida na list view
-          
+            
 
-            if (contrato != null)
-                entity.Descricao = contrato.Descricao;//Setar o nome do contrato para ser exibida na list view
-             
+            //if (contrato != null)
+            //    entity.Descricao = contrato.Descricao;//Setar o nome do contrato para ser exibida na list view
+
         }
 
         /// <summary>
