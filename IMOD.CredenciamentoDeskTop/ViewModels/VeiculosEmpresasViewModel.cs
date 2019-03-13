@@ -223,7 +223,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             Comportamento.PrepareCriar();
             IsEnableLstView = false;
             ListarDadosEmpresaContratos(); 
-            _viewModelParent.HabilitaControleTabControls(false, false, true, false, false, false); 
+            _viewModelParent.HabilitaControleTabControls(false, false, true, false, false, false);
+            ListarDadosEmpresaContratos();
         }
 
         /// <summary>
