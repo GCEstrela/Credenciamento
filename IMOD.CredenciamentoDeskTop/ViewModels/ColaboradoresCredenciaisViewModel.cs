@@ -121,6 +121,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             #region Habilitar botão de impressao e mensagem ao usuario
 
             HabilitaImpressao = entity.Ativa & !entity.PendenciaImpeditiva & !entity.Impressa & (entity.ColaboradorCredencialId > 0);
+            //Verifica se a data de validade da credencial é maior que a data atural
+            HabilitaImpressao = entity.Validade >= DateTime.Now;
             //Verificar se a empresa esta impedida
             var n1 = _service.BuscarCredencialPelaChave(entity.ColaboradorCredencialId);
             var mensagem1 = !n1.Ativa ? "Credencial Inativa" : string.Empty;
@@ -552,9 +554,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
+                //var d = DateTime.Now.AddHours(23);
+                //Entity.Validade = d;
                 if (Entity == null) return;
                 if (!Entity.Ativa) throw new InvalidOperationException ("Não é possível imprimir uma credencial não ativa.");
                 if (Entity.Validade == null) throw new InvalidOperationException ("Não é possível imprimir uma credencial sem data de validade.");
+                if (Entity.Validade == DateTime.Now ) throw new InvalidOperationException("Não é possível imprimir uma credencial com data/hora inferior à corrente.");
 
                 var layoutCracha = _auxiliaresService.LayoutCrachaService.BuscarPelaChave (Entity.LayoutCrachaId);
                 if (layoutCracha == null) throw new InvalidOperationException ("Não é possível imprimir uma credencial sem ter sido definida um layout do crachá.");
