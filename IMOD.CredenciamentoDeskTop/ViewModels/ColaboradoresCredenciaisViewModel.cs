@@ -116,6 +116,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             MensagemAlerta = string.Empty;
             if (entity == null) return;
+            if (entity.ColaboradorCredencialId <= 0) return;
 
             #region Habilitar botão de impressao e mensagem ao usuario
 
