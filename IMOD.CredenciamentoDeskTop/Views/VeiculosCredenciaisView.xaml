@@ -83,7 +83,7 @@
                                               Foreground="#FFD0D0BE" UncheckedBackground="Maroon" UncheckedBorderBrush="Maroon" UncheckedForeground="#FFAEAEAE"/>-->
 
 
-                            <Label Content="Status:" Height="28" Width="90" HorizontalContentAlignment="Right"
+                            <Label Content="Status:" Height="28" Width="45" HorizontalContentAlignment="Right"  Margin="0,0,0,0"
                                    Foreground="#FFD0D0D0" />
 
                             <ComboBox x:Name="StatusCredencial_cb"
@@ -108,7 +108,7 @@
                                     </TransformGroup>
                                 </ComboBox.RenderTransform>
                             </ComboBox>
-                            <Label Content="Motivo:" Height="28" Width="55" HorizontalContentAlignment="Right"
+                            <Label Content="Motivo:" Height="28" Width="52" HorizontalContentAlignment="Right"
                                    Foreground="#FFD0D0D0" />
 
                             <ComboBox x:Name="cmbMotivacao"
