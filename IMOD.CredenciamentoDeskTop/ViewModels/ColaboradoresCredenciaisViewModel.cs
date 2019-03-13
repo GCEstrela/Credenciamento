@@ -552,9 +552,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
+                //var d = DateTime.Now.AddHours(23);
+                //Entity.Validade = d;
                 if (Entity == null) return;
                 if (!Entity.Ativa) throw new InvalidOperationException ("Não é possível imprimir uma credencial não ativa.");
                 if (Entity.Validade == null) throw new InvalidOperationException ("Não é possível imprimir uma credencial sem data de validade.");
+                if (Entity.Validade == DateTime.Now ) throw new InvalidOperationException("Não é possível imprimir uma credencial com data/hora inferior à corrente.");
 
                 var layoutCracha = _auxiliaresService.LayoutCrachaService.BuscarPelaChave (Entity.LayoutCrachaId);
                 if (layoutCracha == null) throw new InvalidOperationException ("Não é possível imprimir uma credencial sem ter sido definida um layout do crachá.");
