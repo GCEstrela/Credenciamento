@@ -470,8 +470,16 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (Entity == null) return;
 
                 Entity.DevolucaoEntregaBOID = IsCheckDevolucao ? (int)devolucaoCredencial : 0; 
+
                 var n1 = Mapper.Map<ColaboradorCredencial> (Entity); 
-                n1.DevolucaoEntregaBOId = Entity.DevolucaoEntregaBOID; 
+
+                n1.CredencialMotivoId = Entity.CredencialMotivoId;
+                n1.CredencialStatusId = Entity.CredencialStatusId;
+                n1.FormatoCredencialId = Entity.FormatoCredencialId;
+                n1.LayoutCrachaId = Entity.LayoutCrachaId;
+                n1.TecnologiaCredencialId = Entity.TecnologiaCredencialId;
+                n1.TipoCredencialId = Entity.TipoCredencialId;
+                n1.DevolucaoEntregaBOId = IsCheckDevolucao ? Entity.DevolucaoEntregaBOID : 0;
 
                 //Alterar o status do titular do cartão
                 _service.AlterarStatusTitularCartao (new CredencialGenetecService (Main.Engine), Entity, n1);
@@ -660,9 +668,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             return Entity.HasErrors;
         }
 
-        public void HabilitaCheckDevolucao(int credencialMotivoId = 0)
+        public void HabilitaCheckDevolucao(int credencialStatus = 0, int credencialMotivoId = 0)
         {
-            if (credencialMotivoId > 0)
+            if (credencialStatus == 2 && credencialMotivoId > 0) 
             {
                 switch (credencialMotivoId)
                 {
@@ -684,6 +692,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                         VisibilityCheckDevolucao = Visibility.Hidden;
                         break;
                 }
+            }
+            else
+            {
+                IsCheckDevolucao = false;
+                TextCheckDevolucao = String.Empty;
+                VisibilityCheckDevolucao = Visibility.Hidden;
             }
         }
 

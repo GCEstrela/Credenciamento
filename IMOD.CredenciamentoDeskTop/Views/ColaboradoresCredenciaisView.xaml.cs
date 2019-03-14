@@ -97,13 +97,21 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             
             btnImprimirCredencial.IsEnabled = _viewModel.HabilitaImpressao;
+
+            if ((CredencialStatus)cmbCredencialStatus.SelectedItem != null)
+            {
+                _viewModel.HabilitaCheckDevolucao(((CredencialStatus)cmbCredencialStatus.SelectedItem).CredencialStatusId, 0);
+                chkDevolucaoMotivo.IsChecked = _viewModel.IsCheckDevolucao;
+                chkDevolucaoMotivo.Visibility = _viewModel.VisibilityCheckDevolucao;
+                chkDevolucaoMotivo.Content = _viewModel.TextCheckDevolucao;
+            }
         }
 
         private void CmbMotivacao_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
                     if (cmbMotivacao.SelectedItem != null)
                     {
-                        _viewModel.HabilitaCheckDevolucao(((CredencialMotivo)cmbMotivacao.SelectedItem).CredencialMotivoId);
+                        _viewModel.HabilitaCheckDevolucao(((CredencialStatus)cmbCredencialStatus.SelectedItem).CredencialStatusId, ((CredencialMotivo)cmbMotivacao.SelectedItem).CredencialMotivoId);
                         chkDevolucaoMotivo.IsChecked = _viewModel.IsCheckDevolucao;
                         chkDevolucaoMotivo.Visibility = _viewModel.VisibilityCheckDevolucao;
                         chkDevolucaoMotivo.Content = _viewModel.TextCheckDevolucao;
