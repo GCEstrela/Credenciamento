@@ -81,8 +81,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
             {
                 var str = txtDtValidade.Text;
                 if (string.IsNullOrWhiteSpace(str)) return;
-                txtDtValidade.Text = str.FormatarData();
-                //_viewModel.Entity.Validade = Convert.ToDateTime (str.FormatarData());
+                txtDtValidade.Text = str.FormatarData(); 
             }
             catch (Exception)
             {
@@ -98,6 +97,14 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             
             btnImprimirCredencial.IsEnabled = _viewModel.HabilitaImpressao;
+
+            if ((CredencialStatus)cmbCredencialStatus.SelectedItem != null)
+            {
+                _viewModel.HabilitaCheckDevolucao(((CredencialStatus)cmbCredencialStatus.SelectedItem).CredencialStatusId, 0);
+                chkDevolucaoMotivo.IsChecked = _viewModel.IsCheckDevolucao;
+                chkDevolucaoMotivo.Visibility = _viewModel.VisibilityCheckDevolucao;
+                chkDevolucaoMotivo.Content = _viewModel.TextCheckDevolucao;
+            }
         }
 
         private void CmbMotivacao_SelectionChanged(object sender, SelectionChangedEventArgs e)

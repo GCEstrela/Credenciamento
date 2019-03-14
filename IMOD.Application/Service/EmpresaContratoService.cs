@@ -73,7 +73,10 @@ namespace IMOD.Application.Service
         private void AlterarMaiorDataValidadeContratoBasico(EmpresaContrato entity)
         {
             //Verificar se há um contrato básico
-            var n1 = ListarPorEmpresa (entity.EmpresaId); //Contratos associado a empresa
+            //Status ativo
+            var status = Status.Listar().FirstOrDefault(n => n.CodigoStatus);
+            if (status == null) throw new InvalidOperationException("Informe um status do ativo para continuar");
+            var n1 = ListarPorEmpresa (entity.EmpresaId); //Contratos associado a empresa com status ativo
             if (!n1.Any (n => n.ContratoBasico)) return;
             var n2 = n1.FirstOrDefault (n => n.ContratoBasico);
             if (n2 == null) return;
@@ -92,10 +95,13 @@ namespace IMOD.Application.Service
         private void AlterarMaiorDataValidadeContratoBasicoEntreContratos(EmpresaContrato entity)
         {
             //Verificar se há um contrato básico
-            var n1 = ListarPorEmpresa(entity.EmpresaId); //Contratos associado a empresa
+            //Status ativo
+            var status = Status.Listar().FirstOrDefault (n => n.CodigoStatus);
+            if(status==null) throw new InvalidOperationException("Informe um status do ativo para continuar");
+            var n1 = ListarPorEmpresa(entity.EmpresaId); //Contratos associado a empresa com status ativo
             if (!n1.Any(n => n.ContratoBasico)) return;
             //Obtêm a maior data de validade dos contratos, (exceto o contrato básico)
-            var dtValidadeMax = n1.Where(n => !n.ContratoBasico).Max (n => n.Validade);
+            var dtValidadeMax = n1.Where(n => !n.ContratoBasico & entity.StatusId == status.StatusId).Max (n => n.Validade);
             var n2 = n1.FirstOrDefault(n => n.ContratoBasico);
             if (n2 == null) return;
             //Alterar para a maior data

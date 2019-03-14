@@ -68,6 +68,7 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public bool Motorista { get; set; }
         public string CnhCategoria { get; set; }
         public string Cnh { get; set; }
+        [Range(typeof(DateTime), "1/1/1880", "1/1/2200", ErrorMessage = "Data inválida")]
         public DateTime? CnhValidade { get; set; }
         public string CnhEmissor { get; set; }
         public string Cnhuf { get; set; }
