@@ -378,6 +378,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 if (Entity == null) return;
 
+                Entity.DevolucaoEntregaBoId = IsCheckDevolucao ? (int)devolucaoCredencial : 0;
+
                 var n1 = Mapper.Map<ColaboradorCredencial> (Entity);
                 
                 n1.CredencialMotivoId = Entity.CredencialMotivoId;
@@ -386,7 +388,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 n1.LayoutCrachaId = Entity.LayoutCrachaId;
                 n1.TecnologiaCredencialId = Entity.TecnologiaCredencialId;
                 n1.TipoCredencialId = Entity.TipoCredencialId;
-                n1.DevolucaoEntregaBOId = IsCheckDevolucao ? Entity.DevolucaoEntregaBOID : 0;
+                n1.DevolucaoEntregaBoId = IsCheckDevolucao ? Entity.DevolucaoEntregaBoId : 0;
 
                 //Criar registro no banco de dados e setar uma data de validade
                 _prepareCriarCommandAcionado = false;
@@ -469,7 +471,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 if (Entity == null) return;
 
-                Entity.DevolucaoEntregaBOID = IsCheckDevolucao ? (int)devolucaoCredencial : 0; 
+                Entity.DevolucaoEntregaBoId = IsCheckDevolucao ? (int)devolucaoCredencial : 0; 
 
                 var n1 = Mapper.Map<ColaboradorCredencial> (Entity); 
 
@@ -479,7 +481,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 n1.LayoutCrachaId = Entity.LayoutCrachaId;
                 n1.TecnologiaCredencialId = Entity.TecnologiaCredencialId;
                 n1.TipoCredencialId = Entity.TipoCredencialId;
-                n1.DevolucaoEntregaBOId = IsCheckDevolucao ? Entity.DevolucaoEntregaBOID : 0;
+                n1.DevolucaoEntregaBoId = IsCheckDevolucao ? Entity.DevolucaoEntregaBoId : 0;
 
                 //Alterar o status do titular do cartão
                 _service.AlterarStatusTitularCartao (new CredencialGenetecService (Main.Engine), Entity, n1);
@@ -705,13 +707,13 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             if (entity != null)
             {
-                IsCheckDevolucao = entity.DevolucaoEntregaBOID == 0 ? false : (entity.DevolucaoEntregaBOID > 0 ? true : false);
+                IsCheckDevolucao = entity.DevolucaoEntregaBoId == 0 ? false : (entity.DevolucaoEntregaBoId > 0 ? true : false);
 
-                VisibilityCheckDevolucao = entity.DevolucaoEntregaBOID == 0 ?
-                    Visibility.Hidden : (entity.DevolucaoEntregaBOID > 0 ? Visibility.Visible : Visibility.Hidden);
+                VisibilityCheckDevolucao = entity.DevolucaoEntregaBoId == 0 ?
+                    Visibility.Hidden : (entity.DevolucaoEntregaBoId > 0 ? Visibility.Visible : Visibility.Hidden);
 
-                TextCheckDevolucao = entity.DevolucaoEntregaBOID == 0 ? String.Empty :
-                        (entity.DevolucaoEntregaBOID == 1 ? DevoluçãoCredencial.Devolucao.Descricao() : DevoluçãoCredencial.EntregaBO.Descricao());
+                TextCheckDevolucao = entity.DevolucaoEntregaBoId == 0 ? String.Empty :
+                        (entity.DevolucaoEntregaBoId == 1 ? DevoluçãoCredencial.Devolucao.Descricao() : DevoluçãoCredencial.EntregaBO.Descricao());
             }
             else
             {

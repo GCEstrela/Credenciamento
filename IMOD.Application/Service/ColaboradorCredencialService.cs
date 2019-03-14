@@ -336,7 +336,7 @@ namespace IMOD.Application.Service
 
             entity.DataStatus = entity2.Ativa & (entity.Ativa != entity2.Ativa) ? (DateTime?)null : entity.DataStatus;
             entity.Ativa = entity2.Ativa; //Atulizar dados para serem exibidas na tela 
-            entity.Baixa = entity2.Ativa & (entity2.DevolucaoEntregaBOId > 0) ? (DateTime?) null : DateTime.Today.Date; //Atulizar dados para serem exibidas na tela
+            entity.Baixa = entity2.Ativa & (entity2.DevolucaoEntregaBoId > 0) ? (DateTime?) null : DateTime.Today.Date; //Atulizar dados para serem exibidas na tela
             
             //Alterar dados no sub-sistema de credenciamento
             //A data da baixa está em função do status do titular do cartao e sua credencial

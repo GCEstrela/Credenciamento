@@ -111,20 +111,23 @@
                             </ComboBox>
                             <Label Content="Motivo:" Height="28" Width="52" HorizontalContentAlignment="Right"
                                    Foreground="#FFD0D0D0" />
-
                             <ComboBox x:Name="cmbMotivacao"
-
                                       Margin="0,4,0,3"
                                       IsEditable="true" 
                                       Height="25"
-                                      Width="230"
+                                      Width="156"
                                       VerticalContentAlignment="Center"
                                       HorizontalContentAlignment="Left"
                                       ItemsSource="{Binding CredenciaisMotivo}" 
                                       DisplayMemberPath="Descricao"
                                       Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
                                       SelectedValue="{Binding Entity.CredencialMotivoId, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                      SelectedValuePath="CredencialMotivoId" IsSynchronizedWithCurrentItem="True" />
+                                      SelectedValuePath="CredencialMotivoId" IsSynchronizedWithCurrentItem="True" SelectionChanged="CmbMotivacao_SelectionChanged" />
+                            
+                            <CheckBox VerticalAlignment="Center" Margin="15,0,0,0" x:Name="chkDevolucaoMotivo" HorizontalAlignment="Left" Foreground="#FFD0D0D0" 
+                                Visibility="{Binding VisibilityCheckDevolucao, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                      IsChecked="{Binding IsCheckDevolucao, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                      Content="{Binding TextCheckDevolucao, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"

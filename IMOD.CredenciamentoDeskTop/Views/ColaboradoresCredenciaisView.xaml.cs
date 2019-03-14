@@ -110,7 +110,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         private void CmbMotivacao_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-                    if (cmbMotivacao.SelectedItem != null)
+                    if (cmbCredencialStatus.SelectedItem != null && cmbMotivacao.SelectedItem != null)
                     {
                         _viewModel.HabilitaCheckDevolucao(((CredencialStatus)cmbCredencialStatus.SelectedItem).CredencialStatusId, ((CredencialMotivo)cmbMotivacao.SelectedItem).CredencialMotivoId);
                         chkDevolucaoMotivo.IsChecked = _viewModel.IsCheckDevolucao;

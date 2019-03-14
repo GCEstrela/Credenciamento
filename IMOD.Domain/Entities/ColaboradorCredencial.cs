@@ -37,7 +37,7 @@ namespace IMOD.Domain.Entities
         public bool Ativa { get; set; }
         public DateTime? Baixa { get; set; }
         public DateTime? DataStatus { get; set; }
-        public int DevolucaoEntregaBOId { get; set; }
+        public int DevolucaoEntregaBoId { get; set; }
 
         #endregion
     }

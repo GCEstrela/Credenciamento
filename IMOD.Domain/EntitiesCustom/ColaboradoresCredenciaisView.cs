@@ -70,7 +70,7 @@ namespace IMOD.Domain.EntitiesCustom
         public bool PendenciaImpeditiva { get; set; }
 
         public DateTime? DataStatus { get; set; }
-        public int DevolucaoEntregaBOID { get; set; }
+        public int DevolucaoEntregaBoId { get; set; }
 
 
     }
