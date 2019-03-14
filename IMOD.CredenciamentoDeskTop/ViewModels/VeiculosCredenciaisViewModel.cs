@@ -431,23 +431,25 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             //Exibir mensagem de impressao de credencial, esta tem prioridade sobre as demais regras
             if (n1.Impressa) return;
 
-            MensagemAlerta = $"A autorização não poderá ser impressa pelo seguinte motivo: ";
-
-            if (!string.IsNullOrEmpty(mensagem1))
+            if (!string.IsNullOrEmpty(mensagem1 + mensagem2 + mensagem3 + mensagem4))
             {
-                MensagemAlerta += mensagem1;
-            }
-            else if (!string.IsNullOrEmpty(mensagem2))
-            {
-                MensagemAlerta += mensagem2;
-            }
-            else if (!string.IsNullOrEmpty(mensagem3))
-            {
-                MensagemAlerta += mensagem3;
-            }
-            else if (!string.IsNullOrEmpty(mensagem4))
-            {
-                MensagemAlerta += mensagem4;
+                MensagemAlerta = $"A autorização não poderá ser impressa pelo seguinte motivo: ";
+                if (!string.IsNullOrEmpty(mensagem1))
+                {
+                    MensagemAlerta += mensagem1;
+                }
+                else if (!string.IsNullOrEmpty(mensagem2))
+                {
+                    MensagemAlerta += mensagem2;
+                }
+                else if (!string.IsNullOrEmpty(mensagem3))
+                {
+                    MensagemAlerta += mensagem3;
+                }
+                else if (!string.IsNullOrEmpty(mensagem4))
+                {
+                    MensagemAlerta += mensagem4;
+                }
             }
             //================================================================================
             #endregion
