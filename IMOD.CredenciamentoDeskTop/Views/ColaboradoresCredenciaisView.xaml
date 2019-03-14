@@ -40,13 +40,13 @@
                       Background="Purple"
                       x:Name="Responsavel_gb" Header="Credenciamento" Margin="0,0,10,0">
                 <StackPanel Orientation="Horizontal">
-                    <StackPanel Width="964">
+                    <StackPanel Width="979">
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                     Margin="1,1,-20,1" Width="977">
                             <Label Content="Vínculo:" Height="28" Width="55" Foreground="#FFD0D0D0" />
 
-                            <ComboBox x:Name="cmbEmpresaVinculo"
-                                      Width="413" 
+                            <ComboBox x:Name="cmbEmpresaVinculo"  
+                                      Width="363" 
                                       Margin="0,4,0,3" 
                                       Height="25"
                                       VerticalContentAlignment="Center" 
@@ -78,7 +78,7 @@
                             <Label Content="Status:" Height="28" Width="49" HorizontalContentAlignment="Right"
                                    Foreground="#FFD0D0D0" />
 
-                            <ComboBox x:Name="cmbCredencialStatus"   IsEditable="true" 
+                            <ComboBox x:Name="cmbCredencialStatus" IsEditable="true"
                                       Margin="0,4,0,3" 
                                       Height="25"
                                       Width="130"
@@ -99,22 +99,24 @@
                                     </TransformGroup>
                                 </ComboBox.RenderTransform>
                             </ComboBox>
-                            <Label Content="Motivo:" Height="28" Width="55" HorizontalContentAlignment="Right"
+                            <Label Content="Motivo:" Height="28" Width="111" HorizontalContentAlignment="Right"
                                    Foreground="#FFD0D0D0" />
 
-                            <ComboBox x:Name="cmbMotivacao" IsEditable="true" 
+                            <ComboBox x:Name="cmbMotivacao"  IsEditable="true"
                                       Margin="0,4,0,3" 
                                       Height="25"
-                                      Width="251"                                      
+                                      Width="190"                                      
                                       VerticalContentAlignment="Center" 
                                       HorizontalContentAlignment="Left"
                                       ItemsSource="{Binding CredenciaisMotivo}" 
                                       SelectedValue="{Binding Entity.CredencialMotivoId, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                                       DisplayMemberPath="Descricao"
                                       SelectedValuePath="CredencialMotivoId"
-                                      Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
-                                     
-                                      />
+                                      Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" SelectionChanged="CmbMotivacao_SelectionChanged"/>
+
+                            <CheckBox VerticalAlignment="Center" Margin="5,0,0,0" x:Name="chkDevolucaoMotivo" HorizontalAlignment="Left" Foreground="#FFD0D0D0" 
+                                Visibility="{Binding VisibilityCheckDevolucao, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" IsChecked="{Binding IsCheckDevolucao, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Content="{Binding TextCheckDevolucao, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/> 
+                            
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
@@ -126,7 +128,7 @@
                                      IsEnabled="False" Height="24" Width="44" />
                             <Label Content="Tipo:" Height="28" Width="36" Foreground="#FFD0D0D0" />
 
-                            <ComboBox x:Name="TipoCredencial_cb" IsEditable="true"    
+                            <ComboBox x:Name="TipoCredencial_cb" IsEditable="true"
                                       IsEnabled="{Binding Habilitar}" 
                                       Height="25"
                                       Width="134"
@@ -140,7 +142,7 @@
 
                             <Label Content="Modelo:" Height="28" Width="53" Margin="1" Foreground="#FFD0D0D0" />
 
-                            <ComboBox x:Name="ModeloCredencial_cb"  IsEditable="true"  
+                            <ComboBox x:Name="ModeloCredencial_cb" IsEditable="true"
                                        IsEnabled="{Binding Habilitar}" 
                                       Margin="0,4,0,3" 
                                       Height="25"
@@ -157,12 +159,12 @@
                             <Label Content="Colete:" Height="28" Width="50" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" RenderTransformOrigin="0.5,0.5" >
                             </Label>
                             <TextBox  x:Name="NumeroColete_tb"  MaxLength="15"  CharacterCasing="Upper" 
-                                       IsEnabled="False" Text="{Binding Entity.Colete,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Height="24"  Width="75"/>
+                                       IsEnabled="False" Text="{Binding Entity.Colete,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Height="24"  Width="80"/>
 
-                            <Label Content="Autenticação:" Height="28" Width="109"   HorizontalContentAlignment="Right"
+                            <Label Content="Autenticação:" Height="28" Width="110"   HorizontalContentAlignment="Right"
                                    Foreground="#FFD0D0D0" />
 
-                            <ComboBox x:Name="TecnologiaCredencial_cb" IsEditable="true" 
+                            <ComboBox x:Name="TecnologiaCredencial_cb"  IsEditable="true"
                                        IsEnabled="{Binding Habilitar}"
                                       Margin="0,4,0,3" 
                                       Height="25"
@@ -174,7 +176,7 @@
                                       SelectedValue="{Binding Entity.TecnologiaCredencialId, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                                       SelectedValuePath="TecnologiaCredencialId" IsSynchronizedWithCurrentItem="True" />
 
-                            <Label Content="FC:" Height="28" Width="74"   HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                            <Label Content="FC:" Height="28" Width="70"   HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
                             <TextBox  x:Name="FC_tb"  MaxLength="5"    IsEnabled="{Binding Habilitar}"  
                                       CharacterCasing="Upper" Text="{Binding Entity.Fc,UpdateSourceTrigger=PropertyChanged}"  Height="24"  Width="45"/>
                         </StackPanel>
@@ -194,13 +196,13 @@
                                      IsEnabled="{Binding Habilitar}"
                                      Height="24" Width="85" 
                                      Name="txtDtValidade"></TextBox>
-                            <Label Content="Baixa:" Height="28" Width="50" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
+                            <Label Content="Baixa:" Height="28" Width="53" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
                             <TextBlock Text="{Binding Entity.Baixa,UpdateSourceTrigger=PropertyChanged, StringFormat=\{0:d\}}"  VerticalAlignment="Center" Width="70"  />
 
-                            <Label Content="Privilégios:" Height="28" Width="85" Margin="0,0,4,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                            <Label Content="Privilégios:" Height="28" Width="104" Margin="0,0,4,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
 
 
-                            <ComboBox  x:Name="Privilegio1_tb" IsEditable="true" 
+                            <ComboBox  x:Name="Privilegio1_tb" IsEditable="true"
                                         IsEnabled="{Binding Habilitar}"
                                        Width="45" 
                                        Height="25"
@@ -211,7 +213,7 @@
                                        SelectedValue="{Binding Entity.ColaboradorPrivilegio1Id,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                                        SelectedValuePath="AreaAcessoId"  />
 
-                            <ComboBox  x:Name="Privilegio2_tb" IsEditable="true" 
+                            <ComboBox  x:Name="Privilegio2_tb"  IsEditable="true"
                                        Margin="5,0,0,0"  
                                         IsEnabled="{Binding Habilitar}"
                                        Width="45" 
@@ -223,10 +225,10 @@
                                        SelectedValue="{Binding Entity.ColaboradorPrivilegio2Id, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                                        SelectedValuePath="AreaAcessoId"  />
 
-                            <Label Content="Formato Credencial:" Height="28" Width="127"   HorizontalContentAlignment="Right"
+                            <Label Content="Formato Credencial:" Height="28" Width="111"   HorizontalContentAlignment="Right"
                                    Foreground="#FFD0D0D0" />
 
-                            <ComboBox x:Name="FormatoCredencial_cb"   IsEditable="true" 
+                            <ComboBox x:Name="FormatoCredencial_cb" IsEditable="true"
                                       IsEnabled="False"
                                       Margin="0,4,0,3" 
                                       Height="25"
@@ -277,7 +279,7 @@
                         HorizontalAlignment="Left" 
                         Width="220" 
                         Command ="{Binding ImprimirCommand}"/>
-                <Label Style="{Styles {x:Static LabelStyles.Info} }"  Margin="10,0,0,0" Visibility="{Binding MensagemAlerta, Converter={funcoes:StringNullOrEmptyToVisibilityConverter}}" Height="24" VerticalAlignment="Center"   HorizontalAlignment="Center" Content="{Binding MensagemAlerta}" ></Label>
+                <Label Style="{Styles {x:Static LabelStyles.Info} }" Margin="10,0,0,0" Visibility="{Binding MensagemAlerta, Converter={funcoes:StringNullOrEmptyToVisibilityConverter}}"   Height="24" VerticalAlignment="Center"   HorizontalAlignment="Center" Content="{Binding MensagemAlerta}"></Label>
             </StackPanel>
             
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="990" Height="245">

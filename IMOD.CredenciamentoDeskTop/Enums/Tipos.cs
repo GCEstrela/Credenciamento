@@ -21,4 +21,13 @@ namespace IMOD.CredenciamentoDeskTop.Enums
         [Description("Veiculo")] Veiculo,
         [Description("Colaborador")] Colaborador
     }
+
+    /// <summary>
+    ///     Devolução Credencial
+    /// </summary>
+    public enum DevoluçãoCredencial
+    {
+        [Description("Devolução")] Devolucao = 1,
+        [Description("Entrega BO")] EntregaBO = 2
+    }
 }
