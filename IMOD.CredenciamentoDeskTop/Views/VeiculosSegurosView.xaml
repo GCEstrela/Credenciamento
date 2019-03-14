@@ -60,31 +60,27 @@
                                      Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
                                      IsEnabled="{Binding Comportamento.isEnableCancelar}" Height="24" Width="100" PreviewTextInput="NumberOnly"/>
                             <Label Content="Data de Emissão:" Height="28" Width="244" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-
-                            <!--<DatePicker x:Name="dtPEmissao" VerticalContentAlignment="Center" 
-                                        SelectedDate="{Binding Entity.Emissao, UpdateSourceTrigger=PropertyChanged}" Width="110"
-                                        Foreground="White" Background="{x:Null}"/>-->
+  
 
                             <TextBox 
-                            Name="txtDateEmissao"
+                            Name="txtDtEmissao"
                             Text="{Binding Entity.Emissao,
 							StringFormat='{}{0:dd/MM/yyyy}'}"
-                            LostFocus="OnFormatDateEmissao_LostFocus"
+                            LostFocus="OnFormatData1_LostFocus"
+                            PreviewTextInput="NumberOnly"
                             MaxLength="10"
                             IsEnabled="{Binding Comportamento.isEnableCancelar}"
                             Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
                             Height="24"  Width="110" />
 
                             <Label Content="Data de Validade:" Height="28" Width="105" Margin="10,0,0,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                            <!--<DatePicker x:Name="dtPValidade" VerticalContentAlignment="Center" 
-                                        SelectedDate="{Binding Entity.Validade, UpdateSourceTrigger=PropertyChanged}" Width="110" 
-                                        Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
-                                        Foreground="White" Background="{x:Null}"/>-->
+                        
                             <TextBox 
-                            Name="txtDateValidade"
+                            Name="txtDtValidade"
                             Text="{Binding Entity.Validade,
 							StringFormat='{}{0:dd/MM/yyyy}'}"
-                            LostFocus="OnFormatDateValidade_LostFocus"
+                            LostFocus="OnFormatData2_LostFocus"
+                            PreviewTextInput="NumberOnly"
                             MaxLength="10"
                             IsEnabled="{Binding Comportamento.isEnableCancelar}"
                             Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
