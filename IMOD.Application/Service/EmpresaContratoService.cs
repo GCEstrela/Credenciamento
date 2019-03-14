@@ -85,6 +85,25 @@ namespace IMOD.Application.Service
         }
 
         /// <summary>
+        ///     Alterar a data de validade de um contrato básico para a maior data de validade dentre todos os contratos
+        ///     vinculados a empresa
+        /// </summary>
+        /// <param name="entity"></param>
+        private void AlterarMaiorDataValidadeContratoBasicoEntreContratos(EmpresaContrato entity)
+        {
+            //Verificar se há um contrato básico
+            var n1 = ListarPorEmpresa(entity.EmpresaId); //Contratos associado a empresa
+            if (!n1.Any(n => n.ContratoBasico)) return;
+            //Obtêm a maior data de validade dos contratos, (exceto o contrato básico)
+            var dtValidadeMax = n1.Where(n => !n.ContratoBasico).Max (n => n.Validade);
+            var n2 = n1.FirstOrDefault(n => n.ContratoBasico);
+            if (n2 == null) return;
+            //Alterar para a maior data
+            n2.Validade = dtValidadeMax;
+            _repositorio.Alterar(n2);
+        }
+
+        /// <summary>
         ///     Criar um contrato básico
         /// </summary>
         /// <param name="entity"></param>
@@ -147,7 +166,7 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void Alterar(EmpresaContrato entity)
         {
-            AlterarMaiorDataValidadeContratoBasico (entity);
+            AlterarMaiorDataValidadeContratoBasicoEntreContratos(entity); 
             _repositorio.Alterar (entity);
         }
 
