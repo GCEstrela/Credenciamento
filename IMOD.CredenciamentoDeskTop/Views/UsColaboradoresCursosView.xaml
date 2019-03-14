@@ -45,8 +45,8 @@
                                    HorizontalContentAlignment="Left"
                                    VerticalAlignment="Center" Visibility="Collapsed"/>
 
-                        <Label Content="Curso:" Height="24" Width="109" Foreground="#FFD0D0D0" />
-                        <ComboBox  x:Name="cmbCurso" 
+                        <Label Content="Curso:" Height="24" Width="109" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
+                        <ComboBox  x:Name="cmbCurso" IsEditable="true" 
                                    IsEnabled="{Binding Comportamento.isEnableCancelar}"
                                    Width="294" Height="24" 
                                    VerticalContentAlignment="Center" 
@@ -74,7 +74,7 @@
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
-                        <Label Content="Nome do Arquivo:" Height="24" Width="110" Foreground="#FFD0D0D0"  />
+                        <Label Content="Nome do Arquivo:" Height="24" Width="110" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                         <TextBox  x:Name="NomeArquivo_tb" 
                                   Text="{Binding Entity.NomeArquivo, UpdateSourceTrigger=PropertyChanged}" 
                                    Width="324" Height="24" 
@@ -87,7 +87,7 @@
                                 <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Pasta.ico"/>
                             </StackPanel>
                         </Button>
-                        <Button x:Name="AbrirCursoArquivo_bt" Height="24" Margin="10,10,5,8" VerticalAlignment="Center" Width="24" Click="OnAbrirArquivo_Click">
+                        <Button x:Name="AbrirCursoArquivo_bt" Height="24" Margin="5,10,5,8" VerticalAlignment="Center" Width="24" Click="OnAbrirArquivo_Click">
                             <StackPanel>
                                 <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Olho.png"/>
                             </StackPanel>

@@ -53,6 +53,7 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         //[Required(ErrorMessage = "O Contrato Digitalizado é requeirido.")]
         public string Arquivo { get; set; }
         public int TipoAcessoId { get; set; }
+        public bool ContratoBasico { get; set; }
 
         #endregion
     }

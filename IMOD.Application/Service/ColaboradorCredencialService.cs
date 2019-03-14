@@ -112,6 +112,11 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         private static CardHolderEntity CardHolderEntity(ColaboradoresCredenciaisView entity)
         {
+            //Author: Renato Maximo
+            //Data:13/03/19
+            //Wrk:Adicionar um dia a credencial
+            DateTime dataValidade = entity.Validade == null ? DateTime.Today.Date : (DateTime) entity.Validade; 
+
             var titularCartao = new CardHolderEntity
             {
                 Ativo = entity.Ativa,
@@ -123,8 +128,8 @@ namespace IMOD.Application.Service
                 IdentificadorCredencialGuid = entity.CredencialGuid,
                 FacilityCode = entity.Fc,
                 Foto = entity.ColaboradorFoto.ConverterBase64StringToBitmap(),
-                Matricula = entity.Matricula,
-                Validade = entity.Validade ?? DateTime.Today.Date,
+                Matricula = entity.Matricula, 
+                Validade = dataValidade.AddDays(1), 
                 NumeroCredencial = entity.NumeroCredencial,
                 IdentificadorLayoutCrachaGuid = entity.LayoutCrachaGuid
             };

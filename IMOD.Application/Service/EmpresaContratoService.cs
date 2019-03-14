@@ -6,6 +6,7 @@
 
 #region
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using IMOD.Application.Interfaces;
@@ -66,17 +67,77 @@ namespace IMOD.Application.Service
         #region  Metodos
 
         /// <summary>
+        ///     Alterar a data de validade de um contrato básico para a maior data de validade de um outro contrato
+        /// </summary>
+        /// <param name="entity"></param>
+        private void AlterarMaiorDataValidadeContratoBasico(EmpresaContrato entity)
+        {
+            //Verificar se há um contrato básico
+            var n1 = ListarPorEmpresa (entity.EmpresaId); //Contratos associado a empresa
+            if (!n1.Any (n => n.ContratoBasico)) return;
+            var n2 = n1.FirstOrDefault (n => n.ContratoBasico);
+            if (n2 == null) return;
+            var result = DateTime.Compare (entity.Validade, n2.Validade);
+            if (result <= 0) return;
+            //Alterar para a maior data
+            n2.Validade = entity.Validade;
+            _repositorio.Alterar (n2);
+        }
+
+        /// <summary>
+        ///     Alterar a data de validade de um contrato básico para a maior data de validade dentre todos os contratos
+        ///     vinculados a empresa
+        /// </summary>
+        /// <param name="entity"></param>
+        private void AlterarMaiorDataValidadeContratoBasicoEntreContratos(EmpresaContrato entity)
+        {
+            //Verificar se há um contrato básico
+            var n1 = ListarPorEmpresa(entity.EmpresaId); //Contratos associado a empresa
+            if (!n1.Any(n => n.ContratoBasico)) return;
+            //Obtêm a maior data de validade dos contratos, (exceto o contrato básico)
+            var dtValidadeMax = n1.Where(n => !n.ContratoBasico).Max (n => n.Validade);
+            var n2 = n1.FirstOrDefault(n => n.ContratoBasico);
+            if (n2 == null) return;
+            //Alterar para a maior data
+            n2.Validade = dtValidadeMax;
+            _repositorio.Alterar(n2);
+        }
+
+        /// <summary>
+        ///     Criar um contrato básico
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="dataValidade">Data de Validade</param>
+        /// <param name="status">Status do contrato</param>
+        public void CriarContratoBasico(Empresa entity, DateTime dataValidade, Status status)
+        {
+            var contrato = new EmpresaContrato();
+            contrato.EmpresaId = entity.EmpresaId;
+            contrato.Validade = dataValidade;
+            contrato.Descricao = "Contrato Básico";
+            contrato.StatusId = status.StatusId;
+            contrato.NumeroContrato = "0";
+            contrato.Emissao = contrato.Validade;
+            contrato.ContratoBasico = true;
+            Criar (contrato);
+        }
+
+        /// <summary>
         ///     Criar registro
         /// </summary>
         /// <param name="entity">Entidade</param>
         public void Criar(EmpresaContrato entity)
         {
+            AlterarMaiorDataValidadeContratoBasico (entity);
             _repositorio.Criar (entity);
+
             #region Retirar pendencias de sistema
-            var pendencia = Pendencia.ListarPorEmpresa(entity.EmpresaId)
-                .FirstOrDefault(n => n.PendenciaSistema & n.CodPendencia == 14);
+
+            var pendencia = Pendencia.ListarPorEmpresa (entity.EmpresaId)
+                .FirstOrDefault (n => n.PendenciaSistema & (n.CodPendencia == 14));
             if (pendencia == null) return;
-            Pendencia.Remover(pendencia);
+            Pendencia.Remover (pendencia);
+
             #endregion
         }
 
@@ -105,6 +166,7 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void Alterar(EmpresaContrato entity)
         {
+            AlterarMaiorDataValidadeContratoBasicoEntreContratos(entity); 
             _repositorio.Alterar (entity);
         }
 
@@ -128,7 +190,7 @@ namespace IMOD.Application.Service
         }
 
         /// <summary>
-        /// Buscar numero do contrato
+        ///     Buscar numero do contrato
         /// </summary>
         /// <param name="numContrato"></param>
         /// <returns></returns>

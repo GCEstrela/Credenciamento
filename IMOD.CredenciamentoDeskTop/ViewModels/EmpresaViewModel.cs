@@ -674,6 +674,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             IsEnableTabRepresentantes = isItemRpresentantes;
             IsEnableTabContratos = isItemContratos;
             IsEnableTabAnexo = isItemAnexo;
+            Comportamento.IsEnableCriar = lstViewSuperior;
         }
 
         private void OnCancelar(object sender, RoutedEventArgs e)

@@ -141,15 +141,8 @@ namespace IMOD.Application.Service
             Criar (entity);
             //Criar um contrato básico e automatico apenas se as configurações permitirem
             if (!configuracaoSistema.Contrato) return;
-            //Criar contrato básico
-            var contrato = new EmpresaContrato();
-            contrato.EmpresaId = entity.EmpresaId;
-            contrato.Validade = dataValidade;
-            contrato.Descricao = "Contrato Básico";
-            contrato.StatusId = status.StatusId;
-            contrato.NumeroContrato = numContrato;
-            contrato.Emissao = contrato.Validade;
-            ContratoService.Criar (contrato);
+            //Criar contrato básico 
+            ContratoService.CriarContratoBasico (entity,dataValidade,status);
         }
 
         /// <summary>
