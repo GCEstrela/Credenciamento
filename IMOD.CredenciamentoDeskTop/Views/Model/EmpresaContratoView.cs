@@ -24,14 +24,14 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         [Required(ErrorMessage = "A Descrição do Contrato é requerido.")]
         public string Descricao { get; set; }
         [Required(ErrorMessage = "A Data de Emissão do Contrato é requerido.")]
+        [Range(typeof(DateTime), "1/1/1880", "1/1/2200", ErrorMessage = "Data inválida")]
         public DateTime? Emissao { get; set; }
         [Required(ErrorMessage = "A Data de Validade do Contrato é requerido.")]
-        public DateTime? Validade { get; set; }
-        //[Required(ErrorMessage = "A Data de Validade do Contrato é requerido.")]
+        [Range(typeof(DateTime), "11/11/2000", "1/1/2200", ErrorMessage = "Data inválida")]
+        public DateTime? Validade { get; set; } 
         public bool Terceirizada { get; set; }
         public string Contratante { get; set; }
-        public bool IsencaoCobranca { get; set; }
-        //[Required(ErrorMessage = "O Tipo de Bobrança do Contrato é requeirido.")]
+        public bool IsencaoCobranca { get; set; } 
         public int TipoCobrancaId { get; set; }
         public int CobrancaEmpresaId { get; set; }
         public string Cep { get; set; }

@@ -188,8 +188,7 @@
                             <Label Content="Validade:" Height="28" Width="56" Margin="1"   Foreground="#FFD0D0D0"  RenderTransformOrigin="0.553,0.5"/>
                          
                             <TextBox Text="{Binding Entity.Validade, 
-                                     UpdateSourceTrigger=PropertyChanged,Mode=TwoWay,
-                                     StringFormat='{}{0:dd/MM/yyyy}'}"
+                                     UpdateSourceTrigger=PropertyChanged,Mode=TwoWay,StringFormat='{}{0:dd/MM/yyyy}'}"
                                      LostFocus="OnFormatData_LostFocus"
                                      Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
                                      PreviewTextInput="NumberOnly"

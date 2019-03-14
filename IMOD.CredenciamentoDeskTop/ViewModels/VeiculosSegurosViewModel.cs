@@ -181,6 +181,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 _service.Alterar (n1);
                 IsEnableLstView = true;
                 _viewModelParent.HabilitaControleTabControls(true, true, true, true, true, true);
+                Entity = null;
             }
             catch (Exception ex)
             {

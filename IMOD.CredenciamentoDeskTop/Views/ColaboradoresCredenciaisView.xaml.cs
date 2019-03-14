@@ -81,8 +81,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
             {
                 var str = txtDtValidade.Text;
                 if (string.IsNullOrWhiteSpace(str)) return;
-                txtDtValidade.Text = str.FormatarData();
-                //_viewModel.Entity.Validade = Convert.ToDateTime (str.FormatarData());
+                txtDtValidade.Text = str.FormatarData(); 
             }
             catch (Exception)
             {

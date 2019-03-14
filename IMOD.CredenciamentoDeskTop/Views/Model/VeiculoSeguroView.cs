@@ -25,8 +25,11 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public string NumeroApolice { get; set; }
         [Required(ErrorMessage = "O Valor da Corbetura é requerido.")]
         public decimal ValorCobertura { get; set; }
+        [Required(ErrorMessage = "A Data de Emissão é requerido.")]
+        [Range(typeof(DateTime), "1/1/1880", "1/1/2200", ErrorMessage = "Data inválida")]
         public DateTime? Emissao { get; set; }
         [Required(ErrorMessage = "A Data de Validade é requerido.")]
+        [Range(typeof(DateTime), "1/1/1880", "1/1/2200", ErrorMessage = "Data inválida")]
         public DateTime? Validade { get; set; }
         public int VeiculoId { get; set; }
         public string NomeArquivo { get; set; }
