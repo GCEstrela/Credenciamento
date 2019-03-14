@@ -166,8 +166,9 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void Alterar(EmpresaContrato entity)
         {
-            AlterarMaiorDataValidadeContratoBasicoEntreContratos(entity); 
+           
             _repositorio.Alterar (entity);
+            AlterarMaiorDataValidadeContratoBasicoEntreContratos(entity);
         }
 
         /// <summary>
