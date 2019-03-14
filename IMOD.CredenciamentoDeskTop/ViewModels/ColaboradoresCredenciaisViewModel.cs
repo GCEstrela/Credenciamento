@@ -30,6 +30,7 @@ using IMOD.Domain.EntitiesCustom;
 using IMOD.Infra.Servicos;
 using Cursor = System.Windows.Forms.Cursor;
 using Cursors = System.Windows.Forms.Cursors;
+using IMOD.CredenciamentoDeskTop.Enums;
 
 #endregion
 
@@ -94,7 +95,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public ColaboradorEmpresa ColaboradorEmpresa { get; set; }
         public List<AreaAcesso> ColaboradorPrivilegio { get; set; }
         public ColaboradoresCredenciaisView Entity { get; set; }
-         
+
+        public bool IsCheckDevolucao { get; set; } = false;
+        public Visibility VisibilityCheckDevolucao { get; set; } = Visibility.Hidden;
+        public string TextCheckDevolucao { get; set; } = String.Empty;
+        private DevoluçãoCredencial devolucaoCredencial;
 
         /// <summary>
         ///     Mensagem de alerta
@@ -260,7 +265,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 Comportamento.IsEnableEditar = Entity != null;
                 Comportamento.isEnableRemover = Entity != null;
-                AtualizarMensagem (Entity);
+                AtualizarMensagem (Entity); 
+                ExibirCheckDevolucao(Entity); 
             }
         }
 
@@ -371,13 +377,14 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (Entity == null) return;
 
                 var n1 = Mapper.Map<ColaboradorCredencial> (Entity);
-
+                
                 n1.CredencialMotivoId = Entity.CredencialMotivoId;
                 n1.CredencialStatusId = Entity.CredencialStatusId;
                 n1.FormatoCredencialId = Entity.FormatoCredencialId;
                 n1.LayoutCrachaId = Entity.LayoutCrachaId;
                 n1.TecnologiaCredencialId = Entity.TecnologiaCredencialId;
                 n1.TipoCredencialId = Entity.TipoCredencialId;
+                n1.DevolucaoEntregaBOId = IsCheckDevolucao ? Entity.DevolucaoEntregaBOID : 0;
 
                 //Criar registro no banco de dados e setar uma data de validade
                 _prepareCriarCommandAcionado = false;
@@ -393,6 +400,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 MensagemAlerta = "";
                 Entity = null;
                 _viewModelParent.HabilitaControleTabControls (true, true, true, true, true, true);
+                ExibirCheckDevolucao(Entity);
             }
             catch (Exception ex)
             {
@@ -459,7 +467,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 if (Entity == null) return;
 
-                var n1 = Mapper.Map<ColaboradorCredencial> (Entity);
+                Entity.DevolucaoEntregaBOID = IsCheckDevolucao ? (int)devolucaoCredencial : 0; 
+                var n1 = Mapper.Map<ColaboradorCredencial> (Entity); 
+                n1.DevolucaoEntregaBOId = Entity.DevolucaoEntregaBOID; 
+
                 //Alterar o status do titular do cartão
                 _service.AlterarStatusTitularCartao (new CredencialGenetecService (Main.Engine), Entity, n1);
 
@@ -479,6 +490,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 //===================================================
                 Entity = null;
                 _viewModelParent.HabilitaControleTabControls (true, true, true, true, true, true);
+                ExibirCheckDevolucao(Entity); 
             }
             catch (Exception ex)
             {
@@ -645,6 +657,54 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
             return Entity.HasErrors;
         }
+
+        public void HabilitaCheckDevolucao(int credencialMotivoId = 0)
+        {
+            if (credencialMotivoId > 0)
+            {
+                switch (credencialMotivoId)
+                {
+                    case 6:
+                    case 8:
+                    case 15:
+                        TextCheckDevolucao = DevoluçãoCredencial.Devolucao.Descricao();
+                        devolucaoCredencial = DevoluçãoCredencial.Devolucao;
+                        VisibilityCheckDevolucao = Visibility.Visible;
+                        break;
+                    case 9:
+                    case 10:
+                        TextCheckDevolucao = DevoluçãoCredencial.EntregaBO.Descricao();
+                        devolucaoCredencial = DevoluçãoCredencial.EntregaBO;
+                        VisibilityCheckDevolucao = Visibility.Visible;
+                        break;
+                    default:
+                        TextCheckDevolucao = String.Empty;
+                        VisibilityCheckDevolucao = Visibility.Hidden;
+                        break;
+                }
+            }
+        }
+
+        private void ExibirCheckDevolucao(ColaboradoresCredenciaisView entity)
+        {
+            if (entity != null)
+            {
+                IsCheckDevolucao = entity.DevolucaoEntregaBOID == 0 ? false : (entity.DevolucaoEntregaBOID > 0 ? true : false);
+
+                VisibilityCheckDevolucao = entity.DevolucaoEntregaBOID == 0 ?
+                    Visibility.Hidden : (entity.DevolucaoEntregaBOID > 0 ? Visibility.Visible : Visibility.Hidden);
+
+                TextCheckDevolucao = entity.DevolucaoEntregaBOID == 0 ? String.Empty :
+                        (entity.DevolucaoEntregaBOID == 1 ? DevoluçãoCredencial.Devolucao.Descricao() : DevoluçãoCredencial.EntregaBO.Descricao());
+            }
+            else
+            {
+                IsCheckDevolucao = false;
+                TextCheckDevolucao = String.Empty;
+                VisibilityCheckDevolucao = Visibility.Hidden;
+            }
+        }
+
 
         #endregion
 
