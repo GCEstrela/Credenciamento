@@ -104,7 +104,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
                     if (cmbMotivacao.SelectedItem != null)
                     {
-                        _viewModel.HabilitaCheckDevolucao(((CredencialMotivo)cmbMotivacao.SelectedItem).CredencialMotivoId);
+                        _viewModel.HabilitaCheckDevolucao(((CredencialStatus)cmbCredencialStatus.SelectedItem).CredencialStatusId, ((CredencialMotivo)cmbMotivacao.SelectedItem).CredencialMotivoId);
                         chkDevolucaoMotivo.IsChecked = _viewModel.IsCheckDevolucao;
                         chkDevolucaoMotivo.Visibility = _viewModel.VisibilityCheckDevolucao;
                         chkDevolucaoMotivo.Content = _viewModel.TextCheckDevolucao;
