@@ -429,7 +429,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             var mensagem3 = n1.Impressa ? "Autorização já foi impressa" : string.Empty;
             var mensagem4 = (entity.Validade < DateTime.Now.Date) ? "Autorização vencida." : string.Empty;
             //Exibir mensagem de impressao de credencial, esta tem prioridade sobre as demais regras
-            if (n1.Impressa) return;
+            //if (n1.Impressa) return;
 
             if (!string.IsNullOrEmpty(mensagem1 + mensagem2 + mensagem3 + mensagem4))
             {

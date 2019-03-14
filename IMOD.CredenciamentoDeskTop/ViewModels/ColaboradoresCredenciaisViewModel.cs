@@ -157,10 +157,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             var n1 = _service.BuscarCredencialPelaChave(entity.ColaboradorCredencialId);
             var mensagem1 = !n1.Ativa ? "Credencial Inativa" : string.Empty;
             var mensagem2 = n1.PendenciaImpeditiva ? "Pendência Impeditiva (consultar dados da empresa na aba Geral)" : string.Empty;
-            var mensagem3 = n1.Impressa ? "Credencial já foi impressa" : string.Empty;
+            var mensagem3 = n1.Impressa ? "Credencial já foi emitida" : string.Empty;
             var mensagem4 = (entity.Validade < DateTime.Now.Date) ? "Credencial vencida." : string.Empty;
             //Exibir mensagem de impressao de credencial, esta tem prioridade sobre as demais regras            
-            if (n1.Impressa) return;
+            //if (n1.Impressa) return;
 
             if (!string.IsNullOrEmpty(mensagem1 + mensagem2 + mensagem3 + mensagem4))
             {
