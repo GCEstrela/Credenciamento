@@ -40,13 +40,13 @@
                       Background="Purple"
                       x:Name="Responsavel_gb" Header="Credenciamento" Margin="0,0,10,0">
                 <StackPanel Orientation="Horizontal">
-                    <StackPanel Width="964">
+                    <StackPanel Width="979">
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                     Margin="1,1,-20,1" Width="977">
                             <Label Content="Vínculo:" Height="28" Width="55" Foreground="#FFD0D0D0" />
 
                             <ComboBox x:Name="cmbEmpresaVinculo" 
-                                      Width="413" 
+                                      Width="363" 
                                       Margin="0,4,0,3" 
                                       Height="25"
                                       VerticalContentAlignment="Center" 
@@ -99,22 +99,24 @@
                                     </TransformGroup>
                                 </ComboBox.RenderTransform>
                             </ComboBox>
-                            <Label Content="Motivo:" Height="28" Width="55" HorizontalContentAlignment="Right"
+                            <Label Content="Motivo:" Height="28" Width="111" HorizontalContentAlignment="Right"
                                    Foreground="#FFD0D0D0" />
 
                             <ComboBox x:Name="cmbMotivacao" 
                                       Margin="0,4,0,3" 
                                       Height="25"
-                                      Width="251"                                      
+                                      Width="190"                                      
                                       VerticalContentAlignment="Center" 
                                       HorizontalContentAlignment="Left"
                                       ItemsSource="{Binding CredenciaisMotivo}" 
                                       SelectedValue="{Binding Entity.CredencialMotivoId, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                                       DisplayMemberPath="Descricao"
                                       SelectedValuePath="CredencialMotivoId"
-                                      Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
-                                     
-                                      />
+                                      Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" SelectionChanged="CmbMotivacao_SelectionChanged"/>
+
+                            <CheckBox VerticalAlignment="Center" x:Name="chkDevolucaoMotivo" HorizontalAlignment="Left" Foreground="#FFD0D0D0"
+                                Visibility="{Binding VisibilityCheckDevolucao, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" IsChecked="{Binding IsCheckDevolucao, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Content="{Binding TextCheckDevolucao, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/> 
+                            
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
@@ -157,9 +159,9 @@
                             <Label Content="Colete:" Height="28" Width="50" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" RenderTransformOrigin="0.5,0.5" >
                             </Label>
                             <TextBox  x:Name="NumeroColete_tb"  MaxLength="15"  CharacterCasing="Upper" 
-                                       IsEnabled="False" Text="{Binding Entity.Colete,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Height="24"  Width="75"/>
+                                       IsEnabled="False" Text="{Binding Entity.Colete,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Height="24"  Width="80"/>
 
-                            <Label Content="Autenticação:" Height="28" Width="109"   HorizontalContentAlignment="Right"
+                            <Label Content="Autenticação:" Height="28" Width="110"   HorizontalContentAlignment="Right"
                                    Foreground="#FFD0D0D0" />
 
                             <ComboBox x:Name="TecnologiaCredencial_cb"
@@ -194,10 +196,10 @@
                                      IsEnabled="{Binding Habilitar}"
                                      Height="24" Width="85" 
                                      Name="txtDtValidade"></TextBox>
-                            <Label Content="Baixa:" Height="28" Width="50" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
+                            <Label Content="Baixa:" Height="28" Width="53" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
                             <TextBlock Text="{Binding Entity.Baixa,UpdateSourceTrigger=PropertyChanged, StringFormat=\{0:d\}}"  VerticalAlignment="Center" Width="70"  />
 
-                            <Label Content="Privilégios:" Height="28" Width="85" Margin="0,0,4,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                            <Label Content="Privilégios:" Height="28" Width="104" Margin="0,0,4,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
 
 
                             <ComboBox  x:Name="Privilegio1_tb"   
@@ -223,7 +225,7 @@
                                        SelectedValue="{Binding Entity.ColaboradorPrivilegio2Id, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                                        SelectedValuePath="AreaAcessoId"  />
 
-                            <Label Content="Formato Credencial:" Height="28" Width="127"   HorizontalContentAlignment="Right"
+                            <Label Content="Formato Credencial:" Height="28" Width="111"   HorizontalContentAlignment="Right"
                                    Foreground="#FFD0D0D0" />
 
                             <ComboBox x:Name="FormatoCredencial_cb"   

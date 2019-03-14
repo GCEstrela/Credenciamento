@@ -326,12 +326,16 @@ namespace IMOD.Application.Service
             if (entity2 == null) throw new ArgumentNullException (nameof (entity2));
             ObterStatusCredencial (entity2);
             //Alterar status de um titual do cartao
-            var titularCartao = CardHolderEntity (entity);
-            titularCartao.Ativo = entity2.Ativa;
-            entity.Ativa = entity2.Ativa; //Atulizar dados para serem exibidas na tela
-            entity.Baixa = entity2.Ativa ? (DateTime?) null : DateTime.Today.Date; //Atulizar dados para serem exibidas na tela
+            var titularCartao = CardHolderEntity (entity); 
+            titularCartao.Ativo = entity2.Ativa; 
+
+            entity.DataStatus = entity2.Ativa & (entity.Ativa != entity2.Ativa) ? (DateTime?)null : entity.DataStatus;
+            entity.Ativa = entity2.Ativa; //Atulizar dados para serem exibidas na tela 
+            entity.Baixa = entity2.Ativa & (entity2.DevolucaoEntregaBOId > 0) ? (DateTime?) null : DateTime.Today.Date; //Atulizar dados para serem exibidas na tela
+            
             //Alterar dados no sub-sistema de credenciamento
             //A data da baixa está em função do status do titular do cartao e sua credencial
+            entity2.DataStatus = entity.DataStatus;
             entity2.Baixa = entity.Baixa;
             Alterar (entity2);
             //Alterar o status do cartao do titular, se houver

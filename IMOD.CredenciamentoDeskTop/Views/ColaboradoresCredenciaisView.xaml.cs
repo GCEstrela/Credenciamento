@@ -13,6 +13,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using IMOD.CredenciamentoDeskTop.ViewModels;
 using IMOD.CrossCutting;
+using IMOD.Domain.Entities;
 
 #endregion
 
@@ -97,6 +98,17 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             
             btnImprimirCredencial.IsEnabled = _viewModel.HabilitaImpressao;
+        }
+
+        private void CmbMotivacao_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+                    if (cmbMotivacao.SelectedItem != null)
+                    {
+                        _viewModel.HabilitaCheckDevolucao(((CredencialMotivo)cmbMotivacao.SelectedItem).CredencialMotivoId);
+                        chkDevolucaoMotivo.IsChecked = _viewModel.IsCheckDevolucao;
+                        chkDevolucaoMotivo.Visibility = _viewModel.VisibilityCheckDevolucao;
+                        chkDevolucaoMotivo.Content = _viewModel.TextCheckDevolucao;
+                    }
         }
     }
 }
