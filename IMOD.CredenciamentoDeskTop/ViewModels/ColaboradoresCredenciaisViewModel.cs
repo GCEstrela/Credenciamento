@@ -157,28 +157,30 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             var n1 = _service.BuscarCredencialPelaChave(entity.ColaboradorCredencialId);
             var mensagem1 = !n1.Ativa ? "Credencial Inativa" : string.Empty;
             var mensagem2 = n1.PendenciaImpeditiva ? "Pendência Impeditiva (consultar dados da empresa na aba Geral)" : string.Empty;
-            var mensagem3 = n1.Impressa ? "Credencial já foi impressa" : string.Empty;
+            var mensagem3 = n1.Impressa ? "Credencial já foi emitida" : string.Empty;
             var mensagem4 = (entity.Validade < DateTime.Now.Date) ? "Credencial vencida." : string.Empty;
             //Exibir mensagem de impressao de credencial, esta tem prioridade sobre as demais regras            
-            if (n1.Impressa) return;
+            //if (n1.Impressa) return;
 
-            MensagemAlerta = $"A credencial não poderá ser impressa pelo seguinte motivo: ";
-
-            if (!string.IsNullOrEmpty(mensagem1))
+            if (!string.IsNullOrEmpty(mensagem1 + mensagem2 + mensagem3 + mensagem4))
             {
-                MensagemAlerta += mensagem1;
-            }
-            else if (!string.IsNullOrEmpty(mensagem2))
-            {
-                MensagemAlerta += mensagem2;
-            }
-            else if (!string.IsNullOrEmpty(mensagem3))
-            {
-                MensagemAlerta += mensagem3;
-            }
-            else if (!string.IsNullOrEmpty(mensagem4))
-            {
-                MensagemAlerta += mensagem4;
+                MensagemAlerta = $"A credencial não poderá ser impressa pelo seguinte motivo: ";
+                if (!string.IsNullOrEmpty(mensagem1))
+                {
+                    MensagemAlerta += mensagem1;
+                }
+                else if (!string.IsNullOrEmpty(mensagem2))
+                {
+                    MensagemAlerta += mensagem2;
+                }
+                else if (!string.IsNullOrEmpty(mensagem3))
+                {
+                    MensagemAlerta += mensagem3;
+                }
+                else if (!string.IsNullOrEmpty(mensagem4))
+                {
+                    MensagemAlerta += mensagem4;
+                }
             }
             //================================================================================
             #endregion
