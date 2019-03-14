@@ -258,6 +258,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var n1 = Mapper.Map<ColaboradorEmpresa>(Entity);
                 _service.Alterar(n1);
                 IsEnableLstView = true;
+                SetDadosEmpresaContrato(Entity);
+
+
                 _viewModelParent.HabilitaControleTabControls(true, true, true, true, true, true);
             }
             catch (Exception ex)
