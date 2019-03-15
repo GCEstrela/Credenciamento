@@ -142,8 +142,8 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void CriarPendenciaImpeditiva(ColaboradoresCredenciaisView entity)
         {
-            //Criar um pendenci impeditiva ao constatar o motivo da credencial
-            var pendImp = CredencialMotivo.BuscarPelaChave (entity.CredencialMotivoId);
+               //Criar um pendenci impeditiva ao constatar o motivo da credencial
+               var pendImp = CredencialMotivo.BuscarPelaChave (entity.CredencialMotivoId);
             if (pendImp == null) throw new InvalidOperationException ("Não foi possível obter a entidade credencial motivo");
             var impeditivo = pendImp.Impeditivo;
             if (!impeditivo) return;
@@ -336,7 +336,16 @@ namespace IMOD.Application.Service
 
             entity.DataStatus = entity.Ativa != entity2.Ativa ? DateTime.Today.Date : entity2.DataStatus;
             entity.Ativa = entity2.Ativa; //Atulizar dados para serem exibidas na tela
-            entity.Baixa = entity2.Ativa & (entity2.DevolucaoEntregaBoId == 0) ? (DateTime?)null : DateTime.Today.Date; //Atulizar dados para serem exibidas na tela
+
+            if ((!entity2.Ativa && (entity2.DevolucaoEntregaBoId != 0)) ||
+                    (!entity2.Ativa && (entity2.CredencialMotivoId == 11 || entity2.CredencialMotivoId == 12)))
+            {
+                entity.Baixa = DateTime.Today.Date;
+            }
+            else
+            {
+                entity.Baixa = (DateTime?)null;
+            }
 
             //Alterar dados no sub-sistema de credenciamento
             //A data da baixa está em função do status do titular do cartao e sua credencial
