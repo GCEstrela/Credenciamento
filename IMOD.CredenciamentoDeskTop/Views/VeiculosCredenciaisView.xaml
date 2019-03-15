@@ -324,16 +324,16 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>-->
-                            <GridViewColumn Width="68" Header="Ativa">
+                            <!--<GridViewColumn Width="68" Header="Ativa">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <!--<wpf:ToggleSwitch  x:Name="Ativa_tw" HeaderHorizontalAlignment="Stretch" Width="100" HorizontalAlignment="Right" SwitchContentPlacement="Right" IsHitTestVisible="False"
-                                                          IsChecked="{Binding Ativa}"  Foreground="#FFD0D0BE" UncheckedBackground="Maroon" UncheckedBorderBrush="Maroon" UncheckedForeground="#FFAEAEAE" UncheckedText="" CheckedText="" SwitchWidth="44" />-->
+                                        --><!--<wpf:ToggleSwitch  x:Name="Ativa_tw" HeaderHorizontalAlignment="Stretch" Width="100" HorizontalAlignment="Right" SwitchContentPlacement="Right" IsHitTestVisible="False"
+                                                          IsChecked="{Binding Ativa}"  Foreground="#FFD0D0BE" UncheckedBackground="Maroon" UncheckedBorderBrush="Maroon" UncheckedForeground="#FFAEAEAE" UncheckedText="" CheckedText="" SwitchWidth="44" />--><!--
                                         <CheckBox IsChecked="{Binding Path=Ativa}" IsHitTestVisible="False" />
 
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
+                            </GridViewColumn>-->
                             <GridViewColumn Width="250" Header="Vínculo Empregatício">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>

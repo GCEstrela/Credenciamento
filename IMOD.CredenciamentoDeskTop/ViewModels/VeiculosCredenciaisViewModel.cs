@@ -641,6 +641,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     case 6:
                     case 8:
                     case 15:
+
                         IsCheckDevolucao = IsCheckDevolucao = Entity != null & Entity.DevolucaoEntregaBoId > 0 ? true : IsCheckDevolucao;
                         TextCheckDevolucao = DevoluçãoCredencial.Devolucao.Descricao();
                         devolucaoCredencial = DevoluçãoCredencial.Devolucao;
@@ -649,12 +650,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     case 9:
                     case 10:
                         IsCheckDevolucao = IsCheckDevolucao = Entity != null & Entity.DevolucaoEntregaBoId > 0 ? true : IsCheckDevolucao;
-                        IsCheckDevolucao = Entity.DevolucaoEntregaBoId > 0;
                         TextCheckDevolucao = DevoluçãoCredencial.EntregaBO.Descricao();
                         devolucaoCredencial = DevoluçãoCredencial.EntregaBO;
                         VisibilityCheckDevolucao = Visibility.Visible;
                         break;
                     default:
+                        IsCheckDevolucao = false;
                         TextCheckDevolucao = String.Empty;
                         VisibilityCheckDevolucao = Visibility.Hidden;
                         devolucaoCredencial = 0;
@@ -666,7 +667,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 IsCheckDevolucao = false;
                 TextCheckDevolucao = String.Empty;
                 VisibilityCheckDevolucao = Visibility.Hidden;
-                devolucaoCredencial = 0;
             }
         }
 
@@ -674,20 +674,21 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             if (entity != null)
             {
-                IsCheckDevolucao = entity.DevolucaoEntregaBoId == 0  ? false : (entity.DevolucaoEntregaBoId > 0 ? true : false);
+                IsCheckDevolucao = entity.DevolucaoEntregaBoId == 0 ? false : (entity.DevolucaoEntregaBoId > 0 ? true : false);
 
                 VisibilityCheckDevolucao = entity.DevolucaoEntregaBoId == 0 ?
                     Visibility.Hidden : (entity.DevolucaoEntregaBoId > 0 ? Visibility.Visible : Visibility.Hidden);
 
                 TextCheckDevolucao = entity.DevolucaoEntregaBoId == 0 ? String.Empty :
                         (entity.DevolucaoEntregaBoId == 1 ? DevoluçãoCredencial.Devolucao.Descricao() : DevoluçãoCredencial.EntregaBO.Descricao());
+
+                devolucaoCredencial = (DevoluçãoCredencial)entity.DevolucaoEntregaBoId;
             }
             else
             {
                 IsCheckDevolucao = false;
                 TextCheckDevolucao = String.Empty;
                 VisibilityCheckDevolucao = Visibility.Hidden;
-                entity.DevolucaoEntregaBoId = 0;
             }
         }
 

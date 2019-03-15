@@ -474,15 +474,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 Entity.DevolucaoEntregaBoId = IsCheckDevolucao ? (int)devolucaoCredencial : 0; 
 
                 var n1 = Mapper.Map<ColaboradorCredencial> (Entity); 
-
-                n1.CredencialMotivoId = Entity.CredencialMotivoId;
-                n1.CredencialStatusId = Entity.CredencialStatusId;
-                n1.FormatoCredencialId = Entity.FormatoCredencialId;
-                n1.LayoutCrachaId = Entity.LayoutCrachaId;
-                n1.TecnologiaCredencialId = Entity.TecnologiaCredencialId;
-                n1.TipoCredencialId = Entity.TipoCredencialId;
                 n1.DevolucaoEntregaBoId = IsCheckDevolucao ? Entity.DevolucaoEntregaBoId : 0;
-
                 //Alterar o status do titular do cartão
                 _service.AlterarStatusTitularCartao (new CredencialGenetecService (Main.Engine), Entity, n1);
 
