@@ -332,12 +332,12 @@ namespace IMOD.Application.Service
             ObterStatusCredencial (entity2);
             //Alterar status de um titual do cartao
             var titularCartao = CardHolderEntity (entity); 
-            titularCartao.Ativo = entity2.Ativa; 
+            titularCartao.Ativo = entity2.Ativa;
 
-            entity.DataStatus = entity2.Ativa & (entity.Ativa != entity2.Ativa) ? (DateTime?)null : entity.DataStatus;
-            entity.Ativa = entity2.Ativa; //Atulizar dados para serem exibidas na tela 
-            entity.Baixa = entity2.Ativa & (entity2.DevolucaoEntregaBoId > 0) ? (DateTime?) null : DateTime.Today.Date; //Atulizar dados para serem exibidas na tela
-            
+            entity.DataStatus = entity.Ativa != entity2.Ativa ? DateTime.Today.Date : entity2.DataStatus;
+            entity.Ativa = entity2.Ativa; //Atulizar dados para serem exibidas na tela
+            entity.Baixa = entity2.Ativa & (entity2.DevolucaoEntregaBoId == 0) ? (DateTime?)null : DateTime.Today.Date; //Atulizar dados para serem exibidas na tela
+
             //Alterar dados no sub-sistema de credenciamento
             //A data da baixa está em função do status do titular do cartao e sua credencial
             entity2.DataStatus = entity.DataStatus;

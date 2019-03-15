@@ -110,8 +110,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public VeiculosCredenciaisView Entity { get; set; }
         public ObservableCollection<VeiculosCredenciaisView> EntityObserver { get; set; }
 
-        public bool IsCheckDevolucao { get; set; } = false;
-        public Visibility VisibilityCheckDevolucao { get; set; } = Visibility.Hidden;
+        public bool IsCheckDevolucao { get; set; }
+        public Visibility VisibilityCheckDevolucao { get; set; }
         public string TextCheckDevolucao { get; set; } = String.Empty;
         private DevoluçãoCredencial devolucaoCredencial;
 
@@ -378,7 +378,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 MensagemAlerta = "";
                 Entity = null;
                 _viewModelParent.HabilitaControleTabControls(true, true, true, true, true, true); 
-                ExibirCheckDevolucao(Entity); 
+                //ExibirCheckDevolucao(Entity); 
             }
             catch (Exception ex)
             {
@@ -499,7 +499,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 //===================================================
                 Entity = null;
                 _viewModelParent.HabilitaControleTabControls(true, true, true, true, true, true);
-                ExibirCheckDevolucao(Entity); 
+                //ExibirCheckDevolucao(Entity); 
 
             }
             catch (Exception ex)
@@ -641,12 +641,15 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     case 6:
                     case 8:
                     case 15:
+                        IsCheckDevolucao = IsCheckDevolucao = Entity != null & Entity.DevolucaoEntregaBoId > 0 ? true : IsCheckDevolucao;
                         TextCheckDevolucao = DevoluçãoCredencial.Devolucao.Descricao();
                         devolucaoCredencial = DevoluçãoCredencial.Devolucao;
                         VisibilityCheckDevolucao = Visibility.Visible;
                         break;
                     case 9:
                     case 10:
+                        IsCheckDevolucao = IsCheckDevolucao = Entity != null & Entity.DevolucaoEntregaBoId > 0 ? true : IsCheckDevolucao;
+                        IsCheckDevolucao = Entity.DevolucaoEntregaBoId > 0;
                         TextCheckDevolucao = DevoluçãoCredencial.EntregaBO.Descricao();
                         devolucaoCredencial = DevoluçãoCredencial.EntregaBO;
                         VisibilityCheckDevolucao = Visibility.Visible;
@@ -654,6 +657,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     default:
                         TextCheckDevolucao = String.Empty;
                         VisibilityCheckDevolucao = Visibility.Hidden;
+                        devolucaoCredencial = 0;
                         break;
                 }
             }
@@ -662,6 +666,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 IsCheckDevolucao = false;
                 TextCheckDevolucao = String.Empty;
                 VisibilityCheckDevolucao = Visibility.Hidden;
+                devolucaoCredencial = 0;
             }
         }
 
@@ -669,7 +674,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             if (entity != null)
             {
-                IsCheckDevolucao = entity.DevolucaoEntregaBoId == 0 ? false : (entity.DevolucaoEntregaBoId > 0 ? true : false);
+                IsCheckDevolucao = entity.DevolucaoEntregaBoId == 0  ? false : (entity.DevolucaoEntregaBoId > 0 ? true : false);
 
                 VisibilityCheckDevolucao = entity.DevolucaoEntregaBoId == 0 ?
                     Visibility.Hidden : (entity.DevolucaoEntregaBoId > 0 ? Visibility.Visible : Visibility.Hidden);
@@ -682,6 +687,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 IsCheckDevolucao = false;
                 TextCheckDevolucao = String.Empty;
                 VisibilityCheckDevolucao = Visibility.Hidden;
+                entity.DevolucaoEntregaBoId = 0;
             }
         }
 
