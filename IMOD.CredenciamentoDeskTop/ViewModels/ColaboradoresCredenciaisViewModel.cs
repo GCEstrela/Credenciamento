@@ -666,8 +666,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             Entity.Validate();
             var hasErros = Entity.HasErrors;
             //retirar o espaço entre a numeração obtida do cartão
-
-            Entity.NumeroCredencial = Regex.Replace(Entity.NumeroCredencial, @"\s", "");
+            if (!string.IsNullOrEmpty(Entity.NumeroContrato))
+            {
+                Entity.NumeroCredencial = Regex.Replace(Entity.NumeroCredencial, @"\s", "");
+            }
 
             if (hasErros) return true;
 

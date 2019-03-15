@@ -123,6 +123,10 @@ namespace IMOD.CredenciamentoDeskTop.Views
             if (TecnologiaCredencial_cb.SelectedItem != null)
             {
                 FormatoCredencial_cb.IsEnabled = (!((IMOD.Domain.Entities.TecnologiaCredencial)TecnologiaCredencial_cb.SelectedItem).Descricao.Equals("N/D"));
+                if (((IMOD.Domain.Entities.TecnologiaCredencial)TecnologiaCredencial_cb.SelectedItem).Descricao.Equals("N/D"))
+                {
+                    FormatoCredencial_cb.SelectedIndex = 0;
+                }
             }
         }
 
@@ -136,6 +140,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
                     lblFC.Visibility = Visibility.Hidden;
                     NumeroCredencial_tb.Visibility = Visibility.Visible;
                     lblNumero.Visibility = Visibility.Visible;
+                    NumeroCredencial_tb.Focus();
                 }
                 else if (((IMOD.Domain.Entities.FormatoCredencial)FormatoCredencial_cb.SelectedItem).Descricao.Trim().Equals("N/D"))
                 {
@@ -150,7 +155,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
                     lblFC.Visibility = Visibility.Visible;
                     NumeroCredencial_tb.Visibility = Visibility.Visible;
                     lblNumero.Visibility = Visibility.Visible;
-
+                    NumeroCredencial_tb.Focus();
                 }
 
             }
