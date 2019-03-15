@@ -475,8 +475,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private void Pesquisar()
         {
             try
-            {
-                //ListarDadosAuxiliares();
+            { 
                 var pesquisa = NomePesquisa;
                 var num = PesquisarPor;
 

@@ -22,7 +22,7 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public string Email { get; set; }
         public string Telefone { get; set; }
         public string Celular { get; set; }
-        //[Required(ErrorMessage = "O Principal é requerido.")]
+        //[Range(1, int.MaxValue, ErrorMessage = "O Principal é requerida.")]
         public bool Principal { get; set; }
         //[Required(ErrorMessage = "A Ficha Cadastral é requerida.")]
         public string Assinatura { get; set; }
@@ -31,6 +31,8 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public string RG { get; set; }
         public string OrgaoExp { get; set; }
         public string RGUF { get; set; }
+        //[Range(1, int.MaxValue, ErrorMessage = "O Representante é requerido.")]
+        [Required(ErrorMessage = "O Ststus do Contrato é requerido.")]
         public string TipoRepresentanteId { get; set; }
         #endregion
     }
