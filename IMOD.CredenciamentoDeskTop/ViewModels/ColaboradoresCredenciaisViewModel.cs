@@ -495,8 +495,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 dados.AtualizarDadosPendencias();
                 //===================================================
 
-                //Atualizar observer
-                CollectionViewSource.GetDefaultView (EntityObserver).Refresh();
+                //Atualizar Observer
+                var list1 = _service.ListarView (null, null, null, null, _colaboradorView.ColaboradorId).ToList();
+                var list2 = Mapper.Map<List<ColaboradoresCredenciaisView>>(list1.OrderByDescending(n => n.ColaboradorCredencialId));
+                EntityObserver = new ObservableCollection<ColaboradoresCredenciaisView>();
+                list2.ForEach(n => { EntityObserver.Add(n); });
+
                 IsEnableLstView = true;
                 AtualizarMensagem (Entity);
                 //===================================================
