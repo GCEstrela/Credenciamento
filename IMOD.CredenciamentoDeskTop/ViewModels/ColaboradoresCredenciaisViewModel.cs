@@ -31,6 +31,7 @@ using IMOD.Infra.Servicos;
 using Cursor = System.Windows.Forms.Cursor;
 using Cursors = System.Windows.Forms.Cursors;
 using IMOD.CredenciamentoDeskTop.Enums;
+using System.Text.RegularExpressions;
 
 #endregion
 
@@ -291,10 +292,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             _colaboradorView = entity;
             _viewModelParent = viewModelParent;
             //Obter dados
-            var list1 = _service.ListarView (null, null, null, null, entity.ColaboradorId).ToList();
-            var list2 = Mapper.Map<List<ColaboradoresCredenciaisView>> (list1.OrderByDescending (n => n.ColaboradorCredencialId));
-            EntityObserver = new ObservableCollection<ColaboradoresCredenciaisView>();
-            list2.ForEach (n => { EntityObserver.Add (n); });
+            //var list1 = _service.ListarView (null, null, null, null, entity.ColaboradorId).ToList();
+            //var list2 = Mapper.Map<List<ColaboradoresCredenciaisView>> (list1.OrderByDescending (n => n.ColaboradorCredencialId));
+            //EntityObserver = new ObservableCollection<ColaboradoresCredenciaisView>();
+            //list2.ForEach (n => { EntityObserver.Add (n); });
+            ListarColaboradoresCredenciais(entity);
             //Listar dados de contratos
             if (_count == 0) ObterContratos();
             _count++;
@@ -302,6 +304,13 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             MensagemAlerta = "";
         }
 
+        private void ListarColaboradoresCredenciais(ColaboradorView entity)
+        {
+            var list1 = _service.ListarView(null, null, null, null, entity.ColaboradorId).ToList();
+            var list2 = Mapper.Map<List<ColaboradoresCredenciaisView>>(list1.OrderByDescending(n => n.ColaboradorCredencialId));
+            EntityObserver = new ObservableCollection<ColaboradoresCredenciaisView>();
+            list2.ForEach(n => { EntityObserver.Add(n); });
+        }
         /// <summary>
         ///     Listar dados de empresa e contratos
         /// </summary>
@@ -522,7 +531,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (Entity != null) Entity.ClearMessageErro();
                 Entity = null;
                 //Listar todas contratos 
-                ListarTodosContratos();
+                //ListarTodosContratos();
+                ListarColaboradoresCredenciais(_colaboradorView);
                 _viewModelParent.HabilitaControleTabControls (true, true, true, true, true, true);
             }
             catch (Exception ex)
@@ -655,6 +665,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             if (Entity == null) return true;
             Entity.Validate();
             var hasErros = Entity.HasErrors;
+            //retirar o espaço entre a numeração obtida do cartão
+
+            Entity.NumeroCredencial = Regex.Replace(Entity.NumeroCredencial, @"\s", "");
+
             if (hasErros) return true;
 
             if (ExisteNumeroCredencial())

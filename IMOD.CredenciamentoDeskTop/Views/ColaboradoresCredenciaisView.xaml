@@ -168,15 +168,15 @@
                                       IsEnabled="{Binding Habilitar}"
                                       Margin="0,4,0,3" 
                                       Height="25"
-                                      Width="132" 
+                                      Width="145" 
                                       VerticalContentAlignment="Center" 
                                       HorizontalContentAlignment="Left"
                                       ItemsSource="{Binding TecnologiasCredenciais, Mode=TwoWay}" 
                                       DisplayMemberPath="Descricao"
                                       SelectedValue="{Binding Entity.TecnologiaCredencialId, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
-                                      SelectedValuePath="TecnologiaCredencialId" IsSynchronizedWithCurrentItem="True" />
+                                      SelectedValuePath="TecnologiaCredencialId" IsSynchronizedWithCurrentItem="True" SelectionChanged="TecnologiaCredencial_cb_SelectionChanged" />
 
-                            <Label Content="FC:" Height="28" Width="70"   HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                            <Label Name="lblFC" Content="FC:" Height="28" Width="70"   HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
                             <TextBox  x:Name="FC_tb"  MaxLength="5"    IsEnabled="{Binding Habilitar}"  
                                       CharacterCasing="Upper" Text="{Binding Entity.Fc,UpdateSourceTrigger=PropertyChanged}"  Height="24"  Width="45"/>
                         </StackPanel>
@@ -224,7 +224,7 @@
                                        SelectedValue="{Binding Entity.ColaboradorPrivilegio2Id, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                                        SelectedValuePath="AreaAcessoId"  />
 
-                            <Label Content="Formato Credencial:" Height="28" Width="111"   HorizontalContentAlignment="Right"
+                            <Label Content="Formato Credencial:" Height="28" Width="115"   HorizontalContentAlignment="Right"
                                    Foreground="#FFD0D0D0" />
 
                             <ComboBox x:Name="FormatoCredencial_cb" IsEditable="true"                                      
@@ -237,19 +237,19 @@
                                       DisplayMemberPath="Descricao"
                                       SelectedValue="{Binding Entity.FormatoCredencialId, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                                       SelectedIndex="{Binding selectFormatoCredencialIndex}"
-                                      SelectedValuePath="FormatoCredencialId" IsSynchronizedWithCurrentItem="True" />
+                                      SelectedValuePath="FormatoCredencialId" IsSynchronizedWithCurrentItem="True" SelectionChanged="FormatoCredencial_cb_SelectionChanged" />
 
 
 
 
 
-                            <Label Content="Número:" Height="28" Width="69" Margin="0,0,0,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                            <Label Name="lblNumero" Content="Número:" Height="28" Width="60" Margin="0,0,0,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
                             <TextBox  x:Name="NumeroCredencial_tb"  
                                        IsEnabled="{Binding Habilitar}" 
                                       MaxLength="8"  CharacterCasing="Upper" 
                                       Text="{Binding Entity.NumeroCredencial,  UpdateSourceTrigger=PropertyChanged}" 
                                       Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
-                                      Height="24"  Width="49"/>
+                                      Height="24"  Width="65"/>
 
 
 

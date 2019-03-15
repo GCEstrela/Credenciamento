@@ -117,5 +117,43 @@ namespace IMOD.CredenciamentoDeskTop.Views
                         chkDevolucaoMotivo.Content = _viewModel.TextCheckDevolucao;
                     }
         }
+
+        private void TecnologiaCredencial_cb_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (TecnologiaCredencial_cb.SelectedItem != null)
+            {
+                FormatoCredencial_cb.IsEnabled = (!((IMOD.Domain.Entities.TecnologiaCredencial)TecnologiaCredencial_cb.SelectedItem).Descricao.Equals("N/D"));
+            }
+        }
+
+        private void FormatoCredencial_cb_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (FormatoCredencial_cb.SelectedItem != null)
+            {
+                if (((IMOD.Domain.Entities.FormatoCredencial)FormatoCredencial_cb.SelectedItem).Descricao.Trim().Equals("CSN"))
+                {
+                    FC_tb.Visibility = Visibility.Hidden;
+                    lblFC.Visibility = Visibility.Hidden;
+                    NumeroCredencial_tb.Visibility = Visibility.Visible;
+                    lblNumero.Visibility = Visibility.Visible;
+                }
+                else if (((IMOD.Domain.Entities.FormatoCredencial)FormatoCredencial_cb.SelectedItem).Descricao.Trim().Equals("N/D"))
+                {
+                    FC_tb.Visibility = Visibility.Hidden;
+                    lblFC.Visibility = Visibility.Hidden;
+                    NumeroCredencial_tb.Visibility = Visibility.Hidden;
+                    lblNumero.Visibility = Visibility.Hidden;
+                }
+                else
+                {
+                    FC_tb.Visibility = Visibility.Visible;
+                    lblFC.Visibility = Visibility.Visible;
+                    NumeroCredencial_tb.Visibility = Visibility.Visible;
+                    lblNumero.Visibility = Visibility.Visible;
+
+                }
+
+            }
+        }
     }
 }
