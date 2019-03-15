@@ -331,11 +331,11 @@
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock Margin="0,0,10,0" Text="{Binding Path=  EmpresaNome}" Foreground="{Binding   Ativa,  Converter={StaticResource CheckTeste}, ConverterParameter='Ativa_tw'}"/>
-                                            <TextBlock Foreground="{Binding  Ativa,  Converter={StaticResource CheckTeste}, ConverterParameter='Ativa_tw'}" >
-                                                              <Run Text=" ("/>
+                                            <TextBlock Foreground="{Binding  Ativa,  Converter={StaticResource CheckTeste}, ConverterParameter='Ativa_tw'}"/>
+                                                              <!--<Run Text=" ("/>
                                                               <Run Text="{Binding  Path= Entity.ContratoDescricao}"/>
-                                                              <Run Text=")"/>
-                                            </TextBlock>
+                                                              <Run Text=")"/>-->
+                                            
                                         </StackPanel>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
