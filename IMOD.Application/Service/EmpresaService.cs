@@ -159,6 +159,7 @@ namespace IMOD.Application.Service
             #region Criar Pendências
 
             var pendencia = new Pendencia();
+            pendencia.Impeditivo = true;//Pendencias do tipo Impeditiva
             pendencia.EmpresaId = entity.EmpresaId;
             //--------------------------
             pendencia.CodPendencia = 12;
