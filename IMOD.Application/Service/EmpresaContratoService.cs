@@ -137,12 +137,16 @@ namespace IMOD.Application.Service
             AlterarMaiorDataValidadeContratoBasico (entity);
             _repositorio.Criar (entity);
 
-            #region Retirar pendencias de sistema
+            #region Retirar pendencias de sistema exceto para contratos do tipo básico
 
-            var pendencia = Pendencia.ListarPorEmpresa (entity.EmpresaId)
-                .FirstOrDefault (n => n.PendenciaSistema & (n.CodPendencia == 14));
-            if (pendencia == null) return;
-            Pendencia.Remover (pendencia);
+            if (!entity.ContratoBasico)
+            {
+                var pendencia = Pendencia.ListarPorEmpresa(entity.EmpresaId)
+                    .FirstOrDefault(n => n.PendenciaSistema & (n.CodPendencia == 14));
+                if (pendencia == null) return;
+                Pendencia.Remover(pendencia);
+            }
+           
 
             #endregion
         }
