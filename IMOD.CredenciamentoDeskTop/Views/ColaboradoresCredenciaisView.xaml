@@ -165,7 +165,7 @@
                                    Foreground="#FFD0D0D0" />
 
                             <ComboBox x:Name="TecnologiaCredencial_cb"  IsEditable="true"
-                                       IsEnabled="{Binding Habilitar}"
+                                      IsEnabled="{Binding Habilitar}"
                                       Margin="0,4,0,3" 
                                       Height="25"
                                       Width="132" 
@@ -227,8 +227,7 @@
                             <Label Content="Formato Credencial:" Height="28" Width="111"   HorizontalContentAlignment="Right"
                                    Foreground="#FFD0D0D0" />
 
-                            <ComboBox x:Name="FormatoCredencial_cb" IsEditable="true"
-                                      IsEnabled="False"
+                            <ComboBox x:Name="FormatoCredencial_cb" IsEditable="true"                                      
                                       Margin="0,4,0,3" 
                                       Height="25"
                                       Width="132"

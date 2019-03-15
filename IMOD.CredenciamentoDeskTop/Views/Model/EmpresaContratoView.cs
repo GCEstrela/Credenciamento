@@ -47,7 +47,7 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public string CelularResp { get; set; }
         //[Required(ErrorMessage = "O E-Mail do Responsável do Contrato é requeirido.")]
         public string EmailResp { get; set; }
-        [Required(ErrorMessage = "O Ststus do Contrato é requerido.")]
+        [Required(ErrorMessage = "O Status do Contrato é requerido.")]
         public int StatusId { get; set; }
         public string NomeArquivo { get; set; }
         //[Required(ErrorMessage = "O Contrato Digitalizado é requeirido.")]

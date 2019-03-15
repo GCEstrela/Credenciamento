@@ -114,11 +114,11 @@
                             <Label Content="Telefone:" Height="28" Width="57" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
                             <TextBox Foreground="#FFD0D0D0" x:Name="Telefone_tb" MaxLength="15" CharacterCasing="Upper"
                                      Text="{Binding Entity.Telefone,Converter={ StaticResource FormateTel}, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="{Binding Comportamento.isEnableCancelar}"
-                                     HorizontalContentAlignment="Center" Height="24" Width="103" />
-                            <Label Content="Celular:" Height="28" Width="97" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
+                                     HorizontalContentAlignment="Center" Height="24" Width="135" />
+                            <Label Content="Celular:" Height="28" Width="66" Margin="0,0,0,0" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                             <TextBox Foreground="#FFD0D0D0" x:Name="Celular_tb" MaxLength="15" CharacterCasing="Upper"
                                      Text="{Binding Entity.Celular,Converter={ StaticResource FormateTel}, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="{Binding Comportamento.isEnableCancelar}"
-                                     Height="24" HorizontalContentAlignment="Center" Width="96" />
+                                     Height="24" HorizontalContentAlignment="Center" Width="135" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                     Margin="1">
@@ -149,18 +149,19 @@
                                                 SelectedValue="{Binding Entity.TipoRepresentanteId,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                                                 SelectedValuePath="TipoRepresentanteId" Width="140" 
                                                 IsEnabled="{Binding Comportamento.isEnableCancelar}"
+                                                SelectedIndex="1"
                                                 Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
                             
                             <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Width="600">
-                                <Label Content="Ficha Cadastral:" Height="28" Width="92" Margin="0,0,5,0"
+                                <Label Content="F. Cadastral:" Height="28" Width="92" Margin="0,0,5,0"
                                        HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
 
                                 <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center"
                                             Orientation="Horizontal" Margin="0,10">
                                     <TextBox x:Name="NomeArquivo" Text="{Binding Entity.NomeArquivo, UpdateSourceTrigger=PropertyChanged}"
                                              Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
-                                             IsEnabled="False" Height="24" Width="255"></TextBox>
-                                    <Button x:Name="BuscarArquivo_bt" Height="24" Margin="10,0,0,0"
+                                             IsEnabled="False" Height="24" Width="245"></TextBox>
+                                    <Button x:Name="BuscarArquivo_bt" Height="24" Margin="20,0,0,0"
                                             IsEnabled="{Binding Comportamento.isEnableCancelar}"
                                             VerticalAlignment="Center" Width="24" Click="OnUpLoad_Click" 
                                             Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}">
@@ -200,7 +201,7 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn Width="200" Header="Nome"  DisplayMemberBinding="{Binding Nome}"/>
+                            <GridViewColumn Width="325" Header="Nome"  DisplayMemberBinding="{Binding Nome}"/>
                             <GridViewColumn Width="115" Header="Telefone">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
