@@ -291,51 +291,13 @@
                           SelectedItem="{Binding Entity, Mode=TwoWay}" Height="175" VerticalAlignment="Top" >
                     <ListView.View>
                         <GridView  >
-                            <!--<GridViewColumn Width="50" Header="Status"  >
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <CheckBox IsChecked="{Binding Path= Ativa}" IsHitTestVisible="False" />
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate> 
-                            </GridViewColumn>-->
-                            
-                            <!--<GridViewColumn >
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Image  Width="16"  Height="16">
-                                            <Image.Source>
-                                                <MultiBinding Converter="{StaticResource Check}" ConverterParameter="Impressa">
-                                                    <Binding Path="Impressa"/>
-                                                    <Binding Path="CredencialStatusId"/>
-                                                    <Binding Path=""/>
-                                                </MultiBinding>
-                                            </Image.Source>
-                                        </Image>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>-->
-                            <!--<GridViewColumn Width="68" Header="Ativa"  >
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        -->
-                            <!--<wpf:ToggleSwitch  x:Name="Ativa_tw" HeaderHorizontalAlignment="Stretch" Width="100" HorizontalAlignment="Right" SwitchContentPlacement="Right" IsHitTestVisible="False"
-                                                          IsChecked="{Binding Ativa}"  Foreground="#FFD0D0BE" UncheckedBackground="Maroon" UncheckedBorderBrush="Maroon" UncheckedForeground="#FFAEAEAE" UncheckedText="" CheckedText="" SwitchWidth="44" />-->
-                            <!--
-                                        <CheckBox IsChecked="{Binding Path=Ativa}" IsHitTestVisible="False" />
-
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>-->
+                             
                             <GridViewColumn Width="250" Header="Vínculo Empregatício">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock Margin="0,0,10,0" Text="{Binding Path=  EmpresaNome}" Foreground="{Binding   Ativa,  Converter={StaticResource CheckTeste}, ConverterParameter='Ativa_tw'}"/>
                                             <TextBlock Foreground="{Binding  Ativa,  Converter={StaticResource CheckTeste}, ConverterParameter='Ativa_tw'}"/>
-                                                              <!--<Run Text=" ("/>
-                                                              <Run Text="{Binding  Path= Entity.ContratoDescricao}"/>
-                                                              <Run Text=")"/>-->
-                                            
                                         </StackPanel>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
