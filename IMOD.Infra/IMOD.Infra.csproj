@@ -96,6 +96,7 @@
     <Compile Include="Repositorios\ColaboradorEmpresaRepositorio.cs" />
     <Compile Include="Repositorios\ColaboradorRepositorio.cs" />
     <Compile Include="Repositorios\ConfiguracaoRepositorio.cs" />
+    <Compile Include="Repositorios\ConfiguraSistemaRepositorio.cs" />
     <Compile Include="Repositorios\CredencialMotivoRepositorio.cs" />
     <Compile Include="Repositorios\CredencialStatusRepositorio.cs" />
     <Compile Include="Repositorios\CursoRepositorio.cs" />
@@ -126,6 +127,7 @@
     <Compile Include="Repositorios\TipoCredencialRepositorio.cs" />
     <Compile Include="Repositorios\TipoEquipamentoRepositorio.cs" />
     <Compile Include="Repositorios\TipoPendenciaRepositorio.cs" />
+    <Compile Include="Repositorios\TipoRepresentanteRepositorio.cs" />
     <Compile Include="Repositorios\TipoServicoRepositorio.cs" />
     <Compile Include="Repositorios\VeiculoAnexoRepositorio.cs" />
     <Compile Include="Repositorios\VeiculoCredencialimpressaoRepositorio.cs" />

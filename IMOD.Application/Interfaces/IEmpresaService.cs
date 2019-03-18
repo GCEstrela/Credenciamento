@@ -68,13 +68,14 @@ namespace IMOD.Application.Interfaces
 
         /// <summary>
         ///     Criar um empresa com contrato básico
-        ///     <para>Um contrato básico será criada automaticamente</para>
+        ///     <para>Um contrato básico será criada automaticamente com base nos dados de configuracao</para>
         /// </summary>
         /// <param name="entity"></param>
         /// <param name="dataValidade">Data de validade</param>
         /// <param name="numContrato">Numero do contrato</param>
         /// <param name="status">Status do cdontrato</param>
-        void CriarContratoBasico(Empresa entity, DateTime dataValidade, string numContrato, Status status);
+        void CriarContrato(Empresa entity, DateTime dataValidade, string numContrato, Status status,ConfiguraSistema configuraSistema);
+        bool ExisteSigla(string sigla);
 
         #endregion
     }

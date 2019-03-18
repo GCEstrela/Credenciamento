@@ -21,7 +21,7 @@ namespace IMOD.Domain.Entities
         public string NumeroContrato { get; set; }
         public string Descricao { get; set; }
         public DateTime? Emissao { get; set; }
-        public DateTime? Validade { get; set; }
+        public DateTime  Validade { get; set; }
         public bool Terceirizada { get; set; }
         public string Contratante { get; set; }
         public bool IsencaoCobranca { get; set; }
@@ -43,6 +43,7 @@ namespace IMOD.Domain.Entities
         public int? TipoAcessoId { get; set; }
         public string NomeArquivo { get; set; }
         public  byte [] ArquivoBlob { get; set; }
+        public bool ContratoBasico { get; set; }
 
         #endregion
     }

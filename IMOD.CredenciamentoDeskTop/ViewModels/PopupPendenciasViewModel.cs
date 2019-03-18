@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Forms;
@@ -69,6 +70,19 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public ICommand PrepareRemoverCommand => new CommandBase (PrepareRemover, true);
 
         /// <summary>
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnEntityChanged(object sender, PropertyChangedEventArgs e)
+        { 
+            if (e.PropertyName == "Entity")
+            {
+                Comportamento.IsEnableEditar = Entity != null;
+                Comportamento.isEnableRemover = Entity != null; 
+            }
+        }
+
+        /// <summary>
         ///  Validar Regras de Negócio 
         /// </summary>
         public bool Validar()
@@ -111,6 +125,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             Comportamento.SalvarEdicao += OnSalvarEdicao;
             Comportamento.Remover += OnRemover;
             Comportamento.Cancelar += OnCancelar;
+            PropertyChanged += OnEntityChanged;
 
             _codPendencia = codPendencia;
             _identificador = id;
@@ -119,6 +134,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             PendenciasObserver = new ObservableCollection<PendenciaView>();
             ListarTipos();
             ListarPendencias();
+            Comportamento.IsEnableEditar = false;
+            Comportamento.isEnableRemover = false;
         }
 
         #region  Metodos

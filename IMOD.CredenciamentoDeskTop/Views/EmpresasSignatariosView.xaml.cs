@@ -77,7 +77,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
             try
             {
                 var arrayByes = Convert.FromBase64String(_viewModel.Entity.Assinatura);
-                WpfHelp.AbrirArquivoPdf("FICHA_CADASTRAL_" + _viewModel.Entity.Nome.Trim(), arrayByes);
+                WpfHelp.AbrirArquivoPdf(_viewModel.Entity.Nome, arrayByes);
             }
             catch (Exception ex)
             {

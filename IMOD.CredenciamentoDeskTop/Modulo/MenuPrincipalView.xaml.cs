@@ -14,6 +14,7 @@ using System.Windows.Media;
 using Genetec.Sdk.Workspace;
 using IMOD.Application.Service;
 using IMOD.CredenciamentoDeskTop.Helpers;
+using IMOD.CredenciamentoDeskTop.ViewModels;
 
 #endregion
 
@@ -26,7 +27,8 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
     {
         #region  Propriedades
 
-        public static Workspace Workspace { get; private set; } 
+        public static Workspace Workspace { get; private set; }
+        private ViewSingleton _viewSingleton;
 
         #endregion
 
@@ -34,6 +36,7 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
         {
             InitializeComponent(); 
             txtVersao.Text = VersaoSoftware;
+            _viewSingleton = new ViewSingleton();
         }
         /// <summary>
         ///     Versao do Sistema
@@ -85,7 +88,7 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
                 this.RelatoriosBt.Background = Brushes.Transparent;
                 this.TermosBt.Background = Brushes.Transparent;
 
-                DataContext = new ViewSingleton().EmpresaView;
+                DataContext = _viewSingleton.EmpresaView; //new ViewSingleton().EmpresaView;
             }
             catch (Exception ex)
             {
@@ -112,7 +115,7 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
                 this.RelatoriosBt.Background = Brushes.Transparent;
                 this.TermosBt.Background = Brushes.Transparent;
 
-                DataContext = new ViewSingleton().ColaboradorView;
+                DataContext = _viewSingleton.ColaboradorView; //new ViewSingleton().ColaboradorView;
             }
             catch (Exception ex)
             {
@@ -139,7 +142,7 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
                 this.RelatoriosBt.Background = Brushes.Transparent;
                 this.TermosBt.Background = Brushes.Transparent;
 
-                DataContext = new ViewSingleton().VeiculoView;
+                DataContext = _viewSingleton.VeiculoView; //new ViewSingleton().VeiculoView;
             }
             catch (Exception ex)
             {
@@ -167,7 +170,7 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
                 this.RelatoriosBt.Background = Brushes.Transparent;
                 this.TermosBt.Background = Brushes.Transparent;
 
-                DataContext = new ViewSingleton().ConfiguracoesView;
+                DataContext = _viewSingleton.ConfiguracoesView; //new ViewSingleton().ConfiguracoesView;
             }
             catch (Exception ex)
             {
@@ -194,7 +197,7 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
                 this.ConfiguracoesBt.Background = Brushes.Transparent;
                 this.TermosBt.Background = Brushes.Transparent;
 
-                DataContext = new ViewSingleton().RelatoriosView;
+                DataContext = _viewSingleton.RelatoriosView; //new ViewSingleton().RelatoriosView;
             }
             catch (Exception ex)
             {
@@ -221,7 +224,7 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
                 this.ConfiguracoesBt.Background = Brushes.Transparent;
                 this.RelatoriosBt.Background = Brushes.Transparent;
 
-                DataContext = new ViewSingleton().TermosView;
+                DataContext = _viewSingleton.TermosView; //new ViewSingleton().TermosView;
             }
             catch (Exception ex)
             {
@@ -231,5 +234,21 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
         }
 
         #endregion
+
+        private void OnFrm_Loaded(object sender, RoutedEventArgs e)
+        {
+            //Autor:Valnei Filho
+            //Data:12/03/2019
+            //Wrk:Ao fechar a janela, as coleções (observable) devem ser limpas para possibilitar uma nova pesquisa
+            //Limpar dados dos observables principais de suas respectivas views
+
+            var x1 = (ColaboradorViewModel)_viewSingleton.ColaboradorView.DataContext;
+            x1.EntityObserver.Clear();
+            var x2 = (EmpresaViewModel)_viewSingleton.EmpresaView.DataContext;
+            x2.EntityObserver.Clear();
+            var x3 = (VeiculoViewModel)_viewSingleton.VeiculoView.DataContext;
+            x3.EntityObserver.Clear();
+            //======================================================================= 
+        }
     }
 }

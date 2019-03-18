@@ -38,11 +38,11 @@
                 <StackPanel x:Name="InformacoesAnexo_sp" Margin="0,10,10,10" Width="773">
 
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  Margin="1"  >
-                        <Label Content="Código:" Height="28" Width="114" Margin="1" Foreground="#FFD0D0D0" />
+                        <Label Content="Código:" Height="28" Width="114" Margin="1" Foreground="#FFD0D0D0" Visibility="Collapsed" />
                         <TextBox x:Name="ID_tb" IsEnabled="False" CharacterCasing="Upper"
-                                 Text="{Binding Entity.EmpresaAnexoId, UpdateSourceTrigger=PropertyChanged}" Height="24" Width="39" />
-                        <Label Content="Descrição do Anexo:" Height="28" Width="138" Margin="0,0,5,0"
-                               HorizontalContentAlignment="Left" Foreground="#FFD0D0D0" />
+                                 Text="{Binding Entity.EmpresaAnexoId, UpdateSourceTrigger=PropertyChanged}" Height="24" Width="39" Visibility="Collapsed"/>
+                        <Label Content="Descrição do Anexo:" Height="28" Width="121" Margin="0,0,0,0"
+                               HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
                         <TextBox x:Name="DescricaoArquivo_tb" MaxLength="100" CharacterCasing="Upper" Height="24" Width="406"
                                  Text="{Binding Entity.Descricao, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                  IsEnabled="{Binding Comportamento.isEnableCancelar}"
@@ -51,20 +51,20 @@
 
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                 Margin="1">
-                        <Label Content="Nome do Arquivo:" Height="28" Width="114" Margin="1" HorizontalContentAlignment="Left" Foreground="#FFD0D0D0" />
+                        <Label Content="Nome do Arquivo:" Height="28" Width="118" Margin="1" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
                         <!-- Campo nome ddo Arquivo Anexo deve sempre esta Enabled, quem informa é a seleção do arquivo-->
-                        <TextBox x:Name="txtNomeAnexo" MaxLength="100" CharacterCasing="Upper" Height="24" Width="499"  
+                        <TextBox x:Name="txtNomeAnexo" MaxLength="100" CharacterCasing="Upper" Height="24" Width="406"  
                                  Text="{Binding Entity.NomeAnexo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                  IsEnabled="False"
                                  Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
-                        <Button x:Name="BuscarContratoArquivo_bt" Height="24" Margin="30,0,0,0"
+                        <Button x:Name="BuscarContratoArquivo_bt" Height="24" Margin="10,0,0,0"
                                 IsEnabled="{Binding Comportamento.isEnableCancelar}"
                                 VerticalAlignment="Center" Width="24" Click="OnUpLoad_Click">
                             <StackPanel>
                                 <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Pasta.ico" />
                             </StackPanel>
                         </Button>
-                        <Button x:Name="AbrirContratoArquivo_bt" Height="24" Margin="10,0,0,0"
+                        <Button x:Name="AbrirContratoArquivo_bt" Height="24" Margin="5,0,0,0"
                                 VerticalAlignment="Center" Width="24" Click="OnDownload_Click">
                             <StackPanel>
                                 <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Olho.png" />
@@ -82,7 +82,7 @@
                           HorizontalAlignment="Stretch" 
                           ItemsSource="{Binding EntityObserver, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                           SelectedItem="{Binding Entity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                          Width="749" Margin="0,15,0,60">
+                          Width="749" Margin="0,15,0,0" Height="175" VerticalAlignment="Top">
                     <ListView.View>
                         <GridView FrameworkElement.FlowDirection="RightToLeft">
                             <GridViewColumn Width="50" Header="Cod." DisplayMemberBinding="{Binding EmpresaAnexoId}" />
@@ -93,14 +93,14 @@
                         </GridView>
                     </ListView.View>
                 </ListView>
-                <StackPanel Orientation="Vertical" HorizontalAlignment="Right" Width="40" Height="167" VerticalAlignment="Bottom" Margin="0,0,0,69">
-                    
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Right" Width="30" Margin="10,15,10,0" Height="234" VerticalAlignment="Top"  >
+
                     <Button x:Name="btnAdicionar"   Content="{StaticResource imgAdd}"       ToolTip="Adicionar" IsEnabled="{Binding Comportamento.IsEnableCriar}"       Command="{Binding PrepareCriarCommand}"      Width="25" Margin="0,0,0,7" />
                     <Button x:Name="btnEditar"      Content="{StaticResource imgEdit}"      ToolTip="Editar"    IsEnabled="{Binding Comportamento.IsEnableEditar}"      Command="{Binding PrepareAlterarCommand}"    Width="25" Margin="0,0,0,7" />
                     <Button x:Name="btnExcluir"     Content="{StaticResource imgRemove}"    ToolTip="Remover"   IsEnabled="{Binding Comportamento.isEnableRemover}"     Command="{Binding PrepareRemoverCommand}"    Width="25" Margin="0,0,0,7" />
                     <Button x:Name="btnCancelar"    Content="{StaticResource imgCancel}"    ToolTip="Cancelar"  IsEnabled="{Binding Comportamento.isEnableCancelar}"    Command="{Binding PrepareCancelarCommand}"   Width="25" Margin="0,0,0,7" />
                     <Button x:Name="btnSalvar"      Content="{StaticResource imgSave}"      ToolTip="Salvar"    IsEnabled="{Binding Comportamento.isEnableSalvar}"      Command="{Binding PrepareSalvarCommand}"     Width="25" Margin="0,0,0,7" />
-                    
+
                 </StackPanel>
             </StackPanel>
         </StackPanel>

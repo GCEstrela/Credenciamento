@@ -69,6 +69,7 @@ namespace IMOD.CrossCutting
         /// <returns></returns>
         public static Bitmap ConverterBase64StringToBitmap(this string base64String)
         {
+            if (string.IsNullOrWhiteSpace (base64String)) return null;
             Bitmap bmpReturn = null;
             var byteBuffer = Convert.FromBase64String (base64String);
             var memoryStream = new MemoryStream (byteBuffer);

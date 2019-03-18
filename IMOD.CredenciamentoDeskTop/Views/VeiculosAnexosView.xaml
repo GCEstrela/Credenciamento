@@ -7,7 +7,7 @@
              xmlns:wpf="clr-namespace:CSharpControls.Wpf;assembly=CSharpControls.Wpf"
              xmlns:viewModels="clr-namespace:IMOD.CredenciamentoDeskTop.ViewModels"
              mc:Ignorable="d"
-             Height="320">
+             Height="412.667">
     <UserControl.Resources>
         <Image x:Key="imgAdd" Source="../Resources/add.png"  />
         <Image x:Key="imgEdit" Source="../Resources/edit.png"  />
@@ -38,23 +38,23 @@
                 <StackPanel x:Name="InformacoesAnexo_sp" Margin="0,10,10,10" Width="773">
 
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="1">
-                        <Label Content="Código:" Height="28" Width="114" Margin="1" Foreground="#FFD0D0D0" />
+                        <Label Content="Código:" Height="28" Width="114" Margin="1" Foreground="#FFD0D0D0" Visibility="Collapsed"/>
                         <TextBox x:Name="ID_tb" IsEnabled="False" CharacterCasing="Upper"
-                                 Text="{Binding Entity.VeiculoAnexoId, UpdateSourceTrigger=PropertyChanged}" Height="24" Width="39" />
-                        <Label Content="Descrição do Anexo:" Height="28" Width="138" Margin="0,0,5,0"
-                               HorizontalContentAlignment="Left" Foreground="#FFD0D0D0" />
+                                 Text="{Binding Entity.VeiculoAnexoId, UpdateSourceTrigger=PropertyChanged}" Height="24" Width="39" Visibility="Collapsed"/>
+                        <Label Content="Descrição do Anexo:" Height="28" Width="138" Margin="0,0,0,0"
+                               HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
                         <TextBox x:Name="txtDescricao" MaxLength="100" CharacterCasing="Upper" Height="24" Width="406"
                                  Text="{Binding Entity.Descricao, UpdateSourceTrigger=PropertyChanged}"
                                  IsEnabled="{Binding Comportamento.isEnableCancelar}"
-                                 Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
+                                  Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                     Margin="1">
-                        <Label Content="Nome do Arquivo:" Height="28" Width="114" Margin="1" HorizontalContentAlignment="Left" Foreground="#FFD0D0D0" />
-                        <TextBox x:Name="txtNomeAnexo" MaxLength="100" CharacterCasing="Upper" Height="24" Width="499"  
+                        <Label Content="Nome do Arquivo:" Height="28" Width="136" Margin="1" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                        <TextBox x:Name="txtNomeAnexo" MaxLength="100" CharacterCasing="Upper" Height="24" Width="406"  
                                  Text="{Binding Entity.NomeArquivo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                 IsEnabled="False"  Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
+                                 IsEnabled="False" />
                         <Button x:Name="BuscarContratoArquivo_bt" Height="24" Margin="30,0,0,0"
                                 IsEnabled="{Binding Comportamento.isEnableCancelar}"
                                 VerticalAlignment="Center" Width="24" Click="OnUpLoad_Click">
@@ -71,27 +71,27 @@
                     </StackPanel>
                 </StackPanel>
             </GroupBox>
-            <StackPanel Orientation="Horizontal"  Grid.Column="0" Grid.Row="1" Height="300">
-                <StackPanel Width="755" Height="300">
+            <StackPanel Orientation="Horizontal"    Height="300">
+                <StackPanel Width="755" Height="300" VerticalAlignment="Top">
                     <ListView x:Name="ListaAnexos_lv"
                           IsEnabled="{Binding IsEnableLstView}"
                           SelectedIndex="{Binding SelectListViewIndex}"
-                          HorizontalAlignment="Stretch" 
+                          Margin="0,10,0,0" VerticalAlignment="Top" HorizontalAlignment="Stretch"
                           ItemsSource="{Binding EntityObserver, Mode=TwoWay}"
                           SelectedItem="{Binding Entity, Mode=TwoWay}"
-                          Width="755" Margin="0,0,0,127" Height="163">
-                    <ListView.View>
-                        <GridView FrameworkElement.FlowDirection="RightToLeft">
-                            <GridViewColumn Width="50" Header="Cod." DisplayMemberBinding="{Binding VeiculoAnexoId}" />
-                            <GridViewColumn Width="440" Header="Descrição do Anexo"
+                          Width="755"   Height="175">
+                        <ListView.View>
+                            <GridView FrameworkElement.FlowDirection="RightToLeft">
+                                <GridViewColumn Width="50" Header="Cod." DisplayMemberBinding="{Binding VeiculoAnexoId}" />
+                                <GridViewColumn Width="440" Header="Descrição do Anexo"
                                             DisplayMemberBinding="{Binding Descricao}" />
-                            <GridViewColumn Width="250" Header="Nome do Arquivo"
+                                <GridViewColumn Width="250" Header="Nome do Arquivo"
                                             DisplayMemberBinding="{Binding NomeArquivo}" />
-                        </GridView>
-                    </ListView.View>
-                </ListView>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
                 </StackPanel>
-                <StackPanel Orientation="Vertical" HorizontalAlignment="Right" Width="40" Height="163" VerticalAlignment="Bottom" Margin="0,0,0,136">
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Right" Margin="10,10,10,0" Width="30" Height="280" VerticalAlignment="Top"  >
                     <Button x:Name="btnAdicionar"   Content="{StaticResource imgAdd}"       ToolTip="Adicionar" IsEnabled="{Binding Comportamento.IsEnableCriar}"       Command="{Binding PrepareCriarCommand}"      Width="25" Margin="0,0,0,7" />
                     <Button x:Name="btnEditar"      Content="{StaticResource imgEdit}"      ToolTip="Editar"    IsEnabled="{Binding Comportamento.IsEnableEditar}"      Command="{Binding PrepareAlterarCommand}"    Width="25" Margin="0,0,0,7" />
                     <Button x:Name="btnExcluir"     Content="{StaticResource imgRemove}"    ToolTip="Remover"   IsEnabled="{Binding Comportamento.isEnableRemover}"     Command="{Binding PrepareRemoverCommand}"    Width="25" Margin="0,0,0,7" />

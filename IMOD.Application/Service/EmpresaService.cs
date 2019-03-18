@@ -114,30 +114,35 @@ namespace IMOD.Application.Service
             var n1 = BuscarEmpresaPorCnpj (doc);
             return n1 != null;
         }
-
+        /// <summary>
+        ///     Verificar se existe Sigla cadastrado
+        /// </summary>
+        /// <param name="sigla"></param>
+        /// <returns></returns>
+        public bool ExisteSigla(string sigla)
+        {
+            
+            var n1 = BuscarEmpresaPorSigla(sigla);
+            return n1 != null;
+        }
         /// <summary>
         ///     Criar um empresa com contrato básico
-        ///     <para>Um contrato básico será criada automaticamente</para>
+        ///     <para>Um contrato básico será criada automaticamente com base nos dados de configuracao</para>
         /// </summary>
         /// <param name="entity"></param>
         /// <param name="dataValidade">Data de validade</param>
         /// <param name="numContrato">Numero do contrato</param>
         /// <param name="status">Status do cdontrato</param>
-        public void CriarContratoBasico(Empresa entity,DateTime dataValidade,string numContrato,Status status)
+        public void CriarContrato(Empresa entity,DateTime dataValidade,string numContrato,Status status, ConfiguraSistema  configuracaoSistema )
         {
             if (entity == null) throw new ArgumentNullException (nameof (entity));
             if (status == null) throw new ArgumentNullException (nameof (status));
             //Criar Empresa
             Criar (entity);
-            //Criar contrato básico
-            var contrato = new EmpresaContrato();
-            contrato.EmpresaId = entity.EmpresaId;
-            contrato.Validade = dataValidade;
-            contrato.Descricao = "Contrato Básico";
-            contrato.StatusId = status.StatusId;
-            contrato.NumeroContrato = numContrato;
-            contrato.Emissao = contrato.Validade;
-            ContratoService.Criar (contrato);
+            //Criar um contrato básico e automatico apenas se as configurações permitirem
+            if (!configuracaoSistema.Contrato) return;
+            //Criar contrato básico 
+            ContratoService.CriarContratoBasico (entity,dataValidade,status);
         }
 
         /// <summary>
@@ -154,6 +159,7 @@ namespace IMOD.Application.Service
             #region Criar Pendências
 
             var pendencia = new Pendencia();
+            pendencia.Impeditivo = true;//Pendencias do tipo Impeditiva
             pendencia.EmpresaId = entity.EmpresaId;
             //--------------------------
             pendencia.CodPendencia = 12;
@@ -215,7 +221,10 @@ namespace IMOD.Application.Service
         {
             return _repositorio.BuscarEmpresaPorCnpj (cnpj);
         }
-
+        public Empresa BuscarEmpresaPorSigla(string sigla)
+        {
+            return _repositorio.BuscarEmpresaPorSigla(sigla);
+        }
         /// <summary>
         ///     Listar Pendencias
         /// </summary>

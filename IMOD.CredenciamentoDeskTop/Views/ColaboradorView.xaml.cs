@@ -62,7 +62,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
             ColaboradorEmpresaUs.AtualizarDados(_viewModel.Entity, _viewModel);
             ColaboradorCurso.AtualizarDados(_viewModel.Entity, _viewModel);
             AnexoUs.AtualizarDados(_viewModel.Entity, _viewModel);
-            ColaboradoresCredenciaisUs.AtualizarDados(_viewModel.Entity);
+            ColaboradoresCredenciaisUs.AtualizarDados(_viewModel.Entity, _viewModel);
             ////////////////////////////////////////////////////////////// 
         }
         

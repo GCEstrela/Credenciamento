@@ -92,10 +92,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         public short SelectListViewIndex { get; set; }
 
-        /// <summary>
-        ///     Habilita abas
-        /// </summary>
-        public bool IsEnableTabItem { get; private set; }
+
+        public bool IsEnableTabItemGeral { get; set; }
+        public bool IsEnableTabItemEmpresas { get; set; }
+        public bool IsEnableTabItemCursos { get; set; }
+        public bool IsEnableTabItemAnexos { get; set; }
+        public bool IsEnableTabItemCredenciais { get; set; }
 
         /// <summary>
         ///     Seleciona o indice da tabcontrol desejada
@@ -151,8 +153,21 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <param name="isEnableLstView"></param>
         private void HabilitaControle(bool isEnableTabItem, bool isEnableLstView)
         {
-            IsEnableTabItem = isEnableTabItem;
-            IsEnableLstView = isEnableLstView;
+            HabilitaControleTabControls(isEnableLstView, isEnableTabItem, isEnableTabItem, isEnableTabItem, isEnableTabItem, isEnableTabItem);
+            //IsEnableTabItem = isEnableTabItem;
+            //IsEnableLstView = isEnableLstView;
+        }
+
+        public void HabilitaControleTabControls(bool lstViewSuperior = true, bool isItemGeral = true, bool isItemEmpresas = false, bool isItemCursos = false, bool isItemAnexos = false, bool isItemCredenciais = false)
+        {
+            IsEnableLstView = lstViewSuperior;
+
+            IsEnableTabItemGeral = isItemGeral;
+            IsEnableTabItemEmpresas = isItemEmpresas;
+            IsEnableTabItemCursos = isItemCursos;
+            IsEnableTabItemAnexos = isItemAnexos;
+            IsEnableTabItemCredenciais = isItemCredenciais;
+            Comportamento.IsEnableCriar = lstViewSuperior;
         }
 
         /// <summary>
@@ -164,12 +179,19 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             if (e.PropertyName == "Entity")
 
             {
-                Comportamento.IsEnableEditar = Entity != null;
-                IsEnableTabItem = Entity != null;
+                var enableControls = Entity != null;
+                Comportamento.IsEnableEditar = enableControls;
+                //IsEnableTabItem = Entity != null;
+                HabilitaControleTabControls(true, enableControls, enableControls, enableControls, enableControls, enableControls);
             }
+        
             if (e.PropertyName == "SelectedTabIndex")
-                //Habilita botoes principais...
+            {
+                //Habilita/Desabilita botoes principais...
                 HabilitaCommandPincipal = SelectedTabIndex == 0;
+                //IsEnableLstView = SelectedTabIndex == 0;
+            }
+                
         }
 
         /// <summary>

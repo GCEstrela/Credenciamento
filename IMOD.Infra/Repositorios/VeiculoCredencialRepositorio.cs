@@ -42,18 +42,18 @@ namespace IMOD.Infra.Repositorios
         /// <summary>
         ///     Obtém a menor data de entre um curso do tipo controlado e uma data de validade do contrato
         /// </summary>
-        /// <param name="equiapmentoVeiculoId">Identificador</param>
+        /// <param name="equipamentoVeiculoId">Identificador</param>
         /// <param name="numContrato">Número do contrato</param>
         /// <returns></returns>
-        private DateTime? ObterMenorData(int equiapmentoVeiculoId, string numContrato)
+        private DateTime? ObterMenorData(int equipamentoVeiculoId, string numContrato)
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.CreateCommand ("Select dbo.fnc_Veiculo_Obter_Menor_Data (@colaboradorId,@NumContrato)", conn))
+                using (var cmd = _dataBase.CreateCommand ("Select dbo.fnc_Veiculo_Obter_Menor_Data (@equipamentoVeiculoId,@NumContrato)", conn))
                 {
                     try
                     {
-                        var param1 = _dataBase.CreateParameter ("@equipamentoVeiculoId", DbType.Int32, ParameterDirection.Input, equiapmentoVeiculoId);
+                        var param1 = _dataBase.CreateParameter ("@equipamentoVeiculoId", DbType.Int32, ParameterDirection.Input, equipamentoVeiculoId);
                         var param2 = _dataBase.CreateParameter ("@numContrato", DbType.String, ParameterDirection.Input, numContrato);
                         cmd.Parameters.Add (param1);
                         cmd.Parameters.Add (param2);
@@ -135,6 +135,8 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("CredencialmotivoID", entity.CredencialMotivoId, false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Baixa", DbType.DateTime, entity.Baixa, false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Impressa", entity.Impressa, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("DataStatus", DbType.DateTime, DateTime.Today.Date, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("DevolucaoEntregaBOID", DbType.Int32, entity.DevolucaoEntregaBoId, false)));
 
                         var key = Convert.ToInt32 (cmd.ExecuteScalar());
 
@@ -244,7 +246,9 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Colete", entity.Colete, false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("CredencialmotivoID", entity.CredencialMotivoId, false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Baixa", DbType.DateTime, entity.Baixa, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Impressa", DbType.DateTime, entity.Impressa, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Impressa", entity.Impressa, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("DataStatus", DbType.DateTime, entity.DataStatus, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("DevolucaoEntregaBOID", DbType.Int32, entity.DevolucaoEntregaBoId, false)));
 
                         cmd.ExecuteNonQuery();
                     }
@@ -375,17 +379,17 @@ namespace IMOD.Infra.Repositorios
         ///         partir da data atual
         ///     </para>
         /// </summary>
-        /// <param name="entity"></param>
+        /// <param name="tipoCredencialId"></param>
         /// <param name="equiapmentoVeiculoId"></param>
         /// <param name="numContrato"></param>
         /// <param name="credencialRepositorio"></param>
         /// <returns></returns>
-        public DateTime? ObterDataValidadeCredencial(VeiculoCredencial entity, int equiapmentoVeiculoId, string numContrato, ITipoCredencialRepositorio credencialRepositorio)
+        public DateTime? ObterDataValidadeCredencial(int tipoCredencialId, int equiapmentoVeiculoId, string numContrato, ITipoCredencialRepositorio credencialRepositorio)
         {
             if (credencialRepositorio == null) throw new ArgumentNullException (nameof (credencialRepositorio));
 
             //Verificar se o contrato é temporário ou permanente
-            var tipoCredencial = credencialRepositorio.BuscarPelaChave (entity.TipoCredencialId);
+            var tipoCredencial = credencialRepositorio.BuscarPelaChave (tipoCredencialId);
             if (tipoCredencial == null) throw new InvalidOperationException ("Um tipo de credencial é necessário.");
             if (tipoCredencial.CredPermanente) //Sendo uma credencial do tipo permanente, então vale a regra da menor data
                 return ObterMenorData (equiapmentoVeiculoId, numContrato);
@@ -408,7 +412,7 @@ namespace IMOD.Infra.Repositorios
             var contrato = ObterNumeroContrato (entity, equiapmentoVeiculoId);
             var numContrato = contrato.NumeroContrato;
             //Obter uma data de validade (menor data entre um curso do tipo controlado e uma data de vencimento de um determinado contrato
-            var dataCredencial = ObterDataValidadeCredencial (entity, equiapmentoVeiculoId, numContrato, credencialRepositorio);
+            var dataCredencial = ObterDataValidadeCredencial (entity.TipoCredencialId, equiapmentoVeiculoId, numContrato, credencialRepositorio);
             //Setando a data de vencimento uma credencial
             entity.Validade = dataCredencial;
             Alterar (entity);
@@ -429,7 +433,7 @@ namespace IMOD.Infra.Repositorios
             var contrato = ObterNumeroContrato (entity, equiapmentoVeiculoId);
             var numContrato = contrato.NumeroContrato;
             //Obter uma data de validade (menor data entre um curso do tipo controlado e uma data de vencimento de um determinado contrato
-            var dataCredencial = ObterDataValidadeCredencial (entity, equiapmentoVeiculoId, numContrato, credencialRepositorio);
+            var dataCredencial = ObterDataValidadeCredencial (entity.TipoCredencialId, equiapmentoVeiculoId, numContrato, credencialRepositorio);
             //Setando a data de vencimento uma credencial
             entity.Validade = dataCredencial;
             Alterar (entity);

@@ -67,6 +67,7 @@
     <Compile Include="Entities\ColaboradorCurso.cs" />
     <Compile Include="Entities\ColaboradorEmpresa.cs" />
     <Compile Include="Entities\ColaboradorPrivilegio.cs" />
+    <Compile Include="Entities\ConfiguraSistema.cs" />
     <Compile Include="Entities\CredencialMotivo.cs" />
     <Compile Include="Entities\CredencialStatus.cs" />
     <Compile Include="Entities\Curso.cs" />
@@ -99,6 +100,7 @@
     <Compile Include="Entities\TipoEquipamento.cs" />
     <Compile Include="Entities\TipoEstadoCivil.cs" />
     <Compile Include="Entities\TipoPendencia.cs" />
+    <Compile Include="Entities\TipoRepresentante.cs" />
     <Compile Include="Entities\TipoServico.cs" />
     <Compile Include="Entities\VeiculoEquipTipoServico.cs" />
     <Compile Include="Entities\Veiculo.cs" />
@@ -117,6 +119,7 @@
     <Compile Include="Interfaces\IColaboradorPrivilegioRepositorio.cs" />
     <Compile Include="Interfaces\IColaboradorRepositorio.cs" />
     <Compile Include="Interfaces\IConfiguracaoRepositorio.cs" />
+    <Compile Include="Interfaces\IConfiguraSistemaRepositorio.cs" />
     <Compile Include="Interfaces\ICursoRepositorio.cs" />
     <Compile Include="Interfaces\IEmpresaAnexoRepositorio.cs" />
     <Compile Include="Interfaces\IEmpresaAreaAcessoRepositorio.cs" />
@@ -149,6 +152,7 @@
     <Compile Include="Interfaces\ITipoEquipamentoRepositorio.cs" />
     <Compile Include="Interfaces\ITipoEquipamentoVeiculoRepositorio.cs" />
     <Compile Include="Interfaces\ITipoPendenciaRepositorio.cs" />
+    <Compile Include="Interfaces\ITipoRepresentanteRepositorio.cs" />
     <Compile Include="Interfaces\ITipoServicoRepositorio.cs" />
     <Compile Include="Interfaces\IVeiculoAnexoRepositorio.cs" />
     <Compile Include="Interfaces\IVeiculoCredencialimpressaoRepositorio.cs" />

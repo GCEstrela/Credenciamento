@@ -42,20 +42,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
             if (entity == null) return;
             _viewModel.AtualizarDados(entity, viewModelParent);
         }
-
-        //TODO:Resolver rotina para possibilitar que ao cadastrar uma empresa a tela de veiculo credenical possa incluir em sua lista
-        ///// <summary>
-        /////     Atualizar dados
-        ///// </summary>
-        ///// <param name="entity"></param>
-        ///// <param name="veiculoCredencialUs"></param>
-        ///// <param name="viewModelParent"></param>
-        //public void AtualizarDados(Model.VeiculoView entity, VeiculosCredenciaisView veiculoCredencialUs ,VeiculoViewModel viewModelParent)
-        //{
-        //    if (entity == null) return;
-        //    _viewModel.AtualizarDados(entity, viewModelParent);
-        //    veiculoCredencialUs.AtualizarDados(entity,_viewModel);
-        //}
+         
 
         #endregion
     }

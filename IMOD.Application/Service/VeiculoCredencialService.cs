@@ -29,6 +29,56 @@ namespace IMOD.Application.Service
 
         #endregion
 
+        #region  Propriedades
+
+        /// <summary>
+        ///     Impressão Serviços
+        /// </summary>
+        public IVeiculoCredencialimpressaoService ImpressaoCredencial
+        {
+            get { return new VeiculoCredencialimpressaoService(); }
+        }
+
+        public ITecnologiaCredencialService TecnologiaCredencial
+        {
+            get { return new TecnologiaCredencialService(); }
+        }
+
+        public ITipoCredencialService TipoCredencial
+        {
+            get { return new TipoCredencialService(); }
+        }
+
+        public ILayoutCrachaService LayoutCracha
+        {
+            get { return new LayoutCrachaService(); }
+        }
+
+        public IFormatoCredencialService FormatoCredencial
+        {
+            get { return new FormatoCredencialService(); }
+        }
+
+        public ICredencialStatusService CredencialStatus
+        {
+            get { return new CredencialStatusService(); }
+        }
+
+        public ICredencialMotivoService CredencialMotivo
+        {
+            get { return new CredencialMotivoService(); }
+        }
+
+        /// <summary>
+        ///     Pendência serviços
+        /// </summary>
+        public IPendenciaService Pendencia
+        {
+            get { return new PendenciaService(); }
+        }
+
+        #endregion
+
         #region  Metodos
 
         private void ObterStatusCredencial(VeiculoCredencial entity)
@@ -44,23 +94,27 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         private static CardHolderEntity CardHolderEntity(VeiculosCredenciaisView entity)
         {
+            //Autor: Valnei Filho
+            //Data:13/03/19
+            //Wrk:Adicionar um dia a credencial
+            DateTime dataValidade = entity.Validade == null ? DateTime.Today.Date : (DateTime) entity.Validade;
+
             var titularCartao = new CardHolderEntity
             {
                 Ativo = entity.Ativa,
                 Empresa = entity.EmpresaNome,
                 Nome = entity.VeiculoNome,
-                Identificador = entity.PlacaIdentificador, 
+                Identificador = entity.PlacaIdentificador,
                 IdentificadorCardHolderGuid = entity.CardHolderGuid,
                 IdentificadorCredencialGuid = entity.CredencialGuid,
                 FacilityCode = entity.Fc,
                 Foto = entity.VeiculoFoto.ConverterBase64StringToBitmap(),
                 Matricula = entity.PlacaIdentificador,
-                Validade = entity.Validade ?? DateTime.Today.Date,
+                Validade = dataValidade.AddDays (1),
                 NumeroCredencial = entity.NumeroCredencial,
                 IdentificadorLayoutCrachaGuid = entity.LayoutCrachaGuid
             };
             return titularCartao;
-
         }
 
         public VeiculosCredenciaisView BuscarCredencialPelaChave(int veiculoCredencialId)
@@ -97,14 +151,14 @@ namespace IMOD.Application.Service
         ///         partir da data atual
         ///     </para>
         /// </summary>
-        /// <param name="entity"></param>
+        /// <param name="tipoCredencialId"></param>
         /// <param name="equiapmentoVeiculoId"></param>
         /// <param name="numContrato"></param>
         /// <param name="credencialRepositorio"></param>
         /// <returns></returns>
-        public DateTime? ObterDataValidadeCredencial(VeiculoCredencial entity, int equiapmentoVeiculoId, string numContrato, ITipoCredencialRepositorio credencialRepositorio)
+        public DateTime? ObterDataValidadeCredencial(int tipoCredencialId, int equiapmentoVeiculoId, string numContrato, ITipoCredencialRepositorio credencialRepositorio)
         {
-            return _repositorio.ObterDataValidadeCredencial (entity, equiapmentoVeiculoId, numContrato, credencialRepositorio);
+            return _repositorio.ObterDataValidadeCredencial (tipoCredencialId, equiapmentoVeiculoId, numContrato, credencialRepositorio);
         }
 
         /// <summary>
@@ -143,6 +197,36 @@ namespace IMOD.Application.Service
             var doc = numCredencial.RetirarCaracteresEspeciais();
             var n1 = ObterCredencialPeloNumeroCredencial (doc);
             return n1 != null;
+        }
+
+        /// <summary>
+        ///     Criar uma pendência impeditiva caso o motivo do credenciamento possua natureza impeditiva
+        /// </summary>
+        /// <param name="entity"></param>
+        public void CriarPendenciaImpeditiva(VeiculosCredenciaisView entity)
+        {
+            //Criar um pendenci impeditiva ao constatar o motivo da credencial
+            var pendImp = CredencialMotivo.BuscarPelaChave (entity.CredencialMotivoId);
+            if (pendImp == null) throw new InvalidOperationException ("Não foi possível obter a entidade credencial motivo");
+            var impeditivo = pendImp.Impeditivo;
+            if (!impeditivo) return;
+            //Criar uma pendencia impeditiva,caso sua natureza seja impeditiva
+
+            #region Criar Pendência  
+
+            var pendencia = new Pendencia();
+            pendencia.EmpresaId = entity.EmpresaId;
+            var motivo = CredencialMotivo.BuscarPelaChave (entity.CredencialMotivoId);
+            pendencia.Descricao = $"Em {DateTime.Now}, uma pendência impeditiva foi criada pelo sistema por uma autorização ter sido {motivo.Descricao}." +
+                                  $"\r\nO Equipamento/Veículo de Placa/Identificador {entity.PlacaIdentificador}" +
+                                  "\r\nDeseja-se que tais pendências sejam solucionadas." +
+                                  $"\r\nAutor {UsuarioLogado.Nome} {UsuarioLogado.Email}";
+            pendencia.Impeditivo = true;
+            //--------------------------
+            pendencia.CodPendencia = 21;
+            Pendencia.CriarPendenciaSistema (pendencia);
+
+            #endregion
         }
 
         /// <summary>
@@ -203,15 +287,27 @@ namespace IMOD.Application.Service
         /// <param name="entity2"></param>
         public void AlterarStatusTitularCartao(ICredencialService geradorCredencialService, VeiculosCredenciaisView entity, VeiculoCredencial entity2)
         {
-            if (geradorCredencialService == null) throw new ArgumentNullException (nameof (geradorCredencialService));
-            if (entity == null) throw new ArgumentNullException (nameof (entity));
-            if (entity2 == null) throw new ArgumentNullException (nameof (entity2));
+            if (geradorCredencialService == null) throw new ArgumentNullException (nameof(geradorCredencialService));
+            if (entity == null) throw new ArgumentNullException (nameof(entity));
+            if (entity2 == null) throw new ArgumentNullException (nameof(entity2));
             ObterStatusCredencial (entity2);
             //Alterar status de um titual do cartao
-            var titularCartao = CardHolderEntity (entity);
+            var titularCartao = CardHolderEntity (entity); 
             titularCartao.Ativo = entity2.Ativa;
+            
+            entity.DataStatus = entity.Ativa != entity2.Ativa ? DateTime.Today.Date : entity2.DataStatus;
             entity.Ativa = entity2.Ativa; //Atulizar dados para serem exibidas na tela
-            entity.Baixa = entity2.Ativa ? (DateTime?) null : DateTime.Today.Date; //Atulizar dados para serem exibidas na tela
+
+           if( (!entity2.Ativa && (entity2.DevolucaoEntregaBoId != 0)) ||
+                (!entity2.Ativa && (entity2.CredencialMotivoId == 11 || entity2.CredencialMotivoId == 12)))
+            {
+                entity.Baixa = DateTime.Today.Date;
+            }
+            else
+            {
+                entity.Baixa = (DateTime?)null;
+            }
+
             //Alterar dados no sub-sistema de credenciamento
             //A data da baixa está em função do status do titular do cartao e sua credencial
             entity2.Baixa = entity.Baixa;
@@ -253,8 +349,8 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void CriarTitularCartao(ICredencialService geradorCredencialService, VeiculosCredenciaisView entity)
         {
-            if (geradorCredencialService == null) throw new ArgumentNullException (nameof (geradorCredencialService));
-            if (entity == null) throw new ArgumentNullException (nameof (entity));
+            if (geradorCredencialService == null) throw new ArgumentNullException (nameof(geradorCredencialService));
+            if (entity == null) throw new ArgumentNullException (nameof(entity));
             //Somente é permitido criar uma única vez o titular do cartão...
             //Os numeros GUIDs são indicação  de que já houve criação de credenciais no sub-sistema de credenciamento
             if (!string.IsNullOrWhiteSpace (entity.CardHolderGuid) & !string.IsNullOrWhiteSpace (entity.CredencialGuid)) return;
@@ -288,62 +384,6 @@ namespace IMOD.Application.Service
             return _repositorio.ListarAutorizacaoView (objects);
         }
 
-        public List<VeiculosCredenciaisView> ListarVeiculoCredencialConcedidasView(FiltroVeiculoCredencial entity)
-        {
-            return _repositorio.ListarVeiculoCredencialConcedidasView(entity);
-        }
-
-        public List<VeiculosCredenciaisView> ListarVeiculoCredencialViaAdicionaisView(FiltroVeiculoCredencial entity)
-        {
-            return _repositorio.ListarVeiculoCredencialViaAdicionaisView(entity);
-        }
-
-        public List<VeiculosCredenciaisView> ListarVeiculoCredencialInvalidasView(FiltroVeiculoCredencial entity)
-        {
-            return _repositorio.ListarVeiculoCredencialInvalidasView(entity);
-        }
         #endregion
-
-
-
-        /// <summary>
-        ///     Impressão Serviços
-        /// </summary>
-        public IVeiculoCredencialimpressaoService ImpressaoCredencial
-        {
-            get { return new VeiculoCredencialimpressaoService(); }
-        }
-
-        public ITecnologiaCredencialService TecnologiaCredencial
-        {
-            get { return new TecnologiaCredencialService(); }
-        }
-
-        public ITipoCredencialService TipoCredencial
-        {
-            get { return new TipoCredencialService(); }
-        }
-
-        public ILayoutCrachaService LayoutCracha
-        {
-            get { return new LayoutCrachaService(); }
-        }
-
-        public IFormatoCredencialService FormatoCredencial
-        {
-            get { return new FormatoCredencialService(); }
-        }
-
-        public ICredencialStatusService CredencialStatus
-        {
-            get { return new CredencialStatusService(); }
-        }
-
-        public ICredencialMotivoService CredencialMotivo
-        {
-            get { return new CredencialMotivoService(); }
-        }
-
-        
     }
 }
