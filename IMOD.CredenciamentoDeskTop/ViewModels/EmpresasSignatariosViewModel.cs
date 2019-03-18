@@ -110,7 +110,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public void ListarDadosAuxiliares()
         {
             var lst1 = _auxiliaresService.TipoRepresentanteService.Listar();
-            ListaRepresentante = Mapper.Map<List<TipoRepresentanteView>>(lst1);
+            ListaRepresentante = Mapper.Map<List<TipoRepresentanteView>>(lst1.OrderBy(n => n.Descricao));
 
             //var lst2 = _auxiliaresService.EstadoService.Listar();
             //Estados = new List<Estados>();

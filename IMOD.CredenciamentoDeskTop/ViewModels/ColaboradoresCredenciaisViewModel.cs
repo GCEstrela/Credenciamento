@@ -214,29 +214,34 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             var lst0 = _auxiliaresService.CredencialStatusService.Listar();
             CredencialStatus = new List<CredencialStatus>();
-            CredencialStatus.AddRange (lst0);
+            //CredencialStatus = new List<CredencialStatus>(lst0.OrderBy(n => n.Descricao));
+            CredencialStatus.AddRange (lst0.OrderBy(n => n.Descricao));
 
             var lst2 = _auxiliaresService.FormatoCredencialService.Listar();
             FormatoCredencial = new List<FormatoCredencial>();
-            FormatoCredencial.AddRange (lst2);
+            //FormatoCredencial = new List<FormatoCredencial>(lst2.OrderBy(n => n.Descricao));
+            FormatoCredencial.AddRange (lst2.OrderBy(n => n.Descricao));
 
             var lst3 = _auxiliaresService.TipoCredencialService.Listar();
             TipoCredencial = new List<TipoCredencial>();
-            TipoCredencial.AddRange (lst3);
+            //TipoCredencial = new List<TipoCredencial>(lst3.OrderBy(n => n.Descricao));
+            TipoCredencial.AddRange (lst3.OrderBy(n => n.Descricao));
 
             var lst5 = _auxiliaresService.TecnologiaCredencialService.Listar();
             TecnologiasCredenciais = new List<TecnologiaCredencial>();
-            TecnologiasCredenciais.AddRange (lst5);
+            //TecnologiasCredenciais = new List<TecnologiaCredencial>(lst5.OrderBy(n => n.Descricao));
+            TecnologiasCredenciais.AddRange (lst5.OrderBy(n => n.Descricao));
 
             ColaboradoresEmpresas = new ObservableCollection<ColaboradorEmpresa>();
 
             var lst7 = _auxiliaresService.AreaAcessoService.Listar();
             ColaboradorPrivilegio = new List<AreaAcesso>();
-            ColaboradorPrivilegio.AddRange (lst7);
+            ColaboradorPrivilegio.AddRange(lst7.OrderBy(n => n.Descricao));
 
-            _credencialMotivo = new List<CredencialMotivo>();
             var lst8 = _auxiliaresService.CredencialMotivoService.Listar();
-            _credencialMotivo.AddRange (lst8);
+            _credencialMotivo = new List<CredencialMotivo>();
+            //_credencialMotivo = new List<CredencialMotivo>(lst8.OrderBy(n => n.Descricao));
+            _credencialMotivo.AddRange (lst8.OrderBy(n => n.Descricao));
         }
 
         /// <summary>
@@ -495,7 +500,14 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var dados = view.DataContext as IAtualizarDados;
                 dados.AtualizarDadosPendencias();
                 //===================================================
-
+                if (Entity.TecnologiaCredencialId != 0)
+                {
+                    //Gerar card Holder e Credencial
+                    //Uma data de validade é necessária para geração da credencial
+                    //if (_entity.Validade == null) throw new InvalidOperationErrorException("A validade da credencial deve ser informada.");
+                    _service.CriarTitularCartao(new CredencialGenetecService(Main.Engine), Entity);
+                }
+                //===================================================
                 //Atualizar Observer
                 var list1 = _service.ListarView (null, null, null, null, _colaboradorView.ColaboradorId).ToList();
                 var list2 = Mapper.Map<List<ColaboradoresCredenciaisView>>(list1.OrderByDescending(n => n.ColaboradorCredencialId));
@@ -508,6 +520,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 Entity = null;
                 _viewModelParent.HabilitaControleTabControls (true, true, true, true, true, true);
                 //ExibirCheckDevolucao(Entity); 
+                
             }
             catch (Exception ex)
             {
@@ -603,6 +616,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 //Atualizar observer
                 OnPropertyChanged ("Entity");
                 CollectionViewSource.GetDefaultView (EntityObserver).Refresh(); //Atualizar observer
+                                                                                //Não deve ser criada dado na sub-rotina de credenciamento quando a tecnologia da credencial nao permitir
+                                                                                //TODO:Retirar condicional fazendo referencia ao identificador
+               
             }
             catch (Exception ex)
             {
