@@ -99,7 +99,7 @@
                                     </TransformGroup>
                                 </ComboBox.RenderTransform>
                             </ComboBox>
-                            <Label Content="Motivo:" Height="28" Width="111" HorizontalContentAlignment="Right"
+                            <Label Content="Motivo:" Height="28" Width="114" HorizontalContentAlignment="Right"
                                    Foreground="#FFD0D0D0" />
 
                             <ComboBox x:Name="cmbMotivacao"  IsEditable="true"
@@ -161,7 +161,7 @@
                             <TextBox  x:Name="NumeroColete_tb"  MaxLength="15"  CharacterCasing="Upper" 
                                        IsEnabled="False" Text="{Binding Entity.Colete,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Height="24"  Width="80"/>
 
-                            <Label Content="Autenticação:" Height="28" Width="110"   HorizontalContentAlignment="Right"
+                            <Label Content="Autenticação:" Height="28" Width="113"   HorizontalContentAlignment="Right"
                                    Foreground="#FFD0D0D0" />
 
                             <!--IsEnabled="{Binding Habilitar}"-->
