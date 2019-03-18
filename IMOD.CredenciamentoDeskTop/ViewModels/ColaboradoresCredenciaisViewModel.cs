@@ -189,7 +189,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         #region Regras de Negócio
 
-        private bool ExisteNumeroCredencial()
+        public bool ExisteNumeroCredencial()
         {
             if (Entity == null) return false;
             var numCredencial = Entity.NumeroCredencial.RetirarCaracteresEspeciais();
@@ -672,7 +672,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             if (Entity == null || colaboradorEmpresa == null || colaboradorEmpresa.EmpresaSigla == null) return;
             Entity.Colete = colaboradorEmpresa.EmpresaSigla.Trim() + Convert.ToString (_colaboradorView.ColaboradorId);
         }
-
+        
         /// <summary>
         ///     Validar Regras de Negócio
         /// </summary>

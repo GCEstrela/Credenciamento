@@ -178,29 +178,29 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             var lst0 = _auxiliaresService.CredencialStatusService.Listar();
             CredencialStatus = new List<CredencialStatus>();
-            CredencialStatus.AddRange (lst0); 
+            CredencialStatus.AddRange (lst0.OrderBy(n => n.Descricao));
 
             var lst2 = _auxiliaresService.FormatoCredencialService.Listar();
             FormatoCredencial = new List<FormatoCredencial>();
-            FormatoCredencial.AddRange (lst2);
+            FormatoCredencial.AddRange (lst2.OrderBy(n => n.Descricao));
 
             var lst3 = _auxiliaresService.TipoCredencialService.Listar();
             TipoCredencial = new List<TipoCredencial>();
-            TipoCredencial.AddRange (lst3);
+            TipoCredencial.AddRange (lst3.OrderBy(n => n.Descricao));
 
             var lst5 = _auxiliaresService.TecnologiaCredencialService.Listar();
             TecnologiasCredenciais = new List<TecnologiaCredencial>();
-            TecnologiasCredenciais.AddRange (lst5);
-             
+            TecnologiasCredenciais.AddRange (lst5.OrderBy(n => n.Descricao));
+
             VeiculosEmpresas = new ObservableCollection<VeiculoEmpresa>();
 
              var lst7 = _auxiliaresService.AreaAcessoService.Listar();
             VeiculoPrivilegio = new List<AreaAcesso>();
-            VeiculoPrivilegio.AddRange (lst7);
+            VeiculoPrivilegio.AddRange (lst7.OrderBy(n => n.Descricao));
 
             _credencialMotivo = new List<CredencialMotivo>();
             var lst8 = _auxiliaresService.CredencialMotivoService.Listar();
-            _credencialMotivo.AddRange(lst8);
+            _credencialMotivo.AddRange(lst8.OrderBy(n => n.Descricao));
         }
 
         public void CarregaColecaoLayoutsCrachas(int empresaId)

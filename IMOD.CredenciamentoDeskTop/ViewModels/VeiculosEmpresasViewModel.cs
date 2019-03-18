@@ -117,8 +117,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                var l2 = _empresaService.Listar().ToList();
-                Empresas = l2;
+                Empresas.Clear();
+                var l2 = _empresaService.Listar().ToList().OrderBy(m=>m.Nome);
+                Empresas.AddRange(l2);
                 var l3 = _empresaContratoService.Listar().ToList();
                 Contratos = l3;
                 base.OnPropertyChanged("Entity");

@@ -251,7 +251,7 @@
                                       MaxLength="8"  CharacterCasing="Upper" 
                                       Text="{Binding Entity.NumeroCredencial,  UpdateSourceTrigger=PropertyChanged}" 
                                       Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
-                                      Height="24"  Width="65"/>
+                                      Height="24"  Width="65" LostFocus="NumeroCredencial_tb_LostFocus" />
 
 
 

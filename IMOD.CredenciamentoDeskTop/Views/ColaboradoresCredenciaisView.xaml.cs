@@ -160,5 +160,21 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
             }
         }
+
+        private void NumeroCredencial_tb_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (_viewModel.Entity == null) return;
+            try
+            {
+                var nCredencial = _viewModel.Entity.NumeroCredencial;
+                if (_viewModel.ExisteNumeroCredencial())
+                    _viewModel.Entity.SetMessageErro("NumeroCredencial", "Nº da Credencial já existe");
+                    NumeroCredencial_tb.Text = nCredencial;
+            }
+            catch (Exception)
+            {
+                _viewModel.Entity.SetMessageErro("Cnpj", "CNPJ inválido");
+            }
+        }
     }
 }
