@@ -383,6 +383,20 @@ namespace IMOD.Application.Service
         {
             return _repositorio.ListarAutorizacaoView (objects);
         }
+        public List<VeiculosCredenciaisView> ListarVeiculoCredencialConcedidasView(FiltroVeiculoCredencial entity)
+        {
+            return _repositorio.ListarVeiculoCredencialConcedidasView(entity);
+        }
+
+        public List<VeiculosCredenciaisView> ListarVeiculoCredencialViaAdicionaisView(FiltroVeiculoCredencial entity)
+        {
+            return _repositorio.ListarVeiculoCredencialViaAdicionaisView(entity);
+        }
+
+        public List<VeiculosCredenciaisView> ListarVeiculoCredencialInvalidasView(FiltroVeiculoCredencial entity)
+        {
+            return _repositorio.ListarVeiculoCredencialInvalidasView(entity);
+        }
 
         #endregion
     }
