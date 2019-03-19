@@ -56,8 +56,16 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             Comportamento.SalvarEdicao += OnSalvarEdicao;
             Comportamento.Remover += OnRemover;
             Comportamento.Cancelar += OnCancelar;
+          
             base.PropertyChanged += OnEntityChanged;
         }
+
+        private void Clear(object sender, EventArgs e)
+        {
+            EntityObserver.Clear();
+        }
+
+      
 
         #region  Metodos
 
@@ -67,9 +75,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void OnEntityChanged(object sender, PropertyChangedEventArgs e)
-        {
-            // if (e.PropertyName == "Entity") //habilitar botão alterar todas as vezes em que houver entidade diferente de null
-            // Comportamento.IsEnableEditar = true;
+        {  
             if (e.PropertyName == "Entity")
             {
                 Comportamento.IsEnableEditar = Entity != null;
@@ -203,6 +209,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
         }
 
+       
+
         /// <summary>
         ///     Acionado antes de alterar
         /// </summary>
@@ -222,7 +230,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             if(entity==null) throw new ArgumentNullException(nameof(entity));
             _colaboradorView = entity;
-            _viewModelParent = viewModelParent;
+            _viewModelParent = viewModelParent; 
+
             var list1 = _service.Listar(entity.ColaboradorId);
             var list2 = Mapper.Map<List<ColaboradorAnexoView>>(list1.OrderByDescending(n => n.ColaboradorAnexoId));
             EntityObserver = new ObservableCollection<ColaboradorAnexoView>();
