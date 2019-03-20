@@ -347,17 +347,45 @@ namespace IMOD.Application.Service
         /// </summary>
         /// <param name="geradorCredencialService"> Sub sistema de geração de credenciais de cartão de um titular</param>
         /// <param name="entity"></param>
-        public void CriarTitularCartao(ICredencialService geradorCredencialService, VeiculosCredenciaisView entity)
+        public void CriarTitularCartao(ICredencialService geradorCredencialService, IVeiculoService veiculoService,VeiculosCredenciaisView entity)
         {
             if (geradorCredencialService == null) throw new ArgumentNullException (nameof(geradorCredencialService));
             if (entity == null) throw new ArgumentNullException (nameof(entity));
             //Somente é permitido criar uma única vez o titular do cartão...
             //Os numeros GUIDs são indicação  de que já houve criação de credenciais no sub-sistema de credenciamento
             if (!string.IsNullOrWhiteSpace (entity.CardHolderGuid) & !string.IsNullOrWhiteSpace (entity.CredencialGuid)) return;
+            var titularCartao = CardHolderEntity(entity);
 
-            var titularCartao = CardHolderEntity (entity);
+
+
+
+            #region Setar o valor CardHolder GUID ao colaborador
+
+            //Buscar dados do colaborador
+            var co1 = veiculoService.Empresa.BuscarPelaChave(entity.VeiculoCredencialId);
+            if (co1 == null) throw new InvalidOperationException("Não foi possive obter um Veiculo/Equipamento");
+
+            if (string.IsNullOrWhiteSpace(co1.CardHolderGuid))
+            {
+                //Gerar titular do cartão no sub-sistema de credenciamento (Genetec)
+                geradorCredencialService.CriarCardHolder(titularCartao);
+                co1.CardHolderGuid = titularCartao.IdentificadorCardHolderGuid;
+                veiculoService.Empresa.Alterar(co1);
+            }
+
+            titularCartao.IdentificadorCardHolderGuid = co1.CardHolderGuid;
+
+
+            #endregion
+
+
+
+
+
+
+
             //Gerar titular do cartão no sub-sistema de credenciamento (Genetec)
-            geradorCredencialService.CriarCardHolder (titularCartao);
+            //geradorCredencialService.CriarCardHolder (titularCartao);
             //Gerar Credencial do titular do cartão no sub-sistema de credenciamento (Genetec)
             geradorCredencialService.CriarCredencial (titularCartao);
             //Atualizar dados do identificador GUID

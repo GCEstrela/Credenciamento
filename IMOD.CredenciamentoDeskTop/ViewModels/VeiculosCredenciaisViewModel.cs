@@ -378,7 +378,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 MensagemAlerta = "";
                 Entity = null;
                 _viewModelParent.HabilitaControleTabControls(true, true, true, true, true, true); 
-                //ExibirCheckDevolucao(Entity); 
+                
             }
             catch (Exception ex)
             {
@@ -500,7 +500,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 //===================================================
                 Entity = null;
                 _viewModelParent.HabilitaControleTabControls(true, true, true, true, true, true);
-                //ExibirCheckDevolucao(Entity); 
+               
 
             }
             catch (Exception ex)
@@ -510,6 +510,21 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
         }
 
+        /// <summary>
+        /// Criar CardHolder e Credencial do usuario
+        /// <para>Criar um card holder caso o usuario nao o possua</para>
+        /// </summary>
+        /// <param name="veiculoCredencialId">Identificador</param>
+        private void GerarCardHolder(int veiculoCredencialId, VeiculosCredenciaisView entity)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+
+            var n1 = _service.BuscarCredencialPelaChave(veiculoCredencialId);
+
+            var tecCredencial = _auxiliaresService.TecnologiaCredencialService.BuscarPelaChave(entity.TecnologiaCredencialId);
+            if (tecCredencial.PodeGerarCardHolder)
+                _service.CriarTitularCartao(new CredencialGenetecService(Main.Engine), new VeiculoService(), n1);
+        }
         /// <summary>
         ///     Cancelar operação
         /// </summary>

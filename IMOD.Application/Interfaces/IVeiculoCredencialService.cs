@@ -82,7 +82,7 @@ namespace IMOD.Application.Interfaces
         /// </summary>
         /// <param name="geradorCredencialService"> Sub sistema de geração de credenciais de cartão de um titular</param>
         /// <param name="entity"></param>
-        void CriarTitularCartao(ICredencialService geradorCredencialService, VeiculosCredenciaisView entity);
+        void CriarTitularCartao(ICredencialService geradorCredencialService, IVeiculoService veiculoService,VeiculosCredenciaisView entity);
 
         /// <summary>
         ///     Alterar o status de um titular de cartão no  sub-sistema de credenciamento (Genetec)

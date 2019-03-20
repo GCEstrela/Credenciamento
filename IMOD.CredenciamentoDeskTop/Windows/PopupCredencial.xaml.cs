@@ -142,18 +142,7 @@ namespace IMOD.CredenciamentoDeskTop.Windows
                             DataImpressao = DateTime.Today.Date,
                             Valor = _layoutCracha.Valor
 
-                        });
-
-                        //Não deve ser criada dado na sub-rotina de credenciamento quando a tecnologia da credencial nao permitir
-                        //TODO:Retirar condicional fazendo referencia ao identificador
-                        if (_entity.TecnologiaCredencialId != 0)
-                        {
-                            //Gerar card Holder e Credencial
-                            //Uma data de validade é necessária para geração da credencial
-                            if (_entity.Validade == null) throw new InvalidOperationErrorException("A validade da credencial deve ser informada.");
-                            _service.CriarTitularCartao(new CredencialGenetecService(Main.Engine),new ColaboradorService(), _entity);
-                        }
-                   
+                        }); 
                     
                         this.Close();
                     }
