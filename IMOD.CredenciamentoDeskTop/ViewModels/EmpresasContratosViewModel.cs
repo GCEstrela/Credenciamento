@@ -92,7 +92,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         ///     Habilita listView
         /// </summary>
         public bool IsEnableLstView { get; private set; } = true;
-
+        
         #endregion
 
         public EmpresasContratosViewModel()
@@ -144,8 +144,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             var lst4 = _auxiliaresService.TiposAcessoService.Listar();
             ListaTipoAcessos = new List<TipoAcesso>();
             ListaTipoAcessos.AddRange (lst4);
-        }
 
+        }
+        
         /// <summary>
         ///     Listar Municipios
         /// </summary>
@@ -228,7 +229,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 var n1 = Mapper.Map<EmpresaContrato> (Entity);
                 n1.EmpresaId = _empresaView.EmpresaId;
-                _service.Criar (n1);
+                _service.Criar(n1);
                 //Adicionar no inicio da lista um item a coleção
                 var n2 = Mapper.Map<EmpresaContratoView> (n1);
                 EntityObserver.Insert (0, n2);
