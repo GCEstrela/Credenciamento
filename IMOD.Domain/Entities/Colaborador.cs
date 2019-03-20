@@ -51,7 +51,6 @@ namespace IMOD.Domain.Entities
         public DateTime? CnhValidade { get; set; }
         public string CnhEmissor { get; set; }
         public string Cnhuf { get; set; }
-        public string Bagagem { get; set; }
         public DateTime? DataEmissao { get; set; }
         public DateTime? DataValidade { get; set; }
         public bool Ativo { get; set; }

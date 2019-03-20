@@ -72,8 +72,6 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public DateTime? CnhValidade { get; set; }
         public string CnhEmissor { get; set; }
         public string Cnhuf { get; set; }
-        //[Required(ErrorMessage = "Manuseia Bagagem é requerido.")]
-        public string Bagagem { get; set; }
         public DateTime? DataEmissao { get; set; }
         public DateTime? DataValidade { get; set; }
         

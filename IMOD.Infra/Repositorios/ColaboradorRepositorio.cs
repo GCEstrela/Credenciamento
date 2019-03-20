@@ -154,7 +154,6 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("CNHValidade", DbType.Date, entity.CnhValidade, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("CNHEmissor", entity.CnhEmissor, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("CNHUF", entity.Cnhuf, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Bagagem", entity.Bagagem, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("DataEmissao", DbType.Date, entity.DataEmissao, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("DataValidade", DbType.Date, entity.DataValidade, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Ativo", entity.Ativo, false)));
@@ -256,7 +255,6 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("CNHValidade", DbType.Date, entity.CnhValidade, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("CNHEmissor", entity.CnhEmissor, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("CNHUF", entity.Cnhuf, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Bagagem", entity.Bagagem, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("DataEmissao", DbType.Date, entity.DataEmissao, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("DataValidade", DbType.Date, entity.DataValidade, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Ativo", true, false)));

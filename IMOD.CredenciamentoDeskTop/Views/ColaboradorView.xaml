@@ -705,12 +705,6 @@
                                     <ComboBoxItem Content="E" />
                                 </ComboBox>
 
-                                <Label Content="Manuseia Bagagem" Foreground="#FFD0D0D0" Height="24" Width="200"
-                                       HorizontalContentAlignment="Right" />
-                                <CheckBox x:Name="Bagagem_cb" VerticalContentAlignment="Center" Margin="5,10,0,-5"
-                                          Height="24" Foreground="#FFD0D0D0"
-                                          IsChecked="{Binding Entity.Bagagem, UpdateSourceTrigger=PropertyChanged}" 
-                                          Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
                             </StackPanel>
                         </StackPanel>
                     </GroupBox>
