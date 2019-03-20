@@ -152,8 +152,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
             #region Habilitar botão de impressao e mensagem ao usuario
 
-            //Verifica se a data de validade da credencial é maior que a data atural
-            HabilitaImpressao = entity.Ativa && !entity.PendenciaImpeditiva && !entity.Impressa && (entity.ColaboradorCredencialId > 0) && entity.Validade >= DateTime.Now.Date;
+            //Condição que impede impressão para credenciais extraviadas-9/roubadas-10 sem entregas de BO.
+            bool isCondicaoImpressaoPorMotivo = entity.CredencialStatusId == 2 && entity.Baixa == null && (entity.DevolucaoEntregaBoId == 0)
+                && (entity.CredencialMotivoId == 9 || entity.CredencialMotivoId == 10);
+
+            HabilitaImpressao = entity.Ativa && !entity.PendenciaImpeditiva && !entity.Impressa && (entity.ColaboradorCredencialId > 0) && entity.Validade >= DateTime.Now.Date && isCondicaoImpressaoPorMotivo;
+            
             //Verificar se a empresa esta impedida
             var n1 = _service.BuscarCredencialPelaChave(entity.ColaboradorCredencialId);
             var mensagem1 = !n1.Ativa ? "Credencial Inativa" : string.Empty;
