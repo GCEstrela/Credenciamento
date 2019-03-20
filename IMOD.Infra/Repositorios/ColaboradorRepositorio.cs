@@ -165,8 +165,11 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Pendente23", entity.Pendente23, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Pendente24", entity.Pendente24, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Pendente25", entity.Pendente25, false)));
+                       
+        
 
-                        cmd.ExecuteNonQuery();
+
+        cmd.ExecuteNonQuery();
                     }
                     catch (Exception ex)
                     {

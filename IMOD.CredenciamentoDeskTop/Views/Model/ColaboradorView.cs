@@ -24,7 +24,7 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         #region  Propriedades
 
         public int ColaboradorId {get; set; }
-        [Required(ErrorMessage = "O Nome é requerido.")]
+        [Required(ErrorMessage = "O Nome é requerido.")] 
         public string Nome { get; set; }
         [Required(ErrorMessage = "O Apelido é requerido.")]
         public string Apelido { get; set; }

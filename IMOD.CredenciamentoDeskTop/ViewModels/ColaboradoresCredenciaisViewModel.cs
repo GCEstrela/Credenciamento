@@ -410,6 +410,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 IsEnableLstView = true;
                 SelectListViewIndex = 0;
 
+                #region Verificar se pode gerar CardHolder
+
+                GerarCardHolder();
+
+                #endregion
+
                 var list1 = _service.ListarView (null, null, null, null, _colaboradorView.ColaboradorId).ToList();
                 var list2 = Mapper.Map<List<ColaboradoresCredenciaisView>> (list1.OrderByDescending (n => n.ColaboradorCredencialId));
                 EntityObserver = new ObservableCollection<ColaboradoresCredenciaisView>();
@@ -491,23 +497,21 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 n1.DevolucaoEntregaBoId = IsCheckDevolucao ? Entity.DevolucaoEntregaBoId : 0;
                 //Alterar o status do titular do cartão
                 _service.AlterarStatusTitularCartao (new CredencialGenetecService (Main.Engine), Entity, n1);
-
-                //===================================================
+                 
                 //Atualizar dados a serem exibidas na tela de empresa
                 if (Entity == null) return;
                 _service.CriarPendenciaImpeditiva (Entity);
                 var view = new ViewSingleton().EmpresaView;
                 var dados = view.DataContext as IAtualizarDados;
                 dados.AtualizarDadosPendencias();
-                //===================================================
-                if (Entity.TecnologiaCredencialId != 0)
-                {
-                    //Gerar card Holder e Credencial
-                    //Uma data de validade é necessária para geração da credencial
-                    //if (_entity.Validade == null) throw new InvalidOperationErrorException("A validade da credencial deve ser informada.");
-                    _service.CriarTitularCartao(new CredencialGenetecService(Main.Engine), Entity);
-                }
-                //===================================================
+
+                #region Verificar se pode gerar CardHolder
+
+                GerarCardHolder();
+
+                #endregion
+
+
                 //Atualizar Observer
                 var list1 = _service.ListarView (null, null, null, null, _colaboradorView.ColaboradorId).ToList();
                 var list2 = Mapper.Map<List<ColaboradoresCredenciaisView>>(list1.OrderByDescending(n => n.ColaboradorCredencialId));
@@ -519,7 +523,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 //===================================================
                 Entity = null;
                 _viewModelParent.HabilitaControleTabControls (true, true, true, true, true, true);
-                //ExibirCheckDevolucao(Entity); 
+               
                 
             }
             catch (Exception ex)
@@ -527,6 +531,16 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 Utils.TraceException (ex);
                 WpfHelp.PopupBox (ex);
             }
+        }
+
+        /// <summary>
+        /// Verificar se pode gerar CardHolder
+        /// </summary>
+        private void GerarCardHolder()
+        {
+            var tecCredencial = _auxiliaresService.TecnologiaCredencialService.BuscarPelaChave (Entity.TecnologiaCredencialId);
+            if (tecCredencial.PodeGerarCardHolder)
+                _service.CriarTitularCartao (new CredencialGenetecService (Main.Engine), new ColaboradorService(), Entity);
         }
 
         /// <summary>

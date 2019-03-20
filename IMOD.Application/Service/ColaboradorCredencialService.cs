@@ -122,6 +122,9 @@ namespace IMOD.Application.Service
                 Ativo = entity.Ativa,
                 Empresa = entity.EmpresaNome,
                 Nome = entity.ColaboradorNome,
+                Cnpj = entity.Cnpj,
+                Cpf = entity.Cpf,
+                Cargo = entity.Cargo,
                 Identificador = entity.Cpf,
                 Apelido = entity.ColaboradorApelido,
                 IdentificadorCardHolderGuid = entity.CardHolderGuid,
@@ -365,6 +368,55 @@ namespace IMOD.Application.Service
         }
 
         /// <summary>
+        ///     Criar um titular de cartão no sub-sistema de credenciamento (Genetec)
+        /// </summary>
+        /// <param name="geradorCredencialService">Sub sistema de geração de credenciais de cartão de um titular</param>
+        /// <param name="colaboradorService">Colaborador service</param>
+        /// <param name="entity"></param>
+        public void CriarTitularCartao(ICredencialService geradorCredencialService,IColaboradorService colaboradorService, ColaboradoresCredenciaisView entity)
+        {
+            if (geradorCredencialService == null) throw new ArgumentNullException(nameof(geradorCredencialService));
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            //Somente é permitido criar uma única vez o titular do cartão...
+            //Os numeros GUIDs são indicação  de que já houve criação de credenciais no sub-sistema de credenciamento
+            if (!string.IsNullOrWhiteSpace(entity.CardHolderGuid) & !string.IsNullOrWhiteSpace(entity.CredencialGuid)) return;
+
+            var titularCartao = CardHolderEntity(entity);
+
+            #region Setar o valor CardHolder GUID ao colaborador
+
+            //Buscar dados do colaborador
+            var co1 = colaboradorService.Empresa.BuscarPelaChave (entity.ColaboradorEmpresaId);
+            if (co1 == null) throw new InvalidOperationException("Não foi possive obter um colaborador");
+
+            if (string.IsNullOrWhiteSpace(co1.CardHolderGuid))
+            {
+                //Gerar titular do cartão no sub-sistema de credenciamento (Genetec)
+                geradorCredencialService.CriarCardHolder(titularCartao);
+                co1.CardHolderGuid = titularCartao.IdentificadorCardHolderGuid;
+                colaboradorService.Empresa.Alterar(co1);
+            }
+
+            titularCartao.IdentificadorCardHolderGuid = co1.CardHolderGuid;
+
+
+            #endregion
+
+            //Sistema somente gerar credencial se o tipo de autenticação permitir
+            //Gerar Credencial do titular do cartão no sub-sistema de credenciamento (Genetec)
+            geradorCredencialService.CriarCredencial(titularCartao);
+            //Atualizar dados do identificador GUID
+            entity.CardHolderGuid = titularCartao.IdentificadorCardHolderGuid;
+            entity.CredencialGuid = titularCartao.IdentificadorCredencialGuid;
+            var n1 = BuscarPelaChave(entity.ColaboradorCredencialId);
+            n1.CardHolderGuid = titularCartao.IdentificadorCardHolderGuid;
+            n1.CredencialGuid = titularCartao.IdentificadorCredencialGuid;
+
+            Alterar(n1);
+        }
+ 
+
+        /// <summary>
         ///     Criar registro credencial e obter data de validade da credencial
         /// </summary>
         /// <param name="entity">Entidade</param>
@@ -403,35 +455,7 @@ namespace IMOD.Application.Service
             _repositorio.Remover (entity);
         }
 
-        /// <summary>
-        ///     Criar um titular de cartão no sub-sistema de credenciamento (Genetec)
-        /// </summary>
-        /// <param name="geradorCredencialService"> Sub sistema de geração de credenciais de cartão de um titular</param>
-        /// <param name="entity"></param>
-        public void CriarTitularCartao(ICredencialService geradorCredencialService, ColaboradoresCredenciaisView entity)
-        {
-            if (geradorCredencialService == null) throw new ArgumentNullException (nameof (geradorCredencialService));
-            if (entity == null) throw new ArgumentNullException (nameof (entity));
-            //Somente é permitido criar uma única vez o titular do cartão...
-            //Os numeros GUIDs são indicação  de que já houve criação de credenciais no sub-sistema de credenciamento
-            if (!string.IsNullOrWhiteSpace (entity.CardHolderGuid) & !string.IsNullOrWhiteSpace (entity.CredencialGuid)) return;
-
-            var titularCartao = CardHolderEntity (entity);
-            //Gerar titular do cartão no sub-sistema de credenciamento (Genetec)
-            geradorCredencialService.CriarCardHolder (titularCartao);
-
-            //Sistema somente gerar credencial se o tipo de autenticação permitir
-            //Gerar Credencial do titular do cartão no sub-sistema de credenciamento (Genetec)
-            geradorCredencialService.CriarCredencial (titularCartao);
-            //Atualizar dados do identificador GUID
-            entity.CardHolderGuid = titularCartao.IdentificadorCardHolderGuid;
-            entity.CredencialGuid = titularCartao.IdentificadorCredencialGuid;
-            var n1 = BuscarPelaChave (entity.ColaboradorCredencialId);
-            n1.CardHolderGuid = titularCartao.IdentificadorCardHolderGuid;
-            n1.CredencialGuid = titularCartao.IdentificadorCredencialGuid;
-
-            Alterar (n1);
-        }
+        
 
         #endregion
     }

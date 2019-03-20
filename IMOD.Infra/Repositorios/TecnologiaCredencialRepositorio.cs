@@ -52,6 +52,7 @@ namespace IMOD.Infra.Repositorios
                     {
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("TecnologiaCredencialID", entity.TecnologiaCredencialId, true)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Descricao", entity.Descricao, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("PodeGerarCardHolder", entity.PodeGerarCardHolder, false)));
 
                         var key = Convert.ToInt32(cmd.ExecuteScalar());
 
@@ -140,6 +141,7 @@ namespace IMOD.Infra.Repositorios
                     {
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("TecnologiaCredencialID", entity.TecnologiaCredencialId, true)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Descricao", entity.Descricao, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("PodeGerarCardHolder", entity.PodeGerarCardHolder, false)));
 
                         cmd.ExecuteNonQuery();
                     }

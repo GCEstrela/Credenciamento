@@ -15,6 +15,7 @@ using System.Windows.Media;
 using AutoMapper;
 using CrystalDecisions.CrystalReports.Engine;
 using IMOD.Application.Interfaces;
+using IMOD.Application.Service;
 using IMOD.CredenciamentoDeskTop.Helpers;
 using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
@@ -150,7 +151,7 @@ namespace IMOD.CredenciamentoDeskTop.Windows
                             //Gerar card Holder e Credencial
                             //Uma data de validade é necessária para geração da credencial
                             if (_entity.Validade == null) throw new InvalidOperationErrorException("A validade da credencial deve ser informada.");
-                            _service.CriarTitularCartao(new CredencialGenetecService(Main.Engine), _entity);
+                            _service.CriarTitularCartao(new CredencialGenetecService(Main.Engine),new ColaboradorService(), _entity);
                         }
                    
                     
@@ -170,28 +171,29 @@ namespace IMOD.CredenciamentoDeskTop.Windows
 
         private void Imprimir()
         {
-      
-            var dialog1 = new PrintDialog();
-            dialog1.AllowSomePages = true;
-            dialog1.AllowPrintToFile = false;
+            //TODO:Descomentar rotina
+            confirmacaoImpressao = true;
+            //var dialog1 = new PrintDialog();
+            //dialog1.AllowSomePages = true;
+            //dialog1.AllowPrintToFile = false;
 
-            if (dialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                int copies = dialog1.PrinterSettings.Copies;
-                var fromPage = dialog1.PrinterSettings.FromPage;
-                var toPage = dialog1.PrinterSettings.ToPage;
-                var collate = dialog1.PrinterSettings.Collate;
+            //if (dialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            //{
+            //    int copies = dialog1.PrinterSettings.Copies;
+            //    var fromPage = dialog1.PrinterSettings.FromPage;
+            //    var toPage = dialog1.PrinterSettings.ToPage;
+            //    var collate = dialog1.PrinterSettings.Collate;
 
-                _report.PrintOptions.PrinterName = dialog1.PrinterSettings.PrinterName;
-                _report.PrintToPrinter(copies, collate, fromPage, toPage);
-                confirmacaoImpressao = true;
-            }
-            else
-            {
-                confirmacaoImpressao = false;
-            }
+            //    _report.PrintOptions.PrinterName = dialog1.PrinterSettings.PrinterName;
+            //    _report.PrintToPrinter(copies, collate, fromPage, toPage);
+            //    confirmacaoImpressao = true;
+            //}
+            //else
+            //{
+            //    confirmacaoImpressao = false;
+            //}
 
-            dialog1.Dispose();
+            //dialog1.Dispose();
         }
 
         private void ChangePage_bt_Click(object sender, RoutedEventArgs e)

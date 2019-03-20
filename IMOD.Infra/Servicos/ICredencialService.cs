@@ -18,12 +18,14 @@ namespace IMOD.Infra.Servicos
 
         /// <summary>
         ///     Criar Card Holder (Titular do cartão)
+        /// <para>Criar um CardHolder se nao existir</para>
         /// </summary>
         /// <param name="entity"></param>
         void CriarCardHolder(CardHolderEntity entity);
 
         /// <summary>
         ///     Criar Credencial para um Card Holder (Titular do cartão)
+        ///     <para>Criar um CardHolder se nao existir</para>
         /// </summary>
         /// <param name="entity"></param>
         void CriarCredencial(CardHolderEntity entity);
