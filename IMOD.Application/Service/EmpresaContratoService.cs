@@ -21,6 +21,8 @@ namespace IMOD.Application.Service
     public class EmpresaContratoService : IEmpresaContratosService
     {
         private readonly IEmpresaContratoRepositorio _repositorio = new EmpresaContratoRepositorio();
+        private readonly IDadosAuxiliaresFacade _auxiliaresServiceConfiguraSistema = new DadosAuxiliaresFacadeService();
+        private ConfiguraSistema _configuraSistema;
 
         #region  Propriedades
 
@@ -61,17 +63,31 @@ namespace IMOD.Application.Service
         {
             get { return new MunicipioService(); }
         }
-
+        public bool IsEnableComboContrato { get; private set; } = true;
         #endregion
-
         #region  Metodos
-
+        /// <summary>
+        /// Obtem configuração de sistema
+        /// </summary>
+        /// <returns></returns>
+        private ConfiguraSistema ObterConfiguracao()
+        {
+            //Obter configuracoes de sistema
+            var config = _auxiliaresServiceConfiguraSistema.ConfiguraSistemaService.Listar();
+            //Obtem o primeiro registro de configuracao
+            if (config == null) throw new InvalidOperationException("Não foi possivel obter dados de configuração do sistema.");
+            return config.FirstOrDefault();
+        }
         /// <summary>
         ///     Alterar a data de validade de um contrato básico para a maior data de validade de um outro contrato
         /// </summary>
         /// <param name="entity"></param>
         private void AlterarMaiorDataValidadeContratoBasico(EmpresaContrato entity)
         {
+            //if (!contrato)
+            //{
+            //    return; 
+            //}
             //Verificar se há um contrato básico
             //Status ativo
             var status = Status.Listar().FirstOrDefault(n => n.CodigoStatus);
@@ -92,7 +108,7 @@ namespace IMOD.Application.Service
         ///     vinculados a empresa
         /// </summary>
         /// <param name="entity"></param>
-        private void AlterarMaiorDataValidadeContratoBasicoEntreContratos(EmpresaContrato entity)
+        public void AlterarMaiorDataValidadeContratoBasicoEntreContratos(EmpresaContrato entity)
         {
             //Verificar se há um contrato básico
             //Status ativo
@@ -134,7 +150,11 @@ namespace IMOD.Application.Service
         /// <param name="entity">Entidade</param>
         public void Criar(EmpresaContrato entity)
         {
-            AlterarMaiorDataValidadeContratoBasico (entity);
+            _configuraSistema = ObterConfiguracao();
+            if (_configuraSistema.Contrato)
+            {
+                AlterarMaiorDataValidadeContratoBasicoEntreContratos(entity);
+            }
             _repositorio.Criar (entity);
 
             #region Retirar pendencias de sistema exceto para contratos do tipo básico
@@ -178,7 +198,12 @@ namespace IMOD.Application.Service
         {
            
             _repositorio.Alterar (entity);
-            AlterarMaiorDataValidadeContratoBasicoEntreContratos(entity);
+            _configuraSistema = ObterConfiguracao();
+            if (_configuraSistema.Contrato)
+            {
+                AlterarMaiorDataValidadeContratoBasicoEntreContratos(entity);
+            }
+
         }
 
         /// <summary>

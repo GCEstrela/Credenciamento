@@ -41,16 +41,18 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
     {
         private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
         private readonly IColaboradorEmpresaService _colaboradorEmpresaService = new ColaboradorEmpresaService();
-        private readonly ConfiguraSistema _configuraSistema;
+       
         private readonly IEmpresaContratosService _contratosService = new EmpresaContratoService();
         private readonly IColaboradorCredencialService _service = new ColaboradorCredencialService();
-
+        private ColaboradorView _colaboradorView;
         /// <summary>
         ///     Lista de todos os contratos disponíveis
         /// </summary>
         private readonly List<ColaboradorEmpresa> _todosContratosEmpresas = new List<ColaboradorEmpresa>();
 
-        private ColaboradorView _colaboradorView;
+        private readonly IDadosAuxiliaresFacade _auxiliaresServiceConfiguraSistema = new DadosAuxiliaresFacadeService();
+        private ConfiguraSistema _configuraSistema;
+       
 
         private int _count;
         private List<CredencialMotivo> _credencialMotivo;
@@ -124,7 +126,17 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         ///     Seleciona indice da listview
         /// </summary>
         public short SelectListViewIndex { get; set; }
-
+        ///// <summary>
+        /////     Habilita Concatenação da Combo Empresa e Contratos
+        ///// </summary>
+        public bool IsEnableComboContrato { get; set; } = true;
+        //public bool IsEnableComboContrato
+        //{
+        //    get
+        //    {
+        //        return !_configuraSistema.Contrato;
+        //    }
+        //}
         #endregion
 
         public ColaboradoresCredenciaisViewModel()
@@ -139,7 +151,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             Comportamento.Cancelar += OnCancelar;
             PropertyChanged += OnEntityChanged;
             SelectListViewIndex = -1;
-            _configuraSistema = ObterConfiguracao();
+            //_configuraSistema = ObterConfiguracao();
         }
 
         #region  Metodos
@@ -243,10 +255,28 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             ColaboradorPrivilegio.AddRange(lst7.OrderBy(n => n.Descricao));
 
             var lst8 = _auxiliaresService.CredencialMotivoService.Listar();
-            _credencialMotivo = new List<CredencialMotivo>(); 
-            _credencialMotivo.AddRange(lst8.OrderBy(n => n.Descricao));
-        }
+            _credencialMotivo = new List<CredencialMotivo>();
+            //_credencialMotivo = new List<CredencialMotivo>(lst8.OrderBy(n => n.Descricao));
+            _credencialMotivo.AddRange (lst8.OrderBy(n => n.Descricao));
 
+            _configuraSistema = ObterConfiguracao();            
+            if (_configuraSistema.Contrato) //Se contrato for automático for true a combo sera removida do formulário
+            {
+                IsEnableComboContrato = false;
+            }
+        }
+        /// <summary>
+        /// Obtem configuração de sistema
+        /// </summary>
+        /// <returns></returns>
+        private ConfiguraSistema ObterConfiguracao()
+        {
+            //Obter configuracoes de sistema
+            var config = _auxiliaresServiceConfiguraSistema.ConfiguraSistemaService.Listar();
+            //Obtem o primeiro registro de configuracao
+            if (config == null) throw new InvalidOperationException("Não foi possivel obter dados de configuração do sistema.");
+            return config.FirstOrDefault();
+        }
         /// <summary>
         /// </summary>
         /// <param name="empresaId"></param>
@@ -441,7 +471,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             //Obter configuracoes de sistema
             var config = _auxiliaresService.ConfiguraSistemaService.Listar();
             //Obtem o primeiro registro de configuracao
-            if (config == null) throw new InvalidOperationException("Não foi possivel obter dados de configuração do sistema.");
+            if (config == null) throw new InvalidOperationException ("Não foi possivel obter dados de configuração do sistema.");
             return config.FirstOrDefault();
         }
 
