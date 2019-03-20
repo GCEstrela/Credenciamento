@@ -150,8 +150,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             Comportamento.Remover += OnRemover;
             Comportamento.Cancelar += OnCancelar;
             PropertyChanged += OnEntityChanged;
-            SelectListViewIndex = -1;
-            //_configuraSistema = ObterConfiguracao();
+            SelectListViewIndex = -1; 
         }
 
         #region  Metodos
@@ -229,23 +228,19 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private void ListarDadosAuxiliares()
         {
             var lst0 = _auxiliaresService.CredencialStatusService.Listar();
-            CredencialStatus = new List<CredencialStatus>();
-            //CredencialStatus = new List<CredencialStatus>(lst0.OrderBy(n => n.Descricao));
+            CredencialStatus = new List<CredencialStatus>(); 
             CredencialStatus.AddRange(lst0.OrderBy(n => n.Descricao));
 
             var lst2 = _auxiliaresService.FormatoCredencialService.Listar();
-            FormatoCredencial = new List<FormatoCredencial>();
-            //FormatoCredencial = new List<FormatoCredencial>(lst2.OrderBy(n => n.Descricao));
+            FormatoCredencial = new List<FormatoCredencial>(); 
             FormatoCredencial.AddRange(lst2.OrderBy(n => n.Descricao));
 
             var lst3 = _auxiliaresService.TipoCredencialService.Listar();
-            TipoCredencial = new List<TipoCredencial>();
-            //TipoCredencial = new List<TipoCredencial>(lst3.OrderBy(n => n.Descricao));
+            TipoCredencial = new List<TipoCredencial>(); 
             TipoCredencial.AddRange(lst3.OrderBy(n => n.Descricao));
 
             var lst5 = _auxiliaresService.TecnologiaCredencialService.Listar();
-            TecnologiasCredenciais = new List<TecnologiaCredencial>();
-            //TecnologiasCredenciais = new List<TecnologiaCredencial>(lst5.OrderBy(n => n.Descricao));
+            TecnologiasCredenciais = new List<TecnologiaCredencial>(); 
             TecnologiasCredenciais.AddRange(lst5.OrderBy(n => n.Descricao));
 
             ColaboradoresEmpresas = new ObservableCollection<ColaboradorEmpresa>();
@@ -264,19 +259,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 IsEnableComboContrato = false;
             }
-        }
-        /// <summary>
-        /// Obtem configuração de sistema
-        /// </summary>
-        /// <returns></returns>
-        private ConfiguraSistema ObterConfiguracao()
-        {
-            //Obter configuracoes de sistema
-            var config = _auxiliaresServiceConfiguraSistema.ConfiguraSistemaService.Listar();
-            //Obtem o primeiro registro de configuracao
-            if (config == null) throw new InvalidOperationException("Não foi possivel obter dados de configuração do sistema.");
-            return config.FirstOrDefault();
-        }
+        } 
+
+
         /// <summary>
         /// </summary>
         /// <param name="empresaId"></param>
@@ -592,9 +577,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 _prepareAlterarCommandAcionado = false;
                 IsEnableLstView = true;
                 if (Entity != null) Entity.ClearMessageErro();
-                Entity = null;
-                //Listar todas contratos 
-                //ListarTodosContratos();
+                Entity = null; 
                 ListarColaboradoresCredenciais(_colaboradorView);
                 _viewModelParent.HabilitaControleTabControls(true, true, true, true, true, true);
             }
@@ -665,9 +648,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 //Atualizar observer
                 OnPropertyChanged("Entity");
-                CollectionViewSource.GetDefaultView(EntityObserver).Refresh(); //Atualizar observer
-                                                                               //Não deve ser criada dado na sub-rotina de credenciamento quando a tecnologia da credencial nao permitir
-                                                                               //TODO:Retirar condicional fazendo referencia ao identificador
+                CollectionViewSource.GetDefaultView(EntityObserver).Refresh(); 
 
             }
             catch (Exception ex)
