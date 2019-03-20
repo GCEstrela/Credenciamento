@@ -12,6 +12,7 @@ namespace IMOD.Domain.Entities
 
         public int TecnologiaCredencialId { get; set; }
         public string Descricao { get; set; }
+        public bool PodeGerarCardHolder { get; set; }
 
         #endregion
     }

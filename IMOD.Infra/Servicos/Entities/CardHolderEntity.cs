@@ -42,11 +42,11 @@ namespace IMOD.Infra.Servicos.Entities
             set { _numeroCredencial = value; }
         }
 
-        //public string Cargo
-        //{
-        //    get { return _cargo.Truncate(10); }
-        //    set { _cargo = value; }
-        //}
+        public string Cargo
+        {
+            get { return _cargo.Truncate(10); }
+            set { _cargo = value; }
+        }
 
         public string Nome
         {
@@ -60,17 +60,17 @@ namespace IMOD.Infra.Servicos.Entities
             set { _apelido = value; }
         }
 
-        //public string Cpf
-        //{
-        //    get { return _cpf.Truncate (11); }
-        //    set { _cpf = value; }
-        //}
+        public string Cpf
+        {
+            get { return _cpf.Truncate(11); }
+            set { _cpf = value; }
+        }
 
-        //public string Cnpj
-        //{
-        //    get { return _cnpj.Truncate (14); }
-        //    set { _cnpj = value; }
-        //}
+        public string Cnpj
+        {
+            get { return _cnpj.Truncate(14); }
+            set { _cnpj = value; }
+        }
 
         /// <summary>
         /// Um identificador qualificado 

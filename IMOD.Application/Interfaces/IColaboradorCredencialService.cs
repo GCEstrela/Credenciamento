@@ -76,12 +76,20 @@ namespace IMOD.Application.Interfaces
         /// <returns></returns>
         bool ExisteNumeroCredencial(string numCredencial);
 
+        ///// <summary>
+        /////     Criar um titular de cartão no sub-sistema de credenciamento (Genetec)
+        ///// </summary>
+        ///// <param name="geradorCredencialService"> Sub sistema de geração de credenciais de cartão de um titular</param>
+        ///// <param name="entity"></param>
+        //void CriarTitularCartao(ICredencialService geradorCredencialService, ColaboradoresCredenciaisView entity);
+
         /// <summary>
         ///     Criar um titular de cartão no sub-sistema de credenciamento (Genetec)
         /// </summary>
-        /// <param name="geradorCredencialService"> Sub sistema de geração de credenciais de cartão de um titular</param>
+        /// <param name="geradorCredencialService">Sub sistema de geração de credenciais de cartão de um titular</param>
+        /// <param name="colaboradorService">Colaborador service</param>
         /// <param name="entity"></param>
-        void CriarTitularCartao(ICredencialService geradorCredencialService, ColaboradoresCredenciaisView entity);
+        void CriarTitularCartao(ICredencialService geradorCredencialService, IColaboradorService colaboradorService, ColaboradoresCredenciaisView entity);
 
         /// <summary>
         ///     Alterar o status de um titular de cartão no  sub-sistema de credenciamento (Genetec)

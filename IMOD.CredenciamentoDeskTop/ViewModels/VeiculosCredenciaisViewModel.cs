@@ -427,11 +427,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             if (entity.VeiculoCredencialId <=0) return;
 
             #region Habilitar botão de impressao e mensagem ao usuario
-            //================================================================================
-            //Autor: Valnei Filho
-            //Data:08/03/19
-            //Wrk:O botão imprimir credencial habilitado apenas para registros, não impresso e ativo, desabilitado caso contrário
-            HabilitaImpressao = entity.Ativa & !entity.PendenciaImpeditiva & !entity.Impressa && entity.Validade >= DateTime.Now.Date; 
+
+            //Condição que impede impressão para credenciais extraviadas-9/roubadas-10 sem entregas de BO. 
+            bool isCondicaoImpressaoPorMotivo = entity.CredencialStatusId == 2 && entity.Baixa == null && (entity.DevolucaoEntregaBoId == 0)
+                && (entity.CredencialMotivoId == 9 || entity.CredencialMotivoId == 10);
+
+            HabilitaImpressao = entity.Ativa & !entity.PendenciaImpeditiva & !entity.Impressa && entity.Validade >= DateTime.Now.Date && isCondicaoImpressaoPorMotivo; 
             //Verificar se a empresa esta impedida
             var n1 = _service.BuscarCredencialPelaChave(entity.VeiculoCredencialId);
             var mensagem1 = !n1.Ativa ? "Autorização Inativa" : string.Empty;
