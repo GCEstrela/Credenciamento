@@ -4,6 +4,7 @@
 // Date:  12 - 13 - 2018
 // ***********************************************************************
 
+using System;
 using System.ComponentModel.DataAnnotations;
 using IMOD.CredenciamentoDeskTop.Funcoes;
 
@@ -25,6 +26,10 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public string Cargo { get; set; }
         public string Matricula { get; set; }
         public bool Ativo { get; set; }
+        public string NomeAnexo { get; set; }
+        public string Anexo { get; set; }
+        public DateTime? Validade { get; set; }
+        public bool ManuseioBagagem { get; set; }
 
         #endregion
     }
