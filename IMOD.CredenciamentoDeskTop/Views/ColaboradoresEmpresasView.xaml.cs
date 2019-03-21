@@ -6,9 +6,14 @@
 
 #region
 
+using System;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
+using IMOD.CredenciamentoDeskTop.Helpers;
 using IMOD.CredenciamentoDeskTop.ViewModels;
+using IMOD.CrossCutting;
 
 #endregion
 
@@ -57,11 +62,69 @@ namespace IMOD.CredenciamentoDeskTop.Views
             //}
         }
 
+        /// <summary>
+        ///     UpLoad
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnUpLoad_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var filtro = "Imagem files (*.pdf)|*.pdf";
+                var arq = WpfHelp.UpLoadArquivoDialog(filtro, 200000);
+                if (arq == null) return;
+                _viewModel.Entity.Anexo = arq.FormatoBase64;
+                _viewModel.Entity.NomeAnexo = arq.Nome;
+                txtNomeAnexo.Text = arq.Nome;
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.Mbox(ex.Message);
+                Utils.TraceException(ex);
+            }
+        }
+
+        /// <summary>
+        ///     Downlaod
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnDownload_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var arrBytes = Convert.FromBase64String(_viewModel.Entity.Anexo);
+                WpfHelp.AbrirArquivoPdf(_viewModel.Entity.NomeAnexo, arrBytes);
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+            }
+        }
+
+        private void NumberOnly(object sender, TextCompositionEventArgs e)
+        {
+            var regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
+        }
+
+        private void OnFormatData_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (_viewModel.Entity == null) return;
+            try
+            {
+                var str = txtDtValidade.Text;
+                if (string.IsNullOrWhiteSpace(str)) return;
+                txtDtValidade.Text = str.FormatarData();
+            }
+            catch (Exception)
+            {
+                _viewModel.Entity.SetMessageErro("Validade", "Data inválida");
+            }
+        }
+
         #endregion
 
-        private void cmbEmpresa_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
     }
 }
