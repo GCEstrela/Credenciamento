@@ -122,9 +122,9 @@ namespace IMOD.Infra.Servicos
                 var cardholder = _sdk.GetEntity (new Guid (entity.IdentificadorCardHolderGuid)) as Cardholder;
                 foreach (Guid element in cardholder.Credentials)
                 {
-
-                    var credencialTMP = _sdk.GetEntity(new Guid(element.ToString())) as Credential;
-                    if (credencialTMP.State.ToString() == "Active")
+                    Credential credencialTMP = _sdk.GetEntity(new Guid(element.ToString())) as Credential;
+                    var state = credencialTMP.State.ToString();
+                    if (state == "Active")
                     {
                         ativo = true;
                         break;
