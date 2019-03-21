@@ -66,15 +66,23 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public int EstadoId { get; set; }
         //[Range(1, int.MaxValue, ErrorMessage = "Motorista é requerido.")]
         public bool Motorista { get; set; }
+        [RequiredIf("Motorista", true, ErrorMessage = "Categoria da CNH é obrigatória para motorista.")]
         public string CnhCategoria { get; set; }
+        [RequiredIf("Motorista", true,ErrorMessage ="Número da CNH é obrigatório para motorista.")]
         public string Cnh { get; set; }
         [Range(typeof(DateTime), "1/1/1880", "1/1/2200", ErrorMessage = "Data inválida")]
+        [RequiredIf("Motorista", true, ErrorMessage = "Validade da CNH é obrigatório para motorista.")]
         public DateTime? CnhValidade { get; set; }
-        public string CnhEmissor { get; set; }
+        
+        public string CnhEmissor { get; set; }        
         public string Cnhuf { get; set; }
         public DateTime? DataEmissao { get; set; }
         public DateTime? DataValidade { get; set; }
         
+
+
+
+
 
         #endregion
 
@@ -85,4 +93,9 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
             return (ColaboradorView)  MemberwiseClone();
         }
     }
+
+
+
+
+
 }
