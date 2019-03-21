@@ -361,9 +361,18 @@
                                            Source="{Binding Entity.Foto, Converter={StaticResource ImageConverter}, Mode=TwoWay, UpdateSourceTrigger=Explicit}"
                                            Margin="3" />
                                 </Border>
-                                <Button x:Name="SelecionarLogo_bt" Content="Selecionar Foto"
-                                        HorizontalAlignment="Center" Margin="0,10,0,0" Height="30" Width="100"
-                                        Click="OnSelecionaFoto_Click" />
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                    <Button x:Name="SelecionarLogo_bt" FontStretch="Condensed"  HorizontalAlignment="Center" Margin="1,5,0,0" Height="30" Width="44" Click="OnSelecionaFoto_Click">
+                                        <StackPanel>
+                                            <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Pasta.ico" Height="26" Width="28"/>
+                                        </StackPanel>
+                                    </Button>
+                                    <Button x:Name="WbeCam_bt" Height="30" Width="44" Margin="10,5,0,0" VerticalAlignment="Center" Click="WbeCam_bt_Click">
+                                        <StackPanel>
+                                            <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/WebCam.ico" Height="26" Width="28"/>
+                                        </StackPanel>
+                                    </Button>
+                                </StackPanel>
                             </StackPanel>
                         </StackPanel>
                     </GroupBox>
@@ -705,12 +714,6 @@
                                     <ComboBoxItem Content="E" />
                                 </ComboBox>
 
-                                <Label Content="Manuseia Bagagem" Foreground="#FFD0D0D0" Height="24" Width="200"
-                                       HorizontalContentAlignment="Right" />
-                                <CheckBox x:Name="Bagagem_cb" VerticalContentAlignment="Center" Margin="5,10,0,-5"
-                                          Height="24" Foreground="#FFD0D0D0"
-                                          IsChecked="{Binding Entity.Bagagem, UpdateSourceTrigger=PropertyChanged}" 
-                                          Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
                             </StackPanel>
                         </StackPanel>
                     </GroupBox>

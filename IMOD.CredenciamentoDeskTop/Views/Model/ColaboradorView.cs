@@ -24,7 +24,7 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         #region  Propriedades
 
         public int ColaboradorId {get; set; }
-        [Required(ErrorMessage = "O Nome é requerido.")]
+        [Required(ErrorMessage = "O Nome é requerido.")] 
         public string Nome { get; set; }
         [Required(ErrorMessage = "O Apelido é requerido.")]
         public string Apelido { get; set; }
@@ -72,8 +72,6 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public DateTime? CnhValidade { get; set; }
         public string CnhEmissor { get; set; }
         public string Cnhuf { get; set; }
-        //[Required(ErrorMessage = "Manuseia Bagagem é requerido.")]
-        public string Bagagem { get; set; }
         public DateTime? DataEmissao { get; set; }
         public DateTime? DataValidade { get; set; }
         

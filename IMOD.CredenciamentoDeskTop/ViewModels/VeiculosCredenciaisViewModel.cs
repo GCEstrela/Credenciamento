@@ -178,29 +178,29 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             var lst0 = _auxiliaresService.CredencialStatusService.Listar();
             CredencialStatus = new List<CredencialStatus>();
-            CredencialStatus.AddRange (lst0); 
+            CredencialStatus.AddRange (lst0.OrderBy(n => n.Descricao));
 
             var lst2 = _auxiliaresService.FormatoCredencialService.Listar();
             FormatoCredencial = new List<FormatoCredencial>();
-            FormatoCredencial.AddRange (lst2);
+            FormatoCredencial.AddRange (lst2.OrderBy(n => n.Descricao));
 
             var lst3 = _auxiliaresService.TipoCredencialService.Listar();
             TipoCredencial = new List<TipoCredencial>();
-            TipoCredencial.AddRange (lst3);
+            TipoCredencial.AddRange (lst3.OrderBy(n => n.Descricao));
 
             var lst5 = _auxiliaresService.TecnologiaCredencialService.Listar();
             TecnologiasCredenciais = new List<TecnologiaCredencial>();
-            TecnologiasCredenciais.AddRange (lst5);
-             
+            TecnologiasCredenciais.AddRange (lst5.OrderBy(n => n.Descricao));
+
             VeiculosEmpresas = new ObservableCollection<VeiculoEmpresa>();
 
              var lst7 = _auxiliaresService.AreaAcessoService.Listar();
             VeiculoPrivilegio = new List<AreaAcesso>();
-            VeiculoPrivilegio.AddRange (lst7);
+            VeiculoPrivilegio.AddRange (lst7.OrderBy(n => n.Descricao));
 
             _credencialMotivo = new List<CredencialMotivo>();
             var lst8 = _auxiliaresService.CredencialMotivoService.Listar();
-            _credencialMotivo.AddRange(lst8);
+            _credencialMotivo.AddRange(lst8.OrderBy(n => n.Descricao));
         }
 
         public void CarregaColecaoLayoutsCrachas(int empresaId)
@@ -378,7 +378,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 MensagemAlerta = "";
                 Entity = null;
                 _viewModelParent.HabilitaControleTabControls(true, true, true, true, true, true); 
-                //ExibirCheckDevolucao(Entity); 
+                
             }
             catch (Exception ex)
             {
@@ -427,11 +427,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             if (entity.VeiculoCredencialId <=0) return;
 
             #region Habilitar botão de impressao e mensagem ao usuario
-            //================================================================================
-            //Autor: Valnei Filho
-            //Data:08/03/19
-            //Wrk:O botão imprimir credencial habilitado apenas para registros, não impresso e ativo, desabilitado caso contrário
-            HabilitaImpressao = entity.Ativa & !entity.PendenciaImpeditiva & !entity.Impressa && entity.Validade >= DateTime.Now.Date; 
+
+            //Condição que impede impressão para credenciais extraviadas-9/roubadas-10 sem entregas de BO. 
+            bool isCondicaoImpressaoPorMotivo = entity.CredencialStatusId == 2 && entity.Baixa == null && (entity.DevolucaoEntregaBoId == 0)
+                && (entity.CredencialMotivoId == 9 || entity.CredencialMotivoId == 10);
+
+            HabilitaImpressao = entity.Ativa & !entity.PendenciaImpeditiva & !entity.Impressa && entity.Validade >= DateTime.Now.Date && isCondicaoImpressaoPorMotivo; 
             //Verificar se a empresa esta impedida
             var n1 = _service.BuscarCredencialPelaChave(entity.VeiculoCredencialId);
             var mensagem1 = !n1.Ativa ? "Autorização Inativa" : string.Empty;
@@ -499,7 +500,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 //===================================================
                 Entity = null;
                 _viewModelParent.HabilitaControleTabControls(true, true, true, true, true, true);
-                //ExibirCheckDevolucao(Entity); 
+               
 
             }
             catch (Exception ex)
@@ -509,6 +510,21 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
         }
 
+        /// <summary>
+        /// Criar CardHolder e Credencial do usuario
+        /// <para>Criar um card holder caso o usuario nao o possua</para>
+        /// </summary>
+        /// <param name="veiculoCredencialId">Identificador</param>
+        private void GerarCardHolder(int veiculoCredencialId, VeiculosCredenciaisView entity)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+
+            var n1 = _service.BuscarCredencialPelaChave(veiculoCredencialId);
+
+            var tecCredencial = _auxiliaresService.TecnologiaCredencialService.BuscarPelaChave(entity.TecnologiaCredencialId);
+            if (tecCredencial.PodeGerarCardHolder)
+                _service.CriarTitularCartao(new CredencialGenetecService(Main.Engine), new VeiculoService(), n1);
+        }
         /// <summary>
         ///     Cancelar operação
         /// </summary>

@@ -181,11 +181,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
             
             if (e.PropertyName == "SelectedTabIndex")
-            {
                 //Habilita/Desabilita botoes principais...
-                HabilitaCommandPincipal = SelectedTabIndex == 0;
-                //IsEnableLstView = SelectedTabIndex == 0;
-            }
+                HabilitaCommandPincipal = SelectedTabIndex == 0; 
+             
         }
 
         /// <summary>
@@ -534,6 +532,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var list2 = Mapper.Map<List<EmpresaView>> (list.OrderByDescending (n => n.EmpresaId));
                 EntityObserver = new ObservableCollection<EmpresaView>();
                 list2.ForEach (n => { EntityObserver.Add (n); });
+                //Havendo registros, selecione o primeiro
+                if (EntityObserver.Any()) SelectListViewIndex = 0;
             }
 
             catch (Exception ex)
@@ -583,8 +583,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 var n1 = Mapper.Map<Empresa> (Entity);
                 var status = _auxiliaresService.StatusService.Listar().FirstOrDefault (n => n.CodigoStatus);
-
-                _service.CriarContrato(n1, DateTime.Now.Date,"0",status,_configuraSistema);             
+                if (_configuraSistema.Contrato)
+                {
+                    _service.CriarContrato(n1, DateTime.Now.Date, "0", status, _configuraSistema);
+                }
                 
                 //Salvar Tipo de Atividades
                 SalvarTipoAtividades (n1.EmpresaId);

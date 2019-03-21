@@ -221,30 +221,18 @@ namespace IMOD.CredenciamentoDeskTop.Views
         private void Sigla_tb_LostFocus(object sender, RoutedEventArgs e)
         {
             if (_viewModel.Entity == null) return;
-            try
-            {
+                try
+                {
+                    var sigla = _viewModel.Entity.Sigla;
+                    if (_viewModel.ExisteSigla())
+                        _viewModel.Entity.SetMessageErro("Sigla", "Sigla já existe");
 
-                //var cnpj = _viewModel.Entity.Cnpj;
-                //if (!Utils.IsValidCnpj(cnpj)) throw new Exception();
-                //_viewModel.Entity.Cnpj.FormatarCnpj();
-                ////Verificar existência de CPF
-                //if (_viewModel.ExisteCnpj())
-                //    _viewModel.Entity.SetMessageErro("Cnpj", "CNPJ já existe");
-
-                //txtCnpj.Text = cnpj;
-
-                var sigla = _viewModel.Entity.Sigla;
-                if (_viewModel.ExisteSigla())
-                    _viewModel.Entity.SetMessageErro("Sigla", "Sigla já existe");
-
-                Sigla_tb.Text = sigla;
-            }
-            catch (Exception)
-            {
-                _viewModel.Entity.SetMessageErro("Cnpj", "CNPJ inválido");
-            }
-
-            
+                    Sigla_tb.Text = sigla;
+                }
+                catch (Exception)
+                {
+                    _viewModel.Entity.SetMessageErro("Cnpj", "CNPJ inválido");
+                }
         }
     }
 }

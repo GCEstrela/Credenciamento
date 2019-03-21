@@ -192,11 +192,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
 
             if (e.PropertyName == "SelectedTabIndex")
-            {
-                //Habilita/Desabilita botoes principais...
                 HabilitaCommandPincipal = SelectedTabIndex == 0;
-                //IsEnableLstView = SelectedTabIndex == 0;
-            }
+                
+             
         }
 
         /// <summary>
@@ -411,6 +409,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var list2 = Mapper.Map<List<VeiculoView>> (list.OrderByDescending (n => n.EquipamentoVeiculoId).ToList());
                 EntityObserver = new ObservableCollection<VeiculoView>();
                 list2.ForEach (n => { EntityObserver.Add (n); });
+                //Havendo registros, selecione o primeiro
+                if (EntityObserver.Any()) SelectListViewIndex = 0;
             }
 
             catch (Exception ex)

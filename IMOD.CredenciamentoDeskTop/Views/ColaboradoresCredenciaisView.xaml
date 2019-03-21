@@ -10,6 +10,7 @@
              d:DesignHeight="450" d:DesignWidth="1000" 
              Loaded="UserControl_Loaded" >
     <UserControl.Resources>
+        <funcoes:BooleanToVisibilityConverter x:Key="VisibleControl" />
         <Image x:Key="imgAdd" Source="../Resources/add.png"  />
         <Image x:Key="imgEdit" Source="../Resources/edit.png"  />
         <Image x:Key="imgRemove" Source="../Resources/remove.png"  />
@@ -63,11 +64,11 @@
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock Margin="0,0,10,0" Text="{Binding Path=EmpresaNome}" />
-                                            <!--<TextBlock Name="vinculoContrato">
+                                            <TextBlock Name="vinculoContrato" Visibility="{Binding IsEnableComboContrato,  Converter={StaticResource VisibleControl}}">
                                                 <Run Text="("/>
-                                                <Run Text="{Binding  Path=Descricao}"/>
+                                                <Run Text="{Binding  Path=Descricao}" />                                                
                                                 <Run Text=")"/>
-                                            </TextBlock>-->
+                                            </TextBlock>
                                         </StackPanel>
                                     </DataTemplate>
                                 </ComboBox.ItemTemplate>
@@ -99,7 +100,7 @@
                                     </TransformGroup>
                                 </ComboBox.RenderTransform>
                             </ComboBox>
-                            <Label Content="Motivo:" Height="28" Width="111" HorizontalContentAlignment="Right"
+                            <Label Content="Motivo:" Height="28" Width="114" HorizontalContentAlignment="Right"
                                    Foreground="#FFD0D0D0" />
 
                             <ComboBox x:Name="cmbMotivacao"  IsEditable="true"
@@ -161,11 +162,11 @@
                             <TextBox  x:Name="NumeroColete_tb"  MaxLength="15"  CharacterCasing="Upper" 
                                        IsEnabled="False" Text="{Binding Entity.Colete,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Height="24"  Width="80"/>
 
-                            <Label Content="Autenticação:" Height="28" Width="110"   HorizontalContentAlignment="Right"
+                            <Label Content="Autenticação:" Height="28" Width="113"   HorizontalContentAlignment="Right"
                                    Foreground="#FFD0D0D0" />
 
-                            <ComboBox x:Name="TecnologiaCredencial_cb"  IsEditable="true"
-                                      IsEnabled="{Binding Habilitar}"
+                            <!--IsEnabled="{Binding Habilitar}"-->
+                            <ComboBox x:Name="TecnologiaCredencial_cb"  IsEditable="true"                                      
                                       Margin="0,4,0,3" 
                                       Height="25"
                                       Width="145" 
@@ -175,9 +176,10 @@
                                       DisplayMemberPath="Descricao"
                                       SelectedValue="{Binding Entity.TecnologiaCredencialId, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                                       SelectedValuePath="TecnologiaCredencialId" IsSynchronizedWithCurrentItem="True" SelectionChanged="TecnologiaCredencial_cb_SelectionChanged" />
-
+                            
                             <Label Name="lblFC" Content="FC:" Height="28" Width="70"   HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                            <TextBox  x:Name="FC_tb"  MaxLength="5"    IsEnabled="{Binding Habilitar}"  
+                            <!--IsEnabled="{Binding Habilitar}"-->
+                            <TextBox  x:Name="FC_tb"  MaxLength="5"    
                                       CharacterCasing="Upper" Text="{Binding Entity.Fc,UpdateSourceTrigger=PropertyChanged}"  Height="24"  Width="45"/>
                         </StackPanel>
 
@@ -244,12 +246,13 @@
 
 
                             <Label Name="lblNumero" Content="Número:" Height="28" Width="60" Margin="0,0,0,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+
+                            <!--IsEnabled="{Binding Habilitar}"-->
                             <TextBox  x:Name="NumeroCredencial_tb"  
-                                       IsEnabled="{Binding Habilitar}" 
                                       MaxLength="8"  CharacterCasing="Upper" 
                                       Text="{Binding Entity.NumeroCredencial,  UpdateSourceTrigger=PropertyChanged}" 
                                       Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
-                                      Height="24"  Width="65"/>
+                                      Height="24"  Width="65" LostFocus="NumeroCredencial_tb_LostFocus" />
 
 
 

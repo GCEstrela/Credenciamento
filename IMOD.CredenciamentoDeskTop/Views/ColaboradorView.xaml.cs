@@ -13,11 +13,13 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Forms;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 using IMOD.CredenciamentoDeskTop.Enums;
 using IMOD.CredenciamentoDeskTop.Helpers;
 using IMOD.CredenciamentoDeskTop.ViewModels;
 using IMOD.CredenciamentoDeskTop.Windows;
 using IMOD.CrossCutting;
+using iModSCCredenciamento.Windows;
 using UserControl = System.Windows.Controls.UserControl;
 
 #endregion
@@ -127,6 +129,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 _viewModel.Entity.Foto = arq.FormatoBase64;
                 var binding = BindingOperations.GetBindingExpression(Logo_im, Image.SourceProperty);
                 binding?.UpdateTarget();
+           
             }
             catch (Exception ex)
             {
@@ -223,6 +226,23 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 _viewModel.Entity.SetMessageErro("PassaporteValidade", "Data inválida");
             }
             
+        }
+
+        private void WbeCam_bt_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                
+                PopupWebCam _PopupWebCam = new PopupWebCam();
+                _PopupWebCam.ShowDialog();
+
+                BitmapSource _img = _PopupWebCam.Captura;
+
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+            }
         }
     }
 }

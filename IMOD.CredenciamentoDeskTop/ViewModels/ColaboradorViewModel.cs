@@ -31,7 +31,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
     public class ColaboradorViewModel : ViewModelBase, IComportamento, IAtualizarDados
     {
         private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
-        private readonly IColaboradorService _service = new ColaboradorService();
+        private readonly IColaboradorService _service = new ColaboradorService(); 
 
         /// <summary>
         ///     True, Comando de alteração acionado
@@ -153,9 +153,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <param name="isEnableLstView"></param>
         private void HabilitaControle(bool isEnableTabItem, bool isEnableLstView)
         {
-            HabilitaControleTabControls(isEnableLstView, isEnableTabItem, isEnableTabItem, isEnableTabItem, isEnableTabItem, isEnableTabItem);
-            //IsEnableTabItem = isEnableTabItem;
-            //IsEnableLstView = isEnableLstView;
+            HabilitaControleTabControls(isEnableLstView, isEnableTabItem, isEnableTabItem, isEnableTabItem, isEnableTabItem, isEnableTabItem); 
         }
 
         public void HabilitaControleTabControls(bool lstViewSuperior = true, bool isItemGeral = true, bool isItemEmpresas = false, bool isItemCursos = false, bool isItemAnexos = false, bool isItemCredenciais = false)
@@ -180,16 +178,14 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
             {
                 var enableControls = Entity != null;
-                Comportamento.IsEnableEditar = enableControls;
-                //IsEnableTabItem = Entity != null;
+                Comportamento.IsEnableEditar = enableControls; 
                 HabilitaControleTabControls(true, enableControls, enableControls, enableControls, enableControls, enableControls);
             }
         
             if (e.PropertyName == "SelectedTabIndex")
             {
                 //Habilita/Desabilita botoes principais...
-                HabilitaCommandPincipal = SelectedTabIndex == 0;
-                //IsEnableLstView = SelectedTabIndex == 0;
+                HabilitaCommandPincipal = SelectedTabIndex == 0; 
             }
                 
         }
@@ -212,6 +208,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var list2 = Mapper.Map<List<ColaboradorView>> (list.OrderByDescending (n => n.ColaboradorId));
                 EntityObserver = new ObservableCollection<ColaboradorView>();
                 list2.ForEach (n => { EntityObserver.Add (n); });
+                //Havendo registros, selecione o primeiro
+                if (EntityObserver.Any()) SelectListViewIndex = 0;
             }
 
             catch (Exception ex)
@@ -234,6 +232,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     if (string.IsNullOrWhiteSpace (pesquisa)) return;
                     var l1 = _service.Listar (null, null, $"%{pesquisa}%");
                     PopularObserver (l1);
+                    
                 }
                 //Por cpf
                 if (num.Key == 1)
@@ -241,15 +240,17 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     if (string.IsNullOrWhiteSpace (pesquisa)) return;
                     var l1 = _service.Listar (null, $"%{pesquisa.RetirarCaracteresEspeciais()}%", null);
                     PopularObserver (l1);
+                    
                 }
 
-                IsEnableLstView = true;
+                IsEnableLstView = true; 
             }
             catch (Exception ex)
             {
                 Utils.TraceException (ex);
             }
         }
+         
 
         public void ListarDadosAuxiliares()
         {

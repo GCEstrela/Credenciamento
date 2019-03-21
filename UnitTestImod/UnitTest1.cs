@@ -106,7 +106,7 @@ namespace UnitTestImod
                     CnhValidade = DateTime.Now,
                     CnhEmissor = "DETRAN",
                     Cnhuf = "BA",
-                    Bagagem = "Não",
+                    //Bagagem = "Não",
                     DataEmissao = DateTime.Today.AddYears(-1),
                     DataValidade = DateTime.Today.AddYears(2),
                     Ativo = true,
