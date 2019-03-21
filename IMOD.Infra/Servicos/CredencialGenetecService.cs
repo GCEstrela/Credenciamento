@@ -115,12 +115,27 @@ namespace IMOD.Infra.Servicos
         {
             try
             {
+                bool ativo = false;
                 if (string.IsNullOrWhiteSpace (entity.IdentificadorCardHolderGuid)) throw new ArgumentNullException (nameof(entity.IdentificadorCardHolderGuid));
                 _sdk.TransactionManager.CreateTransaction();
 
                 var cardholder = _sdk.GetEntity (new Guid (entity.IdentificadorCardHolderGuid)) as Cardholder;
-                if (cardholder == null) throw new InvalidOperationException ("Não foi possível encontrar o titular do cartão.");
-                cardholder.State = entity.Ativo ? CardholderState.Active : CardholderState.Inactive;
+                foreach (Guid element in cardholder.Credentials)
+                {
+
+                    var credencialTMP = _sdk.GetEntity(new Guid(element.ToString())) as Credential;
+                    if (credencialTMP.State.ToString() == "Active")
+                    {
+                        ativo = true;
+                        break;
+                    }
+                }
+                if (!ativo)
+                {
+                    if (cardholder == null) throw new InvalidOperationException("Não foi possível encontrar o titular do cartão.");
+                    cardholder.State = entity.Ativo ? CardholderState.Active : CardholderState.Inactive;
+                }
+
 
                 _sdk.TransactionManager.CommitTransaction();
             }
