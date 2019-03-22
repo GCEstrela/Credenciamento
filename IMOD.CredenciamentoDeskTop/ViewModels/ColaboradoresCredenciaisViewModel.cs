@@ -665,19 +665,40 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 lst.Add(c1);
                 relatorio.SetDataSource(lst);
+                TextObject txt;
+                TextObject Identificacao_txt;
+                TextObject Validade_txt;
+                TextObject Validade_valor;
                 if (c1.CPF == "")
                 {
-                    var txt = (TextObject)relatorio.ReportDefinition.ReportObjects["Text3"];
-                    txt.Text = "RNE:";
-                    var txtIDENTIFICACAO = (TextObject)relatorio.ReportDefinition.ReportObjects["IDENTIFICACAO"];
-                    txtIDENTIFICACAO.Text = c1.RNE;
+                    if (c1.RNE == "") 
+                    {
+                        txt = (TextObject)relatorio.ReportDefinition.ReportObjects["Text3"];
+                        txt.Text = "Passaporte:";
+                        Identificacao_txt = (TextObject)relatorio.ReportDefinition.ReportObjects["IDENTIFICACAO"];
+                        Identificacao_txt.Text = c1.Passaporte;
+
+                        Validade_txt = (TextObject)relatorio.ReportDefinition.ReportObjects["Validade_tx"];
+                        Validade_txt.Text = "Val.:";
+                        Validade_valor = (TextObject)relatorio.ReportDefinition.ReportObjects["Validade_val"];
+                        Validade_valor.Text = c1.PassaporteValidade.ToShortDateString();
+
+                    }
+                    else
+                    {
+                        txt = (TextObject)relatorio.ReportDefinition.ReportObjects["Text3"];
+                        txt.Text = "RNE:";
+                        Identificacao_txt = (TextObject)relatorio.ReportDefinition.ReportObjects["IDENTIFICACAO"];
+                        Identificacao_txt.Text = c1.RNE;
+
+                    }
                 }
                 else
                 {
-                    var txt = (TextObject)relatorio.ReportDefinition.ReportObjects["Text3"];
+                    txt = (TextObject)relatorio.ReportDefinition.ReportObjects["Text3"];
                     txt.Text = "CPF:";
-                    var txtIDENTIFICACAO = (TextObject)relatorio.ReportDefinition.ReportObjects["IDENTIFICACAO"];
-                    txtIDENTIFICACAO.Text = c1.CPF;
+                    Identificacao_txt = (TextObject)relatorio.ReportDefinition.ReportObjects["IDENTIFICACAO"];
+                    Identificacao_txt.Text = c1.CPF;
                 }
 
                 //IDENTIFICACAO

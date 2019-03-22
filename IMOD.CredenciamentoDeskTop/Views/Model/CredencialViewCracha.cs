@@ -37,5 +37,7 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public string ImpressaoMotivo { get; set; }
         public string TerceirizadaNome { get; set; }
         public string RNE { get; set; }
+        public string Passaporte { get; set; }
+        public DateTime PassaporteValidade { get; set; }
     }
 }

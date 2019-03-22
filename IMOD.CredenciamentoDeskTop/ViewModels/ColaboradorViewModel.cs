@@ -330,23 +330,24 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public bool Validar()
         {
             if (Entity == null) return true;
-            Entity.Validate();
-            var hasErros = Entity.HasErrors;
-            if (hasErros) return true;
-            //Verificar valiade de cpf
-            if (EInValidoCpf())
+            if (Entity.Cpf != null)
             {
-                Entity.SetMessageErro ("Cpf", "CPF inválido");
-                return true;
+                Entity.Validate();
+                var hasErros = Entity.HasErrors;
+                if (hasErros) return true;
+                //Verificar valiade de cpf
+                if (EInValidoCpf())
+                {
+                    Entity.SetMessageErro ("Cpf", "CPF inválido");
+                    return true;
+                }
+                //Verificar existência de CPF
+                if (ExisteCpf())
+                {
+                    Entity.SetMessageErro ("Cpf", "CPF já existe");
+                    return true;
+                }
             }
-
-            //Verificar existência de CPF
-            if (ExisteCpf())
-            {
-                Entity.SetMessageErro ("Cpf", "CPF já existe");
-                return true;
-            }
-
             return Entity.HasErrors;
         }
 
