@@ -54,6 +54,7 @@
     <Compile Include="Interfaces\IColaboradorEmpresaService.cs" />
     <Compile Include="Interfaces\IColaboradorService.cs" />
     <Compile Include="Interfaces\IConfiguracaoService.cs" />
+    <Compile Include="Interfaces\IConfiguraSistemaService.cs" />
     <Compile Include="Interfaces\ICredencialMotivoService.cs" />
     <Compile Include="Interfaces\ICredencialStatusService.cs" />
     <Compile Include="Interfaces\ICursoService.cs" />
@@ -81,6 +82,7 @@
     <Compile Include="Interfaces\ITipoCredencialService.cs" />
     <Compile Include="Interfaces\ITipoEquipamentoService.cs" />
     <Compile Include="Interfaces\ITipoPendenciaService.cs" />
+    <Compile Include="Interfaces\ITipoRepresentanteService.cs" />
     <Compile Include="Interfaces\ITiposAcessoService.cs" />
     <Compile Include="Interfaces\ITipoServicoService.cs" />
     <Compile Include="Interfaces\IVeiculoAnexoService.cs" />
@@ -98,6 +100,7 @@
     <Compile Include="Service\ColaboradorEmpresaService.cs" />
     <Compile Include="Service\ColaboradorService.cs" />
     <Compile Include="Service\ConfiguracaoService.cs" />
+    <Compile Include="Service\ConfiguraSistemaService.cs" />
     <Compile Include="Service\CredencialMotivoService.cs" />
     <Compile Include="Service\CredencialStatusService.cs" />
     <Compile Include="Service\CursoService.cs" />
@@ -128,6 +131,7 @@
     <Compile Include="Service\TipoCredencialService.cs" />
     <Compile Include="Service\TipoEquipamentoService.cs" />
     <Compile Include="Service\TipoPendenciaService.cs" />
+    <Compile Include="Service\TipoRepresentanteService.cs" />
     <Compile Include="Service\TipoServicoService.cs" />
     <Compile Include="Service\VeiculoAnexoService.cs" />
     <Compile Include="Service\VeiculoCredencialimpressaoService.cs" />

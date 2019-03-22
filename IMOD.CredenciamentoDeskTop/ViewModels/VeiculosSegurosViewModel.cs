@@ -106,8 +106,14 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <param name="e"></param>
         private void OnEntityChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "Entity") //habilitar botão alterar todas as vezes em que houver entidade diferente de null
-                Comportamento.IsEnableEditar = true;
+            //if (e.PropertyName == "Entity") //habilitar botão alterar todas as vezes em que houver entidade diferente de null
+            //Comportamento.IsEnableEditar = true;
+            if (e.PropertyName == "Entity")
+            {
+                Comportamento.IsEnableEditar = Entity != null;
+                Comportamento.isEnableRemover = Entity != null;
+
+            }
         }
 
         private void PrepareRemover()
@@ -139,6 +145,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 IsEnableLstView = true;
                 _viewModelParent.AtualizarDadosPendencias();
                 SelectListViewIndex = 0;
+                _viewModelParent.HabilitaControleTabControls(true, true, true, true, true, true);
             }
             catch (Exception ex)
             {
@@ -156,6 +163,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             Entity = new VeiculoSeguroView();
             Comportamento.PrepareCriar();
             IsEnableLstView = false;
+            _viewModelParent.HabilitaControleTabControls(false, false, false, true, false, false);
         }
 
         /// <summary>
@@ -172,6 +180,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var n1 = Mapper.Map<VeiculoSeguro> (Entity);
                 _service.Alterar (n1);
                 IsEnableLstView = true;
+                _viewModelParent.HabilitaControleTabControls(true, true, true, true, true, true);
+                Entity = null;
             }
             catch (Exception ex)
             {
@@ -193,6 +203,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 if (Entity != null) Entity.ClearMessageErro();
                 Entity = null;
+                _viewModelParent.HabilitaControleTabControls(true, true, true, true, true, true);
+
             }
             catch (Exception ex)
             {
@@ -219,6 +231,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 _service.Remover (n1);
                 //Retirar empresa da coleção
                 EntityObserver.Remove (Entity);
+                _viewModelParent.HabilitaControleTabControls(true, true, true, true, true, true);
             }
             catch (Exception ex)
             {
@@ -243,6 +256,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
             Comportamento.PrepareAlterar();
             IsEnableLstView = false;
+            _viewModelParent.HabilitaControleTabControls(false, false, false, true, false, false);
         }
 
         /// <summary>

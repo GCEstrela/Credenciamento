@@ -19,10 +19,10 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
         
         #region  Metodos
 
-        private MenuPrincipalView _view= new MenuPrincipalView();
+        private MenuPrincipalView _view  = new MenuPrincipalView(); 
         public ModuloPage()
         {
-            this.View = _view;
+            this.View = _view; 
         }
 
          
@@ -41,7 +41,6 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
         protected override void Initialize()
         { 
             _view.Initialize(Workspace);
-            
         }
 
         /// <summary>

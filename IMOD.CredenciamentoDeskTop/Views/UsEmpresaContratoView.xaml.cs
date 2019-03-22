@@ -1,7 +1,7 @@
 ﻿// ***********************************************************************
-// Project: iModSCCredenciamento
+// Project: IMOD.CredenciamentoDeskTop
 // Crafted by: Grupo Estrela by Genetec
-// Date:  01 - 07 - 2019
+// Date:  01 - 24 - 2019
 // ***********************************************************************
 
 #region
@@ -10,6 +10,7 @@ using System;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using IMOD.CredenciamentoDeskTop.Helpers;
 using IMOD.CredenciamentoDeskTop.ViewModels;
 using IMOD.CrossCutting;
@@ -46,7 +47,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
         public void AtualizarDados(Model.EmpresaView entity, EmpresaViewModel viewModelParent)
         {
             if (entity == null) return;
-            _viewModel.AtualizarDados(entity, viewModelParent);
+            _viewModel.AtualizarDados (entity, viewModelParent);
         }
 
         /// <summary>
@@ -58,8 +59,10 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             try
             {
+                //var filtro = "Imagem files (*.pdf)|*.pdf|All Files (*.*)|*.*";
+                //var arq = WpfHelp.UpLoadArquivoDialog(filtro, 700);
                 var filtro = "Imagem files (*.pdf)|*.pdf";
-                var arq = WpfHelp.UpLoadArquivoDialog(filtro,2048);
+                var arq = WpfHelp.UpLoadArquivoDialog (filtro, 2000);
                 if (arq == null) return;
                 _viewModel.Entity.Arquivo = arq.FormatoBase64;
                 _viewModel.Entity.NomeArquivo = arq.Nome;
@@ -67,8 +70,8 @@ namespace IMOD.CredenciamentoDeskTop.Views
             }
             catch (Exception ex)
             {
-                WpfHelp.Mbox(ex.Message);
-                Utils.TraceException(ex);
+                WpfHelp.Mbox (ex.Message);
+                Utils.TraceException (ex);
             }
         }
 
@@ -81,34 +84,32 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             try
             {
-                var arrayByes = Convert.FromBase64String(_viewModel.Entity.Arquivo);
-                WpfHelp.AbrirArquivoPdf(_viewModel.Entity.NomeArquivo, arrayByes);
+                var arrayByes = Convert.FromBase64String (_viewModel.Entity.Arquivo);
+                WpfHelp.AbrirArquivoPdf (_viewModel.Entity.NomeArquivo, arrayByes);
             }
             catch (Exception ex)
             {
-                Utils.TraceException(ex);
+                Utils.TraceException (ex);
             }
         }
 
         private void OnSelecionaMunicipio_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (_viewModel.Estado == null) return;
-            _viewModel.ListarMunicipios(_viewModel.Estado.Uf);
+            _viewModel.ListarMunicipios (_viewModel.Estado.Uf);
         }
 
-        #endregion
-
-        private void NumberOnly(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        private void NumberOnly(object sender, TextCompositionEventArgs e)
         {
-            var regex = new Regex("[^0-9]+");
-            e.Handled = regex.IsMatch(e.Text);
+            var regex = new Regex ("[^0-9]+");
+            e.Handled = regex.IsMatch (e.Text);
         }
 
         private void TipoCobranca_cb_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (TipoCobranca_cb.SelectedValue == null) return;
 
-            var _tipocobranca =TipoCobranca_cb.SelectedValue;
+            var _tipocobranca = TipoCobranca_cb.SelectedValue;
             if (_tipocobranca.ToString() == "0")
             {
                 IsencaoCobranca_cb.IsEnabled = true;
@@ -122,14 +123,34 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         private void OnFormatDateEmissao_LostFocus(object sender, RoutedEventArgs e)
         {
-            var str = txtDateEmissao.Text;
-            txtDateEmissao.Text = str.FormatarData();
+            if (_viewModel.Entity == null) return;
+            try
+            {
+                var str = txtDateEmissao.Text;
+                if (string.IsNullOrWhiteSpace (str)) return;
+                txtDateEmissao.Text = str.FormatarData();
+            }
+            catch (Exception)
+            {
+                _viewModel.Entity.SetMessageErro ("Emissao", "Data inválida");
+            }
         }
 
-        private void OnFormatDateValidade_LostFocus(object sender, RoutedEventArgs e)
+        private void OnFormatData_LostFocus(object sender, RoutedEventArgs e)
         {
-            var str = txtDateValidade.Text;
-            txtDateValidade.Text = str.FormatarData();
+            if (_viewModel.Entity == null) return;
+            try
+            {
+                var str = txtDtValidade.Text;
+                if (string.IsNullOrWhiteSpace (str)) return;
+                txtDtValidade.Text = str.FormatarData();
+            }
+            catch (Exception)
+            { 
+                _viewModel.Entity.SetMessageErro ("Validade", "Data inválida");
+            }
         }
+
+        #endregion
     }
 }

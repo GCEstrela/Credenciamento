@@ -131,13 +131,7 @@ namespace IMOD.CredenciamentoDeskTop.Windows
                         Valor = _layoutCracha.Valor
 
                     });
-
-                    //Um equipamento ou veiculo não possue credencial a ser incluida no sub-sistema de credencial (Genetec)
-
-                    //Gerar card Holder e Credencial
-                    //Uma data de validade é necessária para geração da credencial
-                    //if (_entity.Validade == null) throw new InvalidOperationErrorException("A validade da credencial deve ser informada.");
-                    // _service.CriarTitularCartao(new CredencialGenetecService(Main.Engine), _entity);
+ 
                     this.Close();
 
                 }

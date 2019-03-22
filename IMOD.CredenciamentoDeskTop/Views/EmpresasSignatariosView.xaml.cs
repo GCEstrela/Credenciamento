@@ -52,8 +52,10 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             try
             {
+                //var filtro = "Imagem files (*.pdf)|*.pdf|All Files (*.*)|*.*";
+                //var arq = WpfHelp.UpLoadArquivoDialog(filtro, 700);
                 var filtro = "Imagem files (*.pdf)|*.pdf";
-                var arq = WpfHelp.UpLoadArquivoDialog(filtro, 2048);
+                var arq = WpfHelp.UpLoadArquivoDialog(filtro, 2000);
                 if (arq == null) return;
                 _viewModel.Entity.Assinatura = arq.FormatoBase64;
                 NomeArquivo.Text = arq.Nome;
@@ -75,7 +77,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
             try
             {
                 var arrayByes = Convert.FromBase64String(_viewModel.Entity.Assinatura);
-                WpfHelp.AbrirArquivoPdf("FICHA_CADASTRAL_" + _viewModel.Entity.Nome.Trim(), arrayByes);
+                WpfHelp.AbrirArquivoPdf(_viewModel.Entity.Nome, arrayByes);
             }
             catch (Exception ex)
             {

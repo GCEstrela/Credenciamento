@@ -15,6 +15,7 @@ using System.Windows.Media;
 using AutoMapper;
 using CrystalDecisions.CrystalReports.Engine;
 using IMOD.Application.Interfaces;
+using IMOD.Application.Service;
 using IMOD.CredenciamentoDeskTop.Helpers;
 using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
@@ -37,7 +38,8 @@ namespace IMOD.CredenciamentoDeskTop.Windows
         private IColaboradorCredencialService _service;
         private LayoutCracha _layoutCracha;
         private bool _firstPage;
-      
+        private bool confirmacaoImpressao = true;
+
 
         public PopupCredencial(ReportDocument reportDocument, 
             IColaboradorCredencialService service,
@@ -96,58 +98,58 @@ namespace IMOD.CredenciamentoDeskTop.Windows
                 DialogResult impressaoRealizadaResult;
                 DialogResult reImpressaoResult;
                 DialogResult podeCobrarResult;
-                //var impressaoCorreta = false;
                 var impressaoCorreta = true;
 
                 Imprimir();
 
-                impressaoRealizadaResult = WpfHelp.MboxDialogYesNo("A impressão foi corretamente realizada?", true);
-                impressaoCorreta = impressaoRealizadaResult == System.Windows.Forms.DialogResult.Yes;
-
-                if (!impressaoCorreta)
+                if (confirmacaoImpressao)
                 {
-                    reImpressaoResult = WpfHelp.MboxDialogYesNo("Deseja imprimir mais uma vez?", true);
-                    if (reImpressaoResult != System.Windows.Forms.DialogResult.Yes) return;
-
-                    //Re imprimir
-                    Imprimir();
-
                     impressaoRealizadaResult = WpfHelp.MboxDialogYesNo("A impressão foi corretamente realizada?", true);
                     impressaoCorreta = impressaoRealizadaResult == System.Windows.Forms.DialogResult.Yes;
-                }
+
+                    if (!impressaoCorreta)
+                    {
+                        reImpressaoResult = WpfHelp.MboxDialogYesNo("Deseja imprimir mais uma vez?", true);
+                        if (reImpressaoResult != System.Windows.Forms.DialogResult.Yes) return;
+
+                        //Re imprimir
+                        Imprimir();
+
+                        impressaoRealizadaResult = WpfHelp.MboxDialogYesNo("A impressão foi corretamente realizada?", true);
+                        impressaoCorreta = impressaoRealizadaResult == System.Windows.Forms.DialogResult.Yes;
+                    }
 
                 //Sendo a impressao realizada corretamente, então, solicitar autorização de cobrança
-                if (impressaoCorreta)
-                {
-                    //Registrar a data da emissão da credencial..
-                    var n1 = Mapper.Map<ColaboradorCredencial>(_entity);
-                    n1.Emissao = DateTime.Today.Date;
-                    n1.Impressa = true;
-                    _service.Alterar(n1);
-                    //Passar dados para atualizar entidade 
-                    _entity.Emissao = n1.Emissao;
-
-                    podeCobrarResult = WpfHelp.MboxDialogYesNo($"Autoriza a cobrança pela impressão no valor de {$"{_layoutCracha.Valor:C} ?"}", true);
-                    var impressaoCobrar = podeCobrarResult == System.Windows.Forms.DialogResult.Yes;
-
-                    _service.ImpressaoCredencial.Criar(new ColaboradorCredencialimpresssao
+                
+                    if (impressaoCorreta)
                     {
-                        ColaboradorCredencialId = _entity.ColaboradorCredencialId,
-                        Cobrar = impressaoCobrar,
-                        DataImpressao = DateTime.Today.Date,
-                        Valor = _layoutCracha.Valor
+                        //Registrar a data da emissão da credencial..
+                        var n1 = Mapper.Map<ColaboradorCredencial>(_entity);
+                        n1.Emissao = DateTime.Today.Date;
+                        n1.Impressa = true;
+                        _service.Alterar(n1);
+                        //Passar dados para atualizar entidade 
+                        _entity.Emissao = n1.Emissao;
+                        _entity.Impressa = true;
 
-                    });
+                        podeCobrarResult = WpfHelp.MboxDialogYesNo($"Autoriza a cobrança pela impressão no valor de {$"{_layoutCracha.Valor:C} ?"}", true);
+                        var impressaoCobrar = podeCobrarResult == System.Windows.Forms.DialogResult.Yes;
 
-                    //Gerar card Holder e Credencial
-                    //Uma data de validade é necessária para geração da credencial
-                    if (_entity.Validade==null) throw new InvalidOperationErrorException("A validade da credencial deve ser informada.");
-                    _service.CriarTitularCartao (new CredencialGenetecService (Main.Engine),_entity);
+                        _service.ImpressaoCredencial.Criar(new ColaboradorCredencialimpresssao
+                        {
+                            ColaboradorCredencialId = _entity.ColaboradorCredencialId,
+                            Cobrar = impressaoCobrar,
+                            DataImpressao = DateTime.Today.Date,
+                            Valor = _layoutCracha.Valor
+
+                        }); 
                     
-                    this.Close();
+                        this.Close();
+                    }
 
                 }
-                 
+
+
             }
             catch (Exception ex)
             {
@@ -158,23 +160,29 @@ namespace IMOD.CredenciamentoDeskTop.Windows
 
         private void Imprimir()
         {
-      
-            var dialog1 = new PrintDialog();
-            dialog1.AllowSomePages = true;
-            dialog1.AllowPrintToFile = false;
+            //TODO:Descomentar rotina
+            confirmacaoImpressao = true;
+            //var dialog1 = new PrintDialog();
+            //dialog1.AllowSomePages = true;
+            //dialog1.AllowPrintToFile = false;
 
-            if (dialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                int copies = dialog1.PrinterSettings.Copies;
-                var fromPage = dialog1.PrinterSettings.FromPage;
-                var toPage = dialog1.PrinterSettings.ToPage;
-                var collate = dialog1.PrinterSettings.Collate;
+            //if (dialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            //{
+            //    int copies = dialog1.PrinterSettings.Copies;
+            //    var fromPage = dialog1.PrinterSettings.FromPage;
+            //    var toPage = dialog1.PrinterSettings.ToPage;
+            //    var collate = dialog1.PrinterSettings.Collate;
 
-                _report.PrintOptions.PrinterName = dialog1.PrinterSettings.PrinterName;
-                _report.PrintToPrinter (copies, collate, fromPage, toPage);
-            }
+            //    _report.PrintOptions.PrinterName = dialog1.PrinterSettings.PrinterName;
+            //    _report.PrintToPrinter(copies, collate, fromPage, toPage);
+            //    confirmacaoImpressao = true;
+            //}
+            //else
+            //{
+            //    confirmacaoImpressao = false;
+            //}
 
-            dialog1.Dispose();
+            //dialog1.Dispose();
         }
 
         private void ChangePage_bt_Click(object sender, RoutedEventArgs e)

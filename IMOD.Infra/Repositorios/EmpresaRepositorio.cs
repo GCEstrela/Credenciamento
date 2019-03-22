@@ -55,7 +55,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("EmpresaID", entity.EmpresaId, true)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Nome", entity.Nome, false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Apelido", entity.Apelido, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Sigla", entity.Sigla, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Sigla", entity.Sigla.Trim(), false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Cnpj", entity.Cnpj.RetirarCaracteresEspeciais(), false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("CEP", entity.Cep, false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Endereco", entity.Endereco, false)));
@@ -285,7 +285,37 @@ namespace IMOD.Infra.Repositorios
                 }
             }
         }
+        /// <summary>
+        /// Buscar empresa por Sigla
+        /// </summary>
+        /// <param name="sigla"></param>
+        /// <returns></returns>
+        public Empresa BuscarEmpresaPorSigla(string sigla)
+        {
+            if (string.IsNullOrWhiteSpace(sigla)) return null;
+            using (var conn = _dataBase.CreateOpenConnection())
+            {
+                using (var cmd = _dataBase.SelectText("Empresas", conn))
 
+                {
+                    try
+                    {
+                        //cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("EmpresaID", DbType.Int32, EmpresaId).Igual()));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("Sigla", DbType.String, sigla).Igual()));
+
+                        var reader = cmd.ExecuteReader();
+                        var d1 = reader.MapToList<Empresa>();
+
+                        return d1.FirstOrDefault();
+                    }
+                    catch (Exception ex)
+                    {
+                        Utils.TraceException(ex);
+                        throw;
+                    }
+                }
+            }
+        }
         /// <summary>
         /// Listar Pendencias
         /// </summary>
@@ -313,8 +343,6 @@ namespace IMOD.Infra.Repositorios
                 }
             }
         }
-
-
         public ICollection<EmpresaTipoCredencialView> ListarTipoCredenciaisEmpresa(int empresaId = 0)
         {
             using (var conn = _dataBase.CreateOpenConnection())
@@ -337,6 +365,11 @@ namespace IMOD.Infra.Repositorios
                 }
             }
         }
+
+        //public Empresa BuscarEmpresaPorSigla(string sigla)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
 
         #endregion

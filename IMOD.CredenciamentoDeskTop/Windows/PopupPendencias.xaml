@@ -114,7 +114,9 @@
                             Text="{Binding Entity.DataLimite,
 							StringFormat='{}{0:dd/MM/yyyy}'}"
                             LostFocus="OnFormatDateLimite_LostFocus"
+                            PreviewTextInput="NumberOnly"
                             MaxLength="10"
+                            IsEnabled="{Binding Comportamento.isEnableCancelar}"
                             Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
                             Height="24"  Width="110" />
             
@@ -146,7 +148,7 @@
             HorizontalAlignment="Center"                 
                 x:Name="ListaPendencias_lv"
                 ItemsSource="{Binding PendenciasObserver, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                SelectedItem="{Binding Entity, Mode=TwoWay}" Width="480">
+                SelectedItem="{Binding Entity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="480">
 
             <ListView.View>
                 <GridView FrameworkElement.FlowDirection="RightToLeft">

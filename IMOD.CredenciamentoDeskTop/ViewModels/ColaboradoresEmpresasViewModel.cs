@@ -33,8 +33,14 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private readonly IEmpresaContratosService _empresaContratoService = new EmpresaContratoService();
         private readonly IEmpresaService _empresaService = new EmpresaService();
         private readonly IColaboradorEmpresaService _service = new ColaboradorEmpresaService();
+        
+        private readonly object _auxiliaresService;
         private ColaboradorView _colaboradorView;
+       
         private ColaboradorViewModel _viewModelParent;
+
+        private readonly IDadosAuxiliaresFacade _auxiliaresServiceConfiguraSistema = new DadosAuxiliaresFacadeService();
+        private ConfiguraSistema _configuraSistema;
 
         #region  Propriedades
 
@@ -52,12 +58,18 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         ///     Habilita listView
         /// </summary>
         public bool IsEnableLstView { get; private set; } = true;
-
+        /// <summary>
+        ///     Habilita Combo de Contratos
+        /// </summary>
+        public bool IsEnableComboContrato { get {
+                return !_configuraSistema.Contrato;
+            } }
         #endregion
 
         public ColaboradoresEmpresasViewModel()
         {
             ListarDadosAuxiliares();
+           
             Comportamento = new ComportamentoBasico(false, true, true, false, false);
             EntityObserver =new ObservableCollection<ColaboradorEmpresaView>();
             Comportamento.SalvarAdicao += OnSalvarAdicao;
@@ -76,8 +88,14 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <param name="e"></param>
         private void OnEntityChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "Entity") //habilitar botão alterar todas as vezes em que houver entidade diferente de null
-                Comportamento.IsEnableEditar = true;
+            // if (e.PropertyName == "Entity") //habilitar botão alterar todas as vezes em que houver entidade diferente de null
+            //Comportamento.IsEnableEditar = true;
+            if (e.PropertyName == "Entity")
+            {
+                Comportamento.IsEnableEditar = Entity != null;
+                Comportamento.isEnableRemover = Entity != null;
+                
+            }
         }
 
         /// <summary>
@@ -88,6 +106,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             Empresas = new List<Empresa>();
             Contratos = new List<EmpresaContrato>();
             ListarDadosEmpresaContratos();
+            _configuraSistema = ObterConfiguracao();
         }
 
         public void ListarContratos(Empresa empresa)
@@ -99,8 +118,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             //Manipular concatenaçção de conrato
             lstContratos.ForEach(n =>
             {
+                //if (Convert.ToInt32(n.NumeroContrato) > 0)
+                //{
                 n.Descricao = $"{n.Descricao} - {n.NumeroContrato}";
                 Contratos.Add(n);
+                //}
+
             });
         }
 
@@ -112,18 +135,39 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
             try
             {
-                var l2 = _empresaService.Listar().ToList();
-                Empresas = l2;
+                Empresas.Clear();
+                var l2 = _empresaService.Listar().ToList().OrderBy(m => m.Nome);
+                Empresas.AddRange(l2);
                 var l3 = _empresaContratoService.Listar().ToList();
                 Contratos = l3;
                 base.OnPropertyChanged ("Entity");
+
+                //_configuraSistema = ObterConfiguracao();
+                //if (_configuraSistema.Contrato) //Se contrato for automático for true a combo sera removida do formulário
+                //{
+                //    IsEnableComboContrato = false;
+                //}
+                
+                
+
             }
             catch (Exception ex)
             {
                 Utils.TraceException(ex);
             }
         }
-
+        /// <summary>
+        /// Obtem configuração de sistema
+        /// </summary>
+        /// <returns></returns>
+        private ConfiguraSistema ObterConfiguracao()
+        {
+            //Obter configuracoes de sistema
+            var config = _auxiliaresServiceConfiguraSistema.ConfiguraSistemaService.Listar();
+            //Obtem o primeiro registro de configuracao
+            if (config == null) throw new InvalidOperationException("Não foi possivel obter dados de configuração do sistema.");
+            return config.FirstOrDefault();
+        }
         /// <summary>
         ///     Acionado antes de remover
         /// </summary>
@@ -149,6 +193,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 var n1 = Mapper.Map<ColaboradorEmpresa>(Entity);
                 n1.ColaboradorId = _colaboradorView.ColaboradorId;
+                if (_configuraSistema.Contrato)
+                {
+                    n1.EmpresaContratoId = Contratos[0].EmpresaContratoId;
+                }
+
                 _service.Criar(n1);
                 //Adicionar no inicio da lista um item a coleção
                 var n2 = Mapper.Map<ColaboradorEmpresaView>(n1);
@@ -158,6 +207,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 IsEnableLstView = true;
                _viewModelParent.AtualizarDadosPendencias();
                 SelectListViewIndex = 0;
+                _viewModelParent.HabilitaControleTabControls(true, true, true, true, true, true);
             }
             catch (Exception ex)
             {
@@ -171,12 +221,14 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             var empresa = Empresas.FirstOrDefault(n => n.EmpresaId == entity.EmpresaId);
             var contrato = Contratos.FirstOrDefault(n => n.EmpresaContratoId == entity.EmpresaContratoId);
             if (empresa != null)
+                //Verificar essa linha
+                //entity.EmpresaContratoId = Contratos[0].EmpresaContratoId;
                 entity.EmpresaNome = empresa.Nome;//Setar o nome da empresa para ser exibida na list view
-          
+            
 
-            if (contrato != null)
-                entity.Descricao = contrato.Descricao;//Setar o nome do contrato para ser exibida na list view
-             
+            //if (contrato != null)
+            //    entity.Descricao = contrato.Descricao;//Setar o nome do contrato para ser exibida na list view
+
         }
 
         /// <summary>
@@ -186,8 +238,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
            
             Entity = new ColaboradorEmpresaView();
+            Entity.Ativo = true;
             Comportamento.PrepareCriar();
             IsEnableLstView = false;
+            _viewModelParent.HabilitaControleTabControls(false, false, true, false, false, false);
             ListarDadosEmpresaContratos();
         }
 
@@ -205,6 +259,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var n1 = Mapper.Map<ColaboradorEmpresa>(Entity);
                 _service.Alterar(n1);
                 IsEnableLstView = true;
+                SetDadosEmpresaContrato(Entity);
+
+
+                _viewModelParent.HabilitaControleTabControls(true, true, true, true, true, true);
             }
             catch (Exception ex)
             {
@@ -225,6 +283,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 IsEnableLstView = true;
                 if (Entity != null) Entity.ClearMessageErro();
                 Entity = null;
+                _viewModelParent.HabilitaControleTabControls(true, true, true, true, true, true);
             }
             catch (Exception ex)
             {
@@ -252,6 +311,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 _service.Remover(n1);
                 //Retirar empresa da coleção
                 EntityObserver.Remove(Entity);
+                _viewModelParent.HabilitaControleTabControls(true, true, true, true, true, true);
             }
             catch (Exception ex)
             {
@@ -278,7 +338,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
             Comportamento.PrepareAlterar();
             IsEnableLstView = false;
-            ListarDadosEmpresaContratos();
+            _viewModelParent.HabilitaControleTabControls(false, false, true, false, false, false);
         }
 
         /// <summary>
@@ -308,6 +368,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             var list2 = Mapper.Map<List<ColaboradorEmpresaView>>(list1.OrderByDescending(n => n.ColaboradorEmpresaId));
             EntityObserver = new ObservableCollection<ColaboradorEmpresaView>();
             list2.ForEach(n => { EntityObserver.Add(n); });
+            ListarDadosEmpresaContratos();
         }
 
         #endregion

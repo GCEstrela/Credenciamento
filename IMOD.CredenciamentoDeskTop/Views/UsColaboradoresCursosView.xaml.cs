@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using IMOD.CredenciamentoDeskTop.Helpers;
 using IMOD.CredenciamentoDeskTop.ViewModels;
 using IMOD.CrossCutting;
@@ -38,8 +40,10 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             try
             {
+                //var filtro = "Imagem files (*.pdf)|*.pdf|All Files (*.*)|*.*";
+                //var arq = WpfHelp.UpLoadArquivoDialog(filtro, 700);
                 var filtro = "Imagem files (*.pdf)|*.pdf";
-                var arq = WpfHelp.UpLoadArquivoDialog(filtro, 2048);
+                var arq = WpfHelp.UpLoadArquivoDialog(filtro, 2000);
                 if (arq == null) return;
                 _viewModel.Entity.Arquivo = arq.FormatoBase64;
                 _viewModel.Entity.NomeArquivo = arq.Nome;
@@ -66,9 +70,16 @@ namespace IMOD.CredenciamentoDeskTop.Views
         }
 
         private void OnFormatDate_LostFocus(object sender, RoutedEventArgs e)
-        {
-            var str = txtDate.Text;
-            txtDate.Text = str.FormatarData(); 
+        { 
+            try
+            {
+                var str = txtDate.Text;
+                txtDate.Text = str.FormatarData();
+            }
+            catch (Exception)
+            {
+                _viewModel.Entity.SetMessageErro("Validade", "Data inválida");
+            }
 
         }
 
@@ -76,5 +87,12 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             cmbCurso.Focus();
         }
+
+        private void NumberOnly(object sender, TextCompositionEventArgs e)
+        {
+            var regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
+        }
+        
     }
 }

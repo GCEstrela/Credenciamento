@@ -31,7 +31,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
     public class ColaboradorViewModel : ViewModelBase, IComportamento, IAtualizarDados
     {
         private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
-        private readonly IColaboradorService _service = new ColaboradorService();
+        private readonly IColaboradorService _service = new ColaboradorService(); 
 
         /// <summary>
         ///     True, Comando de alteração acionado
@@ -92,10 +92,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         public short SelectListViewIndex { get; set; }
 
-        /// <summary>
-        ///     Habilita abas
-        /// </summary>
-        public bool IsEnableTabItem { get; private set; }
+
+        public bool IsEnableTabItemGeral { get; set; }
+        public bool IsEnableTabItemEmpresas { get; set; }
+        public bool IsEnableTabItemCursos { get; set; }
+        public bool IsEnableTabItemAnexos { get; set; }
+        public bool IsEnableTabItemCredenciais { get; set; }
 
         /// <summary>
         ///     Seleciona o indice da tabcontrol desejada
@@ -151,8 +153,19 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <param name="isEnableLstView"></param>
         private void HabilitaControle(bool isEnableTabItem, bool isEnableLstView)
         {
-            IsEnableTabItem = isEnableTabItem;
-            IsEnableLstView = isEnableLstView;
+            HabilitaControleTabControls(isEnableLstView, isEnableTabItem, isEnableTabItem, isEnableTabItem, isEnableTabItem, isEnableTabItem); 
+        }
+
+        public void HabilitaControleTabControls(bool lstViewSuperior = true, bool isItemGeral = true, bool isItemEmpresas = false, bool isItemCursos = false, bool isItemAnexos = false, bool isItemCredenciais = false)
+        {
+            IsEnableLstView = lstViewSuperior;
+
+            IsEnableTabItemGeral = isItemGeral;
+            IsEnableTabItemEmpresas = isItemEmpresas;
+            IsEnableTabItemCursos = isItemCursos;
+            IsEnableTabItemAnexos = isItemAnexos;
+            IsEnableTabItemCredenciais = isItemCredenciais;
+            Comportamento.IsEnableCriar = lstViewSuperior;
         }
 
         /// <summary>
@@ -164,12 +177,17 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             if (e.PropertyName == "Entity")
 
             {
-                Comportamento.IsEnableEditar = Entity != null;
-                IsEnableTabItem = Entity != null;
+                var enableControls = Entity != null;
+                Comportamento.IsEnableEditar = enableControls; 
+                HabilitaControleTabControls(true, enableControls, enableControls, enableControls, enableControls, enableControls);
             }
+        
             if (e.PropertyName == "SelectedTabIndex")
-                //Habilita botoes principais...
-                HabilitaCommandPincipal = SelectedTabIndex == 0;
+            {
+                //Habilita/Desabilita botoes principais...
+                HabilitaCommandPincipal = SelectedTabIndex == 0; 
+            }
+                
         }
 
         /// <summary>
@@ -190,6 +208,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var list2 = Mapper.Map<List<ColaboradorView>> (list.OrderByDescending (n => n.ColaboradorId));
                 EntityObserver = new ObservableCollection<ColaboradorView>();
                 list2.ForEach (n => { EntityObserver.Add (n); });
+                //Havendo registros, selecione o primeiro
+                if (EntityObserver.Any()) SelectListViewIndex = 0;
             }
 
             catch (Exception ex)
@@ -212,6 +232,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     if (string.IsNullOrWhiteSpace (pesquisa)) return;
                     var l1 = _service.Listar (null, null, $"%{pesquisa}%");
                     PopularObserver (l1);
+                    
                 }
                 //Por cpf
                 if (num.Key == 1)
@@ -219,15 +240,17 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     if (string.IsNullOrWhiteSpace (pesquisa)) return;
                     var l1 = _service.Listar (null, $"%{pesquisa.RetirarCaracteresEspeciais()}%", null);
                     PopularObserver (l1);
+                    
                 }
 
-                IsEnableLstView = true;
+                IsEnableLstView = true; 
             }
             catch (Exception ex)
             {
                 Utils.TraceException (ex);
             }
         }
+         
 
         public void ListarDadosAuxiliares()
         {
@@ -246,11 +269,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
             var pendencia = _service.Pendencia.ListarPorColaborador (Entity.ColaboradorId).ToList();
             //Set valores
-            Pendencia21 = false;
-            Pendencia22 = false;
-            Pendencia23 = false;
-            Pendencia24 = false;
-            Pendencia25 = false;
+            SetPendenciaFalse();
             //Buscar pendências referente aos códigos: 21;22;23;24;25
             Pendencia21 = pendencia.Any (n => n.CodPendencia == 21 & n.Ativo);
             Pendencia22 = pendencia.Any (n => n.CodPendencia == 22 & n.Ativo);
@@ -259,11 +278,20 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             Pendencia25 = pendencia.Any (n => n.CodPendencia == 25 & n.Ativo);
         }
 
+        private void SetPendenciaFalse()
+        {
+            Pendencia21 = false;
+            Pendencia22 = false;
+            Pendencia23 = false;
+            Pendencia24 = false;
+            Pendencia25 = false;
+        }
+
         #endregion
 
         #region Regras de Negócio
 
-        private bool ExisteCpf()
+        public bool ExisteCpf()
         {
             if (Entity == null) return false;
             var cpf = Entity.Cpf.RetirarCaracteresEspeciais();
@@ -370,6 +398,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             Comportamento.PrepareCriar();
             _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;
             HabilitaControle (false, false);
+            CloneObservable();
+            SetPendenciaFalse();
         }
 
         /// <summary>
@@ -406,7 +436,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             if (Validar()) return;
             Comportamento.PrepareSalvar();
         }
-
+         
+        private List<ColaboradorView> _entityObserverCloned = new List<ColaboradorView>();
         private void PrepareAlterar()
         {
             if (Entity == null)
@@ -419,6 +450,16 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             _prepareCriarCommandAcionado = false;
             _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;
             HabilitaControle (false, false);
+
+            CloneObservable();
+        }
+        /// <summary>
+        /// Clone Observable
+        /// </summary>
+        private void CloneObservable()
+        {
+            _entityObserverCloned.Clear();
+            EntityObserver.ToList().ForEach (n => { _entityObserverCloned.Add ((ColaboradorView) n.Clone()); });
         }
 
         private void PrepareRemover()
@@ -478,6 +519,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (Entity != null) Entity.ClearMessageErro();
                 HabilitaControle (true, true);
                 Entity = null;
+
+                EntityObserver.Clear();
+                EntityObserver = new ObservableCollection<ColaboradorView>(_entityObserverCloned); 
+
             }
             catch (Exception ex)
             {

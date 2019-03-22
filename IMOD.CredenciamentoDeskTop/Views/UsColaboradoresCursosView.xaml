@@ -38,15 +38,15 @@
                       VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="795">
                 <StackPanel x:Name="InformacoesAnexo_sp" Margin="0,0,0,0" Width="773">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="1">
-                        <Label Content="Código:" Height="26" Foreground="#FFD0D0D0" Width="110"  />
+                        <Label Content="Código:" Height="26" Foreground="#FFD0D0D0" Width="110" Visibility="Collapsed" />
                         <TextBox  x:Name="cmbEmpresa" Width="43" Height="24" IsEnabled="False"
                                   Text="{Binding Entity.ColaboradorCursoId, UpdateSourceTrigger=PropertyChanged}" 
                                    VerticalContentAlignment="Center" 
                                    HorizontalContentAlignment="Left"
-                                   VerticalAlignment="Center"/>
+                                   VerticalAlignment="Center" Visibility="Collapsed"/>
 
-                        <Label Content="Curso:" Height="24" Width="55" Foreground="#FFD0D0D0" />
-                        <ComboBox  x:Name="cmbCurso" 
+                        <Label Content="Curso:" Height="24" Width="109" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
+                        <ComboBox  x:Name="cmbCurso" IsEditable="true" 
                                    IsEnabled="{Binding Comportamento.isEnableCancelar}"
                                    Width="294" Height="24" 
                                    VerticalContentAlignment="Center" 
@@ -66,32 +66,37 @@
                             Name="txtDate"
                             IsEnabled="{Binding Comportamento.isEnableCancelar}"
                             Text="{Binding Entity.Validade, StringFormat='{}{0:dd/MM/yyyy}'}"
-                            LostFocus="OnFormatDate_LostFocus"
+                            LostFocus="OnFormatDate_LostFocus" 
+                            PreviewTextInput="NumberOnly"
                             MaxLength="10"
                             Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
                             Height="24"  Width="114" />
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
-                        <Label Content="Nome do Arquivo:" Height="24" Width="110" Foreground="#FFD0D0D0"  />
+                        <Label Content="Nome do Arquivo:" Height="24" Width="110" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                         <TextBox  x:Name="NomeArquivo_tb" 
                                   Text="{Binding Entity.NomeArquivo, UpdateSourceTrigger=PropertyChanged}" 
                                    Width="324" Height="24" 
                                    MaxLength="100"
                                    IsEnabled="False"
                                    VerticalContentAlignment="Center" 
-                                   HorizontalContentAlignment="Left" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
+                                   HorizontalContentAlignment="Left" />
                         <Button x:Name="BuscarCursoArquivo_bt" IsEnabled="{Binding Comportamento.isEnableCancelar}" Height="24"  VerticalAlignment="Center" HorizontalAlignment="Left" Width="24" Margin="10,10,0,8" Click="OnUpLoad_Click">
                             <StackPanel>
                                 <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Pasta.ico"/>
                             </StackPanel>
                         </Button>
-                        <Button x:Name="AbrirCursoArquivo_bt" Height="24" Margin="10,10,5,8" VerticalAlignment="Center" Width="24" Click="OnAbrirArquivo_Click">
+                        <Button x:Name="AbrirCursoArquivo_bt" Height="24" Margin="5,10,5,8" VerticalAlignment="Center" Width="24" Click="OnAbrirArquivo_Click">
                             <StackPanel>
                                 <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Olho.png"/>
                             </StackPanel>
                         </Button>
-                        <CheckBox VerticalAlignment="Center" IsEnabled="{Binding Comportamento.isEnableCancelar}" x:Name="Impeditivo_cb" Margin="10,0,0,0" Foreground="#FFD0D0D0" IsChecked="{Binding Entity.Controlado, UpdateSourceTrigger=PropertyChanged}" Content="Curso Controlado"/>
+                        <CheckBox VerticalAlignment="Center" 
+                                  IsEnabled="{Binding Comportamento.isEnableCancelar}" 
+                                  x:Name="Impeditivo_cb" Margin="10,0,0,0" Foreground="#FFD0D0D0" 
+                                  IsChecked="{Binding Entity.Controlado, UpdateSourceTrigger=PropertyChanged}" Content="Curso Controlado"
+                                  Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
                         
                     </StackPanel>
                 </StackPanel>
@@ -102,7 +107,7 @@
                           SelectedIndex="{Binding SelectListViewIndex}"
                           ItemsSource="{Binding EntityObserver, Mode=TwoWay}"
                           SelectedItem="{Binding Entity, Mode=TwoWay}"
-                          Width="757" Margin="0,15,0,10">
+                          Width="757" Margin="0,15,0,0" Height="175" VerticalAlignment="Top">
                     <ListView.View>
                         <GridView FrameworkElement.FlowDirection="RightToLeft">
                             <GridViewColumn Width="80" Header="Controlada"  >

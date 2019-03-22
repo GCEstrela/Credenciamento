@@ -59,8 +59,10 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             try
             {
-                var filtro = "Imagem files (*.pdf)|*.pdf|All Files (*.*)|*.*";
-                var arq = WpfHelp.UpLoadArquivoDialog (filtro, 700);
+                //var filtro = "Imagem files (*.pdf)|*.pdf|All Files (*.*)|*.*";
+                //var arq = WpfHelp.UpLoadArquivoDialog (filtro, 700);
+                var filtro = "Imagem files (*.pdf)|*.pdf";
+                var arq = WpfHelp.UpLoadArquivoDialog (filtro, 2000);
                 if (arq == null) return;
                 _viewModel.Entity.Arquivo = arq.FormatoBase64;
                 _viewModel.Entity.NomeArquivo = arq.Nome;
@@ -90,7 +92,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
             {
                 Utils.TraceException (ex);
             }
-        } 
+        }
 
         private void NumberOnly(object sender, TextCompositionEventArgs e)
         {
@@ -98,18 +100,36 @@ namespace IMOD.CredenciamentoDeskTop.Views
             e.Handled = regex.IsMatch (e.Text);
         }
 
+        private void OnFormatData1_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (_viewModel.Entity == null) return;
+            try
+            {
+                var str = txtDtEmissao.Text;
+                if (string.IsNullOrWhiteSpace (str)) return;
+                txtDtEmissao.Text = str.FormatarData();
+            }
+            catch (Exception)
+            {
+                _viewModel.Entity.SetMessageErro ("Validade", "Data inválida");
+            }
+        }
+
+        private void OnFormatData2_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (_viewModel.Entity == null) return;
+            try
+            {
+                var str = txtDtValidade.Text;
+                if (string.IsNullOrWhiteSpace (str)) return;
+                txtDtValidade.Text = str.FormatarData();
+            }
+            catch (Exception)
+            {
+                _viewModel.Entity.SetMessageErro ("Validade", "Data inválida");
+            }
+        }
+
         #endregion
-
-        private void OnFormatDateEmissao_LostFocus(object sender, RoutedEventArgs e)
-        {
-            var str = txtDateEmissao.Text;
-            txtDateEmissao.Text = str.FormatarData();
-        }
-
-        private void OnFormatDateValidade_LostFocus(object sender, RoutedEventArgs e)
-        {
-            var str = txtDateValidade.Text;
-            txtDateValidade.Text = str.FormatarData();
-        }
     }
 }

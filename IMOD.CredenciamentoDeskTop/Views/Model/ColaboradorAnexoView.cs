@@ -15,11 +15,11 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
 
         public int ColaboradorAnexoId { get; set; }
         public int ColaboradorId { get; set; }
-        [Required(ErrorMessage = "A Descrição é requerida.")]
+        //[Required(ErrorMessage = "A Descrição é requerida.")]
         public string Descricao { get; set; }
         [Required(ErrorMessage = "O Nome do arquivo é requerido.")]
         public string NomeArquivo { get; set; }
-        [Required(ErrorMessage = "O Arquivo do arquivo é requerido.")]
+        //[Required(ErrorMessage = "O Arquivo do arquivo é requerido.")]
         public string Arquivo { get; set; }
 
         #endregion

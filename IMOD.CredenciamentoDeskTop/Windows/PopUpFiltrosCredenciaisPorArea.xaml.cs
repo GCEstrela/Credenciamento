@@ -27,12 +27,15 @@ namespace IMOD.CredenciamentoDeskTop.Windows
             bool check;
             string area;
 
-            if (AreaAcesso_cb.SelectedValue == null)
+            if (AreaAcesso_cb.SelectedItem == null)
             {
                 area = "";
             }
             else
-                area = AreaAcesso_cb.SelectedValue.ToString();
+            {
+                area = ((IMOD.CredenciamentoDeskTop.Views.Model.AreaAcessoView)AreaAcesso_cb.SelectedItem).AreaAcessoId.ToString();
+            }
+                
 
 
             if (credenciais_rb.IsChecked.Value)

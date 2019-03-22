@@ -50,14 +50,22 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         public ColaboradoresAnexosViewModel()
         {
-            Comportamento = new ComportamentoBasico (false, true, true, false, false);
+            Comportamento = new ComportamentoBasico(false, true, false, false, false);
             EntityObserver = new ObservableCollection<ColaboradorAnexoView>();
             Comportamento.SalvarAdicao += OnSalvarAdicao;
             Comportamento.SalvarEdicao += OnSalvarEdicao;
             Comportamento.Remover += OnRemover;
             Comportamento.Cancelar += OnCancelar;
+          
             base.PropertyChanged += OnEntityChanged;
         }
+
+        private void Clear(object sender, EventArgs e)
+        {
+            EntityObserver.Clear();
+        }
+
+      
 
         #region  Metodos
 
@@ -67,9 +75,13 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void OnEntityChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == "Entity") //habilitar botão alterar todas as vezes em que houver entidade diferente de null
-                Comportamento.IsEnableEditar = true;
+        {  
+            if (e.PropertyName == "Entity")
+            {
+                Comportamento.IsEnableEditar = Entity != null;
+                Comportamento.isEnableRemover = Entity != null;
+
+            }
         }
 
         private void PrepareSalvar()
@@ -106,6 +118,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 IsEnableLstView = true;
                 _viewModelParent.AtualizarDadosPendencias();
                 SelectListViewIndex = 0;
+                _viewModelParent.HabilitaControleTabControls(true, true, true, true, true, true);
             }
             catch (Exception ex)
             {
@@ -123,6 +136,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             Entity = new ColaboradorAnexoView();
             Comportamento.PrepareCriar();
             IsEnableLstView = false;
+            _viewModelParent.HabilitaControleTabControls(false, false, false, false, true, false);
         }
 
         /// <summary>
@@ -139,6 +153,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var n1 = Mapper.Map<ColaboradorAnexo> (Entity);
                 _service.Alterar (n1);
                 IsEnableLstView = true;
+                _viewModelParent.HabilitaControleTabControls(true, true, true, true, true, true);
             }
             catch (Exception ex)
             {
@@ -159,6 +174,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (Entity != null) Entity.ClearMessageErro();
                 IsEnableLstView = true;
                 Entity = null;
+                _viewModelParent.HabilitaControleTabControls(true, true, true, true, true, true);
             }
             catch (Exception ex)
             {
@@ -184,6 +200,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 _service.Remover (n1);
                 //Retirar empresa da coleção
                 EntityObserver.Remove (Entity);
+                _viewModelParent.HabilitaControleTabControls(true, true, true, true, true, true);
             }
             catch (Exception ex)
             {
@@ -191,6 +208,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 WpfHelp.MboxError ("Não foi realizar a operação solicitada", ex);
             }
         }
+
+       
 
         /// <summary>
         ///     Acionado antes de alterar
@@ -204,13 +223,15 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
             Comportamento.PrepareAlterar();
             IsEnableLstView = false;
+            _viewModelParent.HabilitaControleTabControls(false, false, false, false, true, false);
         }
         
         public void AtualizarDadosAnexo(ColaboradorView entity, ColaboradorViewModel viewModelParent)
         {
             if(entity==null) throw new ArgumentNullException(nameof(entity));
             _colaboradorView = entity;
-            _viewModelParent = viewModelParent;
+            _viewModelParent = viewModelParent; 
+
             var list1 = _service.Listar(entity.ColaboradorId);
             var list2 = Mapper.Map<List<ColaboradorAnexoView>>(list1.OrderByDescending(n => n.ColaboradorAnexoId));
             EntityObserver = new ObservableCollection<ColaboradorAnexoView>();
