@@ -164,11 +164,9 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Pendente23", entity.Pendente23, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Pendente24", entity.Pendente24, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Pendente25", entity.Pendente25, false)));
-                       
-        
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Estrangeiro", entity.Estrangeiro, false)));
 
-
-        cmd.ExecuteNonQuery();
+                        cmd.ExecuteNonQuery();
                     }
                     catch (Exception ex)
                     {
@@ -265,6 +263,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Pendente23", entity.Pendente23, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Pendente24", entity.Pendente24, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Pendente25", entity.Pendente25, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Estrangeiro", entity.Estrangeiro, false)));
 
                         var key = Convert.ToInt32(cmd.ExecuteScalar());
                         entity.ColaboradorId = key;
