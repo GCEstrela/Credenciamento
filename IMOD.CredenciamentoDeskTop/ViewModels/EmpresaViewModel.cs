@@ -583,11 +583,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 var n1 = Mapper.Map<Empresa> (Entity);
                 var status = _auxiliaresService.StatusService.Listar().FirstOrDefault (n => n.CodigoStatus);
-                if (_configuraSistema.Contrato)
-                {
-                    _service.CriarContrato(n1, DateTime.Now.Date, "0", status, _configuraSistema);
-                }
-                
+
+                _service.CriarContrato(n1, DateTime.Now.Date, "0", status, _configuraSistema);
+
                 //Salvar Tipo de Atividades
                 SalvarTipoAtividades (n1.EmpresaId);
                 //Salvar Tipo Cracha

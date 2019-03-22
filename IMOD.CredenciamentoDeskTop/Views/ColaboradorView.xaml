@@ -310,7 +310,7 @@
                                              Text="{Binding Entity.Cpf,
                                               UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                              HorizontalContentAlignment="Center"
-                                             Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
+                                               />
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
                                             HorizontalAlignment="Left" Margin="1">
@@ -319,7 +319,7 @@
                                     <TextBox CharacterCasing="Upper"
                                              Text="{Binding Entity.Nome,ValidatesOnNotifyDataErrors=True}"
                                              x:Name="Nome_tb" MaxLength="100" IsEnabled="True" Height="24" Width="306"
-                                             Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
+                                               />
                                 </StackPanel>
 
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
@@ -329,7 +329,7 @@
                                     <TextBox CharacterCasing="Upper" x:Name="Apelido_tb"
                                              MaxLength="100"
                                              Text="{Binding Entity.Apelido, UpdateSourceTrigger=PropertyChanged}"
-                                             Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
+                                              
                                              IsEnabled="True" Height="24" Width="306" />
 
                                 </StackPanel>
@@ -387,7 +387,7 @@
                                        HorizontalContentAlignment="Right" />
                                 <TextBox CharacterCasing="Upper" x:Name="Endereco_tb" MaxLength="100"
                                          Text="{Binding Entity.Endereco, UpdateSourceTrigger=PropertyChanged}"
-                                         IsEnabled="True" Height="24" Width="455" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
+                                         IsEnabled="True" Height="24" Width="455"   />
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                         Margin="1,1,0,1" Width="562">
@@ -395,13 +395,13 @@
                                        HorizontalContentAlignment="Right" />
                                 <TextBox CharacterCasing="Upper" x:Name="Numero_tb" MaxLength="4"
                                          Text="{Binding Entity.Numero,  UpdateSourceTrigger=PropertyChanged}"
-                                         IsEnabled="True" Height="24" Width="50" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
+                                         IsEnabled="True" Height="24" Width="50"   />
                                 <Label Content="CEP:" Height="28" Width="90" Foreground="#FFD0D0D0"
                                        HorizontalContentAlignment="Right" />
                                 <TextBox CharacterCasing="Upper" x:Name="Cep_tb" MaxLength="12"
                                          PreviewTextInput="NumberOnly"
                                          Text="{Binding Entity.Cep,  UpdateSourceTrigger=PropertyChanged, Converter={StaticResource FormatCep}}"
-                                         IsEnabled="True" Height="24" Width="98" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
+                                         IsEnabled="True" Height="24" Width="98"   />
                                 <Label Content="Complemento:" Height="28" Width="89" Margin="0,0,5,0"
                                        Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                                 <TextBox CharacterCasing="Upper" x:Name="Complemento_tb" MaxLength="50"
@@ -414,7 +414,7 @@
                                        HorizontalContentAlignment="Right" />
                                 <TextBox CharacterCasing="Upper" x:Name="Bairro_tb" MaxLength="50"
                                          Text="{Binding Entity.Bairro,   UpdateSourceTrigger=PropertyChanged}"
-                                         IsEnabled="True" Height="23" Width="152" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
+                                         IsEnabled="True" Height="23" Width="152"   />
                                 <Label Content="UF:" Height="28" Width="30" Margin="1" Foreground="#FFD0D0D0" />
                                 <ComboBox x:Name="cmbEstado" Height="25"
                                           ItemsSource="{Binding Estados}" DisplayMemberPath="Uf"
@@ -423,7 +423,7 @@
                                           SelectedIndex="0"
                                           IsEditable="true" 
                                           SelectedItem="{Binding Estado}"
-                                          Width="53" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
+                                          Width="53"   />
 
                                 <Label Content="Cidade:" Height="28" Width="50" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                                 <ComboBox x:Name="Cidade_cb" Height="25"
@@ -431,7 +431,7 @@
                                           SelectedValue="{Binding Entity.MunicipioId,  UpdateSourceTrigger=PropertyChanged}"
                                           SelectedValuePath="MunicipioId"
                                           IsEditable="true" 
-                                          SelectedIndex="0" Width="167" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
+                                          SelectedIndex="0" Width="167"   />
                             </StackPanel>
                         </StackPanel>
                     </GroupBox>
@@ -474,7 +474,7 @@
                                 <TextBox CharacterCasing="Upper" x:Name="Email2_tb" MaxLength="50"
                                          Text="{Binding Entity.ContatoEmergencia, UpdateSourceTrigger=PropertyChanged}"
                                          IsEnabled="True" Height="24" Width="237" 
-                                         Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
+                                           />
                                 <Label Content="Tel.Emerg.:" Height="28" Width="68" Foreground="#FFD0D0D0"
                                        HorizontalContentAlignment="Right" />
                                 <TextBox Foreground="#FFD0D0D0" CharacterCasing="Upper" x:Name="Cel2_tb" MaxLength="15"
@@ -482,7 +482,7 @@
                                          Text="{Binding Entity.TelefoneEmergencia, Converter={StaticResource FormateTel}, UpdateSourceTrigger=PropertyChanged}"
                                          Margin="1" IsEnabled="True" Height="24" Width="106"
                                          HorizontalContentAlignment="Center" 
-                                         Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
+                                           />
                             </StackPanel>
 
 
@@ -509,7 +509,7 @@
                                          LostFocus="OnFormatEmissao_LostFocus"
                                          PreviewTextInput="NumberOnly"
                                          MaxLength="10"
-                                         Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
+                                          
                                          Height="24" Width="102" />
 
 
@@ -580,7 +580,7 @@
                                          Text="{Binding Entity.PassaporteValidade,	StringFormat='{}{0:dd/MM/yyyy}'}"
                                          LostFocus="OnFormatDatePassaporteValidade_LostFocus"
                                          PreviewTextInput="NumberOnly" MaxLength="10"
-                                         Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
+                                          
                                          Height="24" Width="114" />
                             </StackPanel>
                             <!--<StackPanel  Orientation="Horizontal"  >
@@ -598,7 +598,7 @@
                                     LostFocus="OnFormatDateNascimento_LostFocus"
                                     PreviewTextInput="NumberOnly"
                                     MaxLength="10"
-                                    Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
+                                     
                                     Height="24" Width="109" />
 
                                 <!--<DatePicker x:Name="DataNascimento_tb" Width="120" Height="24"
@@ -647,17 +647,15 @@
                                 <TextBox Name="txtDateValidade"
                                          Text="{Binding Entity.CnhValidade,StringFormat='{}{0:dd/MM/yyyy}'}"
                                          LostFocus="OnFormatDateValidade_LostFocus"
-                                         PreviewTextInput="NumberOnly" MaxLength="10"
-                                         Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
+                                         PreviewTextInput="NumberOnly" MaxLength="10"                                         
                                          Height="24" Width="110" />
                                 <Label Content="Emissor:" Height="26" Width="59" Foreground="#FFD0D0D0"
                                        HorizontalContentAlignment="Right" />
                                 <ComboBox x:Name="CNHEmissor_cb" IsEditable="true" 
                                           Text="{Binding Entity.CnhEmissor,
                                     UpdateSourceTrigger=PropertyChanged}"
-                                          HorizontalContentAlignment="Center" IsEnabled="True" Width="85" Height="25">
+                                          HorizontalContentAlignment="Center" IsEnabled="false" Width="85" Height="25" SelectedIndex="0">
                                     <ComboBoxItem>DETRAN</ComboBoxItem>
-                                    <ComboBoxItem>SSP</ComboBoxItem>
                                 </ComboBox>
                                 <Label Foreground="#FFD0D0D0" Content="UF:" Width="58" Height="24" Margin="0,3,0,3"
                                        HorizontalContentAlignment="Right" />
@@ -699,7 +697,7 @@
                                 <CheckBox x:Name="Motorista_cb" VerticalContentAlignment="Center" Margin="5,10,0,-5"
                                           Height="24" Foreground="#FFD0D0D0"
                                           IsChecked="{Binding Entity.Motorista, UpdateSourceTrigger=PropertyChanged}" 
-                                          Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
+                                            />
 
                                 <Label Content="Categoria:" Foreground="#FFD0D0D0" Height="26" Width="66"
                                        HorizontalContentAlignment="Right" Margin="60,0,0,0"/>
