@@ -32,6 +32,7 @@ using Cursor = System.Windows.Forms.Cursor;
 using Cursors = System.Windows.Forms.Cursors;
 using IMOD.CredenciamentoDeskTop.Enums;
 using System.Text.RegularExpressions;
+using CrystalDecisions.CrystalReports.Engine;
 
 #endregion
 
@@ -98,7 +99,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public ColaboradorEmpresa ColaboradorEmpresa { get; set; }
         public List<AreaAcesso> ColaboradorPrivilegio { get; set; }
         public ColaboradoresCredenciaisView Entity { get; set; }
-
+        public List<Curso> Cursos { get; private set; }
         public bool IsCheckDevolucao { get; set; }
         public Visibility VisibilityCheckDevolucao { get; set; }
         public string TextCheckDevolucao { get; set; } = String.Empty;
@@ -250,11 +251,15 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             //_credencialMotivo = new List<CredencialMotivo>(lst8.OrderBy(n => n.Descricao));
             _credencialMotivo.AddRange (lst8.OrderBy(n => n.Descricao));
 
+           
+
             _configuraSistema = ObterConfiguracao();            
             if (_configuraSistema.Contrato) //Se contrato for automático for true a combo sera removida do formulário
             {
                 IsEnableComboContrato = false;
             }
+
+
         } 
 
 
@@ -630,15 +635,52 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 var arrayBytes = WpfHelp.ConverterBase64(layoutCracha.LayoutRpt, "Layout Cracha");
                 var relatorio = WpfHelp.ShowRelatorioCrystalReport(arrayBytes, layoutCracha.Nome);
+                //Maximo, add cursos no cracha
+                //var cusrsos;
+                var cursosCracha = _auxiliaresService.CursoService.Listar(null, null, true);               
+                string _cursosCracha = "";
+                foreach (Curso element in cursosCracha)
+                {
+                    if (_cursosCracha == "")
+                    {
+                        _cursosCracha = element.Descricao.ToString();
+                    }
+                    else
+                    {
+                        _cursosCracha = _cursosCracha + " - " + element.Descricao.ToString();
+                    }
+                }
                 //Changed by
                 //Author:Valnei Filho
                 //Date: 28/02/2019
                 var lst = new List<CredencialViewCracha>();
                 var credencialView = _service.ObterCredencialView(Entity.ColaboradorCredencialId);
                 var c1 = Mapper.Map<CredencialViewCracha>(credencialView);
+                c1.CrachaCursos = _cursosCracha;
+                if (c1.ImpressaoMotivo != "SEGUNDA EMISSÃO" & c1.ImpressaoMotivo != "TERCEIRA EMISSÃO")
+                {
+                    c1.ImpressaoMotivo = "";
+                }
+                c1.EmpresaNome = c1.EmpresaNome + " / " + c1.TerceirizadaNome;
 
                 lst.Add(c1);
                 relatorio.SetDataSource(lst);
+                if (c1.CPF == "")
+                {
+                    var txt = (TextObject)relatorio.ReportDefinition.ReportObjects["Text3"];
+                    txt.Text = "RNE:";
+                    var txtIDENTIFICACAO = (TextObject)relatorio.ReportDefinition.ReportObjects["IDENTIFICACAO"];
+                    txtIDENTIFICACAO.Text = c1.RNE;
+                }
+                else
+                {
+                    var txt = (TextObject)relatorio.ReportDefinition.ReportObjects["Text3"];
+                    txt.Text = "CPF:";
+                    var txtIDENTIFICACAO = (TextObject)relatorio.ReportDefinition.ReportObjects["IDENTIFICACAO"];
+                    txtIDENTIFICACAO.Text = c1.CPF;
+                }
+
+                //IDENTIFICACAO
                 var popupCredencial = new PopupCredencial(relatorio, _service, Entity, layoutCracha);
                 popupCredencial.ShowDialog();
 
