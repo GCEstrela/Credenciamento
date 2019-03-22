@@ -136,7 +136,6 @@ namespace IMOD.Infra.Servicos
                     cardholder.State = entity.Ativo ? CardholderState.Active : CardholderState.Inactive;
                 }
 
-
                 _sdk.TransactionManager.CommitTransaction();
             }
             catch (Exception ex)
