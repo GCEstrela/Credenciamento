@@ -61,6 +61,7 @@ namespace IMOD.Domain.Entities
         public bool Pendente23 { get; set; }
         public bool Pendente24 { get; set; }
         public bool Pendente25 { get; set; }
+        public bool Estrangeiro { get; set; }
 
         #endregion
     }
