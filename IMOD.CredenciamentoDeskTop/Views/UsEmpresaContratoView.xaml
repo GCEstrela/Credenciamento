@@ -59,7 +59,7 @@
                       x:Name="Contrato_gb" Header="Contrato " Height="175" HorizontalAlignment="Left" Width="510">
                 <StackPanel Margin="0,0,0,-12">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
-                                Margin="1">
+                                Margin="1,1,0,1" Width="496">
                         <Label Content="Código:" Height="28" Width="102" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Left" Visibility="Collapsed" />
                         <TextBox x:Name="Codigo_tb" CharacterCasing="Upper"
                                  Text="{Binding Entity.EmpresaContratoId, UpdateSourceTrigger=PropertyChanged}"
@@ -67,19 +67,25 @@
                         <Label Content="Nº do Contrato:" Height="28" Width="103" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"  />
                         <TextBox x:Name="NumeroContrato_tb" MaxLength="13" CharacterCasing="Upper"
                                  Text="{Binding Entity.NumeroContrato, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                 IsEnabled="True" Height="24" Width="94" 
-                                 Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
-                        <CheckBox x:Name="Terceirizada_cb" IsChecked="{Binding Entity.Terceirizada}" FlowDirection="RightToLeft" VerticalAlignment="Center"
-                                  Height="17" Width="100" Margin="1"
-                                  Foreground="#FFD0D0D0" Content="Terceirizada"/>
+                                 IsEnabled="True" Height="24" Width="65" 
+                                 />
+                        <CheckBox x:Name="Terceira_cb" IsChecked="{Binding Entity.Terceirizada}" FlowDirection="RightToLeft" VerticalAlignment="Center"
+                                  Height="17" Width="90" Margin="1"
+                                  Foreground="#FFD0D0D0" Content="Terceirizada" Click="Terceirizada_cb_Checked"/>
+                        <Label Name="lblNome" Content="Nome:" Height="28" Width="45" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" Visibility="Hidden"/>
+                        <TextBox x:Name="Terceira_tb" MaxLength="145" CharacterCasing="Upper" 
+                                 Text="{Binding Entity.TerceirizadaNome, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                 IsEnabled="True" Height="24" Width="175" Visibility="Hidden"
+                                 />
+                        
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                 Margin="1">
                         <Label Content="Descricao:" Height="28" Width="102" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"  />
                         <TextBox x:Name="Descricao_tb" MaxLength="150" CharacterCasing="Upper"
                                  Text="{Binding Entity.Descricao, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                 IsEnabled="True" Height="24" Width="381" 
-                                 Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
+                                 IsEnabled="True" Height="24" Width="380" 
+                                 />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="1">
                         <Label Content="Status:" Height="28" Width="102" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
@@ -89,7 +95,7 @@
                                   DisplayMemberPath="Descricao"
                                   SelectedValue="{Binding Entity.StatusId, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                   SelectedValuePath="StatusId" Width="140" 
-                                  Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
+                                  />
 
                         <Label Visibility="Hidden" Content="Tipo de Acesso:" Height="28" Width="100" Margin="1"
                                Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
@@ -108,7 +114,7 @@
                             LostFocus="OnFormatDateEmissao_LostFocus"
                             PreviewTextInput="NumberOnly"
                             MaxLength="10"
-                            Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
+                            
                             Height="24"  Width="110" />
 
 
@@ -120,7 +126,7 @@
                             LostFocus="OnFormatData_LostFocus"
                             PreviewTextInput="NumberOnly"
                             MaxLength="10"
-                            Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
+                            
                             Height="24"  Width="110" />
 
                     </StackPanel>
@@ -140,7 +146,7 @@
                                  CharacterCasing="Upper" MaxLength="15"
                                  Text="{Binding Entity.TelefoneResp, Converter={StaticResource FormateTel}, UpdateSourceTrigger=PropertyChanged}"
                                  HorizontalContentAlignment="Center" IsEnabled="True" Height="24" Width="100" 
-                                 Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
+                                 />
 
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
@@ -149,7 +155,7 @@
                         <TextBox x:Name="EmailResp_tb" MaxLength="50" CharacterCasing="Lower"
                                  Text="{Binding Entity.EmailResp, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                  IsEnabled="True" Height="24" Width="250" 
-                                 Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
+                                 />
                         <Label Content="Celular:" Height="28" Width="70" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                         <TextBox   Foreground="#FFD0D0D0" x:Name="CelularResp_tb"
                                  CharacterCasing="Upper" MaxLength="15"
@@ -177,7 +183,7 @@
                                   ItemsSource="{Binding TiposCobranca}" DisplayMemberPath="Descricao"
                                   SelectedValue="{Binding Entity.TipoCobrancaId, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                   SelectedValuePath="TipoCobrancaId" Width="207" SelectionChanged="TipoCobranca_cb_SelectionChanged" 
-                                  Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" SelectedIndex="0"/>
+                                   SelectedIndex="0"/>
 
                         <CheckBox x:Name="IsencaoCobranca_cb" IsChecked="{Binding Entity.IsencaoCobranca}"                                   
                                   FlowDirection="RightToLeft"  VerticalAlignment="Center"
@@ -241,7 +247,7 @@
                         <TextBox x:Name="txtNomeAnexo" MaxLength="50" Height="24" Width="331" CharacterCasing="Upper"
                                  IsEnabled="{Binding Comportamento.isEnableCancelar}" 
                                  Text="{Binding Entity.NomeArquivo, UpdateSourceTrigger=PropertyChanged}"
-                                 Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
+                                 />
                         <Button x:Name="BuscarContratoArquivo_bt" Height="24" Margin="10,0,0,0"
                                 IsEnabled="{Binding Comportamento.isEnableCancelar}" 
                                 VerticalAlignment="Center" Width="24" Click="OnUpLoad_Click">

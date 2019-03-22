@@ -47,7 +47,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
         public void AtualizarDados(Model.EmpresaView entity, EmpresaViewModel viewModelParent)
         {
             if (entity == null) return;
-            _viewModel.AtualizarDados (entity, viewModelParent);
+            _viewModel.AtualizarDados(entity, viewModelParent);
         }
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 //var filtro = "Imagem files (*.pdf)|*.pdf|All Files (*.*)|*.*";
                 //var arq = WpfHelp.UpLoadArquivoDialog(filtro, 700);
                 var filtro = "Imagem files (*.pdf)|*.pdf";
-                var arq = WpfHelp.UpLoadArquivoDialog (filtro, 2000);
+                var arq = WpfHelp.UpLoadArquivoDialog(filtro, 2000);
                 if (arq == null) return;
                 _viewModel.Entity.Arquivo = arq.FormatoBase64;
                 _viewModel.Entity.NomeArquivo = arq.Nome;
@@ -70,8 +70,8 @@ namespace IMOD.CredenciamentoDeskTop.Views
             }
             catch (Exception ex)
             {
-                WpfHelp.Mbox (ex.Message);
-                Utils.TraceException (ex);
+                WpfHelp.Mbox(ex.Message);
+                Utils.TraceException(ex);
             }
         }
 
@@ -84,25 +84,25 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             try
             {
-                var arrayByes = Convert.FromBase64String (_viewModel.Entity.Arquivo);
-                WpfHelp.AbrirArquivoPdf (_viewModel.Entity.NomeArquivo, arrayByes);
+                var arrayByes = Convert.FromBase64String(_viewModel.Entity.Arquivo);
+                WpfHelp.AbrirArquivoPdf(_viewModel.Entity.NomeArquivo, arrayByes);
             }
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
+                Utils.TraceException(ex);
             }
         }
 
         private void OnSelecionaMunicipio_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (_viewModel.Estado == null) return;
-            _viewModel.ListarMunicipios (_viewModel.Estado.Uf);
+            _viewModel.ListarMunicipios(_viewModel.Estado.Uf);
         }
 
         private void NumberOnly(object sender, TextCompositionEventArgs e)
         {
-            var regex = new Regex ("[^0-9]+");
-            e.Handled = regex.IsMatch (e.Text);
+            var regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
         }
 
         private void TipoCobranca_cb_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -127,12 +127,12 @@ namespace IMOD.CredenciamentoDeskTop.Views
             try
             {
                 var str = txtDateEmissao.Text;
-                if (string.IsNullOrWhiteSpace (str)) return;
+                if (string.IsNullOrWhiteSpace(str)) return;
                 txtDateEmissao.Text = str.FormatarData();
             }
             catch (Exception)
             {
-                _viewModel.Entity.SetMessageErro ("Emissao", "Data inválida");
+                _viewModel.Entity.SetMessageErro("Emissao", "Data inválida");
             }
         }
 
@@ -142,15 +142,28 @@ namespace IMOD.CredenciamentoDeskTop.Views
             try
             {
                 var str = txtDtValidade.Text;
-                if (string.IsNullOrWhiteSpace (str)) return;
+                if (string.IsNullOrWhiteSpace(str)) return;
                 txtDtValidade.Text = str.FormatarData();
             }
             catch (Exception)
-            { 
-                _viewModel.Entity.SetMessageErro ("Validade", "Data inválida");
+            {
+                _viewModel.Entity.SetMessageErro("Validade", "Data inválida");
             }
         }
 
         #endregion
+
+        private void Terceirizada_cb_Checked(object sender, RoutedEventArgs e)
+        {
+            lblNome.Visibility = Visibility.Hidden;
+            Terceira_tb.Visibility = Visibility.Hidden;
+            bool terceiraCB = (bool)Terceira_cb.IsChecked;
+
+            if (terceiraCB)
+            {
+                lblNome.Visibility = Visibility.Visible;
+                Terceira_tb.Visibility = Visibility.Visible;
+            }
+        }
     }
 }

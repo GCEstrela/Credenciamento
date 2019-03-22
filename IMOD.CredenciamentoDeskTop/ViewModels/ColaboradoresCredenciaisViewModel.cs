@@ -669,37 +669,43 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 TextObject Identificacao_txt;
                 TextObject Validade_txt;
                 TextObject Validade_valor;
-                if (c1.CPF == "")
+                try
                 {
-                    if (c1.RNE == "") 
+                    if (c1.CPF == "")
                     {
-                        txt = (TextObject)relatorio.ReportDefinition.ReportObjects["Text3"];
-                        txt.Text = "Passaporte:";
-                        Identificacao_txt = (TextObject)relatorio.ReportDefinition.ReportObjects["IDENTIFICACAO"];
-                        Identificacao_txt.Text = c1.Passaporte;
 
-                        Validade_txt = (TextObject)relatorio.ReportDefinition.ReportObjects["Validade_tx"];
-                        Validade_txt.Text = "Val.:";
-                        Validade_valor = (TextObject)relatorio.ReportDefinition.ReportObjects["Validade_val"];
-                        Validade_valor.Text = c1.PassaporteValidade.ToShortDateString();
+                        if (c1.RNE == "")
+                        {
+                            txt = (TextObject)relatorio.ReportDefinition.ReportObjects["Text3"];
+                            txt.Text = "Passaporte:";
+                            Identificacao_txt = (TextObject)relatorio.ReportDefinition.ReportObjects["IDENTIFICACAO"];
+                            Identificacao_txt.Text = c1.Passaporte;
 
+                            Validade_txt = (TextObject)relatorio.ReportDefinition.ReportObjects["Validade_tx"];
+                            Validade_txt.Text = "Val.:";
+                            Validade_valor = (TextObject)relatorio.ReportDefinition.ReportObjects["Validade_val"];
+                            Validade_valor.Text = c1.PassaporteValidade.ToShortDateString();
+
+                        }
+                        else
+                        {
+                            txt = (TextObject)relatorio.ReportDefinition.ReportObjects["Text3"];
+                            txt.Text = "RNE:";
+                            Identificacao_txt = (TextObject)relatorio.ReportDefinition.ReportObjects["IDENTIFICACAO"];
+                            Identificacao_txt.Text = c1.RNE;
+
+                        }
                     }
                     else
                     {
                         txt = (TextObject)relatorio.ReportDefinition.ReportObjects["Text3"];
-                        txt.Text = "RNE:";
+                        txt.Text = "CPF:";
                         Identificacao_txt = (TextObject)relatorio.ReportDefinition.ReportObjects["IDENTIFICACAO"];
-                        Identificacao_txt.Text = c1.RNE;
-
+                        Identificacao_txt.Text = c1.CPF;
                     }
+
                 }
-                else
-                {
-                    txt = (TextObject)relatorio.ReportDefinition.ReportObjects["Text3"];
-                    txt.Text = "CPF:";
-                    Identificacao_txt = (TextObject)relatorio.ReportDefinition.ReportObjects["IDENTIFICACAO"];
-                    Identificacao_txt.Text = c1.CPF;
-                }
+                finally { }                
 
                 //IDENTIFICACAO
                 var popupCredencial = new PopupCredencial(relatorio, _service, Entity, layoutCracha);
