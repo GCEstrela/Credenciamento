@@ -163,11 +163,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
             #region Habilitar botão de impressao e mensagem ao usuario
 
-            //Condição que impede impressão para credenciais extraviadas-9/roubadas-10 sem entregas de BO.
-            bool isCondicaoImpressaoPorMotivo = entity.CredencialStatusId == 2 && entity.Baixa == null && (entity.DevolucaoEntregaBoId == 0)
-                && (entity.CredencialMotivoId == 9 || entity.CredencialMotivoId == 10);
-
-            HabilitaImpressao = entity.Ativa && !entity.PendenciaImpeditiva && !entity.Impressa && (entity.ColaboradorCredencialId > 0) && entity.Validade >= DateTime.Now.Date && isCondicaoImpressaoPorMotivo;
+            HabilitaImpressao = entity.Ativa && !entity.PendenciaImpeditiva && !entity.Impressa && (entity.ColaboradorCredencialId > 0) && entity.Validade >= DateTime.Now.Date;
 
             //Verificar se a empresa esta impedida
             var n1 = _service.BuscarCredencialPelaChave(entity.ColaboradorCredencialId);
