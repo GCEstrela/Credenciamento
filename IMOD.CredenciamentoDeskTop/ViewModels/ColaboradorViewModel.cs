@@ -330,7 +330,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public bool Validar()
         {
             if (Entity == null) return true;
-            if (Entity.Cpf != null)
+            if (Entity.Cpf != null & Entity.Cpf != "")
             {
                 Entity.Validate();
                 var hasErros = Entity.HasErrors;
@@ -347,8 +347,13 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     Entity.SetMessageErro ("Cpf", "CPF já existe");
                     return true;
                 }
+                return Entity.HasErrors;
             }
-            return Entity.HasErrors;
+            else
+            {
+                return false;
+            }
+            
         }
 
         #endregion
@@ -499,7 +504,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             try
             {
                 if (Entity == null) return;
-                if (Validar()) return;
+                
+                    if (Validar()) return;
+                
                 var n1 = Mapper.Map<Colaborador> (Entity);
                 _service.Alterar (n1);
                 HabilitaControle (true, true);
