@@ -223,7 +223,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             ListaPesquisa.Add (new KeyValuePair<int, string> (1, "CNPJ"));
             ListaPesquisa.Add (new KeyValuePair<int, string> (2, "Razão Social"));
             ListaPesquisa.Add (new KeyValuePair<int, string> (3, "Código"));
-            ListaPesquisa.Add (new KeyValuePair<int, string> (4, "Todos"));
+            ListaPesquisa.Add (new KeyValuePair<int, string>(4, "Pendências"));
+            ListaPesquisa.Add (new KeyValuePair<int, string> (5, "Todos"));
             PesquisarPor = ListaPesquisa[1]; //Pesquisa Default
         }
 
@@ -510,8 +511,16 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     EntityObserver = observer;
                 }
 
-                //Todos
+                //com pendências
                 if (num.Key == 4)
+                {
+                    //if (string.IsNullOrWhiteSpace(pesquisa)) return;
+                    var l1 = _service.ListarEmpresasPendentes($"%{pesquisa}%", null, null);
+                    PopularObserver(l1);
+                }
+
+                //Todos
+                if (num.Key == 5)
                 {
                     var l1 = _service.Listar();
                     PopularObserver (l1);

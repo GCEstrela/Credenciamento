@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using IMOD.Domain.Entities;
 using IMOD.Domain.EntitiesCustom;
 
+
 #endregion
 
 namespace IMOD.Domain.Interfaces
@@ -42,5 +43,12 @@ namespace IMOD.Domain.Interfaces
         /// <returns></returns>
         ICollection<EmpresaTipoCredencialView> ListarTipoCredenciaisEmpresa(int empresaId = 0);
 
+        /// <summary>
+        /// Lista empresa com pendências
+        /// </summary>
+        /// <param name="objects"></param>
+        /// <returns></returns>
+        ICollection<Empresa> ListarEmpresasPendentes(params object[] objects);
     }
+
 }
