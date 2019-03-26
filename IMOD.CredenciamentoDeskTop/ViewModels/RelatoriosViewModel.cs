@@ -196,7 +196,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         #endregion
 
-        #region Carregamento das Colecoes 
+        #region Carregamento das Colecoes
 
         private void CarregaColecaoRelatorios()
         {
@@ -340,13 +340,13 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     colaboradorCredencial.EmissaoFim = DateTime.Parse(dataFim);
                     mensagemPeriodo = " ativas concedidas entre " + dataIni + " e " + dataFim + "";
                 }
-                //Tipo PERMANENTE
+                //Tipo PERMANENTE 
                 if (tipo)
                 {
                     colaboradorCredencial.TipoCredencialId = 1;
                     mensagemComplemento = " PERMANENTES ";
                 }
-                // Tipo TEMPORÁRIO
+                // Tipo TEMPORÁRIO 
                 else
                 {
                     colaboradorCredencial.TipoCredencialId = 2;
@@ -365,9 +365,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 var fileName = @"C:\projetos\credenciamento_homologa1\IMOD.CredenciamentoDeskTop\Relatorio\RelatorioConcessaoCredenciais.rpt";
 
-                var reportDoc = new ReportDocument();
-                reportDoc.Load(fileName, OpenReportMethod.OpenReportByTempCopy);
-                reportDoc.SetDataSource(resultMapeado);
+                var reportDoc = new ReportDocument(); 
+                reportDoc.Load(fileName, OpenReportMethod.OpenReportByTempCopy); 
+                reportDoc.SetDataSource(resultMapeado); 
 
                 mensagem += mensagemComplemento + mensagemPeriodo;
                 if (!string.IsNullOrWhiteSpace(mensagem))
@@ -416,7 +416,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 
                 if (status == 0)
                 {
-                    mensagemComplemento = "INVÁLIDAS (vencidas/indeferidas/canceladas/extraviadas/destruídas) ";
+                    mensagemComplemento = "INVÁLIDAS (vencidas/indeferidas/canceladas/extraviadas) ";
                 }
                 else
                 {
@@ -749,7 +749,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var resultMapeado = Mapper.Map<List<RelVeiculosCredenciaisView>>(result.OrderByDescending(n => n.VeiculoCredencialId).ToList());
 
                 //byte[] arrayFile = Convert.FromBase64String(relatorioGerencial.ArquivoRpt); 
-                var fileName = @"C:\projetos\credenciamento_homologa1\IMOD.CredenciamentoDeskTop\Relatorio\relatorioAutorizacaoValidas.rpt";
+                var fileName = @"C:\projetos\credenciamento_homologa1\IMOD.CredenciamentoDeskTop\Relatorio\RelatorioAutorizacaoValidas.rpt";
 
                 var reportDoc = new ReportDocument();
                 reportDoc.Load(fileName, OpenReportMethod.OpenReportByTempCopy);
@@ -883,8 +883,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var result = objVeiculoCredencial.ListarVeiculoCredencialViaAdicionaisView(veiculoCredencial);
                 var resultMapeado = Mapper.Map<List<RelVeiculosCredenciaisView>>(result.OrderByDescending(n => n.VeiculoCredencialId).ToList());
 
-                //byte[] arrayFile = Convert.FromBase64String(relatorioGerencial.ArquivoRpt); 
-                var fileName = @"C:\projetos\credenciamento_homologa1\IMOD.CredenciamentoDeskTop\Relatorio\relatorioAutorizacaoInvalidas.rpt";
+                //byte[] arrayFile = Convert.FromBase64String(relatorioGerencial.ArquivoRpt);
+                var fileName = @"C:\projetos\credenciamento_homologa1\IMOD.CredenciamentoDeskTop\Relatorio\RelatorioAutorizacaoInvalidas.rpt";
 
                 var reportDoc = new ReportDocument();
                 reportDoc.Load(fileName, OpenReportMethod.OpenReportByTempCopy);
@@ -1139,7 +1139,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var resultMapeado = Mapper.Map<List<RelVeiculosCredenciaisView>>(result.OrderByDescending(n => n.VeiculoCredencialId).ToList());
 
                 //byte[] arrayFile = Convert.FromBase64String(relatorioGerencial.ArquivoRpt); 
-                var fileName = @"C:\projetos\credenciamento_homologa1\IMOD.CredenciamentoDeskTop\Relatorio\relatorioViasAdicionaisAutorizacao.rpt";
+                var fileName = @"C:\projetos\credenciamento_homologa1\IMOD.CredenciamentoDeskTop\Relatorio\RelatorioViasAdicionaisAutorizacao.rpt";
 
                 var reportDoc = new ReportDocument();
                 reportDoc.Load(fileName, OpenReportMethod.OpenReportByTempCopy);

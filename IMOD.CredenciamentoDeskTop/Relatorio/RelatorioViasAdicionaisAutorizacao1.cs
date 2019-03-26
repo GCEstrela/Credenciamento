@@ -16,14 +16,14 @@ namespace IMOD.CredenciamentoDeskTop.Relatorio {
     using CrystalDecisions.CrystalReports.Engine;
     
     
-    public class relatorioViasAdicionaisAutorizacao : ReportClass {
+    public class RelatorioViasAdicionaisAutorizacao : ReportClass {
         
-        public relatorioViasAdicionaisAutorizacao() {
+        public RelatorioViasAdicionaisAutorizacao() {
         }
         
         public override string ResourceName {
             get {
-                return "relatorioViasAdicionaisAutorizacao.rpt";
+                return "RelatorioViasAdicionaisAutorizacao.rpt";
             }
             set {
                 // Do nothing
@@ -41,7 +41,7 @@ namespace IMOD.CredenciamentoDeskTop.Relatorio {
         
         public override string FullResourceName {
             get {
-                return "IMOD.CredenciamentoDeskTop.Relatorio.relatorioViasAdicionaisAutorizacao.rpt";
+                return "IMOD.CredenciamentoDeskTop.Relatorio.RelatorioViasAdicionaisAutorizacao.rpt";
             }
             set {
                 // Do nothing
@@ -106,9 +106,9 @@ namespace IMOD.CredenciamentoDeskTop.Relatorio {
     }
     
     [System.Drawing.ToolboxBitmapAttribute(typeof(CrystalDecisions.Shared.ExportOptions), "report.bmp")]
-    public class CachedrelatorioViasAdicionaisAutorizacao : Component, ICachedReport {
+    public class CachedRelatorioViasAdicionaisAutorizacao : Component, ICachedReport {
         
-        public CachedrelatorioViasAdicionaisAutorizacao() {
+        public CachedRelatorioViasAdicionaisAutorizacao() {
         }
         
         [Browsable(false)]
@@ -145,7 +145,7 @@ namespace IMOD.CredenciamentoDeskTop.Relatorio {
         }
         
         public virtual CrystalDecisions.CrystalReports.Engine.ReportDocument CreateReport() {
-            relatorioViasAdicionaisAutorizacao rpt = new relatorioViasAdicionaisAutorizacao();
+            RelatorioViasAdicionaisAutorizacao rpt = new RelatorioViasAdicionaisAutorizacao();
             rpt.Site = this.Site;
             return rpt;
         }

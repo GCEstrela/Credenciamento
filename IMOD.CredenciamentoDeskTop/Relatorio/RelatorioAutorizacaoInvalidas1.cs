@@ -16,14 +16,14 @@ namespace IMOD.CredenciamentoDeskTop.Relatorio {
     using CrystalDecisions.CrystalReports.Engine;
     
     
-    public class relatorioAutorizacaoInvalidas : ReportClass {
+    public class RelatorioAutorizacaoInvalidas : ReportClass {
         
-        public relatorioAutorizacaoInvalidas() {
+        public RelatorioAutorizacaoInvalidas() {
         }
         
         public override string ResourceName {
             get {
-                return "relatorioAutorizacaoInvalidas.rpt";
+                return "RelatorioAutorizacaoInvalidas.rpt";
             }
             set {
                 // Do nothing
@@ -41,7 +41,7 @@ namespace IMOD.CredenciamentoDeskTop.Relatorio {
         
         public override string FullResourceName {
             get {
-                return "IMOD.CredenciamentoDeskTop.Relatorio.relatorioAutorizacaoInvalidas.rpt";
+                return "IMOD.CredenciamentoDeskTop.Relatorio.RelatorioAutorizacaoInvalidas.rpt";
             }
             set {
                 // Do nothing
@@ -106,9 +106,9 @@ namespace IMOD.CredenciamentoDeskTop.Relatorio {
     }
     
     [System.Drawing.ToolboxBitmapAttribute(typeof(CrystalDecisions.Shared.ExportOptions), "report.bmp")]
-    public class CachedrelatorioAutorizacaoInvalidas : Component, ICachedReport {
+    public class CachedRelatorioAutorizacaoInvalidas : Component, ICachedReport {
         
-        public CachedrelatorioAutorizacaoInvalidas() {
+        public CachedRelatorioAutorizacaoInvalidas() {
         }
         
         [Browsable(false)]
@@ -145,7 +145,7 @@ namespace IMOD.CredenciamentoDeskTop.Relatorio {
         }
         
         public virtual CrystalDecisions.CrystalReports.Engine.ReportDocument CreateReport() {
-            relatorioAutorizacaoInvalidas rpt = new relatorioAutorizacaoInvalidas();
+            RelatorioAutorizacaoInvalidas rpt = new RelatorioAutorizacaoInvalidas();
             rpt.Site = this.Site;
             return rpt;
         }
