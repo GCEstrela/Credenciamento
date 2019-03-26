@@ -136,7 +136,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         public bool IsEnableColete { get; set; } = true;
         public int WidthColete { get; set; } = 48;
-        public string NumeroColete { get; set; }
+        //public string Entity.NumeroColete { get; set; }
         public int WidthSigla { get; set; } = 68;
         //public bool IsEnableComboContrato
         //{
@@ -171,11 +171,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             
             if (Entity.Colete != null)
             {
-                NumeroColete = Entity.Colete.Substring(3);
+                Entity.NumeroColete = Entity.Colete.Substring(3);
             }
             else
             {
-                NumeroColete = "";
+                Entity.NumeroColete = "";
             }
             
             #region Habilitar botão de impressao e mensagem ao usuario
@@ -438,12 +438,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var EmpresaSigla = _colaboradorEmpresaService.Listar(null, null, null, null,null,n1.ColaboradorEmpresaId).ToList();
                 if (_configuraSistema.Colete)
                 {
-                    NumeroColete= Convert.ToString(_colaboradorView.ColaboradorId);
-                    n1.Colete = EmpresaSigla[0].EmpresaSigla + NumeroColete;
+                    Entity.NumeroColete = Convert.ToString(_colaboradorView.ColaboradorId);
+                    n1.Colete = EmpresaSigla[0].EmpresaSigla + Entity.NumeroColete;
                 }
                 else
                 {
-                    n1.Colete = EmpresaSigla[0].EmpresaSigla + NumeroColete;
+                    n1.Colete = EmpresaSigla[0].EmpresaSigla + Entity.NumeroColete;
                     
                 }
 
@@ -501,13 +501,15 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                NumeroColete = "";
+                Entity = new ColaboradoresCredenciaisView();
+
+                Entity.NumeroColete = "";
                 _configuraSistema = ObterConfiguracao();
                 if (_configuraSistema.Colete)
                 {
-                    NumeroColete = Convert.ToString(_colaboradorView.ColaboradorId);
+                    Entity.NumeroColete = Convert.ToString(_colaboradorView.ColaboradorId);
                 }
-                Entity = new ColaboradoresCredenciaisView();
+               
 
                 var statusCred = CredencialStatus.FirstOrDefault(n => n.Codigo == "1"); //Status ativa
                 if (statusCred == null) throw new InvalidOperationException("O status da credencial é requerida.");
@@ -551,12 +553,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 n1.DevolucaoEntregaBoId = IsCheckDevolucao ? Entity.DevolucaoEntregaBoId : 0;
                 if (_configuraSistema.Colete)
                 {
-                    NumeroColete= Convert.ToString(_colaboradorView.ColaboradorId);
-                    n1.Colete = Entity.EmpresaSigla + NumeroColete;
+                    Entity.NumeroColete= Convert.ToString(_colaboradorView.ColaboradorId);
+                    n1.Colete = Entity.EmpresaSigla + Entity.NumeroColete;
                 }
                 else
                 {
-                    n1.Colete = Entity.EmpresaSigla + NumeroColete;
+                    n1.Colete = Entity.EmpresaSigla + Entity.NumeroColete;
                 }
 
 
@@ -853,6 +855,15 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 return true;
             }
 
+            // _configuraSistema = ObterConfiguracao();
+            if (!_configuraSistema.Colete)
+            {
+                if (Entity.NumeroColete == "")
+                {
+                    Entity.SetMessageErro("Entity.NumeroColete", "Número do Colete é Obrigatório.");
+                    return true;
+                }
+            }
             return Entity.HasErrors;
         }
 
