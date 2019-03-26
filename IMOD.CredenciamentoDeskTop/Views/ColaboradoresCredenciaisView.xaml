@@ -100,7 +100,7 @@
                                     </TransformGroup>
                                 </ComboBox.RenderTransform>
                             </ComboBox>
-                            <Label Content="Motivo:" Height="28" Width="114" HorizontalContentAlignment="Right"
+                            <Label Content="Motivo:" Height="28" Width="115" HorizontalContentAlignment="Right"
                                    Foreground="#FFD0D0D0" />
 
                             <ComboBox x:Name="cmbMotivacao"  IsEditable="true"
@@ -159,17 +159,16 @@
 
                             <Label Content="Colete:" Height="28" Width="45" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" RenderTransformOrigin="0.5,0.5" />
 
-                            <TextBox  x:Name="SigleColete_tb"  HorizontalContentAlignment="Center" MaxLength="15"  CharacterCasing="Upper" 
+                            <TextBox  x:Name="SigleColete_tb"  HorizontalContentAlignment="Center" MaxLength="3"  CharacterCasing="Upper" 
                                       IsEnabled="False" Text="{Binding Entity.EmpresaSigla,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  
-                                      Height="24"  Width="58"/>
+                                      Height="24"  Width="41"/>
 
                             <TextBox  x:Name="NumeroColete_tb" HorizontalContentAlignment="Center" MaxLength="4" Margin="1,0,0,0"
                                       Text="{Binding Entity.NumeroColete,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
-                                      IsEnabled="{Binding IsEnableColete}"
-                                      Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" 
+                                      IsEnabled="{Binding IsEnableColete}"                                      
                                       CharacterCasing="Upper" Height="24"  Width="58"/>
 
-                            <Label Content="Autenticação:" Height="28" Width="81"   HorizontalContentAlignment="Right"
+                            <Label Content="Autenticação:" Height="28" Width="99"   HorizontalContentAlignment="Right"
                                    Foreground="#FFD0D0D0" />
 
                             <!--IsEnabled="{Binding Habilitar}"-->
@@ -178,7 +177,8 @@
                                       Height="25"
                                       Width="145" 
                                       VerticalContentAlignment="Center" 
-                                      HorizontalContentAlignment="Left"
+                                      HorizontalContentAlignment="Left"   
+                                      SelectedIndex="0"
                                       ItemsSource="{Binding TecnologiasCredenciais, Mode=TwoWay}" 
                                       DisplayMemberPath="Descricao"
                                       SelectedValue="{Binding Entity.TecnologiaCredencialId, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
