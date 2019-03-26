@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace IMOD.Domain.EntitiesCustom
 {
-    public class RelColaboradoresCredenciaisView
+    public class FiltroReportColaboradoresCredenciais
     {
 
         public int ColaboradorCredencialId { get; set; }
@@ -28,8 +28,8 @@ namespace IMOD.Domain.EntitiesCustom
         public int ColaboradorPrivilegio2Id { get; set; }
         public string Colete { get; set; }
         public int CredencialMotivoId { get; set; }
-        public string CredencialMotivoId1 { get; set; }
-        public string CredencialMotivoId2 { get; set; }
+        public int CredencialMotivoId1 { get; set; }
+        public int CredencialMotivoId2 { get; set; }
         public string CredencialMotivoDescricao { get; set; }
         public bool Impressa { get; set; }
         public bool Ativa { get; set; }
@@ -73,6 +73,10 @@ namespace IMOD.Domain.EntitiesCustom
         public int Identificacao { get; set; }
         public int AreaAcessoId { get; set; }
 
+        public DateTime? DataStatus { get; set; }
+        public int DevolucaoEntregaBoId { get; set; }
+        public bool Impeditivo { get; set; }
+        
     }
 
 

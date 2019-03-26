@@ -52,9 +52,9 @@
     <Compile Include="EntitiesCustom\EmpresaTipoAtividadeView.cs" />
     <Compile Include="EntitiesCustom\EmpresaTipoCredencialView.cs" />
     <Compile Include="EntitiesCustom\EstadoView.cs" />
-    <Compile Include="EntitiesCustom\FiltroVeiculoCredencial.cs" />
+    <Compile Include="EntitiesCustom\FiltroReportVeiculoCredencial.cs" />
     <Compile Include="EntitiesCustom\Funcoes\ValidacaoModel.cs" />
-    <Compile Include="EntitiesCustom\RelColaboradoresCredenciaisView.cs" />
+    <Compile Include="EntitiesCustom\FiltroReportColaboradoresCredenciais.cs" />
     <Compile Include="EntitiesCustom\UsuarioLogado.cs" />
     <Compile Include="EntitiesCustom\VeiculoEmpresaView.cs" />
     <Compile Include="EntitiesCustom\VeiculosCredenciaisView.cs" />

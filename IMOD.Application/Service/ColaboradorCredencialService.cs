@@ -462,7 +462,7 @@ namespace IMOD.Application.Service
         /// </summary> 
         /// <param name="entity">entity</param>
         /// <returns></returns>
-        public List<ColaboradoresCredenciaisView> ListarColaboradorCredencialConcedidasView(RelColaboradoresCredenciaisView entity)
+        public List<ColaboradoresCredenciaisView> ListarColaboradorCredencialConcedidasView(FiltroReportColaboradoresCredenciais entity)
         {
             return _repositorio.ListarColaboradorCredencialConcedidasView(entity);
         }
@@ -472,7 +472,7 @@ namespace IMOD.Application.Service
         /// </summary> 
         /// <param name="entity">entity</param>
         /// <returns></returns>
-        public List<ColaboradoresCredenciaisView> ListarColaboradorCredencialViaAdicionaisView(RelColaboradoresCredenciaisView entity)
+        public List<ColaboradoresCredenciaisView> ListarColaboradorCredencialViaAdicionaisView(FiltroReportColaboradoresCredenciais entity)
         {
             return _repositorio.ListarColaboradorCredencialViaAdicionaisView(entity);
         }
@@ -482,7 +482,7 @@ namespace IMOD.Application.Service
         /// </summary>
         /// <param name="entity">entity</param>
         /// <returns></returns>
-        public List<ColaboradoresCredenciaisView> ListarColaboradorCredencialInvalidasView(RelColaboradoresCredenciaisView entity)
+        public List<ColaboradoresCredenciaisView> ListarColaboradorCredencialInvalidasView(FiltroReportColaboradoresCredenciais entity)
         {
             return _repositorio.ListarColaboradorCredencialInvalidasView(entity);
         }
@@ -492,7 +492,7 @@ namespace IMOD.Application.Service
         /// </summary>
         /// <param name="entity">entity</param>
         /// <returns></returns>
-        public List<ColaboradoresCredenciaisView> ListarColaboradorCredencialImpressoesView(RelColaboradoresCredenciaisView entity)
+        public List<ColaboradoresCredenciaisView> ListarColaboradorCredencialImpressoesView(FiltroReportColaboradoresCredenciais entity)
         {
             return _repositorio.ListarColaboradorCredencialImpressoesView(entity);
         }
@@ -502,7 +502,7 @@ namespace IMOD.Application.Service
         /// </summary>
         /// <param name="entity">entity</param>
         /// <returns></returns>
-        public List<ColaboradoresCredenciaisView> ListarColaboradorCredencialPermanentePorAreaView(RelColaboradoresCredenciaisView entity)
+        public List<ColaboradoresCredenciaisView> ListarColaboradorCredencialPermanentePorAreaView(FiltroReportColaboradoresCredenciais entity)
 
         {
             return _repositorio.ListarColaboradorCredencialPermanentePorAreaView(entity);

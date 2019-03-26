@@ -54,8 +54,10 @@ namespace IMOD.Domain.EntitiesCustom
         public string Cnpj { get; set; }
         public string LayoutCrachaGuid { get; set; }
         public string FormatIdguid { get; set; }
+        public string Identificacao { get; set; }
         public string Identificacao1 { get; set; }
         public string Identificacao2 { get; set; }
+        public string IdentificacaoDescricao { get; set; }
         public bool IsencaoCobranca { get; set; }
         
         /// <summary>

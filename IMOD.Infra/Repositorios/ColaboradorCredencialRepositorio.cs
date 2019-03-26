@@ -518,7 +518,7 @@ namespace IMOD.Infra.Repositorios
         /// </summary>
         /// <param name="entity">entity</param>
         /// <returns></returns>
-        public List<ColaboradoresCredenciaisView> ListarColaboradorCredencialConcedidasView(RelColaboradoresCredenciaisView entity)
+        public List<ColaboradoresCredenciaisView> ListarColaboradorCredencialConcedidasView(FiltroReportColaboradoresCredenciais entity)
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
@@ -569,7 +569,7 @@ namespace IMOD.Infra.Repositorios
         /// </summary>
         /// <param name="entity">entity</param>
         /// <returns></returns>
-        public List<ColaboradoresCredenciaisView> ListarColaboradorCredencialViaAdicionaisView(RelColaboradoresCredenciaisView entity)
+        public List<ColaboradoresCredenciaisView> ListarColaboradorCredencialViaAdicionaisView(FiltroReportColaboradoresCredenciais entity)
         {
             int codEmissaoInicio = 2;
             int codEmissaoFim = 5;
@@ -624,7 +624,7 @@ namespace IMOD.Infra.Repositorios
         /// </summary>
         /// <param name="entity">entity</param>
         /// <returns></returns>
-        public List<ColaboradoresCredenciaisView> ListarColaboradorCredencialInvalidasView(RelColaboradoresCredenciaisView entity)
+        public List<ColaboradoresCredenciaisView> ListarColaboradorCredencialInvalidasView(FiltroReportColaboradoresCredenciais entity)
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
@@ -645,7 +645,13 @@ namespace IMOD.Infra.Repositorios
                             cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("CredencialStatusId", DbType.Int32, entity.CredencialStatusId).Igual()));
                         }
 
-                        if (entity != null && entity.CredencialMotivoId > 0)
+                        if (entity.Impeditivo)
+                        {
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("CredencialMotivoId", DbType.Int32, entity.CredencialMotivoId).Igual()));
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("CredencialMotivoId1", DbType.Int32, entity.CredencialMotivoId1).Igual()));
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("CredencialMotivoId2", DbType.Int32, entity.CredencialMotivoId2).Igual()));
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("DevolucaoEntregaBOID", DbType.Int32, entity.DevolucaoEntregaBoId).Diferente()));
+                        } else if (entity != null && entity.CredencialMotivoId > 0 && !entity.Impeditivo)
                         {
                             cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("CredencialMotivoId", DbType.Int32, entity.CredencialMotivoId).Igual()));
                         }
@@ -676,7 +682,7 @@ namespace IMOD.Infra.Repositorios
         /// </summary>
         /// <param name="entity">entity</param>
         /// <returns></returns>
-        public List<ColaboradoresCredenciaisView> ListarColaboradorCredencialImpressoesView(RelColaboradoresCredenciaisView entity)
+        public List<ColaboradoresCredenciaisView> ListarColaboradorCredencialImpressoesView(FiltroReportColaboradoresCredenciais entity)
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
@@ -714,7 +720,7 @@ namespace IMOD.Infra.Repositorios
         /// </summary>
         /// <param name="entity">entity</param>
         /// <returns></returns>
-        public List<ColaboradoresCredenciaisView> ListarColaboradorCredencialPermanentePorAreaView(RelColaboradoresCredenciaisView entity)
+        public List<ColaboradoresCredenciaisView> ListarColaboradorCredencialPermanentePorAreaView(FiltroReportColaboradoresCredenciais entity)
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {

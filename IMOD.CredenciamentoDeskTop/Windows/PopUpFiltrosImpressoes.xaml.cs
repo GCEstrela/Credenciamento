@@ -54,7 +54,7 @@ namespace IMOD.CredenciamentoDeskTop.Windows
             else
             {
                 check = false;
-                ((RelatoriosViewModel)DataContext).OnFiltrosImpressoesCommand(empresa, check, dataIni, dataFim);
+                ((RelatoriosViewModel)DataContext).OnFiltrosImpressoesAutorizacoesCommand(empresa, check, dataIni, dataFim);
             }
 
             Close();

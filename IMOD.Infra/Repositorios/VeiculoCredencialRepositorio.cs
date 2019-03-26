@@ -497,11 +497,11 @@ namespace IMOD.Infra.Repositorios
         }
 
         /// <summary>
-        ///    Listar Colaboradores / credenciais vias adicionais
+        ///    Listar Veiculo / credenciais vias adicionais
         /// </summary>
         /// <param name="entity">entity</param>
         /// <returns></returns>
-        public List<VeiculosCredenciaisView> ListarVeiculoCredencialViaAdicionaisView(FiltroVeiculoCredencial entity)
+        public List<VeiculosCredenciaisView> ListarVeiculoCredencialViaAdicionaisView(FiltroReportVeiculoCredencial entity)
         {
 
             using (var conn = _dataBase.CreateOpenConnection())
@@ -571,11 +571,11 @@ namespace IMOD.Infra.Repositorios
         }
 
         /// <summary>
-        ///    Listar Colaboradores / credenciais concedidas
+        ///    Listar Veiculo / credenciais concedidas
         /// </summary>
         /// <param name="entity">entity</param>
         /// <returns></returns>
-        public List<VeiculosCredenciaisView> ListarVeiculoCredencialConcedidasView(FiltroVeiculoCredencial entity)
+        public List<VeiculosCredenciaisView> ListarVeiculoCredencialConcedidasView(FiltroReportVeiculoCredencial entity)
         {
 
             using (var conn = _dataBase.CreateOpenConnection())
@@ -634,11 +634,11 @@ namespace IMOD.Infra.Repositorios
         }
 
         /// <summary>
-        ///    Listar Colaboradores / credenciais inválidas
+        ///    Listar Veiculo / credenciais inválidas
         /// </summary>
         /// <param name="entity">entity</param>
         /// <returns></returns>
-        public List<VeiculosCredenciaisView> ListarVeiculoCredencialInvalidasView(FiltroVeiculoCredencial entity)
+        public List<VeiculosCredenciaisView> ListarVeiculoCredencialInvalidasView(FiltroReportVeiculoCredencial entity)
         {
 
             using (var conn = _dataBase.CreateOpenConnection())
@@ -659,26 +659,30 @@ namespace IMOD.Infra.Repositorios
                         {
                             cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("CredencialStatusId", DbType.Int32, entity.CredencialStatusId).Igual()));
                         }
+
                         if (entity != null && entity.CredencialMotivoId > 0)
                         {
                             cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("CredencialMotivoId", DbType.Int32, entity.CredencialMotivoId).Igual()));
                         }
+
+                        if (entity.Impeditivo) 
+                        {
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("CredencialMotivoId", DbType.Int32, entity.CredencialMotivoId).Igual()));
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("CredencialMotivoId1", DbType.Int32, entity.CredencialMotivoId1).Igual()));
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("CredencialMotivoId2", DbType.Int32, entity.CredencialMotivoId2).Igual()));
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("DevolucaoEntregaBOID", DbType.Int32, entity.DevolucaoEntregaBoId).Diferente()));
+                        }
+                        else if (entity != null && entity.CredencialMotivoId > 0 && !entity.Impeditivo)
+                        {
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("CredencialMotivoId", DbType.Int32, entity.CredencialMotivoId).Igual()));
+                        }
+
                         //Busca por faixa de data
                         if (entity.Emissao != null || entity.EmissaoFim != null)
                         {
                             cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Emissao", DbType.DateTime, entity.Emissao).MaiorIgual()));
                             cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmissaoFim", DbType.DateTime, entity.EmissaoFim).MenorIgual()));
                         }
-
-
-                        // cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("CredencialmotivoID1", DbType.String, "2,3").Entre()));
-
-                        //if ((entity.CredencialMotivoId1 != null && entity.CredencialMotivoId1 > 0) &&
-                        //    (entity.CredencialMotivoId2 != null && entity.CredencialMotivoId2 > 0))
-                        //{
-                        //    cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("CredencialmotivoID1", DbType.Int16, entity.CredencialMotivoId1).Igual()));
-                        //    cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("CredencialmotivoID2", DbType.Int16, entity.CredencialMotivoId2).Igual()));
-                        //}
 
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<VeiculosCredenciaisView>();
@@ -693,6 +697,79 @@ namespace IMOD.Infra.Repositorios
             }
         }
 
+        /// <summary> 
+        ///    Listar Veiculos credenciais - impressoes 
+        /// </summary> 
+        /// <param name="entity">entity</param>
+        /// <returns></returns>
+        public List<VeiculosCredenciaisView> ListarVeiculoCredencialImpressoesView(FiltroReportVeiculoCredencial entity) 
+        {
+            using (var conn = _dataBase.CreateOpenConnection())
+            {
+                using (var cmd = _dataBase.SelectText("RelatorioVeiculoCredencialImpressaoView", conn))
+                {
+                    try
+                    {
+                        if (entity != null && entity.EmpresaId > 0)
+                        {
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmpresaId", DbType.Int32, entity.EmpresaId).Igual()));
+                        }
+
+                        if (entity.DataImpressao != null || entity.DataImpressaoFim != null)
+                        {
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("DataImpressao", DbType.DateTime, entity.DataImpressao).MaiorIgual()));
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("DataImpressaoFim", DbType.DateTime, entity.DataImpressaoFim).MenorIgual()));
+                        }
+
+                        var reader = cmd.ExecuteReaderSelect();
+                        var d1 = reader.MapToList<VeiculosCredenciaisView>();
+
+                        return d1;
+                    }
+                    catch (Exception ex)
+                    {
+                        Utils.TraceException(ex);
+                        throw;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        ///    Listar Veiculos credenciais - permanentes ativos por área
+        /// </summary>
+        /// <param name="entity">entity</param>
+        /// <returns></returns>
+        public List<VeiculosCredenciaisView> ListarVeiculoCredencialPermanentePorAreaView(FiltroReportVeiculoCredencial entity)
+        {
+            using (var conn = _dataBase.CreateOpenConnection())
+            {
+                using (var cmd = _dataBase.SelectText("RelatorioVeiculoCredencialPorAreaAcessoView", conn))
+                {
+                    try
+                    {
+                        if (entity != null && entity.AreaAcessoId > 0)
+                        {
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("AreaAcessoID", DbType.Int32, entity.AreaAcessoId).Igual()));
+                        }
+                        if (entity != null && entity.CredencialStatusId > 0)
+                        {
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("CredencialStatusId", DbType.Int32, entity.CredencialStatusId).Igual()));
+                        }
+
+                        var reader = cmd.ExecuteReaderSelect();
+                        var d1 = reader.MapToList<VeiculosCredenciaisView>();
+
+                        return d1;
+                    }
+                    catch (Exception ex)
+                    {
+                        Utils.TraceException(ex);
+                        throw;
+                    }
+                }
+            }
+        }
 
         #endregion
     }

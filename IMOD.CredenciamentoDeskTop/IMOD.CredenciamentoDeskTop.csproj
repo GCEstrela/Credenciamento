@@ -189,6 +189,18 @@
     <Compile Include="Helpers\WpfHelp.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Mapeamento\AutoMapperConfig.cs" />
+    <Compile Include="Relatorio\RelatorioAutorizacaoEmitidaPorArea.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelatorioAutorizacaoEmitidaPorArea.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Relatorio\RelatorioAutorizacaoEmitidasPorEmpresa.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelatorioAutorizacaoEmitidasPorEmpresa.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Relatorio\relatorioAutorizacaoInvalidas.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -225,11 +237,11 @@
       <DependentUpon>RelatorioCredenciaisInvalidas.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Relatorio\relatorioImpressaoAutorizacao.cs">
+    <Compile Include="Relatorio\RelatorioImpressaoAutorizacao.cs">
+      <DependentUpon>RelatorioImpressaoAutorizacao.rpt</DependentUpon>
       <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>relatorioImpressaoAutorizacao.rpt</DependentUpon>
       <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Relatorio\RelatorioImpressaoCredencial.cs">
       <AutoGen>True</AutoGen>
@@ -853,6 +865,14 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\RelatorioAutorizacaoEmitidaPorArea.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelatorioAutorizacaoEmitidaPorArea.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\RelatorioAutorizacaoEmitidasPorEmpresa.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelatorioAutorizacaoEmitidasPorEmpresa.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Relatorio\relatorioAutorizacaoInvalidas.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>relatorioAutorizacaoInvalidas.cs</LastGenOutput>
@@ -877,9 +897,9 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>RelatorioCredenciaisInvalidas.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Relatorio\relatorioImpressaoAutorizacao.rpt">
+    <EmbeddedResource Include="Relatorio\RelatorioImpressaoAutorizacao.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>relatorioImpressaoAutorizacao.cs</LastGenOutput>
+      <LastGenOutput>RelatorioImpressaoAutorizacao.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Relatorio\RelatorioImpressaoCredencial.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

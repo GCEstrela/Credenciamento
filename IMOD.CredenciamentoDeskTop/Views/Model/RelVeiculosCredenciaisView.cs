@@ -54,6 +54,15 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public bool IsencaoCobranca { get; set; }
         public string TipoCredencialDescricao { get; set; }
         public string CredencialStatusDescricao { get; set; }
+        public string DataImpressao { get; set; }
+
+        public decimal Valor { get; set; }
+        public string TiposCobrancaNome { get; set; }
+        public string EmpresasContratosNome { get; set; }
+        public string Identificacao { get; set; }
+        public string Identificacao1 { get; set; }
+        public string Identificacao2 { get; set; }
+        public string IdentificacaoDescricao { get; set; }
 
     }
 }

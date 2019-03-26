@@ -316,7 +316,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         #region CREDENCIAIS
 
         /// <summary>
-        /// Filtrar Relatório de Credenciais Permanentes/Temporárias
+        ///  Relatório de Credenciais Permanentes/Temporárias
         /// </summary>
         /// <param name="_tipo"></param>
         /// <param name="_dataIni"></param>
@@ -327,7 +327,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             string mensagemComplemento = string.Empty;
             string mensagemPeriodo = string.Empty;
             // objeto com o filtro de parâmetros da consulta
-            Domain.EntitiesCustom.RelColaboradoresCredenciaisView colaboradorCredencial = new Domain.EntitiesCustom.RelColaboradoresCredenciaisView();
+            Domain.EntitiesCustom.FiltroReportColaboradoresCredenciais colaboradorCredencial = new Domain.EntitiesCustom.FiltroReportColaboradoresCredenciais();
 
             try
             {
@@ -360,6 +360,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 //Busca o layout do relatório (arquivo .rpt) no banco de dados
                 //var relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(1);
                 //byte[] arrayFile = Convert.FromBase64String(relatorioGerencial.ArquivoRpt);
+                //var relatorio = WpfHelp.ShowRelatorioCrystalReport(arrayFile, relatorioGerencial.Nome);
+                //relatorio.SetDataSource(lst);
 
                 var fileName = @"C:\projetos\credenciamento_homologa1\IMOD.CredenciamentoDeskTop\Relatorio\RelatorioConcessaoCredenciais.rpt";
 
@@ -373,6 +375,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     TextObject txt = (TextObject)reportDoc.ReportDefinition.ReportObjects["TextoPrincipal"];
                     txt.Text = mensagem;
                 }
+                reportDoc.Refresh();
 
                 WpfHelp.ShowRelatorio(reportDoc);
             }
@@ -383,7 +386,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         }
 
         /// <summary>
-        /// Filtrar Relatório de Credenciais Inválidas
+        ///  Relatório de Credenciais Inválidas
         /// (Indeferidas,Roubadas,Extraviadas,Não-Devolvidas...)
         /// </summary>
         /// <param name="_status"></param>
@@ -399,8 +402,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 string mensagem = string.Empty;
                 string mensagemComplemento = string.Empty;
                 string mensagemPeriodo = string.Empty;
-                // objeto com o filtro de parâmetros da consulta
-                Domain.EntitiesCustom.RelColaboradoresCredenciaisView colaboradorCredencial = new Domain.EntitiesCustom.RelColaboradoresCredenciaisView();
+                
+                Domain.EntitiesCustom.FiltroReportColaboradoresCredenciais colaboradorCredencial = new Domain.EntitiesCustom.FiltroReportColaboradoresCredenciais();
                 mensagem = "Todas as CREDENCIAIS ";
                 colaboradorCredencial.CredencialStatusId = 2;
 
@@ -410,7 +413,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     colaboradorCredencial.BaixaFim = DateTime.Parse(dataFim);
                     mensagemPeriodo = " entre " + dataIni + " e " + dataFim + "";
                 }
-                // se for zero, trazer todas as credenciais inválidas 
+                
                 if (status == 0)
                 {
                     mensagemComplemento = "INVÁLIDAS (vencidas/indeferidas/canceladas/extraviadas/destruídas) ";
@@ -452,7 +455,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         }
 
         /// <summary> 
-        /// Filtrar Relatório de Credenciais por Área de Acesso
+        ///  Relatório de Credenciais por Área de Acesso
         /// </summary> 
         /// <param name="_area"></param>
         /// <param name="_check"></param>
@@ -463,11 +466,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 string mensagem = string.Empty;
                 string mensagemComplemento = string.Empty;
                 string mensagemPeriodo = string.Empty;
-                // objeto com o filtro de parâmetros da consulta
-                Domain.EntitiesCustom.RelColaboradoresCredenciaisView colaboradorCredencial = new Domain.EntitiesCustom.RelColaboradoresCredenciaisView();
+                
+                Domain.EntitiesCustom.FiltroReportColaboradoresCredenciais colaboradorCredencial = new Domain.EntitiesCustom.FiltroReportColaboradoresCredenciais();
                 colaboradorCredencial.CredencialStatusId = 1;
 
-                //Busca layout do relatório
                 relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(7);
 
                 if (objAreaSelecionado.AreaAcessoId > 0)
@@ -482,7 +484,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     colaboradorCredencial.AreaAcessoId = Convert.ToInt16(area);
                 }
 
-                //Faz a busca do registros de colaboradores credenciais por área
                 var result = objColaboradorCredencial.ListarColaboradorCredencialPermanentePorAreaView(colaboradorCredencial);
                 var resultMapeado = Mapper.Map<List<Views.Model.RelColaboradoresCredenciaisView>>(result.OrderByDescending(n => n.ColaboradorCredencialId).ToList());
 
@@ -513,7 +514,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         }
 
         /// <summary>
-        /// Filtrar Relatório de Credenciais por Empresas
+        /// Relatório de Credenciais por Empresas
         /// </summary>
         /// <param name="empresa"></param>
         /// <param name="_check"></param>
@@ -526,7 +527,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 string mensagem = string.Empty;
                 string mensagemPeriodo = string.Empty;
                 // objeto com o filtro de parâmetros da consulta
-                Domain.EntitiesCustom.RelColaboradoresCredenciaisView colaboradorCredencial = new Domain.EntitiesCustom.RelColaboradoresCredenciaisView();
+                Domain.EntitiesCustom.FiltroReportColaboradoresCredenciais colaboradorCredencial = new Domain.EntitiesCustom.FiltroReportColaboradoresCredenciais();
                 relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(9);
                 mensagem = "Todas as CREDENCIAIS emitidas por entidade solicitante";
 
@@ -576,7 +577,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         }
 
         /// <summary>
-        /// Filtrar Relatório de impressões de Credenciais e Autorizações por Empresas
+        /// Relatório de impressões de Credenciais e Autorizações por Empresas
         /// </summary>
         /// <param name="_empresa"></param>
         /// <param name="_check"></param>
@@ -589,10 +590,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 string mensagem = string.Empty;
                 string mensagemPeriodo = string.Empty;
 
-                // objeto com o filtro de parâmetros da consulta
-                Domain.EntitiesCustom.RelColaboradoresCredenciaisView colaboradorCredencial = new Domain.EntitiesCustom.RelColaboradoresCredenciaisView();
+                Domain.EntitiesCustom.FiltroReportColaboradoresCredenciais colaboradorCredencial = new Domain.EntitiesCustom.FiltroReportColaboradoresCredenciais();
 
-                //CREDENCIAIS 
                 relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(23);
 
                 mensagem = " Impressões de Credenciais registradas ";
@@ -608,7 +607,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 mensagem += mensagemPeriodo;
 
-                //Faz a busca do registros de colaboradores credenciais concedidas
                 var result = objColaboradorCredencial.ListarColaboradorCredencialImpressoesView(colaboradorCredencial);
                 var resultMapeado = Mapper.Map<List<Views.Model.RelColaboradoresCredenciaisView>>(result.OrderByDescending(n => n.ColaboradorCredencialId).ToList());
 
@@ -637,7 +635,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         }
 
         /// <summary>
-        /// Filtrar Relatório de vias adicionais de Credenciais
+        ///  Relatório de vias adicionais de Credenciais
         /// </summary>
         /// <param name="_tipo"></param>
         /// <param name="_dataIni"></param>
@@ -650,10 +648,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 string mensagemComplemento = string.Empty;
                 string mensagemPeriodo = string.Empty;
 
-                // objeto com o filtro de parâmetros da consulta
-                Domain.EntitiesCustom.RelColaboradoresCredenciaisView colaboradorCredencial = new Domain.EntitiesCustom.RelColaboradoresCredenciaisView();
+                Domain.EntitiesCustom.FiltroReportColaboradoresCredenciais colaboradorCredencial = new Domain.EntitiesCustom.FiltroReportColaboradoresCredenciais();
 
-                //CREDENCIAIS
                 relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(21);
 
                 if (!(dataIni.Equals(string.Empty) || dataFim.Equals(string.Empty)))
@@ -665,7 +661,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 if (_tipo > 0)
                 {
-                    //Seta o tipo de motivo
                     colaboradorCredencial.CredencialMotivoId = _tipo;
 
                     switch (_tipo)
@@ -726,7 +721,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 string mensagem = string.Empty;
                 string mensagemPeriodo = string.Empty;
                 // objeto com o filtro de parâmetros da consulta
-                FiltroVeiculoCredencial veiculoCredencial = new FiltroVeiculoCredencial();
+                FiltroReportVeiculoCredencial veiculoCredencial = new FiltroReportVeiculoCredencial();
                 relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(2);
 
                 veiculoCredencial.CredencialStatusId = 1;
@@ -749,70 +744,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     veiculoCredencial.EmissaoFim = DateTime.Parse(dataFim);
                     mensagem = "Todas as AUTORIZAÇÕES " + verbo + " ativas concedidas entre " + dataIni + " e " + dataFim + "";
                 }
-                //if (tipo == 1 )
-                //{
-
-
-
-                //    ////if (dataIni == "" || dataFim == "")
-                //    ////{
-                //    ////    //Filtrar Autorizações Permanentes e Ativas
-                //    ////    formula = " {TiposCredenciais.TipoCredencialID} = 1 " +
-                //    ////              " AND {CredenciaisStatus.CredencialStatusID} = 1 ";
-
-                //    ////    mensagem = "Todas as AUTORIZAÇÕES PERMANENTES ativas ";
-                //    ////}
-                //    //else
-                //    //{
-                //    //    veiculoCredencial.CredencialStatusId = 1;
-                //    //    veiculoCredencial.TipoCredencialId = 1;
-                //    //    if (!(dataIni.Equals(string.Empty) || dataFim.Equals(string.Empty)))
-                //    //    {
-                //    //        veiculoCredencial.Emissao = DateTime.Parse(dataIni);
-                //    //        veiculoCredencial.EmissaoFim = DateTime.Parse(dataFim);
-                //    //        mensagem = "Todas as AUTORIZAÇÕES PERMANENTES ativas concedidas entre " + dataIni + " e " + dataFim + "";
-                //    //    }
-                //    //    ////Listar Autorizações Permanentes e Ativas por período
-                //    //    //formula = " {TiposCredenciais.TipoCredencialID} = 1 " +
-                //    //    //          " and {CredenciaisStatus.CredencialStatusID} = 1 " +
-                //    //    //          " and ({VeiculosCredenciais.Emissao} <= CDate ('" + dataFim + "')" +
-                //    //    //          " and {VeiculosCredenciais.Emissao} >= CDate ('" + dataIni + "') ) ";
-
-                //    //    //mensagem = "Todas as AUTORIZAÇÕES PERMANENTES ativas concedidas entre " + dataIni + " e " + dataFim + "";
-                //    //}
-                //}
-                //AUTORIZAÇÕES TEMPORÁRIAS - (3)
-                //else
-                //{
-                //    relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(4);
-                //    veiculoCredencial.CredencialStatusId = 1;
-                //    veiculoCredencial.TipoCredencialId = 1;
-                //    if (!(dataIni.Equals(string.Empty) || dataFim.Equals(string.Empty)))
-                //    {
-                //        veiculoCredencial.Emissao = DateTime.Parse(dataIni);
-                //        veiculoCredencial.EmissaoFim = DateTime.Parse(dataFim);
-                //        mensagem = "Todas as AUTORIZAÇÕES PERMANENTES ativas ";
-                //    }
-
-                //    if (dataIni == "" || dataFim == "")
-                //    {
-                //        //Filtrar Autorizações Temporárias e Ativas
-                //        formula = " {TiposCredenciais.TipoCredencialID} = 2 " +
-                //                  "AND {CredenciaisStatus.CredencialStatusID} = 1 ";
-
-                //        mensagem = "Todas as AUTORIZAÇÕES TEMPORÁRIAS ativas ";
-                //    }
-                //    else
-                //    {
-                //        //Listar Autorizações Permanentes e Ativas por período
-                //        formula = " {TiposCredenciais.TipoCredencialID} = 2 " +
-                //                  " and {CredenciaisStatus.CredencialStatusID} = 1 " +
-                //                  " and ({VeiculosCredenciais.Emissao} <= CDate ('" + dataFim + "')" +
-                //                  " and {VeiculosCredenciais.Emissao} >= CDate ('" + dataIni + "') ) ";
-
-                //        mensagem = "Todas as AUTORIZAÇÕES TEMPORÁRIAS ativas concedidas entre " + dataIni + " e " + dataFim + "";
-                //    }
-                //}
 
                 var result = objVeiculoCredencial.ListarVeiculoCredencialViaAdicionaisView(veiculoCredencial);
                 var resultMapeado = Mapper.Map<List<RelVeiculosCredenciaisView>>(result.OrderByDescending(n => n.VeiculoCredencialId).ToList());
@@ -831,6 +762,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     txt.Text = mensagem;
                 }
 
+                reportDoc.Refresh();
+
                 WpfHelp.ShowRelatorio(reportDoc);
             }
             catch (Exception ex)
@@ -840,9 +773,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         }
 
         /// <summary>
-        /// 
+        ///   Relatório de veiculos Credenciais( Autorizações ) inválidas 
         /// </summary>
-        /// <param name="_status"></param>
+        /// <param name="_tipo"></param>
         /// <param name="_dataIni"></param>
         /// <param name="_dataFim"></param>
         public void OnRelatorioAutorizacoesInvalidasFiltroCommand(int _tipo, string dataIni, string dataFim)
@@ -851,14 +784,13 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 string mensagem = string.Empty;
                 string mensagemPeriodo = string.Empty;
-                // objeto com o filtro de parâmetros da consulta
-                FiltroVeiculoCredencial veiculoCredencial = new FiltroVeiculoCredencial();
+                
+                FiltroReportVeiculoCredencial veiculoCredencial = new FiltroReportVeiculoCredencial();
 
                 mensagem = "Todas as AUTORIZAÇÕES INVÁLIDAS (vencidas/indeferidas/canceladas/extraviadas/destruídas)";
                 //6_Relatório_AutorizacoesInvalidas.rpt
                 relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(6);
                 veiculoCredencial.CredencialStatusId = 2;
-                //Caso período de datas seja vazio (Todas Inválidas)
                 if (_tipo == 0)
                 {
                     // 2, 3 código de todas as vias adicionais emitidas
@@ -964,6 +896,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     TextObject txt = (TextObject)reportDoc.ReportDefinition.ReportObjects["TextoPrincipal"];
                     txt.Text = mensagem;
                 }
+                reportDoc.Refresh();
 
                 WpfHelp.ShowRelatorio(reportDoc);
             }
@@ -974,37 +907,59 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         }
 
         /// <summary>
-        /// Filtrar Relatório de Credenciais por Área de Acesso
+        ///  Relatório de veiculos Credenciais( Autorizações ) por área
         /// </summary>
-        /// <param name="_area"></param>
+        /// <param name="area"></param>
         /// <param name="_check"></param>
-        public void OnRelatorioFiltroPorAreaCommand(string _area, bool _check)
+        /// <param name="objAreaSelecionado"></param>
+        public void OnRelatorioAutorizacoesPorAreaCommand(string area, bool _check, AreaAcessoView objAreaSelecionado)
         {
             try
             {
-                //Relatório de Credenciais
-                if (_check)
+                string mensagem = string.Empty;
+                string mensagemComplemento = string.Empty;
+                string mensagemPeriodo = string.Empty;
+                
+                Domain.EntitiesCustom.FiltroReportVeiculoCredencial veiculoCredencial = new Domain.EntitiesCustom.FiltroReportVeiculoCredencial();
+                veiculoCredencial.CredencialStatusId = 1;
+
+                relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(7);
+
+                if (objAreaSelecionado.AreaAcessoId > 0)
                 {
-                    relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(7);
-                    mensagem = "Todas as CREDENCIAIS PERMANENTES E VÁLIDAS por ÁREA DE ACESSO";
-                }
-                //Relatório de Autorizações
-                else
-                {
-                    relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(8);
-                    mensagem = "Todas as AUTORIZAÇÕES PERMANENTES E VÁLIDAS por ÁREA DE ACESSO";
-                }
-                if (_area != "")
-                {
-                    formula = " {AreasAcessos_0.AreaAcessoID} = " + _area;
-                }
-                else
-                {
-                    formula = "";
+                    mensagemComplemento = " - " + objAreaSelecionado.Identificacao + " / " + objAreaSelecionado.Descricao;
                 }
 
-                var arrayFile = Convert.FromBase64String(relatorioGerencial.ArquivoRpt);
-                WpfHelp.ShowRelatorio(arrayFile, "RelatorioPorArea", formula, mensagem);
+                mensagem = " Todas as AUTORIZAÇÕES PERMANENTES E VÁLIDAS por ÁREA DE ACESSO " + mensagemComplemento;
+
+                if (area != string.Empty)
+                {
+                    veiculoCredencial.AreaAcessoId = Convert.ToInt16(area); 
+                }
+                 
+                var result = objVeiculoCredencial.ListarVeiculoCredencialPermanentePorAreaView(veiculoCredencial);
+                 
+                var resultMapeado = Mapper.Map<List<Views.Model.RelVeiculosCredenciaisView>>(result.OrderByDescending(n => n.VeiculoCredencialId).ToList());
+
+                //Busca o layout do relatório (arquivo .rpt) no banco de dados
+                //var relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(1);
+                //byte[] arrayFile = Convert.FromBase64String(relatorioGerencial.ArquivoRpt);
+
+                var fileName = @"C:\projetos\credenciamento_homologa1\IMOD.CredenciamentoDeskTop\Relatorio\RelatorioAutorizacaoEmitidaPorArea.rpt";
+
+                var reportDoc = new ReportDocument();
+                reportDoc.Load(fileName, OpenReportMethod.OpenReportByTempCopy);
+                reportDoc.SetDataSource(resultMapeado);
+
+                if (!string.IsNullOrWhiteSpace(mensagem))
+                {
+                    TextObject txt = (TextObject)reportDoc.ReportDefinition.ReportObjects["TextoPrincipal"];
+                    txt.Text = mensagem;
+                }
+                reportDoc.Refresh();
+
+                WpfHelp.ShowRelatorio(reportDoc);
+
             }
             catch (Exception ex)
             {
@@ -1013,85 +968,58 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         }
 
         /// <summary>
-        /// Filtrar Relatório de Credenciais e Autorizações por Empresas
+        /// Filtrar Relatório de veiculos Credenciais( Autorizações ) por Empresas
         /// </summary>
         /// <param name="empresa"></param>
         /// <param name="_check"></param>
         /// <param name="_dataIni"></param>
         /// <param name="_dataFim"></param>
-        public void OnRelatorioFiltroPorEmpresaCommand(string empresa, bool _check, string _dataIni, string _dataFim)
+        public void OnRelatorioFiltroPorEmpresaCommand(string empresa, bool check, string dataIni, string dataFim)
         {
             try
             {
-                //CREDENCIAIS
-                if (_check)
-                {
-                    relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(9);
-                }
-                //AUTORIZAÇÕES
-                else
-                {
-                    relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(10);
-                }
+                string mensagem = string.Empty;
+                string mensagemPeriodo = string.Empty;
+                
+                FiltroReportVeiculoCredencial veiculoCredencial = new FiltroReportVeiculoCredencial();
 
+                relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(9);
+                mensagem = "Todas as AUTORIZAÇÕES emitidas por entidade solicitante";
 
-                //Filtra Todas Empresas
-                if (empresa == "" && _dataIni == "" && _dataFim == "")
+                if (!(dataIni.Equals(string.Empty) || dataFim.Equals(string.Empty)))
                 {
-                    formula = "";
-                    mensagem = "Todas as CREDENCIAIS emitidas por entidade solicitante";
+                    veiculoCredencial.Emissao = DateTime.Parse(dataIni);
+                    veiculoCredencial.EmissaoFim = DateTime.Parse(dataFim);
+                    mensagemPeriodo = " no período de  " + dataIni + " e " + dataFim + "";
                 }
+                mensagem += mensagemPeriodo;
 
-                //Uma Empresa
-                else if (_dataIni == "" && _dataFim == "" && _check)
+                if (!string.IsNullOrEmpty(empresa))
                 {
-                    formula = " {Empresas.EmpresaID} = " + empresa;
-                    mensagem = "Todas as CREDENCIAIS emitidas por entidade solicitante";
+                    veiculoCredencial.EmpresaId = Convert.ToInt16(empresa);
                 }
 
-                //Credenciais
-                else if (_check)
+                var result = objVeiculoCredencial.ListarVeiculoCredencialConcedidasView(veiculoCredencial); 
+                var resultMapeado = Mapper.Map<List<RelVeiculosCredenciaisView>>(result.OrderByDescending(n => n.VeiculoCredencialId).ToList());
+
+                //Busca o layout do relatório (arquivo .rpt) no banco de dados
+                //var relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(1);
+                //byte[] arrayFile = Convert.FromBase64String(relatorioGerencial.ArquivoRpt);
+
+                var fileName = @"C:\projetos\credenciamento_homologa1\IMOD.CredenciamentoDeskTop\Relatorio\RelatorioAutorizacaoEmitidasPorEmpresa.rpt";
+
+                var reportDoc = new ReportDocument();
+                reportDoc.Load(fileName, OpenReportMethod.OpenReportByTempCopy); 
+                reportDoc.SetDataSource(resultMapeado); 
+
+                if (!string.IsNullOrWhiteSpace(mensagem))
                 {
-                    //Uma empresas (filtrando por data)
-                    if (empresa != "")
-                    {
-                        formula = "{ColaboradoresCredenciais.Emissao}  <= CDate ('" + _dataFim + "')" +
-                                  " and {ColaboradoresCredenciais.Emissao} >= CDate ('" + _dataIni + "')" +
-                                  " and {Empresas.EmpresaID} = " + empresa + "";
-                    }
-                    //Todas empresas (filtrando por data)
-                    else
-                    {
-                        formula = "{ColaboradoresCredenciais.Emissao}  <= CDate ('" + _dataFim + "')" +
-                                  " and {ColaboradoresCredenciais.Emissao} >= CDate ('" + _dataIni + "')";
-                    }
-
-                    mensagem = "Todas as CREDENCIAIS emitidas por entidade solicitante no período de " + _dataIni + " a " + _dataFim;
+                    TextObject txt = (TextObject)reportDoc.ReportDefinition.ReportObjects["TextoPrincipal"];
+                    txt.Text = mensagem;
                 }
+                reportDoc.Refresh();
 
-                //Autorizacoes
-                else
-                {
-                    //Uma empresa (filtrando por data)
-                    if (empresa != "")
-                    {
-                        formula = "{VeiculosCredenciais.Emissao}  <= CDate ('" + _dataFim + "')" +
-                                  " and {VeiculosCredenciais.Emissao} >= CDate ('" + _dataIni + "')" +
-                                  " and {Empresas.EmpresaID} = " + empresa + "";
-                    }
-                    //Todas empresa (filtrando por data)
-                    else
-                    {
-                        formula = "{VeiculosCredenciais.Emissao}  <= CDate ('" + _dataFim + "')" +
-                                  " and {VeiculosCredenciais.Emissao} >= CDate ('" + _dataIni + "')";
-                    }
-
-                    mensagem = "Todas as AUTORIZAÇÕES emitidas por entidade solicitante no período de " + _dataIni + " a " + _dataFim;
-
-                }
-
-                var arrayFile = Convert.FromBase64String(relatorioGerencial.ArquivoRpt);
-                WpfHelp.ShowRelatorio(arrayFile, "RelatorioPorEmpresa", formula, mensagem);
+                WpfHelp.ShowRelatorio(reportDoc);
             }
             catch (Exception ex)
             {
@@ -1100,79 +1028,58 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         }
 
         /// <summary>
-        /// Filtrar Relatório de impressões de Credenciais e Autorizações por Empresas
+        /// Filtrar Relatório de impressões veiculos Credenciais( Autorizações ) por Empresas
         /// </summary>
         /// <param name="_empresa"></param>
         /// <param name="_check"></param>
         /// <param name="_dataIni"></param>
         /// <param name="_dataFim"></param>
-        public void OnFiltrosImpressoesCommand(string _empresa, bool _check, string _dataIni, string _dataFim)
+        public void OnFiltrosImpressoesAutorizacoesCommand(string empresa, bool check, string dataIni, string dataFim)
         {
             try
             {
-                //CREDENCIAIS
-                if (_check)
-                {
-                    relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(23);
-                }
-                //AUTORIZAÇÕES
-                else
-                {
-                    relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(24);
-                }
+                string mensagem = string.Empty;
+                string mensagemPeriodo = string.Empty;
 
-                if (_dataIni == "" || _dataFim == "")
+                FiltroReportVeiculoCredencial veiculoCredencial = new FiltroReportVeiculoCredencial();
+
+                //relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(23);
+
+                mensagem = " Impressões de Autorizações registradas ";
+
+                if (!(dataIni.Equals(string.Empty) || dataFim.Equals(string.Empty)))
                 {
-                    if (_empresa != "")
-                    {
-                        formula = "{ Empresas.EmpresaID} = " + _empresa + "";
-                    }
-                    else
-                    {
-                        formula = "";
-                    }
+                    veiculoCredencial.Emissao = DateTime.Parse(dataIni);
+                    veiculoCredencial.EmissaoFim = DateTime.Parse(dataFim);
+                    mensagemPeriodo = " entre " + dataIni + " e " + dataFim + "";
                 }
 
-                else
+                veiculoCredencial.EmpresaId = Convert.ToInt16(empresa);
+
+                mensagem += mensagemPeriodo;
+
+                List<VeiculosCredenciaisView> result = new List<VeiculosCredenciaisView>();
+
+                 result = objVeiculoCredencial.ListarVeiculoCredencialImpressoesView(veiculoCredencial);
+
+                List<Views.Model.RelVeiculosCredenciaisView> resultMapeado = Mapper.Map<List<Views.Model.RelVeiculosCredenciaisView>>(result.OrderByDescending(n => n.VeiculoCredencialId).ToList());
+
+                //Busca o layout do relatório (arquivo .rpt) no banco de dados
+                //byte[] arrayFile = Convert.FromBase64String(relatorioGerencial.ArquivoRpt);
+                var fileName = @"C:\projetos\credenciamento_homologa1\IMOD.CredenciamentoDeskTop\Relatorio\RelatorioImpressaoAutorizacao.rpt";
+
+                var reportDoc = new ReportDocument();
+                reportDoc.Load(fileName, OpenReportMethod.OpenReportByTempCopy);
+                reportDoc.SetDataSource(resultMapeado);
+
+                if (!string.IsNullOrWhiteSpace(mensagem))
                 {
-                    //CREDENCIAIS
-                    if (_check)
-                    {
-                        //Uma empresas (filtrando por data)
-                        if (_empresa != "")
-                        {
-                            formula = "{ColaboradoresCredenciaisImpressoes.DataImpressao} <= cdate('" + _dataFim + "') " +
-                                      " and {ColaboradoresCredenciaisImpressoes.DataImpressao} >= cdate('" + _dataIni + "')" +
-                                      " and {Empresas.EmpresaID} = " + _empresa + "";
-                        }
-                        else
-                        {
-                            formula = "{ColaboradoresCredenciaisImpressoes.DataImpressao} <= cdate('" + _dataFim + "') " +
-                                      " and {ColaboradoresCredenciaisImpressoes.DataImpressao} >= cdate('" + _dataIni + "')";
-                        }
-                    }
-
-                    //AUTORIZAÇÕES
-                    else
-                    {
-                        //Uma empresas (filtrando por data)
-                        if (_empresa != "")
-                        {
-                            formula = "{VeiculosCredenciaisImpressoes.DataImpressao} <= cdate('" + _dataFim + "') " +
-                                      " and {VeiculosCredenciaisImpressoes.DataImpressao} >= cdate('" + _dataIni + "')" +
-                                      " and {Empresas.EmpresaID} = " + _empresa + "";
-                        }
-                        else
-                        {
-                            formula = "{VeiculosCredenciaisImpressoes.DataImpressao} <= cdate('" + _dataFim + "') " +
-                                      " and {VeiculosCredenciaisImpressoes.DataImpressao} >= cdate('" + _dataIni + "')";
-                        }
-                    }
-                    mensagem = "Impressões de Credenciais registradas entre " + _dataIni + " e " + _dataFim;
+                    TextObject txt = (TextObject)reportDoc.ReportDefinition.ReportObjects["TextoPrincipal"];
+                    txt.Text = mensagem;
                 }
+                reportDoc.Refresh();
 
-                var arrayFile = Convert.FromBase64String(relatorioGerencial.ArquivoRpt);
-                WpfHelp.ShowRelatorio(arrayFile, "RelatorioImpressoes", formula, "");
+                WpfHelp.ShowRelatorio(reportDoc);
             }
             catch (Exception ex)
             {
@@ -1192,86 +1099,41 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 string mensagem = string.Empty;
                 string mensagemPeriodo = string.Empty;
-                // objeto com o filtro de parâmetros da consulta
-                FiltroVeiculoCredencial veiculoCredencial = new FiltroVeiculoCredencial();
+                string mensagemComplemento = string.Empty;
+
+                FiltroReportVeiculoCredencial veiculoCredencial = new FiltroReportVeiculoCredencial();
 
                 mensagem = "Todas as VIAS ADICIONAIS de AURORIZAÇÕES emitidas";
 
-                //CREDENCIAIS
                 relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(22);
 
-                if (_tipo == 0)
+                if (!(dataIni.Equals(string.Empty) || dataFim.Equals(string.Empty)))
                 {
-                    // 2, 3 código de todas as vias adicionais emitidas
-                    veiculoCredencial.CredencialMotivoId = 2;
-                    veiculoCredencial.CredencialMotivoId1 = 5;
+                    veiculoCredencial.Emissao = DateTime.Parse(dataIni);
+                    veiculoCredencial.EmissaoFim = DateTime.Parse(dataFim);
+                    mensagemPeriodo = "entre " + dataIni + " e " + dataFim + "";
+                }
 
-                    if (!(dataIni.Equals(string.Empty) || dataFim.Equals(string.Empty)))
+                if (_tipo > 0)
+                {
+                    veiculoCredencial.CredencialMotivoId = _tipo;
+
+                    switch (_tipo)
                     {
-                        veiculoCredencial.Emissao = DateTime.Parse(dataIni);
-                        veiculoCredencial.EmissaoFim = DateTime.Parse(dataFim);
-                        mensagemPeriodo = "entre " + dataIni + " e " + dataFim + "";
-                        mensagem += mensagemPeriodo;
+                        case 2:
+                            mensagemComplemento = "SEGUNDA EMISSÃO";
+                            break;
+                        case 3:
+                            mensagemComplemento = "TERCEIRA EMISSÃO";
+                            break;
                     }
-                    else
-                    {
-                        if (!(_tipo.Equals(0)))
-                        {
-                            veiculoCredencial.CredencialMotivoId = _tipo;
-                        }
-                        if (!(dataIni.Equals(string.Empty) || dataFim.Equals(string.Empty)))
-                        {
-                            veiculoCredencial.Emissao = DateTime.Parse(dataIni);
-                            veiculoCredencial.EmissaoFim = DateTime.Parse(dataFim);
-                        }
-
-                        //veiculoCredencial.Emissao = DateTime.Parse(dataIni);
-                        //veiculoCredencial.EmissaoFim = DateTime.Parse(dataFim);
-
-                        //formula = " {CredenciaisMotivos.CredencialmotivoID} in [2,3] " +
-                        //          " AND ({ColaboradoresCredenciais.Emissao} <= CDate ('" + dataFim + "')" +
-                        //          " AND {ColaboradoresCredenciais.Emissao} >= CDate ('" + dataIni + "') ) ";
-
-                        //mensagem = "Todas as VIAS ADICIONAIS de AUTORIZAÇÕES ATIV emitidas entre " + dataIni + " e " + dataFim;
-                        mensagem = "Todas as VIAS ADICIONAIS de AUTORIZAÇÕES ATIV";
-                    }
+                    mensagem = "Todas as VIAS ADICIONAIS " + mensagemComplemento + " de CREDENCIAIS emitidas " + mensagemPeriodo;
                 }
                 else
                 {
-                    //Seta o tipo de motivo
-                    veiculoCredencial.CredencialMotivoId = _tipo;
-
-                    if (!(dataIni.Equals(string.Empty) || dataFim.Equals(string.Empty)))
-                    {
-                        veiculoCredencial.Emissao = DateTime.Parse(dataIni);
-                        veiculoCredencial.EmissaoFim = DateTime.Parse(dataFim);
-                        switch (_tipo)
-                        {
-                            case 2:
-                                verbo = "SEGUNDA EMISSÃO";
-                                break;
-                            case 3:
-                                verbo = "TERCEIRA EMISSÃO";
-                                break;
-                        }
-                        mensagem = "Todas as VIAS DE ( " + verbo + " ) ADICIONAIS de AUTORIZAÇÕES emitidas entre " + dataIni + " e " + dataFim;
-
-                    }
-                    else
-                    {
-                        switch (_tipo)
-                        {
-                            case 2:
-                                verbo = "SEGUNDA EMISSÃO";
-                                break;
-                            case 3:
-                                verbo = "TERCEIRA EMISSÃO";
-                                break;
-                        }
-                        mensagem = "Todas as VIAS DE ( " + verbo + " ) ADICIONAIS de AUTORIZAÇÕES";
-                    }
+                    veiculoCredencial.CredencialMotivoId = 0;
+                    mensagem = "Todas as VIAS ADICIONAIS de CREDENCIAIS emitidas" + mensagemPeriodo;
                 }
-                //Faz a busca do registros de colaboradores credenciais concedidas  
                 //var result = objColaboradorCredencial.ListarColaboradorCredencialViaAdicionaisView(veiculoCredencial);
                 var result = objVeiculoCredencial.ListarVeiculoCredencialViaAdicionaisView(veiculoCredencial);
                 var resultMapeado = Mapper.Map<List<RelVeiculosCredenciaisView>>(result.OrderByDescending(n => n.VeiculoCredencialId).ToList());
@@ -1289,6 +1151,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     TextObject txt = (TextObject)reportDoc.ReportDefinition.ReportObjects["TextoPrincipal"];
                     txt.Text = mensagem;
                 }
+                reportDoc.Refresh();
 
                 WpfHelp.ShowRelatorio(reportDoc);
                 //var arrayFile = Convert.FromBase64String(relatorioGerencial.ArquivoRpt);
@@ -1299,6 +1162,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 Utils.TraceException(ex);
             }
         }
+
+
         #endregion
 
         #endregion

@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace IMOD.Domain.EntitiesCustom
 {
-    public class FiltroVeiculoCredencial
+    public class FiltroReportVeiculoCredencial
     {
         #region  Propriedades
 
-        public int VeiculoCredencialId { get; set; }        
+        public int VeiculoCredencialId { get; set; }
         public int VeiculoEmpresaId { get; set; }
         public int VeiculoId { get; set; }
         public string ContratoDescricao { get; set; }
@@ -57,11 +57,25 @@ namespace IMOD.Domain.EntitiesCustom
         public string EmpresaSigla { get; set; }
         public int CredencialMotivoId { get; set; }
         public int CredencialMotivoId1 { get; set; }
+        public int CredencialMotivoId2 { get; set; }
         public string CredencialMotivoDescricao { get; set; }
         public bool Impressa { get; set; }
         public DateTime? Baixa { get; set; }
         public DateTime? BaixaFim { get; set; }
         public bool IsencaoCobranca { get; set; }
+
+        public DateTime? DataImpressao { get; set; }
+        public DateTime? DataImpressaoFim { get; set; }
+        public decimal Valor { get; set; }
+        public string TiposCobrancaNome { get; set; }
+        public string EmpresasContratosNome { get; set; }
+        public int Periodo { get; set; }
+        public int Identificacao { get; set; }
+        public int AreaAcessoId { get; set; }
+
+        public DateTime? DataStatus { get; set; }
+        public int DevolucaoEntregaBoId { get; set; }
+        public bool Impeditivo { get; set; }
 
         #endregion
 

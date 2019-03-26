@@ -91,26 +91,40 @@ namespace IMOD.Domain.Interfaces
         VeiculoCredencial ObterCredencialPeloNumeroCredencial(string numCredencial);
 
         /// <summary>
-        ///    Listar Colaboradores / credenciais concedidas
+        ///    Listar Veiculos / credenciais concedidas
         /// </summary>
         /// <param name="entity">entity</param>
         /// <returns></returns>
-        List<VeiculosCredenciaisView> ListarVeiculoCredencialConcedidasView(FiltroVeiculoCredencial entity);
-
-
-        /// <summary>
-        ///    Listar Colaboradores / credenciais vias adicionais
-        /// </summary>
-        /// <param name="entity">entity</param>
-        /// <returns></returns>
-        List<VeiculosCredenciaisView> ListarVeiculoCredencialViaAdicionaisView(FiltroVeiculoCredencial entity);
+        List<VeiculosCredenciaisView> ListarVeiculoCredencialConcedidasView(FiltroReportVeiculoCredencial entity);
 
         /// <summary>
-        ///    Listar Colaboradores / credenciais concedidas
+        ///    Listar Veiculos / credenciais vias adicionais
         /// </summary>
         /// <param name="entity">entity</param>
         /// <returns></returns>
-        List<VeiculosCredenciaisView> ListarVeiculoCredencialInvalidasView(FiltroVeiculoCredencial entity);
+        List<VeiculosCredenciaisView> ListarVeiculoCredencialViaAdicionaisView(FiltroReportVeiculoCredencial entity);
+
+        /// <summary>
+        ///    Listar Veiculos / credenciais inválidas
+        /// </summary>
+        /// <param name="entity">entity</param>
+        /// <returns></returns>
+        List<VeiculosCredenciaisView> ListarVeiculoCredencialInvalidasView(FiltroReportVeiculoCredencial entity);
+
+        /// <summary>
+        ///    Listar veiculos credenciais - impressoes 
+        /// </summary>
+        /// <param name="entity">entity</param>
+        /// <returns></returns>
+        List<VeiculosCredenciaisView> ListarVeiculoCredencialImpressoesView(FiltroReportVeiculoCredencial entity);
+
+        /// <summary> 
+        ///    Listar veiculos credenciais - permanentes ativos por área
+        /// </summary> 
+        /// <param name="entity">entity</param>
+        /// <returns></returns>
+        List<VeiculosCredenciaisView> ListarVeiculoCredencialPermanentePorAreaView(FiltroReportVeiculoCredencial entity);
+
         #endregion
     }
 }

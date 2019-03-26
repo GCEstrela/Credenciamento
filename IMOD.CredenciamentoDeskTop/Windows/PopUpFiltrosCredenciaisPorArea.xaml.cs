@@ -46,7 +46,7 @@ namespace IMOD.CredenciamentoDeskTop.Windows
             else
             {
                 check = false;
-                ((RelatoriosViewModel)DataContext).OnRelatorioFiltroPorAreaCommand(area, check);
+                ((RelatoriosViewModel)DataContext).OnRelatorioAutorizacoesPorAreaCommand(area, check, objAreaSelecionado);
             }
 
 
