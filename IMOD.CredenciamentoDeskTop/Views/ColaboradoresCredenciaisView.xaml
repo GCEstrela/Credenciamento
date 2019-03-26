@@ -165,7 +165,8 @@
 
                             <TextBox  x:Name="NumeroColete_tb" HorizontalContentAlignment="Center" MaxLength="4" Margin="1,0,0,0"
                                       Text="{Binding Entity.NumeroColete,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
-                                      IsEnabled="{Binding IsEnableColete}"                                      
+                                      IsEnabled="{Binding IsEnableColete}"
+                                      Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
                                       CharacterCasing="Upper" Height="24"  Width="58"/>
 
                             <Label Content="Autenticação:" Height="28" Width="99"   HorizontalContentAlignment="Right"

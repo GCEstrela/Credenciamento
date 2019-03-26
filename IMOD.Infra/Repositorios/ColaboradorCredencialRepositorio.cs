@@ -513,6 +513,30 @@ namespace IMOD.Infra.Repositorios
             }
         }
 
+        public ColaboradorCredencial ObterNumeroColete(string numColete)
+        {
+            using (var conn = _dataBase.CreateOpenConnection())
+            {
+                using (var cmd = _dataBase.SelectText("ColaboradoresCredenciais", conn))
+
+                {
+                    try
+                    {
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("Colete", numColete).Igual()));
+                        var reader = cmd.ExecuteReader();
+                        var d1 = reader.MapToList<ColaboradorCredencial>();
+
+                        return d1.FirstOrDefault();
+                    }
+                    catch (Exception ex)
+                    {
+                        Utils.TraceException(ex);
+                        throw;
+                    }
+                }
+            }
+        }
+
         #endregion
     }
 }

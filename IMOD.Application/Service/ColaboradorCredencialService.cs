@@ -182,7 +182,19 @@ namespace IMOD.Application.Service
             var n1 = ObterCredencialPeloNumeroCredencial (doc);
             return n1 != null;
         }
+        /// <summary>
+        ///     Verificar se um número credencial
+        /// </summary>
+        /// <param name="numColete"></param>
+        /// <returns></returns>
+        public bool ExisteNumeroColete(string numColete)
+        {
+            if (string.IsNullOrWhiteSpace(numColete)) return false;
 
+            var doc = numColete;
+            var n1 = ObterNumeroColete(doc);
+            return n1 != null;
+        }
         /// <summary>
         ///     Alterar registro
         /// </summary>
@@ -247,7 +259,15 @@ namespace IMOD.Application.Service
         {
             return _repositorio.ObterCredencialPeloNumeroCredencial (numCredencial);
         }
-
+        /// <summary>
+        ///     Obter dados da credencial pelo numero da credencial
+        /// </summary>
+        /// <param name="numColete"></param>
+        /// <returns></returns>
+        public ColaboradorCredencial ObterNumeroColete(string numColete)
+        {
+            return _repositorio.ObterNumeroColete(numColete);
+        }
         /// <summary>
         ///     Listar Colaboradores e suas credenciais
         /// </summary>

@@ -229,7 +229,28 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             return string.Compare(n1.NumeroCredencial.RetirarCaracteresEspeciais(),
                        numCredencial, StringComparison.Ordinal) != 0 && _service.ExisteNumeroCredencial(numCredencial);
         }
+        //
+        public bool ExisteNumeroColete()
+        {
+            if (Entity == null) return false;
+            var numColete = Entity.EmpresaSigla+Entity.NumeroColete;
 
+            //Verificar dados antes de salvar uma criação
+            if (_prepareCriarCommandAcionado)
+                if (_service.ExisteNumeroColete(numColete))
+                    return true;
+            //Verificar dados antes de salvar uma alteraçao
+            if (!_prepareAlterarCommandAcionado) return false;
+            if (_service.ExisteNumeroColete(numColete))
+                return true;
+            //var n1 = _service.BuscarPelaChave(Entity.ColaboradorId);
+            //if (n1 == null) return false;
+            //////Comparar o CNPJ antes e o depois
+            //////Verificar se há cnpj exisitente
+            return string.Compare(Entity.Colete,
+                       numColete, StringComparison.Ordinal) != 0 && _service.ExisteNumeroColete(numColete);
+            //return false;
+        }
         #endregion
 
         private void ListarDadosAuxiliares()
@@ -863,16 +884,17 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 Entity.SetMessageErro("NumeroCredencial", "Número de credencial já existente.");
                 return true;
             }
-
-            //// _configuraSistema = ObterConfiguracao();
-            //if (!_configuraSistema.Colete)
-            //{
-            //    if (Entity.NumeroColete == "")
-            //    {
-            //        Entity.SetMessageErro("Entity.NumeroColete", "Número do Colete é Obrigatório.");
-            //        return false;
-            //    }
-            //}
+            if (Entity.NumeroColete != "")
+            {
+                if (ExisteNumeroColete())
+                    {
+                        Entity.SetMessageErro("Colte", "Número do colte já existente.");
+                        WpfHelp.Mbox("Número do colte já cadastrado para o colaborador [ " + Entity.ColaboradorNome.ToString() + " ]");
+                        return true;
+                    }
+            }
+                
+            
             return Entity.HasErrors;
         }
 
