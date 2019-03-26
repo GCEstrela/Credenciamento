@@ -64,6 +64,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public bool IsEnableComboContrato { get {
                 return !_configuraSistema.Contrato;
             } }
+        /// <summary>
+        ///     Habilita Combo de Contratos
+        /// </summary>
+        public bool IsEnableColete { get; private set; } = true;        
         #endregion
 
         public ColaboradoresEmpresasViewModel()
@@ -107,6 +111,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             Contratos = new List<EmpresaContrato>();
             ListarDadosEmpresaContratos();
             _configuraSistema = ObterConfiguracao();
+            _configuraSistema = ObterConfiguracao();
+            if (!_configuraSistema.Colete) //Se Cole não for automático false
+            {
+                IsEnableColete = false;
+            }
         }
 
         public void ListarContratos(Empresa empresa)
@@ -141,14 +150,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var l3 = _empresaContratoService.Listar().ToList();
                 Contratos = l3;
                 base.OnPropertyChanged ("Entity");
-
-                //_configuraSistema = ObterConfiguracao();
-                //if (_configuraSistema.Contrato) //Se contrato for automático for true a combo sera removida do formulário
-                //{
-                //    IsEnableComboContrato = false;
-                //}
-                
-                
 
             }
             catch (Exception ex)

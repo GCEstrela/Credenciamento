@@ -131,6 +131,13 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /////     Habilita Concatenação da Combo Empresa e Contratos
         ///// </summary>
         public bool IsEnableComboContrato { get; set; } = true;
+        /// <summary>
+        ///     Habilita Combo de Contratos
+        /// </summary>
+        public bool IsEnableColete { get; set; } = true;
+        public int WidthColete { get; set; } = 48;
+        public string NumeroColete { get; set; }
+        public int WidthSigla { get; set; } = 68;
         //public bool IsEnableComboContrato
         //{
         //    get
@@ -161,7 +168,16 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             MensagemAlerta = string.Empty;
             if (entity == null) return;
             if (entity.ColaboradorCredencialId <= 0) return;
-
+            
+            if (Entity.Colete != null)
+            {
+                NumeroColete = Entity.Colete.Substring(3);
+            }
+            else
+            {
+                NumeroColete = "";
+            }
+            
             #region Habilitar botão de impressao e mensagem ao usuario
 
             HabilitaImpressao = entity.Ativa && !entity.PendenciaImpeditiva && !entity.Impressa && (entity.ColaboradorCredencialId > 0) && entity.Validade >= DateTime.Now.Date;
@@ -251,14 +267,15 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             //_credencialMotivo = new List<CredencialMotivo>(lst8.OrderBy(n => n.Descricao));
             _credencialMotivo.AddRange (lst8.OrderBy(n => n.Descricao));
 
-           
-
             _configuraSistema = ObterConfiguracao();            
             if (_configuraSistema.Contrato) //Se contrato for automático for true a combo sera removida do formulário
             {
                 IsEnableComboContrato = false;
             }
-
+            if (!_configuraSistema.Colete) //Se Cole não for automático false
+            {
+                IsEnableColete = false;
+            }
 
         } 
 
@@ -416,6 +433,19 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 n1.TecnologiaCredencialId = Entity.TecnologiaCredencialId;
                 n1.TipoCredencialId = Entity.TipoCredencialId;
                 n1.DevolucaoEntregaBoId = IsCheckDevolucao ? Entity.DevolucaoEntregaBoId : 0;
+                
+
+                var EmpresaSigla = _colaboradorEmpresaService.Listar(null, null, null, null,null,n1.ColaboradorEmpresaId).ToList();
+                if (_configuraSistema.Colete)
+                {
+                    NumeroColete= Convert.ToString(_colaboradorView.ColaboradorId);
+                    n1.Colete = EmpresaSigla[0].EmpresaSigla + NumeroColete;
+                }
+                else
+                {
+                    n1.Colete = EmpresaSigla[0].EmpresaSigla + NumeroColete;
+                    
+                }
 
                 //Criar registro no banco de dados e setar uma data de validade
                 _prepareCriarCommandAcionado = false;
@@ -432,6 +462,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var list1 = _service.ListarView(null, null, null, null, _colaboradorView.ColaboradorId).ToList();
                 var list2 = Mapper.Map<List<ColaboradoresCredenciaisView>>(list1.OrderByDescending(n => n.ColaboradorCredencialId));
                 EntityObserver = new ObservableCollection<ColaboradoresCredenciaisView>();
+                //var ttt = Entity.Colete;
+                
+                //_service.Alterar(n1);
 
                 list2.ForEach(n => { EntityObserver.Add(n); });
                 MensagemAlerta = "";
@@ -468,6 +501,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
+                NumeroColete = "";
+                _configuraSistema = ObterConfiguracao();
+                if (_configuraSistema.Colete)
+                {
+                    NumeroColete = Convert.ToString(_colaboradorView.ColaboradorId);
+                }
                 Entity = new ColaboradoresCredenciaisView();
 
                 var statusCred = CredencialStatus.FirstOrDefault(n => n.Codigo == "1"); //Status ativa
@@ -505,11 +544,21 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             try
             {
                 if (Entity == null) return;
-
+                 
                 Entity.DevolucaoEntregaBoId = IsCheckDevolucao ? (int)devolucaoCredencial : 0;
 
                 var n1 = Mapper.Map<ColaboradorCredencial>(Entity);
-                n1.DevolucaoEntregaBoId = IsCheckDevolucao ? Entity.DevolucaoEntregaBoId : 0;             
+                n1.DevolucaoEntregaBoId = IsCheckDevolucao ? Entity.DevolucaoEntregaBoId : 0;
+                if (_configuraSistema.Colete)
+                {
+                    NumeroColete= Convert.ToString(_colaboradorView.ColaboradorId);
+                    n1.Colete = Entity.EmpresaSigla + NumeroColete;
+                }
+                else
+                {
+                    n1.Colete = Entity.EmpresaSigla + NumeroColete;
+                }
+
 
                 //Atualizar dados a serem exibidas na tela de empresa
                 if (Entity == null) return;
@@ -524,6 +573,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 GerarCardHolder(n1.ColaboradorCredencialId, Entity);
 
+                //_service.Alterar(n1);
                 #endregion
 
                 //Atualizar Observer
@@ -765,8 +815,20 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         public void CarregarCaracteresColete(ColaboradorEmpresa colaboradorEmpresa)
         {
-            if (Entity == null || colaboradorEmpresa == null || colaboradorEmpresa.EmpresaSigla == null) return;
-            Entity.Colete = colaboradorEmpresa.EmpresaSigla.Trim() + Convert.ToString(_colaboradorView.ColaboradorId);
+            _configuraSistema = ObterConfiguracao();
+            if (_configuraSistema.Colete)
+            {
+                //if (Entity == null || colaboradorEmpresa == null || colaboradorEmpresa.EmpresaSigla == null) return;
+                //Entity.Colete = colaboradorEmpresa.EmpresaSigla.Trim() + Convert.ToString(_colaboradorView.ColaboradorId);
+                IsEnableColete = false;
+            }
+            else
+            {
+                //if (Entity == null || colaboradorEmpresa == null || colaboradorEmpresa.EmpresaSigla == null) return;
+                //Entity.Colete = colaboradorEmpresa.EmpresaSigla.Trim(); //+ Convert.ToString(_colaboradorView.ColaboradorId);
+                IsEnableColete = true;
+            }
+
         }
 
         /// <summary>

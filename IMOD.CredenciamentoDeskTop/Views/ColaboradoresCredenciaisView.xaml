@@ -157,12 +157,18 @@
                                       Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
                                       />
 
-                            <Label Content="Colete:" Height="28" Width="50" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" RenderTransformOrigin="0.5,0.5" >
-                            </Label>
-                            <TextBox  x:Name="NumeroColete_tb"  MaxLength="15"  CharacterCasing="Upper" 
-                                       IsEnabled="False" Text="{Binding Entity.Colete,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Height="24"  Width="80"/>
+                            <Label Content="Colete:" Height="28" Width="45" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" RenderTransformOrigin="0.5,0.5" />
 
-                            <Label Content="Autenticação:" Height="28" Width="113"   HorizontalContentAlignment="Right"
+                            <TextBox  x:Name="SigleColete_tb"  HorizontalContentAlignment="Center" MaxLength="15"  CharacterCasing="Upper" 
+                                      IsEnabled="False" Text="{Binding Entity.EmpresaSigla,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  
+                                      Height="24"  Width="58"/>
+
+                            <TextBox  x:Name="NumeroColete_tb" HorizontalContentAlignment="Center" MaxLength="4" Margin="1,0,0,0"
+                                      Text="{Binding NumeroColete,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                      IsEnabled="{Binding IsEnableColete}"
+                                      CharacterCasing="Upper" Height="24"  Width="58"/>
+
+                            <Label Content="Autenticação:" Height="28" Width="81"   HorizontalContentAlignment="Right"
                                    Foreground="#FFD0D0D0" />
 
                             <!--IsEnabled="{Binding Habilitar}"-->
