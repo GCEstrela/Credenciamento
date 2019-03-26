@@ -12,7 +12,7 @@ namespace IMOD.Domain.Entities
 
         public int CursoId { get; set; }
         public string Descricao { get; set; }
-        public bool InCracha { get; set; }
+        public bool Cracha { get; set; }
 
         #endregion
     }

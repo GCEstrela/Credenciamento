@@ -32,6 +32,7 @@ using Cursor = System.Windows.Forms.Cursor;
 using Cursors = System.Windows.Forms.Cursors;
 using IMOD.CredenciamentoDeskTop.Enums;
 using System.Text.RegularExpressions;
+using CrystalDecisions.CrystalReports.Engine;
 
 #endregion
 
@@ -98,7 +99,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public ColaboradorEmpresa ColaboradorEmpresa { get; set; }
         public List<AreaAcesso> ColaboradorPrivilegio { get; set; }
         public ColaboradoresCredenciaisView Entity { get; set; }
-
+        public List<Curso> Cursos { get; private set; }
         public bool IsCheckDevolucao { get; set; }
         public Visibility VisibilityCheckDevolucao { get; set; }
         public string TextCheckDevolucao { get; set; } = String.Empty;
@@ -130,6 +131,13 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /////     Habilita Concatenação da Combo Empresa e Contratos
         ///// </summary>
         public bool IsEnableComboContrato { get; set; } = true;
+        /// <summary>
+        ///     Habilita Combo de Contratos
+        /// </summary>
+        public bool IsEnableColete { get; set; } = true;
+        public int WidthColete { get; set; } = 48;
+        //public string Entity.NumeroColete { get; set; }
+        public int WidthSigla { get; set; } = 68;
         //public bool IsEnableComboContrato
         //{
         //    get
@@ -160,7 +168,16 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             MensagemAlerta = string.Empty;
             if (entity == null) return;
             if (entity.ColaboradorCredencialId <= 0) return;
-
+            
+            if (Entity.Colete != null)
+            {
+                Entity.NumeroColete = Entity.Colete.Substring(3);
+            }
+            else
+            {
+                Entity.NumeroColete = "";
+            }
+            
             #region Habilitar botão de impressao e mensagem ao usuario
 
             HabilitaImpressao = entity.Ativa && !entity.PendenciaImpeditiva && !entity.Impressa && (entity.ColaboradorCredencialId > 0) && entity.Validade >= DateTime.Now.Date;
@@ -255,6 +272,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 IsEnableComboContrato = false;
             }
+            if (!_configuraSistema.Colete) //Se Cole não for automático false
+            {
+                IsEnableColete = false;
+            }
+
         } 
 
 
@@ -411,6 +433,19 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 n1.TecnologiaCredencialId = Entity.TecnologiaCredencialId;
                 n1.TipoCredencialId = Entity.TipoCredencialId;
                 n1.DevolucaoEntregaBoId = IsCheckDevolucao ? Entity.DevolucaoEntregaBoId : 0;
+                
+
+                var EmpresaSigla = _colaboradorEmpresaService.Listar(null, null, null, null,null,n1.ColaboradorEmpresaId).ToList();
+                if (_configuraSistema.Colete)
+                {
+                    Entity.NumeroColete = Convert.ToString(_colaboradorView.ColaboradorId);
+                    n1.Colete = EmpresaSigla[0].EmpresaSigla + Entity.NumeroColete;
+                }
+                else
+                {
+                    n1.Colete = EmpresaSigla[0].EmpresaSigla + Entity.NumeroColete;
+                    
+                }
 
                 //Criar registro no banco de dados e setar uma data de validade
                 _prepareCriarCommandAcionado = false;
@@ -427,6 +462,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var list1 = _service.ListarView(null, null, null, null, _colaboradorView.ColaboradorId).ToList();
                 var list2 = Mapper.Map<List<ColaboradoresCredenciaisView>>(list1.OrderByDescending(n => n.ColaboradorCredencialId));
                 EntityObserver = new ObservableCollection<ColaboradoresCredenciaisView>();
+                //var ttt = Entity.Colete;
+                
+                //_service.Alterar(n1);
 
                 list2.ForEach(n => { EntityObserver.Add(n); });
                 MensagemAlerta = "";
@@ -465,6 +503,14 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 Entity = new ColaboradoresCredenciaisView();
 
+                Entity.NumeroColete = "";
+                _configuraSistema = ObterConfiguracao();
+                if (_configuraSistema.Colete)
+                {
+                    Entity.NumeroColete = Convert.ToString(_colaboradorView.ColaboradorId);
+                }
+               
+
                 var statusCred = CredencialStatus.FirstOrDefault(n => n.Codigo == "1"); //Status ativa
                 if (statusCred == null) throw new InvalidOperationException("O status da credencial é requerida.");
                 StatusCredencial = statusCred;
@@ -500,11 +546,21 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             try
             {
                 if (Entity == null) return;
-
+                 
                 Entity.DevolucaoEntregaBoId = IsCheckDevolucao ? (int)devolucaoCredencial : 0;
 
                 var n1 = Mapper.Map<ColaboradorCredencial>(Entity);
-                n1.DevolucaoEntregaBoId = IsCheckDevolucao ? Entity.DevolucaoEntregaBoId : 0;             
+                n1.DevolucaoEntregaBoId = IsCheckDevolucao ? Entity.DevolucaoEntregaBoId : 0;
+                if (_configuraSistema.Colete)
+                {
+                    Entity.NumeroColete= Convert.ToString(_colaboradorView.ColaboradorId);
+                    n1.Colete = Entity.EmpresaSigla + Entity.NumeroColete;
+                }
+                else
+                {
+                    n1.Colete = Entity.EmpresaSigla + Entity.NumeroColete;
+                }
+
 
                 //Atualizar dados a serem exibidas na tela de empresa
                 if (Entity == null) return;
@@ -519,6 +575,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 GerarCardHolder(n1.ColaboradorCredencialId, Entity);
 
+                //_service.Alterar(n1);
                 #endregion
 
                 //Atualizar Observer
@@ -630,15 +687,79 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 var arrayBytes = WpfHelp.ConverterBase64(layoutCracha.LayoutRpt, "Layout Cracha");
                 var relatorio = WpfHelp.ShowRelatorioCrystalReport(arrayBytes, layoutCracha.Nome);
+                //Maximo, add cursos no cracha
+                //var cusrsos;
+                var cursosCracha = _auxiliaresService.CursoService.Listar(null, null, true);               
+                string _cursosCracha = "";
+                foreach (Curso element in cursosCracha)
+                {
+                    if (_cursosCracha == "")
+                    {
+                        _cursosCracha = element.Descricao.ToString();
+                    }
+                    else
+                    {
+                        _cursosCracha = _cursosCracha + " - " + element.Descricao.ToString();
+                    }
+                }
                 //Changed by
                 //Author:Valnei Filho
                 //Date: 28/02/2019
                 var lst = new List<CredencialViewCracha>();
                 var credencialView = _service.ObterCredencialView(Entity.ColaboradorCredencialId);
                 var c1 = Mapper.Map<CredencialViewCracha>(credencialView);
+                c1.CrachaCursos = _cursosCracha;
+                if (c1.ImpressaoMotivo != "SEGUNDA EMISSÃO" & c1.ImpressaoMotivo != "TERCEIRA EMISSÃO")
+                {
+                    c1.ImpressaoMotivo = "";
+                }
+                c1.EmpresaNome = c1.EmpresaNome + " / " + c1.TerceirizadaNome;
 
                 lst.Add(c1);
                 relatorio.SetDataSource(lst);
+                TextObject txt;
+                TextObject Identificacao_txt;
+                TextObject Validade_txt;
+                TextObject Validade_valor;
+                try
+                {
+                    if (c1.CPF == "")
+                    {
+
+                        if (c1.RNE == "")
+                        {
+                            txt = (TextObject)relatorio.ReportDefinition.ReportObjects["Text3"];
+                            txt.Text = "Passaporte:";
+                            Identificacao_txt = (TextObject)relatorio.ReportDefinition.ReportObjects["IDENTIFICACAO"];
+                            Identificacao_txt.Text = c1.Passaporte;
+
+                            Validade_txt = (TextObject)relatorio.ReportDefinition.ReportObjects["Validade_tx"];
+                            Validade_txt.Text = "Val.:";
+                            Validade_valor = (TextObject)relatorio.ReportDefinition.ReportObjects["Validade_val"];
+                            Validade_valor.Text = c1.PassaporteValidade.ToShortDateString();
+
+                        }
+                        else
+                        {
+                            txt = (TextObject)relatorio.ReportDefinition.ReportObjects["Text3"];
+                            txt.Text = "RNE:";
+                            Identificacao_txt = (TextObject)relatorio.ReportDefinition.ReportObjects["IDENTIFICACAO"];
+                            Identificacao_txt.Text = c1.RNE;
+
+                        }
+                    }
+                    else
+                    {
+                        txt = (TextObject)relatorio.ReportDefinition.ReportObjects["Text3"];
+                        txt.Text = "CPF:";
+                        Identificacao_txt = (TextObject)relatorio.ReportDefinition.ReportObjects["IDENTIFICACAO"];
+                        Identificacao_txt.Text = c1.CPF;
+                    }
+
+                }
+                finally { }                
+
+                //IDENTIFICACAO
                 var popupCredencial = new PopupCredencial(relatorio, _service, Entity, layoutCracha);
                 popupCredencial.ShowDialog();
 
@@ -696,8 +817,20 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         public void CarregarCaracteresColete(ColaboradorEmpresa colaboradorEmpresa)
         {
-            if (Entity == null || colaboradorEmpresa == null || colaboradorEmpresa.EmpresaSigla == null) return;
-            Entity.Colete = colaboradorEmpresa.EmpresaSigla.Trim() + Convert.ToString(_colaboradorView.ColaboradorId);
+            _configuraSistema = ObterConfiguracao();
+            if (_configuraSistema.Colete)
+            {
+                //if (Entity == null || colaboradorEmpresa == null || colaboradorEmpresa.EmpresaSigla == null) return;
+                //Entity.Colete = colaboradorEmpresa.EmpresaSigla.Trim() + Convert.ToString(_colaboradorView.ColaboradorId);
+                IsEnableColete = false;
+            }
+            else
+            {
+                //if (Entity == null || colaboradorEmpresa == null || colaboradorEmpresa.EmpresaSigla == null) return;
+                //Entity.Colete = colaboradorEmpresa.EmpresaSigla.Trim(); //+ Convert.ToString(_colaboradorView.ColaboradorId);
+                IsEnableColete = true;
+            }
+
         }
 
         /// <summary>
@@ -722,6 +855,15 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 return true;
             }
 
+            // _configuraSistema = ObterConfiguracao();
+            if (!_configuraSistema.Colete)
+            {
+                if (Entity.NumeroColete == "")
+                {
+                    Entity.SetMessageErro("Entity.NumeroColete", "Número do Colete é Obrigatório.");
+                    return true;
+                }
+            }
             return Entity.HasErrors;
         }
 

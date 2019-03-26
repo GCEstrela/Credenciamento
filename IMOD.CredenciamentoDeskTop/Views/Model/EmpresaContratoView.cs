@@ -55,6 +55,9 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public int TipoAcessoId { get; set; }
         public bool ContratoBasico { get; set; }
 
+        [RequiredIf("Terceirizada", true, ErrorMessage = "Nome da terceirizada é requerida.")]
+        public string TerceirizadaNome { get; set; }
+
         #endregion
     }
 }

@@ -96,7 +96,7 @@
     <Reference Include="UIAutomationProvider" />
     <Reference Include="WebCam_Capture, Version=1.0.2395.24959, Culture=neutral">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>D:\GIT-REPOSITORIOS-ANTERIORES\iModSCCredenciamento 1.0.0.5\iModSCCredenciamento\bin\Debug\WebCam_Capture.dll</HintPath>
+      <HintPath>Dlls\WebCam_Capture.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="WindowsFormsIntegration" />

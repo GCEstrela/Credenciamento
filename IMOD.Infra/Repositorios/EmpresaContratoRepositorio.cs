@@ -78,8 +78,10 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("NomeArquivo", entity.NomeArquivo, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("ContratoBasico", entity.ContratoBasico, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("ArquivoBlob", DbType.Binary, entity.ArquivoBlob, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("TerceirizadaNome", entity.TerceirizadaNome, false)));
+                        
 
-                        var key = Convert.ToInt32(cmd.ExecuteScalar());
+        var key = Convert.ToInt32(cmd.ExecuteScalar());
 
                         entity.EmpresaContratoId = key;
                     }
@@ -199,6 +201,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("NomeArquivo", entity.NomeArquivo, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("ContratoBasico", entity.ContratoBasico, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("ArquivoBlob", DbType.Binary, entity.ArquivoBlob, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("TerceirizadaNome", entity.TerceirizadaNome, false)));
 
                         cmd.ExecuteNonQuery();
                     }

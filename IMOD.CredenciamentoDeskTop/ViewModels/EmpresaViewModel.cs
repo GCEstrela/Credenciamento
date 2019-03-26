@@ -577,7 +577,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private void OnSalvarAdicao(object sender, RoutedEventArgs e)
         {
             try
-
             {
                 if (Entity == null) return;
                 if (Validar()) return;
@@ -586,7 +585,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var status = _auxiliaresService.StatusService.Listar().FirstOrDefault (n => n.CodigoStatus);
 
                 _service.CriarContrato(n1, DateTime.Now.Date, "0", status, _configuraSistema);
-                
+
                 //Salvar Tipo de Atividades
                 SalvarTipoAtividades (n1.EmpresaId);
                 //Salvar Tipo Cracha
