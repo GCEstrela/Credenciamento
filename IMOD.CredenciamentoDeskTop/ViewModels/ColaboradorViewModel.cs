@@ -224,9 +224,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public void carregaFoto(ImageSource minhaFoto)
         {
             
-            //Entity.Foto = ByteImageConverter.ImageToByte(minhaFoto);
+            //Entity.Foto = Convert.ToBase64String(minhaFoto);
         }
-       
+        
+
         private void Pesquisar()
         {
             try
