@@ -16,14 +16,14 @@ namespace IMOD.CredenciamentoDeskTop.Relatorio {
     using CrystalDecisions.CrystalReports.Engine;
     
     
-    public class RelatorioImpressaoCredencial : ReportClass {
+    public class RelatorioCredenciaisEmitidasPorEmpresa_9 : ReportClass {
         
-        public RelatorioImpressaoCredencial() {
+        public RelatorioCredenciaisEmitidasPorEmpresa_9() {
         }
         
         public override string ResourceName {
             get {
-                return "RelatorioImpressaoCredencial.rpt";
+                return "RelatorioCredenciaisEmitidasPorEmpresa_9.rpt";
             }
             set {
                 // Do nothing
@@ -41,7 +41,8 @@ namespace IMOD.CredenciamentoDeskTop.Relatorio {
         
         public override string FullResourceName {
             get {
-                return "IMOD.CredenciamentoDeskTop.Relatorio.RelatorioImpressaoCredencial.rpt";
+                return "IMOD.CredenciamentoDeskTop.Relatorio.RelatorioCredenciaisEmitidasPorEmpresa_9.rpt" +
+                    "";
             }
             set {
                 // Do nothing
@@ -82,7 +83,7 @@ namespace IMOD.CredenciamentoDeskTop.Relatorio {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section TSection4 {
+        public CrystalDecisions.CrystalReports.Engine.Section GroupHeaderSection1 {
             get {
                 return this.ReportDefinition.Sections[4];
             }
@@ -90,7 +91,7 @@ namespace IMOD.CredenciamentoDeskTop.Relatorio {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section TSection7 {
+        public CrystalDecisions.CrystalReports.Engine.Section GroupHeaderSection2 {
             get {
                 return this.ReportDefinition.Sections[5];
             }
@@ -98,17 +99,49 @@ namespace IMOD.CredenciamentoDeskTop.Relatorio {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section TSection3 {
+        public CrystalDecisions.CrystalReports.Engine.Section TSection4 {
             get {
                 return this.ReportDefinition.Sections[6];
+            }
+        }
+        
+        [Browsable(false)]
+        [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
+        public CrystalDecisions.CrystalReports.Engine.Section GroupFooterSection2 {
+            get {
+                return this.ReportDefinition.Sections[7];
+            }
+        }
+        
+        [Browsable(false)]
+        [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
+        public CrystalDecisions.CrystalReports.Engine.Section GroupFooterSection1 {
+            get {
+                return this.ReportDefinition.Sections[8];
+            }
+        }
+        
+        [Browsable(false)]
+        [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
+        public CrystalDecisions.CrystalReports.Engine.Section TSection7 {
+            get {
+                return this.ReportDefinition.Sections[9];
+            }
+        }
+        
+        [Browsable(false)]
+        [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
+        public CrystalDecisions.CrystalReports.Engine.Section TSection3 {
+            get {
+                return this.ReportDefinition.Sections[10];
             }
         }
     }
     
     [System.Drawing.ToolboxBitmapAttribute(typeof(CrystalDecisions.Shared.ExportOptions), "report.bmp")]
-    public class CachedRelatorioImpressaoCredencial : Component, ICachedReport {
+    public class CachedRelatorioCredenciaisEmitidasPorEmpresa_9 : Component, ICachedReport {
         
-        public CachedRelatorioImpressaoCredencial() {
+        public CachedRelatorioCredenciaisEmitidasPorEmpresa_9() {
         }
         
         [Browsable(false)]
@@ -145,7 +178,7 @@ namespace IMOD.CredenciamentoDeskTop.Relatorio {
         }
         
         public virtual CrystalDecisions.CrystalReports.Engine.ReportDocument CreateReport() {
-            RelatorioImpressaoCredencial rpt = new RelatorioImpressaoCredencial();
+            RelatorioCredenciaisEmitidasPorEmpresa_9 rpt = new RelatorioCredenciaisEmitidasPorEmpresa_9();
             rpt.Site = this.Site;
             return rpt;
         }

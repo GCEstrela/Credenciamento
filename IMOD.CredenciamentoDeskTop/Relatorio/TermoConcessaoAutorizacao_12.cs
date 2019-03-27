@@ -16,14 +16,14 @@ namespace IMOD.CredenciamentoDeskTop.Relatorio {
     using CrystalDecisions.CrystalReports.Engine;
     
     
-    public class TERMO_destruicao_autorizacao : ReportClass {
+    public class TermoConcessaoAutorizacao_12 : ReportClass {
         
-        public TERMO_destruicao_autorizacao() {
+        public TermoConcessaoAutorizacao_12() {
         }
         
         public override string ResourceName {
             get {
-                return "TERMO_destruicao_autorizacao.rpt";
+                return "TermoConcessaoAutorizacao_12.rpt";
             }
             set {
                 // Do nothing
@@ -41,7 +41,7 @@ namespace IMOD.CredenciamentoDeskTop.Relatorio {
         
         public override string FullResourceName {
             get {
-                return "IMOD.CredenciamentoDeskTop.Relatorio.TERMO_destruicao_autorizacao.rpt";
+                return "IMOD.CredenciamentoDeskTop.Relatorio.TermoConcessaoAutorizacao_12.rpt";
             }
             set {
                 // Do nothing
@@ -98,9 +98,9 @@ namespace IMOD.CredenciamentoDeskTop.Relatorio {
     }
     
     [System.Drawing.ToolboxBitmapAttribute(typeof(CrystalDecisions.Shared.ExportOptions), "report.bmp")]
-    public class CachedTERMO_destruicao_autorizacao : Component, ICachedReport {
+    public class CachedTermoConcessaoAutorizacao_12 : Component, ICachedReport {
         
-        public CachedTERMO_destruicao_autorizacao() {
+        public CachedTermoConcessaoAutorizacao_12() {
         }
         
         [Browsable(false)]
@@ -137,7 +137,7 @@ namespace IMOD.CredenciamentoDeskTop.Relatorio {
         }
         
         public virtual CrystalDecisions.CrystalReports.Engine.ReportDocument CreateReport() {
-            TERMO_destruicao_autorizacao rpt = new TERMO_destruicao_autorizacao();
+            TermoConcessaoAutorizacao_12 rpt = new TermoConcessaoAutorizacao_12();
             rpt.Site = this.Site;
             return rpt;
         }

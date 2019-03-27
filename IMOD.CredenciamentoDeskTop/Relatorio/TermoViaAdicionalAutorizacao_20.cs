@@ -16,14 +16,14 @@ namespace IMOD.CredenciamentoDeskTop.Relatorio {
     using CrystalDecisions.CrystalReports.Engine;
     
     
-    public class TERMO_indeferimento_autorizacao : ReportClass {
+    public class TermoViaAdicionalAutorizacao_20 : ReportClass {
         
-        public TERMO_indeferimento_autorizacao() {
+        public TermoViaAdicionalAutorizacao_20() {
         }
         
         public override string ResourceName {
             get {
-                return "TERMO_indeferimento_autorizacao.rpt";
+                return "TermoViaAdicionalAutorizacao_20.rpt";
             }
             set {
                 // Do nothing
@@ -41,7 +41,7 @@ namespace IMOD.CredenciamentoDeskTop.Relatorio {
         
         public override string FullResourceName {
             get {
-                return "IMOD.CredenciamentoDeskTop.Relatorio.TERMO_indeferimento_autorizacao.rpt";
+                return "IMOD.CredenciamentoDeskTop.Relatorio.TermoViaAdicionalAutorizacao_20.rpt";
             }
             set {
                 // Do nothing
@@ -98,9 +98,9 @@ namespace IMOD.CredenciamentoDeskTop.Relatorio {
     }
     
     [System.Drawing.ToolboxBitmapAttribute(typeof(CrystalDecisions.Shared.ExportOptions), "report.bmp")]
-    public class CachedTERMO_indeferimento_autorizacao : Component, ICachedReport {
+    public class CachedTermoViaAdicionalAutorizacao_20 : Component, ICachedReport {
         
-        public CachedTERMO_indeferimento_autorizacao() {
+        public CachedTermoViaAdicionalAutorizacao_20() {
         }
         
         [Browsable(false)]
@@ -137,7 +137,7 @@ namespace IMOD.CredenciamentoDeskTop.Relatorio {
         }
         
         public virtual CrystalDecisions.CrystalReports.Engine.ReportDocument CreateReport() {
-            TERMO_indeferimento_autorizacao rpt = new TERMO_indeferimento_autorizacao();
+            TermoViaAdicionalAutorizacao_20 rpt = new TermoViaAdicionalAutorizacao_20();
             rpt.Site = this.Site;
             return rpt;
         }

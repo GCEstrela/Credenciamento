@@ -16,14 +16,14 @@ namespace IMOD.CredenciamentoDeskTop.Relatorio {
     using CrystalDecisions.CrystalReports.Engine;
     
     
-    public class RelatorioCredenciaisInvalidas : ReportClass {
+    public class RelatorioImpressaoAutorizacao_24 : ReportClass {
         
-        public RelatorioCredenciaisInvalidas() {
+        public RelatorioImpressaoAutorizacao_24() {
         }
         
         public override string ResourceName {
             get {
-                return "RelatorioCredenciaisInvalidas.rpt";
+                return "RelatorioImpressaoAutorizacao_24.rpt";
             }
             set {
                 // Do nothing
@@ -41,7 +41,7 @@ namespace IMOD.CredenciamentoDeskTop.Relatorio {
         
         public override string FullResourceName {
             get {
-                return "IMOD.CredenciamentoDeskTop.Relatorio.RelatorioCredenciaisInvalidas.rpt";
+                return "IMOD.CredenciamentoDeskTop.Relatorio.RelatorioImpressaoAutorizacao_24.rpt";
             }
             set {
                 // Do nothing
@@ -106,9 +106,9 @@ namespace IMOD.CredenciamentoDeskTop.Relatorio {
     }
     
     [System.Drawing.ToolboxBitmapAttribute(typeof(CrystalDecisions.Shared.ExportOptions), "report.bmp")]
-    public class CachedRelatorioCredenciaisInvalidas : Component, ICachedReport {
+    public class CachedRelatorioImpressaoAutorizacao_24 : Component, ICachedReport {
         
-        public CachedRelatorioCredenciaisInvalidas() {
+        public CachedRelatorioImpressaoAutorizacao_24() {
         }
         
         [Browsable(false)]
@@ -145,7 +145,7 @@ namespace IMOD.CredenciamentoDeskTop.Relatorio {
         }
         
         public virtual CrystalDecisions.CrystalReports.Engine.ReportDocument CreateReport() {
-            RelatorioCredenciaisInvalidas rpt = new RelatorioCredenciaisInvalidas();
+            RelatorioImpressaoAutorizacao_24 rpt = new RelatorioImpressaoAutorizacao_24();
             rpt.Site = this.Site;
             return rpt;
         }

@@ -16,14 +16,14 @@ namespace IMOD.CredenciamentoDeskTop.Relatorio {
     using CrystalDecisions.CrystalReports.Engine;
     
     
-    public class TERMO_cancelamento_autorizacao : ReportClass {
+    public class RelatorioConcessaoAutorizacaoValidas_2 : ReportClass {
         
-        public TERMO_cancelamento_autorizacao() {
+        public RelatorioConcessaoAutorizacaoValidas_2() {
         }
         
         public override string ResourceName {
             get {
-                return "TERMO_cancelamento_autorizacao.rpt";
+                return "RelatorioConcessaoAutorizacaoValidas_2.rpt";
             }
             set {
                 // Do nothing
@@ -41,7 +41,7 @@ namespace IMOD.CredenciamentoDeskTop.Relatorio {
         
         public override string FullResourceName {
             get {
-                return "IMOD.CredenciamentoDeskTop.Relatorio.TERMO_cancelamento_autorizacao.rpt";
+                return "IMOD.CredenciamentoDeskTop.Relatorio.RelatorioConcessaoAutorizacaoValidas_2.rpt";
             }
             set {
                 // Do nothing
@@ -50,7 +50,7 @@ namespace IMOD.CredenciamentoDeskTop.Relatorio {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section TSection5 {
+        public CrystalDecisions.CrystalReports.Engine.Section TSection6 {
             get {
                 return this.ReportDefinition.Sections[0];
             }
@@ -66,7 +66,7 @@ namespace IMOD.CredenciamentoDeskTop.Relatorio {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section TSection2 {
+        public CrystalDecisions.CrystalReports.Engine.Section PageHeaderSection1 {
             get {
                 return this.ReportDefinition.Sections[2];
             }
@@ -82,7 +82,7 @@ namespace IMOD.CredenciamentoDeskTop.Relatorio {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section TSection6 {
+        public CrystalDecisions.CrystalReports.Engine.Section TSection7 {
             get {
                 return this.ReportDefinition.Sections[4];
             }
@@ -98,9 +98,9 @@ namespace IMOD.CredenciamentoDeskTop.Relatorio {
     }
     
     [System.Drawing.ToolboxBitmapAttribute(typeof(CrystalDecisions.Shared.ExportOptions), "report.bmp")]
-    public class CachedTERMO_cancelamento_autorizacao : Component, ICachedReport {
+    public class CachedRelatorioConcessaoAutorizacaoValidas_2 : Component, ICachedReport {
         
-        public CachedTERMO_cancelamento_autorizacao() {
+        public CachedRelatorioConcessaoAutorizacaoValidas_2() {
         }
         
         [Browsable(false)]
@@ -137,7 +137,7 @@ namespace IMOD.CredenciamentoDeskTop.Relatorio {
         }
         
         public virtual CrystalDecisions.CrystalReports.Engine.ReportDocument CreateReport() {
-            TERMO_cancelamento_autorizacao rpt = new TERMO_cancelamento_autorizacao();
+            RelatorioConcessaoAutorizacaoValidas_2 rpt = new RelatorioConcessaoAutorizacaoValidas_2();
             rpt.Site = this.Site;
             return rpt;
         }

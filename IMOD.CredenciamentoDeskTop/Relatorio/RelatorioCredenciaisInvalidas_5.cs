@@ -16,14 +16,14 @@ namespace IMOD.CredenciamentoDeskTop.Relatorio {
     using CrystalDecisions.CrystalReports.Engine;
     
     
-    public class RelatorioAutorizacaoValidas : ReportClass {
+    public class RelatorioCredenciaisInvalidas_5 : ReportClass {
         
-        public RelatorioAutorizacaoValidas() {
+        public RelatorioCredenciaisInvalidas_5() {
         }
         
         public override string ResourceName {
             get {
-                return "RelatorioAutorizacaoValidas.rpt";
+                return "RelatorioCredenciaisInvalidas_5.rpt";
             }
             set {
                 // Do nothing
@@ -41,7 +41,7 @@ namespace IMOD.CredenciamentoDeskTop.Relatorio {
         
         public override string FullResourceName {
             get {
-                return "IMOD.CredenciamentoDeskTop.Relatorio.RelatorioAutorizacaoValidas.rpt";
+                return "IMOD.CredenciamentoDeskTop.Relatorio.RelatorioCredenciaisInvalidas_5.rpt";
             }
             set {
                 // Do nothing
@@ -66,7 +66,7 @@ namespace IMOD.CredenciamentoDeskTop.Relatorio {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section PageHeaderSection1 {
+        public CrystalDecisions.CrystalReports.Engine.Section TSection2 {
             get {
                 return this.ReportDefinition.Sections[2];
             }
@@ -74,7 +74,7 @@ namespace IMOD.CredenciamentoDeskTop.Relatorio {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section TSection4 {
+        public CrystalDecisions.CrystalReports.Engine.Section PageHeaderSection1 {
             get {
                 return this.ReportDefinition.Sections[3];
             }
@@ -82,7 +82,7 @@ namespace IMOD.CredenciamentoDeskTop.Relatorio {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section TSection7 {
+        public CrystalDecisions.CrystalReports.Engine.Section TSection4 {
             get {
                 return this.ReportDefinition.Sections[4];
             }
@@ -90,17 +90,25 @@ namespace IMOD.CredenciamentoDeskTop.Relatorio {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section TSection3 {
+        public CrystalDecisions.CrystalReports.Engine.Section TSection7 {
             get {
                 return this.ReportDefinition.Sections[5];
+            }
+        }
+        
+        [Browsable(false)]
+        [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
+        public CrystalDecisions.CrystalReports.Engine.Section TSection3 {
+            get {
+                return this.ReportDefinition.Sections[6];
             }
         }
     }
     
     [System.Drawing.ToolboxBitmapAttribute(typeof(CrystalDecisions.Shared.ExportOptions), "report.bmp")]
-    public class CachedRelatorioAutorizacaoValidas : Component, ICachedReport {
+    public class CachedRelatorioCredenciaisInvalidas_5 : Component, ICachedReport {
         
-        public CachedRelatorioAutorizacaoValidas() {
+        public CachedRelatorioCredenciaisInvalidas_5() {
         }
         
         [Browsable(false)]
@@ -137,7 +145,7 @@ namespace IMOD.CredenciamentoDeskTop.Relatorio {
         }
         
         public virtual CrystalDecisions.CrystalReports.Engine.ReportDocument CreateReport() {
-            RelatorioAutorizacaoValidas rpt = new RelatorioAutorizacaoValidas();
+            RelatorioCredenciaisInvalidas_5 rpt = new RelatorioCredenciaisInvalidas_5();
             rpt.Site = this.Site;
             return rpt;
         }

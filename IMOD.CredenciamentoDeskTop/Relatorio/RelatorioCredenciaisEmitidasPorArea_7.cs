@@ -16,14 +16,14 @@ namespace IMOD.CredenciamentoDeskTop.Relatorio {
     using CrystalDecisions.CrystalReports.Engine;
     
     
-    public class RelatorioImpressaoAutorizacao : ReportClass {
+    public class RelatorioCredenciaisEmitidasPorArea_7 : ReportClass {
         
-        public RelatorioImpressaoAutorizacao() {
+        public RelatorioCredenciaisEmitidasPorArea_7() {
         }
         
         public override string ResourceName {
             get {
-                return "RelatorioImpressaoAutorizacao.rpt";
+                return "RelatorioCredenciaisEmitidasPorArea_7.rpt";
             }
             set {
                 // Do nothing
@@ -41,7 +41,7 @@ namespace IMOD.CredenciamentoDeskTop.Relatorio {
         
         public override string FullResourceName {
             get {
-                return "IMOD.CredenciamentoDeskTop.Relatorio.RelatorioImpressaoAutorizacao.rpt";
+                return "IMOD.CredenciamentoDeskTop.Relatorio.RelatorioCredenciaisEmitidasPorArea_7.rpt";
             }
             set {
                 // Do nothing
@@ -82,7 +82,7 @@ namespace IMOD.CredenciamentoDeskTop.Relatorio {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section TSection4 {
+        public CrystalDecisions.CrystalReports.Engine.Section GroupHeaderSection1 {
             get {
                 return this.ReportDefinition.Sections[4];
             }
@@ -90,7 +90,7 @@ namespace IMOD.CredenciamentoDeskTop.Relatorio {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section TSection7 {
+        public CrystalDecisions.CrystalReports.Engine.Section TSection4 {
             get {
                 return this.ReportDefinition.Sections[5];
             }
@@ -98,17 +98,33 @@ namespace IMOD.CredenciamentoDeskTop.Relatorio {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section TSection3 {
+        public CrystalDecisions.CrystalReports.Engine.Section GroupFooterSection1 {
             get {
                 return this.ReportDefinition.Sections[6];
+            }
+        }
+        
+        [Browsable(false)]
+        [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
+        public CrystalDecisions.CrystalReports.Engine.Section TSection7 {
+            get {
+                return this.ReportDefinition.Sections[7];
+            }
+        }
+        
+        [Browsable(false)]
+        [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
+        public CrystalDecisions.CrystalReports.Engine.Section TSection3 {
+            get {
+                return this.ReportDefinition.Sections[8];
             }
         }
     }
     
     [System.Drawing.ToolboxBitmapAttribute(typeof(CrystalDecisions.Shared.ExportOptions), "report.bmp")]
-    public class CachedRelatorioImpressaoAutorizacao : Component, ICachedReport {
+    public class CachedRelatorioCredenciaisEmitidasPorArea_7 : Component, ICachedReport {
         
-        public CachedRelatorioImpressaoAutorizacao() {
+        public CachedRelatorioCredenciaisEmitidasPorArea_7() {
         }
         
         [Browsable(false)]
@@ -145,7 +161,7 @@ namespace IMOD.CredenciamentoDeskTop.Relatorio {
         }
         
         public virtual CrystalDecisions.CrystalReports.Engine.ReportDocument CreateReport() {
-            RelatorioImpressaoAutorizacao rpt = new RelatorioImpressaoAutorizacao();
+            RelatorioCredenciaisEmitidasPorArea_7 rpt = new RelatorioCredenciaisEmitidasPorArea_7();
             rpt.Site = this.Site;
             return rpt;
         }

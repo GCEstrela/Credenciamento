@@ -34,7 +34,6 @@ namespace IMOD.CredenciamentoDeskTop.Windows
             bool check;
             string empresa;
 
-
             if (EmpresaRazaoSocial_cb.SelectedItem == null)
             {
                 empresa = "0";
@@ -44,17 +43,16 @@ namespace IMOD.CredenciamentoDeskTop.Windows
                 empresa = ((IMOD.CredenciamentoDeskTop.Views.Model.EmpresaView)EmpresaRazaoSocial_cb.SelectedItem).EmpresaId.ToString();
             }
 
-
             if (credenciais_rb.IsChecked.Value)
             {
                 check = true;
                 ((RelatoriosViewModel)DataContext).OnRelatorioFiltroCredencialPorEmpresaCommand(empresa, check, dataIni, dataFim);
-            }
+            } 
             else
             {
-                check = false;
-                ((RelatoriosViewModel)DataContext).OnRelatorioFiltroPorEmpresaCommand(empresa, check, dataIni, dataFim);
-            }
+                check = false; 
+                ((RelatoriosViewModel)DataContext).OnRelatorioAutorizacoesPorEmpresaCommand(empresa, check, dataIni, dataFim);
+            } 
 
 
             Close();

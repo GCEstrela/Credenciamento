@@ -16,14 +16,14 @@ namespace IMOD.CredenciamentoDeskTop.Relatorio {
     using CrystalDecisions.CrystalReports.Engine;
     
     
-    public class RelatorioConcessaoCredenciais : ReportClass {
+    public class RelatorioViasAdicionaisAutorizacao_22 : ReportClass {
         
-        public RelatorioConcessaoCredenciais() {
+        public RelatorioViasAdicionaisAutorizacao_22() {
         }
         
         public override string ResourceName {
             get {
-                return "RelatorioConcessaoCredenciais.rpt";
+                return "RelatorioViasAdicionaisAutorizacao_22.rpt";
             }
             set {
                 // Do nothing
@@ -41,7 +41,7 @@ namespace IMOD.CredenciamentoDeskTop.Relatorio {
         
         public override string FullResourceName {
             get {
-                return "IMOD.CredenciamentoDeskTop.Relatorio.RelatorioConcessaoCredenciais.rpt";
+                return "IMOD.CredenciamentoDeskTop.Relatorio.RelatorioViasAdicionaisAutorizacao_22.rpt";
             }
             set {
                 // Do nothing
@@ -106,9 +106,9 @@ namespace IMOD.CredenciamentoDeskTop.Relatorio {
     }
     
     [System.Drawing.ToolboxBitmapAttribute(typeof(CrystalDecisions.Shared.ExportOptions), "report.bmp")]
-    public class CachedRelatorioConcessaoCredenciais : Component, ICachedReport {
+    public class CachedRelatorioViasAdicionaisAutorizacao_22 : Component, ICachedReport {
         
-        public CachedRelatorioConcessaoCredenciais() {
+        public CachedRelatorioViasAdicionaisAutorizacao_22() {
         }
         
         [Browsable(false)]
@@ -145,7 +145,7 @@ namespace IMOD.CredenciamentoDeskTop.Relatorio {
         }
         
         public virtual CrystalDecisions.CrystalReports.Engine.ReportDocument CreateReport() {
-            RelatorioConcessaoCredenciais rpt = new RelatorioConcessaoCredenciais();
+            RelatorioViasAdicionaisAutorizacao_22 rpt = new RelatorioViasAdicionaisAutorizacao_22();
             rpt.Site = this.Site;
             return rpt;
         }

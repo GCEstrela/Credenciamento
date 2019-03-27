@@ -14,7 +14,7 @@ namespace IMOD.CredenciamentoDeskTop.Windows
             InitializeComponent();
             DataContext = new RelatoriosViewModel();
             MouseDown += Window_MouseDown;
-            ((RelatoriosViewModel)DataContext).CarregaMotivoCredenciais(1);//Carregar os motivos do status 1 - ativo 
+            ((RelatoriosViewModel)DataContext).CarregaMotivoCredenciais(1);
         }
 
 

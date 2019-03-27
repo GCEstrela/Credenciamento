@@ -16,14 +16,14 @@ namespace IMOD.CredenciamentoDeskTop.Relatorio {
     using CrystalDecisions.CrystalReports.Engine;
     
     
-    public class TERMO_concesso_autorizacao : ReportClass {
+    public class RelatorioAutorizacaoInvalidas_6 : ReportClass {
         
-        public TERMO_concesso_autorizacao() {
+        public RelatorioAutorizacaoInvalidas_6() {
         }
         
         public override string ResourceName {
             get {
-                return "TERMO_concesso_autorizacao.rpt";
+                return "RelatorioAutorizacaoInvalidas_6.rpt";
             }
             set {
                 // Do nothing
@@ -41,7 +41,7 @@ namespace IMOD.CredenciamentoDeskTop.Relatorio {
         
         public override string FullResourceName {
             get {
-                return "IMOD.CredenciamentoDeskTop.Relatorio.TERMO_concesso_autorizacao.rpt";
+                return "IMOD.CredenciamentoDeskTop.Relatorio.RelatorioAutorizacaoInvalidas_6.rpt";
             }
             set {
                 // Do nothing
@@ -50,7 +50,7 @@ namespace IMOD.CredenciamentoDeskTop.Relatorio {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section TSection5 {
+        public CrystalDecisions.CrystalReports.Engine.Section TSection6 {
             get {
                 return this.ReportDefinition.Sections[0];
             }
@@ -74,7 +74,7 @@ namespace IMOD.CredenciamentoDeskTop.Relatorio {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section TSection4 {
+        public CrystalDecisions.CrystalReports.Engine.Section PageHeaderSection1 {
             get {
                 return this.ReportDefinition.Sections[3];
             }
@@ -82,7 +82,7 @@ namespace IMOD.CredenciamentoDeskTop.Relatorio {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section TSection6 {
+        public CrystalDecisions.CrystalReports.Engine.Section TSection4 {
             get {
                 return this.ReportDefinition.Sections[4];
             }
@@ -90,17 +90,25 @@ namespace IMOD.CredenciamentoDeskTop.Relatorio {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section TSection3 {
+        public CrystalDecisions.CrystalReports.Engine.Section TSection7 {
             get {
                 return this.ReportDefinition.Sections[5];
+            }
+        }
+        
+        [Browsable(false)]
+        [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
+        public CrystalDecisions.CrystalReports.Engine.Section TSection3 {
+            get {
+                return this.ReportDefinition.Sections[6];
             }
         }
     }
     
     [System.Drawing.ToolboxBitmapAttribute(typeof(CrystalDecisions.Shared.ExportOptions), "report.bmp")]
-    public class CachedTERMO_concesso_autorizacao : Component, ICachedReport {
+    public class CachedRelatorioAutorizacaoInvalidas_6 : Component, ICachedReport {
         
-        public CachedTERMO_concesso_autorizacao() {
+        public CachedRelatorioAutorizacaoInvalidas_6() {
         }
         
         [Browsable(false)]
@@ -137,7 +145,7 @@ namespace IMOD.CredenciamentoDeskTop.Relatorio {
         }
         
         public virtual CrystalDecisions.CrystalReports.Engine.ReportDocument CreateReport() {
-            TERMO_concesso_autorizacao rpt = new TERMO_concesso_autorizacao();
+            RelatorioAutorizacaoInvalidas_6 rpt = new RelatorioAutorizacaoInvalidas_6();
             rpt.Site = this.Site;
             return rpt;
         }
