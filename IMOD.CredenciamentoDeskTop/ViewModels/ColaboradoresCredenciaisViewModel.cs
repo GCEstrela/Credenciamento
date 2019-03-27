@@ -265,7 +265,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
             var lst3 = _auxiliaresService.TipoCredencialService.Listar();
             TipoCredencial = new List<TipoCredencial>(); 
-            TipoCredencial.AddRange(lst3.OrderBy(n => n.Descricao));
+            TipoCredencial.AddRange(lst3.OrderBy(n => n.TipoCredencialId));
             
             var lst5 = _auxiliaresService.TecnologiaCredencialService.Listar();
             TecnologiasCredenciais = new List<TecnologiaCredencial>(); 
