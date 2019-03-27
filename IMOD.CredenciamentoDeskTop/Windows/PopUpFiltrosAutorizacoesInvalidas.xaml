@@ -39,15 +39,19 @@
             </Button>
         </StackPanel>
         <StackPanel Grid.Column="0" Margin="0,0,0,0" Grid.ColumnSpan="2">
-            <GroupBox x:Name="invalidas_gb" Header="Filtro de Autorizações Inválidas" Height="211" Foreground="#FFD0D0D0">
-                <StackPanel x:Name="Informacoes_sp" Margin="10,10,10,5" HorizontalAlignment="Left">
-                    <RadioButton x:Name="todas_rb" Content="Todas"  TextBlock.TextAlignment="Left" GroupName="Cred_rb" Height="25"  HorizontalContentAlignment="Left" Foreground="#FFD0D0D0" VerticalAlignment="Center" HorizontalAlignment="Left" IsChecked="True"/>
-                    <RadioButton x:Name="indeferidas_rb" Content="Indeferidas"  GroupName="Cred_rb" Height="25"  HorizontalContentAlignment="Left" Foreground="#FFD0D0D0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                    <RadioButton x:Name="extraviadas_rb" Content="Extraviadas"  TextBlock.TextAlignment="Left" GroupName="Cred_rb" Height="25"  HorizontalContentAlignment="Left" Foreground="#FFD0D0D0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                    <RadioButton x:Name="roubadas_rb" Content="Roubadas"  TextBlock.TextAlignment="Center" GroupName="Cred_rb" Height="25"  HorizontalContentAlignment="Left" Foreground="#FFD0D0D0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                    <RadioButton x:Name="destruidas_rb" Content="Destruídas"  TextBlock.TextAlignment="Center" GroupName="Cred_rb" Height="25"  HorizontalContentAlignment="Left" Foreground="#FFD0D0D0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                    <RadioButton x:Name="naodevolvidas_rb" Content="Não Devolvidas"  TextBlock.TextAlignment="Center" GroupName="Cred_rb" Height="25"  HorizontalContentAlignment="Left" Foreground="#FFD0D0D0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                </StackPanel>
+            <GroupBox x:Name="invalidas_gb" Header="Filtro de Credenciais Inválidas" Height="170" Width="410" Foreground="#FFD0D0D0">
+                <ListBox x:Name="lstMotivoCredencial"
+                        ItemsSource="{Binding MotivosCredenciais}"
+                        SelectedValue="{Binding MotivosCredenciais}"
+                        SelectedValuePath="CredencialMotivoId">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <RadioButton
+                                IsChecked="{Binding IsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}}"
+                                Content="{Binding Descricao}" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
             </GroupBox>
 
             <GroupBox x:Name="periodo_gb" Header="Filtrar por Período (Data de Emissão)" Height="131" Foreground="#FFD0D0D0">

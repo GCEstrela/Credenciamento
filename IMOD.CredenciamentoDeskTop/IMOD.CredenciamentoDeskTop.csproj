@@ -189,6 +189,138 @@
     <Compile Include="Helpers\WpfHelp.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Mapeamento\AutoMapperConfig.cs" />
+    <Compile Include="Relatorio\RelatorioAutorizacaoEmitidaPorArea_8.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelatorioAutorizacaoEmitidaPorArea_8.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Relatorio\RelatorioAutorizacaoEmitidasPorEmpresa_10.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelatorioAutorizacaoEmitidasPorEmpresa_10.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Relatorio\RelatorioAutorizacaoInvalidas_6.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelatorioAutorizacaoInvalidas_6.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Relatorio\RelatorioConcessaoAutorizacaoValidas_2.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelatorioConcessaoAutorizacaoValidas_2.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Relatorio\RelatorioConcessaoCredenciaisValidas_1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelatorioConcessaoCredenciaisValidas_1.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Relatorio\RelatorioCredenciaisEmitidasPorArea_7.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelatorioCredenciaisEmitidasPorArea_7.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Relatorio\RelatorioCredenciaisEmitidasPorEmpresa_9.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelatorioCredenciaisEmitidasPorEmpresa_9.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Relatorio\RelatorioCredenciaisInvalidas_5.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelatorioCredenciaisInvalidas_5.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Relatorio\RelatorioImpressaoAutorizacao_24.cs">
+      <DependentUpon>RelatorioImpressaoAutorizacao_24.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Relatorio\RelatorioImpressaoCredencial_23.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelatorioImpressaoCredencial_23.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Relatorio\RelatorioViasAdicionaisAutorizacao_22.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelatorioViasAdicionaisAutorizacao_22.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Relatorio\RelatorioViasAdicionaisCredenciais_21.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelatorioViasAdicionaisCredenciais_21.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Relatorio\TermoCancelamentoCredenciais_13.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TermoCancelamentoCredenciais_13.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Relatorio\TermoConcessaoCredenciais_11.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TermoConcessaoCredenciais_11.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Relatorio\TermoDestruicaoCredenciais_17.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TermoDestruicaoCredenciais_17.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Relatorio\TermoIndeferimentoCredenciais_15.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TermoIndeferimentoCredenciais_15.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Relatorio\TermoViasAdicionaisCredenciais_19.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TermoViasAdicionaisCredenciais_19.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Relatorio\TermoCancelamentoAutorizacao_14.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TermoCancelamentoAutorizacao_14.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Relatorio\TermoConcessaoAutorizacao_12.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TermoConcessaoAutorizacao_12.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Relatorio\TermoDestruicaoAutorizacao_18.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TermoDestruicaoAutorizacao_18.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Relatorio\TermoIndeferimentoAutorizacao_16.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TermoIndeferimentoAutorizacao_16.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Relatorio\TermoViaAdicionalAutorizacao_20.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TermoViaAdicionalAutorizacao_20.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="ViewModels\Commands\CommandBase.cs" />
     <Compile Include="ViewModels\Comportamento\ComportamentoBasico.cs" />
     <Compile Include="ViewModels\Comportamento\IAtualizarDados.cs" />
@@ -224,6 +356,8 @@
     <Compile Include="Views\Model\PendenciaView.cs" />
     <Compile Include="Views\Model\RelatorioView.cs" />
     <Compile Include="Views\Model\RelatorioGerencialView.cs" />
+    <Compile Include="Views\Model\RelColaboradoresCredenciaisView.cs" />
+    <Compile Include="Views\Model\RelVeiculosCredenciaisView.cs" />
     <Compile Include="Views\Model\StatusView.cs" />
     <Compile Include="Views\Model\TecnologiaCredencialView.cs" />
     <Compile Include="Views\Model\TipoAcessoView.cs" />
@@ -730,6 +864,94 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\RelatorioAutorizacaoEmitidaPorArea_8.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelatorioAutorizacaoEmitidaPorArea_8.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\RelatorioAutorizacaoEmitidasPorEmpresa_10.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelatorioAutorizacaoEmitidasPorEmpresa_10.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\RelatorioAutorizacaoInvalidas_6.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelatorioAutorizacaoInvalidas_6.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\RelatorioConcessaoAutorizacaoValidas_2.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelatorioConcessaoAutorizacaoValidas_2.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\RelatorioConcessaoCredenciaisValidas_1.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelatorioConcessaoCredenciaisValidas_1.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\RelatorioCredenciaisEmitidasPorArea_7.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelatorioCredenciaisEmitidasPorArea_7.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\RelatorioCredenciaisEmitidasPorEmpresa_9.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelatorioCredenciaisEmitidasPorEmpresa_9.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\RelatorioCredenciaisInvalidas_5.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelatorioCredenciaisInvalidas_5.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\RelatorioImpressaoAutorizacao_24.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelatorioImpressaoAutorizacao_24.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\RelatorioImpressaoCredencial_23.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelatorioImpressaoCredencial_23.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\RelatorioViasAdicionaisAutorizacao_22.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelatorioViasAdicionaisAutorizacao_22.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\RelatorioViasAdicionaisCredenciais_21.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelatorioViasAdicionaisCredenciais_21.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\TermoCancelamentoCredenciais_13.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>TermoCancelamentoCredenciais_13.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\TermoConcessaoCredenciais_11.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>TermoConcessaoCredenciais_11.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\TermoDestruicaoCredenciais_17.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>TermoDestruicaoCredenciais_17.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\TermoIndeferimentoCredenciais_15.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>TermoIndeferimentoCredenciais_15.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\TermoViasAdicionaisCredenciais_19.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>TermoViasAdicionaisCredenciais_19.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\TermoCancelamentoAutorizacao_14.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>TermoCancelamentoAutorizacao_14.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\TermoConcessaoAutorizacao_12.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>TermoConcessaoAutorizacao_12.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\TermoDestruicaoAutorizacao_18.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>TermoDestruicaoAutorizacao_18.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\TermoIndeferimentoAutorizacao_16.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>TermoIndeferimentoAutorizacao_16.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\TermoViaAdicionalAutorizacao_20.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>TermoViaAdicionalAutorizacao_20.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

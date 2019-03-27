@@ -43,7 +43,7 @@ namespace IMOD.CredenciamentoDeskTop.Windows
             {
                 tipo = false;
             }
-            ((RelatoriosViewModel)DataContext).OnFiltroRelatorioCredencialCommand(tipo, DataIni, DataFim);
+            ((RelatoriosViewModel)DataContext).OnFiltroRelatorioCredenciaisCommand(tipo, DataIni, DataFim);
 
             Close();
         }

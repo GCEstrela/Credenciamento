@@ -336,6 +336,7 @@ namespace IMOD.Infra.Ado.Interfaces.ParamSql
             var sintaxe = " {0} >=@{0} ".ToLower();
             return Fill(sintaxe);
         }
+
         /// <summary>
         ///     Monta instrução [Where] da clausula SQL pesquisando pelo valor menor ou igual informado no respestivo campo
         ///     <para>Ex: Campo <= @CampoA</para> 
@@ -344,7 +345,7 @@ namespace IMOD.Infra.Ado.Interfaces.ParamSql
         public ParamSelect MenorIgual()
         {
             var sintaxe = " {0} <=@{0} ".ToLower();
-            return Fill(sintaxe);
+            return Fill(sintaxe); 
         }
 
         /// <summary>
@@ -357,6 +358,7 @@ namespace IMOD.Infra.Ado.Interfaces.ParamSql
             var sintaxe = " {0} <>@{0} ".ToLower();
             return Fill(sintaxe);
         }
+
         #endregion
     }
 }

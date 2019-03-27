@@ -39,14 +39,19 @@
             </Button>
         </StackPanel>
         <StackPanel Grid.Column="0" Margin="0,0,0,10">
-            <GroupBox x:Name="Informacoes_gb" Header="Vias Adicionais de Autorizações" Margin="10,10" Height="141" Foreground="#FFD0D0D0">
-                <StackPanel x:Name="Informacoes_sp" Margin="0,10,10,16">
-                    <RadioButton x:Name="todas_rb" Content="Todas as Vias Adicionais" TextBlock.TextAlignment="Left" GroupName="Cred_rb" Height="25"  HorizontalContentAlignment="Left" Foreground="#FFD0D0D0" VerticalAlignment="Center" HorizontalAlignment="Left" Width="151" IsChecked="True"/>
-                    <RadioButton x:Name="segundaemissao_rb" Content="Segunda Emissão" TextBlock.TextAlignment="Left" GroupName="Cred_rb" Height="25"  HorizontalContentAlignment="Left" Foreground="#FFD0D0D0" VerticalAlignment="Center" HorizontalAlignment="Left" Width="151"/>
-                    <RadioButton x:Name="terceiraemissao_rb" Content="Terceira Emissão" TextBlock.TextAlignment="Left" GroupName="Cred_rb" Height="25"  HorizontalContentAlignment="Left" Foreground="#FFD0D0D0" VerticalAlignment="Center" HorizontalAlignment="Left" Width="151"/>
-
-                </StackPanel>
-
+            <GroupBox x:Name="Informacoes_gb" Header="Filtrar por Tipo" Height="170" Width="410" Foreground="#FFD0D0D0">
+                <ListBox x:Name="lstMotivoCredencial"
+                        ItemsSource="{Binding MotivosCredenciais}"
+                        SelectedValue="{Binding MotivosCredenciais}"
+                        SelectedValuePath="CredencialMotivoId">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <RadioButton
+                                IsChecked="{Binding IsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}}"
+                                Content="{Binding Descricao}" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
             </GroupBox>
             <GroupBox x:Name="data_gb" Header="Filtrar por período" Margin="10,10" Height="100" Foreground="#FFD0D0D0">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Stretch"  HorizontalAlignment="Left" Margin="0,5,-2,4" Height="48" Width="403">

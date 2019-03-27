@@ -405,6 +405,23 @@ namespace IMOD.CredenciamentoDeskTop.Helpers
             }
         }
 
+        /// <summary>
+        /// Exibir o relatório
+        /// </summary>
+        /// <param name="documentoReport">Documento do crystal report</param> 
+        public static void ShowRelatorio(ReportDocument documentoReport)
+        {
+            try
+            {
+                var _popupRelatorio = new PopupRelatorio(documentoReport);
+                _popupRelatorio.Show();
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+            }
+        }
+
         #endregion
     }
 }
