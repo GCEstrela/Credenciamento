@@ -237,18 +237,18 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
             //Verificar dados antes de salvar uma criação
             if (_prepareCriarCommandAcionado)
-                if (_service.ExisteNumeroColete(numColete))
+                if (_service.ExisteNumeroColete(Entity.ColaboradorId,numColete))
                     return true;
             //Verificar dados antes de salvar uma alteraçao
             if (!_prepareAlterarCommandAcionado) return false;
-            if (_service.ExisteNumeroColete(numColete))
+            if (_service.ExisteNumeroColete(Entity.ColaboradorId, numColete))
                 return true;
             //var n1 = _service.BuscarPelaChave(Entity.ColaboradorId);
             //if (n1 == null) return false;
             //////Comparar o CNPJ antes e o depois
             //////Verificar se há cnpj exisitente
             return string.Compare(Entity.Colete,
-                       numColete, StringComparison.Ordinal) != 0 && _service.ExisteNumeroColete(numColete);
+                       numColete, StringComparison.Ordinal) != 0 && _service.ExisteNumeroColete(Entity.ColaboradorId, numColete);
             //return false;
         }
         #endregion
@@ -307,6 +307,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var list1 = service.ListarLayoutCrachaPorEmpresaView(empresaId);
                 var list2 = Mapper.Map<List<EmpresaLayoutCracha>>(list1);
                 EmpresaLayoutCracha = list2;
+
+                //_todosContratosEmpresas.ForEach(n => { ColaboradoresEmpresas.Add(n); });
             }
             catch (Exception ex)
             {
@@ -404,7 +406,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             ColaboradoresEmpresas.Clear();
             var lst2 = _todosContratosEmpresas.Where(n => (n.ColaboradorId == colaboradorId) & n.Ativo).ToList();
             lst2.ForEach(n => { ColaboradoresEmpresas.Add(n); });
-            Entity.EmpresaSigla = lst2[0].EmpresaSigla;
+
+           
         }
 
         /// <summary>
@@ -451,15 +454,15 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 n1.DevolucaoEntregaBoId = IsCheckDevolucao ? Entity.DevolucaoEntregaBoId : 0;
                 
 
-                var EmpresaSigla = _colaboradorEmpresaService.Listar(null, null, null, null,null,n1.ColaboradorEmpresaId).ToList();
+               // var EmpresaSigla = _colaboradorEmpresaService.Listar(null, null, null, null,null,n1.ColaboradorEmpresaId).ToList();
                 if (_configuraSistema.Colete)
                 {
                     Entity.NumeroColete = Convert.ToString(_colaboradorView.ColaboradorId);
-                    n1.Colete = EmpresaSigla[0].EmpresaSigla + Entity.NumeroColete;
+                    n1.Colete = Entity.EmpresaSigla + Entity.NumeroColete;
                 }
                 else
                 {
-                    n1.Colete = EmpresaSigla[0].EmpresaSigla + Entity.NumeroColete;
+                    n1.Colete = Entity.EmpresaSigla + Entity.NumeroColete;
                     
                 }
 
@@ -847,6 +850,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         public void CarregarCaracteresColete(ColaboradorEmpresa colaboradorEmpresa)
         {
+            if (Entity == null) return;
+           
+            Entity.EmpresaSigla = colaboradorEmpresa.EmpresaSigla.Trim();
             _configuraSistema = ObterConfiguracao();
             if (_configuraSistema.Colete)
             {
@@ -888,8 +894,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 if (ExisteNumeroColete())
                     {
-                        Entity.SetMessageErro("Colte", "Número do colte já existente.");
-                        WpfHelp.Mbox("Número do colte já cadastrado para o colaborador [ " + Entity.ColaboradorNome.ToString() + " ]");
+                        Entity.SetMessageErro("Colete", "Número do colte já existente.");
+                        WpfHelp.Mbox("Número do colete já cadastrado para o colaborador  " + Entity.ColaboradorNome.ToString() + " ");
                         return true;
                     }
             }

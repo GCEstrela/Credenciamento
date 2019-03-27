@@ -30,7 +30,7 @@ namespace IMOD.Domain.Interfaces
         /// </summary>
         /// <param name="numColete"></param>
         /// <returns></returns>
-        ColaboradorCredencial ObterNumeroColete(string numColete);
+        ColaboradorCredencial ObterNumeroColete(int colaboradorid, string numColete);
         /// <summary>
         ///     Listar Colaboradores e suas credenciais
         /// </summary>
