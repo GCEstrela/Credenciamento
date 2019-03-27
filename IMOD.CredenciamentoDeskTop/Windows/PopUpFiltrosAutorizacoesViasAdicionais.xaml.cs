@@ -21,10 +21,11 @@ namespace IMOD.CredenciamentoDeskTop.Windows
     {
         public PopUpFiltrosAutorizacoesViasAdicionais()
         {
-            InitializeComponent();
-            DataContext = new RelatoriosViewModel();
-            MouseDown += Window_MouseDown;
-        }
+            InitializeComponent(); 
+            DataContext = new RelatoriosViewModel(); 
+            MouseDown += Window_MouseDown; 
+            ((RelatoriosViewModel)DataContext).CarregaMotivoCredenciais(1); 
+        } 
 
         #region  Metodos
 
@@ -38,24 +39,19 @@ namespace IMOD.CredenciamentoDeskTop.Windows
 
         private void button_ClickFiltrar(object sender, RoutedEventArgs e)
         {
-            var tipo = 0;
-            var DataIni = dp_dataInicial.Text;
-            var DataFim = dp_dataFinal.Text;
+             
+            int tipo = 0;
+            IMOD.CredenciamentoDeskTop.Views.Model.CredencialMotivoView motivoCredencialSelecionado = null; 
+            string dataIni = dp_dataInicial.Text;
+            string dataFim = dp_dataFinal.Text;
 
-            if (segundaemissao_rb.IsChecked.Value)
+            if (lstMotivoCredencial.SelectedItem != null) 
             {
-                tipo = 2;
-            }
-            else if (terceiraemissao_rb.IsChecked.Value)
-            {
-                tipo = 3;
-            }
-            else
-            {
-                tipo = 0;
+                motivoCredencialSelecionado = (IMOD.CredenciamentoDeskTop.Views.Model.CredencialMotivoView)lstMotivoCredencial.SelectedItem;
+                tipo = ((IMOD.CredenciamentoDeskTop.Views.Model.CredencialMotivoView)lstMotivoCredencial.SelectedItem).CredencialMotivoId;
             }
 
-            ((RelatoriosViewModel) DataContext).OnFiltroAutorizacaoViasAdicionaisCommand (tipo, DataIni, DataFim);
+            ((RelatoriosViewModel) DataContext).OnFiltroAutorizacaoViasAdicionaisCommand (tipo, dataIni, dataFim);
 
             Close();
         }

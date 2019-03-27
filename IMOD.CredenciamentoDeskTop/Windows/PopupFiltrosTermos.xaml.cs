@@ -40,19 +40,19 @@ namespace IMOD.CredenciamentoDeskTop.Windows
 
             if (hoje_rb.IsChecked.Value)
             {
-                periodo = 1;
+                periodo = 0;
             }
             else if (semana_rb.IsChecked.Value)
             {
-                periodo = 2;
+                periodo = 7;
             }
             else if (mes_rb.IsChecked.Value)
             {
-                periodo = 3;
+                periodo = 30;
             }
             else
             {
-                periodo = 0;
+                periodo = 999;
             }
 
             if (dp_dataInicial.Text != "" && dp_dataFinal.Text != "")

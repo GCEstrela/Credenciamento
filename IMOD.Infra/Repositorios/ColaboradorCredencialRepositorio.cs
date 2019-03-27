@@ -541,6 +541,244 @@ namespace IMOD.Infra.Repositorios
             }
         }
 
+        /// <summary>
+        ///    Listar Colaboradores credenciais - concedidas
+        /// </summary>
+        /// <param name="entity">entity</param>
+        /// <returns></returns>
+        public List<ColaboradoresCredenciaisView> ListarColaboradorCredencialConcedidasView(FiltroReportColaboradoresCredenciais entity)
+        {
+            using (var conn = _dataBase.CreateOpenConnection())
+            {
+                using (var cmd = _dataBase.SelectText("RelatorioColaboradorCredencialView", conn))
+                {
+                    try
+                    {
+                        if (entity != null && entity.ColaboradorCredencialId > 0)
+                        {
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("ColaboradorCredencialID", DbType.Int32, entity.ColaboradorCredencialId).Igual()));
+                        }
+                        if (entity != null && entity.TipoCredencialId > 0)
+                        {
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("TipoCredencialId", DbType.Int32, entity.TipoCredencialId).Igual()));
+                        }
+                        if (entity != null && entity.CredencialStatusId > 0)
+                        {
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("CredencialStatusId", DbType.Int32, entity.CredencialStatusId).Igual()));
+                        }
+                        if (entity != null && entity.EmpresaId > 0)
+                        {
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmpresaId", DbType.Int32, entity.EmpresaId).Igual()));
+                        }
+
+                        //Busca faixa de data
+                        if (entity.Emissao != null || entity.EmissaoFim != null)
+                        {
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Emissao", DbType.DateTime, entity.Emissao).MaiorIgual()));
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmissaoFim", DbType.DateTime, entity.EmissaoFim).MenorIgual()));
+                        }
+
+                        var reader = cmd.ExecuteReaderSelect();
+                        var d1 = reader.MapToList<ColaboradoresCredenciaisView>();
+
+                        return d1;
+                    }
+                    catch (Exception ex)
+                    {
+                        Utils.TraceException(ex);
+                        throw;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        ///    Listar Colaboradores credenciais - vias adicionais
+        /// </summary>
+        /// <param name="entity">entity</param>
+        /// <returns></returns>
+        public List<ColaboradoresCredenciaisView> ListarColaboradorCredencialViaAdicionaisView(FiltroReportColaboradoresCredenciais entity)
+        {
+            int codEmissaoInicio = 2;
+            int codEmissaoFim = 5;
+
+            using (var conn = _dataBase.CreateOpenConnection())
+            {
+                using (var cmd = _dataBase.SelectText("RelatorioColaboradorCredencialView", conn))
+                {
+                    try
+                    {
+                        if (entity != null && entity.ColaboradorCredencialId > 0)
+                        {
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("ColaboradorCredencialID", DbType.Int32, entity.ColaboradorCredencialId).Igual()));
+                        }
+                        if (entity != null && entity.TipoCredencialId > 0)
+                        {
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("TipoCredencialId", DbType.Int32, entity.TipoCredencialId).Igual()));
+                        }
+
+                        if (entity != null && entity.CredencialMotivoId > 0)
+                        {
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("CredencialMotivoId", DbType.Int32, entity.CredencialMotivoId).Igual()));
+                        }
+                        else
+                        {
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("CredencialMotivoId", DbType.Int32, codEmissaoInicio).MaiorIgual()));
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("CredencialMotivoId1", DbType.Int32, codEmissaoFim).MenorIgual()));
+                        }
+                        //Busca por faixa de data
+                        if (entity.Emissao != null || entity.EmissaoFim != null)
+                        {
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Emissao", DbType.DateTime, entity.Emissao).MaiorIgual()));
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmissaoFim", DbType.DateTime, entity.EmissaoFim).MenorIgual()));
+                        }
+
+                        var reader = cmd.ExecuteReaderSelect();
+                        var d1 = reader.MapToList<ColaboradoresCredenciaisView>();
+
+                        return d1;
+                    }
+                    catch (Exception ex)
+                    {
+                        Utils.TraceException(ex);
+                        throw;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        ///    Listar Colaboradores credenciais - invalidas 
+        /// </summary>
+        /// <param name="entity">entity</param>
+        /// <returns></returns>
+        public List<ColaboradoresCredenciaisView> ListarColaboradorCredencialInvalidasView(FiltroReportColaboradoresCredenciais entity)
+        {
+            using (var conn = _dataBase.CreateOpenConnection())
+            {
+                using (var cmd = _dataBase.SelectText("RelatorioColaboradorCredencialView", conn))
+                {
+                    try
+                    {
+                        if (entity != null && entity.ColaboradorCredencialId > 0)
+                        {
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("ColaboradorCredencialID", DbType.Int32, entity.ColaboradorCredencialId).Igual()));
+                        }
+                        if (entity != null && entity.TipoCredencialId > 0)
+                        {
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("TipoCredencialId", DbType.Int32, entity.TipoCredencialId).Igual()));
+                        }
+                        if (entity != null && entity.CredencialStatusId > 0)
+                        {
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("CredencialStatusId", DbType.Int32, entity.CredencialStatusId).Igual()));
+                        }
+
+                        if (entity.Impeditivo)
+                        {
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("CredencialMotivoId", DbType.Int32, entity.CredencialMotivoId).Igual()));
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("CredencialMotivoId1", DbType.Int32, entity.CredencialMotivoId1).Igual()));
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("CredencialMotivoId2", DbType.Int32, entity.CredencialMotivoId2).Igual()));
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("DevolucaoEntregaBOID", DbType.Int32, entity.DevolucaoEntregaBoId).Diferente()));
+                        } else if (entity != null && entity.CredencialMotivoId > 0 && !entity.Impeditivo)
+                        {
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("CredencialMotivoId", DbType.Int32, entity.CredencialMotivoId).Igual()));
+                        }
+
+                        //Busca faixa de data
+                        if (entity.Baixa != null || entity.BaixaFim != null)
+                        {
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Baixa", DbType.DateTime, entity.Baixa).MaiorIgual()));
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("BaixaFim", DbType.DateTime, entity.BaixaFim).MenorIgual()));
+                        }
+
+                        var reader = cmd.ExecuteReaderSelect();
+                        var d1 = reader.MapToList<ColaboradoresCredenciaisView>();
+
+                        return d1;
+                    }
+                    catch (Exception ex)
+                    {
+                        Utils.TraceException(ex);
+                        throw;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        ///    Listar Colaboradores credenciais - impressoes 
+        /// </summary>
+        /// <param name="entity">entity</param>
+        /// <returns></returns>
+        public List<ColaboradoresCredenciaisView> ListarColaboradorCredencialImpressoesView(FiltroReportColaboradoresCredenciais entity)
+        {
+            using (var conn = _dataBase.CreateOpenConnection())
+            {
+                using (var cmd = _dataBase.SelectText("RelatorioColaboradorCredencialImpressaoView", conn))
+                {
+                    try
+                    {
+                        if (entity != null && entity.EmpresaId > 0)
+                        {
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmpresaId", DbType.Int32, entity.EmpresaId).Igual()));
+                        }
+
+                        if (entity.DataImpressao != null || entity.DataImpressaoFim != null)
+                        {
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("DataImpressao", DbType.DateTime, entity.DataImpressao).MaiorIgual()));
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("DataImpressaoFim", DbType.DateTime, entity.DataImpressaoFim).MenorIgual()));
+                        }
+
+                        var reader = cmd.ExecuteReaderSelect();
+                        var d1 = reader.MapToList<ColaboradoresCredenciaisView>();
+
+                        return d1;
+                    }
+                    catch (Exception ex)
+                    {
+                        Utils.TraceException(ex);
+                        throw;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        ///    Listar Colaboradores credenciais - permanentes ativos por área
+        /// </summary>
+        /// <param name="entity">entity</param>
+        /// <returns></returns>
+        public List<ColaboradoresCredenciaisView> ListarColaboradorCredencialPermanentePorAreaView(FiltroReportColaboradoresCredenciais entity)
+        {
+            using (var conn = _dataBase.CreateOpenConnection())
+            {
+                using (var cmd = _dataBase.SelectText("RelatorioColaboradorCredencialPorAreaAcessoView", conn))
+                {
+                    try
+                    {
+                        if (entity != null && entity.AreaAcessoId > 0)
+                        {
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("AreaAcessoID", DbType.Int32, entity.AreaAcessoId).Igual()));
+                        }
+                        if (entity != null && entity.CredencialStatusId > 0)
+                        {
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("CredencialStatusId", DbType.Int32, entity.CredencialStatusId).Igual()));
+                        }
+
+                        var reader = cmd.ExecuteReaderSelect();
+                        var d1 = reader.MapToList<ColaboradoresCredenciaisView>();
+
+                        return d1;
+                    }
+                    catch (Exception ex)
+                    {
+                        Utils.TraceException(ex);
+                        throw;
+                    }
+                }
+            }
+        }
+
         #endregion
     }
 }

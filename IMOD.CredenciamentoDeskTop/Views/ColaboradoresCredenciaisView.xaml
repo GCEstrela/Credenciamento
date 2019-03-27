@@ -53,8 +53,7 @@
                                       VerticalContentAlignment="Center" 
                                       HorizontalContentAlignment="Left"
                                       ItemsSource="{Binding ColaboradoresEmpresas,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                      SelectedValue="{Binding Entity.ColaboradorEmpresaId, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                      Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
+                                      SelectedValue="{Binding Entity.ColaboradorEmpresaId, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"                                      
                                       SelectedItem="{Binding ColaboradorEmpresa, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                       SelectedValuePath="ColaboradorEmpresaId"
                                       IsSynchronizedWithCurrentItem="True"
@@ -113,7 +112,7 @@
                                       SelectedValue="{Binding Entity.CredencialMotivoId, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                                       DisplayMemberPath="Descricao"
                                       SelectedValuePath="CredencialMotivoId"
-                                      Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" SelectionChanged="CmbMotivacao_SelectionChanged"/>
+                                        SelectionChanged="CmbMotivacao_SelectionChanged"/>
 
                             <CheckBox VerticalAlignment="Center" Margin="15,0,0,0" x:Name="chkDevolucaoMotivo" HorizontalAlignment="Left" Foreground="#FFD0D0D0" 
                                 Visibility="{Binding VisibilityCheckDevolucao, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" IsChecked="{Binding IsCheckDevolucao, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Content="{Binding TextCheckDevolucao, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/> 
@@ -137,7 +136,7 @@
                                       HorizontalContentAlignment="Left"
                                       ItemsSource="{Binding TipoCredencial, Mode=TwoWay}" 
                                       DisplayMemberPath="Descricao"
-                                      Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
+                                       
                                       SelectedValue="{Binding Entity.TipoCredencialId,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                                       SelectedValuePath="TipoCredencialId" IsSynchronizedWithCurrentItem="True"/>
 
@@ -154,7 +153,7 @@
                                       DisplayMemberPath="Nome"
                                       SelectedValue="{Binding Entity.LayoutCrachaId, UpdateSourceTrigger=PropertyChanged}" 
                                       SelectedValuePath="LayoutCrachaId"
-                                      Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
+                                       
                                       />
 
                             <Label Content="Colete:" Height="28" Width="45" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" RenderTransformOrigin="0.5,0.5" />
@@ -166,7 +165,7 @@
                             <TextBox  x:Name="NumeroColete_tb" HorizontalContentAlignment="Center" MaxLength="4" Margin="1,0,0,0"
                                       Text="{Binding Entity.NumeroColete,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                                       IsEnabled="{Binding IsEnableColete}"
-                                      Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
+                                       
                                       CharacterCasing="Upper" Height="24"  Width="58"/>
 
                             <Label Content="Autenticação:" Height="28" Width="99"   HorizontalContentAlignment="Right"
@@ -200,7 +199,7 @@
                             <TextBox Text="{Binding Entity.Validade, 
                                      UpdateSourceTrigger=PropertyChanged,Mode=TwoWay,StringFormat='{}{0:dd/MM/yyyy}'}"
                                      LostFocus="OnFormatData_LostFocus"
-                                     Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
+                                      
                                      PreviewTextInput="NumberOnly"
                                      IsEnabled="{Binding Habilitar}"
                                      Height="24" Width="85" 
@@ -259,7 +258,7 @@
                             <TextBox  x:Name="NumeroCredencial_tb"  
                                       MaxLength="8"  CharacterCasing="Upper" 
                                       Text="{Binding Entity.NumeroCredencial,  UpdateSourceTrigger=PropertyChanged}" 
-                                      Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
+                                       
                                       Height="24"  Width="65" LostFocus="NumeroCredencial_tb_LostFocus" />
 
 

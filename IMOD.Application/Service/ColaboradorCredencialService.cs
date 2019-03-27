@@ -487,6 +487,57 @@ namespace IMOD.Application.Service
 
 
 
+        /// <summary>
+        /// Relatório Colaborador credenciais - concedidas
+        /// </summary> 
+        /// <param name="entity">entity</param>
+        /// <returns></returns>
+        public List<ColaboradoresCredenciaisView> ListarColaboradorCredencialConcedidasView(FiltroReportColaboradoresCredenciais entity)
+        {
+            return _repositorio.ListarColaboradorCredencialConcedidasView(entity);
+        }
+
+        /// <summary>
+        /// Relatório Colaborador credenciais - vias adicionais 
+        /// </summary> 
+        /// <param name="entity">entity</param>
+        /// <returns></returns>
+        public List<ColaboradoresCredenciaisView> ListarColaboradorCredencialViaAdicionaisView(FiltroReportColaboradoresCredenciais entity)
+        {
+            return _repositorio.ListarColaboradorCredencialViaAdicionaisView(entity);
+        }
+
+        /// <summary>
+        ///    Listar Colaboradores credenciais - invalidas
+        /// </summary>
+        /// <param name="entity">entity</param>
+        /// <returns></returns>
+        public List<ColaboradoresCredenciaisView> ListarColaboradorCredencialInvalidasView(FiltroReportColaboradoresCredenciais entity)
+        {
+            return _repositorio.ListarColaboradorCredencialInvalidasView(entity);
+        }
+
+        /// <summary>
+        ///    Listar Colaboradores credenciais - impressoes 
+        /// </summary>
+        /// <param name="entity">entity</param>
+        /// <returns></returns>
+        public List<ColaboradoresCredenciaisView> ListarColaboradorCredencialImpressoesView(FiltroReportColaboradoresCredenciais entity)
+        {
+            return _repositorio.ListarColaboradorCredencialImpressoesView(entity);
+        }
+
+        /// <summary>
+        ///    Listar Colaboradores credenciais - permanentes ativos por área
+        /// </summary>
+        /// <param name="entity">entity</param>
+        /// <returns></returns>
+        public List<ColaboradoresCredenciaisView> ListarColaboradorCredencialPermanentePorAreaView(FiltroReportColaboradoresCredenciais entity)
+
+        {
+            return _repositorio.ListarColaboradorCredencialPermanentePorAreaView(entity);
+        }
+
         #endregion
     }
 }

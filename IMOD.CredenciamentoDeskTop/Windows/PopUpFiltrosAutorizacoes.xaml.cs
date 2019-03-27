@@ -29,16 +29,16 @@ namespace IMOD.CredenciamentoDeskTop.Windows
 
         private void button_ClickFiltrar(object sender, RoutedEventArgs e)
         {
-            bool tipo;
+            int tipo;
             string DataIni = dp_dataInicial.Text;
             string DataFim = dp_dataFinal.Text;
 
             if (permanente_rb.IsChecked.Value)
             {
-                tipo = true;
+                tipo = 1;
             }
             else
-                tipo = false;
+                tipo = 2;
 
             ((RelatoriosViewModel)DataContext).OnFiltroRelatorioAutorizacoesCommand(tipo, DataIni, DataFim);
 

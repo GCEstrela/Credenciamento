@@ -411,6 +411,31 @@ namespace IMOD.Application.Service
         {
             return _repositorio.ListarAutorizacaoView (objects);
         }
+        public List<VeiculosCredenciaisView> ListarVeiculoCredencialConcedidasView(FiltroReportVeiculoCredencial entity)
+        {
+            return _repositorio.ListarVeiculoCredencialConcedidasView(entity);
+        }
+
+        public List<VeiculosCredenciaisView> ListarVeiculoCredencialViaAdicionaisView(FiltroReportVeiculoCredencial entity)
+        {
+            return _repositorio.ListarVeiculoCredencialViaAdicionaisView(entity);
+        }
+
+        public List<VeiculosCredenciaisView> ListarVeiculoCredencialInvalidasView(FiltroReportVeiculoCredencial entity)
+        {
+            return _repositorio.ListarVeiculoCredencialInvalidasView(entity);
+        }
+
+        public List<VeiculosCredenciaisView> ListarVeiculoCredencialImpressoesView(FiltroReportVeiculoCredencial entity)
+        {
+            return _repositorio.ListarVeiculoCredencialImpressoesView(entity);
+        }
+
+        public List<VeiculosCredenciaisView> ListarVeiculoCredencialPermanentePorAreaView(FiltroReportVeiculoCredencial entity)
+        {
+            return _repositorio.ListarVeiculoCredencialPermanentePorAreaView(entity);
+        }
+
 
         #endregion
     }
