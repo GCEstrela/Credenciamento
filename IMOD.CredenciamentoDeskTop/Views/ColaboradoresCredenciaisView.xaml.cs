@@ -61,7 +61,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            cmbEmpresaVinculo.SelectionChanged += EmpresaVinculo_cb_SelectionChanged;
+            cmbEmpresaVinculo_cb.SelectionChanged += EmpresaVinculo_cb_SelectionChanged;
 
             
         }
@@ -170,11 +170,13 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 if (_viewModel.ExisteNumeroCredencial())
                     _viewModel.Entity.SetMessageErro("NumeroCredencial", "Nº da Credencial já existe");
                     NumeroCredencial_tb.Text = nCredencial;
+                
             }
             catch (Exception)
             {
                 _viewModel.Entity.SetMessageErro("Cnpj", "CNPJ inválido");
             }
         }
+
     }
 }

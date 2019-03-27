@@ -307,6 +307,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var list1 = service.ListarLayoutCrachaPorEmpresaView(empresaId);
                 var list2 = Mapper.Map<List<EmpresaLayoutCracha>>(list1);
                 EmpresaLayoutCracha = list2;
+
+                //_todosContratosEmpresas.ForEach(n => { ColaboradoresEmpresas.Add(n); });
             }
             catch (Exception ex)
             {
@@ -404,7 +406,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             ColaboradoresEmpresas.Clear();
             var lst2 = _todosContratosEmpresas.Where(n => (n.ColaboradorId == colaboradorId) & n.Ativo).ToList();
             lst2.ForEach(n => { ColaboradoresEmpresas.Add(n); });
-            Entity.EmpresaSigla = lst2[0].EmpresaSigla;
+
+           
         }
 
         /// <summary>
@@ -847,6 +850,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         public void CarregarCaracteresColete(ColaboradorEmpresa colaboradorEmpresa)
         {
+            Entity.EmpresaSigla = colaboradorEmpresa.EmpresaSigla.Trim();
             _configuraSistema = ObterConfiguracao();
             if (_configuraSistema.Colete)
             {
