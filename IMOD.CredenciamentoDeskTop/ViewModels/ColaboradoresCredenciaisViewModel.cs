@@ -95,7 +95,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public List<TipoCredencial> TipoCredencial { get; set; }
         public List<EmpresaLayoutCracha> EmpresaLayoutCracha { get; set; }
         public List<TecnologiaCredencial> TecnologiasCredenciais { get; set; }
-        public ObservableCollection<ColaboradorEmpresa> ColaboradoresEmpresas { get; set; }
+        public ObservableCollection<ColaboradorEmpresa> ColaboradoresEmpresas { get; set ; }
         public ColaboradorEmpresa ColaboradorEmpresa { get; set; }
         public List<AreaAcesso> ColaboradorPrivilegio { get; set; }
         public ColaboradoresCredenciaisView Entity { get; set; }
@@ -135,20 +135,14 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         ///     Habilita Combo de Contratos
         /// </summary>
         public bool IsEnableColete { get; set; } = true;
-        public int WidthColete { get; set; } = 48;
-        //public string Entity.NumeroColete { get; set; }
-        public int WidthSigla { get; set; } = 68;
-        //public bool IsEnableComboContrato
-        //{
-        //    get
-        //    {
-        //        return !_configuraSistema.Contrato;
-        //    }
-        //}
+        public int WidthColete { get; set; } = 48;       
+        public int indTecnologiaCredencial { get; set; } = 1;
+
         #endregion
 
         public ColaboradoresCredenciaisViewModel()
         {
+            
             ItensDePesquisaConfigura();
             ListarDadosAuxiliares();
             Comportamento = new ComportamentoBasico(false, true, false, false, false);
@@ -235,7 +229,28 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             return string.Compare(n1.NumeroCredencial.RetirarCaracteresEspeciais(),
                        numCredencial, StringComparison.Ordinal) != 0 && _service.ExisteNumeroCredencial(numCredencial);
         }
+        //
+        public bool ExisteNumeroColete()
+        {
+            if (Entity == null) return false;
+            var numColete = Entity.EmpresaSigla+Entity.NumeroColete;
 
+            //Verificar dados antes de salvar uma criação
+            if (_prepareCriarCommandAcionado)
+                if (_service.ExisteNumeroColete(Entity.ColaboradorId,numColete))
+                    return true;
+            //Verificar dados antes de salvar uma alteraçao
+            if (!_prepareAlterarCommandAcionado) return false;
+            if (_service.ExisteNumeroColete(Entity.ColaboradorId, numColete))
+                return true;
+            //var n1 = _service.BuscarPelaChave(Entity.ColaboradorId);
+            //if (n1 == null) return false;
+            //////Comparar o CNPJ antes e o depois
+            //////Verificar se há cnpj exisitente
+            return string.Compare(Entity.Colete,
+                       numColete, StringComparison.Ordinal) != 0 && _service.ExisteNumeroColete(Entity.ColaboradorId, numColete);
+            //return false;
+        }
         #endregion
 
         private void ListarDadosAuxiliares()
@@ -251,10 +266,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             var lst3 = _auxiliaresService.TipoCredencialService.Listar();
             TipoCredencial = new List<TipoCredencial>(); 
             TipoCredencial.AddRange(lst3.OrderBy(n => n.Descricao));
-
+            
             var lst5 = _auxiliaresService.TecnologiaCredencialService.Listar();
             TecnologiasCredenciais = new List<TecnologiaCredencial>(); 
-            TecnologiasCredenciais.AddRange(lst5.OrderBy(n => n.Descricao));
+            TecnologiasCredenciais.AddRange(lst5.OrderBy(n => n.TecnologiaCredencialId));
 
             ColaboradoresEmpresas = new ObservableCollection<ColaboradorEmpresa>();
 
@@ -292,6 +307,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var list1 = service.ListarLayoutCrachaPorEmpresaView(empresaId);
                 var list2 = Mapper.Map<List<EmpresaLayoutCracha>>(list1);
                 EmpresaLayoutCracha = list2;
+
+                //_todosContratosEmpresas.ForEach(n => { ColaboradoresEmpresas.Add(n); });
             }
             catch (Exception ex)
             {
@@ -389,6 +406,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             ColaboradoresEmpresas.Clear();
             var lst2 = _todosContratosEmpresas.Where(n => (n.ColaboradorId == colaboradorId) & n.Ativo).ToList();
             lst2.ForEach(n => { ColaboradoresEmpresas.Add(n); });
+
+           
         }
 
         /// <summary>
@@ -435,15 +454,15 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 n1.DevolucaoEntregaBoId = IsCheckDevolucao ? Entity.DevolucaoEntregaBoId : 0;
                 
 
-                var EmpresaSigla = _colaboradorEmpresaService.Listar(null, null, null, null,null,n1.ColaboradorEmpresaId).ToList();
+               // var EmpresaSigla = _colaboradorEmpresaService.Listar(null, null, null, null,null,n1.ColaboradorEmpresaId).ToList();
                 if (_configuraSistema.Colete)
                 {
                     Entity.NumeroColete = Convert.ToString(_colaboradorView.ColaboradorId);
-                    n1.Colete = EmpresaSigla[0].EmpresaSigla + Entity.NumeroColete;
+                    n1.Colete = Entity.EmpresaSigla + Entity.NumeroColete;
                 }
                 else
                 {
-                    n1.Colete = EmpresaSigla[0].EmpresaSigla + Entity.NumeroColete;
+                    n1.Colete = Entity.EmpresaSigla + Entity.NumeroColete;
                     
                 }
 
@@ -502,7 +521,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             try
             {
                 Entity = new ColaboradoresCredenciaisView();
-
+               
                 Entity.NumeroColete = "";
                 _configuraSistema = ObterConfiguracao();
                 if (_configuraSistema.Colete)
@@ -510,7 +529,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     Entity.NumeroColete = Convert.ToString(_colaboradorView.ColaboradorId);
                 }
                
-
+                
                 var statusCred = CredencialStatus.FirstOrDefault(n => n.Codigo == "1"); //Status ativa
                 if (statusCred == null) throw new InvalidOperationException("O status da credencial é requerida.");
                 StatusCredencial = statusCred;
@@ -525,6 +544,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 IsEnableLstView = false;
                 Habilitar = true;
                 MensagemAlerta = "";
+
+                //indTecnologiaCredencial = 1;
+                //Entity.TecnologiaCredencialId = indTecnologiaCredencial;
+
                 //Listar Colaboradores Ativos
                 OnAtualizarDadosContratosAtivos();
                 _viewModelParent.HabilitaControleTabControls(false, false, false, false, false, true);
@@ -801,6 +824,16 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         private void PrepareSalvar()
         {
+            // 
+            if (Entity.NumeroColete == "")
+            {
+                var  podeCobrarResult = WpfHelp.MboxDialogYesNo($"Nº do Colete esta em branco, Continua.", true);
+                if (podeCobrarResult == System.Windows.Forms.DialogResult.No)
+                {
+                    return;
+                }
+            }
+
             if (Validar()) return;
             Comportamento.PrepareSalvar();
         }
@@ -817,6 +850,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         public void CarregarCaracteresColete(ColaboradorEmpresa colaboradorEmpresa)
         {
+            if (Entity == null) return;
+           
+            Entity.EmpresaSigla = colaboradorEmpresa.EmpresaSigla.Trim();
             _configuraSistema = ObterConfiguracao();
             if (_configuraSistema.Colete)
             {
@@ -854,16 +890,17 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 Entity.SetMessageErro("NumeroCredencial", "Número de credencial já existente.");
                 return true;
             }
-
-            // _configuraSistema = ObterConfiguracao();
-            if (!_configuraSistema.Colete)
+            if (Entity.NumeroColete != "")
             {
-                if (Entity.NumeroColete == "")
-                {
-                    Entity.SetMessageErro("Entity.NumeroColete", "Número do Colete é Obrigatório.");
-                    return true;
-                }
+                if (ExisteNumeroColete())
+                    {
+                        Entity.SetMessageErro("Colete", "Número do colte já existente.");
+                        WpfHelp.Mbox("Número do colete já cadastrado para o colaborador  " + Entity.ColaboradorNome.ToString() + " ");
+                        return true;
+                    }
             }
+                
+            
             return Entity.HasErrors;
         }
 

@@ -81,7 +81,7 @@ namespace IMOD.Domain.EntitiesCustom
 
         public DateTime? DataStatus { get; set; }
         public int DevolucaoEntregaBoId { get; set; }
-        [Required(ErrorMessage = "Nº do Colete é requerida.")]
+        [Required(ErrorMessage = "Nº do Colete é requerido.")]
         public string NumeroColete { get; set; }
 
     }

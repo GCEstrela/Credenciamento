@@ -25,7 +25,12 @@ namespace IMOD.Domain.Interfaces
         /// <param name="numCredencial"></param>
         /// <returns></returns>
         ColaboradorCredencial ObterCredencialPeloNumeroCredencial(string numCredencial);
-
+        /// <summary>
+        ///     Obter dados da credencial pelo numero da credencial
+        /// </summary>
+        /// <param name="numColete"></param>
+        /// <returns></returns>
+        ColaboradorCredencial ObterNumeroColete(int colaboradorid, string numColete);
         /// <summary>
         ///     Listar Colaboradores e suas credenciais
         /// </summary>
