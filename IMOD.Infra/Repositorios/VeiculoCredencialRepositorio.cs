@@ -660,11 +660,6 @@ namespace IMOD.Infra.Repositorios
                             cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("CredencialStatusId", DbType.Int32, entity.CredencialStatusId).Igual()));
                         }
 
-                        if (entity != null && entity.CredencialMotivoId > 0)
-                        {
-                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("CredencialMotivoId", DbType.Int32, entity.CredencialMotivoId).Igual()));
-                        }
-
                         if (entity.Impeditivo) 
                         {
                             cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("CredencialMotivoId", DbType.Int32, entity.CredencialMotivoId).Igual()));
