@@ -165,6 +165,7 @@
     <Compile Include="Enums\Tipos.cs" />
     <Compile Include="Funcoes\AtualizaDataConverter.cs" />
     <Compile Include="Funcoes\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Funcoes\ByteImageConverter.cs" />
     <Compile Include="Funcoes\CheckImpressao.cs" />
     <Compile Include="Funcoes\CheckTeste.cs" />
     <Compile Include="Funcoes\ChildControls.cs" />

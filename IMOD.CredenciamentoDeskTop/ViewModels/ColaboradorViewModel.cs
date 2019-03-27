@@ -10,13 +10,17 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using AutoMapper;
 using IMOD.Application.Interfaces;
 using IMOD.Application.Service;
+using IMOD.CredenciamentoDeskTop.Funcoes;
 using IMOD.CredenciamentoDeskTop.Helpers;
 using IMOD.CredenciamentoDeskTop.ViewModels.Commands;
 using IMOD.CredenciamentoDeskTop.ViewModels.Comportamento;
@@ -217,7 +221,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 Utils.TraceException (ex);
             }
         }
-
+        public void carregaFoto(ImageSource minhaFoto)
+        {
+            
+            //Entity.Foto = ByteImageConverter.ImageToByte(minhaFoto);
+        }
+       
         private void Pesquisar()
         {
             try

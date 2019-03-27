@@ -525,7 +525,7 @@ namespace IMOD.Infra.Repositorios
                     {
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("ColaboradorID", colaboradorid).Diferente()));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("Colete",  numColete).Igual()));
-                        //cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("Ativo", true).Igual()));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("Ativa", true).Igual()));
 
                         var reader = cmd.ExecuteReader();
                         var d1 = reader.MapToList<ColaboradorCredencial>();

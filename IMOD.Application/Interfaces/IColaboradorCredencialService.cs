@@ -80,7 +80,7 @@ namespace IMOD.Application.Interfaces
         /// </summary>
         /// <param name="numColete"></param>
         /// <returns></returns>
-        bool ExisteNumeroColete(int colavoradorid,string numColete);
+        ColaboradorCredencial ExisteNumeroColete(int colavoradorid,string numColete);
         ///// <summary>
         /////     Criar um titular de cartão no sub-sistema de credenciamento (Genetec)
         ///// </summary>

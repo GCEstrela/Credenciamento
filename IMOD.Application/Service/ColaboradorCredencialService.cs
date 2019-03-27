@@ -187,13 +187,13 @@ namespace IMOD.Application.Service
         /// </summary>
         /// <param name="numColete"></param>
         /// <returns></returns>
-        public bool ExisteNumeroColete(int colaboradorid,string numColete)
+        public ColaboradorCredencial ExisteNumeroColete(int colaboradorid,string numColete)
         {
-            if (string.IsNullOrWhiteSpace(numColete)) return false;
+            if (string.IsNullOrWhiteSpace(numColete)) return null;
 
             var doc = numColete;
             var n1 = ObterNumeroColete(colaboradorid,doc);
-            return n1 != null;
+            return n1;
         }
         /// <summary>
         ///     Alterar registro

@@ -230,26 +230,39 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                        numCredencial, StringComparison.Ordinal) != 0 && _service.ExisteNumeroCredencial(numCredencial);
         }
         //
-        public bool ExisteNumeroColete()
+        public ColaboradorCredencial ExisteNumeroColete()
         {
-            if (Entity == null) return false;
+            if (Entity == null) return null;
             var numColete = Entity.EmpresaSigla+Entity.NumeroColete;
-
+            
             //Verificar dados antes de salvar uma criação
-            if (_prepareCriarCommandAcionado)
-                if (_service.ExisteNumeroColete(Entity.ColaboradorId,numColete))
-                    return true;
-            //Verificar dados antes de salvar uma alteraçao
-            if (!_prepareAlterarCommandAcionado) return false;
-            if (_service.ExisteNumeroColete(Entity.ColaboradorId, numColete))
-                return true;
-            //var n1 = _service.BuscarPelaChave(Entity.ColaboradorId);
-            //if (n1 == null) return false;
-            //////Comparar o CNPJ antes e o depois
-            //////Verificar se há cnpj exisitente
-            return string.Compare(Entity.Colete,
-                       numColete, StringComparison.Ordinal) != 0 && _service.ExisteNumeroColete(Entity.ColaboradorId, numColete);
-            //return false;
+
+            return _service.ExisteNumeroColete(_colaboradorView.ColaboradorId, numColete);
+            //if (colaboradorcredencial==null) return 
+            //if (_prepareCriarCommandAcionado)
+            //{
+            //    ColaboradorCredencial colaboradorcredencial = _service.ExisteNumeroColete(Entity.ColaboradorId, numColete);
+            //}
+            //if (!_prepareAlterarCommandAcionado)
+            //{
+            //    ColaboradorCredencial colaboradorcredencial = _service.ExisteNumeroColete(Entity.ColaboradorId, numColete);
+                
+            //}
+
+
+                //   // if (_service.ExisteNumeroColete(Entity.ColaboradorId,numColete))
+                //        return true;
+                ////Verificar dados antes de salvar uma alteraçao
+                //if (!_prepareAlterarCommandAcionado) return false;
+                //if (_service.ExisteNumeroColete(Entity.ColaboradorId, numColete))
+                //    return true;
+                ////var n1 = _service.BuscarPelaChave(Entity.ColaboradorId);
+                ////if (n1 == null) return false;
+                ////////Comparar o CNPJ antes e o depois
+                ////////Verificar se há cnpj exisitente
+                //return string.Compare(Entity.Colete,
+                //           numColete, StringComparison.Ordinal) != 0 && _service.ExisteNumeroColete(Entity.ColaboradorId, numColete);
+               // return false;
         }
         #endregion
 
@@ -892,10 +905,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
             if (Entity.NumeroColete != "")
             {
-                if (ExisteNumeroColete())
+                var colaboradorcredencial = ExisteNumeroColete();
+                if (colaboradorcredencial!=null)
                     {
                         Entity.SetMessageErro("Colete", "Número do colte já existente.");
-                        WpfHelp.Mbox("Número do colete já cadastrado para o colaborador  " + Entity.ColaboradorNome.ToString() + " ");
+                        WpfHelp.Mbox("Número do colete já cadastrado para o colaborador  " + colaboradorcredencial.ColaboradorNome.ToString() + " ");
                         return true;
                     }
             }
