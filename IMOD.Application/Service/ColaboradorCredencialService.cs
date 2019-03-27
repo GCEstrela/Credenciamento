@@ -187,12 +187,12 @@ namespace IMOD.Application.Service
         /// </summary>
         /// <param name="numColete"></param>
         /// <returns></returns>
-        public bool ExisteNumeroColete(string numColete)
+        public bool ExisteNumeroColete(int colaboradorid,string numColete)
         {
             if (string.IsNullOrWhiteSpace(numColete)) return false;
 
             var doc = numColete;
-            var n1 = ObterNumeroColete(doc);
+            var n1 = ObterNumeroColete(colaboradorid,doc);
             return n1 != null;
         }
         /// <summary>
@@ -264,9 +264,9 @@ namespace IMOD.Application.Service
         /// </summary>
         /// <param name="numColete"></param>
         /// <returns></returns>
-        public ColaboradorCredencial ObterNumeroColete(string numColete)
+        public ColaboradorCredencial ObterNumeroColete(int colaboradorid,string numColete)
         {
-            return _repositorio.ObterNumeroColete(numColete);
+            return _repositorio.ObterNumeroColete(colaboradorid,numColete);
         }
         /// <summary>
         ///     Listar Colaboradores e suas credenciais
@@ -480,7 +480,12 @@ namespace IMOD.Application.Service
             _repositorio.Remover (entity);
         }
 
-        
+        public ColaboradorCredencial ObterNumeroColete(string numColete)
+        {
+            throw new NotImplementedException();
+        }
+
+
 
         #endregion
     }

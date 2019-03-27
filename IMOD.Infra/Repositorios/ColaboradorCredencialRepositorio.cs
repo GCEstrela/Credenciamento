@@ -512,17 +512,21 @@ namespace IMOD.Infra.Repositorios
                 }
             }
         }
+       
 
-        public ColaboradorCredencial ObterNumeroColete(string numColete)
+        public ColaboradorCredencial ObterNumeroColete(int colaboradorid, string numColete)
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText("ColaboradoresCredenciais", conn))
+                using (var cmd = _dataBase.SelectText("ColaboradoresCredenciaisView", conn))
 
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("Colete", numColete).Igual()));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("ColaboradorID", colaboradorid).Diferente()));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("Colete",  numColete).Igual()));
+                        //cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("Ativo", true).Igual()));
+
                         var reader = cmd.ExecuteReader();
                         var d1 = reader.MapToList<ColaboradorCredencial>();
 
