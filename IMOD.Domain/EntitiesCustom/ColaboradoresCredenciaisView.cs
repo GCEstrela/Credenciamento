@@ -80,8 +80,7 @@ namespace IMOD.Domain.EntitiesCustom
         public string IdentificacaoDescricao { get; set; }
 
         public DateTime? DataStatus { get; set; }
-        public int DevolucaoEntregaBoId { get; set; }
-        [Required(ErrorMessage = "Nº do Colete é requerido.")]
+        public int DevolucaoEntregaBoId { get; set; }        
         public string NumeroColete { get; set; }
         public bool Policiafederal { get; set; }
         public bool Receitafederal { get; set; }
