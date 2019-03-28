@@ -83,6 +83,9 @@ namespace IMOD.Domain.EntitiesCustom
         public int DevolucaoEntregaBoId { get; set; }
         [Required(ErrorMessage = "Nº do Colete é requerido.")]
         public string NumeroColete { get; set; }
+        public bool Policiafederal { get; set; }
+        public bool Receitafederal { get; set; }
+        public bool Segurancatrabalho { get; set; }
 
     }
 }

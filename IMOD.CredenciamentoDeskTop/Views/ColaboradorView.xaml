@@ -445,17 +445,17 @@
                             </StackPanel>
                         </StackPanel>
                     </GroupBox>
-                    <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" Background="Brown"
+                    <!--<GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" Background="Brown" Visibility="Collapsed"
                               Grid.Column="0" Header="Autorizações" Margin="0,315,0,0" Height="130" VerticalAlignment="Top"
                               Grid.ColumnSpan="2">
-                        <StackPanel Margin="60,5,0,0">
+                        <StackPanel Margin="60,5,0,0" >
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                                 <CheckBox Name="PF_chek" Content="Policia Federal" Margin="43,0,0,0"    IsChecked="{Binding Entity.Policiafederal, UpdateSourceTrigger=PropertyChanged}"   Foreground="#FFD0D0D0"></CheckBox>
                                 <CheckBox Name="P2F" Content="Refeita Federal" Margin="30,0,0,0"        IsChecked="{Binding Entity.Receitafederal, UpdateSourceTrigger=PropertyChanged}"   Foreground="#FFD0D0D0"></CheckBox>
                                 <CheckBox Name="P3F" Content="Segurança do Trabalho" Margin="30,0,0,0"  IsChecked="{Binding Entity.Segurancatrabalho, UpdateSourceTrigger=PropertyChanged}"   Foreground="#FFD0D0D0"></CheckBox>
                             </StackPanel>
                         </StackPanel>
-                    </GroupBox>
+                    </GroupBox>-->
                     <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" Background="Crimson"
                               x:Name="Contato1_gb" Header="Contatos " VerticalAlignment="Top" Margin="486,0,-610,0"
                               Height="192" Grid.Column="1">
