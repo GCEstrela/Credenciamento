@@ -165,7 +165,9 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Pendente24", entity.Pendente24, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Pendente25", entity.Pendente25, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Estrangeiro", entity.Estrangeiro, false)));
-
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Policiafederal", entity.Policiafederal, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Receitafederal", entity.Receitafederal, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Segurancatrabalho", entity.Segurancatrabalho, false)));
                         cmd.ExecuteNonQuery();
                     }
                     catch (Exception ex)
@@ -264,6 +266,9 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Pendente24", entity.Pendente24, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Pendente25", entity.Pendente25, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Estrangeiro", entity.Estrangeiro, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Policiafederal", entity.Policiafederal, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Receitafederal", entity.Receitafederal, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Segurancatrabalho", entity.Segurancatrabalho, false)));
 
                         var key = Convert.ToInt32(cmd.ExecuteScalar());
                         entity.ColaboradorId = key;

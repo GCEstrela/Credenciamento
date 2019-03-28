@@ -62,7 +62,9 @@ namespace IMOD.Domain.Entities
         public bool Pendente24 { get; set; }
         public bool Pendente25 { get; set; }
         public bool Estrangeiro { get; set; }
-
+        public bool Policiafederal { get; set; }
+        public bool Receitafederal { get; set; }
+        public bool Segurancatrabalho { get; set; }
         #endregion
     }
 }
