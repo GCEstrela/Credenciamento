@@ -230,6 +230,9 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Impressa", entity.Impressa, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("DataStatus", DbType.DateTime, entity.DataStatus, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("DevolucaoEntregaBOID", DbType.Int32, entity.DevolucaoEntregaBoId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Policiafederal", DbType.Boolean, entity.Policiafederal, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Receitafederal", DbType.Boolean, entity.Receitafederal, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Segurancatrabalho", DbType.Boolean, entity.Segurancatrabalho, false)));
 
                         cmd.ExecuteNonQuery();
                     }
@@ -305,6 +308,9 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Validade", DbType.DateTime, entity.Validade, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("DataStatus", DbType.DateTime, DateTime.Today.Date, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("DevolucaoEntregaBOID", DbType.Int32, entity.DevolucaoEntregaBoId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Policiafederal", entity.Policiafederal, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Receitafederal", entity.Receitafederal, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Segurancatrabalho", entity.Segurancatrabalho, false)));
 
                         var key = Convert.ToInt32 (cmd.ExecuteScalar());
 

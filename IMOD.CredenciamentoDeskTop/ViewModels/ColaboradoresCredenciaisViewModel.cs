@@ -274,7 +274,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
             var lst2 = _auxiliaresService.FormatoCredencialService.Listar();
             FormatoCredencial = new List<FormatoCredencial>(); 
-            FormatoCredencial.AddRange(lst2.OrderBy(n => n.Descricao));
+            FormatoCredencial.AddRange(lst2.OrderBy(n => n.FormatoCredencialId));
 
             var lst3 = _auxiliaresService.TipoCredencialService.Listar();
             TipoCredencial = new List<TipoCredencial>(); 
@@ -368,6 +368,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             _count++;
             ListarTodosContratos();
             MensagemAlerta = "";
+            OnPropertyChanged("Entity");
+            CollectionViewSource.GetDefaultView(EntityObserver).Refresh();
+
         }
 
         private void ListarColaboradoresCredenciais(ColaboradorView entity)

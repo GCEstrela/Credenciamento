@@ -40,6 +40,9 @@ namespace IMOD.Domain.Entities
         public int DevolucaoEntregaBoId { get; set; }
         public int ColaboradorId { get; set; }
         public string ColaboradorNome { get; set; }
+        public bool Policiafederal { get; set; }
+        public bool Receitafederal { get; set; }
+        public bool Segurancatrabalho { get; set; }
         #endregion
     }
 }
