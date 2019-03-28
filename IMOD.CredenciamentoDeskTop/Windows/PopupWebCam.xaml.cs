@@ -37,8 +37,6 @@ namespace iModSCCredenciamento.Windows
            
         }
 
-
-
         WebCam webcam;
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -61,24 +59,12 @@ namespace iModSCCredenciamento.Windows
         }
 
         private void Capturar_bt_Click(object sender, RoutedEventArgs e)
-        {
-            
+        {         
             imgCapture.Source = imgVideo.Source;
         }
 
         private void Aceitar_bt_Click(object sender, RoutedEventArgs e)
-        {
-            _viewModel.carregaFoto(imgCapture.Source);
-            
-            //result = "Fechou";
-            
-            //BitmapImage _img = (BitmapImage)imgCapture.Source;
-           
-            //string _imgstr = Convert.FromBase64String(_img);
-
-            //Foto_im.Source = _img;
-
-            //((ClasseColaboradores.Colaborador)ListaColaboradores_lv.SelectedItem).Foto = _imgstr; 
+        {           
             this.Close();
         }
     }

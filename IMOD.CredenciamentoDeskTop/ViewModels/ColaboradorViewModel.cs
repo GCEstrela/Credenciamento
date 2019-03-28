@@ -224,7 +224,22 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public void carregaFoto(ImageSource minhaFoto)
         {
             
-            //Entity.Foto = Convert.ToBase64String(minhaFoto);
+
+            //WriteableBitmap wbmp = new WriteableBitmap((BitmapSource)minhaFoto);
+            //MemoryStream ms = new MemoryStream();
+            ////wbmp.s(ms, wbmp.PixelWidth, wbmp.PixelHeight, 0, 100);
+            ////return ms.ToArray();
+
+            //var width = wbmp.PixelWidth;
+            //var height = wbmp.PixelHeight;
+            //var stride = width * ((wbmp.Format.BitsPerPixel + 7) / 8);
+
+            //var bitmapData = new byte[height * stride];
+
+            //wbmp.CopyPixels(bitmapData, stride, 0);
+
+
+            //Entity.Foto = bitmapData.ToString();
         }
         
 

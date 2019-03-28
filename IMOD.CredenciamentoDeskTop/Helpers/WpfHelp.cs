@@ -13,6 +13,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Media.Imaging;
 using CrystalDecisions.CrystalReports.Engine;
 using CrystalDecisions.Shared;
 using IMOD.CredenciamentoDeskTop.Windows;
@@ -421,7 +422,27 @@ namespace IMOD.CredenciamentoDeskTop.Helpers
                 Utils.TraceException(ex);
             }
         }
+        public static string IMGtoSTR(BitmapSource img)
+        {
+            try
+            {
+                MemoryStream o = new MemoryStream();
+                PngBitmapEncoder png = new PngBitmapEncoder();
+                png.Frames.Add(System.Windows.Media.Imaging.BitmapFrame.Create(img));
+                png.Save(o);
+                string str;
+                str = Convert.ToBase64String(o.GetBuffer());
+                o = null;
+                png = null;
+                return str;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
 
+
+        }
         #endregion
     }
 }
