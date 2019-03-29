@@ -83,7 +83,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         public void AtualizarDados(VeiculoView entity, VeiculoViewModel viewModelParent)
         {
-            if (entity == null) throw new ArgumentNullException (nameof (entity));
+            EntityObserver.Clear();
+            if (entity == null) return; // throw new ArgumentNullException (nameof (entity));
             _veiculoView = entity;
             _viewModelParent = viewModelParent;
 

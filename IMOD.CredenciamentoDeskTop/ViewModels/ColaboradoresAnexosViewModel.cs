@@ -228,7 +228,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         
         public void AtualizarDadosAnexo(ColaboradorView entity, ColaboradorViewModel viewModelParent)
         {
-            if(entity==null) throw new ArgumentNullException(nameof(entity));
+            EntityObserver.Clear();
+            if (entity == null) return;// throw new ArgumentNullException(nameof(entity));
             _colaboradorView = entity;
             _viewModelParent = viewModelParent; 
 
