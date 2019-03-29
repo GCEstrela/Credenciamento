@@ -39,5 +39,8 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public string RNE { get; set; }
         public string Passaporte { get; set; }
         public DateTime PassaporteValidade { get; set; }
+        public bool ManuseioBagagem { get; set; }
+        public bool Motorista { get; set; }
+        public string Cnh { get; set; }
     }
 }

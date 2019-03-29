@@ -364,6 +364,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         public void AtualizarDados(ColaboradorView entity, ColaboradorViewModel viewModelParent)
         {
+            EntityObserver.Clear();
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             _colaboradorView = entity;
             _viewModelParent = viewModelParent; 
@@ -765,6 +766,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 TextObject Identificacao_txt;
                 TextObject Validade_txt;
                 TextObject Validade_valor;
+                TextObject Bagagem_valor;
+                TextObject Categoria_valor;
                 try
                 {
                     if (c1.CPF == "")
@@ -799,7 +802,16 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                         Identificacao_txt = (TextObject)relatorio.ReportDefinition.ReportObjects["IDENTIFICACAO"];
                         Identificacao_txt.Text = c1.CPF;
                     }
-
+                    if (c1.ManuseioBagagem)
+                    {
+                        Bagagem_valor = (TextObject)relatorio.ReportDefinition.ReportObjects["txt_Bagagem"];
+                        Bagagem_valor.Text = "B";
+                    }
+                    if (c1.Motorista)
+                    {
+                        Bagagem_valor = (TextObject)relatorio.ReportDefinition.ReportObjects["txt_CNH"];
+                        Bagagem_valor.Text = c1.CNHCategoria;
+                    }
                 }
                 finally { }                
 

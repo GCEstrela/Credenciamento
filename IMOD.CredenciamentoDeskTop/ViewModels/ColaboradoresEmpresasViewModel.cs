@@ -359,8 +359,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <param name="entity"></param>
         public void AtualizarDados(ColaboradorView entity)
         {
-            if (entity == null)
-                throw new ArgumentNullException(nameof(entity));
+            EntityObserver.Clear();
+            if (entity == null) return;
+                //throw new ArgumentNullException(nameof(entity));
              
 
             _colaboradorView = entity;
