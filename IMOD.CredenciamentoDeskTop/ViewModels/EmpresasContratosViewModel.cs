@@ -184,7 +184,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         public void AtualizarDados(EmpresaView entity, EmpresaViewModel viewModelParent)
         {
-            if (entity == null) throw new ArgumentNullException (nameof(entity));
+            EntityObserver.Clear();
+            if (entity == null) return;// throw new ArgumentNullException (nameof(entity));
             _empresaView = entity;
             _viewModelParent = viewModelParent;
             //Obter dados
