@@ -719,6 +719,8 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Dlls\PropertyChanged.dll" />
+    <Content Include="FodyWeavers.xml" />
     <Content Include="Resources\Ok2.ico" />
     <Content Include="Resources\Okold.ico" />
     <Resource Include="Resources\undo.png">
@@ -751,6 +753,9 @@
     <Content Include="Certificates\IMOD.CredenciamentoDeskTop.Modulo.ModuloPage.cert">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="FodyWeavers.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
