@@ -52,6 +52,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private readonly List<ColaboradorEmpresa> _todosContratosEmpresas = new List<ColaboradorEmpresa>();
 
         private readonly IDadosAuxiliaresFacade _auxiliaresServiceConfiguraSistema = new DadosAuxiliaresFacadeService();
+
+        private readonly IEmpresaService serviceEmpresa = new EmpresaService(); 
+
         private ConfiguraSistema _configuraSistema;
        
 
@@ -171,16 +174,18 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 Entity.NumeroColete = "";
             }
-            
+
             #region Habilitar botão de impressao e mensagem ao usuario
 
-            HabilitaImpressao = entity.Ativa && !entity.PendenciaImpeditiva && !entity.Impressa && (entity.ColaboradorCredencialId > 0) && entity.Validade >= DateTime.Now.Date;
+            var pendenciaImpeditivaEmpresa = serviceEmpresa.Pendencia.ListarPorEmpresa(entity.EmpresaId).Where(n => n.Impeditivo == true).ToList();
 
-            //Verificar se a empresa esta impedida
-            var n1 = _service.BuscarCredencialPelaChave(entity.ColaboradorCredencialId);
-            var mensagem1 = !n1.Ativa ? "Credencial Inativa" : string.Empty;
-            var mensagem2 = n1.PendenciaImpeditiva ? "Pendência Impeditiva (consultar dados da empresa na aba Geral)" : string.Empty;
-            var mensagem3 = n1.Impressa ? "Credencial já foi emitida" : string.Empty;
+            HabilitaImpressao = entity.Ativa && !entity.PendenciaImpeditiva && !entity.Impressa && (entity.ColaboradorCredencialId > 0) && entity.Validade >= DateTime.Now.Date && (pendenciaImpeditivaEmpresa.Count <= 0);
+
+            //Verificar se a empresa esta impedida 
+            var n1 = _service.BuscarCredencialPelaChave(entity.ColaboradorCredencialId); 
+            var mensagem1 = !n1.Ativa ? "Credencial Inativa" : string.Empty; 
+            var mensagem2 = n1.PendenciaImpeditiva ? "Pendência Impeditiva (consultar dados da empresa na aba Geral)" : string.Empty; 
+            var mensagem3 = n1.Impressa ? "Credencial já foi emitida" : string.Empty; 
             var mensagem4 = (entity.Validade < DateTime.Now.Date) ? "Credencial vencida." : string.Empty;
             //Exibir mensagem de impressao de credencial, esta tem prioridade sobre as demais regras            
             //if (n1.Impressa) return;
