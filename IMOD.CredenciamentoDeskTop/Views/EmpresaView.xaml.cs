@@ -85,14 +85,16 @@ namespace IMOD.CredenciamentoDeskTop.Views
         /// <param name="e"></param>
         private void OnAdicionarTipoAtividade_Click(object sender, RoutedEventArgs e)
         {
-            if (_viewModel.TipoAtividade == null) return;
+            if (_viewModel.TipoAtividade == null || TipoAtividade_cb.SelectedIndex.Equals(0)) return;
             var n1 = new EmpresaTipoAtividadeView
             {
                 TipoAtividadeId = _viewModel.TipoAtividade.TipoAtividadeId,
                 Descricao = _viewModel.TipoAtividade.Descricao
             };
             _viewModel.TiposAtividades.Add(n1);
-             
+            _viewModel.TipoAtividade = null;
+            //TipoAtividade_cb.SelectedIndex = 0;
+
         }
 
         /// <summary>
@@ -102,13 +104,14 @@ namespace IMOD.CredenciamentoDeskTop.Views
         /// <param name="e"></param>
         private void OnAdicionarTipoCracha_Click(object sender, RoutedEventArgs e)
         {
-            if (_viewModel.TipoCracha == null) return;
+            if (_viewModel.TipoCracha == null || TipoCracha_cb.SelectedIndex.Equals(0)) return;
             var n1 = new IMOD.Domain.EntitiesCustom.EmpresaLayoutCrachaView
             {
                 LayoutCrachaId = _viewModel.TipoCracha.LayoutCrachaId,
                 Nome = _viewModel.TipoCracha.Nome
             };
-            _viewModel.TiposLayoutCracha.Add(n1); 
+            _viewModel.TiposLayoutCracha.Add(n1);
+            _viewModel.TipoCracha = null;
         }
 
         /// <summary>

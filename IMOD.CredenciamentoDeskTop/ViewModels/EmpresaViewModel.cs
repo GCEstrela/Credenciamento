@@ -624,6 +624,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 n1.EmpresaId = empresaId;
                 _service.Atividade.Criar (n1);
             });
+
         }
 
         private void SalvarTipoCracha(int empresaId)
