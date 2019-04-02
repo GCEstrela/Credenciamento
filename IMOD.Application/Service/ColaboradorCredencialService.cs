@@ -204,8 +204,14 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void Alterar(ColaboradorCredencial entity)
         {
-            ObterStatusCredencial (entity);
-            _repositorio.Alterar (entity);
+            _repositorio.Alterar(entity);
+            //OnPropertyChanged("Entity");
+            //CollectionViewSource.GetDefaultView(EntityObserver).Refresh();
+
+            entity = BuscarPelaChave(entity.ColaboradorCredencialId);
+
+            ObterStatusCredencial(entity);
+
         }
 
         public ColaboradoresCredenciaisView BuscarCredencialPelaChave(int colaboradorCredencialId)
@@ -356,9 +362,7 @@ namespace IMOD.Application.Service
             if (entity == null) throw new ArgumentNullException (nameof (entity));
             if (entity2 == null) throw new ArgumentNullException (nameof (entity2));
             ObterStatusCredencial (entity2);
-            //Alterar status de um titual do cartao
-            var titularCartao = CardHolderEntity (entity); 
-            titularCartao.Ativo = entity2.Ativa;
+            
 
             entity.DataStatus = entity.Ativa != entity2.Ativa ? DateTime.Today.Date : entity2.DataStatus;
             entity.Ativa = entity2.Ativa; //Atulizar dados para serem exibidas na tela
@@ -378,6 +382,15 @@ namespace IMOD.Application.Service
             entity2.DataStatus = entity.DataStatus;
             entity2.Baixa = entity.Baixa;
             Alterar (entity2);
+
+            //entity = BuscarPelaChave(entity.ColaboradorCredencialId);
+            entity = BuscarCredencialPelaChave(entity.ColaboradorCredencialId);
+            //Alterar status de um titual do cartao
+            var titularCartao = CardHolderEntity(entity);
+            ////Alterar status de um titual do cartao
+            //var titularCartao = CardHolderEntity (entity); 
+            titularCartao.Ativo = entity2.Ativa;
+            //titularCartao = CardHolderEntity(entity);
             //Alterar o status do cartao do titular, se houver
             if (string.IsNullOrWhiteSpace (titularCartao.IdentificadorCardHolderGuid)
                 & string.IsNullOrWhiteSpace (titularCartao.IdentificadorCredencialGuid)) return;

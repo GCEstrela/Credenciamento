@@ -158,11 +158,12 @@ namespace IMOD.Infra.Servicos
             try
             {
                 if (string.IsNullOrWhiteSpace (entity.IdentificadorCredencialGuid)) throw new ArgumentNullException (nameof(entity.IdentificadorCredencialGuid));
-                _sdk.TransactionManager.CreateTransaction();
+               // _sdk.TransactionManager.CreateTransaction();
 
                 var credencial = _sdk.GetEntity (new Guid (entity.IdentificadorCredencialGuid)) as Credential;
                 if (credencial == null) throw new InvalidOperationException ("Não foi possível encontrar uma credencial.");
                 credencial.State = entity.Ativo ? CredentialState.Active : CredentialState.Inactive;
+                RemoveRegraAcesso(entity);  //emove todas as regras de aceso do cardholder
                 if (credencial.State != CredentialState.Active)
                 {
                     VerificaRegraAcesso(entity, false);
@@ -171,7 +172,7 @@ namespace IMOD.Infra.Servicos
                 {
                     VerificaRegraAcesso(entity, true);
                 }
-                _sdk.TransactionManager.CommitTransaction();
+                //_sdk.TransactionManager.CommitTransaction();
             }
             catch (Exception ex)
             {
@@ -233,8 +234,8 @@ namespace IMOD.Infra.Servicos
             }
         }
         /// <summary>
-        ///     Criar Card Holder (Titular do cartão)
-        ///     <para>Criar um CardHolder se nao existir</para>
+        ///     Verifica Regras de Acesso 
+        ///     <para>Add/Remove Regras de Acesso de um CardHolder se nao existir</para>
         /// </summary>
         /// <param name="entity"></param>
         public void VerificaRegraAcesso(CardHolderEntity entity, Boolean AddRemove = true)
@@ -242,10 +243,7 @@ namespace IMOD.Infra.Servicos
 
             //var accessRule = GetEntities(entity.Identificacao1.ToString(), EntityType.AccessRule);
             //if (accessRule != null)
-            //{
-
-            //    //accessRule.Schedule = schedule;
-            //}
+           
             EntityConfigurationQuery query;
             QueryCompletedEventArgs result;
             try
@@ -254,16 +252,7 @@ namespace IMOD.Infra.Servicos
                 bool regra2 = false;
                 var guid = new Guid(entity.IdentificadorCardHolderGuid);
                 var cardHolder = _sdk.GetEntity(guid) as Cardholder;
-                
-                //foreach (Guid elemento in cardHolder.AccessRules)
-                //{
-                //    //Guid tttt = elemento.ToString();
-                //    AccessRule accesso = _sdk.GetEntity(elemento) as AccessRule;
-                //    var descricao = accesso.Name;
-                    
-                //}
-                
-
+               
                 query = _sdk.ReportManager.CreateReportQuery(ReportType.EntityConfiguration) as EntityConfigurationQuery;
                 query.EntityTypeFilter.Add(EntityType.AccessRule);
                 query.NameSearchMode = StringSearchMode.StartsWith;
@@ -310,6 +299,48 @@ namespace IMOD.Infra.Servicos
 
                     }
                     //_sdk.TransactionManager.CommitTransaction();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+                throw;
+            }
+        }
+        /// <summary>
+        ///     Remove Regras de Acesso 
+        ///     <para>Remove Todas as Regras de Acesso de um CardHolder se nao existir</para>
+        /// </summary>
+        /// <param name="entity"></param>
+        public void RemoveRegraAcesso(CardHolderEntity entity)
+        {
+
+            //var accessRule = GetEntities(entity.Identificacao1.ToString(), EntityType.AccessRule);
+            //if (accessRule != null)
+
+            EntityConfigurationQuery query;
+            QueryCompletedEventArgs result;
+            try
+            {
+                var guid = new Guid(entity.IdentificadorCardHolderGuid);
+                var cardHolder = _sdk.GetEntity(guid) as Cardholder;
+
+                query = _sdk.ReportManager.CreateReportQuery(ReportType.EntityConfiguration) as EntityConfigurationQuery;
+                query.EntityTypeFilter.Add(EntityType.AccessRule);
+                query.NameSearchMode = StringSearchMode.StartsWith;
+                result = query.Query();
+                SystemConfiguration systemConfiguration = _sdk.GetEntity(SdkGuids.SystemConfiguration) as SystemConfiguration;
+                var service = systemConfiguration.CustomFieldService;
+                if (result.Success)
+                {
+                    _sdk.TransactionManager.CreateTransaction();
+                    foreach (DataRow dr in result.Data.Rows)    //sempre remove todas as regras de um CardHolder
+                    {
+                        AccessRule accesso = _sdk.GetEntity((Guid)dr[0]) as AccessRule;
+                        accesso.Members.Remove(cardHolder.Guid);
+                    }
+                    _sdk.TransactionManager.CommitTransaction();
                 }
 
             }

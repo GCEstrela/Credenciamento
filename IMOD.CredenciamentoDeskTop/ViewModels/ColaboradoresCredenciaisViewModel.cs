@@ -598,6 +598,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 var n1 = Mapper.Map<ColaboradorCredencial>(Entity);
                 n1.DevolucaoEntregaBoId = IsCheckDevolucao ? Entity.DevolucaoEntregaBoId : 0;
+                n1.ColaboradorPrivilegio1Id = Entity.ColaboradorPrivilegio1Id;
+                n1.ColaboradorPrivilegio2Id = Entity.ColaboradorPrivilegio2Id;
+                n1.Identificacao1 = Entity.Identificacao1;
+                n1.Identificacao2 = Entity.Identificacao2;
                 if (_configuraSistema.Colete)
                 {
                     Entity.NumeroColete= Convert.ToString(_colaboradorView.ColaboradorId);
@@ -616,11 +620,15 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var dados = view.DataContext as IAtualizarDados;
                 dados.AtualizarDadosPendencias();
 
+                //n1.Identificacao1 = Entity.Identificacao1;
+                //n1.Identificacao2 = Entity.Identificacao2;
                 #region Verificar se pode gerar CardHolder
                 //Alterar o status do titular do cartão
-                _service.AlterarStatusTitularCartao(new CredencialGenetecService(Main.Engine), Entity, n1);
+                
 
                 GerarCardHolder(n1.ColaboradorCredencialId, Entity);
+                //var entity = _service.BuscarCredencialPelaChave(n1.ColaboradorCredencialId);
+                _service.AlterarStatusTitularCartao(new CredencialGenetecService(Main.Engine), Entity, n1);
 
                 //_service.Alterar(n1);
                 #endregion
