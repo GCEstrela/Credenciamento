@@ -89,7 +89,7 @@
 
 
             <!--#region Equipamentos -->
-            <Button x:Name="EquipamentosBt" Width="110" Margin="10" Click="OnVeiculo_Click" Style="{StaticResource menu}">
+            <Button x:Name="EquipamentosBt" Width="110" Margin="10" Click="OnVeiculo_Click" Style="{StaticResource menu}" Visibility="Collapsed">
                 <StackPanel Orientation="Vertical">
                     <Image Source="../Resources/Trator.png" Width="60" Height="40" />
                     <TextBlock HorizontalAlignment="Center" >Equipamentos</TextBlock>
