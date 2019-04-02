@@ -126,6 +126,8 @@ namespace IMOD.Application.Service
                 Cpf = entity.Cpf,
                 Cargo = entity.Cargo,
                 Identificador = entity.Cpf,
+                Identificacao1 = entity.Identificacao1,
+                Identificacao2 = entity.Identificacao2,
                 Apelido = entity.ColaboradorApelido,
                 IdentificadorCardHolderGuid = entity.CardHolderGuid,
                 IdentificadorCredencialGuid = entity.CredencialGuid,
@@ -135,6 +137,7 @@ namespace IMOD.Application.Service
                 Validade = dataValidade.AddDays(1), 
                 NumeroCredencial = entity.NumeroCredencial,
                 IdentificadorLayoutCrachaGuid = entity.LayoutCrachaGuid
+               
             };
             return titularCartao;
         }
@@ -436,7 +439,8 @@ namespace IMOD.Application.Service
             var n1 = BuscarPelaChave(entity.ColaboradorCredencialId);
             n1.CardHolderGuid = titularCartao.IdentificadorCardHolderGuid;
             n1.CredencialGuid = titularCartao.IdentificadorCredencialGuid;
-
+            n1.Identificacao1 = titularCartao.Identificacao1;
+            n1.Identificacao2 = titularCartao.Identificacao2;
             Alterar(n1);
         }
  

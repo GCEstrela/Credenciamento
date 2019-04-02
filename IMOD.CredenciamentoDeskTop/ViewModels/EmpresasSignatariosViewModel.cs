@@ -164,6 +164,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private void PrepareCriar()
         {
             Entity = new EmpresaSignatarioView();
+            Entity.Principal = true;
             Comportamento.PrepareCriar();
             IsEnableLstView = false;
             _viewModelParent.HabilitaControleTabControls (false, false, true, false, false);
