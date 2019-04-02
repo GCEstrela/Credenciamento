@@ -63,8 +63,8 @@
                 <!--#region Empresa -->
                 <Button x:Name="EmpresasBt" Width="110" Click="OnEmpresaView_Click" Margin="10" Style="{StaticResource menu}">
                     <StackPanel Orientation="Vertical">
-                        <Image Source="../Resources/Companhia.png" Width="30" Height="40" />
-                        <TextBlock Margin="0,15,0,0">Empresas</TextBlock>
+                        <Image Source="../Resources/Companhia.png" Width="50" Height="40" />
+                    <TextBlock HorizontalAlignment="Center" >Empresas</TextBlock>
                     </StackPanel>
                 </Button>
                 <!--#endregion -->
@@ -72,8 +72,8 @@
                 <!--#region Colaboradores -->
             <Button x:Name="ColaboradoresBt" Click="OnColaboradoresView_Click" Width="110" Margin="10" Style="{StaticResource menu}">
                     <StackPanel Orientation="Vertical">
-                        <Image Source="../Resources/Colaboradores.png" Width="30" Height="40" />
-                        <TextBlock Margin="0,15,0,0">Colaboradores</TextBlock>
+                        <Image Source="../Resources/Colaboradores.png" Width="50" Height="40" />
+                    <TextBlock HorizontalAlignment="Center" >Colaboradores</TextBlock>
                     </StackPanel>
                 </Button>
                 <!--#endregion -->
@@ -81,17 +81,27 @@
                 <!--#region Veiculos -->
             <Button x:Name="VeiculosBt" Width="110" Margin="10" Click="OnVeiculo_Click" Style="{StaticResource menu}">
                     <StackPanel Orientation="Vertical">
-                        <Image Source="../Resources/Veiculo.png" Width="30" Height="40" />
-                        <TextBlock Margin="0,15,0,0">Veículos</TextBlock>
+                        <Image Source="../Resources/Veiculo.png" Width="60" Height="40" />
+                        <TextBlock HorizontalAlignment="Center" >Veículos</TextBlock>
                     </StackPanel> 
                 </Button>
                 <!--#endregion -->
 
-                <!--#region Configurações -->
+
+            <!--#region Equipamentos -->
+            <Button x:Name="EquipamentosBt" Width="110" Margin="10" Click="OnVeiculo_Click" Style="{StaticResource menu}" Visibility="Collapsed">
+                <StackPanel Orientation="Vertical">
+                    <Image Source="../Resources/Trator.png" Width="60" Height="40" />
+                    <TextBlock HorizontalAlignment="Center" >Equipamentos</TextBlock>
+                </StackPanel>
+            </Button>
+            <!--#endregion -->
+
+            <!--#region Configurações -->
             <Button x:Name="ConfiguracoesBt" Width="110" Margin="10" Click="OnConfiguracao_Click" Style="{StaticResource menu}">
                     <StackPanel>
-                        <Image Source="../Resources/Engrenagem.ico" Width="26" Height="40" />
-                        <TextBlock Margin="0,15,0,0">Configurações</TextBlock>
+                        <Image Source="../Resources/Engrenagem.ico" Width="30" Height="40" />
+                    <TextBlock HorizontalAlignment="Center" >Configurações</TextBlock>
                     </StackPanel> 
                 </Button>
                 <!--#endregion -->
@@ -99,8 +109,8 @@
                 <!--#region Relatorio -->
             <Button x:Name="RelatoriosBt" Width="110" Margin="10" Click="OnRelatorio_Click" Style="{StaticResource menu}">
                     <StackPanel>
-                        <Image Source="../Resources/Relatorio.png" Width="26" Height="40" />
-                        <TextBlock Margin="0,15,0,0">Relatórios</TextBlock>
+                        <Image Source="../Resources/Relatorio.png" Width="30" Height="40" />
+                    <TextBlock HorizontalAlignment="Center" >Relatórios</TextBlock>
                     </StackPanel> 
                 </Button>
                 <!--#endregion -->

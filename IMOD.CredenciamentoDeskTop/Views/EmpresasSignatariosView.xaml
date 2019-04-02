@@ -47,21 +47,21 @@
                             <Label Content="Nome:" Height="28" Width="57" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                             <TextBox x:Name="Nome_tb" MaxLength="100" CharacterCasing="Upper"                                     
                                      Text="{Binding Entity.Nome, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Comportamento.isEnableCancelar}"
-                                     Height="24" Width="456" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
+                                     Height="24" Width="456"   />
                             <Label Content="CPF:" Height="28" Width="50" HorizontalContentAlignment="Right"
                                    Foreground="#FFD0D0D0" />
                             <TextBox x:Name="txtCpf" MaxLength="15" CharacterCasing="Upper"
                                      Text="{Binding Entity.Cpf, UpdateSourceTrigger=PropertyChanged}" LostFocus="OnFormatCpf_LostFocus" IsEnabled="{Binding Comportamento.isEnableCancelar}"
                                      Height="24" Width="120" Foreground="White"
                                      VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
-                                     Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
+                                       />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                     Margin="1">
                             <Label Content="RG:" Height="28" Width="57" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                             <TextBox x:Name="RG_tb" MaxLength="10" CharacterCasing="Upper"                                     
                                      Text="{Binding Entity.RG, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Comportamento.isEnableCancelar}"
-                                     Height="24" Width="137" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
+                                     Height="24" Width="137"   />
                             <Label Foreground="#FFD0D0D0" Content="Órg. Exp.:" Height="24" Width="64"
                                        HorizontalContentAlignment="Right" />
                             <ComboBox x:Name="RGOrgLocal_cb"
@@ -106,7 +106,7 @@
                             <Label Content="E-Mail:" Height="28" Width="48" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
                             <TextBox x:Name="Email_tb" MaxLength="50" CharacterCasing="Lower"
                                      Text="{Binding Entity.Email, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Comportamento.isEnableCancelar}"
-                                     Height="24" Width="262" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
+                                     Height="24" Width="262"   />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                     Margin="1">
@@ -133,11 +133,11 @@
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,1,0,1" Width="770">
-                            <Label Content="Ativo:" Height="28" Width="60" Foreground="#FFD0D0D0"  HorizontalContentAlignment="Right" />
-                            <CheckBox VerticalAlignment="Center" x:Name="Impeditivo_cb"  Foreground="#FFD0D0D0" 
+                            <Label   Content="Ativo:" Height="28" Width="60" Foreground="#FFD0D0D0"  HorizontalContentAlignment="Right" />
+                            <CheckBox  VerticalAlignment="Center" x:Name="Impeditivo_cb"  Foreground="#FFD0D0D0" 
                                       IsChecked="{Binding Entity.Principal, UpdateSourceTrigger=PropertyChanged}" 
                                       IsEnabled="{Binding Comportamento.isEnableCancelar}" 
-                                      Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
+                                        />
                             <Label Content="Tipo:" Height="28" Width="39" Margin="10,0,0,0" Foreground="#FFD0D0D0"
                                        HorizontalContentAlignment="Left" />
 
@@ -150,7 +150,7 @@
                                                 SelectedValuePath="TipoRepresentanteId" Width="140" 
                                                 IsEnabled="{Binding Comportamento.isEnableCancelar}"
                                                 SelectedIndex="1"
-                                                Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
+                                                 />
                             
                             <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Width="600">
                                 <Label Content="F. Cadastral:" Height="28" Width="92" Margin="0,0,5,0"
@@ -159,12 +159,12 @@
                                 <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center"
                                             Orientation="Horizontal" Margin="0,10">
                                     <TextBox x:Name="NomeArquivo" Text="{Binding Entity.NomeArquivo, UpdateSourceTrigger=PropertyChanged}"
-                                             Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
+                                              
                                              IsEnabled="False" Height="24" Width="245"></TextBox>
                                     <Button x:Name="BuscarArquivo_bt" Height="24" Margin="20,0,0,0"
                                             IsEnabled="{Binding Comportamento.isEnableCancelar}"
                                             VerticalAlignment="Center" Width="24" Click="OnUpLoad_Click" 
-                                            Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}">
+                                             >
                                         <StackPanel>
                                             <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Pasta.ico"/>
                                         </StackPanel>

@@ -43,6 +43,8 @@ namespace IMOD.Domain.Entities
         public bool Policiafederal { get; set; }
         public bool Receitafederal { get; set; }
         public bool Segurancatrabalho { get; set; }
+        public string Identificacao1 { get; set; }
+        public string Identificacao2 { get; set; }
         #endregion
     }
 }

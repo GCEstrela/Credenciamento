@@ -673,8 +673,8 @@
                                        HorizontalContentAlignment="Right" />
                                 <ComboBox x:Name="CNHEmissor_cb" IsEditable="false" 
                                           Text="{Binding Entity.CnhEmissor,
-                                    UpdateSourceTrigger=PropertyChanged}"
-                                          HorizontalContentAlignment="Center" IsEnabled="false" Width="85" Height="25" SelectedIndex="0">
+                                           UpdateSourceTrigger=PropertyChanged}"
+                                          HorizontalContentAlignment="Center" IsEnabled="true" Width="85" Height="25" SelectedIndex="0">
                                     <ComboBoxItem>DETRAN</ComboBoxItem>
                                 </ComboBox>
                                 <Label Foreground="#FFD0D0D0" Content="UF:" Width="58" Height="24" Margin="0,3,0,3"
