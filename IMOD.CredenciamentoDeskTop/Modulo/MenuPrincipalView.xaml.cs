@@ -248,6 +248,7 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
             x2.EntityObserver.Clear();
             var x3 = (VeiculoViewModel)_viewSingleton.VeiculoView.DataContext;
             x3.EntityObserver.Clear();
+
             //======================================================================= 
         }
     }
