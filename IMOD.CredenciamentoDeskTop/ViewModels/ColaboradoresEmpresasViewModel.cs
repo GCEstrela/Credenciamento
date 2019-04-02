@@ -33,7 +33,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private readonly IEmpresaContratosService _empresaContratoService = new EmpresaContratoService();
         private readonly IEmpresaService _empresaService = new EmpresaService();
         private readonly IColaboradorEmpresaService _service = new ColaboradorEmpresaService();
-        
+        private readonly IColaboradorCredencialService _servicecredencial = new ColaboradorCredencialService();
+
         private readonly object _auxiliaresService;
         private ColaboradorView _colaboradorView;
        
@@ -200,6 +201,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 }
 
                 _service.Criar(n1);
+
+                #region Verificar se pode gerar CardHolder
+                
+
+                #endregion
                 //Adicionar no inicio da lista um item a coleção
                 var n2 = Mapper.Map<ColaboradorEmpresaView>(n1);
                 //Adicionar o nome da empresa e o contrato
