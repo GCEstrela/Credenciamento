@@ -101,12 +101,6 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cracha\ATIV ESTRELA #1.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ATIV ESTRELA #1.rpt</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Cracha\ATIV-FLORIPA.cs">
       <DependentUpon>ATIV-FLORIPA.rpt</DependentUpon>
       <SubType>Component</SubType>
@@ -123,12 +117,6 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>AUTORIZAÇÃO #1.rpt</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Cracha\CRACHA ESTRELA #1 .cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CRACHA ESTRELA #1 .rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Cracha\CRACHA ESTRELA .cs">
@@ -840,10 +828,6 @@
     <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Cracha\ATIV ESTRELA #1.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>ATIV ESTRELA #1.cs</LastGenOutput>
-    </EmbeddedResource>
     <EmbeddedResource Include="Cracha\ATIV-FLORIPA.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>ATIV-FLORIPA.cs</LastGenOutput>
@@ -855,10 +839,6 @@
     <EmbeddedResource Include="Cracha\AUTORIZAÇÃO #1.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>AUTORIZAÇÃO #1.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Cracha\CRACHA ESTRELA #1 .rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>CRACHA ESTRELA #1 .cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Cracha\CRACHA ESTRELA .rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
