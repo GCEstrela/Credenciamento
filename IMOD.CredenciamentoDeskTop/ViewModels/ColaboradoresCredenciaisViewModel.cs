@@ -383,15 +383,25 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             var list1 = _service.ListarView(null, null, null, null, entity.ColaboradorId).ToList();            
             var list2 = Mapper.Map<List<ColaboradoresCredenciaisView>>(list1.OrderByDescending(n => n.ColaboradorCredencialId));
-            Comportamento.IsEnableCriar = !list2.Any(c => c.Ativa == true);
+            //Comportamento.IsEnableCriar = !list2.Any(c => c.Ativa);
 
             EntityObserver = new ObservableCollection<ColaboradoresCredenciaisView>();
             list2.ForEach(n => { EntityObserver.Add(n); });
+            
             //Atualizar observer
-            //OnPropertyChanged("Entity");
-            //CollectionViewSource.GetDefaultView(EntityObserver).Refresh();
+            OnPropertyChanged("Entity");
+            CollectionViewSource.GetDefaultView(EntityObserver).Refresh();
 
         }
+
+
+        private bool HabilitaCriar(int idColaborador)
+        {
+            var list1 = _service.ListarView(null, null, null, null, idColaborador).ToList();
+            return !list1.Any(c => c.Ativa);
+        }
+
+
         /// <summary>
         ///     Listar dados de empresa e contratos
         /// </summary>
@@ -508,11 +518,16 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 #endregion
 
-                var list1 = _service.ListarView(null, null, null, null, _colaboradorView.ColaboradorId).ToList();                
-                var list2 = Mapper.Map<List<ColaboradoresCredenciaisView>>(list1.OrderByDescending(n => n.ColaboradorCredencialId));
-                Comportamento.IsEnableCriar = !list2.Any(c => c.Ativa == true);
-                EntityObserver = new ObservableCollection<ColaboradoresCredenciaisView>();
-                list2.ForEach(n => { EntityObserver.Add(n); });
+
+                /// Atualiza Observer
+                ListarColaboradoresCredenciais(_colaboradorView);
+
+                //var list1 = _service.ListarView(null, null, null, null, _colaboradorView.ColaboradorId).ToList();                
+                //var list2 = Mapper.Map<List<ColaboradoresCredenciaisView>>(list1.OrderByDescending(n => n.ColaboradorCredencialId));
+                //Comportamento.IsEnableCriar = !list2.Any(c => c.Ativa == true);
+                //EntityObserver = new ObservableCollection<ColaboradoresCredenciaisView>();
+                //list2.ForEach(n => { EntityObserver.Add(n); });
+
                 MensagemAlerta = "";
                 Entity = null;
                 _viewModelParent.HabilitaControleTabControls(true, true, true, true, true, true);
@@ -548,7 +563,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             try
             {
                 Entity = new ColaboradoresCredenciaisView();
-               
+
+                //if (!HabilitaCriar(_colaboradorView.ColaboradorId)) throw new InvalidOperationException("Não é possivel criar credencial, pois existe uma credencial ativa para o colaborador no contrato.");
+
                 Entity.NumeroColete = "";
                 _configuraSistema = ObterConfiguracao();
                 if (_configuraSistema.Colete)
@@ -635,14 +652,17 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 //_service.Alterar(n1);
                 #endregion
+                
+                ////Atualizar Observer
+                ListarColaboradoresCredenciais(_colaboradorView);
 
-                //Atualizar Observer
-                var list1 = _service.ListarView(null, null, null, null, _colaboradorView.ColaboradorId).ToList();
-                //Comportamento.IsEnableCriar = !list1.Any(c => c.Ativa == true);
-                var list2 = Mapper.Map<List<ColaboradoresCredenciaisView>>(list1.OrderByDescending(n => n.ColaboradorCredencialId));
-                Comportamento.IsEnableCriar = !list2.Any(c => c.Ativa == true);
-                EntityObserver = new ObservableCollection<ColaboradoresCredenciaisView>();
-                list2.ForEach(n => { EntityObserver.Add(n); });               
+                ////Atualizar Observer
+                //var list1 = _service.ListarView(null, null, null, null, _colaboradorView.ColaboradorId).ToList();
+                ////Comportamento.IsEnableCriar = !list1.Any(c => c.Ativa == true);
+                //var list2 = Mapper.Map<List<ColaboradoresCredenciaisView>>(list1.OrderByDescending(n => n.ColaboradorCredencialId));
+                //Comportamento.IsEnableCriar = !list2.Any(c => c.Ativa == true);
+                //EntityObserver = new ObservableCollection<ColaboradoresCredenciaisView>();
+                //list2.ForEach(n => { EntityObserver.Add(n); });                               
 
                 IsEnableLstView = true;
                 AtualizarMensagem(Entity);
@@ -650,8 +670,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 Entity = null;
                 _viewModelParent.HabilitaControleTabControls(true, true, true, true, true, true);
 
-
-
+                
+                
 
             }
             catch (Exception ex)
