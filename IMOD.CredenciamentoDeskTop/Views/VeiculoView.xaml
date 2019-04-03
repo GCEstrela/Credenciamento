@@ -150,7 +150,8 @@
         </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="35" />
-            <RowDefinition Height="184" />
+            <RowDefinition MinHeight="40" Height="70"/>
+            <RowDefinition Height="5"/>
             <RowDefinition Height="30"/>
             <RowDefinition Height="241"/>
         </Grid.RowDefinitions>
@@ -174,8 +175,7 @@
             </TextBox>
         </StackPanel>
 
-        <StackPanel x:Name="ListaEmpresas_sp" Grid.Column="0" Grid.Row="1" Orientation="Horizontal" Margin="0,0,-259,0"
-                    Height="184" VerticalAlignment="Top">
+        <StackPanel x:Name="ListaEmpresas_sp" Grid.Column="0" Grid.Row="1" Orientation="Horizontal" Margin="0,0,-259,1">
             <ListView x:Name="lstView" 
                       IsEnabled="{Binding IsEnableLstView}" 
                       ItemsSource="{Binding EntityObserver, Mode=TwoWay}"
@@ -198,8 +198,8 @@
                 </ListView.View>
             </ListView>
         </StackPanel>
-
-        <StackPanel x:Name="BotoesGeral_sp" Grid.Column="0" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,2,-262,0" IsEnabled="{Binding HabilitaCommandPincipal}">
+        <GridSplitter Grid.Row="2" Foreground="Gray" Height="5" Margin="0,1,-259,0" HorizontalAlignment="Stretch" ></GridSplitter>
+        <StackPanel x:Name="BotoesGeral_sp" Grid.Column="0" Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,2,-262,0" IsEnabled="{Binding HabilitaCommandPincipal}">
 
             <Button x:Name="btnAdicionar"   Content="{StaticResource imgAdd}"       ToolTip="Adicionar"     IsEnabled="{Binding Comportamento.IsEnableCriar}"       Command="{Binding PrepareCriarCommand}"     Width="25" Margin="0,0,5,0"  />
             <Button x:Name="btnEditar"      Content="{StaticResource imgEdit}"      ToolTip="Editar"        IsEnabled="{Binding Comportamento.IsEnableEditar}"      Command="{Binding PrepareAlterarCommand}"   Width="25" Margin="0,0,5,0"  />
@@ -209,7 +209,7 @@
 
         </StackPanel>
 
-        <TabControl SelectedIndex="{Binding SelectedTabIndex, UpdateSourceTrigger=PropertyChanged }" Margin="1,1,-259,-281" Grid.Row="3">
+        <TabControl SelectedIndex="{Binding SelectedTabIndex, UpdateSourceTrigger=PropertyChanged }" Margin="1,1,-259,-281" Grid.Row="4">
 
             <TabItem x:Name="Geral_ti" Background="{x:Null}" Margin="0,-2,0,0" IsEnabled="{Binding IsEnableTabItemGeral}">
 
