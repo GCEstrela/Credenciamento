@@ -261,11 +261,11 @@ namespace IMOD.Infra.Servicos
                 var service = systemConfiguration.CustomFieldService;
                 if (result.Success)
                 {
-                    foreach (DataRow dr in result.Data.Rows)    //sempre remove todas as regras de um CardHolder
-                    {
-                        AccessRule accesso = _sdk.GetEntity((Guid)dr[0]) as AccessRule;
-                        accesso.Members.Remove(cardHolder.Guid);
-                    }
+                    //foreach (DataRow dr in result.Data.Rows)    //sempre remove todas as regras de um CardHolder
+                    //{
+                    //    AccessRule accesso = _sdk.GetEntity((Guid)dr[0]) as AccessRule;
+                    //    accesso.Members.Remove(cardHolder.Guid);
+                    //}
 
                     foreach (DataRow dr in result.Data.Rows)
                     {
@@ -316,39 +316,39 @@ namespace IMOD.Infra.Servicos
         public void RemoveRegraAcesso(CardHolderEntity entity)
         {
 
-            //var accessRule = GetEntities(entity.Identificacao1.ToString(), EntityType.AccessRule);
-            //if (accessRule != null)
+            ////var accessRule = GetEntities(entity.Identificacao1.ToString(), EntityType.AccessRule);
+            ////if (accessRule != null)
 
-            EntityConfigurationQuery query;
-            QueryCompletedEventArgs result;
-            try
-            {
-                var guid = new Guid(entity.IdentificadorCardHolderGuid);
-                var cardHolder = _sdk.GetEntity(guid) as Cardholder;
+            //EntityConfigurationQuery query;
+            //QueryCompletedEventArgs result;
+            //try
+            //{
+            //    var guid = new Guid(entity.IdentificadorCardHolderGuid);
+            //    var cardHolder = _sdk.GetEntity(guid) as Cardholder;
 
-                query = _sdk.ReportManager.CreateReportQuery(ReportType.EntityConfiguration) as EntityConfigurationQuery;
-                query.EntityTypeFilter.Add(EntityType.AccessRule);
-                query.NameSearchMode = StringSearchMode.StartsWith;
-                result = query.Query();
-                SystemConfiguration systemConfiguration = _sdk.GetEntity(SdkGuids.SystemConfiguration) as SystemConfiguration;
-                var service = systemConfiguration.CustomFieldService;
-                if (result.Success)
-                {
-                    _sdk.TransactionManager.CreateTransaction();
-                    foreach (DataRow dr in result.Data.Rows)    //sempre remove todas as regras de um CardHolder
-                    {
-                        AccessRule accesso = _sdk.GetEntity((Guid)dr[0]) as AccessRule;
-                        accesso.Members.Remove(cardHolder.Guid);
-                    }
-                    _sdk.TransactionManager.CommitTransaction();
-                }
+            //    query = _sdk.ReportManager.CreateReportQuery(ReportType.EntityConfiguration) as EntityConfigurationQuery;
+            //    query.EntityTypeFilter.Add(EntityType.AccessRule);
+            //    query.NameSearchMode = StringSearchMode.StartsWith;
+            //    result = query.Query();
+            //    SystemConfiguration systemConfiguration = _sdk.GetEntity(SdkGuids.SystemConfiguration) as SystemConfiguration;
+            //    var service = systemConfiguration.CustomFieldService;
+            //    if (result.Success)
+            //    {
+            //        _sdk.TransactionManager.CreateTransaction();
+            //        foreach (DataRow dr in result.Data.Rows)    //sempre remove todas as regras de um CardHolder
+            //        {
+            //            AccessRule accesso = _sdk.GetEntity((Guid)dr[0]) as AccessRule;
+            //            accesso.Members.Remove(cardHolder.Guid);
+            //        }
+            //        _sdk.TransactionManager.CommitTransaction();
+            //    }
 
-            }
-            catch (Exception ex)
-            {
-                Utils.TraceException(ex);
-                throw;
-            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    Utils.TraceException(ex);
+            //    throw;
+            //}
         }
         private QueryCompletedEventArgs GetEntities(string name, AccessRule eType)
         {
