@@ -40,7 +40,8 @@ namespace IMOD.CredenciamentoDeskTop.Windows
                 motivoCredencialSelecionado = (IMOD.CredenciamentoDeskTop.Views.Model.CredencialMotivoView)lstMotivoCredencial.SelectedItem;
                 status = ((IMOD.CredenciamentoDeskTop.Views.Model.CredencialMotivoView)lstMotivoCredencial.SelectedItem).CredencialMotivoId;
             }
-            ((RelatoriosViewModel)DataContext).OnRelatorioCredenciaisInvalidasFiltroCommand(status, motivoCredencialSelecionado, dataIni, dataFim);
+
+            ((RelatoriosViewModel)DataContext).OnRelatorioAutorizacoesInvalidasFiltroCommand(status, motivoCredencialSelecionado, dataIni, dataFim);
 
             Close();
         }
