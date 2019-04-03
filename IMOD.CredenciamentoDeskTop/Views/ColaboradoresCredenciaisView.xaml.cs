@@ -58,7 +58,18 @@ namespace IMOD.CredenciamentoDeskTop.Views
             _viewModel.ObterValidade();
             _viewModel.CarregarCaracteresColete(_viewModel.ColaboradorEmpresa);
 
+            //if (cmbEmpresaVinculo_cb.IsEnabled)
+            //{
+            //    _viewModel.HabilitaCriar(_viewModel.ColaboradorEmpresa,_viewModel);                
+            //}
+            //else
+            //{
+            //    _viewModel.Entity.ClearMessageErro();
+            //}
+
         }
+
+
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
