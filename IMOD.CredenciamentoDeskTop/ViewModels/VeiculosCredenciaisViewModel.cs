@@ -45,6 +45,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private readonly IEmpresaContratosService _contratosService = new EmpresaContratoService();
         private VeiculoViewModel _viewModelParent;
         private readonly ConfiguraSistema _configuraSistema;
+        private readonly IEmpresaService serviceEmpresa = new EmpresaService();
 
         /// <summary>
         ///     True, Comando de alteração acionado
@@ -262,7 +263,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         public void AtualizarDados(VeiculoView entity, VeiculoViewModel viewModelParent) 
         {
-            if (entity == null) throw new ArgumentNullException (nameof (entity)); 
+            EntityObserver.Clear();
+            if (entity == null) return; // throw new ArgumentNullException (nameof (entity)); 
             _veiculoView = entity;
             _viewModelParent = viewModelParent;
             //Obter dados
@@ -428,11 +430,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
             #region Habilitar botão de impressao e mensagem ao usuario
 
-            //Condição que impede impressão para credenciais extraviadas-9/roubadas-10 sem entregas de BO. 
-            bool isCondicaoImpressaoPorMotivo = entity.CredencialStatusId == 2 && entity.Baixa == null && (entity.DevolucaoEntregaBoId == 0)
-                && (entity.CredencialMotivoId == 9 || entity.CredencialMotivoId == 10);
+            var pendenciaImpeditivaEmpresa = serviceEmpresa.Pendencia.ListarPorEmpresa(entity.EmpresaId).Where(n => n.Impeditivo == true).ToList();
 
-            HabilitaImpressao = entity.Ativa & !entity.PendenciaImpeditiva & !entity.Impressa && entity.Validade >= DateTime.Now.Date && isCondicaoImpressaoPorMotivo; 
+            HabilitaImpressao = entity.Ativa & !entity.PendenciaImpeditiva & !entity.Impressa && entity.Validade >= DateTime.Now.Date && (pendenciaImpeditivaEmpresa.Count <= 0);
             //Verificar se a empresa esta impedida
             var n1 = _service.BuscarCredencialPelaChave(entity.VeiculoCredencialId);
             var mensagem1 = !n1.Ativa ? "Autorização Inativa" : string.Empty;

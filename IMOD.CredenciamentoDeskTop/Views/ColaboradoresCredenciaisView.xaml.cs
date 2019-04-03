@@ -45,7 +45,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
         /// <param name="entity"></param>
         public void AtualizarDados(Model.ColaboradorView entity, ColaboradorViewModel viewModelParent)
         {
-            if (entity == null) return;
+            //if (entity == null) return;
             _viewModel.AtualizarDados (entity, viewModelParent); 
         }
 
@@ -57,11 +57,23 @@ namespace IMOD.CredenciamentoDeskTop.Views
             _viewModel.ListarCracha (_viewModel.ColaboradorEmpresa.EmpresaId);
             _viewModel.ObterValidade();
             _viewModel.CarregarCaracteresColete(_viewModel.ColaboradorEmpresa);
+
+            //if (cmbEmpresaVinculo_cb.IsEnabled)
+            //{
+            //    _viewModel.HabilitaCriar(_viewModel.ColaboradorEmpresa,_viewModel);                
+            //}
+            //else
+            //{
+            //    _viewModel.Entity.ClearMessageErro();
+            //}
+
         }
+
+
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            cmbEmpresaVinculo.SelectionChanged += EmpresaVinculo_cb_SelectionChanged;
+            cmbEmpresaVinculo_cb.SelectionChanged += EmpresaVinculo_cb_SelectionChanged;
 
             
         }
@@ -170,11 +182,13 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 if (_viewModel.ExisteNumeroCredencial())
                     _viewModel.Entity.SetMessageErro("NumeroCredencial", "Nº da Credencial já existe");
                     NumeroCredencial_tb.Text = nCredencial;
+                
             }
             catch (Exception)
             {
                 _viewModel.Entity.SetMessageErro("Cnpj", "CNPJ inválido");
             }
         }
+
     }
 }

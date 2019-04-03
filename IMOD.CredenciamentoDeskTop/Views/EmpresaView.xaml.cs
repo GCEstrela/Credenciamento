@@ -92,7 +92,9 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 Descricao = _viewModel.TipoAtividade.Descricao
             };
             _viewModel.TiposAtividades.Add(n1);
-             
+            _viewModel.TipoAtividade = null;
+            //TipoAtividade_cb.SelectedIndex = 0;
+
         }
 
         /// <summary>
@@ -108,7 +110,8 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 LayoutCrachaId = _viewModel.TipoCracha.LayoutCrachaId,
                 Nome = _viewModel.TipoCracha.Nome
             };
-            _viewModel.TiposLayoutCracha.Add(n1); 
+            _viewModel.TiposLayoutCracha.Add(n1);
+            _viewModel.TipoCracha = null;
         }
 
         /// <summary>

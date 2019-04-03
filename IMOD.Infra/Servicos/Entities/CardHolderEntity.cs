@@ -25,6 +25,8 @@ namespace IMOD.Infra.Servicos.Entities
         private string _cargo;
         private string _numeroCredencial;
         private string _identificador;
+        private string _identificacao1;
+        private string _identificacao2;
 
         #region  Propriedades
         public bool Ativo { get; set; }
@@ -100,8 +102,9 @@ namespace IMOD.Infra.Servicos.Entities
         /// Formato da credencial
         /// </summary>
         public string FormatoCredencial { get; set; }
-
+        public string Identificacao1 { get; set; }
+        public string Identificacao2 { get; set; }
         #endregion
-         
+
     }
 }

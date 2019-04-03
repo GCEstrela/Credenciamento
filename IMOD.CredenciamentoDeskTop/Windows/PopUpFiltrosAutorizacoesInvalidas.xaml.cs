@@ -14,6 +14,7 @@ namespace IMOD.CredenciamentoDeskTop.Windows
             InitializeComponent();
             DataContext = new RelatoriosViewModel();
             MouseDown += Window_MouseDown;
+            ((RelatoriosViewModel)DataContext).CarregaMotivoCredenciais(2);//Carregar os motivos do status 2 - inativo 
         }
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
@@ -29,44 +30,22 @@ namespace IMOD.CredenciamentoDeskTop.Windows
 
         private void button_ClickFiltrar(object sender, RoutedEventArgs e)
         {
-            int status;
-            string DataIni = dp_dataInicial.Text;
-            string DataFim = dp_dataFinal.Text;
+            int status = 0;
+            IMOD.CredenciamentoDeskTop.Views.Model.CredencialMotivoView motivoCredencialSelecionado = null; 
+            string dataIni = dp_dataInicial.Text; 
+            string dataFim = dp_dataFinal.Text; 
 
-            //EXTRAVIADAS
-            if (extraviadas_rb.IsChecked.Value)
+            if (lstMotivoCredencial.SelectedItem != null)
             {
-                status = 1;
-            }
-            //ROUBADAS
-            else if (roubadas_rb.IsChecked.Value)
-            {
-                status = 2;
-            }
-            //DESTRUIDAS
-            else if (destruidas_rb.IsChecked.Value)
-            {
-                status = 3;
-            }
-            //NÂO DEVOLVIDA
-            else if (naodevolvidas_rb.IsChecked.Value)
-            {
-                status = 4;
-            }
-            //INDEFERIDAS
-            else if (indeferidas_rb.IsChecked.Value)
-            {
-                status = 5;
-            }
-            //TUDO
-            else
-            {
-                status = 0;
+                motivoCredencialSelecionado = (IMOD.CredenciamentoDeskTop.Views.Model.CredencialMotivoView)lstMotivoCredencial.SelectedItem;
+                status = ((IMOD.CredenciamentoDeskTop.Views.Model.CredencialMotivoView)lstMotivoCredencial.SelectedItem).CredencialMotivoId;
             }
 
-            ((RelatoriosViewModel)DataContext).OnRelatorioAutorizacoesInvalidasFiltroCommand(status, DataIni, DataFim);
+            ((RelatoriosViewModel)DataContext).OnRelatorioAutorizacoesInvalidasFiltroCommand(status, motivoCredencialSelecionado, dataIni, dataFim);
 
             Close();
         }
+
+       
     }
 }

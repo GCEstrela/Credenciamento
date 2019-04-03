@@ -33,5 +33,14 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public string Identificacao2 { get; set; }
         public string CNHCategoria { get; set; }
         public string LayoutRPT { get; set; }
+        public string CrachaCursos { get; set; }
+        public string ImpressaoMotivo { get; set; }
+        public string TerceirizadaNome { get; set; }
+        public string RNE { get; set; }
+        public string Passaporte { get; set; }
+        public DateTime PassaporteValidade { get; set; }
+        public bool ManuseioBagagem { get; set; }
+        public bool Motorista { get; set; }
+        public string Cnh { get; set; }
     }
 }

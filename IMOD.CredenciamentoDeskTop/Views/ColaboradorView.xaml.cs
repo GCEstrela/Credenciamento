@@ -7,6 +7,7 @@
 #region
 
 using System;
+using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
@@ -238,11 +239,19 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
                 BitmapSource _img = _PopupWebCam.Captura;
 
+                if (_img != null)
+                {                    
+                    string _imgstr = WpfHelp.IMGtoSTR(_img);
+                    Logo_im.Source = _img;
+                    _viewModel.Entity.Foto = _imgstr;
+                }
+
             }
             catch (Exception ex)
             {
                 Utils.TraceException(ex);
             }
         }
+       
     }
 }

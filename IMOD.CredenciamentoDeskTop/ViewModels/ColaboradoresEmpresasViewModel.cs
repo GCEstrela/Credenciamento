@@ -33,7 +33,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private readonly IEmpresaContratosService _empresaContratoService = new EmpresaContratoService();
         private readonly IEmpresaService _empresaService = new EmpresaService();
         private readonly IColaboradorEmpresaService _service = new ColaboradorEmpresaService();
-        
+        private readonly IColaboradorCredencialService _servicecredencial = new ColaboradorCredencialService();
+
         private readonly object _auxiliaresService;
         private ColaboradorView _colaboradorView;
        
@@ -64,6 +65,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public bool IsEnableComboContrato { get {
                 return !_configuraSistema.Contrato;
             } }
+        /// <summary>
+        ///     Habilita Combo de Contratos
+        /// </summary>
+        public bool IsEnableColete { get; private set; } = true;        
         #endregion
 
         public ColaboradoresEmpresasViewModel()
@@ -107,6 +112,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             Contratos = new List<EmpresaContrato>();
             ListarDadosEmpresaContratos();
             _configuraSistema = ObterConfiguracao();
+            _configuraSistema = ObterConfiguracao();
+            if (!_configuraSistema.Colete) //Se Cole não for automático false
+            {
+                IsEnableColete = false;
+            }
         }
 
         public void ListarContratos(Empresa empresa)
@@ -141,14 +151,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var l3 = _empresaContratoService.Listar().ToList();
                 Contratos = l3;
                 base.OnPropertyChanged ("Entity");
-
-                //_configuraSistema = ObterConfiguracao();
-                //if (_configuraSistema.Contrato) //Se contrato for automático for true a combo sera removida do formulário
-                //{
-                //    IsEnableComboContrato = false;
-                //}
-                
-                
 
             }
             catch (Exception ex)
@@ -199,6 +201,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 }
 
                 _service.Criar(n1);
+
+                #region Verificar se pode gerar CardHolder
+                
+
+                #endregion
                 //Adicionar no inicio da lista um item a coleção
                 var n2 = Mapper.Map<ColaboradorEmpresaView>(n1);
                 //Adicionar o nome da empresa e o contrato
@@ -358,8 +365,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <param name="entity"></param>
         public void AtualizarDados(ColaboradorView entity)
         {
-            if (entity == null)
-                throw new ArgumentNullException(nameof(entity));
+            EntityObserver.Clear();
+            if (entity == null) return;
+                //throw new ArgumentNullException(nameof(entity));
              
 
             _colaboradorView = entity;

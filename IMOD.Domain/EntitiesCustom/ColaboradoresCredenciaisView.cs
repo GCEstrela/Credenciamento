@@ -29,8 +29,9 @@ namespace IMOD.Domain.EntitiesCustom
         public string CardHolderGuid { get; set; }
         public int ColaboradorPrivilegio1Id { get; set; }
         public int ColaboradorPrivilegio2Id { get; set; }
-        private string _colete;
-        public string Colete { get { return _colete = ColaboradorId > 0 ? EmpresaSigla.Trim().ToString() + Convert.ToString(ColaboradorId) : _colete; } set { _colete = value; } }
+        //private string _colete;
+        //public string Colete { get { return _colete = ColaboradorId > 0 ? EmpresaSigla.Trim().ToString() + Convert.ToString(ColaboradorId) : _colete; } set { _colete = value; } }
+        public string Colete { get; set; }
         [Range(1, int.MaxValue, ErrorMessage = "A motivação é requerida.")]
         public int CredencialMotivoId { get; set; }
         public bool Impressa { get; set; }
@@ -69,9 +70,21 @@ namespace IMOD.Domain.EntitiesCustom
         /// </summary>
         public bool PendenciaImpeditiva { get; set; }
 
-        public DateTime? DataStatus { get; set; }
-        public int DevolucaoEntregaBoId { get; set; }
+        public string CredencialMotivoDescricao { get; set; }
+        public DateTime? DataImpressao { get; set; }
+        public decimal Valor { get; set; }
+        public string TiposCobrancaNome { get; set; }
+        public string EmpresasContratosNome { get; set; }
+        public string Identificacao { get; set; }
+        public int AreaAcessoId { get; set; }
+        public string IdentificacaoDescricao { get; set; }
 
+        public DateTime? DataStatus { get; set; }
+        public int DevolucaoEntregaBoId { get; set; }        
+        public string NumeroColete { get; set; }
+        public bool Policiafederal { get; set; }
+        public bool Receitafederal { get; set; }
+        public bool Segurancatrabalho { get; set; }
 
     }
 }

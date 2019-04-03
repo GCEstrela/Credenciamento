@@ -12,6 +12,7 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
 
         public int CursoId { get; set; }
         public string Descricao { get; set; }
+        public bool Cracha { get; set; }
 
         #endregion
     }

@@ -10,13 +10,17 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using AutoMapper;
 using IMOD.Application.Interfaces;
 using IMOD.Application.Service;
+using IMOD.CredenciamentoDeskTop.Funcoes;
 using IMOD.CredenciamentoDeskTop.Helpers;
 using IMOD.CredenciamentoDeskTop.ViewModels.Commands;
 using IMOD.CredenciamentoDeskTop.ViewModels.Comportamento;
@@ -217,6 +221,27 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 Utils.TraceException (ex);
             }
         }
+        public void carregaFoto(ImageSource minhaFoto)
+        {
+            
+
+            //WriteableBitmap wbmp = new WriteableBitmap((BitmapSource)minhaFoto);
+            //MemoryStream ms = new MemoryStream();
+            ////wbmp.s(ms, wbmp.PixelWidth, wbmp.PixelHeight, 0, 100);
+            ////return ms.ToArray();
+
+            //var width = wbmp.PixelWidth;
+            //var height = wbmp.PixelHeight;
+            //var stride = width * ((wbmp.Format.BitsPerPixel + 7) / 8);
+
+            //var bitmapData = new byte[height * stride];
+
+            //wbmp.CopyPixels(bitmapData, stride, 0);
+
+
+            //Entity.Foto = bitmapData.ToString();
+        }
+        
 
         private void Pesquisar()
         {
@@ -330,24 +355,30 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public bool Validar()
         {
             if (Entity == null) return true;
-            Entity.Validate();
-            var hasErros = Entity.HasErrors;
-            if (hasErros) return true;
-            //Verificar valiade de cpf
-            if (EInValidoCpf())
+            if (Entity.Cpf != null & Entity.Cpf != "")
             {
-                Entity.SetMessageErro ("Cpf", "CPF inválido");
-                return true;
+                Entity.Validate();
+                var hasErros = Entity.HasErrors;
+                if (hasErros) return true;
+                //Verificar valiade de cpf
+                if (EInValidoCpf())
+                {
+                    Entity.SetMessageErro ("Cpf", "CPF inválido");
+                    return true;
+                }
+                //Verificar existência de CPF
+                if (ExisteCpf())
+                {
+                    Entity.SetMessageErro ("Cpf", "CPF já existe");
+                    return true;
+                }
+                return Entity.HasErrors;
             }
-
-            //Verificar existência de CPF
-            if (ExisteCpf())
+            else
             {
-                Entity.SetMessageErro ("Cpf", "CPF já existe");
-                return true;
+                return false;
             }
-
-            return Entity.HasErrors;
+            
         }
 
         #endregion
@@ -498,7 +529,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             try
             {
                 if (Entity == null) return;
-                if (Validar()) return;
+                
+                    if (Validar()) return;
+                
                 var n1 = Mapper.Map<Colaborador> (Entity);
                 _service.Alterar (n1);
                 HabilitaControle (true, true);

@@ -98,8 +98,9 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         {
             return (!string.IsNullOrEmpty(Passaporte) && PassaporteValidade != null);
         }
-
-
+        public bool Policiafederal { get; set; }
+        public bool Receitafederal { get; set; }
+        public bool Segurancatrabalho { get; set; }
 
         #endregion
 

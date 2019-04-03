@@ -66,7 +66,8 @@
         </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="35" />
-            <RowDefinition Height="184" />
+            <RowDefinition MinHeight="40" Height="70"/>
+            <RowDefinition Height="5"/>
             <RowDefinition Height="30" />
             <RowDefinition Height="241" />
         </Grid.RowDefinitions>
@@ -92,8 +93,7 @@
         </StackPanel>
 
 
-        <StackPanel x:Name="ListaEmpresas_sp" Grid.Column="0" Grid.Row="1" Orientation="Horizontal" Margin="0,0,-259,0"
-                    Height="184" VerticalAlignment="Top">
+        <StackPanel x:Name="ListaEmpresas_sp" Grid.Column="0" Grid.Row="1" Orientation="Horizontal" Margin="0,0,-259,1">
             <ListView x:Name="lstView" ItemsSource="{Binding EntityObserver, Mode=TwoWay}"
                       IsEnabled="{Binding IsEnableLstView}"
                       SelectedIndex="{Binding SelectListViewIndex}"
@@ -122,9 +122,9 @@
 
             </StackPanel>-->
         </StackPanel>
-
+        <GridSplitter Grid.Row="2" Foreground="Gray" Height="5" Margin="0,1,-259,0" HorizontalAlignment="Stretch" ></GridSplitter>
         <!--<Label Content="{Binding Entity.Nome}" Grid.Column="0" Grid.Row="2" FontSize="14" Foreground="#FF007ACC" Margin="0,1,-94,2" />-->
-        <StackPanel x:Name="BotoesGeral_sp" Grid.Column="0" Grid.Row="2" Orientation="Horizontal"
+        <StackPanel x:Name="BotoesGeral_sp" Grid.Column="0" Grid.Row="3" Orientation="Horizontal"
                     HorizontalAlignment="Right" Margin="0,2,-262,0" IsEnabled="{Binding HabilitaCommandPincipal}">
 
             <Button x:Name="btnAdicionar" Content="{StaticResource imgAdd}" ToolTip="Adicionar"
@@ -150,7 +150,7 @@
         <TabControl x:Name="TabGeral_tc"
                     SelectedIndex="{Binding SelectedTabIndex }"
                     Height="562"
-                    Width="1259" Margin="1,1,-259,-321" Grid.Row="3">
+                    Width="1259" Margin="1,1,-259,-321" Grid.Row="4">
 
 
             <TabItem x:Name="Geral_ti" Background="{x:Null}" Margin="0,-2,0,0" IsEnabled="{Binding IsEnableTabGeral}">
@@ -194,7 +194,7 @@
                                              VerticalContentAlignment="Center"
                                              Text="{Binding Entity.Cnpj, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                              HorizontalContentAlignment="Center"
-                                             Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
+                                              
                                              LostFocus="TxtCnpj_LostFocus" />
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
@@ -203,7 +203,7 @@
                                            Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                                     <TextBox CharacterCasing="Upper" Text="{Binding Entity.Nome}" x:Name="Nome_tb"
                                              MaxLength="100" IsEnabled="True" Height="24" Width="304"
-                                             Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
+                                               />
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
                                             HorizontalAlignment="Left" Margin="1">
@@ -212,14 +212,14 @@
                                     <TextBox CharacterCasing="Upper" x:Name="Apelido_tb" MaxLength="50"
                                              Text="{Binding Entity.Apelido, UpdateSourceTrigger=PropertyChanged}"
                                              IsEnabled="True" Height="24" Width="200"
-                                             Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
+                                               />
 
                                     <Label Content="Sigla:" Height="28" Width="53" Margin="1" Foreground="#FFD0D0D0"
                                            HorizontalContentAlignment="Right" />
                                     <TextBox CharacterCasing="Upper"  x:Name="Sigla_tb" MaxLength="3"
                                              Text="{Binding Entity.Sigla, UpdateSourceTrigger=PropertyChanged}"
                                              HorizontalContentAlignment="Center" IsEnabled="True" Height="24" Width="49" 
-                                             Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" LostFocus="Sigla_tb_LostFocus" />
+                                               LostFocus="Sigla_tb_LostFocus" />
 
                                 </StackPanel>
 
@@ -264,7 +264,7 @@
                                 <TextBox CharacterCasing="Upper" x:Name="Endereco_tb" MaxLength="100"
                                          Text="{Binding Entity.Endereco, UpdateSourceTrigger=PropertyChanged}"
                                          IsEnabled="True" Height="24" Width="455" 
-                                         Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
+                                           />
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                         Margin="1,1,0,1" Width="562">
@@ -279,7 +279,7 @@
                                          PreviewTextInput="NumberOnly"
                                          Text="{Binding Entity.Cep,  UpdateSourceTrigger=PropertyChanged, Converter={StaticResource FormatCep}}"
                                          IsEnabled="True" Height="24" Width="98" 
-                                         Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
+                                           />
                                 <Label Content="Complemento:" Height="28" Width="89" Margin="0,0,5,0"
                                        Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
                                 <TextBox CharacterCasing="Upper" x:Name="Complemento_tb" MaxLength="50"
@@ -293,7 +293,7 @@
                                 <TextBox CharacterCasing="Upper" x:Name="Bairro_tb" MaxLength="50"
                                          Text="{Binding Entity.Bairro,   UpdateSourceTrigger=PropertyChanged}"
                                          IsEnabled="True" Height="23" Width="152" Margin="1" 
-                                         Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
+                                           />
                                 <Label Content="UF:" Height="28" Width="30" Margin="1" Foreground="#FFD0D0D0"
                                        HorizontalContentAlignment="Right" />
 
@@ -305,7 +305,7 @@
                                           IsEditable="True"
                                           SelectedIndex="0"
                                           SelectedItem="{Binding Estado}"
-                                          Width="53" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
+                                          Width="53"   />
 
                                 <Label Content="Cidade:" Height="28" Width="51" HorizontalContentAlignment="Right"
                                        Foreground="#FFD0D0D0" Margin="0,2,0,3" />
@@ -315,7 +315,7 @@
                                           SelectedValuePath="MunicipioId"
                                           SelectedIndex="0"
                                           IsEditable="True"
-                                          Margin="0,2,0,3" Width="167" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
+                                          Margin="0,2,0,3" Width="167"   />
                             </StackPanel>
                         </StackPanel>
                     </GroupBox>
@@ -333,14 +333,14 @@
                                          IsEnabled="True" Height="24" Width="250" />
                                 <Label Content="Telefone:" Height="28" Width="68" Margin="1" Foreground="#FFD0D0D0"
                                        HorizontalContentAlignment="Right" 
-                                       Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
+                                         />
                                 <TextBox Foreground="#FFD0D0D0"
                                          CharacterCasing="Upper"
                                          PreviewTextInput="NumberOnly"
                                          x:Name="Tel1_tb" MaxLength="15" Margin="1"
                                          Text="{Binding Entity.Telefone1, Converter={StaticResource FormateTel}, UpdateSourceTrigger=PropertyChanged}"
                                          IsEnabled="True" Height="24" Width="98" HorizontalContentAlignment="Center" 
-                                         Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
+                                           />
 
                             </StackPanel>
 
@@ -351,7 +351,7 @@
                                 <TextBox CharacterCasing="Lower" x:Name="Email1_tb" Margin="1" MaxLength="50"
                                          Text="{Binding Entity.Email1, UpdateSourceTrigger=PropertyChanged}"
                                          IsEnabled="True" Height="24" Width="250" 
-                                         Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
+                                           />
                                 <Label Content="Celular 1:" Height="28" Width="66" Margin="1" Foreground="#FFD0D0D0"
                                        HorizontalContentAlignment="Right" />
                                 <TextBox Foreground="#FFD0D0D0" PreviewTextInput="NumberOnly" CharacterCasing="Upper"

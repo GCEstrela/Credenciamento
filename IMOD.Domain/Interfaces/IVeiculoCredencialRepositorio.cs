@@ -90,6 +90,41 @@ namespace IMOD.Domain.Interfaces
         /// <returns></returns>
         VeiculoCredencial ObterCredencialPeloNumeroCredencial(string numCredencial);
 
+        /// <summary>
+        ///    Listar Veiculos / credenciais concedidas
+        /// </summary>
+        /// <param name="entity">entity</param>
+        /// <returns></returns>
+        List<VeiculosCredenciaisView> ListarVeiculoCredencialConcedidasView(FiltroReportVeiculoCredencial entity);
+
+        /// <summary>
+        ///    Listar Veiculos / credenciais vias adicionais
+        /// </summary>
+        /// <param name="entity">entity</param>
+        /// <returns></returns>
+        List<VeiculosCredenciaisView> ListarVeiculoCredencialViaAdicionaisView(FiltroReportVeiculoCredencial entity);
+
+        /// <summary>
+        ///    Listar Veiculos / credenciais inválidas
+        /// </summary>
+        /// <param name="entity">entity</param>
+        /// <returns></returns>
+        List<VeiculosCredenciaisView> ListarVeiculoCredencialInvalidasView(FiltroReportVeiculoCredencial entity);
+
+        /// <summary>
+        ///    Listar veiculos credenciais - impressoes 
+        /// </summary>
+        /// <param name="entity">entity</param>
+        /// <returns></returns>
+        List<VeiculosCredenciaisView> ListarVeiculoCredencialImpressoesView(FiltroReportVeiculoCredencial entity);
+
+        /// <summary> 
+        ///    Listar veiculos credenciais - permanentes ativos por área
+        /// </summary> 
+        /// <param name="entity">entity</param>
+        /// <returns></returns>
+        List<VeiculosCredenciaisView> ListarVeiculoCredencialPermanentePorAreaView(FiltroReportVeiculoCredencial entity);
+
         #endregion
     }
 }

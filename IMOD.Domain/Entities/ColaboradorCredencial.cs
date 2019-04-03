@@ -38,7 +38,13 @@ namespace IMOD.Domain.Entities
         public DateTime? Baixa { get; set; }
         public DateTime? DataStatus { get; set; }
         public int DevolucaoEntregaBoId { get; set; }
-
+        public int ColaboradorId { get; set; }
+        public string ColaboradorNome { get; set; }
+        public bool Policiafederal { get; set; }
+        public bool Receitafederal { get; set; }
+        public bool Segurancatrabalho { get; set; }
+        public string Identificacao1 { get; set; }
+        public string Identificacao2 { get; set; }
         #endregion
     }
 }

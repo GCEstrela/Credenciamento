@@ -1,4 +1,5 @@
-﻿using iModSCCredenciamento.Funcoes;
+﻿using IMOD.CredenciamentoDeskTop.ViewModels;
+using iModSCCredenciamento.Funcoes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using IMOD.CredenciamentoDeskTop.Helpers;
 using System.Windows.Shapes;
 
 namespace iModSCCredenciamento.Windows
@@ -20,9 +22,12 @@ namespace iModSCCredenciamento.Windows
     /// </summary>
     public partial class PopupWebCam : Window
     {
+        private readonly ColaboradorViewModel _viewModel;
         public PopupWebCam()
         {
             InitializeComponent();
+            _viewModel = new ColaboradorViewModel();
+            DataContext = _viewModel;
         }
 
         
@@ -31,8 +36,6 @@ namespace iModSCCredenciamento.Windows
             get { return (BitmapSource)imgCapture.Source; }
            
         }
-
-
 
         WebCam webcam;
 
@@ -56,21 +59,13 @@ namespace iModSCCredenciamento.Windows
         }
 
         private void Capturar_bt_Click(object sender, RoutedEventArgs e)
-        {
-            
+        {         
             imgCapture.Source = imgVideo.Source;
         }
 
         private void Aceitar_bt_Click(object sender, RoutedEventArgs e)
-        {
-            //result = "Fechou";
+        {           
             this.Close();
-            //BitmapImage _img = (BitmapImage)imgCapture.Source;
-
-            //string _imgstr = Conversores.IMGtoSTR(_img);
-
-            //Foto_im.Source = _img;
-            //((ClasseColaboradores.Colaborador)ListaColaboradores_lv.SelectedItem).Foto = _imgstr; 
         }
     }
 }

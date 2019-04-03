@@ -337,6 +337,28 @@ namespace IMOD.Infra.Ado.Interfaces.ParamSql
             return Fill(sintaxe);
         }
 
+        /// <summary>
+        ///     Monta instrução [Where] da clausula SQL pesquisando pelo valor menor ou igual informado no respestivo campo
+        ///     <para>Ex: Campo <= @CampoA</para> 
+        /// </summary>
+        /// <returns></returns>
+        public ParamSelect MenorIgual()
+        {
+            var sintaxe = " {0} <=@{0} ".ToLower();
+            return Fill(sintaxe); 
+        }
+
+        /// <summary>
+        ///     Monta instrução [Where] da clausula SQL pesquisando pelo valor diferente do informado no respestivo campo
+        ///     <para>Ex: Campo <> @CampoA</para> 
+        /// </summary>
+        /// <returns></returns>
+        public ParamSelect Diferente()
+        {
+            var sintaxe = " {0} <>@{0} ".ToLower();
+            return Fill(sintaxe);
+        }
+
         #endregion
     }
 }

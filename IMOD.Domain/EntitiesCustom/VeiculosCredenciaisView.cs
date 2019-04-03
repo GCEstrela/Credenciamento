@@ -34,6 +34,8 @@ namespace IMOD.Domain.EntitiesCustom
         public string Colete { get; set; }
         [Range(1, int.MaxValue, ErrorMessage = "A motivação é requerida.")]
         public int CredencialMotivoId { get; set; }
+        public int CredencialMotivoId1 { get; set; }
+        public string CredencialMotivoDescricao { get; set; }
         public bool Impressa { get; set; }
         public bool Ativa { get; set; }
         public DateTime? Baixa { get; set; }
@@ -52,9 +54,12 @@ namespace IMOD.Domain.EntitiesCustom
         public string Cnpj { get; set; }
         public string LayoutCrachaGuid { get; set; }
         public string FormatIdguid { get; set; }
+        public string Identificacao { get; set; }
         public string Identificacao1 { get; set; }
         public string Identificacao2 { get; set; }
+        public string IdentificacaoDescricao { get; set; }
         public bool IsencaoCobranca { get; set; }
+        
         /// <summary>
         /// True, possue pendencia impeditiva
         /// </summary>

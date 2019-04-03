@@ -75,7 +75,12 @@ namespace IMOD.Application.Interfaces
         /// <param name="numCredencial"></param>
         /// <returns></returns>
         bool ExisteNumeroCredencial(string numCredencial);
-
+        /// <summary>
+        /// Verificar se um número credencial
+        /// </summary>
+        /// <param name="numColete"></param>
+        /// <returns></returns>
+        ColaboradorCredencial ExisteNumeroColete(int colavoradorid,string numColete);
         ///// <summary>
         /////     Criar um titular de cartão no sub-sistema de credenciamento (Genetec)
         ///// </summary>

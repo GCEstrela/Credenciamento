@@ -14,6 +14,7 @@ using IMOD.Domain.Entities;
 using IMOD.Domain.EntitiesCustom;
 using IMOD.Domain.Interfaces;
 using IMOD.Infra.Repositorios;
+using System.Linq;
 
 #endregion
 
@@ -244,6 +245,27 @@ namespace IMOD.Application.Service
 
         {
             return _repositorio.ListarTipoCredenciaisEmpresa (empresaId);
+        }
+
+        /// <summary>
+        ///     Listar
+        /// </summary>
+        /// <param name="objects">Expressão de consulta</param>
+        /// <returns></returns>
+        public ICollection<Empresa> ListarEmpresasPendentes(params object[] objects)
+        {
+            var d1 = _repositorio.ListarEmpresasPendentes(objects).ToList<Empresa>();
+            ICollection<Empresa> empresasPendentes = new List<Empresa>();            
+            d1.ForEach(e =>
+            {
+                var pendencias = Pendencia.ListarPorEmpresa(e.EmpresaId);
+                bool ativa = pendencias.Any(p => p.Ativo == true);
+                if (pendencias.Any() && ativa)
+                {
+                    empresasPendentes.Add(e);
+                }
+            });           
+            return empresasPendentes;
         }
 
         #endregion

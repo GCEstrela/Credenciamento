@@ -167,7 +167,8 @@
         </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="35" />
-            <RowDefinition Height="184"/>
+            <RowDefinition MinHeight="40" Height="70"/>
+            <RowDefinition Height="5"/>
             <RowDefinition Height="30" />
             <RowDefinition Height="241" />
         </Grid.RowDefinitions>
@@ -191,8 +192,7 @@
         </StackPanel>
 
 
-        <StackPanel x:Name="ListaColaboradores_sp" Grid.Column="0" Grid.Row="1" Orientation="Horizontal"
-                    Margin="0,0,-259,0" Height="184" VerticalAlignment="Top">
+        <StackPanel x:Name="ListaColaboradores_sp" Grid.Column="0" Grid.Row="1" Orientation="Horizontal" Margin="0,0,-259,1">
             <ListView x:Name="lstView"                    
                       IsEnabled="{Binding IsEnableLstView}"
                       ItemsSource="{Binding EntityObserver, Mode=TwoWay}"
@@ -232,9 +232,9 @@
 
             </StackPanel>-->
         </StackPanel>
-
+        <GridSplitter Grid.Row="2" Foreground="Gray" Height="5" Margin="0,1,-259,0" HorizontalAlignment="Stretch" ></GridSplitter>
         <!--<Label Content="{Binding Entity.Nome }" Grid.Column="0" Grid.Row="2" FontSize="14" Foreground="#FF007ACC" Margin="0,1,-94,2" />-->
-        <StackPanel x:Name="BotoesGeral_sp" Grid.Column="0" Grid.Row="2" Orientation="Horizontal"
+        <StackPanel x:Name="BotoesGeral_sp" Grid.Column="0" Grid.Row="3" Orientation="Horizontal"
                     HorizontalAlignment="Right" Margin="0,2,-262,0" IsEnabled="{Binding HabilitaCommandPincipal}">
 
             <Button x:Name="btnAdicionar" Content="{StaticResource imgAdd}" ToolTip="Adicionar"
@@ -258,7 +258,7 @@
                     SelectedIndex="{Binding SelectedTabIndex }"
                     Height="562"
                     Width="1259" Margin="1,1,-259,-321"
-                    Grid.Row="3">
+                    Grid.Row="4">
 
             <TabItem x:Name="Geral_ti" Background="{x:Null}" Margin="0,-2,0,0" IsEnabled="{Binding IsEnableTabItemGeral}">
 
@@ -388,7 +388,7 @@
                     </GroupBox>
 
                     <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" Background="Brown"
-                              Grid.Column="0" Header="Endereço" Margin="0,192,0,0" Height="205" VerticalAlignment="Top"
+                              Grid.Column="0" Header="Endereço" Margin="0,192,0,0" Height="130" VerticalAlignment="Top"
                               Grid.ColumnSpan="2">
                         <StackPanel Margin="1">
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
@@ -445,7 +445,17 @@
                             </StackPanel>
                         </StackPanel>
                     </GroupBox>
-
+                    <!--<GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" Background="Brown" Visibility="Collapsed"
+                              Grid.Column="0" Header="Autorizações" Margin="0,315,0,0" Height="130" VerticalAlignment="Top"
+                              Grid.ColumnSpan="2">
+                        <StackPanel Margin="60,5,0,0" >
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                <CheckBox Name="PF_chek" Content="Policia Federal" Margin="43,0,0,0"    IsChecked="{Binding Entity.Policiafederal, UpdateSourceTrigger=PropertyChanged}"   Foreground="#FFD0D0D0"></CheckBox>
+                                <CheckBox Name="P2F" Content="Refeita Federal" Margin="30,0,0,0"        IsChecked="{Binding Entity.Receitafederal, UpdateSourceTrigger=PropertyChanged}"   Foreground="#FFD0D0D0"></CheckBox>
+                                <CheckBox Name="P3F" Content="Segurança do Trabalho" Margin="30,0,0,0"  IsChecked="{Binding Entity.Segurancatrabalho, UpdateSourceTrigger=PropertyChanged}"   Foreground="#FFD0D0D0"></CheckBox>
+                            </StackPanel>
+                        </StackPanel>
+                    </GroupBox>-->
                     <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" Background="Crimson"
                               x:Name="Contato1_gb" Header="Contatos " VerticalAlignment="Top" Margin="486,0,-610,0"
                               Height="192" Grid.Column="1">
@@ -663,8 +673,8 @@
                                        HorizontalContentAlignment="Right" />
                                 <ComboBox x:Name="CNHEmissor_cb" IsEditable="false" 
                                           Text="{Binding Entity.CnhEmissor,
-                                    UpdateSourceTrigger=PropertyChanged}"
-                                          HorizontalContentAlignment="Center" IsEnabled="True" Width="85" Height="25" SelectedIndex="0">
+                                           UpdateSourceTrigger=PropertyChanged}"
+                                          HorizontalContentAlignment="Center" IsEnabled="true" Width="85" Height="25" SelectedIndex="0">
                                     <ComboBoxItem>DETRAN</ComboBoxItem>
                                 </ComboBox>
                                 <Label Foreground="#FFD0D0D0" Content="UF:" Width="58" Height="24" Margin="0,3,0,3"

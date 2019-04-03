@@ -126,6 +126,8 @@ namespace IMOD.Application.Service
                 Cpf = entity.Cpf,
                 Cargo = entity.Cargo,
                 Identificador = entity.Cpf,
+                Identificacao1 = entity.Identificacao1,
+                Identificacao2 = entity.Identificacao2,
                 Apelido = entity.ColaboradorApelido,
                 IdentificadorCardHolderGuid = entity.CardHolderGuid,
                 IdentificadorCredencialGuid = entity.CredencialGuid,
@@ -135,6 +137,7 @@ namespace IMOD.Application.Service
                 Validade = dataValidade.AddDays(1), 
                 NumeroCredencial = entity.NumeroCredencial,
                 IdentificadorLayoutCrachaGuid = entity.LayoutCrachaGuid
+               
             };
             return titularCartao;
         }
@@ -182,15 +185,33 @@ namespace IMOD.Application.Service
             var n1 = ObterCredencialPeloNumeroCredencial (doc);
             return n1 != null;
         }
+        /// <summary>
+        ///     Verificar se um número credencial
+        /// </summary>
+        /// <param name="numColete"></param>
+        /// <returns></returns>
+        public ColaboradorCredencial ExisteNumeroColete(int colaboradorid,string numColete)
+        {
+            if (string.IsNullOrWhiteSpace(numColete)) return null;
 
+            var doc = numColete;
+            var n1 = ObterNumeroColete(colaboradorid,doc);
+            return n1;
+        }
         /// <summary>
         ///     Alterar registro
         /// </summary>
         /// <param name="entity"></param>
         public void Alterar(ColaboradorCredencial entity)
         {
-            ObterStatusCredencial (entity);
-            _repositorio.Alterar (entity);
+            _repositorio.Alterar(entity);
+            //OnPropertyChanged("Entity");
+            //CollectionViewSource.GetDefaultView(EntityObserver).Refresh();
+
+            entity = BuscarPelaChave(entity.ColaboradorCredencialId);
+
+            ObterStatusCredencial(entity);
+
         }
 
         public ColaboradoresCredenciaisView BuscarCredencialPelaChave(int colaboradorCredencialId)
@@ -247,7 +268,15 @@ namespace IMOD.Application.Service
         {
             return _repositorio.ObterCredencialPeloNumeroCredencial (numCredencial);
         }
-
+        /// <summary>
+        ///     Obter dados da credencial pelo numero da credencial
+        /// </summary>
+        /// <param name="numColete"></param>
+        /// <returns></returns>
+        public ColaboradorCredencial ObterNumeroColete(int colaboradorid,string numColete)
+        {
+            return _repositorio.ObterNumeroColete(colaboradorid,numColete);
+        }
         /// <summary>
         ///     Listar Colaboradores e suas credenciais
         /// </summary>
@@ -333,9 +362,7 @@ namespace IMOD.Application.Service
             if (entity == null) throw new ArgumentNullException (nameof (entity));
             if (entity2 == null) throw new ArgumentNullException (nameof (entity2));
             ObterStatusCredencial (entity2);
-            //Alterar status de um titual do cartao
-            var titularCartao = CardHolderEntity (entity); 
-            titularCartao.Ativo = entity2.Ativa;
+            
 
             entity.DataStatus = entity.Ativa != entity2.Ativa ? DateTime.Today.Date : entity2.DataStatus;
             entity.Ativa = entity2.Ativa; //Atulizar dados para serem exibidas na tela
@@ -355,6 +382,15 @@ namespace IMOD.Application.Service
             entity2.DataStatus = entity.DataStatus;
             entity2.Baixa = entity.Baixa;
             Alterar (entity2);
+
+            //entity = BuscarPelaChave(entity.ColaboradorCredencialId);
+            entity = BuscarCredencialPelaChave(entity.ColaboradorCredencialId);
+            //Alterar status de um titual do cartao
+            var titularCartao = CardHolderEntity(entity);
+            ////Alterar status de um titual do cartao
+            //var titularCartao = CardHolderEntity (entity); 
+            titularCartao.Ativo = entity2.Ativa;
+            //titularCartao = CardHolderEntity(entity);
             //Alterar o status do cartao do titular, se houver
             if (string.IsNullOrWhiteSpace (titularCartao.IdentificadorCardHolderGuid)
                 & string.IsNullOrWhiteSpace (titularCartao.IdentificadorCredencialGuid)) return;
@@ -416,7 +452,8 @@ namespace IMOD.Application.Service
             var n1 = BuscarPelaChave(entity.ColaboradorCredencialId);
             n1.CardHolderGuid = titularCartao.IdentificadorCardHolderGuid;
             n1.CredencialGuid = titularCartao.IdentificadorCredencialGuid;
-
+            n1.Identificacao1 = titularCartao.Identificacao1;
+            n1.Identificacao2 = titularCartao.Identificacao2;
             Alterar(n1);
         }
  
@@ -460,7 +497,63 @@ namespace IMOD.Application.Service
             _repositorio.Remover (entity);
         }
 
-        
+        public ColaboradorCredencial ObterNumeroColete(string numColete)
+        {
+            throw new NotImplementedException();
+        }
+
+
+
+        /// <summary>
+        /// Relatório Colaborador credenciais - concedidas
+        /// </summary> 
+        /// <param name="entity">entity</param>
+        /// <returns></returns>
+        public List<ColaboradoresCredenciaisView> ListarColaboradorCredencialConcedidasView(FiltroReportColaboradoresCredenciais entity)
+        {
+            return _repositorio.ListarColaboradorCredencialConcedidasView(entity);
+        }
+
+        /// <summary>
+        /// Relatório Colaborador credenciais - vias adicionais 
+        /// </summary> 
+        /// <param name="entity">entity</param>
+        /// <returns></returns>
+        public List<ColaboradoresCredenciaisView> ListarColaboradorCredencialViaAdicionaisView(FiltroReportColaboradoresCredenciais entity)
+        {
+            return _repositorio.ListarColaboradorCredencialViaAdicionaisView(entity);
+        }
+
+        /// <summary>
+        ///    Listar Colaboradores credenciais - invalidas
+        /// </summary>
+        /// <param name="entity">entity</param>
+        /// <returns></returns>
+        public List<ColaboradoresCredenciaisView> ListarColaboradorCredencialInvalidasView(FiltroReportColaboradoresCredenciais entity)
+        {
+            return _repositorio.ListarColaboradorCredencialInvalidasView(entity);
+        }
+
+        /// <summary>
+        ///    Listar Colaboradores credenciais - impressoes 
+        /// </summary>
+        /// <param name="entity">entity</param>
+        /// <returns></returns>
+        public List<ColaboradoresCredenciaisView> ListarColaboradorCredencialImpressoesView(FiltroReportColaboradoresCredenciais entity)
+        {
+            return _repositorio.ListarColaboradorCredencialImpressoesView(entity);
+        }
+
+        /// <summary>
+        ///    Listar Colaboradores credenciais - permanentes ativos por área
+        /// </summary>
+        /// <param name="entity">entity</param>
+        /// <returns></returns>
+        public List<ColaboradoresCredenciaisView> ListarColaboradorCredencialPermanentePorAreaView(FiltroReportColaboradoresCredenciais entity)
+
+        {
+            return _repositorio.ListarColaboradorCredencialPermanentePorAreaView(entity);
+        }
 
         #endregion
     }
