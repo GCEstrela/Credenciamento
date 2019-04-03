@@ -548,14 +548,11 @@ namespace IMOD.Infra.Repositorios
                             cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Baixa", DbType.DateTime, entity.Baixa).MaiorIgual()));
                             cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("BaixaFim", DbType.DateTime, entity.BaixaFim).MenorIgual()));
                         }
-                        // cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("CredencialmotivoID1", DbType.String, "2,3").Entre()));
 
-                        //if ((entity.CredencialMotivoId1 != null && entity.CredencialMotivoId1 > 0) &&
-                        //    (entity.CredencialMotivoId2 != null && entity.CredencialMotivoId2 > 0))
-                        //{
-                        //    cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("CredencialmotivoID1", DbType.Int16, entity.CredencialMotivoId1).Igual()));
-                        //    cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("CredencialmotivoID2", DbType.Int16, entity.CredencialMotivoId2).Igual()));
-                        //}
+                        if (entity.Impressa != null && entity.Impressa)
+                        {
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Impressa", DbType.Boolean, entity.Impressa).Igual()));
+                        }
 
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<VeiculosCredenciaisView>();
@@ -611,14 +608,10 @@ namespace IMOD.Infra.Repositorios
                             cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("CredencialMotivoId", DbType.Int32, entity.CredencialMotivoId).Igual()));
                         }
 
-                        // cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("CredencialmotivoID1", DbType.String, "2,3").Entre()));
-
-                        //if ((entity.CredencialMotivoId1 != null && entity.CredencialMotivoId1 > 0) &&
-                        //    (entity.CredencialMotivoId2 != null && entity.CredencialMotivoId2 > 0))
-                        //{
-                        //    cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("CredencialmotivoID1", DbType.Int16, entity.CredencialMotivoId1).Igual()));
-                        //    cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("CredencialmotivoID2", DbType.Int16, entity.CredencialMotivoId2).Igual()));
-                        //}
+                        if (entity.Impressa != null && entity.Impressa)
+                        {
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Impressa", DbType.Boolean, entity.Impressa).Igual()));
+                        }
 
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<VeiculosCredenciaisView>();

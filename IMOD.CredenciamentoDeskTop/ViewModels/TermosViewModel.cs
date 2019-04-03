@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Windows.Media.Imaging;
 using AutoMapper;
@@ -38,6 +39,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         private BitmapImage _Waiting;
 
+        private const string consNomeArquivoEmpresaOperadora = "logoEmpresaOperadora.png";
+
         private string formula;
         private string _mensagem;
         private string verbo;
@@ -46,7 +49,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         private RelatoriosGerenciais termo = new RelatoriosGerenciais(); 
 
-        private readonly IColaboradorCredencialService objColaboradorCredencial = new ColaboradorCredencialService(); 
+        private readonly IColaboradorCredencialService objColaboradorCredencial = new ColaboradorCredencialService();
+
+        private readonly IConfiguraSistemaService objConfiguraSistema = new ConfiguraSistemaService();
 
         #endregion
 
@@ -118,6 +123,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 mensagemComplemento = "AEROPORTO INTERNACIONAL ";
 
                 Domain.EntitiesCustom.FiltroReportColaboradoresCredenciais colaboradorCredencial = new Domain.EntitiesCustom.FiltroReportColaboradoresCredenciais();
+                colaboradorCredencial.Impressa = true;
 
                 if (periodo > 30)
                 {
@@ -153,6 +159,13 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 }
                 reportDoc.Refresh();
 
+                var configSistema = objConfiguraSistema.BuscarPelaChave(1);
+                var tempArea = Path.GetTempPath();
+                byte[] testeArquivo = Convert.FromBase64String(configSistema.EmpresaLOGO);
+                System.IO.File.WriteAllBytes(tempArea + consNomeArquivoEmpresaOperadora, testeArquivo);
+                reportDoc.SetParameterValue("MarcaEmpresa", tempArea + consNomeArquivoEmpresaOperadora);
+
+
                 WpfHelp.ShowRelatorio(reportDoc);
 
             }
@@ -174,6 +187,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 Domain.EntitiesCustom.FiltroReportColaboradoresCredenciais colaboradorCredencial = new Domain.EntitiesCustom.FiltroReportColaboradoresCredenciais();
 
                 var termo = _relatorioGerencialServiceService.BuscarPelaChave(report);
+                colaboradorCredencial.Impressa = true;
 
                 if (periodo > 30)
                 {
@@ -206,6 +220,14 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     TextObject txt = (TextObject)reportDoc.ReportDefinition.ReportObjects["TextoPrincipal"];
                     txt.Text = mensagem;
                 }
+
+                reportDoc.Refresh();
+
+                var configSistema = objConfiguraSistema.BuscarPelaChave(1);
+                var tempArea = Path.GetTempPath();
+                byte[] testeArquivo = Convert.FromBase64String(configSistema.EmpresaLOGO);
+                System.IO.File.WriteAllBytes(tempArea + consNomeArquivoEmpresaOperadora, testeArquivo);
+                reportDoc.SetParameterValue("MarcaEmpresa", tempArea + consNomeArquivoEmpresaOperadora);
 
                 WpfHelp.ShowRelatorio(reportDoc);
 
@@ -282,6 +304,13 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 }
                 reportDoc.Refresh();
 
+                var configSistema = objConfiguraSistema.BuscarPelaChave(1);
+                var tempArea = Path.GetTempPath();
+                byte[] testeArquivo = Convert.FromBase64String(configSistema.EmpresaLOGO);
+                System.IO.File.WriteAllBytes(tempArea + consNomeArquivoEmpresaOperadora, testeArquivo);
+                reportDoc.SetParameterValue("MarcaEmpresa", tempArea + consNomeArquivoEmpresaOperadora);
+
+
                 WpfHelp.ShowRelatorio(reportDoc);
             }
             catch (Exception ex)
@@ -304,6 +333,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 mensagemComplemento = "AEROPORTO INTERNACIONAL ";
 
                 Domain.EntitiesCustom.FiltroReportVeiculoCredencial filtroAutorizacao = new Domain.EntitiesCustom.FiltroReportVeiculoCredencial();
+                filtroAutorizacao.Impressa = true;
 
                 if (periodo > 30)
                 {
@@ -340,6 +370,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 }
                 reportDoc.Refresh();
 
+                var configSistema = objConfiguraSistema.BuscarPelaChave(1);
+                var tempArea = Path.GetTempPath();
+                byte[] testeArquivo = Convert.FromBase64String(configSistema.EmpresaLOGO);
+                System.IO.File.WriteAllBytes(tempArea + consNomeArquivoEmpresaOperadora, testeArquivo);
+                reportDoc.SetParameterValue("MarcaEmpresa", tempArea + consNomeArquivoEmpresaOperadora);
+
                 WpfHelp.ShowRelatorio(reportDoc);
 
             }
@@ -359,6 +395,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 mensagemComplemento = "AEROPORTO INTERNACIONAL ";
 
                 Domain.EntitiesCustom.FiltroReportVeiculoCredencial filtroAutorizacao = new Domain.EntitiesCustom.FiltroReportVeiculoCredencial();
+                filtroAutorizacao.Impressa = true;
 
                 if (periodo > 30)
                 {
@@ -393,6 +430,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     TextObject txt = (TextObject)reportDoc.ReportDefinition.ReportObjects["TextoPrincipal"];
                     txt.Text = mensagem;
                 }
+
+                var configSistema = objConfiguraSistema.BuscarPelaChave(1);
+                var tempArea = Path.GetTempPath();
+                byte[] testeArquivo = Convert.FromBase64String(configSistema.EmpresaLOGO);
+                System.IO.File.WriteAllBytes(tempArea + consNomeArquivoEmpresaOperadora, testeArquivo);
+                reportDoc.SetParameterValue("MarcaEmpresa", tempArea + consNomeArquivoEmpresaOperadora);
 
                 WpfHelp.ShowRelatorio(reportDoc);
 
@@ -469,6 +512,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     txt.Text = mensagem;
                 }
                 reportDoc.Refresh();
+
+                var configSistema = objConfiguraSistema.BuscarPelaChave(1);
+                var tempArea = Path.GetTempPath();
+                byte[] testeArquivo = Convert.FromBase64String(configSistema.EmpresaLOGO);
+                System.IO.File.WriteAllBytes(tempArea + consNomeArquivoEmpresaOperadora, testeArquivo);
+                reportDoc.SetParameterValue("MarcaEmpresa", tempArea + consNomeArquivoEmpresaOperadora);
 
                 WpfHelp.ShowRelatorio(reportDoc);
             }
