@@ -511,7 +511,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 AtualizarDadosTiposServico();
                 TiposEquipamentoServico.Clear();
                 Entity = null;
-                HabilitaControle(true, true);
+                HabilitaControle((Entity!=null), true);
             }
             catch (Exception ex)
             {
