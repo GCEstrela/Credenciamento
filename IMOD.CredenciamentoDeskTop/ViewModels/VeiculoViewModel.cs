@@ -187,7 +187,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             if (e.PropertyName == "Entity")
             {
                 var enableControls = Entity != null;
-                Comportamento.IsEnableEditar = Entity != null;
+                Comportamento.IsEnableEditar = enableControls;
                 HabilitaControleTabControls(true, enableControls, enableControls, enableControls, enableControls, enableControls);
             }
 
@@ -511,7 +511,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 AtualizarDadosTiposServico();
                 TiposEquipamentoServico.Clear();
                 Entity = null;
-                HabilitaControle(true, true);
+                HabilitaControle((Entity != null), true);
+
             }
             catch (Exception ex)
             {
