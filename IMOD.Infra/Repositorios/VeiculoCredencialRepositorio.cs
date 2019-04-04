@@ -124,7 +124,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("NumeroCredencial", entity.NumeroCredencial, false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("FC", entity.Fc, false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Emissao", DbType.DateTime, entity.Emissao, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Validade", DbType.DateTime, entity.Validade, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert("Validade", DbType.DateTime, entity.Validade, false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("CredencialStatusID", entity.CredencialStatusId, false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("CardHolderGUID", entity.CardHolderGuid, false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("CredencialGUID", entity.CredencialGuid, false)));

@@ -41,6 +41,16 @@ namespace IMOD.Infra.Servicos
         /// </summary>
         /// <param name="entity"></param>
         void AlterarStatusCredencial(CardHolderEntity entity);
+        /// <summary>
+        ///     Verifica se existe Card Holder (Titular do cartão)
+        /// </summary>
+        /// <param name="entity"></param>
+        bool ExisteCardHolder(CardHolderEntity entity);
+        /// <summary>
+        ///     Verifica se existe Credencial (Titular do cartão)
+        /// </summary>
+        /// <param name="entity"></param>
+        bool ExisteCredential(CardHolderEntity entity);
 
         #endregion
     }
