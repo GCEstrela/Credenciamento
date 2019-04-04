@@ -261,11 +261,11 @@ namespace IMOD.Infra.Servicos
                 var service = systemConfiguration.CustomFieldService;
                 if (result.Success)
                 {
-                    //foreach (DataRow dr in result.Data.Rows)    //sempre remove todas as regras de um CardHolder
-                    //{
-                    //    AccessRule accesso = _sdk.GetEntity((Guid)dr[0]) as AccessRule;
-                    //    accesso.Members.Remove(cardHolder.Guid);
-                    //}
+                    foreach (DataRow dr in result.Data.Rows)    //sempre remove todas as regras de um CardHolder
+                    {
+                        AccessRule accesso = _sdk.GetEntity((Guid)dr[0]) as AccessRule;
+                        accesso.Members.Remove(cardHolder.Guid);
+                    }
 
                     foreach (DataRow dr in result.Data.Rows)
                     {

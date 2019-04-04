@@ -739,6 +739,10 @@
     </Content>
     <Content Include="Dlls\PropertyChanged.dll" />
     <Content Include="FodyWeavers.xml" />
+    <Content Include="IMOD.CredenciamentoDeskTop.privileges.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Resources\Ok2.ico" />
     <Content Include="Resources\Okold.ico" />
     <Resource Include="Resources\undo.png">
