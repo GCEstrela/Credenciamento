@@ -11,6 +11,7 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using Genetec.Sdk;
 using Genetec.Sdk.Workspace;
 using IMOD.Application.Service;
 using IMOD.CredenciamentoDeskTop.Helpers;
@@ -66,7 +67,10 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
             if (wrk == null)
                 throw new ArgumentNullException (nameof (wrk));
             Workspace = wrk;
-
+            if (Workspace.ApplicationType == ApplicationType.SecurityDesk)
+            {
+                this.ConfiguracoesBt.Visibility = Visibility.Collapsed;
+            }
             DataContext = null; //Iniciar sem conteudo na tela do frame
         }
 
