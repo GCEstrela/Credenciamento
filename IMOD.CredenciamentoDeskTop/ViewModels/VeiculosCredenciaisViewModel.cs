@@ -366,6 +366,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 n1.TecnologiaCredencialId = Entity.TecnologiaCredencialId;
                 n1.TipoCredencialId = Entity.TipoCredencialId;
                 n1.DevolucaoEntregaBoId = IsCheckDevolucao ? Entity.DevolucaoEntregaBoId : 0;
+                n1.Validade = DateTime.Now.AddHours(8); //Sempre Add 8 horas à credencial nova.
 
                 //Criar registro no banco de dados e setar uma data de validade
                 _prepareCriarCommandAcionado = false;

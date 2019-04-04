@@ -1090,7 +1090,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var entity = LayoutCrachaSelecionado;
                 var entityConv = Mapper.Map<LayoutCracha> (entity);
                 _auxiliaresService.LayoutCrachaService.Remover (entityConv);
+                //_auxiliaresService.LayoutCrachaService.Remover(entityConv);
+
                 LayoutsCrachas.Remove (LayoutCrachaSelecionado);
+                
             }
             catch (Exception ex)
             {
@@ -2048,7 +2051,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         #region Carregamento das Colecoes
 
-        private void CarregaColecaoRelatorios()
+        public void CarregaColecaoRelatorios()
         {
             try
             {
@@ -2067,7 +2070,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
         }
 
-        private void CarregaColecaoRelatoriosGerenciais()
+        public void CarregaColecaoRelatoriosGerenciais()
         {
             try
             {
@@ -2105,7 +2108,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
         }
 
-        private void CarregaColecaoTiposEquipamentos()
+        public void CarregaColecaoTiposEquipamentos()
         {
             try
             {
@@ -2124,7 +2127,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
         }
 
-        private void CarregaColecaoTiposAcessos()
+        public void CarregaColecaoTiposAcessos()
         {
             try
             {
@@ -2143,7 +2146,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
         }
 
-        private void CarregaColecaoAreasAcessos()
+        public void CarregaColecaoAreasAcessos()
         {
             try
             {
@@ -2162,7 +2165,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
         }
 
-        private void CarregaColecaoTiposAtividades()
+        public void CarregaColecaoTiposAtividades()
         {
             try
             {
@@ -2181,7 +2184,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
         }
 
-        private void CarregaColecaoTipoServico()
+        public void CarregaColecaoTipoServico()
         {
             try
             {
@@ -2201,7 +2204,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
         }
 
-        private void CarregaColecaoTecnologiasCredenciais()
+        public void CarregaColecaoTecnologiasCredenciais()
         {
             try
             {
@@ -2220,7 +2223,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
         }
 
-        private void CarregaColecaoTiposCobrancas()
+        public void CarregaColecaoTiposCobrancas()
         {
             try
             {
@@ -2258,7 +2261,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
         }
 
-        private void CarregaColecaoTipoCombustiveis()
+        public void CarregaColecaoTipoCombustiveis()
         {
             try
             {
@@ -2277,7 +2280,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
         }
 
-        private void CarregaColecaoStatus()
+        public void CarregaColecaoStatus()
         {
             try
             {
@@ -2296,7 +2299,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
         }
 
-        private void CarregaColecaoCredenciaisStatus()
+        public void CarregaColecaoCredenciaisStatus()
         {
             try
             {
@@ -2315,7 +2318,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
         }
 
-        private void CarregaColecaoCredenciaisMotivos()
+        public void CarregaColecaoCredenciaisMotivos()
         {
             try
             {
@@ -2334,7 +2337,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
         }
 
-        private void CarregaColecaoFormatosCredenciais()
+        public void CarregaColecaoFormatosCredenciais()
         {
             try
             {

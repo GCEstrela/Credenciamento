@@ -39,14 +39,29 @@ namespace IMOD.CredenciamentoDeskTop.Views
         private void NovoRelatorio_bt_Click(object sender, RoutedEventArgs e)
         {
             BuscarRelatorio_bt.IsEnabled = true;
-            ((ConfiguracoesViewModel)DataContext).OnAdicionarRelatorioCommand();
+            if (NovoRelatorio_bt.Content.ToString() == "Novo")
+            {
+                SalvarRelatorio_bt.IsEnabled = true;
+                NovoRelatorio_bt.Content = "Cancelar";
+                ((ConfiguracoesViewModel)DataContext).OnAdicionarRelatorioCommand();
+            }
+            else if (NovoRelatorio_bt.Content.ToString() == "Cancelar")
+            {
+                SalvarRelatorio_bt.IsEnabled = false;
+                NovoRelatorio_bt.Content = "Novo";
+                ((ConfiguracoesViewModel)DataContext).CarregaColecaoRelatorios();
+            }
+                
+            
         }
         private void ExcluirRelatorio_bt_Click(object sender, RoutedEventArgs e)
         {
+            SalvarRelatorio_bt.IsEnabled = false;
             ((ConfiguracoesViewModel)DataContext).OnExcluirRelatorioCommand();
         }
         private void AbrirRelatorio_bt_Click(object sender, RoutedEventArgs e)
         {
+            SalvarRelatorio_bt.IsEnabled = false;
             ((ConfiguracoesViewModel)DataContext).OnAbrirRelatorioCommand();
         }
 
@@ -68,15 +83,28 @@ namespace IMOD.CredenciamentoDeskTop.Views
         private void NovoRelatorioGerencial_bt_Click(object sender, RoutedEventArgs e)
         {
             BuscarRelatorioGerencial_bt.IsEnabled = true;
-            ((ConfiguracoesViewModel)DataContext).OnAdicionarRelatorioGerencialCommand();
+            if (NovoRelatorioGerencial_bt.Content.ToString() == "Novo")
+            {
+                SalvarRelatorioGerencial_bt.IsEnabled = true;
+                NovoRelatorioGerencial_bt.Content = "Cancelar";
+                ((ConfiguracoesViewModel)DataContext).OnAdicionarRelatorioGerencialCommand();
+            }
+            else if (NovoRelatorioGerencial_bt.Content.ToString() == "Cancelar")
+            {
+                SalvarRelatorioGerencial_bt.IsEnabled = false;
+                NovoRelatorioGerencial_bt.Content = "Novo";
+                ((ConfiguracoesViewModel)DataContext).CarregaColecaoRelatoriosGerenciais();
+            }
+                
         }
         private void SalvarRelatorioGerencial_bt_Click(object sender, RoutedEventArgs e)
         {
-             
+            SalvarRelatorioGerencial_bt.IsEnabled = false;
             ((ConfiguracoesViewModel)DataContext).OnSalvarRelatorioGerencialCommand();
         }
         private void ExcluirRelatorioGerencial_bt_Click(object sender, RoutedEventArgs e)
         {
+            SalvarRelatorioGerencial_bt.IsEnabled = false;
             ((ConfiguracoesViewModel)DataContext).OnExcluirRelatorioGerencialCommand();
         }
 
@@ -87,14 +115,28 @@ namespace IMOD.CredenciamentoDeskTop.Views
         private void NovoCracha_bt_Click(object sender, RoutedEventArgs e)
         {
             BuscarCracha_bt.IsEnabled = true;
-            ((ConfiguracoesViewModel)DataContext).OnAdicionarLayoutCrachaCommand();
+            if (NovoCracha_bt.Content.ToString() == "Novo")
+            {
+                SalvarCracha_bt.IsEnabled = true;
+                NovoCracha_bt.Content = "Cancelar";
+                ((ConfiguracoesViewModel)DataContext).OnAdicionarLayoutCrachaCommand();
+            }
+            else if (NovoCracha_bt.Content.ToString() == "Cancelar")
+            {
+                SalvarCracha_bt.IsEnabled = false;
+                NovoCracha_bt.Content = "Novo";
+                ((ConfiguracoesViewModel)DataContext).CarregaColecaoLayoutsCrachas();
+            }
+                
         }
         private void SalvarCracha_bt_Click(object sender, RoutedEventArgs e)
-        { 
+        {
+            SalvarCracha_bt.IsEnabled = false;
             ((ConfiguracoesViewModel)DataContext).OnSalvarLayoutCrachaCommand();
         }
         private void ExcluirCracha_bt_Click(object sender, RoutedEventArgs e)
         {
+            SalvarCracha_bt.IsEnabled = false;
             ((ConfiguracoesViewModel)DataContext).OnExcluirLayoutCrachaCommand();
         }
         private void BuscarCracha_bt_Click(object sender, RoutedEventArgs e)
@@ -116,16 +158,29 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         private void SalvarEquipamento_bt_Click(object sender, RoutedEventArgs e)
         {
-             
+            SalvarEquipamento_bt.IsEnabled = false;
             ((ConfiguracoesViewModel)DataContext).OnSalvarEdicaoCommand_TiposEquipamentos();
 
         }
         private void NovoEquipamento_bt_Click(object sender, RoutedEventArgs e)
         {
-            ((ConfiguracoesViewModel)DataContext).OnAdicionarCommand_TiposEquipamentos();
+            if (NovoEquipamento_bt.Content.ToString() == "Novo")
+            {
+                SalvarEquipamento_bt.IsEnabled = true;
+                NovoEquipamento_bt.Content = "Cancelar";
+                ((ConfiguracoesViewModel)DataContext).OnAdicionarCommand_TiposEquipamentos();
+            }
+            else if (NovoEquipamento_bt.Content.ToString() == "Cancelar")
+            {
+                SalvarEquipamento_bt.IsEnabled = false;
+                NovoEquipamento_bt.Content = "Novo";
+                ((ConfiguracoesViewModel)DataContext).CarregaColecaoTiposEquipamentos();
+            }
+            
         }
         private void DeletarSalvarEquipamento_bt_Click(object sender, RoutedEventArgs e)
         {
+            SalvarEquipamento_bt.IsEnabled = false;
             ((ConfiguracoesViewModel)DataContext).OnExcluirCommand_TiposEquipamentos();
         }
 
@@ -135,14 +190,28 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         private void NovoTiposAcesso_bt_Click(object sender, RoutedEventArgs e)
         {
-            ((ConfiguracoesViewModel)DataContext).OnAdicionarCommand_TiposAcesso();
+            if (NovoTiposAcesso_bt.Content.ToString() == "Novo")
+            {
+                SalvarTiposAcesso_bt.IsEnabled = true;
+                NovoTiposAcesso_bt.Content = "Cancelar";
+                ((ConfiguracoesViewModel)DataContext).OnAdicionarCommand_TiposAcesso();
+            }
+            else if (NovoTiposAcesso_bt.Content.ToString() == "Cancelar")
+            {
+                SalvarTiposAcesso_bt.IsEnabled = false;
+                NovoTiposAcesso_bt.Content = "Novo";
+                ((ConfiguracoesViewModel)DataContext).CarregaColecaoTiposAcessos();
+            }
+                
         }
         private void SalvarTiposAcesso_bt_Click(object sender, RoutedEventArgs e)
         {
+            SalvarTiposAcesso_bt.IsEnabled = false;
             ((ConfiguracoesViewModel)DataContext).OnSalvarEdicaoCommand_TiposAcesso();
         }
         private void DeletarTiposAcesso_bt_Click(object sender, RoutedEventArgs e)
         {
+            SalvarTiposAcesso_bt.IsEnabled = false;
             ((ConfiguracoesViewModel)DataContext).OnExcluirCommand_TiposAcesso();
         }
 
@@ -152,14 +221,28 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         private void NovoTiposAreasAcessos_bt_Click(object sender, RoutedEventArgs e)
         {
-            ((ConfiguracoesViewModel)DataContext).OnAdicionarCommand_AreaAcesso();
+            if (NovoTiposAreasAcessos_bt.Content.ToString() == "Novo")
+            {
+                SalvarTiposAreasAcessos_bt.IsEnabled = true;
+                NovoTiposAreasAcessos_bt.Content = "Cancelar";
+                ((ConfiguracoesViewModel)DataContext).OnAdicionarCommand_AreaAcesso();
+            }
+            else if (NovoTiposAreasAcessos_bt.Content.ToString() == "Cancelar")
+            {
+                SalvarTiposAreasAcessos_bt.IsEnabled = false;
+                NovoTiposAreasAcessos_bt.Content = "Novo";
+                ((ConfiguracoesViewModel)DataContext).CarregaColecaoAreasAcessos();
+            }
+           
         }
         private void SalvarTiposAreasAcessos_bt_Click(object sender, RoutedEventArgs e)
         {
+            SalvarTiposAreasAcessos_bt.IsEnabled = false;
             ((ConfiguracoesViewModel)DataContext).OnSalvarEdicaoCommand_AreaAcesso();
         }
         private void DeletarTiposAreasAcessos_bt_Click(object sender, RoutedEventArgs e)
         {
+            SalvarTiposAreasAcessos_bt.IsEnabled = false;
             ((ConfiguracoesViewModel)DataContext).OnExcluirCommand_AreaAcesso();
         }
 
@@ -169,14 +252,29 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         private void NovoTipoAtividade_bt_Click(object sender, RoutedEventArgs e)
         {
-            ((ConfiguracoesViewModel)DataContext).OnAdicionarCommand_TiposAtividades();
+            if (NovoTipoAtividade_bt.Content.ToString() == "Novo")
+            {
+                SalvarTipoAtividade_bt.IsEnabled = true;
+                NovoTipoAtividade_bt.Content = "Cancelar";
+                ((ConfiguracoesViewModel)DataContext).OnAdicionarCommand_TiposAtividades();
+            }
+            else if (NovoTipoAtividade_bt.Content.ToString() == "Cancelar")
+            {
+                SalvarTipoAtividade_bt.IsEnabled = false;
+                NovoTipoAtividade_bt.Content = "Novo";
+                ((ConfiguracoesViewModel)DataContext).CarregaColecaoTiposAtividades();
+            }
+
+
         }
         private void SalvarTipoAtividade_bt_Click(object sender, RoutedEventArgs e)
         {
+            SalvarTipoAtividade_bt.IsEnabled = false;
             ((ConfiguracoesViewModel)DataContext).OnSalvarEdicaoCommand_TiposAtividades();
         }
         private void DeletarTipoAtividade_bt_Click(object sender, RoutedEventArgs e)
         {
+            SalvarTipoAtividade_bt.IsEnabled = false;
             ((ConfiguracoesViewModel)DataContext).OnExcluirCommand_TiposAtividades();
         }
 
@@ -187,16 +285,30 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         private void NovoTipoServico_bt_Click(object sender, RoutedEventArgs e)
         {
-            ((ConfiguracoesViewModel)DataContext).OnAdicionarCommand_TipoServico();
+            if (NovoTipoServico_bt.Content.ToString() == "Novo")
+            {
+                SalvarTipoServico_bt.IsEnabled = true;
+                NovoTipoServico_bt.Content = "Cancelar";
+                ((ConfiguracoesViewModel)DataContext).OnAdicionarCommand_TipoServico();
+            }
+            else if (NovoTipoServico_bt.Content.ToString() == "Cancelar")
+            {
+                SalvarTipoServico_bt.IsEnabled = false;
+                NovoTipoServico_bt.Content = "Novo";
+                ((ConfiguracoesViewModel)DataContext).CarregaColecaoTipoServico();
+            }
+            
         }
 
         private void SalvarTipoServico_bt_Click(object sender, RoutedEventArgs e)
         {
+            SalvarTipoServico_bt.IsEnabled = false;
             ((ConfiguracoesViewModel)DataContext).OnSalvarEdicaoCommand_TipoServico();
         }
 
         private void DeletarTipoServico_bt_Click(object sender, RoutedEventArgs e)
         {
+            SalvarTipoServico_bt.IsEnabled = false;
             ((ConfiguracoesViewModel)DataContext).OnExcluirCommand_TipoServico();
         }
 
@@ -206,16 +318,30 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         private void NovoTecnologiasCredenciais_bt_Click(object sender, RoutedEventArgs e)
         {
-            ((ConfiguracoesViewModel)DataContext).OnAdicionarCommand_TecnologiasCredenciais();
+            if (NovoTecnologiasCredenciais_bt.Content.ToString() == "Novo")
+            {
+                SalvarTecnologiasCredenciais_bt.IsEnabled = true;
+                NovoTecnologiasCredenciais_bt.Content = "Cancelar";
+                ((ConfiguracoesViewModel)DataContext).OnAdicionarCommand_TecnologiasCredenciais();
+            }
+            else if (NovoTecnologiasCredenciais_bt.Content.ToString() == "Cancelar")
+            {
+                SalvarTecnologiasCredenciais_bt.IsEnabled = false;
+                NovoTecnologiasCredenciais_bt.Content = "Novo";
+                ((ConfiguracoesViewModel)DataContext).CarregaColecaoTecnologiasCredenciais();
+            }
+                
         }
 
         private void SalvarTecnologiasCredenciais_bt_Click(object sender, RoutedEventArgs e)
-        { 
+        {
+            SalvarTecnologiasCredenciais_bt.IsEnabled = false;
             ((ConfiguracoesViewModel)DataContext).OnSalvarEdicaoCommand_TecnologiasCredenciais();
         }
 
         private void DeletarTecnologiasCredenciais_bt_Click(object sender, RoutedEventArgs e)
         {
+            SalvarTecnologiasCredenciais_bt.IsEnabled = false;
             ((ConfiguracoesViewModel)DataContext).OnExcluirCommand_TecnologiasCredenciais();
         }
 
@@ -225,14 +351,28 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         private void NovoTiposCobranca_bt_Click(object sender, RoutedEventArgs e)
         {
-            ((ConfiguracoesViewModel)DataContext).OnAdicionarCommand_TiposCobrancas();
+            if (NovoTiposCobranca_bt.Content.ToString() == "Novo")
+            {
+                SalvarTiposCobranca_bt.IsEnabled = true;
+                NovoTiposCobranca_bt.Content = "Cancelar";
+                ((ConfiguracoesViewModel)DataContext).OnAdicionarCommand_TiposCobrancas();
+            }
+            else if (NovoTiposCobranca_bt.Content.ToString() == "Cancelar")
+            {
+                SalvarTiposCobranca_bt.IsEnabled = false;
+                NovoTiposCobranca_bt.Content = "Novo";
+                ((ConfiguracoesViewModel)DataContext).CarregaColecaoTiposCobrancas();
+            }
+                
         }
         private void SalvarTiposCobranca_bt_Click(object sender, RoutedEventArgs e)
         {
+            SalvarTiposCobranca_bt.IsEnabled = false;
             ((ConfiguracoesViewModel)DataContext).OnSalvarEdicaoCommand_TiposCobrancas();
         }
         private void DeletarTiposCobranca_bt_Click(object sender, RoutedEventArgs e)
         {
+            SalvarTiposCobranca_bt.IsEnabled = false;
             ((ConfiguracoesViewModel)DataContext).OnExcluirCommand_TiposCobrancas();
         }
 
@@ -242,14 +382,28 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         private void NovoTiposCursos_bt_Click(object sender, RoutedEventArgs e)
         {
-            ((ConfiguracoesViewModel)DataContext).OnAdicionarCommand_TiposCursos();
+            if (NovoTiposCursos_bt.Content.ToString() == "Novo")
+            {
+                SalvarTiposCursos_bt.IsEnabled = true;
+                NovoTiposCursos_bt.Content = "Cancelar";
+                ((ConfiguracoesViewModel)DataContext).OnAdicionarCommand_TiposCursos();
+            }
+            else if (NovoTiposCursos_bt.Content.ToString() == "Cancelar")
+            {
+                SalvarTiposCursos_bt.IsEnabled = false;
+                NovoTiposCursos_bt.Content = "Novo";
+                ((ConfiguracoesViewModel)DataContext).CarregaColecaoCursos();
+            }
+                
         }
         private void SalvarTiposCursos_bt_Click(object sender, RoutedEventArgs e)
         {
+            SalvarTiposCursos_bt.IsEnabled = false;
             ((ConfiguracoesViewModel)DataContext).OnSalvarEdicaoCommand_TiposCursos();
         }
         private void DeletarTiposCursos_bt_Click(object sender, RoutedEventArgs e)
         {
+            SalvarTiposCursos_bt.IsEnabled = false;
             ((ConfiguracoesViewModel)DataContext).OnExcluirCommand_TiposCursos();
         }
 
@@ -259,17 +413,30 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         private void NovoTiposCombustiveis_bt_Click(object sender, RoutedEventArgs e)
         {
-            ((ConfiguracoesViewModel)DataContext).OnAdicionarCommand_TiposCombustiveis();
+            if (NovoTiposAreasAcessosSs_bt.Content.ToString() == "Novo")
+            {
+                SalvarTiposAreasAcesssoSs_bt.IsEnabled = true;
+                NovoTiposAreasAcessosSs_bt.Content = "Cancelar";
+                ((ConfiguracoesViewModel)DataContext).OnAdicionarCommand_TiposCombustiveis();
+            }
+            else if (NovoTiposAreasAcessosSs_bt.Content.ToString() == "Cancelar")
+            {
+                SalvarTiposAreasAcesssoSs_bt.IsEnabled = false;
+                NovoTiposAreasAcessosSs_bt.Content = "Novo";
+                ((ConfiguracoesViewModel)DataContext).CarregaColecaoTipoCombustiveis();
+            }
+                
         }
 
         private void SalvarTiposCombustiveis_bt_Click(object sender, RoutedEventArgs e)
         {
-            
+            SalvarTiposAreasAcesssoSs_bt.IsEnabled = false;
             ((ConfiguracoesViewModel)DataContext).OnSalvarEdicaoCommand_TiposCombustiveis();
         }
 
         private void DeletarTiposCombustiveis_bt_Click(object sender, RoutedEventArgs e)
         {
+            SalvarTiposAreasAcesssoSs_bt.IsEnabled = false;
             ((ConfiguracoesViewModel)DataContext).OnExcluirCommand_TiposCombustiveis();
         }
         #endregion
@@ -278,16 +445,30 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         private void NovoTiposStatus_bt_Click(object sender, RoutedEventArgs e)
         {
-            ((ConfiguracoesViewModel)DataContext).OnAdicionarCommand_TiposStatus();
+            if (NovoTiposStatus_bt.Content.ToString() == "Novo")
+            {
+                SalvarTiposStatus_bt.IsEnabled = true;
+                NovoTiposStatus_bt.Content = "Cancelar";
+                ((ConfiguracoesViewModel)DataContext).OnAdicionarCommand_TiposStatus();
+            }
+            else if (NovoTiposStatus_bt.Content.ToString() == "Cancelar")
+            {
+                SalvarTiposStatus_bt.IsEnabled = false;
+                NovoTiposStatus_bt.Content = "Novo";
+                ((ConfiguracoesViewModel)DataContext).CarregaColecaoStatus();
+            }
+            
         }
 
         private void SalvarTiposStatus_bt_Click(object sender, RoutedEventArgs e)
         {
+            SalvarTiposStatus_bt.IsEnabled = false;
             ((ConfiguracoesViewModel)DataContext).OnSalvarEdicaoCommand_TiposStatus();
         }
 
         private void DeletarTiposStatus_bt_Click(object sender, RoutedEventArgs e)
         {
+            SalvarTiposStatus_bt.IsEnabled = false;
             ((ConfiguracoesViewModel)DataContext).OnExcluirCommand_TiposStatus();
         }
 
@@ -296,16 +477,30 @@ namespace IMOD.CredenciamentoDeskTop.Views
         #region Credenciais Status
         private void NovoCredencialStatus_bt_Click(object sender, RoutedEventArgs e)
         {
-            ((ConfiguracoesViewModel)DataContext).OnAdicionarCommand_CredenciaisStatus();
+            if (NovoCredencialStatus_bt.Content.ToString() == "Novo")
+            {
+                SalvarCredencialStatus_bt.IsEnabled = true;
+                NovoCredencialStatus_bt.Content = "Cancelar";
+                ((ConfiguracoesViewModel)DataContext).OnAdicionarCommand_CredenciaisStatus();
+            }
+            else if (NovoCredencialStatus_bt.Content.ToString() == "Cancelar")
+            {
+                SalvarCredencialStatus_bt.IsEnabled = false;
+                NovoCredencialStatus_bt.Content = "Novo";
+                ((ConfiguracoesViewModel)DataContext).CarregaColecaoCredenciaisStatus();
+            }
+                
         }
 
         private void SalvarCredencialStatus_bt_Click(object sender, RoutedEventArgs e)
         {
+            SalvarCredencialStatus_bt.IsEnabled = false;
             ((ConfiguracoesViewModel)DataContext).OnSalvarEdicaoCommand_CredenciaisStatus();
         }
 
         private void DeletarCredencialStatus_bt_Click(object sender, RoutedEventArgs e)
         {
+            SalvarCredencialStatus_bt.IsEnabled = false;
             ((ConfiguracoesViewModel)DataContext).OnExcluirCommand_CredenciaisStatus();
         }
 
@@ -335,16 +530,30 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         private void NovoFormatoCredencial_bt_Click(object sender, RoutedEventArgs e)
         {
-            ((ConfiguracoesViewModel)DataContext).OnAdicionarCommand_FormatosCredenciais();
+            if (NovoFormatosCredenciais_bt.Content.ToString() == "Novo")
+            {
+                SalvarFormatosCredenciais_bt.IsEnabled = true;
+                NovoFormatosCredenciais_bt.Content = "Cancelar";
+                ((ConfiguracoesViewModel)DataContext).OnAdicionarCommand_FormatosCredenciais();
+            }
+            else if (NovoFormatosCredenciais_bt.Content.ToString() == "Cancelar")
+            {
+                SalvarFormatosCredenciais_bt.IsEnabled = false;
+                NovoFormatosCredenciais_bt.Content = "Novo";
+                ((ConfiguracoesViewModel)DataContext).CarregaColecaoFormatosCredenciais();
+            }
+                
         }
 
         private void SalvarFormatoCredencial_bt_Click(object sender, RoutedEventArgs e)
         {
+            SalvarFormatosCredenciais_bt.IsEnabled = false;
             ((ConfiguracoesViewModel)DataContext).OnSalvarEdicaoCommand_FormatosCredenciais();
         }
 
         private void DeletarFormatoCredencial_bt_Click(object sender, RoutedEventArgs e)
         {
+            SalvarFormatosCredenciais_bt.IsEnabled = false;
             ((ConfiguracoesViewModel)DataContext).OnExcluirCommand_FormatosCredenciais();
         }
 

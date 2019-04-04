@@ -198,8 +198,7 @@
                          
                             <TextBox Text="{Binding Entity.Validade, 
                                      UpdateSourceTrigger=PropertyChanged,Mode=TwoWay,StringFormat='{}{0:dd/MM/yyyy}'}"
-                                     LostFocus="OnFormatData_LostFocus"
-                                      
+                                     LostFocus="OnFormatData_LostFocus"                                      
                                      PreviewTextInput="NumberOnly"
                                      IsEnabled="{Binding Habilitar}"
                                      Height="24" Width="85" 

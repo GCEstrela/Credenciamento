@@ -62,7 +62,7 @@
                                     <Grid>
                                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="30,5,0,0" >
                                             <Button x:Name="NovoTipoAtividade_bt" Content="Novo"  Height="30" Width="148" Margin="10,0,0,0" Click="NovoTipoAtividade_bt_Click"/>
-                                            <Button x:Name="SalvarTipoAtividade_bt" Content="Salvar"  Height="30" Width="148" Margin="10,0,0,0" Click="SalvarTipoAtividade_bt_Click"/>
+                                            <Button x:Name="SalvarTipoAtividade_bt" Content="Salvar" IsEnabled="False" Height="30" Width="148" Margin="10,0,0,0" Click="SalvarTipoAtividade_bt_Click"/>
                                             <Button x:Name="DeletarTipoAtividade_bt" Content="Excluir"  Height="30" Width="148" Margin="10,0,0,0" Click="DeletarTipoAtividade_bt_Click"/>
                                         </StackPanel>
                                     </Grid>
@@ -99,7 +99,7 @@
                                     <Grid>
                                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="0,5,0,0" >
                                             <Button x:Name="NovoTiposAreasAcessos_bt" Content="Novo"  Height="30" Width="148" Margin="10,0,0,0" Click="NovoTiposAreasAcessos_bt_Click"/>
-                                            <Button x:Name="SalvarTiposAreasAcessos_bt" Content="Salvar"  Height="30" Width="148" Margin="10,0,0,0" Click="SalvarTiposAreasAcessos_bt_Click"/>
+                                            <Button x:Name="SalvarTiposAreasAcessos_bt" Content="Salvar" IsEnabled="False" Height="30" Width="148" Margin="10,0,0,0" Click="SalvarTiposAreasAcessos_bt_Click"/>
                                             <Button x:Name="DeletarTiposAreasAcessos_bt" Content="Excluir"  Height="30" Width="148" Margin="10,0,0,0" Click="DeletarTiposAreasAcessos_bt_Click"/>
                                         </StackPanel>
                                     </Grid>
@@ -134,7 +134,7 @@
                                     <Grid>
                                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="30,5,0,0" >
                                             <Button x:Name="NovoTiposCobranca_bt" Content="Novo"  Height="30" Width="148" Margin="10,0,0,0" Click="NovoTiposCobranca_bt_Click"/>
-                                            <Button x:Name="SalvarTiposCobranca_bt" Content="Salvar"  Height="30" Width="148" Margin="10,0,0,0" Click="SalvarTiposCobranca_bt_Click"/>
+                                            <Button x:Name="SalvarTiposCobranca_bt" Content="Salvar" IsEnabled="False" Height="30" Width="148" Margin="10,0,0,0" Click="SalvarTiposCobranca_bt_Click"/>
                                             <Button x:Name="DeletarTiposCobranca_bt" Content="Excluir"  Height="30" Width="148" Margin="10,0,0,0" Click="DeletarTiposCobranca_bt_Click"/>
                                         </StackPanel>
                                     </Grid>
@@ -164,7 +164,7 @@
                                     <Grid>
                                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="0,5,0,0" >
                                             <Button x:Name="NovoTiposStatus_bt" Content="Novo"  Height="30" Width="148" Margin="10,0,0,0" Click="NovoTiposStatus_bt_Click"/>
-                                            <Button x:Name="SalvarTiposStatus_bt" Content="Salvar"  Height="30" Width="148" Margin="10,0,0,0" Click="SalvarTiposStatus_bt_Click"/>
+                                            <Button x:Name="SalvarTiposStatus_bt" Content="Salvar" IsEnabled="False" Height="30" Width="148" Margin="10,0,0,0" Click="SalvarTiposStatus_bt_Click"/>
                                             <Button x:Name="DeletarTiposStatus_bt" Content="Excluir"  Height="30" Width="148" Margin="10,0,0,0" Click="DeletarTiposStatus_bt_Click"/>
                                         </StackPanel>
                                     </Grid>
@@ -218,7 +218,7 @@
                                     <Grid>
                                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="30,5,0,0" >
                                             <Button x:Name="NovoEquipamento_bt" Content="Novo"  Height="30" Width="148" Margin="10,0,0,0" Click="NovoEquipamento_bt_Click"/>
-                                            <Button x:Name="SalvarEquipamento_bt" Content="Salvar"  Height="30" Width="148" Margin="10,0,0,0" Click="SalvarEquipamento_bt_Click" />
+                                            <Button x:Name="SalvarEquipamento_bt" Content="Salvar" IsEnabled="False" Height="30" Width="148" Margin="10,0,0,0" Click="SalvarEquipamento_bt_Click" />
                                             <Button x:Name="DeletarSalvarEquipamento_bt" Content="Excluir"  Height="30" Width="148" Margin="10,0,0,0" Click="DeletarSalvarEquipamento_bt_Click"/>
                                         </StackPanel>
                                     </Grid>
@@ -252,7 +252,7 @@
                                     <Grid>
                                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="0,5,0,0" >
                                             <Button x:Name="NovoTipoServico_bt" Content="Novo"  Height="30" Width="148" Margin="10,0,0,0" Click="NovoTipoServico_bt_Click"/>
-                                            <Button x:Name="SalvarTipoServico_bt" Content="Salvar"  Height="30" Width="148" Margin="10,0,0,0" Click="SalvarTipoServico_bt_Click"/>
+                                            <Button x:Name="SalvarTipoServico_bt" Content="Salvar" IsEnabled="False"  Height="30" Width="148" Margin="10,0,0,0" Click="SalvarTipoServico_bt_Click"/>
                                             <Button x:Name="DeletarTipoServico_bt" Content="Excluir"  Height="30" Width="148" Margin="10,0,0,0" Click="DeletarTipoServico_bt_Click"/>
                                         </StackPanel>
                                     </Grid>
@@ -282,7 +282,7 @@
                                     <Grid>
                                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="0,5,0,0" >
                                             <Button x:Name="NovoTiposCursos_bt" Content="Novo"  Height="30" Width="148" Margin="10,0,0,0" Click="NovoTiposCursos_bt_Click"/>
-                                            <Button x:Name="SalvarTiposCursos_bt" Content="Salvar"  Height="30" Width="148" Margin="10,0,0,0" Click="SalvarTiposCursos_bt_Click"/>
+                                            <Button x:Name="SalvarTiposCursos_bt" Content="Salvar" IsEnabled="False" Height="30" Width="148" Margin="10,0,0,0" Click="SalvarTiposCursos_bt_Click"/>
                                             <Button x:Name="DeletarTiposCursos_bt" Content="Excluir"  Height="30" Width="148" Margin="10,0,0,0" Click="DeletarTiposCursos_bt_Click" />
                                         </StackPanel>
                                     </Grid>
@@ -321,7 +321,7 @@
                                     <Grid>
                                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="0,5,0,0" >
                                             <Button x:Name="NovoTiposAreasAcessosSs_bt" Content="Novo"  Height="30" Width="148" Margin="10,0,0,0" Click="NovoTiposCombustiveis_bt_Click"/>
-                                            <Button x:Name="SalvarTiposAreasAcesssoSs_bt" Content="Salvar"  Height="30" Width="148" Margin="10,0,0,0" Click="SalvarTiposCombustiveis_bt_Click"/>
+                                            <Button x:Name="SalvarTiposAreasAcesssoSs_bt" Content="Salvar" IsEnabled="False"  Height="30" Width="148" Margin="10,0,0,0" Click="SalvarTiposCombustiveis_bt_Click"/>
                                             <Button x:Name="DeletarTiposAreasAcesssSos_bt" Content="Excluir"  Height="30" Width="148" Margin="10,0,0,0" Click="DeletarTiposCombustiveis_bt_Click"/>
                                         </StackPanel>
                                     </Grid>
@@ -337,12 +337,6 @@
                 </ScrollViewer>
 
             </TabItem>
-
-
-
-
-
-
             <TabItem x:Name="CredenciaisAutorizacoes_ti"  Width="200"  Header="Credenciais e Autorizações"  >
 
                 <Grid Width="1242" HorizontalAlignment="Right">
@@ -378,7 +372,7 @@
                             <Grid>
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="0,5,0,0" >
                                     <Button x:Name="NovoCredencialStatus_bt" Content="Novo"  Height="30" Width="148" Margin="10,0,0,0" Click="NovoCredencialStatus_bt_Click"/>
-                                    <Button x:Name="SalvarCredencialStatus_bt" Content="Salvar"  Height="30" Width="148" Margin="10,0,0,0" Click="SalvarCredencialStatus_bt_Click"/>
+                                    <Button x:Name="SalvarCredencialStatus_bt" Content="Salvar" IsEnabled="False" Height="30" Width="148" Margin="10,0,0,0" Click="SalvarCredencialStatus_bt_Click"/>
                                     <Button x:Name="DeletarCredencialStatus_bt" Content="Excluir"  Height="30" Width="148" Margin="10,0,0,0" Click="DeletarCredencialStatus_bt_Click"/>
                                 </StackPanel>
                             </Grid>
@@ -411,7 +405,7 @@
                             <Grid>
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="0,5,0,0" >
                                     <Button x:Name="NovoTiposAcesso_bt" Content="Novo"  Height="30" Width="148" Margin="10,0,0,0" Click="NovoTiposAcesso_bt_Click"/>
-                                    <Button x:Name="SalvarTiposAcesso_bt" Content="Salvar"  Height="30" Width="148" Margin="10,0,0,0" Click="SalvarTiposAcesso_bt_Click"/>
+                                    <Button x:Name="SalvarTiposAcesso_bt" Content="Salvar" IsEnabled="False" Height="30" Width="148" Margin="10,0,0,0" Click="SalvarTiposAcesso_bt_Click"/>
                                     <Button x:Name="DeletarTiposAcesso_bt" Content="Excluir"  Height="30" Width="148" Margin="10,0,0,0" Click="DeletarTiposAcesso_bt_Click"/>
                                 </StackPanel>
                             </Grid>
@@ -447,7 +441,7 @@
                             <Grid>
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="0,5,0,0" >
                                     <Button x:Name="NovoTecnologiasCredenciais_bt" Content="Novo"  Height="30" Width="148" Margin="10,0,0,0" Click="NovoTecnologiasCredenciais_bt_Click"/>
-                                    <Button x:Name="SalvarTecnologiasCredenciais_bt" Content="Salvar"  Height="30" Width="148" Margin="10,0,0,0" Click="SalvarTecnologiasCredenciais_bt_Click"/>
+                                    <Button x:Name="SalvarTecnologiasCredenciais_bt" Content="Salvar" IsEnabled="False" Height="30" Width="148" Margin="10,0,0,0" Click="SalvarTecnologiasCredenciais_bt_Click"/>
                                     <Button x:Name="DeletarTecnologiasCredenciais_bt" Content="Excluir"  Height="30" Width="148" Margin="10,0,0,0" Click="DeletarTecnologiasCredenciais_bt_Click"/>
                                 </StackPanel>
                             </Grid>
@@ -481,7 +475,7 @@
                             <Grid>
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="0,5,0,0" >
                                     <Button x:Name="NovoFormatosCredenciais_bt" Content="Novo"  Height="30" Width="148" Margin="10,0,0,0" Click="NovoFormatoCredencial_bt_Click"/>
-                                    <Button x:Name="SalvarFormatosCredenciais_bt" Content="Salvar"  Height="30" Width="148" Margin="10,0,0,0" Click="SalvarFormatoCredencial_bt_Click"/>
+                                    <Button x:Name="SalvarFormatosCredenciais_bt" Content="Salvar" IsEnabled="False" Height="30" Width="148" Margin="10,0,0,0" Click="SalvarFormatoCredencial_bt_Click"/>
                                     <Button x:Name="DeletarFormatosCredenciais_bt" Content="Excluir"  Height="30" Width="148" Margin="10,0,0,0" Click="DeletarFormatoCredencial_bt_Click"/>
                                 </StackPanel>
                             </Grid>
@@ -562,7 +556,7 @@
                                     <Grid>
                                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="0,5,0,0" >
                                             <Button x:Name="NovoRelatorio_bt" Content="Novo"  Height="30" Width="148" Margin="10,0,0,0" Click="NovoRelatorio_bt_Click"/>
-                                            <Button x:Name="SalvarRelatorio_bt" Content="Salvar"  Height="30" Width="148" Margin="10,0,0,0" Click="SalvarRelatorio_bt_Click"/>
+                                            <Button x:Name="SalvarRelatorio_bt" Content="Salvar" IsEnabled="False" Height="30" Width="148" Margin="10,0,0,0" Click="SalvarRelatorio_bt_Click"/>
                                             <Button x:Name="ExcluirRelatorio_bt" Content="Excluir"  Height="30" Width="148" Margin="10,0,0,0" Click="ExcluirRelatorio_bt_Click"/>
                                         </StackPanel>
                                     </Grid>
@@ -615,7 +609,7 @@
                                     <Grid>
                                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="0,5,0,0" >
                                             <Button x:Name="NovoRelatorioGerencial_bt" Content="Novo"  Height="30" Width="148" Margin="10,0,0,0" Click="NovoRelatorioGerencial_bt_Click"/>
-                                            <Button x:Name="SalvarRelatorioGerencial_bt" Content="Salvar"  Height="30" Width="148" Margin="10,0,0,0" Click="SalvarRelatorioGerencial_bt_Click"/>
+                                            <Button x:Name="SalvarRelatorioGerencial_bt" Content="Salvar" IsEnabled="False" Height="30" Width="148" Margin="10,0,0,0" Click="SalvarRelatorioGerencial_bt_Click"/>
                                             <Button x:Name="ExcluirRelatorioGerencial_bt" Content="Excluir"  Height="30" Width="148" Margin="10,0,0,0" Click="ExcluirRelatorioGerencial_bt_Click"/>
                                         </StackPanel>
                                     </Grid>
@@ -657,7 +651,7 @@
                                     <Grid>
                                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="0,5,0,0" >
                                             <Button x:Name="NovoCracha_bt" Content="Novo"  Height="30" Width="148" Margin="10,0,0,0" Click="NovoCracha_bt_Click"/>
-                                            <Button x:Name="SalvarCracha_bt" Content="Salvar"  Height="30" Width="148" Margin="10,0,0,0" Click="SalvarCracha_bt_Click"/>
+                                            <Button x:Name="SalvarCracha_bt" Content="Salvar" IsEnabled="False" Height="30" Width="148" Margin="10,0,0,0" Click="SalvarCracha_bt_Click"/>
                                             <Button x:Name="ExcluirCracha_bt" Content="Excluir"  Height="30" Width="148" Margin="10,0,0,0" Click="ExcluirCracha_bt_Click"/>
                                         </StackPanel>
                                     </Grid>

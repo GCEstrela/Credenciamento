@@ -496,6 +496,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 if (Entity == null) return;
 
+                
+
+
                 Entity.DevolucaoEntregaBoId = IsCheckDevolucao ? (int)devolucaoCredencial : 0;
                 var n1 = Mapper.Map<ColaboradorCredencial>(Entity);
 
@@ -510,6 +513,17 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 n1.ColaboradorPrivilegio2Id = Entity.ColaboradorPrivilegio2Id;
                 n1.Identificacao1 = Entity.Identificacao1;
                 n1.Identificacao2 = Entity.Identificacao2;
+
+                
+                n1.Validade = DateTime.Now.AddHours(8); //Sempre Add 8 horas à credencial nova.
+                if (n1.Validade <= DateTime.Now)
+                {
+                    WpfHelp.Mbox("Data de Validade da Credencial inválida",MessageBoxIcon.Information);
+                    MensagemAlerta = "";
+                    Entity = null;
+                    _viewModelParent.HabilitaControleTabControls(true, true, true, true, true, true);
+                    return;
+                }
                 // var EmpresaSigla = _colaboradorEmpresaService.Listar(null, null, null, null,null,n1.ColaboradorEmpresaId).ToList();
                 if (_configuraSistema.Colete)
                 {
