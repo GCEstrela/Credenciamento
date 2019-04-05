@@ -538,6 +538,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 SelectListViewIndex = 0;
 
                 #region Verificar se pode gerar CardHolder
+
                 var entity = _service.BuscarCredencialPelaChave(n1.ColaboradorCredencialId);
                 GerarCardHolder(n1.ColaboradorCredencialId, entity);
 
@@ -721,7 +722,21 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             if (tecCredencial.PodeGerarCardHolder)
                 _service.CriarTitularCartao(new CredencialGenetecService(Main.Engine), new ColaboradorService(), n1);
         }
+        /// <summary>
+        /// Criar CardHolder e Credencial do usuario
+        /// <para>Criar um card holder caso o usuario nao o possua</para>
+        /// </summary>
+        /// <param name="colaboradorCredencialId">Identificador</param>
+        private void RemoverRegrasCardHolder(int colaboradorCredencialId, ColaboradoresCredenciaisView entity)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
 
+            var n1 = _service.BuscarCredencialPelaChave(colaboradorCredencialId);
+
+            var tecCredencial = _auxiliaresService.TecnologiaCredencialService.BuscarPelaChave(entity.TecnologiaCredencialId);
+            //if (tecCredencial.PodeGerarCardHolder)
+                _service.RemoverRegrasCardHolder(new CredencialGenetecService(Main.Engine), new ColaboradorService(), n1);
+        }
         /// <summary>
         ///     Cancelar operação
         /// </summary>
@@ -761,10 +776,17 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (result != DialogResult.Yes) return;
 
                 var n1 = Mapper.Map<ColaboradorCredencial>(Entity);
-                _service.Remover(n1);
 
+                //Remover as regras do CardHorlder
+                RemoverRegrasCardHolder(n1.ColaboradorCredencialId, Entity);
+                ///////////////////
+                
+                _service.Remover(n1);
                 //Retirar empresa da coleção
                 EntityObserver.Remove(Entity);
+
+                
+
                 _viewModelParent.HabilitaControleTabControls(true, true, true, true, true, true);
             }
             catch (Exception ex)

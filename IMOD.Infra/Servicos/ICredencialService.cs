@@ -51,7 +51,11 @@ namespace IMOD.Infra.Servicos
         /// </summary>
         /// <param name="entity"></param>
         bool ExisteCredential(CardHolderEntity entity);
-
+        /// <summary>
+        ///     Remover Regras de acesso de um Card Holder (Titular do cartão)
+        /// </summary>
+        /// <param name="entity"></param>
+        void RemoverRegrasCardHolder(CardHolderEntity entity);
         #endregion
     }
 }

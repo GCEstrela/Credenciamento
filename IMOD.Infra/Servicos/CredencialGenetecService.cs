@@ -353,11 +353,11 @@ namespace IMOD.Infra.Servicos
                 var service = systemConfiguration.CustomFieldService;
                 if (result.Success)
                 {
-                    //foreach (DataRow dr in result.Data.Rows)    //sempre remove todas as regras de um CardHolder
-                    //{
-                    //    AccessRule accesso = _sdk.GetEntity((Guid)dr[0]) as AccessRule;
-                    //    accesso.Members.Remove(cardHolder.Guid);
-                    //}
+                    foreach (DataRow dr in result.Data.Rows)    //sempre remove todas as regras de um CardHolder
+                    {
+                        AccessRule accesso = _sdk.GetEntity((Guid)dr[0]) as AccessRule;
+                        accesso.Members.Remove(cardHolder.Guid);
+                    }
 
                     foreach (DataRow dr in result.Data.Rows)
                     {
@@ -578,6 +578,46 @@ namespace IMOD.Infra.Servicos
                 }
                 return true;
                 #endregion
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+                throw;
+            }
+        }
+        /// <summary>
+        ///     Verifica Regras de Acesso 
+        ///     <para>Add/Remove Regras de Acesso de um CardHolder se nao existir</para>
+        /// </summary>
+        /// <param name="entity"></param>        
+        public void RemoverRegrasCardHolder(CardHolderEntity entity)
+        {
+            EntityConfigurationQuery query;
+            QueryCompletedEventArgs result;
+            try
+            {
+                var guid = new Guid(entity.IdentificadorCardHolderGuid);
+                var cardHolder = _sdk.GetEntity(guid) as Cardholder;
+
+                query = _sdk.ReportManager.CreateReportQuery(ReportType.EntityConfiguration) as EntityConfigurationQuery;
+                query.EntityTypeFilter.Add(EntityType.AccessRule);
+                query.NameSearchMode = StringSearchMode.StartsWith;
+                result = query.Query();
+                SystemConfiguration systemConfiguration = _sdk.GetEntity(SdkGuids.SystemConfiguration) as SystemConfiguration;
+                var service = systemConfiguration.CustomFieldService;
+                if (result.Success)
+                {
+                    _sdk.TransactionManager.CreateTransaction();
+
+                    foreach (DataRow dr in result.Data.Rows)    //sempre remove todas as regras de um CardHolder
+                    {
+                        AccessRule accesso = _sdk.GetEntity((Guid)dr[0]) as AccessRule;
+                        accesso.Members.Remove(cardHolder.Guid);
+                    }
+
+                    _sdk.TransactionManager.CommitTransaction();
+                }
+
             }
             catch (Exception ex)
             {
