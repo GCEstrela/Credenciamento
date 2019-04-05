@@ -496,9 +496,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 if (Entity == null) return;
 
-                
-
-
                 Entity.DevolucaoEntregaBoId = IsCheckDevolucao ? (int)devolucaoCredencial : 0;
                 var n1 = Mapper.Map<ColaboradorCredencial>(Entity);
 
@@ -516,10 +513,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 n1.Validade = Entity.Validade.Value.AddHours(23).AddMinutes(59).AddSeconds(59); //Sempre Add 23:59:59 horas à credencial nova.
                 if (n1.Validade <= DateTime.Now)
                 {
-                    WpfHelp.Mbox("Data de Validade da Credencial inválida",MessageBoxIcon.Information);
+                    WpfHelp.Mbox("Data de Validade da Credencial é inferior à data atual.", MessageBoxIcon.Information);
                     MensagemAlerta = "";
-                    Entity = null;
-                    _viewModelParent.HabilitaControleTabControls(true, true, true, true, true, true);
+
+                    Comportamento.PrepareCriarSegundaTentativa();
                     return;
                 }
                 // var EmpresaSigla = _colaboradorEmpresaService.Listar(null, null, null, null,null,n1.ColaboradorEmpresaId).ToList();
