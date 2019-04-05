@@ -540,7 +540,13 @@
                                     UpdateSourceTrigger=PropertyChanged}"
                                           IsEnabled="True" Height="24" Width="43">
                                     <ComboBoxItem>SSP</ComboBoxItem>
+                                    <ComboBoxItem>SJS</ComboBoxItem>
+                                    <ComboBoxItem>SESP</ComboBoxItem>
+                                    <ComboBoxItem>SJTC</ComboBoxItem>
+                                    <ComboBoxItem>CGPI</ComboBoxItem>
+                                    <ComboBoxItem>COMAE</ComboBoxItem>
                                     <ComboBoxItem>DPF</ComboBoxItem>
+                                    <ComboBoxItem>DIREX</ComboBoxItem>
                                     <ComboBoxItem>EST</ComboBoxItem>
                                     <ComboBoxItem>OAB</ComboBoxItem>
                                 </ComboBox>
