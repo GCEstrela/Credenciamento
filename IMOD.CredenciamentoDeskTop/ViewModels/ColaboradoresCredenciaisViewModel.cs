@@ -734,7 +734,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             var n1 = _service.BuscarCredencialPelaChave(colaboradorCredencialId);
 
             var tecCredencial = _auxiliaresService.TecnologiaCredencialService.BuscarPelaChave(entity.TecnologiaCredencialId);
-            //if (tecCredencial.PodeGerarCardHolder)
+            if (tecCredencial.PodeGerarCardHolder)
                 _service.RemoverRegrasCardHolder(new CredencialGenetecService(Main.Engine), new ColaboradorService(), n1);
         }
         /// <summary>
@@ -778,9 +778,15 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var n1 = Mapper.Map<ColaboradorCredencial>(Entity);
 
                 //Remover as regras do CardHorlder
-                RemoverRegrasCardHolder(n1.ColaboradorCredencialId, Entity);
-                ///////////////////
-                
+                try
+                {
+                    RemoverRegrasCardHolder(n1.ColaboradorCredencialId, Entity);
+                    ///////////////////
+                }
+                catch (Exception ex)
+                {
+
+                }
                 _service.Remover(n1);
                 //Retirar empresa da coleção
                 EntityObserver.Remove(Entity);

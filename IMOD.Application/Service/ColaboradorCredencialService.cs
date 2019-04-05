@@ -464,13 +464,20 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void RemoverRegrasCardHolder(ICredencialService geradorCredencialService, IColaboradorService colaboradorService, ColaboradoresCredenciaisView entity)
         {
-            if (geradorCredencialService == null) throw new ArgumentNullException(nameof(geradorCredencialService));
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            
+            try
+            {
+                if (geradorCredencialService == null) throw new ArgumentNullException(nameof(geradorCredencialService));
+                if (entity == null) throw new ArgumentNullException(nameof(entity));
 
-            var titularCartao = CardHolderEntity(entity);
-            geradorCredencialService.RemoverRegrasCardHolder(titularCartao);
-            
+
+                var titularCartao = CardHolderEntity(entity);
+                geradorCredencialService.RemoverRegrasCardHolder(titularCartao);
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+                throw;
+            }
         }
 
         /// <summary>

@@ -254,7 +254,7 @@ namespace IMOD.Infra.Servicos
                 var credencial = _sdk.GetEntity(new Guid(entity.IdentificadorCredencialGuid)) as Credential;
                 if (credencial == null) throw new InvalidOperationException("Não foi possível encontrar uma credencial.");
                 credencial.State = entity.Ativo ? CredentialState.Active : CredentialState.Inactive;
-                RemoveRegraAcesso(entity);  //emove todas as regras de aceso do cardholder
+                //RemoverRegrasCardHolder(entity);  //Remove todas as regras de aceso do cardholder
                 if (credencial.State != CredentialState.Active)
                 {
                     VerificaRegraAcesso(entity, false);
