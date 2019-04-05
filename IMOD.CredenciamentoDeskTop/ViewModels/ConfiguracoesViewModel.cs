@@ -1306,7 +1306,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public void OnSalvarEdicaoCommand_AreaAcesso()
         {
             try
-            {
+            {               
+
                 var entity = AreaAcessoSelecionada;
                 var entityConv = Mapper.Map<AreaAcesso> (entity);
 

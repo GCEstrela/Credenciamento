@@ -358,9 +358,10 @@
                                 <TextBox CharacterCasing="Upper"  x:Name="DescricaoCredencialStatus_tb"  Text="{Binding SelectedItem.Descricao, ElementName=ListaCredenciaisStatus_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="334"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0">
-                                <ListView x:Name="ListaCredenciaisStatus_lv" Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding CredenciaisStatus, Mode=TwoWay}" 
-                                                          SelectedItem="{Binding Path = CredenciaisStatusSelecionado, Mode=TwoWay}"  Height="167" Width="560"
-                                                   SelectedIndex="{Binding Path=CredencialStatusSelectedIndex, Mode=TwoWay}" >
+                                <ListView x:Name="ListaCredenciaisStatus_lv" Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                                          ItemsSource="{Binding CredenciaisStatus, Mode=TwoWay}" 
+                                          SelectedItem="{Binding Path = CredenciaisStatusSelecionado, Mode=TwoWay}"  Height="167" Width="560"
+                                          SelectedIndex="{Binding Path=CredencialStatusSelectedIndex, Mode=TwoWay}" >
                                     <ListView.View>
                                         <GridView FrameworkElement.FlowDirection="RightToLeft">
                                             <GridViewColumn Width="50" Header="Cod."  DisplayMemberBinding="{Binding CredencialStatusId}"/>
@@ -392,8 +393,8 @@
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0">
                                 <ListView x:Name="ListaTiposAcessos_lv" Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding TiposAcessos, Mode=TwoWay}" 
-                                                          SelectedItem="{Binding Path = TipoAcessoSelecionado, Mode=TwoWay}"  Height="167" Width="560" 
-                                                   SelectedIndex="{Binding Path=TipoAcessoSelectedIndex, Mode=TwoWay}" >
+                                          SelectedItem="{Binding Path = TipoAcessoSelecionado, Mode=TwoWay}"  Height="167" Width="560" 
+                                          SelectedIndex="{Binding Path=TipoAcessoSelectedIndex, Mode=TwoWay}" >
                                     <ListView.View>
                                         <GridView FrameworkElement.FlowDirection="RightToLeft">
                                             <GridViewColumn Width="50" Header="Cod."  DisplayMemberBinding="{Binding TipoAcessoId}"/>
@@ -460,9 +461,10 @@
                             </StackPanel>
 
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0">
-                                <ListView x:Name="ListaFormatosCredenciais_lv" Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding FormatosCredenciais, Mode=TwoWay}" 
-                                                          SelectedItem="{Binding Path = FormatoCredencialSelecionada, Mode=TwoWay}"  Height="167" Width="560" 
-                                                   SelectedIndex="{Binding Path=FormatoCredencialSelectedIndex, Mode=TwoWay}" >
+                                <ListView x:Name="ListaFormatosCredenciais_lv" Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                                          ItemsSource   ="{Binding FormatosCredenciais, Mode=TwoWay}" 
+                                          SelectedItem  ="{Binding Path = FormatoCredencialSelecionado, Mode=TwoWay}"  Height="167" Width="560" 
+                                          SelectedIndex ="{Binding Path=FormatoCredencialSelectedIndex, Mode=TwoWay}" >
 
                                     <ListView.View>
                                         <GridView FrameworkElement.FlowDirection="RightToLeft">
