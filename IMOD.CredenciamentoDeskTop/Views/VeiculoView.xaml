@@ -238,7 +238,7 @@
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="1,1,0,1">
                                     <Label Content="Tipo:" Height="28"   Width="110" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
                                     <ComboBox  x:Name="cboTipo"   Text="{Binding Entity.Tipo, UpdateSourceTrigger=PropertyChanged}"
-                                               Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
+                                                
                                                Height="24"  Width="329"  TabIndex="0" IsEditable="true" >
                                         <ComboBoxItem>EQUIPAMENTO</ComboBoxItem>
                                         <ComboBoxItem>VEÍCULO</ComboBoxItem>
@@ -249,17 +249,17 @@
                                     <Label Content="Descrição:" Height="28" Width="110"  HorizontalContentAlignment="Right"
                                            Foreground="#FFD0D0D0" />
                                     <TextBox CharacterCasing="Upper" x:Name="txtDescricao" Text="{Binding Entity.Descricao}"
-                                             MaxLength="50" IsEnabled="True" Height="24" Width="330" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
+                                             MaxLength="50" IsEnabled="True" Height="24" Width="330"  />
                                 </StackPanel>
 
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
                                             HorizontalAlignment="Left" Margin="1">
                                     <Label Content="Placa/Identificador:" Height="28" Width="110" HorizontalContentAlignment="Right"  Foreground="#FFD0D0D0" />
-                                    <TextBox  MaxLength="10" x:Name="txtPlacaIdentificador" CharacterCasing="Upper" Text="{Binding Entity.PlacaIdentificador, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="123" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
+                                    <TextBox  MaxLength="10" x:Name="txtPlacaIdentificador" CharacterCasing="Upper" Text="{Binding Entity.PlacaIdentificador, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="123"   />
                                     <Label Content="Série/Chassi:" Height="28" Width="78"  Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
                                     <TextBox  x:Name="txtSerieChassi" MaxLength="20" CharacterCasing="Upper" 
                                               Text="{Binding Entity.SerieChassi, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="129" 
-                                              Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
+                                                />
 
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
@@ -269,12 +269,12 @@
                                     <TextBox CharacterCasing="Upper" x:Name="txtFrota" MaxLength="10"
                                              Text="{Binding Entity.Frota, UpdateSourceTrigger=PropertyChanged}"
                                              IsEnabled="True" Height="24" Width="124"
-                                             Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
+                                              />
                                     <Label Content="Patrimônio:" Height="28" Width="76" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
                                     <TextBox CharacterCasing="Upper" x:Name="txtPatrimonio" MaxLength="10"
                                              Text="{Binding Entity.Patrimonio, UpdateSourceTrigger=PropertyChanged}"
                                              IsEnabled="True" Height="24" Width="128" 
-                                             Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
+                                              />
                                 </StackPanel>
 
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
@@ -284,12 +284,12 @@
                                     <TextBox CharacterCasing="Upper" x:Name="txtMarca" MaxLength="11"
                                              Text="{Binding Entity.Marca, UpdateSourceTrigger=PropertyChanged}"
                                              IsEnabled="True" Height="24" Width="124" 
-                                             Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
+                                              />
                                     <Label Content="Modelo:" Height="28" Width="77" HorizontalContentAlignment="Right"
                                            Foreground="#FFD0D0D0" />
                                     <TextBox CharacterCasing="Upper" x:Name="txtModeloVeiculoEquipamento" MaxLength="50"
                                              Text="{Binding Entity.Modelo,UpdateSourceTrigger=PropertyChanged}"
-                                             IsEnabled="True" Height="24" Width="127" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
+                                             IsEnabled="True" Height="24" Width="127"  />
                                 </StackPanel>
 
                             </StackPanel>
@@ -318,7 +318,7 @@
                                                   SelectedValuePath="TipoEquipamentoId" IsSynchronizedWithCurrentItem="True" 
                                                   IsEditable="true" 
                                                   SelectedIndex="0" 
-                                                  Width="381" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
+                                                  Width="381"  />
                                 </StackPanel>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
@@ -328,7 +328,7 @@
                                 <TextBox CharacterCasing="Upper"   MaxLength="4" x:Name="txtAno"
                                              Text="{Binding Entity.Ano, UpdateSourceTrigger=PropertyChanged}"
                                              IsEnabled="True" PreviewTextInput="NumberOnly"  Height="24" Width="60" 
-                                             Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
+                                              />
                                 <Label Content="Combustível:" Height="28" Width="110" Margin="40,0,0,0" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
                                 <ComboBox  Height="26" VerticalContentAlignment="Center" x:Name="cmbCombustivel"
                                                HorizontalContentAlignment="Center"
@@ -336,7 +336,7 @@
                                                ItemsSource="{Binding TiposCombustiveis}" DisplayMemberPath="Descricao"
                                                SelectedValue="{Binding Entity.CombustivelId, UpdateSourceTrigger=PropertyChanged}" 
                                                SelectedValuePath="TipoCombustivelId"   TabIndex="14" Width="173" 
-                                               Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
+                                                />
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
                                             HorizontalAlignment="Left" Margin="1">
@@ -345,19 +345,19 @@
                                 <TextBox CharacterCasing="Upper" MaxLength="5" x:Name="txtAltura"
                                              PreviewTextInput="NumberOnly"
                                              Text="{Binding Entity.Altura,UpdateSourceTrigger=PropertyChanged}"
-                                             IsEnabled="True" Height="24" Width="60" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
+                                             IsEnabled="True" Height="24" Width="60"  />
                                 <Label Content="Comprimento (cm):" Height="28" Width="130" HorizontalContentAlignment="Right"
                                            Foreground="#FFD0D0D0" />
                                 <TextBox CharacterCasing="Upper" MaxLength="5" x:Name="txtComprimento"
                                              PreviewTextInput="NumberOnly"
                                              Text="{Binding Entity.Comprimento,UpdateSourceTrigger=PropertyChanged}"
-                                             IsEnabled="True" Height="24" Width="45" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
+                                             IsEnabled="True" Height="24" Width="45"  />
                                 <Label Content="Largura (cm):" Height="28" Width="102" HorizontalContentAlignment="Right"
                                            Foreground="#FFD0D0D0" />
                                 <TextBox CharacterCasing="Upper" MaxLength="5" x:Name="txtLargura"
                                              PreviewTextInput="NumberOnly" 
                                              Text="{Binding Entity.Largura,UpdateSourceTrigger=PropertyChanged}"
-                                             IsEnabled="True" Height="24" Width="45" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
+                                             IsEnabled="True" Height="24" Width="45"  />
                             </StackPanel>
 
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
@@ -366,7 +366,7 @@
                                            Foreground="#FFD0D0D0" />
                                 <TextBox CharacterCasing="Upper"   MaxLength="20" x:Name="txtCor"
                                              Text="{Binding Entity.Cor,UpdateSourceTrigger=PropertyChanged}"
-                                             IsEnabled="True" Height="24" Width="98" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
+                                             IsEnabled="True" Height="24" Width="98"  />
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                 <Label Content="UF:" Height="28" Width="110" HorizontalContentAlignment="Right"
