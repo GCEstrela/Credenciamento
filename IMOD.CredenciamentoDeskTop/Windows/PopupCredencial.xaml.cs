@@ -8,6 +8,7 @@
 
 using System;
 using System.Globalization;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
@@ -89,7 +90,12 @@ namespace IMOD.CredenciamentoDeskTop.Windows
         {
             Close();
         }
+        public static class myPrinters
+        {
+            [DllImport("winspool.drv", CharSet = CharSet.Auto, SetLastError = true)]
+            public static extern bool SetDefaultPrinter(string Name);
 
+        }
         private void ImprimirCredencial_bt_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -174,6 +180,7 @@ namespace IMOD.CredenciamentoDeskTop.Windows
                 var collate = dialog1.PrinterSettings.Collate;
 
                 _report.PrintOptions.PrinterName = dialog1.PrinterSettings.PrinterName;
+                myPrinters.SetDefaultPrinter(dialog1.PrinterSettings.PrinterName);
                 _report.PrintToPrinter(copies, collate, fromPage, toPage);
                 confirmacaoImpressao = true;
             }

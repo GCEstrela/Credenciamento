@@ -365,6 +365,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         public void AtualizarDados(ColaboradorView entity, ColaboradorViewModel viewModelParent)
         {
+            verificarcredencialAtida = false;
             EntityObserver.Clear();
             if (entity == null) return; // throw new ArgumentNullException(nameof(entity));
             _colaboradorView = entity;
@@ -932,7 +933,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private void PrepareAlterar()
         {
-            verificarcredencialAtida = false;
+            verificarcredencialAtida = true;
             if (Entity == null)
             {
                 WpfHelp.PopupBox("Selecione um item da lista", 1);
@@ -943,6 +944,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             _prepareCriarCommandAcionado = false;
             _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;
             IsEnableLstView = false;
+            //Listar Colaboradores Ativos
+            OnAtualizarDadosContratosAtivos();
             //Habilitar controles somente se a credencial não estiver sido impressa
             Habilitar = !Entity.Impressa;
             _viewModelParent.HabilitaControleTabControls(false, false, false, false, false, true);
