@@ -57,7 +57,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         private ConfiguraSistema _configuraSistema;
 
-
+        private Boolean verificarcredencialAtida = false;
         private int _count;
         private List<CredencialMotivo> _credencialMotivo;
 
@@ -101,7 +101,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public ObservableCollection<ColaboradorEmpresa> ColaboradoresEmpresas { get; set; }
         public ColaboradorEmpresa ColaboradorEmpresa { get; set; }
         public List<AreaAcesso> ColaboradorPrivilegio { get; set; }
-        public ColaboradoresCredenciaisView Entity { get; set; }
+        public ColaboradoresCredenciaisView Entity { get; set; }        
         public List<Curso> Cursos { get; private set; }
         public bool IsCheckDevolucao { get; set; }
         public Visibility VisibilityCheckDevolucao { get; set; }
@@ -480,6 +480,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private void PrepareRemover()
         {
+            verificarcredencialAtida = false;
             _prepareCriarCommandAcionado = false;
             _prepareAlterarCommandAcionado = false;
             Comportamento.PrepareRemover();
@@ -588,7 +589,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                Entity = new ColaboradoresCredenciaisView();
+                verificarcredencialAtida = true;
+                 Entity = new ColaboradoresCredenciaisView();
 
                 //if (!HabilitaCriar(_colaboradorView.ColaboradorId)) throw new InvalidOperationException("Não é possivel criar credencial, pois existe uma credencial ativa para o colaborador no contrato.");
 
@@ -929,6 +931,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private void PrepareAlterar()
         {
+            verificarcredencialAtida = false;
             if (Entity == null)
             {
                 WpfHelp.PopupBox("Selecione um item da lista", 1);
@@ -946,6 +949,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         private void PrepareSalvar()
         {
+            verificarcredencialAtida = false;
             // 
             if (Entity.NumeroColete == "")
             {
@@ -990,7 +994,31 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
 
         }
+        /// <summary>
+        ///     Carregar Vinculos Ativos do Colaborador
+        /// </summary>
+        public void CarregarVinculosAtivos(int colaboradorId,int empresaId)
+        {
+            try
+            {
+                if (!verificarcredencialAtida) return;
+                if (colaboradorId == 0) return;
+                if (empresaId == 0) return;
+                var n1 = _service.Listar(null,null,null,null, colaboradorId, empresaId, true);
+                if (n1.Count >= 1)
+                {
+                    verificarcredencialAtida = false;
+                    Comportamento.PrepareCancelar();
+                    WpfHelp.Mbox("Já existe credencial ativa para esse contrato.");
+                    return;
+                }
+                verificarcredencialAtida = false;
+            }
+            catch
+            {
 
+            }
+        }
         /// <summary>
         ///     Validar Regras de Negócio
         /// </summary>
