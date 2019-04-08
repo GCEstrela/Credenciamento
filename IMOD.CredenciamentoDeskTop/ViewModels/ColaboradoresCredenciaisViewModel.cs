@@ -365,6 +365,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         public void AtualizarDados(ColaboradorView entity, ColaboradorViewModel viewModelParent)
         {
+            
             verificarcredencialAtida = false;
             EntityObserver.Clear();
             if (entity == null) return; // throw new ArgumentNullException(nameof(entity));
@@ -374,7 +375,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             //Listar dados de contratos
             if (_count == 0) ObterContratos();
             _count++;
-            ListarTodosContratos();
+            //ListarTodosContratos();
+            OnAtualizarDadosContratosAtivos();
             MensagemAlerta = "";
             OnPropertyChanged("Entity");
             CollectionViewSource.GetDefaultView(EntityObserver).Refresh();
@@ -459,13 +461,14 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <param name="colaboradorId"></param>
         private void ListarTodosContratoPorColaboradorAtivos(int colaboradorId)
         {
+            
             ColaboradoresEmpresas.Clear();
             var lst2 = _todosContratosEmpresas.Where(n => (n.ColaboradorId == colaboradorId) & n.Ativo).ToList();
             lst2.ForEach(n => { ColaboradoresEmpresas.Add(n); });
 
 
         }
-
+        
         /// <summary>
         ///     Relação dos itens de pesauisa
         /// </summary>
@@ -582,6 +585,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             //Obtem o primeiro registro de configuracao
             if (config == null) throw new InvalidOperationException("Não foi possivel obter dados de configuração do sistema.");
             return config.FirstOrDefault();
+        }
+
+        private void PrepararCancelar()
+        {
+            verificarcredencialAtida = false;
+            Comportamento.PrepareCancelar();
         }
 
         /// <summary>
@@ -933,6 +942,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private void PrepareAlterar()
         {
+            //Listar Colaboradores Ativos
+            //OnAtualizarDadosContratosAtivos();
+
             verificarcredencialAtida = true;
             if (Entity == null)
             {
@@ -944,9 +956,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             _prepareCriarCommandAcionado = false;
             _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;
             IsEnableLstView = false;
-            //Listar Colaboradores Ativos
-            OnAtualizarDadosContratosAtivos();
-
+            
             //Habilitar controles somente se a credencial não estiver sido impressa
             Habilitar = !Entity.Impressa;
             _viewModelParent.HabilitaControleTabControls(false, false, false, false, false, true);
@@ -1159,7 +1169,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <summary>
         ///     Cancelar
         /// </summary>
-        public ICommand PrepareCancelarCommand => new CommandBase(Comportamento.PrepareCancelar, true);
+        public ICommand PrepareCancelarCommand => new CommandBase(PrepararCancelar, true);
 
         /// <summary>
         ///     Novo
