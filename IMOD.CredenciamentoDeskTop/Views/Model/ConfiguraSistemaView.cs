@@ -17,7 +17,7 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public string EmpresaLOGO { get; set; }
         public bool Contrato { get; set; }
         public bool Colete { get; set; }
-
+        public bool Regas { get; set; }
         #endregion
     }
 }
