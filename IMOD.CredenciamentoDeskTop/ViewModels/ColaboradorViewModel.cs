@@ -550,11 +550,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 _prepareCriarCommandAcionado = false;
                 _prepareAlterarCommandAcionado = false;
                 if (Entity != null) Entity.ClearMessageErro();
-                HabilitaControle (true, true);
                 Entity = null;
-
                 EntityObserver.Clear();
-                EntityObserver = new ObservableCollection<ColaboradorView>(_entityObserverCloned); 
+                EntityObserver = new ObservableCollection<ColaboradorView>(_entityObserverCloned);
+                HabilitaControle((Entity != null), true);
 
             }
             catch (Exception ex)
