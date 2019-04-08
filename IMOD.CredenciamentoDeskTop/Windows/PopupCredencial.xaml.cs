@@ -7,6 +7,7 @@
 #region
 
 using System;
+using System.Drawing.Printing;
 using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Windows;
@@ -90,12 +91,7 @@ namespace IMOD.CredenciamentoDeskTop.Windows
         {
             Close();
         }
-        public static class myPrinters
-        {
-            [DllImport("winspool.drv", CharSet = CharSet.Auto, SetLastError = true)]
-            public static extern bool SetDefaultPrinter(string Name);
-
-        }
+       
         private void ImprimirCredencial_bt_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -166,6 +162,7 @@ namespace IMOD.CredenciamentoDeskTop.Windows
 
         private void Imprimir()
         {
+            
             //TODO:Descomentar rotina
             confirmacaoImpressao = true;
             var dialog1 = new PrintDialog();
@@ -174,21 +171,26 @@ namespace IMOD.CredenciamentoDeskTop.Windows
 
             if (dialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                int copies = dialog1.PrinterSettings.Copies;
-                var fromPage = dialog1.PrinterSettings.FromPage;
-                var toPage = dialog1.PrinterSettings.ToPage;
-                var collate = dialog1.PrinterSettings.Collate;
 
-                _report.PrintOptions.PrinterName = dialog1.PrinterSettings.PrinterName;
-                myPrinters.SetDefaultPrinter(dialog1.PrinterSettings.PrinterName);
-                _report.PrintToPrinter(copies, collate, fromPage, toPage);
+                short copies = dialog1.PrinterSettings.Copies;
+                int fromPage = dialog1.PrinterSettings.FromPage;
+                int toPage = dialog1.PrinterSettings.ToPage;
+                bool collate = dialog1.PrinterSettings.Collate;
+
+                System.Drawing.Printing.PrinterSettings printerSettings = new System.Drawing.Printing.PrinterSettings();
+                printerSettings.Copies = copies;
+                printerSettings.FromPage = fromPage;
+                printerSettings.ToPage = toPage;
+                printerSettings.Collate = collate;
+                printerSettings.PrinterName = dialog1.PrinterSettings.PrinterName;
+
+                _report.PrintToPrinter(printerSettings, new PageSettings(), false);
                 confirmacaoImpressao = true;
             }
             else
             {
                 confirmacaoImpressao = false;
             }
-
             dialog1.Dispose();
         }
 
