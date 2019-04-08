@@ -1049,7 +1049,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var colaboradorcredencial = ExisteNumeroColete();
                 if (colaboradorcredencial != null)
                 {
-                    Entity.SetMessageErro("Colete", "Número do colte já existente.");
+                    Entity.SetMessageErro("Colete", "Número do colete já existente.");
                     WpfHelp.Mbox("Número do colete já cadastrado para o colaborador  " + colaboradorcredencial.ColaboradorNome.ToString() + " ");
                     return true;
                 }
@@ -1071,8 +1071,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                         IsCheckDevolucao = IsCheckDevolucao = Entity != null & Entity.DevolucaoEntregaBoId > 0 ? true : IsCheckDevolucao;
                         TextCheckDevolucao = DevoluçãoCredencial.Devolucao.Descricao();
-                        devolucaoCredencial = DevoluçãoCredencial.Devolucao;
-                        VisibilityCheckDevolucao = Visibility.Visible;
+                        devolucaoCredencial = DevoluçãoCredencial.Devolucao; 
+                        VisibilityCheckDevolucao = Visibility.Visible; 
                         break;
                     case 9:
                     case 10:
