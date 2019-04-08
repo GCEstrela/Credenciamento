@@ -57,7 +57,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         private ConfiguraSistema _configuraSistema;
 
-        private Boolean verificarcredencialAtida = false;
+        private Boolean verificarcredencialAtida = false; // Testa se é prara verificar a exectencia de credencial ativa para o colaborador.
         private int _count;
         private List<CredencialMotivo> _credencialMotivo;
 
