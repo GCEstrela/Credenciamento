@@ -945,6 +945,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             IsEnableLstView = false;
             //Listar Colaboradores Ativos
             OnAtualizarDadosContratosAtivos();
+
             //Habilitar controles somente se a credencial não estiver sido impressa
             Habilitar = !Entity.Impressa;
             _viewModelParent.HabilitaControleTabControls(false, false, false, false, false, true);
