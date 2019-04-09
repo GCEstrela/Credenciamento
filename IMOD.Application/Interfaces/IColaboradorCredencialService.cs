@@ -12,6 +12,7 @@ using IMOD.Domain.Entities;
 using IMOD.Domain.EntitiesCustom;
 using IMOD.Domain.Interfaces;
 using IMOD.Infra.Servicos;
+using IMOD.Infra.Servicos.Entities;
 
 #endregion
 
@@ -54,8 +55,7 @@ namespace IMOD.Application.Interfaces
         ///     CredencialStatus serviços
         /// </summary>
         ICredencialStatusService CredencialStatus { get; }
-
-        void RemoverRegrasCardHolder(CredencialGenetecService.CredencialGenetecService credencialGenetecService, ColaboradorService colaboradorService, ColaboradorCredencial ec);
+        
 
         /// <summary>
         ///     CredencialMotivo serviços
@@ -126,6 +126,14 @@ namespace IMOD.Application.Interfaces
         /// <param name="entity">Entidade</param>
         /// <param name="colaboradorId">Identificador</param>
         void RemoverRegrasCardHolder(ICredencialService geradorCredencialService, IColaboradorService colaboradorService, ColaboradoresCredenciaisView entity);
+
+
+        /// <summary>
+        ///     REmove as REgras de Acesso de um Cardholder
+        /// </summary>
+        /// <param name="entity">Entidade</param>
+        /// <param name="colaboradorId">Identificador</param>
+        void RemoverRegrasCardHolder(ICredencialService geradorCredencialService, CardHolderEntity entity);
         #endregion
     }
 }

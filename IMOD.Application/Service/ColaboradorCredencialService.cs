@@ -205,12 +205,10 @@ namespace IMOD.Application.Service
         public void Alterar(ColaboradorCredencial entity)
         {
             _repositorio.Alterar(entity);
-            //OnPropertyChanged("Entity");
-            //CollectionViewSource.GetDefaultView(EntityObserver).Refresh();
 
-            entity = BuscarPelaChave(entity.ColaboradorCredencialId);
-
-            ObterStatusCredencial(entity);
+            //comentado pois a busca não está retornando resultador e anulando a entity
+            //entity = BuscarPelaChave(entity.ColaboradorCredencialId);
+            //ObterStatusCredencial(entity);
 
         }
 
@@ -479,6 +477,30 @@ namespace IMOD.Application.Service
                 throw;
             }
         }
+
+
+        /// <summary>
+        ///     Remove Regra de acesso do cardHolder sub-sistema de credenciamento (Genetec)
+        /// </summary>
+        /// <param name="geradorCredencialService">Sub sistema de geração de credenciais de cartão de um titular</param>
+        /// <param name="colaboradorService">Colaborador service</param>
+        /// <param name="entity"></param>
+        public void RemoverRegrasCardHolder(ICredencialService geradorCredencialService, CardHolderEntity entity)
+        {
+            try
+            {                
+                if (entity == null) throw new ArgumentNullException(nameof(entity));
+                
+                geradorCredencialService.RemoverRegrasCardHolder(entity);
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+                throw;
+            }
+        }
+
+
 
         /// <summary>
         ///     Criar registro credencial e obter data de validade da credencial

@@ -34,6 +34,22 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=8.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.8.0.0\lib\net461\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="Genetec.Sdk, Version=5.7.0.0, Culture=neutral, PublicKeyToken=a446968a32b751de, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\IMOD.CredenciamentoDeskTop\Dlls\Genetec.Sdk.dll</HintPath>
+    </Reference>
+    <Reference Include="Genetec.Sdk.Controls">
+      <HintPath>..\IMOD.CredenciamentoDeskTop\Dlls\Genetec.Sdk.Controls.dll</HintPath>
+    </Reference>
+    <Reference Include="Genetec.Sdk.Maps">
+      <HintPath>..\IMOD.CredenciamentoDeskTop\Dlls\Genetec.Sdk.Maps.dll</HintPath>
+    </Reference>
+    <Reference Include="Genetec.Sdk.Workspace">
+      <HintPath>..\IMOD.CredenciamentoDeskTop\Dlls\Genetec.Sdk.Workspace.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Expression.Encoder">
       <HintPath>..\IMOD.CredenciamentoDeskTop\Dlls\Microsoft.Expression.Encoder.dll</HintPath>
     </Reference>
@@ -41,6 +57,9 @@
     <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Core" />
     <Reference Include="System.Management" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -48,8 +67,11 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Main.cs" />
+    <Compile Include="Mapeamento\AutoMapperConfig.cs" />
     <Compile Include="ProjectInstaller.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -67,15 +89,24 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IMOD.Application\IMOD.Application.csproj">
       <Project>{b7bd6687-cb39-45a0-9b21-67125da69a2e}</Project>
       <Name>IMOD.Application</Name>
     </ProjectReference>
+    <ProjectReference Include="..\IMOD.CredenciamentoDeskTop\IMOD.CredenciamentoDeskTop.csproj">
+      <Project>{974F5875-4CFB-4926-8273-D1BF96AC8242}</Project>
+      <Name>IMOD.CredenciamentoDeskTop</Name>
+    </ProjectReference>
     <ProjectReference Include="..\IMOD.Domain\IMOD.Domain.csproj">
       <Project>{f7dc651f-cb04-40ca-ac1b-c2355b474cf3}</Project>
       <Name>IMOD.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IMOD.Infra\IMOD.Infra.csproj">
+      <Project>{0b4ad570-efa6-4207-b4c1-3e95050452ac}</Project>
+      <Name>IMOD.Infra</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
