@@ -264,3 +264,4 @@ paket-files/
 __pycache__/
 *.pyc
 /IMOD.CredenciamentoDeskTop/Cracha
+/IMOD.PreCredenciamentoWeb
