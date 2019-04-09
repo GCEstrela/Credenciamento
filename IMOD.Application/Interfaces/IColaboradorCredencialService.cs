@@ -7,6 +7,7 @@
 #region
 
 using System.Collections.Generic;
+using IMOD.Application.Service;
 using IMOD.Domain.Entities;
 using IMOD.Domain.EntitiesCustom;
 using IMOD.Domain.Interfaces;
@@ -53,6 +54,8 @@ namespace IMOD.Application.Interfaces
         ///     CredencialStatus serviços
         /// </summary>
         ICredencialStatusService CredencialStatus { get; }
+
+        void RemoverRegrasCardHolder(CredencialGenetecService.CredencialGenetecService credencialGenetecService, ColaboradorService colaboradorService, ColaboradorCredencial ec);
 
         /// <summary>
         ///     CredencialMotivo serviços

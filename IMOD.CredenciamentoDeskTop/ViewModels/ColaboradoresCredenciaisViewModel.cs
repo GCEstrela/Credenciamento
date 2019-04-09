@@ -749,6 +749,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             var tecCredencial = _auxiliaresService.TecnologiaCredencialService.BuscarPelaChave(entity.TecnologiaCredencialId);
             if (tecCredencial.PodeGerarCardHolder)
                 _service.RemoverRegrasCardHolder(new CredencialGenetecService(Main.Engine), new ColaboradorService(), n1);
+            
         }
         /// <summary>
         ///     Cancelar operação

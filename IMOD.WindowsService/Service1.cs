@@ -11,12 +11,16 @@ using System.Threading.Tasks;
 using IMOD.Application.Service;
 using IMOD.Application.Interfaces;
 using System.Threading;
+using IMOD.Domain.Entities;
+using Microsoft.Expression.Encoder;
+
+
 
 namespace IMOD.WindowsService
 {
     public partial class Service1 : ServiceBase
     {
-
+        private IColaboradorCredencialService _serviceColaborador = new ColaboradorCredencialService();
         private IEmpresaContratosService _service = new EmpresaContratoService();
         private Timer _timer;
 
@@ -35,16 +39,33 @@ namespace IMOD.WindowsService
         {
             try
             {
-                CriarLog("serviço rodando:" + DateTime.Now);
+                //CriarLog("serviço rodando:" + DateTime.Now);
                 //var empresaContratos = _service.Listar().Where(ec => ec.StatusId == 0).ToList();
-                var empresaContratos = _service.Listar().ToList();
-                empresaContratos.ForEach(ec =>
+                var colaboradorContratos = _serviceColaborador.Listar(null, null, null, null, null, null,true).ToList();
+                colaboradorContratos.ForEach(ec =>
+                {
+                    if (ec.Validade < DateTime.Now)
                     {
-                        string texto = ec.Descricao + ((ec.Validade < DateTime.Now) ? " Vencido em : " : " Válido até : ") + ec.Validade;                        
-                        CriarLog(string.Format("Contrato: {0}" , texto));
-                        Console.WriteLine(string.Format("Contrato: {0}", texto));
+                        ec.Ativa = false;
+                        _serviceColaborador.Alterar(ec);
+                        //_serviceColaborador.RemoverRegrasCardHolder(new CredencialGenetecService(Main.Engine), new ColaboradorService(), ec);
+                        
                     }
+
+                    string texto = "Impressa.:" + ec.Impressa + " Status.: " + ec.Ativa + " " + ec.ColaboradorNome + ((ec.Validade < DateTime.Now) ? " Vencido em : " : " Válido até : ") + ec.Validade;
+                    CriarLog(string.Format("Contrato: {0}", texto));
+                    //Console.WriteLine(string.Format("Contrato: {0}", texto));
+                }
                 );
+
+                //var empresaContratos = _service.Listar().ToList();
+                //empresaContratos.ForEach(ec =>
+                //    {
+                //        string texto = ec.Descricao + ((ec.Validade < DateTime.Now) ? " Vencido em : " : " Válido até : ") + ec.Validade;                        
+                //        CriarLog(string.Format("Contrato: {0}" , texto));
+                //        //Console.WriteLine(string.Format("Contrato: {0}", texto));
+                //    }
+                //);
             }
             catch (Exception ex)
             {
