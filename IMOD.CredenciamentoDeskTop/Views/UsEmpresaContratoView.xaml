@@ -66,7 +66,7 @@
                                  IsEnabled="False" Height="24" Width="50" Visibility="Collapsed" />
                         <Label Content="Nº do Contrato:" Height="28" Width="103" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"  />
                         <TextBox x:Name="NumeroContrato_tb" MaxLength="13" CharacterCasing="Upper"
-                                 Text="{Binding Entity.NumeroContrato, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                 Text="{Binding Entity.NumeroContrato,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                                  IsEnabled="True" Height="24" Width="65" 
                                  />
                         <CheckBox x:Name="Terceira_cb" IsChecked="{Binding Entity.Terceirizada}" FlowDirection="RightToLeft" VerticalAlignment="Center"

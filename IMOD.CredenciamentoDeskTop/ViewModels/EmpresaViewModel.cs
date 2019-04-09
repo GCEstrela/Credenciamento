@@ -430,6 +430,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private void PrepareCriar()
         {
             Entity = new EmpresaView();
+            ListarDadosAuxiliares();
             _prepareCriarCommandAcionado = true;
             Comportamento.PrepareCriar();
             _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;
@@ -564,6 +565,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 WpfHelp.PopupBox ("Selecione um item da lista", 1);
                 return;
             }
+            ListarDadosAuxiliares();
             Comportamento.PrepareAlterar();
             _prepareCriarCommandAcionado = false;
             _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;

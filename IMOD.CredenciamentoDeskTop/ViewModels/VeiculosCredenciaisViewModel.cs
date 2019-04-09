@@ -438,9 +438,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
             #region Habilitar botão de impressao e mensagem ao usuario
 
-            var pendenciaImpeditivaEmpresa = serviceEmpresa.Pendencia.ListarPorEmpresa(entity.EmpresaId).Where(n => n.Impeditivo == true).ToList();
+            var pendenciaImpeditivaEmpresa = serviceEmpresa.Pendencia.ListarPorEmpresa(entity.EmpresaId).Where(n => n.Impeditivo == true && n.Ativo == true).ToList();
+            var pendenciaImpeditivaVeiculo = serviceEmpresa.Pendencia.ListarPorVeiculo(entity.VeiculoId).Where(n => n.Impeditivo == true && n.Ativo == true).ToList();
 
-            HabilitaImpressao = entity.Ativa & !entity.PendenciaImpeditiva & !entity.Impressa && entity.Validade >= DateTime.Now.Date && (pendenciaImpeditivaEmpresa.Count <= 0);
+            HabilitaImpressao = entity.Ativa & !entity.PendenciaImpeditiva & !entity.Impressa && entity.Validade >= DateTime.Now.Date && (pendenciaImpeditivaEmpresa.Count <= 0) && (pendenciaImpeditivaVeiculo.Count <= 0);
             //Verificar se a empresa esta impedida
             var n1 = _service.BuscarCredencialPelaChave(entity.VeiculoCredencialId);
             var mensagem1 = !n1.Ativa ? "Autorização Inativa" : string.Empty;

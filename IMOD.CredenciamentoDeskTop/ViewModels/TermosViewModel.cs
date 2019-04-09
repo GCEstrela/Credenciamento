@@ -136,7 +136,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 }
                 else
                 {
-                    colaboradorCredencial.Emissao = DateTime.Now.AddDays(-periodo);
+                    colaboradorCredencial.Emissao = DateTime.Now.AddDays(-periodo).Date;
                     colaboradorCredencial.EmissaoFim = DateTime.Now;
                     mensagemPeriodo = "o perído de  " + periodo.ToString() + " dias";
                 }
@@ -200,7 +200,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 }
                 else
                 {
-                    colaboradorCredencial.Emissao = DateTime.Now.AddDays(-periodo);
+                    colaboradorCredencial.Emissao = DateTime.Now.AddDays(-periodo).Date;
                     colaboradorCredencial.EmissaoFim = DateTime.Now;
                     mensagemPeriodo = "o perído de  " + periodo.ToString() + " dias";
                 }
@@ -280,13 +280,14 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 }
                 else
                 {
-                    colaboradorCredencial.Emissao = DateTime.Now.AddDays(-periodo);
+                    colaboradorCredencial.Emissao = DateTime.Now.AddDays(-periodo).Date;
                     colaboradorCredencial.EmissaoFim = DateTime.Now;
                     mensagemPeriodo = "o perído de  " + periodo.ToString() + " dias";
                 }
 
                 colaboradorCredencial.Periodo = periodo;
                 colaboradorCredencial.CredencialStatusId = 2; // status desativado
+                colaboradorCredencial.Impressa = true;
 
                 mensagem = "Durante " + mensagemPeriodo + " esse setor  de credenciamento do " + mensagemComplemento + ", " + verbo + " as seguintes credenciais: ";
 
@@ -346,7 +347,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 }
                 else
                 {
-                    filtroAutorizacao.Emissao = DateTime.Now.AddDays(-periodo);
+                    filtroAutorizacao.Emissao = DateTime.Now.AddDays(-periodo).Date;
                     filtroAutorizacao.EmissaoFim = DateTime.Now;
                     mensagemPeriodo = "o perído de  " + periodo.ToString() + " dias";
                 }
@@ -408,7 +409,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 }
                 else
                 {
-                    filtroAutorizacao.Emissao = DateTime.Now.AddDays(-periodo);
+                    filtroAutorizacao.Emissao = DateTime.Now.AddDays(-periodo).Date;
                     filtroAutorizacao.EmissaoFim = DateTime.Now;
                     mensagemPeriodo = "o perído de  " + periodo.ToString() + " dias";
                 }
@@ -486,17 +487,18 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                         filtroAutorizacao.EmissaoFim = DateTime.Parse(dataFim);
                         mensagemPeriodo = "o perído de  " + dataIni + " a " + dataFim + "";
                     }
-                }
+                } 
                 else
                 {
-                    filtroAutorizacao.Emissao = DateTime.Now.AddDays(-periodo);
+                    filtroAutorizacao.Emissao = DateTime.Now.AddDays(-periodo).Date; 
                     filtroAutorizacao.EmissaoFim = DateTime.Now;
                     mensagemPeriodo = "o perído de  " + periodo.ToString() + " dias";
-                }
+                } 
 
                 filtroAutorizacao.Periodo = periodo;
-                filtroAutorizacao.CredencialStatusId = 2; 
-                 
+                filtroAutorizacao.CredencialStatusId = 2;
+                filtroAutorizacao.Impressa = true;
+
                 mensagem = "Durante " + mensagemPeriodo + " esse setor  de credenciamento do " + mensagemComplemento + ", " + verbo + " as seguintes autorizações: ";
 
                 var result = objVeiculoCredencial.ListarVeiculoCredencialInvalidasView(filtroAutorizacao).Where(n => n.CredencialStatusId == 2);

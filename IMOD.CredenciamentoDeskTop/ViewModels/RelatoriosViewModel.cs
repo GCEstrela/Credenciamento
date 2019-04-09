@@ -410,6 +410,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 Domain.EntitiesCustom.FiltroReportColaboradoresCredenciais colaboradorCredencial = new Domain.EntitiesCustom.FiltroReportColaboradoresCredenciais();
                 mensagem = "Todas as CREDENCIAIS ";
                 colaboradorCredencial.CredencialStatusId = 2;
+                colaboradorCredencial.Impressa = true;
 
                 if (!(dataIni.Equals(string.Empty) || dataFim.Equals(string.Empty)))
                 {
@@ -474,8 +475,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 
                 Domain.EntitiesCustom.FiltroReportColaboradoresCredenciais colaboradorCredencial = new Domain.EntitiesCustom.FiltroReportColaboradoresCredenciais();
                 colaboradorCredencial.CredencialStatusId = 1;
+                colaboradorCredencial.Impressa = true;
 
-                
 
                 if (objAreaSelecionado.AreaAcessoId > 0)
                 {
@@ -533,6 +534,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 string mensagemPeriodo = string.Empty;
                 Domain.EntitiesCustom.FiltroReportColaboradoresCredenciais colaboradorCredencial = new Domain.EntitiesCustom.FiltroReportColaboradoresCredenciais();
                 mensagem = "Todas as CREDENCIAIS emitidas por entidade solicitante";
+                colaboradorCredencial.Impressa = true;
 
                 if (!(dataIni.Equals(string.Empty) || dataFim.Equals(string.Empty)))
                 {
@@ -593,7 +595,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 string mensagemPeriodo = string.Empty;
 
                 Domain.EntitiesCustom.FiltroReportColaboradoresCredenciais colaboradorCredencial = new Domain.EntitiesCustom.FiltroReportColaboradoresCredenciais();
-
+                colaboradorCredencial.Impressa = true;
                 mensagem = " Impressões de Credenciais registradas ";
 
                 if (!(dataIni.Equals(string.Empty) || dataFim.Equals(string.Empty)))
@@ -796,6 +798,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 FiltroReportVeiculoCredencial veiculoCredencial = new FiltroReportVeiculoCredencial();
                 mensagem = "Todas as AUTORIZAÇÕES ";
                 veiculoCredencial.CredencialStatusId = 2;
+                veiculoCredencial.Impressa = true;
 
                 if (!(dataIni.Equals(string.Empty) || dataFim.Equals(string.Empty)))
                 {
@@ -861,6 +864,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 
                 Domain.EntitiesCustom.FiltroReportVeiculoCredencial veiculoCredencial = new Domain.EntitiesCustom.FiltroReportVeiculoCredencial();
                 veiculoCredencial.CredencialStatusId = 1;
+                veiculoCredencial.Impressa = true;
 
                 if (objAreaSelecionado.AreaAcessoId > 0)
                 {
@@ -919,6 +923,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 string mensagemPeriodo = string.Empty;
                 
                 FiltroReportVeiculoCredencial veiculoCredencial = new FiltroReportVeiculoCredencial();
+                veiculoCredencial.Impressa = true;
 
                 mensagem = "Todas as AUTORIZAÇÕES emitidas por entidade solicitante";
 
@@ -978,7 +983,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 string mensagemPeriodo = string.Empty;
 
                 FiltroReportVeiculoCredencial veiculoCredencial = new FiltroReportVeiculoCredencial();
-
+                veiculoCredencial.Impressa = true;
                 mensagem = " Impressões de Autorizações registradas ";
 
                 if (!(dataIni.Equals(string.Empty) || dataFim.Equals(string.Empty)))

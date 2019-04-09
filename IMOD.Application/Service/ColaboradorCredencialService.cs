@@ -456,7 +456,29 @@ namespace IMOD.Application.Service
             n1.Identificacao2 = titularCartao.Identificacao2;
             Alterar(n1);
         }
- 
+        /// <summary>
+        ///     Remove Regra de acesso do cardHolder sub-sistema de credenciamento (Genetec)
+        /// </summary>
+        /// <param name="geradorCredencialService">Sub sistema de geração de credenciais de cartão de um titular</param>
+        /// <param name="colaboradorService">Colaborador service</param>
+        /// <param name="entity"></param>
+        public void RemoverRegrasCardHolder(ICredencialService geradorCredencialService, IColaboradorService colaboradorService, ColaboradoresCredenciaisView entity)
+        {
+            try
+            {
+                if (geradorCredencialService == null) throw new ArgumentNullException(nameof(geradorCredencialService));
+                if (entity == null) throw new ArgumentNullException(nameof(entity));
+
+
+                var titularCartao = CardHolderEntity(entity);
+                geradorCredencialService.RemoverRegrasCardHolder(titularCartao);
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+                throw;
+            }
+        }
 
         /// <summary>
         ///     Criar registro credencial e obter data de validade da credencial

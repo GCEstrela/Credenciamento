@@ -202,6 +202,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             ListaPesquisa = new List<KeyValuePair<int, string>>();
             ListaPesquisa.Add (new KeyValuePair<int, string> (1, "CPF"));
             ListaPesquisa.Add (new KeyValuePair<int, string> (2, "Nome"));
+            ListaPesquisa.Add(new KeyValuePair<int, string>(3, "Todos os Colaboradores"));
             PesquisarPor = ListaPesquisa[1]; //Pesquisa Default
         }
 
@@ -251,6 +252,14 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 var num = PesquisarPor;
 
+                //Todos
+                if (num.Key == 3)
+                {
+                    
+                    var l1 = _service.Listar();
+                    PopularObserver(l1);
+
+                }
                 //Por nome
                 if (num.Key == 2)
                 {

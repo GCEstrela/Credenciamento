@@ -58,6 +58,12 @@ namespace IMOD.CredenciamentoDeskTop.Views
             _viewModel.ObterValidade();
             _viewModel.CarregarCaracteresColete(_viewModel.ColaboradorEmpresa);
 
+            
+            if (_viewModel.ColaboradorEmpresa.ColaboradorId > 0 & _viewModel.ColaboradorEmpresa.EmpresaId > 0)
+            {
+                _viewModel.CarregarVinculosAtivos(_viewModel.ColaboradorEmpresa.ColaboradorId, _viewModel.ColaboradorEmpresa.EmpresaId);
+            }
+
             //if (cmbEmpresaVinculo_cb.IsEnabled)
             //{
             //    _viewModel.HabilitaCriar(_viewModel.ColaboradorEmpresa,_viewModel);                
