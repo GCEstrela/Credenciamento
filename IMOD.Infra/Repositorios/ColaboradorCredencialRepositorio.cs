@@ -361,7 +361,7 @@ namespace IMOD.Infra.Repositorios
 
                 {
                     try
-                    {
+                    { 
                         cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("ColaboradorCredencialID", DbType.Int32, o, 0).Igual()));
                         cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("CredencialStatusID", DbType.Int32, o, 1).Igual()));
                         cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("FormatoCredencialID", DbType.Int32, o, 2).Igual()));

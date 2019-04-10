@@ -71,7 +71,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />
-    <Compile Include="Mapeamento\AutoMapperConfig.cs" />
     <Compile Include="ProjectInstaller.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -95,10 +94,6 @@
     <ProjectReference Include="..\IMOD.Application\IMOD.Application.csproj">
       <Project>{b7bd6687-cb39-45a0-9b21-67125da69a2e}</Project>
       <Name>IMOD.Application</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\IMOD.CredenciamentoDeskTop\IMOD.CredenciamentoDeskTop.csproj">
-      <Project>{974F5875-4CFB-4926-8273-D1BF96AC8242}</Project>
-      <Name>IMOD.CredenciamentoDeskTop</Name>
     </ProjectReference>
     <ProjectReference Include="..\IMOD.Domain\IMOD.Domain.csproj">
       <Project>{f7dc651f-cb04-40ca-ac1b-c2355b474cf3}</Project>

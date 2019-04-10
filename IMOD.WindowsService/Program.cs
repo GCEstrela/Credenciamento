@@ -30,9 +30,9 @@ namespace IMOD.WindowsService
             Timer _timer;
 
             // Chamada do seu método para Debug.
-            //service.MetodoRealizaFuncao(null);
-            _timer = new Timer(service.MetodoRealizaFuncao, null, 0, 30000);
-            System.Threading.Thread.Sleep(System.Threading.Timeout.Infinite);
+             service.MetodoRealizaFuncao(null);
+            // _timer = new Timer(service.MetodoRealizaFuncao, null, 0, 30000);
+            // System.Threading.Thread.Sleep(System.Threading.Timeout.Infinite);
 #endif
         }
     }

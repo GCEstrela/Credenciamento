@@ -9,13 +9,12 @@
 using System;
 using System.Collections.Generic;
 using Genetec.Sdk;
-using Genetec.Sdk.Entities;
 using Genetec.Sdk.Workspace;
 using Genetec.Sdk.Workspace.Modules;
 using Genetec.Sdk.Workspace.Tasks;
 using IMOD.Domain.EntitiesCustom;
-using AutoMapper;
-using IMOD.WindowsService.Mapeamento;
+
+
 
 #endregion
 
@@ -30,7 +29,8 @@ namespace IMOD.WindowsService
             try
             {
                 //AutoMapper configuraçoes
-                AutoMapperConfig.RegisterMappings();
+                //AutoMapperConfig.RegisterMappings();
+
             }
 
             catch (Exception ex)
