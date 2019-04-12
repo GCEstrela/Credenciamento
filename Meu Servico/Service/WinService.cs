@@ -183,7 +183,7 @@ namespace Meu_Servico.Service
                             
                             
                             //O _SDK está vindo nulo
-                            _serviceGenetec.AlterarStatusCredencial(entity);
+                            //_serviceGenetec.AlterarStatusCredencial(entity);
                             
                         }
 
@@ -221,8 +221,7 @@ namespace Meu_Servico.Service
                             //CriarLog("Disparar alerta de vencendo em 5 dias");
                             messa = "Disparar alerta de vencendo em 5 dias";
                             sendMessage(messa, ec.EmailResp);
-                            _serviceGenetec.DisparaAlarme(messa);
-                            _serviceGenetec.AlterarStatusCredencial(entity2);
+                            _serviceGenetec.DisparaAlarme(messa);                           
                             break;
                         case diasAlerta2:
                             //CriarLog("Disparar alerta de vencendo em 15 dias");
