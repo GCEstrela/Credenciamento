@@ -1,5 +1,4 @@
-﻿using Common.Logging;
-using Genetec.Sdk;
+﻿using Genetec.Sdk;
 using IMOD.Application.Interfaces;
 using IMOD.Application.Service;
 using IMOD.Domain.Enums;
@@ -7,46 +6,41 @@ using IMOD.Infra.Servicos;
 using IMOD.Infra.Servicos.Entities;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Net.Mail;
-using System.Text;
-using System.Threading.Tasks;
-using Topshelf;
-using System.Net.Mail;
 using System.Net;
+using System.Net.Mail;
+using System.ServiceProcess;
+using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 
-namespace Meu_Servico.Service
+
+namespace WindowsService1
 {
-
-    class WinService
+    
+    public partial class Service1 : ServiceBase
     {
         private ICredencialService _serviceGenetec;
         private IColaboradorCredencialService _serviceColaborador = new ColaboradorCredencialService();
         private IEmpresaContratosService _service = new EmpresaContratoService();
         private IEngine _sdk;
 
-        public ILog Log { get; private set; }
+        //public ILog Log { get; private set; }
         private Boolean logado;
         private const int diasAlerta = 0;
         private const int diasAlerta1 = 5;
         private const int diasAlerta2 = 15;
         private const int diasAlerta3 = 30;
-
-        public WinService(ILog logger)
+        public Service1()
         {
-
-            // IocModule.cs needs to be updated in case new paramteres are added to this constructor
-
-            if (logger == null)
-                throw new ArgumentNullException(nameof(logger));
-
-            Log = logger;
-
+            InitializeComponent();
         }
 
-        public bool Start(HostControl hostControl)
+        protected override void OnStart(string[] args)
         {
             Genetec.Sdk.Engine _sdk = new Genetec.Sdk.Engine();
             Logon_SC_th(_sdk);
@@ -61,12 +55,16 @@ namespace Meu_Servico.Service
 
             _serviceGenetec = new CredencialGenetecService(_sdk);
             MetodoRealizaFuncao(true, _sdk);
+        }
 
-            //Log.Info($"{nameof(Service.WinService)} Start command received.");
-
-            //TODO: Implement your service start routine.
-            return true;
-
+        protected override void OnStop()
+        {
+        }
+        internal void TestStartupAndStop(string[] args)
+        {
+            this.OnStart(args);
+            Console.ReadLine();
+            this.OnStop();
         }
         private void Logon_SC_th(Genetec.Sdk.Engine _sdk)
         {
@@ -92,7 +90,7 @@ namespace Meu_Servico.Service
             }
             catch (Exception ex)
             {
-                
+
             }
             //_logando = false;
         }
@@ -104,7 +102,7 @@ namespace Meu_Servico.Service
             }
             catch (Exception ex)
             {
-                
+
             }
 
         }
@@ -118,18 +116,18 @@ namespace Meu_Servico.Service
             }
             catch (Exception ex)
             {
-                
+
             }
         }
         private void _sdk_LogonFailed(object sender, LogonFailedEventArgs e)
         {
             try
             {
-                
+
             }
             catch (Exception ex)
             {
-               
+
             }
 
         }
@@ -137,12 +135,12 @@ namespace Meu_Servico.Service
         {
             try
             {
-                
+
 
             }
             catch (Exception ex)
             {
-               
+
             }
         }
         private void _sdk_EntityInvalidated(object sender, EntityInvalidatedEventArgs e)
@@ -150,7 +148,7 @@ namespace Meu_Servico.Service
 
             try
             {
-                
+
 
             }
             catch (Exception ex)
@@ -158,13 +156,13 @@ namespace Meu_Servico.Service
 
             }
         }
-        private void MetodoRealizaFuncao(object state,Engine m_sdk )
+        private void MetodoRealizaFuncao(object state, Engine m_sdk)
         {
             try
             {
 
                 CriarLog("serviço rodando:" + DateTime.Now);
-                
+
                 var colaboradorContratos = _serviceColaborador.Listar(null, null, null, null, null, null, true).ToList();
                 colaboradorContratos.ForEach(ec =>
                 {
@@ -173,23 +171,23 @@ namespace Meu_Servico.Service
                         ec.Ativa = false;
                         ec.CredencialStatusId = (int)StatusCredencial.INATIVA;
                         ec.CredencialMotivoId = (int)Inativo.EXPIRADA;
-                       // _serviceColaborador.Alterar(ec);
+                        // _serviceColaborador.Alterar(ec);
                         if (!string.IsNullOrEmpty(ec.CredencialGuid))
                         {
                             CardHolderEntity entity = new CardHolderEntity();
                             entity.IdentificadorCardHolderGuid = ec.CardHolderGuid;
                             entity.IdentificadorCredencialGuid = ec.CredencialGuid;
-                            entity.Nome = ec.ColaboradorNome;                            
-                            
-                            
+                            entity.Nome = ec.ColaboradorNome;
+
+
                             //O _SDK está vindo nulo
                             //_serviceGenetec.AlterarStatusCredencial(entity);
-                            
+
                         }
 
                         //var n1 = _serviceColaborador.BuscarCredencialPelaChave(ec.ColaboradorCredencialId);
                         //_serviceColaborador.RemoverRegrasCardHolder(new CredencialGenetecService(m_sdk), new ColaboradorService(), n1);
-                       
+
                     }
 
                     string texto = "Impressa.:" + ec.Impressa + " Status.: " + ec.Ativa + " " + ec.ColaboradorNome + ((ec.Validade < DateTime.Now) ? " Vencido em : " : " Válido até : ") + ec.Validade;
@@ -205,17 +203,17 @@ namespace Meu_Servico.Service
                 //var empresaContratos = _service.Listar().ToList();
                 empresaContratos.ForEach(ec =>
                 {
-                    
+
                     string texto = ec.Descricao + ((ec.Validade < DateTime.Now) ? " - Vencido em : " : " - Válido até : ") + ec.Validade;
                     CriarLog(string.Format("Contrato: {0}", texto));
-                    int dias = ec.Validade.Subtract(DateTime.Now.Date).Days;                    
+                    int dias = ec.Validade.Subtract(DateTime.Now.Date).Days;
                     switch (dias)
                     {
                         case diasAlerta:
                             //CriarLog("Disparar alerta de vencendo hoje");
-                            messa="Disparar alerta de vencendo hoje";
+                            messa = "Disparar alerta de vencendo hoje";
                             sendMessage(messa, ec.EmailResp);
-                            _serviceGenetec.DisparaAlarme(messa,8);
+                            _serviceGenetec.DisparaAlarme(messa, 8);
                             break;
                         case diasAlerta1:
                             //CriarLog("Disparar alerta de vencendo em 5 dias");
@@ -248,9 +246,9 @@ namespace Meu_Servico.Service
                 CriarLog(ex.Message);
             }
         }
-        protected void sendMessage(string msg,string email)
+        protected void sendMessage(string msg, string email)
         {
-           
+
             MailMessage mail = new MailMessage();
 
             mail.From = new MailAddress("renato.maximo@gmail.com");
@@ -294,42 +292,6 @@ namespace Meu_Servico.Service
             vWriter.Flush();
             vWriter.Close();
         }
-        public bool Stop(HostControl hostControl)
-        {
-
-            Log.Trace($"{nameof(Service.WinService)} Stop command received.");
-
-            //TODO: Implement your service stop routine.
-            return true;
-
-        }
-        public bool Pause(HostControl hostControl)
-        {
-
-            Log.Trace($"{nameof(Service.WinService)} Pause command received.");
-
-            //TODO: Implement your service start routine.
-            return true;
-
-        }
-        public bool Continue(HostControl hostControl)
-        {
-
-            Log.Trace($"{nameof(Service.WinService)} Continue command received.");
-
-            //TODO: Implement your service stop routine.
-            return true;
-
-        }
-        public bool Shutdown(HostControl hostControl)
-        {
-
-            Log.Trace($"{nameof(Service.WinService)} Shutdown command received.");
-
-            //TODO: Implement your service stop routine.
-            return true;
-
-        }
-
+       
     }
 }
