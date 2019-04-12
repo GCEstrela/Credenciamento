@@ -233,8 +233,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 entity.EmpresaNome = empresa.Nome;//Setar o nome da empresa para ser exibida na list view
             
 
-            //if (contrato != null)
-            //    entity.Descricao = contrato.Descricao;//Setar o nome do contrato para ser exibida na list view
+            if (contrato != null)
+                entity.Descricao = contrato.Descricao;//Setar o nome do contrato para ser exibida na list view
 
         }
 

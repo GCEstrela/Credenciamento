@@ -565,7 +565,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 WpfHelp.PopupBox ("Selecione um item da lista", 1);
                 return;
             }
-            ListarDadosAuxiliares();
+            //ListarDadosAuxiliares();
             Comportamento.PrepareAlterar();
             _prepareCriarCommandAcionado = false;
             _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;
