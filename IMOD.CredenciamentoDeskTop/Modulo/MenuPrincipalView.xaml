@@ -97,15 +97,6 @@
             </Button>
             <!--#endregion -->
 
-            <!--#region Configurações -->
-            <Button x:Name="ConfiguracoesBt" Width="110" Margin="10" Click="OnConfiguracao_Click" Style="{StaticResource menu}">
-                    <StackPanel>
-                        <Image Source="../Resources/Engrenagem.ico" Width="30" Height="40" />
-                    <TextBlock HorizontalAlignment="Center" >Configurações</TextBlock>
-                    </StackPanel> 
-                </Button>
-                <!--#endregion -->
-
                 <!--#region Relatorio -->
             <Button x:Name="RelatoriosBt" Width="110" Margin="10" Click="OnRelatorio_Click" Style="{StaticResource menu}">
                     <StackPanel>
@@ -113,7 +104,7 @@
                     <TextBlock HorizontalAlignment="Center" >Relatórios</TextBlock>
                     </StackPanel> 
                 </Button>
-                <!--#endregion -->
+                <!--#endregion --> 
 
                 <!--#region Termos -->
             <Button x:Name="TermosBt" Width="110" Margin="10" Click="OnTermo_Click" Style="{StaticResource menu}">
@@ -124,9 +115,16 @@
                 </Button>
                 <!--#endregion -->
 
-              
+            <!--#region Configurações -->
+            <Button x:Name="ConfiguracoesBt" Width="110" Margin="10" Click="OnConfiguracao_Click" Style="{StaticResource menu}" Visibility="Hidden">
+                <StackPanel>
+                    <Image Source="../Resources/Engrenagem.ico" Width="30" Height="40" />
+                    <TextBlock HorizontalAlignment="Center" >Configurações</TextBlock>
+                </StackPanel>
+            </Button>
+            <!--#endregion -->
 
-            </StackPanel>
+        </StackPanel>
         
       <Border BorderThickness="0,0,0,1" Grid.Column="0" Grid.Row="2">
             <Border.BorderBrush>
