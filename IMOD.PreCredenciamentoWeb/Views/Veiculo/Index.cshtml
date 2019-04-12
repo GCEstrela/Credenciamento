@@ -1,0 +1,101 @@
+﻿@model IEnumerable<IMOD.PreCredenciamentoWeb.Models.VeiculoViewModel>
+
+@{
+    ViewBag.Title = "Veiculo";
+}
+
+<h3>Veiculos / Equipamentos</h3>
+<p></p>
+<p></p>
+<div>
+    <img src="~/images/Veiculo.png" width="60" height="50" class="img-rounded img-responsive" />
+    <p></p>
+    <p>
+        @Html.ActionLink("Novo", "Create", "Veiculo", new { @class = "btn btn-primary" })
+    </p>
+</div>
+<div class="col-md-12">
+    <table class="table table-hover table-condensed table-responsive">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PlacaIdentificador)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SerieChassi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Descricao)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Patrimonio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Marca)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Modelo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ano)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.TipoEquipamentoVeiculoId)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PlacaIdentificador)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SerieChassi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descricao)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Patrimonio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Marca)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Modelo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ano)
+            </td>
+
+
+            <td>
+                @Html.DisplayFor(modelItem => item.TipoEquipamentoVeiculoId)
+            </td>
+            <td>
+                <a href='@Url.Action("Edit", "Colaborador", new { id = item.EquipamentoVeiculoId })'>
+                    <img src="~/images/edit.png" />
+                </a>
+                |
+                <a href='@Url.Action("Details", "Colaborador", new { id = item.EquipamentoVeiculoId })'>
+                    <img src="~/images/lupa.png" />
+                </a>
+                |
+                <a href='@Url.Action("Delete", "Colaborador", new { id = item.EquipamentoVeiculoId })'>
+                    <img src="~/images/remove.png" />
+                </a>
+            </td>
+        </tr>
+        }
+
+    </table>
+</div>
+
