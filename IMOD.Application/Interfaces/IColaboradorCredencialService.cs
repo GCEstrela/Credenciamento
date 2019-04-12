@@ -126,6 +126,12 @@ namespace IMOD.Application.Interfaces
         /// <param name="entity">Entidade</param>
         /// <param name="colaboradorId">Identificador</param>
         void RemoverRegrasCardHolder(ICredencialService geradorCredencialService, IColaboradorService colaboradorService, ColaboradoresCredenciaisView entity);
+        /// <summary>
+        ///     REmove as REgras de Acesso de um Cardholder
+        /// </summary>
+        /// <param name="entity">Entidade</param>
+        /// <param name="colaboradorId">Identificador</param>
+        void DisparaAlarme(ICredencialService geradorCredencialService, CardHolderEntity entity);
 
 
         /// <summary>

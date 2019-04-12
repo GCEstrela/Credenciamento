@@ -207,8 +207,9 @@ namespace IMOD.Application.Service
             _repositorio.Alterar(entity);
 
             //comentado pois a busca não está retornando resultador e anulando a entity
-            //entity = BuscarPelaChave(entity.ColaboradorCredencialId);
-            //ObterStatusCredencial(entity);
+            entity = BuscarPelaChave(entity.ColaboradorCredencialId);
+            if (entity == null) return;
+            ObterStatusCredencial(entity);
 
         }
 
@@ -598,6 +599,13 @@ namespace IMOD.Application.Service
         {
             return _repositorio.ListarColaboradorCredencialPermanentePorAreaView(entity);
         }
+
+        public void DisparaAlarme(ICredencialService geradorCredencialService, CardHolderEntity entity)
+        {
+            throw new NotImplementedException();
+        }
+
+
 
         #endregion
     }
