@@ -1,29 +1,31 @@
 ﻿@{
-    ViewBag.Title = "Genetec - Security Center";
+    ViewBag.Title = "Credenciamento";
 }
 
 <div class="jumbotron">
-    <h1>Pré-Cadastro do Credenciamento</h1>
-    <p class="lead">Módulo Web que permite o pré-cadastramento dos caloboradores, veiculos e equipamentos pela empresa autorizada.</p>
-    <p><a href="#" class="btn btn-primary btn-lg">Ler mais &raquo;</a></p>
-</div>
-
+        <h1>Credenciamento</h1>
+        <img src="~/Images/Cracha.png" class="img-rounded img-responsive" />
+    <div>
+        <p class="lead">Sistema Web que permite o pré cadastro dos colaboradores, veiculos e equipamentos de empresas autorizadas. </p>
+    </div>
+</div> 
 <div class="row">
     <div class="col-md-4">
-        <h2>Colaboradores</h2>
-        <p>
-            Cadastra os colaboradores que serão credenciados no Sistema de Acesso Secutity Center (Genetec)
-        </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+        <h2>Colaborador</h2>
+        <div>
+            <a href="/Colaborador/Index"><img src="~/Images/Colaboradores.png" class="img-rounded img-responsive" /></a>
+        </div>
+        <p></p>
+        <p></p>
+        <p>Efetua o cadastro de colaboradores para credenciamento.</p>
+        <p><a class="btn btn-primary btn-lg" href="/Colaborador/Index">Acessar &raquo;</a></p>
     </div>
-    <div class="col-md-4">
-        <h2>Veículos</h2>
-        <p>Cadastra os Veículos que serão credenciados no Sistema de Acesso Secutity Center (Genetec).</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Equipamentos</h2>
-        <p>Cadastra os Equipamentos que serão credenciados no Sistema de Acesso Secutity Center (Genetec)</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
+    <div class="col-md-4"> 
+        <h2>Veiculos / Equipamentos</h2>
+        <div> 
+            <a href="/Veiculo/Index"><img src="~/Images/Veiculo.png" class="img-rounded img-responsive" /></a>
+        </div>
+        <p>Efetua o cadastro de veiculos / equipamentos.</p>
+        <p><a class="btn btn-primary btn-lg" href="/Veiculo/Index">Acessar &raquo;</a></p>
+    </div> 
 </div>

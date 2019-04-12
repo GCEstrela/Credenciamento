@@ -20,10 +20,15 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             return View();
         }
 
-        public ActionResult Contact()
+        public ActionResult Contact() 
         {
             ViewBag.Message = "Your contact page.";
+            return View();
+        }
 
+        public ActionResult LinksUteis() 
+        {
+            ViewBag.Links = "Links Uteis.";
             return View();
         }
     }
