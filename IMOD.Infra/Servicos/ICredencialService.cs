@@ -56,7 +56,7 @@ namespace IMOD.Infra.Servicos
         /// </summary>
         /// <param name="entity"></param>
         void RemoverRegrasCardHolder(CardHolderEntity entity);
-        //void DisparaAlarme(CardHolderEntity entity);
+        void DisparaAlarme(string menssagem);
         #endregion
     }
 }

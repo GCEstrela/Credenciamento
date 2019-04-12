@@ -248,9 +248,7 @@ namespace IMOD.Infra.Servicos
         {
             try
             {
-                //string messa = "Apelido.:" + entity.Apelido + " Cpf.:" + entity.Cpf + " Empresa.:" + entity.Empresa;
-                string messa = "Nome.:" + entity.Nome;
-                DisparaAlarme(messa);
+
                 if (string.IsNullOrWhiteSpace(entity.IdentificadorCredencialGuid)) throw new ArgumentNullException(nameof(entity.IdentificadorCredencialGuid));
                 // _sdk.TransactionManager.CreateTransaction();
 

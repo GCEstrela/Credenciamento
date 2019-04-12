@@ -173,7 +173,7 @@ namespace Meu_Servico.Service
                         ec.Ativa = false;
                         ec.CredencialStatusId = (int)StatusCredencial.INATIVA;
                         ec.CredencialMotivoId = (int)Inativo.EXPIRADA;
-                        _serviceColaborador.Alterar(ec);
+                       // _serviceColaborador.Alterar(ec);
                         if (!string.IsNullOrEmpty(ec.CredencialGuid))
                         {
                             CardHolderEntity entity = new CardHolderEntity();
@@ -199,8 +199,8 @@ namespace Meu_Servico.Service
 
 
                 //CardHolderEntity entity2 = new CardHolderEntity();
-                
 
+                string messa;
                 var empresaContratos = _service.Listar().Where(ec => ec.StatusId == 0).ToList();
                 //var empresaContratos = _service.Listar().ToList();
                 empresaContratos.ForEach(ec =>
@@ -208,30 +208,39 @@ namespace Meu_Servico.Service
                     
                     string texto = ec.Descricao + ((ec.Validade < DateTime.Now) ? " - Vencido em : " : " - Válido até : ") + ec.Validade;
                     CriarLog(string.Format("Contrato: {0}", texto));
-                    int dias = ec.Validade.Subtract(DateTime.Now.Date).Days;
-                    
+                    int dias = ec.Validade.Subtract(DateTime.Now.Date).Days;                    
                     switch (dias)
                     {
                         case diasAlerta:
-                            CriarLog("Disparar alerta de vencendo hoje");
-                            sendMessage("Disparar alerta de vencendo hoje", ec.EmailResp);
+                            //CriarLog("Disparar alerta de vencendo hoje");
+                            messa="Disparar alerta de vencendo hoje";
+                            sendMessage(messa, ec.EmailResp);
+                            _serviceGenetec.DisparaAlarme(messa);
                             break;
                         case diasAlerta1:
-                            CriarLog("Disparar alerta de vencendo em 5 dias");
-                            sendMessage("Disparar alerta de vencendo em 5 dias",ec.EmailResp);
-                            //_serviceGenetec.AlterarStatusCredencial(entity2);
+                            //CriarLog("Disparar alerta de vencendo em 5 dias");
+                            messa = "Disparar alerta de vencendo em 5 dias";
+                            sendMessage(messa, ec.EmailResp);
+                            _serviceGenetec.DisparaAlarme(messa);
+                            _serviceGenetec.AlterarStatusCredencial(entity2);
                             break;
                         case diasAlerta2:
-                            CriarLog("Disparar alerta de vencendo em 15 dias");
-                            sendMessage("Disparar alerta de vencendo em 15 dias", ec.EmailResp);
+                            //CriarLog("Disparar alerta de vencendo em 15 dias");
+                            messa = "Disparar alerta de vencendo em 15 dias";
+                            sendMessage(messa, ec.EmailResp);
+                            _serviceGenetec.DisparaAlarme(messa);
                             break;
                         case diasAlerta3:
-                            CriarLog("Disparar alerta de vencendo em 30 dias");
-                            sendMessage("Disparar alerta de vencendo em 30 dias", ec.EmailResp);
+                            //CriarLog("Disparar alerta de vencendo em 30 dias");
+                            messa = "Disparar alerta de vencendo em 30 dias";
+                            sendMessage(messa, ec.EmailResp);
+                            _serviceGenetec.DisparaAlarme(messa);
                             break;
                         default:
                             break;
+
                     }
+
                 }
                 );
             }
