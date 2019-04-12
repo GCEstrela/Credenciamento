@@ -43,7 +43,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IMOD.Service", "Meu Servico
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "6 - Services", "6 - Services", "{131D6615-3847-4EC8-B8E1-3F8551CBDDAB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsService1", "WindowsService1\WindowsService1.csproj", "{68E0783B-CB48-4864-B4EE-346687294712}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IMOD.APPService", "WindowsService1\IMOD.APPService.csproj", "{68E0783B-CB48-4864-B4EE-346687294712}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

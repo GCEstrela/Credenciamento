@@ -433,16 +433,13 @@ namespace IMOD.Infra.Servicos
                 throw;
             }
         }
-        public void DisparaAlarme(string menssagem)
+        public void DisparaAlarme(string menssagem,int IdAlarme)
         {
-            //EntityConfigurationQuery query;
-            //QueryCompletedEventArgs result;
             try
             {
                 
-                Alarm alarm = (Alarm)_sdk.GetEntity(EntityType.Alarm, 8);
+                Alarm alarm = (Alarm)_sdk.GetEntity(EntityType.Alarm, IdAlarme);                
                 _sdk.AlarmManager.TriggerAlarm(alarm);
-                
 
             }
             catch (Exception ex)

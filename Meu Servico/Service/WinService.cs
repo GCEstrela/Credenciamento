@@ -215,25 +215,25 @@ namespace Meu_Servico.Service
                             //CriarLog("Disparar alerta de vencendo hoje");
                             messa="Disparar alerta de vencendo hoje";
                             sendMessage(messa, ec.EmailResp);
-                            _serviceGenetec.DisparaAlarme(messa);
+                            _serviceGenetec.DisparaAlarme(messa,8);
                             break;
                         case diasAlerta1:
                             //CriarLog("Disparar alerta de vencendo em 5 dias");
                             messa = "Disparar alerta de vencendo em 5 dias";
                             sendMessage(messa, ec.EmailResp);
-                            _serviceGenetec.DisparaAlarme(messa);                           
+                            _serviceGenetec.DisparaAlarme(messa, 8);
                             break;
                         case diasAlerta2:
                             //CriarLog("Disparar alerta de vencendo em 15 dias");
                             messa = "Disparar alerta de vencendo em 15 dias";
                             sendMessage(messa, ec.EmailResp);
-                            _serviceGenetec.DisparaAlarme(messa);
+                            _serviceGenetec.DisparaAlarme(messa, 8);
                             break;
                         case diasAlerta3:
                             //CriarLog("Disparar alerta de vencendo em 30 dias");
                             messa = "Disparar alerta de vencendo em 30 dias";
                             sendMessage(messa, ec.EmailResp);
-                            _serviceGenetec.DisparaAlarme(messa);
+                            _serviceGenetec.DisparaAlarme(messa, 8);
                             break;
                         default:
                             break;
