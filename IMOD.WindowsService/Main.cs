@@ -9,9 +9,6 @@
 using System;
 using System.Collections.Generic;
 using Genetec.Sdk;
-using Genetec.Sdk.Workspace;
-using Genetec.Sdk.Workspace.Modules;
-using Genetec.Sdk.Workspace.Tasks;
 using IMOD.Domain.EntitiesCustom;
 
 
@@ -20,7 +17,7 @@ using IMOD.Domain.EntitiesCustom;
 
 namespace IMOD.WindowsService
 {
-    public class Main : Module
+    public class Main 
     {
         #region Constructors
 

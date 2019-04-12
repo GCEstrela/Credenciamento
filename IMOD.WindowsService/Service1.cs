@@ -17,9 +17,7 @@ using IMOD.Domain.Entities;
 using Microsoft.Expression.Encoder;
 using IMOD.Infra.Servicos;
 using Genetec.Sdk;
-using Genetec.Sdk.Workspace;
-using Genetec.Sdk.Workspace.Modules;
-using Genetec.Sdk.Workspace.Tasks;
+
 
 
 using IMOD.Infra.Servicos.Entities;
@@ -33,7 +31,7 @@ namespace IMOD.WindowsService
         private IEmpresaContratosService _service = new EmpresaContratoService();
         private Timer _timer;
 
-        IEngine _sdk = Main.Engine;
+        //IEngine _sdk = Main.Engine;
 
         //static IEngine _sdk = Main.Engine;
 
@@ -66,7 +64,10 @@ namespace IMOD.WindowsService
         internal void MetodoRealizaFuncao(object state)
         {
             try
-            {                
+            {
+                Genetec.Sdk.Engine _sdk = new Genetec.Sdk.Engine();
+                _sdk.ClientCertificate = "KxsD11z743Hf5Gq9mv3+5ekxzemlCiUXkTFY5ba1NOGcLCmGstt2n0zYE9NsNimv";
+                _sdk.LogOn("172.16.190.108", "Admin", "");
                 ///_sdk.BeginLogOn("172.16.190.108", "admin", "");
 
                 CriarLog("serviço rodando:" + DateTime.Now);                
