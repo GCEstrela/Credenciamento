@@ -248,9 +248,7 @@ namespace IMOD.Infra.Servicos
         {
             try
             {
-                //string messa = "Apelido.:" + entity.Apelido + " Cpf.:" + entity.Cpf + " Empresa.:" + entity.Empresa;
-                string messa = "Nome.:" + entity.Nome;
-                DisparaAlarme(messa);
+
                 if (string.IsNullOrWhiteSpace(entity.IdentificadorCredencialGuid)) throw new ArgumentNullException(nameof(entity.IdentificadorCredencialGuid));
                 // _sdk.TransactionManager.CreateTransaction();
 
@@ -435,38 +433,13 @@ namespace IMOD.Infra.Servicos
                 throw;
             }
         }
-        public void DisparaAlarme(string menssagem)
+        public void DisparaAlarme(string menssagem,int IdAlarme)
         {
-            EntityConfigurationQuery query;
-            QueryCompletedEventArgs result;
             try
             {
                 
-                query = _sdk.ReportManager.CreateReportQuery(ReportType.EntityConfiguration) as EntityConfigurationQuery;
-                query.EntityTypeFilter.Add(EntityType.Alarm);
-                query.NameSearchMode = StringSearchMode.StartsWith;
-                result = query.Query();
-                SystemConfiguration systemConfiguration = _sdk.GetEntity(SdkGuids.SystemConfiguration) as SystemConfiguration;
-                var service = systemConfiguration.CustomFieldService;
-                if (result.Success)
-                {
-                    foreach (DataRow dr in result.Data.Rows)    //sempre remove todas as regras de um CardHolder
-                    {
-                        Alarm alarm = _sdk.GetEntity((Guid)dr[0]) as Alarm;
-                       if (alarm.Name == "Alarme de Inativação")
-                        {
-                            //alarm.Name = "Alarme de Inativação -> " + menssagem;
-                           
-                            alarm.Description = menssagem;
-                            _sdk.AlarmManager.TriggerAlarm(alarm);
-                            //alarm.Description = "Alarme de Inativação";
-                        }
-
-                        
-                    }
-                    
-                    //_sdk.TransactionManager.CommitTransaction();
-                }
+                Alarm alarm = (Alarm)_sdk.GetEntity(EntityType.Alarm, IdAlarme);                
+                _sdk.AlarmManager.TriggerAlarm(alarm);
 
             }
             catch (Exception ex)
