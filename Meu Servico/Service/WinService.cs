@@ -23,8 +23,10 @@ namespace Meu_Servico.Service
     class WinService
     {
         private ICredencialService _serviceGenetec;
+        private IEmpresaService _serviceEmpresa = new EmpresaService();
         private IColaboradorCredencialService _serviceColaborador = new ColaboradorCredencialService();
         private IEmpresaContratosService _service = new EmpresaContratoService();
+        
         private IEngine _sdk;
 
         public ILog Log { get; private set; }
@@ -173,7 +175,7 @@ namespace Meu_Servico.Service
                         ec.Ativa = false;
                         ec.CredencialStatusId = (int)StatusCredencial.INATIVA;
                         ec.CredencialMotivoId = (int)Inativo.EXPIRADA;
-                       // _serviceColaborador.Alterar(ec);
+                        _serviceColaborador.Alterar(ec);
                         if (!string.IsNullOrEmpty(ec.CredencialGuid))
                         {
                             CardHolderEntity entity = new CardHolderEntity();
@@ -183,7 +185,7 @@ namespace Meu_Servico.Service
                             
                             
                             //O _SDK está vindo nulo
-                            //_serviceGenetec.AlterarStatusCredencial(entity);
+                            _serviceGenetec.AlterarStatusCredencial(entity);
                             
                         }
 
@@ -211,29 +213,42 @@ namespace Meu_Servico.Service
                     int dias = ec.Validade.Subtract(DateTime.Now.Date).Days;                    
                     switch (dias)
                     {
+                        
                         case diasAlerta:
                             //CriarLog("Disparar alerta de vencendo hoje");
+                            var empresa = _serviceEmpresa.BuscarPelaChave(ec.EmpresaId);
+                            empresa.PraVencer = 0;
+                            _serviceEmpresa.Alterar(empresa);
                             messa="Disparar alerta de vencendo hoje";
                             sendMessage(messa, ec.EmailResp);
-                            _serviceGenetec.DisparaAlarme(messa,8);
+                            //_serviceGenetec.DisparaAlarme(messa,8);
                             break;
                         case diasAlerta1:
                             //CriarLog("Disparar alerta de vencendo em 5 dias");
+                            empresa = _serviceEmpresa.BuscarPelaChave(ec.EmpresaId);
+                            empresa.PraVencer = 5;
+                            _serviceEmpresa.Alterar(empresa);
                             messa = "Disparar alerta de vencendo em 5 dias";
                             sendMessage(messa, ec.EmailResp);
-                            _serviceGenetec.DisparaAlarme(messa, 8);
+                            //_serviceGenetec.DisparaAlarme(messa, 8);
                             break;
                         case diasAlerta2:
                             //CriarLog("Disparar alerta de vencendo em 15 dias");
+                            empresa = _serviceEmpresa.BuscarPelaChave(ec.EmpresaId);
+                            empresa.PraVencer = 15;
+                            _serviceEmpresa.Alterar(empresa);
                             messa = "Disparar alerta de vencendo em 15 dias";
                             sendMessage(messa, ec.EmailResp);
-                            _serviceGenetec.DisparaAlarme(messa, 8);
+                            //_serviceGenetec.DisparaAlarme(messa, 8);
                             break;
                         case diasAlerta3:
                             //CriarLog("Disparar alerta de vencendo em 30 dias");
+                            empresa = _serviceEmpresa.BuscarPelaChave(ec.EmpresaId);
+                            empresa.PraVencer = 30;
+                            _serviceEmpresa.Alterar(empresa);
                             messa = "Disparar alerta de vencendo em 30 dias";
                             sendMessage(messa, ec.EmailResp);
-                            _serviceGenetec.DisparaAlarme(messa, 8);
+                           // _serviceGenetec.DisparaAlarme(messa, 8);
                             break;
                         default:
                             break;

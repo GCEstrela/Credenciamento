@@ -171,6 +171,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void OnEntityChanged(object sender, PropertyChangedEventArgs e)
+
+
         {
             if (e.PropertyName == "Entity")
 
@@ -539,8 +541,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                var list2 = Mapper.Map<List<EmpresaView>> (list.OrderByDescending (n => n.EmpresaId));
-                EntityObserver = new ObservableCollection<EmpresaView>();
+                var list2 = Mapper.Map<List<EmpresaView>> (list.OrderByDescending (n => n.EmpresaId));                
+                EntityObserver = new ObservableCollection<EmpresaView>();               
                 list2.ForEach (n => { EntityObserver.Add (n); });
                 //Havendo registros, selecione o primeiro
                 if (EntityObserver.Any()) SelectListViewIndex = 0;
