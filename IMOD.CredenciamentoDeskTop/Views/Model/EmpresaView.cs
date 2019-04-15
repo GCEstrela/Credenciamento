@@ -62,7 +62,7 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public string Sigla { get; set; }       
         public int TotalPermanente { get; set; }
         public int TotalTemporaria { get; set; }
-        public int PraVencer { get; set; }
+        public int? PraVencer { get; set; }
         public string PraVencerTooltip { get; set; }
 
         #endregion

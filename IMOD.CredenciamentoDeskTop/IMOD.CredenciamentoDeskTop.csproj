@@ -730,17 +730,13 @@
     <Content Include="FodyWeavers.xml" />
     <Resource Include="Resources\Amarelo.jpg" />
     <Resource Include="Resources\Amarelo.png" />
-    <Content Include="Resources\Laranja.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Resource Include="Resources\Laranja.jpg" />
     <Content Include="Resources\Ok2.ico" />
     <Content Include="Resources\Okold.ico" />
     <Content Include="Resources\Verde.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\Vermelho.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Resource Include="Resources\Vermelho.jpg" />
     <Resource Include="Resources\undo.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>

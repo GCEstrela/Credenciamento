@@ -9,30 +9,33 @@ namespace IMOD.CredenciamentoDeskTop.Funcoes
     public class ConvertIntToImage : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {           
-            
-            if ((int)value == 0)
+        {
+            if (value == null) return null;
+
+            if (value.ToString() == "0")
             {
                 //BitmapImage impressa = new BitmapImage(new Uri("pack://application:,,,/IMOD.CredenciamentoDeskTop;component/Resources/CardPrinterAzul.png"));
-                BitmapImage impressa = new BitmapImage(new Uri("pack://application:,,,/IMOD.CredenciamentoDeskTop;component/Resources/Amarelo.jpg"));
-                return impressa;
+                BitmapImage imagem = new BitmapImage(new Uri("pack://application:,,,/IMOD.CredenciamentoDeskTop;component/Resources/Vermelho.jpg"));
+                return imagem;
             }
             else if ((int)value == 5)
             {
-                BitmapImage naoimpressa = new BitmapImage(new Uri("pack://application:,,,/IMOD.CredenciamentoDeskTop;component/Resources/CardPrinterAmarelo.png"));
-                return naoimpressa;
+                BitmapImage imagem = new BitmapImage(new Uri("pack://application:,,,/IMOD.CredenciamentoDeskTop;component/Resources/Laranja.jpg"));
+                return imagem;
             }
             else if ((int)value == 15)
             {
-
+                BitmapImage imagem = new BitmapImage(new Uri("pack://application:,,,/IMOD.CredenciamentoDeskTop;component/Resources/Amarelo.jpg"));
+                return imagem;
             }
             else if ((int)value == 30)
             {
-
+                BitmapImage imagem = new BitmapImage(new Uri("pack://application:,,,/IMOD.CredenciamentoDeskTop;component/Resources/Verde.jpg"));
+                return imagem;
             }
             else
             {
-
+                return null;
             }
             //BitmapImage imgOk = new BitmapImage(new Uri("pack://application:,,,/IMOD.CredenciamentoDeskTop;component/Resources/Ok.ico"));
             //BitmapImage imgPend = new BitmapImage(new Uri("pack://application:,,,/IMOD.CredenciamentoDeskTop;component/Resources/Pendencia.ico"));

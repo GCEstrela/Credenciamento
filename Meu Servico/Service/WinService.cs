@@ -16,6 +16,7 @@ using Topshelf;
 using System.Net.Mail;
 using System.Net;
 using System.Threading;
+using System.Collections;
 
 namespace Meu_Servico.Service
 {
@@ -199,11 +200,12 @@ namespace Meu_Servico.Service
                 }
                 );
 
-
+               
                 //CardHolderEntity entity2 = new CardHolderEntity();
+                Hashtable empresaContrato = new Hashtable();
 
                 string messa;
-                var empresaContratos = _service.Listar().Where(ec => ec.StatusId == 0).ToList();
+                var empresaContratos = _service.Listar().Where(ec =>  ec.StatusId == 0).OrderByDescending(ec => ec.Validade).ToList();                
                 //var empresaContratos = _service.Listar().ToList();
                 empresaContratos.ForEach(ec =>
                 {
@@ -216,36 +218,79 @@ namespace Meu_Servico.Service
                         
                         case diasAlerta:
                             //CriarLog("Disparar alerta de vencendo hoje");
+                            // Verifica se a Hashtable contém esta chave
+                            if (!empresaContrato.ContainsKey(ec.EmpresaId))
+                            {
+                                empresaContrato[ec.EmpresaId] = diasAlerta;
+                            }
+
                             var empresa = _serviceEmpresa.BuscarPelaChave(ec.EmpresaId);
-                            empresa.PraVencer = 0;
+                            empresa.PraVencer = diasAlerta;                            
                             _serviceEmpresa.Alterar(empresa);
-                            messa="Disparar alerta de vencendo hoje";
+
+                            var contrato = _service.BuscarPelaChave(ec.EmpresaContratoId);
+                            contrato.PraVencer = diasAlerta;
+                            _service.Alterar(contrato);
+
+                            messa ="Disparar alerta de vencendo hoje";
                             sendMessage(messa, ec.EmailResp);
                             //_serviceGenetec.DisparaAlarme(messa,8);
                             break;
                         case diasAlerta1:
                             //CriarLog("Disparar alerta de vencendo em 5 dias");
+                            // Verifica se a Hashtable contém esta chave
+                            if (!empresaContrato.ContainsKey(ec.EmpresaId))
+                            {
+                                empresaContrato[ec.EmpresaId] = diasAlerta1;
+                            }
                             empresa = _serviceEmpresa.BuscarPelaChave(ec.EmpresaId);
-                            empresa.PraVencer = 5;
+                            empresa.PraVencer = diasAlerta1;
                             _serviceEmpresa.Alterar(empresa);
+
+                            contrato = _service.BuscarPelaChave(ec.EmpresaContratoId);
+                            contrato.PraVencer = diasAlerta1;
+                            _service.Alterar(contrato);
+
+                            
                             messa = "Disparar alerta de vencendo em 5 dias";
                             sendMessage(messa, ec.EmailResp);
                             //_serviceGenetec.DisparaAlarme(messa, 8);
                             break;
                         case diasAlerta2:
                             //CriarLog("Disparar alerta de vencendo em 15 dias");
+                            // Verifica se a Hashtable contém esta chave
+                            if (!empresaContrato.ContainsKey(ec.EmpresaId))
+                            {
+                                empresaContrato[ec.EmpresaId] = diasAlerta2;
+                            }                            
                             empresa = _serviceEmpresa.BuscarPelaChave(ec.EmpresaId);
-                            empresa.PraVencer = 15;
+                            empresa.PraVencer = diasAlerta2;
                             _serviceEmpresa.Alterar(empresa);
+
+                            contrato = _service.BuscarPelaChave(ec.EmpresaContratoId);
+                            contrato.PraVencer = diasAlerta2;
+                            _service.Alterar(contrato);
+
+                            
                             messa = "Disparar alerta de vencendo em 15 dias";
                             sendMessage(messa, ec.EmailResp);
                             //_serviceGenetec.DisparaAlarme(messa, 8);
                             break;
                         case diasAlerta3:
                             //CriarLog("Disparar alerta de vencendo em 30 dias");
+                            // Verifica se a Hashtable contém esta chave
+                            if (!empresaContrato.ContainsKey(ec.EmpresaId))
+                            {
+                                empresaContrato[ec.EmpresaId] = diasAlerta3;
+                            }
                             empresa = _serviceEmpresa.BuscarPelaChave(ec.EmpresaId);
-                            empresa.PraVencer = 30;
+                            empresa.PraVencer = diasAlerta3;
                             _serviceEmpresa.Alterar(empresa);
+
+                            contrato = _service.BuscarPelaChave(ec.EmpresaContratoId);
+                            contrato.PraVencer = diasAlerta3;
+                            _service.Alterar(contrato);
+
                             messa = "Disparar alerta de vencendo em 30 dias";
                             sendMessage(messa, ec.EmailResp);
                            // _serviceGenetec.DisparaAlarme(messa, 8);

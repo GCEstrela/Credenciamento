@@ -45,7 +45,7 @@ namespace IMOD.Domain.Entities
         public  byte [] ArquivoBlob { get; set; }
         public bool ContratoBasico { get; set; }
         public string TerceirizadaNome { get; set; }
-
+        public int PraVencer { get; set; }
         #endregion
     }
 }
