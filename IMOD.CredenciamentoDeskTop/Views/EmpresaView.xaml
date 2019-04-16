@@ -102,13 +102,14 @@
                       Margin="0,0,5,0" Width="1258">
                 <ListView.View>
                     <GridView FrameworkElement.FlowDirection="RightToLeft">
-                        <GridViewColumn >
+                        <GridViewColumn Header="Vencimento" Width="75">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Image ToolTip="{Binding TootilPraVencer}" Source="{Binding PraVencer, Converter={StaticResource ConvertIntToImage}, Mode=TwoWay, UpdateSourceTrigger=Explicit}" Width="16"  Height="16"/>
+                                    <Image ToolTip="{Binding PraVencerTooltip}" Source="{Binding PraVencer, Converter={StaticResource ConvertIntToImage}, Mode=TwoWay}" Width="60"  Height="16" HorizontalAlignment="Center"  Margin="0,0,0,0"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
+                        <!--<GridViewColumn Width="68" Header="Vencimento"/>-->
                         <GridViewColumn Width="55" Header="Código" DisplayMemberBinding="{Binding EmpresaId}" />
                         <GridViewColumn Width="140" Header="CNPJ" DisplayMemberBinding="{Binding Cnpj}" />
                         <GridViewColumn Width="270" Header="Razão Social" DisplayMemberBinding="{Binding Nome}" />
@@ -116,7 +117,7 @@
                         <GridViewColumn Width="115" Header="Telefone" DisplayMemberBinding="{Binding Telefone1}" />
                         <GridViewColumn Width="115" Header="Celular" DisplayMemberBinding="{Binding Celular1}" />
                         <GridViewColumn Width="200" Header="E-Mail" DisplayMemberBinding="{Binding Email1}" />
-                        <!--<GridViewColumn Width="200" Header="Vencimento em" DisplayMemberBinding="{Binding PraVencer}" />-->
+                        
                     </GridView>
                 </ListView.View>
             </ListView>
@@ -196,10 +197,10 @@
                                     <TextBox CharacterCasing="Upper" x:Name="Codigo_tb" MaxLength="50"
                                              Text="{Binding Entity.EmpresaId, UpdateSourceTrigger=PropertyChanged}"
                                              IsEnabled="False" Height="24" Width="50" />
-                                    <TextBox CharacterCasing="Upper" x:Name="pravencar_tb" MaxLength="50"
+                                    <!--<TextBox CharacterCasing="Upper" x:Name="pravencar_tb" MaxLength="50"
                                              Text="{Binding Entity.PraVencer, UpdateSourceTrigger=PropertyChanged}"
-                                             IsEnabled="False" Height="24" Width="29" />
-                                    <Label Content="CNPJ:" Height="28" Width="103" Margin="1" Foreground="#FFD0D0D0"
+                                             IsEnabled="False" Height="24" Width="29" />-->
+                                    <Label Content="CNPJ:" Height="28" Width="131" Margin="1" Foreground="#FFD0D0D0"
                                            HorizontalContentAlignment="Right" />
                                     <TextBox x:Name="txtCnpj" MaxLength="20" IsEnabled="True" Height="24"
                                              PreviewTextInput="NumberOnly" Width="120" Foreground="White"

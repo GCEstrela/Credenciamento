@@ -63,11 +63,11 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public int TotalPermanente { get; set; }
         public int TotalTemporaria { get; set; }
         public int? PraVencer { get; set; }
-        public string PraVencerTooltip { get; set; }
+        public string PraVencerTooltip { get { return "Vencimento de Contrato em.: " + PraVencer.ToString(); } }
 
         #endregion
 
-
+        
         /// <summary>Creates a new object that is a copy of the current instance.</summary>
         /// <returns>A new object that is a copy of this instance.</returns>
         public object Clone()

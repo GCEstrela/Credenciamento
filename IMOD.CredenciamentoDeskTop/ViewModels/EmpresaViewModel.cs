@@ -145,7 +145,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public int QuantidadeTipoCredencialTemporario { get; set; }
 
         public int QuantidadeTipoCredencialPermanente { get; set; }
-        public string TootilPraVencer { get; set; }
+       
         #endregion
 
         public EmpresaViewModel()
@@ -510,7 +510,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                     EntityObserver.Clear();
                     var n2 = Mapper.Map<EmpresaView> (n1);
-                    TootilPraVencer = n2.PraVencer + " pra vencimento do contrato";
+                   
                     var observer = new ObservableCollection<EmpresaView>();
                     observer.Add (n2);
                     EntityObserver = observer;
@@ -544,8 +544,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             try
             {
                 //var contrato = _serviceContratos.Listar().OrderByDescending(ec => ec.PraVencer).GroupBy(ec => ec.EmpresaId).ToList();
-
+               
                 var list2 = Mapper.Map<List<EmpresaView>> (list.OrderByDescending (n => n.EmpresaId));
+                
                 EntityObserver = new ObservableCollection<EmpresaView>();               
                 list2.ForEach (n => { EntityObserver.Add (n); });
                 //Havendo registros, selecione o primeiro
