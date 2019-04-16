@@ -105,7 +105,7 @@
                         <GridViewColumn >
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Image ToolTip="{Binding PraVencer}" Source="{Binding PraVencer, Converter={StaticResource ConvertIntToImage}, Mode=TwoWay, UpdateSourceTrigger=Explicit}" Width="16"  Height="16"/>
+                                    <Image ToolTip="{Binding TootilPraVencer}" Source="{Binding PraVencer, Converter={StaticResource ConvertIntToImage}, Mode=TwoWay, UpdateSourceTrigger=Explicit}" Width="16"  Height="16"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>

@@ -145,7 +145,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public int QuantidadeTipoCredencialTemporario { get; set; }
 
         public int QuantidadeTipoCredencialPermanente { get; set; }
-
+        public string TootilPraVencer { get; set; }
         #endregion
 
         public EmpresaViewModel()
@@ -510,6 +510,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                     EntityObserver.Clear();
                     var n2 = Mapper.Map<EmpresaView> (n1);
+                    TootilPraVencer = n2.PraVencer + " pra vencimento do contrato";
                     var observer = new ObservableCollection<EmpresaView>();
                     observer.Add (n2);
                     EntityObserver = observer;
