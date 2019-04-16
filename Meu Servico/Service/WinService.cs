@@ -343,7 +343,7 @@ namespace Meu_Servico.Service
             mail.From = new MailAddress(emailOrigem);
             mail.To.Add(emailOrigem); // para
             mail.To.Add(emailDestino); // para
-            mail.Subject = "Inativação"; // assunto 
+            mail.Subject = "Inativação de Contrato(s)"; // assunto 
             mail.Body = msg; // mensagem
 
             // em caso de anexos
