@@ -437,13 +437,30 @@ namespace IMOD.Infra.Servicos
         {
             try
             {
+                //Entity _entidade;
+                //_entidade = _sdk.GetEntity(_sdk.ClientGuid);
+ 
+                // var guidAlarm = _sdk.CreateEntity(menssagem, EntityType.Alarm, guidParent).Guid;
+                _sdk.TransactionManager.CreateTransaction();
+
+                TimeSpan duration = new TimeSpan(1, 12, 23, 62);
+                var guidParent = new Guid("00000000-0000-0000-0000-000000000003"); //Guid do usuário que receberá os alarmes
+                var guidAlarm = _sdk.CreateEntity(menssagem, EntityType.Alarm).Guid;
+                Alarm alarm = (Alarm)_sdk.GetEntity(guidAlarm);                
+                alarm.Recipients.Add(guidParent, duration);
                 
-                Alarm alarm = (Alarm)_sdk.GetEntity(EntityType.Alarm, IdAlarme);                
-                _sdk.AlarmManager.TriggerAlarm(alarm);
+
+                _sdk.TransactionManager.CommitTransaction();
+
+                _sdk.AlarmManager.TriggerAlarm(guidAlarm, _sdk.ClientGuid);
+
+                //Alarm alarm = (Alarm)_sdk.GetEntity(EntityType.Alarm, IdAlarme);                
+                //_sdk.AlarmManager.TriggerAlarm(alarm);
 
             }
             catch (Exception ex)
             {
+                _sdk.TransactionManager.RollbackTransaction();
                 Utils.TraceException(ex);
                 throw;
             }

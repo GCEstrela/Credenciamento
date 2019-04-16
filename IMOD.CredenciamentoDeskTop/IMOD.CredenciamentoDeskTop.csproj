@@ -728,7 +728,7 @@
     </Content>
     <Content Include="Dlls\PropertyChanged.dll" />
     <Content Include="FodyWeavers.xml" />
-    <Content Include="Resources\vermelho.png" />
+    <Resource Include="Resources\vermelho.png" />
     <Resource Include="Resources\Amarelo.jpg" />
     <Resource Include="Resources\Amarelo.png" />
     <Resource Include="Resources\Laranja.jpg" />
