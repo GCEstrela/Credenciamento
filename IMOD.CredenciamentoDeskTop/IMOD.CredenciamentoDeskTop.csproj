@@ -734,6 +734,7 @@
     <Resource Include="Resources\Laranja.jpg" />
     <Content Include="Resources\Ok2.ico" />
     <Content Include="Resources\Okold.ico" />
+    <Resource Include="Resources\red_alerta.png" />
     <Content Include="Resources\Verde.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

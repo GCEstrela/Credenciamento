@@ -15,7 +15,7 @@ namespace IMOD.CredenciamentoDeskTop.Funcoes
             if (value.ToString() == "0")
             {
                 //BitmapImage impressa = new BitmapImage(new Uri("pack://application:,,,/IMOD.CredenciamentoDeskTop;component/Resources/CardPrinterAzul.png"));
-                BitmapImage imagem = new BitmapImage(new Uri("pack://application:,,,/IMOD.CredenciamentoDeskTop;component/Resources/Vermelho.jpg"));
+                BitmapImage imagem = new BitmapImage(new Uri("pack://application:,,,/IMOD.CredenciamentoDeskTop;component/Resources/red_alerta.png"));
                 return imagem;
             }
             else if ((int)value == 5)
