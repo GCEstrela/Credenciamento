@@ -20,6 +20,8 @@ namespace IMOD.PreCredenciamentoWeb.Models
         [Required(ErrorMessage = "O Apelido é requerido.")]
         [Display(Name = "Apelido")]
         public string Apelido { get; set; }
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         [Display(Name = "Data Nascimento")]
         public DateTime? DataNascimento { get; set; }
         [Display(Name = "Nome Pai")]
@@ -39,6 +41,7 @@ namespace IMOD.PreCredenciamentoWeb.Models
         [Display(Name = "UF RG")]
         public string RgOrgUf { get; set; }
         public string Passaporte { get; set; }
+        [DataType(DataType.Date)]
         [Display(Name = "Validade Passaporte")]
         public DateTime? PassaporteValidade { get; set; }
         public string Rne { get; set; }
@@ -46,6 +49,7 @@ namespace IMOD.PreCredenciamentoWeb.Models
         public string TelefoneFixo { get; set; }
         [Display(Name = "Telefone Celular")]
         public string TelefoneCelular { get; set; }
+        [EmailAddress]
         public string Email { get; set; }
         [Required(ErrorMessage = "O Contato de Emergencia é requerido.")]
         [Display(Name = "Contato Emergência")]
@@ -75,13 +79,19 @@ namespace IMOD.PreCredenciamentoWeb.Models
         public string CnhCategoria { get; set; }
         [Display(Name = "Número Habilitação")]
         public string Cnh { get; set; }
-        [Range(typeof(DateTime), "1/1/1880", "1/1/2200", ErrorMessage = "Data inválida")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         [Display(Name = "Validade Habilitação")]
         public DateTime? CnhValidade { get; set; }
 
         public string CnhEmissor { get; set; }
+        [Display(Name = "UF")]
         public string Cnhuf { get; set; }
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime? DataEmissao { get; set; }
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime? DataValidade { get; set; }
 
         public bool Estrangeiro { get; set; }

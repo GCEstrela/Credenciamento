@@ -8,13 +8,25 @@
 <p></p>
 <p></p>
 <div>
-    <img src="~/images/Colaboradores.png" width="60" height="50" class="img-rounded img-responsive"/>
-    <p></p>
-    <p>
+    <a href='@Url.Action("Create", "Colaborador")'>
+        <img src="~/images/Colaboradores.png" width="60" height="50" class="img-rounded img-responsive" />
+        <p></p>
         @Html.ActionLink("Novo", "Create", "Colaborador", new { @class = "btn btn-primary" })
-    </p>
+    </a>
+    @*<img src="~/images/Colaboradores.png" width="60" height="50" class="img-rounded img-responsive" />
+    @Html.ActionLink("Novo", "Create", "Colaborador", new { @class = "btn btn-primary" })*@
 </div>
+
 <div class="col-md-12">
+    <br/>
+    <div class="col-md-6">
+        <p>
+           <input type="text" />
+            <button type="button" class="btn btn-default">
+                <span class="glyphicon glyphicon-search"></span> Buscar
+            </button>
+        </p>
+    </div>
     <table class="table table-hover table-condensed table-responsive">
         <tr>
             <th>
@@ -71,7 +83,8 @@
                     </a>
                     &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
                     <a href='@Url.Action("Details", "Colaborador", new { id = item.ColaboradorId })'>
-                        <img src="~/images/lupa.png" />
+                        @*<img src="~/images/lupa.png" />*@
+                      <span class="glyphicon glyphicon-search"></span>
                     </a>
                     &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
                     <a href='@Url.Action("Delete", "Colaborador", new { id = item.ColaboradorId })'>
