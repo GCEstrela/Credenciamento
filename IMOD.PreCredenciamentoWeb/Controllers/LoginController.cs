@@ -33,6 +33,8 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
                 if (empresaLogada != null)
                 {
+                    empresa.Codigo = empresaLogada.EmpresaId;
+                    empresa.Nome = empresaLogada.Nome;                    
                     Session["EmpresaLogada"] = empresa;
                     return RedirectToAction("../Home/Index");
                 }
