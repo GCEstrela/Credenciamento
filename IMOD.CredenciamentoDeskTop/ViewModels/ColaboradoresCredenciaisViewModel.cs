@@ -323,7 +323,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 EmpresaLayoutCracha = new List<EmpresaLayoutCracha>();
                 var service = new EmpresaLayoutCrachaService();
-                var list1 = service.ListarLayoutCrachaPorEmpresaView(empresaId);
+                var list1 = service.ListarLayoutCrachaPorEmpresaView(empresaId,1);
                 var list2 = Mapper.Map<List<EmpresaLayoutCracha>>(list1);
                 EmpresaLayoutCracha = list2;
 

@@ -52,7 +52,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
         private void EmpresaVinculo_cb_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (_viewModel.VeiculoEmpresa == null) return;
-            _viewModel.CarregaColecaoLayoutsCrachas ((int) _viewModel.VeiculoEmpresa.EmpresaId);
+            _viewModel.CarregaColecaoLayoutsCrachas ((int) _viewModel.VeiculoEmpresa.EmpresaId,2);
             _viewModel.ObterValidade();
         }
 

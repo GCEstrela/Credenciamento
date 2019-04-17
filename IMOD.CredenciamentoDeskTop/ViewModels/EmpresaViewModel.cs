@@ -212,7 +212,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
             TiposLayoutCracha.Clear();
             var id = Entity.EmpresaId;
-            var list = _service.CrachaService.ListarLayoutCrachaPorEmpresaView (id).ToList();
+            var list = _service.CrachaService.ListarLayoutCrachaPorEmpresaView (id,0).ToList();
             var list2 = Mapper.Map<List<EmpresaLayoutCrachaView>> (list);
             list2.ForEach (n => TiposLayoutCracha.Add (n));
         }
