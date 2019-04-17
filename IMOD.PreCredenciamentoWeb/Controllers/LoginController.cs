@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using IMOD.Application.Interfaces;
 using IMOD.Application.Service;
 using IMOD.Domain.Entities;
+using System.Web.Security;
 
 namespace IMOD.PreCredenciamentoWeb.Controllers
 {
@@ -22,7 +23,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         }
 
         [HttpPost]
-        //[ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]
         public ActionResult Login(EmpresaViewModel empresa)
         {
             // esta action trata o post (login)
@@ -34,13 +35,25 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                 if (empresaLogada != null)
                 {
                     empresa.Codigo = empresaLogada.EmpresaId;
-                    empresa.Nome = empresaLogada.Nome;                    
+                    empresa.Nome = empresaLogada.Nome;
+                    empresa.Senha = string.Empty;
                     Session["EmpresaLogada"] = empresa;
+                    FormsAuthentication.SetAuthCookie(empresa.Nome, empresa.Lembreme);
                     return RedirectToAction("../Home/Index");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "O login está incorreto!");
                 }
 
             }
             return View(empresa);
+        }
+
+        public ActionResult Logout()
+        {
+            FormsAuthentication.SignOut();
+            return RedirectToAction("Index","Login");
         }
 
     }

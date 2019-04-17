@@ -10,15 +10,14 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap Login Form with Avatar Image</title>
+    <title>Security Center Pré-Cadastramento</title>
     <link rel="stylesheet" href="~/Content/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="~/Scripts/jquery-3.3.1.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
     <style type="text/css">
         body {
-            color: #fff;
-            /*background: #d47677;*/
+            color: #fff;            
             background: #595757;
         }
 
@@ -117,21 +116,22 @@
 <body>
     <div class="login-form">
         <form action="Login/Login" method="post">
+            @Html.AntiForgeryToken()
             <div class="avatar">
                 <img src="/images/avatar.png" alt="Avatar">
             </div>
             <h2 class="text-center">Empresa Login</h2>
             <div class="form-group">
-                @Html.EditorFor(model => model.CNPJ, new { htmlAttributes = new { @class = "form-control", placeholder = "CNPJ" } })                
+                @Html.EditorFor(model => model.CNPJ, new { htmlAttributes = new { @class = "form-control", placeholder = "CNPJ" } })
             </div>
             <div class="form-group">
-                @Html.EditorFor(model => model.Senha, new { htmlAttributes = new { @class = "form-control", placeholder = "Senha" } })                
+                @Html.PasswordFor(model => model.Senha, new { @class = "form-control", placeholder = "Senha" })
             </div>
             <div class="form-group">
                 <button type="submit" class="btn btn-primary btn-lg btn-block">Entrar</button>
             </div>
             <div class="clearfix">
-                <label class="pull-left checkbox-inline"><input type="checkbox"> Lembre-me</label>
+                <label class="pull-left checkbox-inline"> @Html.CheckBoxFor(model => model.Lembreme) Lembre-me</label>
                 <a href="#" class="pull-right">Esqueceu Senha?</a>
             </div>
         </form>

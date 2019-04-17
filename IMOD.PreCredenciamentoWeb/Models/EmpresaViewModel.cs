@@ -18,5 +18,6 @@ namespace IMOD.PreCredenciamentoWeb.Models
         [Required(ErrorMessage = "Informe o CNPJ da empresa", AllowEmptyStrings = false)]
         public string CNPJ { get; set; }
         public Byte[] Logo { get; set; }
+        public bool Lembreme { get; set; }
     }
 }
