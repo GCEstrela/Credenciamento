@@ -169,10 +169,65 @@ namespace Meu_Servico.Service
             {
 
                 CriarLog("serviço rodando:" + DateTime.Now);
-                
+                string messa;
                 var colaboradorContratos = _serviceColaborador.Listar(null, null, null, null, null, null, true).ToList();
                 colaboradorContratos.ForEach(ec =>
                 {
+                    DateTime validadeCredencial = (DateTime)ec.Validade;
+                    //string texto = ((ec.Validade < DateTime.Now) ? " - Vencido em : " : " - Válido até : ") + ec.Validade;
+                    //CriarLog(string.Format("Contrato: {0}", texto));
+                    int dias = validadeCredencial.Subtract(DateTime.Now.Date).Days;
+                    switch (dias)
+                    {
+                        case diasAlerta:
+                            messa = "A credencial do colaborador.: " + ec.ColaboradorNome + " vencendo hoje";
+                            _serviceGenetec.DisparaAlarme(messa, 8);
+
+                            _configuraSistema = ObterConfiguracao();
+                            if (_configuraSistema.Email != null)
+                            {
+                                sendMessage(messa, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), _configuraSistema.Email.Trim());
+                            }
+                            break;
+
+                        case diasAlerta1:
+                            messa = "A credencial do colaborador.: " + ec.ColaboradorNome + " vencerá em " + diasAlerta1 + " dias.";
+                            _serviceGenetec.DisparaAlarme(messa, 8);
+
+                            _configuraSistema = ObterConfiguracao();
+                            if (_configuraSistema.Email != null)
+                            {
+                                sendMessage(messa, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), _configuraSistema.Email.Trim());
+                            }
+                            break;
+
+                        case diasAlerta2:
+                            messa = "A credencial do colaborador.: " + ec.ColaboradorNome + " vencerá em " + diasAlerta2 + " dias.";
+                            _serviceGenetec.DisparaAlarme(messa, 8);
+
+                            _configuraSistema = ObterConfiguracao();
+                            if (_configuraSistema.Email != null)
+                            {
+                                sendMessage(messa, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), _configuraSistema.Email.Trim());
+                            }
+                            break;
+
+                        case diasAlerta3:
+                            messa = "A credencial do colaborador.: " + ec.ColaboradorNome + " vencerá em " + diasAlerta3 + " dias.";
+                            _serviceGenetec.DisparaAlarme(messa, 8);
+
+                            _configuraSistema = ObterConfiguracao();
+                            if (_configuraSistema.Email != null)
+                            {
+                                sendMessage(messa, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), _configuraSistema.Email.Trim());
+                            }
+                            break;
+
+                        default:
+                            break;
+                    }
+
+
                     if (ec.Validade < DateTime.Now)
                     {
                         ec.Ativa = false;
@@ -206,7 +261,7 @@ namespace Meu_Servico.Service
                 //CardHolderEntity entity2 = new CardHolderEntity();
                 Hashtable empresaContrato = new Hashtable();
 
-                string messa;
+                
                 var empresaContratos = _service.Listar().Where(ec =>  ec.StatusId == 0).OrderByDescending(ec => ec.Validade).ToList();                
                 //var empresaContratos = _service.Listar().ToList();
                 empresaContratos.ForEach(ec =>
