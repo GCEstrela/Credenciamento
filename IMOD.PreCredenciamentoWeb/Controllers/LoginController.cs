@@ -22,25 +22,20 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public ActionResult Login(EmpresaViewModel empresa)
         {
             // esta action trata o post (login)
             if (ModelState.IsValid) //verifica se é válido
             {
                 var lista = service.Listar();
-                lista.Where(e => e.Cnpj.Equals(empresa.CNPJ));
+                var empresaLogada = lista.Where(e => e.Cnpj.Equals(empresa.CNPJ) && e.Senha.Equals(empresa.Senha)).FirstOrDefault();
 
-
-
-
-                //var v = dc.Usuarios.Where(a => a.NomeUsuario.Equals(u.NomeUsuario) && a.Senha.Equals(u.Senha)).FirstOrDefault();
-                //if (v != null)
-                //{
-                //    Session["usuarioLogadoID"] = v.Id.ToString();
-                //    Session["nomeUsuarioLogado"] = v.NomeUsuario.ToString();
-                //    return RedirectToAction("Index");
-                //}
+                if (empresaLogada != null)
+                {
+                    Session["EmpresaLogada"] = empresa;
+                    return RedirectToAction("../Home/Index");
+                }
 
             }
             return View(empresa);
