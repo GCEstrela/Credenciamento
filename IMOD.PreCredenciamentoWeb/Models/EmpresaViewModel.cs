@@ -8,6 +8,8 @@ namespace IMOD.PreCredenciamentoWeb.Models
 {
     public class EmpresaViewModel
     {
+
+        public int Codigo { get; set; }
         public string Nome { get; set; }
         [Display(Name = "Senha")]
         [Required(ErrorMessage = "Informe a senha", AllowEmptyStrings = false)]
