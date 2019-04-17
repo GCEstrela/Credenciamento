@@ -92,7 +92,11 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
                 return (Estrangeiro == true && (string.IsNullOrEmpty(Rne) & !PassaportePreenchido()));
             }
         }
-
+        //public bool Pendente21 { get; set; }
+        //public bool Pendente22 { get; set; }
+        //public bool Pendente23 { get; set; }
+        //public bool Pendente24 { get; set; }
+        //public bool Pendente25 { get; set; }
 
         private bool PassaportePreenchido()
         {

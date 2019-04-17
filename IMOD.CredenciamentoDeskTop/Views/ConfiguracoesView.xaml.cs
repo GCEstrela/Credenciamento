@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using IMOD.CredenciamentoDeskTop.ViewModels;
 
@@ -594,11 +595,31 @@ namespace IMOD.CredenciamentoDeskTop.Views
             ((ConfiguracoesViewModel)DataContext).OnExcluirCommand_FormatosCredenciais();
         }
 
-        #endregion
 
         #endregion
 
+        #endregion
 
+        private void TipoCracha_tb_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            try
+            {
+                if (((System.Windows.Controls.TextBox)e.Source).Text == "") return;
+
+                int tipo = Convert.ToInt32(((System.Windows.Controls.TextBox)e.Source).Text);
+                if (tipo > 2 || tipo < 1)
+                {
+                    TipoCracha_tb.Text = "";
+                    return;
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                //return;
+            }
+
+        }
     }
 }
 
