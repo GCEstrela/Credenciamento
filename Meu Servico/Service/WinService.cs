@@ -17,6 +17,7 @@ using System.Net.Mail;
 using System.Net;
 using System.Threading;
 using System.Collections;
+using IMOD.Domain.Entities;
 
 namespace Meu_Servico.Service
 {
@@ -27,7 +28,8 @@ namespace Meu_Servico.Service
         private IEmpresaService _serviceEmpresa = new EmpresaService();
         private IColaboradorCredencialService _serviceColaborador = new ColaboradorCredencialService();
         private IEmpresaContratosService _service = new EmpresaContratoService();
-        
+        private readonly IDadosAuxiliaresFacade _auxiliaresServiceConfiguraSistema = new DadosAuxiliaresFacadeService();
+        private ConfiguraSistema _configuraSistema;
         private IEngine _sdk;
 
         public ILog Log { get; private set; }
@@ -167,10 +169,65 @@ namespace Meu_Servico.Service
             {
 
                 CriarLog("serviço rodando:" + DateTime.Now);
-                
+                string messa;
                 var colaboradorContratos = _serviceColaborador.Listar(null, null, null, null, null, null, true).ToList();
                 colaboradorContratos.ForEach(ec =>
                 {
+                    DateTime validadeCredencial = (DateTime)ec.Validade;
+                    //string texto = ((ec.Validade < DateTime.Now) ? " - Vencido em : " : " - Válido até : ") + ec.Validade;
+                    //CriarLog(string.Format("Contrato: {0}", texto));
+                    int dias = validadeCredencial.Subtract(DateTime.Now.Date).Days;
+                    switch (dias)
+                    {
+                        case diasAlerta:
+                            messa = "A credencial do colaborador.: " + ec.ColaboradorNome + " vencendo hoje";
+                            //_serviceGenetec.DisparaAlarme(messa, 8);
+
+                            _configuraSistema = ObterConfiguracao();
+                            if (_configuraSistema.Email != null)
+                            {
+                                sendMessage(messa, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), ec.Email.Trim());
+                            }
+                            break;
+
+                        case diasAlerta1:
+                            messa = "A credencial do colaborador.: " + ec.ColaboradorNome + " vencerá em " + diasAlerta1 + " dias.";
+                            //_serviceGenetec.DisparaAlarme(messa, 8);
+
+                            _configuraSistema = ObterConfiguracao();
+                            if (_configuraSistema.Email != null)
+                            {
+                                sendMessage(messa, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), ec.Email.Trim());
+                            }
+                            break;
+
+                        case diasAlerta2:
+                            messa = "A credencial do colaborador.: " + ec.ColaboradorNome + " vencerá em " + diasAlerta2 + " dias.";
+                            //_serviceGenetec.DisparaAlarme(messa, 8);
+
+                            _configuraSistema = ObterConfiguracao();
+                            if (_configuraSistema.Email != null)
+                            {
+                                sendMessage(messa, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), ec.Email.Trim());
+                            }
+                            break;
+
+                        case diasAlerta3:
+                            messa = "A credencial do colaborador.: " + ec.ColaboradorNome + " vencerá em " + diasAlerta3 + " dias.";
+                            //_serviceGenetec.DisparaAlarme(messa, 8);
+
+                            _configuraSistema = ObterConfiguracao();
+                            if (_configuraSistema.Email != null)
+                            {
+                                sendMessage(messa, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), ec.Email.Trim());
+                            }
+                            break;
+
+                        default:
+                            break;
+                    }
+
+
                     if (ec.Validade < DateTime.Now)
                     {
                         ec.Ativa = false;
@@ -204,7 +261,7 @@ namespace Meu_Servico.Service
                 //CardHolderEntity entity2 = new CardHolderEntity();
                 Hashtable empresaContrato = new Hashtable();
 
-                string messa;
+                
                 var empresaContratos = _service.Listar().Where(ec =>  ec.StatusId == 0).OrderByDescending(ec => ec.Validade).ToList();                
                 //var empresaContratos = _service.Listar().ToList();
                 empresaContratos.ForEach(ec =>
@@ -232,9 +289,13 @@ namespace Meu_Servico.Service
                             contrato.PraVencer = diasAlerta;
                             _service.Alterar(contrato);
 
-                            messa ="Disparar alerta de vencendo hoje";
-                            sendMessage(messa, ec.EmailResp);
-                            //_serviceGenetec.DisparaAlarme(messa,8);
+                            messa = "O Contrato Nº.: " + ec.NumeroContrato + " da empresa " + empresa.Nome + " vencendo hoje";
+                            _configuraSistema = ObterConfiguracao();
+                            if (_configuraSistema.Email != null)
+                            {
+                                sendMessage(messa, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), ec.EmailResp.Trim());
+                            }
+                            _serviceGenetec.DisparaAlarme(messa,8);
                             break;
                         case diasAlerta1:
                             //CriarLog("Disparar alerta de vencendo em 5 dias");
@@ -251,12 +312,16 @@ namespace Meu_Servico.Service
                             contrato.PraVencer = diasAlerta1;
                             _service.Alterar(contrato);
 
-                            
-                            messa = "Disparar alerta de vencendo em 5 dias";
-                            sendMessage(messa, ec.EmailResp);
-                            //_serviceGenetec.DisparaAlarme(messa, 8);
+
+                            messa = "O Contrato Nº.: " + ec.NumeroContrato + " da empresa " + empresa.Nome + " vencendo em 5 dias";
+                            _configuraSistema = ObterConfiguracao();
+                            if (_configuraSistema.Email != null)
+                            {
+                                sendMessage(messa, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), ec.EmailResp.Trim());
+                            }
+                            _serviceGenetec.DisparaAlarme(messa, 8);
                             break;
-                        case diasAlerta2:
+                        case  diasAlerta2:
                             //CriarLog("Disparar alerta de vencendo em 15 dias");
                             // Verifica se a Hashtable contém esta chave
                             if (!empresaContrato.ContainsKey(ec.EmpresaId))
@@ -271,10 +336,14 @@ namespace Meu_Servico.Service
                             contrato.PraVencer = diasAlerta2;
                             _service.Alterar(contrato);
 
-                            
-                            messa = "Disparar alerta de vencendo em 15 dias";
-                            sendMessage(messa, ec.EmailResp);
-                            //_serviceGenetec.DisparaAlarme(messa, 8);
+
+                            messa = "O Contrato Nº.: " + ec.NumeroContrato + " da empresa " + empresa.Nome + " vencendo em 15 dias";
+                            _configuraSistema = ObterConfiguracao();
+                            if (_configuraSistema.Email != null)
+                            {
+                                sendMessage(messa, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), ec.EmailResp.Trim());
+                            }
+                            _serviceGenetec.DisparaAlarme(messa, 8);
                             break;
                         case diasAlerta3:
                             //CriarLog("Disparar alerta de vencendo em 30 dias");
@@ -291,9 +360,14 @@ namespace Meu_Servico.Service
                             contrato.PraVencer = diasAlerta3;
                             _service.Alterar(contrato);
 
-                            messa = "Disparar alerta de vencendo em 30 dias";
-                            sendMessage(messa, ec.EmailResp);
-                           // _serviceGenetec.DisparaAlarme(messa, 8);
+                            messa = "O Contrato Nº.: " + ec.NumeroContrato + " da empresa " + empresa.Nome +  " vencendo em 30 dias";
+                            _configuraSistema = ObterConfiguracao();
+                            if (_configuraSistema.Email != null)
+                            {
+                                sendMessage(messa, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), ec.EmailResp.Trim());
+                            }
+                           
+                            _serviceGenetec.DisparaAlarme(messa, 8);
                             break;
                         default:
                             break;
@@ -308,21 +382,31 @@ namespace Meu_Servico.Service
                 CriarLog(ex.Message);
             }
         }
-        protected void sendMessage(string msg,string email)
+        private ConfiguraSistema ObterConfiguracao()
         {
-           
+            //Obter configuracoes de sistema
+            var config = _auxiliaresServiceConfiguraSistema.ConfiguraSistemaService.Listar();
+            //Obtem o primeiro registro de configuracao
+            if (config == null) throw new InvalidOperationException("Não foi possivel obter dados de configuração do sistema.");
+            return config.FirstOrDefault();
+        }
+        protected void sendMessage(string msg, string emailOrigem,string Emailsmtp,string usuario,string senha, string emailDestino)
+        {
+
+            if (emailDestino == null || emailDestino == "") return;
+
             MailMessage mail = new MailMessage();
 
-            mail.From = new MailAddress("renato.maximo@gmail.com");
-            //mail.To.Add(email); // para
-            mail.To.Add(email); // para
-            mail.Subject = "Inativação"; // assunto
+            mail.From = new MailAddress(emailOrigem);
+            mail.To.Add(emailOrigem); // para
+            mail.To.Add(emailDestino); // para
+            mail.Subject = "Inativação de Contrato(s)"; // assunto 
             mail.Body = msg; // mensagem
 
             // em caso de anexos
             //mail.Attachments.Add(new Attachment(@"C:\teste.txt"));
             //Tendo o objeto mail configurado, o próximo passo é criar um cliente Smtp e enviar o e-mail.
-            using (var smtp = new SmtpClient("smtp.gmail.com"))
+            using (var smtp = new SmtpClient(Emailsmtp))
             {
                 smtp.EnableSsl = false; // GMail requer SSL
                 smtp.Port = 587;       // porta para SSL
@@ -331,7 +415,7 @@ namespace Meu_Servico.Service
                 smtp.UseDefaultCredentials = false; // vamos utilizar credencias especificas
 
                 // seu usuário e senha para autenticação
-                smtp.Credentials = new NetworkCredential("renato.maximo@gmail.com", "maximo2552");
+                smtp.Credentials = new NetworkCredential(usuario, senha);
 
                 try
                 {

@@ -204,13 +204,13 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             _credencialMotivo.AddRange(lst8.OrderBy(n => n.Descricao));
         }
 
-        public void CarregaColecaoLayoutsCrachas(int empresaId)
+        public void CarregaColecaoLayoutsCrachas(int empresaId,int tipoCracha)
         {
             try
             {
                 EmpresaLayoutCracha = new List<EmpresaLayoutCracha>();
                 var service = new EmpresaLayoutCrachaService();
-                var list1 = service.ListarLayoutCrachaPorEmpresaView (empresaId);
+                var list1 = service.ListarLayoutCrachaPorEmpresaView (empresaId, tipoCracha);
                 var list2 = Mapper.Map<List<EmpresaLayoutCracha>> (list1);
                 EmpresaLayoutCracha = list2;
             }

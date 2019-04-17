@@ -85,6 +85,7 @@ namespace IMOD.Domain.EntitiesCustom
         public bool Policiafederal { get; set; }
         public bool Receitafederal { get; set; }
         public bool Segurancatrabalho { get; set; }
-
+        public string Email { get; set; }
+        
     }
 }

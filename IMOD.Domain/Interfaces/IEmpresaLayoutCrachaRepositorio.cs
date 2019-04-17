@@ -34,6 +34,6 @@ namespace IMOD.Domain.Interfaces
         /// </summary>
         /// <param name="idEmpresa"></param>
         /// <returns></returns>
-        ICollection<EmpresaLayoutCrachaView> ListarLayoutCrachaPorEmpresaView(int idEmpresa);
+        ICollection<EmpresaLayoutCrachaView> ListarLayoutCrachaPorEmpresaView(int idEmpresa,int tipoCracha);
     }
 }
