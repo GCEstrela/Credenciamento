@@ -181,45 +181,45 @@ namespace Meu_Servico.Service
                     {
                         case diasAlerta:
                             messa = "A credencial do colaborador.: " + ec.ColaboradorNome + " vencendo hoje";
-                            _serviceGenetec.DisparaAlarme(messa, 8);
+                            //_serviceGenetec.DisparaAlarme(messa, 8);
 
                             _configuraSistema = ObterConfiguracao();
                             if (_configuraSistema.Email != null)
                             {
-                                sendMessage(messa, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), _configuraSistema.Email.Trim());
+                                sendMessage(messa, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), ec.Email.Trim());
                             }
                             break;
 
                         case diasAlerta1:
                             messa = "A credencial do colaborador.: " + ec.ColaboradorNome + " vencerá em " + diasAlerta1 + " dias.";
-                            _serviceGenetec.DisparaAlarme(messa, 8);
+                            //_serviceGenetec.DisparaAlarme(messa, 8);
 
                             _configuraSistema = ObterConfiguracao();
                             if (_configuraSistema.Email != null)
                             {
-                                sendMessage(messa, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), _configuraSistema.Email.Trim());
+                                sendMessage(messa, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), ec.Email.Trim());
                             }
                             break;
 
                         case diasAlerta2:
                             messa = "A credencial do colaborador.: " + ec.ColaboradorNome + " vencerá em " + diasAlerta2 + " dias.";
-                            _serviceGenetec.DisparaAlarme(messa, 8);
+                            //_serviceGenetec.DisparaAlarme(messa, 8);
 
                             _configuraSistema = ObterConfiguracao();
                             if (_configuraSistema.Email != null)
                             {
-                                sendMessage(messa, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), _configuraSistema.Email.Trim());
+                                sendMessage(messa, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), ec.Email.Trim());
                             }
                             break;
 
                         case diasAlerta3:
                             messa = "A credencial do colaborador.: " + ec.ColaboradorNome + " vencerá em " + diasAlerta3 + " dias.";
-                            _serviceGenetec.DisparaAlarme(messa, 8);
+                            //_serviceGenetec.DisparaAlarme(messa, 8);
 
                             _configuraSistema = ObterConfiguracao();
                             if (_configuraSistema.Email != null)
                             {
-                                sendMessage(messa, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), _configuraSistema.Email.Trim());
+                                sendMessage(messa, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), ec.Email.Trim());
                             }
                             break;
 
@@ -392,7 +392,9 @@ namespace Meu_Servico.Service
         }
         protected void sendMessage(string msg, string emailOrigem,string Emailsmtp,string usuario,string senha, string emailDestino)
         {
-           
+
+            if (emailDestino == null || emailDestino == "") return;
+
             MailMessage mail = new MailMessage();
 
             mail.From = new MailAddress(emailOrigem);

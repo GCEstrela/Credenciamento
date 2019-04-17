@@ -45,6 +45,7 @@ namespace IMOD.Domain.Entities
         public bool Segurancatrabalho { get; set; }
         public string Identificacao1 { get; set; }
         public string Identificacao2 { get; set; }
+        public string Email { get; set; }
         #endregion
     }
 }
