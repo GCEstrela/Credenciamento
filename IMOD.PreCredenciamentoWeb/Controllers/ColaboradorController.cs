@@ -13,13 +13,14 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
     public class ColaboradorController : Controller
     {
         // GET: Colaborador
-        private readonly IMOD.Application.Interfaces.IColaboradorService _service = new IMOD.Application.Service.ColaboradorService();
-        private readonly IMOD.Application.Interfaces.IDadosAuxiliaresFacade _auxiliaresService = new IMOD.Application.Service.DadosAuxiliaresFacadeService();
-
+        private readonly IMOD.Application.Interfaces.IColaboradorService objService = new IMOD.Application.Service.ColaboradorService();
+        private readonly IMOD.Application.Interfaces.IDadosAuxiliaresFacade objAuxiliaresService = new IMOD.Application.Service.DadosAuxiliaresFacadeService();
+        private readonly IMOD.Application.Interfaces.IEmpresaContratosService objContratosService = new IMOD.Application.Service.EmpresaContratoService();
+        private readonly IMOD.Application.Interfaces.IColaboradorEmpresaService objColaboradorEmpresaService = new ColaboradorEmpresaService();
 
         public ActionResult Index()
         {
-            var lstColaborador = _service.Listar(null, null, string.Empty);
+            var lstColaborador = objService.Listar(null, null, string.Empty);
             List<ColaboradorViewModel> lstColaboradorMapeado = Mapper.Map<List<ColaboradorViewModel>>(lstColaborador);
 
             return View(lstColaboradorMapeado);
@@ -41,15 +42,15 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public ActionResult Create(ColaboradorViewModel model)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    var colaboradorMapeado = Mapper.Map<Colaborador>(model); 
-                    _service.Criar(colaboradorMapeado);
+                    var colaboradorMapeado = Mapper.Map<Colaborador>(model);
+                    objService.Criar(colaboradorMapeado);
  
                     return RedirectToAction("Index", "Colaborador");
                 }
@@ -70,7 +71,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             // GET: Colaborador/Edit/5
         public ActionResult Edit(int? id)
         {
-            var colaboradorEditado = _service.Listar(id).FirstOrDefault(); 
+            var colaboradorEditado = objService.Listar(id).FirstOrDefault(); 
             if (colaboradorEditado == null)
                 return HttpNotFound();
 
@@ -94,7 +95,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                 if (ModelState.IsValid)
                 {
                     var colaboradorMapeado = Mapper.Map<Colaborador>(model);
-                    _service.Alterar(colaboradorMapeado);
+                    objService.Alterar(colaboradorMapeado);
 
                     return RedirectToAction("Index");
                 }
@@ -129,11 +130,11 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             }
         }
 
-        #region Métodos carregar componentes
+        #region Métodos internos carregar componentes
 
         private void PopularEstadosDropDownList()
         {
-            var lstEstado = _auxiliaresService.EstadoService.Listar();
+            var lstEstado = objAuxiliaresService.EstadoService.Listar();
 
             ViewBag.Estados = lstEstado; 
             ViewBag.UfRg = lstEstado; 
@@ -144,7 +145,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         {
             if (!string.IsNullOrEmpty(idEstado))
             {
-                var lstMunicipio = _auxiliaresService.MunicipioService.Listar(null, null, idEstado);
+                var lstMunicipio = objAuxiliaresService.MunicipioService.Listar(null, null, idEstado);
                 ViewBag.Municipio = lstMunicipio; 
             }
         }
@@ -160,7 +161,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                     new {Name = "C", Value = "C"},
                     new {Name = "D", Value = "D"},
                     new {Name = "E", Value = "E"}
-                }, "Value", "Name");
+                }, "Value", "Name"); 
 
             ViewBag.OrgaoEmissorRG = new SelectList(new object[]
                 {
@@ -176,7 +177,10 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                                 new {Name = "OAB", Value = "OAB"},
                                 new {Name = "CRM", Value = "CRM"}
                                 }, "Value", "Name");
-                    }
+
+            var contrato = objColaboradorEmpresaService.Listar(null, null, null, 12);
+
+        }
 
         #endregion
     }
