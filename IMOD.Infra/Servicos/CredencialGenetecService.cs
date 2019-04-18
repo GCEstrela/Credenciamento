@@ -155,7 +155,7 @@ namespace IMOD.Infra.Servicos
             try
             {
                 if (string.IsNullOrWhiteSpace(entity.FormatoCredencial))
-                    //entity.FormatoCredencial = "CSN";
+                    entity.FormatoCredencial = "CSN";
 
                 switch (entity.FormatoCredencial.ToLower().Trim())
                 {
