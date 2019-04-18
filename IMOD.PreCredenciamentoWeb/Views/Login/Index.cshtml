@@ -1,0 +1,46 @@
+﻿@model IMOD.PreCredenciamentoWeb.Models.EmpresaViewModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Security Center Pré-Cadastramento</title>
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css">
+    @*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">*@
+    <link rel="stylesheet" href="~/Content/Login.css">
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+
+</head>
+<body>
+    <div class="login-form">
+        @using (Html.BeginForm("Login","Login", FormMethod.Post)) {         
+            @Html.AntiForgeryToken()
+            <div class="avatar">
+                <img src="/images/avatar.png" alt="Avatar">
+            </div>
+            <h2 class="text-center">Empresa Login</h2>
+            <div class="form-group">
+                @Html.EditorFor(model => model.CNPJ, new { htmlAttributes = new { @class = "form-control", placeholder = "CNPJ" } })
+            </div>
+            <div class="form-group">
+                @Html.PasswordFor(model => model.Senha, new { @class = "form-control", placeholder = "Senha" })
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-lg btn-block">Entrar</button>
+            </div>
+            <div class="clearfix">
+                <label class="pull-left checkbox-inline"> @Html.CheckBoxFor(model => model.Lembreme) Lembre-me</label>
+                <a href="#" class="pull-right">Esqueceu Senha?</a>
+            </div>
+        }
+        <p class="text-center small">Não tem conta? <a href="#">Sair aqui!</a></p>
+    </div>
+</body>
+</html>

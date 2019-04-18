@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IMOD.PreCredenciamentoWeb.Util;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,6 +11,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
     {
         public ActionResult Index()
         {
+            ViewBag.User = SessionUsuario.EmpresaLogada.Nome;
             return View();
         }
 
