@@ -7,6 +7,7 @@
     <title>@ViewBag.Title - Sistema Pré Credenciamento</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 </head>
 <body>
@@ -26,10 +27,15 @@
                 @*@if (Request.IsAuthenticated)
                     {*@
                 <ul class="nav navbar-nav">
+                    <li><i class="fa fa-fw fa-user" style="font-size:30px;padding-top: 10px"></i></li>
                     <li>@Html.ActionLink("Colaboradores", "Index", "Colaborador")</li>
+                    <li><i class="fa fa-fw fa-car" style="font-size:30px;padding-top: 10px;"></i></li>
                     <li>@Html.ActionLink("Veiculos/Equipamentos", "Index", "Veiculo")</li>
+                    <li><i class="fa fa-fw fa-thumbs-o-up" style="font-size:30px;padding-top: 10px"></i></li>
                     <li>@Html.ActionLink("Links Uteis", "LinksUteis", "Home")</li>
+                    <li><i class="fa fa-fw fa-envelope" style="font-size:30px;padding-top: 10px"></i></li>
                     <li>@Html.ActionLink("Contato", "Contact", "Home")</li>
+                    <li><i class="fa fa-fw fa-sign-out" style="font-size:30px;padding-top: 10px"></i></li>
                     <li>
                         <strong>@Html.Encode(User.Identity.Name)</strong>
                         @Html.ActionLink("Sair", "Logout", "Login")
