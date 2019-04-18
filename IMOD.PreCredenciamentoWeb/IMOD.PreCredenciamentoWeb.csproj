@@ -151,6 +151,8 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\datatables.css" />
+    <Content Include="Content\datatables.min.css" />
     <Content Include="Content\Login.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -167,6 +169,11 @@
     <Content Include="Images\Olho.png" />
     <Content Include="Images\remove.png" />
     <Content Include="Images\save.png" />
+    <Content Include="Images\sort_asc.png" />
+    <Content Include="Images\sort_asc_disabled.png" />
+    <Content Include="Images\sort_both.png" />
+    <Content Include="Images\sort_desc.png" />
+    <Content Include="Images\sort_desc_disabled.png" />
     <Content Include="Images\Trator.png" />
     <Content Include="Images\undo.png" />
     <Content Include="Images\upload.png" />
@@ -174,6 +181,8 @@
     <Content Include="libman.json" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\datatables.js" />
+    <Content Include="Scripts\datatables.min.js" />
     <Content Include="Scripts\esm\popper-utils.js" />
     <Content Include="Scripts\esm\popper-utils.min.js" />
     <Content Include="Scripts\esm\popper.js" />

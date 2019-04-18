@@ -7,8 +7,8 @@
     <title>@ViewBag.Title - Sistema Pré Credenciamento</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />"
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">    
+    <link rel="stylesheet" href="~/Content/datatables.min.css" />"
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -65,8 +65,8 @@
     </div>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
-    <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+    @RenderSection("scripts", required: false)    
+    <script src="~/Scripts/datatables.min.js"></script>
     <script>
         $(document).ready(function () {
             $('#tbVeiculo').DataTable({
@@ -75,7 +75,8 @@
                     "zeroRecords": "Nada encontrado",
                     "info": "Mostrando página _PAGE_ de _PAGES_",
                     "infoEmpty": "Nenhum registro disponível",
-                    "infoFiltered": "(filtrado de _MAX_ registros no total)"
+                    "infoFiltered": "(filtrado de _MAX_ registros no total)",
+                    "search":""
                 }
             });
         });
