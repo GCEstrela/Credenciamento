@@ -45,9 +45,9 @@ namespace IMOD.PreCredenciamentoWeb.Models
         [Display(Name = "Validade Passaporte")]
         public DateTime? PassaporteValidade { get; set; }
         public string Rne { get; set; }
-        [Display(Name = "Telefone Fixo")]
+        [Display(Name = "Fone")]
         public string TelefoneFixo { get; set; }
-        [Display(Name = "Telefone Celular")]
+        [Display(Name = "Celular")]
         public string TelefoneCelular { get; set; }
         [EmailAddress]
         public string Email { get; set; }

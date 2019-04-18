@@ -8,7 +8,7 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />"
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -27,8 +27,8 @@
                 @*@if (Request.IsAuthenticated)
                     {*@
                 <ul class="nav navbar-nav">
-                    <li><i class="fa fa-fw fa-user" style="font-size:30px;padding-top: 10px"></i></li>
-                    <li>@Html.ActionLink("Colaboradores", "Index", "Colaborador")</li>
+                    <li><i class="fa fa-fw fa-users" style="font-size:30px;padding-top: 10px"></i></li>
+                    <li> @Html.ActionLink("Colaboradores", "Index", "Colaborador")</li>
                     <li><i class="fa fa-fw fa-car" style="font-size:30px;padding-top: 10px;"></i></li>
                     <li>@Html.ActionLink("Veiculos/Equipamentos", "Index", "Veiculo")</li>
                     <li><i class="fa fa-fw fa-thumbs-o-up" style="font-size:30px;padding-top: 10px"></i></li>
@@ -66,5 +66,19 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+    <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#tbVeiculo').DataTable({
+                "language": {
+                    "lengthMenu": "Mostrando _MENU_ registros por página",
+                    "zeroRecords": "Nada encontrado",
+                    "info": "Mostrando página _PAGE_ de _PAGES_",
+                    "infoEmpty": "Nenhum registro disponível",
+                    "infoFiltered": "(filtrado de _MAX_ registros no total)"
+                }
+            });
+        });
+    </script>
 </body>
 </html>

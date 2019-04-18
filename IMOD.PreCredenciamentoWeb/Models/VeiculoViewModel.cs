@@ -17,7 +17,7 @@ namespace IMOD.PreCredenciamentoWeb.Models
         [Display(Name = "Descrição")]
         public string Descricao { get; set; }
         [Required(ErrorMessage = "A Placa/Identificador é requerida.")]
-        [Display(Name = "Placa/Identificador")]
+        [Display(Name = "Identificador")]
         public string PlacaIdentificador { get; set; }
         [Required(ErrorMessage = "A Frota é requerida.")]
         public string Frota { get; set; }
