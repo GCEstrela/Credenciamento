@@ -113,7 +113,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         private void OnAlterarStatus_SelectonChanged(object sender, SelectionChangedEventArgs e)
         {
-            
+
             btnImprimirCredencial.IsEnabled = _viewModel.HabilitaImpressao;
 
             if ((CredencialStatus)cmbCredencialStatus.SelectedItem != null)
