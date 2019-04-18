@@ -11,7 +11,8 @@ namespace IMOD.PreCredenciamentoWeb.Models
 
         public int Codigo { get; set; }
         public string Nome { get; set; }
-        [Display(Name = "Senha")]
+        [Display(Name = "Senha")]       
+        [DataType(DataType.Password)]
         [Required(ErrorMessage = "Informe a senha", AllowEmptyStrings = false)]
         public string Senha { get; set; }
         [Display(Name = "Login")]

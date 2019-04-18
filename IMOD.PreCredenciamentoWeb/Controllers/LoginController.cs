@@ -52,6 +52,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
         public ActionResult Logout()
         {
+            Session.Abandon();
             FormsAuthentication.SignOut();
             return RedirectToAction("Index","Login");
         }

@@ -18,36 +18,37 @@
                     <span class="icon icon-bar"></span>
                     <span class="icon icon-bar"></span>
                 </button>
+                <a class="navbar-brand" href="#" style="padding-top: 5px;">
+                    <img src="~/Images/logo.png" alt="Logo" style="width:120px">
+                </a>
             </div>
             <div class="navbar-collapse collapse">
                 @*@if (Request.IsAuthenticated)
-                {*@
-                    <ul class="nav navbar-nav">
-                        <li>
-                            <a class="navbar-brand" href="#">
-                                <img src="~/Images/Cracha.png" alt="Logo" style="width:30px;">
-                            </a>
-                        </li>
-                        <li>@Html.ActionLink("Colaboradores", "Index", "Colaborador")</li>
-                        <li>@Html.ActionLink("Veiculos/Equipamentos", "Index", "Veiculo")</li>
-                        <li>@Html.ActionLink("Links Uteis", "LinksUteis", "Home")</li>
-                        <li>@Html.ActionLink("Contato", "Contact", "Home")</li>
-                    </ul>
-                    <strong>@Html.Encode(User.Identity.Name)</strong>
-                    @Html.ActionLink("Sair", "Logout", "Login")
+                    {*@
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Colaboradores", "Index", "Colaborador")</li>
+                    <li>@Html.ActionLink("Veiculos/Equipamentos", "Index", "Veiculo")</li>
+                    <li>@Html.ActionLink("Links Uteis", "LinksUteis", "Home")</li>
+                    <li>@Html.ActionLink("Contato", "Contact", "Home")</li>
+                    <li>
+                        <strong>@Html.Encode(User.Identity.Name)</strong>
+                        @Html.ActionLink("Sair", "Logout", "Login")
+                    </li>
+                </ul>
+
                 @*}
-                else
-                {
-                    <span> | </span>
-                    @Html.ActionLink("Entrar", "Index", "Login")
-                }*@
+                    else
+                    {
+                        <span> | </span>
+                        @Html.ActionLink("Entrar", "Index", "Login")
+                    }*@
 
             </div>
 
         </div>
     </div>
     <div style="width: auto; background-color: #728ea7;">
-      
+
     </div>
     <div class="container body-content">
         @RenderBody()
