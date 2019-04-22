@@ -24,23 +24,24 @@ namespace IMOD.Infra.Servicos
 {
     public class CredencialGenetecService : ICredencialService
     {
+       // private readonly IColaboradorCredencialService _service = new ColaboradorCredencialService();
         private readonly IEngine _sdk;
         
         public CredencialGenetecService(IEngine sdk)
         {
             _sdk = sdk;
 
-            //_sdk.EventReceived += new EventHandler<EventReceivedEventArgs>(_sdk_EventReceived);
-            //_sdk.EntityInvalidated += new EventHandler<EntityInvalidatedEventArgs>(_sdk_EntityInvalidated);
-            //_sdk.EntityRemoved += new EventHandler<EntityRemovedEventArgs>(_sdk_EntityRemoved);
-            //EntityConfigurationQuery query = _sdk.ReportManager.CreateReportQuery(ReportType.EntityConfiguration) as EntityConfigurationQuery;
-            ////query.EntityTypes.Add(EntityType.Alarm);
-            //query.EntityTypes.Add(EntityType.Cardholder);
-            //query.EntityTypes.Add(EntityType.Credential);
-            ////query.Name = "a";
-            //query.NameSearchMode = StringSearchMode.StartsWith;
-            //query.QueryCompleted += new EventHandler<QueryCompletedEventArgs>(query_QueryCompleted);
-            //query.BeginQuery();
+            _sdk.EventReceived += new EventHandler<EventReceivedEventArgs>(_sdk_EventReceived);
+            _sdk.EntityInvalidated += new EventHandler<EntityInvalidatedEventArgs>(_sdk_EntityInvalidated);
+            _sdk.EntityRemoved += new EventHandler<EntityRemovedEventArgs>(_sdk_EntityRemoved);
+            EntityConfigurationQuery query = _sdk.ReportManager.CreateReportQuery(ReportType.EntityConfiguration) as EntityConfigurationQuery;
+            //query.EntityTypes.Add(EntityType.Alarm);
+            query.EntityTypes.Add(EntityType.Cardholder);
+            query.EntityTypes.Add(EntityType.Credential);
+            //query.Name = "a";
+            query.NameSearchMode = StringSearchMode.StartsWith;
+            query.QueryCompleted += new EventHandler<QueryCompletedEventArgs>(query_QueryCompleted);
+            query.BeginQuery();
         }
 
         #region  Metodos
@@ -70,10 +71,15 @@ namespace IMOD.Infra.Servicos
         private void _sdk_EventReceived(object sender, EventReceivedEventArgs e)
         {
             Entity entity = _sdk.GetEntity(e.SourceGuid);
-            if (entity != null)
+            if (entity.EntityType == EntityType.Credential || entity.EntityType == EntityType.Cardholder)
             {
                 var messa = e.Timestamp.ToString() + " - " + e.EventType.ToString() + " - " + entity.Name;
             }
+            
+            //if (entity != null)
+            //{
+            //    var messa = e.Timestamp.ToString() + " - " + e.EventType.ToString() + " - " + entity.Name;
+            //}
         }
         public void _sdk_EntityRemoved(object sender, EntityRemovedEventArgs e)
         {
@@ -110,6 +116,9 @@ namespace IMOD.Infra.Servicos
                     var state = _credential.State.ToString();
                     var data = _credential.ExpirationDate.ToString();
                     var messa = string.Format("{0}, {1} was modified {2}\r\n", entity.Name, state, data, e.IsLocalUpdate ? "locally" : "remotely");
+
+                    
+
                 }
                 else
                 {
@@ -154,8 +163,8 @@ namespace IMOD.Infra.Servicos
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(entity.FormatoCredencial))
-                    entity.FormatoCredencial = "CSN";
+                //if (string.IsNullOrWhiteSpace(entity.FormatoCredencial))
+                    //entity.FormatoCredencial = "CSN";
 
                 switch (entity.FormatoCredencial.ToLower().Trim())
                 {
@@ -229,8 +238,9 @@ namespace IMOD.Infra.Servicos
                 {
                     if (cardholder == null) throw new InvalidOperationException("Não foi possível encontrar o titular do cartão.");
                     cardholder.State = entity.Ativo ? CardholderState.Active : CardholderState.Inactive;
+                    
                 }
-
+                //cardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade);
                 _sdk.TransactionManager.CommitTransaction();
             }
             catch (Exception ex)
@@ -343,6 +353,8 @@ namespace IMOD.Infra.Servicos
                 //if (cardHolderGroup == null) throw new InvalidOperationException ("Não foi possível gerar grupo de credencial");
                 if (cardHolderGroup != null)
                     cardHolder.Groups.Add(cardHolderGroup.Guid);
+
+                cardHolder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade);
 
                 _sdk.TransactionManager.CommitTransaction();
 

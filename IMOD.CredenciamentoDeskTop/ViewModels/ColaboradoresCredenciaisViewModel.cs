@@ -347,11 +347,64 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             var contrato = _contratosService.BuscarPelaChave(empContratoId);
             var data = _service.ObterDataValidadeCredencial(Entity.TipoCredencialId,
                 _colaboradorView.ColaboradorId, contrato.NumeroContrato, _service.TipoCredencial);
-
-            Entity.Validade = data;
-            OnPropertyChanged("Entity");
+            
+            
+            DateTime dataEncontrada;
+            TimeSpan diferenca = Convert.ToDateTime(data) - DateTime.Now.Date ;
+            int credencialDias = int.Parse(diferenca.Days.ToString());
+            if (credencialDias > 730)
+            {
+                dataEncontrada = DateTime.Now.AddDays(730);
+                Entity.Validade = dataEncontrada;
+                OnPropertyChanged("Entity");
+            }
+            else
+            {
+                Entity.Validade = data;
+                OnPropertyChanged("Entity");
+            }
         }
+        public void ObterValidadeAlteracao()
+        {
+            //if (!_prepareCriarCommandAcionado) return;
+            if (Entity == null) return;
+            var empContratoId = ColaboradorEmpresa.EmpresaContratoId;
+            var contrato = _contratosService.BuscarPelaChave(empContratoId);
+            var data = _service.ObterDataValidadeCredencial(Entity.TipoCredencialId,
+                _colaboradorView.ColaboradorId, contrato.NumeroContrato, _service.TipoCredencial);
 
+
+            DateTime dataEncontrada;
+            TimeSpan diferenca;
+            if (Entity.Emissao == null)
+            {
+                diferenca = Convert.ToDateTime(data) - DateTime.Now.Date;
+            }
+            else
+            {
+                diferenca = Convert.ToDateTime(data) - (DateTime)Entity.Emissao;
+            }
+            int credencialDias = int.Parse(diferenca.Days.ToString());
+            if (credencialDias > 730)
+            {
+                if (Entity.Emissao == null)
+                {
+                    dataEncontrada = DateTime.Now.AddDays(730);
+                }
+                else
+                {
+                    DateTime dataEmissao = (DateTime)Entity.Emissao;
+                    dataEncontrada = dataEmissao.AddDays(730);
+                }
+                Entity.Validade = dataEncontrada;
+                OnPropertyChanged("Entity");
+            }
+            else
+            {
+                Entity.Validade = data;
+                OnPropertyChanged("Entity");
+            }
+        }
         public void AtualizarDados(ColaboradorView entity, ColaboradorViewModel viewModelParent)
         {
             
@@ -645,7 +698,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             try
             {
                 if (Entity == null) return;
-
+                ObterValidadeAlteracao();
                 Entity.DevolucaoEntregaBoId = IsCheckDevolucao ? (int)devolucaoCredencial : 0;
 
                 var n1 = Mapper.Map<ColaboradorCredencial>(Entity);
@@ -821,6 +874,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
+               
                 if (Entity == null) return;
                 if (!Entity.Ativa) throw new InvalidOperationException("Não é possível imprimir uma credencial não ativa.");
                 if (Entity.Validade == null) throw new InvalidOperationException("Não é possível imprimir uma credencial sem data de validade.");
@@ -828,6 +882,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var layoutCracha = _auxiliaresService.LayoutCrachaService.BuscarPelaChave(Entity.LayoutCrachaId);
                 if (layoutCracha == null) throw new InvalidOperationException("Não é possível imprimir uma credencial sem ter sido definida um layout do crachá.");
                 if (string.IsNullOrWhiteSpace(layoutCracha.LayoutRpt)) throw new InvalidOperationException("Não é possível imprimir uma credencial sem ter sido definida um layout do crachá.");
+
+                ObterValidadeAlteracao();
 
                 Cursor.Current = Cursors.WaitCursor;
 

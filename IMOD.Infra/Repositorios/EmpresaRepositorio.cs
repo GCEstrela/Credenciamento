@@ -188,7 +188,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Apelido", DbType.String, objects, 1).Like()));
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Cnpj", DbType.String, objects, 2).Like()));
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("PraVencer", DbType.String, objects, 3).MenorIgual()));
-
+                        
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<Empresa>();
 
