@@ -233,6 +233,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Policiafederal", DbType.Boolean, entity.Policiafederal, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Receitafederal", DbType.Boolean, entity.Receitafederal, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Segurancatrabalho", DbType.Boolean, entity.Segurancatrabalho, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Obs", DbType.String, entity.Obs.Trim(), false)));
                         //cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Identificacao1", DbType.String, entity.Identificacao1, false)));
                         //cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Identificacao2", DbType.String, entity.Identificacao2, false)));
 
@@ -315,6 +316,8 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Segurancatrabalho", entity.Segurancatrabalho, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Identificacao1", DbType.String, entity.Identificacao1, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Identificacao2", DbType.String, entity.Identificacao2, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Obs", DbType.String, entity.Obs.Trim(), false)));
+
                         var key = Convert.ToInt32 (cmd.ExecuteScalar());
 
                         entity.ColaboradorCredencialId = key;

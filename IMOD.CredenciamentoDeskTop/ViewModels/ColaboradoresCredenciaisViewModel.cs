@@ -1021,7 +1021,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             verificarcredencialAtida = false;
             // 
-            if (Entity.NumeroColete == "")
+            if (Entity.NumeroColete == "" & HabilitaImpressao == true)
             {
                 var podeCobrarResult = WpfHelp.MboxDialogYesNo($"Nº do Colete esta em branco, Continua.", true);
                 if (podeCobrarResult == System.Windows.Forms.DialogResult.No)

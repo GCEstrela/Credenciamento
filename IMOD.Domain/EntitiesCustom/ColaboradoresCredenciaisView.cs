@@ -86,6 +86,7 @@ namespace IMOD.Domain.EntitiesCustom
         public bool Receitafederal { get; set; }
         public bool Segurancatrabalho { get; set; }
         public string Email { get; set; }
-        
+        public string Obs { get; set; }
+
     }
 }
