@@ -31,17 +31,17 @@ namespace IMOD.Infra.Servicos
         {
             _sdk = sdk;
 
-            _sdk.EventReceived += new EventHandler<EventReceivedEventArgs>(_sdk_EventReceived);
-            _sdk.EntityInvalidated += new EventHandler<EntityInvalidatedEventArgs>(_sdk_EntityInvalidated);
-            _sdk.EntityRemoved += new EventHandler<EntityRemovedEventArgs>(_sdk_EntityRemoved);
-            EntityConfigurationQuery query = _sdk.ReportManager.CreateReportQuery(ReportType.EntityConfiguration) as EntityConfigurationQuery;
-            //query.EntityTypes.Add(EntityType.Alarm);
-            query.EntityTypes.Add(EntityType.Cardholder);
-            query.EntityTypes.Add(EntityType.Credential);
-            //query.Name = "a";
-            query.NameSearchMode = StringSearchMode.StartsWith;
-            query.QueryCompleted += new EventHandler<QueryCompletedEventArgs>(query_QueryCompleted);
-            query.BeginQuery();
+            //_sdk.EventReceived += new EventHandler<EventReceivedEventArgs>(_sdk_EventReceived);
+            //_sdk.EntityInvalidated += new EventHandler<EntityInvalidatedEventArgs>(_sdk_EntityInvalidated);
+            //_sdk.EntityRemoved += new EventHandler<EntityRemovedEventArgs>(_sdk_EntityRemoved);
+            //EntityConfigurationQuery query = _sdk.ReportManager.CreateReportQuery(ReportType.EntityConfiguration) as EntityConfigurationQuery;
+            ////query.EntityTypes.Add(EntityType.Alarm);
+            //query.EntityTypes.Add(EntityType.Cardholder);
+            //query.EntityTypes.Add(EntityType.Credential);
+            ////query.Name = "a";
+            //query.NameSearchMode = StringSearchMode.StartsWith;
+            //query.QueryCompleted += new EventHandler<QueryCompletedEventArgs>(query_QueryCompleted);
+            //query.BeginQuery();
         }
 
         #region  Metodos
@@ -126,6 +126,8 @@ namespace IMOD.Infra.Servicos
                     var state = _cardholder.State.ToString();
                     var data = _cardholder.ExpirationDate.ToString();
                     var messa = string.Format("{0}, {1} was modified {2}\r\n", entity.Name, state, data, e.IsLocalUpdate ? "locally" : "remotely");
+
+
                 }
                 //var ttt =entity.RunningState.ToString();
 
