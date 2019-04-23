@@ -238,37 +238,26 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         //
         public ColaboradorCredencial ExisteNumeroColete()
         {
-            if (Entity == null) return null;
-            var numColete = Entity.EmpresaSigla + Entity.NumeroColete;
-
-            //Verificar dados antes de salvar uma criação
-
-            return _service.ExisteNumeroColete(_colaboradorView.ColaboradorId, numColete);
-            //if (colaboradorcredencial==null) return 
-            //if (_prepareCriarCommandAcionado)
-            //{
-            //    ColaboradorCredencial colaboradorcredencial = _service.ExisteNumeroColete(Entity.ColaboradorId, numColete);
-            //}
-            //if (!_prepareAlterarCommandAcionado)
-            //{
-            //    ColaboradorCredencial colaboradorcredencial = _service.ExisteNumeroColete(Entity.ColaboradorId, numColete);
-
-            //}
+            try
+            {
+                var numColete="";
+                if (Entity == null) return null;
+                if (Entity.EmpresaSigla == null || Entity.EmpresaSigla == "")
+                {
+                    Entity.EmpresaSigla = "---";
+                }
+                numColete = Entity.EmpresaSigla + Entity.NumeroColete;
 
 
-            //   // if (_service.ExisteNumeroColete(Entity.ColaboradorId,numColete))
-            //        return true;
-            ////Verificar dados antes de salvar uma alteraçao
-            //if (!_prepareAlterarCommandAcionado) return false;
-            //if (_service.ExisteNumeroColete(Entity.ColaboradorId, numColete))
-            //    return true;
-            ////var n1 = _service.BuscarPelaChave(Entity.ColaboradorId);
-            ////if (n1 == null) return false;
-            ////////Comparar o CNPJ antes e o depois
-            ////////Verificar se há cnpj exisitente
-            //return string.Compare(Entity.Colete,
-            //           numColete, StringComparison.Ordinal) != 0 && _service.ExisteNumeroColete(Entity.ColaboradorId, numColete);
-            // return false;
+                //Verificar dados antes de salvar uma criação
+
+                return _service.ExisteNumeroColete(_colaboradorView.ColaboradorId, numColete);
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+                return null;
+            }
         }
         #endregion
 
@@ -358,11 +347,64 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             var contrato = _contratosService.BuscarPelaChave(empContratoId);
             var data = _service.ObterDataValidadeCredencial(Entity.TipoCredencialId,
                 _colaboradorView.ColaboradorId, contrato.NumeroContrato, _service.TipoCredencial);
-
-            Entity.Validade = data;
-            OnPropertyChanged("Entity");
+            
+            
+            DateTime dataEncontrada;
+            TimeSpan diferenca = Convert.ToDateTime(data) - DateTime.Now.Date ;
+            int credencialDias = int.Parse(diferenca.Days.ToString());
+            if (credencialDias > 730)
+            {
+                dataEncontrada = DateTime.Now.AddDays(730);
+                Entity.Validade = dataEncontrada;
+                OnPropertyChanged("Entity");
+            }
+            else
+            {
+                Entity.Validade = data;
+                OnPropertyChanged("Entity");
+            }
         }
+        public void ObterValidadeAlteracao()
+        {
+            //if (!_prepareCriarCommandAcionado) return;
+            if (Entity == null) return;
+            var empContratoId = ColaboradorEmpresa.EmpresaContratoId;
+            var contrato = _contratosService.BuscarPelaChave(empContratoId);
+            var data = _service.ObterDataValidadeCredencial(Entity.TipoCredencialId,
+                _colaboradorView.ColaboradorId, contrato.NumeroContrato, _service.TipoCredencial);
 
+
+            DateTime dataEncontrada;
+            TimeSpan diferenca;
+            if (Entity.Emissao == null)
+            {
+                diferenca = Convert.ToDateTime(data) - DateTime.Now.Date;
+            }
+            else
+            {
+                diferenca = Convert.ToDateTime(data) - (DateTime)Entity.Emissao;
+            }
+            int credencialDias = int.Parse(diferenca.Days.ToString());
+            if (credencialDias > 730)
+            {
+                if (Entity.Emissao == null)
+                {
+                    dataEncontrada = DateTime.Now.AddDays(730);
+                }
+                else
+                {
+                    DateTime dataEmissao = (DateTime)Entity.Emissao;
+                    dataEncontrada = dataEmissao.AddDays(730);
+                }
+                Entity.Validade = dataEncontrada;
+                OnPropertyChanged("Entity");
+            }
+            else
+            {
+                Entity.Validade = data;
+                OnPropertyChanged("Entity");
+            }
+        }
         public void AtualizarDados(ColaboradorView entity, ColaboradorViewModel viewModelParent)
         {
             
@@ -533,6 +575,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 }
                 else
                 {
+                    if (Entity.EmpresaSigla == null)
+                    {
+                        Entity.EmpresaSigla = "---";
+                    }
                     n1.Colete = Entity.EmpresaSigla + Entity.NumeroColete;
 
                 }
@@ -652,7 +698,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             try
             {
                 if (Entity == null) return;
-
+                ObterValidadeAlteracao();
                 Entity.DevolucaoEntregaBoId = IsCheckDevolucao ? (int)devolucaoCredencial : 0;
 
                 var n1 = Mapper.Map<ColaboradorCredencial>(Entity);
@@ -661,6 +707,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 n1.ColaboradorPrivilegio2Id = Entity.ColaboradorPrivilegio2Id;
                 n1.Identificacao1 = Entity.Identificacao1;
                 n1.Identificacao2 = Entity.Identificacao2;
+               
                 if (_configuraSistema.Colete)
                 {
                     Entity.NumeroColete = Convert.ToString(_colaboradorView.ColaboradorId);
@@ -668,6 +715,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 }
                 else
                 {
+                    if (Entity.EmpresaSigla == null)
+                    {
+                        Entity.EmpresaSigla = "---";
+                    }
                     n1.Colete = Entity.EmpresaSigla + Entity.NumeroColete;
                 }
 
@@ -823,6 +874,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
+               
                 if (Entity == null) return;
                 if (!Entity.Ativa) throw new InvalidOperationException("Não é possível imprimir uma credencial não ativa.");
                 if (Entity.Validade == null) throw new InvalidOperationException("Não é possível imprimir uma credencial sem data de validade.");
@@ -830,6 +882,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var layoutCracha = _auxiliaresService.LayoutCrachaService.BuscarPelaChave(Entity.LayoutCrachaId);
                 if (layoutCracha == null) throw new InvalidOperationException("Não é possível imprimir uma credencial sem ter sido definida um layout do crachá.");
                 if (string.IsNullOrWhiteSpace(layoutCracha.LayoutRpt)) throw new InvalidOperationException("Não é possível imprimir uma credencial sem ter sido definida um layout do crachá.");
+
+                ObterValidadeAlteracao();
 
                 Cursor.Current = Cursors.WaitCursor;
 
@@ -993,7 +1047,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public void CarregarCaracteresColete(ColaboradorEmpresa colaboradorEmpresa)
         {
             if (Entity == null) return;
-
+            if (colaboradorEmpresa.EmpresaSigla == null) return;
             Entity.EmpresaSigla = colaboradorEmpresa.EmpresaSigla.Trim();
             _configuraSistema = ObterConfiguracao();
             if (_configuraSistema.Colete)

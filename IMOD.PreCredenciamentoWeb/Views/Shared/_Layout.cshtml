@@ -4,30 +4,57 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - Sistema de Credenciamento</title>
+    <title>@ViewBag.Title - Sistema Pré Credenciamento</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">    
+    <link rel="stylesheet" href="~/Content/datatables.min.css" />"
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
+                    <span class="icon icon-bar"></span>
+                    <span class="icon icon-bar"></span>
+                    <span class="icon icon-bar"></span>
                 </button>
-                @Html.ActionLink("Visão Geral", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                <a class="navbar-brand" href="#" style="padding-top: 5px;">
+                    <img src="~/Images/logo.png" alt="Logo" style="width:120px">
+                </a>
             </div>
             <div class="navbar-collapse collapse">
+                @*@if (Request.IsAuthenticated)
+                    {*@
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Colaboradores", "Index", "Colaborador")</li>
+                    <li><i class="fa fa-fw fa-users" style="font-size:30px;padding-top: 10px"></i></li>
+                    <li> @Html.ActionLink("Colaboradores", "Index", "Colaborador")</li>
+                    <li><i class="fa fa-fw fa-car" style="font-size:30px;padding-top: 10px;"></i></li>
                     <li>@Html.ActionLink("Veiculos/Equipamentos", "Index", "Veiculo")</li>
+                    <li><i class="fa fa-fw fa-thumbs-o-up" style="font-size:30px;padding-top: 10px"></i></li>
                     <li>@Html.ActionLink("Links Uteis", "LinksUteis", "Home")</li>
+                    <li><i class="fa fa-fw fa-envelope" style="font-size:30px;padding-top: 10px"></i></li>
                     <li>@Html.ActionLink("Contato", "Contact", "Home")</li>
+                    <li><i class="fa fa-fw fa-sign-out" style="font-size:30px;padding-top: 10px"></i></li>
+                    <li>
+                        <strong>@Html.Encode(User.Identity.Name)</strong>
+                        @Html.ActionLink("Sair", "Logout", "Login")
+                    </li>
                 </ul>
+
+                @*}
+                    else
+                    {
+                        <span> | </span>
+                        @Html.ActionLink("Entrar", "Index", "Login")
+                    }*@
+
             </div>
+
         </div>
+    </div>
+    <div style="width: auto; background-color: #728ea7;">
+
     </div>
     <div class="container body-content">
         @RenderBody()
@@ -38,6 +65,21 @@
     </div>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+    @RenderSection("scripts", required: false)    
+    <script src="~/Scripts/datatables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#tbVeiculo').DataTable({
+                "language": {
+                    "lengthMenu": "Mostrando _MENU_ registros por página",
+                    "zeroRecords": "Nada encontrado",
+                    "info": "Mostrando página _PAGE_ de _PAGES_",
+                    "infoEmpty": "Nenhum registro disponível",
+                    "infoFiltered": "(filtrado de _MAX_ registros no total)",
+                    "search":""
+                }
+            });
+        });
+    </script>
 </body>
 </html>

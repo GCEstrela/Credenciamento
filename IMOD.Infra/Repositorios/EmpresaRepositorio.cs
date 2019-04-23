@@ -87,6 +87,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Pendente16", entity.Pendente16, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Pendente17", entity.Pendente17, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("PraVencer", entity.PraVencer, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Senha", entity.Senha, false)));
 
                         var key = Convert.ToInt32(cmd.ExecuteScalar());
 
@@ -187,7 +188,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Apelido", DbType.String, objects, 1).Like()));
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Cnpj", DbType.String, objects, 2).Like()));
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("PraVencer", DbType.String, objects, 3).MenorIgual()));
-
+                        
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<Empresa>();
 
