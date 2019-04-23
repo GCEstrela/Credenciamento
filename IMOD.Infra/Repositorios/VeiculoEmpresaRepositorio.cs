@@ -135,9 +135,10 @@ namespace IMOD.Infra.Repositorios
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Cargo", DbType.String, objects, 2).Like()));
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Matricula", DbType.String, objects, 3).Like()));
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmpresaNome", DbType.String, objects, 4).Like()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmpresaID", DbType.Int16, objects, 5).Igual()));
 
-                        var reader = cmd.ExecuteReaderSelect();
-                        var d1 = reader.MapToList<VeiculoEmpresa>();
+                        var reader = cmd.ExecuteReaderSelect(); 
+                        var d1 = reader.MapToList<VeiculoEmpresa>(); 
 
                         return d1;
                     }
