@@ -543,18 +543,21 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
+                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
                 //var contrato = _serviceContratos.Listar().OrderByDescending(ec => ec.PraVencer).GroupBy(ec => ec.EmpresaId).ToList();
-               
+
                 var list2 = Mapper.Map<List<EmpresaView>> (list.OrderByDescending (n => n.EmpresaId));
                 
                 EntityObserver = new ObservableCollection<EmpresaView>();               
                 list2.ForEach (n => { EntityObserver.Add (n); });
                 //Havendo registros, selecione o primeiro
                 if (EntityObserver.Any()) SelectListViewIndex = 0;
+                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.IBeam;
             }
 
             catch (Exception ex)
             {
+                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.IBeam;
                 Utils.TraceException (ex);
             }
         }

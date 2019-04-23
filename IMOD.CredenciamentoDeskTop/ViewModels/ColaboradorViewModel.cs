@@ -137,15 +137,25 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         public ColaboradorViewModel()
         {
-            ItensDePesquisaConfigura();
-            ListarDadosAuxiliares();
-            Comportamento = new ComportamentoBasico (false, true, true, false, false);
-            EntityObserver = new ObservableCollection<ColaboradorView>();
-            Comportamento.SalvarAdicao += OnSalvarAdicao;
-            Comportamento.SalvarEdicao += OnSalvarEdicao;
-            Comportamento.Remover += OnRemover;
-            Comportamento.Cancelar += OnCancelar;
-            PropertyChanged += OnEntityChanged;
+            try
+            {
+                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
+                ItensDePesquisaConfigura();
+                ListarDadosAuxiliares();
+                Comportamento = new ComportamentoBasico(false, true, true, false, false);
+                EntityObserver = new ObservableCollection<ColaboradorView>();
+                Comportamento.SalvarAdicao += OnSalvarAdicao;
+                Comportamento.SalvarEdicao += OnSalvarEdicao;
+                Comportamento.Remover += OnRemover;
+                Comportamento.Cancelar += OnCancelar;
+                PropertyChanged += OnEntityChanged;
+                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.IBeam;
+            }
+            catch (Exception ex)
+            {
+                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.IBeam;
+                Utils.TraceException(ex);
+            }            
         }
 
         #region  Metodos
@@ -210,15 +220,19 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
+                
+                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
                 var list2 = Mapper.Map<List<ColaboradorView>> (list.OrderByDescending (n => n.ColaboradorId));
                 EntityObserver = new ObservableCollection<ColaboradorView>();
                 list2.ForEach (n => { EntityObserver.Add (n); });
                 //Havendo registros, selecione o primeiro
                 if (EntityObserver.Any()) SelectListViewIndex = 0;
+                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.IBeam;
             }
 
             catch (Exception ex)
             {
+                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.IBeam;
                 Utils.TraceException (ex);
             }
         }
