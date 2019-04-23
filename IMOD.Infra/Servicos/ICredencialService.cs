@@ -6,6 +6,7 @@
 
 #region
 
+using Genetec.Sdk.Entities;
 using IMOD.Infra.Servicos.Entities;
 
 #endregion
@@ -57,6 +58,7 @@ namespace IMOD.Infra.Servicos
         /// <param name="entity"></param>
         void RemoverRegrasCardHolder(CardHolderEntity entity);
         void DisparaAlarme(string menssagem, int IdAlarme);
+        void GerarEvento(string _evento, Entity _entidade = null, string _mensagem = "mensagem custom event");
         #endregion
     }
 }
