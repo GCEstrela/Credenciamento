@@ -12,6 +12,8 @@ using Genetec.Sdk;
 using Genetec.Sdk.Credentials;
 using Genetec.Sdk.Entities;
 using Genetec.Sdk.Entities.Activation;
+using Genetec.Sdk.Entities.CustomEvents;
+using Genetec.Sdk.Events;
 using Genetec.Sdk.Queries;
 using IMOD.CrossCutting;
 using IMOD.Domain.Interfaces;
@@ -447,22 +449,55 @@ namespace IMOD.Infra.Servicos
                 throw;
             }
         }
+        public void GerarEvento(string _evento, Entity _entidade = null, string _mensagem = "mensagem custom event")
+        {
+
+            try
+            {
+                CustomEventInstance _customEvent;
+                if (_entidade == null)
+                {
+                    _customEvent = (CustomEventInstance)_sdk.ActionManager.BuildEvent(EventType.CustomEvent, Genetec.Sdk.SdkGuids.SystemConfiguration);
+                }
+                else
+                {
+                    _customEvent = (CustomEventInstance)_sdk.ActionManager.BuildEvent(EventType.CustomEvent, _entidade.Guid);
+                }
+
+                if (_customEvent != null)
+                {
+                    _customEvent.Id = new CustomEventId(Convert.ToInt32(_evento));
+                    _customEvent.Message = _mensagem;
+
+                    _sdk.ActionManager.RaiseEvent(_customEvent);
+
+                }
+
+            }
+            catch (Exception)
+            {
+
+            }
+        }
         public void DisparaAlarme(string menssagem,int IdAlarme)
         {
             try
             {
+
+
+
                 //Entity _entidade;
                 //_entidade = _sdk.GetEntity(_sdk.ClientGuid);
- 
+
                 // var guidAlarm = _sdk.CreateEntity(menssagem, EntityType.Alarm, guidParent).Guid;
                 _sdk.TransactionManager.CreateTransaction();
 
                 TimeSpan duration = new TimeSpan(1, 12, 23, 62);
                 var guidParent = new Guid("00000000-0000-0000-0000-000000000003"); //Guid do usuário que receberá os alarmes
                 var guidAlarm = _sdk.CreateEntity(menssagem, EntityType.Alarm).Guid;
-                Alarm alarm = (Alarm)_sdk.GetEntity(guidAlarm);                
+                Alarm alarm = (Alarm)_sdk.GetEntity(guidAlarm);
                 alarm.Recipients.Add(guidParent, duration);
-                
+
 
                 _sdk.TransactionManager.CommitTransaction();
 
