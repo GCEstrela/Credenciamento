@@ -33,6 +33,8 @@ using Cursors = System.Windows.Forms.Cursors;
 using IMOD.CredenciamentoDeskTop.Enums;
 using System.Text.RegularExpressions;
 using CrystalDecisions.CrystalReports.Engine;
+using System.IO;
+using IMOD.CredenciamentoDeskTop.Funcoes;
 
 #endregion
 
@@ -901,12 +903,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     }
                     else
                     {
-                        _cursosCracha = _cursosCracha + " - " + element.Descricao.ToString();
+                        _cursosCracha = _cursosCracha + Environment.NewLine + " - " + element.Descricao.ToString();
                     }
                 }
-                //Changed by
-                //Author:Valnei Filho
-                //Date: 28/02/2019
+
                 var lst = new List<CredencialViewCracha>();
                 var credencialView = _service.ObterCredencialView(Entity.ColaboradorCredencialId);
                 var c1 = Mapper.Map<CredencialViewCracha>(credencialView);
@@ -915,62 +915,15 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 {
                     c1.ImpressaoMotivo = "";
                 }
-                c1.EmpresaNome = c1.EmpresaNome + " / " + c1.TerceirizadaNome;
 
-                lst.Add(c1);
-                relatorio.SetDataSource(lst);
-                TextObject txt;
-                TextObject Identificacao_txt;
-                TextObject Validade_txt;
-                TextObject Validade_valor;
-                TextObject Bagagem_valor;
-                TextObject Categoria_valor;
-                try
-                {
-                    if (c1.CPF == "")
-                    {
+                c1.EmpresaNome = c1.EmpresaNome + ( !string.IsNullOrEmpty(c1.TerceirizadaNome) ?  " / " + c1.TerceirizadaNome : string.Empty);
+                c1.Emissao = DateTime.Now; 
+                lst.Add(c1); 
+                relatorio.SetDataSource(lst); 
 
-                        if (c1.RNE == "")
-                        {
-                            txt = (TextObject)relatorio.ReportDefinition.ReportObjects["Text3"];
-                            txt.Text = "Passaporte:";
-                            Identificacao_txt = (TextObject)relatorio.ReportDefinition.ReportObjects["IDENTIFICACAO"];
-                            Identificacao_txt.Text = c1.Passaporte;
-
-                            Validade_txt = (TextObject)relatorio.ReportDefinition.ReportObjects["Validade_tx"];
-                            Validade_txt.Text = "Val.:";
-                            Validade_valor = (TextObject)relatorio.ReportDefinition.ReportObjects["Validade_val"];
-                            Validade_valor.Text = c1.PassaporteValidade.ToShortDateString();
-
-                        }
-                        else
-                        {
-                            txt = (TextObject)relatorio.ReportDefinition.ReportObjects["Text3"];
-                            txt.Text = "RNE:";
-                            Identificacao_txt = (TextObject)relatorio.ReportDefinition.ReportObjects["IDENTIFICACAO"];
-                            Identificacao_txt.Text = c1.RNE;
-
-                        }
-                    }
-                    else
-                    {
-                        txt = (TextObject)relatorio.ReportDefinition.ReportObjects["Text3"];
-                        txt.Text = "CPF:";
-                        Identificacao_txt = (TextObject)relatorio.ReportDefinition.ReportObjects["IDENTIFICACAO"];
-                        Identificacao_txt.Text = c1.CPF;
-                    }
-                    if (c1.ManuseioBagagem)
-                    {
-                        Bagagem_valor = (TextObject)relatorio.ReportDefinition.ReportObjects["txt_Bagagem"];
-                        Bagagem_valor.Text = "B";
-                    }
-                    if (c1.Motorista)
-                    {
-                        Bagagem_valor = (TextObject)relatorio.ReportDefinition.ReportObjects["txt_CNH"];
-                        Bagagem_valor.Text = c1.CNHCategoria;
-                    }
-                }
-                finally { }
+                var objCode = new QrCode();
+                var pathImagem = objCode.GerarQrCode("www.grupoestrela.com", "QrCode" + c1.ColaboradorCredencialID.ToString()); 
+                relatorio.SetParameterValue("PathImgQrCode", pathImagem);
 
                 //IDENTIFICACAO
                 var popupCredencial = new PopupCredencial(relatorio, _service, Entity, layoutCracha);

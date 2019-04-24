@@ -23,6 +23,7 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
         private static ConfiguracoesView _configuracoesView;
         private static RelatoriosView _relatoriosView;
         private static TermosView _termosView;
+        private static EquipamentosView _equipamentosView;
 
         #region  Propriedades
 
@@ -73,6 +74,14 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
         public TermosView TermosView
         {
              get { return _termosView ?? (_termosView = new TermosView()); } 
+        }
+
+        /// <summary>
+        ///     Obtem uma instância de objeto
+        /// </summary>
+        public EquipamentosView EquipamentosView
+        {
+            get { return _equipamentosView ?? (_equipamentosView = new EquipamentosView()); }
         }
 
         #endregion
