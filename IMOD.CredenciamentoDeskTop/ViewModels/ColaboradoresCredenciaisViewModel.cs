@@ -610,8 +610,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 Entity = null;
                 _viewModelParent.HabilitaControleTabControls(true, true, true, true, true, true);
 
-
-
             }
             catch (Exception ex)
             {

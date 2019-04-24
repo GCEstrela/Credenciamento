@@ -33,17 +33,17 @@ namespace IMOD.Infra.Servicos
         {
             _sdk = sdk;
 
-            _sdk.EventReceived += new EventHandler<EventReceivedEventArgs>(_sdk_EventReceived);
-            _sdk.EntityInvalidated += new EventHandler<EntityInvalidatedEventArgs>(_sdk_EntityInvalidated);
-            _sdk.EntityRemoved += new EventHandler<EntityRemovedEventArgs>(_sdk_EntityRemoved);
-            EntityConfigurationQuery query = _sdk.ReportManager.CreateReportQuery(ReportType.EntityConfiguration) as EntityConfigurationQuery;
-            //query.EntityTypes.Add(EntityType.Alarm);
-            query.EntityTypes.Add(EntityType.Cardholder);
-            query.EntityTypes.Add(EntityType.Credential);
-            //query.Name = "a";
-            query.NameSearchMode = StringSearchMode.StartsWith;
-            query.QueryCompleted += new EventHandler<QueryCompletedEventArgs>(query_QueryCompleted);
-            query.BeginQuery();
+            //_sdk.EventReceived += new EventHandler<EventReceivedEventArgs>(_sdk_EventReceived);
+            //_sdk.EntityInvalidated += new EventHandler<EntityInvalidatedEventArgs>(_sdk_EntityInvalidated);
+            //_sdk.EntityRemoved += new EventHandler<EntityRemovedEventArgs>(_sdk_EntityRemoved);
+            //EntityConfigurationQuery query = _sdk.ReportManager.CreateReportQuery(ReportType.EntityConfiguration) as EntityConfigurationQuery;
+            ////query.EntityTypes.Add(EntityType.Alarm);
+            //query.EntityTypes.Add(EntityType.Cardholder);
+            //query.EntityTypes.Add(EntityType.Credential);
+            ////query.Name = "a";
+            //query.NameSearchMode = StringSearchMode.StartsWith;
+            //query.QueryCompleted += new EventHandler<QueryCompletedEventArgs>(query_QueryCompleted);
+            //query.BeginQuery();
         }
 
         #region  Metodos
@@ -613,9 +613,11 @@ namespace IMOD.Infra.Servicos
 
                 if (credencial == null) throw new InvalidOperationException("Não foi possível criar uma credencial.");
                 credencial.Name = $"{entity.NumeroCredencial} - {entity.Nome}";
+
                 //var layout = _sdk.GetEntity (new Guid (entity.IdentificadorLayoutCrachaGuid));
                 //if (layout != null) //Especifica um layout Cracha apenas se houver um existente
                 //    credencial.BadgeTemplate = new Guid (entity.IdentificadorLayoutCrachaGuid);
+
                 //Obter Formatacao da Credencial
                 SetValorFormatoCredencial(entity, credencial);
 
