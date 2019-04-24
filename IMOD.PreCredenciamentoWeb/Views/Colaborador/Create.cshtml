@@ -24,7 +24,6 @@
             </div>
         </div>
         <div class="form-horizontal">
-            @*<hr />*@
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
             <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -65,7 +64,7 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.Cpf, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            @Html.EditorFor(model => model.Cpf, new { htmlAttributes = new { @class = "form-control text-uppercase" }}, new { @Id="cpf"})
+                            @Html.EditorFor(model => model.Cpf, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
                             @Html.ValidationMessageFor(model => model.Cpf, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -139,11 +138,12 @@
                     <div div class="form-group">
                         @Html.LabelFor(model => model.EstadoId, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            @Html.DropDownListFor(model => model.EstadoId, ((IEnumerable<IMOD.Domain.Entities.Estados>)ViewBag.Estados).Select(option => new SelectListItem {
-                                Text = option.Nome,
-                                Value = option.EstadoId.ToString(),
-                                Selected = (Model != null) && (option.EstadoId == Model.EstadoId)
-                                }), "Selecione", new { @class = "form-control text-uppercase" })
+                            @Html.DropDownListFor(model => model.EstadoId, ((IEnumerable<IMOD.Domain.Entities.Estados>)ViewBag.Estados).Select(option => new SelectListItem
+                       {
+                           Text = option.Nome,
+                           Value = option.EstadoId.ToString(),
+                           Selected = (Model != null) && (option.EstadoId == Model.EstadoId)
+                       }), "Selecione", new { @class = "form-control text-uppercase" })
                             @Html.ValidationMessageFor(model => model.EstadoId, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -219,11 +219,12 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.RgOrgLocal, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            @Html.DropDownListFor(model => model.CnhCategoria, ((IEnumerable<SelectListItem>)ViewBag.OrgaoEmissorRG).Select(option => new SelectListItem {
-                             Text = option.Text,
-                             Value = option.Text,
-                             Selected = (Model != null) && (option.Text == Model.RgOrgLocal)
-                             }), "Selecione", new { @class = "form-control text-uppercase" })
+                            @Html.DropDownListFor(model => model.CnhCategoria, ((IEnumerable<SelectListItem>)ViewBag.OrgaoEmissorRG).Select(option => new SelectListItem
+                       {
+                           Text = option.Text,
+                           Value = option.Text,
+                           Selected = (Model != null) && (option.Text == Model.RgOrgLocal)
+                       }), "Selecione", new { @class = "form-control text-uppercase" })
 
                             @Html.ValidationMessageFor(model => model.RgOrgLocal, "", new { @class = "text-danger" })
                         </div>
@@ -231,11 +232,12 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.RgOrgUf, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            @Html.DropDownListFor(model => model.RgOrgUf, ((IEnumerable<IMOD.Domain.Entities.Estados>)ViewBag.UfRg).Select(option => new SelectListItem {
-                                Text = option.Uf,
-                                Value = option.Uf,
-                                Selected = (Model != null) && (option.Uf == Model.RgOrgUf)
-                                }), "Selecione", new { @class = "form-control text-uppercase" })
+                            @Html.DropDownListFor(model => model.RgOrgUf, ((IEnumerable<IMOD.Domain.Entities.Estados>)ViewBag.UfRg).Select(option => new SelectListItem
+                       {
+                           Text = option.Uf,
+                           Value = option.Uf,
+                           Selected = (Model != null) && (option.Uf == Model.RgOrgUf)
+                       }), "Selecione", new { @class = "form-control text-uppercase" })
                             @Html.ValidationMessageFor(model => model.RgOrgUf, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -297,11 +299,12 @@
                         @Html.LabelFor(model => model.CnhCategoria, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
 
-                            @Html.DropDownListFor(model => model.CnhCategoria, ((IEnumerable<SelectListItem>)ViewBag.CategoriaCnh).Select(option => new SelectListItem {
-                            Text = option.Text,
-                            Value = option.Value,
-                            Selected = (Model != null) && (option.Value == Model.CnhCategoria)
-                            }), "Selecione", new { @class = "form-control text-uppercase" })
+                            @Html.DropDownListFor(model => model.CnhCategoria, ((IEnumerable<SelectListItem>)ViewBag.CategoriaCnh).Select(option => new SelectListItem
+                       {
+                           Text = option.Text,
+                           Value = option.Value,
+                           Selected = (Model != null) && (option.Value == Model.CnhCategoria)
+                       }), "Selecione", new { @class = "form-control text-uppercase" })
 
                             @Html.ValidationMessageFor(model => model.CnhCategoria, "", new { @class = "text-danger" })
                         </div>
@@ -326,11 +329,12 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.Cnhuf, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            @Html.DropDownListFor(model => model.Cnhuf, ((IEnumerable<IMOD.Domain.Entities.Estados>)ViewBag.UfRg).Select(option => new SelectListItem {
-                                Text = option.Uf,
-                                Value = option.Uf,
-                                Selected = (Model != null) && (option.Uf == Model.Cnhuf)
-                                }), "Selecione", new { @class = "form-control text-uppercase" })
+                            @Html.DropDownListFor(model => model.Cnhuf, ((IEnumerable<IMOD.Domain.Entities.Estados>)ViewBag.UfRg).Select(option => new SelectListItem
+                       {
+                           Text = option.Uf,
+                           Value = option.Uf,
+                           Selected = (Model != null) && (option.Uf == Model.Cnhuf)
+                       }), "Selecione", new { @class = "form-control text-uppercase" })
                             @Html.ValidationMessageFor(model => model.Cnhuf, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -343,10 +347,7 @@
 }
 
 @section Scripts {
-   
-}
-@section Scripts {
-
+    @Scripts.Render("~/bundles/jqueryval")
     <script>
         $(document).ready(function () {
             $("#telefone").inputmask("mask", { "mask": "(99) 9999-99999" });
