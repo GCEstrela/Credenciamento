@@ -19,9 +19,7 @@ namespace IMOD.PreCredenciamentoWeb.Models
         [Required(ErrorMessage = "A Placa/Identificador é requerida.")]
         [Display(Name = "Identificador")]
         public string PlacaIdentificador { get; set; }
-        [Required(ErrorMessage = "A Frota é requerida.")]
         public string Frota { get; set; }
-        [Required(ErrorMessage = "O Patrimônio é requerido.")]
         [Display(Name = "Patrimônio")]
         public string Patrimonio { get; set; }
         [Required(ErrorMessage = "A Marca é requerida.")]
@@ -60,6 +58,9 @@ namespace IMOD.PreCredenciamentoWeb.Models
         public string Foto { get; set; }
         public bool Ativo { get; set; }
         public int StatusId { get; set; }
+        public int[] idEmpresaContratoVinculados { get; set; }
+        public int[] idTipoServicoVinculados { get; set; }
+        public MultiSelectList EmpresasContrato { get; set; }
 
 
     }
