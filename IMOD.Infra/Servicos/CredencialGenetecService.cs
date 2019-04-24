@@ -33,17 +33,17 @@ namespace IMOD.Infra.Servicos
         {
             _sdk = sdk;
 
-            //_sdk.EventReceived += new EventHandler<EventReceivedEventArgs>(_sdk_EventReceived);
-            //_sdk.EntityInvalidated += new EventHandler<EntityInvalidatedEventArgs>(_sdk_EntityInvalidated);
-            //_sdk.EntityRemoved += new EventHandler<EntityRemovedEventArgs>(_sdk_EntityRemoved);
-            //EntityConfigurationQuery query = _sdk.ReportManager.CreateReportQuery(ReportType.EntityConfiguration) as EntityConfigurationQuery;
-            ////query.EntityTypes.Add(EntityType.Alarm);
-            //query.EntityTypes.Add(EntityType.Cardholder);
-            //query.EntityTypes.Add(EntityType.Credential);
-            ////query.Name = "a";
-            //query.NameSearchMode = StringSearchMode.StartsWith;
-            //query.QueryCompleted += new EventHandler<QueryCompletedEventArgs>(query_QueryCompleted);
-            //query.BeginQuery();
+            _sdk.EventReceived += new EventHandler<EventReceivedEventArgs>(_sdk_EventReceived);
+            _sdk.EntityInvalidated += new EventHandler<EntityInvalidatedEventArgs>(_sdk_EntityInvalidated);
+            _sdk.EntityRemoved += new EventHandler<EntityRemovedEventArgs>(_sdk_EntityRemoved);
+            EntityConfigurationQuery query = _sdk.ReportManager.CreateReportQuery(ReportType.EntityConfiguration) as EntityConfigurationQuery;
+            //query.EntityTypes.Add(EntityType.Alarm);
+            query.EntityTypes.Add(EntityType.Cardholder);
+            query.EntityTypes.Add(EntityType.Credential);
+            //query.Name = "a";
+            query.NameSearchMode = StringSearchMode.StartsWith;
+            query.QueryCompleted += new EventHandler<QueryCompletedEventArgs>(query_QueryCompleted);
+            query.BeginQuery();
         }
 
         #region  Metodos
@@ -451,7 +451,6 @@ namespace IMOD.Infra.Servicos
         }
         public void GerarEvento(string _evento, Entity _entidade = null, string _mensagem = "mensagem custom event")
         {
-
             try
             {
                 CustomEventInstance _customEvent;
@@ -467,7 +466,7 @@ namespace IMOD.Infra.Servicos
                 if (_customEvent != null)
                 {
                     _customEvent.Id = new CustomEventId(Convert.ToInt32(_evento));
-                    _customEvent.Message = _mensagem;
+                    _customEvent.Message = _mensagem;                    
 
                     _sdk.ActionManager.RaiseEvent(_customEvent);
 

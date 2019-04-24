@@ -306,7 +306,7 @@ namespace Meu_Servico.Service
                                 sendMessage(messa, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), ec.EmailResp.Trim());
                             }
                             //_serviceGenetec.GerarEvento(messa,8);
-                            _serviceGenetec.GerarEvento("8000");
+                            _serviceGenetec.GerarEvento("8000",null,messa);
                             break;
                         case diasAlerta1:
                             //CriarLog("Disparar alerta de vencendo em 5 dias");
@@ -332,7 +332,7 @@ namespace Meu_Servico.Service
                                 sendMessage(messa, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), ec.EmailResp.Trim());
                             }
                             //_serviceGenetec.DisparaAlarme(messa, 8);
-                            _serviceGenetec.GerarEvento("8005");
+                            _serviceGenetec.GerarEvento("8005", null, messa);
                             break;
                         case  diasAlerta2:
                             //CriarLog("Disparar alerta de vencendo em 15 dias");
@@ -358,7 +358,7 @@ namespace Meu_Servico.Service
                                 sendMessage(messa, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), ec.EmailResp.Trim());
                             }
                             //_serviceGenetec.DisparaAlarme(messa, 8);
-                            _serviceGenetec.GerarEvento("8015");
+                            _serviceGenetec.GerarEvento("8015", null, messa);
                             break;
                         case diasAlerta3:
                             //CriarLog("Disparar alerta de vencendo em 30 dias");
@@ -384,7 +384,7 @@ namespace Meu_Servico.Service
                             }
 
                             // _serviceGenetec.DisparaAlarme(messa, 8);
-                            _serviceGenetec.GerarEvento("8030");
+                            _serviceGenetec.GerarEvento("8030", null, messa);
                             break;
                         default:
                             break;
