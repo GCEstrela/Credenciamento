@@ -16,14 +16,14 @@ namespace IMOD.CredenciamentoDeskTop.Cracha {
     using CrystalDecisions.CrystalReports.Engine;
     
     
-    public class FraportCredencialAzul : ReportClass {
+    public class FraportCredencialAutorizacao : ReportClass {
         
-        public FraportCredencialAzul() {
+        public FraportCredencialAutorizacao() {
         }
         
         public override string ResourceName {
             get {
-                return "FraportCredencialAzul.rpt";
+                return "FraportCredencialAutorizacao.rpt";
             }
             set {
                 // Do nothing
@@ -41,7 +41,7 @@ namespace IMOD.CredenciamentoDeskTop.Cracha {
         
         public override string FullResourceName {
             get {
-                return "IMOD.CredenciamentoDeskTop.Cracha.FraportCredencialAzul.rpt";
+                return "IMOD.CredenciamentoDeskTop.Cracha.FraportCredencialAutorizacao.rpt";
             }
             set {
                 // Do nothing
@@ -74,7 +74,7 @@ namespace IMOD.CredenciamentoDeskTop.Cracha {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section DetailSection2 {
+        public CrystalDecisions.CrystalReports.Engine.Section ReportFooterSection1 {
             get {
                 return this.ReportDefinition.Sections[3];
             }
@@ -82,33 +82,17 @@ namespace IMOD.CredenciamentoDeskTop.Cracha {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section ReportFooterSection1 {
-            get {
-                return this.ReportDefinition.Sections[4];
-            }
-        }
-        
-        [Browsable(false)]
-        [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
         public CrystalDecisions.CrystalReports.Engine.Section PageFooterSection1 {
             get {
-                return this.ReportDefinition.Sections[5];
-            }
-        }
-        
-        [Browsable(false)]
-        [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.Shared.IParameterField Parameter_PathImgQrCode {
-            get {
-                return this.DataDefinition.ParameterFields[0];
+                return this.ReportDefinition.Sections[4];
             }
         }
     }
     
     [System.Drawing.ToolboxBitmapAttribute(typeof(CrystalDecisions.Shared.ExportOptions), "report.bmp")]
-    public class CachedFraportCredencialAzul : Component, ICachedReport {
+    public class CachedFraportCredencialAutorizacao : Component, ICachedReport {
         
-        public CachedFraportCredencialAzul() {
+        public CachedFraportCredencialAutorizacao() {
         }
         
         [Browsable(false)]
@@ -145,7 +129,7 @@ namespace IMOD.CredenciamentoDeskTop.Cracha {
         }
         
         public virtual CrystalDecisions.CrystalReports.Engine.ReportDocument CreateReport() {
-            FraportCredencialAzul rpt = new FraportCredencialAzul();
+            FraportCredencialAutorizacao rpt = new FraportCredencialAutorizacao();
             rpt.Site = this.Site;
             return rpt;
         }
