@@ -46,6 +46,7 @@ namespace IMOD.Domain.Entities
         public string Identificacao1 { get; set; }
         public string Identificacao2 { get; set; }
         public string Email { get; set; }
+        public string Obs { get; set; }
         #endregion
     }
 }

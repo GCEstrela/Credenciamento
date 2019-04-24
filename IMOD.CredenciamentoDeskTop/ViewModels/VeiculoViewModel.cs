@@ -406,15 +406,18 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
+                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
                 var list2 = Mapper.Map<List<VeiculoView>> (list.OrderByDescending (n => n.EquipamentoVeiculoId).ToList());
                 EntityObserver = new ObservableCollection<VeiculoView>();
                 list2.ForEach (n => { EntityObserver.Add (n); });
                 //Havendo registros, selecione o primeiro
                 if (EntityObserver.Any()) SelectListViewIndex = 0;
+                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.IBeam;
             }
 
             catch (Exception ex)
             {
+                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.IBeam;
                 Utils.TraceException (ex);
             }
         }

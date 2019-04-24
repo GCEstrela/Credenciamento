@@ -12,6 +12,8 @@ using Genetec.Sdk;
 using Genetec.Sdk.Credentials;
 using Genetec.Sdk.Entities;
 using Genetec.Sdk.Entities.Activation;
+using Genetec.Sdk.Entities.CustomEvents;
+using Genetec.Sdk.Events;
 using Genetec.Sdk.Queries;
 using IMOD.CrossCutting;
 using IMOD.Domain.Interfaces;
@@ -24,6 +26,7 @@ namespace IMOD.Infra.Servicos
 {
     public class CredencialGenetecService : ICredencialService
     {
+       // private readonly IColaboradorCredencialService _service = new ColaboradorCredencialService();
         private readonly IEngine _sdk;
         
         public CredencialGenetecService(IEngine sdk)
@@ -70,10 +73,15 @@ namespace IMOD.Infra.Servicos
         private void _sdk_EventReceived(object sender, EventReceivedEventArgs e)
         {
             Entity entity = _sdk.GetEntity(e.SourceGuid);
-            if (entity != null)
+            if (entity.EntityType == EntityType.Credential || entity.EntityType == EntityType.Cardholder)
             {
                 var messa = e.Timestamp.ToString() + " - " + e.EventType.ToString() + " - " + entity.Name;
             }
+            
+            //if (entity != null)
+            //{
+            //    var messa = e.Timestamp.ToString() + " - " + e.EventType.ToString() + " - " + entity.Name;
+            //}
         }
         public void _sdk_EntityRemoved(object sender, EntityRemovedEventArgs e)
         {
@@ -110,6 +118,9 @@ namespace IMOD.Infra.Servicos
                     var state = _credential.State.ToString();
                     var data = _credential.ExpirationDate.ToString();
                     var messa = string.Format("{0}, {1} was modified {2}\r\n", entity.Name, state, data, e.IsLocalUpdate ? "locally" : "remotely");
+
+                    
+
                 }
                 else
                 {
@@ -117,6 +128,8 @@ namespace IMOD.Infra.Servicos
                     var state = _cardholder.State.ToString();
                     var data = _cardholder.ExpirationDate.ToString();
                     var messa = string.Format("{0}, {1} was modified {2}\r\n", entity.Name, state, data, e.IsLocalUpdate ? "locally" : "remotely");
+
+
                 }
                 //var ttt =entity.RunningState.ToString();
 
@@ -154,8 +167,8 @@ namespace IMOD.Infra.Servicos
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(entity.FormatoCredencial))
-                    entity.FormatoCredencial = "CSN";
+                //if (string.IsNullOrWhiteSpace(entity.FormatoCredencial))
+                    //entity.FormatoCredencial = "CSN";
 
                 switch (entity.FormatoCredencial.ToLower().Trim())
                 {
@@ -229,8 +242,9 @@ namespace IMOD.Infra.Servicos
                 {
                     if (cardholder == null) throw new InvalidOperationException("Não foi possível encontrar o titular do cartão.");
                     cardholder.State = entity.Ativo ? CardholderState.Active : CardholderState.Inactive;
+                    
                 }
-
+                //cardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade);
                 _sdk.TransactionManager.CommitTransaction();
             }
             catch (Exception ex)
@@ -344,6 +358,8 @@ namespace IMOD.Infra.Servicos
                 if (cardHolderGroup != null)
                     cardHolder.Groups.Add(cardHolderGroup.Guid);
 
+                cardHolder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade);
+
                 _sdk.TransactionManager.CommitTransaction();
 
                 //VerificaRegraAcesso(entity);
@@ -433,22 +449,54 @@ namespace IMOD.Infra.Servicos
                 throw;
             }
         }
+        public void GerarEvento(string _evento, Entity _entidade = null, string _mensagem = "mensagem custom event")
+        {
+            try
+            {
+                CustomEventInstance _customEvent;
+                if (_entidade == null)
+                {
+                    _customEvent = (CustomEventInstance)_sdk.ActionManager.BuildEvent(EventType.CustomEvent, Genetec.Sdk.SdkGuids.SystemConfiguration);
+                }
+                else
+                {
+                    _customEvent = (CustomEventInstance)_sdk.ActionManager.BuildEvent(EventType.CustomEvent, _entidade.Guid);
+                }
+
+                if (_customEvent != null)
+                {
+                    _customEvent.Id = new CustomEventId(Convert.ToInt32(_evento));
+                    _customEvent.Message = _mensagem;                    
+
+                    _sdk.ActionManager.RaiseEvent(_customEvent);
+
+                }
+
+            }
+            catch (Exception)
+            {
+
+            }
+        }
         public void DisparaAlarme(string menssagem,int IdAlarme)
         {
             try
             {
+
+
+
                 //Entity _entidade;
                 //_entidade = _sdk.GetEntity(_sdk.ClientGuid);
- 
+
                 // var guidAlarm = _sdk.CreateEntity(menssagem, EntityType.Alarm, guidParent).Guid;
                 _sdk.TransactionManager.CreateTransaction();
 
                 TimeSpan duration = new TimeSpan(1, 12, 23, 62);
                 var guidParent = new Guid("00000000-0000-0000-0000-000000000003"); //Guid do usuário que receberá os alarmes
                 var guidAlarm = _sdk.CreateEntity(menssagem, EntityType.Alarm).Guid;
-                Alarm alarm = (Alarm)_sdk.GetEntity(guidAlarm);                
+                Alarm alarm = (Alarm)_sdk.GetEntity(guidAlarm);
                 alarm.Recipients.Add(guidParent, duration);
-                
+
 
                 _sdk.TransactionManager.CommitTransaction();
 
@@ -565,9 +613,11 @@ namespace IMOD.Infra.Servicos
 
                 if (credencial == null) throw new InvalidOperationException("Não foi possível criar uma credencial.");
                 credencial.Name = $"{entity.NumeroCredencial} - {entity.Nome}";
+
                 //var layout = _sdk.GetEntity (new Guid (entity.IdentificadorLayoutCrachaGuid));
                 //if (layout != null) //Especifica um layout Cracha apenas se houver um existente
                 //    credencial.BadgeTemplate = new Guid (entity.IdentificadorLayoutCrachaGuid);
+
                 //Obter Formatacao da Credencial
                 SetValorFormatoCredencial(entity, credencial);
 

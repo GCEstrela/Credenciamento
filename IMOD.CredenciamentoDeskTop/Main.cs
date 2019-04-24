@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Windows.Media.Imaging;
 using Genetec.Sdk;
 using Genetec.Sdk.Entities;
+using Genetec.Sdk.Queries;
 using Genetec.Sdk.Workspace;
 using Genetec.Sdk.Workspace.Modules;
 using Genetec.Sdk.Workspace.Tasks;
@@ -55,12 +56,40 @@ namespace IMOD.CredenciamentoDeskTop
 
         public override void Load()
         {
-            Engine = Workspace.Sdk;
+            Engine = Workspace.Sdk;            
+
             SubscribeToSdkEvents (Engine);
             SubscribeToWorkspaceEvents();
            
         }
+        private void _sdk_EntityInvalidated(object sender, EntityInvalidatedEventArgs e)
+        {
+            Entity entity = Engine.GetEntity(e.EntityGuid);
+            if (entity != null)
+            {
+                if (entity.EntityType == EntityType.Credential)
+                {
+                    Credential _credential = Engine.GetEntity(entity.Guid) as Credential;
+                    var state = _credential.State.ToString();
+                    var data = _credential.ExpirationDate.ToString();
+                    var messa = string.Format("{0}, {1} was modified {2}\r\n", entity.Name, state, data, e.IsLocalUpdate ? "locally" : "remotely");
 
+
+
+                }
+                else
+                {
+                    Cardholder _cardholder = Engine.GetEntity(entity.Guid) as Cardholder;
+                    var state = _cardholder.State.ToString();
+                    var data = _cardholder.ExpirationDate.ToString();
+                    var messa = string.Format("{0}, {1} was modified {2}\r\n", entity.Name, state, data, e.IsLocalUpdate ? "locally" : "remotely");
+
+
+                }
+                //var ttt =entity.RunningState.ToString();
+
+            }
+        }
         private void UnregisterTaskExtensions()
         {
             // Register them to the workspace

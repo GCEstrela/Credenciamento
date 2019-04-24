@@ -181,7 +181,7 @@ namespace IMOD.Infra.Repositorios
                     try
                     {
                         cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("ColaboradorCredencialID", DbType.Int32, o, 0).Igual()));
-                        cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("NumeroContrato", DbType.String, o, 2).Igual()));
+                        cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("NumeroContrato", DbType.String, o, 1).Igual()));
 
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<ColaboradorEmpresaView>();
@@ -233,6 +233,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Policiafederal", DbType.Boolean, entity.Policiafederal, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Receitafederal", DbType.Boolean, entity.Receitafederal, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Segurancatrabalho", DbType.Boolean, entity.Segurancatrabalho, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Obs", DbType.String, entity.Obs, false)));
                         //cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Identificacao1", DbType.String, entity.Identificacao1, false)));
                         //cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Identificacao2", DbType.String, entity.Identificacao2, false)));
 
@@ -315,6 +316,8 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Segurancatrabalho", entity.Segurancatrabalho, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Identificacao1", DbType.String, entity.Identificacao1, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Identificacao2", DbType.String, entity.Identificacao2, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Obs", DbType.String, entity.Obs, false)));
+
                         var key = Convert.ToInt32 (cmd.ExecuteScalar());
 
                         entity.ColaboradorCredencialId = key;
@@ -369,6 +372,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("ColaboradorID", DbType.Int32, o, 4).Igual()));
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmpresaID", DbType.Int32, o, 5).Igual()));
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Ativa", DbType.Boolean, o, 6).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("NumeroContrato", DbType.String, o, 7).Igual()));
 
                         var reader = cmd.ExecuteReader();
                         var d1 = reader.MapToList<ColaboradorCredencial>();

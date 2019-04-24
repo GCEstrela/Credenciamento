@@ -136,8 +136,8 @@ namespace IMOD.Application.Service
                 Matricula = entity.Matricula, 
                 Validade = dataValidade.AddDays(1), 
                 NumeroCredencial = entity.NumeroCredencial,
-                IdentificadorLayoutCrachaGuid = entity.LayoutCrachaGuid
-               
+                IdentificadorLayoutCrachaGuid = entity.LayoutCrachaGuid,
+                FormatoCredencial = entity.FormatoCredencialDescricao.Trim()
             };
             return titularCartao;
         }
