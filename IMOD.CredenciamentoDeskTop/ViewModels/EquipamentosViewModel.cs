@@ -385,7 +385,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (num.Key == 2)
                 {
                     if (string.IsNullOrWhiteSpace (pesquisa)) return; 
-                    var lstEquipamento = _service.Listar (null, null, null, $"%{pesquisa}%", tipoVeiculoEquipamento); 
+                    var lstEquipamento = _service.Listar (null, null, null, $"%{pesquisa}%", $"%{tipoVeiculoEquipamento}%"); 
                     PopularObserver (lstEquipamento);
                 }
 

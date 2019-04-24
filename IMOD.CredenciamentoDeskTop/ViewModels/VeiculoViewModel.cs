@@ -376,21 +376,21 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             try
             {
                 var pesquisa = NomePesquisa;
-
+                String tipoVeiculoEquipamento = "VEÍCULO";
                 var num = PesquisarPor;
 
                 //Placa/Identificador
                 if (num.Key == 1)
                 {
                     if (string.IsNullOrWhiteSpace (pesquisa)) return;
-                    var l1 = _service.Listar (null, null, $"%{pesquisa}%", null);
+                    var l1 = _service.Listar(null, null, $"%{pesquisa}%", null, $"%{tipoVeiculoEquipamento}%");
                     PopularObserver (l1);
                 }
                 //Por Série/Chassi
                 if (num.Key == 2)
                 {
                     if (string.IsNullOrWhiteSpace (pesquisa)) return;
-                    var l1 = _service.Listar (null, null, null, $"%{pesquisa}%");
+                    var l1 = _service.Listar(null, null, null, $"%{pesquisa}%", $"%{tipoVeiculoEquipamento}%");  
                     PopularObserver (l1);
                 }
 
