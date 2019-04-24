@@ -15,6 +15,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
     {
 
         IEmpresaService service = new EmpresaService();
+        IEmpresaContratosService servicecontrato = new EmpresaContratoService();
 
         // GET: Login
         public ActionResult Index()
@@ -37,6 +38,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                     empresa.Codigo = empresaLogada.EmpresaId;
                     empresa.Nome = empresaLogada.Nome;
                     empresa.Senha = string.Empty;
+                    empresa.Contratos = servicecontrato.ListarPorEmpresa(empresaLogada.EmpresaId).ToList();
                     Session["EmpresaLogada"] = empresa;
                     FormsAuthentication.SetAuthCookie(empresa.Nome, empresa.Lembreme);
                     return RedirectToAction("../Home/Index");
