@@ -314,12 +314,19 @@
         </footer>
     </div>
     @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/maskedinput")
+    @*@Scripts.Render("~/bundles/maskedinput")*@
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+    <script src="~/Scripts/jquery.maskedinput.min.js"></script>
     <script src="~/Scripts/datatables.min.js"></script>
     <script>
         $(document).ready(function () {
+            $("#cpf").mask("999.999.999-99");
+            $("#cep").mask("99999-999");
+            $("#telefone").mask("(99) 9999-9999");            
+            $("#celular").mask("(99) 99999-9999"); 
+            $("#celular1").mask("(99) 99999-9999");            
+
             $('#tbVeiculo').DataTable({
                 "language": {
                     "lengthMenu": "Mostrando _MENU_ registros por página",
@@ -330,7 +337,6 @@
                     "search": ""
                 }
             });
-           // $("#cpf").mask("999.999.999-99");
         });
     </script>
 </body>

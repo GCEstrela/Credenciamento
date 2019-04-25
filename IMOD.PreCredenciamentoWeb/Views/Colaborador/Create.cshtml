@@ -50,7 +50,7 @@
                        aria-selected="false">Vínculo</a>
                 </li>
             </ul>
-
+            
             <div class="tab-content" id="myTabContent">
                 <div class=" tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">
                     <br />
@@ -66,7 +66,7 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.Cpf, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            @Html.EditorFor(model => model.Cpf, "cpf", new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                            @Html.EditorFor(model => model.Cpf, new { htmlAttributes = new { @class = "form-control", @id="cpf" } })
                             @Html.ValidationMessageFor(model => model.Cpf, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -103,8 +103,8 @@
                     <br />
                     <div class="form-group">
                         @Html.LabelFor(model => model.Cep, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.Cep, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                        <div class="col-md-10">                            
+                            @Html.EditorFor(model => model.Cep,new { htmlAttributes = new { @class = "form-control" , @id="cep" } })
                             @Html.ValidationMessageFor(model => model.Cep, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -163,7 +163,7 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.TelefoneFixo, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
-                                @Html.EditorFor(model => model.TelefoneFixo, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                                @Html.EditorFor(model => model.TelefoneFixo, new { htmlAttributes = new { @class = "form-control", @id = "telefone" } })
                                 @Html.ValidationMessageFor(model => model.TelefoneFixo, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -171,7 +171,7 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.TelefoneCelular, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
-                                @Html.EditorFor(model => model.TelefoneCelular, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                                @Html.EditorFor(model => model.TelefoneCelular, new { htmlAttributes = new { @class = "form-control", @id = "celular" } })
                                 @Html.ValidationMessageFor(model => model.TelefoneCelular, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -195,7 +195,7 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.TelefoneEmergencia, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
-                                @Html.EditorFor(model => model.TelefoneEmergencia, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                                @Html.EditorFor(model => model.TelefoneEmergencia, new { htmlAttributes = new { @class = "form-control", @id = "celular1" } })
                                 @Html.ValidationMessageFor(model => model.TelefoneEmergencia, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -381,3 +381,4 @@
         });
     </script>
     }*@
+
