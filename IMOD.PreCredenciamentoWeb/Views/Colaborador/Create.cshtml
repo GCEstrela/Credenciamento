@@ -345,7 +345,7 @@
                     <br />
                     <div div class="form-group">                        
                             @Html.LabelFor(model => model.ContratoEmpresaID, htmlAttributes: new { @class = "control-label col-md-2" })                        
-                        <div class="col-lg-4">
+                        <div class="col-lg-3">
                             @Html.DropDownListFor(model => model.ContratoEmpresaID, ((IEnumerable<IMOD.Domain.Entities.EmpresaContrato>)ViewBag.Contratos).Select(option => new SelectListItem
                        {
                            Text = option.Descricao,
@@ -354,7 +354,7 @@
                        }), "Selecione", new { @class = "form-control text-uppercase" })
                             @Html.ValidationMessageFor(model => model.EstadoId, "", new { @class = "text-danger" })
                         </div>
-                        <div class="col-lg-6">
+                        <div class="col-lg-7">
                             <a href="@Url.Action("AdicionarContrato")" title="Vincular Contrato">
                                 <i class="material-icons">&#xE147;</i>
                             </a>
