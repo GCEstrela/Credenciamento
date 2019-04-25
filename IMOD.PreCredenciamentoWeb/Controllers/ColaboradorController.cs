@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using AutoMapper;
 using IMOD.Domain.Entities;
 using IMOD.Application.Service;
+using IMOD.PreCredenciamentoWeb.Util;
 
 namespace IMOD.PreCredenciamentoWeb.Controllers
 {
@@ -17,14 +18,23 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         private readonly IMOD.Application.Interfaces.IDadosAuxiliaresFacade objAuxiliaresService = new IMOD.Application.Service.DadosAuxiliaresFacadeService();
         private readonly IMOD.Application.Interfaces.IEmpresaContratosService objContratosService = new IMOD.Application.Service.EmpresaContratoService();
         private readonly IMOD.Application.Interfaces.IColaboradorEmpresaService objColaboradorEmpresaService = new ColaboradorEmpresaService();
+        private List<Colaborador> colaboradores = new List<Colaborador>();
+        private List<ColaboradorEmpresa> vinculos = new List<ColaboradorEmpresa>();
 
         public ActionResult Index()
         {
-            var lstColaborador = objService.Listar(null, null, string.Empty);
-            List<ColaboradorViewModel> lstColaboradorMapeado = Mapper.Map<List<ColaboradorViewModel>>(lstColaborador);
-
+            List<ColaboradorViewModel> lstColaboradorMapeado = Mapper.Map<List<ColaboradorViewModel>>(ObterColaboradoresEmpresaLogada());
             return View(lstColaboradorMapeado);
         }
+
+        private IList<Colaborador> ObterColaboradoresEmpresaLogada()
+        {
+            vinculos = objColaboradorEmpresaService.Listar(null, null, null, null, null, SessionUsuario.EmpresaLogada.Codigo).ToList();
+            vinculos.ForEach(v => { colaboradores.AddRange(objService.Listar(v.ColaboradorId)); });
+
+            return colaboradores.OrderBy(c => c.Nome).ToList();
+        }
+
 
         // GET: Colaborador/Details/5
         public ActionResult Details(int id)
@@ -51,7 +61,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                 {
                     var colaboradorMapeado = Mapper.Map<Colaborador>(model);
                     objService.Criar(colaboradorMapeado);
- 
+
                     return RedirectToAction("Index", "Colaborador");
                 }
 
@@ -68,10 +78,10 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
         }
 
-            // GET: Colaborador/Edit/5
+        // GET: Colaborador/Edit/5
         public ActionResult Edit(int? id)
         {
-            var colaboradorEditado = objService.Listar(id).FirstOrDefault(); 
+            var colaboradorEditado = objService.Listar(id).FirstOrDefault();
             if (colaboradorEditado == null)
                 return HttpNotFound();
 
@@ -79,7 +89,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             PopularEstadosDropDownList();
             PopularDadosDropDownList();
 
-            return View(colaboradorMapeado); 
+            return View(colaboradorMapeado);
         }
 
         // POST: Colaborador/Edit/5
@@ -136,21 +146,21 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         {
             var lstEstado = objAuxiliaresService.EstadoService.Listar();
 
-            ViewBag.Estados = lstEstado; 
-            ViewBag.UfRg = lstEstado; 
-            ViewBag.UfCnh = lstEstado; 
-        } 
+            ViewBag.Estados = lstEstado;
+            ViewBag.UfRg = lstEstado;
+            ViewBag.UfCnh = lstEstado;
+        }
 
         private void PopularMunicipiosDropDownList(String idEstado)
         {
             if (!string.IsNullOrEmpty(idEstado))
             {
                 var lstMunicipio = objAuxiliaresService.MunicipioService.Listar(null, null, idEstado);
-                ViewBag.Municipio = lstMunicipio; 
+                ViewBag.Municipio = lstMunicipio;
             }
         }
 
-        private void PopularDadosDropDownList() 
+        private void PopularDadosDropDownList()
         {
 
             ViewBag.CategoriaCnh = new SelectList(new object[]
@@ -161,7 +171,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                     new {Name = "C", Value = "C"},
                     new {Name = "D", Value = "D"},
                     new {Name = "E", Value = "E"}
-                }, "Value", "Name"); 
+                }, "Value", "Name");
 
             ViewBag.OrgaoEmissorRG = new SelectList(new object[]
                 {

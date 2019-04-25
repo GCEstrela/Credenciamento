@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IMOD.Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -20,5 +21,6 @@ namespace IMOD.PreCredenciamentoWeb.Models
         public string CNPJ { get; set; }
         public Byte[] Logo { get; set; }
         public bool Lembreme { get; set; }
+        public IList<EmpresaContrato> Contratos { get; set; }
     }
 }

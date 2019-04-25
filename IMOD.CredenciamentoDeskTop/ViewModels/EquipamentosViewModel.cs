@@ -1,10 +1,4 @@
-﻿// ***********************************************************************
-// Project: IMOD.CredenciamentoDeskTop
-// Crafted by: Grupo Estrela by Genetec
-// Date:  01 - 24 - 2019
-// ***********************************************************************
-
-#region
+﻿#region
 
 using System;
 using System.Collections.Generic;
@@ -26,9 +20,9 @@ using IMOD.Domain.Entities;
 
 #endregion
 
-namespace IMOD.CredenciamentoDeskTop.ViewModels
+namespace IMOD.CredenciamentoDeskTop.ViewModels 
 {
-    public class VeiculoViewModel : ViewModelBase, IComportamento
+    public class EquipamentosViewModel : ViewModelBase, IComportamento
     {
         private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
         private readonly IVeiculoService _service = new VeiculoService();
@@ -161,8 +155,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         #endregion
 
-        public VeiculoViewModel()
-        {
+        public EquipamentosViewModel() 
+        { 
             ItensDePesquisaConfigura();
             ListarDadosAuxiliares();
             Comportamento = new ComportamentoBasico (false, true, true, false, false);
@@ -203,8 +197,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private void ItensDePesquisaConfigura()
         {
             ListaPesquisa = new List<KeyValuePair<int, string>>();
-            ListaPesquisa.Add (new KeyValuePair<int, string> (1, "Placa/Identificador"));
-            ListaPesquisa.Add (new KeyValuePair<int, string> (2, "Série/Chassi"));
+            ListaPesquisa.Add (new KeyValuePair<int, string> (1, "Identificador"));
+            ListaPesquisa.Add (new KeyValuePair<int, string> (2, "Série"));
             PesquisarPor = ListaPesquisa[0]; //Pesquisa Default
         }
 
@@ -375,23 +369,24 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                var pesquisa = NomePesquisa;
-                String tipoVeiculoEquipamento = "VEÍCULO";
+                var pesquisa = NomePesquisa; 
+                String tipoVeiculoEquipamento = "EQUIPAMENTO"; 
+
                 var num = PesquisarPor;
 
-                //Placa/Identificador
+                //Busca por Identificador
                 if (num.Key == 1)
                 {
                     if (string.IsNullOrWhiteSpace (pesquisa)) return;
-                    var l1 = _service.Listar(null, null, $"%{pesquisa}%", null, $"%{tipoVeiculoEquipamento}%");
-                    PopularObserver (l1);
+                    var lstEquipamento = _service.Listar (null, null, $"%{pesquisa}%", null, $"%{tipoVeiculoEquipamento}%"); 
+                    PopularObserver (lstEquipamento);
                 }
-                //Por Série/Chassi
+                //Busca Por Série
                 if (num.Key == 2)
                 {
-                    if (string.IsNullOrWhiteSpace (pesquisa)) return;
-                    var l1 = _service.Listar(null, null, null, $"%{pesquisa}%", $"%{tipoVeiculoEquipamento}%");  
-                    PopularObserver (l1);
+                    if (string.IsNullOrWhiteSpace (pesquisa)) return; 
+                    var lstEquipamento = _service.Listar (null, null, null, $"%{pesquisa}%", $"%{tipoVeiculoEquipamento}%"); 
+                    PopularObserver (lstEquipamento);
                 }
 
                 IsEnableLstView = true;
@@ -406,18 +401,15 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
                 var list2 = Mapper.Map<List<VeiculoView>> (list.OrderByDescending (n => n.EquipamentoVeiculoId).ToList());
                 EntityObserver = new ObservableCollection<VeiculoView>();
                 list2.ForEach (n => { EntityObserver.Add (n); });
                 //Havendo registros, selecione o primeiro
                 if (EntityObserver.Any()) SelectListViewIndex = 0;
-                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.IBeam;
             }
 
             catch (Exception ex)
             {
-                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.IBeam;
                 Utils.TraceException (ex);
             }
         }
