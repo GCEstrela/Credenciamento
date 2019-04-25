@@ -478,7 +478,29 @@ namespace IMOD.Application.Service
                 throw;
             }
         }
+        /// <summary>
+        ///     Remove Regra de acesso do cardHolder sub-sistema de credenciamento (Genetec)
+        /// </summary>
+        /// <param name="geradorCredencialService">Sub sistema de geração de credenciais de cartão de um titular</param>
+        /// <param name="colaboradorService">Colaborador service</param>
+        /// <param name="entity"></param>
+        public void RemoverCredencial(ICredencialService geradorCredencialService, IColaboradorService colaboradorService, ColaboradoresCredenciaisView entity)
+        {
+            try
+            {
+                if (geradorCredencialService == null) throw new ArgumentNullException(nameof(geradorCredencialService));
+                if (entity == null) throw new ArgumentNullException(nameof(entity));
 
+
+                var titularCartao = CardHolderEntity(entity);
+                geradorCredencialService.RemoverCredencial(titularCartao);
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+                throw;
+            }
+        }
 
         /// <summary>
         ///     Remove Regra de acesso do cardHolder sub-sistema de credenciamento (Genetec)
@@ -500,7 +522,26 @@ namespace IMOD.Application.Service
                 throw;
             }
         }
+        /// <summary>
+        ///     Remove uma Credential (Genetec)
+        /// </summary>
+        /// <param name="geradorCredencialService">Sub sistema de geração de credenciais de cartão de um titular</param>
+        /// <param name="colaboradorService">Colaborador service</param>
+        /// <param name="entity"></param>
+        public void RemoverCredencial(ICredencialService geradorCredencialService, CardHolderEntity entity)
+        {
+            try
+            {
+                if (entity == null) throw new ArgumentNullException(nameof(entity));
 
+                geradorCredencialService.RemoverCredencial(entity);
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+                throw;
+            }
+        }
 
 
         /// <summary>

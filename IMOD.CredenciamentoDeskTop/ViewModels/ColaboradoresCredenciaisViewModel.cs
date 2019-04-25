@@ -812,6 +812,23 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             
         }
         /// <summary>
+        /// Criar CardHolder e Credencial do usuario
+        /// <para>Criar um card holder caso o usuario nao o possua</para>
+        /// </summary>
+        /// <param name="colaboradorCredencialId">Identificador</param>
+        private void RemoverCredencial(int colaboradorCredencialId, ColaboradoresCredenciaisView entity)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+
+            var n1 = _service.BuscarCredencialPelaChave(colaboradorCredencialId);
+
+            var tecCredencial = _auxiliaresService.TecnologiaCredencialService.BuscarPelaChave(entity.TecnologiaCredencialId);
+            if (tecCredencial.PodeGerarCardHolder)
+                _service.RemoverCredencial(new CredencialGenetecService(Main.Engine), new ColaboradorService(), n1);
+
+        }
+
+        /// <summary>
         ///     Cancelar operação
         /// </summary>
         /// <param name="sender"></param>
@@ -855,6 +872,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 try
                 {
                     RemoverRegrasCardHolder(n1.ColaboradorCredencialId, Entity);
+                    RemoverCredencial(n1.ColaboradorCredencialId, Entity);
                     ///////////////////
                 }
                 catch (Exception ex)
