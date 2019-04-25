@@ -15,14 +15,15 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         private readonly IMOD.Application.Interfaces.IVeiculoService objService = new IMOD.Application.Service.VeiculoService();
         private readonly IMOD.Application.Interfaces.IDadosAuxiliaresFacade objAuxiliaresService = new IMOD.Application.Service.DadosAuxiliaresFacadeService();
         private readonly IMOD.Application.Interfaces.IEmpresaContratosService objContratosService = new IMOD.Application.Service.EmpresaContratoService();
+        private readonly IMOD.Application.Interfaces.IVeiculoEmpresaService objVeiculoEmpresaService = new IMOD.Application.Service.VeiculoEmpresaService();
 
-        // GET: Veiculo 
+        // GET: Veiculo
         public ActionResult Index()
         {
             var lstVeiculo = objService.Listar(null, null, string.Empty);
             List<VeiculoViewModel> lstVeiculoMapeado = Mapper.Map<List<VeiculoViewModel>>(lstVeiculo);
 
-            return View(lstVeiculoMapeado);
+            return View(lstVeiculoMapeado); 
         }
 
         // GET: Veiculo/Details/5
@@ -32,10 +33,14 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         }
 
         // GET: Veiculo/Create
-        public ActionResult Create() 
+        public ActionResult Create()
         {
-            PopularEstadosDropDownList(); 
+
+            PopularEstadosDropDownList();
             PopularDadosDropDownList();
+
+            PopularContratoCreateDropDownList(6476);
+
             return View();
         }
 
@@ -75,12 +80,13 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             if (veiculoEditado == null)
                 return HttpNotFound();
 
-            VeiculoViewModel veiculoMapeado = Mapper.Map<VeiculoViewModel>(veiculoEditado);
-            PopularEstadosDropDownList();
-            PopularDadosDropDownList();
+            VeiculoViewModel veiculoMapeado = Mapper.Map<VeiculoViewModel>(veiculoEditado); 
+
+            PopularEstadosDropDownList(); 
+            PopularDadosDropDownList(); 
+            PopularContratoEditDropDownList(veiculoMapeado, 6476);
 
             return View(veiculoMapeado); 
-
         }
 
         // POST: Veiculo/Edit/5
@@ -167,10 +173,24 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
             var lstTipoEquipamento = objAuxiliaresService.TipoEquipamentoService.Listar();
             ViewBag.TipoEquipamento = lstTipoEquipamento;
+        }
 
-            var contrato = objContratosService.BuscarPelaChave(1); 
+        private void PopularContratoCreateDropDownList(int idEmpresa)
+        {
+            if (idEmpresa <= 0) return;
 
+            var contratoEmpresa = objContratosService.Listar(idEmpresa);
+            ViewBag.ContratoEmpresa = contratoEmpresa;
+        }
 
+        private void PopularContratoEditDropDownList(VeiculoViewModel veiculo, int idEmpresa)
+        {
+            if (idEmpresa <= 0) return; 
+
+            var contratoEmpresa = objContratosService.Listar(idEmpresa); 
+            var resultEmpresasContratosVinculados = objVeiculoEmpresaService.Listar(null, null, null, null, null, idEmpresa);
+
+            ViewBag.ContratoEmpresa = new MultiSelectList(contratoEmpresa, "EmpresaContratoId", "Descricao", resultEmpresasContratosVinculados.Select(m => m.EmpresaContratoId).ToArray());
         }
 
         #endregion

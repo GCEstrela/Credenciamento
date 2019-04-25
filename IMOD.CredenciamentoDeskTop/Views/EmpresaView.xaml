@@ -232,7 +232,7 @@
                                     <TextBox CharacterCasing="Upper"  x:Name="Sigla_tb" MaxLength="3"
                                              Text="{Binding Entity.Sigla, UpdateSourceTrigger=PropertyChanged}"
                                              HorizontalContentAlignment="Center" IsEnabled="True" Height="24" Width="49" 
-                                               LostFocus="Sigla_tb_LostFocus" />
+                                             LostFocus="Sigla_tb_LostFocus" />
 
                                 </StackPanel>
 

@@ -14,6 +14,7 @@ using System.Windows.Input;
 using IMOD.CredenciamentoDeskTop.ViewModels;
 using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
+using IMOD.Domain.EntitiesCustom;
 
 #endregion
 
@@ -32,7 +33,8 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             InitializeComponent();
             _viewModel = new ColaboradoresCredenciaisViewModel();
-            DataContext = _viewModel; 
+            DataContext = _viewModel;
+           
         }
 
         #endregion

@@ -81,6 +81,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         ///     Habilitar Controles
         /// </summary>
         public bool Habilitar { get; set; }
+        public string ExcluirVisivel { get; set; }
 
         public CredencialStatus StatusCredencial { get; set; }
         public List<CredencialStatus> CredencialStatus { get; set; }
@@ -147,7 +148,15 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         public ColaboradoresCredenciaisViewModel()
         {
-
+            if (!UsuarioLogado.Adm)
+            {
+                ExcluirVisivel = "Collapsed";
+            }
+            else
+            {
+                ExcluirVisivel = "Visible";
+            }
+            
             ItensDePesquisaConfigura();
             ListarDadosAuxiliares();
             Comportamento = new ComportamentoBasico(false, true, false, false, false);
@@ -803,6 +812,23 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             
         }
         /// <summary>
+        /// Criar CardHolder e Credencial do usuario
+        /// <para>Criar um card holder caso o usuario nao o possua</para>
+        /// </summary>
+        /// <param name="colaboradorCredencialId">Identificador</param>
+        private void RemoverCredencial(int colaboradorCredencialId, ColaboradoresCredenciaisView entity)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+
+            var n1 = _service.BuscarCredencialPelaChave(colaboradorCredencialId);
+
+            var tecCredencial = _auxiliaresService.TecnologiaCredencialService.BuscarPelaChave(entity.TecnologiaCredencialId);
+            if (tecCredencial.PodeGerarCardHolder)
+                _service.RemoverCredencial(new CredencialGenetecService(Main.Engine), new ColaboradorService(), n1);
+
+        }
+
+        /// <summary>
         ///     Cancelar operação
         /// </summary>
         /// <param name="sender"></param>
@@ -846,6 +872,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 try
                 {
                     RemoverRegrasCardHolder(n1.ColaboradorCredencialId, Entity);
+                    RemoverCredencial(n1.ColaboradorCredencialId, Entity);
                     ///////////////////
                 }
                 catch (Exception ex)

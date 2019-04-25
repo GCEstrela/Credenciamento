@@ -744,6 +744,36 @@ namespace IMOD.Infra.Servicos
         {
 
         }
+
+        public void RemoverCredencial(CardHolderEntity entity)
+        {
+            try
+            {
+                #region Existindo Credential, deletar
+
+                if (!string.IsNullOrWhiteSpace(entity.IdentificadorCredencialGuid))
+                {
+                    
+                    Credential credencial = _sdk.GetEntity(new Guid(entity.IdentificadorCredencialGuid)) as Credential;
+                    if (credencial != null)
+                    {
+                        _sdk.TransactionManager.CreateTransaction();
+
+                        _sdk.DeleteEntity(credencial.Guid);
+
+                        _sdk.TransactionManager.CommitTransaction();
+                    }
+                }
+               
+                #endregion
+            }
+            catch (Exception ex)
+            {
+                //_sdk.TransactionManager.RollbackTransaction;
+                Utils.TraceException(ex);
+                throw;
+            }
+        }
         #endregion
     }
 }
