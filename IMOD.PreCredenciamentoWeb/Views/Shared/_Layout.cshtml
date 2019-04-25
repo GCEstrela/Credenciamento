@@ -7,9 +7,10 @@
     <title>@ViewBag.Title - Sistema Pré Credenciamento</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="~/Content/datatables.min.css" />"
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css" />"
     <style>
         body {
             color: #566787;
@@ -272,7 +273,7 @@
 
         .modal form label {
             font-weight: normal;
-        }	
+        }
     </style>
 </head>
 <body>
@@ -287,7 +288,7 @@
                 <a class="navbar-brand" href="../Home" style="padding-top: 10px;">
                     <img src="~/Images/logo3.png" alt="Logo" style="width:140px">
                 </a>
-            </div>            
+            </div>
             <div class="navbar-collapse collapse">
                 @*@if (Request.IsAuthenticated)
                     {}*@
@@ -297,7 +298,7 @@
                     <li><a href='../Home/LinksUteis'><i class="fa fa-fw fa-thumbs-o-up" style="font-size:30px;padding-top:0px;color:#566787;"></i> Links Uteis </a></li>
                     <li><a href='../Home/Contact'><i class="fa fa-fw fa-envelope" style="font-size:30px;padding-top:0px;color:#566787;"></i> Contato </a></li>
                     <li><a href='../Login/Logout'><i class="fa fa-fw fa-sign-out" style="font-size:30px;padding-top:0px;color:#566787;"></i> Sair </a></li>
-                </ul>               
+                </ul>
             </div>
 
         </div>
@@ -313,8 +314,9 @@
         </footer>
     </div>
     @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/maskedinput")
     @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)    
+    @RenderSection("scripts", required: false)
     <script src="~/Scripts/datatables.min.js"></script>
     <script>
         $(document).ready(function () {
@@ -325,9 +327,10 @@
                     "info": "Mostrando página _PAGE_ de _PAGES_",
                     "infoEmpty": "Nenhum registro disponível",
                     "infoFiltered": "(filtrado de _MAX_ registros no total)",
-                    "search":""
+                    "search": ""
                 }
             });
+           // $("#cpf").mask("999.999.999-99");
         });
     </script>
 </body>

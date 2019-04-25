@@ -24,6 +24,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         public ActionResult Index()
         {
             List<ColaboradorViewModel> lstColaboradorMapeado = Mapper.Map<List<ColaboradorViewModel>>(ObterColaboradoresEmpresaLogada());
+            ViewBag.Contratos = SessionUsuario.EmpresaLogada.Contratos;
             return View(lstColaboradorMapeado);
         }
 
@@ -47,7 +48,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         {
             PopularEstadosDropDownList();
             PopularDadosDropDownList();
-
+            ViewBag.Contratos = SessionUsuario.EmpresaLogada.Contratos;
             return View();
         }
 
@@ -131,7 +132,6 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             try
             {
                 // TODO: Add delete logic here
-
                 return RedirectToAction("Index");
             }
             catch
@@ -139,6 +139,16 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                 return View();
             }
         }
+
+
+
+        [HttpPost]
+        public ActionResult AdicionarContrato()
+        {
+
+            return View();
+        }
+
 
         #region Métodos internos carregar componentes
 

@@ -96,7 +96,9 @@ namespace IMOD.PreCredenciamentoWeb.Models
 
         public bool Estrangeiro { get; set; }
 
-       //public IEnumerable<Estados> Estados { get; set; }
+        //public IEnumerable<Estados> Estados { get; set; }
+        [Display(Name = "Constrato Empresa")]
+        public string ContratoEmpresaID { get; set; }
 
         #endregion
     }
