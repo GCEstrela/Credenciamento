@@ -164,7 +164,7 @@
 
                             <TextBox  x:Name="NumeroColete_tb" HorizontalContentAlignment="Center" MaxLength="4" Margin="1,0,0,0"
                                       Text="{Binding Entity.NumeroColete,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
-                                      IsEnabled="{Binding IsEnableColete}"
+                                      IsEnabled="{Binding ImprimirCommand}"
                                        
                                       CharacterCasing="Upper" Height="24"  Width="58"/>
 
@@ -361,7 +361,8 @@
                             IsEnabled="{Binding Comportamento.IsEnableEditar}"          Command="{Binding PrepareAlterarCommand}"/>
 
                     <Button x:Name="btnExcluir" Content="{StaticResource imgRemove}"    ToolTip="Remover" Width="25" Margin="0,0,0,7"
-                            IsEnabled="{Binding Comportamento.isEnableRemover}"         Command="{Binding PrepareRemoverCommand}" />
+                            IsEnabled="{Binding Comportamento.isEnableRemover}"         Command="{Binding PrepareRemoverCommand}" 
+                            Visibility="{Binding ExcluirVisivel}"/>
 
                     <Button x:Name="btnCancelar" Content="{StaticResource imgCancel}"   ToolTip="Cancelar" Width="25" Margin="0,0,0,7"
                             IsEnabled="{Binding Comportamento.isEnableCancelar}"        Command="{Binding PrepareCancelarCommand}"  />

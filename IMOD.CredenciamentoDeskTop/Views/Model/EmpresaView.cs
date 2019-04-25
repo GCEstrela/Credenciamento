@@ -58,7 +58,7 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public bool Pendente15 { get; set; }
         public bool Pendente16 { get; set; }
         public bool Pendente17 { get; set; }
-        [Required(ErrorMessage = "A Gigla é requerida.")]
+        //[Required(ErrorMessage = "A Gigla é requerida.")]
         public string Sigla { get; set; }       
         public int TotalPermanente { get; set; }
         public int TotalTemporaria { get; set; }

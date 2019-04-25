@@ -81,6 +81,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         ///     Habilitar Controles
         /// </summary>
         public bool Habilitar { get; set; }
+        public string ExcluirVisivel { get; set; }
 
         public CredencialStatus StatusCredencial { get; set; }
         public List<CredencialStatus> CredencialStatus { get; set; }
@@ -147,7 +148,15 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         public ColaboradoresCredenciaisViewModel()
         {
-
+            if (!UsuarioLogado.Adm)
+            {
+                ExcluirVisivel = "Collapsed";
+            }
+            else
+            {
+                ExcluirVisivel = "Visible";
+            }
+            
             ItensDePesquisaConfigura();
             ListarDadosAuxiliares();
             Comportamento = new ComportamentoBasico(false, true, false, false, false);
