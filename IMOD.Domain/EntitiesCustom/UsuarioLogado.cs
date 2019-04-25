@@ -13,7 +13,7 @@ namespace IMOD.Domain.EntitiesCustom
         public static string Nome { get; set; }
         public static string Email { get; set; }
         public static string Identificador { get; set; }
-
+        public static bool Adm { get; set; }
         #endregion
     }
 }
