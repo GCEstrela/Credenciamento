@@ -946,9 +946,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 lst.Add(c1); 
                 relatorio.SetDataSource(lst); 
 
-                var objCode = new QrCode();
-                var pathImagem = objCode.GerarQrCode("www.grupoestrela.com", "QrCode" + c1.ColaboradorCredencialID.ToString()); 
-                relatorio.SetParameterValue("PathImgQrCode", pathImagem);
+                var objCode = new QrCode(); 
+                var pathImagem = objCode.GerarQrCode("www.grupoestrela.com", "QrCodeCredencial" + c1.ColaboradorCredencialID.ToString()+".png");
+                relatorio.SetParameterValue("PathImgQrCode", pathImagem); 
 
                 //IDENTIFICACAO
                 var popupCredencial = new PopupCredencial(relatorio, _service, Entity, layoutCracha);

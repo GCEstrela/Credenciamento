@@ -19,6 +19,7 @@ using AutoMapper;
 using IMOD.Application.Interfaces;
 using IMOD.Application.Service;
 using IMOD.CredenciamentoDeskTop.Enums;
+using IMOD.CredenciamentoDeskTop.Funcoes;
 using IMOD.CredenciamentoDeskTop.Helpers;
 using IMOD.CredenciamentoDeskTop.Modulo;
 using IMOD.CredenciamentoDeskTop.ViewModels.Commands;
@@ -125,7 +126,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         public VeiculosCredenciaisViewModel()
         {
-            ItensDePesquisaConfigura();
+            //ItensDePesquisaConfigura();
             ListarDadosAuxiliares();
             Comportamento = new ComportamentoBasico(false, true, false, false, false);
             EntityObserver = new ObservableCollection<VeiculosCredenciaisView>();
@@ -321,16 +322,16 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             lst2.ForEach(n => { VeiculosEmpresas.Add(n); });
         }
 
-        /// <summary>
-        ///     Relação dos itens de pesauisa
-        /// </summary>
-        private void ItensDePesquisaConfigura()
-        {
-            ListaPesquisa = new List<KeyValuePair<int, string>>();
-            ListaPesquisa.Add (new KeyValuePair<int, string> (1, "Nome"));
-            ListaPesquisa.Add (new KeyValuePair<int, string> (2, "CPF"));
-            PesquisarPor = ListaPesquisa[0]; //Pesquisa Default
-        }
+        ///// <summary>
+        /////     Relação dos itens de pesauisa
+        ///// </summary>
+        //private void ItensDePesquisaConfigura()
+        //{
+        //    ListaPesquisa = new List<KeyValuePair<int, string>>();
+        //    ListaPesquisa.Add (new KeyValuePair<int, string> (1, "Nome"));
+        //    ListaPesquisa.Add (new KeyValuePair<int, string> (2, "CPF"));
+        //    PesquisarPor = ListaPesquisa[0]; //Pesquisa Default
+        //}
 
         /// <summary>
         ///     Acionado antes de remover
@@ -618,6 +619,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 lst.Add (AutorizacaoMapeada);
 
                 relatorio.SetDataSource (lst);
+
+                var objCode = new QrCode();
+                var pathImagem = objCode.GerarQrCode("www.grupoestrela.com", "QrCodeAutorizacao" + AutorizacaoMapeada.VeiculoCredencialId.ToString() + ".png");
+                relatorio.SetParameterValue("PathImgQrCode", pathImagem);
+
                 var popupCredencial = new PopupAutorizacao (relatorio, _service, Entity, layoutCracha);
                 popupCredencial.ShowDialog();
 

@@ -199,6 +199,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             ListaPesquisa = new List<KeyValuePair<int, string>>();
             ListaPesquisa.Add (new KeyValuePair<int, string> (1, "Identificador"));
             ListaPesquisa.Add (new KeyValuePair<int, string> (2, "Série"));
+            ListaPesquisa.Add(new KeyValuePair<int, string>(3, "Descrição"));
             PesquisarPor = ListaPesquisa[0]; //Pesquisa Default
         }
 
@@ -387,6 +388,13 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     if (string.IsNullOrWhiteSpace (pesquisa)) return; 
                     var lstEquipamento = _service.Listar (null, null, null, $"%{pesquisa}%", $"%{tipoVeiculoEquipamento}%"); 
                     PopularObserver (lstEquipamento);
+                }
+                //Por Descrição
+                if (num.Key == 3)
+                {
+                    if (string.IsNullOrWhiteSpace(pesquisa)) return;
+                    var l1 = _service.Listar($"%{pesquisa}%", null, null, null, $"%{tipoVeiculoEquipamento}%");
+                    PopularObserver(l1);
                 }
 
                 IsEnableLstView = true;
