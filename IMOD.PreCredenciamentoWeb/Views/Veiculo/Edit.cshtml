@@ -1,0 +1,385 @@
+﻿@model IMOD.PreCredenciamentoWeb.Models.VeiculoViewModel
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>Veiculo</h3>
+@using (Html.BeginForm("Edit", "Veiculo", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <img src="~/images/Veiculo.png" width="60" height="50" class="img-rounded" />
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <fieldset>
+            <legend>Identificação</legend>
+            <div class="form-group">
+                @Html.LabelFor(model => model.TipoEquipamentoVeiculoId, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <div class="checkbox">
+                        @Html.EditorFor(model => model.TipoEquipamentoVeiculoId)
+                        @Html.ValidationMessageFor(model => model.TipoEquipamentoVeiculoId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Descricao, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Descricao, new { htmlAttributes = new { @class = "form-control text-uppercase text-uppercase" } })
+                    @Html.ValidationMessageFor(model => model.Descricao, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.PlacaIdentificador, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.PlacaIdentificador, new { htmlAttributes = new { @class = "form-control text-uppercase text-uppercase" } })
+                    @Html.ValidationMessageFor(model => model.PlacaIdentificador, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.SerieChassi, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.SerieChassi, new { htmlAttributes = new { @class = "form-control text-uppercase text-uppercase" } })
+                    @Html.ValidationMessageFor(model => model.SerieChassi, "Serie/Chassi", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Frota, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Frota, new { htmlAttributes = new { @class = "form-control text-uppercase text-uppercase" } })
+                    @Html.ValidationMessageFor(model => model.Frota, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Patrimonio, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Patrimonio, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                    @Html.ValidationMessageFor(model => model.Patrimonio, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Marca, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Marca, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                    @Html.ValidationMessageFor(model => model.Marca, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Modelo, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Modelo, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                    @Html.ValidationMessageFor(model => model.Modelo, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>Especificações</legend>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Tipo, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Tipo, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                    @Html.ValidationMessageFor(model => model.Tipo, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Ano, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Ano, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                    @Html.ValidationMessageFor(model => model.Ano, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.CombustivelId, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.CombustivelId, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                    @Html.ValidationMessageFor(model => model.CombustivelId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Altura, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Altura, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                    @Html.ValidationMessageFor(model => model.Altura, "Altura(cm)", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Comprimento, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Comprimento, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                    @Html.ValidationMessageFor(model => model.Comprimento, "Comprimento(cm)", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Largura, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Largura, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                    @Html.ValidationMessageFor(model => model.Largura, "Largura(cm)", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Cor, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Cor, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                    @Html.ValidationMessageFor(model => model.Cor, "Largura(cm)", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div div class="form-group">
+                @Html.LabelFor(model => model.EstadoId, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.EstadoId, ((IEnumerable<IMOD.Domain.Entities.Estados>)ViewBag.Estados).Select(option => new SelectListItem {
+                        Text = option.Nome,
+                        Value = option.EstadoId.ToString(),
+                        Selected = (Model != null) && (option.EstadoId == Model.EstadoId)
+                        }), "Selecione", new { @class = "form-control text-uppercase" })
+                    @Html.ValidationMessageFor(model => model.EstadoId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </fieldset>
+
+        <fieldset>
+            @*<legend>Contatos</legend>
+            <div class="form-group">
+                @Html.LabelFor(model => model.TelefoneFixo, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.TelefoneFixo, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                    @Html.ValidationMessageFor(model => model.TelefoneFixo, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.TelefoneCelular, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.TelefoneCelular, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                    @Html.ValidationMessageFor(model => model.TelefoneCelular, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ContatoEmergencia, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.ContatoEmergencia, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                    @Html.ValidationMessageFor(model => model.ContatoEmergencia, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.TelefoneEmergencia, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.TelefoneEmergencia, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                    @Html.ValidationMessageFor(model => model.TelefoneEmergencia, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+        </fieldset>
+
+        <fieldset>
+            @*<legend>Registro</legend>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Rg, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Rg, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                    @Html.ValidationMessageFor(model => model.Rg, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.RgEmissao, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.RgEmissao, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                    @Html.ValidationMessageFor(model => model.RgEmissao, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.RgOrgLocal, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.RgOrgLocal, ((IEnumerable<SelectListItem>)ViewBag.OrgaoEmissorRG).Select(option => new SelectListItem {
+                     Text = option.Text,
+                     Value = option.Text,
+                     Selected = (Model != null) && (option.Text == Model.RgOrgLocal)
+                     }), "Selecione", new { @class = "form-control text-uppercase" })
+
+                    @Html.ValidationMessageFor(model => model.RgOrgLocal, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.RgOrgUf, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.RgOrgUf, ((IEnumerable<IMOD.Domain.Entities.Estados>)ViewBag.UfRg).Select(option => new SelectListItem {
+                        Text = option.Uf,
+                        Value = option.Uf,
+                        Selected = (Model != null) && (option.Uf == Model.RgOrgUf)
+                        }), "Selecione", new { @class = "form-control text-uppercase" })
+                    @Html.ValidationMessageFor(model => model.RgOrgUf, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Rne, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Rne, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                    @Html.ValidationMessageFor(model => model.Rne, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Passaporte, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Passaporte, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                    @Html.ValidationMessageFor(model => model.Passaporte, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.PassaporteValidade, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.PassaporteValidade, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                    @Html.ValidationMessageFor(model => model.PassaporteValidade, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.DataNascimento, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.DataNascimento, new { htmlAttributes = new { @class = "datepicker123 form-control  text-uppercase" } })
+                    @Html.ValidationMessageFor(model => model.DataNascimento, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Nacionalidade, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Nacionalidade, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                    @Html.ValidationMessageFor(model => model.Nacionalidade, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.EstadoCivil, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.EstadoCivil, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                    @Html.ValidationMessageFor(model => model.EstadoCivil, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+
+        </fieldset>
+
+        <fieldset>
+            <legend>CNH</legend>
+            @*<div class="form-group">
+                @Html.LabelFor(model => model.Motorista, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <div class="checkbox">
+                        @Html.EditorFor(model => model.Motorista)
+                        @Html.ValidationMessageFor(model => model.Motorista, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.CnhCategoria, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.CnhCategoria, ((IEnumerable<SelectListItem>)ViewBag.CategoriaCnh).Select(option => new SelectListItem {
+                     Text = option.Text,
+                     Value = option.Value,
+                     Selected = (Model != null) && (option.Value == Model.CnhCategoria)
+                     }), "Selecione", new { @class = "form-control text-uppercase" })
+                    @Html.ValidationMessageFor(model => model.CnhCategoria, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Cnh, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Cnh, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                    @Html.ValidationMessageFor(model => model.Cnh, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.CnhValidade, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.CnhValidade, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                    @Html.ValidationMessageFor(model => model.CnhValidade, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+
+            @*<div class="form-group">
+                    @Html.LabelFor(model => model.CnhEmissor, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.CnhEmissor, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                        @Html.ValidationMessageFor(model => model.CnhEmissor, "", new { @class = "text-danger" })
+                    </div>
+                </div>*@
+
+            @*<div class="form-group">
+                @Html.LabelFor(model => model.Cnhuf, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.Cnhuf, ((IEnumerable<IMOD.Domain.Entities.Estados>)ViewBag.UfRg).Select(option => new SelectListItem {
+                        Text = option.Uf,
+                        Value = option.Uf,
+                        Selected = (Model != null) && (option.Uf == Model.Cnhuf)
+                        }), "Selecione", new { @class = "form-control text-uppercase" })
+                    @Html.ValidationMessageFor(model => model.Cnhuf, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.DataEmissao, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.DataEmissao, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                    @Html.ValidationMessageFor(model => model.DataEmissao, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.DataValidade, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.DataValidade, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                    @Html.ValidationMessageFor(model => model.DataValidade, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+        </fieldset>
+
+        @*<div class="form-group">
+                @Html.LabelFor(model => model.Foto, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Foto, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                    @Html.ValidationMessageFor(model => model.Foto, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Salvar" class="btn btn-success" />
+                @Html.ActionLink("Cancelar", "Index", null, new { @class = "btn btn-danger" })
+            </div>
+        </div>
+
+    </div>
+}
+
+    <div>
+        @Html.ActionLink("Retornar à Lista", "Index")
+    </div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        $(function () { // will trigger when the document is ready
+            $('.datepickerData').datepicker(); //Initialise any date pickers
+        });
+    </script>
+}
