@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using IMOD.Domain.Entities;
 using IMOD.PreCredenciamentoWeb.Models;
+using IMOD.PreCredenciamentoWeb.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,16 +17,26 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         private readonly IMOD.Application.Interfaces.IDadosAuxiliaresFacade objAuxiliaresService = new IMOD.Application.Service.DadosAuxiliaresFacadeService();
         private readonly IMOD.Application.Interfaces.IEmpresaContratosService objContratosService = new IMOD.Application.Service.EmpresaContratoService();
         private readonly IMOD.Application.Interfaces.IVeiculoEmpresaService objVeiculoEmpresaService = new IMOD.Application.Service.VeiculoEmpresaService();
+        private List<Veiculo> veiculos = new List<Veiculo>();
+        private List<VeiculoEmpresa> vinculos = new List<VeiculoEmpresa>();
 
         // GET: Veiculo
         public ActionResult Index()
         {
-            var lstVeiculo = objService.Listar(null, null, string.Empty);
-            List<VeiculoViewModel> lstVeiculoMapeado = Mapper.Map<List<VeiculoViewModel>>(lstVeiculo);
-
+            //var lstVeiculo = objService.Listar(null, null, string.Empty);
+            //List<VeiculoViewModel> lstVeiculoMapeado = Mapper.Map<List<VeiculoViewModel>>(lstVeiculo);
+            List<VeiculoViewModel> lstVeiculoMapeado = Mapper.Map<List<VeiculoViewModel>>(ObterVeiculossEmpresaLogada());
+            ViewBag.Contratos = SessionUsuario.EmpresaLogada.Contratos;
             return View(lstVeiculoMapeado); 
-        }
 
+        }
+        private IList<Veiculo> ObterVeiculossEmpresaLogada()
+        {
+            vinculos = objVeiculoEmpresaService.Listar(null, null, null, null, null, SessionUsuario.EmpresaLogada.Codigo).ToList();
+            vinculos.ForEach(v => { veiculos.AddRange(objService.Listar(null,null,null,null,null,v.VeiculoId)); });
+
+            return veiculos.OrderBy(c => c.Descricao).ToList();
+        }
         // GET: Veiculo/Details/5
         public ActionResult Details(int id)
         {
