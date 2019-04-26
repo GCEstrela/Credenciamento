@@ -76,7 +76,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         // GET: Veiculo/Edit/5
         public ActionResult Edit(int ? id)
         {
-            var veiculoEditado = objService.Listar(id).FirstOrDefault();
+            var veiculoEditado = objService.Listar(null,null,null,null,null,id).FirstOrDefault();
             if (veiculoEditado == null)
                 return HttpNotFound();
 
@@ -91,17 +91,20 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
         // POST: Veiculo/Edit/5
         [HttpPost]
-        public ActionResult Edit(int? id, ColaboradorViewModel model)
+        public ActionResult Edit(int? id, VeiculoViewModel model)
         {
             try
             {
                 if (id == null)
                     return HttpNotFound();
-
+                var idVeiculo = id;
                 // TODO: Add update logic here
                 if (ModelState.IsValid)
                 {
-                    var veiculoMapeado = Mapper.Map<Veiculo>(model); 
+                    //model.EquipamentoVeiculoId = id;
+
+                    var veiculoMapeado = Mapper.Map<Veiculo>(model);
+                    veiculoMapeado.EquipamentoVeiculoId = Convert.ToInt32(idVeiculo);
                     objService.Alterar(veiculoMapeado);
 
                     return RedirectToAction("Index");
