@@ -24,7 +24,6 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         public ActionResult Index()
         {
             List<ColaboradorViewModel> lstColaboradorMapeado = Mapper.Map<List<ColaboradorViewModel>>(ObterColaboradoresEmpresaLogada());
-            ViewBag.Contratos = SessionUsuario.EmpresaLogada.Contratos;
             return View(lstColaboradorMapeado);
         }
 
@@ -36,7 +35,6 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             return colaboradores.OrderBy(c => c.Nome).ToList();
         }
 
-
         // GET: Colaborador/Details/5
         public ActionResult Details(int id)
         {
@@ -47,8 +45,9 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         public ActionResult Create()
         {
             PopularEstadosDropDownList();
-            PopularDadosDropDownList();
-            ViewBag.Contratos = SessionUsuario.EmpresaLogada.Contratos;
+            PopularDadosDropDownList();            
+            ViewBag.Contratos = SessionUsuario.EmpresaLogada.Contratos;            
+            ViewBag.ContratosSelecionados = SessionUsuario.EmpresaLogada.Contratos;
             return View();
         }
 
@@ -139,13 +138,17 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                 return View();
             }
         }
-
-
-
-        [HttpPost]
-        public ActionResult AdicionarContrato()
-        {
-
+        
+        public ActionResult AdicionarContrato(int id)
+        {            
+            ViewBag.ContratosSelecionados = new List<EmpresaContrato>();
+            if (TempData["ContratosSelecionados"] != null)
+            {
+                ViewBag.ContratosSelecionados = TempData["ContratosSelecionados"];
+            }
+            var item = SessionUsuario.EmpresaLogada.Contratos.Where(c => c.EmpresaContratoId == id).FirstOrDefault();
+            ((List<EmpresaContrato>)ViewBag.ContratosSelecionados).Add(item);
+            TempData["ContratosSelecionados"] = ViewBag.ContratosSelecionados;            
             return View();
         }
 
