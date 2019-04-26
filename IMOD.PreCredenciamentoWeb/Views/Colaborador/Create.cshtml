@@ -21,7 +21,7 @@
                 </div>
             </div>
         </div>
-        <div class="form-horizontal">
+        <fieldset class="form-horizontal">
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
             <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -50,7 +50,7 @@
                        aria-selected="false">Vínculo</a>
                 </li>
             </ul>
-            
+
             <div class="tab-content" id="myTabContent">
                 <div class=" tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">
                     <br />
@@ -66,7 +66,7 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.Cpf, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            @Html.EditorFor(model => model.Cpf, new { htmlAttributes = new { @class = "form-control", @id="cpf" } })
+                            @Html.EditorFor(model => model.Cpf, new { htmlAttributes = new { @class = "form-control", @id = "cpf" } })
                             @Html.ValidationMessageFor(model => model.Cpf, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -103,8 +103,8 @@
                     <br />
                     <div class="form-group">
                         @Html.LabelFor(model => model.Cep, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">                            
-                            @Html.EditorFor(model => model.Cep,new { htmlAttributes = new { @class = "form-control" , @id="cep" } })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Cep, new { htmlAttributes = new { @class = "form-control", @id = "cep" } })
                             @Html.ValidationMessageFor(model => model.Cep, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -343,42 +343,68 @@
                 </div>
                 <div class="tab-pane fade" id="vinculo" role="tabpanel" aria-labelledby="vinculo-tab">
                     <br />
-                    <div div class="form-group">                        
-                            @Html.LabelFor(model => model.ContratoEmpresaID, htmlAttributes: new { @class = "control-label col-md-2" })                        
+                    <div div class="form-group">
+                        @Html.LabelFor(model => model.ContratoEmpresaID, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-lg-3">
                             @Html.DropDownListFor(model => model.ContratoEmpresaID, ((IEnumerable<IMOD.Domain.Entities.EmpresaContrato>)ViewBag.Contratos).Select(option => new SelectListItem
                        {
                            Text = option.Descricao,
                            Value = option.EmpresaContratoId.ToString(),
                            Selected = (Model != null) && (option.EmpresaContratoId.ToString() == Model.ContratoEmpresaID)
-                       }), "Selecione", new { @class = "form-control text-uppercase" })
+                       }), "Selecione", new { @class = "form-control text-uppercase" , @id="ddlContrato" })
                             @Html.ValidationMessageFor(model => model.EstadoId, "", new { @class = "text-danger" })
                         </div>
                         <div class="col-lg-7">
-                            <a href="@Url.Action("AdicionarContrato")" title="Vincular Contrato">
+                            @*//href="@Url.Action("AdicionarContrato")"*@
+                            <a title="Vincular Contrato" id="btContrato" href="#">
                                 <i class="material-icons">&#xE147;</i>
                             </a>
                         </div>
                     </div>
-
+                    <br />
+                    <fieldset>
+                        <legend> Contratos Selecionados</legend>
+                        @foreach (var item in ((IEnumerable<IMOD.Domain.Entities.EmpresaContrato>)ViewBag.ContratosSelecionados))
+                        {
+                            <div class="form-group">
+                                <div class="col-lg-2">@item.NumeroContrato</div>
+                                <div class="col-lg-4">@item.Descricao</div>
+                                <div class="col-lg-1">
+                                    <a href="@Url.Action("RemoverContrato")" title="Vincular Contrato">
+                                        <i class="material-icons danger">&#xE15C;</i>
+                                    </a>
+                                </div>
+                            </div>
+                        }
+                    </fieldset>
                 </div>
             </div>
-        </div>
-
-
+        </fieldset>
     </div>
 }
-@*@section Scripts {
+
+
+
+@section Scripts {
     <script>
         $(document).ready(function () {
-            $("#telefone").inputmask("mask", { "mask": "(99) 9999-99999" });
-            $("#cpf").inputmask("mask", { "mask": "999.999.999-99" }, { reverse: true });
-            $("#cep").inputmask("mask", { "mask": "99999-999" });
-            $("#nascimento").inputmask("mask", { "mask": "99/99/9999" });
-            $("#preco").inputmask("mask", { "mask": "999.999,99" }, { reverse: true });
-            $("#valor").inputmask("mask", { "mask": "#.##9,99" }, { reverse: true });
-            $("#ip").inputmask("mask", { "mask": "999.999.999.999" });
+            $("#btContrato").click(function()
+            {
+                var id = $("#ddlContrato").val();
+               console.log(cep);
+               $.ajax({
+                   type: "POST",
+                   url: '@Url.Action("AdicionarContrato")',
+                   data: { id: id },
+                   success: function (result) {
+                       console.log(result);
+                   },
+                   error: function (result) {
+
+                   }
+                });
+            });
         });
     </script>
-    }*@
+}
 
