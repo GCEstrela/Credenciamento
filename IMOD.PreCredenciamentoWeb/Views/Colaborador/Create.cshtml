@@ -346,23 +346,18 @@
                     <div div class="form-group">
                         @Html.LabelFor(model => model.ContratoEmpresaID, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-lg-3">
-                            @Html.DropDownListFor(model => model.ContratoEmpresaID, ((IEnumerable<IMOD.Domain.Entities.EmpresaContrato>)ViewBag.Contratos).Select(option => new SelectListItem
-                       {
-                           Text = option.Descricao,
-                           Value = option.EmpresaContratoId.ToString(),
-                           Selected = (Model != null) && (option.EmpresaContratoId.ToString() == Model.ContratoEmpresaID)
-                       }), "Selecione", new { @class = "form-control text-uppercase" , @id="ddlContrato" })
-                            @Html.ValidationMessageFor(model => model.EstadoId, "", new { @class = "text-danger" })
+                            @Html.DropDownList("EmpresaContratoId", (MultiSelectList)ViewBag.ContratoEmpresa, new { multiple = "multiple" })
+
                         </div>
                         <div class="col-lg-7">
                             @*//href="@Url.Action("AdicionarContrato")"*@
-                            <a title="Vincular Contrato" id="btContrato" href="#">
+                            @*<a title="Vincular Contrato" id="btContrato" href="#">
                                 <i class="material-icons">&#xE147;</i>
-                            </a>
+                            </a>*@
                         </div>
                     </div>
                     <br />
-                    <fieldset>
+                    @*<fieldset>
                         <legend> Contratos Selecionados</legend>
                         @foreach (var item in ((IEnumerable<IMOD.Domain.Entities.EmpresaContrato>)ViewBag.ContratosSelecionados))
                         {
@@ -376,7 +371,7 @@
                                 </div>
                             </div>
                         }
-                    </fieldset>
+                    </fieldset>*@
                 </div>
             </div>
         </fieldset>

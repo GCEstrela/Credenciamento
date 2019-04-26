@@ -51,7 +51,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             PopularEstadosDropDownList();
             PopularDadosDropDownList();
 
-            PopularContratoCreateDropDownList(6476);
+            PopularContratoCreateDropDownList(SessionUsuario.EmpresaLogada.Codigo);
 
             return View();
         }
@@ -99,7 +99,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
             PopularEstadosDropDownList(); 
             PopularDadosDropDownList(); 
-            PopularContratoEditDropDownList(veiculoMapeado, 6476);
+            PopularContratoEditDropDownList(veiculoMapeado, SessionUsuario.EmpresaLogada.Codigo);
 
             return View(veiculoMapeado); 
         }
@@ -226,7 +226,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             if (idEmpresa <= 0) return;
 
             var contratoEmpresa = objContratosService.Listar(idEmpresa);
-            ViewBag.ContratoEmpresa = contratoEmpresa;
+            ViewBag.ContratoEmpresa = new MultiSelectList(contratoEmpresa, "EmpresaContratoId", "Descricao");
         }
 
         private void PopularContratoEditDropDownList(VeiculoViewModel veiculo, int idEmpresa)
