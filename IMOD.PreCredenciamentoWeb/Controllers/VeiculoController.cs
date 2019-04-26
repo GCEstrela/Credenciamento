@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Windows.Forms;
 
 namespace IMOD.PreCredenciamentoWeb.Controllers
 {
@@ -140,19 +141,25 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                 if (id == null)
                     return HttpNotFound();
                 var idVeiculo = id;
-                // TODO: Add update logic here
-                //if (ModelState.IsValid)
-                //{
-                    //model.EquipamentoVeiculoId = id;
 
+                // Initializes the variables to pass to the MessageBox.Show method.
+                string message = "Confirma a Deleção desse registro?";
+                string caption = "Deleção de Veiculo/Equipamento";
+                MessageBoxButtons buttons = MessageBoxButtons.YesNo;
+                DialogResult result;
+
+                // Displays the MessageBox.
+                result = MessageBox.Show(message, caption, buttons);
+                if (result == System.Windows.Forms.DialogResult.Yes)
+                {
                     var veiculoMapeado = Mapper.Map<Veiculo>(model);
                     veiculoMapeado.EquipamentoVeiculoId = Convert.ToInt32(idVeiculo);
                     objService.Remover(veiculoMapeado);
 
                     return RedirectToAction("Index");
-                //}
+                }
 
-                //return RedirectToAction("Index");
+                return RedirectToAction("Index");
             }
             catch (Exception ex)
             {
@@ -162,7 +169,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
         // POST: Veiculo/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(int id, System.Web.Mvc.FormCollection collection)
         {
             try
             {
