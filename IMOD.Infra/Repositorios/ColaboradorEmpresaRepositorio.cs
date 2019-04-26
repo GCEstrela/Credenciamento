@@ -147,7 +147,7 @@ namespace IMOD.Infra.Repositorios
         /// Criar numero de matricula
         /// </summary>
         /// <param name="entity"></param>
-        private void CriarNumeroMatricula(ColaboradorEmpresa entity)
+        public void CriarNumeroMatricula(ColaboradorEmpresa entity)
         {
             
             var data = DateTime.Now.ToString("yy");

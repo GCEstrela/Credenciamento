@@ -18,6 +18,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         private readonly IMOD.Application.Interfaces.IDadosAuxiliaresFacade objAuxiliaresService = new IMOD.Application.Service.DadosAuxiliaresFacadeService();
         private readonly IMOD.Application.Interfaces.IEmpresaContratosService objContratosService = new IMOD.Application.Service.EmpresaContratoService();
         private readonly IMOD.Application.Interfaces.IColaboradorEmpresaService objColaboradorEmpresaService = new ColaboradorEmpresaService();
+
         private List<Colaborador> colaboradores = new List<Colaborador>();
         private List<ColaboradorEmpresa> vinculos = new List<ColaboradorEmpresa>();
 
@@ -45,15 +46,14 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         public ActionResult Create()
         {
             PopularEstadosDropDownList();
-            PopularDadosDropDownList();            
-            ViewBag.Contratos = SessionUsuario.EmpresaLogada.Contratos;            
-            ViewBag.ContratosSelecionados = SessionUsuario.EmpresaLogada.Contratos;
+            PopularDadosDropDownList();
+            PopularContratoCreateDropDownList(SessionUsuario.EmpresaLogada.Codigo);
             return View();
         }
 
         [HttpPost]
         //[ValidateAntiForgeryToken]
-        public ActionResult Create(ColaboradorViewModel model)
+        public ActionResult Create(ColaboradorViewModel model, int[] EmpresaContratoId)
         {
             try
             {
@@ -62,6 +62,16 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                     var colaboradorMapeado = Mapper.Map<Colaborador>(model);
                     objService.Criar(colaboradorMapeado);
 
+                    foreach (int contratoEmpresaId in EmpresaContratoId) {
+                        // Inclusão do vinculo
+                        ColaboradorEmpresa colaboradorEmpresa = new ColaboradorEmpresa();
+                        colaboradorEmpresa.ColaboradorId = colaboradorMapeado.ColaboradorId;
+                        colaboradorEmpresa.EmpresaContratoId = Convert.ToInt32(contratoEmpresaId);
+                        colaboradorEmpresa.Ativo = true;
+                        colaboradorEmpresa.EmpresaId = SessionUsuario.EmpresaLogada.Codigo;
+                        objColaboradorEmpresaService.Criar(colaboradorEmpresa);
+                        objColaboradorEmpresaService.CriarNumeroMatricula(colaboradorEmpresa);
+                    }
                     return RedirectToAction("Index", "Colaborador");
                 }
 
@@ -204,6 +214,15 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
             var contrato = objColaboradorEmpresaService.Listar(null, null, null, 12);
 
+        }
+
+
+        private void PopularContratoCreateDropDownList(int idEmpresa)
+        {
+            if (idEmpresa <= 0) return;
+
+            var contratoEmpresa = objContratosService.Listar(idEmpresa);
+            ViewBag.ContratoEmpresa = new MultiSelectList(contratoEmpresa, "EmpresaContratoId", "Descricao");            
         }
 
         #endregion
