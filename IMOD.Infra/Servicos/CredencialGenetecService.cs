@@ -357,7 +357,7 @@ namespace IMOD.Infra.Servicos
                 //if (cardHolderGroup == null) throw new InvalidOperationException ("Não foi possível gerar grupo de credencial");
                 if (cardHolderGroup != null)
                     cardHolder.Groups.Add(cardHolderGroup.Guid);
-
+                //cardHolder.Synchronised = false;
                 cardHolder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade);
 
                 _sdk.TransactionManager.CommitTransaction();

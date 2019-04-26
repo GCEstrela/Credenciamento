@@ -102,7 +102,14 @@ namespace IMOD.Application.Service
         {
             return _repositorio.ListarView (objects);
         }
-
+        /// <summary>
+        /// Criar numero de matricula
+        /// </summary>
+        /// <param name="entity"></param>
+        public void CriarNumeroMatricula(ColaboradorEmpresa entity)
+        {
+            _repositorio.CriarNumeroMatricula(entity);
+        }
         #endregion
     }
 }
