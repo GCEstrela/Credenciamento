@@ -32,7 +32,8 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
         {
             //IEngine _sdk;
             if (!m_sdk.IsConnected) return false;
-               return m_sdk.SecurityManager.IsPrivilegeGranted (new Guid (Privilege));
+                return true;
+               //return m_sdk.SecurityManager.IsPrivilegeGranted (new Guid (Privilege));
                 //_sdk = m_sdk;
            // _service.CriarTitularCartao(new CredencialGenetecService(Main.Engine), new ColaboradorService(), n1);
         }

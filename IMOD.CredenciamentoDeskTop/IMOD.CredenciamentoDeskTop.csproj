@@ -107,6 +107,12 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cracha\FraportAutorizacao.cs">
+      <SubType>Component</SubType>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FraportAutorizacao.rpt</DependentUpon>
+    </Compile>
     <Compile Include="Cracha\FraportCredencialAmarelo.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -954,6 +960,10 @@
     <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Cracha\FraportAutorizacao.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>FraportAutorizacao.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Cracha\FraportCredencialAmarelo.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>FraportCredencialAmarelo.cs</LastGenOutput>
