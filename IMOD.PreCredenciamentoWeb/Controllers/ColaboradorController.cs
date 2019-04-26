@@ -88,7 +88,8 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             ColaboradorViewModel colaboradorMapeado = Mapper.Map<ColaboradorViewModel>(colaboradorEditado);
             PopularEstadosDropDownList();
             PopularDadosDropDownList();
-
+            ViewBag.Contratos = SessionUsuario.EmpresaLogada.Contratos;
+            ViewBag.ContratosSelecionados = SessionUsuario.EmpresaLogada.Contratos;
             return View(colaboradorMapeado);
         }
 
