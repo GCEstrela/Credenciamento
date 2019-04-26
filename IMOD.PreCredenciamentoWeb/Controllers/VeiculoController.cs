@@ -133,9 +133,31 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         }
 
         // GET: Veiculo/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete(int id, Veiculo model)
         {
-            return View();
+            try
+            {
+                if (id == null)
+                    return HttpNotFound();
+                var idVeiculo = id;
+                // TODO: Add update logic here
+                //if (ModelState.IsValid)
+                //{
+                    //model.EquipamentoVeiculoId = id;
+
+                    var veiculoMapeado = Mapper.Map<Veiculo>(model);
+                    veiculoMapeado.EquipamentoVeiculoId = Convert.ToInt32(idVeiculo);
+                    objService.Remover(veiculoMapeado);
+
+                    return RedirectToAction("Index");
+                //}
+
+                //return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                return View();
+            }
         }
 
         // POST: Veiculo/Delete/5
