@@ -67,6 +67,9 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                     var veiculoMapeado = Mapper.Map<Veiculo>(model);
                     objService.Criar(veiculoMapeado);
 
+                    var veiculoEmpresa = Mapper.Map<VeiculoEmpresa>(model);
+                    objVeiculoEmpresaService.Criar(veiculoEmpresa);
+
                     return RedirectToAction("Index", "Veiculo");
                 }
 
