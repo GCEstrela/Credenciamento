@@ -304,9 +304,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
         }
 
-        private void PrepareCriar()
+        private void PrepareCriar() 
         {
-            Entity = new VeiculoView();
+            Entity = new VeiculoView(); 
+            Entity.Tipo = "VEICULO";
             Comportamento.PrepareCriar();
             TiposEquipamentoServico.Clear();
             HabilitaControle (false, false);
@@ -377,7 +378,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             try
             {
                 var pesquisa = NomePesquisa;
-                String tipoVeiculoEquipamento = "VEÍCULO";
+                String tipoVeiculoEquipamento = "VEICULO";
                 var num = PesquisarPor;
 
                 //Placa
@@ -443,6 +444,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 WpfHelp.PopupBox ("Selecione um item da lista", 1);
                 return;
             }
+            Entity.Tipo = "VEICULO";
             Comportamento.PrepareAlterar();
             AtualizarDadosTiposServico();
             HabilitaControle (false, false);

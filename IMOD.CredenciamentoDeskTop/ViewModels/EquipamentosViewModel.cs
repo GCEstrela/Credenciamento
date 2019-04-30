@@ -301,6 +301,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private void PrepareCriar()
         {
             Entity = new VeiculoView();
+            Entity.Tipo = "EQUIPAMENTO";
             Comportamento.PrepareCriar();
             TiposEquipamentoServico.Clear();
             HabilitaControle (false, false);
@@ -435,6 +436,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 WpfHelp.PopupBox ("Selecione um item da lista", 1);
                 return;
             }
+            Entity.Tipo = "EQUIPAMENTO";
             Comportamento.PrepareAlterar();
             AtualizarDadosTiposServico();
             HabilitaControle (false, false);
@@ -454,7 +456,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 if (Entity == null) return;
                 if (Validar()) return;
-
                 var n1 = Mapper.Map<Veiculo> (Entity);
                 _service.Criar (n1);
                 //Salvar Tipo de Servico
