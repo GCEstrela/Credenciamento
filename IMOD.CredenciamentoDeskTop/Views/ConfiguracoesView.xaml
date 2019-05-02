@@ -528,7 +528,7 @@
                                                 <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Pasta.ico"/>
                                             </StackPanel>
                                         </Button>
-                                        <Button x:Name="AbrirRelatorio_bt" Height="24" Margin="10,0,0,0" VerticalAlignment="Center" Width="24" Click="AbrirRelatorio_bt_Click" >
+                                        <Button x:Name="AbrirRelatorio_bt" Height="24" Margin="10,0,0,0" VerticalAlignment="Center" Width="24" Click="AbrirRelatorio_bt_Click">
                                             <StackPanel>
                                                 <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Olho.png"/>
                                             </StackPanel>
@@ -581,7 +581,7 @@
                                                 <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Pasta.ico"/>
                                             </StackPanel>
                                         </Button>
-                                        <Button x:Name="AbrirRelatorioGerencial_bt" Height="24" Margin="10,0,0,0" VerticalAlignment="Center" Width="24" Click="AbrirRelatorioGerencial_bt_Click" >
+                                        <Button x:Name="AbrirRelatorioGerencial_bt" Height="24" Margin="10,0,0,0" VerticalAlignment="Center" Width="24" Click="AbrirRelatorioGerencial_bt_Click" Visibility="Hidden" >
                                             <StackPanel>
                                                 <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Olho.png"/>
                                             </StackPanel>
@@ -638,7 +638,7 @@
                                                 <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Pasta.ico"/>
                                             </StackPanel>
                                         </Button>
-                                        <Button x:Name="AbrirCracha_bt" Height="24" Margin="10,0,0,0" VerticalAlignment="Center" Width="24" Click="AbrirCracha_bt_Click" >
+                                        <Button x:Name="AbrirCracha_bt" Height="24" Margin="10,0,0,0" VerticalAlignment="Center" Width="24" Click="AbrirCracha_bt_Click" Visibility="Hidden">
                                             <StackPanel>
                                                 <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Olho.png"/>
                                             </StackPanel>
