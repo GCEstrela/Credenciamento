@@ -82,8 +82,8 @@ namespace IMOD.CredenciamentoDeskTop.Views
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             cmbEmpresaVinculo_cb.SelectionChanged += EmpresaVinculo_cb_SelectionChanged;
+            cmbCredencialStatus.SelectionChanged += OnAlterarStatus_SelectonChanged;
 
-            
         }
          
 
@@ -124,6 +124,12 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 chkDevolucaoMotivo.IsChecked = _viewModel.IsCheckDevolucao;
                 chkDevolucaoMotivo.Visibility = _viewModel.VisibilityCheckDevolucao;
                 chkDevolucaoMotivo.Content = _viewModel.TextCheckDevolucao;
+            }
+
+            if (_viewModel.ColaboradorEmpresa == null) return;
+            if (_viewModel.ColaboradorEmpresa.ColaboradorId > 0 & _viewModel.ColaboradorEmpresa.EmpresaId > 0)
+            {
+                _viewModel.CarregarVinculosAtivosOutrasCredenciais(_viewModel.ColaboradorEmpresa.ColaboradorId, _viewModel.ColaboradorEmpresa.EmpresaId);
             }
         }
 

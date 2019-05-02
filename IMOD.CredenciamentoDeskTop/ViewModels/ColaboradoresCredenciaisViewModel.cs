@@ -1078,6 +1078,31 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
         }
         /// <summary>
+        ///     Carregar Vinculos Ativos do Colaborador
+        /// </summary>
+        public void CarregarVinculosAtivosOutrasCredenciais(int colaboradorId, int empresaId)
+        {
+            try
+            {
+                if (!verificarcredencialAtida) return;
+                if (colaboradorId == 0) return;
+                if (empresaId == 0) return;
+                var n1 = _service.Listar(null, null, null, null, colaboradorId, empresaId, true, null, Entity.ColaboradorCredencialId);
+                if (n1.Count >= 1)
+                {
+                    verificarcredencialAtida = false;
+                    Comportamento.PrepareCancelar();
+                    WpfHelp.Mbox("Já existe credencial ativa para esse contrato.");
+                    return;
+                }
+                verificarcredencialAtida = false;
+            }
+            catch
+            {
+
+            }
+        }
+        /// <summary>
         ///     Validar Regras de Negócio
         /// </summary>
         public bool Validar()
