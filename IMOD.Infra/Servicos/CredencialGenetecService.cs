@@ -518,42 +518,44 @@ namespace IMOD.Infra.Servicos
         ///     <para>Remove Todas as Regras de Acesso de um CardHolder se nao existir</para>
         /// </summary>
         /// <param name="entity"></param>
-        public void RemoveRegraAcesso(CardHolderEntity entity)
+        public string EncontraCredencialPeloNumero(CardHolderEntity entity,string credencialNumero)
         {
 
-            ////var accessRule = GetEntities(entity.Identificacao1.ToString(), EntityType.AccessRule);
-            ////if (accessRule != null)
+            EntityConfigurationQuery query;
+            QueryCompletedEventArgs result;
+            try
+            {
+                var guid = new Guid(entity.IdentificadorCardHolderGuid);
+                var credencial = _sdk.GetEntity(guid) as Credential;
 
-            //EntityConfigurationQuery query;
-            //QueryCompletedEventArgs result;
-            //try
-            //{
-            //    var guid = new Guid(entity.IdentificadorCardHolderGuid);
-            //    var cardHolder = _sdk.GetEntity(guid) as Cardholder;
-
-            //    query = _sdk.ReportManager.CreateReportQuery(ReportType.EntityConfiguration) as EntityConfigurationQuery;
-            //    query.EntityTypeFilter.Add(EntityType.AccessRule);
-            //    query.NameSearchMode = StringSearchMode.StartsWith;
-            //    result = query.Query();
-            //    SystemConfiguration systemConfiguration = _sdk.GetEntity(SdkGuids.SystemConfiguration) as SystemConfiguration;
-            //    var service = systemConfiguration.CustomFieldService;
-            //    if (result.Success)
-            //    {
-            //        _sdk.TransactionManager.CreateTransaction();
-            //        foreach (DataRow dr in result.Data.Rows)    //sempre remove todas as regras de um CardHolder
-            //        {
-            //            AccessRule accesso = _sdk.GetEntity((Guid)dr[0]) as AccessRule;
-            //            accesso.Members.Remove(cardHolder.Guid);
-            //        }
-            //        _sdk.TransactionManager.CommitTransaction();
-            //    }
-
-            //}
-            //catch (Exception ex)
-            //{
-            //    Utils.TraceException(ex);
-            //    throw;
-            //}
+                query = _sdk.ReportManager.CreateReportQuery(ReportType.EntityConfiguration) as EntityConfigurationQuery;
+                query.EntityTypeFilter.Add(EntityType.Credential);
+                query.NameSearchMode = StringSearchMode.StartsWith;
+                result = query.Query();
+                SystemConfiguration systemConfiguration = _sdk.GetEntity(SdkGuids.SystemConfiguration) as SystemConfiguration;
+                var service = systemConfiguration.CustomFieldService;
+                if (result.Success)
+                {
+                    //_sdk.TransactionManager.CreateTransaction();
+                    foreach (DataRow dr in result.Data.Rows)    //sempre remove todas as regras de um CardHolder
+                    {
+                        Credential cred = _sdk.GetEntity((Guid)dr[0]) as Credential;
+                        var numeroCredencial = cred.Name.Split('-');
+                        string number = numeroCredencial[0].ToString();
+                        if (number.Trim() == credencialNumero.Trim())
+                        {
+                            return cred.Guid.ToString();
+                        }
+                    }
+                    //_sdk.TransactionManager.CommitTransaction();
+                }
+                return "";
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+                throw;
+            }
         }
         private QueryCompletedEventArgs GetEntities(string name, AccessRule eType)
         {
@@ -603,6 +605,8 @@ namespace IMOD.Infra.Servicos
                 Credential credencial;
 
                 #region Criar ou obter uma credencial
+                if (entity.IdentificadorCredencialGuid ==null)
+                    entity.IdentificadorCredencialGuid = EncontraCredencialPeloNumero(entity, entity.NumeroCredencial);//Encontra Credencial pelo Numero da Credencial
 
                 if (!string.IsNullOrWhiteSpace(entity.IdentificadorCredencialGuid))
                     credencial = _sdk.GetEntity(new Guid(entity.IdentificadorCredencialGuid)) as Credential;
@@ -625,6 +629,7 @@ namespace IMOD.Infra.Servicos
                 credencial.InsertIntoPartition(Partition.DefaultPartitionGuid);
 
                 //Vincular Credencial ao CardHolder
+                cardHolder.Credentials.Remove(credencial);
                 cardHolder.Credentials.Add(credencial);
                 if (cardHolder.State != CardholderState.Active) //Quando uma creencial é criada o cardholder fica semtre ativo.
                 {

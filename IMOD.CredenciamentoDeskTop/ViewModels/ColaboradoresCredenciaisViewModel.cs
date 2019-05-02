@@ -1086,17 +1086,15 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             Entity.Validate();
             var hasErros = Entity.HasErrors;
 
-            if (Entity.CredencialStatusId == 1)
-            {
-                var _colaborador = _service.Listar(null, null, null, null, Entity.ColaboradorId, null, true);
-                if (_colaborador.Count > 0)
-                {
-                    WpfHelp.Mbox("Já existe uma credencial ATIVA para esse colbaborador. Não é possível continua essa ação.");
-                    return true;
-                }
-            }
-            
-
+            //if (Entity.CredencialStatusId == 1)
+            //{
+            //    var _colaborador = _service.Listar(null, null, null, null, Entity.ColaboradorId, null, true);
+            //    if (_colaborador.Count > 0)
+            //    {
+            //        WpfHelp.Mbox("Já existe uma credencial ATIVA para esse colbaborador. Não é possível continua essa ação.");
+            //        return true;
+            //    }
+            //}
 
             //retirar o espaço entre a numeração obtida do cartão
             if (!string.IsNullOrEmpty(Entity.NumeroContrato))
