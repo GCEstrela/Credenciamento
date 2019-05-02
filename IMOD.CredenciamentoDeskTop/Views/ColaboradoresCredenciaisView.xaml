@@ -88,6 +88,7 @@
                                       DisplayMemberPath="Descricao"
                                       SelectedValue="{Binding Entity.CredencialStatusId, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                                       SelectedValuePath="CredencialStatusId" IsSynchronizedWithCurrentItem="True"
+                                      IsEnabled="{Binding Habilitar}"
                                       RenderTransformOrigin="0.5,0.5">
 
                                 <ComboBox.RenderTransform>
@@ -135,8 +136,7 @@
                                       VerticalContentAlignment="Center" 
                                       HorizontalContentAlignment="Left"
                                       ItemsSource="{Binding TipoCredencial, Mode=TwoWay}" 
-                                      DisplayMemberPath="Descricao"
-                                       
+                                      DisplayMemberPath="Descricao"                                       
                                       SelectedValue="{Binding Entity.TipoCredencialId,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                                       SelectedValuePath="TipoCredencialId" IsSynchronizedWithCurrentItem="True"/>
 
@@ -272,11 +272,11 @@
                             <Label Content="Autorização:" Margin="5,0,10,0" Foreground="#FFD0D0D0"></Label>
                             <CheckBox Name="PF_chek" Content="Policia Federal"       Margin="5,0,0,30"  VerticalContentAlignment="Center"    IsChecked="{Binding Entity.Policiafederal,      UpdateSourceTrigger=PropertyChanged}"   Foreground="#FFD0D0D0"></CheckBox>
                             <CheckBox Name="RF_chek" Content="Refeita Federal"       Margin="15,0,0,30" VerticalContentAlignment="Center"    IsChecked="{Binding Entity.Receitafederal,      UpdateSourceTrigger=PropertyChanged}"   Foreground="#FFD0D0D0"></CheckBox>
-                            <CheckBox Name="ST_chek" Content="Segurança do Trabalho" Margin="15,0,0,30"  VerticalContentAlignment="Center"   IsChecked="{Binding Entity.Segurancatrabalho,   UpdateSourceTrigger=PropertyChanged}"   Foreground="#FFD0D0D0"></CheckBox>
-                            <Label Content="Obs:" Margin="2,0,0,30" Foreground="#FFD0D0D0" />
+                            <CheckBox Name="ST_chek" Content="Segurança do Trabalho" Margin="15,0,0,30"  VerticalContentAlignment="Center"   IsChecked="{Binding Entity.Segurancatrabalho,   UpdateSourceTrigger=PropertyChanged}"   Foreground="#FFD0D0D0" Width="183"></CheckBox>
+                            <Label Content="Obs:" Margin="2,0,0,30" Foreground="#FFD0D0D0" Width="34" />
                             <TextBox Name="obs_tb" MaxLength="200" MaxLines="3"  
                                      TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible"
-                                     Text="{Binding Entity.Obs,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="479" Margin="5,05,0,10" />
+                                     Text="{Binding Entity.Obs,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="430" Margin="5,05,0,10" />
                         </StackPanel>
 
                     </StackPanel>

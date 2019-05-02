@@ -373,6 +373,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmpresaID", DbType.Int32, o, 5).Igual()));
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Ativa", DbType.Boolean, o, 6).Igual()));
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("NumeroContrato", DbType.String, o, 7).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("ColaboradorCredencialID", DbType.Int32, o, 8).Diferente()));
 
                         var reader = cmd.ExecuteReader();
                         var d1 = reader.MapToList<ColaboradorCredencial>();

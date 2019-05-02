@@ -418,8 +418,8 @@ namespace IMOD.Application.Service
             if (geradorCredencialService == null) throw new ArgumentNullException(nameof(geradorCredencialService));
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             //Somente é permitido criar uma única vez o titular do cartão...
-            //Os numeros GUIDs são indicação  de que já houve criação de credenciais no sub-sistema de credenciamento
-            if (!string.IsNullOrWhiteSpace(entity.CardHolderGuid) & !string.IsNullOrWhiteSpace(entity.CredencialGuid)) return;
+            //Os numeros GUIDs são indicação  de que já houve criação de credenciais no sub-sistema de credenciamento            
+            //if (!string.IsNullOrWhiteSpace(entity.CardHolderGuid) & !string.IsNullOrWhiteSpace(entity.CredencialGuid)) return;
 
             var titularCartao = CardHolderEntity(entity);
 
@@ -515,6 +515,20 @@ namespace IMOD.Application.Service
                 if (entity == null) throw new ArgumentNullException(nameof(entity));
                 
                 geradorCredencialService.RemoverRegrasCardHolder(entity);
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+                throw;
+            }
+        }
+        public void ExisteCardHolder(ICredencialService geradorCredencialService, CardHolderEntity entity)
+        {
+            try
+            {
+                if (entity == null) throw new ArgumentNullException(nameof(entity));
+
+                geradorCredencialService.ExisteCardHolder(entity);
             }
             catch (Exception ex)
             {
