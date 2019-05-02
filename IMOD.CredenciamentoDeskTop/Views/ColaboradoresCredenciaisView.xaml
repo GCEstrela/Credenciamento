@@ -136,8 +136,7 @@
                                       VerticalContentAlignment="Center" 
                                       HorizontalContentAlignment="Left"
                                       ItemsSource="{Binding TipoCredencial, Mode=TwoWay}" 
-                                      DisplayMemberPath="Descricao"
-                                       
+                                      DisplayMemberPath="Descricao"                                       
                                       SelectedValue="{Binding Entity.TipoCredencialId,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                                       SelectedValuePath="TipoCredencialId" IsSynchronizedWithCurrentItem="True"/>
 
