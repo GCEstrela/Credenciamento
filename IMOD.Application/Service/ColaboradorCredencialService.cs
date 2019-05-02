@@ -522,6 +522,20 @@ namespace IMOD.Application.Service
                 throw;
             }
         }
+        public void ExisteCardHolder(ICredencialService geradorCredencialService, CardHolderEntity entity)
+        {
+            try
+            {
+                if (entity == null) throw new ArgumentNullException(nameof(entity));
+
+                geradorCredencialService.ExisteCardHolder(entity);
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+                throw;
+            }
+        }
         /// <summary>
         ///     Remove uma Credential (Genetec)
         /// </summary>
