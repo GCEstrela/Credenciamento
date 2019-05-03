@@ -30,6 +30,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
         }
 
         #region Comando dos Botoes
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Button _botao = (Button)sender;
@@ -167,10 +168,6 @@ namespace IMOD.CredenciamentoDeskTop.Views
             }
         }
 
-
-
-        #endregion
-
         private void ButtonRelatorioViasAdicionaisAutorizacoesClick(object sender, RoutedEventArgs e)
         {
             try
@@ -179,10 +176,13 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 popupfiltrosautorizacoesviasadicionais.ShowDialog();
             }
             catch (Exception ex)
-            { 
+            {
                 Utils.TraceException(ex);
                 throw;
             }
         }
+
+        #endregion
+
     }
 }
