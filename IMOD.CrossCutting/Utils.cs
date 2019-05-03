@@ -1360,7 +1360,7 @@ namespace IMOD.CrossCutting
             {
                 //var isNumeric = int.TryParse(str, out int n);
                 //bool b2 = Microsoft.VisualBasic.Information.IsNumeric("1aa");
-                //if (str == "NULL") return "";
+                if (str == null) return "";
                 if (string.IsNullOrWhiteSpace(str)) return "";
 
                 var str2 = str.RetirarCaracteresEspeciais();

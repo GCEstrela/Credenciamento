@@ -39,7 +39,7 @@
             <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}"
                       IsEnabled="{Binding Comportamento.isEnableSalvar}"
                       Background="Purple"
-                      x:Name="Responsavel_gb" Header="Credenciamento" Margin="0,0,10,0" Height="182">
+                      x:Name="Responsavel_gb" Header="Credenciamento" Margin="0,0,10,0" Height="177">
                 <StackPanel Orientation="Horizontal" Margin="0,0,0,-5">
                     <StackPanel Width="979">
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"

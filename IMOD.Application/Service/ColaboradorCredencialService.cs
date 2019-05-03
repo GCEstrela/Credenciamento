@@ -115,7 +115,7 @@ namespace IMOD.Application.Service
             //Author: Renato Maximo
             //Data:13/03/19
             //Wrk:Adicionar um dia a credencial
-            DateTime dataValidade = entity.Validade == null ? DateTime.Today.Date : (DateTime) entity.Validade; 
+            DateTime dataValidade = entity.Validade == null ? DateTime.Today.Date : (DateTime) entity.Validade;
 
             var titularCartao = new CardHolderEntity
             {
@@ -133,11 +133,15 @@ namespace IMOD.Application.Service
                 IdentificadorCredencialGuid = entity.CredencialGuid,
                 FacilityCode = entity.Fc,
                 Foto = entity.ColaboradorFoto.ConverterBase64StringToBitmap(),
-                Matricula = entity.Matricula, 
-                Validade = dataValidade.AddDays(1), 
+                Matricula = entity.Matricula,
+                Validade = dataValidade.AddDays(1),
                 NumeroCredencial = entity.NumeroCredencial,
                 IdentificadorLayoutCrachaGuid = entity.LayoutCrachaGuid,
-                FormatoCredencial = entity.FormatoCredencialDescricao.Trim()
+                FormatoCredencial = entity.FormatoCredencialDescricao.Trim(),
+                TecnologiaCredencialId = entity.TecnologiaCredencialId,
+                FormatoCredencialId = entity.FormatoCredencialId,
+                Fc = entity.Fc
+                
             };
             return titularCartao;
         }
@@ -205,12 +209,14 @@ namespace IMOD.Application.Service
         public void Alterar(ColaboradorCredencial entity)
         {
             _repositorio.Alterar(entity);
-
-            //comentado pois a busca não está retornando resultador e anulando a entity
-            entity = BuscarPelaChave(entity.ColaboradorCredencialId);
-            if (entity == null) return;
-            ObterStatusCredencial(entity);
-
+            ////comentado pois a busca não está retornando resultador e anulando a entity
+            var n1 = BuscarPelaChave(entity.ColaboradorCredencialId);
+            
+            if (n1 == null) return;
+            ObterStatusCredencial(n1);
+            n1.CardHolderGuid = entity.CardHolderGuid;
+            n1.CredencialGuid = entity.CredencialGuid;
+            _repositorio.Alterar(n1);
         }
 
         public ColaboradoresCredenciaisView BuscarCredencialPelaChave(int colaboradorCredencialId)
@@ -453,6 +459,13 @@ namespace IMOD.Application.Service
             n1.CredencialGuid = titularCartao.IdentificadorCredencialGuid;
             n1.Identificacao1 = titularCartao.Identificacao1;
             n1.Identificacao2 = titularCartao.Identificacao2;
+            n1.CredencialGuid = titularCartao.IdentificadorCredencialGuid;
+            n1.CardHolderGuid = titularCartao.IdentificadorCardHolderGuid;
+            //n1.TecnologiaCredencialId = entity.TecnologiaCredencialId;
+            //n1.FormatoCredencialId = entity.FormatoCredencialId;
+            //n1.Fc = entity.Fc;
+            n1.NumeroCredencial = entity.NumeroCredencial;
+
             Alterar(n1);
         }
         /// <summary>

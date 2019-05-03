@@ -104,6 +104,11 @@ namespace IMOD.Infra.Servicos.Entities
         public string FormatoCredencial { get; set; }
         public string Identificacao1 { get; set; }
         public string Identificacao2 { get; set; }
+        public int TecnologiaCredencialId { get; set; }
+        public int FormatoCredencialId { get; set; }
+        public int Fc { get; set; }
+        
+       
         #endregion
 
     }

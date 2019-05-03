@@ -386,6 +386,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 {
                     if (string.IsNullOrWhiteSpace (pesquisa)) return;
                     var l1 = _service.Listar(null, null, $"%{pesquisa}%", null, $"%{tipoVeiculoEquipamento}%");
+                    
                     PopularObserver (l1);
                 }
                 //Por Chassi

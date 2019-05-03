@@ -721,6 +721,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 n1.Identificacao1 = Entity.Identificacao1;
                 n1.Identificacao2 = Entity.Identificacao2;
                 n1.NumeroCredencial = Entity.NumeroCredencial;
+                
                 if (_configuraSistema.Colete)
                 {
                     Entity.NumeroColete = Convert.ToString(_colaboradorView.ColaboradorId);
@@ -751,11 +752,13 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     //n1.Identificacao2 = Entity.Identificacao2;
                     #region Verificar se pode gerar CardHolder
                     //Alterar o status do titular do cartão
-
-
                 
                     GerarCardHolder(n1.ColaboradorCredencialId, Entity);
-                    //var entity = _service.BuscarCredencialPelaChave(n1.ColaboradorCredencialId);
+
+                    var entity = _service.BuscarCredencialPelaChave(n1.ColaboradorCredencialId);
+                    n1.CardHolderGuid = entity.CardHolderGuid;
+                    n1.CredencialGuid = entity.CredencialGuid;
+                    //n1 = _service.BuscarCredencialPelaChave(n1.ColaboradorCredencialId);
                     _service.AlterarStatusTitularCartao(new CredencialGenetecService(Main.Engine), Entity, n1);
 
                     //_service.Alterar(n1);
@@ -800,7 +803,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             n1.NumeroCredencial = entity.NumeroCredencial;
             n1.ColaboradorPrivilegio1Id = entity.ColaboradorPrivilegio1Id;
             n1.ColaboradorPrivilegio2Id = entity.ColaboradorPrivilegio2Id;
-           
+            //n1.CardHolderGuid= entity.CardHolderGuid;
+            //n1.CredencialGuid = entity.CredencialGuid;
+
             var tecCredencial = _auxiliaresService.TecnologiaCredencialService.BuscarPelaChave(entity.TecnologiaCredencialId);
             if (tecCredencial.PodeGerarCardHolder)
                 _service.CriarTitularCartao(new CredencialGenetecService(Main.Engine), new ColaboradorService(), n1);

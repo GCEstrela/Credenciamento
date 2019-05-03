@@ -34,6 +34,7 @@ namespace IMOD.CredenciamentoDeskTop.Mapeamento
                 m =>
                 {
                     m.CreateMap<Colaborador, ColaboradorView>().ForMember (k => k.Cpf, opt => opt.MapFrom (k => k.Cpf.FormatarCpf())).ReverseMap();
+                    //m.CreateMap<Colaborador, ColaboradorView>().ReverseMap();
                     m.CreateMap<ColaboradorEmpresa, ColaboradorEmpresaView>().ReverseMap();
                     m.CreateMap<ColaboradorCurso, ColaboradorCursoView>().ReverseMap();
                     m.CreateMap<ColaboradorCursoView, ColaboradorCurso>().ReverseMap();
