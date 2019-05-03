@@ -307,10 +307,9 @@
                                              PreviewTextInput="NumberOnly"
                                              IsEnabled="True" Height="24" Width="122"
                                              LostFocus="OnFormatCpf_LostFocus"
-                                             Foreground="White" VerticalContentAlignment="Center"
-                                             Text="{Binding Entity.Cpf,
-                                              UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                             HorizontalContentAlignment="Center"
+                                             Foreground="White" VerticalContentAlignment="Center"                                             
+                                             Text="{Binding Entity.Cpf,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                             HorizontalContentAlignment="Center"  
                                                />
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
