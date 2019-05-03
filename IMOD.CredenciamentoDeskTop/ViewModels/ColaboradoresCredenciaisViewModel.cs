@@ -365,7 +365,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             int credencialDias = int.Parse(diferenca.Days.ToString());
             if (credencialDias > 730)
             {
-                dataEncontrada = DateTime.Now.AddDays(730);
+                dataEncontrada = DateTime.Now.Date.AddDays(730);
                 Entity.Validade = dataEncontrada;
                 OnPropertyChanged("Entity");
             }
@@ -763,6 +763,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                     //_service.Alterar(n1);
                     #endregion
+                }
+                else
+                {
+                    _service.Alterar(n1);
                 }
                 //}
                 ////Atualizar Observer
