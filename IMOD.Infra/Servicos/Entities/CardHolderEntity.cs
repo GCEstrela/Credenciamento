@@ -52,7 +52,7 @@ namespace IMOD.Infra.Servicos.Entities
 
         public string Nome
         {
-            get { return _nome.Truncate (20); }
+            get { return _nome.Truncate (50); }
             set { _nome = value; }
         }
 

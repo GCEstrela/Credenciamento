@@ -1129,7 +1129,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             //        return true;
             //    }
             //}
-
+            //if (Entity.Matricula == null)
+            //{
+            //    WpfHelp.Mbox("Não existe matrícula para esse colababorador no contrato selecionado. Não é possível continua essa ação.");
+            //    return true;
+            //}
             //retirar o espaço entre a numeração obtida do cartão
             if (!string.IsNullOrEmpty(Entity.NumeroContrato))
             {
