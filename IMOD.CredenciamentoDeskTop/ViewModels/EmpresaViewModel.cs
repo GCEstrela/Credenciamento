@@ -325,34 +325,18 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         }
         public bool ExisteSigla()
         {
-            try
-            {
-                if (Entity == null) return false;
-                var sigla="";
-                if (Entity.Sigla != null)
-                {
-                    sigla = Entity.Sigla.Trim();
-                }
-                else
-                {
-                    sigla = Entity.Sigla;
-                }
+            if (Entity == null) return false;
+            var sigla = Entity.Sigla?.Trim();
 
-                //Verificar dados antes de salvar uma criação
-                if (_prepareCriarCommandAcionado)
-                    if (_service.ExisteSigla(sigla)) return true;
-                //Verificar dados antes de salvar uma alteraçao
-                if (!_prepareAlterarCommandAcionado) return false;
-                var n1 = _service.BuscarPelaChave(Entity.EmpresaId);
-                if (n1 == null) return false;
-
-                return false;
-            }
-            catch (Exception ex)
-            {
-                Utils.TraceException(ex);
-                return false;
-            }
+            //Verificar dados antes de salvar uma criação
+            if (_prepareCriarCommandAcionado)
+                if (_service.ExisteSigla(sigla)) return true;
+            //Verificar dados antes de salvar uma alteraçao
+            if (!_prepareAlterarCommandAcionado) return false;
+            var n1 = _service.BuscarPelaChave(Entity.EmpresaId);
+            if (n1 == null) return false;
+           
+            return false;
 
         }
         /// <summary>

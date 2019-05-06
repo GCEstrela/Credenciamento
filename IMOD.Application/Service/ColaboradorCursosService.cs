@@ -91,6 +91,11 @@ namespace IMOD.Application.Service
             _repositorio.Remover (entity);
         }
 
+        public ICollection<ColaboradorCurso> ListarView(params object[] objects)
+        {
+            return _repositorio.ListarView(objects);
+        }
+
         #endregion
     }
 }

@@ -196,12 +196,16 @@ namespace IMOD.Application.Service
             get { return new TipoRepresentanteService(); }
         }
         
-
-
         public IConfiguraSistemaService ConfiguraSistemaService
         {
             get { return new ConfiguraSistemaService(); }
         }
+
+        public IColaboradorCursoService ColaboradorCursoService
+        {
+            get { return new ColaboradorCursosService(); }
+        }
+
         #endregion
     }
 }
