@@ -224,11 +224,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 
                 System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
-                var list2 = Mapper.Map<List<ColaboradorView>> (list);
+                var list2 = Mapper.Map<List<ColaboradorView>> (list.ToList().OrderBy(c => c.Nome));
                 EntityObserver = new ObservableCollection<ColaboradorView>();
                 list2.ForEach (n => { EntityObserver.Add (n); });
                 //Havendo registros, selecione o primeiro
-                if (EntityObserver.Any()) SelectListViewIndex = 0;
+                //if (EntityObserver.Any()) SelectListViewIndex = 0;
                 System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.IBeam;
             }
 
