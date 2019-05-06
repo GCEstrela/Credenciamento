@@ -142,6 +142,9 @@ namespace IMOD.Application.Interfaces
         /// </summary>
         IConfiguraSistemaService ConfiguraSistemaService { get; }
 
+
+        IColaboradorCursoService ColaboradorCursoService { get; }
+
         #endregion
     }
 }

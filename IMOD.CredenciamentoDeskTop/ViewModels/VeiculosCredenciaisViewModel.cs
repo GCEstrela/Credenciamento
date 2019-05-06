@@ -621,7 +621,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 relatorio.SetDataSource (lst);
 
                 var objCode = new QrCode();
-                var pathImagem = objCode.GerarQrCode("www.grupoestrela.com", "QrCodeAutorizacao" + AutorizacaoMapeada.VeiculoCredencialId.ToString() + ".png");
+                var pathImagem = objCode.GerarQrCode("http://172.16.100.75:57280/Veiculo/Credential/"+ AutorizacaoMapeada.VeiculoCredencialId.ToString(), "QrCodeAutorizacao" + AutorizacaoMapeada.VeiculoCredencialId.ToString() + ".png");
                 relatorio.SetParameterValue("PathImgQrCode", pathImagem);
 
                 var popupCredencial = new PopupAutorizacao (relatorio, _service, Entity, layoutCracha);

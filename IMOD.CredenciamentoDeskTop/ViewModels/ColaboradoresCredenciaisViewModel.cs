@@ -926,15 +926,15 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 var arrayBytes = WpfHelp.ConverterBase64(layoutCracha.LayoutRpt, "Layout Cracha");
                 var relatorio = WpfHelp.ShowRelatorioCrystalReport(arrayBytes, layoutCracha.Nome);
-                //Maximo, add cursos no cracha
-                //var cusrsos;
-                var cursosCracha = _auxiliaresService.CursoService.Listar(null, null, true);
+
+                var colaboradorCursosCracha = _auxiliaresService.ColaboradorCursoService.ListarView(Entity.ColaboradorId, null, true);
                 string _cursosCracha = "";
-                foreach (Curso element in cursosCracha)
+
+                foreach (ColaboradorCurso element in colaboradorCursosCracha)
                 {
                     if (_cursosCracha == "")
                     {
-                        _cursosCracha = element.Descricao.ToString();
+                        _cursosCracha = !String.IsNullOrEmpty(element.Descricao) ? "-" + element.Descricao?.ToString() : "";
                     }
                     else
                     {
@@ -957,8 +957,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 relatorio.SetDataSource(lst); 
 
                 var objCode = new QrCode(); 
-                var pathImagem = objCode.GerarQrCode("www.grupoestrela.com", "QrCodeCredencial" + c1.ColaboradorCredencialID.ToString()+".png");
-                relatorio.SetParameterValue("PathImgQrCode", pathImagem); 
+                var pathImagem = objCode.GerarQrCode("http://172.16.100.75:57280/Colaborador/Credential/" + c1.ColaboradorCredencialID.ToString(), "QrCodeAutorizacao" + c1.ColaboradorCredencialID.ToString() + ".png");
+                relatorio.SetParameterValue("PathImgQrCode", pathImagem);
 
                 //IDENTIFICACAO
                 var popupCredencial = new PopupCredencial(relatorio, _service, Entity, layoutCracha);
@@ -1036,7 +1036,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             if (Entity == null) return;
             if (colaboradorEmpresa.EmpresaSigla == null) return;
-            Entity.EmpresaSigla = colaboradorEmpresa.EmpresaSigla.Trim();
+            Entity.EmpresaSigla = colaboradorEmpresa.EmpresaSigla?.Trim();
             _configuraSistema = ObterConfiguracao();
             if (_configuraSistema.Colete)
             {

@@ -135,6 +135,41 @@ namespace IMOD.Infra.Repositorios
             }
         }
 
+
+        /// <summary>
+        ///     Listar
+        /// </summary>
+        /// <param name="objects">Expressão de consulta</param>
+        /// <returns></returns>
+        public ICollection<ColaboradorCurso> ListarView(params object[] objects)
+        {
+            using (var conn = _dataBase.CreateOpenConnection())
+            {
+                using (var cmd = _dataBase.SelectText("ColaboradoresCursosView", conn))
+
+                {
+                    try
+                    { 
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("ColaboradorID", DbType.Int32, objects, 0).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("CursoID", DbType.Int32, objects, 1).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Controlado", DbType.Boolean, objects, 2).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Validade", DbType.DateTime, objects, 3).Igual()));
+
+                        var reader = cmd.ExecuteReaderSelect(); 
+                        var d1 = reader.MapToList<ColaboradorCurso>(); 
+
+                        return d1; 
+                    }
+                    catch (Exception ex) 
+                    {
+                        Utils.TraceException(ex);
+                        throw;
+                    }
+                }
+            }
+        }
+
+
         /// <summary>
         ///     Alterar registro
         /// </summary>

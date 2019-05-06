@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Configuration;
 using System.Linq;
 using System.Windows;
 using System.Windows.Data;
@@ -41,6 +42,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private EquipamentosViewModel _viewModelParent;
         private readonly ConfiguraSistema _configuraSistema;
         private readonly IEmpresaService serviceEmpresa = new EmpresaService();
+        
+
 
         /// <summary>
         ///     True, Comando de alteração acionado
@@ -615,7 +618,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 relatorio.SetDataSource (lst);
 
                 var objCode = new QrCode();
-                var pathImagem = objCode.GerarQrCode("www.grupoestrela.com", "QrCodeAutorizacao" + AutorizacaoMapeada.VeiculoCredencialId.ToString() + ".png");
+                var pathImagem = objCode.GerarQrCode("http://172.16.100.75:57280/Veiculo/Credential/" + AutorizacaoMapeada.VeiculoCredencialId.ToString(), "QrCodeAutorizacao" + AutorizacaoMapeada.VeiculoCredencialId.ToString() + ".png");
                 relatorio.SetParameterValue("PathImgQrCode", pathImagem);
 
                 var popupCredencial = new PopupAutorizacao (relatorio, _service, Entity, layoutCracha);
