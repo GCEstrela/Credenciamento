@@ -326,7 +326,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public bool ExisteSigla()
         {
             if (Entity == null) return false;
-            var sigla = Entity.Sigla.Trim();
+            var sigla = Entity.Sigla?.Trim();
 
             //Verificar dados antes de salvar uma criação
             if (_prepareCriarCommandAcionado)
