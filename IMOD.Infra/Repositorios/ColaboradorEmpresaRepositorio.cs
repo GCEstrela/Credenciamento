@@ -61,6 +61,10 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("ManuseioBagagem", entity.ManuseioBagagem, false))); 
 
                         cmd.ExecuteNonQuery();
+
+                        ////Gerar matricula
+                        //if (entity.Matricula == null)
+                        //    CriarNumeroMatricula(entity);
                     }
                     catch (Exception ex)
                     {

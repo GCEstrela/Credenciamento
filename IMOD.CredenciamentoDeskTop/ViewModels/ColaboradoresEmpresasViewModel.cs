@@ -264,8 +264,14 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (Entity == null) return;
                 if (Validar()) return;
                 var n1 = Mapper.Map<ColaboradorEmpresa>(Entity);
+                //Gerar matricula
+                if (n1.Matricula == null)
+                    _service.CriarNumeroMatricula(n1);
+
                 _service.Alterar(n1);
-                IsEnableLstView = true;
+                Entity.Matricula = n1.Matricula;
+
+                 IsEnableLstView = true;
                 SetDadosEmpresaContrato(Entity);
 
 
