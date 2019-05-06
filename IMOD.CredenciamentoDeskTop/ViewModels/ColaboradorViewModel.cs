@@ -307,8 +307,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 }
 
                 IsEnableLstView = true; 
-            }
-             com a cotação
+            }             
                 catch (Exception ex)
             {
                 Utils.TraceException (ex);
