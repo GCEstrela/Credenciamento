@@ -290,7 +290,7 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText("Colaboradores", conn))
+                using (var cmd = _dataBase.SelectText("ColaboradoresView", conn))
 
                 {
                     try
@@ -312,7 +312,36 @@ namespace IMOD.Infra.Repositorios
                 }
             }
         }
+        /// <summary>
+        ///     Listar
+        /// </summary>
+        /// <returns></returns>
+        public ICollection<Colaborador> ListarFoto(params object[] o)
+        {
+            using (var conn = _dataBase.CreateOpenConnection())
+            {
+                using (var cmd = _dataBase.SelectText("ColaboradoresView", conn))
 
+                {
+                    try
+                    {
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("ColaboradorID", DbType.Int32, o, 0).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Cpf", DbType.String, o, 1).Like()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Nome", DbType.String, o, 2).Like()));
+
+                        var reader = cmd.ExecuteReaderSelect();
+                        var d1 = reader.MapToList<Colaborador>();
+
+                        return d1;
+                    }
+                    catch (Exception ex)
+                    {
+                        Utils.TraceException(ex);
+                        throw;
+                    }
+                }
+            }
+        }
         /// <summary>
         ///     Deletar registro
         /// </summary>

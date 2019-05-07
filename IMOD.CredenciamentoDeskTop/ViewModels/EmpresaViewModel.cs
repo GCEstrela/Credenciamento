@@ -188,7 +188,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 HabilitaCommandPincipal = SelectedTabIndex == 0; 
              
         }
-
+        public void bucarLogo(int empresa)
+        {
+            var listaFoto = _service.BuscarPelaChave(empresa);
+            Entity.Logo = listaFoto.Logo;
+        }
         /// <summary>
         ///     Atualizar dados de atividade
         /// </summary>
@@ -551,7 +555,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 EntityObserver = new ObservableCollection<EmpresaView>();               
                 list2.ForEach (n => { EntityObserver.Add (n); });
                 //Havendo registros, selecione o primeiro
-                if (EntityObserver.Any()) SelectListViewIndex = 0;
+                //if (EntityObserver.Any()) SelectListViewIndex = 0;
                 System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.IBeam;
             }
 

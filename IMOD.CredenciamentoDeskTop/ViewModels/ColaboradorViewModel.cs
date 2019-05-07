@@ -314,7 +314,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
         }
          
-
+        public void bucarFoto(int colaborador)
+        {
+            var listaFoto = _service.BuscarPelaChave(colaborador);
+            Entity.Foto = listaFoto.Foto;
+        }
         public void ListarDadosAuxiliares()
         {
             var lst3 = _auxiliaresService.EstadoService.Listar();
