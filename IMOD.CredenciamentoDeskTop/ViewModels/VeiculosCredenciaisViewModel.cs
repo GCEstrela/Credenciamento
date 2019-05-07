@@ -172,8 +172,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             var data = _service.ObterDataValidadeCredencial(Entity.TipoCredencialId,
                 _veiculoView.EquipamentoVeiculoId, contrato.NumeroContrato, _service.TipoCredencial);
 
-            Entity.Validade = data;
+            TimeSpan diferenca = Convert.ToDateTime(data) - DateTime.Now.Date;
+            int credencialDias = int.Parse(diferenca.Days.ToString());
+
+            Entity.Validade = credencialDias > 365 ? DateTime.Now.Date.AddDays(365) : data;
             OnPropertyChanged("Entity");
+
         }
 
         private void ListarDadosAuxiliares()

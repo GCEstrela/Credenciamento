@@ -155,7 +155,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         #endregion
 
-        public EquipamentosViewModel() 
+        public EquipamentosViewModel()
         { 
             ItensDePesquisaConfigura();
             ListarDadosAuxiliares();
