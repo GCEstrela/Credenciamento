@@ -889,7 +889,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     RemoverCredencial(n1.ColaboradorCredencialId, Entity);
                     ///////////////////
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
 
                 }

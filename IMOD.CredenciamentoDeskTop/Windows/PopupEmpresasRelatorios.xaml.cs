@@ -202,11 +202,11 @@ namespace IMOD.CredenciamentoDeskTop.Windows
                 _xmlDocument = null;
                 return _xml;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }
-            return null;
+            //return null;
         }
 
         #endregion

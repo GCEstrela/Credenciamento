@@ -97,7 +97,7 @@ namespace Meu_Servico.Service
 
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 
             }
@@ -109,7 +109,7 @@ namespace Meu_Servico.Service
             {
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 
             }
@@ -123,7 +123,7 @@ namespace Meu_Servico.Service
             try
             {
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 
             }
@@ -134,7 +134,7 @@ namespace Meu_Servico.Service
             {
                 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                
             }
@@ -147,7 +147,7 @@ namespace Meu_Servico.Service
                 
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                
             }
@@ -160,7 +160,7 @@ namespace Meu_Servico.Service
                 
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }

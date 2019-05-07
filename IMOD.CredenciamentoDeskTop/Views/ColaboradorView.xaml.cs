@@ -62,7 +62,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
             //Popular User Controls
             //////////////////////////////////////////////////////////////
-            _viewModel.bucarFoto(_viewModel.Entity.ColaboradorId);
+            _viewModel.BucarFoto(_viewModel.Entity.ColaboradorId);
             
             ColaboradorEmpresaUs.AtualizarDados(_viewModel.Entity, _viewModel);
             ColaboradorCurso.AtualizarDados(_viewModel.Entity, _viewModel);

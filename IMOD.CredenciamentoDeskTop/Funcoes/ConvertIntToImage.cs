@@ -48,7 +48,7 @@ namespace IMOD.CredenciamentoDeskTop.Funcoes
             //    return isTrue ? imgPend : imgOk;
             //}
             //return imgNull;
-            return null;
+            //return null;
 
         }
 

@@ -22,7 +22,7 @@ namespace IMOD.CredenciamentoDeskTop.Windows
                 GenericReportViewer.ViewerCore.ReportSource = reportDocument;
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
