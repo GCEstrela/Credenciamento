@@ -82,7 +82,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         public bool Habilitar { get; set; }
         public string ExcluirVisivel { get; set; }
-
+        public Boolean ColeteEnabled { get; set; }
         public CredencialStatus StatusCredencial { get; set; }
         public List<CredencialStatus> CredencialStatus { get; set; }
 
@@ -157,6 +157,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 ExcluirVisivel = "Visible";
             }
             
+
+
             ItensDePesquisaConfigura();
             ListarDadosAuxiliares();
             Comportamento = new ComportamentoBasico(false, true, false, false, false);
@@ -1080,6 +1082,17 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     return;
                 }
                 verificarcredencialAtida = false;
+                if (Entity != null)
+                {
+                    if (Entity.EmpresaSigla == null || Entity.EmpresaSigla == "")
+                    {
+                        ColeteEnabled = false;
+                    }
+                    else
+                    {
+                        ColeteEnabled = true;
+                    }
+                }
             }
             catch
             {

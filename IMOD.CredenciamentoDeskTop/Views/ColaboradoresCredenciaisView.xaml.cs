@@ -204,5 +204,9 @@ namespace IMOD.CredenciamentoDeskTop.Views
             }
         }
 
+        private void CmbEmpresaVinculo_cb_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }
