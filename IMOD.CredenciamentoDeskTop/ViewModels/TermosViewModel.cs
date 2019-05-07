@@ -25,24 +25,24 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         private readonly IVeiculoCredencialService objVeiculoCredencial = new VeiculoCredencialService();
 
-        private ObservableCollection<RelatorioView> _Relatorios;
+        //private ObservableCollection<RelatorioView> _Relatorios;
 
-        private RelatorioView _RelatorioSelecionado;
+        //private RelatorioView _RelatorioSelecionado;
 
-        PopupMensagem _PopupSalvando;
+       // PopupMensagem _PopupSalvando;
 
-        private int _selectedIndex;
+        //private int _selectedIndex;
 
-        private int _selectedIndexTemp = 0;
+        //private int _selectedIndexTemp = 0;
 
-        private bool _atualizandoFoto = false;
+        //private bool _atualizandoFoto = false;
 
-        private BitmapImage _Waiting;
+        //private BitmapImage _Waiting;
 
         private const string consNomeArquivoEmpresaOperadora = "logoEmpresaOperadora.png";
 
-        private string formula;
-        private string _mensagem;
+        //private string formula;
+        //private string _mensagem;
         private string verbo;
 
         private readonly IRelatorioGerencialService _relatorioGerencialServiceService = new RelatorioGerencialService();

@@ -66,10 +66,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         #region Variaveis privadas
 
-        private SynchronizationContext _mainThread;
+        //private SynchronizationContext _mainThread;
 
         private int _selectedIndex;
-        private int _selectedIndexTemp = 0;
+       // private int _selectedIndexTemp = 0;
 
         //Relatórios
         private ObservableCollection<RelatorioView> _relatorios;

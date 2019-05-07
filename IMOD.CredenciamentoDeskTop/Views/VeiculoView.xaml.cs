@@ -53,7 +53,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
             _viewModel.AtualizarDadosPendencias();
             _viewModel.AtualizarDadosTiposServico();
             _viewModel.AtualizarDadosTiposServico();
-
+            _viewModel.BucarFoto(_viewModel.Entity.EquipamentoVeiculoId);
             //Popular User Controls
             //////////////////////////////////////////////////////////////
             VeiculosEmpresasUs.AtualizarDados(_viewModel.Entity, _viewModel);

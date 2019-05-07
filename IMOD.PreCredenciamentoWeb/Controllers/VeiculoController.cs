@@ -127,7 +127,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
                 return RedirectToAction("Index");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return View();
             }

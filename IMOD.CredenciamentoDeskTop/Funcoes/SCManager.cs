@@ -249,7 +249,7 @@ namespace IMOD.CredenciamentoDeskTop.Funcoes
                     printQueue.UserPrintTicket = result.ValidatedPrintTicket;
                     printQueue.Commit();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
 
                 }

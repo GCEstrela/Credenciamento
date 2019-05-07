@@ -614,7 +614,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 }
                 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //return;
             }

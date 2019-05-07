@@ -80,7 +80,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                 PopularDadosDropDownList();
                 return View(model);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 ModelState.AddModelError("", "Erro ao salvar registro");
                 return View();

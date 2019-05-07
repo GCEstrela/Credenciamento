@@ -35,7 +35,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private readonly IColaboradorEmpresaService _service = new ColaboradorEmpresaService();
         private readonly IColaboradorCredencialService _servicecredencial = new ColaboradorCredencialService();
 
-        private readonly object _auxiliaresService;
+        //private readonly object _auxiliaresService;
         private ColaboradorView _colaboradorView;
        
         private ColaboradorViewModel _viewModelParent;
