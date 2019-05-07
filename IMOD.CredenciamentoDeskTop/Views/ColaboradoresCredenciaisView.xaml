@@ -58,7 +58,7 @@
                                       SelectedValuePath="ColaboradorEmpresaId"
                                       IsSynchronizedWithCurrentItem="True"
                                       IsEnabled="{Binding Habilitar}"
-                                      SelectedIndex="0">
+                                      SelectedIndex="0" SelectionChanged="CmbEmpresaVinculo_cb_SelectionChanged">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
@@ -159,13 +159,12 @@
                             <Label Content="Colete:" Height="28" Width="45" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" RenderTransformOrigin="0.5,0.5" />
 
                             <TextBox  x:Name="SigleColete_tb"  HorizontalContentAlignment="Center" MaxLength="3"  CharacterCasing="Upper" 
-                                      IsEnabled="False" Text="{Binding Entity.EmpresaSigla,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  
-                                      Height="24"  Width="41"/>
+                                      Text="{Binding Entity.EmpresaSigla,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  
+                                      Height="24"  Width="41" IsEnabled="{Binding ColeteEnabled}"/>
 
                             <TextBox  x:Name="NumeroColete_tb" HorizontalContentAlignment="Center" MaxLength="4" Margin="1,0,0,0"
                                       Text="{Binding Entity.NumeroColete,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
-                                      IsEnabled="{Binding ImprimirCommand}"
-                                       
+                                      IsEnabled="{Binding ColeteEnabled}"                                         
                                       CharacterCasing="Upper" Height="24"  Width="58"/>
 
                             <Label Content="Autenticação:" Height="28" Width="99"   HorizontalContentAlignment="Right"
