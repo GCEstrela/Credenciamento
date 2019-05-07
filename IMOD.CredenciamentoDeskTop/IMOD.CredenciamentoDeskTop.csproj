@@ -107,6 +107,7 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constantes\Constantes.cs" />
     <Compile Include="Cracha\FraportAutorizacao.cs">
       <SubType>Component</SubType>
       <AutoGen>True</AutoGen>
