@@ -13,6 +13,7 @@ using System.Windows.Input;
 using AutoMapper;
 using IMOD.Application.Interfaces;
 using IMOD.Application.Service;
+using IMOD.CredenciamentoDeskTop.Constantes;
 using IMOD.CredenciamentoDeskTop.Enums;
 using IMOD.CredenciamentoDeskTop.Funcoes;
 using IMOD.CredenciamentoDeskTop.Helpers;
@@ -172,7 +173,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             TimeSpan diferenca = Convert.ToDateTime(data) - DateTime.Now.Date;
             int credencialDias = int.Parse(diferenca.Days.ToString());
 
-            Entity.Validade = credencialDias > 365 ? DateTime.Now.Date.AddDays(365) : data;
+            Entity.Validade = credencialDias > Constantes.Constantes.diasPorAno ? DateTime.Now.Date.AddDays(Constantes.Constantes.diasPorAno) : data;
             OnPropertyChanged("Entity");
 
         }

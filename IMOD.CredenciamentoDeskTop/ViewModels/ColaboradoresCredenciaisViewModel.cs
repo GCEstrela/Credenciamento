@@ -365,17 +365,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             DateTime dataEncontrada;
             TimeSpan diferenca = Convert.ToDateTime(data) - DateTime.Now.Date ;
             int credencialDias = int.Parse(diferenca.Days.ToString());
-            if (credencialDias > 730)
-            {
-                dataEncontrada = DateTime.Now.Date.AddDays(730);
-                Entity.Validade = dataEncontrada;
-                OnPropertyChanged("Entity");
-            }
-            else
-            {
-                Entity.Validade = data;
-                OnPropertyChanged("Entity");
-            }
+
+            Entity.Validade = credencialDias > (Constantes.Constantes.diasPorAno * 2) ? DateTime.Now.Date.AddDays((Constantes.Constantes.diasPorAno * 2)) : data;
+            OnPropertyChanged("Entity");
+
         }
         public void ObterValidadeAlteracao()
         {
