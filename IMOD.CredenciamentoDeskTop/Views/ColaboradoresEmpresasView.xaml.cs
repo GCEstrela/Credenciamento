@@ -94,6 +94,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             try
             {
+                _viewModel.BuscarAnexo(_viewModel.Entity.ColaboradorEmpresaId);
                 var arrBytes = Convert.FromBase64String(_viewModel.Entity.Anexo);
                 WpfHelp.AbrirArquivoPdf(_viewModel.Entity.NomeAnexo, arrBytes);
             }
