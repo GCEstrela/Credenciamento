@@ -18,6 +18,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         private readonly IMOD.Application.Interfaces.IDadosAuxiliaresFacade objAuxiliaresService = new IMOD.Application.Service.DadosAuxiliaresFacadeService();
         private readonly IMOD.Application.Interfaces.IEmpresaContratosService objContratosService = new IMOD.Application.Service.EmpresaContratoService();
         private readonly IMOD.Application.Interfaces.IColaboradorEmpresaService objColaboradorEmpresaService = new ColaboradorEmpresaService();
+        private readonly IMOD.Application.Interfaces.IColaboradorCredencialService objColaboradorCredencialService = new IMOD.Application.Service.ColaboradorCredencialService();
 
         private List<Colaborador> colaboradores = new List<Colaborador>();
         private List<ColaboradorEmpresa> vinculos = new List<ColaboradorEmpresa>();
@@ -163,6 +164,35 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             return View();
         }
 
+        // GET: Veiculo/Credential/5
+        public ActionResult Credential(int id)
+        {
+            var credencialView = objColaboradorCredencialService.ObterCredencialView(id);
+
+            if (credencialView != null)
+            {
+                CredencialViewModel objCredencialMapeado = Mapper.Map<CredencialViewModel>(credencialView);
+
+                if (objCredencialMapeado.Ativa)
+                {
+                    ViewBag.ClasseAlerta = "alert alert-success";
+                    ViewBag.ClasseIcone = "glyphicon glyphicon-ok";
+                    ViewBag.ClasseTexto = "ATIVA";
+                }
+                else
+                {
+                    ViewBag.ClasseAlerta = "alert alert-danger";
+                    ViewBag.ClasseIcone = "glyphicon glyphicon-remove";
+                    ViewBag.ClasseTexto = "INATIVA";
+                }
+
+                return View(objCredencialMapeado);
+            }
+
+            return View();
+
+
+        }
 
         #region Métodos internos carregar componentes
 

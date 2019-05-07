@@ -51,7 +51,7 @@ namespace IMOD.PreCredenciamentoWeb.Models
         [Required(ErrorMessage = "A Largura é requerida.")]
         [Display(Name = "Largura (cm)")]
         public string Largura { get; set; }
-        [Range(1, int.MaxValue, ErrorMessage = "A Natureza do Equipamento/Veículo é requerido.")]
+        [Range(1, int.MaxValue, ErrorMessage = "A Natureza é requerido.")]
         [Display(Name = "Natureza")]
         public int TipoEquipamentoVeiculoId { get; set; }
         public string Renavam { get; set; }

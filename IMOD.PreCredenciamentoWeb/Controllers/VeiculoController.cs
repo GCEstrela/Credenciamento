@@ -18,6 +18,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         private readonly IMOD.Application.Interfaces.IDadosAuxiliaresFacade objAuxiliaresService = new IMOD.Application.Service.DadosAuxiliaresFacadeService();
         private readonly IMOD.Application.Interfaces.IEmpresaContratosService objContratosService = new IMOD.Application.Service.EmpresaContratoService();
         private readonly IMOD.Application.Interfaces.IVeiculoEmpresaService objVeiculoEmpresaService = new IMOD.Application.Service.VeiculoEmpresaService();
+        private readonly IMOD.Application.Interfaces.IVeiculoCredencialService objVeiculoCredencialService = new IMOD.Application.Service.VeiculoCredencialService();
         private List<Veiculo> veiculos = new List<Veiculo>();
         private List<VeiculoEmpresa> vinculos = new List<VeiculoEmpresa>();
 
@@ -183,6 +184,33 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             }
         }
 
+        // GET: Veiculo/Credential/5
+        public ActionResult Credential(int id)
+        {
+            var credencialView = objVeiculoCredencialService.ObterCredencialView(id);
+            if (credencialView != null)
+            {
+                AutorizacaoViewModel objAutorizacaoMapeado = Mapper.Map<AutorizacaoViewModel>(credencialView);
+
+                if (objAutorizacaoMapeado.Ativa)
+                {
+                    ViewBag.ClasseAlerta = "alert alert-success";
+                    ViewBag.ClasseIcone = "glyphicon glyphicon-ok";
+                    ViewBag.ClasseTexto = "ATIVA";
+                }
+                else
+                {
+                    ViewBag.ClasseAlerta = "alert alert-danger";
+                    ViewBag.ClasseIcone = "glyphicon glyphicon-remove";
+                    ViewBag.ClasseTexto = "INATIVA";
+                }
+
+                return View(objAutorizacaoMapeado);
+            }
+
+            return View();
+        } 
+
         #region Métodos Internos Carregamento de Componentes
 
         private void PopularEstadosDropDownList()
@@ -201,7 +229,6 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                 ViewBag.Municipio = lstMunicipio;
             }
         }
-
 
         private void PopularDadosDropDownList()
         {
@@ -238,7 +265,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
             ViewBag.ContratoEmpresa = new MultiSelectList(contratoEmpresa, "EmpresaContratoId", "Descricao", resultEmpresasContratosVinculados.Select(m => m.EmpresaContratoId).ToArray());
         }
-
+         
         #endregion
     }
 }
