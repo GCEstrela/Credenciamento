@@ -80,7 +80,8 @@ namespace IMOD.CredenciamentoDeskTop.Views
         private void OnDownload_Click(object sender, RoutedEventArgs e)
         {
             try
-            { 
+            {
+                _viewModel.BuscarAnexo(_viewModel.Entity.VeiculoAnexoId);
                 var arquivoStr = _viewModel.Entity.Arquivo;
                 var arrBytes = Convert.FromBase64String(arquivoStr);
                 WpfHelp.AbrirArquivoPdf(_viewModel.Entity.NomeArquivo, arrBytes);
