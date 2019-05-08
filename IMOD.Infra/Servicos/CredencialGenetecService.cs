@@ -244,7 +244,13 @@ namespace IMOD.Infra.Servicos
                     cardholder.State = entity.Ativo ? CardholderState.Active : CardholderState.Inactive;
                     
                 }
-                //cardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade);
+                if (entity.Validade > DateTime.Now)
+                {
+                    cardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade);
+                }
+
+                SetValorCamposCustomizados(entity, cardholder);
+
                 _sdk.TransactionManager.CommitTransaction();
             }
             catch (Exception ex)
@@ -617,7 +623,7 @@ namespace IMOD.Infra.Servicos
 
                 if (credencial == null) throw new InvalidOperationException("Não foi possível criar uma credencial.");
                 credencial.Name = $"{entity.NumeroCredencial} - {entity.Nome}";
-
+                //credencial.ExpirationDate = entity.Validade;
                 //var layout = _sdk.GetEntity (new Guid (entity.IdentificadorLayoutCrachaGuid));
                 //if (layout != null) //Especifica um layout Cracha apenas se houver um existente
                 //    credencial.BadgeTemplate = new Guid (entity.IdentificadorLayoutCrachaGuid);
