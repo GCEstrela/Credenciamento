@@ -248,7 +248,9 @@ namespace IMOD.Infra.Servicos
                 {
                     cardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade);
                 }
-                
+
+                SetValorCamposCustomizados(entity, cardholder);
+
                 _sdk.TransactionManager.CommitTransaction();
             }
             catch (Exception ex)
