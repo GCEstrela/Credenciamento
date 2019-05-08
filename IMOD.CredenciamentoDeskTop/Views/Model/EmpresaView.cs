@@ -65,9 +65,11 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public int? PraVencer { get; set; }
         public string PraVencerTooltip { get { return "Vencimento de Contrato em.: " + PraVencer.ToString(); } }
 
-        #endregion
+        public string CnpjMascara { get { return Cnpj.Length > 14 & Cnpj.Contains(".") ? Cnpj : Convert.ToUInt64(Cnpj).ToString(@"00\.000\.000\/0000\-00"); } }
 
-        
+        #endregion 
+
+
         /// <summary>Creates a new object that is a copy of the current instance.</summary>
         /// <returns>A new object that is a copy of this instance.</returns>
         public object Clone()
