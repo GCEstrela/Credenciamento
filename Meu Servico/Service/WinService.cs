@@ -21,7 +21,7 @@ using IMOD.Domain.Entities;
 
 namespace Meu_Servico.Service
 {
-
+   
     class WinService
     {
         private ICredencialService _serviceGenetec;
@@ -32,6 +32,8 @@ namespace Meu_Servico.Service
         private ConfiguraSistema _configuraSistema;
         private IEngine _sdk;
 
+        private System.Timers.Timer timer;
+
         public ILog Log { get; private set; }
 
         private Boolean logado;
@@ -40,7 +42,7 @@ namespace Meu_Servico.Service
         private const int diasAlerta1 = 5;
         private const int diasAlerta2 = 15;
         private const int diasAlerta3 = 30;
-
+        
         public WinService(ILog logger)
         {
 
@@ -52,7 +54,8 @@ namespace Meu_Servico.Service
             Log = logger;
 
         }
-
+        //var MyTimer = new Timer(RunTask, AutoEvent, 1000, 2000);
+        
         public bool Start(HostControl hostControl)
         {
             Genetec.Sdk.Engine _sdk = new Genetec.Sdk.Engine();
@@ -64,15 +67,20 @@ namespace Meu_Servico.Service
             _sdk.EventReceived += _sdk_EventReceived;
             _sdk.EntityInvalidated += _sdk_EntityInvalidated;
 
+            this.timer = new System.Timers.Timer(10000D);  // 10000 milliseconds = 10 seconds
+            this.timer.AutoReset = true;
+            this.timer.Elapsed += new System.Timers.ElapsedEventHandler(this.timer_Elapsed);
+            this.timer.Start();
 
+            return true;
 
+        }
+        private void timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+
+            Genetec.Sdk.Engine _sdk = new Genetec.Sdk.Engine();
             _serviceGenetec = new CredencialGenetecService(_sdk);
             MetodoRealizaFuncao(true, _sdk);
-
-            //Log.Info($"{nameof(Service.WinService)} Start command received.");
-
-            //TODO: Implement your service start routine.
-            return true;
 
         }
         private void Logon_SC_th(Genetec.Sdk.Engine _sdk)
@@ -170,94 +178,94 @@ namespace Meu_Servico.Service
             try
             {
                 ////_serviceGenetec.DisparaAlarme("teste", 8);
-                //CriarLog("serviço rodando:" + DateTime.Now);
+                CriarLog("serviço rodando:" + DateTime.Now);
                 string messa;
-                //var colaboradorContratos = _serviceColaborador.Listar(null, null, null, null, null, null, true).ToList();
-                //colaboradorContratos.ForEach(ec =>
-                //{
-                //    DateTime validadeCredencial = (DateTime)ec.Validade;
-                //    //string texto = ((ec.Validade < DateTime.Now) ? " - Vencido em : " : " - Válido até : ") + ec.Validade;
-                //    //CriarLog(string.Format("Contrato: {0}", texto));
-                //    int dias = validadeCredencial.Subtract(DateTime.Now.Date).Days;
-                //    switch (dias)
-                //    {
-                //        case diasAlerta:
-                //            messa = "A credencial do colaborador.: " + ec.ColaboradorNome + " vencendo hoje";
-                //            //_serviceGenetec.DisparaAlarme(messa, 8);
+                var colaboradorContratos = _serviceColaborador.Listar(null, null, null, null, null, null, true).ToList();
+                colaboradorContratos.ForEach(ec =>
+                {
+                    DateTime validadeCredencial = (DateTime)ec.Validade;
+                    //string texto = ((ec.Validade < DateTime.Now) ? " - Vencido em : " : " - Válido até : ") + ec.Validade;
+                    //CriarLog(string.Format("Contrato: {0}", texto));
+                    int dias = validadeCredencial.Subtract(DateTime.Now.Date).Days;
+                    switch (dias)
+                    {
+                        case diasAlerta:
+                            messa = "A credencial do colaborador.: " + ec.ColaboradorNome + " vencendo hoje";
+                            //_serviceGenetec.DisparaAlarme(messa, 8);
 
-                //            _configuraSistema = ObterConfiguracao();
-                //            if (_configuraSistema.Email != null)
-                //            {
-                //                sendMessage(messa, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), ec.Email.Trim());
-                //            }
-                //            break;
+                            _configuraSistema = ObterConfiguracao();
+                            if (_configuraSistema.Email != null)
+                            {
+                                sendMessage(messa, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), ec.Email.Trim());
+                            }
+                            break;
 
-                //        case diasAlerta1:
-                //            messa = "A credencial do colaborador.: " + ec.ColaboradorNome + " vencerá em " + diasAlerta1 + " dias.";
-                //            //_serviceGenetec.DisparaAlarme(messa, 8);
+                        case diasAlerta1:
+                            messa = "A credencial do colaborador.: " + ec.ColaboradorNome + " vencerá em " + diasAlerta1 + " dias.";
+                            //_serviceGenetec.DisparaAlarme(messa, 8);
 
-                //            _configuraSistema = ObterConfiguracao();
-                //            if (_configuraSistema.Email != null)
-                //            {
-                //                sendMessage(messa, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), ec.Email.Trim());
-                //            }
-                //            break;
+                            _configuraSistema = ObterConfiguracao();
+                            if (_configuraSistema.Email != null)
+                            {
+                                sendMessage(messa, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), ec.Email.Trim());
+                            }
+                            break;
 
-                //        case diasAlerta2:
-                //            messa = "A credencial do colaborador.: " + ec.ColaboradorNome + " vencerá em " + diasAlerta2 + " dias.";
-                //            //_serviceGenetec.DisparaAlarme(messa, 8);
+                        case diasAlerta2:
+                            messa = "A credencial do colaborador.: " + ec.ColaboradorNome + " vencerá em " + diasAlerta2 + " dias.";
+                            //_serviceGenetec.DisparaAlarme(messa, 8);
 
-                //            _configuraSistema = ObterConfiguracao();
-                //            if (_configuraSistema.Email != null)
-                //            {
-                //                sendMessage(messa, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), ec.Email.Trim());
-                //            }
-                //            break;
+                            _configuraSistema = ObterConfiguracao();
+                            if (_configuraSistema.Email != null)
+                            {
+                                sendMessage(messa, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), ec.Email.Trim());
+                            }
+                            break;
 
-                //        case diasAlerta3:
-                //            messa = "A credencial do colaborador.: " + ec.ColaboradorNome + " vencerá em " + diasAlerta3 + " dias.";
-                //            //_serviceGenetec.DisparaAlarme(messa, 8);
+                        case diasAlerta3:
+                            messa = "A credencial do colaborador.: " + ec.ColaboradorNome + " vencerá em " + diasAlerta3 + " dias.";
+                            //_serviceGenetec.DisparaAlarme(messa, 8);
 
-                //            _configuraSistema = ObterConfiguracao();
-                //            if (_configuraSistema.Email != null)
-                //            {
-                //                sendMessage(messa, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), ec.Email.Trim());
-                //            }
-                //            break;
+                            _configuraSistema = ObterConfiguracao();
+                            if (_configuraSistema.Email != null)
+                            {
+                                sendMessage(messa, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), ec.Email.Trim());
+                            }
+                            break;
 
-                //        default:
-                //            break;
-                //    }
-
-
-                //    if (ec.Validade < DateTime.Now)
-                //    {
-                //        ec.Ativa = false;
-                //        ec.CredencialStatusId = (int)StatusCredencial.INATIVA;
-                //        ec.CredencialMotivoId = (int)Inativo.EXPIRADA;
-                //        _serviceColaborador.Alterar(ec);
-                //        if (!string.IsNullOrEmpty(ec.CredencialGuid))
-                //        {
-                //            CardHolderEntity entity = new CardHolderEntity();
-                //            entity.IdentificadorCardHolderGuid = ec.CardHolderGuid;
-                //            entity.IdentificadorCredencialGuid = ec.CredencialGuid;
-                //            entity.Nome = ec.ColaboradorNome;                            
+                        default:
+                            break;
+                    }
 
 
-                //            //O _SDK está vindo nulo
-                //            _serviceGenetec.AlterarStatusCredencial(entity);
+                    if (ec.Validade < DateTime.Now)
+                    {
+                        ec.Ativa = false;
+                        ec.CredencialStatusId = (int)StatusCredencial.INATIVA;
+                        ec.CredencialMotivoId = (int)Inativo.EXPIRADA;
+                        _serviceColaborador.Alterar(ec);
+                        if (!string.IsNullOrEmpty(ec.CredencialGuid))
+                        {
+                            CardHolderEntity entity = new CardHolderEntity();
+                            entity.IdentificadorCardHolderGuid = ec.CardHolderGuid;
+                            entity.IdentificadorCredencialGuid = ec.CredencialGuid;
+                            entity.Nome = ec.ColaboradorNome;
 
-                //        }
 
-                //        //var n1 = _serviceColaborador.BuscarCredencialPelaChave(ec.ColaboradorCredencialId);
-                //        //_serviceColaborador.RemoverRegrasCardHolder(new CredencialGenetecService(m_sdk), new ColaboradorService(), n1);
+                            //O _SDK está vindo nulo
+                            _serviceGenetec.AlterarStatusCredencial(entity);
 
-                //    }
+                        }
 
-                //    string texto = "Impressa.:" + ec.Impressa + " Status.: " + ec.Ativa + " " + ec.ColaboradorNome + ((ec.Validade < DateTime.Now) ? " Vencido em : " : " Válido até : ") + ec.Validade;
-                //    CriarLog(string.Format("Contrato: {0}", texto));
-                //}
-                //);
+                        //var n1 = _serviceColaborador.BuscarCredencialPelaChave(ec.ColaboradorCredencialId);
+                        //_serviceColaborador.RemoverRegrasCardHolder(new CredencialGenetecService(m_sdk), new ColaboradorService(), n1);
+
+                    }
+
+                    string texto = "Impressa.:" + ec.Impressa + " Status.: " + ec.Ativa + " " + ec.ColaboradorNome + ((ec.Validade < DateTime.Now) ? " Vencido em : " : " Válido até : ") + ec.Validade;
+                    CriarLog(string.Format("Contrato: {0}", texto));
+                }
+                );
 
 
                 //CardHolderEntity entity2 = new CardHolderEntity();
@@ -450,10 +458,18 @@ namespace Meu_Servico.Service
         }
         private void CriarLog(object state)
         {
-            StreamWriter vWriter = new StreamWriter(@"C:\Tmp\Logs\log.txt", true);
-            vWriter.WriteLine(state.ToString());
-            vWriter.Flush();
-            vWriter.Close();
+            try
+            {
+                StreamWriter vWriter = new StreamWriter(@"C:\Tmp\Logs\log.txt", true);
+                vWriter.WriteLine(state.ToString());
+                vWriter.Flush();
+                vWriter.Close();
+            }
+            catch (Exception ex)
+            {
+                CriarLog(ex.Message);
+            }
+
         }
         public bool Stop(HostControl hostControl)
         {
