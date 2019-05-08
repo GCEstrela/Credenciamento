@@ -402,14 +402,19 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     DateTime dataEmissao = (DateTime)Entity.Emissao;
                     dataEncontrada = dataEmissao.AddDays(730);
                 }
-                Entity.Validade = dataEncontrada;
+                if (Entity.Validade > dataEncontrada)
+                    Entity.Validade = dataEncontrada;
+
                 OnPropertyChanged("Entity");
             }
             else
             {
-                Entity.Validade = data;
+                if (Entity.Validade > data)
+                    Entity.Validade = data;
+
                 OnPropertyChanged("Entity");
             }
+
         }
         public void AtualizarDados(ColaboradorView entity, ColaboradorViewModel viewModelParent)
         {
@@ -549,6 +554,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             try
             {
                 if (Entity == null) return;
+                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
 
                 Entity.DevolucaoEntregaBoId = IsCheckDevolucao ? (int)devolucaoCredencial : 0;
                 var n1 = Mapper.Map<ColaboradorCredencial>(Entity);
@@ -564,7 +570,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 n1.ColaboradorPrivilegio2Id = Entity.ColaboradorPrivilegio2Id;
                 n1.Identificacao1 = Entity.Identificacao1;
                 n1.Identificacao2 = Entity.Identificacao2;
-                n1.Validade = Entity.Validade.Value.AddHours(23).AddMinutes(59).AddSeconds(59); //Sempre Add 23:59:59 horas à credencial nova.
+                //n1.Validade = Entity.Validade.Value.AddHours(23).AddMinutes(59).AddSeconds(59); //Sempre Add 23:59:59 horas à credencial nova.
                 if (n1.Validade <= DateTime.Now)
                 {
                     WpfHelp.Mbox("Data de Validade da Credencial é inferior à data atual.", MessageBoxIcon.Information);
@@ -620,9 +626,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 Entity = null;
                 _viewModelParent.HabilitaControleTabControls(true, true, true, true, true, true);
 
+                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.IBeam;
             }
             catch (Exception ex)
             {
+                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.IBeam;
                 Utils.TraceException(ex);
                 WpfHelp.PopupBox(ex);
             }
@@ -706,6 +714,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             try
             {
                 if (Entity == null) return;
+                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
+
                 ObterValidadeAlteracao();
                 Entity.DevolucaoEntregaBoId = IsCheckDevolucao ? (int)devolucaoCredencial : 0;
 
@@ -716,7 +726,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 n1.Identificacao1 = Entity.Identificacao1;
                 n1.Identificacao2 = Entity.Identificacao2;
                 n1.NumeroCredencial = Entity.NumeroCredencial;
-                
+                n1.Validade = Entity.Validade;
                 if (_configuraSistema.Colete)
                 {
                     Entity.NumeroColete = Convert.ToString(_colaboradorView.ColaboradorId);
@@ -781,9 +791,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 Entity = null;
                 _viewModelParent.HabilitaControleTabControls(true, true, true, true, true, true);
 
+                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.IBeam;
             }
             catch (Exception ex)
             {
+                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.IBeam;
                 Utils.TraceException(ex);
                 WpfHelp.PopupBox(ex);
             }

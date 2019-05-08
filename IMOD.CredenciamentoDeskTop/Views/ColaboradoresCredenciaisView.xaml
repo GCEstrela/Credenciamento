@@ -195,8 +195,7 @@
                             <TextBlock Text="{Binding Entity.Emissao,UpdateSourceTrigger=PropertyChanged, StringFormat=\{0:d\}}"  VerticalAlignment="Center" Width="70" />
                             <Label Content="Validade:" Height="28" Width="56" Margin="1"   Foreground="#FFD0D0D0"  RenderTransformOrigin="0.553,0.5"/>
 
-                            <TextBox Text="{Binding Entity.Validade, 
-                                     UpdateSourceTrigger=PropertyChanged,Mode=TwoWay,StringFormat='{}{0:dd/MM/yyyy}'}"
+                            <TextBox Text="{Binding Entity.Validade,UpdateSourceTrigger=PropertyChanged,StringFormat='{}{0:dd/MM/yyyy}'}"
                                      LostFocus="OnFormatData_LostFocus"                                      
                                      PreviewTextInput="NumberOnly"
                                      IsEnabled="{Binding Habilitar}"
