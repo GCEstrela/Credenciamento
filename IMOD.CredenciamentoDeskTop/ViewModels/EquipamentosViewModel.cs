@@ -170,7 +170,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         }
 
         #region  Metodos
-
+        public void BucarFoto(int EquipamentoVeiculoID)
+        {
+            if (Entity.Foto != null) return;
+            var listaFoto = _service.BuscarPelaChave(EquipamentoVeiculoID);
+            Entity.Foto = listaFoto.Foto;
+        }
         /// <summary>
         /// </summary>
         /// <param name="sender"></param>
