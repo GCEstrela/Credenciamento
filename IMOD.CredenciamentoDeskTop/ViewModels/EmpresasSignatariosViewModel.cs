@@ -80,6 +80,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
+                if (Entity.Assinatura != null) return;
                 var anexo = _service.BuscarPelaChave(EmpresaSignatarioID);
                 Entity.Assinatura = anexo.Assinatura;
             }

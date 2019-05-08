@@ -113,6 +113,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
+                if (Entity.Arquivo != null) return;
                 var anexo = _service.BuscarPelaChave(EmpresaContratoId);
                 Entity.Arquivo = anexo.Arquivo;
             }

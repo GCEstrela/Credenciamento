@@ -190,6 +190,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         }
         public void bucarLogo(int empresa)
         {
+            if (Entity.Logo != null) return;
             var listaFoto = _service.BuscarPelaChave(empresa);
             Entity.Logo = listaFoto.Logo;
         }

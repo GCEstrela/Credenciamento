@@ -66,6 +66,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
+                if (Entity.Anexo != null) return;
                 var anexo = _service.BuscarPelaChave(EmpresaAnexoID);
                 Entity.Anexo = anexo.Anexo;
             }
