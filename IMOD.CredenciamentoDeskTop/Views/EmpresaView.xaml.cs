@@ -55,7 +55,9 @@ namespace IMOD.CredenciamentoDeskTop.Views
             _viewModel.AtualizarDadosPendencias();
             _viewModel.AtualizarDadosTiposAtividades();
             _viewModel.AtualizarDadosTipoCrachas();
-            _viewModel.bucarLogo(_viewModel.Entity.EmpresaId);
+            if (_viewModel.Entity!=null)
+                _viewModel.bucarLogo(_viewModel.Entity.EmpresaId);
+
             _viewModel.Entity.Cnpj = _viewModel.Entity.Cnpj.FormatarCnpj();
             //Popular User Controls
             //////////////////////////////////////////////////////////////
