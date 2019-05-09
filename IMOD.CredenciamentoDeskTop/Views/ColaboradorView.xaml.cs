@@ -236,18 +236,21 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             try
             {
-                
+               
                 PopupWebCam _PopupWebCam = new PopupWebCam();
                 _PopupWebCam.ShowDialog();
 
-                BitmapSource _img = _PopupWebCam.Captura;
-
-                if (_img != null)
-                {                    
-                    string _imgstr = WpfHelp.IMGtoSTR(_img);
-                    Logo_im.Source = _img;
-                    _viewModel.Entity.Foto = _imgstr;
+                if (_PopupWebCam.aceitarImg)
+                {
+                    BitmapSource _img = _PopupWebCam.Captura;
+                    if (_img != null)
+                    {
+                        string _imgstr = WpfHelp.IMGtoSTR(_img);
+                        Logo_im.Source = _img;
+                        _viewModel.Entity.Foto = _imgstr;
+                    }
                 }
+                
 
             }
             catch (Exception ex)
