@@ -48,7 +48,11 @@
                 <li class="nav-item">
                     <a class="nav-link" id="vinculo-tab" data-toggle="tab" href="#vinculo" role="tab" aria-controls="vinculo"
                        aria-selected="false">Vínculo</a>
-                </li>                
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="curso-tab" data-toggle="tab" href="#curso" role="tab" aria-controls="vinculo"
+                       aria-selected="false">Cursos</a>
+                </li>
             </ul>
 
             <div class="tab-content" id="myTabContent">
@@ -345,33 +349,66 @@
                     <br />
                     <div div class="form-group">
                         @Html.LabelFor(model => model.ContratoEmpresaID, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-lg-3">
+                        <div class="col-lg-5">
                             @Html.DropDownList("EmpresaContratoId", (MultiSelectList)ViewBag.ContratoEmpresa, new { multiple = "multiple" })
 
                         </div>
-                        <div class="col-lg-7">
+                        <div class="col-lg-5">
                             @*//href="@Url.Action("AdicionarContrato")"*@
                             @*<a title="Vincular Contrato" id="btContrato" href="#">
-                                <i class="material-icons">&#xE147;</i>
-                            </a>*@
+                        <i class="material-icons">&#xE147;</i>
+                    </a>*@
                         </div>
                     </div>
                     <br />
                     @*<fieldset>
-                        <legend> Contratos Selecionados</legend>
-                        @foreach (var item in ((IEnumerable<IMOD.Domain.Entities.EmpresaContrato>)ViewBag.ContratosSelecionados))
-                        {
-                            <div class="form-group">
-                                <div class="col-lg-2">@item.NumeroContrato</div>
-                                <div class="col-lg-4">@item.Descricao</div>
-                                <div class="col-lg-1">
-                                    <a href="@Url.Action("RemoverContrato")" title="Vincular Contrato">
-                                        <i class="material-icons danger">&#xE15C;</i>
-                                    </a>
-                                </div>
-                            </div>
-                        }
-                    </fieldset>*@
+                <legend> Contratos Selecionados</legend>
+                @foreach (var item in ((IEnumerable<IMOD.Domain.Entities.EmpresaContrato>)ViewBag.ContratosSelecionados))
+                {
+                    <div class="form-group">
+                        <div class="col-lg-2">@item.NumeroContrato</div>
+                        <div class="col-lg-4">@item.Descricao</div>
+                        <div class="col-lg-1">
+                            <a href="@Url.Action("RemoverContrato")" title="Vincular Contrato">
+                                <i class="material-icons danger">&#xE15C;</i>
+                            </a>
+                        </div>
+                    </div>
+                }
+            </fieldset>*@
+                </div>
+
+                <div class="tab-pane fade" id="curso" role="tabpanel" aria-labelledby="curso-tab">
+                    <br />
+                    <div div class="form-group">
+                        @Html.LabelFor(model => model.ContratoEmpresaID, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-lg-5">
+                            @Html.DropDownList("CursoId", (MultiSelectList)ViewBag.Cursos, new { multiple = "multiple" })
+
+                        </div>
+                        <div class="col-lg-5">
+                            @*//href="@Url.Action("AdicionarContrato")"*@
+                            @*<a title="Vincular Contrato" id="btContrato" href="#">
+                        <i class="material-icons">&#xE147;</i>
+                    </a>*@
+                        </div>
+                    </div>
+                    <br />
+                    @*<fieldset>
+                <legend> Contratos Selecionados</legend>
+                @foreach (var item in ((IEnumerable<IMOD.Domain.Entities.EmpresaContrato>)ViewBag.ContratosSelecionados))
+                {
+                    <div class="form-group">
+                        <div class="col-lg-2">@item.NumeroContrato</div>
+                        <div class="col-lg-4">@item.Descricao</div>
+                        <div class="col-lg-1">
+                            <a href="@Url.Action("RemoverContrato")" title="Vincular Contrato">
+                                <i class="material-icons danger">&#xE15C;</i>
+                            </a>
+                        </div>
+                    </div>
+                }
+            </fieldset>*@
                 </div>
             </div>
         </fieldset>
