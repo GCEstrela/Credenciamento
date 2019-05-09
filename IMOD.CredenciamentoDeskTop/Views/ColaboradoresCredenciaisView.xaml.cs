@@ -14,6 +14,7 @@ using System.Windows.Input;
 using IMOD.CredenciamentoDeskTop.ViewModels;
 using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
+using IMOD.Domain.EntitiesCustom;
 
 #endregion
 
@@ -32,7 +33,8 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             InitializeComponent();
             _viewModel = new ColaboradoresCredenciaisViewModel();
-            DataContext = _viewModel; 
+            DataContext = _viewModel;
+           
         }
 
         #endregion
@@ -80,8 +82,8 @@ namespace IMOD.CredenciamentoDeskTop.Views
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             cmbEmpresaVinculo_cb.SelectionChanged += EmpresaVinculo_cb_SelectionChanged;
+            cmbCredencialStatus.SelectionChanged += OnAlterarStatus_SelectonChanged;
 
-            
         }
          
 
@@ -113,7 +115,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         private void OnAlterarStatus_SelectonChanged(object sender, SelectionChangedEventArgs e)
         {
-            
+
             btnImprimirCredencial.IsEnabled = _viewModel.HabilitaImpressao;
 
             if ((CredencialStatus)cmbCredencialStatus.SelectedItem != null)
@@ -122,6 +124,12 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 chkDevolucaoMotivo.IsChecked = _viewModel.IsCheckDevolucao;
                 chkDevolucaoMotivo.Visibility = _viewModel.VisibilityCheckDevolucao;
                 chkDevolucaoMotivo.Content = _viewModel.TextCheckDevolucao;
+            }
+
+            if (_viewModel.ColaboradorEmpresa == null) return;
+            if (_viewModel.ColaboradorEmpresa.ColaboradorId > 0 & _viewModel.ColaboradorEmpresa.EmpresaId > 0)
+            {
+                _viewModel.CarregarVinculosAtivosOutrasCredenciais(_viewModel.ColaboradorEmpresa.ColaboradorId, _viewModel.ColaboradorEmpresa.EmpresaId);
             }
         }
 
@@ -196,5 +204,9 @@ namespace IMOD.CredenciamentoDeskTop.Views
             }
         }
 
+        private void CmbEmpresaVinculo_cb_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }

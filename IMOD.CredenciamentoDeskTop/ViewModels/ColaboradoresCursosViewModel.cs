@@ -71,7 +71,20 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         #endregion
 
         #region  Metodos
-
+        public void BuscarAnexo(int ColaboradorCursoID)
+        {
+            try
+            {
+                if (Entity.Arquivo != null) return;
+                var anexo = _service.BuscarPelaChave(ColaboradorCursoID);
+                Entity.Arquivo = anexo.Arquivo;
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+                WpfHelp.PopupBox(ex);
+            }
+        }
         /// <summary>
         /// 
         /// </summary>

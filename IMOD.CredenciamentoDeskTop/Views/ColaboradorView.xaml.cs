@@ -57,11 +57,14 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         private void OnListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (_viewModel.Entity == null) return;
             //Atualizar dados ao selecionar uma linha da listview
             _viewModel.AtualizarDadosPendencias();
 
             //Popular User Controls
             //////////////////////////////////////////////////////////////
+            _viewModel.BucarFoto(_viewModel.Entity.ColaboradorId);
+            _viewModel.Entity.Cpf =  _viewModel.Entity.Cpf.FormatarCpf();
             ColaboradorEmpresaUs.AtualizarDados(_viewModel.Entity, _viewModel);
             ColaboradorCurso.AtualizarDados(_viewModel.Entity, _viewModel);
             AnexoUs.AtualizarDados(_viewModel.Entity, _viewModel);
@@ -147,10 +150,10 @@ namespace IMOD.CredenciamentoDeskTop.Views
             if (_viewModel.Entity == null) return;
             try
             {
-
+                _viewModel.Entity.Cpf = _viewModel.Entity.Cpf.FormatarCpf();
                 var cpf = _viewModel.Entity.Cpf;
                 if (!Utils.IsValidCpf(cpf)) throw new Exception();
-                _viewModel.Entity.Cpf.FormatarCpf();
+                //_viewModel.Entity.Cpf.FormatarCpf();
                 //Verificar existência de CPF
                 if (_viewModel.ExisteCpf())
                     _viewModel.Entity.SetMessageErro("Cpf", "CPF já existe");

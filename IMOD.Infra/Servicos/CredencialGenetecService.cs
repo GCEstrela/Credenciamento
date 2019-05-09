@@ -12,6 +12,8 @@ using Genetec.Sdk;
 using Genetec.Sdk.Credentials;
 using Genetec.Sdk.Entities;
 using Genetec.Sdk.Entities.Activation;
+using Genetec.Sdk.Entities.CustomEvents;
+using Genetec.Sdk.Events;
 using Genetec.Sdk.Queries;
 using IMOD.CrossCutting;
 using IMOD.Domain.Interfaces;
@@ -24,6 +26,7 @@ namespace IMOD.Infra.Servicos
 {
     public class CredencialGenetecService : ICredencialService
     {
+       // private readonly IColaboradorCredencialService _service = new ColaboradorCredencialService();
         private readonly IEngine _sdk;
         
         public CredencialGenetecService(IEngine sdk)
@@ -70,10 +73,15 @@ namespace IMOD.Infra.Servicos
         private void _sdk_EventReceived(object sender, EventReceivedEventArgs e)
         {
             Entity entity = _sdk.GetEntity(e.SourceGuid);
-            if (entity != null)
+            if (entity.EntityType == EntityType.Credential || entity.EntityType == EntityType.Cardholder)
             {
                 var messa = e.Timestamp.ToString() + " - " + e.EventType.ToString() + " - " + entity.Name;
             }
+            
+            //if (entity != null)
+            //{
+            //    var messa = e.Timestamp.ToString() + " - " + e.EventType.ToString() + " - " + entity.Name;
+            //}
         }
         public void _sdk_EntityRemoved(object sender, EntityRemovedEventArgs e)
         {
@@ -110,6 +118,9 @@ namespace IMOD.Infra.Servicos
                     var state = _credential.State.ToString();
                     var data = _credential.ExpirationDate.ToString();
                     var messa = string.Format("{0}, {1} was modified {2}\r\n", entity.Name, state, data, e.IsLocalUpdate ? "locally" : "remotely");
+
+                    
+
                 }
                 else
                 {
@@ -117,6 +128,8 @@ namespace IMOD.Infra.Servicos
                     var state = _cardholder.State.ToString();
                     var data = _cardholder.ExpirationDate.ToString();
                     var messa = string.Format("{0}, {1} was modified {2}\r\n", entity.Name, state, data, e.IsLocalUpdate ? "locally" : "remotely");
+
+
                 }
                 //var ttt =entity.RunningState.ToString();
 
@@ -154,8 +167,8 @@ namespace IMOD.Infra.Servicos
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(entity.FormatoCredencial))
-                    entity.FormatoCredencial = "CSN";
+                //if (string.IsNullOrWhiteSpace(entity.FormatoCredencial))
+                    //entity.FormatoCredencial = "CSN";
 
                 switch (entity.FormatoCredencial.ToLower().Trim())
                 {
@@ -229,7 +242,14 @@ namespace IMOD.Infra.Servicos
                 {
                     if (cardholder == null) throw new InvalidOperationException("Não foi possível encontrar o titular do cartão.");
                     cardholder.State = entity.Ativo ? CardholderState.Active : CardholderState.Inactive;
+                    
                 }
+                if (entity.Validade > DateTime.Now)
+                {
+                    cardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade);
+                }
+
+                SetValorCamposCustomizados(entity, cardholder);
 
                 _sdk.TransactionManager.CommitTransaction();
             }
@@ -343,6 +363,8 @@ namespace IMOD.Infra.Servicos
                 //if (cardHolderGroup == null) throw new InvalidOperationException ("Não foi possível gerar grupo de credencial");
                 if (cardHolderGroup != null)
                     cardHolder.Groups.Add(cardHolderGroup.Guid);
+                //cardHolder.Synchronised = false;
+                cardHolder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade);
 
                 _sdk.TransactionManager.CommitTransaction();
 
@@ -433,17 +455,66 @@ namespace IMOD.Infra.Servicos
                 throw;
             }
         }
+        public void GerarEvento(string _evento, Entity _entidade = null, string _mensagem = "mensagem custom event")
+        {
+            try
+            {
+                CustomEventInstance _customEvent;
+                if (_entidade == null)
+                {
+                    _customEvent = (CustomEventInstance)_sdk.ActionManager.BuildEvent(EventType.CustomEvent, Genetec.Sdk.SdkGuids.SystemConfiguration);
+                }
+                else
+                {
+                    _customEvent = (CustomEventInstance)_sdk.ActionManager.BuildEvent(EventType.CustomEvent, _entidade.Guid);
+                }
+
+                if (_customEvent != null)
+                {
+                    _customEvent.Id = new CustomEventId(Convert.ToInt32(_evento));
+                    _customEvent.Message = _mensagem;                    
+
+                    _sdk.ActionManager.RaiseEvent(_customEvent);
+
+                }
+
+            }
+            catch (Exception)
+            {
+
+            }
+        }
         public void DisparaAlarme(string menssagem,int IdAlarme)
         {
             try
             {
-                
-                Alarm alarm = (Alarm)_sdk.GetEntity(EntityType.Alarm, IdAlarme);                
-                _sdk.AlarmManager.TriggerAlarm(alarm);
+
+
+
+                //Entity _entidade;
+                //_entidade = _sdk.GetEntity(_sdk.ClientGuid);
+
+                // var guidAlarm = _sdk.CreateEntity(menssagem, EntityType.Alarm, guidParent).Guid;
+                _sdk.TransactionManager.CreateTransaction();
+
+                TimeSpan duration = new TimeSpan(1, 12, 23, 62);
+                var guidParent = new Guid("00000000-0000-0000-0000-000000000003"); //Guid do usuário que receberá os alarmes
+                var guidAlarm = _sdk.CreateEntity(menssagem, EntityType.Alarm).Guid;
+                Alarm alarm = (Alarm)_sdk.GetEntity(guidAlarm);
+                alarm.Recipients.Add(guidParent, duration);
+
+
+                _sdk.TransactionManager.CommitTransaction();
+
+                _sdk.AlarmManager.TriggerAlarm(guidAlarm, _sdk.ClientGuid);
+
+                //Alarm alarm = (Alarm)_sdk.GetEntity(EntityType.Alarm, IdAlarme);                
+                //_sdk.AlarmManager.TriggerAlarm(alarm);
 
             }
             catch (Exception ex)
             {
+                _sdk.TransactionManager.RollbackTransaction();
                 Utils.TraceException(ex);
                 throw;
             }
@@ -453,42 +524,44 @@ namespace IMOD.Infra.Servicos
         ///     <para>Remove Todas as Regras de Acesso de um CardHolder se nao existir</para>
         /// </summary>
         /// <param name="entity"></param>
-        public void RemoveRegraAcesso(CardHolderEntity entity)
+        public string EncontraCredencialPeloNumero(CardHolderEntity entity,string credencialNumero)
         {
 
-            ////var accessRule = GetEntities(entity.Identificacao1.ToString(), EntityType.AccessRule);
-            ////if (accessRule != null)
+            EntityConfigurationQuery query;
+            QueryCompletedEventArgs result;
+            try
+            {
+                var guid = new Guid(entity.IdentificadorCardHolderGuid);
+                var credencial = _sdk.GetEntity(guid) as Credential;
 
-            //EntityConfigurationQuery query;
-            //QueryCompletedEventArgs result;
-            //try
-            //{
-            //    var guid = new Guid(entity.IdentificadorCardHolderGuid);
-            //    var cardHolder = _sdk.GetEntity(guid) as Cardholder;
-
-            //    query = _sdk.ReportManager.CreateReportQuery(ReportType.EntityConfiguration) as EntityConfigurationQuery;
-            //    query.EntityTypeFilter.Add(EntityType.AccessRule);
-            //    query.NameSearchMode = StringSearchMode.StartsWith;
-            //    result = query.Query();
-            //    SystemConfiguration systemConfiguration = _sdk.GetEntity(SdkGuids.SystemConfiguration) as SystemConfiguration;
-            //    var service = systemConfiguration.CustomFieldService;
-            //    if (result.Success)
-            //    {
-            //        _sdk.TransactionManager.CreateTransaction();
-            //        foreach (DataRow dr in result.Data.Rows)    //sempre remove todas as regras de um CardHolder
-            //        {
-            //            AccessRule accesso = _sdk.GetEntity((Guid)dr[0]) as AccessRule;
-            //            accesso.Members.Remove(cardHolder.Guid);
-            //        }
-            //        _sdk.TransactionManager.CommitTransaction();
-            //    }
-
-            //}
-            //catch (Exception ex)
-            //{
-            //    Utils.TraceException(ex);
-            //    throw;
-            //}
+                query = _sdk.ReportManager.CreateReportQuery(ReportType.EntityConfiguration) as EntityConfigurationQuery;
+                query.EntityTypeFilter.Add(EntityType.Credential);
+                query.NameSearchMode = StringSearchMode.StartsWith;
+                result = query.Query();
+                SystemConfiguration systemConfiguration = _sdk.GetEntity(SdkGuids.SystemConfiguration) as SystemConfiguration;
+                var service = systemConfiguration.CustomFieldService;
+                if (result.Success)
+                {
+                    //_sdk.TransactionManager.CreateTransaction();
+                    foreach (DataRow dr in result.Data.Rows)    //sempre remove todas as regras de um CardHolder
+                    {
+                        Credential cred = _sdk.GetEntity((Guid)dr[0]) as Credential;
+                        var numeroCredencial = cred.Name.Split('-');
+                        string number = numeroCredencial[0].ToString();
+                        if (number.Trim() == credencialNumero.Trim())
+                        {
+                            return cred.Guid.ToString();
+                        }
+                    }
+                    //_sdk.TransactionManager.CommitTransaction();
+                }
+                return "";
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+                throw;
+            }
         }
         private QueryCompletedEventArgs GetEntities(string name, AccessRule eType)
         {
@@ -538,6 +611,8 @@ namespace IMOD.Infra.Servicos
                 Credential credencial;
 
                 #region Criar ou obter uma credencial
+                if (entity.IdentificadorCredencialGuid ==null)
+                    entity.IdentificadorCredencialGuid = EncontraCredencialPeloNumero(entity, entity.NumeroCredencial);//Encontra Credencial pelo Numero da Credencial
 
                 if (!string.IsNullOrWhiteSpace(entity.IdentificadorCredencialGuid))
                     credencial = _sdk.GetEntity(new Guid(entity.IdentificadorCredencialGuid)) as Credential;
@@ -548,9 +623,11 @@ namespace IMOD.Infra.Servicos
 
                 if (credencial == null) throw new InvalidOperationException("Não foi possível criar uma credencial.");
                 credencial.Name = $"{entity.NumeroCredencial} - {entity.Nome}";
+                //credencial.ExpirationDate = entity.Validade;
                 //var layout = _sdk.GetEntity (new Guid (entity.IdentificadorLayoutCrachaGuid));
                 //if (layout != null) //Especifica um layout Cracha apenas se houver um existente
                 //    credencial.BadgeTemplate = new Guid (entity.IdentificadorLayoutCrachaGuid);
+
                 //Obter Formatacao da Credencial
                 SetValorFormatoCredencial(entity, credencial);
 
@@ -558,6 +635,7 @@ namespace IMOD.Infra.Servicos
                 credencial.InsertIntoPartition(Partition.DefaultPartitionGuid);
 
                 //Vincular Credencial ao CardHolder
+                cardHolder.Credentials.Remove(credencial);
                 cardHolder.Credentials.Add(credencial);
                 if (cardHolder.State != CardholderState.Active) //Quando uma creencial é criada o cardholder fica semtre ativo.
                 {
@@ -676,6 +754,36 @@ namespace IMOD.Infra.Servicos
         public void DisparaAlarme(CardHolderEntity entity)
         {
 
+        }
+
+        public void RemoverCredencial(CardHolderEntity entity)
+        {
+            try
+            {
+                #region Existindo Credential, deletar
+
+                if (!string.IsNullOrWhiteSpace(entity.IdentificadorCredencialGuid))
+                {
+                    
+                    Credential credencial = _sdk.GetEntity(new Guid(entity.IdentificadorCredencialGuid)) as Credential;
+                    if (credencial != null)
+                    {
+                        _sdk.TransactionManager.CreateTransaction();
+
+                        _sdk.DeleteEntity(credencial.Guid);
+
+                        _sdk.TransactionManager.CommitTransaction();
+                    }
+                }
+               
+                #endregion
+            }
+            catch (Exception ex)
+            {
+                //_sdk.TransactionManager.RollbackTransaction;
+                Utils.TraceException(ex);
+                throw;
+            }
         }
         #endregion
     }

@@ -134,7 +134,7 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText("Veiculos", conn))
+                using (var cmd = _dataBase.SelectText("VeiculosView", conn))
 
                 {
                     try
@@ -143,7 +143,9 @@ namespace IMOD.Infra.Repositorios
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Modelo", DbType.String, objects, 1).Like()));
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("PlacaIdentificador", DbType.String, objects, 2).Like()));
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("SerieChassi", DbType.String, objects, 3).Like()));
-
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Tipo", DbType.String, objects, 4).Like()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EquipamentoVeiculoID", DbType.Int32, objects, 5).Like()));
+                        //
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<Veiculo>();
 

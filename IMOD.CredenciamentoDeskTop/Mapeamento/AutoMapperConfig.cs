@@ -33,7 +33,8 @@ namespace IMOD.CredenciamentoDeskTop.Mapeamento
             Mapper.Initialize (
                 m =>
                 {
-                    m.CreateMap<Colaborador, ColaboradorView>().ForMember (k => k.Cpf, opt => opt.MapFrom (k => k.Cpf.FormatarCpf())).ReverseMap();
+                    //m.CreateMap<Colaborador, ColaboradorView>().ForMember(k => k.Cpf, opt => opt.MapFrom(k => k.Cpf.FormatarCpf())).ReverseMap();
+                    m.CreateMap<Colaborador, ColaboradorView>().ReverseMap();
                     m.CreateMap<ColaboradorEmpresa, ColaboradorEmpresaView>().ReverseMap();
                     m.CreateMap<ColaboradorCurso, ColaboradorCursoView>().ReverseMap();
                     m.CreateMap<ColaboradorCursoView, ColaboradorCurso>().ReverseMap();
@@ -50,10 +51,11 @@ namespace IMOD.CredenciamentoDeskTop.Mapeamento
                     m.CreateMap<VeiculoEmpresaView, Views.Model.VeiculoEmpresaView>().ReverseMap();
                     m.CreateMap<VeiculoSeguroView, VeiculoSeguro>().ReverseMap();
                     m.CreateMap<VeiculoAnexoView, VeiculoAnexo>().ReverseMap();
-                    m.CreateMap<Empresa, EmpresaView>()
-                        .ForMember (k => k.Cnpj, opt => opt.MapFrom (k => k.Cnpj.FormatarCnpj()))
-                        .ForMember (c => c.Cep, opt => opt.MapFrom (c => c.Cep.FormataCep()))
-                        .ReverseMap();
+                    //m.CreateMap<Empresa, EmpresaView>()
+                    //    .ForMember (k => k.Cnpj, opt => opt.MapFrom (k => k.Cnpj.FormatarCnpj()))
+                    //    .ForMember (c => c.Cep, opt => opt.MapFrom (c => c.Cep.FormataCep()))
+                    //    .ReverseMap();
+                    m.CreateMap<Empresa, EmpresaView>().ReverseMap();
                     m.CreateMap<EmpresaSignatario, EmpresaSignatarioView>().ForMember (k => k.Cpf, opt => opt.MapFrom (k => k.Cpf.FormatarCpf())).ReverseMap();
                     m.CreateMap<EmpresaContratoView, EmpresaContrato>().ReverseMap();
                     m.CreateMap<EmpresaAnexoView, EmpresaAnexo>().ReverseMap();

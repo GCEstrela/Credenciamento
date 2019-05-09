@@ -23,6 +23,7 @@ namespace IMOD.Domain.Entities
         public string Arquivo { get; set; }
         public DateTime? Validade { get; set; }
         public bool Controlado { get; set; }
+        public string Descricao { get; set; }
 
         #endregion
     }

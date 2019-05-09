@@ -176,7 +176,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         }
 
         #region  Metodos
-
+        public void BucarFoto(int EquipamentoVeiculoID)
+        {
+            if (Entity.Foto != null) return;
+            var listaFoto = _service.BuscarPelaChave(EquipamentoVeiculoID);
+            Entity.Foto = listaFoto.Foto;
+        }
         /// <summary>
         /// </summary>
         /// <param name="sender"></param>
@@ -205,6 +210,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             ListaPesquisa = new List<KeyValuePair<int, string>>();
             ListaPesquisa.Add (new KeyValuePair<int, string> (1, "Placa/Identificador"));
             ListaPesquisa.Add (new KeyValuePair<int, string> (2, "Série/Chassi"));
+            ListaPesquisa.Add(new KeyValuePair<int, string>(3, "Descrição"));
             PesquisarPor = ListaPesquisa[0]; //Pesquisa Default
         }
 
@@ -303,9 +309,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
         }
 
-        private void PrepareCriar()
+        private void PrepareCriar() 
         {
-            Entity = new VeiculoView();
+            Entity = new VeiculoView(); 
+            Entity.Tipo = "VEICULO";
             Comportamento.PrepareCriar();
             TiposEquipamentoServico.Clear();
             HabilitaControle (false, false);
@@ -376,22 +383,30 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             try
             {
                 var pesquisa = NomePesquisa;
-
+                String tipoVeiculoEquipamento = "VEICULO";
                 var num = PesquisarPor;
 
-                //Placa/Identificador
+                //Placa
                 if (num.Key == 1)
                 {
                     if (string.IsNullOrWhiteSpace (pesquisa)) return;
-                    var l1 = _service.Listar (null, null, $"%{pesquisa}%", null);
+                    var l1 = _service.Listar(null, null, $"%{pesquisa}%", null, $"%{tipoVeiculoEquipamento}%");
+                    
                     PopularObserver (l1);
                 }
-                //Por Série/Chassi
+                //Por Chassi
                 if (num.Key == 2)
                 {
                     if (string.IsNullOrWhiteSpace (pesquisa)) return;
-                    var l1 = _service.Listar (null, null, null, $"%{pesquisa}%");
+                    var l1 = _service.Listar(null, null, null, $"%{pesquisa}%", $"%{tipoVeiculoEquipamento}%");  
                     PopularObserver (l1);
+                }
+                //Por Chassi
+                if (num.Key == 3)
+                {
+                    if (string.IsNullOrWhiteSpace(pesquisa)) return;
+                    var l1 = _service.Listar($"%{pesquisa}%", null, null,null, $"%{tipoVeiculoEquipamento}%");
+                    PopularObserver(l1);
                 }
 
                 IsEnableLstView = true;
@@ -406,15 +421,18 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
+                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
                 var list2 = Mapper.Map<List<VeiculoView>> (list.OrderByDescending (n => n.EquipamentoVeiculoId).ToList());
                 EntityObserver = new ObservableCollection<VeiculoView>();
                 list2.ForEach (n => { EntityObserver.Add (n); });
                 //Havendo registros, selecione o primeiro
                 if (EntityObserver.Any()) SelectListViewIndex = 0;
+                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.IBeam;
             }
 
             catch (Exception ex)
             {
+                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.IBeam;
                 Utils.TraceException (ex);
             }
         }
@@ -432,6 +450,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 WpfHelp.PopupBox ("Selecione um item da lista", 1);
                 return;
             }
+            Entity.Tipo = "VEICULO";
             Comportamento.PrepareAlterar();
             AtualizarDadosTiposServico();
             HabilitaControle (false, false);

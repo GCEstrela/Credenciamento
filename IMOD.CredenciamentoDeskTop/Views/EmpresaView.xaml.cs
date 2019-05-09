@@ -55,6 +55,8 @@ namespace IMOD.CredenciamentoDeskTop.Views
             _viewModel.AtualizarDadosPendencias();
             _viewModel.AtualizarDadosTiposAtividades();
             _viewModel.AtualizarDadosTipoCrachas();
+            _viewModel.bucarLogo(_viewModel.Entity.EmpresaId);
+            _viewModel.Entity.Cnpj = _viewModel.Entity.Cnpj.FormatarCnpj();
             //Popular User Controls
             //////////////////////////////////////////////////////////////
             RepresentanteUs.AtualizarDados(_viewModel.Entity, _viewModel);
@@ -204,10 +206,10 @@ namespace IMOD.CredenciamentoDeskTop.Views
             if (_viewModel.Entity == null) return;
             try
             {
-
+                _viewModel.Entity.Cnpj = _viewModel.Entity.Cnpj.FormatarCnpj();
                 var cnpj = _viewModel.Entity.Cnpj;
                 if (!Utils.IsValidCnpj(cnpj)) throw new Exception();
-                _viewModel.Entity.Cnpj.FormatarCnpj();
+                //_viewModel.Entity.Cnpj.FormatarCnpj();
                 //Verificar existência de CPF
                 if (_viewModel.ExisteCnpj())
                     _viewModel.Entity.SetMessageErro("Cnpj", "CNPJ já existe");

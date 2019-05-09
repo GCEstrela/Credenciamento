@@ -209,7 +209,7 @@
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>-->
                         <GridViewColumn Width="55" Header="Código" DisplayMemberBinding="{Binding ColaboradorId}" />
-                        <GridViewColumn Width="115" Header="CPF" DisplayMemberBinding="{Binding Cpf}" />
+                        <GridViewColumn Width="115" Header="CPF" DisplayMemberBinding="{Binding CpfMascara}" />
                         <GridViewColumn Width="250" Header="Nome do Colaborador" DisplayMemberBinding="{Binding Nome}" />
                         <GridViewColumn Width="150" Header="Apelido do Colaborador"
                                         DisplayMemberBinding="{Binding Apelido}" />
@@ -307,10 +307,9 @@
                                              PreviewTextInput="NumberOnly"
                                              IsEnabled="True" Height="24" Width="122"
                                              LostFocus="OnFormatCpf_LostFocus"
-                                             Foreground="White" VerticalContentAlignment="Center"
-                                             Text="{Binding Entity.Cpf,
-                                              UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                             HorizontalContentAlignment="Center"
+                                             Foreground="White" VerticalContentAlignment="Center"                                             
+                                             Text="{Binding Entity.Cpf,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                             HorizontalContentAlignment="Center"  
                                                />
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center"

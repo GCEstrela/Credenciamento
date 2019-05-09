@@ -219,6 +219,14 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 Relatorios = observer;
 
+
+                var quantidadeRestante = 24 - list1.Count();
+
+                for (int count = 0; quantidadeRestante < 24; count++)
+                {
+                    Relatorios.Add(new RelatorioView());
+                }
+
             }
             catch (Exception ex)
             {

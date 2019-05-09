@@ -207,7 +207,7 @@
 
                             </GroupBox>
                             <GroupBox      x:Name="Relatorios_gb" Header="Relatórios" Margin="0,20,0,0" Height="625"  >
-                                <ScrollViewer  Margin="0,20,0,0"  Visibility="Collapsed">
+                                <ScrollViewer  Margin="0,20,0,0" >
                                     <StackPanel x:Name="Botoes_sp">
                                         <StackPanel.Resources >
                                             <funcoes:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />

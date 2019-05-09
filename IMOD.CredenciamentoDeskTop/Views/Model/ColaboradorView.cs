@@ -92,7 +92,11 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
                 return (Estrangeiro == true && (string.IsNullOrEmpty(Rne) & !PassaportePreenchido()));
             }
         }
-
+        //public bool Pendente21 { get; set; }
+        //public bool Pendente22 { get; set; }
+        //public bool Pendente23 { get; set; }
+        //public bool Pendente24 { get; set; }
+        //public bool Pendente25 { get; set; }
 
         private bool PassaportePreenchido()
         {
@@ -101,6 +105,9 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public bool Policiafederal { get; set; }
         public bool Receitafederal { get; set; }
         public bool Segurancatrabalho { get; set; }
+
+        public string CpfMascara { get { return (Cpf.Length > 11 & Cpf.Contains(".")) || (String.IsNullOrEmpty(Cpf?.Trim())) ? Cpf : Convert.ToUInt64(Cpf).ToString(@"000\.000\.000\-00"); } }
+
 
         #endregion
 

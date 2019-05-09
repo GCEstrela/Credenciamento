@@ -192,7 +192,7 @@ namespace IMOD.CredenciamentoDeskTop.Windows
                 
                 return null;
             }
-            return null;
+            //return null;
         }
     }
 }

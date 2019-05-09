@@ -35,7 +35,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
     public class ColaboradorViewModel : ViewModelBase, IComportamento, IAtualizarDados
     {
         private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
-        private readonly IColaboradorService _service = new ColaboradorService(); 
+        private readonly IColaboradorService _service = new ColaboradorService();
+        private readonly IColaboradorEmpresaService _serviceColaboradorEmpresa = new ColaboradorEmpresaService();
 
         /// <summary>
         ///     True, Comando de alteração acionado
@@ -137,15 +138,25 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         public ColaboradorViewModel()
         {
-            ItensDePesquisaConfigura();
-            ListarDadosAuxiliares();
-            Comportamento = new ComportamentoBasico (false, true, true, false, false);
-            EntityObserver = new ObservableCollection<ColaboradorView>();
-            Comportamento.SalvarAdicao += OnSalvarAdicao;
-            Comportamento.SalvarEdicao += OnSalvarEdicao;
-            Comportamento.Remover += OnRemover;
-            Comportamento.Cancelar += OnCancelar;
-            PropertyChanged += OnEntityChanged;
+            try
+            {
+                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
+                ItensDePesquisaConfigura();
+                ListarDadosAuxiliares();
+                Comportamento = new ComportamentoBasico(false, true, true, false, false);
+                EntityObserver = new ObservableCollection<ColaboradorView>();
+                Comportamento.SalvarAdicao += OnSalvarAdicao;
+                Comportamento.SalvarEdicao += OnSalvarEdicao;
+                Comportamento.Remover += OnRemover;
+                Comportamento.Cancelar += OnCancelar;
+                PropertyChanged += OnEntityChanged;
+                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.IBeam;
+            }
+            catch (Exception ex)
+            {
+                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.IBeam;
+                Utils.TraceException(ex);
+            }            
         }
 
         #region  Metodos
@@ -202,7 +213,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             ListaPesquisa = new List<KeyValuePair<int, string>>();
             ListaPesquisa.Add (new KeyValuePair<int, string> (1, "CPF"));
             ListaPesquisa.Add (new KeyValuePair<int, string> (2, "Nome"));
-            ListaPesquisa.Add(new KeyValuePair<int, string>(3, "Todos os Colaboradores"));
+            ListaPesquisa.Add(new KeyValuePair<int, string>(3, "Empresa"));
+            ListaPesquisa.Add(new KeyValuePair<int, string>(4, "Todos os Colaboradores"));
             PesquisarPor = ListaPesquisa[1]; //Pesquisa Default
         }
 
@@ -210,15 +222,19 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                var list2 = Mapper.Map<List<ColaboradorView>> (list.OrderByDescending (n => n.ColaboradorId));
+                
+                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
+                var list2 = Mapper.Map<List<ColaboradorView>> (list.ToList().OrderBy(c => c.Nome));
                 EntityObserver = new ObservableCollection<ColaboradorView>();
                 list2.ForEach (n => { EntityObserver.Add (n); });
                 //Havendo registros, selecione o primeiro
-                if (EntityObserver.Any()) SelectListViewIndex = 0;
+                //if (EntityObserver.Any()) SelectListViewIndex = 0;
+                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.IBeam;
             }
 
             catch (Exception ex)
             {
+                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.IBeam;
                 Utils.TraceException (ex);
             }
         }
@@ -253,13 +269,26 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var num = PesquisarPor;
 
                 //Todos
-                if (num.Key == 3)
+                if (num.Key == 4)
                 {
                     
                     var l1 = _service.Listar();
                     PopularObserver(l1);
 
                 }
+                if (num.Key == 3)
+                {
+
+                    if (string.IsNullOrWhiteSpace(pesquisa)) return;                    
+                    var l1 = _service.Listar(null, null, null);
+                    var l2 = _serviceColaboradorEmpresa.Listar(null, null, null, null, $"%{pesquisa}%", null);                    
+                    var l3 = l2.Select(c => c.ColaboradorId ).ToList<int>();
+                    var l4 =  l1.Where(c => l3.Contains(c.ColaboradorId)).ToList();
+                                       
+                    PopularObserver(l4);
+
+                }
+
                 //Por nome
                 if (num.Key == 2)
                 {
@@ -278,14 +307,27 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 }
 
                 IsEnableLstView = true; 
-            }
-            catch (Exception ex)
+            }             
+                catch (Exception ex)
             {
                 Utils.TraceException (ex);
             }
         }
          
-
+        public void BucarFoto(int colaborador)
+        {
+            try
+            {
+                if (Entity.Foto != null) return;
+                var listaFoto = _service.BuscarPelaChave(colaborador);
+                Entity.Foto = listaFoto.Foto;
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+                WpfHelp.PopupBox(ex);
+            }
+        }
         public void ListarDadosAuxiliares()
         {
             var lst3 = _auxiliaresService.EstadoService.Listar();

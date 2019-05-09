@@ -56,6 +56,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("LayoutCrachaGUID", entity.LayoutCrachaGuid, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Valor", entity.Valor, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("LayoutRPT", entity.LayoutRpt, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("TipoCracha", entity.TipoCracha, false)));
 
                         var key = Convert.ToInt32(cmd.ExecuteScalar());
 
@@ -147,6 +148,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("LayoutCrachaGUID", entity.LayoutCrachaGuid, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Valor", entity.Valor, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("LayoutRPT", entity.LayoutRpt, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("TipoCracha", entity.TipoCracha, false)));
 
                         cmd.ExecuteNonQuery();
                     }

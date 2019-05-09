@@ -61,6 +61,10 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("ManuseioBagagem", entity.ManuseioBagagem, false))); 
 
                         cmd.ExecuteNonQuery();
+
+                        ////Gerar matricula
+                        //if (entity.Matricula == null)
+                        //    CriarNumeroMatricula(entity);
                     }
                     catch (Exception ex)
                     {
@@ -147,7 +151,7 @@ namespace IMOD.Infra.Repositorios
         /// Criar numero de matricula
         /// </summary>
         /// <param name="entity"></param>
-        private void CriarNumeroMatricula(ColaboradorEmpresa entity)
+        public void CriarNumeroMatricula(ColaboradorEmpresa entity)
         {
             
             var data = DateTime.Now.ToString("yy");
@@ -164,7 +168,6 @@ namespace IMOD.Infra.Repositorios
             using (var conn = _dataBase.CreateOpenConnection())
             {
                 using (var cmd = _dataBase.SelectText("ColaboradorEmpresaView", conn))
-
                 {
                     try
                     {

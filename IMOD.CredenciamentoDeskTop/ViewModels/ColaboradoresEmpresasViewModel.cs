@@ -35,7 +35,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private readonly IColaboradorEmpresaService _service = new ColaboradorEmpresaService();
         private readonly IColaboradorCredencialService _servicecredencial = new ColaboradorCredencialService();
 
-        private readonly object _auxiliaresService;
+        //private readonly object _auxiliaresService;
         private ColaboradorView _colaboradorView;
        
         private ColaboradorViewModel _viewModelParent;
@@ -85,7 +85,19 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         }
 
         #region  Metodos
-
+        public void BuscarAnexo(int ColaboradorEmpresaId)
+        {
+            try
+            {
+                var anexo = _service.BuscarPelaChave(ColaboradorEmpresaId);
+                Entity.Anexo = anexo.Anexo;
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+                WpfHelp.PopupBox(ex);
+            }
+        }
         /// <summary>
         /// 
         /// </summary>
@@ -264,8 +276,14 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (Entity == null) return;
                 if (Validar()) return;
                 var n1 = Mapper.Map<ColaboradorEmpresa>(Entity);
+                //Gerar matricula
+                if (n1.Matricula == null)
+                    _service.CriarNumeroMatricula(n1);
+
                 _service.Alterar(n1);
-                IsEnableLstView = true;
+                Entity.Matricula = n1.Matricula;
+
+                 IsEnableLstView = true;
                 SetDadosEmpresaContrato(Entity);
 
 

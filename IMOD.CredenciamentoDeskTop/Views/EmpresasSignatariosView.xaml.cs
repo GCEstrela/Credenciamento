@@ -76,6 +76,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             try
             {
+                _viewModel.BuscarAnexo(_viewModel.Entity.EmpresaSignatarioId);
                 var arrayByes = Convert.FromBase64String(_viewModel.Entity.Assinatura);
                 WpfHelp.AbrirArquivoPdf(_viewModel.Entity.Nome, arrayByes);
             }

@@ -14,5 +14,8 @@ namespace IMOD.Domain.EntitiesCustom
         public string Cor { get; set; }
         public string Identificacao1 { get; set; }
         public string Identificacao2 { get; set; }
+        public string Categoria { get; set; }
+        public string Frota { get; set; } 
+        public bool Ativa { get; set; }  
     }
 }

@@ -34,6 +34,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
         private readonly IEmpresaService _service = new EmpresaService();
         private List<EmpresaView> _entityObserverCloned = new List<EmpresaView>();
+        private readonly IEmpresaContratosService _serviceContratos = new EmpresaContratoService();
         private ConfiguraSistema _configuraSistema;
         
         /// <summary>
@@ -144,7 +145,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public int QuantidadeTipoCredencialTemporario { get; set; }
 
         public int QuantidadeTipoCredencialPermanente { get; set; }
-
+       
         #endregion
 
         public EmpresaViewModel()
@@ -171,6 +172,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void OnEntityChanged(object sender, PropertyChangedEventArgs e)
+
+
         {
             if (e.PropertyName == "Entity")
 
@@ -185,7 +188,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 HabilitaCommandPincipal = SelectedTabIndex == 0; 
              
         }
-
+        public void bucarLogo(int empresa)
+        {
+            if (Entity.Logo != null) return;
+            var listaFoto = _service.BuscarPelaChave(empresa);
+            Entity.Logo = listaFoto.Logo;
+        }
         /// <summary>
         ///     Atualizar dados de atividade
         /// </summary>
@@ -209,7 +217,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
             TiposLayoutCracha.Clear();
             var id = Entity.EmpresaId;
-            var list = _service.CrachaService.ListarLayoutCrachaPorEmpresaView (id).ToList();
+            var list = _service.CrachaService.ListarLayoutCrachaPorEmpresaView (id,0).ToList();
             var list2 = Mapper.Map<List<EmpresaLayoutCrachaView>> (list);
             list2.ForEach (n => TiposLayoutCracha.Add (n));
         }
@@ -323,7 +331,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public bool ExisteSigla()
         {
             if (Entity == null) return false;
-            var sigla = Entity.Sigla.Trim();
+            var sigla = Entity.Sigla?.Trim();
 
             //Verificar dados antes de salvar uma criação
             if (_prepareCriarCommandAcionado)
@@ -507,6 +515,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                     EntityObserver.Clear();
                     var n2 = Mapper.Map<EmpresaView> (n1);
+                   
                     var observer = new ObservableCollection<EmpresaView>();
                     observer.Add (n2);
                     EntityObserver = observer;
@@ -539,15 +548,21 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
+                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
+                //var contrato = _serviceContratos.Listar().OrderByDescending(ec => ec.PraVencer).GroupBy(ec => ec.EmpresaId).ToList();
+
                 var list2 = Mapper.Map<List<EmpresaView>> (list.OrderByDescending (n => n.EmpresaId));
-                EntityObserver = new ObservableCollection<EmpresaView>();
+                
+                EntityObserver = new ObservableCollection<EmpresaView>();               
                 list2.ForEach (n => { EntityObserver.Add (n); });
                 //Havendo registros, selecione o primeiro
-                if (EntityObserver.Any()) SelectListViewIndex = 0;
+                //if (EntityObserver.Any()) SelectListViewIndex = 0;
+                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.IBeam;
             }
 
             catch (Exception ex)
             {
+                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.IBeam;
                 Utils.TraceException (ex);
             }
         }

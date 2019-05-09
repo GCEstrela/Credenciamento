@@ -7,22 +7,34 @@ using System.Web.Mvc;
 using AutoMapper;
 using IMOD.Domain.Entities;
 using IMOD.Application.Service;
+using IMOD.PreCredenciamentoWeb.Util;
 
 namespace IMOD.PreCredenciamentoWeb.Controllers
 {
     public class ColaboradorController : Controller
     {
         // GET: Colaborador
-        private readonly IMOD.Application.Interfaces.IColaboradorService _service = new IMOD.Application.Service.ColaboradorService();
-        private readonly IMOD.Application.Interfaces.IDadosAuxiliaresFacade _auxiliaresService = new IMOD.Application.Service.DadosAuxiliaresFacadeService();
+        private readonly IMOD.Application.Interfaces.IColaboradorService objService = new IMOD.Application.Service.ColaboradorService();
+        private readonly IMOD.Application.Interfaces.IDadosAuxiliaresFacade objAuxiliaresService = new IMOD.Application.Service.DadosAuxiliaresFacadeService();
+        private readonly IMOD.Application.Interfaces.IEmpresaContratosService objContratosService = new IMOD.Application.Service.EmpresaContratoService();
+        private readonly IMOD.Application.Interfaces.IColaboradorEmpresaService objColaboradorEmpresaService = new ColaboradorEmpresaService();
+        private readonly IMOD.Application.Interfaces.IColaboradorCredencialService objColaboradorCredencialService = new IMOD.Application.Service.ColaboradorCredencialService();
 
+        private List<Colaborador> colaboradores = new List<Colaborador>();
+        private List<ColaboradorEmpresa> vinculos = new List<ColaboradorEmpresa>();
 
         public ActionResult Index()
         {
-            var lstColaborador = _service.Listar(null, null, string.Empty);
-            List<ColaboradorViewModel> lstColaboradorMapeado = Mapper.Map<List<ColaboradorViewModel>>(lstColaborador);
-
+            List<ColaboradorViewModel> lstColaboradorMapeado = Mapper.Map<List<ColaboradorViewModel>>(ObterColaboradoresEmpresaLogada());
             return View(lstColaboradorMapeado);
+        }
+
+        private IList<Colaborador> ObterColaboradoresEmpresaLogada()
+        {
+            vinculos = objColaboradorEmpresaService.Listar(null, null, null, null, null, SessionUsuario.EmpresaLogada.Codigo).ToList();
+            vinculos.ForEach(v => { colaboradores.AddRange(objService.Listar(v.ColaboradorId)); });
+
+            return colaboradores.OrderBy(c => c.Nome).ToList();
         }
 
         // GET: Colaborador/Details/5
@@ -36,21 +48,31 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         {
             PopularEstadosDropDownList();
             PopularDadosDropDownList();
-
+            PopularContratoCreateDropDownList(SessionUsuario.EmpresaLogada.Codigo);
             return View();
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(ColaboradorViewModel model)
+        //[ValidateAntiForgeryToken]
+        public ActionResult Create(ColaboradorViewModel model, int[] EmpresaContratoId)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    var colaboradorMapeado = Mapper.Map<Colaborador>(model); 
-                    _service.Criar(colaboradorMapeado);
- 
+                    var colaboradorMapeado = Mapper.Map<Colaborador>(model);
+                    objService.Criar(colaboradorMapeado);
+
+                    foreach (int contratoEmpresaId in EmpresaContratoId) {
+                        // Inclusão do vinculo
+                        ColaboradorEmpresa colaboradorEmpresa = new ColaboradorEmpresa();
+                        colaboradorEmpresa.ColaboradorId = colaboradorMapeado.ColaboradorId;
+                        colaboradorEmpresa.EmpresaContratoId = Convert.ToInt32(contratoEmpresaId);
+                        colaboradorEmpresa.Ativo = true;
+                        colaboradorEmpresa.EmpresaId = SessionUsuario.EmpresaLogada.Codigo;
+                        objColaboradorEmpresaService.Criar(colaboradorEmpresa);
+                        objColaboradorEmpresaService.CriarNumeroMatricula(colaboradorEmpresa);
+                    }
                     return RedirectToAction("Index", "Colaborador");
                 }
 
@@ -59,7 +81,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                 PopularDadosDropDownList();
                 return View(model);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 ModelState.AddModelError("", "Erro ao salvar registro");
                 return View();
@@ -67,18 +89,19 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
         }
 
-            // GET: Colaborador/Edit/5
+        // GET: Colaborador/Edit/5
         public ActionResult Edit(int? id)
         {
-            var colaboradorEditado = _service.Listar(id).FirstOrDefault(); 
+            var colaboradorEditado = objService.Listar(id).FirstOrDefault();
             if (colaboradorEditado == null)
                 return HttpNotFound();
 
             ColaboradorViewModel colaboradorMapeado = Mapper.Map<ColaboradorViewModel>(colaboradorEditado);
             PopularEstadosDropDownList();
             PopularDadosDropDownList();
-
-            return View(colaboradorMapeado); 
+            ViewBag.Contratos = SessionUsuario.EmpresaLogada.Contratos;
+            ViewBag.ContratosSelecionados = SessionUsuario.EmpresaLogada.Contratos;
+            return View(colaboradorMapeado);
         }
 
         // POST: Colaborador/Edit/5
@@ -94,7 +117,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                 if (ModelState.IsValid)
                 {
                     var colaboradorMapeado = Mapper.Map<Colaborador>(model);
-                    _service.Alterar(colaboradorMapeado);
+                    objService.Alterar(colaboradorMapeado);
 
                     return RedirectToAction("Index");
                 }
@@ -120,7 +143,6 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             try
             {
                 // TODO: Add delete logic here
-
                 return RedirectToAction("Index");
             }
             catch
@@ -128,28 +150,71 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                 return View();
             }
         }
+        
+        public ActionResult AdicionarContrato(int id)
+        {            
+            ViewBag.ContratosSelecionados = new List<EmpresaContrato>();
+            if (TempData["ContratosSelecionados"] != null)
+            {
+                ViewBag.ContratosSelecionados = TempData["ContratosSelecionados"];
+            }
+            var item = SessionUsuario.EmpresaLogada.Contratos.Where(c => c.EmpresaContratoId == id).FirstOrDefault();
+            ((List<EmpresaContrato>)ViewBag.ContratosSelecionados).Add(item);
+            TempData["ContratosSelecionados"] = ViewBag.ContratosSelecionados;            
+            return View();
+        }
 
-        #region Métodos carregar componentes
+        // GET: Veiculo/Credential/5
+        public ActionResult Credential(int id)
+        {
+            var credencialView = objColaboradorCredencialService.ObterCredencialView(id);
+
+            if (credencialView != null)
+            {
+                CredencialViewModel objCredencialMapeado = Mapper.Map<CredencialViewModel>(credencialView);
+
+                if (objCredencialMapeado.Ativa)
+                {
+                    ViewBag.ClasseAlerta = "alert alert-success";
+                    ViewBag.ClasseIcone = "glyphicon glyphicon-ok";
+                    ViewBag.ClasseTexto = "ATIVA";
+                }
+                else
+                {
+                    ViewBag.ClasseAlerta = "alert alert-danger";
+                    ViewBag.ClasseIcone = "glyphicon glyphicon-remove";
+                    ViewBag.ClasseTexto = "INATIVA";
+                }
+
+                return View(objCredencialMapeado);
+            }
+
+            return View();
+
+
+        }
+
+        #region Métodos internos carregar componentes
 
         private void PopularEstadosDropDownList()
         {
-            var lstEstado = _auxiliaresService.EstadoService.Listar();
+            var lstEstado = objAuxiliaresService.EstadoService.Listar();
 
-            ViewBag.Estados = lstEstado; 
-            ViewBag.UfRg = lstEstado; 
-            ViewBag.UfCnh = lstEstado; 
-        } 
+            ViewBag.Estados = lstEstado;
+            ViewBag.UfRg = lstEstado;
+            ViewBag.UfCnh = lstEstado;
+        }
 
         private void PopularMunicipiosDropDownList(String idEstado)
         {
             if (!string.IsNullOrEmpty(idEstado))
             {
-                var lstMunicipio = _auxiliaresService.MunicipioService.Listar(null, null, idEstado);
-                ViewBag.Municipio = lstMunicipio; 
+                var lstMunicipio = objAuxiliaresService.MunicipioService.Listar(null, null, idEstado);
+                ViewBag.Municipio = lstMunicipio;
             }
         }
 
-        private void PopularDadosDropDownList() 
+        private void PopularDadosDropDownList()
         {
 
             ViewBag.CategoriaCnh = new SelectList(new object[]
@@ -176,7 +241,19 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                                 new {Name = "OAB", Value = "OAB"},
                                 new {Name = "CRM", Value = "CRM"}
                                 }, "Value", "Name");
-                    }
+
+            var contrato = objColaboradorEmpresaService.Listar(null, null, null, 12);
+
+        }
+
+
+        private void PopularContratoCreateDropDownList(int idEmpresa)
+        {
+            if (idEmpresa <= 0) return;
+
+            var contratoEmpresa = objContratosService.Listar(idEmpresa);
+            ViewBag.ContratoEmpresa = new MultiSelectList(contratoEmpresa, "EmpresaContratoId", "Descricao");            
+        }
 
         #endregion
     }

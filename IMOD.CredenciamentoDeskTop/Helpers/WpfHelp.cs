@@ -436,7 +436,7 @@ namespace IMOD.CredenciamentoDeskTop.Helpers
                 png = null;
                 return str;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }

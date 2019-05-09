@@ -217,6 +217,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("LayoutCrachaID", DbType.String, objects, 1).Igual()));
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Nome", DbType.String, objects, 2).Like()));
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("LayoutCrachaGUID", DbType.Int32, objects, 3).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("TipoCracha", DbType.Int32, objects, 4).Igual()));
 
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<EmpresaLayoutCrachaView>();
@@ -231,9 +232,9 @@ namespace IMOD.Infra.Repositorios
             }
         }
 
-        public ICollection<EmpresaLayoutCrachaView> ListarLayoutCrachaPorEmpresaView(int idEmpresa)
+        public ICollection<EmpresaLayoutCrachaView> ListarLayoutCrachaPorEmpresaView(int idEmpresa,int tipoChacha)
         {
-            return ListarLayoutCrachaView(idEmpresa, null, null, null);
+            return ListarLayoutCrachaView(idEmpresa, null, null, null, tipoChacha);
         }
     }
 }

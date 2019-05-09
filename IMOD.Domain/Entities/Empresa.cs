@@ -44,7 +44,9 @@ namespace IMOD.Domain.Entities
         public bool Pendente15 { get; set; }
         public bool Pendente16 { get; set; }
         public bool Pendente17 { get; set; }
-
+        public int? PraVencer { get; set; }
+        public string PraVencerTooltip { get; set; }
+        public string Senha { get; set; }
         #endregion
     }
 }

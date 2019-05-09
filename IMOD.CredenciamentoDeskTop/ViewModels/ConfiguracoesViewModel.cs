@@ -66,10 +66,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         #region Variaveis privadas
 
-        private SynchronizationContext _mainThread;
+        //private SynchronizationContext _mainThread;
 
         private int _selectedIndex;
-        private int _selectedIndexTemp = 0;
+       // private int _selectedIndexTemp = 0;
 
         //Relatórios
         private ObservableCollection<RelatorioView> _relatorios;
@@ -169,6 +169,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private int _formatoCredencialSelectedIndex;
 
         //Serviços
+        private readonly IEmpresaLayoutCrachaService _serviceEmpresasCracha = new EmpresaLayoutCrachaService();
+        private readonly IEmpresaService _serviceEmpresas = new EmpresaService();
         private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
         private readonly IRelatorioService _relatorioService = new RelatorioService();
         private readonly IRelatorioGerencialService _relatorioGerencialService = new RelatorioGerencialService();
@@ -1088,7 +1090,15 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (result != DialogResult.Yes) return;
 
                 var entity = LayoutCrachaSelecionado;
-                var entityConv = Mapper.Map<LayoutCracha> (entity);
+                var entityConv = Mapper.Map<LayoutCracha>(entity);
+                
+                var listaCracha = _serviceEmpresasCracha.ListarLayoutCrachaView(null, entity.LayoutCrachaId);
+                if (listaCracha.Count > 0)
+                {
+                    WpfHelp.Mbox("LayoutCracha não pode ser deletato, ele esta sendo utilizado por Empresa(s).");
+                    return;
+                }
+
                 _auxiliaresService.LayoutCrachaService.Remover (entityConv);
                 //_auxiliaresService.LayoutCrachaService.Remover(entityConv);
 

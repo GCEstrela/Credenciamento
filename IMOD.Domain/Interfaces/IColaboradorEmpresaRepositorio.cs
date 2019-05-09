@@ -22,5 +22,11 @@ namespace IMOD.Domain.Interfaces
         /// <param name="o">Arrays de Parametros</param>
         /// <returns></returns>
         ICollection<ColaboradorEmpresa> ListarView(params object[] o);
+        /// <summary>
+        ///     Listar Colaboradores e suas credenciais
+        /// </summary>
+        /// <param name="o">Arrays de Parametros</param>
+        /// <returns></returns>
+        void CriarNumeroMatricula(ColaboradorEmpresa entity);
     }
 }

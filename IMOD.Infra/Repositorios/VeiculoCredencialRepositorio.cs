@@ -380,11 +380,11 @@ namespace IMOD.Infra.Repositorios
         ///     </para>
         /// </summary>
         /// <param name="tipoCredencialId"></param>
-        /// <param name="equiapmentoVeiculoId"></param>
+        /// <param name="equipamentoVeiculoId"></param>
         /// <param name="numContrato"></param>
         /// <param name="credencialRepositorio"></param>
         /// <returns></returns>
-        public DateTime? ObterDataValidadeCredencial(int tipoCredencialId, int equiapmentoVeiculoId, string numContrato, ITipoCredencialRepositorio credencialRepositorio)
+        public DateTime? ObterDataValidadeCredencial(int tipoCredencialId, int equipamentoVeiculoId, string numContrato, ITipoCredencialRepositorio credencialRepositorio)
         {
             if (credencialRepositorio == null) throw new ArgumentNullException (nameof (credencialRepositorio));
 
@@ -392,9 +392,9 @@ namespace IMOD.Infra.Repositorios
             var tipoCredencial = credencialRepositorio.BuscarPelaChave (tipoCredencialId);
             if (tipoCredencial == null) throw new InvalidOperationException ("Um tipo de credencial é necessário.");
             if (tipoCredencial.CredPermanente) //Sendo uma credencial do tipo permanente, então vale a regra da menor data
-                return ObterMenorData (equiapmentoVeiculoId, numContrato);
-            //Caso contrario, trata-se de uma credencial temporária, então vale o prazo de 90 dias em relação a data atual
-            return DateTime.Today.AddDays (90);
+                return ObterMenorData (equipamentoVeiculoId, numContrato);
+            //Caso contrario, trata-se de uma credencial(autorização) temporária, então vale o prazo de 30 dias em relação a data atual
+            return DateTime.Today.AddDays (30);
         }
 
         /// <summary>

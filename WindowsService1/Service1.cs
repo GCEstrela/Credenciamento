@@ -88,7 +88,7 @@ namespace WindowsService1
 
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }

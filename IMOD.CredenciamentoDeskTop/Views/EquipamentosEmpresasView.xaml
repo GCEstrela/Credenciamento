@@ -1,0 +1,129 @@
+﻿<UserControl x:Class="IMOD.CredenciamentoDeskTop.Views.EquipamentosEmpresasView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             d:DataContext="{d:DesignInstance viewModels:EquipamentosEmpresasViewModel , IsDesignTimeCreatable=True}"
+             xmlns:wpf="clr-namespace:CSharpControls.Wpf;assembly=CSharpControls.Wpf"
+             xmlns:viewModels="clr-namespace:IMOD.CredenciamentoDeskTop.ViewModels"
+             xmlns:funcoes="clr-namespace:IMOD.CredenciamentoDeskTop.Funcoes"
+             mc:Ignorable="d"
+             d:DesignHeight="320" 
+             Loaded="Frm_Loaded">
+    <UserControl.Resources>
+        <funcoes:BooleanToVisibilityConverter x:Key="VisibleControl" />
+        <Image x:Key="imgAdd" Source="../Resources/add.png"  />
+        <Image x:Key="imgEdit" Source="../Resources/edit.png"  />
+        <Image x:Key="imgRemove" Source="../Resources/remove.png"  />
+        <Image x:Key="imgSave" Source="../Resources/save.png"  />
+        <Image x:Key="imgCancel" Source="../Resources/undo.png"  />
+        <ControlTemplate x:Key="ValidationErrorTemplate">
+            <DockPanel>
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" Margin="5,0,0,2">
+                    <Grid Width="12" Height="12">
+                        <Ellipse Width="12" Height="12" Fill="Red" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Foreground="White"  FontWeight="Heavy" FontSize="8" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center"
+                               ToolTip="{Binding ElementName=ErrorAdorner, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}">X</TextBlock>
+                    </Grid>
+                </StackPanel>
+                <AdornedElementPlaceholder x:Name="ErrorAdorner" ></AdornedElementPlaceholder>
+            </DockPanel>
+        </ControlTemplate>
+    </UserControl.Resources >
+    <Grid VerticalAlignment="Top">
+        <StackPanel Orientation="Vertical">
+            <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}"
+                      IsEnabled="{Binding Comportamento.isEnableCancelar}"
+                      Background="Crimson"
+                      x:Name="Responsavel_gb" Header="Empresas Vínculos" Margin="0,0,10,0"
+                      VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="795">
+
+                <StackPanel x:Name="InformacoesAnexo_sp" Margin="0,10,10,10" Width="773">
+
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="1" >
+                        <Label Content="Razão Social da Empresa:" Height="24" Foreground="#FFD0D0D0" HorizontalContentAlignment="Left" />
+                        <ComboBox  x:Name="cmbEmpresa" Width="300" Height="25" 
+                                   VerticalContentAlignment="Center" 
+                                   HorizontalContentAlignment="Left"
+                                   VerticalAlignment="Center"
+                                   ItemsSource="{Binding Empresas}"
+                                   SelectedItem="{Binding  Empresa}"
+                                   IsEditable="true" 
+                                   DisplayMemberPath="Nome"  
+                                   SelectedValue="{Binding Entity.EmpresaId , UpdateSourceTrigger=PropertyChanged}" 
+                                   SelectedValuePath="EmpresaId" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
+                        <Label Content="Matrícula:" Height="28" Width="140" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
+
+                        <TextBox  x:Name="Matricula_tb" MaxLength="50" CharacterCasing="Upper"
+                                  VerticalContentAlignment="Center" 
+                                  Text="{Binding Entity.Matricula, 
+                                  UpdateSourceTrigger=PropertyChanged}"  
+                                  IsEnabled="False"  Height="24" 
+                                  MaxWidth="200"  Width="150"/>
+
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
+                                    Margin="1">
+                        <Label Content="Contrato:" Height="28" Foreground="#FFD0D0D0" Width="143" Visibility="{Binding IsEnableComboContrato,  Converter={StaticResource VisibleControl}}" />
+                        <ComboBox  x:Name="cmbContrato" 
+                                   Width="300" Height="25" 
+                                   IsEditable="true" 
+                                   VerticalContentAlignment="Center" 
+                                   HorizontalContentAlignment="Left"
+                                   Visibility="{Binding IsEnableComboContrato,  Converter={StaticResource VisibleControl}}"
+                                   ItemsSource="{Binding Contratos}" 
+                                   DisplayMemberPath="Descricao"  
+                                   SelectedValue="{Binding Entity.EmpresaContratoId, UpdateSourceTrigger=PropertyChanged}" 
+                                   SelectedValuePath="EmpresaContratoId" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
+                                    Margin="1,1,0,1" Width="947">
+                                    <Label Content="Vínculo Ativo:" Height="28" Width="143" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
+                                    <CheckBox VerticalAlignment="Center" x:Name="Impeditivo_cb"                                               
+                                              Foreground="#FFD0D0D0" 
+                                              IsChecked="{Binding Entity.Ativo, UpdateSourceTrigger=PropertyChanged}"
+                                              Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
+                    </StackPanel>
+                </StackPanel>
+            </GroupBox>
+
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="795" Height="203">
+
+                <ListView x:Name="ListaSegnatarios_lv"
+                          IsEnabled="{Binding IsEnableLstView}"
+                         Margin="0,10,0,0" VerticalAlignment="Top" HorizontalAlignment="Stretch"
+                          SelectedIndex="{Binding SelectListViewIndex}"
+                          ItemsSource="{Binding EntityObserver, Mode=TwoWay}"
+                          SelectedItem="{Binding Entity, Mode=TwoWay}"
+                         Width="756"   Height="175" >
+                    <ListView.View>
+                        <GridView FrameworkElement.FlowDirection="RightToLeft">
+                            <GridViewColumn Width="40" Header="Ativo">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding Ativo}" IsHitTestVisible="False" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Width="80" Header="Matrícula" DisplayMemberBinding="{Binding Matricula}" />
+                            <GridViewColumn Width="290" Header="Empresa" DisplayMemberBinding="{Binding EmpresaNome}" />
+                            <GridViewColumn Width="290" Header="Contrato" DisplayMemberBinding="{Binding Descricao}" />
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+
+                <StackPanel Orientation="Vertical" Margin="10,10,10,0" Width="30" HorizontalAlignment="Right"  Height="183" VerticalAlignment="Top">
+
+                    <Button x:Name="btnAdicionar"   Content="{StaticResource imgAdd}"       ToolTip="Adicionar" IsEnabled="{Binding Comportamento.IsEnableCriar}"       Command="{Binding PrepareCriarCommand}"      Width="25" Margin="0,0,0,7" />
+                    <Button x:Name="btnEditar"      Content="{StaticResource imgEdit}"      ToolTip="Editar"    IsEnabled="{Binding Comportamento.IsEnableEditar}"      Command="{Binding PrepareAlterarCommand}"    Width="25" Margin="0,0,0,7" />
+                    <Button x:Name="btnExcluir"     Content="{StaticResource imgRemove}"    ToolTip="Remover"   IsEnabled="{Binding Comportamento.isEnableRemover}"     Command="{Binding PrepareRemoverCommand}"    Width="25" Margin="0,0,0,7"  Visibility="Collapsed"/>
+                    <Button x:Name="btnCancelar"    Content="{StaticResource imgCancel}"    ToolTip="Cancelar"  IsEnabled="{Binding Comportamento.isEnableCancelar}"    Command="{Binding PrepareCancelarCommand}"   Width="25" Margin="0,0,0,7" />
+                    <Button x:Name="btnSalvar"      Content="{StaticResource imgSave}"      ToolTip="Salvar"    IsEnabled="{Binding Comportamento.isEnableSalvar}"      Command="{Binding PrepareSalvarCommand}"     Width="25" Margin="0,0,0,7" />
+
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
+
+    </Grid>
+</UserControl>

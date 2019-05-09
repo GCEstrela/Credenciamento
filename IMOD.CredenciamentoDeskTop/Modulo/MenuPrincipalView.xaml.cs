@@ -59,7 +59,7 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
                 return nomeDataBase;
             }
         }
-        #region  Metodos
+        #region  Metodos 
 
         public void Initialize(Workspace wrk)
         {
@@ -82,8 +82,9 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
                 Button btn = e.Source as Button;
                 btn.Background = (SolidColorBrush)new BrushConverter().ConvertFromString("#FF007ACC");
 
-                this.ColaboradoresBt.Background = Brushes.Transparent;
-                this.VeiculosBt.Background = Brushes.Transparent;
+                this.ColaboradoresBt.Background = Brushes.Transparent; 
+                this.VeiculosBt.Background = Brushes.Transparent; 
+                this.EquipamentosBt.Background = Brushes.Transparent;
                 this.ConfiguracoesBt.Background = Brushes.Transparent;
                 this.RelatoriosBt.Background = Brushes.Transparent;
                 this.TermosBt.Background = Brushes.Transparent;
@@ -96,7 +97,7 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
             }
            
         }
-
+         
         /// <summary>
         ///     Obter view Colaborador
         /// </summary>
@@ -111,6 +112,7 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
 
                 this.EmpresasBt.Background = Brushes.Transparent;
                 this.VeiculosBt.Background = Brushes.Transparent;
+                this.EquipamentosBt.Background = Brushes.Transparent;
                 this.ConfiguracoesBt.Background = Brushes.Transparent;
                 this.RelatoriosBt.Background = Brushes.Transparent;
                 this.TermosBt.Background = Brushes.Transparent;
@@ -138,6 +140,7 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
 
                 this.EmpresasBt.Background = Brushes.Transparent;
                 this.ColaboradoresBt.Background = Brushes.Transparent;
+                this.EquipamentosBt.Background = Brushes.Transparent;
                 this.ConfiguracoesBt.Background = Brushes.Transparent;
                 this.RelatoriosBt.Background = Brushes.Transparent;
                 this.TermosBt.Background = Brushes.Transparent;
@@ -167,6 +170,7 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
                 this.EmpresasBt.Background = Brushes.Transparent;
                 this.ColaboradoresBt.Background = Brushes.Transparent;
                 this.VeiculosBt.Background = Brushes.Transparent;
+                this.EquipamentosBt.Background = Brushes.Transparent;
                 this.RelatoriosBt.Background = Brushes.Transparent;
                 this.TermosBt.Background = Brushes.Transparent;
 
@@ -194,6 +198,7 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
                 this.EmpresasBt.Background = Brushes.Transparent;
                 this.ColaboradoresBt.Background = Brushes.Transparent;
                 this.VeiculosBt.Background = Brushes.Transparent;
+                this.EquipamentosBt.Background = Brushes.Transparent;
                 this.ConfiguracoesBt.Background = Brushes.Transparent;
                 this.TermosBt.Background = Brushes.Transparent;
 
@@ -221,8 +226,10 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
                 this.EmpresasBt.Background = Brushes.Transparent;
                 this.ColaboradoresBt.Background = Brushes.Transparent;
                 this.VeiculosBt.Background = Brushes.Transparent;
+                this.EquipamentosBt.Background = Brushes.Transparent;
                 this.ConfiguracoesBt.Background = Brushes.Transparent;
                 this.RelatoriosBt.Background = Brushes.Transparent;
+
 
                 DataContext = _viewSingleton.TermosView; //new ViewSingleton().TermosView;
             }
@@ -233,6 +240,33 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
             
         }
 
+        /// <summary>
+        ///     Obter view Equipamentos
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnEquipamento_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            { 
+                Button btn = e.Source as Button;
+                btn.Background = (SolidColorBrush)new BrushConverter().ConvertFromString("#FF007ACC");
+
+                this.EmpresasBt.Background = Brushes.Transparent;
+                this.ColaboradoresBt.Background = Brushes.Transparent;
+                this.VeiculosBt.Background = Brushes.Transparent;
+                this.ConfiguracoesBt.Background = Brushes.Transparent;
+                this.RelatoriosBt.Background = Brushes.Transparent;
+                this.TermosBt.Background = Brushes.Transparent;
+                
+
+                DataContext = _viewSingleton.EquipamentosView; 
+            } 
+            catch (Exception ex)
+            {
+                WpfHelp.MboxError(ex);
+            }
+        }
         #endregion
 
         private void OnFrm_Loaded(object sender, RoutedEventArgs e)
