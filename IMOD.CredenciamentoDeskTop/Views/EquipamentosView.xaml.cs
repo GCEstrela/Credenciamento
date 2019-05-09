@@ -49,11 +49,13 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         private void OnListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (_viewModel.Entity == null) return;
             //Atualizar dados ao selecionar uma linha da listview 
             _viewModel.AtualizarDadosPendencias();
             _viewModel.AtualizarDadosTiposServico();
             _viewModel.AtualizarDadosTiposServico();
-            _viewModel.BucarFoto(_viewModel.Entity.EquipamentoVeiculoId);
+            if (_viewModel.Entity != null)
+                _viewModel.BucarFoto(_viewModel.Entity.EquipamentoVeiculoId);
             //Popular User Controls 
             //////////////////////////////////////////////////////////////
             EquipamentosEmpresasUc.AtualizarDados(_viewModel.Entity, _viewModel);
