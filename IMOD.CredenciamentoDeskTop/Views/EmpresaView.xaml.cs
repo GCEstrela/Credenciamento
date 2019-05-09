@@ -51,6 +51,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         private void OnListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (_viewModel.Entity == null) return;
             //Atualizar dados ao selecionar uma linha da listview
             _viewModel.AtualizarDadosPendencias();
             _viewModel.AtualizarDadosTiposAtividades();
@@ -58,7 +59,8 @@ namespace IMOD.CredenciamentoDeskTop.Views
             if (_viewModel.Entity!=null)
                 _viewModel.bucarLogo(_viewModel.Entity.EmpresaId);
 
-            _viewModel.Entity.Cnpj = _viewModel.Entity.Cnpj.FormatarCnpj();
+            if (_viewModel.Entity != null)
+                _viewModel.Entity.Cnpj = _viewModel.Entity.Cnpj.FormatarCnpj();
             //Popular User Controls
             //////////////////////////////////////////////////////////////
             RepresentanteUs.AtualizarDados(_viewModel.Entity, _viewModel);
