@@ -285,7 +285,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     var l3 = l2.Select(c => c.ColaboradorId ).ToList<int>();
                     var l4 =  l1.Where(c => l3.Contains(c.ColaboradorId)).ToList();
                                        
-                    PopularObserver(l1);
+                    PopularObserver(l4);
 
                 }
 
