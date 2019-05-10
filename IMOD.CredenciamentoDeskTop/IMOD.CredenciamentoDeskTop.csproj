@@ -162,11 +162,6 @@
       <DependentUpon>CRACHA FRAPORT.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Cracha\FraportFortalAutorizacao1.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>FraportFortalAutorizacao.rpt</DependentUpon>
-    </Compile>
     <Compile Include="Cracha\FraportFortalCredencialAmarelo.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -226,11 +221,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>FraportFortalCredencialVerde.rpt</DependentUpon>
       <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Cracha\FraportPortoAutorizacao1.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>FraportPortoAutorizacao.rpt</DependentUpon>
     </Compile>
     <Compile Include="Cracha\FraportPortoCredencialAmarelo.cs">
       <AutoGen>True</AutoGen>
@@ -1055,10 +1045,6 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>CRACHA FRAPORT.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Cracha\FraportFortalAutorizacao.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>FraportFortalAutorizacao1.cs</LastGenOutput>
-    </EmbeddedResource>
     <EmbeddedResource Include="Cracha\FraportFortalCredencialAmarelo.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>FraportFortalCredencialAmarelo.cs</LastGenOutput>
@@ -1098,10 +1084,6 @@
     <EmbeddedResource Include="Cracha\FraportFortalCredencialVerde.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>FraportFortalCredencialVerde.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Cracha\FraportPortoAutorizacao.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>FraportPortoAutorizacao1.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Cracha\FraportPortoCredencialAmarelo.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
