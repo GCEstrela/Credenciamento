@@ -180,10 +180,10 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Cracha\FraportFortalCredencialAzulClaro.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
       <DependentUpon>FraportFortalCredencialAzulClaro.rpt</DependentUpon>
       <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
     </Compile>
     <Compile Include="Cracha\FraportFortalCredencialBranco.cs">
       <AutoGen>True</AutoGen>
@@ -198,10 +198,10 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Cracha\FraportFortalCredencialLaranja.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
       <DependentUpon>FraportFortalCredencialLaranja.rpt</DependentUpon>
       <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
     </Compile>
     <Compile Include="Cracha\FraportFortalCredencialMarrom.cs">
       <AutoGen>True</AutoGen>
