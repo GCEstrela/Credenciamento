@@ -152,8 +152,9 @@ namespace IMOD.Infra.Repositorios
                     { 
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("ColaboradorID", DbType.Int32, objects, 0).Igual()));
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("CursoID", DbType.Int32, objects, 1).Igual()));
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Controlado", DbType.Boolean, objects, 2).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Cracha", DbType.Boolean, objects, 2).Igual()));
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Validade", DbType.DateTime, objects, 3).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Controlado", DbType.Boolean, objects, 4).Igual()));
 
                         var reader = cmd.ExecuteReaderSelect(); 
                         var d1 = reader.MapToList<ColaboradorCurso>(); 

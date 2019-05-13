@@ -19,7 +19,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
         // GET: Login
         public ActionResult Index()
-        {
+        { 
             return View(new EmpresaViewModel());
         }
 
@@ -45,7 +45,8 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("", "O login está incorreto!");
+                    ModelState.AddModelError("", "O login está incorreto!");                    
+                    return RedirectToAction("~/Login");
                 }
 
             }

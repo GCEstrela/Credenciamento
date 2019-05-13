@@ -63,8 +63,11 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
             //Popular User Controls
             //////////////////////////////////////////////////////////////
-            _viewModel.BucarFoto(_viewModel.Entity.ColaboradorId);
-            _viewModel.Entity.Cpf =  _viewModel.Entity.Cpf.FormatarCpf();
+            if (_viewModel.Entity!=null)
+                _viewModel.BucarFoto(_viewModel.Entity.ColaboradorId);
+            if (_viewModel.Entity != null)
+                _viewModel.Entity.Cpf =  _viewModel.Entity.Cpf.FormatarCpf();
+
             ColaboradorEmpresaUs.AtualizarDados(_viewModel.Entity, _viewModel);
             ColaboradorCurso.AtualizarDados(_viewModel.Entity, _viewModel);
             AnexoUs.AtualizarDados(_viewModel.Entity, _viewModel);
@@ -236,18 +239,21 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             try
             {
-                
+               
                 PopupWebCam _PopupWebCam = new PopupWebCam();
                 _PopupWebCam.ShowDialog();
 
-                BitmapSource _img = _PopupWebCam.Captura;
-
-                if (_img != null)
-                {                    
-                    string _imgstr = WpfHelp.IMGtoSTR(_img);
-                    Logo_im.Source = _img;
-                    _viewModel.Entity.Foto = _imgstr;
+                if (_PopupWebCam.aceitarImg)
+                {
+                    BitmapSource _img = _PopupWebCam.Captura;
+                    if (_img != null)
+                    {
+                        string _imgstr = WpfHelp.IMGtoSTR(_img);
+                        Logo_im.Source = _img;
+                        _viewModel.Entity.Foto = _imgstr;
+                    }
                 }
+                
 
             }
             catch (Exception ex)

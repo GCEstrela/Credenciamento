@@ -108,24 +108,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constantes\Constantes.cs" />
-    <Compile Include="Cracha\FraportAutorizacao.cs">
-      <SubType>Component</SubType>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>FraportAutorizacao.rpt</DependentUpon>
-    </Compile>
-    <Compile Include="Cracha\FraportCredencialAmarelo.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>FraportCredencialAmarelo.rpt</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Cracha\FraportCredencialAutorizacao.cs">
-      <DependentUpon>FraportCredencialAutorizacao.rpt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <SubType>Component</SubType>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <Compile Include="Cracha\ATIV-FLORIPA.cs">
       <DependentUpon>ATIV-FLORIPA.rpt</DependentUpon>
       <SubType>Component</SubType>
@@ -180,58 +162,124 @@
       <DependentUpon>CRACHA FRAPORT.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Cracha\FraportCredencialAzul.cs">
+    <Compile Include="Cracha\FraportFortalCredencialAmarelo.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>FraportCredencialAzul.rpt</DependentUpon>
+      <DependentUpon>FraportFortalCredencialAmarelo.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Cracha\FraportCredencialAzulClaro.cs">
+    <Compile Include="Cracha\FraportFortalCredencialAzul.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>FraportCredencialAzulClaro.rpt</DependentUpon>
+      <DependentUpon>FraportFortalCredencialAzul.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Cracha\FraportCredencialBranco.cs">
+    <Compile Include="Cracha\FraportFortalCredencialAzulClaro.cs">
+      <DependentUpon>FraportFortalCredencialAzulClaro.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="Cracha\FraportFortalCredencialBranco.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>FraportCredencialBranco.rpt</DependentUpon>
+      <DependentUpon>FraportFortalCredencialBranco.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Cracha\FraportCredencialCinza.cs">
+    <Compile Include="Cracha\FraportFortalCredencialCinza.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>FraportCredencialCinza.rpt</DependentUpon>
+      <DependentUpon>FraportFortalCredencialCinza.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Cracha\FraportCredencialLaranja.cs">
+    <Compile Include="Cracha\FraportFortalCredencialLaranja.cs">
+      <DependentUpon>FraportFortalCredencialLaranja.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="Cracha\FraportFortalCredencialMarrom.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>FraportCredencialLaranja.rpt</DependentUpon>
+      <DependentUpon>FraportFortalCredencialMarrom.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Cracha\FraportCredencialMarrom.cs">
+    <Compile Include="Cracha\FraportFortalCredencialPreto.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>FraportCredencialMarrom.rpt</DependentUpon>
+      <DependentUpon>FraportFortalCredencialPreto.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Cracha\FraportCredencialPreto.cs">
+    <Compile Include="Cracha\FraportFortalCredencialRoxo.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>FraportCredencialPreto.rpt</DependentUpon>
+      <DependentUpon>FraportFortalCredencialRoxo.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Cracha\FraportCredencialRoxo.cs">
+    <Compile Include="Cracha\FraportFortalCredencialVerde.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>FraportCredencialRoxo.rpt</DependentUpon>
+      <DependentUpon>FraportFortalCredencialVerde.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Cracha\FraportCredencialVerde.cs">
+    <Compile Include="Cracha\FraportPortoCredencialAmarelo.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>FraportCredencialVerde.rpt</DependentUpon>
+      <DependentUpon>FraportPortoCredencialAmarelo.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Cracha\FraportPortoCredencialAzul.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FraportPortoCredencialAzul.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Cracha\FraportPortoCredencialAzulClaro.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FraportPortoCredencialAzulClaro.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Cracha\FraportPortoCredencialBranco.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FraportPortoCredencialBranco.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Cracha\FraportPortoCredencialCinza.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FraportPortoCredencialCinza.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Cracha\FraportPortoCredencialLaranja.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FraportPortoCredencialLaranja.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Cracha\FraportPortoCredencialMarrom.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FraportPortoCredencialMarrom.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Cracha\FraportPortoCredencialPreto.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FraportPortoCredencialPreto.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Cracha\FraportPortoCredencialRoxo.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FraportPortoCredencialRoxo.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Cracha\FraportPortoCredencialVerde.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FraportPortoCredencialVerde.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Cracha\TEMPORARIA FLORIPA.cs">
@@ -961,18 +1009,6 @@
     <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Cracha\FraportAutorizacao.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>FraportAutorizacao.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Cracha\FraportCredencialAmarelo.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>FraportCredencialAmarelo.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Cracha\FraportCredencialAutorizacao.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>FraportCredencialAutorizacao.cs</LastGenOutput>
-    </EmbeddedResource>
     <EmbeddedResource Include="Cracha\ATIV-FLORIPA.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>ATIV-FLORIPA.cs</LastGenOutput>
@@ -1009,41 +1045,85 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>CRACHA FRAPORT.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Cracha\FraportCredencialAzul.rpt">
+    <EmbeddedResource Include="Cracha\FraportFortalCredencialAmarelo.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>FraportCredencialAzul.cs</LastGenOutput>
+      <LastGenOutput>FraportFortalCredencialAmarelo.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Cracha\FraportCredencialAzulClaro.rpt">
+    <EmbeddedResource Include="Cracha\FraportFortalCredencialAzul.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>FraportCredencialAzulClaro.cs</LastGenOutput>
+      <LastGenOutput>FraportFortalCredencialAzul.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Cracha\FraportCredencialBranco.rpt">
+    <EmbeddedResource Include="Cracha\FraportFortalCredencialAzulClaro.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>FraportCredencialBranco.cs</LastGenOutput>
+      <LastGenOutput>FraportFortalCredencialAzulClaro.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Cracha\FraportCredencialCinza.rpt">
+    <EmbeddedResource Include="Cracha\FraportFortalCredencialBranco.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>FraportCredencialCinza.cs</LastGenOutput>
+      <LastGenOutput>FraportFortalCredencialBranco.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Cracha\FraportCredencialLaranja.rpt">
+    <EmbeddedResource Include="Cracha\FraportFortalCredencialCinza.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>FraportCredencialLaranja.cs</LastGenOutput>
+      <LastGenOutput>FraportFortalCredencialCinza.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Cracha\FraportCredencialMarrom.rpt">
+    <EmbeddedResource Include="Cracha\FraportFortalCredencialLaranja.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>FraportCredencialMarrom.cs</LastGenOutput>
+      <LastGenOutput>FraportFortalCredencialLaranja.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Cracha\FraportCredencialPreto.rpt">
+    <EmbeddedResource Include="Cracha\FraportFortalCredencialMarrom.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>FraportCredencialPreto.cs</LastGenOutput>
+      <LastGenOutput>FraportFortalCredencialMarrom.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Cracha\FraportCredencialRoxo.rpt">
+    <EmbeddedResource Include="Cracha\FraportFortalCredencialPreto.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>FraportCredencialRoxo.cs</LastGenOutput>
+      <LastGenOutput>FraportFortalCredencialPreto.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Cracha\FraportCredencialVerde.rpt">
+    <EmbeddedResource Include="Cracha\FraportFortalCredencialRoxo.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>FraportCredencialVerde.cs</LastGenOutput>
+      <LastGenOutput>FraportFortalCredencialRoxo.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\FraportFortalCredencialVerde.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>FraportFortalCredencialVerde.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\FraportPortoCredencialAmarelo.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>FraportPortoCredencialAmarelo.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\FraportPortoCredencialAzul.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>FraportPortoCredencialAzul.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\FraportPortoCredencialAzulClaro.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>FraportPortoCredencialAzulClaro.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\FraportPortoCredencialBranco.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>FraportPortoCredencialBranco.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\FraportPortoCredencialCinza.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>FraportPortoCredencialCinza.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\FraportPortoCredencialLaranja.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>FraportPortoCredencialLaranja.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\FraportPortoCredencialMarrom.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>FraportPortoCredencialMarrom.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\FraportPortoCredencialPreto.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>FraportPortoCredencialPreto.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\FraportPortoCredencialRoxo.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>FraportPortoCredencialRoxo.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\FraportPortoCredencialVerde.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>FraportPortoCredencialVerde.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Cracha\TEMPORARIA FLORIPA.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

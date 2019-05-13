@@ -25,6 +25,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         // GET: Veiculo
         public ActionResult Index()
         {
+            if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
             //var lstVeiculo = objService.Listar(null, null, string.Empty);
             //List<VeiculoViewModel> lstVeiculoMapeado = Mapper.Map<List<VeiculoViewModel>>(lstVeiculo);
             List<VeiculoViewModel> lstVeiculoMapeado = Mapper.Map<List<VeiculoViewModel>>(ObterVeiculossEmpresaLogada());

@@ -196,11 +196,19 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             HabilitaImpressao = entity.Ativa && !entity.PendenciaImpeditiva && !entity.Impressa && (entity.ColaboradorCredencialId > 0) && entity.Validade >= DateTime.Now.Date && (pendenciaImpeditivaEmpresa.Count <= 0) && (pendenciaImpeditivaColaborador.Count <= 0);
 
             //Verificar se a empresa esta impedida 
+            var mensagem1 = "";
+            var mensagem2 = "";
+            var mensagem3 = "";
+            var mensagem4 = "";
             var n1 = _service.BuscarCredencialPelaChave(entity.ColaboradorCredencialId);
-            var mensagem1 = !n1.Ativa ? "Credencial Inativa" : string.Empty;
-            var mensagem2 = n1.PendenciaImpeditiva ? "Pendência Impeditiva (consultar dados da empresa na aba Geral)" : string.Empty;
-            var mensagem3 = n1.Impressa ? "Credencial já foi emitida" : string.Empty;
-            var mensagem4 = (entity.Validade < DateTime.Now.Date) ? "Credencial vencida." : string.Empty;
+            if (n1 != null)
+            {
+                mensagem1 = !n1.Ativa ? "Credencial Inativa" : string.Empty;
+                mensagem2 = n1.PendenciaImpeditiva ? "Pendência Impeditiva (consultar dados da empresa na aba Geral)" : string.Empty;
+                mensagem3 = n1.Impressa ? "Credencial já foi emitida" : string.Empty;
+                mensagem4 = (entity.Validade < DateTime.Now.Date) ? "Credencial vencida." : string.Empty;
+            }
+           
             //Exibir mensagem de impressao de credencial, esta tem prioridade sobre as demais regras            
             //if (n1.Impressa) return;
 
@@ -1220,14 +1228,14 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     case 8:
                     case 15:
 
-                        IsCheckDevolucao = IsCheckDevolucao = Entity != null & Entity.DevolucaoEntregaBoId > 0 ? true : IsCheckDevolucao;
+                        IsCheckDevolucao = Entity != null & Entity.DevolucaoEntregaBoId > 0 ? true : IsCheckDevolucao;
                         TextCheckDevolucao = DevoluçãoCredencial.Devolucao.Descricao();
                         devolucaoCredencial = DevoluçãoCredencial.Devolucao; 
                         VisibilityCheckDevolucao = Visibility.Visible; 
                         break;
                     case 9:
                     case 10:
-                        IsCheckDevolucao = IsCheckDevolucao = Entity != null & Entity.DevolucaoEntregaBoId > 0 ? true : IsCheckDevolucao;
+                        IsCheckDevolucao = Entity != null & Entity.DevolucaoEntregaBoId > 0 ? true : IsCheckDevolucao;
                         TextCheckDevolucao = DevoluçãoCredencial.EntregaBO.Descricao();
                         devolucaoCredencial = DevoluçãoCredencial.EntregaBO;
                         VisibilityCheckDevolucao = Visibility.Visible;
