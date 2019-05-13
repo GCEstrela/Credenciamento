@@ -192,7 +192,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             if (Entity.Logo != null) return;
             var listaFoto = _service.BuscarPelaChave(empresa);
-            Entity.Logo = listaFoto.Logo;
+            if (listaFoto!=null)
+                Entity.Logo = listaFoto.Logo;
         }
         /// <summary>
         ///     Atualizar dados de atividade
