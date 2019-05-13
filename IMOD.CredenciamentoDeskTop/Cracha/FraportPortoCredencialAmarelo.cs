@@ -16,14 +16,14 @@ namespace IMOD.CredenciamentoDeskTop.Cracha {
     using CrystalDecisions.CrystalReports.Engine;
     
     
-    public class FraportPortoAutorizacao : ReportClass {
+    public class FraportPortoCredencialAmarelo : ReportClass {
         
-        public FraportPortoAutorizacao() {
+        public FraportPortoCredencialAmarelo() {
         }
         
         public override string ResourceName {
             get {
-                return "FraportPortoAutorizacao.rpt";
+                return "FraportPortoCredencialAmarelo.rpt";
             }
             set {
                 // Do nothing
@@ -41,7 +41,7 @@ namespace IMOD.CredenciamentoDeskTop.Cracha {
         
         public override string FullResourceName {
             get {
-                return "IMOD.CredenciamentoDeskTop.Cracha.FraportPortoAutorizacao.rpt";
+                return "IMOD.CredenciamentoDeskTop.Cracha.FraportPortoCredencialAmarelo.rpt";
             }
             set {
                 // Do nothing
@@ -50,7 +50,7 @@ namespace IMOD.CredenciamentoDeskTop.Cracha {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section Section1 {
+        public CrystalDecisions.CrystalReports.Engine.Section ReportHeaderSection1 {
             get {
                 return this.ReportDefinition.Sections[0];
             }
@@ -58,7 +58,7 @@ namespace IMOD.CredenciamentoDeskTop.Cracha {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section Section2 {
+        public CrystalDecisions.CrystalReports.Engine.Section PageHeaderSection1 {
             get {
                 return this.ReportDefinition.Sections[1];
             }
@@ -66,7 +66,7 @@ namespace IMOD.CredenciamentoDeskTop.Cracha {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section Section3 {
+        public CrystalDecisions.CrystalReports.Engine.Section DetailSection1 {
             get {
                 return this.ReportDefinition.Sections[2];
             }
@@ -74,7 +74,7 @@ namespace IMOD.CredenciamentoDeskTop.Cracha {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section Section4 {
+        public CrystalDecisions.CrystalReports.Engine.Section DetailSection2 {
             get {
                 return this.ReportDefinition.Sections[3];
             }
@@ -82,9 +82,17 @@ namespace IMOD.CredenciamentoDeskTop.Cracha {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section Section5 {
+        public CrystalDecisions.CrystalReports.Engine.Section ReportFooterSection1 {
             get {
                 return this.ReportDefinition.Sections[4];
+            }
+        }
+        
+        [Browsable(false)]
+        [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
+        public CrystalDecisions.CrystalReports.Engine.Section PageFooterSection1 {
+            get {
+                return this.ReportDefinition.Sections[5];
             }
         }
         
@@ -98,9 +106,9 @@ namespace IMOD.CredenciamentoDeskTop.Cracha {
     }
     
     [System.Drawing.ToolboxBitmapAttribute(typeof(CrystalDecisions.Shared.ExportOptions), "report.bmp")]
-    public class CachedFraportPortoAutorizacao : Component, ICachedReport {
+    public class CachedFraportPortoCredencialAmarelo : Component, ICachedReport {
         
-        public CachedFraportPortoAutorizacao() {
+        public CachedFraportPortoCredencialAmarelo() {
         }
         
         [Browsable(false)]
@@ -137,7 +145,7 @@ namespace IMOD.CredenciamentoDeskTop.Cracha {
         }
         
         public virtual CrystalDecisions.CrystalReports.Engine.ReportDocument CreateReport() {
-            FraportPortoAutorizacao rpt = new FraportPortoAutorizacao();
+            FraportPortoCredencialAmarelo rpt = new FraportPortoCredencialAmarelo();
             rpt.Site = this.Site;
             return rpt;
         }

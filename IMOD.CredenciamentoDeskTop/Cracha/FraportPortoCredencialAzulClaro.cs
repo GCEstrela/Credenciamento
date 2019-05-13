@@ -16,14 +16,14 @@ namespace IMOD.CredenciamentoDeskTop.Cracha {
     using CrystalDecisions.CrystalReports.Engine;
     
     
-    public class FraportCredencialAutorizacao : ReportClass {
+    public class FraportPortoCredencialAzulClaro : ReportClass {
         
-        public FraportCredencialAutorizacao() {
+        public FraportPortoCredencialAzulClaro() {
         }
         
         public override string ResourceName {
             get {
-                return "FraportCredencialAutorizacao.rpt";
+                return "FraportPortoCredencialAzulClaro.rpt";
             }
             set {
                 // Do nothing
@@ -41,7 +41,7 @@ namespace IMOD.CredenciamentoDeskTop.Cracha {
         
         public override string FullResourceName {
             get {
-                return "IMOD.CredenciamentoDeskTop.Cracha.FraportCredencialAutorizacao.rpt";
+                return "IMOD.CredenciamentoDeskTop.Cracha.FraportPortoCredencialAzulClaro.rpt";
             }
             set {
                 // Do nothing
@@ -74,7 +74,7 @@ namespace IMOD.CredenciamentoDeskTop.Cracha {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section ReportFooterSection1 {
+        public CrystalDecisions.CrystalReports.Engine.Section DetailSection2 {
             get {
                 return this.ReportDefinition.Sections[3];
             }
@@ -82,17 +82,33 @@ namespace IMOD.CredenciamentoDeskTop.Cracha {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section PageFooterSection1 {
+        public CrystalDecisions.CrystalReports.Engine.Section ReportFooterSection1 {
             get {
                 return this.ReportDefinition.Sections[4];
+            }
+        }
+        
+        [Browsable(false)]
+        [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
+        public CrystalDecisions.CrystalReports.Engine.Section PageFooterSection1 {
+            get {
+                return this.ReportDefinition.Sections[5];
+            }
+        }
+        
+        [Browsable(false)]
+        [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
+        public CrystalDecisions.Shared.IParameterField Parameter_PathImgQrCode {
+            get {
+                return this.DataDefinition.ParameterFields[0];
             }
         }
     }
     
     [System.Drawing.ToolboxBitmapAttribute(typeof(CrystalDecisions.Shared.ExportOptions), "report.bmp")]
-    public class CachedFraportCredencialAutorizacao : Component, ICachedReport {
+    public class CachedFraportPortoCredencialAzulClaro : Component, ICachedReport {
         
-        public CachedFraportCredencialAutorizacao() {
+        public CachedFraportPortoCredencialAzulClaro() {
         }
         
         [Browsable(false)]
@@ -129,7 +145,7 @@ namespace IMOD.CredenciamentoDeskTop.Cracha {
         }
         
         public virtual CrystalDecisions.CrystalReports.Engine.ReportDocument CreateReport() {
-            FraportCredencialAutorizacao rpt = new FraportCredencialAutorizacao();
+            FraportPortoCredencialAzulClaro rpt = new FraportPortoCredencialAzulClaro();
             rpt.Site = this.Site;
             return rpt;
         }

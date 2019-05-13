@@ -16,14 +16,14 @@ namespace IMOD.CredenciamentoDeskTop.Cracha {
     using CrystalDecisions.CrystalReports.Engine;
     
     
-    public class FraportCredencialBranco : ReportClass {
+    public class FraportPortoCredencialMarrom : ReportClass {
         
-        public FraportCredencialBranco() {
+        public FraportPortoCredencialMarrom() {
         }
         
         public override string ResourceName {
             get {
-                return "FraportCredencialBranco.rpt";
+                return "FraportPortoCredencialMarrom.rpt";
             }
             set {
                 // Do nothing
@@ -41,7 +41,7 @@ namespace IMOD.CredenciamentoDeskTop.Cracha {
         
         public override string FullResourceName {
             get {
-                return "IMOD.CredenciamentoDeskTop.Cracha.FraportCredencialBranco.rpt";
+                return "IMOD.CredenciamentoDeskTop.Cracha.FraportPortoCredencialMarrom.rpt";
             }
             set {
                 // Do nothing
@@ -106,9 +106,9 @@ namespace IMOD.CredenciamentoDeskTop.Cracha {
     }
     
     [System.Drawing.ToolboxBitmapAttribute(typeof(CrystalDecisions.Shared.ExportOptions), "report.bmp")]
-    public class CachedFraportCredencialBranco : Component, ICachedReport {
+    public class CachedFraportPortoCredencialMarrom : Component, ICachedReport {
         
-        public CachedFraportCredencialBranco() {
+        public CachedFraportPortoCredencialMarrom() {
         }
         
         [Browsable(false)]
@@ -145,7 +145,7 @@ namespace IMOD.CredenciamentoDeskTop.Cracha {
         }
         
         public virtual CrystalDecisions.CrystalReports.Engine.ReportDocument CreateReport() {
-            FraportCredencialBranco rpt = new FraportCredencialBranco();
+            FraportPortoCredencialMarrom rpt = new FraportPortoCredencialMarrom();
             rpt.Site = this.Site;
             return rpt;
         }

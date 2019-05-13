@@ -18,6 +18,7 @@ using System.Net;
 using System.Threading;
 using System.Collections;
 using IMOD.Domain.Entities;
+using Genetec.Sdk.Entities;
 
 namespace Meu_Servico.Service
 {
@@ -27,7 +28,7 @@ namespace Meu_Servico.Service
         private ICredencialService _serviceGenetec;
         private IEmpresaService _serviceEmpresa = new EmpresaService();
         private IColaboradorCredencialService _serviceColaborador = new ColaboradorCredencialService();
-        private IEmpresaContratosService _service = new EmpresaContratoService();
+        private IEmpresaContratosService _serviceContrato = new EmpresaContratoService();
         private readonly IDadosAuxiliaresFacade _auxiliaresServiceConfiguraSistema = new DadosAuxiliaresFacadeService();
         private ConfiguraSistema _configuraSistema;
         private IEngine _sdk;
@@ -58,16 +59,16 @@ namespace Meu_Servico.Service
         
         public bool Start(HostControl hostControl)
         {
-            Genetec.Sdk.Engine _sdk = new Genetec.Sdk.Engine();
-            Logon_SC_th(_sdk);
+            //Genetec.Sdk.Engine _sdk = new Genetec.Sdk.Engine();
+            //Logon_SC_th(_sdk);
 
-            _sdk.LoggedOn += _sdk_LoggedOn;
-            _sdk.LoggedOff += _sdk_LoggedOff;
-            _sdk.LogonFailed += _sdk_LogonFailed;
-            _sdk.EventReceived += _sdk_EventReceived;
-            _sdk.EntityInvalidated += _sdk_EntityInvalidated;
+            //_sdk.LoggedOn += _sdk_LoggedOn;
+            //_sdk.LoggedOff += _sdk_LoggedOff;
+            //_sdk.LogonFailed += _sdk_LogonFailed;
+            //_sdk.EventReceived += _sdk_EventReceived;
+            //_sdk.EntityInvalidated += _sdk_EntityInvalidated;
 
-            this.timer = new System.Timers.Timer(10000D);  // 10000 milliseconds = 10 seconds
+            this.timer = new System.Timers.Timer(40000D);  // 40000 milliseconds = 40 seconds
             this.timer.AutoReset = true;
             this.timer.Elapsed += new System.Timers.ElapsedEventHandler(this.timer_Elapsed);
             this.timer.Start();
@@ -77,8 +78,15 @@ namespace Meu_Servico.Service
         }
         private void timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-
+            
             Genetec.Sdk.Engine _sdk = new Genetec.Sdk.Engine();
+            Logon_SC_th(_sdk);
+            //_sdk.LoggedOn += _sdk_LoggedOn;
+            //_sdk.LoggedOff += _sdk_LoggedOff;
+            //_sdk.LogonFailed += _sdk_LogonFailed;
+            //_sdk.EventReceived += _sdk_EventReceived;
+            //_sdk.EntityInvalidated += _sdk_EntityInvalidated;
+
             _serviceGenetec = new CredencialGenetecService(_sdk);
             MetodoRealizaFuncao(true, _sdk);
 
@@ -196,7 +204,8 @@ namespace Meu_Servico.Service
                             _configuraSistema = ObterConfiguracao();
                             if (_configuraSistema.Email != null)
                             {
-                                sendMessage(messa, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), ec.Email.Trim());
+                                if (ec.Email != null)
+                                    sendMessage(messa, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), ec.Email.Trim());
                             }
                             break;
 
@@ -207,7 +216,8 @@ namespace Meu_Servico.Service
                             _configuraSistema = ObterConfiguracao();
                             if (_configuraSistema.Email != null)
                             {
-                                sendMessage(messa, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), ec.Email.Trim());
+                                if (ec.Email != null)
+                                    sendMessage(messa, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), ec.Email.Trim());
                             }
                             break;
 
@@ -218,7 +228,8 @@ namespace Meu_Servico.Service
                             _configuraSistema = ObterConfiguracao();
                             if (_configuraSistema.Email != null)
                             {
-                                sendMessage(messa, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), ec.Email.Trim());
+                                if (ec.Email != null)
+                                    sendMessage(messa, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), ec.Email.Trim());
                             }
                             break;
 
@@ -229,7 +240,8 @@ namespace Meu_Servico.Service
                             _configuraSistema = ObterConfiguracao();
                             if (_configuraSistema.Email != null)
                             {
-                                sendMessage(messa, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), ec.Email.Trim());
+                                if (ec.Email != null)
+                                    sendMessage(messa, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), ec.Email.Trim());
                             }
                             break;
 
@@ -237,12 +249,13 @@ namespace Meu_Servico.Service
                             break;
                     }
 
-
+                    
                     if (ec.Validade < DateTime.Now)
                     {
                         ec.Ativa = false;
                         ec.CredencialStatusId = (int)StatusCredencial.INATIVA;
                         ec.CredencialMotivoId = (int)Inativo.EXPIRADA;
+                        ec.CredencialStatusId = 2;
                         _serviceColaborador.Alterar(ec);
                         if (!string.IsNullOrEmpty(ec.CredencialGuid))
                         {
@@ -252,9 +265,9 @@ namespace Meu_Servico.Service
                             entity.Nome = ec.ColaboradorNome;
 
 
-                            //O _SDK está vindo nulo
+                            ////O _SDK está vindo nulo
                             _serviceGenetec.AlterarStatusCredencial(entity);
-
+                            
                         }
 
                         //var n1 = _serviceColaborador.BuscarCredencialPelaChave(ec.ColaboradorCredencialId);
@@ -270,9 +283,10 @@ namespace Meu_Servico.Service
 
                 //CardHolderEntity entity2 = new CardHolderEntity();
                 Hashtable empresaContrato = new Hashtable();
+                Hashtable empresaContratoEmail = new Hashtable();
 
-                
-                var empresaContratos = _service.Listar().Where(ec =>  ec.StatusId == 0).OrderByDescending(ec => ec.Validade).ToList();                
+                //var empresaContratos = _serviceContrato.Listar().Where(ec =>  ec.StatusId == 0).OrderByDescending(ec => ec.Validade).ToList();                
+                var empresaContratos = _serviceContrato.Listar().Where(ec => ec.StatusId == 0).OrderByDescending(ec => ec.EmpresaId).ToList();
                 //var empresaContratos = _service.Listar().ToList();
                 empresaContratos.ForEach(ec =>
                 {
@@ -303,18 +317,26 @@ namespace Meu_Servico.Service
                             empresa.PraVencer = diasAlerta0;                            
                             _serviceEmpresa.Alterar(empresa);
 
-                            var contrato = _service.BuscarPelaChave(ec.EmpresaContratoId);
+                            var contrato = _serviceContrato.BuscarPelaChave(ec.EmpresaContratoId);
                             contrato.PraVencer = diasAlerta0;
-                            _service.Alterar(contrato);
+                            contrato.StatusId = 1;
+                            _serviceContrato.Alterar(contrato);
 
-                            messa = "O Contrato Nº.: " + ec.NumeroContrato + " da empresa " + empresa.Nome + " vencendo hoje";
+
+                            
                             _configuraSistema = ObterConfiguracao();
                             if (_configuraSistema.Email != null)
                             {
-                                sendMessage(messa, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), ec.EmailResp.Trim());
+                                if (empresa.Email1 != null)
+                                {
+                                    var messa1 = new MeuValor() { Valor1 = "O Contrato Nº.: " + ec.NumeroContrato + " da empresa " + empresa.Nome + " vencendo hoje", Valor2 = empresa.Email1.Trim() };
+                                    empresaContratoEmail[ec.EmpresaId] = messa1;
+                                }
+                                    //sendMessage(messa, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), empresa.Email1.Trim());
+
                             }
-                            //_serviceGenetec.GerarEvento(messa,8);
-                            _serviceGenetec.GerarEvento("8000",null,messa);
+                            ////_serviceGenetec.GerarEvento(messa,8);
+                            ////_serviceGenetec.GerarEvento("8000",null,messa);
                             break;
                         case diasAlerta1:
                             //CriarLog("Disparar alerta de vencendo em 5 dias");
@@ -328,19 +350,23 @@ namespace Meu_Servico.Service
                             empresa.PraVencer = diasAlerta1;
                             _serviceEmpresa.Alterar(empresa);
 
-                            contrato = _service.BuscarPelaChave(ec.EmpresaContratoId);
+                            contrato = _serviceContrato.BuscarPelaChave(ec.EmpresaContratoId);
                             contrato.PraVencer = diasAlerta1;
-                            _service.Alterar(contrato);
+                            contrato.StatusId = 1;
+                            _serviceContrato.Alterar(contrato);
 
 
                             messa = "O Contrato Nº.: " + ec.NumeroContrato + " da empresa " + empresa.Nome + " vencendo em 5 dias";
-                            _configuraSistema = ObterConfiguracao();
-                            if (_configuraSistema.Email != null)
-                            {
-                                sendMessage(messa, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), ec.EmailResp.Trim());
-                            }
-                            //_serviceGenetec.DisparaAlarme(messa, 8);
-                            _serviceGenetec.GerarEvento("8005", null, messa);
+                            empresaContratoEmail[ec.EmpresaId] = messa;
+
+                            //_configuraSistema = ObterConfiguracao();
+                            //if (_configuraSistema.Email != null)
+                            //{
+                            //    if (empresa.Email1 != null)
+                            //        sendMessage(messa, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), empresa.Email1.Trim());
+                            //}
+                            ////_serviceGenetec.DisparaAlarme(messa, 8);
+                            ////_serviceGenetec.GerarEvento("8005", null, messa);
                             break;
                         case  diasAlerta2:
                             //CriarLog("Disparar alerta de vencendo em 15 dias");
@@ -354,19 +380,23 @@ namespace Meu_Servico.Service
                             empresa.PraVencer = diasAlerta2;
                             _serviceEmpresa.Alterar(empresa);
 
-                            contrato = _service.BuscarPelaChave(ec.EmpresaContratoId);
+                            contrato = _serviceContrato.BuscarPelaChave(ec.EmpresaContratoId);
                             contrato.PraVencer = diasAlerta2;
-                            _service.Alterar(contrato);
+                            contrato.StatusId = 1;
+                            _serviceContrato.Alterar(contrato);
 
 
                             messa = "O Contrato Nº.: " + ec.NumeroContrato + " da empresa " + empresa.Nome + " vencendo em 15 dias";
-                            _configuraSistema = ObterConfiguracao();
-                            if (_configuraSistema.Email != null)
-                            {
-                                sendMessage(messa, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), ec.EmailResp.Trim());
-                            }
-                            //_serviceGenetec.DisparaAlarme(messa, 8);
-                            _serviceGenetec.GerarEvento("8015", null, messa);
+                            empresaContratoEmail[ec.EmpresaId] = messa;
+
+                            //_configuraSistema = ObterConfiguracao();
+                            //if (_configuraSistema.Email != null)
+                            //{
+                            //    if (empresa.Email1 != null)
+                            //        sendMessage(messa, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), empresa.Email1.Trim());
+                            //}
+                            ////_serviceGenetec.DisparaAlarme(messa, 8);
+                            ////_serviceGenetec.GerarEvento("8015", null, messa);
                             break;
                         case diasAlerta3:
                             //CriarLog("Disparar alerta de vencendo em 30 dias");
@@ -380,19 +410,22 @@ namespace Meu_Servico.Service
                             empresa.PraVencer = diasAlerta3;
                             _serviceEmpresa.Alterar(empresa);
 
-                            contrato = _service.BuscarPelaChave(ec.EmpresaContratoId);
+                            contrato = _serviceContrato.BuscarPelaChave(ec.EmpresaContratoId);
                             contrato.PraVencer = diasAlerta3;
-                            _service.Alterar(contrato);
+                            contrato.StatusId = 1;
+                            _serviceContrato.Alterar(contrato);
 
                             messa = "O Contrato Nº.: " + ec.NumeroContrato + " da empresa " + empresa.Nome +  " vencendo em 30 dias";
-                            _configuraSistema = ObterConfiguracao();
-                            if (_configuraSistema.Email != null)
-                            {
-                                sendMessage(messa, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), ec.EmailResp.Trim());
-                            }
+                            empresaContratoEmail[ec.EmpresaId] = messa;
 
-                            // _serviceGenetec.DisparaAlarme(messa, 8);
-                            _serviceGenetec.GerarEvento("8030", null, messa);
+                            //_configuraSistema = ObterConfiguracao();
+                            //if (_configuraSistema.Email != null)
+                            //{
+                            //    if (empresa.Email1 != null)
+                            //        sendMessage(messa, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), empresa.Email1.Trim());
+                            //}
+                            //// _serviceGenetec.DisparaAlarme(messa, 8);
+                            ////_serviceGenetec.GerarEvento("8030", null, messa);
                             break;
                         default:
                             break;
@@ -400,12 +433,31 @@ namespace Meu_Servico.Service
                     }
 
                 }
+
                 );
+                                    //_configuraSistema = ObterConfiguracao();
+                    //if (_configuraSistema.Email != null)
+                    //{
+                        
+                    //        //sendMessage(messa, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), empresa.Email1.Trim());
+                    //}
+                    foreach (string element in empresaContratoEmail)
+                    {
+                       
+                        
+
+                    }
+                
             }
             catch (Exception ex)
             {
                 CriarLog(ex.Message);
             }
+        }
+        public class MeuValor
+        {
+            public object Valor1 { get; set; }
+            public object Valor2 { get; set; }
         }
         private ConfiguraSistema ObterConfiguracao()
         {
@@ -418,52 +470,52 @@ namespace Meu_Servico.Service
         protected void sendMessage(string msg, string emailOrigem,string Emailsmtp,string usuario,string senha, string emailDestino)
         {
 
-            //if (emailDestino == null || emailDestino == "") return;
+            if (emailDestino == null || emailDestino == "") return;
 
-            //MailMessage mail = new MailMessage();
+            MailMessage mail = new MailMessage();
 
-            //mail.From = new MailAddress(emailOrigem);
-            //mail.To.Add(emailOrigem); // para
-            //mail.To.Add(emailDestino); // para
-            //mail.Subject = "Inativação de Contrato(s)"; // assunto 
-            //mail.Body = msg; // mensagem
+            mail.From = new MailAddress(emailOrigem);
+            mail.To.Add(emailOrigem); // para
+            mail.To.Add(emailDestino); // para
+            mail.Subject = "Inativação de Contrato(s)"; // assunto 
+            mail.Body = msg; // mensagem
+           
+            //em caso de anexos
+            //mail.Attachments.Add(new Attachment(@"C:\teste.txt"));
+            //Tendo o objeto mail configurado, o próximo passo é criar um cliente Smtp e enviar o e-mail.
+            using (var smtp = new SmtpClient(Emailsmtp))
+            {
+                smtp.EnableSsl = false; // GMail requer SSL
+                smtp.Port = 587;       // porta para SSL
+                //smtp.Port = 465;
+                smtp.DeliveryMethod = SmtpDeliveryMethod.Network; // modo de envio
+                smtp.UseDefaultCredentials = false; // vamos utilizar credencias especificas
 
-            //// em caso de anexos
-            ////mail.Attachments.Add(new Attachment(@"C:\teste.txt"));
-            ////Tendo o objeto mail configurado, o próximo passo é criar um cliente Smtp e enviar o e-mail.
-            //using (var smtp = new SmtpClient(Emailsmtp))
-            //{
-            //    smtp.EnableSsl = false; // GMail requer SSL
-            //    smtp.Port = 587;       // porta para SSL
-            //    //smtp.Port = 465;
-            //    smtp.DeliveryMethod = SmtpDeliveryMethod.Network; // modo de envio
-            //    smtp.UseDefaultCredentials = false; // vamos utilizar credencias especificas
+                // seu usuário e senha para autenticação
+                smtp.Credentials = new NetworkCredential(usuario, senha);
 
-            //    // seu usuário e senha para autenticação
-            //    smtp.Credentials = new NetworkCredential(usuario, senha);
-
-            //    try
-            //    {
-            //        smtp.Send(mail);
-            //    }
-            //    catch (System.Exception erro)
-            //    {
-            //        //trata erro
-            //    }
-            //    finally
-            //    {
-            //        mail = null;
-            //    }
-            //}
+                try
+                {
+                    smtp.Send(mail);
+                }
+                catch (System.Exception erro)
+                {
+                    //trata erro
+                }
+                finally
+                {
+                    mail = null;
+                }
+            }
         }
         private void CriarLog(object state)
         {
             try
             {
-                StreamWriter vWriter = new StreamWriter(@"C:\Tmp\Logs\log.txt", true);
-                vWriter.WriteLine(state.ToString());
-                vWriter.Flush();
-                vWriter.Close();
+                //StreamWriter vWriter = new StreamWriter(@"C:\Tmp\Logs\log.txt", true);
+                //vWriter.WriteLine(state.ToString());
+                //vWriter.Flush();
+                //vWriter.Close();
             }
             catch (Exception ex)
             {
