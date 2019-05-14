@@ -25,15 +25,15 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         #region Inicializacao
         public RelatoriosViewModel()
         {
-            Thread CarregaUI_thr = new Thread(() => CarregaUI());
-            CarregaUI_thr.Start();
+           // Thread CarregaUI_thr = new Thread(() => CarregaUI());
+           // CarregaUI_thr.Start();
         }
 
         private void CarregaUI()
         {
-            CarregaColecaoRelatorios();
-            CarregaColecaoEmpresas();
-            CarregaColecaoAreasAcessos();
+            //CarregaColecaoRelatorios(); 
+            //CarregaColecaoEmpresas(); 
+            //CarregaColecaoAreasAcessos(); 
         }
 
         #endregion
@@ -68,7 +68,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private string verbo;
         private string mensagem;
 
-        private const string consNomeArquivoEmpresaOperadora = "logoEmpresaOperadora.png";
+        //private const string Constantes.Constantes.consNomeArquivoEmpresaOperadora = "logoEmpresaOperadora.png";
 
         private readonly IRelatorioService _relatorioService = new RelatorioService();
         private readonly IRelatorioGerencialService _relatorioGerencialServiceService = new RelatorioGerencialService();
@@ -202,9 +202,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         #endregion
 
-        #region Carregamento das Colecoes
+        #region Carregamento das Colecoes 
 
-        private void CarregaColecaoRelatorios()
+        public void CarregaColecaoRelatorios()
         {
             try
             {
@@ -219,14 +219,14 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 Relatorios = observer;
 
-
-                var quantidadeRestante = 24 - list1.Count();
-
-                for (int count = 0; quantidadeRestante < 24; count++)
+                if (Relatorios.Count() <= 24)
                 {
-                    Relatorios.Add(new RelatorioView());
+                    var quantidadeRestante = 24 - Relatorios.Count();
+                    for (int count = 0; count < quantidadeRestante; count++)
+                    {
+                        Relatorios.Add(new RelatorioView());
+                    }
                 }
-
             }
             catch (Exception ex)
             {
@@ -234,7 +234,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
         }
 
-        private void CarregaColecaoAreasAcessos()
+        public void CarregaColecaoAreasAcessos()
         {
             try
             {
@@ -242,12 +242,13 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 var list2 = Mapper.Map<List<AreaAcessoView>>(list1);
                 var observer = new ObservableCollection<AreaAcessoView>();
-                list2.ForEach(n =>
+
+                list2.ForEach(n => 
                 {
-                    observer.Add(n);
+                    observer.Add(n); 
                 });
 
-                AreasAcessos = observer;
+                AreasAcessos = observer; 
             }
             catch (Exception ex)
             {
@@ -255,7 +256,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
         }
 
-        private void CarregaColecaoEmpresas(int? idEmpresa = null, string nome = null, string apelido = null, string cnpj = null)
+        public void CarregaColecaoEmpresas(int? idEmpresa = null, string nome = null, string apelido = null, string cnpj = null)
         {
             try
             {
@@ -389,8 +390,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var configSistema = objConfiguraSistema.BuscarPelaChave(1);
                 var tempArea = Path.GetTempPath();
                 byte[] testeArquivo = Convert.FromBase64String(configSistema.EmpresaLOGO); 
-                System.IO.File.WriteAllBytes(tempArea + consNomeArquivoEmpresaOperadora, testeArquivo); 
-                reportDoc.SetParameterValue("MarcaEmpresa", tempArea + consNomeArquivoEmpresaOperadora); 
+                System.IO.File.WriteAllBytes(tempArea + Constantes.Constantes.consNomeArquivoEmpresaOperadora, testeArquivo); 
+                reportDoc.SetParameterValue("MarcaEmpresa", tempArea + Constantes.Constantes.consNomeArquivoEmpresaOperadora); 
 
                 WpfHelp.ShowRelatorio(reportDoc);
             }
@@ -457,8 +458,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var configSistema = objConfiguraSistema.BuscarPelaChave(1);
                 var tempArea = Path.GetTempPath();
                 byte[] testeArquivo = Convert.FromBase64String(configSistema.EmpresaLOGO);
-                System.IO.File.WriteAllBytes(tempArea + consNomeArquivoEmpresaOperadora, testeArquivo);
-                reportDoc.SetParameterValue("MarcaEmpresa", tempArea + consNomeArquivoEmpresaOperadora);
+                System.IO.File.WriteAllBytes(tempArea + Constantes.Constantes.consNomeArquivoEmpresaOperadora, testeArquivo);
+                reportDoc.SetParameterValue("MarcaEmpresa", tempArea + Constantes.Constantes.consNomeArquivoEmpresaOperadora);
 
                 WpfHelp.ShowRelatorio(reportDoc);
             }
@@ -515,8 +516,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var configSistema = objConfiguraSistema.BuscarPelaChave(1);
                 var tempArea = Path.GetTempPath();
                 byte[] testeArquivo = Convert.FromBase64String(configSistema.EmpresaLOGO);
-                System.IO.File.WriteAllBytes(tempArea + consNomeArquivoEmpresaOperadora, testeArquivo);
-                reportDoc.SetParameterValue("MarcaEmpresa", tempArea + consNomeArquivoEmpresaOperadora);
+                System.IO.File.WriteAllBytes(tempArea + Constantes.Constantes.consNomeArquivoEmpresaOperadora, testeArquivo);
+                reportDoc.SetParameterValue("MarcaEmpresa", tempArea + Constantes.Constantes.consNomeArquivoEmpresaOperadora);
 
                 WpfHelp.ShowRelatorio(reportDoc);
 
@@ -575,8 +576,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var configSistema = objConfiguraSistema.BuscarPelaChave(1);
                 var tempArea = Path.GetTempPath();
                 byte[] testeArquivo = Convert.FromBase64String(configSistema.EmpresaLOGO);
-                System.IO.File.WriteAllBytes(tempArea + consNomeArquivoEmpresaOperadora, testeArquivo);
-                reportDoc.SetParameterValue("MarcaEmpresa", tempArea + consNomeArquivoEmpresaOperadora);
+                System.IO.File.WriteAllBytes(tempArea + Constantes.Constantes.consNomeArquivoEmpresaOperadora, testeArquivo);
+                reportDoc.SetParameterValue("MarcaEmpresa", tempArea + Constantes.Constantes.consNomeArquivoEmpresaOperadora);
 
                 WpfHelp.ShowRelatorio(reportDoc);
 
@@ -634,8 +635,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var configSistema = objConfiguraSistema.BuscarPelaChave(1);
                 var tempArea = Path.GetTempPath();
                 byte[] testeArquivo = Convert.FromBase64String(configSistema.EmpresaLOGO);
-                System.IO.File.WriteAllBytes(tempArea + consNomeArquivoEmpresaOperadora, testeArquivo);
-                reportDoc.SetParameterValue("MarcaEmpresa", tempArea + consNomeArquivoEmpresaOperadora);
+                System.IO.File.WriteAllBytes(tempArea + Constantes.Constantes.consNomeArquivoEmpresaOperadora, testeArquivo);
+                reportDoc.SetParameterValue("MarcaEmpresa", tempArea + Constantes.Constantes.consNomeArquivoEmpresaOperadora);
 
                 WpfHelp.ShowRelatorio(reportDoc);
 
@@ -709,8 +710,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var configSistema = objConfiguraSistema.BuscarPelaChave(1);
                 var tempArea = Path.GetTempPath();
                 byte[] testeArquivo = Convert.FromBase64String(configSistema.EmpresaLOGO);
-                System.IO.File.WriteAllBytes(tempArea + consNomeArquivoEmpresaOperadora, testeArquivo);
-                reportDoc.SetParameterValue("MarcaEmpresa", tempArea + consNomeArquivoEmpresaOperadora);
+                System.IO.File.WriteAllBytes(tempArea + Constantes.Constantes.consNomeArquivoEmpresaOperadora, testeArquivo);
+                reportDoc.SetParameterValue("MarcaEmpresa", tempArea + Constantes.Constantes.consNomeArquivoEmpresaOperadora);
 
                 WpfHelp.ShowRelatorio(reportDoc);
             }
@@ -778,8 +779,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var configSistema = objConfiguraSistema.BuscarPelaChave(1);
                 var tempArea = Path.GetTempPath();
                 byte[] testeArquivo = Convert.FromBase64String(configSistema.EmpresaLOGO);
-                System.IO.File.WriteAllBytes(tempArea + consNomeArquivoEmpresaOperadora, testeArquivo);
-                reportDoc.SetParameterValue("MarcaEmpresa", tempArea + consNomeArquivoEmpresaOperadora);
+                System.IO.File.WriteAllBytes(tempArea + Constantes.Constantes.consNomeArquivoEmpresaOperadora, testeArquivo);
+                reportDoc.SetParameterValue("MarcaEmpresa", tempArea + Constantes.Constantes.consNomeArquivoEmpresaOperadora);
 
                 WpfHelp.ShowRelatorio(reportDoc);
             }
@@ -845,8 +846,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var configSistema = objConfiguraSistema.BuscarPelaChave(1);
                 var tempArea = Path.GetTempPath();
                 byte[] testeArquivo = Convert.FromBase64String(configSistema.EmpresaLOGO);
-                System.IO.File.WriteAllBytes(tempArea + consNomeArquivoEmpresaOperadora, testeArquivo);
-                reportDoc.SetParameterValue("MarcaEmpresa", tempArea + consNomeArquivoEmpresaOperadora);
+                System.IO.File.WriteAllBytes(tempArea + Constantes.Constantes.consNomeArquivoEmpresaOperadora, testeArquivo);
+                reportDoc.SetParameterValue("MarcaEmpresa", tempArea + Constantes.Constantes.consNomeArquivoEmpresaOperadora);
 
                 WpfHelp.ShowRelatorio(reportDoc);
             }
@@ -904,8 +905,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var configSistema = objConfiguraSistema.BuscarPelaChave(1);
                 var tempArea = Path.GetTempPath();
                 byte[] testeArquivo = Convert.FromBase64String(configSistema.EmpresaLOGO);
-                System.IO.File.WriteAllBytes(tempArea + consNomeArquivoEmpresaOperadora, testeArquivo);
-                reportDoc.SetParameterValue("MarcaEmpresa", tempArea + consNomeArquivoEmpresaOperadora);
+                System.IO.File.WriteAllBytes(tempArea + Constantes.Constantes.consNomeArquivoEmpresaOperadora, testeArquivo);
+                reportDoc.SetParameterValue("MarcaEmpresa", tempArea + Constantes.Constantes.consNomeArquivoEmpresaOperadora);
 
                 WpfHelp.ShowRelatorio(reportDoc);
 
@@ -965,8 +966,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var configSistema = objConfiguraSistema.BuscarPelaChave(1);
                 var tempArea = Path.GetTempPath();
                 byte[] testeArquivo = Convert.FromBase64String(configSistema.EmpresaLOGO);
-                System.IO.File.WriteAllBytes(tempArea + consNomeArquivoEmpresaOperadora, testeArquivo);
-                reportDoc.SetParameterValue("MarcaEmpresa", tempArea + consNomeArquivoEmpresaOperadora);
+                System.IO.File.WriteAllBytes(tempArea + Constantes.Constantes.consNomeArquivoEmpresaOperadora, testeArquivo);
+                reportDoc.SetParameterValue("MarcaEmpresa", tempArea + Constantes.Constantes.consNomeArquivoEmpresaOperadora);
 
                 WpfHelp.ShowRelatorio(reportDoc);
             }
@@ -1023,8 +1024,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var configSistema = objConfiguraSistema.BuscarPelaChave(1);
                 var tempArea = Path.GetTempPath();
                 byte[] testeArquivo = Convert.FromBase64String(configSistema.EmpresaLOGO);
-                System.IO.File.WriteAllBytes(tempArea + consNomeArquivoEmpresaOperadora, testeArquivo);
-                reportDoc.SetParameterValue("MarcaEmpresa", tempArea + consNomeArquivoEmpresaOperadora);
+                System.IO.File.WriteAllBytes(tempArea + Constantes.Constantes.consNomeArquivoEmpresaOperadora, testeArquivo);
+                reportDoc.SetParameterValue("MarcaEmpresa", tempArea + Constantes.Constantes.consNomeArquivoEmpresaOperadora);
 
                 WpfHelp.ShowRelatorio(reportDoc);
             }
@@ -1097,8 +1098,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var configSistema = objConfiguraSistema.BuscarPelaChave(1);
                 var tempArea = Path.GetTempPath();
                 byte[] testeArquivo = Convert.FromBase64String(configSistema.EmpresaLOGO);
-                System.IO.File.WriteAllBytes(tempArea + consNomeArquivoEmpresaOperadora, testeArquivo);
-                reportDoc.SetParameterValue("MarcaEmpresa", tempArea + consNomeArquivoEmpresaOperadora);
+                System.IO.File.WriteAllBytes(tempArea + Constantes.Constantes.consNomeArquivoEmpresaOperadora, testeArquivo);
+                reportDoc.SetParameterValue("MarcaEmpresa", tempArea + Constantes.Constantes.consNomeArquivoEmpresaOperadora);
 
                 WpfHelp.ShowRelatorio(reportDoc);
 
