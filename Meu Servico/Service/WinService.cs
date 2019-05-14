@@ -181,6 +181,7 @@ namespace Meu_Servico.Service
 
             }
         }
+        Hashtable empresaContrato = new Hashtable();
         private void MetodoRealizaFuncao(object state,Engine m_sdk )
         {
             try
@@ -281,172 +282,118 @@ namespace Meu_Servico.Service
                 );
 
 
-                //CardHolderEntity entity2 = new CardHolderEntity();
-                Hashtable empresaContrato = new Hashtable();
+
+                //Hashtable empresaContrato = new Hashtable();
                 Hashtable empresaContratoEmail = new Hashtable();
+                string nomeEmpresa = "";
+                string emailEmpresa = "";
 
-                //var empresaContratos = _serviceContrato.Listar().Where(ec =>  ec.StatusId == 0).OrderByDescending(ec => ec.Validade).ToList();                
-                var empresaContratos = _serviceContrato.Listar().Where(ec => ec.StatusId == 0).OrderByDescending(ec => ec.EmpresaId).ToList();
-                //var empresaContratos = _service.Listar().ToList();
-                empresaContratos.ForEach(ec =>
+                var empresas = _serviceEmpresa.Listar().OrderByDescending(ec => ec.EmpresaId).ToList();
+                empresas.ForEach(e =>
                 {
-                    
-                    string texto = ec.Descricao + ((ec.Validade < DateTime.Now) ? " - Vencido em : " : " - Válido até : ") + ec.Validade;
-                    CriarLog(string.Format("Contrato: {0}", texto));
-                    int dias = ec.Validade.Subtract(DateTime.Now.Date).Days;                    
-                    switch (dias)
+                    emailEmpresa = null;
+                    if (empresas[0].Email1!=null)
+                        emailEmpresa = empresas[0].Email1.ToString();
+
+                    nomeEmpresa = empresas[0].Nome.ToString();
+
+                    List<MeuValor> listEmpresasContrato = new List<MeuValor>();
+                    var empresaContratosAtivo = _serviceContrato.Listar().Where(ec => ec.StatusId == 0 && ec.EmpresaId == e.EmpresaId).ToList();
+                    empresaContratosAtivo.ForEach(ec =>
                     {
-                        case diasAlerta:
-                            var colaboradorContrao = _serviceColaborador.Listar(null, null, null, null, null, null, null, ec.NumeroContrato).ToList();
-                            colaboradorContrao.ForEach(cd =>
-                            {
-                                cd.Ativa = false;
-                                _serviceColaborador.Alterar(cd);
-                            }
-                            );
-                            break;
-                        case diasAlerta0:
-                            //CriarLog("Disparar alerta de vencendo hoje");
-                            // Verifica se a Hashtable contém esta chave
-                            if (!empresaContrato.ContainsKey(ec.EmpresaId))
-                            {
-                                empresaContrato[ec.EmpresaId] = diasAlerta0;
-                            }
+                        int dias = ec.Validade.Subtract(DateTime.Now.Date).Days;
+                        switch (dias)
+                        {
+                            case diasAlerta:
+                                //var colaboradorContrao = _serviceColaborador.Listar(null, null, null, null, null, null, null, ec.NumeroContrato).ToList();
+                                //colaboradorContrao.ForEach(cd =>
+                                //{
+                                //    cd.Ativa = false;
+                                //    _serviceColaborador.Alterar(cd);
+                                //}
+                                //);
+                                break;
+                            case diasAlerta0:
+                                AlterarDados(ec.EmpresaId, ec.EmpresaContratoId, diasAlerta0);
 
-                            var empresa = _serviceEmpresa.BuscarPelaChave(ec.EmpresaId);
-                            empresa.PraVencer = diasAlerta0;                            
-                            _serviceEmpresa.Alterar(empresa);
-
-                            var contrato = _serviceContrato.BuscarPelaChave(ec.EmpresaContratoId);
-                            contrato.PraVencer = diasAlerta0;
-                            contrato.StatusId = 1;
-                            _serviceContrato.Alterar(contrato);
-
-
-                            
-                            _configuraSistema = ObterConfiguracao();
-                            if (_configuraSistema.Email != null)
-                            {
-                                if (empresa.Email1 != null)
+                                _configuraSistema = ObterConfiguracao();
+                                if (_configuraSistema.Email != null)
                                 {
-                                    var messa1 = new MeuValor() { Valor1 = "O Contrato Nº.: " + ec.NumeroContrato + " da empresa " + empresa.Nome + " vencendo hoje", Valor2 = empresa.Email1.Trim() };
-                                    empresaContratoEmail[ec.EmpresaId] = messa1;
+                                    if (emailEmpresa != null)
+                                    {
+                                        var messa1 = new MeuValor() { Valor1 = "O Contrato Nº.: " + ec.NumeroContrato + " da empresa " + nomeEmpresa, Valor2 = emailEmpresa };
+                                        listEmpresasContrato.Add(messa1);
+                                    }
                                 }
-                                    //sendMessage(messa, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), empresa.Email1.Trim());
+                                ////_serviceGenetec.GerarEvento(messa,8);
+                                ////_serviceGenetec.GerarEvento("8000",null,messa);
+                                break;
+                            case diasAlerta1:
+                                AlterarDados(ec.EmpresaId, ec.EmpresaContratoId, diasAlerta1);
 
-                            }
-                            ////_serviceGenetec.GerarEvento(messa,8);
-                            ////_serviceGenetec.GerarEvento("8000",null,messa);
-                            break;
-                        case diasAlerta1:
-                            //CriarLog("Disparar alerta de vencendo em 5 dias");
-                            // Verifica se a Hashtable contém esta chave
-                            if (!empresaContrato.ContainsKey(ec.EmpresaId))
-                            {
-                                empresaContrato[ec.EmpresaId] = diasAlerta1;
-                            }
-                            
-                            empresa = _serviceEmpresa.BuscarPelaChave(ec.EmpresaId);
-                            empresa.PraVencer = diasAlerta1;
-                            _serviceEmpresa.Alterar(empresa);
+                                _configuraSistema = ObterConfiguracao();
+                                if (_configuraSistema.Email != null)
+                                {
+                                    if (emailEmpresa != null)
+                                    {
+                                        var messa1 = new MeuValor() { Valor1 = "O Contrato Nº.: " + ec.NumeroContrato + " da empresa " + nomeEmpresa, Valor2 = emailEmpresa };
+                                        listEmpresasContrato.Add(messa1);
+                                    }
+                                }
+                                ////_serviceGenetec.GerarEvento(messa,8);
+                                ////_serviceGenetec.GerarEvento("8000",null,messa);
+                                break;
+                            case diasAlerta2:
+                                AlterarDados(ec.EmpresaId, ec.EmpresaContratoId, diasAlerta2);
 
-                            contrato = _serviceContrato.BuscarPelaChave(ec.EmpresaContratoId);
-                            contrato.PraVencer = diasAlerta1;
-                            contrato.StatusId = 1;
-                            _serviceContrato.Alterar(contrato);
+                                _configuraSistema = ObterConfiguracao();
+                                if (_configuraSistema.Email != null)
+                                {
+                                    if (emailEmpresa != null)
+                                    {
+                                        var messa1 = new MeuValor() { Valor1 = "O Contrato Nº.: " + ec.NumeroContrato + " da empresa " + nomeEmpresa, Valor2 = emailEmpresa };
+                                        listEmpresasContrato.Add(messa1);
+                                    }
+                                }
+                                ////_serviceGenetec.GerarEvento(messa,8);
+                                ////_serviceGenetec.GerarEvento("8000",null,messa);
+                                break;
+                            case diasAlerta3:
+                                AlterarDados(ec.EmpresaId, ec.EmpresaContratoId, diasAlerta3);
 
-
-                            messa = "O Contrato Nº.: " + ec.NumeroContrato + " da empresa " + empresa.Nome + " vencendo em 5 dias";
-                            empresaContratoEmail[ec.EmpresaId] = messa;
-
-                            //_configuraSistema = ObterConfiguracao();
-                            //if (_configuraSistema.Email != null)
-                            //{
-                            //    if (empresa.Email1 != null)
-                            //        sendMessage(messa, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), empresa.Email1.Trim());
-                            //}
-                            ////_serviceGenetec.DisparaAlarme(messa, 8);
-                            ////_serviceGenetec.GerarEvento("8005", null, messa);
-                            break;
-                        case  diasAlerta2:
-                            //CriarLog("Disparar alerta de vencendo em 15 dias");
-                            // Verifica se a Hashtable contém esta chave
-                            if (!empresaContrato.ContainsKey(ec.EmpresaId))
-                            {
-                                empresaContrato[ec.EmpresaId] = diasAlerta2;
-                            }
-                            
-                            empresa = _serviceEmpresa.BuscarPelaChave(ec.EmpresaId);
-                            empresa.PraVencer = diasAlerta2;
-                            _serviceEmpresa.Alterar(empresa);
-
-                            contrato = _serviceContrato.BuscarPelaChave(ec.EmpresaContratoId);
-                            contrato.PraVencer = diasAlerta2;
-                            contrato.StatusId = 1;
-                            _serviceContrato.Alterar(contrato);
-
-
-                            messa = "O Contrato Nº.: " + ec.NumeroContrato + " da empresa " + empresa.Nome + " vencendo em 15 dias";
-                            empresaContratoEmail[ec.EmpresaId] = messa;
-
-                            //_configuraSistema = ObterConfiguracao();
-                            //if (_configuraSistema.Email != null)
-                            //{
-                            //    if (empresa.Email1 != null)
-                            //        sendMessage(messa, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), empresa.Email1.Trim());
-                            //}
-                            ////_serviceGenetec.DisparaAlarme(messa, 8);
-                            ////_serviceGenetec.GerarEvento("8015", null, messa);
-                            break;
-                        case diasAlerta3:
-                            //CriarLog("Disparar alerta de vencendo em 30 dias");
-                            // Verifica se a Hashtable contém esta chave
-                            if (!empresaContrato.ContainsKey(ec.EmpresaId))
-                            {
-                                empresaContrato[ec.EmpresaId] = diasAlerta3;
-                            }
-                            
-                            empresa = _serviceEmpresa.BuscarPelaChave(ec.EmpresaId);
-                            empresa.PraVencer = diasAlerta3;
-                            _serviceEmpresa.Alterar(empresa);
-
-                            contrato = _serviceContrato.BuscarPelaChave(ec.EmpresaContratoId);
-                            contrato.PraVencer = diasAlerta3;
-                            contrato.StatusId = 1;
-                            _serviceContrato.Alterar(contrato);
-
-                            messa = "O Contrato Nº.: " + ec.NumeroContrato + " da empresa " + empresa.Nome +  " vencendo em 30 dias";
-                            empresaContratoEmail[ec.EmpresaId] = messa;
-
-                            //_configuraSistema = ObterConfiguracao();
-                            //if (_configuraSistema.Email != null)
-                            //{
-                            //    if (empresa.Email1 != null)
-                            //        sendMessage(messa, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), empresa.Email1.Trim());
-                            //}
-                            //// _serviceGenetec.DisparaAlarme(messa, 8);
-                            ////_serviceGenetec.GerarEvento("8030", null, messa);
-                            break;
-                        default:
-                            break;
-
+                                _configuraSistema = ObterConfiguracao();
+                                if (_configuraSistema.Email != null)
+                                {
+                                    if (emailEmpresa != null)
+                                    {
+                                        var messa1 = new MeuValor() { Valor1 = "O Contrato Nº.: " + ec.NumeroContrato + " da empresa " + nomeEmpresa, Valor2 = emailEmpresa };
+                                        listEmpresasContrato.Add(messa1);
+                                    }
+                                }
+                                ////_serviceGenetec.GerarEvento(messa,8);
+                                ////_serviceGenetec.GerarEvento("8000",null,messa);
+                                break;
+                            default:
+                                break;
+                        }
                     }
+                    );
 
-                }
-
-                );
-                                    //_configuraSistema = ObterConfiguracao();
-                    //if (_configuraSistema.Email != null)
-                    //{
-                        
-                    //        //sendMessage(messa, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), empresa.Email1.Trim());
-                    //}
-                    foreach (string element in empresaContratoEmail)
+                    
+                    StringBuilder emailFraport = new StringBuilder();
+                    foreach (MeuValor element in listEmpresasContrato)
                     {
-                       
-                        
+
+                        //email1 = element.Valor2.ToString();
+                        emailFraport.AppendLine(element.Valor1.ToString());
 
                     }
+                    if (emailEmpresa != "")
+                    {
+                        sendMessage(emailFraport.ToString(), _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), emailEmpresa);
+                    }
+                }
+                );
                 
             }
             catch (Exception ex)
@@ -467,6 +414,31 @@ namespace Meu_Servico.Service
             if (config == null) throw new InvalidOperationException("Não foi possivel obter dados de configuração do sistema.");
             return config.FirstOrDefault();
         }
+        
+        public void AlterarDados(int empresaID,int empresacontratoID, int diasrestantes)
+        {
+
+            try
+            {
+                if (!empresaContrato.ContainsKey(empresaID))
+                {
+                    empresaContrato[empresaID] = diasrestantes;
+                }
+
+                var empresa = _serviceEmpresa.BuscarPelaChave(empresaID);
+                empresa.PraVencer = diasrestantes;
+                _serviceEmpresa.Alterar(empresa);
+
+                var contrato = _serviceContrato.BuscarPelaChave(empresacontratoID);
+                contrato.PraVencer = diasrestantes;
+                contrato.StatusId = 1;
+                _serviceContrato.Alterar(contrato);
+            }
+            catch (System.Exception erro)
+            {
+                //trata erro
+            }
+        }
         protected void sendMessage(string msg, string emailOrigem,string Emailsmtp,string usuario,string senha, string emailDestino)
         {
 
@@ -475,8 +447,8 @@ namespace Meu_Servico.Service
             MailMessage mail = new MailMessage();
 
             mail.From = new MailAddress(emailOrigem);
-            mail.To.Add(emailOrigem); // para
             mail.To.Add(emailDestino); // para
+            //mail.To.Add(emailDestino); // para
             mail.Subject = "Inativação de Contrato(s)"; // assunto 
             mail.Body = msg; // mensagem
            
