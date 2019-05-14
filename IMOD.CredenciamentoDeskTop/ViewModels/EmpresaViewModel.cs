@@ -192,7 +192,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             if (Entity.Logo != null) return;
             var listaFoto = _service.BuscarPelaChave(empresa);
-            Entity.Logo = listaFoto.Logo;
+            if (listaFoto!=null)
+                Entity.Logo = listaFoto.Logo;
         }
         /// <summary>
         ///     Atualizar dados de atividade
@@ -551,7 +552,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
                 //var contrato = _serviceContratos.Listar().OrderByDescending(ec => ec.PraVencer).GroupBy(ec => ec.EmpresaId).ToList();
 
-                var list2 = Mapper.Map<List<EmpresaView>> (list.OrderByDescending (n => n.EmpresaId));
+                var list2 = Mapper.Map<List<EmpresaView>> (list.OrderBy(n => n.Nome));
                 
                 EntityObserver = new ObservableCollection<EmpresaView>();               
                 list2.ForEach (n => { EntityObserver.Add (n); });

@@ -13,6 +13,8 @@ namespace IMOD.CredenciamentoDeskTop.Windows
         {
             InitializeComponent();
             DataContext = new RelatoriosViewModel();
+            ((RelatoriosViewModel)DataContext).CarregaColecaoEmpresas(); 
+            ((RelatoriosViewModel)DataContext).CarregaColecaoAreasAcessos();
             MouseDown += Window_MouseDown;
 
             EmpresaRazaoSocial_cb.IsEditable = true;

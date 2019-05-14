@@ -8,8 +8,9 @@ namespace IMOD.CredenciamentoDeskTop.Constantes
 {
     static class Constantes
     {
-        public const int diasPorAno = 365;
-        public const int diasPorMes = 30;
-        
+        public const int diasPorAno = 365; 
+        public const int diasPorMes = 30; 
+        public const string consNomeArquivoEmpresaOperadora = "logoEmpresaOperadora.png";
+
     }
 }

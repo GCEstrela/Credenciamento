@@ -27,6 +27,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             InitializeComponent();
             DataContext = new RelatoriosViewModel();
+            ((RelatoriosViewModel)DataContext).CarregaColecaoRelatorios();
         }
 
         #region Comando dos Botoes

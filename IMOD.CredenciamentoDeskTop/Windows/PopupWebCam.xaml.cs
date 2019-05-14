@@ -22,9 +22,12 @@ namespace iModSCCredenciamento.Windows
     /// </summary>
     public partial class PopupWebCam : Window
     {
+        
+        public bool aceitarImg = true;
         private readonly ColaboradorViewModel _viewModel;
         public PopupWebCam()
         {
+
             InitializeComponent();
             _viewModel = new ColaboradorViewModel();
             DataContext = _viewModel;
@@ -50,11 +53,13 @@ namespace iModSCCredenciamento.Windows
 
         private void Label_Unloaded(object sender, RoutedEventArgs e)
         {
-            webcam.Stop();
+            if (webcam != null)
+                webcam.Stop();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            aceitarImg = false;
             this.Close();
         }
 
