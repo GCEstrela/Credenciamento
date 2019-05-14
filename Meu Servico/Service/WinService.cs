@@ -431,7 +431,12 @@ namespace Meu_Servico.Service
 
                 var contrato = _serviceContrato.BuscarPelaChave(empresacontratoID);
                 contrato.PraVencer = diasrestantes;
-                contrato.StatusId = 1;
+
+                if (diasrestantes == 0)
+                {
+                    contrato.StatusId = 1;
+                }
+                
                 _serviceContrato.Alterar(contrato);
             }
             catch (System.Exception erro)
