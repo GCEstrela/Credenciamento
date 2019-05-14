@@ -320,7 +320,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 if (Entity.Foto != null) return;
                 var listaFoto = _service.BuscarPelaChave(colaborador);
-                Entity.Foto = listaFoto.Foto;
+
+                if (listaFoto!=null)
+                    Entity.Foto = listaFoto.Foto;
             }
             catch (Exception ex)
             {
