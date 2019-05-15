@@ -14,6 +14,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using IMOD.CredenciamentoDeskTop.Helpers;
 using System.Windows.Shapes;
+using System.Drawing;
+using System.IO;
+using System.Drawing.Imaging;
 
 namespace iModSCCredenciamento.Windows
 {
@@ -64,13 +67,59 @@ namespace iModSCCredenciamento.Windows
         }
 
         private void Capturar_bt_Click(object sender, RoutedEventArgs e)
-        {         
-            imgCapture.Source = imgVideo.Source;
+        {
+            //imgCapture.Source = imgVideo.Source;
+            imgCapture.Source = BitmapImageFromBitmapSourceResized((BitmapSource)imgVideo.Source, 190);
         }
 
         private void Aceitar_bt_Click(object sender, RoutedEventArgs e)
-        {           
+        {
+            //imgCapture.Source = BitmapImageFromBitmapSourceResized((BitmapSource)imgVideo.Source, 100);
+            //SaveImageCapture((BitmapSource)imgCapture.Source);
             this.Close();
+        }
+        public static BitmapSource BitmapImageFromBitmapSourceResized(BitmapSource bitmapSource, int newWidth)
+        {
+            BmpBitmapEncoder encoder = new BmpBitmapEncoder();
+            MemoryStream memoryStream = new MemoryStream();
+            BitmapImage bImg = new BitmapImage();
+
+            encoder.Frames.Add(BitmapFrame.Create(bitmapSource));
+            encoder.Save(memoryStream);
+
+            bImg.BeginInit();
+            bImg.StreamSource = new MemoryStream(memoryStream.ToArray());
+            bImg.DecodePixelWidth = newWidth;
+            bImg.EndInit();
+            memoryStream.Close();
+            return bImg;
+        }
+        public static void SaveImageCapture(BitmapSource bitmap)
+        {
+            JpegBitmapEncoder encoder = new JpegBitmapEncoder();
+            encoder.Frames.Add(BitmapFrame.Create(bitmap));
+            encoder.QualityLevel = 100;
+
+
+            // Configure save file dialog box
+            Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
+            dlg.FileName = "Image"; // Default file name
+            dlg.DefaultExt = ".Jpg"; // Default file extension
+            dlg.Filter = "Image (.jpg)|*.jpg"; // Filter files by extension
+
+            // Show save file dialog box
+            Nullable<bool> result = dlg.ShowDialog();
+
+            // Process save file dialog box results
+            if (result == true)
+            {
+                // Save Image
+                string filename = dlg.FileName;
+                FileStream fstream = new FileStream(filename, FileMode.Create);
+                encoder.Save(fstream);
+                fstream.Close();
+            }
+
         }
     }
 }
