@@ -19,6 +19,7 @@ using System.Threading;
 using System.Collections;
 using IMOD.Domain.Entities;
 using Genetec.Sdk.Entities;
+using System.Windows.Forms;
 
 namespace Meu_Servico.Service
 {
@@ -282,7 +283,7 @@ namespace Meu_Servico.Service
                 );
 
 
-
+                Cursor.Current = Cursors.WaitCursor;
                 //Hashtable empresaContrato = new Hashtable();
                 Hashtable empresaContratoEmail = new Hashtable();
                 string nomeEmpresa = "";
@@ -379,25 +380,29 @@ namespace Meu_Servico.Service
                     }
                     );
 
-                    
-                    StringBuilder emailFraport = new StringBuilder();
-                    foreach (MeuValor element in listEmpresasContrato)
+                    if (listEmpresasContrato.Count > 0)
                     {
+                        StringBuilder emailFraport = new StringBuilder();
+                        foreach (MeuValor element in listEmpresasContrato)
+                        {
 
-                        //email1 = element.Valor2.ToString();
-                        emailFraport.AppendLine(element.Valor1.ToString());
+                            //email1 = element.Valor2.ToString();
+                            emailFraport.AppendLine(element.Valor1.ToString());
 
-                    }
-                    if (emailEmpresa != "")
-                    {
-                        sendMessage(emailFraport.ToString(), _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), emailEmpresa);
+                        }
+                        if (emailEmpresa != "")
+                        {
+                            sendMessage(emailFraport.ToString(), _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), emailEmpresa);
+                        }
                     }
                 }
-                );
                 
+                );
+                Cursor.Current = Cursors.IBeam;
             }
             catch (Exception ex)
             {
+                Cursor.Current = Cursors.IBeam;
                 CriarLog(ex.Message);
             }
         }
