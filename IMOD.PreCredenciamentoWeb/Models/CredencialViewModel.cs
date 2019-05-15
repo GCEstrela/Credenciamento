@@ -58,6 +58,8 @@ namespace IMOD.PreCredenciamentoWeb.Models
         public bool FlagCcam { get; set; }
         [Display(Name = "Status")]
         public bool Ativa { get; set; }
+        [Display(Name = "Foto Formatada")]
+        public string FotoFormatada { get { return string.Format("data:image/png;base64,{0}", Foto); } }
 
     }
 }
