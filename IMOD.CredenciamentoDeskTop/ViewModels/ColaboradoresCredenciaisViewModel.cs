@@ -1184,28 +1184,28 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 }
             }
 
-            if (Entity.ColaboradorPrivilegio1Id == 0 || Entity.ColaboradorPrivilegio2Id == 0)
-            {
-                //System.Windows.MessageBox.Show("Regras não informadas");
-                Entity.SetMessageErro("Regras", "As Regra(s) são obrigatória(s).");
-                WpfHelp.Mbox("As Regra(s) são obrigatória(s). Não é possível criar uma credencial sem essa infrmação");
-                //IsEnableLstView = true;
-                //_viewModelParent.HabilitaControleTabControls(true, true, true, true, true, true);
-                return true;
-            }
+            //if (Entity.ColaboradorPrivilegio1Id == 0 || Entity.ColaboradorPrivilegio2Id == 0)
+            //{
+            //    //System.Windows.MessageBox.Show("Regras não informadas");
+            //    Entity.SetMessageErro("Regras", "As Regra(s) são obrigatória(s).");
+            //    WpfHelp.Mbox("As Regra(s) são obrigatória(s). Não é possível criar uma credencial sem essa infrmação");
+            //    //IsEnableLstView = true;
+            //    //_viewModelParent.HabilitaControleTabControls(true, true, true, true, true, true);
+            //    return true;
+            //}
 
             if (Entity.TecnologiaCredencialId != 0)
             {
                 if (Entity.ColaboradorPrivilegio1Id == 0 || Entity.ColaboradorPrivilegio2Id == 0)
                 {
                     //System.Windows.MessageBox.Show("REgras não informadas");
-                    WpfHelp.Mbox("As Regra(s) são obrigatória(s). Não é possível criar uma credencial sem essa infrmação");
+                    WpfHelp.Mbox("Para a Autenticação selecionada é necessário o preenchimento dos Privilégios.");
                     return true;
                 }
                 if (Entity.FormatoCredencialId == 0)
                 {
                     //System.Windows.MessageBox.Show("Formato da credencial não informada");
-                    WpfHelp.Mbox("O formato da credencial é obrigatório para esta ação. Não é possível criar uma credencial sem essa infrmação");
+                    WpfHelp.Mbox("Para a Autenticação selecionada é necessário o preenchimento do formato da credencial.");
                     return true;
                 }
                 if (Entity.NumeroCredencial == null || Entity.NumeroCredencial == "" )
