@@ -896,16 +896,28 @@
     </Content>
     <Content Include="Dlls\PropertyChanged.dll" />
     <Content Include="FodyWeavers.xml" />
+    <Content Include="Resources\vermelho_02.jpg" />
     <Resource Include="Resources\yellow_alerta.png" />
     <Resource Include="Resources\vermelho.png" />
     <Resource Include="Resources\Amarelo.jpg" />
     <Resource Include="Resources\Amarelo.png" />
     <Resource Include="Resources\Laranja.jpg" />
     <Resource Include="Resources\green_alerta.png" />
+    <Content Include="Resources\ccam.png" />
+    <Content Include="Resources\FraportBrasil.png" />
+    <Content Include="Resources\FraportFortaleza.PNG" />
+    <Content Include="Resources\FraportFortaleza1.PNG" />
+    <Content Include="Resources\FraportPortoAlegre.PNG" />
+    <Content Include="Resources\FraportPortoAlegre1.PNG" />
     <Content Include="Resources\Ok2.ico" />
     <Content Include="Resources\Okold.ico" />
     <Resource Include="Resources\red_alerta.png" />
     <Resource Include="Resources\orange_alerta.png" />
+    <Content Include="Resources\operadorBagagem.png" />
+    <Content Include="Resources\operadorEmbarque.png" />
+    <Content Include="Resources\Pendenciaold.ico" />
+    <Content Include="Resources\permissaoDirigir.png" />
+    <Content Include="Resources\prioritylow.png" />
     <Content Include="Resources\Verde.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
