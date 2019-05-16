@@ -19,8 +19,11 @@ namespace IMOD.PreCredenciamentoWeb.Models
         [Display(Name = "Login")]
         [Required(ErrorMessage = "Informe o CNPJ da empresa", AllowEmptyStrings = false)]
         public string CNPJ { get; set; }
-        public Byte[] Logo { get; set; }
+        public string Logo { get; set; }
+        //public string FotoFormatada { get { return string.Format("data:image/png;base64,{0}", Logo); } }
         public bool Lembreme { get; set; }
+        public string Email1 { get; set; }
+        public string Contato1 { get; set; }
         public IList<EmpresaContrato> Contratos { get; set; }
     }
 }
