@@ -101,8 +101,8 @@ namespace Meu_Servico.Service
                 _sdk.ClientCertificate = "KxsD11z743Hf5Gq9mv3+5ekxzemlCiUXkTFY5ba1NOGcLCmGstt2n0zYE9NsNimv";
                 if (_sdk.IsConnected)
                 {
-                    _sdk.BeginLogOff();
-                    Thread.Sleep(1000);
+                    _sdk.LogOff();
+                    Thread.Sleep(500);
                     if (!_sdk.IsConnected)
                     {
                         _sdk.LogOn("172.16.190.108", "Admin", "");
@@ -110,6 +110,8 @@ namespace Meu_Servico.Service
                 }
                 else
                 {
+                    _sdk.LogOff();
+                    Thread.Sleep(500);
                     _sdk.LogOn("172.16.190.108", "Admin", "");
 
                 }

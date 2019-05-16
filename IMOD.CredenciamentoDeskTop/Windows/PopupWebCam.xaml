@@ -58,7 +58,7 @@
                             <GradientStop Color="#FF646464" Offset="1"/>
                         </RadialGradientBrush>
                     </Border.BorderBrush>
-                    <Image x:Name="imgCapture" Stretch="Fill"/>
+                    <Image x:Name="imgCapture" Stretch="Fill" />
                 </Border>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="47,0,44,0">

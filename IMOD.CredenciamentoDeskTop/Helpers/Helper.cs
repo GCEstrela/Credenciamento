@@ -5,10 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
+using System.Security.Cryptography;
+using IMOD.CredenciamentoDeskTop.Constantes;
 
-namespace iModSCCredenciamento.Funcoes
+namespace IMOD.CredenciamentoDeskTop.Helpers
 {
-    class Helper
+    public static class Helper
     {
         //Block Memory Leak
         [System.Runtime.InteropServices.DllImport("gdi32.dll")]
@@ -56,5 +58,62 @@ namespace iModSCCredenciamento.Funcoes
             }
 
         }
+
+        /// <summary>
+        /// Método para codificar os dados da querystring
+        /// </summary>
+        /// <param name="param"></param>
+        /// <returns></returns>
+        public static string Codificar(string param)
+        {
+            byte[] clearBytes = Encoding.Unicode.GetBytes(param);
+            using (Aes encryptor = Aes.Create())
+            {
+                var pdb = new Rfc2898DeriveBytes(Constantes.Constantes.chaveCriptografia, new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 });
+                encryptor.Key = pdb.GetBytes(32);
+                encryptor.IV = pdb.GetBytes(16);
+                using (var ms = new MemoryStream())
+                {
+                    using (var cs = new CryptoStream(ms, encryptor.CreateEncryptor(), CryptoStreamMode.Write))
+                    {
+                        cs.Write(clearBytes, 0, clearBytes.Length);
+                        cs.Close();
+                    }
+                    param = Convert.ToBase64String(ms.ToArray());
+                }
+            }
+            return param; 
+        }
+
+        /// <summary>
+        /// Método para decodificar os dados da querystring
+        /// </summary>
+        /// <param name="param"></param>
+        /// <returns></returns>
+        public static string Decodificar(string param)
+        {
+            param = param.Replace(" ", "+");
+            byte[] cipherBytes = Convert.FromBase64String(param);
+            using (Aes encryptor = Aes.Create())
+            {
+                var pdb = new Rfc2898DeriveBytes(Constantes.Constantes.chaveCriptografia, new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 });
+                encryptor.Key = pdb.GetBytes(32);
+                encryptor.IV = pdb.GetBytes(16);
+                using (var ms = new MemoryStream())
+                {
+                    using (var cs = new CryptoStream(ms, encryptor.CreateDecryptor(), CryptoStreamMode.Write))
+                    {
+                        cs.Write(cipherBytes, 0, cipherBytes.Length);
+                        cs.Close();
+                    }
+                    param = Encoding.Unicode.GetString(ms.ToArray());
+                }
+            }
+
+            return param;
+        }
+
+
+
     }
 }

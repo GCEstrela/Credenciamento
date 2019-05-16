@@ -14,6 +14,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using IMOD.CredenciamentoDeskTop.Helpers;
 using System.Windows.Shapes;
+using System.Drawing;
+using System.IO;
+using System.Drawing.Imaging;
 
 namespace iModSCCredenciamento.Windows
 {
@@ -64,13 +67,33 @@ namespace iModSCCredenciamento.Windows
         }
 
         private void Capturar_bt_Click(object sender, RoutedEventArgs e)
-        {         
+        {
             imgCapture.Source = imgVideo.Source;
+            //imgCapture.Source = BitmapImageFromBitmapSourceResized((BitmapSource)imgVideo.Source, 190);
         }
 
         private void Aceitar_bt_Click(object sender, RoutedEventArgs e)
-        {           
+        {
+            imgCapture.Source = BitmapImageFromBitmapSourceResized((BitmapSource)imgVideo.Source, 190);
+            //SaveImageCapture((BitmapSource)imgCapture.Source);
             this.Close();
         }
+        public static BitmapSource BitmapImageFromBitmapSourceResized(BitmapSource bitmapSource, int newWidth)
+        {
+            BmpBitmapEncoder encoder = new BmpBitmapEncoder();
+            MemoryStream memoryStream = new MemoryStream();
+            BitmapImage bImg = new BitmapImage();
+
+            encoder.Frames.Add(BitmapFrame.Create(bitmapSource));
+            encoder.Save(memoryStream);
+
+            bImg.BeginInit();
+            bImg.StreamSource = new MemoryStream(memoryStream.ToArray());
+            bImg.DecodePixelWidth = newWidth;
+            bImg.EndInit();
+            memoryStream.Close();
+            return bImg;
+        }
+        
     }
 }

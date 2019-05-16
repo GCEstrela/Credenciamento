@@ -27,9 +27,9 @@ namespace IMOD.Domain.EntitiesCustom
         public int CredencialStatusId { get; set; }
         public string CredencialGuid { get; set; }
         public string CardHolderGuid { get; set; }
-        [Range(1, int.MaxValue, ErrorMessage = "A Regra é requerido.")]
+        //[Range(1, int.MaxValue, ErrorMessage = "A Regra é requerido.")]
         public int ColaboradorPrivilegio1Id { get; set; }
-        [Range(1, int.MaxValue, ErrorMessage = "A Regra é requerido.")]
+        //[Range(1, int.MaxValue, ErrorMessage = "A Regra é requerido.")]
         public int ColaboradorPrivilegio2Id { get; set; }
         //private string _colete;
         //public string Colete { get { return _colete = ColaboradorId > 0 ? EmpresaSigla.Trim().ToString() + Convert.ToString(ColaboradorId) : _colete; } set { _colete = value; } }
