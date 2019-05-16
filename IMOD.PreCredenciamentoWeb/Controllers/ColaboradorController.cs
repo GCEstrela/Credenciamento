@@ -170,9 +170,16 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         }
 
         // GET: Veiculo/Credential/5
-        public ActionResult Credential(int id)
+        public ActionResult Credential(string id, string param)
         {
-            var credencialView = objColaboradorCredencialService.ObterCredencialView(id);
+
+            if (id == null || (string.IsNullOrEmpty(id))) return View();
+            if (param == null || (string.IsNullOrEmpty(param))) return View(); 
+
+            var paramDescodificado = Helper.CriptografiaHelper.Decodificar(param);
+            var identificador = Helper.CriptografiaHelper.Decodificar(id);
+
+            var credencialView = objColaboradorCredencialService.ObterCredencialView(Convert.ToInt16(identificador));
 
             if (credencialView != null)
             {
