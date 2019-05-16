@@ -978,10 +978,14 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 c1.EmpresaNome = c1.EmpresaNome + ( !string.IsNullOrEmpty(c1.TerceirizadaNome) ?  " / " + c1.TerceirizadaNome : string.Empty);
                 c1.Emissao = DateTime.Now; 
                 lst.Add(c1); 
-                relatorio.SetDataSource(lst); 
+                relatorio.SetDataSource(lst);
 
-                var objCode = new QrCode(); 
-                var pathImagem = objCode.GerarQrCode("http://172.16.100.75:57280/Colaborador/Credential/" + c1.ColaboradorCredencialID.ToString(), "QrCodeAutorizacao" + c1.ColaboradorCredencialID.ToString() + ".png");
+                var objCode = new QrCode();
+                string querySistema = "http://172.16.100.75:57280/Colaborador/Credential/"
+                                                + Helpers.Helper.Codificar(c1.ColaboradorCredencialID.ToString())
+                                                    + "?param=" + Helpers.Helper.Codificar(Constantes.Constantes.chaveCriptografia);
+
+                var pathImagem = objCode.GerarQrCode(querySistema, "QrCodeAutorizacao" + c1.ColaboradorCredencialID.ToString() + ".png");
                 relatorio.SetParameterValue("PathImgQrCode", pathImagem);
 
                 //IDENTIFICACAO
