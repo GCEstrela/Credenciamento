@@ -43,6 +43,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         // GET: Colaborador/Details/5
         public ActionResult Details(int id)
         {
+            if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
             return View();
         }
 
@@ -50,7 +51,6 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         public ActionResult Create()
         {
             if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
-
             PopularEstadosDropDownList();
             PopularDadosDropDownList();
             PopularContratoCreateDropDownList(SessionUsuario.EmpresaLogada.EmpresaId);
@@ -62,10 +62,9 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         //[ValidateAntiForgeryToken]
         public ActionResult Create(ColaboradorViewModel model, int[] EmpresaContratoId)
         {
-            if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
-
             try
             {
+                if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
                 if (ModelState.IsValid)
                 {
                     var colaboradorMapeado = Mapper.Map<Colaborador>(model);
@@ -99,20 +98,33 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         }
 
         // GET: Colaborador/Edit/5
-        public ActionResult Edit(int? id) 
+        public ActionResult Edit(int? id)
         {
             if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
-            if (id == null || (id <= 0)) { return RedirectToAction("../Login"); }
-
+            Session.Remove("ContratosSelecionados");
+            Session.Remove("ContratosRemovidos");
             var colaboradorEditado = objService.Listar(id).FirstOrDefault();
             if (colaboradorEditado == null)
                 return HttpNotFound();
 
             ColaboradorViewModel colaboradorMapeado = Mapper.Map<ColaboradorViewModel>(colaboradorEditado);
+            ViewBag.ContratosSelecionados = new List<EmpresaContrato>();
+            var listaVinculosColaborador = objColaboradorEmpresaService.Listar(colaboradorEditado.ColaboradorId);
+            if (listaVinculosColaborador != null)
+            {
+                foreach (ColaboradorEmpresa item in listaVinculosColaborador)
+                {
+                    var empresaContrato = objContratosService.BuscarPelaChave(item.EmpresaContratoId);
+                    ((List<EmpresaContrato>)ViewBag.ContratosSelecionados).Add(empresaContrato);
+                }
+                Session.Add("ContratosSelecionados", (List<EmpresaContrato>)ViewBag.ContratosSelecionados);
+            }
+
             PopularEstadosDropDownList();
             PopularDadosDropDownList();
             ViewBag.Contratos = SessionUsuario.EmpresaLogada.Contratos;
-            ViewBag.ContratosSelecionados = SessionUsuario.EmpresaLogada.Contratos;
+            //ViewBag.ContratosSelecionados = SessionUsuario.EmpresaLogada.Contratos;
+
             return View(colaboradorMapeado);
         }
 
@@ -120,10 +132,9 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         [HttpPost]
         public ActionResult Edit(int? id, ColaboradorViewModel model)
         {
-            if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
-
             try
             {
+                if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
                 if (id == null)
                     return HttpNotFound();
 
@@ -132,6 +143,40 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                 {
                     var colaboradorMapeado = Mapper.Map<Colaborador>(model);
                     objService.Alterar(colaboradorMapeado);
+
+                    if (Session["ContratosRemovidos"] != null)
+                    {
+                        foreach (var item in (List<int>)Session["ContratosRemovidos"])
+                        {
+                            var contratoExclusao = objColaboradorEmpresaService.Listar(colaboradorMapeado.ColaboradorId, null, null, null, null, null, item).FirstOrDefault();
+                            objColaboradorEmpresaService.Remover(contratoExclusao);
+                        }
+                    }
+
+
+                    foreach (var contratoEmpresa in (List<EmpresaContrato>)Session["ContratosSelecionados"])
+                    {
+                        // Inclusão do vinculo
+                        ColaboradorEmpresa colaboradorEmpresa = new ColaboradorEmpresa();
+                        colaboradorEmpresa.ColaboradorId = colaboradorMapeado.ColaboradorId;
+                        colaboradorEmpresa.EmpresaContratoId = contratoEmpresa.EmpresaContratoId;
+                        colaboradorEmpresa.Ativo = true;
+                        colaboradorEmpresa.EmpresaId = contratoEmpresa.EmpresaId;
+
+                        var item = objColaboradorEmpresaService.Listar(colaboradorMapeado.ColaboradorId, null, null, null, null, null, contratoEmpresa.EmpresaContratoId).FirstOrDefault();
+                        if (item != null)
+                        {
+                            colaboradorEmpresa.EmpresaContratoId = item.EmpresaContratoId;
+                            objColaboradorEmpresaService.Alterar(colaboradorEmpresa);
+                        }
+                        else
+                        {
+                            objColaboradorEmpresaService.Criar(colaboradorEmpresa);
+                            objColaboradorEmpresaService.CriarNumeroMatricula(colaboradorEmpresa);
+                        }
+                    }
+
+
 
                     return RedirectToAction("Index");
                 }
@@ -147,8 +192,11 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         // GET: Colaborador/Delete/5
         public ActionResult Delete(int id)
         {
-            if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
-
+            // TODO: Add delete logic here
+            Colaborador colaborador = new Colaborador();
+            colaborador.ColaboradorId = id;
+            //var colaboradorMapeado = Mapper.Map<Colaborador>(colaborador);
+            objService.Remover(colaborador);
             return View();
         }
 
@@ -156,11 +204,12 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {
-            if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
-
             try
             {
+
                 // TODO: Add delete logic here
+                var colaboradorMapeado = Mapper.Map<Colaborador>(collection);
+                objService.Alterar(colaboradorMapeado);
                 return RedirectToAction("Index");
             }
             catch
@@ -169,25 +218,41 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             }
         }
 
-        public ActionResult AdicionarContrato(int id)
+        public JsonResult AdicionarContrato(int id)
         {
             ViewBag.ContratosSelecionados = new List<EmpresaContrato>();
-            if (TempData["ContratosSelecionados"] != null)
+            if (Session["ContratosSelecionados"] != null)
             {
-                ViewBag.ContratosSelecionados = TempData["ContratosSelecionados"];
+                ViewBag.ContratosSelecionados = Session["ContratosSelecionados"];
             }
             var item = SessionUsuario.EmpresaLogada.Contratos.Where(c => c.EmpresaContratoId == id).FirstOrDefault();
             ((List<EmpresaContrato>)ViewBag.ContratosSelecionados).Add(item);
-            TempData["ContratosSelecionados"] = ViewBag.ContratosSelecionados;
-            return View();
+            Session["ContratosSelecionados"] = ViewBag.ContratosSelecionados;
+            return Json((List<EmpresaContrato>)ViewBag.ContratosSelecionados, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult RemoverContrato(int id)
+        {
+            var listContrato = (List<EmpresaContrato>)Session["ContratosSelecionados"];
+            listContrato.Remove(new EmpresaContrato(id));
+            Session["ContratosSelecionados"] = listContrato;
+            if (Session["ContratosRemovidos"] == null) Session["ContratosRemovidos"] = new List<int>();
+            ((List<int>)Session["ContratosRemovidos"]).Add(id);
+
+            ViewBag.ContratosSelecionados = new List<EmpresaContrato>();
+            if (Session["ContratosSelecionados"] != null)
+            {
+                ViewBag.ContratosSelecionados = Session["ContratosSelecionados"];
+            }
+            return Json(listContrato, JsonRequestBehavior.AllowGet);
         }
 
         // GET: Veiculo/Credential/5
         public ActionResult Credential(string id, string param)
         {
 
-            if (id == null || (string.IsNullOrEmpty(id))) return HttpNotFound();
-            if (param == null || (string.IsNullOrEmpty(param))) return HttpNotFound();
+            if (id == null || (string.IsNullOrEmpty(id))) return View();
+            if (param == null || (string.IsNullOrEmpty(param))) return View();
 
             var paramDescodificado = Helper.CriptografiaHelper.Decodificar(param);
             var identificador = Helper.CriptografiaHelper.Decodificar(id);
@@ -215,9 +280,8 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             }
 
             return View();
-
-
         }
+
 
         #region Métodos internos carregar componentes
 

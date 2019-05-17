@@ -28,6 +28,31 @@ namespace IMOD.Domain.Entities
         public DateTime? Validade { get; set; }
         public bool ManuseioBagagem { get; set; }
 
+        public override bool Equals(object obj)
+        {
+            var empresa = obj as ColaboradorEmpresa;
+            return empresa != null &&
+                   ColaboradorEmpresaId == empresa.ColaboradorEmpresaId;
+        }
+
+        public override int GetHashCode()
+        {
+            return -2141522505 + ColaboradorEmpresaId.GetHashCode();
+        }
+
+        public ColaboradorEmpresa(int colaboradorEmpresaId)
+        {
+            ColaboradorEmpresaId = colaboradorEmpresaId;
+        }
+
+        public ColaboradorEmpresa()
+        {
+        }
+
+
+
         #endregion
+
+
     }
 }

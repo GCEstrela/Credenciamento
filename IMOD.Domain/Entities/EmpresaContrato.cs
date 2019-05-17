@@ -46,6 +46,29 @@ namespace IMOD.Domain.Entities
         public bool ContratoBasico { get; set; }
         public string TerceirizadaNome { get; set; }
         public int PraVencer { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            var contrato = obj as EmpresaContrato;
+            return contrato != null &&
+                   EmpresaContratoId == contrato.EmpresaContratoId;
+        }
+
+        public override int GetHashCode()
+        {
+            return 1502971449 + EmpresaContratoId.GetHashCode();
+        }
+
+        public EmpresaContrato(int empresaContratoId)
+        {
+            EmpresaContratoId = empresaContratoId;
+        }
+
+        public EmpresaContrato()
+        {
+        }
+
+
         #endregion
     }
 }
