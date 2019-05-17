@@ -72,6 +72,8 @@ namespace IMOD.PreCredenciamentoWeb.Models
         public bool Pendente16 { get; set; }
         public bool Pendente17 { get; set; }
         //[Required(ErrorMessage = "A Gigla é requerida.")]
+        [ScaffoldColumn(true)]
+        [StringLength(3, ErrorMessage = "A Sigla não pode ser superior a 3 caracteres. ")]
         public string Sigla { get; set; }
         public int TotalPermanente { get; set; }
         public int TotalTemporaria { get; set; }
