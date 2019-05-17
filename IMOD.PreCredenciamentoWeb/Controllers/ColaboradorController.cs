@@ -34,7 +34,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
         private IList<Colaborador> ObterColaboradoresEmpresaLogada()
         {
-            vinculos = objColaboradorEmpresaService.Listar(null, null, null, null, null, SessionUsuario.EmpresaLogada.Codigo).ToList();
+            vinculos = objColaboradorEmpresaService.Listar(null, null, null, null, null, SessionUsuario.EmpresaLogada.EmpresaId).ToList();
             vinculos.ForEach(v => { colaboradores.AddRange(objService.Listar(v.ColaboradorId)); });
 
             return colaboradores.OrderBy(c => c.Nome).ToList();
@@ -43,16 +43,18 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         // GET: Colaborador/Details/5
         public ActionResult Details(int id)
         {
+            if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
             return View();
         }
 
         // GET: Colaborador/Create
         public ActionResult Create()
         {
+            if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
             PopularEstadosDropDownList();
             PopularDadosDropDownList();
-            PopularContratoCreateDropDownList(SessionUsuario.EmpresaLogada.Codigo);
-            PopularCursos(SessionUsuario.EmpresaLogada.Codigo);
+            PopularContratoCreateDropDownList(SessionUsuario.EmpresaLogada.EmpresaId);
+            PopularCursos(SessionUsuario.EmpresaLogada.EmpresaId);
             return View();
         }
 
@@ -62,6 +64,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         {
             try
             {
+                if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
                 if (ModelState.IsValid)
                 {
                     var colaboradorMapeado = Mapper.Map<Colaborador>(model);
@@ -74,7 +77,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                         colaboradorEmpresa.ColaboradorId = colaboradorMapeado.ColaboradorId;
                         colaboradorEmpresa.EmpresaContratoId = Convert.ToInt32(contratoEmpresaId);
                         colaboradorEmpresa.Ativo = true;
-                        colaboradorEmpresa.EmpresaId = SessionUsuario.EmpresaLogada.Codigo;
+                        colaboradorEmpresa.EmpresaId = SessionUsuario.EmpresaLogada.EmpresaId;
                         objColaboradorEmpresaService.Criar(colaboradorEmpresa);
                         objColaboradorEmpresaService.CriarNumeroMatricula(colaboradorEmpresa);
                     }
@@ -131,6 +134,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         {
             try
             {
+                if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
                 if (id == null)
                     return HttpNotFound();
 
@@ -188,6 +192,11 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         // GET: Colaborador/Delete/5
         public ActionResult Delete(int id)
         {
+            // TODO: Add delete logic here
+            Colaborador colaborador = new Colaborador();
+            colaborador.ColaboradorId = id;
+            //var colaboradorMapeado = Mapper.Map<Colaborador>(colaborador);
+            objService.Remover(colaborador);
             return View();
         }
 
@@ -197,7 +206,10 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         {
             try
             {
+
                 // TODO: Add delete logic here
+                var colaboradorMapeado = Mapper.Map<Colaborador>(collection);
+                objService.Alterar(colaboradorMapeado);
                 return RedirectToAction("Index");
             }
             catch
