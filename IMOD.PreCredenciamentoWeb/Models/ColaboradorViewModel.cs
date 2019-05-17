@@ -35,6 +35,7 @@ namespace IMOD.PreCredenciamentoWeb.Models
         public string Cpf { get; set; }
         public string Rg { get; set; }
         [Display(Name = "Emissão RG")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime? RgEmissao { get; set; }
         [Display(Name = "Órgão Emissor RG")]
         public string RgOrgLocal { get; set; }
@@ -43,13 +44,16 @@ namespace IMOD.PreCredenciamentoWeb.Models
         public string Passaporte { get; set; }
         [DataType(DataType.Date)]
         [Display(Name = "Validade Passaporte")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime? PassaporteValidade { get; set; }
         public string Rne { get; set; }
         [Display(Name = "Fone")]
         public string TelefoneFixo { get; set; }
         [Display(Name = "Celular")]
         public string TelefoneCelular { get; set; }
+        [DataType(DataType.EmailAddress)]
         [EmailAddress]
+        [RegularExpression(".+\\@.+\\..+", ErrorMessage = "Informe um Email válido...")]
         public string Email { get; set; }
         [Required(ErrorMessage = "O Contato de Emergencia é requerido.")]
         [Display(Name = "Contato Emergência")]

@@ -43,12 +43,15 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         // GET: Veiculo/Details/5
         public ActionResult Details(int id)
         {
+            if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
+
             return View();
         }
 
         // GET: Veiculo/Create
         public ActionResult Create()
         {
+            if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
 
             PopularEstadosDropDownList();
             PopularDadosDropDownList();
@@ -62,8 +65,10 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         [HttpPost]
         //[ValidateAntiForgeryToken]
         public ActionResult Create(VeiculoViewModel model)
-        {
-            try
+        {  
+            if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
+
+            try 
             {
                 if (ModelState.IsValid)
                 {
@@ -93,6 +98,9 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         // GET: Veiculo/Edit/5
         public ActionResult Edit(int ? id)
         {
+            if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
+            if (id == null || (id <= 0)) { return RedirectToAction("../Login"); }
+
             var veiculoEditado = objService.Listar(null,null,null,null,null,id).FirstOrDefault();
             if (veiculoEditado == null)
                 return HttpNotFound();
@@ -110,6 +118,9 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         [HttpPost]
         public ActionResult Edit(int? id, VeiculoViewModel model)
         {
+            if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
+            if (id == null || (id <= 0)) { return RedirectToAction("../Login"); }
+
             try
             {
                 if (id == null)
@@ -136,12 +147,16 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         }
 
         // GET: Veiculo/Delete/5
-        public ActionResult Delete(int id, Veiculo model)
-        {
-            try
+        public ActionResult Delete(int id, Veiculo model) 
+        { 
+
+            if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); } 
+            if (id == null || (id <= 0)) { return RedirectToAction("../Login"); } 
+
+            try 
             {
-                if (id == null)
-                    return HttpNotFound();
+                //if (id == null)
+                //    return HttpNotFound();
                 var idVeiculo = id;
 
                 // Initializes the variables to pass to the MessageBox.Show method.
@@ -173,6 +188,8 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         [HttpPost]
         public ActionResult Delete(int id, System.Web.Mvc.FormCollection collection)
         {
+            if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
+
             try
             {
                 // TODO: Add delete logic here
@@ -189,8 +206,8 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         public ActionResult Credential(string id, string param)
         {
 
-            if (id == null || (string.IsNullOrEmpty(id))) return View();
-            if (param == null || (string.IsNullOrEmpty(param))) return View();
+            if (id == null || (string.IsNullOrEmpty(id))) return HttpNotFound();
+            if (param == null || (string.IsNullOrEmpty(param))) return HttpNotFound();
 
             var paramDescodificado = Helper.CriptografiaHelper.Decodificar(param);
             var identificador = Helper.CriptografiaHelper.Decodificar(id);
