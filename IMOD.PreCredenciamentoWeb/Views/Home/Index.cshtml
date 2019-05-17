@@ -11,7 +11,7 @@
                     <h2>Gerenciar <b>Empresa</b></h2>
                 </div>
                 <div class="col-sm-6">
-                    <a class="btn btn-group" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Editar Empresa</span></a>
+                    <a href="@Url.Action("Edit", "Empresa", new { id = Model.Codigo })" class="btn btn-group" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Editar Empresa</span></a>
                     @*<a href="/Colaborador/Create" class="btn btn-group" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Editar Empresa</span></a>*@
                     @*<a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>*@
                 </div>
@@ -30,7 +30,7 @@
                 <div class="col-lg-12" style="align-content:center">
                     <div class="col-lg-2">
                         <h4>CNPJ</h4>
-                        @Model.CNPJ
+                        @Model.CNPJ                        
                     </div>
                     <div class="col-lg-3">
                         <h4>Contato</h4>

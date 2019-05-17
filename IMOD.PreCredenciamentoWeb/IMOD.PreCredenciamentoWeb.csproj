@@ -137,6 +137,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ColaboradorController.cs" />
+    <Compile Include="Controllers\EmpresaController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\VeiculoController.cs" />
@@ -257,6 +258,7 @@
     <Content Include="Views\Veiculo\Edit.cshtml" />
     <Content Include="Views\Veiculo\Credential.cshtml" />
     <Content Include="Views\Colaborador\Credential.cshtml" />
+    <Content Include="Views\Empresa\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
