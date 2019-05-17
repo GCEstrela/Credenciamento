@@ -49,6 +49,8 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         // GET: Colaborador/Create
         public ActionResult Create()
         {
+            if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
+
             PopularEstadosDropDownList();
             PopularDadosDropDownList();
             PopularContratoCreateDropDownList(SessionUsuario.EmpresaLogada.EmpresaID);
@@ -60,6 +62,8 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         //[ValidateAntiForgeryToken]
         public ActionResult Create(ColaboradorViewModel model, int[] EmpresaContratoId)
         {
+            if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
+
             try
             {
                 if (ModelState.IsValid)
@@ -95,8 +99,11 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         }
 
         // GET: Colaborador/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult Edit(int? id) 
         {
+            if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
+            if (id == null || (id <= 0)) { return RedirectToAction("../Login"); }
+
             var colaboradorEditado = objService.Listar(id).FirstOrDefault();
             if (colaboradorEditado == null)
                 return HttpNotFound();
@@ -113,6 +120,8 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         [HttpPost]
         public ActionResult Edit(int? id, ColaboradorViewModel model)
         {
+            if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
+
             try
             {
                 if (id == null)
@@ -138,6 +147,8 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         // GET: Colaborador/Delete/5
         public ActionResult Delete(int id)
         {
+            if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
+
             return View();
         }
 
@@ -145,6 +156,8 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {
+            if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
+
             try
             {
                 // TODO: Add delete logic here
@@ -173,8 +186,8 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         public ActionResult Credential(string id, string param)
         {
 
-            if (id == null || (string.IsNullOrEmpty(id))) return View();
-            if (param == null || (string.IsNullOrEmpty(param))) return View(); 
+            if (id == null || (string.IsNullOrEmpty(id))) return HttpNotFound();
+            if (param == null || (string.IsNullOrEmpty(param))) return HttpNotFound();
 
             var paramDescodificado = Helper.CriptografiaHelper.Decodificar(param);
             var identificador = Helper.CriptografiaHelper.Decodificar(id);
