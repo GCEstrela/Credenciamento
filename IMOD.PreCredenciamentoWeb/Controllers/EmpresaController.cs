@@ -72,7 +72,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                 // TODO: Add update logic here
                 if (ModelState.IsValid)
                 {
-                    model.EmpresaID = (int)id;
+                    model.EmpresaId = (int)id;
                     var empresaMapeado = Mapper.Map<Empresa>(model);
                     objService.Alterar(empresaMapeado);
 
