@@ -35,7 +35,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         }
         private IList<Veiculo> ObterVeiculossEmpresaLogada()
         {
-            vinculos = objVeiculoEmpresaService.Listar(null, null, null, null, null, SessionUsuario.EmpresaLogada.Codigo).ToList();
+            vinculos = objVeiculoEmpresaService.Listar(null, null, null, null, null, SessionUsuario.EmpresaLogada.EmpresaID).ToList();
             vinculos.ForEach(v => { veiculos.AddRange(objService.Listar(null,null,null,null,null,v.VeiculoId)); });
 
             return veiculos.OrderBy(c => c.Descricao).ToList();
@@ -53,7 +53,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             PopularEstadosDropDownList();
             PopularDadosDropDownList();
 
-            PopularContratoCreateDropDownList(SessionUsuario.EmpresaLogada.Codigo);
+            PopularContratoCreateDropDownList(SessionUsuario.EmpresaLogada.EmpresaID);
 
             return View();
         }
@@ -101,7 +101,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
             PopularEstadosDropDownList(); 
             PopularDadosDropDownList(); 
-            PopularContratoEditDropDownList(veiculoMapeado, SessionUsuario.EmpresaLogada.Codigo);
+            PopularContratoEditDropDownList(veiculoMapeado, SessionUsuario.EmpresaLogada.EmpresaID);
 
             return View(veiculoMapeado); 
         }

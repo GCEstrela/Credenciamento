@@ -37,12 +37,13 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                 //var empresaLogada = lista.Where(e => e.Cnpj.Equals(empresa.CNPJ) && e.Senha.Equals(empresa.Senha)).FirstOrDefault();
                 if (empresaLogada != null)
                 {
-                    empresa.Codigo = empresaLogada.EmpresaId;
+                    empresa.EmpresaID = empresaLogada.EmpresaId;
                     empresa.Nome = empresaLogada.Nome;
+                    empresa.Apelido = empresaLogada.Apelido;
                     empresa.Senha = string.Empty;
                     empresa.Contratos = servicecontrato.ListarPorEmpresa(empresaLogada.EmpresaId).ToList();
-                    //empresa.CNPJ = Convert.ToUInt64(empresaLogada.Cnpj).ToString(@"00\.000\.000\/0000\-00");
-                    empresa.CNPJ = empresaLogada.Cnpj;
+                    empresa.CNPJ = Convert.ToUInt64(empresaLogada.Cnpj).ToString(@"00\.000\.000\/0000\-00");
+                    //empresa.CNPJ = empresaLogada.Cnpj;
                     empresa.Logo = string.Format("data:image/png;base64,{0}", empresaLogada.Logo);
                     empresa.Email1= empresaLogada.Email1;
                     empresa.Contato1 = empresaLogada.Contato1;

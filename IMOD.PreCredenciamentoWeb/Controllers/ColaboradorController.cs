@@ -34,7 +34,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
         private IList<Colaborador> ObterColaboradoresEmpresaLogada()
         {
-            vinculos = objColaboradorEmpresaService.Listar(null, null, null, null, null, SessionUsuario.EmpresaLogada.Codigo).ToList();
+            vinculos = objColaboradorEmpresaService.Listar(null, null, null, null, null, SessionUsuario.EmpresaLogada.EmpresaID).ToList();
             vinculos.ForEach(v => { colaboradores.AddRange(objService.Listar(v.ColaboradorId)); });
 
             return colaboradores.OrderBy(c => c.Nome).ToList();
@@ -51,8 +51,8 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         {
             PopularEstadosDropDownList();
             PopularDadosDropDownList();
-            PopularContratoCreateDropDownList(SessionUsuario.EmpresaLogada.Codigo);
-            PopularCursos(SessionUsuario.EmpresaLogada.Codigo);
+            PopularContratoCreateDropDownList(SessionUsuario.EmpresaLogada.EmpresaID);
+            PopularCursos(SessionUsuario.EmpresaLogada.EmpresaID);
             return View();
         }
 
@@ -74,7 +74,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                         colaboradorEmpresa.ColaboradorId = colaboradorMapeado.ColaboradorId;
                         colaboradorEmpresa.EmpresaContratoId = Convert.ToInt32(contratoEmpresaId);
                         colaboradorEmpresa.Ativo = true;
-                        colaboradorEmpresa.EmpresaId = SessionUsuario.EmpresaLogada.Codigo;
+                        colaboradorEmpresa.EmpresaId = SessionUsuario.EmpresaLogada.EmpresaID;
                         objColaboradorEmpresaService.Criar(colaboradorEmpresa);
                         objColaboradorEmpresaService.CriarNumeroMatricula(colaboradorEmpresa);
                     }

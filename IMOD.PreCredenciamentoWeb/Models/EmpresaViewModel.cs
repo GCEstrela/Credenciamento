@@ -10,8 +10,9 @@ namespace IMOD.PreCredenciamentoWeb.Models
     public class EmpresaViewModel
     {
 
-        public int Codigo { get; set; }
+        public int EmpresaID { get; set; }
         public string Nome { get; set; }
+        public string Apelido { get; set; }
         //[Display(Name = "Senha")]       
         //[DataType(DataType.Password)]
         //[Required(ErrorMessage = "Informe a senha", AllowEmptyStrings = false)]
@@ -25,5 +26,10 @@ namespace IMOD.PreCredenciamentoWeb.Models
         public string Email1 { get; set; }
         public string Contato1 { get; set; }
         public IList<EmpresaContrato> Contratos { get; set; }
+
+
+
+
+
     }
 }
