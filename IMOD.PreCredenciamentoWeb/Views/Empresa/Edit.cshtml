@@ -57,10 +57,11 @@
                             @Html.ValidationMessageFor(model => model.Logo, "", new { @class = "text-danger" })
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" >
                         @Html.LabelFor(model => model.Cnpj, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.Cnpj, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                        <div class="col-md-10" contenteditable="false">
+                            @*@Html.EditorFor(model => model.Cnpj, new { htmlAttributes = new { @class = "form-control text-uppercase" } })*@
+                            @Html.TextBoxFor(model => model.Cnpj, new { @disabled = "disabled" })
                             @Html.ValidationMessageFor(model => model.Cnpj, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -80,8 +81,9 @@
                     </div>
                     <div class="form-group">
                         @Html.LabelFor(model => model.Sigla, htmlAttributes: new {  @class = "control-label col-md-2" })
-                        <div class="col-md-10", Height="22" Width="45">
-                            @Html.EditorFor(model => model.Sigla, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                        <div class="col-md-10" , Height="22" Width="45">
+                            @*@Html.EditorFor(model => model.Sigla, new { htmlAttributes = new { @class = "form-control text-uppercase" } })*@
+                            @Html.TextBoxFor(model => model.Sigla, new { @disabled = "disabled" })
                             @Html.ValidationMessageFor(model => model.Sigla, "", new { @class = "text-danger" })
                         </div>
                     </div>
