@@ -163,34 +163,33 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         #region Tipos Equipamentos
 
-        private void SalvarEquipamento_bt_Click(object sender, RoutedEventArgs e)
-        {
-            NovoEquipamento_bt.Content = "Novo";
-            SalvarEquipamento_bt.IsEnabled = false;
-            ((ConfiguracoesViewModel)DataContext).OnSalvarEdicaoCommand_TiposEquipamentos();
-
-        }
-        private void NovoEquipamento_bt_Click(object sender, RoutedEventArgs e)
+        private void btnAdicionarEquipamento_Click(object sender, RoutedEventArgs e)
         {
             DescricaoEquipamento_tb.Focus();
-            if (NovoEquipamento_bt.Content.ToString() == "Novo")
-            {
-                SalvarEquipamento_bt.IsEnabled = true;
-                NovoEquipamento_bt.Content = "Cancelar";
-                ((ConfiguracoesViewModel)DataContext).OnAdicionarCommand_TiposEquipamentos();
-            }
-            else if (NovoEquipamento_bt.Content.ToString() == "Cancelar")
-            {
-                SalvarEquipamento_bt.IsEnabled = false;
-                NovoEquipamento_bt.Content = "Novo";
-                ((ConfiguracoesViewModel)DataContext).CarregaColecaoTiposEquipamentos();
-            }
-            
+            btnSalvarEquipamento.IsEnabled = true;
+            btnCancelarEquipamento.IsEnabled = true;
+            ((ConfiguracoesViewModel)DataContext).OnAdicionarCommand_TiposEquipamentos();
         }
-        private void DeletarSalvarEquipamento_bt_Click(object sender, RoutedEventArgs e)
+
+        private void btnSalvarEquipamento_Click(object sender, RoutedEventArgs e)
         {
-            SalvarEquipamento_bt.IsEnabled = false;
+            btnAdicionarEquipamento.IsEnabled = true; 
+            btnSalvarEquipamento.IsEnabled = false; 
+            ((ConfiguracoesViewModel)DataContext).OnSalvarEdicaoCommand_TiposEquipamentos();
+        }
+
+        private void btnDeletarEquipamento_Click(object sender, RoutedEventArgs e) 
+        {
+            btnAdicionarEquipamento.IsEnabled = true; 
+            btnSalvarEquipamento.IsEnabled = false;
             ((ConfiguracoesViewModel)DataContext).OnExcluirCommand_TiposEquipamentos();
+        }
+
+        private void btnCancelarEquipamento_Click(object sender, RoutedEventArgs e) 
+        {
+            btnSalvarEquipamento.IsEnabled = false;
+            btnAdicionarEquipamento.IsEnabled = true;
+            ((ConfiguracoesViewModel)DataContext).CarregaColecaoTiposEquipamentos();
         }
 
         #endregion
@@ -233,38 +232,44 @@ namespace IMOD.CredenciamentoDeskTop.Views
         private void NovoTiposAreasAcessos_bt_Click(object sender, RoutedEventArgs e)
         {
             IdentificacaoAreasAcessos_tb.Focus();
-            if (NovoTiposAreasAcessos_bt.Content.ToString() == "Novo")
-            {
-                SalvarTiposAreasAcessos_bt.IsEnabled = true;
-                NovoTiposAreasAcessos_bt.Content = "Cancelar";
+
+ 
+
+                btnSalvarTiposAreasAcessos.IsEnabled = true;
+                btnCancelarTiposAreasAcessos.IsEnabled = true;
+
                 ((ConfiguracoesViewModel)DataContext).OnAdicionarCommand_AreaAcesso();
-            }
-            else if (NovoTiposAreasAcessos_bt.Content.ToString() == "Cancelar")
-            {
-                SalvarTiposAreasAcessos_bt.IsEnabled = false;
-                NovoTiposAreasAcessos_bt.Content = "Novo";
-                ((ConfiguracoesViewModel)DataContext).CarregaColecaoAreasAcessos();
-            }
+            
+
+
+
            
         }
         private void SalvarTiposAreasAcessos_bt_Click(object sender, RoutedEventArgs e)
         {
             if (IdentificacaoAreasAcessos_tb.Text.Length <= 0)
             {
-               
                 MessageBox.Show("A(s) letra(s) de identificação da área de acesso é obrigatória.");
                 IdentificacaoAreasAcessos_tb.Focus();
                 return;
             }
-            NovoTiposAreasAcessos_bt.Content = "Novo";
-            SalvarTiposAreasAcessos_bt.IsEnabled = false;
+            btnSalvarTiposAreasAcessos.IsEnabled = false;
+            btnCancelarTiposAreasAcessos.IsEnabled = true;
             ((ConfiguracoesViewModel)DataContext).OnSalvarEdicaoCommand_AreaAcesso();
         }
         private void DeletarTiposAreasAcessos_bt_Click(object sender, RoutedEventArgs e)
         {
-            SalvarTiposAreasAcessos_bt.IsEnabled = false;
+            btnAdicionarTiposAreasAcessos.IsEnabled = true;
+            btnSalvarTiposAreasAcessos.IsEnabled = false;
             ((ConfiguracoesViewModel)DataContext).OnExcluirCommand_AreaAcesso();
         }
+        private void CancelarTiposAreasAcessos_bt_Click(object sender, RoutedEventArgs e) 
+        {
+            btnAdicionarTiposAreasAcessos.IsEnabled = true;
+            btnSalvarTiposAreasAcessos.IsEnabled = false;
+            ((ConfiguracoesViewModel)DataContext).CarregaColecaoAreasAcessos(); 
+        } 
+
 
         #endregion
 
@@ -273,31 +278,27 @@ namespace IMOD.CredenciamentoDeskTop.Views
         private void NovoTipoAtividade_bt_Click(object sender, RoutedEventArgs e)
         {
             DescricaoAtividades_tb.Focus();
-            if (NovoTipoAtividade_bt.Content.ToString() == "Novo")
-            {
-                SalvarTipoAtividade_bt.IsEnabled = true;
-                NovoTipoAtividade_bt.Content = "Cancelar";
-                ((ConfiguracoesViewModel)DataContext).OnAdicionarCommand_TiposAtividades();
-            }
-            else if (NovoTipoAtividade_bt.Content.ToString() == "Cancelar")
-            {
-                SalvarTipoAtividade_bt.IsEnabled = false;
-                NovoTipoAtividade_bt.Content = "Novo";
-                ((ConfiguracoesViewModel)DataContext).CarregaColecaoTiposAtividades();
-            }
-
-
+            btnSalvarTipoAtividade.IsEnabled = true;
+            btnCancelarTipoAtividade.IsEnabled = true;
+            ((ConfiguracoesViewModel)DataContext).OnAdicionarCommand_TiposAtividades();
         }
         private void SalvarTipoAtividade_bt_Click(object sender, RoutedEventArgs e)
         {
-            NovoTipoAtividade_bt.Content = "Novo";
-            SalvarTipoAtividade_bt.IsEnabled = false;
+            btnAdicionarTipoAtividade.IsEnabled = true;
+            btnSalvarTipoAtividade.IsEnabled = false;
             ((ConfiguracoesViewModel)DataContext).OnSalvarEdicaoCommand_TiposAtividades();
         }
         private void DeletarTipoAtividade_bt_Click(object sender, RoutedEventArgs e)
         {
-            SalvarTipoAtividade_bt.IsEnabled = false;
+            btnAdicionarTipoAtividade.IsEnabled = true;
+            btnSalvarTipoAtividade.IsEnabled = false;
             ((ConfiguracoesViewModel)DataContext).OnExcluirCommand_TiposAtividades();
+        }
+        private void CancelarTipoAtividade_bt_Click(object sender, RoutedEventArgs e)
+        {
+                btnSalvarTipoAtividade.IsEnabled = false; 
+                btnAdicionarTipoAtividade.IsEnabled = true; 
+                ((ConfiguracoesViewModel)DataContext).CarregaColecaoTiposAtividades(); 
         }
 
         #endregion
@@ -305,35 +306,33 @@ namespace IMOD.CredenciamentoDeskTop.Views
         #region Tipos Serviços
 
 
-        private void NovoTipoServico_bt_Click(object sender, RoutedEventArgs e)
+        private void btnAdicionarTipoServico_Click(object sender, RoutedEventArgs e)
         {
             DescricaoTipoServico_tb.Focus();
-            if (NovoTipoServico_bt.Content.ToString() == "Novo")
-            {
-                SalvarTipoServico_bt.IsEnabled = true;
-                NovoTipoServico_bt.Content = "Cancelar";
-                ((ConfiguracoesViewModel)DataContext).OnAdicionarCommand_TipoServico();
-            }
-            else if (NovoTipoServico_bt.Content.ToString() == "Cancelar")
-            {
-                SalvarTipoServico_bt.IsEnabled = false;
-                NovoTipoServico_bt.Content = "Novo";
-                ((ConfiguracoesViewModel)DataContext).CarregaColecaoTipoServico();
-            }
-            
+            btnSalvarTipoServico.IsEnabled = true;
+            btnCancelarTipoServico.IsEnabled = true;
+            ((ConfiguracoesViewModel)DataContext).OnAdicionarCommand_TipoServico();
         }
 
-        private void SalvarTipoServico_bt_Click(object sender, RoutedEventArgs e)
+        private void btnSalvarTipoServico_Click(object sender, RoutedEventArgs e)
         {
-            NovoTipoServico_bt.Content = "Novo";
-            SalvarTipoServico_bt.IsEnabled = false;
+            btnAdicionarTipoServico.IsEnabled = true;
+            btnSalvarTipoServico.IsEnabled = false;
             ((ConfiguracoesViewModel)DataContext).OnSalvarEdicaoCommand_TipoServico();
         }
 
-        private void DeletarTipoServico_bt_Click(object sender, RoutedEventArgs e)
+        private void btnDeletarTipoServico_Click(object sender, RoutedEventArgs e)
         {
-            SalvarTipoServico_bt.IsEnabled = false;
+            btnAdicionarTipoServico.IsEnabled = true; 
+            btnSalvarTipoServico.IsEnabled = false; 
             ((ConfiguracoesViewModel)DataContext).OnExcluirCommand_TipoServico();
+        }
+
+        private void btnCancelarTipoServico_Click(object sender, RoutedEventArgs e)
+        {
+            btnSalvarTipoAtividade.IsEnabled = false;
+            btnAdicionarTipoAtividade.IsEnabled = true;
+            ((ConfiguracoesViewModel)DataContext).CarregaColecaoTipoServico();
         }
 
         #endregion
@@ -375,136 +374,134 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         #region Tipos Cobranças
 
-        private void NovoTiposCobranca_bt_Click(object sender, RoutedEventArgs e)
+        private void btnAdicionarTiposCobranca_Click(object sender, RoutedEventArgs e)
         {
-            DescricaoCobrancas_tb.Focus();
-            if (NovoTiposCobranca_bt.Content.ToString() == "Novo")
-            {
-                SalvarTiposCobranca_bt.IsEnabled = true;
-                NovoTiposCobranca_bt.Content = "Cancelar";
+                DescricaoCobrancas_tb.Focus();
+                btnSalvarTiposCobranca.IsEnabled = true; 
+                btnCancelarTiposCobranca.IsEnabled = true; 
                 ((ConfiguracoesViewModel)DataContext).OnAdicionarCommand_TiposCobrancas();
-            }
-            else if (NovoTiposCobranca_bt.Content.ToString() == "Cancelar")
-            {
-                SalvarTiposCobranca_bt.IsEnabled = false;
-                NovoTiposCobranca_bt.Content = "Novo";
-                ((ConfiguracoesViewModel)DataContext).CarregaColecaoTiposCobrancas();
-            }
-                
         }
-        private void SalvarTiposCobranca_bt_Click(object sender, RoutedEventArgs e)
+
+        private void btnSalvarTiposCobranca_Click(object sender, RoutedEventArgs e)
         {
-            NovoTiposCobranca_bt.Content = "Novo";
-            SalvarTiposCobranca_bt.IsEnabled = false;
-            ((ConfiguracoesViewModel)DataContext).OnSalvarEdicaoCommand_TiposCobrancas();
+            btnAdicionarTiposCobranca.IsEnabled = true; 
+            btnSalvarTiposCobranca.IsEnabled = false; 
+            ((ConfiguracoesViewModel)DataContext).OnSalvarEdicaoCommand_TiposCobrancas(); 
         }
-        private void DeletarTiposCobranca_bt_Click(object sender, RoutedEventArgs e)
+
+        private void btnDeletarTiposCobranca_Click(object sender, RoutedEventArgs e)
         {
-            SalvarTiposCobranca_bt.IsEnabled = false;
-            ((ConfiguracoesViewModel)DataContext).OnExcluirCommand_TiposCobrancas();
+            btnAdicionarTiposCobranca.IsEnabled = true;
+            btnSalvarTiposCobranca.IsEnabled = false;
+            ((ConfiguracoesViewModel)DataContext).OnExcluirCommand_TiposCobrancas(); 
         }
+
+        private void btnCancelarTiposCobranca_Click(object sender, RoutedEventArgs e)
+        {
+            btnAdicionarTiposCobranca.IsEnabled = true;
+            btnSalvarTiposCobranca.IsEnabled = false;
+            ((ConfiguracoesViewModel)DataContext).CarregaColecaoTiposCobrancas();
+        }
+
 
         #endregion
 
         #region Cursos 
 
-        private void NovoTiposCursos_bt_Click(object sender, RoutedEventArgs e)
+        private void btnAdicionarTiposCursos_Click(object sender, RoutedEventArgs e)
         {
-            DescricaoCursos_tb.Focus();
-            if (NovoTiposCursos_bt.Content.ToString() == "Novo")
-            {
-                SalvarTiposCursos_bt.IsEnabled = true;
-                NovoTiposCursos_bt.Content = "Cancelar";
-                ((ConfiguracoesViewModel)DataContext).OnAdicionarCommand_TiposCursos();
-            }
-            else if (NovoTiposCursos_bt.Content.ToString() == "Cancelar")
-            {
-                SalvarTiposCursos_bt.IsEnabled = false;
-                NovoTiposCursos_bt.Content = "Novo";
-                ((ConfiguracoesViewModel)DataContext).CarregaColecaoCursos();
-            }
-                
-        }
-        private void SalvarTiposCursos_bt_Click(object sender, RoutedEventArgs e)
-        {
-            NovoTiposCursos_bt.Content = "Novo";
-            SalvarTiposCursos_bt.IsEnabled = false;
-            ((ConfiguracoesViewModel)DataContext).OnSalvarEdicaoCommand_TiposCursos();
-        }
-        private void DeletarTiposCursos_bt_Click(object sender, RoutedEventArgs e)
-        {
-            SalvarTiposCursos_bt.IsEnabled = false;
-            ((ConfiguracoesViewModel)DataContext).OnExcluirCommand_TiposCursos();
+                DescricaoCursos_tb.Focus();
+                btnSalvarTiposCursos.IsEnabled = true;
+                btnCancelarTiposCursos.IsEnabled = true;
+            ((ConfiguracoesViewModel)DataContext).OnAdicionarCommand_TiposCursos();
         }
 
+        private void btnSalvarTiposCursos_Click(object sender, RoutedEventArgs e)
+        {
+            btnAdicionarTiposCursos.IsEnabled = true;
+            btnSalvarTiposCursos.IsEnabled = false;
+            ((ConfiguracoesViewModel)DataContext).OnSalvarEdicaoCommand_TiposCursos();
+        }
+
+        private void btnDeletarTiposCursos_Click(object sender, RoutedEventArgs e)
+        {
+            btnAdicionarTiposCursos.IsEnabled = true;
+            btnSalvarTiposCursos.IsEnabled = false;
+            ((ConfiguracoesViewModel)DataContext).OnExcluirCommand_TiposCursos();
+        } 
+
+        private void btnCancelarTiposCursos_Click(object sender, RoutedEventArgs e)
+        { 
+            btnAdicionarTiposCursos.IsEnabled = true;
+            btnSalvarTiposCursos.IsEnabled = false;
+            ((ConfiguracoesViewModel)DataContext).CarregaColecaoCursos();
+        } 
         #endregion
 
         #region Tipos Combustíveis
 
-        private void NovoTiposCombustiveis_bt_Click(object sender, RoutedEventArgs e)
+        private void btnAdicionarTiposCombustiveis_Click(object sender, RoutedEventArgs e)
         {
             DescricaoTiposCombustiveis_tb.Focus();
-            if (NovoTiposAreasAcessosSs_bt.Content.ToString() == "Novo")
-            {
-                SalvarTiposAreasAcesssoSs_bt.IsEnabled = true;
-                NovoTiposAreasAcessosSs_bt.Content = "Cancelar";
-                ((ConfiguracoesViewModel)DataContext).OnAdicionarCommand_TiposCombustiveis();
-            }
-            else if (NovoTiposAreasAcessosSs_bt.Content.ToString() == "Cancelar")
-            {
-                SalvarTiposAreasAcesssoSs_bt.IsEnabled = false;
-                NovoTiposAreasAcessosSs_bt.Content = "Novo";
-                ((ConfiguracoesViewModel)DataContext).CarregaColecaoTipoCombustiveis();
-            }
-                
+            btnSalvarTiposCombustiveis.IsEnabled = true;
+            btnCancelarTiposCombustiveis.IsEnabled = true;
+            ((ConfiguracoesViewModel)DataContext).OnAdicionarCommand_TiposCombustiveis();   
         }
 
-        private void SalvarTiposCombustiveis_bt_Click(object sender, RoutedEventArgs e)
+        private void btnSalvarTiposCombustiveis_Click(object sender, RoutedEventArgs e)
         {
-            NovoTiposAreasAcessosSs_bt.Content = "Novo";
-            SalvarTiposAreasAcesssoSs_bt.IsEnabled = false;
+            btnAdicionarTiposCombustiveis.IsEnabled = true;
+            btnSalvarTiposCombustiveis.IsEnabled = false;
             ((ConfiguracoesViewModel)DataContext).OnSalvarEdicaoCommand_TiposCombustiveis();
         }
 
-        private void DeletarTiposCombustiveis_bt_Click(object sender, RoutedEventArgs e)
+        private void btnDeletarTiposCombustiveis_Click(object sender, RoutedEventArgs e)
         {
-            SalvarTiposAreasAcesssoSs_bt.IsEnabled = false;
+            btnAdicionarTiposCombustiveis.IsEnabled = true;
+            btnSalvarTiposCombustiveis.IsEnabled = false;
             ((ConfiguracoesViewModel)DataContext).OnExcluirCommand_TiposCombustiveis();
         }
+
+        private void btnCancelarTiposCombustiveis_Click(object sender, RoutedEventArgs e)
+        {
+            btnAdicionarTiposCombustiveis.IsEnabled = true;
+            btnSalvarTiposCombustiveis.IsEnabled = false;
+            ((ConfiguracoesViewModel)DataContext).CarregaColecaoTipoCombustiveis();
+        }
+
         #endregion
 
         #region Tipos Status
 
-        private void NovoTiposStatus_bt_Click(object sender, RoutedEventArgs e)
+        private void btnAdicionarTiposStatus_Click(object sender, RoutedEventArgs e)
         {
             DescricaoStatus_tb.Focus();
-            if (NovoTiposStatus_bt.Content.ToString() == "Novo")
-            {
-                SalvarTiposStatus_bt.IsEnabled = true;
-                NovoTiposStatus_bt.Content = "Cancelar";
-                ((ConfiguracoesViewModel)DataContext).OnAdicionarCommand_TiposStatus();
-            }
-            else if (NovoTiposStatus_bt.Content.ToString() == "Cancelar")
-            {
-                SalvarTiposStatus_bt.IsEnabled = false;
-                NovoTiposStatus_bt.Content = "Novo";
-                ((ConfiguracoesViewModel)DataContext).CarregaColecaoStatus();
-            }
-            
+            btnSalvarTiposStatus.IsEnabled = true; 
+            btnCancelarTiposStatus.IsEnabled = true; 
+            ((ConfiguracoesViewModel)DataContext).OnAdicionarCommand_TiposStatus();
         }
 
-        private void SalvarTiposStatus_bt_Click(object sender, RoutedEventArgs e)
+        private void btnSalvarTiposStatus_Click(object sender, RoutedEventArgs e)
         {
-            NovoTiposStatus_bt.Content = "Novo";
-            SalvarTiposStatus_bt.IsEnabled = false;
+            btnAdicionarTiposStatus.IsEnabled = true;
+            btnSalvarTiposStatus.IsEnabled = false;
             ((ConfiguracoesViewModel)DataContext).OnSalvarEdicaoCommand_TiposStatus();
         }
 
-        private void DeletarTiposStatus_bt_Click(object sender, RoutedEventArgs e)
+        private void btnDeletarTiposStatus_Click(object sender, RoutedEventArgs e) 
         {
-            SalvarTiposStatus_bt.IsEnabled = false;
-            ((ConfiguracoesViewModel)DataContext).OnExcluirCommand_TiposStatus();
+            btnAdicionarTiposStatus.IsEnabled = true;
+            btnSalvarTiposStatus.IsEnabled = false;
+            ((ConfiguracoesViewModel)DataContext).OnExcluirCommand_TiposStatus(); 
         }
+
+        private void btnCancelarTiposStatus_Click(object sender, RoutedEventArgs e)
+        {
+            btnAdicionarTiposStatus.IsEnabled = true;
+            btnSalvarTiposStatus.IsEnabled = false; 
+            ((ConfiguracoesViewModel)DataContext).CarregaColecaoStatus();
+        }
+        
 
         #endregion
 
