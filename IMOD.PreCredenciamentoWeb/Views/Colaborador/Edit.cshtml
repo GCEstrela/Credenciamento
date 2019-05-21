@@ -27,6 +27,8 @@
             @Html.Hidden("ContratoEmpresaID", @Model.ContratoEmpresaID)
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
+            
+
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 <li class="nav-item active">
                     <a class="nav-link" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"
@@ -51,6 +53,10 @@
                 <li class="nav-item">
                     <a class="nav-link" id="vinculo-tab" data-toggle="tab" href="#vinculo" role="tab" aria-controls="vinculo"
                        aria-selected="false">Vínculo</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="curso-tab" data-toggle="tab" href="#curso" role="tab" aria-controls="curso"
+                       aria-selected="false">Curso</a>
                 </li>
             </ul>
 
@@ -347,10 +353,10 @@
                 <div class="tab-pane fade" id="vinculo" role="tabpanel" aria-labelledby="vinculo-tab">
                     <br />
                     <div div class="form-group">
-                        @Html.Label("Manuseia bagagem?", htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-lg-1">
-                            @Html.CheckBox("Manudeia Bagagem", htmlAttributes: new { @id = "chkBagagem" })
-                        </div>
+                        @* @Html.Label("Manuseia bagagem?", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-lg-1">
+                     @Html.CheckBox("Manudeia Bagagem", htmlAttributes: new { @id = "chkBagagem" })
+                 </div>*@
                         @Html.LabelFor(model => model.ContratoEmpresaID, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-lg-3">
                             @Html.DropDownListFor(model => model.ContratoEmpresaID, ((IEnumerable<IMOD.Domain.Entities.EmpresaContrato>)ViewBag.Contratos).Select(option => new SelectListItem
@@ -363,7 +369,7 @@
                         </div>
                         <div class="col-lg-4">
                             @*//href="@Url.Action("AdicionarContrato")"*@
-                            <a title="Vincular Contrato" id="btContrato" href="#" class="btContrato1">
+                            <a title="Vincular Contrato" id="btContrato" href="#" >
                                 <i class="material-icons">&#xE147;</i>
                             </a>
                         </div>
@@ -378,7 +384,43 @@
                                 <div class="col-lg-2">@item.NumeroContrato</div>
                                 <div class="col-lg-4">@item.Descricao</div>
                                 <div class="col-lg-6">
-                                    <a title="Vincular Contrato" id=@item.EmpresaContratoId href="#" class="btnRemover" onclick="Remover(this)">
+                                    <a title="Vincular Contrato" id=@item.EmpresaContratoId href="#" class="btnRemover" onclick="RemoverContrato(this)">
+                                        <i class="material-icons danger">&#xE15C;</i>
+                                    </a>
+                                </div>
+
+                            }
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="tab-pane fade" id="curso" role="tabpanel" aria-labelledby="curso-tab">
+                    <br />
+                    <div div class="form-group">             
+                        <div class="col-lg-3">
+                            @Html.DropDownListFor(model => model.ContratoEmpresaID, ((IEnumerable<IMOD.Domain.Entities.Curso>)ViewBag.Cursos).Select(option => new SelectListItem
+                       {
+                           Text = option.Descricao,
+                           Value = option.CursoId.ToString()                           
+                       }), "Selecione", new { @class = "form-control text-uppercase" , @id="ddlCurso" })                            
+                        </div>
+                        <div class="col-lg-4">
+                            @*//href="@Url.Action("AdicionarContrato")"*@
+                            <a title="Incluir Curso" id="btCurso" href="#" >
+                                <i class="material-icons">&#xE147;</i>
+                            </a>
+                        </div>
+                    </div>
+                    <br />
+                    <fieldset>
+                        <legend> Cursos Selecionados</legend>
+                        <div class="row" id="divCurso">
+                            @foreach (var item in ((IEnumerable<IMOD.Domain.Entities.Curso>)ViewBag.CursosSelecionados))
+                            {
+
+                                <div class="col-lg-1">@item.CursoId</div>
+                                <div class="col-lg-7">@item.Descricao</div>
+                                <div class="col-lg-4">
+                                    <a title="Remover Curso" id=@item.CursoId href="#" class="btnRemover" onclick="Remover(this)">
                                         <i class="material-icons danger">&#xE15C;</i>
                                     </a>
                                 </div>
@@ -407,7 +449,8 @@
 
     <script>
         $(document).ready(function () {
-            $(".btContrato1").click(function () {
+            //evento do botão incluir contrato
+            $("#btContrato").click(function () {
                 var id = $("#ddlContrato").val();
                 $.ajax({
                     type: "POST",
@@ -415,10 +458,10 @@
                     data: { id: id },
                     success: function (result) {
                         var html = '';
-                        $.each(result, function (key, item) {
+                        $.each(result, function (key, item) {                            
                             html += '<div class="col-lg-2">' + item.NumeroContrato + '</div>';
                             html += '<div class="col-lg-4">' + item.Descricao + '</div>';
-                            html += '<div class="col-lg-6"><a class="btnRemover" title="Remover Contrato" id=' + item.EmpresaContratoId + ' onclick="Remover(this)"><i class="material-icons danger">&#xE15C;</i></a></div>';
+                            html += '<div class="col-lg-6"><a class="btnRemover" title="Remover Contrato" id=' + item.EmpresaContratoId + ' onclick="RemoverContrato(this)"><i class="material-icons danger">&#xE15C;</i></a></div>';
                         });
                         $('#divContrato').html('');
                         $('#divContrato').append(html);
@@ -427,15 +470,65 @@
 
                     },
                     error: function (result) {
-                        Alert('Erro ao vincular o contrato');
+                        Alert(result);
                     }
                 });
-            })
+            });
+
+             //evento do botão incluir curso
+             $("#btCurso").click(function () {
+                var id = $("#ddlCurso").val();
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("AdicionarCurso")',
+                    data: { id: id },
+                    success: function (result) {
+                        var html = '';
+                        $.each(result, function (key, item) {
+                            html += '<div class="col-lg-1">' + item.CursoId + '</div>';
+                            html += '<div class="col-lg-7">' + item.Descricao + '</div>';
+                            html += '<div class="col-lg-4"><a class="btnRemover" title="Remover Contrato" id=' + item.CursoId + ' onclick="RemoverCurso(this)"><i class="material-icons danger">&#xE15C;</i></a></div>';
+                        });
+                        $('#divCurso').html('');
+                        $('#divCurso').append(html);
+                        $("#ddlCurso").val('');
+                        console.log(result);
+
+                    },
+                    error: function (result) {
+                        Alert(result);
+                    }
+                });
+            });
+
+
+
+
+
+
+            $("form").on('submit', function () {
+                var elements = document.querySelectorAll('input,select,textarea');
+                var invalidListener = function () { this.scrollIntoView(false); };
+
+                for (var i = elements.length; i--;)
+                    elements[i].addEventListener('invalid', invalidListener);
+
+                //if (this.hasChildNodes('.nav .nav-tabs')) {
+                //    var validator = $(this).validate();
+                //    $(this).find("input").each(function () {
+                //        if (!validator.element(this)) {
+                //            $('.nav-tabs a[href="#' + $(this).closest('.tab-pane:not(.active)').attr('id') + '"]').tab('show');
+                //            return false;
+                //        }
+                //    });
+                //};
+            });
+
         });
     </script>
 
     <script>
-         function Remover(it)
+         function RemoverContrato(it)
             {
              var id = it.id;
                $.ajax({
@@ -447,7 +540,8 @@
                        $.each(result, function (key, item) {
                            html += '<div class="col-lg-2">' + item.NumeroContrato + '</div>';
                            html += '<div class="col-lg-4">' + item.Descricao + '</div>';
-                           html += '<div class="col-lg-6"><a class="btnRemover" title="Remover Contrato" id=' + item.EmpresaContratoId + ' onclick="Remover(this)"><i class="material-icons danger">&#xE15C;</i></a></div>';
+                           html += '<div class="col-lg-6"><a class="btnRemoverContrato" title="Remover Contrato" id=' + item.EmpresaContratoId + ' onclick="RemoverContrato(this)"><i class="material-icons danger">&#xE15C;</i></a></div>';
+
                        });
                        $('#divContrato').html('');
                        $('#divContrato').append(html);
@@ -457,6 +551,33 @@
 
                    }
                  });
-             }
+        };  
+
+         function RemoverCurso(it)
+            {
+             var id = it.id;
+               $.ajax({
+                   type: "POST",
+                   url: '@Url.Action("RemoverCurso")',
+                   data: { id: id },
+                   success: function (result) {
+                       var html = '';
+                       $.each(result, function (key, item) {
+                           html += '<div class="col-lg-1">' + item.CursoId + '</div>';
+                           html += '<div class="col-lg-7">' + item.Descricao + '</div>';
+                           html += '<div class="col-lg-4"><a class="btnRemoverCurso" title="Remover Curso" id=' + item.CursoId + ' onclick="RemoverCurso(this)"><i class="material-icons danger">&#xE15C;</i></a></div>';
+
+                       });
+                       $('#divCurso').html('');
+                       $('#divCurso').append(html);
+                       console.log(result);
+                   },
+                   error: function (result) {
+
+                   }
+                 });
+        };  
+
+       
     </script>
 }
