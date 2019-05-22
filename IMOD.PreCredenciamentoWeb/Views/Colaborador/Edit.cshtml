@@ -82,14 +82,14 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.Nome, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control text-uppercase", id="Nome" } })
+                            @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control text-uppercase", id = "Nome" } })
                             @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="form-group">
                         @Html.LabelFor(model => model.Apelido, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            @Html.EditorFor(model => model.Apelido, new { htmlAttributes = new { @class = "form-control text-uppercase", id="Apelido" } })
+                            @Html.EditorFor(model => model.Apelido, new { htmlAttributes = new { @class = "form-control text-uppercase", id = "Apelido" } })
                             @Html.ValidationMessageFor(model => model.Apelido, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -196,7 +196,7 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.ContatoEmergencia, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
-                                @Html.EditorFor(model => model.ContatoEmergencia, new { htmlAttributes = new { @class = "form-control text-uppercase",id="ContatoEmergencia" } })
+                                @Html.EditorFor(model => model.ContatoEmergencia, new { htmlAttributes = new { @class = "form-control text-uppercase", id = "ContatoEmergencia" } })
                                 @Html.ValidationMessageFor(model => model.ContatoEmergencia, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -420,7 +420,7 @@
                                 <div class="col-lg-1">@item.CursoId</div>
                                 <div class="col-lg-7">@item.Descricao</div>
                                 <div class="col-lg-4">
-                                    <a title="Remover Curso" id=@item.CursoId href="#" class="btnRemover" onclick="Remover(this)">
+                                    <a title="Remover Curso" id=@item.CursoId href="#" class="btnRemoverCurso" onclick="RemoverCurso(this)">
                                         <i class="material-icons danger">&#xE15C;</i>
                                     </a>
                                 </div>
@@ -499,29 +499,6 @@
                         Alert(result);
                     }
                 });
-            });
-
-
-
-
-
-
-            $("form").on('submit', function () {
-                var elements = document.querySelectorAll('input,select,textarea');
-                var invalidListener = function () { this.scrollIntoView(false); };
-
-                for (var i = elements.length; i--;)
-                    elements[i].addEventListener('invalid', invalidListener);
-
-                //if (this.hasChildNodes('.nav .nav-tabs')) {
-                //    var validator = $(this).validate();
-                //    $(this).find("input").each(function () {
-                //        if (!validator.element(this)) {
-                //            $('.nav-tabs a[href="#' + $(this).closest('.tab-pane:not(.active)').attr('id') + '"]').tab('show');
-                //            return false;
-                //        }
-                //    });
-                //};
             });
 
         });
@@ -607,7 +584,7 @@
             var teste = $(this).hasClass('disabled');
             if (teste) {
                 if (id == "link1") {
-                    if (!campoCep == "" && !campoEndereco == "" && !campoBairro == "" && !campoNumero == "" && !campoEstadoId == "" && !campoMunicipioId == "" && !campoContatoEmergencia == "" && !campoTelefoneEmergencia == "")  // 
+                    if (!campoCep == "" && !campoEndereco == "" && !campoBairro == "" && !campoNumero == "" && !campoEstadoId == "" && !campoMunicipioId == "" && !campoContatoEmergencia == "" && !campoTelefoneEmergencia == "")  //
                     {
                         $("#btnSalvar").submit()
                         $(this).removeClass('disabled');
@@ -623,8 +600,7 @@
                     //$(tab1).addClass('disabled');
                     //$(tab3).addClass('disabled');
                     //$(tab4).addClass('disabled');
-                    if (!campoNome == "" && !campoApelido == "" && !campoCpf == "" && !campoContatoEmergencia == "" && !campoTelefoneEmergencia == "")
-                    {
+                    if (!campoNome == "" && !campoApelido == "" && !campoCpf == "" && !campoContatoEmergencia == "" && !campoTelefoneEmergencia == "") {
                         $(this).removeClass('disabled');
                         return true;
                     }
@@ -638,8 +614,7 @@
                     //$(tab1).addClass('disabled');
                     //$(tab2).addClass('disabled');
                     //$(tab4).addClass('disabled');
-                    if (!campoNome == "" && !campoApelido == "" && !campoCpf == "" && !campoCep == "" && !campoEndereco == "" && !campoBairro == "" && !campoNumero == "" && !campoEstadoId == "" && !campoMunicipioId == "")
-                    {
+                    if (!campoNome == "" && !campoApelido == "" && !campoCpf == "" && !campoCep == "" && !campoEndereco == "" && !campoBairro == "" && !campoNumero == "" && !campoEstadoId == "" && !campoMunicipioId == "") {
                         $(this).removeClass('disabled');
                         return true;
                     }
@@ -653,8 +628,7 @@
                     //$(tab1).addClass('disabled');
                     //$(tab2).addClass('disabled');
                     //$(tab4).addClass('disabled');
-                    if (!campoNome == "" && !campoApelido == "" && !campoCpf == "" && !campoCep == "" && !campoEndereco == "" && !campoBairro == "" && !campoNumero == "" && !campoEstadoId == "" && !campoMunicipioId == "" && !campoContatoEmergencia == "" && !campoTelefoneEmergencia == "")
-                    {
+                    if (!campoNome == "" && !campoApelido == "" && !campoCpf == "" && !campoCep == "" && !campoEndereco == "" && !campoBairro == "" && !campoNumero == "" && !campoEstadoId == "" && !campoMunicipioId == "" && !campoContatoEmergencia == "" && !campoTelefoneEmergencia == "") {
                         $(this).removeClass('disabled');
                         return true;
                     }
@@ -668,8 +642,7 @@
                     //$(tab1).addClass('disabled');
                     //$(tab2).addClass('disabled');
                     //$(tab4).addClass('disabled');
-                    if (!campoNome == "" && !campoApelido == "" && !campoCpf == "" && !campoCep == "" && !campoEndereco == "" && !campoBairro == "" && !campoNumero == "" && !campoEstadoId == "" && !campoMunicipioId == "" && !campoContatoEmergencia == "" && !campoTelefoneEmergencia == "")
-                    {
+                    if (!campoNome == "" && !campoApelido == "" && !campoCpf == "" && !campoCep == "" && !campoEndereco == "" && !campoBairro == "" && !campoNumero == "" && !campoEstadoId == "" && !campoMunicipioId == "" && !campoContatoEmergencia == "" && !campoTelefoneEmergencia == "") {
                         $(this).removeClass('disabled');
                         return true;
                     }
@@ -683,8 +656,7 @@
                     //$(tab1).addClass('disabled');
                     //$(tab2).addClass('disabled');
                     //$(tab4).addClass('disabled');
-                    if (!campoNome == "" && !campoApelido == "" && !campoCpf == "" && !campoCep == "" && !campoEndereco == "" && !campoBairro == "" && !campoNumero == "" && !campoEstadoId == "" && !campoMunicipioId == "" && !campoContatoEmergencia == "" && !campoTelefoneEmergencia == "")
-                    {
+                    if (!campoNome == "" && !campoApelido == "" && !campoCpf == "" && !campoCep == "" && !campoEndereco == "" && !campoBairro == "" && !campoNumero == "" && !campoEstadoId == "" && !campoMunicipioId == "" && !campoContatoEmergencia == "" && !campoTelefoneEmergencia == "") {
                         $(this).removeClass('disabled');
                         return true;
                     }
@@ -698,8 +670,7 @@
                     //$(tab1).addClass('disabled');
                     //$(tab2).addClass('disabled');
                     //$(tab4).addClass('disabled');
-                    if (!campoNome == "" && !campoApelido == "" && !campoCpf == "" && !campoCep == "" && !campoEndereco == "" && !campoBairro == "" && !campoNumero == "" && !campoEstadoId == "" && !campoMunicipioId == "" && !campoContatoEmergencia == "" && !campoTelefoneEmergencia == "")
-                    {
+                    if (!campoNome == "" && !campoApelido == "" && !campoCpf == "" && !campoCep == "" && !campoEndereco == "" && !campoBairro == "" && !campoNumero == "" && !campoEstadoId == "" && !campoMunicipioId == "" && !campoContatoEmergencia == "" && !campoTelefoneEmergencia == "") {
                         $(this).removeClass('disabled');
                         return true;
                     }
@@ -709,8 +680,7 @@
                         return false;
                     }
                 }
-                else
-                {
+                else {
 
                     $("#btnSalvar").submit()
                     //$(this).addClass('disabled');

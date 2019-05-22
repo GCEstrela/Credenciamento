@@ -134,9 +134,28 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
             PopularEstadosDropDownList();
             PopularDadosDropDownList();
-            ViewBag.Contratos = SessionUsuario.EmpresaLogada.Contratos;
-            ViewBag.Cursos = objCursosService.Listar();
-            ViewBag.CursosSelecionados = new List<Curso>();            
+            ViewBag.Contratos = new List<EmpresaContrato>();
+            ViewBag.Cursos = new List<Curso>();
+            ViewBag.CursosSelecionados = new List<Curso>();
+
+            if (SessionUsuario.EmpresaLogada.Contratos != null)
+            {
+                ViewBag.Contratos = SessionUsuario.EmpresaLogada.Contratos;                
+            }
+
+            var listCursos = objCursosService.Listar().ToList();
+            if (listCursos != null && listCursos.Any())
+            {
+                ViewBag.Cursos = listCursos;
+            }
+
+            var cursosColaborador = objColaboradorCursosService.Listar(colaboradorEditado.ColaboradorId);
+            var cusosSelecionados = listCursos.Where(c => (cursosColaborador.Where(p => p.CursoId == c.CursoId).Count() > 0)).ToList();
+            if (cusosSelecionados != null && cusosSelecionados.Any())
+            {
+                ViewBag.CursosSelecionados = cusosSelecionados;
+                Session.Add(SESS_CURSOS_SELECIONADOS, cusosSelecionados);
+            }
 
             return View(colaboradorMapeado);
         }
@@ -198,7 +217,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                     {
                         foreach (var item in (List<int>)Session[SESS_CURSOS_REMOVIDOS])
                         {
-                            var cursoExclusao = objColaboradorCursosService.Listar(colaboradorMapeado.ColaboradorId, null, null, null, null, null, item).FirstOrDefault();
+                            var cursoExclusao = objColaboradorCursosService.Listar(colaboradorMapeado.ColaboradorId, item, null, null, null, null, null).FirstOrDefault();
                             if (cursoExclusao != null)
                             {
                                 objColaboradorCursosService.Remover(cursoExclusao);
@@ -210,11 +229,19 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                     //inclui os cursos selecionados
                     foreach (var curso in (List<Curso>)Session[SESS_CURSOS_SELECIONADOS])
                     {
-                        ColaboradorCurso item = new ColaboradorCurso();
-                        item.ColaboradorId = colaboradorMapeado.ColaboradorId;
-                        item.CursoId = curso.CursoId;
-                        item.Descricao = curso.Descricao;
-                        objColaboradorCursosService.Criar(item);
+                        var colaboradorCurso = objColaboradorCursosService.Listar(colaboradorMapeado.ColaboradorId, curso.CursoId, null, null, null, null, null).FirstOrDefault();
+                        if (colaboradorCurso != null)
+                        {
+                            objColaboradorCursosService.Alterar(colaboradorCurso);
+                        }
+                        else
+                        {
+                            colaboradorCurso = new ColaboradorCurso();
+                            colaboradorCurso.ColaboradorId = colaboradorMapeado.ColaboradorId;
+                            colaboradorCurso.CursoId = curso.CursoId;
+                            colaboradorCurso.Descricao = curso.Descricao;
+                            objColaboradorCursosService.Criar(colaboradorCurso);
+                        }
                          
                     }
 
