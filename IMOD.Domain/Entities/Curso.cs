@@ -14,6 +14,32 @@ namespace IMOD.Domain.Entities
         public string Descricao { get; set; }
         public bool Cracha { get; set; }
 
+        public override bool Equals(object obj)
+        {
+            var curso = obj as Curso;
+            return curso != null &&
+                   CursoId == curso.CursoId;
+        }
+
+        public override int GetHashCode()
+        {
+            return 1406555770 + CursoId.GetHashCode();
+        }
+
+        public Curso(int cursoId)
+        {
+            CursoId = cursoId;
+        }
+
+        public Curso()
+        {
+        }
+
+
+
+
         #endregion
+
+
     }
 }

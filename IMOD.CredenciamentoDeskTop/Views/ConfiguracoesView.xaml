@@ -7,6 +7,19 @@
              d:DataContext="{d:DesignInstance viewModels:ConfiguracoesViewModel , IsDesignTimeCreatable=True}"
              mc:Ignorable="d"
              MaxWidth="1300" Width="1270" >
+    <UserControl.Resources>
+        <Image x:Key="imgAdd" Source="../Resources/add.png" />
+        <Image x:Key="imgEdit" Source="../Resources/edit.png" />
+        <Image x:Key="imgRemove" Source="../Resources/remove.png"  />
+        <Image x:Key="imgSave" Source="../Resources/save.png" />
+        <Image x:Key="imgCancel" Source="../Resources/undo.png" />
+
+        <Image x:Key="imgAddAreaAcesso" Source="../Resources/add.png" />
+        <Image x:Key="imgRemoveAreaAcesso" Source="../Resources/remove.png" />
+        <Image x:Key="imgSaveAreaAcesso" Source="../Resources/save.png" />
+        <Image x:Key="imgCancelAreaAcesso" Source="../Resources/undo.png" />
+    </UserControl.Resources>
+    
     <Grid Margin="5,5">
         <Grid.RowDefinitions>
             <RowDefinition Height="1" />
@@ -19,9 +32,6 @@
             </Grid.ColumnDefinitions>
 
         </Grid>
-
-
-
         <TabControl x:Name="TabGeral_tc" Grid.Row="1" Grid.Column="0" Margin="0,10,0,0" IsSynchronizedWithCurrentItem="True" TabStripPlacement="Top" >
 
             <TabItem x:Name="Empresas_ti"  Width="200"  Header="Empresas"  >
@@ -48,7 +58,8 @@
                                         <TextBox CharacterCasing="Upper"  x:Name="DescricaoAtividades_tb"  Text="{Binding SelectedItem.Descricao, ElementName=ListaTiposAtividades_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="334"/>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0">
-                                        <ListView x:Name="ListaTiposAtividades_lv" Margin="0,0,0,0"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding TiposAtividades, Mode=TwoWay}" 
+                                        <StackPanel>
+                                            <ListView x:Name="ListaTiposAtividades_lv" Margin="0,0,0,0"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding TiposAtividades, Mode=TwoWay}" 
                                                         SelectedItem="{Binding Path = TipoAtividadeSelecionada, Mode=TwoWay}"  Height="167" Width="560"
                                                    SelectedIndex="{Binding Path=TipoAtividadeSelectedIndex, Mode=TwoWay}" >
                                             <ListView.View>
@@ -58,14 +69,22 @@
                                                 </GridView>
                                             </ListView.View>
                                         </ListView>
-                                    </StackPanel>
-                                    <Grid>
-                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Center"  Margin="0,5,0,0" >
-                                            <Button x:Name="NovoTipoAtividade_bt" Content="Novo"  Height="30" Width="148" Margin="10,0,0,0" Click="NovoTipoAtividade_bt_Click"/>
-                                            <Button x:Name="SalvarTipoAtividade_bt" Content="Salvar" IsEnabled="False" Height="30" Width="148" Margin="10,0,0,0" Click="SalvarTipoAtividade_bt_Click"/>
-                                            <Button x:Name="DeletarTipoAtividade_bt" Content="Excluir"  Height="30" Width="148" Margin="10,0,0,0" Click="DeletarTipoAtividade_bt_Click"/>
                                         </StackPanel>
-                                    </Grid>
+                                        <StackPanel Orientation="Vertical" Margin="0,0" Width="30" HorizontalAlignment="Right" Height="167" VerticalAlignment="Top" >
+                                            <Button x:Name="btnAdicionarTipoAtividade" Content="{StaticResource imgAdd}" ToolTip="Adicionar" Width="25"
+                                                Margin="0,0,0,7" Click="NovoTipoAtividade_bt_Click" />
+
+                                            <Button x:Name="btnExcluirTipoAtividade" Content="{StaticResource imgRemove}" ToolTip="Remover" Width="25"
+                                                    Margin="0,0,0,7" Click="DeletarTipoAtividade_bt_Click" />
+
+                                            <Button x:Name="btnCancelarTipoAtividade" Content="{StaticResource imgCancel}" ToolTip="Cancelar" Width="25"
+                                                Margin="0,0,0,7" Click="CancelarTipoAtividade_bt_Click" />
+
+                                            <Button x:Name="btnSalvarTipoAtividade" Content="{StaticResource imgSave}" ToolTip="Salvar" Width="25"
+                                                    Margin="0,0,0,7" Click="SalvarTipoAtividade_bt_Click" IsEnabled="False"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                              
                                 </StackPanel>
                             </GroupBox>
 
@@ -95,14 +114,33 @@
                                                 </GridView>
                                             </ListView.View>
                                         </ListView>
-                                    </StackPanel>
-                                    <Grid>
-                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="0,5,0,0" >
-                                            <Button x:Name="NovoTiposAreasAcessos_bt" Content="Novo"  Height="30" Width="148" Margin="10,0,0,0" Click="NovoTiposAreasAcessos_bt_Click"/>
-                                            <Button x:Name="SalvarTiposAreasAcessos_bt" Content="Salvar" IsEnabled="False" Height="30" Width="148" Margin="10,0,0,0" Click="SalvarTiposAreasAcessos_bt_Click"/>
-                                            <Button x:Name="DeletarTiposAreasAcessos_bt" Content="Excluir"  Height="30" Width="148" Margin="10,0,0,0" Click="DeletarTiposAreasAcessos_bt_Click"/>
+                                        <StackPanel Orientation="Vertical" Margin="0,0" Width="30" HorizontalAlignment="Right" Height="167" VerticalAlignment="Top" >
+                                            <Button x:Name="btnAdicionarTiposAreasAcessos" ToolTip="Adicionar" Width="25"
+                                                Margin="0,0,0,7" Click="NovoTiposAreasAcessos_bt_Click" >
+                                                <StackPanel>
+                                                    <Image Source="../Resources/add.png" /> 
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnExcluirTiposAreasAcessos" ToolTip="Remover" Width="25"
+                                                    Margin="0,0,0,7" Click="DeletarTiposAreasAcessos_bt_Click" >
+                                                <StackPanel>
+                                                    <Image Source="../Resources/remove.png" />
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnCancelarTiposAreasAcessos" ToolTip="Cancelar" Width="25"
+                                                Margin="0,0,0,7" Click="CancelarTiposAreasAcessos_bt_Click" >
+                                                <StackPanel>
+                                                    <Image Source="../Resources/undo.png" />
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnSalvarTiposAreasAcessos" ToolTip="Salvar" Width="25"
+                                                    Margin="0,0,0,7" Click="SalvarTiposAreasAcessos_bt_Click" IsEnabled="False">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/save.png" />
+                                                </StackPanel>
+                                            </Button>
                                         </StackPanel>
-                                    </Grid>
+                                    </StackPanel>
                                 </StackPanel>
                             </GroupBox>
 
@@ -130,18 +168,37 @@
                                                 </GridView>
                                             </ListView.View>
                                         </ListView>
-                                    </StackPanel>
-                                    <Grid>
-                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="0,5,0,0" >
-                                            <Button x:Name="NovoTiposCobranca_bt" Content="Novo"  Height="30" Width="148" Margin="10,0,0,0" Click="NovoTiposCobranca_bt_Click"/>
-                                            <Button x:Name="SalvarTiposCobranca_bt" Content="Salvar" IsEnabled="False" Height="30" Width="148" Margin="10,0,0,0" Click="SalvarTiposCobranca_bt_Click"/>
-                                            <Button x:Name="DeletarTiposCobranca_bt" Content="Excluir"  Height="30" Width="148" Margin="10,0,0,0" Click="DeletarTiposCobranca_bt_Click"/>
+                                        <StackPanel Orientation="Vertical" Margin="0,0" Width="30" HorizontalAlignment="Right" Height="167" VerticalAlignment="Top" >
+                                            <Button x:Name="btnAdicionarTiposCobranca" ToolTip="Adicionar" Width="25"
+                                                Margin="0,0,0,7" Click="btnAdicionarTiposCobranca_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/add.png" />
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnDeletarTiposCobranca" ToolTip="Remover" Width="25"
+                                                    Margin="0,0,0,7" Click="btnDeletarTiposCobranca_Click" >
+                                                <StackPanel>
+                                                    <Image Source="../Resources/remove.png" />
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnCancelarTiposCobranca" ToolTip="Cancelar" Width="25"
+                                                Margin="0,0,0,7" Click="btnCancelarTiposCobranca_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/undo.png" />
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnSalvarTiposCobranca" ToolTip="Salvar" Width="25"
+                                                    Margin="0,0,0,7" Click="btnSalvarTiposCobranca_Click" IsEnabled="False">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/save.png" />
+                                                </StackPanel>
+                                            </Button>
                                         </StackPanel>
-                                    </Grid>
+                                    </StackPanel>
                                 </StackPanel>
                             </GroupBox>
 
-                            <GroupBox      x:Name="TiposStatus_gb"  Grid.Row="1" Grid.Column="2"  Header=" Status da Empresa " Margin="10,10,10,10" VerticalAlignment="Stretch"  >
+                            <GroupBox x:Name="TiposStatus_gb"  Grid.Row="1" Grid.Column="2"  Header=" Status da Empresa " Margin="10,10,10,10" VerticalAlignment="Stretch"  >
                                 <StackPanel Margin="0,10,0,0">
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0" >
                                         <Label Content="Código:" Height="28" Width="53"  Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
@@ -160,14 +217,33 @@
                                                 </GridView>
                                             </ListView.View>
                                         </ListView>
-                                    </StackPanel>
-                                    <Grid>
-                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="0,5,0,0" >
-                                            <Button x:Name="NovoTiposStatus_bt" Content="Novo"  Height="30" Width="148" Margin="10,0,0,0" Click="NovoTiposStatus_bt_Click"/>
-                                            <Button x:Name="SalvarTiposStatus_bt" Content="Salvar" IsEnabled="False" Height="30" Width="148" Margin="10,0,0,0" Click="SalvarTiposStatus_bt_Click"/>
-                                            <Button x:Name="DeletarTiposStatus_bt" Content="Excluir"  Height="30" Width="148" Margin="10,0,0,0" Click="DeletarTiposStatus_bt_Click"/>
+                                        <StackPanel Orientation="Vertical" Margin="0,0" Width="30" HorizontalAlignment="Right" Height="167" VerticalAlignment="Top" >
+                                            <Button x:Name="btnAdicionarTiposStatus" ToolTip="Adicionar" Width="25"
+                                                Margin="0,0,0,7" Click="btnAdicionarTiposStatus_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/add.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnDeletarTiposStatus" ToolTip="Remover" Width="25"
+                                                    Margin="0,0,0,7" Click="btnDeletarTiposStatus_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/remove.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnCancelarTiposStatus" ToolTip="Cancelar" Width="25"
+                                                Margin="0,0,0,7" Click="btnCancelarTiposStatus_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/undo.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnSalvarTiposStatus" ToolTip="Salvar" Width="25"
+                                                    Margin="0,0,0,7" Click="btnSalvarTiposStatus_Click" IsEnabled="False">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/save.png"/>
+                                                </StackPanel>
+                                            </Button>
                                         </StackPanel>
-                                    </Grid>
+                                    </StackPanel>
                                 </StackPanel>
                             </GroupBox>
 
@@ -215,14 +291,35 @@
                                                 </GridView>
                                             </ListView.View>
                                         </ListView>
-                                    </StackPanel>
-                                    <Grid>
-                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Center"  Margin="0,5,0,0" >
-                                            <Button x:Name="NovoEquipamento_bt" Content="Novo"  Height="30" Width="148" Margin="10,0,0,0" Click="NovoEquipamento_bt_Click"/>
-                                            <Button x:Name="SalvarEquipamento_bt" Content="Salvar" IsEnabled="False" Height="30" Width="148" Margin="10,0,0,0" Click="SalvarEquipamento_bt_Click" />
-                                            <Button x:Name="DeletarSalvarEquipamento_bt" Content="Excluir"  Height="30" Width="148" Margin="10,0,0,0" Click="DeletarSalvarEquipamento_bt_Click"/>
+                                        
+                                        <StackPanel Orientation="Vertical" Margin="0,0" Width="30" HorizontalAlignment="Right" Height="167" VerticalAlignment="Top" >
+                                            <Button x:Name="btnAdicionarEquipamento" ToolTip="Adicionar" Width="25"
+                                                Margin="0,0,0,7" Click="btnAdicionarEquipamento_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/add.png"/> 
+                                                </StackPanel> 
+                                            </Button>
+                                            <Button x:Name="btnDeletarEquipamento" ToolTip="Remover" Width="25"
+                                                    Margin="0,0,0,7" Click="btnDeletarEquipamento_Click"> 
+                                                <StackPanel> 
+                                                    <Image Source="../Resources/remove.png"/>
+                                                </StackPanel> 
+                                            </Button>
+                                            <Button x:Name="btnCancelarEquipamento" ToolTip="Cancelar" Width="25"
+                                                Margin="0,0,0,7" Click="btnCancelarEquipamento_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/undo.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnSalvarEquipamento" ToolTip="Salvar" Width="25"
+                                                    Margin="0,0,0,7" Click="btnSalvarEquipamento_Click" IsEnabled="False">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/save.png"/>
+                                                </StackPanel>
+                                            </Button>
                                         </StackPanel>
-                                    </Grid>
+                                    </StackPanel>
+                                    
                                 </StackPanel>
                             </GroupBox>
 
@@ -245,14 +342,34 @@
                                                 </GridView>
                                             </ListView.View>
                                         </ListView>
-                                    </StackPanel>
-                                    <Grid>
-                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="0,5,0,0" >
-                                            <Button x:Name="NovoTipoServico_bt" Content="Novo"  Height="30" Width="148" Margin="10,0,0,0" Click="NovoTipoServico_bt_Click"/>
-                                            <Button x:Name="SalvarTipoServico_bt" Content="Salvar" IsEnabled="False"  Height="30" Width="148" Margin="10,0,0,0" Click="SalvarTipoServico_bt_Click"/>
-                                            <Button x:Name="DeletarTipoServico_bt" Content="Excluir"  Height="30" Width="148" Margin="10,0,0,0" Click="DeletarTipoServico_bt_Click"/>
+
+                                        <StackPanel Orientation="Vertical" Margin="0,0" Width="30" HorizontalAlignment="Right" Height="167" VerticalAlignment="Top" >
+                                            <Button x:Name="btnAdicionarTipoServico" ToolTip="Adicionar" Width="25"
+                                                Margin="0,0,0,7" Click="btnAdicionarTipoServico_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/add.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnDeletarTipoServico" ToolTip="Remover" Width="25"
+                                                    Margin="0,0,0,7" Click="btnDeletarTipoServico_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/remove.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnCancelarTipoServico" ToolTip="Cancelar" Width="25"
+                                                Margin="0,0,0,7" Click="btnCancelarTipoServico_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/undo.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnSalvarTipoServico" ToolTip="Salvar" Width="25"
+                                                    Margin="0,0,0,7" Click="btnSalvarTipoServico_Click" IsEnabled="False">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/save.png"/>
+                                                </StackPanel>
+                                            </Button>
                                         </StackPanel>
-                                    </Grid>
+                                    </StackPanel>
                                 </StackPanel>
                             </GroupBox>
 
@@ -274,15 +391,36 @@
                                                     <GridViewColumn Width="500" Header="Treinamento/Certificação"  DisplayMemberBinding="{Binding Descricao}"/>
                                                 </GridView>
                                             </ListView.View>
-                                        </ListView>
-                                    </StackPanel>
-                                    <Grid>
-                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="0,5,0,0" >
-                                            <Button x:Name="NovoTiposCursos_bt" Content="Novo"  Height="30" Width="148" Margin="10,0,0,0" Click="NovoTiposCursos_bt_Click"/>
-                                            <Button x:Name="SalvarTiposCursos_bt" Content="Salvar" IsEnabled="False" Height="30" Width="148" Margin="10,0,0,0" Click="SalvarTiposCursos_bt_Click"/>
-                                            <Button x:Name="DeletarTiposCursos_bt" Content="Excluir"  Height="30" Width="148" Margin="10,0,0,0" Click="DeletarTiposCursos_bt_Click" />
+                                        </ListView> 
+
+                                        <StackPanel Orientation="Vertical" Margin="0,0" Width="30" HorizontalAlignment="Right" Height="167" VerticalAlignment="Top" >
+                                            <Button x:Name="btnAdicionarTiposCursos" ToolTip="Adicionar" Width="25"
+                                                Margin="0,0,0,7" Click="btnAdicionarTiposCursos_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/add.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnDeletarTiposCursos" ToolTip="Remover" Width="25"
+                                                    Margin="0,0,0,7" Click="btnDeletarTiposCursos_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/remove.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnCancelarTiposCursos" ToolTip="Cancelar" Width="25"
+                                                Margin="0,0,0,7" Click="btnCancelarTiposCursos_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/undo.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnSalvarTiposCursos" ToolTip="Salvar" Width="25"
+                                                    Margin="0,0,0,7" Click="btnSalvarTiposCursos_Click" IsEnabled="False">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/save.png"/>
+                                                </StackPanel>
+                                            </Button>
                                         </StackPanel>
-                                    </Grid>
+                                    </StackPanel>
+
                                 </StackPanel>
                             </GroupBox>
 
@@ -314,19 +452,35 @@
                                                 </GridView>
                                             </ListView.View>
                                         </ListView>
-                                    </StackPanel>
-                                    <Grid>
-                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="0,5,0,0" >
-                                            <Button x:Name="NovoTiposAreasAcessosSs_bt" Content="Novo"  Height="30" Width="148" Margin="10,0,0,0" Click="NovoTiposCombustiveis_bt_Click"/>
-                                            <Button x:Name="SalvarTiposAreasAcesssoSs_bt" Content="Salvar" IsEnabled="False"  Height="30" Width="148" Margin="10,0,0,0" Click="SalvarTiposCombustiveis_bt_Click"/>
-                                            <Button x:Name="DeletarTiposAreasAcesssSos_bt" Content="Excluir"  Height="30" Width="148" Margin="10,0,0,0" Click="DeletarTiposCombustiveis_bt_Click"/>
+                                        <StackPanel Orientation="Vertical" Margin="0,0" Width="30" HorizontalAlignment="Right" Height="167" VerticalAlignment="Top" >
+                                            <Button x:Name="btnAdicionarTiposCombustiveis" ToolTip="Adicionar" Width="25"
+                                                Margin="0,0,0,7" Click="btnAdicionarTiposCombustiveis_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/add.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnDeletarTiposCombustiveis" ToolTip="Remover" Width="25"
+                                                    Margin="0,0,0,7" Click="btnDeletarTiposCombustiveis_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/remove.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnCancelarTiposCombustiveis" ToolTip="Cancelar" Width="25"
+                                                Margin="0,0,0,7" Click="btnCancelarTiposCombustiveis_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/undo.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnSalvarTiposCombustiveis" ToolTip="Salvar" Width="25"
+                                                    Margin="0,0,0,7" Click="btnSalvarTiposCombustiveis_Click" IsEnabled="False">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/save.png"/>
+                                                </StackPanel>
+                                            </Button>
                                         </StackPanel>
-                                    </Grid>
+                                    </StackPanel>
                                 </StackPanel>
                             </GroupBox>
-
-
-
 
                             <!--//END//-->
                         </Grid>

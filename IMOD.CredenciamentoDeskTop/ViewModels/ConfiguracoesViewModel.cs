@@ -861,9 +861,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                var result = WpfHelp.MboxDialogRemove();
-                if (result != DialogResult.Yes) return;
-                var entity = RelatorioSelecionado;
+                var result = WpfHelp.MboxDialogRemove(); 
+                if (result != DialogResult.Yes) return; 
+                var entity = RelatorioSelecionado; 
+                if (entity == null) return; 
                 var entityConv = Mapper.Map<Relatorios> (entity);
                 _auxiliaresService.RelatorioService.Remover (entityConv);
 
@@ -976,8 +977,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 var result = WpfHelp.MboxDialogRemove();
                 if (result != DialogResult.Yes) return;
-                var entity = RelatorioGerencialSelecionado;
-                var entityConv = Mapper.Map<RelatoriosGerenciais> (entity);
+                var entity = RelatorioGerencialSelecionado; 
+                if (entity == null) return;
+                var entityConv = Mapper.Map<RelatoriosGerenciais> (entity); 
                 _auxiliaresService.RelatorioGerencialService.Remover (entityConv);
 
                 RelatoriosGerenciais.Remove (RelatorioGerencialSelecionado);
@@ -1089,8 +1091,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var result = WpfHelp.MboxDialogRemove();
                 if (result != DialogResult.Yes) return;
 
-                var entity = LayoutCrachaSelecionado;
-                var entityConv = Mapper.Map<LayoutCracha>(entity);
+                var entity = LayoutCrachaSelecionado; 
+                if (entity == null) return; 
+                var entityConv = Mapper.Map<LayoutCracha>(entity); 
                 
                 var listaCracha = _serviceEmpresasCracha.ListarLayoutCrachaView(null, entity.LayoutCrachaId);
                 if (listaCracha.Count > 0)
@@ -1208,6 +1211,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var result = WpfHelp.MboxDialogRemove();
                 if (result != DialogResult.Yes) return;
                 var entity = TipoEquipamentoSelecionado;
+                if (entity == null) return; 
                 var entityConv = Mapper.Map<TipoEquipamento> (entity);
                 _auxiliaresService.TipoEquipamentoService.Remover (entityConv);
 
@@ -1275,7 +1279,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 var result = WpfHelp.MboxDialogRemove();
                 if (result != DialogResult.Yes) return;
-                var entity = TipoAcessoSelecionado;
+                var entity = TipoAcessoSelecionado; 
+                if (entity == null) return; 
                 var entityConv = Mapper.Map<TipoAcesso> (entity);
                 _auxiliaresService.TiposAcessoService.Remover (entityConv);
 
@@ -1342,9 +1347,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                var result = WpfHelp.MboxDialogRemove();
-                if (result != DialogResult.Yes) return;
-                var entity = AreaAcessoSelecionada;
+                var result = WpfHelp.MboxDialogRemove(); 
+                if (result != DialogResult.Yes) return; 
+                var entity = AreaAcessoSelecionada; 
+                if (entity == null) return; 
                 var entityConv = Mapper.Map<AreaAcesso> (entity);
                 _auxiliaresService.AreaAcessoService.Remover (entityConv);
 
@@ -1415,6 +1421,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var result = WpfHelp.MboxDialogRemove();
                 if (result != DialogResult.Yes) return;
                 var entity = TipoAtividadeSelecionada;
+                if (entity == null) return;
                 var entityConv = Mapper.Map<TipoAtividade> (entity);
                 _auxiliaresService.TipoAtividadeService.Remover (entityConv);
 
@@ -1484,6 +1491,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var result = WpfHelp.MboxDialogRemove();
                 if (result != DialogResult.Yes) return;
                 var entity = TipoServicoSelecionado;
+                if (entity == null) return;
                 var entityConv = Mapper.Map<TipoServico> (entity);
                 _auxiliaresService.TipoServicoService.Remover (entityConv);
 
@@ -1552,8 +1560,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             try
             {
                 var result = WpfHelp.MboxDialogRemove();
-                if (result != DialogResult.Yes) return;
-                var entity = TecnologiaCredencialSelecionada;
+                if (result != DialogResult.Yes) return; 
+                var entity = TecnologiaCredencialSelecionada; 
+                if (entity == null) return; 
                 var entityConv = Mapper.Map<TecnologiaCredencial> (entity);
                 _auxiliaresService.TecnologiaCredencialService.Remover (entityConv);
 
@@ -1624,6 +1633,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var result = WpfHelp.MboxDialogRemove();
                 if (result != DialogResult.Yes) return;
                 var entity = TipoCobrancaSelecionado;
+                if (entity == null) return; 
                 var entityConv = Mapper.Map<TipoCobranca> (entity);
                 _auxiliaresService.TipoCobrancaService.Remover (entityConv);
 
@@ -1694,7 +1704,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 var result = WpfHelp.MboxDialogRemove();
                 if (result != DialogResult.Yes) return;
-                var entity = CursoSelecionado;
+                var entity = CursoSelecionado; 
+                if (entity == null) return;
                 var entityConv = Mapper.Map<Curso> (entity);
                 _auxiliaresService.CursoService.Remover (entityConv);
                 Cursos.Remove (CursoSelecionado);
@@ -1765,6 +1776,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var result = WpfHelp.MboxDialogRemove();
                 if (result != DialogResult.Yes) return;
                 var entity = TipoCombustivelSelecionado;
+                if (entity == null) return;
                 var entityConv = Mapper.Map<TipoCombustivel> (entity);
                 _auxiliaresService.TipoCombustivelService.Remover (entityConv);
 
@@ -1834,7 +1846,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 var result = WpfHelp.MboxDialogRemove();
                 if (result != DialogResult.Yes) return;
-                var entity = TipoStatusSelecionado;
+                var entity = TipoStatusSelecionado; 
+                if (entity == null) return; 
                 var entityConv = Mapper.Map<Status> (entity);
                 _auxiliaresService.StatusService.Remover (entityConv);
 
@@ -1905,6 +1918,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var result = WpfHelp.MboxDialogRemove();
                 if (result != DialogResult.Yes) return;
                 var entity = CredenciaisStatusSelecionado;
+                if (entity == null) return; 
                 var entityConv = Mapper.Map<CredencialStatus> (entity);
                 _auxiliaresService.CredencialStatusService.Remover (entityConv);
 
@@ -1975,6 +1989,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var result = WpfHelp.MboxDialogRemove();
                 if (result != DialogResult.Yes) return;
                 var entity = CredencialMotivoSelecionado;
+                if (entity == null) return;
                 var entityConv = Mapper.Map<CredencialStatus> (entity);
                 _auxiliaresService.CredencialStatusService.Remover (entityConv);
 
@@ -2044,7 +2059,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 var result = WpfHelp.MboxDialogRemove();
                 if (result != DialogResult.Yes) return;
-                var entity = FormatoCredencialSelecionado;
+                var entity = FormatoCredencialSelecionado; 
+                if (entity == null) return; 
                 var entityConv = Mapper.Map<FormatoCredencial> (entity);
                 _auxiliaresService.FormatoCredencialService.Remover (entityConv);
                 FormatosCredenciais.Remove (FormatoCredencialSelecionado);
