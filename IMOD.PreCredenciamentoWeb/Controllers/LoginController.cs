@@ -43,7 +43,8 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                     empresa.Senha = string.Empty;
                     empresa.Contratos = servicecontrato.ListarPorEmpresa(empresaLogada.EmpresaId).ToList();
                     empresa.Cnpj = Convert.ToUInt64(empresaLogada.Cnpj).ToString(@"00\.000\.000\/0000\-00");
-                    //empresa.CNPJ = empresaLogada.Cnpj;
+                    //empresa.Sigla= empresaLogada.Sigla;
+
                     empresa.Logo = string.Format("data:image/png;base64,{0}", empresaLogada.Logo);
                     empresa.Email1= empresaLogada.Email1;
                     empresa.Contato1 = empresaLogada.Contato1;

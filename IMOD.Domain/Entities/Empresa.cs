@@ -4,6 +4,8 @@
 // Date:  11 - 19 - 2018
 // ***********************************************************************
 
+using System.ComponentModel.DataAnnotations;
+
 namespace IMOD.Domain.Entities
 {
     public class Empresa
@@ -11,6 +13,7 @@ namespace IMOD.Domain.Entities
         #region  Propriedades
 
         public int EmpresaId { get; set; }
+        [Required(ErrorMessage = "A Razão Social é requerida.")]
         public string Nome { get; set; }
         public string Apelido { get; set; }
         public string Sigla { get; set; }

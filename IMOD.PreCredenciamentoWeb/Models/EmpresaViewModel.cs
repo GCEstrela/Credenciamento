@@ -28,32 +28,32 @@ namespace IMOD.PreCredenciamentoWeb.Models
         public IList<EmpresaContrato> Contratos { get; set; }
 
         public int EmpresaId { get; set; }
-        //[Required(ErrorMessage = "A Razão Social é requerida.")]
+        [Required(ErrorMessage = "A Razão Social é requerida.")]
         public string Nome { get; set; }
-       // [Required(ErrorMessage = "O Apelido é requerido.")]
+        [Required(ErrorMessage = "O Apelido é requerido.")]
         public string Apelido { get; set; }
         //[Required(ErrorMessage = "O Cnpj é requerido.")]
         public string Cnpj { get; set; }
         public string InsEst { get; set; }
         public string InsMun { get; set; }
         public string Responsavel { get; set; }
-        //[Required(ErrorMessage = "O Cep é requerido.")]
+        [Required(ErrorMessage = "O Cep é requerido.")]
         public string Cep { get; set; }
-        //[Required(ErrorMessage = "O Endereço é requerido.")]
+        [Required(ErrorMessage = "O Endereço é requerido.")]
         public string Endereco { get; set; }
         public string Numero { get; set; }
         public string Complemento { get; set; }
-        //[Required(ErrorMessage = "O Bairro é requerido.")]
+        [Required(ErrorMessage = "O Bairro é requerido.")]
         public string Bairro { get; set; }
         //[Required(ErrorMessage = "O Estado é requerido.")]
         public int EstadoId { get; set; }
         //[Required(ErrorMessage = "O Município é requerido.")]
         public int MunicipioId { get; set; }
-        //[Required(ErrorMessage = "O E-Mail é requerido.")]
+        [Required(ErrorMessage = "O E-Mail é requerido.")]
         public string Email1 { get; set; }
-        //[Required(ErrorMessage = "O Contato é requerido.")]
+        [Required(ErrorMessage = "O Contato é requerido.")]
         public string Contato1 { get; set; }
-        //[Required(ErrorMessage = "O Telefone é requerido.")]
+        [Required(ErrorMessage = "O Telefone é requerido.")]
         public string Telefone1 { get; set; }
         public string Celular1 { get; set; }
         public string Email2 { get; set; }
