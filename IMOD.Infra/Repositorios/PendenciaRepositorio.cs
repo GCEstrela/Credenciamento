@@ -212,7 +212,7 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText ("Pendencias", conn))
+                using (var cmd = _dataBase.SelectText ("PendenciasView", conn))
 
                 {
                     try
