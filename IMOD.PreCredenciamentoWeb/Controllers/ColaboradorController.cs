@@ -15,7 +15,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
     public class ColaboradorController : Controller
     {
         // GET: Colaborador
-        private readonly IColaboradorService objService = new .ColaboradorService();
+        private readonly IColaboradorService objService = new IMOD.Application.Service.ColaboradorService();
         private readonly IDadosAuxiliaresFacade objAuxiliaresService = new DadosAuxiliaresFacadeService();
         private readonly IEmpresaContratosService objContratosService = new EmpresaContratoService();
         private readonly IColaboradorEmpresaService objColaboradorEmpresaService = new ColaboradorEmpresaService();
