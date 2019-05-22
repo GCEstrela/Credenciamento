@@ -74,7 +74,7 @@ namespace iModSCCredenciamento.Windows
 
         private void Aceitar_bt_Click(object sender, RoutedEventArgs e)
         {
-            imgCapture.Source = BitmapImageFromBitmapSourceResized((BitmapSource)imgVideo.Source, 190);
+            imgCapture.Source = BitmapImageFromBitmapSourceResized((BitmapSource)imgVideo.Source, 250);
             //SaveImageCapture((BitmapSource)imgCapture.Source);
             this.Close();
         }

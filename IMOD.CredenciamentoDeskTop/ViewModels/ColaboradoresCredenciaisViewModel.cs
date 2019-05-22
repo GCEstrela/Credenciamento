@@ -189,9 +189,35 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
 
             #region Habilitar botão de impressao e mensagem ao usuario
-
+            string mensagemPendencias = "";
             var pendenciaImpeditivaEmpresa = serviceEmpresa.Pendencia.ListarPorEmpresa(entity.EmpresaId).Where(n => n.Impeditivo == true && n.Ativo==true).ToList();
+            if (pendenciaImpeditivaEmpresa != null)
+            {
+                foreach (Pendencia elemento in pendenciaImpeditivaEmpresa)
+                {
+                    mensagemPendencias = mensagemPendencias + elemento.DescricaoPendencia.ToString() + " - ";
+                }
+                if (mensagemPendencias.Length > 0)
+                    mensagemPendencias = mensagemPendencias.Substring(0, mensagemPendencias.Length - 3);
+            }
+
+            
+            string mensagemPendenciasColaborador = "";
             var pendenciaImpeditivaColaborador = serviceEmpresa.Pendencia.ListarPorColaborador(entity.ColaboradorId).Where(n => n.Impeditivo == true && n.Ativo == true).ToList();
+            if (pendenciaImpeditivaColaborador != null)
+            {
+                foreach (Pendencia elemento in pendenciaImpeditivaColaborador)
+                {
+                    mensagemPendenciasColaborador = mensagemPendenciasColaborador + elemento.DescricaoPendencia.ToString() + " - ";
+                }
+                if (mensagemPendenciasColaborador.Length > 0)
+                {
+                    mensagemPendenciasColaborador = mensagemPendenciasColaborador.Substring(0, mensagemPendenciasColaborador.Length - 3);
+                    
+                }
+
+            }
+
 
             HabilitaImpressao = entity.Ativa && !entity.PendenciaImpeditiva && !entity.Impressa && (entity.ColaboradorCredencialId > 0) && entity.Validade >= DateTime.Now.Date && (pendenciaImpeditivaEmpresa.Count <= 0) && (pendenciaImpeditivaColaborador.Count <= 0);
 
@@ -200,21 +226,26 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             var mensagem2 = "";
             var mensagem3 = "";
             var mensagem4 = "";
+            var mensagem5 = "";
             var n1 = _service.BuscarCredencialPelaChave(entity.ColaboradorCredencialId);
             if (n1 != null)
             {
                 mensagem1 = !n1.Ativa ? "Credencial Inativa" : string.Empty;
-                mensagem2 = n1.PendenciaImpeditiva ? "Pendência Impeditiva (consultar dados da empresa na aba Geral)" : string.Empty;
+                //mensagem2 = n1.PendenciaImpeditiva ? "Pendência Impeditiva (consultar dados da empresa na aba Geral)" : string.Empty;
+                //mensagem2 = n1.PendenciaImpeditiva ? "Pendência(s) Impeditiva(s) dados da empresa aba(s): " + mensagemPendencias : string.Empty;
+                mensagem2 = n1.PendenciaImpeditiva ? " Pendência(s) para a EMPRESA: " + mensagemPendencias : string.Empty;
                 mensagem3 = n1.Impressa ? "Credencial já foi emitida" : string.Empty;
                 mensagem4 = (entity.Validade < DateTime.Now.Date) ? "Credencial vencida." : string.Empty;
+                mensagem5 = " Pendência(s) para a COLABORADOR: " + mensagemPendenciasColaborador;
             }
            
             //Exibir mensagem de impressao de credencial, esta tem prioridade sobre as demais regras            
             //if (n1.Impressa) return;
 
-            if (!string.IsNullOrEmpty(mensagem1 + mensagem2 + mensagem3 + mensagem4))
+            if (!string.IsNullOrEmpty(mensagem1 + mensagem2 + mensagem3 + mensagem4 + mensagem5))
             {
-                MensagemAlerta = $"A credencial não poderá ser impressa pelo seguinte motivo: ";
+                //MensagemAlerta = $"A credencial não poderá ser impressa pelo seguinte motivo: ";
+                MensagemAlerta = $"A credencial não pode ser impressa. Motivo(s)";
                 if (!string.IsNullOrEmpty(mensagem1))
                 {
                     MensagemAlerta += mensagem1;
@@ -230,6 +261,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 else if (!string.IsNullOrEmpty(mensagem4))
                 {
                     MensagemAlerta += mensagem4;
+                }
+                else if (!string.IsNullOrEmpty(mensagem5))
+                {
+                    MensagemAlerta += mensagem5;
                 }
             }
             //================================================================================

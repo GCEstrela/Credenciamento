@@ -8,18 +8,27 @@ using AutoMapper;
 using IMOD.Domain.Entities;
 using IMOD.Application.Service;
 using IMOD.PreCredenciamentoWeb.Util;
+using IMOD.Application.Interfaces;
 
 namespace IMOD.PreCredenciamentoWeb.Controllers
 {
     public class ColaboradorController : Controller
     {
         // GET: Colaborador
-        private readonly IMOD.Application.Interfaces.IColaboradorService objService = new IMOD.Application.Service.ColaboradorService();
-        private readonly IMOD.Application.Interfaces.IDadosAuxiliaresFacade objAuxiliaresService = new IMOD.Application.Service.DadosAuxiliaresFacadeService();
-        private readonly IMOD.Application.Interfaces.IEmpresaContratosService objContratosService = new IMOD.Application.Service.EmpresaContratoService();
-        private readonly IMOD.Application.Interfaces.IColaboradorEmpresaService objColaboradorEmpresaService = new ColaboradorEmpresaService();
-        private readonly IMOD.Application.Interfaces.IColaboradorCredencialService objColaboradorCredencialService = new IMOD.Application.Service.ColaboradorCredencialService();
-        private readonly IMOD.Application.Interfaces.ICursoService objCursosService = new IMOD.Application.Service.CursoService();
+        private readonly IColaboradorService objService = new IMOD.Application.Service.ColaboradorService();
+        private readonly IDadosAuxiliaresFacade objAuxiliaresService = new DadosAuxiliaresFacadeService();
+        private readonly IEmpresaContratosService objContratosService = new EmpresaContratoService();
+        private readonly IColaboradorEmpresaService objColaboradorEmpresaService = new ColaboradorEmpresaService();
+        private readonly IColaboradorCredencialService objColaboradorCredencialService = new ColaboradorCredencialService();
+        private readonly ICursoService objCursosService = new CursoService();
+        private readonly IColaboradorCursoService objColaboradorCursosService = new ColaboradorCursosService();
+        private const string SESS_CONTRATOS_SELECIONADOS = "ContratosSelecionados";
+        private const string SESS_CONTRATOS_REMOVIDOS = "ContratosRemovidos";
+        private const string SESS_CURSOS_SELECIONADOS = "CursosSelecionados";
+        private const string SESS_CURSOS_REMOVIDOS = "CursosRemovidos";
+
+
+
 
         private List<Colaborador> colaboradores = new List<Colaborador>();
         private List<ColaboradorEmpresa> vinculos = new List<ColaboradorEmpresa>();
@@ -101,8 +110,11 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         public ActionResult Edit(int? id)
         {
             if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
-            Session.Remove("ContratosSelecionados");
-            Session.Remove("ContratosRemovidos");
+            Session.Remove(SESS_CONTRATOS_SELECIONADOS);
+            Session.Remove(SESS_CONTRATOS_REMOVIDOS);
+            Session.Remove(SESS_CURSOS_SELECIONADOS);
+            Session.Remove(SESS_CURSOS_REMOVIDOS);
+
             var colaboradorEditado = objService.Listar(id).FirstOrDefault();
             if (colaboradorEditado == null)
                 return HttpNotFound();
@@ -117,13 +129,33 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                     var empresaContrato = objContratosService.BuscarPelaChave(item.EmpresaContratoId);
                     ((List<EmpresaContrato>)ViewBag.ContratosSelecionados).Add(empresaContrato);
                 }
-                Session.Add("ContratosSelecionados", (List<EmpresaContrato>)ViewBag.ContratosSelecionados);
+                Session.Add(SESS_CONTRATOS_SELECIONADOS, (List<EmpresaContrato>)ViewBag.ContratosSelecionados);
             }
 
             PopularEstadosDropDownList();
             PopularDadosDropDownList();
-            ViewBag.Contratos = SessionUsuario.EmpresaLogada.Contratos;
-            //ViewBag.ContratosSelecionados = SessionUsuario.EmpresaLogada.Contratos;
+            ViewBag.Contratos = new List<EmpresaContrato>();
+            ViewBag.Cursos = new List<Curso>();
+            ViewBag.CursosSelecionados = new List<Curso>();
+
+            if (SessionUsuario.EmpresaLogada.Contratos != null)
+            {
+                ViewBag.Contratos = SessionUsuario.EmpresaLogada.Contratos;                
+            }
+
+            var listCursos = objCursosService.Listar().ToList();
+            if (listCursos != null && listCursos.Any())
+            {
+                ViewBag.Cursos = listCursos;
+            }
+
+            var cursosColaborador = objColaboradorCursosService.Listar(colaboradorEditado.ColaboradorId);
+            var cusosSelecionados = listCursos.Where(c => (cursosColaborador.Where(p => p.CursoId == c.CursoId).Count() > 0)).ToList();
+            if (cusosSelecionados != null && cusosSelecionados.Any())
+            {
+                ViewBag.CursosSelecionados = cusosSelecionados;
+                Session.Add(SESS_CURSOS_SELECIONADOS, cusosSelecionados);
+            }
 
             return View(colaboradorMapeado);
         }
@@ -133,7 +165,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         public ActionResult Edit(int? id, ColaboradorViewModel model)
         {
             try
-            {
+            {               
                 if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
                 if (id == null)
                     return HttpNotFound();
@@ -144,17 +176,21 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                     var colaboradorMapeado = Mapper.Map<Colaborador>(model);
                     objService.Alterar(colaboradorMapeado);
 
-                    if (Session["ContratosRemovidos"] != null)
+                    // excluir os contratos removidos da lista
+                    if (Session[SESS_CONTRATOS_REMOVIDOS] != null)
                     {
-                        foreach (var item in (List<int>)Session["ContratosRemovidos"])
+                        foreach (var item in (List<int>)Session[SESS_CONTRATOS_REMOVIDOS])
                         {
                             var contratoExclusao = objColaboradorEmpresaService.Listar(colaboradorMapeado.ColaboradorId, null, null, null, null, null, item).FirstOrDefault();
-                            objColaboradorEmpresaService.Remover(contratoExclusao);
+                            if (contratoExclusao != null)
+                            {
+                                objColaboradorEmpresaService.Remover(contratoExclusao);
+                            }
                         }
                     }
 
-
-                    foreach (var contratoEmpresa in (List<EmpresaContrato>)Session["ContratosSelecionados"])
+                    //inclui os contratos selecionados
+                    foreach (var contratoEmpresa in (List<EmpresaContrato>)Session[SESS_CONTRATOS_SELECIONADOS])
                     {
                         // Inclusão do vinculo
                         ColaboradorEmpresa colaboradorEmpresa = new ColaboradorEmpresa();
@@ -176,15 +212,50 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                         }
                     }
 
+                    // excluir os contratos removidos da lista
+                    if (Session[SESS_CURSOS_REMOVIDOS] != null)
+                    {
+                        foreach (var item in (List<int>)Session[SESS_CURSOS_REMOVIDOS])
+                        {
+                            var cursoExclusao = objColaboradorCursosService.Listar(colaboradorMapeado.ColaboradorId, item, null, null, null, null, null).FirstOrDefault();
+                            if (cursoExclusao != null)
+                            {
+                                objColaboradorCursosService.Remover(cursoExclusao);
+                            }
+                        }
+                    }
 
 
-                    return RedirectToAction("Index");
+                    //inclui os cursos selecionados
+                    foreach (var curso in (List<Curso>)Session[SESS_CURSOS_SELECIONADOS])
+                    {
+                        var colaboradorCurso = objColaboradorCursosService.Listar(colaboradorMapeado.ColaboradorId, curso.CursoId, null, null, null, null, null).FirstOrDefault();
+                        if (colaboradorCurso != null)
+                        {
+                            objColaboradorCursosService.Alterar(colaboradorCurso);
+                        }
+                        else
+                        {
+                            colaboradorCurso = new ColaboradorCurso();
+                            colaboradorCurso.ColaboradorId = colaboradorMapeado.ColaboradorId;
+                            colaboradorCurso.CursoId = curso.CursoId;
+                            colaboradorCurso.Descricao = curso.Descricao;
+                            objColaboradorCursosService.Criar(colaboradorCurso);
+                        }
+                         
+                    }
+
+
+
+                        return RedirectToAction("Index");
                 }
 
-                return RedirectToAction("Index");
+                throw new Exception("Campos obrigatórios não forma preenchidos");
             }
             catch (Exception ex)
             {
+                var errors = ModelState.Values.SelectMany(v => v.Errors);
+                ModelState.AddModelError("", ex.Message);
                 return View();
             }
         }
@@ -221,31 +292,50 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         public JsonResult AdicionarContrato(int id)
         {
             ViewBag.ContratosSelecionados = new List<EmpresaContrato>();
-            if (Session["ContratosSelecionados"] != null)
+            if (Session[SESS_CONTRATOS_SELECIONADOS] != null)
             {
-                ViewBag.ContratosSelecionados = Session["ContratosSelecionados"];
+                ViewBag.ContratosSelecionados = Session[SESS_CONTRATOS_SELECIONADOS];
             }
             var item = SessionUsuario.EmpresaLogada.Contratos.Where(c => c.EmpresaContratoId == id).FirstOrDefault();
             ((List<EmpresaContrato>)ViewBag.ContratosSelecionados).Add(item);
-            Session["ContratosSelecionados"] = ViewBag.ContratosSelecionados;
+            Session[SESS_CONTRATOS_SELECIONADOS] = ViewBag.ContratosSelecionados;
             return Json((List<EmpresaContrato>)ViewBag.ContratosSelecionados, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult RemoverContrato(int id)
         {
-            var listContrato = (List<EmpresaContrato>)Session["ContratosSelecionados"];
+            var listContrato = (List<EmpresaContrato>)Session[SESS_CONTRATOS_SELECIONADOS];
             listContrato.Remove(new EmpresaContrato(id));
-            Session["ContratosSelecionados"] = listContrato;
-            if (Session["ContratosRemovidos"] == null) Session["ContratosRemovidos"] = new List<int>();
-            ((List<int>)Session["ContratosRemovidos"]).Add(id);
+            Session[SESS_CONTRATOS_SELECIONADOS] = listContrato;
+            if (Session[SESS_CONTRATOS_REMOVIDOS] == null) Session[SESS_CONTRATOS_REMOVIDOS] = new List<int>();
+            ((List<int>)Session[SESS_CONTRATOS_REMOVIDOS]).Add(id);
 
             ViewBag.ContratosSelecionados = new List<EmpresaContrato>();
-            if (Session["ContratosSelecionados"] != null)
+            if (Session[SESS_CONTRATOS_SELECIONADOS] != null)
             {
-                ViewBag.ContratosSelecionados = Session["ContratosSelecionados"];
+                ViewBag.ContratosSelecionados = Session[SESS_CONTRATOS_SELECIONADOS];
             }
             return Json(listContrato, JsonRequestBehavior.AllowGet);
         }
+
+        public JsonResult AdicionarCurso(int id)
+        {
+            if (Session[SESS_CURSOS_SELECIONADOS] == null) Session[SESS_CURSOS_SELECIONADOS] = new List<Curso>();
+            var item = objCursosService.Listar(id).FirstOrDefault();
+            ((List<Curso>)Session[SESS_CURSOS_SELECIONADOS]).Add(item);             
+            return Json((List<Curso>)Session[SESS_CURSOS_SELECIONADOS], JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult RemoverCurso(int id)
+        {
+            var listContrato = (List<Curso>)Session[SESS_CURSOS_SELECIONADOS];
+            listContrato.Remove(new Curso(id));
+            Session[SESS_CURSOS_SELECIONADOS] = listContrato;
+            if (Session[SESS_CURSOS_REMOVIDOS] == null) Session[SESS_CURSOS_REMOVIDOS] = new List<int>();
+            ((List<int>)Session[SESS_CURSOS_REMOVIDOS]).Add(id);
+            return Json(listContrato, JsonRequestBehavior.AllowGet);
+        }
+
 
         // GET: Veiculo/Credential/5
         public ActionResult Credential(string id, string param)

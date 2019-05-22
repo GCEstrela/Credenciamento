@@ -70,9 +70,12 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                 if (id == null)
                     return HttpNotFound();
                 // TODO: Add update logic here
+                if (!ModelState.IsValid) return View();
+
                 if (ModelState.IsValid)
                 {
                     model.EmpresaId = (int)id;
+                    
                     var empresaMapeado = Mapper.Map<Empresa>(model);
                     objService.Alterar(empresaMapeado);
 

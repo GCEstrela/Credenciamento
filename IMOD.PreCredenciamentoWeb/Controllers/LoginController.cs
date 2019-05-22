@@ -31,8 +31,8 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         public ActionResult Login(EmpresaViewModel empresa)
         {
             // esta action trata o post (login)
-            if (ModelState.IsValid) //verifica se é válido
-            {
+            //if (ModelState.IsValid) //verifica se é válido
+           // {
                 var empresaLogada = service.Listar(null,null,null,null, empresa.Cnpj, empresa.Senha).FirstOrDefault();
                 //var empresaLogada = lista.Where(e => e.Cnpj.Equals(empresa.CNPJ) && e.Senha.Equals(empresa.Senha)).FirstOrDefault();
                 if (empresaLogada != null)
@@ -43,7 +43,8 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                     empresa.Senha = string.Empty;
                     empresa.Contratos = servicecontrato.ListarPorEmpresa(empresaLogada.EmpresaId).ToList();
                     empresa.Cnpj = Convert.ToUInt64(empresaLogada.Cnpj).ToString(@"00\.000\.000\/0000\-00");
-                    //empresa.CNPJ = empresaLogada.Cnpj;
+                    //empresa.Sigla= empresaLogada.Sigla;
+
                     empresa.Logo = string.Format("data:image/png;base64,{0}", empresaLogada.Logo);
                     empresa.Email1= empresaLogada.Email1;
                     empresa.Contato1 = empresaLogada.Contato1;
@@ -55,11 +56,12 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                 else
                 {
                     ModelState.AddModelError("", "O login está incorreto!");                    
-                    return RedirectToAction("~/Login");
+                    return RedirectToAction("..Login");
                 }
+            //}
+            ModelState.AddModelError("", "O login está incorreto!");
+            return RedirectToAction("../Login"); 
 
-            }
-            return View(empresa);
         }
         public static string FormatCNPJ(string CNPJ)
         {
