@@ -304,9 +304,6 @@
                 }
                 else if(id == "link2")
                 {
-                        //$(tab1).addClass('disabled');
-                        //$(tab3).addClass('disabled');
-                        //$(tab4).addClass('disabled');
                     if (!campoNome == "" && !campoApelido == "" && !campoEmail1 == "" && !campoContato1 == "" && !campoTelefone1 == "")
                     {
                         $(this).removeClass('disabled');
@@ -321,9 +318,6 @@
                 }
                 else if (id == "link3")
                 {
-                        //$(tab1).addClass('disabled');
-                        //$(tab2).addClass('disabled');
-                        //$(tab4).addClass('disabled');
                     if (!campoNome == "" && !campoApelido == "" && !campoCep == "" && !campoEndereco == "" && !campoBairro == "")
                     {
                         $(this).removeClass('disabled');
@@ -338,9 +332,6 @@
                 }
                 else if (id == "link4")
                 {
-                        //$(tab1).addClass('disabled');
-                        //$(tab2).addClass('disabled');
-                        //$(tab4).addClass('disabled');
                     if (!campoNome == "" && !campoApelido == "" && !campoCep == "" && !campoEndereco == "" && !campoBairro == "" && !campoEmail1 == "" && !campoContato1 == "" && !campoTelefone1 == "")
                     {
                         $(this).removeClass('disabled');
@@ -354,34 +345,8 @@
                     }
                 }
                 else 
-                {
-                    //if (id = 'Link1') {
-                    //    //$(tab2).addClass('disabled');
-                    //    //$(tab3).addClass('disabled');
-                    //    //$(tab4).addClass('disabled');
-                    //}
-                    //else if (id = 'Link2')
-                    //{
-                    //    //$(tab1).addClass('disabled');
-                    //    //$(tab3).addClass('disabled');
-                    //    //$(tab4).addClass('disabled');
-                    //}
-                    //else if (id = 'Link3')
-                    //{
-                    //    //$(tab1).addClass('disabled');
-                    //    //$(tab2).addClass('disabled');
-                    //    //$(tab4).addClass('disabled');
-                    //}
-                    //else if (id = 'Link4')
-                    //{
-                    //    //$(tab1).addClass('disabled');
-                    //    //$(tab2).addClass('disabled');
-                    //    //$(tab3).addClass('disabled');
-                    //}
-
-
+                {                    
                     $("#btnSalvar").submit()
-                    //$(this).addClass('disabled');
                     return false;
                 }
                 
@@ -389,8 +354,75 @@
             //se tiver não faz nada
             else
             {
-                ////adicionamos nele
+                /////////////////////////////////
+                if (id == "link1")
+                {
+                    if (!campoCep == "" && !campoEndereco == "" && !campoBairro == "" && !campoEmail1 == "" && !campoContato1 == "" && !campoTelefone1 == "")
+                    {
+                        $("#btnSalvar").submit()
+                        $(this).removeClass('disabled');
+                        return true;
+                    }
+                    else
+                    {
+                        $("#btnSalvar").submit()
+                        $(this).addClass('disabled');
+                        return false;
+                    }
+                }
+                else if(id == "link2")
+                {
+                    if (!campoNome == "" && !campoApelido == "" && !campoEmail1 == "" && !campoContato1 == "" && !campoTelefone1 == "")
+                    {
+                        $(this).removeClass('disabled');
+                        return true;
+                    }
+                    else
+                    {
+                        $("#btnSalvar").submit()
+                        $(this).addClass('disabled');
+                        return false;
+                    }
+                }
+                else if (id == "link3")
+                {
+                    if (!campoNome == "" && !campoApelido == "" && !campoCep == "" && !campoEndereco == "" && !campoBairro == "")
+                    {
+                        $(this).removeClass('disabled');
+                        return true;
+                    }
+                    else
+                    {
+                        $("#btnSalvar").submit()
+                        $(this).addClass('disabled');
+                        return false;
+                    }
+                }
+                else if (id == "link4")
+                {
+                    if (!campoNome == "" && !campoApelido == "" && !campoCep == "" && !campoEndereco == "" && !campoBairro == "" && !campoEmail1 == "" && !campoContato1 == "" && !campoTelefone1 == "")
+                    {
+                        $(this).removeClass('disabled');
+                        return true;
+                    }
+                    else
+                    {
+                        $("#btnSalvar").submit()
+                        $(this).addClass('disabled');
+                        return false;
+                    }
+                }
+                else 
+                {                    
+                    $("#btnSalvar").submit()
+                    return false;
+                }
+
+
+                ////adicionamos nele 
                 $(this).addClass('disabled');
+                //$(this).removeClass('disabled');
+
                 $("#btnSalvar").submit()
                 //$(this).addClass('disabled');
                 return false;

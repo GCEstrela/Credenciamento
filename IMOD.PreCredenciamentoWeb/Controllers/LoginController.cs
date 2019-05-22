@@ -31,8 +31,8 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         public ActionResult Login(EmpresaViewModel empresa)
         {
             // esta action trata o post (login)
-            if (ModelState.IsValid) //verifica se é válido
-            {
+            //if (ModelState.IsValid) //verifica se é válido
+            //{
                 var empresaLogada = service.Listar(null,null,null,null, empresa.Cnpj, empresa.Senha).FirstOrDefault();
                 //var empresaLogada = lista.Where(e => e.Cnpj.Equals(empresa.CNPJ) && e.Senha.Equals(empresa.Senha)).FirstOrDefault();
                 if (empresaLogada != null)
@@ -59,8 +59,8 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                     return RedirectToAction("~/Login");
                 }
 
-            }
-            return View(empresa);
+            //}
+            //return View(empresa);
         }
         public static string FormatCNPJ(string CNPJ)
         {
