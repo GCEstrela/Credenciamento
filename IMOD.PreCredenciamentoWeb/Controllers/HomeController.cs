@@ -15,7 +15,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         {
             if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
             ViewBag.User = SessionUsuario.EmpresaLogada.Nome;
-            return View();
+            return View(SessionUsuario.EmpresaLogada);
         }
 
         public ActionResult About()

@@ -35,7 +35,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         }
         private IList<Veiculo> ObterVeiculossEmpresaLogada()
         {
-            vinculos = objVeiculoEmpresaService.Listar(null, null, null, null, null, SessionUsuario.EmpresaLogada.Codigo).ToList();
+            vinculos = objVeiculoEmpresaService.Listar(null, null, null, null, null, SessionUsuario.EmpresaLogada.EmpresaId).ToList();
             vinculos.ForEach(v => { veiculos.AddRange(objService.Listar(null,null,null,null,null,v.VeiculoId)); });
 
             return veiculos.OrderBy(c => c.Descricao).ToList();
@@ -43,17 +43,20 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         // GET: Veiculo/Details/5
         public ActionResult Details(int id)
         {
+            if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
+
             return View();
         }
 
         // GET: Veiculo/Create
         public ActionResult Create()
         {
+            if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
 
             PopularEstadosDropDownList();
             PopularDadosDropDownList();
 
-            PopularContratoCreateDropDownList(SessionUsuario.EmpresaLogada.Codigo);
+            PopularContratoCreateDropDownList(SessionUsuario.EmpresaLogada.EmpresaId);
 
             return View();
         }
@@ -62,8 +65,10 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         [HttpPost]
         //[ValidateAntiForgeryToken]
         public ActionResult Create(VeiculoViewModel model)
-        {
-            try
+        {  
+            if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
+
+            try 
             {
                 if (ModelState.IsValid)
                 {
@@ -93,6 +98,9 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         // GET: Veiculo/Edit/5
         public ActionResult Edit(int ? id)
         {
+            if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
+            if (id == null || (id <= 0)) { return RedirectToAction("../Login"); }
+
             var veiculoEditado = objService.Listar(null,null,null,null,null,id).FirstOrDefault();
             if (veiculoEditado == null)
                 return HttpNotFound();
@@ -101,7 +109,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
             PopularEstadosDropDownList(); 
             PopularDadosDropDownList(); 
-            PopularContratoEditDropDownList(veiculoMapeado, SessionUsuario.EmpresaLogada.Codigo);
+            PopularContratoEditDropDownList(veiculoMapeado, SessionUsuario.EmpresaLogada.EmpresaId);
 
             return View(veiculoMapeado); 
         }
@@ -110,6 +118,9 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         [HttpPost]
         public ActionResult Edit(int? id, VeiculoViewModel model)
         {
+            if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
+            if (id == null || (id <= 0)) { return RedirectToAction("../Login"); }
+
             try
             {
                 if (id == null)
@@ -136,12 +147,16 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         }
 
         // GET: Veiculo/Delete/5
-        public ActionResult Delete(int id, Veiculo model)
-        {
-            try
+        public ActionResult Delete(int id, Veiculo model) 
+        { 
+
+            if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); } 
+            if (id == null || (id <= 0)) { return RedirectToAction("../Login"); } 
+
+            try 
             {
-                if (id == null)
-                    return HttpNotFound();
+                //if (id == null)
+                //    return HttpNotFound();
                 var idVeiculo = id;
 
                 // Initializes the variables to pass to the MessageBox.Show method.
@@ -173,6 +188,8 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         [HttpPost]
         public ActionResult Delete(int id, System.Web.Mvc.FormCollection collection)
         {
+            if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
+
             try
             {
                 // TODO: Add delete logic here
@@ -184,33 +201,6 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                 return View();
             }
         }
-
-        // GET: Veiculo/Credential/5
-        public ActionResult Credential(int id)
-        {
-            var credencialView = objVeiculoCredencialService.ObterCredencialView(id);
-            if (credencialView != null)
-            {
-                AutorizacaoViewModel objAutorizacaoMapeado = Mapper.Map<AutorizacaoViewModel>(credencialView);
-
-                if (objAutorizacaoMapeado.Ativa)
-                {
-                    ViewBag.ClasseAlerta = "alert alert-success";
-                    ViewBag.ClasseIcone = "glyphicon glyphicon-ok";
-                    ViewBag.ClasseTexto = "ATIVA";
-                }
-                else
-                {
-                    ViewBag.ClasseAlerta = "alert alert-danger";
-                    ViewBag.ClasseIcone = "glyphicon glyphicon-remove";
-                    ViewBag.ClasseTexto = "INATIVA";
-                }
-
-                return View(objAutorizacaoMapeado);
-            }
-
-            return View();
-        } 
 
         #region Métodos Internos Carregamento de Componentes
 

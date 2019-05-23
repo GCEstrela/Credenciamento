@@ -8,18 +8,26 @@ using AutoMapper;
 using IMOD.Domain.Entities;
 using IMOD.Application.Service;
 using IMOD.PreCredenciamentoWeb.Util;
+using IMOD.Application.Interfaces;
 
 namespace IMOD.PreCredenciamentoWeb.Controllers
 {
     public class ColaboradorController : Controller
     {
         // GET: Colaborador
-        private readonly IMOD.Application.Interfaces.IColaboradorService objService = new IMOD.Application.Service.ColaboradorService();
-        private readonly IMOD.Application.Interfaces.IDadosAuxiliaresFacade objAuxiliaresService = new IMOD.Application.Service.DadosAuxiliaresFacadeService();
-        private readonly IMOD.Application.Interfaces.IEmpresaContratosService objContratosService = new IMOD.Application.Service.EmpresaContratoService();
-        private readonly IMOD.Application.Interfaces.IColaboradorEmpresaService objColaboradorEmpresaService = new ColaboradorEmpresaService();
-        private readonly IMOD.Application.Interfaces.IColaboradorCredencialService objColaboradorCredencialService = new IMOD.Application.Service.ColaboradorCredencialService();
-        private readonly IMOD.Application.Interfaces.ICursoService objCursosService = new IMOD.Application.Service.CursoService();
+        private readonly IColaboradorService objService = new IMOD.Application.Service.ColaboradorService();
+        private readonly IDadosAuxiliaresFacade objAuxiliaresService = new DadosAuxiliaresFacadeService();
+        private readonly IEmpresaContratosService objContratosService = new EmpresaContratoService();
+        private readonly IColaboradorEmpresaService objColaboradorEmpresaService = new ColaboradorEmpresaService();
+        private readonly ICursoService objCursosService = new CursoService();
+        private readonly IColaboradorCursoService objColaboradorCursosService = new ColaboradorCursosService();
+        private const string SESS_CONTRATOS_SELECIONADOS = "ContratosSelecionados";
+        private const string SESS_CONTRATOS_REMOVIDOS = "ContratosRemovidos";
+        private const string SESS_CURSOS_SELECIONADOS = "CursosSelecionados";
+        private const string SESS_CURSOS_REMOVIDOS = "CursosRemovidos";
+
+
+
 
         private List<Colaborador> colaboradores = new List<Colaborador>();
         private List<ColaboradorEmpresa> vinculos = new List<ColaboradorEmpresa>();
@@ -34,7 +42,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
         private IList<Colaborador> ObterColaboradoresEmpresaLogada()
         {
-            vinculos = objColaboradorEmpresaService.Listar(null, null, null, null, null, SessionUsuario.EmpresaLogada.Codigo).ToList();
+            vinculos = objColaboradorEmpresaService.Listar(null, null, null, null, null, SessionUsuario.EmpresaLogada.EmpresaId).ToList();
             vinculos.ForEach(v => { colaboradores.AddRange(objService.Listar(v.ColaboradorId)); });
 
             return colaboradores.OrderBy(c => c.Nome).ToList();
@@ -43,16 +51,18 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         // GET: Colaborador/Details/5
         public ActionResult Details(int id)
         {
+            if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
             return View();
         }
 
         // GET: Colaborador/Create
         public ActionResult Create()
         {
+            if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
             PopularEstadosDropDownList();
             PopularDadosDropDownList();
-            PopularContratoCreateDropDownList(SessionUsuario.EmpresaLogada.Codigo);
-            PopularCursos(SessionUsuario.EmpresaLogada.Codigo);
+            PopularContratoCreateDropDownList(SessionUsuario.EmpresaLogada.EmpresaId);
+            PopularCursos(SessionUsuario.EmpresaLogada.EmpresaId);
             return View();
         }
 
@@ -62,6 +72,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         {
             try
             {
+                if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
                 if (ModelState.IsValid)
                 {
                     var colaboradorMapeado = Mapper.Map<Colaborador>(model);
@@ -74,7 +85,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                         colaboradorEmpresa.ColaboradorId = colaboradorMapeado.ColaboradorId;
                         colaboradorEmpresa.EmpresaContratoId = Convert.ToInt32(contratoEmpresaId);
                         colaboradorEmpresa.Ativo = true;
-                        colaboradorEmpresa.EmpresaId = SessionUsuario.EmpresaLogada.Codigo;
+                        colaboradorEmpresa.EmpresaId = SessionUsuario.EmpresaLogada.EmpresaId;
                         objColaboradorEmpresaService.Criar(colaboradorEmpresa);
                         objColaboradorEmpresaService.CriarNumeroMatricula(colaboradorEmpresa);
                     }
@@ -97,15 +108,54 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         // GET: Colaborador/Edit/5
         public ActionResult Edit(int? id)
         {
+            if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
+            Session.Remove(SESS_CONTRATOS_SELECIONADOS);
+            Session.Remove(SESS_CONTRATOS_REMOVIDOS);
+            Session.Remove(SESS_CURSOS_SELECIONADOS);
+            Session.Remove(SESS_CURSOS_REMOVIDOS);
+
             var colaboradorEditado = objService.Listar(id).FirstOrDefault();
             if (colaboradorEditado == null)
                 return HttpNotFound();
 
             ColaboradorViewModel colaboradorMapeado = Mapper.Map<ColaboradorViewModel>(colaboradorEditado);
+            ViewBag.ContratosSelecionados = new List<EmpresaContrato>();
+            var listaVinculosColaborador = objColaboradorEmpresaService.Listar(colaboradorEditado.ColaboradorId);
+            if (listaVinculosColaborador != null)
+            {
+                foreach (ColaboradorEmpresa item in listaVinculosColaborador)
+                {
+                    var empresaContrato = objContratosService.BuscarPelaChave(item.EmpresaContratoId);
+                    ((List<EmpresaContrato>)ViewBag.ContratosSelecionados).Add(empresaContrato);
+                }
+                Session.Add(SESS_CONTRATOS_SELECIONADOS, (List<EmpresaContrato>)ViewBag.ContratosSelecionados);
+            }
+
             PopularEstadosDropDownList();
             PopularDadosDropDownList();
-            ViewBag.Contratos = SessionUsuario.EmpresaLogada.Contratos;
-            ViewBag.ContratosSelecionados = SessionUsuario.EmpresaLogada.Contratos;
+            ViewBag.Contratos = new List<EmpresaContrato>();
+            ViewBag.Cursos = new List<Curso>();
+            ViewBag.CursosSelecionados = new List<Curso>();
+
+            if (SessionUsuario.EmpresaLogada.Contratos != null)
+            {
+                ViewBag.Contratos = SessionUsuario.EmpresaLogada.Contratos;                
+            }
+
+            var listCursos = objCursosService.Listar().ToList();
+            if (listCursos != null && listCursos.Any())
+            {
+                ViewBag.Cursos = listCursos;
+            }
+
+            var cursosColaborador = objColaboradorCursosService.Listar(colaboradorEditado.ColaboradorId);
+            var cusosSelecionados = listCursos.Where(c => (cursosColaborador.Where(p => p.CursoId == c.CursoId).Count() > 0)).ToList();
+            if (cusosSelecionados != null && cusosSelecionados.Any())
+            {
+                ViewBag.CursosSelecionados = cusosSelecionados;
+                Session.Add(SESS_CURSOS_SELECIONADOS, cusosSelecionados);
+            }
+
             return View(colaboradorMapeado);
         }
 
@@ -114,7 +164,8 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         public ActionResult Edit(int? id, ColaboradorViewModel model)
         {
             try
-            {
+            {               
+                if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
                 if (id == null)
                     return HttpNotFound();
 
@@ -124,13 +175,86 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                     var colaboradorMapeado = Mapper.Map<Colaborador>(model);
                     objService.Alterar(colaboradorMapeado);
 
-                    return RedirectToAction("Index");
+                    // excluir os contratos removidos da lista
+                    if (Session[SESS_CONTRATOS_REMOVIDOS] != null)
+                    {
+                        foreach (var item in (List<int>)Session[SESS_CONTRATOS_REMOVIDOS])
+                        {
+                            var contratoExclusao = objColaboradorEmpresaService.Listar(colaboradorMapeado.ColaboradorId, null, null, null, null, null, item).FirstOrDefault();
+                            if (contratoExclusao != null)
+                            {
+                                objColaboradorEmpresaService.Remover(contratoExclusao);
+                            }
+                        }
+                    }
+
+                    //inclui os contratos selecionados
+                    foreach (var contratoEmpresa in (List<EmpresaContrato>)Session[SESS_CONTRATOS_SELECIONADOS])
+                    {
+                        // Inclusão do vinculo
+                        ColaboradorEmpresa colaboradorEmpresa = new ColaboradorEmpresa();
+                        colaboradorEmpresa.ColaboradorId = colaboradorMapeado.ColaboradorId;
+                        colaboradorEmpresa.EmpresaContratoId = contratoEmpresa.EmpresaContratoId;
+                        colaboradorEmpresa.Ativo = true;
+                        colaboradorEmpresa.EmpresaId = contratoEmpresa.EmpresaId;
+
+                        var item = objColaboradorEmpresaService.Listar(colaboradorMapeado.ColaboradorId, null, null, null, null, null, contratoEmpresa.EmpresaContratoId).FirstOrDefault();
+                        if (item != null)
+                        {
+                            colaboradorEmpresa.EmpresaContratoId = item.EmpresaContratoId;
+                            objColaboradorEmpresaService.Alterar(colaboradorEmpresa);
+                        }
+                        else
+                        {
+                            objColaboradorEmpresaService.Criar(colaboradorEmpresa);
+                            objColaboradorEmpresaService.CriarNumeroMatricula(colaboradorEmpresa);
+                        }
+                    }
+
+                    // excluir os contratos removidos da lista
+                    if (Session[SESS_CURSOS_REMOVIDOS] != null)
+                    {
+                        foreach (var item in (List<int>)Session[SESS_CURSOS_REMOVIDOS])
+                        {
+                            var cursoExclusao = objColaboradorCursosService.Listar(colaboradorMapeado.ColaboradorId, item, null, null, null, null, null).FirstOrDefault();
+                            if (cursoExclusao != null)
+                            {
+                                objColaboradorCursosService.Remover(cursoExclusao);
+                            }
+                        }
+                    }
+
+
+                    //inclui os cursos selecionados
+                    foreach (var curso in (List<Curso>)Session[SESS_CURSOS_SELECIONADOS])
+                    {
+                        var colaboradorCurso = objColaboradorCursosService.Listar(colaboradorMapeado.ColaboradorId, curso.CursoId, null, null, null, null, null).FirstOrDefault();
+                        if (colaboradorCurso != null)
+                        {
+                            objColaboradorCursosService.Alterar(colaboradorCurso);
+                        }
+                        else
+                        {
+                            colaboradorCurso = new ColaboradorCurso();
+                            colaboradorCurso.ColaboradorId = colaboradorMapeado.ColaboradorId;
+                            colaboradorCurso.CursoId = curso.CursoId;
+                            colaboradorCurso.Descricao = curso.Descricao;
+                            objColaboradorCursosService.Criar(colaboradorCurso);
+                        }
+                         
+                    }
+
+
+
+                        return RedirectToAction("Index");
                 }
 
-                return RedirectToAction("Index");
+                throw new Exception("Campos obrigatórios não forma preenchidos");
             }
             catch (Exception ex)
             {
+                var errors = ModelState.Values.SelectMany(v => v.Errors);
+                ModelState.AddModelError("", ex.Message);
                 return View();
             }
         }
@@ -138,6 +262,11 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         // GET: Colaborador/Delete/5
         public ActionResult Delete(int id)
         {
+            // TODO: Add delete logic here
+            Colaborador colaborador = new Colaborador();
+            colaborador.ColaboradorId = id;
+            //var colaboradorMapeado = Mapper.Map<Colaborador>(colaborador);
+            objService.Remover(colaborador);
             return View();
         }
 
@@ -147,7 +276,10 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         {
             try
             {
+
                 // TODO: Add delete logic here
+                var colaboradorMapeado = Mapper.Map<Colaborador>(collection);
+                objService.Alterar(colaboradorMapeado);
                 return RedirectToAction("Index");
             }
             catch
@@ -156,47 +288,51 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             }
         }
 
-        public ActionResult AdicionarContrato(int id)
+        public JsonResult AdicionarContrato(int id)
         {
             ViewBag.ContratosSelecionados = new List<EmpresaContrato>();
-            if (TempData["ContratosSelecionados"] != null)
+            if (Session[SESS_CONTRATOS_SELECIONADOS] != null)
             {
-                ViewBag.ContratosSelecionados = TempData["ContratosSelecionados"];
+                ViewBag.ContratosSelecionados = Session[SESS_CONTRATOS_SELECIONADOS];
             }
             var item = SessionUsuario.EmpresaLogada.Contratos.Where(c => c.EmpresaContratoId == id).FirstOrDefault();
             ((List<EmpresaContrato>)ViewBag.ContratosSelecionados).Add(item);
-            TempData["ContratosSelecionados"] = ViewBag.ContratosSelecionados;
-            return View();
+            Session[SESS_CONTRATOS_SELECIONADOS] = ViewBag.ContratosSelecionados;
+            return Json((List<EmpresaContrato>)ViewBag.ContratosSelecionados, JsonRequestBehavior.AllowGet);
         }
 
-        // GET: Veiculo/Credential/5
-        public ActionResult Credential(int id)
+        public JsonResult RemoverContrato(int id)
         {
-            var credencialView = objColaboradorCredencialService.ObterCredencialView(id);
+            var listContrato = (List<EmpresaContrato>)Session[SESS_CONTRATOS_SELECIONADOS];
+            listContrato.Remove(new EmpresaContrato(id));
+            Session[SESS_CONTRATOS_SELECIONADOS] = listContrato;
+            if (Session[SESS_CONTRATOS_REMOVIDOS] == null) Session[SESS_CONTRATOS_REMOVIDOS] = new List<int>();
+            ((List<int>)Session[SESS_CONTRATOS_REMOVIDOS]).Add(id);
 
-            if (credencialView != null)
+            ViewBag.ContratosSelecionados = new List<EmpresaContrato>();
+            if (Session[SESS_CONTRATOS_SELECIONADOS] != null)
             {
-                CredencialViewModel objCredencialMapeado = Mapper.Map<CredencialViewModel>(credencialView);
-
-                if (objCredencialMapeado.Ativa)
-                {
-                    ViewBag.ClasseAlerta = "alert alert-success";
-                    ViewBag.ClasseIcone = "glyphicon glyphicon-ok";
-                    ViewBag.ClasseTexto = "ATIVA";
-                }
-                else
-                {
-                    ViewBag.ClasseAlerta = "alert alert-danger";
-                    ViewBag.ClasseIcone = "glyphicon glyphicon-remove";
-                    ViewBag.ClasseTexto = "INATIVA";
-                }
-
-                return View(objCredencialMapeado);
+                ViewBag.ContratosSelecionados = Session[SESS_CONTRATOS_SELECIONADOS];
             }
+            return Json(listContrato, JsonRequestBehavior.AllowGet);
+        }
 
-            return View();
+        public JsonResult AdicionarCurso(int id)
+        {
+            if (Session[SESS_CURSOS_SELECIONADOS] == null) Session[SESS_CURSOS_SELECIONADOS] = new List<Curso>();
+            var item = objCursosService.Listar(id).FirstOrDefault();
+            ((List<Curso>)Session[SESS_CURSOS_SELECIONADOS]).Add(item);             
+            return Json((List<Curso>)Session[SESS_CURSOS_SELECIONADOS], JsonRequestBehavior.AllowGet);
+        }
 
-
+        public JsonResult RemoverCurso(int id)
+        {
+            var listContrato = (List<Curso>)Session[SESS_CURSOS_SELECIONADOS];
+            listContrato.Remove(new Curso(id));
+            Session[SESS_CURSOS_SELECIONADOS] = listContrato;
+            if (Session[SESS_CURSOS_REMOVIDOS] == null) Session[SESS_CURSOS_REMOVIDOS] = new List<int>();
+            ((List<int>)Session[SESS_CURSOS_REMOVIDOS]).Add(id);
+            return Json(listContrato, JsonRequestBehavior.AllowGet);
         }
 
         #region Métodos internos carregar componentes

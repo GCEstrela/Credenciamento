@@ -12,6 +12,7 @@ namespace IMOD.PreCredenciamentoWeb.Models
         public int VeiculoCredencialId { get; set; }
         [Display(Name = "Empresa Nome")]
         public string EmpresaNome { get; set; }
+        [Display(Name = "Descrição")]
         public string Descricao { get; set; }
         [Display(Name = "Emissão")]
         public DateTime Emissao { get; set; }
@@ -29,6 +30,9 @@ namespace IMOD.PreCredenciamentoWeb.Models
         public string Frota { get; set; }
         [Display(Name = "Status")]
         public bool Ativa { get; set; }
+        public string Foto { get; set; }
+        public string FotoFormatada { get { return string.Format("data:image/png;base64,{0}", Foto); } }
+        
 
     }
 }

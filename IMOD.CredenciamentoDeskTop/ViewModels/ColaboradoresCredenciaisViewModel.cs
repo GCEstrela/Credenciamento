@@ -189,9 +189,35 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
 
             #region Habilitar botão de impressao e mensagem ao usuario
-
+            string mensagemPendencias = "";
             var pendenciaImpeditivaEmpresa = serviceEmpresa.Pendencia.ListarPorEmpresa(entity.EmpresaId).Where(n => n.Impeditivo == true && n.Ativo==true).ToList();
+            if (pendenciaImpeditivaEmpresa != null)
+            {
+                foreach (Pendencia elemento in pendenciaImpeditivaEmpresa)
+                {
+                    mensagemPendencias = mensagemPendencias + elemento.DescricaoPendencia.ToString() + " - ";
+                }
+                if (mensagemPendencias.Length > 0)
+                    mensagemPendencias = mensagemPendencias.Substring(0, mensagemPendencias.Length - 3);
+            }
+
+            
+            string mensagemPendenciasColaborador = "";
             var pendenciaImpeditivaColaborador = serviceEmpresa.Pendencia.ListarPorColaborador(entity.ColaboradorId).Where(n => n.Impeditivo == true && n.Ativo == true).ToList();
+            if (pendenciaImpeditivaColaborador != null)
+            {
+                foreach (Pendencia elemento in pendenciaImpeditivaColaborador)
+                {
+                    mensagemPendenciasColaborador = mensagemPendenciasColaborador + elemento.DescricaoPendencia.ToString() + " - ";
+                }
+                if (mensagemPendenciasColaborador.Length > 0)
+                {
+                    mensagemPendenciasColaborador = mensagemPendenciasColaborador.Substring(0, mensagemPendenciasColaborador.Length - 3);
+                    
+                }
+
+            }
+
 
             HabilitaImpressao = entity.Ativa && !entity.PendenciaImpeditiva && !entity.Impressa && (entity.ColaboradorCredencialId > 0) && entity.Validade >= DateTime.Now.Date && (pendenciaImpeditivaEmpresa.Count <= 0) && (pendenciaImpeditivaColaborador.Count <= 0);
 
@@ -200,21 +226,26 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             var mensagem2 = "";
             var mensagem3 = "";
             var mensagem4 = "";
+            var mensagem5 = "";
             var n1 = _service.BuscarCredencialPelaChave(entity.ColaboradorCredencialId);
             if (n1 != null)
             {
                 mensagem1 = !n1.Ativa ? "Credencial Inativa" : string.Empty;
-                mensagem2 = n1.PendenciaImpeditiva ? "Pendência Impeditiva (consultar dados da empresa na aba Geral)" : string.Empty;
+                //mensagem2 = n1.PendenciaImpeditiva ? "Pendência Impeditiva (consultar dados da empresa na aba Geral)" : string.Empty;
+                //mensagem2 = n1.PendenciaImpeditiva ? "Pendência(s) Impeditiva(s) dados da empresa aba(s): " + mensagemPendencias : string.Empty;
+                mensagem2 = n1.PendenciaImpeditiva ? " Pendência(s) para a EMPRESA: " + mensagemPendencias : string.Empty;
                 mensagem3 = n1.Impressa ? "Credencial já foi emitida" : string.Empty;
                 mensagem4 = (entity.Validade < DateTime.Now.Date) ? "Credencial vencida." : string.Empty;
+                mensagem5 = " Pendência(s) para a COLABORADOR: " + mensagemPendenciasColaborador;
             }
            
             //Exibir mensagem de impressao de credencial, esta tem prioridade sobre as demais regras            
             //if (n1.Impressa) return;
 
-            if (!string.IsNullOrEmpty(mensagem1 + mensagem2 + mensagem3 + mensagem4))
+            if (!string.IsNullOrEmpty(mensagem1 + mensagem2 + mensagem3 + mensagem4 + mensagem5))
             {
-                MensagemAlerta = $"A credencial não poderá ser impressa pelo seguinte motivo: ";
+                //MensagemAlerta = $"A credencial não poderá ser impressa pelo seguinte motivo: ";
+                MensagemAlerta = $"A credencial não pode ser impressa. Motivo(s)";
                 if (!string.IsNullOrEmpty(mensagem1))
                 {
                     MensagemAlerta += mensagem1;
@@ -230,6 +261,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 else if (!string.IsNullOrEmpty(mensagem4))
                 {
                     MensagemAlerta += mensagem4;
+                }
+                else if (!string.IsNullOrEmpty(mensagem5))
+                {
+                    MensagemAlerta += mensagem5;
                 }
             }
             //================================================================================
@@ -978,10 +1013,14 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 c1.EmpresaNome = c1.EmpresaNome + ( !string.IsNullOrEmpty(c1.TerceirizadaNome) ?  " / " + c1.TerceirizadaNome : string.Empty);
                 c1.Emissao = DateTime.Now; 
                 lst.Add(c1); 
-                relatorio.SetDataSource(lst); 
+                relatorio.SetDataSource(lst);
 
-                var objCode = new QrCode(); 
-                var pathImagem = objCode.GerarQrCode("http://172.16.100.75:57280/Colaborador/Credential/" + c1.ColaboradorCredencialID.ToString(), "QrCodeAutorizacao" + c1.ColaboradorCredencialID.ToString() + ".png");
+                var objCode = new QrCode();
+                string querySistema = "http://172.16.100.75:57280/Colaborador/Credential/"
+                                                + Helpers.Helper.Codificar(c1.ColaboradorCredencialID.ToString())
+                                                    + "?param=" + Helpers.Helper.Codificar(Constantes.Constantes.chaveCriptografia);
+
+                var pathImagem = objCode.GerarQrCode(querySistema, "QrCodeAutorizacao" + c1.ColaboradorCredencialID.ToString() + ".png");
                 relatorio.SetParameterValue("PathImgQrCode", pathImagem);
 
                 //IDENTIFICACAO
@@ -1161,6 +1200,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             //    return true;
             //}
             //retirar o espaço entre a numeração obtida do cartão
+            if (Entity.Validade < DateTime.Now)
+            {
+                WpfHelp.Mbox("Data de Validadte não pode ser menor que a data atual. Não é possível continua essa ação.", MessageBoxIcon.Information);
+                return true;
+            }
             if (!string.IsNullOrEmpty(Entity.NumeroContrato))
             {
                 Entity.NumeroCredencial = Regex.Replace(Entity.NumeroCredencial, @"\s", "");
@@ -1179,39 +1223,39 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (colaboradorcredencial != null)
                 {
                     Entity.SetMessageErro("Colete", "Número do colete já existente.");
-                    WpfHelp.Mbox("Número do colete já cadastrado para o colaborador  " + colaboradorcredencial.ColaboradorNome.ToString() + " ");
+                    WpfHelp.Mbox("Número do colete já cadastrado para o colaborador  " + colaboradorcredencial.ColaboradorNome.ToString() + " ", MessageBoxIcon.Information);
                     return true;
                 }
             }
 
-            if (Entity.ColaboradorPrivilegio1Id == 0 || Entity.ColaboradorPrivilegio2Id == 0)
-            {
-                //System.Windows.MessageBox.Show("Regras não informadas");
-                Entity.SetMessageErro("Regras", "As Regra(s) são obrigatória(s).");
-                WpfHelp.Mbox("As Regra(s) são obrigatória(s). Não é possível criar uma credencial sem essa infrmação");
-                //IsEnableLstView = true;
-                //_viewModelParent.HabilitaControleTabControls(true, true, true, true, true, true);
-                return true;
-            }
+            //if (Entity.ColaboradorPrivilegio1Id == 0 || Entity.ColaboradorPrivilegio2Id == 0)
+            //{
+            //    //System.Windows.MessageBox.Show("Regras não informadas");
+            //    Entity.SetMessageErro("Regras", "As Regra(s) são obrigatória(s).");
+            //    WpfHelp.Mbox("As Regra(s) são obrigatória(s). Não é possível criar uma credencial sem essa infrmação");
+            //    //IsEnableLstView = true;
+            //    //_viewModelParent.HabilitaControleTabControls(true, true, true, true, true, true);
+            //    return true;
+            //}
 
             if (Entity.TecnologiaCredencialId != 0)
             {
                 if (Entity.ColaboradorPrivilegio1Id == 0 || Entity.ColaboradorPrivilegio2Id == 0)
                 {
                     //System.Windows.MessageBox.Show("REgras não informadas");
-                    WpfHelp.Mbox("As Regra(s) são obrigatória(s). Não é possível criar uma credencial sem essa infrmação");
+                    WpfHelp.Mbox("Para a Autenticação selecionada é necessário o preenchimento dos Privilégios.",MessageBoxIcon.Information);
                     return true;
                 }
                 if (Entity.FormatoCredencialId == 0)
                 {
                     //System.Windows.MessageBox.Show("Formato da credencial não informada");
-                    WpfHelp.Mbox("O formato da credencial é obrigatório para esta ação. Não é possível criar uma credencial sem essa infrmação");
+                    WpfHelp.Mbox("Para a Autenticação selecionada é necessário o preenchimento do formato da credencial.", MessageBoxIcon.Information);
                     return true;
                 }
                 if (Entity.NumeroCredencial == null || Entity.NumeroCredencial == "" )
                 {
                     //System.Windows.MessageBox.Show("Nº da credencial não informado");
-                    WpfHelp.Mbox("O nº da credencial é obrigatório para esta ação. Não é possível criar uma credencial sem essa infrmação");
+                    WpfHelp.Mbox("O nº da credencial é obrigatório para esta ação. Não é possível criar uma credencial sem essa infrmação", MessageBoxIcon.Information);
                     return true;
                 }
             }

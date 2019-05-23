@@ -17,38 +17,46 @@
                     <h2>Cadastro de <b>Colaboradores</b></h2>
                 </div>
                 <div class="col-sm-4">
-                    <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> <span>Salvar Colaborador</span></button>
+                    <button type="submit" class="btn btn-success" id="btnSalvar"><i class="fa fa-save"></i> <span>Salvar Colaborador</span></button>
                     <a href="Index" class="submit btn btn-danger"><i class="fa fa-fw fa-sign-in"></i> <span>Cancelar</span></a>
                 </div>
             </div>
         </div>
         <fieldset class="form-horizontal">
+            @Html.Hidden("ColaboradorId", @Model.ColaboradorId)
+            @Html.Hidden("ContratoEmpresaID", @Model.ContratoEmpresaID)
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
 
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 <li class="nav-item active">
-                    <a class="nav-link" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"
+                    <a class="nav-link" id="link1" data-toggle="tab" href="#home" role="tab" aria-controls="home"
                        aria-selected="true">Identificação</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile"
+                    <a class="disabled" id="link2" data-toggle="tab" href="#profile" role="tab" aria-controls="profile"
                        aria-selected="false">Endereço</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact"
+                    <a class="disabled" id="link3" data-toggle="tab" href="#contact" role="tab" aria-controls="contact"
                        aria-selected="false">Contatos</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="registro-tab" data-toggle="tab" href="#registro" role="tab" aria-controls="registro"
+                    <a class="disabled" id="link4" data-toggle="tab" href="#registro" role="tab" aria-controls="registro"
                        aria-selected="false">Registro</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="cnh-tab" data-toggle="tab" href="#cnh" role="tab" aria-controls="cnh"
+                    <a class="disabled" id="link5" data-toggle="tab" href="#cnh" role="tab" aria-controls="cnh"
                        aria-selected="false">CNH</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="vinculo-tab" data-toggle="tab" href="#vinculo" role="tab" aria-controls="vinculo"
+                    <a class="disabled" id="link6" data-toggle="tab" href="#vinculo" role="tab" aria-controls="vinculo"
                        aria-selected="false">Vínculo</a>
+                </li>
+                <li class="nav-item">
+                    <a class="disabled" id="link7" data-toggle="tab" href="#curso" role="tab" aria-controls="curso"
+                       aria-selected="false">Curso</a>
                 </li>
             </ul>
 
@@ -67,21 +75,21 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.Cpf, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            @Html.EditorFor(model => model.Cpf, new { htmlAttributes = new { @class = "form-control", @id = "cpf" } })
+                            @Html.EditorFor(model => model.Cpf, new { htmlAttributes = new { @class = "form-control", id = "Cpf" } })
                             @Html.ValidationMessageFor(model => model.Cpf, "", new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="form-group">
                         @Html.LabelFor(model => model.Nome, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                            @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control text-uppercase", id = "Nome" } })
                             @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="form-group">
                         @Html.LabelFor(model => model.Apelido, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            @Html.EditorFor(model => model.Apelido, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                            @Html.EditorFor(model => model.Apelido, new { htmlAttributes = new { @class = "form-control text-uppercase", id = "Apelido" } })
                             @Html.ValidationMessageFor(model => model.Apelido, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -105,21 +113,21 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.Cep, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            @Html.EditorFor(model => model.Cep, new { htmlAttributes = new { @class = "form-control", @id = "cep" } })
+                            @Html.EditorFor(model => model.Cep, new { htmlAttributes = new { @class = "form-control", id = "Cep" } })
                             @Html.ValidationMessageFor(model => model.Cep, "", new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="form-group">
                         @Html.LabelFor(model => model.Endereco, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            @Html.EditorFor(model => model.Endereco, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                            @Html.EditorFor(model => model.Endereco, new { htmlAttributes = new { @class = "form-control text-uppercase", id = "Endereco" } })
                             @Html.ValidationMessageFor(model => model.Endereco, "", new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="form-group">
                         @Html.LabelFor(model => model.Numero, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            @Html.EditorFor(model => model.Numero, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                            @Html.EditorFor(model => model.Numero, new { htmlAttributes = new { @class = "form-control text-uppercase", id = "Numero" } })
                             @Html.ValidationMessageFor(model => model.Numero, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -134,7 +142,7 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.Bairro, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            @Html.EditorFor(model => model.Bairro, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                            @Html.EditorFor(model => model.Bairro, new { htmlAttributes = new { @class = "form-control text-uppercase", id = "Bairro" } })
                             @Html.ValidationMessageFor(model => model.Bairro, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -146,14 +154,14 @@
                            Text = option.Nome,
                            Value = option.EstadoId.ToString(),
                            Selected = (Model != null) && (option.EstadoId == Model.EstadoId)
-                       }), "Selecione", new { @class = "form-control text-uppercase" })
+                       }), "Selecione", new { @class = "form-control text-uppercase", id = "EstadoId" })
                             @Html.ValidationMessageFor(model => model.EstadoId, "", new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="form-group">
                         @Html.LabelFor(model => model.MunicipioId, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            @Html.EditorFor(model => model.MunicipioId, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                            @Html.EditorFor(model => model.MunicipioId, new { htmlAttributes = new { @class = "form-control text-uppercase", id = "MunicipioId" } })
                             @Html.ValidationMessageFor(model => model.MunicipioId, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -188,7 +196,7 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.ContatoEmergencia, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
-                                @Html.EditorFor(model => model.ContatoEmergencia, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                                @Html.EditorFor(model => model.ContatoEmergencia, new { htmlAttributes = new { @class = "form-control text-uppercase", id = "ContatoEmergencia" } })
                                 @Html.ValidationMessageFor(model => model.ContatoEmergencia, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -196,7 +204,7 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.TelefoneEmergencia, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
-                                @Html.EditorFor(model => model.TelefoneEmergencia, new { htmlAttributes = new { @class = "form-control", @id = "celular1" } })
+                                @Html.EditorFor(model => model.TelefoneEmergencia, new { htmlAttributes = new { @class = "form-control", id = "TelefoneEmergencia" } })
                                 @Html.ValidationMessageFor(model => model.TelefoneEmergencia, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -345,6 +353,10 @@
                 <div class="tab-pane fade" id="vinculo" role="tabpanel" aria-labelledby="vinculo-tab">
                     <br />
                     <div div class="form-group">
+                        @* @Html.Label("Manuseia bagagem?", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-lg-1">
+                                 @Html.CheckBox("Manudeia Bagagem", htmlAttributes: new { @id = "chkBagagem" })
+                             </div>*@
                         @Html.LabelFor(model => model.ContratoEmpresaID, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-lg-3">
                             @Html.DropDownListFor(model => model.ContratoEmpresaID, ((IEnumerable<IMOD.Domain.Entities.EmpresaContrato>)ViewBag.Contratos).Select(option => new SelectListItem
@@ -352,10 +364,10 @@
                            Text = option.Descricao,
                            Value = option.EmpresaContratoId.ToString(),
                            Selected = (Model != null) && (option.EmpresaContratoId.ToString() == Model.ContratoEmpresaID)
-                       }), "Selecione", new { @class = "form-control text-uppercase" , @id="ddlContrato" })
-                            @Html.ValidationMessageFor(model => model.EstadoId, "", new { @class = "text-danger" })
+                       }), "Selecione", new { @class = "form-control text-uppercase", @id = "ddlContrato" })
+                            @Html.ValidationMessageFor(model => model.ContratoEmpresaID, "", new { @class = "text-danger" })
                         </div>
-                        <div class="col-lg-7">
+                        <div class="col-lg-4">
                             @*//href="@Url.Action("AdicionarContrato")"*@
                             <a title="Vincular Contrato" id="btContrato" href="#">
                                 <i class="material-icons">&#xE147;</i>
@@ -365,28 +377,66 @@
                     <br />
                     <fieldset>
                         <legend> Contratos Selecionados</legend>
-                        @foreach (var item in ((IEnumerable<IMOD.Domain.Entities.EmpresaContrato>)ViewBag.ContratosSelecionados))
-                        {
-                            <div class="form-group">
+                        <div class="row" id="divContrato">
+                            @foreach (var item in ((IEnumerable<IMOD.Domain.Entities.EmpresaContrato>)ViewBag.ContratosSelecionados))
+                            {
+
                                 <div class="col-lg-2">@item.NumeroContrato</div>
                                 <div class="col-lg-4">@item.Descricao</div>
-                                <div class="col-lg-1">
-                                    <a href="@Url.Action("RemoverContrato")" title="Vincular Contrato">
+                                <div class="col-lg-6">
+                                    <a title="Vincular Contrato" id=@item.EmpresaContratoId href="#" class="btnRemover" onclick="RemoverContrato(this)">
                                         <i class="material-icons danger">&#xE15C;</i>
                                     </a>
                                 </div>
-                            </div>
-                        }
+
+                            }
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="tab-pane fade" id="curso" role="tabpanel" aria-labelledby="curso-tab">
+                    <br />
+                    <div div class="form-group">
+                        <div class="col-lg-3">
+                            @Html.DropDownListFor(model => model.ContratoEmpresaID, ((IEnumerable<IMOD.Domain.Entities.Curso>)ViewBag.Cursos).Select(option => new SelectListItem
+                       {
+                           Text = option.Descricao,
+                           Value = option.CursoId.ToString()
+                       }), "Selecione", new { @class = "form-control text-uppercase", @id = "ddlCurso" })
+                        </div>
+                        <div class="col-lg-4">
+                            @*//href="@Url.Action("AdicionarContrato")"*@
+                            <a title="Incluir Curso" id="btCurso" href="#">
+                                <i class="material-icons">&#xE147;</i>
+                            </a>
+                        </div>
+                    </div>
+                    <br />
+                    <fieldset>
+                        <legend> Cursos Selecionados</legend>
+                        <div class="row" id="divCurso">
+                            @foreach (var item in ((IEnumerable<IMOD.Domain.Entities.Curso>)ViewBag.CursosSelecionados))
+                            {
+
+                                <div class="col-lg-1">@item.CursoId</div>
+                                <div class="col-lg-7">@item.Descricao</div>
+                                <div class="col-lg-4">
+                                    <a title="Remover Curso" id=@item.CursoId href="#" class="btnRemoverCurso" onclick="RemoverCurso(this)">
+                                        <i class="material-icons danger">&#xE15C;</i>
+                                    </a>
+                                </div>
+
+                            }
+                        </div>
                     </fieldset>
                 </div>
             </div>
         </fieldset>
     </div>
 }
-}
+
 
 <div>
-    @Html.ActionLink("Retornar à Lista", "Index")
+
 </div>
 
 @section Scripts {
@@ -399,22 +449,254 @@
 
     <script>
         $(document).ready(function () {
-            $("#btContrato").click(function()
-            {
+            //evento do botão incluir contrato
+            $("#btContrato").click(function () {
                 var id = $("#ddlContrato").val();
-               console.log(cep);
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("AdicionarContrato")',
+                    data: { id: id },
+                    success: function (result) {
+                        var html = '';
+                        $.each(result, function (key, item) {
+                            html += '<div class="col-lg-2">' + item.NumeroContrato + '</div>';
+                            html += '<div class="col-lg-4">' + item.Descricao + '</div>';
+                            html += '<div class="col-lg-6"><a class="btnRemover" title="Remover Contrato" id=' + item.EmpresaContratoId + ' onclick="RemoverContrato(this)"><i class="material-icons danger">&#xE15C;</i></a></div>';
+                        });
+                        $('#divContrato').html('');
+                        $('#divContrato').append(html);
+                        $("#ddlContrato").val('');
+                        console.log(result);
+
+                    },
+                    error: function (result) {
+                        Alert(result);
+                    }
+                });
+            });
+
+             //evento do botão incluir curso
+             $("#btCurso").click(function () {
+                var id = $("#ddlCurso").val();
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("AdicionarCurso")',
+                    data: { id: id },
+                    success: function (result) {
+                        var html = '';
+                        $.each(result, function (key, item) {
+                            html += '<div class="col-lg-1">' + item.CursoId + '</div>';
+                            html += '<div class="col-lg-7">' + item.Descricao + '</div>';
+                            html += '<div class="col-lg-4"><a class="btnRemover" title="Remover Contrato" id=' + item.CursoId + ' onclick="RemoverCurso(this)"><i class="material-icons danger">&#xE15C;</i></a></div>';
+                        });
+                        $('#divCurso').html('');
+                        $('#divCurso').append(html);
+                        $("#ddlCurso").val('');
+                        console.log(result);
+
+                    },
+                    error: function (result) {
+                        Alert(result);
+                    }
+                });
+            });
+
+        });
+    </script>
+
+    <script>
+         function RemoverContrato(it)
+            {
+             var id = it.id;
                $.ajax({
                    type: "POST",
-                   url: '@Url.Action("AdicionarContrato")',
+                   url: '@Url.Action("RemoverContrato")',
                    data: { id: id },
                    success: function (result) {
+                       var html = '';
+                       $.each(result, function (key, item) {
+                           html += '<div class="col-lg-2">' + item.NumeroContrato + '</div>';
+                           html += '<div class="col-lg-4">' + item.Descricao + '</div>';
+                           html += '<div class="col-lg-6"><a class="btnRemoverContrato" title="Remover Contrato" id=' + item.EmpresaContratoId + ' onclick="RemoverContrato(this)"><i class="material-icons danger">&#xE15C;</i></a></div>';
+
+                       });
+                       $('#divContrato').html('');
+                       $('#divContrato').append(html);
                        console.log(result);
                    },
                    error: function (result) {
 
                    }
-                });
-            });
-        });
+                 });
+        };
+
+         function RemoverCurso(it)
+            {
+             var id = it.id;
+               $.ajax({
+                   type: "POST",
+                   url: '@Url.Action("RemoverCurso")',
+                   data: { id: id },
+                   success: function (result) {
+                       var html = '';
+                       $.each(result, function (key, item) {
+                           html += '<div class="col-lg-1">' + item.CursoId + '</div>';
+                           html += '<div class="col-lg-7">' + item.Descricao + '</div>';
+                           html += '<div class="col-lg-4"><a class="btnRemoverCurso" title="Remover Curso" id=' + item.CursoId + ' onclick="RemoverCurso(this)"><i class="material-icons danger">&#xE15C;</i></a></div>';
+
+                       });
+                       $('#divCurso').html('');
+                       $('#divCurso').append(html);
+                       console.log(result);
+                   },
+                   error: function (result) {
+
+                   }
+                 });
+        };
+
+
+    </script>
+    <script>
+
+        $('[id^=link]').click(function () {
+
+            //var isValid = ${ ViewData.ModelState.IsValid };
+            //var isValid = ${ViewData.ModelState.IsValid};
+
+            var id = $(this).attr('id');
+
+            var campoCpf = document.getElementById("Cpf").value;
+            var campoNome = document.getElementById("Nome").value;
+            var campoApelido = document.getElementById("Apelido").value;
+
+            var campoCep = document.getElementById("Cep").value;
+            var campoEndereco = document.getElementById("Endereco").value;
+            var campoBairro = document.getElementById("Bairro").value;
+            var campoNumero = document.getElementById("Numero").value;
+            var campoEstadoId = document.getElementById("EstadoId").value;
+            var campoMunicipioId = document.getElementById("MunicipioId").value;
+
+            var campoContatoEmergencia = document.getElementById("ContatoEmergencia").value;
+            var campoTelefoneEmergencia = document.getElementById("TelefoneEmergencia").value;
+            //var campoTelefone1 = document.getElementById("Telefone1").value;
+            //verifica se tem a classe disabled
+            var teste = $(this).hasClass('disabled');
+            if (teste) {
+                if (id == "link1") {
+                    if (!campoCep == "" && !campoEndereco == "" && !campoBairro == "" && !campoNumero == "" && !campoEstadoId == "" && !campoMunicipioId == "" && !campoContatoEmergencia == "" && !campoTelefoneEmergencia == "")  //
+                    {
+                        $("#btnSalvar").submit()
+                        $(this).removeClass('disabled');
+                        return true;
+                    }
+                    else {
+                        $("#btnSalvar").submit()
+                        $(this).addClass('disabled');
+                        return false;
+                    }
+                }
+                else if (id == "link2") {
+                    //$(tab1).addClass('disabled');
+                    //$(tab3).addClass('disabled');
+                    //$(tab4).addClass('disabled');
+                    if (!campoNome == "" && !campoApelido == "" && !campoCpf == "" && !campoContatoEmergencia == "" && !campoTelefoneEmergencia == "") {
+                        $(this).removeClass('disabled');
+                        return true;
+                    }
+                    else {
+                        $("#btnSalvar").submit()
+                        $(this).addClass('disabled');
+                        return false;
+                    }
+                }
+                else if (id == "link3") {
+                    //$(tab1).addClass('disabled');
+                    //$(tab2).addClass('disabled');
+                    //$(tab4).addClass('disabled');
+                    if (!campoNome == "" && !campoApelido == "" && !campoCpf == "" && !campoCep == "" && !campoEndereco == "" && !campoBairro == "" && !campoNumero == "" && !campoEstadoId == "" && !campoMunicipioId == "") {
+                        $(this).removeClass('disabled');
+                        return true;
+                    }
+                    else {
+                        $("#btnSalvar").submit()
+                        $(this).addClass('disabled');
+                        return false;
+                    }
+                }
+                else if (id == "link4") {
+                    //$(tab1).addClass('disabled');
+                    //$(tab2).addClass('disabled');
+                    //$(tab4).addClass('disabled');
+                    if (!campoNome == "" && !campoApelido == "" && !campoCpf == "" && !campoCep == "" && !campoEndereco == "" && !campoBairro == "" && !campoNumero == "" && !campoEstadoId == "" && !campoMunicipioId == "" && !campoContatoEmergencia == "" && !campoTelefoneEmergencia == "") {
+                        $(this).removeClass('disabled');
+                        return true;
+                    }
+                    else {
+                        $("#btnSalvar").submit()
+                        $(this).addClass('disabled');
+                        return false;
+                    }
+                }
+                else if (id == "link5") {
+                    //$(tab1).addClass('disabled');
+                    //$(tab2).addClass('disabled');
+                    //$(tab4).addClass('disabled');
+                    if (!campoNome == "" && !campoApelido == "" && !campoCpf == "" && !campoCep == "" && !campoEndereco == "" && !campoBairro == "" && !campoNumero == "" && !campoEstadoId == "" && !campoMunicipioId == "" && !campoContatoEmergencia == "" && !campoTelefoneEmergencia == "") {
+                        $(this).removeClass('disabled');
+                        return true;
+                    }
+                    else {
+                        $("#btnSalvar").submit()
+                        $(this).addClass('disabled');
+                        return false;
+                    }
+                }
+                else if (id == "link6") {
+                    //$(tab1).addClass('disabled');
+                    //$(tab2).addClass('disabled');
+                    //$(tab4).addClass('disabled');
+                    if (!campoNome == "" && !campoApelido == "" && !campoCpf == "" && !campoCep == "" && !campoEndereco == "" && !campoBairro == "" && !campoNumero == "" && !campoEstadoId == "" && !campoMunicipioId == "" && !campoContatoEmergencia == "" && !campoTelefoneEmergencia == "") {
+                        $(this).removeClass('disabled');
+                        return true;
+                    }
+                    else {
+                        $("#btnSalvar").submit()
+                        $(this).addClass('disabled');
+                        return false;
+                    }
+                }
+                else if (id == "link7") {
+                    //$(tab1).addClass('disabled');
+                    //$(tab2).addClass('disabled');
+                    //$(tab4).addClass('disabled');
+                    if (!campoNome == "" && !campoApelido == "" && !campoCpf == "" && !campoCep == "" && !campoEndereco == "" && !campoBairro == "" && !campoNumero == "" && !campoEstadoId == "" && !campoMunicipioId == "" && !campoContatoEmergencia == "" && !campoTelefoneEmergencia == "") {
+                        $(this).removeClass('disabled');
+                        return true;
+                    }
+                    else {
+                        $("#btnSalvar").submit()
+                        $(this).addClass('disabled');
+                        return false;
+                    }
+                }
+                else {
+
+                    $("#btnSalvar").submit()
+                    //$(this).addClass('disabled');
+                    return false;
+                }
+
+            }
+            //se tiver não faz nada
+            else {
+                ////adicionamos nele
+                $(this).addClass('disabled');
+                $("#btnSalvar").submit()
+                //$(this).addClass('disabled');
+                return false;
+            }
+        }
+        );
     </script>
 }

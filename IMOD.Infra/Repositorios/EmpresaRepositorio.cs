@@ -179,7 +179,7 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText("EmpresasView", conn))
+                using (var cmd = _dataBase.SelectText("Empresas", conn))
 
                 {
                     try
@@ -189,7 +189,10 @@ namespace IMOD.Infra.Repositorios
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Cnpj", DbType.String, objects, 2).Like()));
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("PraVencer", DbType.String, objects, 3).MenorIgual()));
 
-                        
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Cnpj", DbType.String, objects, 4).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Senha", DbType.String, objects, 5).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmpresaID", DbType.Int32, objects, 6).Igual()));
+
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<Empresa>();
 

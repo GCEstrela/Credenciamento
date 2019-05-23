@@ -1,36 +1,45 @@
-﻿@{
+﻿@model IMOD.PreCredenciamentoWeb.Models.EmpresaViewModel
+
+@{
     ViewBag.Title = "Credenciamento";
 }
 
-<div class="jumbotron">
-    <div class="Form-group row">
-        <div class="col-sm-1">
-            <h4><span class="glyphicon glyphicon-blackboard"></span></h4>
-        </div>
-        <div class="col-sm-11">
-            <h2>Credenciamento</h2>
-        </div>
-    </div>
-    <div>
-        <p class="lead">Sistema Web que permite o pré cadastro dos colaboradores, veiculos e equipamentos de empresas autorizadas no aeroporto. </p>
-    </div>
-</div>
-<div class="row">
-    @*<div class="col-lg-6" style="align-content:center">
-            <h3>Colaborador</h3>
-            <div>
-                <a href="/Colaborador/Index"><img src="~/Images/Colaboradores.png" class="img-rounded img-responsive" /></a>
+    <div class="table-wrapper">
+        <div class="table-title">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h2>Gerenciar <b>Empresa</b></h2>
+                </div>
+                <div class="col-sm-6">
+                    <a href="@Url.Action("Edit", "Empresa", new { id = Model.EmpresaId })" class="btn btn-group" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Editar Empresa</span></a>
+                    @*<a href="/Colaborador/Create" class="btn btn-group" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Editar Empresa</span></a>*@
+                    @*<a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>*@
+                </div>
             </div>
-            <p></p>
-            <p>Efetua o cadastro de colaboradores para credenciamento.</p>
-            <p><a class="btn btn-primary btn-lg" href="/Colaborador/Index">Acessar &raquo;</a></p>
         </div>
-        <div class="col-lg-6" style="align-content:center">
-            <h3>Veiculos / Equipamentos</h3>
-            <div>
-                <a href="/Veiculo/Index"><img src="~/Images/Veiculo.png" class="img-rounded img-responsive" /></a>
+        <div class="Form-group row">
+            <div class="col-sm-3">
+                <picture>
+                    <img src=@Model.Logo height="60%" width="60%" />
+                </picture>
+            </div> 
+            <div class="col-sm-9 text-left" >
+                <h2>@Model.Nome</h2>
             </div>
-            <p>Efetua o cadastro de veiculos / equipamentos.</p>
-            <p><a class="btn btn-primary btn-lg" href="/Veiculo/Index">Acessar &raquo;</a></p>
-        </div>*@
-</div>
+            <div class="row">
+                <div class="col-lg-12" style="align-content:center">
+                    <div class="col-lg-3">
+                        <h4>CNPJ</h4>
+                        @Model.Cnpj                        
+                    </div>
+                    <div class="col-lg-5">
+                        <h4>Contato</h4>
+                        @Model.Contato1
+                    </div>
+                    <div class="col-lg-4">
+                        <h4>E-Mail</h4>
+                        @Model.Email1
+                    </div>
+                </div>
+            </div>
+        </div>

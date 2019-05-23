@@ -40,7 +40,8 @@ namespace IMOD.Domain.Entities
         public int? VeiculoId { get; set; }
         public  bool PendenciaSistema { get; set; }
         public bool Ativo { get; set; }
-
+        public string DescricaoPendencia { get; set; }
+        
         #endregion
     }
 }
