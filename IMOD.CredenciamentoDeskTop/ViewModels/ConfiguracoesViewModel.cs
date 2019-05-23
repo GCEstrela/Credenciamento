@@ -709,7 +709,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 _credencialStatusSelecionado = value;
                 OnPropertyChanged ("SelectedItem");
-                if (TipoStatusSelecionado != null)
+                if (_credencialStatusSelecionado != null)
                 {
                 }
             }
@@ -1879,7 +1879,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var credencialStatus = new CredencialStatusView();
                 CredenciaisStatus.Add (credencialStatus);
 
-                TipoStatusSelectedIndex = 0;
+                CredencialStatusSelectedIndex = 0; 
             }
             catch (Exception ex)
             {
@@ -1892,6 +1892,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             try
             {
                 var entity = CredenciaisStatusSelecionado;
+                if (entity == null) return;
                 var entityConv = Mapper.Map<CredencialStatus> (entity);
 
                 if (CredenciaisStatusSelecionado.CredencialStatusId != 0)
