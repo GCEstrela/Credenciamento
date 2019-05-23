@@ -174,8 +174,37 @@ namespace IMOD.CredenciamentoDeskTop.Views
             AbrirPendencias(21, PendenciaTipo.Veiculo);
         }
 
+
         #endregion
 
-        
+        private void LstView_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            try
+            {
+                if (lstView.SelectedIndex > -1)
+                {
+                    int currentIndex = lstView.SelectedIndex;
+                    int Sum = lstView.Items.Count;
+                    if (currentIndex > Sum)
+                        currentIndex -= Sum;
+                    if (e.Key.ToString() != "Up")
+                    {
+                        if (currentIndex == lstView.Items.Count - 1) return;
+                        ((ListViewItem)(lstView.ItemContainerGenerator.ContainerFromIndex(currentIndex + 1))).Focus();
+                    }
+                    else
+                    {
+                        if (currentIndex == 0) return;
+                        ((ListViewItem)(lstView.ItemContainerGenerator.ContainerFromIndex(currentIndex - 1))).Focus();
+                    }
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                //WpfHelp.Mbox(ex.ToString());
+            }
+        }
     }
 }
