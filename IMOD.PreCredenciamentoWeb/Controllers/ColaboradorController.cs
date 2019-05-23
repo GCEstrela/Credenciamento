@@ -119,18 +119,13 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             if (colaboradorEditado == null)
                 return HttpNotFound();
 
+            //obtém vinculos do colaborador
             ColaboradorViewModel colaboradorMapeado = Mapper.Map<ColaboradorViewModel>(colaboradorEditado);
+
             ViewBag.ContratosSelecionados = new List<EmpresaContrato>();
-            var listaVinculosColaborador = objColaboradorEmpresaService.Listar(colaboradorEditado.ColaboradorId);
-            if (listaVinculosColaborador != null)
-            {
-                foreach (ColaboradorEmpresa item in listaVinculosColaborador)
-                {
-                    var empresaContrato = objContratosService.BuscarPelaChave(item.EmpresaContratoId);
-                    ((List<EmpresaContrato>)ViewBag.ContratosSelecionados).Add(empresaContrato);
-                }
-                Session.Add(SESS_CONTRATOS_SELECIONADOS, (List<EmpresaContrato>)ViewBag.ContratosSelecionados);
-            }
+            var listaVinculosColaborador = Mapper.Map<List<ColaboradorEmpresaViewModel>>(objColaboradorEmpresaService.Listar(colaboradorEditado.ColaboradorId));
+            ViewBag.ContratosSelecionados = listaVinculosColaborador;
+            Session.Add(SESS_CONTRATOS_SELECIONADOS, listaVinculosColaborador);
 
             PopularEstadosDropDownList();
             PopularDadosDropDownList();
@@ -190,23 +185,16 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                     }
 
                     //inclui os contratos selecionados
-                    foreach (var contratoEmpresa in (List<EmpresaContrato>)Session[SESS_CONTRATOS_SELECIONADOS])
+                    foreach (var vinculo in (List<ColaboradorEmpresaViewModel>)Session[SESS_CONTRATOS_SELECIONADOS])
                     {
-                        // Inclusão do vinculo
-                        ColaboradorEmpresa colaboradorEmpresa = new ColaboradorEmpresa();
-                        colaboradorEmpresa.ColaboradorId = colaboradorMapeado.ColaboradorId;
-                        colaboradorEmpresa.EmpresaContratoId = contratoEmpresa.EmpresaContratoId;
-                        colaboradorEmpresa.Ativo = true;
-                        colaboradorEmpresa.EmpresaId = contratoEmpresa.EmpresaId;
-
-                        var item = objColaboradorEmpresaService.Listar(colaboradorMapeado.ColaboradorId, null, null, null, null, null, contratoEmpresa.EmpresaContratoId).FirstOrDefault();
-                        if (item != null)
-                        {
-                            colaboradorEmpresa.EmpresaContratoId = item.EmpresaContratoId;
-                            objColaboradorEmpresaService.Alterar(colaboradorEmpresa);
-                        }
-                        else
-                        {
+                        // Inclusão do vinculo                       
+                        var item = objColaboradorEmpresaService.Listar(colaboradorMapeado.ColaboradorId, null, null, null, null, null, vinculo.EmpresaContratoId).FirstOrDefault();
+                        if (item == null)
+                        { 
+                            vinculo.ColaboradorId = colaboradorMapeado.ColaboradorId;
+                            vinculo.Ativo = true;
+                            vinculo.EmpresaId = SessionUsuario.EmpresaLogada.EmpresaId;
+                            var colaboradorEmpresa = Mapper.Map<ColaboradorEmpresa>(vinculo);
                             objColaboradorEmpresaService.Criar(colaboradorEmpresa);
                             objColaboradorEmpresaService.CriarNumeroMatricula(colaboradorEmpresa);
                         }
@@ -289,32 +277,35 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             }
         }
 
-        public JsonResult AdicionarContrato(int id)
+        public JsonResult AdicionarContrato(int id, Boolean bagagem, string validade, string cargo)
         {
-            ViewBag.ContratosSelecionados = new List<EmpresaContrato>();
+            List<ColaboradorEmpresaViewModel> vinculoList = new List<ColaboradorEmpresaViewModel>();
             if (Session[SESS_CONTRATOS_SELECIONADOS] != null)
-            {
-                ViewBag.ContratosSelecionados = Session[SESS_CONTRATOS_SELECIONADOS];
-            }
+                vinculoList = (List<ColaboradorEmpresaViewModel>)Session[SESS_CONTRATOS_SELECIONADOS];
+
             var item = SessionUsuario.EmpresaLogada.Contratos.Where(c => c.EmpresaContratoId == id).FirstOrDefault();
-            ((List<EmpresaContrato>)ViewBag.ContratosSelecionados).Add(item);
-            Session[SESS_CONTRATOS_SELECIONADOS] = ViewBag.ContratosSelecionados;
-            return Json((List<EmpresaContrato>)ViewBag.ContratosSelecionados, JsonRequestBehavior.AllowGet);
+            ColaboradorEmpresaViewModel vinculo = new ColaboradorEmpresaViewModel();
+            vinculo.EmpresaContratoId = id;
+            vinculo.Descricao = item.Descricao;
+            vinculo.Cargo = cargo;
+            if (!string.IsNullOrEmpty(validade))
+                vinculo.Validade = DateTime.Parse(validade);
+            vinculo.ManuseioBagagem = bagagem;
+            vinculo.Matricula = " - ";
+            vinculoList.Add(vinculo);
+            Session.Add(SESS_CONTRATOS_SELECIONADOS, vinculoList);
+
+            return Json(vinculoList, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult RemoverContrato(int id)
         {
-            var listContrato = (List<EmpresaContrato>)Session[SESS_CONTRATOS_SELECIONADOS];
-            listContrato.Remove(new EmpresaContrato(id));
+            var listContrato = (List<ColaboradorEmpresaViewModel>)Session[SESS_CONTRATOS_SELECIONADOS];
+            int indice = listContrato.FindIndex(c => c.EmpresaContratoId.Equals(id));
+            listContrato.RemoveAt(indice);
             Session[SESS_CONTRATOS_SELECIONADOS] = listContrato;
             if (Session[SESS_CONTRATOS_REMOVIDOS] == null) Session[SESS_CONTRATOS_REMOVIDOS] = new List<int>();
             ((List<int>)Session[SESS_CONTRATOS_REMOVIDOS]).Add(id);
-
-            ViewBag.ContratosSelecionados = new List<EmpresaContrato>();
-            if (Session[SESS_CONTRATOS_SELECIONADOS] != null)
-            {
-                ViewBag.ContratosSelecionados = Session[SESS_CONTRATOS_SELECIONADOS];
-            }
             return Json(listContrato, JsonRequestBehavior.AllowGet);
         }
 
