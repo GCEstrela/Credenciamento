@@ -485,7 +485,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         }
 
         /// <summary>
-        ///     Novo
+        ///     Pré-Cadastro
         /// </summary>
         public ICommand PrepareIportarCommand => new CommandBase(PrepareImportar, true);
         private void PrepareImportar()
