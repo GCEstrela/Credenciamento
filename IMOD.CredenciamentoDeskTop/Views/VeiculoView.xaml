@@ -180,7 +180,7 @@
                       IsEnabled="{Binding IsEnableLstView}" 
                       ItemsSource="{Binding EntityObserver, Mode=TwoWay}"
                       SelectedIndex="{Binding SelectListViewIndex}"
-                      SelectedItem="{Binding Entity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,5,0" Width="1259">
+                      SelectedItem="{Binding Entity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,5,0" Width="1259" PreviewKeyDown="LstView_PreviewKeyDown">
 
                 <ListView.View>
 

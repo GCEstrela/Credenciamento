@@ -12,7 +12,7 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Forms;
+//using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using IMOD.CredenciamentoDeskTop.Enums;
@@ -261,6 +261,35 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 Utils.TraceException(ex);
             }
         }
-       
+
+        private void LstView_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            try
+            {
+                if (lstView.SelectedIndex > -1)
+                {
+                    int currentIndex = lstView.SelectedIndex;
+                    int Sum = lstView.Items.Count;
+                    if (currentIndex > Sum)
+                        currentIndex -= Sum;
+                    if (e.Key.ToString() != "Up")
+                    {
+                        if (currentIndex == lstView.Items.Count - 1) return;
+                        ((ListViewItem)(lstView.ItemContainerGenerator.ContainerFromIndex(currentIndex + 1))).Focus();
+                    }
+                    else
+                    {
+                        if (currentIndex == 0) return;
+                        ((ListViewItem)(lstView.ItemContainerGenerator.ContainerFromIndex(currentIndex - 1))).Focus();
+                    }
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                //WpfHelp.Mbox(ex.ToString());
+            }
+        }
     }
 }

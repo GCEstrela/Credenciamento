@@ -1016,12 +1016,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 relatorio.SetDataSource(lst);
 
                 var objCode = new QrCode();
-                string querySistema = "http://172.16.100.75:57280/Colaborador/Credential/"
+                string querySistema = _configuraSistema.UrlSistema?.Trim().ToString() + "/Colaborador/Credential/"
                                                 + Helpers.Helper.Codificar(c1.ColaboradorCredencialID.ToString())
                                                     + "?param=" + Helpers.Helper.Codificar(Constantes.Constantes.chaveCriptografia);
 
-                var pathImagem = objCode.GerarQrCode(querySistema, "QrCodeAutorizacao" + c1.ColaboradorCredencialID.ToString() + ".png");
-                relatorio.SetParameterValue("PathImgQrCode", pathImagem);
+                var pathImagem = objCode.GerarQrCode(querySistema, "QrCodeAutorizacao" + c1.ColaboradorCredencialID.ToString() + ".png"); 
+                relatorio.SetParameterValue("PathImgQrCode", pathImagem); 
 
                 //IDENTIFICACAO
                 var popupCredencial = new PopupCredencial(relatorio, _service, Entity, layoutCracha);
