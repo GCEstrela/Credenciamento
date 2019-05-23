@@ -23,6 +23,8 @@ namespace IMOD.Domain.Entities
         public string SMTP { get; set; }
         public string EmailUsuario { get; set; }
         public string EmailSenha { get; set; }
+        public string UrlSistema { get; set; }
+
         #endregion
     }
 }
