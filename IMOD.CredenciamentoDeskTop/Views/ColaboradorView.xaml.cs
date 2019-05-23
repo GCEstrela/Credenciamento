@@ -34,7 +34,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
     public partial class ColaboradorView : UserControl
     {
         private readonly ColaboradorViewModel _viewModel;
-
+        public string _importarBNT = "Hidden";
         public ColaboradorView()
         {
             InitializeComponent();
@@ -290,6 +290,18 @@ namespace IMOD.CredenciamentoDeskTop.Views
             {
                 //WpfHelp.Mbox(ex.ToString());
             }
+        }
+
+        private void Precadastro_Checked(object sender, RoutedEventArgs e)
+        {
+            _viewModel.IsEnablePreCadastro = precadastro.IsChecked.Value;
+            _importarBNT = "Visible";
+    }
+
+        private void Precadastro_Unchecked(object sender, RoutedEventArgs e)
+        {
+            _viewModel.IsEnablePreCadastro = precadastro.IsChecked.Value;
+            _importarBNT = "Hidden";
         }
     }
 }

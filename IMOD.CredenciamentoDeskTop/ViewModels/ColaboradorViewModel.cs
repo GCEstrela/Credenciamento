@@ -47,6 +47,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         ///     True, Comando de criação acionado
         /// </summary>
         private bool _prepareCriarCommandAcionado;
+        public bool IsEnablePreCadastro { get; set; } = false;
 
         #region  Propriedades
 
@@ -224,11 +225,23 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 
                 System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
-                var list2 = Mapper.Map<List<ColaboradorView>> (list.ToList().OrderBy(c => c.Nome));
-                EntityObserver = new ObservableCollection<ColaboradorView>();
-                list2.ForEach (n => { EntityObserver.Add (n); });
-                //Havendo registros, selecione o primeiro
-                //if (EntityObserver.Any()) SelectListViewIndex = 0;
+                if (!IsEnablePreCadastro)
+                {
+                    var list2 = Mapper.Map<List<ColaboradorView>>(list.ToList().OrderBy(c => c.Nome));
+                    EntityObserver = new ObservableCollection<ColaboradorView>();
+                    list2.ForEach(n => { EntityObserver.Add(n); });
+                    //Havendo registros, selecione o primeiro
+                    //if (EntityObserver.Any()) SelectListViewIndex = 0;
+                }
+                else
+                {
+                    var list2 = Mapper.Map<List<ColaboradorView>>(list.ToList().OrderBy(c => c.Nome));
+                    EntityObserver = new ObservableCollection<ColaboradorView>();
+                    list2.ForEach(n => { EntityObserver.Add(n); });
+                    //Havendo registros, selecione o primeiro
+                    //if (EntityObserver.Any()) SelectListViewIndex = 0;
+                }
+
                 System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.IBeam;
             }
 
@@ -280,7 +293,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 {
 
                     if (string.IsNullOrWhiteSpace(pesquisa)) return;                    
-                    var l1 = _service.Listar(null, null, null);
+                    var l1 = _service.Listar(null, null, null, null, IsEnablePreCadastro);
                     var l2 = _serviceColaboradorEmpresa.Listar(null, null, null, null, $"%{pesquisa}%", null);                    
                     var l3 = l2.Select(c => c.ColaboradorId ).ToList<int>();
                     var l4 =  l1.Where(c => l3.Contains(c.ColaboradorId)).ToList();
@@ -293,7 +306,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (num.Key == 2)
                 {
                     if (string.IsNullOrWhiteSpace (pesquisa)) return;
-                    var l1 = _service.Listar (null, null, $"%{pesquisa}%");
+                    var l1 = _service.Listar (null, null, $"%{pesquisa}%", IsEnablePreCadastro);
                     PopularObserver (l1);
                     
                 }
@@ -301,7 +314,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (num.Key == 1)
                 {
                     if (string.IsNullOrWhiteSpace (pesquisa)) return;
-                    var l1 = _service.Listar (null, $"%{pesquisa.RetirarCaracteresEspeciais()}%", null);
+                    var l1 = _service.Listar (null, $"%{pesquisa.RetirarCaracteresEspeciais()}%", null,IsEnablePreCadastro);
                     PopularObserver (l1);
                     
                 }
@@ -470,6 +483,30 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
         }
 
+        /// <summary>
+        ///     Novo
+        /// </summary>
+        public ICommand PrepareIportarCommand => new CommandBase(PrepareImportar, true);
+        private void PrepareImportar()
+        {
+            try
+            {
+                if (Entity == null) return;
+
+                if (Validar()) return;
+
+                var n1 = Mapper.Map<Colaborador>(Entity);
+                n1.Precadastro = false;
+                _service.Alterar(n1);
+                EntityObserver.RemoveAt(SelectListViewIndex);
+                HabilitaControle(true, true);
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+                WpfHelp.PopupBox(ex);
+            }
+        }
         /// <summary>
         ///     Novo
         /// </summary>
