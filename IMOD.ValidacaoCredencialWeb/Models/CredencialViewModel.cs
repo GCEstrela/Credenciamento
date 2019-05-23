@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace IMOD.PreCredenciamentoWeb.Models
+namespace IMOD.ValidacaoCredencialWeb.Models
 {
     public class CredencialViewModel
     {
@@ -12,6 +12,7 @@ namespace IMOD.PreCredenciamentoWeb.Models
         public string Colete { get; set; }
         public DateTime Emissao { get; set; }
         public DateTime Validade { get; set; }
+        public string ValidadeFormatada { get { return Validade.ToShortDateString(); } }
         public string Matricula { get; set; }
         public string Cargo { get; set; }
         [Display(Name = "Empresa")]

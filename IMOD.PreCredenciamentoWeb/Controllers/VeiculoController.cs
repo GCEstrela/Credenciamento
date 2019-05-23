@@ -202,42 +202,6 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             }
         }
 
-        // GET: Veiculo/Credential/5
-        public ActionResult Credential(string id, string param)
-        {
-
-            if (id == null || (string.IsNullOrEmpty(id))) return HttpNotFound();
-            if (param == null || (string.IsNullOrEmpty(param))) return HttpNotFound();
-
-            var paramDescodificado = Helper.CriptografiaHelper.Decodificar(param);
-            var identificador = Helper.CriptografiaHelper.Decodificar(id);
-
-            var credencialView = objVeiculoCredencialService.ObterCredencialView(Convert.ToInt16(identificador));
-
-            if (credencialView != null)
-            {
-                AutorizacaoViewModel objAutorizacaoMapeado = Mapper.Map<AutorizacaoViewModel>(credencialView);
-
-                if (objAutorizacaoMapeado.Ativa)
-                {
-                    ViewBag.ClasseAlerta = "alert alert-success";
-                    ViewBag.ClasseIcone = "glyphicon glyphicon-ok";
-                    ViewBag.ClasseTexto = "ATIVA";
-                }
-                else
-                {
-                    ViewBag.ClasseAlerta = "alert alert-danger";
-                    ViewBag.ClasseIcone = "glyphicon glyphicon-remove";
-                    ViewBag.ClasseTexto = "INATIVA";
-                }
-
-                return View(objAutorizacaoMapeado);
-            }
-
-            return View();
-
-        } 
-
         #region Métodos Internos Carregamento de Componentes
 
         private void PopularEstadosDropDownList()

@@ -14,8 +14,8 @@ namespace IMOD.PreCredenciamentoWeb.Models
         //public string Nome { get; set; }
         //public string Apelido { get; set; }
         ////[Display(Name = "Senha")]       
-        ////[DataType(DataType.Password)]
-        ////[Required(ErrorMessage = "Informe a senha", AllowEmptyStrings = false)]
+        [DataType(DataType.Password)]
+        [Required(ErrorMessage = "Informe a senha", AllowEmptyStrings = false)]
         public string Senha { get; set; }
         ////[Display(Name = "Login")]
         ////[Required(ErrorMessage = "Informe o CNPJ da empresa", AllowEmptyStrings = false)]
@@ -32,7 +32,7 @@ namespace IMOD.PreCredenciamentoWeb.Models
         public string Nome { get; set; }
         [Required(ErrorMessage = "O Apelido é requerido.")]
         public string Apelido { get; set; }
-        //[Required(ErrorMessage = "O Cnpj é requerido.")]
+        [Required(ErrorMessage = "O Cnpj é requerido.")]
         public string Cnpj { get; set; }
         public string InsEst { get; set; }
         public string InsMun { get; set; }
