@@ -178,7 +178,7 @@
             <ColumnDefinition Width="1000" />
         </Grid.ColumnDefinitions>
 
-        <StackPanel Orientation="Horizontal" Margin="0,5">
+        <StackPanel Orientation="Horizontal" Margin="0,5,-249,5">
             <Label Content="Pesquisar:" Height="28" Width="65" Foreground="#FFD0D0D0" Margin="1,0,0,0" />
             <ComboBox Width="150" IsEnabled="{Binding Comportamento.IsEnableCriar}"
                       ItemsSource="{Binding ListaPesquisa }"
@@ -191,12 +191,16 @@
                     <KeyBinding Command="{Binding Path=PesquisarCommand}" Key="Enter" />
                 </TextBox.InputBindings>
             </TextBox>
-            <CheckBox x:Name="precadastro" Content="Pré-Cadastro" Margin="100,5,0,0" VerticalAlignment="Top"  Width="98" Foreground="#FFD0D0D0" Checked="Precadastro_Checked" Unchecked="Precadastro_Unchecked"/>
+            <!--<CheckBox x:Name="precadastro" Content="Pré-Cadastro" Margin="10,5,0,0" VerticalAlignment="Top"  Width="98" Foreground="#FFD0D0D0" Checked="Precadastro_Checked" Unchecked="Precadastro_Unchecked"/>-->
+            <RadioButton x:Name="rd_cadastro" Content="Cadastro" Margin="600,5,0,0" IsChecked="True" Foreground="#FFD0D0D0" VerticalAlignment="Top" Width="95" Checked="Rd_cadastro_Checked"/>
+            <RadioButton x:Name="rd_precadastro" Content="Pré-Cadastro" Margin="10,5,0,0" Foreground="Orange"  VerticalAlignment="Top" Width="95" Checked="Rd_precadastro_Checked"/>
+            
         </StackPanel>
 
 
         <StackPanel x:Name="ListaColaboradores_sp" Grid.Column="0" Grid.Row="1" Orientation="Horizontal" Margin="0,0,-259,1">
-            <ListView x:Name="lstView"                    
+            <ListView x:Name="lstView"   
+                      Foreground="Yellow"
                       IsEnabled="{Binding IsEnableLstView}"
                       ItemsSource="{Binding EntityObserver, Mode=TwoWay}"
                       SelectedIndex="{Binding SelectListViewIndex}"
@@ -244,6 +248,7 @@
                     IsEnabled="{Binding Comportamento.IsEnableCriar}" Command="{Binding PrepareIportarCommand}"
                     Width="25" Margin="0,0,5,0" />
             <Button x:Name="btnAdicionar" Content="{StaticResource imgAdd}" ToolTip="Adicionar"
+                    Visibility="{Binding IsEnablePreCadastroCredenciamento,  Converter={StaticResource VisibleControl}}"
                     IsEnabled="{Binding Comportamento.IsEnableCriar}" Command="{Binding PrepareCriarCommand}"
                     Width="25" Margin="0,0,5,0" />
             <Button x:Name="btnEditar" Content="{StaticResource imgEdit}" ToolTip="Editar"
@@ -266,7 +271,7 @@
                     Width="1259" Margin="1,1,-259,-321"
                     Grid.Row="4">
 
-            <TabItem x:Name="Geral_ti" Background="{x:Null}" Margin="0,-2,0,0" IsEnabled="{Binding IsEnableTabItemGeral}">
+            <TabItem x:Name="Geral_ti" Background="{x:Null}" Margin="0,-2,0,0" Foreground="{Binding IsEnablePreCadastroColor}"  IsEnabled="{Binding IsEnableTabItemGeral}">
 
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
@@ -753,7 +758,7 @@
             </TabItem>
 
 
-            <TabItem x:Name="Signatarios_ti" Width="200" IsEnabled="{Binding IsEnableTabItemEmpresas}">
+            <TabItem x:Name="Signatarios_ti" Width="200" Foreground="{Binding IsEnablePreCadastroColor}"  IsEnabled="{Binding IsEnableTabItemEmpresas}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="Signatarios_bt" Click="OnPendenciaEmpresaVinculo_Click"
@@ -774,7 +779,7 @@
 
             </TabItem>
 
-            <TabItem x:Name="CursosTreinamentos_ti" Width="200" IsEnabled="{Binding IsEnableTabItemCursos}">
+            <TabItem x:Name="CursosTreinamentos_ti" Width="200" Foreground="{Binding IsEnablePreCadastroColor}" IsEnabled="{Binding IsEnableTabItemCursos}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="Curso_bt" Click="OnPendenciaTreinamentoCertificacao_Click"
@@ -796,7 +801,7 @@
 
             </TabItem>
 
-            <TabItem x:Name="Anexos_ti" Width="200" IsEnabled="{Binding IsEnableTabItemAnexos}">
+            <TabItem x:Name="Anexos_ti" Width="200" Foreground="{Binding IsEnablePreCadastroColor}" IsEnabled="{Binding IsEnableTabItemAnexos}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="Anexos_bt" Click="OnPendenciaAnexos_Click" Style="{StaticResource MenuStyle}"
@@ -817,7 +822,8 @@
 
             </TabItem>
 
-            <TabItem x:Name="Tab5" Width="200" IsEnabled="{Binding IsEnableTabItemCredenciais}">
+            <TabItem x:Name="Tab5" Width="200" IsEnabled="{Binding IsEnableTabItemCredenciais}" 
+                                               Visibility="{Binding IsEnablePreCadastroCredenciamento,  Converter={StaticResource VisibleControl}}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="btnTab5" Click="OnPendenciaCredencial_Click" Style="{StaticResource MenuStyle}"                                
