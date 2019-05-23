@@ -14,6 +14,11 @@
     <link rel="stylesheet" href="~/Content/bootstrap-datepicker.css" />"
 
     <style>
+        .ui-widget {
+            font-family: "Lucida Grande", "Lucida Sans", Arial, sans-serif;
+            font-size: 12px;
+        }
+
         body {
             color: #566787;
             background: #f5f5f5;
@@ -340,11 +345,27 @@
                     "search": ""
                 }
             });
-        });
 
-        $(function () {
-            $(".datepicker").datepicker();
+            
+            $(".datepicker").datepicker({
+                    locale: 'pt-br',
+                    dayNamesMin: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S', 'D'],
+                    dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'],
+                    dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
+                    monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+                    monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+                    dateFormat: 'dd/mm/yy',
+                    nextText: 'Próximo',
+                    prevText: 'Anterior'
+                });
         });
+      
+
+        //$(function () {
+        //    $(".datepicker").datepicker({
+        //        locale: 'pt-br'
+        //    });
+        //});
     </script>
 </body>
 </html>

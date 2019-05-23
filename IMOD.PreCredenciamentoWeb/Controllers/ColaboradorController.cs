@@ -59,10 +59,22 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         public ActionResult Create()
         {
             if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
+            Session.Remove(SESS_CONTRATOS_SELECIONADOS);
+            Session.Remove(SESS_CONTRATOS_REMOVIDOS);
+            Session.Remove(SESS_CURSOS_SELECIONADOS);
+            Session.Remove(SESS_CURSOS_REMOVIDOS);
+            // carrega os contratosd da empresa
+            if (SessionUsuario.EmpresaLogada.Contratos != null) { ViewBag.Contratos = SessionUsuario.EmpresaLogada.Contratos; }
+            ViewBag.ContratosSelecionados = new List<ColaboradorEmpresaViewModel>();
+
+            //carrega os cursos
+            var listCursos = objCursosService.Listar().ToList();
+            if (listCursos != null && listCursos.Any()){ViewBag.Cursos = listCursos;}
+            ViewBag.CursosSelecionados = new List<Curso>();
+
+
             PopularEstadosDropDownList();
-            PopularDadosDropDownList();
-            PopularContratoCreateDropDownList(SessionUsuario.EmpresaLogada.EmpresaId);
-            PopularCursos(SessionUsuario.EmpresaLogada.EmpresaId);
+            PopularDadosDropDownList();                        
             return View();
         }
 
@@ -113,6 +125,10 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             Session.Remove(SESS_CONTRATOS_REMOVIDOS);
             Session.Remove(SESS_CURSOS_SELECIONADOS);
             Session.Remove(SESS_CURSOS_REMOVIDOS);
+            ViewBag.Contratos = new List<EmpresaContrato>();
+            ViewBag.Cursos = new List<Curso>();
+            ViewBag.CursosSelecionados = new List<Curso>();
+
 
             var colaboradorEditado = objService.Listar(id).FirstOrDefault();
             if (colaboradorEditado == null)
@@ -121,22 +137,20 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             //obtém vinculos do colaborador
             ColaboradorViewModel colaboradorMapeado = Mapper.Map<ColaboradorViewModel>(colaboradorEditado);
 
-            ViewBag.ContratosSelecionados = new List<EmpresaContrato>();
+            // carrega os contratosd da empresa
+            if (SessionUsuario.EmpresaLogada.Contratos != null)
+            {
+                ViewBag.Contratos = SessionUsuario.EmpresaLogada.Contratos;
+            }
+
+            ViewBag.ContratosSelecionados = new List<ColaboradorEmpresaViewModel>();
             var listaVinculosColaborador = Mapper.Map<List<ColaboradorEmpresaViewModel>>(objColaboradorEmpresaService.Listar(colaboradorEditado.ColaboradorId));
             ViewBag.ContratosSelecionados = listaVinculosColaborador;
             Session.Add(SESS_CONTRATOS_SELECIONADOS, listaVinculosColaborador);
 
             PopularEstadosDropDownList();
             PopularDadosDropDownList();
-            ViewBag.Contratos = new List<EmpresaContrato>();
-            ViewBag.Cursos = new List<Curso>();
-            ViewBag.CursosSelecionados = new List<Curso>();
-
-            if (SessionUsuario.EmpresaLogada.Contratos != null)
-            {
-                ViewBag.Contratos = SessionUsuario.EmpresaLogada.Contratos;                
-            }
-
+            
             var listCursos = objCursosService.Listar().ToList();
             if (listCursos != null && listCursos.Any())
             {
