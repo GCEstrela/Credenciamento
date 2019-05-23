@@ -11,7 +11,14 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="~/Content/datatables.min.css" />"
     <link rel="stylesheet" href="~/Content/bootstrap.min.css" />"
+    <link rel="stylesheet" href="~/Content/bootstrap-datepicker.css" />"
+
     <style>
+        .ui-widget {
+            font-family: "Lucida Grande", "Lucida Sans", Arial, sans-serif;
+            font-size: 12px;
+        }
+
         body {
             color: #566787;
             background: #f5f5f5;
@@ -319,13 +326,14 @@
     @RenderSection("scripts", required: false)
     <script src="~/Scripts/jquery.maskedinput.min.js"></script>
     <script src="~/Scripts/datatables.min.js"></script>
+    <script src="~/Scripts/bootstrap-datepicker.min.js"></script>
     <script>
         $(document).ready(function () {
             $("#cpf").mask("999.999.999-99");
             $("#cep").mask("99999-999");
-            $("#telefone").mask("(99) 9999-9999");            
-            $("#celular").mask("(99) 99999-9999"); 
-            $("#celular1").mask("(99) 99999-9999");            
+            $("#telefone").mask("(99) 9999-9999");
+            $("#celular").mask("(99) 99999-9999");
+            $("#celular1").mask("(99) 99999-9999");
 
             $('#tbVeiculo').DataTable({
                 "language": {
@@ -337,7 +345,27 @@
                     "search": ""
                 }
             });
+
+            
+            $(".datepicker").datepicker({
+                    locale: 'pt-br',
+                    dayNamesMin: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S', 'D'],
+                    dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'],
+                    dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
+                    monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+                    monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+                    dateFormat: 'dd/mm/yy',
+                    nextText: 'Próximo',
+                    prevText: 'Anterior'
+                });
         });
+      
+
+        //$(function () {
+        //    $(".datepicker").datepicker({
+        //        locale: 'pt-br'
+        //    });
+        //});
     </script>
 </body>
 </html>

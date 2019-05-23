@@ -48,7 +48,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private bool _prepareCriarCommandAcionado;
         public bool IsEnablePreCadastro { get; set; } = false;
-
+        public bool IsEnablePreCadastroCredenciamento { get; set; } = true;
+        public string IsEnablePreCadastroColor { get; set; } = "#FFD0D0D0";
         #region  Propriedades
 
         /// <summary>
@@ -484,7 +485,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         }
 
         /// <summary>
-        ///     Novo
+        ///     Pré-Cadastro
         /// </summary>
         public ICommand PrepareIportarCommand => new CommandBase(PrepareImportar, true);
         private void PrepareImportar()

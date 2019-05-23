@@ -145,6 +145,8 @@ namespace IMOD.Infra.Repositorios
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("SerieChassi", DbType.String, objects, 3).Like()));
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Tipo", DbType.String, objects, 4).Like()));
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EquipamentoVeiculoID", DbType.Int32, objects, 5).Like()));
+
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Precadastro", DbType.Boolean, objects, 6).Igual()));
                         //
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<Veiculo>();
@@ -202,6 +204,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Pendente32", entity.Pendente32, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Pendente33", entity.Pendente33, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Pendente34", entity.Pendente34, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Precadastro", entity.Precadastro, false)));
 
                         cmd.ExecuteNonQuery();
                     }
