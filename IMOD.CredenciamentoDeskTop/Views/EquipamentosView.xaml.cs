@@ -207,5 +207,37 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 //WpfHelp.Mbox(ex.ToString());
             }
         }
+
+        private void Rd_cadastro_Checked(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                _viewModel.EntityObserver.Clear();
+                _viewModel.IsEnablePreCadastro = false;
+                _viewModel.IsEnablePreCadastroCredenciamento = true;
+                _viewModel.IsEnablePreCadastroColor = "#FFD0D0D0";
+                //_importarBNT = "Collapsed";
+            }
+            catch (Exception ex)
+            {
+                //WpfHelp.Mbox(ex.ToString());
+            }
+        }
+
+        private void Rd_precadastro_Checked(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                _viewModel.EntityObserver.Clear();
+                _viewModel.IsEnablePreCadastro = true;
+                _viewModel.IsEnablePreCadastroCredenciamento = false;
+                _viewModel.IsEnablePreCadastroColor = "Orange";
+                //_importarBNT = "Visible";
+            }
+            catch (Exception ex)
+            {
+                //WpfHelp.Mbox(ex.ToString());
+            }
+        }
     }
 }

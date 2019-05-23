@@ -40,7 +40,7 @@ namespace IMOD.Domain.Entities
         public bool Pendente32 { get; set; }
         public bool Pendente33 { get; set; }
         public bool Pendente34 { get; set; }
-
+        public bool Precadastro { get; set; }
         #endregion
     }
 }

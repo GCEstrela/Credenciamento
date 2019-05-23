@@ -308,11 +308,18 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         private void Rd_precadastro_Checked(object sender, RoutedEventArgs e)
         {
-            _viewModel.EntityObserver.Clear();
-            _viewModel.IsEnablePreCadastro = true;
-            _viewModel.IsEnablePreCadastroCredenciamento = false;
-            _viewModel.IsEnablePreCadastroColor = "Orange";
-            _importarBNT = "Visible";
+            try
+            {
+                _viewModel.EntityObserver.Clear();
+                _viewModel.IsEnablePreCadastro = true;
+                _viewModel.IsEnablePreCadastroCredenciamento = false;
+                _viewModel.IsEnablePreCadastroColor = "Orange";
+                _importarBNT = "Visible";
+            }
+            catch (Exception ex)
+            {
+                //WpfHelp.Mbox(ex.ToString());
+            }
         }
 
         private void Rd_cadastro_Checked(object sender, RoutedEventArgs e)
