@@ -148,7 +148,6 @@
     <Compile Include="Models\AutorizacaoViewModel.cs" />
     <Compile Include="Models\ColaboradorEmpresaViewModel.cs" />
     <Compile Include="Models\ColaboradorViewModel.cs" />
-    <Compile Include="Models\CredencialViewModel.cs" />
     <Compile Include="Models\EmpresaViewModel.cs" />
     <Compile Include="Models\VeiculoViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -353,8 +352,6 @@
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Veiculo\Edit.cshtml" />
-    <Content Include="Views\Veiculo\Credential.cshtml" />
-    <Content Include="Views\Colaborador\Credential.cshtml" />
     <Content Include="Views\Empresa\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>

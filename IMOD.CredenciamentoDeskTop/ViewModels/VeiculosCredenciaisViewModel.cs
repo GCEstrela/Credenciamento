@@ -625,7 +625,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 relatorio.SetDataSource (lst);
 
                 var objCode = new QrCode();
-                string querySistema = "http://172.16.100.75:57280/Veiculo/Credential/"
+                string querySistema = _configuraSistema.UrlSistema?.Trim().ToString() + "/Veiculo/Credential/"
                             + Helpers.Helper.Codificar(AutorizacaoMapeada.VeiculoCredencialId.ToString())
                                 + "?param=" + Helpers.Helper.Codificar(Constantes.Constantes.chaveCriptografia);
 

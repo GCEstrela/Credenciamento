@@ -15,10 +15,10 @@ namespace IMOD.CredenciamentoDeskTop.Funcoes
                 {
                     return "Visible";
                 }
-                return "Hidden";
+                return "Collapsed";
 
             }
-            return "Hidden";
+            return "Collapsed";
         }
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {

@@ -21,8 +21,6 @@ namespace IMOD.PreCredenciamentoWeb.Mapeamento
                 m.CreateMap<Colaborador, ColaboradorViewModel>().ReverseMap();
 
                 m.CreateMap<Veiculo, VeiculoViewModel>().ReverseMap();
-                m.CreateMap<AutorizacaoView, AutorizacaoViewModel>().ReverseMap(); 
-                m.CreateMap<CredencialView, CredencialViewModel>().ReverseMap();
                 m.CreateMap<EmpresaViewModel, Empresa>().ReverseMap();
             });
         }

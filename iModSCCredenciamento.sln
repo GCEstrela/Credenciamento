@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.329
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28917.181
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IMOD.CredenciamentoDeskTop", "IMOD.CredenciamentoDeskTop\IMOD.CredenciamentoDeskTop.csproj", "{974F5875-4CFB-4926-8273-D1BF96AC8242}"
 EndProject
@@ -44,6 +44,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "6 - Services", "6 - Services", "{131D6615-3847-4EC8-B8E1-3F8551CBDDAB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IMOD.APPService", "WindowsService1\IMOD.APPService.csproj", "{68E0783B-CB48-4864-B4EE-346687294712}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IMOD.ValidacaoCredencialWeb", "IMOD.ValidacaoCredencialWeb\IMOD.ValidacaoCredencialWeb.csproj", "{DDA5B05E-EF69-4B73-99E5-1E334B47CBCA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -91,6 +93,10 @@ Global
 		{68E0783B-CB48-4864-B4EE-346687294712}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{68E0783B-CB48-4864-B4EE-346687294712}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{68E0783B-CB48-4864-B4EE-346687294712}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDA5B05E-EF69-4B73-99E5-1E334B47CBCA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDA5B05E-EF69-4B73-99E5-1E334B47CBCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDA5B05E-EF69-4B73-99E5-1E334B47CBCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDA5B05E-EF69-4B73-99E5-1E334B47CBCA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -105,6 +111,7 @@ Global
 		{91FA8C3F-621C-4D54-B74A-8A1B49385117} = {BFE0C201-490D-4DFF-B1F3-C74BBD48994B}
 		{E8FF80EB-F650-4ABC-A8BB-3ED91653EC50} = {131D6615-3847-4EC8-B8E1-3F8551CBDDAB}
 		{68E0783B-CB48-4864-B4EE-346687294712} = {131D6615-3847-4EC8-B8E1-3F8551CBDDAB}
+		{DDA5B05E-EF69-4B73-99E5-1E334B47CBCA} = {BFE0C201-490D-4DFF-B1F3-C74BBD48994B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7C56DFBC-6B7E-4788-B873-83C9C4056EDF}

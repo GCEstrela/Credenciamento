@@ -19,7 +19,6 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         private readonly IDadosAuxiliaresFacade objAuxiliaresService = new DadosAuxiliaresFacadeService();
         private readonly IEmpresaContratosService objContratosService = new EmpresaContratoService();
         private readonly IColaboradorEmpresaService objColaboradorEmpresaService = new ColaboradorEmpresaService();
-        private readonly IColaboradorCredencialService objColaboradorCredencialService = new ColaboradorCredencialService();
         private readonly ICursoService objCursosService = new CursoService();
         private readonly IColaboradorCursoService objColaboradorCursosService = new ColaboradorCursosService();
         private const string SESS_CONTRATOS_SELECIONADOS = "ContratosSelecionados";
@@ -326,43 +325,6 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             ((List<int>)Session[SESS_CURSOS_REMOVIDOS]).Add(id);
             return Json(listContrato, JsonRequestBehavior.AllowGet);
         }
-
-
-        // GET: Veiculo/Credential/5
-        public ActionResult Credential(string id, string param)
-        {
-
-            if (id == null || (string.IsNullOrEmpty(id))) return View();
-            if (param == null || (string.IsNullOrEmpty(param))) return View();
-
-            var paramDescodificado = Helper.CriptografiaHelper.Decodificar(param);
-            var identificador = Helper.CriptografiaHelper.Decodificar(id);
-
-            var credencialView = objColaboradorCredencialService.ObterCredencialView(Convert.ToInt16(identificador));
-
-            if (credencialView != null)
-            {
-                CredencialViewModel objCredencialMapeado = Mapper.Map<CredencialViewModel>(credencialView);
-
-                if (objCredencialMapeado.Ativa)
-                {
-                    ViewBag.ClasseAlerta = "alert alert-success";
-                    ViewBag.ClasseIcone = "glyphicon glyphicon-ok";
-                    ViewBag.ClasseTexto = "ATIVA";
-                }
-                else
-                {
-                    ViewBag.ClasseAlerta = "alert alert-danger";
-                    ViewBag.ClasseIcone = "glyphicon glyphicon-remove";
-                    ViewBag.ClasseTexto = "INATIVA";
-                }
-
-                return View(objCredencialMapeado);
-            }
-
-            return View();
-        }
-
 
         #region Métodos internos carregar componentes
 
