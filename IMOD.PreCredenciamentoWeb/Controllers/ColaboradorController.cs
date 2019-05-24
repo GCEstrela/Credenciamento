@@ -21,6 +21,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         private readonly IColaboradorEmpresaService objColaboradorEmpresaService = new ColaboradorEmpresaService();
         private readonly ICursoService objCursosService = new CursoService();
         private readonly IColaboradorCursoService objColaboradorCursosService = new ColaboradorCursosService();
+        private readonly IMunicipioService objMunicipioSevice = new MunicipioService();
         private const string SESS_CONTRATOS_SELECIONADOS = "ContratosSelecionados";
         private const string SESS_CONTRATOS_REMOVIDOS = "ContratosRemovidos";
         private const string SESS_CURSOS_SELECIONADOS = "CursosSelecionados";
@@ -36,7 +37,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         {
             if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
 
-            List<ColaboradorViewModel> lstColaboradorMapeado = Mapper.Map<List<ColaboradorViewModel>>(ObterColaboradoresEmpresaLogada());
+            List<ColaboradorViewModel> lstColaboradorMapeado = Mapper.Map<List<ColaboradorViewModel>>(ObterColaboradoresEmpresaLogada().OrderBy(e => e.Nome));
             return View(lstColaboradorMapeado);
         }
 
@@ -121,6 +122,8 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         public ActionResult Edit(int? id)
         {
             if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
+            
+            //Remove itens da sessão
             Session.Remove(SESS_CONTRATOS_SELECIONADOS);
             Session.Remove(SESS_CONTRATOS_REMOVIDOS);
             Session.Remove(SESS_CURSOS_SELECIONADOS);
@@ -129,7 +132,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             ViewBag.Cursos = new List<Curso>();
             ViewBag.CursosSelecionados = new List<Curso>();
 
-
+            //Obtem o colaborador pelo ID
             var colaboradorEditado = objService.Listar(id).FirstOrDefault();
             if (colaboradorEditado == null)
                 return HttpNotFound();
@@ -143,20 +146,27 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                 ViewBag.Contratos = SessionUsuario.EmpresaLogada.Contratos;
             }
 
+            //Popula contratos secelionados
             ViewBag.ContratosSelecionados = new List<ColaboradorEmpresaViewModel>();
             var listaVinculosColaborador = Mapper.Map<List<ColaboradorEmpresaViewModel>>(objColaboradorEmpresaService.Listar(colaboradorEditado.ColaboradorId));
             ViewBag.ContratosSelecionados = listaVinculosColaborador;
             Session.Add(SESS_CONTRATOS_SELECIONADOS, listaVinculosColaborador);
 
+            //Propula combo de estado
             PopularEstadosDropDownList();
-            PopularDadosDropDownList();
-            
-            var listCursos = objCursosService.Listar().ToList();
-            if (listCursos != null && listCursos.Any())
-            {
-                ViewBag.Cursos = listCursos;
-            }
 
+            //Preenchie combo municipio de acordo com o estado
+            ViewBag.Municipio = new List<Municipio>();
+            var lstMunicipio = objAuxiliaresService.MunicipioService.Listar(null, null, colaboradorMapeado.EstadoId).OrderBy(m => m.Nome);
+            if (lstMunicipio != null) { ViewBag.Municipio = lstMunicipio; };
+
+            PopularDadosDropDownList();
+
+            //Preenche combo com todos os cursos
+            var listCursos = objCursosService.Listar().OrderBy(c=> c.Descricao);
+            if (listCursos != null && listCursos.Any()){ViewBag.Cursos = listCursos;};
+
+            //Popula cussos selecionados do colaborador
             var cursosColaborador = objColaboradorCursosService.Listar(colaboradorEditado.ColaboradorId);
             var cusosSelecionados = listCursos.Where(c => (cursosColaborador.Where(p => p.CursoId == c.CursoId).Count() > 0)).ToList();
             if (cusosSelecionados != null && cusosSelecionados.Any())
@@ -340,6 +350,15 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             return Json(listContrato, JsonRequestBehavior.AllowGet);
         }
 
+
+        public JsonResult BuscarMunicipios(int id)
+        {
+            var listMunicipio = objMunicipioSevice.Listar(null, null, id);
+        
+            return Json(listMunicipio, JsonRequestBehavior.AllowGet);
+        }
+
+
         #region Métodos internos carregar componentes
 
         private void PopularEstadosDropDownList()
@@ -355,7 +374,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         {
             if (!string.IsNullOrEmpty(idEstado))
             {
-                var lstMunicipio = objAuxiliaresService.MunicipioService.Listar(null, null, idEstado);
+                var lstMunicipio = objAuxiliaresService.MunicipioService.Listar(null, null, idEstado).OrderBy(m => m.Nome);
                 ViewBag.Municipio = lstMunicipio;
             }
         }
@@ -408,6 +427,8 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             var cursos = objCursosService.Listar();
             ViewBag.Cursos = new MultiSelectList(cursos, "CursoId", "Descricao");
         }
+
+        
 
         #endregion
     }
