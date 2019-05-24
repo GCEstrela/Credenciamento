@@ -236,7 +236,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 mensagem2 = n1.PendenciaImpeditiva ? " Pendência(s) para a EMPRESA: " + mensagemPendencias : string.Empty;
                 mensagem3 = n1.Impressa ? "Credencial já foi emitida" : string.Empty;
                 mensagem4 = (entity.Validade < DateTime.Now.Date) ? "Credencial vencida." : string.Empty;
-                mensagem5 = " Pendência(s) para a COLABORADOR: " + mensagemPendenciasColaborador;
+                //if (mensagemPendenciasColaborador.Length > 0)
+                mensagem5 = n1.PendenciaImpeditiva ? " Pendência(s) para a COLABORADOR: " + mensagemPendenciasColaborador : string.Empty;
             }
            
             //Exibir mensagem de impressao de credencial, esta tem prioridade sobre as demais regras            
@@ -783,7 +784,15 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     }
                     n1.Colete = Entity.EmpresaSigla + Entity.NumeroColete;
                 }
-
+                if (n1.Ativa)
+                {
+                    if (n1.Validade < DateTime.Now)
+                    {
+                        WpfHelp.Mbox("Data de Validate não pode ser inferior à data do dia.", MessageBoxIcon.Information);
+                        return;
+                    }
+                }
+                
 
                 //Atualizar dados a serem exibidas na tela de empresa
                 if (Entity == null) return;
