@@ -73,8 +73,8 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             if (listCursos != null && listCursos.Any()){ViewBag.Cursos = listCursos;}
             ViewBag.CursosSelecionados = new List<Curso>();
 
-
             PopularEstadosDropDownList();
+            ViewBag.Municipio = new List<Municipio>();
             PopularDadosDropDownList();                        
             return View();
         }
@@ -91,16 +91,62 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                     var colaboradorMapeado = Mapper.Map<Colaborador>(model);
                     objService.Criar(colaboradorMapeado);
 
-                    foreach (int contratoEmpresaId in EmpresaContratoId)
+                    // excluir os contratos removidos da lista
+                    if (Session[SESS_CONTRATOS_REMOVIDOS] != null)
                     {
-                        // Inclusão do vinculo
-                        ColaboradorEmpresa colaboradorEmpresa = new ColaboradorEmpresa();
-                        colaboradorEmpresa.ColaboradorId = colaboradorMapeado.ColaboradorId;
-                        colaboradorEmpresa.EmpresaContratoId = Convert.ToInt32(contratoEmpresaId);
-                        colaboradorEmpresa.Ativo = true;
-                        colaboradorEmpresa.EmpresaId = SessionUsuario.EmpresaLogada.EmpresaId;
-                        objColaboradorEmpresaService.Criar(colaboradorEmpresa);
-                        objColaboradorEmpresaService.CriarNumeroMatricula(colaboradorEmpresa);
+                        foreach (var item in (List<int>)Session[SESS_CONTRATOS_REMOVIDOS])
+                        {
+                            var contratoExclusao = objColaboradorEmpresaService.Listar(colaboradorMapeado.ColaboradorId, null, null, null, null, null, item).FirstOrDefault();
+                            if (contratoExclusao != null)
+                            {
+                                objColaboradorEmpresaService.Remover(contratoExclusao);
+                            }
+                        }
+                    }
+
+                    //inclui os contratos selecionados
+                    foreach (var vinculo in (List<ColaboradorEmpresaViewModel>)Session[SESS_CONTRATOS_SELECIONADOS])
+                    {
+                        // Inclusão do vinculo                       
+                        var item = objColaboradorEmpresaService.Listar(colaboradorMapeado.ColaboradorId, null, null, null, null, null, vinculo.EmpresaContratoId).FirstOrDefault();
+                        if (item == null)
+                        {
+                            vinculo.ColaboradorId = colaboradorMapeado.ColaboradorId;
+                            vinculo.Ativo = true;
+                            vinculo.EmpresaId = SessionUsuario.EmpresaLogada.EmpresaId;
+                            var colaboradorEmpresa = Mapper.Map<ColaboradorEmpresa>(vinculo);
+                            objColaboradorEmpresaService.Criar(colaboradorEmpresa);
+                            objColaboradorEmpresaService.CriarNumeroMatricula(colaboradorEmpresa);
+                        }
+                    }
+
+                    // excluir os contratos removidos da lista
+                    if (Session[SESS_CURSOS_REMOVIDOS] != null)
+                    {
+                        foreach (var item in (List<int>)Session[SESS_CURSOS_REMOVIDOS])
+                        {
+                            var cursoExclusao = objColaboradorCursosService.Listar(colaboradorMapeado.ColaboradorId, item, null, null, null, null, null).FirstOrDefault();
+                            if (cursoExclusao != null)
+                            {
+                                objColaboradorCursosService.Remover(cursoExclusao);
+                            }
+                        }
+                    }
+
+
+                    //inclui os cursos selecionados
+                    foreach (var curso in (List<Curso>)Session[SESS_CURSOS_SELECIONADOS])
+                    {
+                        var colaboradorCurso = objColaboradorCursosService.Listar(colaboradorMapeado.ColaboradorId, curso.CursoId, null, null, null, null, null).FirstOrDefault();
+                        if (colaboradorCurso == null)                        
+                        {
+                            colaboradorCurso = new ColaboradorCurso();
+                            colaboradorCurso.ColaboradorId = colaboradorMapeado.ColaboradorId;
+                            colaboradorCurso.CursoId = curso.CursoId;
+                            colaboradorCurso.Descricao = curso.Descricao;
+                            objColaboradorCursosService.Criar(colaboradorCurso);
+                        }
+
                     }
                     return RedirectToAction("Index", "Colaborador");
                 }
