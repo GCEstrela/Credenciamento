@@ -783,7 +783,15 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     }
                     n1.Colete = Entity.EmpresaSigla + Entity.NumeroColete;
                 }
-
+                if (n1.Ativa)
+                {
+                    if (n1.Validade < DateTime.Now)
+                    {
+                        WpfHelp.Mbox("Data de Validate não pode ser inferior à data do dia.", MessageBoxIcon.Information);
+                        return;
+                    }
+                }
+                
 
                 //Atualizar dados a serem exibidas na tela de empresa
                 if (Entity == null) return;

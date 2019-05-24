@@ -57,7 +57,7 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public bool Pendente33 { get; set; }
         public bool Pendente34 { get; set; }
         public string DescricaoAlias { get { return Descricao; } }
-
+        public bool Precadastro { get; set; }
         #endregion
     }
 }

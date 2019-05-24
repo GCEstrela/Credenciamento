@@ -27,8 +27,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
         private readonly IVeiculoService _service = new VeiculoService();
 
+
+        public bool IsEnablePreCadastro { get; set; } = false;
+        public bool IsEnablePreCadastroCredenciamento { get; set; } = true;
+        public string IsEnablePreCadastroColor { get; set; } = "#FFD0D0D0";
         #region  Propriedades
-       
+
 
         /// <summary>
         ///     String contendo o nome a pesquisa;
@@ -367,7 +371,30 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         ///     Novo
         /// </summary>
         public ICommand PrepareCriarCommand => new CommandBase (PrepareCriar, true);
+        /// <summary>
+        ///     Pré-Cadastro
+        /// </summary>
+        public ICommand PrepareIportarCommand => new CommandBase(PrepareImportar, true);
+        private void PrepareImportar()
+        {
+            try
+            {
+                if (Entity == null) return;
+                if (Validar()) return;
 
+                var n1 = Mapper.Map<Veiculo>(Entity);
+                n1.Precadastro = false;
+                _service.Alterar(n1);
+                EntityObserver.RemoveAt(SelectListViewIndex);
+                SalvarTipoServico(n1.EquipamentoVeiculoId);
+                HabilitaControle(true, true);
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+                WpfHelp.PopupBox(ex);
+            }
+        }
         #endregion
 
         #region Salva Dados
@@ -385,21 +412,21 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (num.Key == 1)
                 {
                     if (string.IsNullOrWhiteSpace (pesquisa)) return;
-                    var lstEquipamento = _service.Listar (null, null, $"%{pesquisa}%", null, $"%{tipoVeiculoEquipamento}%"); 
+                    var lstEquipamento = _service.Listar (null, null, $"%{pesquisa}%", null, $"%{tipoVeiculoEquipamento}%", null, IsEnablePreCadastro);
                     PopularObserver (lstEquipamento);
                 }
                 //Busca Por Série
                 if (num.Key == 2)
                 {
                     if (string.IsNullOrWhiteSpace (pesquisa)) return; 
-                    var lstEquipamento = _service.Listar (null, null, null, $"%{pesquisa}%", $"%{tipoVeiculoEquipamento}%"); 
+                    var lstEquipamento = _service.Listar (null, null, null, $"%{pesquisa}%", $"%{tipoVeiculoEquipamento}%", null, IsEnablePreCadastro);
                     PopularObserver (lstEquipamento);
                 }
                 //Por Descrição
                 if (num.Key == 3)
                 {
                     if (string.IsNullOrWhiteSpace(pesquisa)) return;
-                    var l1 = _service.Listar($"%{pesquisa}%", null, null, null, $"%{tipoVeiculoEquipamento}%");
+                    var l1 = _service.Listar($"%{pesquisa}%", null, null, null, $"%{tipoVeiculoEquipamento}%", null, IsEnablePreCadastro);
                     PopularObserver(l1);
                 }
 

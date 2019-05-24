@@ -34,7 +34,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
     public partial class ColaboradorView : UserControl
     {
         private readonly ColaboradorViewModel _viewModel;
-
+        public string _importarBNT = "Hidden";
         public ColaboradorView()
         {
             InitializeComponent();
@@ -290,6 +290,53 @@ namespace IMOD.CredenciamentoDeskTop.Views
             {
                 //WpfHelp.Mbox(ex.ToString());
             }
+        }
+
+        //private void Precadastro_Checked(object sender, RoutedEventArgs e)
+        //{
+        //    _viewModel.IsEnablePreCadastro = precadastro.IsChecked.Value;
+        //    _viewModel.IsEnablePreCadastroCredenciamento = false;
+        //    _importarBNT = "Visible";
+        //}
+
+        //private void Precadastro_Unchecked(object sender, RoutedEventArgs e)
+        //{
+        //    _viewModel.IsEnablePreCadastro = precadastro.IsChecked.Value;
+        //    _viewModel.IsEnablePreCadastroCredenciamento = true;
+        //    _importarBNT = "Hidden";
+        //}
+
+        private void Rd_precadastro_Checked(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                _viewModel.EntityObserver.Clear();
+                _viewModel.IsEnablePreCadastro = true;
+                _viewModel.IsEnablePreCadastroCredenciamento = false;
+                _viewModel.IsEnablePreCadastroColor = "Orange";
+                _importarBNT = "Visible";
+            }
+            catch (Exception ex)
+            {
+                //WpfHelp.Mbox(ex.ToString());
+            }
+        }
+
+        private void Rd_cadastro_Checked(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                _viewModel.EntityObserver.Clear();
+                _viewModel.IsEnablePreCadastro = false;
+                _viewModel.IsEnablePreCadastroCredenciamento = true;
+                _viewModel.IsEnablePreCadastroColor = "#FFD0D0D0";
+                _importarBNT = "Collapsed";
+            }
+            catch (Exception ex)
+            {
+                //WpfHelp.Mbox(ex.ToString());
+            }
+
         }
     }
 }
