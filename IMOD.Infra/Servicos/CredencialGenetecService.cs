@@ -159,7 +159,22 @@ namespace IMOD.Infra.Servicos
             //Uma data de validade deve ser mairo que a data corrente 
             var compareData = DateTime.Compare(DateTime.Now, entity.Validade);
             if (compareData >= 0) throw new InvalidOperationException("A data de validade deve ser maior que a data corrente.");
-            entityCardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade);
+            //if (entity.Validade > DateTime.Now)
+            //{
+            //    if (entity.Ativo)
+            //        entityCardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now.AddHours(23).AddMinutes(59).AddSeconds(59), entity.Validade);
+            //}
+
+            if (entity.Validade > DateTime.Now)
+            {
+                if (entity.Ativo)
+                    entityCardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, DateTime.Now.AddHours(23).AddMinutes(59).AddSeconds(59));
+            }
+            else
+            {
+                entityCardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now.AddHours(23).AddMinutes(59).AddSeconds(59), entity.Validade);
+            }
+            //entityCardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade);
             entityCardholder.Picture = entity.Foto;
         }
 
@@ -246,7 +261,12 @@ namespace IMOD.Infra.Servicos
                 }
                 if (entity.Validade > DateTime.Now)
                 {
-                    cardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade);
+                    if (entity.Ativo)
+                    cardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, DateTime.Now.AddHours(23).AddMinutes(59).AddSeconds(59));
+                }
+                else
+                {
+                    cardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now.AddHours(23).AddMinutes(59).AddSeconds(59), entity.Validade);
                 }
 
                 SetValorCamposCustomizados(entity, cardholder);
