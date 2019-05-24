@@ -52,10 +52,11 @@ namespace IMOD.Infra.Repositorios
                     {
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("CredencialStatusId", entity.CredencialStatusId, true)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Descricao", entity.Descricao, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Codigo", entity.Codigo, false)));
 
-                        var key = Convert.ToInt32(cmd.ExecuteScalar());
+                        var key = Convert.ToInt32(cmd.ExecuteScalar()); 
 
-                        entity.CredencialStatusId = key;
+                        entity.CredencialStatusId = key; 
                     }
                     catch (Exception ex)
                     {
