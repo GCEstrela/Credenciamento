@@ -657,10 +657,14 @@ namespace IMOD.Infra.Servicos
                 //Vincular Credencial ao CardHolder
                 cardHolder.Credentials.Remove(credencial);
                 cardHolder.Credentials.Add(credencial);
-                if (cardHolder.State != CardholderState.Active) //Quando uma creencial é criada o cardholder fica semtre ativo.
+                if (cardHolder.State != CardholderState.Active) //Quando uma credencial é criada o cardholder fica sempre ativo.
                 {
-                    cardHolder.State = CardholderState.Active;
+                    cardHolder.State = CardholderState.Active;                    
                 }
+                if (entity.Validade> DateTime.Now)
+                    cardHolder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade);
+
+
                 entity.IdentificadorCredencialGuid = credencial.Guid.ToString();
 
                 _sdk.TransactionManager.CommitTransaction();

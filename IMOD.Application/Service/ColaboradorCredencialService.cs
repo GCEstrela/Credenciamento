@@ -407,9 +407,9 @@ namespace IMOD.Application.Service
             //Alterar credencial
             geradorCredencialService.AlterarStatusCredencial (titularCartao);
 
-            //Alterar status do cartao
-            geradorCredencialService.AlterarStatusCardHolder(titularCartao);
-            //Sistema somente gerar credencial se o tipo de autenticação permitir
+            ////Alterar status do cartao
+            //geradorCredencialService.AlterarStatusCardHolder(titularCartao);
+            ////Sistema somente gerar credencial se o tipo de autenticação permitir
 
         }
 
