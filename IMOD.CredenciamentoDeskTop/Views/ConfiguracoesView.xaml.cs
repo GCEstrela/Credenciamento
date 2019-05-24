@@ -196,33 +196,32 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         #region Tipos Acessos
 
-        private void NovoTiposAcesso_bt_Click(object sender, RoutedEventArgs e)
+        private void btnAdicionarTiposAcesso_Click(object sender, RoutedEventArgs e)
         {
             DescricaoAcessos_tb.Focus();
-            if (NovoTiposAcesso_bt.Content.ToString() == "Novo")
-            {
-                SalvarTiposAcesso_bt.IsEnabled = true;
-                NovoTiposAcesso_bt.Content = "Cancelar";
-                ((ConfiguracoesViewModel)DataContext).OnAdicionarCommand_TiposAcesso();
-            }
-            else if (NovoTiposAcesso_bt.Content.ToString() == "Cancelar")
-            {
-                SalvarTiposAcesso_bt.IsEnabled = false;
-                NovoTiposAcesso_bt.Content = "Novo";
-                ((ConfiguracoesViewModel)DataContext).CarregaColecaoTiposAcessos();
-            }
-                
+            btnSalvarTiposAcesso.IsEnabled = true;
+            btnCancelarTiposAcesso.IsEnabled = true;
+            ((ConfiguracoesViewModel)DataContext).OnAdicionarCommand_TiposAcesso();
         }
-        private void SalvarTiposAcesso_bt_Click(object sender, RoutedEventArgs e)
+        private void btnSalvarTiposAcesso_Click(object sender, RoutedEventArgs e)
         {
-            NovoTiposAcesso_bt.Content = "Novo";
-            SalvarTiposAcesso_bt.IsEnabled = false;
+            btnAdicionarTiposAcesso.IsEnabled = true;
+            btnSalvarTiposAcesso.IsEnabled = false;
             ((ConfiguracoesViewModel)DataContext).OnSalvarEdicaoCommand_TiposAcesso();
         }
-        private void DeletarTiposAcesso_bt_Click(object sender, RoutedEventArgs e)
+
+        private void btnDeletarTiposAcesso_Click(object sender, RoutedEventArgs e)
         {
-            SalvarTiposAcesso_bt.IsEnabled = false;
+            btnAdicionarTiposAcesso.IsEnabled = true;
+            btnSalvarTiposAcesso.IsEnabled = false;
             ((ConfiguracoesViewModel)DataContext).OnExcluirCommand_TiposAcesso();
+        }
+
+        private void btnCancelarTiposAcesso_Click(object sender, RoutedEventArgs e)
+        {
+            btnSalvarTiposAcesso.IsEnabled = false; 
+            btnAdicionarTiposAcesso.IsEnabled = true; 
+            ((ConfiguracoesViewModel)DataContext).CarregaColecaoTiposAcessos();
         }
 
         #endregion
@@ -339,35 +338,33 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         #region Tecnologias Credenciais
 
-        private void NovoTecnologiasCredenciais_bt_Click(object sender, RoutedEventArgs e)
+        private void btnAdicionarTecnologiasCredenciais_Click(object sender, RoutedEventArgs e)
         {
-            DescricaoTecnologiasCredenciais_tb.Focus();
-            if (NovoTecnologiasCredenciais_bt.Content.ToString() == "Novo")
-            {
-                SalvarTecnologiasCredenciais_bt.IsEnabled = true;
-                NovoTecnologiasCredenciais_bt.Content = "Cancelar";
-                ((ConfiguracoesViewModel)DataContext).OnAdicionarCommand_TecnologiasCredenciais();
-            }
-            else if (NovoTecnologiasCredenciais_bt.Content.ToString() == "Cancelar")
-            {
-                SalvarTecnologiasCredenciais_bt.IsEnabled = false;
-                NovoTecnologiasCredenciais_bt.Content = "Novo";
-                ((ConfiguracoesViewModel)DataContext).CarregaColecaoTecnologiasCredenciais();
-            }
-                
+                DescricaoTecnologiasCredenciais_tb.Focus();
+                btnSalvarTecnologiasCredenciais.IsEnabled = true;
+                btnCancelarTecnologiasCredenciais.IsEnabled = true;
+            ((ConfiguracoesViewModel)DataContext).OnAdicionarCommand_TecnologiasCredenciais();
         }
 
-        private void SalvarTecnologiasCredenciais_bt_Click(object sender, RoutedEventArgs e)
+        private void btnSalvarTecnologiasCredenciais_Click(object sender, RoutedEventArgs e)
         {
-            NovoTecnologiasCredenciais_bt.Content = "Novo";
-            SalvarTecnologiasCredenciais_bt.IsEnabled = false;
+            btnAdicionarTecnologiasCredenciais.IsEnabled = true;
+            btnSalvarTecnologiasCredenciais.IsEnabled = false;
             ((ConfiguracoesViewModel)DataContext).OnSalvarEdicaoCommand_TecnologiasCredenciais();
         }
 
-        private void DeletarTecnologiasCredenciais_bt_Click(object sender, RoutedEventArgs e)
+        private void btnDeletarTecnologiasCredenciais_Click(object sender, RoutedEventArgs e)
         {
-            SalvarTecnologiasCredenciais_bt.IsEnabled = false;
+            btnAdicionarTecnologiasCredenciais.IsEnabled = true;
+            btnSalvarTecnologiasCredenciais.IsEnabled = false;
             ((ConfiguracoesViewModel)DataContext).OnExcluirCommand_TecnologiasCredenciais();
+        }
+
+        private void btnCancelarTecnologiasCredenciais_Click(object sender, RoutedEventArgs e)
+        {
+            btnSalvarTecnologiasCredenciais.IsEnabled = false;
+            btnAdicionarTecnologiasCredenciais.IsEnabled = true;
+            ((ConfiguracoesViewModel)DataContext).CarregaColecaoTecnologiasCredenciais();
         }
 
         #endregion
@@ -506,40 +503,37 @@ namespace IMOD.CredenciamentoDeskTop.Views
         #endregion
 
         #region Credenciais Status
-        private void NovoCredencialStatus_bt_Click(object sender, RoutedEventArgs e)
+        private void btnAdicionarCredencialStatus_Click(object sender, RoutedEventArgs e)
         {
+
             DescricaoCredencialStatus_tb.Focus();
-            if (NovoCredencialStatus_bt.Content.ToString() == "Novo")
-            {
-                SalvarCredencialStatus_bt.IsEnabled = true;
-                NovoCredencialStatus_bt.Content = "Cancelar";
-                ((ConfiguracoesViewModel)DataContext).OnAdicionarCommand_CredenciaisStatus();
-            }
-            else if (NovoCredencialStatus_bt.Content.ToString() == "Cancelar")
-            {
-                SalvarCredencialStatus_bt.IsEnabled = false;
-                NovoCredencialStatus_bt.Content = "Novo";
-                ((ConfiguracoesViewModel)DataContext).CarregaColecaoCredenciaisStatus();
-            }
-                
+            btnSalvarCredencialStatus.IsEnabled = true;
+            btnCancelarCredencialStatus.IsEnabled = true;
+
+            ((ConfiguracoesViewModel)DataContext).OnAdicionarCommand_CredenciaisStatus();
+            
         }
 
-        private void SalvarCredencialStatus_bt_Click(object sender, RoutedEventArgs e)
+        private void btnSalvarCredencialStatus_Click(object sender, RoutedEventArgs e)
         {
-            NovoCredencialStatus_bt.Content = "Novo";
-            SalvarCredencialStatus_bt.IsEnabled = false;
             ((ConfiguracoesViewModel)DataContext).OnSalvarEdicaoCommand_CredenciaisStatus();
         }
 
-        private void DeletarCredencialStatus_bt_Click(object sender, RoutedEventArgs e)
+        private void btnDeletarCredencialStatus_Click(object sender, RoutedEventArgs e)
         {
-            SalvarCredencialStatus_bt.IsEnabled = false;
+
             ((ConfiguracoesViewModel)DataContext).OnExcluirCommand_CredenciaisStatus();
+        }
+
+        private void btnCancelarCredencialStatus_Click(object sender, RoutedEventArgs e)
+        {
+
+            ((ConfiguracoesViewModel)DataContext).CarregaColecaoCredenciaisStatus();
         }
 
         #endregion
 
-        #region Credenciais Status
+        #region Credenciais Motivo Status
 
         private void NovoCredencialMotivo_bt_Click(object sender, RoutedEventArgs e)
         {
@@ -561,37 +555,34 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         #region Formatos Credenciais
 
-        private void NovoFormatoCredencial_bt_Click(object sender, RoutedEventArgs e)
+        private void btnAdicionarFormatosCredenciais_Click(object sender, RoutedEventArgs e)
         {
             DescricaoFormatosCredenciais_tb.Focus();
-            if (NovoFormatosCredenciais_bt.Content.ToString() == "Novo")
-            {
-                SalvarFormatosCredenciais_bt.IsEnabled = true;
-                NovoFormatosCredenciais_bt.Content = "Cancelar";
-                ((ConfiguracoesViewModel)DataContext).OnAdicionarCommand_FormatosCredenciais();
-            }
-            else if (NovoFormatosCredenciais_bt.Content.ToString() == "Cancelar")
-            {
-                SalvarFormatosCredenciais_bt.IsEnabled = false;
-                NovoFormatosCredenciais_bt.Content = "Novo";
-                ((ConfiguracoesViewModel)DataContext).CarregaColecaoFormatosCredenciais();
-            }
-                
+            btnSalvarFormatosCredenciais.IsEnabled = true;
+            btnCancelarFormatosCredenciais.IsEnabled = true;
+            ((ConfiguracoesViewModel)DataContext).OnAdicionarCommand_FormatosCredenciais();
         }
 
-        private void SalvarFormatoCredencial_bt_Click(object sender, RoutedEventArgs e)
+        private void btnSalvarFormatosCredenciais_Click(object sender, RoutedEventArgs e)
         {
-            NovoFormatosCredenciais_bt.Content = "Novo";
-            SalvarFormatosCredenciais_bt.IsEnabled = false;
+            btnAdicionarFormatosCredenciais.IsEnabled = true;
+            btnSalvarFormatosCredenciais.IsEnabled = false;
             ((ConfiguracoesViewModel)DataContext).OnSalvarEdicaoCommand_FormatosCredenciais();
         }
 
-        private void DeletarFormatoCredencial_bt_Click(object sender, RoutedEventArgs e)
+        private void btnDeletarFormatosCredenciais_Click(object sender, RoutedEventArgs e)
         {
-            SalvarFormatosCredenciais_bt.IsEnabled = false;
+            btnAdicionarFormatosCredenciais.IsEnabled = true;
+            btnSalvarFormatosCredenciais.IsEnabled = false;
             ((ConfiguracoesViewModel)DataContext).OnExcluirCommand_FormatosCredenciais();
         }
 
+        private void btnCancelarFormatosCredenciais_Click(object sender, RoutedEventArgs e) 
+        {
+            btnAdicionarFormatosCredenciais.IsEnabled = true; 
+            btnSalvarFormatosCredenciais.IsEnabled = false;
+            ((ConfiguracoesViewModel)DataContext).CarregaColecaoFormatosCredenciais();
+        }
 
         #endregion
 

@@ -5,11 +5,11 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <style>
-.disabled {
-  text-decoration: none;
-  color: gray;
-  cursor: default;
-}
+    .disabled {
+        text-decoration: none;
+        color: gray;
+        cursor: default;
+    }
 </style>
 <h3>Empresa</h3>
 @using (Html.BeginForm("Edit", "Empresa", FormMethod.Post, new { enctype = "multipart/form-data", id = "myForm" }))
@@ -23,9 +23,9 @@
                     <h2>Aleração de <b>Empresa</b></h2>
                 </div>
                 <div class="col-sm-4">
-                    <button type="submit" class="btn btn-success" id="btnSalvar"><i class="fa fa-save"></i> <span>Salvar Empresa</span></button>
                     @*<button type="submit" class="btn btn-success" id="btnSalvar"><i class="fa fa-save"></i> <span>Salvar Empresa</span></button>*@
-                    <a href="../../Home/Index" class="submit btn btn-danger"><i class="fa fa-fw fa-sign-in"></i> <span>Cancelar</span></a>
+                    @*<button type="submit" class="btn btn-success" id="btnSalvar"><i class="fa fa-save"></i> <span>Salvar Empresa</span></button>*@
+                    <a href="~/Views/Home/Index.cshtml" class="submit btn btn-danger"><i class="fa fa-fw fa-sign-in"></i> <span>Voltar</span></a>
                 </div>
             </div>
         </div>
@@ -60,7 +60,7 @@
                     <div class="form-group" hidden="hidden">
                         @Html.LabelFor(model => model.Logo, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            @Html.EditorFor(model => model.Logo, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                            @Html.EditorFor(model => model.Logo, new { htmlAttributes = new { @class = "form-control text-uppercase", @readonly = "readonly" } })
                             @Html.ValidationMessageFor(model => model.Logo, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -75,14 +75,14 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.Nome, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control text-uppercase", id = "Nome" } })
+                            @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control text-uppercase", id = "Nome", @readonly = "readonly" } })
                             @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="form-group">
                         @Html.LabelFor(model => model.Apelido, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            @Html.EditorFor(model => model.Apelido, new { htmlAttributes = new { @class = "form-control text-uppercase", id = "Apelido" } })
+                            @Html.EditorFor(model => model.Apelido, new { htmlAttributes = new { @class = "form-control text-uppercase", id = "Apelido", @readonly = "readonly" } })
                             @Html.ValidationMessageFor(model => model.Apelido, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -97,14 +97,14 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.InsEst, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            @Html.EditorFor(model => model.InsEst, "", new { htmlAttributes = new { @class = "form-control text-uppercase", style = "width: 100px;" } })
+                            @Html.EditorFor(model => model.InsEst, "", new { htmlAttributes = new { @class = "form-control text-uppercase", style = "width: 100px;", @readonly = "readonly" } })
                             @Html.ValidationMessageFor(model => model.InsEst, "", new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="form-group">
                         @Html.LabelFor(model => model.InsMun, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            @Html.EditorFor(model => model.InsMun, "", new { htmlAttributes = new { @class = "form-control text-uppercase", style = "width: 100px;" } })
+                            @Html.EditorFor(model => model.InsMun, "", new { htmlAttributes = new { @class = "form-control text-uppercase", style = "width: 100px;", @readonly = "readonly" } })
                             @Html.ValidationMessageFor(model => model.InsMun, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -114,28 +114,28 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.Endereco, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            @Html.EditorFor(model => model.Endereco, new { htmlAttributes = new { @class = "form-control text-uppercase", id = "Endereco" } })
+                            @Html.EditorFor(model => model.Endereco, new { htmlAttributes = new { @class = "form-control text-uppercase", id = "Endereco" }, @readonly = "readonly" })
                             @Html.ValidationMessageFor(model => model.Endereco, "", new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="form-group">
                         @Html.LabelFor(model => model.Numero, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            @Html.EditorFor(model => model.Numero, new { htmlAttributes = new { @class = "form-control text-uppercase", style = "width: 100px;" } })
+                            @Html.EditorFor(model => model.Numero, new { htmlAttributes = new { @class = "form-control text-uppercase", style = "width: 100px;", @readonly = "readonly" } })
                             @Html.ValidationMessageFor(model => model.Numero, "", new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="form-group">
                         @Html.LabelFor(model => model.Cep, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            @Html.EditorFor(model => model.Cep, new { htmlAttributes = new { @class = "form-control", id = "Cep", style = "width: 100px;" } })
+                            @Html.EditorFor(model => model.Cep, new { htmlAttributes = new { @class = "form-control", id = "Cep", style = "width: 100px;", @readonly = "readonly" } })
                             @Html.ValidationMessageFor(model => model.Cep, "", new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="form-group">
                         @Html.LabelFor(model => model.Complemento, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            @Html.EditorFor(model => model.Complemento, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                            @Html.EditorFor(model => model.Complemento, new { htmlAttributes = new { @class = "form-control text-uppercase", @readonly = "readonly" } })
                             @Html.ValidationMessageFor(model => model.Complemento, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -143,7 +143,7 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.Bairro, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            @Html.EditorFor(model => model.Bairro, new { htmlAttributes = new { @class = "form-control text-uppercase", id = "Bairro" } })
+                            @Html.EditorFor(model => model.Bairro, new { htmlAttributes = new { @class = "form-control text-uppercase", id = "Bairro", @readonly = "readonly" } })
                             @Html.ValidationMessageFor(model => model.Bairro, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -173,7 +173,7 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.Contato1, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
-                                @Html.EditorFor(model => model.Contato1, new { htmlAttributes = new { @class = "form-control text-uppercase", id = "Contato1" } })
+                                @Html.EditorFor(model => model.Contato1, new { htmlAttributes = new { @class = "form-control text-uppercase", id = "Contato1", @readonly = "readonly" } })
                                 @Html.ValidationMessageFor(model => model.Contato1, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -181,7 +181,7 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.Telefone1, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
-                                @Html.EditorFor(model => model.Telefone1, new { htmlAttributes = new { @class = "form-control", id = "Telefone1", style = "width: 150px;" } })
+                                @Html.EditorFor(model => model.Telefone1, new { htmlAttributes = new { @class = "form-control", id = "Telefone1", style = "width: 150px;", @readonly = "readonly" } })
                                 @Html.ValidationMessageFor(model => model.Telefone1, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -189,7 +189,7 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.Celular1, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
-                                @Html.EditorFor(model => model.Celular1, new { htmlAttributes = new { @class = "form-control", @id = "celular", style = "width: 150px;" } })
+                                @Html.EditorFor(model => model.Celular1, new { htmlAttributes = new { @class = "form-control", @id = "celular", style = "width: 150px;", @readonly = "readonly" } })
                                 @Html.ValidationMessageFor(model => model.Celular1, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -197,7 +197,7 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.Celular2, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
-                                @Html.EditorFor(model => model.Celular2, new { htmlAttributes = new { @class = "form-control", @id = "celular", style = "width: 150px;" } })
+                                @Html.EditorFor(model => model.Celular2, new { htmlAttributes = new { @class = "form-control", @id = "celular", style = "width: 150px;", @readonly = "readonly" } })
                                 @Html.ValidationMessageFor(model => model.Celular2, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -205,14 +205,14 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.Email1, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
-                                @Html.EditorFor(model => model.Email1, new { htmlAttributes = new { @class = "form-control text-uppercase", id = "Email1" } })
+                                @Html.EditorFor(model => model.Email1, new { htmlAttributes = new { @class = "form-control text-uppercase", id = "Email1", @readonly = "readonly" } })
                                 @Html.ValidationMessageFor(model => model.Email1, "", new { @class = "text-danger" })
                             </div>
                         </div>
                         <div class="form-group">
                             @Html.LabelFor(model => model.Email2, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
-                                @Html.EditorFor(model => model.Email2, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                                @Html.EditorFor(model => model.Email2, new { htmlAttributes = new { @class = "form-control text-uppercase", @readonly = "readonly" } })
                                 @Html.ValidationMessageFor(model => model.Email2, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -220,10 +220,9 @@
                 </div>
                 <div class="tab-pane fade" id="obs" role="tabpanel" aria-labelledby="registro-tab">
                     <br />
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Obs, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.Obs, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                    <div class="form-group">                        
+                        <div class="col-lg-12" style="align-content:center">
+                            @Html.TextAreaFor(model => model.Obs, 7, 600, new { htmlAttributes = new {@class = "form-control", @readonly = "readonly" } })
                             @Html.ValidationMessageFor(model => model.Obs, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -236,198 +235,16 @@
 
 
 <div>
-    @Html.ActionLink("Retornar à Lista", "../Home/Index")
+
 </div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    <script type="text/javascript">
-        $(function () { // will trigger when the document is ready
-            $('.datepickerData').datepicker(); //Initialise any date pickers
-        });
-    </script>
 
-    <script>
-        $(document).ready(function () {
-            $("#btContrato").click(function()
-            {
-                var id = $("#ddlContrato").val();
-               console.log(cep);
-               $.ajax({
-                   type: "POST",
-                   url: '@Url.Action("AdicionarContrato")',
-                   data: { id: id },
-                   success: function (result) {
-                       console.log(result);
-                   },
-                   error: function (result) {
+    @*<script>
 
-                   }
-                });
-            });
-        });
-    </script>
-    <script>
-        
         $('[id^=link]').click(function () {
             var id = $(this).attr('id');
-            //var tab1 = document.getElementById("link1");
-            //var tab2 = document.getElementById("link2");
-            //var tab3 = document.getElementById("link3");
-            //var tab4 = document.getElementById("link4");
-            var campoNome = document.getElementById("Nome").value;
-            var campoApelido = document.getElementById("Apelido").value;
-            var campoCep = document.getElementById("Cep").value;
-            var campoEndereco = document.getElementById("Endereco").value;
-            var campoBairro = document.getElementById("Bairro").value;
-            var campoEmail1 = document.getElementById("Email1").value;
-            var campoContato1 = document.getElementById("Contato1").value;
-            var campoTelefone1 = document.getElementById("Telefone1").value;
-          //verifica se tem a classe disabled
-          var teste = $(this).hasClass('disabled');         
-            if (teste)
-            {
-                if (id == "link1")
-                {
-                    if (!campoCep == "" && !campoEndereco == "" && !campoBairro == "" && !campoEmail1 == "" && !campoContato1 == "" && !campoTelefone1 == "")
-                    {
-                        $("#btnSalvar").submit()
-                        $(this).removeClass('disabled');
-                        return true;
-                    }
-                    else
-                    {
-                        $("#btnSalvar").submit()
-                        $(this).addClass('disabled');
-                        return false;
-                    }
-                }
-                else if(id == "link2")
-                {
-                    if (!campoNome == "" && !campoApelido == "" && !campoEmail1 == "" && !campoContato1 == "" && !campoTelefone1 == "")
-                    {
-                        $(this).removeClass('disabled');
-                        return true;
-                    }
-                    else
-                    {
-                        $("#btnSalvar").submit()
-                        $(this).addClass('disabled');
-                        return false;
-                    }
-                }
-                else if (id == "link3")
-                {
-                    if (!campoNome == "" && !campoApelido == "" && !campoCep == "" && !campoEndereco == "" && !campoBairro == "")
-                    {
-                        $(this).removeClass('disabled');
-                        return true;
-                    }
-                    else
-                    {
-                        $("#btnSalvar").submit()
-                        $(this).addClass('disabled');
-                        return false;
-                    }
-                }
-                else if (id == "link4")
-                {
-                    if (!campoNome == "" && !campoApelido == "" && !campoCep == "" && !campoEndereco == "" && !campoBairro == "" && !campoEmail1 == "" && !campoContato1 == "" && !campoTelefone1 == "")
-                    {
-                        $(this).removeClass('disabled');
-                        return true;
-                    }
-                    else
-                    {
-                        $("#btnSalvar").submit()
-                        $(this).addClass('disabled');
-                        return false;
-                    }
-                }
-                else 
-                {                    
-                    $("#btnSalvar").submit()
-                    return false;
-                }
-                
-            }
-            //se tiver não faz nada
-            else
-            {
-                /////////////////////////////////
-                if (id == "link1")
-                {
-                    if (!campoCep == "" && !campoEndereco == "" && !campoBairro == "" && !campoEmail1 == "" && !campoContato1 == "" && !campoTelefone1 == "")
-                    {
-                        $("#btnSalvar").submit()
-                        $(this).removeClass('disabled');
-                        return true;
-                    }
-                    else
-                    {
-                        $("#btnSalvar").submit()
-                        $(this).addClass('disabled');
-                        return false;
-                    }
-                }
-                else if(id == "link2")
-                {
-                    if (!campoNome == "" && !campoApelido == "" && !campoEmail1 == "" && !campoContato1 == "" && !campoTelefone1 == "")
-                    {
-                        $(this).removeClass('disabled');
-                        return true;
-                    }
-                    else
-                    {
-                        $("#btnSalvar").submit()
-                        $(this).addClass('disabled');
-                        return false;
-                    }
-                }
-                else if (id == "link3")
-                {
-                    if (!campoNome == "" && !campoApelido == "" && !campoCep == "" && !campoEndereco == "" && !campoBairro == "")
-                    {
-                        $(this).removeClass('disabled');
-                        return true;
-                    }
-                    else
-                    {
-                        $("#btnSalvar").submit()
-                        $(this).addClass('disabled');
-                        return false;
-                    }
-                }
-                else if (id == "link4")
-                {
-                    if (!campoNome == "" && !campoApelido == "" && !campoCep == "" && !campoEndereco == "" && !campoBairro == "" && !campoEmail1 == "" && !campoContato1 == "" && !campoTelefone1 == "")
-                    {
-                        $(this).removeClass('disabled');
-                        return true;
-                    }
-                    else
-                    {
-                        $("#btnSalvar").submit()
-                        $(this).addClass('disabled');
-                        return false;
-                    }
-                }
-                else 
-                {                    
-                    $("#btnSalvar").submit()
-                    return false;
-                }
-
-
-                ////adicionamos nele 
-                $(this).addClass('disabled');
-                //$(this).removeClass('disabled');
-
-                $("#btnSalvar").submit()
-                //$(this).addClass('disabled');
-                return false;
-            }
-        }
-        );
-    </script>
+);
+    </script>*@
 }

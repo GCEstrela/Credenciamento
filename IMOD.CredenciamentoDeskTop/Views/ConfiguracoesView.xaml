@@ -435,7 +435,7 @@
 
                                         <Label Content="Código:" Height="28" Width="53"  Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
                                         <TextBox CharacterCasing="Upper"  x:Name="TiposCombustiveis_tb"  Text="{Binding SelectedItem.TipoCombustivelId, ElementName=ListaTiposCombustiveis_lv, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"  Height="24"  Width="40"/>
-                                        <Label Content="Área de Acesso:" Height="28" Width="101"   Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                                        <Label Content="Combustível:" Height="28" Width="101"   Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
                                         <TextBox CharacterCasing="Upper"  x:Name="DescricaoTiposCombustiveis_tb"  Text="{Binding SelectedItem.Descricao, ElementName=ListaTiposCombustiveis_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="355"/>
 
                                     </StackPanel>
@@ -523,14 +523,33 @@
                                                 </GridView>
                                             </ListView.View>
                                         </ListView>
-                                    </StackPanel>
-                                    <Grid>
-                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="0,5,0,0" >
-                                            <Button x:Name="NovoCredencialStatus_bt" Content="Novo"  Height="30" Width="148" Margin="10,0,0,0" Click="NovoCredencialStatus_bt_Click"/>
-                                            <Button x:Name="SalvarCredencialStatus_bt" Content="Salvar" IsEnabled="False" Height="30" Width="148" Margin="10,0,0,0" Click="SalvarCredencialStatus_bt_Click"/>
-                                            <Button x:Name="DeletarCredencialStatus_bt" Content="Excluir"  Height="30" Width="148" Margin="10,0,0,0" Click="DeletarCredencialStatus_bt_Click"/>
+                                        <StackPanel Orientation="Vertical" Margin="0,0" Width="30" HorizontalAlignment="Right" Height="167" VerticalAlignment="Top" >
+                                            <Button x:Name="btnAdicionarCredencialStatus" ToolTip="Adicionar" Width="25" IsEnabled="False"
+                                                Margin="0,0,0,7" Click="btnAdicionarCredencialStatus_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/add.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnDeletarCredencialStatus" ToolTip="Remover" Width="25" IsEnabled="False"
+                                                    Margin="0,0,0,7" Click="btnDeletarCredencialStatus_Click" >
+                                                <StackPanel>
+                                                    <Image Source="../Resources/remove.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnCancelarCredencialStatus" ToolTip="Cancelar" Width="25"
+                                                Margin="0,0,0,7" Click="btnCancelarCredencialStatus_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/undo.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnSalvarCredencialStatus" ToolTip="Salvar" Width="25"
+                                                    Margin="0,0,0,7" Click="btnSalvarCredencialStatus_Click" IsEnabled="False">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/save.png"/>
+                                                </StackPanel>
+                                            </Button>
                                         </StackPanel>
-                                    </Grid>
+                                    </StackPanel>
                                 </StackPanel>
                             </GroupBox>
 
@@ -556,14 +575,34 @@
                                                 </GridView>
                                             </ListView.View>
                                         </ListView>
-                                    </StackPanel>
-                                    <Grid>
-                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="0,5,0,0" >
-                                            <Button x:Name="NovoTiposAcesso_bt" Content="Novo"  Height="30" Width="148" Margin="10,0,0,0" Click="NovoTiposAcesso_bt_Click"/>
-                                            <Button x:Name="SalvarTiposAcesso_bt" Content="Salvar" IsEnabled="False" Height="30" Width="148" Margin="10,0,0,0" Click="SalvarTiposAcesso_bt_Click"/>
-                                            <Button x:Name="DeletarTiposAcesso_bt" Content="Excluir"  Height="30" Width="148" Margin="10,0,0,0" Click="DeletarTiposAcesso_bt_Click"/>
+                                        <StackPanel Orientation="Vertical" Margin="0,0" Width="30" HorizontalAlignment="Right" Height="167" VerticalAlignment="Top" >
+                                            <Button x:Name="btnAdicionarTiposAcesso" ToolTip="Adicionar" Width="25"
+                                                Margin="0,0,0,7" Click="btnAdicionarTiposAcesso_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/add.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnDeletarTiposAcesso" ToolTip="Remover" Width="25"
+                                                    Margin="0,0,0,7" Click="btnDeletarTiposAcesso_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/remove.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnCancelarTiposAcesso" ToolTip="Cancelar" Width="25"
+                                                Margin="0,0,0,7" Click="btnCancelarTiposAcesso_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/undo.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnSalvarTiposAcesso" ToolTip="Salvar" Width="25"
+                                                    Margin="0,0,0,7" Click="btnSalvarTiposAcesso_Click" IsEnabled="False">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/save.png"/>
+                                                </StackPanel>
+                                            </Button>
                                         </StackPanel>
-                                    </Grid>
+                                    </StackPanel>
+                             
                                 </StackPanel>
                             </GroupBox>
 
@@ -592,14 +631,34 @@
                                                 </GridView>
                                             </ListView.View>
                                         </ListView>
-                                    </StackPanel>
-                                    <Grid>
-                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="0,5,0,0" >
-                                            <Button x:Name="NovoTecnologiasCredenciais_bt" Content="Novo"  Height="30" Width="148" Margin="10,0,0,0" Click="NovoTecnologiasCredenciais_bt_Click"/>
-                                            <Button x:Name="SalvarTecnologiasCredenciais_bt" Content="Salvar" IsEnabled="False" Height="30" Width="148" Margin="10,0,0,0" Click="SalvarTecnologiasCredenciais_bt_Click"/>
-                                            <Button x:Name="DeletarTecnologiasCredenciais_bt" Content="Excluir"  Height="30" Width="148" Margin="10,0,0,0" Click="DeletarTecnologiasCredenciais_bt_Click"/>
+
+                                        <StackPanel Orientation="Vertical" Margin="0,0" Width="30" HorizontalAlignment="Right" Height="167" VerticalAlignment="Top" >
+                                            <Button x:Name="btnAdicionarTecnologiasCredenciais" ToolTip="Adicionar" Width="25"
+                                                Margin="0,0,0,7" Click="btnAdicionarTecnologiasCredenciais_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/add.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnDeletarTecnologiasCredenciais" ToolTip="Remover" Width="25"
+                                                    Margin="0,0,0,7" Click="btnDeletarTecnologiasCredenciais_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/remove.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnCancelarTecnologiasCredenciais" ToolTip="Cancelar" Width="25"
+                                                Margin="0,0,0,7" Click="btnCancelarTecnologiasCredenciais_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/undo.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnSalvarTecnologiasCredenciais" ToolTip="Salvar" Width="25"
+                                                    Margin="0,0,0,7" Click="btnSalvarTecnologiasCredenciais_Click" IsEnabled="False">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/save.png"/>
+                                                </StackPanel>
+                                            </Button>
                                         </StackPanel>
-                                    </Grid>
+                                    </StackPanel>
                                 </StackPanel>
                             </GroupBox>
 
@@ -627,14 +686,34 @@
                                                 </GridView>
                                             </ListView.View>
                                         </ListView>
-                                    </StackPanel>
-                                    <Grid>
-                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="0,5,0,0" >
-                                            <Button x:Name="NovoFormatosCredenciais_bt" Content="Novo"  Height="30" Width="148" Margin="10,0,0,0" Click="NovoFormatoCredencial_bt_Click"/>
-                                            <Button x:Name="SalvarFormatosCredenciais_bt" Content="Salvar" IsEnabled="False" Height="30" Width="148" Margin="10,0,0,0" Click="SalvarFormatoCredencial_bt_Click"/>
-                                            <Button x:Name="DeletarFormatosCredenciais_bt" Content="Excluir"  Height="30" Width="148" Margin="10,0,0,0" Click="DeletarFormatoCredencial_bt_Click"/>
+                                        <StackPanel Orientation="Vertical" Margin="0,0" Width="30" HorizontalAlignment="Right" Height="167" VerticalAlignment="Top" >
+                                            <Button x:Name="btnAdicionarFormatosCredenciais" ToolTip="Adicionar" Width="25"
+                                                Margin="0,0,0,7" Click="btnAdicionarFormatosCredenciais_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/add.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnDeletarFormatosCredenciais" ToolTip="Remover" Width="25"
+                                                    Margin="0,0,0,7" Click="btnDeletarFormatosCredenciais_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/remove.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnCancelarFormatosCredenciais" ToolTip="Cancelar" Width="25"
+                                                Margin="0,0,0,7" Click="btnCancelarFormatosCredenciais_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/undo.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnSalvarFormatosCredenciais" ToolTip="Salvar" Width="25"
+                                                    Margin="0,0,0,7" Click="btnSalvarFormatosCredenciais_Click" IsEnabled="False">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/save.png"/>
+                                                </StackPanel>
+                                            </Button>
                                         </StackPanel>
-                                    </Grid>
+
+                                    </StackPanel>
                                 </StackPanel>
                             </GroupBox>
 

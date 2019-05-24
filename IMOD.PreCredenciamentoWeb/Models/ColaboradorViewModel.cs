@@ -32,6 +32,7 @@ namespace IMOD.PreCredenciamentoWeb.Models
         public string Foto { get; set; }
         [Display(Name = "Estado Civil")]
         public string EstadoCivil { get; set; }
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:###-##-####}")]
         public string Cpf { get; set; }
         public string Rg { get; set; }
         [Display(Name = "Emissão RG")]
