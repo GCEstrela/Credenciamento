@@ -736,9 +736,155 @@
                     Alert(result);
                 }
             });
+        };
+         
+        $('[id^=link]').click(function () {
+
+            //var isValid = ${ ViewData.ModelState.IsValid };
+            //var isValid = ${ViewData.ModelState.IsValid};
+
+            var id = $(this).attr('id');
+
+            var campoCpf = document.getElementById("Cpf").value;
+            var campoNome = document.getElementById("Nome").value;
+            var campoApelido = document.getElementById("Apelido").value;
+
+            var campoCep = document.getElementById("Cep").value;
+            var campoEndereco = document.getElementById("Endereco").value;
+            var campoBairro = document.getElementById("Bairro").value;
+            var campoNumero = document.getElementById("Numero").value;
+            var campoEstadoId = document.getElementById("EstadoId").value;
+            var campoMunicipioId = document.getElementById("MunicipioId").value;
+
+            var campoContatoEmergencia = document.getElementById("ContatoEmergencia").value;
+            var campoTelefoneEmergencia = document.getElementById("TelefoneEmergencia").value;
+            //var campoTelefone1 = document.getElementById("Telefone1").value;
+            //verifica se tem a classe disabled
+            var teste = $(this).hasClass('disabled');
+            if (teste) {
+                if (id == "link1") {
+                    if (!campoCep == "" && !campoEndereco == "" && !campoBairro == "" && !campoNumero == "" && !campoEstadoId == "" && !campoMunicipioId == "" && !campoContatoEmergencia == "" && !campoTelefoneEmergencia == "")  //
+                    {
+                        $("#btnSalvar").submit()
+                        $(this).removeClass('disabled');
+                        return true;
+                    }
+                    else {
+                        $("#btnSalvar").submit()
+                        $(this).addClass('disabled');
+                        return false;
+                    }
+                }
+                else if (id == "link2") {
+                    //$(tab1).addClass('disabled');
+                    //$(tab3).addClass('disabled');
+                    //$(tab4).addClass('disabled');
+                    if (!campoNome == "" && !campoApelido == "" && !campoCpf == "" && !campoContatoEmergencia == "" && !campoTelefoneEmergencia == "")
+                    {
+                        $(this).removeClass('disabled');
+                        return true;
+                    }
+                    else {
+                        $("#btnSalvar").submit()
+                        $(this).addClass('disabled');
+                        return false;
+                    }
+                }
+                else if (id == "link3") {
+                    //$(tab1).addClass('disabled');
+                    //$(tab2).addClass('disabled');
+                    //$(tab4).addClass('disabled');
+                    if (!campoNome == "" && !campoApelido == "" && !campoCpf == "" && !campoCep == "" && !campoEndereco == "" && !campoBairro == "" && !campoNumero == "" && !campoEstadoId == "" && !campoMunicipioId == "")
+                    {
+                        $(this).removeClass('disabled');
+                        return true;
+                    }
+                    else {
+                        $("#btnSalvar").submit()
+                        $(this).addClass('disabled');
+                        return false;
+                    }
+                }
+                else if (id == "link4") {
+                    //$(tab1).addClass('disabled');
+                    //$(tab2).addClass('disabled');
+                    //$(tab4).addClass('disabled');
+                    if (!campoNome == "" && !campoApelido == "" && !campoCpf == "" && !campoCep == "" && !campoEndereco == "" && !campoBairro == "" && !campoNumero == "" && !campoEstadoId == "" && !campoMunicipioId == "" && !campoContatoEmergencia == "" && !campoTelefoneEmergencia == "")
+                    {
+                        $(this).removeClass('disabled');
+                        return true;
+                    }
+                    else {
+                        $("#btnSalvar").submit()
+                        $(this).addClass('disabled');
+                        return false;
+                    }
+                }
+                else if (id == "link5") {
+                    //$(tab1).addClass('disabled');
+                    //$(tab2).addClass('disabled');
+                    //$(tab4).addClass('disabled');
+                    if (!campoNome == "" && !campoApelido == "" && !campoCpf == "" && !campoCep == "" && !campoEndereco == "" && !campoBairro == "" && !campoNumero == "" && !campoEstadoId == "" && !campoMunicipioId == "" && !campoContatoEmergencia == "" && !campoTelefoneEmergencia == "")
+                    {
+                        $(this).removeClass('disabled');
+                        return true;
+                    }
+                    else {
+                        $("#btnSalvar").submit()
+                        $(this).addClass('disabled');
+                        return false;
+                    }
+                }
+                else if (id == "link6") {
+                    //$(tab1).addClass('disabled');
+                    //$(tab2).addClass('disabled');
+                    //$(tab4).addClass('disabled');
+                    if (!campoNome == "" && !campoApelido == "" && !campoCpf == "" && !campoCep == "" && !campoEndereco == "" && !campoBairro == "" && !campoNumero == "" && !campoEstadoId == "" && !campoMunicipioId == "" && !campoContatoEmergencia == "" && !campoTelefoneEmergencia == "")
+                    {
+                        $(this).removeClass('disabled');
+                        return true;
+                    }
+                    else {
+                        $("#btnSalvar").submit()
+                        $(this).addClass('disabled');
+                        return false;
+                    }
+                }
+                else if (id == "link7") {
+                    //$(tab1).addClass('disabled');
+                    //$(tab2).addClass('disabled');
+                    //$(tab4).addClass('disabled');
+                    if (!campoNome == "" && !campoApelido == "" && !campoCpf == "" && !campoCep == "" && !campoEndereco == "" && !campoBairro == "" && !campoNumero == "" && !campoEstadoId == "" && !campoMunicipioId == "" && !campoContatoEmergencia == "" && !campoTelefoneEmergencia == "")
+                    {
+                        $(this).removeClass('disabled');
+                        return true;
+                    }
+                    else {
+                        $("#btnSalvar").submit()
+                        $(this).addClass('disabled');
+                        return false;
+                    }
+                }
+                else
+                {
+
+                    $("#btnSalvar").submit()
+                    //$(this).addClass('disabled');
+                    return false;
+                }
+
+            }
+            //se tiver não faz nada
+            else {
+                ////adicionamos nele
+                $(this).addClass('disabled');
+                $("#btnSalvar").submit()
+                //$(this).addClass('disabled');
+                return false;
+            }
         }
-
+        );
     </script>
-
+   
 
 }
