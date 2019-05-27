@@ -104,6 +104,7 @@ namespace IMOD.PreCredenciamentoWeb.Models
         //public IEnumerable<Estados> Estados { get; set; }
         [Display(Name = "Constrato Empresa")]
         public string ContratoEmpresaID { get; set; }
+        public bool Precadastro { get; set; }
 
         #endregion
     }
