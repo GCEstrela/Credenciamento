@@ -53,6 +53,60 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         public ActionResult Details(int id)
         {
             if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
+            //Remove itens da sessão
+            Session.Remove(SESS_CONTRATOS_SELECIONADOS);
+            Session.Remove(SESS_CONTRATOS_REMOVIDOS);
+            Session.Remove(SESS_CURSOS_SELECIONADOS);
+            Session.Remove(SESS_CURSOS_REMOVIDOS);
+            ViewBag.Contratos = new List<EmpresaContrato>();
+            ViewBag.Cursos = new List<Curso>();
+            ViewBag.CursosSelecionados = new List<Curso>();
+
+            //Obtem o colaborador pelo ID
+            var colaboradorEditado = objService.Listar(id).FirstOrDefault();
+            if (colaboradorEditado == null)
+                return HttpNotFound();
+
+            //obtém vinculos do colaborador
+            ColaboradorViewModel colaboradorMapeado = Mapper.Map<ColaboradorViewModel>(colaboradorEditado);
+
+            // carrega os contratosd da empresa
+            if (SessionUsuario.EmpresaLogada.Contratos != null)
+            {
+                ViewBag.Contratos = SessionUsuario.EmpresaLogada.Contratos;
+            }
+
+            //Popula contratos secelionados
+            ViewBag.ContratosSelecionados = new List<ColaboradorEmpresaViewModel>();
+            var listaVinculosColaborador = Mapper.Map<List<ColaboradorEmpresaViewModel>>(objColaboradorEmpresaService.Listar(colaboradorEditado.ColaboradorId));
+            ViewBag.ContratosSelecionados = listaVinculosColaborador;
+            Session.Add(SESS_CONTRATOS_SELECIONADOS, listaVinculosColaborador);
+
+            //Propula combo de estado
+            PopularEstadosDropDownList();
+
+            //Preenchie combo municipio de acordo com o estado
+            ViewBag.Municipio = new List<Municipio>();
+            var lstMunicipio = objAuxiliaresService.MunicipioService.Listar(null, null, colaboradorMapeado.EstadoId).OrderBy(m => m.Nome);
+            if (lstMunicipio != null) { ViewBag.Municipio = lstMunicipio; };
+
+            PopularDadosDropDownList();
+
+            //Preenche combo com todos os cursos
+            var listCursos = objCursosService.Listar().OrderBy(c => c.Descricao);
+            if (listCursos != null && listCursos.Any()) { ViewBag.Cursos = listCursos; };
+
+            //Popula cussos selecionados do colaborador
+            var cursosColaborador = objColaboradorCursosService.Listar(colaboradorEditado.ColaboradorId);
+            var cusosSelecionados = listCursos.Where(c => (cursosColaborador.Where(p => p.CursoId == c.CursoId).Count() > 0)).ToList();
+            if (cusosSelecionados != null && cusosSelecionados.Any())
+            {
+                ViewBag.CursosSelecionados = cusosSelecionados;
+                Session.Add(SESS_CURSOS_SELECIONADOS, cusosSelecionados);
+            }
+
+            return View(colaboradorMapeado);
+
             return View();
         }
 
