@@ -205,7 +205,8 @@
                       SelectedIndex="{Binding SelectListViewIndex}"
                       SelectedItem="{Binding Entity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                       Margin="0,0,5,0" Width="1258" PreviewKeyDown="LstView_PreviewKeyDown">
-                <ListView.View  >
+                <ListView.View>
+                    
                     <GridView FrameworkElement.FlowDirection="RightToLeft">
                         <!--<GridViewColumn >
                             <GridViewColumn.CellTemplate>
@@ -215,7 +216,7 @@
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>-->
                         <GridViewColumn Width="55"  Header="Código"                     DisplayMemberBinding="{Binding ColaboradorId}" />
-                        <GridViewColumn Width="115" Header="CPF"                        DisplayMemberBinding="{Binding CpfMascara}" />
+                        <GridViewColumn Width="115" Header="CPF"                        DisplayMemberBinding="{Binding CpfMascara}"/>
                         <GridViewColumn Width="250" Header="Nome do Colaborador"        DisplayMemberBinding="{Binding Nome}" />
                         <GridViewColumn Width="150" Header="Apelido do Colaborador"     DisplayMemberBinding="{Binding Apelido}" />
                         <GridViewColumn Width="115" Header="Telefone"                   DisplayMemberBinding="{Binding TelefoneFixo}" />

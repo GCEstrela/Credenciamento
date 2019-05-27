@@ -225,12 +225,14 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             try
             {
                 
+
                 System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
                 if (!IsEnablePreCadastro)
                 {
                     var list2 = Mapper.Map<List<ColaboradorView>>(list.ToList().OrderBy(c => c.Nome));
                     EntityObserver = new ObservableCollection<ColaboradorView>();
                     list2.ForEach(n => { EntityObserver.Add(n); });
+                    
                     //Havendo registros, selecione o primeiro
                     //if (EntityObserver.Any()) SelectListViewIndex = 0;
                 }
@@ -308,6 +310,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 {
                     if (string.IsNullOrWhiteSpace (pesquisa)) return;
                     var l1 = _service.Listar (null, null, $"%{pesquisa}%", IsEnablePreCadastro);
+                    
                     PopularObserver (l1);
                     
                 }
