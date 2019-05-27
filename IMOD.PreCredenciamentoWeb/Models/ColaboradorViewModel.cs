@@ -35,12 +35,12 @@ namespace IMOD.PreCredenciamentoWeb.Models
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:###-##-####}")]
         public string Cpf { get; set; }
         public string Rg { get; set; }
-        [Display(Name = "Emissão RG")]
+        [Display(Name = "Emissão")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime? RgEmissao { get; set; }
-        [Display(Name = "Órgão Emissor RG")]
+        [Display(Name = "Órgão Emissor")]
         public string RgOrgLocal { get; set; }
-        [Display(Name = "UF RG")]
+        [Display(Name = "UF")]
         public string RgOrgUf { get; set; }
         public string Passaporte { get; set; }
         [DataType(DataType.Date)]
@@ -72,7 +72,7 @@ namespace IMOD.PreCredenciamentoWeb.Models
         [Required(ErrorMessage = "O Bairro é requerido.")]
         public string Bairro { get; set; }
         public bool Ativo { get; set; }
-        //[Range(1, int.MaxValue, ErrorMessage = "O Município é requerido.")]
+        [Range(1, int.MaxValue, ErrorMessage = "O Município é requerido.")]
         [Display(Name = "Municipio")]
         public int MunicipioId { get; set; }
         [Range(1, int.MaxValue, ErrorMessage = "O Estado é requerido.")]
@@ -104,6 +104,7 @@ namespace IMOD.PreCredenciamentoWeb.Models
         //public IEnumerable<Estados> Estados { get; set; }
         [Display(Name = "Constrato Empresa")]
         public string ContratoEmpresaID { get; set; }
+        public bool Precadastro { get; set; }
 
         #endregion
     }
