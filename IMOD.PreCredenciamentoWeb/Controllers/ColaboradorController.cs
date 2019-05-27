@@ -152,6 +152,22 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                 }
 
                 // Se ocorrer um erro retorna para pagina
+                if (SessionUsuario.EmpresaLogada.Contratos != null) { ViewBag.Contratos = SessionUsuario.EmpresaLogada.Contratos; }
+                ViewBag.ContratosSelecionados = new List<ColaboradorEmpresaViewModel>();
+
+                //carrega os cursos
+                var listCursos = objCursosService.Listar().ToList();
+                if (listCursos != null && listCursos.Any()) { ViewBag.Cursos = listCursos; }
+                ViewBag.CursosSelecionados = new List<Curso>();
+
+                PopularEstadosDropDownList();
+                ViewBag.Municipio = new List<Municipio>();
+                if (model.EstadoId > 0)
+                {
+                    var lstMunicipio = objAuxiliaresService.MunicipioService.Listar(null, null, model.EstadoId).OrderBy(m => m.Nome);
+                    ViewBag.Municipio = lstMunicipio;
+                }
+
                 PopularEstadosDropDownList();
                 PopularDadosDropDownList();
                 return View(model);
