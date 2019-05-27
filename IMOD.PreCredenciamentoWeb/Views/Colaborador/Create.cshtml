@@ -61,7 +61,7 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.Cpf, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-3">
-                            @Html.EditorFor(model => model.Cpf, new { htmlAttributes = new { @class = "form-control disabled", @id = "cpf"} })
+                            @Html.EditorFor(model => model.Cpf, new { htmlAttributes = new { @class = "form-control disabled", @id = "cpf" } })
                             @Html.ValidationMessageFor(model => model.Cpf, "", new { @class = "text-danger" })
                         </div>
                         @Html.LabelFor(model => model.Estrangeiro, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -478,6 +478,32 @@
                         Alert(result);
                     }
                 });
+                });
+
+
+                $('#cpf').focusout(function () {
+                     cpf = $('#cpf').val();
+                    $.ajax({
+                        type: "POST",
+                        url: '@Url.Action("ConsultarCPF")',
+                        data: {
+                            cpf: cpf,
+                        },
+                        success: function (result) {
+                            if (result != null) {
+                                alert("Colaborador ja cadastrato. Procure o credenciamento local para associá-lo ao contrato.");
+                                $('#cpf').val('');
+                            }
+                        },
+                        error: function (result) {
+                            Alert(result);
+                        }
+
+                    });
+                });
+
+
+
             });
 
              //evento do botão incluir curso
@@ -512,7 +538,6 @@
                 BuscarMunicipio();
             });
 
-        });
     </script>
     <script>
 

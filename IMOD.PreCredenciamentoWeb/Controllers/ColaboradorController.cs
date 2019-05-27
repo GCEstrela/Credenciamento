@@ -422,6 +422,13 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         }
 
 
+        public JsonResult ConsultarCPF(string cpf)
+        {
+            var colaborador = objService.ObterPorCpf(cpf);
+            return Json(colaborador, JsonRequestBehavior.AllowGet);
+        }
+
+
         #region Métodos internos carregar componentes
 
         private void PopularEstadosDropDownList()
