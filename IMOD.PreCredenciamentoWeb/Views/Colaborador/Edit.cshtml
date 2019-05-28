@@ -66,7 +66,7 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.Cpf, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-4">
-                            @Html.EditorFor(model => model.Cpf, new { htmlAttributes = new { @class = "form-control disabled", @id = "cpf", @readonly = "readonly" } })
+                            @Html.EditorFor(model => model.Cpf, new { htmlAttributes = new { @class = "form-control disabled", @id = "Cpf", @readonly = "readonly" } })
                             @Html.ValidationMessageFor(model => model.Cpf, "", new { @class = "text-danger" })
                         </div>
                         @Html.LabelFor(model => model.Estrangeiro, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -588,10 +588,10 @@
 
             var campoCep = document.getElementById("Cep").value;
             var campoEndereco = document.getElementById("Endereco").value;
-            var campoBairro = document.getElementById("Bairro").value;
+            var campoBairro = document.getElementById("ddlBairro").value;
             var campoNumero = document.getElementById("Numero").value;
-            var campoEstadoId = document.getElementById("EstadoId").value;
-            var campoMunicipioId = document.getElementById("MunicipioId").value;
+            var campoEstadoId = document.getElementById("ddlEstado").value;
+            var campoMunicipioId = document.getElementById("ddlMunicipio").value;
 
             var campoContatoEmergencia = document.getElementById("ContatoEmergencia").value;
             var campoTelefoneEmergencia = document.getElementById("TelefoneEmergencia").value;
