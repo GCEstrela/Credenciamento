@@ -246,8 +246,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
             var id = Entity.EmpresaId;
             var objTipocredenciaisEmpresa = _service.ListarTipoCredenciaisEmpresa (id).ToList();
-            QuantidadeTipoCredencialPermanente = objTipocredenciaisEmpresa.Count (p => p.TipoCredencialId == 1);
-            QuantidadeTipoCredencialTemporario = objTipocredenciaisEmpresa.Count (p => p.TipoCredencialId == 2);
+            QuantidadeTipoCredencialPermanente = objTipocredenciaisEmpresa.Count (p => p.TipoCredencialId == 1 && p.Impressa == true);
+            QuantidadeTipoCredencialTemporario = objTipocredenciaisEmpresa.Count (p => p.TipoCredencialId == 2 && p.Impressa == true);
         }
 
         /// <summary>

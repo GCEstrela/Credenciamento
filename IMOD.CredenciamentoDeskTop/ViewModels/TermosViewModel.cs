@@ -131,19 +131,26 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     {
                         colaboradorCredencial.Emissao = DateTime.Parse(dataIni);
                         colaboradorCredencial.EmissaoFim = DateTime.Parse(dataFim);
-                        mensagemPeriodo = "o perído de  " + dataIni + " a " + dataFim + "";
+                        mensagemPeriodo = "Durante o perído de  " + dataIni + " a " + dataFim + "";
                     }
                 }
                 else
                 {
                     colaboradorCredencial.Emissao = DateTime.Now.AddDays(-periodo).Date;
                     colaboradorCredencial.EmissaoFim = DateTime.Now;
-                    mensagemPeriodo = "o perído de  " + periodo.ToString() + " dias";
+                    if (periodo > 0)
+                    {
+                        mensagemPeriodo = "Durante o perído de  " + periodo.ToString() + " dias";
+                    }
+                    else
+                    {
+                        mensagemPeriodo = "Hoje";
+                    }
                 }
                 colaboradorCredencial.Periodo = periodo;
                 colaboradorCredencial.CredencialMotivoId = 0;
 
-                mensagem = "Durante " + mensagemPeriodo + " esse setor  de credenciamento do " + mensagemComplemento + ", emitiu as seguintes credenciais: ";
+                mensagem = mensagemPeriodo + " esse setor  de credenciamento do " + mensagemComplemento + ", emitiu as seguintes credenciais: ";
 
                 var termo = _relatorioGerencialServiceService.BuscarPelaChave(report);
                 if (termo == null || termo.ArquivoRpt == null || String.IsNullOrEmpty(termo.ArquivoRpt)) return;
@@ -201,19 +208,26 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     {
                         colaboradorCredencial.Emissao = DateTime.Parse(dataIni);
                         colaboradorCredencial.EmissaoFim = DateTime.Parse(dataFim);
-                        mensagemPeriodo = "o perído de  " + dataIni + " a " + dataFim + "";
+                        mensagemPeriodo = "Durante o perído de  " + dataIni + " a " + dataFim + "";
                     }
                 }
                 else
                 {
                     colaboradorCredencial.Emissao = DateTime.Now.AddDays(-periodo).Date;
                     colaboradorCredencial.EmissaoFim = DateTime.Now;
-                    mensagemPeriodo = "o perído de  " + periodo.ToString() + " dias";
+                    if (periodo > 0)
+                    {
+                        mensagemPeriodo = "Durante o perído de  " + periodo.ToString() + " dias";
+                    }
+                    else
+                    {
+                        mensagemPeriodo = "Hoje";
+                    }
                 }
                 colaboradorCredencial.Periodo = periodo;
                 colaboradorCredencial.CredencialStatusId = 1;
 
-                mensagem = "Durante " + mensagemPeriodo + " esse setor  de credenciamento do " + mensagemComplemento + ", concedeu as seguintes credenciais: ";
+                mensagem = mensagemPeriodo + " esse setor  de credenciamento do " + mensagemComplemento + ", concedeu as seguintes credenciais: ";
 
                 var result = objColaboradorCredencial.ListarColaboradorCredencialConcedidasView(colaboradorCredencial);
                 var resultMapeado = Mapper.Map<List<Views.Model.RelColaboradoresCredenciaisView>>(result.OrderByDescending(n => n.ColaboradorCredencialId).ToList());
@@ -284,21 +298,28 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     {
                         colaboradorCredencial.Emissao = DateTime.Parse(dataIni);
                         colaboradorCredencial.EmissaoFim = DateTime.Parse(dataFim);
-                        mensagemPeriodo = "o perído de  " + dataIni + " a " + dataFim + "";
+                        mensagemPeriodo = "Durante o perído de  " + dataIni + " a " + dataFim + "";
                     }
                 }
                 else
                 {
                     colaboradorCredencial.Emissao = DateTime.Now.AddDays(-periodo).Date;
                     colaboradorCredencial.EmissaoFim = DateTime.Now;
-                    mensagemPeriodo = "o perído de  " + periodo.ToString() + " dias";
+                    if (periodo > 0)
+                    {
+                        mensagemPeriodo = "Durante o perído de  " + periodo.ToString() + " dias";
+                    }
+                    else
+                    {
+                        mensagemPeriodo = "Hoje";
+                    }
                 }
 
                 colaboradorCredencial.Periodo = periodo;
                 colaboradorCredencial.CredencialStatusId = 2; // status desativado
                 colaboradorCredencial.Impressa = true;
 
-                mensagem = "Durante " + mensagemPeriodo + " esse setor  de credenciamento do " + mensagemComplemento + ", " + verbo + " as seguintes credenciais: ";
+                mensagem = mensagemPeriodo + " esse setor  de credenciamento do " + mensagemComplemento + ", " + verbo + " as seguintes credenciais: ";
 
                 var termo = _relatorioGerencialServiceService.BuscarPelaChave(report);
                 if (termo == null || termo.ArquivoRpt == null || String.IsNullOrEmpty(termo.ArquivoRpt)) return;
@@ -357,19 +378,27 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     {
                         filtroAutorizacao.Emissao = DateTime.Parse(dataIni);
                         filtroAutorizacao.EmissaoFim = DateTime.Parse(dataFim);
-                        mensagemPeriodo = "o perído de  " + dataIni + " a " + dataFim + "";
+                        mensagemPeriodo = "Durante o perído de  " + dataIni + " a " + dataFim + "";
                     }
                 }
                 else
                 {
                     filtroAutorizacao.Emissao = DateTime.Now.AddDays(-periodo).Date;
                     filtroAutorizacao.EmissaoFim = DateTime.Now;
-                    mensagemPeriodo = "o perído de  " + periodo.ToString() + " dias";
+                    if (periodo > 0)
+                    {
+                        mensagemPeriodo = "Durante o perído de  " + periodo.ToString() + " dias";
+                    }
+                    else
+                    {
+                        mensagemPeriodo = "Hoje";
+                    }
+
                 }
                 filtroAutorizacao.Periodo = periodo;
                 filtroAutorizacao.CredencialMotivoId = 0;
 
-                mensagem = "Durante " + mensagemPeriodo + " esse setor  de credenciamento do " + mensagemComplemento + ", emitiu as seguintes credenciais: ";
+                mensagem = mensagemPeriodo + " esse setor  de credenciamento do " + mensagemComplemento + ", emitiu as seguintes credenciais: ";
 
                 var termo = _relatorioGerencialServiceService.BuscarPelaChave(report);
                 if (termo == null || termo.ArquivoRpt == null || String.IsNullOrEmpty(termo.ArquivoRpt)) return;
@@ -424,19 +453,26 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     {
                         filtroAutorizacao.Emissao = DateTime.Parse(dataIni);
                         filtroAutorizacao.EmissaoFim = DateTime.Parse(dataFim);
-                        mensagemPeriodo = "o perído de  " + dataIni + " a " + dataFim + "";
+                        mensagemPeriodo = "Durante o perído de  " + dataIni + " a " + dataFim + "";
                     }
                 }
                 else
                 {
                     filtroAutorizacao.Emissao = DateTime.Now.AddDays(-periodo).Date;
                     filtroAutorizacao.EmissaoFim = DateTime.Now;
-                    mensagemPeriodo = "o perído de  " + periodo.ToString() + " dias";
+                    if (periodo > 0)
+                    {
+                        mensagemPeriodo = "Durante o perído de  " + periodo.ToString() + " dias";
+                    }
+                    else
+                    {
+                        mensagemPeriodo = "Hoje";
+                    }
                 }
                 filtroAutorizacao.Periodo = periodo;
                 filtroAutorizacao.CredencialStatusId = 1;
 
-                mensagem = "Durante " + mensagemPeriodo + " esse setor  de credenciamento do " + mensagemComplemento + ", concedeu as seguintes credenciais: ";
+                mensagem = mensagemPeriodo + " esse setor  de credenciamento do " + mensagemComplemento + ", concedeu as seguintes credenciais: ";
 
                 var termo = _relatorioGerencialServiceService.BuscarPelaChave(report); 
                 if (termo == null || termo.ArquivoRpt == null || String.IsNullOrEmpty(termo.ArquivoRpt)) return; 
@@ -510,21 +546,28 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     {
                         filtroAutorizacao.Emissao = DateTime.Parse(dataIni);
                         filtroAutorizacao.EmissaoFim = DateTime.Parse(dataFim);
-                        mensagemPeriodo = "o perído de  " + dataIni + " a " + dataFim + "";
+                        mensagemPeriodo = "Durante o perído de  " + dataIni + " a " + dataFim + "";
                     }
                 } 
                 else
                 {
                     filtroAutorizacao.Emissao = DateTime.Now.AddDays(-periodo).Date; 
                     filtroAutorizacao.EmissaoFim = DateTime.Now;
-                    mensagemPeriodo = "o perído de  " + periodo.ToString() + " dias";
+                    if (periodo > 0)
+                    {
+                        mensagemPeriodo = "Durante o perído de  " + periodo.ToString() + " dias";
+                    }
+                    else
+                    {
+                        mensagemPeriodo = "Hoje";
+                    }
                 } 
 
                 filtroAutorizacao.Periodo = periodo;
                 filtroAutorizacao.CredencialStatusId = 2;
                 filtroAutorizacao.Impressa = true;
 
-                mensagem = "Durante " + mensagemPeriodo + " esse setor  de credenciamento do " + mensagemComplemento + ", " + verbo + " as seguintes autorizações: ";
+                mensagem = mensagemPeriodo + " esse setor  de credenciamento do " + mensagemComplemento + ", " + verbo + " as seguintes autorizações: ";
                 var termo = _relatorioGerencialServiceService.BuscarPelaChave(report);
                 if (termo == null || termo.ArquivoRpt == null || String.IsNullOrEmpty(termo.ArquivoRpt)) return;
 
