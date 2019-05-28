@@ -57,6 +57,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         private void OnListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            Geral_ti.IsSelected = true;
             if (_viewModel.Entity == null) return;
             //Atualizar dados ao selecionar uma linha da listview
             _viewModel.AtualizarDadosPendencias();
@@ -310,6 +311,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             try
             {
+                //Geral_ti.IsSelected = true;
                 _viewModel.EntityObserver.Clear();
                 _viewModel.IsEnablePreCadastro = true;
                 _viewModel.IsEnablePreCadastroCredenciamento = false;
