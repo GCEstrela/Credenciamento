@@ -24,7 +24,10 @@ namespace IMOD.Domain.Entities
         public string EmailUsuario { get; set; }
         public string EmailSenha { get; set; }
         public string UrlSistema { get; set; }
-
+        public int imagemResolucao { get; set; }
+        public int imagemTamanho { get; set; }
+        public int arquivoTamanho { get; set; }
+        
         #endregion
     }
 }

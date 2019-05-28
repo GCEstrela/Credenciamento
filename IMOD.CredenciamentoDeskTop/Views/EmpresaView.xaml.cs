@@ -186,7 +186,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
             try
             {
                 var filtro = "Images (*.BMP;*.JPG;*.GIF,*.PNG,*.TIFF)|*.BMP;*.JPG;*.GIF;*.PNG;*.TIFF|" + "All files (*.*)|*.*";
-                var arq = WpfHelp.UpLoadArquivoDialog(filtro,200);
+                var arq = WpfHelp.UpLoadArquivoDialog(filtro, _viewModel.IsTamanhoImagem);
                 if (arq == null) return;
                 _viewModel.Entity.Logo = arq.FormatoBase64;
                 var binding = BindingOperations.GetBindingExpression(Logo_im, Image.SourceProperty);

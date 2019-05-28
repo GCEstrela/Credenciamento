@@ -34,8 +34,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
         private readonly IEmpresaService _service = new EmpresaService();
         private List<EmpresaView> _entityObserverCloned = new List<EmpresaView>();
+
         private readonly IEmpresaContratosService _serviceContratos = new EmpresaContratoService();
         private ConfiguraSistema _configuraSistema;
+
         public Boolean empresaFake = false;
         /// <summary>
         ///     True, Comando de alteração acionado
@@ -145,7 +147,16 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public int QuantidadeTipoCredencialTemporario { get; set; }
 
         public int QuantidadeTipoCredencialPermanente { get; set; }
-       
+        /// <summary>
+        ///     Tamanho da Imagem
+        /// </summary>
+        public int IsTamanhoImagem
+        {
+            get
+            {
+                return _configuraSistema.imagemTamanho;
+            }
+        }
         #endregion
 
         public EmpresaViewModel()
