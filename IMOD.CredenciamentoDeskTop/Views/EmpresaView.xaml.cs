@@ -273,5 +273,25 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 //WpfHelp.Mbox(ex.ToString());
             }
         }
+
+        private void Fake1_Checked(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                _viewModel.empresaFake = true;
+                txtCnpj.Text = "00.000.000/0000-00";
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+        private void Fake1_Unchecked(object sender, RoutedEventArgs e)
+        {
+            _viewModel.empresaFake = false;
+        }
+
+        
     }
 }
