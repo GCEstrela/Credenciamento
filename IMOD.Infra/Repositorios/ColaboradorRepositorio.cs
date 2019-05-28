@@ -267,6 +267,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Pendente24", entity.Pendente24, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Pendente25", entity.Pendente25, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Estrangeiro", entity.Estrangeiro, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Precadastro", entity.Precadastro, false)));
                         //cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Policiafederal", entity.Policiafederal, false)));
                         //cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Receitafederal", entity.Receitafederal, false)));
                         //cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Segurancatrabalho", entity.Segurancatrabalho, false)));

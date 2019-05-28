@@ -34,6 +34,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private EmpresaView _empresaView;
         private EmpresaViewModel _viewModelParent;
 
+        private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
+        private readonly IEmpresaContratosService _serviceContratos = new EmpresaContratoService();
+        private ConfiguraSistema _configuraSistema;
+
         #region  Propriedades
 
         public EmpresaAnexoView Entity { get; set; }
@@ -47,6 +51,16 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         ///     Seleciona indice da listview
         /// </summary>
         public short SelectListViewIndex { get; set; }
+        /// <summary>
+        ///     Tamanho da Imagem
+        /// </summary>
+        public int IsTamanhoArquivo
+        {
+            get
+            {
+                return _configuraSistema.arquivoTamanho;
+            }
+        }
 
         #endregion
 
@@ -247,8 +261,17 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             var list2 = Mapper.Map<List<EmpresaAnexoView>>(list1.OrderByDescending(n => n.EmpresaAnexoId));
             EntityObserver = new ObservableCollection<EmpresaAnexoView>();
             list2.ForEach(n => { EntityObserver.Add(n); });
-        }
 
+            _configuraSistema = ObterConfiguracao();
+        }
+        private ConfiguraSistema ObterConfiguracao()
+        {
+            //Obter configuracoes de sistema
+            var config = _auxiliaresService.ConfiguraSistemaService.Listar();
+            //Obtem o primeiro registro de configuracao
+            if (config == null) throw new InvalidOperationException("Não foi possivel obter dados de configuração do sistema.");
+            return config.FirstOrDefault();
+        }
         #endregion
 
         #region Propriedade Commands

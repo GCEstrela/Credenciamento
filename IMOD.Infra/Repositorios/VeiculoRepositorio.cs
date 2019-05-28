@@ -81,6 +81,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Pendente32", entity.Pendente32, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Pendente33", entity.Pendente33, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Pendente34", entity.Pendente34, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Precadastro", entity.Precadastro, false)));
 
                         var key = Convert.ToInt32(cmd.ExecuteScalar());
 

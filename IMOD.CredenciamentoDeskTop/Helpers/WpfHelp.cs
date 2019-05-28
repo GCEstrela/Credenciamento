@@ -208,7 +208,7 @@ namespace IMOD.CredenciamentoDeskTop.Helpers
 
             var path = openFileDialog.FileName;
             var tamBytes = new FileInfo (path).Length;
-            var tam = decimal.Divide (tamBytes, 1000);
+            var tam = decimal.Divide (tamBytes, 1024);
             var arq = new ArquivoInfo
             {
                 Nome = openFileDialog.SafeFileName
@@ -222,8 +222,11 @@ namespace IMOD.CredenciamentoDeskTop.Helpers
             }
 
             if (tamMax < tam)
-                throw new Exception ($"{tamMax} Kbytes é o tamanho máximo permitido para upload.");
-
+            {
+                WpfHelp.Mbox($"{tamMax} Kbytes é o tamanho máximo permitido para upload. Seu arquivo tem " + Convert.ToInt32(tam), MessageBoxIcon.Information);
+                //throw new Exception ($"{tamMax} Kbytes é o tamanho máximo permitido para upload.");
+                return null;
+            }
             arq.ArrayBytes = File.ReadAllBytes (path);
             arq.FormatoBase64 = Convert.ToBase64String (arq.ArrayBytes);
             return arq;

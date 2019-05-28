@@ -34,6 +34,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private readonly IEmpresaContratosService _service = new EmpresaContratoService();
         private EmpresaView _empresaView;
 
+        private readonly IEmpresaContratosService _serviceContratos = new EmpresaContratoService();
+        private ConfiguraSistema _configuraSistema;
+
         /// <summary>
         ///     True, Comando de alteração acionado
         /// </summary>
@@ -92,7 +95,16 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         ///     Habilita listView
         /// </summary>
         public bool IsEnableLstView { get; private set; } = true;
-        
+        /// <summary>
+        ///     Tamanho da Imagem
+        /// </summary>
+        public int IsTamanhoArquivo
+        {
+            get
+            {
+                return _configuraSistema.arquivoTamanho;
+            }
+        }
         #endregion
 
         public EmpresasContratosViewModel()
@@ -157,9 +169,16 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             var lst4 = _auxiliaresService.TiposAcessoService.Listar();
             ListaTipoAcessos = new List<TipoAcesso>();
             ListaTipoAcessos.AddRange (lst4);
-
+            _configuraSistema = ObterConfiguracao();
         }
-        
+        private ConfiguraSistema ObterConfiguracao()
+        {
+            //Obter configuracoes de sistema
+            var config = _auxiliaresService.ConfiguraSistemaService.Listar();
+            //Obtem o primeiro registro de configuracao
+            if (config == null) throw new InvalidOperationException("Não foi possivel obter dados de configuração do sistema.");
+            return config.FirstOrDefault();
+        }
         /// <summary>
         ///     Listar Municipios
         /// </summary>

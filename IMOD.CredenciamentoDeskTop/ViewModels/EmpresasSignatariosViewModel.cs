@@ -35,6 +35,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private EmpresaView _empresaView;
         private EmpresaViewModel _viewModelParent;
 
+        private readonly IEmpresaContratosService _serviceContratos = new EmpresaContratoService();
+        private ConfiguraSistema _configuraSistema;
+
         #region  Propriedades
 
         public EmpresaSignatarioView Entity { get; set; }
@@ -59,7 +62,13 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         ///     Lista de estados
         /// </summary>
         public List<Estados> Estados { get; private set; }
-
+        public int IsTamanhoArquivo
+        {
+            get
+            {
+                return _configuraSistema.arquivoTamanho;
+            }
+        }
         #endregion
 
         public EmpresasSignatariosViewModel()
@@ -120,8 +129,17 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             var lst1 = _auxiliaresService.TipoRepresentanteService.Listar();
             ListaRepresentante = Mapper.Map<List<TipoRepresentanteView>> (lst1.OrderBy (n => n.Descricao));
-        }
 
+            _configuraSistema = ObterConfiguracao();
+        }
+        private ConfiguraSistema ObterConfiguracao()
+        {
+            //Obter configuracoes de sistema
+            var config = _auxiliaresService.ConfiguraSistemaService.Listar();
+            //Obtem o primeiro registro de configuracao
+            if (config == null) throw new InvalidOperationException("Não foi possivel obter dados de configuração do sistema.");
+            return config.FirstOrDefault();
+        }
         /// <summary>
         ///     Relação dos itens de pesauisa
         /// </summary>
