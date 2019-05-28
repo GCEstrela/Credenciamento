@@ -175,8 +175,8 @@
                 </TextBox.InputBindings>
 
             </TextBox>
-            <RadioButton x:Name="rd_cadastro" Content="Cadastro" Margin="625,5,0,0" IsChecked="True" Foreground="#FFD0D0D0" VerticalAlignment="Top" Width="95" Checked="Rd_cadastro_Checked"/>
-            <RadioButton x:Name="rd_precadastro" Content="Pré-Cadastro" Margin="5,5,0,0" Foreground="Orange"  VerticalAlignment="Top" Width="95" Checked="Rd_precadastro_Checked"/>
+            <RadioButton x:Name="rd_cadastro" Content="Cadastro" Margin="625,5,0,0" IsChecked="True" Foreground="#FFD0D0D0" VerticalAlignment="Top" Width="95" Checked="Rd_cadastro_Checked" Cursor="Hand"/>
+            <RadioButton x:Name="rd_precadastro" Content="Pré-Cadastro" Margin="5,5,0,0" Foreground="Orange"  VerticalAlignment="Top" Width="95" Checked="Rd_precadastro_Checked" Cursor="Hand"/>
 
         </StackPanel>
 

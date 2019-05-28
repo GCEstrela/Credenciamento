@@ -117,7 +117,7 @@
                         <GridViewColumn Width="115" Header="Telefone" DisplayMemberBinding="{Binding Telefone1}" />
                         <GridViewColumn Width="115" Header="Celular" DisplayMemberBinding="{Binding Celular1}" />
                         <GridViewColumn Width="200" Header="E-Mail" DisplayMemberBinding="{Binding Email1}" />
-                        
+
                     </GridView>
                 </ListView.View>
             </ListView>
@@ -139,10 +139,10 @@
 
             <Button x:Name="btnAdicionar" Content="{StaticResource imgAdd}" ToolTip="Adicionar"
                     IsEnabled="{Binding Comportamento.IsEnableCriar}" Command="{Binding PrepareCriarCommand}"
-                    Width="25" Margin="0,0,5,0" />
+                    Width="25" Margin="0,0,5,0" Click="BtnAdicionar_Click"/>
             <Button x:Name="btnEditar" Content="{StaticResource imgEdit}" ToolTip="Editar"
                     IsEnabled="{Binding Comportamento.IsEnableEditar}" Command="{Binding PrepareAlterarCommand}"
-                    Width="25" Margin="0,0,5,0" />
+                    Width="25" Margin="0,0,5,0" Click="BtnEditar_Click" />
             <!--Botão [Exclui] foi removido da Visibilidade da Tela-->
             <Button x:Name="btnExcluir" Content="{StaticResource imgRemove}" ToolTip="Remover"
                     IsEnabled="{Binding Comportamento.isEnableRemover}" Command="{Binding PrepareRemoverCommand}"
@@ -150,7 +150,7 @@
 
             <Button x:Name="btnCancelar" Content="{StaticResource imgCancel}" ToolTip="Cancelar"
                     IsEnabled="{Binding Comportamento.isEnableCancelar}" Command="{Binding PrepareCancelarCommand}"
-                    Width="25" Margin="0,0,5,0" />
+                    Width="25" Margin="0,0,5,0" Click="BtnCancelar_Click" />
             <Button x:Name="btnSalvar" Content="{StaticResource imgSave}" ToolTip="Salvar"
                     IsEnabled="{Binding Comportamento.isEnableSalvar}" Command="{Binding PrepareSalvarCommand}"
                     Width="25" Margin="0,0,5,0" />
@@ -189,7 +189,7 @@
                         <StackPanel Orientation="Horizontal" Height="152" Margin="2,0,-2,0" VerticalAlignment="Top">
                             <StackPanel.Resources>
                             </StackPanel.Resources>
-                            <StackPanel Margin="1" Height="131" VerticalAlignment="Top" Width="416">
+                            <StackPanel Margin="1,1,1,0" Height="131" VerticalAlignment="Top" Width="421">
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
                                             HorizontalAlignment="Left" Margin="1">
                                     <Label Content="Código:" Height="28" Width="100" Margin="1" Foreground="#FFD0D0D0"
@@ -200,15 +200,17 @@
                                     <!--<TextBox CharacterCasing="Upper" x:Name="pravencar_tb" MaxLength="50"
                                              Text="{Binding Entity.PraVencer, UpdateSourceTrigger=PropertyChanged}"
                                              IsEnabled="False" Height="24" Width="29" />-->
-                                    <Label Content="CNPJ:" Height="28" Width="131" Margin="1" Foreground="#FFD0D0D0"
-                                           HorizontalContentAlignment="Right" />
+                                    
+                                    <Label Content="CNPJ:" Height="28" Width="64" Margin="10,0,0,0" Foreground="#FFD0D0D0"
+                                           HorizontalContentAlignment="Right"  />
                                     <TextBox x:Name="txtCnpj" MaxLength="20" IsEnabled="True" Height="24"
                                              PreviewTextInput="NumberOnly" Width="120" Foreground="White"
                                              VerticalContentAlignment="Center"
                                              Text="{Binding Entity.Cnpj, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                             HorizontalContentAlignment="Center"
-                                              
-                                             LostFocus="TxtCnpj_LostFocus" />
+                                             HorizontalContentAlignment="Center" LostFocus="TxtCnpj_LostFocus" />
+                                    <CheckBox Name="fake1" ToolTip="Essa opção habilita a inclusão de CNPJ sem as validações obrigatórias." 
+                                              Content="Ignorar" Foreground="YellowGreen"  HorizontalAlignment="Left" Height="17" 
+                                              Margin="1,7,0,0" Grid.Row="3" VerticalAlignment="Top" Width="59" Checked="Fake1_Checked" Unchecked="Fake1_Unchecked" Cursor="Hand"/>
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
                                             HorizontalAlignment="Left" Margin="1">
@@ -569,7 +571,8 @@
             </TabItem>
 
         </TabControl>
-
+        
+        
 
     </Grid>
 

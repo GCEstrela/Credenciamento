@@ -36,7 +36,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private List<EmpresaView> _entityObserverCloned = new List<EmpresaView>();
         private readonly IEmpresaContratosService _serviceContratos = new EmpresaContratoService();
         private ConfiguraSistema _configuraSistema;
-        
+        public Boolean empresaFake = false;
         /// <summary>
         ///     True, Comando de alteração acionado
         /// </summary>
@@ -368,26 +368,29 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             Entity.Validate();
             var hasErros = Entity.HasErrors;
             if (hasErros) return true;
-            //Verificar valiade de cnpj
-            if (EInValidoCnpj())
+            if (!empresaFake)
             {
-                Entity.SetMessageErro ("Cnpj", "CNPJ inválido");
-                return true;
-            }
+                //Verificar valiade de cnpj
+                if (EInValidoCnpj())
+                {
+                    Entity.SetMessageErro("Cnpj", "CNPJ inválido");
+                    return true;
+                }
 
-            //Verificar existência de CNPJ
-            if (ExisteCnpj())
-            {
-                Entity.SetMessageErro ("Cnpj", "CNPJ já existe");
-                return true;
-            }
-
-            if (ExisteSigla())
-            {
-                Entity.SetMessageErro("Sigla", "Sigla já existe");
-                return true;
-            }
+                //Verificar existência de CNPJ
+                if (ExisteCnpj())
+                {
+                    Entity.SetMessageErro("Cnpj", "CNPJ já existe");
+                    return true;
+                }
+                if (ExisteSigla())
+                {
+                    Entity.SetMessageErro("Sigla", "Sigla já existe");
+                    return true;
+                }
                 return Entity.HasErrors;
+            }
+            return Entity.HasErrors;
         }
 
         #endregion
@@ -438,6 +441,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         private void PrepareCriar()
         {
+            this.empresaFake = false;
             Entity = new EmpresaView();
             ListarDadosAuxiliares();
             _prepareCriarCommandAcionado = true;
@@ -570,7 +574,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         private void PrepareSalvar()
         {
-            if (Validar()) return;
+            //if(!empresaFake)
+                if (Validar()) return;
+
             Comportamento.PrepareSalvar();
         }
 
