@@ -11,8 +11,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="~/Content/datatables.min.css" />"
     <link rel="stylesheet" href="~/Content/bootstrap.min.css" />"
-    <link rel="stylesheet" href="~/Content/bootstrap-datepicker.css" />"
-
+    <link rel="stylesheet" href="~/Content/bootstrap-datepicker.css" />"    
     <style>
         .ui-widget {
             font-family: "Lucida Grande", "Lucida Sans", Arial, sans-serif;
@@ -326,8 +325,11 @@
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
     <script src="~/Scripts/jquery.maskedinput.min.js"></script>
-    <script src="~/Scripts/datatables.min.js"></script>
-    <script src="~/Scripts/bootstrap-datepicker.min.js"></script>
+    <script src="~/Scripts/datatables.min.js"></script>    
+    <script src="~/Scripts/bootstrap-datepicker.js"></script>
+    <script src="~/Scripts/bootstrap-datepicker-globalize.js"></script>
+    <script src="~/Scripts/locales/bootstrap-datepicker.pt-BR.js"></script>
+
     <script>
         $(document).ready(function () {
             $("#cpf").mask("999.999.999-99");
@@ -347,26 +349,12 @@
                 }
             });
 
-            
-            $(".datepicker").datepicker({
-                    locale: 'pt-br',
-                    dayNamesMin: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S', 'D'],
-                    dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'],
-                    dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
-                    monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
-                    monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
-                    dateFormat: 'dd/mm/yy',
-                    nextText: 'Próximo',
-                    prevText: 'Anterior'
-                });
+             $('.datepicker').datepicker({
+                format: 'dd/mm/yyyy',
+                language: 'pt-BR'
+            });           
         });
-      
 
-        //$(function () {
-        //    $(".datepicker").datepicker({
-        //        locale: 'pt-br'
-        //    });
-        //});
     </script>
 </body>
 </html>
