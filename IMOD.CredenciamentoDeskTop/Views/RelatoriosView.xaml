@@ -223,7 +223,7 @@
 
                                         </StackPanel>
 
-                                        <StackPanel >
+                                        <StackPanel HorizontalAlignment="Left">
                                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="0,0,0,20" >
                                                 <Button x:Name="Botao0_bt" Style="{StaticResource MenuStyle}" Margin="20,0,20,0" Height="50" VerticalAlignment="Top"  Width="300"
                                                        Click="Button_Click"  Visibility="{Binding Relatorios[0].Ativo, Converter={StaticResource BooleanToVisibilityConverter}}" Tag="{Binding Relatorios[0].RelatorioId}" >
