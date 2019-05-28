@@ -309,6 +309,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                 if (ModelState.IsValid)
                 {
                     var colaboradorMapeado = Mapper.Map<Colaborador>(model);
+                    colaboradorMapeado.Precadastro = true;
                     objService.Alterar(colaboradorMapeado);
 
                     // excluir os contratos removidos da lista
