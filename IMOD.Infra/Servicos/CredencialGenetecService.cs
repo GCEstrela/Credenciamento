@@ -168,7 +168,7 @@ namespace IMOD.Infra.Servicos
             if (entity.Validade > DateTime.Now)
             {
                 if (entity.Ativo)
-                    entityCardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, DateTime.Now.AddHours(23).AddMinutes(59).AddSeconds(59));
+                    entityCardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade);
             }
             else
             {
@@ -262,11 +262,11 @@ namespace IMOD.Infra.Servicos
                 if (entity.Validade > DateTime.Now)
                 {
                     if (entity.Ativo)
-                    cardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, DateTime.Now.AddHours(23).AddMinutes(59).AddSeconds(59));
+                        cardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade);
                 }
                 else
                 {
-                    cardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now.AddHours(23).AddMinutes(59).AddSeconds(59), entity.Validade);
+                        cardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, DateTime.Now.AddHours(23).AddMinutes(59).AddSeconds(59));
                 }
 
                 SetValorCamposCustomizados(entity, cardholder);

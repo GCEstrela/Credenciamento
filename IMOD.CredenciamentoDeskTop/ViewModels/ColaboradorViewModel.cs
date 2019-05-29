@@ -695,9 +695,15 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (result != DialogResult.Yes) return;
 
                 var n1 = Mapper.Map<Colaborador> (Entity);
-                _service.Remover (n1);
-                //Retirar empresa da coleção
-                EntityObserver.Remove (Entity);
+
+                //So remove de o colaborador for Precadastro=True
+                if (n1.Precadastro)
+                {
+                    _service.Remover(n1);
+                    //Retirar empresa da coleção
+                    EntityObserver.Remove(Entity);
+
+                }
                 HabilitaControle (true, true);
             }
             catch (Exception ex)

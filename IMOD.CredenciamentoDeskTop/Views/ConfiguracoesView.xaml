@@ -722,16 +722,7 @@
                         </Grid>
                     </StackPanel>
                 </ScrollViewer>
-
-
-
-
-
             </TabItem>
-
-
-
-
             <TabItem x:Name="Relatorios_ti"  Width="200"  Header="Relatórios e Layouts Crachás"  >
 
                 <ScrollViewer   VerticalScrollBarVisibility="Auto"  HorizontalScrollBarVisibility="Auto"  >
@@ -908,7 +899,157 @@
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
+            <TabItem x:Name="Congiguracaosistema" Width="200" Header="Configurações do Siste">
+                <ScrollViewer   VerticalScrollBarVisibility="Auto"  HorizontalScrollBarVisibility="Auto"  >
+                    <StackPanel  >
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="196*"/>
+                                <ColumnDefinition Width="13*"/>
+                                <ColumnDefinition Width="209*" />
+                            </Grid.ColumnDefinitions>
 
+                            <GroupBox Header="Identificação" Background="BlueViolet" Height="187" VerticalAlignment="Top" Margin="13,20,2,0">
+                                <StackPanel Orientation="Horizontal" Height="152" Margin="2,0,-2,0" VerticalAlignment="Top">
+                                    <StackPanel.Resources>
+                                    </StackPanel.Resources>
+                                    <StackPanel Margin="1,1,1,0" Height="131" VerticalAlignment="Top" Width="421">
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
+                                            HorizontalAlignment="Left" Margin="1">
+                                            <Label Content="CNPJ:" Height="28" Width="64" Margin="40,0,0,0" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"  />
+                                            <TextBox x:Name="txtCnpj" MaxLength="20" IsEnabled="True" Height="24" Width="120" Foreground="White"
+                                             VerticalContentAlignment="Center"
+                                             Text="{Binding CongiracaoSistema.Cnpj, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                             HorizontalContentAlignment="Center" />
+                                            
+                                            <CheckBox Name="Contrato" ToolTip="Essa opção habilita contratos automático." 
+                                              Content="Contrato" Foreground="YellowGreen"  HorizontalAlignment="Left" Height="17" 
+                                              Margin="6,7,0,0" Grid.Row="3" VerticalAlignment="Top" Width="70"/>
+                                            <CheckBox Name="Colete" ToolTip="" 
+                                              Content="Colete" Foreground="YellowGreen"  HorizontalAlignment="Left" Height="17" 
+                                              Margin="0,7,0,0" Grid.Row="3" VerticalAlignment="Top" Width="60"/>
+                                            <CheckBox Name="Regra" ToolTip="" 
+                                              Content="Regras" Foreground="YellowGreen"  HorizontalAlignment="Left" Height="17" 
+                                              Margin="0,7,0,0" Grid.Row="3" VerticalAlignment="Top" Width="70"/>
+                                            
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
+                                            HorizontalAlignment="Left" Margin="1">
+                                            <Label Content="Razão Social:" Height="28" Width="100" Margin="1"
+                                           Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
+                                            <TextBox CharacterCasing="Upper" Text="{Binding CongiracaoSistema.NomeEmpresa}" x:Name="ttNome_tb"
+                                             MaxLength="100" IsEnabled="True" Height="24" Width="304"
+                                               />
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
+                                            HorizontalAlignment="Left" Margin="1">
+                                            <Label Content="Nome Fantasia:" Height="28" Width="100" Margin="1"
+                                           Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
+                                            <TextBox CharacterCasing="Upper" x:Name="Apelido_tb" MaxLength="50"
+                                             Text="{Binding Entity.Apelido, UpdateSourceTrigger=PropertyChanged}"
+                                             IsEnabled="True" Height="24" Width="200"
+                                               />
+
+                                            <Label Content="Sigla:" Height="28" Width="53" Margin="1" Foreground="#FFD0D0D0"
+                                           HorizontalContentAlignment="Right" />
+                                            <TextBox CharacterCasing="Upper"  x:Name="Sigla_tb" MaxLength="3"
+                                             Text="{Binding Entity.Sigla, UpdateSourceTrigger=PropertyChanged}"
+                                             HorizontalContentAlignment="Center" IsEnabled="True" Height="24" Width="49" 
+                                             />
+
+                                        </StackPanel>
+
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
+                                            HorizontalAlignment="Left" Margin="1">
+                                            
+                                        </StackPanel>
+                                    </StackPanel>
+                                    <StackPanel VerticalAlignment="Top" Margin="50,6,20,0" Height="140" Width="101">
+                                        <Border CornerRadius="3" BorderThickness="1" Grid.Column="0" Width="100" Height="100"
+                                        HorizontalAlignment="Left" BorderBrush="#FF686868">
+                                            <Image x:Name="Logo_im" Stretch="Uniform"
+                                           
+                                           Margin="3" />
+                                        </Border>
+                                        <Button Content="Selecionar Logo"
+                                        HorizontalAlignment="Center" Margin="0,10,0,0" Height="30" Width="100"
+                                        />
+                                    </StackPanel>
+                                </StackPanel>
+
+                            </GroupBox>
+                            <GroupBox Header="Contatos" Background="BlueViolet" x:Name="Contato1_gb"  VerticalAlignment="Top" Margin="630,20,-610,0"
+                              Height="187">
+                                <StackPanel Margin="1">
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
+                                        Margin="1">
+                                        <Label Content="Responsável:" Height="28" Width="110" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
+                                        <TextBox CharacterCasing="Upper" x:Name="Contato1_tb" MaxLength="50"
+                                         Text="{Binding Entity.Contato1, UpdateSourceTrigger=PropertyChanged}" IsEnabled="True" Height="24" Width="450" />
+                                        
+                                        <!--<Label Content="Telefone:" Height="28" Width="68" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
+                                        <TextBox Foreground="#FFD0D0D0"
+                                         CharacterCasing="Upper" x:Name="Tel1_tb" MaxLength="15" Margin="1" IsEnabled="True" Height="24" Width="98" HorizontalContentAlignment="Center" />-->
+
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
+                                        Margin="1">
+                                        <Label Content="E-Mail Principal:" Height="28" Width="110" Margin="1"
+                                       Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
+                                        <TextBox CharacterCasing="Lower" x:Name="Email1_tb" Margin="1" MaxLength="50"
+                                         Text="{Binding Entity.Email1, UpdateSourceTrigger=PropertyChanged}"
+                                         IsEnabled="True" Height="24" Width="250" />
+
+                                    </StackPanel>
+
+
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
+                                        Margin="1,1,0,1" Width="590">
+                                        <Label Content="E-Mail SMTP:" Height="28" Width="110" Margin="1"
+                                       Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
+                                        <TextBox CharacterCasing="Lower" x:Name="Email2_tb" MaxLength="50"
+                                         Text="{Binding Entity.Email2, UpdateSourceTrigger=PropertyChanged}"
+                                         IsEnabled="True" Height="24" Width="80" />
+
+                                        <Label Content="URL:" Height="28" Width="184" Margin="1" Foreground="#FFD0D0D0"                                        HorizontalContentAlignment="Right" />
+                                        <TextBox Foreground="#FFD0D0D0"  CharacterCasing="Upper" x:Name="url_tb" MaxLength="15"                                         
+                                         Margin="1" IsEnabled="True" Height="24" Width="180"
+                                         HorizontalContentAlignment="Center" />
+                                        
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
+                                        Margin="1,1,0,1" Width="590">
+                                        
+                                        <Label Content="E-Mail Usuário:" Height="28" Width="110" Margin="1" Foreground="#FFD0D0D0"                                        HorizontalContentAlignment="Right" />
+                                        <TextBox Foreground="#FFD0D0D0"  CharacterCasing="Upper" x:Name="Usuario_tb" MaxLength="15"                                         
+                                         Margin="1" IsEnabled="True" Height="24" Width="180"
+                                         HorizontalContentAlignment="Center" />
+
+                                        <Label Content="E-Mail Senha:" Height="28" Width="82" Margin="1" Foreground="#FFD0D0D0"                                        HorizontalContentAlignment="Right" />
+                                        <TextBox Foreground="#FFD0D0D0"  CharacterCasing="Upper" x:Name="Senha_tb" MaxLength="15"                                         
+                                         Margin="1" IsEnabled="True" Height="24" Width="180"
+                                         HorizontalContentAlignment="Center" />
+
+                                    </StackPanel>
+
+                                </StackPanel>
+
+
+                            </GroupBox>
+
+
+
+
+                        </Grid>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
 
 
 

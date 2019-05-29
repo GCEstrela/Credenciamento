@@ -34,6 +34,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private ColaboradorView _colaboradorView;
         private ColaboradorViewModel _viewModelParent;
 
+        private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
+        private readonly IEmpresaContratosService _serviceContratos = new EmpresaContratoService();
+        private ConfiguraSistema _configuraSistema;
+
         #region  Propriedades 
         public ColaboradorAnexoView Entity { get; set; }
         public ObservableCollection<ColaboradorAnexoView> EntityObserver { get; set; }
@@ -45,7 +49,16 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         ///     Habilita listView
         /// </summary>
         public bool IsEnableLstView { get; private set; } = true;
-
+        /// <summary>
+        ///     Tamanho do Arquivo
+        /// </summary>
+        public int IsTamanhoArquivo
+        {
+            get
+            {
+                return _configuraSistema.arquivoTamanho;
+            }
+        }
         #endregion
 
         public ColaboradoresAnexosViewModel()
@@ -250,8 +263,16 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             var list2 = Mapper.Map<List<ColaboradorAnexoView>>(list1.OrderByDescending(n => n.ColaboradorAnexoId));
             EntityObserver = new ObservableCollection<ColaboradorAnexoView>();
             list2.ForEach(n => { EntityObserver.Add(n); });
+            _configuraSistema = ObterConfiguracao();
         }
-
+        private ConfiguraSistema ObterConfiguracao()
+        {
+            //Obter configuracoes de sistema
+            var config = _auxiliaresService.ConfiguraSistemaService.Listar();
+            //Obtem o primeiro registro de configuracao
+            if (config == null) throw new InvalidOperationException("Não foi possivel obter dados de configuração do sistema.");
+            return config.FirstOrDefault();
+        }
         #endregion
 
         #region Propriedade Commands
