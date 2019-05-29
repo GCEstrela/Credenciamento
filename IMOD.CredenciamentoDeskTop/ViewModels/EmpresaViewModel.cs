@@ -34,9 +34,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
         private readonly IEmpresaService _service = new EmpresaService();
         private List<EmpresaView> _entityObserverCloned = new List<EmpresaView>();
+
         private readonly IEmpresaContratosService _serviceContratos = new EmpresaContratoService();
         private ConfiguraSistema _configuraSistema;
-        
+
+        public Boolean empresaFake = false;
         /// <summary>
         ///     True, Comando de alteração acionado
         /// </summary>
@@ -145,7 +147,16 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public int QuantidadeTipoCredencialTemporario { get; set; }
 
         public int QuantidadeTipoCredencialPermanente { get; set; }
-       
+        /// <summary>
+        ///     Tamanho da Imagem
+        /// </summary>
+        public int IsTamanhoImagem
+        {
+            get
+            {
+                return _configuraSistema.imagemTamanho;
+            }
+        }
         #endregion
 
         public EmpresaViewModel()
@@ -246,8 +257,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
             var id = Entity.EmpresaId;
             var objTipocredenciaisEmpresa = _service.ListarTipoCredenciaisEmpresa (id).ToList();
-            QuantidadeTipoCredencialPermanente = objTipocredenciaisEmpresa.Count (p => p.TipoCredencialId == 1);
-            QuantidadeTipoCredencialTemporario = objTipocredenciaisEmpresa.Count (p => p.TipoCredencialId == 2);
+            QuantidadeTipoCredencialPermanente = objTipocredenciaisEmpresa.Count (p => p.TipoCredencialId == 1 && p.Impressa == true);
+            QuantidadeTipoCredencialTemporario = objTipocredenciaisEmpresa.Count (p => p.TipoCredencialId == 2 && p.Impressa == true);
         }
 
         /// <summary>
@@ -368,26 +379,29 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             Entity.Validate();
             var hasErros = Entity.HasErrors;
             if (hasErros) return true;
-            //Verificar valiade de cnpj
-            if (EInValidoCnpj())
+            if (!empresaFake)
             {
-                Entity.SetMessageErro ("Cnpj", "CNPJ inválido");
-                return true;
-            }
+                //Verificar valiade de cnpj
+                if (EInValidoCnpj())
+                {
+                    Entity.SetMessageErro("Cnpj", "CNPJ inválido");
+                    return true;
+                }
 
-            //Verificar existência de CNPJ
-            if (ExisteCnpj())
-            {
-                Entity.SetMessageErro ("Cnpj", "CNPJ já existe");
-                return true;
-            }
-
-            if (ExisteSigla())
-            {
-                Entity.SetMessageErro("Sigla", "Sigla já existe");
-                return true;
-            }
+                //Verificar existência de CNPJ
+                if (ExisteCnpj())
+                {
+                    Entity.SetMessageErro("Cnpj", "CNPJ já existe");
+                    return true;
+                }
+                if (ExisteSigla())
+                {
+                    Entity.SetMessageErro("Sigla", "Sigla já existe");
+                    return true;
+                }
                 return Entity.HasErrors;
+            }
+            return Entity.HasErrors;
         }
 
         #endregion
@@ -438,6 +452,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         private void PrepareCriar()
         {
+            this.empresaFake = false;
             Entity = new EmpresaView();
             ListarDadosAuxiliares();
             _prepareCriarCommandAcionado = true;
@@ -570,7 +585,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         private void PrepareSalvar()
         {
-            if (Validar()) return;
+            //if(!empresaFake)
+                if (Validar()) return;
+
             Comportamento.PrepareSalvar();
         }
 

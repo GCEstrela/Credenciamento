@@ -38,6 +38,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private readonly IColaboradorService _service = new ColaboradorService();
         private readonly IColaboradorEmpresaService _serviceColaboradorEmpresa = new ColaboradorEmpresaService();
 
+        private readonly IDadosAuxiliaresFacade _auxiliaresServiceConfiguraSistema = new DadosAuxiliaresFacadeService();
+        private ConfiguraSistema _configuraSistema;
+
         /// <summary>
         ///     True, Comando de alteração acionado
         /// </summary>
@@ -93,7 +96,26 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public bool Pendencia25 { get; set; }
 
         public bool HabilitaCommandPincipal { get; set; } = true;
-
+        /// <summary>
+        ///     Resolução da webCam
+        /// </summary>
+        public int IsResolucao
+        {
+            get
+            {
+                return _configuraSistema.imagemResolucao;
+            }
+        }
+        /// <summary>
+        ///     Resolução da webCam
+        /// </summary>
+        public int IsTamanhoImagem
+        {
+            get
+            {
+                return _configuraSistema.imagemTamanho;
+            }
+        }
         /// <summary>
         ///     Seleciona indice da listview
         /// </summary>
@@ -225,12 +247,14 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             try
             {
                 
+
                 System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
                 if (!IsEnablePreCadastro)
                 {
                     var list2 = Mapper.Map<List<ColaboradorView>>(list.ToList().OrderBy(c => c.Nome));
                     EntityObserver = new ObservableCollection<ColaboradorView>();
                     list2.ForEach(n => { EntityObserver.Add(n); });
+                    
                     //Havendo registros, selecione o primeiro
                     //if (EntityObserver.Any()) SelectListViewIndex = 0;
                 }
@@ -308,6 +332,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 {
                     if (string.IsNullOrWhiteSpace (pesquisa)) return;
                     var l1 = _service.Listar (null, null, $"%{pesquisa}%", IsEnablePreCadastro);
+                    
                     PopularObserver (l1);
                     
                 }
@@ -350,6 +375,13 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             Estados = Mapper.Map<List<Estados>> (lst3);
             Municipios = new List<Municipio>();
             _municipios = new List<Municipio>();
+
+            _configuraSistema = ObterConfiguracao();
+            //if (!_configuraSistema.Colete) //Se Cole não for automático false
+            //{
+                
+            //}
+
         }
 
         /// <summary>
@@ -674,7 +706,18 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 WpfHelp.MboxError ("Não foi realizar a operação solicitada", ex);
             }
         }
-
+        /// <summary>
+        /// Obtem configuração de sistema
+        /// </summary>
+        /// <returns></returns>
+        private ConfiguraSistema ObterConfiguracao()
+        {
+            //Obter configuracoes de sistema
+            var config = _auxiliaresServiceConfiguraSistema.ConfiguraSistemaService.Listar();
+            //Obtem o primeiro registro de configuracao
+            if (config == null) throw new InvalidOperationException("Não foi possivel obter dados de configuração do sistema.");
+            return config.FirstOrDefault();
+        }
         #endregion
     }
 }

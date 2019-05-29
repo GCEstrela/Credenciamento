@@ -57,6 +57,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         private void OnListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            Geral_ti.IsSelected = true;
             if (_viewModel.Entity == null) return;
             //Atualizar dados ao selecionar uma linha da listview
             _viewModel.AtualizarDadosPendencias();
@@ -131,7 +132,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
             try
             {
                 var filtro = "Images (*.BMP;*.JPG;*.GIF,*.PNG,*.TIFF)|*.BMP;*.JPG;*.GIF;*.PNG;*.TIFF|" + "All files (*.*)|*.*";
-                var arq = WpfHelp.UpLoadArquivoDialog(filtro);
+                var arq = WpfHelp.UpLoadArquivoDialog(filtro,_viewModel.IsTamanhoImagem);
                 if (arq == null) return;
                 _viewModel.Entity.Foto = arq.FormatoBase64;
                 var binding = BindingOperations.GetBindingExpression(Logo_im, Image.SourceProperty);
@@ -240,7 +241,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
             try
             {
                
-                PopupWebCam _PopupWebCam = new PopupWebCam();
+                PopupWebCam _PopupWebCam = new PopupWebCam(_viewModel.IsResolucao);
                 _PopupWebCam.ShowDialog();
 
                 if (_PopupWebCam.aceitarImg)
@@ -310,6 +311,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             try
             {
+                //Geral_ti.IsSelected = true;
                 _viewModel.EntityObserver.Clear();
                 _viewModel.IsEnablePreCadastro = true;
                 _viewModel.IsEnablePreCadastroCredenciamento = false;

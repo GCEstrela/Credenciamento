@@ -1,4 +1,6 @@
-﻿namespace IMOD.CredenciamentoDeskTop.Views.Model
+﻿using System;
+
+namespace IMOD.CredenciamentoDeskTop.Views.Model
 {
     public class EmpresaTipoCredencialView
     {
@@ -11,6 +13,8 @@
         public int EmpresaId { get; set; }
         public int Colaborador { get; set; }
         public string Descricao { get; set; }
+        public bool Impressa { get; set; }
+        public DateTime Emissao { get; set; }
 
         #endregion
     }

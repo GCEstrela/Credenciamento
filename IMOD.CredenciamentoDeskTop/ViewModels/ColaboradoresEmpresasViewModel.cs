@@ -123,7 +123,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             Empresas = new List<Empresa>();
             Contratos = new List<EmpresaContrato>();
             ListarDadosEmpresaContratos();
-            _configuraSistema = ObterConfiguracao();
+            //_configuraSistema = ObterConfiguracao();
             _configuraSistema = ObterConfiguracao();
             if (!_configuraSistema.Colete) //Se Cole não for automático false
             {

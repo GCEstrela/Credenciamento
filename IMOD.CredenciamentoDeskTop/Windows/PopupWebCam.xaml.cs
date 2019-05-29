@@ -28,9 +28,10 @@ namespace iModSCCredenciamento.Windows
         
         public bool aceitarImg = true;
         private readonly ColaboradorViewModel _viewModel;
-        public PopupWebCam()
+        private int resolucaoImg = 150;
+        public PopupWebCam(int resolucao)
         {
-
+            resolucaoImg = resolucao;
             InitializeComponent();
             _viewModel = new ColaboradorViewModel();
             DataContext = _viewModel;
@@ -68,14 +69,16 @@ namespace iModSCCredenciamento.Windows
 
         private void Capturar_bt_Click(object sender, RoutedEventArgs e)
         {
-            imgCapture.Source = imgVideo.Source;
-            //imgCapture.Source = BitmapImageFromBitmapSourceResized((BitmapSource)imgVideo.Source, 190);
+            //imgCapture.Source = imgVideo.Source;
+            imgCapture.Source = BitmapImageFromBitmapSourceResized((BitmapSource)imgVideo.Source, (int)resolucaoImg);
         }
 
         private void Aceitar_bt_Click(object sender, RoutedEventArgs e)
         {
-            imgCapture.Source = BitmapImageFromBitmapSourceResized((BitmapSource)imgVideo.Source, 250);
-            //SaveImageCapture((BitmapSource)imgCapture.Source);
+            //imgCapture.Source = BitmapImageFromBitmapSourceResized((BitmapSource)imgVideo.Source, 180);
+            //imgCapture.Width = 50;
+            //imgCapture.Height = 50;
+            //WpfHelp.SaveImageCapture((BitmapSource)imgCapture.Source);
             this.Close();
         }
         public static BitmapSource BitmapImageFromBitmapSourceResized(BitmapSource bitmapSource, int newWidth)

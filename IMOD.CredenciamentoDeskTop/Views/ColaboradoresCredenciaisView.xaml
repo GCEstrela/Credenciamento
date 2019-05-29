@@ -254,12 +254,8 @@
                             <!--IsEnabled="{Binding Habilitar}"-->
                             <TextBox  x:Name="NumeroCredencial_tb"  
                                       MaxLength="8"  CharacterCasing="Upper" 
-                                      Text="{Binding Entity.NumeroCredencial,  UpdateSourceTrigger=PropertyChanged}" 
-                                       
+                                      Text="{Binding Entity.NumeroCredencial,  UpdateSourceTrigger=PropertyChanged}"                                       
                                       Height="24"  Width="65" LostFocus="NumeroCredencial_tb_LostFocus" />
-
-
-
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Width="977" Height="55"  >

@@ -51,6 +51,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         private void OnListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            fake1.IsChecked = false;
             if (_viewModel.Entity == null) return;
             //Atualizar dados ao selecionar uma linha da listview
             _viewModel.AtualizarDadosPendencias();
@@ -185,7 +186,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
             try
             {
                 var filtro = "Images (*.BMP;*.JPG;*.GIF,*.PNG,*.TIFF)|*.BMP;*.JPG;*.GIF;*.PNG;*.TIFF|" + "All files (*.*)|*.*";
-                var arq = WpfHelp.UpLoadArquivoDialog(filtro,200);
+                var arq = WpfHelp.UpLoadArquivoDialog(filtro, _viewModel.IsTamanhoImagem);
                 if (arq == null) return;
                 _viewModel.Entity.Logo = arq.FormatoBase64;
                 var binding = BindingOperations.GetBindingExpression(Logo_im, Image.SourceProperty);
@@ -272,6 +273,42 @@ namespace IMOD.CredenciamentoDeskTop.Views
             {
                 //WpfHelp.Mbox(ex.ToString());
             }
+        }
+
+        private void Fake1_Checked(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                _viewModel.empresaFake = true;
+                txtCnpj.Text = "00.000.000/0000-00";
+                txtCnpj.IsEnabled = false;
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+        private void Fake1_Unchecked(object sender, RoutedEventArgs e)
+        {
+            _viewModel.empresaFake = false;
+            txtCnpj.Text = "";
+            txtCnpj.IsEnabled = true;
+        }
+
+        private void BtnAdicionar_Click(object sender, RoutedEventArgs e)
+        {
+            fake1.IsChecked = false;
+        }
+
+        private void BtnCancelar_Click(object sender, RoutedEventArgs e)
+        {
+            fake1.IsChecked = false;
+        }
+
+        private void BtnEditar_Click(object sender, RoutedEventArgs e)
+        {
+            fake1.IsChecked = false;
         }
     }
 }
