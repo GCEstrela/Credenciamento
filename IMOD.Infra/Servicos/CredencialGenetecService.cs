@@ -168,7 +168,7 @@ namespace IMOD.Infra.Servicos
             if (entity.Validade > DateTime.Now)
             {
                 if (entity.Ativo)
-                    entityCardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, DateTime.Now.AddHours(23).AddMinutes(59).AddSeconds(59));
+                    entityCardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade);
             }
             else
             {
