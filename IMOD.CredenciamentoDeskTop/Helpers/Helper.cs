@@ -59,59 +59,142 @@ namespace IMOD.CredenciamentoDeskTop.Helpers
 
         }
 
-        /// <summary>
-        /// Método para codificar os dados da querystring
-        /// </summary>
-        /// <param name="param"></param>
-        /// <returns></returns>
-        public static string Codificar(string param)
+        public static string Encriptar(string textoNormal)
         {
-            byte[] clearBytes = Encoding.Unicode.GetBytes(param);
-            using (Aes encryptor = Aes.Create())
-            {
-                var pdb = new Rfc2898DeriveBytes(Constantes.Constantes.chaveCriptografia, new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 });
-                encryptor.Key = pdb.GetBytes(32);
-                encryptor.IV = pdb.GetBytes(16);
-                using (var ms = new MemoryStream())
-                {
-                    using (var cs = new CryptoStream(ms, encryptor.CreateEncryptor(), CryptoStreamMode.Write))
-                    {
-                        cs.Write(clearBytes, 0, clearBytes.Length);
-                        cs.Close();
-                    }
-                    param = Convert.ToBase64String(ms.ToArray());
-                }
-            }
-            return param; 
-        }
 
-        /// <summary>
-        /// Método para decodificar os dados da querystring
-        /// </summary>
-        /// <param name="param"></param>
-        /// <returns></returns>
-        public static string Decodificar(string param)
-        {
-            param = param.Replace(" ", "+");
-            byte[] cipherBytes = Convert.FromBase64String(param);
-            using (Aes encryptor = Aes.Create())
+            if (String.IsNullOrWhiteSpace(textoNormal))
             {
-                var pdb = new Rfc2898DeriveBytes(Constantes.Constantes.chaveCriptografia, new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 });
-                encryptor.Key = pdb.GetBytes(32);
-                encryptor.IV = pdb.GetBytes(16);
-                using (var ms = new MemoryStream())
-                {
-                    using (var cs = new CryptoStream(ms, encryptor.CreateDecryptor(), CryptoStreamMode.Write))
-                    {
-                        cs.Write(cipherBytes, 0, cipherBytes.Length);
-                        cs.Close();
-                    }
-                    param = Encoding.Unicode.GetString(ms.ToArray());
-                }
+                throw new Exception(
+                    "O conteúdo a ser encriptado não pode " +
+                    "ser uma string vazia.");
             }
 
-            return param;
+            using (Rijndael algoritmo = CriarInstanciaRijndael(
+                Constantes.Constantes.chaveCriptografia, Constantes.Constantes.vetorInicializacao))
+            {
+                ICryptoTransform encryptor =
+                    algoritmo.CreateEncryptor(
+                        algoritmo.Key, algoritmo.IV);
+
+                using (MemoryStream streamResultado =
+                       new MemoryStream())
+                {
+                    using (CryptoStream csStream = new CryptoStream(
+                        streamResultado, encryptor,
+                        CryptoStreamMode.Write))
+                    {
+                        using (StreamWriter writer =
+                            new StreamWriter(csStream))
+                        {
+                            writer.Write(textoNormal);
+                        }
+                    }
+
+                    return ArrayBytesToHexString(
+                        streamResultado.ToArray());
+                }
+            }
         }
+
+        public static string Decriptar(string textoEncriptado)
+        {
+            if (String.IsNullOrWhiteSpace(textoEncriptado))
+            {
+                throw new Exception(
+                    "O conteúdo a ser decriptado não pode " +
+                    "ser uma string vazia.");
+            }
+
+            if (textoEncriptado.Length % 2 != 0)
+            {
+                throw new Exception(
+                    "O conteúdo a ser decriptado é inválido.");
+            }
+
+            using (Rijndael algoritmo = CriarInstanciaRijndael(
+                Constantes.Constantes.chaveCriptografia, Constantes.Constantes.vetorInicializacao))
+            {
+                ICryptoTransform decryptor =
+                    algoritmo.CreateDecryptor(
+                        algoritmo.Key, algoritmo.IV);
+
+                string textoDecriptografado = null;
+                using (MemoryStream streamTextoEncriptado =
+                    new MemoryStream(
+                        HexStringToArrayBytes(textoEncriptado)))
+                {
+                    using (CryptoStream csStream = new CryptoStream(
+                        streamTextoEncriptado, decryptor,
+                        CryptoStreamMode.Read))
+                    {
+                        using (StreamReader reader =
+                            new StreamReader(csStream))
+                        {
+                            textoDecriptografado =
+                                reader.ReadToEnd();
+                        }
+                    }
+                }
+
+                return textoDecriptografado;
+            }
+        }
+
+        #region Método(s) Interno(s)
+
+        private static Rijndael CriarInstanciaRijndael(string chave, string vetorInicializacao)
+        {
+            if (!(chave != null &&
+                  (chave.Length == 16 ||
+                   chave.Length == 24 ||
+                   chave.Length == 32)))
+            {
+                throw new Exception(
+                    "A chave de criptografia deve possuir " +
+                    "16, 24 ou 32 caracteres.");
+            }
+
+            if (vetorInicializacao == null ||
+                vetorInicializacao.Length != 16)
+            {
+                throw new Exception(
+                    "O vetor de inicialização deve possuir " +
+                    "16 caracteres.");
+            }
+
+            Rijndael algoritmo = Rijndael.Create();
+            algoritmo.Key =
+                Encoding.ASCII.GetBytes(chave);
+            algoritmo.IV =
+                Encoding.ASCII.GetBytes(vetorInicializacao);
+
+            return algoritmo;
+        }
+
+        private static string ArrayBytesToHexString(byte[] conteudo)
+        {
+            string[] arrayHex = Array.ConvertAll(
+                conteudo, b => b.ToString("X2"));
+            return string.Concat(arrayHex);
+        }
+
+        private static byte[] HexStringToArrayBytes(string conteudo)
+        {
+            int qtdeBytesEncriptados =
+                conteudo.Length / 2;
+            byte[] arrayConteudoEncriptado =
+                new byte[qtdeBytesEncriptados];
+            for (int i = 0; i < qtdeBytesEncriptados; i++)
+            {
+                arrayConteudoEncriptado[i] = Convert.ToByte(
+                    conteudo.Substring(i * 2, 2), 16);
+            }
+
+            return arrayConteudoEncriptado;
+        }
+
+        #endregion
+
 
 
 
