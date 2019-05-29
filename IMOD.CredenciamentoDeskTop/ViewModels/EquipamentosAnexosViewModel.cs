@@ -28,6 +28,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private VeiculoView _veiculoView;
         private EquipamentosViewModel _viewModelParent;
 
+        private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
+        private readonly IEmpresaContratosService _serviceContratos = new EmpresaContratoService();
+        private ConfiguraSistema _configuraSistema;
+
         #region  Propriedades
 
         public VeiculoAnexoView Entity { get; set; }
@@ -43,7 +47,16 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         ///     Habilita listView
         /// </summary>
         public bool IsEnableLstView { get; private set; } = true;
-
+        /// <summary>
+        ///     Tamanho da Imagem
+        /// </summary>
+        public int IsTamanhoArquivo
+        {
+            get
+            {
+                return _configuraSistema.arquivoTamanho;
+            }
+        }
         #endregion
 
         public EquipamentosAnexosViewModel()
@@ -100,8 +113,22 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             var list2 = Mapper.Map<List<VeiculoAnexoView>> (list1.OrderByDescending (n => n.VeiculoAnexoId));
             EntityObserver = new ObservableCollection<VeiculoAnexoView>();
             list2.ForEach (n => { EntityObserver.Add (n); });
-        }
 
+            //Obter configuracoes de sistema
+            _configuraSistema = ObterConfiguracao();
+        }
+        /// <summary>
+        /// Obtem configuração de sistema
+        /// </summary>
+        /// <returns></returns>
+        private ConfiguraSistema ObterConfiguracao()
+        {
+            //Obter configuracoes de sistema
+            var config = _auxiliaresService.ConfiguraSistemaService.Listar();
+            //Obtem o primeiro registro de configuracao
+            if (config == null) throw new InvalidOperationException("Não foi possivel obter dados de configuração do sistema.");
+            return config.FirstOrDefault();
+        }
         private void PrepareRemover()
         {
             if (Entity == null) return;

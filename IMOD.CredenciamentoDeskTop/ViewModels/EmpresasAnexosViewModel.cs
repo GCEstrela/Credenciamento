@@ -52,7 +52,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         public short SelectListViewIndex { get; set; }
         /// <summary>
-        ///     Tamanho da Imagem
+        ///     Tamanho do Arquivo
         /// </summary>
         public int IsTamanhoArquivo
         {

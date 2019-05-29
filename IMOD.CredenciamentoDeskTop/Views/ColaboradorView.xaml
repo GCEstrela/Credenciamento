@@ -255,7 +255,8 @@
                     Width="25" Margin="0,0,5,0" />
             <Button x:Name="btnExcluir" Content="{StaticResource imgRemove}" ToolTip="Remover"
                     IsEnabled="{Binding Comportamento.isEnableRemover}" Command="{Binding PrepareRemoverCommand}"
-                    Width="25" Margin="0,0,5,0" Visibility="Collapsed" />
+                    Visibility="{Binding IsEnablePreCadastro,  Converter={StaticResource VisibleControl}}"
+                    Width="25" Margin="0,0,5,0"/>
             <Button x:Name="btnCancelar" Content="{StaticResource imgCancel}" ToolTip="Cancelar"
                     IsEnabled="{Binding Comportamento.isEnableCancelar}" Command="{Binding PrepareCancelarCommand}"
                     Width="25" Margin="0,0,5,0" />

@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 using AutoMapper;
@@ -52,6 +53,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             CarregaColecaoStatus();
             CarregaColecaoCredenciaisStatus();
             CarregaColecaoFormatosCredenciais();
+            CarregaConfiguracaoSistema();
         }
 
         #endregion
@@ -69,9 +71,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         //private SynchronizationContext _mainThread;
 
         private int _selectedIndex;
-       // private int _selectedIndexTemp = 0;
+        // private int _selectedIndexTemp = 0;
 
+        private ObservableCollection<ConfiguraSistemaView> _congiracaoSistema;
         //Relatórios
+
         private ObservableCollection<RelatorioView> _relatorios;
         private readonly List<RelatorioView> _relatoriosTemp = new List<RelatorioView>();
         private RelatorioView _relatorioSelecionado;
@@ -192,7 +196,19 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 OnPropertyChanged ("SelectedIndex");
             }
         }
+        public ObservableCollection<ConfiguraSistemaView> CongiracaoSistema
+        {
+            get { return _congiracaoSistema; }
 
+            set
+            {
+                if (_congiracaoSistema != value)
+                {
+                    _congiracaoSistema = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
         //Relatórios
         public ObservableCollection<RelatorioView> Relatorios
         {
@@ -2078,7 +2094,26 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         #endregion
 
         #region Carregamento das Colecoes
+        public void CarregaConfiguracaoSistema()
+        {
+            try
+            {
+                var service = new ConfiguraSistemaService();
+                var list1 = service.Listar().ToList().FirstOrDefault();
 
+
+                //var list2 = Mapper.Map<List<ConfiguraSistemaView>>(list1);
+                //var observer = new ObservableCollection<ConfiguraSistemaView>();
+                //list2.ForEach(n => { observer.Add(n); });
+
+                //CongiracaoSistema = observer;
+                //CongiracaoSistema.
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+            }
+        }
         public void CarregaColecaoRelatorios()
         {
             try

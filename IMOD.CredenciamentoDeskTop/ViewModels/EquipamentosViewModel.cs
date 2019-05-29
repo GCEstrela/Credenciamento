@@ -27,6 +27,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
         private readonly IVeiculoService _service = new VeiculoService();
 
+        private readonly IDadosAuxiliaresFacade _auxiliaresServiceConfiguraSistema = new DadosAuxiliaresFacadeService();
+        private ConfiguraSistema _configuraSistema;
 
         public bool IsEnablePreCadastro { get; set; } = false;
         public bool IsEnablePreCadastroCredenciamento { get; set; } = true;
@@ -156,7 +158,16 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         ///     Dados de municipio armazendas em memoria
         /// </summary>
         public List<Municipio> _municipios { get; set; }
-
+        /// <summary>
+        ///     Tamanho da Imagem
+        /// </summary>
+        public int IsTamanhoImagem
+        {
+            get
+            {
+                return _configuraSistema.imagemTamanho;
+            }
+        }
         #endregion
 
         public EquipamentosViewModel()
@@ -225,8 +236,21 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             TiposCombustiveis = Mapper.Map<List<TipoCombustivel>> (lst2);
             Estados = Mapper.Map<List<Estados>> (lst3);
             ListaEquipamentos = Mapper.Map<List<TipoEquipamento>> (lst4);
+            //Obter configuracoes de sistema
+            _configuraSistema = ObterConfiguracao();
         }
-
+        /// <summary>
+        /// Obtem configuração de sistema
+        /// </summary>
+        /// <returns></returns>
+        private ConfiguraSistema ObterConfiguracao()
+        {
+            //Obter configuracoes de sistema
+            var config = _auxiliaresService.ConfiguraSistemaService.Listar();
+            //Obtem o primeiro registro de configuracao
+            if (config == null) throw new InvalidOperationException("Não foi possivel obter dados de configuração do sistema.");
+            return config.FirstOrDefault();
+        }
         /// <summary>
         ///     Atualizar dados de pendências
         /// </summary>

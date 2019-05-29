@@ -3,6 +3,7 @@ using IMOD.Application.Interfaces;
 using IMOD.Application.Service;
 using IMOD.ValidacaoCredencialWeb.Models;
 using System;
+using System.Net;
 using System.Web.Mvc;
 
 namespace IMOD.PreCredenciamentoWeb.Controllers
@@ -14,14 +15,11 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         private readonly IConfiguraSistemaService objConfiguraSistema = new ConfiguraSistemaService(); 
 
         // GET: Veiculo/Credential/5
-        public ActionResult Credential(string id, string param)
+        public ActionResult Credential(string id)
         {
+            if (id == null || (string.IsNullOrEmpty(id))) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            if (id == null || (string.IsNullOrEmpty(id))) return HttpNotFound();
-            if (param == null || (string.IsNullOrEmpty(param))) return HttpNotFound();
-
-            var paramDescodificado = Helper.CriptografiaHelper.Decodificar(param);
-            var identificador = Helper.CriptografiaHelper.Decodificar(id);
+            var identificador = Helper.CriptografiaHelper.Decriptar(id);
 
             var credencialView = objVeiculoCredencialService.ObterCredencialView(Convert.ToInt16(identificador));
 
@@ -42,13 +40,12 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                     ViewBag.ClasseTexto = "INATIVA";
                 }
 
-                ViewBag.ImgOperador = GetImagemOperadorAereo(); 
+                ViewBag.ImgOperador = GetImagemOperadorAereo();
 
                 return View(objAutorizacaoMapeado); 
             }
 
-            return View();
-
+            return View(); 
         }
 
         #region Método(s) Interno(s)

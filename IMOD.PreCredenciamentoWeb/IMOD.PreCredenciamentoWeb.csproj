@@ -148,6 +148,7 @@
     <Compile Include="Models\AutorizacaoViewModel.cs" />
     <Compile Include="Models\ColaboradorEmpresaViewModel.cs" />
     <Compile Include="Models\ColaboradorViewModel.cs" />
+    <Compile Include="Models\LoginViewModel .cs" />
     <Compile Include="Models\EmpresaViewModel.cs" />
     <Compile Include="Models\VeiculoViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

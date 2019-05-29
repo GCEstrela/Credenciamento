@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using AutoMapper;
 using IMOD.Application.Interfaces;
 using IMOD.Application.Service;
+using System.Net;
 
 namespace IMOD.PreCredenciamentoWeb.Controllers
 {
@@ -15,14 +16,12 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
 
         // GET: Veiculo/Credential/5
-        public ActionResult Credential(string id, string param)
+        public ActionResult Credential(string id)
         {
 
-            if (id == null || (string.IsNullOrEmpty(id))) return HttpNotFound();
-            if (param == null || (string.IsNullOrEmpty(param))) return HttpNotFound();
+            if (id == null || (string.IsNullOrEmpty(id))) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            var paramDescodificado = Helper.CriptografiaHelper.Decodificar(param);
-            var identificador = Helper.CriptografiaHelper.Decodificar(id);
+            var identificador = Helper.CriptografiaHelper.Decriptar(id);
 
             var credencialView = objColaboradorCredencialService.ObterCredencialView(Convert.ToInt16(identificador));
 

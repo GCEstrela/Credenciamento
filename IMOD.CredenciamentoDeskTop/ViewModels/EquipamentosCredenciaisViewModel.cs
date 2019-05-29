@@ -622,9 +622,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 relatorio.SetDataSource(lst);
 
                 var objCode = new QrCode();
-                string querySistema = _configuraSistema.UrlSistema?.Trim().ToString() + "/Veiculo/Credential/" 
-                                            + Helpers.Helper.Codificar(AutorizacaoMapeada.VeiculoCredencialId.ToString())
-                                                + "?param=" + Helpers.Helper.Codificar(Constantes.Constantes.chaveCriptografia);
+                string querySistema = _configuraSistema.UrlSistema?.Trim().ToString() + "/Veiculo/Credential/"
+                                            + Helpers.Helper.Encriptar(AutorizacaoMapeada.VeiculoCredencialId.ToString());
 
                 var pathImagem = objCode.GerarQrCode(querySistema, "QrCodeAutorizacao" + AutorizacaoMapeada.VeiculoCredencialId.ToString() + ".png");
                 relatorio.SetParameterValue("PathImgQrCode", pathImagem);

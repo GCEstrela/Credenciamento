@@ -51,7 +51,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         private void OnListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            fake1.IsChecked = false;
+            //fake1.IsChecked = false;
             if (_viewModel.Entity == null) return;
             //Atualizar dados ao selecionar uma linha da listview
             _viewModel.AtualizarDadosPendencias();
@@ -69,6 +69,15 @@ namespace IMOD.CredenciamentoDeskTop.Views
             EmpresaContratosUs.AtualizarDados(_viewModel.Entity, _viewModel);
             //////////////////////////////////////////////////////////////
             _viewModel.CarregarQuantidadeTipoCredencial();
+            //////////////////////////////////////////////////////////////
+            if (_viewModel.Entity.Cnpj== "00.000.000/0000-00")
+            {
+                fake1.IsChecked = true;
+            }
+            else
+            {
+                fake1.IsChecked = false;
+            }
         }
 
         /// <summary>
@@ -308,7 +317,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         private void BtnEditar_Click(object sender, RoutedEventArgs e)
         {
-            fake1.IsChecked = false;
+            //fake1.IsChecked = false;
         }
     }
 }
