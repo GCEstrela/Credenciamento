@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
@@ -349,23 +350,45 @@ namespace IMOD.Infra.Repositorios
         /// <summary>
         ///     Deletar registro
         /// </summary>
-        /// <param name="entity">Entidade</param>
+        /// <param name="entity">Entidade</param>   
         public void Remover(Colaborador entity)
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.DeleteText("Colaboradores", conn))
+                SqlTransaction tran = (SqlTransaction)conn.BeginTransaction();
+
+                try
                 {
-                    try
+                    using (var cmd = _dataBase.DeleteText("ColaboradoresAnexos", conn))
                     {
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamDelete("ColaboradorId", DbType.Int32, entity.ColaboradorId).Igual()));
                         cmd.ExecuteNonQuery();
                     }
-                    catch (Exception ex)
+                    using (var cmd = _dataBase.DeleteText("ColaboradoresCursos", conn))
                     {
-                        Utils.TraceException(ex);
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamDelete("ColaboradorId", DbType.Int32, entity.ColaboradorId).Igual()));
+                        cmd.ExecuteNonQuery();
                     }
+                    using (var cmd = _dataBase.DeleteText("ColaboradoresEmpresas", conn))
+                    {
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamDelete("ColaboradorId", DbType.Int32, entity.ColaboradorId).Igual()));
+                        cmd.ExecuteNonQuery();
+                    }
+                    using (var cmd = _dataBase.DeleteText("Colaboradores", conn))
+                    {
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamDelete("ColaboradorI", DbType.Int32, entity.ColaboradorId).Igual()));
+                        cmd.ExecuteNonQuery();
+
+                    }
+
+                    tran.Commit();
                 }
+                catch (Exception ex)
+                {
+                    tran.Rollback();
+                    Utils.TraceException(ex);
+                }
+                
             }
         }
 
