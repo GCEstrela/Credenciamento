@@ -22,18 +22,19 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
         // GET: Login
         public ActionResult Index()
-        { 
-            return View(new EmpresaViewModel());
+        {
+            return View(new LoginViewModel());
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Login(EmpresaViewModel empresa)
+        //[ValidateAntiForgeryToken]
+        public ActionResult Login(LoginViewModel login)
         {
             // esta action trata o post (login)
-            //if (ModelState.IsValid) //verifica se é válido
-           // {
-                var empresaLogada = service.Listar(null,null,null,null, empresa.Cnpj, empresa.Senha).FirstOrDefault();
+            if (ModelState.IsValid) 
+            {
+                var empresa = new EmpresaViewModel();
+                var empresaLogada = service.Listar(null, null, null, null, login.Cnpj, login.Senha).FirstOrDefault();
                 //var empresaLogada = lista.Where(e => e.Cnpj.Equals(empresa.CNPJ) && e.Senha.Equals(empresa.Senha)).FirstOrDefault();
                 if (empresaLogada != null)
                 {
@@ -46,21 +47,21 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                     //empresa.Sigla= empresaLogada.Sigla;
 
                     empresa.Logo = string.Format("data:image/png;base64,{0}", empresaLogada.Logo);
-                    empresa.Email1= empresaLogada.Email1;
+                    empresa.Email1 = empresaLogada.Email1;
                     empresa.Contato1 = empresaLogada.Contato1;
-
+                    
                     Session["EmpresaLogada"] = empresa;
                     FormsAuthentication.SetAuthCookie(empresa.Nome, empresa.Lembreme);
                     return RedirectToAction("../Home/Index");
                 }
                 else
                 {
-                    ModelState.AddModelError("", "O login está incorreto!");                    
-                    return RedirectToAction("..Login");
+                    ModelState.AddModelError("", "O login está incorreto!");
+                    return RedirectToAction("../Login");
                 }
-            //}
-            ModelState.AddModelError("", "O login está incorreto!");
-            return RedirectToAction("../Login"); 
+            }
+
+            return RedirectToAction("../Login");
 
         }
         public static string FormatCNPJ(string CNPJ)
@@ -85,7 +86,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         {
             Session.Abandon();
             FormsAuthentication.SignOut();
-            return RedirectToAction("Index","Login");
+            return RedirectToAction("Index", "Login");
         }
 
     }
