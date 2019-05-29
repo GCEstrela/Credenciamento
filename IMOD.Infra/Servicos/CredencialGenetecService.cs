@@ -172,7 +172,7 @@ namespace IMOD.Infra.Servicos
             }
             else
             {
-                entityCardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now.AddHours(23).AddMinutes(59).AddSeconds(59), entity.Validade);
+                entityCardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, DateTime.Now.AddHours(23).AddMinutes(59).AddSeconds(59));
             }
             //entityCardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade);
             entityCardholder.Picture = entity.Foto;
