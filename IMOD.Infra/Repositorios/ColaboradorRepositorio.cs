@@ -355,37 +355,44 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                SqlTransaction tran = (SqlTransaction)conn.BeginTransaction();
+                var tran = conn.BeginTransaction();
 
                 try
                 {
                     using (var cmd = _dataBase.DeleteText("ColaboradoresAnexos", conn))
                     {
+                        cmd.Transaction = tran;
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamDelete("ColaboradorId", DbType.Int32, entity.ColaboradorId).Igual()));
                         cmd.ExecuteNonQuery();
                     }
                     using (var cmd = _dataBase.DeleteText("ColaboradoresCursos", conn))
                     {
+                        cmd.Transaction = tran;
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamDelete("ColaboradorId", DbType.Int32, entity.ColaboradorId).Igual()));
                         cmd.ExecuteNonQuery();
                     }
                     using (var cmd = _dataBase.DeleteText("ColaboradoresEmpresas", conn))
                     {
+                        cmd.Transaction = tran;
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamDelete("ColaboradorId", DbType.Int32, entity.ColaboradorId).Igual()));
                         cmd.ExecuteNonQuery();
                     }
                     using (var cmd = _dataBase.DeleteText("Colaboradores", conn))
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamDelete("ColaboradorI", DbType.Int32, entity.ColaboradorId).Igual()));
+                        cmd.Transaction = tran;
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamDelete("ColaboradorId", DbType.Int32, entity.ColaboradorId).Igual()));
                         cmd.ExecuteNonQuery();
-
                     }
-
+                    
                     tran.Commit();
                 }
                 catch (Exception ex)
                 {
-                    tran.Rollback();
+                    if (conn.State == ConnectionState.Open)
+                    {
+                        tran.Rollback();
+                        conn.Close();
+                    }
                     Utils.TraceException(ex);
                 }
                 
