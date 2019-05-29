@@ -37,6 +37,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
        
         private  ColaboradorViewModel _viewModelParent;
 
+        private readonly IEmpresaContratosService _serviceContratos = new EmpresaContratoService();
+        private ConfiguraSistema _configuraSistema;
+
         #region  Propriedades
         /// <summary>
         ///     Seleciona o indice da tabcontrol desejada
@@ -51,7 +54,16 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         ///     Habilita listView
         /// </summary>
         public bool IsEnableLstView { get; private set; } = true;
-
+        /// <summary>
+        ///     Tamanho do Arquivo
+        /// </summary>
+        public int IsTamanhoArquivo
+        {
+            get
+            {
+                return _configuraSistema.arquivoTamanho;
+            }
+        }
         #endregion
 
         #region Inicializacao
@@ -110,8 +122,17 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             var lst1 = _auxiliaresService.CursoService.Listar();
             Cursos = new List<Curso>();
             Cursos.AddRange (lst1);
-        }
 
+            _configuraSistema = ObterConfiguracao();
+        }
+        private ConfiguraSistema ObterConfiguracao()
+        {
+            //Obter configuracoes de sistema
+            var config = _auxiliaresService.ConfiguraSistemaService.Listar();
+            //Obtem o primeiro registro de configuracao
+            if (config == null) throw new InvalidOperationException("Não foi possivel obter dados de configuração do sistema.");
+            return config.FirstOrDefault();
+        }
         /// <summary>
         ///     Criar Dados
         /// </summary>
