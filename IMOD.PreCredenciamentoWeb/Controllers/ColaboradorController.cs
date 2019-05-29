@@ -12,6 +12,7 @@ using IMOD.Application.Interfaces;
 
 namespace IMOD.PreCredenciamentoWeb.Controllers
 {
+    [Authorize]
     public class ColaboradorController : Controller
     {
         // GET: Colaborador
@@ -33,6 +34,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         private List<Colaborador> colaboradores = new List<Colaborador>();
         private List<ColaboradorEmpresa> vinculos = new List<ColaboradorEmpresa>();
 
+        [Authorize]
         public ActionResult Index()
         {
             if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
@@ -50,6 +52,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         }
 
         // GET: Colaborador/Details/5
+        [Authorize]
         public ActionResult Details(int id)
         {
             if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
@@ -111,6 +114,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         }
 
         // GET: Colaborador/Create
+        [Authorize]
         public ActionResult Create()
         {
             if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
@@ -135,6 +139,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
         [HttpPost]
         //[ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult Create(ColaboradorViewModel model, int[] EmpresaContratoId)
         {
             try
@@ -297,6 +302,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
         // POST: Colaborador/Edit/5
         [HttpPost]
+        [Authorize]
         public ActionResult Edit(int? id, ColaboradorViewModel model)
         {
             try
@@ -389,6 +395,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         }
 
         // GET: Colaborador/Delete/5
+        [Authorize]
         public ActionResult Delete(int id)
         {
             // TODO: Add delete logic here
@@ -401,6 +408,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
         // POST: Colaborador/Delete/5
         [HttpPost]
+        [Authorize]
         public ActionResult Delete(int id, FormCollection collection)
         {
             try
@@ -417,6 +425,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             }
         }
 
+        [Authorize]
         public JsonResult AdicionarContrato(int id, Boolean bagagem, string validade, string cargo)
         {
             List<ColaboradorEmpresaViewModel> vinculoList = new List<ColaboradorEmpresaViewModel>();
@@ -438,6 +447,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             return Json(vinculoList, JsonRequestBehavior.AllowGet);
         }
 
+        [Authorize]
         public JsonResult RemoverContrato(int id)
         {
             var listContrato = (List<ColaboradorEmpresaViewModel>)Session[SESS_CONTRATOS_SELECIONADOS];
@@ -449,6 +459,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             return Json(listContrato, JsonRequestBehavior.AllowGet);
         }
 
+        [Authorize]
         public JsonResult AdicionarCurso(int id)
         {
             if (Session[SESS_CURSOS_SELECIONADOS] == null) Session[SESS_CURSOS_SELECIONADOS] = new List<Curso>();
@@ -457,6 +468,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             return Json((List<Curso>)Session[SESS_CURSOS_SELECIONADOS], JsonRequestBehavior.AllowGet);
         }
 
+        [Authorize]
         public JsonResult RemoverCurso(int id)
         {
             var listContrato = (List<Curso>)Session[SESS_CURSOS_SELECIONADOS];
@@ -467,7 +479,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             return Json(listContrato, JsonRequestBehavior.AllowGet);
         }
 
-
+        [Authorize]
         public JsonResult BuscarMunicipios(int id)
         {
             var listMunicipio = objMunicipioSevice.Listar(null, null, id);
@@ -476,6 +488,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         }
 
 
+        [Authorize]
         public JsonResult ConsultarCPF(string cpf)
         {
             var colaborador = objService.ObterPorCpf(cpf);
