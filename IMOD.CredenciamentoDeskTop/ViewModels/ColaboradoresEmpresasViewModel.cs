@@ -35,6 +35,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private readonly IColaboradorEmpresaService _service = new ColaboradorEmpresaService();
         private readonly IColaboradorCredencialService _servicecredencial = new ColaboradorCredencialService();
 
+
         //private readonly object _auxiliaresService;
         private ColaboradorView _colaboradorView;
        
@@ -68,7 +69,17 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <summary>
         ///     Habilita Combo de Contratos
         /// </summary>
-        public bool IsEnableColete { get; private set; } = true;        
+        public bool IsEnableColete { get; private set; } = true;
+        /// <summary>
+        ///     Tamanho do Arquivo
+        /// </summary>
+        public int IsTamanhoArquivo
+        {
+            get
+            {
+                return _configuraSistema.arquivoTamanho;
+            }
+        }
         #endregion
 
         public ColaboradoresEmpresasViewModel()
