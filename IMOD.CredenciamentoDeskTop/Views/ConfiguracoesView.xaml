@@ -13,11 +13,6 @@
         <Image x:Key="imgRemove" Source="../Resources/remove.png"  />
         <Image x:Key="imgSave" Source="../Resources/save.png" />
         <Image x:Key="imgCancel" Source="../Resources/undo.png" />
-
-        <Image x:Key="imgAddAreaAcesso" Source="../Resources/add.png" />
-        <Image x:Key="imgRemoveAreaAcesso" Source="../Resources/remove.png" />
-        <Image x:Key="imgSaveAreaAcesso" Source="../Resources/save.png" />
-        <Image x:Key="imgCancelAreaAcesso" Source="../Resources/undo.png" />
     </UserControl.Resources>
     
     <Grid Margin="5,5">
@@ -780,14 +775,35 @@
                                                 </GridView>
                                             </ListView.View>
                                         </ListView>
-                                    </StackPanel>
-                                    <Grid>
-                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="0,5,0,0" >
-                                            <Button x:Name="NovoRelatorio_bt" Content="Novo"  Height="30" Width="148" Margin="10,0,0,0" Click="NovoRelatorio_bt_Click"/>
-                                            <Button x:Name="SalvarRelatorio_bt" Content="Salvar" IsEnabled="False" Height="30" Width="148" Margin="10,0,0,0" Click="SalvarRelatorio_bt_Click"/>
-                                            <Button x:Name="ExcluirRelatorio_bt" Content="Excluir"  Height="30" Width="148" Margin="10,0,0,0" Click="ExcluirRelatorio_bt_Click"/>
+                                        <StackPanel Orientation="Vertical" Margin="0,0" Width="30" HorizontalAlignment="Right" Height="167" VerticalAlignment="Top" >
+                                            <Button x:Name="btnAdicionarRelatorio" ToolTip="Adicionar" Width="25"
+                                                Margin="0,0,0,7" Click="btnAdicionarRelatorio_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/add.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnDeletarRelatorio" ToolTip="Remover" Width="25"
+                                                    Margin="0,0,0,7" Click="btnDeletarRelatorio_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/remove.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnCancelarRelatorio" ToolTip="Cancelar" Width="25"
+                                                Margin="0,0,0,7" Click="btnCancelarRelatorio_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/undo.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnSalvarRelatorio" ToolTip="Salvar" Width="25"
+                                                    Margin="0,0,0,7" Click="btnSalvarRelatorio_Click" IsEnabled="False">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/save.png"/>
+                                                </StackPanel>
+                                            </Button>
                                         </StackPanel>
-                                    </Grid>
+                                        
+                                    </StackPanel> 
+                                    
                                 </StackPanel>
 
                             </GroupBox>
@@ -833,14 +849,35 @@
                                                 </GridView>
                                             </ListView.View>
                                         </ListView>
-                                    </StackPanel>
-                                    <Grid>
-                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="0,5,0,0" >
-                                            <Button x:Name="NovoRelatorioGerencial_bt" Content="Novo"  Height="30" Width="148" Margin="10,0,0,0" Click="NovoRelatorioGerencial_bt_Click"/>
-                                            <Button x:Name="SalvarRelatorioGerencial_bt" Content="Salvar" IsEnabled="False" Height="30" Width="148" Margin="10,0,0,0" Click="SalvarRelatorioGerencial_bt_Click"/>
-                                            <Button x:Name="ExcluirRelatorioGerencial_bt" Content="Excluir"  Height="30" Width="148" Margin="10,0,0,0" Click="ExcluirRelatorioGerencial_bt_Click"/>
+                                        <StackPanel Orientation="Vertical" Margin="0,0" Width="30" HorizontalAlignment="Right" Height="167" VerticalAlignment="Top" >
+                                            <Button x:Name="btnAdicionarRelatorioGerencial" ToolTip="Adicionar" Width="25"
+                                                Margin="0,0,0,7" Click="btnAdicionarRelatorioGerencial_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/add.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnDeletarRelatorioGerencial" ToolTip="Remover" Width="25"
+                                                    Margin="0,0,0,7" Click="btnDeletarRelatorioGerencial_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/remove.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnCancelarRelatorioGerencial" ToolTip="Cancelar" Width="25"
+                                                Margin="0,0,0,7" Click="btnCancelarRelatorioGerencial_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/undo.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnSalvarRelatorioGerencial" ToolTip="Salvar" Width="25"
+                                                    Margin="0,0,0,7" Click="btnSalvarRelatorioGerencial_Click" IsEnabled="False">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/save.png"/>
+                                                </StackPanel>
+                                            </Button>
                                         </StackPanel>
-                                    </Grid>
+
+                                    </StackPanel>
+                                    
                                 </StackPanel>
                             </GroupBox>
 
@@ -882,18 +919,36 @@
                                                 </GridView>
                                             </ListView.View>
                                         </ListView>
-                                    </StackPanel>
-                                    <Grid>
-                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="0,5,0,0" >
-                                            <Button x:Name="NovoCracha_bt" Content="Novo"  Height="30" Width="148" Margin="10,0,0,0" Click="NovoCracha_bt_Click"/>
-                                            <Button x:Name="SalvarCracha_bt" Content="Salvar" IsEnabled="False" Height="30" Width="148" Margin="10,0,0,0" Click="SalvarCracha_bt_Click"/>
-                                            <Button x:Name="ExcluirCracha_bt" Content="Excluir"  Height="30" Width="148" Margin="10,0,0,0" Click="ExcluirCracha_bt_Click"/>
+                                        <StackPanel Orientation="Vertical" Margin="0,0" Width="30" HorizontalAlignment="Right" Height="167" VerticalAlignment="Top" >
+                                            <Button x:Name="btnAdicionarCracha" ToolTip="Adicionar" Width="25"
+                                                Margin="0,0,0,7" Click="btnAdicionarCracha_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/add.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnDeletarCracha" ToolTip="Remover" Width="25"
+                                                    Margin="0,0,0,7" Click="btnDeletarCracha_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/remove.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnCancelarCracha" ToolTip="Cancelar" Width="25"
+                                                Margin="0,0,0,7" Click="btnCancelarCracha_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/undo.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnSalvarCracha" ToolTip="Salvar" Width="25"
+                                                    Margin="0,0,0,7" Click="btnSalvarCracha_Click" IsEnabled="False">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/save.png"/>
+                                                </StackPanel>
+                                            </Button>
                                         </StackPanel>
-                                    </Grid>
+                                    </StackPanel>
+
                                 </StackPanel>
                             </GroupBox>
-
-
 
                         </Grid>
                     </StackPanel>

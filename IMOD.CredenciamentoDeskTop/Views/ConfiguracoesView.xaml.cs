@@ -22,7 +22,13 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         #region Comando dos Botoes
 
-        #region Relatórios
+        #region Relatórios 
+
+        private void AbrirRelatorio_bt_Click(object sender, RoutedEventArgs e)
+        {
+            
+            ((ConfiguracoesViewModel)DataContext).OnAbrirRelatorioCommand();
+        }
 
         private void BuscarRelatorio_bt_Click(object sender, RoutedEventArgs e)
         {
@@ -31,46 +37,47 @@ namespace IMOD.CredenciamentoDeskTop.Views
             CodigoRelatorio_tb.Text = ((ConfiguracoesViewModel)DataContext).RelatorioTemp.RelatorioId.ToString();
             DescricaoRelatorio_tb.Text = ((ConfiguracoesViewModel)DataContext).RelatorioTemp.NomeArquivoRpt;
         }
-        private void SalvarRelatorio_bt_Click(object sender, RoutedEventArgs e)
-        {
-            NovoRelatorio_bt.Content = "Novo";
-            SalvarRelatorio_bt.IsEnabled = false;
-            ((ConfiguracoesViewModel)DataContext).OnSalvarRelatorioCommand();
 
-        }
-        private void NovoRelatorio_bt_Click(object sender, RoutedEventArgs e)
+        private void btnAdicionarRelatorio_Click(object sender, RoutedEventArgs e)
         {
             DescricaoRelatorio_tb.Focus();
             BuscarRelatorio_bt.IsEnabled = true;
-            if (NovoRelatorio_bt.Content.ToString() == "Novo")
-            {
-                SalvarRelatorio_bt.IsEnabled = true;
-                NovoRelatorio_bt.Content = "Cancelar";
-                ((ConfiguracoesViewModel)DataContext).OnAdicionarRelatorioCommand();
-            }
-            else if (NovoRelatorio_bt.Content.ToString() == "Cancelar")
-            {
-                SalvarRelatorio_bt.IsEnabled = false;
-                NovoRelatorio_bt.Content = "Novo";
-                ((ConfiguracoesViewModel)DataContext).CarregaColecaoRelatorios();
-            }
-                
-            
-        }
-        private void ExcluirRelatorio_bt_Click(object sender, RoutedEventArgs e)
-        {
-            SalvarRelatorio_bt.IsEnabled = false;
-            ((ConfiguracoesViewModel)DataContext).OnExcluirRelatorioCommand();
-        }
-        private void AbrirRelatorio_bt_Click(object sender, RoutedEventArgs e)
-        {
-            SalvarRelatorio_bt.IsEnabled = false;
-            ((ConfiguracoesViewModel)DataContext).OnAbrirRelatorioCommand();
+
+            btnSalvarRelatorio.IsEnabled = true;
+            btnCancelarRelatorio.IsEnabled = true;
+            ((ConfiguracoesViewModel)DataContext).OnAdicionarRelatorioCommand();
         }
 
-        #endregion
+        private void btnDeletarRelatorio_Click(object sender, RoutedEventArgs e) 
+        {
+            btnAdicionarRelatorio.IsEnabled = true;
+            btnSalvarRelatorio.IsEnabled = false;
+
+            ((ConfiguracoesViewModel)DataContext).OnExcluirRelatorioCommand(); 
+        }
+
+        private void btnCancelarRelatorio_Click(object sender, RoutedEventArgs e)
+        {
+            btnSalvarRelatorio.IsEnabled = false;
+            btnAdicionarRelatorio.IsEnabled = true;
+            ((ConfiguracoesViewModel)DataContext).CarregaColecaoRelatorios();
+        }
+
+        private void btnSalvarRelatorio_Click(object sender, RoutedEventArgs e)
+        {
+            btnAdicionarRelatorio.IsEnabled = true;
+            btnSalvarRelatorio.IsEnabled = false;
+            BuscarRelatorio_bt.IsEnabled = false;
+            ((ConfiguracoesViewModel)DataContext).OnSalvarRelatorioCommand();
+        }
+
+        #endregion 
 
         #region Relatórios Gerenciais
+        private void AbrirRelatorioGerencial_bt_Click(object sender, RoutedEventArgs e)
+        {
+            ((ConfiguracoesViewModel)DataContext).OnAbrirRelatorioGerencialCommand();
+        }
 
         private void BuscarRelatorioGerencial_bt_Click(object sender, RoutedEventArgs e)
         {
@@ -79,84 +86,86 @@ namespace IMOD.CredenciamentoDeskTop.Views
             DescricaoRelatorioGerencial_tb.Text = ((ConfiguracoesViewModel)DataContext).RelatorioGerencialTemp.NomeArquivoRpt;
 
         }
-        private void AbrirRelatorioGerencial_bt_Click(object sender, RoutedEventArgs e)
-        {
-            ((ConfiguracoesViewModel)DataContext).OnAbrirRelatorioGerencialCommand();
-        }
-        private void NovoRelatorioGerencial_bt_Click(object sender, RoutedEventArgs e)
+
+        private void btnAdicionarRelatorioGerencial_Click(object sender, RoutedEventArgs e)
         {
             DescricaoRelatorioGerencial_tb.Focus();
             BuscarRelatorioGerencial_bt.IsEnabled = true;
-            if (NovoRelatorioGerencial_bt.Content.ToString() == "Novo")
-            {
-                SalvarRelatorioGerencial_bt.IsEnabled = true;
-                NovoRelatorioGerencial_bt.Content = "Cancelar";
-                ((ConfiguracoesViewModel)DataContext).OnAdicionarRelatorioGerencialCommand();
-            }
-            else if (NovoRelatorioGerencial_bt.Content.ToString() == "Cancelar")
-            {
-                SalvarRelatorioGerencial_bt.IsEnabled = false;
-                NovoRelatorioGerencial_bt.Content = "Novo";
-                ((ConfiguracoesViewModel)DataContext).CarregaColecaoRelatoriosGerenciais();
-            }
-                
+
+            btnSalvarRelatorioGerencial.IsEnabled = true; 
+            btnCancelarRelatorioGerencial.IsEnabled = true; 
+            ((ConfiguracoesViewModel)DataContext).OnAdicionarRelatorioGerencialCommand();
+    
         }
-        private void SalvarRelatorioGerencial_bt_Click(object sender, RoutedEventArgs e)
+
+        private void btnSalvarRelatorioGerencial_Click(object sender, RoutedEventArgs e)
         {
-            NovoRelatorioGerencial_bt.Content = "Novo";
-            SalvarRelatorioGerencial_bt.IsEnabled = false;
+            btnAdicionarRelatorioGerencial.IsEnabled = true; 
+            btnSalvarRelatorioGerencial.IsEnabled = false;
+            BuscarRelatorioGerencial_bt.IsEnabled = false;
             ((ConfiguracoesViewModel)DataContext).OnSalvarRelatorioGerencialCommand();
         }
-        private void ExcluirRelatorioGerencial_bt_Click(object sender, RoutedEventArgs e)
+
+        private void btnDeletarRelatorioGerencial_Click(object sender, RoutedEventArgs e)
         {
-            SalvarRelatorioGerencial_bt.IsEnabled = false;
+            btnAdicionarRelatorioGerencial.IsEnabled = true;
+            btnSalvarRelatorioGerencial.IsEnabled = false;
             ((ConfiguracoesViewModel)DataContext).OnExcluirRelatorioGerencialCommand();
+        }
+
+        private void btnCancelarRelatorioGerencial_Click(object sender, RoutedEventArgs e)
+        {
+            btnSalvarRelatorioGerencial.IsEnabled = false; 
+            btnAdicionarRelatorioGerencial.IsEnabled = true; 
+            ((ConfiguracoesViewModel)DataContext).CarregaColecaoRelatoriosGerenciais();
         }
 
         #endregion
 
         #region Layouts Crachás
 
-        private void NovoCracha_bt_Click(object sender, RoutedEventArgs e)
+        private void AbrirCracha_bt_Click(object sender, RoutedEventArgs e)
         {
-            Nome_tb.Focus();
-            BuscarCracha_bt.IsEnabled = true;
-            if (NovoCracha_bt.Content.ToString() == "Novo")
-            {
-                SalvarCracha_bt.IsEnabled = true;
-                NovoCracha_bt.Content = "Cancelar";
-                ((ConfiguracoesViewModel)DataContext).OnAdicionarLayoutCrachaCommand();
-            }
-            else if (NovoCracha_bt.Content.ToString() == "Cancelar")
-            {
-                SalvarCracha_bt.IsEnabled = false;
-                NovoCracha_bt.Content = "Novo";
-                ((ConfiguracoesViewModel)DataContext).CarregaColecaoLayoutsCrachas();
-            }
-                
+            ((ConfiguracoesViewModel)DataContext).OnAbrirLayoutCrachaCommand();
         }
-        private void SalvarCracha_bt_Click(object sender, RoutedEventArgs e)
-        {
-            NovoCracha_bt.Content = "Novo";
-            SalvarCracha_bt.IsEnabled = false;
-            ((ConfiguracoesViewModel)DataContext).OnSalvarLayoutCrachaCommand();
-        }
-        private void ExcluirCracha_bt_Click(object sender, RoutedEventArgs e)
-        {
-            SalvarCracha_bt.IsEnabled = false;
-            ((ConfiguracoesViewModel)DataContext).OnExcluirLayoutCrachaCommand();
-        }
+
         private void BuscarCracha_bt_Click(object sender, RoutedEventArgs e)
         {
             ((ConfiguracoesViewModel)DataContext).OnBuscarLayoutCrachaCommand();
 
             CodigoCracha_tb.Text = ((ConfiguracoesViewModel)DataContext).LayoutCrachaTemp.LayoutCrachaId.ToString();
             Nome_tb.Text = ((ConfiguracoesViewModel)DataContext).LayoutCrachaTemp.Nome;
-
         }
-        private void AbrirCracha_bt_Click(object sender, RoutedEventArgs e)
+
+        private void btnAdicionarCracha_Click(object sender, RoutedEventArgs e)
         {
-            ((ConfiguracoesViewModel)DataContext).OnAbrirLayoutCrachaCommand();
+            Nome_tb.Focus();
+            BuscarCracha_bt.IsEnabled = true;
+            btnSalvarCracha.IsEnabled = true;
+            btnCancelarCracha.IsEnabled = true;
+            ((ConfiguracoesViewModel)DataContext).OnAdicionarLayoutCrachaCommand();
+        }
+
+        private void btnSalvarCracha_Click(object sender, RoutedEventArgs e)
+        {
+            btnAdicionarCracha.IsEnabled = true;
+            btnSalvarCracha.IsEnabled = false;
+            BuscarRelatorioGerencial_bt.IsEnabled = false;
+            ((ConfiguracoesViewModel)DataContext).OnSalvarLayoutCrachaCommand();
+        }
+
+        private void btnDeletarCracha_Click(object sender, RoutedEventArgs e)
+        {
+            btnAdicionarCracha.IsEnabled = true;
+            btnSalvarCracha.IsEnabled = false;
+            ((ConfiguracoesViewModel)DataContext).OnExcluirLayoutCrachaCommand();
+        }
+
+        private void btnCancelarCracha_Click(object sender, RoutedEventArgs e)
+        {
+            btnSalvarCracha.IsEnabled = false;
+            btnAdicionarCracha.IsEnabled = true;
+            ((ConfiguracoesViewModel)DataContext).CarregaColecaoLayoutsCrachas();
         }
 
         #endregion
