@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
+using IMOD.CredenciamentoDeskTop.Helpers;
 using IMOD.CredenciamentoDeskTop.ViewModels;
+using IMOD.CrossCutting;
 
 namespace IMOD.CredenciamentoDeskTop.Views
 {
@@ -13,10 +16,12 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
 
         #region Inicializacao
+        private readonly ConfiguracoesViewModel _viewModel;
         public ConfiguracoesView()
         {
             InitializeComponent();
-            DataContext = new ConfiguracoesViewModel();
+            _viewModel = new ConfiguracoesViewModel();
+            DataContext = _viewModel;
         }
         #endregion
 
@@ -607,6 +612,24 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 //return;
             }
 
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var filtro = "Images (*.BMP;*.JPG;*.GIF,*.PNG,*.TIFF)|*.BMP;*.JPG;*.GIF;*.PNG;*.TIFF|" + "All files (*.*)|*.*";
+                var arq = WpfHelp.UpLoadArquivoDialog(filtro, 200);
+                if (arq == null) return;
+                _viewModel.Entity.EmpresaLOGO = arq.FormatoBase64;
+                var binding = BindingOperations.GetBindingExpression(Logo_im, Image.SourceProperty);
+                binding?.UpdateTarget();
+
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+            }
         }
     }
 }

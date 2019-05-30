@@ -73,9 +73,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private int _selectedIndex;
         // private int _selectedIndexTemp = 0;
 
+        //Configuracao
         private ObservableCollection<ConfiguraSistemaView> _congiracaoSistema;
+        private ConfiguraSistemaView _configuracaosistemaSelecionado;
+        private int _configuracaosistemaSelectedIndex;
+        public ConfiguraSistemaView Entity { get; set; }
         //Relatórios
-
         private ObservableCollection<RelatorioView> _relatorios;
         private readonly List<RelatorioView> _relatoriosTemp = new List<RelatorioView>();
         private RelatorioView _relatorioSelecionado;
@@ -182,7 +185,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private Relatorios _relatorio = new Relatorios();
         private RelatoriosGerenciais _relatorioGerencial = new RelatoriosGerenciais();
         private LayoutCracha _layoutCracha = new LayoutCracha();
-
+        
         #endregion
 
         #region Contrutores
@@ -640,7 +643,19 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 }
             }
         }
+        public ConfiguraSistemaView ConfiguraSistemaSelecionado
+        {
+            get { return _configuracaosistemaSelecionado; }
 
+            set
+            {
+                _configuracaosistemaSelecionado = value;
+                OnPropertyChanged("SelectedItem");
+                if (_configuracaosistemaSelecionado != null)
+                {
+                }
+            }
+        }
         public TipoCombustivelView TipoCombustivelSelecionado
         {
             get { return _tipoCombustivelSelecionado; }
@@ -2100,14 +2115,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 var service = new ConfiguraSistemaService();
                 var list1 = service.Listar().ToList().FirstOrDefault();
-
-
-                //var list2 = Mapper.Map<List<ConfiguraSistemaView>>(list1);
-                //var observer = new ObservableCollection<ConfiguraSistemaView>();
-                //list2.ForEach(n => { observer.Add(n); });
-
-                //CongiracaoSistema = observer;
-                //CongiracaoSistema.
+                var list2 = Mapper.Map<ConfiguraSistemaView>(list1);
+                Entity = list2;
             }
             catch (Exception ex)
             {

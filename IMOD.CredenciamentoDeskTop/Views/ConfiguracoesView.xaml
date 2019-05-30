@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:viewModels="clr-namespace:IMOD.CredenciamentoDeskTop.ViewModels"
-             d:DataContext="{d:DesignInstance viewModels:ConfiguracoesViewModel , IsDesignTimeCreatable=True}"
+             d:DataContext="{d:DesignInstance viewModels:ConfiguracoesViewModel , IsDesignTimeCreatable=True}"             
              mc:Ignorable="d"
              MaxWidth="1300" Width="1270" >
     <UserControl.Resources>
@@ -18,6 +18,7 @@
         <Image x:Key="imgRemoveAreaAcesso" Source="../Resources/remove.png" />
         <Image x:Key="imgSaveAreaAcesso" Source="../Resources/save.png" />
         <Image x:Key="imgCancelAreaAcesso" Source="../Resources/undo.png" />
+        <!--<funcoes:StringToImageConverter x:Key="ImageConverter" />-->
     </UserControl.Resources>
     
     <Grid Margin="5,5">
@@ -924,25 +925,28 @@
                                             <Label Content="CNPJ:" Height="28" Width="64" Margin="40,0,0,0" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"  />
                                             <TextBox x:Name="txtCnpj" MaxLength="20" IsEnabled="True" Height="24" Width="120" Foreground="White"
                                              VerticalContentAlignment="Center"
-                                             Text="{Binding CongiracaoSistema.Cnpj, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                             Text="{Binding Entity.CNPJ, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                              HorizontalContentAlignment="Center" />
                                             
                                             <CheckBox Name="Contrato" ToolTip="Essa opção habilita contratos automático." 
                                               Content="Contrato" Foreground="YellowGreen"  HorizontalAlignment="Left" Height="17" 
-                                              Margin="6,7,0,0" Grid.Row="3" VerticalAlignment="Top" Width="70"/>
+                                              Margin="6,7,0,0" Grid.Row="3" VerticalAlignment="Top" Width="70"
+                                              IsChecked="{Binding Entity.Colete, UpdateSourceTrigger=PropertyChanged}" />
                                             <CheckBox Name="Colete" ToolTip="" 
                                               Content="Colete" Foreground="YellowGreen"  HorizontalAlignment="Left" Height="17" 
-                                              Margin="0,7,0,0" Grid.Row="3" VerticalAlignment="Top" Width="60"/>
+                                              Margin="0,7,0,0" Grid.Row="3" VerticalAlignment="Top" Width="60"
+                                              IsChecked="{Binding Entity.Colete, UpdateSourceTrigger=PropertyChanged}" />
                                             <CheckBox Name="Regra" ToolTip="" 
                                               Content="Regras" Foreground="YellowGreen"  HorizontalAlignment="Left" Height="17" 
-                                              Margin="0,7,0,0" Grid.Row="3" VerticalAlignment="Top" Width="70"/>
+                                              Margin="0,7,0,0" Grid.Row="3" VerticalAlignment="Top" Width="70"
+                                              IsChecked="{Binding Entity.Regas, UpdateSourceTrigger=PropertyChanged}" />
                                             
                                         </StackPanel>
                                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
                                             HorizontalAlignment="Left" Margin="1">
                                             <Label Content="Razão Social:" Height="28" Width="100" Margin="1"
                                            Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
-                                            <TextBox CharacterCasing="Upper" Text="{Binding CongiracaoSistema.NomeEmpresa}" x:Name="ttNome_tb"
+                                            <TextBox CharacterCasing="Upper" Text="{Binding Entity.NomeEmpresa}" x:Name="ttNome_tb"
                                              MaxLength="100" IsEnabled="True" Height="24" Width="304"
                                                />
                                         </StackPanel>
@@ -972,13 +976,12 @@
                                     <StackPanel VerticalAlignment="Top" Margin="50,6,20,0" Height="140" Width="101">
                                         <Border CornerRadius="3" BorderThickness="1" Grid.Column="0" Width="100" Height="100"
                                         HorizontalAlignment="Left" BorderBrush="#FF686868">
-                                            <Image x:Name="Logo_im" Stretch="Uniform"
-                                           
+                                            <Image x:Name="Logo_im" Stretch="Uniform"                                           
                                            Margin="3" />
+                                            <!--Source="{Binding Entity.EmpresaLOGO, Converter={StaticResource ImageConverter}, Mode=TwoWay, UpdateSourceTrigger=Explicit}"-->
                                         </Border>
                                         <Button Content="Selecionar Logo"
-                                        HorizontalAlignment="Center" Margin="0,10,0,0" Height="30" Width="100"
-                                        />
+                                        HorizontalAlignment="Center" Margin="0,10,0,0" Height="30" Width="100" Click="Button_Click"/>
                                     </StackPanel>
                                 </StackPanel>
 
@@ -990,7 +993,7 @@
                                         Margin="1">
                                         <Label Content="Responsável:" Height="28" Width="110" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                                         <TextBox CharacterCasing="Upper" x:Name="Contato1_tb" MaxLength="50"
-                                         Text="{Binding Entity.Contato1, UpdateSourceTrigger=PropertyChanged}" IsEnabled="True" Height="24" Width="450" />
+                                         Text="{Binding Entity.Responsavel, UpdateSourceTrigger=PropertyChanged}" IsEnabled="True" Height="24" Width="450" />
                                         
                                         <!--<Label Content="Telefone:" Height="28" Width="68" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
                                         <TextBox Foreground="#FFD0D0D0"
@@ -1003,7 +1006,7 @@
                                         <Label Content="E-Mail Principal:" Height="28" Width="110" Margin="1"
                                        Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                                         <TextBox CharacterCasing="Lower" x:Name="Email1_tb" Margin="1" MaxLength="50"
-                                         Text="{Binding Entity.Email1, UpdateSourceTrigger=PropertyChanged}"
+                                         Text="{Binding Entity.Email, UpdateSourceTrigger=PropertyChanged}"
                                          IsEnabled="True" Height="24" Width="250" />
 
                                     </StackPanel>
@@ -1014,13 +1017,14 @@
                                         <Label Content="E-Mail SMTP:" Height="28" Width="110" Margin="1"
                                        Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                                         <TextBox CharacterCasing="Lower" x:Name="Email2_tb" MaxLength="50"
-                                         Text="{Binding Entity.Email2, UpdateSourceTrigger=PropertyChanged}"
+                                         Text="{Binding Entity.SMTP, UpdateSourceTrigger=PropertyChanged}"
                                          IsEnabled="True" Height="24" Width="80" />
 
                                         <Label Content="URL:" Height="28" Width="184" Margin="1" Foreground="#FFD0D0D0"                                        HorizontalContentAlignment="Right" />
                                         <TextBox Foreground="#FFD0D0D0"  CharacterCasing="Upper" x:Name="url_tb" MaxLength="15"                                         
                                          Margin="1" IsEnabled="True" Height="24" Width="180"
-                                         HorizontalContentAlignment="Center" />
+                                         HorizontalContentAlignment="Center" 
+                                         Text="{Binding Entity.UrlSistema, UpdateSourceTrigger=PropertyChanged}"/>
                                         
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
@@ -1029,12 +1033,14 @@
                                         <Label Content="E-Mail Usuário:" Height="28" Width="110" Margin="1" Foreground="#FFD0D0D0"                                        HorizontalContentAlignment="Right" />
                                         <TextBox Foreground="#FFD0D0D0"  CharacterCasing="Upper" x:Name="Usuario_tb" MaxLength="15"                                         
                                          Margin="1" IsEnabled="True" Height="24" Width="180"
-                                         HorizontalContentAlignment="Center" />
+                                         HorizontalContentAlignment="Center" 
+                                         Text="{Binding Entity.EmailUsuario, UpdateSourceTrigger=PropertyChanged}"/>
 
                                         <Label Content="E-Mail Senha:" Height="28" Width="82" Margin="1" Foreground="#FFD0D0D0"                                        HorizontalContentAlignment="Right" />
                                         <TextBox Foreground="#FFD0D0D0"  CharacterCasing="Upper" x:Name="Senha_tb" MaxLength="15"                                         
                                          Margin="1" IsEnabled="True" Height="24" Width="180"
-                                         HorizontalContentAlignment="Center" />
+                                         HorizontalContentAlignment="Center" 
+                                         Text="{Binding Entity.EmailSenha, UpdateSourceTrigger=PropertyChanged}"/>
 
                                     </StackPanel>
 
