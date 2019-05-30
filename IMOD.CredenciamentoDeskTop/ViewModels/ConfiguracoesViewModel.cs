@@ -74,6 +74,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         // private int _selectedIndexTemp = 0;
 
         //Configuracao
+        private readonly IConfiguraSistemaService _serviceConfiguracoesSistema = new ConfiguraSistemaService();
         private ObservableCollection<ConfiguraSistemaView> _congiracaoSistema;
         private ConfiguraSistemaView _configuracaosistemaSelecionado;
         private int _configuracaosistemaSelectedIndex;
@@ -1420,7 +1421,21 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 Utils.TraceException (ex);
             }
         }
+        public void OnSalvarEdicaoCommand_ConfiguracoesSistema()
+        {
+            try
+            {
+                var entity = Entity;
+                var entityConv = Mapper.Map<ConfiguraSistema>(entity);
+                _serviceConfiguracoesSistema.Alterar(entityConv);
 
+                CarregaConfiguracaoSistema();
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+            }
+        }
         public void OnSalvarEdicaoCommand_TiposAtividades()
         {
             try

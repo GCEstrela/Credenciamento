@@ -640,6 +640,13 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 Utils.TraceException(ex);
             }
         }
+
+        private void BtnSalvarConfiguracoesSistema_Click(object sender, RoutedEventArgs e)
+        {
+            btnAdicionarTipoAtividade.IsEnabled = true;
+            btnSalvarTipoAtividade.IsEnabled = false;
+            ((ConfiguracoesViewModel)DataContext).OnSalvarEdicaoCommand_ConfiguracoesSistema();
+        }
     }
 }
 
