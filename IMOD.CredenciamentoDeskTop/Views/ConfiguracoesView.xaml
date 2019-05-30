@@ -961,7 +961,7 @@
                 </ScrollViewer>
             </TabItem>
 
-            <TabItem x:Name="Congiguracaosistema" Width="200" Header="Configurações do Siste">
+            <TabItem x:Name="Congiguracaosistema" Width="200" Header="Configurações do Sistema">
                 <ScrollViewer   VerticalScrollBarVisibility="Auto"  HorizontalScrollBarVisibility="Auto" Height="413"  >
                     <StackPanel  >
                         <Grid>
