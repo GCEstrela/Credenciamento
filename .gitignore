@@ -265,3 +265,4 @@ __pycache__/
 *.pyc
 /IMOD.CredenciamentoDeskTop/Cracha
 /IMOD.PreCredenciamentoWeb
+/IMOD.Application/Service
