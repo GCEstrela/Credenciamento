@@ -100,7 +100,6 @@
     <Compile Include="Service\ColaboradorEmpresaService.cs" />
     <Compile Include="Service\ColaboradorService.cs" />
     <Compile Include="Service\ConfiguracaoService.cs" />
-    <Compile Include="Service\ConfiguracaoSistemaService.cs" />
     <Compile Include="Service\ConfiguraSistemaService.cs" />
     <Compile Include="Service\CredencialMotivoService.cs" />
     <Compile Include="Service\CredencialStatusService.cs" />
@@ -118,7 +117,6 @@
     <Compile Include="Service\EquipamentoVeiculoTipoServicoService.cs" />
     <Compile Include="Service\EstadoService.cs" />
     <Compile Include="Service\FormatoCredencialService.cs" />
-    <Compile Include="Service\IConfiguracaoSistemaService.cs" />
     <Compile Include="Service\LayoutCrachaService.cs" />
     <Compile Include="Service\MunicipioService.cs" />
     <Compile Include="Service\PendenciaService.cs" />
