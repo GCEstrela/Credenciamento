@@ -246,7 +246,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             if (!string.IsNullOrEmpty(mensagem1 + mensagem2 + mensagem3 + mensagem4 + mensagem5))
             {
                 //MensagemAlerta = $"A credencial não poderá ser impressa pelo seguinte motivo: ";
-                MensagemAlerta = $"A credencial não pode ser impressa. Motivo(s)";
+                MensagemAlerta = $"A credencial não pode ser impressa. Motivo(s): ";
                 if (!string.IsNullOrEmpty(mensagem1))
                 {
                     MensagemAlerta += mensagem1;
@@ -1248,7 +1248,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
             if (Entity.TecnologiaCredencialId != 0)
             {
-                if (Entity.ColaboradorPrivilegio1Id == 0 || Entity.ColaboradorPrivilegio2Id == 0)
+                if (Entity.ColaboradorPrivilegio1Id == 0 && Entity.ColaboradorPrivilegio2Id == 0)
                 {
                     //System.Windows.MessageBox.Show("REgras não informadas");
                     WpfHelp.Mbox("Para a Autenticação selecionada é necessário o preenchimento dos Privilégios.",MessageBoxIcon.Information);

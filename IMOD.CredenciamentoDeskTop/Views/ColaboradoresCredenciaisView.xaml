@@ -87,10 +87,9 @@
                                       SelectedItem="{Binding StatusCredencial, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                       DisplayMemberPath="Descricao"
                                       SelectedValue="{Binding Entity.CredencialStatusId, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
-                                      SelectedValuePath="CredencialStatusId" IsSynchronizedWithCurrentItem="True"
-                                      IsEnabled="{Binding Habilitar}"
+                                      SelectedValuePath="CredencialStatusId" IsSynchronizedWithCurrentItem="True"                                      
                                       RenderTransformOrigin="0.5,0.5">
-
+                                      <!--IsEnabled="{Binding Habilitar}"-->
                                 <ComboBox.RenderTransform>
                                     <TransformGroup>
                                         <ScaleTransform/>
