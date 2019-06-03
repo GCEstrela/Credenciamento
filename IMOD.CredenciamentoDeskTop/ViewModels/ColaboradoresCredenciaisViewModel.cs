@@ -614,7 +614,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 n1.ColaboradorPrivilegio2Id = Entity.ColaboradorPrivilegio2Id;
                 n1.Identificacao1 = Entity.Identificacao1;
                 n1.Identificacao2 = Entity.Identificacao2;
-                //n1.Validade = Entity.Validade.Value.AddHours(23).AddMinutes(59).AddSeconds(59); //Sempre Add 23:59:59 horas à credencial nova.
+                n1.Validade = Entity.Validade.Value.AddHours(23).AddMinutes(59).AddSeconds(59); //Sempre Add 23:59:59 horas à credencial nova.
                 if (n1.Validade <= DateTime.Now)
                 {
                     WpfHelp.Mbox("Data de Validade da Credencial é inferior à data atual.", MessageBoxIcon.Information);
@@ -1208,9 +1208,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             //    return true;
             //}
             //retirar o espaço entre a numeração obtida do cartão
-            if (Entity.Validade < DateTime.Now)
+            if (Entity.Validade.Value.AddHours(23).AddMinutes(59).AddSeconds(59) < DateTime.Now)
             {
-                WpfHelp.Mbox("Data de Validadte não pode ser menor que a data atual. Não é possível continua essa ação.", MessageBoxIcon.Information);
+                WpfHelp.Mbox("Data de Validade não pode ser menor que a data atual. Não é possível continua essa ação.", MessageBoxIcon.Information);
                 return true;
             }
             if (!string.IsNullOrEmpty(Entity.NumeroContrato))

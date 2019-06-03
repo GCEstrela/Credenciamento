@@ -377,7 +377,12 @@
                                         HorizontalAlignment="Left" BorderBrush="#FF686868">
                                     <Image x:Name="Logo_im" Stretch="Uniform"
                                            Source="{Binding Entity.Foto, Converter={StaticResource ImageConverter}, Mode=TwoWay, UpdateSourceTrigger=Explicit}"
-                                           Margin="3" />
+                                           Margin="3" >
+                                        <Image.ToolTip>
+                                            <Image x:Name="Logo_im1" Stretch="Uniform" 
+                                                Source="{Binding Entity.Foto, Converter={StaticResource ImageConverter}, Mode=TwoWay, UpdateSourceTrigger=Explicit}"/>
+                                        </Image.ToolTip>
+                                    </Image>
                                 </Border>
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
                                     <Button x:Name="SelecionarLogo_bt" FontStretch="Condensed"  HorizontalAlignment="Center" Margin="1,5,0,0" Height="35" Width="44" Click="OnSelecionaFoto_Click">
