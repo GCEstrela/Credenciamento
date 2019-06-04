@@ -201,11 +201,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     mensagemPendencias = mensagemPendencias.Substring(0, mensagemPendencias.Length - 3);
             }
 
-            
+            bool impeditivaColaborador = false;
             string mensagemPendenciasColaborador = "";
             var pendenciaImpeditivaColaborador = serviceEmpresa.Pendencia.ListarPorColaborador(entity.ColaboradorId).Where(n => n.Impeditivo == true && n.Ativo == true).ToList();
-            if (pendenciaImpeditivaColaborador != null)
+            if (pendenciaImpeditivaColaborador != null && pendenciaImpeditivaColaborador.Count > 0)
             {
+                impeditivaColaborador = true;
                 foreach (Pendencia elemento in pendenciaImpeditivaColaborador)
                 {
                     mensagemPendenciasColaborador = mensagemPendenciasColaborador + elemento.DescricaoPendencia.ToString() + " - ";
@@ -237,7 +238,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 mensagem3 = n1.Impressa ? "Credencial já foi emitida " : string.Empty;
                 mensagem4 = (entity.Validade < DateTime.Now.Date) ? "Credencial vencida. " : string.Empty;
                 //if (mensagemPendenciasColaborador.Length > 0)
-                mensagem5 = n1.PendenciaImpeditiva ? " Pendência(s) para a COLABORADOR: " + mensagemPendenciasColaborador : string.Empty;
+                //mensagem5 = n1.PendenciaImpeditiva ? " Pendência(s) para a COLABORADOR: " + mensagemPendenciasColaborador : string.Empty;
+                mensagem5 = impeditivaColaborador ? " Pendência(s) para a COLABORADOR: " + mensagemPendenciasColaborador : string.Empty;
             }
            
             //Exibir mensagem de impressao de credencial, esta tem prioridade sobre as demais regras            
@@ -1082,11 +1084,15 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             // 
             if (Entity.NumeroColete == "" & HabilitaImpressao == true)
             {
-                var podeCobrarResult = WpfHelp.MboxDialogYesNo($"Nº do Colete esta em branco, Continua.", true);
-                if (podeCobrarResult == System.Windows.Forms.DialogResult.No)
+                if (ColeteEnabled) // Se o campo Nº do colete estiver IsEnabled=false a menssagem não será exibiba
                 {
-                    return;
+                    var podeCobrarResult = WpfHelp.MboxDialogYesNo($"Nº do Colete esta em branco, Continua.", true);
+                    if (podeCobrarResult == System.Windows.Forms.DialogResult.No)
+                    {
+                        return;
+                    }
                 }
+                
             }
 
             if (Validar()) return;
