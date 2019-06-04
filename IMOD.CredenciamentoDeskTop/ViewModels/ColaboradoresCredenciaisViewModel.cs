@@ -1032,7 +1032,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 relatorio.SetParameterValue("PathImgQrCode", pathImagem); 
 
                 //IDENTIFICACAO
-                var popupCredencial = new PopupCredencial(relatorio, _service, Entity, layoutCracha);
+                var popupCredencial = new PopupCredencial(relatorio, _service, Entity, layoutCracha,HabilitaImpressao);
                 popupCredencial.ShowDialog();
 
                 //Atualizar observer
