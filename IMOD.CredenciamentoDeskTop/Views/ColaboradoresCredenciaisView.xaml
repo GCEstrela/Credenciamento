@@ -214,8 +214,8 @@
                                        HorizontalContentAlignment="Left"
                                        ItemsSource="{Binding ColaboradorPrivilegio, Mode=TwoWay}" 
                                        DisplayMemberPath="Identificacao" 
-                                       SelectedValue="{Binding Entity.ColaboradorPrivilegio1Id,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
-                                       SelectedValuePath="AreaAcessoId"  />
+                                       SelectedValue="{Binding Entity.ColaboradorPrivilegio1Id,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"                                        
+                                       SelectedValuePath="AreaAcessoId"/>
 
                             <ComboBox  x:Name="Privilegio2_tb"  IsEditable="true"
                                        Margin="5,0,0,0"  
