@@ -14,12 +14,6 @@
         <Image x:Key="imgRemove" Source="../Resources/remove.png"  />
         <Image x:Key="imgSave" Source="../Resources/save.png" />
         <Image x:Key="imgCancel" Source="../Resources/undo.png" />
-
-        <Image x:Key="imgAddAreaAcesso" Source="../Resources/add.png" />
-        <Image x:Key="imgRemoveAreaAcesso" Source="../Resources/remove.png" />
-        <Image x:Key="imgSaveAreaAcesso" Source="../Resources/save.png" />
-        <Image x:Key="imgCancelAreaAcesso" Source="../Resources/undo.png" />
-        <funcoes:StringToImageConverter x:Key="ImageConverter" />
     </UserControl.Resources>
 
     <Grid Margin="5,5">
