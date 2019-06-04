@@ -757,7 +757,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                if (Entity == null) return;
+                if (Entity == null) return;     //IdentificacaoDescricao = null
                 System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
 
                 ObterValidadeAlteracao();
@@ -1032,7 +1032,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 relatorio.SetParameterValue("PathImgQrCode", pathImagem); 
 
                 //IDENTIFICACAO
-                var popupCredencial = new PopupCredencial(relatorio, _service, Entity, layoutCracha);
+                var popupCredencial = new PopupCredencial(relatorio, _service, Entity, layoutCracha,HabilitaImpressao);
                 popupCredencial.ShowDialog();
 
                 //Atualizar observer
