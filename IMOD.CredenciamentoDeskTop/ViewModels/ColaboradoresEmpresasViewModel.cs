@@ -444,8 +444,16 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         public bool Validar()
         {
+
             if (Entity == null) return true;
             Entity.Validate();
+
+            if (!_configuraSistema.Contrato && Entity.EmpresaContratoId <= 0)
+            {
+                Entity.SetMessageErro("EmpresaContratoId", "Favor informar o contrato.");
+                return true;
+            }
+
             var hasErros = Entity.HasErrors;
             if (hasErros) return true;
 
