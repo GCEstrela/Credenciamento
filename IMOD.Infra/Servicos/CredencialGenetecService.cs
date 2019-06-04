@@ -309,6 +309,7 @@ namespace IMOD.Infra.Servicos
                 {
                     VerificaRegraAcesso(entity, true);
                 }
+
                 //_sdk.TransactionManager.CommitTransaction();
             }
             catch (Exception ex)

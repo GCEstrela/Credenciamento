@@ -234,8 +234,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 //mensagem2 = n1.PendenciaImpeditiva ? "Pendência Impeditiva (consultar dados da empresa na aba Geral)" : string.Empty;
                 //mensagem2 = n1.PendenciaImpeditiva ? "Pendência(s) Impeditiva(s) dados da empresa aba(s): " + mensagemPendencias : string.Empty;
                 mensagem2 = n1.PendenciaImpeditiva ? " Pendência(s) para a EMPRESA: " + mensagemPendencias : string.Empty;
-                mensagem3 = n1.Impressa ? "Credencial já foi emitida" : string.Empty;
-                mensagem4 = (entity.Validade < DateTime.Now.Date) ? "Credencial vencida." : string.Empty;
+                mensagem3 = n1.Impressa ? "Credencial já foi emitida " : string.Empty;
+                mensagem4 = (entity.Validade < DateTime.Now.Date) ? "Credencial vencida. " : string.Empty;
                 //if (mensagemPendenciasColaborador.Length > 0)
                 mensagem5 = n1.PendenciaImpeditiva ? " Pendência(s) para a COLABORADOR: " + mensagemPendenciasColaborador : string.Empty;
             }
