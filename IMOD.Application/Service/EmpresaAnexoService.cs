@@ -48,7 +48,7 @@ namespace IMOD.Application.Service
             _repositorio.Criar (entity);
             #region Retirar pendencias de sistema
             var pendencia = Pendencia.ListarPorEmpresa(entity.EmpresaId)
-                .FirstOrDefault(n => n.PendenciaSistema);
+                .FirstOrDefault(n => n.PendenciaSistema & n.CodPendencia == 24);
             if (pendencia == null) return;
             Pendencia.Remover(pendencia);
             #endregion

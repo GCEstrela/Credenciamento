@@ -183,23 +183,25 @@ namespace IMOD.Infra.Servicos
             try
             {
                 //if (string.IsNullOrWhiteSpace(entity.FormatoCredencial))
-                    //entity.FormatoCredencial = "CSN";
-
-                switch (entity.FormatoCredencial.ToLower().Trim())
+                //entity.FormatoCredencial = "CSN";
+                
+                //string credecnailFormato = entity.FormatoCredencial.ToLower().Trim();
+                string credecnailFormato = entity.FormatoCredencial.Trim();
+                switch (credecnailFormato)
                 {
-                    case "standard 26 bits":
+                    case "Standard 26 bits":
                         credencial.Format = new WiegandStandardCredentialFormat(entity.FacilityCode, Convert.ToInt16(entity.NumeroCredencial));
                         break;
-                    case "h10302":
+                    case "HID H10302 37 Bits":
                         credencial.Format = new WiegandH10302CredentialFormat(Convert.ToInt16(entity.NumeroCredencial));
                         break;
-                    case "h10304":
+                    case "HID H10304 37 Bits":
                         credencial.Format = new WiegandH10304CredentialFormat(Convert.ToInt16(entity.FacilityCode), Convert.ToInt16(entity.NumeroCredencial));
                         break;
-                    case "h10306":
+                    case "HID H10306 34 Bits":
                         credencial.Format = new WiegandH10306CredentialFormat(entity.FacilityCode, Convert.ToInt32(entity.NumeroCredencial));
                         break;
-                    case "hid corporate 1000":
+                    case "HID Corporate 1000 48 Bits":
                         credencial.Format = new WiegandCorporate1000CredentialFormat(entity.FacilityCode, Convert.ToInt32(entity.NumeroCredencial));
                         break;
                     default: //Format do tipo CSN
@@ -207,7 +209,9 @@ namespace IMOD.Infra.Servicos
                         var sysConfig = _sdk.GetEntity(SdkGuids.SystemConfiguration) as SystemConfiguration;
                         CustomCredentialFormat mifareCsn;
                         if (sysConfig != null)
+                            
                             foreach (var cardFormat in sysConfig.CredentialFormats)
+
                                 if (cardFormat.Name == "CSN")
                                 {
                                     mifareCsn = cardFormat as CustomCredentialFormat;
@@ -219,7 +223,7 @@ namespace IMOD.Infra.Servicos
 
                                     break;
                                 }
-
+                        
                         break;
                 }
             }
@@ -305,6 +309,7 @@ namespace IMOD.Infra.Servicos
                 {
                     VerificaRegraAcesso(entity, true);
                 }
+
                 //_sdk.TransactionManager.CommitTransaction();
             }
             catch (Exception ex)
@@ -435,21 +440,23 @@ namespace IMOD.Infra.Servicos
 
                         AccessRule accesso = _sdk.GetEntity((Guid)dr[0]) as AccessRule;
                         var descricao = accesso.Name;
-                        if (entity.Identificacao1 != null)
-                        {
-                            if (entity.Identificacao1.ToString() == descricao)
-                            {
-                                if (!AddRemove)
+                        //if (entity.Identificacao1 != null)
+                        //{
+                            if (entity.Identificacao1 != null)
+                                if (entity.Identificacao1.ToString() == descricao)
                                 {
-                                    accesso.Members.Remove(cardHolder.Guid);
+                                    if (!AddRemove)
+                                    {
+                                        accesso.Members.Remove(cardHolder.Guid);
+                                    }
+                                    else
+                                    {
+                                        accesso.Members.Add(cardHolder.Guid);
+                                    }
+                                    regra1 = true;
                                 }
-                                else
-                                {
-                                    accesso.Members.Add(cardHolder.Guid);
-                                }
-                                regra1 = true;
-                            }
-                            if (entity.Identificacao2.ToString() == descricao)
+                            if (entity.Identificacao2 != null)
+                                if (entity.Identificacao2.ToString() == descricao)
                             {
                                 if (!AddRemove)
                                 {
@@ -461,7 +468,7 @@ namespace IMOD.Infra.Servicos
                                 }
                                 regra2 = true;
                             }
-                        }
+                        //}
                         
 
                     }
@@ -613,10 +620,11 @@ namespace IMOD.Infra.Servicos
                     entity.IdentificadorCardHolderGuid = null;
                     CriarCardHolder(entity);
                 }
-                else
-                {
-                    VerificaRegraAcesso(entity, true);
-                }
+                //else
+                //{
+                //    VerificaRegraAcesso(entity, true);
+                //}
+                VerificaRegraAcesso(entity, true);
 
                 if (string.IsNullOrWhiteSpace(entity.IdentificadorCardHolderGuid)) throw new ArgumentNullException(nameof(entity.IdentificadorCardHolderGuid));
                 //if (string.IsNullOrWhiteSpace (entity.IdentificadorLayoutCrachaGuid)) throw new ArgumentNullException (nameof (entity.IdentificadorLayoutCrachaGuid));

@@ -115,7 +115,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         ///     Mensagem de alerta
         /// </summary>
         public string MensagemAlerta { get; private set; }
-
+        /// <summary>
+        ///     Mensagem de alerta
+        /// </summary>
+        public string ContentImprimir { get; set; }
         /// <summary>
         ///     Habilitar impressao de credencial com base no status da credencial
         ///     e condição de pendencia impeditiva
@@ -201,11 +204,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     mensagemPendencias = mensagemPendencias.Substring(0, mensagemPendencias.Length - 3);
             }
 
-            
+            bool impeditivaColaborador = false;
             string mensagemPendenciasColaborador = "";
             var pendenciaImpeditivaColaborador = serviceEmpresa.Pendencia.ListarPorColaborador(entity.ColaboradorId).Where(n => n.Impeditivo == true && n.Ativo == true).ToList();
-            if (pendenciaImpeditivaColaborador != null)
+            if (pendenciaImpeditivaColaborador != null && pendenciaImpeditivaColaborador.Count > 0)
             {
+                impeditivaColaborador = true;
                 foreach (Pendencia elemento in pendenciaImpeditivaColaborador)
                 {
                     mensagemPendenciasColaborador = mensagemPendenciasColaborador + elemento.DescricaoPendencia.ToString() + " - ";
@@ -234,10 +238,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 //mensagem2 = n1.PendenciaImpeditiva ? "Pendência Impeditiva (consultar dados da empresa na aba Geral)" : string.Empty;
                 //mensagem2 = n1.PendenciaImpeditiva ? "Pendência(s) Impeditiva(s) dados da empresa aba(s): " + mensagemPendencias : string.Empty;
                 mensagem2 = n1.PendenciaImpeditiva ? " Pendência(s) para a EMPRESA: " + mensagemPendencias : string.Empty;
-                mensagem3 = n1.Impressa ? "Credencial já foi emitida" : string.Empty;
-                mensagem4 = (entity.Validade < DateTime.Now.Date) ? "Credencial vencida." : string.Empty;
+                mensagem3 = n1.Impressa ? "Credencial já foi emitida " : string.Empty;
+                mensagem4 = (entity.Validade < DateTime.Now.Date) ? "Credencial vencida. " : string.Empty;
+                ContentImprimir = (entity.Validade < DateTime.Now.Date) ? "Visualizar Credencial " : "Imprimir Credencial";
                 //if (mensagemPendenciasColaborador.Length > 0)
-                mensagem5 = n1.PendenciaImpeditiva ? " Pendência(s) para a COLABORADOR: " + mensagemPendenciasColaborador : string.Empty;
+                //mensagem5 = n1.PendenciaImpeditiva ? " Pendência(s) para a COLABORADOR: " + mensagemPendenciasColaborador : string.Empty;
+                mensagem5 = impeditivaColaborador ? " Pendência(s) para a COLABORADOR: " + mensagemPendenciasColaborador : string.Empty;
             }
            
             //Exibir mensagem de impressao de credencial, esta tem prioridade sobre as demais regras            
@@ -246,7 +252,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             if (!string.IsNullOrEmpty(mensagem1 + mensagem2 + mensagem3 + mensagem4 + mensagem5))
             {
                 //MensagemAlerta = $"A credencial não poderá ser impressa pelo seguinte motivo: ";
-                MensagemAlerta = $"A credencial não pode ser impressa. Motivo(s)";
+                MensagemAlerta = $"A credencial não pode ser impressa. Motivo(s): ";
                 if (!string.IsNullOrEmpty(mensagem1))
                 {
                     MensagemAlerta += mensagem1;
@@ -614,7 +620,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 n1.ColaboradorPrivilegio2Id = Entity.ColaboradorPrivilegio2Id;
                 n1.Identificacao1 = Entity.Identificacao1;
                 n1.Identificacao2 = Entity.Identificacao2;
-                //n1.Validade = Entity.Validade.Value.AddHours(23).AddMinutes(59).AddSeconds(59); //Sempre Add 23:59:59 horas à credencial nova.
+                n1.Validade = Entity.Validade.Value.AddHours(23).AddMinutes(59).AddSeconds(59); //Sempre Add 23:59:59 horas à credencial nova.
+                
                 if (n1.Validade <= DateTime.Now)
                 {
                     WpfHelp.Mbox("Data de Validade da Credencial é inferior à data atual.", MessageBoxIcon.Information);
@@ -757,7 +764,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                if (Entity == null) return;
+                if (Entity == null) return;     //IdentificacaoDescricao = null
                 System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
 
                 ObterValidadeAlteracao();
@@ -1018,10 +1025,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 {
                     c1.ImpressaoMotivo = "";
                 }
-
+                c1.TelefoneEmergencia = _configuraSistema.TelefoneEmergencia;
                 c1.EmpresaNome = c1.EmpresaNome + ( !string.IsNullOrEmpty(c1.TerceirizadaNome) ?  " / " + c1.TerceirizadaNome : string.Empty);
-                c1.Emissao = DateTime.Now; 
-                lst.Add(c1); 
+                c1.Emissao = DateTime.Now;
+                lst.Add(c1);
                 relatorio.SetDataSource(lst);
 
                 var objCode = new QrCode();
@@ -1032,7 +1039,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 relatorio.SetParameterValue("PathImgQrCode", pathImagem); 
 
                 //IDENTIFICACAO
-                var popupCredencial = new PopupCredencial(relatorio, _service, Entity, layoutCracha);
+                var popupCredencial = new PopupCredencial(relatorio, _service, Entity, layoutCracha,HabilitaImpressao);
                 popupCredencial.ShowDialog();
 
                 //Atualizar observer
@@ -1082,11 +1089,15 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             // 
             if (Entity.NumeroColete == "" & HabilitaImpressao == true)
             {
-                var podeCobrarResult = WpfHelp.MboxDialogYesNo($"Nº do Colete esta em branco, Continua.", true);
-                if (podeCobrarResult == System.Windows.Forms.DialogResult.No)
+                if (ColeteEnabled) // Se o campo Nº do colete estiver IsEnabled=false a menssagem não será exibiba
                 {
-                    return;
+                    var podeCobrarResult = WpfHelp.MboxDialogYesNo($"Nº do Colete esta em branco, Continua.", true);
+                    if (podeCobrarResult == System.Windows.Forms.DialogResult.No)
+                    {
+                        return;
+                    }
                 }
+                
             }
 
             if (Validar()) return;
@@ -1208,9 +1219,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             //    return true;
             //}
             //retirar o espaço entre a numeração obtida do cartão
-            if (Entity.Validade < DateTime.Now)
+            if (Entity.Validade.Value.AddHours(23).AddMinutes(59).AddSeconds(59) < DateTime.Now)
             {
-                WpfHelp.Mbox("Data de Validadte não pode ser menor que a data atual. Não é possível continua essa ação.", MessageBoxIcon.Information);
+                WpfHelp.Mbox("Data de Validade não pode ser menor que a data atual. Não é possível continua essa ação.", MessageBoxIcon.Information);
                 return true;
             }
             if (!string.IsNullOrEmpty(Entity.NumeroContrato))
@@ -1248,7 +1259,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
             if (Entity.TecnologiaCredencialId != 0)
             {
-                if (Entity.ColaboradorPrivilegio1Id == 0 || Entity.ColaboradorPrivilegio2Id == 0)
+                if (Entity.ColaboradorPrivilegio1Id == 0 && Entity.ColaboradorPrivilegio2Id == 0)
                 {
                     //System.Windows.MessageBox.Show("REgras não informadas");
                     WpfHelp.Mbox("Para a Autenticação selecionada é necessário o preenchimento dos Privilégios.",MessageBoxIcon.Information);

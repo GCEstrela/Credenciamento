@@ -27,7 +27,8 @@ namespace IMOD.Domain.Entities
         public int imagemResolucao { get; set; }
         public int imagemTamanho { get; set; }
         public int arquivoTamanho { get; set; }
-        
+        public string TelefoneEmergencia { get; set; }
+
         #endregion
     }
 }

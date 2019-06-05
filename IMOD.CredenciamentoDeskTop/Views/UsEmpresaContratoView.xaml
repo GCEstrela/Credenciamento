@@ -132,6 +132,7 @@
                                Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
                         <TextBox 
                             Name="txtDias"
+                            IsEnabled="False"
                             Text="{Binding Entity.PraVencer, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
                             LostFocus="OnFormatData_LostFocus"
                             PreviewTextInput="NumberOnly"

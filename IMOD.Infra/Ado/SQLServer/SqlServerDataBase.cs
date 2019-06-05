@@ -14,6 +14,7 @@ using IMOD.CrossCutting;
 using IMOD.Infra.Ado.Interfaces;
 using IMOD.Infra.Ado.Interfaces.ParamSql;
 
+
 #endregion
 
 namespace IMOD.Infra.Ado.SQLServer
@@ -52,7 +53,9 @@ namespace IMOD.Infra.Ado.SQLServer
             }
             catch (SqlException ex)
             {
+                //WpfHelp.PopupBox()
                 Utils.TraceException(ex);
+                //return null;
                 throw  new Exception($"Ocorreu uma falha ao conectar com o banco de dados\nRazão:\n{ex.Message}");
             }
             catch (Exception ex)

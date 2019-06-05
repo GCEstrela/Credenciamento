@@ -45,7 +45,7 @@ namespace IMOD.CredenciamentoDeskTop.Windows
 
         public PopupCredencial(ReportDocument reportDocument, 
             IColaboradorCredencialService service,
-            ColaboradoresCredenciaisView entity,LayoutCracha layoutCracha)
+            ColaboradoresCredenciaisView entity,LayoutCracha layoutCracha,Boolean impressao)
         {
             InitializeComponent();
             try
@@ -54,7 +54,7 @@ namespace IMOD.CredenciamentoDeskTop.Windows
                 _service = service;
                 _entity = entity;
                 _layoutCracha = layoutCracha;
-
+                ImprimirCredencial_bt.IsEnabled = impressao;
 
                 GenericReportViewer.Background = Brushes.Transparent;
                 GenericReportViewer.ShowSearchTextButton = false;

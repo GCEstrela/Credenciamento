@@ -12,6 +12,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Forms;
 using System.Windows.Input;
 using AutoMapper;
@@ -70,7 +71,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         public ColaboradoresCursosViewModel()
         {
-            ListarDadosAuxiliares();
+            //ListarDadosAuxiliares();
             Comportamento = new ComportamentoBasico(false, true, false, false, false);
             EntityObserver = new ObservableCollection<ColaboradorCursoView>();
             Comportamento.SalvarAdicao += OnSalvarAdicao;
@@ -122,7 +123,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             var lst1 = _auxiliaresService.CursoService.Listar();
             Cursos = new List<Curso>();
             Cursos.AddRange (lst1);
-
+            
             _configuraSistema = ObterConfiguracao();
         }
         private ConfiguraSistema ObterConfiguracao()
@@ -186,7 +187,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private void PrepareCriar()
         {
-            
+            if (Cursos!=null)
+                Cursos.Clear();
+
+            ListarDadosAuxiliares();
+            CollectionViewSource.GetDefaultView(Cursos).Refresh();
+
             Entity = new ColaboradorCursoView();
             Entity.Controlado = true;
             Comportamento.PrepareCriar();

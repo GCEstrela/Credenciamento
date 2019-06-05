@@ -301,7 +301,12 @@
                             </StackPanel>
                             <StackPanel VerticalAlignment="Top" Margin="23,7,20,0" Height="140" Width="101" >
                                 <Border  CornerRadius="3"  BorderThickness="1"   Width ="100" Height="100" HorizontalAlignment="Left" BorderBrush="#FF686868"  >
-                                    <Image x:Name="Logo_im" Stretch="Uniform" Source="{Binding Entity.Foto, Converter={StaticResource ImageConverter}, Mode=TwoWay, UpdateSourceTrigger=Explicit}" Margin="3" RenderTransformOrigin="1,1"/>
+                                    <Image x:Name="Logo_im" Stretch="Uniform" Source="{Binding Entity.Foto, Converter={StaticResource ImageConverter}, Mode=TwoWay, UpdateSourceTrigger=Explicit}" Margin="3" RenderTransformOrigin="1,1" >
+                                        <Image.ToolTip>
+                                            <Image x:Name="Logo_im1" Stretch="Uniform" 
+                                                Source="{Binding Entity.Foto, Converter={StaticResource ImageConverter}, Mode=TwoWay, UpdateSourceTrigger=Explicit}"/>
+                                        </Image.ToolTip>
+                                    </Image>
                                 </Border>
                                 <Button x:Name="SelecionarLogo_bt" Content="Selecionar Foto"
                                         HorizontalAlignment="Right" Margin="0,10,1,0" Height="30" Width="100"
