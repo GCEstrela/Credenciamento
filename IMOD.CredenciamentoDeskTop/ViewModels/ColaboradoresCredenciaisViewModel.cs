@@ -192,10 +192,13 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
 
             #region Habilitar botão de impressao e mensagem ao usuario
+            bool impeditivaEmpresa = false;
             string mensagemPendencias = "";
-            var pendenciaImpeditivaEmpresa = serviceEmpresa.Pendencia.ListarPorEmpresa(entity.EmpresaId).Where(n => n.Impeditivo == true && n.Ativo==true).ToList();
-            if (pendenciaImpeditivaEmpresa != null)
+            var pendenciaImpeditivaEmpresa = serviceEmpresa.Pendencia.ListarPorEmpresa(entity.EmpresaId).Where(n => n.Impeditivo == true && n.Ativo== true && n.DataLimite <= DateTime.Now).ToList();
+            if (pendenciaImpeditivaEmpresa != null && pendenciaImpeditivaEmpresa.Count > 0)
             {
+                impeditivaEmpresa = true;
+                ContentImprimir = impeditivaEmpresa ? "Visualizar Credencial " : "Imprimir Credencial";
                 foreach (Pendencia elemento in pendenciaImpeditivaEmpresa)
                 {
                     mensagemPendencias = mensagemPendencias + elemento.DescricaoPendencia.ToString() + " - ";
@@ -206,10 +209,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
             bool impeditivaColaborador = false;
             string mensagemPendenciasColaborador = "";
-            var pendenciaImpeditivaColaborador = serviceEmpresa.Pendencia.ListarPorColaborador(entity.ColaboradorId).Where(n => n.Impeditivo == true && n.Ativo == true).ToList();
+            var pendenciaImpeditivaColaborador = serviceEmpresa.Pendencia.ListarPorColaborador(entity.ColaboradorId).Where(n => n.Impeditivo == true && n.Ativo == true && n.DataLimite <= DateTime.Now).ToList();
             if (pendenciaImpeditivaColaborador != null && pendenciaImpeditivaColaborador.Count > 0)
             {
                 impeditivaColaborador = true;
+                ContentImprimir = impeditivaColaborador ? "Visualizar Credencial " : "Imprimir Credencial";
                 foreach (Pendencia elemento in pendenciaImpeditivaColaborador)
                 {
                     mensagemPendenciasColaborador = mensagemPendenciasColaborador + elemento.DescricaoPendencia.ToString() + " - ";
@@ -235,17 +239,19 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             if (n1 != null)
             {
                 mensagem1 = !n1.Ativa ? "Credencial Inativa" : string.Empty;
+                //ContentImprimir = !n1.Ativa ? "Visualizar Credencial " : "Imprimir Credencial";
                 //mensagem2 = n1.PendenciaImpeditiva ? "Pendência Impeditiva (consultar dados da empresa na aba Geral)" : string.Empty;
                 //mensagem2 = n1.PendenciaImpeditiva ? "Pendência(s) Impeditiva(s) dados da empresa aba(s): " + mensagemPendencias : string.Empty;
                 mensagem2 = n1.PendenciaImpeditiva ? " Pendência(s) para a EMPRESA: " + mensagemPendencias : string.Empty;
                 mensagem3 = n1.Impressa ? "Credencial já foi emitida " : string.Empty;
                 mensagem4 = (entity.Validade < DateTime.Now.Date) ? "Credencial vencida. " : string.Empty;
-                ContentImprimir = (entity.Validade < DateTime.Now.Date) ? "Visualizar Credencial " : "Imprimir Credencial";
+                    //ContentImprimir = (entity.Validade < DateTime.Now.Date) ? "Visualizar Credencial " : "Imprimir Credencial";
+                
                 //if (mensagemPendenciasColaborador.Length > 0)
                 //mensagem5 = n1.PendenciaImpeditiva ? " Pendência(s) para a COLABORADOR: " + mensagemPendenciasColaborador : string.Empty;
                 mensagem5 = impeditivaColaborador ? " Pendência(s) para a COLABORADOR: " + mensagemPendenciasColaborador : string.Empty;
             }
-           
+            CollectionViewSource.GetDefaultView(EntityObserver).Refresh();
             //Exibir mensagem de impressao de credencial, esta tem prioridade sobre as demais regras            
             //if (n1.Impressa) return;
 
@@ -274,6 +280,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     MensagemAlerta += mensagem5;
                 }
             }
+            
             //================================================================================
             #endregion
         }
