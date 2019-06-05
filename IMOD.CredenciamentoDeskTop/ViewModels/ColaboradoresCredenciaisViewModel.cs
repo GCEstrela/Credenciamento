@@ -1020,10 +1020,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 {
                     c1.ImpressaoMotivo = "";
                 }
-
+                c1.TelefoneEmergencia = _configuraSistema.TelefoneEmergencia;
                 c1.EmpresaNome = c1.EmpresaNome + ( !string.IsNullOrEmpty(c1.TerceirizadaNome) ?  " / " + c1.TerceirizadaNome : string.Empty);
-                c1.Emissao = DateTime.Now; 
-                lst.Add(c1); 
+                c1.Emissao = DateTime.Now;
+                lst.Add(c1);
                 relatorio.SetDataSource(lst);
 
                 var objCode = new QrCode();
