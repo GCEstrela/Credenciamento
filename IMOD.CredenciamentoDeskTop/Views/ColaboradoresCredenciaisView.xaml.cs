@@ -117,14 +117,17 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
 
             btnImprimirCredencial.IsEnabled = true;
-            if (_viewModel.HabilitaImpressao)
-            {
-                btnImprimirCredencial.Content = "Imprimir Credencial";
-            }
-            else
-            {
-                btnImprimirCredencial.Content = "Visualizar Credencial";
-            }
+            _viewModel.ContentImprimir = "Imprimir Credencial";
+            //if (_viewModel.HabilitaImpressao)
+            //{
+            //    btnImprimirCredencial.Content = "Imprimir Credencial";
+            //    btnImprimirCredencial.ToolTip = "Imprimir Credencial";
+            //}
+            //else
+            //{
+            //    btnImprimirCredencial.Content = "Visualizar Credencial";
+            //    btnImprimirCredencial.ToolTip = "Visualizar Credencial";
+            //}
 
             if ((CredencialStatus)cmbCredencialStatus.SelectedItem != null)
             {

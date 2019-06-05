@@ -349,6 +349,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }             
                 catch (Exception ex)
             {
+                WpfHelp.PopupBox(ex.Message, 1);
                 Utils.TraceException (ex);
             }
         }

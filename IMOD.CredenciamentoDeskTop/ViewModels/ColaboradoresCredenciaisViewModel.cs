@@ -115,7 +115,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         ///     Mensagem de alerta
         /// </summary>
         public string MensagemAlerta { get; private set; }
-
+        /// <summary>
+        ///     Mensagem de alerta
+        /// </summary>
+        public string ContentImprimir { get; set; }
         /// <summary>
         ///     Habilitar impressao de credencial com base no status da credencial
         ///     e condição de pendencia impeditiva
@@ -237,6 +240,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 mensagem2 = n1.PendenciaImpeditiva ? " Pendência(s) para a EMPRESA: " + mensagemPendencias : string.Empty;
                 mensagem3 = n1.Impressa ? "Credencial já foi emitida " : string.Empty;
                 mensagem4 = (entity.Validade < DateTime.Now.Date) ? "Credencial vencida. " : string.Empty;
+                ContentImprimir = (entity.Validade < DateTime.Now.Date) ? "Visualizar Credencial " : "Imprimir Credencial";
                 //if (mensagemPendenciasColaborador.Length > 0)
                 //mensagem5 = n1.PendenciaImpeditiva ? " Pendência(s) para a COLABORADOR: " + mensagemPendenciasColaborador : string.Empty;
                 mensagem5 = impeditivaColaborador ? " Pendência(s) para a COLABORADOR: " + mensagemPendenciasColaborador : string.Empty;
@@ -617,6 +621,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 n1.Identificacao1 = Entity.Identificacao1;
                 n1.Identificacao2 = Entity.Identificacao2;
                 n1.Validade = Entity.Validade.Value.AddHours(23).AddMinutes(59).AddSeconds(59); //Sempre Add 23:59:59 horas à credencial nova.
+                
                 if (n1.Validade <= DateTime.Now)
                 {
                     WpfHelp.Mbox("Data de Validade da Credencial é inferior à data atual.", MessageBoxIcon.Information);
