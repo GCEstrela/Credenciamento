@@ -27,6 +27,9 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public int imagemResolucao { get; set; }
         public int imagemTamanho { get; set; }
         public int arquivoTamanho { get; set; }
+        public string TelefoneEmergencia { get; set; }
+        public string NomeAeroporto { get; set; }
+
         #endregion
     }
 }

@@ -4,6 +4,9 @@
 // Date:  12 - 13 - 2018
 // ***********************************************************************
 
+using System;
+using IMOD.CredenciamentoDeskTop.Enums;
+
 namespace IMOD.CredenciamentoDeskTop.Views.Model
 {
     public class LayoutCrachaView
@@ -16,7 +19,9 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public decimal Valor { get; set; }
         public string LayoutRpt { get; set; }
         public int TipoCracha { get; set; }
-        
+
+        public string TipoCrachaDescricao { get { return ((IMOD.CredenciamentoDeskTop.Enums.TipoLayoutCracha)TipoCracha).ToString(); }  }
+
         #endregion
     }
 }

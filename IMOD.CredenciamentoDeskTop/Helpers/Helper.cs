@@ -59,6 +59,8 @@ namespace IMOD.CredenciamentoDeskTop.Helpers
 
         }
 
+        #region Método(s) Criptografia 
+
         public static string Encriptar(string textoNormal)
         {
 
@@ -195,8 +197,20 @@ namespace IMOD.CredenciamentoDeskTop.Helpers
 
         #endregion
 
+        #endregion
 
+        public static IEnumerable<object> EnumToListObject<t>()
+        {
+            if (!typeof(t).IsEnum)
+                throw new Exception("A classe não é do tipo enumeração.");
 
+            Type type = typeof(t);
+            return Enum.GetValues(type)
+                .Cast<object>()
+                .Select(e => new { Value = (int)e,
+                    Description = type.GetMember(e.ToString())[0].GetCustomAttributesData()[0].ConstructorArguments[0].Value }).ToList();
+
+        }
 
     }
 }
