@@ -19,6 +19,7 @@ using IMOD.CredenciamentoDeskTop.Helpers;
 using IMOD.CredenciamentoDeskTop.Views.Model;
 using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
+using IMOD.CredenciamentoDeskTop.Enums;
 
 #endregion
 
@@ -52,8 +53,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             CarregaColecaoTipoCombustiveis();
             CarregaColecaoStatus();
             CarregaColecaoCredenciaisStatus();
-            CarregaColecaoFormatosCredenciais();
-            CarregaConfiguracaoSistema();
+            CarregaColecaoFormatosCredenciais(); 
+            CarregaConfiguracaoSistema(); 
+            CarregaTipoCracha(); 
         }
 
         #endregion
@@ -326,6 +328,15 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 OnPropertyChanged ("LayoutCrachaSelectedIndex");
             }
         }
+
+        /// <summary>
+        ///     Tipo Layout Crachá
+        /// </summary>
+        public IEnumerable<object> TipoLayoutCracha { get; set; }
+
+        public TipoLayoutCracha TipoLayoutCrachaSelecionado { get; set; }
+
+
 
         //Tipos Equipamentos
         public ObservableCollection<TipoEquipamentoView> TiposEquipamentos
@@ -1095,6 +1106,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 //Atualiza arquivo Byte[] (.rpt)
                 LayoutCrachaSelecionado.LayoutRpt = LayoutCrachaTemp.LayoutRpt;
+                //LayoutCrachaSelecionado.TipoCracha = TipoLayoutCracha.
 
                 var entity = LayoutCrachaSelecionado;
                 var entityConv = Mapper.Map<LayoutCracha> (entity);
@@ -2124,6 +2136,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         #endregion
 
         #region Carregamento das Colecoes
+
         public void CarregaConfiguracaoSistema()
         {
             try
@@ -2138,6 +2151,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 Utils.TraceException(ex);
             }
         }
+
         public void CarregaColecaoRelatorios()
         {
             try
@@ -2441,6 +2455,13 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 Utils.TraceException (ex);
             }
+        }
+
+        private void CarregaTipoCracha()
+        {
+            var lstResultado = Helper.EnumToListObject<TipoLayoutCracha>();
+
+            TipoLayoutCracha = lstResultado;
         }
 
         #endregion

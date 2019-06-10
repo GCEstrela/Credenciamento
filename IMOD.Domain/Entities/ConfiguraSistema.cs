@@ -17,7 +17,7 @@ namespace IMOD.Domain.Entities
         public string EmpresaLOGO { get; set; }
         public bool Contrato { get; set; }
         public bool Colete { get; set; }
-        public bool Regas { get; set; }
+        public bool Regras { get; set; }
         public string Email { get; set; }
         public string Responsavel { get; set; }
         public string SMTP { get; set; }
@@ -28,6 +28,7 @@ namespace IMOD.Domain.Entities
         public int imagemTamanho { get; set; }
         public int arquivoTamanho { get; set; }
         public string TelefoneEmergencia { get; set; }
+        public string NomeAeroporto { get; set; }
 
         #endregion
     }
