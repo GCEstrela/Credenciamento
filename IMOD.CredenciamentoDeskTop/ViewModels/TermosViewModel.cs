@@ -120,10 +120,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 string mensagem = string.Empty;
                 string mensagemComplemento = string.Empty;
                 string mensagemPeriodo = string.Empty;
-                mensagemComplemento = "AEROPORTO INTERNACIONAL ";
+                mensagemComplemento = "AEROPORTO ";
 
                 Domain.EntitiesCustom.FiltroReportColaboradoresCredenciais colaboradorCredencial = new Domain.EntitiesCustom.FiltroReportColaboradoresCredenciais();
                 colaboradorCredencial.Impressa = true;
+                var configSistema = objConfiguraSistema.BuscarPelaChave(1);
 
                 if (periodo > 30)
                 {
@@ -150,6 +151,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 colaboradorCredencial.Periodo = periodo;
                 colaboradorCredencial.CredencialMotivoId = 0;
 
+                mensagemComplemento = !string.IsNullOrEmpty(configSistema.NomeAeroporto) ? configSistema.NomeAeroporto?.Trim() : mensagemComplemento;
                 mensagem = mensagemPeriodo + " esse setor  de credenciamento do " + mensagemComplemento + ", emitiu as seguintes credenciais: ";
 
                 var termo = _relatorioGerencialServiceService.BuscarPelaChave(report);
@@ -169,7 +171,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 }
                 reportDoc.Refresh();
 
-                var configSistema = objConfiguraSistema.BuscarPelaChave(1);
+                
                 var tempArea = Path.GetTempPath();
                 if (configSistema.EmpresaLOGO != null)
                 {
@@ -194,13 +196,14 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 string mensagem = string.Empty;
                 string mensagemComplemento = string.Empty;
                 string mensagemPeriodo = string.Empty;
-                mensagemComplemento = "AEROPORTO INTERNACIONAL ";
+                mensagemComplemento = "AEROPORTO ";
 
                 Domain.EntitiesCustom.FiltroReportColaboradoresCredenciais colaboradorCredencial = new Domain.EntitiesCustom.FiltroReportColaboradoresCredenciais();
 
                 var termo = _relatorioGerencialServiceService.BuscarPelaChave(report);
                 if (termo == null || termo.ArquivoRpt == null || String.IsNullOrEmpty(termo.ArquivoRpt)) return;
                 colaboradorCredencial.Impressa = true;
+                var configSistema = objConfiguraSistema.BuscarPelaChave(1);
 
                 if (periodo > 30)
                 {
@@ -227,6 +230,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 colaboradorCredencial.Periodo = periodo;
                 colaboradorCredencial.CredencialStatusId = 1;
 
+                mensagemComplemento = !string.IsNullOrEmpty(configSistema.NomeAeroporto) ? configSistema.NomeAeroporto?.Trim() : mensagemComplemento;
                 mensagem = mensagemPeriodo + " esse setor  de credenciamento do " + mensagemComplemento + ", concedeu as seguintes credenciais: ";
 
                 var result = objColaboradorCredencial.ListarColaboradorCredencialConcedidasView(colaboradorCredencial);
@@ -243,7 +247,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 reportDoc.Refresh();
 
-                var configSistema = objConfiguraSistema.BuscarPelaChave(1); 
+                
                 var tempArea = Path.GetTempPath(); 
                 if (configSistema.EmpresaLOGO != null) 
                 {
@@ -270,8 +274,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 string mensagemPeriodo = string.Empty;
                 string arquivoTermo = string.Empty;
 
-                mensagemComplemento = "AEROPORTO INTERNACIONAL ";
+                mensagemComplemento = "AEROPORTO ";
                 Domain.EntitiesCustom.FiltroReportColaboradoresCredenciais colaboradorCredencial = new Domain.EntitiesCustom.FiltroReportColaboradoresCredenciais();
+
+                var termo = _relatorioGerencialServiceService.BuscarPelaChave(report);
+                if (termo == null || termo.ArquivoRpt == null || String.IsNullOrEmpty(termo.ArquivoRpt)) return;
+                var configSistema = objConfiguraSistema.BuscarPelaChave(1);
 
                 switch (report)
                 {
@@ -319,10 +327,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 colaboradorCredencial.CredencialStatusId = 2; // status desativado
                 colaboradorCredencial.Impressa = true;
 
+                mensagemComplemento = !string.IsNullOrEmpty(configSistema.NomeAeroporto) ? configSistema.NomeAeroporto?.Trim() : mensagemComplemento;
                 mensagem = mensagemPeriodo + " esse setor  de credenciamento do " + mensagemComplemento + ", " + verbo + " as seguintes credenciais: ";
-
-                var termo = _relatorioGerencialServiceService.BuscarPelaChave(report);
-                if (termo == null || termo.ArquivoRpt == null || String.IsNullOrEmpty(termo.ArquivoRpt)) return;
 
                 var result = objColaboradorCredencial.ListarColaboradorCredencialInvalidasView(colaboradorCredencial).Where(n => n.CredencialStatusId == 2);
                 var resultMapeado = Mapper.Map<List<Views.Model.RelColaboradoresCredenciaisView>>(result.OrderByDescending(n => n.ColaboradorCredencialId).ToList());
@@ -338,7 +344,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 }
                 reportDoc.Refresh();
 
-                var configSistema = objConfiguraSistema.BuscarPelaChave(1);
                 var tempArea = Path.GetTempPath();
                 if (configSistema.EmpresaLOGO != null)
                 {
@@ -367,10 +372,15 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 string mensagem = string.Empty;
                 string mensagemComplemento = string.Empty;
                 string mensagemPeriodo = string.Empty;
-                mensagemComplemento = "AEROPORTO INTERNACIONAL ";
+                mensagemComplemento = "AEROPORTO ";
 
                 Domain.EntitiesCustom.FiltroReportVeiculoCredencial filtroAutorizacao = new Domain.EntitiesCustom.FiltroReportVeiculoCredencial();
                 filtroAutorizacao.Impressa = true;
+
+                var termo = _relatorioGerencialServiceService.BuscarPelaChave(report);
+                if (termo == null || termo.ArquivoRpt == null || String.IsNullOrEmpty(termo.ArquivoRpt)) return;
+
+                var configSistema = objConfiguraSistema.BuscarPelaChave(1);
 
                 if (periodo > 30)
                 {
@@ -393,15 +403,13 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     {
                         mensagemPeriodo = "Hoje";
                     }
-
                 }
                 filtroAutorizacao.Periodo = periodo;
                 filtroAutorizacao.CredencialMotivoId = 0;
 
+                mensagemComplemento = !string.IsNullOrEmpty(configSistema.NomeAeroporto) ? configSistema.NomeAeroporto?.Trim() : mensagemComplemento;
                 mensagem = mensagemPeriodo + " esse setor  de credenciamento do " + mensagemComplemento + ", emitiu as seguintes credenciais: ";
 
-                var termo = _relatorioGerencialServiceService.BuscarPelaChave(report);
-                if (termo == null || termo.ArquivoRpt == null || String.IsNullOrEmpty(termo.ArquivoRpt)) return;
 
                 var result = objVeiculoCredencial.ListarVeiculoCredencialViaAdicionaisView(filtroAutorizacao).Where(n => n.CredencialMotivoId == 2 || n.CredencialMotivoId == 3);
                 var resultMapeado = Mapper.Map<List<Views.Model.RelVeiculosCredenciaisView>>(result.OrderByDescending(n => n.VeiculoCredencialId).ToList());
@@ -417,9 +425,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 }
                 reportDoc.Refresh();
 
-                var configSistema = objConfiguraSistema.BuscarPelaChave(1);
                 var tempArea = Path.GetTempPath();
-                if (configSistema.EmpresaLOGO != null) 
+                if (configSistema.EmpresaLOGO != null)
                 {
                     byte[] testeArquivo = Convert.FromBase64String(configSistema.EmpresaLOGO);
                     System.IO.File.WriteAllBytes(tempArea + Constantes.Constantes.consNomeArquivoEmpresaOperadora, testeArquivo);
@@ -442,10 +449,15 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 string mensagem = string.Empty;
                 string mensagemComplemento = string.Empty;
                 string mensagemPeriodo = string.Empty;
-                mensagemComplemento = "AEROPORTO INTERNACIONAL ";
+                mensagemComplemento = "AEROPORTO ";
 
                 Domain.EntitiesCustom.FiltroReportVeiculoCredencial filtroAutorizacao = new Domain.EntitiesCustom.FiltroReportVeiculoCredencial();
                 filtroAutorizacao.Impressa = true;
+
+                var termo = _relatorioGerencialServiceService.BuscarPelaChave(report);
+                if (termo == null || termo.ArquivoRpt == null || String.IsNullOrEmpty(termo.ArquivoRpt)) return;
+
+                var configSistema = objConfiguraSistema.BuscarPelaChave(1);
 
                 if (periodo > 30)
                 {
@@ -472,10 +484,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 filtroAutorizacao.Periodo = periodo;
                 filtroAutorizacao.CredencialStatusId = 1;
 
+                mensagemComplemento = !string.IsNullOrEmpty(configSistema.NomeAeroporto) ? configSistema.NomeAeroporto?.Trim() : mensagemComplemento;
                 mensagem = mensagemPeriodo + " esse setor  de credenciamento do " + mensagemComplemento + ", concedeu as seguintes credenciais: ";
-
-                var termo = _relatorioGerencialServiceService.BuscarPelaChave(report); 
-                if (termo == null || termo.ArquivoRpt == null || String.IsNullOrEmpty(termo.ArquivoRpt)) return; 
 
                 var result = objVeiculoCredencial.ListarVeiculoCredencialConcedidasView(filtroAutorizacao); 
                 var resultMapeado = Mapper.Map<List<Views.Model.RelVeiculosCredenciaisView>>(result.OrderByDescending(n => n.VeiculoCredencialId).ToList());
@@ -490,7 +500,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     txt.Text = mensagem;
                 }
 
-                var configSistema = objConfiguraSistema.BuscarPelaChave(1);
                 var tempArea = Path.GetTempPath();
                 if (configSistema.EmpresaLOGO != null)
                 {
@@ -517,9 +526,14 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 string mensagemPeriodo = string.Empty;
                 string arquivoTermo = string.Empty;
 
-                mensagemComplemento = "AEROPORTO INTERNACIONAL ";
+                mensagemComplemento = "AEROPORTO ";
                 
                 Domain.EntitiesCustom.FiltroReportVeiculoCredencial filtroAutorizacao = new Domain.EntitiesCustom.FiltroReportVeiculoCredencial();
+                filtroAutorizacao.Impressa = true;
+                var termo = _relatorioGerencialServiceService.BuscarPelaChave(report);
+                if (termo == null || termo.ArquivoRpt == null || String.IsNullOrEmpty(termo.ArquivoRpt)) return;
+
+                var configSistema = objConfiguraSistema.BuscarPelaChave(1);
 
                 switch (report)
                 {
@@ -565,11 +579,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 filtroAutorizacao.Periodo = periodo;
                 filtroAutorizacao.CredencialStatusId = 2;
-                filtroAutorizacao.Impressa = true;
 
+                mensagemComplemento = !string.IsNullOrEmpty(configSistema.NomeAeroporto) ? configSistema.NomeAeroporto?.Trim() : mensagemComplemento;
                 mensagem = mensagemPeriodo + " esse setor  de credenciamento do " + mensagemComplemento + ", " + verbo + " as seguintes autorizações: ";
-                var termo = _relatorioGerencialServiceService.BuscarPelaChave(report);
-                if (termo == null || termo.ArquivoRpt == null || String.IsNullOrEmpty(termo.ArquivoRpt)) return;
 
                 var result = objVeiculoCredencial.ListarVeiculoCredencialInvalidasView(filtroAutorizacao).Where(n => n.CredencialStatusId == 2);
                 var resultMapeado = Mapper.Map<List<Views.Model.RelVeiculosCredenciaisView>>(result.OrderByDescending(n => n.VeiculoCredencialId).ToList());
@@ -583,10 +595,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     TextObject txt = (TextObject)reportDoc.ReportDefinition.ReportObjects["TextoPrincipal"];
                     txt.Text = mensagem;
                 }
-                reportDoc.Refresh(); 
+                reportDoc.Refresh();
 
-                var configSistema = objConfiguraSistema.BuscarPelaChave(1);
-                var tempArea = Path.GetTempPath(); 
+                var tempArea = Path.GetTempPath();
                 if (configSistema.EmpresaLOGO != null)
                 {
                     byte[] testeArquivo = Convert.FromBase64String(configSistema.EmpresaLOGO);
