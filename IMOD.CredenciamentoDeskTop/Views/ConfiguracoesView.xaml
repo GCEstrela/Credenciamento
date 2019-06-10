@@ -891,9 +891,15 @@
                                         <Label Content="Código:" Height="28"  Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" Visibility="Collapsed" />
                                         <TextBox CharacterCasing="Upper"  x:Name="CodigoCracha_tb"  Text="{Binding SelectedItem.LayoutCrachaId, ElementName=ListaLayoutsCrachas_lv, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"  Height="24"  Width="50" Visibility="Collapsed"/>
                                         <Label Content="Modelo:" Height="28" Width="53"   Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                        <TextBox CharacterCasing="Upper"  x:Name="Nome_tb"  Text="{Binding SelectedItem.Nome, ElementName=ListaLayoutsCrachas_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="267"/>
+                                        <TextBox CharacterCasing="Upper"  x:Name="Nome_tb"  Text="{Binding SelectedItem.Nome, ElementName=ListaLayoutsCrachas_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="248"/>
                                         <Label Content="Tipo:" Height="28"  Margin="0,0,1,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0"/>
-                                        <TextBox x:Name="TipoCracha_tb" ToolTip="Tipo (1 - Cracha(s) / 2 - ATIVs)" IsEnabled="true" Text="{Binding SelectedItem.TipoCracha, ElementName=ListaLayoutsCrachas_lv, UpdateSourceTrigger=PropertyChanged}" Height="24"  Width="30" TextChanged="TipoCracha_tb_TextChanged"/>
+
+                                        <ComboBox  x:Name="cbTipoLayoutCracha" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" 
+                                              ItemsSource="{Binding TipoLayoutCracha, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                SelectedValue="{Binding SelectedItem.TipoCracha,  ElementName=ListaLayoutsCrachas_lv, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                                    DisplayMemberPath="Description" SelectedValuePath="Value"
+                                                        IsSynchronizedWithCurrentItem="True"  IsEnabled="true" Width="90"/>
+
                                         <Label Content="Valor:" Height="28"  Margin="0,0,1,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0"/>
                                         <TextBox x:Name="ValorCracha_tb" IsEnabled="true" Text="{Binding SelectedItem.Valor, ElementName=ListaLayoutsCrachas_lv, UpdateSourceTrigger=PropertyChanged}" Height="24"  Width="50"/>
 
@@ -917,7 +923,7 @@
                                                 <GridView FrameworkElement.FlowDirection="RightToLeft">
                                                     <!--<GridViewColumn Width="50" Header="Cód."  DisplayMemberBinding="{Binding LayoutCrachaId}"/>-->
                                                     <GridViewColumn Width="400" Header="Nome"  DisplayMemberBinding="{Binding Nome}"/>
-                                                    <GridViewColumn Width="50" Header="Tipo"  DisplayMemberBinding="{Binding TipoCracha}"/>
+                                                    <GridViewColumn Width="90" Header="Tipo"  DisplayMemberBinding="{Binding TipoCrachaDescricao}"/>
                                                     <GridViewColumn Width="100" Header="Valor"  DisplayMemberBinding="{Binding Valor}"/>
                                                 </GridView>
                                             </ListView.View>
@@ -957,7 +963,7 @@
             </TabItem>
 
             <TabItem x:Name="Congiguracaosistema" Width="200" Header="Configurações do Sistema">
-                <ScrollViewer   VerticalScrollBarVisibility="Auto"  HorizontalScrollBarVisibility="Auto" Height="413"  >
+                <ScrollViewer   VerticalScrollBarVisibility="Auto"  HorizontalScrollBarVisibility="Auto"  >
                     <StackPanel  >
                         <Grid>
                             <Grid.RowDefinitions>
@@ -971,11 +977,11 @@
                                 <ColumnDefinition Width="209*" />
                             </Grid.ColumnDefinitions>
 
-                            <GroupBox Header="Empresa" Background="BlueViolet" Height="187" VerticalAlignment="Top" Margin="300,20,2,0">
-                                <StackPanel Orientation="Horizontal" Height="152" Margin="2,0,-2,0" VerticalAlignment="Top">
+                            <GroupBox Header="Empresa" Background="BlueViolet" Height="197" VerticalAlignment="Top" Margin="300,20,2,0">
+                                <StackPanel Orientation="Horizontal" Height="185" Margin="2,0,-2,0" VerticalAlignment="Top" >
                                     <StackPanel.Resources>
                                     </StackPanel.Resources>
-                                    <StackPanel Margin="1,1,1,0" Height="131" VerticalAlignment="Top" Width="421">
+                                    <StackPanel Margin="1,1,1,0" Height="180" VerticalAlignment="Top" Width="421">
                                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
                                             HorizontalAlignment="Left" Margin="1">
                                             <Label Content="CNPJ:" Height="28" Width="64" Margin="40,0,0,0" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"  />
@@ -1007,11 +1013,13 @@
                                             <Label Content="Responsável:" Height="28" Width="100" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                                             <TextBox CharacterCasing="Upper" x:Name="Contato1_tb" MaxLength="50"
                                             Text="{Binding Entity.Responsavel, UpdateSourceTrigger=PropertyChanged}" IsEnabled="True" Height="24" Width="305" />
-
                                         </StackPanel>
                                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="1">
-
+                                            <Label Content="Aeroporto:" Height="28" Width="100" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
+                                            <TextBox CharacterCasing="Upper" x:Name="txtNomeAeroporto" MaxLength="50"
+                                            Text="{Binding Entity.NomeAeroporto, UpdateSourceTrigger=PropertyChanged}" IsEnabled="True" Height="24" Width="305" />
                                         </StackPanel>
+
                                     </StackPanel>
                                     <StackPanel VerticalAlignment="Top" Margin="50,6,20,0" Height="140" Width="101">
                                         <Border CornerRadius="3" BorderThickness="1" Grid.Column="0" Width="100" Height="100"
@@ -1040,7 +1048,7 @@
 
                             </GroupBox>
                             <GroupBox Background="Brown"
-                              Grid.Column="0" Header="Configurações" Margin="300,210,0,-23" Height="192" VerticalAlignment="Top" Grid.RowSpan="3">
+                              Grid.Column="0" Header="Configurações" Margin="300,220,0,-23" Height="200" VerticalAlignment="Top" Grid.RowSpan="3">
                                 <StackPanel Margin="1">
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                         Margin="1">
@@ -1082,7 +1090,7 @@
                                         <Label Content="URL:" Height="28" Width="84" Margin="1" Foreground="#FFD0D0D0"                                        HorizontalContentAlignment="Right" />
                                         <TextBox Foreground="#FFD0D0D0"  CharacterCasing="Upper" x:Name="url_tb" MaxLength="200"                                         
                                          Margin="1" IsEnabled="True" Height="24" Width="180"
-                                         HorizontalContentAlignment="Center" 
+                                         HorizontalContentAlignment="Left" 
                                          Text="{Binding Entity.UrlSistema, UpdateSourceTrigger=PropertyChanged}"/>
 
                                     </StackPanel>
