@@ -62,6 +62,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("imagemResolucao", entity.imagemResolucao, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("imagemTamanho", entity.imagemTamanho, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("arquivoTamanho", entity.arquivoTamanho, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("NomeAeroporto", entity.NomeAeroporto, false)));
 
                         cmd.ExecuteNonQuery();
                     }

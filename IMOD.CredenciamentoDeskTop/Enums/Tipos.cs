@@ -30,4 +30,23 @@ namespace IMOD.CredenciamentoDeskTop.Enums
         [Description("Devolução")] Devolucao = 1,
         [Description("Entrega BO")] EntregaBO = 2
     }
+
+    /// <summary>
+    ///     Tipo Layout Crachá: 1-Credencial e 2-Autorização
+    /// </summary>
+    public enum TipoLayoutCracha
+    {
+        [Description("Credencial")] Credencial = 1,
+        [Description("Autorização")] Autorizacao = 2
+    }
+
+    /// <summary>
+    ///     Tipo 1 - Veículo e 2 - Equipamento
+    /// </summary>
+    public enum TipoVeiculoEquipamento
+    {
+        [Description("Veiculo")] Veiculo = 1,
+        [Description("Equipamento")] Equipamento = 2
+    }
+
 }
