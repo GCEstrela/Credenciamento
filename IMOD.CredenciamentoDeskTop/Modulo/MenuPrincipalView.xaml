@@ -98,7 +98,7 @@
             <!--#endregion -->
             
             <!--#region Configurações -->
-            <Button x:Name="ConfiguracoesBt" Width="110" Margin="10" Click="OnConfiguracao_Click" Style="{StaticResource menu}" Visibility="Hidden">
+            <Button x:Name="ConfiguracoesBt" Width="110" Margin="10" Click="OnConfiguracao_Click" Style="{StaticResource menu}">
                 <StackPanel>
                     <Image Source="../Resources/Engrenagem.ico" Width="30" Height="40" />
                     <TextBlock HorizontalAlignment="Center" >Configurações</TextBlock>
