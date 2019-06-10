@@ -1016,7 +1016,7 @@
                                         </StackPanel>
                                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="1">
                                             <Label Content="Aeroporto:" Height="28" Width="100" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
-                                            <TextBox CharacterCasing="Upper" x:Name="txtNomeAeroporto" MaxLength="50"
+                                            <TextBox CharacterCasing="Upper" x:Name="txtNomeAeroporto" MaxLength="100"
                                             Text="{Binding Entity.NomeAeroporto, UpdateSourceTrigger=PropertyChanged}" IsEnabled="True" Height="24" Width="305" />
                                         </StackPanel>
 
