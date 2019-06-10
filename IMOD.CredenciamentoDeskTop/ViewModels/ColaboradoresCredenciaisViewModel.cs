@@ -1211,20 +1211,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             Entity.Validate();
             var hasErros = Entity.HasErrors;
 
-            //if (Entity.CredencialStatusId == 1)
-            //{
-            //    var _colaborador = _service.Listar(null, null, null, null, Entity.ColaboradorId, null, true);
-            //    if (_colaborador.Count > 0)
-            //    {
-            //        WpfHelp.Mbox("Já existe uma credencial ATIVA para esse colbaborador. Não é possível continua essa ação.");
-            //        return true;
-            //    }
-            //}
-            //if (Entity.Matricula == null)
-            //{
-            //    WpfHelp.Mbox("Não existe matrícula para esse colababorador no contrato selecionado. Não é possível continua essa ação.");
-            //    return true;
-            //}
+            
             //retirar o espaço entre a numeração obtida do cartão
             if (Entity.Validade.Value.AddHours(23).AddMinutes(59).AddSeconds(59) < DateTime.Now)
             {
@@ -1253,16 +1240,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     return true;
                 }
             }
-
-            //if (Entity.ColaboradorPrivilegio1Id == 0 || Entity.ColaboradorPrivilegio2Id == 0)
-            //{
-            //    //System.Windows.MessageBox.Show("Regras não informadas");
-            //    Entity.SetMessageErro("Regras", "As Regra(s) são obrigatória(s).");
-            //    WpfHelp.Mbox("As Regra(s) são obrigatória(s). Não é possível criar uma credencial sem essa infrmação");
-            //    //IsEnableLstView = true;
-            //    //_viewModelParent.HabilitaControleTabControls(true, true, true, true, true, true);
-            //    return true;
-            //}
 
             if (Entity.TecnologiaCredencialId != 0)
             {
