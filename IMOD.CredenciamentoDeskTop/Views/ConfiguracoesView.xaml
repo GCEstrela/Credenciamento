@@ -1056,7 +1056,7 @@
                                         <CheckBox Name="Regra" ToolTip="" 
                                               Content="Regras" Foreground="YellowGreen"  HorizontalAlignment="Left" Height="17" 
                                               Margin="0,7,0,0" Grid.Row="3" VerticalAlignment="Top" Width="70"
-                                              IsChecked="{Binding Entity.Regas, UpdateSourceTrigger=PropertyChanged}" />
+                                              IsChecked="{Binding Entity.regras, UpdateSourceTrigger=PropertyChanged}" />
 
                                     </StackPanel>
 

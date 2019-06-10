@@ -1266,11 +1266,15 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
             if (Entity.TecnologiaCredencialId != 0)
             {
-                if (Entity.ColaboradorPrivilegio1Id == 0 && Entity.ColaboradorPrivilegio2Id == 0)
+                _configuraSistema = ObterConfiguracao();
+                if (_configuraSistema.Regras)
                 {
-                    //System.Windows.MessageBox.Show("REgras não informadas");
-                    WpfHelp.Mbox("Para a Autenticação selecionada é necessário o preenchimento dos Privilégios.",MessageBoxIcon.Information);
-                    return true;
+                    if (Entity.ColaboradorPrivilegio1Id == 0 && Entity.ColaboradorPrivilegio2Id == 0)
+                    {
+                        //System.Windows.MessageBox.Show("REgras não informadas");
+                        WpfHelp.Mbox("Para a Autenticação selecionada é necessário o preenchimento dos Privilégios.", MessageBoxIcon.Information);
+                        return true;
+                    }
                 }
                 if (Entity.FormatoCredencialId == 0)
                 {

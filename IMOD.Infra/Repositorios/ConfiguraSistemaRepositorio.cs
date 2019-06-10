@@ -52,7 +52,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Contrato", entity.Contrato, false)));
 
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Colete", entity.Colete, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Regras", entity.Regas, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Regras", entity.Regras, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Email", entity.Email, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Responsavel", entity.Responsavel, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("SMTP", entity.SMTP, false)));
