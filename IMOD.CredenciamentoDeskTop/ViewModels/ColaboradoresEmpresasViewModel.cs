@@ -130,34 +130,52 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         ///     Listar dados auxilizares
         /// </summary>
         private void ListarDadosAuxiliares()
-        { 
-            Empresas = new List<Empresa>();
-            Contratos = new List<EmpresaContrato>();
-            ListarDadosEmpresaContratos();
-            //_configuraSistema = ObterConfiguracao();
-            _configuraSistema = ObterConfiguracao();
-            if (!_configuraSistema.Colete) //Se Cole não for automático false
+        {
+            try
             {
-                IsEnableColete = false;
+                Empresas = new List<Empresa>();
+                Contratos = new List<EmpresaContrato>();
+                ListarDadosEmpresaContratos();
+                //_configuraSistema = ObterConfiguracao();
+                _configuraSistema = ObterConfiguracao();
+                if (!_configuraSistema.Colete) //Se Cole não for automático false
+                {
+                    IsEnableColete = false;
+                }
             }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex);
+                throw;
+            }
+            
         }
 
         public void ListarContratos(Empresa empresa)
         {
-            if (empresa == null) return;
-
-            var lstContratos = _empresaContratoService.Listar(empresa.EmpresaId).ToList();
-            Contratos.Clear();
-            //Manipular concatenaçção de conrato
-            lstContratos.ForEach(n =>
+            try
             {
-                //if (Convert.ToInt32(n.NumeroContrato) > 0)
-                //{
-                n.Descricao = $"{n.Descricao} - {n.NumeroContrato}";
-                Contratos.Add(n);
-                //}
+                if (empresa == null) return;
 
-            });
+                var lstContratos = _empresaContratoService.Listar(empresa.EmpresaId).ToList();
+                Contratos.Clear();
+                //Manipular concatenaçção de conrato
+                lstContratos.ForEach(n =>
+                {
+                    //if (Convert.ToInt32(n.NumeroContrato) > 0)
+                    //{
+                    n.Descricao = $"{n.Descricao} - {n.NumeroContrato}";
+                    Contratos.Add(n);
+                    //}
+
+                });
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex);
+                throw;
+            }
+            
         }
 
         /// <summary>
@@ -179,6 +197,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             catch (Exception ex)
             {
                 Utils.TraceException(ex);
+                WpfHelp.PopupBox(ex);
             }
         }
         /// <summary>
@@ -187,11 +206,20 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <returns></returns>
         private ConfiguraSistema ObterConfiguracao()
         {
-            //Obter configuracoes de sistema
-            var config = _auxiliaresServiceConfiguraSistema.ConfiguraSistemaService.Listar();
-            //Obtem o primeiro registro de configuracao
-            if (config == null) throw new InvalidOperationException("Não foi possivel obter dados de configuração do sistema.");
-            return config.FirstOrDefault();
+            try
+            {
+                //Obter configuracoes de sistema
+                var config = _auxiliaresServiceConfiguraSistema.ConfiguraSistemaService.Listar();
+                //Obtem o primeiro registro de configuracao
+                if (config == null) throw new InvalidOperationException("Não foi possivel obter dados de configuração do sistema.");
+                return config.FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex);
+                throw;
+            }
+            
         }
         /// <summary>
         ///     Acionado antes de remover
@@ -248,16 +276,25 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         private void SetDadosEmpresaContrato(ColaboradorEmpresaView entity)
         {
-            var empresa = Empresas.FirstOrDefault(n => n.EmpresaId == entity.EmpresaId);
-            var contrato = Contratos.FirstOrDefault(n => n.EmpresaContratoId == entity.EmpresaContratoId);
-            if (empresa != null)
-                //Verificar essa linha
-                //entity.EmpresaContratoId = Contratos[0].EmpresaContratoId;
-                entity.EmpresaNome = empresa.Nome;//Setar o nome da empresa para ser exibida na list view
-            
+            try
+            {
+                var empresa = Empresas.FirstOrDefault(n => n.EmpresaId == entity.EmpresaId);
+                var contrato = Contratos.FirstOrDefault(n => n.EmpresaContratoId == entity.EmpresaContratoId);
+                if (empresa != null)
+                    //Verificar essa linha
+                    //entity.EmpresaContratoId = Contratos[0].EmpresaContratoId;
+                    entity.EmpresaNome = empresa.Nome;//Setar o nome da empresa para ser exibida na list view
 
-            if (contrato != null)
-                entity.Descricao = contrato.Descricao;//Setar o nome do contrato para ser exibida na list view
+
+                if (contrato != null)
+                    entity.Descricao = contrato.Descricao;//Setar o nome do contrato para ser exibida na list view
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex);
+                throw;
+            }
+            
 
         }
 
@@ -266,13 +303,21 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private void PrepareCriar()
         {
-           
-            Entity = new ColaboradorEmpresaView();
-            Entity.Ativo = true;
-            Comportamento.PrepareCriar();
-            IsEnableLstView = false;
-            _viewModelParent.HabilitaControleTabControls(false, false, true, false, false, false);
-            ListarDadosEmpresaContratos();
+            try
+            {
+                Entity = new ColaboradorEmpresaView();
+                Entity.Ativo = true;
+                Comportamento.PrepareCriar();
+                IsEnableLstView = false;
+                _viewModelParent.HabilitaControleTabControls(false, false, true, false, false, false);
+                ListarDadosEmpresaContratos();
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex);
+                throw;
+            }    
+            
         }
 
         /// <summary>
@@ -367,14 +412,23 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private void PrepareAlterar()
         {
-            if (Entity == null)
+            try
             {
-                WpfHelp.PopupBox("Selecione um item da lista", 1);
-                return;
+                if (Entity == null)
+                {
+                    WpfHelp.PopupBox("Selecione um item da lista", 1);
+                    return;
+                }
+                Comportamento.PrepareAlterar();
+                IsEnableLstView = false;
+                _viewModelParent.HabilitaControleTabControls(false, false, true, false, false, false);
             }
-            Comportamento.PrepareAlterar();
-            IsEnableLstView = false;
-            _viewModelParent.HabilitaControleTabControls(false, false, true, false, false, false);
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex);
+                throw;
+            }
+            
         }
 
         /// <summary>
@@ -384,8 +438,17 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <param name="viewModel"></param>
         public void AtualizarDados(ColaboradorView entity, ColaboradorViewModel viewModel)
         {
-            _viewModelParent = viewModel;
-            AtualizarDados(entity);
+            try
+            {
+                _viewModelParent = viewModel;
+                AtualizarDados(entity);
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex);
+                throw;
+            }
+            
              
         }
         /// <summary>
@@ -394,18 +457,27 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <param name="entity"></param>
         public void AtualizarDados(ColaboradorView entity)
         {
-            EntityObserver.Clear();
-            if (entity == null) return;
+            try
+            {
+                EntityObserver.Clear();
+                if (entity == null) return;
                 //throw new ArgumentNullException(nameof(entity));
-             
 
-            _colaboradorView = entity;
-            //Obter dados
-            var list1 = _service.Listar(entity.ColaboradorId);
-            var list2 = Mapper.Map<List<ColaboradorEmpresaView>>(list1.OrderByDescending(n => n.ColaboradorEmpresaId));
-            EntityObserver = new ObservableCollection<ColaboradorEmpresaView>();
-            list2.ForEach(n => { EntityObserver.Add(n); });
-            ListarDadosEmpresaContratos();
+
+                _colaboradorView = entity;
+                //Obter dados
+                var list1 = _service.Listar(entity.ColaboradorId);
+                var list2 = Mapper.Map<List<ColaboradorEmpresaView>>(list1.OrderByDescending(n => n.ColaboradorEmpresaId));
+                EntityObserver = new ObservableCollection<ColaboradorEmpresaView>();
+                list2.ForEach(n => { EntityObserver.Add(n); });
+                ListarDadosEmpresaContratos();
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex);
+                throw;
+            }
+            
         }
 
         #endregion
@@ -444,20 +516,28 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         public bool Validar()
         {
-
-            if (Entity == null) return true;
-            Entity.Validate();
-
-            if (!_configuraSistema.Contrato && Entity.EmpresaContratoId <= 0)
+            try
             {
-                Entity.SetMessageErro("EmpresaContratoId", "Favor informar o contrato.");
-                return true;
+                if (Entity == null) return true;
+                Entity.Validate();
+
+                if (!_configuraSistema.Contrato && Entity.EmpresaContratoId <= 0)
+                {
+                    Entity.SetMessageErro("EmpresaContratoId", "Favor informar o contrato.");
+                    return true;
+                }
+
+                var hasErros = Entity.HasErrors;
+                if (hasErros) return true;
+
+                return Entity.HasErrors;
             }
+            catch (Exception)
+            {
 
-            var hasErros = Entity.HasErrors;
-            if (hasErros) return true;
-
-            return Entity.HasErrors;
+                throw;
+            }
+            
         }
 
         #endregion

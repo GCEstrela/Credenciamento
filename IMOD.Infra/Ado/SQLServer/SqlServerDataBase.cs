@@ -56,7 +56,7 @@ namespace IMOD.Infra.Ado.SQLServer
                 //WpfHelp.PopupBox()
                 Utils.TraceException(ex);
                 //return null;
-                throw  new Exception($"Ocorreu uma falha ao conectar com o banco de dados\nRazão:\n{ex.Message}");
+                throw  new Exception($"Ocorreu uma falha ao conectar com o banco de dados.");
             }
             catch (Exception ex)
             {

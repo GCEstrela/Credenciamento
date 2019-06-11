@@ -63,22 +63,28 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         public ColaboradoresAnexosViewModel()
         {
-            Comportamento = new ComportamentoBasico(false, true, false, false, false);
-            EntityObserver = new ObservableCollection<ColaboradorAnexoView>();
-            Comportamento.SalvarAdicao += OnSalvarAdicao;
-            Comportamento.SalvarEdicao += OnSalvarEdicao;
-            Comportamento.Remover += OnRemover;
-            Comportamento.Cancelar += OnCancelar;
-          
-            base.PropertyChanged += OnEntityChanged;
+            try
+            {
+                Comportamento = new ComportamentoBasico(false, true, false, false, false);
+                EntityObserver = new ObservableCollection<ColaboradorAnexoView>();
+                Comportamento.SalvarAdicao += OnSalvarAdicao;
+                Comportamento.SalvarEdicao += OnSalvarEdicao;
+                Comportamento.Remover += OnRemover;
+                Comportamento.Cancelar += OnCancelar;
+
+                base.PropertyChanged += OnEntityChanged;
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex);
+                throw;
+            }
         }
 
         private void Clear(object sender, EventArgs e)
         {
             EntityObserver.Clear();
         }
-
-
 
         #region  Metodos
         public void BuscarAnexo(int ColaboradorAnexoId)
@@ -112,8 +118,16 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         private void PrepareSalvar()
         {
-            if (Validar()) return;
-            Comportamento.PrepareSalvar();
+            try
+            {
+                if (Validar()) return;
+                Comportamento.PrepareSalvar();
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex);
+                throw;
+            }
         }
         /// <summary>
         ///     Acionado antes de remover
@@ -158,11 +172,18 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private void PrepareCriar()
         {
-            
-            Entity = new ColaboradorAnexoView();
-            Comportamento.PrepareCriar();
-            IsEnableLstView = false;
-            _viewModelParent.HabilitaControleTabControls(false, false, false, false, true, false);
+            try
+            {
+                Entity = new ColaboradorAnexoView();
+                Comportamento.PrepareCriar();
+                IsEnableLstView = false;
+                _viewModelParent.HabilitaControleTabControls(false, false, false, false, true, false);
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex);
+                throw;
+            }
         }
 
         /// <summary>
@@ -235,43 +256,65 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
         }
 
-       
-
         /// <summary>
         ///     Acionado antes de alterar
         /// </summary>
         private void PrepareAlterar()
         {
-            if (Entity == null)
+            try
             {
-                WpfHelp.PopupBox("Selecione um item da lista", 1);
-                return;
+                if (Entity == null)
+                {
+                    WpfHelp.PopupBox("Selecione um item da lista", 1);
+                    return;
+                }
+                Comportamento.PrepareAlterar();
+                IsEnableLstView = false;
+                _viewModelParent.HabilitaControleTabControls(false, false, false, false, true, false);
             }
-            Comportamento.PrepareAlterar();
-            IsEnableLstView = false;
-            _viewModelParent.HabilitaControleTabControls(false, false, false, false, true, false);
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex);
+                throw;
+            }
         }
         
         public void AtualizarDadosAnexo(ColaboradorView entity, ColaboradorViewModel viewModelParent)
         {
-            EntityObserver.Clear();
-            if (entity == null) return;// throw new ArgumentNullException(nameof(entity));
-            _colaboradorView = entity;
-            _viewModelParent = viewModelParent; 
+            try
+            {
+                EntityObserver.Clear();
+                if (entity == null) return;// throw new ArgumentNullException(nameof(entity));
+                _colaboradorView = entity;
+                _viewModelParent = viewModelParent;
 
-            var list1 = _service.Listar(entity.ColaboradorId);
-            var list2 = Mapper.Map<List<ColaboradorAnexoView>>(list1.OrderByDescending(n => n.ColaboradorAnexoId));
-            EntityObserver = new ObservableCollection<ColaboradorAnexoView>();
-            list2.ForEach(n => { EntityObserver.Add(n); });
-            _configuraSistema = ObterConfiguracao();
+                var list1 = _service.Listar(entity.ColaboradorId);
+                var list2 = Mapper.Map<List<ColaboradorAnexoView>>(list1.OrderByDescending(n => n.ColaboradorAnexoId));
+                EntityObserver = new ObservableCollection<ColaboradorAnexoView>();
+                list2.ForEach(n => { EntityObserver.Add(n); });
+                _configuraSistema = ObterConfiguracao();
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex);
+                throw;
+            }
         }
         private ConfiguraSistema ObterConfiguracao()
         {
-            //Obter configuracoes de sistema
-            var config = _auxiliaresService.ConfiguraSistemaService.Listar();
-            //Obtem o primeiro registro de configuracao
-            if (config == null) throw new InvalidOperationException("Não foi possivel obter dados de configuração do sistema.");
-            return config.FirstOrDefault();
+            try
+            {
+                //Obter configuracoes de sistema
+                var config = _auxiliaresService.ConfiguraSistemaService.Listar();
+                //Obtem o primeiro registro de configuracao
+                if (config == null) throw new InvalidOperationException("Não foi possivel obter dados de configuração do sistema.");
+                return config.FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex);
+                throw;
+            }
         }
         #endregion
 
@@ -309,11 +352,19 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         public bool Validar()
         {
-            if (Entity == null) return true;
-            Entity.Validate();
-            var hasErro = Entity.HasErrors;
+            try
+            {
+                if (Entity == null) return true;
+                Entity.Validate();
+                var hasErro = Entity.HasErrors;
 
-            return hasErro;
+                return hasErro;
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex);
+                throw;
+            }
         }
 
         #endregion

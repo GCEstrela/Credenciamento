@@ -120,19 +120,37 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private void ListarDadosAuxiliares()
         {
-            var lst1 = _auxiliaresService.CursoService.Listar();
-            Cursos = new List<Curso>();
-            Cursos.AddRange (lst1);
+            try
+            {
+                var lst1 = _auxiliaresService.CursoService.Listar();
+                Cursos = new List<Curso>();
+                Cursos.AddRange(lst1);
+
+                _configuraSistema = ObterConfiguracao();
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex);
+                throw;
+            }
             
-            _configuraSistema = ObterConfiguracao();
         }
         private ConfiguraSistema ObterConfiguracao()
         {
-            //Obter configuracoes de sistema
-            var config = _auxiliaresService.ConfiguraSistemaService.Listar();
-            //Obtem o primeiro registro de configuracao
-            if (config == null) throw new InvalidOperationException("Não foi possivel obter dados de configuração do sistema.");
-            return config.FirstOrDefault();
+            try
+            {
+                //Obter configuracoes de sistema
+                var config = _auxiliaresService.ConfiguraSistemaService.Listar();
+                //Obtem o primeiro registro de configuracao
+                if (config == null) throw new InvalidOperationException("Não foi possivel obter dados de configuração do sistema.");
+                return config.FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex);
+                throw;
+            }
+            
         }
         /// <summary>
         ///     Criar Dados
@@ -172,8 +190,16 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <param name="cursoId">Identificador curso</param>
         private string NomeCurso(int cursoId)
         {
-            var curso = Cursos.FirstOrDefault (n => n.CursoId == cursoId);  
-            return curso == null ? "" : curso.Descricao;
+            try
+            {
+                var curso = Cursos.FirstOrDefault(n => n.CursoId == cursoId);
+                return curso == null ? "" : curso.Descricao;
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex);
+                throw;
+            }
         }
 
         private void PrepareSalvar()
@@ -187,18 +213,26 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private void PrepareCriar()
         {
-            if (Cursos!=null)
-                Cursos.Clear();
+            try
+            {
+                if (Cursos != null)
+                    Cursos.Clear();
 
-            ListarDadosAuxiliares();
-            CollectionViewSource.GetDefaultView(Cursos).Refresh();
+                ListarDadosAuxiliares();
+                CollectionViewSource.GetDefaultView(Cursos).Refresh();
 
-            Entity = new ColaboradorCursoView();
-            Entity.Controlado = true;
-            Comportamento.PrepareCriar();
-            IsEnableLstView = false;
-            _viewModelParent.AtualizarDadosPendencias();
-            _viewModelParent.HabilitaControleTabControls(false, false, false, true, false, false);
+                Entity = new ColaboradorCursoView();
+                Entity.Controlado = true;
+                Comportamento.PrepareCriar();
+                IsEnableLstView = false;
+                _viewModelParent.AtualizarDadosPendencias();
+                _viewModelParent.HabilitaControleTabControls(false, false, false, true, false, false);
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex);
+                throw;
+            }
         }
 
         /// <summary>
@@ -280,14 +314,22 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private void PrepareAlterar()
         {
-            if (Entity == null)
+            try
             {
-                WpfHelp.PopupBox("Selecione um item da lista", 1);
-                return;
+                if (Entity == null)
+                {
+                    WpfHelp.PopupBox("Selecione um item da lista", 1);
+                    return;
+                }
+                Comportamento.PrepareAlterar();
+                IsEnableLstView = false;
+                _viewModelParent.HabilitaControleTabControls(false, false, false, true, false, false);
             }
-            Comportamento.PrepareAlterar();
-            IsEnableLstView = false;
-            _viewModelParent.HabilitaControleTabControls(false, false, false, true, false, false);
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex);
+                throw;
+            }
         }
 
         public void AtualizarDados(ColaboradorView entity, ColaboradorViewModel viewModelParent)
@@ -298,20 +340,28 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         public void AtualizarDados(ColaboradorView entity)
         {
-            EntityObserver.Clear();
-            if (entity == null) return;
+            try
+            {
+                EntityObserver.Clear();
+                if (entity == null) return;
                 //throw new ArgumentNullException (nameof (entity));
 
-            _colaboradorView = entity;
-            //Obter dados
-            var list1 = _service.Listar (entity.ColaboradorId);
-            var list2 = Mapper.Map<List<ColaboradorCursoView>> (list1.OrderByDescending (n => n.ColaboradorCursoId));
-            EntityObserver = new ObservableCollection<ColaboradorCursoView>();
-            list2.ForEach (n =>
+                _colaboradorView = entity;
+                //Obter dados
+                var list1 = _service.Listar(entity.ColaboradorId);
+                var list2 = Mapper.Map<List<ColaboradorCursoView>>(list1.OrderByDescending(n => n.ColaboradorCursoId));
+                EntityObserver = new ObservableCollection<ColaboradorCursoView>();
+                list2.ForEach(n =>
+                {
+                    EntityObserver.Add(n);
+                    n.CursoNome = _cursoService.BuscarPelaChave(n.CursoId).Descricao;
+                });
+            }
+            catch (Exception ex)
             {
-                EntityObserver.Add (n);
-                n.CursoNome = _cursoService.BuscarPelaChave (n.CursoId).Descricao;
-            });
+                WpfHelp.PopupBox(ex);
+                throw;
+            }
         }
 
         /// <summary>
@@ -319,12 +369,20 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         public bool Validar()
         {
-            if (Entity == null) return true;
-            Entity.Validate();
-            var hasErros = Entity.HasErrors;
-            if (hasErros) return true;
+            try
+            {
+                if (Entity == null) return true;
+                Entity.Validate();
+                var hasErros = Entity.HasErrors;
+                if (hasErros) return true;
 
-            return Entity.HasErrors;
+                return Entity.HasErrors;
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex);
+                throw;
+            }
         }
 
         #endregion
