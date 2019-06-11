@@ -7,8 +7,8 @@
              xmlns:wpf="clr-namespace:CSharpControls.Wpf;assembly=CSharpControls.Wpf"
              xmlns:viewModels="clr-namespace:IMOD.CredenciamentoDeskTop.ViewModels"
              xmlns:funcoes="clr-namespace:IMOD.CredenciamentoDeskTop.Funcoes"
-             mc:Ignorable="d"
-             d:DesignHeight="320" 
+             mc:Ignorable="d" 
+             d:DesignHeight="385" 
              Loaded="Frm_Loaded">
     <UserControl.Resources>
         <funcoes:BooleanToVisibilityConverter x:Key="VisibleControl" />
@@ -36,7 +36,7 @@
                       IsEnabled="{Binding Comportamento.isEnableCancelar}"
                       Background="Crimson"
                       x:Name="Responsavel_gb" Header="Empresas Vínculos"
-                      VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="795" Height="160">
+                      VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="795" Height="180">
 
                 <StackPanel x:Name="InformacoesAnexo_sp" Margin="0,10,-2,-12">
 
@@ -102,14 +102,22 @@
                             MaxLength="10"
                             Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
                             Height="24"  Width="110" />
-
-                        <Label Content=" Manuseio de Bagagem:" Height="24" Width="145"  VerticalAlignment="Center" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
+                        
+                        <Label Content=" Manuseio de Bagagem:" Height="26" Width="145"  VerticalAlignment="Center" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                         <CheckBox VerticalAlignment="Center" x:Name="chkManuseioBagagem"  Foreground="#FFD0D0D0" IsChecked="{Binding Entity.ManuseioBagagem, UpdateSourceTrigger=PropertyChanged}"/>
-
                     </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
+                               Height="28" >
+                        <Label Content=" CCAM:" Height="26" Width="145"  VerticalAlignment="Center" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
+                        <CheckBox VerticalAlignment="Center" x:Name="chkCcam"  Foreground="#FFD0D0D0" IsChecked="{Binding Entity.FlagCcam, UpdateSourceTrigger=PropertyChanged}"/>
+                        <Label Content="Operador Ponte:" Height="26" Width="145"  VerticalAlignment="Center" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
+                        <CheckBox VerticalAlignment="Center" x:Name="chkOperadorPonte"  Foreground="#FFD0D0D0" IsChecked="{Binding Entity.OperadorPonteEmbarque, UpdateSourceTrigger=PropertyChanged}"/>
+                    </StackPanel>
+
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                Width="772" Height="30">
-                        <Label Content="Nome do Arquivo:" Height="24" Width="142" Margin="1" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                        <Label Content="Nome do Arquivo:" Height="30" Width="142" Margin="1" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
                         <!-- Campo nome ddo Arquivo Anexo deve sempre esta Enabled, quem informa é a seleção do arquivo-->
                         <TextBox x:Name="txtNomeAnexo" MaxLength="100" CharacterCasing="Upper" Height="24" Width="406"  
                                  Text="{Binding Entity.NomeAnexo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
@@ -133,7 +141,7 @@
             </GroupBox>
 
 
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="795" Height="203">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="795" Height="190">
 
                 <ListView x:Name="ListaSegnatarios_lv"
                           IsEnabled="{Binding IsEnableLstView}"
@@ -141,7 +149,7 @@
                           HorizontalAlignment="Stretch" 
                           ItemsSource="{Binding EntityObserver, Mode=TwoWay}"
                           SelectedItem="{Binding Entity, Mode=TwoWay}"
-                          Width="756" Height="175" Margin="0,12,0,0" VerticalAlignment="Top">
+                          Width="756" Height="175" Margin="0,10,0,0" VerticalAlignment="Top">
                     <ListView.View>
                         <GridView FrameworkElement.FlowDirection="RightToLeft">
                             <GridViewColumn Width="40" Header="Ativo">
@@ -159,7 +167,7 @@
                     </ListView.View>
                 </ListView>
 
-                <StackPanel Orientation="Vertical"   HorizontalAlignment="Right" Width="30" Margin="10,0,10,10" Height="181" VerticalAlignment="Bottom">
+                <StackPanel Orientation="Vertical"   HorizontalAlignment="Right" Width="30" Margin="10,0,10,10" Height="170" VerticalAlignment="Bottom">
 
                     <Button x:Name="btnAdicionar"   Content="{StaticResource imgAdd}"       ToolTip="Adicionar" IsEnabled="{Binding Comportamento.IsEnableCriar}"       Command="{Binding PrepareCriarCommand}"      Width="25" Margin="0,0,0,7" />
                     <Button x:Name="btnEditar"      Content="{StaticResource imgEdit}"      ToolTip="Editar"    IsEnabled="{Binding Comportamento.IsEnableEditar}"      Command="{Binding PrepareAlterarCommand}"    Width="25" Margin="0,0,0,7" />

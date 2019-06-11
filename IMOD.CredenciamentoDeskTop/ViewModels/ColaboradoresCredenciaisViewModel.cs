@@ -1025,9 +1025,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 }
 
                 var lst = new List<CredencialViewCracha>();
-                var credencialView = _service.ObterCredencialView(Entity.ColaboradorCredencialId);
-                var c1 = Mapper.Map<CredencialViewCracha>(credencialView);
-                c1.CrachaCursos = _cursosCracha;
+                var credencialView = _service.ObterCredencialView(Entity.ColaboradorCredencialId); 
+                var c1 = Mapper.Map<CredencialViewCracha>(credencialView); 
+                c1.CrachaCursos = _cursosCracha; 
                 if (c1.ImpressaoMotivo != "SEGUNDA EMISSÃO" & c1.ImpressaoMotivo != "TERCEIRA EMISSÃO")
                 {
                     c1.ImpressaoMotivo = "";

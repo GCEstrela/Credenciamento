@@ -27,6 +27,8 @@ namespace IMOD.Domain.Entities
         public string Anexo { get; set; }
         public DateTime? Validade { get; set; }
         public bool ManuseioBagagem { get; set; }
+        public bool OperadorPonteEmbarque { get; set; }
+        public bool FlagCcam { get; set; }
 
         public override bool Equals(object obj)
         {
