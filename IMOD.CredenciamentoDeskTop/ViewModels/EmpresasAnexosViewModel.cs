@@ -66,13 +66,20 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         public EmpresasAnexosViewModel()
         {
-            Comportamento = new ComportamentoBasico(false, true, false, false, false);
-            EntityObserver = new ObservableCollection<EmpresaAnexoView>();
-            Comportamento.SalvarAdicao += OnSalvarAdicao;
-            Comportamento.SalvarEdicao += OnSalvarEdicao;
-            Comportamento.Remover += OnRemover;
-            Comportamento.Cancelar += OnCancelar;
-            base.PropertyChanged += OnEntityChanged;
+            try
+            {
+                Comportamento = new ComportamentoBasico(false, true, false, false, false);
+                EntityObserver = new ObservableCollection<EmpresaAnexoView>();
+                Comportamento.SalvarAdicao += OnSalvarAdicao;
+                Comportamento.SalvarEdicao += OnSalvarEdicao;
+                Comportamento.Remover += OnRemover;
+                Comportamento.Cancelar += OnCancelar;
+                base.PropertyChanged += OnEntityChanged;
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex);
+            }
         }
 
         #region  Metodos
@@ -151,11 +158,17 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private void PrepareCriar()
         {
-           
-            Entity = new EmpresaAnexoView();
-            Comportamento.PrepareCriar();
-            IsEnableLstView = false;
-            _viewModelParent.HabilitaControleTabControls(false, false, false, false, true);
+            try
+            {
+                Entity = new EmpresaAnexoView();
+                Comportamento.PrepareCriar();
+                IsEnableLstView = false;
+                _viewModelParent.HabilitaControleTabControls(false, false, false, false, true);
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex);
+            }
         }
 
         /// <summary>
@@ -239,38 +252,60 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private void PrepareAlterar()
         {
-            if (Entity == null)
+            try
             {
-                WpfHelp.PopupBox("Selecione um item da lista", 1);
-                return;
+                if (Entity == null)
+                {
+                    WpfHelp.PopupBox("Selecione um item da lista", 1);
+                    return;
+                }
+
+                Comportamento.PrepareAlterar();
+                IsEnableLstView = false;
+                _viewModelParent.HabilitaControleTabControls(false, false, false, false, true);
             }
-           
-            Comportamento.PrepareAlterar();
-            IsEnableLstView = false; 
-            _viewModelParent.HabilitaControleTabControls(false, false, false, false, true);
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex);
+            }
         }
 
         public void AtualizarDadosAnexo(EmpresaView entity, EmpresaViewModel viewModelParent)
         {
-            EntityObserver.Clear();
-            if (entity == null) return; // throw new ArgumentNullException(nameof(entity));
-            _empresaView = entity;
-            _viewModelParent = viewModelParent;
-            //Obter dados
-            var list1 = _service.Listar(entity.EmpresaId);
-            var list2 = Mapper.Map<List<EmpresaAnexoView>>(list1.OrderByDescending(n => n.EmpresaAnexoId));
-            EntityObserver = new ObservableCollection<EmpresaAnexoView>();
-            list2.ForEach(n => { EntityObserver.Add(n); });
+            try
+            {
+                EntityObserver.Clear();
+                if (entity == null) return; // throw new ArgumentNullException(nameof(entity));
+                _empresaView = entity;
+                _viewModelParent = viewModelParent;
+                //Obter dados
+                var list1 = _service.Listar(entity.EmpresaId);
+                var list2 = Mapper.Map<List<EmpresaAnexoView>>(list1.OrderByDescending(n => n.EmpresaAnexoId));
+                EntityObserver = new ObservableCollection<EmpresaAnexoView>();
+                list2.ForEach(n => { EntityObserver.Add(n); });
 
-            _configuraSistema = ObterConfiguracao();
+                _configuraSistema = ObterConfiguracao();
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex);
+            }
         }
         private ConfiguraSistema ObterConfiguracao()
         {
-            //Obter configuracoes de sistema
-            var config = _auxiliaresService.ConfiguraSistemaService.Listar();
-            //Obtem o primeiro registro de configuracao
-            if (config == null) throw new InvalidOperationException("Não foi possivel obter dados de configuração do sistema.");
-            return config.FirstOrDefault();
+            try
+            {
+                //Obter configuracoes de sistema
+                var config = _auxiliaresService.ConfiguraSistemaService.Listar();
+                //Obtem o primeiro registro de configuracao
+                if (config == null) throw new InvalidOperationException("Não foi possivel obter dados de configuração do sistema.");
+                return config.FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex);
+                return null;
+            }
         }
         #endregion
 
@@ -308,23 +343,30 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         public bool Validar()
         {
-            if (Entity == null) return true;
-            //Verificar valiade de Descricao do Anexo
-            if (EInValidandoDescricao())
+            try
             {
-                Entity.SetMessageErro("Descricao", "Descrição inválida");
-                return true;
-            }
+                if (Entity == null) return true;
+                //Verificar valiade de Descricao do Anexo
+                if (EInValidandoDescricao())
+                {
+                    Entity.SetMessageErro("Descricao", "Descrição inválida");
+                    return true;
+                }
 
-            //Verificar valiade do Anexo
-            if (EInValidandoAnexo())
+                //Verificar valiade do Anexo
+                if (EInValidandoAnexo())
+                {
+                    Entity.SetMessageErro("NomeAnexo", "Nome do Anexo é inválido");
+                    return true;
+                }
+                var hasErros = Entity.HasErrors;
+                return hasErros;
+            }
+            catch (Exception ex)
             {
-                Entity.SetMessageErro("NomeAnexo", "Nome do Anexo é inválido");
-                return true;
-            } 
-            var hasErros = Entity.HasErrors;
-            return hasErros;
-            
+                WpfHelp.PopupBox(ex);
+                return false;
+            }
         }
         #endregion
 

@@ -126,17 +126,24 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         public VeiculosCredenciaisViewModel()
         {
-            //ItensDePesquisaConfigura();
-            ListarDadosAuxiliares();
-            Comportamento = new ComportamentoBasico(false, true, false, false, false);
-            EntityObserver = new ObservableCollection<VeiculosCredenciaisView>();
-            Comportamento.SalvarAdicao += OnSalvarAdicao;
-            Comportamento.SalvarEdicao += OnSalvarEdicao;
-            Comportamento.Remover += OnRemover;
-            Comportamento.Cancelar += OnCancelar;
-            PropertyChanged += OnEntityChanged;
-            SelectListViewIndex = -1;
-            _configuraSistema = ObterConfiguracao();
+            try
+            {
+                //ItensDePesquisaConfigura();
+                ListarDadosAuxiliares();
+                Comportamento = new ComportamentoBasico(false, true, false, false, false);
+                EntityObserver = new ObservableCollection<VeiculosCredenciaisView>();
+                Comportamento.SalvarAdicao += OnSalvarAdicao;
+                Comportamento.SalvarEdicao += OnSalvarEdicao;
+                Comportamento.Remover += OnRemover;
+                Comportamento.Cancelar += OnCancelar;
+                PropertyChanged += OnEntityChanged;
+                SelectListViewIndex = -1;
+                _configuraSistema = ObterConfiguracao();
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex);
+            }
         }
 
         #region  Metodos
@@ -165,48 +172,61 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         public void ObterValidade()
         {
-            if (!_prepareCriarCommandAcionado) return;
-            if (Entity == null) return;
-            var empContratoId = VeiculoEmpresa.EmpresaContratoId;
-            var contrato = _contratosService.BuscarPelaChave(empContratoId);
-            var data = _service.ObterDataValidadeCredencial(Entity.TipoCredencialId,
-                _veiculoView.EquipamentoVeiculoId, contrato.NumeroContrato, _service.TipoCredencial);
+            try
+            {
+                if (!_prepareCriarCommandAcionado) return;
+                if (Entity == null) return;
+                var empContratoId = VeiculoEmpresa.EmpresaContratoId;
+                var contrato = _contratosService.BuscarPelaChave(empContratoId);
+                var data = _service.ObterDataValidadeCredencial(Entity.TipoCredencialId,
+                    _veiculoView.EquipamentoVeiculoId, contrato.NumeroContrato, _service.TipoCredencial);
 
-            TimeSpan diferenca = Convert.ToDateTime(data) - DateTime.Now.Date;
-            int credencialDias = int.Parse(diferenca.Days.ToString());
+                TimeSpan diferenca = Convert.ToDateTime(data) - DateTime.Now.Date;
+                int credencialDias = int.Parse(diferenca.Days.ToString());
 
-            Entity.Validade = credencialDias > Constantes.Constantes.diasPorAno ? DateTime.Now.Date.AddDays(Constantes.Constantes.diasPorAno) : data;
-            OnPropertyChanged("Entity");
-
+                Entity.Validade = credencialDias > Constantes.Constantes.diasPorAno ? DateTime.Now.Date.AddDays(Constantes.Constantes.diasPorAno) : data;
+                OnPropertyChanged("Entity");
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex);
+            }
         }
 
         private void ListarDadosAuxiliares()
         {
-            var lst0 = _auxiliaresService.CredencialStatusService.Listar();
-            CredencialStatus = new List<CredencialStatus>();
-            CredencialStatus.AddRange (lst0.OrderBy(n => n.Descricao));
+            try
+            {
+                var lst0 = _auxiliaresService.CredencialStatusService.Listar();
+                CredencialStatus = new List<CredencialStatus>();
+                CredencialStatus.AddRange(lst0.OrderBy(n => n.Descricao));
 
-            var lst2 = _auxiliaresService.FormatoCredencialService.Listar();
-            FormatoCredencial = new List<FormatoCredencial>();
-            FormatoCredencial.AddRange (lst2.OrderBy(n => n.Descricao));
+                var lst2 = _auxiliaresService.FormatoCredencialService.Listar();
+                FormatoCredencial = new List<FormatoCredencial>();
+                FormatoCredencial.AddRange(lst2.OrderBy(n => n.Descricao));
 
-            var lst3 = _auxiliaresService.TipoCredencialService.Listar();
-            TipoCredencial = new List<TipoCredencial>();
-            TipoCredencial.AddRange (lst3.OrderBy(n => n.Descricao));
+                var lst3 = _auxiliaresService.TipoCredencialService.Listar();
+                TipoCredencial = new List<TipoCredencial>();
+                TipoCredencial.AddRange(lst3.OrderBy(n => n.Descricao));
 
-            var lst5 = _auxiliaresService.TecnologiaCredencialService.Listar();
-            TecnologiasCredenciais = new List<TecnologiaCredencial>();
-            TecnologiasCredenciais.AddRange (lst5.OrderBy(n => n.Descricao));
+                var lst5 = _auxiliaresService.TecnologiaCredencialService.Listar();
+                TecnologiasCredenciais = new List<TecnologiaCredencial>();
+                TecnologiasCredenciais.AddRange(lst5.OrderBy(n => n.Descricao));
 
-            VeiculosEmpresas = new ObservableCollection<VeiculoEmpresa>();
+                VeiculosEmpresas = new ObservableCollection<VeiculoEmpresa>();
 
-             var lst7 = _auxiliaresService.AreaAcessoService.Listar();
-            VeiculoPrivilegio = new List<AreaAcesso>();
-            VeiculoPrivilegio.AddRange (lst7.OrderBy(n => n.Descricao));
+                var lst7 = _auxiliaresService.AreaAcessoService.Listar();
+                VeiculoPrivilegio = new List<AreaAcesso>();
+                VeiculoPrivilegio.AddRange(lst7.OrderBy(n => n.Descricao));
 
-            _credencialMotivo = new List<CredencialMotivo>();
-            var lst8 = _auxiliaresService.CredencialMotivoService.Listar();
-            _credencialMotivo.AddRange(lst8.OrderBy(n => n.Descricao));
+                _credencialMotivo = new List<CredencialMotivo>();
+                var lst8 = _auxiliaresService.CredencialMotivoService.Listar();
+                _credencialMotivo.AddRange(lst8.OrderBy(n => n.Descricao));
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex);
+            }
         }
 
         public void CarregaColecaoLayoutsCrachas(int empresaId,int tipoCracha)
@@ -234,19 +254,26 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         private void PrepareAlterar()
         {
-            if (Entity == null)
+            try
             {
-                WpfHelp.PopupBox ("Selecione um item da lista", 1);
-                return;
-            }
+                if (Entity == null)
+                {
+                    WpfHelp.PopupBox("Selecione um item da lista", 1);
+                    return;
+                }
 
-            Comportamento.PrepareAlterar();
-            _prepareCriarCommandAcionado = false;
-            _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;
-            IsEnableLstView = false; 
-            //Habilitar controles somente se a credencial não estiver sido impressa
-            Habilitar = !Entity.Impressa;
-            _viewModelParent.HabilitaControleTabControls(false, false, false, false, false, true);
+                Comportamento.PrepareAlterar();
+                _prepareCriarCommandAcionado = false;
+                _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;
+                IsEnableLstView = false;
+                //Habilitar controles somente se a credencial não estiver sido impressa
+                Habilitar = !Entity.Impressa;
+                _viewModelParent.HabilitaControleTabControls(false, false, false, false, false, true);
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex);
+            }
         }
 
         /// <summary>
@@ -255,12 +282,19 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <param name="e"></param>
         private void OnEntityChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "Entity")
+            try
             {
-                Comportamento.IsEnableEditar = Entity != null;
-                Comportamento.isEnableRemover = Entity != null;
-                AtualizarMensagem(Entity);
-                ExibirCheckDevolucao(Entity);
+                if (e.PropertyName == "Entity")
+                {
+                    Comportamento.IsEnableEditar = Entity != null;
+                    Comportamento.isEnableRemover = Entity != null;
+                    AtualizarMensagem(Entity);
+                    ExibirCheckDevolucao(Entity);
+                }
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex);
             }
         }
 
@@ -268,20 +302,27 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         public void AtualizarDados(VeiculoView entity, VeiculoViewModel viewModelParent) 
         {
-            EntityObserver.Clear();
-            if (entity == null) return; // throw new ArgumentNullException (nameof (entity)); 
-            _veiculoView = entity;
-            _viewModelParent = viewModelParent;
-            //Obter dados
-            var list1 = _service.ListarView (entity.EquipamentoVeiculoId, null, null, null, null).ToList();
-            var list2 = Mapper.Map<List<VeiculosCredenciaisView>> (list1.OrderByDescending (n => n.VeiculoCredencialId));
-            EntityObserver = new ObservableCollection<VeiculosCredenciaisView>();
-            list2.ForEach (n => { EntityObserver.Add (n); });
-            //Listar dados de contratos
-            if (_count == 0) ObterContratos();
-            _count++;
-            ListarTodosContratos();
-            MensagemAlerta = "";
+            try
+            {
+                EntityObserver.Clear();
+                if (entity == null) return; // throw new ArgumentNullException (nameof (entity)); 
+                _veiculoView = entity;
+                _viewModelParent = viewModelParent;
+                //Obter dados
+                var list1 = _service.ListarView(entity.EquipamentoVeiculoId, null, null, null, null).ToList();
+                var list2 = Mapper.Map<List<VeiculosCredenciaisView>>(list1.OrderByDescending(n => n.VeiculoCredencialId));
+                EntityObserver = new ObservableCollection<VeiculosCredenciaisView>();
+                list2.ForEach(n => { EntityObserver.Add(n); });
+                //Listar dados de contratos
+                if (_count == 0) ObterContratos();
+                _count++;
+                ListarTodosContratos();
+                MensagemAlerta = "";
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex);
+            }
         }
 
         /// <summary>
@@ -311,9 +352,16 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private void OnAtualizarDadosContratosAtivos()
         {
-            //Obter todos os contratos vinculados ao colaborador...
-            ObterContratos();
-            ListarTodosContratoPorColaboradorAtivos(_veiculoView.EquipamentoVeiculoId);
+            try
+            {
+                //Obter todos os contratos vinculados ao colaborador...
+                ObterContratos();
+                ListarTodosContratoPorColaboradorAtivos(_veiculoView.EquipamentoVeiculoId);
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex);
+            }
         }
         /// <summary>
         ///     Listar contratos ativos
@@ -321,9 +369,16 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <param name="veiculoId"></param>
         private void ListarTodosContratoPorColaboradorAtivos(int veiculoId)
         {
-            VeiculosEmpresas.Clear();
-            var lst2 = _todosContratosEmpresas.Where(n => n.VeiculoId == veiculoId & n.Ativo).ToList();
-            lst2.ForEach(n => { VeiculosEmpresas.Add(n); });
+            try
+            {
+                VeiculosEmpresas.Clear();
+                var lst2 = _todosContratosEmpresas.Where(n => n.VeiculoId == veiculoId & n.Ativo).ToList();
+                lst2.ForEach(n => { VeiculosEmpresas.Add(n); });
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex);
+            }
         }
 
         ///// <summary>
@@ -408,11 +463,19 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <returns></returns>
         private ConfiguraSistema ObterConfiguracao()
         {
-            //Obter configuracoes de sistema
-            var config = _auxiliaresService.ConfiguraSistemaService.Listar();
-            //Obtem o primeiro registro de configuracao
-            if (config == null) throw new InvalidOperationException("Não foi possivel obter dados de configuração do sistema.");
-            return config.FirstOrDefault();
+            try
+            {
+                //Obter configuracoes de sistema
+                var config = _auxiliaresService.ConfiguraSistemaService.Listar();
+                //Obtem o primeiro registro de configuracao
+                if (config == null) throw new InvalidOperationException("Não foi possivel obter dados de configuração do sistema.");
+                return config.FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex);
+                return null;
+            }
         }
 
         /// <summary>
@@ -420,65 +483,78 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private void PrepareCriar()
         {
-            Entity = new VeiculosCredenciaisView();
-            Entity.Ativa = true;
-            var statusCred = CredencialStatus.FirstOrDefault(n => n.Codigo == "1");//Status ativa
-            if (statusCred == null) throw new InvalidOperationException("O status da credencial é requerida.");
-            StatusCredencial = statusCred;
+            try
+            {
+                Entity = new VeiculosCredenciaisView();
+                Entity.Ativa = true;
+                var statusCred = CredencialStatus.FirstOrDefault(n => n.Codigo == "1");//Status ativa
+                if (statusCred == null) throw new InvalidOperationException("O status da credencial é requerida.");
+                StatusCredencial = statusCred;
 
-            Comportamento.PrepareCriar();
-            _prepareCriarCommandAcionado = true;
-            _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;
-            IsEnableLstView = false;
-            Habilitar = true;
-            //Listar Colaboradores Ativos
-            OnAtualizarDadosContratosAtivos();
-            _viewModelParent.HabilitaControleTabControls(false, false, false, false, false, true);
+                Comportamento.PrepareCriar();
+                _prepareCriarCommandAcionado = true;
+                _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;
+                IsEnableLstView = false;
+                Habilitar = true;
+                //Listar Colaboradores Ativos
+                OnAtualizarDadosContratosAtivos();
+                _viewModelParent.HabilitaControleTabControls(false, false, false, false, false, true);
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex);
+            }
         }
         private void AtualizarMensagem(VeiculosCredenciaisView entity)
         {
-            MensagemAlerta = string.Empty;
-            if (entity == null) return;
-            if (entity.VeiculoCredencialId <=0) return;
-
-            #region Habilitar botão de impressao e mensagem ao usuario
-
-            var pendenciaImpeditivaEmpresa = serviceEmpresa.Pendencia.ListarPorEmpresa(entity.EmpresaId).Where(n => n.Impeditivo == true && n.Ativo == true).ToList();
-            var pendenciaImpeditivaVeiculo = serviceEmpresa.Pendencia.ListarPorVeiculo(entity.VeiculoId).Where(n => n.Impeditivo == true && n.Ativo == true).ToList();
-
-            HabilitaImpressao = entity.Ativa & !entity.PendenciaImpeditiva & !entity.Impressa && entity.Validade >= DateTime.Now.Date && (pendenciaImpeditivaEmpresa.Count <= 0) && (pendenciaImpeditivaVeiculo.Count <= 0);
-            //Verificar se a empresa esta impedida
-            var n1 = _service.BuscarCredencialPelaChave(entity.VeiculoCredencialId);
-            var mensagem1 = !n1.Ativa ? "Autorização Inativa" : string.Empty;
-            var mensagem2 = n1.PendenciaImpeditiva ? "Pendência Impeditiva (consultar dados da empresa na aba Geral)" : string.Empty;
-            var mensagem3 = n1.Impressa ? "Autorização já foi impressa" : string.Empty;
-            var mensagem4 = (entity.Validade < DateTime.Now.Date) ? "Autorização vencida." : string.Empty;
-            //Exibir mensagem de impressao de credencial, esta tem prioridade sobre as demais regras
-            //if (n1.Impressa) return;
-
-            if (!string.IsNullOrEmpty(mensagem1 + mensagem2 + mensagem3 + mensagem4))
+            try
             {
-                MensagemAlerta = $"A autorização não poderá ser impressa pelo seguinte motivo: ";
-                if (!string.IsNullOrEmpty(mensagem1))
-                {
-                    MensagemAlerta += mensagem1;
-                }
-                else if (!string.IsNullOrEmpty(mensagem2))
-                {
-                    MensagemAlerta += mensagem2;
-                }
-                else if (!string.IsNullOrEmpty(mensagem3))
-                {
-                    MensagemAlerta += mensagem3;
-                }
-                else if (!string.IsNullOrEmpty(mensagem4))
-                {
-                    MensagemAlerta += mensagem4;
-                }
-            }
-            //================================================================================
-            #endregion
+                MensagemAlerta = string.Empty;
+                if (entity == null) return;
+                if (entity.VeiculoCredencialId <= 0) return;
 
+                #region Habilitar botão de impressao e mensagem ao usuario
+
+                var pendenciaImpeditivaEmpresa = serviceEmpresa.Pendencia.ListarPorEmpresa(entity.EmpresaId).Where(n => n.Impeditivo == true && n.Ativo == true).ToList();
+                var pendenciaImpeditivaVeiculo = serviceEmpresa.Pendencia.ListarPorVeiculo(entity.VeiculoId).Where(n => n.Impeditivo == true && n.Ativo == true).ToList();
+
+                HabilitaImpressao = entity.Ativa & !entity.PendenciaImpeditiva & !entity.Impressa && entity.Validade >= DateTime.Now.Date && (pendenciaImpeditivaEmpresa.Count <= 0) && (pendenciaImpeditivaVeiculo.Count <= 0);
+                //Verificar se a empresa esta impedida
+                var n1 = _service.BuscarCredencialPelaChave(entity.VeiculoCredencialId);
+                var mensagem1 = !n1.Ativa ? "Autorização Inativa" : string.Empty;
+                var mensagem2 = n1.PendenciaImpeditiva ? "Pendência Impeditiva (consultar dados da empresa na aba Geral)" : string.Empty;
+                var mensagem3 = n1.Impressa ? "Autorização já foi impressa" : string.Empty;
+                var mensagem4 = (entity.Validade < DateTime.Now.Date) ? "Autorização vencida." : string.Empty;
+                //Exibir mensagem de impressao de credencial, esta tem prioridade sobre as demais regras
+                //if (n1.Impressa) return;
+
+                if (!string.IsNullOrEmpty(mensagem1 + mensagem2 + mensagem3 + mensagem4))
+                {
+                    MensagemAlerta = $"A autorização não poderá ser impressa pelo seguinte motivo: ";
+                    if (!string.IsNullOrEmpty(mensagem1))
+                    {
+                        MensagemAlerta += mensagem1;
+                    }
+                    else if (!string.IsNullOrEmpty(mensagem2))
+                    {
+                        MensagemAlerta += mensagem2;
+                    }
+                    else if (!string.IsNullOrEmpty(mensagem3))
+                    {
+                        MensagemAlerta += mensagem3;
+                    }
+                    else if (!string.IsNullOrEmpty(mensagem4))
+                    {
+                        MensagemAlerta += mensagem4;
+                    }
+                }
+                //================================================================================
+                #endregion
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex);
+            }
         }
 
         /// <summary>
@@ -531,13 +607,20 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <param name="veiculoCredencialId">Identificador</param>
         private void GerarCardHolder(int veiculoCredencialId, VeiculosCredenciaisView entity)
         {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            try
+            {
+                if (entity == null) throw new ArgumentNullException(nameof(entity));
 
-            var n1 = _service.BuscarCredencialPelaChave(veiculoCredencialId);
+                var n1 = _service.BuscarCredencialPelaChave(veiculoCredencialId);
 
-            var tecCredencial = _auxiliaresService.TecnologiaCredencialService.BuscarPelaChave(entity.TecnologiaCredencialId);
-            if (tecCredencial.PodeGerarCardHolder)
-                _service.CriarTitularCartao(new CredencialGenetecService(Main.Engine), new VeiculoService(), n1);
+                var tecCredencial = _auxiliaresService.TecnologiaCredencialService.BuscarPelaChave(entity.TecnologiaCredencialId);
+                if (tecCredencial.PodeGerarCardHolder)
+                    _service.CriarTitularCartao(new CredencialGenetecService(Main.Engine), new VeiculoService(), n1);
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex);
+            }
         }
         /// <summary>
         ///     Cancelar operação
@@ -655,78 +738,100 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <returns></returns>
         public bool Validar()
         {
-            if (Entity == null) return true;
-            Entity.Validate();
-            var hasErros = Entity.HasErrors;
-            if (hasErros) return true;
-
-            if (ExisteNumeroCredencial())
+            try
             {
-                Entity.SetMessageErro ("NumeroCredencial", "Número de credencial já existente.");
-                return true;
-            }
+                if (Entity == null) return true;
+                Entity.Validate();
+                var hasErros = Entity.HasErrors;
+                if (hasErros) return true;
 
-            return Entity.HasErrors;
+                if (ExisteNumeroCredencial())
+                {
+                    Entity.SetMessageErro("NumeroCredencial", "Número de credencial já existente.");
+                    return true;
+                }
+
+                return Entity.HasErrors;
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex);
+                return false;
+            }
         }
 
 
         public void HabilitaCheckDevolucao(int credencialStatus = 0, int credencialMotivoId = 0)
         {
-            if (credencialStatus == 2 && credencialMotivoId > 0)
+            try
             {
-                switch (credencialMotivoId)
+                if (credencialStatus == 2 && credencialMotivoId > 0)
                 {
-                    case 6:
-                    case 8:
-                    case 15:
+                    switch (credencialMotivoId)
+                    {
+                        case 6:
+                        case 8:
+                        case 15:
 
-                        IsCheckDevolucao = IsCheckDevolucao = Entity != null & Entity.DevolucaoEntregaBoId > 0 ? true : IsCheckDevolucao;
-                        TextCheckDevolucao = DevoluçãoCredencial.Devolucao.Descricao();
-                        devolucaoCredencial = DevoluçãoCredencial.Devolucao;
-                        VisibilityCheckDevolucao = Visibility.Visible;
-                        break;
-                    case 9:
-                    case 10:
-                        IsCheckDevolucao = IsCheckDevolucao = Entity != null & Entity.DevolucaoEntregaBoId > 0 ? true : IsCheckDevolucao;
-                        TextCheckDevolucao = DevoluçãoCredencial.EntregaBO.Descricao();
-                        devolucaoCredencial = DevoluçãoCredencial.EntregaBO;
-                        VisibilityCheckDevolucao = Visibility.Visible;
-                        break;
-                    default:
-                        IsCheckDevolucao = false;
-                        TextCheckDevolucao = String.Empty;
-                        VisibilityCheckDevolucao = Visibility.Hidden;
-                        devolucaoCredencial = 0;
-                        break;
+                            IsCheckDevolucao = IsCheckDevolucao = Entity != null & Entity.DevolucaoEntregaBoId > 0 ? true : IsCheckDevolucao;
+                            TextCheckDevolucao = DevoluçãoCredencial.Devolucao.Descricao();
+                            devolucaoCredencial = DevoluçãoCredencial.Devolucao;
+                            VisibilityCheckDevolucao = Visibility.Visible;
+                            break;
+                        case 9:
+                        case 10:
+                            IsCheckDevolucao = IsCheckDevolucao = Entity != null & Entity.DevolucaoEntregaBoId > 0 ? true : IsCheckDevolucao;
+                            TextCheckDevolucao = DevoluçãoCredencial.EntregaBO.Descricao();
+                            devolucaoCredencial = DevoluçãoCredencial.EntregaBO;
+                            VisibilityCheckDevolucao = Visibility.Visible;
+                            break;
+                        default:
+                            IsCheckDevolucao = false;
+                            TextCheckDevolucao = String.Empty;
+                            VisibilityCheckDevolucao = Visibility.Hidden;
+                            devolucaoCredencial = 0;
+                            break;
+                    }
+                }
+                else
+                {
+                    IsCheckDevolucao = false;
+                    TextCheckDevolucao = String.Empty;
+                    VisibilityCheckDevolucao = Visibility.Hidden;
                 }
             }
-            else
+            catch (Exception ex)
             {
-                IsCheckDevolucao = false;
-                TextCheckDevolucao = String.Empty;
-                VisibilityCheckDevolucao = Visibility.Hidden;
+                WpfHelp.PopupBox(ex);
             }
         }
 
         private void ExibirCheckDevolucao(VeiculosCredenciaisView entity)
         {
-            if (entity != null)
+            try
             {
-                IsCheckDevolucao = entity.DevolucaoEntregaBoId == 0 ? false : (entity.DevolucaoEntregaBoId > 0 ? true : false);
+                if (entity != null)
+                {
+                    IsCheckDevolucao = entity.DevolucaoEntregaBoId == 0 ? false : (entity.DevolucaoEntregaBoId > 0 ? true : false);
 
-                VisibilityCheckDevolucao = entity.DevolucaoEntregaBoId == 0 ?
-                    Visibility.Hidden : (entity.DevolucaoEntregaBoId > 0 ? Visibility.Visible : Visibility.Hidden);
+                    VisibilityCheckDevolucao = entity.DevolucaoEntregaBoId == 0 ?
+                        Visibility.Hidden : (entity.DevolucaoEntregaBoId > 0 ? Visibility.Visible : Visibility.Hidden);
 
-                TextCheckDevolucao = entity.DevolucaoEntregaBoId == 0 ? String.Empty :
-                        (entity.DevolucaoEntregaBoId == 1 ? DevoluçãoCredencial.Devolucao.Descricao() : DevoluçãoCredencial.EntregaBO.Descricao());
+                    TextCheckDevolucao = entity.DevolucaoEntregaBoId == 0 ? String.Empty :
+                            (entity.DevolucaoEntregaBoId == 1 ? DevoluçãoCredencial.Devolucao.Descricao() : DevoluçãoCredencial.EntregaBO.Descricao());
 
-                devolucaoCredencial = (DevoluçãoCredencial)entity.DevolucaoEntregaBoId;
+                    devolucaoCredencial = (DevoluçãoCredencial)entity.DevolucaoEntregaBoId;
+                }
+                else
+                {
+                    IsCheckDevolucao = false;
+                    TextCheckDevolucao = String.Empty;
+                    VisibilityCheckDevolucao = Visibility.Hidden;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                IsCheckDevolucao = false;
-                TextCheckDevolucao = String.Empty;
-                VisibilityCheckDevolucao = Visibility.Hidden;
+                WpfHelp.PopupBox(ex);
             }
         }
 

@@ -77,7 +77,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             catch (Exception ex)
             {
                 WpfHelp.PopupBox(ex);
-                throw;
+                //throw;
             }
         }
 

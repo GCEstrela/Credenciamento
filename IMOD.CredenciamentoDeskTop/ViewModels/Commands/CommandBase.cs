@@ -20,8 +20,16 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels.Commands
 
         public CommandBase(Action acao, bool podeExecutar)
         {
-            _action = acao;
-            _podeExecutar = podeExecutar;
+            try
+            {
+                _action = acao;
+                _podeExecutar = podeExecutar;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
  
 

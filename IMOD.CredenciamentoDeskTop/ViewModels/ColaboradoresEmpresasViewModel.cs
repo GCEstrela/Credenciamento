@@ -63,9 +63,21 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <summary>
         ///     Habilita Combo de Contratos
         /// </summary>
-        public bool IsEnableComboContrato { get {
-                return !_configuraSistema.Contrato;
-            } }
+        public bool IsEnableComboContrato
+        {
+            
+            get
+            {
+                try
+                {
+                    return !_configuraSistema.Contrato;
+                }
+                catch (Exception ex)
+                {
+                    return false;
+                }
+            }
+        }
         /// <summary>
         ///     Habilita Combo de Contratos
         /// </summary>
@@ -84,15 +96,23 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         public ColaboradoresEmpresasViewModel()
         {
-            ListarDadosAuxiliares();
-           
-            Comportamento = new ComportamentoBasico(false, true, true, false, false);
-            EntityObserver =new ObservableCollection<ColaboradorEmpresaView>();
-            Comportamento.SalvarAdicao += OnSalvarAdicao;
-            Comportamento.SalvarEdicao += OnSalvarEdicao;
-            Comportamento.Remover += OnRemover;
-            Comportamento.Cancelar += OnCancelar;
-            base.PropertyChanged += OnEntityChanged;
+            try
+            {
+                ListarDadosAuxiliares();
+
+                Comportamento = new ComportamentoBasico(false, true, true, false, false);
+                EntityObserver = new ObservableCollection<ColaboradorEmpresaView>();
+                Comportamento.SalvarAdicao += OnSalvarAdicao;
+                Comportamento.SalvarEdicao += OnSalvarEdicao;
+                Comportamento.Remover += OnRemover;
+                Comportamento.Cancelar += OnCancelar;
+                base.PropertyChanged += OnEntityChanged;
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex);
+            }
+            
         }
 
         #region  Metodos
@@ -146,7 +166,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             catch (Exception ex)
             {
                 WpfHelp.PopupBox(ex);
-                throw;
+                //throw;
             }
             
         }
@@ -197,7 +217,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             catch (Exception ex)
             {
                 Utils.TraceException(ex);
-                WpfHelp.PopupBox(ex);
+                //WpfHelp.PopupBox(ex);
             }
         }
         /// <summary>
@@ -217,7 +237,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             catch (Exception ex)
             {
                 WpfHelp.PopupBox(ex);
-                throw;
+                return null;
             }
             
         }

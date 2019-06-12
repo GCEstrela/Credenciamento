@@ -29,9 +29,18 @@ namespace IMOD.CredenciamentoDeskTop.Views
         private readonly EmpresaViewModel _viewModel;
         public EmpresaView()
         {
-            InitializeComponent();            
-            _viewModel = new EmpresaViewModel();
-            DataContext = _viewModel;
+            try
+            {
+                InitializeComponent();
+                _viewModel = new EmpresaViewModel();
+                DataContext = _viewModel;
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.Mbox(ex.Message);
+                //throw;
+            }
+            
         }
 
         #region  Metodos
@@ -51,32 +60,39 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         private void OnListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //fake1.IsChecked = false;
-            if (_viewModel.Entity == null) return;
-            //Atualizar dados ao selecionar uma linha da listview
-            _viewModel.AtualizarDadosPendencias();
-            _viewModel.AtualizarDadosTiposAtividades();
-            _viewModel.AtualizarDadosTipoCrachas();
-            if (_viewModel.Entity!=null)
-                _viewModel.bucarLogo(_viewModel.Entity.EmpresaId);
+            try
+            {
+                //fake1.IsChecked = false;
+                if (_viewModel.Entity == null) return;
+                //Atualizar dados ao selecionar uma linha da listview
+                _viewModel.AtualizarDadosPendencias();
+                _viewModel.AtualizarDadosTiposAtividades();
+                _viewModel.AtualizarDadosTipoCrachas();
+                if (_viewModel.Entity != null)
+                    _viewModel.bucarLogo(_viewModel.Entity.EmpresaId);
 
-            if (_viewModel.Entity != null)
-                _viewModel.Entity.Cnpj = _viewModel.Entity.Cnpj.FormatarCnpj();
-            //Popular User Controls
-            //////////////////////////////////////////////////////////////
-            RepresentanteUs.AtualizarDados(_viewModel.Entity, _viewModel);
-            AnexoUs.AtualizarDados(_viewModel.Entity, _viewModel);
-            EmpresaContratosUs.AtualizarDados(_viewModel.Entity, _viewModel);
-            //////////////////////////////////////////////////////////////
-            _viewModel.CarregarQuantidadeTipoCredencial();
-            //////////////////////////////////////////////////////////////
-            if (_viewModel.Entity.Cnpj== "00.000.000/0000-00")
-            {
-                fake1.IsChecked = true;
+                if (_viewModel.Entity != null)
+                    _viewModel.Entity.Cnpj = _viewModel.Entity.Cnpj.FormatarCnpj();
+                //Popular User Controls
+                //////////////////////////////////////////////////////////////
+                RepresentanteUs.AtualizarDados(_viewModel.Entity, _viewModel);
+                AnexoUs.AtualizarDados(_viewModel.Entity, _viewModel);
+                EmpresaContratosUs.AtualizarDados(_viewModel.Entity, _viewModel);
+                //////////////////////////////////////////////////////////////
+                _viewModel.CarregarQuantidadeTipoCredencial();
+                //////////////////////////////////////////////////////////////
+                if (_viewModel.Entity.Cnpj == "00.000.000/0000-00")
+                {
+                    fake1.IsChecked = true;
+                }
+                else
+                {
+                    fake1.IsChecked = false;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                fake1.IsChecked = false;
+                WpfHelp.PopupBox(ex.Message, 1);
             }
         }
 

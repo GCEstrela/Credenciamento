@@ -49,23 +49,29 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         private void OnListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Geral_ti.IsSelected = true;
-            if (_viewModel.Entity == null) return;
-            //Atualizar dados ao selecionar uma linha da listview 
-            _viewModel.AtualizarDadosPendencias();
-            _viewModel.AtualizarDadosTiposServico();
-            _viewModel.AtualizarDadosTiposServico();
-            if (_viewModel.Entity != null)
-                _viewModel.BucarFoto(_viewModel.Entity.EquipamentoVeiculoId);
-            //Popular User Controls 
-            //////////////////////////////////////////////////////////////
-            EquipamentosEmpresasUc.AtualizarDados(_viewModel.Entity, _viewModel);
-            EquipamentosSegurosUc.AtualizarDados(_viewModel.Entity, _viewModel);
-            EquipamentosAnexoUc.AtualizarDados(_viewModel.Entity, _viewModel);
-            EquipamentosCredenciaisUc.AtualizarDados(_viewModel.Entity, _viewModel);
-            ///////////////////////////////////////////////////////////// 
-            //_viewModel.IsEnableTabItem = true;
-            
+            try
+            {
+                Geral_ti.IsSelected = true;
+                if (_viewModel.Entity == null) return;
+                //Atualizar dados ao selecionar uma linha da listview 
+                _viewModel.AtualizarDadosPendencias();
+                _viewModel.AtualizarDadosTiposServico();
+                _viewModel.AtualizarDadosTiposServico();
+                if (_viewModel.Entity != null)
+                    _viewModel.BucarFoto(_viewModel.Entity.EquipamentoVeiculoId);
+                //Popular User Controls 
+                //////////////////////////////////////////////////////////////
+                EquipamentosEmpresasUc.AtualizarDados(_viewModel.Entity, _viewModel);
+                EquipamentosSegurosUc.AtualizarDados(_viewModel.Entity, _viewModel);
+                EquipamentosAnexoUc.AtualizarDados(_viewModel.Entity, _viewModel);
+                EquipamentosCredenciaisUc.AtualizarDados(_viewModel.Entity, _viewModel);
+                ///////////////////////////////////////////////////////////// 
+                //_viewModel.IsEnableTabItem = true;
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex.Message, 1);
+            }
         }
 
         private void OnSelecionaMunicipio_SelectionChanged(object sender, SelectionChangedEventArgs e)

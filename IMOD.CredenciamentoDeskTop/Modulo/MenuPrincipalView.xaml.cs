@@ -34,9 +34,16 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
 
         public MenuPrincipalView()
         {
-            InitializeComponent(); 
-            txtVersao.Text = VersaoSoftware;
-            _viewSingleton = new ViewSingleton();
+            try
+            {
+                InitializeComponent();
+                txtVersao.Text = VersaoSoftware;
+                _viewSingleton = new ViewSingleton();
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.MboxError(ex);
+            }
         }
         /// <summary>
         ///     Versao do Sistema
@@ -46,7 +53,15 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
         {
             get
             {
-                return ConfiguracaoService.ObterVersaoSoftware(Assembly.GetExecutingAssembly());
+                try
+                {
+                    return ConfiguracaoService.ObterVersaoSoftware(Assembly.GetExecutingAssembly());
+                }
+                catch (Exception ex)
+                {
+                    WpfHelp.MboxError(ex);
+                    return null;
+                }
             }
         }
 
@@ -54,20 +69,36 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
         {
             get
             {
-                var config = new ConfiguracaoService();
-                var nomeDataBase = config.ObterInformacaoBancoDeDados.BaseDados;
-                return nomeDataBase;
+                try
+                {
+                    var config = new ConfiguracaoService();
+                    var nomeDataBase = config.ObterInformacaoBancoDeDados.BaseDados;
+                    return nomeDataBase;
+                }
+                catch (Exception ex)
+                {
+                    WpfHelp.MboxError(ex);
+                    return null;
+                }
+
             }
         }
         #region  Metodos 
 
         public void Initialize(Workspace wrk)
         {
-            if (wrk == null)
-                throw new ArgumentNullException (nameof (wrk));
-            Workspace = wrk;
+            try
+            {
+                if (wrk == null)
+                    throw new ArgumentNullException(nameof(wrk));
+                Workspace = wrk;
 
-            DataContext = null; //Iniciar sem conteudo na tela do frame
+                DataContext = null; //Iniciar sem conteudo na tela do frame
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.MboxError(ex);
+            }
         }
 
         /// <summary>
@@ -275,15 +306,22 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
             //Data:12/03/2019
             //Wrk:Ao fechar a janela, as coleções (observable) devem ser limpas para possibilitar uma nova pesquisa
             //Limpar dados dos observables principais de suas respectivas views
+            try
+            {
+                var x1 = (ColaboradorViewModel)_viewSingleton.ColaboradorView.DataContext;
+                x1.EntityObserver.Clear();
+                var x2 = (EmpresaViewModel)_viewSingleton.EmpresaView.DataContext;
+                x2.EntityObserver.Clear();
+                var x3 = (VeiculoViewModel)_viewSingleton.VeiculoView.DataContext;
+                x3.EntityObserver.Clear();
 
-            var x1 = (ColaboradorViewModel)_viewSingleton.ColaboradorView.DataContext;
-            x1.EntityObserver.Clear();
-            var x2 = (EmpresaViewModel)_viewSingleton.EmpresaView.DataContext;
-            x2.EntityObserver.Clear();
-            var x3 = (VeiculoViewModel)_viewSingleton.VeiculoView.DataContext;
-            x3.EntityObserver.Clear();
-
-            //======================================================================= 
+                //======================================================================= 
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex);               
+            }
+            
         }
     }
 }

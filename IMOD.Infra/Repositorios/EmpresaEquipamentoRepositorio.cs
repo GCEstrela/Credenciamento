@@ -44,12 +44,13 @@ namespace IMOD.Infra.Repositorios
         /// <param name="entity"></param>
         public void Criar(EmpresaEquipamento entity)
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.InsertText("EmpresasEquipamentos", conn))
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
+                    using (var cmd = _dataBase.InsertText("EmpresasEquipamentos", conn))
                     {
+
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("EmpresaEquipamentoID", entity.EmpresaEquipamentoId, true)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("EmpresaID", entity.EmpresaId, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Descricao", entity.Descricao, false)));
@@ -71,13 +72,13 @@ namespace IMOD.Infra.Repositorios
                         var key = Convert.ToInt32(cmd.ExecuteScalar());
 
                         entity.EmpresaEquipamentoId = key;
-                    }
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException(ex);
-                        throw;
+
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
 
@@ -88,25 +89,26 @@ namespace IMOD.Infra.Repositorios
         /// <returns></returns>
         public EmpresaEquipamento BuscarPelaChave(int id)
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.SelectText("EmpresasEquipamentos", conn))
-
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
+                    using (var cmd = _dataBase.SelectText("EmpresasEquipamentos", conn))
+
                     {
+
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("EmpresaEquipamentoId", DbType.Int32, id).Igual()));
                         var reader = cmd.ExecuteReader();
                         var d1 = reader.MapToList<EmpresaEquipamento>();
 
                         return d1.FirstOrDefault();
-                    }
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException(ex);
-                        throw;
+
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
 
@@ -117,13 +119,14 @@ namespace IMOD.Infra.Repositorios
         /// <returns></returns>
         public ICollection<EmpresaEquipamento> Listar(params object[] objects)
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.SelectText("EmpresasEquipamentos", conn))
-
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
+                    using (var cmd = _dataBase.SelectText("EmpresasEquipamentos", conn))
+
                     {
+
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Descricao", DbType.String, objects, 0).Like()));
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Marca", DbType.String, objects, 1).Like()));
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Modelo", DbType.String, objects, 2).Like()));
@@ -134,13 +137,13 @@ namespace IMOD.Infra.Repositorios
                         var d1 = reader.MapToList<EmpresaEquipamento>();
 
                         return d1;
-                    }
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException(ex);
-                        throw;
+
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
 
@@ -150,12 +153,13 @@ namespace IMOD.Infra.Repositorios
         /// <param name="entity"></param>
         public void Alterar(EmpresaEquipamento entity)
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.UpdateText("EmpresasEquipamentos", conn))
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
+                    using (var cmd = _dataBase.UpdateText("EmpresasEquipamentos", conn))
                     {
+
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("EmpresaEquipamentoID", entity.EmpresaEquipamentoId, true)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("EmpresaID", entity.EmpresaId, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Descricao", entity.Descricao, false)));
@@ -175,13 +179,13 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("TipoAcessoID", entity.TipoAcessoId, false)));
 
                         cmd.ExecuteNonQuery();
-                    }
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException(ex);
-                        throw;
+
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
 
@@ -191,21 +195,23 @@ namespace IMOD.Infra.Repositorios
         /// <param name="objects"></param>
         public void Remover(EmpresaEquipamento entity)
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.DeleteText("EmpresasEquipamentos", conn))
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
+                    using (var cmd = _dataBase.DeleteText("EmpresasEquipamentos", conn))
                     {
+
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamDelete("EmpresaEquipamentoId", entity.EmpresaEquipamentoId).Igual()));
 
                         cmd.ExecuteNonQuery();
-                    }
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException(ex);
+
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
 

@@ -109,15 +109,22 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         public EmpresasContratosViewModel()
         {
-            ListarDadosAuxiliares();
-            ItensDePesquisaConfigura();
-            Comportamento = new ComportamentoBasico (false, true, true, false, false);
-            EntityObserver = new ObservableCollection<EmpresaContratoView>();
-            Comportamento.SalvarAdicao += OnSalvarAdicao;
-            Comportamento.SalvarEdicao += OnSalvarEdicao;
-            Comportamento.Remover += OnRemover;
-            Comportamento.Cancelar += OnCancelar;
-            PropertyChanged += OnEntityChanged;
+            try
+            {
+                ListarDadosAuxiliares();
+                ItensDePesquisaConfigura();
+                Comportamento = new ComportamentoBasico(false, true, true, false, false);
+                EntityObserver = new ObservableCollection<EmpresaContratoView>();
+                Comportamento.SalvarAdicao += OnSalvarAdicao;
+                Comportamento.SalvarEdicao += OnSalvarEdicao;
+                Comportamento.Remover += OnRemover;
+                Comportamento.Cancelar += OnCancelar;
+                PropertyChanged += OnEntityChanged;
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex);
+            }
         }
 
         #region  Metodos
@@ -153,31 +160,46 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private void ListarDadosAuxiliares()
         {
-            //Estados
-            var lst1 = _auxiliaresService.EstadoService.Listar();
-            Estados = new List<Estados>();
-            Estados.AddRange (lst1);
-            //Status
-            var lst2 = _auxiliaresService.StatusService.Listar();
-            Status = new List<Status>();
-            Status.AddRange (lst2);
-            //Tipos Cobrança
-            var lst3 = _auxiliaresService.TipoCobrancaService.Listar();
-            TiposCobranca = new List<TipoCobranca>();
-            TiposCobranca.AddRange (lst3);
-            //Tipo de Acesso
-            var lst4 = _auxiliaresService.TiposAcessoService.Listar();
-            ListaTipoAcessos = new List<TipoAcesso>();
-            ListaTipoAcessos.AddRange (lst4);
-            _configuraSistema = ObterConfiguracao();
+            try
+            {
+                //Estados
+                var lst1 = _auxiliaresService.EstadoService.Listar();
+                Estados = new List<Estados>();
+                Estados.AddRange(lst1);
+                //Status
+                var lst2 = _auxiliaresService.StatusService.Listar();
+                Status = new List<Status>();
+                Status.AddRange(lst2);
+                //Tipos Cobrança
+                var lst3 = _auxiliaresService.TipoCobrancaService.Listar();
+                TiposCobranca = new List<TipoCobranca>();
+                TiposCobranca.AddRange(lst3);
+                //Tipo de Acesso
+                var lst4 = _auxiliaresService.TiposAcessoService.Listar();
+                ListaTipoAcessos = new List<TipoAcesso>();
+                ListaTipoAcessos.AddRange(lst4);
+                _configuraSistema = ObterConfiguracao();
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex);
+            }
         }
         private ConfiguraSistema ObterConfiguracao()
         {
-            //Obter configuracoes de sistema
-            var config = _auxiliaresService.ConfiguraSistemaService.Listar();
-            //Obtem o primeiro registro de configuracao
-            if (config == null) throw new InvalidOperationException("Não foi possivel obter dados de configuração do sistema.");
-            return config.FirstOrDefault();
+            try
+            {
+                //Obter configuracoes de sistema
+                var config = _auxiliaresService.ConfiguraSistemaService.Listar();
+                //Obtem o primeiro registro de configuracao
+                if (config == null) throw new InvalidOperationException("Não foi possivel obter dados de configuração do sistema.");
+                return config.FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex);
+                return null;
+            }
         }
         /// <summary>
         ///     Listar Municipios
@@ -216,15 +238,22 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         public void AtualizarDados(EmpresaView entity, EmpresaViewModel viewModelParent)
         {
-            EntityObserver.Clear();
-            if (entity == null) return;// throw new ArgumentNullException (nameof(entity));
-            _empresaView = entity;
-            _viewModelParent = viewModelParent;
-            //Obter dados
-            var list1 = _service.Listar (entity.EmpresaId, null, null, null, null, null, null, null, 1);
-            var list2 = Mapper.Map<List<EmpresaContratoView>> (list1.OrderByDescending (n => n.EmpresaContratoId));
-            EntityObserver = new ObservableCollection<EmpresaContratoView>();
-            list2.ForEach (n => { EntityObserver.Add (n); });
+            try
+            {
+                EntityObserver.Clear();
+                if (entity == null) return;// throw new ArgumentNullException (nameof(entity));
+                _empresaView = entity;
+                _viewModelParent = viewModelParent;
+                //Obter dados
+                var list1 = _service.Listar(entity.EmpresaId, null, null, null, null, null, null, null, 1);
+                var list2 = Mapper.Map<List<EmpresaContratoView>>(list1.OrderByDescending(n => n.EmpresaContratoId));
+                EntityObserver = new ObservableCollection<EmpresaContratoView>();
+                list2.ForEach(n => { EntityObserver.Add(n); });
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex);
+            }
         }
 
         /// <summary>
@@ -283,12 +312,19 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private void PrepareCriar()
         {
-            Entity = new EmpresaContratoView();
-            Comportamento.PrepareCriar();
-            _prepareCriarCommandAcionado = true;
-            _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;
-            IsEnableLstView = false;
-            _viewModelParent.HabilitaControleTabControls (false, false, false, true);
+            try
+            {
+                Entity = new EmpresaContratoView();
+                Comportamento.PrepareCriar();
+                _prepareCriarCommandAcionado = true;
+                _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;
+                IsEnableLstView = false;
+                _viewModelParent.HabilitaControleTabControls(false, false, false, true);
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex);
+            }
         }
 
         /// <summary>
@@ -335,7 +371,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             catch (Exception ex)
             {
                 Utils.TraceException (ex);
-                WpfHelp.MboxError ("Não foi realizar a operação solicitada", ex);
+                //WpfHelp.MboxError ("Não foi realizar a operação solicitada", ex);
+                WpfHelp.PopupBox(ex);
             }
         }
 
@@ -362,7 +399,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             catch (Exception ex)
             {
                 Utils.TraceException (ex);
-                WpfHelp.MboxError ("Não foi realizar a operação solicitada", ex);
+                //WpfHelp.MboxError ("Não foi realizar a operação solicitada", ex);
+                WpfHelp.PopupBox(ex);
             }
         }
 
@@ -377,17 +415,24 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private void PrepareAlterar()
         {
-            if (Entity == null)
+            try
             {
-                WpfHelp.PopupBox ("Selecione um item da lista", 1);
-                return;
-            }
+                if (Entity == null)
+                {
+                    WpfHelp.PopupBox("Selecione um item da lista", 1);
+                    return;
+                }
 
-            Comportamento.PrepareAlterar();
-            _prepareCriarCommandAcionado = false;
-            _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;
-            IsEnableLstView = false;
-            _viewModelParent.HabilitaControleTabControls (false, false, false, true, false);
+                Comportamento.PrepareAlterar();
+                _prepareCriarCommandAcionado = false;
+                _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;
+                IsEnableLstView = false;
+                _viewModelParent.HabilitaControleTabControls(false, false, false, true, false);
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex);
+            }
         }
 
         /// <summary>
@@ -444,24 +489,31 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         private bool ExisteNumContrato()
         {
-            if (Entity == null) return false;
-            var numContrato = Entity.NumeroContrato;
-            if (string.IsNullOrWhiteSpace (numContrato)) throw new ArgumentNullException ("Informe um número de contrato para pesquisar.");
-            //Verificar dados antes de salvar uma criação
-            if (_prepareCriarCommandAcionado)
+            try
             {
-                //Verificar se existe numero de contrato
-                var n1 = _service.BuscarContrato (numContrato);
-                if (n1 != null) return true;
+                if (Entity == null) return false;
+                var numContrato = Entity.NumeroContrato;
+                if (string.IsNullOrWhiteSpace(numContrato)) throw new ArgumentNullException("Informe um número de contrato para pesquisar.");
+                //Verificar dados antes de salvar uma criação
+                if (_prepareCriarCommandAcionado)
+                {
+                    //Verificar se existe numero de contrato
+                    var n1 = _service.BuscarContrato(numContrato);
+                    if (n1 != null) return true;
+                }
+
+                //Verificar dados antes de salvar uma alteraçao
+                if (!_prepareAlterarCommandAcionado) return false;
+                var n2 = _service.BuscarPelaChave(Entity.EmpresaContratoId);
+                return string.Compare(n2.NumeroContrato,
+                           numContrato, StringComparison.Ordinal) != 0;
             }
-
-            //Verificar dados antes de salvar uma alteraçao
-            if (!_prepareAlterarCommandAcionado) return false;
-            var n2 = _service.BuscarPelaChave (Entity.EmpresaContratoId);
-            return string.Compare (n2.NumeroContrato,
-                       numContrato, StringComparison.Ordinal) != 0;
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex);
+                return false;
+            }
         }
-
         #endregion
 
         /// <summary>
@@ -469,15 +521,23 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         public bool Validar()
         {
-            if (Entity == null) return true;
-            Entity.Validate();
-            var hasErros = Entity.HasErrors;
-            if (hasErros) return true;
+            try
+            {
+                if (Entity == null) return true;
+                Entity.Validate();
+                var hasErros = Entity.HasErrors;
+                if (hasErros) return true;
 
-            if (ExisteNumContrato())
-                Entity.SetMessageErro ("NumeroContrato", "Número de contrato já existente.");
+                if (ExisteNumContrato())
+                    Entity.SetMessageErro("NumeroContrato", "Número de contrato já existente.");
 
-            return Entity.HasErrors;
+                return Entity.HasErrors;
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex);
+                return false;
+            }
         }
 
         #endregion

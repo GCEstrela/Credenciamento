@@ -44,26 +44,33 @@ namespace IMOD.Infra.Repositorios
         /// <param name="entity"></param>
         public void Criar(CredencialStatus entity)
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.InsertText("CredenciaisStatus", conn))
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
+                    using (var cmd = _dataBase.InsertText("CredenciaisStatus", conn))
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("CredencialStatusId", entity.CredencialStatusId, true)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Descricao", entity.Descricao, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Codigo", entity.Codigo, false)));
+                        try
+                        {
+                            cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("CredencialStatusId", entity.CredencialStatusId, true)));
+                            cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Descricao", entity.Descricao, false)));
+                            cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Codigo", entity.Codigo, false)));
 
-                        var key = Convert.ToInt32(cmd.ExecuteScalar()); 
+                            var key = Convert.ToInt32(cmd.ExecuteScalar());
 
-                        entity.CredencialStatusId = key; 
-                    }
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException(ex);
-                        throw;
+                            entity.CredencialStatusId = key;
+                        }
+                        catch (Exception ex)
+                        {
+                            Utils.TraceException(ex);
+                            throw;
+                        }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
 
@@ -74,25 +81,32 @@ namespace IMOD.Infra.Repositorios
         /// <returns></returns>
         public CredencialStatus BuscarPelaChave(int id)
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.SelectText("CredenciaisStatus", conn))
-
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
-                    {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("CredencialStatusId", DbType.Int32, id).Igual()));
-                        var reader = cmd.ExecuteReader();
-                        var d1 = reader.MapToList<CredencialStatus>();
+                    using (var cmd = _dataBase.SelectText("CredenciaisStatus", conn))
 
-                        return d1.FirstOrDefault();
-                    }
-                    catch (Exception ex)
                     {
-                        Utils.TraceException(ex);
-                        throw;
+                        try
+                        {
+                            cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("CredencialStatusId", DbType.Int32, id).Igual()));
+                            var reader = cmd.ExecuteReader();
+                            var d1 = reader.MapToList<CredencialStatus>();
+
+                            return d1.FirstOrDefault();
+                        }
+                        catch (Exception ex)
+                        {
+                            Utils.TraceException(ex);
+                            throw;
+                        }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
 
@@ -103,13 +117,14 @@ namespace IMOD.Infra.Repositorios
         /// <returns></returns>
         public ICollection<CredencialStatus> Listar(params object[] objects)
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.SelectText("CredenciaisStatus", conn))
-
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
+                    using (var cmd = _dataBase.SelectText("CredenciaisStatus", conn))
+
                     {
+
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("CredencialStatusId", DbType.Int32, objects, 0).Igual()));
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Descricao", DbType.String, objects, 1).Like()));
 
@@ -117,13 +132,13 @@ namespace IMOD.Infra.Repositorios
                         var d1 = reader.MapToList<CredencialStatus>();
 
                         return d1;
-                    }
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException(ex);
-                        throw;
+
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
 
@@ -133,23 +148,30 @@ namespace IMOD.Infra.Repositorios
         /// <param name="entity"></param>
         public void Alterar(CredencialStatus entity)
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.UpdateText("CredenciaisStatus", conn))
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
+                    using (var cmd = _dataBase.UpdateText("CredenciaisStatus", conn))
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("CredencialStatusId", entity.CredencialStatusId, true)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Descricao", entity.Descricao, false)));
+                        try
+                        {
+                            cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("CredencialStatusId", entity.CredencialStatusId, true)));
+                            cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Descricao", entity.Descricao, false)));
 
-                        cmd.ExecuteNonQuery();
-                    }
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException(ex);
-                        throw;
+                            cmd.ExecuteNonQuery();
+                        }
+                        catch (Exception ex)
+                        {
+                            Utils.TraceException(ex);
+                            throw;
+                        }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
 
@@ -159,21 +181,28 @@ namespace IMOD.Infra.Repositorios
         /// <param name="objects"></param>
         public void Remover(CredencialStatus entity)
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.DeleteText("CredenciaisStatus", conn))
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
+                    using (var cmd = _dataBase.DeleteText("CredenciaisStatus", conn))
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamDelete("CredencialStatusId", entity.CredencialStatusId).Igual()));
+                        try
+                        {
+                            cmd.Parameters.Add(_dataBase.CreateParameter(new ParamDelete("CredencialStatusId", entity.CredencialStatusId).Igual()));
 
-                        cmd.ExecuteNonQuery();
-                    }
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException(ex);
+                            cmd.ExecuteNonQuery();
+                        }
+                        catch (Exception ex)
+                        {
+                            Utils.TraceException(ex);
+                        }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
 

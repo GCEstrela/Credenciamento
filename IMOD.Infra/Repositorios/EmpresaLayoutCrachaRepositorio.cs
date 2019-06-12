@@ -45,12 +45,13 @@ namespace IMOD.Infra.Repositorios
         /// <param name="entity"></param>
         public void Criar(EmpresaLayoutCracha entity)
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.InsertText("EmpresasLayoutsCrachas", conn))
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
+                    using (var cmd = _dataBase.InsertText("EmpresasLayoutsCrachas", conn))
                     {
+
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("EmpresaLayoutCrachaID", entity.EmpresaLayoutCrachaId, true)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("EmpresaID", entity.EmpresaId, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("LayoutCrachaID", entity.LayoutCrachaId, false)));
@@ -58,13 +59,13 @@ namespace IMOD.Infra.Repositorios
                         var key = Convert.ToInt32(cmd.ExecuteScalar());
 
                         entity.EmpresaLayoutCrachaId = key;
-                    }
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException(ex);
-                        throw;
+
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
 
@@ -75,25 +76,26 @@ namespace IMOD.Infra.Repositorios
         /// <returns></returns>
         public EmpresaLayoutCracha BuscarPelaChave(int id)
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.SelectText("EmpresasLayoutsCrachas", conn))
-
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
+                    using (var cmd = _dataBase.SelectText("EmpresasLayoutsCrachas", conn))
+
                     {
+
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("EmpresaLayoutCrachaId", DbType.Int32, id).Igual()));
                         var reader = cmd.ExecuteReader();
                         var d1 = reader.MapToList<EmpresaLayoutCracha>();
 
                         return d1.FirstOrDefault();
-                    }
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException(ex);
-                        throw;
+
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
 
@@ -104,13 +106,14 @@ namespace IMOD.Infra.Repositorios
         /// <returns></returns>
         public ICollection<EmpresaLayoutCracha> Listar(params object[] objects)
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.SelectText("LayoutCrachaView", conn))
-
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
+                    using (var cmd = _dataBase.SelectText("LayoutCrachaView", conn))
+
                     {
+
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmpresaLayoutCrachaID", DbType.Int32, objects, 0).Igual()));
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmpresaID", DbType.Int32, objects, 1).Igual()));
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("LayoutCrachaID", DbType.Int32, objects, 2).Igual()));
@@ -120,13 +123,13 @@ namespace IMOD.Infra.Repositorios
                         var d1 = reader.MapToList<EmpresaLayoutCracha>();
 
                         return d1;
-                    }
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException(ex);
-                        throw;
+
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
 
@@ -136,24 +139,25 @@ namespace IMOD.Infra.Repositorios
         /// <param name="entity"></param>
         public void Alterar(EmpresaLayoutCracha entity)
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.UpdateText("EmpresasLayoutsCrachas", conn))
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
+                    using (var cmd = _dataBase.UpdateText("EmpresasLayoutsCrachas", conn))
                     {
+
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("EmpresaLayoutCrachaID", entity.EmpresaLayoutCrachaId, true)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("EmpresaID", entity.EmpresaId, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("LayoutCrachaID", entity.LayoutCrachaId, false)));
 
                         cmd.ExecuteNonQuery();
-                    }
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException(ex);
-                        throw;
+
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
 
@@ -163,20 +167,22 @@ namespace IMOD.Infra.Repositorios
         /// <param name="objects"></param>
         public void Remover(EmpresaLayoutCracha entity)
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.DeleteText("EmpresasLayoutsCrachas", conn))
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
+                    using (var cmd = _dataBase.DeleteText("EmpresasLayoutsCrachas", conn))
                     {
+
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamDelete("EmpresaLayoutCrachaID", entity.EmpresaLayoutCrachaId).Igual()));
                         cmd.ExecuteNonQuery();
-                    }
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException(ex);
+
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
 
@@ -187,32 +193,35 @@ namespace IMOD.Infra.Repositorios
         /// <param name="empresaId"></param>
         public void RemoverPorEmpresa(int empresaId)
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.DeleteText("EmpresasLayoutsCrachas", conn))
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
+                    using (var cmd = _dataBase.DeleteText("EmpresasLayoutsCrachas", conn))
                     {
+
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamDelete("empresaId", empresaId).Igual()));
 
                         cmd.ExecuteNonQuery();
-                    }
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException(ex);
+
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
 
         public ICollection<EmpresaLayoutCrachaView> ListarLayoutCrachaView(params object[] objects)
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.SelectText("LayoutCrachaView", conn))
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
+                    using (var cmd = _dataBase.SelectText("LayoutCrachaView", conn))
                     {
+
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmpresaID", DbType.String, objects, 0).Igual()));
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("LayoutCrachaID", DbType.String, objects, 1).Igual()));
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Nome", DbType.String, objects, 2).Like()));
@@ -222,17 +231,17 @@ namespace IMOD.Infra.Repositorios
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<EmpresaLayoutCrachaView>();
                         return d1;
-                    }
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException(ex);
-                        throw;
+
                     }
                 }
             }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
-        public ICollection<EmpresaLayoutCrachaView> ListarLayoutCrachaPorEmpresaView(int idEmpresa,int tipoChacha)
+        public ICollection<EmpresaLayoutCrachaView> ListarLayoutCrachaPorEmpresaView(int idEmpresa, int tipoChacha)
         {
             return ListarLayoutCrachaView(idEmpresa, null, null, null, tipoChacha);
         }

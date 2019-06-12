@@ -57,23 +57,30 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         private void OnListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Geral_ti.IsSelected = true;
-            if (_viewModel.Entity == null) return;
-            //Atualizar dados ao selecionar uma linha da listview
-            _viewModel.AtualizarDadosPendencias();
+            try
+            {
+                Geral_ti.IsSelected = true;
+                if (_viewModel.Entity == null) return;
+                //Atualizar dados ao selecionar uma linha da listview
+                _viewModel.AtualizarDadosPendencias();
 
-            //Popular User Controls
-            //////////////////////////////////////////////////////////////
-            if (_viewModel.Entity!=null)
-                _viewModel.BucarFoto(_viewModel.Entity.ColaboradorId);
-            if (_viewModel.Entity != null)
-                _viewModel.Entity.Cpf =  _viewModel.Entity.Cpf.FormatarCpf();
+                //Popular User Controls
+                //////////////////////////////////////////////////////////////
+                if (_viewModel.Entity != null)
+                    _viewModel.BucarFoto(_viewModel.Entity.ColaboradorId);
+                if (_viewModel.Entity != null)
+                    _viewModel.Entity.Cpf = _viewModel.Entity.Cpf.FormatarCpf();
 
-            ColaboradorEmpresaUs.AtualizarDados(_viewModel.Entity, _viewModel);
-            ColaboradorCurso.AtualizarDados(_viewModel.Entity, _viewModel);
-            AnexoUs.AtualizarDados(_viewModel.Entity, _viewModel);
-            ColaboradoresCredenciaisUs.AtualizarDados(_viewModel.Entity, _viewModel);
-            ////////////////////////////////////////////////////////////// 
+                ColaboradorEmpresaUs.AtualizarDados(_viewModel.Entity, _viewModel);
+                ColaboradorCurso.AtualizarDados(_viewModel.Entity, _viewModel);
+                AnexoUs.AtualizarDados(_viewModel.Entity, _viewModel);
+                ColaboradoresCredenciaisUs.AtualizarDados(_viewModel.Entity, _viewModel);
+                ////////////////////////////////////////////////////////////// 
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex.Message, 1);
+            }
         }
         
 
@@ -328,6 +335,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             try
             {
+                if (_viewModel != null) return;
                 _viewModel.EntityObserver.Clear();
                 _viewModel.IsEnablePreCadastro = false;
                 _viewModel.IsEnablePreCadastroCredenciamento = true;

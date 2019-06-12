@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using Genetec.Sdk;
 using Genetec.Sdk.Workspace.Pages;
 using IMOD.Application.Service;
+using IMOD.CredenciamentoDeskTop.Helpers;
 using IMOD.Infra.Servicos;
 
 #endregion
@@ -30,12 +31,21 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
 
         public override bool HasPrivilege()
         {
-            //IEngine _sdk;
-            if (!m_sdk.IsConnected) return false;
+            try
+            {
+                //IEngine _sdk;
+                if (!m_sdk.IsConnected) return false;
                 return true;
-               //return m_sdk.SecurityManager.IsPrivilegeGranted (new Guid (Privilege));
+                //return m_sdk.SecurityManager.IsPrivilegeGranted (new Guid (Privilege));
                 //_sdk = m_sdk;
-           // _service.CriarTitularCartao(new CredencialGenetecService(Main.Engine), new ColaboradorService(), n1);
+                // _service.CriarTitularCartao(new CredencialGenetecService(Main.Engine), new ColaboradorService(), n1);
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.Mbox(ex.Message);
+                throw ex;
+            }
+            
         }
 
         #endregion

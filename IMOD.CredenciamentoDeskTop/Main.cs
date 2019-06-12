@@ -15,6 +15,7 @@ using Genetec.Sdk.Queries;
 using Genetec.Sdk.Workspace;
 using Genetec.Sdk.Workspace.Modules;
 using Genetec.Sdk.Workspace.Tasks;
+using IMOD.CredenciamentoDeskTop.Helpers;
 using IMOD.CredenciamentoDeskTop.Mapeamento;
 using IMOD.CredenciamentoDeskTop.Modulo;
 using IMOD.CrossCutting;
@@ -39,6 +40,7 @@ namespace IMOD.CredenciamentoDeskTop
             catch (Exception ex)
             {
                 Utils.TraceException (ex);
+                WpfHelp.PopupBox(ex);
             }
         }
 

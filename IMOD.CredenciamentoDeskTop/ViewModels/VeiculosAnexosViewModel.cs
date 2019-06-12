@@ -67,13 +67,20 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         public VeiculosAnexosViewModel()
         {
-            Comportamento = new ComportamentoBasico(false, true, false, false, false);
-            EntityObserver = new ObservableCollection<VeiculoAnexoView>();
-            Comportamento.SalvarAdicao += OnSalvarAdicao;
-            Comportamento.SalvarEdicao += OnSalvarEdicao;
-            Comportamento.Remover += OnRemover;
-            Comportamento.Cancelar += OnCancelar;
-            PropertyChanged += OnEntityChanged;
+            try
+            {
+                Comportamento = new ComportamentoBasico(false, true, false, false, false);
+                EntityObserver = new ObservableCollection<VeiculoAnexoView>();
+                Comportamento.SalvarAdicao += OnSalvarAdicao;
+                Comportamento.SalvarEdicao += OnSalvarEdicao;
+                Comportamento.Remover += OnRemover;
+                Comportamento.Cancelar += OnCancelar;
+                PropertyChanged += OnEntityChanged;
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex);
+            }
         }
 
         #region  Metodos
@@ -109,19 +116,26 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         public void AtualizarDados(VeiculoView entity, VeiculoViewModel viewModelParent)
         {
-            EntityObserver.Clear();
-            if (entity == null) return; // throw new ArgumentNullException (nameof (entity));
-            _veiculoView = entity;
-            _viewModelParent = viewModelParent;
+            try
+            {
+                EntityObserver.Clear();
+                if (entity == null) return; // throw new ArgumentNullException (nameof (entity));
+                _veiculoView = entity;
+                _viewModelParent = viewModelParent;
 
-            //Obter dados
-            var list1 = _service.Listar (entity.EquipamentoVeiculoId);
-            var list2 = Mapper.Map<List<VeiculoAnexoView>> (list1.OrderByDescending (n => n.VeiculoAnexoId));
-            EntityObserver = new ObservableCollection<VeiculoAnexoView>();
-            list2.ForEach (n => { EntityObserver.Add (n); });
+                //Obter dados
+                var list1 = _service.Listar(entity.EquipamentoVeiculoId);
+                var list2 = Mapper.Map<List<VeiculoAnexoView>>(list1.OrderByDescending(n => n.VeiculoAnexoId));
+                EntityObserver = new ObservableCollection<VeiculoAnexoView>();
+                list2.ForEach(n => { EntityObserver.Add(n); });
 
-            //Obter configuracoes de sistema
-            _configuraSistema = ObterConfiguracao();
+                //Obter configuracoes de sistema
+                _configuraSistema = ObterConfiguracao();
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex);
+            }
         }
         /// <summary>
         /// Obtem configuração de sistema
@@ -129,11 +143,19 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <returns></returns>
         private ConfiguraSistema ObterConfiguracao()
         {
-            //Obter configuracoes de sistema
-            var config = _auxiliaresService.ConfiguraSistemaService.Listar();
-            //Obtem o primeiro registro de configuracao
-            if (config == null) throw new InvalidOperationException("Não foi possivel obter dados de configuração do sistema.");
-            return config.FirstOrDefault();
+            try
+            {
+                //Obter configuracoes de sistema
+                var config = _auxiliaresService.ConfiguraSistemaService.Listar();
+                //Obtem o primeiro registro de configuracao
+                if (config == null) throw new InvalidOperationException("Não foi possivel obter dados de configuração do sistema.");
+                return config.FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex);
+                return null;
+            }
         }
         private void PrepareRemover()
         {
@@ -178,11 +200,17 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private void PrepareCriar()
         {
-          
-            Entity = new VeiculoAnexoView();
-            Comportamento.PrepareCriar();
-            IsEnableLstView = false;
-            _viewModelParent.HabilitaControleTabControls(false, false, false, false, true, false);
+            try
+            {
+                Entity = new VeiculoAnexoView();
+                Comportamento.PrepareCriar();
+                IsEnableLstView = false;
+                _viewModelParent.HabilitaControleTabControls(false, false, false, false, true, false);
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex);
+            }
         }
 
         /// <summary>
@@ -265,14 +293,21 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         private void PrepareAlterar()
         {
-            if (Entity == null)
+            try
             {
-                WpfHelp.PopupBox ("Selecione um item da lista", 1);
-                return;
+                if (Entity == null)
+                {
+                    WpfHelp.PopupBox("Selecione um item da lista", 1);
+                    return;
+                }
+                Comportamento.PrepareAlterar();
+                IsEnableLstView = false;
+                _viewModelParent.HabilitaControleTabControls(false, false, false, false, true, false);
             }
-            Comportamento.PrepareAlterar();
-            IsEnableLstView = false;
-            _viewModelParent.HabilitaControleTabControls(false, false, false, false, true, false);
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex);
+            }
         }
 
         /// <summary>

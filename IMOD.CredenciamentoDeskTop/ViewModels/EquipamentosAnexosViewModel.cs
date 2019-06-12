@@ -220,7 +220,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             catch (Exception ex)
             {
                 Utils.TraceException (ex);
-                WpfHelp.MboxError ("Não foi realizar a operação solicitada", ex);
+                //WpfHelp.MboxError ("Não foi realizar a operação solicitada", ex);
+                WpfHelp.PopupBox(ex);
             }
         }
 
@@ -247,7 +248,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             catch (Exception ex)
             {
                 Utils.TraceException (ex);
-                WpfHelp.MboxError ("Não foi realizar a operação solicitada", ex);
+                //WpfHelp.MboxError ("Não foi realizar a operação solicitada", ex);
+                WpfHelp.PopupBox(ex);
             }
         }
 

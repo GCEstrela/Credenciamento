@@ -68,19 +68,26 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         public VeiculosEmpresasViewModel()
         {
-            ListarDadosAuxiliares();
-            Comportamento = new ComportamentoBasico (false, true, true, false, false);
-            EntityObserver = new ObservableCollection<VeiculoEmpresaView>();
-            Comportamento.SalvarAdicao += OnSalvarAdicao;
-            Comportamento.SalvarEdicao += OnSalvarEdicao;
-            Comportamento.Remover += OnRemover;
-            Comportamento.Cancelar += OnCancelar;
-            PropertyChanged += OnEntityChanged;
+            try
+            {
+                ListarDadosAuxiliares();
+                Comportamento = new ComportamentoBasico(false, true, true, false, false);
+                EntityObserver = new ObservableCollection<VeiculoEmpresaView>();
+                Comportamento.SalvarAdicao += OnSalvarAdicao;
+                Comportamento.SalvarEdicao += OnSalvarEdicao;
+                Comportamento.Remover += OnRemover;
+                Comportamento.Cancelar += OnCancelar;
+                PropertyChanged += OnEntityChanged;
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex);
+            }
         }
 
         #region  Metodos
 
-        
+
 
         /// <summary>
         /// </summary>
@@ -103,11 +110,17 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private void ListarDadosAuxiliares()
         {
-             
-            Empresas = new List<Empresa>();
-            Contratos = new List<EmpresaContrato>();
-            ListarDadosEmpresaContratos();
-            _configuraSistema = ObterConfiguracao();
+            try
+            {
+                Empresas = new List<Empresa>();
+                Contratos = new List<EmpresaContrato>();
+                ListarDadosEmpresaContratos();
+                _configuraSistema = ObterConfiguracao();
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex);
+            }
         }
 
         /// <summary>
@@ -126,7 +139,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
             catch (Exception ex)
             {
-                Utils.TraceException(ex);
+                WpfHelp.PopupBox(ex);
             }
         }
 
@@ -136,24 +149,39 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <returns></returns>
         private ConfiguraSistema ObterConfiguracao()
         {
-            //Obter configuracoes de sistema
-            var config = _auxiliaresServiceConfiguraSistema.ConfiguraSistemaService.Listar();
-            //Obtem o primeiro registro de configuracao
-            if (config == null) throw new InvalidOperationException("Não foi possivel obter dados de configuração do sistema.");
-            return config.FirstOrDefault();
+            try
+            {
+                //Obter configuracoes de sistema
+                var config = _auxiliaresServiceConfiguraSistema.ConfiguraSistemaService.Listar();
+                //Obtem o primeiro registro de configuracao
+                if (config == null) throw new InvalidOperationException("Não foi possivel obter dados de configuração do sistema.");
+                return config.FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex);
+                return null;
+            }
         }
 
         public void ListarContratos(Empresa empresa)
         {
-            if (empresa == null) return;
-            var lstContratos = _empresaContratoService.Listar (empresa.EmpresaId).ToList();
-            Contratos.Clear();
-            //Manipular concatenaçção de contrato
-            lstContratos.ForEach (n =>
+            try
             {
-                n.Descricao = $"{n.Descricao} - {n.NumeroContrato}";
-                Contratos.Add (n);
-            });
+                if (empresa == null) return;
+                var lstContratos = _empresaContratoService.Listar(empresa.EmpresaId).ToList();
+                Contratos.Clear();
+                //Manipular concatenaçção de contrato
+                lstContratos.ForEach(n =>
+                {
+                    n.Descricao = $"{n.Descricao} - {n.NumeroContrato}";
+                    Contratos.Add(n);
+                });
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex);
+            }
         }
 
         /// <summary>
@@ -206,12 +234,19 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         private void SetDadosEmpresaContrato(VeiculoEmpresaView entity)
         {
-            var empresa = Empresas.FirstOrDefault (n => n.EmpresaId == entity.EmpresaId);
-            var contrato = Contratos.FirstOrDefault (n => n.EmpresaContratoId == entity.EmpresaContratoId);
-            if (empresa != null)
-                entity.EmpresaNome = empresa.Nome; //Setar o nome da empresa para ser exibida na list view
-            if (contrato != null)
-                entity.Descricao = contrato.Descricao; //Setar o nome do contrato para ser exibida na list view
+            try
+            {
+                var empresa = Empresas.FirstOrDefault(n => n.EmpresaId == entity.EmpresaId);
+                var contrato = Contratos.FirstOrDefault(n => n.EmpresaContratoId == entity.EmpresaContratoId);
+                if (empresa != null)
+                    entity.EmpresaNome = empresa.Nome; //Setar o nome da empresa para ser exibida na list view
+                if (contrato != null)
+                    entity.Descricao = contrato.Descricao; //Setar o nome do contrato para ser exibida na list view
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex);
+            }
         }
 
         /// <summary>
@@ -219,13 +254,20 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private void PrepareCriar()
         {
-            Entity = new VeiculoEmpresaView(); 
-            Entity.Ativo = true; 
-            Comportamento.PrepareCriar();
-            IsEnableLstView = false;
-            ListarDadosEmpresaContratos(); 
-            _viewModelParent.HabilitaControleTabControls(false, false, true, false, false, false);
-            ListarDadosEmpresaContratos();
+            try
+            {
+                Entity = new VeiculoEmpresaView();
+                Entity.Ativo = true;
+                Comportamento.PrepareCriar();
+                IsEnableLstView = false;
+                ListarDadosEmpresaContratos();
+                _viewModelParent.HabilitaControleTabControls(false, false, true, false, false, false);
+                ListarDadosEmpresaContratos();
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex);
+            }
         }
 
         /// <summary>
@@ -302,16 +344,22 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         public void AtualizarDados(VeiculoView entity, VeiculoViewModel viewModelParent)
         {
-            EntityObserver.Clear();
-            if (entity == null) return; // throw new ArgumentNullException (nameof (entity));
-            _veiculoView = entity;
-            _viewModelParent = viewModelParent;
-            //Obter dados
-            var list1 = _service.ListarContratoView (entity.EquipamentoVeiculoId);
-            var list2 = Mapper.Map<List<VeiculoEmpresaView>> (list1.OrderByDescending (n => n.VeiculoEmpresaId).ToList());
-            EntityObserver = new ObservableCollection<VeiculoEmpresaView>();
-            list2.ForEach (n => { EntityObserver.Add (n); });
-             
+            try
+            {
+                EntityObserver.Clear();
+                if (entity == null) return; // throw new ArgumentNullException (nameof (entity));
+                _veiculoView = entity;
+                _viewModelParent = viewModelParent;
+                //Obter dados
+                var list1 = _service.ListarContratoView(entity.EquipamentoVeiculoId);
+                var list2 = Mapper.Map<List<VeiculoEmpresaView>>(list1.OrderByDescending(n => n.VeiculoEmpresaId).ToList());
+                EntityObserver = new ObservableCollection<VeiculoEmpresaView>();
+                list2.ForEach(n => { EntityObserver.Add(n); });
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex);
+            }
         }
 
         #endregion
@@ -353,15 +401,22 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         private void PrepareAlterar()
         {
-            if (Entity == null)
+            try
             {
-                WpfHelp.PopupBox ("Selecione um item da lista", 1);
-                return;
-            }
+                if (Entity == null)
+                {
+                    WpfHelp.PopupBox("Selecione um item da lista", 1);
+                    return;
+                }
 
-            Comportamento.PrepareAlterar();
-            IsEnableLstView = false;
-            _viewModelParent.HabilitaControleTabControls(false, false, true, false, false, false);
+                Comportamento.PrepareAlterar();
+                IsEnableLstView = false;
+                _viewModelParent.HabilitaControleTabControls(false, false, true, false, false, false);
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex);
+            }
         }
 
         /// <summary>
@@ -370,12 +425,20 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <returns></returns>
         public bool Validar()
         {
-            if (Entity == null) return true;
-            Entity.Validate();
-            var hasErros = Entity.HasErrors;
-            if (hasErros) return true;
+            try
+            {
+                if (Entity == null) return true;
+                Entity.Validate();
+                var hasErros = Entity.HasErrors;
+                if (hasErros) return true;
 
-            return Entity.HasErrors;
+                return Entity.HasErrors;
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex);
+                return false;
+            }
         }
 
         #endregion

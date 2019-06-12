@@ -7,6 +7,7 @@
 #region
 
 using System;
+using System.Data.SqlClient;
 using AutoMapper;
 using IMOD.CredenciamentoDeskTop.Views.Model;
 using IMOD.CrossCutting;
@@ -30,7 +31,9 @@ namespace IMOD.CredenciamentoDeskTop.Mapeamento
         //ColaboradorEmpresaView
         public static void RegisterMappings()
         {
-            Mapper.Initialize (
+            //try
+            //{
+                Mapper.Initialize(
                 m =>
                 {
                     //m.CreateMap<Colaborador, ColaboradorView>().ForMember(k => k.Cpf, opt => opt.MapFrom(k => k.Cpf.FormatarCpf())).ReverseMap();
@@ -41,8 +44,8 @@ namespace IMOD.CredenciamentoDeskTop.Mapeamento
                     m.CreateMap<ColaboradorCredencial, ColaboradoresCredenciaisView>().ReverseMap();
                     m.CreateMap<ColaboradorAnexo, ColaboradorAnexoView>().ReverseMap();
                     m.CreateMap<CredencialView, CredencialViewCracha>()
-                        .ForMember (n => n.Foto2, opt => opt.MapFrom (c => c.Foto == null ? null : Convert.FromBase64String (c.Foto)))
-                        .ForMember (n => n.Logo2, opt => opt.MapFrom (c => c.Logo == null ? null : Convert.FromBase64String (c.Logo)))
+                        .ForMember(n => n.Foto2, opt => opt.MapFrom(c => c.Foto == null ? null : Convert.FromBase64String(c.Foto)))
+                        .ForMember(n => n.Logo2, opt => opt.MapFrom(c => c.Logo == null ? null : Convert.FromBase64String(c.Logo)))
                         .ReverseMap();
                     m.CreateMap<VeiculoView, Veiculo>().ReverseMap();
                     m.CreateMap<VeiculosCredenciaisView, VeiculoCredencial>().ReverseMap();
@@ -56,7 +59,7 @@ namespace IMOD.CredenciamentoDeskTop.Mapeamento
                     //    .ForMember (c => c.Cep, opt => opt.MapFrom (c => c.Cep.FormataCep()))
                     //    .ReverseMap();
                     m.CreateMap<Empresa, EmpresaView>().ReverseMap();
-                    m.CreateMap<EmpresaSignatario, EmpresaSignatarioView>().ForMember (k => k.Cpf, opt => opt.MapFrom (k => k.Cpf.FormatarCpf())).ReverseMap();
+                    m.CreateMap<EmpresaSignatario, EmpresaSignatarioView>().ForMember(k => k.Cpf, opt => opt.MapFrom(k => k.Cpf.FormatarCpf())).ReverseMap();
                     m.CreateMap<EmpresaContratoView, EmpresaContrato>().ReverseMap();
                     m.CreateMap<EmpresaAnexoView, EmpresaAnexo>().ReverseMap();
                     m.CreateMap<EmpresaTipoCredencialView, Views.Model.EmpresaTipoCredencialView>().ReverseMap();
@@ -76,8 +79,13 @@ namespace IMOD.CredenciamentoDeskTop.Mapeamento
                     m.CreateMap<Domain.EntitiesCustom.ColaboradoresCredenciaisView, Views.Model.RelColaboradoresCredenciaisView>().ReverseMap();
                     m.CreateMap<VeiculosCredenciaisView, RelVeiculosCredenciaisView>().ReverseMap();
                     m.CreateMap<ConfiguraSistemaView, ConfiguraSistema>().ReverseMap();
-                    
+
                 });
+            //}
+            //catch (SqlException ex)
+            //{
+            //    throw ex;
+            //}
         }
 
         #endregion

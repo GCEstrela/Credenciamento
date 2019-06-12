@@ -246,7 +246,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
             catch (Exception ex)
             {
-                throw ex;
+                WpfHelp.PopupBox(ex.Message, 1);
             }
         }
 
@@ -543,7 +543,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         #endregion
 
         #region Commands
-
+       
         public ComportamentoBasico Comportamento { get; set; }
 
         /// <summary>
@@ -776,7 +776,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             catch (Exception ex)
             {
                 Utils.TraceException (ex);
-                WpfHelp.MboxError ("Não foi realizar a operação solicitada", ex);
+                // WpfHelp.MboxError ("Não foi realizar a operação solicitada", ex);
+                WpfHelp.PopupBox(ex);
             }
         }
 
@@ -803,7 +804,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             catch (Exception ex)
             {
                 Utils.TraceException (ex);
-                WpfHelp.MboxError ("Não foi realizar a operação solicitada", ex);
+                //WpfHelp.MboxError ("Não foi realizar a operação solicitada", ex);
+                WpfHelp.PopupBox(ex);
             }
         }
         /// <summary>
@@ -822,7 +824,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
             catch (Exception ex)
             {
-                throw ex;
+                WpfHelp.PopupBox(ex);
+                return null;
             }
             
         }

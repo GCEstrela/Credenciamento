@@ -61,59 +61,100 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels.Comportamento
         /// </summary>
         public void PrepareCriar()
         {
-            AdicionarEstado(false, false, false, true, true, false);
+            try
+            {
+                AdicionarEstado(false, false, false, true, true, false);
 
-            _salvar = Acao.SalvarAdicao;
+                _salvar = Acao.SalvarAdicao;
+            }
+            catch (System.Exception ex)
+            {
+                throw ex;
+            }
         }
         /// <summary>
         ///     Prepara botões para comportamento de criação
         /// </summary>
         public void PrepareCriarSegundaTentativa()
         {
-            seguntatentativa = true;
-            AdicionarEstado(false, false, false, true, true, false);
+            try
+            {
+                seguntatentativa = true;
+                AdicionarEstado(false, false, false, true, true, false);
 
-            _salvar = Acao.SalvarAdicao;
+                _salvar = Acao.SalvarAdicao;
+            }
+            catch (System.Exception ex)
+            {
+                throw ex;
+            }
         }
         /// <summary>
         /// </summary>
         public void PrepareAlterar()
         {
-            AdicionarEstado(false, false, false, true, true, false);
-            _salvar = Acao.SalvarEditar;
+            try
+            {
+                AdicionarEstado(false, false, false, true, true, false);
+                _salvar = Acao.SalvarEditar;
+            }
+            catch (System.Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public void PrepareCancelar()
         {
-            AdicionarEstado(true, true, true, false, false, true);
-            _salvar = Acao.Cancelar;
-            OnCancelar(new RoutedEventArgs());
+            try
+            {
+                AdicionarEstado(true, true, true, false, false, true);
+                _salvar = Acao.Cancelar;
+                OnCancelar(new RoutedEventArgs());
+            }
+            catch (System.Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public void PrepareRemover()
         {
-            AdicionarEstado(true, true, true, false, false, true);
-            _salvar = Acao.Remover;
-            OnRemover(new RoutedEventArgs());
+            try
+            {
+                AdicionarEstado(true, true, true, false, false, true);
+                _salvar = Acao.Remover;
+                OnRemover(new RoutedEventArgs());
+            }
+            catch (System.Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public void PrepareSalvar()
         {
-            if (_salvar == Acao.SalvarEditar)
-                OnSalvarEdicao(new RoutedEventArgs());
-            if (_salvar == Acao.SalvarAdicao)
-                OnSalvarAdicao(new RoutedEventArgs());
-            if (!seguntatentativa)
+            try
             {
-                AdicionarEstado(true, true, true, false, false, true);
-                seguntatentativa = false;
+                if (_salvar == Acao.SalvarEditar)
+                    OnSalvarEdicao(new RoutedEventArgs());
+                if (_salvar == Acao.SalvarAdicao)
+                    OnSalvarAdicao(new RoutedEventArgs());
+                if (!seguntatentativa)
+                {
+                    AdicionarEstado(true, true, true, false, false, true);
+                    seguntatentativa = false;
+                }
+                else
+                {
+                    AdicionarEstado(false, false, false, true, true, false);
+                    seguntatentativa = false;
+                }
             }
-            else
+            catch (System.Exception ex)
             {
-                AdicionarEstado(false, false, false, true, true, false);
-                seguntatentativa = false;
+                throw ex;
             }
-            
         }
 
         /// <summary>
@@ -138,22 +179,49 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels.Comportamento
 
         protected virtual void OnRemover(RoutedEventArgs e)
         {
-            Remover?.Invoke(this, e);
+            try
+            {
+                Remover?.Invoke(this, e);
+            }
+            catch (System.Exception ex)
+            {
+                throw ex;
+            }
         }
-
         protected virtual void OnSalvarAdicao(RoutedEventArgs e)
         {
-            SalvarAdicao?.Invoke(this, e);
+            try
+            {
+                SalvarAdicao?.Invoke(this, e);
+            }
+            catch (System.Exception ex)
+            {
+                throw ex;
+            }
         }
 
         protected virtual void OnSalvarEdicao(RoutedEventArgs e)
         {
-            SalvarEdicao?.Invoke(this, e);
+            try
+            {
+                SalvarEdicao?.Invoke(this, e);
+            }
+            catch (System.Exception ex)
+            {
+                throw ex;
+            }
         }
 
         protected virtual void OnCancelar(RoutedEventArgs e)
         {
-            Cancelar?.Invoke(this, e);
+            try
+            {
+                Cancelar?.Invoke(this, e);
+            }
+            catch (System.Exception ex)
+            {
+                throw ex;
+            }
         }
 
         #endregion
