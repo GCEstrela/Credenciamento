@@ -7,6 +7,7 @@
 #region
 
 using System;
+using System.Data.SqlClient;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
@@ -37,10 +38,16 @@ namespace IMOD.CredenciamentoDeskTop.Views
             }
             catch (Exception ex)
             {
+                if (ex is SqlException)
+                {
+                    if (_viewModel.EntityObserver != null)
+                        _viewModel.EntityObserver.Clear();
+
+                    _viewModel.SelectListViewIndex = 0;
+                    ex = new Exception($"Ocorreu uma falha ao conectar com o banco de dados.");
+                }
                 WpfHelp.PopupBox(ex.Message, 1);
-                //throw;
             }
-            
         }
 
         #region  Metodos
@@ -92,9 +99,14 @@ namespace IMOD.CredenciamentoDeskTop.Views
             }
             catch (Exception ex)
             {
-                if (_viewModel.EntityObserver !=null)
-                    _viewModel.EntityObserver.Clear();
+                if (ex is SqlException)
+                {
+                    if (_viewModel.EntityObserver != null)
+                        _viewModel.EntityObserver.Clear();
 
+                    _viewModel.SelectListViewIndex = 0;
+                    ex = new Exception($"Ocorreu uma falha ao conectar com o banco de dados.");
+                }
                 WpfHelp.PopupBox(ex.Message, 1);
             }
         }
