@@ -37,7 +37,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
             }
             catch (Exception ex)
             {
-                WpfHelp.Mbox(ex.Message);
+                WpfHelp.PopupBox(ex.Message, 1);
                 //throw;
             }
             

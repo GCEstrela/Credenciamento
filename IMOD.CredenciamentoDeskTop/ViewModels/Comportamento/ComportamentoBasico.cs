@@ -36,7 +36,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels.Comportamento
         /// <param name="btnExcluirEHabilitado">Propriedade do botão Remover</param>
         /// <param name="btnSalvarEHabilitado">Propriedade do botão  Salvar</param>
         /// <param name="cancelarHabilitado">Propriedade do botão Cancelar</param>
-       
+
         public ComportamentoBasico(bool btnEditarEHabilitado,
             bool btnCriarEHabilitado, bool btnExcluirEHabilitado,
             bool btnSalvarEHabilitado, bool cancelarHabilitado)
@@ -106,16 +106,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels.Comportamento
 
         public void PrepareCancelar()
         {
-            try
-            {
-                AdicionarEstado(true, true, true, false, false, true);
-                _salvar = Acao.Cancelar;
-                OnCancelar(new RoutedEventArgs());
-            }
-            catch (System.Exception ex)
-            {
-                throw ex;
-            }
+            AdicionarEstado(true, true, true, false, false, true);
+            _salvar = Acao.Cancelar;
+            OnCancelar(new RoutedEventArgs());
         }
 
         public void PrepareRemover()
@@ -174,7 +167,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels.Comportamento
             this.isEnableSalvar = isEnableSalvar;
             this.IsEnableEditar = isEnableEditar;
             this.isEnableLstView = isEnableLstView;
-            
+
         }
 
         protected virtual void OnRemover(RoutedEventArgs e)

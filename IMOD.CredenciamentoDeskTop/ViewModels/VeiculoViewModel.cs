@@ -194,7 +194,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
             catch (Exception ex)
             {
-                WpfHelp.PopupBox(ex.Message, 1);                
+                throw ex;                
             }
         }
 
@@ -209,7 +209,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
             catch (Exception ex)
             {
-                WpfHelp.PopupBox(ex.Message, 1);
+                throw ex;
             }
         }
         /// <summary>
@@ -232,7 +232,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
             catch (Exception ex)
             {
-                WpfHelp.PopupBox(ex.Message, 1);
+                throw ex;
             }
         }
 
@@ -251,7 +251,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
             catch (Exception ex)
             {
-                WpfHelp.PopupBox(ex.Message, 1);
+                throw ex;
             }
         }
 
@@ -275,7 +275,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
             catch (Exception ex)
             {
-                WpfHelp.PopupBox(ex.Message, 1);
+                throw ex;
             }
         }
         /// <summary>
@@ -294,8 +294,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
             catch (Exception ex)
             {
-                WpfHelp.PopupBox(ex.Message, 1);
-                return null;
+                throw ex;
+                //return null;
             }
         }
         /// <summary>
@@ -320,7 +320,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
             catch (Exception ex)
             {
-                WpfHelp.PopupBox(ex.Message, 1);
+                throw ex;
             }
         }
 
@@ -350,7 +350,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
             catch (Exception ex)
             {
-                WpfHelp.PopupBox(ex.Message, 1);
+                throw ex;
             }
         }
 
@@ -406,6 +406,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             catch (Exception ex)
             {
                 WpfHelp.PopupBox(ex.Message, 1);
+                //throw ex;
             }
         }
 
@@ -479,7 +480,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             catch (Exception ex)
             {
                 Utils.TraceException(ex);
-                WpfHelp.PopupBox(ex);
+                throw ex;
             }
         }
         /// <summary>
@@ -526,6 +527,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
             catch (Exception ex)
             {
+                if (EntityObserver != null)
+                    EntityObserver.Clear();
+
+                WpfHelp.PopupBox(ex.Message, 1);
                 Utils.TraceException (ex);
             }
         }
@@ -545,6 +550,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
             catch (Exception ex)
             {
+                if (EntityObserver != null)
+                    EntityObserver.Clear();
+                
                 System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.IBeam;
                 Utils.TraceException (ex);
             }
@@ -552,8 +560,17 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         private void PrepareSalvar()
         {
-            if (Validar()) return;
-            Comportamento.PrepareSalvar();
+            try
+            {
+                if (Validar()) return;
+                Comportamento.PrepareSalvar();
+            }
+            catch (Exception ex)
+            {
+
+                WpfHelp.PopupBox(ex.Message, 1);
+                //throw ex;
+            }
         }
 
         private void PrepareAlterar()
@@ -573,6 +590,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             catch (Exception ex)
             {
                 WpfHelp.PopupBox(ex.Message, 1);
+                //throw ex;
             }
         }
 
@@ -625,7 +643,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
             catch (Exception ex)
             {
-                WpfHelp.PopupBox(ex.Message, 1);
+                throw ex;
             }
         }
 
@@ -706,7 +724,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
             catch (Exception ex)
             {
-                WpfHelp.PopupBox(ex.Message, 1);
+                throw ex;
                 return false;
             }
         }

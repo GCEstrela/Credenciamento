@@ -171,44 +171,62 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         #endregion
 
         public EquipamentosViewModel()
-        { 
-            ItensDePesquisaConfigura();
-            ListarDadosAuxiliares();
-            Comportamento = new ComportamentoBasico (false, true, true, false, false);
-            EntityObserver = new ObservableCollection<VeiculoView>();
-            TiposEquipamentoServico = new ObservableCollection<EquipamentoVeiculoTipoServicoView>();
-            Comportamento.SalvarAdicao += OnSalvarAdicao;
-            Comportamento.SalvarEdicao += OnSalvarEdicao;
-            Comportamento.Remover += OnRemover;
-            Comportamento.Cancelar += OnCancelar;
-            PropertyChanged += OnEntityChanged;
+        {
+            try
+            {
+                ItensDePesquisaConfigura();
+                ListarDadosAuxiliares();
+                Comportamento = new ComportamentoBasico(false, true, true, false, false);
+                EntityObserver = new ObservableCollection<VeiculoView>();
+                TiposEquipamentoServico = new ObservableCollection<EquipamentoVeiculoTipoServicoView>();
+                Comportamento.SalvarAdicao += OnSalvarAdicao;
+                Comportamento.SalvarEdicao += OnSalvarEdicao;
+                Comportamento.Remover += OnRemover;
+                Comportamento.Cancelar += OnCancelar;
+                PropertyChanged += OnEntityChanged;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         #region  Metodos
         public void BucarFoto(int EquipamentoVeiculoID)
         {
-            if (Entity.Foto != null) return;
-            var listaFoto = _service.BuscarPelaChave(EquipamentoVeiculoID);
-            Entity.Foto = listaFoto.Foto;
+            try
+            {
+                if (Entity.Foto != null) return;
+                var listaFoto = _service.BuscarPelaChave(EquipamentoVeiculoID);
+                Entity.Foto = listaFoto.Foto;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         /// <summary>
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void OnEntityChanged(object sender, PropertyChangedEventArgs e)
-
         {
-            if (e.PropertyName == "Entity")
+            try
             {
-                var enableControls = Entity != null;
-                Comportamento.IsEnableEditar = enableControls;
-                HabilitaControleTabControls(true, enableControls, enableControls, enableControls, enableControls, enableControls);
-            }
+                if (e.PropertyName == "Entity")
+                {
+                    var enableControls = Entity != null;
+                    Comportamento.IsEnableEditar = enableControls;
+                    HabilitaControleTabControls(true, enableControls, enableControls, enableControls, enableControls, enableControls);
+                }
 
-            if (e.PropertyName == "SelectedTabIndex")
-                HabilitaCommandPincipal = SelectedTabIndex == 0;
-                
-             
+                if (e.PropertyName == "SelectedTabIndex")
+                    HabilitaCommandPincipal = SelectedTabIndex == 0;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -228,16 +246,23 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private void ListarDadosAuxiliares()
         {
-            var lst1 = _auxiliaresService.TipoServico.Listar();
-            var lst2 = _auxiliaresService.TipoCombustivelService.Listar();
-            var lst3 = _auxiliaresService.EstadoService.Listar();
-            var lst4 = _auxiliaresService.TipoEquipamentoService.Listar();
-            ListaTipoServico = Mapper.Map<List<TipoServico>> (lst1);
-            TiposCombustiveis = Mapper.Map<List<TipoCombustivel>> (lst2);
-            Estados = Mapper.Map<List<Estados>> (lst3);
-            ListaEquipamentos = Mapper.Map<List<TipoEquipamento>> (lst4);
-            //Obter configuracoes de sistema
-            _configuraSistema = ObterConfiguracao();
+            try
+            {
+                var lst1 = _auxiliaresService.TipoServico.Listar();
+                var lst2 = _auxiliaresService.TipoCombustivelService.Listar();
+                var lst3 = _auxiliaresService.EstadoService.Listar();
+                var lst4 = _auxiliaresService.TipoEquipamentoService.Listar();
+                ListaTipoServico = Mapper.Map<List<TipoServico>>(lst1);
+                TiposCombustiveis = Mapper.Map<List<TipoCombustivel>>(lst2);
+                Estados = Mapper.Map<List<Estados>>(lst3);
+                ListaEquipamentos = Mapper.Map<List<TipoEquipamento>>(lst4);
+                //Obter configuracoes de sistema
+                _configuraSistema = ObterConfiguracao();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         /// <summary>
         /// Obtem configuração de sistema
@@ -245,11 +270,18 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <returns></returns>
         private ConfiguraSistema ObterConfiguracao()
         {
-            //Obter configuracoes de sistema
-            var config = _auxiliaresService.ConfiguraSistemaService.Listar();
-            //Obtem o primeiro registro de configuracao
-            if (config == null) throw new InvalidOperationException("Não foi possivel obter dados de configuração do sistema.");
-            return config.FirstOrDefault();
+            try
+            {
+                //Obter configuracoes de sistema
+                var config = _auxiliaresService.ConfiguraSistemaService.Listar();
+                //Obtem o primeiro registro de configuracao
+                if (config == null) throw new InvalidOperationException("Não foi possivel obter dados de configuração do sistema.");
+                return config.FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         /// <summary>
         ///     Atualizar dados de pendências
@@ -257,17 +289,24 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// ValidarCnpj
         public void AtualizarDadosPendencias()
         {
-            if (Entity == null) return;
+            try
+            {
+                if (Entity == null) return;
 
-            var pendencia = _service.Pendencia.ListarPorVeiculo (Entity.EquipamentoVeiculoId).ToList();
-            //Set valores
-            SetPendenciaFalse();
-            //Buscar pendências referente aos códigos: 21; 12;14;24
-            Pendencia21 = pendencia.Any (n => n.CodPendencia == 21 & n.Ativo);
-            Pendencia22 = pendencia.Any (n => n.CodPendencia == 22 & n.Ativo);
-            Pendencia19 = pendencia.Any (n => n.CodPendencia == 19 & n.Ativo);
-            Pendencia24 = pendencia.Any (n => n.CodPendencia == 24 & n.Ativo);
-            Pendencia25 = pendencia.Any (n => n.CodPendencia == 25 & n.Ativo);
+                var pendencia = _service.Pendencia.ListarPorVeiculo(Entity.EquipamentoVeiculoId).ToList();
+                //Set valores
+                SetPendenciaFalse();
+                //Buscar pendências referente aos códigos: 21; 12;14;24
+                Pendencia21 = pendencia.Any(n => n.CodPendencia == 21 & n.Ativo);
+                Pendencia22 = pendencia.Any(n => n.CodPendencia == 22 & n.Ativo);
+                Pendencia19 = pendencia.Any(n => n.CodPendencia == 19 & n.Ativo);
+                Pendencia24 = pendencia.Any(n => n.CodPendencia == 24 & n.Ativo);
+                Pendencia25 = pendencia.Any(n => n.CodPendencia == 25 & n.Ativo);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         private void SetPendenciaFalse()
@@ -284,13 +323,20 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         public void AtualizarDadosTiposServico()
         {
-            if (Entity == null) return;
+            try
+            {
+                if (Entity == null) return;
 
-            TiposEquipamentoServico.Clear();
-            var id = Entity.EquipamentoVeiculoId;
-            var list = _service.Equipamento.ListarEquipamentoVeiculoTipoServicoView (id).ToList();
-            var list2 = Mapper.Map<List<EquipamentoVeiculoTipoServicoView>> (list);
-            list2.ForEach (n => TiposEquipamentoServico.Add (n));
+                TiposEquipamentoServico.Clear();
+                var id = Entity.EquipamentoVeiculoId;
+                var list = _service.Equipamento.ListarEquipamentoVeiculoTipoServicoView(id).ToList();
+                var list2 = Mapper.Map<List<EquipamentoVeiculoTipoServicoView>>(list);
+                list2.ForEach(n => TiposEquipamentoServico.Add(n));
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         #endregion
@@ -328,17 +374,25 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             catch (Exception ex)
             {
                 Utils.TraceException (ex);
+                throw ex;
             }
         }
 
         private void PrepareCriar()
         {
-            Entity = new VeiculoView();
-            Entity.Tipo = "EQUIPAMENTO";
-            Comportamento.PrepareCriar();
-            TiposEquipamentoServico.Clear();
-            HabilitaControle (false, false);
-            SetPendenciaFalse();
+            try
+            {
+                Entity = new VeiculoView();
+                Entity.Tipo = "EQUIPAMENTO";
+                Comportamento.PrepareCriar();
+                TiposEquipamentoServico.Clear();
+                HabilitaControle(false, false);
+                SetPendenciaFalse();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -458,7 +512,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
+                if (EntityObserver != null)
+                    EntityObserver.Clear();
+
+                WpfHelp.PopupBox(ex.Message, 1);
+                Utils.TraceException(ex);
+                //throw ex;
             }
         }
 
@@ -466,44 +525,77 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
+                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
                 var list2 = Mapper.Map<List<VeiculoView>> (list.OrderByDescending (n => n.EquipamentoVeiculoId).ToList());
                 EntityObserver = new ObservableCollection<VeiculoView>();
                 list2.ForEach (n => { EntityObserver.Add (n); });
                 //Havendo registros, selecione o primeiro
                 if (EntityObserver.Any()) SelectListViewIndex = 0;
+                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.IBeam;
             }
-
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
+                if (EntityObserver != null)
+                    EntityObserver.Clear();
+
+                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.IBeam;
+
+                Utils.TraceException(ex);
+                throw ex;
             }
         }
 
         private void PrepareSalvar()
         {
-            if (Validar()) return;
-            Comportamento.PrepareSalvar();
+            try
+            {
+                if (Validar()) return;
+                Comportamento.PrepareSalvar();
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex.Message, 1);
+            }
+           
         }
 
         private void PrepareAlterar()
         {
-            if (Entity == null)
+            try
             {
-                WpfHelp.PopupBox ("Selecione um item da lista", 1);
-                return;
+                if (Entity == null)
+                {
+                    WpfHelp.PopupBox("Selecione um item da lista", 1);
+                    return;
+                }
+                Entity.Tipo = "EQUIPAMENTO";
+                Comportamento.PrepareAlterar();
+                AtualizarDadosTiposServico();
+                HabilitaControle(false, false);
             }
-            Entity.Tipo = "EQUIPAMENTO";
-            Comportamento.PrepareAlterar();
-            AtualizarDadosTiposServico();
-            HabilitaControle (false, false);
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex.Message, 1);
+                //throw ex;
+            }
+
         }
 
         private void PrepareRemover()
         {
-            if (Entity == null) return;
+            try
+            {
+                if (Entity == null) return;
 
-            Comportamento.PrepareRemover();
-            HabilitaControle (true, true);
+                Comportamento.PrepareRemover();
+                HabilitaControle(true, true);
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex.Message, 1);
+                //throw ex;
+            }
+
         }
 
         private void OnSalvarAdicao(object sender, RoutedEventArgs e)
@@ -531,16 +623,23 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         private void SalvarTipoServico(int veiculoId)
         {
-            //Remover
-            _service.Equipamento.RemoverPorVeiculo (veiculoId);
-            //Adicionar
-            var lst = TiposEquipamentoServico.ToList();
-            lst.ForEach (n =>
+            try
             {
-                var n1 = Mapper.Map<EquipamentoVeiculoTipoServico> (n);
-                n1.EquipamentoVeiculoId = veiculoId;
-                _service.Equipamento.Criar (n1);
-            });
+                //Remover
+                _service.Equipamento.RemoverPorVeiculo(veiculoId);
+                //Adicionar
+                var lst = TiposEquipamentoServico.ToList();
+                lst.ForEach(n =>
+                {
+                    var n1 = Mapper.Map<EquipamentoVeiculoTipoServico>(n);
+                    n1.EquipamentoVeiculoId = veiculoId;
+                    _service.Equipamento.Criar(n1);
+                });
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         private void OnSalvarEdicao(object sender, RoutedEventArgs e)
@@ -577,7 +676,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             catch (Exception ex)
             {
                 Utils.TraceException (ex);
-                WpfHelp.MboxError ("Não foi realizar a operação solicitada", ex);
+                //WpfHelp.MboxError ("Não foi realizar a operação solicitada", ex);
+                throw ex;
             }
         }
 
@@ -599,7 +699,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             catch (Exception ex)
             {
                 Utils.TraceException (ex);
-                WpfHelp.MboxError ("Não foi realizar a operação solicitada", ex);
+                //WpfHelp.MboxError ("Não foi realizar a operação solicitada", ex);
+                throw ex;
             }
         }
 
@@ -609,12 +710,19 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <returns></returns>
         public bool Validar()
         {
-            if (Entity == null) return true;
-            Entity.Validate();
-            var hasErros = Entity.HasErrors;
-            if (hasErros) return true;         
+            try
+            {
+                if (Entity == null) return true;
+                Entity.Validate();
+                var hasErros = Entity.HasErrors;
+                if (hasErros) return true;
 
-            return Entity.HasErrors;
+                return Entity.HasErrors;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         #endregion

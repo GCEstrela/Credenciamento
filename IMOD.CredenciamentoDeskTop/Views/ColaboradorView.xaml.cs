@@ -37,9 +37,16 @@ namespace IMOD.CredenciamentoDeskTop.Views
         public string _importarBNT = "Hidden";
         public ColaboradorView()
         {
-            InitializeComponent();
-            _viewModel = new ColaboradorViewModel();
-            DataContext = _viewModel;
+            try
+            {
+                InitializeComponent();
+                _viewModel = new ColaboradorViewModel();
+                DataContext = _viewModel;
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex.Message, 1);
+            }
         }
 
         #region  Metodos

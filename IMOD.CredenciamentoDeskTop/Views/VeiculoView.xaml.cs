@@ -34,9 +34,16 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         public VeiculoView()
         {
-            InitializeComponent();
-           _viewModel = new VeiculoViewModel();
-            DataContext = _viewModel;
+            try
+            {
+                InitializeComponent();
+                _viewModel = new VeiculoViewModel();
+                DataContext = _viewModel;
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex.Message, 1);
+            }
         }
 
         #region  Metodos

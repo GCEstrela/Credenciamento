@@ -283,12 +283,12 @@ namespace IMOD.Infra.Repositorios
             {
                 if (ex.Number == 2601)
                     throw new InvalidOperationException("CNPJ já existente.");
-                throw;
+                throw ex;
             }
             catch (Exception ex)
             {
                 Utils.TraceException(ex);
-                throw;
+                throw ex;
             }
         }
 

@@ -64,6 +64,10 @@ namespace IMOD.CredenciamentoDeskTop
             SubscribeToWorkspaceEvents();
            
         }
+        public void fecharAPP()
+        {
+            
+        }
         private void _sdk_EntityInvalidated(object sender, EntityInvalidatedEventArgs e)
         {
             Entity entity = Engine.GetEntity(e.EntityGuid);

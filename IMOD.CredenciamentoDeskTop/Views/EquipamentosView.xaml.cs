@@ -34,9 +34,16 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         public EquipamentosView()
         {
-            InitializeComponent(); 
-           _viewModel = new EquipamentosViewModel(); 
-            DataContext = _viewModel; 
+            try
+            {
+                InitializeComponent();
+                _viewModel = new EquipamentosViewModel();
+                DataContext = _viewModel;
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex.Message, 1);
+            }
         }
 
         #region  Metodos

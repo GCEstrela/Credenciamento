@@ -186,8 +186,9 @@ namespace IMOD.CredenciamentoDeskTop.Helpers
 
         public static bool PopupBox(Exception ex)
         {
-            var msg = $"Não foi possível executar a operação solicitada.\n{ex.Message}";
-            return PopupBox (msg, 3);
+            //var msg = $"Não foi possível executar a operação solicitada.\n{ex.Message}";
+            //return PopupBox (msg, 3);
+            return PopupBox(ex.Message, 3);
         }
 
         /// <summary>

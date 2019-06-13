@@ -179,7 +179,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             catch (Exception ex)
             {
                 System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.IBeam;
-                WpfHelp.PopupBox(ex.Message, 1);
+                throw ex;
                 Utils.TraceException(ex);
             }            
         }
@@ -246,7 +246,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
             catch (Exception ex)
             {
-                WpfHelp.PopupBox(ex.Message, 1);
+                throw ex;
             }
         }
 
@@ -298,9 +298,13 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
             catch (Exception ex)
             {
+                if (EntityObserver != null)
+                    EntityObserver.Clear();
+
                 System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.IBeam;
-                WpfHelp.PopupBox(ex.Message, 1);
+                
                 Utils.TraceException (ex);
+                throw ex;
             }
         }
         public void carregaFoto(ImageSource minhaFoto)
@@ -371,8 +375,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }             
             catch (Exception ex)
             {
-                WpfHelp.PopupBox(ex.Message, 1);
+                if (EntityObserver != null)
+                    EntityObserver.Clear();
+
+                WpfHelp.PopupBox(ex.Message, 1);                
                 Utils.TraceException (ex);
+                //throw ex;
             }
         }
          
@@ -389,7 +397,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             catch (Exception ex)
             {
                 Utils.TraceException(ex);
-                WpfHelp.PopupBox(ex);
+                throw ex;
             }
         }
         public void ListarDadosAuxiliares()
@@ -573,7 +581,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             catch (Exception ex)
             {
                 Utils.TraceException (ex);
-                WpfHelp.PopupBox(ex);
+                throw ex;
             }
         }
 
@@ -598,7 +606,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             catch (Exception ex)
             {
                 Utils.TraceException(ex);
-                WpfHelp.PopupBox(ex);
+                throw ex;
             }
         }
         /// <summary>
@@ -620,8 +628,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
             catch (Exception ex)
             {
-                WpfHelp.PopupBox(ex);
-                throw ex;
+                WpfHelp.PopupBox(ex.Message, 1);
+                //throw ex;
             }
             
         }
@@ -657,8 +665,15 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         private void PrepareSalvar()
         {
-            if (Validar()) return;
-            Comportamento.PrepareSalvar();
+            try
+            {
+                if (Validar()) return;
+                Comportamento.PrepareSalvar();
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex.Message, 1);
+            }            
         }
          
         private List<ColaboradorView> _entityObserverCloned = new List<ColaboradorView>();
@@ -681,7 +696,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
             catch (Exception ex)
             {
-                throw ex;
+                WpfHelp.PopupBox(ex.Message, 1);
+                //throw ex;
             }
             
         }
@@ -715,9 +731,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
             catch (Exception ex)
             {
-                throw ex;
+                WpfHelp.PopupBox(ex.Message, 1);
+                //throw ex;
             }
-            
+
         }
 
         private void OnSalvarAdicao(object sender, RoutedEventArgs e)
@@ -777,7 +794,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 Utils.TraceException (ex);
                 // WpfHelp.MboxError ("Não foi realizar a operação solicitada", ex);
-                WpfHelp.PopupBox(ex);
+                throw ex;
             }
         }
 
@@ -805,7 +822,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 Utils.TraceException (ex);
                 //WpfHelp.MboxError ("Não foi realizar a operação solicitada", ex);
-                WpfHelp.PopupBox(ex);
+                throw ex;
             }
         }
         /// <summary>
@@ -824,7 +841,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
             catch (Exception ex)
             {
-                WpfHelp.PopupBox(ex);
+                throw ex;
                 return null;
             }
             
