@@ -92,6 +92,9 @@ namespace IMOD.CredenciamentoDeskTop.Views
             }
             catch (Exception ex)
             {
+                if (_viewModel.EntityObserver !=null)
+                    _viewModel.EntityObserver.Clear();
+
                 WpfHelp.PopupBox(ex.Message, 1);
             }
         }

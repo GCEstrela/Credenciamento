@@ -89,10 +89,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <summary>
         ///     Indice da tabela de controle selecionada
         /// </summary>
-        public bool IsEnableTabGeral{ get; set; } 
-        public bool IsEnableTabRepresentantes { get; set; } 
-        public bool IsEnableTabContratos { get; set; } 
-        public bool IsEnableTabAnexo { get; set; } 
+        public bool IsEnableTabGeral { get; set; }
+        public bool IsEnableTabRepresentantes { get; set; }
+        public bool IsEnableTabContratos { get; set; }
+        public bool IsEnableTabAnexo { get; set; }
 
         public bool HabilitaCommandPincipal { get; set; } = true;
 
@@ -185,7 +185,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.IBeam;
                 Utils.TraceException(ex);
                 throw ex;
-                
+
             }
         }
 
@@ -505,8 +505,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
             catch (Exception ex)
             {
-                //throw ex;
-                return false;
+                throw ex;
+                //return false;
             }
         }
 
@@ -524,7 +524,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                if (string.IsNullOrWhiteSpace (uf)) return;
+                if (string.IsNullOrWhiteSpace(uf)) return;
 
                 if (Municipios == null) Municipios = new List<Municipio>();
 
@@ -533,28 +533,28 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (Estado == null) return;
 
                 //Verificar se há municipios já carregados...
-                var l1 = _municipios.Where (n => n.Uf == uf);
+                var l1 = _municipios.Where(n => n.Uf == uf);
                 Municipios.Clear();
                 //Nao havendo municipios... obter do repositorio
                 if (!l1.Any())
                 {
-                    var l2 = _auxiliaresService.MunicipioService.Listar (null, uf);
-                    _municipios.AddRange (Mapper.Map<List<Municipio>> (l2));
+                    var l2 = _auxiliaresService.MunicipioService.Listar(null, uf);
+                    _municipios.AddRange(Mapper.Map<List<Municipio>>(l2));
                 }
 
-                var municipios = _municipios.Where (n => n.Uf == uf).ToList();
+                var municipios = _municipios.Where(n => n.Uf == uf).ToList();
                 Municipios = municipios;
             }
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
+                Utils.TraceException(ex);
             }
         }
 
         /// <summary>
         ///     Novo
         /// </summary>
-        public ICommand PrepareCriarCommand => new CommandBase (PrepareCriar, true);
+        public ICommand PrepareCriarCommand => new CommandBase(PrepareCriar, true);
 
         private void PrepareCriar()
         {
@@ -576,6 +576,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
             catch (Exception ex)
             {
+                if (EntityObserver != null)
+                    EntityObserver.Clear();
+
                 WpfHelp.PopupBox(ex.Message, 1);
                 //throw ex;
             }
@@ -584,27 +587,27 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <summary>
         ///     Editar
         /// </summary>
-        public ICommand PrepareAlterarCommand => new CommandBase (PrepareAlterar, true);
+        public ICommand PrepareAlterarCommand => new CommandBase(PrepareAlterar, true);
 
         /// <summary>
         ///     Cancelar
         /// </summary>
-        public ICommand PrepareCancelarCommand => new CommandBase (Comportamento.PrepareCancelar, true);
+        public ICommand PrepareCancelarCommand => new CommandBase(Comportamento.PrepareCancelar, true);
 
         /// <summary>
         ///     Novo
         /// </summary>
-        public ICommand PrepareSalvarCommand => new CommandBase (PrepareSalvar, true);
+        public ICommand PrepareSalvarCommand => new CommandBase(PrepareSalvar, true);
 
         /// <summary>
         ///     Remover
         /// </summary>
-        public ICommand PrepareRemoverCommand => new CommandBase (PrepareRemover, true);
+        public ICommand PrepareRemoverCommand => new CommandBase(PrepareRemover, true);
 
         /// <summary>
         ///     Pesquisar
         /// </summary>
-        public ICommand PesquisarCommand => new CommandBase (Pesquisar, true);
+        public ICommand PesquisarCommand => new CommandBase(Pesquisar, true);
 
         #endregion
 
@@ -613,41 +616,41 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private void Pesquisar()
         {
             try
-            { 
+            {
                 var pesquisa = NomePesquisa;
                 var num = PesquisarPor;
 
                 //Por CNPJ
                 if (num.Key == 1)
                 {
-                    if (string.IsNullOrWhiteSpace (pesquisa)) return;
-                    var l1 = _service.Listar (null, null, pesquisa);
-                    PopularObserver (l1);
+                    if (string.IsNullOrWhiteSpace(pesquisa)) return;
+                    var l1 = _service.Listar(null, null, pesquisa);
+                    PopularObserver(l1);
                 }
 
                 //Por Razão Social
                 if (num.Key == 2)
                 {
-                    if (string.IsNullOrWhiteSpace (pesquisa)) return;
-                    var l1 = _service.Listar ($"%{pesquisa}%", null, null);
-                    PopularObserver (l1);
+                    if (string.IsNullOrWhiteSpace(pesquisa)) return;
+                    var l1 = _service.Listar($"%{pesquisa}%", null, null);
+                    PopularObserver(l1);
                 }
 
                 //Por código
                 if (num.Key == 3)
                 {
-                    if (string.IsNullOrWhiteSpace (pesquisa)) return;
+                    if (string.IsNullOrWhiteSpace(pesquisa)) return;
 
                     var cod = 0;
-                    int.TryParse (pesquisa, out cod);
-                    var n1 = _service.BuscarPelaChave (cod);
+                    int.TryParse(pesquisa, out cod);
+                    var n1 = _service.BuscarPelaChave(cod);
                     if (n1 == null) return;
 
                     EntityObserver.Clear();
-                    var n2 = Mapper.Map<EmpresaView> (n1);
-                   
+                    var n2 = Mapper.Map<EmpresaView>(n1);
+
                     var observer = new ObservableCollection<EmpresaView>();
-                    observer.Add (n2);
+                    observer.Add(n2);
                     EntityObserver = observer;
                 }
 
@@ -663,7 +666,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (num.Key == 5)
                 {
                     var l1 = _service.Listar();
-                    PopularObserver (l1);
+                    PopularObserver(l1);
                 }
 
                 IsEnableLstView = true;
@@ -673,7 +676,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (EntityObserver != null)
                     EntityObserver.Clear();
 
-                    throw ex;
+                throw ex;
             }
             catch (Exception ex)
             {
@@ -691,10 +694,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
                 //var contrato = _serviceContratos.Listar().OrderByDescending(ec => ec.PraVencer).GroupBy(ec => ec.EmpresaId).ToList();
 
-                var list2 = Mapper.Map<List<EmpresaView>> (list.OrderBy(n => n.Nome));
-                
-                EntityObserver = new ObservableCollection<EmpresaView>();               
-                list2.ForEach (n => { EntityObserver.Add (n); });
+                var list2 = Mapper.Map<List<EmpresaView>>(list.OrderBy(n => n.Nome));
+
+                EntityObserver = new ObservableCollection<EmpresaView>();
+                list2.ForEach(n => { EntityObserver.Add(n); });
                 //Havendo registros, selecione o primeiro
                 //if (EntityObserver.Any()) SelectListViewIndex = 0;
                 System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.IBeam;
@@ -702,8 +705,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             catch (Exception ex)
             {
                 System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.IBeam;
-                throw ex;
                 Utils.TraceException(ex);
+                throw ex;
             }
         }
 
@@ -718,6 +721,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
             catch (Exception ex)
             {
+                if (EntityObserver != null)
+                    EntityObserver.Clear();
+
+                Comportamento.PrepareSalvar();
+                //Comportamento.PrepareCancelar();
                 WpfHelp.PopupBox(ex.Message, 1);
                 //throw ex;
             }
@@ -743,6 +751,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
             catch (Exception ex)
             {
+                if (EntityObserver != null)
+                    EntityObserver.Clear();
+
                 WpfHelp.PopupBox(ex.Message, 1);
                 //throw ex;
             }
@@ -761,6 +772,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
             catch (Exception ex)
             {
+                if (EntityObserver != null)
+                    EntityObserver.Clear();
+
                 WpfHelp.PopupBox(ex.Message, 1);
                 //throw ex;
             }
@@ -773,25 +787,25 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (Entity == null) return;
                 if (Validar()) return;
 
-                var n1 = Mapper.Map<Empresa> (Entity);
-                var status = _auxiliaresService.StatusService.Listar().FirstOrDefault (n => n.CodigoStatus);
+                var n1 = Mapper.Map<Empresa>(Entity);
+                var status = _auxiliaresService.StatusService.Listar().FirstOrDefault(n => n.CodigoStatus);
 
                 _service.CriarContrato(n1, DateTime.Now.Date, "0", status, _configuraSistema);
 
                 //Salvar Tipo de Atividades
-                SalvarTipoAtividades (n1.EmpresaId);
+                SalvarTipoAtividades(n1.EmpresaId);
                 //Salvar Tipo Cracha
-                SalvarTipoCracha (n1.EmpresaId);
+                SalvarTipoCracha(n1.EmpresaId);
                 //Adicionar no inicio da lista um item a coleção
-                var n2 = Mapper.Map<EmpresaView> (n1);
-                EntityObserver.Insert (0, n2);
-                HabilitaControle (true, true);
+                var n2 = Mapper.Map<EmpresaView>(n1);
+                EntityObserver.Insert(0, n2);
+                HabilitaControle(true, true);
                 SelectListViewIndex = 0;
             }
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
-                WpfHelp.PopupBox (ex);
+                Utils.TraceException(ex);
+                WpfHelp.PopupBox(ex);
             }
         }
 
@@ -844,17 +858,17 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (Entity == null) return;
                 if (Validar()) return;
 
-                var n1 = Mapper.Map<Empresa> (Entity);
-                _service.Alterar (n1);
+                var n1 = Mapper.Map<Empresa>(Entity);
+                _service.Alterar(n1);
                 //Salvar Tipo de Atividades
-                SalvarTipoAtividades (n1.EmpresaId);
+                SalvarTipoAtividades(n1.EmpresaId);
                 //Salvar Tipo Cracha
-                SalvarTipoCracha (n1.EmpresaId);
-                HabilitaControle (true, true);
+                SalvarTipoCracha(n1.EmpresaId);
+                HabilitaControle(true, true);
             }
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
+                Utils.TraceException(ex);
                 WpfHelp.PopupBox(ex.Message, 1);
             }
         }
@@ -895,7 +909,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (Entity != null) Entity.ClearMessageErro();
                 TiposAtividades.Clear();
                 TiposLayoutCracha.Clear();
-                HabilitaControle (true, true);
+                HabilitaControle(true, true);
                 Entity = null;
 
                 EntityObserver.Clear();
@@ -903,7 +917,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
+                Utils.TraceException(ex);
                 //WpfHelp.MboxError ("Não foi realizar a operação solicitada", ex);
                 throw ex;
             }
@@ -934,15 +948,15 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var result = WpfHelp.MboxDialogRemove();
                 if (result != DialogResult.Yes) return;
 
-                var n1 = Mapper.Map<Empresa> (Entity);
-                _service.Remover (n1);
+                var n1 = Mapper.Map<Empresa>(Entity);
+                _service.Remover(n1);
                 //Retirar empresa da coleção
-                EntityObserver.Remove (Entity);
-                HabilitaControle (true, true);
+                EntityObserver.Remove(Entity);
+                HabilitaControle(true, true);
             }
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
+                Utils.TraceException(ex);
                 // WpfHelp.MboxError ("Não foi realizar a operação solicitada", ex);
                 throw ex;
             }
