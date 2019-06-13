@@ -9,6 +9,7 @@ using IMOD.Domain.Entities;
 using IMOD.Application.Service;
 using IMOD.PreCredenciamentoWeb.Util;
 using IMOD.Application.Interfaces;
+using System.IO;
 
 namespace IMOD.PreCredenciamentoWeb.Controllers
 {
@@ -23,6 +24,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         private readonly ICursoService objCursosService = new CursoService();
         private readonly IColaboradorCursoService objColaboradorCursosService = new ColaboradorCursosService();
         private readonly IMunicipioService objMunicipioSevice = new MunicipioService();
+        private readonly IMOD.Application.Interfaces.IColaboradorAnexoService objColaboradorAnexoService = new IMOD.Application.Service.ColaboradorAnexoService();
         private const string SESS_CONTRATOS_SELECIONADOS = "ContratosSelecionados";
         private const string SESS_CONTRATOS_REMOVIDOS = "ContratosRemovidos";
         private const string SESS_CURSOS_SELECIONADOS = "CursosSelecionados";
@@ -145,6 +147,13 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             try
             {
                 if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
+
+                if (model.FileUpload.ContentLength > 2048000)
+                    ModelState.AddModelError("FileUpload", "Tamanho permitido de arquivo 2,00 MB");
+
+                if (!Path.GetExtension(model.FileUpload.FileName).Equals(".pdf"))
+                    ModelState.AddModelError("FileUpload", "Permitida Somente Extensão  .pdf");
+
                 if (ModelState.IsValid)
                 {
                     var colaboradorMapeado = Mapper.Map<Colaborador>(model);
@@ -208,6 +217,9 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                         }
 
                     }
+
+                    CriarColaboradorAnexo(model, colaboradorMapeado.ColaboradorId); 
+
                     return RedirectToAction("Index", "Colaborador");
                 }
 
@@ -497,7 +509,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         }
 
 
-        #region Métodos internos carregar componentes
+        #region Métodos internos / carregar componentes
 
         private void PopularEstadosDropDownList()
         {
@@ -566,7 +578,37 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             ViewBag.Cursos = new MultiSelectList(cursos, "CursoId", "Descricao");
         }
 
-        
+        private void CriarColaboradorAnexo(ColaboradorViewModel colaborador, int colaboradorId = 0)
+        {
+            byte[] bufferArquivo;
+            string NomeArquivo;
+            string ExtensaoArquivo;
+
+            if (colaborador == null || colaboradorId == 0) return;
+            if (colaborador.FileUpload.ContentLength <= 0 || colaborador.FileUpload.ContentLength > 2048000) return;
+
+            NomeArquivo = Path.GetFileNameWithoutExtension(colaborador.FileUpload.FileName);
+            ExtensaoArquivo = Path.GetExtension(colaborador.FileUpload.FileName);
+
+            if (ExtensaoArquivo.Equals(".pdf")) return;
+
+            var arquivoStream = colaborador.FileUpload.InputStream;
+            using (MemoryStream ms = new MemoryStream())
+            {
+                arquivoStream.CopyTo(ms);
+                bufferArquivo = ms.ToArray();
+            }
+
+            var arquivoBase64 = Convert.ToBase64String(bufferArquivo);
+
+            ColaboradorAnexo colaboradorAnexo = new ColaboradorAnexo();
+            colaboradorAnexo.ColaboradorId = colaboradorId;
+            colaboradorAnexo.Arquivo = arquivoBase64;
+            colaboradorAnexo.NomeArquivo = NomeArquivo + ExtensaoArquivo;
+            colaboradorAnexo.Descricao = NomeArquivo + ExtensaoArquivo;
+            objColaboradorAnexoService.Criar(colaboradorAnexo); 
+
+        }
 
         #endregion
     }

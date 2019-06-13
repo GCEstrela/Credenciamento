@@ -4,6 +4,7 @@ using IMOD.PreCredenciamentoWeb.Models;
 using IMOD.PreCredenciamentoWeb.Util;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -18,7 +19,8 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         private readonly IMOD.Application.Interfaces.IDadosAuxiliaresFacade objAuxiliaresService = new IMOD.Application.Service.DadosAuxiliaresFacadeService();
         private readonly IMOD.Application.Interfaces.IEmpresaContratosService objContratosService = new IMOD.Application.Service.EmpresaContratoService();
         private readonly IMOD.Application.Interfaces.IVeiculoEmpresaService objVeiculoEmpresaService = new IMOD.Application.Service.VeiculoEmpresaService();
-        private readonly IMOD.Application.Interfaces.IVeiculoCredencialService objVeiculoCredencialService = new IMOD.Application.Service.VeiculoCredencialService();
+        private readonly IMOD.Application.Interfaces.IVeiculoAnexoService objVeiculoAnexoService = new IMOD.Application.Service.VeiculoAnexoService();
+
         private List<Veiculo> veiculos = new List<Veiculo>();
         private List<VeiculoEmpresa> vinculos = new List<VeiculoEmpresa>();
 
@@ -70,15 +72,25 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
             try 
             {
+
+                if (model.FileUpload.ContentLength > 2048000)
+                    ModelState.AddModelError("FileUpload", "Tamanho permitido de arquivo 2,00 MB");
+
+                if (!Path.GetExtension(model.FileUpload.FileName).Equals(".pdf"))
+                    ModelState.AddModelError("FileUpload", "Permitida Somente Extensão  .pdf");
+
+
                 if (ModelState.IsValid)
                 {
-                    var veiculoMapeado = Mapper.Map<Veiculo>(model);
+                    var veiculoMapeado = Mapper.Map<Veiculo>(model); 
                     objService.Criar(veiculoMapeado);
 
-                    var veiculoEmpresa = Mapper.Map<VeiculoEmpresa>(model);
-                    objVeiculoEmpresaService.Criar(veiculoEmpresa);
+                    var veiculoEmpresa = Mapper.Map<VeiculoEmpresa>(model); 
+                     objVeiculoEmpresaService.Criar(veiculoEmpresa);
 
-                    return RedirectToAction("Index", "Veiculo");
+                    CriarVeiculoAnexo(model, veiculoMapeado.EquipamentoVeiculoId); 
+
+                    return RedirectToAction("Index", "Veiculo"); 
                 }
 
                 // Se ocorrer um erro retorna para pagina 
@@ -256,7 +268,40 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
             ViewBag.ContratoEmpresa = new MultiSelectList(contratoEmpresa, "EmpresaContratoId", "Descricao", resultEmpresasContratosVinculados.Select(m => m.EmpresaContratoId).ToArray());
         }
-         
+        
+        private void CriarVeiculoAnexo(VeiculoViewModel veiculo, int veiculoId = 0)
+        {
+            byte[] bufferArquivo;
+            string NomeArquivo;
+            string ExtensaoArquivo;
+
+            if (veiculo == null || veiculoId == 0) return;
+            if (veiculo.FileUpload.ContentLength <= 0 || veiculo.FileUpload.ContentLength >2048000) return;
+
+            NomeArquivo = Path.GetFileNameWithoutExtension(veiculo.FileUpload.FileName);
+            ExtensaoArquivo = Path.GetExtension(veiculo.FileUpload.FileName);
+
+            if (ExtensaoArquivo.Equals(".pdf")) return;
+
+            var arquivoStream = veiculo.FileUpload.InputStream;
+            using (MemoryStream ms = new MemoryStream())
+            {
+                arquivoStream.CopyTo(ms);
+                bufferArquivo = ms.ToArray();
+            }
+
+            var arquivoBase64 = Convert.ToBase64String(bufferArquivo);
+
+            VeiculoAnexo veiculoAnexo = new VeiculoAnexo();
+            veiculoAnexo.VeiculoId = veiculoId; 
+            veiculoAnexo.Arquivo = arquivoBase64; 
+            veiculoAnexo.NomeArquivo = NomeArquivo + ExtensaoArquivo;
+            veiculoAnexo.Descricao = NomeArquivo + ExtensaoArquivo;
+            objVeiculoAnexoService.Criar(veiculoAnexo);
+
+        }
+
+
         #endregion
     }
 }

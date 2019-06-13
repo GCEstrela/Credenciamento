@@ -62,6 +62,9 @@ namespace IMOD.PreCredenciamentoWeb.Models
         public int[] idTipoServicoVinculados { get; set; }
         public MultiSelectList EmpresasContrato { get; set; }
 
+        public string CaminhoArquivo { get; set; }
 
+        [Display(Name = "Documento Anexo")] 
+        public HttpPostedFileBase FileUpload { get; set; } 
     }
 }
