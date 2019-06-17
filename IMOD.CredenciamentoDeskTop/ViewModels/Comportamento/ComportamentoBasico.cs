@@ -178,7 +178,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels.Comportamento
             }
             catch (System.Exception ex)
             {
-                throw ex;
+                //throw ex;
             }
         }
         protected virtual void OnSalvarAdicao(RoutedEventArgs e)
@@ -189,7 +189,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels.Comportamento
             }
             catch (System.Exception ex)
             {
-                throw ex;
+                //throw ex;
             }
         }
 
@@ -201,7 +201,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels.Comportamento
             }
             catch (System.Exception ex)
             {
-                throw ex;
+                //throw ex;
             }
         }
 
@@ -213,7 +213,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels.Comportamento
             }
             catch (System.Exception ex)
             {
-                throw ex;
+                //throw ex;
             }
         }
 

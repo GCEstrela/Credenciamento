@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Windows;
 using System.Windows.Forms;
@@ -403,10 +404,20 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 HabilitaControle(false, false);
                 SetPendenciaFalse();
             }
+            catch (SqlException)
+            {
+                if (EntityObserver != null)
+                    EntityObserver.Clear();
+
+
+                Exception exs = new Exception($"Ocorreu uma falha ao conectar com o banco de dados.");
+                WpfHelp.PopupBox(exs.Message, 1);
+            }
             catch (Exception ex)
             {
+
                 WpfHelp.PopupBox(ex.Message, 1);
-                //throw ex;
+                Utils.TraceException(ex);
             }
         }
 
@@ -525,13 +536,20 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 IsEnableLstView = true;
             }
-            catch (Exception ex)
+            catch (SqlException)
             {
                 if (EntityObserver != null)
                     EntityObserver.Clear();
 
+
+                Exception exs = new Exception($"Ocorreu uma falha ao conectar com o banco de dados.");
+                WpfHelp.PopupBox(exs.Message, 1);
+            }
+            catch (Exception ex)
+            {
+
                 WpfHelp.PopupBox(ex.Message, 1);
-                Utils.TraceException (ex);
+                Utils.TraceException(ex);
             }
         }
 
@@ -548,13 +566,20 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.IBeam;
             }
 
-            catch (Exception ex)
+            catch (SqlException)
             {
                 if (EntityObserver != null)
                     EntityObserver.Clear();
-                
-                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.IBeam;
-                Utils.TraceException (ex);
+
+
+                Exception exs = new Exception($"Ocorreu uma falha ao conectar com o banco de dados.");
+                WpfHelp.PopupBox(exs.Message, 1);
+            }
+            catch (Exception ex)
+            {
+
+                WpfHelp.PopupBox(ex.Message, 1);
+                Utils.TraceException(ex);
             }
         }
 
@@ -565,11 +590,20 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (Validar()) return;
                 Comportamento.PrepareSalvar();
             }
+            catch (SqlException)
+            {
+                if (EntityObserver != null)
+                    EntityObserver.Clear();
+
+
+                Exception exs = new Exception($"Ocorreu uma falha ao conectar com o banco de dados.");
+                WpfHelp.PopupBox(exs.Message, 1);
+            }
             catch (Exception ex)
             {
 
                 WpfHelp.PopupBox(ex.Message, 1);
-                //throw ex;
+                Utils.TraceException(ex);
             }
         }
 
@@ -587,10 +621,20 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 AtualizarDadosTiposServico();
                 HabilitaControle(false, false);
             }
+            catch (SqlException)
+            {
+                if (EntityObserver != null)
+                    EntityObserver.Clear();
+
+
+                Exception exs = new Exception($"Ocorreu uma falha ao conectar com o banco de dados.");
+                WpfHelp.PopupBox(exs.Message, 1);
+            }
             catch (Exception ex)
             {
+
                 WpfHelp.PopupBox(ex.Message, 1);
-                //throw ex;
+                Utils.TraceException(ex);
             }
         }
 
@@ -619,10 +663,20 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 HabilitaControle (true, true);
                 SelectListViewIndex = 0;
             }
+            catch (SqlException)
+            {
+                if (EntityObserver != null)
+                    EntityObserver.Clear();
+
+
+                Exception exs = new Exception($"Ocorreu uma falha ao conectar com o banco de dados.");
+                WpfHelp.PopupBox(exs.Message, 1);
+            }
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
-                WpfHelp.PopupBox (ex);
+
+                WpfHelp.PopupBox(ex.Message, 1);
+                Utils.TraceException(ex);
             }
         }
 
@@ -660,10 +714,20 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 SalvarTipoServico (n1.EquipamentoVeiculoId);
                 HabilitaControle (true, true);
             }
+            catch (SqlException)
+            {
+                if (EntityObserver != null)
+                    EntityObserver.Clear();
+
+
+                Exception exs = new Exception($"Ocorreu uma falha ao conectar com o banco de dados.");
+                WpfHelp.PopupBox(exs.Message, 1);
+            }
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
-                WpfHelp.PopupBox (ex);
+
+                WpfHelp.PopupBox(ex.Message, 1);
+                Utils.TraceException(ex);
             }
         }
 
@@ -700,10 +764,20 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 EntityObserver.Remove (Entity);
                 HabilitaControle (true, true);
             }
+            catch (SqlException)
+            {
+                if (EntityObserver != null)
+                    EntityObserver.Clear();
+
+
+                Exception exs = new Exception($"Ocorreu uma falha ao conectar com o banco de dados.");
+                WpfHelp.PopupBox(exs.Message, 1);
+            }
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
-                WpfHelp.MboxError ("Não foi realizar a operação solicitada", ex);
+
+                WpfHelp.PopupBox(ex.Message, 1);
+                Utils.TraceException(ex);
             }
         }
 

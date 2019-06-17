@@ -8,6 +8,7 @@
 #region
 
 using System;
+using System.Data.SqlClient;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
@@ -40,9 +41,20 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 _viewModel = new VeiculoViewModel();
                 DataContext = _viewModel;
             }
+            catch (SqlException)
+            {
+                if (_viewModel.EntityObserver != null)
+                    _viewModel.EntityObserver.Clear();
+
+
+                Exception exs = new Exception($"Ocorreu uma falha ao conectar com o banco de dados.");
+                WpfHelp.PopupBox(exs.Message, 1);
+            }
             catch (Exception ex)
             {
+
                 WpfHelp.PopupBox(ex.Message, 1);
+                Utils.TraceException(ex);
             }
         }
 
@@ -75,9 +87,20 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 /////////////////////////////////////////////////////////////
                 //_viewModel.IsEnableTabItem = true;
             }
+            catch (SqlException)
+            {
+                if (_viewModel.EntityObserver != null)
+                    _viewModel.EntityObserver.Clear();
+
+
+                Exception exs = new Exception($"Ocorreu uma falha ao conectar com o banco de dados.");
+                WpfHelp.PopupBox(exs.Message, 1);
+            }
             catch (Exception ex)
             {
+
                 WpfHelp.PopupBox(ex.Message, 1);
+                Utils.TraceException(ex);
             }
         }
 

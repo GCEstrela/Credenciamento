@@ -36,17 +36,20 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 _viewModel = new EmpresaViewModel();
                 DataContext = _viewModel;
             }
+            catch (SqlException)
+            {
+                //if (EntityObserver != null)
+                //    EntityObserver.Clear();
+
+                //Comportamento.PrepareCancelar();
+                Exception exs = new Exception($"Ocorreu uma falha ao conectar com o banco de dados.");
+                WpfHelp.PopupBox(exs.Message, 1);
+            }
             catch (Exception ex)
             {
-                if (ex is SqlException)
-                {
-                    if (_viewModel.EntityObserver != null)
-                        _viewModel.EntityObserver.Clear();
 
-                    _viewModel.SelectListViewIndex = 0;
-                    ex = new Exception($"Ocorreu uma falha ao conectar com o banco de dados.");
-                }
                 WpfHelp.PopupBox(ex.Message, 1);
+                Utils.TraceException(ex);
             }
         }
 
@@ -97,17 +100,20 @@ namespace IMOD.CredenciamentoDeskTop.Views
                     fake1.IsChecked = false;
                 }
             }
+            catch (SqlException)
+            {
+                if (_viewModel.EntityObserver != null)
+                    _viewModel.EntityObserver.Clear();
+
+                
+                Exception exs = new Exception($"Ocorreu uma falha ao conectar com o banco de dados.");
+                WpfHelp.PopupBox(exs.Message, 1);
+            }
             catch (Exception ex)
             {
-                if (ex is SqlException)
-                {
-                    if (_viewModel.EntityObserver != null)
-                        _viewModel.EntityObserver.Clear();
 
-                    _viewModel.SelectListViewIndex = 0;
-                    ex = new Exception($"Ocorreu uma falha ao conectar com o banco de dados.");
-                }
                 WpfHelp.PopupBox(ex.Message, 1);
+                Utils.TraceException(ex);
             }
         }
 

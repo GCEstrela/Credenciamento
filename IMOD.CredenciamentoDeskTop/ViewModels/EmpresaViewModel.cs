@@ -576,14 +576,20 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
             catch (Exception ex)
             {
-                if (EntityObserver != null)
-                    EntityObserver.Clear();
+                if (ex is SqlException)
+                {
+                    if (EntityObserver != null)
+                        EntityObserver.Clear();
+
+                    Comportamento.PrepareCancelar();
+                    ex = new Exception($"Ocorreu uma falha ao conectar com o banco de dados.");
+                }
 
                 WpfHelp.PopupBox(ex.Message, 1);
-                //throw ex;
+                Utils.TraceException(ex);
             }
         }
-
+    
         /// <summary>
         ///     Editar
         /// </summary>
@@ -670,17 +676,18 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 }
 
                 IsEnableLstView = true;
-            }            
+            }
+            catch (SqlException)
+            {
+                if (EntityObserver != null)
+                    EntityObserver.Clear();
+
+                Comportamento.PrepareCancelar();
+                Exception exs = new Exception($"Ocorreu uma falha ao conectar com o banco de dados.");
+                WpfHelp.PopupBox(exs.Message, 1);
+            }
             catch (Exception ex)
             {
-                if (ex is SqlException)
-                {
-                    if (EntityObserver != null)
-                        EntityObserver.Clear();
-
-                    //Comportamento.IsEnableCriar = false;
-                    ex = new Exception($"Ocorreu uma falha ao conectar com o banco de dados.");
-                }
                     
                 WpfHelp.PopupBox(ex.Message, 1);
                 Utils.TraceException(ex);
@@ -718,18 +725,20 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 Comportamento.PrepareSalvar();
             }
-            
+            catch (SqlException)
+            {
+                //if (EntityObserver != null)
+                //    EntityObserver.Clear();
+
+                Comportamento.PrepareCancelar();
+                Exception exs = new Exception($"Ocorreu uma falha ao conectar com o banco de dados.");
+                WpfHelp.PopupBox(exs.Message, 1);
+            }
             catch (Exception ex)
             {
-                if (ex is SqlException)
-                {
-                    if (EntityObserver != null)
-                        EntityObserver.Clear();
 
-                    SelectListViewIndex = 0;
-                    ex= new Exception($"Ocorreu uma falha ao conectar com o banco de dados.");
-                }
                 WpfHelp.PopupBox(ex.Message, 1);
+                Utils.TraceException(ex);
             }
         }
 
@@ -751,18 +760,21 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 HabilitaControle(false, false);
                 CloneObservable();
             }
+            catch (SqlException)
+            {
+                //if (EntityObserver != null)
+                //    EntityObserver.Clear();
+
+                Comportamento.PrepareCancelar();
+                Exception exs = new Exception($"Ocorreu uma falha ao conectar com o banco de dados.");
+                WpfHelp.PopupBox(exs.Message, 1);
+            }
             catch (Exception ex)
             {
-                if (ex is SqlException)
-                {
-                    if (EntityObserver != null)
-                        EntityObserver.Clear();
 
-                    SelectListViewIndex = 0;
-                    ex = new Exception($"Ocorreu uma falha ao conectar com o banco de dados.");
-                }
                 WpfHelp.PopupBox(ex.Message, 1);
-            }            
+                Utils.TraceException(ex);
+            }
         }
 
         private void PrepareRemover()
@@ -776,18 +788,21 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 Comportamento.PrepareRemover();
                 HabilitaControle(true, true);
             }
+            catch (SqlException)
+            {
+                //if (EntityObserver != null)
+                //    EntityObserver.Clear();
+
+                Comportamento.PrepareCancelar();
+                Exception exs = new Exception($"Ocorreu uma falha ao conectar com o banco de dados.");
+                WpfHelp.PopupBox(exs.Message, 1);
+            }
             catch (Exception ex)
             {
-                if (ex is SqlException)
-                {
-                    if (EntityObserver != null)
-                        EntityObserver.Clear();
 
-                    SelectListViewIndex = 0;
-                    ex = new Exception($"Ocorreu uma falha ao conectar com o banco de dados.");
-                }
                 WpfHelp.PopupBox(ex.Message, 1);
-            }            
+                Utils.TraceException(ex);
+            }
         }
 
         private void OnSalvarAdicao(object sender, RoutedEventArgs e)
@@ -812,17 +827,20 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 HabilitaControle(true, true);
                 SelectListViewIndex = 0;
             }
+            catch (SqlException)
+            {
+                //if (EntityObserver != null)
+                //    EntityObserver.Clear();
+
+                Comportamento.PrepareCancelar();
+                Exception exs = new Exception($"Ocorreu uma falha ao conectar com o banco de dados.");
+                WpfHelp.PopupBox(exs.Message, 1);
+            }
             catch (Exception ex)
             {
-                if (ex is SqlException)
-                {
-                    if (EntityObserver != null)
-                        EntityObserver.Clear();
 
-                    SelectListViewIndex = 0;
-                    ex = new Exception($"Ocorreu uma falha ao conectar com o banco de dados.");
-                }
                 WpfHelp.PopupBox(ex.Message, 1);
+                Utils.TraceException(ex);
             }
         }
 
@@ -841,9 +859,20 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     _service.Atividade.Criar(n1);
                 });
             }
+            catch (SqlException)
+            {
+                //if (EntityObserver != null)
+                //    EntityObserver.Clear();
+
+                Comportamento.PrepareCancelar();
+                Exception exs = new Exception($"Ocorreu uma falha ao conectar com o banco de dados.");
+                WpfHelp.PopupBox(exs.Message, 1);
+            }
             catch (Exception ex)
             {
-                //throw ex;
+
+                WpfHelp.PopupBox(ex.Message, 1);
+                Utils.TraceException(ex);
             }
         }
 
@@ -862,9 +891,20 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     _service.CrachaService.Criar(n1);
                 });
             }
+            catch (SqlException)
+            {
+                //if (EntityObserver != null)
+                //    EntityObserver.Clear();
+
+                Comportamento.PrepareCancelar();
+                Exception exs = new Exception($"Ocorreu uma falha ao conectar com o banco de dados.");
+                WpfHelp.PopupBox(exs.Message, 1);
+            }
             catch (Exception ex)
             {
-                //throw ex;
+
+                WpfHelp.PopupBox(ex.Message, 1);
+                Utils.TraceException(ex);
             }
         }
 
@@ -883,17 +923,20 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 SalvarTipoCracha(n1.EmpresaId);
                 HabilitaControle(true, true);
             }
+            catch (SqlException)
+            {
+                //if (EntityObserver != null)
+                //    EntityObserver.Clear();
+
+                Comportamento.PrepareCancelar();
+                Exception exs = new Exception($"Ocorreu uma falha ao conectar com o banco de dados.");
+                WpfHelp.PopupBox(exs.Message, 1);
+            }
             catch (Exception ex)
             {
-                if (ex is SqlException)
-                {
-                    if (EntityObserver != null)
-                        EntityObserver.Clear();
 
-                    SelectListViewIndex = 0;
-                    ex = new Exception($"Ocorreu uma falha ao conectar com o banco de dados.");
-                }
                 WpfHelp.PopupBox(ex.Message, 1);
+                Utils.TraceException(ex);
             }
         }
 

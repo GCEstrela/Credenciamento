@@ -7,6 +7,7 @@
 #region
 
 using System;
+using System.Data.SqlClient;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -43,9 +44,20 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 _viewModel = new ColaboradorViewModel();
                 DataContext = _viewModel;
             }
+            catch (SqlException)
+            {
+                //if (_viewModel.EntityObserver != null)
+                //    _viewModel.EntityObserver.Clear();
+
+
+                Exception exs = new Exception($"Ocorreu uma falha ao conectar com o banco de dados.");
+                WpfHelp.PopupBox(exs.Message, 1);
+            }
             catch (Exception ex)
             {
+
                 WpfHelp.PopupBox(ex.Message, 1);
+                Utils.TraceException(ex);
             }
         }
 
@@ -84,9 +96,20 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 ColaboradoresCredenciaisUs.AtualizarDados(_viewModel.Entity, _viewModel);
                 ////////////////////////////////////////////////////////////// 
             }
+            catch (SqlException)
+            {
+                if (_viewModel.EntityObserver != null)
+                    _viewModel.EntityObserver.Clear();
+
+
+                Exception exs = new Exception($"Ocorreu uma falha ao conectar com o banco de dados.");
+                WpfHelp.PopupBox(exs.Message, 1);
+            }
             catch (Exception ex)
             {
+
                 WpfHelp.PopupBox(ex.Message, 1);
+                Utils.TraceException(ex);
             }
         }
         
