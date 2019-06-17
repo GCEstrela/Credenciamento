@@ -27,10 +27,10 @@ namespace WindowsService1
         private ICredencialService _serviceGenetec;
         private IColaboradorCredencialService _serviceColaborador = new ColaboradorCredencialService();
         private IEmpresaContratosService _service = new EmpresaContratoService();
-        private IEngine _sdk;
+        //private IEngine _sdk;
 
         //public ILog Log { get; private set; }
-        private Boolean logado;
+        //private Boolean logado;
         private const int diasAlerta = 0;
         private const int diasAlerta1 = 5;
         private const int diasAlerta2 = 15;
@@ -100,7 +100,7 @@ namespace WindowsService1
             {
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
@@ -109,12 +109,12 @@ namespace WindowsService1
         private void _sdk_LoggedOff(object sender, LoggedOffEventArgs e)
         {
             //logon_SC.Abort()
-            logado = false;
+            //logado = false;
 
             try
             {
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
@@ -125,7 +125,7 @@ namespace WindowsService1
             {
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
@@ -138,7 +138,7 @@ namespace WindowsService1
 
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
@@ -151,7 +151,7 @@ namespace WindowsService1
 
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
@@ -275,7 +275,7 @@ namespace WindowsService1
                 {
                     smtp.Send(mail);
                 }
-                catch (System.Exception erro)
+                catch (System.Exception)
                 {
                     //trata erro
                 }

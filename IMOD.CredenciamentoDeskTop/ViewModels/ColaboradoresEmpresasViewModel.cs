@@ -72,7 +72,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 {
                     return !_configuraSistema.Contrato;
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     return false;
                 }

@@ -88,7 +88,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
                 return View(model);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 ModelState.AddModelError("", "Erro ao salvar registro");
                 return View();
@@ -151,7 +151,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         { 
 
             if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); } 
-            if (id == null || (id <= 0)) { return RedirectToAction("../Login"); } 
+            if (id <= 0) { return RedirectToAction("../Login"); } 
 
             try 
             {
@@ -178,7 +178,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
                 return RedirectToAction("Index");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return View();
             }

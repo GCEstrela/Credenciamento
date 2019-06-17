@@ -176,7 +176,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels.Comportamento
             {
                 Remover?.Invoke(this, e);
             }
-            catch (System.Exception ex)
+            catch (System.Exception)
             {
                 //throw ex;
             }
@@ -187,7 +187,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels.Comportamento
             {
                 SalvarAdicao?.Invoke(this, e);
             }
-            catch (System.Exception ex)
+            catch (System.Exception)
             {
                 //throw ex;
             }
@@ -199,7 +199,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels.Comportamento
             {
                 SalvarEdicao?.Invoke(this, e);
             }
-            catch (System.Exception ex)
+            catch (System.Exception)
             {
                 //throw ex;
             }
@@ -211,7 +211,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels.Comportamento
             {
                 Cancelar?.Invoke(this, e);
             }
-            catch (System.Exception ex)
+            catch (System.Exception)
             {
                 //throw ex;
             }

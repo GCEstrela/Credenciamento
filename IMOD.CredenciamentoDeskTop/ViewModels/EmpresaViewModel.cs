@@ -393,7 +393,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             catch (Exception ex)
             {
                 throw ex;
-                return null;
+                //return null;
             }
         }
 
@@ -421,7 +421,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             catch (Exception ex)
             {
                 throw ex;
-                return false;
+                //return false;
             }
         }
         public bool ExisteSigla()
@@ -444,7 +444,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             catch (Exception ex)
             {
                 throw ex;
-                return false;
+                //return false;
             }
         }
         /// <summary>
@@ -464,7 +464,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             catch (Exception ex)
             {
                 throw ex;
-                return false;
+                //return false;
             }
         }
         /// <summary>

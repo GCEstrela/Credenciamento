@@ -324,7 +324,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //WpfHelp.Mbox(ex.ToString());
             }
@@ -355,7 +355,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 _viewModel.IsEnablePreCadastroColor = "Orange";
                 _importarBNT = "Visible";
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //WpfHelp.Mbox(ex.ToString());
             }
@@ -372,7 +372,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 _viewModel.IsEnablePreCadastroColor = "#FFD0D0D0";
                 _importarBNT = "Collapsed";
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //WpfHelp.Mbox(ex.ToString());
             }

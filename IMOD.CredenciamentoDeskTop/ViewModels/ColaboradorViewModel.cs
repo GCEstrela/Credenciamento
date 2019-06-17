@@ -181,7 +181,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.IBeam;
                 throw ex;
-                Utils.TraceException(ex);
+               // Utils.TraceException(ex);
             }            
         }
 
@@ -916,7 +916,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             catch (Exception ex)
             {
                 throw ex;
-                return null;
+                //return null;
             }
             
         }

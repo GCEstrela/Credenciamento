@@ -54,19 +54,19 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         private List<RelatorioView> _RelatoriosTemp = new List<RelatorioView>();
 
-        PopupMensagem _PopupSalvando;
+        //PopupMensagem _PopupSalvando;
 
         private int _selectedIndex;
 
-        private int _selectedIndexTemp = 0;
+       // private int _selectedIndexTemp = 0;
 
-        private bool _atualizandoFoto = false;
+        //private bool _atualizandoFoto = false;
 
         private BitmapImage _Waiting;
 
         private string formula;
         private string verbo;
-        private string mensagem;
+        //private string mensagem;
 
         //private const string Constantes.Constantes.consNomeArquivoEmpresaOperadora = "logoEmpresaOperadora.png";
 

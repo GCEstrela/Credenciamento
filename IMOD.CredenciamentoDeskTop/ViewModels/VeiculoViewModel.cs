@@ -799,7 +799,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             catch (Exception ex)
             {
                 throw ex;
-                return false;
+                //return false;
             }
         }
 

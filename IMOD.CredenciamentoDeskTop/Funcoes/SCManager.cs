@@ -234,7 +234,7 @@ namespace IMOD.CredenciamentoDeskTop.Funcoes
         private static PrintQueue GetPrintQueue()
         {
             PrintQueue printQueue = null;
-            bool finished = false;
+           // bool finished = false;
 
             //  window.Dispatcher.BeginInvoke(new Action(() =>
             // {
@@ -363,7 +363,7 @@ namespace IMOD.CredenciamentoDeskTop.Funcoes
 
                     //return true;
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
 
                     return null;
@@ -551,7 +551,7 @@ namespace IMOD.CredenciamentoDeskTop.Funcoes
 
                 return _cardholderGuid;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
                 return null;
@@ -967,7 +967,7 @@ namespace IMOD.CredenciamentoDeskTop.Funcoes
                 }
                 return null;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //Global.Log("Erro na void BuscarCardHolder ex: " + ex);
 

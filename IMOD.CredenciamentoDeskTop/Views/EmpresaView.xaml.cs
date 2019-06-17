@@ -329,7 +329,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
                 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //WpfHelp.Mbox(ex.ToString());
             }
@@ -343,7 +343,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 txtCnpj.Text = "00.000.000/0000-00";
                 txtCnpj.IsEnabled = false;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }

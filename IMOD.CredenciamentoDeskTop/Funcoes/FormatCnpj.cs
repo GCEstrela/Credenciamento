@@ -36,7 +36,7 @@ namespace IMOD.CredenciamentoDeskTop.Funcoes
                 {
                     case 14:
                         return strNew.FormatarCnpj();
-                        break;
+                        //break;
                     default:
                         return strNew;
                 }

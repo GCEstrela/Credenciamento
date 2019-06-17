@@ -416,8 +416,8 @@ namespace IMOD.Infra.Servicos
             QueryCompletedEventArgs result;
             try
             {
-                bool regra1 = false;
-                bool regra2 = false;
+                //bool regra1 = false;
+                //bool regra2 = false;
                 var guid = new Guid(entity.IdentificadorCardHolderGuid);
                 var cardHolder = _sdk.GetEntity(guid) as Cardholder;
 
@@ -453,7 +453,7 @@ namespace IMOD.Infra.Servicos
                                     {
                                         accesso.Members.Add(cardHolder.Guid);
                                     }
-                                    regra1 = true;
+                                    //regra1 = true;
                                 }
                             if (entity.Identificacao2 != null)
                                 if (entity.Identificacao2.ToString() == descricao)
@@ -466,7 +466,7 @@ namespace IMOD.Infra.Servicos
                                 {
                                     accesso.Members.Add(cardHolder.Guid);
                                 }
-                                regra2 = true;
+                                //regra2 = true;
                             }
                         //}
                         

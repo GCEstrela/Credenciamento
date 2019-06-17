@@ -110,7 +110,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
             return View(colaboradorMapeado);
 
-            return View();
+            //return View();
         }
 
         // GET: Colaborador/Create

@@ -13,7 +13,6 @@ using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 using Topshelf;
-using System.Net.Mail;
 using System.Net;
 using System.Threading;
 using System.Collections;
@@ -32,13 +31,13 @@ namespace Meu_Servico.Service
         private IEmpresaContratosService _serviceContrato = new EmpresaContratoService();
         private readonly IDadosAuxiliaresFacade _auxiliaresServiceConfiguraSistema = new DadosAuxiliaresFacadeService();
         private ConfiguraSistema _configuraSistema;
-        private IEngine _sdk;
+        //private IEngine _sdk;
 
         private System.Timers.Timer timer;
 
         public ILog Log { get; private set; }
 
-        private Boolean logado;
+        //private Boolean logado;
         private const int diasAlerta = 10;
         private const int diasAlerta0 = 0;
         private const int diasAlerta1 = 5;
@@ -137,7 +136,7 @@ namespace Meu_Servico.Service
         private void _sdk_LoggedOff(object sender, LoggedOffEventArgs e)
         {
             //logon_SC.Abort()
-            logado = false;
+            //logado = false;
 
             try
             {
@@ -446,7 +445,7 @@ namespace Meu_Servico.Service
                 
                 _serviceContrato.Alterar(contrato);
             }
-            catch (System.Exception erro)
+            catch (System.Exception)
             {
                 //trata erro
             }
@@ -482,7 +481,7 @@ namespace Meu_Servico.Service
                 {
                     smtp.Send(mail);
                 }
-                catch (System.Exception erro)
+                catch (System.Exception)
                 {
                     //trata erro
                 }
