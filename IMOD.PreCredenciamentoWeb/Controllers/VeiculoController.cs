@@ -73,11 +73,14 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             try 
             {
 
-                if (model.FileUpload.ContentLength > 2048000)
-                    ModelState.AddModelError("FileUpload", "Tamanho permitido de arquivo 2,00 MB");
+                if (model.FileUpload != null)
+                {
+                    if (model.FileUpload.ContentLength > 2048000)
+                        ModelState.AddModelError("FileUpload", "Tamanho permitido de arquivo 2,00 MB");
 
-                if (!Path.GetExtension(model.FileUpload.FileName).Equals(".pdf"))
-                    ModelState.AddModelError("FileUpload", "Permitida Somente Extensão  .pdf");
+                    if (!Path.GetExtension(model.FileUpload.FileName).Equals(".pdf"))
+                        ModelState.AddModelError("FileUpload", "Permitida Somente Extensão  .pdf");
+                }
 
 
                 if (ModelState.IsValid)
