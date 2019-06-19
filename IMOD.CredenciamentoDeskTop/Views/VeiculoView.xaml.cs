@@ -49,11 +49,14 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         private void OnListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            Geral_ti.IsSelected = true;
+            if (_viewModel.Entity == null) return;
             //Atualizar dados ao selecionar uma linha da listview
             _viewModel.AtualizarDadosPendencias();
             _viewModel.AtualizarDadosTiposServico();
             _viewModel.AtualizarDadosTiposServico();
-
+            if (_viewModel.Entity != null)
+                _viewModel.BucarFoto(_viewModel.Entity.EquipamentoVeiculoId);
             //Popular User Controls
             //////////////////////////////////////////////////////////////
             VeiculosEmpresasUs.AtualizarDados(_viewModel.Entity, _viewModel);
@@ -131,7 +134,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
             try
             {
                 var filtro = "Images (*.BMP;*.JPG;*.GIF,*.PNG,*.TIFF)|*.BMP;*.JPG;*.GIF;*.PNG;*.TIFF|" + "All files (*.*)|*.*";
-                var arq = WpfHelp.UpLoadArquivoDialog(filtro);
+                var arq = WpfHelp.UpLoadArquivoDialog(filtro,_viewModel.IsTamanhoImagem);
                 if (arq == null) return;
                 _viewModel.Entity.Foto = arq.FormatoBase64;
                 var binding = BindingOperations.GetBindingExpression(Logo_im, Image.SourceProperty);
@@ -172,8 +175,69 @@ namespace IMOD.CredenciamentoDeskTop.Views
             AbrirPendencias(21, PendenciaTipo.Veiculo);
         }
 
+
         #endregion
 
-        
+        private void LstView_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            try
+            {
+                if (lstView.SelectedIndex > -1)
+                {
+                    int currentIndex = lstView.SelectedIndex;
+                    int Sum = lstView.Items.Count;
+                    if (currentIndex > Sum)
+                        currentIndex -= Sum;
+                    if (e.Key.ToString() != "Up")
+                    {
+                        if (currentIndex == lstView.Items.Count - 1) return;
+                        ((ListViewItem)(lstView.ItemContainerGenerator.ContainerFromIndex(currentIndex + 1))).Focus();
+                    }
+                    else
+                    {
+                        if (currentIndex == 0) return;
+                        ((ListViewItem)(lstView.ItemContainerGenerator.ContainerFromIndex(currentIndex - 1))).Focus();
+                    }
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                //WpfHelp.Mbox(ex.ToString());
+            }
+        }
+
+        private void Rd_cadastro_Checked(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                _viewModel.EntityObserver.Clear();
+                _viewModel.IsEnablePreCadastro = false;
+                _viewModel.IsEnablePreCadastroCredenciamento = true;
+                _viewModel.IsEnablePreCadastroColor = "#FFD0D0D0";
+                //_importarBNT = "Collapsed";
+            }
+            catch (Exception ex)
+            {
+                //WpfHelp.Mbox(ex.ToString());
+            }
+        }
+
+        private void Rd_precadastro_Checked(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                _viewModel.EntityObserver.Clear();
+                _viewModel.IsEnablePreCadastro = true;
+                _viewModel.IsEnablePreCadastroCredenciamento = false;
+                _viewModel.IsEnablePreCadastroColor = "Orange";
+                //_importarBNT = "Visible";
+            }
+            catch (Exception ex)
+            {
+                //WpfHelp.Mbox(ex.ToString());
+            }
+        }
     }
 }

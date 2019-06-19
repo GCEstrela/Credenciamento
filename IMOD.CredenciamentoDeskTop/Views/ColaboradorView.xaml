@@ -11,11 +11,13 @@
              Loaded="Frm_Loaded"
              MaxWidth="1300" Width="1270" Height="825">
     <UserControl.Resources>
+        <funcoes:BooleanToVisibilityConverter x:Key="VisibleControl" />
         <Image x:Key="imgAdd" Source="../Resources/add.png" />
         <Image x:Key="imgEdit" Source="../Resources/edit.png" />
         <Image x:Key="imgRemove" Source="../Resources/remove.png" />
         <Image x:Key="imgSave" Source="../Resources/save.png" />
         <Image x:Key="imgCancel" Source="../Resources/undo.png" />
+        <Image x:Key="imgImport" Source="../Resources/Ok.ico" />
         <ControlTemplate x:Key="ValidationErrorTemplate">
             <DockPanel>
                 <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" Margin="5,0,0,2">
@@ -176,7 +178,7 @@
             <ColumnDefinition Width="1000" />
         </Grid.ColumnDefinitions>
 
-        <StackPanel Orientation="Horizontal" Margin="0,5">
+        <StackPanel Orientation="Horizontal" Margin="0,5,-249,5">
             <Label Content="Pesquisar:" Height="28" Width="65" Foreground="#FFD0D0D0" Margin="1,0,0,0" />
             <ComboBox Width="150" IsEnabled="{Binding Comportamento.IsEnableCriar}"
                       ItemsSource="{Binding ListaPesquisa }"
@@ -189,17 +191,22 @@
                     <KeyBinding Command="{Binding Path=PesquisarCommand}" Key="Enter" />
                 </TextBox.InputBindings>
             </TextBox>
+            <!--<CheckBox x:Name="precadastro" Content="Pré-Cadastro" Margin="10,5,0,0" VerticalAlignment="Top"  Width="98" Foreground="#FFD0D0D0" Checked="Precadastro_Checked" Unchecked="Precadastro_Unchecked"/>-->
+            <RadioButton x:Name="rd_cadastro" Content="Cadastro" Margin="625,5,0,0" IsChecked="True" Foreground="#FFD0D0D0" VerticalAlignment="Top" Width="95" Checked="Rd_cadastro_Checked" Cursor="Hand"/>
+            <RadioButton x:Name="rd_precadastro" Content="Pré-Cadastro" Margin="5,5,0,0" Foreground="Orange"  VerticalAlignment="Top" Width="95" Checked="Rd_precadastro_Checked" Cursor="Hand"/>
+            
         </StackPanel>
 
 
-        <StackPanel x:Name="ListaColaboradores_sp" Grid.Column="0" Grid.Row="1" Orientation="Horizontal" Margin="0,0,-259,1">
-            <ListView x:Name="lstView"                    
+        <StackPanel x:Name="ListaColaboradores_sp" Grid.Column="0" Grid.Row="1" Orientation="Horizontal"  Margin="0,0,-259,1">
+            <ListView x:Name="lstView"                         
                       IsEnabled="{Binding IsEnableLstView}"
                       ItemsSource="{Binding EntityObserver, Mode=TwoWay}"
                       SelectedIndex="{Binding SelectListViewIndex}"
                       SelectedItem="{Binding Entity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                      Margin="0,0,5,0" Width="1258">
-                <ListView.View  >
+                      Margin="0,0,5,0" Width="1258" PreviewKeyDown="LstView_PreviewKeyDown">
+                <ListView.View>
+                    
                     <GridView FrameworkElement.FlowDirection="RightToLeft">
                         <!--<GridViewColumn >
                             <GridViewColumn.CellTemplate>
@@ -208,14 +215,13 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>-->
-                        <GridViewColumn Width="55" Header="Código" DisplayMemberBinding="{Binding ColaboradorId}" />
-                        <GridViewColumn Width="115" Header="CPF" DisplayMemberBinding="{Binding Cpf}" />
-                        <GridViewColumn Width="250" Header="Nome do Colaborador" DisplayMemberBinding="{Binding Nome}" />
-                        <GridViewColumn Width="150" Header="Apelido do Colaborador"
-                                        DisplayMemberBinding="{Binding Apelido}" />
-                        <GridViewColumn Width="115" Header="Telefone" DisplayMemberBinding="{Binding TelefoneFixo}" />
-                        <GridViewColumn Width="115" Header="Celular" DisplayMemberBinding="{Binding TelefoneCelular}" />
-                        <GridViewColumn Width="200" Header="E-Mail" DisplayMemberBinding="{Binding Email}" />
+                        <GridViewColumn Width="55"  Header="Código"                     DisplayMemberBinding="{Binding ColaboradorId}" />
+                        <GridViewColumn Width="115" Header="CPF"                        DisplayMemberBinding="{Binding CpfMascara}"/>
+                        <GridViewColumn Width="250" Header="Nome do Colaborador"        DisplayMemberBinding="{Binding Nome}" />
+                        <GridViewColumn Width="150" Header="Apelido do Colaborador"     DisplayMemberBinding="{Binding Apelido}" />
+                        <GridViewColumn Width="115" Header="Telefone"                   DisplayMemberBinding="{Binding TelefoneFixo}" />
+                        <GridViewColumn Width="115" Header="Celular"                    DisplayMemberBinding="{Binding TelefoneCelular}" />
+                        <GridViewColumn Width="200" Header="E-Mail"                     DisplayMemberBinding="{Binding Email}" />
                     </GridView>
                 </ListView.View>
             </ListView>
@@ -236,8 +242,12 @@
         <!--<Label Content="{Binding Entity.Nome }" Grid.Column="0" Grid.Row="2" FontSize="14" Foreground="#FF007ACC" Margin="0,1,-94,2" />-->
         <StackPanel x:Name="BotoesGeral_sp" Grid.Column="0" Grid.Row="3" Orientation="Horizontal"
                     HorizontalAlignment="Right" Margin="0,2,-262,0" IsEnabled="{Binding HabilitaCommandPincipal}">
-
+            <Button x:Name="btnImportar" Content="{StaticResource imgImport}" ToolTip="Importar Pré-Cadastro"
+                    Visibility="{Binding IsEnablePreCadastro,  Converter={StaticResource VisibleControl}}"
+                    IsEnabled="{Binding Comportamento.IsEnableCriar}" Command="{Binding PrepareIportarCommand}"
+                    Width="25" Margin="0,0,5,0" />
             <Button x:Name="btnAdicionar" Content="{StaticResource imgAdd}" ToolTip="Adicionar"
+                    Visibility="{Binding IsEnablePreCadastroCredenciamento,  Converter={StaticResource VisibleControl}}"
                     IsEnabled="{Binding Comportamento.IsEnableCriar}" Command="{Binding PrepareCriarCommand}"
                     Width="25" Margin="0,0,5,0" />
             <Button x:Name="btnEditar" Content="{StaticResource imgEdit}" ToolTip="Editar"
@@ -245,7 +255,8 @@
                     Width="25" Margin="0,0,5,0" />
             <Button x:Name="btnExcluir" Content="{StaticResource imgRemove}" ToolTip="Remover"
                     IsEnabled="{Binding Comportamento.isEnableRemover}" Command="{Binding PrepareRemoverCommand}"
-                    Width="25" Margin="0,0,5,0" Visibility="Collapsed" />
+                    Visibility="{Binding IsEnablePreCadastro,  Converter={StaticResource VisibleControl}}"
+                    Width="25" Margin="0,0,5,0"/>
             <Button x:Name="btnCancelar" Content="{StaticResource imgCancel}" ToolTip="Cancelar"
                     IsEnabled="{Binding Comportamento.isEnableCancelar}" Command="{Binding PrepareCancelarCommand}"
                     Width="25" Margin="0,0,5,0" />
@@ -260,7 +271,7 @@
                     Width="1259" Margin="1,1,-259,-321"
                     Grid.Row="4">
 
-            <TabItem x:Name="Geral_ti" Background="{x:Null}" Margin="0,-2,0,0" IsEnabled="{Binding IsEnableTabItemGeral}">
+            <TabItem x:Name="Geral_ti" Background="{x:Null}" Margin="0,-2,0,0" Foreground="{Binding IsEnablePreCadastroColor}"  IsEnabled="{Binding IsEnableTabItemGeral}">
 
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
@@ -294,7 +305,7 @@
                             <StackPanel Margin="1,1,1,0" Height="166" VerticalAlignment="Top" Width="416">
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
                                             HorizontalAlignment="Left" Margin="1">
-                                    <Label Content="Estrangeiro:" Foreground="#FFD0D0D0" Height="24" Width="100"
+                                    <Label Content="Estrangeiro:" Foreground="#FFD0D0D0" Height="28" Width="100"
                                        HorizontalContentAlignment="Right" Margin="0,0,0,0"/>
                                     <CheckBox x:Name="Estrangeiro_cb" VerticalContentAlignment="Bottom" Margin="3,0,0,0"
                                           Height="11" Foreground="#FFD0D0D0"
@@ -307,10 +318,9 @@
                                              PreviewTextInput="NumberOnly"
                                              IsEnabled="True" Height="24" Width="122"
                                              LostFocus="OnFormatCpf_LostFocus"
-                                             Foreground="White" VerticalContentAlignment="Center"
-                                             Text="{Binding Entity.Cpf,
-                                              UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                             HorizontalContentAlignment="Center"
+                                             Foreground="White" VerticalContentAlignment="Center"                                             
+                                             Text="{Binding Entity.Cpf,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                             HorizontalContentAlignment="Center"  
                                                />
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
@@ -367,7 +377,12 @@
                                         HorizontalAlignment="Left" BorderBrush="#FF686868">
                                     <Image x:Name="Logo_im" Stretch="Uniform"
                                            Source="{Binding Entity.Foto, Converter={StaticResource ImageConverter}, Mode=TwoWay, UpdateSourceTrigger=Explicit}"
-                                           Margin="3" />
+                                           Margin="3" >
+                                        <Image.ToolTip>
+                                            <Image x:Name="Logo_im1" Stretch="Uniform" 
+                                                Source="{Binding Entity.Foto, Converter={StaticResource ImageConverter}, Mode=TwoWay, UpdateSourceTrigger=Explicit}"/>
+                                        </Image.ToolTip>
+                                    </Image>
                                 </Border>
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
                                     <Button x:Name="SelecionarLogo_bt" FontStretch="Condensed"  HorizontalAlignment="Center" Margin="1,5,0,0" Height="35" Width="44" Click="OnSelecionaFoto_Click">
@@ -540,7 +555,13 @@
                                     UpdateSourceTrigger=PropertyChanged}"
                                           IsEnabled="True" Height="24" Width="43">
                                     <ComboBoxItem>SSP</ComboBoxItem>
+                                    <ComboBoxItem>SJS</ComboBoxItem>
+                                    <ComboBoxItem>SESP</ComboBoxItem>
+                                    <ComboBoxItem>SJTC</ComboBoxItem>
+                                    <ComboBoxItem>CGPI</ComboBoxItem>
+                                    <ComboBoxItem>COMAE</ComboBoxItem>
                                     <ComboBoxItem>DPF</ComboBoxItem>
+                                    <ComboBoxItem>DIREX</ComboBoxItem>
                                     <ComboBoxItem>EST</ComboBoxItem>
                                     <ComboBoxItem>OAB</ComboBoxItem>
                                 </ComboBox>
@@ -742,7 +763,7 @@
             </TabItem>
 
 
-            <TabItem x:Name="Signatarios_ti" Width="200" IsEnabled="{Binding IsEnableTabItemEmpresas}">
+            <TabItem x:Name="Signatarios_ti" Width="200" Foreground="{Binding IsEnablePreCadastroColor}"  IsEnabled="{Binding IsEnableTabItemEmpresas}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="Signatarios_bt" Click="OnPendenciaEmpresaVinculo_Click"
@@ -763,7 +784,7 @@
 
             </TabItem>
 
-            <TabItem x:Name="CursosTreinamentos_ti" Width="200" IsEnabled="{Binding IsEnableTabItemCursos}">
+            <TabItem x:Name="CursosTreinamentos_ti" Width="200" Foreground="{Binding IsEnablePreCadastroColor}" IsEnabled="{Binding IsEnableTabItemCursos}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="Curso_bt" Click="OnPendenciaTreinamentoCertificacao_Click"
@@ -785,7 +806,7 @@
 
             </TabItem>
 
-            <TabItem x:Name="Anexos_ti" Width="200" IsEnabled="{Binding IsEnableTabItemAnexos}">
+            <TabItem x:Name="Anexos_ti" Width="200" Foreground="{Binding IsEnablePreCadastroColor}" IsEnabled="{Binding IsEnableTabItemAnexos}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="Anexos_bt" Click="OnPendenciaAnexos_Click" Style="{StaticResource MenuStyle}"
@@ -806,10 +827,11 @@
 
             </TabItem>
 
-            <TabItem x:Name="Tab5" Width="200" IsEnabled="{Binding IsEnableTabItemCredenciais}">
+            <TabItem x:Name="Tab5" Width="200" IsEnabled="{Binding IsEnableTabItemCredenciais}" 
+                                               Visibility="{Binding IsEnablePreCadastroCredenciamento,  Converter={StaticResource VisibleControl}}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <Button x:Name="btnTab5" Click="OnPendenciaCredencial_Click" Style="{StaticResource MenuStyle}"
+                        <Button x:Name="btnTab5" Click="OnPendenciaCredencial_Click" Style="{StaticResource MenuStyle}"                                
                                 IsEnabled="{Binding Comportamento.IsEnableEditar}">
                             <StackPanel>
                                 <Image

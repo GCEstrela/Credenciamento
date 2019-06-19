@@ -1356,12 +1356,23 @@ namespace IMOD.CrossCutting
         /// <returns></returns>
         public static string FormatarCpf(this string str)
         {
-            if (string.IsNullOrWhiteSpace (str)) return "";
+            try
+            {
+                //var isNumeric = int.TryParse(str, out int n);
+                //bool b2 = Microsoft.VisualBasic.Information.IsNumeric("1aa");
+                if (str == null) return "";
+                if (string.IsNullOrWhiteSpace(str)) return "";
 
-            var str2 = str.RetirarCaracteresEspeciais();
-            if (string.IsNullOrWhiteSpace (str2)) return "";
+                var str2 = str.RetirarCaracteresEspeciais();
+                if (string.IsNullOrWhiteSpace(str2)) return "";
 
-            return Convert.ToUInt64 (str2).ToString (@"000\.000\.000\-00");
+                return Convert.ToUInt64(str2).ToString(@"000\.000\.000\-00");
+
+            }
+            catch (Exception)
+            {
+                throw new Exception("Data inválida");
+            }
         }
 
         #endregion

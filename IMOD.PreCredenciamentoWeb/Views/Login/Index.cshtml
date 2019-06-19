@@ -1,0 +1,50 @@
+﻿@model IMOD.PreCredenciamentoWeb.Models.LoginViewModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Security Center Pré-Cadastramento</title>
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css">
+    @*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">*@
+    <link rel="stylesheet" href="~/Content/Login.css">
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+
+</head>
+<body>
+    <div class="login-form">
+        @using (Html.BeginForm("Login", "Login", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="avatar">
+                <img src="/images/avatar.png" alt="Avatar">
+            </div>
+            <h2 class="text-center">Empresa Login</h2>
+            <div class="form-group">
+                @Html.EditorFor(model => model.Cnpj, new { htmlAttributes = new { @class = "form-control", placeholder = "Cnpj" } })
+                @Html.ValidationMessageFor(model => model.Cnpj, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.PasswordFor(model => model.Senha, new { @class = "form-control", placeholder = "Senha" })
+                @Html.ValidationMessageFor(model => model.Senha, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-lg btn-block">Entrar</button>
+            </div>
+            <div class="clearfix">
+                <label class="pull-left checkbox-inline"> @Html.CheckBoxFor(model => model.Lembreme) Lembre-me</label>
+                <a href="#" class="pull-right">Esqueceu Senha?</a>
+            </div>
+        }
+        <p class="text-center small">Não tem conta? <a href="#">Contacte o credenciamento</a></p>
+    </div>
+</body>
+</html>

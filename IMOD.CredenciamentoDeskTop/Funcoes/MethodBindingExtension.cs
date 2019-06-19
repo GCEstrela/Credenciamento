@@ -131,7 +131,7 @@ namespace IMOD.CredenciamentoDeskTop.Funcoes
                     methodTargetType.InvokeMember(MethodName, BindingFlags.InvokeMethod, null, methodTarget, arguments);
                     return;
                 }
-                catch (Exception ex) { }
+                catch (Exception) { }
                 //catch (MissingMethodException) { }
                 // Couldn't match a method with the raw arguments, so check if we can find a method with the same name
                 // and parameter count and try to convert any XAML string arguments to match the method parameter types

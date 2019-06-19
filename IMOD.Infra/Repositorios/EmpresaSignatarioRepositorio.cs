@@ -118,7 +118,7 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText("EmpresasSignatarios", conn))
+                using (var cmd = _dataBase.SelectText("EmpresasSignatariosView", conn))
 
                 {
                     try

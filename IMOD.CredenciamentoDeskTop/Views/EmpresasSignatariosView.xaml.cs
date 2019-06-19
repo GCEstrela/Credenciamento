@@ -55,7 +55,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 //var filtro = "Imagem files (*.pdf)|*.pdf|All Files (*.*)|*.*";
                 //var arq = WpfHelp.UpLoadArquivoDialog(filtro, 700);
                 var filtro = "Imagem files (*.pdf)|*.pdf";
-                var arq = WpfHelp.UpLoadArquivoDialog(filtro, 2000);
+                var arq = WpfHelp.UpLoadArquivoDialog(filtro, _viewModel.IsTamanhoArquivo);
                 if (arq == null) return;
                 _viewModel.Entity.Assinatura = arq.FormatoBase64;
                 NomeArquivo.Text = arq.Nome;
@@ -76,6 +76,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             try
             {
+                _viewModel.BuscarAnexo(_viewModel.Entity.EmpresaSignatarioId);
                 var arrayByes = Convert.FromBase64String(_viewModel.Entity.Assinatura);
                 WpfHelp.AbrirArquivoPdf(_viewModel.Entity.Nome, arrayByes);
             }

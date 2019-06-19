@@ -79,9 +79,10 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("ContratoBasico", entity.ContratoBasico, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("ArquivoBlob", DbType.Binary, entity.ArquivoBlob, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("TerceirizadaNome", entity.TerceirizadaNome, false)));
-                        
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("PraVencer", entity.PraVencer, false)));
 
-        var key = Convert.ToInt32(cmd.ExecuteScalar());
+
+                        var key = Convert.ToInt32(cmd.ExecuteScalar());
 
                         entity.EmpresaContratoId = key;
                     }
@@ -132,7 +133,7 @@ namespace IMOD.Infra.Repositorios
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText("EmpresasContratos", conn))
+                using (var cmd = _dataBase.SelectText("EmpresasContratosView", conn))
 
                 {
                     try
@@ -202,7 +203,8 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("ContratoBasico", entity.ContratoBasico, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("ArquivoBlob", DbType.Binary, entity.ArquivoBlob, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("TerceirizadaNome", entity.TerceirizadaNome, false)));
-
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("PraVencer", entity.PraVencer, false)));
+                        
                         cmd.ExecuteNonQuery();
                     }
                     catch (Exception ex)

@@ -18,9 +18,7 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public string Descricao { get; set; }
         [Required(ErrorMessage = "A Placa/Identificador é requerida.")]
         public string PlacaIdentificador { get; set; }
-        [Required(ErrorMessage = "A Frota é requerida.")]
         public string Frota { get; set; }
-        [Required(ErrorMessage = "O Patrimonio é requerida.")]
         public string Patrimonio { get; set; }
         [Required(ErrorMessage = "A Marca é requerida.")]
         public string Marca { get; set; }
@@ -59,7 +57,7 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public bool Pendente33 { get; set; }
         public bool Pendente34 { get; set; }
         public string DescricaoAlias { get { return Descricao; } }
-
+        public bool Precadastro { get; set; }
         #endregion
     }
 }

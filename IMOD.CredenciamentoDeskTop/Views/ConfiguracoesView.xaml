@@ -4,9 +4,19 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:viewModels="clr-namespace:IMOD.CredenciamentoDeskTop.ViewModels"
-             d:DataContext="{d:DesignInstance viewModels:ConfiguracoesViewModel , IsDesignTimeCreatable=True}"
+             d:DataContext="{d:DesignInstance viewModels:ConfiguracoesViewModel , IsDesignTimeCreatable=True}"             
+             xmlns:funcoes="clr-namespace:IMOD.CredenciamentoDeskTop.Funcoes"
              mc:Ignorable="d"
              MaxWidth="1300" Width="1270" >
+    <UserControl.Resources>
+        <Image x:Key="imgAdd" Source="../Resources/add.png" />
+        <Image x:Key="imgEdit" Source="../Resources/edit.png" />
+        <Image x:Key="imgRemove" Source="../Resources/remove.png"  />
+        <Image x:Key="imgSave" Source="../Resources/save.png" />
+        <Image x:Key="imgCancel" Source="../Resources/undo.png" />
+        <funcoes:StringToImageConverter x:Key="ImageConverter" />
+    </UserControl.Resources>
+
     <Grid Margin="5,5">
         <Grid.RowDefinitions>
             <RowDefinition Height="1" />
@@ -19,13 +29,9 @@
             </Grid.ColumnDefinitions>
 
         </Grid>
-
-
-
         <TabControl x:Name="TabGeral_tc" Grid.Row="1" Grid.Column="0" Margin="0,10,0,0" IsSynchronizedWithCurrentItem="True" TabStripPlacement="Top" >
 
             <TabItem x:Name="Empresas_ti"  Width="200"  Header="Empresas"  >
-
                 <ScrollViewer   VerticalScrollBarVisibility="Auto"  HorizontalScrollBarVisibility="Auto"  >
                     <StackPanel>
                         <Grid>
@@ -35,11 +41,12 @@
                                 <RowDefinition />
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="196*"/>
+                                <ColumnDefinition Width="13*"/>
+                                <ColumnDefinition Width="209*" />
                             </Grid.ColumnDefinitions>
 
-                            <GroupBox      x:Name="TiposAtividades_gb"  Grid.Row="0" Grid.Column="0"  Header="Tipos de Atividades " Margin="10,10,10,10" VerticalAlignment="Stretch" >
+                            <GroupBox  x:Name="TiposAtividades_gb"  Header="Tipos de Atividades:" Grid.Row="0" Grid.Column="0"   Margin="10,10,10,10" VerticalAlignment="Stretch" >
                                 <StackPanel Margin="0,10,0,0">
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0" >
                                         <Label Content="Código:" Height="28" Width="53"  Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
@@ -48,28 +55,37 @@
                                         <TextBox CharacterCasing="Upper"  x:Name="DescricaoAtividades_tb"  Text="{Binding SelectedItem.Descricao, ElementName=ListaTiposAtividades_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="334"/>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0">
-                                        <ListView x:Name="ListaTiposAtividades_lv" Margin="0,0,0,0"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding TiposAtividades, Mode=TwoWay}" 
+                                        <StackPanel>
+                                            <ListView x:Name="ListaTiposAtividades_lv" Margin="0,0,0,0"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding TiposAtividades, Mode=TwoWay}" 
                                                         SelectedItem="{Binding Path = TipoAtividadeSelecionada, Mode=TwoWay}"  Height="167" Width="560"
                                                    SelectedIndex="{Binding Path=TipoAtividadeSelectedIndex, Mode=TwoWay}" >
-                                            <ListView.View>
-                                                <GridView FrameworkElement.FlowDirection="RightToLeft">
-                                                    <GridViewColumn Width="50" Header="Cod."  DisplayMemberBinding="{Binding TipoAtividadeId}"/>
-                                                    <GridViewColumn Width="500" Header="Atividades"  DisplayMemberBinding="{Binding Descricao}"/>
-                                                </GridView>
-                                            </ListView.View>
-                                        </ListView>
-                                    </StackPanel>
-                                    <Grid>
-                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="30,5,0,0" >
-                                            <Button x:Name="NovoTipoAtividade_bt" Content="Novo"  Height="30" Width="148" Margin="10,0,0,0" Click="NovoTipoAtividade_bt_Click"/>
-                                            <Button x:Name="SalvarTipoAtividade_bt" Content="Salvar"  Height="30" Width="148" Margin="10,0,0,0" Click="SalvarTipoAtividade_bt_Click"/>
-                                            <Button x:Name="DeletarTipoAtividade_bt" Content="Excluir"  Height="30" Width="148" Margin="10,0,0,0" Click="DeletarTipoAtividade_bt_Click"/>
+                                                <ListView.View>
+                                                    <GridView FrameworkElement.FlowDirection="RightToLeft">
+                                                        <GridViewColumn Width="50" Header="Cod."  DisplayMemberBinding="{Binding TipoAtividadeId}"/>
+                                                        <GridViewColumn Width="500" Header="Atividades"  DisplayMemberBinding="{Binding Descricao}"/>
+                                                    </GridView>
+                                                </ListView.View>
+                                            </ListView>
                                         </StackPanel>
-                                    </Grid>
+                                        <StackPanel Orientation="Vertical" Margin="0,0" Width="30" HorizontalAlignment="Right" Height="167" VerticalAlignment="Top" >
+                                            <Button x:Name="btnAdicionarTipoAtividade" Content="{StaticResource imgAdd}" ToolTip="Adicionar" Width="25"
+                                                Margin="0,0,0,7" Click="NovoTipoAtividade_bt_Click" />
+
+                                            <Button x:Name="btnExcluirTipoAtividade" Content="{StaticResource imgRemove}" ToolTip="Remover" Width="25"
+                                                    Margin="0,0,0,7" Click="DeletarTipoAtividade_bt_Click" />
+
+                                            <Button x:Name="btnCancelarTipoAtividade" Content="{StaticResource imgCancel}" ToolTip="Cancelar" Width="25"
+                                                Margin="0,0,0,7" Click="CancelarTipoAtividade_bt_Click" />
+
+                                            <Button x:Name="btnSalvarTipoAtividade" Content="{StaticResource imgSave}" ToolTip="Salvar" Width="25"
+                                                    Margin="0,0,0,7" Click="SalvarTipoAtividade_bt_Click" IsEnabled="False"/>
+                                        </StackPanel>
+                                    </StackPanel>
+
                                 </StackPanel>
                             </GroupBox>
 
-                            <GroupBox x:Name="TiposAreasAcessos_gb"  Grid.Row="0" Grid.Column="1"  Header="Áreas de Acesso " Margin="10,10,10,10" VerticalAlignment="Stretch" >
+                            <GroupBox x:Name="TiposAreasAcessos_gb"  Grid.Row="0" Grid.Column="2"  Header="Áreas de Acesso " Margin="10,10,10,10" VerticalAlignment="Stretch" >
                                 <StackPanel Margin="0,10,0,0">
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0" Width="560" >
 
@@ -95,20 +111,39 @@
                                                 </GridView>
                                             </ListView.View>
                                         </ListView>
-                                    </StackPanel>
-                                    <Grid>
-                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="0,5,0,0" >
-                                            <Button x:Name="NovoTiposAreasAcessos_bt" Content="Novo"  Height="30" Width="148" Margin="10,0,0,0" Click="NovoTiposAreasAcessos_bt_Click"/>
-                                            <Button x:Name="SalvarTiposAreasAcessos_bt" Content="Salvar"  Height="30" Width="148" Margin="10,0,0,0" Click="SalvarTiposAreasAcessos_bt_Click"/>
-                                            <Button x:Name="DeletarTiposAreasAcessos_bt" Content="Excluir"  Height="30" Width="148" Margin="10,0,0,0" Click="DeletarTiposAreasAcessos_bt_Click"/>
+                                        <StackPanel Orientation="Vertical" Margin="0,0" Width="30" HorizontalAlignment="Right" Height="167" VerticalAlignment="Top" >
+                                            <Button x:Name="btnAdicionarTiposAreasAcessos" ToolTip="Adicionar" Width="25"
+                                                Margin="0,0,0,7" Click="NovoTiposAreasAcessos_bt_Click" >
+                                                <StackPanel>
+                                                    <Image Source="../Resources/add.png" />
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnExcluirTiposAreasAcessos" ToolTip="Remover" Width="25"
+                                                    Margin="0,0,0,7" Click="DeletarTiposAreasAcessos_bt_Click" >
+                                                <StackPanel>
+                                                    <Image Source="../Resources/remove.png" />
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnCancelarTiposAreasAcessos" ToolTip="Cancelar" Width="25"
+                                                Margin="0,0,0,7" Click="CancelarTiposAreasAcessos_bt_Click" >
+                                                <StackPanel>
+                                                    <Image Source="../Resources/undo.png" />
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnSalvarTiposAreasAcessos" ToolTip="Salvar" Width="25"
+                                                    Margin="0,0,0,7" Click="SalvarTiposAreasAcessos_bt_Click" IsEnabled="False">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/save.png" />
+                                                </StackPanel>
+                                            </Button>
                                         </StackPanel>
-                                    </Grid>
+                                    </StackPanel>
                                 </StackPanel>
                             </GroupBox>
 
 
 
-                            <GroupBox      x:Name="TiposCobrancas_gb"  Grid.Row="1" Grid.Column="0"  Header=" Tipos de Cobranças " Margin="10,10,10,10" VerticalAlignment="Stretch" >
+                            <GroupBox  x:Name="TiposCobrancas_gb"  Grid.Row="1" Grid.Column="0"  Header=" Tipos de Cobranças " Margin="10,10,10,10" VerticalAlignment="Stretch" >
                                 <StackPanel Margin="0,10,0,0">
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0" >
 
@@ -130,18 +165,37 @@
                                                 </GridView>
                                             </ListView.View>
                                         </ListView>
-                                    </StackPanel>
-                                    <Grid>
-                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="30,5,0,0" >
-                                            <Button x:Name="NovoTiposCobranca_bt" Content="Novo"  Height="30" Width="148" Margin="10,0,0,0" Click="NovoTiposCobranca_bt_Click"/>
-                                            <Button x:Name="SalvarTiposCobranca_bt" Content="Salvar"  Height="30" Width="148" Margin="10,0,0,0" Click="SalvarTiposCobranca_bt_Click"/>
-                                            <Button x:Name="DeletarTiposCobranca_bt" Content="Excluir"  Height="30" Width="148" Margin="10,0,0,0" Click="DeletarTiposCobranca_bt_Click"/>
+                                        <StackPanel Orientation="Vertical" Margin="0,0" Width="30" HorizontalAlignment="Right" Height="167" VerticalAlignment="Top" >
+                                            <Button x:Name="btnAdicionarTiposCobranca" ToolTip="Adicionar" Width="25"
+                                                Margin="0,0,0,7" Click="btnAdicionarTiposCobranca_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/add.png" />
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnDeletarTiposCobranca" ToolTip="Remover" Width="25"
+                                                    Margin="0,0,0,7" Click="btnDeletarTiposCobranca_Click" >
+                                                <StackPanel>
+                                                    <Image Source="../Resources/remove.png" />
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnCancelarTiposCobranca" ToolTip="Cancelar" Width="25"
+                                                Margin="0,0,0,7" Click="btnCancelarTiposCobranca_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/undo.png" />
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnSalvarTiposCobranca" ToolTip="Salvar" Width="25"
+                                                    Margin="0,0,0,7" Click="btnSalvarTiposCobranca_Click" IsEnabled="False">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/save.png" />
+                                                </StackPanel>
+                                            </Button>
                                         </StackPanel>
-                                    </Grid>
+                                    </StackPanel>
                                 </StackPanel>
                             </GroupBox>
 
-                            <GroupBox      x:Name="TiposStatus_gb"  Grid.Row="1" Grid.Column="2"  Header=" Status da Empresa " Margin="10,10,10,10" VerticalAlignment="Stretch"  >
+                            <GroupBox x:Name="TiposStatus_gb"  Grid.Row="1" Grid.Column="2"  Header=" Status da Empresa " Margin="10,10,10,10" VerticalAlignment="Stretch"  >
                                 <StackPanel Margin="0,10,0,0">
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0" >
                                         <Label Content="Código:" Height="28" Width="53"  Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
@@ -160,14 +214,33 @@
                                                 </GridView>
                                             </ListView.View>
                                         </ListView>
-                                    </StackPanel>
-                                    <Grid>
-                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="0,5,0,0" >
-                                            <Button x:Name="NovoTiposStatus_bt" Content="Novo"  Height="30" Width="148" Margin="10,0,0,0" Click="NovoTiposStatus_bt_Click"/>
-                                            <Button x:Name="SalvarTiposStatus_bt" Content="Salvar"  Height="30" Width="148" Margin="10,0,0,0" Click="SalvarTiposStatus_bt_Click"/>
-                                            <Button x:Name="DeletarTiposStatus_bt" Content="Excluir"  Height="30" Width="148" Margin="10,0,0,0" Click="DeletarTiposStatus_bt_Click"/>
+                                        <StackPanel Orientation="Vertical" Margin="0,0" Width="30" HorizontalAlignment="Right" Height="167" VerticalAlignment="Top" >
+                                            <Button x:Name="btnAdicionarTiposStatus" ToolTip="Adicionar" Width="25"
+                                                Margin="0,0,0,7" Click="btnAdicionarTiposStatus_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/add.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnDeletarTiposStatus" ToolTip="Remover" Width="25"
+                                                    Margin="0,0,0,7" Click="btnDeletarTiposStatus_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/remove.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnCancelarTiposStatus" ToolTip="Cancelar" Width="25"
+                                                Margin="0,0,0,7" Click="btnCancelarTiposStatus_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/undo.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnSalvarTiposStatus" ToolTip="Salvar" Width="25"
+                                                    Margin="0,0,0,7" Click="btnSalvarTiposStatus_Click" IsEnabled="False">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/save.png"/>
+                                                </StackPanel>
+                                            </Button>
                                         </StackPanel>
-                                    </Grid>
+                                    </StackPanel>
                                 </StackPanel>
                             </GroupBox>
 
@@ -188,11 +261,12 @@
                                 <RowDefinition />
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="196*"/>
+                                <ColumnDefinition Width="13*"/>
+                                <ColumnDefinition Width="209*" />
                             </Grid.ColumnDefinitions>
 
-                            <GroupBox     Grid.Row="0" Grid.Column="0"  Header=" Tipos de Equipamentos "  Margin="10,10,10,10" VerticalAlignment="Stretch" >
+                            <GroupBox x:Name="TipoEquipamento_gb" Header="Tipos de Equipamentos:"  Grid.Row="0" Grid.Column="0"   Margin="10,10,10,10" VerticalAlignment="Stretch" >
                                 <StackPanel Margin="0,10,0,0">
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0" >
 
@@ -214,22 +288,39 @@
                                                 </GridView>
                                             </ListView.View>
                                         </ListView>
-                                    </StackPanel>
-                                    <Grid>
-                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="30,5,0,0" >
-                                            <Button x:Name="NovoEquipamento_bt" Content="Novo"  Height="30" Width="148" Margin="10,0,0,0" Click="NovoEquipamento_bt_Click"/>
-                                            <Button x:Name="SalvarEquipamento_bt" Content="Salvar"  Height="30" Width="148" Margin="10,0,0,0" Click="SalvarEquipamento_bt_Click" />
-                                            <Button x:Name="DeletarSalvarEquipamento_bt" Content="Excluir"  Height="30" Width="148" Margin="10,0,0,0" Click="DeletarSalvarEquipamento_bt_Click"/>
+
+                                        <StackPanel Orientation="Vertical" Margin="0,0" Width="30" HorizontalAlignment="Right" Height="167" VerticalAlignment="Top" >
+                                            <Button x:Name="btnAdicionarEquipamento" ToolTip="Adicionar" Width="25"
+                                                Margin="0,0,0,7" Click="btnAdicionarEquipamento_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/add.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnDeletarEquipamento" ToolTip="Remover" Width="25"
+                                                    Margin="0,0,0,7" Click="btnDeletarEquipamento_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/remove.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnCancelarEquipamento" ToolTip="Cancelar" Width="25"
+                                                Margin="0,0,0,7" Click="btnCancelarEquipamento_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/undo.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnSalvarEquipamento" ToolTip="Salvar" Width="25"
+                                                    Margin="0,0,0,7" Click="btnSalvarEquipamento_Click" IsEnabled="False">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/save.png"/>
+                                                </StackPanel>
+                                            </Button>
                                         </StackPanel>
-                                    </Grid>
+                                    </StackPanel>
+
                                 </StackPanel>
                             </GroupBox>
 
-
-
-
-
-                            <GroupBox      x:Name="TipoServico_gb"  Grid.Row="0" Grid.Column="1"  Header=" Tipos de Serviços " Margin="10,10,10,10" VerticalAlignment="Stretch" >
+                            <GroupBox  x:Name="TipoServico_gb"  Grid.Row="0" Grid.Column="2"  Header=" Tipos de Serviços " Margin="10,10,10,10" VerticalAlignment="Stretch" >
                                 <StackPanel Margin="0,10,0,0">
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0" >
                                         <Label Content="Código:" Height="28" Width="53"  Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
@@ -248,18 +339,38 @@
                                                 </GridView>
                                             </ListView.View>
                                         </ListView>
-                                    </StackPanel>
-                                    <Grid>
-                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="0,5,0,0" >
-                                            <Button x:Name="NovoTipoServico_bt" Content="Novo"  Height="30" Width="148" Margin="10,0,0,0" Click="NovoTipoServico_bt_Click"/>
-                                            <Button x:Name="SalvarTipoServico_bt" Content="Salvar"  Height="30" Width="148" Margin="10,0,0,0" Click="SalvarTipoServico_bt_Click"/>
-                                            <Button x:Name="DeletarTipoServico_bt" Content="Excluir"  Height="30" Width="148" Margin="10,0,0,0" Click="DeletarTipoServico_bt_Click"/>
+
+                                        <StackPanel Orientation="Vertical" Margin="0,0" Width="30" HorizontalAlignment="Right" Height="167" VerticalAlignment="Top" >
+                                            <Button x:Name="btnAdicionarTipoServico" ToolTip="Adicionar" Width="25"
+                                                Margin="0,0,0,7" Click="btnAdicionarTipoServico_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/add.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnDeletarTipoServico" ToolTip="Remover" Width="25"
+                                                    Margin="0,0,0,7" Click="btnDeletarTipoServico_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/remove.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnCancelarTipoServico" ToolTip="Cancelar" Width="25"
+                                                Margin="0,0,0,7" Click="btnCancelarTipoServico_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/undo.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnSalvarTipoServico" ToolTip="Salvar" Width="25"
+                                                    Margin="0,0,0,7" Click="btnSalvarTipoServico_Click" IsEnabled="False">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/save.png"/>
+                                                </StackPanel>
+                                            </Button>
                                         </StackPanel>
-                                    </Grid>
+                                    </StackPanel>
                                 </StackPanel>
                             </GroupBox>
 
-                            <GroupBox      x:Name="TiposCursos_gb"  Grid.Row="1" Grid.Column="0"  Header=" Treinamentos e Certificações " Margin="10,10,10,10" VerticalAlignment="Stretch" >
+                            <GroupBox x:Name="TiposCursos_gb"  Grid.Row="1" Grid.Column="0"  Header=" Treinamentos e Certificações " Margin="10,10,10,10" VerticalAlignment="Stretch" >
                                 <StackPanel Margin="0,10,0,0">
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0" >
                                         <Label Content="Código:" Height="28" Width="54"  Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
@@ -278,14 +389,35 @@
                                                 </GridView>
                                             </ListView.View>
                                         </ListView>
-                                    </StackPanel>
-                                    <Grid>
-                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="0,5,0,0" >
-                                            <Button x:Name="NovoTiposCursos_bt" Content="Novo"  Height="30" Width="148" Margin="10,0,0,0" Click="NovoTiposCursos_bt_Click"/>
-                                            <Button x:Name="SalvarTiposCursos_bt" Content="Salvar"  Height="30" Width="148" Margin="10,0,0,0" Click="SalvarTiposCursos_bt_Click"/>
-                                            <Button x:Name="DeletarTiposCursos_bt" Content="Excluir"  Height="30" Width="148" Margin="10,0,0,0" Click="DeletarTiposCursos_bt_Click" />
+
+                                        <StackPanel Orientation="Vertical" Margin="0,0" Width="30" HorizontalAlignment="Right" Height="167" VerticalAlignment="Top" >
+                                            <Button x:Name="btnAdicionarTiposCursos" ToolTip="Adicionar" Width="25"
+                                                Margin="0,0,0,7" Click="btnAdicionarTiposCursos_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/add.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnDeletarTiposCursos" ToolTip="Remover" Width="25"
+                                                    Margin="0,0,0,7" Click="btnDeletarTiposCursos_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/remove.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnCancelarTiposCursos" ToolTip="Cancelar" Width="25"
+                                                Margin="0,0,0,7" Click="btnCancelarTiposCursos_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/undo.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnSalvarTiposCursos" ToolTip="Salvar" Width="25"
+                                                    Margin="0,0,0,7" Click="btnSalvarTiposCursos_Click" IsEnabled="False">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/save.png"/>
+                                                </StackPanel>
+                                            </Button>
                                         </StackPanel>
-                                    </Grid>
+                                    </StackPanel>
+
                                 </StackPanel>
                             </GroupBox>
 
@@ -294,13 +426,13 @@
                             <!--//BEGIN//-->
 
 
-                            <GroupBox x:Name="TiposCombustiveis_gb"  Grid.Row="1" Grid.Column="1"  Header="Tipos de Combustíveis" Margin="10,10,10,10" VerticalAlignment="Stretch" >
+                            <GroupBox x:Name="TiposCombustiveis_gb"  Grid.Row="1" Grid.Column="2"  Header="Tipos de Combustíveis" Margin="10,10,10,10" VerticalAlignment="Stretch" >
                                 <StackPanel Margin="0,10,0,0">
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0" >
 
                                         <Label Content="Código:" Height="28" Width="53"  Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
                                         <TextBox CharacterCasing="Upper"  x:Name="TiposCombustiveis_tb"  Text="{Binding SelectedItem.TipoCombustivelId, ElementName=ListaTiposCombustiveis_lv, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"  Height="24"  Width="40"/>
-                                        <Label Content="Área de Acesso:" Height="28" Width="101"   Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                                        <Label Content="Combustível:" Height="28" Width="101"   Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
                                         <TextBox CharacterCasing="Upper"  x:Name="DescricaoTiposCombustiveis_tb"  Text="{Binding SelectedItem.Descricao, ElementName=ListaTiposCombustiveis_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="355"/>
 
                                     </StackPanel>
@@ -317,19 +449,35 @@
                                                 </GridView>
                                             </ListView.View>
                                         </ListView>
-                                    </StackPanel>
-                                    <Grid>
-                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="0,5,0,0" >
-                                            <Button x:Name="NovoTiposAreasAcessosSs_bt" Content="Novo"  Height="30" Width="148" Margin="10,0,0,0" Click="NovoTiposCombustiveis_bt_Click"/>
-                                            <Button x:Name="SalvarTiposAreasAcesssoSs_bt" Content="Salvar"  Height="30" Width="148" Margin="10,0,0,0" Click="SalvarTiposCombustiveis_bt_Click"/>
-                                            <Button x:Name="DeletarTiposAreasAcesssSos_bt" Content="Excluir"  Height="30" Width="148" Margin="10,0,0,0" Click="DeletarTiposCombustiveis_bt_Click"/>
+                                        <StackPanel Orientation="Vertical" Margin="0,0" Width="30" HorizontalAlignment="Right" Height="167" VerticalAlignment="Top" >
+                                            <Button x:Name="btnAdicionarTiposCombustiveis" ToolTip="Adicionar" Width="25"
+                                                Margin="0,0,0,7" Click="btnAdicionarTiposCombustiveis_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/add.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnDeletarTiposCombustiveis" ToolTip="Remover" Width="25"
+                                                    Margin="0,0,0,7" Click="btnDeletarTiposCombustiveis_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/remove.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnCancelarTiposCombustiveis" ToolTip="Cancelar" Width="25"
+                                                Margin="0,0,0,7" Click="btnCancelarTiposCombustiveis_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/undo.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnSalvarTiposCombustiveis" ToolTip="Salvar" Width="25"
+                                                    Margin="0,0,0,7" Click="btnSalvarTiposCombustiveis_Click" IsEnabled="False">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/save.png"/>
+                                                </StackPanel>
+                                            </Button>
                                         </StackPanel>
-                                    </Grid>
+                                    </StackPanel>
                                 </StackPanel>
                             </GroupBox>
-
-
-
 
                             <!--//END//-->
                         </Grid>
@@ -337,170 +485,241 @@
                 </ScrollViewer>
 
             </TabItem>
-
-
-
-
-
-
             <TabItem x:Name="CredenciaisAutorizacoes_ti"  Width="200"  Header="Credenciais e Autorizações"  >
+                <ScrollViewer VerticalScrollBarVisibility="Auto"  HorizontalScrollBarVisibility="Auto"  >
+                    <StackPanel>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="196*"/>
+                                <ColumnDefinition Width="13*"/>
+                                <ColumnDefinition Width="209*" />
+                            </Grid.ColumnDefinitions>
 
-                <Grid Width="1242" HorizontalAlignment="Right">
-                    <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-
-                    <GroupBox      x:Name="CredenciaisStatus_gb"  Grid.Row="0" Grid.Column="0"  Header=" Status de Credenciais/Autorizações " VerticalAlignment="Stretch" Margin="10,10,0,10" HorizontalAlignment="Left" Width="601" >
-                        <StackPanel Margin="0,10,0,0">
-                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0" >
-                                <Label Content="Código:" Height="28" Width="53"  Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                <TextBox CharacterCasing="Upper"  x:Name="CredencialStatus_tb"  Text="{Binding SelectedItem.CredencialStatusId, ElementName=ListaCredenciaisStatus_lv, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"  Height="24"  Width="50"/>
-                                <Label Content="Status:" Height="28" Width="65"   Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                <TextBox CharacterCasing="Upper"  x:Name="DescricaoCredencialStatus_tb"  Text="{Binding SelectedItem.Descricao, ElementName=ListaCredenciaisStatus_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="334"/>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0">
-                                <ListView x:Name="ListaCredenciaisStatus_lv" Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding CredenciaisStatus, Mode=TwoWay}" 
-                                                          SelectedItem="{Binding Path = CredenciaisStatusSelecionado, Mode=TwoWay}"  Height="167" Width="560"
-                                                   SelectedIndex="{Binding Path=CredencialStatusSelectedIndex, Mode=TwoWay}" >
-                                    <ListView.View>
-                                        <GridView FrameworkElement.FlowDirection="RightToLeft">
-                                            <GridViewColumn Width="50" Header="Cod."  DisplayMemberBinding="{Binding CredencialStatusId}"/>
-                                            <GridViewColumn Width="500" Header="Status da Credencial/Autorização"  DisplayMemberBinding="{Binding Descricao}"/>
-                                        </GridView>
-                                    </ListView.View>
-                                </ListView>
-                            </StackPanel>
-                            <Grid>
-                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="0,5,0,0" >
-                                    <Button x:Name="NovoCredencialStatus_bt" Content="Novo"  Height="30" Width="148" Margin="10,0,0,0" Click="NovoCredencialStatus_bt_Click"/>
-                                    <Button x:Name="SalvarCredencialStatus_bt" Content="Salvar"  Height="30" Width="148" Margin="10,0,0,0" Click="SalvarCredencialStatus_bt_Click"/>
-                                    <Button x:Name="DeletarCredencialStatus_bt" Content="Excluir"  Height="30" Width="148" Margin="10,0,0,0" Click="DeletarCredencialStatus_bt_Click"/>
+                            <GroupBox x:Name="CredenciaisStatus_gb"  Header=" Status de Credenciais/Autorizações:"  Grid.Row="0" Grid.Column="0"   Margin="10,10,10,10" VerticalAlignment="Stretch" >
+                                <StackPanel Margin="0,10,0,0">
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0" >
+                                        <Label Content="Código:" Height="28" Width="53"  Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                                        <TextBox CharacterCasing="Upper"  x:Name="CredencialStatus_tb"  Text="{Binding SelectedItem.CredencialStatusId, ElementName=ListaCredenciaisStatus_lv, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"  Height="24"  Width="50"/>
+                                        <Label Content="Status:" Height="28" Width="65"   Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                                        <TextBox CharacterCasing="Upper"  x:Name="DescricaoCredencialStatus_tb"  Text="{Binding SelectedItem.Descricao, ElementName=ListaCredenciaisStatus_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="334"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0">
+                                        <ListView x:Name="ListaCredenciaisStatus_lv" Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                                                  ItemsSource="{Binding CredenciaisStatus, Mode=TwoWay}" 
+                                                  SelectedItem="{Binding Path = CredenciaisStatusSelecionado, Mode=TwoWay}"  Height="167" Width="560"
+                                                  SelectedIndex="{Binding Path=CredencialStatusSelectedIndex, Mode=TwoWay}" >
+                                            <ListView.View>
+                                                <GridView FrameworkElement.FlowDirection="RightToLeft">
+                                                    <GridViewColumn Width="50" Header="Cod."  DisplayMemberBinding="{Binding CredencialStatusId}"/>
+                                                    <GridViewColumn Width="500" Header="Status da Credencial/Autorização"  DisplayMemberBinding="{Binding Descricao}"/>
+                                                </GridView>
+                                            </ListView.View>
+                                        </ListView>
+                                        <StackPanel Orientation="Vertical" Margin="0,0" Width="30" HorizontalAlignment="Right" Height="167" VerticalAlignment="Top" >
+                                            <Button x:Name="btnAdicionarCredencialStatus" ToolTip="Adicionar" Width="25" IsEnabled="False"
+                                                Margin="0,0,0,7" Click="btnAdicionarCredencialStatus_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/add.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnDeletarCredencialStatus" ToolTip="Remover" Width="25" IsEnabled="False"
+                                                    Margin="0,0,0,7" Click="btnDeletarCredencialStatus_Click" >
+                                                <StackPanel>
+                                                    <Image Source="../Resources/remove.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnCancelarCredencialStatus" ToolTip="Cancelar" Width="25"
+                                                Margin="0,0,0,7" Click="btnCancelarCredencialStatus_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/undo.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnSalvarCredencialStatus" ToolTip="Salvar" Width="25"
+                                                    Margin="0,0,0,7" Click="btnSalvarCredencialStatus_Click" IsEnabled="False">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/save.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                        </StackPanel>
+                                    </StackPanel>
                                 </StackPanel>
-                            </Grid>
-                        </StackPanel>
-                    </GroupBox>
+                            </GroupBox>
 
 
-                    <GroupBox      x:Name="TiposAcessos_gb"  Grid.Row="0" Grid.Column="1"  Header=" Tipos de Acessos " Margin="10,10,10,10" VerticalAlignment="Stretch" >
-                        <StackPanel Margin="0,10,0,0">
-                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0" >
+                            <GroupBox x:Name="TiposAcessos_gb"  Grid.Row="0" Grid.Column="2"  Header=" Tipos de Acessos " Margin="10,10,10,10" VerticalAlignment="Stretch" >
+                                <StackPanel Margin="0,10,0,0">
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0" >
 
-                                <Label Content="Código:" Height="28" Width="53"  Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                <TextBox CharacterCasing="Upper"  x:Name="CodigoAcessos_tb"  Text="{Binding SelectedItem.TipoAcessoId, ElementName=ListaTiposAcessos_lv, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"  Height="24"  Width="50"/>
-                                <Label Content="Tipo de Acesso:" Height="28" Width="112"   Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                <TextBox CharacterCasing="Upper"  x:Name="DescricaoAcessos_tb"  Text="{Binding SelectedItem.Descricao, ElementName=ListaTiposAcessos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="334"/>
+                                        <Label Content="Código:" Height="28" Width="53"  Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                                        <TextBox CharacterCasing="Upper"  x:Name="CodigoAcessos_tb"  Text="{Binding SelectedItem.TipoAcessoId, ElementName=ListaTiposAcessos_lv, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"  Height="24"  Width="50"/>
+                                        <Label Content="Tipo de Acesso:" Height="28" Width="112"   Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                                        <TextBox CharacterCasing="Upper"  x:Name="DescricaoAcessos_tb"  Text="{Binding SelectedItem.Descricao, ElementName=ListaTiposAcessos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="334"/>
 
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0">
-                                <ListView x:Name="ListaTiposAcessos_lv" Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding TiposAcessos, Mode=TwoWay}" 
-                                                          SelectedItem="{Binding Path = TipoAcessoSelecionado, Mode=TwoWay}"  Height="167" Width="560" 
-                                                   SelectedIndex="{Binding Path=TipoAcessoSelectedIndex, Mode=TwoWay}" >
-                                    <ListView.View>
-                                        <GridView FrameworkElement.FlowDirection="RightToLeft">
-                                            <GridViewColumn Width="50" Header="Cod."  DisplayMemberBinding="{Binding TipoAcessoId}"/>
-                                            <GridViewColumn Width="500" Header="Tipo de Acesso"  DisplayMemberBinding="{Binding Descricao}"/>
-                                        </GridView>
-                                    </ListView.View>
-                                </ListView>
-                            </StackPanel>
-                            <Grid>
-                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="0,5,0,0" >
-                                    <Button x:Name="NovoTiposAcesso_bt" Content="Novo"  Height="30" Width="148" Margin="10,0,0,0" Click="NovoTiposAcesso_bt_Click"/>
-                                    <Button x:Name="SalvarTiposAcesso_bt" Content="Salvar"  Height="30" Width="148" Margin="10,0,0,0" Click="SalvarTiposAcesso_bt_Click"/>
-                                    <Button x:Name="DeletarTiposAcesso_bt" Content="Excluir"  Height="30" Width="148" Margin="10,0,0,0" Click="DeletarTiposAcesso_bt_Click"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0">
+                                        <ListView x:Name="ListaTiposAcessos_lv" Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding TiposAcessos, Mode=TwoWay}" 
+                                                  SelectedItem="{Binding Path = TipoAcessoSelecionado, Mode=TwoWay}"  Height="167" Width="560" 
+                                                  SelectedIndex="{Binding Path=TipoAcessoSelectedIndex, Mode=TwoWay}" >
+                                            <ListView.View>
+                                                <GridView FrameworkElement.FlowDirection="RightToLeft">
+                                                    <GridViewColumn Width="50" Header="Cod."  DisplayMemberBinding="{Binding TipoAcessoId}"/>
+                                                    <GridViewColumn Width="500" Header="Tipo de Acesso"  DisplayMemberBinding="{Binding Descricao}"/>
+                                                </GridView>
+                                            </ListView.View>
+                                        </ListView>
+                                        <StackPanel Orientation="Vertical" Margin="0,0" Width="30" HorizontalAlignment="Right" Height="167" VerticalAlignment="Top" >
+                                            <Button x:Name="btnAdicionarTiposAcesso" ToolTip="Adicionar" Width="25"
+                                                Margin="0,0,0,7" Click="btnAdicionarTiposAcesso_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/add.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnDeletarTiposAcesso" ToolTip="Remover" Width="25"
+                                                    Margin="0,0,0,7" Click="btnDeletarTiposAcesso_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/remove.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnCancelarTiposAcesso" ToolTip="Cancelar" Width="25"
+                                                Margin="0,0,0,7" Click="btnCancelarTiposAcesso_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/undo.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnSalvarTiposAcesso" ToolTip="Salvar" Width="25"
+                                                    Margin="0,0,0,7" Click="btnSalvarTiposAcesso_Click" IsEnabled="False">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/save.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                        </StackPanel>
+                                    </StackPanel>
+
                                 </StackPanel>
-                            </Grid>
-                        </StackPanel>
-                    </GroupBox>
+                            </GroupBox>
 
 
 
-                    <GroupBox x:Name="TecnologiasCredenciais_gb"  Grid.Row="1" Grid.Column="0"  Header="Tecnologias de Credenciais " Margin="10,10,10,10" VerticalAlignment="Stretch" >
-                        <StackPanel Margin="0,10,0,0">
-                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0" >
+                            <GroupBox x:Name="TecnologiasCredenciais_gb"  Grid.Row="1" Grid.Column="0"  Header="Tecnologias de Credenciais " Margin="10,10,10,10" VerticalAlignment="Stretch" >
+                                <StackPanel Margin="0,10,0,0">
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0" >
 
-                                <Label Content="Código:" Height="28" Width="53"  Margin="0,0,0,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                <TextBox CharacterCasing="Upper"  x:Name="CodigoTecnologiasCredenciais_tb"  Text="{Binding SelectedItem.TecnologiaCredencialId, ElementName=ListaTecnologiasCredenciais_lv, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"  Height="24"  Width="40"/>
-                                <Label Content="Tec. de Credencial:" Height="28" Width="107"   Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                <TextBox CharacterCasing="Upper"  x:Name="DescricaoTecnologiasCredenciais_tb"  Text="{Binding SelectedItem.Descricao, ElementName=ListaTecnologiasCredenciais_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="354"/>
+                                        <Label Content="Código:" Height="28" Width="53"  Margin="0,0,0,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                                        <TextBox CharacterCasing="Upper"  x:Name="CodigoTecnologiasCredenciais_tb"  Text="{Binding SelectedItem.TecnologiaCredencialId, ElementName=ListaTecnologiasCredenciais_lv, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"  Height="24"  Width="40"/>
+                                        <Label Content="Tec. de Credencial:" Height="28" Width="107"   Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                                        <TextBox CharacterCasing="Upper"  x:Name="DescricaoTecnologiasCredenciais_tb"  Text="{Binding SelectedItem.Descricao, ElementName=ListaTecnologiasCredenciais_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="354"/>
 
-                            </StackPanel>
+                                    </StackPanel>
 
-                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0">
-                                <ListView x:Name="ListaTecnologiasCredenciais_lv" Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding TecnologiasCredenciais, Mode=TwoWay}" 
-                                                          SelectedItem="{Binding Path = TecnologiaCredencialSelecionada, Mode=TwoWay}"  Height="167" Width="560" 
-                                                   SelectedIndex="{Binding Path=TecnologiaCredencialSelectedIndex, Mode=TwoWay}" >
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0">
+                                        <ListView x:Name="ListaTecnologiasCredenciais_lv" Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding TecnologiasCredenciais, Mode=TwoWay}" 
+                                                                  SelectedItem="{Binding Path = TecnologiaCredencialSelecionada, Mode=TwoWay}"  Height="167" Width="560" 
+                                                           SelectedIndex="{Binding Path=TecnologiaCredencialSelectedIndex, Mode=TwoWay}" >
 
-                                    <ListView.View>
-                                        <GridView FrameworkElement.FlowDirection="RightToLeft">
-                                            <GridViewColumn Width="50" Header="Cód."  DisplayMemberBinding="{Binding TecnologiaCredencialId}"/>
-                                            <GridViewColumn Width="500" Header="Tecnologia de Credencial"  DisplayMemberBinding="{Binding Descricao}"/>
-                                        </GridView>
-                                    </ListView.View>
-                                </ListView>
-                            </StackPanel>
-                            <Grid>
-                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="0,5,0,0" >
-                                    <Button x:Name="NovoTecnologiasCredenciais_bt" Content="Novo"  Height="30" Width="148" Margin="10,0,0,0" Click="NovoTecnologiasCredenciais_bt_Click"/>
-                                    <Button x:Name="SalvarTecnologiasCredenciais_bt" Content="Salvar"  Height="30" Width="148" Margin="10,0,0,0" Click="SalvarTecnologiasCredenciais_bt_Click"/>
-                                    <Button x:Name="DeletarTecnologiasCredenciais_bt" Content="Excluir"  Height="30" Width="148" Margin="10,0,0,0" Click="DeletarTecnologiasCredenciais_bt_Click"/>
+                                            <ListView.View>
+                                                <GridView FrameworkElement.FlowDirection="RightToLeft">
+                                                    <GridViewColumn Width="50" Header="Cód."  DisplayMemberBinding="{Binding TecnologiaCredencialId}"/>
+                                                    <GridViewColumn Width="500" Header="Tecnologia de Credencial"  DisplayMemberBinding="{Binding Descricao}"/>
+                                                </GridView>
+                                            </ListView.View>
+                                        </ListView>
+
+                                        <StackPanel Orientation="Vertical" Margin="0,0" Width="30" HorizontalAlignment="Right" Height="167" VerticalAlignment="Top" >
+                                            <Button x:Name="btnAdicionarTecnologiasCredenciais" ToolTip="Adicionar" Width="25"
+                                                Margin="0,0,0,7" Click="btnAdicionarTecnologiasCredenciais_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/add.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnDeletarTecnologiasCredenciais" ToolTip="Remover" Width="25"
+                                                    Margin="0,0,0,7" Click="btnDeletarTecnologiasCredenciais_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/remove.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnCancelarTecnologiasCredenciais" ToolTip="Cancelar" Width="25"
+                                                Margin="0,0,0,7" Click="btnCancelarTecnologiasCredenciais_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/undo.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnSalvarTecnologiasCredenciais" ToolTip="Salvar" Width="25"
+                                                    Margin="0,0,0,7" Click="btnSalvarTecnologiasCredenciais_Click" IsEnabled="False">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/save.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                        </StackPanel>
+                                    </StackPanel>
                                 </StackPanel>
-                            </Grid>
-                        </StackPanel>
-                    </GroupBox>
+                            </GroupBox>
 
-                    <GroupBox x:Name="FormatosCredenciais_gb"  Grid.Row="1" Grid.Column="1"  Header="Formatos de Credenciais " Margin="10,10,10,10" VerticalAlignment="Stretch" >
-                        <StackPanel Margin="0,10,0,0">
-                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0" >
+                            <GroupBox x:Name="FormatosCredenciais_gb"  Grid.Row="1" Grid.Column="2"  Header="Formatos de Credenciais " Margin="10,10,10,10" VerticalAlignment="Stretch" >
+                                <StackPanel Margin="0,10,0,0">
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0" >
 
-                                <Label Content="Código:" Height="28" Width="53"  Margin="0,0,0,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                <TextBox CharacterCasing="Upper"  x:Name="CodigoFormatosCredenciais_tb"  Text="{Binding SelectedItem.FormatoCredencialId, ElementName=ListaFormatosCredenciais_lv, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"  Height="24"  Width="40"/>
-                                <Label Content="Tec. de Credencial:" Height="28" Width="107"   Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                <TextBox CharacterCasing="Upper"  x:Name="DescricaoFormatosCredenciais_tb"  Text="{Binding SelectedItem.Descricao, ElementName=ListaFormatosCredenciais_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="354"/>
+                                        <Label Content="Código:" Height="28" Width="53"  Margin="0,0,0,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                                        <TextBox CharacterCasing="Upper"  x:Name="CodigoFormatosCredenciais_tb"  Text="{Binding SelectedItem.FormatoCredencialId, ElementName=ListaFormatosCredenciais_lv, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"  Height="24"  Width="40"/>
+                                        <Label Content="Tec. de Credencial:" Height="28" Width="107"   Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                                        <TextBox CharacterCasing="Upper"  x:Name="DescricaoFormatosCredenciais_tb"  Text="{Binding SelectedItem.Descricao, ElementName=ListaFormatosCredenciais_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="354"/>
 
-                            </StackPanel>
+                                    </StackPanel>
 
-                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0">
-                                <ListView x:Name="ListaFormatosCredenciais_lv" Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding FormatosCredenciais, Mode=TwoWay}" 
-                                                          SelectedItem="{Binding Path = FormatoCredencialSelecionada, Mode=TwoWay}"  Height="167" Width="560" 
-                                                   SelectedIndex="{Binding Path=FormatoCredencialSelectedIndex, Mode=TwoWay}" >
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0">
+                                        <ListView x:Name="ListaFormatosCredenciais_lv" Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                                                  ItemsSource   ="{Binding FormatosCredenciais, Mode=TwoWay}" 
+                                                  SelectedItem  ="{Binding Path = FormatoCredencialSelecionado, Mode=TwoWay}"  Height="167" Width="560" 
+                                                  SelectedIndex ="{Binding Path=FormatoCredencialSelectedIndex, Mode=TwoWay}" >
 
-                                    <ListView.View>
-                                        <GridView FrameworkElement.FlowDirection="RightToLeft">
-                                            <GridViewColumn Width="50" Header="Cód."  DisplayMemberBinding="{Binding FormatoCredencialId}"/>
-                                            <GridViewColumn Width="500" Header="Formato de Credencial"  DisplayMemberBinding="{Binding Descricao}"/>
-                                        </GridView>
-                                    </ListView.View>
-                                </ListView>
-                            </StackPanel>
-                            <Grid>
-                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="0,5,0,0" >
-                                    <Button x:Name="NovoFormatosCredenciais_bt" Content="Novo"  Height="30" Width="148" Margin="10,0,0,0" Click="NovoFormatoCredencial_bt_Click"/>
-                                    <Button x:Name="SalvarFormatosCredenciais_bt" Content="Salvar"  Height="30" Width="148" Margin="10,0,0,0" Click="SalvarFormatoCredencial_bt_Click"/>
-                                    <Button x:Name="DeletarFormatosCredenciais_bt" Content="Excluir"  Height="30" Width="148" Margin="10,0,0,0" Click="DeletarFormatoCredencial_bt_Click"/>
+                                            <ListView.View>
+                                                <GridView FrameworkElement.FlowDirection="RightToLeft">
+                                                    <GridViewColumn Width="50" Header="Cód."  DisplayMemberBinding="{Binding FormatoCredencialId}"/>
+                                                    <GridViewColumn Width="500" Header="Formato de Credencial"  DisplayMemberBinding="{Binding Descricao}"/>
+                                                </GridView>
+                                            </ListView.View>
+                                        </ListView>
+                                        <StackPanel Orientation="Vertical" Margin="0,0" Width="30" HorizontalAlignment="Right" Height="167" VerticalAlignment="Top" >
+                                            <Button x:Name="btnAdicionarFormatosCredenciais" ToolTip="Adicionar" Width="25"
+                                                Margin="0,0,0,7" Click="btnAdicionarFormatosCredenciais_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/add.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnDeletarFormatosCredenciais" ToolTip="Remover" Width="25"
+                                                    Margin="0,0,0,7" Click="btnDeletarFormatosCredenciais_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/remove.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnCancelarFormatosCredenciais" ToolTip="Cancelar" Width="25"
+                                                Margin="0,0,0,7" Click="btnCancelarFormatosCredenciais_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/undo.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnSalvarFormatosCredenciais" ToolTip="Salvar" Width="25"
+                                                    Margin="0,0,0,7" Click="btnSalvarFormatosCredenciais_Click" IsEnabled="False">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/save.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                        </StackPanel>
+
+                                    </StackPanel>
                                 </StackPanel>
-                            </Grid>
-                        </StackPanel>
-                    </GroupBox>
+                            </GroupBox>
 
 
 
-                </Grid>
-
-
-
-
-
-
+                        </Grid>
+                    </StackPanel>
+                </ScrollViewer>
             </TabItem>
-
-
-
 
             <TabItem x:Name="Relatorios_ti"  Width="200"  Header="Relatórios e Layouts Crachás"  >
 
@@ -513,11 +732,12 @@
                                 <RowDefinition />
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="196*"/>
+                                <ColumnDefinition Width="13*"/>
+                                <ColumnDefinition Width="209*" />
                             </Grid.ColumnDefinitions>
 
-                            <GroupBox x:Name="Relatórios_gb"  Grid.Row="0" Grid.Column="0"  Header=" Relatórios " Margin="10,10,10,10" VerticalAlignment="Stretch" >
+                            <GroupBox x:Name="Relatórios_gb" Header=" Relatórios:"   Grid.Row="0" Grid.Column="0"   Margin="10,10,10,10" VerticalAlignment="Stretch" >
                                 <StackPanel Margin="0,10,0,0">
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0" Width="556" >
 
@@ -530,7 +750,7 @@
                                                 <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Pasta.ico"/>
                                             </StackPanel>
                                         </Button>
-                                        <Button x:Name="AbrirRelatorio_bt" Height="24" Margin="10,0,0,0" VerticalAlignment="Center" Width="24" Click="AbrirRelatorio_bt_Click" >
+                                        <Button x:Name="AbrirRelatorio_bt" Height="24" Margin="10,0,0,0" VerticalAlignment="Center" Width="24" Click="AbrirRelatorio_bt_Click">
                                             <StackPanel>
                                                 <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Olho.png"/>
                                             </StackPanel>
@@ -558,19 +778,40 @@
                                                 </GridView>
                                             </ListView.View>
                                         </ListView>
-                                    </StackPanel>
-                                    <Grid>
-                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="0,5,0,0" >
-                                            <Button x:Name="NovoRelatorio_bt" Content="Novo"  Height="30" Width="148" Margin="10,0,0,0" Click="NovoRelatorio_bt_Click"/>
-                                            <Button x:Name="SalvarRelatorio_bt" Content="Salvar"  Height="30" Width="148" Margin="10,0,0,0" Click="SalvarRelatorio_bt_Click"/>
-                                            <Button x:Name="ExcluirRelatorio_bt" Content="Excluir"  Height="30" Width="148" Margin="10,0,0,0" Click="ExcluirRelatorio_bt_Click"/>
+                                        <StackPanel Orientation="Vertical" Margin="0,0" Width="30" HorizontalAlignment="Right" Height="167" VerticalAlignment="Top" >
+                                            <Button x:Name="btnAdicionarRelatorio" ToolTip="Adicionar" Width="25"
+                                                Margin="0,0,0,7" Click="btnAdicionarRelatorio_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/add.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnDeletarRelatorio" ToolTip="Remover" Width="25"
+                                                    Margin="0,0,0,7" Click="btnDeletarRelatorio_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/remove.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnCancelarRelatorio" ToolTip="Cancelar" Width="25"
+                                                Margin="0,0,0,7" Click="btnCancelarRelatorio_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/undo.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnSalvarRelatorio" ToolTip="Salvar" Width="25"
+                                                    Margin="0,0,0,7" Click="btnSalvarRelatorio_Click" IsEnabled="False">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/save.png"/>
+                                                </StackPanel>
+                                            </Button>
                                         </StackPanel>
-                                    </Grid>
+
+                                    </StackPanel>
+
                                 </StackPanel>
 
                             </GroupBox>
 
-                            <GroupBox x:Name="RelatóriosGerenciais_gb"  Grid.Row="0" Grid.Column="3"  Header=" Relatórios Gerenciais (Internos) " Margin="10,10,10,10" VerticalAlignment="Stretch" >
+                            <GroupBox x:Name="RelatóriosGerenciais_gb"  Grid.Row="0" Grid.Column="2"  Header=" Relatórios Gerenciais (Internos) " Margin="10,10,10,10" VerticalAlignment="Stretch" >
                                 <StackPanel Margin="0,10,0,0">
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0" Width="556" >
 
@@ -583,7 +824,7 @@
                                                 <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Pasta.ico"/>
                                             </StackPanel>
                                         </Button>
-                                        <Button x:Name="AbrirRelatorioGerencial_bt" Height="24" Margin="10,0,0,0" VerticalAlignment="Center" Width="24" Click="AbrirRelatorioGerencial_bt_Click" >
+                                        <Button x:Name="AbrirRelatorioGerencial_bt" Height="24" Margin="10,0,0,0" VerticalAlignment="Center" Width="24" Click="AbrirRelatorioGerencial_bt_Click" Visibility="Hidden" >
                                             <StackPanel>
                                                 <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Olho.png"/>
                                             </StackPanel>
@@ -611,14 +852,35 @@
                                                 </GridView>
                                             </ListView.View>
                                         </ListView>
-                                    </StackPanel>
-                                    <Grid>
-                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="0,5,0,0" >
-                                            <Button x:Name="NovoRelatorioGerencial_bt" Content="Novo"  Height="30" Width="148" Margin="10,0,0,0" Click="NovoRelatorioGerencial_bt_Click"/>
-                                            <Button x:Name="SalvarRelatorioGerencial_bt" Content="Salvar"  Height="30" Width="148" Margin="10,0,0,0" Click="SalvarRelatorioGerencial_bt_Click"/>
-                                            <Button x:Name="ExcluirRelatorioGerencial_bt" Content="Excluir"  Height="30" Width="148" Margin="10,0,0,0" Click="ExcluirRelatorioGerencial_bt_Click"/>
+                                        <StackPanel Orientation="Vertical" Margin="0,0" Width="30" HorizontalAlignment="Right" Height="167" VerticalAlignment="Top" >
+                                            <Button x:Name="btnAdicionarRelatorioGerencial" ToolTip="Adicionar" Width="25"
+                                                Margin="0,0,0,7" Click="btnAdicionarRelatorioGerencial_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/add.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnDeletarRelatorioGerencial" ToolTip="Remover" Width="25"
+                                                    Margin="0,0,0,7" Click="btnDeletarRelatorioGerencial_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/remove.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnCancelarRelatorioGerencial" ToolTip="Cancelar" Width="25"
+                                                Margin="0,0,0,7" Click="btnCancelarRelatorioGerencial_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/undo.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnSalvarRelatorioGerencial" ToolTip="Salvar" Width="25"
+                                                    Margin="0,0,0,7" Click="btnSalvarRelatorioGerencial_Click" IsEnabled="False">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/save.png"/>
+                                                </StackPanel>
+                                            </Button>
                                         </StackPanel>
-                                    </Grid>
+
+                                    </StackPanel>
+
                                 </StackPanel>
                             </GroupBox>
 
@@ -626,16 +888,27 @@
                                 <StackPanel Margin="0,10,0,0">
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0" Width="556" >
 
-                                        <Label Content="Código:" Height="28"  Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                        <TextBox CharacterCasing="Upper"  x:Name="CodigoCracha_tb"  Text="{Binding SelectedItem.LayoutCrachaId, ElementName=ListaLayoutsCrachas_lv, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"  Height="24"  Width="50"/>
-                                        <Label Content="Modelo de Crachá:" Height="28" Width="110"   Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                        <TextBox CharacterCasing="Upper"  x:Name="Nome_tb"  Text="{Binding SelectedItem.Nome, ElementName=ListaLayoutsCrachas_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="267"/>
+                                        <Label Content="Código:" Height="28"  Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" Visibility="Collapsed" />
+                                        <TextBox CharacterCasing="Upper"  x:Name="CodigoCracha_tb"  Text="{Binding SelectedItem.LayoutCrachaId, ElementName=ListaLayoutsCrachas_lv, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"  Height="24"  Width="50" Visibility="Collapsed"/>
+                                        <Label Content="Modelo:" Height="28" Width="53"   Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                                        <TextBox CharacterCasing="Upper"  x:Name="Nome_tb"  Text="{Binding SelectedItem.Nome, ElementName=ListaLayoutsCrachas_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="248"/>
+                                        <Label Content="Tipo:" Height="28"  Margin="0,0,1,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0"/>
+
+                                        <ComboBox  x:Name="cbTipoLayoutCracha" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" 
+                                              ItemsSource="{Binding TipoLayoutCracha, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                SelectedValue="{Binding SelectedItem.TipoCracha,  ElementName=ListaLayoutsCrachas_lv, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                                    DisplayMemberPath="Description" SelectedValuePath="Value"
+                                                        IsSynchronizedWithCurrentItem="True"  IsEnabled="true" Width="90"/>
+
+                                        <Label Content="Valor:" Height="28"  Margin="0,0,1,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0"/>
+                                        <TextBox x:Name="ValorCracha_tb" IsEnabled="true" Text="{Binding SelectedItem.Valor, ElementName=ListaLayoutsCrachas_lv, UpdateSourceTrigger=PropertyChanged}" Height="24"  Width="50"/>
+
                                         <Button x:Name="BuscarCracha_bt" Height="24" Margin="10,0,0,0" VerticalAlignment="Center" Width="24" Click="BuscarCracha_bt_Click">
                                             <StackPanel>
                                                 <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Pasta.ico"/>
                                             </StackPanel>
                                         </Button>
-                                        <Button x:Name="AbrirCracha_bt" Height="24" Margin="10,0,0,0" VerticalAlignment="Center" Width="24" Click="AbrirCracha_bt_Click" >
+                                        <Button x:Name="AbrirCracha_bt" Height="24" Margin="10,0,0,0" VerticalAlignment="Center" Width="24" Click="AbrirCracha_bt_Click" Visibility="Hidden">
                                             <StackPanel>
                                                 <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Olho.png"/>
                                             </StackPanel>
@@ -648,29 +921,232 @@
                                                           SelectedItem="{Binding Path = LayoutCrachaSelecionado, Mode=TwoWay}"  Height="167" Width="560"  SelectedIndex="{Binding Path=LayoutCrachaSelectedIndex, Mode=TwoWay}" >
                                             <ListView.View>
                                                 <GridView FrameworkElement.FlowDirection="RightToLeft">
-                                                    <GridViewColumn Width="50" Header="Cód."  DisplayMemberBinding="{Binding LayoutCrachaId}"/>
-                                                    <GridViewColumn Width="500" Header="Nome"  DisplayMemberBinding="{Binding Nome}"/>
+                                                    <!--<GridViewColumn Width="50" Header="Cód."  DisplayMemberBinding="{Binding LayoutCrachaId}"/>-->
+                                                    <GridViewColumn Width="400" Header="Nome"  DisplayMemberBinding="{Binding Nome}"/>
+                                                    <GridViewColumn Width="90" Header="Tipo"  DisplayMemberBinding="{Binding TipoCrachaDescricao}"/>
+                                                    <GridViewColumn Width="100" Header="Valor"  DisplayMemberBinding="{Binding Valor}"/>
                                                 </GridView>
                                             </ListView.View>
                                         </ListView>
-                                    </StackPanel>
-                                    <Grid>
-                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="0,5,0,0" >
-                                            <Button x:Name="NovoCracha_bt" Content="Novo"  Height="30" Width="148" Margin="10,0,0,0" Click="NovoCracha_bt_Click"/>
-                                            <Button x:Name="SalvarCracha_bt" Content="Salvar"  Height="30" Width="148" Margin="10,0,0,0" Click="SalvarCracha_bt_Click"/>
-                                            <Button x:Name="ExcluirCracha_bt" Content="Excluir"  Height="30" Width="148" Margin="10,0,0,0" Click="ExcluirCracha_bt_Click"/>
+                                        <StackPanel Orientation="Vertical" Margin="0,0" Width="30" HorizontalAlignment="Right" Height="167" VerticalAlignment="Top" >
+                                            <Button x:Name="btnAdicionarCracha" ToolTip="Adicionar" Width="25"
+                                                Margin="0,0,0,7" Click="btnAdicionarCracha_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/add.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnDeletarCracha" ToolTip="Remover" Width="25"
+                                                    Margin="0,0,0,7" Click="btnDeletarCracha_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/remove.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnCancelarCracha" ToolTip="Cancelar" Width="25"
+                                                Margin="0,0,0,7" Click="btnCancelarCracha_Click">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/undo.png"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button x:Name="btnSalvarCracha" ToolTip="Salvar" Width="25"
+                                                    Margin="0,0,0,7" Click="btnSalvarCracha_Click" IsEnabled="False">
+                                                <StackPanel>
+                                                    <Image Source="../Resources/save.png"/>
+                                                </StackPanel>
+                                            </Button>
                                         </StackPanel>
-                                    </Grid>
+                                    </StackPanel>
                                 </StackPanel>
                             </GroupBox>
-
-
-
                         </Grid>
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
 
+            <TabItem x:Name="Congiguracaosistema" Width="200" Header="Configurações do Sistema">
+                <ScrollViewer   VerticalScrollBarVisibility="Auto"  HorizontalScrollBarVisibility="Auto"  >
+                    <StackPanel  >
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="196*"/>
+                                <ColumnDefinition Width="13*"/>
+                                <ColumnDefinition Width="209*" />
+                            </Grid.ColumnDefinitions>
+
+                            <GroupBox Header="Empresa" Background="BlueViolet" Height="197" VerticalAlignment="Top" Margin="300,20,2,0">
+                                <StackPanel Orientation="Horizontal" Height="185" Margin="2,0,-2,0" VerticalAlignment="Top" >
+                                    <StackPanel.Resources>
+                                    </StackPanel.Resources>
+                                    <StackPanel Margin="1,1,1,0" Height="180" VerticalAlignment="Top" Width="421">
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
+                                            HorizontalAlignment="Left" Margin="1">
+                                            <Label Content="CNPJ:" Height="28" Width="64" Margin="40,0,0,0" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"  />
+                                            <TextBox x:Name="txtCnpj" MaxLength="20" IsEnabled="True" Height="24" Width="120" Foreground="White"
+                                             VerticalContentAlignment="Center"
+                                             Text="{Binding Entity.CNPJ, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                             HorizontalContentAlignment="Center" />
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
+                                            HorizontalAlignment="Left" Margin="1">
+                                            <Label Content="Razão Social:" Height="28" Width="100" Margin="1"
+                                           Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
+                                            <TextBox CharacterCasing="Upper" Text="{Binding Entity.NomeEmpresa}" x:Name="ttNome_tb"
+                                             MaxLength="100" IsEnabled="True" Height="24" Width="304"
+                                               />
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="1">
+                                            <Label Content="Nome Fantasia:" Height="28" Width="100" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
+                                            <TextBox CharacterCasing="Upper" x:Name="Apelido_tb" MaxLength="30"
+                                             Text="{Binding Entity.Apelido, UpdateSourceTrigger=PropertyChanged}"
+                                             IsEnabled="True" Height="24" Width="200" />
+
+                                            <!--<Label Content="Sigla:" Height="28" Width="53" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
+                                            <TextBox CharacterCasing="Upper"  x:Name="Sigla_tb" MaxLength="3"
+                                             Text="{Binding Entity.Sigla, UpdateSourceTrigger=PropertyChanged}"
+                                             HorizontalContentAlignment="Center" IsEnabled="True" Height="24" Width="49"/>-->
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="1">
+                                            <Label Content="Responsável:" Height="28" Width="100" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
+                                            <TextBox CharacterCasing="Upper" x:Name="Contato1_tb" MaxLength="50"
+                                            Text="{Binding Entity.Responsavel, UpdateSourceTrigger=PropertyChanged}" IsEnabled="True" Height="24" Width="305" />
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="1">
+                                            <Label Content="Aeroporto:" Height="28" Width="100" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
+                                            <TextBox CharacterCasing="Upper" x:Name="txtNomeAeroporto" MaxLength="100"
+                                            Text="{Binding Entity.NomeAeroporto, UpdateSourceTrigger=PropertyChanged}" IsEnabled="True" Height="24" Width="305" />
+                                        </StackPanel>
+
+                                    </StackPanel>
+                                    <StackPanel VerticalAlignment="Top" Margin="50,6,20,0" Height="140" Width="101">
+                                        <Border CornerRadius="3" BorderThickness="1" Grid.Column="0" Width="100" Height="100"
+                                            HorizontalAlignment="Left" BorderBrush="#FF686868">
+                                            <Image x:Name="Logo_im" Stretch="Uniform"                                           
+                                            Margin="3" Source="{Binding Entity.EmpresaLOGO, Converter={StaticResource ImageConverter}, Mode=TwoWay, UpdateSourceTrigger=Explicit}"/>
+                                        </Border>
+                                        <Button Content="Selecionar Logo"
+                                        HorizontalAlignment="Center" Margin="0,10,0,0" Height="30" Width="100" Click="Button_Click"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Vertical" Margin="0,0" Width="30" HorizontalAlignment="Right" Height="167" VerticalAlignment="Top" >
+                                        <Button x:Name="btnAdicionarTipoAtividade55" Content="{StaticResource imgAdd}" ToolTip="Adicionar" Width="25"
+                                                Margin="0,0,0,7" Visibility="Collapsed" Click="NovoTipoAtividade_bt_Click" />
+
+                                        <Button x:Name="btnExcluirTipoAtividade55" Content="{StaticResource imgRemove}" ToolTip="Remover" Width="25"
+                                                    Margin="0,0,0,7" Visibility="Collapsed" Click="DeletarTipoAtividade_bt_Click" />
+
+                                        <Button x:Name="btnCancelarTipoAtividade55" Content="{StaticResource imgCancel}" ToolTip="Cancelar" Width="25"
+                                                Margin="0,0,0,7" Visibility="Collapsed" Click="CancelarTipoAtividade_bt_Click" />
+
+                                        <Button x:Name="btnSalvarConfiguracoesSistema" Content="{StaticResource imgSave}" ToolTip="Salvar" Width="25"
+                                                    Margin="0,0,0,7" IsEnabled="True" Click="BtnSalvarConfiguracoesSistema_Click"/>
+                                    </StackPanel>
+
+                                </StackPanel>
+
+                            </GroupBox>
+                            <GroupBox Background="Brown"
+                              Grid.Column="0" Header="Configurações" Margin="300,220,0,-23" Height="200" VerticalAlignment="Top" Grid.RowSpan="3">
+                                <StackPanel Margin="1">
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
+                                        Margin="1">
+
+                                        <CheckBox Name="Contrato" ToolTip="Essa opção habilita contratos automático." 
+                                              Content="Contrato" Foreground="YellowGreen"  HorizontalAlignment="Left" Height="17" 
+                                              Margin="115,7,0,0" Grid.Row="3" VerticalAlignment="Top" Width="70"
+                                              IsChecked="{Binding Entity.Contrato, UpdateSourceTrigger=PropertyChanged}" />
+                                        <CheckBox Name="Colete" ToolTip="" 
+                                              Content="Colete" Foreground="YellowGreen"  HorizontalAlignment="Left" Height="17" 
+                                              Margin="0,7,0,0" Grid.Row="3" VerticalAlignment="Top" Width="60"
+                                              IsChecked="{Binding Entity.Colete, UpdateSourceTrigger=PropertyChanged}" />
+                                        <CheckBox Name="Regra" ToolTip="" 
+                                              Content="Regras" Foreground="YellowGreen"  HorizontalAlignment="Left" Height="17" 
+                                              Margin="0,7,0,0" Grid.Row="3" VerticalAlignment="Top" Width="70"
+                                              IsChecked="{Binding Entity.regras, UpdateSourceTrigger=PropertyChanged}" />
+
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
+                                        Margin="1">
+                                        <Label Content="E-Mail Principal:" Height="28" Width="110" Margin="1"
+                                       Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
+                                        <TextBox CharacterCasing="Lower" x:Name="Email1_tb" Margin="1" MaxLength="50"
+                                         Text="{Binding Entity.Email, UpdateSourceTrigger=PropertyChanged}"
+                                         IsEnabled="True" Height="24" Width="444" />
+
+                                    </StackPanel>
+
+
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
+                                        Margin="1,1,0,1" Width="590">
+                                        <Label Content="E-Mail SMTP:" Height="28" Width="110" Margin="1"
+                                       Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
+                                        <TextBox CharacterCasing="Lower" x:Name="Email2_tb" MaxLength="30"
+                                         Text="{Binding Entity.SMTP, UpdateSourceTrigger=PropertyChanged}"
+                                         IsEnabled="True" Height="24" Width="180" />
+
+                                        <Label Content="URL:" Height="28" Width="84" Margin="1" Foreground="#FFD0D0D0"                                        HorizontalContentAlignment="Right" />
+                                        <TextBox Foreground="#FFD0D0D0"  CharacterCasing="Upper" x:Name="url_tb" MaxLength="200"                                         
+                                         Margin="1" IsEnabled="True" Height="24" Width="180"
+                                         HorizontalContentAlignment="Left" 
+                                         Text="{Binding Entity.UrlSistema, UpdateSourceTrigger=PropertyChanged}"/>
+
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
+                                        Margin="1,1,0,1" Width="590">
+
+                                        <Label Content="E-Mail Usuário:" Height="28" Width="110" Margin="1" Foreground="#FFD0D0D0"                                        HorizontalContentAlignment="Right" />
+                                        <TextBox Foreground="#FFD0D0D0"  CharacterCasing="Upper" x:Name="Usuario_tb" MaxLength="15"                                         
+                                         Margin="1" IsEnabled="True" Height="24" Width="180"
+                                         HorizontalContentAlignment="Center" 
+                                         Text="{Binding Entity.EmailUsuario, UpdateSourceTrigger=PropertyChanged}"/>
+
+                                        <Label Content="E-Mail Senha:" Height="28" Width="82" Margin="1" Foreground="#FFD0D0D0"                                        HorizontalContentAlignment="Right" />
+                                        <TextBox Foreground="#FFD0D0D0"  CharacterCasing="Upper" x:Name="Senha_tb" MaxLength="30"                                         
+                                         Margin="1" IsEnabled="True" Height="24" Width="180"
+                                         HorizontalContentAlignment="Center" 
+                                         Text="{Binding Entity.EmailSenha, UpdateSourceTrigger=PropertyChanged}"/>
+
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
+                                        Margin="1,1,0,1" Width="590">
+
+                                        <Label Content="Rsolução:" Height="28" Width="110" Margin="1" Foreground="#FFD0D0D0"                                        HorizontalContentAlignment="Right" />
+                                        <TextBox Foreground="#FFD0D0D0" x:Name="Resolucao_tb" MaxLength="15"                                         
+                                         Margin="1" IsEnabled="True" Height="24" Width="80"
+                                         HorizontalContentAlignment="Center" 
+                                         Text="{Binding Entity.imagemResolucao, UpdateSourceTrigger=PropertyChanged}"/>
+
+                                        <Label Content="Tamanho Imegem:" Height="28" Width="114" Margin="1" Foreground="#FFD0D0D0"                                        HorizontalContentAlignment="Right" />
+                                        <TextBox Foreground="#FFD0D0D0"  x:Name="Tamanhoimg_tb" MaxLength="15"                                         
+                                         Margin="1" IsEnabled="True" Height="24" Width="80"
+                                         HorizontalContentAlignment="Center" 
+                                         Text="{Binding Entity.imagemTamanho, UpdateSourceTrigger=PropertyChanged}"/>
+
+                                        <Label Content="Tamanho Arquivo:" Height="28" Width="82" Margin="1" Foreground="#FFD0D0D0"                                        HorizontalContentAlignment="Right" />
+                                        <TextBox Foreground="#FFD0D0D0"  x:Name="Tamanhoarq_tb" MaxLength="15"                                         
+                                         Margin="1" IsEnabled="True" Height="24" Width="80"
+                                         HorizontalContentAlignment="Center" Text="{Binding Entity.arquivoTamanho, UpdateSourceTrigger=PropertyChanged}"/>
+
+                                    </StackPanel>
+                                </StackPanel>
+                            </GroupBox>
+                            <!--<GroupBox Header="Contatos" Background="BlueViolet" x:Name="Contato1_gb"  VerticalAlignment="Top" Margin="630,20,-610,0"
+                              Height="187">
+                                <StackPanel Margin="1">
+                                    
+
+                                </StackPanel>
+
+
+                            </GroupBox>-->
+
+                        </Grid>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
 
 
 

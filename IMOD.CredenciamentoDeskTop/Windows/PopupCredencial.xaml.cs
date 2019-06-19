@@ -7,7 +7,9 @@
 #region
 
 using System;
+using System.Drawing.Printing;
 using System.Globalization;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
@@ -43,7 +45,7 @@ namespace IMOD.CredenciamentoDeskTop.Windows
 
         public PopupCredencial(ReportDocument reportDocument, 
             IColaboradorCredencialService service,
-            ColaboradoresCredenciaisView entity,LayoutCracha layoutCracha)
+            ColaboradoresCredenciaisView entity,LayoutCracha layoutCracha,Boolean impressao)
         {
             InitializeComponent();
             try
@@ -52,7 +54,7 @@ namespace IMOD.CredenciamentoDeskTop.Windows
                 _service = service;
                 _entity = entity;
                 _layoutCracha = layoutCracha;
-
+                ImprimirCredencial_bt.IsEnabled = impressao;
 
                 GenericReportViewer.Background = Brushes.Transparent;
                 GenericReportViewer.ShowSearchTextButton = false;
@@ -89,7 +91,7 @@ namespace IMOD.CredenciamentoDeskTop.Windows
         {
             Close();
         }
-
+       
         private void ImprimirCredencial_bt_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -160,29 +162,36 @@ namespace IMOD.CredenciamentoDeskTop.Windows
 
         private void Imprimir()
         {
+            
             //TODO:Descomentar rotina
             confirmacaoImpressao = true;
-            //var dialog1 = new PrintDialog();
-            //dialog1.AllowSomePages = true;
-            //dialog1.AllowPrintToFile = false;
+            var dialog1 = new PrintDialog();
+            dialog1.AllowSomePages = true;
+            dialog1.AllowPrintToFile = false;
 
-            //if (dialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            //{
-            //    int copies = dialog1.PrinterSettings.Copies;
-            //    var fromPage = dialog1.PrinterSettings.FromPage;
-            //    var toPage = dialog1.PrinterSettings.ToPage;
-            //    var collate = dialog1.PrinterSettings.Collate;
+            if (dialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
 
-            //    _report.PrintOptions.PrinterName = dialog1.PrinterSettings.PrinterName;
-            //    _report.PrintToPrinter(copies, collate, fromPage, toPage);
-            //    confirmacaoImpressao = true;
-            //}
-            //else
-            //{
-            //    confirmacaoImpressao = false;
-            //}
+                short copies = dialog1.PrinterSettings.Copies;
+                int fromPage = dialog1.PrinterSettings.FromPage;
+                int toPage = dialog1.PrinterSettings.ToPage;
+                bool collate = dialog1.PrinterSettings.Collate;
 
-            //dialog1.Dispose();
+                System.Drawing.Printing.PrinterSettings printerSettings = new System.Drawing.Printing.PrinterSettings();
+                printerSettings.Copies = copies;
+                printerSettings.FromPage = fromPage;
+                printerSettings.ToPage = toPage;
+                printerSettings.Collate = collate;
+                printerSettings.PrinterName = dialog1.PrinterSettings.PrinterName;
+
+                _report.PrintToPrinter(printerSettings, new PageSettings(), false);
+                confirmacaoImpressao = true;
+            }
+            else
+            {
+                confirmacaoImpressao = false;
+            }
+            dialog1.Dispose();
         }
 
         private void ChangePage_bt_Click(object sender, RoutedEventArgs e)

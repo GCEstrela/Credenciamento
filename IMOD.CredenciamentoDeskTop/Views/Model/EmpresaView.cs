@@ -58,12 +58,16 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public bool Pendente15 { get; set; }
         public bool Pendente16 { get; set; }
         public bool Pendente17 { get; set; }
-        [Required(ErrorMessage = "A Gigla é requerida.")]
+        //[Required(ErrorMessage = "A Gigla é requerida.")]
         public string Sigla { get; set; }       
         public int TotalPermanente { get; set; }
         public int TotalTemporaria { get; set; }
+        public int? PraVencer { get; set; }
+        public string PraVencerTooltip { get { return "Vencimento de Contrato em.: " + PraVencer.ToString(); } }
 
-        #endregion
+        public string CnpjMascara { get { return (Cnpj.Length > 14 & Cnpj.Contains(".")) || (String.IsNullOrEmpty(Cnpj?.Trim())) ? Cnpj : Convert.ToUInt64(Cnpj).ToString(@"00\.000\.000\/0000\-00"); } }
+
+        #endregion 
 
 
         /// <summary>Creates a new object that is a copy of the current instance.</summary>

@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 using AutoMapper;
@@ -18,6 +19,7 @@ using IMOD.CredenciamentoDeskTop.Helpers;
 using IMOD.CredenciamentoDeskTop.Views.Model;
 using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
+using IMOD.CredenciamentoDeskTop.Enums;
 
 #endregion
 
@@ -51,7 +53,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             CarregaColecaoTipoCombustiveis();
             CarregaColecaoStatus();
             CarregaColecaoCredenciaisStatus();
-            CarregaColecaoFormatosCredenciais();
+            CarregaColecaoFormatosCredenciais(); 
+            CarregaConfiguracaoSistema(); 
+            CarregaTipoCracha(); 
         }
 
         #endregion
@@ -66,11 +70,17 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         #region Variaveis privadas
 
-        private SynchronizationContext _mainThread;
+        //private SynchronizationContext _mainThread;
 
         private int _selectedIndex;
-        private int _selectedIndexTemp = 0;
+        // private int _selectedIndexTemp = 0;
 
+        //Configuracao
+        private readonly IConfiguraSistemaService _serviceConfiguracoesSistema = new ConfiguraSistemaService();
+        private ObservableCollection<ConfiguraSistemaView> _congiracaoSistema;
+        private ConfiguraSistemaView _configuracaosistemaSelecionado;
+        private int _configuracaosistemaSelectedIndex;
+        public ConfiguraSistemaView Entity { get; set; }
         //Relatórios
         private ObservableCollection<RelatorioView> _relatorios;
         private readonly List<RelatorioView> _relatoriosTemp = new List<RelatorioView>();
@@ -169,6 +179,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private int _formatoCredencialSelectedIndex;
 
         //Serviços
+        private readonly IEmpresaLayoutCrachaService _serviceEmpresasCracha = new EmpresaLayoutCrachaService();
+        private readonly IEmpresaService _serviceEmpresas = new EmpresaService();
         private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
         private readonly IRelatorioService _relatorioService = new RelatorioService();
         private readonly IRelatorioGerencialService _relatorioGerencialService = new RelatorioGerencialService();
@@ -176,7 +188,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private Relatorios _relatorio = new Relatorios();
         private RelatoriosGerenciais _relatorioGerencial = new RelatoriosGerenciais();
         private LayoutCracha _layoutCracha = new LayoutCracha();
-
+        
         #endregion
 
         #region Contrutores
@@ -190,7 +202,19 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 OnPropertyChanged ("SelectedIndex");
             }
         }
+        public ObservableCollection<ConfiguraSistemaView> CongiracaoSistema
+        {
+            get { return _congiracaoSistema; }
 
+            set
+            {
+                if (_congiracaoSistema != value)
+                {
+                    _congiracaoSistema = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
         //Relatórios
         public ObservableCollection<RelatorioView> Relatorios
         {
@@ -304,6 +328,15 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 OnPropertyChanged ("LayoutCrachaSelectedIndex");
             }
         }
+
+        /// <summary>
+        ///     Tipo Layout Crachá
+        /// </summary>
+        public IEnumerable<object> TipoLayoutCracha { get; set; }
+
+        public TipoLayoutCracha TipoLayoutCrachaSelecionado { get; set; }
+
+
 
         //Tipos Equipamentos
         public ObservableCollection<TipoEquipamentoView> TiposEquipamentos
@@ -622,7 +655,19 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 }
             }
         }
+        public ConfiguraSistemaView ConfiguraSistemaSelecionado
+        {
+            get { return _configuracaosistemaSelecionado; }
 
+            set
+            {
+                _configuracaosistemaSelecionado = value;
+                OnPropertyChanged("SelectedItem");
+                if (_configuracaosistemaSelecionado != null)
+                {
+                }
+            }
+        }
         public TipoCombustivelView TipoCombustivelSelecionado
         {
             get { return _tipoCombustivelSelecionado; }
@@ -707,7 +752,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 _credencialStatusSelecionado = value;
                 OnPropertyChanged ("SelectedItem");
-                if (TipoStatusSelecionado != null)
+                if (_credencialStatusSelecionado != null)
                 {
                 }
             }
@@ -859,9 +904,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                var result = WpfHelp.MboxDialogRemove();
-                if (result != DialogResult.Yes) return;
-                var entity = RelatorioSelecionado;
+                var result = WpfHelp.MboxDialogRemove(); 
+                if (result != DialogResult.Yes) return; 
+                var entity = RelatorioSelecionado; 
+                if (entity == null) return; 
                 var entityConv = Mapper.Map<Relatorios> (entity);
                 _auxiliaresService.RelatorioService.Remover (entityConv);
 
@@ -974,8 +1020,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 var result = WpfHelp.MboxDialogRemove();
                 if (result != DialogResult.Yes) return;
-                var entity = RelatorioGerencialSelecionado;
-                var entityConv = Mapper.Map<RelatoriosGerenciais> (entity);
+                var entity = RelatorioGerencialSelecionado; 
+                if (entity == null) return;
+                var entityConv = Mapper.Map<RelatoriosGerenciais> (entity); 
                 _auxiliaresService.RelatorioGerencialService.Remover (entityConv);
 
                 RelatoriosGerenciais.Remove (RelatorioGerencialSelecionado);
@@ -1059,6 +1106,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 //Atualiza arquivo Byte[] (.rpt)
                 LayoutCrachaSelecionado.LayoutRpt = LayoutCrachaTemp.LayoutRpt;
+                //LayoutCrachaSelecionado.TipoCracha = TipoLayoutCracha.
 
                 var entity = LayoutCrachaSelecionado;
                 var entityConv = Mapper.Map<LayoutCracha> (entity);
@@ -1087,10 +1135,22 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var result = WpfHelp.MboxDialogRemove();
                 if (result != DialogResult.Yes) return;
 
-                var entity = LayoutCrachaSelecionado;
-                var entityConv = Mapper.Map<LayoutCracha> (entity);
+                var entity = LayoutCrachaSelecionado; 
+                if (entity == null) return; 
+                var entityConv = Mapper.Map<LayoutCracha>(entity); 
+                
+                var listaCracha = _serviceEmpresasCracha.ListarLayoutCrachaView(null, entity.LayoutCrachaId);
+                if (listaCracha.Count > 0)
+                {
+                    WpfHelp.Mbox("LayoutCracha não pode ser deletato, ele esta sendo utilizado por Empresa(s).");
+                    return;
+                }
+
                 _auxiliaresService.LayoutCrachaService.Remover (entityConv);
+                //_auxiliaresService.LayoutCrachaService.Remover(entityConv);
+
                 LayoutsCrachas.Remove (LayoutCrachaSelecionado);
+                
             }
             catch (Exception ex)
             {
@@ -1195,6 +1255,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var result = WpfHelp.MboxDialogRemove();
                 if (result != DialogResult.Yes) return;
                 var entity = TipoEquipamentoSelecionado;
+                if (entity == null) return; 
                 var entityConv = Mapper.Map<TipoEquipamento> (entity);
                 _auxiliaresService.TipoEquipamentoService.Remover (entityConv);
 
@@ -1262,7 +1323,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 var result = WpfHelp.MboxDialogRemove();
                 if (result != DialogResult.Yes) return;
-                var entity = TipoAcessoSelecionado;
+                var entity = TipoAcessoSelecionado; 
+                if (entity == null) return; 
                 var entityConv = Mapper.Map<TipoAcesso> (entity);
                 _auxiliaresService.TiposAcessoService.Remover (entityConv);
 
@@ -1303,7 +1365,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public void OnSalvarEdicaoCommand_AreaAcesso()
         {
             try
-            {
+            {               
+
                 var entity = AreaAcessoSelecionada;
                 var entityConv = Mapper.Map<AreaAcesso> (entity);
 
@@ -1328,9 +1391,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                var result = WpfHelp.MboxDialogRemove();
-                if (result != DialogResult.Yes) return;
-                var entity = AreaAcessoSelecionada;
+                var result = WpfHelp.MboxDialogRemove(); 
+                if (result != DialogResult.Yes) return; 
+                var entity = AreaAcessoSelecionada; 
+                if (entity == null) return; 
                 var entityConv = Mapper.Map<AreaAcesso> (entity);
                 _auxiliaresService.AreaAcessoService.Remover (entityConv);
 
@@ -1369,7 +1433,21 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 Utils.TraceException (ex);
             }
         }
+        public void OnSalvarEdicaoCommand_ConfiguracoesSistema()
+        {
+            try
+            {
+                var entity = Entity;
+                var entityConv = Mapper.Map<ConfiguraSistema>(entity);
+                _serviceConfiguracoesSistema.Alterar(entityConv);
 
+                CarregaConfiguracaoSistema();
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+            }
+        }
         public void OnSalvarEdicaoCommand_TiposAtividades()
         {
             try
@@ -1401,6 +1479,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var result = WpfHelp.MboxDialogRemove();
                 if (result != DialogResult.Yes) return;
                 var entity = TipoAtividadeSelecionada;
+                if (entity == null) return;
                 var entityConv = Mapper.Map<TipoAtividade> (entity);
                 _auxiliaresService.TipoAtividadeService.Remover (entityConv);
 
@@ -1470,6 +1549,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var result = WpfHelp.MboxDialogRemove();
                 if (result != DialogResult.Yes) return;
                 var entity = TipoServicoSelecionado;
+                if (entity == null) return;
                 var entityConv = Mapper.Map<TipoServico> (entity);
                 _auxiliaresService.TipoServicoService.Remover (entityConv);
 
@@ -1538,8 +1618,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             try
             {
                 var result = WpfHelp.MboxDialogRemove();
-                if (result != DialogResult.Yes) return;
-                var entity = TecnologiaCredencialSelecionada;
+                if (result != DialogResult.Yes) return; 
+                var entity = TecnologiaCredencialSelecionada; 
+                if (entity == null) return; 
                 var entityConv = Mapper.Map<TecnologiaCredencial> (entity);
                 _auxiliaresService.TecnologiaCredencialService.Remover (entityConv);
 
@@ -1610,6 +1691,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var result = WpfHelp.MboxDialogRemove();
                 if (result != DialogResult.Yes) return;
                 var entity = TipoCobrancaSelecionado;
+                if (entity == null) return; 
                 var entityConv = Mapper.Map<TipoCobranca> (entity);
                 _auxiliaresService.TipoCobrancaService.Remover (entityConv);
 
@@ -1680,7 +1762,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 var result = WpfHelp.MboxDialogRemove();
                 if (result != DialogResult.Yes) return;
-                var entity = CursoSelecionado;
+                var entity = CursoSelecionado; 
+                if (entity == null) return;
                 var entityConv = Mapper.Map<Curso> (entity);
                 _auxiliaresService.CursoService.Remover (entityConv);
                 Cursos.Remove (CursoSelecionado);
@@ -1751,6 +1834,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var result = WpfHelp.MboxDialogRemove();
                 if (result != DialogResult.Yes) return;
                 var entity = TipoCombustivelSelecionado;
+                if (entity == null) return;
                 var entityConv = Mapper.Map<TipoCombustivel> (entity);
                 _auxiliaresService.TipoCombustivelService.Remover (entityConv);
 
@@ -1820,7 +1904,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 var result = WpfHelp.MboxDialogRemove();
                 if (result != DialogResult.Yes) return;
-                var entity = TipoStatusSelecionado;
+                var entity = TipoStatusSelecionado; 
+                if (entity == null) return; 
                 var entityConv = Mapper.Map<Status> (entity);
                 _auxiliaresService.StatusService.Remover (entityConv);
 
@@ -1852,7 +1937,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var credencialStatus = new CredencialStatusView();
                 CredenciaisStatus.Add (credencialStatus);
 
-                TipoStatusSelectedIndex = 0;
+                CredencialStatusSelectedIndex = 0; 
             }
             catch (Exception ex)
             {
@@ -1865,6 +1950,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             try
             {
                 var entity = CredenciaisStatusSelecionado;
+                if (entity == null) return;
                 var entityConv = Mapper.Map<CredencialStatus> (entity);
 
                 if (CredenciaisStatusSelecionado.CredencialStatusId != 0)
@@ -1891,6 +1977,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var result = WpfHelp.MboxDialogRemove();
                 if (result != DialogResult.Yes) return;
                 var entity = CredenciaisStatusSelecionado;
+                if (entity == null) return; 
                 var entityConv = Mapper.Map<CredencialStatus> (entity);
                 _auxiliaresService.CredencialStatusService.Remover (entityConv);
 
@@ -1961,6 +2048,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var result = WpfHelp.MboxDialogRemove();
                 if (result != DialogResult.Yes) return;
                 var entity = CredencialMotivoSelecionado;
+                if (entity == null) return;
                 var entityConv = Mapper.Map<CredencialStatus> (entity);
                 _auxiliaresService.CredencialStatusService.Remover (entityConv);
 
@@ -2030,7 +2118,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 var result = WpfHelp.MboxDialogRemove();
                 if (result != DialogResult.Yes) return;
-                var entity = FormatoCredencialSelecionado;
+                var entity = FormatoCredencialSelecionado; 
+                if (entity == null) return; 
                 var entityConv = Mapper.Map<FormatoCredencial> (entity);
                 _auxiliaresService.FormatoCredencialService.Remover (entityConv);
                 FormatosCredenciais.Remove (FormatoCredencialSelecionado);
@@ -2048,7 +2137,22 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         #region Carregamento das Colecoes
 
-        private void CarregaColecaoRelatorios()
+        public void CarregaConfiguracaoSistema()
+        {
+            try
+            {
+                var service = new ConfiguraSistemaService();
+                var list1 = service.Listar().ToList().FirstOrDefault();
+                var list2 = Mapper.Map<ConfiguraSistemaView>(list1);
+                Entity = list2;
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+            }
+        }
+
+        public void CarregaColecaoRelatorios()
         {
             try
             {
@@ -2067,7 +2171,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
         }
 
-        private void CarregaColecaoRelatoriosGerenciais()
+        public void CarregaColecaoRelatoriosGerenciais()
         {
             try
             {
@@ -2105,7 +2209,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
         }
 
-        private void CarregaColecaoTiposEquipamentos()
+        public void CarregaColecaoTiposEquipamentos()
         {
             try
             {
@@ -2124,7 +2228,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
         }
 
-        private void CarregaColecaoTiposAcessos()
+        public void CarregaColecaoTiposAcessos()
         {
             try
             {
@@ -2143,7 +2247,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
         }
 
-        private void CarregaColecaoAreasAcessos()
+        public void CarregaColecaoAreasAcessos()
         {
             try
             {
@@ -2162,7 +2266,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
         }
 
-        private void CarregaColecaoTiposAtividades()
+        public void CarregaColecaoTiposAtividades()
         {
             try
             {
@@ -2181,7 +2285,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
         }
 
-        private void CarregaColecaoTipoServico()
+        public void CarregaColecaoTipoServico()
         {
             try
             {
@@ -2201,7 +2305,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
         }
 
-        private void CarregaColecaoTecnologiasCredenciais()
+        public void CarregaColecaoTecnologiasCredenciais()
         {
             try
             {
@@ -2220,7 +2324,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
         }
 
-        private void CarregaColecaoTiposCobrancas()
+        public void CarregaColecaoTiposCobrancas()
         {
             try
             {
@@ -2258,7 +2362,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
         }
 
-        private void CarregaColecaoTipoCombustiveis()
+        public void CarregaColecaoTipoCombustiveis()
         {
             try
             {
@@ -2277,7 +2381,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
         }
 
-        private void CarregaColecaoStatus()
+        public void CarregaColecaoStatus()
         {
             try
             {
@@ -2296,7 +2400,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
         }
 
-        private void CarregaColecaoCredenciaisStatus()
+        public void CarregaColecaoCredenciaisStatus()
         {
             try
             {
@@ -2315,7 +2419,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
         }
 
-        private void CarregaColecaoCredenciaisMotivos()
+        public void CarregaColecaoCredenciaisMotivos()
         {
             try
             {
@@ -2334,7 +2438,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
         }
 
-        private void CarregaColecaoFormatosCredenciais()
+        public void CarregaColecaoFormatosCredenciais()
         {
             try
             {
@@ -2351,6 +2455,13 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 Utils.TraceException (ex);
             }
+        }
+
+        private void CarregaTipoCracha()
+        {
+            var lstResultado = Helper.EnumToListObject<TipoLayoutCracha>();
+
+            TipoLayoutCracha = lstResultado;
         }
 
         #endregion

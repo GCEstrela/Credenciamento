@@ -10,11 +10,13 @@
              mc:Ignorable="d"
              MaxWidth="1300" Width="1270" Height="825"  Loaded="Frm_Loaded">
     <UserControl.Resources>
+        <funcoes:BooleanToVisibilityConverter x:Key="VisibleControl" />
         <Image x:Key="imgAdd" Source="../Resources/add.png"  />
         <Image x:Key="imgEdit" Source="../Resources/edit.png"  />
         <Image x:Key="imgRemove" Source="../Resources/remove.png"  />
         <Image x:Key="imgSave" Source="../Resources/save.png"  />
         <Image x:Key="imgCancel" Source="../Resources/undo.png"  />
+        <Image x:Key="imgImport" Source="../Resources/Ok.ico" />
         <ControlTemplate x:Key="ValidationErrorTemplate">
             <DockPanel>
                 <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" Margin="5,0,0,2">
@@ -159,7 +161,7 @@
             <ColumnDefinition Width="1000" />
         </Grid.ColumnDefinitions>
 
-        <StackPanel Orientation="Horizontal" Margin="0,5">
+        <StackPanel Orientation="Horizontal" Margin="0,5,-249,5">
             <Label Content="Pesquisar:" Height="28" Width="65" Foreground="#FFD0D0D0" Margin="1,0,0,0" />
             <ComboBox Width="150" IsEnabled="{Binding  Comportamento.IsEnableCriar}"
                       ItemsSource="{Binding ListaPesquisa }"
@@ -173,6 +175,9 @@
                 </TextBox.InputBindings>
 
             </TextBox>
+            <RadioButton x:Name="rd_cadastro" Content="Cadastro" Margin="625,5,0,0" IsChecked="True" Foreground="#FFD0D0D0" VerticalAlignment="Top" Width="95" Checked="Rd_cadastro_Checked" Cursor="Hand"/>
+            <RadioButton x:Name="rd_precadastro" Content="Pré-Cadastro" Margin="5,5,0,0" Foreground="Orange"  VerticalAlignment="Top" Width="95" Checked="Rd_precadastro_Checked" Cursor="Hand"/>
+
         </StackPanel>
 
         <StackPanel x:Name="ListaEmpresas_sp" Grid.Column="0" Grid.Row="1" Orientation="Horizontal" Margin="0,0,-259,1">
@@ -180,7 +185,7 @@
                       IsEnabled="{Binding IsEnableLstView}" 
                       ItemsSource="{Binding EntityObserver, Mode=TwoWay}"
                       SelectedIndex="{Binding SelectListViewIndex}"
-                      SelectedItem="{Binding Entity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,5,0" Width="1259">
+                      SelectedItem="{Binding Entity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,5,0" Width="1259" PreviewKeyDown="LstView_PreviewKeyDown">
 
                 <ListView.View>
 
@@ -200,8 +205,11 @@
         </StackPanel>
         <GridSplitter Grid.Row="2" Foreground="Gray" Height="5" Margin="0,1,-259,0" HorizontalAlignment="Stretch" ></GridSplitter>
         <StackPanel x:Name="BotoesGeral_sp" Grid.Column="0" Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,2,-262,0" IsEnabled="{Binding HabilitaCommandPincipal}">
-
-            <Button x:Name="btnAdicionar"   Content="{StaticResource imgAdd}"       ToolTip="Adicionar"     IsEnabled="{Binding Comportamento.IsEnableCriar}"       Command="{Binding PrepareCriarCommand}"     Width="25" Margin="0,0,5,0"  />
+            <Button x:Name="btnImportar" Content="{StaticResource imgImport}" ToolTip="Importar Pré-Cadastro"
+                    Visibility="{Binding IsEnablePreCadastro,  Converter={StaticResource VisibleControl}}"
+                    IsEnabled="{Binding Comportamento.IsEnableCriar}" Command="{Binding PrepareIportarCommand}"
+                    Width="25" Margin="0,0,5,0" />
+            <Button x:Name="btnAdicionar"   Content="{StaticResource imgAdd}"       ToolTip="Adicionar"     IsEnabled="{Binding Comportamento.IsEnableCriar}"       Command="{Binding PrepareCriarCommand}"     Width="25" Margin="0,0,5,0" Visibility="{Binding IsEnablePreCadastroCredenciamento,  Converter={StaticResource VisibleControl}}" />
             <Button x:Name="btnEditar"      Content="{StaticResource imgEdit}"      ToolTip="Editar"        IsEnabled="{Binding Comportamento.IsEnableEditar}"      Command="{Binding PrepareAlterarCommand}"   Width="25" Margin="0,0,5,0"  />
             <Button x:Name="btnExcluir"     Content="{StaticResource imgRemove}"    ToolTip="Remover"       IsEnabled="{Binding Comportamento.isEnableRemover}"     Command="{Binding PrepareRemoverCommand}"   Width="25" Margin="0,0,5,0"  Visibility="Collapsed" />
             <Button x:Name="btnCancelar"    Content="{StaticResource imgCancel}"    ToolTip="Cancelar"      IsEnabled="{Binding Comportamento.isEnableCancelar}"    Command="{Binding PrepareCancelarCommand}"  Width="25" Margin="0,0,5,0"  />
@@ -211,7 +219,7 @@
 
         <TabControl SelectedIndex="{Binding SelectedTabIndex, UpdateSourceTrigger=PropertyChanged }" Margin="1,1,-259,-281" Grid.Row="4">
 
-            <TabItem x:Name="Geral_ti" Background="{x:Null}" Margin="0,-2,0,0" IsEnabled="{Binding IsEnableTabItemGeral}">
+            <TabItem x:Name="Geral_ti" Background="{x:Null}" Margin="0,-2,0,0" Foreground="{Binding IsEnablePreCadastroColor}" IsEnabled="{Binding IsEnableTabItemGeral}">
 
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
@@ -235,31 +243,29 @@
                             <StackPanel.Resources>
                             </StackPanel.Resources>
                             <StackPanel Margin="1,1,1,0" Height="157" VerticalAlignment="Top">
-                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="1,1,0,1">
+                                <!--<StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="1,1,0,1">
                                     <Label Content="Tipo:" Height="28"   Width="110" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
-                                    <ComboBox  x:Name="cboTipo"   Text="{Binding Entity.Tipo, UpdateSourceTrigger=PropertyChanged}"
-                                               Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
-                                               Height="24"  Width="329"  TabIndex="0" IsEditable="true" >
-                                        <ComboBoxItem>EQUIPAMENTO</ComboBoxItem>
-                                        <ComboBoxItem>VEÍCULO</ComboBoxItem>
+                                    <ComboBox  x:Name="cboTipo"   Text="{Binding Entity.Tipo, UpdateSourceTrigger=PropertyChanged}"   
+                                               Height="24"  Width="329"  TabIndex="0" IsEditable="true" SelectedIndex="0" IsEnabled="False">
+                                        <ComboBoxItem>VEICULO</ComboBoxItem>
                                     </ComboBox>
-                                </StackPanel>
+                                </StackPanel>-->
 
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="1">
                                     <Label Content="Descrição:" Height="28" Width="110"  HorizontalContentAlignment="Right"
                                            Foreground="#FFD0D0D0" />
                                     <TextBox CharacterCasing="Upper" x:Name="txtDescricao" Text="{Binding Entity.Descricao}"
-                                             MaxLength="50" IsEnabled="True" Height="24" Width="330" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
+                                             MaxLength="50" IsEnabled="True" Height="24" Width="330"  />
                                 </StackPanel>
 
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
                                             HorizontalAlignment="Left" Margin="1">
                                     <Label Content="Placa/Identificador:" Height="28" Width="110" HorizontalContentAlignment="Right"  Foreground="#FFD0D0D0" />
-                                    <TextBox  MaxLength="10" x:Name="txtPlacaIdentificador" CharacterCasing="Upper" Text="{Binding Entity.PlacaIdentificador, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="123" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
+                                    <TextBox  MaxLength="10" x:Name="txtPlacaIdentificador" CharacterCasing="Upper" Text="{Binding Entity.PlacaIdentificador, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="123"   />
                                     <Label Content="Série/Chassi:" Height="28" Width="78"  Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
                                     <TextBox  x:Name="txtSerieChassi" MaxLength="20" CharacterCasing="Upper" 
                                               Text="{Binding Entity.SerieChassi, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="129" 
-                                              Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
+                                                />
 
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
@@ -269,12 +275,12 @@
                                     <TextBox CharacterCasing="Upper" x:Name="txtFrota" MaxLength="10"
                                              Text="{Binding Entity.Frota, UpdateSourceTrigger=PropertyChanged}"
                                              IsEnabled="True" Height="24" Width="124"
-                                             Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
+                                              />
                                     <Label Content="Patrimônio:" Height="28" Width="76" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
                                     <TextBox CharacterCasing="Upper" x:Name="txtPatrimonio" MaxLength="10"
                                              Text="{Binding Entity.Patrimonio, UpdateSourceTrigger=PropertyChanged}"
                                              IsEnabled="True" Height="24" Width="128" 
-                                             Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
+                                              />
                                 </StackPanel>
 
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
@@ -284,18 +290,23 @@
                                     <TextBox CharacterCasing="Upper" x:Name="txtMarca" MaxLength="11"
                                              Text="{Binding Entity.Marca, UpdateSourceTrigger=PropertyChanged}"
                                              IsEnabled="True" Height="24" Width="124" 
-                                             Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
+                                              />
                                     <Label Content="Modelo:" Height="28" Width="77" HorizontalContentAlignment="Right"
                                            Foreground="#FFD0D0D0" />
                                     <TextBox CharacterCasing="Upper" x:Name="txtModeloVeiculoEquipamento" MaxLength="50"
                                              Text="{Binding Entity.Modelo,UpdateSourceTrigger=PropertyChanged}"
-                                             IsEnabled="True" Height="24" Width="127" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
+                                             IsEnabled="True" Height="24" Width="127"  />
                                 </StackPanel>
 
                             </StackPanel>
                             <StackPanel VerticalAlignment="Top" Margin="23,7,20,0" Height="140" Width="101" >
                                 <Border  CornerRadius="3"  BorderThickness="1"   Width ="100" Height="100" HorizontalAlignment="Left" BorderBrush="#FF686868"  >
-                                    <Image x:Name="Logo_im" Stretch="Uniform" Source="{Binding Entity.Foto, Converter={StaticResource ImageConverter}, Mode=TwoWay, UpdateSourceTrigger=Explicit}" Margin="3" RenderTransformOrigin="1,1"/>
+                                    <Image x:Name="Logo_im" Stretch="Uniform" Source="{Binding Entity.Foto, Converter={StaticResource ImageConverter}, Mode=TwoWay, UpdateSourceTrigger=Explicit}" Margin="3" RenderTransformOrigin="1,1" >
+                                        <Image.ToolTip>
+                                            <Image x:Name="Logo_im1" Stretch="Uniform" 
+                                                Source="{Binding Entity.Foto, Converter={StaticResource ImageConverter}, Mode=TwoWay, UpdateSourceTrigger=Explicit}"/>
+                                        </Image.ToolTip>
+                                    </Image>
                                 </Border>
                                 <Button x:Name="SelecionarLogo_bt" Content="Selecionar Foto"
                                         HorizontalAlignment="Right" Margin="0,10,1,0" Height="30" Width="100"
@@ -318,7 +329,7 @@
                                                   SelectedValuePath="TipoEquipamentoId" IsSynchronizedWithCurrentItem="True" 
                                                   IsEditable="true" 
                                                   SelectedIndex="0" 
-                                                  Width="381" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
+                                                  Width="381"  />
                                 </StackPanel>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
@@ -328,7 +339,7 @@
                                 <TextBox CharacterCasing="Upper"   MaxLength="4" x:Name="txtAno"
                                              Text="{Binding Entity.Ano, UpdateSourceTrigger=PropertyChanged}"
                                              IsEnabled="True" PreviewTextInput="NumberOnly"  Height="24" Width="60" 
-                                             Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
+                                              />
                                 <Label Content="Combustível:" Height="28" Width="110" Margin="40,0,0,0" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
                                 <ComboBox  Height="26" VerticalContentAlignment="Center" x:Name="cmbCombustivel"
                                                HorizontalContentAlignment="Center"
@@ -336,7 +347,7 @@
                                                ItemsSource="{Binding TiposCombustiveis}" DisplayMemberPath="Descricao"
                                                SelectedValue="{Binding Entity.CombustivelId, UpdateSourceTrigger=PropertyChanged}" 
                                                SelectedValuePath="TipoCombustivelId"   TabIndex="14" Width="173" 
-                                               Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
+                                                />
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
                                             HorizontalAlignment="Left" Margin="1">
@@ -345,19 +356,19 @@
                                 <TextBox CharacterCasing="Upper" MaxLength="5" x:Name="txtAltura"
                                              PreviewTextInput="NumberOnly"
                                              Text="{Binding Entity.Altura,UpdateSourceTrigger=PropertyChanged}"
-                                             IsEnabled="True" Height="24" Width="60" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
+                                             IsEnabled="True" Height="24" Width="60"  />
                                 <Label Content="Comprimento (cm):" Height="28" Width="130" HorizontalContentAlignment="Right"
                                            Foreground="#FFD0D0D0" />
                                 <TextBox CharacterCasing="Upper" MaxLength="5" x:Name="txtComprimento"
                                              PreviewTextInput="NumberOnly"
                                              Text="{Binding Entity.Comprimento,UpdateSourceTrigger=PropertyChanged}"
-                                             IsEnabled="True" Height="24" Width="45" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
+                                             IsEnabled="True" Height="24" Width="45"  />
                                 <Label Content="Largura (cm):" Height="28" Width="102" HorizontalContentAlignment="Right"
                                            Foreground="#FFD0D0D0" />
                                 <TextBox CharacterCasing="Upper" MaxLength="5" x:Name="txtLargura"
                                              PreviewTextInput="NumberOnly" 
                                              Text="{Binding Entity.Largura,UpdateSourceTrigger=PropertyChanged}"
-                                             IsEnabled="True" Height="24" Width="45" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
+                                             IsEnabled="True" Height="24" Width="45"  />
                             </StackPanel>
 
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
@@ -366,7 +377,7 @@
                                            Foreground="#FFD0D0D0" />
                                 <TextBox CharacterCasing="Upper"   MaxLength="20" x:Name="txtCor"
                                              Text="{Binding Entity.Cor,UpdateSourceTrigger=PropertyChanged}"
-                                             IsEnabled="True" Height="24" Width="98" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
+                                             IsEnabled="True" Height="24" Width="98"  />
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                 <Label Content="UF:" Height="28" Width="110" HorizontalContentAlignment="Right"
@@ -428,7 +439,7 @@
                 </Grid>
             </TabItem>
 
-            <TabItem x:Name="Signatarios_ti" Width="200" IsEnabled="{Binding IsEnableTabItemEmpresaVinculo}">
+            <TabItem x:Name="Signatarios_ti" Width="200" Foreground="{Binding IsEnablePreCadastroColor}" IsEnabled="{Binding IsEnableTabItemEmpresaVinculo}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="Signatarios_bt" Click="OnPendenciaVinculos_Click"
@@ -449,7 +460,7 @@
 
             </TabItem>
 
-            <TabItem x:Name="Contrato_ti" Width="200" IsEnabled="{Binding IsEnableTabItemSeguros}">
+            <TabItem x:Name="Contrato_ti" Width="200" Foreground="{Binding IsEnablePreCadastroColor}" IsEnabled="{Binding IsEnableTabItemSeguros}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="btnVeiculoSeguro" Click="OnPendenciaSeguros_Click"
@@ -470,7 +481,7 @@
 
             </TabItem>
 
-            <TabItem x:Name="Anexos_ti" Width="200" IsEnabled="{Binding IsEnableTabItemAnexos}">
+            <TabItem x:Name="Anexos_ti" Width="200" Foreground="{Binding IsEnablePreCadastroColor}" IsEnabled="{Binding IsEnableTabItemAnexos}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="Anexos_bt" Click="OnPendenciaGeralAnexos_Click"
@@ -492,7 +503,8 @@
 
             </TabItem>
 
-            <TabItem x:Name="tab43" Width="200" IsEnabled="{Binding IsEnableTabItemCredenciais}">
+            <TabItem x:Name="tab43" Width="200" IsEnabled="{Binding IsEnableTabItemCredenciais}"
+                                                Visibility="{Binding IsEnablePreCadastroCredenciamento,  Converter={StaticResource VisibleControl}}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="Crede" Click="OnPendenciaCredencias_Click"

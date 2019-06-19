@@ -14,6 +14,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using IMOD.CredenciamentoDeskTop.Helpers;
 using System.Windows.Shapes;
+using System.Drawing;
+using System.IO;
+using System.Drawing.Imaging;
 
 namespace iModSCCredenciamento.Windows
 {
@@ -22,9 +25,13 @@ namespace iModSCCredenciamento.Windows
     /// </summary>
     public partial class PopupWebCam : Window
     {
+        
+        public bool aceitarImg = true;
         private readonly ColaboradorViewModel _viewModel;
-        public PopupWebCam()
+        private int resolucaoImg = 150;
+        public PopupWebCam(int resolucao)
         {
+            resolucaoImg = resolucao;
             InitializeComponent();
             _viewModel = new ColaboradorViewModel();
             DataContext = _viewModel;
@@ -50,22 +57,46 @@ namespace iModSCCredenciamento.Windows
 
         private void Label_Unloaded(object sender, RoutedEventArgs e)
         {
-            webcam.Stop();
+            if (webcam != null)
+                webcam.Stop();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            aceitarImg = false;
             this.Close();
         }
 
         private void Capturar_bt_Click(object sender, RoutedEventArgs e)
-        {         
-            imgCapture.Source = imgVideo.Source;
+        {
+            //imgCapture.Source = imgVideo.Source;
+            imgCapture.Source = BitmapImageFromBitmapSourceResized((BitmapSource)imgVideo.Source, (int)resolucaoImg);
         }
 
         private void Aceitar_bt_Click(object sender, RoutedEventArgs e)
-        {           
+        {
+            //imgCapture.Source = BitmapImageFromBitmapSourceResized((BitmapSource)imgVideo.Source, 180);
+            //imgCapture.Width = 50;
+            //imgCapture.Height = 50;
+            //WpfHelp.SaveImageCapture((BitmapSource)imgCapture.Source);
             this.Close();
         }
+        public static BitmapSource BitmapImageFromBitmapSourceResized(BitmapSource bitmapSource, int newWidth)
+        {
+            BmpBitmapEncoder encoder = new BmpBitmapEncoder();
+            MemoryStream memoryStream = new MemoryStream();
+            BitmapImage bImg = new BitmapImage();
+
+            encoder.Frames.Add(BitmapFrame.Create(bitmapSource));
+            encoder.Save(memoryStream);
+
+            bImg.BeginInit();
+            bImg.StreamSource = new MemoryStream(memoryStream.ToArray());
+            bImg.DecodePixelWidth = newWidth;
+            bImg.EndInit();
+            memoryStream.Close();
+            return bImg;
+        }
+        
     }
 }

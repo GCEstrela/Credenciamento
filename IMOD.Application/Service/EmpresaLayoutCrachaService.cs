@@ -94,9 +94,9 @@ namespace IMOD.Application.Service
         /// </summary>
         /// <param name="idEmpresa"></param>
         /// <returns></returns>
-        public ICollection<EmpresaLayoutCrachaView> ListarLayoutCrachaPorEmpresaView(int idEmpresa)
+        public ICollection<EmpresaLayoutCrachaView> ListarLayoutCrachaPorEmpresaView(int idEmpresa,int tipoCracha)
         {
-            return _repositorio.ListarLayoutCrachaPorEmpresaView(idEmpresa);
+            return _repositorio.ListarLayoutCrachaPorEmpresaView(idEmpresa,tipoCracha);
         }
     }
 }

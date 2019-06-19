@@ -53,7 +53,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
             try
             {
                 var filtro = "Imagem files (*.pdf)|*.pdf";
-                var arq = WpfHelp.UpLoadArquivoDialog(filtro, 200000);
+                var arq = WpfHelp.UpLoadArquivoDialog(filtro, _viewModel.IsTamanhoArquivo);
                 if (arq == null) return;
                 _viewModel.Entity.Anexo = arq.FormatoBase64;
                 _viewModel.Entity.NomeAnexo = arq.Nome;
@@ -75,6 +75,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             try
             {
+                _viewModel.BuscarAnexo(_viewModel.Entity.EmpresaAnexoId);
                 var arrBytes = Convert.FromBase64String(_viewModel.Entity.Anexo);
                 WpfHelp.AbrirArquivoPdf(_viewModel.Entity.NomeAnexo, arrBytes);
             }

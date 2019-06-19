@@ -19,6 +19,7 @@ using AutoMapper;
 using IMOD.Application.Interfaces;
 using IMOD.Application.Service;
 using IMOD.CredenciamentoDeskTop.Enums;
+using IMOD.CredenciamentoDeskTop.Funcoes;
 using IMOD.CredenciamentoDeskTop.Helpers;
 using IMOD.CredenciamentoDeskTop.Modulo;
 using IMOD.CredenciamentoDeskTop.ViewModels.Commands;
@@ -125,7 +126,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         public VeiculosCredenciaisViewModel()
         {
-            ItensDePesquisaConfigura();
+            //ItensDePesquisaConfigura();
             ListarDadosAuxiliares();
             Comportamento = new ComportamentoBasico(false, true, false, false, false);
             EntityObserver = new ObservableCollection<VeiculosCredenciaisView>();
@@ -171,8 +172,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             var data = _service.ObterDataValidadeCredencial(Entity.TipoCredencialId,
                 _veiculoView.EquipamentoVeiculoId, contrato.NumeroContrato, _service.TipoCredencial);
 
-            Entity.Validade = data;
+            TimeSpan diferenca = Convert.ToDateTime(data) - DateTime.Now.Date;
+            int credencialDias = int.Parse(diferenca.Days.ToString());
+
+            Entity.Validade = credencialDias > Constantes.Constantes.diasPorAno ? DateTime.Now.Date.AddDays(Constantes.Constantes.diasPorAno) : data;
             OnPropertyChanged("Entity");
+
         }
 
         private void ListarDadosAuxiliares()
@@ -204,13 +209,13 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             _credencialMotivo.AddRange(lst8.OrderBy(n => n.Descricao));
         }
 
-        public void CarregaColecaoLayoutsCrachas(int empresaId)
+        public void CarregaColecaoLayoutsCrachas(int empresaId,int tipoCracha)
         {
             try
             {
                 EmpresaLayoutCracha = new List<EmpresaLayoutCracha>();
                 var service = new EmpresaLayoutCrachaService();
-                var list1 = service.ListarLayoutCrachaPorEmpresaView (empresaId);
+                var list1 = service.ListarLayoutCrachaPorEmpresaView (empresaId, tipoCracha);
                 var list2 = Mapper.Map<List<EmpresaLayoutCracha>> (list1);
                 EmpresaLayoutCracha = list2;
             }
@@ -321,16 +326,16 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             lst2.ForEach(n => { VeiculosEmpresas.Add(n); });
         }
 
-        /// <summary>
-        ///     Relação dos itens de pesauisa
-        /// </summary>
-        private void ItensDePesquisaConfigura()
-        {
-            ListaPesquisa = new List<KeyValuePair<int, string>>();
-            ListaPesquisa.Add (new KeyValuePair<int, string> (1, "Nome"));
-            ListaPesquisa.Add (new KeyValuePair<int, string> (2, "CPF"));
-            PesquisarPor = ListaPesquisa[0]; //Pesquisa Default
-        }
+        ///// <summary>
+        /////     Relação dos itens de pesauisa
+        ///// </summary>
+        //private void ItensDePesquisaConfigura()
+        //{
+        //    ListaPesquisa = new List<KeyValuePair<int, string>>();
+        //    ListaPesquisa.Add (new KeyValuePair<int, string> (1, "Nome"));
+        //    ListaPesquisa.Add (new KeyValuePair<int, string> (2, "CPF"));
+        //    PesquisarPor = ListaPesquisa[0]; //Pesquisa Default
+        //}
 
         /// <summary>
         ///     Acionado antes de remover
@@ -366,7 +371,15 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 n1.TecnologiaCredencialId = Entity.TecnologiaCredencialId;
                 n1.TipoCredencialId = Entity.TipoCredencialId;
                 n1.DevolucaoEntregaBoId = IsCheckDevolucao ? Entity.DevolucaoEntregaBoId : 0;
+                n1.Validade = Entity.Validade.Value.AddHours(23).AddMinutes(59).AddSeconds(59); //Sempre Add 23:59:59 horas à credencial nova.
+                if (n1.Validade <= DateTime.Now)
+                {
+                    WpfHelp.Mbox("Data de Validade da Autorização é inferior à data atual.", MessageBoxIcon.Information);
+                    MensagemAlerta = "";
 
+                    Comportamento.PrepareCriarSegundaTentativa();
+                    return;
+                }
                 //Criar registro no banco de dados e setar uma data de validade
                 _prepareCriarCommandAcionado = false;
                 _service.Criar (n1);
@@ -430,9 +443,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
             #region Habilitar botão de impressao e mensagem ao usuario
 
-            var pendenciaImpeditivaEmpresa = serviceEmpresa.Pendencia.ListarPorEmpresa(entity.EmpresaId).Where(n => n.Impeditivo == true).ToList();
+            var pendenciaImpeditivaEmpresa = serviceEmpresa.Pendencia.ListarPorEmpresa(entity.EmpresaId).Where(n => n.Impeditivo == true && n.Ativo == true).ToList();
+            var pendenciaImpeditivaVeiculo = serviceEmpresa.Pendencia.ListarPorVeiculo(entity.VeiculoId).Where(n => n.Impeditivo == true && n.Ativo == true).ToList();
 
-            HabilitaImpressao = entity.Ativa & !entity.PendenciaImpeditiva & !entity.Impressa && entity.Validade >= DateTime.Now.Date && (pendenciaImpeditivaEmpresa.Count <= 0);
+            HabilitaImpressao = entity.Ativa & !entity.PendenciaImpeditiva & !entity.Impressa && entity.Validade >= DateTime.Now.Date && (pendenciaImpeditivaEmpresa.Count <= 0) && (pendenciaImpeditivaVeiculo.Count <= 0);
             //Verificar se a empresa esta impedida
             var n1 = _service.BuscarCredencialPelaChave(entity.VeiculoCredencialId);
             var mensagem1 = !n1.Ativa ? "Autorização Inativa" : string.Empty;
@@ -609,6 +623,14 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 lst.Add (AutorizacaoMapeada);
 
                 relatorio.SetDataSource (lst);
+
+                var objCode = new QrCode();
+                string querySistema = _configuraSistema.UrlSistema?.Trim().ToString() + "/Veiculo/Credential/"
+                            + Helpers.Helper.Encriptar(AutorizacaoMapeada.VeiculoCredencialId.ToString());
+
+                var pathImagem = objCode.GerarQrCode(querySistema, "QrCodeAutorizacao" + AutorizacaoMapeada.VeiculoCredencialId.ToString() + ".png");
+                relatorio.SetParameterValue("PathImgQrCode", pathImagem);
+
                 var popupCredencial = new PopupAutorizacao (relatorio, _service, Entity, layoutCracha);
                 popupCredencial.ShowDialog();
 

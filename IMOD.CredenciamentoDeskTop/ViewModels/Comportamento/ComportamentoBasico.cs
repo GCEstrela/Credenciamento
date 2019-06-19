@@ -15,7 +15,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels.Comportamento
     public class ComportamentoBasico : ViewModelBase
     {
         private Acao _salvar;
-
+        private bool seguntatentativa = false;
         #region  Propriedades
 
 
@@ -65,7 +65,16 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels.Comportamento
 
             _salvar = Acao.SalvarAdicao;
         }
+        /// <summary>
+        ///     Prepara botões para comportamento de criação
+        /// </summary>
+        public void PrepareCriarSegundaTentativa()
+        {
+            seguntatentativa = true;
+            AdicionarEstado(false, false, false, true, true, false);
 
+            _salvar = Acao.SalvarAdicao;
+        }
         /// <summary>
         /// </summary>
         public void PrepareAlterar()
@@ -94,8 +103,17 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels.Comportamento
                 OnSalvarEdicao(new RoutedEventArgs());
             if (_salvar == Acao.SalvarAdicao)
                 OnSalvarAdicao(new RoutedEventArgs());
-
-            AdicionarEstado(true, true, true, false, false, true);
+            if (!seguntatentativa)
+            {
+                AdicionarEstado(true, true, true, false, false, true);
+                seguntatentativa = false;
+            }
+            else
+            {
+                AdicionarEstado(false, false, false, true, true, false);
+                seguntatentativa = false;
+            }
+            
         }
 
         /// <summary>

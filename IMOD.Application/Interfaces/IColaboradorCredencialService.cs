@@ -7,10 +7,12 @@
 #region
 
 using System.Collections.Generic;
+using IMOD.Application.Service;
 using IMOD.Domain.Entities;
 using IMOD.Domain.EntitiesCustom;
 using IMOD.Domain.Interfaces;
 using IMOD.Infra.Servicos;
+using IMOD.Infra.Servicos.Entities;
 
 #endregion
 
@@ -53,6 +55,7 @@ namespace IMOD.Application.Interfaces
         ///     CredencialStatus serviços
         /// </summary>
         ICredencialStatusService CredencialStatus { get; }
+        
 
         /// <summary>
         ///     CredencialMotivo serviços
@@ -117,7 +120,41 @@ namespace IMOD.Application.Interfaces
         /// <param name="entity">Entidade</param>
         /// <param name="colaboradorId">Identificador</param>
         void Alterar(ColaboradorCredencial entity, int colaboradorId);
+        /// <summary>
+        ///     REmove as REgras de Acesso de um Cardholder
+        /// </summary>
+        /// <param name="entity">Entidade</param>
+        /// <param name="colaboradorId">Identificador</param>
+        void RemoverRegrasCardHolder(ICredencialService geradorCredencialService, IColaboradorService colaboradorService, ColaboradoresCredenciaisView entity);
 
+        //void ExisteCardHolder(ICredencialService geradorCredencialService, IColaboradorService colaboradorService, ColaboradoresCredenciaisView entity);
+        /// <summary>
+        ///     REmove as REgras de Acesso de um Cardholder
+        /// </summary>
+        /// <param name="entity">Entidade</param>
+        /// <param name="colaboradorId">Identificador</param>
+        void RemoverCredencial(ICredencialService geradorCredencialService, IColaboradorService colaboradorService, ColaboradoresCredenciaisView entity);
+
+        /// <summary>
+        ///     REmove as REgras de Acesso de um Cardholder
+        /// </summary>
+        /// <param name="entity">Entidade</param>
+        /// <param name="colaboradorId">Identificador</param>
+        void DisparaAlarme(ICredencialService geradorCredencialService, CardHolderEntity entity);
+
+
+        /// <summary>
+        ///     REmove as REgras de Acesso de um Cardholder
+        /// </summary>
+        /// <param name="entity">Entidade</param>
+        /// <param name="colaboradorId">Identificador</param>
+        void RemoverRegrasCardHolder(ICredencialService geradorCredencialService, CardHolderEntity entity);
+        /// <summary>
+        ///     REmove as REgras de Acesso de um Cardholder
+        /// </summary>
+        /// <param name="entity">Entidade</param>
+        /// <param name="colaboradorId">Identificador</param>
+        //void EncontraCredencialPeloNumero(CardHolderEntity entity, string credencialNumero);
         #endregion
     }
 }

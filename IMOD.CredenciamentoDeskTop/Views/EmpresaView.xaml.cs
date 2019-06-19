@@ -51,10 +51,17 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         private void OnListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            //fake1.IsChecked = false;
+            if (_viewModel.Entity == null) return;
             //Atualizar dados ao selecionar uma linha da listview
             _viewModel.AtualizarDadosPendencias();
             _viewModel.AtualizarDadosTiposAtividades();
             _viewModel.AtualizarDadosTipoCrachas();
+            if (_viewModel.Entity!=null)
+                _viewModel.bucarLogo(_viewModel.Entity.EmpresaId);
+
+            if (_viewModel.Entity != null)
+                _viewModel.Entity.Cnpj = _viewModel.Entity.Cnpj.FormatarCnpj();
             //Popular User Controls
             //////////////////////////////////////////////////////////////
             RepresentanteUs.AtualizarDados(_viewModel.Entity, _viewModel);
@@ -62,6 +69,15 @@ namespace IMOD.CredenciamentoDeskTop.Views
             EmpresaContratosUs.AtualizarDados(_viewModel.Entity, _viewModel);
             //////////////////////////////////////////////////////////////
             _viewModel.CarregarQuantidadeTipoCredencial();
+            //////////////////////////////////////////////////////////////
+            if (_viewModel.Entity.Cnpj== "00.000.000/0000-00")
+            {
+                fake1.IsChecked = true;
+            }
+            else
+            {
+                fake1.IsChecked = false;
+            }
         }
 
         /// <summary>
@@ -91,9 +107,15 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 TipoAtividadeId = _viewModel.TipoAtividade.TipoAtividadeId,
                 Descricao = _viewModel.TipoAtividade.Descricao
             };
+            foreach (var listBoxItem in lstBoxTipoAtividade.Items)
+            {
+                if (((EmpresaTipoAtividadeView)listBoxItem).Descricao == n1.Descricao)
+                {
+                    return;
+                }
+            }
             _viewModel.TiposAtividades.Add(n1);
             _viewModel.TipoAtividade = null;
-            //TipoAtividade_cb.SelectedIndex = 0;
 
         }
 
@@ -110,6 +132,14 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 LayoutCrachaId = _viewModel.TipoCracha.LayoutCrachaId,
                 Nome = _viewModel.TipoCracha.Nome
             };
+            foreach (var listBoxItem in lstBoxLayoutCracha.Items)
+            {
+                
+                if (((IMOD.Domain.EntitiesCustom.EmpresaLayoutCrachaView)listBoxItem).Nome == n1.Nome)
+                {
+                    return;
+                }
+            }
             _viewModel.TiposLayoutCracha.Add(n1);
             _viewModel.TipoCracha = null;
         }
@@ -179,7 +209,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
             try
             {
                 var filtro = "Images (*.BMP;*.JPG;*.GIF,*.PNG,*.TIFF)|*.BMP;*.JPG;*.GIF;*.PNG;*.TIFF|" + "All files (*.*)|*.*";
-                var arq = WpfHelp.UpLoadArquivoDialog(filtro);
+                var arq = WpfHelp.UpLoadArquivoDialog(filtro, _viewModel.IsTamanhoImagem);
                 if (arq == null) return;
                 _viewModel.Entity.Logo = arq.FormatoBase64;
                 var binding = BindingOperations.GetBindingExpression(Logo_im, Image.SourceProperty);
@@ -204,10 +234,10 @@ namespace IMOD.CredenciamentoDeskTop.Views
             if (_viewModel.Entity == null) return;
             try
             {
-
+                _viewModel.Entity.Cnpj = _viewModel.Entity.Cnpj.FormatarCnpj();
                 var cnpj = _viewModel.Entity.Cnpj;
                 if (!Utils.IsValidCnpj(cnpj)) throw new Exception();
-                _viewModel.Entity.Cnpj.FormatarCnpj();
+                //_viewModel.Entity.Cnpj.FormatarCnpj();
                 //Verificar existência de CPF
                 if (_viewModel.ExisteCnpj())
                     _viewModel.Entity.SetMessageErro("Cnpj", "CNPJ já existe");
@@ -236,6 +266,72 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 {
                     _viewModel.Entity.SetMessageErro("Cnpj", "CNPJ inválido");
                 }
+        }
+        
+        private void LstView_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            try
+            {
+                if (lstView.SelectedIndex > -1)
+                {
+                    int currentIndex = lstView.SelectedIndex;
+                    int Sum = lstView.Items.Count;
+                    if (currentIndex > Sum)
+                        currentIndex -= Sum;
+                    if (e.Key.ToString() != "Up")
+                    {
+                        if (currentIndex == lstView.Items.Count-1) return;
+                        ((ListViewItem)(lstView.ItemContainerGenerator.ContainerFromIndex(currentIndex + 1))).Focus();
+                    }
+                    else
+                    {
+                        if (currentIndex == 0) return;
+                        ((ListViewItem)(lstView.ItemContainerGenerator.ContainerFromIndex(currentIndex - 1))).Focus();
+                    }
+                }
+
+                
+            }
+            catch (Exception ex)
+            {
+                //WpfHelp.Mbox(ex.ToString());
+            }
+        }
+
+        private void Fake1_Checked(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                _viewModel.empresaFake = true;
+                txtCnpj.Text = "00.000.000/0000-00";
+                txtCnpj.IsEnabled = false;
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+        private void Fake1_Unchecked(object sender, RoutedEventArgs e)
+        {
+            _viewModel.empresaFake = false;
+            txtCnpj.Text = "";
+            txtCnpj.IsEnabled = true;
+        }
+
+        private void BtnAdicionar_Click(object sender, RoutedEventArgs e)
+        {
+            fake1.IsChecked = false;
+        }
+
+        private void BtnCancelar_Click(object sender, RoutedEventArgs e)
+        {
+            fake1.IsChecked = false;
+        }
+
+        private void BtnEditar_Click(object sender, RoutedEventArgs e)
+        {
+            //fake1.IsChecked = false;
         }
     }
 }

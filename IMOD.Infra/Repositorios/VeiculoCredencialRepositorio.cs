@@ -124,7 +124,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("NumeroCredencial", entity.NumeroCredencial, false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("FC", entity.Fc, false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Emissao", DbType.DateTime, entity.Emissao, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Validade", DbType.DateTime, entity.Validade, false)));
+                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert("Validade", DbType.DateTime, entity.Validade, false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("CredencialStatusID", entity.CredencialStatusId, false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("CardHolderGUID", entity.CardHolderGuid, false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("CredencialGUID", entity.CredencialGuid, false)));
@@ -380,11 +380,11 @@ namespace IMOD.Infra.Repositorios
         ///     </para>
         /// </summary>
         /// <param name="tipoCredencialId"></param>
-        /// <param name="equiapmentoVeiculoId"></param>
+        /// <param name="equipamentoVeiculoId"></param>
         /// <param name="numContrato"></param>
         /// <param name="credencialRepositorio"></param>
         /// <returns></returns>
-        public DateTime? ObterDataValidadeCredencial(int tipoCredencialId, int equiapmentoVeiculoId, string numContrato, ITipoCredencialRepositorio credencialRepositorio)
+        public DateTime? ObterDataValidadeCredencial(int tipoCredencialId, int equipamentoVeiculoId, string numContrato, ITipoCredencialRepositorio credencialRepositorio)
         {
             if (credencialRepositorio == null) throw new ArgumentNullException (nameof (credencialRepositorio));
 
@@ -392,9 +392,9 @@ namespace IMOD.Infra.Repositorios
             var tipoCredencial = credencialRepositorio.BuscarPelaChave (tipoCredencialId);
             if (tipoCredencial == null) throw new InvalidOperationException ("Um tipo de credencial é necessário.");
             if (tipoCredencial.CredPermanente) //Sendo uma credencial do tipo permanente, então vale a regra da menor data
-                return ObterMenorData (equiapmentoVeiculoId, numContrato);
-            //Caso contrario, trata-se de uma credencial temporária, então vale o prazo de 90 dias em relação a data atual
-            return DateTime.Today.AddDays (90);
+                return ObterMenorData (equipamentoVeiculoId, numContrato);
+            //Caso contrario, trata-se de uma credencial(autorização) temporária, então vale o prazo de 30 dias em relação a data atual
+            return DateTime.Today.AddDays (30);
         }
 
         /// <summary>
@@ -670,6 +670,10 @@ namespace IMOD.Infra.Repositorios
                         {
                             cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Emissao", DbType.DateTime, entity.Emissao).MaiorIgual()));
                             cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmissaoFim", DbType.DateTime, entity.EmissaoFim).MenorIgual()));
+                        } 
+                        if (entity.Impressa != null && entity.Impressa)
+                        {
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Impressa", DbType.Boolean, entity.Impressa).Igual()));
                         }
 
                         var reader = cmd.ExecuteReaderSelect();
@@ -708,6 +712,10 @@ namespace IMOD.Infra.Repositorios
                             cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("DataImpressao", DbType.DateTime, entity.DataImpressao).MaiorIgual()));
                             cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("DataImpressaoFim", DbType.DateTime, entity.DataImpressaoFim).MenorIgual()));
                         }
+                        if (entity.Impressa != null && entity.Impressa)
+                        {
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Impressa", DbType.Boolean, entity.Impressa).Igual()));
+                        }
 
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<VeiculosCredenciaisView>();
@@ -744,6 +752,10 @@ namespace IMOD.Infra.Repositorios
                         {
                             cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("CredencialStatusId", DbType.Int32, entity.CredencialStatusId).Igual()));
                         }
+                        if (entity.Impressa != null && entity.Impressa)
+                        {
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Impressa", DbType.Boolean, entity.Impressa).Igual()));
+                        } 
 
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<VeiculosCredenciaisView>();

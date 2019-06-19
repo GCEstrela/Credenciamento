@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
@@ -168,6 +169,7 @@ namespace IMOD.Infra.Repositorios
                         //cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Policiafederal", entity.Policiafederal, false)));
                         //cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Receitafederal", entity.Receitafederal, false)));
                         //cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Segurancatrabalho", entity.Segurancatrabalho, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Precadastro", entity.Precadastro, false)));
                         cmd.ExecuteNonQuery();
                     }
                     catch (Exception ex)
@@ -266,6 +268,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Pendente24", entity.Pendente24, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Pendente25", entity.Pendente25, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Estrangeiro", entity.Estrangeiro, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Precadastro", entity.Precadastro, false)));
                         //cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Policiafederal", entity.Policiafederal, false)));
                         //cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Receitafederal", entity.Receitafederal, false)));
                         //cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Segurancatrabalho", entity.Segurancatrabalho, false)));
@@ -288,9 +291,49 @@ namespace IMOD.Infra.Repositorios
         /// <returns></returns>
         public ICollection<Colaborador> Listar(params object[] o)
         {
+            try
+            {
+                using (var conn = _dataBase.CreateOpenConnection())
+                {
+                    using (var cmd = _dataBase.SelectText("ColaboradoresView", conn))
+
+                    {
+                        try
+                        {
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("ColaboradorID", DbType.Int32, o, 0).Igual()));
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Cpf", DbType.String, o, 1).Like()));
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Nome", DbType.String, o, 2).Like()));
+
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Precadastro", DbType.Boolean, o, 3).Igual()));
+
+                            var reader = cmd.ExecuteReaderSelect();
+                            var d1 = reader.MapToList<Colaborador>();
+
+                            return d1;
+                        }
+                        catch (Exception ex)
+                        {
+                            Utils.TraceException(ex);
+                            throw;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                
+                throw ex;
+            }
+        }
+        /// <summary>
+        ///     Listar
+        /// </summary>
+        /// <returns></returns>
+        public ICollection<Colaborador> ListarFoto(params object[] o)
+        {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.SelectText("Colaboradores", conn))
+                using (var cmd = _dataBase.SelectText("ColaboradoresView", conn))
 
                 {
                     try
@@ -312,27 +355,55 @@ namespace IMOD.Infra.Repositorios
                 }
             }
         }
-
         /// <summary>
         ///     Deletar registro
         /// </summary>
-        /// <param name="entity">Entidade</param>
+        /// <param name="entity">Entidade</param>   
         public void Remover(Colaborador entity)
         {
             using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var cmd = _dataBase.DeleteText("Colaboradores", conn))
+                var tran = conn.BeginTransaction();
+
+                try
                 {
-                    try
+                    using (var cmd = _dataBase.DeleteText("ColaboradoresAnexos", conn))
                     {
+                        cmd.Transaction = tran;
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamDelete("ColaboradorId", DbType.Int32, entity.ColaboradorId).Igual()));
                         cmd.ExecuteNonQuery();
                     }
-                    catch (Exception ex)
+                    using (var cmd = _dataBase.DeleteText("ColaboradoresCursos", conn))
                     {
-                        Utils.TraceException(ex);
+                        cmd.Transaction = tran;
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamDelete("ColaboradorId", DbType.Int32, entity.ColaboradorId).Igual()));
+                        cmd.ExecuteNonQuery();
                     }
+                    using (var cmd = _dataBase.DeleteText("ColaboradoresEmpresas", conn))
+                    {
+                        cmd.Transaction = tran;
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamDelete("ColaboradorId", DbType.Int32, entity.ColaboradorId).Igual()));
+                        cmd.ExecuteNonQuery();
+                    }
+                    using (var cmd = _dataBase.DeleteText("Colaboradores", conn))
+                    {
+                        cmd.Transaction = tran;
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamDelete("ColaboradorId", DbType.Int32, entity.ColaboradorId).Igual()));
+                        cmd.ExecuteNonQuery();
+                    }
+                    
+                    tran.Commit();
                 }
+                catch (Exception ex)
+                {
+                    if (conn.State == ConnectionState.Open)
+                    {
+                        tran.Rollback();
+                        conn.Close();
+                    }
+                    Utils.TraceException(ex);
+                }
+                
             }
         }
 

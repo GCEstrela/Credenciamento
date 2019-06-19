@@ -208,7 +208,7 @@ namespace IMOD.CredenciamentoDeskTop.Helpers
 
             var path = openFileDialog.FileName;
             var tamBytes = new FileInfo (path).Length;
-            var tam = decimal.Divide (tamBytes, 1000);
+            var tam = decimal.Divide (tamBytes, 1024);
             var arq = new ArquivoInfo
             {
                 Nome = openFileDialog.SafeFileName
@@ -222,8 +222,11 @@ namespace IMOD.CredenciamentoDeskTop.Helpers
             }
 
             if (tamMax < tam)
-                throw new Exception ($"{tamMax} Kbytes é o tamanho máximo permitido para upload.");
-
+            {
+                WpfHelp.Mbox($"{tamMax} Kbytes é o tamanho máximo permitido para upload. Seu arquivo tem " + Convert.ToInt32(tam), MessageBoxIcon.Information);
+                //throw new Exception ($"{tamMax} Kbytes é o tamanho máximo permitido para upload.");
+                return null;
+            }
             arq.ArrayBytes = File.ReadAllBytes (path);
             arq.FormatoBase64 = Convert.ToBase64String (arq.ArrayBytes);
             return arq;
@@ -436,11 +439,42 @@ namespace IMOD.CredenciamentoDeskTop.Helpers
                 png = null;
                 return str;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }
 
+
+        }
+        /// <summary>
+        /// Salva imagem tipo BitmapSource
+        /// </summary>
+        /// <param BitmapSource="Imagem da WebCam">Documento do crystal report</param> 
+        public static void SaveImageCapture(BitmapSource bitmap)
+        {
+            JpegBitmapEncoder encoder = new JpegBitmapEncoder();
+            encoder.Frames.Add(BitmapFrame.Create(bitmap));
+            encoder.QualityLevel = 100;
+
+
+            // Configure save file dialog box
+            Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
+            dlg.FileName = "Image"; // Default file name
+            dlg.DefaultExt = ".Jpg"; // Default file extension
+            dlg.Filter = "Image (.jpg)|*.jpg"; // Filter files by extension
+
+            // Show save file dialog box
+            Nullable<bool> result = dlg.ShowDialog();
+
+            // Process save file dialog box results
+            if (result == true)
+            {
+                // Save Image
+                string filename = dlg.FileName;
+                FileStream fstream = new FileStream(filename, FileMode.Create);
+                encoder.Save(fstream);
+                fstream.Close();
+            }
 
         }
         #endregion

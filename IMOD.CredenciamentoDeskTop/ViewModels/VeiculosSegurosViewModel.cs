@@ -32,6 +32,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
     {
         private readonly IVeiculoSeguroService _service = new VeiculoSeguroService();
 
+        private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
+        private readonly IEmpresaContratosService _serviceContratos = new EmpresaContratoService();
+        private ConfiguraSistema _configuraSistema;
+
         private VeiculoView _veiculoView;
         private VeiculoViewModel _viewModelParent;
 
@@ -49,7 +53,16 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         ///     Habilita listView
         /// </summary>
         public bool IsEnableLstView { get; private set; } = true;
-
+        /// <summary>
+        ///     Tamanho da Imagem
+        /// </summary>
+        public int IsTamanhoArquivo
+        {
+            get
+            {
+                return _configuraSistema.arquivoTamanho;
+            }
+        }
         #endregion
 
         #region  Metodos
@@ -84,8 +97,22 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             var list2 = Mapper.Map<List<VeiculoSeguroView>> (list1.OrderByDescending (n => n.VeiculoSeguroId));
             EntityObserver = new ObservableCollection<VeiculoSeguroView>();
             list2.ForEach (n => { EntityObserver.Add (n); });
-        }
 
+            //Obter configuracoes de sistema
+            _configuraSistema = ObterConfiguracao();
+        }
+        /// <summary>
+        /// Obtem configuração de sistema
+        /// </summary>
+        /// <returns></returns>
+        private ConfiguraSistema ObterConfiguracao()
+        {
+            //Obter configuracoes de sistema
+            var config = _auxiliaresService.ConfiguraSistemaService.Listar();
+            //Obtem o primeiro registro de configuracao
+            if (config == null) throw new InvalidOperationException("Não foi possivel obter dados de configuração do sistema.");
+            return config.FirstOrDefault();
+        }
         public VeiculosSegurosViewModel()
         {
             Comportamento = new ComportamentoBasico (false, true, true, false, false);
@@ -100,7 +127,19 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         #endregion
 
         #region Metódos
-
+        public void BuscarAnexo(int VeiculoSeguroID)
+        {
+            try
+            {
+                var anexo = _service.BuscarPelaChave(VeiculoSeguroID);
+                Entity.Arquivo = anexo.Arquivo;
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+                WpfHelp.PopupBox(ex);
+            }
+        }
         /// <summary>
         /// </summary>
         /// <param name="sender"></param>

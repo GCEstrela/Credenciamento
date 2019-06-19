@@ -12,6 +12,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Forms;
 using System.Windows.Input;
 using AutoMapper;
@@ -37,6 +38,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
        
         private  ColaboradorViewModel _viewModelParent;
 
+        private readonly IEmpresaContratosService _serviceContratos = new EmpresaContratoService();
+        private ConfiguraSistema _configuraSistema;
+
         #region  Propriedades
         /// <summary>
         ///     Seleciona o indice da tabcontrol desejada
@@ -51,14 +55,23 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         ///     Habilita listView
         /// </summary>
         public bool IsEnableLstView { get; private set; } = true;
-
+        /// <summary>
+        ///     Tamanho do Arquivo
+        /// </summary>
+        public int IsTamanhoArquivo
+        {
+            get
+            {
+                return _configuraSistema.arquivoTamanho;
+            }
+        }
         #endregion
 
         #region Inicializacao
 
         public ColaboradoresCursosViewModel()
         {
-            ListarDadosAuxiliares();
+            //ListarDadosAuxiliares();
             Comportamento = new ComportamentoBasico(false, true, false, false, false);
             EntityObserver = new ObservableCollection<ColaboradorCursoView>();
             Comportamento.SalvarAdicao += OnSalvarAdicao;
@@ -71,7 +84,20 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         #endregion
 
         #region  Metodos
-
+        public void BuscarAnexo(int ColaboradorCursoID)
+        {
+            try
+            {
+                if (Entity.Arquivo != null) return;
+                var anexo = _service.BuscarPelaChave(ColaboradorCursoID);
+                Entity.Arquivo = anexo.Arquivo;
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+                WpfHelp.PopupBox(ex);
+            }
+        }
         /// <summary>
         /// 
         /// </summary>
@@ -97,8 +123,17 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             var lst1 = _auxiliaresService.CursoService.Listar();
             Cursos = new List<Curso>();
             Cursos.AddRange (lst1);
+            
+            _configuraSistema = ObterConfiguracao();
         }
-
+        private ConfiguraSistema ObterConfiguracao()
+        {
+            //Obter configuracoes de sistema
+            var config = _auxiliaresService.ConfiguraSistemaService.Listar();
+            //Obtem o primeiro registro de configuracao
+            if (config == null) throw new InvalidOperationException("Não foi possivel obter dados de configuração do sistema.");
+            return config.FirstOrDefault();
+        }
         /// <summary>
         ///     Criar Dados
         /// </summary>
@@ -152,7 +187,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private void PrepareCriar()
         {
-            
+            if (Cursos!=null)
+                Cursos.Clear();
+
+            ListarDadosAuxiliares();
+            CollectionViewSource.GetDefaultView(Cursos).Refresh();
+
             Entity = new ColaboradorCursoView();
             Entity.Controlado = true;
             Comportamento.PrepareCriar();

@@ -33,8 +33,15 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
         private readonly IVeiculoService _service = new VeiculoService();
 
+        private readonly IDadosAuxiliaresFacade _auxiliaresServiceConfiguraSistema = new DadosAuxiliaresFacadeService();
+        private ConfiguraSistema _configuraSistema;
+
+        public bool IsEnablePreCadastro { get; set; } = false;
+        public bool IsEnablePreCadastroCredenciamento { get; set; } = true;
+        public string IsEnablePreCadastroColor { get; set; } = "#FFD0D0D0";
+
         #region  Propriedades
-       
+
 
         /// <summary>
         ///     String contendo o nome a pesquisa;
@@ -158,7 +165,16 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         ///     Dados de municipio armazendas em memoria
         /// </summary>
         public List<Municipio> _municipios { get; set; }
-
+        /// <summary>
+        ///     Tamanho da Imagem
+        /// </summary>
+        public int IsTamanhoImagem
+        {
+            get
+            {
+                return _configuraSistema.imagemTamanho;
+            }
+        }
         #endregion
 
         public VeiculoViewModel()
@@ -176,7 +192,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         }
 
         #region  Metodos
-
+        public void BucarFoto(int EquipamentoVeiculoID)
+        {
+            if (Entity.Foto != null) return;
+            var listaFoto = _service.BuscarPelaChave(EquipamentoVeiculoID);
+            Entity.Foto = listaFoto.Foto;
+        }
         /// <summary>
         /// </summary>
         /// <param name="sender"></param>
@@ -187,7 +208,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             if (e.PropertyName == "Entity")
             {
                 var enableControls = Entity != null;
-                Comportamento.IsEnableEditar = Entity != null;
+                Comportamento.IsEnableEditar = enableControls;
                 HabilitaControleTabControls(true, enableControls, enableControls, enableControls, enableControls, enableControls);
             }
 
@@ -205,6 +226,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             ListaPesquisa = new List<KeyValuePair<int, string>>();
             ListaPesquisa.Add (new KeyValuePair<int, string> (1, "Placa/Identificador"));
             ListaPesquisa.Add (new KeyValuePair<int, string> (2, "Série/Chassi"));
+            ListaPesquisa.Add(new KeyValuePair<int, string>(3, "Descrição"));
             PesquisarPor = ListaPesquisa[0]; //Pesquisa Default
         }
 
@@ -221,8 +243,21 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             TiposCombustiveis = Mapper.Map<List<TipoCombustivel>> (lst2);
             Estados = Mapper.Map<List<Estados>> (lst3);
             ListaEquipamentos = Mapper.Map<List<TipoEquipamento>> (lst4);
+            //Obter configuracoes de sistema
+            _configuraSistema = ObterConfiguracao();
         }
-
+        /// <summary>
+        /// Obtem configuração de sistema
+        /// </summary>
+        /// <returns></returns>
+        private ConfiguraSistema ObterConfiguracao()
+        {
+            //Obter configuracoes de sistema
+            var config = _auxiliaresService.ConfiguraSistemaService.Listar();
+            //Obtem o primeiro registro de configuracao
+            if (config == null) throw new InvalidOperationException("Não foi possivel obter dados de configuração do sistema.");
+            return config.FirstOrDefault();
+        }
         /// <summary>
         ///     Atualizar dados de pendências
         /// </summary>
@@ -303,9 +338,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
         }
 
-        private void PrepareCriar()
+        private void PrepareCriar() 
         {
-            Entity = new VeiculoView();
+            Entity = new VeiculoView(); 
+            Entity.Tipo = "VEICULO";
             Comportamento.PrepareCriar();
             TiposEquipamentoServico.Clear();
             HabilitaControle (false, false);
@@ -361,7 +397,30 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         ///     Pesquisar
         /// </summary>
         public ICommand PesquisarCommand => new CommandBase (Pesquisar, true);
+        /// <summary>
+        ///     Pré-Cadastro
+        /// </summary>
+        public ICommand PrepareIportarCommand => new CommandBase(PrepareImportar, true);
+        private void PrepareImportar()
+        {
+            try
+            {
+                if (Entity == null) return;
+                if (Validar()) return;
 
+                var n1 = Mapper.Map<Veiculo>(Entity);
+                n1.Precadastro = false;
+                _service.Alterar(n1);
+                EntityObserver.RemoveAt(SelectListViewIndex);
+                SalvarTipoServico(n1.EquipamentoVeiculoId);
+                HabilitaControle(true, true);
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+                WpfHelp.PopupBox(ex);
+            }
+        }
         /// <summary>
         ///     Novo
         /// </summary>
@@ -376,22 +435,30 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             try
             {
                 var pesquisa = NomePesquisa;
-
+                String tipoVeiculoEquipamento = "VEICULO";
                 var num = PesquisarPor;
 
-                //Placa/Identificador
+                //Placa
                 if (num.Key == 1)
                 {
                     if (string.IsNullOrWhiteSpace (pesquisa)) return;
-                    var l1 = _service.Listar (null, null, $"%{pesquisa}%", null);
+                    var l1 = _service.Listar(null, null, $"%{pesquisa}%", null, $"%{tipoVeiculoEquipamento}%", null, IsEnablePreCadastro);
+
                     PopularObserver (l1);
                 }
-                //Por Série/Chassi
+                //Por Chassi
                 if (num.Key == 2)
                 {
                     if (string.IsNullOrWhiteSpace (pesquisa)) return;
-                    var l1 = _service.Listar (null, null, null, $"%{pesquisa}%");
+                    var l1 = _service.Listar(null, null, null, $"%{pesquisa}%", $"%{tipoVeiculoEquipamento}%");  
                     PopularObserver (l1);
+                }
+                //Por Chassi
+                if (num.Key == 3)
+                {
+                    if (string.IsNullOrWhiteSpace(pesquisa)) return;
+                    var l1 = _service.Listar($"%{pesquisa}%", null, null,null, $"%{tipoVeiculoEquipamento}%",null, IsEnablePreCadastro);
+                    PopularObserver(l1);
                 }
 
                 IsEnableLstView = true;
@@ -406,15 +473,18 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
+                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
                 var list2 = Mapper.Map<List<VeiculoView>> (list.OrderByDescending (n => n.EquipamentoVeiculoId).ToList());
                 EntityObserver = new ObservableCollection<VeiculoView>();
                 list2.ForEach (n => { EntityObserver.Add (n); });
                 //Havendo registros, selecione o primeiro
                 if (EntityObserver.Any()) SelectListViewIndex = 0;
+                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.IBeam;
             }
 
             catch (Exception ex)
             {
+                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.IBeam;
                 Utils.TraceException (ex);
             }
         }
@@ -432,6 +502,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 WpfHelp.PopupBox ("Selecione um item da lista", 1);
                 return;
             }
+            Entity.Tipo = "VEICULO";
             Comportamento.PrepareAlterar();
             AtualizarDadosTiposServico();
             HabilitaControle (false, false);
@@ -511,7 +582,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 AtualizarDadosTiposServico();
                 TiposEquipamentoServico.Clear();
                 Entity = null;
-                HabilitaControle(true, true);
+                HabilitaControle((Entity != null), true);
+
             }
             catch (Exception ex)
             {

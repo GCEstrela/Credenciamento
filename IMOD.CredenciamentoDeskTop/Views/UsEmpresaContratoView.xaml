@@ -66,7 +66,7 @@
                                  IsEnabled="False" Height="24" Width="50" Visibility="Collapsed" />
                         <Label Content="Nº do Contrato:" Height="28" Width="103" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"  />
                         <TextBox x:Name="NumeroContrato_tb" MaxLength="13" CharacterCasing="Upper"
-                                 Text="{Binding Entity.NumeroContrato, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                 Text="{Binding Entity.NumeroContrato,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                                  IsEnabled="True" Height="24" Width="65" 
                                  />
                         <CheckBox x:Name="Terceira_cb" IsChecked="{Binding Entity.Terceirizada}" FlowDirection="RightToLeft" VerticalAlignment="Center"
@@ -115,20 +115,29 @@
                             PreviewTextInput="NumberOnly"
                             MaxLength="10"
                             
-                            Height="24"  Width="110" />
+                            Height="24"  Width="80" />
 
 
-                        <Label Content="Data de Validade:" Height="26" Width="102" Margin="15,3,0,0"
+                        <Label Content="Data de Validade:" Height="26" Width="102" Margin="5,3,0,0"
                                Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/> 
                         <TextBox 
                             Name="txtDtValidade"
                             Text="{Binding Entity.Validade, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay,StringFormat='{}{0:dd/MM/yyyy}'}"
                             LostFocus="OnFormatData_LostFocus"
                             PreviewTextInput="NumberOnly"
-                            MaxLength="10"
-                            
-                            Height="24"  Width="110" />
-
+                            MaxLength="10"                            
+                            Height="24"  Width="80" />
+                        
+                        <Label Content="Vence em:" Height="26" Width="64" Margin="7,0,0,0"
+                               Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
+                        <TextBox 
+                            Name="txtDias"
+                            IsEnabled="False"
+                            Text="{Binding Entity.PraVencer, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                            LostFocus="OnFormatData_LostFocus"
+                            PreviewTextInput="NumberOnly"
+                            MaxLength="10"                            
+                            Height="24"  Width="40" HorizontalContentAlignment="Right"/>
                     </StackPanel>
                 </StackPanel>
             </GroupBox>

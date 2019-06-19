@@ -58,9 +58,15 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("NomeAnexo", entity.NomeAnexo, false))); 
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Anexo", entity.Anexo, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Validade", entity.Validade, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("ManuseioBagagem", entity.ManuseioBagagem, false))); 
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("ManuseioBagagem", entity.ManuseioBagagem, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("FlagCcam", entity.FlagCcam, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("OperadorPonteEmbarque", entity.OperadorPonteEmbarque, false))); 
 
                         cmd.ExecuteNonQuery();
+
+                        ////Gerar matricula
+                        //if (entity.Matricula == null)
+                        //    CriarNumeroMatricula(entity);
                     }
                     catch (Exception ex)
                     {
@@ -125,8 +131,10 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("NomeAnexo", entity.NomeAnexo, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Anexo", entity.Anexo, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Validade", entity.Validade, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("ManuseioBagagem", entity.ManuseioBagagem, false)));
-                        
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("ManuseioBagagem", entity.ManuseioBagagem, false))); 
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("FlagCcam", entity.FlagCcam, false))); 
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("OperadorPonteEmbarque", entity.OperadorPonteEmbarque, false))); 
+
 
                         var key = Convert.ToInt32(cmd.ExecuteScalar());
 
@@ -147,7 +155,7 @@ namespace IMOD.Infra.Repositorios
         /// Criar numero de matricula
         /// </summary>
         /// <param name="entity"></param>
-        private void CriarNumeroMatricula(ColaboradorEmpresa entity)
+        public void CriarNumeroMatricula(ColaboradorEmpresa entity)
         {
             
             var data = DateTime.Now.ToString("yy");
@@ -164,7 +172,6 @@ namespace IMOD.Infra.Repositorios
             using (var conn = _dataBase.CreateOpenConnection())
             {
                 using (var cmd = _dataBase.SelectText("ColaboradorEmpresaView", conn))
-
                 {
                     try
                     {
@@ -174,7 +181,9 @@ namespace IMOD.Infra.Repositorios
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Matricula", DbType.String, o, 3).Like()));
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmpresaNome", DbType.String, o, 4).Like()));
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmpresaID", DbType.Int32, o, 5).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmpresaContratoId", DbType.Int32, o, 6).Igual()));
                         
+
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<ColaboradorEmpresa>();
 

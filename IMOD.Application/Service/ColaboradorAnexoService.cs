@@ -95,6 +95,15 @@ namespace IMOD.Application.Service
         }
 
         /// <summary>
+        ///     ListarComAnexo
+        /// </summary>
+        /// <returns></returns>
+        public ICollection<ColaboradorAnexo> ListarComAnexo(params object[] objects)
+        {
+            return _repositorio.ListarComAnexo(objects);
+        }
+
+        /// <summary>
         ///     Alterar registro
         /// </summary>
         /// <param name="entity"></param>

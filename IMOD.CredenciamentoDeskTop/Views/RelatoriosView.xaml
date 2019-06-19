@@ -136,20 +136,23 @@
                                         </StackPanel>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="0,0,0,20" >
-                                        <Button x:Name="BotaoFiltroArea_bt"  Style="{StaticResource MenuStyle}" Margin="20,0,20,0" Height="50" VerticalAlignment="Top"  Width="300" 
-                                                        Click="BotaoFiltroPorArea_bt_Click" >
-                                            <StackPanel Orientation="Horizontal" Width="260">
+
+                                        <Button x:Name="BotaoRelatorioViasAdicionaisCredenciais_bt" Style="{StaticResource MenuStyle}" Margin="20,0,20,0" Height="50" VerticalAlignment="Top"  Width="300"
+                                                            Click="ButtonRelatorioViasAdicionaisCredenciaisClick" >
+                                            <StackPanel Orientation="Horizontal" Width="265">
                                                 <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Relatorio.png" Height="24" Width="24" Margin="0,0,5,0"/>
-                                                <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom"  Content="Relatório de Cred./Aut. por Área de Acesso" Foreground="White" Width="236" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                                <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom" Content ="Relatório de Vias Adicionais de Credenciais" Foreground="White" />
                                             </StackPanel>
                                         </Button>
-                                        <Button x:Name="BotaoFiltro_bt"  Style="{StaticResource MenuStyle}" Margin="0,0,20,0" Height="50" VerticalAlignment="Top"  Width="300" 
-                                                        Click="BotaoFiltroPorEmpresa_bt_Click" >
-                                            <StackPanel Orientation="Horizontal" Width="260">
+
+                                        <Button x:Name="BotaoRelatorioViasAdicionaisAutorizacoes_bt" Style="{StaticResource MenuStyle}" Margin="0,0,20,0" Height="50" VerticalAlignment="Top"  Width="300"
+                                                    Click="ButtonRelatorioViasAdicionaisAutorizacoesClick" >
+                                            <StackPanel Orientation="Horizontal" Width="270">
                                                 <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Relatorio.png" Height="24" Width="24" Margin="0,0,5,0"/>
-                                                <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom"  Content="Relatório de Cred./Aut. por Empresa" Foreground="White" Width="230" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                                <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom" Content ="Relatório de Vias Adicionais de Autorizações" Foreground="White" />
                                             </StackPanel>
                                         </Button>
+
                                         <Button x:Name="BotaoImpressoesCredenciais_bt"  Style="{StaticResource MenuStyle}" Margin="0,0,20,0" Height="50" VerticalAlignment="Top"  Width="300" 
                                                         Click="BotaoImpressoesCredenciaisClick" >
                                             <StackPanel Orientation="Horizontal" Width="260">
@@ -165,25 +168,26 @@
                                             </StackPanel>
                                         </Button>
 
-
                                     </StackPanel>
 
-                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="0,0,0,20" >
-                                        <Button x:Name="BotaoRelatorioViasAdicionaisCredenciais_bt" Style="{StaticResource MenuStyle}" Margin="20,0,20,0" Height="50" VerticalAlignment="Top"  Width="300"
-                                                            Click="ButtonRelatorioViasAdicionaisCredenciaisClick" >
-                                            <StackPanel Orientation="Horizontal" Width="265">
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,0,0,0" >
+
+                                        <Button x:Name="BotaoFiltroArea_bt"  Style="{StaticResource MenuStyle}" Margin="5,0,20,0" Height="50" VerticalAlignment="Top"  Width="300" 
+                                                        Click="BotaoFiltroPorArea_bt_Click" >
+                                            <StackPanel Orientation="Horizontal" Width="260">
                                                 <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Relatorio.png" Height="24" Width="24" Margin="0,0,5,0"/>
-                                                <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom" Content ="Relatório de Vias Adicionais de Credenciais" Foreground="White" />
+                                                <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom"  Content="Relatório de Cred./Aut. por Área de Acesso" Foreground="White" Width="236" VerticalAlignment="Center" HorizontalAlignment="Center" />
                                             </StackPanel>
                                         </Button>
-                                        <Button x:Name="BotaoRelatorioViasAdicionaisAutorizacoes_bt" Style="{StaticResource MenuStyle}" Margin="0,0,20,0" Height="50" VerticalAlignment="Top"  Width="300"
-                                                    Click="ButtonRelatorioViasAdicionaisAutorizacoesClick" >
-                                            <StackPanel Orientation="Horizontal" Width="270">
+                                        <Button x:Name="BotaoFiltro_bt"  Style="{StaticResource MenuStyle}" Margin="0,0,20,0" Height="50" VerticalAlignment="Top"  Width="300" 
+                                                        Click="BotaoFiltroPorEmpresa_bt_Click" >
+                                            <StackPanel Orientation="Horizontal" Width="260">
                                                 <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Relatorio.png" Height="24" Width="24" Margin="0,0,5,0"/>
-                                                <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom" Content ="Relatório de Vias Adicionais de Autorizações" Foreground="White" />
+                                                <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom"  Content="Relatório de Cred./Aut. por Empresa" Foreground="White" Width="230" VerticalAlignment="Center" HorizontalAlignment="Center" />
                                             </StackPanel>
                                         </Button>
-                                        <Button x:Name="BotaoRelatorioViasAdicionaisCredenciais_bst"  Style="{StaticResource MenuStyle}" Margin="0,0,20,0" Height="50" VerticalAlignment="Top"  Width="300" 
+                                        
+                                        <!--<Button x:Name="BotaoRelatorioViasAdicionaisCredenciais_bst"  Style="{StaticResource MenuStyle}" Margin="0,0,20,0" Height="50" VerticalAlignment="Top"  Width="300" 
                                                         IsEnabled="False"  >
                                             <StackPanel Orientation="Horizontal"  Width="260">
                                                 <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Contrato.jpg" Height="24" Width="24" Margin="0,0,5,0"/>
@@ -196,14 +200,14 @@
                                                 <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Contrato.jpg" Height="24" Width="24" Margin="0,0,5,0"/>
                                                 <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom" Foreground="White" />
                                             </StackPanel>
-                                        </Button>
+                                        </Button>-->
                                     </StackPanel>
 
                                 </StackPanel>
 
                             </GroupBox>
                             <GroupBox      x:Name="Relatorios_gb" Header="Relatórios" Margin="0,20,0,0" Height="625"  >
-                                <ScrollViewer  Margin="0,20,0,0"  Visibility="Collapsed">
+                                <ScrollViewer  Margin="0,20,0,0" >
                                     <StackPanel x:Name="Botoes_sp">
                                         <StackPanel.Resources >
                                             <funcoes:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
@@ -219,7 +223,7 @@
 
                                         </StackPanel>
 
-                                        <StackPanel >
+                                        <StackPanel HorizontalAlignment="Left">
                                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="0,0,0,20" >
                                                 <Button x:Name="Botao0_bt" Style="{StaticResource MenuStyle}" Margin="20,0,20,0" Height="50" VerticalAlignment="Top"  Width="300"
                                                        Click="Button_Click"  Visibility="{Binding Relatorios[0].Ativo, Converter={StaticResource BooleanToVisibilityConverter}}" Tag="{Binding Relatorios[0].RelatorioId}" >

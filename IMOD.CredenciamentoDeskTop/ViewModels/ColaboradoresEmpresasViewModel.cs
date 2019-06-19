@@ -35,7 +35,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private readonly IColaboradorEmpresaService _service = new ColaboradorEmpresaService();
         private readonly IColaboradorCredencialService _servicecredencial = new ColaboradorCredencialService();
 
-        private readonly object _auxiliaresService;
+
+        //private readonly object _auxiliaresService;
         private ColaboradorView _colaboradorView;
        
         private ColaboradorViewModel _viewModelParent;
@@ -68,7 +69,17 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <summary>
         ///     Habilita Combo de Contratos
         /// </summary>
-        public bool IsEnableColete { get; private set; } = true;        
+        public bool IsEnableColete { get; private set; } = true;
+        /// <summary>
+        ///     Tamanho do Arquivo
+        /// </summary>
+        public int IsTamanhoArquivo
+        {
+            get
+            {
+                return _configuraSistema.arquivoTamanho;
+            }
+        }
         #endregion
 
         public ColaboradoresEmpresasViewModel()
@@ -85,7 +96,19 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         }
 
         #region  Metodos
-
+        public void BuscarAnexo(int ColaboradorEmpresaId)
+        {
+            try
+            {
+                var anexo = _service.BuscarPelaChave(ColaboradorEmpresaId);
+                Entity.Anexo = anexo.Anexo;
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+                WpfHelp.PopupBox(ex);
+            }
+        }
         /// <summary>
         /// 
         /// </summary>
@@ -111,7 +134,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             Empresas = new List<Empresa>();
             Contratos = new List<EmpresaContrato>();
             ListarDadosEmpresaContratos();
-            _configuraSistema = ObterConfiguracao();
+            //_configuraSistema = ObterConfiguracao();
             _configuraSistema = ObterConfiguracao();
             if (!_configuraSistema.Colete) //Se Cole não for automático false
             {
@@ -233,8 +256,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 entity.EmpresaNome = empresa.Nome;//Setar o nome da empresa para ser exibida na list view
             
 
-            //if (contrato != null)
-            //    entity.Descricao = contrato.Descricao;//Setar o nome do contrato para ser exibida na list view
+            if (contrato != null)
+                entity.Descricao = contrato.Descricao;//Setar o nome do contrato para ser exibida na list view
 
         }
 
@@ -264,8 +287,14 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (Entity == null) return;
                 if (Validar()) return;
                 var n1 = Mapper.Map<ColaboradorEmpresa>(Entity);
+                //Gerar matricula
+                if (n1.Matricula == null)
+                    _service.CriarNumeroMatricula(n1);
+
                 _service.Alterar(n1);
-                IsEnableLstView = true;
+                Entity.Matricula = n1.Matricula;
+
+                 IsEnableLstView = true;
                 SetDadosEmpresaContrato(Entity);
 
 
@@ -415,8 +444,16 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         public bool Validar()
         {
+
             if (Entity == null) return true;
             Entity.Validate();
+
+            if (!_configuraSistema.Contrato && Entity.EmpresaContratoId <= 0)
+            {
+                Entity.SetMessageErro("EmpresaContratoId", "Favor informar o contrato.");
+                return true;
+            }
+
             var hasErros = Entity.HasErrors;
             if (hasErros) return true;
 
