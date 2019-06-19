@@ -281,7 +281,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             NomeArquivo = Path.GetFileNameWithoutExtension(veiculo.FileUpload.FileName);
             ExtensaoArquivo = Path.GetExtension(veiculo.FileUpload.FileName);
 
-            if (ExtensaoArquivo.Equals(".pdf")) return;
+            if (!ExtensaoArquivo.Equals(".pdf")) return;
 
             var arquivoStream = veiculo.FileUpload.InputStream;
             using (MemoryStream ms = new MemoryStream())

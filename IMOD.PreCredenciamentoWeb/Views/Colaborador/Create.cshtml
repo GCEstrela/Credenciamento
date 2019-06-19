@@ -6,7 +6,7 @@
 }
 
 <h3>Colaborador</h3>
-@using (Html.BeginForm("Create", "Colaborador", FormMethod.Post, new { id = "myForm" }))
+@using (Html.BeginForm("Create", "Colaborador", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     <div class="table-wrapper">
@@ -17,7 +17,7 @@
                 </div>
                 <div class="col-sm-4">
                     <button type="submit" class="btn btn-success" id="btnSalvar"><i class="fa fa-save"></i> <span>Salvar Colaborador</span></button>
-                    <a href="Index" class="submit btn btn-danger"><i class="fa fa-fw fa-sign-in"></i> <span>Cancelar</span></a>
+                    <a href="~/Colaborador/Index" class="submit btn btn-danger"><i class="fa fa-fw fa-sign-in"></i> <span>Cancelar</span></a>
                 </div>
             </div>
         </div>
@@ -100,12 +100,12 @@
                             @Html.ValidationMessageFor(model => model.NomeMae, "", new { @class = "text-danger" })
                         </div>
                     </div>
-                    <div class="form-group"> 
-                        @Html.LabelFor(model => model.FileUpload, htmlAttributes: new { @class = "control-label col-md-2" }) 
-                        <div class="col-md-10 "> 
-                            <input type="file" name="FileUpload" id="FileUpload" accept=".pdf" /> 
-                            @Html.ValidationMessageFor(model => model.FileUpload, "", new { @class = "text-danger" }) 
-                        </div> 
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.FileUpload, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10 ">
+                            <input type="file" name="FileUpload" id="FileUpload" accept=".pdf" />
+                            @Html.ValidationMessageFor(model => model.FileUpload, "", new { @class = "text-danger" })
+                        </div>
                     </div>
                 </div>
                 <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
@@ -336,27 +336,46 @@
                         </div>
                     </div>
                 </div>
-                <div class="tab-pane fade" id="vinculo" role="tabpanel" aria-labelledby="vinculo-tab">
+                <div class="tab-pane fade col-lg-12" id="vinculo" role="tabpanel" aria-labelledby="vinculo-tab">
                     <br />
-                    <div div class="form-group">
-                        <div class="col-lg-12">
-                            @Html.Label("Manuseia bagagem?", htmlAttributes: new { @class = "control-label col-lg-2" })
-                            <div class="col-lg-1">
+                    <div class="form-group  col-lg-12">
+                        <div class="col-lg-4" style="vertical-align:top">
+                            <div>
+                                <img src="~/Images/operadorBagagem.png" height="20" />&nbsp;&nbsp;
+                                @Html.Label("Manuseia bagagem?", htmlAttributes: new { @class = "control-label " })
                                 @Html.CheckBox("Manuseia Bagagem", htmlAttributes: new { @id = "chkBagagem" })
                             </div>
-                            @Html.Label("Vigência", htmlAttributes: new { @class = "control-label col-md-1" })
+                        </div>
+                        <div class="col-lg-4" style="vertical-align:top">
+                            <div>
+                                <img src="~/Images/operadorEmbarque.png" height="25" />&nbsp;&nbsp;
+                                @Html.Label("Operador Ponte Embarque?", htmlAttributes: new { @class = "control-label" })
+                                @Html.CheckBox(" Operador Ponte Embarque ", htmlAttributes: new { @id = "chkPonteEmbarque" })
+                            </div>
+                        </div>
+                        <div class="col-lg-4" style="vertical-align:top">
+                            <div>
+                                <img src="~/Images/ccam.png" height="25" />&nbsp;&nbsp;
+                                @Html.Label("Operador CCAM?", htmlAttributes: new { @class = "control-label" })
+                                @Html.CheckBox(" Operador CCAM ", htmlAttributes: new { @id = "chkCcam" })
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div>
+                            @Html.Label("Cargo", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-lg-4">
+                                @Html.TextBox("txtCargo", null, htmlAttributes: new { @id = "txtCargo", @class = "form-control text-uppercase" })
+                            </div>
+                            @Html.Label("Vigência", htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-lg-2">
                                 @Html.TextBox("txtVigencia", null, htmlAttributes: new { @id = "txtVigencia", @class = "datepicker form-control" })
                             </div>
-                            @Html.Label("Cargo", htmlAttributes: new { @class = "control-label col-md-1" })
-                            <div class="col-lg-4">
-                                @Html.TextBox("txtCargo", null, htmlAttributes: new { @id = "txtCargo", @class = "form-control" })
-                            </div>
                         </div>
-
                     </div>
                     <div div class="form-group">
-                        <div class="col-lg-12">
+                        <div >
                             @Html.LabelFor(model => model.ContratoEmpresaID, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-lg-3">
                                 @Html.DropDownListFor(model => model.ContratoEmpresaID, ((IEnumerable<IMOD.Domain.Entities.EmpresaContrato>)ViewBag.Contratos).Select(option => new SelectListItem
@@ -379,24 +398,29 @@
                     <fieldset>
                         <legend> Contratos Selecionados</legend>
                         <div class="row">
-                            <div class="col-lg-2">Matrícula </div>
-                            <div class="col-lg-4">Descricao</div>
-                            <div class="col-lg-2">Manuseia Bagagem?</div>
-                            <div class="col-lg-4"></div>
+                            <div class="col-lg-2"><b>Cargo </b></div>
+                            <div class="col-lg-2"><b>Matrícula</b></div>
+                            <div class="col-lg-2"><b>Descricao</b></div>
+                            <div class="col-lg-2"><b>Manuseia Bagagem</b></div>
+                            <div class="col-lg-2"><b>Operador Ponte</b></div>
+                            <div class="col-lg-1"><b>CCAM</b></div>
+                            <div class="col-lg-1"></div>
                         </div>
                         <div class="row" id="divContrato">
                             @foreach (var item in ((IEnumerable<IMOD.PreCredenciamentoWeb.Models.ColaboradorEmpresaViewModel>)ViewBag.ContratosSelecionados))
                             {
-
+                                <div class="col-lg-2 text-uppercase">@item.Cargo</div>
                                 <div class="col-lg-2">@item.Matricula</div>
-                                <div class="col-lg-4">@item.Descricao</div>
-                                <div class="col-lg-2">@item.ManuseioBagagem</div>
-                                <div class="col-lg-4">
+                                <div class="col-lg-2 text-uppercase">@item.Descricao</div>
+                                <div class="col-lg-2">@(item.ManuseioBagagem ? "Sim" : "Não") </div>
+                                <div class="col-lg-2">@(item.OperadorPonteEmbarque ? "Sim" : "Não")</div>
+                                <div class="col-lg-1">@(item.FlagCcam ? "Sim" : "Não") </div>
+                                <div class="col-lg-1"> 
                                     <a title="Vincular Contrato" id=@item.EmpresaContratoId href="#" class="btnRemover" onclick="RemoverContrato(this)">
                                         <i class="material-icons danger">&#xE15C;</i>
-                                    </a>
-                                </div>
-
+                                    </a> 
+                                </div> 
+                                <br />
                             }
                         </div>
                     </fieldset>
@@ -452,8 +476,10 @@
             //evento do botão incluir contrato
             $("#btContrato").click(function () {
                 var id = $("#ddlContrato").val();
-                var bagagem = $("#chkBagagem").val();
-                var validade = $("#txtVigencia").val();
+                var bagagem = $('#chkBagagem').is(':checked');
+                var ponteEmbarque = $('#chkPonteEmbarque').is(':checked');
+                var ccam = $('#chkCcam').is(':checked'); 
+                var validade = $("#txtVigencia").val(); 
                 var cargo = $("#txtCargo").val();
                 $.ajax({
                     type: "POST",
@@ -461,21 +487,28 @@
                     data: {
                         id: id,
                         bagagem: bagagem,
+                        operadorPonteEmbarque: ponteEmbarque,
+                        flagCcam: ccam,
                         validade: validade,
                         cargo: cargo
                     },
                     success: function (result) {
                         var html = '';
                         $.each(result, function (key, item) {
-                            html += '<div class="col-lg-2">' + item.Matricula + '</div>';
-                            html += '<div class="col-lg-4">' + item.Descricao + '</div>';
-                            html += '<div class="col-lg-2">' + item.ManuseioBagagem + '</div>';
-                            html += '<div class="col-lg-4"><a class="btnRemover" title="Remover Contrato" id=' + item.EmpresaContratoId + ' onclick="RemoverContrato(this)"><i class="material-icons danger">&#xE15C;</i></a></div>';
+                            html += '<div class="col-lg-2 text-uppercase">' + item.Cargo + '</div>';
+                            html += '<div class="col-lg-2">' + item.Matricula + '</div>'; 
+                            html += '<div class="col-lg-2 text-uppercase">' + item.Descricao + '</div>'; 
+                            html += '<div class="col-lg-2">' + (item.ManuseioBagagem == true ? 'Sim' : 'Não') + '</div>';
+                            html += '<div class="col-lg-2">' + (item.OperadorPonteEmbarque == true ? 'Sim' : 'Não') + '</div>';
+                            html += '<div class="col-lg-1">' + (item.FlagCcam == true ? 'Sim' : 'Não')  + '</div>'; 
+                            html += '<div class="col-lg-1"><a class="btnRemover" title="Remover Contrato" id=' + item.EmpresaContratoId + ' onclick="RemoverContrato(this)"><i class="material-icons danger">&#xE15C;</i></a></div>';
                         });
                         $('#divContrato').html('');
                         $('#divContrato').append(html);
                         $("#ddlContrato").val('');
-                        $("#chkBagagem").val(false);
+                        $("#chkBagagem").attr('checked', false); 
+                        $("#chkPonteEmbarque").attr('checked', false); 
+                        $("#chkCcam").attr('checked', false); 
                         $("#txtVigencia").val('');
                         $("#txtCargo").val('');
                         console.log(result);
@@ -498,7 +531,7 @@
                         },
                         success: function (result) {
                             if (result != null) {
-                                alert("Colaborador ja cadastrato. Procure o credenciamento local para associá-lo ao contrato.");
+                                alert("Colaborador já cadastrado. Procure o credenciamento local para associá-lo ao contrato.");
                                 $('#cpf').val('');
                             }
                         },
@@ -558,10 +591,13 @@
                    success: function (result) {
                        var html = '';
                        $.each(result, function (key, item) {
+                           html += '<div class="col-lg-2 text-uppercase">' + item.Cargo + '</div>';
                            html += '<div class="col-lg-2">' + item.Matricula + '</div>';
-                           html += '<div class="col-lg-4">' + item.Descricao + '</div>';
-                           html += '<div class="col-lg-2">' + item.ManuseioBagagem + '</div>';
-                           html += '<div class="col-lg-4"><a class="btnRemoverContrato" title="Remover Contrato" id=' + item.EmpresaContratoId + ' onclick="RemoverContrato(this)"><i class="material-icons danger">&#xE15C;</i></a></div>';
+                           html += '<div class="col-lg-2 text-uppercase">' + item.Descricao + '</div>';
+                           html += '<div class="col-lg-2">' + (item.ManuseioBagagem == true ? 'Sim' : 'Não') + '</div>';
+                           html += '<div class="col-lg-2">' + (item.OperadorPonteEmbarque == true ? 'Sim' : 'Não') + '</div>';
+                           html += '<div class="col-lg-1">' + (item.FlagCcam == true ? 'Sim' : 'Não') + '</div>'; 
+                           html += '<div class="col-lg-1"><a class="btnRemoverContrato" title="Remover Contrato" id=' + item.EmpresaContratoId + ' onclick="RemoverContrato(this)"><i class="material-icons danger">&#xE15C;</i></a></div>';
 
                        });
                        $('#divContrato').html('');

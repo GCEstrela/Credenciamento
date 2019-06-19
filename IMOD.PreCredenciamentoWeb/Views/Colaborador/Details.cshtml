@@ -17,7 +17,7 @@
                     <h2>Cadastro de <b>Colaboradores</b></h2>
                 </div>
                 <div class="col-sm-4">                    
-                    <a href="Index" class="submit btn btn-danger"><i class="fa fa-fw fa-sign-in"></i> <span>Voltar</span></a>
+                    <a href="~/Colaborador/Index" class="submit btn btn-danger"><i class="fa fa-fw fa-sign-in"></i> <span>Voltar</span></a>
                 </div>
             </div>
         </div>
@@ -59,25 +59,25 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.Cpf, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-4">
-                            @Html.DisplayTextFor(model => model.Cpf)                            
+                            @Html.DisplayTextFor(model => model.Cpf)
                         </div>
                         @Html.LabelFor(model => model.Estrangeiro, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-1">
-                            <div class="checkbox">
-                                @Html.DisplayTextFor(model => model.Estrangeiro)                                
+                            <div class="checkbox disabled">
+                                @Html.EditorFor(model => model.Estrangeiro)
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
                         @Html.LabelFor(model => model.Nome, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-6">
-                            @Html.DisplayTextFor(model => model.Nome)                            
+                            @Html.DisplayTextFor(model => model.Nome)
                         </div>
                     </div>
                     <div class="form-group">
                         @Html.LabelFor(model => model.Apelido, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-6">
-                            @Html.DisplayTextFor(model => model.Apelido)                            
+                            @Html.DisplayTextFor(model => model.Apelido)
                         </div>
                     </div>
                     <div class="form-group">
@@ -90,255 +90,266 @@
                         @Html.LabelFor(model => model.NomeMae, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-6">
                             @Html.DisplayTextFor(model => model.NomeMae)
-                            
-                        </div>
-                    </div>
-                </div>
-                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                    <br />
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Cep, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-3">
-                            @Html.DisplayTextFor(model => model.Cep)                            
+
                         </div>
                     </div>
                     <div class="form-group">
-                        @Html.LabelFor(model => model.Endereco, htmlAttributes: new { @class = "control-label col-md-2" })
+                        @Html.LabelFor(model => model.NomeArquivoAnexo, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-6">
-                            @Html.DisplayTextFor(model => model.Endereco)                            
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Numero, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-2">
-                            @Html.DisplayTextFor(model => model.Numero)                            
-                        </div>
-
-                        @Html.LabelFor(model => model.Complemento, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-4">
-                            @Html.DisplayTextFor(model => model.Complemento)                            
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Bairro, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-8">
-                            @Html.DisplayTextFor(model => model.Bairro)                            
-                        </div>
-                    </div>
-                    <div div class="form-group">
-                        @Html.LabelFor(model => model.EstadoId, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-4">
-                            @Html.DropDownListFor(model => model.EstadoId, ((IEnumerable<IMOD.Domain.Entities.Estados>)ViewBag.Estados).Select(option => new SelectListItem
-                       {
-                           Text = option.Nome,
-                           Value = option.EstadoId.ToString(),
-                           Selected = (Model != null) && (option.EstadoId == Model.EstadoId)
-                       }), "Selecione", new { @class = "form-control text-uppercase", id = "ddlEstado" , @disabled = "disabled" })                            
-                        </div>
-                        @Html.LabelFor(model => model.MunicipioId, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-4">
-                            @Html.DropDownListFor(model => model.MunicipioId, ((IEnumerable<IMOD.Domain.Entities.Municipio>)ViewBag.Municipio).Select(option => new SelectListItem
-                       {
-                           Text = option.Nome,
-                           Value = option.MunicipioId.ToString(),
-                           Selected = (Model != null) && (option.MunicipioId == Model.MunicipioId)
-                       }), "Selecione", new { @class = "form-control text-uppercase", id = "ddlMunicipio", @disabled = "disabled" })                            
+                            @Html.DisplayTextFor(model => model.NomeArquivoAnexo)
                         </div>
                     </div>
                 </div>
-                <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-                    <br />
-                    <fieldset>
+                    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                        <br />
                         <div class="form-group">
-                            @Html.LabelFor(model => model.TelefoneFixo, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-4">
-                                @Html.DisplayTextFor(model => model.TelefoneFixo)                                
+                            @Html.LabelFor(model => model.Cep, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-3">
+                                @Html.DisplayTextFor(model => model.Cep)
                             </div>
                         </div>
-
                         <div class="form-group">
-                            @Html.LabelFor(model => model.TelefoneCelular, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-4">
-                                @Html.DisplayTextFor(model => model.TelefoneCelular)                                
+                            @Html.LabelFor(model => model.Endereco, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-6">
+                                @Html.DisplayTextFor(model => model.Endereco)
                             </div>
                         </div>
-
                         <div class="form-group">
-                            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-4">
-                                @Html.DisplayTextFor(model => model.Email)                                
+                            @Html.LabelFor(model => model.Numero, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-2">
+                                @Html.DisplayTextFor(model => model.Numero)
                             </div>
-                        </div>
 
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.ContatoEmergencia, htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.LabelFor(model => model.Complemento, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-4">
-                                @Html.DisplayTextFor(model => model.ContatoEmergencia)                                
+                                @Html.DisplayTextFor(model => model.Complemento)
                             </div>
                         </div>
 
                         <div class="form-group">
-                            @Html.LabelFor(model => model.TelefoneEmergencia, htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.LabelFor(model => model.Bairro, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                @Html.DisplayTextFor(model => model.Bairro)
+                            </div>
+                        </div>
+                        <div div class="form-group">
+                            @Html.LabelFor(model => model.EstadoId, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-4">
-                                @Html.DisplayTextFor(model => model.TelefoneEmergencia)                                
+                                @Html.DropDownListFor(model => model.EstadoId, ((IEnumerable<IMOD.Domain.Entities.Estados>)ViewBag.Estados).Select(option => new SelectListItem
+                           {
+                               Text = option.Nome,
+                               Value = option.EstadoId.ToString(),
+                               Selected = (Model != null) && (option.EstadoId == Model.EstadoId)
+                           }), "Selecione", new { @class = "form-control text-uppercase", id = "ddlEstado" , @disabled = "disabled" })
                             </div>
-                        </div>
-                    </fieldset>
-                </div>
-                <div class="tab-pane fade" id="registro" role="tabpanel" aria-labelledby="registro-tab">
-                    <br />
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Rg, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-2">
-                            @Html.DisplayTextFor(model => model.Rg)                            
-                        </div>
-                        @Html.LabelFor(model => model.RgEmissao, htmlAttributes: new { @class = "control-label col-md-1" })
-                        <div class="col-md-2">
-                            @Html.DisplayTextFor(model => model.RgEmissao)                            
-                        </div>
-                        @Html.LabelFor(model => model.RgOrgLocal, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-1">
-                            @Html.DropDownListFor(model => model.CnhCategoria, ((IEnumerable<SelectListItem>)ViewBag.OrgaoEmissorRG).Select(option => new SelectListItem
-                       {
-                           Text = option.Text,
-                           Value = option.Text,
-                           Selected = (Model != null) && (option.Text == Model.RgOrgLocal)
-                       }), "Selecione", new { @class = "form-control text-uppercase",  @disabled = "disabled" , style = "width: 100px;" })
-
-                        </div>
-                        @Html.LabelFor(model => model.RgOrgUf, htmlAttributes: new { @class = "control-label col-md-1" })
-                        <div class="col-md-1">
-                            @Html.DropDownListFor(model => model.RgOrgUf, ((IEnumerable<IMOD.Domain.Entities.Estados>)ViewBag.UfRg).Select(option => new SelectListItem
-                       {
-                           Text = option.Uf,
-                           Value = option.Uf,
-                           Selected = (Model != null) && (option.Uf == Model.RgOrgUf)
-                       }), "Selecione", new { @class = "form-control text-uppercase",  @disabled = "disabled", style = "width: 100px;" })                            
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Rne, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-4">
-                            @Html.DisplayTextFor(model => model.Rne)
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Passaporte, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-3">
-                            @Html.DisplayTextFor(model => model.Passaporte)                            
-                        </div>
-                        @Html.LabelFor(model => model.PassaporteValidade, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-3">
-                            @Html.DisplayTextFor(model => model.PassaporteValidade)                            
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.DataNascimento, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-3">
-                            @Html.DisplayTextFor(model => model.DataNascimento)                            
-                        </div>
-                        @Html.LabelFor(model => model.Nacionalidade, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-3">
-                            @Html.DisplayTextFor(model => model.Nacionalidade)                            
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.EstadoCivil, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-3">
-                            @Html.DisplayTextFor(model => model.EstadoCivil)                            
-                        </div>
-                    </div>
-                </div>
-                <div class="tab-pane fade" id="cnh" role="tabpanel" aria-labelledby="cnh-tab">
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Motorista, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            <div class="checkbox">
-                                @Html.DisplayTextFor(model => model.Motorista)                                
+                            @Html.LabelFor(model => model.MunicipioId, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.DropDownListFor(model => model.MunicipioId, ((IEnumerable<IMOD.Domain.Entities.Municipio>)ViewBag.Municipio).Select(option => new SelectListItem
+                           {
+                               Text = option.Nome,
+                               Value = option.MunicipioId.ToString(),
+                               Selected = (Model != null) && (option.MunicipioId == Model.MunicipioId)
+                           }), "Selecione", new { @class = "form-control text-uppercase", id = "ddlMunicipio", @disabled = "disabled" })
                             </div>
                         </div>
                     </div>
-
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.CnhCategoria, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-2">
-
-                            @Html.DropDownListFor(model => model.CnhCategoria, ((IEnumerable<SelectListItem>)ViewBag.CategoriaCnh).Select(option => new SelectListItem
-                       {
-                           Text = option.Text,
-                           Value = option.Value,
-                           Selected = (Model != null) && (option.Value == Model.CnhCategoria)
-                       }), "Selecione", new { @class = "form-control text-uppercase", @disabled = "disabled" })
-
-                            @Html.ValidationMessageFor(model => model.CnhCategoria, "", new { @class = "text-danger" })
-                        </div>
-
-                        @Html.LabelFor(model => model.Cnh, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-3">
-                            @Html.DisplayTextFor(model => model.Cnh)                            
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.CnhValidade, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-3">
-                            @Html.DisplayTextFor(model => model.CnhValidade)                            
-                        </div>
-                        @Html.LabelFor(model => model.Cnhuf, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-2">
-                            @Html.DropDownListFor(model => model.Cnhuf, ((IEnumerable<IMOD.Domain.Entities.Estados>)ViewBag.UfRg).Select(option => new SelectListItem
-                       {
-                           Text = option.Uf,
-                           Value = option.Uf,
-                           Selected = (Model != null) && (option.Uf == Model.Cnhuf)
-                       }), "Selecione", new { @class = "form-control text-uppercase", @disabled = "disabled" })                            
-                        </div>
-                    </div>
-                </div>
-                <div class="tab-pane fade" id="vinculo" role="tabpanel" aria-labelledby="vinculo-tab">
-                    <br />
-                    <br />
-                    <fieldset>
-                        <legend> Contratos Selecionados</legend>
-                        <div class="row">
-                            <div class="col-lg-2">Matrícula </div>
-                            <div class="col-lg-4">Descricao</div>
-                            <div class="col-lg-2">Manuseia Bagagem?</div>
-                            <div class="col-lg-4"></div>
-                        </div>
-                        <div class="row" id="divContrato">
-                            @foreach (var item in ((IEnumerable<IMOD.PreCredenciamentoWeb.Models.ColaboradorEmpresaViewModel>)ViewBag.ContratosSelecionados))
-                            {
-
-                                <div class="col-lg-2">@item.Matricula</div>
-                                <div class="col-lg-4">@item.Descricao</div>
-                                <div class="col-lg-2">@item.ManuseioBagagem</div>
-                                <div class="col-lg-4">
+                    <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                        <br />
+                        <fieldset>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.TelefoneFixo, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-4">
+                                    @Html.DisplayTextFor(model => model.TelefoneFixo)
                                 </div>
+                            </div>
 
-                            }
-                        </div>
-                    </fieldset>
-                </div>
-                <div class="tab-pane fade" id="curso" role="tabpanel" aria-labelledby="curso-tab">                                       
-                    <br />
-                    <fieldset>
-                        <legend> Cursos Selecionados</legend>
-                        <div class="row" id="divCurso">
-                            @foreach (var item in ((IEnumerable<IMOD.Domain.Entities.Curso>)ViewBag.CursosSelecionados))
-                            {
-
-                                <div class="col-lg-1">@item.CursoId</div>
-                                <div class="col-lg-7">@item.Descricao</div>
-                                <div class="col-lg-4">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.TelefoneCelular, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-4">
+                                    @Html.DisplayTextFor(model => model.TelefoneCelular)
                                 </div>
+                            </div>
 
-                            }
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-4">
+                                    @Html.DisplayTextFor(model => model.Email)
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.ContatoEmergencia, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-4">
+                                    @Html.DisplayTextFor(model => model.ContatoEmergencia)
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.TelefoneEmergencia, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-4">
+                                    @Html.DisplayTextFor(model => model.TelefoneEmergencia)
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="tab-pane fade" id="registro" role="tabpanel" aria-labelledby="registro-tab">
+                        <br />
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Rg, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-2">
+                                @Html.DisplayTextFor(model => model.Rg)
+                            </div>
+                            @Html.LabelFor(model => model.RgEmissao, htmlAttributes: new { @class = "control-label col-md-1" })
+                            <div class="col-md-2">
+                                @Html.DisplayTextFor(model => model.RgEmissao)
+                            </div>
+                            @Html.LabelFor(model => model.RgOrgLocal, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-1">
+                                @Html.DropDownListFor(model => model.CnhCategoria, ((IEnumerable<SelectListItem>)ViewBag.OrgaoEmissorRG).Select(option => new SelectListItem
+                           {
+                               Text = option.Text,
+                               Value = option.Text,
+                               Selected = (Model != null) && (option.Text == Model.RgOrgLocal)
+                           }), "Selecione", new { @class = "form-control text-uppercase",  @disabled = "disabled" , style = "width: 100px;" })
+
+                            </div>
+                            @Html.LabelFor(model => model.RgOrgUf, htmlAttributes: new { @class = "control-label col-md-1" })
+                            <div class="col-md-1">
+                                @Html.DropDownListFor(model => model.RgOrgUf, ((IEnumerable<IMOD.Domain.Entities.Estados>)ViewBag.UfRg).Select(option => new SelectListItem
+                           {
+                               Text = option.Uf,
+                               Value = option.Uf,
+                               Selected = (Model != null) && (option.Uf == Model.RgOrgUf)
+                           }), "Selecione", new { @class = "form-control text-uppercase",  @disabled = "disabled", style = "width: 100px;" })
+                            </div>
                         </div>
-                    </fieldset>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Rne, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.DisplayTextFor(model => model.Rne)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Passaporte, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-3">
+                                @Html.DisplayTextFor(model => model.Passaporte)
+                            </div>
+                            @Html.LabelFor(model => model.PassaporteValidade, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-3">
+                                @Html.DisplayTextFor(model => model.PassaporteValidade)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.DataNascimento, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-3">
+                                @Html.DisplayTextFor(model => model.DataNascimento)
+                            </div>
+                            @Html.LabelFor(model => model.Nacionalidade, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-3">
+                                @Html.DisplayTextFor(model => model.Nacionalidade)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.EstadoCivil, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-3">
+                                @Html.DisplayTextFor(model => model.EstadoCivil)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="cnh" role="tabpanel" aria-labelledby="cnh-tab">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Motorista, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                <div class="checkbox">
+                                    @Html.DisplayTextFor(model => model.Motorista)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.CnhCategoria, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-2">
+
+                                @Html.DropDownListFor(model => model.CnhCategoria, ((IEnumerable<SelectListItem>)ViewBag.CategoriaCnh).Select(option => new SelectListItem
+                           {
+                               Text = option.Text,
+                               Value = option.Value,
+                               Selected = (Model != null) && (option.Value == Model.CnhCategoria)
+                           }), "Selecione", new { @class = "form-control text-uppercase", @disabled = "disabled" })
+
+                                @Html.ValidationMessageFor(model => model.CnhCategoria, "", new { @class = "text-danger" })
+                            </div>
+
+                            @Html.LabelFor(model => model.Cnh, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-3">
+                                @Html.DisplayTextFor(model => model.Cnh)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.CnhValidade, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-3">
+                                @Html.DisplayTextFor(model => model.CnhValidade)
+                            </div>
+                            @Html.LabelFor(model => model.Cnhuf, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-2">
+                                @Html.DropDownListFor(model => model.Cnhuf, ((IEnumerable<IMOD.Domain.Entities.Estados>)ViewBag.UfRg).Select(option => new SelectListItem
+                           {
+                               Text = option.Uf,
+                               Value = option.Uf,
+                               Selected = (Model != null) && (option.Uf == Model.Cnhuf)
+                           }), "Selecione", new { @class = "form-control text-uppercase", @disabled = "disabled" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="vinculo" role="tabpanel" aria-labelledby="vinculo-tab">
+                        <br />
+                        <br />
+                        <fieldset>
+                            <legend> Contratos Selecionados</legend>
+                            <div class="row">
+                                <div class="col-lg-2"><b>Cargo </b></div>
+                                <div class="col-lg-2"><b>Matrícula</b></div>
+                                <div class="col-lg-2"><b>Descricao</b></div>
+                                <div class="col-lg-2"><b>Manuseia Bagagem</b></div>
+                                <div class="col-lg-2"><b>Operador Ponte</b></div>
+                                <div class="col-lg-1"><b>CCAM</b></div>
+                                <div class="col-lg-1"></div>
+                            </div>
+                            <div class="row" id="divContrato">
+                                @foreach (var item in ((IEnumerable<IMOD.PreCredenciamentoWeb.Models.ColaboradorEmpresaViewModel>)ViewBag.ContratosSelecionados))
+                                {
+                                    <div class="col-lg-2 text-uppercase">@item.Cargo</div>
+                                    <div class="col-lg-2">@item.Matricula</div>
+                                    <div class="col-lg-2 text-uppercase">@item.Descricao</div>
+                                    <div class="col-lg-2">@(item.ManuseioBagagem ? "Sim" : "Não") </div>
+                                    <div class="col-lg-2">@(item.OperadorPonteEmbarque ? "Sim" : "Não")</div>
+                                    <div class="col-lg-1">@(item.FlagCcam ? "Sim" : "Não") </div>
+                                    <div class="col-lg-1">
+                                    </div>
+                                    <br />
+                                }
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="tab-pane fade" id="curso" role="tabpanel" aria-labelledby="curso-tab">
+                        <br />
+                        <fieldset>
+                            <legend> Cursos Selecionados</legend>
+                            <div class="row" id="divCurso">
+                                @foreach (var item in ((IEnumerable<IMOD.Domain.Entities.Curso>)ViewBag.CursosSelecionados))
+                                {
+
+                                    <div class="col-lg-1">@item.CursoId</div>
+                                    <div class="col-lg-7">@item.Descricao</div>
+                                    <div class="col-lg-4">
+                                    </div>
+
+                                }
+                            </div>
+                        </fieldset>
+                    </div>
                 </div>
-            </div>
         </fieldset>
     </div>
 }

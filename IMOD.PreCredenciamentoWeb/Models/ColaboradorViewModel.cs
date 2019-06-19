@@ -106,7 +106,8 @@ namespace IMOD.PreCredenciamentoWeb.Models
         public string ContratoEmpresaID { get; set; }
         public bool Precadastro { get; set; }
 
-        public string CaminhoArquivo { get; set; } 
+        [Display(Name = "Documento Anexo")]
+        public string NomeArquivoAnexo { get; set; }
 
         [Display(Name = "Documento Anexo")]
         public HttpPostedFileBase FileUpload { get; set; }

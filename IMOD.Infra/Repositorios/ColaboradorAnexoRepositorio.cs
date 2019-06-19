@@ -155,6 +155,38 @@ namespace IMOD.Infra.Repositorios
         }
 
         /// <summary>
+        ///     ListarComAnexo
+        /// </summary>
+        /// <returns></returns>
+        public ICollection<ColaboradorAnexo> ListarComAnexo(params object[] o)
+        {
+            using (var conn = _dataBase.CreateOpenConnection())
+            {
+                using (var cmd = _dataBase.SelectText("ColaboradoresAnexos", conn))
+
+                {
+                    try
+                    {
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("ColaboradorID", DbType.Int32, o, 0).Igual())); 
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("ColaboradorAnexoId", DbType.Int32, o, 1).Igual())); 
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("NomeArquivo", DbType.String, o, 2).Like())); 
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Descricao", DbType.String, o, 3).Like())); 
+
+                        var reader = cmd.ExecuteReaderSelect(); 
+                        var d1 = reader.MapToList<ColaboradorAnexo>();
+
+                        return d1;
+                    }
+                    catch (Exception ex)
+                    {
+                        Utils.TraceException(ex);
+                        throw;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
         ///     Deletar registro
         /// </summary>
         /// <param name="entity">Entidade</param>
