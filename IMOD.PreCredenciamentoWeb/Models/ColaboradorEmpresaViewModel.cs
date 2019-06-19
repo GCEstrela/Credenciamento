@@ -29,6 +29,8 @@ namespace IMOD.PreCredenciamentoWeb.Models
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime? Validade { get; set; }
         public bool ManuseioBagagem { get; set; }
+        public bool OperadorPonteEmbarque { get; set; }
+        public bool FlagCcam { get; set; }
         #endregion
 
         public override bool Equals(object obj)

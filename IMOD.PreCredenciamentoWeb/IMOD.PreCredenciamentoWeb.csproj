@@ -176,6 +176,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="Images\add.png" />
     <Content Include="Images\avatar.png" />
+    <Content Include="Images\ccam.png" />
     <Content Include="Images\Colaboradores.png" />
     <Content Include="Images\Companhia.png" />
     <Content Include="Images\Cracha.png" />
@@ -184,6 +185,9 @@
     <Content Include="Images\logo3.png" />
     <Content Include="Images\lupa.png" />
     <Content Include="Images\Olho.png" />
+    <Content Include="Images\operadorBagagem.png" />
+    <Content Include="Images\operadorEmbarque.png" />
+    <Content Include="Images\permissaoDirigir.png" />
     <Content Include="Images\remove.png" />
     <Content Include="Images\save.png" />
     <Content Include="Images\sort_asc.png" />
