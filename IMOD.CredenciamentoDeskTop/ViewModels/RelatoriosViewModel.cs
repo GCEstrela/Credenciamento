@@ -424,13 +424,21 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 colaboradorCredencial.CredencialStatusId = 2;
                 colaboradorCredencial.Impressa = true;
 
+                //if (!(dataIni.Equals(string.Empty) || dataFim.Equals(string.Empty)))
+                //{
+                //    colaboradorCredencial.Baixa = DateTime.Parse(dataIni);
+                //    colaboradorCredencial.BaixaFim = DateTime.Parse(dataFim);
+                //    mensagemPeriodo = " entre " + dataIni + " e " + dataFim + "";
+                //}
                 if (!(dataIni.Equals(string.Empty) || dataFim.Equals(string.Empty)))
                 {
-                    colaboradorCredencial.Baixa = DateTime.Parse(dataIni);
-                    colaboradorCredencial.BaixaFim = DateTime.Parse(dataFim);
+                    colaboradorCredencial.DataStatus = DateTime.Parse(dataIni);
+                    colaboradorCredencial.DataStatusFim = DateTime.Parse(dataFim);
                     mensagemPeriodo = " entre " + dataIni + " e " + dataFim + "";
                 }
                 
+
+
                 if (status == 0)
                 {
                     mensagemComplemento = "INVÁLIDAS (vencidas/indeferidas/canceladas/extraviadas) ";
