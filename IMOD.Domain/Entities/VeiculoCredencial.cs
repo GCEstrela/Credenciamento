@@ -38,7 +38,7 @@ namespace IMOD.Domain.Entities
         public bool Impressa { get; set; }
 
         public DateTime? DataStatus { get; set; } 
-        public int DevolucaoEntregaBoId { get; set; }
+        public bool DevolucaoEntregaBo { get; set; }
 
         #endregion
     }

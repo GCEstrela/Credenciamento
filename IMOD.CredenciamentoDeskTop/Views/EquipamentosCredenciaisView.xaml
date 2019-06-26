@@ -86,7 +86,7 @@
                             <Label Content="Status:" Height="28" Width="45" HorizontalContentAlignment="Right"  Margin="0,0,0,0"
                                    Foreground="#FFD0D0D0" />
 
-                            <ComboBox x:Name="StatusCredencial_cb"
+                            <ComboBox x:Name="cmbCredencialStatus"
 
                                       Margin="0,4,0,3"
                                       IsEditable="true" 
@@ -123,11 +123,10 @@
                                       Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
                                       SelectedValue="{Binding Entity.CredencialMotivoId, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                       SelectedValuePath="CredencialMotivoId" IsSynchronizedWithCurrentItem="True" SelectionChanged="CmbMotivacao_SelectionChanged" />
-                            
+
                             <CheckBox VerticalAlignment="Center" Margin="15,0,0,0" x:Name="chkDevolucaoMotivo" HorizontalAlignment="Left" Foreground="#FFD0D0D0" 
-                                Visibility="{Binding VisibilityCheckDevolucao, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
-                                      IsChecked="{Binding IsCheckDevolucao, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
-                                      Content="{Binding TextCheckDevolucao, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                                Content="Devolução" IsChecked="{Binding Entity.DevolucaoEntregaBo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  />
+                            
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
