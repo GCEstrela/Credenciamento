@@ -7,6 +7,7 @@
 #region
 
 using System;
+using System.Collections.Generic;
 using System.Data;
 using Genetec.Sdk;
 using Genetec.Sdk.Credentials;
@@ -201,6 +202,9 @@ namespace IMOD.Infra.Servicos
                     case "HID H10306 34 Bits":
                         credencial.Format = new WiegandH10306CredentialFormat(entity.FacilityCode, Convert.ToInt32(entity.NumeroCredencial));
                         break;
+                    case "HID Corporate 1000 - 35 bits":
+                        credencial.Format = new WiegandCorporate1000CredentialFormat(entity.FacilityCode, Convert.ToInt32(entity.NumeroCredencial));
+                        break;
                     case "HID Corporate 1000 48 Bits":
                         credencial.Format = new WiegandCorporate1000CredentialFormat(entity.FacilityCode, Convert.ToInt32(entity.NumeroCredencial));
                         break;
@@ -256,7 +260,7 @@ namespace IMOD.Infra.Servicos
                         break;
                     }
                 }
-
+                
                 if (!ativo)
                 {
                     if (cardholder == null) throw new InvalidOperationException("Não foi possível encontrar o titular do cartão.");
@@ -272,7 +276,10 @@ namespace IMOD.Infra.Servicos
                 {
                         cardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, DateTime.Now.AddHours(23).AddMinutes(59).AddSeconds(59));
                 }
-
+                if (cardholder.Credentials.Count == 0)
+                {
+                    cardholder.State = CardholderState.Inactive;
+                }
                 SetValorCamposCustomizados(entity, cardholder);
 
                 _sdk.TransactionManager.CommitTransaction();
@@ -817,6 +824,29 @@ namespace IMOD.Infra.Servicos
                 throw;
             }
         }
+        public List<CardholderGroup> RetornarGrupos()
+        {
+            EntityConfigurationQuery query;
+            QueryCompletedEventArgs result;
+            List<CardholderGroup> groupos = new List<CardholderGroup>();
+
+            query = _sdk.ReportManager.CreateReportQuery(ReportType.EntityConfiguration) as EntityConfigurationQuery;
+            query.EntityTypeFilter.Add(EntityType.CardholderGroup);
+            query.NameSearchMode = StringSearchMode.StartsWith;
+            result = query.Query();
+            SystemConfiguration systemConfiguration = _sdk.GetEntity(SdkGuids.SystemConfiguration) as SystemConfiguration;
+            var service = systemConfiguration.CustomFieldService;
+            if (result.Success)
+            {
+                foreach (DataRow dr in result.Data.Rows)    //sempre remove todas as regras de um CardHolder
+                {
+                    CardholderGroup grupocradholder = _sdk.GetEntity((Guid)dr[0]) as CardholderGroup;
+                    groupos.Add(grupocradholder);
+                }
+            }
+            return groupos;
+        }
+
         #endregion
     }
 }

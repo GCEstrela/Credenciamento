@@ -20,6 +20,7 @@ using IMOD.CredenciamentoDeskTop.Views.Model;
 using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
 using IMOD.CredenciamentoDeskTop.Enums;
+using IMOD.Infra.Servicos;
 
 #endregion
 
@@ -2141,10 +2142,14 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
+                var serviceSC = new CredencialGenetecService(Main.Engine);
+                var grupos = serviceSC.RetornarGrupos();
                 var service = new ConfiguraSistemaService();
+
                 var list1 = service.Listar().ToList().FirstOrDefault();
                 var list2 = Mapper.Map<ConfiguraSistemaView>(list1);
                 Entity = list2;
+                grupos.ForEach(n => { Entity.Grupos.Add(n.Name); });
             }
             catch (Exception ex)
             {

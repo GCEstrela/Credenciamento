@@ -154,7 +154,7 @@ namespace IMOD.Application.Interfaces
         /// </summary>
         /// <param name="entity">Entidade</param>
         /// <param name="colaboradorId">Identificador</param>
-        //void EncontraCredencialPeloNumero(CardHolderEntity entity, string credencialNumero);
+        void RetornarGrupos();
         #endregion
     }
 }
