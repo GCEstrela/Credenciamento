@@ -148,35 +148,44 @@ namespace IMOD.Infra.Servicos
 
         private void SetValorCamposCustomizados(CardHolderEntity entity, Cardholder entityCardholder)
         {
-            entityCardholder.SetCustomFieldAsync("CPF", entity.Cpf);
-            entityCardholder.SetCustomFieldAsync("CNPJ", entity.Cnpj);
-            entityCardholder.SetCustomFieldAsync("Cargo", entity.Cargo);
-            entityCardholder.SetCustomFieldAsync("Empresa", entity.Empresa);
-            entityCardholder.SetCustomFieldAsync("Matricula", entity.Matricula);
-            entityCardholder.SetCustomFieldAsync("Identificador", entity.Matricula);
-
-            entityCardholder.FirstName = entity.Nome;
-            entityCardholder.LastName = entity.Apelido;
-            //Uma data de validade deve ser mairo que a data corrente 
-            var compareData = DateTime.Compare(DateTime.Now, entity.Validade);
-            if (compareData >= 0) throw new InvalidOperationException("A data de validade deve ser maior que a data corrente.");
-            //if (entity.Validade > DateTime.Now)
-            //{
-            //    if (entity.Ativo)
-            //        entityCardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now.AddHours(23).AddMinutes(59).AddSeconds(59), entity.Validade);
-            //}
-
-            if (entity.Validade > DateTime.Now)
+            try
             {
-                if (entity.Ativo)
-                    entityCardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade);
+                entityCardholder.SetCustomFieldAsync("CPF", entity.Cpf);
+                entityCardholder.SetCustomFieldAsync("CNPJ", entity.Cnpj);
+                entityCardholder.SetCustomFieldAsync("Cargo", entity.Cargo);
+                entityCardholder.SetCustomFieldAsync("Empresa", entity.Empresa);
+                entityCardholder.SetCustomFieldAsync("Matricula", entity.Matricula);
+                entityCardholder.SetCustomFieldAsync("Identificador", entity.Matricula);
+
+                entityCardholder.FirstName = entity.Nome;
+                entityCardholder.LastName = entity.Apelido;
+                entityCardholder.Description = entity.Empresa + " - " + entity.Cpf;
+                //Uma data de validade deve ser mairo que a data corrente 
+                var compareData = DateTime.Compare(DateTime.Now, entity.Validade);
+                if (compareData >= 0) throw new InvalidOperationException("A data de validade deve ser maior que a data corrente.");
+                //if (entity.Validade > DateTime.Now)
+                //{
+                //    if (entity.Ativo)
+                //        entityCardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now.AddHours(23).AddMinutes(59).AddSeconds(59), entity.Validade);
+                //}
+
+                if (entity.Validade > DateTime.Now)
+                {
+                    if (entity.Ativo)
+                        entityCardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade);
+                }
+                else
+                {
+                    entityCardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, DateTime.Now.AddHours(23).AddMinutes(59).AddSeconds(59));
+                }
+                //entityCardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade);
+                entityCardholder.Picture = entity.Foto;
             }
-            else
+            catch (Exception ex)
             {
-                entityCardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, DateTime.Now.AddHours(23).AddMinutes(59).AddSeconds(59));
+                throw ex;
             }
-            //entityCardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade);
-            entityCardholder.Picture = entity.Foto;
+            
         }
 
         private void SetValorFormatoCredencial(CardHolderEntity entity, Credential credencial)
