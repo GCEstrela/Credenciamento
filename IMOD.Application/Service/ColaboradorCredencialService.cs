@@ -134,7 +134,7 @@ namespace IMOD.Application.Service
                 FacilityCode = entity.Fc,
                 Foto = entity.ColaboradorFoto.ConverterBase64StringToBitmap(),
                 Matricula = entity.Matricula,
-                Validade = dataValidade.AddDays(1),
+                Validade = dataValidade.AddDays(0),
                 NumeroCredencial = entity.NumeroCredencial,
                 IdentificadorLayoutCrachaGuid = entity.LayoutCrachaGuid,
                 FormatoCredencial = entity.FormatoCredencialDescricao.Trim(),
@@ -408,7 +408,7 @@ namespace IMOD.Application.Service
             geradorCredencialService.AlterarStatusCredencial (titularCartao);
 
             ////Alterar status do cartao
-            //geradorCredencialService.AlterarStatusCardHolder(titularCartao);
+            geradorCredencialService.AlterarStatusCardHolder(titularCartao);
             ////Sistema somente gerar credencial se o tipo de autenticação permitir
 
         }
@@ -507,6 +507,7 @@ namespace IMOD.Application.Service
 
                 var titularCartao = CardHolderEntity(entity);
                 geradorCredencialService.RemoverCredencial(titularCartao);
+                geradorCredencialService.AlterarStatusCardHolder(titularCartao);
             }
             catch (Exception ex)
             {
@@ -669,6 +670,11 @@ namespace IMOD.Application.Service
         }
 
         public void DisparaAlarme(ICredencialService geradorCredencialService, CardHolderEntity entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RetornarGrupos()
         {
             throw new NotImplementedException();
         }

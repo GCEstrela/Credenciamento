@@ -54,7 +54,13 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public bool IsEnablePreCadastroCredenciamento { get; set; } = true;
         public string IsEnablePreCadastroColor { get; set; } = "#FFD0D0D0";
         #region  Propriedades
-
+        /// <summary>
+        ///     Pendência serviços
+        /// </summary>
+        public IPendenciaService Pendencia
+        {
+            get { return new PendenciaService(); }
+        }
         /// <summary>
         ///     String contendo o nome a pesquisa;
         /// </summary>
@@ -516,7 +522,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 Utils.TraceException (ex);
             }
         }
-
+        
         /// <summary>
         ///     Pré-Cadastro
         /// </summary>
@@ -526,10 +532,35 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             try
             {
                 if (Entity == null) return;
-
+                
                 if (Validar()) return;
 
                 var n1 = Mapper.Map<Colaborador>(Entity);
+                
+                n1.Pendente21 = true;
+                n1.Pendente22 = true;
+                n1.Pendente23 = true;
+                n1.Pendente24 = true;
+                n1.Pendente25 = true;
+                #region Criar Pendências
+
+                var pendencia = new Pendencia();
+                pendencia.ColaboradorId = Entity.ColaboradorId;
+                //--------------------------
+                pendencia.CodPendencia = 22;
+                pendencia.Impeditivo = true;
+                Pendencia.CriarPendenciaSistema(pendencia);
+                
+                //--------------------------
+                pendencia.CodPendencia = 23;
+                pendencia.Impeditivo = true;
+                Pendencia.CriarPendenciaSistema(pendencia);
+                //--------------------------
+                pendencia.CodPendencia = 24;
+                pendencia.Impeditivo = true;
+                Pendencia.CriarPendenciaSistema(pendencia);
+                #endregion
+
                 n1.Precadastro = false;
                 _service.Alterar(n1);
                 EntityObserver.RemoveAt(SelectListViewIndex);

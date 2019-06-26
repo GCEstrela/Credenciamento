@@ -7,6 +7,7 @@
 #region
 
 using System;
+using System.Collections.Generic;
 using System.Data;
 using Genetec.Sdk;
 using Genetec.Sdk.Credentials;
@@ -147,35 +148,44 @@ namespace IMOD.Infra.Servicos
 
         private void SetValorCamposCustomizados(CardHolderEntity entity, Cardholder entityCardholder)
         {
-            entityCardholder.SetCustomFieldAsync("CPF", entity.Cpf);
-            entityCardholder.SetCustomFieldAsync("CNPJ", entity.Cnpj);
-            entityCardholder.SetCustomFieldAsync("Cargo", entity.Cargo);
-            entityCardholder.SetCustomFieldAsync("Empresa", entity.Empresa);
-            entityCardholder.SetCustomFieldAsync("Matricula", entity.Matricula);
-            entityCardholder.SetCustomFieldAsync("Identificador", entity.Matricula);
-
-            entityCardholder.FirstName = entity.Nome;
-            entityCardholder.LastName = entity.Apelido;
-            //Uma data de validade deve ser mairo que a data corrente 
-            var compareData = DateTime.Compare(DateTime.Now, entity.Validade);
-            if (compareData >= 0) throw new InvalidOperationException("A data de validade deve ser maior que a data corrente.");
-            //if (entity.Validade > DateTime.Now)
-            //{
-            //    if (entity.Ativo)
-            //        entityCardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now.AddHours(23).AddMinutes(59).AddSeconds(59), entity.Validade);
-            //}
-
-            if (entity.Validade > DateTime.Now)
+            try
             {
-                if (entity.Ativo)
-                    entityCardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade);
+                entityCardholder.SetCustomFieldAsync("CPF", entity.Cpf);
+                entityCardholder.SetCustomFieldAsync("CNPJ", entity.Cnpj);
+                entityCardholder.SetCustomFieldAsync("Cargo", entity.Cargo);
+                entityCardholder.SetCustomFieldAsync("Empresa", entity.Empresa);
+                entityCardholder.SetCustomFieldAsync("Matricula", entity.Matricula);
+                entityCardholder.SetCustomFieldAsync("Identificador", entity.Matricula);
+
+                entityCardholder.FirstName = entity.Nome;
+                entityCardholder.LastName = entity.Apelido;
+                entityCardholder.Description = entity.Empresa + " - " + entity.Cpf;
+                //Uma data de validade deve ser mairo que a data corrente 
+                var compareData = DateTime.Compare(DateTime.Now, entity.Validade);
+                if (compareData >= 0) throw new InvalidOperationException("A data de validade deve ser maior que a data corrente.");
+                //if (entity.Validade > DateTime.Now)
+                //{
+                //    if (entity.Ativo)
+                //        entityCardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now.AddHours(23).AddMinutes(59).AddSeconds(59), entity.Validade);
+                //}
+
+                if (entity.Validade > DateTime.Now)
+                {
+                    if (entity.Ativo)
+                        entityCardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade);
+                }
+                else
+                {
+                    entityCardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, DateTime.Now.AddHours(23).AddMinutes(59).AddSeconds(59));
+                }
+                //entityCardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade);
+                entityCardholder.Picture = entity.Foto;
             }
-            else
+            catch (Exception ex)
             {
-                entityCardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, DateTime.Now.AddHours(23).AddMinutes(59).AddSeconds(59));
+                throw ex;
             }
-            //entityCardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade);
-            entityCardholder.Picture = entity.Foto;
+            
         }
 
         private void SetValorFormatoCredencial(CardHolderEntity entity, Credential credencial)
@@ -200,6 +210,9 @@ namespace IMOD.Infra.Servicos
                         break;
                     case "HID H10306 34 Bits":
                         credencial.Format = new WiegandH10306CredentialFormat(entity.FacilityCode, Convert.ToInt32(entity.NumeroCredencial));
+                        break;
+                    case "HID Corporate 1000 - 35 bits":
+                        credencial.Format = new WiegandCorporate1000CredentialFormat(entity.FacilityCode, Convert.ToInt32(entity.NumeroCredencial));
                         break;
                     case "HID Corporate 1000 48 Bits":
                         credencial.Format = new WiegandCorporate1000CredentialFormat(entity.FacilityCode, Convert.ToInt32(entity.NumeroCredencial));
@@ -256,7 +269,7 @@ namespace IMOD.Infra.Servicos
                         break;
                     }
                 }
-
+                
                 if (!ativo)
                 {
                     if (cardholder == null) throw new InvalidOperationException("Não foi possível encontrar o titular do cartão.");
@@ -272,7 +285,10 @@ namespace IMOD.Infra.Servicos
                 {
                         cardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, DateTime.Now.AddHours(23).AddMinutes(59).AddSeconds(59));
                 }
-
+                if (cardholder.Credentials.Count == 0)
+                {
+                    cardholder.State = CardholderState.Inactive;
+                }
                 SetValorCamposCustomizados(entity, cardholder);
 
                 _sdk.TransactionManager.CommitTransaction();
@@ -817,6 +833,29 @@ namespace IMOD.Infra.Servicos
                 throw;
             }
         }
+        public List<CardholderGroup> RetornarGrupos()
+        {
+            EntityConfigurationQuery query;
+            QueryCompletedEventArgs result;
+            List<CardholderGroup> groupos = new List<CardholderGroup>();
+
+            query = _sdk.ReportManager.CreateReportQuery(ReportType.EntityConfiguration) as EntityConfigurationQuery;
+            query.EntityTypeFilter.Add(EntityType.CardholderGroup);
+            query.NameSearchMode = StringSearchMode.StartsWith;
+            result = query.Query();
+            SystemConfiguration systemConfiguration = _sdk.GetEntity(SdkGuids.SystemConfiguration) as SystemConfiguration;
+            var service = systemConfiguration.CustomFieldService;
+            if (result.Success)
+            {
+                foreach (DataRow dr in result.Data.Rows)    //sempre remove todas as regras de um CardHolder
+                {
+                    CardholderGroup grupocradholder = _sdk.GetEntity((Guid)dr[0]) as CardholderGroup;
+                    groupos.Add(grupocradholder);
+                }
+            }
+            return groupos;
+        }
+
         #endregion
     }
 }

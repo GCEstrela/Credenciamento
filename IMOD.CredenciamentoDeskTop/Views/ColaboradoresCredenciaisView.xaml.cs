@@ -11,6 +11,7 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using IMOD.CredenciamentoDeskTop.Enums;
 using IMOD.CredenciamentoDeskTop.ViewModels;
 using IMOD.CrossCutting;
@@ -197,6 +198,14 @@ namespace IMOD.CredenciamentoDeskTop.Views
                     lblNumero.Visibility = Visibility.Visible;
                     NumeroCredencial_tb.Focus();
                 }
+                else if (((IMOD.Domain.Entities.FormatoCredencial)FormatoCredencial_cb.SelectedItem).Descricao.Trim().Equals("HID H10302 37 Bits"))
+                {
+                    FC_tb.Visibility = Visibility.Hidden;
+                    lblFC.Visibility = Visibility.Hidden;
+                    NumeroCredencial_tb.Visibility = Visibility.Visible;
+                    lblNumero.Visibility = Visibility.Visible;
+                    NumeroCredencial_tb.Focus();
+                }
                 else if (((IMOD.Domain.Entities.FormatoCredencial)FormatoCredencial_cb.SelectedItem).Descricao.Trim().Equals("N/D"))
                 {
                     FC_tb.Visibility = Visibility.Hidden;
@@ -223,8 +232,18 @@ namespace IMOD.CredenciamentoDeskTop.Views
             {
                 var nCredencial = _viewModel.Entity.NumeroCredencial;
                 if (_viewModel.ExisteNumeroCredencial())
+                {
                     _viewModel.Entity.SetMessageErro("NumeroCredencial", "Nº da Credencial já existe");
                     NumeroCredencial_tb.Text = nCredencial;
+                }
+                else
+                {
+                    _viewModel.Entity.ClearMessageErro();
+                    //NumeroCredencial_tb.Background = Brushes.;
+                    NumeroCredencial_tb.Text = nCredencial;
+                }
+
+
                 
             }
             catch (Exception)
