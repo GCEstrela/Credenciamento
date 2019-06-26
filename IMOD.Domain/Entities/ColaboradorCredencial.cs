@@ -37,7 +37,6 @@ namespace IMOD.Domain.Entities
         public bool Ativa { get; set; }
         public DateTime? Baixa { get; set; }
         public DateTime? DataStatus { get; set; }
-        public int DevolucaoEntregaBoId { get; set; }
         public int ColaboradorId { get; set; }
         public string ColaboradorNome { get; set; }
         public bool Policiafederal { get; set; }
@@ -47,6 +46,7 @@ namespace IMOD.Domain.Entities
         public string Identificacao2 { get; set; }
         public string Email { get; set; }
         public string Obs { get; set; }
+        public bool DevolucaoEntregaBo { get; set; } 
         #endregion
     }
 }

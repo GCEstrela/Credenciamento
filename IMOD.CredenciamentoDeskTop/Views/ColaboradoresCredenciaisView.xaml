@@ -58,7 +58,7 @@
                                       SelectedValuePath="ColaboradorEmpresaId"
                                       IsSynchronizedWithCurrentItem="True"
                                       IsEnabled="{Binding Habilitar}"
-                                      SelectedIndex="0" SelectionChanged="CmbEmpresaVinculo_cb_SelectionChanged">
+                                      SelectedIndex="0" >
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
@@ -115,7 +115,7 @@
                                         SelectionChanged="CmbMotivacao_SelectionChanged"/>
 
                             <CheckBox VerticalAlignment="Center" Margin="15,0,0,0" x:Name="chkDevolucaoMotivo" HorizontalAlignment="Left" Foreground="#FFD0D0D0" 
-                                Visibility="{Binding VisibilityCheckDevolucao, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" IsChecked="{Binding IsCheckDevolucao, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Content="{Binding TextCheckDevolucao, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                                Content="Devolução" IsChecked="{Binding Entity.DevolucaoEntregaBo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  />
 
                         </StackPanel>
 

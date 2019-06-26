@@ -82,13 +82,13 @@ namespace IMOD.Domain.EntitiesCustom
         public string IdentificacaoDescricao { get; set; }
 
         public DateTime? DataStatus { get; set; }
-        public int DevolucaoEntregaBoId { get; set; }        
         public string NumeroColete { get; set; }
         public bool Policiafederal { get; set; }
         public bool Receitafederal { get; set; }
         public bool Segurancatrabalho { get; set; }
         public string Email { get; set; }
         public string Obs { get; set; }
+        public bool DevolucaoEntregaBo { get; set; }
 
     }
 }

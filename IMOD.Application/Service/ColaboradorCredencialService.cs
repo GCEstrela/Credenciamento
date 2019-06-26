@@ -155,7 +155,7 @@ namespace IMOD.Application.Service
                //Criar um pendenci impeditiva ao constatar o motivo da credencial
                var pendImp = CredencialMotivo.BuscarPelaChave (entity.CredencialMotivoId);
             if (pendImp == null) throw new InvalidOperationException ("Não foi possível obter a entidade credencial motivo");
-            var impeditivo = pendImp.Impeditivo & entity.DevolucaoEntregaBoId == 0;
+            var impeditivo = pendImp.Impeditivo & entity.DevolucaoEntregaBo;
             if (!impeditivo) return;
             //Criar uma pendencia impeditiva,caso sua natureza seja impeditiva
 
@@ -372,7 +372,7 @@ namespace IMOD.Application.Service
             entity.DataStatus = entity.Ativa != entity2.Ativa ? DateTime.Today.Date : entity2.DataStatus;
             entity.Ativa = entity2.Ativa; //Atulizar dados para serem exibidas na tela
 
-            if ((!entity2.Ativa && (entity2.DevolucaoEntregaBoId != 0)) ||
+            if ((!entity2.Ativa && (entity2.DevolucaoEntregaBo)) ||
                     (!entity2.Ativa && (entity2.CredencialMotivoId == 11 || entity2.CredencialMotivoId == 12)))
             {
                 entity.Baixa = DateTime.Today.Date;

@@ -11,6 +11,7 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using IMOD.CredenciamentoDeskTop.Enums;
 using IMOD.CredenciamentoDeskTop.ViewModels;
 using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
@@ -129,14 +130,6 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 btnImprimirCredencial.ToolTip = "Visualizar Credencial";
             }
 
-            if ((CredencialStatus)cmbCredencialStatus.SelectedItem != null)
-            {
-                _viewModel.HabilitaCheckDevolucao(((CredencialStatus)cmbCredencialStatus.SelectedItem).CredencialStatusId, 0);
-                chkDevolucaoMotivo.IsChecked = _viewModel.IsCheckDevolucao;
-                chkDevolucaoMotivo.Visibility = _viewModel.VisibilityCheckDevolucao;
-                chkDevolucaoMotivo.Content = _viewModel.TextCheckDevolucao;
-            }
-
             if (_viewModel.ColaboradorEmpresa == null) return;
             if (_viewModel.ColaboradorEmpresa.ColaboradorId > 0 & _viewModel.ColaboradorEmpresa.EmpresaId > 0)
             {
@@ -146,13 +139,39 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         private void CmbMotivacao_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-                    if (cmbCredencialStatus.SelectedItem != null && cmbMotivacao.SelectedItem != null)
+
+            if (cmbCredencialStatus.SelectedItem != null && cmbMotivacao.SelectedItem != null)
+            {
+                if (((CredencialStatus)cmbCredencialStatus.SelectedItem).CredencialStatusId == 2
+                                      && ((CredencialMotivo)cmbMotivacao.SelectedItem).CredencialMotivoId > 0)
+                {
+                    switch (((CredencialMotivo)cmbMotivacao.SelectedItem).CredencialMotivoId)
                     {
-                        _viewModel.HabilitaCheckDevolucao(((CredencialStatus)cmbCredencialStatus.SelectedItem).CredencialStatusId, ((CredencialMotivo)cmbMotivacao.SelectedItem).CredencialMotivoId);
-                        chkDevolucaoMotivo.IsChecked = _viewModel.IsCheckDevolucao;
-                        chkDevolucaoMotivo.Visibility = _viewModel.VisibilityCheckDevolucao;
-                        chkDevolucaoMotivo.Content = _viewModel.TextCheckDevolucao;
+                        case 6:
+                        case 8:
+                        case 15:
+                            chkDevolucaoMotivo.Content = DevoluçãoCredencial.Devolucao.Descricao();
+                            chkDevolucaoMotivo.Visibility = Visibility.Visible;
+                            break; 
+                        case 9:
+                        case 10:
+                            chkDevolucaoMotivo.Content = DevoluçãoCredencial.EntregaBO.Descricao();
+                            chkDevolucaoMotivo.Visibility = Visibility.Visible;
+                            break; 
+                        default: 
+                            chkDevolucaoMotivo.IsChecked = false; 
+                            chkDevolucaoMotivo.Content = String.Empty; 
+                            chkDevolucaoMotivo.Visibility = Visibility.Hidden; 
+                            break;
                     }
+                }
+                else
+                {
+                    chkDevolucaoMotivo.IsChecked = false;
+                    chkDevolucaoMotivo.Content = String.Empty;
+                    chkDevolucaoMotivo.Visibility = Visibility.Hidden;
+                }
+            }
         }
 
         private void TecnologiaCredencial_cb_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -213,11 +232,6 @@ namespace IMOD.CredenciamentoDeskTop.Views
             {
                 _viewModel.Entity.SetMessageErro("Cnpj", "CNPJ inválido");
             }
-        }
-
-        private void CmbEmpresaVinculo_cb_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
         }
 
     }

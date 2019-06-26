@@ -74,9 +74,9 @@ namespace IMOD.Domain.EntitiesCustom
         public int AreaAcessoId { get; set; }
 
         public DateTime? DataStatus { get; set; }
-        public int DevolucaoEntregaBoId { get; set; }
         public bool Impeditivo { get; set; }
         public DateTime? DataStatusFim { get; set; }
+        public bool DevolucaoEntregaBo { get; set; }
 
     }
 

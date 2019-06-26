@@ -59,7 +59,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         private ConfiguraSistema _configuraSistema;
 
-        private Boolean verificarcredencialAtida = false; // Testa se é prara verificar a exectencia de credencial ativa para o colaborador.
+        private Boolean verificarcredencialAtiva = false; // Testa se é prara verificar a exectencia de credencial ativa para o colaborador.
         private int _count;
         private List<CredencialMotivo> _credencialMotivo;
 
@@ -106,10 +106,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public List<AreaAcesso> ColaboradorPrivilegio { get; set; }
         public ColaboradoresCredenciaisView Entity { get; set; }        
         public List<Curso> Cursos { get; private set; }
-        public bool IsCheckDevolucao { get; set; }
-        public Visibility VisibilityCheckDevolucao { get; set; }
-        public string TextCheckDevolucao { get; set; } = String.Empty;
-        private DevoluçãoCredencial devolucaoCredencial;
+
 
         /// <summary>
         ///     Mensagem de alerta
@@ -405,7 +402,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 Comportamento.IsEnableEditar = Entity != null;
                 Comportamento.isEnableRemover = Entity != null;
                 AtualizarMensagem(Entity);
-                ExibirCheckDevolucao(Entity);
             }
         }
 
@@ -476,7 +472,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public void AtualizarDados(ColaboradorView entity, ColaboradorViewModel viewModelParent)
         {
             
-            verificarcredencialAtida = false;
+            verificarcredencialAtiva = false;
             EntityObserver.Clear();
             if (entity == null) return; // throw new ArgumentNullException(nameof(entity));
             _colaboradorView = entity;
@@ -595,7 +591,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private void PrepareRemover()
         {
-            verificarcredencialAtida = false;
+            verificarcredencialAtiva = false;
             _prepareCriarCommandAcionado = false;
             _prepareAlterarCommandAcionado = false;
             Comportamento.PrepareRemover();
@@ -612,17 +608,13 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 if (Entity == null) return;
                 System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
-
-                Entity.DevolucaoEntregaBoId = IsCheckDevolucao ? (int)devolucaoCredencial : 0;
                 var n1 = Mapper.Map<ColaboradorCredencial>(Entity);
-
                 n1.CredencialMotivoId = Entity.CredencialMotivoId;
                 n1.CredencialStatusId = Entity.CredencialStatusId;
                 n1.FormatoCredencialId = Entity.FormatoCredencialId;
                 n1.LayoutCrachaId = Entity.LayoutCrachaId;
                 n1.TecnologiaCredencialId = Entity.TecnologiaCredencialId;
                 n1.TipoCredencialId = Entity.TipoCredencialId;
-                n1.DevolucaoEntregaBoId = IsCheckDevolucao ? Entity.DevolucaoEntregaBoId : 0;
                 n1.ColaboradorPrivilegio1Id = Entity.ColaboradorPrivilegio1Id;
                 n1.ColaboradorPrivilegio2Id = Entity.ColaboradorPrivilegio2Id;
                 n1.Identificacao1 = Entity.Identificacao1;
@@ -637,11 +629,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     Comportamento.PrepareCriarSegundaTentativa();
                     return;
                 }
-                // var EmpresaSigla = _colaboradorEmpresaService.Listar(null, null, null, null,null,n1.ColaboradorEmpresaId).ToList();
+
                 if (_configuraSistema.Colete)
                 {
                     Entity.NumeroColete = Convert.ToString(_colaboradorView.ColaboradorId);
-                    n1.Colete = Entity.EmpresaSigla + Entity.NumeroColete;
+                    n1.Colete = Entity.EmpresaSigla != "---" && !String.IsNullOrEmpty(Entity.EmpresaSigla) && !String.IsNullOrEmpty(Entity.NumeroColete) ? Entity.EmpresaSigla + Entity.NumeroColete : String.Empty;
                 }
                 else
                 {
@@ -649,8 +641,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     {
                         Entity.EmpresaSigla = "---";
                     }
-                    n1.Colete = Entity.EmpresaSigla + Entity.NumeroColete;
-
+                    n1.Colete = Entity.EmpresaSigla != "---" && !String.IsNullOrEmpty(Entity.EmpresaSigla) && !String.IsNullOrEmpty(Entity.NumeroColete) ? Entity.EmpresaSigla + Entity.NumeroColete : String.Empty;
                 }
                 
 
@@ -709,7 +700,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         private void PrepararCancelar()
         {
-            verificarcredencialAtida = false;
+            verificarcredencialAtiva = false;
             Comportamento.PrepareCancelar();
         }
 
@@ -720,7 +711,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                verificarcredencialAtida = true;
+                verificarcredencialAtiva = true;
                  Entity = new ColaboradoresCredenciaisView();
 
                 //if (!HabilitaCriar(_colaboradorView.ColaboradorId)) throw new InvalidOperationException("Não é possivel criar credencial, pois existe uma credencial ativa para o colaborador no contrato.");
@@ -775,10 +766,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
 
                 ObterValidadeAlteracao();
-                Entity.DevolucaoEntregaBoId = IsCheckDevolucao ? (int)devolucaoCredencial : 0;
 
                 var n1 = Mapper.Map<ColaboradorCredencial>(Entity);
-                n1.DevolucaoEntregaBoId = IsCheckDevolucao ? Entity.DevolucaoEntregaBoId : 0;
                 n1.ColaboradorPrivilegio1Id = Entity.ColaboradorPrivilegio1Id;
                 n1.ColaboradorPrivilegio2Id = Entity.ColaboradorPrivilegio2Id;
                 n1.Identificacao1 = Entity.Identificacao1;
@@ -788,7 +777,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (_configuraSistema.Colete)
                 {
                     Entity.NumeroColete = Convert.ToString(_colaboradorView.ColaboradorId);
-                    n1.Colete = Entity.EmpresaSigla + Entity.NumeroColete;
+
+                    n1.Colete = Entity.EmpresaSigla != "---" && !String.IsNullOrEmpty(Entity.EmpresaSigla) && !String.IsNullOrEmpty(Entity.NumeroColete) ? Entity.EmpresaSigla + Entity.NumeroColete : String.Empty;
                 }
                 else
                 {
@@ -796,7 +786,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     {
                         Entity.EmpresaSigla = "---";
                     }
-                    n1.Colete = Entity.EmpresaSigla + Entity.NumeroColete;
+                    n1.Colete = Entity.EmpresaSigla != "---" && !String.IsNullOrEmpty(Entity.EmpresaSigla) && !String.IsNullOrEmpty(Entity.NumeroColete) ? Entity.EmpresaSigla + Entity.NumeroColete : String.Empty;
                 }
                 if (n1.Ativa)
                 {
@@ -1073,7 +1063,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             //Listar Colaboradores Ativos
             //OnAtualizarDadosContratosAtivos();
 
-            verificarcredencialAtida = true;
+            verificarcredencialAtiva = true;
             if (Entity == null)
             {
                 WpfHelp.PopupBox("Selecione um item da lista", 1);
@@ -1092,7 +1082,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         private void PrepareSalvar()
         {
-            verificarcredencialAtida = false;
+            verificarcredencialAtiva = false;
             // 
             if (Entity.NumeroColete == "" & HabilitaImpressao == true)
             {
@@ -1148,18 +1138,18 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                if (!verificarcredencialAtida) return;
+                if (!verificarcredencialAtiva) return;
                 if (colaboradorId == 0) return;
                 if (empresaId == 0) return;
                 var n1 = _service.Listar(null,null,null,null, colaboradorId, empresaId, true);
                 if (n1.Count >= 1)
                 {
-                    verificarcredencialAtida = false;
+                    verificarcredencialAtiva = false;
                     Comportamento.PrepareCancelar();
                     WpfHelp.Mbox("Já existe credencial ativa para esse contrato.");
                     return;
                 }
-                verificarcredencialAtida = false;
+                verificarcredencialAtiva = false;
                 if (Entity != null)
                 {
                     if (Entity.EmpresaSigla == null || Entity.EmpresaSigla == "")
@@ -1184,18 +1174,18 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                if (!verificarcredencialAtida) return;
+                if (!verificarcredencialAtiva) return;
                 if (colaboradorId == 0) return;
                 if (empresaId == 0) return;
                 var n1 = _service.Listar(null, null, null, null, colaboradorId, empresaId, true, null, Entity.ColaboradorCredencialId);
                 if (n1.Count >= 1)
                 {
-                    verificarcredencialAtida = false;
+                    verificarcredencialAtiva = false;
                     Comportamento.PrepareCancelar();
                     WpfHelp.Mbox("Já existe credencial ativa para esse contrato.");
                     return;
                 }
-                verificarcredencialAtida = false;
+                verificarcredencialAtiva = false;
             }
             catch
             {
@@ -1268,67 +1258,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
             return Entity.HasErrors;
         }
-
-        public void HabilitaCheckDevolucao(int credencialStatus = 0, int credencialMotivoId = 0)
-        {
-            if (credencialStatus == 2 && credencialMotivoId > 0)
-            {
-                switch (credencialMotivoId)
-                {
-                    case 6:
-                    case 8:
-                    case 15:
-
-                        IsCheckDevolucao = Entity != null & Entity.DevolucaoEntregaBoId > 0 ? true : IsCheckDevolucao;
-                        TextCheckDevolucao = DevoluçãoCredencial.Devolucao.Descricao();
-                        devolucaoCredencial = DevoluçãoCredencial.Devolucao; 
-                        VisibilityCheckDevolucao = Visibility.Visible; 
-                        break;
-                    case 9:
-                    case 10:
-                        IsCheckDevolucao = Entity != null & Entity.DevolucaoEntregaBoId > 0 ? true : IsCheckDevolucao;
-                        TextCheckDevolucao = DevoluçãoCredencial.EntregaBO.Descricao();
-                        devolucaoCredencial = DevoluçãoCredencial.EntregaBO;
-                        VisibilityCheckDevolucao = Visibility.Visible;
-                        break;
-                    default:
-                        IsCheckDevolucao = false;
-                        TextCheckDevolucao = String.Empty;
-                        VisibilityCheckDevolucao = Visibility.Hidden;
-                        devolucaoCredencial = 0;
-                        break;
-                }
-            }
-            else
-            {
-                IsCheckDevolucao = false;
-                TextCheckDevolucao = String.Empty;
-                VisibilityCheckDevolucao = Visibility.Hidden;
-            }
-        }
-
-        private void ExibirCheckDevolucao(ColaboradoresCredenciaisView entity)
-        {
-            if (entity != null)
-            {
-                IsCheckDevolucao = entity.DevolucaoEntregaBoId == 0 ? false : (entity.DevolucaoEntregaBoId > 0 ? true : false);
-
-                VisibilityCheckDevolucao = entity.DevolucaoEntregaBoId == 0 ?
-                    Visibility.Hidden : (entity.DevolucaoEntregaBoId > 0 ? Visibility.Visible : Visibility.Hidden);
-
-                TextCheckDevolucao = entity.DevolucaoEntregaBoId == 0 ? String.Empty :
-                        (entity.DevolucaoEntregaBoId == 1 ? DevoluçãoCredencial.Devolucao.Descricao() : DevoluçãoCredencial.EntregaBO.Descricao());
-
-                devolucaoCredencial = (DevoluçãoCredencial)entity.DevolucaoEntregaBoId;
-            }
-            else
-            {
-                IsCheckDevolucao = false;
-                TextCheckDevolucao = String.Empty;
-                VisibilityCheckDevolucao = Visibility.Hidden;
-            }
-        }
-
 
         #endregion
 
