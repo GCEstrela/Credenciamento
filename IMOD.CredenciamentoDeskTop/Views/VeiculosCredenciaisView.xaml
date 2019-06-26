@@ -124,7 +124,7 @@
                                       SelectedValue="{Binding Entity.CredencialMotivoId, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                       SelectedValuePath="CredencialMotivoId" IsSynchronizedWithCurrentItem="True" SelectionChanged="CmbMotivacao_SelectionChanged" />
 
-                                    <CheckBox VerticalAlignment="Center" Margin="15,0,0,0" x:Name="chkDevolucaoMotivo" HorizontalAlignment="Left" Foreground="#FFD0D0D0" 
+                            <CheckBox VerticalAlignment="Center" Margin="15,0,0,0" x:Name="chkDevolucaoMotivo" HorizontalAlignment="Left" Foreground="#FFD0D0D0" Visibility="Hidden"
                                         Content="Devolução" IsChecked="{Binding Entity.DevolucaoEntregaBo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  />
                         </StackPanel>
 

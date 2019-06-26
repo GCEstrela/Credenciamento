@@ -179,14 +179,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             if (entity == null) return;
             if (entity.ColaboradorCredencialId <= 0) return;
 
-            if (Entity.Colete != null)
-            {
-                Entity.NumeroColete = Entity.Colete.Substring(3);
-            }
-            else
-            {
-                Entity.NumeroColete = "";
-            }
+            Entity.NumeroColete = Entity.Colete.Length > 3 && !String.IsNullOrEmpty(Entity.Colete) ? Entity.Colete.Substring(3) : String.Empty;
+
 
             #region Habilitar botão de impressao e mensagem ao usuario
             bool impeditivaEmpresa = false;

@@ -70,6 +70,7 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public string Identificacao { get; set; }
         public int AreaAcessoId { get; set; }
         public string IdentificacaoDescricao { get; set; }
+        public bool DevolucaoEntregaBo { get; set; }
 
 
     }
