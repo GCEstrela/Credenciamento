@@ -110,10 +110,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public VeiculosCredenciaisView Entity { get; set; }
         public ObservableCollection<VeiculosCredenciaisView> EntityObserver { get; set; }
 
-        public bool IsCheckDevolucao { get; set; }
-        public Visibility VisibilityCheckDevolucao { get; set; }
-        public string TextCheckDevolucao { get; set; } = String.Empty;
-        private DevoluçãoCredencial devolucaoCredencial;
 
         /// <summary>
         ///     Habilita listView
@@ -258,7 +254,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 Comportamento.IsEnableEditar = Entity != null;
                 Comportamento.isEnableRemover = Entity != null;
                 AtualizarMensagem(Entity);
-                ExibirCheckDevolucao(Entity);
             }
         }
 
@@ -358,8 +353,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (Entity == null) return;
                 if (Validar()) return;
 
-                Entity.DevolucaoEntregaBoId = IsCheckDevolucao ? (int)devolucaoCredencial : 0;
-
                 var n1 = Mapper.Map<VeiculoCredencial> (Entity);
 
                 n1.CredencialMotivoId = Entity.CredencialMotivoId;
@@ -368,7 +361,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 n1.LayoutCrachaId = Entity.LayoutCrachaId;
                 n1.TecnologiaCredencialId = Entity.TecnologiaCredencialId;
                 n1.TipoCredencialId = Entity.TipoCredencialId;
-                n1.DevolucaoEntregaBoId = IsCheckDevolucao ? Entity.DevolucaoEntregaBoId : 0;
                 n1.Validade = Entity.Validade.Value.AddHours(23).AddMinutes(59).AddSeconds(59); //Sempre Add 23:59:59 horas à credencial nova.
                 if (n1.Validade <= DateTime.Now)
                 {
@@ -491,10 +483,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (Entity == null) return;
                 if (Validar()) return;
 
-                Entity.DevolucaoEntregaBoId = IsCheckDevolucao ? (int)devolucaoCredencial : 0;
-
                 var n1 = Mapper.Map<VeiculoCredencial> (Entity);
-                n1.DevolucaoEntregaBoId = IsCheckDevolucao ? Entity.DevolucaoEntregaBoId : 0;
                 //Alterar o status do titular do cartão
                 _service.AlterarStatusTitularCartao (new CredencialGenetecService (Main.Engine), Entity, n1);
                 //===================================================
@@ -666,66 +655,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             return Entity.HasErrors;
         }
 
-
-        public void HabilitaCheckDevolucao(int credencialStatus = 0, int credencialMotivoId = 0)
-        {
-            if (credencialStatus == 2 && credencialMotivoId > 0)
-            {
-                switch (credencialMotivoId)
-                {
-                    case 6:
-                    case 8:
-                    case 15:
-
-                        IsCheckDevolucao = IsCheckDevolucao = Entity != null & Entity.DevolucaoEntregaBoId > 0 ? true : IsCheckDevolucao;
-                        TextCheckDevolucao = DevoluçãoCredencial.Devolucao.Descricao();
-                        devolucaoCredencial = DevoluçãoCredencial.Devolucao;
-                        VisibilityCheckDevolucao = Visibility.Visible;
-                        break;
-                    case 9:
-                    case 10:
-                        IsCheckDevolucao = IsCheckDevolucao = Entity != null & Entity.DevolucaoEntregaBoId > 0 ? true : IsCheckDevolucao;
-                        TextCheckDevolucao = DevoluçãoCredencial.EntregaBO.Descricao();
-                        devolucaoCredencial = DevoluçãoCredencial.EntregaBO;
-                        VisibilityCheckDevolucao = Visibility.Visible;
-                        break;
-                    default:
-                        IsCheckDevolucao = false;
-                        TextCheckDevolucao = String.Empty;
-                        VisibilityCheckDevolucao = Visibility.Hidden;
-                        devolucaoCredencial = 0;
-                        break;
-                }
-            }
-            else
-            {
-                IsCheckDevolucao = false;
-                TextCheckDevolucao = String.Empty;
-                VisibilityCheckDevolucao = Visibility.Hidden;
-            }
-        }
-
-        private void ExibirCheckDevolucao(VeiculosCredenciaisView entity)
-        {
-            if (entity != null)
-            {
-                IsCheckDevolucao = entity.DevolucaoEntregaBoId == 0 ? false : (entity.DevolucaoEntregaBoId > 0 ? true : false);
-
-                VisibilityCheckDevolucao = entity.DevolucaoEntregaBoId == 0 ?
-                    Visibility.Hidden : (entity.DevolucaoEntregaBoId > 0 ? Visibility.Visible : Visibility.Hidden);
-
-                TextCheckDevolucao = entity.DevolucaoEntregaBoId == 0 ? String.Empty :
-                        (entity.DevolucaoEntregaBoId == 1 ? DevoluçãoCredencial.Devolucao.Descricao() : DevoluçãoCredencial.EntregaBO.Descricao());
-
-                devolucaoCredencial = (DevoluçãoCredencial)entity.DevolucaoEntregaBoId;
-            }
-            else
-            {
-                IsCheckDevolucao = false;
-                TextCheckDevolucao = String.Empty;
-                VisibilityCheckDevolucao = Visibility.Hidden;
-            }
-        }
 
         #endregion
 

@@ -136,7 +136,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Baixa", DbType.DateTime, entity.Baixa, false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Impressa", entity.Impressa, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("DataStatus", DbType.DateTime, DateTime.Today.Date, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("DevolucaoEntregaBOID", DbType.Int32, entity.DevolucaoEntregaBoId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("DevolucaoEntregaBO", DbType.Boolean, entity.DevolucaoEntregaBo, false)));
 
                         var key = Convert.ToInt32 (cmd.ExecuteScalar());
 
@@ -248,7 +248,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Baixa", DbType.DateTime, entity.Baixa, false)));
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Impressa", entity.Impressa, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("DataStatus", DbType.DateTime, entity.DataStatus, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("DevolucaoEntregaBOID", DbType.Int32, entity.DevolucaoEntregaBoId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("DevolucaoEntregaBO", DbType.Boolean, entity.DevolucaoEntregaBo, false)));
 
                         cmd.ExecuteNonQuery();
                     }
@@ -658,7 +658,7 @@ namespace IMOD.Infra.Repositorios
                             cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("CredencialMotivoId", DbType.Int32, entity.CredencialMotivoId).Igual()));
                             cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("CredencialMotivoId1", DbType.Int32, entity.CredencialMotivoId1).Igual()));
                             cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("CredencialMotivoId2", DbType.Int32, entity.CredencialMotivoId2).Igual()));
-                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("DevolucaoEntregaBOID", DbType.Int32, entity.DevolucaoEntregaBoId).Diferente()));
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("DevolucaoEntregaBO", DbType.Boolean, entity.DevolucaoEntregaBo).Diferente()));
                         }
                         else if (entity != null && entity.CredencialMotivoId > 0 && !entity.Impeditivo)
                         {
