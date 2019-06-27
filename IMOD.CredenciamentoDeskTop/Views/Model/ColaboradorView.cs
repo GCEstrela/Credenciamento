@@ -106,7 +106,21 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public bool Receitafederal { get; set; }
         public bool Segurancatrabalho { get; set; }
         public bool Precadastro { get; set; }
-        public string CpfMascara { get { return (Cpf.Length > 11 & Cpf.Contains(".")) || (String.IsNullOrEmpty(Cpf?.Trim())) ? Cpf : Convert.ToUInt64(Cpf).ToString(@"000\.000\.000\-00"); } }
+        public string CpfMascara
+        {
+            get
+            {
+                try
+                {
+                    return (Cpf.Length > 11 & Cpf.Contains(".")) || (String.IsNullOrEmpty(Cpf?.Trim())) ? Cpf : Convert.ToUInt64(Cpf).ToString(@"000\.000\.000\-00");
+                }
+                catch (Exception ex)
+                {
+                    return Cpf;
+                    //throw ex;
+                }
+            }
+        }
 
 
         #endregion

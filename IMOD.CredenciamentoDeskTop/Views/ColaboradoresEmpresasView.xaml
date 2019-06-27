@@ -33,7 +33,7 @@
     <Grid VerticalAlignment="Top">
         <StackPanel Orientation="Vertical">
             <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}"
-                      IsEnabled="{Binding Comportamento.isEnableCancelar}"
+                      
                       Background="Crimson"
                       x:Name="Responsavel_gb" Header="Empresas Vínculos"
                       VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="795" Height="180">
@@ -47,6 +47,7 @@
                                    VerticalContentAlignment="Center" 
                                    HorizontalContentAlignment="Left"
                                    VerticalAlignment="Center"
+                                   IsEnabled="{Binding Comportamento.isEnableCancelar}"
                                    ItemsSource="{Binding Empresas}"
                                    SelectedItem="{Binding  Empresa}"
                                    DisplayMemberPath="Nome"  
@@ -85,12 +86,16 @@
                         <Label Content="Cargo:" Height="28" Width="140" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
                         <TextBox  x:Name="Cargo_tb" MaxLength="30" CharacterCasing="Upper" VerticalContentAlignment="Center" 
                                   Text="{Binding Entity.Cargo, UpdateSourceTrigger=PropertyChanged}" 
-                                  IsEnabled="True"  Height="24"  MaxWidth="200"  HorizontalAlignment="Left" Width="150"/>
+                                  IsEnabled="{Binding Comportamento.isEnableCancelar}"
+                                  Height="24"  MaxWidth="200"  HorizontalAlignment="Left" Width="150"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" 
+                                IsEnabled="{Binding Comportamento.isEnableCancelar}"
                                     Width="733" Height="28">
                         <Label Content="Vínculo Ativo:" Height="24" Width="143" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
-                        <CheckBox VerticalAlignment="Center" x:Name="chkAtivo"  Foreground="#FFD0D0D0" IsChecked="{Binding Entity.Ativo, UpdateSourceTrigger=PropertyChanged}"/>
+                        <CheckBox VerticalAlignment="Center" x:Name="chkAtivo"  Foreground="#FFD0D0D0" 
+                                  IsEnabled="{Binding Comportamento.isEnableCancelar}"
+                                  IsChecked="{Binding Entity.Ativo, UpdateSourceTrigger=PropertyChanged}"/>
 
                         <Label Content="Data de Validade:" Height="24" Width="159" Margin="15,3,0,0"
                                Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
@@ -108,7 +113,8 @@
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
-                               Height="28" >
+                              IsEnabled="{Binding Comportamento.isEnableCancelar}"
+                                Height="28" >
                         <Label Content=" CCAM:" Height="26" Width="145"  VerticalAlignment="Center" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                         <CheckBox VerticalAlignment="Center" x:Name="chkCcam"  Foreground="#FFD0D0D0" IsChecked="{Binding Entity.FlagCcam, UpdateSourceTrigger=PropertyChanged}"/>
                         <Label Content="Operador Ponte:" Height="26" Width="145"  VerticalAlignment="Center" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
