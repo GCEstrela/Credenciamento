@@ -123,7 +123,7 @@
                         <Label Content="Operador Ponte:" Height="26" Width="142"  VerticalAlignment="Center" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" Margin="0,1" />
                         <CheckBox VerticalAlignment="Center" x:Name="chkOperadorPonte"  Foreground="#FFD0D0D0" IsChecked="{Binding Entity.OperadorPonteEmbarque, UpdateSourceTrigger=PropertyChanged}"/>
                         <Label Content="Pode ser Auditado:" Height="26" Width="145"  VerticalAlignment="Center" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
-                        <CheckBox VerticalAlignment="Center" x:Name="chkAuditado"  Foreground="#FFD0D0D0" IsChecked="{Binding Entity.Auditado, UpdateSourceTrigger=PropertyChanged}"/>
+                        <CheckBox VerticalAlignment="Center" x:Name="chkAuditado"  Foreground="#FFD0D0D0" IsChecked="{Binding Entity.FlagAuditoria, UpdateSourceTrigger=PropertyChanged}"/>
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"

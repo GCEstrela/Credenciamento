@@ -62,7 +62,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("FlagCcam", entity.FlagCcam, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("OperadorPonteEmbarque", entity.OperadorPonteEmbarque, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Motorista", entity.Motorista, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("FlagAuditoria", entity.Auditado, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("FlagAuditoria", entity.FlagAuditoria, false)));
 
                         cmd.ExecuteNonQuery();
 
@@ -136,7 +136,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("FlagCcam", entity.FlagCcam, false))); 
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("OperadorPonteEmbarque", entity.OperadorPonteEmbarque, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Motorista", entity.Motorista, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("FlagAuditoria", entity.Auditado, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("FlagAuditoria", entity.FlagAuditoria, false)));
 
                         var key = Convert.ToInt32(cmd.ExecuteScalar());
 
