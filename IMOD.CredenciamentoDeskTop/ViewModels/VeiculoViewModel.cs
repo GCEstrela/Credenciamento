@@ -435,7 +435,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             try
             {
                 var pesquisa = NomePesquisa;
-                String tipoVeiculoEquipamento = "VEICULO";
+                String tipoVeiculoEquipamento = "VEÍCULO";
                 var num = PesquisarPor;
 
                 //Placa
