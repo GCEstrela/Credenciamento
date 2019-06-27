@@ -71,6 +71,7 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public int AreaAcessoId { get; set; }
         public string IdentificacaoDescricao { get; set; }
         public bool DevolucaoEntregaBo { get; set; }
+        public string DataStatus { get; set; }
 
 
     }

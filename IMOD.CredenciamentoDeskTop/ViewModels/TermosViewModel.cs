@@ -304,15 +304,15 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 {
                     if (!(dataIni.Equals(string.Empty) || dataFim.Equals(string.Empty)))
                     {
-                        colaboradorCredencial.Emissao = DateTime.Parse(dataIni);
-                        colaboradorCredencial.EmissaoFim = DateTime.Parse(dataFim);
-                        mensagemPeriodo = "Durante o perído de  " + dataIni + " a " + dataFim + "";
+                        colaboradorCredencial.DataStatus = DateTime.Parse(dataIni); 
+                        colaboradorCredencial.DataStatusFim = DateTime.Parse(dataFim); 
+                        mensagemPeriodo = "Durante o perído de  " + dataIni + " a " + dataFim + ""; 
                     }
                 }
                 else
                 {
-                    colaboradorCredencial.Emissao = DateTime.Now.AddDays(-periodo).Date;
-                    colaboradorCredencial.EmissaoFim = DateTime.Now;
+                    colaboradorCredencial.DataStatus = DateTime.Now.AddDays(-periodo).Date;
+                    colaboradorCredencial.DataStatusFim = DateTime.Now;
                     if (periodo > 0)
                     {
                         mensagemPeriodo = "Durante o perído de  " + periodo.ToString() + " dias";
@@ -558,15 +558,15 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 {
                     if (!(dataIni.Equals(string.Empty) || dataFim.Equals(string.Empty)))
                     {
-                        filtroAutorizacao.Emissao = DateTime.Parse(dataIni);
-                        filtroAutorizacao.EmissaoFim = DateTime.Parse(dataFim);
+                        filtroAutorizacao.DataStatus = DateTime.Parse(dataIni);
+                        filtroAutorizacao.DataStatusFim = DateTime.Parse(dataFim);
                         mensagemPeriodo = "Durante o perído de  " + dataIni + " a " + dataFim + "";
                     }
-                } 
+                }
                 else
                 {
-                    filtroAutorizacao.Emissao = DateTime.Now.AddDays(-periodo).Date; 
-                    filtroAutorizacao.EmissaoFim = DateTime.Now;
+                    filtroAutorizacao.DataStatus = DateTime.Now.AddDays(-periodo).Date; 
+                    filtroAutorizacao.DataStatusFim = DateTime.Now;
                     if (periodo > 0)
                     {
                         mensagemPeriodo = "Durante o perído de  " + periodo.ToString() + " dias";
@@ -575,7 +575,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     {
                         mensagemPeriodo = "Hoje";
                     }
-                } 
+                }
 
                 filtroAutorizacao.Periodo = periodo;
                 filtroAutorizacao.CredencialStatusId = 2;

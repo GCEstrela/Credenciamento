@@ -670,7 +670,12 @@ namespace IMOD.Infra.Repositorios
                         {
                             cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Emissao", DbType.DateTime, entity.Emissao).MaiorIgual()));
                             cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmissaoFim", DbType.DateTime, entity.EmissaoFim).MenorIgual()));
-                        } 
+                        }
+                        if (entity.DataStatus != null || entity.DataStatusFim != null)
+                        {
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("DataStatus", DbType.DateTime, entity.DataStatus).MaiorIgual()));
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("DataStatusFim", DbType.DateTime, entity.DataStatusFim).MenorIgual()));
+                        }
                         if (entity.Impressa != null && entity.Impressa)
                         {
                             cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Impressa", DbType.Boolean, entity.Impressa).Igual()));

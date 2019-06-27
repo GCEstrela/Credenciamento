@@ -76,6 +76,7 @@ namespace IMOD.Domain.EntitiesCustom
         public DateTime? DataStatus { get; set; }
         public bool DevolucaoEntregaBo { get; set; }
         public bool Impeditivo { get; set; }
+        public DateTime? DataStatusFim { get; set; }
 
         #endregion
 
