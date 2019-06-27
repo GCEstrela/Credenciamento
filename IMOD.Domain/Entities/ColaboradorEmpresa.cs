@@ -29,6 +29,9 @@ namespace IMOD.Domain.Entities
         public bool ManuseioBagagem { get; set; }
         public bool OperadorPonteEmbarque { get; set; }
         public bool FlagCcam { get; set; }
+        public bool Motorista { get; set; }
+        public bool Auditado { get; set; }
+
 
         public override bool Equals(object obj)
         {
