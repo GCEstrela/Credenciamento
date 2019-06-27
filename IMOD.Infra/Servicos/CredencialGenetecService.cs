@@ -243,6 +243,7 @@ namespace IMOD.Infra.Servicos
             catch (Exception ex)
             {
                 Utils.TraceException(ex);
+                throw ex;
             }
         }
 
@@ -695,8 +696,9 @@ namespace IMOD.Infra.Servicos
             }
             catch (Exception ex)
             {
+                _sdk.TransactionManager.RollbackTransaction();
                 Utils.TraceException(ex);
-                throw;
+                throw ex;
             }
         }
         /// <summary>

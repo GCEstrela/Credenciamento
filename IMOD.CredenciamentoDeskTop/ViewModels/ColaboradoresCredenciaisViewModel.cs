@@ -229,6 +229,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             var n1 = _service.BuscarCredencialPelaChave(entity.ColaboradorCredencialId);
             if (n1 != null)
             {
+                HabilitaImpressao = n1.Ativa && !n1.PendenciaImpeditiva && !n1.Impressa && (entity.ColaboradorCredencialId > 0) && entity.Validade >= DateTime.Now.Date && (pendenciaImpeditivaEmpresa.Count <= 0) && (pendenciaImpeditivaColaborador.Count <= 0);
                 mensagem1 = !n1.Ativa ? "Credencial Inativa" : string.Empty;
                 //ContentImprimir = !n1.Ativa ? "Visualizar Credencial " : "Imprimir Credencial";
                 //mensagem2 = n1.PendenciaImpeditiva ? "Pendência Impeditiva (consultar dados da empresa na aba Geral)" : string.Empty;
@@ -756,6 +757,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
+                
                 if (Entity == null) return;     //IdentificacaoDescricao = null
                 System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
 
@@ -847,7 +849,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.IBeam;
                 Utils.TraceException(ex);
-                WpfHelp.PopupBox(ex);
+                throw ex;
             }
         }
 
@@ -979,7 +981,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
 
                 if (Entity == null) return;
-                if (!Entity.Ativa) throw new InvalidOperationException("Não é possível imprimir uma credencial não ativa.");
+                //if (!Entity.Ativa) throw new InvalidOperationException("Não é possível imprimir uma credencial não ativa.");
                 if (Entity.Validade == null) throw new InvalidOperationException("Não é possível imprimir uma credencial sem data de validade.");
 
                 var layoutCracha = _auxiliaresService.LayoutCrachaService.BuscarPelaChave(Entity.LayoutCrachaId);
@@ -1076,23 +1078,30 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         private void PrepareSalvar()
         {
-            verificarcredencialAtiva = false;
-            // 
-            if (Entity.NumeroColete == "" & HabilitaImpressao == true)
+            try
             {
-                if (ColeteEnabled) // Se o campo Nº do colete estiver IsEnabled=false a menssagem não será exibiba
+                verificarcredencialAtiva = false;
+                // 
+                if (Entity.NumeroColete == "" & HabilitaImpressao == true)
                 {
-                    var podeCobrarResult = WpfHelp.MboxDialogYesNo($"Nº do Colete esta em branco, Continua.", true);
-                    if (podeCobrarResult == System.Windows.Forms.DialogResult.No)
+                    if (ColeteEnabled) // Se o campo Nº do colete estiver IsEnabled=false a menssagem não será exibiba
                     {
-                        return;
+                        var podeCobrarResult = WpfHelp.MboxDialogYesNo($"Nº do Colete esta em branco, Continua.", true);
+                        if (podeCobrarResult == System.Windows.Forms.DialogResult.No)
+                        {
+                            return;
+                        }
                     }
+
                 }
 
+                if (Validar()) return;
+                Comportamento.PrepareSalvar();
             }
-
-            if (Validar()) return;
-            Comportamento.PrepareSalvar();
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex);
+            }
         }
 
         /// <summary>
