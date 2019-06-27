@@ -980,7 +980,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             try
             {
 
-                if (Entity == null) return;
+                //if (Entity == null) return;
+                if (Entity == null) throw new InvalidOperationException("Selecione uma credencial para impressão.");
                 //if (!Entity.Ativa) throw new InvalidOperationException("Não é possível imprimir uma credencial não ativa.");
                 if (Entity.Validade == null) throw new InvalidOperationException("Não é possível imprimir uma credencial sem data de validade.");
 
