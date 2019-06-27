@@ -1371,7 +1371,8 @@ namespace IMOD.CrossCutting
             }
             catch (Exception)
             {
-                throw new Exception("Data inválida");
+                return str;
+                //throw new Exception("Data inválida");
             }
         }
 

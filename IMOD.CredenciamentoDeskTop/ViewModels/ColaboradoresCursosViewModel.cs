@@ -71,7 +71,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         public ColaboradoresCursosViewModel()
         {
-            //ListarDadosAuxiliares();
+            ListarDadosAuxiliares();
             Comportamento = new ComportamentoBasico(false, true, false, false, false);
             EntityObserver = new ObservableCollection<ColaboradorCursoView>();
             Comportamento.SalvarAdicao += OnSalvarAdicao;
@@ -285,6 +285,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 WpfHelp.PopupBox("Selecione um item da lista", 1);
                 return;
             }
+            //if (Cursos != null)
+            //    Cursos.Clear();
+
+            //ListarDadosAuxiliares();
+            CollectionViewSource.GetDefaultView(Cursos).Refresh();
+
             Comportamento.PrepareAlterar();
             IsEnableLstView = false;
             _viewModelParent.HabilitaControleTabControls(false, false, false, true, false, false);
