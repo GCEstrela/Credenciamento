@@ -280,6 +280,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var termo = _relatorioGerencialServiceService.BuscarPelaChave(report);
                 if (termo == null || termo.ArquivoRpt == null || String.IsNullOrEmpty(termo.ArquivoRpt)) return;
                 var configSistema = objConfiguraSistema.BuscarPelaChave(1);
+                //lista de motivos de credenciais destruidas
                 List<int> statusList = new List<int>() { 6, 8, 15 };
 
                 switch (report)
@@ -531,6 +532,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 string mensagemComplemento = string.Empty;
                 string mensagemPeriodo = string.Empty;
                 string arquivoTermo = string.Empty;
+                
+                //lista de motivos de autorizações destruidas
+                List<int> statusList = new List<int>() { 6, 8, 15 };
+
 
                 mensagemComplemento = "AEROPORTO ";
                 
@@ -554,9 +559,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     case 18:
                         verbo = "destruiu";
                         filtroAutorizacao.Impeditivo = true;
-                        filtroAutorizacao.CredencialMotivoId = 6;
-                        filtroAutorizacao.CredencialMotivoId1 = 8;
-                        filtroAutorizacao.CredencialMotivoId2 = 15;
+                        //filtroAutorizacao.CredencialMotivoId = 6;
+                        //filtroAutorizacao.CredencialMotivoId1 = 8;
+                        //filtroAutorizacao.CredencialMotivoId2 = 15;
                         break;
                 }
 
@@ -591,6 +596,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 var result = objVeiculoCredencial.ListarVeiculoCredencialInvalidasView(filtroAutorizacao).Where(n => n.CredencialStatusId == 2);
                 var resultMapeado = Mapper.Map<List<Views.Model.RelVeiculosCredenciaisView>>(result.OrderByDescending(n => n.VeiculoCredencialId).ToList());
+                if (17.Equals(report))
+                {
+                    resultMapeado = resultMapeado.Where(r => statusList.Contains(r.CredencialMotivoId)).ToList();
+                }
+
 
                 byte[] arrayFile = Convert.FromBase64String(termo.ArquivoRpt);
                 var reportDoc = WpfHelp.ShowRelatorioCrystalReport(arrayFile, termo.Nome);
