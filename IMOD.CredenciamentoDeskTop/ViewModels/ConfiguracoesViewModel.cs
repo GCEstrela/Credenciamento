@@ -1105,12 +1105,15 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
+
                 //Atualiza arquivo Byte[] (.rpt)
                 LayoutCrachaSelecionado.LayoutRpt = LayoutCrachaTemp.LayoutRpt;
                 //LayoutCrachaSelecionado.TipoCracha = TipoLayoutCracha.
 
+                if (LayoutCrachaSelecionado.TipoCracha <= 0) return;
+
                 var entity = LayoutCrachaSelecionado;
-                var entityConv = Mapper.Map<LayoutCracha> (entity);
+                var entityConv = Mapper.Map<LayoutCracha> (entity); 
 
                 if (LayoutCrachaSelecionado.LayoutCrachaId != 0)
                 {
