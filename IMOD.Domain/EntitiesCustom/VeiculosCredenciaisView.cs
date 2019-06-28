@@ -66,8 +66,8 @@ namespace IMOD.Domain.EntitiesCustom
         public bool PendenciaImpeditiva { get; set; }
 
         public DateTime? DataStatus { get; set; } 
-        public bool DevolucaoEntregaBo { get; set; } 
-
+        public bool DevolucaoEntregaBo { get; set; }
+        public string Email { get; set; }
 
 
     }

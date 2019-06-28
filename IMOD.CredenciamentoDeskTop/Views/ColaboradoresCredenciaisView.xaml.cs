@@ -103,9 +103,26 @@ namespace IMOD.CredenciamentoDeskTop.Views
             {
                 var str = txtDtValidade.Text;
                 if (string.IsNullOrWhiteSpace(str)) return;
-                txtDtValidade.Text = str.FormatarData(); 
+                txtDtValidade.Text = str.FormatarData();
+
+                DateTime dataEncontrada;
+                TimeSpan diferenca = Convert.ToDateTime(txtDtValidade.Text) - DateTime.Now.Date;
+                int credencialDias = int.Parse(diferenca.Days.ToString());
+                if (credencialDias > 730)
+                {
+                    dataEncontrada = DateTime.Now.AddDays(730);
+                    str = dataEncontrada.ToString();
+                    txtDtValidade.Text = str;
+                }
+                else
+                {
+                    txtDtValidade.Text = str.FormatarData(); ;
+                }
+                
+
+
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 _viewModel.Entity.SetMessageErro("Validade", "Data inválida");
             }

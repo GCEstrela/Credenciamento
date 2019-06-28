@@ -423,9 +423,30 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             DateTime dataEncontrada;
             TimeSpan diferenca = Convert.ToDateTime(data) - DateTime.Now.Date;
             int credencialDias = int.Parse(diferenca.Days.ToString());
+            if (credencialDias > 730)
+            {
+                if (Entity.Emissao == null)
+                {
+                    dataEncontrada = DateTime.Now.AddDays(730);
+                }
+                else
+                {
+                    DateTime dataEmissao = (DateTime)Entity.Emissao;
+                    dataEncontrada = dataEmissao.AddDays(730);
+                }
+                if (Entity.Validade > dataEncontrada)
+                    Entity.Validade = dataEncontrada;
 
-            Entity.Validade = credencialDias > (Constantes.Constantes.diasPorAno * 2) ? DateTime.Now.Date.AddDays((Constantes.Constantes.diasPorAno * 2)) : data;
-            OnPropertyChanged("Entity");
+                Entity.Validade = dataEncontrada;
+                OnPropertyChanged("Entity");
+            }
+            else
+            {
+                //Comentado por Renato Maximo em 28-06-2019
+                Entity.Validade = credencialDias > (Constantes.Constantes.diasPorAno * 2) ? DateTime.Now.Date.AddDays((Constantes.Constantes.diasPorAno * 2)) : data;
+                OnPropertyChanged("Entity");
+            }
+
 
         }
         public void ObterValidadeAlteracao()
@@ -614,6 +635,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 if (Entity == null) return;
                 System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
+                //Alterado por Máximo em 28-06-2019
+                //ObterValidade();
+
                 var n1 = Mapper.Map<ColaboradorCredencial>(Entity);
                 n1.CredencialMotivoId = Entity.CredencialMotivoId;
                 n1.CredencialStatusId = Entity.CredencialStatusId;
@@ -772,8 +796,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 
                 if (Entity == null) return;     //IdentificacaoDescricao = null
                 System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
-
-                ObterValidadeAlteracao();
+                //Alterado por Maximo em 28/06/2019
+                //ObterValidadeAlteracao();
 
                 var n1 = Mapper.Map<ColaboradorCredencial>(Entity);
                 n1.ColaboradorPrivilegio1Id = Entity.ColaboradorPrivilegio1Id;
@@ -800,8 +824,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 {
                     if (n1.Validade < DateTime.Now)
                     {
-                        WpfHelp.Mbox("Data de Validate não pode ser inferior à data do dia.", MessageBoxIcon.Information);
-                        return;
+                        //WpfHelp.Mbox("Data de Validate não pode ser inferior à data do dia.", MessageBoxIcon.Information);
+                        //return;
                     }
                 }
 
@@ -827,6 +851,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     var entity = _service.BuscarCredencialPelaChave(n1.ColaboradorCredencialId);
                     n1.CardHolderGuid = entity.CardHolderGuid;
                     n1.CredencialGuid = entity.CredencialGuid;
+
                     //n1 = _service.BuscarCredencialPelaChave(n1.ColaboradorCredencialId);
                     _service.AlterarStatusTitularCartao(new CredencialGenetecService(Main.Engine), Entity, n1);
 
@@ -834,7 +859,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     #endregion
                 }
                 else
-                {
+                {                    
                     _service.Alterar(n1);
                 }
                 //}

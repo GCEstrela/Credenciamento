@@ -196,13 +196,16 @@
                                     Width="977">
                             <Label Content="Emissão:" Height="28" Width="55" Margin="1" Foreground="#FFD0D0D0" />
                             <TextBlock Text="{Binding Entity.Emissao,UpdateSourceTrigger=PropertyChanged, StringFormat=\{0:d\}}"  VerticalAlignment="Center" Width="70" />
-                            <Label Content="Validade:" Height="28" Width="56" Margin="1"   Foreground="#FFD0D0D0"  RenderTransformOrigin="0.553,0.5"/>
+                            <Label Content="Validade:" Height="28" Width="56" Margin="1"   
+                                   ToolTip="Validade Permanente não pode ser superior a 2 anos, Temporária no máxio 90 dias"
+                                   Foreground="#FFD0D0D0"  RenderTransformOrigin="0.553,0.5"/>
 
                             <TextBox Text="{Binding Entity.Validade,UpdateSourceTrigger=PropertyChanged,StringFormat='{}{0:dd/MM/yyyy}'}"
                                      LostFocus="OnFormatData_LostFocus"                                      
                                      PreviewTextInput="NumberOnly"
                                      IsEnabled="{Binding Habilitar}"
                                      Height="24" Width="85" 
+                                     ToolTip="Validade Permanente não pode ser superior a 2 anos, Temporária no máxio 90 dias"
                                      Name="txtDtValidade"></TextBox>
                             <Label Content="Baixa:" Height="28" Width="53" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
                             <TextBlock Text="{Binding Entity.Baixa,UpdateSourceTrigger=PropertyChanged, StringFormat=\{0:d\}}"  VerticalAlignment="Center" Width="70"  />
