@@ -192,7 +192,7 @@ namespace Meu_Servico.Service
             {
                 ////_serviceGenetec.DisparaAlarme("teste", 8);
                 CriarLog("serviço rodando:" + DateTime.Now);
-                string messa;
+                string messa = String.Empty;
                 var colaboradorContratos = _serviceColaborador.Listar(null, null, null, null, null, null, true).ToList();
                 colaboradorContratos.ForEach(ec =>
                 {
