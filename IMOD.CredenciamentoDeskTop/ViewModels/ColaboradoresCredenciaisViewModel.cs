@@ -81,6 +81,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         ///     Habilitar Controles
         /// </summary>
         public bool Habilitar { get; set; }
+        /// <summary>
+        /// Permite criar uma credencial, se não existir.
+        /// </summary>
+        public bool HabilitarOpcoesCredencial { get; set; }
         public string ExcluirVisivel { get; set; }
         public Boolean ColeteEnabled { get; set; }
         public CredencialStatus StatusCredencial { get; set; }
@@ -158,7 +162,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
 
 
-
+            HabilitarOpcoesCredencial = true;
             ItensDePesquisaConfigura();
             ListarDadosAuxiliares();
             Comportamento = new ComportamentoBasico(false, true, false, false, false);
@@ -180,8 +184,14 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             if (entity.ColaboradorCredencialId <= 0) return;
 
             Entity.NumeroColete = Entity.Colete.Length > 3 && !String.IsNullOrEmpty(Entity.Colete) ? Entity.Colete.Substring(3) : String.Empty;
-
-
+            //Habilita a possibilidade de gerar uma nova ou alterar credencial
+            HabilitarOpcoesCredencial = true;
+            if (Entity.CredencialGuid != null)
+            {
+                HabilitarOpcoesCredencial = false;
+                Habilitar = false;
+            }
+            //////////////////////////////////////////////////////////////////
             #region Habilitar botão de impressao e mensagem ao usuario
             bool impeditivaEmpresa = false;
             string mensagemPendencias = "";
@@ -586,6 +596,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private void PrepareRemover()
         {
+            HabilitarOpcoesCredencial = true;
             verificarcredencialAtiva = false;
             _prepareCriarCommandAcionado = false;
             _prepareAlterarCommandAcionado = false;
@@ -706,6 +717,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
+                HabilitarOpcoesCredencial = true;
                 verificarcredencialAtiva = true;
                 Entity = new ColaboradoresCredenciaisView();
 
@@ -980,7 +992,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             try
             {
 
-                if (Entity == null) return;
+                //if (Entity == null) return;
+                if (Entity == null) throw new InvalidOperationException("Selecione uma credencial para impressão.");
                 //if (!Entity.Ativa) throw new InvalidOperationException("Não é possível imprimir uma credencial não ativa.");
                 if (Entity.Validade == null) throw new InvalidOperationException("Não é possível imprimir uma credencial sem data de validade.");
 
@@ -1072,7 +1085,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             IsEnableLstView = false;
 
             //Habilitar controles somente se a credencial não estiver sido impressa
-            Habilitar = !Entity.Impressa;
+            if(Entity.CardHolderGuid==null)
+                Habilitar = !Entity.Impressa;
+
             _viewModelParent.HabilitaControleTabControls(false, false, false, false, false, true);
         }
 

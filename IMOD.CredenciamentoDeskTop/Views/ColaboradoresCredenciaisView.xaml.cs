@@ -186,7 +186,16 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             if (TecnologiaCredencial_cb.SelectedItem != null)
             {
-                FormatoCredencial_cb.IsEnabled = (!((IMOD.Domain.Entities.TecnologiaCredencial)TecnologiaCredencial_cb.SelectedItem).Descricao.Equals("N/D"));
+                if (_viewModel.HabilitarOpcoesCredencial)
+                {
+                    FormatoCredencial_cb.IsEnabled = (!((IMOD.Domain.Entities.TecnologiaCredencial)TecnologiaCredencial_cb.SelectedItem).Descricao.Equals("N/D"));
+                }
+                else
+                {
+                    FormatoCredencial_cb.IsEnabled = false;
+                }
+                    
+
                 if (((IMOD.Domain.Entities.TecnologiaCredencial)TecnologiaCredencial_cb.SelectedItem).Descricao.Equals("N/D"))
                 {
                     FormatoCredencial_cb.SelectedIndex = 0;

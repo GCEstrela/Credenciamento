@@ -55,7 +55,7 @@
                                    DisplayMemberPath="Descricao"  
                                    SelectedValue="{Binding Entity.CursoId, UpdateSourceTrigger=PropertyChanged}" 
                                    SelectedValuePath="CursoId"
-                                   Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
+                                   />
                         <Label Content="Data de Validade:" Height="24" Width="110" Foreground="#FFD0D0D0" Margin="0,7" HorizontalContentAlignment="Right" HorizontalAlignment="Left" />
                         <!--<DatePicker x:Name="DataValidade_dp" 
                                     IsEnabled="{Binding Comportamento.isEnableCancelar}"
@@ -68,8 +68,7 @@
                             Text="{Binding Entity.Validade, StringFormat='{}{0:dd/MM/yyyy}'}"
                             LostFocus="OnFormatDate_LostFocus" 
                             PreviewTextInput="NumberOnly"
-                            MaxLength="10"
-                            Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
+                            MaxLength="10"                            
                             Height="24"  Width="114" />
                     </StackPanel>
 

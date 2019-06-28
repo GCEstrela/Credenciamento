@@ -243,7 +243,7 @@ namespace IMOD.Infra.Servicos
             catch (Exception ex)
             {
                 Utils.TraceException(ex);
-                throw ex;
+                //throw ex;
             }
         }
 

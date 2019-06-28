@@ -87,7 +87,7 @@
                         <TextBox  x:Name="Cargo_tb" MaxLength="30" CharacterCasing="Upper" VerticalContentAlignment="Center" 
                                   Text="{Binding Entity.Cargo, UpdateSourceTrigger=PropertyChanged}" 
                                   IsEnabled="{Binding Comportamento.isEnableCancelar}"
-                                  Height="24"  MaxWidth="200"  HorizontalAlignment="Left" Width="150"/>
+                                  Height="24"  MaxWidth="150"  HorizontalAlignment="Left" Width="150"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" 
                                 IsEnabled="{Binding Comportamento.isEnableCancelar}"
@@ -97,7 +97,13 @@
                                   IsEnabled="{Binding Comportamento.isEnableCancelar}"
                                   IsChecked="{Binding Entity.Ativo, UpdateSourceTrigger=PropertyChanged}"/>
 
-                        <Label Content="Data de Validade:" Height="24" Width="159" Margin="15,3,0,0"
+                        <Label Content="Autorização Dirigir:" Height="24" Width="143" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
+                        <CheckBox VerticalAlignment="Center" x:Name="chkMotorista"  Foreground="#FFD0D0D0" 
+                                  IsEnabled="{Binding Comportamento.isEnableCancelar}"
+                                  IsChecked="{Binding Entity.Motorista, UpdateSourceTrigger=PropertyChanged}"/>
+                        <Label Content=" Manuseio de Bagagem:" Height="26" Width="145"  VerticalAlignment="Center" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
+                        <CheckBox VerticalAlignment="Center" x:Name="chkManuseioBagagem"  Foreground="#FFD0D0D0" IsChecked="{Binding Entity.ManuseioBagagem, UpdateSourceTrigger=PropertyChanged}"/>
+                        <Label Content="Data de Validade:" Height="24" Width="155" Margin="5,3,0,0"
                                Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
                         <TextBox
                             Name="txtDtValidade"
@@ -106,10 +112,7 @@
                             PreviewTextInput="NumberOnly"
                             MaxLength="10"
                             Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
-                            Height="24"  Width="110" />
-                        
-                        <Label Content=" Manuseio de Bagagem:" Height="26" Width="145"  VerticalAlignment="Center" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
-                        <CheckBox VerticalAlignment="Center" x:Name="chkManuseioBagagem"  Foreground="#FFD0D0D0" IsChecked="{Binding Entity.ManuseioBagagem, UpdateSourceTrigger=PropertyChanged}"/>
+                            Height="24"  Width="100" />
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
@@ -117,8 +120,10 @@
                                 Height="28" >
                         <Label Content=" CCAM:" Height="26" Width="145"  VerticalAlignment="Center" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                         <CheckBox VerticalAlignment="Center" x:Name="chkCcam"  Foreground="#FFD0D0D0" IsChecked="{Binding Entity.FlagCcam, UpdateSourceTrigger=PropertyChanged}"/>
-                        <Label Content="Operador Ponte:" Height="26" Width="145"  VerticalAlignment="Center" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
+                        <Label Content="Operador Ponte:" Height="26" Width="142"  VerticalAlignment="Center" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" Margin="0,1" />
                         <CheckBox VerticalAlignment="Center" x:Name="chkOperadorPonte"  Foreground="#FFD0D0D0" IsChecked="{Binding Entity.OperadorPonteEmbarque, UpdateSourceTrigger=PropertyChanged}"/>
+                        <Label Content="Pode ser Auditado:" Height="26" Width="145"  VerticalAlignment="Center" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
+                        <CheckBox VerticalAlignment="Center" x:Name="chkAuditado"  Foreground="#FFD0D0D0" IsChecked="{Binding Entity.FlagAuditoria, UpdateSourceTrigger=PropertyChanged}"/>
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"

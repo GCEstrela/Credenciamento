@@ -129,10 +129,13 @@
                             Height="24"  Width="80" />
                         
                         <Label Content="Vence em:" Height="26" Width="64" Margin="7,0,0,0"
-                               Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
+                               Foreground="#FFD0D0D0" 
+                               Visibility="Collapsed"
+                               HorizontalContentAlignment="Right"/>
                         <TextBox 
                             Name="txtDias"
                             IsEnabled="False"
+                             Visibility="Collapsed"
                             Text="{Binding Entity.PraVencer, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
                             LostFocus="OnFormatData_LostFocus"
                             PreviewTextInput="NumberOnly"
