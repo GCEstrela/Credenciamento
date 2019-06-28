@@ -674,7 +674,8 @@ namespace IMOD.Infra.Servicos
                 //    credencial.BadgeTemplate = new Guid (entity.IdentificadorLayoutCrachaGuid);
 
                 //Obter Formatacao da Credencial
-                SetValorFormatoCredencial(entity, credencial);
+                if(entity.IdentificadorCredencialGuid==null)
+                    SetValorFormatoCredencial(entity, credencial);
 
                 if (credencial.Format == null) throw new InvalidOperationException("Não foi possível criar credencial.");
                 credencial.InsertIntoPartition(Partition.DefaultPartitionGuid);
