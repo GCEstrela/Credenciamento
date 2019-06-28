@@ -18,6 +18,7 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public string Identificacao2 { get; set; }
         public string Categoria { get; set; }
         public string Frota { get; set; }
+        public string Lacre { get; set; }
 
         #endregion
 

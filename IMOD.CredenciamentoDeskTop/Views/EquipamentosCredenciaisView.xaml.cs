@@ -61,6 +61,13 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
             btnImprimirCredencial.IsEnabled = _viewModel.HabilitaImpressao;
 
+            if (cmbCredencialStatus.SelectedItem != null &&
+            (((CredencialStatus)cmbCredencialStatus.SelectedItem).CredencialStatusId == 1))
+            {
+                chkDevolucaoMotivo.IsChecked = false;
+                chkDevolucaoMotivo.Content = String.Empty;
+                chkDevolucaoMotivo.Visibility = Visibility.Hidden;
+            }
         }
 
 

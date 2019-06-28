@@ -38,7 +38,8 @@ namespace IMOD.Domain.EntitiesCustom
         public string Cnh { get; set; }
         public bool Ativa { get; set; } 
         public bool OperadorPonteEmbarque { get; set; } 
-        public bool FlagCcam { get; set; } 
+        public bool FlagCcam { get; set; }
+        public bool FlagAuditoria { get; set; }
 
     }
 }

@@ -1040,7 +1040,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 {
                     if (_cursosCracha == "")
                     {
-                        _cursosCracha = !String.IsNullOrEmpty(element.Descricao) ? "-" + element.Descricao?.ToString() : "";
+                        _cursosCracha = !String.IsNullOrEmpty(element.Descricao) ? " - " + element.Descricao?.ToString() : "";
                     }
                     else
                     {

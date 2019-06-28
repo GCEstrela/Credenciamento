@@ -82,6 +82,8 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Pendente33", entity.Pendente33, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Pendente34", entity.Pendente34, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Precadastro", entity.Precadastro, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Categoria", entity.Categoria, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Lacre", entity.Lacre, false)));
 
                         var key = Convert.ToInt32(cmd.ExecuteScalar());
 
@@ -206,6 +208,8 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Pendente33", entity.Pendente33, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Pendente34", entity.Pendente34, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Precadastro", entity.Precadastro, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Categoria", entity.Categoria, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Lacre", entity.Lacre, false)));
 
                         cmd.ExecuteNonQuery();
                     }

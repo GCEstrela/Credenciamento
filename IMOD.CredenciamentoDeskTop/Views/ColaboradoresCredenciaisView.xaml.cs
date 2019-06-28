@@ -153,6 +153,14 @@ namespace IMOD.CredenciamentoDeskTop.Views
             {
                 _viewModel.CarregarVinculosAtivosOutrasCredenciais(_viewModel.ColaboradorEmpresa.ColaboradorId, _viewModel.ColaboradorEmpresa.EmpresaId);
             }
+
+            if (cmbCredencialStatus.SelectedItem != null &&
+                        (((CredencialStatus)cmbCredencialStatus.SelectedItem).CredencialStatusId == 1))
+            {
+                chkDevolucaoMotivo.IsChecked = false;
+                chkDevolucaoMotivo.Content = String.Empty;
+                chkDevolucaoMotivo.Visibility = Visibility.Hidden;
+            }
         }
 
         private void CmbMotivacao_SelectionChanged(object sender, SelectionChangedEventArgs e)

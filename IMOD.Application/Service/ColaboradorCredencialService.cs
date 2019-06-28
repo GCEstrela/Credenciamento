@@ -155,7 +155,7 @@ namespace IMOD.Application.Service
                //Criar um pendenci impeditiva ao constatar o motivo da credencial
                var pendImp = CredencialMotivo.BuscarPelaChave (entity.CredencialMotivoId);
             if (pendImp == null) throw new InvalidOperationException ("Não foi possível obter a entidade credencial motivo");
-            var impeditivo = pendImp.Impeditivo & entity.DevolucaoEntregaBo;
+            var impeditivo = pendImp.Impeditivo & !entity.DevolucaoEntregaBo;
             if (!impeditivo) return;
             //Criar uma pendencia impeditiva,caso sua natureza seja impeditiva
 
