@@ -20,6 +20,7 @@ using System.Collections;
 using IMOD.Domain.Entities;
 using Genetec.Sdk.Entities;
 using System.Windows.Forms;
+using System.Configuration;
 
 namespace Meu_Servico.Service
 {
@@ -98,26 +99,33 @@ namespace Meu_Servico.Service
             //_logando = true;
             try
             {
+
+                string strintsql = ConfigurationManager.AppSettings["Conexao"].ToString();
+                string certificado = ConfigurationManager.AppSettings["Certificado"].ToString();
+                string diretorio = ConfigurationManager.AppSettings["Diretorio"];
+                string usuariosc = ConfigurationManager.AppSettings["UsuarioSC"];
+                string senhasc = ConfigurationManager.AppSettings["SenhaSC"];
+
                 //_sdk.ClientCertificate = "y+BiIiYO5VxBax6/HNi7/ZcXWuvlnEemfaMhoQS1RMkfOGvEBWdUV7zQN272yHVG"
-                _sdk.ClientCertificate = "KxsD11z743Hf5Gq9mv3+5ekxzemlCiUXkTFY5ba1NOGcLCmGstt2n0zYE9NsNimv";
+                _sdk.ClientCertificate = certificado;   // "KxsD11z743Hf5Gq9mv3+5ekxzemlCiUXkTFY5ba1NOGcLCmGstt2n0zYE9NsNimv";
                 if (_sdk.IsConnected)
                 {
                     _sdk.LogOff();
                     Thread.Sleep(500);
                     if (!_sdk.IsConnected)
                     {
-                        _sdk.LogOn("172.16.190.108", "Admin", "");
+                        _sdk.LogOn(diretorio, usuariosc, senhasc);
                     }
                 }
                 else
                 {
                     _sdk.LogOff();
                     Thread.Sleep(500);
-                    _sdk.LogOn("172.16.190.108", "Admin", "");
+                    _sdk.LogOn(diretorio, usuariosc, senhasc);
 
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
             }
@@ -190,271 +198,305 @@ namespace Meu_Servico.Service
         {
             try
             {
+                Cursor.Current = Cursors.WaitCursor;
                 ////_serviceGenetec.DisparaAlarme("teste", 8);
                 CriarLog("serviço rodando:" + DateTime.Now);
-                string messa = String.Empty;
-                var colaboradorContratos = _serviceColaborador.Listar(null, null, null, null, null, null, true).ToList();
-                colaboradorContratos.ForEach(ec =>
+                try
                 {
-                    var empresasEmail = _serviceEmpresa.Listar(null, null, null, null, null, null, ec.ColaboradorEmpresaId).FirstOrDefault();
-                    DateTime validadeCredencial = (DateTime)ec.Validade;
-                    //string texto = ((ec.Validade < DateTime.Now) ? " - Vencido em : " : " - Válido até : ") + ec.Validade;
-                    //CriarLog(string.Format("Contrato: {0}", texto));
-                    int dias = validadeCredencial.Subtract(DateTime.Now.Date).Days;
-                    switch (dias)
+                    var colaboradorContratos = _serviceColaborador.Listar(null, null, null, null, null, null, true).ToList();
+                    colaboradorContratos.ForEach(ec =>
                     {
-                        case diasAlerta:
-                            messa = "A credencial do colaborador.: " + ec.ColaboradorNome + " vencendo hoje";
-                            //_serviceGenetec.DisparaAlarme(messa, 8);
-
-                            break;
-
-                        case diasAlerta1:
-                            messa = "A credencial do colaborador.: " + ec.ColaboradorNome + " vencerá em " + diasAlerta1 + " dias.";
-                            //_serviceGenetec.DisparaAlarme(messa, 8);
-
-                            break;
-
-                        case diasAlerta2:
-                            messa = "A credencial do colaborador.: " + ec.ColaboradorNome + " vencerá em " + diasAlerta2 + " dias.";
-                            //_serviceGenetec.DisparaAlarme(messa, 8);
-
-                            break;
-
-                        case diasAlerta3:
-                            messa = "A credencial do colaborador.: " + ec.ColaboradorNome + " vencerá em " + diasAlerta3 + " dias.";
-                            //_serviceGenetec.DisparaAlarme(messa, 8);
-
-                            break;
-
-                        default:
-                            break;
-                    }
-
-                    _configuraSistema = ObterConfiguracao();
-                    if (_configuraSistema.Email != null)
-                    {
-                        if (empresasEmail.Email1 != null)
-                            sendMessage(messa, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), empresasEmail.Email1.Trim());
-                    }
-
-                    if (ec.Validade < DateTime.Now)
-                    {
-                        ec.Ativa = false;
-                        ec.CredencialStatusId = (int)StatusCredencial.INATIVA;
-                        ec.CredencialMotivoId = (int)Inativo.EXPIRADA;
-                        ec.CredencialStatusId = 2;
-                        _serviceColaborador.Alterar(ec);
-                        if (!string.IsNullOrEmpty(ec.CredencialGuid))
-                        {
-                            CardHolderEntity entity = new CardHolderEntity();
-                            entity.IdentificadorCardHolderGuid = ec.CardHolderGuid;
-                            entity.IdentificadorCredencialGuid = ec.CredencialGuid;
-                            entity.Nome = ec.ColaboradorNome;
-
-
-                            ////O _SDK está vindo nulo
-                            _serviceGenetec.AlterarStatusCredencial(entity);
-
-                        }
-
-                        //var n1 = _serviceColaborador.BuscarCredencialPelaChave(ec.ColaboradorCredencialId);
-                        //_serviceColaborador.RemoverRegrasCardHolder(new CredencialGenetecService(m_sdk), new ColaboradorService(), n1);
-
-                    }
-
-                    string texto = "Impressa.:" + ec.Impressa + " Status.: " + ec.Ativa + " " + ec.ColaboradorNome + ((ec.Validade < DateTime.Now) ? " Vencido em : " : " Válido até : ") + ec.Validade;
-                    CriarLog(string.Format("Contrato: {0}", texto));
-                }
-                );
-
-                
-                var veiculoContratos = _serviceVeiculo.Listar(null, null, null, null, null, true).ToList();
-                veiculoContratos.ForEach(ev =>
-                {
-                    string messaveiculo ="";
-                    var empresasEmail = _serviceEmpresa.Listar(null, null, null, null, null, null,ev.VeiculoEmpresaId).FirstOrDefault();
-                    DateTime validadeCredencial = (DateTime)ev.Validade;
-                    int dias = validadeCredencial.Subtract(DateTime.Now.Date).Days;
-                    switch (dias)
-                    {
-                        case diasAlerta:
-                            messaveiculo = "A ATIV do veiculo.: " + ev.IdentificacaoDescricao + " vencendo hoje";
-                            
-                            break;
-
-                        case diasAlerta1:
-                            messaveiculo = "A ATIV do veiculo.: " + ev.IdentificacaoDescricao + " vencerá em " + diasAlerta1 + " dias.";
-                            //_serviceGenetec.DisparaAlarme(messa, 8);
-
-                            break;
-
-                        case diasAlerta2:
-                            messaveiculo = "A ATIV do veiculo.: " + ev.IdentificacaoDescricao + " vencerá em " + diasAlerta2 + " dias.";
-                            //_serviceGenetec.DisparaAlarme(messa, 8);
-
-                            break;
-
-                        case diasAlerta3:
-                            messaveiculo = "A ATIV do veiculo.: " + ev.IdentificacaoDescricao + " vencerá em " + diasAlerta3 + " dias.";
-                            //_serviceGenetec.DisparaAlarme(messa, 8);
-                            
-                            break;
-
-                        default:
-                            break;
-                    }
-
-                    _configuraSistema = ObterConfiguracao();
-                    if (_configuraSistema.Email != null)
-                    {
-                        if (empresasEmail.Email1 != null)
-                            sendMessage(messaveiculo, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), empresasEmail.Email1.Trim());
-                    }
-
-                    if (ev.Validade < DateTime.Now)
-                    {
-                        ev.Ativa = false;
-                        ev.CredencialStatusId = (int)StatusCredencial.INATIVA;
-                        ev.CredencialMotivoId = (int)Inativo.EXPIRADA;
-                        ev.CredencialStatusId = 2;
-                        _serviceVeiculo.Alterar(ev);
-                        if (!string.IsNullOrEmpty(ev.CredencialGuid))
-                        {
-                            //CardHolderEntity entity = new CardHolderEntity();
-                            //entity.IdentificadorCardHolderGuid = ev.CardHolderGuid;
-                            //entity.IdentificadorCredencialGuid = ev.CredencialGuid;
-                            //entity.Nome = ev.IdentificacaoDescricao;
-                            //////O _SDK está vindo nulo
-                            //_serviceGenetec.AlterarStatusCredencial(entity);
-
-                        }
-
-                        //var n1 = _serviceColaborador.BuscarCredencialPelaChave(ec.ColaboradorCredencialId);
-                        //_serviceColaborador.RemoverRegrasCardHolder(new CredencialGenetecService(m_sdk), new ColaboradorService(), n1);
-
-                    }
-
-                    string texto = "Impressa.:" + ev.Impressa + " Status.: " + ev.Ativa + " " + ev.IdentificacaoDescricao + ((ev.Validade < DateTime.Now) ? " Vencido em : " : " Válido até : ") + ev.Validade;
-                    CriarLog(string.Format("Contrato: {0}", texto));
-                }
-                );
-
-                Cursor.Current = Cursors.WaitCursor;
-                //Hashtable empresaContrato = new Hashtable();
-                Hashtable empresaContratoEmail = new Hashtable();
-                string nomeEmpresa = "";
-                string emailEmpresa = "";
-
-                var empresas = _serviceEmpresa.Listar().OrderByDescending(ec => ec.EmpresaId).ToList();
-                empresas.ForEach(e =>
-                {
-                    emailEmpresa = null;
-                    if (empresas[0].Email1 != null)
-                        emailEmpresa = empresas[0].Email1.ToString();
-
-                    nomeEmpresa = empresas[0].Nome.ToString();
-
-                    List<MeuValor> listEmpresasContrato = new List<MeuValor>();
-                    var empresaContratosAtivo = _serviceContrato.Listar().Where(ec => ec.StatusId == 0 && ec.EmpresaId == e.EmpresaId).ToList();
-                    empresaContratosAtivo.ForEach(ec =>
-                    {
-                        int dias = ec.Validade.Subtract(DateTime.Now.Date).Days;
+                        string messa = "";
+                        var empresasEmail = _serviceEmpresa.Listar(null, null, null, null, null, null, ec.ColaboradorEmpresaId).FirstOrDefault();
+                        DateTime validadeCredencial = (DateTime)ec.Validade;
+                        //string texto = ((ec.Validade < DateTime.Now) ? " - Vencido em : " : " - Válido até : ") + ec.Validade;
+                        //CriarLog(string.Format("Contrato: {0}", texto));
+                        int dias = validadeCredencial.Subtract(DateTime.Now.Date).Days;
                         switch (dias)
                         {
                             case diasAlerta:
-                                //var colaboradorContrao = _serviceColaborador.Listar(null, null, null, null, null, null, null, ec.NumeroContrato).ToList();
-                                //colaboradorContrao.ForEach(cd =>
-                                //{
-                                //    cd.Ativa = false;
-                                //    _serviceColaborador.Alterar(cd);
-                                //}
-                                //);
-                                break;
-                            case diasAlerta0:
-                                AlterarDados(ec.EmpresaId, ec.EmpresaContratoId, diasAlerta0);
+                                messa = "A credencial do colaborador.: " + ec.ColaboradorNome + " vencendo hoje";
+                                //_serviceGenetec.DisparaAlarme(messa, 8);
 
-                                _configuraSistema = ObterConfiguracao();
-                                if (_configuraSistema.Email != null)
-                                {
-                                    if (emailEmpresa != null)
-                                    {
-                                        var messa1 = new MeuValor() { Valor1 = "O Contrato Nº.: " + ec.NumeroContrato + " da empresa " + nomeEmpresa, Valor2 = emailEmpresa };
-                                        listEmpresasContrato.Add(messa1);
-                                    }
-                                }
-                                ////_serviceGenetec.GerarEvento(messa,8);
-                                ////_serviceGenetec.GerarEvento("8000",null,messa);
                                 break;
+
                             case diasAlerta1:
-                                AlterarDados(ec.EmpresaId, ec.EmpresaContratoId, diasAlerta1);
+                                messa = "A credencial do colaborador.: " + ec.ColaboradorNome + " vencerá em " + diasAlerta1 + " dias.";
+                                //_serviceGenetec.DisparaAlarme(messa, 8);
 
-                                _configuraSistema = ObterConfiguracao();
-                                if (_configuraSistema.Email != null)
-                                {
-                                    if (emailEmpresa != null)
-                                    {
-                                        var messa1 = new MeuValor() { Valor1 = "O Contrato Nº.: " + ec.NumeroContrato + " da empresa " + nomeEmpresa, Valor2 = emailEmpresa };
-                                        listEmpresasContrato.Add(messa1);
-                                    }
-                                }
-                                ////_serviceGenetec.GerarEvento(messa,8);
-                                ////_serviceGenetec.GerarEvento("8000",null,messa);
                                 break;
+
                             case diasAlerta2:
-                                AlterarDados(ec.EmpresaId, ec.EmpresaContratoId, diasAlerta2);
+                                messa = "A credencial do colaborador.: " + ec.ColaboradorNome + " vencerá em " + diasAlerta2 + " dias.";
+                                //_serviceGenetec.DisparaAlarme(messa, 8);
 
-                                _configuraSistema = ObterConfiguracao();
-                                if (_configuraSistema.Email != null)
-                                {
-                                    if (emailEmpresa != null)
-                                    {
-                                        var messa1 = new MeuValor() { Valor1 = "O Contrato Nº.: " + ec.NumeroContrato + " da empresa " + nomeEmpresa, Valor2 = emailEmpresa };
-                                        listEmpresasContrato.Add(messa1);
-                                    }
-                                }
-                                ////_serviceGenetec.GerarEvento(messa,8);
-                                ////_serviceGenetec.GerarEvento("8000",null,messa);
                                 break;
+
                             case diasAlerta3:
-                                AlterarDados(ec.EmpresaId, ec.EmpresaContratoId, diasAlerta3);
+                                messa = "A credencial do colaborador.: " + ec.ColaboradorNome + " vencerá em " + diasAlerta3 + " dias.";
+                                //_serviceGenetec.DisparaAlarme(messa, 8);
 
-                                _configuraSistema = ObterConfiguracao();
-                                if (_configuraSistema.Email != null)
-                                {
-                                    if (emailEmpresa != null)
-                                    {
-                                        var messa1 = new MeuValor() { Valor1 = "O Contrato Nº.: " + ec.NumeroContrato + " da empresa " + nomeEmpresa, Valor2 = emailEmpresa };
-                                        listEmpresasContrato.Add(messa1);
-                                    }
-                                }
-                                ////_serviceGenetec.GerarEvento(messa,8);
-                                ////_serviceGenetec.GerarEvento("8000",null,messa);
                                 break;
+
                             default:
                                 break;
                         }
+
+                        _configuraSistema = ObterConfiguracao();
+                        if (_configuraSistema.Email != null)
+                        {
+                            if (empresasEmail != null && empresasEmail.Email1 !=null)
+                                sendMessage(messa, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), empresasEmail.Email1.Trim());
+                        }
+
+                        if (ec.Validade < DateTime.Now)
+                        {
+                            ec.Ativa = false;
+                            ec.CredencialStatusId = (int)StatusCredencial.INATIVA;
+                            ec.CredencialMotivoId = (int)Inativo.EXPIRADA;
+                            ec.CredencialStatusId = 2;
+                            _serviceColaborador.Alterar(ec);
+                            if (!string.IsNullOrEmpty(ec.CredencialGuid))
+                            {
+                                CardHolderEntity entity = new CardHolderEntity();
+                                entity.IdentificadorCardHolderGuid = ec.CardHolderGuid;
+                                entity.IdentificadorCredencialGuid = ec.CredencialGuid;
+                                entity.Nome = ec.ColaboradorNome;
+
+
+                                ////O _SDK está vindo nulo
+                                //_serviceGenetec.AlterarStatusCredencial(entity);
+
+                            }
+
+                            //var n1 = _serviceColaborador.BuscarCredencialPelaChave(ec.ColaboradorCredencialId);
+                            //_serviceColaborador.RemoverRegrasCardHolder(new CredencialGenetecService(m_sdk), new ColaboradorService(), n1);
+
+                        }
+
+                        string texto = "Impressa.:" + ec.Impressa + " Status.: " + ec.Ativa + " " + ec.ColaboradorNome + ((ec.Validade < DateTime.Now) ? " Vencido em : " : " Válido até : ") + ec.Validade;
+                        CriarLog(string.Format("Contrato: {0}", texto));
                     }
                     );
+                }
+                catch (Exception ex)
+                {
 
-                    if (listEmpresasContrato.Count > 0)
-                    {
-                        StringBuilder emailFraport = new StringBuilder();
-                        foreach (MeuValor element in listEmpresasContrato)
-                        {
-
-                            //email1 = element.Valor2.ToString();
-                            emailFraport.AppendLine(element.Valor1.ToString());
-
-                        }
-                        if (emailEmpresa != "")
-                        {
-                            sendMessage(emailFraport.ToString(), _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), emailEmpresa);
-                        }
-                    }
+                    //throw;
                 }
 
-                );
+
+                try
+                {
+                    var veiculoContratos = _serviceVeiculo.Listar(null, null, null, null, null, true).ToList();
+                    veiculoContratos.ForEach(ev =>
+                    {
+                        string messaveiculo = "";
+                        var empresasEmail = _serviceEmpresa.Listar(null, null, null, null, null, null, ev.VeiculoEmpresaId).FirstOrDefault();
+                        DateTime validadeCredencial = (DateTime)ev.Validade;
+                        int dias = validadeCredencial.Subtract(DateTime.Now.Date).Days;
+                        switch (dias)
+                        {
+                            case diasAlerta:
+                                messaveiculo = "A ATIV do veiculo.: " + ev.IdentificacaoDescricao + " vencendo hoje";
+
+                                break;
+
+                            case diasAlerta1:
+                                messaveiculo = "A ATIV do veiculo.: " + ev.IdentificacaoDescricao + " vencerá em " + diasAlerta1 + " dias.";
+                                //_serviceGenetec.DisparaAlarme(messa, 8);
+
+                                break;
+
+                            case diasAlerta2:
+                                messaveiculo = "A ATIV do veiculo.: " + ev.IdentificacaoDescricao + " vencerá em " + diasAlerta2 + " dias.";
+                                //_serviceGenetec.DisparaAlarme(messa, 8);
+
+                                break;
+
+                            case diasAlerta3:
+                                messaveiculo = "A ATIV do veiculo.: " + ev.IdentificacaoDescricao + " vencerá em " + diasAlerta3 + " dias.";
+                                //_serviceGenetec.DisparaAlarme(messa, 8);
+
+                                break;
+
+                            default:
+                                break;
+                        }
+
+                        _configuraSistema = ObterConfiguracao();
+                        if (_configuraSistema.Email != null)
+                        {
+                            if (empresasEmail.Email1 != null)
+                                sendMessage(messaveiculo, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), empresasEmail.Email1.Trim());
+                        }
+
+                        if (ev.Validade < DateTime.Now)
+                        {
+                            ev.Ativa = false;
+                            ev.CredencialStatusId = (int)StatusCredencial.INATIVA;
+                            ev.CredencialMotivoId = (int)Inativo.EXPIRADA;
+                            ev.CredencialStatusId = 2;
+                            _serviceVeiculo.Alterar(ev);
+                            if (!string.IsNullOrEmpty(ev.CredencialGuid))
+                            {
+                                //CardHolderEntity entity = new CardHolderEntity();
+                                //entity.IdentificadorCardHolderGuid = ev.CardHolderGuid;
+                                //entity.IdentificadorCredencialGuid = ev.CredencialGuid;
+                                //entity.Nome = ev.IdentificacaoDescricao;
+                                //////O _SDK está vindo nulo
+                                //_serviceGenetec.AlterarStatusCredencial(entity);
+
+                            }
+
+                            //var n1 = _serviceColaborador.BuscarCredencialPelaChave(ec.ColaboradorCredencialId);
+                            //_serviceColaborador.RemoverRegrasCardHolder(new CredencialGenetecService(m_sdk), new ColaboradorService(), n1);
+
+                        }
+
+                        string texto = "Impressa.:" + ev.Impressa + " Status.: " + ev.Ativa + " " + ev.IdentificacaoDescricao + ((ev.Validade < DateTime.Now) ? " Vencido em : " : " Válido até : ") + ev.Validade;
+                        CriarLog(string.Format("Contrato: {0}", texto));
+                    }
+                    );
+                }
+                catch (Exception)
+                {
+
+                    //throw;
+                }
+
+                try
+                {
+                    //Hashtable empresaContrato = new Hashtable();
+                    Hashtable empresaContratoEmail = new Hashtable();
+                    string nomeEmpresa = "";
+                    string emailEmpresa = "";
+
+                    var empresas = _serviceEmpresa.Listar().OrderByDescending(ec => ec.EmpresaId).ToList();
+                    empresas.ForEach(e =>
+                    {
+                        emailEmpresa = null;
+                        if (empresas[0].Email1 != null)
+                            emailEmpresa = empresas[0].Email1.ToString();
+
+                        nomeEmpresa = empresas[0].Nome.ToString();
+
+                        List<MeuValor> listEmpresasContrato = new List<MeuValor>();
+                        var empresaContratosAtivo = _serviceContrato.Listar().Where(ec => ec.StatusId == 0 && ec.EmpresaId == e.EmpresaId).ToList();
+                        empresaContratosAtivo.ForEach(ec =>
+                        {
+                            int dias = ec.Validade.Subtract(DateTime.Now.Date).Days;
+                            switch (dias)
+                            {
+                                case diasAlerta:
+                                    //var colaboradorContrao = _serviceColaborador.Listar(null, null, null, null, null, null, null, ec.NumeroContrato).ToList();
+                                    //colaboradorContrao.ForEach(cd =>
+                                    //{
+                                    //    cd.Ativa = false;
+                                    //    _serviceColaborador.Alterar(cd);
+                                    //}
+                                    //);
+                                    break;
+                                case diasAlerta0:
+                                    AlterarDados(ec.EmpresaId, ec.EmpresaContratoId, diasAlerta0);
+
+                                    _configuraSistema = ObterConfiguracao();
+                                    if (_configuraSistema.Email != null)
+                                    {
+                                        if (emailEmpresa != null)
+                                        {
+                                            var messa1 = new MeuValor() { Valor1 = "O Contrato Nº.: " + ec.NumeroContrato + " da empresa " + nomeEmpresa, Valor2 = emailEmpresa };
+                                            listEmpresasContrato.Add(messa1);
+                                        }
+                                    }
+                                    ////_serviceGenetec.GerarEvento(messa,8);
+                                    ////_serviceGenetec.GerarEvento("8000",null,messa);
+                                    break;
+                                case diasAlerta1:
+                                    AlterarDados(ec.EmpresaId, ec.EmpresaContratoId, diasAlerta1);
+
+                                    _configuraSistema = ObterConfiguracao();
+                                    if (_configuraSistema.Email != null)
+                                    {
+                                        if (emailEmpresa != null)
+                                        {
+                                            var messa1 = new MeuValor() { Valor1 = "O Contrato Nº.: " + ec.NumeroContrato + " da empresa " + nomeEmpresa, Valor2 = emailEmpresa };
+                                            listEmpresasContrato.Add(messa1);
+                                        }
+                                    }
+                                    ////_serviceGenetec.GerarEvento(messa,8);
+                                    ////_serviceGenetec.GerarEvento("8000",null,messa);
+                                    break;
+                                case diasAlerta2:
+                                    AlterarDados(ec.EmpresaId, ec.EmpresaContratoId, diasAlerta2);
+
+                                    _configuraSistema = ObterConfiguracao();
+                                    if (_configuraSistema.Email != null)
+                                    {
+                                        if (emailEmpresa != null)
+                                        {
+                                            var messa1 = new MeuValor() { Valor1 = "O Contrato Nº.: " + ec.NumeroContrato + " da empresa " + nomeEmpresa, Valor2 = emailEmpresa };
+                                            listEmpresasContrato.Add(messa1);
+                                        }
+                                    }
+                                    ////_serviceGenetec.GerarEvento(messa,8);
+                                    ////_serviceGenetec.GerarEvento("8000",null,messa);
+                                    break;
+                                case diasAlerta3:
+                                    AlterarDados(ec.EmpresaId, ec.EmpresaContratoId, diasAlerta3);
+
+                                    _configuraSistema = ObterConfiguracao();
+                                    if (_configuraSistema.Email != null)
+                                    {
+                                        if (emailEmpresa != null)
+                                        {
+                                            var messa1 = new MeuValor() { Valor1 = "O Contrato Nº.: " + ec.NumeroContrato + " da empresa " + nomeEmpresa, Valor2 = emailEmpresa };
+                                            listEmpresasContrato.Add(messa1);
+                                        }
+                                    }
+                                    ////_serviceGenetec.GerarEvento(messa,8);
+                                    ////_serviceGenetec.GerarEvento("8000",null,messa);
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        );
+
+                        if (listEmpresasContrato.Count > 0)
+                        {
+                            StringBuilder emailFraport = new StringBuilder();
+                            foreach (MeuValor element in listEmpresasContrato)
+                            {
+
+                                //email1 = element.Valor2.ToString();
+                                emailFraport.AppendLine(element.Valor1.ToString());
+
+                            }
+                            if (emailEmpresa != "")
+                            {
+                                try
+                                {
+                                    sendMessage(emailFraport.ToString(), _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), emailEmpresa);
+                                }
+                                catch (Exception ex)
+                                {
+
+                                    //throw;
+                                }
+                                
+                            }
+                        }
+                    }
+
+                    );
+                }
+                catch (Exception ex)
+                {
+
+                    //throw;
+                }
+                
                 Cursor.Current = Cursors.IBeam;
             }
             catch (Exception ex)
