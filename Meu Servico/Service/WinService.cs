@@ -207,54 +207,36 @@ namespace Meu_Servico.Service
                             messa = "A credencial do colaborador.: " + ec.ColaboradorNome + " vencendo hoje";
                             //_serviceGenetec.DisparaAlarme(messa, 8);
 
-                            _configuraSistema = ObterConfiguracao();
-                            if (_configuraSistema.Email != null)
-                            {
-                                if (empresasEmail.Email1 != null)
-                                    sendMessage(messa, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), empresasEmail.Email1.Trim());
-                            }
                             break;
 
                         case diasAlerta1:
                             messa = "A credencial do colaborador.: " + ec.ColaboradorNome + " vencerá em " + diasAlerta1 + " dias.";
                             //_serviceGenetec.DisparaAlarme(messa, 8);
 
-                            _configuraSistema = ObterConfiguracao();
-                            if (_configuraSistema.Email != null)
-                            {
-                                if (empresasEmail.Email1 != null)
-                                    sendMessage(messa, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), empresasEmail.Email1.Trim());
-                            }
                             break;
 
                         case diasAlerta2:
                             messa = "A credencial do colaborador.: " + ec.ColaboradorNome + " vencerá em " + diasAlerta2 + " dias.";
                             //_serviceGenetec.DisparaAlarme(messa, 8);
 
-                            _configuraSistema = ObterConfiguracao();
-                            if (_configuraSistema.Email != null)
-                            {
-                                if (empresasEmail.Email1 != null)
-                                    sendMessage(messa, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), empresasEmail.Email1.Trim());
-                            }
                             break;
 
                         case diasAlerta3:
                             messa = "A credencial do colaborador.: " + ec.ColaboradorNome + " vencerá em " + diasAlerta3 + " dias.";
                             //_serviceGenetec.DisparaAlarme(messa, 8);
 
-                            _configuraSistema = ObterConfiguracao();
-                            if (_configuraSistema.Email != null)
-                            {
-                                if (empresasEmail.Email1 != null)
-                                    sendMessage(messa, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), empresasEmail.Email1.Trim());
-                            }
                             break;
 
                         default:
                             break;
                     }
 
+                    _configuraSistema = ObterConfiguracao();
+                    if (_configuraSistema.Email != null)
+                    {
+                        if (empresasEmail.Email1 != null)
+                            sendMessage(messa, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), empresasEmail.Email1.Trim());
+                    }
 
                     if (ec.Validade < DateTime.Now)
                     {
@@ -353,7 +335,7 @@ namespace Meu_Servico.Service
 
                     }
 
-                    string texto = "Impressa.:" + ec.Impressa + " Status.: " + ec.Ativa + " " + ec.ColaboradorNome + ((ec.Validade < DateTime.Now) ? " Vencido em : " : " Válido até : ") + ec.Validade;
+                    string texto = "Impressa.:" + ev.Impressa + " Status.: " + ev.Ativa + " " + ev.IdentificacaoDescricao + ((ev.Validade < DateTime.Now) ? " Vencido em : " : " Válido até : ") + ev.Validade;
                     CriarLog(string.Format("Contrato: {0}", texto));
                 }
                 );
