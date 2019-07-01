@@ -54,7 +54,7 @@
                 </ListBox>
             </GroupBox>
 
-            <GroupBox x:Name="periodo_gb" Header="Filtrar por Período (Data de Emissão)" Height="131" Foreground="#FFD0D0D0">
+            <GroupBox x:Name="periodo_gb" Header="Filtrar por Período (Data de Emissão)" Height="120" Foreground="#FFD0D0D0">
 
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Stretch"  HorizontalAlignment="Left" Margin="0,5" Height="48" Width="433">
                     <Label Content="Data Inicial:" Height="28" Width="100" Margin="0,10,5,10" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
@@ -64,7 +64,11 @@
                     <DatePicker Margin="-10,3,0,0" Height="28" HorizontalAlignment="Left" Name="dp_dataFinal" Width="100" />
                     <!--<TextBox CharacterCasing="Upper"  x:Name="Datafim_tb"   MaxLength="50" Text="Data Final"  IsEnabled="True"  Height="24"  Width="100" />-->
                 </StackPanel>
-
+            </GroupBox> 
+            <GroupBox x:Name="Devolvidas" Header="Filtrar Devolução"  Margin="10,10"  Foreground="#FFD0D0D0"> 
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Stretch" HorizontalAlignment="Left"> 
+                    <CheckBox x:Name="chkDevolucaoEntregue" Content="Devolvidas/Entregues BO" ></CheckBox> 
+                </StackPanel>
             </GroupBox>
 
             <Button x:Name="button" Content="Filtrar" Click="button_ClickFiltrar" Height="33" HorizontalAlignment="Center" Width="100" Margin="166,20,167,20" />

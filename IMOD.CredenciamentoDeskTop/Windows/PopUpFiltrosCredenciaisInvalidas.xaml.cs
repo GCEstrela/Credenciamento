@@ -33,17 +33,18 @@ namespace IMOD.CredenciamentoDeskTop.Windows
         private void button_ClickFiltrar(object sender, RoutedEventArgs e)
         {
             int status = 0;
-            IMOD.CredenciamentoDeskTop.Views.Model.CredencialMotivoView motivoCredencialSelecionado = null;
-            string dataIni = dp_dataInicial.Text;
-            string dataFim = dp_dataFinal.Text;
-
-            if (lstMotivoCredencial.SelectedItem != null)
+            IMOD.CredenciamentoDeskTop.Views.Model.CredencialMotivoView motivoCredencialSelecionado = null; 
+            string dataIni = dp_dataInicial.Text; 
+            string dataFim = dp_dataFinal.Text; 
+            bool flaDevolucaoEntregue = (bool)chkDevolucaoEntregue.IsChecked;
+            
+            if (lstMotivoCredencial.SelectedItem != null) 
             {
                 motivoCredencialSelecionado = (IMOD.CredenciamentoDeskTop.Views.Model.CredencialMotivoView)lstMotivoCredencial.SelectedItem;
                 status = ((IMOD.CredenciamentoDeskTop.Views.Model.CredencialMotivoView)lstMotivoCredencial.SelectedItem).CredencialMotivoId;
             }
 
-            ((RelatoriosViewModel)DataContext).OnRelatorioCredenciaisInvalidasFiltroCommand(status, motivoCredencialSelecionado, dataIni, dataFim);
+            ((RelatoriosViewModel)DataContext).OnRelatorioCredenciaisInvalidasFiltroCommand(status, motivoCredencialSelecionado, dataIni, dataFim, flaDevolucaoEntregue);
 
             Close();
         }
