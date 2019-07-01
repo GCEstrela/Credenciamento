@@ -144,7 +144,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
                     {
                         txtDtValidade.Text = str.FormatarData(); ;
                     }
-                    MessageBox.Show("Validade da credencial TEMPORÁRIA, não poDe ser superior a 90 dias!");
+                    MessageBox.Show("Validade da credencial TEMPORÁRIA, não pode ser superior a 90 dias!");
                 }
 
             }
