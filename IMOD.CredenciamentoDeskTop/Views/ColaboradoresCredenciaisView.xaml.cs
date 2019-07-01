@@ -108,18 +108,44 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 DateTime dataEncontrada;
                 TimeSpan diferenca = Convert.ToDateTime(txtDtValidade.Text) - DateTime.Now.Date;
                 int credencialDias = int.Parse(diferenca.Days.ToString());
-                if (credencialDias > 730)
+                //if (credencialDias > 730)
+                //{
+                //    dataEncontrada = DateTime.Now.AddDays(730);
+                //    str = dataEncontrada.ToString();
+                //    txtDtValidade.Text = str;
+                //}
+                //else
+                //{
+                //    txtDtValidade.Text = str.FormatarData(); ;
+                //}
+                if (_viewModel.Entity.TipoCredencialId == 1)
                 {
-                    dataEncontrada = DateTime.Now.AddDays(730);
-                    str = dataEncontrada.ToString();
-                    txtDtValidade.Text = str;
+                    if (credencialDias > 730)
+                    {
+                        dataEncontrada = DateTime.Now.AddDays(730);
+                        str = dataEncontrada.ToString();
+                        txtDtValidade.Text = str;
+                    }
+                    else
+                    {
+                        txtDtValidade.Text = str.FormatarData(); ;
+                    }
+                    MessageBox.Show("Validade da credencial temporária, não pose ser superior a 2 annos!");
                 }
-                else
+                else if (_viewModel.Entity.TipoCredencialId == 2)
                 {
-                    txtDtValidade.Text = str.FormatarData(); ;
+                    if (credencialDias > 90)
+                    {
+                        dataEncontrada = DateTime.Now.AddDays(90);
+                        str = dataEncontrada.ToString();
+                        txtDtValidade.Text = str;
+                    }
+                    else
+                    {
+                        txtDtValidade.Text = str.FormatarData(); ;
+                    }
+                    MessageBox.Show("Validade da credencial temporária, não pose ser superior a 90 dias!");
                 }
-                
-
 
             }
             catch (Exception ex)
