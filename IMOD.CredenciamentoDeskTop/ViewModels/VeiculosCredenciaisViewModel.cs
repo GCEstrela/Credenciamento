@@ -456,6 +456,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     mensagem4 = (entity.Validade < DateTime.Now.Date) ? "Autorização vencida." : string.Empty;
                     //Exibir mensagem de impressao de credencial, esta tem prioridade sobre as demais regras
                     //if (n1.Impressa) return;
+                    Entity.DevolucaoEntregaBo = n1.DevolucaoEntregaBo;
                 }
 
 

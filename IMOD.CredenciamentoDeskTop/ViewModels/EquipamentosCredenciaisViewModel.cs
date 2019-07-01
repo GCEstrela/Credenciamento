@@ -427,45 +427,66 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         }
         private void AtualizarMensagem(VeiculosCredenciaisView entity)
         {
-            MensagemAlerta = string.Empty;
-            if (entity == null) return;
-            if (entity.VeiculoCredencialId <=0) return;
-
-            #region Habilitar botão de impressao e mensagem ao usuario
-
-            var pendenciaImpeditivaEmpresa = serviceEmpresa.Pendencia.ListarPorEmpresa(entity.EmpresaId).Where(n => n.Impeditivo == true && n.Ativo == true).ToList();
-            var pendenciaImpeditivaVeiculo = serviceEmpresa.Pendencia.ListarPorVeiculo(entity.VeiculoId).Where(n => n.Impeditivo == true && n.Ativo == true).ToList();
-
-            HabilitaImpressao = entity.Ativa & !entity.PendenciaImpeditiva & !entity.Impressa && entity.Validade >= DateTime.Now.Date && (pendenciaImpeditivaEmpresa.Count <= 0) && (pendenciaImpeditivaVeiculo.Count <= 0);
-            //Verificar se a empresa esta impedida
-            var n1 = _service.BuscarCredencialPelaChave(entity.VeiculoCredencialId);
-            var mensagem1 = !n1.Ativa ? "Autorização Inativa" : string.Empty;
-            var mensagem2 = n1.PendenciaImpeditiva ? "Pendência Impeditiva (consultar dados da empresa na aba Geral)" : string.Empty;
-            var mensagem3 = n1.Impressa ? "Autorização já foi impressa" : string.Empty;
-            var mensagem4 = (entity.Validade < DateTime.Now.Date) ? "Autorização vencida." : string.Empty;
-            //Exibir mensagem de impressao de credencial, esta tem prioridade sobre as demais regras
-            //if (n1.Impressa) return;
-
-            if (!string.IsNullOrEmpty(mensagem1 + mensagem2 + mensagem3 + mensagem4))
+            try
             {
-                MensagemAlerta = $"A autorização não poderá ser impressa pelo seguinte motivo: ";
-                if (!string.IsNullOrEmpty(mensagem1))
+                MensagemAlerta = string.Empty;
+                if (entity == null) return;
+                if (entity.VeiculoCredencialId <= 0) return;
+
+                #region Habilitar botão de impressao e mensagem ao usuario
+
+                var pendenciaImpeditivaEmpresa = serviceEmpresa.Pendencia.ListarPorEmpresa(entity.EmpresaId).Where(n => n.Impeditivo == true && n.Ativo == true).ToList();
+                var pendenciaImpeditivaVeiculo = serviceEmpresa.Pendencia.ListarPorVeiculo(entity.VeiculoId).Where(n => n.Impeditivo == true && n.Ativo == true).ToList();
+
+                HabilitaImpressao = entity.Ativa & !entity.PendenciaImpeditiva & !entity.Impressa && entity.Validade >= DateTime.Now.Date && (pendenciaImpeditivaEmpresa.Count <= 0) && (pendenciaImpeditivaVeiculo.Count <= 0);
+
+                //Verificar se a empresa esta impedida
+                var mensagem1 = "";
+                var mensagem2 = "";
+                var mensagem3 = "";
+                var mensagem4 = "";
+                var n1 = _service.BuscarCredencialPelaChave(entity.VeiculoCredencialId);
+                if (n1 != null)
                 {
-                    MensagemAlerta += mensagem1;
+                    HabilitaImpressao = n1.Ativa & !n1.PendenciaImpeditiva & !n1.Impressa && entity.Validade >= DateTime.Now.Date && (pendenciaImpeditivaEmpresa.Count <= 0) && (pendenciaImpeditivaVeiculo.Count <= 0);
+                    mensagem1 = !n1.Ativa ? "Autorização Inativa" : string.Empty;
+                    mensagem2 = n1.PendenciaImpeditiva ? "Pendência Impeditiva (consultar dados da empresa na aba Geral)" : string.Empty;
+                    mensagem3 = n1.Impressa ? "Autorização já foi impressa" : string.Empty;
+                    mensagem4 = (entity.Validade < DateTime.Now.Date) ? "Autorização vencida." : string.Empty;
+                    //Exibir mensagem de impressao de credencial, esta tem prioridade sobre as demais regras
+                    //if (n1.Impressa) return;
+                    Entity.DevolucaoEntregaBo = n1.DevolucaoEntregaBo;
                 }
-                else if (!string.IsNullOrEmpty(mensagem2))
+
+
+                if (!string.IsNullOrEmpty(mensagem1 + mensagem2 + mensagem3 + mensagem4))
                 {
-                    MensagemAlerta += mensagem2;
+                    MensagemAlerta = $"A autorização não poderá ser impressa pelo seguinte motivo: ";
+                    if (!string.IsNullOrEmpty(mensagem1))
+                    {
+                        MensagemAlerta += mensagem1;
+                    }
+                    else if (!string.IsNullOrEmpty(mensagem2))
+                    {
+                        MensagemAlerta += mensagem2;
+                    }
+                    else if (!string.IsNullOrEmpty(mensagem3))
+                    {
+                        MensagemAlerta += mensagem3;
+                    }
+                    else if (!string.IsNullOrEmpty(mensagem4))
+                    {
+                        MensagemAlerta += mensagem4;
+                    }
                 }
-                else if (!string.IsNullOrEmpty(mensagem3))
-                {
-                    MensagemAlerta += mensagem3;
-                }
-                else if (!string.IsNullOrEmpty(mensagem4))
-                {
-                    MensagemAlerta += mensagem4;
-                }
+                CollectionViewSource.GetDefaultView(EntityObserver).Refresh();
             }
+            catch (Exception)
+            {
+
+                //throw;
+            }
+
             //================================================================================
             #endregion
 

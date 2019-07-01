@@ -252,10 +252,14 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 //if (mensagemPendenciasColaborador.Length > 0)
                 //mensagem5 = n1.PendenciaImpeditiva ? " Pendência(s) para a COLABORADOR: " + mensagemPendenciasColaborador : string.Empty;
                 mensagem5 = impeditivaColaborador ? " Pendência(s) para a COLABORADOR: " + mensagemPendenciasColaborador : string.Empty;
-            }
+                Entity.DevolucaoEntregaBo = n1.DevolucaoEntregaBo;
+            } 
+             
+            
+
             CollectionViewSource.GetDefaultView(EntityObserver).Refresh();
             //Exibir mensagem de impressao de credencial, esta tem prioridade sobre as demais regras            
-            //if (n1.Impressa) return;
+            //if (n1.Impressa) return; 
 
             if (!string.IsNullOrEmpty(mensagem1 + mensagem2 + mensagem3 + mensagem4 + mensagem5))
             {
