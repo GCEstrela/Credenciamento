@@ -411,7 +411,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <param name="_status"></param>
         /// <param name="_dataIni"></param>
         /// <param name="_dataFim"></param>
-        public void OnRelatorioCredenciaisInvalidasFiltroCommand(int status, CredencialMotivoView credencialMotivoSelecionado, string dataIni, string dataFim)
+        public void OnRelatorioCredenciaisInvalidasFiltroCommand(int status, CredencialMotivoView credencialMotivoSelecionado, string dataIni, string dataFim, bool flaDevolucaoEntregaBO)
         {
             try
             {
@@ -423,21 +423,14 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 mensagem = "Todas as CREDENCIAIS ";
                 colaboradorCredencial.CredencialStatusId = 2;
                 colaboradorCredencial.Impressa = true;
+                colaboradorCredencial.DevolucaoEntregaBo = flaDevolucaoEntregaBO;
 
-                //if (!(dataIni.Equals(string.Empty) || dataFim.Equals(string.Empty)))
-                //{
-                //    colaboradorCredencial.Baixa = DateTime.Parse(dataIni);
-                //    colaboradorCredencial.BaixaFim = DateTime.Parse(dataFim);
-                //    mensagemPeriodo = " entre " + dataIni + " e " + dataFim + "";
-                //}
                 if (!(dataIni.Equals(string.Empty) || dataFim.Equals(string.Empty)))
                 {
                     colaboradorCredencial.DataStatus = DateTime.Parse(dataIni);
                     colaboradorCredencial.DataStatusFim = DateTime.Parse(dataFim);
                     mensagemPeriodo = " entre " + dataIni + " e " + dataFim + "";
                 }
-                
-
 
                 if (status == 0)
                 {
@@ -838,7 +831,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <param name="_tipo"></param>
         /// <param name="_dataIni"></param>
         /// <param name="_dataFim"></param>
-        public void OnRelatorioAutorizacoesInvalidasFiltroCommand(int status, CredencialMotivoView credencialMotivoSelecionado, string dataIni, string dataFim)
+        public void OnRelatorioAutorizacoesInvalidasFiltroCommand(int status, CredencialMotivoView credencialMotivoSelecionado, string dataIni, string dataFim, bool flaDevolucaoEntregaBO)
         {
             try
             {
@@ -850,6 +843,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 mensagem = "Todas as AUTORIZAÇÕES ";
                 veiculoCredencial.CredencialStatusId = 2;
                 veiculoCredencial.Impressa = true;
+                veiculoCredencial.DevolucaoEntregaBo = flaDevolucaoEntregaBO; 
 
                 if (!(dataIni.Equals(string.Empty) || dataFim.Equals(string.Empty)))
                 {
@@ -872,7 +866,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(6);
                 if (relatorioGerencial == null || relatorioGerencial.ArquivoRpt == null || String.IsNullOrEmpty(relatorioGerencial.ArquivoRpt)) return;
 
-                var result = objVeiculoCredencial.ListarVeiculoCredencialViaAdicionaisView(veiculoCredencial);
+                var result = objVeiculoCredencial.ListarVeiculoCredencialInvalidasView(veiculoCredencial);
                 var resultMapeado = Mapper.Map<List<RelVeiculosCredenciaisView>>(result.OrderByDescending(n => n.VeiculoCredencialId).ToList());
 
                 byte[] arrayFile = Convert.FromBase64String(relatorioGerencial.ArquivoRpt);

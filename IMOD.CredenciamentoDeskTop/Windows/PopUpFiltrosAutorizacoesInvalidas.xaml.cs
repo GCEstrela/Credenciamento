@@ -33,7 +33,8 @@ namespace IMOD.CredenciamentoDeskTop.Windows
             int status = 0;
             IMOD.CredenciamentoDeskTop.Views.Model.CredencialMotivoView motivoCredencialSelecionado = null; 
             string dataIni = dp_dataInicial.Text; 
-            string dataFim = dp_dataFinal.Text; 
+            string dataFim = dp_dataFinal.Text;
+            bool flaDevolucaoEntregue = (bool)chkDevolucaoEntregue.IsChecked;
 
             if (lstMotivoCredencial.SelectedItem != null)
             {
@@ -41,7 +42,7 @@ namespace IMOD.CredenciamentoDeskTop.Windows
                 status = ((IMOD.CredenciamentoDeskTop.Views.Model.CredencialMotivoView)lstMotivoCredencial.SelectedItem).CredencialMotivoId;
             }
 
-            ((RelatoriosViewModel)DataContext).OnRelatorioAutorizacoesInvalidasFiltroCommand(status, motivoCredencialSelecionado, dataIni, dataFim);
+            ((RelatoriosViewModel)DataContext).OnRelatorioAutorizacoesInvalidasFiltroCommand(status, motivoCredencialSelecionado, dataIni, dataFim, flaDevolucaoEntregue);
 
             Close();
         }
