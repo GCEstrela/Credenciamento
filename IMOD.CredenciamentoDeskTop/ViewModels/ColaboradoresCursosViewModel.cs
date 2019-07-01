@@ -213,6 +213,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (Entity == null) return;
                 if (Validar()) return;
 
+                BuscarAnexo(Entity.ColaboradorCursoId);
+
                 var n1 = Mapper.Map<ColaboradorCurso> (Entity);
                 _service.Alterar (n1);
                 var n2 = EntityObserver.FirstOrDefault(n => n.ColaboradorCursoId == n1.ColaboradorCursoId);
