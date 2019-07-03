@@ -17,8 +17,10 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public string NumeroCredencial { get; set; }
         public string Matricula { get; set; }
         public int Fc { get; set; }
-        public string Emissao { get; set; }
-        public string Validade { get; set; }
+        private string _emissao;
+        public string Emissao { get{ return System.DateTime.Parse(_emissao).ToString("dd/MM/yyyy"); } set { _emissao = value; } } 
+        private string _validade;
+        public string Validade { get { return System.DateTime.Parse(_validade).ToString("dd/MM/yyyy"); } set { _validade = value; } } 
         public string PlacaIdentificador { get; set; }
         public int CredencialStatusId { get; set; }
         public string CredencialGuid { get; set; }
@@ -32,7 +34,8 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public string CredencialMotivoDescricao { get; set; }
         public bool Impressa { get; set; }
         public bool Ativa { get; set; }
-        public string Baixa { get; set; }
+        private string _baixa;
+        public string Baixa { get { return System.DateTime.Parse(_baixa).ToString("dd/MM/yyyy"); } set { _baixa = value; } } 
         public string LayoutCrachaNome { get; set; }
         public string FormatoCredencialDescricao { get; set; }
         public string VeiculoNome { get; set; }

@@ -208,6 +208,29 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void Alterar(ColaboradorCredencial entity)
         {
+            CredencialMotivo motivo = new CredencialMotivo();
+            if (entity.CredencialMotivoId > 0)
+            {
+                motivo = CredencialMotivo.BuscarPelaChave(entity.CredencialMotivoId);
+
+                if (entity.Ativa)
+                {
+                    entity.Baixa = (DateTime?)null;
+                }
+                else if (!entity.Ativa && (!entity.DevolucaoEntregaBo) && motivo.Impeditivo)
+                {
+                    entity.Baixa = (DateTime?)null;
+                }
+                else if (!entity.Ativa && !motivo.Impeditivo)
+                {
+                    entity.Baixa = DateTime.Today.Date;
+                }
+                else if (!entity.Ativa && (entity.DevolucaoEntregaBo) && motivo.Impeditivo)
+                {
+                    entity.Baixa = DateTime.Today.Date;
+                }
+            }
+
             _repositorio.Alterar(entity);
             ////comentado pois a busca não está retornando resultador e anulando a entity
             var n1 = BuscarPelaChave(entity.ColaboradorCredencialId);
@@ -372,14 +395,27 @@ namespace IMOD.Application.Service
             entity.DataStatus = entity.Ativa != entity2.Ativa ? DateTime.Today.Date : entity2.DataStatus;
             entity.Ativa = entity2.Ativa; //Atulizar dados para serem exibidas na tela
 
-            if ((!entity2.Ativa && (entity2.DevolucaoEntregaBo)) ||
-                    (!entity2.Ativa && (entity2.CredencialMotivoId == 11 || entity2.CredencialMotivoId == 12)))
+            CredencialMotivo motivo = new CredencialMotivo();
+            if (entity.CredencialMotivoId > 0)
             {
-                entity.Baixa = DateTime.Today.Date;
-            }
-            else
-            {
-                entity.Baixa = (DateTime?)null;
+                motivo = CredencialMotivo.BuscarPelaChave(entity.CredencialMotivoId);
+
+                if (entity.Ativa)
+                {
+                    entity.Baixa = (DateTime?)null;
+                }
+                else if (!entity.Ativa && (!entity.DevolucaoEntregaBo) && motivo.Impeditivo)
+                {
+                    entity.Baixa = (DateTime?)null;
+                }
+                else if (!entity.Ativa && !motivo.Impeditivo)
+                {
+                    entity.Baixa = DateTime.Today.Date;
+                }
+                else if (!entity.Ativa && (entity.DevolucaoEntregaBo) && motivo.Impeditivo)
+                {
+                    entity.Baixa = DateTime.Today.Date;
+                }
             }
 
             //Alterar dados no sub-sistema de credenciamento

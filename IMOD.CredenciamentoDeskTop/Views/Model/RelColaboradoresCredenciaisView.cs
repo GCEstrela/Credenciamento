@@ -16,10 +16,18 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public int FormatoCredencialId { get; set; }
         public string NumeroCredencial { get; set; }
         public int Fc { get; set; }
-        public string Emissao { get; set; }
-        public string EmissaoFim { get; set; }
-        public string Validade { get; set; }
-        public string ValidadeFim { get; set; }
+        private string _emissao;
+        public string Emissao
+        {
+            get { return string.IsNullOrEmpty(_emissao) ? "" : System.DateTime.Parse(_emissao).ToString("dd/MM/yyyy"); }
+            set { _emissao = value; }
+        }
+        private string _validade;
+        public string Validade
+        {
+            get { return string.IsNullOrEmpty(_validade) ? "" : System.DateTime.Parse(_validade).ToString("dd/MM/yyyy"); }
+            set { _validade = value; }
+        }
         public int CredencialStatusId { get; set; }
         public string CredencialGuid { get; set; }
         public string CardHolderGuid { get; set; }
@@ -32,8 +40,12 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public string CredencialMotivoDescricao { get; set; }
         public bool Impressa { get; set; }
         public bool Ativa { get; set; }
-        public string Baixa { get; set; }
-        public string BaixaFim { get; set; }
+        private string _baixa;
+        public string Baixa
+        {
+            get { return string.IsNullOrEmpty(_baixa) ? "" : System.DateTime.Parse(_baixa).ToString("dd/MM/yyyy"); }
+            set { _baixa = value; }
+        }
         public string LayoutCrachaNome { get; set; }
         public string FormatoCredencialDescricao { get; set; }
         public string ColaboradorNome { get; set; }
