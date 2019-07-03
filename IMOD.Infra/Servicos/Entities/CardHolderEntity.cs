@@ -107,8 +107,8 @@ namespace IMOD.Infra.Servicos.Entities
         public int TecnologiaCredencialId { get; set; }
         public int FormatoCredencialId { get; set; }
         public int Fc { get; set; }
-        
-       
+        public bool Regras { get; set; }
+
         #endregion
 
     }

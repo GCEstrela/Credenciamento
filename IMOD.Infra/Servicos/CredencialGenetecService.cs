@@ -27,7 +27,8 @@ namespace IMOD.Infra.Servicos
 {
     public class CredencialGenetecService : ICredencialService
     {
-       // private readonly IColaboradorCredencialService _service = new ColaboradorCredencialService();
+        // private readonly IColaboradorCredencialService _service = new ColaboradorCredencialService();
+        
         private readonly IEngine _sdk;
         
         public CredencialGenetecService(IEngine sdk)
@@ -171,7 +172,7 @@ namespace IMOD.Infra.Servicos
 
                 if (entity.Validade > DateTime.Now)
                 {
-                    if (entity.Ativo)
+                    if (entity.Ativo && entityCardholder.State == CardholderState.Active)
                         entityCardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade);
                 }
                 else
@@ -388,14 +389,14 @@ namespace IMOD.Infra.Servicos
                     {
                         //Atualizar dados
                         SetValorCamposCustomizados(entity, existEntity);
-                        _sdk.TransactionManager.CommitTransaction();
+                        //_sdk.TransactionManager.CommitTransaction();
                         //VerificaRegraAcesso(entity);
                         return;
                     }
                 }
                 else
                 {
-                    entity.IdentificadorCardHolderGuid = EncontraCardHolderPelaMatricula(entity, entity.Matricula);//Encontra Credencial pelo Numero da Credencial
+                    entity.IdentificadorCardHolderGuid = EncontraCardHolderPelaMatricula(entity, entity.Matricula);//Encontra Credencial pelo Numero da Matrícula
                 }
                 
                 #endregion
@@ -427,7 +428,7 @@ namespace IMOD.Infra.Servicos
                 Utils.TraceException(ex);
                 throw;
             }
-        }
+        }        
         /// <summary>
         ///     Verifica Regras de Acesso 
         ///     <para>Add/Remove Regras de Acesso de um CardHolder se nao existir</para>
@@ -439,12 +440,14 @@ namespace IMOD.Infra.Servicos
             //var accessRule = GetEntities(entity.Identificacao1.ToString(), EntityType.AccessRule);
             //if (accessRule != null)
 
+            if (!entity.Regras) return;
+
             EntityConfigurationQuery query;
             QueryCompletedEventArgs result;
             try
             {
-                bool regra1 = false;
-                bool regra2 = false;
+                //bool regra1 = false;
+                //bool regra2 = false;
                 var guid = new Guid(entity.IdentificadorCardHolderGuid);
                 var cardHolder = _sdk.GetEntity(guid) as Cardholder;
 
@@ -480,7 +483,7 @@ namespace IMOD.Infra.Servicos
                                     {
                                         accesso.Members.Add(cardHolder.Guid);
                                     }
-                                    regra1 = true;
+                                    //regra1 = true;
                                 }
                             if (entity.Identificacao2 != null)
                                 if (entity.Identificacao2.ToString() == descricao)
@@ -493,7 +496,7 @@ namespace IMOD.Infra.Servicos
                                 {
                                     accesso.Members.Add(cardHolder.Guid);
                                 }
-                                regra2 = true;
+                                //regra2 = true;
                             }
                         //}
                         
@@ -684,7 +687,10 @@ namespace IMOD.Infra.Servicos
             {
                 if (ExisteCardHolder(entity) == false)
                 {
-                    entity.IdentificadorCardHolderGuid = null;
+
+                    entity.IdentificadorCardHolderGuid = EncontraCardHolderPelaMatricula(entity, entity.Matricula);//Encontra Credencial pelo Numero da Matrícula
+
+                    //entity.IdentificadorCardHolderGuid = null;
                     CriarCardHolder(entity);
                 }
                 //else

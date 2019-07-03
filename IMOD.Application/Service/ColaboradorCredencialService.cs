@@ -140,8 +140,8 @@ namespace IMOD.Application.Service
                 FormatoCredencial = entity.FormatoCredencialDescricao.Trim(),
                 TecnologiaCredencialId = entity.TecnologiaCredencialId,
                 FormatoCredencialId = entity.FormatoCredencialId,
-                Fc = entity.Fc
-                
+                Fc = entity.Fc,
+                Regras=entity.Regras
             };
             return titularCartao;
         }

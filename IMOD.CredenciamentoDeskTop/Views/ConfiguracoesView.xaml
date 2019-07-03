@@ -1051,7 +1051,7 @@
                               Grid.Column="0" Header="Configurações" Margin="300,220,0,-23" Height="200" VerticalAlignment="Top" Grid.RowSpan="3">
                                 <StackPanel Margin="1">
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
-                                        Margin="1,1,0,1" Width="558">
+                                        Margin="1,1,0,1" Width="623">
 
                                         <CheckBox Name="Contrato" ToolTip="Essa opção habilita contratos automático." 
                                               Content="Contrato automático" Foreground="YellowGreen"  HorizontalAlignment="Left" Height="17" 
@@ -1062,8 +1062,8 @@
                                               Margin="0,7,0,0" Grid.Row="3" VerticalAlignment="Top" Width="125"
                                               IsChecked="{Binding Entity.Colete, UpdateSourceTrigger=PropertyChanged}" />
                                         <CheckBox Name="Regra" ToolTip="" 
-                                              Content="Privilégio obrigatório" Foreground="YellowGreen"  HorizontalAlignment="Left" Height="17" 
-                                              Margin="0,7,0,0" Grid.Row="3" VerticalAlignment="Top" Width="145"
+                                              Content="Enviar Privilégio para o Genetec" Foreground="YellowGreen"  HorizontalAlignment="Left" Height="17" 
+                                              Margin="0,7,0,0" Grid.Row="3" VerticalAlignment="Top" Width="190"
                                               IsChecked="{Binding Entity.Regras, UpdateSourceTrigger=PropertyChanged}" />
 
                                     </StackPanel>

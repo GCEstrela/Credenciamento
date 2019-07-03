@@ -652,9 +652,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 n1.ColaboradorPrivilegio1Id = Entity.ColaboradorPrivilegio1Id;
                 n1.ColaboradorPrivilegio2Id = Entity.ColaboradorPrivilegio2Id;
                 n1.Identificacao1 = Entity.Identificacao1;
-                n1.Identificacao2 = Entity.Identificacao2;
+                n1.Identificacao2 = Entity.Identificacao2;                
                 n1.Validade = Entity.Validade.Value.AddHours(23).AddMinutes(59).AddSeconds(59); //Sempre Add 23:59:59 horas à credencial nova.
-
+                //_configuraSistema = ObterConfiguracao();
+                n1.Regras = _configuraSistema.Regras;
+                Entity.Regras = _configuraSistema.Regras;
                 if (n1.Validade <= DateTime.Now)
                 {
                     WpfHelp.Mbox("Data de Validade da Credencial é inferior à data atual.", MessageBoxIcon.Information);
@@ -832,8 +834,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                         //return;
                     }
                 }
-
-
+               // _configuraSistema = ObterConfiguracao();
+                n1.Regras = _configuraSistema.Regras;
+                Entity.Regras = _configuraSistema.Regras;
                 //Atualizar dados a serem exibidas na tela de empresa
                 if (Entity == null) return;
                 _service.CriarPendenciaImpeditiva(Entity);
@@ -907,12 +910,13 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             n1.NumeroCredencial = entity.NumeroCredencial;
             n1.ColaboradorPrivilegio1Id = entity.ColaboradorPrivilegio1Id;
             n1.ColaboradorPrivilegio2Id = entity.ColaboradorPrivilegio2Id;
-            //n1.CardHolderGuid= entity.CardHolderGuid;
-            //n1.CredencialGuid = entity.CredencialGuid;
-
+            _configuraSistema = ObterConfiguracao();
+            n1.Regras = _configuraSistema.Regras;
+            entity.Regras = _configuraSistema.Regras;
             var tecCredencial = _auxiliaresService.TecnologiaCredencialService.BuscarPelaChave(entity.TecnologiaCredencialId);
             if (tecCredencial.PodeGerarCardHolder)
                 _service.CriarTitularCartao(new CredencialGenetecService(Main.Engine), new ColaboradorService(), n1);
+
         }
         /// <summary>
         /// Criar CardHolder e Credencial do usuario
@@ -1281,16 +1285,16 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
             if (Entity.TecnologiaCredencialId != 0)
             {
-                _configuraSistema = ObterConfiguracao();
-                if (_configuraSistema.Regras)
-                {
-                    if (Entity.ColaboradorPrivilegio1Id == 0 && Entity.ColaboradorPrivilegio2Id == 0)
-                    {
-                        //System.Windows.MessageBox.Show("REgras não informadas");
-                        WpfHelp.Mbox("Para a Autenticação selecionada é necessário o preenchimento dos Privilégios.", MessageBoxIcon.Information);
-                        return true;
-                    }
-                }
+                //_configuraSistema = ObterConfiguracao();
+                //if (_configuraSistema.Regras)
+                //{
+                //    if (Entity.ColaboradorPrivilegio1Id == 0 && Entity.ColaboradorPrivilegio2Id == 0)
+                //    {
+                //        //System.Windows.MessageBox.Show("REgras não informadas");
+                //        WpfHelp.Mbox("Para a Autenticação selecionada é necessário o preenchimento dos Privilégios.", MessageBoxIcon.Information);
+                //        return true;
+                //    }
+                //}
                 if (Entity.FormatoCredencialId == 0)
                 {
                     //System.Windows.MessageBox.Show("Formato da credencial não informada");

@@ -89,6 +89,6 @@ namespace IMOD.Domain.EntitiesCustom
         public string Email { get; set; }
         public string Obs { get; set; }
         public bool DevolucaoEntregaBo { get; set; }
-
+        public bool Regras { get; set; }
     }
 }
