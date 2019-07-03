@@ -399,6 +399,13 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     Entity.SetMessageErro("Sigla", "Sigla já existe");
                     return true;
                 }
+
+                if (TiposLayoutCracha.Count() <= 0)
+                {
+                    System.Windows.MessageBox.Show("Tipo de Crachá é obrigatório!","Credenciamnto");
+                    return true;
+                }
+
                 return Entity.HasErrors;
             }
             return Entity.HasErrors;
@@ -680,6 +687,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
+                
                 if (Entity == null) return;
                 if (Validar()) return;
 

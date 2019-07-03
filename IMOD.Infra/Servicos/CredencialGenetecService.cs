@@ -231,7 +231,9 @@ namespace IMOD.Infra.Servicos
                                     mifareCsn = cardFormat as CustomCredentialFormat;
                                     if (mifareCsn != null)
                                     {
-                                        mifareCsn.SetValues(long.Parse(entity.NumeroCredencial));
+                                        //entity.NumeroCredencial = "1CE56BC0";
+                                        //entity.NumeroCredencial = long.Parse(entity.NumeroCredencial, System.Globalization.NumberStyles.HexNumber);
+                                        mifareCsn.SetValues(long.Parse(entity.NumeroCredencial, System.Globalization.NumberStyles.HexNumber));
                                         credencial.Format = mifareCsn;
                                     }
 
