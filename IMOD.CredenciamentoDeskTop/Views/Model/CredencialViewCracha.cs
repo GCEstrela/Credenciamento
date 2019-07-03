@@ -44,9 +44,8 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public string Cnh { get; set; }
         public bool OperadorPonteEmbarque { get; set; }
         public bool FlagCcam { get; set; }
-
-        //public string AreasAcessos {get { return Identificacao1?.PadLeft(2, ' ') + " " + Identificacao2?.PadRight(2, ' ');}}
         public string AreasAcessos { get { return Identificacao1 + "  " + Identificacao2; } }
         public bool FlagAuditoria { get; set; }
+        public int CredencialMotivoID { get; set; }
     }
 }
