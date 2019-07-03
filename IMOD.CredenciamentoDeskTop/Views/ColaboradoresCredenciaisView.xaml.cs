@@ -125,12 +125,13 @@ namespace IMOD.CredenciamentoDeskTop.Views
                         dataEncontrada = DateTime.Now.AddDays(730);
                         str = dataEncontrada.ToString();
                         txtDtValidade.Text = str;
+                        MessageBox.Show("Validade da credencial PERMANENTE, não pode ser superior a 2 anos!");
                     }
                     else
                     {
                         txtDtValidade.Text = str.FormatarData(); ;
                     }
-                    MessageBox.Show("Validade da credencial temporária, não pose ser superior a 2 annos!");
+                   
                 }
                 else if (_viewModel.Entity.TipoCredencialId == 2)
                 {
@@ -139,12 +140,13 @@ namespace IMOD.CredenciamentoDeskTop.Views
                         dataEncontrada = DateTime.Now.AddDays(90);
                         str = dataEncontrada.ToString();
                         txtDtValidade.Text = str;
+                        MessageBox.Show("Validade da credencial TEMPORÁRIA, não pode ser superior a 90 dias!");
                     }
                     else
                     {
                         txtDtValidade.Text = str.FormatarData(); ;
                     }
-                    MessageBox.Show("Validade da credencial temporária, não pose ser superior a 90 dias!");
+                    
                 }
 
             }

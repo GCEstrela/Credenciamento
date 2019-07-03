@@ -154,7 +154,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         }
 
         /// <summary>
-        ///     Acionado antes de criar
+        ///     Acionado antes de criarss
         /// </summary>
         private void PrepareCriar()
         {
@@ -176,6 +176,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 if (Entity == null) return;
                 if (Validar()) return;
+
+                BuscarAnexo(Entity.ColaboradorAnexoId);
+
                 var n1 = Mapper.Map<ColaboradorAnexo> (Entity);
                 _service.Alterar (n1);
                 IsEnableLstView = true;
@@ -257,12 +260,15 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             EntityObserver.Clear();
             if (entity == null) return;// throw new ArgumentNullException(nameof(entity));
             _colaboradorView = entity;
-            _viewModelParent = viewModelParent; 
+            _viewModelParent = viewModelParent;
+
+           
 
             var list1 = _service.Listar(entity.ColaboradorId);
             var list2 = Mapper.Map<List<ColaboradorAnexoView>>(list1.OrderByDescending(n => n.ColaboradorAnexoId));
             EntityObserver = new ObservableCollection<ColaboradorAnexoView>();
             list2.ForEach(n => { EntityObserver.Add(n); });
+            
             _configuraSistema = ObterConfiguracao();
         }
         private ConfiguraSistema ObterConfiguracao()

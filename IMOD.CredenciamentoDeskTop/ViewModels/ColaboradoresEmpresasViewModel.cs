@@ -101,7 +101,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             try
             {
                 var anexo = _service.BuscarPelaChave(ColaboradorEmpresaId);
-                Entity.Anexo = anexo.Anexo;
+                if(anexo.Anexo!=null)
+                    Entity.Anexo = anexo.Anexo;
             }
             catch (Exception ex)
             {
@@ -286,6 +287,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 if (Entity == null) return;
                 if (Validar()) return;
+
+                BuscarAnexo(Entity.ColaboradorEmpresaId);
+
                 var n1 = Mapper.Map<ColaboradorEmpresa>(Entity);
                 //Gerar matricula
                 if (n1.Matricula == null)
