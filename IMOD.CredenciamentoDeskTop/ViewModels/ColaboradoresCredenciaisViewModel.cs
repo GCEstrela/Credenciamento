@@ -1056,10 +1056,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var credencialView = _service.ObterCredencialView(Entity.ColaboradorCredencialId);
                 var c1 = Mapper.Map<CredencialViewCracha>(credencialView);
                 c1.CrachaCursos = _cursosCracha;
-                if (c1.ImpressaoMotivo != "SEGUNDA EMISSÃO" & c1.ImpressaoMotivo != "TERCEIRA EMISSÃO")
+
+                if (c1.CredencialMotivoID != 2 & c1.CredencialMotivoID != 3) 
                 {
                     c1.ImpressaoMotivo = "";
-                }
+                } 
                 c1.TelefoneEmergencia = _configuraSistema.TelefoneEmergencia;
                 c1.EmpresaNome = c1.EmpresaNome + (!string.IsNullOrEmpty(c1.TerceirizadaNome) ? " / " + c1.TerceirizadaNome : string.Empty);
                 c1.Emissao = DateTime.Now;
