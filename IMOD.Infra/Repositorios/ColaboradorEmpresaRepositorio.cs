@@ -159,9 +159,9 @@ namespace IMOD.Infra.Repositorios
         /// <param name="entity"></param>
         public void CriarNumeroMatricula(ColaboradorEmpresa entity)
         {
-            
+            var codigo = entity.ColaboradorEmpresaId.ToString("N0");
             var data = DateTime.Now.ToString("yy");
-            entity.Matricula = $"{entity.ColaboradorEmpresaId}-{data}";//entity
+            entity.Matricula = $"{codigo}-{data}";//entity
             Alterar (entity);
         }
 

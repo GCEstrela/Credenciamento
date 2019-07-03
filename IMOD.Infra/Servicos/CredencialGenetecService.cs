@@ -377,7 +377,7 @@ namespace IMOD.Infra.Servicos
             //VerificaRegraAcesso(entity);
             try
             {
-                _sdk.TransactionManager.CreateTransaction();
+                
 
                 #region Existindo CardHolder, não criar
 
@@ -393,22 +393,32 @@ namespace IMOD.Infra.Servicos
                         return;
                     }
                 }
-
+                else
+                {
+                    entity.IdentificadorCardHolderGuid = EncontraCardHolderPelaMatricula(entity, entity.Matricula);//Encontra Credencial pelo Numero da Credencial
+                }
+                
                 #endregion
+                if (entity.IdentificadorCardHolderGuid == null)
+                {
+                    _sdk.TransactionManager.CreateTransaction();
 
-                var cardHolder = _sdk.CreateEntity(entity.Nome, EntityType.Cardholder) as Cardholder;
-                if (cardHolder == null) throw new InvalidOperationException("Não foi possível criar uma credencial.");
+                    var cardHolder = _sdk.CreateEntity(entity.Nome, EntityType.Cardholder) as Cardholder;
+                    if (cardHolder == null) throw new InvalidOperationException("Não foi possível criar uma credencial.");
 
-                entity.IdentificadorCardHolderGuid = cardHolder.Guid.ToString(); //Set identificador Guid
-                SetValorCamposCustomizados(entity, cardHolder);
-                var cardHolderGroup = _sdk.GetEntity(EntityType.CardholderGroup, 1) as CardholderGroup;
-                //if (cardHolderGroup == null) throw new InvalidOperationException ("Não foi possível gerar grupo de credencial");
-                if (cardHolderGroup != null)
-                    cardHolder.Groups.Add(cardHolderGroup.Guid);
-                //cardHolder.Synchronised = false;
-                cardHolder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade);
+                    entity.IdentificadorCardHolderGuid = cardHolder.Guid.ToString(); //Set identificador Guid
 
-                _sdk.TransactionManager.CommitTransaction();
+                    SetValorCamposCustomizados(entity, cardHolder);
+                    var cardHolderGroup = _sdk.GetEntity(EntityType.CardholderGroup, 1) as CardholderGroup;
+                    //if (cardHolderGroup == null) throw new InvalidOperationException ("Não foi possível gerar grupo de credencial");
+                    if (cardHolderGroup != null)
+                        cardHolder.Groups.Add(cardHolderGroup.Guid);
+                    //cardHolder.Synchronised = false;
+                    cardHolder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade);
+
+                    _sdk.TransactionManager.CommitTransaction();
+                }
+                
 
                 //VerificaRegraAcesso(entity);
             }
@@ -600,6 +610,46 @@ namespace IMOD.Infra.Servicos
                     //_sdk.TransactionManager.CommitTransaction();
                 }
                 return "";
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+                throw;
+            }
+        }
+        /// <summary>
+        ///     CardHolder
+        ///     <para>Encontra um CardHolder se existir</para>
+        /// </summary>
+        /// <param name="entity"></param>
+        public string EncontraCardHolderPelaMatricula(CardHolderEntity entity, string cardholderMatricula)
+        {
+
+            EntityConfigurationQuery query;
+            QueryCompletedEventArgs result;
+            try
+            {
+
+                query = _sdk.ReportManager.CreateReportQuery(ReportType.EntityConfiguration) as EntityConfigurationQuery;
+                query.EntityTypeFilter.Add(EntityType.Cardholder);
+                query.NameSearchMode = StringSearchMode.StartsWith;
+                result = query.Query();
+                SystemConfiguration systemConfiguration = _sdk.GetEntity(SdkGuids.SystemConfiguration) as SystemConfiguration;
+                var service = systemConfiguration.CustomFieldService;
+                if (result.Success)
+                {
+                   
+                    foreach (DataRow dr in result.Data.Rows) 
+                    {
+                        Cardholder cardholder = _sdk.GetEntity((Guid)dr[0]) as Cardholder;
+                        if (cardholder.CustomFields["Matricula"].ToString() == cardholderMatricula.Trim())
+                        {
+                            return cardholder.Guid.ToString();
+                        }
+                    }
+                   
+                }
+                return null;
             }
             catch (Exception ex)
             {
