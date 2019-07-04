@@ -866,8 +866,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     #endregion
                 }
                 else
-                {                    
+                {
+
                     _service.Alterar(n1);
+
                 }
                 //}
                 ////Atualizar Observer

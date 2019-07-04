@@ -235,24 +235,25 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void Alterar(VeiculoCredencial entity)
         {
+
             CredencialMotivo motivo = new CredencialMotivo();
             if (entity.CredencialMotivoId > 0)
             {
-                motivo = CredencialMotivo.BuscarPelaChave((int)entity.CredencialMotivoId);
+                motivo = CredencialMotivo.BuscarPelaChave((int)entity.CredencialMotivoId); 
 
-                if (entity.Ativa)
+                if (entity.CredencialStatusId == 1) 
                 {
                     entity.Baixa = (DateTime?)null;
                 }
-                else if (!entity.Ativa && (!entity.DevolucaoEntregaBo) && motivo.Impeditivo)
+                else if (entity.CredencialStatusId == 2 && (!entity.DevolucaoEntregaBo) && motivo.Impeditivo)
                 {
                     entity.Baixa = (DateTime?)null;
                 }
-                else if (!entity.Ativa && !motivo.Impeditivo)
+                else if (entity.CredencialStatusId == 2 && !motivo.Impeditivo)
                 {
                     entity.Baixa = DateTime.Today.Date;
                 }
-                else if (!entity.Ativa && (entity.DevolucaoEntregaBo) && motivo.Impeditivo)
+                else if (entity.CredencialStatusId == 2 && (entity.DevolucaoEntregaBo) && motivo.Impeditivo)
                 {
                     entity.Baixa = DateTime.Today.Date;
                 }
@@ -321,24 +322,24 @@ namespace IMOD.Application.Service
             entity.DataStatus = entity.Ativa != entity2.Ativa ? DateTime.Today.Date : entity2.DataStatus;
             entity.Ativa = entity2.Ativa; //Atulizar dados para serem exibidas na tela
 
-            CredencialMotivo motivo = new CredencialMotivo();
-            if (entity.CredencialMotivoId > 0)
+            CredencialMotivo motivo = new CredencialMotivo(); 
+            if (entity.CredencialMotivoId > 0) 
             {
-                motivo = CredencialMotivo.BuscarPelaChave(entity.CredencialMotivoId);
+                motivo = CredencialMotivo.BuscarPelaChave((int)entity.CredencialMotivoId);
 
-                if (entity.Ativa)
+                if (entity.CredencialStatusId == 1) 
                 {
                     entity.Baixa = (DateTime?)null;
                 }
-                else if (!entity.Ativa && (!entity.DevolucaoEntregaBo) && motivo.Impeditivo)
+                else if (entity.CredencialStatusId == 2 && (!entity.DevolucaoEntregaBo) && motivo.Impeditivo)
                 {
                     entity.Baixa = (DateTime?)null;
                 }
-                else if (!entity.Ativa && !motivo.Impeditivo)
+                else if (entity.CredencialStatusId == 2 && !motivo.Impeditivo)
                 {
                     entity.Baixa = DateTime.Today.Date;
                 }
-                else if (!entity.Ativa && (entity.DevolucaoEntregaBo) && motivo.Impeditivo)
+                else if (entity.CredencialStatusId == 2 && (entity.DevolucaoEntregaBo) && motivo.Impeditivo)
                 {
                     entity.Baixa = DateTime.Today.Date;
                 }
