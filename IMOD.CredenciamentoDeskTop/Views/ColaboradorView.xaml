@@ -423,7 +423,7 @@
                                          IsEnabled="True" Height="24" Width="50"   />
                                 <Label Content="CEP:" Height="28" Width="90" Foreground="#FFD0D0D0"
                                        HorizontalContentAlignment="Right" />
-                                <TextBox CharacterCasing="Upper" x:Name="Cep_tb" MaxLength="12"
+                                <TextBox CharacterCasing="Upper" x:Name="Cep_tb" MaxLength="9"
                                          PreviewTextInput="NumberOnly"
                                          Text="{Binding Entity.Cep,  UpdateSourceTrigger=PropertyChanged, Converter={StaticResource FormatCep}}"
                                          IsEnabled="True" Height="24" Width="98"   />
