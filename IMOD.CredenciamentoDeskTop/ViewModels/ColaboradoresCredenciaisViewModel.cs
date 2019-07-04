@@ -913,6 +913,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             _configuraSistema = ObterConfiguracao();
             n1.Regras = _configuraSistema.Regras;
             entity.Regras = _configuraSistema.Regras;
+            n1.GrupoPadrao = _configuraSistema.GrupoPadrao;
+            entity.GrupoPadrao = _configuraSistema.GrupoPadrao;
+
             var tecCredencial = _auxiliaresService.TecnologiaCredencialService.BuscarPelaChave(entity.TecnologiaCredencialId);
             if (tecCredencial.PodeGerarCardHolder)
                 _service.CriarTitularCartao(new CredencialGenetecService(Main.Engine), new ColaboradorService(), n1);
