@@ -2145,13 +2145,15 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                var serviceSC = new CredencialGenetecService(Main.Engine);
-                var grupos = serviceSC.RetornarGrupos();
+               
                 var service = new ConfiguraSistemaService();
-
                 var list1 = service.Listar().ToList().FirstOrDefault();
                 var list2 = Mapper.Map<ConfiguraSistemaView>(list1);
                 Entity = list2;
+                
+
+                var serviceSC = new CredencialGenetecService(Main.Engine);
+                var grupos = serviceSC.RetornarGrupos();
                 grupos.ForEach(n => { Entity.Grupos.Add(n.Name); });
             }
             catch (Exception ex)

@@ -233,7 +233,7 @@ namespace IMOD.Infra.Servicos
                                     {
                                         //entity.NumeroCredencial = "1CE56BC0";
                                         //entity.NumeroCredencial = long.Parse(entity.NumeroCredencial, System.Globalization.NumberStyles.HexNumber);
-                                        mifareCsn.SetValues(long.Parse(entity.NumeroCredencial, System.Globalization.NumberStyles.HexNumber));
+                                        mifareCsn.SetValues(long.Parse(entity.NumeroCredencial));
                                         credencial.Format = mifareCsn;
                                     }
 
@@ -412,10 +412,15 @@ namespace IMOD.Infra.Servicos
                     entity.IdentificadorCardHolderGuid = cardHolder.Guid.ToString(); //Set identificador Guid
 
                     SetValorCamposCustomizados(entity, cardHolder);
-                    var cardHolderGroup = _sdk.GetEntity(EntityType.CardholderGroup, 1) as CardholderGroup;
+
+                    //EncontrarGrupos(entity.GrupoPadrao);
+                    Guid grupo = new Guid(EncontrarGrupos(entity.GrupoPadrao));
+
+                    //var cardHolderGroup = _sdk.GetEntity(EntityType.CardholderGroup, 1) as CardholderGroup;
+                    
                     //if (cardHolderGroup == null) throw new InvalidOperationException ("Não foi possível gerar grupo de credencial");
-                    if (cardHolderGroup != null)
-                        cardHolder.Groups.Add(cardHolderGroup.Guid);
+                    if (grupo != null)
+                        cardHolder.Groups.Add(grupo);
                     //cardHolder.Synchronised = false;
                     cardHolder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade);
 
@@ -916,7 +921,31 @@ namespace IMOD.Infra.Servicos
             }
             return groupos;
         }
+        public string EncontrarGrupos(string cardholdergrupo)
+        {
+            EntityConfigurationQuery query;
+            QueryCompletedEventArgs result;
+            List<CardholderGroup> groupos = new List<CardholderGroup>();
 
+            query = _sdk.ReportManager.CreateReportQuery(ReportType.EntityConfiguration) as EntityConfigurationQuery;
+            query.EntityTypeFilter.Add(EntityType.CardholderGroup);
+            query.NameSearchMode = StringSearchMode.StartsWith;
+            result = query.Query();
+            SystemConfiguration systemConfiguration = _sdk.GetEntity(SdkGuids.SystemConfiguration) as SystemConfiguration;
+            var service = systemConfiguration.CustomFieldService;
+            if (result.Success)
+            {
+                foreach (DataRow dr in result.Data.Rows)    //sempre remove todas as regras de um CardHolder
+                {
+                    CardholderGroup grupocradholder = _sdk.GetEntity((Guid)dr[0]) as CardholderGroup;
+                    if(grupocradholder.Name== cardholdergrupo.Trim())
+                    {
+                        return grupocradholder.Guid.ToString();
+                    }
+                }
+            }
+            return "";
+        }
         #endregion
     }
 }

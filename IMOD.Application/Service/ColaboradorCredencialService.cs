@@ -141,7 +141,8 @@ namespace IMOD.Application.Service
                 TecnologiaCredencialId = entity.TecnologiaCredencialId,
                 FormatoCredencialId = entity.FormatoCredencialId,
                 Fc = entity.Fc,
-                Regras=entity.Regras
+                Regras = entity.Regras,
+                GrupoPadrao = entity.GrupoPadrao
             };
             return titularCartao;
         }
