@@ -108,7 +108,7 @@ namespace IMOD.Infra.Servicos.Entities
         public int FormatoCredencialId { get; set; }
         public int Fc { get; set; }
         public bool Regras { get; set; }
-
+        public string GrupoPadrao { get; set; }
         #endregion
 
     }

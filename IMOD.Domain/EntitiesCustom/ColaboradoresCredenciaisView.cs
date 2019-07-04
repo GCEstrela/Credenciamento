@@ -90,5 +90,6 @@ namespace IMOD.Domain.EntitiesCustom
         public string Obs { get; set; }
         public bool DevolucaoEntregaBo { get; set; }
         public bool Regras { get; set; }
+        public string GrupoPadrao { get; set; }
     }
 }
