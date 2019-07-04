@@ -7,7 +7,7 @@
              d:DataContext="{d:DesignInstance viewModels:ConfiguracoesViewModel , IsDesignTimeCreatable=True}"             
              xmlns:funcoes="clr-namespace:IMOD.CredenciamentoDeskTop.Funcoes"
              mc:Ignorable="d"
-             MaxWidth="1300" Width="1270" Height="471.333" >
+             MaxWidth="1300" Width="1270" Height="515" >
     <UserControl.Resources>
         <Image x:Key="imgAdd" Source="../Resources/add.png" />
         <Image x:Key="imgEdit" Source="../Resources/edit.png" />
@@ -977,11 +977,11 @@
                                 <ColumnDefinition Width="209*" />
                             </Grid.ColumnDefinitions>
 
-                            <GroupBox Header="Empresa" Background="BlueViolet" Height="197" VerticalAlignment="Top" Margin="300,20,2,0">
-                                <StackPanel Orientation="Horizontal" Height="185" Margin="2,0,-2,0" VerticalAlignment="Top" >
+                            <GroupBox Header="Empresa" Background="BlueViolet" Height="225" VerticalAlignment="Top" Margin="300,20,2,0">
+                                <StackPanel Orientation="Horizontal" Height="199" Margin="2,0,-2,0" VerticalAlignment="Top" >
                                     <StackPanel.Resources>
                                     </StackPanel.Resources>
-                                    <StackPanel Margin="1,1,1,0" Height="180" VerticalAlignment="Top" Width="421">
+                                    <StackPanel Margin="1,1,1,-8" Height="197" VerticalAlignment="Top" Width="421">
                                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
                                             HorizontalAlignment="Left" Margin="1">
                                             <Label Content="CNPJ:" Height="28" Width="64" Margin="40,0,0,0" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"  />
@@ -1019,6 +1019,11 @@
                                             <TextBox CharacterCasing="Upper" x:Name="txtNomeAeroporto" MaxLength="100"
                                             Text="{Binding Entity.NomeAeroporto, UpdateSourceTrigger=PropertyChanged}" IsEnabled="True" Height="24" Width="305" />
                                         </StackPanel>
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="1">
+                                            <Label Content="Emergência:" Width="100" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
+                                            <TextBox CharacterCasing="Upper" x:Name="txtEmergencia" MaxLength="100"
+                                            Text="{Binding Entity.TelefoneEmergencia, UpdateSourceTrigger=PropertyChanged}" Height="28" IsEnabled="True" Width="220" />
+                                        </StackPanel>
 
                                     </StackPanel>
                                     <StackPanel VerticalAlignment="Top" Margin="50,6,20,0" Height="140" Width="101">
@@ -1048,7 +1053,7 @@
 
                             </GroupBox>
                             <GroupBox Background="Brown"
-                              Grid.Column="0" Header="Configurações" Margin="300,220,0,-23" Height="200" VerticalAlignment="Top" Grid.RowSpan="3">
+                              Grid.Column="0" Header="Configurações" Margin="300,250,0,-23" Height="200" VerticalAlignment="Top" Grid.RowSpan="3">
                                 <StackPanel Margin="1">
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                         Margin="1,1,0,1" Width="623">
@@ -1088,7 +1093,7 @@
                                          Text="{Binding Entity.SMTP, UpdateSourceTrigger=PropertyChanged}"
                                          IsEnabled="True" Height="24" Width="180" />
 
-                                        <Label Content="URL:" Height="28" Width="84" Margin="1" Foreground="#FFD0D0D0"                                        HorizontalContentAlignment="Right" />
+                                        <Label Content="URL Validação:" Height="28" Width="84" Margin="1" Foreground="#FFD0D0D0"                                        HorizontalContentAlignment="Right" />
                                         <TextBox Foreground="#FFD0D0D0"  CharacterCasing="Upper" x:Name="url_tb" MaxLength="200"                                         
                                          Margin="1" IsEnabled="True" Height="24" Width="180"
                                          HorizontalContentAlignment="Left" 
