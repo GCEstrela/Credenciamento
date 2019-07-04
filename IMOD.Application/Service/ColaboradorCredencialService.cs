@@ -203,32 +203,34 @@ namespace IMOD.Application.Service
             var n1 = ObterNumeroColete(colaboradorid,doc);
             return n1;
         }
+
         /// <summary>
         ///     Alterar registro
         /// </summary>
-        /// <param name="entity"></param>
+        /// <param name="entity"></param> 
         public void Alterar(ColaboradorCredencial entity)
         {
+
             CredencialMotivo motivo = new CredencialMotivo();
             if (entity.CredencialMotivoId > 0)
             {
                 motivo = CredencialMotivo.BuscarPelaChave(entity.CredencialMotivoId);
 
-                if (entity.Ativa)
+                if (entity.CredencialStatusId == 1) 
                 {
-                    entity.Baixa = (DateTime?)null;
+                    entity.Baixa = (DateTime?)null; 
                 }
-                else if (!entity.Ativa && (!entity.DevolucaoEntregaBo) && motivo.Impeditivo)
+                else if (entity.CredencialStatusId == 2 && (!entity.DevolucaoEntregaBo) && motivo.Impeditivo)
                 {
-                    entity.Baixa = (DateTime?)null;
+                    entity.Baixa = (DateTime?)null; 
                 }
-                else if (!entity.Ativa && !motivo.Impeditivo)
+                else if (entity.CredencialStatusId == 2 && !motivo.Impeditivo)
                 {
-                    entity.Baixa = DateTime.Today.Date;
+                    entity.Baixa = DateTime.Today.Date; 
                 }
-                else if (!entity.Ativa && (entity.DevolucaoEntregaBo) && motivo.Impeditivo)
+                else if (entity.CredencialStatusId == 2 && (entity.DevolucaoEntregaBo) && motivo.Impeditivo)
                 {
-                    entity.Baixa = DateTime.Today.Date;
+                    entity.Baixa = DateTime.Today.Date; 
                 }
             }
 
@@ -401,19 +403,19 @@ namespace IMOD.Application.Service
             {
                 motivo = CredencialMotivo.BuscarPelaChave(entity.CredencialMotivoId);
 
-                if (entity.Ativa)
+                if (entity.CredencialStatusId == 1)
                 {
                     entity.Baixa = (DateTime?)null;
                 }
-                else if (!entity.Ativa && (!entity.DevolucaoEntregaBo) && motivo.Impeditivo)
+                else if (entity.CredencialStatusId == 2 && (!entity.DevolucaoEntregaBo) && motivo.Impeditivo)
                 {
                     entity.Baixa = (DateTime?)null;
-                }
-                else if (!entity.Ativa && !motivo.Impeditivo)
+                } 
+                else if (entity.CredencialStatusId == 2 && !motivo.Impeditivo) 
                 {
                     entity.Baixa = DateTime.Today.Date;
-                }
-                else if (!entity.Ativa && (entity.DevolucaoEntregaBo) && motivo.Impeditivo)
+                } 
+                else if (entity.CredencialStatusId == 2 && (entity.DevolucaoEntregaBo) && motivo.Impeditivo)
                 {
                     entity.Baixa = DateTime.Today.Date;
                 }

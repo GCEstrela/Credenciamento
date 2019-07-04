@@ -1142,7 +1142,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(22);
                 if (relatorioGerencial == null || relatorioGerencial.ArquivoRpt == null || String.IsNullOrEmpty(relatorioGerencial.ArquivoRpt)) return;
 
-                var result = objVeiculoCredencial.ListarVeiculoCredencialViaAdicionaisView(veiculoCredencial);
+                var result = objVeiculoCredencial.ListarVeiculoCredencialViaAdicionaisView(veiculoCredencial).Where(n => n.CredencialMotivoId == 2 || n.CredencialMotivoId == 3);
                 var resultMapeado = Mapper.Map<List<RelVeiculosCredenciaisView>>(result.OrderByDescending(n => n.VeiculoCredencialId).ToList());
 
                 byte[] arrayFile = Convert.FromBase64String(relatorioGerencial.ArquivoRpt);
