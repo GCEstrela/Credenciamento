@@ -1076,7 +1076,7 @@
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"  Margin="1">
                                         <Label Content="Grupo Padrão:" Height="28" Width="110" Margin="1"  Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                                         <ComboBox  x:Name="Group_cb" Margin="1" 
-                                         ItemsSource="{Binding Entity.Grupos}"
+                                         ItemsSource="{Binding Entity.Grupos}"                                         
                                          SelectedValue="{Binding Entity.GrupoPadrao, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                          IsEnabled="True" Height="24" Width="444" />
                                     </StackPanel>
