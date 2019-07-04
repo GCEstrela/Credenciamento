@@ -62,6 +62,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private Boolean verificarcredencialAtiva = false; // Testa se é prara verificar a exectencia de credencial ativa para o colaborador.
         private int _count;
         private List<CredencialMotivo> _credencialMotivo;
+        private bool _coleteEnabled;
 
         /// <summary>
         ///     True, Comando de alteração acionado
@@ -86,7 +87,19 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         public bool HabilitarOpcoesCredencial { get; set; }
         public string ExcluirVisivel { get; set; }
-        public Boolean ColeteEnabled { get; set; }
+        public Boolean ColeteEnabled
+        {
+            get
+            {
+                if (_coleteEnabled)
+                {
+                    return Habilitar;
+                }
+
+                return _coleteEnabled;
+            }
+            set { _coleteEnabled = value; }
+        }
         public CredencialStatus StatusCredencial { get; set; }
         public List<CredencialStatus> CredencialStatus { get; set; }
 
@@ -253,9 +266,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 //mensagem5 = n1.PendenciaImpeditiva ? " Pendência(s) para a COLABORADOR: " + mensagemPendenciasColaborador : string.Empty;
                 mensagem5 = impeditivaColaborador ? " Pendência(s) para a COLABORADOR: " + mensagemPendenciasColaborador : string.Empty;
                 Entity.DevolucaoEntregaBo = n1.DevolucaoEntregaBo;
-            } 
-             
-            
+            }
+
+
 
             CollectionViewSource.GetDefaultView(EntityObserver).Refresh();
             //Exibir mensagem de impressao de credencial, esta tem prioridade sobre as demais regras            
@@ -652,7 +665,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 n1.ColaboradorPrivilegio1Id = Entity.ColaboradorPrivilegio1Id;
                 n1.ColaboradorPrivilegio2Id = Entity.ColaboradorPrivilegio2Id;
                 n1.Identificacao1 = Entity.Identificacao1;
-                n1.Identificacao2 = Entity.Identificacao2;                
+                n1.Identificacao2 = Entity.Identificacao2;
                 n1.Validade = Entity.Validade.Value.AddHours(23).AddMinutes(59).AddSeconds(59); //Sempre Add 23:59:59 horas à credencial nova.
                 //_configuraSistema = ObterConfiguracao();
                 n1.Regras = _configuraSistema.Regras;
@@ -799,7 +812,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                
+
                 if (Entity == null) return;     //IdentificacaoDescricao = null
                 System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
                 //Alterado por Maximo em 28/06/2019
@@ -834,7 +847,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                         //return;
                     }
                 }
-               // _configuraSistema = ObterConfiguracao();
+                // _configuraSistema = ObterConfiguracao();
                 n1.Regras = _configuraSistema.Regras;
                 Entity.Regras = _configuraSistema.Regras;
                 //Atualizar dados a serem exibidas na tela de empresa
@@ -866,7 +879,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     #endregion
                 }
                 else
-                {                    
+                {
                     _service.Alterar(n1);
                 }
                 //}
@@ -951,7 +964,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             var tecCredencial = _auxiliaresService.TecnologiaCredencialService.BuscarPelaChave(entity.TecnologiaCredencialId);
             if (tecCredencial.PodeGerarCardHolder)
                 _service.RemoverCredencial(new CredencialGenetecService(Main.Engine), new ColaboradorService(), n1);
-            
+
         }
 
         /// <summary>
@@ -1064,10 +1077,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var c1 = Mapper.Map<CredencialViewCracha>(credencialView);
                 c1.CrachaCursos = _cursosCracha;
 
-                if (c1.CredencialMotivoID != 2 & c1.CredencialMotivoID != 3) 
+                if (c1.CredencialMotivoID != 2 & c1.CredencialMotivoID != 3)
                 {
                     c1.ImpressaoMotivo = "";
-                } 
+                }
                 c1.TelefoneEmergencia = _configuraSistema.TelefoneEmergencia;
                 c1.EmpresaNome = c1.EmpresaNome + (!string.IsNullOrEmpty(c1.TerceirizadaNome) ? " / " + c1.TerceirizadaNome : string.Empty);
                 c1.Emissao = DateTime.Now;
@@ -1122,7 +1135,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             IsEnableLstView = false;
 
             //Habilitar controles somente se a credencial não estiver sido impressa
-            if(Entity.CardHolderGuid==null)
+            if (Entity.CardHolderGuid == null)
                 Habilitar = !Entity.Impressa;
 
             _viewModelParent.HabilitaControleTabControls(false, false, false, false, false, true);
@@ -1258,7 +1271,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
 
             //retirar o espaço entre a numeração obtida do cartão
-            if (Entity.Validade.Value.AddHours(23).AddMinutes(59).AddSeconds(59) < DateTime.Now)            
+            if (Entity.Validade.Value.AddHours(23).AddMinutes(59).AddSeconds(59) < DateTime.Now)
             {
                 WpfHelp.Mbox("Data de Validade não pode ser menor que a data atual. Não é possível continua essa ação.", MessageBoxIcon.Information);
                 return true;
