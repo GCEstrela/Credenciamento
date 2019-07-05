@@ -222,16 +222,28 @@
       <DependentUpon>ForVerdeOrgaosPublicos.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Cracha\FraportFortalAutorizacao.cs">
+    <Compile Include="Cracha\FraportForAutorizacao.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>FraportFortalAutorizacao.rpt</DependentUpon>
+      <DependentUpon>FraportForAutorizacao.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Cracha\FraportPortoAutorizacao.cs">
+    <Compile Include="Cracha\FraportForAutorizacaoManobra.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>FraportPortoAutorizacao.rpt</DependentUpon>
+      <DependentUpon>FraportForAutorizacaoManobra.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Cracha\FraportPoaAutorizacao.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FraportPoaAutorizacao.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Cracha\FraportPoaAutorizacaoManobra.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FraportPoaAutorizacaoManobra.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Cracha\PoaAmareloTerceiras.cs">
@@ -1109,13 +1121,21 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>ForVerdeOrgaosPublicos.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Cracha\FraportFortalAutorizacao.rpt">
+    <EmbeddedResource Include="Cracha\FraportForAutorizacao.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>FraportFortalAutorizacao.cs</LastGenOutput>
+      <LastGenOutput>FraportForAutorizacao.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Cracha\FraportPortoAutorizacao.rpt">
+    <EmbeddedResource Include="Cracha\FraportForAutorizacaoManobra.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>FraportPortoAutorizacao.cs</LastGenOutput>
+      <LastGenOutput>FraportForAutorizacaoManobra.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\FraportPoaAutorizacao.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>FraportPoaAutorizacao.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\FraportPoaAutorizacaoManobra.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>FraportPoaAutorizacaoManobra.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Cracha\PoaAmareloTerceiras.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

@@ -14,6 +14,7 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public int EquipamentoVeiculoId { get; set; }
         public int? TipoServicoId { get; set; }
         public string Descricao { get; set; }
+        public string VeiculoDescricao { get; set; }
 
         #endregion
     }

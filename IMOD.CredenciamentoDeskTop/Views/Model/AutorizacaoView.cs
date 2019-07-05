@@ -19,6 +19,9 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public string Categoria { get; set; }
         public string Frota { get; set; }
         public string Lacre { get; set; }
+        public string SerieChassi { get; set; }
+        public string TipoServico { get; set; }
+        public string AreaManobra { get; set; }
 
         #endregion
 

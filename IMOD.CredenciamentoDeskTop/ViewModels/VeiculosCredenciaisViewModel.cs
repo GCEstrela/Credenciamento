@@ -621,15 +621,32 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (layoutCracha == null) throw new InvalidOperationException ("Não é possível imprimir uma credencial sem ter sido definida um layout do crachá.");
                 if (string.IsNullOrWhiteSpace (layoutCracha.LayoutRpt)) throw new InvalidOperationException ("Não é possível imprimir uma credencial sem ter sido definida um layout do crachá.");
 
-                Cursor.Current = Cursors.WaitCursor; 
+                Cursor.Current = Cursors.WaitCursor;
+
+                var tipoEquipamentoService = _auxiliaresService.EquipamentoVeiculoTipoServicoService.ListarEquipamentoVeiculoTipoServicoView(Entity.VeiculoId).ToList();
+
+                string _servicoAutorizacao = ""; 
+
+                foreach (IMOD.Domain.EntitiesCustom.EquipamentoVeiculoTipoServicoView element in tipoEquipamentoService)
+                {
+                    if (_servicoAutorizacao == "")
+                    {
+                        _servicoAutorizacao = !String.IsNullOrEmpty(element.Descricao) ? " - " + element.Descricao?.ToString() : "";
+                    }
+                    else
+                    {
+                        _servicoAutorizacao = _servicoAutorizacao + Environment.NewLine + " - " + element.Descricao.ToString();
+                    }
+                }
 
                 var arrayBytes = WpfHelp.ConverterBase64 (layoutCracha.LayoutRpt, "Layout de Autorização");
                 var relatorio = WpfHelp.ShowRelatorioCrystalReport (arrayBytes, layoutCracha.Nome);
                 var lst = new List<Views.Model.AutorizacaoView>();
                 var credencialView = _service.ObterCredencialView (Entity.VeiculoCredencialId);
-                
+
+                credencialView.TipoServico = _servicoAutorizacao;
                 var AutorizacaoMapeada = Mapper.Map<Views.Model.AutorizacaoView>(credencialView);
-                lst.Add (AutorizacaoMapeada);
+                lst.Add (AutorizacaoMapeada); 
 
                 relatorio.SetDataSource (lst);
 

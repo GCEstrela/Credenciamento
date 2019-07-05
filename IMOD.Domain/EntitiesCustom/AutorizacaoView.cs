@@ -20,5 +20,9 @@ namespace IMOD.Domain.EntitiesCustom
         public string Foto { get; set; }
         public string Descricao { get; set; }
         public string Lacre { get; set; }
+        public string SerieChassi { get; set; } 
+        public string TipoServico { get; set; }
+        public string AreaManobra { get; set; }
+
     }
 }
