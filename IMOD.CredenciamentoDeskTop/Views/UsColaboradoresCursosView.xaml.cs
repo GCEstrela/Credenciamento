@@ -94,6 +94,19 @@ namespace IMOD.CredenciamentoDeskTop.Views
             var regex = new Regex("[^0-9]+");
             e.Handled = regex.IsMatch(e.Text);
         }
-        
+
+        private void ListaColaboradoresCursos_lv_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                if (_viewModel.Entity == null) return;
+                _viewModel.BuscarAnexo(_viewModel.Entity.ColaboradorCursoId);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }
