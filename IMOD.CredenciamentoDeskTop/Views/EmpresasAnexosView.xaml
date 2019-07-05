@@ -82,7 +82,7 @@
                           HorizontalAlignment="Stretch" 
                           ItemsSource="{Binding EntityObserver, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                           SelectedItem="{Binding Entity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                          Width="749" Margin="0,15,0,0" Height="175" VerticalAlignment="Top">
+                          Width="749" Margin="0,15,0,0" Height="175" VerticalAlignment="Top" SelectionChanged="ListaAnexos_lv_SelectionChanged">
                     <ListView.View>
                         <GridView FrameworkElement.FlowDirection="RightToLeft">
                             <GridViewColumn Width="50" Header="Cod." DisplayMemberBinding="{Binding EmpresaAnexoId}" />

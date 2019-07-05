@@ -42,8 +42,9 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         private void OnSelecionaContrato_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (_viewModel.Empresa == null) return;
+            if (_viewModel.Empresa == null) return;           
             _viewModel.ListarContratos(_viewModel.Empresa);
+            _viewModel.BuscarAnexo(_viewModel.Entity.ColaboradorEmpresaId);
             cmbContrato.Items.Refresh();
         }
 
