@@ -50,8 +50,9 @@ namespace IMOD.Infra.Repositorios
                 {
                     try
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("CursoID", entity.CursoId, true)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Descricao", entity.Descricao, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("CursoID", entity.CursoId, true))); 
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Descricao", entity.Descricao, false))); 
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Cracha", entity.Cracha, false))); 
 
                         var key = Convert.ToInt32(cmd.ExecuteScalar());
 
@@ -141,6 +142,7 @@ namespace IMOD.Infra.Repositorios
                     {
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("CursoID", entity.CursoId, true)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Descricao", entity.Descricao, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Cracha", entity.Cracha, false)));
 
                         cmd.ExecuteNonQuery();
                     }
