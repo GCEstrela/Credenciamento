@@ -59,6 +59,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Cargo", entity.Cargo, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Matricula", entity.Matricula, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Ativo", entity.Ativo, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("AreaManobra", entity.AreaManobra, false)));
 
                         var key = Convert.ToInt32(cmd.ExecuteScalar());
                         entity.VeiculoEmpresaId = key;
@@ -136,7 +137,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Matricula", DbType.String, objects, 3).Like()));
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmpresaNome", DbType.String, objects, 4).Like()));
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmpresaID", DbType.Int16, objects, 5).Igual()));
-
+                        
                         var reader = cmd.ExecuteReaderSelect(); 
                         var d1 = reader.MapToList<VeiculoEmpresa>(); 
 
@@ -171,6 +172,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Cargo", entity.Cargo, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Matricula", entity.Matricula, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Ativo", entity.Ativo, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("AreaManobra", entity.AreaManobra, false)));
 
                         cmd.ExecuteNonQuery();
                     }

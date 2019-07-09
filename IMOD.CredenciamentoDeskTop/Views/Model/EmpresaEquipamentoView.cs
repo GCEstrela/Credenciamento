@@ -33,6 +33,7 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public int StatusId { get; set; }
         public int TipoAcessoId { get; set; }
         public int EmpresaId { get; set; }
+        public bool AreaManobra { get; set; }
 
         #endregion
     }
