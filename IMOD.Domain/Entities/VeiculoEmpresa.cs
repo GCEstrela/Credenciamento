@@ -20,7 +20,7 @@ namespace IMOD.Domain.Entities
         public string Cargo { get; set; }
         public string Matricula { get; set; }
         public bool Ativo { get; set; }
-
+        public bool AreaManobra { get; set; }
         #endregion
     }
 }

@@ -75,6 +75,12 @@
                                    DisplayMemberPath="Descricao"  
                                    SelectedValue="{Binding Entity.EmpresaContratoId, UpdateSourceTrigger=PropertyChanged}" 
                                    SelectedValuePath="EmpresaContratoId" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
+
+                        <Label Content="Área de Manobra:" Height="28" Width="143" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
+                        <CheckBox VerticalAlignment="Center" x:Name="chk_areaManobra"                                               
+                                              Foreground="#FFD0D0D0" 
+                                              IsChecked="{Binding Entity.AreaManobra, UpdateSourceTrigger=PropertyChanged}"
+                                              Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                     Margin="1,1,0,1" Width="947">
