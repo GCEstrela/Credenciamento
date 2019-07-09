@@ -414,13 +414,27 @@ namespace IMOD.Infra.Servicos
                     SetValorCamposCustomizados(entity, cardHolder);
 
                     //EncontrarGrupos(entity.GrupoPadrao);
-                    Guid grupo = new Guid(EncontrarGrupos(entity.GrupoPadrao));
+                    if (entity.GrupoPadrao != null)
+                    {
+                        try
+                        {
+                            Guid grupo = new Guid(EncontrarGrupos(entity.GrupoPadrao));
+                            if (grupo != null)
+                                cardHolder.Groups.Add(grupo);
+                        }
+                        catch (Exception)
+                        {
+
+                            //throw;
+                        }
+
+                    }
+                        
 
                     //var cardHolderGroup = _sdk.GetEntity(EntityType.CardholderGroup, 1) as CardholderGroup;
 
                     //if (cardHolderGroup == null) throw new InvalidOperationException ("Não foi possível gerar grupo de credencial");
-                    if (grupo != null)
-                        cardHolder.Groups.Add(grupo);
+                   
                     //cardHolder.Synchronised = false;
                     cardHolder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade);
 
@@ -984,7 +998,7 @@ namespace IMOD.Infra.Servicos
                     }
                 }
             }
-            return "";
+            return null;
         }
         #endregion
     }

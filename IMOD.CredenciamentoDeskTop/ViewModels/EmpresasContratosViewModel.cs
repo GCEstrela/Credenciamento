@@ -457,9 +457,14 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
             //Verificar dados antes de salvar uma alteraçao
             if (!_prepareAlterarCommandAcionado) return false;
-            var n2 = _service.BuscarPelaChave (Entity.EmpresaContratoId);
-            return string.Compare (n2.NumeroContrato,
-                       numContrato, StringComparison.Ordinal) != 0;
+            //var n2 = _service.BuscarPelaChave (Entity.EmpresaContratoId);
+            var n2 = _service.Listar(null,Entity.NumeroContrato).FirstOrDefault();
+            if (n2 != null)
+            {
+                return string.Compare(n2.NumeroContrato,
+                                       numContrato, StringComparison.Ordinal) != 0;
+            }
+            return false;
         }
 
         #endregion

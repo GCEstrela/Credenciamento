@@ -210,7 +210,11 @@ namespace IMOD.CredenciamentoDeskTop.Views
                         case 10:
                             chkDevolucaoMotivo.Content = DevoluçãoCredencial.EntregaBO.Descricao();
                             chkDevolucaoMotivo.Visibility = Visibility.Visible;
-                            break; 
+                            break;
+                        case 18:
+                            chkDevolucaoMotivo.Content = DevoluçãoCredencial.EntregaBO.Descricao();
+                            chkDevolucaoMotivo.Visibility = Visibility.Visible;
+                            break;
                         default: 
                             chkDevolucaoMotivo.IsChecked = false; 
                             chkDevolucaoMotivo.Content = String.Empty; 

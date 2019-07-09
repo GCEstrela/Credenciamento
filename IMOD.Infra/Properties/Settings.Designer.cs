@@ -26,9 +26,9 @@ namespace IMOD.Infra.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=172.16.190.108\\SQLEXPRESS;Initial Catalog=D_iModCredenciamento;User I" +
-            "D=imod;Password=imod;Min Pool Size=5;Max Pool Size=15;Connection Reset=True;Conn" +
-            "ection Lifetime=600;Trusted_Connection=no;MultipleActiveResultSets=True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=10.51.254.91;Initial Catalog=D_iModCredenciamento;User ID=imod;Passwo" +
+            "rd=imod;Min Pool Size=5;Max Pool Size=15;Connection Reset=True;Connection Lifeti" +
+            "me=600;Trusted_Connection=no;MultipleActiveResultSets=True")]
         public string Credenciamento {
             get {
                 return ((string)(this["Credenciamento"]));

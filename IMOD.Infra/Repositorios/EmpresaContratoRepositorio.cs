@@ -110,6 +110,8 @@ namespace IMOD.Infra.Repositorios
                     try
                     {
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("EmpresaContratoId", DbType.Int32, id).Igual()));
+                        
+
                         var reader = cmd.ExecuteReader();
                         var d1 = reader.MapToList<EmpresaContrato>();
 
