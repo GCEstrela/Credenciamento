@@ -375,8 +375,10 @@
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0" >
                                         <Label Content="Código:" Height="28" Width="54"  Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
                                         <TextBox CharacterCasing="Upper"  x:Name="CodigoCursos_tb"  Text="{Binding SelectedItem.CursoId, ElementName=ListaTiposCursos_lv, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"  Height="24"  Width="50"/>
-                                        <Label Content="Treinam./Certif." Height="28" Width="112"   Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                        <TextBox CharacterCasing="Upper"  x:Name="DescricaoCursos_tb"  Text="{Binding SelectedItem.Descricao, ElementName=ListaTiposCursos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="334"/>
+                                        <Label Content="Treinam./Certif." Height="28" Width="100"   Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                                        <TextBox CharacterCasing="Upper"  x:Name="DescricaoCursos_tb"  Text="{Binding SelectedItem.Descricao, ElementName=ListaTiposCursos_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="290"/>
+                                        <CheckBox x:Name="ChkCracha"  Content="Crachá" FlowDirection="RightToLeft" VerticalContentAlignment="Center" Height="28"  Width="55"  HorizontalContentAlignment="Left"  Foreground="#FFD0D0D0" 
+                                               IsChecked="{Binding SelectedItem.Cracha, ElementName=ListaTiposCursos_lv, UpdateSourceTrigger=PropertyChanged}"/>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0">
                                         <ListView x:Name="ListaTiposCursos_lv" Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding Cursos, Mode=TwoWay}" 
