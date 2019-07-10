@@ -22,7 +22,7 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
     {
 
         #region  Propriedades
-
+        public int IdColaboradorSICOA { get; set; }
         public int ColaboradorId { get; set; }
         [Required(ErrorMessage = "O Nome é requerido.")]
         public string Nome { get; set; }
@@ -121,6 +121,7 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
                 }
             }
         }
+        
 
 
         #endregion

@@ -15,7 +15,7 @@ namespace IMOD.Domain.Entities
     public class Colaborador
     {
         #region  Propriedades
-
+        public int IdColaboradorSICOA { get; set; }
         public int ColaboradorId { get; set; }
         public string Nome { get; set; }
         public string Apelido { get; set; }
@@ -66,6 +66,7 @@ namespace IMOD.Domain.Entities
         public bool Receitafederal { get; set; }
         public bool Segurancatrabalho { get; set; }
         public bool Precadastro { get; set; }
+       
         #endregion
     }
 }

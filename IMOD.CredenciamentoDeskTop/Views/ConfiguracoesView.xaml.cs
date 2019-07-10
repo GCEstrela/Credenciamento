@@ -1,10 +1,14 @@
 ﻿using System;
+using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using IMOD.Application.Interfaces;
 using IMOD.CredenciamentoDeskTop.Helpers;
 using IMOD.CredenciamentoDeskTop.ViewModels;
 using IMOD.CrossCutting;
+using Microsoft.Win32;
 
 namespace IMOD.CredenciamentoDeskTop.Views
 {
@@ -625,6 +629,136 @@ namespace IMOD.CredenciamentoDeskTop.Views
             btnAdicionarTipoAtividade.IsEnabled = true;
             btnSalvarTipoAtividade.IsEnabled = false;
             ((ConfiguracoesViewModel)DataContext).OnSalvarEdicaoCommand_ConfiguracoesSistema();
+        }
+
+        
+
+        private void Colaborador_bt_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
+
+                IColaboradorService _service = new Application.Service.ColaboradorService();
+
+                var openFileDialog = new OpenFileDialog();
+                openFileDialog.Multiselect = false;
+                //openFileDialog.Filter = "*.jpg";
+                openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                /////////////////////////////////////////
+                //DirectoryInfo di = new DirectoryInfo(openFileDialog.InitialDirectory);
+                System.IO.DirectoryInfo di = new System.IO.DirectoryInfo(@"C:\Fraport");
+                System.IO.FileInfo[] rgFiles = di.GetFiles("*.jpg");
+
+                foreach (System.IO.FileInfo fi in rgFiles)
+                {
+                    var id = fi.Name.Split('.');
+                    var path = fi.FullName;
+                    var tamBytes = new System.IO.FileInfo(path).Length;
+                    var tam = decimal.Divide(tamBytes, 1024);
+                    var arq = new ArquivoInfo
+                    {
+                        Nome = openFileDialog.SafeFileName
+                    };
+
+
+                    arq.ArrayBytes = File.ReadAllBytes(path);
+                    arq.FormatoBase64 = Convert.ToBase64String(arq.ArrayBytes);
+                    arq.ArrayBytes = File.ReadAllBytes(path);
+                    arq.FormatoBase64 = Convert.ToBase64String(arq.ArrayBytes);
+
+                    try
+                    {
+
+                        if (arq != null)
+                        {
+                            var n2 = _service.Listar(null, null, null, null, id[0]).FirstOrDefault();
+                            if (n2 != null)
+                            {
+                                n2.Foto = arq.FormatoBase64;
+                                _service.Alterar(n2);
+                            }
+
+                        }
+
+                    }
+                    catch (Exception ex)
+                    {
+                        //System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
+                        throw ex;
+                    }
+
+                    System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        private void Emprasa_bt_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
+
+                IEmpresaService _service = new Application.Service.EmpresaService();
+
+                var openFileDialog = new OpenFileDialog();
+                openFileDialog.Multiselect = false;
+                //openFileDialog.Filter = "*.jpg";
+                openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                /////////////////////////////////////////
+                //DirectoryInfo di = new DirectoryInfo(openFileDialog.InitialDirectory);
+                System.IO.DirectoryInfo di = new System.IO.DirectoryInfo(@"C:\Fraport");
+                System.IO.FileInfo[] rgFiles = di.GetFiles("*.jpg");
+
+                foreach (System.IO.FileInfo fi in rgFiles)
+                {
+                    var id = fi.Name.Split('.');
+                    var path = fi.FullName;
+                    var tamBytes = new System.IO.FileInfo(path).Length;
+                    var tam = decimal.Divide(tamBytes, 1024);
+                    var arq = new ArquivoInfo
+                    {
+                        Nome = openFileDialog.SafeFileName
+                    };
+
+
+                    arq.ArrayBytes = File.ReadAllBytes(path);
+                    arq.FormatoBase64 = Convert.ToBase64String(arq.ArrayBytes);
+                    arq.ArrayBytes = File.ReadAllBytes(path);
+                    arq.FormatoBase64 = Convert.ToBase64String(arq.ArrayBytes);
+
+                    try
+                    {
+
+                        if (arq != null)
+                        {
+                            var n2 = _service.Listar(null, null, null, null, null, null, null, id[0]).FirstOrDefault();
+                            if (n2 != null)
+                            {
+                                n2.Logo = arq.FormatoBase64;
+                                _service.Alterar(n2);
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        //System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
+                        throw ex;
+                    }
+
+                    System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
     }
 }

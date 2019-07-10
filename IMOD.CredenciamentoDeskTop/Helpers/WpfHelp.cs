@@ -11,20 +11,28 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Media.Imaging;
+using AutoMapper;
 using CrystalDecisions.CrystalReports.Engine;
 using CrystalDecisions.Shared;
+using IMOD.Application.Interfaces;
+using IMOD.Application.Service;
+using IMOD.CredenciamentoDeskTop.Views.Model;
 using IMOD.CredenciamentoDeskTop.Windows;
 using IMOD.CrossCutting;
+using IMOD.Domain.Entities;
+using IMOD.Domain.EntitiesCustom;
 using IMOD.Infra.Ado;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 
 #endregion
-
+ 
 namespace IMOD.CredenciamentoDeskTop.Helpers
 {
+   
     /// <summary>
     ///     Mátodos utilizados somente no domínio da aplicação WPF
     /// </summary>
@@ -199,16 +207,18 @@ namespace IMOD.CredenciamentoDeskTop.Helpers
         /// <returns></returns>
         public static ArquivoInfo UpLoadArquivoDialog(string filtro, int tamMax = 0)
         {
+           
             var openFileDialog = new OpenFileDialog();
             openFileDialog.Multiselect = false;
             openFileDialog.Filter = filtro;
             openFileDialog.InitialDirectory = Environment.GetFolderPath (Environment.SpecialFolder.MyDocuments);
+
             var result = openFileDialog.ShowDialog();
             if (result != true) return null;
 
             var path = openFileDialog.FileName;
-            var tamBytes = new FileInfo (path).Length;
-            var tam = decimal.Divide (tamBytes, 1024);
+            var tamBytes = new FileInfo(path).Length;
+            var tam = decimal.Divide(tamBytes, 1024);
             var arq = new ArquivoInfo
             {
                 Nome = openFileDialog.SafeFileName
@@ -216,8 +226,8 @@ namespace IMOD.CredenciamentoDeskTop.Helpers
 
             if (tamMax == 0)
             {
-                arq.ArrayBytes = File.ReadAllBytes (path);
-                arq.FormatoBase64 = Convert.ToBase64String (arq.ArrayBytes);
+                arq.ArrayBytes = File.ReadAllBytes(path);
+                arq.FormatoBase64 = Convert.ToBase64String(arq.ArrayBytes);
                 return arq;
             }
 
@@ -227,8 +237,8 @@ namespace IMOD.CredenciamentoDeskTop.Helpers
                 //throw new Exception ($"{tamMax} Kbytes é o tamanho máximo permitido para upload.");
                 return null;
             }
-            arq.ArrayBytes = File.ReadAllBytes (path);
-            arq.FormatoBase64 = Convert.ToBase64String (arq.ArrayBytes);
+            arq.ArrayBytes = File.ReadAllBytes(path);
+            arq.FormatoBase64 = Convert.ToBase64String(arq.ArrayBytes);
             return arq;
         }
 

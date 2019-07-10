@@ -13,7 +13,7 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
     public class EmpresaView:ValidacaoModel ,ICloneable
     {
         #region  Propriedades
-
+        public int IdEmpresaSICOA { get; set; }
         public int EmpresaId { get; set; }
         [Required(ErrorMessage = "A Razão Social é requerida.")]
         public string Nome { get; set; }

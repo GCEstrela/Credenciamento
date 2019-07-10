@@ -7,7 +7,7 @@
              d:DataContext="{d:DesignInstance viewModels:ConfiguracoesViewModel , IsDesignTimeCreatable=True}"             
              xmlns:funcoes="clr-namespace:IMOD.CredenciamentoDeskTop.Funcoes"
              mc:Ignorable="d"
-             MaxWidth="1300" Width="1270" Height="515" >
+             MaxWidth="1300" Width="1270" Height="611" >
     <UserControl.Resources>
         <Image x:Key="imgAdd" Source="../Resources/add.png" />
         <Image x:Key="imgEdit" Source="../Resources/edit.png" />
@@ -1028,15 +1028,16 @@
                                         </StackPanel>
 
                                     </StackPanel>
-                                    <StackPanel VerticalAlignment="Top" Margin="50,6,20,0" Height="140" Width="101">
+                                    <StackPanel VerticalAlignment="Top" Margin="50,6,20,0" Height="161" Width="101">
                                         <Border CornerRadius="3" BorderThickness="1" Grid.Column="0" Width="100" Height="100"
                                             HorizontalAlignment="Left" BorderBrush="#FF686868">
                                             <Image x:Name="Logo_im" Stretch="Uniform"                                           
                                             Margin="3" Source="{Binding Entity.EmpresaLOGO, Converter={StaticResource ImageConverter}, Mode=TwoWay, UpdateSourceTrigger=Explicit}"/>
                                         </Border>
-                                        <Button Content="Selecionar Logo"
-                                        HorizontalAlignment="Center" Margin="0,10,0,0" Height="30" Width="100" Click="Button_Click"/>
+                                        <Button Content="Selecionar Logo" HorizontalAlignment="Center" Margin="0,10,0,0" Height="30" Width="100" Click="Button_Click"/>
+
                                     </StackPanel>
+
                                     <StackPanel Orientation="Vertical" Margin="0,0" Width="30" HorizontalAlignment="Right" Height="167" VerticalAlignment="Top" >
                                         <Button x:Name="btnAdicionarTipoAtividade55" Content="{StaticResource imgAdd}" ToolTip="Adicionar" Width="25"
                                                 Margin="0,0,0,7" Visibility="Collapsed" Click="NovoTipoAtividade_bt_Click" />
@@ -1049,13 +1050,14 @@
 
                                         <Button x:Name="btnSalvarConfiguracoesSistema" Content="{StaticResource imgSave}" ToolTip="Salvar" Width="25"
                                                     Margin="0,0,0,7" IsEnabled="True" Click="BtnSalvarConfiguracoesSistema_Click"/>
+                                       
                                     </StackPanel>
 
                                 </StackPanel>
 
                             </GroupBox>
                             <GroupBox Background="Brown"
-                              Grid.Column="0" Header="Configurações" Margin="300,250,0,-23" Height="200" VerticalAlignment="Top" Grid.RowSpan="3">
+                              Grid.Column="0" Header="Configurações" Margin="300,250,0,-83" Height="260" VerticalAlignment="Top" Grid.RowSpan="3">
                                 <StackPanel Margin="1">
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                         Margin="1,1,0,1" Width="623">
@@ -1139,6 +1141,12 @@
                                          Margin="1" IsEnabled="True" Height="24" Width="80"
                                          HorizontalContentAlignment="Center" Text="{Binding Entity.arquivoTamanho, UpdateSourceTrigger=PropertyChanged}"/>
 
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"  
+                                      Margin="1,1,0,1" Width="557">
+                                        <Label Content="Importação:" Height="28" Width="110" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
+                                        <Button x:Name="emprasa_bt" Content="Logo das Empresa" Margin="0,1,0,1" Width="139" Click="Emprasa_bt_Click" ></Button>
+                                        <Button x:Name="colaborador_bt" Content="Fotos dos Colaborador" Margin="60,1,0,1" Width="148" Click="Colaborador_bt_Click"></Button>
                                     </StackPanel>
                                     <!--<StackPanel  Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                         Margin="1,1,0,1" Width="590">

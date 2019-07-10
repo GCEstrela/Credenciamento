@@ -132,16 +132,34 @@ namespace IMOD.CredenciamentoDeskTop.Views
             try
             {
                 var filtro = "Images (*.BMP;*.JPG;*.GIF,*.PNG,*.TIFF)|*.BMP;*.JPG;*.GIF;*.PNG;*.TIFF|" + "All files (*.*)|*.*";
-                var arq = WpfHelp.UpLoadArquivoDialog(filtro,_viewModel.IsTamanhoImagem);
+                var arq = WpfHelp.UpLoadArquivoDialog(filtro, _viewModel.IsTamanhoImagem);
                 if (arq == null) return;
                 _viewModel.Entity.Foto = arq.FormatoBase64;
                 var binding = BindingOperations.GetBindingExpression(Logo_im, Image.SourceProperty);
                 binding?.UpdateTarget();
-           
+
             }
             catch (Exception ex)
             {
                 Utils.TraceException(ex);
+            }
+
+            try
+            {
+                //listView1.Items.Clear();
+                DirectoryInfo di = new DirectoryInfo(@"C:\Users\renatomaximo\Pictures\img");
+
+                FileInfo[] rgFiles = di.GetFiles("*.jpg");
+
+                foreach (FileInfo fi in rgFiles)
+                {
+                    //listView1.Items.Add(fi.Name);
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
             }
         }
 
