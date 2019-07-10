@@ -37,7 +37,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
         private readonly IColaboradorService _service = new ColaboradorService();
         private readonly IColaboradorEmpresaService _serviceColaboradorEmpresa = new ColaboradorEmpresaService();
-
+        private readonly IColaboradorCredencialService _serviceColaboradorCredencial = new ColaboradorCredencialService();
         private readonly IDadosAuxiliaresFacade _auxiliaresServiceConfiguraSistema = new DadosAuxiliaresFacadeService();
         private ConfiguraSistema _configuraSistema;
 
@@ -244,7 +244,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             ListaPesquisa.Add (new KeyValuePair<int, string> (1, "CPF"));
             ListaPesquisa.Add (new KeyValuePair<int, string> (2, "Nome"));
             ListaPesquisa.Add(new KeyValuePair<int, string>(3, "Empresa"));
-            ListaPesquisa.Add(new KeyValuePair<int, string>(4, "Todos os Colaboradores"));
+            ListaPesquisa.Add(new KeyValuePair<int, string>(4, "Colete"));
+            ListaPesquisa.Add(new KeyValuePair<int, string>(5, "Todos os Colaboradores"));
             PesquisarPor = ListaPesquisa[1]; //Pesquisa Default
         }
 
@@ -315,11 +316,23 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var num = PesquisarPor;
 
                 //Todos
-                if (num.Key == 4)
+                if (num.Key == 5)
                 {
                     
                     var l1 = _service.Listar();
                     PopularObserver(l1);
+
+                }
+                if (num.Key == 4)
+                {
+
+                    if (string.IsNullOrWhiteSpace(pesquisa)) return;
+                    var l1 = _service.Listar(null, null, null, null, IsEnablePreCadastro);
+                    var l2 = _serviceColaboradorCredencial.Listar(null, null, null, null, null, null, null, null, null, $"%{pesquisa}%");
+                    var l3 = l2.Select(c => c.ColaboradorId).ToList<int>();
+                    var l4 = l1.Where(c => l3.Contains(c.ColaboradorId)).ToList();
+
+                    PopularObserver(l4);
 
                 }
                 if (num.Key == 3)
