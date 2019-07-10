@@ -1081,18 +1081,19 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 {
                     c1.ImpressaoMotivo = "";
                 }
-                c1.TelefoneEmergencia = _configuraSistema.TelefoneEmergencia;
-                c1.EmpresaNome = c1.EmpresaNome + (!string.IsNullOrEmpty(c1.TerceirizadaNome) ? " / " + c1.TerceirizadaNome : string.Empty);
+                c1.TelefoneEmergencia = "EMERGÊNCIA " + _configuraSistema.TelefoneEmergencia;
+                c1.EmpresaNome = c1.EmpresaNome + (!string.IsNullOrEmpty(c1.TerceirizadaNome?.Trim()) ? " / " + c1.TerceirizadaNome?.Trim() : string.Empty); 
+                c1.EmpresaApelido = (!string.IsNullOrEmpty(c1.TerceirizadaNome) ? c1.TerceirizadaNome?.Trim() : c1.EmpresaApelido?.Trim());  
                 c1.Emissao = DateTime.Now;
                 lst.Add(c1);
                 relatorio.SetDataSource(lst);
 
                 var objCode = new QrCode();
                 string querySistema = _configuraSistema.UrlSistema?.Trim().ToString() + "/Colaborador/Credential/"
-                                                + Helpers.Helper.Encriptar(c1.ColaboradorCredencialID.ToString());
+                                                + Helpers.Helper.Encriptar(c1.ColaboradorCredencialID.ToString()); 
 
                 var pathImagem = objCode.GerarQrCode(querySistema, "QrCodeAutorizacao" + c1.ColaboradorCredencialID.ToString() + ".png");
-                relatorio.SetParameterValue("PathImgQrCode", pathImagem);
+                relatorio.SetParameterValue("PathImgQrCode", pathImagem); 
 
                 //IDENTIFICACAO
                 var popupCredencial = new PopupCredencial(relatorio, _service, Entity, layoutCracha, HabilitaImpressao);

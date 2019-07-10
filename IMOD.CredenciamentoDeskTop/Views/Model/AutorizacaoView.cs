@@ -21,7 +21,9 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public string Lacre { get; set; }
         public string SerieChassi { get; set; }
         public string TipoServico { get; set; }
-        public string AreaManobra { get; set; }
+        public string PlacaFrota { get { return PlacaIdentificador + "  " + Frota; } }
+        public bool AreaManobra { get; set; }
+
 
         #endregion
 

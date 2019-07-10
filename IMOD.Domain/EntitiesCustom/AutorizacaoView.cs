@@ -22,7 +22,7 @@ namespace IMOD.Domain.EntitiesCustom
         public string Lacre { get; set; }
         public string SerieChassi { get; set; } 
         public string TipoServico { get; set; }
-        public string AreaManobra { get; set; }
+        public bool AreaManobra { get; set; }
 
     }
 }

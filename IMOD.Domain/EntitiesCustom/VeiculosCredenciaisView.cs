@@ -67,7 +67,8 @@ namespace IMOD.Domain.EntitiesCustom
 
         public DateTime? DataStatus { get; set; } 
         public bool DevolucaoEntregaBo { get; set; }
-        public string Email { get; set; }
+        public string Email { get; set; } 
+        public string Lacre { get; set; } 
 
 
     }

@@ -42,7 +42,6 @@ namespace IMOD.Domain.Entities
         public bool Pendente34 { get; set; }
         public bool Precadastro { get; set; }
         public string Categoria { get; set; }
-        public string Lacre { get; set; }
         #endregion
     }
 }

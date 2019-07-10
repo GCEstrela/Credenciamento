@@ -113,6 +113,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
                             break;
                         case 9:
                         case 10:
+                        case 18:
                             chkDevolucaoMotivo.Content = DevoluçãoCredencial.EntregaBO.Descricao();
                             chkDevolucaoMotivo.Visibility = Visibility.Visible;
                             break;
