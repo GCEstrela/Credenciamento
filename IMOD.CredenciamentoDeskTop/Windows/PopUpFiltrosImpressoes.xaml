@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 
         mc:Ignorable="d"
-        Title="Procurar Empresa" Height="354.876" Width="550.956" ShowInTaskbar="False" WindowStartupLocation="CenterOwner" ResizeMode="NoResize" WindowStyle="None" BorderThickness="6,30,6,6" Topmost="True">
+        Title="Procurar Empresa" Height="419.938" Width="550.956" ShowInTaskbar="False" WindowStartupLocation="CenterOwner" ResizeMode="NoResize" WindowStyle="None" BorderThickness="6,30,6,6" Topmost="True">
     <Window.Background>
         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
             <GradientStop Color="#FF171717" Offset="0.984"/>
@@ -74,6 +74,12 @@
                         <!--<TextBox CharacterCasing="Upper"  x:Name="Datafim_tb"   MaxLength="50" Text=""  IsEnabled="True"  Height="24"  Width="150" />-->
                     </StackPanel>
 
+                </StackPanel>
+            </GroupBox>
+            <GroupBox x:Name="InformacoesTipo_gb" Header="Filtrar por Tipo" Margin="10,0" Height="75" Foreground="#FFD0D0D0">
+                <StackPanel x:Name="InformacoesTipo_sp"  Orientation="Horizontal" VerticalAlignment="Stretch"  HorizontalAlignment="Left" >
+                    <RadioButton x:Name="RbtnPermanente" Content=" Permanentes" TextBlock.TextAlignment="Left" GroupName="Cred_rb" Height="25"  HorizontalContentAlignment="Left" Foreground="#FFD0D0D0" VerticalAlignment="Center" HorizontalAlignment="Left" IsChecked="True"/>
+                    <RadioButton x:Name="RbtnTemporario" Margin="30,0" Content=" Temporárias" TextBlock.TextAlignment="Left" GroupName="Cred_rb" Height="25"  HorizontalContentAlignment="Left" Foreground="#FFD0D0D0" VerticalAlignment="Center" HorizontalAlignment="Left" Width="151"/>
                 </StackPanel>
             </GroupBox>
             <Button x:Name="button" Content="Filtrar" Click="button_ClickFiltrar" Height="33" HorizontalAlignment="Center" Width="100" Margin="166,20,167,20" />

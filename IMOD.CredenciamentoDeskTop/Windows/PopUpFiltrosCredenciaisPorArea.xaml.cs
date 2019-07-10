@@ -29,6 +29,8 @@ namespace IMOD.CredenciamentoDeskTop.Windows
             string area;
             IMOD.CredenciamentoDeskTop.Views.Model.AreaAcessoView objAreaSelecionado = new IMOD.CredenciamentoDeskTop.Views.Model.AreaAcessoView();
 
+            var checkTipo = (RbtnPermanente.IsChecked.Value ? true : RbtnTemporario.IsChecked.Value ? false : true);
+
             if (AreaAcesso_cb.SelectedItem == null)
             {
                 area = "0";
@@ -42,12 +44,12 @@ namespace IMOD.CredenciamentoDeskTop.Windows
             if (credenciais_rb.IsChecked.Value)
             {
                 check = true;
-                ((RelatoriosViewModel)DataContext).OnRelatorioCredencialPorAreaCommand(area, check, objAreaSelecionado);
+                ((RelatoriosViewModel)DataContext).OnRelatorioCredencialPorAreaCommand(checkTipo, area, check, objAreaSelecionado);
             }
             else
             {
                 check = false;
-                ((RelatoriosViewModel)DataContext).OnRelatorioAutorizacoesPorAreaCommand(area, check, objAreaSelecionado);
+                ((RelatoriosViewModel)DataContext).OnRelatorioAutorizacoesPorAreaCommand(checkTipo, area, check, objAreaSelecionado);
             }
 
 

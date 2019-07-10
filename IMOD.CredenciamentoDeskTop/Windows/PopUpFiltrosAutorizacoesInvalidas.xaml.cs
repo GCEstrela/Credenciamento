@@ -42,7 +42,9 @@ namespace IMOD.CredenciamentoDeskTop.Windows
                 status = ((IMOD.CredenciamentoDeskTop.Views.Model.CredencialMotivoView)lstMotivoCredencial.SelectedItem).CredencialMotivoId;
             }
 
-            ((RelatoriosViewModel)DataContext).OnRelatorioAutorizacoesInvalidasFiltroCommand(status, motivoCredencialSelecionado, dataIni, dataFim, flaDevolucaoEntregue);
+             var checkTipo =   (RbtnPermanente.IsChecked.Value ? true : RbtnTemporario.IsChecked.Value? false : true); 
+
+            ((RelatoriosViewModel)DataContext).OnRelatorioAutorizacoesInvalidasFiltroCommand(checkTipo, status, motivoCredencialSelecionado, dataIni, dataFim, flaDevolucaoEntregue);
 
             Close();
         }

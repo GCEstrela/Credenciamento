@@ -35,6 +35,8 @@ namespace IMOD.CredenciamentoDeskTop.Windows
             bool check;
             string empresa;
 
+            var checkTipo = (RbtnPermanente.IsChecked.Value ? true : RbtnTemporario.IsChecked.Value ? false : true);
+
             if (EmpresaRazaoSocial_cb.SelectedItem == null)
             {
                 empresa = "0";
@@ -47,12 +49,12 @@ namespace IMOD.CredenciamentoDeskTop.Windows
             if (credenciais_rb.IsChecked.Value)
             {
                 check = true;
-                ((RelatoriosViewModel)DataContext).OnRelatorioFiltroCredencialPorEmpresaCommand(empresa, check, dataIni, dataFim);
+                ((RelatoriosViewModel)DataContext).OnRelatorioFiltroCredencialPorEmpresaCommand(checkTipo, empresa, check, dataIni, dataFim);
             } 
             else
             {
                 check = false; 
-                ((RelatoriosViewModel)DataContext).OnRelatorioAutorizacoesPorEmpresaCommand(empresa, check, dataIni, dataFim);
+                ((RelatoriosViewModel)DataContext).OnRelatorioAutorizacoesPorEmpresaCommand(checkTipo, empresa, check, dataIni, dataFim);
             } 
 
 

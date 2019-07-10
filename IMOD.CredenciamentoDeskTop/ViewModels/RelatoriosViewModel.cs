@@ -283,21 +283,59 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
         }
 
+        private List<CredencialMotivoView> ListarMotivoCredenciais
+        {
+            get
+            {
+                List<CredencialMotivoView> lstMapeadaMotivo = new List<CredencialMotivoView>();
+
+                    var lstCredencialMotivo = _auxiliaresService.CredencialMotivoService.Listar().ToList();
+
+                if (lstCredencialMotivo != null)
+                    {
+                        lstMapeadaMotivo = Mapper.Map<List<CredencialMotivoView>>(lstCredencialMotivo);
+                    }
+                    return lstMapeadaMotivo;
+                }
+        }
+
         public void CarregaMotivoCredenciais(int statusId)
         {
             try
             {
-                var lst1 = _auxiliaresService.CredencialMotivoService.Listar().Where(n => n.CredencialStatusId == statusId).ToList();
+                var lst1 = this.ListarMotivoCredenciais.Where(n => n.CredencialStatusID == statusId).ToList();
 
-                var list2 = Mapper.Map<List<CredencialMotivoView>>(lst1); 
-                var observer = new ObservableCollection<CredencialMotivoView>(); 
+                var list2 = Mapper.Map<List<CredencialMotivoView>>(lst1);
+                var observer = new ObservableCollection<CredencialMotivoView>();
 
                 list2.ForEach(n =>
                 {
                     observer.Add(n);
                 });
 
-                MotivosCredenciais = observer; 
+                MotivosCredenciais = observer;
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+            }
+        }
+
+        public void CarregaMotivoCredenciaisViaAdicionais(List<string> listaStatusID)
+        {
+            try
+            {
+                var lst1 = this.ListarMotivoCredenciais.Where(n => listaStatusID.Contains(n.CredencialMotivoId.ToString())).ToList();
+
+                var list2 = Mapper.Map<List<CredencialMotivoView>>(lst1);
+                var observer = new ObservableCollection<CredencialMotivoView>();
+
+                list2.ForEach(n =>
+                {
+                    observer.Add(n);
+                });
+
+                MotivosCredenciais = observer;
             }
             catch (Exception ex)
             {
@@ -356,18 +394,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     colaboradorCredencial.EmissaoFim = DateTime.Parse(dataFim);
                     mensagemPeriodo = " ativas concedidas entre " + dataIni + " e " + dataFim + "";
                 }
-                
-                if (tipo)
-                {
-                    colaboradorCredencial.TipoCredencialId = 1;
-                    mensagemComplemento = " PERMANENTES ";
-                }
-                
-                else
-                {
-                    colaboradorCredencial.TipoCredencialId = 2;
-                    mensagemComplemento = " TEMPORÁRIAS ";
-                }
+               
+                colaboradorCredencial.TipoCredencialId = tipo ? 1 : 2;
+                mensagemComplemento = tipo ? " PERMANENTES " : " TEMPORÁRIAS ";
+
 
                 var relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(1);
                 if (relatorioGerencial == null || relatorioGerencial.ArquivoRpt == null || String.IsNullOrEmpty(relatorioGerencial.ArquivoRpt)) return;
@@ -411,13 +441,14 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <param name="_status"></param>
         /// <param name="_dataIni"></param>
         /// <param name="_dataFim"></param>
-        public void OnRelatorioCredenciaisInvalidasFiltroCommand(int status, CredencialMotivoView credencialMotivoSelecionado, string dataIni, string dataFim, bool flaDevolucaoEntregaBO)
+        public void OnRelatorioCredenciaisInvalidasFiltroCommand(bool tipo, int status, CredencialMotivoView credencialMotivoSelecionado, string dataIni, string dataFim, bool flaDevolucaoEntregaBO)
         {
-            try
+            try 
             {
-                string mensagem = string.Empty;
+                string mensagem = string.Empty; 
                 string mensagemComplemento = string.Empty;
-                string mensagemPeriodo = string.Empty;
+                string mensagemComplementoTipo = string.Empty;
+                string mensagemPeriodo = string.Empty; 
                 
                 Domain.EntitiesCustom.FiltroReportColaboradoresCredenciais colaboradorCredencial = new Domain.EntitiesCustom.FiltroReportColaboradoresCredenciais();
                 mensagem = "Todas as CREDENCIAIS ";
@@ -432,16 +463,19 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     mensagemPeriodo = " entre " + dataIni + " e " + dataFim + "";
                 }
 
+                colaboradorCredencial.TipoCredencialId = tipo ? 1 : 2;
+                mensagemComplementoTipo = tipo ? " PERMANENTES " : " TEMPORÁRIAS ";
+
                 if (status == 0)
                 {
-                    mensagemComplemento = "INVÁLIDAS (vencidas/indeferidas/canceladas/extraviadas) ";
+                    mensagemComplemento = "INVÁLIDAS ";
                 }
                 else
                 {
                     colaboradorCredencial.CredencialMotivoId = credencialMotivoSelecionado.CredencialMotivoId;
                     mensagemComplemento = credencialMotivoSelecionado.Descricao.ToString();
                 }
-                mensagem += mensagemComplemento + mensagemPeriodo;
+                mensagem += mensagemComplementoTipo + mensagemComplemento + mensagemPeriodo;
 
                 var relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(5);
                 if (relatorioGerencial == null || relatorioGerencial.ArquivoRpt == null || String.IsNullOrEmpty(relatorioGerencial.ArquivoRpt)) return;
@@ -482,13 +516,14 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary> 
         /// <param name="_area"></param>
         /// <param name="_check"></param>
-        public void OnRelatorioCredencialPorAreaCommand(string area, bool _check, AreaAcessoView objAreaSelecionado)
+        public void OnRelatorioCredencialPorAreaCommand(bool tipo, string area, bool _check, AreaAcessoView objAreaSelecionado)
         {
             try
             {
                 string mensagem = string.Empty;
-                string mensagemComplemento = string.Empty;
-                string mensagemPeriodo = string.Empty;
+                string mensagemComplementoArea = string.Empty; 
+                string mensagemComplemento = string.Empty; 
+                string mensagemPeriodo = string.Empty; 
                 
                 Domain.EntitiesCustom.FiltroReportColaboradoresCredenciais colaboradorCredencial = new Domain.EntitiesCustom.FiltroReportColaboradoresCredenciais();
                 colaboradorCredencial.CredencialStatusId = 1;
@@ -497,12 +532,15 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 if (objAreaSelecionado.AreaAcessoId > 0)
                 {
-                    mensagemComplemento = " - " + objAreaSelecionado.Identificacao + " / " + objAreaSelecionado.Descricao;
+                    mensagemComplementoArea = " - " + objAreaSelecionado.Identificacao + " / " + objAreaSelecionado.Descricao;
                 }
 
-                mensagem = " Todas as CREDENCIAIS PERMANENTES E VÁLIDAS por ÁREA DE ACESSO " + mensagemComplemento;
+                colaboradorCredencial.TipoCredencialId = tipo ? 1 : 2; 
+                mensagemComplemento = tipo ? " PERMANENTES " : " TEMPORÁRIAS "; 
 
-                if (area != string.Empty) 
+                mensagem = " Todas as CREDENCIAIS " + mensagemComplemento + " E VÁLIDAS por ÁREA DE ACESSO " + mensagemComplementoArea;
+
+                if (area != string.Empty)
                 { 
                     colaboradorCredencial.AreaAcessoId = Convert.ToInt16(area);
                 }
@@ -548,14 +586,15 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <param name="_check"></param>
         /// <param name="_dataIni"></param>
         /// <param name="_dataFim"></param>
-        public void OnRelatorioFiltroCredencialPorEmpresaCommand(string empresa, bool check, string dataIni, string dataFim)
+        public void OnRelatorioFiltroCredencialPorEmpresaCommand(bool tipo, string empresa, bool check, string dataIni, string dataFim)
         {
-            try
+            try 
             {
-                string mensagem = string.Empty;
+                string mensagem = string.Empty; 
                 string mensagemPeriodo = string.Empty;
+                string mensagemComplemento = string.Empty;
                 Domain.EntitiesCustom.FiltroReportColaboradoresCredenciais colaboradorCredencial = new Domain.EntitiesCustom.FiltroReportColaboradoresCredenciais();
-                mensagem = "Todas as CREDENCIAIS emitidas por entidade solicitante";
+                
                 colaboradorCredencial.Impressa = true;
 
                 if (!(dataIni.Equals(string.Empty) || dataFim.Equals(string.Empty)))
@@ -565,6 +604,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     mensagemPeriodo = " no período de  " + dataIni + " e " + dataFim + "";
                 }
                 mensagem += mensagemPeriodo;
+
+                colaboradorCredencial.TipoCredencialId = tipo ? 1 : 2;
+                mensagemComplemento = tipo ? " PERMANENTES " : " TEMPORÁRIAS ";
+
+                mensagem = "Todas as CREDENCIAIS "  + mensagemComplemento + " emitidas por entidade solicitante"; 
 
                 if (!string.IsNullOrEmpty(empresa))
                 {
@@ -615,16 +659,17 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <param name="_check"></param>
         /// <param name="_dataIni"></param>
         /// <param name="_dataFim"></param>
-        public void OnFiltrosColaboradorCredencialImpressoesCommand(string empresa, bool check, string dataIni, string dataFim)
+        public void OnFiltrosColaboradorCredencialImpressoesCommand(bool tipo,string empresa, bool check, string dataIni, string dataFim)
         {
             try
             {
-                string mensagem = string.Empty;
-                string mensagemPeriodo = string.Empty;
+                string mensagem = string.Empty; 
+                string mensagemPeriodo = string.Empty; 
+                string mensagemComplemento = string.Empty; 
 
                 Domain.EntitiesCustom.FiltroReportColaboradoresCredenciais colaboradorCredencial = new Domain.EntitiesCustom.FiltroReportColaboradoresCredenciais();
                 colaboradorCredencial.Impressa = true;
-                mensagem = " Impressões de Credenciais registradas ";
+                mensagem = " Impressões de Credenciais ";
 
                 if (!(dataIni.Equals(string.Empty) || dataFim.Equals(string.Empty)))
                 {
@@ -635,7 +680,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 colaboradorCredencial.EmpresaId = Convert.ToInt16(empresa);
 
-                mensagem += mensagemPeriodo;
+                colaboradorCredencial.TipoCredencialId = tipo ? 1 : 2;
+                mensagemComplemento = tipo ? " Permanentes " : " Temporárias ";
+
+
+                mensagem += mensagemComplemento + mensagemPeriodo;
 
                 relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(23);
                 if (relatorioGerencial == null || relatorioGerencial.ArquivoRpt == null || String.IsNullOrEmpty(relatorioGerencial.ArquivoRpt)) return;
@@ -771,15 +820,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 veiculoCredencial.CredencialStatusId = 1;
                 veiculoCredencial.Impressa = true;
                 veiculoCredencial.TipoCredencialId = tipo;
-                switch (tipo)
-                {
-                    case 1:
-                        verbo = "PERMANENTES";
-                        break;
-                    case 2:
-                        verbo = "TEMPORÁRIAS";
-                        break;
-                }
+                verbo = tipo == 1 ? "PERMANENTES" : "TEMPORÁRIAS";
 
                 mensagem = "Todas as AUTORIZAÇÕES " + verbo + " ativas ";
 
@@ -831,13 +872,14 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <param name="_tipo"></param>
         /// <param name="_dataIni"></param>
         /// <param name="_dataFim"></param>
-        public void OnRelatorioAutorizacoesInvalidasFiltroCommand(int status, CredencialMotivoView credencialMotivoSelecionado, string dataIni, string dataFim, bool flaDevolucaoEntregaBO)
+        public void OnRelatorioAutorizacoesInvalidasFiltroCommand(bool tipo, int status, CredencialMotivoView credencialMotivoSelecionado, string dataIni, string dataFim, bool flaDevolucaoEntregaBO)
         {
             try
             {
                 string mensagem = string.Empty;
                 string mensagemComplemento = string.Empty;
                 string mensagemPeriodo = string.Empty;
+                string mensagemComplementoTipo = string.Empty;
 
                 FiltroReportVeiculoCredencial veiculoCredencial = new FiltroReportVeiculoCredencial();
                 mensagem = "Todas as AUTORIZAÇÕES ";
@@ -852,16 +894,19 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     mensagemPeriodo = " entre " + dataIni + " e " + dataFim + "";
                 }
 
+                veiculoCredencial.TipoCredencialId = tipo ? 1 : 2; 
+                mensagemComplementoTipo = tipo ? " PERMANENTES " : " TEMPORÁRIAS "; 
+
                 if (status == 0)
                 {
-                    mensagemComplemento = "INVÁLIDAS (vencidas/indeferidas/canceladas/extraviadas) ";
+                    mensagemComplemento = "INVÁLIDAS ";
                 }
                 else
                 {
                     veiculoCredencial.CredencialMotivoId = credencialMotivoSelecionado.CredencialMotivoId;
                     mensagemComplemento = credencialMotivoSelecionado.Descricao.ToString();
                 }
-                mensagem += mensagemComplemento + mensagemPeriodo;
+                mensagem += mensagemComplementoTipo + mensagemComplemento + mensagemPeriodo;
 
                 var relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(6);
                 if (relatorioGerencial == null || relatorioGerencial.ArquivoRpt == null || String.IsNullOrEmpty(relatorioGerencial.ArquivoRpt)) return;
@@ -903,14 +948,16 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <param name="area"></param>
         /// <param name="_check"></param>
         /// <param name="objAreaSelecionado"></param>
-        public void OnRelatorioAutorizacoesPorAreaCommand(string area, bool _check, AreaAcessoView objAreaSelecionado)
+        public void OnRelatorioAutorizacoesPorAreaCommand(bool tipo,  string area, bool _check, AreaAcessoView objAreaSelecionado)
         {
             try
             {
                 string mensagem = string.Empty;
                 string mensagemComplemento = string.Empty;
                 string mensagemPeriodo = string.Empty;
-                
+                string mensagemComplementoTipo = string.Empty;
+
+
                 Domain.EntitiesCustom.FiltroReportVeiculoCredencial veiculoCredencial = new Domain.EntitiesCustom.FiltroReportVeiculoCredencial();
                 veiculoCredencial.CredencialStatusId = 1;
                 veiculoCredencial.Impressa = true;
@@ -920,7 +967,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     mensagemComplemento = " - " + objAreaSelecionado.Identificacao + " / " + objAreaSelecionado.Descricao;
                 }
 
-                mensagem = " Todas as AUTORIZAÇÕES PERMANENTES E VÁLIDAS por ÁREA DE ACESSO " + mensagemComplemento;
+                veiculoCredencial.TipoCredencialId = tipo ? 1 : 2;
+                mensagemComplementoTipo = tipo ? " PERMANENTES " : " TEMPORÁRIAS ";
+
+                mensagem = " Todas as AUTORIZAÇÕES " + mensagemComplementoTipo  + " E VÁLIDAS por ÁREA DE ACESSO " + mensagemComplemento;
 
                 if (area != string.Empty)
                 {
@@ -970,17 +1020,17 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <param name="_check"></param>
         /// <param name="_dataIni"></param>
         /// <param name="_dataFim"></param>
-        public void OnRelatorioAutorizacoesPorEmpresaCommand(string empresa, bool check, string dataIni, string dataFim)
+        public void OnRelatorioAutorizacoesPorEmpresaCommand(bool tipo, string empresa, bool check, string dataIni, string dataFim)
         {
             try
             {
                 string mensagem = string.Empty;
                 string mensagemPeriodo = string.Empty;
-                
+                string mensagemComplementoTipo = string.Empty;
+
+
                 FiltroReportVeiculoCredencial veiculoCredencial = new FiltroReportVeiculoCredencial();
                 veiculoCredencial.Impressa = true;
-
-                mensagem = "Todas as AUTORIZAÇÕES emitidas por entidade solicitante";
 
                 if (!(dataIni.Equals(string.Empty) || dataFim.Equals(string.Empty)))
                 {
@@ -988,6 +1038,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     veiculoCredencial.EmissaoFim = DateTime.Parse(dataFim);
                     mensagemPeriodo = " no período de  " + dataIni + " e " + dataFim + "";
                 }
+
+                veiculoCredencial.TipoCredencialId = tipo ? 1 : 2;
+                mensagemComplementoTipo = tipo ? " PERMANENTES " : " TEMPORÁRIAS ";
+
+                mensagem = "Todas as AUTORIZAÇÕES " + mensagemComplementoTipo + "emitidas por entidade solicitante";
                 mensagem += mensagemPeriodo;
 
                 if (!string.IsNullOrEmpty(empresa))
@@ -1035,16 +1090,17 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <param name="_check"></param>
         /// <param name="_dataIni"></param>
         /// <param name="_dataFim"></param>
-        public void OnFiltrosImpressoesAutorizacoesCommand(string empresa, bool check, string dataIni, string dataFim)
+        public void OnFiltrosImpressoesAutorizacoesCommand(bool tipo, string empresa, bool check, string dataIni, string dataFim)
         {
             try
             {
                 string mensagem = string.Empty;
                 string mensagemPeriodo = string.Empty;
+                string mensagemComplementoTipo = string.Empty;
 
                 FiltroReportVeiculoCredencial veiculoCredencial = new FiltroReportVeiculoCredencial();
                 veiculoCredencial.Impressa = true;
-                mensagem = " Impressões de Autorizações registradas ";
+                mensagem = " Impressões de Autorizações  ";
 
                 if (!(dataIni.Equals(string.Empty) || dataFim.Equals(string.Empty)))
                 {
@@ -1053,9 +1109,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     mensagemPeriodo = " entre " + dataIni + " e " + dataFim + "";
                 }
 
-                veiculoCredencial.EmpresaId = Convert.ToInt16(empresa); 
+                veiculoCredencial.EmpresaId = Convert.ToInt16(empresa);
 
-                mensagem += mensagemPeriodo;
+                veiculoCredencial.TipoCredencialId = tipo ? 1 : 2;
+                mensagemComplementoTipo = tipo ? " Permanentes " : " Temporárias "; 
+
+                mensagem += mensagemComplementoTipo + mensagemPeriodo;
 
                 relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(23);
                 if (relatorioGerencial == null || relatorioGerencial.ArquivoRpt == null || String.IsNullOrEmpty(relatorioGerencial.ArquivoRpt)) return;
@@ -1098,7 +1157,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <param name="_tipo"></param>
         /// <param name="_dataIni"></param>
         /// <param name="_dataFim"></param>
-        public void OnFiltroAutorizacaoViasAdicionaisCommand(int _tipo, string dataIni, string dataFim)
+        public void OnFiltroAutorizacaoViasAdicionaisCommand(int motivoTipo, string dataIni, string dataFim)
         {
             try
             {
@@ -1118,11 +1177,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     mensagemPeriodo = "entre " + dataIni + " e " + dataFim + "";
                 }
 
-                if (_tipo > 0)
+                if (motivoTipo > 0)
                 {
-                    veiculoCredencial.CredencialMotivoId = _tipo;
+                    veiculoCredencial.CredencialMotivoId = motivoTipo;
 
-                    switch (_tipo)
+                    switch (motivoTipo)
                     {
                         case 2:
                             mensagemComplemento = "SEGUNDA EMISSÃO";

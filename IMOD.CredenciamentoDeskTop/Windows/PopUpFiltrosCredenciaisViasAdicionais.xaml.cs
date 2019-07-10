@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Input;
 using IMOD.CredenciamentoDeskTop.ViewModels;
 
@@ -14,7 +15,8 @@ namespace IMOD.CredenciamentoDeskTop.Windows
             InitializeComponent();
             DataContext = new RelatoriosViewModel();
             MouseDown += Window_MouseDown;
-            ((RelatoriosViewModel)DataContext).CarregaMotivoCredenciais(1);
+            List<string> status = new List<string> { "2", "3" };
+            ((RelatoriosViewModel)DataContext).CarregaMotivoCredenciaisViaAdicionais(status);
         }
 
 
@@ -30,8 +32,10 @@ namespace IMOD.CredenciamentoDeskTop.Windows
         {
             int tipo = 0;
             IMOD.CredenciamentoDeskTop.Views.Model.CredencialMotivoView motivoCredencialSelecionado = null;
-            string dataIni = dp_dataInicial.Text; 
+            string dataIni = dp_dataInicial.Text;  
             string dataFim = dp_dataFinal.Text; 
+
+            var checkTipo = (RbtnPermanente.IsChecked.Value ? true : RbtnTemporario.IsChecked.Value ? false : true); 
 
             if (lstMotivoCredencial.SelectedItem != null)
             {

@@ -41,6 +41,7 @@ namespace IMOD.Domain.Entities
         public bool DevolucaoEntregaBo { get; set; }
         public string Email { get; set; }
         public string IdentificacaoDescricao { get; set; }
+        public string Lacre { get; set; }
         #endregion
     }
 }

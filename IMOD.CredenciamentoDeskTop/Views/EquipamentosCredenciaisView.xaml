@@ -109,7 +109,7 @@
                                     </TransformGroup>
                                 </ComboBox.RenderTransform>
                             </ComboBox>
-                            <Label Content="Motivo:" Height="28" Width="52" HorizontalContentAlignment="Right"
+                            <Label Content="Motivo:" Height="28" Width="54" HorizontalContentAlignment="Right"
                                    Foreground="#FFD0D0D0" />
                             <ComboBox x:Name="cmbMotivacao"
                                       Margin="0,4,0,3"
@@ -166,14 +166,20 @@
                                       Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
                                       SelectedValue="{Binding Entity.LayoutCrachaId, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                       SelectedValuePath="LayoutCrachaId" IsSynchronizedWithCurrentItem="True" />
-                            <Label Content="Autenticação:" Height="28" Width="90"  Margin="133,0,5,0"
+
+
+                            <Label Content="Lacre:" Height="28" Width="45" HorizontalContentAlignment="Right"
+                                           Foreground="#FFD0D0D0" />
+                            <TextBox CharacterCasing="Upper"   MaxLength="20" x:Name="txtLacre"
+                                             Text="{Binding Entity.Lacre,UpdateSourceTrigger=PropertyChanged}"
+                                             IsEnabled="True" Height="24" Width="105"  />
+                            <Label Content="Autenticação:" Height="28" Width="81"  
                                    HorizontalContentAlignment="Right"
                                    Foreground="#FFD0D0D0" />
 
                             <ComboBox x:Name="TecnologiaCredencial_cb"
                                       IsEnabled="False"
                                       IsEditable="true" 
-                                      Margin="0,4,0,3"
                                       Height="25"
                                       Width="134"
                                       VerticalContentAlignment="Center"
@@ -182,9 +188,9 @@
                                       DisplayMemberPath="Descricao"
                                       SelectedValue="{Binding Entity.TecnologiaCredencialId, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                       SelectedValuePath="TecnologiaCredencialId" IsSynchronizedWithCurrentItem="True" />
-                            
 
-                            <Label Content="FC:" Height="28" Width="46" Margin="38,0,5,0"
+
+                            <Label Content="FC:" Height="28" Width="46" Margin="25,0,5,0"
                                    HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
                             <TextBox x:Name="FC_tb" MaxLength="5" IsEnabled="{Binding Habilitar}"
                                      CharacterCasing="Upper"
@@ -245,7 +251,7 @@
                                       SelectedValue="{Binding Entity.VeiculoPrivilegio2Id, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                       SelectedValuePath="AreaAcessoId" />
 
-                            <Label Content="Formato Credencial:" Height="28" Width="127" Margin="1"
+                            <Label Content="Formato Credencial:" Height="28" Width="133" Margin="1"
                                    HorizontalContentAlignment="Right"
                                    Foreground="#FFD0D0D0" />
 
@@ -262,7 +268,7 @@
                                       SelectedValue="{Binding Entity.FormatoCredencialId, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                       SelectedValuePath="FormatoCredencialId" IsSynchronizedWithCurrentItem="True" />
 
-                            <Label Content="Número:" Height="28" Width="88" Margin="0,0,0,0"
+                            <Label Content="Número:"  Height="28" Width="77" Margin="0,0,0,0"
                                    HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
                             <TextBox x:Name="NumeroCredencial_tb"
                                      MaxLength="8" CharacterCasing="Upper"
@@ -270,7 +276,6 @@
                                      Text="{Binding Entity.NumeroCredencial,  UpdateSourceTrigger=PropertyChanged}"
                                      Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
                                      Height="24" Width="56" />
-
 
                         </StackPanel>
 

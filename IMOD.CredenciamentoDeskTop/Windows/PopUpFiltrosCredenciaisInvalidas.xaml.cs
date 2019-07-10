@@ -36,15 +36,17 @@ namespace IMOD.CredenciamentoDeskTop.Windows
             IMOD.CredenciamentoDeskTop.Views.Model.CredencialMotivoView motivoCredencialSelecionado = null; 
             string dataIni = dp_dataInicial.Text; 
             string dataFim = dp_dataFinal.Text; 
-            bool flaDevolucaoEntregue = (bool)chkDevolucaoEntregue.IsChecked;
-            
+            bool flaDevolucaoEntregue = (bool)chkDevolucaoEntregue.IsChecked; 
+
+            var checkTipo = (RbtnPermanente.IsChecked.Value ? true : RbtnTemporario.IsChecked.Value ? false : true);
+
             if (lstMotivoCredencial.SelectedItem != null) 
             {
                 motivoCredencialSelecionado = (IMOD.CredenciamentoDeskTop.Views.Model.CredencialMotivoView)lstMotivoCredencial.SelectedItem;
                 status = ((IMOD.CredenciamentoDeskTop.Views.Model.CredencialMotivoView)lstMotivoCredencial.SelectedItem).CredencialMotivoId;
             }
 
-            ((RelatoriosViewModel)DataContext).OnRelatorioCredenciaisInvalidasFiltroCommand(status, motivoCredencialSelecionado, dataIni, dataFim, flaDevolucaoEntregue);
+            ((RelatoriosViewModel)DataContext).OnRelatorioCredenciaisInvalidasFiltroCommand(checkTipo, status, motivoCredencialSelecionado, dataIni, dataFim, flaDevolucaoEntregue);
 
             Close();
         }

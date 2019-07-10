@@ -59,7 +59,6 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public string DescricaoAlias { get { return Descricao; } }
         public bool Precadastro { get; set; }
         public string Categoria { get; set; }
-        public string Lacre { get; set; }
         #endregion
     }
 }
