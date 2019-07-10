@@ -321,11 +321,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
         }
 
-        public void CarregaMotivoCredenciaisViaAdicionais(List<string> listaStatusID)
+        public void CarregaMotivoCredenciaisViaAdicionais(List<int> listaStatusID)
         {
             try
             {
-                var lst1 = this.ListarMotivoCredenciais.Where(n => listaStatusID.Contains(n.CredencialMotivoId.ToString())).ToList();
+                var lst1 = this.ListarMotivoCredenciais.Where(n => listaStatusID.Contains(n.CredencialMotivoId)).ToList();
 
                 var list2 = Mapper.Map<List<CredencialMotivoView>>(lst1);
                 var observer = new ObservableCollection<CredencialMotivoView>();

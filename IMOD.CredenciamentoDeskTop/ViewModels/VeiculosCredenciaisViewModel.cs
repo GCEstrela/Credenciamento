@@ -457,6 +457,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     //Exibir mensagem de impressao de credencial, esta tem prioridade sobre as demais regras
                     //if (n1.Impressa) return;
                     Entity.DevolucaoEntregaBo = n1.DevolucaoEntregaBo;
+                    Entity.DataStatus = n1.DataStatus;
+                    Entity.Impressa = n1.Impressa;
+                    Entity.Emissao = n1.Emissao;
                 }
 
 

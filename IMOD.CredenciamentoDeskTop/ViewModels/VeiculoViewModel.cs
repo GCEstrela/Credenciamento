@@ -344,7 +344,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private void PrepareCriar() 
         {
             Entity = new VeiculoView(); 
-            Entity.Tipo = "VEICULO";
+            Entity.Tipo = "VEÍCULO";
             Comportamento.PrepareCriar();
             TiposEquipamentoServico.Clear();
             HabilitaControle (false, false);
@@ -522,7 +522,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 WpfHelp.PopupBox ("Selecione um item da lista", 1);
                 return;
             }
-            Entity.Tipo = "VEICULO";
+            Entity.Tipo = "VEÍCULO";
             Comportamento.PrepareAlterar();
             AtualizarDadosTiposServico();
             HabilitaControle (false, false);
