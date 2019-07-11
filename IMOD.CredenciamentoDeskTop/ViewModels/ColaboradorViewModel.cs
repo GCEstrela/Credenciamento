@@ -319,7 +319,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (num.Key == 5)
                 {
                     
-                    var l1 = _service.Listar();
+                    //var l1 = _service.Listar();
+                    var l1 = _service.Listar(null, null, null, IsEnablePreCadastro);
                     PopularObserver(l1);
 
                 }
@@ -327,7 +328,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 {
 
                     if (string.IsNullOrWhiteSpace(pesquisa)) return;
-                    var l1 = _service.Listar(null, null, null, null, IsEnablePreCadastro);
+                    var l1 = _service.Listar(null, null, null, IsEnablePreCadastro);
                     var l2 = _serviceColaboradorCredencial.Listar(null, null, null, null, null, null, null, null, null, $"%{pesquisa}%");
                     var l3 = l2.Select(c => c.ColaboradorId).ToList<int>();
                     var l4 = l1.Where(c => l3.Contains(c.ColaboradorId)).ToList();
@@ -339,7 +340,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 {
 
                     if (string.IsNullOrWhiteSpace(pesquisa)) return;                    
-                    var l1 = _service.Listar(null, null, null, null, IsEnablePreCadastro);
+                    var l1 = _service.Listar(null, null, null,IsEnablePreCadastro);
                     var l2 = _serviceColaboradorEmpresa.Listar(null, null, null, null, $"%{pesquisa}%", null);                    
                     var l3 = l2.Select(c => c.ColaboradorId ).ToList<int>();
                     var l4 =  l1.Where(c => l3.Contains(c.ColaboradorId)).ToList();
