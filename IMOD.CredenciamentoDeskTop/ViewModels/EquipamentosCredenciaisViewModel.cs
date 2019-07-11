@@ -631,6 +631,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var credencialView = _service.ObterCredencialView (Entity.VeiculoCredencialId);
                 
                 var AutorizacaoMapeada = Mapper.Map<Views.Model.AutorizacaoView>(credencialView);
+                AutorizacaoMapeada.Emissao = DateTime.Now;
                 lst.Add (AutorizacaoMapeada);
                 relatorio.SetDataSource(lst);
 

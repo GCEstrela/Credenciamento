@@ -91,13 +91,13 @@
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" 
                                 IsEnabled="{Binding Comportamento.isEnableCancelar}"
-                                    Width="733" Height="28">
-                        <Label Content="Vínculo Ativo:" Height="24" Width="143" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
+                                    Width="733" Height="28"> 
+                        <Label Content="Vínculo Ativo:" Height="28" Width="143" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                         <CheckBox VerticalAlignment="Center" x:Name="chkAtivo"  Foreground="#FFD0D0D0" 
-                                  IsEnabled="{Binding Comportamento.isEnableCancelar}"
-                                  IsChecked="{Binding Entity.Ativo, UpdateSourceTrigger=PropertyChanged}"/>
+                                  IsEnabled="{Binding Comportamento.isEnableCancelar}" 
+                                  IsChecked="{Binding Entity.Ativo, UpdateSourceTrigger=PropertyChanged}"/> 
 
-                        <Label Content="Autorização Dirigir:" Height="24" Width="143" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
+                        <Label Content="Autorização Dirigir:" Height="28" Width="143" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                         <CheckBox VerticalAlignment="Center" x:Name="chkMotorista"  Foreground="#FFD0D0D0" 
                                   IsEnabled="{Binding Comportamento.isEnableCancelar}"
                                   IsChecked="{Binding Entity.Motorista, UpdateSourceTrigger=PropertyChanged}"/>
