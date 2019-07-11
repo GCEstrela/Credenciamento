@@ -649,6 +649,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 credencialView.TipoServico = _servicoAutorizacao;
                 var AutorizacaoMapeada = Mapper.Map<Views.Model.AutorizacaoView>(credencialView);
+                AutorizacaoMapeada.Emissao = DateTime.Now;
                 lst.Add (AutorizacaoMapeada); 
 
                 relatorio.SetDataSource (lst);
