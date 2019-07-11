@@ -415,7 +415,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 filtroAutorizacao.CredencialMotivoId = 0;
 
                 mensagemComplemento = !string.IsNullOrEmpty(configSistema.NomeAeroporto) ? configSistema.NomeAeroporto?.Trim() : mensagemComplemento;
-                mensagem = mensagemPeriodo + " esse setor  de credenciamento do " + mensagemComplemento + ", emitiu as seguintes credenciais: ";
+                mensagem = mensagemPeriodo + " esse setor  de credenciamento do " + mensagemComplemento + ", emitiu as seguintes autorizações: ";
 
 
                 var result = objVeiculoCredencial.ListarVeiculoCredencialViaAdicionaisView(filtroAutorizacao).Where(n => n.CredencialMotivoId == 2 || n.CredencialMotivoId == 3);
@@ -492,7 +492,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 filtroAutorizacao.CredencialStatusId = 1;
 
                 mensagemComplemento = !string.IsNullOrEmpty(configSistema.NomeAeroporto) ? configSistema.NomeAeroporto?.Trim() : mensagemComplemento;
-                mensagem = mensagemPeriodo + " esse setor  de credenciamento do " + mensagemComplemento + ", concedeu as seguintes credenciais: ";
+                mensagem = mensagemPeriodo + " esse setor  de credenciamento do " + mensagemComplemento + ", concedeu as seguintes autorizações: ";
 
                 var result = objVeiculoCredencial.ListarVeiculoCredencialConcedidasView(filtroAutorizacao); 
                 var resultMapeado = Mapper.Map<List<Views.Model.RelVeiculosCredenciaisView>>(result.OrderByDescending(n => n.VeiculoCredencialId).ToList());
@@ -596,7 +596,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 var result = objVeiculoCredencial.ListarVeiculoCredencialInvalidasView(filtroAutorizacao).Where(n => n.CredencialStatusId == 2);
                 var resultMapeado = Mapper.Map<List<Views.Model.RelVeiculosCredenciaisView>>(result.OrderByDescending(n => n.VeiculoCredencialId).ToList());
-                if (17.Equals(report))
+                if (18.Equals(report))
                 {
                     resultMapeado = resultMapeado.Where(r => statusList.Contains(r.CredencialMotivoId)).ToList();
                 }
