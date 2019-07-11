@@ -626,9 +626,14 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         private void BtnSalvarConfiguracoesSistema_Click(object sender, RoutedEventArgs e)
         {
+            System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
+
             btnAdicionarTipoAtividade.IsEnabled = true;
             btnSalvarTipoAtividade.IsEnabled = false;
             ((ConfiguracoesViewModel)DataContext).OnSalvarEdicaoCommand_ConfiguracoesSistema();
+
+            System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
+            MessageBox.Show("Alteração realizada com sucesso!","Credenciamento",MessageBoxButton.OK);
         }
 
         
@@ -639,57 +644,60 @@ namespace IMOD.CredenciamentoDeskTop.Views
             {
                 System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
 
-                IColaboradorService _service = new Application.Service.ColaboradorService();
+                IColaboradorService _serviceColaborador = new Application.Service.ColaboradorService();
 
-                var openFileDialog = new OpenFileDialog();
-                openFileDialog.Multiselect = false;
-                //openFileDialog.Filter = "*.jpg";
-                openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-                /////////////////////////////////////////
-                //DirectoryInfo di = new DirectoryInfo(openFileDialog.InitialDirectory);
-                System.IO.DirectoryInfo di = new System.IO.DirectoryInfo(@"C:\Fraport");
-                System.IO.FileInfo[] rgFiles = di.GetFiles("*.jpg");
-
-                foreach (System.IO.FileInfo fi in rgFiles)
+                var forderDialog = new System.Windows.Forms.FolderBrowserDialog();
+                var result = forderDialog.ShowDialog();
+                if (result == System.Windows.Forms.DialogResult.OK)
                 {
-                    var id = fi.Name.Split('.');
-                    var path = fi.FullName;
-                    var tamBytes = new System.IO.FileInfo(path).Length;
-                    var tam = decimal.Divide(tamBytes, 1024);
-                    var arq = new ArquivoInfo
+                    System.IO.DirectoryInfo di = new System.IO.DirectoryInfo(@forderDialog.SelectedPath);
+                    System.IO.FileInfo[] rgFiles = di.GetFiles("*.jpg");
+
+                    foreach (System.IO.FileInfo fi in rgFiles)
                     {
-                        Nome = openFileDialog.SafeFileName
-                    };
-
-
-                    arq.ArrayBytes = File.ReadAllBytes(path);
-                    arq.FormatoBase64 = Convert.ToBase64String(arq.ArrayBytes);
-                    arq.ArrayBytes = File.ReadAllBytes(path);
-                    arq.FormatoBase64 = Convert.ToBase64String(arq.ArrayBytes);
-
-                    try
-                    {
-
-                        if (arq != null)
+                        var id = fi.Name.Split('.');
+                        var path = fi.FullName;
+                        var tamBytes = new System.IO.FileInfo(path).Length;
+                        var tam = decimal.Divide(tamBytes, 1024);
+                        var arq = new ArquivoInfo
                         {
-                            var n2 = _service.Listar(null, null, null, null, id[0]).FirstOrDefault();
-                            if (n2 != null)
+                            Nome = fi.FullName
+                        };
+
+
+                        arq.ArrayBytes = File.ReadAllBytes(path);
+                        arq.FormatoBase64 = Convert.ToBase64String(arq.ArrayBytes);
+                        arq.ArrayBytes = File.ReadAllBytes(path);
+                        arq.FormatoBase64 = Convert.ToBase64String(arq.ArrayBytes);
+
+                        try
+                        {
+
+                            if (arq != null)
                             {
-                                n2.Foto = arq.FormatoBase64;
-                                _service.Alterar(n2);
+                                var n2 = _serviceColaborador.Listar(null, null, null, null, id[0]).FirstOrDefault();
+                                if (n2 != null)
+                                {
+                                    n2.Foto = arq.FormatoBase64;
+                                    _serviceColaborador.Alterar(n2);
+                                }
+
                             }
 
                         }
 
+                        catch (Exception ex)
+                        {
+                            //System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
+                            throw ex;
+                        }
                     }
-                    catch (Exception ex)
-                    {
-                        //System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
-                        throw ex;
-                    }
-
+                    
                     System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
+                    MessageBox.Show("Importação concluida!", "Credenciamento", MessageBoxButton.OK);
                 }
+
+                
             }
             catch (Exception ex)
             {
@@ -704,55 +712,58 @@ namespace IMOD.CredenciamentoDeskTop.Views
             {
                 System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
 
-                IEmpresaService _service = new Application.Service.EmpresaService();
+                IEmpresaService _serviceEmpresa= new Application.Service.EmpresaService();
 
-                var openFileDialog = new OpenFileDialog();
-                openFileDialog.Multiselect = false;
-                //openFileDialog.Filter = "*.jpg";
-                openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-                /////////////////////////////////////////
-                //DirectoryInfo di = new DirectoryInfo(openFileDialog.InitialDirectory);
-                System.IO.DirectoryInfo di = new System.IO.DirectoryInfo(@"C:\Fraport");
-                System.IO.FileInfo[] rgFiles = di.GetFiles("*.jpg");
-
-                foreach (System.IO.FileInfo fi in rgFiles)
+                var forderDialog = new System.Windows.Forms.FolderBrowserDialog();
+                var result = forderDialog.ShowDialog();
+                if (result == System.Windows.Forms.DialogResult.OK)
                 {
-                    var id = fi.Name.Split('.');
-                    var path = fi.FullName;
-                    var tamBytes = new System.IO.FileInfo(path).Length;
-                    var tam = decimal.Divide(tamBytes, 1024);
-                    var arq = new ArquivoInfo
+                    System.IO.DirectoryInfo di = new System.IO.DirectoryInfo(@forderDialog.SelectedPath);
+                    System.IO.FileInfo[] rgFiles = di.GetFiles("*.jpg");
+
+                    foreach (System.IO.FileInfo fi in rgFiles)
                     {
-                        Nome = openFileDialog.SafeFileName
-                    };
-
-
-                    arq.ArrayBytes = File.ReadAllBytes(path);
-                    arq.FormatoBase64 = Convert.ToBase64String(arq.ArrayBytes);
-                    arq.ArrayBytes = File.ReadAllBytes(path);
-                    arq.FormatoBase64 = Convert.ToBase64String(arq.ArrayBytes);
-
-                    try
-                    {
-
-                        if (arq != null)
+                        var id = fi.Name.Split('.');
+                        var path = fi.FullName;
+                        var tamBytes = new System.IO.FileInfo(path).Length;
+                        var tam = decimal.Divide(tamBytes, 1024);
+                        var arq = new ArquivoInfo
                         {
-                            var n2 = _service.Listar(null, null, null, null, null, null, null, id[0]).FirstOrDefault();
-                            if (n2 != null)
+                            Nome = fi.FullName
+                        };
+
+
+                        arq.ArrayBytes = File.ReadAllBytes(path);
+                        arq.FormatoBase64 = Convert.ToBase64String(arq.ArrayBytes);
+                        arq.ArrayBytes = File.ReadAllBytes(path);
+                        arq.FormatoBase64 = Convert.ToBase64String(arq.ArrayBytes);
+
+                        try
+                        {
+
+                            if (arq != null)
                             {
-                                n2.Logo = arq.FormatoBase64;
-                                _service.Alterar(n2);
+                                var n2 = _serviceEmpresa.Listar(null, null, null, null, null, null, null, id[0]).FirstOrDefault();
+                                if (n2 != null)
+                                {
+                                    n2.Logo = arq.FormatoBase64;
+                                    _serviceEmpresa.Alterar(n2);
+                                }
                             }
+
                         }
-                    }
-                    catch (Exception ex)
-                    {
-                        //System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
-                        throw ex;
+                        catch (Exception ex)
+                        {
+                            //System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
+                            throw ex;
+                        }
                     }
 
                     System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
+                    MessageBox.Show("Importação concluida!", "Credenciamento", MessageBoxButton.OK);
                 }
+
+
             }
             catch (Exception ex)
             {
