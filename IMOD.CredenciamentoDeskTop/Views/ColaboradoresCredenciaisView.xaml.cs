@@ -129,7 +129,8 @@ namespace IMOD.CredenciamentoDeskTop.Views
                     }
                     else
                     {
-                        txtDtValidade.Text = str.FormatarData(); ;
+                        txtDtValidade.Text = str.FormatarData();
+                        _viewModel.HabilitaImpressao = true;
                     }
                    
                 }
@@ -144,7 +145,8 @@ namespace IMOD.CredenciamentoDeskTop.Views
                     }
                     else
                     {
-                        txtDtValidade.Text = str.FormatarData(); ;
+                        txtDtValidade.Text = str.FormatarData();
+                        _viewModel.HabilitaImpressao = true;
                     }
                     
                 }
