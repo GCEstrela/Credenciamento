@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Input;
 using IMOD.CredenciamentoDeskTop.ViewModels;
 
@@ -30,21 +31,22 @@ namespace IMOD.CredenciamentoDeskTop.Windows
 
         private void button_ClickFiltrar(object sender, RoutedEventArgs e)
         {
-            int status = 0;
-            IMOD.CredenciamentoDeskTop.Views.Model.CredencialMotivoView motivoCredencialSelecionado = null; 
+
             string dataIni = dp_dataInicial.Text; 
             string dataFim = dp_dataFinal.Text;
             bool flaDevolucaoEntregue = (bool)chkDevolucaoEntregue.IsChecked;
+            IEnumerable<object> motivoCredencialSelecionados = new List<object>();
 
-            if (lstMotivoCredencial.SelectedItem != null)
+            if (lstMotivoCredencial.SelectedItems.Count > 0)
             {
-                motivoCredencialSelecionado = (IMOD.CredenciamentoDeskTop.Views.Model.CredencialMotivoView)lstMotivoCredencial.SelectedItem;
-                status = ((IMOD.CredenciamentoDeskTop.Views.Model.CredencialMotivoView)lstMotivoCredencial.SelectedItem).CredencialMotivoId;
+                motivoCredencialSelecionados = (IEnumerable<object>)lstMotivoCredencial.SelectedItems;
+
+                var teste = lstMotivoCredencial.SelectedItems;
             }
 
-             var checkTipo =   (RbtnPermanente.IsChecked.Value ? true : RbtnTemporario.IsChecked.Value? false : true); 
+            var checkTipo =   (RbtnPermanente.IsChecked.Value ? true : RbtnTemporario.IsChecked.Value? false : true); 
 
-            ((RelatoriosViewModel)DataContext).OnRelatorioAutorizacoesInvalidasFiltroCommand(checkTipo, status, motivoCredencialSelecionado, dataIni, dataFim, flaDevolucaoEntregue);
+            ((RelatoriosViewModel)DataContext).OnRelatorioAutorizacoesInvalidasFiltroCommand(checkTipo, motivoCredencialSelecionados, dataIni, dataFim, flaDevolucaoEntregue);
 
             Close();
         }

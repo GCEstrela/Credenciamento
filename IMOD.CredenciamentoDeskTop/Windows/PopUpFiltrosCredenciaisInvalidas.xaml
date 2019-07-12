@@ -43,13 +43,13 @@
         </StackPanel>
         <StackPanel Grid.Column="0" Margin="0,0,0,0" Grid.ColumnSpan="2">
             <GroupBox x:Name="invalidas_gb" Header="Filtro de Credenciais Inválidas" Height="170" Width="410" Foreground="#FFD0D0D0">
-                <ListBox x:Name="lstMotivoCredencial"
+                <ListBox x:Name="lstMotivoCredencial" SelectionMode="Multiple"
                         ItemsSource="{Binding MotivosCredenciais}"
                         SelectedValue="{Binding MotivosCredenciais}"
-                        SelectedValuePath="CredencialMotivoId">
+                        SelectedValuePath="CredencialMotivoId" >
                     <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <RadioButton
+                        <DataTemplate >
+                            <CheckBox
                                 IsChecked="{Binding IsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}}"
                                 Content="{Binding Descricao}" />
                         </DataTemplate>
@@ -69,8 +69,8 @@
             </GroupBox>
             <GroupBox x:Name="Informacoes_gb" Header="Filtrar por Tipo" Margin="10,0" Height="75" Foreground="#FFD0D0D0">
                 <StackPanel x:Name="Informacoes_sp"  Orientation="Horizontal" VerticalAlignment="Stretch"  HorizontalAlignment="Left" >
-                    <RadioButton x:Name="RbtnPermanente" Content=" Permanentes" TextBlock.TextAlignment="Left" GroupName="Cred_rb" Height="25"  HorizontalContentAlignment="Left" Foreground="#FFD0D0D0" VerticalAlignment="Center" HorizontalAlignment="Left" IsChecked="True"/>
-                    <RadioButton x:Name="RbtnTemporario" Margin="30,0" Content=" Temporárias" TextBlock.TextAlignment="Left" GroupName="Cred_rb" Height="25"  HorizontalContentAlignment="Left" Foreground="#FFD0D0D0" VerticalAlignment="Center" HorizontalAlignment="Left" Width="151"/>
+                    <RadioButton x:Name="RbtnPermanente" Content=" Permanentes" TextBlock.TextAlignment="Left" Height="25"  HorizontalContentAlignment="Left" Foreground="#FFD0D0D0" VerticalAlignment="Center" HorizontalAlignment="Left" IsChecked="True"/>
+                    <RadioButton x:Name="RbtnTemporario" Margin="30,0" Content=" Temporárias" TextBlock.TextAlignment="Left" Height="25"  HorizontalContentAlignment="Left" Foreground="#FFD0D0D0" VerticalAlignment="Center" HorizontalAlignment="Left" Width="151"/>
                 </StackPanel>
             </GroupBox>
             <GroupBox x:Name="Devolvidas" Header="Filtrar Devolução"  Margin="10,10"  Foreground="#FFD0D0D0" Height="70">
