@@ -132,7 +132,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     {
                         colaboradorCredencial.Emissao = DateTime.Parse(dataIni);
                         colaboradorCredencial.EmissaoFim = DateTime.Parse(dataFim);
-                        mensagemPeriodo = "Durante o perído de  " + dataIni + " a " + dataFim + "";
+                        mensagemPeriodo = "Durante o período de  " + dataIni + " a " + dataFim + "";
                     }
                 }
                 else
@@ -141,7 +141,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     colaboradorCredencial.EmissaoFim = DateTime.Now;
                     if (periodo > 0)
                     {
-                        mensagemPeriodo = "Durante o perído de  " + periodo.ToString() + " dias";
+                        mensagemPeriodo = "Durante o período de  " + periodo.ToString() + " dias";
                     }
                     else
                     {
@@ -211,7 +211,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     {
                         colaboradorCredencial.Emissao = DateTime.Parse(dataIni);
                         colaboradorCredencial.EmissaoFim = DateTime.Parse(dataFim);
-                        mensagemPeriodo = "Durante o perído de  " + dataIni + " a " + dataFim + "";
+                        mensagemPeriodo = "Durante o período de  " + dataIni + " a " + dataFim + "";
                     }
                 }
                 else
@@ -220,7 +220,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     colaboradorCredencial.EmissaoFim = DateTime.Now;
                     if (periodo > 0)
                     {
-                        mensagemPeriodo = "Durante o perído de  " + periodo.ToString() + " dias";
+                        mensagemPeriodo = "Durante o período de  " + periodo.ToString() + " dias";
                     }
                     else
                     {
@@ -308,7 +308,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     {
                         colaboradorCredencial.DataStatus = DateTime.Parse(dataIni); 
                         colaboradorCredencial.DataStatusFim = DateTime.Parse(dataFim); 
-                        mensagemPeriodo = "Durante o perído de  " + dataIni + " a " + dataFim + ""; 
+                        mensagemPeriodo = "Durante o período de  " + dataIni + " a " + dataFim + ""; 
                     }
                 }
                 else
@@ -317,7 +317,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     colaboradorCredencial.DataStatusFim = DateTime.Now;
                     if (periodo > 0)
                     {
-                        mensagemPeriodo = "Durante o perído de  " + periodo.ToString() + " dias";
+                        mensagemPeriodo = "Durante o período de  " + periodo.ToString() + " dias";
                     }
                     else
                     {
@@ -395,7 +395,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     {
                         filtroAutorizacao.Emissao = DateTime.Parse(dataIni);
                         filtroAutorizacao.EmissaoFim = DateTime.Parse(dataFim);
-                        mensagemPeriodo = "Durante o perído de  " + dataIni + " a " + dataFim + "";
+                        mensagemPeriodo = "Durante o período de  " + dataIni + " a " + dataFim + "";
                     }
                 }
                 else
@@ -404,7 +404,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     filtroAutorizacao.EmissaoFim = DateTime.Now;
                     if (periodo > 0)
                     {
-                        mensagemPeriodo = "Durante o perído de  " + periodo.ToString() + " dias";
+                        mensagemPeriodo = "Durante o período de  " + periodo.ToString() + " dias";
                     }
                     else
                     {
@@ -472,7 +472,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     {
                         filtroAutorizacao.Emissao = DateTime.Parse(dataIni);
                         filtroAutorizacao.EmissaoFim = DateTime.Parse(dataFim);
-                        mensagemPeriodo = "Durante o perído de  " + dataIni + " a " + dataFim + "";
+                        mensagemPeriodo = "Durante o período de  " + dataIni + " a " + dataFim + "";
                     }
                 }
                 else
@@ -481,7 +481,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     filtroAutorizacao.EmissaoFim = DateTime.Now;
                     if (periodo > 0)
                     {
-                        mensagemPeriodo = "Durante o perído de  " + periodo.ToString() + " dias";
+                        mensagemPeriodo = "Durante o período de  " + periodo.ToString() + " dias";
                     }
                     else
                     {
@@ -571,7 +571,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     {
                         filtroAutorizacao.DataStatus = DateTime.Parse(dataIni);
                         filtroAutorizacao.DataStatusFim = DateTime.Parse(dataFim);
-                        mensagemPeriodo = "Durante o perído de  " + dataIni + " a " + dataFim + "";
+                        mensagemPeriodo = "Durante o período de  " + dataIni + " a " + dataFim + "";
                     }
                 }
                 else
@@ -580,7 +580,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     filtroAutorizacao.DataStatusFim = DateTime.Now;
                     if (periodo > 0)
                     {
-                        mensagemPeriodo = "Durante o perído de  " + periodo.ToString() + " dias";
+                        mensagemPeriodo = "Durante o período de  " + periodo.ToString() + " dias";
                     }
                     else
                     {

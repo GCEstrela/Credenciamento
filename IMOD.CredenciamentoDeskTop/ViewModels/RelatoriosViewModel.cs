@@ -386,7 +386,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 colaboradorCredencial.CredencialStatusId = 1;
                 colaboradorCredencial.Impressa = true;
 
-                mensagem = "Todas as CREDENCIAIS ";
+                mensagem = "Todas as credenciais ";
 
                 if (!(dataIni.Equals(string.Empty) || dataFim.Equals(string.Empty)))
                 {
@@ -396,7 +396,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 }
                
                 colaboradorCredencial.TipoCredencialId = tipo ? 1 : 2;
-                mensagemComplemento = tipo ? " PERMANENTES " : " TEMPORÁRIAS ";
+                mensagemComplemento = tipo ? " permanentes " : " temporárias ";
 
 
                 var relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(1);
@@ -446,7 +446,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             try 
             {
                 string mensagem = string.Empty;
-                string mensagemComplemento = " INVÁLIDAS ";
+                string mensagemComplemento = " inválidas ";
                 string mensagemComplementoTipo = string.Empty;
                 string mensagemComplementoMotivoCredencial = string.Empty;
                 string mensagemPeriodo = string.Empty;
@@ -454,7 +454,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 IEnumerable<ColaboradoresCredenciaisView> resultLista;
 
                 Domain.EntitiesCustom.FiltroReportColaboradoresCredenciais colaboradorCredencial = new Domain.EntitiesCustom.FiltroReportColaboradoresCredenciais();
-                mensagem = "Todas as CREDENCIAIS ";
+                mensagem = "Todas as credenciais ";
                 colaboradorCredencial.CredencialStatusId = 2;
                 colaboradorCredencial.Impressa = true;
                 colaboradorCredencial.DevolucaoEntregaBo = flaDevolucaoEntregaBO;
@@ -467,7 +467,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 }
 
                 colaboradorCredencial.TipoCredencialId = tipo ? 1 : 2;
-                mensagemComplementoTipo = tipo ? " PERMANENTES " : " TEMPORÁRIAS ";
+                mensagemComplementoTipo = tipo ? " permanentes " : " temporárias ";
 
                 if (credencialMotivoSelecionados.Count() > 0 )
                 {
@@ -552,9 +552,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 }
 
                 colaboradorCredencial.TipoCredencialId = tipo ? 1 : 2; 
-                mensagemComplemento = tipo ? " PERMANENTES " : " TEMPORÁRIAS "; 
+                mensagemComplemento = tipo ? " permanentes " : " temporárias "; 
 
-                mensagem = " Todas as CREDENCIAIS " + mensagemComplemento + " E VÁLIDAS por ÁREA DE ACESSO " + mensagemComplementoArea;
+                mensagem = " Todas as credenciais " + mensagemComplemento + " e válidas por área de acesso " + mensagemComplementoArea;
 
                 if (area != string.Empty)
                 { 
@@ -622,9 +622,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 mensagem += mensagemPeriodo;
 
                 colaboradorCredencial.TipoCredencialId = tipo ? 1 : 2;
-                mensagemComplemento = tipo ? " PERMANENTES " : " TEMPORÁRIAS ";
+                mensagemComplemento = tipo ? " permanentes " : " temporárias ";
 
-                mensagem = "Todas as CREDENCIAIS "  + mensagemComplemento + " emitidas por entidade solicitante"; 
+                mensagem = "Todas as credenciais "  + mensagemComplemento + " emitidas por entidade solicitante"; 
 
                 if (!string.IsNullOrEmpty(empresa))
                 {
@@ -768,19 +768,19 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     switch (_tipo)
                     {
                         case 2:
-                            mensagemComplemento = "SEGUNDA EMISSÃO";
+                            mensagemComplemento = " ( segunda emissão )";
                             break;
                         case 3:
-                            mensagemComplemento = "TERCEIRA EMISSÃO";
+                            mensagemComplemento = " ( terceira emissão )";
                             break;
                     }
-                    mensagem = "Todas as VIAS ADICIONAIS " + mensagemComplemento + " de CREDENCIAIS emitidas " + mensagemPeriodo;
+                    mensagem = "Todas as vias adicionais " + mensagemComplemento + " de credenciais emitidas " + mensagemPeriodo;
                 }
-                else
+                else 
                 {
                     colaboradorCredencial.CredencialMotivoId = 0;
-                    mensagem = "Todas as VIAS ADICIONAIS de CREDENCIAIS emitidas" + mensagemPeriodo;
-                }
+                    mensagem = "Todas as vias adicionais de credenciais emitidas" + mensagemPeriodo;
+                } 
 
                 relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(21);
                 if (relatorioGerencial == null || relatorioGerencial.ArquivoRpt == null || String.IsNullOrEmpty(relatorioGerencial.ArquivoRpt)) return;
@@ -836,15 +836,15 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 veiculoCredencial.CredencialStatusId = 1;
                 veiculoCredencial.Impressa = true;
                 veiculoCredencial.TipoCredencialId = tipo;
-                verbo = tipo == 1 ? "PERMANENTES" : "TEMPORÁRIAS";
+                verbo = tipo == 1 ? "permanentes" : "temporárias";
 
-                mensagem = "Todas as AUTORIZAÇÕES " + verbo + " ativas ";
+                mensagem = "Todas as autorizações " + verbo + " ativas ";
 
                 if (!(dataIni.Equals(string.Empty) || dataFim.Equals(string.Empty)))
                 {
                     veiculoCredencial.Emissao = DateTime.Parse(dataIni);
                     veiculoCredencial.EmissaoFim = DateTime.Parse(dataFim);
-                    mensagem = "Todas as AUTORIZAÇÕES " + verbo + " ativas concedidas entre " + dataIni + " e " + dataFim + "";
+                    mensagem = "Todas as autorizações " + verbo + " ativas concedidas entre " + dataIni + " e " + dataFim + "";
                 }
 
                 var relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(2);
@@ -893,7 +893,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             try
             {
                 string mensagem = string.Empty;
-                string mensagemComplemento = " INVÁLIDAS ";
+                string mensagemComplemento = " inválidas ";
                 string mensagemComplementoTipo = string.Empty;
                 string mensagemComplementoMotivoCredencial = string.Empty;
                 string mensagemPeriodo = string.Empty;
@@ -902,7 +902,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
 
                 FiltroReportVeiculoCredencial veiculoCredencial = new FiltroReportVeiculoCredencial();
-                mensagem = "Todas as AUTORIZAÇÕES ";
+                mensagem = "Todas as autorizações ";
                 veiculoCredencial.CredencialStatusId = 2;
                 veiculoCredencial.Impressa = true;
                 veiculoCredencial.DevolucaoEntregaBo = flaDevolucaoEntregaBO;
@@ -914,8 +914,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     mensagemPeriodo = " entre " + dataIni + " e " + dataFim + "";
                 }
 
-                veiculoCredencial.TipoCredencialId = tipo ? 1 : 2;
-                mensagemComplementoTipo = tipo ? " PERMANENTES " : " TEMPORÁRIAS ";
+                veiculoCredencial.TipoCredencialId = tipo ? 1 : 2; 
+                mensagemComplementoTipo = tipo ? " permanentes " : " temporárias "; 
 
                 if (credencialMotivoSelecionados.Count() > 0)
                 {
@@ -998,9 +998,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 }
 
                 veiculoCredencial.TipoCredencialId = tipo ? 1 : 2;
-                mensagemComplementoTipo = tipo ? " PERMANENTES " : " TEMPORÁRIAS ";
+                mensagemComplementoTipo = tipo ? " permanentes " : " temporárias ";
 
-                mensagem = " Todas as AUTORIZAÇÕES " + mensagemComplementoTipo  + " E VÁLIDAS por ÁREA DE ACESSO " + mensagemComplemento;
+                mensagem = " Todas as autorizações " + mensagemComplementoTipo  + " e válidas por área de acesso " + mensagemComplemento;
 
                 if (area != string.Empty)
                 {
@@ -1070,9 +1070,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 }
 
                 veiculoCredencial.TipoCredencialId = tipo ? 1 : 2;
-                mensagemComplementoTipo = tipo ? " PERMANENTES " : " TEMPORÁRIAS ";
+                mensagemComplementoTipo = tipo ? " permanentes " : " temporárias ";
 
-                mensagem = "Todas as AUTORIZAÇÕES " + mensagemComplementoTipo + "emitidas por entidade solicitante";
+                mensagem = "Todas as autorizações " + mensagemComplementoTipo + "emitidas por entidade solicitante";
                 mensagem += mensagemPeriodo;
 
                 if (!string.IsNullOrEmpty(empresa))
@@ -1197,8 +1197,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 FiltroReportVeiculoCredencial veiculoCredencial = new FiltroReportVeiculoCredencial();
 
-                veiculoCredencial.Impressa = true;
-                mensagem = "Todas as VIAS ADICIONAIS de AUTORIZAÇÕES emitidas";
+                veiculoCredencial.Impressa = true; 
+                mensagem = "Todas as vias adicionais de autorizações emitidas"; 
 
                 if (!(dataIni.Equals(string.Empty) || dataFim.Equals(string.Empty)))
                 {
@@ -1214,19 +1214,19 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     switch (motivoTipo)
                     {
                         case 2:
-                            mensagemComplemento = "SEGUNDA EMISSÃO";
+                            mensagemComplemento = "( segunda emissão )";
                             break;
                         case 3:
-                            mensagemComplemento = "TERCEIRA EMISSÃO";
+                            mensagemComplemento = "( terceira emissão )";
                             break;
                     }
-                    mensagem = "Todas as VIAS ADICIONAIS " + mensagemComplemento + " de AUTORIZAÇÕES emitidas " + mensagemPeriodo;
+                    mensagem = "Todas as vias adicionais " + mensagemComplemento + " de autorizações emitidas " + mensagemPeriodo;
                 }
                 else
-                {
+                { 
                     veiculoCredencial.CredencialMotivoId = 0;
-                    mensagem = "Todas as VIAS ADICIONAIS de AUTORIZAÇÕES emitidas" + mensagemPeriodo;
-                }
+                    mensagem = "Todas as vias adicionais de autorizações emitidas" + mensagemPeriodo;
+                } 
 
                 relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(22);
                 if (relatorioGerencial == null || relatorioGerencial.ArquivoRpt == null || String.IsNullOrEmpty(relatorioGerencial.ArquivoRpt)) return;
