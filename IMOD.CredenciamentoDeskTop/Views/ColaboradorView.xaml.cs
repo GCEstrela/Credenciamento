@@ -144,23 +144,6 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 Utils.TraceException(ex);
             }
 
-            try
-            {
-                //listView1.Items.Clear();
-                DirectoryInfo di = new DirectoryInfo(@"C:\Users\renatomaximo\Pictures\img");
-
-                FileInfo[] rgFiles = di.GetFiles("*.jpg");
-
-                foreach (FileInfo fi in rgFiles)
-                {
-                    //listView1.Items.Add(fi.Name);
-                }
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
         }
 
 
