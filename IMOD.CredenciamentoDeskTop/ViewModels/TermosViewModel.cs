@@ -228,7 +228,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     }
                 }
                 colaboradorCredencial.Periodo = periodo;
-                colaboradorCredencial.CredencialStatusId = 1;
 
                 mensagemComplemento = !string.IsNullOrEmpty(configSistema.NomeAeroporto) ? configSistema.NomeAeroporto?.Trim() : mensagemComplemento;
                 mensagem = mensagemPeriodo + " esse setor  de credenciamento do " + mensagemComplemento + ", concedeu as seguintes credenciais: ";
@@ -249,7 +248,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 
                 var tempArea = Path.GetTempPath(); 
-                if (configSistema.EmpresaLOGO != null) 
+                if (configSistema.EmpresaLOGO != null)  
                 {
                     byte[] testeArquivo = Convert.FromBase64String(configSistema.EmpresaLOGO);
                     System.IO.File.WriteAllBytes(tempArea + Constantes.Constantes.consNomeArquivoEmpresaOperadora, testeArquivo);
