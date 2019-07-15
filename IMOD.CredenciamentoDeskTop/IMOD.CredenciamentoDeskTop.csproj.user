@@ -6,7 +6,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <StartAction>Program</StartAction>
     <StartProgram>C:\Program Files %28x86%29\Genetec Security Center 5.7\ConfigTool.exe</StartProgram>
-    <StartArguments>/d 192.168.1.15 /u admin /w</StartArguments>
+    <StartArguments>/d 172.16.190.108 /u admin /w</StartArguments>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
     <StartAction>Program</StartAction>
