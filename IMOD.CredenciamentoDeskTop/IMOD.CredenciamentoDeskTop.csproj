@@ -162,12 +162,6 @@
       <DependentUpon>CRACHA FRAPORT.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Cracha\Floripa\AmareloFuncionario.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>AmareloFuncionario.rpt</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Cracha\ForAmareloTerceiras.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -1086,10 +1080,6 @@
     <EmbeddedResource Include="Cracha\CRACHA FRAPORT.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>CRACHA FRAPORT.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Cracha\Floripa\AmareloFuncionario.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>AmareloFuncionario.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Cracha\ForAmareloTerceiras.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
