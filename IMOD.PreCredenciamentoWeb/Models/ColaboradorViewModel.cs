@@ -33,8 +33,12 @@ namespace IMOD.PreCredenciamentoWeb.Models
         [Display(Name = "Estado Civil")]
         public string EstadoCivil { get; set; }
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:###-##-####}")]
+        [Required(ErrorMessage = "O CPF é requerido.")]
+        [Display(Name = "CPF")]
         public string Cpf { get; set; }
+        [Display(Name = "RG")]
         public string Rg { get; set; }
+        [DataType(DataType.Date)]
         [Display(Name = "Emissão")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime? RgEmissao { get; set; }
@@ -48,7 +52,7 @@ namespace IMOD.PreCredenciamentoWeb.Models
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime? PassaporteValidade { get; set; }
         public string Rne { get; set; }
-        [Display(Name = "Fone")]
+        [Display(Name = "Telefone")]
         public string TelefoneFixo { get; set; }
         [Display(Name = "Celular")]
         public string TelefoneCelular { get; set; }
@@ -56,24 +60,27 @@ namespace IMOD.PreCredenciamentoWeb.Models
         [EmailAddress]
         [RegularExpression(".+\\@.+\\..+", ErrorMessage = "Informe um Email válido...")]
         public string Email { get; set; }
-        [Required(ErrorMessage = "O Contato de Emergencia é requerido.")]
+        [Required(ErrorMessage = "O Contato de Emergência é requerido.")]
         [Display(Name = "Contato Emergência")]
         public string ContatoEmergencia { get; set; }
-        [Required(ErrorMessage = "O Telefone de Emergencia é requerido.")]
+        [Required(ErrorMessage = "O Telefone de Emergência é requerido.")]
         [Display(Name = "Telefone Emergência")]
         public string TelefoneEmergencia { get; set; }
-        [Required(ErrorMessage = "O Cep é requerido.")]
+        [Required(ErrorMessage = "O CEP é requerido.")]
+        [Display(Name = "CEP")]
         public string Cep { get; set; }
-        [Required(ErrorMessage = "O Endereco é requerido.")]
+        [Required(ErrorMessage = "O Endereço é requerido.")]
+        [Display(Name = "Endereço")]
         public string Endereco { get; set; }
         [Required(ErrorMessage = "O Número é requerido.")]
+        [Display(Name = "Número")]
         public string Numero { get; set; }
         public string Complemento { get; set; }
         [Required(ErrorMessage = "O Bairro é requerido.")]
         public string Bairro { get; set; }
-        public bool Ativo { get; set; }
+        //public bool Ativo { get; set; }
         [Range(1, int.MaxValue, ErrorMessage = "O Município é requerido.")]
-        [Display(Name = "Municipio")]
+        [Display(Name = "Município")]
         public int MunicipioId { get; set; }
         [Range(1, int.MaxValue, ErrorMessage = "O Estado é requerido.")]
         [Display(Name = "Estado")]
@@ -88,6 +95,10 @@ namespace IMOD.PreCredenciamentoWeb.Models
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         [Display(Name = "Validade Habilitação")]
         public DateTime? CnhValidade { get; set; }
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
+        [Display(Name = "Vigência")]
+        public DateTime? Vigencia { get; set; }
 
         public string CnhEmissor { get; set; }
         [Display(Name = "UF")]
@@ -102,7 +113,7 @@ namespace IMOD.PreCredenciamentoWeb.Models
         public bool Estrangeiro { get; set; }
 
         //public IEnumerable<Estados> Estados { get; set; }
-        [Display(Name = "Constrato Empresa")]
+        [Display(Name = "Contrato Empresa")]
         public string ContratoEmpresaID { get; set; }
         public bool Precadastro { get; set; }
 

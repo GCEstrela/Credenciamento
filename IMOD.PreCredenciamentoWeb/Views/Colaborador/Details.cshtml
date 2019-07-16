@@ -58,7 +58,7 @@
                     <br />
                     <div class="form-group">
                         @Html.LabelFor(model => model.Cpf, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-4">
+                        <div class="col-md-2">
                             @Html.DisplayTextFor(model => model.Cpf)
                         </div>
                         @Html.LabelFor(model => model.Estrangeiro, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -104,13 +104,13 @@
                         <br />
                         <div class="form-group">
                             @Html.LabelFor(model => model.Cep, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 @Html.DisplayTextFor(model => model.Cep)
                             </div>
                         </div>
                         <div class="form-group">
                             @Html.LabelFor(model => model.Endereco, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-6">
+                            <div class="col-md-9">
                                 @Html.DisplayTextFor(model => model.Endereco)
                             </div>
                         </div>
@@ -121,20 +121,20 @@
                             </div>
 
                             @Html.LabelFor(model => model.Complemento, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-4">
+                            <div class="col-md-5">
                                 @Html.DisplayTextFor(model => model.Complemento)
                             </div>
                         </div>
 
                         <div class="form-group">
                             @Html.LabelFor(model => model.Bairro, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-8">
+                            <div class="col-md-9">
                                 @Html.DisplayTextFor(model => model.Bairro)
                             </div>
                         </div>
                         <div div class="form-group">
                             @Html.LabelFor(model => model.EstadoId, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 @Html.DropDownListFor(model => model.EstadoId, ((IEnumerable<IMOD.Domain.Entities.Estados>)ViewBag.Estados).Select(option => new SelectListItem
                            {
                                Text = option.Nome,
@@ -203,29 +203,31 @@
                             <div class="col-md-2">
                                 @Html.DisplayTextFor(model => model.RgEmissao)
                             </div>
+                        </div>
+                        <div class="form-group">
                             @Html.LabelFor(model => model.RgOrgLocal, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-1">
-                                @Html.DropDownListFor(model => model.CnhCategoria, ((IEnumerable<SelectListItem>)ViewBag.OrgaoEmissorRG).Select(option => new SelectListItem
+                            <div class="col-md-2">
+                                @Html.DropDownListFor(model => model.RgOrgLocal, ((IEnumerable<SelectListItem>)ViewBag.OrgaoEmissorRG).Select(option => new SelectListItem
                            {
                                Text = option.Text,
                                Value = option.Text,
                                Selected = (Model != null) && (option.Text == Model.RgOrgLocal)
-                           }), "Selecione", new { @class = "form-control text-uppercase",  @disabled = "disabled" , style = "width: 100px;" })
+                           }), "Selecione", new { @class = "form-control text-uppercase", @disabled = "disabled", style = "width: 100px;" })
 
                             </div>
                             @Html.LabelFor(model => model.RgOrgUf, htmlAttributes: new { @class = "control-label col-md-1" })
-                            <div class="col-md-1">
+                            <div class="col-md-2">
                                 @Html.DropDownListFor(model => model.RgOrgUf, ((IEnumerable<IMOD.Domain.Entities.Estados>)ViewBag.UfRg).Select(option => new SelectListItem
                            {
                                Text = option.Uf,
                                Value = option.Uf,
                                Selected = (Model != null) && (option.Uf == Model.RgOrgUf)
-                           }), "Selecione", new { @class = "form-control text-uppercase",  @disabled = "disabled", style = "width: 100px;" })
+                           }), "Selecione", new { @class = "form-control text-uppercase", @disabled = "disabled", style = "width: 100px;" })
                             </div>
                         </div>
                         <div class="form-group">
                             @Html.LabelFor(model => model.Rne, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-4">
+                            <div class="col-md-5">
                                 @Html.DisplayTextFor(model => model.Rne)
                             </div>
                         </div>
@@ -235,13 +237,13 @@
                                 @Html.DisplayTextFor(model => model.Passaporte)
                             </div>
                             @Html.LabelFor(model => model.PassaporteValidade, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 @Html.DisplayTextFor(model => model.PassaporteValidade)
                             </div>
                         </div>
                         <div class="form-group">
                             @Html.LabelFor(model => model.DataNascimento, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 @Html.DisplayTextFor(model => model.DataNascimento)
                             </div>
                             @Html.LabelFor(model => model.Nacionalidade, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -251,7 +253,7 @@
                         </div>
                         <div class="form-group">
                             @Html.LabelFor(model => model.EstadoCivil, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 @Html.DisplayTextFor(model => model.EstadoCivil)
                             </div>
                         </div>
@@ -310,7 +312,7 @@
                             <div class="row">
                                 <div class="col-lg-2"><b>Cargo </b></div>
                                 <div class="col-lg-2"><b>Matrícula</b></div>
-                                <div class="col-lg-2"><b>Descricao</b></div>
+                                <div class="col-lg-2"><b>Descrição</b></div>
                                 <div class="col-lg-2"><b>Manuseia Bagagem</b></div>
                                 <div class="col-lg-2"><b>Operador Ponte</b></div>
                                 <div class="col-lg-1"><b>CCAM</b></div>

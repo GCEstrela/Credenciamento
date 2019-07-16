@@ -390,6 +390,12 @@
       <DependentUpon>RelatorioCredenciaisEmitidasPorEmpresa_9.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Relatorio\RelatorioCredenciaisDestruidas_25.cs">
+      <DependentUpon>RelatorioCredenciaisDestruidas_25.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Relatorio\RelatorioCredenciaisInvalidas_5.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -665,6 +671,9 @@
     <Compile Include="Windows\PopUpFiltrosCredenciais.xaml.cs">
       <DependentUpon>PopUpFiltrosCredenciais.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\PopUpFiltrosCredenciaisDestruidas.xaml.cs">
+      <DependentUpon>PopUpFiltrosCredenciaisDestruidas.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\PopUpFiltrosCredenciaisInvalidas.xaml.cs">
       <DependentUpon>PopUpFiltrosCredenciaisInvalidas.xaml</DependentUpon>
     </Compile>
@@ -827,6 +836,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Windows\PopUpFiltrosCredenciais.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\PopUpFiltrosCredenciaisDestruidas.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1216,6 +1229,10 @@
     <EmbeddedResource Include="Relatorio\RelatorioCredenciaisEmitidasPorEmpresa_9.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>RelatorioCredenciaisEmitidasPorEmpresa_9.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\RelatorioCredenciaisDestruidas_25.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelatorioCredenciaisDestruidas_25.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Relatorio\RelatorioCredenciaisInvalidas_5.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

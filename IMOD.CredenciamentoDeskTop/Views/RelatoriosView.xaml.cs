@@ -22,6 +22,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
         private PopUpFiltrosAutorizacoesInvalidas popupfiltrosautorizacoesinvalidas;
         private PopUpFiltrosCredenciais popupFiltrosCredenciais;
         private PopUpFiltrosAutorizacoes PopUpFiltrosAutorizacoes;
+        private PopUpFiltrosCredenciaisDestruidas popupfiltroscredenciaisdestruidas;
 
         public RelatoriosView()
         {
@@ -175,6 +176,20 @@ namespace IMOD.CredenciamentoDeskTop.Views
             {
                 popupfiltrosautorizacoesviasadicionais = new PopUpFiltrosAutorizacoesViasAdicionais();
                 popupfiltrosautorizacoesviasadicionais.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+                throw;
+            }
+        }
+
+        private void BotaoCredenciaisDestruidasClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                popupfiltroscredenciaisdestruidas = new PopUpFiltrosCredenciaisDestruidas();
+                popupfiltroscredenciaisdestruidas.ShowDialog();
             }
             catch (Exception ex)
             {

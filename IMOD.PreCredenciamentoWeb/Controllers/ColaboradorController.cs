@@ -110,10 +110,10 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                 Session.Add(SESS_CURSOS_SELECIONADOS, cusosSelecionados);
             }
 
-            var objColaboradorAnexo = objColaboradorAnexoService.Listar(colaboradorMapeado.ColaboradorId);
+            var objColaboradorAnexo = objColaboradorAnexoService.Listar(colaboradorMapeado.ColaboradorId).FirstOrDefault();
             if (objColaboradorAnexo != null)
             {
-                colaboradorMapeado.NomeArquivoAnexo = objColaboradorAnexo.FirstOrDefault().NomeArquivo;
+                colaboradorMapeado.NomeArquivoAnexo = objColaboradorAnexo.NomeArquivo;
             }
 
             return View(colaboradorMapeado);
@@ -323,10 +323,10 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                 Session.Add(SESS_CURSOS_SELECIONADOS, cusosSelecionados);
             }
 
-            var objColaboradorAnexo = objColaboradorAnexoService.Listar(colaboradorMapeado.ColaboradorId);
+            var objColaboradorAnexo = objColaboradorAnexoService.Listar(colaboradorMapeado.ColaboradorId).FirstOrDefault();
             if (objColaboradorAnexo != null)
             {
-                colaboradorMapeado.NomeArquivoAnexo = objColaboradorAnexo.FirstOrDefault().NomeArquivo;
+                colaboradorMapeado.NomeArquivoAnexo = objColaboradorAnexo.NomeArquivo;
             }
 
             return View(colaboradorMapeado); 

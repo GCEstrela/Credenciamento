@@ -708,6 +708,16 @@ namespace IMOD.Application.Service
             return _repositorio.ListarColaboradorCredencialPermanentePorAreaView(entity);
         }
 
+        /// <summary>
+        ///    Listar Colaboradores credenciais - destruídas
+        /// </summary>
+        /// <param name="entity">entity</param>
+        /// <returns></returns>
+        public List<ColaboradoresCredenciaisView> ListarColaboradorCredencialDestruidasView(FiltroReportColaboradoresCredenciais entity)
+        {
+            return _repositorio.ListarColaboradorCredencialDestruidasView(entity);
+        }
+
         public void DisparaAlarme(ICredencialService geradorCredencialService, CardHolderEntity entity)
         {
             throw new NotImplementedException();

@@ -345,7 +345,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         #endregion
 
-        #region Comandos dos Botoes
+        #region Comandos dos Botoes 
 
         public void OnAbrirRelatorioCommand(string _Tag)
         {
@@ -1278,7 +1278,106 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
         }
 
+        /// <summary>
+        ///  Relatório de Credenciais Destruídas
+        /// (Indeferidas,Roubadas,Extraviadas,Não-Devolvidas...)
+        /// </summary>
+        /// <param name="_status"></param>
+        /// <param name="_dataIni"></param>
+        /// <param name="_dataFim"></param>
+        public void OnRelatorioCredenciaisDestruidasFiltroCommand(bool tipo, IEnumerable<object> credencialMotivoSelecionados, string dataIni, string dataFim, bool flaTodasDevolucaoEntregaBO, bool flaSimNaoDevolucaoEntregaBO)
+        {
+            try
+            {
+                string mensagem = string.Empty;
+                string mensagemComplemento = " destruídas ";
+                string mensagemComplementoTipo = string.Empty;
+                string mensagemComplementoMotivoCredencial = string.Empty;
+                string mensagemPeriodo = string.Empty;
+                string codigoMotivoSelecionados = string.Empty;
+                IEnumerable<ColaboradoresCredenciaisView> resultLista;
 
+                Domain.EntitiesCustom.FiltroReportColaboradoresCredenciais colaboradorCredencial = new Domain.EntitiesCustom.FiltroReportColaboradoresCredenciais();
+                mensagem = "Todas as credenciais ";
+                colaboradorCredencial.CredencialStatusId = 2;
+                colaboradorCredencial.Impressa = true;
+
+                if (!flaTodasDevolucaoEntregaBO)
+                {
+                    colaboradorCredencial.DevolucaoEntregaBo = flaSimNaoDevolucaoEntregaBO;
+                }
+                else
+                {
+                    colaboradorCredencial.flaTodasDevolucaoEntregaBO = flaTodasDevolucaoEntregaBO;
+                }
+
+                if (!(dataIni.Equals(string.Empty) || dataFim.Equals(string.Empty)))
+                {
+                    colaboradorCredencial.DataStatus = DateTime.Parse(dataIni);
+                    colaboradorCredencial.DataStatusFim = DateTime.Parse(dataFim);
+                    mensagemPeriodo = " entre " + dataIni + " e " + dataFim + "";
+                }
+
+                colaboradorCredencial.TipoCredencialId = tipo ? 1 : 2;
+                mensagemComplementoTipo = tipo ? " permanentes " : " temporárias ";
+
+                if (credencialMotivoSelecionados.Count() > 0)
+                {
+                    foreach (CredencialMotivoView credencialMotivo in credencialMotivoSelecionados)
+                    {
+                        mensagemComplementoMotivoCredencial += credencialMotivo.Descricao + ",";
+                        codigoMotivoSelecionados += Convert.ToString(credencialMotivo.CredencialMotivoId) + ",";
+                    }
+                    mensagemComplementoMotivoCredencial = " (" + mensagemComplementoMotivoCredencial.Substring(0, mensagemComplementoMotivoCredencial.Length - 1) + " ) ";
+                    codigoMotivoSelecionados = codigoMotivoSelecionados.Substring(0, codigoMotivoSelecionados.Length - 1);
+                }
+
+                mensagem += mensagemComplementoTipo + mensagemComplemento + mensagemComplementoMotivoCredencial + mensagemPeriodo;
+
+                var relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(25);
+                if (relatorioGerencial == null || relatorioGerencial.ArquivoRpt == null || String.IsNullOrEmpty(relatorioGerencial.ArquivoRpt)) return;
+
+
+                if (credencialMotivoSelecionados.Count() > 0)
+                {
+                    resultLista = objColaboradorCredencial.ListarColaboradorCredencialDestruidasView(colaboradorCredencial).Where(n => n.CredencialStatusId == 2 && codigoMotivoSelecionados.Contains(n.CredencialMotivoId.ToString()));
+                }
+                else
+                {
+                    resultLista = objColaboradorCredencial.ListarColaboradorCredencialDestruidasView(colaboradorCredencial).Where(n => n.CredencialStatusId == 2);
+                }
+
+                var resultMapeado = Mapper.Map<List<Views.Model.RelColaboradoresCredenciaisView>>(resultLista.OrderByDescending(n => n.ColaboradorCredencialId).ToList());
+
+
+
+                byte[] arrayFile = Convert.FromBase64String(relatorioGerencial.ArquivoRpt);
+                var reportDoc = WpfHelp.ShowRelatorioCrystalReport(arrayFile, relatorioGerencial.Nome);
+                reportDoc.SetDataSource(resultMapeado);
+
+                if (!string.IsNullOrWhiteSpace(mensagem))
+                {
+                    TextObject txt = (TextObject)reportDoc.ReportDefinition.ReportObjects["TextoPrincipal"];
+                    txt.Text = mensagem;
+                }
+                reportDoc.Refresh();
+
+                var configSistema = objConfiguraSistema.BuscarPelaChave(1);
+                var tempArea = Path.GetTempPath();
+                if (configSistema.EmpresaLOGO != null)
+                {
+                    byte[] testeArquivo = Convert.FromBase64String(configSistema.EmpresaLOGO);
+                    System.IO.File.WriteAllBytes(tempArea + Constantes.Constantes.consNomeArquivoEmpresaOperadora, testeArquivo);
+                    reportDoc.SetParameterValue("MarcaEmpresa", tempArea + Constantes.Constantes.consNomeArquivoEmpresaOperadora);
+                }
+
+                WpfHelp.ShowRelatorio(reportDoc);
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+            }
+        }
         #endregion
 
         #endregion
