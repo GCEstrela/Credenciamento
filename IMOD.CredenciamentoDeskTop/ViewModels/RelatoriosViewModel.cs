@@ -1301,6 +1301,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 mensagem = "Todas as credenciais ";
                 colaboradorCredencial.CredencialStatusId = 2;
                 colaboradorCredencial.Impressa = true;
+                List<int> statusList = new List<int>() { 6, 8, 15 };
 
                 if (!flaTodasDevolucaoEntregaBO)
                 {
@@ -1340,11 +1341,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 if (credencialMotivoSelecionados.Count() > 0)
                 {
-                    resultLista = objColaboradorCredencial.ListarColaboradorCredencialDestruidasView(colaboradorCredencial).Where(n => n.CredencialStatusId == 2 && codigoMotivoSelecionados.Contains(n.CredencialMotivoId.ToString()));
+                    resultLista = objColaboradorCredencial.ListarColaboradorCredencialDestruidasView(colaboradorCredencial).Where(n => n.CredencialStatusId == 2 && codigoMotivoSelecionados.Contains(n.CredencialMotivoId.ToString()) && statusList.Contains(n.CredencialMotivoId));
                 }
                 else
                 {
-                    resultLista = objColaboradorCredencial.ListarColaboradorCredencialDestruidasView(colaboradorCredencial).Where(n => n.CredencialStatusId == 2);
+                    resultLista = objColaboradorCredencial.ListarColaboradorCredencialDestruidasView(colaboradorCredencial).Where(n => n.CredencialStatusId == 2 && statusList.Contains(n.CredencialMotivoId));
                 }
 
                 var resultMapeado = Mapper.Map<List<Views.Model.RelColaboradoresCredenciaisView>>(resultLista.OrderByDescending(n => n.ColaboradorCredencialId).ToList());
@@ -1402,6 +1403,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 mensagem = "Todas as autorizações ";
                 veiculoCredencial.CredencialStatusId = 2;
                 veiculoCredencial.Impressa = true;
+                List<int> statusList = new List<int>() { 6, 8, 15 };
 
                 if (!flaTodasDevolucaoEntregaBO)
                 {
@@ -1440,11 +1442,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 if (credencialMotivoSelecionados.Count() > 0)
                 {
-                    resultLista = objVeiculoCredencial.ListarVeiculoCredencialDestruidasView(veiculoCredencial).Where(n => n.CredencialStatusId == 2 && codigoMotivoSelecionados.Contains(n.CredencialMotivoId.ToString()));
+                    resultLista = objVeiculoCredencial.ListarVeiculoCredencialDestruidasView(veiculoCredencial).Where(n => n.CredencialStatusId == 2 && codigoMotivoSelecionados.Contains(n.CredencialMotivoId.ToString()) && statusList.Contains(n.CredencialMotivoId));
                 }
                 else
                 {
-                    resultLista = objVeiculoCredencial.ListarVeiculoCredencialDestruidasView(veiculoCredencial).Where(n => n.CredencialStatusId == 2);
+                    resultLista = objVeiculoCredencial.ListarVeiculoCredencialDestruidasView(veiculoCredencial).Where(n => n.CredencialStatusId == 2 && statusList.Contains(n.CredencialMotivoId));
                 }
 
                 var resultMapeado = Mapper.Map<List<RelVeiculosCredenciaisView>>(resultLista.OrderByDescending(n => n.VeiculoCredencialId).ToList());
