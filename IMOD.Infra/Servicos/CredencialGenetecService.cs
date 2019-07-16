@@ -231,10 +231,13 @@ namespace IMOD.Infra.Servicos
                                     mifareCsn = cardFormat as CustomCredentialFormat;
                                     if (mifareCsn != null)
                                     {
+                                        credencial.Format = new WiegandCsn32CredentialFormat(long.Parse(entity.NumeroCredencial.ToString()));
                                         //entity.NumeroCredencial = "1CE56BC0";
                                         //entity.NumeroCredencial = long.Parse(entity.NumeroCredencial, System.Globalization.NumberStyles.HexNumber);
-                                        mifareCsn.SetValues(long.Parse(entity.NumeroCredencial));
-                                        credencial.Format = mifareCsn;
+                                        //var numero = new WiegandCsn32CredentialFormat(long.Parse(entity.NumeroCredencial.ToString()));
+                                        //mifareCsn.SetValues(long.Parse(numero.ToString()));
+                                        //mifareCsn.SetValues(long.Parse(entity.NumeroCredencial));
+                                        //credencial.Format = mifareCsn;
                                     }
 
                                     break;

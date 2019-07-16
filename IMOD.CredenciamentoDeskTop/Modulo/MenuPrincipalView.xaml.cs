@@ -15,6 +15,7 @@ using Genetec.Sdk.Workspace;
 using IMOD.Application.Service;
 using IMOD.CredenciamentoDeskTop.Helpers;
 using IMOD.CredenciamentoDeskTop.ViewModels;
+using IMOD.Domain.EntitiesCustom;
 
 #endregion
 
@@ -37,6 +38,7 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
             InitializeComponent(); 
             txtVersao.Text = VersaoSoftware;
             _viewSingleton = new ViewSingleton();
+            //var tt = UsuarioLogado.Nome;
         }
         /// <summary>
         ///     Versao do Sistema
