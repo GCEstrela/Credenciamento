@@ -691,7 +691,8 @@ namespace IMOD.Infra.Repositorios
                         {
                             cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Impressa", DbType.Boolean, entity.Impressa).Igual()));
                         }
-                        if (entity.DevolucaoEntregaBo)
+
+                        if (!entity.Impeditivo && !entity.flaTodasDevolucaoEntregaBO) 
                         {
                             cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("DevolucaoEntregaBO", DbType.Boolean, entity.DevolucaoEntregaBo).Igual()));
                         }

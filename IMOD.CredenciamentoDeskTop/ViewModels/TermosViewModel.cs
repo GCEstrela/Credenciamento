@@ -488,7 +488,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     }
                 }
                 filtroAutorizacao.Periodo = periodo;
-                filtroAutorizacao.CredencialStatusId = 1;
 
                 mensagemComplemento = !string.IsNullOrEmpty(configSistema.NomeAeroporto) ? configSistema.NomeAeroporto?.Trim() : mensagemComplemento;
                 mensagem = mensagemPeriodo + " esse setor  de credenciamento do " + mensagemComplemento + ", concedeu as seguintes autorizações: ";
