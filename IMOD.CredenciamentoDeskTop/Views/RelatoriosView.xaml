@@ -186,7 +186,14 @@
                                                 <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom"  Content="Relatório de Cred./Aut. por Empresa" Foreground="White" Width="230" VerticalAlignment="Center" HorizontalAlignment="Center" />
                                             </StackPanel>
                                         </Button>
-                                        
+
+                                        <Button x:Name="BotaoCredenciaisDestruidas_bt"  Style="{StaticResource MenuStyle}" Margin="0,0,20,0" Height="50" VerticalAlignment="Top"  Width="300" 
+                                                        Click="BotaoCredenciaisDestruidasClick"  >
+                                            <StackPanel Orientation="Horizontal" Width="260">
+                                                <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Relatorio.png" Height="24" Width="24" Margin="0,0,5,0"/>
+                                                <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom"  Content="Relatório de Autorizações Destruídas" Foreground="White" Width="230" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                            </StackPanel>
+                                        </Button>
                                         <!--<Button x:Name="BotaoRelatorioViasAdicionaisCredenciais_bst"  Style="{StaticResource MenuStyle}" Margin="0,0,20,0" Height="50" VerticalAlignment="Top"  Width="300" 
                                                         IsEnabled="False"  >
                                             <StackPanel Orientation="Horizontal"  Width="260">
