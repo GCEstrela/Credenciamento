@@ -473,7 +473,10 @@ namespace IMOD.Application.Service
             return _repositorio.ListarVeiculoCredencialPermanentePorAreaView(entity);
         }
 
-
+        public List<VeiculosCredenciaisView> ListarVeiculoCredencialDestruidasView(FiltroReportVeiculoCredencial entity)
+        {
+            return _repositorio.ListarVeiculoCredencialDestruidasView(entity);
+        }
         #endregion
     }
 }
