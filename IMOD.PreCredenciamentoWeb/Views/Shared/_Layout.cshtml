@@ -334,11 +334,12 @@
         $(document).ready(function () {
             $("#Cpf").mask("999.999.999-99");
             $("#Cep").mask("99999-999");
-            $("#telefone").mask("(99) 9999-9999");
+            $("#telefone").mask("(99) 99999-9999");
+            $("#TelefoneEmergencia").mask("(99) 99999-9999");
             $("#celular").mask("(99) 99999-9999");
             $("#celular1").mask("(99) 99999-9999");
 
-            $('#tbVeiculo').DataTable({
+            $('#tbColaborador').DataTable({
                 "language": {
                     "lengthMenu": "Mostrando _MENU_ registros por página",
                     "zeroRecords": "Nada encontrado",

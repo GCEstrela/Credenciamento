@@ -60,11 +60,11 @@
                     <br />
                     <div class="form-group">
                         @Html.LabelFor(model => model.Cpf, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             @Html.EditorFor(model => model.Cpf, new { htmlAttributes = new { @class = "form-control disabled", @id = "Cpf" } })
                             @Html.ValidationMessageFor(model => model.Cpf, "", new { @class = "text-danger" })
                         </div>
-                        @Html.LabelFor(model => model.Estrangeiro, htmlAttributes: new { @class = "control-label col-md-2" })
+                        @Html.LabelFor(model => model.Estrangeiro, htmlAttributes: new { @class = "control-label col-md-3" })
                         <div class="col-md-1">
                             <div class="checkbox">
                                 @Html.EditorFor(model => model.Estrangeiro)
@@ -110,63 +110,65 @@
                 </div>
                 <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                     <br />
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Cep, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-3">
-                            @Html.EditorFor(model => model.Cep, new { htmlAttributes = new { @class = "form-control", id = "Cep" } })
-                            @Html.ValidationMessageFor(model => model.Cep, "", new { @class = "text-danger" })
+                    <fieldset>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Cep, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-2">
+                                @Html.EditorFor(model => model.Cep, new { htmlAttributes = new { @class = "form-control", id = "Cep" } })
+                                @Html.ValidationMessageFor(model => model.Cep, "", new { @class = "text-danger" })
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Endereco, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-6">
-                            @Html.EditorFor(model => model.Endereco, new { htmlAttributes = new { @class = "form-control text-uppercase", id = "Endereco" } })
-                            @Html.ValidationMessageFor(model => model.Endereco, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Endereco, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-9">
+                                @Html.EditorFor(model => model.Endereco, new { htmlAttributes = new { @class = "form-control text-uppercase", id = "Endereco" } })
+                                @Html.ValidationMessageFor(model => model.Endereco, "", new { @class = "text-danger" })
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Numero, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-2">
-                            @Html.EditorFor(model => model.Numero, new { htmlAttributes = new { @class = "form-control text-uppercase", id = "Numero" } })
-                            @Html.ValidationMessageFor(model => model.Numero, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Numero, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-2">
+                                @Html.EditorFor(model => model.Numero, new { htmlAttributes = new { @class = "form-control text-uppercase", id = "Numero" } })
+                                @Html.ValidationMessageFor(model => model.Numero, "", new { @class = "text-danger" })
+                            </div>
+
+                            @Html.LabelFor(model => model.Complemento, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-5">
+                                @Html.EditorFor(model => model.Complemento, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                                @Html.ValidationMessageFor(model => model.Complemento, "", new { @class = "text-danger" })
+                            </div>
                         </div>
 
-                        @Html.LabelFor(model => model.Complemento, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-4">
-                            @Html.EditorFor(model => model.Complemento, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
-                            @Html.ValidationMessageFor(model => model.Complemento, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Bairro, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-9">
+                                @Html.EditorFor(model => model.Bairro, new { htmlAttributes = new { @class = "form-control text-uppercase", id = "ddlBairro" } })
+                                @Html.ValidationMessageFor(model => model.Bairro, "", new { @class = "text-danger" })
+                            </div>
                         </div>
-                    </div>
-
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Bairro, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-8">
-                            @Html.EditorFor(model => model.Bairro, new { htmlAttributes = new { @class = "form-control text-uppercase", id = "ddlBairro" } })
-                            @Html.ValidationMessageFor(model => model.Bairro, "", new { @class = "text-danger" })
+                        <div div class="form-group">
+                            @Html.LabelFor(model => model.EstadoId, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-3">
+                                @Html.DropDownListFor(model => model.EstadoId, ((IEnumerable<IMOD.Domain.Entities.Estados>)ViewBag.Estados).Select(option => new SelectListItem
+                           {
+                               Text = option.Nome, 
+                               Value = option.EstadoId.ToString(),
+                               Selected = (Model != null) && (option.EstadoId == Model.EstadoId)
+                           }), "Selecione", new { @class = "form-control text-uppercase", id = "ddlEstado" })
+                                @Html.ValidationMessageFor(model => model.EstadoId, "", new { @class = "text-danger" })
+                            </div>
+                            @Html.LabelFor(model => model.MunicipioId, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.DropDownListFor(model => model.MunicipioId, ((IEnumerable<IMOD.Domain.Entities.Municipio>)ViewBag.Municipio).Select(option => new SelectListItem
+                           {
+                               Text = option.Nome,
+                               Value = option.MunicipioId.ToString(),
+                               Selected = (Model != null) && (option.MunicipioId == Model.MunicipioId)
+                           }), "Selecione", new { @class = "form-control text-uppercase", id = "ddlMunicipio" })
+                                @Html.ValidationMessageFor(model => model.MunicipioId, "", new { @class = "text-danger" })
+                            </div>
                         </div>
-                    </div>
-                    <div div class="form-group">
-                        @Html.LabelFor(model => model.EstadoId, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-4">
-                            @Html.DropDownListFor(model => model.EstadoId, ((IEnumerable<IMOD.Domain.Entities.Estados>)ViewBag.Estados).Select(option => new SelectListItem
-                       {
-                           Text = option.Nome,
-                           Value = option.EstadoId.ToString(),
-                           Selected = (Model != null) && (option.EstadoId == Model.EstadoId)
-                       }), "Selecione", new { @class = "form-control text-uppercase", id = "ddlEstado" })
-                            @Html.ValidationMessageFor(model => model.EstadoId, "", new { @class = "text-danger" })
-                        </div>
-                        @Html.LabelFor(model => model.MunicipioId, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-4">
-                            @Html.DropDownListFor(model => model.MunicipioId, ((IEnumerable<IMOD.Domain.Entities.Municipio>)ViewBag.Municipio).Select(option => new SelectListItem
-                       {
-                           Text = option.Nome,
-                           Value = option.MunicipioId.ToString(),
-                           Selected = (Model != null) && (option.MunicipioId == Model.MunicipioId)
-                       }), "Selecione", new { @class = "form-control text-uppercase", id = "ddlMunicipio" })
-                            @Html.ValidationMessageFor(model => model.MunicipioId, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
+                    </fieldset>
                 </div>
                 <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
                     <br />
@@ -222,12 +224,15 @@
                         </div>
                         @Html.LabelFor(model => model.RgEmissao, htmlAttributes: new { @class = "control-label col-md-1" })
                         <div class="col-md-2">
-                            @Html.EditorFor(model => model.RgEmissao, new { htmlAttributes = new { @class = "form-control text-uppercase datepicker" } })
+                            @Html.EditorFor(model => model.RgEmissao, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
                             @Html.ValidationMessageFor(model => model.RgEmissao, "", new { @class = "text-danger" })
                         </div>
+
+                    </div>
+                    <div class="form-group">
                         @Html.LabelFor(model => model.RgOrgLocal, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-1">
-                            @Html.DropDownListFor(model => model.CnhCategoria, ((IEnumerable<SelectListItem>)ViewBag.OrgaoEmissorRG).Select(option => new SelectListItem
+                        <div class="col-md-2">
+                            @Html.DropDownListFor(model => model.RgOrgLocal, ((IEnumerable<SelectListItem>)ViewBag.OrgaoEmissorRG).Select(option => new SelectListItem
                        {
                            Text = option.Text,
                            Value = option.Text,
@@ -237,7 +242,7 @@
                             @Html.ValidationMessageFor(model => model.RgOrgLocal, "", new { @class = "text-danger" })
                         </div>
                         @Html.LabelFor(model => model.RgOrgUf, htmlAttributes: new { @class = "control-label col-md-1" })
-                        <div class="col-md-1">
+                        <div class="col-md-2">
                             @Html.DropDownListFor(model => model.RgOrgUf, ((IEnumerable<IMOD.Domain.Entities.Estados>)ViewBag.UfRg).Select(option => new SelectListItem
                        {
                            Text = option.Uf,
@@ -249,7 +254,7 @@
                     </div>
                     <div class="form-group">
                         @Html.LabelFor(model => model.Rne, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-4">
+                        <div class="col-md-5">
                             @Html.EditorFor(model => model.Rne, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
                             @Html.ValidationMessageFor(model => model.Rne, "", new { @class = "text-danger" })
                         </div>
@@ -261,14 +266,14 @@
                             @Html.ValidationMessageFor(model => model.Passaporte, "", new { @class = "text-danger" })
                         </div>
                         @Html.LabelFor(model => model.PassaporteValidade, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             @Html.EditorFor(model => model.PassaporteValidade, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
                             @Html.ValidationMessageFor(model => model.PassaporteValidade, "", new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="form-group">
                         @Html.LabelFor(model => model.DataNascimento, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             @Html.EditorFor(model => model.DataNascimento, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
                             @Html.ValidationMessageFor(model => model.DataNascimento, "", new { @class = "text-danger" })
                         </div>
@@ -280,7 +285,7 @@
                     </div>
                     <div class="form-group">
                         @Html.LabelFor(model => model.EstadoCivil, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             @Html.EditorFor(model => model.EstadoCivil, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
                             @Html.ValidationMessageFor(model => model.EstadoCivil, "", new { @class = "text-danger" })
                         </div>
@@ -320,7 +325,7 @@
 
                     <div class="form-group">
                         @Html.LabelFor(model => model.CnhValidade, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             @Html.EditorFor(model => model.CnhValidade, new { htmlAttributes = new { @class = "form-control text-uppercase " } })
                             @Html.ValidationMessageFor(model => model.CnhValidade, "", new { @class = "text-danger" })
                         </div>
@@ -336,7 +341,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="tab-pane fade col-lg-12" id="vinculo" role="tabpanel" aria-labelledby="vinculo-tab">
+                <div class="tab-pane fade" id="vinculo" role="tabpanel" aria-labelledby="vinculo-tab">
                     <br />
                     <div class="form-group  col-lg-12">
                         <div class="col-lg-4" style="vertical-align:top">
@@ -361,21 +366,22 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="form-group">
                         <div>
                             @Html.Label("Cargo", htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-lg-4">
                                 @Html.TextBox("txtCargo", null, htmlAttributes: new { @id = "txtCargo", @class = "form-control text-uppercase" })
                             </div>
-                            @Html.Label("Vigência", htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-lg-2">
-                                @Html.TextBox("txtVigencia", null, htmlAttributes: new { @id = "txtVigencia", @class = "datepicker form-control" })
+                            @Html.LabelFor(model => model.Vigencia, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-2">
+                                @Html.EditorFor(model => model.Vigencia, new { htmlAttributes = new { @class = "form-control text-uppercase " } })
                             </div>
+
                         </div>
                     </div>
                     <div div class="form-group">
-                        <div >
+                        <div>
                             @Html.LabelFor(model => model.ContratoEmpresaID, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-lg-3">
                                 @Html.DropDownListFor(model => model.ContratoEmpresaID, ((IEnumerable<IMOD.Domain.Entities.EmpresaContrato>)ViewBag.Contratos).Select(option => new SelectListItem
@@ -400,7 +406,7 @@
                         <div class="row">
                             <div class="col-lg-2"><b>Cargo </b></div>
                             <div class="col-lg-2"><b>Matrícula</b></div>
-                            <div class="col-lg-2"><b>Descricao</b></div>
+                            <div class="col-lg-2"><b>Descrição</b></div>
                             <div class="col-lg-2"><b>Manuseia Bagagem</b></div>
                             <div class="col-lg-2"><b>Operador Ponte</b></div>
                             <div class="col-lg-1"><b>CCAM</b></div>
@@ -415,11 +421,11 @@
                                 <div class="col-lg-2">@(item.ManuseioBagagem ? "Sim" : "Não") </div>
                                 <div class="col-lg-2">@(item.OperadorPonteEmbarque ? "Sim" : "Não")</div>
                                 <div class="col-lg-1">@(item.FlagCcam ? "Sim" : "Não") </div>
-                                <div class="col-lg-1"> 
+                                <div class="col-lg-1">
                                     <a title="Vincular Contrato" id=@item.EmpresaContratoId href="#" class="btnRemover" onclick="RemoverContrato(this)">
                                         <i class="material-icons danger">&#xE15C;</i>
-                                    </a> 
-                                </div> 
+                                    </a>
+                                </div>
                                 <br />
                             }
                         </div>
@@ -478,8 +484,8 @@
                 var id = $("#ddlContrato").val();
                 var bagagem = $('#chkBagagem').is(':checked');
                 var ponteEmbarque = $('#chkPonteEmbarque').is(':checked');
-                var ccam = $('#chkCcam').is(':checked'); 
-                var validade = $("#txtVigencia").val(); 
+                var ccam = $('#chkCcam').is(':checked');
+                var validade = $("#txtVigencia").val();
                 var cargo = $("#txtCargo").val();
                 $.ajax({
                     type: "POST",
@@ -496,19 +502,19 @@
                         var html = '';
                         $.each(result, function (key, item) {
                             html += '<div class="col-lg-2 text-uppercase">' + item.Cargo + '</div>';
-                            html += '<div class="col-lg-2">' + item.Matricula + '</div>'; 
-                            html += '<div class="col-lg-2 text-uppercase">' + item.Descricao + '</div>'; 
+                            html += '<div class="col-lg-2">' + item.Matricula + '</div>';
+                            html += '<div class="col-lg-2 text-uppercase">' + item.Descricao + '</div>';
                             html += '<div class="col-lg-2">' + (item.ManuseioBagagem == true ? 'Sim' : 'Não') + '</div>';
                             html += '<div class="col-lg-2">' + (item.OperadorPonteEmbarque == true ? 'Sim' : 'Não') + '</div>';
-                            html += '<div class="col-lg-1">' + (item.FlagCcam == true ? 'Sim' : 'Não')  + '</div>'; 
+                            html += '<div class="col-lg-1">' + (item.FlagCcam == true ? 'Sim' : 'Não')  + '</div>';
                             html += '<div class="col-lg-1"><a class="btnRemover" title="Remover Contrato" id=' + item.EmpresaContratoId + ' onclick="RemoverContrato(this)"><i class="material-icons danger">&#xE15C;</i></a></div>';
                         });
                         $('#divContrato').html('');
                         $('#divContrato').append(html);
                         $("#ddlContrato").val('');
-                        $("#chkBagagem").attr('checked', false); 
-                        $("#chkPonteEmbarque").attr('checked', false); 
-                        $("#chkCcam").attr('checked', false); 
+                        $("#chkBagagem").attr('checked', false);
+                        $("#chkPonteEmbarque").attr('checked', false);
+                        $("#chkCcam").attr('checked', false);
                         $("#txtVigencia").val('');
                         $("#txtCargo").val('');
                         console.log(result);
@@ -596,7 +602,7 @@
                            html += '<div class="col-lg-2 text-uppercase">' + item.Descricao + '</div>';
                            html += '<div class="col-lg-2">' + (item.ManuseioBagagem == true ? 'Sim' : 'Não') + '</div>';
                            html += '<div class="col-lg-2">' + (item.OperadorPonteEmbarque == true ? 'Sim' : 'Não') + '</div>';
-                           html += '<div class="col-lg-1">' + (item.FlagCcam == true ? 'Sim' : 'Não') + '</div>'; 
+                           html += '<div class="col-lg-1">' + (item.FlagCcam == true ? 'Sim' : 'Não') + '</div>';
                            html += '<div class="col-lg-1"><a class="btnRemoverContrato" title="Remover Contrato" id=' + item.EmpresaContratoId + ' onclick="RemoverContrato(this)"><i class="material-icons danger">&#xE15C;</i></a></div>';
 
                        });
@@ -654,15 +660,16 @@
 
             var campoContatoEmergencia = document.getElementById("ContatoEmergencia").value;
             var campoTelefoneEmergencia = document.getElementById("TelefoneEmergencia").value;
+
             //var campoTelefone1 = document.getElementById("Telefone1").value;
             //verifica se tem a classe disabled
 
             var tela = $(this).hasClass('disabled');
             if (tela) {
                 if (id == "link1") {
-                    if (!campoCep == "" && !campoEndereco == "" && !campoBairro == "" && !campoNumero == "" && !campoEstadoId == "" && !campoMunicipioId == "")  //
-                    //if (!campoCep == "" && !campoEndereco == "" && !campoBairro == "" && !campoNumero == "" && !campoEstadoId == "" && !campoMunicipioId == "" && !campoContatoEmergencia == "" && !campoTelefoneEmergencia == "")  //
-                    {
+                    if (!campoNome == "" && !campoApelido == "" && !campoCpf == "") {
+                        //if (!campoCep == "" && !campoEndereco == "" && !campoBairro == "" && !campoNumero == "" && !campoEstadoId == "" && !campoMunicipioId == "" && !campoContatoEmergencia == "" && !campoTelefoneEmergencia == "")  //
+
                         $(this).removeClass('disabled');
                         return true;
                     }

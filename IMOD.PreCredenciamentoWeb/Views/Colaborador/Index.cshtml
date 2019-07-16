@@ -21,9 +21,10 @@
             </div>
         </div>
         <br />
-        <table class="table table-hover table-responsive table-dark" id="tbVeiculo">
+        <table class="table table-hover table-responsive table-dark" id="tbColaborador">
             <thead>
                 <tr>
+                    <th></th>
                     <th>
                         @Html.DisplayNameFor(model => model.Cpf)
                     </th>
@@ -34,64 +35,65 @@
                         @Html.DisplayNameFor(model => model.Apelido)
                     </th>
                     @*<th>
-                        @Html.DisplayNameFor(model => model.Foto)
-                    </th>*@
-                                @*<th>
-                        @Html.DisplayNameFor(model => model.TelefoneFixo)
-                    </th>*@
+            @Html.DisplayNameFor(model => model.Foto)
+        </th>*@
+                    @*<th>
+            @Html.DisplayNameFor(model => model.TelefoneFixo)
+        </th>*@
                     <th>
                         @Html.DisplayNameFor(model => model.TelefoneCelular)
                     </th>
                     <th>
                         @Html.DisplayNameFor(model => model.Email)
                     </th>
-                    <th></th>
+
                 </tr>
             </thead>
             <tbody>
                 @foreach (var item in Model)
                 {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Cpf)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Nome)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Apelido)
-                        </td>
-                        @*<td>
-                            @Html.DisplayFor(modelItem => item.Foto)
-                        </td>*@
-                        @*<td>
-                            @Html.DisplayFor(modelItem => item.TelefoneFixo)
-                        </td>*@
-                        <td>
-                            @Html.DisplayFor(modelItem => item.TelefoneCelular)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Email)
-                        </td>
-                        <td class="col-lg-1">
-                            <a href='@Url.Action("Details", "Colaborador", new { id = item.ColaboradorId })'>
+                <tr>
+                    <td class="col-lg-1">
+                        <a href='@Url.Action("Details", "Colaborador", new { id = item.ColaboradorId })'>
 
-                                <span class="glyphicon glyphicon-search"></span>
+                            <span class="glyphicon glyphicon-search"></span>
+                        </a>
+                        @if (item.Precadastro)
+                        {
+                            <a href='@Url.Action("Edit", "Colaborador", new { id = item.ColaboradorId })'>
+                                @*<img src="~/images/edit.png" />*@
+                                <span class="glyphicon glyphicon-edit"></span>
                             </a>
-                            @if (item.Precadastro)
-                            {
-                                <a href='@Url.Action("Edit", "Colaborador", new { id = item.ColaboradorId })'>
-                                    @*<img src="~/images/edit.png" />*@
-                                    <span class="glyphicon glyphicon-edit"></span>
-                                </a>
 
-                                <a href='@Url.Action("Delete", "Colaborador", new { id = item.ColaboradorId })'>
-                                    @*<img src="~/images/remove.png" />*@
-                                    <span class="glyphicon glyphicon-trash"></span>
-                                </a>
-                            }
-                        </td>
-                    </tr>
+                            <a href='@Url.Action("Delete", "Colaborador", new { id = item.ColaboradorId })'>
+                                @*<img src="~/images/remove.png" />*@
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </a>
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Cpf)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nome)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Apelido)
+                    </td>
+                    @*<td>
+            @Html.DisplayFor(modelItem => item.Foto)
+        </td>*@
+                    @*<td>
+            @Html.DisplayFor(modelItem => item.TelefoneFixo)
+        </td>*@
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TelefoneCelular)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+
+                </tr>
                 }
             </tbody>
         </table>
