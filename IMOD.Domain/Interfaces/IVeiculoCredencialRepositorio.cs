@@ -125,6 +125,12 @@ namespace IMOD.Domain.Interfaces
         /// <returns></returns>
         List<VeiculosCredenciaisView> ListarVeiculoCredencialPermanentePorAreaView(FiltroReportVeiculoCredencial entity);
 
+        /// <summary>
+        ///    Listar Veiculos / credenciais inválidas
+        /// </summary>
+        /// <param name="entity">entity</param>
+        /// <returns></returns>
+        List<VeiculosCredenciaisView> ListarVeiculoCredencialDestruidasView(FiltroReportVeiculoCredencial entity);
         #endregion
     }
 }

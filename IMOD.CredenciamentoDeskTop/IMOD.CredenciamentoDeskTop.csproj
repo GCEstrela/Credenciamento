@@ -360,6 +360,12 @@
       <DependentUpon>RelatorioAutorizacaoEmitidasPorEmpresa_10.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Relatorio\RelatorioAutorizacaoDestruidas_26.cs">
+      <DependentUpon>RelatorioAutorizacaoDestruidas_26.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Relatorio\RelatorioAutorizacaoInvalidas_6.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -662,6 +668,9 @@
     <Compile Include="Windows\PopUpFiltrosAutorizacoes.xaml.cs">
       <DependentUpon>PopUpFiltrosAutorizacoes.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\PopUpFiltrosAutorizacoesDestruidas.xaml.cs">
+      <DependentUpon>PopUpFiltrosAutorizacoesDestruidas.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\PopUpFiltrosAutorizacoesInvalidas.xaml.cs">
       <DependentUpon>PopUpFiltrosAutorizacoesInvalidas.xaml</DependentUpon>
     </Compile>
@@ -824,6 +833,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Windows\PopUpFiltrosAutorizacoes.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\PopUpFiltrosAutorizacoesDestruidas.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1209,6 +1222,10 @@
     <EmbeddedResource Include="Relatorio\RelatorioAutorizacaoEmitidasPorEmpresa_10.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>RelatorioAutorizacaoEmitidasPorEmpresa_10.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\RelatorioAutorizacaoDestruidas_26.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelatorioAutorizacaoDestruidas_26.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Relatorio\RelatorioAutorizacaoInvalidas_6.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

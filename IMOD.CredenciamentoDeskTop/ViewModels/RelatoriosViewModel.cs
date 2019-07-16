@@ -1378,6 +1378,104 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 Utils.TraceException(ex);
             }
         }
+
+        /// <summary>
+        ///   Relatório de veiculos Credenciais( Autorizações ) destruídas 
+        /// </summary>
+        /// <param name="_tipo"></param>
+        /// <param name="_dataIni"></param>
+        /// <param name="_dataFim"></param>
+        public void OnRelatorioAutorizacoesDestruidasFiltroCommand(bool tipo, IEnumerable<object> credencialMotivoSelecionados, string dataIni, string dataFim, bool flaTodasDevolucaoEntregaBO, bool flaSimNaoDevolucaoEntregaBO)
+        {
+            try
+            {
+                string mensagem = string.Empty;
+                string mensagemComplemento = " destruídas ";
+                string mensagemComplementoTipo = string.Empty;
+                string mensagemComplementoMotivoCredencial = string.Empty;
+                string mensagemPeriodo = string.Empty;
+                string codigoMotivoSelecionados = string.Empty;
+                IEnumerable<VeiculosCredenciaisView> resultLista;
+
+
+                FiltroReportVeiculoCredencial veiculoCredencial = new FiltroReportVeiculoCredencial();
+                mensagem = "Todas as autorizações ";
+                veiculoCredencial.CredencialStatusId = 2;
+                veiculoCredencial.Impressa = true;
+
+                if (!flaTodasDevolucaoEntregaBO)
+                {
+                    veiculoCredencial.DevolucaoEntregaBo = flaSimNaoDevolucaoEntregaBO;
+                }
+                else
+                {
+                    veiculoCredencial.flaTodasDevolucaoEntregaBO = flaTodasDevolucaoEntregaBO;
+                }
+
+                if (!(dataIni.Equals(string.Empty) || dataFim.Equals(string.Empty)))
+                {
+                    veiculoCredencial.Baixa = DateTime.Parse(dataIni);
+                    veiculoCredencial.BaixaFim = DateTime.Parse(dataFim);
+                    mensagemPeriodo = " entre " + dataIni + " e " + dataFim + "";
+                }
+
+                veiculoCredencial.TipoCredencialId = tipo ? 1 : 2;
+                mensagemComplementoTipo = tipo ? " permanentes " : " temporárias ";
+
+                if (credencialMotivoSelecionados.Count() > 0)
+                {
+                    foreach (CredencialMotivoView credencialMotivo in credencialMotivoSelecionados)
+                    {
+                        mensagemComplementoMotivoCredencial += credencialMotivo.Descricao + ",";
+                        codigoMotivoSelecionados += Convert.ToString(credencialMotivo.CredencialMotivoId) + ",";
+                    }
+                    mensagemComplementoMotivoCredencial = " (" + mensagemComplementoMotivoCredencial.Substring(0, mensagemComplementoMotivoCredencial.Length - 1) + " ) ";
+                    codigoMotivoSelecionados = codigoMotivoSelecionados.Substring(0, codigoMotivoSelecionados.Length - 1);
+                }
+
+                mensagem += mensagemComplementoTipo + mensagemComplemento + mensagemComplementoMotivoCredencial + mensagemPeriodo;
+
+                var relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(26);
+                if (relatorioGerencial == null || relatorioGerencial.ArquivoRpt == null || String.IsNullOrEmpty(relatorioGerencial.ArquivoRpt)) return;
+
+                if (credencialMotivoSelecionados.Count() > 0)
+                {
+                    resultLista = objVeiculoCredencial.ListarVeiculoCredencialDestruidasView(veiculoCredencial).Where(n => n.CredencialStatusId == 2 && codigoMotivoSelecionados.Contains(n.CredencialMotivoId.ToString()));
+                }
+                else
+                {
+                    resultLista = objVeiculoCredencial.ListarVeiculoCredencialDestruidasView(veiculoCredencial).Where(n => n.CredencialStatusId == 2);
+                }
+
+                var resultMapeado = Mapper.Map<List<RelVeiculosCredenciaisView>>(resultLista.OrderByDescending(n => n.VeiculoCredencialId).ToList());
+
+                byte[] arrayFile = Convert.FromBase64String(relatorioGerencial.ArquivoRpt);
+                var reportDoc = WpfHelp.ShowRelatorioCrystalReport(arrayFile, relatorioGerencial.Nome);
+                reportDoc.SetDataSource(resultMapeado);
+
+                if (!string.IsNullOrWhiteSpace(mensagem))
+                {
+                    TextObject txt = (TextObject)reportDoc.ReportDefinition.ReportObjects["TextoPrincipal"];
+                    txt.Text = mensagem;
+                }
+                reportDoc.Refresh();
+
+                var configSistema = objConfiguraSistema.BuscarPelaChave(1);
+                var tempArea = Path.GetTempPath();
+                if (configSistema.EmpresaLOGO != null)
+                {
+                    byte[] testeArquivo = Convert.FromBase64String(configSistema.EmpresaLOGO);
+                    System.IO.File.WriteAllBytes(tempArea + Constantes.Constantes.consNomeArquivoEmpresaOperadora, testeArquivo);
+                    reportDoc.SetParameterValue("MarcaEmpresa", tempArea + Constantes.Constantes.consNomeArquivoEmpresaOperadora);
+                }
+
+                WpfHelp.ShowRelatorio(reportDoc);
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+            }
+        }
         #endregion
 
         #endregion
