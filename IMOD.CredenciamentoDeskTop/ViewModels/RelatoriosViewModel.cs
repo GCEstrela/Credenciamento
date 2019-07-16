@@ -345,7 +345,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         #endregion
 
-        #region Comandos dos Botoes
+        #region Comandos dos Botoes 
 
         public void OnAbrirRelatorioCommand(string _Tag)
         {
