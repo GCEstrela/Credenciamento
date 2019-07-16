@@ -34,7 +34,7 @@ namespace IMOD.CredenciamentoDeskTop.Windows
 
             string dataIni = dp_dataInicial.Text; 
             string dataFim = dp_dataFinal.Text;
-            bool flaDevolucaoEntregue = (bool)chkDevolucaoEntregue.IsChecked;
+            
             IEnumerable<object> motivoCredencialSelecionados = new List<object>();
 
             if (lstMotivoCredencial.SelectedItems.Count > 0)
@@ -44,9 +44,13 @@ namespace IMOD.CredenciamentoDeskTop.Windows
                 var teste = lstMotivoCredencial.SelectedItems;
             }
 
-            var checkTipo =   (RbtnPermanente.IsChecked.Value ? true : RbtnTemporario.IsChecked.Value? false : true); 
+            var checkTipo =   (RbtnPermanente.IsChecked.Value ? true : RbtnTemporario.IsChecked.Value? false : true);
 
-            ((RelatoriosViewModel)DataContext).OnRelatorioAutorizacoesInvalidasFiltroCommand(checkTipo, motivoCredencialSelecionados, dataIni, dataFim, flaDevolucaoEntregue);
+            bool flaTodasDevolucaoEntregue = (bool)RbtnTodasDevolucaoEntregue.IsChecked.Value;
+            bool flaSimNaoDevolucaoEntregue = (bool)RbtnSimDevolucaoEntregue.IsChecked.Value ? true : (bool)RbtnNaoDevolucaoEntregue.IsChecked.Value ? false : true;
+
+
+            ((RelatoriosViewModel)DataContext).OnRelatorioAutorizacoesInvalidasFiltroCommand(checkTipo, motivoCredencialSelecionados, dataIni, dataFim, flaTodasDevolucaoEntregue, flaSimNaoDevolucaoEntregue);
 
             Close();
         }

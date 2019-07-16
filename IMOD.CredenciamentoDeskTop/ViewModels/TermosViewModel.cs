@@ -152,7 +152,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 colaboradorCredencial.CredencialMotivoId = 0;
 
                 mensagemComplemento = !string.IsNullOrEmpty(configSistema.NomeAeroporto) ? configSistema.NomeAeroporto?.Trim() : mensagemComplemento;
-                mensagem = mensagemPeriodo + " esse setor  de credenciamento do " + mensagemComplemento + ", emitiu as seguintes credenciais: ";
+                mensagem = mensagemPeriodo + " esse setor  de credenciamento do " + mensagemComplemento + ", emitiu as seguintes vias adicionais : ";
 
                 var termo = _relatorioGerencialServiceService.BuscarPelaChave(report);
                 if (termo == null || termo.ArquivoRpt == null || String.IsNullOrEmpty(termo.ArquivoRpt)) return;
@@ -228,7 +228,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     }
                 }
                 colaboradorCredencial.Periodo = periodo;
-                colaboradorCredencial.CredencialStatusId = 1;
 
                 mensagemComplemento = !string.IsNullOrEmpty(configSistema.NomeAeroporto) ? configSistema.NomeAeroporto?.Trim() : mensagemComplemento;
                 mensagem = mensagemPeriodo + " esse setor  de credenciamento do " + mensagemComplemento + ", concedeu as seguintes credenciais: ";
@@ -249,7 +248,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 
                 var tempArea = Path.GetTempPath(); 
-                if (configSistema.EmpresaLOGO != null) 
+                if (configSistema.EmpresaLOGO != null)  
                 {
                     byte[] testeArquivo = Convert.FromBase64String(configSistema.EmpresaLOGO);
                     System.IO.File.WriteAllBytes(tempArea + Constantes.Constantes.consNomeArquivoEmpresaOperadora, testeArquivo);
@@ -415,7 +414,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 filtroAutorizacao.CredencialMotivoId = 0;
 
                 mensagemComplemento = !string.IsNullOrEmpty(configSistema.NomeAeroporto) ? configSistema.NomeAeroporto?.Trim() : mensagemComplemento;
-                mensagem = mensagemPeriodo + " esse setor  de credenciamento do " + mensagemComplemento + ", emitiu as seguintes autorizações: ";
+                mensagem = mensagemPeriodo + " esse setor  de credenciamento do " + mensagemComplemento + ", emitiu as seguintes vias adicionais : ";
 
 
                 var result = objVeiculoCredencial.ListarVeiculoCredencialViaAdicionaisView(filtroAutorizacao).Where(n => n.CredencialMotivoId == 2 || n.CredencialMotivoId == 3);
@@ -489,7 +488,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     }
                 }
                 filtroAutorizacao.Periodo = periodo;
-                filtroAutorizacao.CredencialStatusId = 1;
 
                 mensagemComplemento = !string.IsNullOrEmpty(configSistema.NomeAeroporto) ? configSistema.NomeAeroporto?.Trim() : mensagemComplemento;
                 mensagem = mensagemPeriodo + " esse setor  de credenciamento do " + mensagemComplemento + ", concedeu as seguintes autorizações: ";

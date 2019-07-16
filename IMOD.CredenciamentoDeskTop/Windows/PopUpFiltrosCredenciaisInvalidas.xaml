@@ -75,7 +75,9 @@
             </GroupBox>
             <GroupBox x:Name="Devolvidas" Header="Filtrar Devolução"  Margin="10,10"  Foreground="#FFD0D0D0" Height="70">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Stretch" HorizontalAlignment="Left">
-                    <CheckBox x:Name="chkDevolucaoEntregue" Content="Devolvidas/Entregues BO" ></CheckBox>
+                    <RadioButton  x:Name="RbtnTodasDevolucaoEntregue" Content="Todas" IsChecked="True" GroupName="GpnDevolvidas" Width="60" ></RadioButton>
+                    <RadioButton  x:Name="RbtnSimDevolucaoEntregue" Content="Sim" GroupName="GpnDevolvidas" Width="60" ></RadioButton>
+                    <RadioButton  x:Name="RbtnNaoDevolucaoEntregue" Content="Não" GroupName="GpnDevolvidas" Width="60" ></RadioButton>
                 </StackPanel>
             </GroupBox>
             <Button x:Name="button" Content="Filtrar" Click="button_ClickFiltrar" Height="33" HorizontalAlignment="Center" Width="100" Margin="166,20,167,20" />

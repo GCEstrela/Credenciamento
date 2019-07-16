@@ -70,9 +70,11 @@
                     <RadioButton x:Name="RbtnTemporario" Margin="30,0"  Content=" Temporárias" TextBlock.TextAlignment="Left" GroupName="Cred_rb" Height="25"  HorizontalContentAlignment="Left" Foreground="#FFD0D0D0" VerticalAlignment="Center" HorizontalAlignment="Left" Width="151"/>
                 </StackPanel>
             </GroupBox>
-            <GroupBox x:Name="Devolvidas" Header="Filtrar Devolução"  Margin="12,10,11,10"  Foreground="#FFD0D0D0" Height="70">
+            <GroupBox x:Name="Devolvidas" Header="Filtrar Devolução"  Margin="10,10"  Foreground="#FFD0D0D0" Height="70">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Stretch" HorizontalAlignment="Left">
-                    <CheckBox x:Name="chkDevolucaoEntregue" Content="Devolvidas/Entregues BO" />
+                    <RadioButton  x:Name="RbtnTodasDevolucaoEntregue" Content="Todas" IsChecked="True" GroupName="GpnDevolvidas" Width="60"></RadioButton>
+                    <RadioButton  x:Name="RbtnSimDevolucaoEntregue" Content="Sim" GroupName="GpnDevolvidas" Width="60"></RadioButton>
+                    <RadioButton  x:Name="RbtnNaoDevolucaoEntregue" Content="Não" GroupName="GpnDevolvidas" Width="60"></RadioButton>
                 </StackPanel>
             </GroupBox>
 

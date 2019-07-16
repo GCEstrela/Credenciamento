@@ -441,7 +441,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <param name="_status"></param>
         /// <param name="_dataIni"></param>
         /// <param name="_dataFim"></param>
-        public void OnRelatorioCredenciaisInvalidasFiltroCommand(bool tipo, IEnumerable<object> credencialMotivoSelecionados, string dataIni, string dataFim, bool flaDevolucaoEntregaBO)
+        public void OnRelatorioCredenciaisInvalidasFiltroCommand(bool tipo, IEnumerable<object> credencialMotivoSelecionados, string dataIni, string dataFim, bool flaTodasDevolucaoEntregaBO, bool flaSimNaoDevolucaoEntregaBO)
         {
             try 
             {
@@ -457,7 +457,15 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 mensagem = "Todas as credenciais ";
                 colaboradorCredencial.CredencialStatusId = 2;
                 colaboradorCredencial.Impressa = true;
-                colaboradorCredencial.DevolucaoEntregaBo = flaDevolucaoEntregaBO;
+
+                if (!flaTodasDevolucaoEntregaBO)
+                {
+                    colaboradorCredencial.DevolucaoEntregaBo = flaSimNaoDevolucaoEntregaBO;
+                }
+                else
+                {
+                    colaboradorCredencial.flaTodasDevolucaoEntregaBO = flaTodasDevolucaoEntregaBO;
+                }
 
                 if (!(dataIni.Equals(string.Empty) || dataFim.Equals(string.Empty)))
                 {
@@ -542,7 +550,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 string mensagemPeriodo = string.Empty; 
                 
                 Domain.EntitiesCustom.FiltroReportColaboradoresCredenciais colaboradorCredencial = new Domain.EntitiesCustom.FiltroReportColaboradoresCredenciais();
-                colaboradorCredencial.CredencialStatusId = 1;
+                //colaboradorCredencial.CredencialStatusId = 1;
                 colaboradorCredencial.Impressa = true;
 
 
@@ -888,7 +896,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <param name="_tipo"></param>
         /// <param name="_dataIni"></param>
         /// <param name="_dataFim"></param>
-        public void OnRelatorioAutorizacoesInvalidasFiltroCommand(bool tipo, IEnumerable<object> credencialMotivoSelecionados, string dataIni, string dataFim, bool flaDevolucaoEntregaBO)
+        public void OnRelatorioAutorizacoesInvalidasFiltroCommand(bool tipo, IEnumerable<object> credencialMotivoSelecionados, string dataIni, string dataFim, bool flaTodasDevolucaoEntregaBO, bool flaSimNaoDevolucaoEntregaBO)
         {
             try
             {
@@ -905,7 +913,14 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 mensagem = "Todas as autorizações ";
                 veiculoCredencial.CredencialStatusId = 2;
                 veiculoCredencial.Impressa = true;
-                veiculoCredencial.DevolucaoEntregaBo = flaDevolucaoEntregaBO;
+
+                if (!flaTodasDevolucaoEntregaBO)
+                {
+                    veiculoCredencial.DevolucaoEntregaBo = flaSimNaoDevolucaoEntregaBO;
+                } else
+                {
+                    veiculoCredencial.flaTodasDevolucaoEntregaBO = flaTodasDevolucaoEntregaBO;
+                }
 
                 if (!(dataIni.Equals(string.Empty) || dataFim.Equals(string.Empty)))
                 {
@@ -989,7 +1004,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
 
                 Domain.EntitiesCustom.FiltroReportVeiculoCredencial veiculoCredencial = new Domain.EntitiesCustom.FiltroReportVeiculoCredencial();
-                veiculoCredencial.CredencialStatusId = 1;
+                //veiculoCredencial.CredencialStatusId = 1;
                 veiculoCredencial.Impressa = true;
 
                 if (objAreaSelecionado.AreaAcessoId > 0)
