@@ -255,6 +255,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             if (FormatoCredencial_cb.SelectedItem != null)
             {
+               
                 if (((IMOD.Domain.Entities.FormatoCredencial)FormatoCredencial_cb.SelectedItem).Descricao.Trim().Equals("CSN"))
                 {
                     FC_tb.Visibility = Visibility.Hidden;
@@ -284,7 +285,8 @@ namespace IMOD.CredenciamentoDeskTop.Views
                     lblFC.Visibility = Visibility.Visible;
                     NumeroCredencial_tb.Visibility = Visibility.Visible;
                     lblNumero.Visibility = Visibility.Visible;
-                    NumeroCredencial_tb.Focus();
+                    //NumeroCredencial_tb.Focus();
+                    FC_tb.Focus();
                 }
 
             }
