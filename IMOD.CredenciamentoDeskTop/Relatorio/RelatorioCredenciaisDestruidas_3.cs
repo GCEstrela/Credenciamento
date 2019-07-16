@@ -16,14 +16,14 @@ namespace IMOD.CredenciamentoDeskTop.Relatorio {
     using CrystalDecisions.CrystalReports.Engine;
     
     
-    public class RelatorioAutorizacaoDestruidas_26 : ReportClass {
+    public class RelatorioCredenciaisDestruidas_3 : ReportClass {
         
-        public RelatorioAutorizacaoDestruidas_26() {
+        public RelatorioCredenciaisDestruidas_3() {
         }
         
         public override string ResourceName {
             get {
-                return "RelatorioAutorizacaoDestruidas_26.rpt";
+                return "RelatorioCredenciaisDestruidas_3.rpt";
             }
             set {
                 // Do nothing
@@ -41,7 +41,7 @@ namespace IMOD.CredenciamentoDeskTop.Relatorio {
         
         public override string FullResourceName {
             get {
-                return "IMOD.CredenciamentoDeskTop.Relatorio.RelatorioAutorizacaoDestruidas_26.rpt";
+                return "IMOD.CredenciamentoDeskTop.Relatorio.RelatorioCredenciaisDestruidas_3.rpt";
             }
             set {
                 // Do nothing
@@ -114,9 +114,9 @@ namespace IMOD.CredenciamentoDeskTop.Relatorio {
     }
     
     [System.Drawing.ToolboxBitmapAttribute(typeof(CrystalDecisions.Shared.ExportOptions), "report.bmp")]
-    public class CachedRelatorioAutorizacaoDestruidas_26 : Component, ICachedReport {
+    public class CachedRelatorioCredenciaisDestruidas_3 : Component, ICachedReport {
         
-        public CachedRelatorioAutorizacaoDestruidas_26() {
+        public CachedRelatorioCredenciaisDestruidas_3() {
         }
         
         [Browsable(false)]
@@ -153,7 +153,7 @@ namespace IMOD.CredenciamentoDeskTop.Relatorio {
         }
         
         public virtual CrystalDecisions.CrystalReports.Engine.ReportDocument CreateReport() {
-            RelatorioAutorizacaoDestruidas_26 rpt = new RelatorioAutorizacaoDestruidas_26();
+            RelatorioCredenciaisDestruidas_3 rpt = new RelatorioCredenciaisDestruidas_3();
             rpt.Site = this.Site;
             return rpt;
         }
