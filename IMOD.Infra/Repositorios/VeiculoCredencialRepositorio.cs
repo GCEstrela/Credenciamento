@@ -66,7 +66,8 @@ namespace IMOD.Infra.Repositorios
                     catch (Exception ex)
                     {
                         Utils.TraceException (ex);
-                        throw;
+                        return null;
+                        //throw;
                     }
                 }
             }
