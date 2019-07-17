@@ -28,8 +28,16 @@ namespace IMOD.CredenciamentoDeskTop.Windows
             bool check;
             string area;
             IMOD.CredenciamentoDeskTop.Views.Model.AreaAcessoView objAreaSelecionado = new IMOD.CredenciamentoDeskTop.Views.Model.AreaAcessoView();
-
             var checkTipo = (RbtnPermanente.IsChecked.Value ? true : RbtnTemporario.IsChecked.Value ? false : true);
+            bool? flaAtivoInativo;
+
+            if (RbtnTodosStatus != null && RbtnTodosStatus.IsChecked.Value)
+            {
+                flaAtivoInativo = null;
+            } else
+            {
+               flaAtivoInativo = (bool)RbtnStatusAtiva.IsChecked.Value ? true : (bool)RbtnStatusInativa.IsChecked.Value ? false : true;
+            }
 
             if (AreaAcesso_cb.SelectedItem == null)
             {
@@ -44,7 +52,7 @@ namespace IMOD.CredenciamentoDeskTop.Windows
             if (credenciais_rb.IsChecked.Value)
             {
                 check = true;
-                ((RelatoriosViewModel)DataContext).OnRelatorioCredencialPorAreaCommand(checkTipo, area, check, objAreaSelecionado);
+                ((RelatoriosViewModel)DataContext).OnRelatorioCredencialPorAreaCommand(checkTipo, area, check, objAreaSelecionado, flaAtivoInativo);
             }
             else
             {

@@ -540,7 +540,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary> 
         /// <param name="_area"></param>
         /// <param name="_check"></param>
-        public void OnRelatorioCredencialPorAreaCommand(bool tipo, string area, bool _check, AreaAcessoView objAreaSelecionado)
+        public void OnRelatorioCredencialPorAreaCommand(bool tipo, string area, bool _check, AreaAcessoView objAreaSelecionado, bool ? flaAtivoInativo)
         {
             try
             {
@@ -550,9 +550,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 string mensagemPeriodo = string.Empty; 
                 
                 Domain.EntitiesCustom.FiltroReportColaboradoresCredenciais colaboradorCredencial = new Domain.EntitiesCustom.FiltroReportColaboradoresCredenciais();
-                //colaboradorCredencial.CredencialStatusId = 1;
-                colaboradorCredencial.Impressa = true;
 
+                colaboradorCredencial.Impressa = true;
 
                 if (objAreaSelecionado.AreaAcessoId > 0)
                 {
@@ -560,9 +559,15 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 }
 
                 colaboradorCredencial.TipoCredencialId = tipo ? 1 : 2; 
-                mensagemComplemento = tipo ? " permanentes " : " temporárias "; 
+                mensagemComplemento = tipo ? " permanentes " : " temporárias ";
 
-                mensagem = " Todas as credenciais " + mensagemComplemento + " e válidas por área de acesso " + mensagemComplementoArea;
+                if (flaAtivoInativo != null)
+                {
+                    colaboradorCredencial.CredencialStatusId = (bool)flaAtivoInativo ? 1 : 2;
+                    mensagemComplemento += (bool)flaAtivoInativo ? " ativas " : " inativas "; 
+                }
+
+                mensagem = " Todas as credenciais " + mensagemComplemento + " por área de acesso " + mensagemComplementoArea;
 
                 if (area != string.Empty)
                 { 
