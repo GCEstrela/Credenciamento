@@ -83,6 +83,8 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Pendente34", entity.Pendente34, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Precadastro", entity.Precadastro, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Categoria", entity.Categoria, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("DataLicenciameno", DbType.Date, entity.DataLicenciameno, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("DataVistoria", DbType.Date, entity.DataVistoria, false)));
 
                         var key = Convert.ToInt32(cmd.ExecuteScalar());
 
@@ -208,6 +210,8 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Pendente34", entity.Pendente34, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Precadastro", entity.Precadastro, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Categoria", entity.Categoria, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("DataLicenciameno", entity.DataLicenciameno, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("DataVistoria", entity.DataVistoria, false)));
 
                         cmd.ExecuteNonQuery();
                     }

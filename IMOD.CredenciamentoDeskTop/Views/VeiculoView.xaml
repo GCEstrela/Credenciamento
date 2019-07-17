@@ -297,6 +297,26 @@
                                              Text="{Binding Entity.Modelo,UpdateSourceTrigger=PropertyChanged}"
                                              IsEnabled="True" Height="24" Width="127"  />
                                 </StackPanel>
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
+                                            HorizontalAlignment="Left" Margin="1">
+                                    <Label Content="Licenciamento:" Height="28" Foreground="#FFD0D0D0"
+                                       HorizontalContentAlignment="Right" Width="109" />
+                                    <TextBox
+                                    x:Name="txtDataLicenciamento"
+                                    Text="{Binding Entity.DataLicenciameno, StringFormat=\{0:dd/MM/yyyy\},ValidatesOnNotifyDataErrors=True}"                                    
+                                    PreviewTextInput="NumberOnly"
+                                    MaxLength="10"                                     
+                                    Height="24" Width="124" LostFocus="TxtDataLicenciamento_LostFocus" />
+
+                                    <Label Content="Vistoria:" Height="28" Foreground="#FFD0D0D0"
+                                       HorizontalContentAlignment="Right" Width="77" />
+                                    <TextBox
+                                    x:Name="txtDataVistoria"
+                                    Text="{Binding Entity.DataVistoria, StringFormat=\{0:dd/MM/yyyy\},ValidatesOnNotifyDataErrors=True}"                                    
+                                    PreviewTextInput="NumberOnly"
+                                    MaxLength="10"                                     
+                                    Height="24" Width="127" LostFocus="TxtDataVistoria_LostFocus" />
+                                </StackPanel>
 
                             </StackPanel>
                             <StackPanel VerticalAlignment="Top" Margin="23,7,20,0" Height="140" Width="101" >

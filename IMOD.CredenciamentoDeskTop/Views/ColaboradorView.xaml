@@ -638,8 +638,7 @@
                                     Text="{Binding Entity.DataNascimento, StringFormat=\{0:dd/MM/yyyy\}}"
                                     LostFocus="OnFormatDateNascimento_LostFocus"
                                     PreviewTextInput="NumberOnly"
-                                    MaxLength="10"
-                                     
+                                    MaxLength="10"                                     
                                     Height="24" Width="109" />
 
                                 <!--<DatePicker x:Name="DataNascimento_tb" Width="120" Height="24"
