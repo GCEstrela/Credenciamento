@@ -99,13 +99,13 @@
                                     </TransformGroup>
                                 </ComboBox.RenderTransform>
                             </ComboBox>
-                            <Label Content="Motivo:" Height="28" Width="116" HorizontalContentAlignment="Right"
+                            <Label Content="Motivo: " Height="28" Width="70" HorizontalContentAlignment="Right"
                                    Foreground="#FFD0D0D0" />
 
                             <ComboBox x:Name="cmbMotivacao"  IsEditable="true"
                                       Margin="0,4,0,3" 
                                       Height="25"
-                                      Width="255"                                      
+                                      Width="160"                                      
                                       VerticalContentAlignment="Center" 
                                       HorizontalContentAlignment="Left"
                                       ItemsSource="{Binding CredenciaisMotivo}" 
@@ -116,7 +116,7 @@
 
 
 
-                            <CheckBox VerticalAlignment="Center" Margin="15,0,0,0" x:Name="chkDevolucaoMotivo" HorizontalAlignment="Left" Foreground="#FFD0D0D0" 
+                            <CheckBox VerticalAlignment="Center" Margin="18,0,0,0" x:Name="chkDevolucaoMotivo" HorizontalAlignment="Left" Foreground="#FFD0D0D0" 
                                 Content="Devolução" IsChecked="{Binding Entity.DevolucaoEntregaBo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Visibility="Hidden"  />
 
                         </StackPanel>

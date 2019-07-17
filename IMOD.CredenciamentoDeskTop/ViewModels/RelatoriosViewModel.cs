@@ -1335,7 +1335,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 mensagem += mensagemComplementoTipo + mensagemComplemento + mensagemComplementoMotivoCredencial + mensagemPeriodo;
 
-                var relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(25);
+                var relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(3);
                 if (relatorioGerencial == null || relatorioGerencial.ArquivoRpt == null || String.IsNullOrEmpty(relatorioGerencial.ArquivoRpt)) return;
 
 
@@ -1437,7 +1437,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 mensagem += mensagemComplementoTipo + mensagemComplemento + mensagemComplementoMotivoCredencial + mensagemPeriodo;
 
-                var relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(26);
+                var relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(4);
                 if (relatorioGerencial == null || relatorioGerencial.ArquivoRpt == null || String.IsNullOrEmpty(relatorioGerencial.ArquivoRpt)) return;
 
                 if (credencialMotivoSelecionados.Count() > 0)
