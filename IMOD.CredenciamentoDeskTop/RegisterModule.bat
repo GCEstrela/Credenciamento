@@ -21,13 +21,13 @@ SET path_dll="%~dp0bin\debug\IMOD.CredenciamentoDeskTop.dll"
 
 :REG_EDIT:
 ECHO 32 bits
-REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\Genetec\Security Center\Plugins\iModSCCredenciamentoDevelope" /v ClientModule /t REG_SZ /d %path_dll% /f /reg:32
-REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\Genetec\Security Center\Plugins\iModSCCredenciamentoDevelope" /v Enabled /t REG_SZ /d "True" /f /reg:32
-REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\Genetec\Security Center\Plugins\iModSCCredenciamentoDevelope" /v ServerModule /t REG_SZ /d %path_dll% /f /reg:32
+REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\Genetec\Security Center\Plugins\iModCredenciamento" /v ClientModule /t REG_SZ /d %path_dll% /f /reg:32
+REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\Genetec\Security Center\Plugins\iModCredenciamento" /v Enabled /t REG_SZ /d "True" /f /reg:32
+REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\Genetec\Security Center\Plugins\iModCredenciamento" /v ServerModule /t REG_SZ /d %path_dll% /f /reg:32
 ECHO 64 bits
-REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\Genetec\Security Center\Plugins\iModSCCredenciamentoDevelope" /v ClientModule /t REG_SZ /d %path_dll% /f /reg:64
-REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\Genetec\Security Center\Plugins\iModSCCredenciamentoDevelope" /v Enabled /t REG_SZ /d "True" /f /reg:64
-REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\Genetec\Security Center\Plugins\iModSCCredenciamentoDevelope" /v ServerModule /t REG_SZ /d %path_dll% /f /reg:64
+REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\Genetec\Security Center\Plugins\iModCredenciamento" /v ClientModule /t REG_SZ /d %path_dll% /f /reg:64
+REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\Genetec\Security Center\Plugins\iModCredenciamento" /v Enabled /t REG_SZ /d "True" /f /reg:64
+REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\Genetec\Security Center\Plugins\iModCredenciamento" /v ServerModule /t REG_SZ /d %path_dll% /f /reg:64
 goto End
 
 :WRONG_DIR:
