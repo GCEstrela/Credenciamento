@@ -87,6 +87,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         public bool HabilitarOpcoesCredencial { get; set; }
         public string ExcluirVisivel { get; set; }
+        public bool AlterarDataValidade { get; set; }
         public Boolean ColeteEnabled
         {
             get
@@ -165,6 +166,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         public ColaboradoresCredenciaisViewModel()
         {
+            AlterarDataValidade = UsuarioLogado.Adm;
             if (!UsuarioLogado.Adm)
             {
                 ExcluirVisivel = "Collapsed";
@@ -240,9 +242,16 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
             }
 
-
-            //HabilitaImpressao = entity.Ativa && !entity.PendenciaImpeditiva && !entity.Impressa && (entity.ColaboradorCredencialId > 0) && entity.Validade >= DateTime.Now.Date && (pendenciaImpeditivaEmpresa.Count <= 0) && (pendenciaImpeditivaColaborador.Count <= 0);
-            HabilitaImpressao = entity.Ativa && !entity.PendenciaImpeditiva && !entity.Impressa && (entity.ColaboradorCredencialId > 0) && (pendenciaImpeditivaEmpresa.Count <= 0) && (pendenciaImpeditivaColaborador.Count <= 0);
+            if (!UsuarioLogado.Adm)   //Esta alteração esta sendo feita para permitir que o Usuario ADM posso continuar com a data alterada
+            {
+                HabilitaImpressao = entity.Ativa && !entity.PendenciaImpeditiva && !entity.Impressa && (entity.ColaboradorCredencialId > 0) && entity.Validade >= DateTime.Now.Date && (pendenciaImpeditivaEmpresa.Count <= 0) && (pendenciaImpeditivaColaborador.Count <= 0);
+            }
+            else
+            {
+                HabilitaImpressao = entity.Ativa && !entity.PendenciaImpeditiva && !entity.Impressa && (entity.ColaboradorCredencialId > 0) && (pendenciaImpeditivaEmpresa.Count <= 0) && (pendenciaImpeditivaColaborador.Count <= 0);
+            }
+                
+                
 
             //Verificar se a empresa esta impedida 
             var mensagem1 = "";
@@ -253,7 +262,15 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             var n1 = _service.BuscarCredencialPelaChave(entity.ColaboradorCredencialId);
             if (n1 != null)
             {
-                HabilitaImpressao = n1.Ativa && !n1.PendenciaImpeditiva && !n1.Impressa && (entity.ColaboradorCredencialId > 0) && entity.Validade >= DateTime.Now.Date && (pendenciaImpeditivaEmpresa.Count <= 0) && (pendenciaImpeditivaColaborador.Count <= 0);
+                if (!UsuarioLogado.Adm)    //Esta alteração esta sendo feita para permitir que o Usuario ADM posso continuar com a data alterada
+                {
+                    HabilitaImpressao = n1.Ativa && !n1.PendenciaImpeditiva && !n1.Impressa && (entity.ColaboradorCredencialId > 0) && entity.Validade >= DateTime.Now.Date && (pendenciaImpeditivaEmpresa.Count <= 0) && (pendenciaImpeditivaColaborador.Count <= 0);
+                }
+                else
+                {
+                    HabilitaImpressao = n1.Ativa && !n1.PendenciaImpeditiva && !n1.Impressa && (entity.ColaboradorCredencialId > 0) && (pendenciaImpeditivaEmpresa.Count <= 0) && (pendenciaImpeditivaColaborador.Count <= 0);
+                }
+                    
                 mensagem1 = !n1.Ativa ? "Credencial Inativa" : string.Empty;
                 //ContentImprimir = !n1.Ativa ? "Visualizar Credencial " : "Imprimir Credencial";
                 //mensagem2 = n1.PendenciaImpeditiva ? "Pendência Impeditiva (consultar dados da empresa na aba Geral)" : string.Empty;
@@ -504,12 +521,13 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 OnPropertyChanged("Entity");
             }
-            else
+            else if (!UsuarioLogado.Adm)    //Esta alteração esta sendo feita para permitir que o Usuario ADM posso continuar com a data alterada
             {
-                if (Entity.Validade > data)
-                    Entity.Validade = data;
 
-                OnPropertyChanged("Entity");
+                if (Entity.Validade > data)
+                    //Entity.Validade = data;   //Esta alteração esta sendo feita para permitir que o Usuario ADM posso continuar com a data alterada
+
+                    OnPropertyChanged("Entity");
             }
 
         }
