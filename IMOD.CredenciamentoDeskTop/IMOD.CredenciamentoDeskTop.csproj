@@ -1199,7 +1199,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Cracha\PoaPretoPF.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>PoaPretoPF1.cs</LastGenOutput>
+      <LastGenOutput>PoaPretoPF.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Cracha\PoaRoxoRFB.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

@@ -813,6 +813,10 @@ namespace IMOD.Infra.Repositorios
                         {
                             cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Impressa", DbType.Boolean, entity.Impressa).Igual()));
                         }
+                        if (entity != null && entity.TipoCredencialId > 0)
+                        {
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("TipoCredencialId", DbType.Int32, entity.TipoCredencialId).Igual()));
+                        }
 
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<ColaboradoresCredenciaisView>();
