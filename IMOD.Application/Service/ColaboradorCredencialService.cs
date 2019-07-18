@@ -718,6 +718,16 @@ namespace IMOD.Application.Service
             return _repositorio.ListarColaboradorCredencialDestruidasView(entity);
         }
 
+        /// <summary>
+        ///    Listar Colaboradores credenciais - extraviadas
+        /// </summary>
+        /// <param name="entity">entity</param>
+        /// <returns></returns>
+        public List<ColaboradoresCredenciaisView> ListarColaboradorCredencialExtraviadasView(FiltroReportColaboradoresCredenciais entity)
+        {
+            return _repositorio.ListarColaboradorCredencialExtraviadasView(entity);
+        }
+
         public void DisparaAlarme(ICredencialService geradorCredencialService, CardHolderEntity entity)
         {
             throw new NotImplementedException();
