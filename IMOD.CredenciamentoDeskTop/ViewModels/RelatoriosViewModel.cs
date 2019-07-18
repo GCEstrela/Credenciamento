@@ -1005,7 +1005,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <param name="area"></param>
         /// <param name="_check"></param>
         /// <param name="objAreaSelecionado"></param>
-        public void OnRelatorioAutorizacoesPorAreaCommand(bool tipo, string area, bool _check, AreaAcessoView objAreaSelecionado)
+        public void OnRelatorioAutorizacoesPorAreaCommand(bool tipo, string area, bool _check, AreaAcessoView objAreaSelecionado, bool? flaAtivoInativo)
         {
             try
             {
@@ -1016,7 +1016,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
 
                 Domain.EntitiesCustom.FiltroReportVeiculoCredencial veiculoCredencial = new Domain.EntitiesCustom.FiltroReportVeiculoCredencial();
-                //veiculoCredencial.CredencialStatusId = 1;
                 veiculoCredencial.Impressa = true;
 
                 if (objAreaSelecionado.AreaAcessoId > 0)
@@ -1027,7 +1026,13 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 veiculoCredencial.TipoCredencialId = tipo ? 1 : 2;
                 mensagemComplementoTipo = tipo ? " permanentes " : " temporárias ";
 
-                mensagem = " Todas as autorizações " + mensagemComplementoTipo + " e válidas por área de acesso " + mensagemComplemento;
+                if (flaAtivoInativo != null)
+                {
+                    veiculoCredencial.CredencialStatusId = (bool)flaAtivoInativo ? 1 : 2;
+                    mensagemComplementoTipo += (bool)flaAtivoInativo ? " ativas " : " inativas ";
+                }
+
+                mensagem = " Todas as autorizações " + mensagemComplementoTipo + " por área de acesso " + mensagemComplemento;
 
                 if (area != string.Empty)
                 {
