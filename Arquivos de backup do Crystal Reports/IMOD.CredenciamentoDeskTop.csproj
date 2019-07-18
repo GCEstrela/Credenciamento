@@ -68,7 +68,9 @@
     <Reference Include="PresentationFramework" />
     <Reference Include="PropertyChanged, Version=2.6.0.0, Culture=neutral, PublicKeyToken=ee3ee20bcf148ddd, processorArchitecture=MSIL">
       <HintPath>..\packages\PropertyChanged.Fody.2.6.0\lib\net452\PropertyChanged.dll</HintPath>
-      <Private>True</Private>
+    </Reference>
+    <Reference Include="QRCoder, Version=1.3.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\QRCoder.1.3.5\lib\net40\QRCoder.dll</HintPath>
     </Reference>
     <Reference Include="ReachFramework" />
     <Reference Include="sapbusinessobjects.wpf.viewer, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
@@ -78,6 +80,9 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Drawing.Common, Version=4.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Drawing.Common.4.5.0\lib\net461\System.Drawing.Common.dll</HintPath>
+    </Reference>
     <Reference Include="System.Printing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -94,17 +99,235 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
     <Reference Include="UIAutomationProvider" />
+    <Reference Include="WebCam_Capture, Version=1.0.2395.24959, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Dlls\WebCam_Capture.dll</HintPath>
+    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constantes\Constantes.cs" />
+    <Compile Include="Cracha\ATIV-FLORIPA.cs">
+      <DependentUpon>ATIV-FLORIPA.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="Cracha\ATIV-FRAPORT.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ATIV-FRAPORT.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Cracha\AUTORIZAÇÃO #1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AUTORIZAÇÃO #1.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Cracha\CRACHA ESTRELA .cs">
+      <DependentUpon>CRACHA ESTRELA .rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="Cracha\CRACHA FLORIPA #1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CRACHA FLORIPA #1.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Cracha\CRACHA FLORIPA #2.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CRACHA FLORIPA #2.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Cracha\CRACHA FRAPORT #1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CRACHA FRAPORT #1.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Cracha\CRACHA FRAPORT #2.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CRACHA FRAPORT #2.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Cracha\CRACHA FRAPORT.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CRACHA FRAPORT.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Cracha\ForAmareloTerceiras.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ForAmareloTerceiras.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Cracha\ForAzulClaroLojas.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ForAzulClaroLojas.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Cracha\ForAzulFraportBrasil.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ForAzulFraportBrasil.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Cracha\ForBrancoTemporario.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ForBrancoTemporario.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Cracha\ForCinzaCiaAereas.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ForCinzaCiaAereas.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Cracha\ForLaranjaExatas.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ForLaranjaExatas.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Cracha\ForMarromCargas.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ForMarromCargas.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Cracha\ForPretoPF.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ForPretoPF.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Cracha\ForRoxoRFB.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ForRoxoRFB.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Cracha\ForVerdeOrgaosPublicos.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ForVerdeOrgaosPublicos.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Cracha\FraportForAutorizacao.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FraportForAutorizacao.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Cracha\FraportForAutorizacaoManobra.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FraportForAutorizacaoManobra.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Cracha\FraportPoaAutorizacao.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FraportPoaAutorizacao.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Cracha\FraportPoaAutorizacaoManobra.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FraportPoaAutorizacaoManobra.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Cracha\PoaAmareloTerceiras.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PoaAmareloTerceiras.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Cracha\PoaAzulClaroLojas.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PoaAzulClaroLojas.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Cracha\PoaAzulFraportBrasil.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PoaAzulFraportBrasil.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Cracha\PoaBrancoTemporario.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PoaBrancoTemporario.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Cracha\PoaCinzaCiaAereas.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PoaCinzaCiaAereas.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Cracha\PoaLaranjaExatas.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PoaLaranjaExatas.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Cracha\PoaMarromCargas.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PoaMarromCargas.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Cracha\PoaPretoPF.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PoaPretoPF.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Cracha\PoaRoxoRFB.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PoaRoxoRFB.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Cracha\PoaVerdeOrgaosPublicos.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PoaVerdeOrgaosPublicos.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Cracha\TEMPORARIA FLORIPA.cs">
+      <DependentUpon>TEMPORARIA FLORIPA.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="Cracha\TEMPORARIA FRAPORT.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TEMPORARIA FRAPORT.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Enums\Tipos.cs" />
     <Compile Include="Funcoes\AtualizaDataConverter.cs" />
     <Compile Include="Funcoes\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Funcoes\ByteImageConverter.cs" />
+    <Compile Include="Funcoes\CheckImpressao.cs" />
     <Compile Include="Funcoes\CheckTeste.cs" />
     <Compile Include="Funcoes\ChildControls.cs" />
     <Compile Include="Funcoes\ConvertBoolToImage.cs" />
     <Compile Include="Funcoes\ConvertDescToBool.cs" />
+    <Compile Include="Funcoes\ConvertIntToImage.cs" />
     <Compile Include="Funcoes\DispatchService.cs" />
     <Compile Include="Funcoes\FormatCep.cs" />
     <Compile Include="Funcoes\FormatCnpj.cs" />
@@ -113,17 +336,171 @@
     <Compile Include="Funcoes\FormatDate.cs" />
     <Compile Include="Funcoes\FormateTel.cs" />
     <Compile Include="Funcoes\MethodBindingExtension.cs" />
+    <Compile Include="Funcoes\QrCode.cs" />
+    <Compile Include="Funcoes\StringNullOrEmptyToVisibilityConverter.cs" />
     <Compile Include="Funcoes\ValidacaoModel.cs" />
     <Compile Include="Funcoes\SCManager.cs" />
     <Compile Include="Funcoes\StringToImageConverter.cs" />
     <Compile Include="Funcoes\StringWriterWithEncoding.cs" />
+    <Compile Include="Funcoes\WebCam.cs" />
     <Compile Include="Helpers\ArquivoInfo.cs" />
+    <Compile Include="Helpers\Helper.cs" />
     <Compile Include="Helpers\WpfHelp.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Mapeamento\AutoMapperConfig.cs" />
+    <Compile Include="Relatorio\RelatorioAutorizacaoEmitidaPorArea_8.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelatorioAutorizacaoEmitidaPorArea_8.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Relatorio\RelatorioAutorizacaoEmitidasPorEmpresa_10.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelatorioAutorizacaoEmitidasPorEmpresa_10.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Relatorio\RelatorioAutorizacaoDestruidas_4.cs">
+      <DependentUpon>RelatorioAutorizacaoDestruidas_4.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Relatorio\RelatorioAutorizacaoInvalidas_6.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelatorioAutorizacaoInvalidas_6.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Relatorio\RelatorioConcessaoAutorizacaoValidas_2.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelatorioConcessaoAutorizacaoValidas_2.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Relatorio\RelatorioConcessaoCredenciaisValidas_1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelatorioConcessaoCredenciaisValidas_1.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Relatorio\RelatorioCredenciaisEmitidasPorArea_7.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelatorioCredenciaisEmitidasPorArea_7.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Relatorio\RelatorioCredenciaisEmitidasPorEmpresa_9.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelatorioCredenciaisEmitidasPorEmpresa_9.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Relatorio\RelatorioCredenciaisDestruidas_3.cs">
+      <DependentUpon>RelatorioCredenciaisDestruidas_3.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Relatorio\RelatorioCredenciaisInvalidas_5.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelatorioCredenciaisInvalidas_5.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Relatorio\RelatorioImpressaoAutorizacao_24.cs">
+      <DependentUpon>RelatorioImpressaoAutorizacao_24.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Relatorio\RelatorioImpressaoCredencial_23.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelatorioImpressaoCredencial_23.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Relatorio\RelatorioViasAdicionaisAutorizacao_22.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelatorioViasAdicionaisAutorizacao_22.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Relatorio\RelatorioViasAdicionaisCredenciais_21.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelatorioViasAdicionaisCredenciais_21.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Relatorio\TermoCancelamentoCredenciais_13.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TermoCancelamentoCredenciais_13.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Relatorio\TermoConcessaoCredenciais_11.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TermoConcessaoCredenciais_11.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Relatorio\TermoDestruicaoCredenciais_17.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TermoDestruicaoCredenciais_17.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Relatorio\TermoIndeferimentoCredenciais_15.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TermoIndeferimentoCredenciais_15.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Relatorio\TermoViasAdicionaisCredenciais_19.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TermoViasAdicionaisCredenciais_19.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Relatorio\TermoCancelamentoAutorizacao_14.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TermoCancelamentoAutorizacao_14.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Relatorio\TermoConcessaoAutorizacao_12.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TermoConcessaoAutorizacao_12.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Relatorio\TermoDestruicaoAutorizacao_18.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TermoDestruicaoAutorizacao_18.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Relatorio\TermoIndeferimentoAutorizacao_16.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TermoIndeferimentoAutorizacao_16.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Relatorio\TermoViaAdicionalAutorizacao_20.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TermoViaAdicionalAutorizacao_20.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="ViewModels\Commands\CommandBase.cs" />
     <Compile Include="ViewModels\Comportamento\ComportamentoBasico.cs" />
+    <Compile Include="ViewModels\Comportamento\IAtualizarDados.cs" />
     <Compile Include="ViewModels\Comportamento\IComportamento.cs" />
+    <Compile Include="ViewModels\EquipamentosAnexosViewModel.cs" />
+    <Compile Include="ViewModels\EquipamentosCredenciaisViewModel.cs" />
+    <Compile Include="ViewModels\EquipamentosEmpresasViewModel.cs" />
+    <Compile Include="ViewModels\EquipamentosSegurosViewModel.cs" />
+    <Compile Include="ViewModels\EquipamentosViewModel.cs" />
     <Compile Include="Views\Model\AreaAcessoView.cs" />
     <Compile Include="Views\Model\AutorizacaoView.cs" />
     <Compile Include="Views\Model\ColaboradorAnexoView.cs" />
@@ -131,9 +508,10 @@
     <Compile Include="Views\Model\ColaboradorEmpresaView.cs" />
     <Compile Include="Views\Model\ColaboradorPrivilegioView.cs" />
     <Compile Include="Views\Model\ColaboradorView.cs" />
-    <Compile Include="Views\Model\CredencialView.cs" />
+    <Compile Include="Views\Model\ConfiguraSistemaView.cs" />
     <Compile Include="Views\Model\CredencialMotivoView.cs" />
     <Compile Include="Views\Model\CredencialStatusView.cs" />
+    <Compile Include="Views\Model\CredencialViewCracha.cs" />
     <Compile Include="Views\Model\CursoView.cs" />
     <Compile Include="Views\Model\EmpresaTipoCredencialView.cs" />
     <Compile Include="Views\Model\EmpresaVeiculoView.cs" />
@@ -154,6 +532,8 @@
     <Compile Include="Views\Model\PendenciaView.cs" />
     <Compile Include="Views\Model\RelatorioView.cs" />
     <Compile Include="Views\Model\RelatorioGerencialView.cs" />
+    <Compile Include="Views\Model\RelColaboradoresCredenciaisView.cs" />
+    <Compile Include="Views\Model\RelVeiculosCredenciaisView.cs" />
     <Compile Include="Views\Model\StatusView.cs" />
     <Compile Include="Views\Model\TecnologiaCredencialView.cs" />
     <Compile Include="Views\Model\TipoAcessoView.cs" />
@@ -165,10 +545,10 @@
     <Compile Include="Views\Model\TipoAtividadeView.cs" />
     <Compile Include="Views\Model\TipoCobrancaView.cs" />
     <Compile Include="Views\Model\TipoCombustivelView.cs" />
+    <Compile Include="Views\Model\TipoRepresentanteView.cs" />
     <Compile Include="Views\Model\TipoServicoView.cs" />
     <Compile Include="Views\Model\TipoVeiculoView.cs" />
     <Compile Include="Views\Model\VeiculoAnexoView.cs" />
-    <Compile Include="Views\Model\VeiculoCredencialView.cs" />
     <Compile Include="Views\Model\VeiculoEmpresaView.cs" />
     <Compile Include="Views\Model\VeiculoPrivilegioView.cs" />
     <Compile Include="Views\Model\VeiculoSeguroView.cs" />
@@ -249,17 +629,32 @@
     <Compile Include="Views\UsEmpresaContratoView.xaml.cs">
       <DependentUpon>UsEmpresaContratoView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\EquipamentosAnexosView.xaml.cs">
+      <DependentUpon>EquipamentosAnexosView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\VeiculosAnexosView.xaml.cs">
       <DependentUpon>VeiculosAnexosView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EquipamentosCredenciaisView.xaml.cs">
+      <DependentUpon>EquipamentosCredenciaisView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\VeiculosCredenciaisView.xaml.cs">
       <DependentUpon>VeiculosCredenciaisView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\EquipamentosEmpresasView.xaml.cs">
+      <DependentUpon>EquipamentosEmpresasView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\VeiculosEmpresasView.xaml.cs">
       <DependentUpon>VeiculosEmpresasView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\EquipamentosSegurosView.xaml.cs">
+      <DependentUpon>EquipamentosSegurosView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\VeiculosSegurosView.xaml.cs">
       <DependentUpon>VeiculosSegurosView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EquipamentosView.xaml.cs">
+      <DependentUpon>EquipamentosView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\VeiculoView.xaml.cs">
       <DependentUpon>VeiculoView.xaml</DependentUpon>
@@ -273,6 +668,9 @@
     <Compile Include="Windows\PopUpFiltrosAutorizacoes.xaml.cs">
       <DependentUpon>PopUpFiltrosAutorizacoes.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\PopUpFiltrosAutorizacoesDestruidas.xaml.cs">
+      <DependentUpon>PopUpFiltrosAutorizacoesDestruidas.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\PopUpFiltrosAutorizacoesInvalidas.xaml.cs">
       <DependentUpon>PopUpFiltrosAutorizacoesInvalidas.xaml</DependentUpon>
     </Compile>
@@ -281,6 +679,9 @@
     </Compile>
     <Compile Include="Windows\PopUpFiltrosCredenciais.xaml.cs">
       <DependentUpon>PopUpFiltrosCredenciais.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\PopUpFiltrosCredenciaisDestruidas.xaml.cs">
+      <DependentUpon>PopUpFiltrosCredenciaisDestruidas.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\PopUpFiltrosCredenciaisInvalidas.xaml.cs">
       <DependentUpon>PopUpFiltrosCredenciaisInvalidas.xaml</DependentUpon>
@@ -320,6 +721,9 @@
     </Compile>
     <Compile Include="Windows\PopupRelatorio.xaml.cs">
       <DependentUpon>PopupRelatorio.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\PopupWebCam.xaml.cs">
+      <DependentUpon>PopupWebCam.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -380,7 +784,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\EquipamentosAnexosView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\VeiculosAnexosView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\EquipamentosCredenciaisView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -388,13 +800,25 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\EquipamentosEmpresasView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\VeiculosEmpresasView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\EquipamentosSegurosView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\VeiculosSegurosView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\EquipamentosView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\VeiculoView.xaml">
       <SubType>Designer</SubType>
@@ -412,6 +836,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Windows\PopUpFiltrosAutorizacoesDestruidas.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Windows\PopUpFiltrosAutorizacoesInvalidas.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -421,6 +849,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Windows\PopUpFiltrosCredenciais.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\PopUpFiltrosCredenciaisDestruidas.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -476,6 +908,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Windows\PopupWebCam.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Colaboradores.png">
@@ -508,9 +944,34 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Dlls\PropertyChanged.dll" />
     <Content Include="FodyWeavers.xml" />
+    <Content Include="Resources\vermelho_02.jpg" />
+    <Resource Include="Resources\yellow_alerta.png" />
+    <Resource Include="Resources\vermelho.png" />
+    <Resource Include="Resources\Amarelo.jpg" />
+    <Resource Include="Resources\Amarelo.png" />
+    <Resource Include="Resources\Laranja.jpg" />
+    <Resource Include="Resources\green_alerta.png" />
+    <Content Include="Resources\ccam.png" />
+    <Content Include="Resources\FraportBrasil.png" />
+    <Content Include="Resources\FraportFortaleza.PNG" />
+    <Content Include="Resources\FraportFortaleza1.PNG" />
+    <Content Include="Resources\FraportPortoAlegre.PNG" />
+    <Content Include="Resources\FraportPortoAlegre1.PNG" />
     <Content Include="Resources\Ok2.ico" />
     <Content Include="Resources\Okold.ico" />
+    <Resource Include="Resources\red_alerta.png" />
+    <Resource Include="Resources\orange_alerta.png" />
+    <Content Include="Resources\operadorBagagem.png" />
+    <Content Include="Resources\operadorEmbarque.png" />
+    <Content Include="Resources\Pendenciaold.ico" />
+    <Content Include="Resources\permissaoDirigir.png" />
+    <Content Include="Resources\prioritylow.png" />
+    <Content Include="Resources\Verde.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Resource Include="Resources\Vermelho.jpg" />
     <Resource Include="Resources\undo.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
@@ -610,9 +1071,245 @@
     <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Cracha\ATIV-FLORIPA.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>ATIV-FLORIPA.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\ATIV-FRAPORT.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>ATIV-FRAPORT.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\AUTORIZAÇÃO #1.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>AUTORIZAÇÃO #1.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\CRACHA ESTRELA .rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CRACHA ESTRELA .cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\CRACHA FLORIPA #1.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CRACHA FLORIPA #1.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\CRACHA FLORIPA #2.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CRACHA FLORIPA #2.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\CRACHA FRAPORT #1.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CRACHA FRAPORT #1.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\CRACHA FRAPORT #2.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CRACHA FRAPORT #2.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\CRACHA FRAPORT.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CRACHA FRAPORT.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\ForAmareloTerceiras.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>ForAmareloTerceiras.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\ForAzulClaroLojas.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>ForAzulClaroLojas.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\ForAzulFraportBrasil.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>ForAzulFraportBrasil.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\ForBrancoTemporario.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>ForBrancoTemporario.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\ForCinzaCiaAereas.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>ForCinzaCiaAereas.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\ForLaranjaExatas.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>ForLaranjaExatas.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\ForMarromCargas.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>ForMarromCargas.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\ForPretoPF.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>ForPretoPF.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\ForRoxoRFB.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>ForRoxoRFB.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\ForVerdeOrgaosPublicos.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>ForVerdeOrgaosPublicos.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\FraportForAutorizacao.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>FraportForAutorizacao.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\FraportForAutorizacaoManobra.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>FraportForAutorizacaoManobra.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\FraportPoaAutorizacao.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>FraportPoaAutorizacao.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\FraportPoaAutorizacaoManobra.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>FraportPoaAutorizacaoManobra.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\PoaAmareloTerceiras.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>PoaAmareloTerceiras.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\PoaAzulClaroLojas.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>PoaAzulClaroLojas.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\PoaAzulFraportBrasil.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>PoaAzulFraportBrasil.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\PoaBrancoTemporario.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>PoaBrancoTemporario.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\PoaCinzaCiaAereas.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>PoaCinzaCiaAereas.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\PoaLaranjaExatas.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>PoaLaranjaExatas.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\PoaMarromCargas.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>PoaMarromCargas.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\PoaPretoPF.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>PoaPretoPF1.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\PoaRoxoRFB.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>PoaRoxoRFB.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\PoaVerdeOrgaosPublicos.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>PoaVerdeOrgaosPublicos.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\TEMPORARIA FLORIPA.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>TEMPORARIA FLORIPA.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\TEMPORARIA FRAPORT.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>TEMPORARIA FRAPORT.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\RelatorioAutorizacaoEmitidaPorArea_8.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelatorioAutorizacaoEmitidaPorArea_8.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\RelatorioAutorizacaoEmitidasPorEmpresa_10.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelatorioAutorizacaoEmitidasPorEmpresa_10.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\RelatorioAutorizacaoDestruidas_4.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelatorioAutorizacaoDestruidas_4.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\RelatorioAutorizacaoInvalidas_6.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelatorioAutorizacaoInvalidas_6.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\RelatorioConcessaoAutorizacaoValidas_2.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelatorioConcessaoAutorizacaoValidas_2.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\RelatorioConcessaoCredenciaisValidas_1.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelatorioConcessaoCredenciaisValidas_1.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\RelatorioCredenciaisEmitidasPorArea_7.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelatorioCredenciaisEmitidasPorArea_7.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\RelatorioCredenciaisEmitidasPorEmpresa_9.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelatorioCredenciaisEmitidasPorEmpresa_9.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\RelatorioCredenciaisDestruidas_3.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelatorioCredenciaisDestruidas_3.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\RelatorioCredenciaisInvalidas_5.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelatorioCredenciaisInvalidas_5.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\RelatorioImpressaoAutorizacao_24.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelatorioImpressaoAutorizacao_24.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\RelatorioImpressaoCredencial_23.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelatorioImpressaoCredencial_23.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\RelatorioViasAdicionaisAutorizacao_22.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelatorioViasAdicionaisAutorizacao_22.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\RelatorioViasAdicionaisCredenciais_21.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelatorioViasAdicionaisCredenciais_21.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\TermoCancelamentoCredenciais_13.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>TermoCancelamentoCredenciais_13.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\TermoConcessaoCredenciais_11.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>TermoConcessaoCredenciais_11.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\TermoDestruicaoCredenciais_17.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>TermoDestruicaoCredenciais_17.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\TermoIndeferimentoCredenciais_15.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>TermoIndeferimentoCredenciais_15.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\TermoViasAdicionaisCredenciais_19.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>TermoViasAdicionaisCredenciais_19.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\TermoCancelamentoAutorizacao_14.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>TermoCancelamentoAutorizacao_14.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\TermoConcessaoAutorizacao_12.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>TermoConcessaoAutorizacao_12.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\TermoDestruicaoAutorizacao_18.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>TermoDestruicaoAutorizacao_18.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\TermoIndeferimentoAutorizacao_16.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>TermoIndeferimentoAutorizacao_16.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\TermoViaAdicionalAutorizacao_20.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>TermoViaAdicionalAutorizacao_20.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -636,7 +1333,9 @@
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Cracha\Floripa\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <UsingTask TaskName="TransformXml" AssemblyFile="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Web\Microsoft.Web.Publishing.Tasks.dll" />
   <Target Name="app_config_AfterCompile" AfterTargets="AfterCompile" Condition="Exists('app.$(Configuration).config')">
@@ -658,11 +1357,12 @@
     <!--Publish copies the untransformed App.config to deployment directory so overwrite it-->
     <Copy Condition="Exists('$(DeployedConfig)')" SourceFiles="$(IntermediateOutputPath)$(TargetFileName).config" DestinationFiles="$(DeployedConfig)" />
   </Target>
-  <Import Project="..\packages\Fody.3.3.2\build\Fody.targets" Condition="Exists('..\packages\Fody.3.3.2\build\Fody.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+      <ErrorText>Este projeto faz referência a pacotes do NuGet que não estão presentes neste computador. Use a Restauração de Pacotes do NuGet para baixá-los.  Para obter mais informações, consulte http://go.microsoft.com/fwlink/?LinkID=322105. O arquivo ausente é {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\PropertyChanged.Fody.2.6.0\build\PropertyChanged.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\PropertyChanged.Fody.2.6.0\build\PropertyChanged.Fody.props'))" />
+    <Error Condition="!Exists('..\packages\Fody.4.2.1\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.4.2.1\build\Fody.targets'))" />
   </Target>
+  <Import Project="..\packages\Fody.4.2.1\build\Fody.targets" Condition="Exists('..\packages\Fody.4.2.1\build\Fody.targets')" />
 </Project>
