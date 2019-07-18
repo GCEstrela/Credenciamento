@@ -156,6 +156,13 @@ namespace IMOD.Domain.Interfaces
         /// <returns></returns>
         List<ColaboradoresCredenciaisView> ListarColaboradorCredencialDestruidasView(FiltroReportColaboradoresCredenciais entity);
 
+        /// <summary>
+        ///    Listar Colaboradores credenciais - extraviadas
+        /// </summary>
+        /// <param name="entity">entity</param>
+        /// <returns></returns>
+        List<ColaboradoresCredenciaisView> ListarColaboradorCredencialExtraviadasView(FiltroReportColaboradoresCredenciais entity);
+
         #endregion
     }
 }

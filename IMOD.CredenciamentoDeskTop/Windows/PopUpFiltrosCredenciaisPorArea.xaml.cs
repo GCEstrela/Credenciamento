@@ -41,7 +41,7 @@ namespace IMOD.CredenciamentoDeskTop.Windows
 
             if (AreaAcesso_cb.SelectedItem == null)
             {
-                area = "0";
+                area = "";
             }
             else
             {
@@ -57,7 +57,7 @@ namespace IMOD.CredenciamentoDeskTop.Windows
             else
             {
                 check = false;
-                ((RelatoriosViewModel)DataContext).OnRelatorioAutorizacoesPorAreaCommand(checkTipo, area, check, objAreaSelecionado);
+                ((RelatoriosViewModel)DataContext).OnRelatorioAutorizacoesPorAreaCommand(checkTipo, area, check, objAreaSelecionado, flaAtivoInativo);
             }
 
 

@@ -408,6 +408,12 @@
       <SubType>Component</SubType>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Relatorio\RelatorioCredenciaisExtraviadas_.cs">
+      <DependentUpon>RelatorioCredenciaisExtraviadas_.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Relatorio\RelatorioCredenciaisInvalidas_5.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -689,6 +695,9 @@
     <Compile Include="Windows\PopUpFiltrosCredenciaisDestruidas.xaml.cs">
       <DependentUpon>PopUpFiltrosCredenciaisDestruidas.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\PopUpFiltrosCredenciaisExtraviadas.xaml.cs">
+      <DependentUpon>PopUpFiltrosCredenciaisExtraviadas.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\PopUpFiltrosCredenciaisInvalidas.xaml.cs">
       <DependentUpon>PopUpFiltrosCredenciaisInvalidas.xaml</DependentUpon>
     </Compile>
@@ -859,6 +868,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Windows\PopUpFiltrosCredenciaisDestruidas.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\PopUpFiltrosCredenciaisExtraviadas.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1256,6 +1269,10 @@
     <EmbeddedResource Include="Relatorio\RelatorioCredenciaisDestruidas_3.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>RelatorioCredenciaisDestruidas_3.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\RelatorioCredenciaisExtraviadas_.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelatorioCredenciaisExtraviadas_.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Relatorio\RelatorioCredenciaisInvalidas_5.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

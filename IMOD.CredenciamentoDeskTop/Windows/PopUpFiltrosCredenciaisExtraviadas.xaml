@@ -1,0 +1,87 @@
+﻿<Window x:Class="IMOD.CredenciamentoDeskTop.Windows.PopUpFiltrosCredenciaisExtraviadas"
+
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             d:DataContext="{d:DesignInstance viewModels:RelatoriosViewModel , IsDesignTimeCreatable=True}"
+             xmlns:funcoes="clr-namespace:IMOD.CredenciamentoDeskTop.Funcoes"
+             xmlns:viewModels="clr-namespace:IMOD.CredenciamentoDeskTop.ViewModels"
+        mc:Ignorable="d"
+        Title="Procurar Empresa" Height="539.986" Width="444.628" ShowInTaskbar="False" WindowStartupLocation="CenterOwner" ResizeMode="NoResize" WindowStyle="None" BorderThickness="6,30,6,6" Topmost="True">
+    <Window.Background>
+        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FF171717" Offset="0.984"/>
+            <GradientStop Color="#FF363535"/>
+        </LinearGradientBrush>
+    </Window.Background>
+    <Window.BorderBrush>
+        <LinearGradientBrush EndPoint="0,0" MappingMode="RelativeToBoundingBox" StartPoint="1,1">
+            <GradientStop Color="#FF131313"/>
+            <GradientStop Color="#FF424040" Offset="0.976"/>
+            <GradientStop Color="White" Offset="0.544"/>
+        </LinearGradientBrush>
+    </Window.BorderBrush>
+    <Grid>
+        <StackPanel Margin="0,-30,0,0" Orientation="Horizontal" HorizontalAlignment="Left"  >
+            <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Cracha.png" Width="24" Height="139" VerticalAlignment="Top"/>
+            <Label Content="Filtrar Credenciais - Módulo de Credenciamento" Foreground="White"/>
+        </StackPanel>
+        <StackPanel Margin="0,-30" HorizontalAlignment="Right" Width="38" >
+            <Button FontWeight="Bold" Height="18" BorderBrush="Black" BorderThickness="1,0,1,1" Click="Button_Click" Margin="-2,0,0,0">
+                <Button.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FF660000" Offset="0"/>
+                        <GradientStop Color="#FFC70000" Offset="0.996"/>
+                    </LinearGradientBrush>
+                </Button.Background>
+
+                <DockPanel>
+                    <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Fechar2.png" Height="10" Width="10" />
+                </DockPanel>
+            </Button>
+        </StackPanel>
+        <StackPanel Grid.Column="0" Margin="0,0,0,0" Grid.ColumnSpan="2">
+            <GroupBox x:Name="extraviadas_gb" Header="Filtro de Credenciais Extraviadas" Height="170" Width="410" Foreground="#FFD0D0D0">
+                <ListBox x:Name="lstMotivoCredencial" SelectionMode="Multiple"
+                        ItemsSource="{Binding MotivosCredenciais}"
+                        SelectedValue="{Binding MotivosCredenciais}"
+                        SelectedValuePath="CredencialMotivoId" >
+                    <ListBox.ItemTemplate>
+                        <DataTemplate >
+                            <CheckBox
+                                IsChecked="{Binding IsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}}"
+                                Content="{Binding Descricao}" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </GroupBox>
+
+            <GroupBox x:Name="periodo_gb" Header="Filtrar por Período (Data de Alteração)" Height="80"  Margin="10,10"  Foreground="#FFD0D0D0">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Stretch"  Height="48">
+                    <Label Content="Data Inicial:" Height="28" Width="80"  HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                    <DatePicker  Height="28" HorizontalAlignment="Left" Name="dp_dataInicial" Width="100" />
+                    <!--<TextBox CharacterCasing="Upper"  x:Name="Dataini_tb"   MaxLength="50" Text="Data Inicial"  IsEnabled="True"  Height="24"  Width="100" Margin="0,12"/>-->
+                    <Label Content="Data Final :" Height="28" Width="80" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                    <DatePicker  Height="28" HorizontalAlignment="Left" Name="dp_dataFinal" Width="100" />
+                    <!--<TextBox CharacterCasing="Upper"  x:Name="Datafim_tb"   MaxLength="50" Text="Data Final"  IsEnabled="True"  Height="24"  Width="100" />-->
+                </StackPanel>
+            </GroupBox>
+            <GroupBox x:Name="Informacoes_gb" Header="Filtrar por Tipo" Margin="10,0" Height="75" Foreground="#FFD0D0D0">
+                <StackPanel x:Name="Informacoes_sp"  Orientation="Horizontal" VerticalAlignment="Stretch"  HorizontalAlignment="Left" >
+                    <RadioButton x:Name="RbtnPermanente" Content=" Permanentes" TextBlock.TextAlignment="Left" Height="25"  HorizontalContentAlignment="Left" Foreground="#FFD0D0D0" VerticalAlignment="Center" HorizontalAlignment="Left" IsChecked="True"/>
+                    <RadioButton x:Name="RbtnTemporario" Margin="30,0" Content=" Temporárias" TextBlock.TextAlignment="Left" Height="25"  HorizontalContentAlignment="Left" Foreground="#FFD0D0D0" VerticalAlignment="Center" HorizontalAlignment="Left" Width="151"/>
+                </StackPanel>
+            </GroupBox>
+            <GroupBox x:Name="Devolvidas" Header="Filtrar Devolução/EntregaBO"  Margin="10,10"  Foreground="#FFD0D0D0" Height="70">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Stretch" HorizontalAlignment="Left">
+                    <RadioButton  x:Name="RbtnTodasDevolucaoEntregue" Content="Todas" IsChecked="True" GroupName="GpnDevolvidas" Width="60" ></RadioButton>
+                    <RadioButton  x:Name="RbtnSimDevolucaoEntregue" Content="Sim" GroupName="GpnDevolvidas" Width="60" ></RadioButton>
+                    <RadioButton  x:Name="RbtnNaoDevolucaoEntregue" Content="Não" GroupName="GpnDevolvidas" Width="60" ></RadioButton>
+                </StackPanel>
+            </GroupBox>
+            <Button x:Name="button" Content="Filtrar" Click="button_ClickFiltrar" Height="33" HorizontalAlignment="Center" Width="100" Margin="166,20,167,20" />
+        </StackPanel>
+    </Grid>
+</Window>
+
