@@ -184,6 +184,7 @@ namespace IMOD.Infra.Servicos
             }
             catch (Exception ex)
             {
+                //ex = new Exception("");
                 throw ex;
             }
 
@@ -531,14 +532,14 @@ namespace IMOD.Infra.Servicos
 
                     }
 
-                    if (!regraencontrada1)
-                    {
-                        CriarRegra(entity.Identificacao1.ToString(), cardHolder);
-                    }
-                    if (!regraencontrada2)
-                    {
-                        CriarRegra(entity.Identificacao2.ToString(), cardHolder);
-                    }
+                    //if (!regraencontrada1)
+                    //{
+                    //    CriarRegra(entity.Identificacao1.ToString(), cardHolder);
+                    //}
+                    //if (!regraencontrada2)
+                    //{
+                    //    CriarRegra(entity.Identificacao2.ToString(), cardHolder);
+                    //}
 
 
                     //_sdk.TransactionManager.CommitTransaction();
