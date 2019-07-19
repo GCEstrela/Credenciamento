@@ -263,9 +263,10 @@ namespace IMOD.Infra.Repositorios
                     try
                     {
                         cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("ColaboradorCredencialID", DbType.Int32, id).Igual()));
+                        //cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("ColaboradorId", DbType.Int32, id).Igual()));
                         var reader = cmd.ExecuteReader();
                         var d1 = reader.MapToList<ColaboradorCredencial>();
-
+                        //
                         return d1.FirstOrDefault();
                     }
                     catch (Exception ex)
