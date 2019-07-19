@@ -16,7 +16,7 @@ namespace IMOD.CredenciamentoDeskTop.Windows
             DataContext = new RelatoriosViewModel();
             MouseDown += Window_MouseDown;
             List<int> status = new List<int> { 6, 8, 15 };
-            ((RelatoriosViewModel)DataContext).CarregaMotivoCredenciaisViaAdicionais(status);
+            ((RelatoriosViewModel)DataContext).CarregaMotivoCredenciaisListaSelecionada(status);
         }
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
