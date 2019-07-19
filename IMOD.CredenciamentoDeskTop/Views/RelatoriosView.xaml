@@ -101,7 +101,7 @@
                 <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto"   >
                     <Grid >
                         <StackPanel Grid.Row="0">
-                            <GroupBox    x:Name="RelatoriosGerenciais_gb" Header="Relatórios Gerenciais" Margin="0,20,0,0" Height="247"  >
+                            <GroupBox    x:Name="RelatoriosGerenciais_gb" Header="Relatórios Gerenciais" Margin="0,20,0,0" Height="312"  >
                                 <StackPanel>
                                     <StackPanel>
                                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="0,30,0,20" >
@@ -217,7 +217,7 @@
                                         </Button>-->
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,0,0,0" >
-                                        <Button x:Name="BotaoCredenciaisExtraviadas_bt"  Style="{StaticResource MenuStyle}" Margin="0,0,20,0" Height="50" VerticalAlignment="Top"  Width="300" 
+                                        <Button x:Name="BotaoCredenciaisExtraviadas_bt"  Style="{StaticResource MenuStyle}" Margin="5,20,20,0" Height="50" VerticalAlignment="Top"  Width="300" 
                                                         Click="BotaoCredenciaisExtraviadasClick"  >
                                             <StackPanel Orientation="Horizontal" Width="260">
                                                 <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Relatorio.png" Height="24" Width="24" Margin="0,0,5,0"/>

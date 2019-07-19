@@ -408,8 +408,8 @@
       <SubType>Component</SubType>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Relatorio\RelatorioCredenciaisExtraviadas_.cs">
-      <DependentUpon>RelatorioCredenciaisExtraviadas_.rpt</DependentUpon>
+    <Compile Include="Relatorio\RelatorioCredenciaisExtraviadas_25.cs">
+      <DependentUpon>RelatorioCredenciaisExtraviadas_25.rpt</DependentUpon>
       <AutoGen>True</AutoGen>
       <SubType>Component</SubType>
       <DesignTime>True</DesignTime>
@@ -1270,9 +1270,9 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>RelatorioCredenciaisDestruidas_3.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Relatorio\RelatorioCredenciaisExtraviadas_.rpt">
+    <EmbeddedResource Include="Relatorio\RelatorioCredenciaisExtraviadas_25.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>RelatorioCredenciaisExtraviadas_.cs</LastGenOutput>
+      <LastGenOutput>RelatorioCredenciaisExtraviadas_25.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Relatorio\RelatorioCredenciaisInvalidas_5.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
