@@ -335,7 +335,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     return true;
             //Verificar dados antes de salvar uma alteraçao
             if (!_prepareAlterarCommandAcionado) return false;
-            var n1 = _service.BuscarPelaChave(Entity.ColaboradorId);
+            var n1 = _service.BuscarPelaChave(Entity.ColaboradorCredencialId);
             if (n1 == null) return false;
             //Comparar o CNPJ antes e o depois
             //Verificar se há cnpj exisitente
