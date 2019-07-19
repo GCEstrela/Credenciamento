@@ -168,6 +168,42 @@
       <DependentUpon>CRACHA FRAPORT.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Cracha\Floripa\FlnCredencialAutoridades.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FlnCredencialAutoridades.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Cracha\Floripa\FlnCredencialAviacao.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FlnCredencialAviacao.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Cracha\Floripa\FlnCredencialCarga.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FlnCredencialCarga.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Cracha\Floripa\FlnCredencialFuncionario.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FlnCredencialFuncionario.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Cracha\Floripa\FlnCredencialTemporario.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FlnCredencialTemporario.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Cracha\Floripa\FlnCredencialTerceiros.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FlnCredencialTerceiros.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Cracha\ForAmareloTerceiras.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -228,28 +264,28 @@
       <DependentUpon>ForVerdeOrgaosPublicos.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Cracha\FraportForAutorizacao.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>FraportForAutorizacao.rpt</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Cracha\FraportForAutorizacaoManobra.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>FraportForAutorizacaoManobra.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Cracha\FraportPoaAutorizacao.cs">
+    <Compile Include="Cracha\FraportForAutorizacaoTemporaria.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>FraportPoaAutorizacao.rpt</DependentUpon>
+      <DependentUpon>FraportForAutorizacaoTemporaria.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Cracha\FraportPoaAutorizacaoManobra.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>FraportPoaAutorizacaoManobra.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Cracha\FraportPoaAutorizacaoTemporaria.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FraportPoaAutorizacaoTemporaria.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Cracha\PoaAmareloTerceiras.cs">
@@ -1126,6 +1162,30 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>CRACHA FRAPORT.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\Floripa\FlnCredencialAutoridades.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>FlnCredencialAutoridades.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\Floripa\FlnCredencialAviacao.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>FlnCredencialAviacao.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\Floripa\FlnCredencialCarga.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>FlnCredencialCarga.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\Floripa\FlnCredencialFuncionario.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>FlnCredencialFuncionario.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\Floripa\FlnCredencialTemporario.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>FlnCredencialTemporario.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\Floripa\FlnCredencialTerceiros.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>FlnCredencialTerceiros.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Cracha\ForAmareloTerceiras.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>ForAmareloTerceiras.cs</LastGenOutput>
@@ -1166,17 +1226,17 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>ForVerdeOrgaosPublicos.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Cracha\FraportForAutorizacao.rpt">
+    <EmbeddedResource Include="Cracha\FraportForAutorizacaoTemporaria.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>FraportForAutorizacao.cs</LastGenOutput>
+      <LastGenOutput>FraportForAutorizacaoTemporaria.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Cracha\FraportForAutorizacaoManobra.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>FraportForAutorizacaoManobra.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Cracha\FraportPoaAutorizacao.rpt">
+    <EmbeddedResource Include="Cracha\FraportPoaAutorizacaoTemporaria.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>FraportPoaAutorizacao.cs</LastGenOutput>
+      <LastGenOutput>FraportPoaAutorizacaoTemporaria.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Cracha\FraportPoaAutorizacaoManobra.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
@@ -1356,9 +1416,7 @@
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Cracha\Floripa\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <UsingTask TaskName="TransformXml" AssemblyFile="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Web\Microsoft.Web.Publishing.Tasks.dll" />
   <Target Name="app_config_AfterCompile" AfterTargets="AfterCompile" Condition="Exists('app.$(Configuration).config')">
