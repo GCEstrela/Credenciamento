@@ -13,9 +13,10 @@ namespace IMOD.CredenciamentoDeskTop.Windows
         public PopUpFiltrosCredenciaisExtraviadas()
         {
             InitializeComponent();
-            DataContext = new RelatoriosViewModel();
+            DataContext = new RelatoriosViewModel(); 
             MouseDown += Window_MouseDown;
-            ((RelatoriosViewModel)DataContext).CarregaMotivoCredenciais(2);//Carregar os motivos do status 2 - inativo 
+            List<int> status = new List<int> { 9, 10, 18 }; 
+            ((RelatoriosViewModel)DataContext).CarregaMotivoCredenciaisListaSelecionada(status); 
         }
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
