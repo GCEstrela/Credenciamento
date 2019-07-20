@@ -296,7 +296,7 @@
                       ItemsSource="{Binding EntityObserver, Mode=TwoWay}"
                       SelectedItem="{Binding Entity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                       SelectedIndex="{Binding SelectListViewIndex}"
-                      Width="1054"  Height="175" VerticalAlignment="Top">
+                      Width="1054"  Height="175" VerticalAlignment="Top" SelectionChanged="ListaContratos_lv_SelectionChanged">
 
                 <ListView.View>
                     <GridView FrameworkElement.FlowDirection="RightToLeft">
