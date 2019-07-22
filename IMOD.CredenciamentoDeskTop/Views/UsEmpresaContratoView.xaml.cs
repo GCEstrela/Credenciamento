@@ -166,5 +166,19 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 Terceira_tb.Visibility = Visibility.Visible;
             }
         }
+
+        private void ListaContratos_lv_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                if (_viewModel.Entity == null) return;
+                _viewModel.BuscarAnexo(_viewModel.Entity.EmpresaContratoId);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

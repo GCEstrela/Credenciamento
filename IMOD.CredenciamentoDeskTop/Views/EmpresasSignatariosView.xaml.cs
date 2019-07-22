@@ -96,6 +96,20 @@ namespace IMOD.CredenciamentoDeskTop.Views
             txtCpf.Text = cpf;
 
         }
+
+        private void ListaSignatarios_lv_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                if (_viewModel.Entity == null) return;
+                _viewModel.BuscarAnexo(_viewModel.Entity.EmpresaSignatarioId);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }
  
