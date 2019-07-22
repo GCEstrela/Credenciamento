@@ -83,6 +83,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         public bool Habilitar { get; set; }
         /// <summary>
+        ///     Habilitar Controles de Vias Adicionais
+        /// </summary>
+        public string HabilitarVias { get; set; }
+        /// <summary>
         /// Permite criar uma credencial, se não existir.
         /// </summary>
         public bool HabilitarOpcoesCredencial { get; set; }
@@ -124,7 +128,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public List<AreaAcesso> ColaboradorPrivilegio { get; set; }
         public ColaboradoresCredenciaisView Entity { get; set; }
         public List<Curso> Cursos { get; private set; }
-
+        public List<CredencialMotivo> ColaboradorMotivoViaAdcional { get; set; }
 
         /// <summary>
         ///     Mensagem de alerta
@@ -250,8 +254,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 HabilitaImpressao = entity.Ativa && !entity.PendenciaImpeditiva && !entity.Impressa && (entity.ColaboradorCredencialId > 0) && (pendenciaImpeditivaEmpresa.Count <= 0) && (pendenciaImpeditivaColaborador.Count <= 0);
             }
-                
-                
+
+
 
             //Verificar se a empresa esta impedida 
             var mensagem1 = "";
@@ -270,7 +274,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 {
                     HabilitaImpressao = n1.Ativa && !n1.PendenciaImpeditiva && !n1.Impressa && (entity.ColaboradorCredencialId > 0) && (pendenciaImpeditivaEmpresa.Count <= 0) && (pendenciaImpeditivaColaborador.Count <= 0);
                 }
-                    
+
                 mensagem1 = !n1.Ativa ? "Credencial Inativa" : string.Empty;
                 //ContentImprimir = !n1.Ativa ? "Visualizar Credencial " : "Imprimir Credencial";
                 //mensagem2 = n1.PendenciaImpeditiva ? "Pendência Impeditiva (consultar dados da empresa na aba Geral)" : string.Empty;
@@ -396,6 +400,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             _credencialMotivo = new List<CredencialMotivo>();
             //_credencialMotivo = new List<CredencialMotivo>(lst8.OrderBy(n => n.Descricao));
             _credencialMotivo.AddRange(lst8.OrderBy(n => n.Descricao));
+
+            var lst9 = _auxiliaresService.CredencialMotivoService.Listar(null, null, null,true);
+            ColaboradorMotivoViaAdcional = new List<CredencialMotivo>();
+            ColaboradorMotivoViaAdcional.AddRange(lst9.OrderBy(n => n.Descricao));
 
             _configuraSistema = ObterConfiguracao();
             if (_configuraSistema.Contrato) //Se contrato for automático for true a combo sera removida do formulário
@@ -686,6 +694,32 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 n1.Identificacao1 = Entity.Identificacao1;
                 n1.Identificacao2 = Entity.Identificacao2;
                 n1.Validade = Entity.Validade.Value.AddHours(23).AddMinutes(59).AddSeconds(59); //Sempre Add 23:59:59 horas à credencial nova.
+                n1.CredencialVia = Entity.CredencialVia;
+                n1.CredencialmotivoViaAdicionalID = Entity.CredencialmotivoViaAdicionalID;
+                //if (n1.CredencialStatusId == 1)
+                //{
+                //    switch (n1.CredencialMotivoId)
+                //    {
+                //        case (2):
+                //            var L1 = _service.Listar(null, null, null, null, null, Entity.ColaboradorEmpresaId);
+                //            n1.CredencialVia =+ n1.CredencialVia;
+                //            break;
+                //        //case (3):
+                //        //    n1.CredencialVia = +n1.CredencialVia;
+                //        //    break;
+                //        //case (4):
+                //        //    n1.CredencialVia = +n1.CredencialVia;
+                //        //    break;
+                //        //case (5):
+                //        //    n1.CredencialVia = +n1.CredencialVia;
+                //        //    break;
+                //        default:
+                //            n1.CredencialVia = 1;
+                //            break;
+                //    }
+
+                //}
+
                 //_configuraSistema = ObterConfiguracao();
                 n1.Regras = _configuraSistema.Regras;
                 Entity.Regras = _configuraSistema.Regras;
@@ -844,6 +878,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 n1.Identificacao2 = Entity.Identificacao2;
                 n1.NumeroCredencial = Entity.NumeroCredencial;
                 n1.Validade = Entity.Validade.Value.AddHours(23).AddMinutes(59).AddSeconds(59); //Sempre Add 23:59:59 horas à credencial nova.
+                n1.CredencialVia = Entity.CredencialVia;
+                n1.CredencialmotivoViaAdicionalID = Entity.CredencialmotivoViaAdicionalID;
                 if (_configuraSistema.Colete)
                 {
                     Entity.NumeroColete = Convert.ToString(_colaboradorView.ColaboradorId);
@@ -1101,18 +1137,18 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     c1.ImpressaoMotivo = "";
                 }
                 c1.TelefoneEmergencia = "EMERGÊNCIA " + _configuraSistema.TelefoneEmergencia;
-                c1.EmpresaNome = c1.EmpresaNome + (!string.IsNullOrEmpty(c1.TerceirizadaNome?.Trim()) ? " / " + c1.TerceirizadaNome?.Trim() : string.Empty); 
-                c1.EmpresaApelido = (!string.IsNullOrEmpty(c1.TerceirizadaNome) ? c1.TerceirizadaNome?.Trim() : c1.EmpresaApelido?.Trim());  
+                c1.EmpresaNome = c1.EmpresaNome + (!string.IsNullOrEmpty(c1.TerceirizadaNome?.Trim()) ? " / " + c1.TerceirizadaNome?.Trim() : string.Empty);
+                c1.EmpresaApelido = (!string.IsNullOrEmpty(c1.TerceirizadaNome) ? c1.TerceirizadaNome?.Trim() : c1.EmpresaApelido?.Trim());
                 c1.Emissao = DateTime.Now;
                 lst.Add(c1);
                 relatorio.SetDataSource(lst);
 
                 var objCode = new QrCode();
                 string querySistema = _configuraSistema.UrlSistema?.Trim().ToString() + "/Colaborador/Credential/"
-                                                + Helpers.Helper.Encriptar(c1.ColaboradorCredencialID.ToString()); 
+                                                + Helpers.Helper.Encriptar(c1.ColaboradorCredencialID.ToString());
 
                 var pathImagem = objCode.GerarQrCode(querySistema, "QrCodeAutorizacao" + c1.ColaboradorCredencialID.ToString() + ".png");
-                relatorio.SetParameterValue("PathImgQrCode", pathImagem); 
+                relatorio.SetParameterValue("PathImgQrCode", pathImagem);
 
                 //IDENTIFICACAO
                 var popupCredencial = new PopupCredencial(relatorio, _service, Entity, layoutCracha, HabilitaImpressao);
@@ -1192,8 +1228,45 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <summary>
         ///     Pesquisar
         /// </summary>
-        private void Pesquisar()
+        public void Motivacao_Select()
         {
+            try
+            {
+                HabilitarVias = "Collapsed";
+                //if (!Habilitar) return;
+                if (Entity == null) return;
+                if (Entity.CredencialMotivoId == 2 && Entity.CredencialStatusId ==1)
+                {
+                    Entity.CredencialVia = null;
+                   var ultimacredencial = _service.Listar(null, null, null, null, null, null, null, null, null, null, Entity.ColaboradorEmpresaId).OrderByDescending(c => c.ColaboradorCredencialId).First();
+
+                    if (ultimacredencial == null || ultimacredencial.CredencialVia == null)
+                    {
+                        Entity.CredencialVia = 2;
+                        HabilitarVias = "Visible";
+                    }
+                    else
+                    {
+                        if (Habilitar)
+                        {
+                            Entity.CredencialVia = ultimacredencial.CredencialVia + 1;
+                        }
+                        else
+                        {
+                            Entity.CredencialVia = ultimacredencial.CredencialVia;
+                        }
+                            
+
+                        
+                        HabilitarVias = "Visible";
+                    }
+                }
+                CollectionViewSource.GetDefaultView(EntityObserver).Refresh();
+            }
+            catch (Exception ex)
+            {
+                //throw ex;
+            }
         }
 
         /// <summary>
@@ -1400,7 +1473,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <summary>
         ///     Pesquisar
         /// </summary>
-        public ICommand PesquisarCommand => new CommandBase(Pesquisar, true);
+        public ICommand PesquisarCommand => new CommandBase(Motivacao_Select, true);
 
         public ICommand ImprimirCommand => new CommandBase(OnImprimirCredencial, true);
 

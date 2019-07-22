@@ -234,6 +234,8 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Receitafederal", DbType.Boolean, entity.Receitafederal, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Segurancatrabalho", DbType.Boolean, entity.Segurancatrabalho, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Obs", DbType.String, entity.Obs, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("CredencialVia", DbType.Int32, entity.CredencialVia, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("CredencialmotivoViaAdicionalID", DbType.Int32, entity.CredencialmotivoViaAdicionalID, false)));
                         //cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Identificacao1", DbType.String, entity.Identificacao1, false)));
                         //cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Identificacao2", DbType.String, entity.Identificacao2, false)));
 
@@ -318,6 +320,8 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Identificacao1", DbType.String, entity.Identificacao1, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Identificacao2", DbType.String, entity.Identificacao2, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Obs", DbType.String, entity.Obs, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("CredencialVia", DbType.Int32, entity.CredencialVia, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("CredencialmotivoViaAdicionalID", DbType.Int32, entity.CredencialmotivoViaAdicionalID, false)));
 
                         var key = Convert.ToInt32 (cmd.ExecuteScalar());
 
@@ -376,6 +380,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("NumeroContrato", DbType.String, o, 7).Igual()));
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("ColaboradorCredencialID", DbType.Int32, o, 8).Diferente()));
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Colete", DbType.String, o, 9).Like()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("ColaboradorEmpresaID", DbType.Int32, o, 10).Igual()));
 
                         var reader = cmd.ExecuteReader();
                         var d1 = reader.MapToList<ColaboradorCredencial>();
@@ -462,6 +467,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("TipoCredencialID", DbType.String, o, 2).Igual()));
                         cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("CredencialStatusID", DbType.String, o, 3).Igual()));
                         cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("ColaboradorID", DbType.Int32, o, 4).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("ColaboradorEmpresaID", DbType.Int32, o, 5).Igual()));
 
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<ColaboradoresCredenciaisView>();

@@ -36,7 +36,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
             InitializeComponent();
             _viewModel = new ColaboradoresCredenciaisViewModel();
             DataContext = _viewModel;
-           
+            _viewModel.HabilitarVias = "Collapsed";
         }
 
         #endregion
@@ -195,6 +195,9 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         private void CmbMotivacao_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+           
+            _viewModel.Motivacao_Select();
+
             if (cmbCredencialStatus.SelectedItem != null && cmbMotivacao.SelectedItem != null)
             {
                 if (((CredencialStatus)cmbCredencialStatus.SelectedItem).CredencialStatusId == 2

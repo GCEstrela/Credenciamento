@@ -48,6 +48,9 @@ namespace IMOD.Domain.Entities
         public string Obs { get; set; }
         public bool DevolucaoEntregaBo { get; set; }
         public bool Regras { get; set; }
+        public int? CredencialVia { get; set; }
+        public int? CredencialmotivoViaAdicionalID { get; set; }
+        
         #endregion
     }
 }

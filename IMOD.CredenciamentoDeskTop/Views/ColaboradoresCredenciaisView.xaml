@@ -81,7 +81,7 @@
                             <ComboBox x:Name="cmbCredencialStatus" IsEditable="true"
                                       Margin="0,4,0,3" 
                                       Height="25"
-                                      Width="136"
+                                      Width="74"
                                       SelectionChanged="OnAlterarStatus_SelectonChanged"
                                       ItemsSource="{Binding CredencialStatus}" 
                                       SelectedItem="{Binding StatusCredencial, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -99,24 +99,41 @@
                                     </TransformGroup>
                                 </ComboBox.RenderTransform>
                             </ComboBox>
-                            <Label Content="Motivo: " Height="28" Width="70" HorizontalContentAlignment="Right"
+                            <Label Content="Motivo: " Height="28" Width="60" HorizontalContentAlignment="Right"
                                    Foreground="#FFD0D0D0" />
 
-                            <ComboBox x:Name="cmbMotivacao"  IsEditable="true"
+                            <ComboBox x:Name="cmbMotivacao" IsEditable="true"
                                       Margin="0,4,0,3" 
                                       Height="25"
-                                      Width="160"                                      
+                                      Width="130"                                      
                                       VerticalContentAlignment="Center" 
                                       HorizontalContentAlignment="Left"
                                       ItemsSource="{Binding CredenciaisMotivo}" 
                                       SelectedValue="{Binding Entity.CredencialMotivoId, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                                       DisplayMemberPath="Descricao"
                                       SelectedValuePath="CredencialMotivoId"
-                                        SelectionChanged="CmbMotivacao_SelectionChanged"/>
+                                      SelectionChanged="CmbMotivacao_SelectionChanged"/>
+                            
+                            <Label Name="lblCredencialVia" Visibility="{Binding HabilitarVias}"
+                                   Content="{Binding Entity.CredencialVia,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  
+                                   HorizontalContentAlignment="Right" Margin="1,0,0,0" Width="29" Foreground="#FFD0D0D0"></Label>
+                            <Label Content="º Via" Margin="0,0,0,0" Visibility="{Binding HabilitarVias}" Foreground="#FFD0D0D0"></Label>
 
+                            <Label Content="Motivo 2: " Margin="0,0,0,0" Height="28" Width="60" HorizontalContentAlignment="Right"
+                                   Foreground="#FFD0D0D0" Visibility="{Binding HabilitarVias}"/>
+                            <ComboBox x:Name="cmbMotivacaoDois" IsEditable="true" Visibility="{Binding HabilitarVias}"
+                                      Margin="0,4,0,3" 
+                                      Height="25"
+                                      Width="118"                                      
+                                      VerticalContentAlignment="Center" 
+                                      HorizontalContentAlignment="Left"
+                                      ItemsSource="{Binding ColaboradorMotivoViaAdcional}" 
+                                      SelectedValue="{Binding Entity.CredencialmotivoViaAdicionalID, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                      DisplayMemberPath="Descricao"
+                                      SelectedValuePath="CredencialmotivoViaAdicionalID"
+                                      />
 
-
-                            <CheckBox VerticalAlignment="Center" Margin="18,0,0,0" x:Name="chkDevolucaoMotivo" HorizontalAlignment="Left" Foreground="#FFD0D0D0" 
+                            <CheckBox VerticalAlignment="Center" Margin="15,0,0,0" x:Name="chkDevolucaoMotivo" HorizontalAlignment="Left" Foreground="#FFD0D0D0" 
                                 Content="Devolução" IsChecked="{Binding Entity.DevolucaoEntregaBo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Visibility="Hidden"  />
 
                         </StackPanel>

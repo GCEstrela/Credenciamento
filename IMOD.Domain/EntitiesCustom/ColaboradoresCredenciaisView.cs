@@ -91,5 +91,7 @@ namespace IMOD.Domain.EntitiesCustom
         public bool DevolucaoEntregaBo { get; set; }
         public bool Regras { get; set; }
         public string GrupoPadrao { get; set; }
+        public int? CredencialVia { get; set; }
+        public int? CredencialmotivoViaAdicionalID { get; set; }
     }
 }
