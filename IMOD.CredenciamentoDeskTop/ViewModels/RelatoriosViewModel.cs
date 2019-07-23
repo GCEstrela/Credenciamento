@@ -417,16 +417,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 }
                 reportDoc.Refresh();
 
-                var configSistema = objConfiguraSistema.BuscarPelaChave(1);
-                var tempArea = Path.GetTempPath();
-                if (configSistema.EmpresaLOGO != null)
-                {
-                    byte[] testeArquivo = Convert.FromBase64String(configSistema.EmpresaLOGO);
-                    System.IO.File.WriteAllBytes(tempArea + Constantes.Constantes.consNomeArquivoEmpresaOperadora, testeArquivo);
-                    reportDoc.SetParameterValue("MarcaEmpresa", tempArea + Constantes.Constantes.consNomeArquivoEmpresaOperadora);
-                }
+                WpfHelp.ShowRelatorio(CarregaLogoMarcaEmpresa(reportDoc));
 
-                WpfHelp.ShowRelatorio(reportDoc);
             }
             catch (Exception ex)
             {
@@ -518,16 +510,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 }
                 reportDoc.Refresh();
 
-                var configSistema = objConfiguraSistema.BuscarPelaChave(1);
-                var tempArea = Path.GetTempPath();
-                if (configSistema.EmpresaLOGO != null)
-                {
-                    byte[] testeArquivo = Convert.FromBase64String(configSistema.EmpresaLOGO);
-                    System.IO.File.WriteAllBytes(tempArea + Constantes.Constantes.consNomeArquivoEmpresaOperadora, testeArquivo);
-                    reportDoc.SetParameterValue("MarcaEmpresa", tempArea + Constantes.Constantes.consNomeArquivoEmpresaOperadora);
-                }
-
-                WpfHelp.ShowRelatorio(reportDoc);
+                WpfHelp.ShowRelatorio(CarregaLogoMarcaEmpresa(reportDoc));
             }
             catch (Exception ex)
             {
@@ -590,16 +573,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 }
                 reportDoc.Refresh();
 
-                var configSistema = objConfiguraSistema.BuscarPelaChave(1);
-                var tempArea = Path.GetTempPath();
-                if (configSistema.EmpresaLOGO != null)
-                {
-                    byte[] testeArquivo = Convert.FromBase64String(configSistema.EmpresaLOGO);
-                    System.IO.File.WriteAllBytes(tempArea + Constantes.Constantes.consNomeArquivoEmpresaOperadora, testeArquivo);
-                    reportDoc.SetParameterValue("MarcaEmpresa", tempArea + Constantes.Constantes.consNomeArquivoEmpresaOperadora);
-                }
-
-                WpfHelp.ShowRelatorio(reportDoc);
+                WpfHelp.ShowRelatorio(CarregaLogoMarcaEmpresa(reportDoc));
 
             }
             catch (Exception ex)
@@ -668,17 +642,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 }
                 reportDoc.Refresh();
 
-                var configSistema = objConfiguraSistema.BuscarPelaChave(1);
-                var tempArea = Path.GetTempPath();
-                if (configSistema.EmpresaLOGO != null)
-                {
-                    byte[] testeArquivo = Convert.FromBase64String(configSistema.EmpresaLOGO);
-                    System.IO.File.WriteAllBytes(tempArea + Constantes.Constantes.consNomeArquivoEmpresaOperadora, testeArquivo);
-                    reportDoc.SetParameterValue("MarcaEmpresa", tempArea + Constantes.Constantes.consNomeArquivoEmpresaOperadora);
-                }
-
-                WpfHelp.ShowRelatorio(reportDoc);
-
+                WpfHelp.ShowRelatorio(CarregaLogoMarcaEmpresa(reportDoc));
 
             }
             catch (Exception ex)
@@ -738,16 +702,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 }
                 reportDoc.Refresh();
 
-                var configSistema = objConfiguraSistema.BuscarPelaChave(1);
-                var tempArea = Path.GetTempPath();
-                if (configSistema.EmpresaLOGO != null)
-                {
-                    byte[] testeArquivo = Convert.FromBase64String(configSistema.EmpresaLOGO);
-                    System.IO.File.WriteAllBytes(tempArea + Constantes.Constantes.consNomeArquivoEmpresaOperadora, testeArquivo);
-                    reportDoc.SetParameterValue("MarcaEmpresa", tempArea + Constantes.Constantes.consNomeArquivoEmpresaOperadora);
-                }
-
-                WpfHelp.ShowRelatorio(reportDoc);
+                WpfHelp.ShowRelatorio(CarregaLogoMarcaEmpresa(reportDoc));
 
             }
             catch (Exception ex)
@@ -819,35 +774,29 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 }
                 reportDoc.Refresh();
 
-                var configSistema = objConfiguraSistema.BuscarPelaChave(1);
-                var tempArea = Path.GetTempPath();
-                if (configSistema.EmpresaLOGO != null)
-                {
-                    byte[] testeArquivo = Convert.FromBase64String(configSistema.EmpresaLOGO);
-                    System.IO.File.WriteAllBytes(tempArea + Constantes.Constantes.consNomeArquivoEmpresaOperadora, testeArquivo);
-                    reportDoc.SetParameterValue("MarcaEmpresa", tempArea + Constantes.Constantes.consNomeArquivoEmpresaOperadora);
-                }
-
-                WpfHelp.ShowRelatorio(reportDoc);
+                WpfHelp.ShowRelatorio(CarregaLogoMarcaEmpresa(reportDoc));
             }
             catch (Exception ex)
             {
                 Utils.TraceException(ex);
             }
         }
-
         /// <summary>
-        ///  Relatório de Credenciais Extraviadas
+        ///  Relatório de Credenciais Destruídas
+        /// (Indeferidas,Roubadas,Extraviadas,Não-Devolvidas...)
         /// </summary>
-        /// <param name="_status"></param>
-        /// <param name="_dataIni"></param>
-        /// <param name="_dataFim"></param>
-        public void OnRelatorioCredenciaisExtraviadasFiltroCommand(bool tipo, IEnumerable<object> credencialMotivoSelecionados, string dataIni, string dataFim, bool flaTodasDevolucaoEntregaBO, bool flaSimNaoDevolucaoEntregaBO)
+        /// <param name="tipo"></param>
+        /// <param name="credencialMotivoSelecionados"></param>
+        /// <param name="dataIni"></param>
+        /// <param name="dataFim"></param>
+        /// <param name="flaTodasDevolucaoEntregaBO"></param>
+        /// <param name="flaSimNaoDevolucaoEntregaBO"></param>
+        public void OnRelatorioCredenciaisDestruidasFiltroCommand(bool tipo, IEnumerable<object> credencialMotivoSelecionados, string dataIni, string dataFim, bool flaTodasDevolucaoEntregaBO, bool flaSimNaoDevolucaoEntregaBO)
         {
             try
             {
                 string mensagem = string.Empty;
-                string mensagemComplemento = " extraviadas ";
+                string mensagemComplemento = " destruídas ";
                 string mensagemComplementoTipo = string.Empty;
                 string mensagemComplementoMotivoCredencial = string.Empty;
                 string mensagemPeriodo = string.Empty;
@@ -858,6 +807,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 mensagem = "Todas as credenciais ";
                 colaboradorCredencial.CredencialStatusId = 2;
                 colaboradorCredencial.Impressa = true;
+                List<int> statusList = new List<int>() { 6, 8, 15 };
 
                 if (!flaTodasDevolucaoEntregaBO)
                 {
@@ -891,17 +841,17 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 mensagem += mensagemComplementoTipo + mensagemComplemento + mensagemComplementoMotivoCredencial + mensagemPeriodo;
 
-                var relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(25);
+                var relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(3);
                 if (relatorioGerencial == null || relatorioGerencial.ArquivoRpt == null || String.IsNullOrEmpty(relatorioGerencial.ArquivoRpt)) return;
 
 
                 if (credencialMotivoSelecionados.Count() > 0)
                 {
-                    resultLista = objColaboradorCredencial.ListarColaboradorCredencialExtraviadasView(colaboradorCredencial).Where(n => n.CredencialStatusId == 2 && codigoMotivoSelecionados.Contains(n.CredencialMotivoId.ToString()));
+                    resultLista = objColaboradorCredencial.ListarColaboradorCredencialDestruidasView(colaboradorCredencial).Where(n => n.CredencialStatusId == 2 && codigoMotivoSelecionados.Contains(n.CredencialMotivoId.ToString()) && statusList.Contains(n.CredencialMotivoId));
                 }
                 else
                 {
-                    resultLista = objColaboradorCredencial.ListarColaboradorCredencialExtraviadasView(colaboradorCredencial).Where(n => n.CredencialStatusId == 2);
+                    resultLista = objColaboradorCredencial.ListarColaboradorCredencialDestruidasView(colaboradorCredencial).Where(n => n.CredencialStatusId == 2 && statusList.Contains(n.CredencialMotivoId));
                 }
 
                 var resultMapeado = Mapper.Map<List<Views.Model.RelColaboradoresCredenciaisView>>(resultLista.OrderByDescending(n => n.ColaboradorCredencialId).ToList());
@@ -919,16 +869,104 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 }
                 reportDoc.Refresh();
 
-                var configSistema = objConfiguraSistema.BuscarPelaChave(1);
-                var tempArea = Path.GetTempPath();
-                if (configSistema.EmpresaLOGO != null)
+                WpfHelp.ShowRelatorio(CarregaLogoMarcaEmpresa(reportDoc));
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+            }
+        }
+
+        /// <summary>
+        ///  Relatório de Credenciais Extraviadas
+        /// </summary>
+        /// <param name="_status"></param>
+        /// <param name="_dataIni"></param>
+        /// <param name="_dataFim"></param>
+        public void OnRelatorioCredenciaisExtraviadasFiltroCommand(bool tipo, IEnumerable<object> credencialMotivoSelecionados, string dataIni, string dataFim, bool flaTodasDevolucaoEntregaBO, bool flaSimNaoDevolucaoEntregaBO)
+        {
+            try
+            {
+                string mensagem = string.Empty;
+                string mensagemComplemento = " extraviadas ";
+                string mensagemComplementoTipo = string.Empty;
+                string mensagemComplementoMotivoCredencial = string.Empty;
+                string mensagemPeriodo = string.Empty;
+                string codigoMotivoSelecionados = string.Empty;
+                IEnumerable<ColaboradoresCredenciaisView> resultLista;
+
+                Domain.EntitiesCustom.FiltroReportColaboradoresCredenciais colaboradorCredencial = new Domain.EntitiesCustom.FiltroReportColaboradoresCredenciais();
+                mensagem = "Todas as credenciais ";
+                colaboradorCredencial.CredencialStatusId = 2;
+                colaboradorCredencial.Impressa = true;
+                List<int> statusListMotivoExtravio = new List<int>() { 9, 10, 18 };
+
+                if (!flaTodasDevolucaoEntregaBO)
                 {
-                    byte[] testeArquivo = Convert.FromBase64String(configSistema.EmpresaLOGO);
-                    System.IO.File.WriteAllBytes(tempArea + Constantes.Constantes.consNomeArquivoEmpresaOperadora, testeArquivo);
-                    reportDoc.SetParameterValue("MarcaEmpresa", tempArea + Constantes.Constantes.consNomeArquivoEmpresaOperadora);
+                    colaboradorCredencial.DevolucaoEntregaBo = flaSimNaoDevolucaoEntregaBO;
+                }
+                else
+                {
+                    colaboradorCredencial.flaTodasDevolucaoEntregaBO = flaTodasDevolucaoEntregaBO;
                 }
 
-                WpfHelp.ShowRelatorio(reportDoc);
+                if (!(dataIni.Equals(string.Empty) || dataFim.Equals(string.Empty)))
+                {
+                    colaboradorCredencial.Validade = DateTime.Parse(dataIni);
+                    colaboradorCredencial.ValidadeFim = DateTime.Parse(dataFim);
+                    mensagemPeriodo = " entre " + dataIni + " e " + dataFim + "";
+                }
+                else
+                {
+                    colaboradorCredencial.ValidadeFim = !string.IsNullOrEmpty(dataFim) ? DateTime.Parse(dataFim) : DateTime.Now;
+                }
+
+                colaboradorCredencial.TipoCredencialId = tipo ? 1 : 2;
+                mensagemComplementoTipo = tipo ? " permanentes " : " temporárias ";
+
+                if (credencialMotivoSelecionados.Count() > 0)
+                {
+                    foreach (CredencialMotivoView credencialMotivo in credencialMotivoSelecionados)
+                    {
+                        mensagemComplementoMotivoCredencial += credencialMotivo.Descricao + ",";
+                        codigoMotivoSelecionados += Convert.ToString(credencialMotivo.CredencialMotivoId) + ",";
+                    }
+                    mensagemComplementoMotivoCredencial = " (" + mensagemComplementoMotivoCredencial.Substring(0, mensagemComplementoMotivoCredencial.Length - 1) + " ) ";
+                    codigoMotivoSelecionados = codigoMotivoSelecionados.Substring(0, codigoMotivoSelecionados.Length - 1);
+                }
+
+                mensagem += mensagemComplementoTipo + mensagemComplemento + mensagemComplementoMotivoCredencial + mensagemPeriodo;
+
+                var relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(25);
+                if (relatorioGerencial == null || relatorioGerencial.ArquivoRpt == null || String.IsNullOrEmpty(relatorioGerencial.ArquivoRpt)) return;
+
+
+                if (credencialMotivoSelecionados.Count() > 0)
+                {
+                    resultLista = objColaboradorCredencial.ListarColaboradorCredencialExtraviadasView(colaboradorCredencial).Where(n => n.CredencialStatusId == 2 && codigoMotivoSelecionados.Contains(n.CredencialMotivoId.ToString()));
+                }
+                else
+                {
+                    resultLista = objColaboradorCredencial.ListarColaboradorCredencialExtraviadasView(colaboradorCredencial).Where(n => n.CredencialStatusId == 2 && statusListMotivoExtravio.Contains(n.CredencialMotivoId));
+                }
+
+                var resultMapeado = Mapper.Map<List<Views.Model.RelColaboradoresCredenciaisView>>(resultLista.OrderByDescending(n => n.ColaboradorCredencialId).ToList());
+
+
+
+                byte[] arrayFile = Convert.FromBase64String(relatorioGerencial.ArquivoRpt);
+                var reportDoc = WpfHelp.ShowRelatorioCrystalReport(arrayFile, relatorioGerencial.Nome);
+                reportDoc.SetDataSource(resultMapeado);
+
+                if (!string.IsNullOrWhiteSpace(mensagem))
+                {
+                    TextObject txt = (TextObject)reportDoc.ReportDefinition.ReportObjects["TextoPrincipal"];
+                    txt.Text = mensagem;
+                }
+                reportDoc.Refresh();
+
+                WpfHelp.ShowRelatorio(CarregaLogoMarcaEmpresa(reportDoc));
+
             }
             catch (Exception ex)
             {
@@ -983,16 +1021,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 reportDoc.Refresh();
 
-                var configSistema = objConfiguraSistema.BuscarPelaChave(1);
-                var tempArea = Path.GetTempPath();
-                if (configSistema.EmpresaLOGO != null)
-                {
-                    byte[] testeArquivo = Convert.FromBase64String(configSistema.EmpresaLOGO);
-                    System.IO.File.WriteAllBytes(tempArea + Constantes.Constantes.consNomeArquivoEmpresaOperadora, testeArquivo);
-                    reportDoc.SetParameterValue("MarcaEmpresa", tempArea + Constantes.Constantes.consNomeArquivoEmpresaOperadora);
-                }
-
-                WpfHelp.ShowRelatorio(reportDoc);
+                WpfHelp.ShowRelatorio(CarregaLogoMarcaEmpresa(reportDoc));
             }
             catch (Exception ex)
             {
@@ -1081,16 +1110,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 }
                 reportDoc.Refresh();
 
-                var configSistema = objConfiguraSistema.BuscarPelaChave(1);
-                var tempArea = Path.GetTempPath();
-                if (configSistema.EmpresaLOGO != null)
-                {
-                    byte[] testeArquivo = Convert.FromBase64String(configSistema.EmpresaLOGO);
-                    System.IO.File.WriteAllBytes(tempArea + Constantes.Constantes.consNomeArquivoEmpresaOperadora, testeArquivo);
-                    reportDoc.SetParameterValue("MarcaEmpresa", tempArea + Constantes.Constantes.consNomeArquivoEmpresaOperadora);
-                }
-
-                WpfHelp.ShowRelatorio(reportDoc);
+                WpfHelp.ShowRelatorio(CarregaLogoMarcaEmpresa(reportDoc));
             }
             catch (Exception ex)
             {
@@ -1156,16 +1176,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 }
                 reportDoc.Refresh();
 
-                var configSistema = objConfiguraSistema.BuscarPelaChave(1);
-                var tempArea = Path.GetTempPath();
-                if (configSistema.EmpresaLOGO != null)
-                {
-                    byte[] testeArquivo = Convert.FromBase64String(configSistema.EmpresaLOGO);
-                    System.IO.File.WriteAllBytes(tempArea + Constantes.Constantes.consNomeArquivoEmpresaOperadora, testeArquivo);
-                    reportDoc.SetParameterValue("MarcaEmpresa", tempArea + Constantes.Constantes.consNomeArquivoEmpresaOperadora);
-                }
-
-                WpfHelp.ShowRelatorio(reportDoc);
+                WpfHelp.ShowRelatorio(CarregaLogoMarcaEmpresa(reportDoc));
 
             }
             catch (Exception ex)
@@ -1233,16 +1244,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 }
                 reportDoc.Refresh();
 
-                var configSistema = objConfiguraSistema.BuscarPelaChave(1);
-                var tempArea = Path.GetTempPath();
-                if (configSistema.EmpresaLOGO != null)
-                {
-                    byte[] testeArquivo = Convert.FromBase64String(configSistema.EmpresaLOGO);
-                    System.IO.File.WriteAllBytes(tempArea + Constantes.Constantes.consNomeArquivoEmpresaOperadora, testeArquivo);
-                    reportDoc.SetParameterValue("MarcaEmpresa", tempArea + Constantes.Constantes.consNomeArquivoEmpresaOperadora);
-                }
-
-                WpfHelp.ShowRelatorio(reportDoc);
+                WpfHelp.ShowRelatorio(CarregaLogoMarcaEmpresa(reportDoc));
             }
             catch (Exception ex)
             {
@@ -1251,12 +1253,13 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         }
 
         /// <summary>
-        /// Filtrar Relatório de impressões veiculos Credenciais( Autorizações ) por Empresas
+        /// Filtrar Relatório de impressões veiculos Credenciais( Autorizações )
         /// </summary>
-        /// <param name="_empresa"></param>
-        /// <param name="_check"></param>
-        /// <param name="_dataIni"></param>
-        /// <param name="_dataFim"></param>
+        /// <param name="tipo"></param>
+        /// <param name="empresa"></param>
+        /// <param name="check"></param>
+        /// <param name="dataIni"></param>
+        /// <param name="dataFim"></param>
         public void OnFiltrosImpressoesAutorizacoesCommand(bool tipo, string empresa, bool check, string dataIni, string dataFim)
         {
             try
@@ -1301,16 +1304,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 }
                 reportDoc.Refresh();
 
-                var configSistema = objConfiguraSistema.BuscarPelaChave(1);
-                var tempArea = Path.GetTempPath();
-                if (configSistema.EmpresaLOGO != null)
-                {
-                    byte[] testeArquivo = Convert.FromBase64String(configSistema.EmpresaLOGO);
-                    System.IO.File.WriteAllBytes(tempArea + Constantes.Constantes.consNomeArquivoEmpresaOperadora, testeArquivo);
-                    reportDoc.SetParameterValue("MarcaEmpresa", tempArea + Constantes.Constantes.consNomeArquivoEmpresaOperadora);
-                }
-
-                WpfHelp.ShowRelatorio(reportDoc);
+                WpfHelp.ShowRelatorio(CarregaLogoMarcaEmpresa(reportDoc));
             }
             catch (Exception ex)
             {
@@ -1321,9 +1315,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <summary>
         /// Filtrar Relatório de vias adicionais de Credenciais
         /// </summary>
-        /// <param name="_tipo"></param>
-        /// <param name="_dataIni"></param>
-        /// <param name="_dataFim"></param>
+        /// <param name="motivoTipo"></param>
+        /// <param name="dataIni"></param>
+        /// <param name="dataFim"></param>
         public void OnFiltroAutorizacaoViasAdicionaisCommand(int motivoTipo, string dataIni, string dataFim)
         {
             try
@@ -1382,119 +1376,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 }
                 reportDoc.Refresh();
 
-                var configSistema = objConfiguraSistema.BuscarPelaChave(1);
-                var tempArea = Path.GetTempPath();
-                if (configSistema.EmpresaLOGO != null)
-                {
-                    byte[] testeArquivo = Convert.FromBase64String(configSistema.EmpresaLOGO);
-                    System.IO.File.WriteAllBytes(tempArea + Constantes.Constantes.consNomeArquivoEmpresaOperadora, testeArquivo);
-                    reportDoc.SetParameterValue("MarcaEmpresa", tempArea + Constantes.Constantes.consNomeArquivoEmpresaOperadora);
-                }
+                WpfHelp.ShowRelatorio(CarregaLogoMarcaEmpresa(reportDoc));
 
-                WpfHelp.ShowRelatorio(reportDoc);
-
-            }
-            catch (Exception ex)
-            {
-                Utils.TraceException(ex);
-            }
-        }
-
-        /// <summary>
-        ///  Relatório de Credenciais Destruídas
-        /// (Indeferidas,Roubadas,Extraviadas,Não-Devolvidas...)
-        /// </summary>
-        /// <param name="_status"></param>
-        /// <param name="_dataIni"></param>
-        /// <param name="_dataFim"></param>
-        public void OnRelatorioCredenciaisDestruidasFiltroCommand(bool tipo, IEnumerable<object> credencialMotivoSelecionados, string dataIni, string dataFim, bool flaTodasDevolucaoEntregaBO, bool flaSimNaoDevolucaoEntregaBO)
-        {
-            try
-            {
-                string mensagem = string.Empty;
-                string mensagemComplemento = " destruídas ";
-                string mensagemComplementoTipo = string.Empty;
-                string mensagemComplementoMotivoCredencial = string.Empty;
-                string mensagemPeriodo = string.Empty;
-                string codigoMotivoSelecionados = string.Empty;
-                IEnumerable<ColaboradoresCredenciaisView> resultLista;
-
-                Domain.EntitiesCustom.FiltroReportColaboradoresCredenciais colaboradorCredencial = new Domain.EntitiesCustom.FiltroReportColaboradoresCredenciais();
-                mensagem = "Todas as credenciais ";
-                colaboradorCredencial.CredencialStatusId = 2;
-                colaboradorCredencial.Impressa = true;
-                List<int> statusList = new List<int>() { 6, 8, 15 };
-
-                if (!flaTodasDevolucaoEntregaBO)
-                {
-                    colaboradorCredencial.DevolucaoEntregaBo = flaSimNaoDevolucaoEntregaBO;
-                }
-                else
-                {
-                    colaboradorCredencial.flaTodasDevolucaoEntregaBO = flaTodasDevolucaoEntregaBO;
-                }
-
-                if (!(dataIni.Equals(string.Empty) || dataFim.Equals(string.Empty)))
-                {
-                    colaboradorCredencial.DataStatus = DateTime.Parse(dataIni);
-                    colaboradorCredencial.DataStatusFim = DateTime.Parse(dataFim);
-                    mensagemPeriodo = " entre " + dataIni + " e " + dataFim + "";
-                }
-
-                colaboradorCredencial.TipoCredencialId = tipo ? 1 : 2;
-                mensagemComplementoTipo = tipo ? " permanentes " : " temporárias ";
-
-                if (credencialMotivoSelecionados.Count() > 0)
-                {
-                    foreach (CredencialMotivoView credencialMotivo in credencialMotivoSelecionados)
-                    {
-                        mensagemComplementoMotivoCredencial += credencialMotivo.Descricao + ",";
-                        codigoMotivoSelecionados += Convert.ToString(credencialMotivo.CredencialMotivoId) + ",";
-                    }
-                    mensagemComplementoMotivoCredencial = " (" + mensagemComplementoMotivoCredencial.Substring(0, mensagemComplementoMotivoCredencial.Length - 1) + " ) ";
-                    codigoMotivoSelecionados = codigoMotivoSelecionados.Substring(0, codigoMotivoSelecionados.Length - 1);
-                }
-
-                mensagem += mensagemComplementoTipo + mensagemComplemento + mensagemComplementoMotivoCredencial + mensagemPeriodo;
-
-                var relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(3);
-                if (relatorioGerencial == null || relatorioGerencial.ArquivoRpt == null || String.IsNullOrEmpty(relatorioGerencial.ArquivoRpt)) return;
-
-
-                if (credencialMotivoSelecionados.Count() > 0)
-                {
-                    resultLista = objColaboradorCredencial.ListarColaboradorCredencialDestruidasView(colaboradorCredencial).Where(n => n.CredencialStatusId == 2 && codigoMotivoSelecionados.Contains(n.CredencialMotivoId.ToString()) && statusList.Contains(n.CredencialMotivoId));
-                }
-                else
-                {
-                    resultLista = objColaboradorCredencial.ListarColaboradorCredencialDestruidasView(colaboradorCredencial).Where(n => n.CredencialStatusId == 2 && statusList.Contains(n.CredencialMotivoId));
-                }
-
-                var resultMapeado = Mapper.Map<List<Views.Model.RelColaboradoresCredenciaisView>>(resultLista.OrderByDescending(n => n.ColaboradorCredencialId).ToList());
-
-
-
-                byte[] arrayFile = Convert.FromBase64String(relatorioGerencial.ArquivoRpt);
-                var reportDoc = WpfHelp.ShowRelatorioCrystalReport(arrayFile, relatorioGerencial.Nome);
-                reportDoc.SetDataSource(resultMapeado);
-
-                if (!string.IsNullOrWhiteSpace(mensagem))
-                {
-                    TextObject txt = (TextObject)reportDoc.ReportDefinition.ReportObjects["TextoPrincipal"];
-                    txt.Text = mensagem;
-                }
-                reportDoc.Refresh();
-
-                var configSistema = objConfiguraSistema.BuscarPelaChave(1);
-                var tempArea = Path.GetTempPath();
-                if (configSistema.EmpresaLOGO != null)
-                {
-                    byte[] testeArquivo = Convert.FromBase64String(configSistema.EmpresaLOGO);
-                    System.IO.File.WriteAllBytes(tempArea + Constantes.Constantes.consNomeArquivoEmpresaOperadora, testeArquivo);
-                    reportDoc.SetParameterValue("MarcaEmpresa", tempArea + Constantes.Constantes.consNomeArquivoEmpresaOperadora);
-                }
-
-                WpfHelp.ShowRelatorio(reportDoc);
             }
             catch (Exception ex)
             {
@@ -1505,9 +1388,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <summary>
         ///   Relatório de veiculos Credenciais( Autorizações ) destruídas 
         /// </summary>
-        /// <param name="_tipo"></param>
-        /// <param name="_dataIni"></param>
-        /// <param name="_dataFim"></param>
+        /// <param name="tipo"></param>
+        /// <param name="credencialMotivoSelecionados"></param>
+        /// <param name="dataIni"></param>
+        /// <param name="dataFim"></param>
+        /// <param name="flaTodasDevolucaoEntregaBO"></param>
+        /// <param name="flaSimNaoDevolucaoEntregaBO"></param>
         public void OnRelatorioAutorizacoesDestruidasFiltroCommand(bool tipo, IEnumerable<object> credencialMotivoSelecionados, string dataIni, string dataFim, bool flaTodasDevolucaoEntregaBO, bool flaSimNaoDevolucaoEntregaBO)
         {
             try
@@ -1584,30 +1470,129 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 }
                 reportDoc.Refresh();
 
-                var configSistema = objConfiguraSistema.BuscarPelaChave(1);
-                var tempArea = Path.GetTempPath();
-                if (configSistema.EmpresaLOGO != null)
-                {
-                    byte[] testeArquivo = Convert.FromBase64String(configSistema.EmpresaLOGO);
-                    System.IO.File.WriteAllBytes(tempArea + Constantes.Constantes.consNomeArquivoEmpresaOperadora, testeArquivo);
-                    reportDoc.SetParameterValue("MarcaEmpresa", tempArea + Constantes.Constantes.consNomeArquivoEmpresaOperadora);
-                }
-
-                WpfHelp.ShowRelatorio(reportDoc);
+                WpfHelp.ShowRelatorio(CarregaLogoMarcaEmpresa(reportDoc));
             }
             catch (Exception ex)
             {
                 Utils.TraceException(ex);
             }
         }
-        #endregion
+
+        /// <summary>
+        ///   Relatório de veiculos Credenciais( Autorizações ) Extraviadas 
+        /// </summary>
+        /// <param name="tipo"></param>
+        /// <param name="credencialMotivoSelecionados"></param>
+        /// <param name="dataIni"></param> 
+        /// <param name="dataFim"></param>
+        /// <param name="flaSimNaoDevolucaoEntregaBO"></param>
+        public void OnRelatorioAutorizacoesExtraviadasFiltroCommand(bool tipo, IEnumerable<object> credencialMotivoSelecionados, string dataIni, string dataFim, bool ? flaSimNaoDevolucaoEntregaBO)
+        {
+            try
+            {
+                string mensagem = string.Empty;
+                string mensagemComplemento = " extraviadas ";
+                string mensagemComplementoTipo = string.Empty;
+                string mensagemComplementoMotivoCredencial = string.Empty;
+                string mensagemPeriodo = string.Empty;
+                string codigoMotivoSelecionados = string.Empty;
+                IEnumerable<VeiculosCredenciaisView> resultLista;
+
+
+                FiltroReportVeiculoCredencial veiculoCredencial = new FiltroReportVeiculoCredencial();
+                mensagem = "Todas as autorizações ";
+                veiculoCredencial.CredencialStatusId = 2;
+                veiculoCredencial.Impressa = true;
+                List<int> statusListMotivoExtravio = new List<int>() { 9, 10, 18 };
+
+                if (flaSimNaoDevolucaoEntregaBO != null)
+                {
+                    veiculoCredencial.DevolucaoEntregaBo = flaSimNaoDevolucaoEntregaBO;
+                }
+
+                if (!(dataIni.Equals(string.Empty) || dataFim.Equals(string.Empty)))
+                {
+                    veiculoCredencial.Validade = DateTime.Parse(dataIni);
+                    veiculoCredencial.ValidadeFim = DateTime.Parse(dataFim);
+                    mensagemPeriodo = " entre " + dataIni + " e " + dataFim + "";
+                }
+                else
+                {
+                    veiculoCredencial.ValidadeFim = !string.IsNullOrEmpty(dataFim) ? DateTime.Parse(dataFim) : DateTime.Now;
+                }
+
+                veiculoCredencial.TipoCredencialId = tipo ? 1 : 2;
+                mensagemComplementoTipo = tipo ? " permanentes " : " temporárias ";
+
+                if (credencialMotivoSelecionados.Count() > 0)
+                {
+                    foreach (CredencialMotivoView credencialMotivo in credencialMotivoSelecionados)
+                    {
+                        mensagemComplementoMotivoCredencial += credencialMotivo.Descricao + ",";
+                        codigoMotivoSelecionados += Convert.ToString(credencialMotivo.CredencialMotivoId) + ",";
+                    }
+                    mensagemComplementoMotivoCredencial = " (" + mensagemComplementoMotivoCredencial.Substring(0, mensagemComplementoMotivoCredencial.Length - 1) + " ) ";
+                    codigoMotivoSelecionados = codigoMotivoSelecionados.Substring(0, codigoMotivoSelecionados.Length - 1);
+                }
+
+                mensagem += mensagemComplementoTipo + mensagemComplemento + mensagemComplementoMotivoCredencial + mensagemPeriodo;
+
+                var relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(26);
+                if (relatorioGerencial == null || relatorioGerencial.ArquivoRpt == null || String.IsNullOrEmpty(relatorioGerencial.ArquivoRpt)) return;
+
+                if (credencialMotivoSelecionados.Count() > 0)
+                {
+                    resultLista = objVeiculoCredencial.ListarVeiculoCredencialExtraviadasView(veiculoCredencial).Where(n => n.CredencialStatusId == 2 && codigoMotivoSelecionados.Contains(n.CredencialMotivoId.ToString()) && statusListMotivoExtravio.Contains(n.CredencialMotivoId));
+                }
+                else
+                {
+                    resultLista = objVeiculoCredencial.ListarVeiculoCredencialExtraviadasView(veiculoCredencial).Where(n => n.CredencialStatusId == 2 && statusListMotivoExtravio.Contains(n.CredencialMotivoId));
+                }
+
+                var resultMapeado = Mapper.Map<List<RelVeiculosCredenciaisView>>(resultLista.OrderByDescending(n => n.VeiculoCredencialId).ToList());
+
+                byte[] arrayFile = Convert.FromBase64String(relatorioGerencial.ArquivoRpt);
+                var reportDoc = WpfHelp.ShowRelatorioCrystalReport(arrayFile, relatorioGerencial.Nome);
+                reportDoc.SetDataSource(resultMapeado);
+
+                if (!string.IsNullOrWhiteSpace(mensagem))
+                {
+                    TextObject txt = (TextObject)reportDoc.ReportDefinition.ReportObjects["TextoPrincipal"];
+                    txt.Text = mensagem;
+                }
+                reportDoc.Refresh();
+
+                WpfHelp.ShowRelatorio(CarregaLogoMarcaEmpresa(reportDoc));
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+            }
+        }
 
         #endregion
 
-
         #endregion
 
 
+        #endregion
+
+        #region Métodos privados 
+
+        private ReportDocument CarregaLogoMarcaEmpresa(ReportDocument reportDoc) 
+        {
+            var configSistema = objConfiguraSistema.BuscarPelaChave(1);
+            var tempArea = Path.GetTempPath();
+            if (configSistema.EmpresaLOGO != null)
+            {
+                byte[] testeArquivo = Convert.FromBase64String(configSistema.EmpresaLOGO);
+                System.IO.File.WriteAllBytes(tempArea + Constantes.Constantes.consNomeArquivoEmpresaOperadora, testeArquivo);
+                reportDoc.SetParameterValue("MarcaEmpresa", tempArea + Constantes.Constantes.consNomeArquivoEmpresaOperadora);
+            }
+            return reportDoc;
+        }
+
+        #endregion
 
     }
 }
