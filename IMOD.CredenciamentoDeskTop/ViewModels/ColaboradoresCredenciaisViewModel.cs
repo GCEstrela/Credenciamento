@@ -694,31 +694,19 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 n1.Identificacao1 = Entity.Identificacao1;
                 n1.Identificacao2 = Entity.Identificacao2;
                 n1.Validade = Entity.Validade.Value.AddHours(23).AddMinutes(59).AddSeconds(59); //Sempre Add 23:59:59 horas à credencial nova.
-                n1.CredencialVia = Entity.CredencialVia;
                 n1.CredencialmotivoViaAdicionalID = Entity.CredencialmotivoViaAdicionalID;
-                //if (n1.CredencialStatusId == 1)
-                //{
-                //    switch (n1.CredencialMotivoId)
-                //    {
-                //        case (2):
-                //            var L1 = _service.Listar(null, null, null, null, null, Entity.ColaboradorEmpresaId);
-                //            n1.CredencialVia =+ n1.CredencialVia;
-                //            break;
-                //        //case (3):
-                //        //    n1.CredencialVia = +n1.CredencialVia;
-                //        //    break;
-                //        //case (4):
-                //        //    n1.CredencialVia = +n1.CredencialVia;
-                //        //    break;
-                //        //case (5):
-                //        //    n1.CredencialVia = +n1.CredencialVia;
-                //        //    break;
-                //        default:
-                //            n1.CredencialVia = 1;
-                //            break;
-                //    }
+                try
+                {
+                    var ultimacredencial = _service.Listar(null, null, null, null, null, null, null, null, null, null, Entity.ColaboradorEmpresaId).OrderByDescending(c => c.ColaboradorCredencialId).First();
+                    n1.CredencialVia = ultimacredencial.CredencialVia;
 
-                //}
+                }
+                catch (Exception)
+                {
+
+                }
+
+               
 
                 //_configuraSistema = ObterConfiguracao();
                 n1.Regras = _configuraSistema.Regras;
