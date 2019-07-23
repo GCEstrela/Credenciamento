@@ -61,6 +61,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         private Boolean verificarcredencialAtiva = false; // Testa se é prara verificar a exectencia de credencial ativa para o colaborador.
         private int _count;
+        public int _viaAdicional;
         private List<CredencialMotivo> _credencialMotivo;
         private bool _coleteEnabled;
 
@@ -1244,11 +1245,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                         HabilitarVias = "Visible";
                     }
                     else
-                    {
-                        if (Habilitar)
+                    {              
+                        if (Comportamento.IsEnableCriar)      //Habilitar
                         {
-                            //Entity.CredencialVia = ultimacredencial.CredencialVia + 1;
-                            Entity.CredencialVia = ultimacredencial.CredencialVia;
+                            Entity.CredencialVia = ultimacredencial.CredencialVia + 1;
+                            //Entity.CredencialVia = ultimacredencial.CredencialVia;
                         }
                         else
                         {
@@ -1260,7 +1261,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                         HabilitarVias = "Visible";
                     }
                 }
+                _viaAdicional = Convert.ToInt32(Entity.CredencialVia);
                 CollectionViewSource.GetDefaultView(EntityObserver).Refresh();
+               
             }
             catch (Exception ex)
             {

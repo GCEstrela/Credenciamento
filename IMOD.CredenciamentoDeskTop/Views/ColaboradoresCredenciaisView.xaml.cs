@@ -197,6 +197,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
            
             _viewModel.Motivacao_Select();
+            this.lblCredencialVia.Content = _viewModel._viaAdicional;
 
             if (cmbCredencialStatus.SelectedItem != null && cmbMotivacao.SelectedItem != null)
             {
