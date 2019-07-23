@@ -50,7 +50,9 @@ namespace IMOD.Domain.Entities
         public bool Regras { get; set; }
         public int? CredencialVia { get; set; }
         public int? CredencialmotivoViaAdicionalID { get; set; }
+        public int? CredencialmotivoIDanterior { get; set; }
         
+
         #endregion
     }
 }

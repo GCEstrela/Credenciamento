@@ -699,6 +699,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 {
                     var ultimacredencial = _service.Listar(null, null, null, null, null, null, null, null, null, null, Entity.ColaboradorEmpresaId).OrderByDescending(c => c.ColaboradorCredencialId).First();
                     n1.CredencialVia = ultimacredencial.CredencialVia;
+                    n1.CredencialmotivoIDanterior = ultimacredencial.CredencialMotivoId;
 
                 }
                 catch (Exception)
@@ -889,6 +890,15 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                         //WpfHelp.Mbox("Data de Validate não pode ser inferior à data do dia.", MessageBoxIcon.Information);
                         //return;
                     }
+                }
+                try
+                {
+                    var ultimacredencial = _service.Listar(null, null, null, null, null, null, null, null, null, null, Entity.ColaboradorEmpresaId).OrderByDescending(c => c.ColaboradorCredencialId).First();
+                    n1.CredencialmotivoIDanterior = ultimacredencial.CredencialMotivoId;
+                }
+                catch (Exception)
+                {
+
                 }
                 // _configuraSistema = ObterConfiguracao();
                 n1.Regras = _configuraSistema.Regras;
