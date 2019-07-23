@@ -99,8 +99,8 @@
                                     </TransformGroup>
                                 </ComboBox.RenderTransform>
                             </ComboBox>
-                            <Label Content="Motivo: " Height="28" Width="60" HorizontalContentAlignment="Right"
-                                   Foreground="#FFD0D0D0" />
+                            <Label Content="Tipo: " Height="28" Width="60" HorizontalContentAlignment="Right"
+                                   Foreground="#FFD0D0D0" ToolTip="Motivo Principal" />
 
                             <ComboBox x:Name="cmbMotivacao" IsEditable="true"
                                       Margin="0,4,0,3" 
@@ -117,10 +117,11 @@
                             <Label Name="lblCredencialVia" Visibility="{Binding HabilitarVias}"
                                    Content="{Binding Entity.CredencialVia,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  
                                    HorizontalContentAlignment="Right" Margin="1,0,0,0" Width="29" Foreground="#FFD0D0D0"></Label>
-                            <Label Content="º Via" Margin="0,0,0,0" Visibility="{Binding HabilitarVias}" Foreground="#FFD0D0D0"></Label>
+                            <Label Content="ª Via" FontWeight="Bold"  Margin="0,0,0,0" 
+                                   Visibility="{Binding HabilitarVias}" Foreground="#FFD0D0D0"></Label>
 
-                            <Label Content="Motivo 2: " Margin="0,0,0,0" Height="28" Width="60" HorizontalContentAlignment="Right"
-                                   Foreground="#FFD0D0D0" Visibility="{Binding HabilitarVias}"/>
+                            <Label Content="Motivo:" Margin="0,0,0,0" Height="28" Width="60" HorizontalContentAlignment="Right"
+                                   Foreground="#FFD0D0D0" ToolTip="Motivo Secundário" Visibility="{Binding HabilitarVias}"/>
                             <ComboBox x:Name="cmbMotivacaoDois" IsEditable="true" Visibility="{Binding HabilitarVias}"
                                       Margin="0,4,0,3" 
                                       Height="25"
@@ -130,7 +131,7 @@
                                       ItemsSource="{Binding ColaboradorMotivoViaAdcional}" 
                                       SelectedValue="{Binding Entity.CredencialmotivoViaAdicionalID, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                                       DisplayMemberPath="Descricao"
-                                      SelectedValuePath="CredencialmotivoViaAdicionalID"
+                                      SelectedValuePath="CredencialMotivoId"
                                       />
 
                             <CheckBox VerticalAlignment="Center" Margin="15,0,0,0" x:Name="chkDevolucaoMotivo" HorizontalAlignment="Left" Foreground="#FFD0D0D0" 

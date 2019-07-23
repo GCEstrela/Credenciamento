@@ -1235,7 +1235,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 HabilitarVias = "Collapsed";
                 //if (!Habilitar) return;
                 if (Entity == null) return;
-                if (Entity.CredencialMotivoId == 2 && Entity.CredencialStatusId ==1)
+                if (Entity.CredencialMotivoId == 2) // && Entity.CredencialStatusId ==1
                 {
                     Entity.CredencialVia = null;
                    var ultimacredencial = _service.Listar(null, null, null, null, null, null, null, null, null, null, Entity.ColaboradorEmpresaId).OrderByDescending(c => c.ColaboradorCredencialId).First();
