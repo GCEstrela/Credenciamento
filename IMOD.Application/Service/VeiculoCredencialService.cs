@@ -477,6 +477,12 @@ namespace IMOD.Application.Service
         {
             return _repositorio.ListarVeiculoCredencialDestruidasView(entity);
         }
+
+        public List<VeiculosCredenciaisView> ListarVeiculoCredencialExtraviadasView(FiltroReportVeiculoCredencial entity)
+        {
+            return _repositorio.ListarVeiculoCredencialExtraviadasView(entity);
+        }
+
         #endregion
     }
 }

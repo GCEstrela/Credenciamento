@@ -874,6 +874,61 @@ namespace IMOD.Infra.Repositorios
                 }
             }
         }
+
+        /// <summary>
+        ///    Listar Veiculo / credenciais inválidas
+        /// </summary>
+        /// <param name="entity">entity</param>
+        /// <returns></returns>
+        public List<VeiculosCredenciaisView> ListarVeiculoCredencialExtraviadasView(FiltroReportVeiculoCredencial entity) 
+        {
+
+            using (var conn = _dataBase.CreateOpenConnection())
+            {
+                using (var cmd = _dataBase.SelectText("RelatorioVeiculosCredenciaisView", conn))
+                {
+                    try
+                    {
+                        if (entity != null && entity.VeiculoCredencialId > 0)
+                        {
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("VeiculoCredencialID", DbType.Int32, entity.VeiculoCredencialId).Igual()));
+                        }
+                        if (entity != null && entity.TipoCredencialId > 0)
+                        {
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("TipoCredencialId", DbType.Int32, entity.TipoCredencialId).Igual()));
+                        }
+                        if (entity != null && entity.CredencialStatusId > 0)
+                        {
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("CredencialStatusId", DbType.Int32, entity.CredencialStatusId).Igual()));
+                        }
+                        if (entity.Validade != null || entity.ValidadeFim != null)
+                        {
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Validade", DbType.DateTime, entity.Validade).MaiorIgual()));
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("ValidadeFim", DbType.DateTime, entity.ValidadeFim).MenorIgual()));
+                        }
+                        if (entity.Impressa != null && entity.Impressa)
+                        {
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Impressa", DbType.Boolean, entity.Impressa).Igual()));
+                        }
+                        if (!entity.Impeditivo && entity.DevolucaoEntregaBo != null)
+                        {
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("DevolucaoEntregaBO", DbType.Boolean, entity.DevolucaoEntregaBo).Igual()));
+                        }
+
+                        var reader = cmd.ExecuteReaderSelect();
+                        var d1 = reader.MapToList<VeiculosCredenciaisView>();
+                        return d1;
+                    }
+                    catch (Exception ex)
+                    {
+                        Utils.TraceException(ex);
+                        throw;
+                    }
+                }
+            }
+        }
+
+
         #endregion
     }
 }
