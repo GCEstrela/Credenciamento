@@ -1247,7 +1247,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     {
                         if (Habilitar)
                         {
-                            Entity.CredencialVia = ultimacredencial.CredencialVia + 1;
+                            //Entity.CredencialVia = ultimacredencial.CredencialVia + 1;
+                            Entity.CredencialVia = ultimacredencial.CredencialVia;
                         }
                         else
                         {
