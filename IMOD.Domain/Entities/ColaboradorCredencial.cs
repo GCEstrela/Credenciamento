@@ -51,7 +51,9 @@ namespace IMOD.Domain.Entities
         public int? CredencialVia { get; set; }
         public int? CredencialmotivoViaAdicionalID { get; set; }
         public int? CredencialmotivoIDanterior { get; set; }
-        
+        public string CredencialmotivoViaAdicionalDescricao { get; set; }
+        public string CredencialmotivoIdAnteriorDescricao { get; set; }
+
 
         #endregion
     }

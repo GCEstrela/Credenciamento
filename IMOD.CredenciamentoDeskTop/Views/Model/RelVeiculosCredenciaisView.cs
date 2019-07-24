@@ -70,7 +70,6 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public string TipoCredencialDescricao { get; set; }
         public string CredencialStatusDescricao { get; set; }
         public string DataImpressao { get; set; }
-
         public decimal Valor { get; set; }
         public string TiposCobrancaNome { get; set; }
         public string EmpresasContratosNome { get; set; }
@@ -79,7 +78,18 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public string Identificacao2 { get; set; }
         public string IdentificacaoDescricao { get; set; }
         public bool DevolucaoEntregaBo { get; set; }
-        public string  DataStatus { get; set; }
+        private string _dataStatus;
+        public string DataStatus
+        {
+            get { return string.IsNullOrEmpty(_dataStatus) ? "" : System.DateTime.Parse(_dataStatus).ToString("dd/MM/yyyy"); }
+            set { _dataStatus = value; }
+        }
+
+        public int CredencialVia { get; set; }
+        public int CredencialMotivoIDAnterior { get; set; }
+        public string CredencialMotivoIDAnteriorDescricao { get; set; }
+        public int CredencialMotivoViaAdicionalID { get; set; }
+        public string CredencialMotivoViaAdicionalDescricao { get; set; }
 
     }
 }
