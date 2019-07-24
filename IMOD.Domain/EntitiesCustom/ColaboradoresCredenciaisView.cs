@@ -34,7 +34,7 @@ namespace IMOD.Domain.EntitiesCustom
         //private string _colete;
         //public string Colete { get { return _colete = ColaboradorId > 0 ? EmpresaSigla.Trim().ToString() + Convert.ToString(ColaboradorId) : _colete; } set { _colete = value; } }
         public string Colete { get; set; }
-        [Range(1, int.MaxValue, ErrorMessage = "A motivação é requerida.")]
+        [Range(1, int.MaxValue, ErrorMessage = "O tipo é requerido.")]
         public int CredencialMotivoId { get; set; }
         public bool Impressa { get; set; }
         public bool Ativa { get; set; }
@@ -71,7 +71,6 @@ namespace IMOD.Domain.EntitiesCustom
         /// True, possue pendencia impeditiva
         /// </summary>
         public bool PendenciaImpeditiva { get; set; }
-
         public string CredencialMotivoDescricao { get; set; }
         public DateTime? DataImpressao { get; set; }
         public decimal Valor { get; set; }
@@ -80,7 +79,6 @@ namespace IMOD.Domain.EntitiesCustom
         public string Identificacao { get; set; }
         public int AreaAcessoId { get; set; }
         public string IdentificacaoDescricao { get; set; }
-
         public DateTime? DataStatus { get; set; }
         public string NumeroColete { get; set; }
         public bool Policiafederal { get; set; }
@@ -92,8 +90,17 @@ namespace IMOD.Domain.EntitiesCustom
         public bool Regras { get; set; }
         public string GrupoPadrao { get; set; }
         public int? CredencialVia { get; set; }
+        [RequiredIf("MotivoObrigatorio", false, ErrorMessage = "Informe o motivo da Via Adicional.")]
         public int? CredencialmotivoViaAdicionalID { get; set; }
         public int? CredencialmotivoIDanterior { get; set; }
+
+        private bool MotivoObrigatorio
+        {
+            get
+            {
+                return (CredencialMotivoId == 2 && CredencialmotivoViaAdicionalID == null);
+            }
+        }
         public string CredencialmotivoViaAdicionalDescricao{ get; set; } 
         public string CredencialmotivoIdAnteriorDescricao { get; set; } 
 
