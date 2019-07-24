@@ -36,7 +36,7 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public string Colete { get; set; }
         public int CredencialMotivoId { get; set; }
         public string CredencialMotivoId1 { get; set; }
-        public string CredencialMotivoId2 { get; set; }
+        public string CredencialMotivoId2 { get; set; } 
         public string CredencialMotivoDescricao { get; set; }
         public bool Impressa { get; set; }
         public bool Ativa { get; set; }
@@ -83,8 +83,18 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public int AreaAcessoId { get; set; }
         public string IdentificacaoDescricao { get; set; }
         public bool DevolucaoEntregaBo { get; set; }
-        public string DataStatus { get; set; }
+        private string _dataStatus;
+        public string DataStatus
+        {
+            get { return string.IsNullOrEmpty(_dataStatus) ? "" : System.DateTime.Parse(_dataStatus).ToString("dd/MM/yyyy"); }
+            set { _dataStatus = value; }
+        }
 
+        public int CredencialVia { get; set; }
+        public int CredencialMotivoIDAnterior { get; set; }
+        public string CredencialMotivoIDAnteriorDescricao { get; set; }
+        public int CredencialMotivoViaAdicionalID { get; set; }
+        public string CredencialMotivoViaAdicionalDescricao { get; set; }
 
     }
 }

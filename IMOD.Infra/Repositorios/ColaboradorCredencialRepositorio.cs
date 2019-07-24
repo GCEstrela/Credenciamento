@@ -632,8 +632,6 @@ namespace IMOD.Infra.Repositorios
         /// <returns></returns>
         public List<ColaboradoresCredenciaisView> ListarColaboradorCredencialViaAdicionaisView(FiltroReportColaboradoresCredenciais entity)
         {
-            int codEmissaoInicio = 2;
-            int codEmissaoFim = 5;
 
             using (var conn = _dataBase.CreateOpenConnection())
             {
@@ -650,15 +648,6 @@ namespace IMOD.Infra.Repositorios
                             cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("TipoCredencialId", DbType.Int32, entity.TipoCredencialId).Igual()));
                         }
 
-                        if (entity != null && entity.CredencialMotivoId > 0)
-                        {
-                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("CredencialMotivoId", DbType.Int32, entity.CredencialMotivoId).Igual()));
-                        }
-                        else
-                        {
-                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("CredencialMotivoId", DbType.Int32, codEmissaoInicio).MaiorIgual()));
-                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("CredencialMotivoId1", DbType.Int32, codEmissaoFim).MenorIgual()));
-                        }
                         //Busca por faixa de data
                         if (entity.Emissao != null || entity.EmissaoFim != null)
                         {

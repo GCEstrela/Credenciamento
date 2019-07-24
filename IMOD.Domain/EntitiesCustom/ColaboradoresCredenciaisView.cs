@@ -101,5 +101,8 @@ namespace IMOD.Domain.EntitiesCustom
                 return (CredencialMotivoId == 2 && CredencialmotivoViaAdicionalID == null);
             }
         }
+        public string CredencialmotivoViaAdicionalDescricao{ get; set; } 
+        public string CredencialmotivoIdAnteriorDescricao { get; set; } 
+
     }
 }
