@@ -61,7 +61,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         private Boolean verificarcredencialAtiva = false; // Testa se é prara verificar a exectencia de credencial ativa para o colaborador.
         private int _count;
-        public int _viaAdicional;
+        public int? _viaAdicional;
         private List<CredencialMotivo> _credencialMotivo;
         private bool _coleteEnabled;
 
@@ -402,7 +402,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             //_credencialMotivo = new List<CredencialMotivo>(lst8.OrderBy(n => n.Descricao));
             _credencialMotivo.AddRange(lst8.OrderBy(n => n.Descricao));
 
-            var lst9 = _auxiliaresService.CredencialMotivoService.Listar(null, null, null,true);
+            var lst9 = _auxiliaresService.CredencialMotivoService.Listar(null, null, null, true);
             ColaboradorMotivoViaAdcional = new List<CredencialMotivo>();
             ColaboradorMotivoViaAdcional.AddRange(lst9.OrderBy(n => n.Descricao));
 
@@ -696,20 +696,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 n1.Identificacao2 = Entity.Identificacao2;
                 n1.Validade = Entity.Validade.Value.AddHours(23).AddMinutes(59).AddSeconds(59); //Sempre Add 23:59:59 horas à credencial nova.
                 n1.CredencialmotivoViaAdicionalID = Entity.CredencialmotivoViaAdicionalID;
-                try
-                {
-                    var ultimacredencial = _service.Listar(null, null, null, null, null, null, null, null, null, null, Entity.ColaboradorEmpresaId).OrderByDescending(c => c.ColaboradorCredencialId).First();
-                    n1.CredencialVia = ultimacredencial.CredencialVia;
-                    n1.CredencialmotivoIDanterior = ultimacredencial.CredencialMotivoId;
-
-                }
-                catch (Exception)
-                {
-
-                }
-
-               
-
+                n1.CredencialmotivoIDanterior = Entity.CredencialMotivoId;
+                
                 //_configuraSistema = ObterConfiguracao();
                 n1.Regras = _configuraSistema.Regras;
                 Entity.Regras = _configuraSistema.Regras;
@@ -892,15 +880,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                         //return;
                     }
                 }
-                try
-                {
-                    var ultimacredencial = _service.Listar(null, null, null, null, null, null, null, null, null, null, Entity.ColaboradorEmpresaId).OrderByDescending(c => c.ColaboradorCredencialId).First();
-                    n1.CredencialmotivoIDanterior = ultimacredencial.CredencialMotivoId;
-                }
-                catch (Exception)
-                {
-
-                }
+               
                 // _configuraSistema = ObterConfiguracao();
                 n1.Regras = _configuraSistema.Regras;
                 Entity.Regras = _configuraSistema.Regras;
@@ -1239,36 +1219,34 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 HabilitarVias = "Collapsed";
                 //if (!Habilitar) return;
                 if (Entity == null) return;
-                if (Entity.CredencialMotivoId == 2) // && Entity.CredencialStatusId ==1
+                if (Entity.CredencialMotivoId == 2) 
                 {
                     Entity.CredencialVia = null;
-                   var ultimacredencial = _service.Listar(null, null, null, null, null, null, null, null, null, null, Entity.ColaboradorEmpresaId).OrderByDescending(c => c.ColaboradorCredencialId).First();
+                    var listCeredenciais = _service.Listar(null, null, null, null, null, null, null, null, null, null, Entity.ColaboradorEmpresaId).OrderByDescending(c => c.ColaboradorCredencialId).ToList();
+                    var ultimacredencial = listCeredenciais.Where(c => c.ColaboradorCredencialId != Entity.ColaboradorCredencialId).FirstOrDefault();
 
-                    if (ultimacredencial == null || ultimacredencial.CredencialVia == null)
+                    if (ultimacredencial == null || ultimacredencial.CredencialVia == null || ultimacredencial.CredencialVia == 0)
                     {
                         Entity.CredencialVia = 2;
-                        HabilitarVias = "Visible";
                     }
                     else
-                    {              
-                        if (Comportamento.IsEnableCriar)      //Habilitar
-                        {
-                            Entity.CredencialVia = ultimacredencial.CredencialVia + 1;
-                            //Entity.CredencialVia = ultimacredencial.CredencialVia;
-                        }
-                        else
-                        {
-                            Entity.CredencialVia = ultimacredencial.CredencialVia;
-                        }
-                            
+                    {
+                        Entity.CredencialVia = ultimacredencial.CredencialVia + 1;
+                    }
 
-                        
-                        HabilitarVias = "Visible";
+                    HabilitarVias = "Visible";
+                }
+                else
+                {
+                    if (Constantes.Constantes.ATIVO.Equals(Entity.CredencialStatusId))
+                    {
+                        Entity.CredencialVia = null;
+                        Entity.CredencialmotivoViaAdicionalID = null;
                     }
                 }
-                _viaAdicional = Convert.ToInt32(Entity.CredencialVia);
+                _viaAdicional = Entity.CredencialVia;
                 CollectionViewSource.GetDefaultView(EntityObserver).Refresh();
-               
+
             }
             catch (Exception ex)
             {
@@ -1480,9 +1458,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <summary>
         ///     Pesquisar
         /// </summary>
-        public ICommand PesquisarCommand => new CommandBase(Motivacao_Select, true);
+        //public ICommand PesquisarCommand => new CommandBase(Motivacao_Select, true);
 
         public ICommand ImprimirCommand => new CommandBase(OnImprimirCredencial, true);
+
+
 
         #endregion
     }
