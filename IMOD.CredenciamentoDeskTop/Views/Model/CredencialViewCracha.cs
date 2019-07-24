@@ -47,5 +47,7 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public string AreasAcessos { get { return Identificacao1 + "  " + Identificacao2; } }
         public bool FlagAuditoria { get; set; }
         public int CredencialMotivoID { get; set; }
+        public int CredencialVia { get; set; }
+        public int CredencialmotivoViaAdicionalID { get; set; }
     }
 }

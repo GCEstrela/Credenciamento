@@ -1131,9 +1131,14 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var c1 = Mapper.Map<CredencialViewCracha>(credencialView);
                 c1.CrachaCursos = _cursosCracha;
 
-                if (c1.CredencialMotivoID != 2 & c1.CredencialMotivoID != 3)
+                //se o tipo for diferente de via adicional ou o motivo form "DANO" não exibe no crachá;
+                if (c1.CredencialMotivoID != 2 || c1.CredencialmotivoViaAdicionalID == 22)
                 {
                     c1.ImpressaoMotivo = "";
+                }
+                else
+                {
+                    c1.ImpressaoMotivo = c1.CredencialVia + "ª " + c1.ImpressaoMotivo;
                 }
                 c1.TelefoneEmergencia = "EMERGÊNCIA " + _configuraSistema.TelefoneEmergencia;
                 c1.EmpresaNome = c1.EmpresaNome + (!string.IsNullOrEmpty(c1.TerceirizadaNome?.Trim()) ? " / " + c1.TerceirizadaNome?.Trim() : string.Empty);

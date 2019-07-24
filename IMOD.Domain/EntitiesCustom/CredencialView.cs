@@ -41,6 +41,9 @@ namespace IMOD.Domain.EntitiesCustom
         public bool FlagCcam { get; set; }
         public bool FlagAuditoria { get; set; }
         public int CredencialMotivoID { get; set; }
+         public int CredencialVia { get; set; }
+        public int CredencialmotivoViaAdicionalID { get; set; }
+
 
     }
 }
