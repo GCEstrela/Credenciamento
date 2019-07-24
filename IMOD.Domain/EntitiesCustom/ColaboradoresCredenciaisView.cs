@@ -89,20 +89,20 @@ namespace IMOD.Domain.EntitiesCustom
         public bool DevolucaoEntregaBo { get; set; }
         public bool Regras { get; set; }
         public string GrupoPadrao { get; set; }
-        public int? CredencialVia { get; set; }
-        [RequiredIf("MotivoObrigatorio", false, ErrorMessage = "Informe o motivo da Via Adicional.")]
+        public int? CredencialVia { get; set; }        
+        [RequiredIf("MotivoObrigatorio", true, ErrorMessage = "Informe o motivo da Via Adicional.")]
         public int? CredencialmotivoViaAdicionalID { get; set; }
-        public int? CredencialmotivoIDanterior { get; set; }
+        public int? CredencialmotivoIDanterior { get; set; }       
+        public string CredencialmotivoViaAdicionalDescricao{ get; set; } 
+        public string CredencialmotivoIdAnteriorDescricao { get; set; }
 
-        private bool MotivoObrigatorio
+        public bool MotivoObrigatorio
         {
             get
             {
                 return (CredencialMotivoId == 2 && CredencialmotivoViaAdicionalID == null);
             }
         }
-        public string CredencialmotivoViaAdicionalDescricao{ get; set; } 
-        public string CredencialmotivoIdAnteriorDescricao { get; set; } 
 
     }
 }
