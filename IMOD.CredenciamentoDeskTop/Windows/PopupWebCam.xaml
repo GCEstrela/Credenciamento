@@ -49,7 +49,7 @@
                             <GradientStop Color="#FF646464" Offset="1"/>
                         </RadialGradientBrush>
                     </Border.BorderBrush>
-                    <Image x:Name="imgVideo" Stretch="Fill"   />
+                    <Image x:Name="imgVideo" Stretch="Fill" Width="190" Height="224"   />
                 </Border>
                 <Border  Grid.Column="3" Grid.Row="1" BorderThickness="1" CornerRadius="3" Height="320" Width="240" Margin="10">
                     <Border.BorderBrush>
@@ -58,7 +58,7 @@
                             <GradientStop Color="#FF646464" Offset="1"/>
                         </RadialGradientBrush>
                     </Border.BorderBrush>
-                    <Image x:Name="imgCapture" Stretch="Fill" />
+                    <Image x:Name="imgCapture" Stretch="Fill" Width="190" Height="224"/>
                 </Border>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="47,0,44,0">
