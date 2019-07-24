@@ -934,11 +934,22 @@ namespace IMOD.Infra.Repositorios
                             cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Impressa", DbType.Boolean, entity.Impressa).Igual()));
                         }
                         //Busca faixa de data
-                        if (entity.Validade != null || entity.ValidadeFim != null)
+                        if (entity.Validade != null && entity.ValidadeFim != null)
                         {
                             cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Validade", DbType.DateTime, entity.Validade).MaiorIgual()));
                             cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("ValidadeFim", DbType.DateTime, entity.ValidadeFim).MenorIgual()));
+                        } else
+                        {
+                            if (entity.Validade != null)
+                            {
+                                cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Validade", DbType.DateTime, entity.Validade).MaiorIgual()));
+                            }
+                            if (entity.ValidadeFim != null)
+                            {
+                                cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("ValidadeFim", DbType.DateTime, entity.ValidadeFim).MaiorIgual()));
+                            }
                         }
+
                         if (!entity.Impeditivo && !entity.flaTodasDevolucaoEntregaBO)
                         {
                             cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("DevolucaoEntregaBO", DbType.Boolean, entity.DevolucaoEntregaBo).Igual()));
