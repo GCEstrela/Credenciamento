@@ -647,6 +647,10 @@ namespace IMOD.Infra.Repositorios
                         {
                             cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("TipoCredencialId", DbType.Int32, entity.TipoCredencialId).Igual()));
                         }
+                        if (entity != null && entity.CredencialStatusId > 0) 
+                        {
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("CredencialStatusId", DbType.Int32, entity.CredencialStatusId).Igual()));
+                        }
 
                         //Busca por faixa de data
                         if (entity.Emissao != null || entity.EmissaoFim != null)
