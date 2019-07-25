@@ -98,7 +98,11 @@ namespace iModSCCredenciamento.Windows
             //resizedImage.Render(drawingVisual);
             //imgCapture.Source = (BitmapSource)resizedImage;
             ////WpfHelp.SaveImageCapture(HandleImageUpload(ImageSourceToBytes(encoder, (BitmapSource)imgVideo.Source)));
+
             BitmapFrame croppedBitmapFrame = CroppingAdorner.GetCroppedBitmapFrame();
+            imgCapture.Width = croppedBitmapFrame.Width;
+            imgCapture.Height  = croppedBitmapFrame.Height;
+
             imgCapture.Source = (BitmapSource)croppedBitmapFrame;
         }
 

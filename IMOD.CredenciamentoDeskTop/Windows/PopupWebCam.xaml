@@ -57,7 +57,7 @@
                                 <Border.BorderBrush>
                                     <RadialGradientBrush>
                                         <GradientStop Color="Black" Offset="0.047"/>
-                                        <GradientStop Color="#FF646464" Offset="1"/>
+                                        <GradientStop Offset="1"/>
                                     </RadialGradientBrush>
                                 </Border.BorderBrush>
                                 <Image x:Name = "imgVideo"
@@ -74,7 +74,7 @@
                             <GradientStop Color="#FF646464" Offset="1"/>
                         </RadialGradientBrush>
                     </Border.BorderBrush>
-                    <Image x:Name="imgCapture" Stretch="Fill" Width="190" Height="224"/>
+                    <Image x:Name="imgCapture"/>
                     
                 </Border>
             </StackPanel>
