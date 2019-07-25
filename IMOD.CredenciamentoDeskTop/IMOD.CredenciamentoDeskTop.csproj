@@ -1039,6 +1039,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Dlls\CroppingImageLibrary.dll" />
     <Content Include="Dlls\PropertyChanged.dll" />
     <Content Include="FodyWeavers.xml" />
     <Content Include="Resources\vermelho_02.jpg" />

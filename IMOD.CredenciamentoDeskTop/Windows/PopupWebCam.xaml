@@ -56,7 +56,7 @@
                             <Border Height="{Binding ElementName=CanvasPanel, Path=ActualHeight}" Width="{Binding ElementName=CanvasPanel, Path=ActualWidth}">
                                 <Border.BorderBrush>
                                     <RadialGradientBrush>
-                                        <GradientStop Color="Black" Offset="0.047"/>
+                                        <GradientStop Offset="0.047"/>
                                         <GradientStop Offset="1"/>
                                     </RadialGradientBrush>
                                 </Border.BorderBrush>
