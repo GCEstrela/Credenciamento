@@ -52,16 +52,15 @@
                     <!--<Image x:Name="imgVideo" Stretch="Fill" Width="190" Height="224"   />-->
                     <Grid x:Name="RootGrid" MouseLeftButtonDown="RootGrid_OnMouseLeftButtonDown">
                         <Canvas x:Name="CanvasPanel"
-                    Grid.Column="1">
+                    Grid.Column="1" >
                             <Border Height="{Binding ElementName=CanvasPanel, Path=ActualHeight}" Width="{Binding ElementName=CanvasPanel, Path=ActualWidth}">
                                 <Border.BorderBrush>
-                                    <RadialGradientBrush>
+                                    <RadialGradientBrush> 
                                         <GradientStop Offset="0.047"/>
                                         <GradientStop Offset="1"/>
                                     </RadialGradientBrush>
                                 </Border.BorderBrush>
-                                <Image x:Name = "imgVideo"
-                           Stretch="Fill"/>
+                                <Image x:Name = "imgVideo" Width="192"   Height="224"        Stretch="UniformToFill"/>
                             </Border>
 
                         </Canvas>

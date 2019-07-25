@@ -373,9 +373,9 @@
 
                             </StackPanel>
                             <StackPanel VerticalAlignment="Top" Margin="50,6,20,0" Height="149" Width="101">
-                                <Border CornerRadius="3" BorderThickness="1" Width="100" Height="100"
+                                <Border CornerRadius="3" BorderThickness="1" Width="85" Height="100"
                                         HorizontalAlignment="Left" BorderBrush="#FF686868">
-                                    <Image x:Name="Logo_im" Stretch="Fill"
+                                    <Image x:Name="Logo_im"
                                            Source="{Binding Entity.Foto, Converter={StaticResource ImageConverter}, Mode=TwoWay, UpdateSourceTrigger=Explicit}"
                                            Margin="3" >
                                         <Image.ToolTip>

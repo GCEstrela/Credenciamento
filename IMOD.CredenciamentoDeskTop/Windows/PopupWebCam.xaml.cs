@@ -60,6 +60,8 @@ namespace iModSCCredenciamento.Windows
 
             AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(CanvasPanel);
             CroppingAdorner = new CroppingAdorner(CanvasPanel);
+            //CroppingAdorner.Width = 194;
+            //CroppingAdorner.Height = 224;
             adornerLayer.Add(CroppingAdorner);
         }
 
@@ -117,7 +119,9 @@ namespace iModSCCredenciamento.Windows
         private void RootGrid_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             CroppingAdorner.CaptureMouse();
+            
             CroppingAdorner.MouseLeftButtonDownEventHandler(sender, e);
         }
+
     }
 }
