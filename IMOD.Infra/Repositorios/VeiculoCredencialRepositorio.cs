@@ -901,10 +901,22 @@ namespace IMOD.Infra.Repositorios
                         {
                             cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("CredencialStatusId", DbType.Int32, entity.CredencialStatusId).Igual()));
                         }
-                        if (entity.Validade != null || entity.ValidadeFim != null)
+                        //Busca faixa de data
+                        if (entity.Validade != null && entity.ValidadeFim != null)
                         {
                             cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Validade", DbType.DateTime, entity.Validade).MaiorIgual()));
                             cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("ValidadeFim", DbType.DateTime, entity.ValidadeFim).MenorIgual()));
+                        }
+                        else 
+                        {
+                            if (entity.Validade != null)
+                            {
+                                cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Validade", DbType.DateTime, entity.Validade).MaiorIgual()));
+                            }
+                            if (entity.ValidadeFim != null)
+                            {
+                                cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("ValidadeFim", DbType.DateTime, entity.ValidadeFim).MaiorIgual()));
+                            }
                         }
                         if (entity.Impressa != null && entity.Impressa)
                         {
