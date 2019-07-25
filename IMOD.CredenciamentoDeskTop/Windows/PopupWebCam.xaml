@@ -49,7 +49,23 @@
                             <GradientStop Color="#FF646464" Offset="1"/>
                         </RadialGradientBrush>
                     </Border.BorderBrush>
-                    <Image x:Name="imgVideo" Stretch="Fill" Width="190" Height="224"   />
+                    <!--<Image x:Name="imgVideo" Stretch="Fill" Width="190" Height="224"   />-->
+                    <Grid x:Name="RootGrid" MouseLeftButtonDown="RootGrid_OnMouseLeftButtonDown">
+                        <Canvas x:Name="CanvasPanel"
+                    Grid.Column="1">
+                            <Border Height="{Binding ElementName=CanvasPanel, Path=ActualHeight}" Width="{Binding ElementName=CanvasPanel, Path=ActualWidth}">
+                                <Border.BorderBrush>
+                                    <RadialGradientBrush>
+                                        <GradientStop Color="Black" Offset="0.047"/>
+                                        <GradientStop Color="#FF646464" Offset="1"/>
+                                    </RadialGradientBrush>
+                                </Border.BorderBrush>
+                                <Image x:Name = "imgVideo"
+                           Stretch="Fill"/>
+                            </Border>
+
+                        </Canvas>
+                    </Grid>
                 </Border>
                 <Border  Grid.Column="3" Grid.Row="1" BorderThickness="1" CornerRadius="3" Height="320" Width="240" Margin="10">
                     <Border.BorderBrush>
@@ -59,6 +75,7 @@
                         </RadialGradientBrush>
                     </Border.BorderBrush>
                     <Image x:Name="imgCapture" Stretch="Fill" Width="190" Height="224"/>
+                    
                 </Border>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="47,0,44,0">

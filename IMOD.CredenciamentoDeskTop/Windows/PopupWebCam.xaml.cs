@@ -19,7 +19,7 @@ using System.IO;
 using System.Drawing.Imaging;
 using System.Drawing.Drawing2D;
 using AForge.Imaging.Filters;
-
+using CroppingImageLibrary;
 namespace iModSCCredenciamento.Windows
 {
     /// <summary>
@@ -27,6 +27,8 @@ namespace iModSCCredenciamento.Windows
     /// </summary>
     public partial class PopupWebCam : Window
     {
+        public CroppingAdorner CroppingAdorner;
+       
 
         public bool aceitarImg = true;
         private readonly ColaboradorViewModel _viewModel;
@@ -55,6 +57,10 @@ namespace iModSCCredenciamento.Windows
             webcam.InitializeWebCam(ref imgVideo);
 
             webcam.Start();
+
+            AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(CanvasPanel);
+            CroppingAdorner = new CroppingAdorner(CanvasPanel);
+            adornerLayer.Add(CroppingAdorner);
         }
 
         private void Label_Unloaded(object sender, RoutedEventArgs e)
@@ -71,36 +77,43 @@ namespace iModSCCredenciamento.Windows
 
         private void Capturar_bt_Click(object sender, RoutedEventArgs e)
         {
-            var encoder = new JpegBitmapEncoder();
+            //var encoder = new JpegBitmapEncoder();
 
-            //imgCapture.Source = (BitmapSource)imgVideo.Source;
+            ////imgCapture.Source = (BitmapSource)imgVideo.Source;
 
-            Rect rect = new Rect(0, 0, 190, 224);
+            //Rect rect = new Rect(0, 0, 190, 224);
 
-            // Create a DrawingVisual/Context to render with
-            DrawingVisual drawingVisual = new DrawingVisual();
-            using (DrawingContext drawingContext = drawingVisual.RenderOpen())
-            {
-                drawingContext.DrawImage(imgVideo.Source, rect);
-            }
+            //// Create a DrawingVisual/Context to render with
+            //DrawingVisual drawingVisual = new DrawingVisual();
+            //using (DrawingContext drawingContext = drawingVisual.RenderOpen())
+            //{
+            //    drawingContext.DrawImage(imgVideo.Source, rect);
+            //}
 
-            // Use RenderTargetBitmap to resize the original image
-            RenderTargetBitmap resizedImage = new RenderTargetBitmap(
-                (int)rect.Width, (int)rect.Height,  // Resized dimensions
-                96, 96,                             // Default DPI values
-                PixelFormats.Default);              // Default pixel format
-            resizedImage.Render(drawingVisual);
-            imgCapture.Source = (BitmapSource)resizedImage;
-            //WpfHelp.SaveImageCapture(HandleImageUpload(ImageSourceToBytes(encoder, (BitmapSource)imgVideo.Source)));
+            //// Use RenderTargetBitmap to resize the original image
+            //RenderTargetBitmap resizedImage = new RenderTargetBitmap(
+            //    (int)rect.Width, (int)rect.Height,  // Resized dimensions
+            //    96, 96,                             // Default DPI values
+            //    PixelFormats.Default);              // Default pixel format
+            //resizedImage.Render(drawingVisual);
+            //imgCapture.Source = (BitmapSource)resizedImage;
+            ////WpfHelp.SaveImageCapture(HandleImageUpload(ImageSourceToBytes(encoder, (BitmapSource)imgVideo.Source)));
+            BitmapFrame croppedBitmapFrame = CroppingAdorner.GetCroppedBitmapFrame();
+            imgCapture.Source = (BitmapSource)croppedBitmapFrame;
         }
 
         private void Aceitar_bt_Click(object sender, RoutedEventArgs e)
         {
-            
 
+            
             //WpfHelp.SaveImageCapture((BitmapSource)resizedImage);
             this.Close();
         }
-        
+
+        private void RootGrid_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            CroppingAdorner.CaptureMouse();
+            CroppingAdorner.MouseLeftButtonDownEventHandler(sender, e);
+        }
     }
 }
