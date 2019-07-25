@@ -151,15 +151,35 @@ namespace IMOD.Infra.Servicos
         {
             try
             {
-                entityCardholder.SetCustomFieldAsync("CPF", entity.Cpf);
-                entityCardholder.SetCustomFieldAsync("CNPJ", entity.Cnpj);
-                entityCardholder.SetCustomFieldAsync("Cargo", entity.Cargo);
-                entityCardholder.SetCustomFieldAsync("Empresa", entity.Empresa);
-                entityCardholder.SetCustomFieldAsync("Matricula", entity.Matricula);
-                entityCardholder.SetCustomFieldAsync("Identificador", entity.Matricula);
+
+                if (EncontrarCustonField("CPF"))
+                {
+                    entityCardholder.SetCustomFieldAsync("CPF", entity.Cpf);
+                }
+                if (EncontrarCustonField("CNPJ"))
+                {
+                    entityCardholder.SetCustomFieldAsync("CNPJ", entity.Cnpj);
+                }
+                if (EncontrarCustonField("Cargo"))
+                {
+                    entityCardholder.SetCustomFieldAsync("Cargo", entity.Cargo);
+                }
+                if (EncontrarCustonField("Empresa"))
+                {
+                    entityCardholder.SetCustomFieldAsync("Empresa", entity.Empresa);
+                }
+                if (EncontrarCustonField("Matricula"))
+                {
+                    entityCardholder.SetCustomFieldAsync("Matricula", entity.Matricula);
+                }
+                if (EncontrarCustonField("Identificador"))
+                {
+                    entityCardholder.SetCustomFieldAsync("Identificador", entity.Matricula);
+                }
 
                 entityCardholder.FirstName = entity.Nome;
                 entityCardholder.LastName = entity.Apelido;
+                entityCardholder.Picture = entity.Foto;
                 entityCardholder.Description = entity.Empresa + " - " + entity.Cpf;
                 //Uma data de validade deve ser mairo que a data corrente 
                 var compareData = DateTime.Compare(DateTime.Now, entity.Validade);
@@ -180,7 +200,7 @@ namespace IMOD.Infra.Servicos
                     entityCardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, DateTime.Now.AddHours(23).AddMinutes(59).AddSeconds(59));
                 }
                 //entityCardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade);
-                entityCardholder.Picture = entity.Foto;
+                
             }
             catch (Exception ex)
             {
@@ -410,7 +430,7 @@ namespace IMOD.Infra.Servicos
                     entity.IdentificadorCardHolderGuid = cardHolder.Guid.ToString(); //Set identificador Guid
 
                     SetValorCamposCustomizados(entity, cardHolder);
-
+                   
                     //EncontrarGrupos(entity.GrupoPadrao);
                     if (entity.GrupoPadrao != null)
                     {
@@ -427,13 +447,8 @@ namespace IMOD.Infra.Servicos
                         }
 
                     }
-                        
 
-                    //var cardHolderGroup = _sdk.GetEntity(EntityType.CardholderGroup, 1) as CardholderGroup;
-
-                    //if (cardHolderGroup == null) throw new InvalidOperationException ("Não foi possível gerar grupo de credencial");
-                   
-                    //cardHolder.Synchronised = false;
+                    cardHolder.Picture = entity.Foto;
                     cardHolder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade);
 
                     _sdk.TransactionManager.CommitTransaction();
@@ -997,6 +1012,25 @@ namespace IMOD.Infra.Servicos
                 }
             }
             return null;
+        }
+        /// <summary>
+        ///     Verifica a existencia do CustonField 
+        ///     Se existir insere o valor no campo.
+        /// </summary>
+        public Boolean EncontrarCustonField(string descricao)
+        {
+            var sysConfig = _sdk.GetEntity(SdkGuids.SystemConfiguration) as SystemConfiguration;
+            if (sysConfig != null)
+            {
+                foreach (var campos in sysConfig.CustomFields)
+                {
+                    if (campos.Name == descricao)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
         #endregion
     }
