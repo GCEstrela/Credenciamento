@@ -91,11 +91,11 @@
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" 
                                 IsEnabled="{Binding Comportamento.isEnableCancelar}"
-                                    Width="733" Height="28"> 
+                                    Width="740" Height="28">
                         <Label Content="Vínculo Ativo:" Height="28" Width="143" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                         <CheckBox VerticalAlignment="Center" x:Name="chkAtivo"  Foreground="#FFD0D0D0" 
                                   IsEnabled="{Binding Comportamento.isEnableCancelar}" 
-                                  IsChecked="{Binding Entity.Ativo, UpdateSourceTrigger=PropertyChanged}"/> 
+                                  IsChecked="{Binding Entity.Ativo, UpdateSourceTrigger=PropertyChanged}"/>
 
                         <Label Content="Autorização Dirigir:" Height="28" Width="143" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                         <CheckBox VerticalAlignment="Center" x:Name="chkMotorista"  Foreground="#FFD0D0D0" 
@@ -103,16 +103,22 @@
                                   IsChecked="{Binding Entity.Motorista, UpdateSourceTrigger=PropertyChanged}"/>
                         <Label Content=" Manuseio de Bagagem:" Height="26" Width="145"  VerticalAlignment="Center" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                         <CheckBox VerticalAlignment="Center" x:Name="chkManuseioBagagem"  Foreground="#FFD0D0D0" IsChecked="{Binding Entity.ManuseioBagagem, UpdateSourceTrigger=PropertyChanged}"/>
-                        <Label Content="Data de Validade:" Height="24" Width="155" Margin="5,3,0,0"
+                        <Label Content="Inicio:" Height="24" Width="42" Margin="20,0,0,0"
                                Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
                         <TextBox
-                            Name="txtDtValidade"
-                            Text="{Binding Entity.Validade, StringFormat='{}{0:dd/MM/yyyy}'}"
-                            LostFocus="OnFormatData_LostFocus"
+                            Name="txtDtInicio"
+                            Text="{Binding Entity.DataInicio, StringFormat='{}{0:dd/MM/yyyy}'}"                            
                             PreviewTextInput="NumberOnly"
-                            MaxLength="10"
-                            Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
-                            Height="24"  Width="100" />
+                            MaxLength="10"                            
+                            Height="24"  Width="80" LostFocus="TxtDtInicio_LostFocus" />
+                        <Label Content="Fim:" Height="24" Width="30" Margin="0,2"
+                               Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
+                        <TextBox
+                            Name="txtDtFim"
+                            Text="{Binding Entity.DataFim, StringFormat='{}{0:dd/MM/yyyy}'}"                           
+                            PreviewTextInput="NumberOnly"
+                            MaxLength="10"                            
+                            Height="24"  Width="84" Margin="0,2" LostFocus="TxtDtFim_LostFocus" />
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
@@ -124,6 +130,16 @@
                         <CheckBox VerticalAlignment="Center" x:Name="chkOperadorPonte"  Foreground="#FFD0D0D0" IsChecked="{Binding Entity.OperadorPonteEmbarque, UpdateSourceTrigger=PropertyChanged}"/>
                         <Label Content="Pode ser Auditado:" Height="26" Width="145"  VerticalAlignment="Center" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                         <CheckBox VerticalAlignment="Center" x:Name="chkAuditado"  Foreground="#FFD0D0D0" IsChecked="{Binding Entity.FlagAuditoria, UpdateSourceTrigger=PropertyChanged}"/>
+                        <Label Content="Data de Validade:" Height="24" Width="151" Margin="5,4,0,0"
+                               Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
+                        <TextBox
+                            Name="txtDtValidade"
+                            Text="{Binding Entity.Validade, StringFormat='{}{0:dd/MM/yyyy}'}"
+                            LostFocus="OnFormatData_LostFocus"
+                            PreviewTextInput="NumberOnly"
+                            MaxLength="10"
+                            Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
+                            Height="24"  Width="100" />
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"

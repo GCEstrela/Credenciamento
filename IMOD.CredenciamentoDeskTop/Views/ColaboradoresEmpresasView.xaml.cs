@@ -128,5 +128,34 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         #endregion
 
+        private void TxtDtInicio_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (_viewModel.Entity == null) return;
+            try
+            {
+                var str = txtDtInicio.Text;
+                if (string.IsNullOrWhiteSpace(str)) return;
+                txtDtInicio.Text = str.FormatarData();
+            }
+            catch (Exception)
+            {
+                _viewModel.Entity.SetMessageErro("Data Inicio", "Data inválida");
+            }
+        }
+
+        private void TxtDtFim_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (_viewModel.Entity == null) return;
+            try
+            {
+                var str = txtDtFim.Text;
+                if (string.IsNullOrWhiteSpace(str)) return;
+                txtDtFim.Text = str.FormatarData();
+            }
+            catch (Exception)
+            {
+                _viewModel.Entity.SetMessageErro("Data Fim", "Data inválida");
+            }
+        }
     }
 }
