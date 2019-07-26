@@ -407,6 +407,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             //Obter dados
             var list1 = _service.Listar(entity.ColaboradorId);
             var list2 = Mapper.Map<List<ColaboradorEmpresaView>>(list1.OrderByDescending(n => n.ColaboradorEmpresaId));
+            
             EntityObserver = new ObservableCollection<ColaboradorEmpresaView>();
             list2.ForEach(n => { EntityObserver.Add(n); });
             ListarDadosEmpresaContratos();
