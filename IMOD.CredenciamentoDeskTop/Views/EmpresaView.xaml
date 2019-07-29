@@ -78,11 +78,12 @@
 
         <StackPanel Orientation="Horizontal" Margin="0,5">
             <Label Content="Pesquisar:" Height="28" Width="65" Foreground="#FFD0D0D0" Margin="1,0,0,0" />
-            <ComboBox Width="150" IsEnabled="{Binding  Comportamento.IsEnableCriar}"
+            <ComboBox x:Name="pesquisa_cb" Width="150" IsEnabled="{Binding  Comportamento.IsEnableCriar}"
                       ItemsSource="{Binding ListaPesquisa }"
                       DisplayMemberPath="Value"
                       SelectedValue="Key"
-                      SelectedItem="{Binding PesquisarPor}" VerticalContentAlignment="Center" />
+                      SelectedItem="{Binding PesquisarPor}" VerticalContentAlignment="Center" SelectionChanged="Pesquisa_cb_SelectionChanged"
+                       />
             <TextBox Name="txtPesquisa" Width="200" Margin="10,0,0,0"
                      IsEnabled="{Binding  Comportamento.IsEnableCriar}"
                      Text="{Binding NomePesquisa, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
@@ -102,7 +103,7 @@
                       Margin="0,0,5,0" Width="1258" PreviewKeyDown="LstView_PreviewKeyDown">
                 <ListView.View>
                     <GridView FrameworkElement.FlowDirection="RightToLeft">
-                        <GridViewColumn Header="Vencimento" Width="75">
+                        <GridViewColumn Header="Alerta Vencto" Width="75">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <Image ToolTip="{Binding PraVencerTooltip}" Source="{Binding PraVencer, Converter={StaticResource ConvertIntToImage}, Mode=TwoWay}" Width="60"  Height="16" HorizontalAlignment="Center"  Margin="0,0,0,0"/>
@@ -363,7 +364,7 @@
                                         Margin="1">
                                 <Label Content="E-Mail Principal:" Height="28" Width="110" Margin="1"
                                        Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
-                                <TextBox CharacterCasing="Lower" x:Name="Email1_tb" Margin="1" MaxLength="50"
+                                <TextBox CharacterCasing="Lower" x:Name="Email1_tb" Margin="1" MaxLength="250"
                                          Text="{Binding Entity.Email1, UpdateSourceTrigger=PropertyChanged}"
                                          IsEnabled="True" Height="24" Width="250" 
                                            />
@@ -381,7 +382,7 @@
                                         Margin="1,1,0,1" Width="532">
                                 <Label Content="E-Mail Secundário:" Height="28" Width="110" Margin="1"
                                        Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
-                                <TextBox CharacterCasing="Lower" x:Name="Email2_tb" MaxLength="50"
+                                <TextBox CharacterCasing="Lower" x:Name="Email2_tb" MaxLength="250"
                                          Text="{Binding Entity.Email2, UpdateSourceTrigger=PropertyChanged}"
                                          IsEnabled="True" Height="24" Width="250" />
                                 <Label Content="Celular 2:" Height="28" Width="68" Margin="1" Foreground="#FFD0D0D0"

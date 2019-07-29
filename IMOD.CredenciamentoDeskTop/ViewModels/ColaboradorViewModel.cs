@@ -307,7 +307,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         }
         
 
-        private void Pesquisar()
+        public void Pesquisar()
         {
             try
             {

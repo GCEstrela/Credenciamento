@@ -1042,6 +1042,7 @@
     <Content Include="Dlls\CroppingImageLibrary.dll" />
     <Content Include="Dlls\PropertyChanged.dll" />
     <Content Include="FodyWeavers.xml" />
+    <Resource Include="Resources\laranja_alerta.png" />
     <Content Include="Resources\vermelho_02.jpg" />
     <Resource Include="Resources\yellow_alerta.png" />
     <Resource Include="Resources\vermelho.png" />

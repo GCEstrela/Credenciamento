@@ -503,7 +503,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         #region Salva Dados
 
-        private void Pesquisar()
+        public void Pesquisar()
         {
             try
             { 
