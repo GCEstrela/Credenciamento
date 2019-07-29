@@ -102,7 +102,7 @@
                       Margin="0,0,5,0" Width="1258" PreviewKeyDown="LstView_PreviewKeyDown">
                 <ListView.View>
                     <GridView FrameworkElement.FlowDirection="RightToLeft">
-                        <GridViewColumn Header="Vencimento" Width="75">
+                        <GridViewColumn Header="Alerta Vencto" Width="75">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <Image ToolTip="{Binding PraVencerTooltip}" Source="{Binding PraVencer, Converter={StaticResource ConvertIntToImage}, Mode=TwoWay}" Width="60"  Height="16" HorizontalAlignment="Center"  Margin="0,0,0,0"/>
