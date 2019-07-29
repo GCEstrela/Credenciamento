@@ -1013,10 +1013,13 @@ namespace IMOD.Infra.Servicos
             }
             return null;
         }
+
         /// <summary>
         ///     Verifica a existencia do CustonField 
         ///     Se existir insere o valor no campo.
         /// </summary>
+
+        [Obsolete]
         public Boolean EncontrarCustonField(string descricao)
         {
             var sysConfig = _sdk.GetEntity(SdkGuids.SystemConfiguration) as SystemConfiguration;
@@ -1030,7 +1033,7 @@ namespace IMOD.Infra.Servicos
                     }
                 }
             }
-            return false;
+            return false;    
         }
         #endregion
     }

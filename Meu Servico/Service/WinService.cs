@@ -554,9 +554,14 @@ namespace Meu_Servico.Service
             if (emailDestino == null || emailDestino == "") return;
 
             MailMessage mail = new MailMessage();
-
             mail.From = new MailAddress(emailOrigem);
-            mail.To.Add(emailDestino); // para
+
+            var variosEmail = emailDestino.Split(';');
+            foreach (string element in variosEmail)
+            {
+                mail.To.Add(element);
+            }
+            //mail.To.Add(emailDestino); // para
             //mail.To.Add(emailDestino); // para
             mail.Subject = "Inativação de Contrato(s)"; // assunto 
             mail.Body = msg; // mensagem
