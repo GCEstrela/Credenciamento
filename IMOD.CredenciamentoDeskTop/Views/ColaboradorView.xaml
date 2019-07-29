@@ -180,11 +180,11 @@
 
         <StackPanel Orientation="Horizontal" Margin="0,5,-249,5">
             <Label Content="Pesquisar:" Height="28" Width="65" Foreground="#FFD0D0D0" Margin="1,0,0,0" />
-            <ComboBox Width="150" IsEnabled="{Binding Comportamento.IsEnableCriar}"
+            <ComboBox x:Name="pesquisa_cb" Width="150" IsEnabled="{Binding Comportamento.IsEnableCriar}"
                       ItemsSource="{Binding ListaPesquisa }"
                       DisplayMemberPath="Value"
                       SelectedValue="Key"
-                      SelectedItem="{Binding PesquisarPor}" VerticalContentAlignment="Center" />
+                      SelectedItem="{Binding PesquisarPor}" VerticalContentAlignment="Center" SelectionChanged="Pesquisa_cb_SelectionChanged" />
             <TextBox Name="txtPesquisa" Width="200" Margin="10,0,0,0" IsEnabled="{Binding Comportamento.IsEnableCriar}"
                      Text="{Binding NomePesquisa, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                 <TextBox.InputBindings>
