@@ -255,5 +255,22 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 _viewModel.Entity.SetMessageErro("Data-Vistoria", "Data inválida");
             }
         }
+
+        private void Pesquisa_cb_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                txtPesquisa.Focus();
+                var num = _viewModel.PesquisarPor;
+                if (num.Key == 5)
+                {
+                    _viewModel.Pesquisar();
+                }
+            }
+            catch (Exception)
+            {
+                // throw;
+            }
+        }
     }
 }
