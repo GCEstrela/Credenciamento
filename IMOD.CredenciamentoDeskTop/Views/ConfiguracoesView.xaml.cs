@@ -26,6 +26,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
             InitializeComponent();
             _viewModel = new ConfiguracoesViewModel();
             DataContext = _viewModel;
+           
         }
         #endregion
 
@@ -630,6 +631,10 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
             btnAdicionarTipoAtividade.IsEnabled = true;
             btnSalvarTipoAtividade.IsEnabled = false;
+            if (Senha_tb.Password.Length > 0)
+            {
+                _viewModel.Entity.EmailSenha = this.Senha_tb.Password;
+            }
             ((ConfiguracoesViewModel)DataContext).OnSalvarEdicaoCommand_ConfiguracoesSistema();
 
             System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
