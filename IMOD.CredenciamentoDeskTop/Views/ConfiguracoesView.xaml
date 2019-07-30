@@ -1115,10 +1115,14 @@
                                          Text="{Binding Entity.EmailUsuario, UpdateSourceTrigger=PropertyChanged}"/>
 
                                         <Label Content="E-Mail Senha:" Height="28" Width="82" Margin="1" Foreground="#FFD0D0D0"                                        HorizontalContentAlignment="Right" />
-                                        <TextBox Foreground="#FFD0D0D0"  CharacterCasing="Upper" x:Name="Senha_tb" MaxLength="30"                                         
+                                        <!--<TextBox Foreground="#FFD0D0D0"  CharacterCasing="Upper" x:Name="Senha_tb" MaxLength="30"                                         
                                          Margin="1" Height="24" Width="180"
                                          HorizontalContentAlignment="Center" 
-                                         Text="{Binding Entity.EmailSenha, UpdateSourceTrigger=PropertyChanged}"/>
+                                         Text="{Binding Entity.EmailSenha, UpdateSourceTrigger=PropertyChanged}"/>-->
+                                        <PasswordBox Foreground="#FFD0D0D0"  x:Name="Senha_tb" MaxLength="30"                                         
+                                         Margin="1" Height="24" Width="180"
+                                         HorizontalContentAlignment="Center" 
+                                         PasswordChar="{Binding Path=Entity.EmailSenha, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
