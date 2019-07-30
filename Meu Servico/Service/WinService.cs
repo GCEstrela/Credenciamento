@@ -71,17 +71,10 @@ namespace Meu_Servico.Service
             //_sdk.EventReceived += _sdk_EventReceived;
             //_sdk.EntityInvalidated += _sdk_EntityInvalidated;
 
-            this.timer = new System.Timers.Timer(40000D);  // 40000 milliseconds = 40 seconds
-            this.timer.AutoReset = true;
-            this.timer.Elapsed += new System.Timers.ElapsedEventHandler(this.timer_Elapsed);
-            this.timer.Start();
-
-            return true;
-
-        }
-        private void timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
-        {
-
+            //this.timer = new System.Timers.Timer(40000D);  // 40000 milliseconds = 40 seconds
+            //this.timer.AutoReset = true;
+            //this.timer.Elapsed += new System.Timers.ElapsedEventHandler(this.timer_Elapsed);
+            //this.timer.Start();
             Genetec.Sdk.Engine _sdk = new Genetec.Sdk.Engine();
             Logon_SC_th(_sdk);
             //_sdk.LoggedOn += _sdk_LoggedOn;
@@ -92,7 +85,27 @@ namespace Meu_Servico.Service
 
             _serviceGenetec = new CredencialGenetecService(_sdk);
             MetodoRealizaFuncao(true, _sdk);
+            Environment.Exit(1);
+            return true;
 
+        }
+        private void timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+
+            //Genetec.Sdk.Engine _sdk = new Genetec.Sdk.Engine();
+            //Logon_SC_th(_sdk);
+            ////_sdk.LoggedOn += _sdk_LoggedOn;
+            ////_sdk.LoggedOff += _sdk_LoggedOff;
+            ////_sdk.LogonFailed += _sdk_LogonFailed;
+            ////_sdk.EventReceived += _sdk_EventReceived;
+            ////_sdk.EntityInvalidated += _sdk_EntityInvalidated;
+
+            //_serviceGenetec = new CredencialGenetecService(_sdk);
+            //MetodoRealizaFuncao(true, _sdk);
+
+           
+
+            //this.timer.Stop();
         }
         private void Logon_SC_th(Genetec.Sdk.Engine _sdk)
         {
@@ -498,6 +511,7 @@ namespace Meu_Servico.Service
                 }
                 
                 Cursor.Current = Cursors.IBeam;
+                
             }
             catch (Exception ex)
             {
