@@ -258,8 +258,8 @@ namespace Meu_Servico.Service
                         _configuraSistema = ObterConfiguracao();
                         if (_configuraSistema.Email != null)
                         {
-                            if (empresasEmail != null && empresasEmail.Email1 !=null)
-                                sendMessage(messa, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), empresasEmail.Email1.Trim());
+                            //if (empresasEmail != null && empresasEmail.Email1 !=null)
+                                //sendMessage(messa, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), empresasEmail.Email1.Trim());
                         }
 
                         if (ec.Validade < DateTime.Now)
@@ -340,8 +340,8 @@ namespace Meu_Servico.Service
                         _configuraSistema = ObterConfiguracao();
                         if (_configuraSistema.Email != null)
                         {
-                            if (empresasEmail.Email1 != null)
-                                sendMessage(messaveiculo, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), empresasEmail.Email1.Trim());
+                            //if (empresasEmail.Email1 != null)
+                                //sendMessage(messaveiculo, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), empresasEmail.Email1.Trim());
                         }
 
                         if (ev.Validade < DateTime.Now)
@@ -388,109 +388,59 @@ namespace Meu_Servico.Service
                     var empresas = _serviceEmpresa.Listar().OrderByDescending(ec => ec.EmpresaId).ToList();
                     empresas.ForEach(e =>
                     {
-                        emailEmpresa = null;
-                        if (empresas[0].Email1 != null)
-                            emailEmpresa = empresas[0].Email1.ToString();
+                        
+                        emailEmpresa = e.Email1;
+                        nomeEmpresa = e.Nome;
 
-                        nomeEmpresa = empresas[0].Nome.ToString();
-
-                        List<MeuValor> listEmpresasContrato = new List<MeuValor>();
+                        List<MessagemEmail> listMessagemEmail = new List<MessagemEmail>();
                         var empresaContratosAtivo = _serviceContrato.Listar().Where(ec => ec.StatusId == 0 && ec.EmpresaId == e.EmpresaId).ToList();
+                        var AlartaList = new List<int>() { 0, 5, 15, 30 };
                         empresaContratosAtivo.ForEach(ec =>
                         {
                             int dias = ec.Validade.Subtract(DateTime.Now.Date).Days;
-                            switch (dias)
+                           
+                            if (AlartaList.Contains(dias))
                             {
-                                case diasAlerta:
-                                    //var colaboradorContrao = _serviceColaborador.Listar(null, null, null, null, null, null, null, ec.NumeroContrato).ToList();
-                                    //colaboradorContrao.ForEach(cd =>
+                                AlterarDados(ec.EmpresaId, ec.EmpresaContratoId, diasAlerta0);
+
+                                //_configuraSistema = ObterConfiguracao();{
+
+                                //if (_configuraSistema.EmailUsuario != null)
+                                //{
+                                    //if (emailEmpresa != null)
                                     //{
-                                    //    cd.Ativa = false;
-                                    //    _serviceColaborador.Alterar(cd);
+                                        var messa1 = new MessagemEmail() { Contrato = ec.NumeroContrato, Dias = dias, DescricaoDoContrato = ec.Descricao, EmailDestino = emailEmpresa };
+                                        listMessagemEmail.Add(messa1);
                                     //}
-                                    //);
-                                    break;
-                                case diasAlerta0:
-                                    AlterarDados(ec.EmpresaId, ec.EmpresaContratoId, diasAlerta0);
-
-                                    _configuraSistema = ObterConfiguracao();
-                                    if (_configuraSistema.Email != null)
-                                    {
-                                        if (emailEmpresa != null)
-                                        {
-                                            var messa1 = new MeuValor() { Valor1 = "O Contrato Nº.: " + ec.NumeroContrato + " da empresa " + nomeEmpresa, Valor2 = emailEmpresa };
-                                            listEmpresasContrato.Add(messa1);
-                                        }
-                                    }
-                                    ////_serviceGenetec.GerarEvento(messa,8);
-                                    ////_serviceGenetec.GerarEvento("8000",null,messa);
-                                    break;
-                                case diasAlerta1:
-                                    AlterarDados(ec.EmpresaId, ec.EmpresaContratoId, diasAlerta1);
-
-                                    _configuraSistema = ObterConfiguracao();
-                                    if (_configuraSistema.Email != null)
-                                    {
-                                        if (emailEmpresa != null)
-                                        {
-                                            var messa1 = new MeuValor() { Valor1 = "O Contrato Nº.: " + ec.NumeroContrato + " da empresa " + nomeEmpresa, Valor2 = emailEmpresa };
-                                            listEmpresasContrato.Add(messa1);
-                                        }
-                                    }
-                                    ////_serviceGenetec.GerarEvento(messa,8);
-                                    ////_serviceGenetec.GerarEvento("8000",null,messa);
-                                    break;
-                                case diasAlerta2:
-                                    AlterarDados(ec.EmpresaId, ec.EmpresaContratoId, diasAlerta2);
-
-                                    _configuraSistema = ObterConfiguracao();
-                                    if (_configuraSistema.Email != null)
-                                    {
-                                        if (emailEmpresa != null)
-                                        {
-                                            var messa1 = new MeuValor() { Valor1 = "O Contrato Nº.: " + ec.NumeroContrato + " da empresa " + nomeEmpresa, Valor2 = emailEmpresa };
-                                            listEmpresasContrato.Add(messa1);
-                                        }
-                                    }
-                                    ////_serviceGenetec.GerarEvento(messa,8);
-                                    ////_serviceGenetec.GerarEvento("8000",null,messa);
-                                    break;
-                                case diasAlerta3:
-                                    AlterarDados(ec.EmpresaId, ec.EmpresaContratoId, diasAlerta3);
-
-                                    _configuraSistema = ObterConfiguracao();
-                                    if (_configuraSistema.Email != null)
-                                    {
-                                        if (emailEmpresa != null)
-                                        {
-                                            var messa1 = new MeuValor() { Valor1 = "O Contrato Nº.: " + ec.NumeroContrato + " da empresa " + nomeEmpresa, Valor2 = emailEmpresa };
-                                            listEmpresasContrato.Add(messa1);
-                                        }
-                                    }
-                                    ////_serviceGenetec.GerarEvento(messa,8);
-                                    ////_serviceGenetec.GerarEvento("8000",null,messa);
-                                    break;
-                                default:
-                                    break;
+                                //}
                             }
                         }
                         );
 
-                        if (listEmpresasContrato.Count > 0)
+
+                        listMessagemEmail = listMessagemEmail.OrderBy(m => m.Dias).ToList();
+
+                        if (listMessagemEmail.Count > 0)
                         {
                             StringBuilder emailFraport = new StringBuilder();
-                            foreach (MeuValor element in listEmpresasContrato)
+                            emailFraport.AppendLine("Prezado usuário,");
+                            emailFraport.AppendLine(string.Empty);
+                            emailFraport.AppendLine(string.Format("Informamos que o(s) contrato(s) abaixo pertencente(s) a empresa {0} estão próximos do vencimento:", nomeEmpresa));
+                            emailFraport.AppendLine(string.Empty);
+                            foreach (MessagemEmail element in listMessagemEmail)
                             {
-
-                                //email1 = element.Valor2.ToString();
-                                emailFraport.AppendLine(element.Valor1.ToString());
-
+                                emailFraport.AppendLine(string.Format(" - Contrato: {0} - {1}. {2} dia(s) para o vencimento;", element.Contrato,element.DescricaoDoContrato, element.Dias));
                             }
+                            emailFraport.AppendLine("");
+                            emailFraport.AppendLine("Att:");
+                            emailFraport.AppendLine("");
+                            emailFraport.AppendLine("Alerta do Sistema de Credenciamento.");
+                            emailFraport.AppendLine("(Genetec - Estrela Sistemas Eletónicos)" );
                             if (emailEmpresa != "")
                             {
                                 try
                                 {
-                                    sendMessage(emailFraport.ToString(), _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), emailEmpresa);
+                                    sendMessage(emailFraport.ToString(),emailEmpresa);
                                 }
                                 catch (Exception ex)
                                 {
@@ -519,10 +469,12 @@ namespace Meu_Servico.Service
                 CriarLog(ex.Message);
             }
         }
-        public class MeuValor
+        public class MessagemEmail
         {
-            public object Valor1 { get; set; }
-            public object Valor2 { get; set; }
+            public string Contrato { get; set; }
+            public object Dias { get; set; }
+            public object DescricaoDoContrato { get; set; }
+            public object EmailDestino { get; set; }
         }
         private ConfiguraSistema ObterConfiguracao()
         {
@@ -562,22 +514,40 @@ namespace Meu_Servico.Service
                 //trata erro
             }
         }
-        protected void sendMessage(string msg, string emailOrigem, string Emailsmtp, string usuario, string senha, string emailDestino)
+        protected void sendMessage(string msg,string emailDestino)
         {
-
+            var emailOrigem="";
+            var Emailsmtp = "";
+            var usuario = "";
+            var senha = "";
+            var emailInterno = "";
+            _configuraSistema = ObterConfiguracao();
+            if (_configuraSistema.EmailUsuario != null)
+            {
+                emailOrigem = _configuraSistema.EmailUsuario;
+                Emailsmtp = _configuraSistema.SMTP;
+                usuario = _configuraSistema.EmailUsuario;
+                senha = _configuraSistema.EmailSenha;
+                emailInterno = _configuraSistema.Email;
+            }
             if (emailDestino == null || emailDestino == "") return;
 
             MailMessage mail = new MailMessage();
             mail.From = new MailAddress(emailOrigem);
 
+            //mail.To.Add(emailDestino); // para
             var variosEmail = emailDestino.Split(';');
             foreach (string element in variosEmail)
             {
                 mail.To.Add(element);
             }
-            //mail.To.Add(emailDestino); // para
-            //mail.To.Add(emailDestino); // para
-            mail.Subject = "Inativação de Contrato(s)"; // assunto 
+            variosEmail = emailInterno.Split(';');
+            foreach (string element in variosEmail)
+            {
+                mail.To.Add(element);
+            }
+            
+            mail.Subject = "Alerta de Vencimento de Contrato(s)"; // assunto 
             mail.Body = msg; // mensagem
 
             //em caso de anexos
