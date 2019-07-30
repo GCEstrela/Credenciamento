@@ -600,12 +600,24 @@ namespace IMOD.Infra.Repositorios
                             cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmpresaId", DbType.Int32, entity.EmpresaId).Igual()));
                         }
 
-                        //Busca faixa de data
-                        if (entity.Emissao != null || entity.EmissaoFim != null)
+                        if (entity.emissaoValidade == 1)
                         {
-                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Emissao", DbType.DateTime, entity.Emissao).MaiorIgual()));
-                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmissaoFim", DbType.DateTime, entity.EmissaoFim).MenorIgual()));
+                            //Busca faixa de data
+                            if (entity.Emissao != null || entity.EmissaoFim != null)
+                            {
+                                cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Emissao", DbType.DateTime, entity.Emissao).MaiorIgual()));
+                                cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmissaoFim", DbType.DateTime, entity.EmissaoFim).MenorIgual()));
+                            }
                         }
+                        else
+                        {
+                            if (entity.Emissao != null || entity.EmissaoFim != null)
+                            {
+                                cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Validade", DbType.DateTime, entity.Emissao).MaiorIgual()));
+                                cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("ValidadeFim", DbType.DateTime, entity.EmissaoFim).MenorIgual()));
+                            }
+                        }
+
                         if (entity.Impressa != null && entity.Impressa)
                         {
                             cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Impressa", DbType.Boolean, entity.Impressa).Igual()));

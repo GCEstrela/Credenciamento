@@ -410,11 +410,25 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 mensagem = "Todas as credenciais ";
 
-                if (!(dataIni.Equals(string.Empty) || dataFim.Equals(string.Empty)))
+                if (!string.IsNullOrEmpty(dataIni))
                 {
+                    colaboradorCredencial.EmissaoFim = DateTime.Now;
                     colaboradorCredencial.Emissao = DateTime.Parse(dataIni);
+                    mensagemPeriodo = " ativas concedidas no período de  " + dataIni + " até " + DateTime.Now.ToShortDateString() + "";
+                }
+
+                if (!string.IsNullOrEmpty(dataFim))
+                {
                     colaboradorCredencial.EmissaoFim = DateTime.Parse(dataFim);
-                    mensagemPeriodo = " ativas concedidas entre " + dataIni + " e " + dataFim + "";
+                    if (!string.IsNullOrEmpty(dataIni))
+                    {
+                        mensagemPeriodo = " ativas concedidas no período de  " + dataIni + " até " + dataFim + "";
+                    }
+                    else
+                    {
+                        mensagemPeriodo = " até a data " + dataFim + "";
+                    }
+
                 }
 
                 colaboradorCredencial.TipoCredencialId = tipo ? 1 : 2;
@@ -481,11 +495,25 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     colaboradorCredencial.flaTodasDevolucaoEntregaBO = flaTodasDevolucaoEntregaBO;
                 }
 
-                if (!(dataIni.Equals(string.Empty) || dataFim.Equals(string.Empty)))
+                if (!string.IsNullOrEmpty(dataIni))
                 {
+                    colaboradorCredencial.DataStatusFim = DateTime.Now;
                     colaboradorCredencial.DataStatus = DateTime.Parse(dataIni);
+                    mensagemPeriodo = " no período de  " + dataIni + " até " + DateTime.Now.ToShortDateString() + "";
+                }
+
+                if (!string.IsNullOrEmpty(dataFim))
+                {
                     colaboradorCredencial.DataStatusFim = DateTime.Parse(dataFim);
-                    mensagemPeriodo = " entre " + dataIni + " e " + dataFim + "";
+                    if (!string.IsNullOrEmpty(dataIni))
+                    {
+                        mensagemPeriodo = " no período de  " + dataIni + " até " + dataFim + "";
+                    }
+                    else
+                    {
+                        mensagemPeriodo = " até a data " + dataFim + "";
+                    }
+
                 }
 
                 colaboradorCredencial.TipoCredencialId = tipo ? 1 : 2;
@@ -611,24 +639,49 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <param name="_check"></param>
         /// <param name="_dataIni"></param>
         /// <param name="_dataFim"></param>
-        public void OnRelatorioFiltroCredencialPorEmpresaCommand(bool tipo, string empresa, bool check, string dataIni, string dataFim, bool? flaAtivosInativos)
+        public void OnRelatorioFiltroCredencialPorEmpresaCommand(bool tipo, string empresa, bool check, string dataIni, string dataFim, bool emissao, bool validade, bool? flaAtivosInativos)
         {
             try
             {
                 string mensagem = string.Empty;
+                string mensagemTipo = string.Empty;
                 string mensagemPeriodo = string.Empty;
                 string mensagemComplemento = string.Empty;
                 Domain.EntitiesCustom.FiltroReportColaboradoresCredenciais colaboradorCredencial = new Domain.EntitiesCustom.FiltroReportColaboradoresCredenciais();
 
                 colaboradorCredencial.Impressa = true;
 
-                if (!(dataIni.Equals(string.Empty) || dataFim.Equals(string.Empty)))
+                colaboradorCredencial.emissaoValidade = (emissao ? 1 : validade ? 2 : 1);
+
+                if (colaboradorCredencial.emissaoValidade == 1)
                 {
-                    colaboradorCredencial.Emissao = DateTime.Parse(dataIni);
-                    colaboradorCredencial.EmissaoFim = DateTime.Parse(dataFim);
-                    mensagemPeriodo = " no período de  " + dataIni + " e " + dataFim + "";
+                    mensagemTipo = " emitidas ";
                 }
-                mensagem += mensagemPeriodo;
+                else
+                {
+                    mensagemTipo = " válidas ";
+                }
+
+                if (!string.IsNullOrEmpty(dataIni))
+                {
+                    colaboradorCredencial.EmissaoFim = DateTime.Now;
+                    colaboradorCredencial.Emissao = DateTime.Parse(dataIni);
+                    mensagemPeriodo = " no período de  " + dataIni + " até " + DateTime.Now.ToShortDateString() + "";
+                }
+
+                if (!string.IsNullOrEmpty(dataFim))
+                {
+                    colaboradorCredencial.EmissaoFim = DateTime.Parse(dataFim);
+                    if (!string.IsNullOrEmpty(dataIni))
+                    {
+                        mensagemPeriodo = " no período de  " + dataIni + " até " + dataFim + "";
+                    }
+                    else
+                    {
+                        mensagemPeriodo = " até a data " + dataFim + "";
+                    }
+                    
+                }
 
                 colaboradorCredencial.TipoCredencialId = tipo ? 1 : 2;
                 mensagemComplemento = tipo ? " permanentes " : " temporárias ";
@@ -639,7 +692,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     mensagemComplemento += (bool)flaAtivosInativos ? " ativas " : " inativas ";
                 }
 
-                mensagem = "Todas as credenciais " + mensagemComplemento + " emitidas por entidade solicitante";
+                mensagem = String.Format("Todas as credenciais {0} {1}, por entidade solicitante, {2}", mensagemComplemento, mensagemTipo, mensagemPeriodo);
 
                 if (!string.IsNullOrEmpty(empresa))
                 {
@@ -692,11 +745,25 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 colaboradorCredencial.Impressa = true;
                 mensagem = " Impressões de Credenciais ";
 
-                if (!(dataIni.Equals(string.Empty) || dataFim.Equals(string.Empty)))
+                if (!string.IsNullOrEmpty(dataIni))
                 {
+                    colaboradorCredencial.EmissaoFim = DateTime.Now;
                     colaboradorCredencial.Emissao = DateTime.Parse(dataIni);
+                    mensagemPeriodo = " no período de  " + dataIni + " até " + DateTime.Now.ToShortDateString() + "";
+                }
+
+                if (!string.IsNullOrEmpty(dataFim))
+                {
                     colaboradorCredencial.EmissaoFim = DateTime.Parse(dataFim);
-                    mensagemPeriodo = " entre " + dataIni + " e " + dataFim + "";
+                    if (!string.IsNullOrEmpty(dataIni))
+                    {
+                        mensagemPeriodo = " no período de  " + dataIni + " até " + dataFim + "";
+                    }
+                    else
+                    {
+                        mensagemPeriodo = " até a data " + dataFim + "";
+                    }
+
                 }
 
                 colaboradorCredencial.EmpresaId = Convert.ToInt16(empresa);
@@ -754,11 +821,25 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 Domain.EntitiesCustom.FiltroReportColaboradoresCredenciais colaboradorCredencial = new Domain.EntitiesCustom.FiltroReportColaboradoresCredenciais();
                 colaboradorCredencial.Impressa = true;
 
-                if (!(dataIni.Equals(string.Empty) || dataFim.Equals(string.Empty)))
+                if (!string.IsNullOrEmpty(dataIni))
                 {
+                    colaboradorCredencial.EmissaoFim = DateTime.Now;
                     colaboradorCredencial.Emissao = DateTime.Parse(dataIni);
+                    mensagemPeriodo = " no período de  " + dataIni + " até " + DateTime.Now.ToShortDateString() + "";
+                }
+
+                if (!string.IsNullOrEmpty(dataFim))
+                {
                     colaboradorCredencial.EmissaoFim = DateTime.Parse(dataFim);
-                    mensagemPeriodo = "entre " + dataIni + " e " + dataFim + "";
+                    if (!string.IsNullOrEmpty(dataIni))
+                    {
+                        mensagemPeriodo = " no período de  " + dataIni + " até " + dataFim + "";
+                    }
+                    else
+                    {
+                        mensagemPeriodo = " até a data " + dataFim + "";
+                    }
+
                 }
 
                 colaboradorCredencial.TipoCredencialId = tipo ? 1 : 2;
@@ -852,11 +933,25 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     colaboradorCredencial.flaTodasDevolucaoEntregaBO = flaTodasDevolucaoEntregaBO;
                 }
 
-                if (!(dataIni.Equals(string.Empty) || dataFim.Equals(string.Empty)))
+                if (!string.IsNullOrEmpty(dataIni))
                 {
+                    colaboradorCredencial.DataStatusFim = DateTime.Now;
                     colaboradorCredencial.DataStatus = DateTime.Parse(dataIni);
+                    mensagemPeriodo = " no período de  " + dataIni + " até " + DateTime.Now.ToShortDateString() + "";
+                }
+
+                if (!string.IsNullOrEmpty(dataFim))
+                {
                     colaboradorCredencial.DataStatusFim = DateTime.Parse(dataFim);
-                    mensagemPeriodo = " entre " + dataIni + " e " + dataFim + "";
+                    if (!string.IsNullOrEmpty(dataIni))
+                    {
+                        mensagemPeriodo = " no período de  " + dataIni + " até " + dataFim + "";
+                    }
+                    else
+                    {
+                        mensagemPeriodo = " até a data " + dataFim + "";
+                    }
+
                 }
 
                 colaboradorCredencial.TipoCredencialId = tipo ? 1 : 2;
@@ -944,15 +1039,25 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     colaboradorCredencial.flaTodasDevolucaoEntregaBO = flaTodasDevolucaoEntregaBO;
                 }
 
-                if (!(dataIni.Equals(string.Empty) || dataFim.Equals(string.Empty)))
+                if (!string.IsNullOrEmpty(dataIni))
                 {
+                    colaboradorCredencial.ValidadeFim = DateTime.Now;
                     colaboradorCredencial.Validade = DateTime.Parse(dataIni);
-                    colaboradorCredencial.ValidadeFim = DateTime.Parse(dataFim);
-                    mensagemPeriodo = " entre " + dataIni + " e " + dataFim + "";
+                    mensagemPeriodo = " no período de  " + dataIni + " até " + DateTime.Now.ToShortDateString() + "";
                 }
-                else
+
+                if (!string.IsNullOrEmpty(dataFim))
                 {
-                    colaboradorCredencial.ValidadeFim = !string.IsNullOrEmpty(dataFim) ? DateTime.Parse(dataFim) : DateTime.Now;
+                    colaboradorCredencial.ValidadeFim = DateTime.Parse(dataFim);
+                    if (!string.IsNullOrEmpty(dataIni))
+                    {
+                        mensagemPeriodo = " no período de  " + dataIni + " até " + dataFim + "";
+                    }
+                    else
+                    {
+                        mensagemPeriodo = " até a data " + dataFim + "";
+                    }
+
                 }
 
                 colaboradorCredencial.TipoCredencialId = tipo ? 1 : 2;
@@ -992,11 +1097,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var reportDoc = WpfHelp.ShowRelatorioCrystalReport(arrayFile, relatorioGerencial.Nome);
                 reportDoc.SetDataSource(resultMapeado);
 
-                if (!string.IsNullOrWhiteSpace(mensagem))
-                {
-                    TextObject txt = (TextObject)reportDoc.ReportDefinition.ReportObjects["TextoPrincipal"];
-                    txt.Text = mensagem;
-                }
+                //if (!string.IsNullOrWhiteSpace(mensagem))
+                //{
+                //    TextObject txt = (TextObject)reportDoc.ReportDefinition.ReportObjects["TextoPrincipal"];
+                //    txt.Text = mensagem;
+                //}
                 reportDoc.Refresh();
 
                 WpfHelp.ShowRelatorio(CarregaLogoMarcaEmpresa(reportDoc));
@@ -1028,15 +1133,31 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 veiculoCredencial.TipoCredencialId = tipo;
                 verbo = tipo == 1 ? "permanentes" : "temporárias";
 
-                mensagem = "Todas as autorizações " + verbo + " ativas ";
+                mensagem = "Todas as autorizações " + verbo + " ativas concedidas";
 
-                if (!(dataIni.Equals(string.Empty) || dataFim.Equals(string.Empty)))
+
+                if (!string.IsNullOrEmpty(dataIni))
                 {
+                    veiculoCredencial.EmissaoFim = DateTime.Now;
                     veiculoCredencial.Emissao = DateTime.Parse(dataIni);
-                    veiculoCredencial.EmissaoFim = DateTime.Parse(dataFim);
-                    mensagem = "Todas as autorizações " + verbo + " ativas concedidas entre " + dataIni + " e " + dataFim + "";
+                    mensagemPeriodo = " no período de  " + dataIni + " até " + DateTime.Now.ToShortDateString() + "";
                 }
 
+                if (!string.IsNullOrEmpty(dataFim))
+                {
+                    veiculoCredencial.EmissaoFim = DateTime.Parse(dataFim);
+                    if (!string.IsNullOrEmpty(dataIni))
+                    {
+                        mensagemPeriodo = " no período de " + dataIni + " até " + dataFim;
+                    }
+                    else
+                    {
+                        mensagemPeriodo = " até " + dataFim;
+                    }
+
+                }
+                mensagem += mensagemPeriodo;
+                
                 var relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(2);
                 if (relatorioGerencial == null || relatorioGerencial.ArquivoRpt == null || String.IsNullOrEmpty(relatorioGerencial.ArquivoRpt)) return;
 
@@ -1083,7 +1204,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
 
                 FiltroReportVeiculoCredencial veiculoCredencial = new FiltroReportVeiculoCredencial();
-                mensagem = "Todas as autorizações ";
+                mensagem = "Todas as autorizações";
                 veiculoCredencial.CredencialStatusId = 2;
                 veiculoCredencial.Impressa = true;
 
@@ -1096,11 +1217,25 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     veiculoCredencial.flaTodasDevolucaoEntregaBO = flaTodasDevolucaoEntregaBO;
                 }
 
-                if (!(dataIni.Equals(string.Empty) || dataFim.Equals(string.Empty)))
+                if (!string.IsNullOrEmpty(dataIni))
                 {
+                    veiculoCredencial.BaixaFim = DateTime.Now;
                     veiculoCredencial.Baixa = DateTime.Parse(dataIni);
+                    mensagemPeriodo = " no período de  " + dataIni + " até " + DateTime.Now.ToShortDateString() + "";
+                }
+
+                if (!string.IsNullOrEmpty(dataFim))
+                {
                     veiculoCredencial.BaixaFim = DateTime.Parse(dataFim);
-                    mensagemPeriodo = " entre " + dataIni + " e " + dataFim + "";
+                    if (!string.IsNullOrEmpty(dataIni))
+                    {
+                        mensagemPeriodo = " no período de  " + dataIni + " até " + dataFim + "";
+                    }
+                    else
+                    {
+                        mensagemPeriodo = " até a data " + dataFim + "";
+                    }
+
                 }
 
                 veiculoCredencial.TipoCredencialId = tipo ? 1 : 2;
@@ -1226,7 +1361,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <param name="_check"></param>
         /// <param name="_dataIni"></param>
         /// <param name="_dataFim"></param>
-        public void OnRelatorioAutorizacoesPorEmpresaCommand(bool tipo, string empresa, bool check, string dataIni, string dataFim, bool? flaAtivosInativos)
+        public void OnRelatorioAutorizacoesPorEmpresaCommand(bool tipo, string empresa, bool check, string dataIni, string dataFim, bool emissao, bool validade, bool? flaAtivosInativos)
         {
             try
             {
@@ -1238,12 +1373,28 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 FiltroReportVeiculoCredencial veiculoCredencial = new FiltroReportVeiculoCredencial();
                 veiculoCredencial.Impressa = true;
 
-                if (!(dataIni.Equals(string.Empty) || dataFim.Equals(string.Empty)))
+                if (!string.IsNullOrEmpty(dataIni))
                 {
+                    veiculoCredencial.EmissaoFim = DateTime.Now;
                     veiculoCredencial.Emissao = DateTime.Parse(dataIni);
-                    veiculoCredencial.EmissaoFim = DateTime.Parse(dataFim);
-                    mensagemPeriodo = " no período de  " + dataIni + " e " + dataFim + "";
+                    mensagemPeriodo = " no período de  " + dataIni + " até " + DateTime.Now.ToShortDateString() + "";
                 }
+
+                if (!string.IsNullOrEmpty(dataFim))
+                {
+                    veiculoCredencial.EmissaoFim = DateTime.Parse(dataFim);
+                    if (!string.IsNullOrEmpty(dataIni))
+                    {
+                        mensagemPeriodo = " no período de  " + dataIni + " até " + dataFim + "";
+                    }
+                    else
+                    {
+                        mensagemPeriodo = " até a data " + dataFim + "";
+                    }
+
+                }
+
+                veiculoCredencial.emissaoValidade = (emissao ? 1 : validade ? 2 : 1);
 
                 veiculoCredencial.TipoCredencialId = tipo ? 1 : 2;
                 mensagemComplementoTipo = tipo ? " permanentes " : " temporárias ";
@@ -1254,8 +1405,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     mensagemComplementoTipo += (bool)flaAtivosInativos ? " ativas " : " inativas ";
                 }
 
-                mensagem = "Todas as autorizações " + mensagemComplementoTipo + "emitidas por entidade solicitante";
-                mensagem += mensagemPeriodo;
+                mensagem = String.Format("Todas as autorizações {0} emitidas, por entidade solicitante, {1}", mensagemComplementoTipo, mensagemPeriodo);
 
                 if (!string.IsNullOrEmpty(empresa))
                 {
@@ -1306,11 +1456,25 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 veiculoCredencial.Impressa = true;
                 mensagem = " Impressões de Autorizações  ";
 
-                if (!(dataIni.Equals(string.Empty) || dataFim.Equals(string.Empty)))
+                if (!string.IsNullOrEmpty(dataIni))
                 {
+                    veiculoCredencial.EmissaoFim = DateTime.Now;
                     veiculoCredencial.Emissao = DateTime.Parse(dataIni);
+                    mensagemPeriodo = " no período de  " + dataIni + " até " + DateTime.Now.ToShortDateString() + "";
+                }
+
+                if (!string.IsNullOrEmpty(dataFim))
+                {
                     veiculoCredencial.EmissaoFim = DateTime.Parse(dataFim);
-                    mensagemPeriodo = " entre " + dataIni + " e " + dataFim + "";
+                    if (!string.IsNullOrEmpty(dataIni))
+                    {
+                        mensagemPeriodo = " no período de  " + dataIni + " até " + dataFim + "";
+                    }
+                    else
+                    {
+                        mensagemPeriodo = " até a data " + dataFim + "";
+                    }
+
                 }
 
                 veiculoCredencial.EmpresaId = Convert.ToInt16(empresa);
@@ -1365,11 +1529,25 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 veiculoCredencial.Impressa = true;
                 mensagem = "Todas as vias adicionais de autorizações emitidas";
 
-                if (!(dataIni.Equals(string.Empty) || dataFim.Equals(string.Empty)))
+                if (!string.IsNullOrEmpty(dataIni))
                 {
+                    veiculoCredencial.EmissaoFim = DateTime.Now;
                     veiculoCredencial.Emissao = DateTime.Parse(dataIni);
+                    mensagemPeriodo = " no período de  " + dataIni + " até " + DateTime.Now.ToShortDateString() + "";
+                }
+
+                if (!string.IsNullOrEmpty(dataFim))
+                {
                     veiculoCredencial.EmissaoFim = DateTime.Parse(dataFim);
-                    mensagemPeriodo = "entre " + dataIni + " e " + dataFim + "";
+                    if (!string.IsNullOrEmpty(dataIni))
+                    {
+                        mensagemPeriodo = " no período de  " + dataIni + " até " + dataFim + "";
+                    }
+                    else
+                    {
+                        mensagemPeriodo = " até a data " + dataFim + "";
+                    }
+
                 }
 
                 if (motivoTipo > 0)
@@ -1456,11 +1634,25 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     veiculoCredencial.flaTodasDevolucaoEntregaBO = flaTodasDevolucaoEntregaBO;
                 }
 
-                if (!(dataIni.Equals(string.Empty) || dataFim.Equals(string.Empty)))
+                if (!string.IsNullOrEmpty(dataIni))
                 {
+                    veiculoCredencial.BaixaFim = DateTime.Now;
                     veiculoCredencial.Baixa = DateTime.Parse(dataIni);
+                    mensagemPeriodo = " no período de  " + dataIni + " até " + DateTime.Now.ToShortDateString() + "";
+                }
+
+                if (!string.IsNullOrEmpty(dataFim))
+                {
                     veiculoCredencial.BaixaFim = DateTime.Parse(dataFim);
-                    mensagemPeriodo = " entre " + dataIni + " e " + dataFim + "";
+                    if (!string.IsNullOrEmpty(dataIni))
+                    {
+                        mensagemPeriodo = " no período de  " + dataIni + " até " + dataFim + "";
+                    }
+                    else
+                    {
+                        mensagemPeriodo = " até a data " + dataFim + "";
+                    }
+
                 }
 
                 veiculoCredencial.TipoCredencialId = tipo ? 1 : 2;
@@ -1544,15 +1736,25 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     veiculoCredencial.DevolucaoEntregaBo = flaSimNaoDevolucaoEntregaBO;
                 }
 
-                if (!(dataIni.Equals(string.Empty) || dataFim.Equals(string.Empty)))
+                if (!string.IsNullOrEmpty(dataIni))
                 {
+                    veiculoCredencial.ValidadeFim = DateTime.Now;
                     veiculoCredencial.Validade = DateTime.Parse(dataIni);
-                    veiculoCredencial.ValidadeFim = DateTime.Parse(dataFim);
-                    mensagemPeriodo = " entre " + dataIni + " e " + dataFim + "";
+                    mensagemPeriodo = " no período de  " + dataIni + " até " + DateTime.Now.ToShortDateString() + "";
                 }
-                else
+
+                if (!string.IsNullOrEmpty(dataFim))
                 {
-                    veiculoCredencial.ValidadeFim = !string.IsNullOrEmpty(dataFim) ? DateTime.Parse(dataFim) : DateTime.Now;
+                    veiculoCredencial.ValidadeFim = DateTime.Parse(dataFim);
+                    if (!string.IsNullOrEmpty(dataIni))
+                    {
+                        mensagemPeriodo = " no período de  " + dataIni + " até " + dataFim + "";
+                    }
+                    else
+                    {
+                        mensagemPeriodo = " até a data " + dataFim + "";
+                    }
+
                 }
 
                 veiculoCredencial.TipoCredencialId = tipo ? 1 : 2;
@@ -1589,11 +1791,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var reportDoc = WpfHelp.ShowRelatorioCrystalReport(arrayFile, relatorioGerencial.Nome);
                 reportDoc.SetDataSource(resultMapeado);
 
-                if (!string.IsNullOrWhiteSpace(mensagem))
-                {
-                    TextObject txt = (TextObject)reportDoc.ReportDefinition.ReportObjects["TextoPrincipal"];
-                    txt.Text = mensagem;
-                }
+                //if (!string.IsNullOrWhiteSpace(mensagem))
+                //{
+                //    TextObject txt = (TextObject)reportDoc.ReportDefinition.ReportObjects["TextoPrincipal"];
+                //    txt.Text = mensagem;
+                //}
                 reportDoc.Refresh();
 
                 WpfHelp.ShowRelatorio(CarregaLogoMarcaEmpresa(reportDoc));

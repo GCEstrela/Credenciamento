@@ -80,6 +80,7 @@ namespace IMOD.Domain.EntitiesCustom
         public bool flaTodasDevolucaoEntregaBO { get; set; }
 
         public bool flaTodasAtivosInativos { get; set; }
+        public int emissaoValidade { get; set; }
         public int CredencialVia { get; set; }
         public int CredencialMotivoViaAdicionalId{ get; set; }
         public int CredencialMotivoIdAnterior{ get; set; }
