@@ -852,8 +852,14 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var n1 = Mapper.Map<ColaboradorCredencial>(Entity);
                 n1.ColaboradorPrivilegio1Id = Entity.ColaboradorPrivilegio1Id;
                 n1.ColaboradorPrivilegio2Id = Entity.ColaboradorPrivilegio2Id;
-                n1.Identificacao1 = Entity.Identificacao1;
-                n1.Identificacao2 = Entity.Identificacao2;
+
+                var area1 = _auxiliaresService.AreaAcessoService.Listar(Entity.ColaboradorPrivilegio1Id).FirstOrDefault();
+                Entity.Identificacao1 = area1.Identificacao;
+                n1.Identificacao1 = area1.Identificacao;
+                var area2 = _auxiliaresService.AreaAcessoService.Listar(Entity.ColaboradorPrivilegio2Id).FirstOrDefault();
+                Entity.Identificacao2 = area2.Identificacao;
+                n1.Identificacao2 = area2.Identificacao;
+
                 n1.NumeroCredencial = Entity.NumeroCredencial;
                 n1.Validade = Entity.Validade.Value.AddHours(23).AddMinutes(59).AddSeconds(59); //Sempre Add 23:59:59 horas à credencial nova.
                 n1.CredencialVia = Entity.CredencialVia;
@@ -955,8 +961,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
             var n1 = _service.BuscarCredencialPelaChave(colaboradorCredencialId);
             n1.NumeroCredencial = entity.NumeroCredencial;
-            n1.ColaboradorPrivilegio1Id = entity.ColaboradorPrivilegio1Id;
-            n1.ColaboradorPrivilegio2Id = entity.ColaboradorPrivilegio2Id;
+            
+            n1.ColaboradorPrivilegio1Id = Entity.ColaboradorPrivilegio1Id;
+            n1.ColaboradorPrivilegio2Id = Entity.ColaboradorPrivilegio2Id;
+            n1.Identificacao1 = Entity.Identificacao1;
+            n1.Identificacao2 = Entity.Identificacao2;
             _configuraSistema = ObterConfiguracao();
             n1.Regras = _configuraSistema.Regras;
             entity.Regras = _configuraSistema.Regras;
