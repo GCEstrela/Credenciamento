@@ -599,8 +599,7 @@ namespace IMOD.Infra.Repositorios
                         {
                             cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("CredencialMotivoId", DbType.Int32, entity.CredencialMotivoId).Igual()));
                         }
-                        //Busca por faixa de data
-                        if (entity.emissaoValidade == 1)
+                        if (entity.emissaoValidade == 0 || entity.emissaoValidade == 1)
                         {
                             //Busca faixa de data
                             if (entity.Emissao != null || entity.EmissaoFim != null)
@@ -609,12 +608,12 @@ namespace IMOD.Infra.Repositorios
                                 cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmissaoFim", DbType.DateTime, entity.EmissaoFim).MenorIgual()));
                             }
                         }
-                        else
+                        else if (entity.emissaoValidade == 2)
                         {
-                            if (entity.Emissao != null || entity.EmissaoFim != null)
+                            if (entity.Validade != null || entity.ValidadeFim != null)
                             {
-                                cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Validade", DbType.DateTime, entity.Emissao).MaiorIgual()));
-                                cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Validade", DbType.DateTime, entity.EmissaoFim).MenorIgual()));
+                                cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Validade", DbType.DateTime, entity.Validade).MaiorIgual()));
+                                cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("ValidadeFim", DbType.DateTime, entity.ValidadeFim).MenorIgual()));
                             }
                         }
 
@@ -696,7 +695,7 @@ namespace IMOD.Infra.Repositorios
                             cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("DataStatus", DbType.DateTime, entity.DataStatus).MaiorIgual()));
                             cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("DataStatusFim", DbType.DateTime, entity.DataStatusFim).MenorIgual()));
                         }
-                        if (entity.Baixa != null & entity.BaixaFim != null) 
+                        if (entity.Baixa != null || entity.BaixaFim != null) 
                         {
                             cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Baixa", DbType.DateTime, entity.Baixa).MaiorIgual()));
                             cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("BaixaFim", DbType.DateTime, entity.BaixaFim).MenorIgual()));
@@ -860,7 +859,7 @@ namespace IMOD.Infra.Repositorios
                             cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("DataStatus", DbType.DateTime, entity.DataStatus).MaiorIgual()));
                             cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("DataStatusFim", DbType.DateTime, entity.DataStatusFim).MenorIgual()));
                         }
-                        if (entity.Baixa != null & entity.BaixaFim != null)
+                        if (entity.Baixa != null || entity.BaixaFim != null)
                         {
                             cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Baixa", DbType.DateTime, entity.Baixa).MaiorIgual()));
                             cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("BaixaFim", DbType.DateTime, entity.BaixaFim).MenorIgual()));
