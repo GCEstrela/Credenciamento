@@ -231,78 +231,6 @@
       <DependentUpon>FlnCredencialTerceiros.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Cracha\ForAmareloTerceiras.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ForAmareloTerceiras.rpt</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Cracha\ForAzulClaroLojas.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ForAzulClaroLojas.rpt</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Cracha\ForAzulFraportBrasil.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ForAzulFraportBrasil.rpt</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Cracha\ForBrancoTemporario.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ForBrancoTemporario.rpt</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Cracha\ForCinzaCiaAereas.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ForCinzaCiaAereas.rpt</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Cracha\ForLaranjaExatas.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ForLaranjaExatas.rpt</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Cracha\ForMarromCargas.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ForMarromCargas.rpt</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Cracha\ForPretoPF.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ForPretoPF.rpt</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Cracha\ForRoxoRFB.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ForRoxoRFB.rpt</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Cracha\ForVerdeOrgaosPublicos.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ForVerdeOrgaosPublicos.rpt</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Cracha\FraportForAutorizacaoManobra.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>FraportForAutorizacaoManobra.rpt</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Cracha\FraportForAutorizacaoTemporaria.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>FraportForAutorizacaoTemporaria.rpt</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Cracha\FraportPoaAutorizacaoManobra.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -314,6 +242,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>FraportPoaAutorizacaoTemporaria.rpt</DependentUpon>
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Cracha\ForAmareloTerceiras.cs">
+      <DependentUpon>ForAmareloTerceiras.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Cracha\PoaAmareloTerceiras.cs">
       <AutoGen>True</AutoGen>
@@ -1228,54 +1162,6 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>FlnCredencialTerceiros.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Cracha\ForAmareloTerceiras.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>ForAmareloTerceiras.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Cracha\ForAzulClaroLojas.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>ForAzulClaroLojas.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Cracha\ForAzulFraportBrasil.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>ForAzulFraportBrasil.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Cracha\ForBrancoTemporario.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>ForBrancoTemporario.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Cracha\ForCinzaCiaAereas.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>ForCinzaCiaAereas.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Cracha\ForLaranjaExatas.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>ForLaranjaExatas.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Cracha\ForMarromCargas.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>ForMarromCargas.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Cracha\ForPretoPF.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>ForPretoPF.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Cracha\ForRoxoRFB.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>ForRoxoRFB.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Cracha\ForVerdeOrgaosPublicos.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>ForVerdeOrgaosPublicos.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Cracha\FraportForAutorizacaoTemporaria.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>FraportForAutorizacaoTemporaria.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Cracha\FraportForAutorizacaoManobra.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>FraportForAutorizacaoManobra.cs</LastGenOutput>
-    </EmbeddedResource>
     <EmbeddedResource Include="Cracha\FraportPoaAutorizacaoTemporaria.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>FraportPoaAutorizacaoTemporaria.cs</LastGenOutput>
@@ -1283,6 +1169,10 @@
     <EmbeddedResource Include="Cracha\FraportPoaAutorizacaoManobra.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>FraportPoaAutorizacaoManobra.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\ForAmareloTerceiras.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>ForAmareloTerceiras.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Cracha\PoaAmareloTerceiras.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
