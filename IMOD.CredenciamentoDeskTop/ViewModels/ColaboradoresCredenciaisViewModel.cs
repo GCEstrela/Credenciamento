@@ -395,7 +395,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
             var lst7 = _auxiliaresService.AreaAcessoService.Listar();
             ColaboradorPrivilegio = new List<AreaAcesso>();
-            ColaboradorPrivilegio.AddRange(lst7.OrderBy(n => n.Descricao));
+            ColaboradorPrivilegio.AddRange(lst7.OrderBy(n => n.Identificacao));
 
             var lst8 = _auxiliaresService.CredencialMotivoService.Listar();
             _credencialMotivo = new List<CredencialMotivo>();
@@ -697,7 +697,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 n1.Validade = Entity.Validade.Value.AddHours(23).AddMinutes(59).AddSeconds(59); //Sempre Add 23:59:59 horas à credencial nova.
                 n1.CredencialmotivoViaAdicionalID = Entity.CredencialmotivoViaAdicionalID;
                 n1.CredencialmotivoIDanterior = Entity.CredencialMotivoId;
-                
+
                 //_configuraSistema = ObterConfiguracao();
                 n1.Regras = _configuraSistema.Regras;
                 Entity.Regras = _configuraSistema.Regras;
@@ -853,12 +853,13 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 n1.ColaboradorPrivilegio1Id = Entity.ColaboradorPrivilegio1Id;
                 n1.ColaboradorPrivilegio2Id = Entity.ColaboradorPrivilegio2Id;
 
-                var area1 = _auxiliaresService.AreaAcessoService.Listar(Entity.ColaboradorPrivilegio1Id).FirstOrDefault();
-                Entity.Identificacao1 = area1.Identificacao;
-                n1.Identificacao1 = area1.Identificacao;
-                var area2 = _auxiliaresService.AreaAcessoService.Listar(Entity.ColaboradorPrivilegio2Id).FirstOrDefault();
-                Entity.Identificacao2 = area2.Identificacao;
-                n1.Identificacao2 = area2.Identificacao;
+                var areaAcesso1 = _auxiliaresService.AreaAcessoService.Listar(Entity.ColaboradorPrivilegio1Id).FirstOrDefault();
+                Entity.Identificacao1 = areaAcesso1.Identificacao;
+                n1.Identificacao1 = areaAcesso1.Identificacao;
+
+                var areaAcesso2 = _auxiliaresService.AreaAcessoService.Listar(Entity.ColaboradorPrivilegio2Id).FirstOrDefault();
+                Entity.Identificacao2 = areaAcesso2.Identificacao;
+                n1.Identificacao2 = areaAcesso2.Identificacao;
 
                 n1.NumeroCredencial = Entity.NumeroCredencial;
                 n1.Validade = Entity.Validade.Value.AddHours(23).AddMinutes(59).AddSeconds(59); //Sempre Add 23:59:59 horas à credencial nova.
@@ -886,7 +887,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                         //return;
                     }
                 }
-               
+
                 // _configuraSistema = ObterConfiguracao();
                 n1.Regras = _configuraSistema.Regras;
                 Entity.Regras = _configuraSistema.Regras;
@@ -961,11 +962,21 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
             var n1 = _service.BuscarCredencialPelaChave(colaboradorCredencialId);
             n1.NumeroCredencial = entity.NumeroCredencial;
-            
+
             n1.ColaboradorPrivilegio1Id = Entity.ColaboradorPrivilegio1Id;
             n1.ColaboradorPrivilegio2Id = Entity.ColaboradorPrivilegio2Id;
-            n1.Identificacao1 = Entity.Identificacao1;
-            n1.Identificacao2 = Entity.Identificacao2;
+            
+            var areaAcesso1 = _auxiliaresService.AreaAcessoService.Listar(Entity.ColaboradorPrivilegio1Id).FirstOrDefault();
+            Entity.Identificacao1 = areaAcesso1.Identificacao;
+            n1.Identificacao1 = areaAcesso1.Identificacao;
+
+            var areaAcesso2 = _auxiliaresService.AreaAcessoService.Listar(Entity.ColaboradorPrivilegio2Id).FirstOrDefault();
+            Entity.Identificacao2 = areaAcesso2.Identificacao;
+            n1.Identificacao2 = areaAcesso2.Identificacao;
+
+
+            //n1.Identificacao1 = Entity.Identificacao1;
+            //n1.Identificacao2 = Entity.Identificacao2;
             _configuraSistema = ObterConfiguracao();
             n1.Regras = _configuraSistema.Regras;
             entity.Regras = _configuraSistema.Regras;
@@ -1228,7 +1239,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 HabilitarVias = "Collapsed";
                 //if (!Habilitar) return;
                 if (Entity == null) return;
-                if (Entity.CredencialMotivoId == 2) 
+                if (Entity.CredencialMotivoId == 2)
                 {
                     Entity.CredencialVia = null;
                     var listCeredenciais = _service.Listar(null, null, null, null, null, null, null, null, null, null, Entity.ColaboradorEmpresaId).OrderByDescending(c => c.ColaboradorCredencialId).ToList();

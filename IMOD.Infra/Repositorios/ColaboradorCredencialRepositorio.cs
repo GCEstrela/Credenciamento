@@ -237,8 +237,8 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("CredencialVia", DbType.Int32, entity.CredencialVia, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("CredencialmotivoViaAdicionalID", DbType.Int32, entity.CredencialmotivoViaAdicionalID, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("CredencialmotivoIDanterior", DbType.Int32, entity.CredencialmotivoIDanterior, false)));
-                        //cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Identificacao1", DbType.String, entity.Identificacao1, false)));
-                        //cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Identificacao2", DbType.String, entity.Identificacao2, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Identificacao1", DbType.String, entity.Identificacao1, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Identificacao2", DbType.String, entity.Identificacao2, false)));
 
                         cmd.ExecuteNonQuery();
                     }
