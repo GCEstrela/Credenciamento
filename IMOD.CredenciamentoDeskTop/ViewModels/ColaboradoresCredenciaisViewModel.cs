@@ -694,7 +694,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 n1.ColaboradorPrivilegio2Id = Entity.ColaboradorPrivilegio2Id;
                 n1.Identificacao1 = Entity.Identificacao1;
                 n1.Identificacao2 = Entity.Identificacao2;
-                n1.Validade = Entity.Validade.Value.AddHours(23).AddMinutes(59).AddSeconds(59); //Sempre Add 23:59:59 horas à credencial nova.
+                n1.Validade = Entity.Validade.Value.Date.AddHours(23).AddMinutes(59).AddSeconds(59);  //Sempre Add 23:59:59 horas à credencial nova.
                 n1.CredencialmotivoViaAdicionalID = Entity.CredencialmotivoViaAdicionalID;
                 n1.CredencialmotivoIDanterior = Entity.CredencialMotivoId;
 
@@ -853,16 +853,30 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 n1.ColaboradorPrivilegio1Id = Entity.ColaboradorPrivilegio1Id;
                 n1.ColaboradorPrivilegio2Id = Entity.ColaboradorPrivilegio2Id;
 
-                var areaAcesso1 = _auxiliaresService.AreaAcessoService.Listar(Entity.ColaboradorPrivilegio1Id).FirstOrDefault();
-                Entity.Identificacao1 = areaAcesso1.Identificacao;
-                n1.Identificacao1 = areaAcesso1.Identificacao;
+                if (Entity.ColaboradorPrivilegio1Id != 0 && Entity.ColaboradorPrivilegio1Id != 41)
+                {
+                    var areaAcesso1 = _auxiliaresService.AreaAcessoService.Listar(Entity.ColaboradorPrivilegio1Id).FirstOrDefault();
+                    Entity.Identificacao1 = areaAcesso1.Identificacao;
+                    n1.Identificacao1 = areaAcesso1.Identificacao;
+                }
+                else
+                {
+                    n1.Identificacao1 = null;
+                }
 
-                var areaAcesso2 = _auxiliaresService.AreaAcessoService.Listar(Entity.ColaboradorPrivilegio2Id).FirstOrDefault();
-                Entity.Identificacao2 = areaAcesso2.Identificacao;
-                n1.Identificacao2 = areaAcesso2.Identificacao;
+                if (Entity.ColaboradorPrivilegio2Id != 0 && Entity.ColaboradorPrivilegio2Id != 41)
+                {
+                    var areaAcesso2 = _auxiliaresService.AreaAcessoService.Listar(Entity.ColaboradorPrivilegio2Id).FirstOrDefault();
+                    Entity.Identificacao2 = areaAcesso2.Identificacao;
+                    n1.Identificacao2 = areaAcesso2.Identificacao;
+                }
+                else
+                {
+                    n1.Identificacao2 = null;
+                }
 
                 n1.NumeroCredencial = Entity.NumeroCredencial;
-                n1.Validade = Entity.Validade.Value.AddHours(23).AddMinutes(59).AddSeconds(59); //Sempre Add 23:59:59 horas à credencial nova.
+                n1.Validade = Entity.Validade.Value.Date.AddHours(23).AddMinutes(59).AddSeconds(59); //Sempre Add 23:59:59 horas à credencial nova.
                 n1.CredencialVia = Entity.CredencialVia;
                 n1.CredencialmotivoViaAdicionalID = Entity.CredencialmotivoViaAdicionalID;
                 if (_configuraSistema.Colete)
@@ -965,14 +979,28 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
             n1.ColaboradorPrivilegio1Id = Entity.ColaboradorPrivilegio1Id;
             n1.ColaboradorPrivilegio2Id = Entity.ColaboradorPrivilegio2Id;
-            
-            var areaAcesso1 = _auxiliaresService.AreaAcessoService.Listar(Entity.ColaboradorPrivilegio1Id).FirstOrDefault();
-            Entity.Identificacao1 = areaAcesso1.Identificacao;
-            n1.Identificacao1 = areaAcesso1.Identificacao;
 
-            var areaAcesso2 = _auxiliaresService.AreaAcessoService.Listar(Entity.ColaboradorPrivilegio2Id).FirstOrDefault();
-            Entity.Identificacao2 = areaAcesso2.Identificacao;
-            n1.Identificacao2 = areaAcesso2.Identificacao;
+            if (Entity.ColaboradorPrivilegio1Id != 0 && Entity.ColaboradorPrivilegio1Id != 41)
+            {
+                var areaAcesso1 = _auxiliaresService.AreaAcessoService.Listar(Entity.ColaboradorPrivilegio1Id).FirstOrDefault();
+                Entity.Identificacao1 = areaAcesso1.Identificacao;
+                n1.Identificacao1 = areaAcesso1.Identificacao;
+            }
+            else
+            {
+                n1.Identificacao1 = null;
+            }
+
+            if (Entity.ColaboradorPrivilegio2Id != 0 && Entity.ColaboradorPrivilegio2Id != 41)
+            {
+                var areaAcesso2 = _auxiliaresService.AreaAcessoService.Listar(Entity.ColaboradorPrivilegio2Id).FirstOrDefault();
+                Entity.Identificacao2 = areaAcesso2.Identificacao;
+                n1.Identificacao2 = areaAcesso2.Identificacao;
+            }
+            else
+            {
+                n1.Identificacao2 = null;
+            }
 
 
             //n1.Identificacao1 = Entity.Identificacao1;
