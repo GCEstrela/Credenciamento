@@ -102,10 +102,11 @@ namespace iModSCCredenciamento.Windows
             ////WpfHelp.SaveImageCapture(HandleImageUpload(ImageSourceToBytes(encoder, (BitmapSource)imgVideo.Source)));
 
             BitmapFrame croppedBitmapFrame = CroppingAdorner.GetCroppedBitmapFrame();
-            //imgCapture.Width = croppedBitmapFrame.Width;
-            //imgCapture.Height  = croppedBitmapFrame.Height;
-            
+            imgCapture.Width = croppedBitmapFrame.Width;
+            imgCapture.Height = croppedBitmapFrame.Height;
+
             imgCapture.Source = (BitmapSource)croppedBitmapFrame;
+            //imgCapture.Source = BitmapImageFromBitmapSourceResized((BitmapSource)croppedBitmapFrame, (int)resolucaoImg);
         }
 
         private void Aceitar_bt_Click(object sender, RoutedEventArgs e)
@@ -115,7 +116,22 @@ namespace iModSCCredenciamento.Windows
             //WpfHelp.SaveImageCapture((BitmapSource)resizedImage);
             this.Close();
         }
+        public static BitmapSource BitmapImageFromBitmapSourceResized(BitmapSource bitmapSource, int newWidth)
+        {
+            BmpBitmapEncoder encoder = new BmpBitmapEncoder();
+            MemoryStream memoryStream = new MemoryStream();
+            BitmapImage bImg = new BitmapImage();
 
+            encoder.Frames.Add(BitmapFrame.Create(bitmapSource));
+            encoder.Save(memoryStream);
+
+            bImg.BeginInit();
+            bImg.StreamSource = new MemoryStream(memoryStream.ToArray());
+            bImg.DecodePixelWidth = newWidth;
+            bImg.EndInit();
+            memoryStream.Close();
+            return bImg;
+        }
         private void RootGrid_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             CroppingAdorner.CaptureMouse();
