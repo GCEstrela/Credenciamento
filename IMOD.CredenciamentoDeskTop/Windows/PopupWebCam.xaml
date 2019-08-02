@@ -55,12 +55,12 @@
                     Grid.Column="1" >
                             <Border Height="{Binding ElementName=CanvasPanel, Path=ActualHeight}" Width="{Binding ElementName=CanvasPanel, Path=ActualWidth}">
                                 <Border.BorderBrush>
-                                    <RadialGradientBrush> 
+                                    <RadialGradientBrush>
                                         <GradientStop Offset="0.047"/>
                                         <GradientStop Offset="1"/>
                                     </RadialGradientBrush>
                                 </Border.BorderBrush>
-                                <Image x:Name = "imgVideo" Width="192"   Height="224"        Stretch="UniformToFill"/>
+                                <Image x:Name = "imgVideo"        Stretch="UniformToFill" Margin="30,28"/>
                             </Border>
 
                         </Canvas>
@@ -73,8 +73,8 @@
                             <GradientStop Color="#FF646464" Offset="1"/>
                         </RadialGradientBrush>
                     </Border.BorderBrush>
-                    <Image x:Name="imgCapture"/>
-                    
+                    <Image x:Name="imgCapture" Stretch="Fill"/>
+
                 </Border>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="47,0,44,0">
