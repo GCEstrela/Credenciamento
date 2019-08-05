@@ -35,8 +35,8 @@ namespace IMOD.CredenciamentoDeskTop.Windows
         private void button_ClickFiltrar(object sender, RoutedEventArgs e)
         {
             int periodo = 0;
-            string DataIni = "01/01/1900";
-            string DataFim = DateTime.Now.ToShortDateString();
+            string DataIni = dp_dataInicial.Text;
+            string DataFim = dp_dataFinal.Text;
 
             if (hoje_rb.IsChecked.Value)
             {
