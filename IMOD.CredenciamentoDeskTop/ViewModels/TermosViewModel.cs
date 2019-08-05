@@ -508,6 +508,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     case 14:
                         verbo = "cancelou";
                         filtroAutorizacao.CredencialMotivoId = 15; // 15 - id motivo canceladas 
+                        filtroAutorizacao.flaTodasDevolucaoEntregaBO = null;
                         break;
                     case 18:
                         verbo = "destruiu";
