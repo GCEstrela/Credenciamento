@@ -558,6 +558,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     TextObject txt = (TextObject)reportDoc.ReportDefinition.ReportObjects["TextoPrincipal"];
                     txt.Text = mensagem;
                 }
+                
                 reportDoc.Refresh();
 
                 WpfHelp.ShowRelatorio(CarregaLogoMarcaEmpresa(reportDoc));

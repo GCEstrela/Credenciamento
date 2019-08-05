@@ -1139,6 +1139,35 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var arrayBytes = WpfHelp.ConverterBase64(layoutCracha.LayoutRpt, "Layout Cracha");
                 var relatorio = WpfHelp.ShowRelatorioCrystalReport(arrayBytes, layoutCracha.Nome);
 
+                if (Entity.Estrangeiro)
+                {
+                    TextObject txtRNE = (TextObject)relatorio.ReportDefinition.ReportObjects["Text1"];
+                    txtRNE.Text = "RNE";
+
+                    TextObject txt_RG_RNE = (TextObject)relatorio.ReportDefinition.ReportObjects["obj_RG_RNE"];
+                    txt_RG_RNE.Text = Entity.RNE.ToString();
+                }
+                else
+                {
+                    TextObject txtRNE = (TextObject)relatorio.ReportDefinition.ReportObjects["Text1"];
+                    txtRNE.Text = "RG";
+
+                    TextObject txt_RG_RNE = (TextObject)relatorio.ReportDefinition.ReportObjects["obj_RG_RNE"];
+                    txt_RG_RNE.Text = Entity.Rg.ToString();
+                }
+                try
+                {
+                    //FieldObject txtRG1 = (FieldObject)relatorio.ReportDefinition.ReportObjects["RG1"];
+                    
+                    // txtRG1.DataSource.FormulaName = "{IMOD_CredenciamentoDeskTop_Views_Model_CredencialViewCracha.RG}"; 
+                }
+                catch (Exception ex)
+                {
+
+                    throw;
+                }
+                
+
                 var colaboradorCursosCracha = _auxiliaresService.ColaboradorCursoService.ListarView(Entity.ColaboradorId, null, true);
                 string _cursosCracha = "";
 
