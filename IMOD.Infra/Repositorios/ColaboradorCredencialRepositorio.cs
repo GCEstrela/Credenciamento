@@ -589,6 +589,7 @@ namespace IMOD.Infra.Repositorios
                         }
                         if (entity != null && entity.TipoCredencialId > 0)
                         {
+                            //entity.Matricula = null;
                             cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("TipoCredencialId", DbType.Int32, entity.TipoCredencialId).Igual()));
                         }
                         if (entity != null && entity.CredencialStatusId > 0)

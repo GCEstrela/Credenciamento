@@ -60,6 +60,7 @@ namespace IMOD.Domain.EntitiesCustom
         public string RgOrgLocal { get; set; }
         public string RgOrgUf { get; set; }
         public string Matricula { get; set; }
+
         public string Identificacao1 { get; set; }
         public string Identificacao2 { get; set; }
         public bool IsencaoCobranca { get; set; }

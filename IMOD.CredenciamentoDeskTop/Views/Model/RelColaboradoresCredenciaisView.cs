@@ -11,12 +11,17 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public int ColaboradorCredencialId { get; set; }
         public int ColaboradorEmpresaId { get; set; }
         public int TecnologiaCredencialId { get; set; }
-        public int TipoCredencialId { get; set; }
+        public int TipoCredencialId
+        {
+            get;
+            set;
+        }
         public int LayoutCrachaId { get; set; }
         public int FormatoCredencialId { get; set; }
         public string NumeroCredencial { get; set; }
         public int Fc { get; set; }
         private string _emissao;
+       
         public string Emissao
         {
             get { return string.IsNullOrEmpty(_emissao) ? "" : System.DateTime.Parse(_emissao).ToString("dd/MM/yyyy"); }
@@ -70,7 +75,22 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public string Rg { get; set; }
         public string RgOrgLocal { get; set; }
         public string RgOrgUf { get; set; }
-        public string Matricula { get; set; }
+        private string _matricula;
+        public string Matricula
+        {
+            get
+            {
+                if (TipoCredencialId == 1)
+                {
+                    return _matricula;
+                }
+                else
+                {
+                    return "----";
+                }
+            }
+            set { _matricula = value; }
+        }
         public string Identificacao1 { get; set; }
         public string Identificacao2 { get; set; }
         public bool IsencaoCobranca { get; set; }
