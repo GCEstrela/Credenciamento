@@ -49,5 +49,6 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public int CredencialMotivoID { get; set; }
         public int CredencialVia { get; set; }
         public int CredencialmotivoViaAdicionalID { get; set; }
+        public bool Estrangeiro { get; set; }
     }
 }
