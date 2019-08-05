@@ -362,7 +362,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 n1.LayoutCrachaId = Entity.LayoutCrachaId;
                 n1.TecnologiaCredencialId = Entity.TecnologiaCredencialId;
                 n1.TipoCredencialId = Entity.TipoCredencialId;
-                n1.Validade = Entity.Validade.Value.AddHours(23).AddMinutes(59).AddSeconds(59); //Sempre Add 23:59:59 horas à credencial nova.
+                n1.Validade = Entity.Validade.Value.Date.AddHours(23).AddMinutes(59).AddSeconds(59); //Sempre Add 23:59:59 horas à credencial nova.
                 if (n1.Validade <= DateTime.Now)
                 {
                     WpfHelp.Mbox("Data de Validade da Autorização é inferior à data atual.", MessageBoxIcon.Information);
@@ -509,6 +509,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (Validar()) return;
 
                 var n1 = Mapper.Map<VeiculoCredencial> (Entity);
+                
                 //Alterar o status do titular do cartão
                 _service.AlterarStatusTitularCartao (new CredencialGenetecService (Main.Engine), Entity, n1);
                 //===================================================

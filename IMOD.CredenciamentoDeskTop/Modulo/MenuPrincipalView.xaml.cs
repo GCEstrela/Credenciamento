@@ -70,6 +70,11 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
             Workspace = wrk;
 
             DataContext = null; //Iniciar sem conteudo na tela do frame
+            if (!UsuarioLogado.Adm)
+            {
+                this.ConfiguracoesBt.IsEnabled = false;
+                return;
+            }
         }
 
         /// <summary>
@@ -166,6 +171,7 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
 
             try
             {
+                
                 Button btn = e.Source as Button;
                 btn.Background = (SolidColorBrush)new BrushConverter().ConvertFromString("#FF007ACC");
 

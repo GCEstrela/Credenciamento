@@ -16,14 +16,14 @@ namespace IMOD.CredenciamentoDeskTop.Cracha {
     using CrystalDecisions.CrystalReports.Engine;
     
     
-    public class FraportForAutorizacaoTemporaria : ReportClass {
+    public class FraportForAutorizacaoTemporaria_Azul : ReportClass {
         
-        public FraportForAutorizacaoTemporaria() {
+        public FraportForAutorizacaoTemporaria_Azul() {
         }
         
         public override string ResourceName {
             get {
-                return "FraportForAutorizacaoTemporaria.rpt";
+                return "FraportForAutorizacaoTemporaria_Azul.rpt";
             }
             set {
                 // Do nothing
@@ -41,7 +41,7 @@ namespace IMOD.CredenciamentoDeskTop.Cracha {
         
         public override string FullResourceName {
             get {
-                return "IMOD.CredenciamentoDeskTop.Cracha.FraportForAutorizacaoTemporaria.rpt";
+                return "IMOD.CredenciamentoDeskTop.Cracha.FraportForAutorizacaoTemporaria_Azul.rpt";
             }
             set {
                 // Do nothing
@@ -98,9 +98,9 @@ namespace IMOD.CredenciamentoDeskTop.Cracha {
     }
     
     [System.Drawing.ToolboxBitmapAttribute(typeof(CrystalDecisions.Shared.ExportOptions), "report.bmp")]
-    public class CachedFraportForAutorizacaoTemporaria : Component, ICachedReport {
+    public class CachedFraportForAutorizacaoTemporaria_Azul : Component, ICachedReport {
         
-        public CachedFraportForAutorizacaoTemporaria() {
+        public CachedFraportForAutorizacaoTemporaria_Azul() {
         }
         
         [Browsable(false)]
@@ -137,7 +137,7 @@ namespace IMOD.CredenciamentoDeskTop.Cracha {
         }
         
         public virtual CrystalDecisions.CrystalReports.Engine.ReportDocument CreateReport() {
-            FraportForAutorizacaoTemporaria rpt = new FraportForAutorizacaoTemporaria();
+            FraportForAutorizacaoTemporaria_Azul rpt = new FraportForAutorizacaoTemporaria_Azul();
             rpt.Site = this.Site;
             return rpt;
         }

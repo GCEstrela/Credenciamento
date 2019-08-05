@@ -496,8 +496,8 @@ namespace IMOD.Application.Service
             var n1 = BuscarPelaChave(entity.ColaboradorCredencialId);
             n1.CardHolderGuid = titularCartao.IdentificadorCardHolderGuid;
             n1.CredencialGuid = titularCartao.IdentificadorCredencialGuid;
-            n1.Identificacao1 = titularCartao.Identificacao1;
-            n1.Identificacao2 = titularCartao.Identificacao2;
+            //n1.Identificacao1 = titularCartao.Identificacao1;
+            //n1.Identificacao2 = titularCartao.Identificacao2;
             n1.CredencialGuid = titularCartao.IdentificadorCredencialGuid;
             n1.CardHolderGuid = titularCartao.IdentificadorCardHolderGuid;
             //n1.TecnologiaCredencialId = entity.TecnologiaCredencialId;

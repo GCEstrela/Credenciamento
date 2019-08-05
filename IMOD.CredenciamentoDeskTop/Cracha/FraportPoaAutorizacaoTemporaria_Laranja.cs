@@ -16,14 +16,14 @@ namespace IMOD.CredenciamentoDeskTop.Cracha {
     using CrystalDecisions.CrystalReports.Engine;
     
     
-    public class FraportPoaAutorizacaoTemporaria : ReportClass {
+    public class FraportPoaAutorizacaoTemporaria_Laranja : ReportClass {
         
-        public FraportPoaAutorizacaoTemporaria() {
+        public FraportPoaAutorizacaoTemporaria_Laranja() {
         }
         
         public override string ResourceName {
             get {
-                return "FraportPoaAutorizacaoTemporaria.rpt";
+                return "FraportPoaAutorizacaoTemporaria_Laranja.rpt";
             }
             set {
                 // Do nothing
@@ -41,7 +41,7 @@ namespace IMOD.CredenciamentoDeskTop.Cracha {
         
         public override string FullResourceName {
             get {
-                return "IMOD.CredenciamentoDeskTop.Cracha.FraportPoaAutorizacaoTemporaria.rpt";
+                return "IMOD.CredenciamentoDeskTop.Cracha.FraportPoaAutorizacaoTemporaria_Laranja.rpt";
             }
             set {
                 // Do nothing
@@ -98,9 +98,9 @@ namespace IMOD.CredenciamentoDeskTop.Cracha {
     }
     
     [System.Drawing.ToolboxBitmapAttribute(typeof(CrystalDecisions.Shared.ExportOptions), "report.bmp")]
-    public class CachedFraportPoaAutorizacaoTemporaria : Component, ICachedReport {
+    public class CachedFraportPoaAutorizacaoTemporaria_Laranja : Component, ICachedReport {
         
-        public CachedFraportPoaAutorizacaoTemporaria() {
+        public CachedFraportPoaAutorizacaoTemporaria_Laranja() {
         }
         
         [Browsable(false)]
@@ -137,7 +137,7 @@ namespace IMOD.CredenciamentoDeskTop.Cracha {
         }
         
         public virtual CrystalDecisions.CrystalReports.Engine.ReportDocument CreateReport() {
-            FraportPoaAutorizacaoTemporaria rpt = new FraportPoaAutorizacaoTemporaria();
+            FraportPoaAutorizacaoTemporaria_Laranja rpt = new FraportPoaAutorizacaoTemporaria_Laranja();
             rpt.Site = this.Site;
             return rpt;
         }

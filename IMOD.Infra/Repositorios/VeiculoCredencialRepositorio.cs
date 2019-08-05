@@ -700,12 +700,12 @@ namespace IMOD.Infra.Repositorios
                             cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Baixa", DbType.DateTime, entity.Baixa).MaiorIgual()));
                             cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("BaixaFim", DbType.DateTime, entity.BaixaFim).MenorIgual()));
                         } 
-                        if (entity.Impressa != null && entity.Impressa)
+                        if (entity.Impressa)
                         {
                             cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Impressa", DbType.Boolean, entity.Impressa).Igual()));
                         }
 
-                        if (!entity.Impeditivo && !entity.flaTodasDevolucaoEntregaBO) 
+                        if (!entity.Impeditivo && entity.flaTodasDevolucaoEntregaBO != null) 
                         {
                             cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("DevolucaoEntregaBO", DbType.Boolean, entity.DevolucaoEntregaBo).Igual()));
                         }
@@ -864,12 +864,12 @@ namespace IMOD.Infra.Repositorios
                             cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Baixa", DbType.DateTime, entity.Baixa).MaiorIgual()));
                             cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("BaixaFim", DbType.DateTime, entity.BaixaFim).MenorIgual()));
                         }
-                        if (entity.Impressa != null && entity.Impressa)
+                        if (entity.Impressa)
                         {
                             cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Impressa", DbType.Boolean, entity.Impressa).Igual()));
                         }
 
-                        if (!entity.Impeditivo && !entity.flaTodasDevolucaoEntregaBO)
+                        if (!entity.Impeditivo && entity.flaTodasDevolucaoEntregaBO != null)
                         {
                             cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("DevolucaoEntregaBO", DbType.Boolean, entity.DevolucaoEntregaBo).Igual()));
                         }
