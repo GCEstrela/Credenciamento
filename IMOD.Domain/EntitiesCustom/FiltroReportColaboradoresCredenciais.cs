@@ -77,7 +77,7 @@ namespace IMOD.Domain.EntitiesCustom
         public bool Impeditivo { get; set; }
         public DateTime? DataStatusFim { get; set; }
         public bool DevolucaoEntregaBo { get; set; } 
-        public bool flaTodasDevolucaoEntregaBO { get; set; }
+        public bool? flaTodasDevolucaoEntregaBO { get; set; }
 
         public bool flaTodasAtivosInativos { get; set; }
         public int emissaoValidade { get; set; }
