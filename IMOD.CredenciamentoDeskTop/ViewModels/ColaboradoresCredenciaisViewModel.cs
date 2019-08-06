@@ -1142,7 +1142,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (Entity.Estrangeiro)
                 {
                     TextObject txtRNE = (TextObject)relatorio.ReportDefinition.ReportObjects["Text1"];
-                    txtRNE.Text = "RNE";
+                    txtRNE.Text = "RNE:";
 
                     TextObject txt_RG_RNE = (TextObject)relatorio.ReportDefinition.ReportObjects["obj_RG_RNE"];
                     txt_RG_RNE.Text = Entity.RNE.ToString();
@@ -1150,7 +1150,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 else
                 {
                     TextObject txtRNE = (TextObject)relatorio.ReportDefinition.ReportObjects["Text1"];
-                    txtRNE.Text = "RG";
+                    txtRNE.Text = "RG:";
 
                     TextObject txt_RG_RNE = (TextObject)relatorio.ReportDefinition.ReportObjects["obj_RG_RNE"];
                     txt_RG_RNE.Text = Entity.Rg.ToString();
