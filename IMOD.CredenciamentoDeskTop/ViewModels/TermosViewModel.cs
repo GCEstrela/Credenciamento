@@ -158,7 +158,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (termo == null || termo.ArquivoRpt == null || String.IsNullOrEmpty(termo.ArquivoRpt)) return;
 
                 var result = objColaboradorCredencial.ListarColaboradorCredencialViaAdicionaisView(colaboradorCredencial).Where(n => n.CredencialMotivoId == 2 || n.CredencialMotivoId == 3);
-                var resultMapeado = Mapper.Map<List<Views.Model.RelColaboradoresCredenciaisView>>(result.OrderByDescending(n => n.ColaboradorCredencialId).ToList());
+                var resultMapeado = Mapper.Map<List<Views.Model.RelColaboradoresCredenciaisView>>(result.OrderBy(n => n.ColaboradorNome).ToList());
 
                 byte[] arrayFile = Convert.FromBase64String(termo.ArquivoRpt);
                 var reportDoc = WpfHelp.ShowRelatorioCrystalReport(arrayFile, termo.Nome);
@@ -224,7 +224,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 mensagem = mensagemPeriodo + " esse setor  de credenciamento do " + mensagemComplemento + ", concedeu as seguintes credenciais: ";
 
                 var result = objColaboradorCredencial.ListarColaboradorCredencialConcedidasView(colaboradorCredencial);
-                var resultMapeado = Mapper.Map<List<Views.Model.RelColaboradoresCredenciaisView>>(result.OrderByDescending(n => n.ColaboradorCredencialId).ToList());
+                var resultMapeado = Mapper.Map<List<Views.Model.RelColaboradoresCredenciaisView>>(result.OrderBy(n => n.ColaboradorNome).ToList());
                 byte[] arrayFile = Convert.FromBase64String(termo.ArquivoRpt); 
                 var reportDoc = WpfHelp.ShowRelatorioCrystalReport(arrayFile, termo.Nome); 
                 reportDoc.SetDataSource(resultMapeado); 
@@ -312,7 +312,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 mensagem = mensagemPeriodo + " esse setor  de credenciamento do " + mensagemComplemento + ", " + verbo + " as seguintes credenciais: ";
 
                 var result = objColaboradorCredencial.ListarColaboradorCredencialInvalidasView(colaboradorCredencial).Where(n => n.CredencialStatusId == 2);
-                var resultMapeado = Mapper.Map<List<Views.Model.RelColaboradoresCredenciaisView>>(result.OrderByDescending(n => n.ColaboradorCredencialId).ToList());
+                var resultMapeado = Mapper.Map<List<Views.Model.RelColaboradoresCredenciaisView>>(result.OrderBy(n => n.ColaboradorNome).ToList());
 
                 if (17.Equals(report))
                 {
