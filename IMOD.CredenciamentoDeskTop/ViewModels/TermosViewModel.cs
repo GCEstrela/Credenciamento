@@ -288,7 +288,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 {
                     if (!(dataIni.Equals(string.Empty) || dataFim.Equals(string.Empty)))
                     {
-                        DateTime dataFimAlterada = ((DateTime.Parse(dataFim)).AddHours(23).AddMinutes(59).AddSeconds(59));
+                        DateTime dataFimAlterada = ((DateTime.Parse(dataFim)).AddHours(23).AddMinutes(59).AddSeconds(59)); 
                         colaboradorCredencial.DataStatus = DateTime.Parse(dataIni); 
                         colaboradorCredencial.DataStatusFim = dataFimAlterada; 
                         mensagemPeriodo = "Durante o período de  " + dataIni + " a " + dataFim + ""; 
