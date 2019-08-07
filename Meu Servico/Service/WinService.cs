@@ -103,7 +103,7 @@ namespace Meu_Servico.Service
             //_serviceGenetec = new CredencialGenetecService(_sdk);
             //MetodoRealizaFuncao(true, _sdk);
 
-           
+
 
             //this.timer.Stop();
         }
@@ -259,7 +259,7 @@ namespace Meu_Servico.Service
                         if (_configuraSistema.Email != null)
                         {
                             //if (empresasEmail != null && empresasEmail.Email1 !=null)
-                                //sendMessage(messa, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), empresasEmail.Email1.Trim());
+                            //sendMessage(messa, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), empresasEmail.Email1.Trim());
                         }
 
                         if (ec.Validade < DateTime.Now)
@@ -341,7 +341,7 @@ namespace Meu_Servico.Service
                         if (_configuraSistema.Email != null)
                         {
                             //if (empresasEmail.Email1 != null)
-                                //sendMessage(messaveiculo, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), empresasEmail.Email1.Trim());
+                            //sendMessage(messaveiculo, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), empresasEmail.Email1.Trim());
                         }
 
                         if (ev.Validade < DateTime.Now)
@@ -388,7 +388,7 @@ namespace Meu_Servico.Service
                     var empresas = _serviceEmpresa.Listar().OrderByDescending(ec => ec.EmpresaId).ToList();
                     empresas.ForEach(e =>
                     {
-                        
+
                         emailEmpresa = e.Email1;
                         nomeEmpresa = e.Nome;
 
@@ -398,21 +398,22 @@ namespace Meu_Servico.Service
                         empresaContratosAtivo.ForEach(ec =>
                         {
                             int dias = ec.Validade.Subtract(DateTime.Now.Date).Days;
-                           
+
+
                             if (AlartaList.Contains(dias))
                             {
                                 AlterarDados(ec.EmpresaId, ec.EmpresaContratoId, diasAlerta0);
 
-                                //_configuraSistema = ObterConfiguracao();{
-
-                                //if (_configuraSistema.EmailUsuario != null)
-                                //{
-                                    //if (emailEmpresa != null)
-                                    //{
-                                        var messa1 = new MessagemEmail() { Contrato = ec.NumeroContrato, Dias = dias, DescricaoDoContrato = ec.Descricao, EmailDestino = emailEmpresa };
-                                        listMessagemEmail.Add(messa1);
-                                    //}
-                                //}
+                                var messa1 = new MessagemEmail() { Contrato = ec.NumeroContrato, Dias = dias, DescricaoDoContrato = ec.Descricao, EmailDestino = emailEmpresa };
+                                listMessagemEmail.Add(messa1);
+                            }
+                            else if (dias < 0)
+                            {
+                                AlterarDados(ec.EmpresaId, ec.EmpresaContratoId, 0);
+                            }
+                            else if (dias > 30)
+                            {
+                                AlterarDados(ec.EmpresaId, ec.EmpresaContratoId, null);
                             }
                         }
                         );
@@ -429,25 +430,25 @@ namespace Meu_Servico.Service
                             emailFraport.AppendLine(string.Empty);
                             foreach (MessagemEmail element in listMessagemEmail)
                             {
-                                emailFraport.AppendLine(string.Format(" - Contrato: {0} - {1}. {2} dia(s) para o vencimento;", element.Contrato,element.DescricaoDoContrato, element.Dias));
+                                emailFraport.AppendLine(string.Format(" - Contrato: {0} - {1}. {2} dia(s) para o vencimento;", element.Contrato, element.DescricaoDoContrato, element.Dias));
                             }
                             emailFraport.AppendLine("");
                             emailFraport.AppendLine("Att:");
                             emailFraport.AppendLine("");
                             emailFraport.AppendLine("Alerta do Sistema de Credenciamento.");
-                            emailFraport.AppendLine("(Genetec - Estrela Sistemas Eletónicos)" );
+                            emailFraport.AppendLine("(Genetec - Estrela Sistemas Eletónicos)");
                             if (emailEmpresa != "")
                             {
                                 try
                                 {
-                                    sendMessage(emailFraport.ToString(),emailEmpresa);
+                                    sendMessage(emailFraport.ToString(), emailEmpresa);
                                 }
                                 catch (Exception ex)
                                 {
 
                                     //throw;
                                 }
-                                
+
                             }
                         }
                     }
@@ -459,9 +460,9 @@ namespace Meu_Servico.Service
 
                     //throw;
                 }
-                
+
                 Cursor.Current = Cursors.IBeam;
-                
+
             }
             catch (Exception ex)
             {
@@ -485,7 +486,7 @@ namespace Meu_Servico.Service
             return config.FirstOrDefault();
         }
 
-        public void AlterarDados(int empresaID, int empresacontratoID, int diasrestantes)
+        public void AlterarDados(int empresaID, int empresacontratoID, int? diasrestantes)
         {
 
             try
@@ -514,9 +515,9 @@ namespace Meu_Servico.Service
                 //trata erro
             }
         }
-        protected void sendMessage(string msg,string emailDestino)
+        protected void sendMessage(string msg, string emailDestino)
         {
-            var emailOrigem="";
+            var emailOrigem = "";
             var Emailsmtp = "";
             var usuario = "";
             var senha = "";
@@ -546,7 +547,7 @@ namespace Meu_Servico.Service
             {
                 mail.To.Add(element);
             }
-            
+
             mail.Subject = "Alerta de Vencimento de Contrato(s)"; // assunto 
             mail.Body = msg; // mensagem
 
