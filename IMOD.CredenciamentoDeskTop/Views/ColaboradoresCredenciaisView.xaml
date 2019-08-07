@@ -237,8 +237,7 @@
 
                             <TextBox Text="{Binding Entity.Validade,UpdateSourceTrigger=PropertyChanged,StringFormat='{}{0:dd/MM/yyyy}'}"
                                      LostFocus="OnFormatData_LostFocus"                                      
-                                     PreviewTextInput="NumberOnly"
-                                     IsEnabled="{Binding AlterarDataValidade}"
+                                     PreviewTextInput="NumberOnly"                                     
                                      Height="24" Width="85" 
                                      ToolTip="Validade Permanente não pode ser superior a 2 anos, Temporária no máxio 90 dias"
                                      Name="txtDtValidade"></TextBox>

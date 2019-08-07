@@ -29,7 +29,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         //private RelatorioView _RelatorioSelecionado;
 
-       // PopupMensagem _PopupSalvando;
+        // PopupMensagem _PopupSalvando;
 
         //private int _selectedIndex;
 
@@ -47,7 +47,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         private readonly IRelatorioGerencialService _relatorioGerencialServiceService = new RelatorioGerencialService();
 
-        private RelatoriosGerenciais termo = new RelatoriosGerenciais(); 
+        private RelatoriosGerenciais termo = new RelatoriosGerenciais();
 
         private readonly IColaboradorCredencialService objColaboradorCredencial = new ColaboradorCredencialService();
 
@@ -71,15 +71,15 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 case 11:
                     this.CarregarCredencialConcedidas(report, status, periodo, dataIni, dataFim);
-                    break; 
+                    break;
                 case 13:
                 case 15:
                 case 17:
                     this.CarregarCredencialInativas(report, status, periodo, dataIni, dataFim);
-                    break; 
+                    break;
                 default:
                     this.CarregarCredencialViasAdicionais(report, status, periodo, dataIni, dataFim);
-                    break; 
+                    break;
             }
         }
 
@@ -130,8 +130,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 {
                     if (!(dataIni.Equals(string.Empty) || dataFim.Equals(string.Empty)))
                     {
+                        DateTime dataFimAlterada = ((DateTime.Parse(dataFim)).AddHours(23).AddMinutes(59).AddSeconds(59));
                         colaboradorCredencial.Emissao = DateTime.Parse(dataIni);
-                        colaboradorCredencial.EmissaoFim = DateTime.Parse(dataFim);
+                        colaboradorCredencial.EmissaoFim = dataFimAlterada;
                         mensagemPeriodo = "Durante o período de  " + dataIni + " a " + dataFim + "";
                     }
                 }
@@ -164,10 +165,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var reportDoc = WpfHelp.ShowRelatorioCrystalReport(arrayFile, termo.Nome);
                 reportDoc.SetDataSource(resultMapeado);
 
-                if (!string.IsNullOrWhiteSpace(mensagem)) 
+                if (!string.IsNullOrWhiteSpace(mensagem))
                 {
                     TextObject txt = (TextObject)reportDoc.ReportDefinition.ReportObjects["TextoPrincipal"];
-                    txt.Text = mensagem; 
+                    txt.Text = mensagem;
                 }
                 reportDoc.Refresh();
 
@@ -200,8 +201,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 {
                     if (!(dataIni.Equals(string.Empty) || dataFim.Equals(string.Empty)))
                     {
+                        DateTime dataFimAlterada = ((DateTime.Parse(dataFim)).AddHours(23).AddMinutes(59).AddSeconds(59));
                         colaboradorCredencial.Emissao = DateTime.Parse(dataIni);
-                        colaboradorCredencial.EmissaoFim = DateTime.Parse(dataFim);
+                        colaboradorCredencial.EmissaoFim = dataFimAlterada;
                         mensagemPeriodo = "Durante o período de  " + dataIni + " a " + dataFim + "";
                     }
                 }
@@ -225,9 +227,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 var result = objColaboradorCredencial.ListarColaboradorCredencialConcedidasView(colaboradorCredencial);
                 var resultMapeado = Mapper.Map<List<Views.Model.RelColaboradoresCredenciaisView>>(result.OrderBy(n => n.ColaboradorNome).ToList());
-                byte[] arrayFile = Convert.FromBase64String(termo.ArquivoRpt); 
-                var reportDoc = WpfHelp.ShowRelatorioCrystalReport(arrayFile, termo.Nome); 
-                reportDoc.SetDataSource(resultMapeado); 
+                byte[] arrayFile = Convert.FromBase64String(termo.ArquivoRpt);
+                var reportDoc = WpfHelp.ShowRelatorioCrystalReport(arrayFile, termo.Nome);
+                reportDoc.SetDataSource(resultMapeado);
 
                 if (!string.IsNullOrWhiteSpace(mensagem))
                 {
@@ -254,6 +256,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 string mensagemComplemento = string.Empty;
                 string mensagemPeriodo = string.Empty;
                 string arquivoTermo = string.Empty;
+
 
                 mensagemComplemento = "AEROPORTO ";
                 Domain.EntitiesCustom.FiltroReportColaboradoresCredenciais colaboradorCredencial = new Domain.EntitiesCustom.FiltroReportColaboradoresCredenciais();
@@ -285,9 +288,18 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 {
                     if (!(dataIni.Equals(string.Empty) || dataFim.Equals(string.Empty)))
                     {
-                        colaboradorCredencial.DataStatus = DateTime.Parse(dataIni); 
-                        colaboradorCredencial.DataStatusFim = DateTime.Parse(dataFim); 
-                        mensagemPeriodo = "Durante o período de  " + dataIni + " a " + dataFim + ""; 
+                        DateTime dataFimAlterada = ((DateTime.Parse(dataFim)).AddHours(23).AddMinutes(59).AddSeconds(59));
+                        if (report == 17)
+                        {
+                            colaboradorCredencial.Baixa = DateTime.Parse(dataIni);
+                            colaboradorCredencial.BaixaFim = dataFimAlterada;
+                        }
+                        else
+                        {
+                            colaboradorCredencial.DataStatus = DateTime.Parse(dataIni);
+                            colaboradorCredencial.DataStatusFim = dataFimAlterada;
+                        }
+                        mensagemPeriodo = "Durante o período de  " + dataIni + " a " + dataFim + "";
                     }
                 }
                 else
@@ -319,9 +331,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     resultMapeado = resultMapeado.Where(r => statusList.Contains(r.CredencialMotivoId)).ToList();
                 }
 
-                byte[] arrayFile = Convert.FromBase64String(termo.ArquivoRpt); 
-                var reportDoc = WpfHelp.ShowRelatorioCrystalReport(arrayFile, termo.Nome); 
-                reportDoc.SetDataSource(resultMapeado); 
+                byte[] arrayFile = Convert.FromBase64String(termo.ArquivoRpt);
+                var reportDoc = WpfHelp.ShowRelatorioCrystalReport(arrayFile, termo.Nome);
+                reportDoc.SetDataSource(resultMapeado);
                 if (!string.IsNullOrWhiteSpace(mensagem))
                 {
                     TextObject txt = (TextObject)reportDoc.ReportDefinition.ReportObjects["TextoPrincipal"];
@@ -363,8 +375,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 {
                     if (!(dataIni.Equals(string.Empty) || dataFim.Equals(string.Empty)))
                     {
+                        DateTime dataFimAlterada = ((DateTime.Parse(dataFim)).AddHours(23).AddMinutes(59).AddSeconds(59));
                         filtroAutorizacao.Emissao = DateTime.Parse(dataIni);
-                        filtroAutorizacao.EmissaoFim = DateTime.Parse(dataFim);
+                        filtroAutorizacao.EmissaoFim = dataFimAlterada;
                         mensagemPeriodo = "Durante o período de  " + dataIni + " a " + dataFim + "";
                     }
                 }
@@ -389,7 +402,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 var result = objVeiculoCredencial.ListarVeiculoCredencialViaAdicionaisView(filtroAutorizacao).Where(n => n.CredencialMotivoId == 2 || n.CredencialMotivoId == 3);
                 var resultMapeado = Mapper.Map<List<Views.Model.RelVeiculosCredenciaisView>>(result.OrderByDescending(n => n.VeiculoCredencialId).ToList());
-                
+
                 byte[] arrayFile = Convert.FromBase64String(termo.ArquivoRpt);
                 var reportDoc = WpfHelp.ShowRelatorioCrystalReport(arrayFile, termo.Nome);
                 reportDoc.SetDataSource(resultMapeado);
@@ -430,8 +443,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 {
                     if (!(dataIni.Equals(string.Empty) || dataFim.Equals(string.Empty)))
                     {
+                        DateTime dataFimAlterada = ((DateTime.Parse(dataFim)).AddHours(23).AddMinutes(59).AddSeconds(59));
                         filtroAutorizacao.Emissao = DateTime.Parse(dataIni);
-                        filtroAutorizacao.EmissaoFim = DateTime.Parse(dataFim);
+                        filtroAutorizacao.EmissaoFim = dataFimAlterada;
                         mensagemPeriodo = "Durante o período de  " + dataIni + " a " + dataFim + "";
                     }
                 }
@@ -453,7 +467,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 mensagemComplemento = !string.IsNullOrEmpty(configSistema.NomeAeroporto) ? configSistema.NomeAeroporto?.Trim() : mensagemComplemento;
                 mensagem = mensagemPeriodo + " esse setor  de credenciamento do " + mensagemComplemento + ", concedeu as seguintes autorizações: ";
 
-                var result = objVeiculoCredencial.ListarVeiculoCredencialConcedidasView(filtroAutorizacao); 
+                var result = objVeiculoCredencial.ListarVeiculoCredencialConcedidasView(filtroAutorizacao);
                 var resultMapeado = Mapper.Map<List<Views.Model.RelVeiculosCredenciaisView>>(result.OrderByDescending(n => n.VeiculoCredencialId).ToList());
 
                 byte[] arrayFile = Convert.FromBase64String(termo.ArquivoRpt);
@@ -485,13 +499,13 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 string mensagemComplemento = string.Empty;
                 string mensagemPeriodo = string.Empty;
                 string arquivoTermo = string.Empty;
-                
+
                 //lista de motivos de autorizações destruidas
                 List<int> statusList = new List<int>() { 6, 8, 15 };
 
 
                 mensagemComplemento = "AEROPORTO ";
-                
+
                 Domain.EntitiesCustom.FiltroReportVeiculoCredencial filtroAutorizacao = new Domain.EntitiesCustom.FiltroReportVeiculoCredencial();
                 filtroAutorizacao.Impressa = true;
                 var termo = _relatorioGerencialServiceService.BuscarPelaChave(report);
@@ -523,14 +537,23 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 {
                     if (!(dataIni.Equals(string.Empty) || dataFim.Equals(string.Empty)))
                     {
-                        filtroAutorizacao.DataStatus = DateTime.Parse(dataIni);
-                        filtroAutorizacao.DataStatusFim = DateTime.Parse(dataFim);
+                        DateTime dataFimAlterada = ((DateTime.Parse(dataFim)).AddHours(23).AddMinutes(59).AddSeconds(59));
+                        if (report == 17)
+                        {
+                            filtroAutorizacao.Baixa = DateTime.Parse(dataIni);
+                            filtroAutorizacao.BaixaFim = dataFimAlterada;
+                        }
+                        else
+                        {
+                            filtroAutorizacao.DataStatus = DateTime.Parse(dataIni);
+                            filtroAutorizacao.DataStatusFim = dataFimAlterada;
+                        }
                         mensagemPeriodo = "Durante o período de  " + dataIni + " a " + dataFim + "";
                     }
                 }
                 else
                 {
-                    filtroAutorizacao.DataStatus = DateTime.Now.AddDays(-periodo).Date; 
+                    filtroAutorizacao.DataStatus = DateTime.Now.AddDays(-periodo).Date;
                     filtroAutorizacao.DataStatusFim = DateTime.Now;
                     if (periodo > 0)
                     {
