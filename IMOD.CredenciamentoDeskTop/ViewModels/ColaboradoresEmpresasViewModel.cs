@@ -45,7 +45,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private ConfiguraSistema _configuraSistema;
 
         #region  Propriedades
-
+        private int _colaboradorid;
         public List<EmpresaContrato> Contratos { get; private set; }
         public List<Empresa> Empresas { get; private set; }
         public Empresa Empresa { get; set; } 
@@ -108,6 +108,26 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 Utils.TraceException(ex);
                 WpfHelp.PopupBox(ex);
+            }
+        }
+        public bool ExisteColaboradoContratoAtivo(int _colaborador)
+        {
+            try
+            {
+                //Verificar se existe numero de contrato
+                var n1 = _service.Listar(_colaborador, Entity.Ativo, null, null, null, null, Entity.EmpresaContratoId);
+                if (n1 != null)
+                {
+                    WpfHelp.Mbox("Colaborador já esta vinculado à este contrato. Operação cancelada.");
+                    //System.Windows.MessageBox.Show("Colaborador já esta vinculado à este contrato. Operação cancelada.");
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception)
+            {
+                return false;
+                throw;
             }
         }
         /// <summary>
@@ -400,10 +420,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             EntityObserver.Clear();
             if (entity == null) return;
-                //throw new ArgumentNullException(nameof(entity));
-             
+            //throw new ArgumentNullException(nameof(entity));
+            _colaboradorid = entity.ColaboradorId;
 
-            _colaboradorView = entity;
+           _colaboradorView = entity;
             //Obter dados
             var list1 = _service.Listar(entity.ColaboradorId);
             var list2 = Mapper.Map<List<ColaboradorEmpresaView>>(list1.OrderByDescending(n => n.ColaboradorEmpresaId));
@@ -452,6 +472,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
             if (Entity == null) return true;
             Entity.Validate();
+            if (ExisteColaboradoContratoAtivo(_colaboradorid)) return true;
 
             if (!_configuraSistema.Contrato && Entity.EmpresaContratoId <= 0)
             {

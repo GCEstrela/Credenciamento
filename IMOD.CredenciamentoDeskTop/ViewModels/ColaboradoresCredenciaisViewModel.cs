@@ -1158,7 +1158,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 try
                 {
                     //FieldObject txtRG1 = (FieldObject)relatorio.ReportDefinition.ReportObjects["RG1"];
-                    
+
                     // txtRG1.DataSource.FormulaName = "{IMOD_CredenciamentoDeskTop_Views_Model_CredencialViewCracha.RG}"; 
                 }
                 catch (Exception ex)
@@ -1166,7 +1166,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                     throw;
                 }
-                
+
 
                 var colaboradorCursosCracha = _auxiliaresService.ColaboradorCursoService.ListarView(Entity.ColaboradorId, null, true);
                 string _cursosCracha = "";
@@ -1426,11 +1426,15 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
 
             //retirar o espaço entre a numeração obtida do cartão
-            if (Entity.Validade.Value.AddHours(23).AddMinutes(59).AddSeconds(59) < DateTime.Now)
+            if (Entity.CredencialStatusId==1)
             {
-                WpfHelp.Mbox("Data de Validade não pode ser menor que a data atual. Não é possível continua essa ação.", MessageBoxIcon.Information);
-                return true;
+                if (Entity.Validade.Value.AddHours(23).AddMinutes(59).AddSeconds(59) < DateTime.Now)
+                {
+                    WpfHelp.Mbox("Data de Validade não pode ser menor que a data atual. Não é possível continua essa ação.", MessageBoxIcon.Information);
+                    return true;
+                }
             }
+
             if (!string.IsNullOrEmpty(Entity.NumeroContrato))
             {
                 Entity.NumeroCredencial = Regex.Replace(Entity.NumeroCredencial, @"\s", "");
