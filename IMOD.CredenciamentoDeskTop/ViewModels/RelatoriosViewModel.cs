@@ -419,7 +419,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 if (!string.IsNullOrEmpty(dataFim))
                 {
-                    colaboradorCredencial.EmissaoFim = DateTime.Parse(dataFim);
+                    colaboradorCredencial.EmissaoFim = DateTime.Parse(dataFim).AddHours(23).AddMinutes(59).AddSeconds(59);
                     if (!string.IsNullOrEmpty(dataIni))
                     {
                         mensagemPeriodo = " ativas concedidas no período de  " + dataIni + " até " + dataFim + "";
@@ -504,7 +504,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 if (!string.IsNullOrEmpty(dataFim))
                 {
-                    colaboradorCredencial.DataStatusFim = DateTime.Parse(dataFim);
+                    colaboradorCredencial.DataStatusFim = DateTime.Parse(dataFim).AddHours(23).AddMinutes(59).AddSeconds(59);
                     if (!string.IsNullOrEmpty(dataIni))
                     {
                         mensagemPeriodo = " no período de  " + dataIni + " até " + dataFim + "";
@@ -683,8 +683,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 if (!string.IsNullOrEmpty(dataFim))
                 {
-                    colaboradorCredencial.EmissaoFim = DateTime.Parse(dataFim);
-                    colaboradorCredencial.ValidadeFim = DateTime.Parse(dataFim);
+                    colaboradorCredencial.EmissaoFim = DateTime.Parse(dataFim).AddHours(23).AddMinutes(59).AddSeconds(59);
+                    colaboradorCredencial.ValidadeFim = DateTime.Parse(dataFim).AddHours(23).AddMinutes(59).AddSeconds(59);
 
                     if (!string.IsNullOrEmpty(dataIni))
                     {
@@ -768,7 +768,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 if (!string.IsNullOrEmpty(dataFim))
                 {
-                    colaboradorCredencial.DataImpressaoFim = DateTime.Parse(dataFim);
+                    colaboradorCredencial.DataImpressaoFim = DateTime.Parse(dataFim).AddHours(23).AddMinutes(59).AddSeconds(59);
                     if (!string.IsNullOrEmpty(dataIni))
                     {
                         mensagemPeriodo = " no período de  " + dataIni + " até " + dataFim + "";
@@ -844,7 +844,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 if (!string.IsNullOrEmpty(dataFim))
                 {
-                    colaboradorCredencial.EmissaoFim = DateTime.Parse(dataFim);
+                    colaboradorCredencial.EmissaoFim = DateTime.Parse(dataFim).AddHours(23).AddMinutes(59).AddSeconds(59);
                     if (!string.IsNullOrEmpty(dataIni))
                     {
                         mensagemPeriodo = " no período de  " + dataIni + " até " + dataFim + "";
@@ -956,7 +956,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 if (!string.IsNullOrEmpty(dataFim))
                 {
-                    colaboradorCredencial.BaixaFim = DateTime.Parse(dataFim);
+                    colaboradorCredencial.BaixaFim = DateTime.Parse(dataFim).AddHours(23).AddMinutes(59).AddSeconds(59);
                     if (!string.IsNullOrEmpty(dataIni))
                     {
                         mensagemPeriodo = " no período de  " + dataIni + " até " + dataFim + "";
@@ -1062,7 +1062,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 if (!string.IsNullOrEmpty(dataFim))
                 {
-                    colaboradorCredencial.ValidadeFim = DateTime.Parse(dataFim);
+                    colaboradorCredencial.ValidadeFim = DateTime.Parse(dataFim).AddHours(23).AddMinutes(59).AddSeconds(59);
                     if (!string.IsNullOrEmpty(dataIni))
                     {
                         mensagemPeriodo = " no período de  " + dataIni + " até " + dataFim + "";
@@ -1159,7 +1159,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 if (!string.IsNullOrEmpty(dataFim))
                 {
-                    veiculoCredencial.EmissaoFim = DateTime.Parse(dataFim);
+                    veiculoCredencial.EmissaoFim = DateTime.Parse(dataFim).AddHours(23).AddMinutes(59).AddSeconds(59);
                     if (!string.IsNullOrEmpty(dataIni))
                     {
                         mensagemPeriodo = " no período de " + dataIni + " até " + dataFim;
@@ -1240,7 +1240,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 if (!string.IsNullOrEmpty(dataFim))
                 {
-                    veiculoCredencial.BaixaFim = DateTime.Parse(dataFim);
+                    veiculoCredencial.BaixaFim = DateTime.Parse(dataFim).AddHours(23).AddMinutes(59).AddSeconds(59);
                     if (!string.IsNullOrEmpty(dataIni))
                     {
                         mensagemPeriodo = " no período de  " + dataIni + " até " + dataFim + "";
@@ -1407,8 +1407,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 if (!string.IsNullOrEmpty(dataFim))
                 {
-                    veiculoCredencial.EmissaoFim = DateTime.Parse(dataFim);
-                    veiculoCredencial.ValidadeFim = DateTime.Parse(dataFim);
+                    veiculoCredencial.EmissaoFim = DateTime.Parse(dataFim).AddHours(23).AddMinutes(59).AddSeconds(59);
+                    veiculoCredencial.ValidadeFim = DateTime.Parse(dataFim).AddHours(23).AddMinutes(59).AddSeconds(59);
 
                     if (!string.IsNullOrEmpty(dataIni))
                     {
@@ -1492,7 +1492,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 if (!string.IsNullOrEmpty(dataFim))
                 {
-                    veiculoCredencial.DataImpressaoFim = DateTime.Parse(dataFim);
+                    veiculoCredencial.DataImpressaoFim = DateTime.Parse(dataFim).AddHours(23).AddMinutes(59).AddSeconds(59);
                     if (!string.IsNullOrEmpty(dataIni))
                     {
                         mensagemPeriodo = " no período de  " + dataIni + " até " + dataFim + "";
@@ -1565,7 +1565,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 if (!string.IsNullOrEmpty(dataFim))
                 {
-                    veiculoCredencial.EmissaoFim = DateTime.Parse(dataFim);
+                    veiculoCredencial.EmissaoFim = DateTime.Parse(dataFim).AddHours(23).AddMinutes(59).AddSeconds(59);
                     if (!string.IsNullOrEmpty(dataIni))
                     {
                         mensagemPeriodo = " no período de  " + dataIni + " até " + dataFim + "";
@@ -1670,7 +1670,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 if (!string.IsNullOrEmpty(dataFim))
                 {
-                    veiculoCredencial.BaixaFim = DateTime.Parse(dataFim);
+                    veiculoCredencial.BaixaFim = DateTime.Parse(dataFim).AddHours(23).AddMinutes(59).AddSeconds(59);
                     if (!string.IsNullOrEmpty(dataIni))
                     {
                         mensagemPeriodo = " no período de  " + dataIni + " até " + dataFim + "";
@@ -1772,7 +1772,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 if (!string.IsNullOrEmpty(dataFim))
                 {
-                    veiculoCredencial.ValidadeFim = DateTime.Parse(dataFim);
+                    veiculoCredencial.ValidadeFim = DateTime.Parse(dataFim).AddHours(23).AddMinutes(59).AddSeconds(59);
                     if (!string.IsNullOrEmpty(dataIni))
                     {
                         mensagemPeriodo = " no período de  " + dataIni + " até " + dataFim + "";
