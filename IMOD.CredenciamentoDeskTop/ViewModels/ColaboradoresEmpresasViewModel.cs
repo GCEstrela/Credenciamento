@@ -116,7 +116,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 //Verificar se existe numero de contrato
                 var n1 = _service.Listar(_colaborador, Entity.Ativo, null, null, null, null, Entity.EmpresaContratoId);
-                if (n1 != null)
+                if (n1.Count() > 0)
                 {
                     WpfHelp.Mbox("Colaborador já esta vinculado à este contrato. Operação cancelada.");
                     //System.Windows.MessageBox.Show("Colaborador já esta vinculado à este contrato. Operação cancelada.");
