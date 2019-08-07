@@ -130,8 +130,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 {
                     if (!(dataIni.Equals(string.Empty) || dataFim.Equals(string.Empty)))
                     {
+                        DateTime dataFimAlterada = ((DateTime.Parse(dataFim)).AddHours(23).AddMinutes(59).AddSeconds(59));
                         colaboradorCredencial.Emissao = DateTime.Parse(dataIni);
-                        colaboradorCredencial.EmissaoFim = DateTime.Parse(dataFim);
+                        colaboradorCredencial.EmissaoFim = dataFimAlterada;
                         mensagemPeriodo = "Durante o período de  " + dataIni + " a " + dataFim + "";
                     }
                 }
@@ -200,8 +201,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 {
                     if (!(dataIni.Equals(string.Empty) || dataFim.Equals(string.Empty)))
                     {
+                        DateTime dataFimAlterada = ((DateTime.Parse(dataFim)).AddHours(23).AddMinutes(59).AddSeconds(59));
                         colaboradorCredencial.Emissao = DateTime.Parse(dataIni);
-                        colaboradorCredencial.EmissaoFim = DateTime.Parse(dataFim);
+                        colaboradorCredencial.EmissaoFim = dataFimAlterada;
                         mensagemPeriodo = "Durante o período de  " + dataIni + " a " + dataFim + "";
                     }
                 }
@@ -254,6 +256,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 string mensagemComplemento = string.Empty;
                 string mensagemPeriodo = string.Empty;
                 string arquivoTermo = string.Empty;
+                
 
                 mensagemComplemento = "AEROPORTO ";
                 Domain.EntitiesCustom.FiltroReportColaboradoresCredenciais colaboradorCredencial = new Domain.EntitiesCustom.FiltroReportColaboradoresCredenciais();
@@ -285,8 +288,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 {
                     if (!(dataIni.Equals(string.Empty) || dataFim.Equals(string.Empty)))
                     {
+                        DateTime dataFimAlterada = ((DateTime.Parse(dataFim)).AddHours(23).AddMinutes(59).AddSeconds(59));
                         colaboradorCredencial.DataStatus = DateTime.Parse(dataIni); 
-                        colaboradorCredencial.DataStatusFim = DateTime.Parse(dataFim); 
+                        colaboradorCredencial.DataStatusFim = dataFimAlterada; 
                         mensagemPeriodo = "Durante o período de  " + dataIni + " a " + dataFim + ""; 
                     }
                 }
@@ -363,8 +367,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 {
                     if (!(dataIni.Equals(string.Empty) || dataFim.Equals(string.Empty)))
                     {
+                        DateTime dataFimAlterada = ((DateTime.Parse(dataFim)).AddHours(23).AddMinutes(59).AddSeconds(59));
                         filtroAutorizacao.Emissao = DateTime.Parse(dataIni);
-                        filtroAutorizacao.EmissaoFim = DateTime.Parse(dataFim);
+                        filtroAutorizacao.EmissaoFim = dataFimAlterada;
                         mensagemPeriodo = "Durante o período de  " + dataIni + " a " + dataFim + "";
                     }
                 }
@@ -430,8 +435,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 {
                     if (!(dataIni.Equals(string.Empty) || dataFim.Equals(string.Empty)))
                     {
+                        DateTime dataFimAlterada = ((DateTime.Parse(dataFim)).AddHours(23).AddMinutes(59).AddSeconds(59));
                         filtroAutorizacao.Emissao = DateTime.Parse(dataIni);
-                        filtroAutorizacao.EmissaoFim = DateTime.Parse(dataFim);
+                        filtroAutorizacao.EmissaoFim = dataFimAlterada;
                         mensagemPeriodo = "Durante o período de  " + dataIni + " a " + dataFim + "";
                     }
                 }
@@ -523,8 +529,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 {
                     if (!(dataIni.Equals(string.Empty) || dataFim.Equals(string.Empty)))
                     {
+                        DateTime dataFimAlterada = ((DateTime.Parse(dataFim)).AddHours(23).AddMinutes(59).AddSeconds(59));
                         filtroAutorizacao.DataStatus = DateTime.Parse(dataIni);
-                        filtroAutorizacao.DataStatusFim = DateTime.Parse(dataFim);
+                        filtroAutorizacao.DataStatusFim = dataFimAlterada;
                         mensagemPeriodo = "Durante o período de  " + dataIni + " a " + dataFim + "";
                     }
                 }
