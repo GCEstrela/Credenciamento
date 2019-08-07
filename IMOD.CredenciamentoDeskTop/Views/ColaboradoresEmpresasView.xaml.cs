@@ -117,8 +117,13 @@ namespace IMOD.CredenciamentoDeskTop.Views
             try
             {
                 var str = txtDtValidade.Text;
-                if (string.IsNullOrWhiteSpace(str)) return;
+                if (string.IsNullOrWhiteSpace(str))
+                {
+                    _viewModel.Entity.Validade = null;
+                    return;
+                }
                 txtDtValidade.Text = str.FormatarData();
+                
             }
             catch (Exception)
             {
