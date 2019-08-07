@@ -120,6 +120,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 {
                     WpfHelp.Mbox("Colaborador já esta vinculado à este contrato. Operação cancelada.");
                     //System.Windows.MessageBox.Show("Colaborador já esta vinculado à este contrato. Operação cancelada.");
+                    Comportamento.PrepareCancelar();
                     return true;
                 }
                 return false;
@@ -236,6 +237,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 if (Entity == null) return;
                 if (Validar()) return;
+                if (ExisteColaboradoContratoAtivo(_colaboradorid)) return;
 
                 var n1 = Mapper.Map<ColaboradorEmpresa>(Entity);
                 n1.ColaboradorId = _colaboradorView.ColaboradorId;
@@ -472,7 +474,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
             if (Entity == null) return true;
             Entity.Validate();
-            if (ExisteColaboradoContratoAtivo(_colaboradorid)) return true;
+           
 
             if (!_configuraSistema.Contrato && Entity.EmpresaContratoId <= 0)
             {
