@@ -79,6 +79,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         ///     e condição de pendencia impeditiva
         /// </summary>
         public bool HabilitaImpressao { get; set; }
+        public string ExcluirVisivel { get; set; }
         /// <summary>
         ///     Seleciona indice da listview
         /// </summary>
@@ -121,6 +122,14 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         public VeiculosCredenciaisViewModel()
         {
+            if (!UsuarioLogado.Adm)
+            {
+                ExcluirVisivel = "Collapsed";
+            }
+            else
+            {
+                ExcluirVisivel = "Visible";
+            }
             //ItensDePesquisaConfigura();
             ListarDadosAuxiliares();
             Comportamento = new ComportamentoBasico(false, true, false, false, false);
@@ -440,7 +449,14 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var pendenciaImpeditivaVeiculo = serviceEmpresa.Pendencia.ListarPorVeiculo(entity.VeiculoId).Where(n => n.Impeditivo == true && n.Ativo == true).ToList();
 
                 HabilitaImpressao = entity.Ativa & !entity.PendenciaImpeditiva & !entity.Impressa && entity.Validade >= DateTime.Now.Date && (pendenciaImpeditivaEmpresa.Count <= 0) && (pendenciaImpeditivaVeiculo.Count <= 0);
-                
+                //if (!UsuarioLogado.Adm)   //Esta alteração esta sendo feita para permitir que o Usuario ADM posso continuar com a data alterada
+                //{
+                //    HabilitaImpressao = entity.Ativa && !entity.PendenciaImpeditiva && !entity.Impressa && (entity.VeiculoCredencialId > 0) && entity.Validade >= DateTime.Now.Date && (pendenciaImpeditivaEmpresa.Count <= 0) && (pendenciaImpeditivaVeiculo.Count <= 0);
+                //}
+                //else
+                //{
+                //    HabilitaImpressao = entity.Ativa && !entity.PendenciaImpeditiva && !entity.Impressa && (entity.VeiculoCredencialId > 0) && (pendenciaImpeditivaEmpresa.Count <= 0) && (pendenciaImpeditivaVeiculo.Count <= 0);
+                //}
                 //Verificar se a empresa esta impedida
                 var mensagem1 = "";
                 var mensagem2 = "";

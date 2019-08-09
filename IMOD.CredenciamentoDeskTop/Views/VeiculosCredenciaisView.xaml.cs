@@ -61,11 +61,14 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             //EmpresaVinculo_cb.SelectionChanged += EmpresaVinculo_cb_SelectionChanged;
             cmbEmpresaVinculo.SelectionChanged += EmpresaVinculo_cb_SelectionChanged;
+            cmbCredencialStatus.SelectionChanged += OnAlterarStatus_SelectonChanged;
         }
         private void OnAlterarStatus_SelectonChanged(object sender, SelectionChangedEventArgs e)
         {
 
             btnImprimirCredencial.IsEnabled = _viewModel.HabilitaImpressao;
+
+            
 
             if (cmbCredencialStatus.SelectedItem != null &&
             (((CredencialStatus)cmbCredencialStatus.SelectedItem).CredencialStatusId == 1))

@@ -77,6 +77,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         ///     e condição de pendencia impeditiva
         /// </summary>
         public bool HabilitaImpressao { get; set; }
+        public string ExcluirVisivel { get; set; }
         /// <summary>
         ///     Seleciona indice da listview
         /// </summary>
@@ -120,6 +121,14 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         public EquipamentosCredenciaisViewModel()
         {
+            if (!UsuarioLogado.Adm)
+            {
+                ExcluirVisivel = "Collapsed";
+            }
+            else
+            {
+                ExcluirVisivel = "Visible";
+            }
             //ItensDePesquisaConfigura();
             ListarDadosAuxiliares();
             Comportamento = new ComportamentoBasico(false, true, false, false, false);

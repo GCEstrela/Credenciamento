@@ -407,7 +407,8 @@
                     <Button x:Name="btnExcluir" Content="{StaticResource imgRemove}" ToolTip="Remover" Width="25"
                             Margin="0,0,0,7"
                             IsEnabled="{Binding Comportamento.isEnableRemover}"
-                            Command="{Binding PrepareRemoverCommand}"  />
+                            Command="{Binding PrepareRemoverCommand}"
+                            Visibility="{Binding ExcluirVisivel}"/>
 
                     <Button x:Name="btnCancelar" Content="{StaticResource imgCancel}" ToolTip="Cancelar" Width="25"
                             Margin="0,0,0,7"
