@@ -23,6 +23,7 @@ namespace IMOD.Domain.EntitiesCustom
         public string SerieChassi { get; set; } 
         public string TipoServico { get; set; }
         public bool AreaManobra { get; set; }
+        public string Registro { get; set; }
 
     }
 }
