@@ -43,12 +43,20 @@ namespace IMOD.Infra.Repositorios
         /// <param name="anexos">Anexos</param>
         public void CriarAnexos(Colaborador colaborador, IList<ColaboradorAnexo> anexos)
         {
-            Criar(colaborador); //Criar colaborador
-            foreach (var item in anexos)
+            try
             {
-                item.ColaboradorId = colaborador.ColaboradorId;
-                _anexoRepositorio.Criar(item); //Criar Anexos
+                Criar(colaborador); //Criar colaborador
+                foreach (var item in anexos)
+                {
+                    item.ColaboradorId = colaborador.ColaboradorId;
+                    _anexoRepositorio.Criar(item); //Criar Anexos
+                }
             }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
 
         /// <summary>
@@ -58,26 +66,27 @@ namespace IMOD.Infra.Repositorios
         /// <returns></returns>
         public ICollection<Colaborador> ListarPorStatus(int idStatus)
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.SelectText("Colaboradores", conn))
-
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
+                    using (var cmd = _dataBase.SelectText("Colaboradores", conn))
+
                     {
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("StatusID", DbType.Int32, idStatus).Igual()));
                         var reader = cmd.ExecuteReader();
                         var d1 = reader.MapToList<Colaborador>();
 
                         return d1;
-                    }
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException(ex);
-                        throw;
+
                     }
                 }
             }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
 
         /// <summary>
@@ -87,25 +96,26 @@ namespace IMOD.Infra.Repositorios
         /// <returns></returns>
         public Colaborador ObterPorCpf(string cpf)
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.SelectText("Colaboradores", conn))
-
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
+                    using (var cmd = _dataBase.SelectText("Colaboradores", conn))
+
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("Cpf", DbType.String, cpf.RetirarCaracteresEspeciais()).Igual())); 
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("Cpf", DbType.String, cpf.RetirarCaracteresEspeciais()).Igual()));
                         var reader = cmd.ExecuteReader();
                         var d1 = reader.MapToList<Colaborador>();
                         return d1.FirstOrDefault();
-                    }
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException(ex);
-                        throw;
+
                     }
                 }
             }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
 
         /// <summary>
@@ -114,12 +124,13 @@ namespace IMOD.Infra.Repositorios
         /// <param name="entity"></param>
         public void Alterar(Colaborador entity)
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.UpdateText("Colaboradores", conn))
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
+                    using (var cmd = _dataBase.UpdateText("Colaboradores", conn))
                     {
+
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("ColaboradorId", entity.ColaboradorId, true)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Nome", entity.Nome, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Apelido", entity.Apelido, false)));
@@ -171,14 +182,15 @@ namespace IMOD.Infra.Repositorios
                         //cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Segurancatrabalho", entity.Segurancatrabalho, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Precadastro", entity.Precadastro, false)));
                         cmd.ExecuteNonQuery();
-                    }
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException(ex);
-                        throw;
+
                     }
                 }
             }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
 
         /// <summary>
@@ -188,26 +200,28 @@ namespace IMOD.Infra.Repositorios
         /// <returns></returns>
         public Colaborador BuscarPelaChave(int id)
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.SelectText("Colaboradores", conn))
-
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
+                    using (var cmd = _dataBase.SelectText("Colaboradores", conn))
+
                     {
+
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("ColaboradorId", DbType.Int32, id).Igual()));
                         var reader = cmd.ExecuteReader();
                         var d1 = reader.MapToList<Colaborador>();
 
                         return d1.FirstOrDefault();
-                    }
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException(ex);
-                        throw;
+
                     }
                 }
             }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
 
         /// <summary>
@@ -216,11 +230,11 @@ namespace IMOD.Infra.Repositorios
         /// <param name="entity">Entidade</param>
         public void Criar(Colaborador entity)
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.InsertText("Colaboradores", conn))
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
+                    using (var cmd = _dataBase.InsertText("Colaboradores", conn))
                     {
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("ColaboradorId", entity.ColaboradorId, true)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Nome", entity.Nome, false)));
@@ -276,13 +290,13 @@ namespace IMOD.Infra.Repositorios
                         var key = Convert.ToInt32(cmd.ExecuteScalar());
                         entity.ColaboradorId = key;
                     }
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException(ex);
-                        throw;
-                    }
                 }
             }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
 
         /// <summary>
@@ -298,31 +312,23 @@ namespace IMOD.Infra.Repositorios
                     using (var cmd = _dataBase.SelectText("ColaboradoresView", conn))
 
                     {
-                        try
-                        {
-                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("ColaboradorID", DbType.Int32, o, 0).Igual()));
-                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Cpf", DbType.String, o, 1).Like()));
-                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Nome", DbType.String, o, 2).Like()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("ColaboradorID", DbType.Int32, o, 0).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Cpf", DbType.String, o, 1).Like()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Nome", DbType.String, o, 2).Like()));
 
-                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Precadastro", DbType.Boolean, o, 3).Igual()));
-                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("IdColaboradorSICOA", DbType.Int32, o, 4).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Precadastro", DbType.Boolean, o, 3).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("IdColaboradorSICOA", DbType.Int32, o, 4).Igual()));
 
-                            var reader = cmd.ExecuteReaderSelect();
-                            var d1 = reader.MapToList<Colaborador>();
+                        var reader = cmd.ExecuteReaderSelect();
+                        var d1 = reader.MapToList<Colaborador>();
 
-                            return d1;
-                        }
-                        catch (Exception ex)
-                        {
-                            Utils.TraceException(ex);
-                            throw;
-                        }
+                        return d1;
+
                     }
                 }
             }
             catch (Exception ex)
             {
-                
                 throw ex;
             }
         }
@@ -332,13 +338,14 @@ namespace IMOD.Infra.Repositorios
         /// <returns></returns>
         public ICollection<Colaborador> ListarFoto(params object[] o)
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.SelectText("ColaboradoresView", conn))
-
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
+                    using (var cmd = _dataBase.SelectText("ColaboradoresView", conn))
+
                     {
+
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("ColaboradorID", DbType.Int32, o, 0).Igual()));
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Cpf", DbType.String, o, 1).Like()));
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Nome", DbType.String, o, 2).Like()));
@@ -347,21 +354,22 @@ namespace IMOD.Infra.Repositorios
                         var d1 = reader.MapToList<Colaborador>();
 
                         return d1;
-                    }
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException(ex);
-                        throw;
+
                     }
                 }
             }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
         /// <summary>
         ///     Deletar registro
         /// </summary>
         /// <param name="entity">Entidade</param>   
         public void Remover(Colaborador entity)
-        {
+        {           
             using (var conn = _dataBase.CreateOpenConnection())
             {
                 var tran = conn.BeginTransaction();
@@ -392,7 +400,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamDelete("ColaboradorId", DbType.Int32, entity.ColaboradorId).Igual()));
                         cmd.ExecuteNonQuery();
                     }
-                    
+
                     tran.Commit();
                 }
                 catch (Exception ex)
@@ -404,7 +412,7 @@ namespace IMOD.Infra.Repositorios
                     }
                     Utils.TraceException(ex);
                 }
-                
+
             }
         }
 
