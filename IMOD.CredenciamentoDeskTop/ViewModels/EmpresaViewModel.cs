@@ -161,19 +161,26 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         public EmpresaViewModel()
         {
-            ItensDePesquisaConfigura();
-            ListarDadosAuxiliares();
-            Comportamento = new ComportamentoBasico (false, true, true, false, false);
-            EntityObserver = new ObservableCollection<EmpresaView>();
-            TiposAtividades = new ObservableCollection<EmpresaTipoAtividadeView>();
-            TiposLayoutCracha = new ObservableCollection<EmpresaLayoutCrachaView>();
-            EntityObserver = new ObservableCollection<EmpresaView>();
+            try
+            {
+                ItensDePesquisaConfigura();
+                ListarDadosAuxiliares();
+                Comportamento = new ComportamentoBasico(false, true, true, false, false);
+                EntityObserver = new ObservableCollection<EmpresaView>();
+                TiposAtividades = new ObservableCollection<EmpresaTipoAtividadeView>();
+                TiposLayoutCracha = new ObservableCollection<EmpresaLayoutCrachaView>();
+                EntityObserver = new ObservableCollection<EmpresaView>();
 
-            Comportamento.SalvarAdicao += OnSalvarAdicao;
-            Comportamento.SalvarEdicao += OnSalvarEdicao;
-            Comportamento.Remover += OnRemover;
-            Comportamento.Cancelar += OnCancelar;
-            PropertyChanged += OnEntityChanged;
+                Comportamento.SalvarAdicao += OnSalvarAdicao;
+                Comportamento.SalvarEdicao += OnSalvarEdicao;
+                Comportamento.Remover += OnRemover;
+                Comportamento.Cancelar += OnCancelar;
+                PropertyChanged += OnEntityChanged;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         #region  Metodos
@@ -183,41 +190,59 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void OnEntityChanged(object sender, PropertyChangedEventArgs e)
-
-
         {
-            if (e.PropertyName == "Entity")
-
+            try
             {
-                var enableControls = Entity != null;
-                Comportamento.IsEnableEditar = Entity != null;
-                HabilitaControleTabControls(true, enableControls, enableControls, enableControls, enableControls);
+                if (e.PropertyName == "Entity")
+
+                {
+                    var enableControls = Entity != null;
+                    Comportamento.IsEnableEditar = Entity != null;
+                    HabilitaControleTabControls(true, enableControls, enableControls, enableControls, enableControls);
+                }
+
+                if (e.PropertyName == "SelectedTabIndex")
+                    //Habilita/Desabilita botoes principais...
+                    HabilitaCommandPincipal = SelectedTabIndex == 0;
             }
-            
-            if (e.PropertyName == "SelectedTabIndex")
-                //Habilita/Desabilita botoes principais...
-                HabilitaCommandPincipal = SelectedTabIndex == 0; 
-             
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public void bucarLogo(int empresa)
         {
-            if (Entity.Logo != null) return;
-            var listaFoto = _service.BuscarPelaChave(empresa);
-            if (listaFoto!=null)
-                Entity.Logo = listaFoto.Logo;
+            try
+            {
+                if (Entity.Logo != null) return;
+                var listaFoto = _service.BuscarPelaChave(empresa);
+                if (listaFoto != null)
+                    Entity.Logo = listaFoto.Logo;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         /// <summary>
         ///     Atualizar dados de atividade
         /// </summary>
         public void AtualizarDadosTiposAtividades()
         {
-            if (Entity == null) return;
+            try
+            {
+                if (Entity == null) return;
 
-            TiposAtividades.Clear();
-            var id = Entity.EmpresaId;
-            var list = _service.Atividade.ListarEmpresaTipoAtividadeView (null, id, null, null).ToList();
-            var list2 = Mapper.Map<List<EmpresaTipoAtividadeView>> (list);
-            list2.ForEach (n => TiposAtividades.Add (n));
+                TiposAtividades.Clear();
+                var id = Entity.EmpresaId;
+                var list = _service.Atividade.ListarEmpresaTipoAtividadeView(null, id, null, null).ToList();
+                var list2 = Mapper.Map<List<EmpresaTipoAtividadeView>>(list);
+                list2.ForEach(n => TiposAtividades.Add(n));
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -225,13 +250,20 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         public void AtualizarDadosTipoCrachas()
         {
-            if (Entity == null) return;
+            try
+            {
+                if (Entity == null) return;
 
-            TiposLayoutCracha.Clear();
-            var id = Entity.EmpresaId;
-            var list = _service.CrachaService.ListarLayoutCrachaPorEmpresaView (id,0).ToList();
-            var list2 = Mapper.Map<List<EmpresaLayoutCrachaView>> (list);
-            list2.ForEach (n => TiposLayoutCracha.Add (n));
+                TiposLayoutCracha.Clear();
+                var id = Entity.EmpresaId;
+                var list = _service.CrachaService.ListarLayoutCrachaPorEmpresaView(id, 0).ToList();
+                var list2 = Mapper.Map<List<EmpresaLayoutCrachaView>>(list);
+                list2.ForEach(n => TiposLayoutCracha.Add(n));
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -239,13 +271,20 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private void ItensDePesquisaConfigura()
         {
-            ListaPesquisa = new List<KeyValuePair<int, string>>();
-            ListaPesquisa.Add (new KeyValuePair<int, string> (1, "CNPJ"));
-            ListaPesquisa.Add (new KeyValuePair<int, string> (2, "Razão Social"));
-            ListaPesquisa.Add (new KeyValuePair<int, string> (3, "Código"));
-            ListaPesquisa.Add (new KeyValuePair<int, string>(4, "Pendências"));
-            ListaPesquisa.Add (new KeyValuePair<int, string> (5, "Todos"));
-            PesquisarPor = ListaPesquisa[1]; //Pesquisa Default
+            try
+            {
+                ListaPesquisa = new List<KeyValuePair<int, string>>();
+                ListaPesquisa.Add(new KeyValuePair<int, string>(1, "CNPJ"));
+                ListaPesquisa.Add(new KeyValuePair<int, string>(2, "Razão Social"));
+                ListaPesquisa.Add(new KeyValuePair<int, string>(3, "Código"));
+                ListaPesquisa.Add(new KeyValuePair<int, string>(4, "Pendências"));
+                ListaPesquisa.Add(new KeyValuePair<int, string>(5, "Todos"));
+                PesquisarPor = ListaPesquisa[1]; //Pesquisa Default
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -253,12 +292,19 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         public void CarregarQuantidadeTipoCredencial()
         {
-            if (Entity == null) return;
+            try
+            {
+                if (Entity == null) return;
 
-            var id = Entity.EmpresaId;
-            var objTipocredenciaisEmpresa = _service.ListarTipoCredenciaisEmpresa (id).ToList();
-            QuantidadeTipoCredencialPermanente = objTipocredenciaisEmpresa.Count (p => p.TipoCredencialId == 1 && p.Impressa == true);
-            QuantidadeTipoCredencialTemporario = objTipocredenciaisEmpresa.Count (p => p.TipoCredencialId == 2 && p.Impressa == true);
+                var id = Entity.EmpresaId;
+                var objTipocredenciaisEmpresa = _service.ListarTipoCredenciaisEmpresa(id).ToList();
+                QuantidadeTipoCredencialPermanente = objTipocredenciaisEmpresa.Count(p => p.TipoCredencialId == 1 && p.Impressa == true);
+                QuantidadeTipoCredencialTemporario = objTipocredenciaisEmpresa.Count(p => p.TipoCredencialId == 2 && p.Impressa == true);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -267,16 +313,23 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// ValidarCnpj
         public void AtualizarDadosPendencias()
         {
-            if (Entity == null) return;
+            try
+            {
+                if (Entity == null) return;
 
-            var pendencia = _service.Pendencia.ListarPorEmpresa (Entity.EmpresaId).ToList();
-            //Set valores
-            SetPendenciaFalse();
-            //Buscar pendências referente aos códigos: 21; 12;14;24
-            Pendencia21 = pendencia.Any (n => n.CodPendencia == 21 & n.Ativo);
-            Pendencia12 = pendencia.Any (n => n.CodPendencia == 12 & n.Ativo);
-            Pendencia14 = pendencia.Any (n => n.CodPendencia == 14 & n.Ativo);
-            Pendencia24 = pendencia.Any (n => n.CodPendencia == 24 & n.Ativo);
+                var pendencia = _service.Pendencia.ListarPorEmpresa(Entity.EmpresaId).ToList();
+                //Set valores
+                SetPendenciaFalse();
+                //Buscar pendências referente aos códigos: 21; 12;14;24
+                Pendencia21 = pendencia.Any(n => n.CodPendencia == 21 & n.Ativo);
+                Pendencia12 = pendencia.Any(n => n.CodPendencia == 12 & n.Ativo);
+                Pendencia14 = pendencia.Any(n => n.CodPendencia == 14 & n.Ativo);
+                Pendencia24 = pendencia.Any(n => n.CodPendencia == 24 & n.Ativo);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         private void SetPendenciaFalse()
@@ -292,19 +345,23 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         public void ListarDadosAuxiliares()
         {
-            var lst1 = _auxiliaresService.LayoutCrachaService.Listar();
-            var lst2 = _auxiliaresService.TipoAtividadeService.Listar();
-            var lst3 = _auxiliaresService.EstadoService.Listar();
+            try
+            {
+                var lst1 = _auxiliaresService.LayoutCrachaService.Listar();
+                var lst2 = _auxiliaresService.TipoAtividadeService.Listar();
+                var lst3 = _auxiliaresService.EstadoService.Listar();
 
-            ListaCrachas = Mapper.Map<List<LayoutCrachaView>> (lst1);
-            ListaAtividades = Mapper.Map<List<TipoAtividadeView>> (lst2);
-            Estados = Mapper.Map<List<Estados>> (lst3);
+                ListaCrachas = Mapper.Map<List<LayoutCrachaView>>(lst1);
+                ListaAtividades = Mapper.Map<List<TipoAtividadeView>>(lst2);
+                Estados = Mapper.Map<List<Estados>>(lst3);
 
-            //Obter configuracoes de sistema
-           _configuraSistema = ObterConfiguracao();
-
-
-
+                //Obter configuracoes de sistema
+                _configuraSistema = ObterConfiguracao();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         #endregion
@@ -314,47 +371,67 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <returns></returns>
         private ConfiguraSistema ObterConfiguracao()
         {
-            //Obter configuracoes de sistema
-            var config = _auxiliaresService.ConfiguraSistemaService.Listar();
-            //Obtem o primeiro registro de configuracao
-            if (config == null) throw new InvalidOperationException("Não foi possivel obter dados de configuração do sistema.");
-            return config.FirstOrDefault();
+            try
+            {
+                //Obter configuracoes de sistema
+                var config = _auxiliaresService.ConfiguraSistemaService.Listar();
+                //Obtem o primeiro registro de configuracao
+                if (config == null) throw new InvalidOperationException("Não foi possivel obter dados de configuração do sistema.");
+                return config.FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         #region Regras de Negócio
 
         public bool ExisteCnpj()
         {
-            if (Entity == null) return false;
-            var cnpj = Entity.Cnpj.RetirarCaracteresEspeciais();
+            try
+            {
+                if (Entity == null) return false;
+                var cnpj = Entity.Cnpj.RetirarCaracteresEspeciais();
 
-            //Verificar dados antes de salvar uma criação
-            if (_prepareCriarCommandAcionado)
-                if (_service.ExisteCnpj (cnpj)) return true;
-            //Verificar dados antes de salvar uma alteraçao
-            if (!_prepareAlterarCommandAcionado) return false;
-            var n1 = _service.BuscarPelaChave (Entity.EmpresaId);
-            if (n1 == null) return false;
-            //Comparar o CNPJ antes e o depois
-            //Verificar se há cnpj exisitente
-            return string.Compare (n1.Cnpj.RetirarCaracteresEspeciais(),
-                cnpj, StringComparison.Ordinal) != 0 && _service.ExisteCnpj (cnpj);
+                //Verificar dados antes de salvar uma criação
+                if (_prepareCriarCommandAcionado)
+                    if (_service.ExisteCnpj(cnpj)) return true;
+                //Verificar dados antes de salvar uma alteraçao
+                if (!_prepareAlterarCommandAcionado) return false;
+                var n1 = _service.BuscarPelaChave(Entity.EmpresaId);
+                if (n1 == null) return false;
+                //Comparar o CNPJ antes e o depois
+                //Verificar se há cnpj exisitente
+                return string.Compare(n1.Cnpj.RetirarCaracteresEspeciais(),
+                    cnpj, StringComparison.Ordinal) != 0 && _service.ExisteCnpj(cnpj);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public bool ExisteSigla()
         {
-            if (Entity == null) return false;
-            var sigla = Entity.Sigla?.Trim();
+            try
+            {
+                if (Entity == null) return false;
+                var sigla = Entity.Sigla?.Trim();
 
-            //Verificar dados antes de salvar uma criação
-            if (_prepareCriarCommandAcionado)
-                if (_service.ExisteSigla(sigla)) return true;
-            //Verificar dados antes de salvar uma alteraçao
-            if (!_prepareAlterarCommandAcionado) return false;
-            var n1 = _service.BuscarPelaChave(Entity.EmpresaId);
-            if (n1 == null) return false;
-           
-            return false;
+                //Verificar dados antes de salvar uma criação
+                if (_prepareCriarCommandAcionado)
+                    if (_service.ExisteSigla(sigla)) return true;
+                //Verificar dados antes de salvar uma alteraçao
+                if (!_prepareAlterarCommandAcionado) return false;
+                var n1 = _service.BuscarPelaChave(Entity.EmpresaId);
+                if (n1 == null) return false;
 
+                return false;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         /// <summary>
         ///     Verificar se dados válidos
@@ -363,10 +440,17 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <returns></returns>
         private bool EInValidoCnpj()
         {
-            if (Entity == null) return false;
-            var cnpj = Entity.Cnpj.RetirarCaracteresEspeciais();
-            if (!Utils.IsValidCnpj (cnpj)) return true;
-            return false;
+            try
+            {
+                if (Entity == null) return false;
+                var cnpj = Entity.Cnpj.RetirarCaracteresEspeciais();
+                if (!Utils.IsValidCnpj(cnpj)) return true;
+                return false;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -459,19 +543,26 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         private void PrepareCriar()
         {
-            this.empresaFake = false;
-            Entity = new EmpresaView();
-            ListarDadosAuxiliares();
-            _prepareCriarCommandAcionado = true;
-            Comportamento.PrepareCriar();
-            _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;
-            TiposLayoutCracha.Clear();
-            TiposAtividades.Clear();
-            QuantidadeTipoCredencialTemporario = 0;
-            QuantidadeTipoCredencialPermanente = 0;
-            HabilitaControle (false, false);
-            CloneObservable();
-            SetPendenciaFalse();
+            try
+            {
+                this.empresaFake = false;
+                Entity = new EmpresaView();
+                ListarDadosAuxiliares();
+                _prepareCriarCommandAcionado = true;
+                Comportamento.PrepareCriar();
+                _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;
+                TiposLayoutCracha.Clear();
+                TiposAtividades.Clear();
+                QuantidadeTipoCredencialTemporario = 0;
+                QuantidadeTipoCredencialPermanente = 0;
+                HabilitaControle(false, false);
+                CloneObservable();
+                SetPendenciaFalse();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -564,6 +655,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             catch (Exception ex)
             {
                 Utils.TraceException (ex);
+                //throw ex;
             }
         }
 
@@ -600,29 +692,43 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         private void PrepareAlterar()
         {
-            if (Entity == null)
+            try
             {
-                WpfHelp.PopupBox ("Selecione um item da lista", 1);
-                return;
+                if (Entity == null)
+                {
+                    WpfHelp.PopupBox("Selecione um item da lista", 1);
+                    return;
+                }
+                //ListarDadosAuxiliares();
+                Comportamento.PrepareAlterar();
+                _prepareCriarCommandAcionado = false;
+                _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;
+                AtualizarDadosTiposAtividades();
+                AtualizarDadosTipoCrachas();
+                HabilitaControle(false, false);
+                CloneObservable();
             }
-            //ListarDadosAuxiliares();
-            Comportamento.PrepareAlterar();
-            _prepareCriarCommandAcionado = false;
-            _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;
-            AtualizarDadosTiposAtividades();
-            AtualizarDadosTipoCrachas();
-            HabilitaControle (false, false);
-            CloneObservable();
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         private void PrepareRemover()
         {
-            if (Entity == null) return;
+            try
+            {
+                if (Entity == null) return;
 
-            _prepareCriarCommandAcionado = false;
-            _prepareAlterarCommandAcionado = false;
-            Comportamento.PrepareRemover();
-            HabilitaControle (true, true);
+                _prepareCriarCommandAcionado = false;
+                _prepareAlterarCommandAcionado = false;
+                Comportamento.PrepareRemover();
+                HabilitaControle(true, true);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         private void OnSalvarAdicao(object sender, RoutedEventArgs e)
@@ -671,16 +777,23 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         private void SalvarTipoCracha(int empresaId)
         {
-            //Remover
-            _service.CrachaService.RemoverPorEmpresa (empresaId);
-            //Adicionar
-            var lst = TiposLayoutCracha.ToList();
-            lst.ForEach (n =>
+            try
             {
-                var n1 = Mapper.Map<EmpresaLayoutCracha> (n);
-                n1.EmpresaId = empresaId;
-                _service.CrachaService.Criar (n1);
-            });
+                //Remover
+                _service.CrachaService.RemoverPorEmpresa(empresaId);
+                //Adicionar
+                var lst = TiposLayoutCracha.ToList();
+                lst.ForEach(n =>
+                {
+                    var n1 = Mapper.Map<EmpresaLayoutCracha>(n);
+                    n1.EmpresaId = empresaId;
+                    _service.CrachaService.Criar(n1);
+                });
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         private void OnSalvarEdicao(object sender, RoutedEventArgs e)
@@ -760,8 +873,15 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private void CloneObservable()
         {
-            _entityObserverCloned.Clear();
-            EntityObserver.ToList().ForEach(n => { _entityObserverCloned.Add((EmpresaView)n.Clone()); });
+            try
+            {
+                _entityObserverCloned.Clear();
+                EntityObserver.ToList().ForEach(n => { _entityObserverCloned.Add((EmpresaView)n.Clone()); });
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         private void OnRemover(object sender, RoutedEventArgs e)

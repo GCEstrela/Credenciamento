@@ -279,17 +279,26 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
 
         private void OnFrm_Loaded(object sender, RoutedEventArgs e)
         {
-            //Autor:Valnei Filho
-            //Data:12/03/2019
-            //Wrk:Ao fechar a janela, as coleções (observable) devem ser limpas para possibilitar uma nova pesquisa
-            //Limpar dados dos observables principais de suas respectivas views
+            try
+            {
+                //Autor:Valnei Filho
+                //Data:12/03/2019
+                //Wrk:Ao fechar a janela, as coleções (observable) devem ser limpas para possibilitar uma nova pesquisa
+                //Limpar dados dos observables principais de suas respectivas views
 
-            var x1 = (ColaboradorViewModel)_viewSingleton.ColaboradorView.DataContext;
-            x1.EntityObserver.Clear();
-            var x2 = (EmpresaViewModel)_viewSingleton.EmpresaView.DataContext;
-            x2.EntityObserver.Clear();
-            var x3 = (VeiculoViewModel)_viewSingleton.VeiculoView.DataContext;
-            x3.EntityObserver.Clear();
+                var x1 = (ColaboradorViewModel)_viewSingleton.ColaboradorView.DataContext;
+                x1.EntityObserver.Clear();
+                var x2 = (EmpresaViewModel)_viewSingleton.EmpresaView.DataContext;
+                x2.EntityObserver.Clear();
+                var x3 = (VeiculoViewModel)_viewSingleton.VeiculoView.DataContext;
+                x3.EntityObserver.Clear();
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.Mbox(ex.Message,System.Windows.Forms.MessageBoxIcon.Error);
+                //throw;
+            }
+            
 
             //======================================================================= 
         }

@@ -186,6 +186,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.IBeam;
                 Utils.TraceException(ex);
+                throw ex;
             }            
         }
 
@@ -203,14 +204,22 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         public void HabilitaControleTabControls(bool lstViewSuperior = true, bool isItemGeral = true, bool isItemEmpresas = false, bool isItemCursos = false, bool isItemAnexos = false, bool isItemCredenciais = false)
         {
-            IsEnableLstView = lstViewSuperior;
+            try
+            {
+                IsEnableLstView = lstViewSuperior;
 
-            IsEnableTabItemGeral = isItemGeral;
-            IsEnableTabItemEmpresas = isItemEmpresas;
-            IsEnableTabItemCursos = isItemCursos;
-            IsEnableTabItemAnexos = isItemAnexos;
-            IsEnableTabItemCredenciais = isItemCredenciais;
-            Comportamento.IsEnableCriar = lstViewSuperior;
+                IsEnableTabItemGeral = isItemGeral;
+                IsEnableTabItemEmpresas = isItemEmpresas;
+                IsEnableTabItemCursos = isItemCursos;
+                IsEnableTabItemAnexos = isItemAnexos;
+                IsEnableTabItemCredenciais = isItemCredenciais;
+                Comportamento.IsEnableCriar = lstViewSuperior;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
 
         /// <summary>
@@ -219,20 +228,26 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <param name="e"></param>
         private void OnEntityChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "Entity")
+            try
+            {
+                if (e.PropertyName == "Entity")
 
-            {
-                var enableControls = Entity != null;
-                Comportamento.IsEnableEditar = enableControls; 
-                HabilitaControleTabControls(true, enableControls, enableControls, enableControls, enableControls, enableControls);
+                {
+                    var enableControls = Entity != null;
+                    Comportamento.IsEnableEditar = enableControls;
+                    HabilitaControleTabControls(true, enableControls, enableControls, enableControls, enableControls, enableControls);
+                }
+
+                if (e.PropertyName == "SelectedTabIndex")
+                {
+                    //Habilita/Desabilita botoes principais...
+                    HabilitaCommandPincipal = SelectedTabIndex == 0;
+                }
             }
-        
-            if (e.PropertyName == "SelectedTabIndex")
+            catch (Exception ex)
             {
-                //Habilita/Desabilita botoes principais...
-                HabilitaCommandPincipal = SelectedTabIndex == 0; 
+                throw ex;
             }
-                
         }
 
         /// <summary>
@@ -240,21 +255,26 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private void ItensDePesquisaConfigura()
         {
-            ListaPesquisa = new List<KeyValuePair<int, string>>();
-            ListaPesquisa.Add (new KeyValuePair<int, string> (1, "CPF"));
-            ListaPesquisa.Add (new KeyValuePair<int, string> (2, "Nome"));
-            ListaPesquisa.Add(new KeyValuePair<int, string>(3, "Empresa"));
-            ListaPesquisa.Add(new KeyValuePair<int, string>(4, "Colete"));
-            ListaPesquisa.Add(new KeyValuePair<int, string>(5, "Todos os Colaboradores"));
-            PesquisarPor = ListaPesquisa[1]; //Pesquisa Default
+            try
+            {
+                ListaPesquisa = new List<KeyValuePair<int, string>>();
+                ListaPesquisa.Add(new KeyValuePair<int, string>(1, "CPF"));
+                ListaPesquisa.Add(new KeyValuePair<int, string>(2, "Nome"));
+                ListaPesquisa.Add(new KeyValuePair<int, string>(3, "Empresa"));
+                ListaPesquisa.Add(new KeyValuePair<int, string>(4, "Colete"));
+                ListaPesquisa.Add(new KeyValuePair<int, string>(5, "Todos os Colaboradores"));
+                PesquisarPor = ListaPesquisa[1]; //Pesquisa Default
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         private void PopularObserver(ICollection<Colaborador> list)
         {
             try
             {
-                
-
                 System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
                 if (!IsEnablePreCadastro)
                 {
@@ -394,17 +414,19 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         }
         public void ListarDadosAuxiliares()
         {
-            var lst3 = _auxiliaresService.EstadoService.Listar();
-            Estados = Mapper.Map<List<Estados>> (lst3);
-            Municipios = new List<Municipio>();
-            _municipios = new List<Municipio>();
+            try
+            {
+                var lst3 = _auxiliaresService.EstadoService.Listar();
+                Estados = Mapper.Map<List<Estados>>(lst3);
+                Municipios = new List<Municipio>();
+                _municipios = new List<Municipio>();
 
-            _configuraSistema = ObterConfiguracao();
-            //if (!_configuraSistema.Colete) //Se Cole não for automático false
-            //{
-                
-            //}
-
+                _configuraSistema = ObterConfiguracao();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -412,17 +434,24 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         public void AtualizarDadosPendencias()
         {
-            if (Entity == null) return;
+            try
+            {
+                if (Entity == null) return;
 
-            var pendencia = _service.Pendencia.ListarPorColaborador (Entity.ColaboradorId).ToList();
-            //Set valores
-            SetPendenciaFalse();
-            //Buscar pendências referente aos códigos: 21;22;23;24;25
-            Pendencia21 = pendencia.Any (n => n.CodPendencia == 21 & n.Ativo);
-            Pendencia22 = pendencia.Any (n => n.CodPendencia == 22 & n.Ativo);
-            Pendencia23 = pendencia.Any (n => n.CodPendencia == 23 & n.Ativo);
-            Pendencia24 = pendencia.Any (n => n.CodPendencia == 24 & n.Ativo);
-            Pendencia25 = pendencia.Any (n => n.CodPendencia == 25 & n.Ativo);
+                var pendencia = _service.Pendencia.ListarPorColaborador(Entity.ColaboradorId).ToList();
+                //Set valores
+                SetPendenciaFalse();
+                //Buscar pendências referente aos códigos: 21;22;23;24;25
+                Pendencia21 = pendencia.Any(n => n.CodPendencia == 21 & n.Ativo);
+                Pendencia22 = pendencia.Any(n => n.CodPendencia == 22 & n.Ativo);
+                Pendencia23 = pendencia.Any(n => n.CodPendencia == 23 & n.Ativo);
+                Pendencia24 = pendencia.Any(n => n.CodPendencia == 24 & n.Ativo);
+                Pendencia25 = pendencia.Any(n => n.CodPendencia == 25 & n.Ativo);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         private void SetPendenciaFalse()
@@ -440,20 +469,28 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         public bool ExisteCpf()
         {
-            if (Entity == null) return false;
-            var cpf = Entity.Cpf.RetirarCaracteresEspeciais();
+            try
+            {
+                if (Entity == null) return false;
+                var cpf = Entity.Cpf.RetirarCaracteresEspeciais();
 
-            //Verificar dados antes de salvar uma criação
-            if (_prepareCriarCommandAcionado)
-                if (_service.ExisteCpf (cpf)) return true;
-            //Verificar dados antes de salvar uma alteraçao
-            if (!_prepareAlterarCommandAcionado) return false;
-            var n1 = _service.BuscarPelaChave (Entity.ColaboradorId);
-            if (n1 == null) return false;
-            //Comparar o CNPJ antes e o depois
-            //Verificar se há cnpj exisitente
-            return string.Compare (n1.Cpf.RetirarCaracteresEspeciais(),
-                cpf, StringComparison.Ordinal) != 0 && _service.ExisteCpf (cpf);
+                //Verificar dados antes de salvar uma criação
+                if (_prepareCriarCommandAcionado)
+                    if (_service.ExisteCpf(cpf)) return true;
+                //Verificar dados antes de salvar uma alteraçao
+                if (!_prepareAlterarCommandAcionado) return false;
+                var n1 = _service.BuscarPelaChave(Entity.ColaboradorId);
+                if (n1 == null) return false;
+                //Comparar o CNPJ antes e o depois
+                //Verificar se há cnpj exisitente
+                return string.Compare(n1.Cpf.RetirarCaracteresEspeciais(),
+                    cpf, StringComparison.Ordinal) != 0 && _service.ExisteCpf(cpf);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
 
         /// <summary>
@@ -463,10 +500,17 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <returns></returns>
         private bool EInValidoCpf()
         {
-            if (Entity == null) return false;
-            var cpf = Entity.Cpf.RetirarCaracteresEspeciais();
-            if (!Utils.IsValidCpf (cpf)) return true;
-            return false;
+            try
+            {
+                if (Entity == null) return false;
+                var cpf = Entity.Cpf.RetirarCaracteresEspeciais();
+                if (!Utils.IsValidCpf(cpf)) return true;
+                return false;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -476,31 +520,37 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <returns></returns>
         public bool Validar()
         {
-            if (Entity == null) return true;
-            if (Entity.Cpf != null & Entity.Cpf != "")
+            try
             {
-                Entity.Validate();
-                var hasErros = Entity.HasErrors;
-                if (hasErros) return true;
-                //Verificar valiade de cpf
-                if (EInValidoCpf())
+                if (Entity == null) return true;
+                if (Entity.Cpf != null & Entity.Cpf != "")
                 {
-                    Entity.SetMessageErro ("Cpf", "CPF inválido");
-                    return true;
+                    Entity.Validate();
+                    var hasErros = Entity.HasErrors;
+                    if (hasErros) return true;
+                    //Verificar valiade de cpf
+                    if (EInValidoCpf())
+                    {
+                        Entity.SetMessageErro("Cpf", "CPF inválido");
+                        return true;
+                    }
+                    //Verificar existência de CPF
+                    if (ExisteCpf())
+                    {
+                        Entity.SetMessageErro("Cpf", "CPF já existe");
+                        return true;
+                    }
+                    return Entity.HasErrors;
                 }
-                //Verificar existência de CPF
-                if (ExisteCpf())
+                else
                 {
-                    Entity.SetMessageErro ("Cpf", "CPF já existe");
-                    return true;
+                    return false;
                 }
-                return Entity.HasErrors;
             }
-            else
+            catch (Exception ex)
             {
-                return false;
+                throw ex;
             }
-            
         }
 
         #endregion
@@ -595,13 +645,20 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         private void PrepareCriar()
         {
-            Entity = new ColaboradorView();
-            _prepareCriarCommandAcionado = true;
-            Comportamento.PrepareCriar();
-            _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;
-            HabilitaControle (false, false);
-            CloneObservable();
-            SetPendenciaFalse();
+            try
+            {
+                Entity = new ColaboradorView();
+                _prepareCriarCommandAcionado = true;
+                Comportamento.PrepareCriar();
+                _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;
+                HabilitaControle(false, false);
+                CloneObservable();
+                SetPendenciaFalse();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -642,36 +699,58 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private List<ColaboradorView> _entityObserverCloned = new List<ColaboradorView>();
         private void PrepareAlterar()
         {
-            if (Entity == null)
+            try
             {
-                WpfHelp.PopupBox ("Selecione um item da lista", 1);
-                return;
+                if (Entity == null)
+                {
+                    WpfHelp.PopupBox("Selecione um item da lista", 1);
+                    return;
+                }
+
+                Comportamento.PrepareAlterar();
+                _prepareCriarCommandAcionado = false;
+                _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;
+                HabilitaControle(false, false);
+
+                CloneObservable();
             }
-
-            Comportamento.PrepareAlterar();
-            _prepareCriarCommandAcionado = false;
-            _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;
-            HabilitaControle (false, false);
-
-            CloneObservable();
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         /// <summary>
         /// Clone Observable
         /// </summary>
         private void CloneObservable()
         {
-            _entityObserverCloned.Clear();
-            EntityObserver.ToList().ForEach (n => { _entityObserverCloned.Add ((ColaboradorView) n.Clone()); });
+            try
+            {
+                _entityObserverCloned.Clear();
+                EntityObserver.ToList().ForEach(n => { _entityObserverCloned.Add((ColaboradorView)n.Clone()); });
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         private void PrepareRemover()
         {
-            if (Entity == null) return;
+            try
+            {
+                if (Entity == null) return;
 
-            _prepareCriarCommandAcionado = false;
-            _prepareAlterarCommandAcionado = false;
-            Comportamento.PrepareRemover();
-            HabilitaControle (true, true);
+                _prepareCriarCommandAcionado = false;
+                _prepareAlterarCommandAcionado = false;
+                Comportamento.PrepareRemover();
+                HabilitaControle(true, true);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         private void OnSalvarAdicao(object sender, RoutedEventArgs e)
@@ -766,11 +845,18 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <returns></returns>
         private ConfiguraSistema ObterConfiguracao()
         {
-            //Obter configuracoes de sistema
-            var config = _auxiliaresServiceConfiguraSistema.ConfiguraSistemaService.Listar();
-            //Obtem o primeiro registro de configuracao
-            if (config == null) throw new InvalidOperationException("Não foi possivel obter dados de configuração do sistema.");
-            return config.FirstOrDefault();
+            try
+            {
+                //Obter configuracoes de sistema
+                var config = _auxiliaresServiceConfiguraSistema.ConfiguraSistemaService.Listar();
+                //Obtem o primeiro registro de configuracao
+                if (config == null) throw new InvalidOperationException("Não foi possivel obter dados de configuração do sistema.");
+                return config.FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }           
         }
         #endregion
     }

@@ -51,29 +51,47 @@ namespace IMOD.CredenciamentoDeskTop.Views
         }
         private void OnSelecionaMunicipio_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (_viewModel.Estado == null) return;
-            _viewModel.ListarMunicipios(_viewModel.Estado.Uf);
+            try
+            {
+                if (_viewModel.Estado == null) return;
+                _viewModel.ListarMunicipios(_viewModel.Estado.Uf);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+           
         }
 
         private void OnListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Geral_ti.IsSelected = true;
-            if (_viewModel.Entity == null) return;
-            //Atualizar dados ao selecionar uma linha da listview
-            _viewModel.AtualizarDadosPendencias();
+            try
+            {
+                Geral_ti.IsSelected = true;
+                if (_viewModel.Entity == null) return;
+                //Atualizar dados ao selecionar uma linha da listview
+                _viewModel.AtualizarDadosPendencias();
 
-            //Popular User Controls
-            //////////////////////////////////////////////////////////////
-            if (_viewModel.Entity!=null)
-                _viewModel.BucarFoto(_viewModel.Entity.ColaboradorId);
-            if (_viewModel.Entity != null)
-                _viewModel.Entity.Cpf =  _viewModel.Entity.Cpf.FormatarCpf();
+                //Popular User Controls
+                //////////////////////////////////////////////////////////////
+                if (_viewModel.Entity != null)
+                    _viewModel.BucarFoto(_viewModel.Entity.ColaboradorId);
+                if (_viewModel.Entity != null)
+                    _viewModel.Entity.Cpf = _viewModel.Entity.Cpf.FormatarCpf();
 
-            ColaboradorEmpresaUs.AtualizarDados(_viewModel.Entity, _viewModel);
-            ColaboradorCurso.AtualizarDados(_viewModel.Entity, _viewModel);
-            AnexoUs.AtualizarDados(_viewModel.Entity, _viewModel);
-            ColaboradoresCredenciaisUs.AtualizarDados(_viewModel.Entity, _viewModel);
-            ////////////////////////////////////////////////////////////// 
+                ColaboradorEmpresaUs.AtualizarDados(_viewModel.Entity, _viewModel);
+                ColaboradorCurso.AtualizarDados(_viewModel.Entity, _viewModel);
+                AnexoUs.AtualizarDados(_viewModel.Entity, _viewModel);
+                ColaboradoresCredenciaisUs.AtualizarDados(_viewModel.Entity, _viewModel);
+                ////////////////////////////////////////////////////////////// 
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
         }
         
 
@@ -337,7 +355,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
             }
             catch (Exception ex)
             {
-                //WpfHelp.Mbox(ex.ToString());
+                WpfHelp.Mbox(ex.Message);
             }
 
         }
