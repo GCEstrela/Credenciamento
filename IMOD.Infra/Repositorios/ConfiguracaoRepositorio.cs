@@ -23,7 +23,14 @@ namespace IMOD.Infra.Repositorios
 
         public ConfiguracaoRepositorio()
         {
-            _dataBase = _dataWorkerFactory.ObterDataBaseSingleton (TipoDataBase.SqlServer, _connection);
+            try
+            {
+                _dataBase = _dataWorkerFactory.ObterDataBaseSingleton(TipoDataBase.SqlServer, _connection);
+            }
+            catch (System.Exception ex)
+            {
+                throw ex;
+            }
         }
 
         /// <summary>
