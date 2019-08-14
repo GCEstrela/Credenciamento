@@ -24,6 +24,7 @@ namespace IMOD.Domain.EntitiesCustom
         public string TipoServico { get; set; }
         public bool AreaManobra { get; set; }
         public string Registro { get; set; }
+        public string Portao { get; set; }
 
     }
 }

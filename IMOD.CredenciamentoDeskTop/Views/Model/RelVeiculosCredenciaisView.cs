@@ -90,6 +90,7 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public string CredencialMotivoIDAnteriorDescricao { get; set; }
         public int CredencialMotivoViaAdicionalID { get; set; }
         public string CredencialMotivoViaAdicionalDescricao { get; set; }
+        public string Portao { get; set; }
 
     }
 }
