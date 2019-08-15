@@ -31,7 +31,14 @@ namespace IMOD.Infra.Repositorios
 
         public MunicipioRepositorio()
         {
-            _dataBase = _dataWorkerFactory.ObterDataBaseSingleton(TipoDataBase.SqlServer, _connection);
+            try
+            {
+                _dataBase = _dataWorkerFactory.ObterDataBaseSingleton(TipoDataBase.SqlServer, _connection);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         #endregion
@@ -45,25 +52,26 @@ namespace IMOD.Infra.Repositorios
         /// <returns></returns>
         public Municipio BuscarPelaChave(int id)
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.SelectText("Municipios", conn))
-
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
+                    using (var cmd = _dataBase.SelectText("Municipios", conn))
+
                     {
+
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("MunicipioId", DbType.Int32, id).Igual()));
                         var reader = cmd.ExecuteReader();
                         var d1 = reader.MapToList<Municipio>();
 
                         return d1.FirstOrDefault();
-                    }
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException(ex);
-                        throw;
+
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
 
@@ -74,13 +82,14 @@ namespace IMOD.Infra.Repositorios
         /// <returns></returns>
         public ICollection<Municipio> Listar(params object[] objects)
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.SelectText("Municipios", conn))
-
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
+                    using (var cmd = _dataBase.SelectText("Municipios", conn))
+
                     {
+
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Nome", objects, 0).Like()));
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("UF", DbType.String, objects, 1).Like()));
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("coduf", DbType.String, objects, 2).Igual()));
@@ -89,13 +98,13 @@ namespace IMOD.Infra.Repositorios
                         var d1 = reader.MapToList<Municipio>();
 
                         return d1;
-                    }
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException(ex);
-                        throw;
+
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
 

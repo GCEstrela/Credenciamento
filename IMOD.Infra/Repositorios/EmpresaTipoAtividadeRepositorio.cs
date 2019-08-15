@@ -207,7 +207,6 @@ namespace IMOD.Infra.Repositorios
                     {
 
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamDelete("empresaId", empresaId).Igual()));
-
                         cmd.ExecuteNonQuery();
 
                     }

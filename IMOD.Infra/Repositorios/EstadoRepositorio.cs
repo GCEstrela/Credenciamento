@@ -30,7 +30,14 @@ namespace IMOD.Infra.Repositorios
 
         public EstadoRepositorio()
         {
-            _dataBase = _dataWorkerFactory.ObterDataBaseSingleton (TipoDataBase.SqlServer, _connection);
+            try
+            {
+                _dataBase = _dataWorkerFactory.ObterDataBaseSingleton(TipoDataBase.SqlServer, _connection);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         #region  Metodos
@@ -41,24 +48,25 @@ namespace IMOD.Infra.Repositorios
         /// <returns></returns>
         public ICollection<Estados> Listar()
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.SelectText ("Estados", conn))
-
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
+                    using (var cmd = _dataBase.SelectText("Estados", conn))
+
                     {
+
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<Estados>();
 
                         return d1;
-                    }
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException (ex);
-                        throw;
+
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
 
@@ -69,25 +77,26 @@ namespace IMOD.Infra.Repositorios
         /// <returns></returns>
         public Estados BuscarEstadoPorUf(string uf)
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.SelectText ("Estados", conn))
-
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
+                    using (var cmd = _dataBase.SelectText("Estados", conn))
+
                     {
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("Uf", DbType.String, uf).Igual()));
+
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("Uf", DbType.String, uf).Igual()));
                         var reader = cmd.ExecuteReader();
                         var d1 = reader.MapToList<Estados>();
 
                         return d1.FirstOrDefault();
-                    }
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException (ex);
-                        throw;
+
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
 
@@ -98,17 +107,24 @@ namespace IMOD.Infra.Repositorios
         /// <returns></returns>
         public EstadoView BuscarEstadoMunicipiosPorUf(string uf)
         {
-            var municipioRepositorio = new MunicipioRepositorio();
-            var est = BuscarEstadoPorUf (uf); //Obter Estado
-            var listMun = municipioRepositorio.Listar ("", uf); //Listar municipios por Uf
-            var result = new EstadoView
+            try
             {
-                Nome = est.Nome,
-                EstadoId = est.EstadoId,
-                Uf = est.Uf,
-                Municipios = listMun
-            };
-            return result;
+                var municipioRepositorio = new MunicipioRepositorio();
+                var est = BuscarEstadoPorUf(uf); //Obter Estado
+                var listMun = municipioRepositorio.Listar("", uf); //Listar municipios por Uf
+                var result = new EstadoView
+                {
+                    Nome = est.Nome,
+                    EstadoId = est.EstadoId,
+                    Uf = est.Uf,
+                    Municipios = listMun
+                };
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         #endregion
