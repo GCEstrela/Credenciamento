@@ -24,7 +24,7 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public string PlacaFrota { get { return PlacaIdentificador + "  " + Frota; } }
         public bool AreaManobra { get; set; }
         public string Registro { get; set; }
-
+        public string Portao { get; set; }
 
         #endregion
 

@@ -31,6 +31,7 @@ namespace IMOD.Domain.EntitiesCustom
         public string CardHolderGuid { get; set; }
         public int VeiculoPrivilegio1Id { get; set; }
         public int VeiculoPrivilegio2Id { get; set; }
+        public string Portao { get; set; }
         public string Colete { get; set; }
         [Range(1, int.MaxValue, ErrorMessage = "A motivação é requerida.")]
         public int CredencialMotivoId { get; set; }

@@ -31,6 +31,7 @@ namespace IMOD.Domain.Entities
         public string CredencialGuid { get; set; }
         public int? VeiculoPrivilegio1Id { get; set; }
         public int? VeiculoPrivilegio2Id { get; set; }
+        public string Portao { get; set; }
         public bool Ativa { get; set; }
         public string Colete { get; set; }
         public int? CredencialMotivoId { get; set; }
