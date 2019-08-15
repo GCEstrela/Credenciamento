@@ -44,12 +44,13 @@ namespace IMOD.Infra.Repositorios
         /// <param name="entity"></param>
         public void Criar(VeiculoCredencialimpressao entity)
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.InsertText("VeiculosCredenciaisImpressoes", conn))
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
+                    using (var cmd = _dataBase.InsertText("VeiculosCredenciaisImpressoes", conn))
                     {
+
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("CredencialImpressaoID", entity.CredencialImpressaoId, true)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("VeiculoCredencialID", entity.VeiculoCredencialId, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("DataImpressao", entity.DataImpressao, false)));
@@ -58,13 +59,14 @@ namespace IMOD.Infra.Repositorios
                         var key = Convert.ToInt32(cmd.ExecuteScalar());
 
                         entity.CredencialImpressaoId = key;
-                    }
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException(ex);
-                        throw;
+
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
             }
         }
 
@@ -75,26 +77,28 @@ namespace IMOD.Infra.Repositorios
         /// <returns></returns>
         public VeiculoCredencialimpressao BuscarPelaChave(int id)
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.SelectText("VeiculosCredenciaisImpressoes", conn))
-
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
+                    using (var cmd = _dataBase.SelectText("VeiculosCredenciaisImpressoes", conn))
+
                     {
+
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("CredencialImpressaoId", DbType.Int32, id).Igual()));
 
                         var reader = cmd.ExecuteReader();
                         var d1 = reader.MapToList<VeiculoCredencialimpressao>();
 
                         return d1.FirstOrDefault();
-                    }
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException(ex);
-                        throw;
+
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
             }
         }
 
@@ -105,26 +109,28 @@ namespace IMOD.Infra.Repositorios
         /// <returns></returns>
         public ICollection<VeiculoCredencialimpressao> Listar(params object[] objects)
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.SelectText("VeiculosCredenciaisImpressoes", conn))
-
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
+                    using (var cmd = _dataBase.SelectText("VeiculosCredenciaisImpressoes", conn))
+
                     {
+
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("VeiculoCredencialID", objects, 0).Igual()));
 
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<VeiculoCredencialimpressao>();
 
                         return d1;
-                    }
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException(ex);
-                        throw;
+
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
             }
         }
 
@@ -134,25 +140,27 @@ namespace IMOD.Infra.Repositorios
         /// <param name="entity"></param>
         public void Alterar(VeiculoCredencialimpressao entity)
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.UpdateText("VeiculosCredenciaisImpressoes", conn))
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
+                    using (var cmd = _dataBase.UpdateText("VeiculosCredenciaisImpressoes", conn))
                     {
+
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("CredencialImpressaoID", entity.CredencialImpressaoId, true)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("VeiculoCredencialID", entity.VeiculoCredencialId, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("DataImpressao", entity.DataImpressao, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Cobrar", entity.Cobrar, false)));
 
                         cmd.ExecuteNonQuery();
-                    }
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException(ex);
-                        throw;
+
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
             }
         }
 
@@ -162,21 +170,24 @@ namespace IMOD.Infra.Repositorios
         /// <param name="objects"></param>
         public void Remover(VeiculoCredencialimpressao entity)
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.DeleteText("VeiculosCredenciaisImpressoes", conn))
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
+                    using (var cmd = _dataBase.DeleteText("VeiculosCredenciaisImpressoes", conn))
                     {
+
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamDelete("CredencialImpressaoId", entity.CredencialImpressaoId).Igual()));
 
                         cmd.ExecuteNonQuery();
-                    }
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException(ex);
+
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
             }
         }
 
