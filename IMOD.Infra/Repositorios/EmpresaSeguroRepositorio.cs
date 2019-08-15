@@ -31,7 +31,14 @@ namespace IMOD.Infra.Repositorios
 
         public EmpresaSeguroRepositorio()
         {
-            _dataBase = _dataWorkerFactory.ObterDataBaseSingleton(TipoDataBase.SqlServer, _connection);
+            try
+            {
+                _dataBase = _dataWorkerFactory.ObterDataBaseSingleton(TipoDataBase.SqlServer, _connection);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         #endregion
@@ -44,32 +51,39 @@ namespace IMOD.Infra.Repositorios
         /// <param name="entity"></param>
         public void Criar(EmpresaSeguro entity)
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.InsertText("EmpresasSeguros", conn))
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
+                    using (var cmd = _dataBase.InsertText("EmpresasSeguros", conn))
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("EmpresaSeguroID", entity.EmpresaSeguroId, true)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("NomeSeguradora", entity.NomeSeguradora, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("NumeroApolice", entity.NumeroApolice, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("ValorCobertura", entity.ValorCobertura, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("EmpresaID", entity.EmpresaId, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Arquivo", entity.Arquivo, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("NomeArquivo", entity.NomeArquivo, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Emissao", entity.Emissao, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Validade", entity.Validade, false)));
+                        try
+                        {
+                            cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("EmpresaSeguroID", entity.EmpresaSeguroId, true)));
+                            cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("NomeSeguradora", entity.NomeSeguradora, false)));
+                            cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("NumeroApolice", entity.NumeroApolice, false)));
+                            cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("ValorCobertura", entity.ValorCobertura, false)));
+                            cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("EmpresaID", entity.EmpresaId, false)));
+                            cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Arquivo", entity.Arquivo, false)));
+                            cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("NomeArquivo", entity.NomeArquivo, false)));
+                            cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Emissao", entity.Emissao, false)));
+                            cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Validade", entity.Validade, false)));
 
-                        var key = Convert.ToInt32(cmd.ExecuteScalar());
+                            var key = Convert.ToInt32(cmd.ExecuteScalar());
 
-                        entity.EmpresaSeguroId = key;
-                    }
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException(ex);
-                        throw;
+                            entity.EmpresaSeguroId = key;
+                        }
+                        catch (Exception ex)
+                        {
+                            Utils.TraceException(ex);
+                            throw;
+                        }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
 
@@ -80,26 +94,33 @@ namespace IMOD.Infra.Repositorios
         /// <returns></returns>
         public EmpresaSeguro BuscarPelaChave(int id)
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.SelectText("EmpresasSeguros", conn))
-
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
-                    {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("EmpresaSeguroId", DbType.Int32, id).Igual()));
+                    using (var cmd = _dataBase.SelectText("EmpresasSeguros", conn))
 
-                        var reader = cmd.ExecuteReader();
-                        var d1 = reader.MapToList<EmpresaSeguro>();
-
-                        return d1.FirstOrDefault();
-                    }
-                    catch (Exception ex)
                     {
-                        Utils.TraceException(ex);
-                        throw;
+                        try
+                        {
+                            cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("EmpresaSeguroId", DbType.Int32, id).Igual()));
+
+                            var reader = cmd.ExecuteReader();
+                            var d1 = reader.MapToList<EmpresaSeguro>();
+
+                            return d1.FirstOrDefault();
+                        }
+                        catch (Exception ex)
+                        {
+                            Utils.TraceException(ex);
+                            throw;
+                        }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
 
@@ -110,29 +131,36 @@ namespace IMOD.Infra.Repositorios
         /// <returns></returns>
         public ICollection<EmpresaSeguro> Listar(params object[] objects)
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.SelectText("EmpresasSeguros", conn))
-
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
-                    {
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("NomeSeguradora", DbType.String, objects, 0).Like()));
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("NumeroApolice", DbType.String, objects, 1).Like()));
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Emissao", DbType.Date, objects, 2).Like()));
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Validade", DbType.Date, objects, 3).Like()));
+                    using (var cmd = _dataBase.SelectText("EmpresasSeguros", conn))
 
-                        var reader = cmd.ExecuteReaderSelect();
-                        var d1 = reader.MapToList<EmpresaSeguro>();
-
-                        return d1;
-                    }
-                    catch (Exception ex)
                     {
-                        Utils.TraceException(ex);
-                        throw;
+                        try
+                        {
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("NomeSeguradora", DbType.String, objects, 0).Like()));
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("NumeroApolice", DbType.String, objects, 1).Like()));
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Emissao", DbType.Date, objects, 2).Like()));
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Validade", DbType.Date, objects, 3).Like()));
+
+                            var reader = cmd.ExecuteReaderSelect();
+                            var d1 = reader.MapToList<EmpresaSeguro>();
+
+                            return d1;
+                        }
+                        catch (Exception ex)
+                        {
+                            Utils.TraceException(ex);
+                            throw;
+                        }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
 
@@ -142,30 +170,37 @@ namespace IMOD.Infra.Repositorios
         /// <param name="entity"></param>
         public void Alterar(EmpresaSeguro entity)
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.UpdateText("EmpresasSeguros", conn))
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
+                    using (var cmd = _dataBase.UpdateText("EmpresasSeguros", conn))
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("EmpresaSeguroID", entity.EmpresaSeguroId, true)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("NomeSeguradora", entity.NomeSeguradora, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("NumeroApolice", entity.NumeroApolice, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("ValorCobertura", entity.ValorCobertura, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("EmpresaID", entity.EmpresaId, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Arquivo", entity.Arquivo, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("NomeArquivo", entity.NomeArquivo, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Emissao", entity.Emissao, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Validade", entity.Validade, false)));
+                        try
+                        {
+                            cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("EmpresaSeguroID", entity.EmpresaSeguroId, true)));
+                            cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("NomeSeguradora", entity.NomeSeguradora, false)));
+                            cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("NumeroApolice", entity.NumeroApolice, false)));
+                            cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("ValorCobertura", entity.ValorCobertura, false)));
+                            cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("EmpresaID", entity.EmpresaId, false)));
+                            cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Arquivo", entity.Arquivo, false)));
+                            cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("NomeArquivo", entity.NomeArquivo, false)));
+                            cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Emissao", entity.Emissao, false)));
+                            cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Validade", entity.Validade, false)));
 
-                        cmd.ExecuteNonQuery();
-                    }
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException(ex);
-                        throw;
+                            cmd.ExecuteNonQuery();
+                        }
+                        catch (Exception ex)
+                        {
+                            Utils.TraceException(ex);
+                            throw;
+                        }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
 
@@ -175,21 +210,28 @@ namespace IMOD.Infra.Repositorios
         /// <param name="objects"></param>
         public void Remover(EmpresaSeguro entity)
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.DeleteText("EmpresasSeguros", conn))
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
+                    using (var cmd = _dataBase.DeleteText("EmpresasSeguros", conn))
                     {
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamDelete("EmpresaSeguroId", entity.EmpresaSeguroId).Igual()));
+                        try
+                        {
+                            cmd.Parameters.Add(_dataBase.CreateParameter(new ParamDelete("EmpresaSeguroId", entity.EmpresaSeguroId).Igual()));
 
-                        cmd.ExecuteNonQuery();
-                    }
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException(ex);
+                            cmd.ExecuteNonQuery();
+                        }
+                        catch (Exception ex)
+                        {
+                            Utils.TraceException(ex);
+                        }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
 
