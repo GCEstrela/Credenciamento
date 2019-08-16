@@ -28,26 +28,28 @@ namespace IMOD.Infra.Repositorios
         /// <param name="entity">Entidade</param>
         public void Criar(TipoCredencial entity)
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.InsertText("TiposCredenciais", conn))
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
+                    using (var cmd = _dataBase.InsertText("TiposCredenciais", conn))
                     {
+
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("TipoCredencialID", entity.TipoCredencialId, true)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Descricao", entity.Descricao, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("CredPermanente", entity.CredPermanente, false)));
-                        
-                       var key = Convert.ToInt32(cmd.ExecuteScalar());
+
+                        var key = Convert.ToInt32(cmd.ExecuteScalar());
 
                         entity.TipoCredencialId = key;
-                    }
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException(ex);
-                        throw;
+
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
             }
         }
 
@@ -58,25 +60,27 @@ namespace IMOD.Infra.Repositorios
         /// <returns></returns>
         public TipoCredencial BuscarPelaChave(int id)
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.SelectText("TiposCredenciais", conn))
-
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
+                    using (var cmd = _dataBase.SelectText("TiposCredenciais", conn))
+
                     {
+
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("TipoCredencialID", DbType.Int32, id).Igual()));
                         var reader = cmd.ExecuteReader();
                         var d1 = reader.MapToList<TipoCredencial>();
 
                         return d1.FirstOrDefault();
-                    }
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException(ex);
-                        throw;
+
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
             }
         }
 
@@ -86,27 +90,29 @@ namespace IMOD.Infra.Repositorios
         /// <returns></returns>
         public ICollection<TipoCredencial> Listar(params object[] objects)
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.SelectText("TiposCredenciais", conn))
-
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
+                    using (var cmd = _dataBase.SelectText("TiposCredenciais", conn))
+
                     {
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("TipoCredencialID",DbType.Int32, objects, 0).Igual()));
+
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("TipoCredencialID", DbType.Int32, objects, 0).Igual()));
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Descricao", DbType.String, objects, 1).Like()));
-                        
+
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<TipoCredencial>();
 
                         return d1;
-                    }
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException(ex);
-                        throw;
+
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
             }
         }
 
@@ -116,24 +122,26 @@ namespace IMOD.Infra.Repositorios
         /// <param name="entity"></param>
         public void Alterar(TipoCredencial entity)
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.UpdateText("TiposCredenciais", conn))
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
+                    using (var cmd = _dataBase.UpdateText("TiposCredenciais", conn))
                     {
+
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("TipoCredencialID", entity.TipoCredencialId, true)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Descricao", entity.Descricao, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("CredPermanente", entity.CredPermanente, false)));
-                        
+
                         cmd.ExecuteNonQuery();
-                    }
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException(ex);
-                        throw;
+
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
             }
         }
 
@@ -143,21 +151,24 @@ namespace IMOD.Infra.Repositorios
         /// <param name="entity">Entidade</param>
         public void Remover(TipoCredencial entity)
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.DeleteText("TiposCredenciais", conn))
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
+                    using (var cmd = _dataBase.DeleteText("TiposCredenciais", conn))
                     {
+
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamDelete("TipoCredencialID", entity.TipoCredencialId).Igual()));
 
                         cmd.ExecuteNonQuery();
-                    }
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException(ex);
+
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
             }
         }
     }

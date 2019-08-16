@@ -44,25 +44,27 @@ namespace IMOD.Infra.Repositorios
         /// <param name="entity"></param>
         public void Criar(TipoCombustivel entity)
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.InsertText("TipoCombustivel", conn))
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
+                    using (var cmd = _dataBase.InsertText("TipoCombustivel", conn))
                     {
+
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("TipoCombustivelID", entity.TipoCombustivelId, true)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Descricao", entity.Descricao, false)));
 
                         var key = Convert.ToInt32(cmd.ExecuteScalar());
 
                         entity.TipoCombustivelId = key;
-                    }
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException(ex);
-                        throw;
+
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
             }
         }
 
@@ -73,26 +75,28 @@ namespace IMOD.Infra.Repositorios
         /// <returns></returns>
         public TipoCombustivel BuscarPelaChave(int id)
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.SelectText("TipoCombustivel", conn))
-
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
+                    using (var cmd = _dataBase.SelectText("TipoCombustivel", conn))
+
                     {
+
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("TipoCombustivelId", DbType.Int32, id).Igual()));
 
                         var reader = cmd.ExecuteReader();
                         var d1 = reader.MapToList<TipoCombustivel>();
 
                         return d1.FirstOrDefault();
-                    }
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException(ex);
-                        throw;
+
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
             }
         }
 
@@ -103,26 +107,28 @@ namespace IMOD.Infra.Repositorios
         /// <returns></returns>
         public ICollection<TipoCombustivel> Listar(params object[] objects)
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.SelectText("TipoCombustivel", conn))
-
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
+                    using (var cmd = _dataBase.SelectText("TipoCombustivel", conn))
+
                     {
+
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Descricao", objects, 0).Like()));
 
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<TipoCombustivel>();
 
                         return d1;
-                    }
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException(ex);
-                        throw;
+
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
             }
         }
 
@@ -132,23 +138,25 @@ namespace IMOD.Infra.Repositorios
         /// <param name="entity"></param>
         public void Alterar(TipoCombustivel entity)
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.UpdateText("TipoCombustivel", conn))
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
+                    using (var cmd = _dataBase.UpdateText("TipoCombustivel", conn))
                     {
+
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("TipoCombustivelID", entity.TipoCombustivelId, true)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Descricao", entity.Descricao, false)));
 
                         cmd.ExecuteNonQuery();
-                    }
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException(ex);
-                        throw;
+
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
             }
         }
 
@@ -158,21 +166,24 @@ namespace IMOD.Infra.Repositorios
         /// <param name="objects"></param>
         public void Remover(TipoCombustivel entity)
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.DeleteText("TipoCombustivel", conn))
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
+                    using (var cmd = _dataBase.DeleteText("TipoCombustivel", conn))
                     {
+
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamDelete("TipoCombustivelId", entity.TipoCombustivelId).Igual()));
 
                         cmd.ExecuteNonQuery();
-                    }
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException(ex);
+
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
             }
         }
 

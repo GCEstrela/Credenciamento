@@ -40,24 +40,26 @@ namespace IMOD.Infra.Repositorios
         /// <returns></returns>
         public ICollection<TipoPendencia> Listar()
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.SelectText ("TipoPendencia", conn))
-
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
+                    using (var cmd = _dataBase.SelectText("TipoPendencia", conn))
+
                     {
+
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<TipoPendencia>();
 
                         return d1;
-                    }
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException (ex);
-                        throw;
+
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
             }
         }
 
@@ -68,25 +70,27 @@ namespace IMOD.Infra.Repositorios
         /// <returns></returns>
         public TipoPendencia BuscarPorCodigo(string codPendencia)
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.SelectText ("TipoPendencia", conn))
-
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
+                    using (var cmd = _dataBase.SelectText("TipoPendencia", conn))
+
                     {
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("CodPendencia", DbType.Int32, codPendencia).Igual()));
+
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("CodPendencia", DbType.Int32, codPendencia).Igual()));
                         var reader = cmd.ExecuteReader();
                         var d1 = reader.MapToList<TipoPendencia>();
 
                         return d1.FirstOrDefault();
-                    }
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException (ex);
-                        throw;
+
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
             }
         }
 
