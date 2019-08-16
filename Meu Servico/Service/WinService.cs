@@ -30,6 +30,7 @@ namespace Meu_Servico.Service
         private ICredencialService _serviceGenetec;
         private IEmpresaService _serviceEmpresa = new EmpresaService();
         private IColaboradorCredencialService _serviceColaborador = new ColaboradorCredencialService();
+        //private readonly IColaboradorCredencialService _serviceCredencialPendencia = new ColaboradorCredencialService();
         private IVeiculoCredencialService _serviceVeiculo = new VeiculoCredencialService();
         private IEmpresaContratosService _serviceContrato = new EmpresaContratoService();
         private readonly IDadosAuxiliaresFacade _auxiliaresServiceConfiguraSistema = new DadosAuxiliaresFacadeService();
@@ -269,6 +270,10 @@ namespace Meu_Servico.Service
                             ec.CredencialMotivoId = (int)Inativo.EXPIRADA;
                             ec.CredencialStatusId = 2;
                             _serviceColaborador.Alterar(ec);
+                            //Em processo de alteração.
+                            var pendencia = _serviceColaborador.ListarView(ec.ColaboradorCredencialId).FirstOrDefault();
+                            _serviceColaborador.CriarPendenciaImpeditiva(pendencia);
+                            
                             if (!string.IsNullOrEmpty(ec.CredencialGuid))
                             {
                                 CardHolderEntity entity = new CardHolderEntity();
@@ -435,7 +440,7 @@ namespace Meu_Servico.Service
                             emailFraport.AppendLine("Att:");
                             emailFraport.AppendLine("");
                             emailFraport.AppendLine("Alerta do Sistema de Credenciamento.");
-                            emailFraport.AppendLine("(Genetec - Estrela Sistemas Eletónicos)" );
+                            emailFraport.AppendLine("Setor de Credenciamento - Fraport-Brasil");
                             if (emailEmpresa != "")
                             {
                                 try

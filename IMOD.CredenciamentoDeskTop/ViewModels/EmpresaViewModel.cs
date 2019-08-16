@@ -328,7 +328,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
             catch (Exception ex)
             {
-                throw ex;
+                Utils.TraceException(ex);
+                WpfHelp.PopupBox(ex);
             }
         }
 
@@ -684,10 +685,19 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         private void PrepareSalvar()
         {
-            //if(!empresaFake)
+            try
+            {
+                //if(!empresaFake)
                 if (Validar()) return;
 
-            Comportamento.PrepareSalvar();
+                Comportamento.PrepareSalvar();
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+                WpfHelp.PopupBox(ex);
+            }
+
         }
 
         private void PrepareAlterar()
@@ -710,7 +720,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
             catch (Exception ex)
             {
-                throw ex;
+                Utils.TraceException(ex);
+                WpfHelp.PopupBox(ex);
             }
         }
 
