@@ -286,7 +286,7 @@
                             <TextBlock Text="{Binding Entity.CredencialGuid}"  VerticalAlignment="Center" Width="357" />-->
                             <Label Content="Autorização:" Margin="5,0,10,0" Foreground="#FFD0D0D0"></Label>
                             <CheckBox Name="PF_chek" Content="Policia Federal"       Margin="5,0,0,30"  VerticalContentAlignment="Center"    IsChecked="{Binding Entity.Policiafederal,      UpdateSourceTrigger=PropertyChanged}"   Foreground="#FFD0D0D0"></CheckBox>
-                            <CheckBox Name="RF_chek" Content="Refeita Federal"       Margin="15,0,0,30" VerticalContentAlignment="Center"    IsChecked="{Binding Entity.Receitafederal,      UpdateSourceTrigger=PropertyChanged}"   Foreground="#FFD0D0D0"></CheckBox>
+                            <CheckBox Name="RF_chek" Content="Receita Federal"       Margin="15,0,0,30" VerticalContentAlignment="Center"    IsChecked="{Binding Entity.Receitafederal,      UpdateSourceTrigger=PropertyChanged}"   Foreground="#FFD0D0D0"></CheckBox>
                             <CheckBox Name="ST_chek" Content="Segurança do Trabalho" Margin="15,0,0,30"  VerticalContentAlignment="Center"   IsChecked="{Binding Entity.Segurancatrabalho,   UpdateSourceTrigger=PropertyChanged}"   Foreground="#FFD0D0D0" Width="183"></CheckBox>
                             <Label Content="Obs:" Margin="2,0,0,30" Foreground="#FFD0D0D0" Width="34" />
                             <TextBox Name="obs_tb" MaxLength="200" MaxLines="3"  
