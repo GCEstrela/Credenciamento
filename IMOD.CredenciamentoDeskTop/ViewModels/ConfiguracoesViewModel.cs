@@ -2155,6 +2155,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var serviceSC = new CredencialGenetecService(Main.Engine);
                 var grupos = serviceSC.RetornarGrupos();
                 grupos.ForEach(n => { Entity.Grupos.Add(n.Name); });
+
+                Entity.GrupoPadrao  = list2.GrupoPadrao.Trim();
             }
             catch (Exception ex)
             {

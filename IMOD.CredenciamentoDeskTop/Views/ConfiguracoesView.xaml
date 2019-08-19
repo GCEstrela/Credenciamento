@@ -1086,7 +1086,7 @@
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"  Margin="1">
                                         <Label Content="E-Mail Principal:" Height="28" Width="110" Margin="1"  Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
-                                        <TextBox CharacterCasing="Lower" x:Name="Email1_tb" Margin="1" MaxLength="250"
+                                        <TextBox x:Name="Email1_tb" Margin="1" MaxLength="250"
                                          Text="{Binding Entity.Email, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True" Height="24" Width="444" />
                                     </StackPanel>
 
@@ -1094,12 +1094,12 @@
                                         Margin="1,1,0,1" Width="590">
                                         <Label Content="E-Mail SMTP:" Height="28" Width="110" Margin="1"
                                        Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
-                                        <TextBox CharacterCasing="Lower" x:Name="Email2_tb" MaxLength="30"
+                                        <TextBox x:Name="Email2_tb" MaxLength="30"
                                          Text="{Binding Entity.SMTP, UpdateSourceTrigger=PropertyChanged}"
                                          Height="24" Width="180" />
 
                                         <Label Content="URL Validação:" Height="28" Width="84" Margin="1" Foreground="#FFD0D0D0"                                        HorizontalContentAlignment="Right" />
-                                        <TextBox Foreground="#FFD0D0D0"  CharacterCasing="Upper" x:Name="url_tb" MaxLength="200"                                         
+                                        <TextBox Foreground="#FFD0D0D0" x:Name="url_tb" MaxLength="200"                                         
                                          Margin="1" Height="24" Width="180"
                                          HorizontalContentAlignment="Left" 
                                          Text="{Binding Entity.UrlSistema, UpdateSourceTrigger=PropertyChanged}"/>
@@ -1109,7 +1109,7 @@
                                         Margin="1,1,0,1" Width="590">
 
                                         <Label Content="E-Mail Usuário:" Height="28" Width="110" Margin="1" Foreground="#FFD0D0D0"                                        HorizontalContentAlignment="Right" />
-                                        <TextBox Foreground="#FFD0D0D0"  CharacterCasing="Upper" x:Name="Usuario_tb" MaxLength="254"                                         
+                                        <TextBox Foreground="#FFD0D0D0" x:Name="Usuario_tb" MaxLength="254"                                         
                                          Margin="1" Height="24" Width="180"
                                          HorizontalContentAlignment="Center" 
                                          Text="{Binding Entity.EmailUsuario, UpdateSourceTrigger=PropertyChanged}"/>

@@ -362,8 +362,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
 
                 //Verificar dados antes de salvar uma criação
-
-                return _service.ExisteNumeroColete(_colaboradorView.ColaboradorId, numColete);
+                if (Entity.CredencialStatusId == 1)
+                {
+                    return _service.ExisteNumeroColete(_colaboradorView.ColaboradorId, numColete);
+                }
+                return null;
             }
             catch (Exception ex)
             {
