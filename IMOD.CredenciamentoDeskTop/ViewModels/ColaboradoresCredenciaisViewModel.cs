@@ -360,10 +360,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 }
                 numColete = Entity.EmpresaSigla + Entity.NumeroColete;
 
-
                 //Verificar dados antes de salvar uma criação
-
-                return _service.ExisteNumeroColete(_colaboradorView.ColaboradorId, numColete);
+                if (Entity.CredencialStatusId == 1)
+                {
+                    return _service.ExisteNumeroColete(_colaboradorView.ColaboradorId, numColete);
+                }
+                return null;
             }
             catch (Exception ex)
             {
