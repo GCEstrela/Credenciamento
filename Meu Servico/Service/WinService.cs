@@ -240,19 +240,19 @@ namespace Meu_Servico.Service
                             case diasAlerta1:
                                 messa = "A credencial do colaborador.: " + ec.ColaboradorNome + " vencerá em " + diasAlerta1 + " dias.";
                                 //_serviceGenetec.DisparaAlarme(messa, 8);
-                                CriarLog(messa);
+                               
                                 break;
 
                             case diasAlerta2:
                                 messa = "A credencial do colaborador.: " + ec.ColaboradorNome + " vencerá em " + diasAlerta2 + " dias.";
                                 //_serviceGenetec.DisparaAlarme(messa, 8);
-                                CriarLog(messa);
+                                
                                 break;
 
                             case diasAlerta3:
                                 messa = "A credencial do colaborador.: " + ec.ColaboradorNome + " vencerá em " + diasAlerta3 + " dias.";
                                 //_serviceGenetec.DisparaAlarme(messa, 8);
-                                CriarLog(messa);
+                                
                                 break;
 
                             default:
@@ -328,19 +328,19 @@ namespace Meu_Servico.Service
                             case diasAlerta1:
                                 messaveiculo = "A ATIV do veiculo.: " + ev.IdentificacaoDescricao + " vencerá em " + diasAlerta1 + " dias.";
                                 //_serviceGenetec.DisparaAlarme(messa, 8);
-                                CriarLog(messaveiculo);
+                               
                                 break;
 
                             case diasAlerta2:
                                 messaveiculo = "A ATIV do veiculo.: " + ev.IdentificacaoDescricao + " vencerá em " + diasAlerta2 + " dias.";
                                 //_serviceGenetec.DisparaAlarme(messa, 8);
-                                CriarLog(messaveiculo);
+                                
                                 break;
 
                             case diasAlerta3:
                                 messaveiculo = "A ATIV do veiculo.: " + ev.IdentificacaoDescricao + " vencerá em " + diasAlerta3 + " dias.";
                                 //_serviceGenetec.DisparaAlarme(messa, 8);
-                                CriarLog(messaveiculo);
+                                
                                 break;
 
                             default:
@@ -454,7 +454,7 @@ namespace Meu_Servico.Service
                             {
                                 try
                                 {
-                                    //sendMessage(emailFraport.ToString(),emailEmpresa);
+                                    sendMessage(emailFraport.ToString(),emailEmpresa);
                                 }
                                 catch (Exception ex)
                                 {
