@@ -632,6 +632,7 @@
     <Compile Include="Views\Model\EquipamentoVeiculoTipoServicoView.cs" />
     <Compile Include="Views\Model\EstadoView.cs" />
     <Compile Include="Views\Model\FormatoCredencialView.cs" />
+    <Compile Include="Views\Model\Grupos.cs" />
     <Compile Include="Views\Model\LayoutCrachaView.cs" />
     <Compile Include="Views\Model\MunicipioView.cs" />
     <Compile Include="Views\Model\PendenciaView.cs" />
