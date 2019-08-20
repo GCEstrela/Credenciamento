@@ -272,15 +272,18 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     case 15:
                         verbo = "indeferiu";
                         colaboradorCredencial.CredencialMotivoId = 12; // 12 - id motivo indeferidas
+                        colaboradorCredencial.TipoRel = 0;
                         break;
                     case 13:
                         verbo = "cancelou";
                         colaboradorCredencial.CredencialMotivoId = 15; // 15 - id motivo canceladas
-                        colaboradorCredencial.flaTodasDevolucaoEntregaBO = null;
+                        colaboradorCredencial.flaDevolucaoEntregaBO = null;
+                        colaboradorCredencial.TipoRel = 0;
                         break;
                     case 17:
                         verbo = "destruiu";
                         colaboradorCredencial.Impeditivo = true;
+                        colaboradorCredencial.TipoRel = 0;
                         break;
                 }
 
@@ -323,7 +326,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 mensagemComplemento = !string.IsNullOrEmpty(configSistema.NomeAeroporto) ? configSistema.NomeAeroporto?.Trim() : mensagemComplemento;
                 mensagem = mensagemPeriodo + " esse setor  de credenciamento do " + mensagemComplemento + ", " + verbo + " as seguintes credenciais: ";
 
-                var result = objColaboradorCredencial.ListarColaboradorCredencialInvalidasView(colaboradorCredencial).Where(n => n.CredencialStatusId == 2);
+                var result = objColaboradorCredencial.ListarColaboradorCredencialInvalidasView(colaboradorCredencial).Where(n => n.CredencialStatusId == 2 || n.Baixa is null);
                 var resultMapeado = Mapper.Map<List<Views.Model.RelColaboradoresCredenciaisView>>(result.OrderBy(n => n.ColaboradorNome).ToList());
 
                 if (17.Equals(report))
