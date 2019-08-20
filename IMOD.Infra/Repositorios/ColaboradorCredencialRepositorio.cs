@@ -879,10 +879,26 @@ namespace IMOD.Infra.Repositorios
                                 cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("DataStatusFim", DbType.DateTime, entity.DataStatusFim).MenorIgual()));
                             }
 
-                            if (!entity.Impeditivo && entity.flaTodasDevolucaoEntregaBO != null)
+                            //if (entity.CredencialMotivoId == 15 && entity.Baixa == null)
+                            //{
+                            //    cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Baixa", DbType.DateTime, entity.Baixa).IsNull()));
+                            //}
+
+                            if (entity.TipoRel > 0)
                             {
-                                cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("DevolucaoEntregaBO", DbType.Boolean, entity.DevolucaoEntregaBo).Igual()));
+                                if (!entity.Impeditivo && !entity.flaTodasDevolucaoEntregaBO)
+                                {
+                                    cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("DevolucaoEntregaBO", DbType.Boolean, entity.DevolucaoEntregaBo).Igual()));
+                                }
                             }
+                            else
+                            {
+                                if (!entity.Impeditivo && entity.flaDevolucaoEntregaBO != null)
+                                {
+                                    cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("DevolucaoEntregaBO", DbType.Boolean, entity.DevolucaoEntregaBo).Igual()));
+                                }
+                            }
+
 
                             var reader = cmd.ExecuteReaderSelect();
                             var d1 = reader.MapToList<ColaboradoresCredenciaisView>();

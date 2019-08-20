@@ -485,6 +485,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 mensagem = "Todas as credenciais ";
                 colaboradorCredencial.CredencialStatusId = 2;
                 colaboradorCredencial.Impressa = true;
+                colaboradorCredencial.TipoRel = 1;
 
                 if (!flaTodasDevolucaoEntregaBO)
                 {
