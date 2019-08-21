@@ -1255,8 +1255,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             IsEnableLstView = false;
 
             //Habilitar controles somente se a credencial não estiver sido impressa
+            ColeteEnabled = true;
+            Habilitar = !Entity.Impressa;
             if (Entity.CardHolderGuid == null)
+            {
                 Habilitar = !Entity.Impressa;
+            }
 
             _viewModelParent.HabilitaControleTabControls(false, false, false, false, false, true);
         }
