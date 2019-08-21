@@ -83,9 +83,10 @@ namespace Meu_Servico.Service
             //_sdk.LogonFailed += _sdk_LogonFailed;
             //_sdk.EventReceived += _sdk_EventReceived;
             //_sdk.EntityInvalidated += _sdk_EntityInvalidated;
-
+            CriarLog("Serviço Iniciado...: " + DateTime.Now);
             _serviceGenetec = new CredencialGenetecService(_sdk);
             MetodoRealizaFuncao(true, _sdk);
+            CriarLog("Serviço Finalizado...: " + DateTime.Now);
             Environment.Exit(1);
             return true;
 
@@ -212,9 +213,11 @@ namespace Meu_Servico.Service
         {
             try
             {
+                
                 Cursor.Current = Cursors.WaitCursor;
                 ////_serviceGenetec.DisparaAlarme("teste", 8);
-                CriarLog("serviço rodando:" + DateTime.Now);
+                CriarLog("-----------------------------------------------");
+                CriarLog("Iniciando Validade dos Colaboradores...");
                 try
                 {
                     var colaboradorContratos = _serviceColaborador.Listar(null, null, null, null, null, null, true).ToList();
@@ -231,25 +234,25 @@ namespace Meu_Servico.Service
                             case diasAlerta:
                                 messa = "A credencial do colaborador.: " + ec.ColaboradorNome + " vencendo hoje";
                                 //_serviceGenetec.DisparaAlarme(messa, 8);
-
+                                CriarLog(messa);
                                 break;
 
                             case diasAlerta1:
                                 messa = "A credencial do colaborador.: " + ec.ColaboradorNome + " vencerá em " + diasAlerta1 + " dias.";
                                 //_serviceGenetec.DisparaAlarme(messa, 8);
-
+                               
                                 break;
 
                             case diasAlerta2:
                                 messa = "A credencial do colaborador.: " + ec.ColaboradorNome + " vencerá em " + diasAlerta2 + " dias.";
                                 //_serviceGenetec.DisparaAlarme(messa, 8);
-
+                                
                                 break;
 
                             case diasAlerta3:
                                 messa = "A credencial do colaborador.: " + ec.ColaboradorNome + " vencerá em " + diasAlerta3 + " dias.";
                                 //_serviceGenetec.DisparaAlarme(messa, 8);
-
+                                
                                 break;
 
                             default:
@@ -293,7 +296,7 @@ namespace Meu_Servico.Service
                         }
 
                         string texto = "Impressa.:" + ec.Impressa + " Status.: " + ec.Ativa + " " + ec.ColaboradorNome + ((ec.Validade < DateTime.Now) ? " Vencido em : " : " Válido até : ") + ec.Validade;
-                        CriarLog(string.Format("Contrato: {0}", texto));
+                        //CriarLog(dias + " Colaborador.: " + ec.ColaboradorNome + " Validade.: " + ec.Validade);
                     }
                     );
                 }
@@ -306,6 +309,8 @@ namespace Meu_Servico.Service
 
                 try
                 {
+                    CriarLog("-----------------------------------------------");
+                    CriarLog("Iniciando Validade dos Veículos/Equipamentos...");
                     var veiculoContratos = _serviceVeiculo.Listar(null, null, null, null, null, true).ToList();
                     veiculoContratos.ForEach(ev =>
                     {
@@ -317,25 +322,25 @@ namespace Meu_Servico.Service
                         {
                             case diasAlerta:
                                 messaveiculo = "A ATIV do veiculo.: " + ev.IdentificacaoDescricao + " vencendo hoje";
-
+                                CriarLog(messaveiculo);
                                 break;
 
                             case diasAlerta1:
                                 messaveiculo = "A ATIV do veiculo.: " + ev.IdentificacaoDescricao + " vencerá em " + diasAlerta1 + " dias.";
                                 //_serviceGenetec.DisparaAlarme(messa, 8);
-
+                               
                                 break;
 
                             case diasAlerta2:
                                 messaveiculo = "A ATIV do veiculo.: " + ev.IdentificacaoDescricao + " vencerá em " + diasAlerta2 + " dias.";
                                 //_serviceGenetec.DisparaAlarme(messa, 8);
-
+                                
                                 break;
 
                             case diasAlerta3:
                                 messaveiculo = "A ATIV do veiculo.: " + ev.IdentificacaoDescricao + " vencerá em " + diasAlerta3 + " dias.";
                                 //_serviceGenetec.DisparaAlarme(messa, 8);
-
+                                
                                 break;
 
                             default:
@@ -373,7 +378,7 @@ namespace Meu_Servico.Service
                         }
 
                         string texto = "Impressa.:" + ev.Impressa + " Status.: " + ev.Ativa + " " + ev.IdentificacaoDescricao + ((ev.Validade < DateTime.Now) ? " Vencido em : " : " Válido até : ") + ev.Validade;
-                        CriarLog(string.Format("Contrato: {0}", texto));
+                        //CriarLog(dias + " Veículo/Equipamento.: " + ev.IdentificacaoDescricao + " Validade.: " + ev.Validade);
                     }
                     );
                 }
@@ -385,6 +390,8 @@ namespace Meu_Servico.Service
 
                 try
                 {
+                    CriarLog("-----------------------------------------------");
+                    CriarLog("Iniciando Validade dos Contratos...");
                     //Hashtable empresaContrato = new Hashtable();
                     Hashtable empresaContratoEmail = new Hashtable();
                     string nomeEmpresa = "";
@@ -416,8 +423,10 @@ namespace Meu_Servico.Service
                                     //{
                                         var messa1 = new MessagemEmail() { Contrato = ec.NumeroContrato, Dias = dias, DescricaoDoContrato = ec.Descricao, EmailDestino = emailEmpresa };
                                         listMessagemEmail.Add(messa1);
-                                    //}
                                 //}
+                                //}
+
+                                CriarLog("Dias.: " + dias +" Contrato.: " + ec.NumeroContrato + " Descrição.: " + ec.Descricao);
                             }
                         }
                         );
@@ -587,10 +596,10 @@ namespace Meu_Servico.Service
         {
             try
             {
-                //StreamWriter vWriter = new StreamWriter(@"C:\Tmp\Logs\log.txt", true);
-                //vWriter.WriteLine(state.ToString());
-                //vWriter.Flush();
-                //vWriter.Close();
+                StreamWriter vWriter = new StreamWriter(@"C:\Tmp\log.txt", true);
+                vWriter.WriteLine(state.ToString());
+                vWriter.Flush();
+                vWriter.Close();
             }
             catch (Exception ex)
             {

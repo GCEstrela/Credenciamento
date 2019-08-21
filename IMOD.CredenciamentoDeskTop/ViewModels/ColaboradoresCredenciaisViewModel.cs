@@ -1255,8 +1255,13 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             IsEnableLstView = false;
 
             //Habilitar controles somente se a credencial não estiver sido impressa
+            ColeteEnabled = true;
+            Habilitar = !Entity.Impressa;
             if (Entity.CardHolderGuid == null)
+            {
                 Habilitar = !Entity.Impressa;
+            }
+                
 
             _viewModelParent.HabilitaControleTabControls(false, false, false, false, false, true);
         }
@@ -1459,6 +1464,26 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     WpfHelp.Mbox("Número do colete já cadastrado para o colaborador  " + colaboradorcredencial.ColaboradorNome.ToString() + " ", MessageBoxIcon.Information);
                     return true;
                 }
+            }
+
+            TimeSpan diferenca = Convert.ToDateTime(Entity.Validade) - DateTime.Now.Date;
+            int credencialDias = int.Parse(diferenca.Days.ToString());
+            if (Entity.TipoCredencialId == 1)
+            {
+                if (credencialDias > 730)
+                {                    
+                    System.Windows.MessageBox.Show("Validade da credencial PERMANENTE, não pode ser superior a 2 anos!");
+                    return true;
+                }
+               
+            }
+            if (Entity.TipoCredencialId == 2)
+            {
+                if (credencialDias > 90)
+                {
+                    System.Windows.MessageBox.Show("Validade da credencial TEMPORÁRIA, não pode ser superior a 90 dias!");
+                    return true;
+                }                
             }
 
             if (Entity.TecnologiaCredencialId != 0)
