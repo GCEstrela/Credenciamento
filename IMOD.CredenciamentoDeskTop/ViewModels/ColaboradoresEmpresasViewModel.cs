@@ -168,18 +168,17 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             if (empresa == null) return;
 
-            var lstContratos = _empresaContratoService.Listar(empresa.EmpresaId).ToList();
             Contratos.Clear();
+            var lstContratos = _empresaContratoService.Listar(empresa.EmpresaId).OrderBy(n => n.Descricao).ToList();
+            //Contratos.AddRange(lstContratos);
             //Manipular concatenaçção de conrato
             lstContratos.ForEach(n =>
             {
-                //if (Convert.ToInt32(n.NumeroContrato) > 0)
-                //{
                 n.Descricao = $"{n.Descricao} - {n.NumeroContrato}";
                 Contratos.Add(n);
-                //}
 
             });
+            
         }
 
         /// <summary>
