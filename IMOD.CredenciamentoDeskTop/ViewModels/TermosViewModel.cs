@@ -276,7 +276,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                         break;
                     case 13:
                         verbo = "cancelou";
-                        colaboradorCredencial.CredencialMotivoId = 15; // 15 - id motivo canceladas
+                        //colaboradorCredencial.CredencialMotivoId = 15; // 15 - id motivo canceladas
                         colaboradorCredencial.flaDevolucaoEntregaBO = null;
                         colaboradorCredencial.TipoRel = 0;
                         break;
