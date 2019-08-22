@@ -26,9 +26,17 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         public ColaboradoresAnexosView()
         {
-            InitializeComponent();
-            _viewModel = new ColaboradoresAnexosViewModel();
-            DataContext = _viewModel;
+            try
+            {
+                InitializeComponent();
+                _viewModel = new ColaboradoresAnexosViewModel();
+                DataContext = _viewModel;
+            }
+            catch (Exception ex)
+            {
+                //WpfHelp.Mbox(ex.Message);
+                Utils.TraceException(ex);
+            }
         }
 
         #region  Metodos

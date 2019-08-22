@@ -63,14 +63,22 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         public ColaboradoresAnexosViewModel()
         {
-            Comportamento = new ComportamentoBasico(false, true, false, false, false);
-            EntityObserver = new ObservableCollection<ColaboradorAnexoView>();
-            Comportamento.SalvarAdicao += OnSalvarAdicao;
-            Comportamento.SalvarEdicao += OnSalvarEdicao;
-            Comportamento.Remover += OnRemover;
-            Comportamento.Cancelar += OnCancelar;
-          
-            base.PropertyChanged += OnEntityChanged;
+            try
+            {
+                Comportamento = new ComportamentoBasico(false, true, false, false, false);
+                EntityObserver = new ObservableCollection<ColaboradorAnexoView>();
+                Comportamento.SalvarAdicao += OnSalvarAdicao;
+                Comportamento.SalvarEdicao += OnSalvarEdicao;
+                Comportamento.Remover += OnRemover;
+                Comportamento.Cancelar += OnCancelar;
+
+                base.PropertyChanged += OnEntityChanged;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            
         }
 
         private void Clear(object sender, EventArgs e)

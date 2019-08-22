@@ -84,15 +84,22 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         public ColaboradoresEmpresasViewModel()
         {
-            ListarDadosAuxiliares();
-           
-            Comportamento = new ComportamentoBasico(false, true, true, false, false);
-            EntityObserver =new ObservableCollection<ColaboradorEmpresaView>();
-            Comportamento.SalvarAdicao += OnSalvarAdicao;
-            Comportamento.SalvarEdicao += OnSalvarEdicao;
-            Comportamento.Remover += OnRemover;
-            Comportamento.Cancelar += OnCancelar;
-            base.PropertyChanged += OnEntityChanged;
+            try
+            {
+                ListarDadosAuxiliares();
+
+                Comportamento = new ComportamentoBasico(false, true, true, false, false);
+                EntityObserver = new ObservableCollection<ColaboradorEmpresaView>();
+                Comportamento.SalvarAdicao += OnSalvarAdicao;
+                Comportamento.SalvarEdicao += OnSalvarEdicao;
+                Comportamento.Remover += OnRemover;
+                Comportamento.Cancelar += OnCancelar;
+                base.PropertyChanged += OnEntityChanged;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         #region  Metodos
