@@ -125,7 +125,7 @@
                             <ComboBox x:Name="cmbMotivacaoDois" IsEditable="true" Visibility="{Binding HabilitarVias}"
                                       Margin="0,4,0,3" 
                                       Height="25"
-                                      Width="118"                                      
+                                      Width="119"                                      
                                       VerticalContentAlignment="Center" 
                                       HorizontalContentAlignment="Left"
                                       ItemsSource="{Binding ColaboradorMotivoViaAdcional}" 
