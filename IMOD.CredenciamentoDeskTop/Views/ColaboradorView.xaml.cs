@@ -7,6 +7,7 @@
 #region
 
 using System;
+using System.Data.SqlClient;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -56,12 +57,15 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 if (_viewModel.Estado == null) return;
                 _viewModel.ListarMunicipios(_viewModel.Estado.Uf);
             }
-            catch (Exception)
+            catch (SqlException ex)
             {
-
-                throw;
+                WpfHelp.PopupBox(ex);
+                _viewModel.Comportamento.PrepareCancelar();
             }
-           
+            catch (Exception ex)
+            {
+                WpfHelp.Mbox(ex.Message);
+            }
         }
 
         private void OnListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -86,14 +90,17 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 ColaboradoresCredenciaisUs.AtualizarDados(_viewModel.Entity, _viewModel);
                 ////////////////////////////////////////////////////////////// 
             }
-            catch (Exception)
+            catch (SqlException ex)
             {
-
-                throw;
+                WpfHelp.PopupBox(ex);
+                _viewModel.Comportamento.PrepareCancelar();
             }
-            
+            catch (Exception ex)
+            {
+                WpfHelp.Mbox(ex.Message);
+            }
         }
-        
+
 
         #endregion
 
@@ -109,9 +116,14 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 frm.ShowDialog();
                 _viewModel.AtualizarDadosPendencias();
             }
+            catch (SqlException ex)
+            {
+                WpfHelp.PopupBox(ex);
+                _viewModel.Comportamento.PrepareCancelar();
+            }
             catch (Exception ex)
             {
-                Utils.TraceException(ex);
+                WpfHelp.Mbox(ex.Message);
             }
         }
 
@@ -157,15 +169,16 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 binding?.UpdateTarget();
 
             }
+            catch (SqlException ex)
+            {
+                WpfHelp.PopupBox(ex);
+                _viewModel.Comportamento.PrepareCancelar();
+            }
             catch (Exception ex)
             {
-                Utils.TraceException(ex);
+                WpfHelp.Mbox(ex.Message);
             }
-
         }
-
-
-
 
         #endregion
         private void OnFormatCpf_LostFocus(object sender, RoutedEventArgs e)
@@ -184,12 +197,15 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 txtCpf.Text = cpf;
 
             }
+            catch (SqlException ex)
+            {
+                WpfHelp.PopupBox(ex);
+                _viewModel.Comportamento.PrepareCancelar();
+            }
             catch (Exception)
             {
                  _viewModel.Entity.SetMessageErro ("Cpf", "CPF inválido");
-            }
-           
-
+            }           
         }
         private void OnFormatDateNascimento_LostFocus(object sender, RoutedEventArgs e)
         {
@@ -199,6 +215,11 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 var str = txtDateNascimento.Text;
                 if (string.IsNullOrWhiteSpace (str)) return;
                 txtDateNascimento.Text = str.FormatarData();
+            }
+            catch (SqlException ex)
+            {
+                WpfHelp.PopupBox(ex);
+                _viewModel.Comportamento.PrepareCancelar();
             }
             catch (Exception)
             {
@@ -216,6 +237,11 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 if (string.IsNullOrWhiteSpace(str)) return;
                 txtDateEmissao.Text = str.FormatarData();
             }
+            catch (SqlException ex)
+            {
+                WpfHelp.PopupBox(ex);
+                _viewModel.Comportamento.PrepareCancelar();
+            }
             catch (Exception)
             {
                 _viewModel.Entity.SetMessageErro("DataEmissao", "Data inválida");
@@ -232,6 +258,11 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 if (string.IsNullOrWhiteSpace(str)) return;
                 txtDateValidade.Text = str.FormatarData();
             }
+            catch (SqlException ex)
+            {
+                WpfHelp.PopupBox(ex);
+                _viewModel.Comportamento.PrepareCancelar();
+            }
             catch (Exception)
             {
                 _viewModel.Entity.SetMessageErro("CnhValidade", "Data inválida");
@@ -247,6 +278,11 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 var str = txtDatePassaporte.Text;
                 if (string.IsNullOrWhiteSpace(str)) return;
                 txtDatePassaporte.Text = str.FormatarData();
+            }
+            catch (SqlException ex)
+            {
+                WpfHelp.PopupBox(ex);
+                _viewModel.Comportamento.PrepareCancelar();
             }
             catch (Exception )
             {
@@ -276,9 +312,14 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 
 
             }
+            catch (SqlException ex)
+            {
+                WpfHelp.PopupBox(ex);
+                _viewModel.Comportamento.PrepareCancelar();
+            }
             catch (Exception ex)
             {
-                Utils.TraceException(ex);
+                WpfHelp.Mbox(ex.Message);
             }
         }
 
@@ -303,12 +344,15 @@ namespace IMOD.CredenciamentoDeskTop.Views
                         ((ListViewItem)(lstView.ItemContainerGenerator.ContainerFromIndex(currentIndex - 1))).Focus();
                     }
                 }
-
-
+            }
+            catch (SqlException ex)
+            {
+                WpfHelp.PopupBox(ex);
+                _viewModel.Comportamento.PrepareCancelar();
             }
             catch (Exception ex)
             {
-                //WpfHelp.Mbox(ex.ToString());
+                WpfHelp.Mbox(ex.Message);
             }
         }
 
@@ -338,9 +382,14 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 _viewModel.IsEnablePreCadastroColor = "Orange";
                 _importarBNT = "Visible";
             }
+            catch (SqlException ex)
+            {
+                WpfHelp.PopupBox(ex);
+                _viewModel.Comportamento.PrepareCancelar();
+            }
             catch (Exception ex)
             {
-                //WpfHelp.Mbox(ex.ToString());
+                WpfHelp.Mbox(ex.Message);
             }
         }
 
@@ -355,11 +404,15 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 _viewModel.IsEnablePreCadastroColor = "#FFD0D0D0";
                 _importarBNT = "Collapsed";
             }
+            catch (SqlException ex)
+            {
+                WpfHelp.PopupBox(ex);
+                _viewModel.Comportamento.PrepareCancelar();
+            }
             catch (Exception ex)
             {
                 WpfHelp.Mbox(ex.Message);
             }
-
         }
         private void Pesquisa_cb_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -372,9 +425,14 @@ namespace IMOD.CredenciamentoDeskTop.Views
                     _viewModel.Pesquisar();
                 }
             }
-            catch (Exception)
+            catch (SqlException ex)
             {
-                // throw;
+                WpfHelp.PopupBox(ex);
+                _viewModel.Comportamento.PrepareCancelar();
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.Mbox(ex.Message);
             }
         }
     }
