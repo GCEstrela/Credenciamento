@@ -328,8 +328,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
             catch (Exception ex)
             {
-                Utils.TraceException(ex);
-                WpfHelp.PopupBox(ex);
+                throw ex;
+                //Utils.TraceException(ex);
+                //WpfHelp.PopupBox(ex);
             }
         }
 
@@ -655,8 +656,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
-                //throw ex;
+                WpfHelp.PopupBox(ex.Message, 1);
+                Utils.TraceException(ex);
+                EntityObserver.Clear();
             }
         }
 
@@ -859,11 +861,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 _prepareCriarCommandAcionado = false;
                 _prepareAlterarCommandAcionado = false;
+                if (Entity != null) Entity.ClearMessageErro();
 
                 AtualizarDadosTipoCrachas();
                 AtualizarDadosTiposAtividades();
 
-                if (Entity != null) Entity.ClearMessageErro();
+               
                 TiposAtividades.Clear();
                 TiposLayoutCracha.Clear();
                 HabilitaControle (true, true);
@@ -874,8 +877,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
-                WpfHelp.MboxError ("Não foi realizar a operação solicitada", ex);
+                //throw ex;
+                Utils.TraceException(ex);
+               // WpfHelp.MboxError("Não foi realizar a operação solicitada", ex);
             }
         }
 

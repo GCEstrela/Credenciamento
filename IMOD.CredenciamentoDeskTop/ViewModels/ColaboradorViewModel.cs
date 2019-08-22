@@ -187,7 +187,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.IBeam;
                 Utils.TraceException(ex);
                 throw ex;
-            }            
+            }
         }
 
         #region  Metodos
@@ -199,7 +199,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <param name="isEnableLstView"></param>
         private void HabilitaControle(bool isEnableTabItem, bool isEnableLstView)
         {
-            HabilitaControleTabControls(isEnableLstView, isEnableTabItem, isEnableTabItem, isEnableTabItem, isEnableTabItem, isEnableTabItem); 
+            HabilitaControleTabControls(isEnableLstView, isEnableTabItem, isEnableTabItem, isEnableTabItem, isEnableTabItem, isEnableTabItem);
         }
 
         public void HabilitaControleTabControls(bool lstViewSuperior = true, bool isItemGeral = true, bool isItemEmpresas = false, bool isItemCursos = false, bool isItemAnexos = false, bool isItemCredenciais = false)
@@ -283,7 +283,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     //var list2 = Mapper.Map<List<ColaboradorView>>(list.ToList());
                     EntityObserver = new ObservableCollection<ColaboradorView>();
                     list2.ForEach(n => { EntityObserver.Add(n); });
-                    
+
                     //Havendo registros, selecione o primeiro
                     //if (EntityObserver.Any()) SelectListViewIndex = 0;
                 }
@@ -302,12 +302,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             catch (Exception ex)
             {
                 System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.IBeam;
-                Utils.TraceException (ex);
+                Utils.TraceException(ex);
             }
         }
         public void carregaFoto(ImageSource minhaFoto)
         {
-            
+
 
             //WriteableBitmap wbmp = new WriteableBitmap((BitmapSource)minhaFoto);
             //MemoryStream ms = new MemoryStream();
@@ -325,7 +325,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
             //Entity.Foto = bitmapData.ToString();
         }
-        
+
 
         public void Pesquisar()
         {
@@ -338,7 +338,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 //Todos
                 if (num.Key == 5)
                 {
-                    
+
                     //var l1 = _service.Listar();
                     var l1 = _service.Listar(null, null, null, IsEnablePreCadastro);
                     PopularObserver(l1);
@@ -359,12 +359,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (num.Key == 3)
                 {
 
-                    if (string.IsNullOrWhiteSpace(pesquisa)) return;                    
-                    var l1 = _service.Listar(null, null, null,IsEnablePreCadastro);
-                    var l2 = _serviceColaboradorEmpresa.Listar(null, null, null, null, $"%{pesquisa}%", null);                    
-                    var l3 = l2.Select(c => c.ColaboradorId ).ToList<int>();
-                    var l4 =  l1.Where(c => l3.Contains(c.ColaboradorId)).ToList();
-                                       
+                    if (string.IsNullOrWhiteSpace(pesquisa)) return;
+                    var l1 = _service.Listar(null, null, null, IsEnablePreCadastro);
+                    var l2 = _serviceColaboradorEmpresa.Listar(null, null, null, null, $"%{pesquisa}%", null);
+                    var l3 = l2.Select(c => c.ColaboradorId).ToList<int>();
+                    var l4 = l1.Where(c => l3.Contains(c.ColaboradorId)).ToList();
+
                     PopularObserver(l4);
 
                 }
@@ -372,30 +372,30 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 //Por nome
                 if (num.Key == 2)
                 {
-                    if (string.IsNullOrWhiteSpace (pesquisa)) return;
-                    var l1 = _service.Listar (null, null, $"%{pesquisa}%", IsEnablePreCadastro);
-                    
-                    PopularObserver (l1);
-                    
+                    if (string.IsNullOrWhiteSpace(pesquisa)) return;
+                    var l1 = _service.Listar(null, null, $"%{pesquisa}%", IsEnablePreCadastro);
+
+                    PopularObserver(l1);
+
                 }
                 //Por cpf
                 if (num.Key == 1)
                 {
-                    if (string.IsNullOrWhiteSpace (pesquisa)) return;
-                    var l1 = _service.Listar (null, $"%{pesquisa.RetirarCaracteresEspeciais()}%", null,IsEnablePreCadastro);
-                    PopularObserver (l1);
-                    
+                    if (string.IsNullOrWhiteSpace(pesquisa)) return;
+                    var l1 = _service.Listar(null, $"%{pesquisa.RetirarCaracteresEspeciais()}%", null, IsEnablePreCadastro);
+                    PopularObserver(l1);
+
                 }
 
-                IsEnableLstView = true; 
-            }             
-                catch (Exception ex)
+                IsEnableLstView = true;
+            }
+            catch (Exception ex)
             {
                 WpfHelp.PopupBox(ex.Message, 1);
-                Utils.TraceException (ex);
+                Utils.TraceException(ex);
             }
         }
-         
+
         public void BucarFoto(int colaborador)
         {
             try
@@ -403,7 +403,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (Entity.Foto != null) return;
                 var listaFoto = _service.BuscarPelaChave(colaborador);
 
-                if (listaFoto!=null)
+                if (listaFoto != null)
                     Entity.Foto = listaFoto.Foto;
             }
             catch (Exception ex)
@@ -567,28 +567,28 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                if (string.IsNullOrWhiteSpace (uf)) return;
+                if (string.IsNullOrWhiteSpace(uf)) return;
                 if (Estado == null) return;
 
                 //Verificar se há municipios já carregados...
-                var l1 = _municipios.Where (n => n.Uf == uf);
+                var l1 = _municipios.Where(n => n.Uf == uf);
                 Municipios.Clear();
                 //Nao havendo municipios... obter do repositorio
                 if (!l1.Any())
                 {
-                    var l2 = _auxiliaresService.MunicipioService.Listar (null, uf);
-                    _municipios.AddRange (Mapper.Map<List<Municipio>> (l2));
+                    var l2 = _auxiliaresService.MunicipioService.Listar(null, uf);
+                    _municipios.AddRange(Mapper.Map<List<Municipio>>(l2));
                 }
 
-                var municipios = _municipios.Where (n => n.Uf == uf).ToList();
+                var municipios = _municipios.Where(n => n.Uf == uf).ToList();
                 Municipios = municipios;
             }
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
+                Utils.TraceException(ex);
             }
         }
-        
+
         /// <summary>
         ///     Pré-Cadastro
         /// </summary>
@@ -598,11 +598,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             try
             {
                 if (Entity == null) return;
-                
+
                 if (Validar()) return;
 
                 var n1 = Mapper.Map<Colaborador>(Entity);
-                
+
                 n1.Pendente21 = true;
                 n1.Pendente22 = true;
                 n1.Pendente23 = true;
@@ -616,7 +616,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 pendencia.CodPendencia = 22;
                 pendencia.Impeditivo = true;
                 Pendencia.CriarPendenciaSistema(pendencia);
-                
+
                 //--------------------------
                 pendencia.CodPendencia = 23;
                 pendencia.Impeditivo = true;
@@ -641,7 +641,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <summary>
         ///     Novo
         /// </summary>
-        public ICommand PrepareCriarCommand => new CommandBase (PrepareCriar, true);
+        public ICommand PrepareCriarCommand => new CommandBase(PrepareCriar, true);
 
         private void PrepareCriar()
         {
@@ -664,27 +664,27 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <summary>
         ///     Editar
         /// </summary>
-        public ICommand PrepareAlterarCommand => new CommandBase (PrepareAlterar, true);
+        public ICommand PrepareAlterarCommand => new CommandBase(PrepareAlterar, true);
 
         /// <summary>
         ///     Cancelar
         /// </summary>
-        public ICommand PrepareCancelarCommand => new CommandBase (Comportamento.PrepareCancelar, true);
+        public ICommand PrepareCancelarCommand => new CommandBase(Comportamento.PrepareCancelar, true);
 
         /// <summary>
         ///     Novo
         /// </summary>
-        public ICommand PrepareSalvarCommand => new CommandBase (PrepareSalvar, true);
+        public ICommand PrepareSalvarCommand => new CommandBase(PrepareSalvar, true);
 
         /// <summary>
         ///     Remover
         /// </summary>
-        public ICommand PrepareRemoverCommand => new CommandBase (PrepareRemover, true);
+        public ICommand PrepareRemoverCommand => new CommandBase(PrepareRemover, true);
 
         /// <summary>
         ///     Pesquisar
         /// </summary>
-        public ICommand PesquisarCommand => new CommandBase (Pesquisar, true);
+        public ICommand PesquisarCommand => new CommandBase(Pesquisar, true);
 
         #endregion
 
@@ -695,7 +695,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             if (Validar()) return;
             Comportamento.PrepareSalvar();
         }
-         
+
         private List<ColaboradorView> _entityObserverCloned = new List<ColaboradorView>();
         private void PrepareAlterar()
         {
@@ -760,17 +760,17 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (Entity == null) return;
                 if (Validar()) return;
 
-                var n1 = Mapper.Map<Colaborador> (Entity);
-                _service.Criar (n1);
-                var n2 = Mapper.Map<ColaboradorView> (n1);
-                EntityObserver.Insert (0, n2);
-                HabilitaControle (true, true);
+                var n1 = Mapper.Map<Colaborador>(Entity);
+                _service.Criar(n1);
+                var n2 = Mapper.Map<ColaboradorView>(n1);
+                EntityObserver.Insert(0, n2);
+                HabilitaControle(true, true);
                 SelectListViewIndex = 0;
             }
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
-                WpfHelp.PopupBox (ex);
+                Utils.TraceException(ex);
+                WpfHelp.PopupBox(ex);
             }
         }
 
@@ -779,17 +779,17 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             try
             {
                 if (Entity == null) return;
-                
-                    if (Validar()) return;
-                
-                var n1 = Mapper.Map<Colaborador> (Entity);
-                _service.Alterar (n1);
-                HabilitaControle (true, true);
+
+                if (Validar()) return;
+
+                var n1 = Mapper.Map<Colaborador>(Entity);
+                _service.Alterar(n1);
+                HabilitaControle(true, true);
             }
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
-                WpfHelp.PopupBox (ex);
+                Utils.TraceException(ex);
+                WpfHelp.PopupBox(ex);
             }
         }
 
@@ -808,8 +808,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
-                WpfHelp.MboxError ("Não foi realizar a operação solicitada", ex);
+                Utils.TraceException(ex);
+                WpfHelp.MboxError("Não foi realizar a operação solicitada", ex);
             }
         }
 
@@ -821,7 +821,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var result = WpfHelp.MboxDialogRemove();
                 if (result != DialogResult.Yes) return;
 
-                var n1 = Mapper.Map<Colaborador> (Entity);
+                var n1 = Mapper.Map<Colaborador>(Entity);
 
                 //So remove de o colaborador for Precadastro=True
                 if (n1.Precadastro)
@@ -831,12 +831,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     EntityObserver.Remove(Entity);
 
                 }
-                HabilitaControle (true, true);
+                HabilitaControle(true, true);
             }
             catch (Exception ex)
             {
-                Utils.TraceException (ex);
-                WpfHelp.MboxError ("Não foi realizar a operação solicitada", ex);
+                Utils.TraceException(ex);
+                WpfHelp.MboxError("Não foi realizar a operação solicitada", ex);
             }
         }
         /// <summary>
@@ -856,7 +856,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             catch (Exception ex)
             {
                 throw ex;
-            }           
+            }
         }
         #endregion
     }
