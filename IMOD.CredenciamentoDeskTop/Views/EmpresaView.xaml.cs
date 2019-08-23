@@ -98,6 +98,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
             {
                 WpfHelp.PopupBox(ex);
                 _viewModel.Comportamento.PrepareCancelar();
+                _viewModel.EntityObserver.Clear();
             }
             catch (Exception ex)
             {
@@ -421,9 +422,14 @@ namespace IMOD.CredenciamentoDeskTop.Views
                     _viewModel.Pesquisar();
                 }
             }
-            catch (Exception)
+            catch (SqlException ex)
             {
-                // throw;
+                WpfHelp.PopupBox(ex);
+                _viewModel.Comportamento.PrepareCancelar();
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.Mbox(ex.Message);
             }
         }
     }

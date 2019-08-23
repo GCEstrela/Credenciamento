@@ -171,28 +171,36 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         public ColaboradoresCredenciaisViewModel()
         {
-            AlterarDataValidade = UsuarioLogado.Adm;
-            if (!UsuarioLogado.Adm)
+            try
             {
-                ExcluirVisivel = "Collapsed";
-            }
-            else
-            {
-                ExcluirVisivel = "Visible";
-            }
+                AlterarDataValidade = UsuarioLogado.Adm;
+                if (!UsuarioLogado.Adm)
+                {
+                    ExcluirVisivel = "Collapsed";
+                }
+                else
+                {
+                    ExcluirVisivel = "Visible";
+                }
 
 
-            HabilitarOpcoesCredencial = true;
-            ItensDePesquisaConfigura();
-            ListarDadosAuxiliares();
-            Comportamento = new ComportamentoBasico(false, true, false, false, false);
-            EntityObserver = new ObservableCollection<ColaboradoresCredenciaisView>();
-            Comportamento.SalvarAdicao += OnSalvarAdicao;
-            Comportamento.SalvarEdicao += OnSalvarEdicao;
-            Comportamento.Remover += OnRemover;
-            Comportamento.Cancelar += OnCancelar;
-            PropertyChanged += OnEntityChanged;
-            SelectListViewIndex = -1;
+                HabilitarOpcoesCredencial = true;
+                ItensDePesquisaConfigura();
+                ListarDadosAuxiliares();
+                Comportamento = new ComportamentoBasico(false, true, false, false, false);
+                EntityObserver = new ObservableCollection<ColaboradoresCredenciaisView>();
+                Comportamento.SalvarAdicao += OnSalvarAdicao;
+                Comportamento.SalvarEdicao += OnSalvarEdicao;
+                Comportamento.Remover += OnRemover;
+                Comportamento.Cancelar += OnCancelar;
+                PropertyChanged += OnEntityChanged;
+                SelectListViewIndex = -1;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
 
         #region  Metodos
@@ -378,46 +386,55 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         private void ListarDadosAuxiliares()
         {
-            var lst0 = _auxiliaresService.CredencialStatusService.Listar();
-            CredencialStatus = new List<CredencialStatus>();
-            CredencialStatus.AddRange(lst0.OrderBy(n => n.Descricao));
-
-            var lst2 = _auxiliaresService.FormatoCredencialService.Listar();
-            FormatoCredencial = new List<FormatoCredencial>();
-            FormatoCredencial.AddRange(lst2.OrderBy(n => n.FormatoCredencialId));
-
-            var lst3 = _auxiliaresService.TipoCredencialService.Listar();
-            TipoCredencial = new List<TipoCredencial>();
-            TipoCredencial.AddRange(lst3.OrderBy(n => n.TipoCredencialId));
-
-            var lst5 = _auxiliaresService.TecnologiaCredencialService.Listar();
-            TecnologiasCredenciais = new List<TecnologiaCredencial>();
-            TecnologiasCredenciais.AddRange(lst5.OrderBy(n => n.TecnologiaCredencialId));
-
-            ColaboradoresEmpresas = new ObservableCollection<ColaboradorEmpresa>();
-
-            var lst7 = _auxiliaresService.AreaAcessoService.Listar();
-            ColaboradorPrivilegio = new List<AreaAcesso>();
-            ColaboradorPrivilegio.AddRange(lst7.OrderBy(n => n.Identificacao));
-
-            var lst8 = _auxiliaresService.CredencialMotivoService.Listar();
-            _credencialMotivo = new List<CredencialMotivo>();
-            //_credencialMotivo = new List<CredencialMotivo>(lst8.OrderBy(n => n.Descricao));
-            _credencialMotivo.AddRange(lst8.OrderBy(n => n.Descricao));
-
-            var lst9 = _auxiliaresService.CredencialMotivoService.Listar(null, null, null, true);
-            ColaboradorMotivoViaAdcional = new List<CredencialMotivo>();
-            ColaboradorMotivoViaAdcional.AddRange(lst9.OrderBy(n => n.Descricao));
-
-            _configuraSistema = ObterConfiguracao();
-            if (_configuraSistema.Contrato) //Se contrato for automático for true a combo sera removida do formulário
+            try
             {
-                IsEnableComboContrato = false;
+                var lst0 = _auxiliaresService.CredencialStatusService.Listar();
+                CredencialStatus = new List<CredencialStatus>();
+                CredencialStatus.AddRange(lst0.OrderBy(n => n.Descricao));
+
+                var lst2 = _auxiliaresService.FormatoCredencialService.Listar();
+                FormatoCredencial = new List<FormatoCredencial>();
+                FormatoCredencial.AddRange(lst2.OrderBy(n => n.FormatoCredencialId));
+
+                var lst3 = _auxiliaresService.TipoCredencialService.Listar();
+                TipoCredencial = new List<TipoCredencial>();
+                TipoCredencial.AddRange(lst3.OrderBy(n => n.TipoCredencialId));
+
+                var lst5 = _auxiliaresService.TecnologiaCredencialService.Listar();
+                TecnologiasCredenciais = new List<TecnologiaCredencial>();
+                TecnologiasCredenciais.AddRange(lst5.OrderBy(n => n.TecnologiaCredencialId));
+
+                ColaboradoresEmpresas = new ObservableCollection<ColaboradorEmpresa>();
+
+                var lst7 = _auxiliaresService.AreaAcessoService.Listar();
+                ColaboradorPrivilegio = new List<AreaAcesso>();
+                ColaboradorPrivilegio.AddRange(lst7.OrderBy(n => n.Identificacao));
+
+                var lst8 = _auxiliaresService.CredencialMotivoService.Listar();
+                _credencialMotivo = new List<CredencialMotivo>();
+                //_credencialMotivo = new List<CredencialMotivo>(lst8.OrderBy(n => n.Descricao));
+                _credencialMotivo.AddRange(lst8.OrderBy(n => n.Descricao));
+
+                var lst9 = _auxiliaresService.CredencialMotivoService.Listar(null, null, null, true);
+                ColaboradorMotivoViaAdcional = new List<CredencialMotivo>();
+                ColaboradorMotivoViaAdcional.AddRange(lst9.OrderBy(n => n.Descricao));
+
+                _configuraSistema = ObterConfiguracao();
+                if (_configuraSistema.Contrato) //Se contrato for automático for true a combo sera removida do formulário
+                {
+                    IsEnableComboContrato = false;
+                }
+                if (!_configuraSistema.Colete) //Se Cole não for automático false
+                {
+                    IsEnableColete = false;
+                }
             }
-            if (!_configuraSistema.Colete) //Se Cole não for automático false
+            catch (Exception ex)
             {
-                IsEnableColete = false;
+
+                throw ex;
             }
+            
 
         }
 
@@ -1261,7 +1278,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 Habilitar = !Entity.Impressa;
             }
-                
+
 
             _viewModelParent.HabilitaControleTabControls(false, false, false, false, false, true);
         }
@@ -1434,7 +1451,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
 
             //retirar o espaço entre a numeração obtida do cartão
-            if (Entity.CredencialStatusId==1)
+            if (Entity.CredencialStatusId == 1)
             {
                 if (Entity.Validade.Value.AddHours(23).AddMinutes(59).AddSeconds(59) < DateTime.Now)
                 {
@@ -1471,11 +1488,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             if (Entity.TipoCredencialId == 1)
             {
                 if (credencialDias > 730)
-                {                    
+                {
                     System.Windows.MessageBox.Show("Validade da credencial PERMANENTE, não pode ser superior a 2 anos!");
                     return true;
                 }
-               
+
             }
             if (Entity.TipoCredencialId == 2)
             {
@@ -1483,7 +1500,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 {
                     System.Windows.MessageBox.Show("Validade da credencial TEMPORÁRIA, não pode ser superior a 90 dias!");
                     return true;
-                }                
+                }
             }
 
             if (Entity.TecnologiaCredencialId != 0)

@@ -28,11 +28,18 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         public ColaboradoresEmpresasView()
         {
-            InitializeComponent();
-            _viewModel = new ColaboradoresEmpresasViewModel();
-            DataContext = _viewModel;
+            try
+            {
+                InitializeComponent();
+                _viewModel = new ColaboradoresEmpresasViewModel();
+                DataContext = _viewModel;
+            }
+            catch (Exception ex)
+            {
+                //WpfHelp.Mbox(ex.Message);
+                Utils.TraceException(ex);
+            }
         }
-
         #region  Metodos
 
         private void Frm_Loaded(object sender, RoutedEventArgs e)
@@ -42,7 +49,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         private void OnSelecionaContrato_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (_viewModel.Empresa == null) return;           
+            if (_viewModel.Empresa == null) return;
             _viewModel.ListarContratos(_viewModel.Empresa);
             _viewModel.BuscarAnexo(_viewModel.Entity.ColaboradorEmpresaId);
             cmbContrato.Items.Refresh();
@@ -52,10 +59,10 @@ namespace IMOD.CredenciamentoDeskTop.Views
         ///     Atualizar dados
         /// </summary>
         /// <param name="entity"></param>
-        public void AtualizarDados(Model.ColaboradorView entity,ColaboradorViewModel viewModelParent)
+        public void AtualizarDados(Model.ColaboradorView entity, ColaboradorViewModel viewModelParent)
         {
             //if (entity == null) return;
-            _viewModel.AtualizarDados(entity,viewModelParent);
+            _viewModel.AtualizarDados(entity, viewModelParent);
             //if (!_viewModel.IsEnableComboContrato)
             //{
             //    ListaSegnatarios_lv.Columns[2].Visible = false;
@@ -123,7 +130,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
                     return;
                 }
                 txtDtValidade.Text = str.FormatarData();
-                
+
             }
             catch (Exception)
             {

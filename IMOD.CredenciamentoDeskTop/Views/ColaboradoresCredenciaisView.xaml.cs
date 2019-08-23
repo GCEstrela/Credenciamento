@@ -13,6 +13,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using IMOD.CredenciamentoDeskTop.Enums;
+using IMOD.CredenciamentoDeskTop.Helpers;
 using IMOD.CredenciamentoDeskTop.ViewModels;
 using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
@@ -33,10 +34,19 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         public ColaboradoresCredenciaisView()
         {
-            InitializeComponent();
-            _viewModel = new ColaboradoresCredenciaisViewModel();
-            DataContext = _viewModel;
-            _viewModel.HabilitarVias = "Collapsed";
+            try
+            {
+                InitializeComponent();
+                _viewModel = new ColaboradoresCredenciaisViewModel();
+                DataContext = _viewModel;
+                _viewModel.HabilitarVias = "Collapsed";
+            }
+            catch (Exception ex)
+            {
+                //WpfHelp.Mbox(ex.Message);
+                Utils.TraceException(ex);
+            }
+            
         }
 
         #endregion

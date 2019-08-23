@@ -6,7 +6,10 @@
 
 #region
 
+using IMOD.CredenciamentoDeskTop.Helpers;
 using IMOD.CredenciamentoDeskTop.Views;
+using IMOD.CrossCutting;
+using System;
 
 #endregion
 
@@ -32,8 +35,8 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
         /// </summary>
         public EmpresaView EmpresaView
         {
-          
-            get { return _empresaView ?? (_empresaView = new EmpresaView()); } 
+
+            get { return _empresaView ?? (_empresaView = new EmpresaView()); }
         }
 
         /// <summary>
@@ -41,7 +44,17 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
         /// </summary>
         public ColaboradorView ColaboradorView
         {
-            get { return _colaboradorView ?? (_colaboradorView = new ColaboradorView()); } 
+            get
+            {
+                try
+                {
+                    return _colaboradorView ?? (_colaboradorView = new ColaboradorView());
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
         }
 
         /// <summary>
@@ -49,7 +62,17 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
         /// </summary>
         public VeiculoView VeiculoView
         {
-              get { return _veiculoView ?? (_veiculoView = new VeiculoView()); } 
+            get
+            {
+                try
+                {
+                    return _veiculoView ?? (_veiculoView = new VeiculoView());
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
         }
 
         /// <summary>
@@ -57,7 +80,17 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
         /// </summary>
         public ConfiguracoesView ConfiguracoesView
         {
-              get { return _configuracoesView ?? (_configuracoesView = new ConfiguracoesView()); } 
+            get
+            {
+                try
+                {
+                    return _configuracoesView ?? (_configuracoesView = new ConfiguracoesView());
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
         }
 
         /// <summary>
@@ -65,7 +98,17 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
         /// </summary>
         public RelatoriosView RelatoriosView
         {
-             get { return _relatoriosView ?? (_relatoriosView = new RelatoriosView()); } 
+            get
+            {
+                try
+                {
+                    return _relatoriosView ?? (_relatoriosView = new RelatoriosView());
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
         }
 
         /// <summary>
@@ -73,7 +116,17 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
         /// </summary>
         public TermosView TermosView
         {
-             get { return _termosView ?? (_termosView = new TermosView()); } 
+            get
+            {
+                try
+                {
+                    return _termosView ?? (_termosView = new TermosView());
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
         }
 
         /// <summary>
@@ -81,7 +134,17 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
         /// </summary>
         public EquipamentosView EquipamentosView
         {
-            get { return _equipamentosView ?? (_equipamentosView = new EquipamentosView()); }
+            get
+            {
+                try
+                {
+                    return _equipamentosView ?? (_equipamentosView = new EquipamentosView());
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
         }
 
         #endregion

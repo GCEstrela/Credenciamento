@@ -19,9 +19,17 @@ namespace IMOD.CredenciamentoDeskTop.Views
         #region Inicializacao
         public UsColaboradoresCursosView()
         {
-            InitializeComponent(); 
-            _viewModel = new ColaboradoresCursosViewModel();
-            DataContext = _viewModel;
+            try
+            {
+                InitializeComponent();
+                _viewModel = new ColaboradoresCursosViewModel();
+                DataContext = _viewModel;
+            }
+            catch (Exception ex)
+            {
+                //WpfHelp.Mbox(ex.Message);
+                Utils.TraceException(ex);
+            }
         }
         #endregion
 
