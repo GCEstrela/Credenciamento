@@ -37,6 +37,7 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         //[Required(ErrorMessage = "O CPF é requerido.")]
         [RequiredIf("Estrangeiro", false, ErrorMessage = "O CPF é requerido.")]
         public string Cpf { get; set; }
+        [RequiredIf("Estrangeiro", false, ErrorMessage = "O RG é requerido.")]
         public string Rg { get; set; }
         public DateTime? RgEmissao { get; set; }
         public string RgOrgLocal { get; set; }
