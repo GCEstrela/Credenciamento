@@ -145,7 +145,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("DataStatus", DbType.DateTime, DateTime.Today.Date, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("DevolucaoEntregaBO", DbType.Boolean, entity.DevolucaoEntregaBo, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Lacre", entity.Lacre, false)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Portao", entity.Portao, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Portao", entity.Portao, false)));
 
                         var key = Convert.ToInt32(cmd.ExecuteScalar());
 
