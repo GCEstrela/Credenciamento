@@ -6,6 +6,7 @@
 
 #region
 
+using System;
 using System.Collections.Generic;
 using IMOD.Domain.Entities;
 using IMOD.Domain.Interfaces;
@@ -35,7 +36,16 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void Criar(VeiculoEquipTipoServico entity)
         {
-            _repositorio.Criar (entity);
+            try
+            {
+                _repositorio.Criar(entity);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
         }
 
         /// <summary>
@@ -45,7 +55,16 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public VeiculoEquipTipoServico BuscarPelaChave(int id)
         {
-            return _repositorio.BuscarPelaChave (id);
+            try
+            {
+                return _repositorio.BuscarPelaChave(id);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
         }
 
         /// <summary>
@@ -55,7 +74,16 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public ICollection<VeiculoEquipTipoServico> Listar(params object[] objects)
         {
-            return _repositorio.Listar (objects);
+            try
+            {
+                return _repositorio.Listar(objects);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
         }
 
         /// <summary>
@@ -64,7 +92,16 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void Alterar(VeiculoEquipTipoServico entity)
         {
-            _repositorio.Alterar (entity);
+            try
+            {
+                _repositorio.Alterar(entity);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
         }
 
         /// <summary>
@@ -73,7 +110,16 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void Remover(VeiculoEquipTipoServico entity)
         {
-            _repositorio.Remover (entity);
+            try
+            {
+                _repositorio.Remover(entity);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
         }
 
         #endregion
