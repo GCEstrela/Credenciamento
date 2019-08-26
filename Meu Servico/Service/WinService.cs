@@ -220,9 +220,11 @@ namespace Meu_Servico.Service
                 CriarLog("Iniciando Validade dos Colaboradores...");
                 try
                 {
-                    var colaboradorContratos = _serviceColaborador.Listar(null, null, null, null, null, null, true).ToList();
+                    var colaboradorContratos = _serviceColaborador.Listar(null, null, null, null, null, null, true).OrderBy(c => c.Validade).ToList();
+                    //var colaboradorContratos = _serviceColaborador.Listar(null, null, null, null, null, null, true).ToList();
                     colaboradorContratos.ForEach(ec =>
                     {
+                        
                         string messa = "";
                         var empresasEmail = _serviceEmpresa.Listar(null, null, null, null, null, null, ec.ColaboradorEmpresaId).FirstOrDefault();
                         DateTime validadeCredencial = (DateTime)ec.Validade;
@@ -234,7 +236,7 @@ namespace Meu_Servico.Service
                             case diasAlerta:
                                 messa = "A credencial do colaborador.: " + ec.ColaboradorNome + " vencendo hoje";
                                 //_serviceGenetec.DisparaAlarme(messa, 8);
-                                CriarLog(messa);
+                                //CriarLog(messa);
                                 break;
 
                             case diasAlerta1:
@@ -273,6 +275,9 @@ namespace Meu_Servico.Service
                             ec.CredencialMotivoId = (int)Inativo.EXPIRADA;
                             ec.CredencialStatusId = 2;
                             _serviceColaborador.Alterar(ec);
+                            
+                            messa = "Nome .: " + ec.ColaboradorNome + " --- " + " [ validade.: " + ec.Validade + " ]";
+                            CriarLog(messa);
                             //Em processo de alteração.
                             var pendencia = _serviceColaborador.ListarView(ec.ColaboradorCredencialId).FirstOrDefault();
                             _serviceColaborador.CriarPendenciaImpeditiva(pendencia);
@@ -454,7 +459,7 @@ namespace Meu_Servico.Service
                             {
                                 try
                                 {
-                                    sendMessage(emailFraport.ToString(),emailEmpresa);
+                                    //sendMessage(emailFraport.ToString(),emailEmpresa);
                                 }
                                 catch (Exception ex)
                                 {
