@@ -6,6 +6,7 @@
 
 #region
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using IMOD.Application.Interfaces;
@@ -45,13 +46,21 @@ namespace IMOD.Application.Service
         /// <param name="entity">Entidade</param>
         public void Criar(ColaboradorCurso entity)
         {
-            _repositorio.Criar (entity);
-            #region Retirar pendencias de sistema
-            var pendencia = Pendencia.ListarPorColaborador(entity.ColaboradorId)
-                 .FirstOrDefault(n => n.PendenciaSistema & n.CodPendencia == 23);
-            if (pendencia == null) return;
-            Pendencia.Remover(pendencia);
-            #endregion
+            try
+            {
+                _repositorio.Criar(entity);
+                #region Retirar pendencias de sistema
+                var pendencia = Pendencia.ListarPorColaborador(entity.ColaboradorId)
+                     .FirstOrDefault(n => n.PendenciaSistema & n.CodPendencia == 23);
+                if (pendencia == null) return;
+                Pendencia.Remover(pendencia);
+                #endregion
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -61,7 +70,15 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public ColaboradorCurso BuscarPelaChave(int id)
         {
-            return _repositorio.BuscarPelaChave (id);
+            try
+            {
+                return _repositorio.BuscarPelaChave(id);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -70,7 +87,15 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public ICollection<ColaboradorCurso> Listar(params object[] objects)
         {
-            return _repositorio.Listar (objects);
+            try
+            {
+                return _repositorio.Listar(objects);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -79,7 +104,15 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void Alterar(ColaboradorCurso entity)
         {
-            _repositorio.Alterar (entity);
+            try
+            {
+                _repositorio.Alterar(entity);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -88,12 +121,28 @@ namespace IMOD.Application.Service
         /// <param name="entity">Entidade</param>
         public void Remover(ColaboradorCurso entity)
         {
-            _repositorio.Remover (entity);
+            try
+            {
+                _repositorio.Remover(entity);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         public ICollection<ColaboradorCurso> ListarView(params object[] objects)
         {
-            return _repositorio.ListarView(objects);
+            try
+            {
+                return _repositorio.ListarView(objects);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         #endregion

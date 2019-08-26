@@ -6,6 +6,7 @@
 
 #region
 
+using System;
 using System.Collections.Generic;
 using IMOD.Application.Interfaces;
 using IMOD.Domain.Entities;
@@ -29,7 +30,15 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public ICollection<Estados> Listar()
         {
-            return _repositorio.Listar();
+            try
+            {
+                return _repositorio.Listar();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -39,7 +48,15 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public Estados BuscarEstadoPorUf(string uf)
         {
-            return _repositorio.BuscarEstadoPorUf(uf);
+            try
+            {
+                return _repositorio.BuscarEstadoPorUf(uf);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -49,7 +66,15 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public EstadoView BuscarEstadoMunicipiosPorUf(string uf)
         {
-            return _repositorio.BuscarEstadoMunicipiosPorUf(uf);
+            try
+            {
+                return _repositorio.BuscarEstadoMunicipiosPorUf(uf);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         #endregion

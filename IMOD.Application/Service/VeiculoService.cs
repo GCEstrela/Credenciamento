@@ -6,6 +6,7 @@
 
 #region
 
+using System;
 using System.Collections.Generic;
 using IMOD.Application.Interfaces;
 using IMOD.Domain.Entities;
@@ -85,22 +86,31 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void Criar(Veiculo entity)
         {
-            _repositorio.Criar (entity);
-            //Criar pendências
-            #region Criar Pendências
+            try
+            {
+                _repositorio.Criar(entity);
+                //Criar pendências
+                #region Criar Pendências
 
-            var pendencia = new Pendencia();
-            pendencia.VeiculoId = entity.EquipamentoVeiculoId;
-            //--------------------------
-            pendencia.CodPendencia = 22;
-            Pendencia.CriarPendenciaSistema(pendencia);
-            //--------------------------
-            pendencia.CodPendencia = 19;
-            Pendencia.CriarPendenciaSistema(pendencia);
-            //--------------------------
-            pendencia.CodPendencia = 24;
-            Pendencia.CriarPendenciaSistema(pendencia);
-            #endregion
+                var pendencia = new Pendencia();
+                pendencia.VeiculoId = entity.EquipamentoVeiculoId;
+                //--------------------------
+                pendencia.CodPendencia = 22;
+                Pendencia.CriarPendenciaSistema(pendencia);
+                //--------------------------
+                pendencia.CodPendencia = 19;
+                Pendencia.CriarPendenciaSistema(pendencia);
+                //--------------------------
+                pendencia.CodPendencia = 24;
+                Pendencia.CriarPendenciaSistema(pendencia);
+                #endregion
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
         }
 
         /// <summary>
@@ -110,7 +120,16 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public Veiculo BuscarPelaChave(int id)
         {
-            return _repositorio.BuscarPelaChave (id);
+            try
+            {
+                return _repositorio.BuscarPelaChave(id);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
         }
 
         /// <summary>
@@ -120,7 +139,16 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public ICollection<Veiculo> Listar(params object[] objects)
         {
-            return _repositorio.Listar (objects);
+            try
+            {
+                return _repositorio.Listar(objects);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
         }
 
         /// <summary>
@@ -129,7 +157,16 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void Alterar(Veiculo entity)
         {
-            _repositorio.Alterar (entity);
+            try
+            {
+                _repositorio.Alterar(entity);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
         }
 
         /// <summary>
@@ -138,7 +175,16 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void Remover(Veiculo entity)
         {
-            _repositorio.Remover (entity);
+            try
+            {
+                _repositorio.Remover(entity);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
         }
 
         #endregion

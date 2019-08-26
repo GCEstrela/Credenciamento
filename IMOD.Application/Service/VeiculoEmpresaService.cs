@@ -11,6 +11,7 @@ using IMOD.Domain.Entities;
 using IMOD.Domain.EntitiesCustom;
 using IMOD.Domain.Interfaces;
 using IMOD.Infra.Repositorios;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -46,13 +47,22 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void Criar(VeiculoEmpresa entity)
         {
-            _repositorio.Criar(entity);
-            #region Retirar pendencias de sistema
-            var pendencia = Pendencia.ListarPorVeiculo(entity.VeiculoId)
-                .FirstOrDefault(n => n.PendenciaSistema & n.CodPendencia ==  22);
-            if (pendencia == null) return;
-            Pendencia.Remover(pendencia);
-            #endregion
+            try
+            {
+                _repositorio.Criar(entity);
+                #region Retirar pendencias de sistema
+                var pendencia = Pendencia.ListarPorVeiculo(entity.VeiculoId)
+                    .FirstOrDefault(n => n.PendenciaSistema & n.CodPendencia == 22);
+                if (pendencia == null) return;
+                Pendencia.Remover(pendencia);
+                #endregion
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
         }
 
         /// <summary>
@@ -62,7 +72,16 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public VeiculoEmpresa BuscarPelaChave(int id)
         {
-            return _repositorio.BuscarPelaChave(id);
+            try
+            {
+                return _repositorio.BuscarPelaChave(id);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
         }
 
         /// <summary>
@@ -72,7 +91,16 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public ICollection<VeiculoEmpresa> Listar(params object[] objects)
         {
-            return _repositorio.Listar(objects);
+            try
+            {
+                return _repositorio.Listar(objects);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
         }
 
         /// <summary>
@@ -81,7 +109,16 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void Alterar(VeiculoEmpresa entity)
         {
-            _repositorio.Alterar(entity);
+            try
+            {
+                _repositorio.Alterar(entity);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
         }
 
         /// <summary>
@@ -90,18 +127,45 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void Remover(VeiculoEmpresa entity)
         {
-            _repositorio.Remover(entity);
+            try
+            {
+                _repositorio.Remover(entity);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
         }
 
         public ICollection<VeiculoEmpresa> ListarEmpresas(params object[] objects)
         {
-            return _repositorio.Listar(objects);
+            try
+            {
+                return _repositorio.Listar(objects);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
         }
 
         public ICollection<VeiculoEmpresaView> ListarContratoView(params object[] o)
         {
-            return _repositorio.ListarContratoView(o);
-        } 
+            try
+            {
+                return _repositorio.ListarContratoView(o);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
 
         #endregion
     }

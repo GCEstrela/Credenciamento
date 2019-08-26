@@ -6,6 +6,7 @@
 
 #region
 
+using System;
 using System.Globalization;
 using System.Reflection;
 using IMOD.Application.Interfaces;
@@ -33,9 +34,17 @@ namespace IMOD.Application.Service
 
         public static string ObterVersaoSoftware(Assembly assembly)
         {
-            var v = assembly.GetName().Version;
-            return string.Format (CultureInfo.InvariantCulture, @"Versão {0}.{1}.{2}", v.Major, v.Minor,
-                v.Revision);
+            try
+            {
+                var v = assembly.GetName().Version;
+                return string.Format(CultureInfo.InvariantCulture, @"Versão {0}.{1}.{2}", v.Major, v.Minor,
+                    v.Revision);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         #endregion
@@ -43,6 +52,6 @@ namespace IMOD.Application.Service
         /// <summary>
         /// Obter informações do banco de dados
         /// </summary>
-        public  DataBaseInfo ObterInformacaoBancoDeDados { get { return _infoData.ObterInformacaoBancoDeDados; } }
+        public DataBaseInfo ObterInformacaoBancoDeDados { get { return _infoData.ObterInformacaoBancoDeDados; } }
     }
 }

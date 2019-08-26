@@ -101,8 +101,16 @@ namespace IMOD.Application.Service
 
         public void ObterStatusCredencial(ColaboradorCredencial entity)
         {
+            try
+            { 
             var status = CredencialStatus.BuscarPelaChave (entity.CredencialStatusId);
             entity.Ativa = status.Codigo == "1"; //Set status da credencial
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -112,6 +120,8 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         private static CardHolderEntity CardHolderEntity(ColaboradoresCredenciaisView entity)
         {
+            try
+            { 
             //Author: Renato Maximo
             //Data:13/03/19
             //Wrk:Adicionar um dia a credencial
@@ -145,6 +155,12 @@ namespace IMOD.Application.Service
                 GrupoPadrao = entity.GrupoPadrao
             };
             return titularCartao;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -153,6 +169,8 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void CriarPendenciaImpeditiva(ColaboradoresCredenciaisView entity)
         {
+            try
+            { 
                //Criar um pendenci impeditiva ao constatar o motivo da credencial
                var pendImp = CredencialMotivo.BuscarPelaChave (entity.CredencialMotivoId);
             if (pendImp == null) throw new InvalidOperationException ("Não foi possível obter a entidade credencial motivo");
@@ -174,7 +192,13 @@ namespace IMOD.Application.Service
             pendencia.CodPendencia = 21;
             Pendencia.CriarPendenciaSistema (pendencia);
 
-            #endregion
+                #endregion
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -184,11 +208,19 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public bool ExisteNumeroCredencial(string numCredencial)
         {
+            try
+            { 
             if (string.IsNullOrWhiteSpace (numCredencial)) return false;
 
             var doc = numCredencial.RetirarCaracteresEspeciais();
             var n1 = ObterCredencialPeloNumeroCredencial (doc);
             return n1 != null;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
         /// <summary>
         ///     Verificar se um número credencial
@@ -197,11 +229,19 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public ColaboradorCredencial ExisteNumeroColete(int colaboradorid,string numColete)
         {
+            try
+            { 
             if (string.IsNullOrWhiteSpace(numColete)) return null;
 
             var doc = numColete;
             var n1 = ObterNumeroColete(colaboradorid,doc);
             return n1;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -210,7 +250,8 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param> 
         public void Alterar(ColaboradorCredencial entity)
         {
-
+            try
+            { 
             CredencialMotivo motivo = new CredencialMotivo();
             if (entity.CredencialMotivoId > 0)
             {
@@ -243,11 +284,25 @@ namespace IMOD.Application.Service
             n1.CardHolderGuid = entity.CardHolderGuid;
             n1.CredencialGuid = entity.CredencialGuid;
             _repositorio.Alterar(n1);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         public ColaboradoresCredenciaisView BuscarCredencialPelaChave(int colaboradorCredencialId)
         {
+            try
+            { 
             return _repositorio.BuscarCredencialPelaChave (colaboradorCredencialId);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -257,7 +312,15 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public CredencialView ObterCredencialView(int colaboradorCredencialId)
         {
+            try
+            { 
             return _repositorio.ObterCredencialView (colaboradorCredencialId);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -267,7 +330,15 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public ColaboradorCredencial BuscarPelaChave(int id)
         {
+            try
+            { 
             return _repositorio.BuscarPelaChave (id);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -276,8 +347,16 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void Criar(ColaboradorCredencial entity)
         {
+            try
+            { 
             ObterStatusCredencial (entity);
             _repositorio.Criar (entity);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -287,7 +366,15 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public ICollection<ColaboradorCredencial> Listar(params object[] objects)
         {
+            try
+            { 
             return _repositorio.Listar (objects);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -297,7 +384,15 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public ColaboradorCredencial ObterCredencialPeloNumeroCredencial(string numCredencial)
         {
+            try
+            { 
             return _repositorio.ObterCredencialPeloNumeroCredencial (numCredencial);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
         /// <summary>
         ///     Obter dados da credencial pelo numero da credencial
@@ -306,7 +401,15 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public ColaboradorCredencial ObterNumeroColete(int colaboradorid,string numColete)
         {
+            try
+            { 
             return _repositorio.ObterNumeroColete(colaboradorid,numColete);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
         /// <summary>
         ///     Listar Colaboradores e suas credenciais
@@ -315,7 +418,15 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public ICollection<ColaboradoresCredenciaisView> ListarView(params object[] o)
         {
+            try
+            { 
             return _repositorio.ListarView (o);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -334,7 +445,15 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public DateTime? ObterDataValidadeCredencial(ColaboradorCredencial entity, int colaboradorId, string numContrato, ITipoCredencialRepositorio credencialRepositorio)
         {
+            try
+            { 
             return _repositorio.ObterDataValidadeCredencial (entity, colaboradorId, numContrato, credencialRepositorio);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -353,7 +472,15 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public DateTime? ObterDataValidadeCredencial(int tipoCredencialId, int colaboradorId, string numContrato, ITipoCredencialRepositorio credencialRepositorio)
         {
+            try
+            { 
             return _repositorio.ObterDataValidadeCredencial (tipoCredencialId, colaboradorId, numContrato, credencialRepositorio);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -365,8 +492,16 @@ namespace IMOD.Application.Service
         public void Criar(ColaboradorCredencial entity, int colaboradorId,
             ITipoCredencialRepositorio credencialService)
         {
+            try
+            { 
             ObterStatusCredencial (entity);
             _repositorio.Criar (entity, colaboradorId, TipoCredencial);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -377,8 +512,16 @@ namespace IMOD.Application.Service
         /// <param name="credencialRepositorio"></param>
         public void Alterar(ColaboradorCredencial entity, int colaboradorId, ITipoCredencialRepositorio credencialRepositorio)
         {
+            try
+            { 
             ObterStatusCredencial (entity);
             _repositorio.Alterar (entity, colaboradorId, credencialRepositorio);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -389,6 +532,8 @@ namespace IMOD.Application.Service
         /// <param name="entity2"></param>
         public void AlterarStatusTitularCartao(ICredencialService geradorCredencialService, ColaboradoresCredenciaisView entity, ColaboradorCredencial entity2)
         {
+            try
+            { 
             if (geradorCredencialService == null) throw new ArgumentNullException (nameof (geradorCredencialService));
             if (entity == null) throw new ArgumentNullException (nameof (entity));
             if (entity2 == null) throw new ArgumentNullException (nameof (entity2));
@@ -448,8 +593,13 @@ namespace IMOD.Application.Service
 
             ////Alterar status do cartao
             geradorCredencialService.AlterarStatusCardHolder(titularCartao);
-            ////Sistema somente gerar credencial se o tipo de autenticação permitir
+                ////Sistema somente gerar credencial se o tipo de autenticação permitir
+            }
+            catch (Exception ex)
+            {
 
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -460,6 +610,8 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void CriarTitularCartao(ICredencialService geradorCredencialService,IColaboradorService colaboradorService, ColaboradoresCredenciaisView entity)
         {
+            try
+            { 
             if (geradorCredencialService == null) throw new ArgumentNullException(nameof(geradorCredencialService));
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             //Somente é permitido criar uma única vez o titular do cartão...
@@ -506,6 +658,12 @@ namespace IMOD.Application.Service
             n1.NumeroCredencial = entity.NumeroCredencial;
 
             Alterar(n1);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
         /// <summary>
         ///     Remove Regra de acesso do cardHolder sub-sistema de credenciamento (Genetec)
@@ -526,8 +684,8 @@ namespace IMOD.Application.Service
             }
             catch (Exception ex)
             {
-                Utils.TraceException(ex);
-                throw;
+
+                throw ex;
             }
         }
         /// <summary>
@@ -550,8 +708,8 @@ namespace IMOD.Application.Service
             }
             catch (Exception ex)
             {
-                Utils.TraceException(ex);
-                throw;
+
+                throw ex;
             }
         }
 
@@ -571,8 +729,8 @@ namespace IMOD.Application.Service
             }
             catch (Exception ex)
             {
-                Utils.TraceException(ex);
-                throw;
+
+                throw ex;
             }
         }
         public void ExisteCardHolder(ICredencialService geradorCredencialService, CardHolderEntity entity)
@@ -585,8 +743,8 @@ namespace IMOD.Application.Service
             }
             catch (Exception ex)
             {
-                Utils.TraceException(ex);
-                throw;
+
+                throw ex;
             }
         }
         /// <summary>
@@ -605,8 +763,8 @@ namespace IMOD.Application.Service
             }
             catch (Exception ex)
             {
-                Utils.TraceException(ex);
-                throw;
+
+                throw ex;
             }
         }
 
@@ -618,7 +776,15 @@ namespace IMOD.Application.Service
         /// <param name="colaboradorId">Identificador</param>
         public void Criar(ColaboradorCredencial entity, int colaboradorId)
         {
+            try
+            { 
             Criar (entity, colaboradorId, TipoCredencial);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -628,7 +794,16 @@ namespace IMOD.Application.Service
         /// <param name="colaboradorId">Identificador</param>
         public void Alterar(ColaboradorCredencial entity, int colaboradorId)
         {
+            try
+            { 
+
             Alterar (entity, colaboradorId, TipoCredencial);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -638,7 +813,15 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public ICollection<ColaboradorEmpresaView> ListarContratos(params object[] o)
         {
+            try
+            { 
             return _repositorio.ListarContratos (o);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -647,12 +830,28 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void Remover(ColaboradorCredencial entity)
         {
+            try
+            { 
             _repositorio.Remover (entity);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         public ColaboradorCredencial ObterNumeroColete(string numColete)
         {
+            try
+            { 
             throw new NotImplementedException();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
 
@@ -664,7 +863,15 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public List<ColaboradoresCredenciaisView> ListarColaboradorCredencialConcedidasView(FiltroReportColaboradoresCredenciais entity)
         {
+            try
+            { 
             return _repositorio.ListarColaboradorCredencialConcedidasView(entity);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -674,7 +881,15 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public List<ColaboradoresCredenciaisView> ListarColaboradorCredencialViaAdicionaisView(FiltroReportColaboradoresCredenciais entity)
         {
+            try
+            { 
             return _repositorio.ListarColaboradorCredencialViaAdicionaisView(entity);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -684,7 +899,15 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public List<ColaboradoresCredenciaisView> ListarColaboradorCredencialInvalidasView(FiltroReportColaboradoresCredenciais entity)
         {
+            try
+            { 
             return _repositorio.ListarColaboradorCredencialInvalidasView(entity);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -694,7 +917,15 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public List<ColaboradoresCredenciaisView> ListarColaboradorCredencialImpressoesView(FiltroReportColaboradoresCredenciais entity)
         {
+            try
+            { 
             return _repositorio.ListarColaboradorCredencialImpressoesView(entity);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -705,7 +936,15 @@ namespace IMOD.Application.Service
         public List<ColaboradoresCredenciaisView> ListarColaboradorCredencialPermanentePorAreaView(FiltroReportColaboradoresCredenciais entity)
 
         {
+            try
+            { 
             return _repositorio.ListarColaboradorCredencialPermanentePorAreaView(entity);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -715,7 +954,15 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public List<ColaboradoresCredenciaisView> ListarColaboradorCredencialDestruidasView(FiltroReportColaboradoresCredenciais entity)
         {
+            try
+            { 
             return _repositorio.ListarColaboradorCredencialDestruidasView(entity);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -725,7 +972,15 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public List<ColaboradoresCredenciaisView> ListarColaboradorCredencialExtraviadasView(FiltroReportColaboradoresCredenciais entity)
         {
+            try
+            { 
             return _repositorio.ListarColaboradorCredencialExtraviadasView(entity);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         public void DisparaAlarme(ICredencialService geradorCredencialService, CardHolderEntity entity)

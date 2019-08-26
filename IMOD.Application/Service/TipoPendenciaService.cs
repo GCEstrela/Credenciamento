@@ -10,7 +10,7 @@ using IMOD.Infra.Repositorios;
 
 namespace IMOD.Application.Service
 {
-    public  class TipoPendenciaService:ITipoPendenciaService
+    public class TipoPendenciaService : ITipoPendenciaService
     {
         private readonly ITipoPendenciaRepositorio _repositorio = new TipoPendenciaRepositorio();
 
@@ -20,7 +20,15 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public ICollection<TipoPendencia> Listar()
         {
-            return _repositorio.Listar();
+            try
+            {
+                return _repositorio.Listar();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -30,7 +38,15 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public TipoPendencia BuscarPorCodigo(string codPendencia)
         {
-            return _repositorio.BuscarPorCodigo (codPendencia);
+            try
+            {
+                return _repositorio.BuscarPorCodigo(codPendencia);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
     }
 }

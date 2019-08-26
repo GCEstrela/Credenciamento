@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using IMOD.Application.Interfaces;
 using IMOD.Domain.Entities;
 using IMOD.Domain.Interfaces;
@@ -17,7 +18,15 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public void Criar(Curso entity)
         {
-            _repositorio.Criar(entity);
+            try
+            {
+                _repositorio.Criar(entity);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
         /// <summary>
         ///     Buscar Cursos pela chave
@@ -25,7 +34,15 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public Curso BuscarPelaChave(int id)
         {
-            return _repositorio.BuscarPelaChave(id);
+            try
+            {
+                return _repositorio.BuscarPelaChave(id);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
         /// <summary>
         ///     Listar Cursos
@@ -33,7 +50,15 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public ICollection<Curso> Listar(params object[] objects)
         {
-            return _repositorio.Listar(objects);
+            try
+            {
+                return _repositorio.Listar(objects);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
         /// <summary>
         ///     Alterar Cursos
@@ -41,7 +66,15 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public void Alterar(Curso entity)
         {
-            _repositorio.Alterar(entity);
+            try
+            {
+                _repositorio.Alterar(entity);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
         /// <summary>
         ///     Remover Cursos
@@ -49,7 +82,15 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public void Remover(Curso entity)
         {
-            _repositorio.Remover(entity);
+            try
+            {
+                _repositorio.Remover(entity);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
     }
 }

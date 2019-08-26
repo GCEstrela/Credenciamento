@@ -6,6 +6,7 @@
 
 #region
 
+using System;
 using System.Collections.Generic;
 using IMOD.Application.Interfaces;
 using IMOD.Domain.Entities;
@@ -36,7 +37,15 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void Criar(Relatorios entity)
         {
+            try
+            { 
             _repositorio.Criar(entity);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -46,7 +55,15 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public Relatorios BuscarPelaChave(int id)
         {
+            try
+            { 
             return _repositorio.BuscarPelaChave(id);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -56,7 +73,15 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public ICollection<Relatorios> Listar(params object[] objects)
         {
+            try
+            { 
             return _repositorio.Listar(objects);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -65,7 +90,15 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void Alterar(Relatorios entity)
         {
+            try
+            { 
             _repositorio.Alterar(entity);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -74,7 +107,15 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void Remover(Relatorios entity)
         {
+            try
+            { 
             _repositorio.Remover(entity);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         #endregion
