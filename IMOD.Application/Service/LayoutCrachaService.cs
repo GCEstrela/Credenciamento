@@ -6,6 +6,7 @@
 
 #region
 
+using System;
 using System.Collections.Generic;
 using IMOD.Application.Interfaces;
 using IMOD.Domain.Entities;
@@ -37,7 +38,15 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void Criar(LayoutCracha entity)
         {
-            _repositorio.Criar(entity);
+            try
+            {
+                _repositorio.Criar(entity);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -47,7 +56,15 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public LayoutCracha BuscarPelaChave(int id)
         {
-            return _repositorio.BuscarPelaChave(id);
+            try
+            {
+                return _repositorio.BuscarPelaChave(id);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -57,7 +74,15 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public ICollection<LayoutCracha> Listar(params object[] objects)
         {
-            return _repositorio.Listar(objects);
+            try
+            {
+                return _repositorio.Listar(objects);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -66,7 +91,15 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void Alterar(LayoutCracha entity)
         {
-            _repositorio.Alterar(entity);
+            try
+            {
+                _repositorio.Alterar(entity);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -75,7 +108,15 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void Remover(LayoutCracha entity)
         {
-            _repositorio.Remover(entity);
+            try
+            {
+                _repositorio.Remover(entity);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -85,7 +126,15 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public ICollection<EmpresaLayoutCrachaView> ListarLayoutCrachaView(params object[] objects)
         {
-            return _repositorio.ListarLayoutCrachaView(objects);
+            try
+            {
+                return _repositorio.ListarLayoutCrachaView(objects);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -95,7 +144,15 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public ICollection<EmpresaLayoutCrachaView> ListarLayoutCrachaPorEmpresaView(int idEmpresa)
         {
-            return _repositorio.ListarLayoutCrachaPorEmpresaView(idEmpresa);
+            try
+            {
+                return _repositorio.ListarLayoutCrachaPorEmpresaView(idEmpresa);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         #endregion

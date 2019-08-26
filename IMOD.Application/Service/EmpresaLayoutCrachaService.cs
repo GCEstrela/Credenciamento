@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using IMOD.Application.Interfaces;
 using IMOD.Domain.Entities;
 using IMOD.Domain.EntitiesCustom;
@@ -76,7 +77,15 @@ namespace IMOD.Application.Service
         /// <param name="empresaId"></param>
         public void RemoverPorEmpresa(int empresaId)
         {
-            _repositorio.RemoverPorEmpresa(empresaId);
+            try
+            {
+                _repositorio.RemoverPorEmpresa(empresaId);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -86,7 +95,15 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public ICollection<EmpresaLayoutCrachaView> ListarLayoutCrachaView(params object[] objects)
         {
-            return _repositorio.ListarLayoutCrachaView(objects);
+            try
+            {
+                return _repositorio.ListarLayoutCrachaView(objects);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -94,9 +111,17 @@ namespace IMOD.Application.Service
         /// </summary>
         /// <param name="idEmpresa"></param>
         /// <returns></returns>
-        public ICollection<EmpresaLayoutCrachaView> ListarLayoutCrachaPorEmpresaView(int idEmpresa,int tipoCracha)
+        public ICollection<EmpresaLayoutCrachaView> ListarLayoutCrachaPorEmpresaView(int idEmpresa, int tipoCracha)
         {
-            return _repositorio.ListarLayoutCrachaPorEmpresaView(idEmpresa,tipoCracha);
+            try
+            {
+                return _repositorio.ListarLayoutCrachaPorEmpresaView(idEmpresa, tipoCracha);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
     }
 }

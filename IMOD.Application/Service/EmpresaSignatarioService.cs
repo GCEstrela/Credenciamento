@@ -6,6 +6,7 @@
 
 #region
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using IMOD.Application.Interfaces;
@@ -45,6 +46,8 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void Criar(EmpresaSignatario entity)
         {
+            try
+            { 
             _repositorio.Criar (entity);
 
             #region Retirar pendencias de sistema
@@ -52,7 +55,13 @@ namespace IMOD.Application.Service
                 .FirstOrDefault(n=>n.PendenciaSistema & n.CodPendencia == 12);
             if (pendencia==null) return;
              Pendencia.Remover(pendencia);
-            #endregion
+                #endregion
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -62,7 +71,15 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public EmpresaSignatario BuscarPelaChave(int id)
         {
+            try
+            { 
             return _repositorio.BuscarPelaChave (id);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -72,7 +89,15 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public ICollection<EmpresaSignatario> Listar(params object[] objects)
         {
+            try
+            { 
             return _repositorio.Listar (objects);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -81,7 +106,15 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void Alterar(EmpresaSignatario entity)
         {
+            try
+            { 
             _repositorio.Alterar (entity);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -90,7 +123,15 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void Remover(EmpresaSignatario entity)
         {
+            try
+            { 
             _repositorio.Remover (entity);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         #endregion

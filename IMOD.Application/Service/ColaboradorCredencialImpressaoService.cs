@@ -30,7 +30,15 @@ namespace IMOD.Application.Service
         /// <param name="entity">Entidade</param>
         public void Criar(ColaboradorCredencialimpresssao entity)
         {
-            _repositorio.Criar(entity);
+            try
+            {
+                _repositorio.Criar(entity);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -40,7 +48,15 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public ColaboradorCredencialimpresssao BuscarPelaChave(int id)
         {
-            return _repositorio.BuscarPelaChave(id);
+            try
+            {
+                return _repositorio.BuscarPelaChave(id);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -50,7 +66,15 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public ICollection<ColaboradorCredencialimpresssao> Listar(params object[] objects)
         {
-            return _repositorio.Listar(objects);
+            try
+            {
+                return _repositorio.Listar(objects);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -59,7 +83,15 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void Alterar(ColaboradorCredencialimpresssao entity)
         {
-            _repositorio.Alterar(entity);
+            try
+            {
+                _repositorio.Alterar(entity);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -68,7 +100,15 @@ namespace IMOD.Application.Service
         /// <param name="entity">Entidade</param>
         public void Remover(ColaboradorCredencialimpresssao entity)
         {
-            _repositorio.Remover(entity);
+            try
+            {
+                _repositorio.Remover(entity);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         #endregion

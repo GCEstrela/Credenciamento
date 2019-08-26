@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using IMOD.Application.Interfaces;
 using IMOD.Domain.Entities;
 using IMOD.Domain.Interfaces;
@@ -16,7 +17,15 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public void Criar(CredencialStatus entity)
         {
+            try
+            { 
             _repositorio.Criar(entity);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
         /// <summary>
         ///     Buscar CredencialStatus pela chave
@@ -24,7 +33,15 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public CredencialStatus BuscarPelaChave(int id)
         {
+            try
+            { 
             return _repositorio.BuscarPelaChave(id);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
         /// <summary>
         ///     Listar CredencialStatus
@@ -49,7 +66,15 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public void Alterar(CredencialStatus entity)
         {
+            try
+            { 
             _repositorio.Alterar(entity);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
         /// <summary>
         ///     Remover CredencialStatus
@@ -57,7 +82,15 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public void Remover(CredencialStatus entity)
         {
+            try
+            { 
             _repositorio.Remover(entity);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
     }
 }

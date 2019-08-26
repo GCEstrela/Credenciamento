@@ -6,6 +6,7 @@
 
 #region
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using IMOD.Application.Interfaces;
@@ -35,7 +36,15 @@ namespace IMOD.Application.Service
 
         public ColaboradorAnexoService()
         {
-            _repositorio = new ColaboradorAnexoRepositorio();
+            try
+            {
+                _repositorio = new ColaboradorAnexoRepositorio();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         #region  Metodos
@@ -47,7 +56,15 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public ICollection<ColaboradorAnexo> ListarPorNome(string nomeArquivo)
         {
-            return _repositorio.Listar ("%" + nomeArquivo + "%", 0);
+            try
+            {
+                return _repositorio.Listar("%" + nomeArquivo + "%", 0);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -57,7 +74,15 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public ICollection<ColaboradorAnexo> ListarPorColaborador(int colaboradorId)
         {
-            return _repositorio.Listar ("", colaboradorId);
+            try
+            {
+                return _repositorio.Listar("", colaboradorId);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -66,13 +91,21 @@ namespace IMOD.Application.Service
         /// <param name="entity">Entidade</param>
         public void Criar(ColaboradorAnexo entity)
         {
-            _repositorio.Criar (entity);
-            #region Retirar pendencias de sistema
-            var pendencia = Pendencia.ListarPorColaborador(entity.ColaboradorId)
-                 .FirstOrDefault(n => n.PendenciaSistema & n.CodPendencia == 24);
-            if (pendencia == null) return;
-            Pendencia.Remover(pendencia);
-            #endregion
+            try
+            {
+                _repositorio.Criar(entity);
+                #region Retirar pendencias de sistema
+                var pendencia = Pendencia.ListarPorColaborador(entity.ColaboradorId)
+                     .FirstOrDefault(n => n.PendenciaSistema & n.CodPendencia == 24);
+                if (pendencia == null) return;
+                Pendencia.Remover(pendencia);
+                #endregion
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -82,7 +115,15 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public ColaboradorAnexo BuscarPelaChave(int id)
         {
-            return _repositorio.BuscarPelaChave (id);
+            try
+            {
+                return _repositorio.BuscarPelaChave(id);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -91,7 +132,15 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public ICollection<ColaboradorAnexo> Listar(params object[] objects)
         {
-            return _repositorio.Listar (objects);
+            try
+            {
+                return _repositorio.Listar(objects);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -100,7 +149,15 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public ICollection<ColaboradorAnexo> ListarComAnexo(params object[] objects)
         {
-            return _repositorio.ListarComAnexo(objects);
+            try
+            {
+                return _repositorio.ListarComAnexo(objects);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -109,7 +166,15 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void Alterar(ColaboradorAnexo entity)
         {
-            _repositorio.Alterar (entity);
+            try
+            {
+                _repositorio.Alterar(entity);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -118,7 +183,15 @@ namespace IMOD.Application.Service
         /// <param name="entity">Entidade</param>
         public void Remover(ColaboradorAnexo entity)
         {
-            _repositorio.Remover (entity);
+            try
+            {
+                _repositorio.Remover(entity);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         #endregion

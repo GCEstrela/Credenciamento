@@ -6,6 +6,7 @@
 
 #region
 
+using System;
 using System.Collections.Generic;
 using IMOD.Application.Interfaces;
 using IMOD.Domain.Entities;
@@ -26,27 +27,67 @@ namespace IMOD.Application.Service
         #endregion
         public void Alterar(ConfiguraSistema entity)
         {
-            _repositorio.Alterar(entity);
+            try
+            {
+                _repositorio.Alterar(entity);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         public ConfiguraSistema BuscarPelaChave(int id)
         {
-            return _repositorio.BuscarPelaChave(id);
+            try
+            {
+                return _repositorio.BuscarPelaChave(id);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         public void Criar(ConfiguraSistema entity)
         {
-            _repositorio.Criar(entity);
+            try
+            {
+                _repositorio.Criar(entity);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         public ICollection<ConfiguraSistema> Listar(params object[] objects)
         {
-            return _repositorio.Listar(objects);
+            try
+            {
+                return _repositorio.Listar(objects);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         public void Remover(ConfiguraSistema entity)
         {
-            _repositorio.Remover(entity);
+            try
+            {
+                _repositorio.Remover(entity);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
     }
 }

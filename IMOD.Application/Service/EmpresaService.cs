@@ -102,18 +102,26 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public bool ExisteCnpj(string cnpj)
         {
-            if (string.IsNullOrWhiteSpace (cnpj)) return false;
-            var v1 = cnpj.TemCaracteres();
-            if (v1)
-                throw new InvalidOperationException ("O CNPJ não está num formato válido.");
-            //Verificar formato válido
-            var v2 = Utils.IsValidCnpj (cnpj);
-            if (!v2)
-                throw new InvalidOperationException ("CNPJ inválido.");
+            try
+            {
+                if (string.IsNullOrWhiteSpace(cnpj)) return false;
+                var v1 = cnpj.TemCaracteres();
+                if (v1)
+                    throw new InvalidOperationException("O CNPJ não está num formato válido.");
+                //Verificar formato válido
+                var v2 = Utils.IsValidCnpj(cnpj);
+                if (!v2)
+                    throw new InvalidOperationException("CNPJ inválido.");
 
-            var doc = cnpj.RetirarCaracteresEspeciais();
-            var n1 = BuscarEmpresaPorCnpj (doc);
-            return n1 != null;
+                var doc = cnpj.RetirarCaracteresEspeciais();
+                var n1 = BuscarEmpresaPorCnpj(doc);
+                return n1 != null;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
         /// <summary>
         ///     Verificar se existe Sigla cadastrado
@@ -122,9 +130,16 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public bool ExisteSigla(string sigla)
         {
-            
-            var n1 = BuscarEmpresaPorSigla(sigla);
-            return n1 != null;
+            try
+            {
+                var n1 = BuscarEmpresaPorSigla(sigla);
+                return n1 != null;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
         /// <summary>
         ///     Criar um empresa com contrato básico
@@ -134,16 +149,24 @@ namespace IMOD.Application.Service
         /// <param name="dataValidade">Data de validade</param>
         /// <param name="numContrato">Numero do contrato</param>
         /// <param name="status">Status do cdontrato</param>
-        public void CriarContrato(Empresa entity,DateTime dataValidade,string numContrato,Status status, ConfiguraSistema  configuracaoSistema )
+        public void CriarContrato(Empresa entity, DateTime dataValidade, string numContrato, Status status, ConfiguraSistema configuracaoSistema)
         {
-            if (entity == null) throw new ArgumentNullException (nameof (entity));
-            if (status == null) throw new ArgumentNullException (nameof (status));
-            //Criar Empresa
-            Criar (entity);
-            //Criar um contrato básico e automatico apenas se as configurações permitirem
-            if (!configuracaoSistema.Contrato) return;
-            //Criar contrato básico 
-            ContratoService.CriarContratoBasico (entity,dataValidade,status);
+            try
+            {
+                if (entity == null) throw new ArgumentNullException(nameof(entity));
+                if (status == null) throw new ArgumentNullException(nameof(status));
+                //Criar Empresa
+                Criar(entity);
+                //Criar um contrato básico e automatico apenas se as configurações permitirem
+                if (!configuracaoSistema.Contrato) return;
+                //Criar contrato básico 
+                ContratoService.CriarContratoBasico(entity, dataValidade, status);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -153,26 +176,34 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void Criar(Empresa entity)
         {
-            //Criar empresa 
-            _repositorio.Criar (entity);
-            //Criar pendências
+            try
+            {
+                //Criar empresa 
+                _repositorio.Criar(entity);
+                //Criar pendências
 
-            #region Criar Pendências
+                #region Criar Pendências
 
-            var pendencia = new Pendencia();
-            pendencia.Impeditivo = true;//Pendencias do tipo Impeditiva
-            pendencia.EmpresaId = entity.EmpresaId;
-            //--------------------------
-            pendencia.CodPendencia = 12;
-            Pendencia.CriarPendenciaSistema (pendencia);
-            //--------------------------
-            pendencia.CodPendencia = 14;
-            Pendencia.CriarPendenciaSistema (pendencia);
-            //--------------------------
-            pendencia.CodPendencia = 24;
-            Pendencia.CriarPendenciaSistema (pendencia);
+                var pendencia = new Pendencia();
+                pendencia.Impeditivo = true;//Pendencias do tipo Impeditiva
+                pendencia.EmpresaId = entity.EmpresaId;
+                //--------------------------
+                pendencia.CodPendencia = 12;
+                Pendencia.CriarPendenciaSistema(pendencia);
+                //--------------------------
+                pendencia.CodPendencia = 14;
+                Pendencia.CriarPendenciaSistema(pendencia);
+                //--------------------------
+                pendencia.CodPendencia = 24;
+                Pendencia.CriarPendenciaSistema(pendencia);
 
-            #endregion
+                #endregion
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -182,7 +213,15 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public Empresa BuscarPelaChave(int id)
         {
-            return _repositorio.BuscarPelaChave (id);
+            try
+            {
+                return _repositorio.BuscarPelaChave(id);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -192,7 +231,15 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public ICollection<Empresa> Listar(params object[] objects)
         {
-            return _repositorio.Listar (objects);
+            try
+            {
+                return _repositorio.Listar(objects);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -201,7 +248,15 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void Alterar(Empresa entity)
         {
-            _repositorio.Alterar (entity);
+            try
+            {
+                _repositorio.Alterar(entity);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -210,7 +265,15 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void Remover(Empresa entity)
         {
-            _repositorio.Remover (entity);
+            try
+            {
+                _repositorio.Remover(entity);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -220,11 +283,27 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public Empresa BuscarEmpresaPorCnpj(string cnpj)
         {
-            return _repositorio.BuscarEmpresaPorCnpj (cnpj);
+            try
+            {
+                return _repositorio.BuscarEmpresaPorCnpj(cnpj);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
         public Empresa BuscarEmpresaPorSigla(string sigla)
         {
-            return _repositorio.BuscarEmpresaPorSigla(sigla);
+            try
+            {
+                return _repositorio.BuscarEmpresaPorSigla(sigla);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
         /// <summary>
         ///     Listar Pendencias
@@ -233,7 +312,15 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public ICollection<EmpresaPendenciaView> ListarPendencias(int empresaId = 0)
         {
-            return _repositorio.ListarPendencias (empresaId);
+            try
+            {
+                return _repositorio.ListarPendencias(empresaId);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -244,7 +331,15 @@ namespace IMOD.Application.Service
         public ICollection<EmpresaTipoCredencialView> ListarTipoCredenciaisEmpresa(int empresaId = 0)
 
         {
-            return _repositorio.ListarTipoCredenciaisEmpresa (empresaId);
+            try
+            {
+                return _repositorio.ListarTipoCredenciaisEmpresa(empresaId);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -254,18 +349,26 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public ICollection<Empresa> ListarEmpresasPendentes(params object[] objects)
         {
-            var d1 = _repositorio.ListarEmpresasPendentes(objects).ToList<Empresa>();
-            ICollection<Empresa> empresasPendentes = new List<Empresa>();            
-            d1.ForEach(e =>
+            try
             {
-                var pendencias = Pendencia.ListarPorEmpresa(e.EmpresaId);
-                bool ativa = pendencias.Any(p => p.Ativo == true);
-                if (pendencias.Any() && ativa)
+                var d1 = _repositorio.ListarEmpresasPendentes(objects).ToList<Empresa>();
+                ICollection<Empresa> empresasPendentes = new List<Empresa>();
+                d1.ForEach(e =>
                 {
-                    empresasPendentes.Add(e);
-                }
-            });           
-            return empresasPendentes;
+                    var pendencias = Pendencia.ListarPorEmpresa(e.EmpresaId);
+                    bool ativa = pendencias.Any(p => p.Ativo == true);
+                    if (pendencias.Any() && ativa)
+                    {
+                        empresasPendentes.Add(e);
+                    }
+                });
+                return empresasPendentes;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         #endregion

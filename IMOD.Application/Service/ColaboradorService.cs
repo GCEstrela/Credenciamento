@@ -60,19 +60,27 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public bool ExisteCpf(string cpf)
         {
-            if (string.IsNullOrWhiteSpace(cpf)) return false;
-            var v1 = cpf.TemCaracteres();
-            if (v1)
-                throw new InvalidOperationException("O CPF não está num formato válido.");
-            //Verificar formato válido
-            var v2 = Utils.IsValidCpf(cpf);
-            if (!v2)
-                throw new InvalidOperationException("CPF inválido.");
+            try
+            {
+                if (string.IsNullOrWhiteSpace(cpf)) return false;
+                var v1 = cpf.TemCaracteres();
+                if (v1)
+                    throw new InvalidOperationException("O CPF não está num formato válido.");
+                //Verificar formato válido
+                var v2 = Utils.IsValidCpf(cpf);
+                if (!v2)
+                    throw new InvalidOperationException("CPF inválido.");
 
 
-            var doc = cpf.RetirarCaracteresEspeciais();
-            var n1 = ObterPorCpf(doc);
-            return n1 != null;
+                var doc = cpf.RetirarCaracteresEspeciais();
+                var n1 = ObterPorCpf(doc);
+                return n1 != null;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         #region  Metodos
@@ -84,7 +92,15 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public ICollection<Colaborador> ListarColaboradorPorCredencial(int colaboradorCredencialId)
         {
-            return _repositorio.Listar(colaboradorCredencialId, "", "");
+            try
+            {
+                return _repositorio.Listar(colaboradorCredencialId, "", "");
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -94,7 +110,15 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public Colaborador ObterPorCpf(string cpf)
         {
-            return _repositorio.ObterPorCpf(cpf);
+            try
+            {
+                return _repositorio.ObterPorCpf(cpf);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -104,7 +128,15 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public ICollection<Colaborador> ListarColaboradorPorNome(string nome)
         {
-            return _repositorio.Listar(0, "", "%" + nome + "%");
+            try
+            {
+                return _repositorio.Listar(0, "", "%" + nome + "%");
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -114,8 +146,16 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public bool ExisteColaborador(int idcolaborador)
         {
-            var d1 = BuscarPelaChave(idcolaborador);
-            return d1 != null;
+            try
+            {
+                var d1 = BuscarPelaChave(idcolaborador);
+                return d1 != null;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
 
@@ -126,22 +166,30 @@ namespace IMOD.Application.Service
         /// <param name="entity">Entidade</param>
         public void Criar(Colaborador entity)
         {
-            _repositorio.Criar(entity);
-            //Criar pendências
-            #region Criar Pendências
+            try
+            {
+                _repositorio.Criar(entity);
+                //Criar pendências
+                #region Criar Pendências
 
-            var pendencia = new Pendencia();
-            pendencia.ColaboradorId = entity.ColaboradorId;
-            //--------------------------
-            pendencia.CodPendencia = 22;
-            Pendencia.CriarPendenciaSistema(pendencia);
-            //--------------------------
-            pendencia.CodPendencia = 23;
-            Pendencia.CriarPendenciaSistema(pendencia);
-            //--------------------------
-            pendencia.CodPendencia = 24;
-            Pendencia.CriarPendenciaSistema(pendencia);
-            #endregion
+                var pendencia = new Pendencia();
+                pendencia.ColaboradorId = entity.ColaboradorId;
+                //--------------------------
+                pendencia.CodPendencia = 22;
+                Pendencia.CriarPendenciaSistema(pendencia);
+                //--------------------------
+                pendencia.CodPendencia = 23;
+                Pendencia.CriarPendenciaSistema(pendencia);
+                //--------------------------
+                pendencia.CodPendencia = 24;
+                Pendencia.CriarPendenciaSistema(pendencia);
+                #endregion
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -151,7 +199,15 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public Colaborador BuscarPelaChave(int id)
         {
-            return _repositorio.BuscarPelaChave(id);
+            try
+            {
+                return _repositorio.BuscarPelaChave(id);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -160,7 +216,15 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public ICollection<Colaborador> Listar(params object[] objects)
         {
-            return _repositorio.Listar(objects);
+            try
+            {
+                return _repositorio.Listar(objects);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -169,7 +233,15 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void Alterar(Colaborador entity)
         {
-            _repositorio.Alterar(entity);
+            try
+            {
+                _repositorio.Alterar(entity);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -178,7 +250,15 @@ namespace IMOD.Application.Service
         /// <param name="entity">Entidade</param>
         public void Remover(Colaborador entity)
         {
-            _repositorio.Remover(entity);
+            try
+            {
+                _repositorio.Remover(entity);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -188,7 +268,15 @@ namespace IMOD.Application.Service
         /// <param name="anexos">Anexos</param>
         public void CriarAnexos(Colaborador colaborador, IList<ColaboradorAnexo> anexos)
         {
-            _repositorio.CriarAnexos(colaborador, anexos);
+            try
+            {
+                _repositorio.CriarAnexos(colaborador, anexos);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -202,7 +290,15 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public ICollection<ColaboradoresCredenciaisView> ListarColaboradores(int colaboradorCredencialId, string nomeEmpresa = "", int tipoCredencialId = 0, int statusCredencialId = 0, int colaboradorId = 0)
         {
-            return _repositorioCredencial.ListarView(colaboradorCredencialId, nomeEmpresa, tipoCredencialId, statusCredencialId, colaboradorId);
+            try
+            {
+                return _repositorioCredencial.ListarView(colaboradorCredencialId, nomeEmpresa, tipoCredencialId, statusCredencialId, colaboradorId);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
 
@@ -214,7 +310,15 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public ICollection<Colaborador> ListarPorStatus(int idStatus)
         {
-            return _repositorio.ListarPorStatus(idStatus);
+            try
+            {
+                return _repositorio.ListarPorStatus(idStatus);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         #endregion
