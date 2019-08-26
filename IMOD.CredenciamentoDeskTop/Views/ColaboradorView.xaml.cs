@@ -330,6 +330,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             try
             {
+                if (_viewModel == null) return;
                 //Geral_ti.IsSelected = true;
                 _viewModel.EntityObserver.Clear();
                 _viewModel.IsEnablePreCadastro = true;
@@ -347,6 +348,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             try
             {
+                if (_viewModel == null) return;
                 _viewModel.EntityObserver.Clear();
                 _viewModel.IsEnablePreCadastro = false;
                 _viewModel.IsEnablePreCadastroCredenciamento = true;

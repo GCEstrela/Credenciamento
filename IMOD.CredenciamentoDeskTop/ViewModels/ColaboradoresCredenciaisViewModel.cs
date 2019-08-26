@@ -362,8 +362,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
 
                 //Verificar dados antes de salvar uma criação
-
-                return _service.ExisteNumeroColete(_colaboradorView.ColaboradorId, numColete);
+                if (Entity.CredencialStatusId == 1)
+                {
+                    return _service.ExisteNumeroColete(_colaboradorView.ColaboradorId, numColete);
+                }
+                return null;
             }
             catch (Exception ex)
             {
@@ -1252,8 +1255,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             IsEnableLstView = false;
 
             //Habilitar controles somente se a credencial não estiver sido impressa
+            ColeteEnabled = true;
+            Habilitar = !Entity.Impressa;
             if (Entity.CardHolderGuid == null)
+            {
                 Habilitar = !Entity.Impressa;
+            }
 
             _viewModelParent.HabilitaControleTabControls(false, false, false, false, false, true);
         }
@@ -1454,6 +1461,26 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 {
                     Entity.SetMessageErro("Colete", "Número do colete já existente.");
                     WpfHelp.Mbox("Número do colete já cadastrado para o colaborador  " + colaboradorcredencial.ColaboradorNome.ToString() + " ", MessageBoxIcon.Information);
+                    return true;
+                }
+            }
+
+            TimeSpan diferenca = Convert.ToDateTime(Entity.Validade) - DateTime.Now.Date;
+            int credencialDias = int.Parse(diferenca.Days.ToString());
+            if (Entity.TipoCredencialId == 1)
+            {
+                if (credencialDias > 730)
+                {
+                    System.Windows.MessageBox.Show("Validade da credencial PERMANENTE, não pode ser superior a 2 anos!");
+                    return true;
+                }
+
+            }
+            if (Entity.TipoCredencialId == 2)
+            {
+                if (credencialDias > 90)
+                {
+                    System.Windows.MessageBox.Show("Validade da credencial TEMPORÁRIA, não pode ser superior a 90 dias!");
                     return true;
                 }
             }

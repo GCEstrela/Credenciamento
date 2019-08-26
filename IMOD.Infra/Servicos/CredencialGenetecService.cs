@@ -398,8 +398,6 @@ namespace IMOD.Infra.Servicos
             //VerificaRegraAcesso(entity);
             try
             {
-
-
                 #region Existindo CardHolder, não criar
 
                 if (!string.IsNullOrWhiteSpace(entity.IdentificadorCardHolderGuid))
