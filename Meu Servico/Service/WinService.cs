@@ -105,7 +105,7 @@ namespace Meu_Servico.Service
             //_serviceGenetec = new CredencialGenetecService(_sdk);
             //MetodoRealizaFuncao(true, _sdk);
 
-           
+
 
             //this.timer.Stop();
         }
@@ -213,7 +213,7 @@ namespace Meu_Servico.Service
         {
             try
             {
-                
+
                 Cursor.Current = Cursors.WaitCursor;
                 ////_serviceGenetec.DisparaAlarme("teste", 8);
                 CriarLog("-----------------------------------------------");
@@ -224,7 +224,7 @@ namespace Meu_Servico.Service
                     //var colaboradorContratos = _serviceColaborador.Listar(null, null, null, null, null, null, true).ToList();
                     colaboradorContratos.ForEach(ec =>
                     {
-                        
+
                         string messa = "";
                         var empresasEmail = _serviceEmpresa.Listar(null, null, null, null, null, null, ec.ColaboradorEmpresaId).FirstOrDefault();
                         DateTime validadeCredencial = (DateTime)ec.Validade;
@@ -242,19 +242,19 @@ namespace Meu_Servico.Service
                             case diasAlerta1:
                                 messa = "A credencial do colaborador.: " + ec.ColaboradorNome + " vencerá em " + diasAlerta1 + " dias.";
                                 //_serviceGenetec.DisparaAlarme(messa, 8);
-                               
+
                                 break;
 
                             case diasAlerta2:
                                 messa = "A credencial do colaborador.: " + ec.ColaboradorNome + " vencerá em " + diasAlerta2 + " dias.";
                                 //_serviceGenetec.DisparaAlarme(messa, 8);
-                                
+
                                 break;
 
                             case diasAlerta3:
                                 messa = "A credencial do colaborador.: " + ec.ColaboradorNome + " vencerá em " + diasAlerta3 + " dias.";
                                 //_serviceGenetec.DisparaAlarme(messa, 8);
-                                
+
                                 break;
 
                             default:
@@ -265,7 +265,7 @@ namespace Meu_Servico.Service
                         if (_configuraSistema.Email != null)
                         {
                             //if (empresasEmail != null && empresasEmail.Email1 !=null)
-                                //sendMessage(messa, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), empresasEmail.Email1.Trim());
+                            //sendMessage(messa, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), empresasEmail.Email1.Trim());
                         }
 
                         if (ec.Validade < DateTime.Now)
@@ -275,13 +275,13 @@ namespace Meu_Servico.Service
                             ec.CredencialMotivoId = (int)Inativo.EXPIRADA;
                             ec.CredencialStatusId = 2;
                             _serviceColaborador.Alterar(ec);
-                            
+
                             messa = "Nome .: " + ec.ColaboradorNome + " --- " + " [ validade.: " + ec.Validade + " ]";
                             CriarLog(messa);
                             //Em processo de alteração.
                             var pendencia = _serviceColaborador.ListarView(ec.ColaboradorCredencialId).FirstOrDefault();
                             _serviceColaborador.CriarPendenciaImpeditiva(pendencia);
-                            
+
                             if (!string.IsNullOrEmpty(ec.CredencialGuid))
                             {
                                 CardHolderEntity entity = new CardHolderEntity();
@@ -333,19 +333,19 @@ namespace Meu_Servico.Service
                             case diasAlerta1:
                                 messaveiculo = "A ATIV do veiculo.: " + ev.IdentificacaoDescricao + " vencerá em " + diasAlerta1 + " dias.";
                                 //_serviceGenetec.DisparaAlarme(messa, 8);
-                               
+
                                 break;
 
                             case diasAlerta2:
                                 messaveiculo = "A ATIV do veiculo.: " + ev.IdentificacaoDescricao + " vencerá em " + diasAlerta2 + " dias.";
                                 //_serviceGenetec.DisparaAlarme(messa, 8);
-                                
+
                                 break;
 
                             case diasAlerta3:
                                 messaveiculo = "A ATIV do veiculo.: " + ev.IdentificacaoDescricao + " vencerá em " + diasAlerta3 + " dias.";
                                 //_serviceGenetec.DisparaAlarme(messa, 8);
-                                
+
                                 break;
 
                             default:
@@ -356,7 +356,7 @@ namespace Meu_Servico.Service
                         if (_configuraSistema.Email != null)
                         {
                             //if (empresasEmail.Email1 != null)
-                                //sendMessage(messaveiculo, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), empresasEmail.Email1.Trim());
+                            //sendMessage(messaveiculo, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), empresasEmail.Email1.Trim());
                         }
 
                         if (ev.Validade < DateTime.Now)
@@ -401,41 +401,36 @@ namespace Meu_Servico.Service
                     Hashtable empresaContratoEmail = new Hashtable();
                     string nomeEmpresa = "";
                     string emailEmpresa = "";
-
-                    var empresas = _serviceEmpresa.Listar().OrderByDescending(ec => ec.EmpresaId).ToList();
+                   
+                    var empresas = _serviceEmpresa.Listar().OrderByDescending(ec => ec.EmpresaId).OrderBy(e => e.Nome).ToList();
                     empresas.ForEach(e =>
                     {
                         
+                        AlterarDados(e.EmpresaId, 0, null);
                         emailEmpresa = e.Email1;
                         nomeEmpresa = e.Nome;
+                        int? diasVencimento = null;
+                        int? codigoEmpresaContrato = null;
 
                         List<MessagemEmail> listMessagemEmail = new List<MessagemEmail>();
-                        var empresaContratosAtivo = _serviceContrato.Listar().Where(ec => ec.StatusId == 0 && ec.EmpresaId == e.EmpresaId).ToList();
-                        var AlartaList = new List<int>() { 0, 5, 15, 30 };
+                        var empresaContratosAtivo = _serviceContrato.Listar().Where(ec => ec.StatusId == 0 && ec.EmpresaId == e.EmpresaId).OrderBy(c => c.Validade).ToList();
+                        var AlartaList = new List<int?>() { 0, 5, 15, 30 };
                         empresaContratosAtivo.ForEach(ec =>
                         {
-                            int dias = ec.Validade.Subtract(DateTime.Now.Date).Days;
-                           
+                            
+                            int? dias = ec.Validade.Subtract(DateTime.Now.Date).Days;
                             if (AlartaList.Contains(dias))
-                            {
-                                AlterarDados(ec.EmpresaId, ec.EmpresaContratoId, diasAlerta0);
-
-                                //_configuraSistema = ObterConfiguracao();{
-
-                                //if (_configuraSistema.EmailUsuario != null)
-                                //{
-                                    //if (emailEmpresa != null)
-                                    //{
-                                        var messa1 = new MessagemEmail() { Contrato = ec.NumeroContrato, Dias = dias, DescricaoDoContrato = ec.Descricao, EmailDestino = emailEmpresa };
-                                        listMessagemEmail.Add(messa1);
-                                //}
-                                //}
-
-                                CriarLog("Dias.: " + dias +" Contrato.: " + ec.NumeroContrato + " Descrição.: " + ec.Descricao);
+                            {                              
+                                diasVencimento = dias;
+                                var messa1 = new MessagemEmail() { Contrato = ec.NumeroContrato, Dias = dias, DescricaoDoContrato = ec.Descricao, EmailDestino = emailEmpresa };
+                                listMessagemEmail.Add(messa1);
+                                codigoEmpresaContrato = ec.EmpresaContratoId;
+                                CriarLog("Dias.: " + dias + " Contrato.: " + ec.NumeroContrato + " Descrição.: " + ec.Descricao);
                             }
+                            
                         }
                         );
-
+                        AlterarDados(e.EmpresaId, codigoEmpresaContrato, diasVencimento);
 
                         listMessagemEmail = listMessagemEmail.OrderBy(m => m.Dias).ToList();
 
@@ -448,7 +443,7 @@ namespace Meu_Servico.Service
                             emailFraport.AppendLine(string.Empty);
                             foreach (MessagemEmail element in listMessagemEmail)
                             {
-                                emailFraport.AppendLine(string.Format(" - Contrato: {0} - {1}. {2} dia(s) para o vencimento;", element.Contrato,element.DescricaoDoContrato, element.Dias));
+                                emailFraport.AppendLine(string.Format(" - Contrato: {0} - {1}. {2} dia(s) para o vencimento;", element.Contrato, element.DescricaoDoContrato, element.Dias));
                             }
                             emailFraport.AppendLine("");
                             emailFraport.AppendLine("Att:");
@@ -459,14 +454,14 @@ namespace Meu_Servico.Service
                             {
                                 try
                                 {
-                                    //sendMessage(emailFraport.ToString(),emailEmpresa);
+                                    //sendMessage(emailFraport.ToString(), emailEmpresa);
                                 }
                                 catch (Exception ex)
                                 {
 
                                     //throw;
                                 }
-                                
+
                             }
                         }
                     }
@@ -478,9 +473,9 @@ namespace Meu_Servico.Service
 
                     //throw;
                 }
-                
+
                 Cursor.Current = Cursors.IBeam;
-                
+
             }
             catch (Exception ex)
             {
@@ -504,7 +499,7 @@ namespace Meu_Servico.Service
             return config.FirstOrDefault();
         }
 
-        public void AlterarDados(int empresaID, int empresacontratoID, int diasrestantes)
+        public void AlterarDados(int empresaID, int? empresacontratoID, int? diasrestantes)
         {
 
             try
@@ -518,24 +513,26 @@ namespace Meu_Servico.Service
                 empresa.PraVencer = diasrestantes;
                 _serviceEmpresa.Alterar(empresa);
 
-                var contrato = _serviceContrato.BuscarPelaChave(empresacontratoID);
-                contrato.PraVencer = diasrestantes;
-
-                if (diasrestantes == 0)
+                if (empresacontratoID != null)
                 {
-                    contrato.StatusId = 1;
-                }
+                    var contrato = _serviceContrato.BuscarPelaChave(empresacontratoID.Value);
+                    contrato.PraVencer = diasrestantes;
 
-                _serviceContrato.Alterar(contrato);
+                    if (diasrestantes == 0)
+                    {
+                        contrato.StatusId = 1;
+                    }
+                    _serviceContrato.Alterar(contrato);
+                }
             }
             catch (System.Exception erro)
             {
                 //trata erro
             }
         }
-        protected void sendMessage(string msg,string emailDestino)
+        protected void sendMessage(string msg, string emailDestino)
         {
-            var emailOrigem="";
+            var emailOrigem = "";
             var Emailsmtp = "";
             var usuario = "";
             var senha = "";
@@ -565,7 +562,7 @@ namespace Meu_Servico.Service
             {
                 mail.To.Add(element);
             }
-            
+
             mail.Subject = "Alerta de Vencimento de Contrato(s)"; // assunto 
             mail.Body = msg; // mensagem
 
