@@ -1449,7 +1449,19 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             Entity.Validate();
             var hasErros = Entity.HasErrors;
 
+            int rangefc = 0;
+            if(!ValidaFC(Entity.TipoCredencialId, Entity.FormatoCredencialId, Entity.Fc, out rangefc))
+            {
+                WpfHelp.Mbox("Para o formato felecionado o valor veve vstar entre 0 e " + rangefc, MessageBoxIcon.Information);
+                return true;
+            }
 
+            long rangecredencial = 0;
+            if (!ValidaNumeroCredencial(Entity.TipoCredencialId, Entity.FormatoCredencialId, Entity.NumeroCredencial, out rangecredencial))
+            {
+                WpfHelp.Mbox("Para o formato felecionado o valor veve vstar entre 0 e " + rangecredencial, MessageBoxIcon.Information);
+                return true;
+            }
             //retirar o espaço entre a numeração obtida do cartão
             if (Entity.CredencialStatusId == 1)
             {
@@ -1530,6 +1542,82 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
             return Entity.HasErrors;
         }
+        public bool ValidaFC(int tipocreencial,int formatocredencial,int numerofc, out int rengefc)
+        {
+            if (tipocreencial > 0)
+            {
+                switch (formatocredencial)
+                {
+                    case 1:
+                        rengefc = 255;
+                        return numerofc <= 255;
+                    case 2:
+                        rengefc = 65535;
+                        return numerofc <= 65535;
+                    case 3:
+                        rengefc = 0;
+                        return true;
+                    case 4:
+                        rengefc = 65535;
+                        return numerofc <= 65535;
+                    case 5:
+                        rengefc = 4095;
+                        return numerofc <= 4095;
+                    case 6:
+                        rengefc = 4194303;
+                        return numerofc <= 4194303;
+                    default:
+                        rengefc = 0;
+                        return true;
+                }
+            }
+            else
+            {
+                rengefc = 0;
+                return true;
+            }
+        }
+        public bool ValidaNumeroCredencial(int tipocreencial, int formatocredencial, string numerocredencial, out long rengecrecencial)
+        {
+            long NumeroCredencialvalidade = 0;
+            long.TryParse(numerocredencial, out NumeroCredencialvalidade);
+            if (tipocreencial > 0)
+            {
+                switch (formatocredencial)
+                {
+                    case 1:
+                        rengecrecencial = 65535;
+                        return NumeroCredencialvalidade <= 65535;
+                    case 2:
+                        rengecrecencial = 65535;
+                        return NumeroCredencialvalidade <= 65535;
+                    case 3:
+                        rengecrecencial = 34359738637;
+                        return NumeroCredencialvalidade <= 34359738637;
+                    case 4:
+                        rengecrecencial = 524287;
+                        return NumeroCredencialvalidade <= 524287;
+                    case 5:
+                        rengecrecencial = 1048575;
+                        return NumeroCredencialvalidade <= 1048575;
+                    case 6:
+                        rengecrecencial = 8388607;
+                        return NumeroCredencialvalidade <= 8388607;
+                    case 7:
+                        rengecrecencial = 4294967295;
+                        return NumeroCredencialvalidade <= 4294967295;
+                    default:
+                        rengecrecencial = 0;
+                        return true;
+                }
+            }
+            else
+            {
+                rengecrecencial = 0;
+                return true;
+            }
+        }
+
 
         #endregion
 
