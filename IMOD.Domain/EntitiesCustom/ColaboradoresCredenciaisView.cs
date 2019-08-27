@@ -19,6 +19,7 @@ namespace IMOD.Domain.EntitiesCustom
         //[Required(ErrorMessage = "O Número da credencial é requerida.")]
         public string NumeroCredencial { get; set; }
         public int Fc { get; set; }
+       
         public DateTime? Emissao { get; set; }
         [Range(typeof(DateTime), "1/1/1880", "1/1/2200", ErrorMessage = "Data inválida")]
         [Required(ErrorMessage = "A Data de Validade é requerido.")]
