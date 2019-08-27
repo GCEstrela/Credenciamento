@@ -45,7 +45,7 @@ namespace IMOD.Domain.Entities
         public  byte [] ArquivoBlob { get; set; }
         public bool ContratoBasico { get; set; }
         public string TerceirizadaNome { get; set; }
-        public int PraVencer { get; set; }
+        public int? PraVencer { get; set; }
         public DateTime? DataInicio { get; set; }
         public DateTime? DataFim { get; set; }
         public override bool Equals(object obj)
