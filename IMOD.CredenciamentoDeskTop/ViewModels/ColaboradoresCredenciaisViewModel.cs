@@ -1452,14 +1452,14 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             int rangefc = 0;
             if(!ValidaFC(Entity.TipoCredencialId, Entity.FormatoCredencialId, Entity.Fc, out rangefc))
             {
-                WpfHelp.PopupBox("Para o formato selecionado o valor deve estar entre 0 e " + rangefc, 1);
+                WpfHelp.PopupBox("Para o formato selecionado o valor [FC] deve estar entre 0 e " + rangefc, 1);
                 return true;
             }
 
             long rangecredencial = 0;
             if (!ValidaNumeroCredencial(Entity.TipoCredencialId, Entity.FormatoCredencialId, Entity.NumeroCredencial, out rangecredencial))
             {
-                WpfHelp.PopupBox("Para o formato selecionado o valor deve estar entre 0 e " + rangecredencial, 1);
+                WpfHelp.PopupBox("Para o formato selecionado o valor [Número] deve estar entre 0 e " + rangecredencial, 1);
                 return true;
             }
             //retirar o espaço entre a numeração obtida do cartão

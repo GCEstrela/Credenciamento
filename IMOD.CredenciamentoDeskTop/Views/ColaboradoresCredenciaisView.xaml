@@ -264,8 +264,9 @@
 
                             <Label Name="lblFC" Content="FC:" Height="28" Width="26"   HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
                             <!--IsEnabled="{Binding Habilitar}"-->
-                            <TextBox  x:Name="FC_tb"  MaxLength="7"    
-                                      CharacterCasing="Upper" 
+                            <TextBox  x:Name="FC_tb"  MaxLength="7"
+                                      ToolTip=""
+                                CharacterCasing="Upper" 
                                       IsEnabled="{Binding HabilitarOpcoesCredencial}"
                                       Text="{Binding Entity.Fc,UpdateSourceTrigger=PropertyChanged}"  
                                       Height="24"  Width="60"/>
