@@ -1452,14 +1452,14 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             int rangefc = 0;
             if(!ValidaFC(Entity.TipoCredencialId, Entity.FormatoCredencialId, Entity.Fc, out rangefc))
             {
-                WpfHelp.Mbox("Para o formato felecionado o valor veve vstar entre 0 e " + rangefc, MessageBoxIcon.Information);
+                WpfHelp.PopupBox("Para o formato selecionado o valor deve estar entre 0 e " + rangefc, 1);
                 return true;
             }
 
             long rangecredencial = 0;
             if (!ValidaNumeroCredencial(Entity.TipoCredencialId, Entity.FormatoCredencialId, Entity.NumeroCredencial, out rangecredencial))
             {
-                WpfHelp.Mbox("Para o formato felecionado o valor veve vstar entre 0 e " + rangecredencial, MessageBoxIcon.Information);
+                WpfHelp.PopupBox("Para o formato selecionado o valor deve estar entre 0 e " + rangecredencial, 1);
                 return true;
             }
             //retirar o espaço entre a numeração obtida do cartão
@@ -1467,7 +1467,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 if (Entity.Validade.Value.AddHours(23).AddMinutes(59).AddSeconds(59) < DateTime.Now)
                 {
-                    WpfHelp.Mbox("Data de Validade não pode ser menor que a data atual. Não é possível continua essa ação.", MessageBoxIcon.Information);
+                    WpfHelp.PopupBox("Data de Validade não pode ser menor que a data atual. Não é possível continua essa ação.", 1);
                     return true;
                 }
             }
@@ -1490,7 +1490,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (colaboradorcredencial != null)
                 {
                     Entity.SetMessageErro("Colete", "Número do colete já existente.");
-                    WpfHelp.Mbox("Número do colete já cadastrado para o colaborador  " + colaboradorcredencial.ColaboradorNome.ToString() + " ", MessageBoxIcon.Information);
+                    WpfHelp.PopupBox("Número do colete já cadastrado para o colaborador  " + colaboradorcredencial.ColaboradorNome.ToString() + " ",1);
                     return true;
                 }
             }
@@ -1510,7 +1510,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 if (credencialDias > 90)
                 {
-                    System.Windows.MessageBox.Show("Validade da credencial TEMPORÁRIA, não pode ser superior a 90 dias!");
+                    WpfHelp.PopupBox("Validade da credencial TEMPORÁRIA, não pode ser superior a 90 dias!",1);
                     return true;
                 }
             }
@@ -1530,13 +1530,13 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (Entity.FormatoCredencialId == 0)
                 {
                     //System.Windows.MessageBox.Show("Formato da credencial não informada");
-                    WpfHelp.Mbox("Para a Autenticação selecionada é necessário o preenchimento do formato da credencial.", MessageBoxIcon.Information);
+                    WpfHelp.PopupBox("Para a Autenticação selecionada é necessário o preenchimento do formato da credencial.", 1);
                     return true;
                 }
                 if (Entity.NumeroCredencial == null || Entity.NumeroCredencial == "")
                 {
                     //System.Windows.MessageBox.Show("Nº da credencial não informado");
-                    WpfHelp.Mbox("O nº da credencial é obrigatório para esta ação. Não é possível criar uma credencial sem essa infrmação", MessageBoxIcon.Information);
+                    WpfHelp.PopupBox("O nº da credencial é obrigatório para esta ação. Não é possível criar uma credencial sem essa infrmação", 1);
                     return true;
                 }
             }
