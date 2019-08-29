@@ -282,6 +282,7 @@ namespace IMOD.Infra.Repositorios
                             cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("CredencialmotivoIDanterior", DbType.Int32, entity.CredencialmotivoIDanterior, false)));
                             cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Identificacao1", DbType.String, entity.Identificacao1, false)));
                             cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Identificacao2", DbType.String, entity.Identificacao2, false)));
+                            cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Usuario", DbType.String, entity.Usuario, false)));
 
                             cmd.ExecuteNonQuery();
                         }
@@ -381,6 +382,7 @@ namespace IMOD.Infra.Repositorios
                             cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("CredencialVia", DbType.Int32, entity.CredencialVia, false)));
                             cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("CredencialmotivoViaAdicionalID", DbType.Int32, entity.CredencialmotivoViaAdicionalID, false)));
                             cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("CredencialmotivoIDanterior", DbType.Int32, entity.CredencialmotivoIDanterior, false)));
+                            cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Usuario", DbType.String, entity.Usuario, false)));
 
                             var key = Convert.ToInt32(cmd.ExecuteScalar());
 

@@ -97,6 +97,7 @@ namespace IMOD.Domain.EntitiesCustom
         public string CredencialmotivoIdAnteriorDescricao { get; set; }
         public bool Estrangeiro { get; set; }
         public string RNE { get; set; }
+        public string Usuario { get; set; }
         public bool MotivoObrigatorio
         {
             get

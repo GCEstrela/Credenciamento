@@ -235,14 +235,14 @@ namespace IMOD.Application.Service
             }
 
             _repositorio.Alterar(entity);
-            ////comentado pois a busca não está retornando resultador e anulando a entity
-            var n1 = BuscarPelaChave(entity.ColaboradorCredencialId);
+            //////comentado pois a busca não está retornando resultador e anulando a entity
+            //var n1 = BuscarPelaChave(entity.ColaboradorCredencialId);
             
-            if (n1 == null) return;
-            ObterStatusCredencial(n1);
-            n1.CardHolderGuid = entity.CardHolderGuid;
-            n1.CredencialGuid = entity.CredencialGuid;
-            _repositorio.Alterar(n1);
+            //if (n1 == null) return;
+            //ObterStatusCredencial(n1);
+            //n1.CardHolderGuid = entity.CardHolderGuid;
+            //n1.CredencialGuid = entity.CredencialGuid;
+            //_repositorio.Alterar(n1);
         }
 
         public ColaboradoresCredenciaisView BuscarCredencialPelaChave(int colaboradorCredencialId)
@@ -425,7 +425,7 @@ namespace IMOD.Application.Service
             //A data da baixa está em função do status do titular do cartao e sua credencial
             entity2.DataStatus = entity.DataStatus;
             entity2.Baixa = entity.Baixa;
-            Alterar (entity2);
+            //Alterar (entity2);
 
             //entity = BuscarPelaChave(entity.ColaboradorCredencialId);
             entity = BuscarCredencialPelaChave(entity.ColaboradorCredencialId);
@@ -505,7 +505,7 @@ namespace IMOD.Application.Service
             //n1.Fc = entity.Fc;
             n1.NumeroCredencial = entity.NumeroCredencial;
 
-            Alterar(n1);
+            //Alterar(n1);
         }
         /// <summary>
         ///     Remove Regra de acesso do cardHolder sub-sistema de credenciamento (Genetec)
