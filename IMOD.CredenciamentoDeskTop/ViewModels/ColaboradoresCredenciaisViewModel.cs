@@ -932,12 +932,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var dados = view.DataContext as IAtualizarDados;
                 dados.AtualizarDadosPendencias();
 
-                // if (Entity.TecnologiaCredencialId != 0)
-                //{
                 if (Entity.FormatoCredencialId != 0)
                 {
-                    //n1.Identificacao1 = Entity.Identificacao1;
-                    //n1.Identificacao2 = Entity.Identificacao2;
                     #region Verificar se pode gerar CardHolder
                     //Alterar o status do titular do cartão
 
@@ -947,27 +943,19 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     n1.CardHolderGuid = entity.CardHolderGuid;
                     n1.CredencialGuid = entity.CredencialGuid;
 
-                    //n1 = _service.BuscarCredencialPelaChave(n1.ColaboradorCredencialId);
                     _service.AlterarStatusTitularCartao(new CredencialGenetecService(Main.Engine), Entity, n1);
 
-                    //_service.Alterar(n1);
                     #endregion
+
                 }
                 else
                 {
                     _service.Alterar(n1);
                 }
-                //}
+               
+                
                 ////Atualizar Observer
                 ListarColaboradoresCredenciais(_colaboradorView);
-
-                ////Atualizar Observer
-                //var list1 = _service.ListarView(null, null, null, null, _colaboradorView.ColaboradorId).ToList();
-                ////Comportamento.IsEnableCriar = !list1.Any(c => c.Ativa == true);
-                //var list2 = Mapper.Map<List<ColaboradoresCredenciaisView>>(list1.OrderByDescending(n => n.ColaboradorCredencialId));
-                //Comportamento.IsEnableCriar = !list2.Any(c => c.Ativa == true);
-                //EntityObserver = new ObservableCollection<ColaboradoresCredenciaisView>();
-                //list2.ForEach(n => { EntityObserver.Add(n); });                               
 
                 IsEnableLstView = true;
                 AtualizarMensagem(Entity);
