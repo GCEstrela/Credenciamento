@@ -243,7 +243,7 @@
                                      Name="txtDtValidade"></TextBox>
                             <Label Content="Baixa:" Height="28" Width="53" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
                             <TextBlock Text="{Binding Entity.Baixa,UpdateSourceTrigger=PropertyChanged, StringFormat=\{0:d\}}"  VerticalAlignment="Center" Width="70"  />
-                            <Label Content="F. Credencial:" Height="28" Width="150" ToolTip="Formato Credencial"  HorizontalContentAlignment="Right"
+                            <Label Content="F. Credencial:" Height="28" Width="134" ToolTip="Formato Credencial"  HorizontalContentAlignment="Right"
                                    Foreground="#FFD0D0D0" />
 
                             <ComboBox x:Name="FormatoCredencial_cb" IsEditable="true"                                      
@@ -264,11 +264,12 @@
 
                             <Label Name="lblFC" Content="FC:" Height="28" Width="26"   HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
                             <!--IsEnabled="{Binding Habilitar}"-->
-                            <TextBox  x:Name="FC_tb"  MaxLength="5"    
-                                      CharacterCasing="Upper" 
+                            <TextBox  x:Name="FC_tb"  MaxLength="7"
+                                      ToolTip=""
+                                CharacterCasing="Upper" 
                                       IsEnabled="{Binding HabilitarOpcoesCredencial}"
                                       Text="{Binding Entity.Fc,UpdateSourceTrigger=PropertyChanged}"  
-                                      Height="24"  Width="45"/>
+                                      Height="24"  Width="60" LostFocus="FC_tb_LostFocus"/>
                             <Label Name="lblNumero" Content="Número:" Height="28" Width="56" Margin="0,0,0,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
 
                             <!--IsEnabled="{Binding Habilitar}"-->

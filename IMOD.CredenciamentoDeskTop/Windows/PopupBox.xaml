@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:gif="http://wpfanimatedgif.codeplex.com"
         mc:Ignorable="d"
-        Title="Módulo de Credenciamento" Height="190.049" Width="333.004" ShowInTaskbar="False" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" WindowStyle="None" BorderThickness="6,30,6,6" Topmost="True" Icon="/IMOD.CredenciamentoDeskTop;component/Resources/Cracha.ico" PreviewKeyDown="OnTecla_PreviewKeyDown">
+        Title="Módulo de Credenciamento" Height="190.049" Width="424.738" ShowInTaskbar="False" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" WindowStyle="None" BorderThickness="6,30,6,6" Topmost="True" Icon="/IMOD.CredenciamentoDeskTop;component/Resources/Cracha.ico" PreviewKeyDown="OnTecla_PreviewKeyDown">
     <Window.Effect>
         <DropShadowEffect ShadowDepth="20" BlurRadius="10"/>
     </Window.Effect>
@@ -28,11 +28,11 @@
             <Label Content="Módulo de Credenciamento" Foreground="White"/>
         </StackPanel>
         <StackPanel >
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="6,5,6,10" Height="80" >
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="10,5,10,10" Height="94" Width="393" >
                 <Image x:Name="Icone_im" Source="/IMOD.CredenciamentoDeskTop;component/Resources/Informacao.ico" Height="42" Width="61" />
                 <!--<Label x:Name="Mensagem_lb" Content="Aguarde,  ..." Height="44" Width="234" Margin="0,6,10,7" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" Foreground="White" />-->
-                <TextBlock x:Name="Mensagem_tb"  TextWrapping="Wrap"  Width="234" VerticalAlignment="Center" 
-                          Foreground="White" Background="Transparent" HorizontalAlignment="Left"/>
+                <TextBlock x:Name="Mensagem_tb"  TextWrapping="Wrap"  Width="329" VerticalAlignment="Center" 
+                          Foreground="White" Background="Transparent" HorizontalAlignment="Left" Height="61" Margin="0,33,0,0"/>
 
             </StackPanel>
 

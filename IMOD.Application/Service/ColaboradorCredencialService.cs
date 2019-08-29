@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using IMOD.Application.Interfaces;
 using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
@@ -157,22 +158,42 @@ namespace IMOD.Application.Service
                var pendImp = CredencialMotivo.BuscarPelaChave (entity.CredencialMotivoId);
             if (pendImp == null) throw new InvalidOperationException ("Não foi possível obter a entidade credencial motivo");
             var impeditivo = pendImp.Impeditivo & !entity.DevolucaoEntregaBo;
-            if (!impeditivo) return;
+            //if (!impeditivo) return;
             //Criar uma pendencia impeditiva,caso sua natureza seja impeditiva
 
             #region Criar Pendência  
 
             var pendencia = new Pendencia();
-            pendencia.EmpresaId = entity.EmpresaId;
-            var motivo = CredencialMotivo.BuscarPelaChave (entity.CredencialMotivoId);
-            pendencia.Descricao = $"Em {DateTime.Now}, uma pendência impeditiva foi criada pelo sistema por uma credencial ter sido {motivo.Descricao}." +
-                                  $"\r\nEm nome de {entity.ColaboradorNome}" +
-                                  "\r\nDeseja-se que tais pendências sejam solucionadas." +
-                                  $"\r\nAutor {UsuarioLogado.Nome} {UsuarioLogado.Email}";
-            pendencia.Impeditivo = true;
+            //pendencia.EmpresaId = entity.EmpresaId;
+            //var motivo = CredencialMotivo.BuscarPelaChave(entity.CredencialMotivoId);
+            //pendencia.Descricao = $"Em {DateTime.Now}, uma pendência impeditiva foi criada pelo sistema por uma credencial ter sido {motivo.Descricao}." +
+            //                      $"\r\nEm nome de {entity.ColaboradorNome}" +
+            //                      "\r\nDeseja-se que tais pendências sejam solucionadas." +
+            //                      $"\r\nAutor {UsuarioLogado.Nome} {UsuarioLogado.Email}";
+            //pendencia.Impeditivo = true;
             //--------------------------
-            pendencia.CodPendencia = 21;
-            Pendencia.CriarPendenciaSistema (pendencia);
+            if (!entity.DevolucaoEntregaBo)
+            {
+                pendencia.EmpresaId = entity.EmpresaId;
+                pendencia.ColaboradorId = entity.ColaboradorId;
+                var motivo = CredencialMotivo.BuscarPelaChave(entity.CredencialMotivoId);
+                pendencia.Descricao = $"Em {DateTime.Now}, uma pendência impeditiva foi criada pelo sistema por uma credencial ter sido {motivo.Descricao}." +
+                                      $"\r\nEm nome de {entity.ColaboradorNome}" +
+                                      "\r\nDeseja-se que tais pendências sejam solucionadas." +
+                                      $"\r\nAutor {UsuarioLogado.Nome} {UsuarioLogado.Email}";
+                pendencia.Impeditivo = true;
+                pendencia.CodPendencia = 21;
+                Pendencia.CriarPendenciaSistema(pendencia);
+            }
+            else
+            {
+                var motivo = Pendencia.Listar(null, null, null, entity.EmpresaId, entity.ColaboradorId, 21).ToList().FirstOrDefault();
+                pendencia.CodPendencia = 21;
+                pendencia.EmpresaId = motivo.EmpresaId;
+                pendencia.ColaboradorId = motivo.ColaboradorId;
+                pendencia.PendenciaId = motivo.PendenciaId;
+                Pendencia.Remover(pendencia);
+            }
 
             #endregion
         }

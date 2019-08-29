@@ -135,7 +135,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
                         dataEncontrada = DateTime.Now.AddDays(730);
                         str = dataEncontrada.ToString();
                         txtDtValidade.Text = str;
-                        MessageBox.Show("Validade da credencial PERMANENTE, não pode ser superior a 2 anos!");
+                        WpfHelp.PopupBox("Validade da credencial PERMANENTE, não pode ser superior a 2 anos!",1);
                     }
                     else
                     {
@@ -151,7 +151,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
                         dataEncontrada = DateTime.Now.AddDays(90);
                         str = dataEncontrada.ToString();
                         txtDtValidade.Text = str;
-                        MessageBox.Show("Validade da credencial TEMPORÁRIA, não pode ser superior a 90 dias!");
+                        WpfHelp.PopupBox("Validade da credencial TEMPORÁRIA, não pode ser superior a 90 dias!",1);
                     }
                     else
                     {
@@ -267,9 +267,58 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         private void FormatoCredencial_cb_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            
             if (FormatoCredencial_cb.SelectedItem != null)
             {
-               
+
+                int formatofredencialId = ((IMOD.Domain.Entities.FormatoCredencial)FormatoCredencial_cb.SelectedItem).FormatoCredencialId;
+                switch (formatofredencialId)
+                {
+                    case 1:
+                        FC_tb.ToolTip = "0 e 255";
+                        lblFC.ToolTip = "0 e 255";
+                        NumeroCredencial_tb.ToolTip = "0 e 65535";
+                        lblNumero.ToolTip = "0 e 65535";
+                        break;
+                    case 2:
+                        FC_tb.ToolTip = "0 e 65535";
+                        lblFC.ToolTip = "0 e 65535";
+                        NumeroCredencial_tb.ToolTip = "0 e 65535";
+                        lblNumero.ToolTip = "0 e 65535";
+                        break;
+                    case 3:
+                        //FC_tb.ToolTip = "Range entre 0 e 255";
+                        //lblFC.ToolTip = "Range entre 0 e 255";
+                        NumeroCredencial_tb.ToolTip = "0 e 34359738637";
+                        lblNumero.ToolTip = "0 e 34359738637";
+                        break;
+                    case 4:
+                        FC_tb.ToolTip = "0 e 65535";
+                        lblFC.ToolTip = "0 e 65535";
+                        NumeroCredencial_tb.ToolTip = "0 e 524287";
+                        lblNumero.ToolTip = "0 e 524287";
+                        break;
+                    case 5:
+                        FC_tb.ToolTip = "0 e 4095";
+                        lblFC.ToolTip = "0 e 4095";
+                        NumeroCredencial_tb.ToolTip = "0 e 1048575";
+                        lblNumero.ToolTip = "0 e 1048575";
+                        break;
+                    case 6:
+                        FC_tb.ToolTip = "0 e 4194303";
+                        lblFC.ToolTip = "0 e 4194303";
+                        NumeroCredencial_tb.ToolTip = "0 e 8388607";
+                        lblNumero.ToolTip = "0 e 8388607";
+                        break;
+                    case 7:
+                        NumeroCredencial_tb.ToolTip = "0 e 4294967295";
+                        lblNumero.ToolTip = "0 e 4294967295";
+                        break;
+                    default:
+                        //rengefc = 0;
+                        break;
+                }
+
                 if (((IMOD.Domain.Entities.FormatoCredencial)FormatoCredencial_cb.SelectedItem).Descricao.Trim().Equals("CSN"))
                 {
                     FC_tb.Visibility = Visibility.Hidden;
@@ -333,5 +382,26 @@ namespace IMOD.CredenciamentoDeskTop.Views
             }
         }
 
+        private void FC_tb_LostFocus(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                //if (_viewModel.Entity == null) return;
+                //int tipo = ((IMOD.Domain.Entities.TipoCredencial)TecnologiaCredencial_cb.SelectedItem).TipoCredencialId;
+                //int formato = ((IMOD.Domain.Entities.FormatoCredencial)FormatoCredencial_cb.SelectedItem).FormatoCredencialId;
+                //int fc = Convert.ToInt32(FC_tb.Text);
+
+                //int rangefc = 0;
+                //if (!_viewModel.ValidaFC(tipo, formato, fc, out rangefc))
+                //{
+                //    WpfHelp.PopupBox("Para o formato selecionado o valor [FC] deve estar entre 0 e " + rangefc, 1);
+                //    FC_tb.Focus();
+                //}
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex.Message, 1);
+            }
+        }
     }
 }
