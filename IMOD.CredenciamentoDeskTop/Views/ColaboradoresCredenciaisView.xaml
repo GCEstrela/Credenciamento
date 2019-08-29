@@ -269,7 +269,7 @@
                                 CharacterCasing="Upper" 
                                       IsEnabled="{Binding HabilitarOpcoesCredencial}"
                                       Text="{Binding Entity.Fc,UpdateSourceTrigger=PropertyChanged}"  
-                                      Height="24"  Width="60"/>
+                                      Height="24"  Width="60" LostFocus="FC_tb_LostFocus"/>
                             <Label Name="lblNumero" Content="Número:" Height="28" Width="56" Margin="0,0,0,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
 
                             <!--IsEnabled="{Binding Habilitar}"-->
