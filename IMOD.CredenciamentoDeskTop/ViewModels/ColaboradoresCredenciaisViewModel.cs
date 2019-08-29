@@ -944,7 +944,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     n1.CredencialGuid = entity.CredencialGuid;
 
                     _service.AlterarStatusTitularCartao(new CredencialGenetecService(Main.Engine), Entity, n1);
-
+                    _service.Alterar(n1);
                     #endregion
 
                 }

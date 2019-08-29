@@ -685,7 +685,7 @@ namespace IMOD.Application.Service
                 //n1.Fc = entity.Fc;
                 n1.NumeroCredencial = entity.NumeroCredencial;
 
-                Alterar(n1);
+                //Alterar(n1);
             }
             catch (Exception ex)
             {
