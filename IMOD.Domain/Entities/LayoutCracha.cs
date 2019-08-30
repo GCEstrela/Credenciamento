@@ -12,10 +12,13 @@ namespace IMOD.Domain.Entities
 
         public int LayoutCrachaId { get; set; }
         public string Nome { get; set; }
+        public string Modelo { get; set; }
         public string LayoutCrachaGuid { get; set; }
         public decimal Valor { get; set; }
         public string LayoutRpt { get; set; }
         public int TipoCracha { get; set; }
+        public int TipoValidade { get; set; }
+        public string Cor { get; set; }
         #endregion
     }
 }

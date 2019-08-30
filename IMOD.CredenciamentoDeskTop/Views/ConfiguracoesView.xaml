@@ -892,20 +892,20 @@
 
                                         <Label Content="Código:" Height="28"  Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" Visibility="Collapsed" />
                                         <TextBox CharacterCasing="Upper"  x:Name="CodigoCracha_tb"  Text="{Binding SelectedItem.LayoutCrachaId, ElementName=ListaLayoutsCrachas_lv, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"  Height="24"  Width="50" Visibility="Collapsed"/>
-                                        <Label Content="Modelo:" Height="28" Width="53"   Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                        <TextBox CharacterCasing="Upper"  x:Name="Nome_tb"  Text="{Binding SelectedItem.Nome, ElementName=ListaLayoutsCrachas_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="248"/>
-                                        <Label Content="Tipo:" Height="28"  Margin="0,0,1,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0"/>
+                                        <Label Content="{Binding SelectedItem.Modelo, ElementName=ListaLayoutsCrachas_lv, UpdateSourceTrigger=PropertyChanged}" Height="28" Width="250"   Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                                        <TextBox CharacterCasing="Upper"  x:Name="Nome_tb"  Text="{Binding SelectedItem.Nome, ElementName=ListaLayoutsCrachas_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="249"/>
+                                        <!--<Label Content="Tipo:" Height="28"  Margin="0,0,1,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0"/>-->
 
-                                        <ComboBox  x:Name="cbTipoLayoutCracha" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" 
+                                        <!--<ComboBox  x:Name="cbTipoLayoutCracha" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" 
                                               ItemsSource="{Binding TipoLayoutCracha, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                                 SelectedValue="{Binding SelectedItem.TipoCracha,  ElementName=ListaLayoutsCrachas_lv, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                                                     DisplayMemberPath="Description" SelectedValuePath="Value"
-                                                        IsSynchronizedWithCurrentItem="True"  IsEnabled="true" Width="90"/>
+                                                        IsSynchronizedWithCurrentItem="True"  IsEnabled="true" Width="90"/>-->
 
-                                        <Label Content="Valor:" Height="28"  Margin="0,0,1,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0"/>
-                                        <TextBox x:Name="ValorCracha_tb" IsEnabled="true" Text="{Binding SelectedItem.Valor, ElementName=ListaLayoutsCrachas_lv, UpdateSourceTrigger=PropertyChanged}" Height="24"  Width="50"/>
+                                        <!--<Label Content="Valor:" Height="28"  Margin="0,0,1,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0"/>
+                                        <TextBox x:Name="ValorCracha_tb" IsEnabled="true" Text="{Binding SelectedItem.Valor, ElementName=ListaLayoutsCrachas_lv, UpdateSourceTrigger=PropertyChanged}" Height="24"  Width="50"/>-->
 
-                                        <Button x:Name="BuscarCracha_bt" Height="24" Margin="10,0,0,0" VerticalAlignment="Center" Width="24" Click="BuscarCracha_bt_Click">
+                                        <Button x:Name="BuscarCracha_bt" Height="24" Margin="10,0,0,0" VerticalAlignment="Center" Width="24" Click="BuscarCracha_bt_Click" IsEnabled="False">
                                             <StackPanel>
                                                 <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Pasta.ico"/>
                                             </StackPanel>
@@ -924,9 +924,11 @@
                                             <ListView.View>
                                                 <GridView FrameworkElement.FlowDirection="RightToLeft">
                                                     <!--<GridViewColumn Width="50" Header="Cód."  DisplayMemberBinding="{Binding LayoutCrachaId}"/>-->
-                                                    <GridViewColumn Width="400" Header="Nome"  DisplayMemberBinding="{Binding Nome}"/>
+                                                    <GridViewColumn Width="300" Header="Modelo"  DisplayMemberBinding="{Binding Modelo}"/>
                                                     <GridViewColumn Width="90" Header="Tipo"  DisplayMemberBinding="{Binding TipoCrachaDescricao}"/>
-                                                    <GridViewColumn Width="100" Header="Valor"  DisplayMemberBinding="{Binding Valor}"/>
+                                                    <GridViewColumn Width="90" Header="Validade"  DisplayMemberBinding="{Binding TipoValidadeDescricao}"/>
+                                                    <GridViewColumn Width="90" Header="Cor"  DisplayMemberBinding="{Binding Cor}"/>
+                                                    <!--<GridViewColumn Width="100" Header="Valor"  DisplayMemberBinding="{Binding Valor}"/>-->
                                                 </GridView>
                                             </ListView.View>
                                         </ListView>
@@ -934,15 +936,15 @@
                                             <Button x:Name="btnAdicionarCracha" ToolTip="Adicionar" Width="25"
                                                 Margin="0,0,0,7" Click="btnAdicionarCracha_Click">
                                                 <StackPanel>
-                                                    <Image Source="../Resources/add.png"/>
+                                                    <Image Source="../Resources/edit.png"/>
                                                 </StackPanel>
                                             </Button>
-                                            <Button x:Name="btnDeletarCracha" ToolTip="Remover" Width="25"
+                                            <!--<Button x:Name="btnDeletarCracha" ToolTip="Remover" Width="25"
                                                     Margin="0,0,0,7" Click="btnDeletarCracha_Click">
                                                 <StackPanel>
                                                     <Image Source="../Resources/remove.png"/>
                                                 </StackPanel>
-                                            </Button>
+                                            </Button>-->
                                             <Button x:Name="btnCancelarCracha" ToolTip="Cancelar" Width="25"
                                                 Margin="0,0,0,7" Click="btnCancelarCracha_Click">
                                                 <StackPanel>
@@ -1050,7 +1052,7 @@
 
                                         <Button x:Name="btnSalvarConfiguracoesSistema" Content="{StaticResource imgSave}" ToolTip="Salvar" Width="25"
                                                     Margin="0,0,0,7" IsEnabled="True" Click="BtnSalvarConfiguracoesSistema_Click"/>
-                                       
+
                                     </StackPanel>
 
                                 </StackPanel>

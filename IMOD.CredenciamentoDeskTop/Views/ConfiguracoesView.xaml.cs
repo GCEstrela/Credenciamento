@@ -153,6 +153,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
             BuscarCracha_bt.IsEnabled = true;
             btnSalvarCracha.IsEnabled = true;
             btnCancelarCracha.IsEnabled = true;
+            btnAdicionarCracha.IsEnabled = false;
             ((ConfiguracoesViewModel)DataContext).OnAdicionarLayoutCrachaCommand();
         }
 
@@ -160,6 +161,9 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             btnAdicionarCracha.IsEnabled = true;
             btnSalvarCracha.IsEnabled = false;
+            BuscarCracha_bt.IsEnabled = false;            
+            btnCancelarCracha.IsEnabled = false;
+
             BuscarRelatorioGerencial_bt.IsEnabled = false;
             ((ConfiguracoesViewModel)DataContext).OnSalvarLayoutCrachaCommand();
         }
@@ -173,8 +177,10 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         private void btnCancelarCracha_Click(object sender, RoutedEventArgs e)
         {
-            btnSalvarCracha.IsEnabled = false;
             btnAdicionarCracha.IsEnabled = true;
+            btnSalvarCracha.IsEnabled = false;
+            BuscarCracha_bt.IsEnabled = false;
+            btnCancelarCracha.IsEnabled = false;
             ((ConfiguracoesViewModel)DataContext).CarregaColecaoLayoutsCrachas();
         }
 
