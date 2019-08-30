@@ -151,7 +151,7 @@
                             <div class="col-md-3">
                                 @Html.DropDownListFor(model => model.EstadoId, ((IEnumerable<IMOD.Domain.Entities.Estados>)ViewBag.Estados).Select(option => new SelectListItem
                            {
-                               Text = option.Nome, 
+                               Text = option.Uf,
                                Value = option.EstadoId.ToString(),
                                Selected = (Model != null) && (option.EstadoId == Model.EstadoId)
                            }), "Selecione", new { @class = "form-control text-uppercase", id = "ddlEstado" })
@@ -546,7 +546,11 @@
                         }
 
                     });
-                });
+            });
+
+            $("#Cep").focusout(function () {
+                BuscarEndereco();
+            });
 
 
 
@@ -776,7 +780,7 @@
                 success: function (result) {
                     var html = '<option value="">SELECIONE</option>';
                     $.each(result, function (key, item) {
-                        html += '<option value=' + this.MunicipioId + '>' + this.Nome + '</option>';
+                        html += '<option value=' + this.UF + '>' + this.Nome + '</option>';
                     });
 
                     $('#ddlMunicipio').html(html);
@@ -788,6 +792,29 @@
                 }
             });
         }
+
+
+         function BuscarEndereco() {
+             var id = $("#Cep").val();
+             $.get("http://apps.widenet.com.br/busca-cep/api/cep.json", { code: id }, function (result) {
+                 //if (result.State != 1) {
+                 //    alert(result.message || "Houve um erro desconhecido");
+                 //    return;
+                 //}
+                 $("#Endereco").val(result.address);
+                 $("#ddlBairro").val(result.district);                 
+                 $("#ddlEstado option").filter(function () {
+                     //may want to use $.trim in here
+                     return $(this).text() == result.state;
+                 }).prop('selected', true);                 
+                 BuscarMunicipio();               
+                 $("#ddlMunicipio option").filter(function () {
+                     //may want to use $.trim in here
+                     return $(this).text() == result.city.toUpperCase();
+                 }).prop('selected', true);
+                 console.log(result);                
+            });
+        };
 
     </script>
 
