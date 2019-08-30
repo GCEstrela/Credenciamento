@@ -944,7 +944,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     n1.CredencialGuid = entity.CredencialGuid;
 
                     _service.AlterarStatusTitularCartao(new CredencialGenetecService(Main.Engine), Entity, n1);
-                    _service.Alterar(n1);
+                    //_service.Alterar(n1);
                     #endregion
 
                 }
@@ -982,46 +982,47 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
 
-            var n1 = _service.BuscarCredencialPelaChave(colaboradorCredencialId);
-            n1.NumeroCredencial = entity.NumeroCredencial;
+            //var n1 = _service.BuscarCredencialPelaChave(colaboradorCredencialId);
+            //n1.NumeroCredencial = entity.NumeroCredencial;
 
-            n1.ColaboradorPrivilegio1Id = Entity.ColaboradorPrivilegio1Id;
-            n1.ColaboradorPrivilegio2Id = Entity.ColaboradorPrivilegio2Id;
+            //n1.ColaboradorPrivilegio1Id = Entity.ColaboradorPrivilegio1Id;
+            //n1.ColaboradorPrivilegio2Id = Entity.ColaboradorPrivilegio2Id;
 
             if (Entity.ColaboradorPrivilegio1Id != 0 && Entity.ColaboradorPrivilegio1Id != 41)
             {
                 var areaAcesso1 = _auxiliaresService.AreaAcessoService.Listar(Entity.ColaboradorPrivilegio1Id).FirstOrDefault();
                 Entity.Identificacao1 = areaAcesso1.Identificacao;
-                n1.Identificacao1 = areaAcesso1.Identificacao;
+                //n1.Identificacao1 = areaAcesso1.Identificacao;
             }
             else
             {
-                n1.Identificacao1 = null;
+                //n1.Identificacao1 = null;
             }
 
             if (Entity.ColaboradorPrivilegio2Id != 0 && Entity.ColaboradorPrivilegio2Id != 41)
             {
                 var areaAcesso2 = _auxiliaresService.AreaAcessoService.Listar(Entity.ColaboradorPrivilegio2Id).FirstOrDefault();
                 Entity.Identificacao2 = areaAcesso2.Identificacao;
-                n1.Identificacao2 = areaAcesso2.Identificacao;
+                //n1.Identificacao2 = areaAcesso2.Identificacao;
             }
             else
             {
-                n1.Identificacao2 = null;
+                //n1.Identificacao2 = null;
             }
 
 
             //n1.Identificacao1 = Entity.Identificacao1;
             //n1.Identificacao2 = Entity.Identificacao2;
             _configuraSistema = ObterConfiguracao();
-            n1.Regras = _configuraSistema.Regras;
+            //n1.Regras = _configuraSistema.Regras;
             entity.Regras = _configuraSistema.Regras;
-            n1.GrupoPadrao = _configuraSistema.GrupoPadrao;
+            //n1.GrupoPadrao = _configuraSistema.GrupoPadrao;
             entity.GrupoPadrao = _configuraSistema.GrupoPadrao;
 
             var tecCredencial = _auxiliaresService.TecnologiaCredencialService.BuscarPelaChave(entity.TecnologiaCredencialId);
             if (tecCredencial.PodeGerarCardHolder)
-                _service.CriarTitularCartao(new CredencialGenetecService(Main.Engine), new ColaboradorService(), n1);
+                _service.CriarTitularCartao(new CredencialGenetecService(Main.Engine), new ColaboradorService(), entity);
+                //_service.CriarTitularCartao(new CredencialGenetecService(Main.Engine), new ColaboradorService(), n1);
 
         }
         /// <summary>

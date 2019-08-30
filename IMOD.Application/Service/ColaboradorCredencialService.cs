@@ -303,7 +303,7 @@ namespace IMOD.Application.Service
                     }
                 }
 
-                 _repositorio.Alterar(entity);
+                _repositorio.Alterar(entity);
                 //////comentado pois a busca não está retornando resultador e anulando a entity
                 //var n1 = BuscarPelaChave(entity.ColaboradorCredencialId);
 
@@ -673,6 +673,7 @@ namespace IMOD.Application.Service
                 //Atualizar dados do identificador GUID
                 entity.CardHolderGuid = titularCartao.IdentificadorCardHolderGuid;
                 entity.CredencialGuid = titularCartao.IdentificadorCredencialGuid;
+
                 var n1 = BuscarPelaChave(entity.ColaboradorCredencialId);
                 n1.CardHolderGuid = titularCartao.IdentificadorCardHolderGuid;
                 n1.CredencialGuid = titularCartao.IdentificadorCredencialGuid;
@@ -680,12 +681,16 @@ namespace IMOD.Application.Service
                 //n1.Identificacao2 = titularCartao.Identificacao2;
                 n1.CredencialGuid = titularCartao.IdentificadorCredencialGuid;
                 n1.CardHolderGuid = titularCartao.IdentificadorCardHolderGuid;
-                //n1.TecnologiaCredencialId = entity.TecnologiaCredencialId;
-                //n1.FormatoCredencialId = entity.FormatoCredencialId;
-                //n1.Fc = entity.Fc;
+                n1.TecnologiaCredencialId = entity.TecnologiaCredencialId;
+                n1.FormatoCredencialId = entity.FormatoCredencialId;
+                n1.Fc = entity.Fc;
                 n1.NumeroCredencial = entity.NumeroCredencial;
+                n1.ColaboradorPrivilegio1Id = entity.ColaboradorPrivilegio1Id;
+                n1.ColaboradorPrivilegio2Id = entity.ColaboradorPrivilegio2Id;
+                n1.Identificacao1 = entity.Identificacao1;
+                n1.Identificacao2 = entity.Identificacao2;
 
-                //Alterar(n1);
+                Alterar(n1);
             }
             catch (Exception ex)
             {
