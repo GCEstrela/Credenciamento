@@ -181,12 +181,12 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 var n1 = new IMOD.Domain.EntitiesCustom.EmpresaLayoutCrachaView
                 {
                     LayoutCrachaId = _viewModel.TipoCracha.LayoutCrachaId,
-                    Nome = _viewModel.TipoCracha.Nome
+                    Modelo = _viewModel.TipoCracha.Modelo
                 };
                 foreach (var listBoxItem in lstBoxLayoutCracha.Items)
                 {
 
-                    if (((IMOD.Domain.EntitiesCustom.EmpresaLayoutCrachaView)listBoxItem).Nome == n1.Nome)
+                    if (((IMOD.Domain.EntitiesCustom.EmpresaLayoutCrachaView)listBoxItem).Modelo == n1.Modelo)
                     {
                         return;
                     }

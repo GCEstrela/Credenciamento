@@ -465,7 +465,7 @@
                                            Foreground="#FFD0D0D0" />
                                     <ComboBox x:Name="TipoCracha_cb" IsEnabled="True" Height="30" Width="280"
                                               ItemsSource="{Binding ListaCrachas}"
-                                              DisplayMemberPath="Nome"
+                                              DisplayMemberPath="Modelo"
                                               SelectedValuePath="LayoutCrachaId"
                                               IsEditable="true" 
                                               SelectedItem="{Binding TipoCracha}"/>
@@ -476,7 +476,7 @@
                                             HorizontalAlignment="Left" Margin="109,5,0,0" Width="355" Height="84">
                                     <ListBox x:Name="lstBoxLayoutCracha" IsEnabled="True" Width="280"
                                              ItemsSource="{Binding TiposLayoutCracha, Mode=TwoWay}"
-                                             DisplayMemberPath="Nome" Height="80" VerticalAlignment="Top"
+                                             DisplayMemberPath="Modelo" Height="80" VerticalAlignment="Top"
                                              Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
                                     <Button x:Name="btnex36" Content="Excluir" Margin="10,0,0,0" Width="65" Height="24"
                                             Click="OnRemoverTipoCracha_Click" VerticalAlignment="Top" />
