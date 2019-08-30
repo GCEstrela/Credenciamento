@@ -10,6 +10,7 @@ using IMOD.Application.Service;
 using IMOD.PreCredenciamentoWeb.Util;
 using IMOD.Application.Interfaces;
 using System.IO;
+using Correios.Net;
 
 namespace IMOD.PreCredenciamentoWeb.Controllers
 {
@@ -548,11 +549,46 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         }
 
 
+        [Authorize]
+        public JsonResult LocalizarCEP(string id)
+        {
+            try
+            {
+                if (!string.IsNullOrWhiteSpace(id))
+                {
+
+                    string cep = id.Replace("-", "");
+
+                    Address endereco = SearchZip.GetAddress(cep);
+                    if (endereco.Zip != null)
+                    {
+
+                        return Json(endereco, JsonRequestBehavior.AllowGet);
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+         
+        }
+
+
         #region Métodos Internos
 
         #region Popular e Carregar Componentes
 
-            private void PopularEstadosDropDownList()
+        private void PopularEstadosDropDownList()
             {
                 var lstEstado = objAuxiliaresService.EstadoService.Listar();
 

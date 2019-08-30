@@ -717,6 +717,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 n1.Validade = Entity.Validade.Value.Date.AddHours(23).AddMinutes(59).AddSeconds(59);  //Sempre Add 23:59:59 horas à credencial nova.
                 n1.CredencialmotivoViaAdicionalID = Entity.CredencialmotivoViaAdicionalID;
                 n1.CredencialmotivoIDanterior = Entity.CredencialMotivoId;
+                n1.Usuario = UsuarioLogado.Nome;
 
                 //_configuraSistema = ObterConfiguracao();
                 n1.Regras = _configuraSistema.Regras;
@@ -872,6 +873,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var n1 = Mapper.Map<ColaboradorCredencial>(Entity);
                 n1.ColaboradorPrivilegio1Id = Entity.ColaboradorPrivilegio1Id;
                 n1.ColaboradorPrivilegio2Id = Entity.ColaboradorPrivilegio2Id;
+                n1.Usuario = UsuarioLogado.Nome;
+                Entity.Usuario= UsuarioLogado.Nome;
 
                 if (Entity.ColaboradorPrivilegio1Id != 0 && Entity.ColaboradorPrivilegio1Id != 41)
                 {
@@ -932,42 +935,27 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var dados = view.DataContext as IAtualizarDados;
                 dados.AtualizarDadosPendencias();
 
-                // if (Entity.TecnologiaCredencialId != 0)
-                //{
                 if (Entity.FormatoCredencialId != 0)
                 {
-                    //n1.Identificacao1 = Entity.Identificacao1;
-                    //n1.Identificacao2 = Entity.Identificacao2;
                     #region Verificar se pode gerar CardHolder
                     //Alterar o status do titular do cartão
-
                     GerarCardHolder(n1.ColaboradorCredencialId, Entity);
 
                     var entity = _service.BuscarCredencialPelaChave(n1.ColaboradorCredencialId);
                     n1.CardHolderGuid = entity.CardHolderGuid;
                     n1.CredencialGuid = entity.CredencialGuid;
-
-                    //n1 = _service.BuscarCredencialPelaChave(n1.ColaboradorCredencialId);
+                    
                     _service.AlterarStatusTitularCartao(new CredencialGenetecService(Main.Engine), Entity, n1);
-
-                    //_service.Alterar(n1);
                     #endregion
                 }
                 else
                 {
                     _service.Alterar(n1);
                 }
-                //}
+                
+                
                 ////Atualizar Observer
                 ListarColaboradoresCredenciais(_colaboradorView);
-
-                ////Atualizar Observer
-                //var list1 = _service.ListarView(null, null, null, null, _colaboradorView.ColaboradorId).ToList();
-                ////Comportamento.IsEnableCriar = !list1.Any(c => c.Ativa == true);
-                //var list2 = Mapper.Map<List<ColaboradoresCredenciaisView>>(list1.OrderByDescending(n => n.ColaboradorCredencialId));
-                //Comportamento.IsEnableCriar = !list2.Any(c => c.Ativa == true);
-                //EntityObserver = new ObservableCollection<ColaboradoresCredenciaisView>();
-                //list2.ForEach(n => { EntityObserver.Add(n); });                               
 
                 IsEnableLstView = true;
                 AtualizarMensagem(Entity);
@@ -1021,7 +1009,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 n1.Identificacao2 = null;
             }
-
+            n1.Usuario = entity.Usuario;
 
             //n1.Identificacao1 = Entity.Identificacao1;
             //n1.Identificacao2 = Entity.Identificacao2;

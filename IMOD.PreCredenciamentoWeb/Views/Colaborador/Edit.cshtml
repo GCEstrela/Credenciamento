@@ -565,6 +565,11 @@
                 BuscarMunicipio();
             });
 
+            //evento do botão incluir curso
+            $("#Cep").change(function () {
+                BuscarEndereco();
+            });
+
         });
     </script>
     <script>
@@ -776,6 +781,28 @@
                     });
 
                     $('#ddlMunicipio').html(html);
+                    console.log(result);
+
+                },
+                error: function (result) {
+                    Alert(result);
+                }
+            });
+        };
+
+
+          function BuscarEndereco() {
+            var id = $("#Cep").val();
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("LocalizarCEP")',
+                data: { id: id },
+                success: function (result) {                    
+                    $("#Endereco").val(this.Street);
+                    $("#ddlBairro").val(this.District);                    
+                    $("#ddlEstado").val(this.State);
+                    $("#ddlMunicipio").val(this.City);                   
+                                       
                     console.log(result);
 
                 },

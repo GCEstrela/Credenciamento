@@ -267,8 +267,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         private void FormatoCredencial_cb_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
-
+            
             if (FormatoCredencial_cb.SelectedItem != null)
             {
 
@@ -383,5 +382,26 @@ namespace IMOD.CredenciamentoDeskTop.Views
             }
         }
 
+        private void FC_tb_LostFocus(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                //if (_viewModel.Entity == null) return;
+                //int tipo = ((IMOD.Domain.Entities.TipoCredencial)TecnologiaCredencial_cb.SelectedItem).TipoCredencialId;
+                //int formato = ((IMOD.Domain.Entities.FormatoCredencial)FormatoCredencial_cb.SelectedItem).FormatoCredencialId;
+                //int fc = Convert.ToInt32(FC_tb.Text);
+
+                //int rangefc = 0;
+                //if (!_viewModel.ValidaFC(tipo, formato, fc, out rangefc))
+                //{
+                //    WpfHelp.PopupBox("Para o formato selecionado o valor [FC] deve estar entre 0 e " + rangefc, 1);
+                //    FC_tb.Focus();
+                //}
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex.Message, 1);
+            }
+        }
     }
 }

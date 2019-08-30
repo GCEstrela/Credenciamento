@@ -55,6 +55,7 @@ namespace IMOD.Domain.Entities
         public string CredencialmotivoIdAnteriorDescricao { get; set; }
         public bool Estrangeiro { get; set; }
         public string RNE { get; set; }
+        public string Usuario { get; set; }
 
         #endregion
     }
