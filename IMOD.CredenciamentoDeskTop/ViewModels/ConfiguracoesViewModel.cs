@@ -1080,25 +1080,25 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         public void OnAdicionarLayoutCrachaCommand()
         {
-            try
-            {
-                foreach (var x in LayoutsCrachas)
-                {
-                    _layoutsCrachasTemp.Add (x);
-                }
+            //try
+            //{
+            //    foreach (var x in LayoutsCrachas)
+            //    {
+            //        _layoutsCrachasTemp.Add (x);
+            //    }
 
-                _layoutCrachaSelectedIndex = LayoutCrachaSelectedIndex;
-                LayoutsCrachas.Clear();
+            //    _layoutCrachaSelectedIndex = LayoutCrachaSelectedIndex;
+            //    LayoutsCrachas.Clear();
 
-                LayoutCrachaTemp = new LayoutCrachaView();
-                LayoutsCrachas.Add (LayoutCrachaTemp);
+            //    LayoutCrachaTemp = new LayoutCrachaView();
+            //    LayoutsCrachas.Add (LayoutCrachaTemp);
 
-                LayoutCrachaSelectedIndex = 0;
-            }
-            catch (Exception ex)
-            {
-                Utils.TraceException (ex);
-            }
+            //    LayoutCrachaSelectedIndex = 0;
+            //}
+            //catch (Exception ex)
+            //{
+            //    Utils.TraceException (ex);
+            //}
         }
 
         public void OnSalvarLayoutCrachaCommand()

@@ -169,7 +169,7 @@
                                       VerticalContentAlignment="Center" 
                                       HorizontalContentAlignment="Left"
                                       ItemsSource="{Binding EmpresaLayoutCracha}" 
-                                      DisplayMemberPath="Nome"
+                                      DisplayMemberPath="Modelo"
                                       SelectedValue="{Binding Entity.LayoutCrachaId, UpdateSourceTrigger=PropertyChanged}" 
                                       SelectedValuePath="LayoutCrachaId"
                                        

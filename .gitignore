@@ -267,4 +267,5 @@ __pycache__/
 /IMOD.PreCredenciamentoWeb
 /IMOD.Application/Service
 /IMOD.ValidacaoCredencialWeb/Properties/PublishProfiles/FolderProfile.pubxml
-/IMOD.CredenciamentoDeskTop
+/IMOD.CredenciamentoDeskTop/Funcoes
+/IMOD.CredenciamentoDeskTop/Windows

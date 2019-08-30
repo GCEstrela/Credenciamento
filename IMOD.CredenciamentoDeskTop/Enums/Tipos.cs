@@ -49,4 +49,13 @@ namespace IMOD.CredenciamentoDeskTop.Enums
         [Description("Equipamento")] Equipamento = 2
     }
 
+    /// <summary>
+    ///     Tipo Layout Crachá: 1-Credencial e 2-Autorização
+    /// </summary>
+    public enum TipoValidade
+    {
+        [Description("Permanente")] Permanente = 1,
+        [Description("Temporária")] Temporária = 2
+    }
+
 }

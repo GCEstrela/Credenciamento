@@ -442,13 +442,13 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <summary>
         /// </summary>
         /// <param name="empresaId"></param>
-        public void ListarCracha(int empresaId)
+        public void ListarCracha(int empresaId, int codigoTipoValidade)
         {
             try
             {
                 EmpresaLayoutCracha = new List<EmpresaLayoutCracha>();
                 var service = new EmpresaLayoutCrachaService();
-                var list1 = service.ListarLayoutCrachaPorEmpresaView(empresaId, 1);
+                var list1 = service.ListarLayoutCrachaView(empresaId, null, null, null, 1, codigoTipoValidade);
                 var list2 = Mapper.Map<List<EmpresaLayoutCracha>>(list1);
                 EmpresaLayoutCracha = list2;
 
@@ -1070,10 +1070,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 _prepareCriarCommandAcionado = false;
                 _prepareAlterarCommandAcionado = false;
                 IsEnableLstView = true;
-                if (Entity != null) Entity.ClearMessageErro();
-                Entity = null;
-                ListarColaboradoresCredenciais(_colaboradorView);
                 _viewModelParent.HabilitaControleTabControls(true, true, true, true, true, true);
+                ListarColaboradoresCredenciais(_colaboradorView);                
+                if (Entity != null) Entity.ClearMessageErro();
+                Entity = null;                
             }
             catch (Exception ex)
             {

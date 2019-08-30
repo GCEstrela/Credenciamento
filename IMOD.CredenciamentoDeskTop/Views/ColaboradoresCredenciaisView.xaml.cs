@@ -68,7 +68,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
         private void EmpresaVinculo_cb_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (_viewModel.ColaboradorEmpresa == null) return;
-            _viewModel.ListarCracha (_viewModel.ColaboradorEmpresa.EmpresaId);
+            //_viewModel.ListarCracha (_viewModel.ColaboradorEmpresa.EmpresaId);
             _viewModel.ObterValidade();
             _viewModel.CarregarCaracteresColete(_viewModel.ColaboradorEmpresa);
 
@@ -89,15 +89,22 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         }
 
+        private void TipoCredencial_cb_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            _viewModel.ListarCracha(_viewModel.ColaboradorEmpresa.EmpresaId, _viewModel.Entity.TipoCredencialId);
+        }
+
 
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             cmbEmpresaVinculo_cb.SelectionChanged += EmpresaVinculo_cb_SelectionChanged;
             cmbCredencialStatus.SelectionChanged += OnAlterarStatus_SelectonChanged;
+            TipoCredencial_cb.SelectionChanged += TipoCredencial_cb_SelectionChanged;
 
         }
-         
+
+       
 
         private void NumberOnly(object sender, TextCompositionEventArgs e)
         {
