@@ -12,7 +12,7 @@ namespace IMOD.ValidacaoCredencialWeb.Models
         public string Colete { get; set; }
         public DateTime Emissao { get; set; }
         public DateTime Validade { get; set; }
-        public string ValidadeFormatada { get { return Validade.ToShortDateString(); } }
+        public string ValidadeFormatada { get { return Validade.ToString("dd/MM/yyyy"); } }
         public string Matricula { get; set; }
         public string Cargo { get; set; }
         [Display(Name = "Empresa")]
@@ -34,9 +34,9 @@ namespace IMOD.ValidacaoCredencialWeb.Models
         public string Foto { get; set; }
         public byte[] Foto2 { get; set; }
         public byte[] Logo2 { get; set; }
-        [Display(Name = "Área de Acesso 1")] 
+        [Display(Name = "Área de Acesso 1")]
         public string Identificacao1 { get; set; }
-        [Display(Name = "Área de Acesso 2")] 
+        [Display(Name = "Área de Acesso 2")]
         public string Identificacao2 { get; set; }
         [Display(Name = "Categoria CNH")]
         public string CNHCategoria { get; set; }

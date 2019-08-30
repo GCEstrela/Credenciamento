@@ -874,6 +874,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 n1.ColaboradorPrivilegio1Id = Entity.ColaboradorPrivilegio1Id;
                 n1.ColaboradorPrivilegio2Id = Entity.ColaboradorPrivilegio2Id;
                 n1.Usuario = UsuarioLogado.Nome;
+                Entity.Usuario= UsuarioLogado.Nome;
 
                 if (Entity.ColaboradorPrivilegio1Id != 0 && Entity.ColaboradorPrivilegio1Id != 41)
                 {
@@ -947,7 +948,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     _service.AlterarStatusTitularCartao(new CredencialGenetecService(Main.Engine), Entity, n1);
                     #endregion
                 }
-                _service.Alterar(n1);
+                else
+                {
+                    _service.Alterar(n1);
+                }
+                
                 
                 ////Atualizar Observer
                 ListarColaboradoresCredenciais(_colaboradorView);
@@ -1004,7 +1009,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 n1.Identificacao2 = null;
             }
-
+            n1.Usuario = entity.Usuario;
 
             //n1.Identificacao1 = Entity.Identificacao1;
             //n1.Identificacao2 = Entity.Identificacao2;
