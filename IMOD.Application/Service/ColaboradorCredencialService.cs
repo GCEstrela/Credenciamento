@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+
 using IMOD.Application.Interfaces;
 using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
@@ -514,22 +515,54 @@ namespace IMOD.Application.Service
             //Atualizar dados do identificador GUID
             entity.CardHolderGuid = titularCartao.IdentificadorCardHolderGuid;
             entity.CredencialGuid = titularCartao.IdentificadorCredencialGuid;
+            //var colaboradorGenetec = Mapper.Map<ColaboradorCredencial>(entity);
+
+
+
             var n1 = BuscarPelaChave(entity.ColaboradorCredencialId);
-            n1.CardHolderGuid = titularCartao.IdentificadorCardHolderGuid;
-            n1.CredencialGuid = titularCartao.IdentificadorCredencialGuid;
-            //n1.Identificacao1 = titularCartao.Identificacao1;
-            //n1.Identificacao2 = titularCartao.Identificacao2;
-            n1.CredencialGuid = titularCartao.IdentificadorCredencialGuid;
-            n1.CardHolderGuid = titularCartao.IdentificadorCardHolderGuid;
+            //var n1 = new ColaboradorCredencial();
+            n1.ColaboradorCredencialId = entity.ColaboradorCredencialId;
+            n1.ColaboradorEmpresaId = entity.ColaboradorEmpresaId;
             n1.TecnologiaCredencialId = entity.TecnologiaCredencialId;
+            n1.TipoCredencialId = entity.TipoCredencialId;
+            n1.LayoutCrachaId = entity.LayoutCrachaId;
             n1.FormatoCredencialId = entity.FormatoCredencialId;
-            n1.Fc = entity.Fc;
             n1.NumeroCredencial = entity.NumeroCredencial;
+            n1.Fc = entity.Fc;
+            n1.Emissao = entity.Emissao;
+            n1.Validade = entity.Validade;
+            n1.CredencialStatusId = entity.CredencialStatusId;
+            if (entity.CredencialStatusId == 1)
+            {
+                n1.Ativa = true;
+            }
+            else
+            {
+                n1.Ativa = false;
+            }
+            n1.CardHolderGuid = entity.CardHolderGuid;
+            n1.CredencialGuid = entity.CredencialGuid;
             n1.ColaboradorPrivilegio1Id = entity.ColaboradorPrivilegio1Id;
             n1.ColaboradorPrivilegio2Id = entity.ColaboradorPrivilegio2Id;
+            
+            n1.Colete = entity.Colete;
+            n1.CredencialMotivoId = entity.CredencialMotivoId;
+            n1.Baixa = entity.Baixa;
+            n1.Impressa = entity.Impressa;
+            n1.DataStatus = entity.DataStatus;
+            n1.DevolucaoEntregaBo = entity.DevolucaoEntregaBo;
+            n1.Policiafederal = entity.Policiafederal;
+            n1.Receitafederal = entity.Receitafederal;
+            n1.Segurancatrabalho = entity.Segurancatrabalho;
+            n1.Obs = entity.Obs;
+            n1.CredencialVia = entity.CredencialVia;
+            n1.CredencialmotivoViaAdicionalID = entity.CredencialmotivoViaAdicionalID;
+            n1.CredencialmotivoIDanterior = entity.CredencialmotivoIDanterior;
             n1.Identificacao1 = entity.Identificacao1;
             n1.Identificacao2 = entity.Identificacao2;
             n1.Usuario = entity.Usuario;
+            
+            
             Alterar(n1);
         }
         /// <summary>

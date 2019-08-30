@@ -745,7 +745,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     n1.Colete = Entity.EmpresaSigla != "---" && !String.IsNullOrEmpty(Entity.EmpresaSigla) && !String.IsNullOrEmpty(Entity.NumeroColete) ? Entity.EmpresaSigla + Entity.NumeroColete : String.Empty;
                 }
 
-
+                
                 //Criar registro no banco de dados e setar uma data de validade
                 _prepareCriarCommandAcionado = false;
                 _service.Criar(n1);
@@ -753,12 +753,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 SelectListViewIndex = 0;
 
                 #region Verificar se pode gerar CardHolder
-
-
-
-                var entity = _service.BuscarCredencialPelaChave(n1.ColaboradorCredencialId);
-                GerarCardHolder(n1.ColaboradorCredencialId, entity);
-
+                var tecCredencial = _auxiliaresService.TecnologiaCredencialService.BuscarPelaChave(Entity.TecnologiaCredencialId);
+                if (tecCredencial.PodeGerarCardHolder)
+                {
+                    var entity = _service.BuscarCredencialPelaChave(n1.ColaboradorCredencialId);
+                    GerarCardHolder(n1.ColaboradorCredencialId, entity);
+                }
                 #endregion
 
 
@@ -991,7 +991,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             if (Entity.ColaboradorPrivilegio1Id != 0 && Entity.ColaboradorPrivilegio1Id != 41)
             {
                 var areaAcesso1 = _auxiliaresService.AreaAcessoService.Listar(Entity.ColaboradorPrivilegio1Id).FirstOrDefault();
-                Entity.Identificacao1 = areaAcesso1.Identificacao;
+                entity.Identificacao1 = areaAcesso1.Identificacao;
                 n1.Identificacao1 = areaAcesso1.Identificacao;
             }
             else
@@ -1002,7 +1002,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             if (Entity.ColaboradorPrivilegio2Id != 0 && Entity.ColaboradorPrivilegio2Id != 41)
             {
                 var areaAcesso2 = _auxiliaresService.AreaAcessoService.Listar(Entity.ColaboradorPrivilegio2Id).FirstOrDefault();
-                Entity.Identificacao2 = areaAcesso2.Identificacao;
+                entity.Identificacao2 = areaAcesso2.Identificacao;
                 n1.Identificacao2 = areaAcesso2.Identificacao;
             }
             else
@@ -1019,9 +1019,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             n1.GrupoPadrao = _configuraSistema.GrupoPadrao;
             entity.GrupoPadrao = _configuraSistema.GrupoPadrao;
 
-            var tecCredencial = _auxiliaresService.TecnologiaCredencialService.BuscarPelaChave(entity.TecnologiaCredencialId);
-            if (tecCredencial.PodeGerarCardHolder)
-                _service.CriarTitularCartao(new CredencialGenetecService(Main.Engine), new ColaboradorService(), n1);
+            _service.CriarTitularCartao(new CredencialGenetecService(Main.Engine), new ColaboradorService(), entity);
+
+                //_service.Alterar(entity);
+                
 
         }
         /// <summary>
