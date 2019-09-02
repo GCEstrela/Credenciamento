@@ -560,8 +560,8 @@ namespace IMOD.Application.Service
             n1.CredencialmotivoIDanterior = entity.CredencialmotivoIDanterior;
             n1.Identificacao1 = entity.Identificacao1;
             n1.Identificacao2 = entity.Identificacao2;
-            n1.Usuario = entity.Usuario;
-            
+            n1.Usuario = UsuarioLogado.Nome;
+             
             
             Alterar(n1);
         }
@@ -705,6 +705,7 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void Remover(ColaboradorCredencial entity)
         {
+            entity.Usuario = UsuarioLogado.Nome;
             _repositorio.Remover (entity);
         }
 

@@ -91,6 +91,8 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         private void TipoCredencial_cb_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (_viewModel.Entity == null) return;
+
             _viewModel.ListarCracha(_viewModel.ColaboradorEmpresa.EmpresaId, _viewModel.Entity.TipoCredencialId);
         }
 

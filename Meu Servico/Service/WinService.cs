@@ -406,7 +406,7 @@ namespace Meu_Servico.Service
 
                         List<MessagemEmail> listMessagemEmail = new List<MessagemEmail>();
                         var empresaContratosAtivo = _serviceContrato.Listar().Where(ec => ec.StatusId == 0 && ec.EmpresaId == e.EmpresaId).ToList();
-                        var AlartaList = new List<int>() { 0, 5, 15, 30 };
+                        var AlartaList = new List<int>() { -1, 5, 15, 30 };
                         empresaContratosAtivo.ForEach(ec =>
                         {
                             int dias = ec.Validade.Subtract(DateTime.Now.Date).Days;
