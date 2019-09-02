@@ -1088,8 +1088,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 //Retirar empresa da coleção
                 EntityObserver.Remove(Entity);
 
-
-
                 _viewModelParent.HabilitaControleTabControls(true, true, true, true, true, true);
             }
             catch (Exception ex)
