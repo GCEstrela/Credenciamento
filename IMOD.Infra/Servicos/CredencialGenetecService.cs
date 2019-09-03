@@ -140,9 +140,10 @@ namespace IMOD.Infra.Servicos
         private void ValidarCriarCardHolder(CardHolderEntity entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
-            if (string.IsNullOrWhiteSpace(entity.Empresa)) throw new ArgumentNullException(nameof(entity.Empresa));
-            if (string.IsNullOrWhiteSpace(entity.Nome)) throw new ArgumentNullException(nameof(entity.Nome));
-            if (string.IsNullOrWhiteSpace(entity.Identificador)) throw new ArgumentNullException(nameof(entity.Identificador));
+            
+            //if (string.IsNullOrWhiteSpace(entity.Empresa)) throw new ArgumentNullException(nameof(entity.Empresa));
+            //if (string.IsNullOrWhiteSpace(entity.Nome)) throw new ArgumentNullException(nameof(entity.Nome));
+            //if (string.IsNullOrWhiteSpace(entity.Identificador)) throw new ArgumentNullException(nameof(entity.Identificador));
             if (string.IsNullOrWhiteSpace(entity.Matricula)) throw new ArgumentNullException(nameof(entity.Matricula));
 
         }
@@ -303,10 +304,13 @@ namespace IMOD.Infra.Servicos
                     if (entity.Ativo)
                         cardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade);
                 }
-                else
-                {
-                    cardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, DateTime.Now.AddHours(23).AddMinutes(59).AddSeconds(59));
-                }
+                //else
+                //{
+                //    if (entity.Validade.AddHours(23).AddMinutes(59).AddSeconds(59) > DateTime.Now)
+                //    {
+                //        cardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, DateTime.Now.AddHours(23).AddMinutes(59).AddSeconds(59));
+                //    }                    
+                //}
                 if (cardholder.Credentials.Count == 0)
                 {
                     cardholder.State = CardholderState.Inactive;
@@ -445,9 +449,12 @@ namespace IMOD.Infra.Servicos
                         }
 
                     }
-
+                    if (entity.Validade > DateTime.Now)
+                    {
+                        cardHolder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade);
+                    }
                     cardHolder.Picture = entity.Foto;
-                    cardHolder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade);
+                    
 
                     _sdk.TransactionManager.CommitTransaction();
                 }
@@ -815,8 +822,8 @@ namespace IMOD.Infra.Servicos
                 {
                     cardHolder.State = CardholderState.Active;
                 }
-                if (entity.Validade > DateTime.Now)
-                    cardHolder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade);
+                //if (entity.Validade > DateTime.Now)
+                //    cardHolder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade);
 
 
                 entity.IdentificadorCredencialGuid = credencial.Guid.ToString();
