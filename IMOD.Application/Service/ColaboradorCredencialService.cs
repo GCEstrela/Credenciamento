@@ -255,7 +255,10 @@ namespace IMOD.Application.Service
                     entity.Baixa = DateTime.Today.Date; 
                 }
             }
-
+            if (entity.CredencialStatusId == 2)
+            {
+                entity.Ativa = false;
+            }
             _repositorio.Alterar(entity);
             //////comentado pois a busca não está retornando resultador e anulando a entity
             //var n1 = BuscarPelaChave(entity.ColaboradorCredencialId);

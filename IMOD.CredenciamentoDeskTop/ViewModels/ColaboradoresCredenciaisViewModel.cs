@@ -939,13 +939,21 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 {
                     #region Verificar se pode gerar CardHolder
                     //Alterar o status do titular do cartão
-                    GerarCardHolder(n1.ColaboradorCredencialId, Entity);
+                    if(n1.Validade > DateTime.Now && n1.CredencialStatusId == 1)
+                    {
+                        GerarCardHolder(n1.ColaboradorCredencialId, Entity);
 
-                    var entity = _service.BuscarCredencialPelaChave(n1.ColaboradorCredencialId);
-                    n1.CardHolderGuid = entity.CardHolderGuid;
-                    n1.CredencialGuid = entity.CredencialGuid;
-                    
-                    _service.AlterarStatusTitularCartao(new CredencialGenetecService(Main.Engine), Entity, n1);
+                        var entity = _service.BuscarCredencialPelaChave(n1.ColaboradorCredencialId);
+                        n1.CardHolderGuid = entity.CardHolderGuid;
+                        n1.CredencialGuid = entity.CredencialGuid;
+
+                        _service.AlterarStatusTitularCartao(new CredencialGenetecService(Main.Engine), Entity, n1);
+                    }
+                    else
+                    {
+                        _service.Alterar(n1);
+                    }
+
                     #endregion
                 }
                 else
