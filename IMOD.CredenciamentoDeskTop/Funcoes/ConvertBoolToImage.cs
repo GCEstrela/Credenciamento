@@ -22,9 +22,19 @@ namespace IMOD.CredenciamentoDeskTop.Funcoes
                 }
                 return null;
             }
-
+            
             BitmapImage imgOk = new BitmapImage(new Uri("pack://application:,,,/IMOD.CredenciamentoDeskTop;component/Resources/Ok.ico"));
-            BitmapImage imgPend = new BitmapImage(new Uri("pack://application:,,,/IMOD.CredenciamentoDeskTop;component/Resources/Pendencia.ico"));
+            BitmapImage imgPend;
+            if (value.ToString() == "True")
+            {
+                imgPend = new BitmapImage(new Uri("pack://application:,,,/IMOD.CredenciamentoDeskTop;component/Resources/PendenciaImpeditiva.gif"));                                                                                                                         
+            }
+            
+            else
+            {
+                imgPend = new BitmapImage(new Uri("pack://application:,,,/IMOD.CredenciamentoDeskTop;component/Resources/Pendencia.ico"));
+            }
+
             BitmapImage imgNull = new BitmapImage(new Uri("pack://application:,,,/IMOD.CredenciamentoDeskTop;component/Resources/Proibido.ico"));
 
             if (value != null)
