@@ -924,7 +924,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                         //return;
                     }
                 }
-
+                if(n1.CredencialStatusId == 2)
+                {
+                    n1.DataStatus = DateTime.Today.Date;
+                }
                 // _configuraSistema = ObterConfiguracao();
                 n1.Regras = _configuraSistema.Regras;
                 Entity.Regras = _configuraSistema.Regras;

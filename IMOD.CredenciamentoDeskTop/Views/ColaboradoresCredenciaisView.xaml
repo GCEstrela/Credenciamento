@@ -39,8 +39,8 @@
             <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}"
                       IsEnabled="{Binding Comportamento.isEnableSalvar}"
                       Background="Purple"
-                      x:Name="Responsavel_gb" Header="Credenciamento" Height="177">
-                <StackPanel Orientation="Horizontal" Margin="0,0,0,-5">
+                      x:Name="Responsavel_gb" Height="224">
+                <StackPanel Orientation="Horizontal"  Margin="0,0,0,-5">
                     <StackPanel Width="979">
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                     Margin="1,1,-20,1" Width="977">
@@ -146,7 +146,7 @@
                                      CharacterCasing="Lower"
                                      Text="{Binding Entity.ColaboradorCredencialId,  UpdateSourceTrigger=PropertyChanged}" 
                                      IsEnabled="False" Height="24" Width="44" />
-                            <Label Content="Tipo:" Height="28" Width="36" Foreground="#FFD0D0D0" />
+                            <Label Content="" Height="28" Width="36" Foreground="#FFD0D0D0" />
 
                             <ComboBox x:Name="TipoCredencial_cb" IsEditable="true"
                                       IsEnabled="{Binding Habilitar}" 
@@ -159,7 +159,7 @@
                                       SelectedValue="{Binding Entity.TipoCredencialId,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                                       SelectedValuePath="TipoCredencialId" IsSynchronizedWithCurrentItem="True"/>
 
-                            <Label Content="Modelo:" Height="28" Width="53" Margin="1" Foreground="#FFD0D0D0" />
+                            <Label Content="Modelo:" Height="28" Width="53" Margin="20,0,0,0" Foreground="#FFD0D0D0" />
 
                             <ComboBox x:Name="ModeloCredencial_cb" IsEditable="true"
                                       IsEnabled="{Binding Habilitar}" 
@@ -175,7 +175,7 @@
                                        
                                       />
 
-                            <Label Content="Colete:" Height="28" Width="45" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" RenderTransformOrigin="0.5,0.5" />
+                            <Label Content="Colete:" Margin="20,0,0,0" Height="28" Width="45" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" RenderTransformOrigin="0.5,0.5" />
 
                             <TextBox  x:Name="SigleColete_tb"  HorizontalContentAlignment="Center" MaxLength="3"  CharacterCasing="Upper" 
                                       Text="{Binding Entity.EmpresaSigla,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  
@@ -185,7 +185,7 @@
                                       Text="{Binding Entity.NumeroColete,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                                       IsEnabled="{Binding ColeteEnabled}"                                         
                                       CharacterCasing="Upper" Height="24"  Width="75"/>
-                            <Label Content="Privilégios:" Height="28" Width="66" Margin="0,0,4,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                            <Label Content="Designativo:" Margin="20,0,0,0" Height="28" Width="80" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
                             <ComboBox  x:Name="Privilegio1_tb" IsEditable="false"
                                        IsEnabled="{Binding Habilitar}"
                                        Width="45" 
@@ -208,41 +208,28 @@
                                        DisplayMemberPath="Identificacao" 
                                        SelectedValue="{Binding Entity.ColaboradorPrivilegio2Id, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                                        SelectedValuePath="AreaAcessoId"  />
-
-                            <Label Content="Autenticação:" Height="28" Width="82"   HorizontalContentAlignment="Right"
-                                   Foreground="#FFD0D0D0" />
                             <!--IsEnabled="{Binding Habilitar}"-->
-                            <ComboBox x:Name="TecnologiaCredencial_cb"  IsEditable="true"                                      
-                                      Margin="0,4,0,3" 
-                                      Height="25"
-                                      Width="124" 
-                                      IsEnabled="{Binding HabilitarOpcoesCredencial}"
-                                      VerticalContentAlignment="Center" 
-                                      HorizontalContentAlignment="Left"   
-                                      SelectedIndex="0"
-                                      ItemsSource="{Binding TecnologiasCredenciais, Mode=TwoWay}" 
-                                      DisplayMemberPath="Descricao"
-                                      SelectedValue="{Binding Entity.TecnologiaCredencialId, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
-                                      SelectedValuePath="TecnologiaCredencialId" IsSynchronizedWithCurrentItem="True" SelectionChanged="TecnologiaCredencial_cb_SelectionChanged" />
 
 
                         </StackPanel>
-
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Width="977">
-                            <Label Content="Emissão:" Height="28" Width="55" Margin="1" Foreground="#FFD0D0D0" />
-                            <TextBlock Text="{Binding Entity.Emissao,UpdateSourceTrigger=PropertyChanged, StringFormat=\{0:d\}}"  VerticalAlignment="Center" Width="70" />
-                            <Label Content="Validade:" Height="28" Width="56" Margin="1"   
-                                   ToolTip="Validade Permanente não pode ser superior a 2 anos, Temporária no máxio 90 dias"
-                                   Foreground="#FFD0D0D0"  RenderTransformOrigin="0.553,0.5"/>
-
-                            <TextBox Text="{Binding Entity.Validade,UpdateSourceTrigger=PropertyChanged,StringFormat='{}{0:dd/MM/yyyy}'}"
-                                     LostFocus="OnFormatData_LostFocus"                                      
-                                     PreviewTextInput="NumberOnly"                                     
-                                     Height="24" Width="85" 
-                                     ToolTip="Validade Permanente não pode ser superior a 2 anos, Temporária no máxio 90 dias"
-                                     Name="txtDtValidade"></TextBox>
-                            <Label Content="Baixa:" Height="28" Width="53" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
-                            <TextBlock Text="{Binding Entity.Baixa,UpdateSourceTrigger=PropertyChanged, StringFormat=\{0:d\}}"  VerticalAlignment="Center" Width="70"  />
+                        <Border  Margin="5" Padding="1" BorderBrush="Gray"  BorderThickness="1,1,1,1" CornerRadius="3"  VerticalAlignment="Top">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Width="977" >
+                                <Label Content="Controle de Acesso:" Foreground="LightSkyBlue"></Label>
+                            <Label Content="Autenticação:" Height="28" Width="110"   HorizontalContentAlignment="Right"
+                                Foreground="#FFD0D0D0" />
+                            <!--IsEnabled="{Binding Habilitar}"-->
+                            <ComboBox x:Name="TecnologiaCredencial_cb"  IsEditable="true"                                      
+                                Margin="0,4,0,3" 
+                                Height="25"
+                                Width="150" 
+                                IsEnabled="{Binding HabilitarOpcoesCredencial}"
+                                VerticalContentAlignment="Center" 
+                                HorizontalContentAlignment="Left"   
+                                SelectedIndex="0"
+                                ItemsSource="{Binding TecnologiasCredenciais, Mode=TwoWay}" 
+                                DisplayMemberPath="Descricao"
+                                SelectedValue="{Binding Entity.TecnologiaCredencialId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                SelectedValuePath="TecnologiaCredencialId" IsSynchronizedWithCurrentItem="True" SelectionChanged="TecnologiaCredencial_cb_SelectionChanged" />
                             <Label Content="F. Credencial:" Height="28" Width="134" ToolTip="Formato Credencial"  HorizontalContentAlignment="Right"
                                    Foreground="#FFD0D0D0" />
 
@@ -255,44 +242,64 @@
                                       IsEnabled="{Binding HabilitarOpcoesCredencial}"
                                       ItemsSource="{Binding FormatoCredencial, Mode=TwoWay}" 
                                       DisplayMemberPath="Descricao"
-                                      SelectedValue="{Binding Entity.FormatoCredencialId, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                      SelectedValue="{Binding Entity.FormatoCredencialId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                       SelectedIndex="{Binding selectFormatoCredencialIndex}"
                                       SelectedValuePath="FormatoCredencialId" IsSynchronizedWithCurrentItem="True" SelectionChanged="FormatoCredencial_cb_SelectionChanged" />
 
 
 
 
-                            <Label Name="lblFC" Content="FC:" Height="28" Width="26"   HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                            <Label x:Name="lblFC" Content="FC:" Height="28" Width="26"   HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
                             <!--IsEnabled="{Binding Habilitar}"-->
                             <TextBox  x:Name="FC_tb"  MaxLength="7"
                                       ToolTip=""
                                 CharacterCasing="Upper" 
                                       IsEnabled="{Binding HabilitarOpcoesCredencial}"
-                                      Text="{Binding Entity.Fc,UpdateSourceTrigger=PropertyChanged}"  
+                                      Text="{Binding Entity.Fc, UpdateSourceTrigger=PropertyChanged}"  
                                       Height="24"  Width="60" LostFocus="FC_tb_LostFocus"/>
-                            <Label Name="lblNumero" Content="Número:" Height="28" Width="56" Margin="0,0,0,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                            <Label x:Name="lblNumero" Content="Número:" Height="28" Width="56" Margin="0,0,0,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
 
                             <!--IsEnabled="{Binding Habilitar}"-->
                             <TextBox  x:Name="NumeroCredencial_tb"  
                                       MaxLength="32"  CharacterCasing="Upper"
                                       IsEnabled="{Binding HabilitarOpcoesCredencial}"
-                                      Text="{Binding Entity.NumeroCredencial,  UpdateSourceTrigger=PropertyChanged}"                                       
+                                      Text="{Binding Entity.NumeroCredencial, UpdateSourceTrigger=PropertyChanged}"                                       
                                       Height="24"  Width="159" LostFocus="NumeroCredencial_tb_LostFocus" />
                         </StackPanel>
+                        </Border>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Width="977" Height="34"  >
+                            <Label Content="Validade:" Width="56" Margin="0,4,1,6"   
+                                ToolTip="Validade Permanente não pode ser superior a 2 anos, Temporária no máxio 90 dias"
+                                Foreground="#FFD0D0D0"  RenderTransformOrigin="0.553,0.5"/>
+                            <TextBox Text="{Binding Entity.Validade, StringFormat=\{0:dd/MM/yyyy\}, UpdateSourceTrigger=PropertyChanged}"
+                                LostFocus="OnFormatData_LostFocus"                                      
+                                PreviewTextInput="NumberOnly"                                     
+                                Width="85" 
+                                ToolTip="Validade Permanente não pode ser superior a 2 anos, Temporária no máxio 90 dias" x:Name="txtDtValidade" Margin="0,4,0,6"/>
+                            
+                            <Label Content="Status:" Width="50" Height="24" Margin="30,2,1,4" Foreground="#FFD0D0D0" />
+                            <TextBlock Text="{Binding Entity.DataStatus, StringFormat=\{0:d\}, UpdateSourceTrigger=PropertyChanged}"  VerticalAlignment="Center" Width="70" Margin="0,8,0,10"  />
+                            
+                            <Label Content="Emissão:" Width="57" Margin="30,4,0,10" Foreground="#FFD0D0D0" Height="24" />
+                            <TextBlock Text="{Binding Entity.Emissao, StringFormat=\{0:d\}, UpdateSourceTrigger=PropertyChanged}"  VerticalAlignment="Center" Width="70" Margin="0,8.02,0,9.98" />
+                            
+                            <Label Content="Baixa:" Width="50" Margin="30,2,1,4" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
+                            <TextBlock Text="{Binding Entity.Baixa, StringFormat=\{0:d\}, UpdateSourceTrigger=PropertyChanged}"  VerticalAlignment="Center" Width="70"  Margin="0,8.02,0,9.98"  />
+                        </StackPanel>
 
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Width="977" Height="55"  >
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Width="977" Height="34"  >
                             <!--<Label Content="Card Holder GUID" Height="28" Width="113" Margin="1" Foreground="#FFD0D0D0" />
                             <TextBlock Text="{Binding Entity.CardHolderGuid}"  VerticalAlignment="Center" Width="357" />
                             <Label Content="Credential Holder GUID" Height="28" Width="106" Margin="1" Foreground="#FFD0D0D0" />
                             <TextBlock Text="{Binding Entity.CredencialGuid}"  VerticalAlignment="Center" Width="357" />-->
-                            <Label Content="Autorização:" Margin="5,0,10,0" Foreground="#FFD0D0D0"></Label>
-                            <CheckBox Name="PF_chek" Content="Policia Federal"       Margin="5,0,0,30"  VerticalContentAlignment="Center"    IsChecked="{Binding Entity.Policiafederal,      UpdateSourceTrigger=PropertyChanged}"   Foreground="#FFD0D0D0"></CheckBox>
-                            <CheckBox Name="RF_chek" Content="Receita Federal"       Margin="15,0,0,30" VerticalContentAlignment="Center"    IsChecked="{Binding Entity.Receitafederal,      UpdateSourceTrigger=PropertyChanged}"   Foreground="#FFD0D0D0"></CheckBox>
-                            <CheckBox Name="ST_chek" Content="Segurança do Trabalho" Margin="15,0,0,30"  VerticalContentAlignment="Center"   IsChecked="{Binding Entity.Segurancatrabalho,   UpdateSourceTrigger=PropertyChanged}"   Foreground="#FFD0D0D0" Width="183"></CheckBox>
-                            <Label Content="Obs:" Margin="2,0,0,30" Foreground="#FFD0D0D0" Width="34" />
+                            <Label Content="Autorização:" Margin="0,4,10,0" Foreground="#FFD0D0D0"></Label>
+                            <CheckBox x:Name="PF_chek" Content="Policia Federal"       Margin="5,9,0,10"  VerticalContentAlignment="Center"    IsChecked="{Binding Entity.Policiafederal, UpdateSourceTrigger=PropertyChanged}"   Foreground="#FFD0D0D0"/>
+                            <CheckBox x:Name="RF_chek" Content="Receita Federal"       Margin="15,9,0,10" VerticalContentAlignment="Center"    IsChecked="{Binding Entity.Receitafederal, UpdateSourceTrigger=PropertyChanged}"   Foreground="#FFD0D0D0"/>
+                            <CheckBox x:Name="ST_chek" Content="Segurança do Trabalho" Margin="15,9,0,10"  VerticalContentAlignment="Center"   IsChecked="{Binding Entity.Segurancatrabalho, UpdateSourceTrigger=PropertyChanged}"   Foreground="#FFD0D0D0" Width="183"/>
+                            <Label Content="Obs:" Margin="0,-6,0,14" Foreground="#FFD0D0D0" Width="34" />
                             <TextBox Name="obs_tb" MaxLength="200" MaxLines="3"  
                                      TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible"
-                                     Text="{Binding Entity.Obs,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="432" Margin="5,05,0,10" />
+                                     Text="{Binding Entity.Obs,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="433" Margin="5,2,0,0" />
                         </StackPanel>
 
                     </StackPanel>

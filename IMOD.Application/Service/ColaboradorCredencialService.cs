@@ -535,12 +535,14 @@ namespace IMOD.Application.Service
             n1.Emissao = entity.Emissao;
             n1.Validade = entity.Validade;
             n1.CredencialStatusId = entity.CredencialStatusId;
+            n1.DataStatus = entity.DataStatus;
             if (entity.CredencialStatusId == 1)
             {
                 n1.Ativa = true;
             }
             else
             {
+                n1.DataStatus = DateTime.Today.Date;
                 n1.Ativa = false;
             }
             n1.CardHolderGuid = entity.CardHolderGuid;
@@ -552,7 +554,7 @@ namespace IMOD.Application.Service
             n1.CredencialMotivoId = entity.CredencialMotivoId;
             n1.Baixa = entity.Baixa;
             n1.Impressa = entity.Impressa;
-            n1.DataStatus = entity.DataStatus;
+            
             n1.DevolucaoEntregaBo = entity.DevolucaoEntregaBo;
             n1.Policiafederal = entity.Policiafederal;
             n1.Receitafederal = entity.Receitafederal;
