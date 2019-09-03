@@ -31,7 +31,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             InitializeComponent();
             DataContext = new RelatoriosViewModel();
-            ((RelatoriosViewModel)DataContext).CarregaColecaoRelatorios();
+            //((RelatoriosViewModel)DataContext).CarregaColecaoRelatorios();
         }
 
         #region Comando dos Botoes
@@ -245,5 +245,17 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         #endregion
 
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                ((RelatoriosViewModel)DataContext).CarregaColecaoRelatorios();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

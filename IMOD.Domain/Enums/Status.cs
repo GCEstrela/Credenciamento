@@ -13,7 +13,7 @@ namespace IMOD.Domain.Enums
     public enum StatusCredencial
     {       
         AVIVA = 1,
-        INATIVA = 0
+        INATIVA = 2
     }
 
     public enum StatusContrato

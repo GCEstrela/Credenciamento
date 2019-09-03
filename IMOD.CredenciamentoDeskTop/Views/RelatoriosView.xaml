@@ -7,7 +7,7 @@
              xmlns:viewModels="clr-namespace:IMOD.CredenciamentoDeskTop.ViewModels"
              d:DataContext="{d:DesignInstance viewModels:RelatoriosViewModel , IsDesignTimeCreatable=True}"
              mc:Ignorable="d"
-             MaxWidth="1300" Width="1270" Height="825">
+             MaxWidth="1300" Width="1270" Height="825" Loaded="UserControl_Loaded">
     <UserControl.Resources>
         <Style x:Key="MenuStyle" TargetType="{x:Type Button}">
             <Setter Property="Background" Value="#FF252526" />

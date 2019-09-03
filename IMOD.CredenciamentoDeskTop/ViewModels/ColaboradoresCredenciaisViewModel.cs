@@ -939,7 +939,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 {
                     #region Verificar se pode gerar CardHolder
                     //Alterar o status do titular do cartão
-                    if(n1.Validade > DateTime.Now && n1.CredencialStatusId == 1)
+                    if(n1.Validade > DateTime.Now || n1.CredencialStatusId == 1)
                     {
                         GerarCardHolder(n1.ColaboradorCredencialId, Entity);
 
