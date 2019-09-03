@@ -28,8 +28,7 @@ namespace IMOD.CredenciamentoDeskTop.Funcoes
             if (value.ToString() == "True")
             {
                 imgPend = new BitmapImage(new Uri("pack://application:,,,/IMOD.CredenciamentoDeskTop;component/Resources/PendenciaImpeditiva.png"));                                                                                                                         
-            }
-            
+            }            
             else
             {
                 imgPend = new BitmapImage(new Uri("pack://application:,,,/IMOD.CredenciamentoDeskTop;component/Resources/Pendencia.ico"));
