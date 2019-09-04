@@ -276,57 +276,63 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         private void FormatoCredencial_cb_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            
+            if (!FormatoCredencial_cb.IsEnabled)
+            {
+                FC_tb.Visibility = Visibility.Hidden;
+                lblFC.Visibility = Visibility.Hidden;
+                NumeroCredencial_tb.Visibility = Visibility.Hidden;
+                lblNumero.Visibility = Visibility.Hidden;
+            }
             if (FormatoCredencial_cb.SelectedItem != null)
             {
 
-                int formatofredencialId = ((IMOD.Domain.Entities.FormatoCredencial)FormatoCredencial_cb.SelectedItem).FormatoCredencialId;
-                switch (formatofredencialId)
-                {
-                    case 1:
-                        FC_tb.ToolTip = "0 e 255";
-                        lblFC.ToolTip = "0 e 255";
-                        NumeroCredencial_tb.ToolTip = "0 e 65535";
-                        lblNumero.ToolTip = "0 e 65535";
-                        break;
-                    case 2:
-                        FC_tb.ToolTip = "0 e 65535";
-                        lblFC.ToolTip = "0 e 65535";
-                        NumeroCredencial_tb.ToolTip = "0 e 65535";
-                        lblNumero.ToolTip = "0 e 65535";
-                        break;
-                    case 3:
-                        //FC_tb.ToolTip = "Range entre 0 e 255";
-                        //lblFC.ToolTip = "Range entre 0 e 255";
-                        NumeroCredencial_tb.ToolTip = "0 e 34359738637";
-                        lblNumero.ToolTip = "0 e 34359738637";
-                        break;
-                    case 4:
-                        FC_tb.ToolTip = "0 e 65535";
-                        lblFC.ToolTip = "0 e 65535";
-                        NumeroCredencial_tb.ToolTip = "0 e 524287";
-                        lblNumero.ToolTip = "0 e 524287";
-                        break;
-                    case 5:
-                        FC_tb.ToolTip = "0 e 4095";
-                        lblFC.ToolTip = "0 e 4095";
-                        NumeroCredencial_tb.ToolTip = "0 e 1048575";
-                        lblNumero.ToolTip = "0 e 1048575";
-                        break;
-                    case 6:
-                        FC_tb.ToolTip = "0 e 4194303";
-                        lblFC.ToolTip = "0 e 4194303";
-                        NumeroCredencial_tb.ToolTip = "0 e 8388607";
-                        lblNumero.ToolTip = "0 e 8388607";
-                        break;
-                    case 7:
-                        NumeroCredencial_tb.ToolTip = "0 e 4294967295";
-                        lblNumero.ToolTip = "0 e 4294967295";
-                        break;
-                    default:
-                        //rengefc = 0;
-                        break;
-                }
+                //int formatofredencialId = ((IMOD.Domain.Entities.FormatoCredencial)FormatoCredencial_cb.SelectedItem).FormatoCredencialId;
+                //switch (formatofredencialId)
+                //{
+                //    case 1:
+                //        FC_tb.ToolTip = "0 e 255";
+                //        lblFC.ToolTip = "0 e 255";
+                //        NumeroCredencial_tb.ToolTip = "0 e 65535";
+                //        lblNumero.ToolTip = "0 e 65535";
+                //        break;
+                //    case 2:
+                //        FC_tb.ToolTip = "0 e 65535";
+                //        lblFC.ToolTip = "0 e 65535";
+                //        NumeroCredencial_tb.ToolTip = "0 e 65535";
+                //        lblNumero.ToolTip = "0 e 65535";
+                //        break;
+                //    case 3:
+                //        //FC_tb.ToolTip = "Range entre 0 e 255";
+                //        //lblFC.ToolTip = "Range entre 0 e 255";
+                //        NumeroCredencial_tb.ToolTip = "0 e 34359738637";
+                //        lblNumero.ToolTip = "0 e 34359738637";
+                //        break;
+                //    case 4:
+                //        FC_tb.ToolTip = "0 e 65535";
+                //        lblFC.ToolTip = "0 e 65535";
+                //        NumeroCredencial_tb.ToolTip = "0 e 524287";
+                //        lblNumero.ToolTip = "0 e 524287";
+                //        break;
+                //    case 5:
+                //        FC_tb.ToolTip = "0 e 4095";
+                //        lblFC.ToolTip = "0 e 4095";
+                //        NumeroCredencial_tb.ToolTip = "0 e 1048575";
+                //        lblNumero.ToolTip = "0 e 1048575";
+                //        break;
+                //    case 6:
+                //        FC_tb.ToolTip = "0 e 4194303";
+                //        lblFC.ToolTip = "0 e 4194303";
+                //        NumeroCredencial_tb.ToolTip = "0 e 8388607";
+                //        lblNumero.ToolTip = "0 e 8388607";
+                //        break;
+                //    case 7:
+                //        NumeroCredencial_tb.ToolTip = "0 e 4294967295";
+                //        lblNumero.ToolTip = "0 e 4294967295";
+                //        break;
+                //    default:
+                //        //rengefc = 0;
+                //        break;
+                //}
 
                 if (((IMOD.Domain.Entities.FormatoCredencial)FormatoCredencial_cb.SelectedItem).Descricao.Trim().Equals("CSN"))
                 {
@@ -412,5 +418,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 WpfHelp.PopupBox(ex.Message, 1);
             }
         }
+
+       
     }
 }

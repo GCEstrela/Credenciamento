@@ -251,7 +251,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 {
                     n1.EmpresaContratoId = Contratos[0].EmpresaContratoId;
                 }
-
+                n1.DataFim = DateTime.Today.Date;
                 _service.Criar(n1);
 
                 #region Verificar se pode gerar CardHolder
@@ -298,6 +298,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
            
             Entity = new ColaboradorEmpresaView();
             Entity.Ativo = true;
+            Entity.DataInicio = DateTime.Today.Date;
             Comportamento.PrepareCriar();
             IsEnableLstView = false;
             _viewModelParent.HabilitaControleTabControls(false, false, true, false, false, false);
@@ -391,6 +392,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private void PrepareSalvar()
         {
             if (Validar()) return;
+           
             Comportamento.PrepareSalvar();
         }
 

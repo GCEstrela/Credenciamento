@@ -169,5 +169,18 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 _viewModel.Entity.SetMessageErro("Data Fim", "Data inválida");
             }
         }
+
+        private void ChkAtivo_Checked(object sender, RoutedEventArgs e)
+        {
+            txtDtInicio.Text = DateTime.Today.Date.ToShortDateString();
+            txtDtFim.Text = "";
+        }
+
+        private void ChkAtivo_Unchecked(object sender, RoutedEventArgs e)
+        {
+            //txtDtInicio.Text = "";
+            //_viewModel.Entity.DataFim= DateTime.Today.Date;
+            txtDtFim.Text = DateTime.Today.Date.ToShortDateString();
+        }
     }
 }

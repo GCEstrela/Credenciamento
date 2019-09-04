@@ -96,7 +96,7 @@
                         <Label Content="Vínculo Ativo:" Height="28" Width="143" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                         <CheckBox VerticalAlignment="Center" x:Name="chkAtivo"  Foreground="#FFD0D0D0" 
                                   IsEnabled="{Binding Comportamento.isEnableCancelar}" 
-                                  IsChecked="{Binding Entity.Ativo, UpdateSourceTrigger=PropertyChanged}"/>
+                                  IsChecked="{Binding Entity.Ativo, UpdateSourceTrigger=PropertyChanged}" Checked="ChkAtivo_Checked" Unchecked="ChkAtivo_Unchecked"/>
 
                         <Label Content="Autorização Dirigir:" Height="28" Width="143" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                         <CheckBox VerticalAlignment="Center" x:Name="chkMotorista"  Foreground="#FFD0D0D0" 

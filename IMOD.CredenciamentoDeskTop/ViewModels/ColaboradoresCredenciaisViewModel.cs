@@ -582,17 +582,23 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         private void ListarColaboradoresCredenciais(ColaboradorView entity)
         {
-            var list1 = _service.ListarView(null, null, null, null, entity.ColaboradorId).ToList();
-            var list2 = Mapper.Map<List<ColaboradoresCredenciaisView>>(list1.OrderByDescending(n => n.ColaboradorCredencialId));
-            //Comportamento.IsEnableCriar = !list2.Any(c => c.Ativa);
+            try
+            {
+                var list1 = _service.ListarView(null, null, null, null, entity.ColaboradorId).ToList();
+                var list2 = Mapper.Map<List<ColaboradoresCredenciaisView>>(list1.OrderByDescending(n => n.ColaboradorCredencialId));
+                //Comportamento.IsEnableCriar = !list2.Any(c => c.Ativa);
 
-            EntityObserver = new ObservableCollection<ColaboradoresCredenciaisView>();
-            list2.ForEach(n => { EntityObserver.Add(n); });
+                EntityObserver = new ObservableCollection<ColaboradoresCredenciaisView>();
+                list2.ForEach(n => { EntityObserver.Add(n); });
 
-            //Atualizar observer
-            OnPropertyChanged("Entity");
-            CollectionViewSource.GetDefaultView(EntityObserver).Refresh();
+                //Atualizar observer
+                OnPropertyChanged("Entity");
+                CollectionViewSource.GetDefaultView(EntityObserver).Refresh();
+            }
+            catch (Exception)
+            {
 
+            }
         }
 
 
@@ -1053,6 +1059,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
+                
+                this.HabilitarOpcoesCredencial = false;
                 _prepareCriarCommandAcionado = false;
                 _prepareAlterarCommandAcionado = false;
                 IsEnableLstView = true;
