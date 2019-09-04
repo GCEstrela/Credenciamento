@@ -73,6 +73,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("FlagAuditoria", entity.FlagAuditoria, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("DataInicio", entity.DataInicio, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("DataFim", entity.DataFim, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Usuario", entity.Usuario, false)));
 
                         cmd.ExecuteNonQuery();
 
@@ -151,6 +152,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("FlagAuditoria", entity.FlagAuditoria, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("DataInicio", entity.DataInicio, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("DataFim", entity.DataFim, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Usuario", entity.Usuario, false)));
 
                         var key = Convert.ToInt32(cmd.ExecuteScalar());
 

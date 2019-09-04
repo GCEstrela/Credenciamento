@@ -252,6 +252,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     n1.EmpresaContratoId = Contratos[0].EmpresaContratoId;
                 }
                 n1.DataFim = DateTime.Today.Date;
+                n1.Usuario = Domain.EntitiesCustom.UsuarioLogado.Nome;
                 _service.Criar(n1);
 
                 #region Verificar se pode gerar CardHolder
@@ -324,6 +325,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (n1.Matricula == null)
                     _service.CriarNumeroMatricula(n1);
 
+                n1.Usuario = Domain.EntitiesCustom.UsuarioLogado.Nome;
                 _service.Alterar(n1);
                 Entity.Matricula = n1.Matricula;
 

@@ -88,6 +88,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("ArquivoBlob", DbType.Binary, entity.ArquivoBlob, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("TerceirizadaNome", entity.TerceirizadaNome, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("PraVencer", entity.PraVencer, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Usuario", entity.Usuario, false)));
 
 
                         var key = Convert.ToInt32(cmd.ExecuteScalar());
@@ -217,6 +218,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("ArquivoBlob", DbType.Binary, entity.ArquivoBlob, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("TerceirizadaNome", entity.TerceirizadaNome, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("PraVencer", entity.PraVencer, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Usuario", entity.Usuario, false)));
 
                         cmd.ExecuteNonQuery();
 

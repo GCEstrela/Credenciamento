@@ -36,6 +36,7 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public bool FlagAuditoria { get; set; }
         public DateTime? DataInicio { get; set; }
         public DateTime? DataFim { get; set; }
+        public string Usuario { get; set; }
         #endregion
     }
 }

@@ -263,6 +263,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 var n1 = Mapper.Map<EmpresaContrato> (Entity);
                 n1.EmpresaId = _empresaView.EmpresaId;
+                n1.Usuario = Domain.EntitiesCustom.UsuarioLogado.Nome;
                 _service.Criar(n1);
                 //Adicionar no inicio da lista um item a coleção
                 var n2 = Mapper.Map<EmpresaContratoView> (n1);
@@ -306,6 +307,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (Validar()) return;
 
                 var n1 = Mapper.Map<EmpresaContrato> (Entity);
+                n1.Usuario = Domain.EntitiesCustom.UsuarioLogado.Nome;
                 _service.Alterar (n1);
                 IsEnableLstView = true;
                 _viewModelParent.HabilitaControleTabControls (true, true, true, true, true);
