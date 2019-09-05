@@ -327,5 +327,13 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
 
             //======================================================================= 
         }
+
+        //private IAsyncResult m_loggingOnResult;
+        private void UserControl_Unloaded(object sender, RoutedEventArgs e)
+        {
+            //Workspace.Sdk.EndLogOn(m_loggingOnResult);
+            //_viewSingleton = null;
+            //Workspace = null;
+        }
     }
 }

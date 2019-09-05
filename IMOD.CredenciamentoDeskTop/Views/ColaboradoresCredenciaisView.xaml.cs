@@ -92,7 +92,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
         private void TipoCredencial_cb_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (_viewModel.Entity == null) return;
-
+            if (_viewModel.ColaboradorEmpresa == null) return;
             _viewModel.ListarCracha(_viewModel.ColaboradorEmpresa.EmpresaId, _viewModel.Entity.TipoCredencialId);
         }
 
@@ -419,6 +419,22 @@ namespace IMOD.CredenciamentoDeskTop.Views
             }
         }
 
-       
+        private void TipoCredencial_cb_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
+        {
+            //try
+            //{
+            //    if(TipoCredencial_cb.SelectedItem == null) return;
+
+            //    TecnologiaCredencial_cb.IsEnabled = true;
+            //    if (((IMOD.Domain.Entities.TipoCredencial)TipoCredencial_cb.SelectedItem).Descricao.Trim().Equals("TEMPORÁRIA"))
+            //    {
+            //        TecnologiaCredencial_cb.IsEnabled = false;
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    WpfHelp.PopupBox(ex.Message, 1);
+            //}
+        }
     }
 }
