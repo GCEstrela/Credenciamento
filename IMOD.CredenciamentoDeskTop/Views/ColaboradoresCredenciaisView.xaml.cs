@@ -49,7 +49,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 //WpfHelp.Mbox(ex.Message);
                 Utils.TraceException(ex);
             }
-            
+
         }
 
         #endregion
@@ -63,10 +63,10 @@ namespace IMOD.CredenciamentoDeskTop.Views
         public void AtualizarDados(Model.ColaboradorView entity, ColaboradorViewModel viewModelParent)
         {
             //if (entity == null) return;
-            _viewModel.AtualizarDados (entity, viewModelParent); 
+            _viewModel.AtualizarDados(entity, viewModelParent);
         }
 
-       
+
 
         private void EmpresaVinculo_cb_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -75,7 +75,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
             _viewModel.ObterValidade();
             _viewModel.CarregarCaracteresColete(_viewModel.ColaboradorEmpresa);
 
-            
+
             if (_viewModel.ColaboradorEmpresa.ColaboradorId > 0 & _viewModel.ColaboradorEmpresa.EmpresaId > 0)
             {
                 _viewModel.CarregarVinculosAtivos(_viewModel.ColaboradorEmpresa.ColaboradorId, _viewModel.ColaboradorEmpresa.EmpresaId);
@@ -109,7 +109,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         }
 
-       
+
 
         private void NumberOnly(object sender, TextCompositionEventArgs e)
         {
@@ -147,14 +147,14 @@ namespace IMOD.CredenciamentoDeskTop.Views
                         dataEncontrada = DateTime.Now.AddDays(730);
                         str = dataEncontrada.ToString();
                         txtDtValidade.Text = str;
-                        WpfHelp.PopupBox("Validade da credencial PERMANENTE, não pode ser superior a 2 anos!",1);
+                        WpfHelp.PopupBox("Validade da credencial PERMANENTE, não pode ser superior a 2 anos!", 1);
                     }
                     else
                     {
                         txtDtValidade.Text = str.FormatarData();
                         _viewModel.HabilitaImpressao = true;
                     }
-                   
+
                 }
                 else if (_viewModel.Entity.TipoCredencialId == 2)
                 {
@@ -163,14 +163,14 @@ namespace IMOD.CredenciamentoDeskTop.Views
                         dataEncontrada = DateTime.Now.AddDays(90);
                         str = dataEncontrada.ToString();
                         txtDtValidade.Text = str;
-                        WpfHelp.PopupBox("Validade da credencial TEMPORÁRIA, não pode ser superior a 90 dias!",1);
+                        WpfHelp.PopupBox("Validade da credencial TEMPORÁRIA, não pode ser superior a 90 dias!", 1);
                     }
                     else
                     {
                         txtDtValidade.Text = str.FormatarData();
                         _viewModel.HabilitaImpressao = true;
                     }
-                    
+
                 }
 
             }
@@ -178,8 +178,8 @@ namespace IMOD.CredenciamentoDeskTop.Views
             {
                 _viewModel.Entity.SetMessageErro("Validade", "Data inválida");
             }
-          
-            
+
+
         }
 
         #endregion
@@ -217,7 +217,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         private void CmbMotivacao_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-           
+
             _viewModel.Motivacao_Select();
             this.lblCredencialVia.Content = _viewModel._viaAdicional;
 
@@ -233,17 +233,17 @@ namespace IMOD.CredenciamentoDeskTop.Views
                         case 15:
                             chkDevolucaoMotivo.Content = DevoluçãoCredencial.Devolucao.Descricao();
                             chkDevolucaoMotivo.Visibility = Visibility.Visible;
-                            break; 
+                            break;
                         case 9:
                         case 10:
                         case 18:
                             chkDevolucaoMotivo.Content = DevoluçãoCredencial.EntregaBO.Descricao();
                             chkDevolucaoMotivo.Visibility = Visibility.Visible;
                             break;
-                        default: 
-                            chkDevolucaoMotivo.IsChecked = false; 
-                            chkDevolucaoMotivo.Content = String.Empty; 
-                            chkDevolucaoMotivo.Visibility = Visibility.Hidden; 
+                        default:
+                            chkDevolucaoMotivo.IsChecked = false;
+                            chkDevolucaoMotivo.Content = String.Empty;
+                            chkDevolucaoMotivo.Visibility = Visibility.Hidden;
                             break;
                     }
                 }
@@ -268,7 +268,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 {
                     FormatoCredencial_cb.IsEnabled = false;
                 }
-                    
+
 
                 if (((IMOD.Domain.Entities.TecnologiaCredencial)TecnologiaCredencial_cb.SelectedItem).Descricao.Equals("N/D"))
                 {
@@ -375,7 +375,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         private void NumeroCredencial_tb_LostFocus(object sender, RoutedEventArgs e)
         {
-            
+
             if (_viewModel.Entity == null) return;
             try
             {
@@ -393,7 +393,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 }
 
 
-                
+
             }
             catch (Exception)
             {
@@ -440,28 +440,21 @@ namespace IMOD.CredenciamentoDeskTop.Views
             //    WpfHelp.PopupBox(ex.Message, 1);
             //}
         }
-        private Engine m_sdkEngine = new Engine();
+
         PopUpGrupos popup;
         public System.Collections.Generic.List<Guid> cardholderGuids = new System.Collections.Generic.List<Guid>();
         private void PopUp_bt_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                
-                if (!m_sdkEngine.IsConnected)
-                {
-                    m_sdkEngine.ClientCertificate = "KxsD11z743Hf5Gq9mv3+5ekxzemlCiUXkTFY5ba1NOGcLCmGstt2n0zYE9NsNimv";
-                    m_sdkEngine.LogOn("172.16.190.108", "Admin", "");
-                }
-                //_viewModel.CarregarListaGrupos(popup);
+               
                 popup = new PopUpGrupos();
                 if (cardholderGuids.Count != 0)
                 {
                     popup.TCHG.CardHolderGroupGuid = cardholderGuids;
                 }
 
-                //popup.TCHG.CardHolderGuid = new Guid(CardHolderGuid_tb.Text); //ea3586f7-b6b7-42cc-8cca-04ef2ce7ebe8
-                if(_viewModel.Entity.CardHolderGuid != null)
+                if (_viewModel.Entity.CardHolderGuid != null)
                 {
                     popup.TCHG.CardHolderGuid = new Guid(_viewModel.Entity.CardHolderGuid); //
                 }
@@ -469,12 +462,10 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 {
                     popup.TCHG.CardHolderGuid = new Guid("ea3586f7-b6b7-42cc-8cca-04ef2ce7ebe8");
                 }
-                popup.TCHG.Initialize(m_sdkEngine);
+                popup.TCHG.Initialize(Main.Engine);
                 popup.ShowDialog();
                 cardholderGuids = popup.TCHG.CardHolderGroupGuid;
                 _viewModel.Entity.listadeGrupos = cardholderGuids;
-                //cagarlistaGrupo();
-
 
             }
             catch (Exception)
@@ -483,25 +474,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 throw;
             }
         }
-        private void cagarlistaGrupo()
-        {
-            try
-            {
-                List<Guid> groupos = new List<Guid>();
-                //_viewModel.Entity.listadeGrupos.Clear();
-                foreach (Guid cardholderGuid in cardholderGuids)
-                {
-                    Genetec.Sdk.Entities.CardholderGroup cardholdergroup = m_sdkEngine.GetEntity(cardholderGuid) as Genetec.Sdk.Entities.CardholderGroup;
-                    //_viewModel.Entity.listadeGrupos += cardholdergroup.Name + ";";
-                    groupos.Add(cardholdergroup.Guid);
-                }
-                _viewModel.Entity.listadeGrupos = groupos;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
+        
         private void Lista_bt_Click(object sender, RoutedEventArgs e)
         {
             try
