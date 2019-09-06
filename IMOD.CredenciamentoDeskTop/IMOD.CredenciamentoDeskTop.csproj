@@ -107,6 +107,9 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="tchg">
+      <HintPath>..\..\..\..\Documents\Visual Studio 2019\Projeto TreeCardHolderGroup\tchg\bin\Debug\tchg.dll</HintPath>
+    </Reference>
     <Reference Include="UIAutomationProvider" />
     <Reference Include="VisioForge.Controls, Version=11.2.9.0, Culture=neutral, PublicKeyToken=5873e863f1bcda5d, processorArchitecture=MSIL">
       <HintPath>..\packages\VisioForge.DotNet.Core.TRIAL.11.2.9\lib\net40-client\VisioForge.Controls.dll</HintPath>
@@ -764,6 +767,9 @@
     <Compile Include="Views\VeiculoView.xaml.cs">
       <DependentUpon>VeiculoView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\PopUp.xaml.cs">
+      <DependentUpon>PopUp.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\PopupAutorizacao.xaml.cs">
       <DependentUpon>PopupAutorizacao.xaml</DependentUpon>
     </Compile>
@@ -934,6 +940,10 @@
     <Page Include="Views\VeiculoView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\PopUp.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Windows\PopupAutorizacao.xaml">
       <Generator>MSBuild:Compile</Generator>

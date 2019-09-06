@@ -18,6 +18,7 @@ using IMOD.CredenciamentoDeskTop.ViewModels;
 using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
 using IMOD.Domain.EntitiesCustom;
+using IMOD.CredenciamentoDeskTop.Windows;
 
 #endregion
 
@@ -435,6 +436,31 @@ namespace IMOD.CredenciamentoDeskTop.Views
             //{
             //    WpfHelp.PopupBox(ex.Message, 1);
             //}
+        }
+        PopUp popup;
+        private System.Collections.Generic.List<Guid> cardholderGuids = new System.Collections.Generic.List<Guid>();
+        private void PopUp_bt_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                popup = new PopUp();
+                if (cardholderGuids.Count != 0)
+                {
+                    popup.TCHG.CardHolderGroupGuid = cardholderGuids;
+                }
+
+                //popup.TCHG.CardHolderGuid = new Guid(CardHolderGuid_tb.Text); //ea3586f7-b6b7-42cc-8cca-04ef2ce7ebe8
+                popup.TCHG.CardHolderGuid = new Guid("ea3586f7-b6b7-42cc-8cca-04ef2ce7ebe8"); //
+
+                popup.TCHG.Initialize(m_sdkEngine);
+                popup.ShowDialog();
+                cardholderGuids = popup.TCHG.CardHolderGroupGuid;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 }

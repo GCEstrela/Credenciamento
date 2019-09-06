@@ -28,7 +28,7 @@
                     </LinearGradientBrush>
                 </Button.Background>
                 <DockPanel>
-                    <Image Source="Fechar2.png" Height="10" Width="10" />
+                    <!--<Image Source="Fechar2.png" Height="10" Width="10" />-->
                 </DockPanel>
 
             </Button>
