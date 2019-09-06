@@ -705,6 +705,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             try
             {
                 if (Entity == null) return;
+
                 System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
                 //Alterado por Máximo em 28-06-2019
                 //ObterValidade();
@@ -723,6 +724,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 n1.Validade = Entity.Validade.Value.Date.AddHours(23).AddMinutes(59).AddSeconds(59);  //Sempre Add 23:59:59 horas à credencial nova.
                 n1.CredencialmotivoViaAdicionalID = Entity.CredencialmotivoViaAdicionalID;
                 n1.CredencialmotivoIDanterior = Entity.CredencialMotivoId;
+                n1.listadeGrupos = Entity.listadeGrupos;
                 n1.Usuario = UsuarioLogado.Nome;
 
                 //_configuraSistema = ObterConfiguracao();
@@ -763,6 +765,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (tecCredencial.PodeGerarCardHolder)
                 {
                     var entity = _service.BuscarCredencialPelaChave(n1.ColaboradorCredencialId);
+                    entity.listadeGrupos = n1.listadeGrupos;
                     GerarCardHolder(n1.ColaboradorCredencialId, entity);
                 }
                 #endregion

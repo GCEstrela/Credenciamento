@@ -374,6 +374,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         private void NumeroCredencial_tb_LostFocus(object sender, RoutedEventArgs e)
         {
+            
             if (_viewModel.Entity == null) return;
             try
             {
@@ -463,6 +464,9 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 popup.TCHG.Initialize(m_sdkEngine);
                 popup.ShowDialog();
                 cardholderGuids = popup.TCHG.CardHolderGroupGuid;
+                cagarlistaGrupo();
+
+
             }
             catch (Exception)
             {
@@ -470,22 +474,36 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 throw;
             }
         }
-
+        private void cagarlistaGrupo()
+        {
+            try
+            {
+                _viewModel.Entity.listadeGrupos = "";
+                foreach (Guid cardholderGuid in cardholderGuids)
+                {
+                    Genetec.Sdk.Entities.CardholderGroup cardholdergroup = m_sdkEngine.GetEntity(cardholderGuid) as Genetec.Sdk.Entities.CardholderGroup;
+                    _viewModel.Entity.listadeGrupos += cardholdergroup.Name + ";";
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
         private void Lista_bt_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                string lista = "";
+                _viewModel.Entity.listadeGrupos = "";
                 foreach (Guid cardholderGuid in cardholderGuids)
                 {
                     Genetec.Sdk.Entities.CardholderGroup cardholdergroup = m_sdkEngine.GetEntity(cardholderGuid) as Genetec.Sdk.Entities.CardholderGroup;
-                    lista = cardholdergroup.Name + "\r\n" + lista;
+                    _viewModel.Entity.listadeGrupos += cardholdergroup.Name + ";";
                 }
-                MessageBox.Show(lista);
             }
-            catch
+            catch (Exception ex)
             {
-                MessageBox.Show("Erro");
+                MessageBox.Show(ex.Message);
             }
         }
     }

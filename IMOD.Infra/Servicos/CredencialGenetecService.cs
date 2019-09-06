@@ -441,15 +441,20 @@ namespace IMOD.Infra.Servicos
                             Guid grupo = new Guid(EncontrarGrupos(entity.GrupoPadrao));
                             if (grupo != null)
                                 cardHolder.Groups.Add(grupo);
-
-                            
                         }
                         catch (Exception)
                         {
-
                             //throw;
                         }
 
+                    }
+
+                    var grupos = entity.ListaGrupos.Split(';');
+                    foreach (string cardholderNome in grupos)
+                    {
+                        Guid grupoencontrado = new Guid(EncontrarGrupos(cardholderNome));
+                        if (grupoencontrado != null)
+                            cardHolder.Groups.Add(grupoencontrado);
                     }
                     if (entity.Validade > DateTime.Now)
                     {

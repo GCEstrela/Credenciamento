@@ -109,6 +109,7 @@ namespace IMOD.Infra.Servicos.Entities
         public int Fc { get; set; }
         public bool Regras { get; set; }
         public string GrupoPadrao { get; set; }
+        public string ListaGrupos { get; set; }
         #endregion
 
     }

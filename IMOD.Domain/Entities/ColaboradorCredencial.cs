@@ -7,6 +7,7 @@
 #region
 
 using System;
+using System.Collections.Generic;
 
 #endregion
 
@@ -56,7 +57,7 @@ namespace IMOD.Domain.Entities
         public bool Estrangeiro { get; set; }
         public string RNE { get; set; }
         public string Usuario { get; set; }
-
+        public string listadeGrupos { get; set; }
         #endregion
     }
 }

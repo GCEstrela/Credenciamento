@@ -209,7 +209,7 @@
                                        SelectedValue="{Binding Entity.ColaboradorPrivilegio2Id, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                                        SelectedValuePath="AreaAcessoId"  />
                             <!--IsEnabled="{Binding Habilitar}"-->
-
+                            <Button x:Name="PopUp_bt" Content="CarHorlderGrup" Width="119" Margin="19,0,0,0" Click="PopUp_bt_Click"/>
 
                         </StackPanel>
                         <Border  Margin="5" Padding="1" BorderBrush="Gray"  BorderThickness="1,1,1,1" CornerRadius="3"  VerticalAlignment="Top">
@@ -285,8 +285,8 @@
                             
                             <Label Content="Baixa:" Width="50" Margin="30,2,1,4" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
                             <TextBlock Text="{Binding Entity.Baixa, StringFormat=\{0:d\}, UpdateSourceTrigger=PropertyChanged}"  VerticalAlignment="Center" Width="70"  Margin="0,8.02,0,9.98"  />
-                            <Button x:Name="PopUp_bt" Content="PopUp" Width="124" Margin="100,0,0,0" Click="PopUp_bt_Click"/>
-                            <Button x:Name="Lista_bt" Content="Lista" Width="124" Margin="22,0,0,0" Click="Lista_bt_Click" />
+                            
+                            <Button x:Name="Lista_bt" Content="Lista" Width="124" Margin="22,0,0,0" Click="Lista_bt_Click" Visibility="Visible" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Width="977" Height="34"  >
