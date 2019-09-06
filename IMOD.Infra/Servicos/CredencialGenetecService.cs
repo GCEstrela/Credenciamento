@@ -441,6 +441,8 @@ namespace IMOD.Infra.Servicos
                             Guid grupo = new Guid(EncontrarGrupos(entity.GrupoPadrao));
                             if (grupo != null)
                                 cardHolder.Groups.Add(grupo);
+
+                            
                         }
                         catch (Exception)
                         {
@@ -455,6 +457,87 @@ namespace IMOD.Infra.Servicos
                     }
                     cardHolder.Picture = entity.Foto;
                     
+
+                    _sdk.TransactionManager.CommitTransaction();
+                }
+
+
+                //VerificaRegraAcesso(entity);
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+                throw;
+            }
+        }
+        public void CriarCardHolder(CardHolderEntity entity, List<Guid> cardholderGuids)
+        {
+
+            //Validar dados
+            ValidarCriarCardHolder(entity);
+            //VerificaRegraAcesso(entity);
+            try
+            {
+                #region Existindo CardHolder, não criar
+
+                if (!string.IsNullOrWhiteSpace(entity.IdentificadorCardHolderGuid))
+                {
+                    var existEntity = _sdk.GetEntity(new Guid(entity.IdentificadorCardHolderGuid)) as Cardholder;
+                    if (existEntity != null)
+                    {
+                        //Atualizar dados
+                        SetValorCamposCustomizados(entity, existEntity);
+                        //_sdk.TransactionManager.CommitTransaction();
+                        //VerificaRegraAcesso(entity);
+                        return;
+                    }
+                }
+                else
+                {
+                    entity.IdentificadorCardHolderGuid = EncontraCardHolderPelaMatricula(entity, entity.Matricula);//Encontra Credencial pelo Numero da Matrícula
+                }
+
+                #endregion
+                if (entity.IdentificadorCardHolderGuid == null)
+                {
+                    _sdk.TransactionManager.CreateTransaction();
+
+                    var cardHolder = _sdk.CreateEntity(entity.Nome, EntityType.Cardholder) as Cardholder;
+                    if (cardHolder == null) throw new InvalidOperationException("Não foi possível criar uma credencial.");
+
+                    entity.IdentificadorCardHolderGuid = cardHolder.Guid.ToString(); //Set identificador Guid
+
+                    SetValorCamposCustomizados(entity, cardHolder);
+
+                    //EncontrarGrupos(entity.GrupoPadrao);
+                    if (entity.GrupoPadrao != null)
+                    {
+                        try
+                        {
+                            //Guid grupo = new Guid(EncontrarGrupos(entity.GrupoPadrao));
+                            //if (grupo != null)
+                            //    cardHolder.Groups.Add(grupo);
+
+                            foreach (Guid cardholderGuid in cardholderGuids)
+                            {
+                                Genetec.Sdk.Entities.CardholderGroup cardholdergroup = _sdk.GetEntity(cardholderGuid) as Genetec.Sdk.Entities.CardholderGroup;
+                                cardHolder.Groups.Add(cardholdergroup.Guid);
+                                //lista = cardholdergroup.Name + "\r\n" + lista;
+                            }
+                        }
+                        catch (Exception)
+                        {
+
+                            //throw;
+                        }
+
+                    }
+                    if (entity.Validade > DateTime.Now)
+                    {
+                        cardHolder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade);
+                    }
+                    cardHolder.Picture = entity.Foto;
+
 
                     _sdk.TransactionManager.CommitTransaction();
                 }

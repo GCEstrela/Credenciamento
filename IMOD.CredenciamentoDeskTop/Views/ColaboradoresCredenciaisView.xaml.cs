@@ -440,7 +440,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
         }
         private Engine m_sdkEngine = new Engine();
         PopUpGrupos popup;
-        private System.Collections.Generic.List<Guid> cardholderGuids = new System.Collections.Generic.List<Guid>();
+        public System.Collections.Generic.List<Guid> cardholderGuids = new System.Collections.Generic.List<Guid>();
         private void PopUp_bt_Click(object sender, RoutedEventArgs e)
         {
             try
