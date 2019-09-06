@@ -162,7 +162,7 @@
                                       VerticalContentAlignment="Center"
                                       HorizontalContentAlignment="Left"
                                       ItemsSource="{Binding EmpresaLayoutCracha , Mode=TwoWay}"
-                                      DisplayMemberPath="Nome"
+                                      DisplayMemberPath="Modelo"
                                       Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
                                       SelectedValue="{Binding Entity.LayoutCrachaId, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                       SelectedValuePath="LayoutCrachaId" IsSynchronizedWithCurrentItem="True" />

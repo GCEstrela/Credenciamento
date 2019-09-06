@@ -157,7 +157,7 @@
                                       ItemsSource="{Binding TipoCredencial, Mode=TwoWay}" 
                                       DisplayMemberPath="Descricao"                                       
                                       SelectedValue="{Binding Entity.TipoCredencialId,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
-                                      SelectedValuePath="TipoCredencialId" IsSynchronizedWithCurrentItem="True" SelectionChanged="TipoCredencial_cb_SelectionChanged_1"/>
+                                      SelectedValuePath="TipoCredencialId" IsSynchronizedWithCurrentItem="True"/>
 
                             <Label Content="Modelo:" Height="28" Width="53" Margin="20,0,0,0" Foreground="#FFD0D0D0" />
 
