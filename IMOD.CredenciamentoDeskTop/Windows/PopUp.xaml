@@ -1,9 +1,9 @@
-﻿<Window
+﻿<Window x:Class="IMOD.CredenciamentoDeskTop.Windows.PopUp"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:tchg="clr-namespace:tchg;assembly=tchg" x:Class="Tree.PopUp"
+        xmlns:tchg="clr-namespace:tchg;assembly=tchg"
         mc:Ignorable="d" Height="485.599" Width="580.197" ShowInTaskbar="False" WindowStartupLocation="CenterOwner" WindowStyle="None" BorderThickness="6,30,6,6" Topmost="True" ResizeMode="NoResize" >
     <Window.Background>
         <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">

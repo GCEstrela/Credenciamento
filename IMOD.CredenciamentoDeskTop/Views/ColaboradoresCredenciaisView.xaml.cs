@@ -19,6 +19,7 @@ using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
 using IMOD.Domain.EntitiesCustom;
 using IMOD.CredenciamentoDeskTop.Windows;
+using Genetec.Sdk;
 
 #endregion
 
@@ -437,6 +438,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
             //    WpfHelp.PopupBox(ex.Message, 1);
             //}
         }
+        private Engine m_sdkEngine = new Engine();
         PopUp popup;
         private System.Collections.Generic.List<Guid> cardholderGuids = new System.Collections.Generic.List<Guid>();
         private void PopUp_bt_Click(object sender, RoutedEventArgs e)
