@@ -815,6 +815,9 @@
     <Compile Include="Windows\PopupFiltrosTermos.xaml.cs">
       <DependentUpon>PopupFiltrosTermos.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\PopUpGrupos.xaml.cs">
+      <DependentUpon>PopUpGrupos.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\PopupPendencias.xaml.cs">
       <DependentUpon>PopupPendencias.xaml</DependentUpon>
     </Compile>
@@ -1001,6 +1004,10 @@
     <Page Include="Windows\PopupFiltrosTermos.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\PopUpGrupos.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\PopupPendencias.xaml">
       <Generator>MSBuild:Compile</Generator>
