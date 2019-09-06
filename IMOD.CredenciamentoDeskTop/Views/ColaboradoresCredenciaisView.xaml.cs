@@ -439,13 +439,19 @@ namespace IMOD.CredenciamentoDeskTop.Views
             //}
         }
         private Engine m_sdkEngine = new Engine();
-        PopUp popup;
+        PopUpGrupos popup;
         private System.Collections.Generic.List<Guid> cardholderGuids = new System.Collections.Generic.List<Guid>();
         private void PopUp_bt_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                popup = new PopUp();
+                if(!m_sdkEngine.IsConnected)
+                {
+                    m_sdkEngine.ClientCertificate = "KxsD11z743Hf5Gq9mv3+5ekxzemlCiUXkTFY5ba1NOGcLCmGstt2n0zYE9NsNimv";
+                    m_sdkEngine.LogOn("172.16.190.108", "Admin", "");
+                }
+
+                popup = new PopUpGrupos();
                 if (cardholderGuids.Count != 0)
                 {
                     popup.TCHG.CardHolderGroupGuid = cardholderGuids;
@@ -462,6 +468,24 @@ namespace IMOD.CredenciamentoDeskTop.Views
             {
 
                 throw;
+            }
+        }
+
+        private void Lista_bt_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                string lista = "";
+                foreach (Guid cardholderGuid in cardholderGuids)
+                {
+                    Genetec.Sdk.Entities.CardholderGroup cardholdergroup = m_sdkEngine.GetEntity(cardholderGuid) as Genetec.Sdk.Entities.CardholderGroup;
+                    lista = cardholdergroup.Name + "\r\n" + lista;
+                }
+                MessageBox.Show(lista);
+            }
+            catch
+            {
+                MessageBox.Show("Erro");
             }
         }
     }

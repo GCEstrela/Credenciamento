@@ -18,11 +18,24 @@ namespace IMOD.CredenciamentoDeskTop.Windows
     /// <summary>
     /// Interação lógica para PopUpGrupos.xam
     /// </summary>
-    public partial class PopUpGrupos : UserControl
+    public partial class PopUpGrupos : Window
     {
         public PopUpGrupos()
         {
             InitializeComponent();
+        }
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+                DragMove();
+        }
+        private void Procurar_bt_Click(object sender, RoutedEventArgs e)
+        {
+            ICollection<Guid> guids = TCHG.SelectedItems;
+        }
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }
