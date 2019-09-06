@@ -863,7 +863,20 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 WpfHelp.PopupBox(ex);
             }
         }
+        public System.Collections.Generic.List<Guid> cardholderGuids = new System.Collections.Generic.List<Guid>();
+        //public void CarregarListaGrupos(Cardhol popup)
+        //{
+        //    try
+        //    {
+        //        GerarCardHolder(n1.ColaboradorCredencialId, Entity);
+               
+        //    }
+        //    catch (Exception)
+        //    {
 
+        //        throw;
+        //    }
+        //}
         /// <summary>
         ///     Editar dados
         /// </summary>
@@ -958,7 +971,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                         var entity = _service.BuscarCredencialPelaChave(n1.ColaboradorCredencialId);
                         n1.CardHolderGuid = entity.CardHolderGuid;
                         n1.CredencialGuid = entity.CredencialGuid;
-
+                        n1.listadeGrupos = Entity.listadeGrupos;
                         _service.AlterarStatusTitularCartao(new CredencialGenetecService(Main.Engine), Entity, n1);
                     }
                     else

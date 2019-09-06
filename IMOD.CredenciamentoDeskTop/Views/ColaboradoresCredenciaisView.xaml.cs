@@ -20,6 +20,7 @@ using IMOD.Domain.Entities;
 using IMOD.Domain.EntitiesCustom;
 using IMOD.CredenciamentoDeskTop.Windows;
 using Genetec.Sdk;
+using System.Collections.Generic;
 
 #endregion
 
@@ -446,12 +447,13 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             try
             {
-                if(!m_sdkEngine.IsConnected)
+                
+                if (!m_sdkEngine.IsConnected)
                 {
                     m_sdkEngine.ClientCertificate = "KxsD11z743Hf5Gq9mv3+5ekxzemlCiUXkTFY5ba1NOGcLCmGstt2n0zYE9NsNimv";
                     m_sdkEngine.LogOn("172.16.190.108", "Admin", "");
                 }
-
+                //_viewModel.CarregarListaGrupos(popup);
                 popup = new PopUpGrupos();
                 if (cardholderGuids.Count != 0)
                 {
@@ -459,12 +461,19 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 }
 
                 //popup.TCHG.CardHolderGuid = new Guid(CardHolderGuid_tb.Text); //ea3586f7-b6b7-42cc-8cca-04ef2ce7ebe8
-                popup.TCHG.CardHolderGuid = new Guid("ea3586f7-b6b7-42cc-8cca-04ef2ce7ebe8"); //
-
+                if(_viewModel.Entity.CardHolderGuid != null)
+                {
+                    popup.TCHG.CardHolderGuid = new Guid(_viewModel.Entity.CardHolderGuid); //
+                }
+                else
+                {
+                    popup.TCHG.CardHolderGuid = new Guid("ea3586f7-b6b7-42cc-8cca-04ef2ce7ebe8");
+                }
                 popup.TCHG.Initialize(m_sdkEngine);
                 popup.ShowDialog();
                 cardholderGuids = popup.TCHG.CardHolderGroupGuid;
-                cagarlistaGrupo();
+                _viewModel.Entity.listadeGrupos = cardholderGuids;
+                //cagarlistaGrupo();
 
 
             }
@@ -478,12 +487,15 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             try
             {
-                _viewModel.Entity.listadeGrupos = "";
+                List<Guid> groupos = new List<Guid>();
+                //_viewModel.Entity.listadeGrupos.Clear();
                 foreach (Guid cardholderGuid in cardholderGuids)
                 {
                     Genetec.Sdk.Entities.CardholderGroup cardholdergroup = m_sdkEngine.GetEntity(cardholderGuid) as Genetec.Sdk.Entities.CardholderGroup;
-                    _viewModel.Entity.listadeGrupos += cardholdergroup.Name + ";";
+                    //_viewModel.Entity.listadeGrupos += cardholdergroup.Name + ";";
+                    groupos.Add(cardholdergroup.Guid);
                 }
+                _viewModel.Entity.listadeGrupos = groupos;
             }
             catch (Exception ex)
             {
@@ -494,11 +506,12 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             try
             {
-                _viewModel.Entity.listadeGrupos = "";
+                _viewModel.Entity.listadeGrupos.Clear();
                 foreach (Guid cardholderGuid in cardholderGuids)
                 {
                     Genetec.Sdk.Entities.CardholderGroup cardholdergroup = m_sdkEngine.GetEntity(cardholderGuid) as Genetec.Sdk.Entities.CardholderGroup;
-                    _viewModel.Entity.listadeGrupos += cardholdergroup.Name + ";";
+                    //_viewModel.Entity.listadeGrupos += cardholdergroup.Name + ";";
+                    _viewModel.Entity.listadeGrupos.Add(cardholdergroup.Guid);
                 }
             }
             catch (Exception ex)

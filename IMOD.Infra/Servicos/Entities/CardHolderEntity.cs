@@ -7,6 +7,7 @@
 #region
 
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using IMOD.CrossCutting;
 
@@ -109,7 +110,8 @@ namespace IMOD.Infra.Servicos.Entities
         public int Fc { get; set; }
         public bool Regras { get; set; }
         public string GrupoPadrao { get; set; }
-        public string ListaGrupos { get; set; }
+        public List<Guid> listadeGrupos { get; set; }
+        public List<Guid> ListaGrupos { get; set; }
         #endregion
 
     }

@@ -304,13 +304,12 @@ namespace IMOD.Infra.Servicos
                     if (entity.Ativo)
                         cardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade);
                 }
-                //else
-                //{
-                //    if (entity.Validade.AddHours(23).AddMinutes(59).AddSeconds(59) > DateTime.Now)
-                //    {
-                //        cardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, DateTime.Now.AddHours(23).AddMinutes(59).AddSeconds(59));
-                //    }                    
-                //}
+
+                cardholder.Groups.Clear();
+                foreach (Guid cardholderGuid in entity.listadeGrupos)
+                {
+                    cardholder.Groups.Add(cardholderGuid);
+                }
                 if (cardholder.Credentials.Count == 0)
                 {
                     cardholder.State = CardholderState.Inactive;
@@ -449,13 +448,15 @@ namespace IMOD.Infra.Servicos
 
                     }
 
-                    var grupos = entity.ListaGrupos.Split(';');
-                    foreach (string cardholderNome in grupos)
+                    cardHolder.Groups.Clear();
+                    foreach (Guid cardholderGuid in entity.listadeGrupos)
                     {
-                        Guid grupoencontrado = new Guid(EncontrarGrupos(cardholderNome));
-                        if (grupoencontrado != null)
-                            cardHolder.Groups.Add(grupoencontrado);
+                        //Guid grupoencontrado = new Guid(EncontrarGrupos(cardholderNome));
+                        //if (grupoencontrado != null)
+                        cardHolder.Groups.Add(cardholderGuid);
                     }
+                    //var grupos = entity.ListaGrupos.Split(';');
+
                     if (entity.Validade > DateTime.Now)
                     {
                         cardHolder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade);
@@ -465,7 +466,19 @@ namespace IMOD.Infra.Servicos
 
                     _sdk.TransactionManager.CommitTransaction();
                 }
-
+                else
+                {
+                    
+                    var cardHolder = _sdk.GetEntity(new Guid(entity.IdentificadorCardHolderGuid)) as Cardholder;
+                    cardHolder.Groups.Clear();
+                    foreach (Guid cardholderGuid in entity.listadeGrupos)
+                    {
+                        //Guid grupoencontrado = new Guid(EncontrarGrupos(cardholderNome));
+                        //if (grupoencontrado != null)
+                        cardHolder.Groups.Add(cardholderGuid);
+                    }
+                }
+                
 
                 //VerificaRegraAcesso(entity);
             }

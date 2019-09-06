@@ -99,7 +99,7 @@ namespace IMOD.Domain.EntitiesCustom
         public bool Estrangeiro { get; set; }
         public string RNE { get; set; }
         public string Usuario { get; set; }
-        public string listadeGrupos { get; set; }
+        public List<Guid> listadeGrupos { get; set; }
         public bool MotivoObrigatorio
         {
             get

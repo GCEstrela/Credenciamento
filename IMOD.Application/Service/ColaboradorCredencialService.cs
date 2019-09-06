@@ -145,7 +145,7 @@ namespace IMOD.Application.Service
                 Fc = entity.Fc,
                 Regras = entity.Regras,
                 GrupoPadrao = entity.GrupoPadrao,
-                ListaGrupos=entity.listadeGrupos
+                ListaGrupos = entity.listadeGrupos
             };
             return titularCartao;
         }
@@ -455,11 +455,13 @@ namespace IMOD.Application.Service
 
             //entity = BuscarPelaChave(entity.ColaboradorCredencialId);
             entity = BuscarCredencialPelaChave(entity.ColaboradorCredencialId);
+            entity.listadeGrupos = entity2.listadeGrupos;
             //Alterar status de um titual do cartao
             var titularCartao = CardHolderEntity(entity);
             ////Alterar status de um titual do cartao
             //var titularCartao = CardHolderEntity (entity); 
             titularCartao.Ativo = entity2.Ativa;
+            titularCartao.listadeGrupos= entity2.listadeGrupos;
             //titularCartao = CardHolderEntity(entity);
             //Alterar o status do cartao do titular, se houver
             if (string.IsNullOrWhiteSpace (titularCartao.IdentificadorCardHolderGuid)
@@ -493,7 +495,7 @@ namespace IMOD.Application.Service
             //if (!string.IsNullOrWhiteSpace(entity.CardHolderGuid) & !string.IsNullOrWhiteSpace(entity.CredencialGuid)) return;
 
             var titularCartao = CardHolderEntity(entity);
-
+            titularCartao.listadeGrupos = entity.listadeGrupos;
             #region Setar o valor CardHolder GUID ao colaborador
 
             //Buscar dados do colaborador

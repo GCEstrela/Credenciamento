@@ -286,7 +286,7 @@
                             <Label Content="Baixa:" Width="50" Margin="30,2,1,4" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
                             <TextBlock Text="{Binding Entity.Baixa, StringFormat=\{0:d\}, UpdateSourceTrigger=PropertyChanged}"  VerticalAlignment="Center" Width="70"  Margin="0,8.02,0,9.98"  />
                             
-                            <Button x:Name="Lista_bt" Content="Lista" Width="124" Margin="22,0,0,0" Click="Lista_bt_Click" Visibility="Visible" />
+                            <Button x:Name="Lista_bt" Content="Lista" Width="124" Margin="22,0,0,0" Click="Lista_bt_Click" Visibility="Collapsed" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Width="977" Height="34"  >
