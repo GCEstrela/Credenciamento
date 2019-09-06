@@ -83,7 +83,7 @@
                                               Foreground="#FFD0D0BE" UncheckedBackground="Maroon" UncheckedBorderBrush="Maroon" UncheckedForeground="#FFAEAEAE"/>-->
 
 
-                            <Label Content="Status:" Height="28" Width="45" HorizontalContentAlignment="Right"  Margin="0,0,0,0"
+                            <Label Content="Status:" Height="28" Width="51" HorizontalContentAlignment="Right"  Margin="0,0,0,0"
                                    Foreground="#FFD0D0D0" />
 
                             <ComboBox x:Name="cmbCredencialStatus"
@@ -168,11 +168,16 @@
                                       SelectedValuePath="LayoutCrachaId" IsSynchronizedWithCurrentItem="True" />
 
 
-                            <Label Content="Lacre:" Height="28" Width="45" HorizontalContentAlignment="Right"
+                            <Label Content="Lacre:" Height="28" Width="51" HorizontalContentAlignment="Right"
                                            Foreground="#FFD0D0D0" />
                             <TextBox CharacterCasing="Upper"   MaxLength="20" x:Name="txtLacre"
                                              Text="{Binding Entity.Lacre,UpdateSourceTrigger=PropertyChanged}"
-                                             IsEnabled="True" Height="24" Width="105"  />
+                                             IsEnabled="True" Height="24" Width="130"  />
+                            <Label Content="Portão:" Height="28" Width="55" HorizontalContentAlignment="Right"
+                                           Foreground="#FFD0D0D0" />
+                            <TextBox CharacterCasing="Upper"   MaxLength="50" x:Name="txtPortao"
+                                             Text="{Binding Entity.Portao, UpdateSourceTrigger=PropertyChanged}"
+                                             IsEnabled="True" Height="24" Width="155"  />
                             <Label Content="Autenticação:" Height="28" Width="81"  
                                    HorizontalContentAlignment="Right"
                                    Foreground="#FFD0D0D0"  Visibility="Collapsed"/>
