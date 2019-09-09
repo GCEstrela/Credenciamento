@@ -212,7 +212,26 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             var lst8 = _auxiliaresService.CredencialMotivoService.Listar();
             _credencialMotivo.AddRange(lst8.OrderBy(n => n.Descricao));
         }
+        /// <summary>
+        /// </summary>
+        /// <param name="empresaId"></param>
+        public void ListarCracha(int empresaId, int codigoTipoValidade)
+        {
+            try
+            {
+                EmpresaLayoutCracha = new List<EmpresaLayoutCracha>();
+                var service = new EmpresaLayoutCrachaService();
+                var list1 = service.ListarLayoutCrachaView(empresaId, null, null, null, 2, codigoTipoValidade);
+                var list2 = Mapper.Map<List<EmpresaLayoutCracha>>(list1);
+                EmpresaLayoutCracha = list2;
 
+                //_todosContratosEmpresas.ForEach(n => { ColaboradoresEmpresas.Add(n); });
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+            }
+        }
         public void CarregaColecaoLayoutsCrachas(int empresaId,int tipoCracha)
         {
             try
