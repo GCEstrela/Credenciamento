@@ -167,6 +167,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public int WidthColete { get; set; } = 48;
         public int indTecnologiaCredencial { get; set; } = 1;
 
+        public bool HabilitaImprimir { get; set; }
+
         #endregion
 
         public ColaboradoresCredenciaisViewModel()
@@ -195,6 +197,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 Comportamento.Cancelar += OnCancelar;
                 PropertyChanged += OnEntityChanged;
                 SelectListViewIndex = -1;
+                HabilitaImprimir = (IsEnableLstView && SelectListViewIndex > -1);
             }
             catch (Exception ex)
             {
@@ -330,6 +333,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     MensagemAlerta += mensagem5;
                 }
             }
+
+            HabilitaImprimir = (IsEnableLstView && SelectListViewIndex > -1);
 
             //================================================================================
             #endregion
@@ -590,10 +595,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 EntityObserver = new ObservableCollection<ColaboradoresCredenciaisView>();
                 list2.ForEach(n => { EntityObserver.Add(n); });
-
+                HabilitaImprimir = (IsEnableLstView && SelectListViewIndex > -1);                
                 //Atualizar observer
                 OnPropertyChanged("Entity");
-                CollectionViewSource.GetDefaultView(EntityObserver).Refresh();
+                CollectionViewSource.GetDefaultView(EntityObserver).Refresh();                
             }
             catch (Exception)
             {
@@ -821,7 +826,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 PrepararCancelar();
                 HabilitarOpcoesCredencial = true;
                 verificarcredencialAtiva = true;
-                Entity = new ColaboradoresCredenciaisView();                
+                Entity = new ColaboradoresCredenciaisView();
+                HabilitaImprimir = false;
 
                 //if (!HabilitaCriar(_colaboradorView.ColaboradorId)) throw new InvalidOperationException("Não é possivel criar credencial, pois existe uma credencial ativa para o colaborador no contrato.");
 
@@ -876,12 +882,14 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
                 //Alterado por Maximo em 28/06/2019
                 //ObterValidadeAlteracao();
+                Entity.Ativa = Constantes.Constantes.ATIVO.Equals(Entity.CredencialStatusId);
 
                 var n1 = Mapper.Map<ColaboradorCredencial>(Entity);
                 n1.ColaboradorPrivilegio1Id = Entity.ColaboradorPrivilegio1Id;
                 n1.ColaboradorPrivilegio2Id = Entity.ColaboradorPrivilegio2Id;
                 n1.Usuario = UsuarioLogado.Nome;
                 Entity.Usuario= UsuarioLogado.Nome;
+
 
                 if (Entity.ColaboradorPrivilegio1Id != 0 && Entity.ColaboradorPrivilegio1Id != 41)
                 {
@@ -927,8 +935,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 {
                     if (n1.Validade < DateTime.Now)
                     {
-                        //WpfHelp.Mbox("Data de Validate não pode ser inferior à data do dia.", MessageBoxIcon.Information);
-                        //return;
+                        WpfHelp.Mbox("Data de Validate não pode ser inferior à data do dia.", MessageBoxIcon.Information);
+                        return;
                     }
                 }
                 if(n1.CredencialStatusId == 2)
@@ -1068,7 +1076,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 _viewModelParent.HabilitaControleTabControls(true, true, true, true, true, true);
                 ListarColaboradoresCredenciais(_colaboradorView);                
                 if (Entity != null) Entity.ClearMessageErro();
-                Entity = null;                
+                Entity = null;
+                HabilitaImprimir = (IsEnableLstView && SelectListViewIndex > -1);
             }
             catch (Exception ex)
             {
@@ -1252,6 +1261,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             _prepareCriarCommandAcionado = false;
             _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;
             IsEnableLstView = false;
+            HabilitaImprimir = false;
 
             //Habilitar controles somente se a credencial não estiver sido impressa
             ColeteEnabled = true;

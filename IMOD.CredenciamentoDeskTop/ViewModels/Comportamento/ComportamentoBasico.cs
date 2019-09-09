@@ -136,7 +136,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels.Comportamento
             this.isEnableRemover = isEnableRemover;
             this.isEnableSalvar = isEnableSalvar;
             this.IsEnableEditar = isEnableEditar;
-            this.isEnableLstView = isEnableLstView;
+            this.isEnableLstView = isEnableLstView;            
             
         }
 
