@@ -874,9 +874,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 if (Entity == null) return;     //IdentificacaoDescricao = null
                 System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
-                //Alterado por Maximo em 28/06/2019
-                //ObterValidadeAlteracao();
 
+                Entity.Ativa = Constantes.Constantes.ATIVO.Equals(Entity.CredencialStatusId);
                 var n1 = Mapper.Map<ColaboradorCredencial>(Entity);
                 n1.ColaboradorPrivilegio1Id = Entity.ColaboradorPrivilegio1Id;
                 n1.ColaboradorPrivilegio2Id = Entity.ColaboradorPrivilegio2Id;
