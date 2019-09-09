@@ -818,9 +818,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
+                PrepararCancelar();
                 HabilitarOpcoesCredencial = true;
                 verificarcredencialAtiva = true;
-                Entity = new ColaboradoresCredenciaisView();
+                Entity = new ColaboradoresCredenciaisView();                
 
                 //if (!HabilitaCriar(_colaboradorView.ColaboradorId)) throw new InvalidOperationException("Não é possivel criar credencial, pois existe uma credencial ativa para o colaborador no contrato.");
 

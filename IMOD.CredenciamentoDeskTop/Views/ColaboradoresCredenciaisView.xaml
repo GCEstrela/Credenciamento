@@ -16,6 +16,7 @@
         <Image x:Key="imgRemove" Source="../Resources/remove.png"  />
         <Image x:Key="imgSave" Source="../Resources/save.png"  />
         <Image x:Key="imgCancel" Source="../Resources/undo.png"  />
+        <Image x:Key="imgPrint" Source="../Resources/CardPrinter.png"  />
         <funcoes:FormateTel x:Key="FormateTel" />
         <funcoes:CheckTeste x:Key="CheckTeste" />
         <funcoes:CheckImpressao x:Key="CheckImpressao" />
@@ -39,9 +40,9 @@
             <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}"
                       IsEnabled="{Binding Comportamento.isEnableSalvar}"
                       Background="Purple"
-                      x:Name="Responsavel_gb" Height="224">
+                      x:Name="Responsavel_gb" Height="203">
                 <StackPanel Orientation="Horizontal"  Margin="0,0,0,-5">
-                    <StackPanel Width="979">
+                    <StackPanel Width="979" Height="192" VerticalAlignment="Top">
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                     Margin="1,1,-20,1" Width="977">
                             <Label Content="Vínculo:" Height="28" Width="55" Foreground="#FFD0D0D0" />
@@ -213,12 +214,12 @@
 
                         </StackPanel>
                         <Border  Margin="5" Padding="1" BorderBrush="Gray"  BorderThickness="1,1,1,1" CornerRadius="3"  VerticalAlignment="Top">
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Width="977" >
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Width="977" >
                                 <Label Content="Controle de Acesso:" Foreground="LightSkyBlue"></Label>
-                            <Label Content="Autenticação:" Height="28" Width="110"   HorizontalContentAlignment="Right"
+                                <Label Content="Autenticação:" Height="28" Width="110"   HorizontalContentAlignment="Right"
                                 Foreground="#FFD0D0D0" />
-                            <!--IsEnabled="{Binding Habilitar}"-->
-                            <ComboBox x:Name="TecnologiaCredencial_cb"  IsEditable="true"                                      
+                                <!--IsEnabled="{Binding Habilitar}"-->
+                                <ComboBox x:Name="TecnologiaCredencial_cb"  IsEditable="true"                                      
                                 Margin="0,4,0,3" 
                                 Height="25"
                                 Width="150" 
@@ -230,10 +231,10 @@
                                 DisplayMemberPath="Descricao"
                                 SelectedValue="{Binding Entity.TecnologiaCredencialId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                 SelectedValuePath="TecnologiaCredencialId" IsSynchronizedWithCurrentItem="True" SelectionChanged="TecnologiaCredencial_cb_SelectionChanged" />
-                            <Label Content="F. Credencial:" Height="28" Width="134" ToolTip="Formato Credencial"  HorizontalContentAlignment="Right"
+                                <Label Content="F. Credencial:" Height="28" Width="134" ToolTip="Formato Credencial"  HorizontalContentAlignment="Right"
                                    Foreground="#FFD0D0D0" />
 
-                            <ComboBox x:Name="FormatoCredencial_cb" IsEditable="true"                                      
+                                <ComboBox x:Name="FormatoCredencial_cb" IsEditable="true"                                      
                                       Margin="0,4,0,3" 
                                       Height="25"
                                       Width="145"
@@ -249,23 +250,23 @@
 
 
 
-                            <Label x:Name="lblFC" Content="FC:" Height="28" Width="26"   HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                            <!--IsEnabled="{Binding Habilitar}"-->
-                            <TextBox  x:Name="FC_tb"  MaxLength="7"
+                                <Label x:Name="lblFC" Content="FC:" Height="28" Width="26"   HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                                <!--IsEnabled="{Binding Habilitar}"-->
+                                <TextBox  x:Name="FC_tb"  MaxLength="7"
                                       ToolTip=""
                                 CharacterCasing="Upper" 
                                       IsEnabled="{Binding HabilitarOpcoesCredencial}"
                                       Text="{Binding Entity.Fc, UpdateSourceTrigger=PropertyChanged}"  
                                       Height="24"  Width="60" LostFocus="FC_tb_LostFocus"/>
-                            <Label x:Name="lblNumero" Content="Número:" Height="28" Width="56" Margin="0,0,0,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                                <Label x:Name="lblNumero" Content="Número:" Height="28" Width="56" Margin="0,0,0,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
 
-                            <!--IsEnabled="{Binding Habilitar}"-->
-                            <TextBox  x:Name="NumeroCredencial_tb"  
+                                <!--IsEnabled="{Binding Habilitar}"-->
+                                <TextBox  x:Name="NumeroCredencial_tb"  
                                       MaxLength="32"  CharacterCasing="Upper"
                                       IsEnabled="{Binding HabilitarOpcoesCredencial}"
                                       Text="{Binding Entity.NumeroCredencial, UpdateSourceTrigger=PropertyChanged}"                                       
                                       Height="24"  Width="159" LostFocus="NumeroCredencial_tb_LostFocus" />
-                        </StackPanel>
+                            </StackPanel>
                         </Border>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Width="977" Height="34"  >
                             <Label Content="Validade:" Width="56" Margin="0,4,1,6"   
@@ -276,13 +277,13 @@
                                 PreviewTextInput="NumberOnly"                                     
                                 Width="85" 
                                 ToolTip="Validade Permanente não pode ser superior a 2 anos, Temporária no máxio 90 dias" x:Name="txtDtValidade" Margin="0,4,0,6"/>
-                            
+
                             <Label Content="Status:" Width="50" Height="24" Margin="30,2,1,4" Foreground="#FFD0D0D0" />
                             <TextBlock Text="{Binding Entity.DataStatus, StringFormat=\{0:d\}, UpdateSourceTrigger=PropertyChanged}"  VerticalAlignment="Center" Width="70" Margin="0,8,0,10"  />
-                            
+
                             <Label Content="Emissão:" Width="57" Margin="30,4,0,10" Foreground="#FFD0D0D0" Height="24" />
                             <TextBlock Text="{Binding Entity.Emissao, StringFormat=\{0:d\}, UpdateSourceTrigger=PropertyChanged}"  VerticalAlignment="Center" Width="70" Margin="0,8.02,0,9.98" />
-                            
+
                             <Label Content="Baixa:" Width="50" Margin="30,2,1,4" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
                             <TextBlock Text="{Binding Entity.Baixa, StringFormat=\{0:d\}, UpdateSourceTrigger=PropertyChanged}"  VerticalAlignment="Center" Width="70"  Margin="0,8.02,0,9.98"  />
                         </StackPanel>
@@ -296,12 +297,11 @@
                             <CheckBox x:Name="PF_chek" Content="Policia Federal"       Margin="5,9,0,10"  VerticalContentAlignment="Center"    IsChecked="{Binding Entity.Policiafederal, UpdateSourceTrigger=PropertyChanged}"   Foreground="#FFD0D0D0"/>
                             <CheckBox x:Name="RF_chek" Content="Receita Federal"       Margin="15,9,0,10" VerticalContentAlignment="Center"    IsChecked="{Binding Entity.Receitafederal, UpdateSourceTrigger=PropertyChanged}"   Foreground="#FFD0D0D0"/>
                             <CheckBox x:Name="ST_chek" Content="Segurança do Trabalho" Margin="15,9,0,10"  VerticalContentAlignment="Center"   IsChecked="{Binding Entity.Segurancatrabalho, UpdateSourceTrigger=PropertyChanged}"   Foreground="#FFD0D0D0" Width="183"/>
-                            <Label Content="Obs:" Margin="0,-6,0,14" Foreground="#FFD0D0D0" Width="34" />
+                            <Label Content="Obs:" Margin="0,4,10,0" Foreground="#FFD0D0D0" Width="34"/>
                             <TextBox Name="obs_tb" MaxLength="200" MaxLines="3"  
                                      TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible"
-                                     Text="{Binding Entity.Obs,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="433" Margin="5,2,0,0" />
+                                     Text="{Binding Entity.Obs,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="430" Margin="5,2,0,0" />
                         </StackPanel>
-
                     </StackPanel>
                 </StackPanel>
             </GroupBox>
@@ -325,7 +325,7 @@
                 </Label>
             </StackPanel>
 
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="990" Height="245">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="990" Height="212">
                 <ListView x:Name="ListaColaboradoresCredenciais_lv" 
                           Width="947"  
                           IsEnabled="{Binding IsEnableLstView}"
@@ -333,7 +333,7 @@
                           SelectedIndex="{Binding SelectListViewIndex}"
                           ItemsSource="{Binding EntityObserver, Mode=TwoWay}" 
                           SelectedItem="{Binding Entity, Mode=TwoWay}" 
-                          Height="175" VerticalAlignment="Top" >
+                          Height="194" VerticalAlignment="Top" >
                     <ListView.View>
                         <GridView  >
 
@@ -347,8 +347,6 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-
-
 
                             <GridViewColumn Width="95" Header="Tipo" >
                                 <GridViewColumn.CellTemplate >
@@ -393,11 +391,14 @@
                             IsEnabled="{Binding Comportamento.isEnableRemover}"         Command="{Binding PrepareRemoverCommand}" 
                             Visibility="{Binding ExcluirVisivel}"/>
 
+                    <!--<Button x:Name="btnImprimir" Content="{StaticResource imgPrint}"   ToolTip="Imprimir Credencial" Width="25" Margin="0,0,0,7"
+                             IsEnabled="{Binding IsEnableLstView, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Command ="{Binding ImprimirCommand}" Visibility="Hidden" />-->
+                    
                     <Button x:Name="btnCancelar" Content="{StaticResource imgCancel}"   ToolTip="Cancelar" Width="25" Margin="0,0,0,7"
                             IsEnabled="{Binding Comportamento.isEnableCancelar}"        Command="{Binding PrepareCancelarCommand}"  />
 
                     <Button x:Name="btnSalvar" Content="{StaticResource imgSave}"       ToolTip="Salvar" Width="25"  Margin="0,0,0,7"
-                            IsEnabled="{Binding Comportamento.isEnableSalvar}"          Command="{Binding PrepareSalvarCommand}" />
+                            IsEnabled="{Binding Comportamento.isEnableSalvar}"          Command="{Binding PrepareSalvarCommand}"  />
                 </StackPanel>
             </StackPanel>
         </StackPanel>
