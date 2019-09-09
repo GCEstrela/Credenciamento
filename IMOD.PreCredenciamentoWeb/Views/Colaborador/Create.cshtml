@@ -53,11 +53,25 @@
                     <a class="disabled" id="link7" data-toggle="tab" href="#curso" role="tab" aria-controls="curso"
                        aria-selected="false">Curso</a>
                 </li>
+                <li class="nav-item">
+                    <a class="disabled" id="link8" data-toggle="tab" href="#aceite" role="tab" aria-controls="aceite"
+                       aria-selected="false">Aceite</a>
+                </li>
             </ul>
 
             <div class="tab-content" id="myTabContent">
                 <div class=" tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">
                     <br />
+                    <div class="form-group">
+
+                        @Html.LabelFor(model => model.Foto, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-2">
+
+                            <img class="resize" id="blah" src="#" alt="Selecione uma Imagem" style="padding-bottom: 15px" />
+                            <input type='file' id="imgInp" />
+                        </div>
+
+                    </div>
                     <div class="form-group">
                         @Html.LabelFor(model => model.Cpf, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-2">
@@ -467,6 +481,30 @@
                         </div>
                     </fieldset>
                 </div>
+                <div class="tab-pane fade" id="aceite" role="tabpanel" aria-labelledby="aceite-tab">
+                    <br />
+                    <fieldset>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <textarea rows="20" cols="300" readonly>
+Texto de Termos de Aceite
+
+                                </textarea>
+                            </div>
+                            <div class="checkbox col-md-12" style="padding-left: 20px;">
+                                <div class="col-md-4" >
+                                    <input type="checkbox" model="Aceite" name="Aceite" value="0"><b>Aceito</b><br />
+
+                                    @Html.ValidationMessageFor(model => model.Aceite, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <input type='file' id="imgInp" />
+                            </div>
+                        </div>
+
+                    </fieldset>
+                </div>
             </div>
         </fieldset>
     </div>
@@ -752,6 +790,17 @@
                         return false;
                     }
                 }
+                else if (id == "link8") {
+                    if (!campoNome == "" && !campoApelido == "" && !campoCpf == "" && !campoCep == "" && !campoEndereco == "" && !campoBairro == "" && !campoNumero == "" && !campoEstadoId == "" && !campoMunicipioId == "" && !campoContatoEmergencia == "" && !campoTelefoneEmergencia == "") {
+                        $(this).removeClass('disabled');
+                        return true;
+                    }
+                    else {
+                        $("#btnSalvar").submit()
+                        $(this).addClass('disabled');
+                        return false;
+                    }
+                }
                 else {
 
                     $("#btnSalvar").submit()
@@ -802,21 +851,37 @@
                  //    return;
                  //}
                  $("#Endereco").val(result.address);
-                 $("#ddlBairro").val(result.district);                 
+                 $("#ddlBairro").val(result.district);
                  $("#ddlEstado option").filter(function () {
                      //may want to use $.trim in here
                      return $(this).text() == result.state;
-                 }).prop('selected', true);                 
-                 BuscarMunicipio();               
+                 }).prop('selected', true);
+                 BuscarMunicipio();
                  $("#ddlMunicipio option").filter(function () {
                      //may want to use $.trim in here
                      return $(this).text() == result.city.toUpperCase();
                  }).prop('selected', true);
-                 console.log(result);                
+                 console.log(result);
             });
         };
 
     </script>
+    <script>
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
 
+                reader.onload = function (e) {
+                    $('#blah').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $("#imgInp").change(function () {
+            readURL(this);
+        });
+    </script>
 
 }

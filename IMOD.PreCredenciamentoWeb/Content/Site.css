@@ -22,3 +22,13 @@ select,
 textarea {
     max-width: 1024px;
 }
+
+.navbar-inverse {
+    background-color: #fff !important;
+    border-color: #fff !important;
+}
+
+img.resize {
+    max-width: 100%;
+    max-height: 100%;
+}
