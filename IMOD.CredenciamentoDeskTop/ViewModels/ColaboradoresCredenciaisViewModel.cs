@@ -826,8 +826,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 PrepararCancelar();
                 HabilitarOpcoesCredencial = true;
                 verificarcredencialAtiva = true;
-                Entity = new ColaboradoresCredenciaisView();
-                HabilitaImprimir = false;
+                Entity = new ColaboradoresCredenciaisView();                
 
                 //if (!HabilitaCriar(_colaboradorView.ColaboradorId)) throw new InvalidOperationException("Não é possivel criar credencial, pois existe uma credencial ativa para o colaborador no contrato.");
 
@@ -860,6 +859,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 //Listar Colaboradores Ativos
                 OnAtualizarDadosContratosAtivos();
                 _viewModelParent.HabilitaControleTabControls(false, false, false, false, false, true);
+                HabilitaImprimir = false;
             }
             catch (Exception ex)
             {
