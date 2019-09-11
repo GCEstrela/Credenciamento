@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.28917.181
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.421
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IMOD.CredenciamentoDeskTop", "IMOD.CredenciamentoDeskTop\IMOD.CredenciamentoDeskTop.csproj", "{974F5875-4CFB-4926-8273-D1BF96AC8242}"
 EndProject
@@ -46,6 +46,11 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IMOD.APPService", "WindowsService1\IMOD.APPService.csproj", "{68E0783B-CB48-4864-B4EE-346687294712}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IMOD.ValidacaoCredencialWeb", "IMOD.ValidacaoCredencialWeb\IMOD.ValidacaoCredencialWeb.csproj", "{DDA5B05E-EF69-4B73-99E5-1E334B47CBCA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resources", "Resources", "{CACB6656-5863-4171-B060-CF37EB01810A}"
+	ProjectSection(SolutionItems) = preProject
+		G:\tchg.dll = G:\tchg.dll
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

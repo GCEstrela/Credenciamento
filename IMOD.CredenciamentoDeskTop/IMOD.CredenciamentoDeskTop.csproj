@@ -108,7 +108,7 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
     <Reference Include="tchg">
-      <HintPath>..\..\..\..\Documents\Visual Studio 2019\Projeto TreeCardHolderGroup\tchg\bin\Debug\tchg.dll</HintPath>
+      <HintPath>.\tchg.dll</HintPath>
     </Reference>
     <Reference Include="UIAutomationProvider" />
     <Reference Include="VisioForge.Controls, Version=11.2.9.0, Culture=neutral, PublicKeyToken=5873e863f1bcda5d, processorArchitecture=MSIL">
@@ -1076,6 +1076,7 @@
     <Content Include="Dlls\CroppingImageLibrary.dll" />
     <Content Include="Dlls\PropertyChanged.dll" />
     <Content Include="FodyWeavers.xml" />
+    <Content Include="Dlls\tchg.dll" />
     <Resource Include="Resources\laranja_alerta.png" />
     <Resource Include="Resources\PendenciaImpeditiva.ico" />
     <Content Include="Resources\PendenciaImpeditiva.jpg" />
