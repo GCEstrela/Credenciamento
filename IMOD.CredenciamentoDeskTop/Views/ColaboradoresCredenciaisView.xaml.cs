@@ -7,11 +7,13 @@
 #region
 
 using System;
+using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using IMOD.CredenciamentoDeskTop.Enums;
 using IMOD.CredenciamentoDeskTop.Helpers;
 using IMOD.CredenciamentoDeskTop.ViewModels;
@@ -187,32 +189,48 @@ namespace IMOD.CredenciamentoDeskTop.Views
         private void OnAlterarStatus_SelectonChanged(object sender, SelectionChangedEventArgs e)
         {
 
-            btnImprimirCredencial.IsEnabled = true;
-            _viewModel.ContentImprimir = "Imprimir Credencial";
-            if (_viewModel.HabilitaImpressao)
+            try
             {
-                btnImprimirCredencial.Content = "Imprimir Credencial";
-                btnImprimirCredencial.ToolTip = "Imprimir Credencial";
+
+                btnImprimirCredencial.IsEnabled = true;
+                _viewModel.ContentImprimir = "Imprimir Credencial";
+                Image img = new Image();                        
+
+
+                if (_viewModel.HabilitaImpressao)
+                {
+
+                    img.Source = new BitmapImage(new Uri(@"../Resources/CardPrinter.png", UriKind.Relative));
+                    btnImprimirCredencial.Content = img;
+                    btnImprimirCredencial.ToolTip = "Imprimir Credencial";
+                }
+                else
+                {
+                    img.Source = new BitmapImage(new Uri(@"../Resources/Olho.png", UriKind.Relative)); 
+                    btnImprimirCredencial.Content = img;
+                    btnImprimirCredencial.ToolTip = "Visualizar Credencial";
+                }
+
+                if (_viewModel.ColaboradorEmpresa == null) return;
+                if (_viewModel.ColaboradorEmpresa.ColaboradorId > 0 & _viewModel.ColaboradorEmpresa.EmpresaId > 0)
+                {
+                    _viewModel.CarregarVinculosAtivosOutrasCredenciais(_viewModel.ColaboradorEmpresa.ColaboradorId, _viewModel.ColaboradorEmpresa.EmpresaId);
+                }
+
+                if (cmbCredencialStatus.SelectedItem != null &&
+                            (((CredencialStatus)cmbCredencialStatus.SelectedItem).CredencialStatusId == 1))
+                {
+                    chkDevolucaoMotivo.IsChecked = false;
+                    chkDevolucaoMotivo.Content = String.Empty;
+                    chkDevolucaoMotivo.Visibility = Visibility.Hidden;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                btnImprimirCredencial.Content = "Visualizar Credencial";
-                btnImprimirCredencial.ToolTip = "Visualizar Credencial";
+
+                MessageBox.Show(ex.Message);
             }
 
-            if (_viewModel.ColaboradorEmpresa == null) return;
-            if (_viewModel.ColaboradorEmpresa.ColaboradorId > 0 & _viewModel.ColaboradorEmpresa.EmpresaId > 0)
-            {
-                _viewModel.CarregarVinculosAtivosOutrasCredenciais(_viewModel.ColaboradorEmpresa.ColaboradorId, _viewModel.ColaboradorEmpresa.EmpresaId);
-            }
-
-            if (cmbCredencialStatus.SelectedItem != null &&
-                        (((CredencialStatus)cmbCredencialStatus.SelectedItem).CredencialStatusId == 1))
-            {
-                chkDevolucaoMotivo.IsChecked = false;
-                chkDevolucaoMotivo.Content = String.Empty;
-                chkDevolucaoMotivo.Visibility = Visibility.Hidden;
-            }
         }
 
         private void CmbMotivacao_SelectionChanged(object sender, SelectionChangedEventArgs e)

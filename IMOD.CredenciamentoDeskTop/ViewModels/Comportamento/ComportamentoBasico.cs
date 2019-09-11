@@ -26,6 +26,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels.Comportamento
         public bool isEnableCancelar { get; set; } = true;
         public bool isEnableLstView { get; set; } = true;
         public bool isEnableBotoes { get; set; } = true;
+        public string isVisibleSalvar { get; set; }
+        public string isVisibleCancelar { get; set; }
+
+
 
         #endregion
 
@@ -36,7 +40,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels.Comportamento
         /// <param name="btnExcluirEHabilitado">Propriedade do botão Remover</param>
         /// <param name="btnSalvarEHabilitado">Propriedade do botão  Salvar</param>
         /// <param name="cancelarHabilitado">Propriedade do botão Cancelar</param>
-       
+
         public ComportamentoBasico(bool btnEditarEHabilitado,
             bool btnCriarEHabilitado, bool btnExcluirEHabilitado,
             bool btnSalvarEHabilitado, bool cancelarHabilitado)
@@ -132,7 +136,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels.Comportamento
             this.isEnableRemover = isEnableRemover;
             this.isEnableSalvar = isEnableSalvar;
             this.IsEnableEditar = isEnableEditar;
-            this.isEnableLstView = isEnableLstView;
+            this.isEnableLstView = isEnableLstView;            
             
         }
 
