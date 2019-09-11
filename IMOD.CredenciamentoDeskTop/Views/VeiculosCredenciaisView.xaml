@@ -7,15 +7,16 @@
              xmlns:wpf="clr-namespace:CSharpControls.Wpf;assembly=CSharpControls.Wpf"
              xmlns:funcoes="clr-namespace:IMOD.CredenciamentoDeskTop.Funcoes"
              xmlns:viewModels="clr-namespace:IMOD.CredenciamentoDeskTop.ViewModels"
-             mc:Ignorable="d"
-             d:DesignHeight="450" d:DesignWidth="1000"
-             Loaded="UserControl_Loaded">
+             mc:Ignorable="d" d:DesignWidth="1000"
+             Loaded="UserControl_Loaded" Height="400.283">
     <UserControl.Resources>
         <Image x:Key="imgAdd" Source="../Resources/add.png" />
         <Image x:Key="imgEdit" Source="../Resources/edit.png" />
         <Image x:Key="imgRemove" Source="../Resources/remove.png" />
         <Image x:Key="imgSave" Source="../Resources/save.png" />
         <Image x:Key="imgCancel" Source="../Resources/undo.png" />
+        <Image x:Key="imgPrint" Source="../Resources/CardPrinter.png"  />
+        <Image x:Key="imgView" Source="../Resources/Olho.png"  />
         <funcoes:FormateTel x:Key="FormateTel" />
         <funcoes:CheckTeste x:Key="CheckTeste" />
         <ControlTemplate x:Key="ValidationErrorTemplate">
@@ -190,7 +191,7 @@
                                       DisplayMemberPath="Descricao"
                                       SelectedValue="{Binding Entity.TecnologiaCredencialId, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                       SelectedValuePath="TecnologiaCredencialId" IsSynchronizedWithCurrentItem="True" Visibility="Collapsed"/>
-                            
+
 
                             <Label Content="FC:" Height="28" Width="46" Margin="25,0,5,0"
                                    HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" Visibility="Collapsed" />
@@ -207,7 +208,7 @@
                                 Text="{Binding Entity.Emissao,UpdateSourceTrigger=PropertyChanged, StringFormat=\{0:d\}}"
                                 VerticalAlignment="Center" Width="75" />
                             <Label Content="Validade:" Height="28" Width="60" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" 
-                                   RenderTransformOrigin="0.553,0.5" /> 
+                                   RenderTransformOrigin="0.553,0.5" />
                             <TextBox Text="{Binding Entity.Validade, 
                             UpdateSourceTrigger=PropertyChanged,Mode=TwoWay,
                             StringFormat='{}{0:dd/MM/yyyy}'}"
@@ -295,17 +296,17 @@
                 </StackPanel>
             </GroupBox>
 
-            <StackPanel Orientation="Horizontal">
-                <Button x:Name="btnImprimirCredencial" Content="Imprimir Credencial" ToolTip="Imprimir Credencial"
+            <StackPanel Orientation="Horizontal" Height="20px">
+                <!--<Button x:Name="btnImprimirCredencial" Content="Imprimir Credencial" ToolTip="Imprimir Credencial"
                         Margin="0,10" 
                         Height="24"
                         RenderTransformOrigin="0.953,0.417" HorizontalAlignment="Left"
                         Width="220" 
                         IsEnabled="{Binding HabilitaImpressao, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                        Command="{Binding ImprimirCommand}" />
+                        Command="{Binding ImprimirCommand}" />-->
                 <Label Style="{Styles {x:Static LabelStyles.Info} }" Margin="10,0,0,0" Visibility="{Binding MensagemAlerta, Converter={funcoes:StringNullOrEmptyToVisibilityConverter}}"   Height="24" VerticalAlignment="Center"   HorizontalAlignment="Center" Content="{Binding MensagemAlerta}"></Label>
             </StackPanel>
-           
+
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="990" Height="230">
 
                 <ListView x:Name="ListaVeiculosCredenciais_lv" HorizontalAlignment="Stretch"
@@ -313,7 +314,7 @@
                           IsEnabled="{Binding IsEnableLstView}"
                           SelectedIndex="{Binding SelectListViewIndex}"
                           ItemsSource="{Binding EntityObserver, Mode=TwoWay}"
-                          SelectedItem="{Binding Entity, Mode=TwoWay}" Height="175"  VerticalAlignment="Top" >
+                          SelectedItem="{Binding Entity, Mode=TwoWay}" Height="202"  VerticalAlignment="Top" >
                     <ListView.View>
                         <GridView>
                             <!--<GridViewColumn >
@@ -334,8 +335,10 @@
                             <!--<GridViewColumn Width="68" Header="Ativa">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        --><!--<wpf:ToggleSwitch  x:Name="Ativa_tw" HeaderHorizontalAlignment="Stretch" Width="100" HorizontalAlignment="Right" SwitchContentPlacement="Right" IsHitTestVisible="False"
-                                                          IsChecked="{Binding Ativa}"  Foreground="#FFD0D0BE" UncheckedBackground="Maroon" UncheckedBorderBrush="Maroon" UncheckedForeground="#FFAEAEAE" UncheckedText="" CheckedText="" SwitchWidth="44" />--><!--
+                                        -->
+                            <!--<wpf:ToggleSwitch  x:Name="Ativa_tw" HeaderHorizontalAlignment="Stretch" Width="100" HorizontalAlignment="Right" SwitchContentPlacement="Right" IsHitTestVisible="False"
+                                                          IsChecked="{Binding Ativa}"  Foreground="#FFD0D0BE" UncheckedBackground="Maroon" UncheckedBorderBrush="Maroon" UncheckedForeground="#FFAEAEAE" UncheckedText="" CheckedText="" SwitchWidth="44" />-->
+                            <!--
                                         <CheckBox IsChecked="{Binding Path=Ativa}" IsHitTestVisible="False" />
 
                                     </DataTemplate>
@@ -397,7 +400,7 @@
                         </GridView>
                     </ListView.View>
                 </ListView>
-                <StackPanel Orientation="Vertical" Margin="10,0" Width="30" HorizontalAlignment="Right" Height="172" VerticalAlignment="Top" >
+                <StackPanel Orientation="Vertical" Margin="10,0" Width="30" HorizontalAlignment="Right" Height="202" VerticalAlignment="Top" >
                     <Button x:Name="btnAdicionar" Content="{StaticResource imgAdd}" ToolTip="Adicionar" Width="25"
                             Margin="0,0,0,7"
                             IsEnabled="{Binding Comportamento.IsEnableCriar}" Command="{Binding PrepareCriarCommand}" />
@@ -412,6 +415,9 @@
                             IsEnabled="{Binding Comportamento.isEnableRemover}"
                             Command="{Binding PrepareRemoverCommand}"
                             Visibility="{Binding ExcluirVisivel}"/>
+
+                    <Button x:Name="btnImprimirCredencial" Content="{StaticResource imgPrint}"   ToolTip="Imprimir Credencial" Width="25" Margin="0,0,0,7"
+                             IsEnabled="{Binding HabilitaImpressao, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Command ="{Binding ImprimirCommand}"/>
 
                     <Button x:Name="btnCancelar" Content="{StaticResource imgCancel}" ToolTip="Cancelar" Width="25"
                             Margin="0,0,0,7"

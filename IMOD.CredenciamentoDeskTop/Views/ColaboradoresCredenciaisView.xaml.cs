@@ -191,8 +191,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
                 btnImprimirCredencial.IsEnabled = true;
                 _viewModel.ContentImprimir = "Imprimir Credencial";
-                Image img = new Image();
-                string url = Path.GetPathRoot(@"Resources");                
+                Image img = new Image();                        
 
 
                 if (_viewModel.HabilitaImpressao)
