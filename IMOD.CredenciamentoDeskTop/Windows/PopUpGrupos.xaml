@@ -5,7 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:IMOD.CredenciamentoDeskTop.Windows"
             xmlns:tchg="clr-namespace:tchg;assembly=tchg"
-             mc:Ignorable="d" Height="447.443" Width="488.068">
+             mc:Ignorable="d" Height="447.443" Width="488.068" 
+             Title="Grupos de CardHolder - Controle de acesso (Genetec)">
+    
     <Window.Background>
         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
             <GradientStop Color="#FF171717" Offset="0.984"/>

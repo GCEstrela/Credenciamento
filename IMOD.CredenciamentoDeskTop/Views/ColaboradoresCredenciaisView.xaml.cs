@@ -500,9 +500,9 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 _viewModel.Entity.listadeGrupos.Clear();
                 foreach (Guid cardholderGuid in cardholderGuids)
                 {
-                    Genetec.Sdk.Entities.CardholderGroup cardholdergroup = m_sdkEngine.GetEntity(cardholderGuid) as Genetec.Sdk.Entities.CardholderGroup;
-                    //_viewModel.Entity.listadeGrupos += cardholdergroup.Name + ";";
-                    _viewModel.Entity.listadeGrupos.Add(cardholdergroup.Guid);
+                    //Genetec.Sdk.Entities.CardholderGroup cardholdergroup = m_sdkEngine.GetEntity(cardholderGuid) as Genetec.Sdk.Entities.CardholderGroup;
+                    ////_viewModel.Entity.listadeGrupos += cardholdergroup.Name + ";";
+                    //_viewModel.Entity.listadeGrupos.Add(cardholdergroup.Guid);
                 }
             }
             catch (Exception ex)
