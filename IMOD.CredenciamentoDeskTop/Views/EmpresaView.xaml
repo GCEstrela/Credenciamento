@@ -15,7 +15,7 @@
         <Image x:Key="imgRemove" Source="../Resources/remove.png" />
         <Image x:Key="imgSave" Source="../Resources/save.png" />
         <Image x:Key="imgCancel" Source="../Resources/undo.png" />
-        <Image x:Key="imgSenhaWeb" Source="../Resources/passweb.png" />
+        <Image x:Key="imgSenhaWeb" Source="../Resources/Companhia.png" />
         <funcoes:StringToImageConverter x:Key="ImageConverter" />
         <funcoes:ConvertIntToImage x:Key="ConvertIntToImage" />
         <ControlTemplate x:Key="ValidationErrorTemplate">
@@ -149,18 +149,15 @@
             <Button x:Name="btnExcluir" Content="{StaticResource imgRemove}" ToolTip="Remover"
                     IsEnabled="{Binding Comportamento.isEnableRemover}" Command="{Binding PrepareRemoverCommand}"
                     Width="25" Margin="0,0,5,0" Visibility="Collapsed" />
-
             <Button x:Name="btnCancelar" Content="{StaticResource imgCancel}" ToolTip="Cancelar"
                     IsEnabled="{Binding Comportamento.isEnableCancelar}" Command="{Binding PrepareCancelarCommand}"
                     Width="25" Margin="0,0,5,0" Click="BtnCancelar_Click" />
             <Button x:Name="btnSalvar" Content="{StaticResource imgSave}" ToolTip="Salvar"
                     IsEnabled="{Binding Comportamento.isEnableSalvar}" Command="{Binding PrepareSalvarCommand}"
                     Width="25" Margin="0,0,5,0" />
-
             <Button x:Name="btnSenhaWeb" Content="{StaticResource imgSenhaWeb}" ToolTip="Gerar senha pré-cadastro web"
-                    IsEnabled="{Binding Comportamento.IsEnableCriar}" Command="{Binding PrepareSenhaWebCommand}"
+                    IsEnabled="{Binding Comportamento.IsEnableEditar}" Command="{Binding PrepareSenhaWebCommand}"
                     Width="25" Margin="0,0,5,0" />
-
 
         </StackPanel>
 

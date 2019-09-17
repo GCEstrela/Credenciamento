@@ -5,6 +5,7 @@
 // ***********************************************************************
 
 using System.Collections.Generic;
+using System.Data;
 
 namespace IMOD.Domain.Entities
 {
@@ -33,6 +34,7 @@ namespace IMOD.Domain.Entities
         public string NomeAeroporto { get; set; }
         public List<string> Grupos { get; set; }
         public string GrupoPadrao { get; set; }
+        public string UrlSistemaPreCadastro { get; set; }
         #endregion
     }
 }

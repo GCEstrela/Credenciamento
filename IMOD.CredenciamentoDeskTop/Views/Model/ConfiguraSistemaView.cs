@@ -33,6 +33,7 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public string NomeAeroporto { get; set; }
         public List<string> Grupos { get; set; }
         public string GrupoPadrao { get; set; }
+        public string UrlSistemaPreCadastro { get; set; }
         #endregion
     }
 }
