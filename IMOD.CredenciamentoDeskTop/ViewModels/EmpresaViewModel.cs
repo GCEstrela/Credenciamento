@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Text;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
@@ -22,6 +23,7 @@ using IMOD.CredenciamentoDeskTop.ViewModels.Commands;
 using IMOD.CredenciamentoDeskTop.ViewModels.Comportamento;
 using IMOD.CredenciamentoDeskTop.Views.Model;
 using IMOD.CrossCutting;
+using IMOD.CrossCutting.Entities;
 using IMOD.Domain.Entities;
 using EmpresaLayoutCrachaView = IMOD.Domain.EntitiesCustom.EmpresaLayoutCrachaView;
 
@@ -37,6 +39,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         private readonly IEmpresaContratosService _serviceContratos = new EmpresaContratoService();
         private ConfiguraSistema _configuraSistema;
+
+
+        #region Propriedades da Classe
 
         public Boolean empresaFake = false;
         /// <summary>
@@ -158,7 +163,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
         }
         #endregion
+        #endregion
 
+        #region Construtor da Classe
         public EmpresaViewModel()
         {
             try
@@ -182,6 +189,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 throw ex;
             }
         }
+        #endregion
 
         #region  Metodos
 
@@ -365,6 +373,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 throw ex;
             }
         }
+
+
 
         #endregion
         /// <summary>
@@ -591,6 +601,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         ///     Pesquisar
         /// </summary>
         public ICommand PesquisarCommand => new CommandBase (Pesquisar, true);
+
+
+        public ICommand PrepareSenhaWebCommand => new CommandBase(GerarSenhaWeb, true);
+
 
         #endregion
 
@@ -919,6 +933,62 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 Utils.TraceException (ex);
                 WpfHelp.MboxError ("Não foi realizar a operação solicitada", ex);
             }
+        }
+
+        private void GerarSenhaWeb()
+        {
+            if (Entity == null) return;
+            Entity.Senha = RandomString(6, Entity);
+            var n1 = Mapper.Map<Empresa>(Entity);
+            _service.Alterar(n1);
+
+            EnviarEmailSenha();
+        }
+
+        private void EnviarEmailSenha()
+        {
+            ConfiguraSistema configSistema = ObterConfiguracao();
+            Email email = new Email();
+            email.Assunto = string.Format("{0}  - Acesso ao pré-cadastro do credenciamento web".ToUpper(), configSistema.NomeAeroporto);
+            email.Usuario = configSistema.EmailUsuario.Trim();
+            email.Senha = configSistema.EmailSenha.Trim();
+            email.ServidorEmail = configSistema.SMTP.Trim();
+            email.Porta = "587";       // porta para SSL                                   
+            email.UsarSsl = true; // GMail requer SSL         
+            //email.UsarTls = true;
+            email.UsarAutenticacao = false;
+            email.EmailDestinatario = Entity.Email1.Split(';').ToList();
+            email.EmailRemetente = configSistema.EmailUsuario;
+            email.NomeRemetente = configSistema.NomeAeroporto;
+
+            // seu usuário e senha para autenticação
+
+            email.NomeRemetente = configSistema.NomeAeroporto;
+
+            StringBuilder emailFraport = new StringBuilder();
+            emailFraport.AppendLine("Prezado usuário,");
+            emailFraport.AppendLine(string.Empty);
+            emailFraport.AppendLine(string.Format("Sua senha para acesso ao portal de pré-cadastro web do credenciamento é: <b>{0}</b>", Entity.Senha));
+            emailFraport.AppendLine("O acesso deve ser realizado através do link:" + configSistema.UrlSistema);
+            emailFraport.AppendLine("");
+            emailFraport.AppendLine("Att:");
+            emailFraport.AppendLine("");
+            emailFraport.AppendLine("Sistema de Credenciamento.");
+            emailFraport.AppendLine("Setor de Credenciamento - Fraport-Brasil");
+
+            email.Mensagem = emailFraport.ToString();
+
+
+            Utils.EnviarEmail(email, configSistema.NomeAeroporto);
+        }
+
+
+        private static Random random = new Random();
+        public static string RandomString(int length, EmpresaView entity)
+        {
+            string chars = string.Format("@!&*#_%{0}{1}", "AbCdEfGhIjKlMnOpQrStUvWxYz", DateTime.Now.Ticks);
+            return new string(Enumerable.Repeat(chars, length)
+              .Select(s => s[random.Next(s.Length)]).ToArray());
         }
 
         #endregion

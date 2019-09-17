@@ -1068,7 +1068,10 @@
     <Content Include="FodyWeavers.xml" />
     <Resource Include="Resources\laranja_alerta.png" />
     <Resource Include="Resources\PendenciaImpeditiva.ico" />
+    <Content Include="Resources\passweb.png" />
+    <Content Include="Resources\password-icon.jpg" />
     <Content Include="Resources\PendenciaImpeditiva.jpg" />
+    <Content Include="Resources\senhaweb.png" />
     <Content Include="Resources\vermelho_02.jpg" />
     <Resource Include="Resources\yellow_alerta.png" />
     <Resource Include="Resources\vermelho.png" />

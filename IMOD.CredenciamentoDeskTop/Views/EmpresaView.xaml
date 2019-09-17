@@ -15,6 +15,7 @@
         <Image x:Key="imgRemove" Source="../Resources/remove.png" />
         <Image x:Key="imgSave" Source="../Resources/save.png" />
         <Image x:Key="imgCancel" Source="../Resources/undo.png" />
+        <Image x:Key="imgSenhaWeb" Source="../Resources/passweb.png" />
         <funcoes:StringToImageConverter x:Key="ImageConverter" />
         <funcoes:ConvertIntToImage x:Key="ConvertIntToImage" />
         <ControlTemplate x:Key="ValidationErrorTemplate">
@@ -155,6 +156,11 @@
             <Button x:Name="btnSalvar" Content="{StaticResource imgSave}" ToolTip="Salvar"
                     IsEnabled="{Binding Comportamento.isEnableSalvar}" Command="{Binding PrepareSalvarCommand}"
                     Width="25" Margin="0,0,5,0" />
+
+            <Button x:Name="btnSenhaWeb" Content="{StaticResource imgSenhaWeb}" ToolTip="Gerar senha pré-cadastro web"
+                    IsEnabled="{Binding Comportamento.IsEnableCriar}" Command="{Binding PrepareSenhaWebCommand}"
+                    Width="25" Margin="0,0,5,0" />
+
 
         </StackPanel>
 
