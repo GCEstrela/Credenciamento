@@ -1063,19 +1063,22 @@
                                 <StackPanel Margin="1">
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                         Margin="1,1,0,1" Width="623">
-
-                                        <CheckBox Name="Contrato" ToolTip="Essa opção habilita contratos automático." 
-                                              Content="Contrato automático" Foreground="YellowGreen"  HorizontalAlignment="Left" Height="17" 
-                                              Margin="115,7,0,0" Grid.Row="3" VerticalAlignment="Top" Width="139"
+                                        <CheckBox x:Name="Contrato" ToolTip="Essa opção habilita contratos automático." 
+                                              Content="Contrato Automático" Foreground="YellowGreen"  HorizontalAlignment="Left" Height="17" 
+                                              Margin="30,7,0,0" VerticalAlignment="Top" Width="137"
                                               IsChecked="{Binding Entity.Contrato, UpdateSourceTrigger=PropertyChanged}" />
-                                        <CheckBox Name="Colete" ToolTip="" 
-                                              Content="Colete automático" Foreground="YellowGreen"  HorizontalAlignment="Left" Height="17" 
-                                              Margin="0,7,0,0" Grid.Row="3" VerticalAlignment="Top" Width="125"
+                                        <CheckBox x:Name="Colete" ToolTip="" 
+                                              Content="Colete Automático" Foreground="YellowGreen"  HorizontalAlignment="Left" Height="17" 
+                                              Margin="0,7,0,0" VerticalAlignment="Top" Width="125"
                                               IsChecked="{Binding Entity.Colete, UpdateSourceTrigger=PropertyChanged}" />
-                                        <CheckBox Name="Regra" ToolTip="" 
-                                              Content="Enviar Privilégio para o Genetec" Foreground="YellowGreen"  HorizontalAlignment="Left" Height="17" 
-                                              Margin="0,7,0,0" Grid.Row="3" VerticalAlignment="Top" Width="190"
+                                        <CheckBox x:Name="Regra" ToolTip="" 
+                                              Content="Enviar Regras para o CA" Foreground="YellowGreen"  HorizontalAlignment="Left" Height="17" 
+                                              Margin="0,7,0,0" VerticalAlignment="Top" Width="155"
                                               IsChecked="{Binding Entity.Regras, UpdateSourceTrigger=PropertyChanged}" />
+                                        <CheckBox x:Name="Grupos" ToolTip="" 
+                                            Content="Associar a Grupos do CA" Foreground="YellowGreen"  HorizontalAlignment="Left" Height="17" 
+                                            Margin="0,7,0,0" VerticalAlignment="Top" Width="155"
+                                            IsChecked="{Binding Entity.AssociarGrupos, UpdateSourceTrigger=PropertyChanged}" />
 
                                     </StackPanel>
 
@@ -1116,7 +1119,7 @@
 
 
                                     </StackPanel>
-                                                                        
+
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                         Margin="1,1,0,1" Width="590">
                                         <Label Content="URL QR Code:" Height="28" Width="109" Margin="1" Foreground="#FFD0D0D0"                                        

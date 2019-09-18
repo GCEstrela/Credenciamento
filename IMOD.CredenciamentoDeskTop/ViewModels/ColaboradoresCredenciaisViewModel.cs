@@ -169,6 +169,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         public bool HabilitaImprimir { get; set; }
 
+        public string VisibleGrupos { get; set; }
+
         #endregion
 
         public ColaboradoresCredenciaisViewModel()
@@ -197,7 +199,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 Comportamento.Cancelar += OnCancelar;
                 PropertyChanged += OnEntityChanged;
                 SelectListViewIndex = -1;
-                HabilitaImprimir = (IsEnableLstView && SelectListViewIndex > -1);
+                HabilitaImprimir = false;
             }
             catch (Exception ex)
             {
@@ -433,6 +435,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 {
                     IsEnableColete = false;
                 }
+                VisibleGrupos = Helper.ExibirCampo(_configuraSistema.AssociarGrupos);
             }
             catch (Exception ex)
             {

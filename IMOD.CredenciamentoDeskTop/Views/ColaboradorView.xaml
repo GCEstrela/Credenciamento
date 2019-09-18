@@ -372,25 +372,25 @@
                                 </StackPanel>
 
                             </StackPanel>
-                            <StackPanel VerticalAlignment="Top" Margin="50,6,20,0" Height="149" Width="101">
-                                <Border CornerRadius="3" BorderThickness="1" Width="85" Height="100"
+                            <StackPanel VerticalAlignment="Top" Margin="40,0,10,0" Height="149" Width="100" HorizontalAlignment="Center">
+                                <Border CornerRadius="1" BorderThickness="2" Width="95" Height="110"
                                         HorizontalAlignment="Left" BorderBrush="#FF686868">
                                     <Image x:Name="Logo_im"
                                            Source="{Binding Entity.Foto, Converter={StaticResource ImageConverter}, Mode=TwoWay, UpdateSourceTrigger=Explicit}"
-                                           Margin="3" >
+                                           Margin="2" >
                                         <Image.ToolTip>
                                             <Image x:Name="Logo_im1" Stretch="Uniform" 
                                                 Source="{Binding Entity.Foto, Converter={StaticResource ImageConverter}, Mode=TwoWay, UpdateSourceTrigger=Explicit}"/>
                                         </Image.ToolTip>
                                     </Image>
                                 </Border>
-                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
-                                    <Button x:Name="SelecionarLogo_bt" FontStretch="Condensed"  HorizontalAlignment="Center" Margin="1,5,0,0" Height="35" Width="44" Click="OnSelecionaFoto_Click">
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Width="100" Height="39">
+                                    <Button x:Name="SelecionarLogo_bt" FontStretch="Condensed"  HorizontalAlignment="Center" Margin="2,5,0,0" Height="35" Width="40" Click="OnSelecionaFoto_Click">
                                         <StackPanel>
                                             <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Pasta.ico" Height="26" Width="28"/>
                                         </StackPanel>
                                     </Button>
-                                    <Button x:Name="WbeCam_bt" Height="35" Width="44" Margin="10,5,0,0" VerticalAlignment="Center" Click="WbeCam_bt_Click">
+                                    <Button x:Name="WbeCam_bt" Height="35" Width="40" Margin="10,5,0,0" VerticalAlignment="Center" Click="WbeCam_bt_Click">
                                         <StackPanel>
                                             <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/WebCam.ico" Height="26" Width="28"/>
                                         </StackPanel>

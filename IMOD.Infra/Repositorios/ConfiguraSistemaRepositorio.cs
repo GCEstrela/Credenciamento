@@ -58,9 +58,9 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Apelido", entity.Apelido, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("EmpresaLOGO", entity.EmpresaLOGO, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Contrato", entity.Contrato, false)));
-
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Colete", entity.Colete, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Regras", entity.Regras, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("AssociarGrupos", entity.AssociarGrupos, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Email", entity.Email, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Responsavel", entity.Responsavel, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("SMTP", entity.SMTP, false)));
@@ -73,6 +73,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("NomeAeroporto", entity.NomeAeroporto, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("TelefoneEmergencia", entity.TelefoneEmergencia, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("UrlSistemaPreCadastro", entity.UrlSistemaPreCadastro, false)));
+                        
                         if (entity.GrupoPadrao != null)
                         {
                             cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("GrupoPadrao", entity.GrupoPadrao.Trim(), false)));

@@ -35,6 +35,7 @@ namespace IMOD.Domain.Entities
         public List<string> Grupos { get; set; }
         public string GrupoPadrao { get; set; }
         public string UrlSistemaPreCadastro { get; set; }
+        public bool AssociarGrupos { get; set; }
         #endregion
     }
 }

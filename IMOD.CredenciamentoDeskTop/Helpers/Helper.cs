@@ -212,5 +212,10 @@ namespace IMOD.CredenciamentoDeskTop.Helpers
 
         }
 
+        public static string ExibirCampo(bool visivel)
+        {
+            return (visivel) ? "Visible" : "Hidden" ;
+        }
+
     }
 }
