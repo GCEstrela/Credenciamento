@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
+using IMOD.Domain.Entities;
 
 namespace IMOD.PreCredenciamentoWeb.Models
 {
@@ -65,6 +66,17 @@ namespace IMOD.PreCredenciamentoWeb.Models
         public string CaminhoArquivo { get; set; }
 
         [Display(Name = "Documento Anexo")] 
-        public HttpPostedFileBase FileUpload { get; set; } 
+        public HttpPostedFileBase FileUpload { get; set; }
+
+        public string Licenciamento { get; set; }
+        [Display(Name = "Veículo")]
+        public string RadioVeiculoEquip { get; set; }
+        [Display(Name = "Equipamento")]
+        public string RadioEquipamento { get; set; }
+        [Display(Name = "Vigência")]
+        public DateTime? Vigencia { get; set; }
+        [Display(Name = "Serviço")]
+        public int TipoServicoId { get; set; }
+        public IList<TipoServico> Servicos { get; set; }
     }
 }
