@@ -12,6 +12,8 @@ using System.Web.Security;
 using System.Drawing;
 using System.IO;
 using System.Text;
+using IMOD.PreCredenciamentoWeb.Util;
+using AutoMapper;
 
 namespace IMOD.PreCredenciamentoWeb.Controllers
 {
@@ -95,6 +97,25 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             Session.Abandon();
             FormsAuthentication.SignOut();
             return RedirectToAction("Index", "Login");
+        }
+
+
+        public ActionResult Alterar(LoginViewModel model)
+        {
+            if (model.NovaSenha == model.ConfimacaoSenha)
+            {
+                var empresa = service.BuscarPelaChave(SessionUsuario.EmpresaLogada.EmpresaId);
+                empresa.Senha = model.NovaSenha;
+                var empresaMapeado = Mapper.Map<Empresa>(empresa);
+                service.Alterar(empresaMapeado);
+
+            }
+            return RedirectToAction("TrocaSenha", "Login");
+        }
+
+        public ActionResult TrocaSenha()
+        {
+            return View();
         }
 
     }
