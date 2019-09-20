@@ -11,6 +11,7 @@ using IMOD.Domain.Entities;
 using System.Web.Security;
 using System.Drawing;
 using System.IO;
+using System.Text;
 
 namespace IMOD.PreCredenciamentoWeb.Controllers
 {
@@ -19,11 +20,18 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
         IEmpresaService service = new EmpresaService();
         IEmpresaContratosService servicecontrato = new EmpresaContratoService();
+        IConfiguraSistemaService configuracaoService = new ConfiguraSistemaService();
+
 
         // GET: Login
         public ActionResult Index()
         {
-            return View(new LoginViewModel());
+            var config = configuracaoService.Listar().FirstOrDefault();
+            Session.Add("ConfigSistema", config);
+            Session.Add("Logo", config.EmpresaLOGO);
+            ViewBag.Foto = config.EmpresaLOGO;
+            ViewBag.Nome = config.NomeAeroporto;
+            return View(new LoginViewModel());            
         }
 
         [HttpPost]
