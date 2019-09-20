@@ -82,12 +82,19 @@ namespace IMOD.Infra.Repositorios
         /// Criar numero de matricula
         /// </summary>
         /// <param name="entity"></param>
-        private void CriarNumeroMatricula(VeiculoEmpresa entity)
+        public void CriarNumeroMatricula(VeiculoEmpresa entity)
         {
-
-            var data = DateTime.Now.ToString("yy");
-            entity.Matricula = $"{entity.VeiculoId}-{data}";//entity
-            Alterar(entity);
+            try
+            {
+                var codigo = entity.VeiculoEmpresaId.ToString("N0");
+                var data = DateTime.Now.ToString("yy");
+                entity.Matricula = $"{codigo}-{data}";//entity
+                Alterar(entity);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         /// <summary>

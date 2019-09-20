@@ -101,8 +101,16 @@ namespace IMOD.Application.Service
         public ICollection<VeiculoEmpresaView> ListarContratoView(params object[] o)
         {
             return _repositorio.ListarContratoView(o);
-        } 
+        }
 
+        /// <summary>
+        /// Criar numero de matricula
+        /// </summary>
+        /// <param name="entity"></param>
+        public void CriarNumeroMatricula(VeiculoEmpresa entity)
+        {
+            _repositorio.CriarNumeroMatricula(entity);
+        }
         #endregion
     }
 }

@@ -13,6 +13,13 @@ namespace IMOD.Domain.Entities
         public int TipoServicoId { get; set; }
         public string Descricao { get; set; }
 
+        public TipoServico(int tipoServicoId)
+        {
+            TipoServicoId = tipoServicoId;
+        }
+        public TipoServico()
+        {
+        }
         #endregion
     }
 }

@@ -62,7 +62,7 @@
             <div class="tab-content" id="myTabContent">
                 <div class=" tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">
                     <br />
-                    <div class="form-group">
+                    @*<div class="form-group">
 
                         @Html.LabelFor(model => model.Foto, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-2">
@@ -71,7 +71,7 @@
                             <input type='file' id="imgInp" />
                         </div>
 
-                    </div>
+                    </div>*@
                     <div class="form-group">
                         @Html.LabelFor(model => model.Cpf, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-2">
@@ -165,7 +165,7 @@
                             <div class="col-md-3">
                                 @Html.DropDownListFor(model => model.EstadoId, ((IEnumerable<IMOD.Domain.Entities.Estados>)ViewBag.Estados).Select(option => new SelectListItem
                            {
-                               Text = option.Uf,
+                               Text = option.Nome,
                                Value = option.EstadoId.ToString(),
                                Selected = (Model != null) && (option.EstadoId == Model.EstadoId)
                            }), "Selecione", new { @class = "form-control text-uppercase", id = "ddlEstado" })
@@ -355,7 +355,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="tab-pane fade" id="vinculo" role="tabpanel" aria-labelledby="vinculo-tab">
+                <div class="tab-pane fade col-lg-12" id="vinculo" role="tabpanel" aria-labelledby="vinculo-tab">
                     <br />
                     <div class="form-group  col-lg-12">
                         <div class="col-lg-4" style="vertical-align:top">
@@ -491,15 +491,19 @@ Texto de Termos de Aceite
 
                                 </textarea>
                             </div>
-                            <div class="checkbox col-md-12" style="padding-left: 20px;">
-                                <div class="col-md-4" >
-                                    <input type="checkbox" model="Aceite" name="Aceite" value="0"><b>Aceito</b><br />
 
+                            <div class="form-group">
+                                <div class="col-md-12 " style="padding-left: 30px; padding-top: 15px;">
+                                    <input type="file" name="Aceite" id="Aceite" accept=".pdf" />
                                     @Html.ValidationMessageFor(model => model.Aceite, "", new { @class = "text-danger" })
                                 </div>
                             </div>
-                            <div class="col-md-4">
-                                <input type='file' id="imgInp" />
+                            <div class="checkbox col-md-12" style="padding-left: 20px;">
+                                <div class="col-md-4">
+                                    <input type="checkbox" model="chkAceite" name="chkAceite" value="true"><b>Aceito</b><br />
+
+                                    @Html.ValidationMessageFor(model => model.chkAceite, "", new { @class = "text-danger" })
+                                </div>
                             </div>
                         </div>
 
@@ -584,11 +588,7 @@ Texto de Termos de Aceite
                         }
 
                     });
-            });
-
-            $("#Cep").focusout(function () {
-                BuscarEndereco();
-            });
+                });
 
 
 
@@ -780,7 +780,7 @@ Texto de Termos de Aceite
                     }
                 }
                 else if (id == "link7") {
-                    if (!campoNome == "" && !campoApelido == "" && !campoCpf == "" && !campoCep == "" && !campoEndereco == "" && !campoBairro == "" && !campoNumero == "" && !campoEstadoId == "" && !campoMunicipioId == "" && !campoContatoEmergencia == "" && !campoTelefoneEmergencia == "") {
+                    if (!campoNome == "" && !campoApelido == "" && !campoCpf == "" && !campoCep == "" && !campoEndereco == "" && !campoBairro == "" && !campoNumero == "" && !campoEstadoId == "" && !campoContatoEmergencia == "" && !campoTelefoneEmergencia == "") {
                         $(this).removeClass('disabled');
                         return true;
                     }
@@ -791,7 +791,7 @@ Texto de Termos de Aceite
                     }
                 }
                 else if (id == "link8") {
-                    if (!campoNome == "" && !campoApelido == "" && !campoCpf == "" && !campoCep == "" && !campoEndereco == "" && !campoBairro == "" && !campoNumero == "" && !campoEstadoId == "" && !campoMunicipioId == "" && !campoContatoEmergencia == "" && !campoTelefoneEmergencia == "") {
+                    if (!campoNome == "" && !campoApelido == "" && !campoCpf == "" && !campoCep == "" && !campoEndereco == "" && !campoBairro == "" && !campoNumero == "" && !campoEstadoId == "" && !campoContatoEmergencia == "" && !campoTelefoneEmergencia == "") {
                         $(this).removeClass('disabled');
                         return true;
                     }
@@ -829,7 +829,7 @@ Texto de Termos de Aceite
                 success: function (result) {
                     var html = '<option value="">SELECIONE</option>';
                     $.each(result, function (key, item) {
-                        html += '<option value=' + this.UF + '>' + this.Nome + '</option>';
+                        html += '<option value=' + this.MunicipioId + '>' + this.Nome + '</option>';
                     });
 
                     $('#ddlMunicipio').html(html);
@@ -842,31 +842,8 @@ Texto de Termos de Aceite
             });
         }
 
-
-         function BuscarEndereco() {
-             var id = $("#Cep").val();
-             $.get("http://apps.widenet.com.br/busca-cep/api/cep.json", { code: id }, function (result) {
-                 //if (result.State != 1) {
-                 //    alert(result.message || "Houve um erro desconhecido");
-                 //    return;
-                 //}
-                 $("#Endereco").val(result.address);
-                 $("#ddlBairro").val(result.district);
-                 $("#ddlEstado option").filter(function () {
-                     //may want to use $.trim in here
-                     return $(this).text() == result.state;
-                 }).prop('selected', true);
-                 BuscarMunicipio();
-                 $("#ddlMunicipio option").filter(function () {
-                     //may want to use $.trim in here
-                     return $(this).text() == result.city.toUpperCase();
-                 }).prop('selected', true);
-                 console.log(result);
-            });
-        };
-
     </script>
-    <script>
+    @*<script>
         function readURL(input) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
@@ -882,6 +859,6 @@ Texto de Termos de Aceite
         $("#imgInp").change(function () {
             readURL(this);
         });
-    </script>
+    </script>*@
 
 }

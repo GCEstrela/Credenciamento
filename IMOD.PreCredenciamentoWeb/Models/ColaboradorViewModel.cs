@@ -4,7 +4,6 @@ using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
-using Foolproof;
 
 namespace IMOD.PreCredenciamentoWeb.Models
 {
@@ -27,15 +26,13 @@ namespace IMOD.PreCredenciamentoWeb.Models
         public DateTime? DataNascimento { get; set; }
         [Display(Name = "Nome Pai")]
         public string NomePai { get; set; }
-        [Display(Name = "Nome Mãe")] 
+        [Display(Name = "Nome Mãe")]
         public string NomeMae { get; set; }
         public string Nacionalidade { get; set; }
-        [Display(Name = "Foto")]
         public string Foto { get; set; }
         [Display(Name = "Estado Civil")]
         public string EstadoCivil { get; set; }
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:###-##-####}")]
-
         [Required(ErrorMessage = "O CPF é requerido.")]
         [Display(Name = "CPF")]
         public string Cpf { get; set; }
@@ -112,9 +109,9 @@ namespace IMOD.PreCredenciamentoWeb.Models
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime? DataValidade { get; set; }
-        
+
         public bool Estrangeiro { get; set; }
-        
+
         //public IEnumerable<Estados> Estados { get; set; }
         [Display(Name = "Contrato Empresa")]
         public string ContratoEmpresaID { get; set; }
@@ -126,7 +123,16 @@ namespace IMOD.PreCredenciamentoWeb.Models
         [Display(Name = "Documento Anexo")]
         public HttpPostedFileBase FileUpload { get; set; }
 
-        public bool Aceite { get; set; }
+        public HttpPostedFileBase Aceite { get; set; }
+
+        [Range(typeof(bool), "true", "true", ErrorMessage = "É necessário aceitar o termo!")]
+        public bool chkAceite { get; set; }
+
+        [Display(Name = "Documento Aceite")]
+        public string NomeArquivoAnexoAceite { get; set; }
+
+        [Display(Name = "Documento Aceite")]
+        public HttpPostedFileBase FileUploadAceite { get; set; }
         #endregion
     }
 }

@@ -20,6 +20,11 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         private readonly IMOD.Application.Interfaces.IEmpresaContratosService objContratosService = new IMOD.Application.Service.EmpresaContratoService();
         private readonly IMOD.Application.Interfaces.IVeiculoEmpresaService objVeiculoEmpresaService = new IMOD.Application.Service.VeiculoEmpresaService();
         private readonly IMOD.Application.Interfaces.IVeiculoAnexoService objVeiculoAnexoService = new IMOD.Application.Service.VeiculoAnexoService();
+        private readonly IMOD.Application.Interfaces.ITipoServicoService objServicosService = new IMOD.Application.Service.TipoServicoService();
+        private const string SESS_CONTRATOS_SELECIONADOS = "ContratosSelecionados";
+        private const string SESS_CONTRATOS_REMOVIDOS = "ContratosRemovidos";
+        private const string SESS_SERVICOS_SELECIONADOS = "ServicosSelecionados";
+        private const string SESS_SERVICOS_REMOVIDOS = "ServicosRemovidos";
 
         private List<Veiculo> veiculos = new List<Veiculo>();
         private List<VeiculoEmpresa> vinculos = new List<VeiculoEmpresa>();
@@ -46,14 +51,67 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         public ActionResult Details(int id)
         {
             if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
+            //Remove itens da sessão
+            Session.Remove(SESS_CONTRATOS_SELECIONADOS);
+            Session.Remove(SESS_CONTRATOS_REMOVIDOS);
+            ViewBag.Contratos = new List<EmpresaContrato>();
 
-            return View();
+            //Obtem o veículo pelo ID
+            var veiculoEditado = objService.Listar(id).FirstOrDefault();
+            if (veiculoEditado == null)
+                return HttpNotFound();
+
+            //obtém vinculos do colaborador
+            VeiculoViewModel veiculoMapeado = Mapper.Map<VeiculoViewModel>(veiculoEditado);
+
+            // carrega os contratos da empresa
+            if (SessionUsuario.EmpresaLogada.Contratos != null)
+            {
+                ViewBag.Contratos = SessionUsuario.EmpresaLogada.Contratos;
+            }
+
+            //Popula contratos selecionados
+            ViewBag.ContratosSelecionados = new List<VeiculoEmpresaViewModel>();
+            var listaVinculosVeiculo = Mapper.Map<List<VeiculoEmpresaViewModel>>(objVeiculoEmpresaService.Listar(veiculoEditado.EquipamentoVeiculoId));
+            ViewBag.ContratosSelecionados = listaVinculosVeiculo;
+            Session.Add(SESS_CONTRATOS_SELECIONADOS, listaVinculosVeiculo);
+
+            //Propula combo de estado
+            PopularEstadosDropDownList();
+
+            //Preenchie combo municipio de acordo com o estado
+            ViewBag.Municipio = new List<Municipio>();
+            var lstMunicipio = objAuxiliaresService.MunicipioService.Listar(null, null, veiculoMapeado.EstadoId).OrderBy(m => m.Nome);
+            if (lstMunicipio != null) { ViewBag.Municipio = lstMunicipio; };
+
+            PopularDadosDropDownList();
+
+            //var objColaboradorAnexo = objColaboradorAnexoService.Listar(colaboradorMapeado.ColaboradorId).FirstOrDefault();
+            //if (objColaboradorAnexo != null)
+            //{
+            //    colaboradorMapeado.NomeArquivoAnexo = objColaboradorAnexo.NomeArquivo;
+            //}
+
+            return View(veiculoMapeado);
         }
 
         // GET: Veiculo/Create
         public ActionResult Create()
         {
             if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
+            Session.Remove(SESS_CONTRATOS_SELECIONADOS);
+            Session.Remove(SESS_CONTRATOS_REMOVIDOS);
+
+
+            //carrega os serviços
+            var listServicos = objServicosService.Listar().ToList();
+            if (listServicos != null && listServicos.Any()) { ViewBag.Servicos = listServicos; }
+            ViewBag.ServicosSelecionados = new List<TipoServico>();
+
+            //carrega contratos
+            if (SessionUsuario.EmpresaLogada.Contratos != null) { ViewBag.Contratos = SessionUsuario.EmpresaLogada.Contratos; }
+            ViewBag.ContratosSelecionados = new List<VeiculoEmpresaViewModel>();
+            
 
             PopularEstadosDropDownList();
             PopularDadosDropDownList();
@@ -90,6 +148,38 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
                     var veiculoEmpresa = Mapper.Map<VeiculoEmpresa>(model); 
                      objVeiculoEmpresaService.Criar(veiculoEmpresa);
+
+                    // excluir os contratos removidos da lista
+                    if (Session[SESS_CONTRATOS_REMOVIDOS] != null)
+                    {
+                        foreach (var item in (List<int>)Session[SESS_CONTRATOS_REMOVIDOS])
+                        {
+                            var contratoExclusao = objVeiculoEmpresaService.Listar(veiculoMapeado.EquipamentoVeiculoId, null, null, null, null, null, item).FirstOrDefault();
+                            if (contratoExclusao != null)
+                            {
+                                objVeiculoEmpresaService.Remover(contratoExclusao);
+                            }
+                        }
+                    }
+
+                    //inclui os contratos selecionados
+                    if (Session[SESS_CONTRATOS_SELECIONADOS] != null)
+                    {
+                        foreach (var vinculo in (List<ColaboradorEmpresaViewModel>)Session[SESS_CONTRATOS_SELECIONADOS])
+                        {
+                            // Inclusão do vinculo                       
+                            var item = objVeiculoEmpresaService.Listar(veiculoMapeado.EquipamentoVeiculoId, null, null, null, null, null, vinculo.EmpresaContratoId).FirstOrDefault();
+                            if (item == null)
+                            {
+                                vinculo.ColaboradorId = veiculoMapeado.EquipamentoVeiculoId;
+                                vinculo.Ativo = true;
+                                vinculo.EmpresaId = SessionUsuario.EmpresaLogada.EmpresaId;
+                                var colaboradorEmpresa = Mapper.Map<ColaboradorEmpresa>(vinculo);
+                                objVeiculoEmpresaService.Criar(veiculoEmpresa);
+                                objVeiculoEmpresaService.CriarNumeroMatricula(veiculoEmpresa);
+                            }
+                        }
+                    }
 
                     CriarVeiculoAnexo(model, veiculoMapeado.EquipamentoVeiculoId); 
 
@@ -215,6 +305,56 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             {
                 return View();
             }
+        }
+        [Authorize]
+        public JsonResult AdicionarContrato(int id, Boolean flagAreaManobra)
+        {
+            List<VeiculoEmpresaViewModel> vinculoList = new List<VeiculoEmpresaViewModel>();
+            if (Session[SESS_CONTRATOS_SELECIONADOS] != null)
+                vinculoList = (List<VeiculoEmpresaViewModel>)Session[SESS_CONTRATOS_SELECIONADOS];
+
+            var item = SessionUsuario.EmpresaLogada.Contratos.Where(c => c.EmpresaContratoId == id).FirstOrDefault();
+            VeiculoEmpresaViewModel vinculo = new VeiculoEmpresaViewModel();
+            vinculo.EmpresaContratoId = id;
+            vinculo.Descricao = item.Descricao;
+            vinculo.Matricula = " - ";
+            vinculo.FlagAreaManobra = flagAreaManobra;
+            vinculoList.Add(vinculo);
+            Session.Add(SESS_CONTRATOS_SELECIONADOS, vinculoList);
+
+            return Json(vinculoList, JsonRequestBehavior.AllowGet);
+        }
+
+        [Authorize]
+        public JsonResult RemoverContrato(int id)
+        {
+            var listContrato = (List<VeiculoEmpresaViewModel>)Session[SESS_CONTRATOS_SELECIONADOS];
+            int indice = listContrato.FindIndex(c => c.EmpresaContratoId.Equals(id));
+            listContrato.RemoveAt(indice);
+            Session[SESS_CONTRATOS_SELECIONADOS] = listContrato;
+            if (Session[SESS_CONTRATOS_REMOVIDOS] == null) Session[SESS_CONTRATOS_REMOVIDOS] = new List<int>();
+            ((List<int>)Session[SESS_CONTRATOS_REMOVIDOS]).Add(id);
+            return Json(listContrato, JsonRequestBehavior.AllowGet);
+        }
+
+        [Authorize]
+        public JsonResult AdicionarServico(int id)
+        {
+            if (Session[SESS_SERVICOS_SELECIONADOS] == null) Session[SESS_SERVICOS_SELECIONADOS] = new List<TipoServico>();
+            var item = objServicosService.Listar(id).FirstOrDefault();
+            ((List<TipoServico>)Session[SESS_SERVICOS_SELECIONADOS]).Add(item);
+            return Json((List<TipoServico>)Session[SESS_SERVICOS_SELECIONADOS], JsonRequestBehavior.AllowGet);
+        }
+
+        [Authorize]
+        public JsonResult RemoverServico(int id)
+        {
+            var listServico = (List<TipoServico>)Session[SESS_SERVICOS_SELECIONADOS];
+            listServico.Remove(new TipoServico(id));
+            Session[SESS_SERVICOS_SELECIONADOS] = listServico;
+            if (Session[SESS_SERVICOS_REMOVIDOS] == null) Session[SESS_SERVICOS_REMOVIDOS] = new List<int>();
+            ((List<int>)Session[SESS_SERVICOS_REMOVIDOS]).Add(id);
+            return Json(listServico, JsonRequestBehavior.AllowGet);
         }
 
         #region Métodos Internos Carregamento de Componentes
