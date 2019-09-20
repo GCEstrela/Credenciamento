@@ -58,8 +58,8 @@
 
                             <span class="glyphicon glyphicon-search"></span>
                         </a>
-                        @*@if (item.Precadastro)
-                        {*@
+                        @if (item.Precadastro)
+                        {
                             <a href='@Url.Action("Edit", "Colaborador", new { id = item.ColaboradorId })'>
                                 @*<img src="~/images/edit.png" />*@
                                 <span class="glyphicon glyphicon-edit"></span>
@@ -69,7 +69,7 @@
                                 @*<img src="~/images/remove.png" />*@
                                 <span class="glyphicon glyphicon-trash"></span>
                             </a>
-                        @*}*@
+                        }
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Cpf)

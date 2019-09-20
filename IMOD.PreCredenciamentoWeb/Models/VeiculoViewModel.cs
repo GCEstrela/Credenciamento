@@ -78,5 +78,7 @@ namespace IMOD.PreCredenciamentoWeb.Models
         [Display(Name = "Serviço")]
         public int TipoServicoId { get; set; }
         public IList<TipoServico> Servicos { get; set; }
+        [Display(Name = "Contrato Empresa")]
+        public string ContratoEmpresaID { get; set; }
     }
 }

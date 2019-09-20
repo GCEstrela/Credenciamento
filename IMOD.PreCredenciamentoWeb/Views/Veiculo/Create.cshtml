@@ -33,10 +33,10 @@
                     <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile"
                        aria-selected="false">Especificações</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="caracteristicas-tab" data-toggle="tab" href="#caracteristicas" role="tab" aria-controls="caracteristicas"
-                       aria-selected="false">Caraterísticas</a>
-                </li>
+                @*<li class="nav-item">
+                        <a class="nav-link" id="caracteristicas-tab" data-toggle="tab" href="#caracteristicas" role="tab" aria-controls="caracteristicas"
+                           aria-selected="false">Caraterísticas</a>
+                    </li>*@
                 <li class="nav-item">
                     <a class="nav-link" id="vinculo-tab" data-toggle="tab" href="#vinculo" role="tab" aria-controls="vinculo"
                        aria-selected="false">Vínculo</a>
@@ -53,7 +53,7 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.RadioVeiculoEquip, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-1">
-                            @Html.RadioButtonFor(model => model.RadioVeiculoEquip, "Veículo", new { htmlAttributes = new { @class = "form-control text-uppercase checked" } })
+                            @Html.RadioButtonFor(model => model.RadioVeiculoEquip, "Veículo", new { @checked = "checked", htmlAttributes = new { @class = "form-control text-uppercase checked" } })
                             @Html.ValidationMessageFor(model => model.RadioVeiculoEquip, "", new { @class = "text-danger" })
                         </div>
 
@@ -205,23 +205,33 @@
                     </div>
 
                 </div>
-                <div class="tab-pane fade" id="caracteristicas" role="tabpanel" aria-labelledby="caracteristicas-tab">
+
+                <div class="tab-pane fade" id="vinculo" role="tabpanel" aria-labelledby="vinculo-tab">
                     <br />
+                    <div class="form-group  col-lg-12" style="padding-left: 60px">
+
+                        <div>
+
+                            @Html.Label("Área de Manobra?", htmlAttributes: new { @class = "control-label", @style = "padding-right: 24px" })
+                            @Html.CheckBox("Área de Manobra?", htmlAttributes: new { @id = "chkAreaManobra" })
+                        </div>
+                    </div>
+
                     <div div class="form-group">
                         <div>
-                            @Html.LabelFor(model => model.TipoServicoId, htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.LabelFor(model => model.ContratoEmpresaID, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-lg-3">
-                                @Html.DropDownListFor(model => model.TipoServicoId, ((IEnumerable<IMOD.Domain.Entities.TipoServico>)ViewBag.TipoServicos).Select(option => new SelectListItem
+                                @Html.DropDownListFor(model => model.ContratoEmpresaID, ((IEnumerable<IMOD.Domain.Entities.EmpresaContrato>)ViewBag.Contratos).Select(option => new SelectListItem
                            {
                                Text = option.Descricao,
-                               Value = option.TipoServicoId.ToString(),
-                               Selected = (Model != null) && (option.TipoServicoId == Model.TipoServicoId)
-                           }), "Selecione", new { @class = "form-control text-uppercase", @id = "ddlServico" })
-                                @Html.ValidationMessageFor(model => model.TipoServicoId, "", new { @class = "text-danger" })
+                               Value = option.EmpresaContratoId.ToString(),
+                               Selected = (Model != null) && (option.EmpresaContratoId.ToString() == Model.ContratoEmpresaID)
+                           }), "Selecione", new { @class = "form-control text-uppercase", @id = "ddlContrato" })
+                                @Html.ValidationMessageFor(model => model.ContratoEmpresaID, "", new { @class = "text-danger" })
                             </div>
                             <div class="col-lg-7">
                                 @*//href="@Url.Action("AdicionarContrato")"*@
-                                <a title="Vincular Serviço" id="btServico" href="#">
+                                <a title="Vincular Contrato" id="btContrato" href="#">
                                     <i class="material-icons">&#xE147;</i>
                                 </a>
                             </div>
@@ -229,231 +239,27 @@
                     </div>
                     <br />
                     <fieldset>
-                        <legend> Serviços selecionados</legend>
+                        <legend> Contratos Selecionados</legend>
                         <div class="row">
-                            <div class="col-lg-6"><b>Serviço </b></div>
+                            <div class="col-lg-2"><b>Matrícula</b></div>
+                            <div class="col-lg-9"><b>Contrato</b></div>
                             <div class="col-lg-1"></div>
                         </div>
-                        <div class="row" id="divServico">
-                            @*@foreach (var item in ((IEnumerable<IMOD.PreCredenciamentoWeb.Models.VeiculoViewModel>)ViewBag.ServicosSelecionados))
-                                {
-                                    <div class="col-lg-2 text-uppercase">@item.Descricao</div>
-                                    <div class="col-lg-1">
-                                        <a title="Vincular Contrato" id=@item.TipoServicoId href="#" class="btnRemover" onclick="RemoverServico(this)">
-                                            <i class="material-icons danger">&#xE15C;</i>
-                                        </a>
-                                    </div>
-                                    <br />
-                                }*@
+                        <div class="row" id="divContrato">
+                            @foreach (var item in ((IEnumerable<IMOD.PreCredenciamentoWeb.Models.VeiculoEmpresaViewModel>)ViewBag.ContratosSelecionados))
+                            {
+                                <div class="col-lg-2">@item.Matricula</div>
+                                <div class="col-lg-9 text-uppercase">@item.Descricao</div>
+                                <div class="col-lg-1">
+                                    <a title="Vincular Contrato" id=@item.EmpresaContratoId href="#" class="btnRemover" onclick="RemoverContrato(this)">
+                                        <i class="material-icons danger">&#xE15C;</i>
+                                    </a>
+                                </div>
+                                <br />
+                            }
                         </div>
                     </fieldset>
                 </div>
-
-                @*<br />
-                    <fieldset>*@
-                @*<div class="form-group">
-                        @Html.LabelFor(model => model., htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.TelefoneFixo, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
-                            @Html.ValidationMessageFor(model => model.TelefoneFixo, "", new { @class = "text-danger" })
-                        </div>
-                    </div>*@
-
-                @*<div class="form-group">
-                        @Html.LabelFor(model => model.TelefoneCelular, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.TelefoneCelular, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
-                            @Html.ValidationMessageFor(model => model.TelefoneCelular, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
-                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.ContatoEmergencia, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.ContatoEmergencia, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
-                            @Html.ValidationMessageFor(model => model.ContatoEmergencia, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.TelefoneEmergencia, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.TelefoneEmergencia, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
-                            @Html.ValidationMessageFor(model => model.TelefoneEmergencia, "", new { @class = "text-danger" })
-                        </div>
-                    </div>*@
-                @*</fieldset>
-                    </div>*@
-                @*<div class="tab-pane fade" id="registro" role="tabpanel" aria-labelledby="registro-tab">
-                        <br />
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.Rg, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.Rg, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
-                                @Html.ValidationMessageFor(model => model.Rg, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.RgEmissao, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.RgEmissao, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
-                                @Html.ValidationMessageFor(model => model.RgEmissao, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.RgOrgLocal, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.DropDownListFor(model => model.CnhCategoria, ((IEnumerable<SelectListItem>)ViewBag.OrgaoEmissorRG).Select(option => new SelectListItem
-                           {
-                               Text = option.Text,
-                               Value = option.Text,
-                               Selected = (Model != null) && (option.Text == Model.RgOrgLocal)
-                           }), "Selecione", new { @class = "form-control text-uppercase" })
-
-                                @Html.ValidationMessageFor(model => model.RgOrgLocal, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.RgOrgUf, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.DropDownListFor(model => model.RgOrgUf, ((IEnumerable<IMOD.Domain.Entities.Estados>)ViewBag.UfRg).Select(option => new SelectListItem
-                           {
-                               Text = option.Uf,
-                               Value = option.Uf,
-                               Selected = (Model != null) && (option.Uf == Model.RgOrgUf)
-                           }), "Selecione", new { @class = "form-control text-uppercase" })
-                                @Html.ValidationMessageFor(model => model.RgOrgUf, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.Rne, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.Rne, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
-                                @Html.ValidationMessageFor(model => model.Rne, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.Passaporte, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.Passaporte, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
-                                @Html.ValidationMessageFor(model => model.Passaporte, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.PassaporteValidade, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.PassaporteValidade, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
-                                @Html.ValidationMessageFor(model => model.PassaporteValidade, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.DataNascimento, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.DataNascimento, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
-                                @Html.ValidationMessageFor(model => model.DataNascimento, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.Nacionalidade, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.Nacionalidade, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
-                                @Html.ValidationMessageFor(model => model.Nacionalidade, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.EstadoCivil, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.EstadoCivil, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
-                                @Html.ValidationMessageFor(model => model.EstadoCivil, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                    </div>*@
-                @*<div class="tab-pane fade" id="cnh" role="tabpanel" aria-labelledby="cnh-tab">
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.Motorista, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                <div class="checkbox">
-                                    @Html.EditorFor(model => model.Motorista)
-                                    @Html.ValidationMessageFor(model => model.Motorista, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.CnhCategoria, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-
-                                @Html.DropDownListFor(model => model.CnhCategoria, ((IEnumerable<SelectListItem>)ViewBag.CategoriaCnh).Select(option => new SelectListItem
-                           {
-                               Text = option.Text,
-                               Value = option.Value,
-                               Selected = (Model != null) && (option.Value == Model.CnhCategoria)
-                           }), "Selecione", new { @class = "form-control text-uppercase" })
-
-                                @Html.ValidationMessageFor(model => model.CnhCategoria, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.Cnh, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.Cnh, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
-                                @Html.ValidationMessageFor(model => model.Cnh, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.CnhValidade, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.CnhValidade, new { htmlAttributes = new { @class = "form-control text-uppercase " } })
-                                @Html.ValidationMessageFor(model => model.CnhValidade, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.Cnhuf, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.DropDownListFor(model => model.Cnhuf, ((IEnumerable<IMOD.Domain.Entities.Estados>)ViewBag.UfRg).Select(option => new SelectListItem
-                           {
-                               Text = option.Uf,
-                               Value = option.Uf,
-                               Selected = (Model != null) && (option.Uf == Model.Cnhuf)
-                           }), "Selecione", new { @class = "form-control text-uppercase" })
-                                @Html.ValidationMessageFor(model => model.Cnhuf, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                    </div>*@
-                @*<div class="tab-pane fade" id="vinculo" role="tabpanel" aria-labelledby="vinculo-tab">
-                        <br />
-                        <div div class="form-group">
-                                @Html.LabelFor(model => model.ContratoEmpresaID, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-lg-4">
-                                @Html.DropDownListFor(model => model.ContratoEmpresaID, ((IEnumerable<IMOD.Domain.Entities.EmpresaContrato>)ViewBag.Contratos).Select(option => new SelectListItem
-                           {
-                               Text = option.Descricao,
-                               Value = option.EmpresaContratoId.ToString(),
-                               Selected = (Model != null) && (option.EmpresaContratoId.ToString() == Model.ContratoEmpresaID)
-                           }), "Selecione", new { @class = "form-control text-uppercase" })
-                                @Html.ValidationMessageFor(model => model.EstadoId, "", new { @class = "text-danger" })
-                            </div>
-                            <div class="col-lg-6">
-                                <a href="@Url.Action("AdicionarContrato")" title="Vincular Contrato">
-                                    <i class="material-icons">&#xE147;</i>
-                                </a>
-                            </div>
-                        </div>
-
-                    </div>*@
-
             </div>
         </div>
 
@@ -462,6 +268,39 @@
 }
 @section Scripts {
     <script>
+        $(document).ready(function () {
+            //evento do botão incluir contrato
+            $("#btContrato").click(function () {
+                var id = $("#ddlContrato").val();
+                var areaManobra = $('#chkAreaManobra').is(':checked');
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("AdicionarContrato")',
+                    data: {
+                        id: id,
+                        flagAreaManobra: areaManobra
+                    },
+                    success: function (result) {
+                        var html = '';
+                        $.each(result, function (key, item) {
+                            html += '<div class="col-lg-2">' + item.Matricula + '</div>';
+                            html += '<div class="col-lg-9">' + item.Descricao  + '</div>';
+                            html += '<div class="col-lg-1"><a class="btnRemover" title="Remover Contrato" id=' + item.EmpresaContratoId + ' onclick="RemoverContrato(this)"><i class="material-icons danger">&#xE15C;</i></a></div>';
+                        });
+                        $('#divContrato').html('');
+                        $('#divContrato').append(html);
+                        $("#ddlContrato").val('');
+                        $("#chkAreaManobra").attr('checked', false);
+                        console.log(result);
+
+                    },
+                    error: function (result) {
+                        Alert(result);
+                    }
+                });
+                });
+            });
+
     //evento do botão incluir serviço
     $("#btServico").click(function () {
     var id = $("#ddlServico").val();
@@ -474,8 +313,9 @@
     success: function (result) {
     var html = '';
     $.each(result, function (key, item) {
-    html += '<div class="col-lg-2 text-uppercase">' + item.Descricao + '</div>';
-    html += '<div class="col-lg-1"><a class="btnRemover" title="Remover Serviço" id=' + item.TipoServicoId + ' onclick="RemoverServico(this)"><i class="material-icons danger">&#xE15C;</i></a></div>';
+        html += '<div class="col-lg-1"><a class="btnRemover" title="Remover Serviço" id=' + item.TipoServicoId + ' onclick="RemoverServico(this)"><i class="material-icons danger">&#xE15C;</i></a></div>';
+        html += '<div class="col-lg-2 text-uppercase">' + item.Descricao + '</div>';
+
     });
     $('#divServico').html('');
     $('#divServico').append(html);
@@ -486,6 +326,168 @@
     }
     });
     });
+
+         function RemoverContrato(it)
+            {
+             var id = it.id;
+               $.ajax({
+                   type: "POST",
+                   url: '@Url.Action("RemoverContrato")',
+                   data: { id: id },
+                   success: function (result) {
+                       var html = '';
+                       $.each(result, function (key, item) {
+                           html += '<div class="col-lg-2">' + item.Matricula + '</div>';
+                           html += '<div class="col-lg-2 text-uppercase">' + item.Descricao + '</div>';
+                           html += '<div class="col-lg-1"><a class="btnRemoverContrato" title="Remover Contrato" id=' + item.EmpresaContratoId + ' onclick="RemoverContrato(this)"><i class="material-icons danger">&#xE15C;</i></a></div>';
+
+                       });
+                       $('#divContrato').html('');
+                       $('#divContrato').append(html);
+                       console.log(result);
+                   },
+                   error: function (result) {
+
+                   }
+                 });
+        };
+    </script>
+
+    <script>
+
+        $('[id^=link]').click(function () {
+
+            var id = $(this).attr('id');
+
+            var campoCpf = document.getElementById("Cpf").value;
+            var campoNome = document.getElementById("Nome").value;
+            var campoApelido = document.getElementById("Apelido").value;
+
+            var campoCep = document.getElementById("Cep").value;
+            var campoEndereco = document.getElementById("Endereco").value;
+            var campoBairro = document.getElementById("ddlBairro").value;
+            var campoNumero = document.getElementById("Numero").value;
+            var campoEstadoId = document.getElementById("ddlEstado").value;
+            var campoMunicipioId = document.getElementById("ddlMunicipio").value;
+
+            var campoContatoEmergencia = document.getElementById("ContatoEmergencia").value;
+            var campoTelefoneEmergencia = document.getElementById("TelefoneEmergencia").value;
+
+            //var campoTelefone1 = document.getElementById("Telefone1").value;
+            //verifica se tem a classe disabled
+
+            var tela = $(this).hasClass('disabled');
+            if (tela) {
+                if (id == "link1") {
+                    if (!campoNome == "" && !campoApelido == "" && !campoCpf == "") {
+                        //if (!campoCep == "" && !campoEndereco == "" && !campoBairro == "" && !campoNumero == "" && !campoEstadoId == "" && !campoMunicipioId == "" && !campoContatoEmergencia == "" && !campoTelefoneEmergencia == "")  //
+
+                        $(this).removeClass('disabled');
+                        return true;
+                    }
+                    else {
+                        $("#btnSalvar").submit()
+                        $(this).addClass('disabled');
+                        return false;
+                    }
+                }
+                else if (id == "link2") {
+                    //if (!campoNome == "" && !campoApelido == "" && !campoCpf == "" && !campoContatoEmergencia == "" && !campoTelefoneEmergencia == "") {
+                    if (!campoNome == "" && !campoApelido == "" && !campoCpf == "") {
+                        $(this).removeClass('disabled');
+                        return true;
+                    }
+                    else {
+                        $("#btnSalvar").submit()
+                        $(this).addClass('disabled');
+                        return false;
+                    }
+                }
+                else if (id == "link3") {
+                    //if (!campoNome == "" && !campoApelido == "" && !campoCpf == "" && !campoCep == "" && !campoEndereco == "" && !campoBairro == "" && !campoNumero == "" && !campoEstadoId == "" && !campoMunicipioId == "")
+                    if (!campoNome == "" && !campoApelido == "" && !campoCpf == "" && !campoCep == "" && !campoEndereco == "" && !campoBairro == "" && !campoNumero == "" && !campoEstadoId == "" && !campoMunicipioId == "") {
+                        $(this).removeClass('disabled');
+                        return true;
+                    }
+                    else {
+                        $("#btnSalvar").submit()
+                        $(this).addClass('disabled');
+                        return false;
+                    }
+                }
+                else if (id == "link4") {
+                    if (!campoNome == "" && !campoApelido == "" && !campoCpf == "" && !campoCep == "" && !campoEndereco == "" && !campoBairro == "" && !campoNumero == "" && !campoEstadoId == "" && !campoMunicipioId == "" && !campoContatoEmergencia == "" && !campoTelefoneEmergencia == "") {
+                        //if (!campoContatoEmergencia == "" && !campoTelefoneEmergencia == "")
+                        $(this).removeClass('disabled');
+                        return true;
+                    }
+                    else {
+                        $("#btnSalvar").submit()
+                        $(this).addClass('disabled');
+                        return false;
+                    }
+                }
+                else if (id == "link5") {
+                    if (!campoNome == "" && !campoApelido == "" && !campoCpf == "" && !campoCep == "" && !campoEndereco == "" && !campoBairro == "" && !campoNumero == "" && !campoEstadoId == "" && !campoMunicipioId == "" && !campoContatoEmergencia == "" && !campoTelefoneEmergencia == "") {
+                        $(this).removeClass('disabled');
+                        return true;
+                    }
+                    else {
+                        $("#btnSalvar").submit()
+                        $(this).addClass('disabled');
+                        return false;
+                    }
+                }
+                else if (id == "link6") {
+                    if (!campoNome == "" && !campoApelido == "" && !campoCpf == "" && !campoCep == "" && !campoEndereco == "" && !campoBairro == "" && !campoNumero == "" && !campoEstadoId == "" && !campoMunicipioId == "" && !campoContatoEmergencia == "" && !campoTelefoneEmergencia == "") {
+                        $(this).removeClass('disabled');
+                        return true;
+                    }
+                    else {
+                        $("#btnSalvar").submit()
+                        $(this).addClass('disabled');
+                        return false;
+                    }
+                }
+                else if (id == "link7") {
+                    if (!campoNome == "" && !campoApelido == "" && !campoCpf == "" && !campoCep == "" && !campoEndereco == "" && !campoBairro == "" && !campoNumero == "" && !campoEstadoId == "" && !campoContatoEmergencia == "" && !campoTelefoneEmergencia == "") {
+                        $(this).removeClass('disabled');
+                        return true;
+                    }
+                    else {
+                        $("#btnSalvar").submit()
+                        $(this).addClass('disabled');
+                        return false;
+                    }
+                }
+                else if (id == "link8") {
+                    if (!campoNome == "" && !campoApelido == "" && !campoCpf == "" && !campoCep == "" && !campoEndereco == "" && !campoBairro == "" && !campoNumero == "" && !campoEstadoId == "" && !campoContatoEmergencia == "" && !campoTelefoneEmergencia == "") {
+                        $(this).removeClass('disabled');
+                        return true;
+                    }
+                    else {
+                        $("#btnSalvar").submit()
+                        $(this).addClass('disabled');
+                        return false;
+                    }
+                }
+                else {
+
+                    $("#btnSalvar").submit()
+                    //$(this).addClass('disabled');
+                    return false;
+                }
+
+            }
+            //se tiver não faz nada
+            else {
+                ////adicionamos nele
+                $(this).addClass('disabled');
+                $("#btnSalvar").submit()
+                //$(this).addClass('disabled');
+                return false;
+            }
+        });
     </script>
     @*<script>
             $(document).ready(function () {
