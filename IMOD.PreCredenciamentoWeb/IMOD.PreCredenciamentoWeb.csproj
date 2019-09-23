@@ -157,6 +157,7 @@
     <Compile Include="Models\ColaboradorViewModel.cs" />
     <Compile Include="Models\LoginViewModel .cs" />
     <Compile Include="Models\EmpresaViewModel.cs" />
+    <Compile Include="Models\VeiculoSeguroViewModel.cs" />
     <Compile Include="Models\VeiculoViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util\SessionUsuario.cs" />
